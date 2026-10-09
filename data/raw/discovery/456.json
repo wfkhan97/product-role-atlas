@@ -1,0 +1,39 @@
+{
+ "company": "J.M. Smucker",
+ "rank": 456,
+ "group": "fortune500",
+ "industry": "Food Consumer Products",
+ "ats": "workday",
+ "config": {
+  "host": "smucker.wd5.myworkdayjobs.com",
+  "tenant": "smucker",
+  "site": "US_External_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "smucker.wd5.myworkdayjobs.com",
+    "tenant": "smucker",
+    "site": "US_External_Careers"
+   },
+   "from": "https://www.jmsmucker.com/careers",
+   "verify": "(board reachable; no product title on first pages)"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "smucker.wd5.myworkdayjobs.com",
+    "tenant": "smucker",
+    "site": "Canada_External_Careers"
+   },
+   "from": "https://www.jmsmucker.com/careers"
+  }
+ ],
+ "domain": "jmsmucker.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 46
+}

@@ -1,0 +1,24 @@
+{
+ "company": "NRG Energy",
+ "rank": 149,
+ "group": "fortune500",
+ "industry": "Energy",
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.nrgenergy.com"
+ },
+ "verified": false,
+ "notes": "candidates: successfactors 0 product postings",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.nrgenergy.com"
+   },
+   "from": "https://careers.nrgenergy.com/nrg/search/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "nrg.com",
+ "seconds": 10
+}

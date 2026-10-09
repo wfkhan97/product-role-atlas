@@ -1,0 +1,388 @@
+[
+ {
+  "company": "Omnicom Group",
+  "rank": 257,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.omc.com/culture/careers/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Holding company: omc.com careers page only links to a LinkedIn multi-company job filter; agencies hire on their own boards (e.g. Greenhouse 'omguk' for Omnicom Media Group UK). No corporate ATS; omnicom/omc Workday tenants return 422."
+ },
+ {
+  "company": "Murphy USA",
+  "rank": 263,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.murphyusa.com/murphyusa/jobs"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "jobs.murphyusa.com is an ADP WorkforceNow career center (jobs.adp.com/murphyusa/cx) which returns 403 to curl; no ADP adapter. No Workday tenant (murphyusa 422), no icims."
+ },
+ {
+  "company": "Farmers Insurance Exchange",
+  "rank": 271,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.farmersinsurance.com"
+  },
+  "verified": true,
+  "sample_title": "Head of Product Line Management - Business Insurance",
+  "description_chars": 4230,
+  "notes": "farmers.com is unreachable to curl (TLS err 92) but the SF board jobs.farmersinsurance.com works directly."
+ },
+ {
+  "company": "Casey’s General Stores",
+  "rank": 282,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.caseys.com/careers"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "caseys.com/careers returns 403 (WAF) to curl, WebFetch and Googlebot UA; no Workday tenant (caseys/caseysgeneralstores 422), no careers-caseys.icims.com; an ADP customer testimonial suggests ADP WorkforceNow. Needs a browser to identify the board."
+ },
+ {
+  "company": "Fluor",
+  "rank": 292,
+  "group": "fortune500",
+  "ats": "eightfold",
+  "config": {
+   "host": "fluor.eightfold.ai",
+   "domain": "fluor.com",
+   "api": "apply"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now. pcsx API is disabled on this tenant (403 'PCSX is not enabled for this user'); the api/apply/v2/jobs endpoint works (count=11 for 'product manager', all Project Manager titles)."
+ },
+ {
+  "company": "Diamondback Energy",
+  "rank": 301,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "diamondbackenergy.wd12.myworkdayjobs.com",
+   "tenant": "diamondbackenergy",
+   "site": "DBE"
+  },
+  "verified": true,
+  "sample_title": "AI Manager - Product Management",
+  "description_chars": 4865,
+  "notes": "Site name is 'DBE' (found via a third-party guide; diamondbackenergy.com is 403 to curl)."
+ },
+ {
+  "company": "Amentum Holdings",
+  "rank": 313,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "pae.wd1.myworkdayjobs.com",
+   "tenant": "pae",
+   "site": "Amentum_Careers"
+  },
+  "verified": true,
+  "sample_title": "Product Manager, Data Visualization",
+  "description_chars": 6902,
+  "notes": "amentumcareers.com is a Clinch front-end (its /api/jobs is 404/202); jobs live in the legacy PAE Workday tenant."
+ },
+ {
+  "company": "BrightSpring Health Services",
+  "rank": 323,
+  "group": "fortune500",
+  "ats": "icims",
+  "config": {
+   "host": "careers-brightspring.icims.com"
+  },
+  "verified": true,
+  "sample_title": "Principal Technical Product Manager, AI Health Cloud",
+  "description_chars": 5880,
+  "notes": "careers.brightspringhealth.com only exposes login.icims.com links; real portal host is careers-brightspring.icims.com."
+ },
+ {
+  "company": "Sempra",
+  "rank": 330,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.sempra.com/power-your-career"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "sempra.com (incl. /careers and /power-your-career) is 403 to curl/WebFetch/Googlebot UA; jobs.sempra.com/careers.sempra.com have no DNS; no Workday tenant (sempra/sempraenergy 422); semprainfrastructure.com/careers has no job-board link in HTML. Subsidiaries (SDG&E, SoCalGas, Oncor) hire on separate portals. Needs a browser."
+ },
+ {
+  "company": "Fifth Third Bancorp",
+  "rank": 341,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "fifththird.wd5.myworkdayjobs.com",
+   "tenant": "fifththird",
+   "site": "53careers"
+  },
+  "verified": true,
+  "sample_title": "Principal Product Owner",
+  "description_chars": 7772,
+  "notes": ""
+ },
+ {
+  "company": "Lumen Technologies",
+  "rank": 354,
+  "group": "fortune500",
+  "ats": "eightfold",
+  "config": {
+   "host": "careers.lumen.com",
+   "domain": "lumen.com",
+   "api": "pcsx"
+  },
+  "verified": true,
+  "sample_title": "Principal Product Manager, Data Center Networks",
+  "description_chars": 9131,
+  "notes": "jobs.lumen.com is an AEM marketing site; search lives on careers.lumen.com (Eightfold pcsx)."
+ },
+ {
+  "company": "Expand Energy",
+  "rank": 362,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.expandenergy.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (search for 'product manager' returns 50 jobTitle-link rows, none product-titled)."
+ },
+ {
+  "company": "Vertex Pharmaceuticals",
+  "rank": 370,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "vrtx.wd501.myworkdayjobs.com",
+   "tenant": "vrtx",
+   "site": "vertex_careers"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (215 hits for 'product manager' but no product-manager/owner titles; vrtx.com is 403 to curl)."
+ },
+ {
+  "company": "Equitable Holdings",
+  "rank": 379,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://equitable.com/careers-at-equitable"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Careers page links to Taleo (careersection/eqh_1) and postings are also served from equitable.gr8people.com; neither Taleo nor gr8people has an adapter."
+ },
+ {
+  "company": "Molson Coors Beverage",
+  "rank": 390,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.molsoncoors.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now. careers.molsoncoors.com is a Phenom front-end (106 hits for 'product manager', all sales/HR, applyUrl empty); the SF board jobs.molsoncoors.com returns 50 jobTitle-link rows with descriptions."
+ },
+ {
+  "company": "Gold.com",
+  "rank": 398,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.gold.com/careers/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "gold.com/careers is a static page with no job-board or ATS links."
+ },
+ {
+  "company": "Mohawk Industries",
+  "rank": 404,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.mohawkind.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (75 jobTitle-link rows for 'product manager', all production/manufacturing titles)."
+ },
+ {
+  "company": "Oshkosh",
+  "rank": 411,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "oshkoshcorporation.wd5.myworkdayjobs.com",
+   "tenant": "oshkoshcorporation",
+   "site": "Oshkosh"
+  },
+  "verified": true,
+  "sample_title": "Product Management Intern",
+  "description_chars": 5822,
+  "notes": "careers.oshkoshcorp.com is a Phenom front-end (252 hits) whose applyUrl points at this Workday tenant."
+ },
+ {
+  "company": "Ace Hardware",
+  "rank": 419,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "acehardware.wd1.myworkdayjobs.com",
+   "tenant": "acehardware",
+   "site": "External"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (External = corporate, 116 postings). Other sites on the tenant: ARG_External (Ace Retail Group stores, 644) and Westlake_External. careers.acehardware.com is a Paradox front-end."
+ },
+ {
+  "company": "Thor Industries",
+  "rank": 429,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.thorindustries.com/careers"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Holding company; careers page only links to subsidiary boards (tiffin.applicantstack.com, keystonerv.com/pickme, airstream.com Paradox). No corporate ATS; thor Workday tenant 422."
+ },
+ {
+  "company": "Comfort Systems USA",
+  "rank": 440,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.comfortsystemsusa.com/careers/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "comfortsystemsusa.com is 403 to curl, careers.comfortsystemsusa.com has no DNS; decentralized HVAC subsidiaries hire separately; no Workday tenant (comfortsystems 422), no icims."
+ },
+ {
+  "company": "Prologis",
+  "rank": 451,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "prologis.wd5.myworkdayjobs.com",
+   "tenant": "prologis",
+   "site": "Prologis_External_Careers"
+  },
+  "verified": true,
+  "sample_title": "AI Technical Product Owner",
+  "description_chars": 7609,
+  "notes": "prologis.com is 403 to curl; site name found via third-party guide."
+ },
+ {
+  "company": "EQT",
+  "rank": 458,
+  "group": "fortune500",
+  "ats": "greenhouse",
+  "config": {
+   "board": "eqtcorporation"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (board has 52 jobs). Discovery had mis-read the embed token: eqt.com/careers loads greenhouse.io/embed/job_board/js?for=eqtcorporation."
+ },
+ {
+  "company": "Hertz Global Holdings",
+  "rank": 465,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.hertz.com/careers/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "hertz.com/careers/ and hertz.com/gfj/ are Jobiak SEO pages with no search API or ATS links; jobs.hertz.com/careers.hertz.com have no DNS; no Workday tenant (hertz/hertzcorp 422), no careers-hertz.icims.com. Needs a browser to find the apply target."
+ },
+ {
+  "company": "Yum Brands",
+  "rank": 474,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.yum.com/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "jobs.yum.com is a custom Laravel SPA using Elastic App Search (window.__TENANT_CONFIG__ has search_url/bearer_token null -> injected client-side). /jobs?search= 302s to /404 for curl, /api/jobs is 404, job pages (/jobs/<category>/<location>/<slug>/<id>) carry no JSON-LD. No adapter shape matches."
+ },
+ {
+  "company": "DuPont",
+  "rank": 481,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "dupont.wd5.myworkdayjobs.com",
+   "tenant": "dupont",
+   "site": "Jobs"
+  },
+  "verified": true,
+  "sample_title": "MOLYKOTE® and Multibase™ Product Manager, Asia Pacific",
+  "description_chars": 3651,
+  "notes": "careers.dupont.com is a Phenom front-end (116 hits) whose applyUrl points at this Workday tenant."
+ },
+ {
+  "company": "Roper Technologies",
+  "rank": 487,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.ropertech.com/careers/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "ropertech.com is 403 to curl; holding company whose operating companies hire on their own boards; no Workday tenant (roper/ropertech 422)."
+ },
+ {
+  "company": "Coterra Energy",
+  "rank": 496,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "devonenergy.wd5.myworkdayjobs.com",
+   "tenant": "devonenergy",
+   "site": "Careers"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now. Coterra has merged into Devon Energy (coterra.com homepage redirects to devonenergy.com; coterra.com/careers is 404; coterra.wd5 tenant returns 401). Jobs now post on Devon's Workday (36 hits for 'product', none product-titled)."
+ }
+]

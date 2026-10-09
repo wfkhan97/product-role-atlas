@@ -1,0 +1,44 @@
+{
+ "company": "Reinsurance Group of America",
+ "rank": 193,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Stock)",
+ "ats": "workday",
+ "config": {
+  "host": "rgare.wd1.myworkdayjobs.com",
+  "tenant": "rgare",
+  "site": "Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.rgarecareers.com"
+   },
+   "from": "https://www.rgarecareers.com/us/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/RGORGOUS/en_us/desktop/assets/images/favicon.ico?v=1725276727930"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "rgare.wd1.myworkdayjobs.com",
+    "tenant": "rgare",
+    "site": "Careers"
+   },
+   "from": "https://www.rgarecareers.com/us/en/actuarial",
+   "verify": "Business Product Manager, Treaty Administration and Claims products."
+  }
+ ],
+ "domain": "rgare.com",
+ "sample_title": "Business Product Manager, Treaty Administration and Claims products.",
+ "description_chars": 6126,
+ "seconds": 11
+}

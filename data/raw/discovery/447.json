@@ -1,0 +1,30 @@
+{
+ "company": "Ovintiv",
+ "rank": 447,
+ "group": "fortune500",
+ "industry": "Mining, Crude-Oil Production",
+ "ats": "workday",
+ "config": {
+  "host": "ovintiv.wd3.myworkdayjobs.com",
+  "tenant": "ovintiv",
+  "site": "ovintivcareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "ovintiv.wd3.myworkdayjobs.com",
+    "tenant": "ovintiv",
+    "site": "ovintivcareers"
+   },
+   "from": "https://www.ovintiv.com/careers/",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "ovintiv.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 7
+}

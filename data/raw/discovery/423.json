@@ -1,0 +1,30 @@
+{
+ "company": "Concentrix",
+ "rank": 423,
+ "group": "fortune500",
+ "industry": "Information Technology Services",
+ "ats": "workday",
+ "config": {
+  "host": "cnx.wd1.myworkdayjobs.com",
+  "tenant": "cnx",
+  "site": "external_global"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "cnx.wd1.myworkdayjobs.com",
+    "tenant": "cnx",
+    "site": "external_global"
+   },
+   "from": "https://jobs.concentrix.com/",
+   "verify": "Sr. Product Manager"
+  }
+ ],
+ "domain": "concentrix.com",
+ "sample_title": "Sr. Product Manager",
+ "description_chars": 6263,
+ "seconds": 14
+}

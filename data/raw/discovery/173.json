@@ -1,0 +1,39 @@
+{
+ "company": "Occidental Petroleum",
+ "rank": 173,
+ "group": "fortune500",
+ "industry": "Mining, Crude-Oil Production",
+ "ats": "workday",
+ "config": {
+  "host": "oxy.wd5.myworkdayjobs.com",
+  "tenant": "oxy",
+  "site": "Corporate"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "oxy.wd5.myworkdayjobs.com",
+    "tenant": "oxy",
+    "site": "Corporate"
+   },
+   "from": "https://www.oxy.com/careers",
+   "verify": "(board reachable; no product title on first pages)"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "oxy.wd5.myworkdayjobs.com",
+    "tenant": "oxy",
+    "site": "UniversityRelations"
+   },
+   "from": "https://www.oxy.com/careers"
+  }
+ ],
+ "domain": "oxy.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 11
+}

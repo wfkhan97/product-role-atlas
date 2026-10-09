@@ -1,0 +1,15 @@
+{
+ "company": "American Airlines Group",
+ "rank": 86,
+ "group": "fortune500",
+ "industry": "Airlines",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.aa.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "aa.com",
+ "seconds": 47
+}

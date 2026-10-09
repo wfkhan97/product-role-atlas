@@ -1,0 +1,30 @@
+{
+ "company": "Gilead Sciences",
+ "rank": 153,
+ "group": "fortune500",
+ "industry": "Pharmaceuticals",
+ "ats": "workday",
+ "config": {
+  "host": "gilead.wd1.myworkdayjobs.com",
+  "tenant": "gilead",
+  "site": "gileadcareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "gilead.wd1.myworkdayjobs.com",
+    "tenant": "gilead",
+    "site": "gileadcareers"
+   },
+   "from": "https://www.gilead.com/careers",
+   "verify": "Sr Product Manager"
+  }
+ ],
+ "domain": "gilead.com",
+ "sample_title": "Sr Product Manager",
+ "description_chars": 6925,
+ "seconds": 17
+}

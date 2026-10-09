@@ -1,0 +1,32 @@
+{
+ "company": "TJX",
+ "rank": 79,
+ "group": "fortune500",
+ "industry": "Specialty Retailers: Apparel",
+ "ats": "phenom",
+ "config": {
+  "host": "jobs.tjx.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "jobs.tjx.com"
+   },
+   "from": "https://jobs.tjx.com/global/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/TJCOGLOBAL/en_global/desktop/assets/images/favicon.ico",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "tjx.com",
+ "seconds": 9
+}

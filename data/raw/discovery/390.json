@@ -1,0 +1,40 @@
+{
+ "company": "Molson Coors Beverage",
+ "rank": 390,
+ "group": "fortune500",
+ "industry": "Beverages",
+ "ats": "phenom",
+ "config": {
+  "host": "careers.molsoncoors.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings; successfactors 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.molsoncoors.com"
+   },
+   "from": "https://careers.molsoncoors.com/us/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/MQXMOLUS/en_us/desktop/assets/images/favicon.ico?v=1729245653008",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.molsoncoors.com"
+   },
+   "from": "https://jobs.molsoncoors.com/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "molsoncoors.com",
+ "seconds": 15
+}

@@ -1,0 +1,15 @@
+{
+ "company": "Omnicom Group",
+ "rank": 257,
+ "group": "fortune500",
+ "industry": "Advertising, Marketing",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.omnicomgroup.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "omnicomgroup.com",
+ "seconds": 11
+}

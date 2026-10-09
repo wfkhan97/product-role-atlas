@@ -1,0 +1,28 @@
+{
+ "company": "Bank of New York (BNY)",
+ "rank": 115,
+ "group": "fortune500",
+ "industry": "Commercial Banks",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "eofe.fa.us2.oraclecloud.com",
+  "siteNumber": "BNY"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "eofe.fa.us2.oraclecloud.com",
+    "siteNumber": "BNY"
+   },
+   "from": "https://www.bny.com/corporate/global/en/about-us/careers/work-with-us.html",
+   "verify": "Senior Specialist, Product Owner"
+  }
+ ],
+ "domain": "bny.com",
+ "sample_title": "Senior Specialist, Product Owner",
+ "description_chars": 3057,
+ "seconds": 49
+}

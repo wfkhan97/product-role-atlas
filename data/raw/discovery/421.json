@@ -1,0 +1,30 @@
+{
+ "company": "Biogen",
+ "rank": 421,
+ "group": "fortune500",
+ "industry": "Pharmaceuticals",
+ "ats": "workday",
+ "config": {
+  "host": "biibhr.wd3.myworkdayjobs.com",
+  "tenant": "biibhr",
+  "site": "external"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "biibhr.wd3.myworkdayjobs.com",
+    "tenant": "biibhr",
+    "site": "external"
+   },
+   "from": "https://www.biogen.com/careers.html",
+   "verify": "Product Manager, SMA"
+  }
+ ],
+ "domain": "biogen.com",
+ "sample_title": "Product Manager, SMA",
+ "description_chars": 3943,
+ "seconds": 12
+}

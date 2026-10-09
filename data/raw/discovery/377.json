@@ -1,0 +1,24 @@
+{
+ "company": "Hershey",
+ "rank": 377,
+ "group": "fortune500",
+ "industry": "Food Consumer Products",
+ "ats": "paradox",
+ "config": {
+  "host": "www.instagram.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 product postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.instagram.com"
+   },
+   "from": "https://www.instagram.com/hersheyjobs/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "hersheypa.com",
+ "seconds": 10
+}

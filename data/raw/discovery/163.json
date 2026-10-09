@@ -1,0 +1,37 @@
+{
+ "company": "Southwest Airlines",
+ "rank": 163,
+ "group": "fortune500",
+ "industry": "Airlines",
+ "ats": "workday",
+ "config": {
+  "host": "swa.wd1.myworkdayjobs.com",
+  "tenant": "swa",
+  "site": "external"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.southwestair.com"
+   },
+   "from": "https://careers.southwestair.com/us/en/"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "swa.wd1.myworkdayjobs.com",
+    "tenant": "swa",
+    "site": "external"
+   },
+   "from": "https://careers.southwestair.com/us/en/search-results",
+   "verify": "Sr Product Owner - AI & Analytics"
+  }
+ ],
+ "domain": "southwest.com",
+ "sample_title": "Sr Product Owner - AI & Analytics",
+ "description_chars": 4639,
+ "seconds": 13
+}

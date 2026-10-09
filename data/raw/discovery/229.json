@@ -1,0 +1,15 @@
+{
+ "company": "AutoZone",
+ "rank": 229,
+ "group": "fortune500",
+ "industry": "Specialty Retailers: Other",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.autozone.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "autozone.com",
+ "seconds": 45
+}

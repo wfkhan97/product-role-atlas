@@ -1,0 +1,15 @@
+{
+ "company": "Celanese",
+ "rank": 431,
+ "group": "fortune500",
+ "industry": "Chemicals",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.celanese.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "celanese.com",
+ "seconds": 10
+}

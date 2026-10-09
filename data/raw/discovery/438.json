@@ -1,0 +1,15 @@
+{
+ "company": "APA",
+ "rank": 438,
+ "group": "fortune500",
+ "industry": "Mining, Crude-Oil Production",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.apartments.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "apartments.com",
+ "seconds": 9
+}

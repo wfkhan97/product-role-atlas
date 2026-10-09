@@ -1,0 +1,46 @@
+{
+ "company": "Capital One Financial",
+ "rank": 63,
+ "group": "fortune500",
+ "industry": "Commercial Banks",
+ "ats": "workday",
+ "config": {
+  "host": "capitalone.wd12.myworkdayjobs.com",
+  "tenant": "capitalone",
+  "site": "Capital_One"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "capitalone.wd12.myworkdayjobs.com",
+    "tenant": "capitalone",
+    "site": "Capital_One"
+   },
+   "from": "https://www.capitalonecareers.com/",
+   "verify": "Principal Associate, Product Management"
+  },
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "capitalone.eightfold.ai",
+    "domain": "capitalone.com",
+    "api": "pcsx"
+   },
+   "from": "https://www.capitalonecareers.com/"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "www.capitalonecareers.com"
+   },
+   "from": "https://www.capitalonecareers.com/"
+  }
+ ],
+ "domain": "capitalone.com",
+ "sample_title": "Principal Associate, Product Management",
+ "description_chars": 8927,
+ "seconds": 24
+}

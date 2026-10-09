@@ -1,0 +1,15 @@
+{
+ "company": "Medline",
+ "rank": 159,
+ "group": "fortune500",
+ "industry": "Health Care: Pharmacy and Other Services",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.medline.org.ua/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "medline.org.ua",
+ "seconds": 28
+}

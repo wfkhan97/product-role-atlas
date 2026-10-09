@@ -1,0 +1,40 @@
+{
+ "company": "Charles Schwab",
+ "rank": 165,
+ "group": "fortune500",
+ "industry": "Securities",
+ "ats": "icims",
+ "config": {
+  "host": "career-schwab.icims.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "career-schwab.icims.com"
+   },
+   "from": "https://www.schwabjobs.com/",
+   "verify": "Product Marketing Manager \u2013 Managed & Alternative Investing"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "www.schwabjobs.com"
+   },
+   "from": "https://www.schwabjobs.com/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.schwabjobs.com"
+   },
+   "from": "https://www.schwabjobs.com/"
+  }
+ ],
+ "domain": "schwab.com",
+ "sample_title": "Product Marketing Manager \u2013 Managed & Alternative Investing",
+ "description_chars": 4769,
+ "seconds": 46
+}

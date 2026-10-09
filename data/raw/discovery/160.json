@@ -1,0 +1,30 @@
+{
+ "company": "Hartford Insurance Group",
+ "rank": 160,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Stock)",
+ "ats": "workday",
+ "config": {
+  "host": "thehartford.wd5.myworkdayjobs.com",
+  "tenant": "thehartford",
+  "site": "Careers_External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "thehartford.wd5.myworkdayjobs.com",
+    "tenant": "thehartford",
+    "site": "Careers_External"
+   },
+   "from": "https://www.thehartford.com/careers",
+   "verify": "AVP Supplemental Health Product Management"
+  }
+ ],
+ "domain": "thehartford.com",
+ "sample_title": "AVP Supplemental Health Product Management",
+ "description_chars": 6807,
+ "seconds": 58
+}

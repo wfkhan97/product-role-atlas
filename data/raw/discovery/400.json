@@ -1,0 +1,15 @@
+{
+ "company": "International Flavors & Fragrances",
+ "rank": 400,
+ "group": "fortune500",
+ "industry": "Chemicals",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.iff.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "iff.com",
+ "seconds": 43
+}

@@ -1,0 +1,33 @@
+{
+ "company": "Owens Corning",
+ "rank": 385,
+ "group": "fortune500",
+ "industry": "Building Materials, Glass",
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.owenscorning.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.owenscorning.com"
+   },
+   "from": "https://careers.owenscorning.com/"
+  },
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.owenscorning.com"
+   },
+   "from": "https://careers.owenscorning.com/search/",
+   "verify": "Product Manager"
+  }
+ ],
+ "domain": "owenscorning.com",
+ "sample_title": "Product Manager",
+ "description_chars": 4565,
+ "seconds": 11
+}

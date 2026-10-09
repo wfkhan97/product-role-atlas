@@ -1,0 +1,15 @@
+{
+ "company": "Archer Daniels Midland",
+ "rank": 58,
+ "group": "fortune500",
+ "industry": "Food Production",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.adm.co/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "adm.co",
+ "seconds": 17
+}

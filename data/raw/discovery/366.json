@@ -1,0 +1,15 @@
+{
+ "company": "Mosaic",
+ "rank": 366,
+ "group": "fortune500",
+ "industry": "Chemicals",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.joinmosaic.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "joinmosaic.com",
+ "seconds": 12
+}

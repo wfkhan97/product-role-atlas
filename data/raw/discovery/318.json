@@ -1,0 +1,30 @@
+{
+ "company": "Viatris",
+ "rank": 318,
+ "group": "fortune500",
+ "industry": "Pharmaceuticals",
+ "ats": "workday",
+ "config": {
+  "host": "viatris.wd5.myworkdayjobs.com",
+  "tenant": "viatris",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "viatris.wd5.myworkdayjobs.com",
+    "tenant": "viatris",
+    "site": "External"
+   },
+   "from": "https://www.viatris.com/en/careers",
+   "verify": "Senior Product Manager"
+  }
+ ],
+ "domain": "viatris.com",
+ "sample_title": "Senior Product Manager",
+ "description_chars": 5264,
+ "seconds": 8
+}

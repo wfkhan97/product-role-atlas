@@ -1,0 +1,75 @@
+{
+ "company": "EchoStar",
+ "rank": 302,
+ "group": "fortune500",
+ "industry": "Telecommunications",
+ "ats": "jibe",
+ "config": {
+  "host": "jobs.echostar.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://jobs.echostar.com/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "attract-careers1-dish.icims.com"
+   },
+   "from": "https://jobs.echostar.com/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "internal-dish.icims.com"
+   },
+   "from": "https://jobs.echostar.com/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "india-external-dish.icims.com"
+   },
+   "from": "https://jobs.echostar.com/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "login.icims.com"
+   },
+   "from": "https://jobs.echostar.com/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "efgz-dev2.fa.us6.oraclecloud.com",
+    "siteNumber": "CX_1"
+   },
+   "from": "https://jobs.echostar.com/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "jobs.echostar.com"
+   },
+   "from": "https://jobs.echostar.com/jobs",
+   "verify": "Product Manager II - UAT"
+  }
+ ],
+ "domain": "echostar.com",
+ "sample_title": "Product Manager II - UAT",
+ "description_chars": 6822,
+ "seconds": 15
+}

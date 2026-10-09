@@ -1,0 +1,15 @@
+{
+ "company": "Leidos Holdings",
+ "rank": 260,
+ "group": "fortune500",
+ "industry": "Information Technology Services",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.leidos.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "leidos.com",
+ "seconds": 14
+}

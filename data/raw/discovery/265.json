@@ -1,0 +1,24 @@
+{
+ "company": "EMCOR Group",
+ "rank": 265,
+ "group": "fortune500",
+ "industry": "Engineering & Construction",
+ "ats": "icims",
+ "config": {
+  "host": "careers-emcorgroup.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 product postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-emcorgroup.icims.com"
+   },
+   "from": "https://emcorgroup.com/careers",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "emcorgroup.com",
+ "seconds": 18
+}

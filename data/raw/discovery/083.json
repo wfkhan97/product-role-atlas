@@ -1,0 +1,44 @@
+{
+ "company": "Cisco Systems",
+ "rank": 83,
+ "group": "fortune500",
+ "industry": "Network and Other Communications Equipment",
+ "ats": "workday",
+ "config": {
+  "host": "cisco.wd5.myworkdayjobs.com",
+  "tenant": "cisco",
+  "site": "Cisco_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.cisco.com"
+   },
+   "from": "https://careers.cisco.com/global/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/CISCISGLOBAL/en_global/desktop/assets/images/favicon.ico?v=1727777881780"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "cisco.wd5.myworkdayjobs.com",
+    "tenant": "cisco",
+    "site": "Cisco_Careers"
+   },
+   "from": "https://careers.cisco.com/global/en/search-results",
+   "verify": "Engineering Product Manager"
+  }
+ ],
+ "domain": "cisco.com",
+ "sample_title": "Engineering Product Manager",
+ "description_chars": 9661,
+ "seconds": 22
+}

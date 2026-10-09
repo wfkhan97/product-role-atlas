@@ -1,0 +1,226 @@
+{
+"cross_functional": {"what": "Leading a team you don't manage: engineering, design, data, marketing, sales, legal, all pulling toward one outcome.",
+ "subskills": [
+  {"id":"triad","name":"Working the product triad","patterns":["triad","trio","product, design,? and engineering","engineering, design,? and product","\\bPM/EM/design\\b"],"example":"Plan, decide, and review as a trio of PM, EM, and design lead."},
+  {"id":"alignment","name":"Driving alignment","patterns":["align","shared (goals|understanding|context)","single source of truth","\\bRACI\\b","\\bDACI\\b","decision (rights|log)"],"example":"Write down who decides what before the first disagreement."},
+  {"id":"xfn_rituals","name":"Rituals & cadence","patterns":["rituals?","cadence","stand-?ups?","planning (meeting|session)","retro","sync","weekly (review|meeting)"],"example":"One weekly sync with a written agenda and decisions log."},
+  {"id":"partner_functions","name":"Partnering beyond product","patterns":["(partner|work) (closely )?with (marketing|sales|legal|finance|operations|support|customer success)","legal","finance","operations teams?"],"example":"Loop legal in at the spec stage, not the week before launch."}],
+ "ladder": {"associate":"Works well within a squad; keeps partners informed.","mid":"Leads a squad's cross-functional work; resolves routine conflicts.","senior":"Leads across several teams and functions on big initiatives.","lead":"Builds the operating model for how functions work together."},
+ "build": ["Any team project where you coordinate people you don't control (student orgs, hackathons, volunteer work) counts; write up how you ran it.","Read: 'Team Topologies' on how teams interact; 'The Making of a Manager' on leading without authority.","At work: run the weekly sync for a cross-functional project and keep the decision log."],
+ "signals": ["Led a 25-person cross-functional launch across 4 teams and 3 time zones.","Introduced a decision log and DACI model that halved re-litigated decisions."]},
+
+"stakeholder_mgmt": {"what": "Keeping the people who can block or accelerate your work informed, heard, and on side: executives, partner teams, customers.",
+ "subskills": [
+  {"id":"stakeholder_mapping","name":"Stakeholder mapping","patterns":["stakeholder (map|analysis|identification)","key stakeholders","power[/ ]interest"],"example":"List who cares, who decides, and who can block, before kickoff."},
+  {"id":"managing_up","name":"Managing up","patterns":["manag(e|ing) up","executive (expectations|updates)","no surprises","keep(ing)? leadership informed"],"example":"Leadership hears bad news from you first, with a plan attached."},
+  {"id":"expectation_setting","name":"Expectation setting","patterns":["expectation","commitments?","under-?promise","realistic (timelines|goals)","set(ting)? expectations"],"example":"Commit to dates with ranges and say what would move them."},
+  {"id":"conflict","name":"Conflict & difficult conversations","patterns":["conflict","difficult conversations","disagree(ment)?s?","tension","push ?back","navigate"],"example":"Address the disagreement directly in a 1:1, not in the group thread."}],
+ "ladder": {"associate":"Keeps their stakeholders updated; escalates early.","mid":"Manages a defined set of stakeholders; handles pushback on scope.","senior":"Manages senior stakeholders with conflicting agendas.","lead":"Manages executives and the board; brokers org-level trade-offs."},
+ "build": ["Read: 'Crucial Conversations'; 'Getting to Yes' for negotiation.","Practice: before any proposal, write each stakeholder's likely objection and your answer.","At work: own the status update to leadership for a project for a quarter."],
+ "signals": ["Managed 8 stakeholders across sales, legal, and finance through a contentious pricing change.","Ran the monthly exec update for the platform program with no surprises for a year."]},
+
+"influence": {"what": "Getting people to change course without being able to tell them to: evidence, framing, relationships, and timing.",
+ "subskills": [
+  {"id":"persuasive_writing","name":"Persuasive writing & framing","patterns":["persua","framing","compelling (case|argument|narrative)","make the case"],"example":"Lead with the customer problem and the cost of inaction."},
+  {"id":"evidence_based","name":"Evidence-based arguments","patterns":["evidence","data[- ]backed","back(ed)? (up )?(by|with) data","customer quotes","proof"],"example":"Bring three customer recordings and one chart, not opinions."},
+  {"id":"coalition","name":"Building coalitions","patterns":["coalition","allies","buy-?in","pre-?wire","socializ","consensus"],"example":"Pre-wire the decision 1:1 so the meeting is a confirmation."},
+  {"id":"negotiation","name":"Negotiation","patterns":["negotiat","compromise","win-?win","\\bBATNA\\b","trade"],"example":"Trade a scope cut for a firm engineering commitment."}],
+ "ladder": {"associate":"Makes clear, evidence-backed cases for small decisions.","mid":"Wins support for team priorities across peer teams.","senior":"Changes direction at the org level through persuasion, not authority.","lead":"Shapes company direction; influences executives and the board."},
+ "build": ["Read: 'Influence' (Cialdini), 'Never Split the Difference'.","Practice: write a one-page memo arguing for a change and get feedback from someone who disagrees.","At work: pick one decision you want reversed and run a deliberate influence campaign."],
+ "signals": ["Persuaded engineering leadership to fund the platform rebuild through a customer-evidence memo.","Built the coalition that moved the company to usage-based pricing."]},
+
+"communication": {"what": "Writing and speaking so that busy people understand, remember, and act: clear, short, structured, and matched to the audience.",
+ "subskills": [
+  {"id":"writing_docs","name":"Writing clear documents","patterns":["writ(e|ing|ten) (clear|crisp|concise)","documentation","memo","six[- ]pager","\\bPR/FAQ\\b","narrative"],"example":"One page, conclusion first, every paragraph earns its place."},
+  {"id":"presenting","name":"Presenting","patterns":["present(ation|ing)","public speaking","slides","deck","demo"],"example":"A 10-slide deck where the title of each slide is the point."},
+  {"id":"audience_tailoring","name":"Tailoring to the audience","patterns":["tailor","audience","technical and non-?technical","translate","plain (english|language)","at all levels"],"example":"Same decision, three versions: engineers, executives, customers."},
+  {"id":"async_comms","name":"Async & written updates","patterns":["async","written (updates|communication|culture)","status (update|report)","weekly update","slack","remote"],"example":"A Friday update in five bullets: done, next, blocked, decisions, asks."},
+  {"id":"listening","name":"Listening & facilitation","patterns":["listen","facilitat","meeting (facilitation|hygiene)","workshop","run(ning)? (effective )?meetings"],"example":"Run the meeting so the quiet expert talks and the decision gets made."}],
+ "ladder": {"associate":"Writes clear tickets and updates; presents to the team.","mid":"Writes PRDs and memos that need little clarification; presents to leadership.","senior":"Known for writing that changes decisions; presents to executives and customers.","lead":"Sets communication norms for the org; speaks for the product externally."},
+ "build": ["Course: Google's technical writing courses (free); a presentation skills class or Toastmasters.","Practice: rewrite a long email to half its length; write a weekly update for a side project.","At work: volunteer to write the launch memo or present the quarterly review."],
+ "signals": ["Wrote the 6-pager that secured funding for the new product line.","Presented the roadmap to 300 customers at the user conference."]},
+
+"exec_communication": {"what": "Communicating with executives and boards: the brief, the business review, and the ask, in the little time they have.",
+ "subskills": [
+  {"id":"exec_brief","name":"Executive briefs","patterns":["executive (summary|brief|memo)","\\bTL;?DR\\b","bottom line","one-?pager for"],"example":"Decision needed, recommendation, three reasons, risks, ask. Half a page."},
+  {"id":"business_review","name":"Business reviews","patterns":["business review","\\bQBR\\b","\\bMBR\\b","operating review","leadership review","exec review"],"example":"Metrics vs. plan, why, what we're doing, what we need."},
+  {"id":"board","name":"Board & investor communication","patterns":["board","investor","\\bLPs?\\b","fundrais"],"example":"Board slides: the trend, the risk, the ask, nothing else."},
+  {"id":"exec_presence","name":"Executive presence","patterns":["executive presence","gravitas","command the room","confiden","poise","composure"],"example":"Answer the question asked, then stop."}],
+ "ladder": {"associate":"Contributes slides to reviews; presents a section with support.","mid":"Presents their area in leadership reviews.","senior":"Runs business reviews; briefs executives regularly.","lead":"Presents to the board; is the executive audience for others."},
+ "build": ["Read: 'The Pyramid Principle' (Minto) for structure; study Amazon-style narrative memos.","Practice: turn any analysis into a half-page exec brief with a decision at the top.","At work: ask to present your area's section of the next leadership review."],
+ "signals": ["Presented the product section of the quarterly board deck for two years.","Ran the monthly business review for a $40M product line."]},
+
+"people_management": {"what": "Hiring, developing, and leading product managers: building the team, setting the bar, and growing people.",
+ "subskills": [
+  {"id":"hiring","name":"Hiring & interviewing","patterns":["hir(e|ing)","recruit","interview(ing|er)","sourc(e|ing) candidates","talent","offer","hiring bar"],"example":"A structured loop with a product-sense case and a written exercise."},
+  {"id":"coaching","name":"Coaching & feedback","patterns":["coach","mentor","feedback","1:1s?","one-?on-?ones?","career (development|growth|conversations)","growth plan"],"example":"Weekly 1:1s focused on their growth, not status."},
+  {"id":"performance","name":"Performance management","patterns":["performance (management|review|calibration|improvement)","calibrat","promotion","leveling","expectations"],"example":"Clear written expectations per level and honest calibration."},
+  {"id":"team_building","name":"Building & structuring teams","patterns":["team (structure|design|building|charter)","org (design|structure)","headcount","scal(e|ing) the team","span of control"],"example":"Design team boundaries around products, not technologies."},
+  {"id":"leading_leaders","name":"Leading managers","patterns":["manager of managers","leading (managers|leaders)","directors?","second[- ]line","skip[- ]level"],"example":"Run skip-levels and hold managers to how they grow their people."}],
+ "ladder": {"associate":"Mentors interns or new hires informally.","mid":"Mentors junior PMs; participates in hiring loops.","senior":"Leads a small team of PMs or formally mentors several; owns part of the hiring bar.","lead":"Manages PMs and managers; owns hiring, leveling, and org design."},
+ "build": ["Read: 'The Making of a Manager' (Zhuo), 'High Output Management' (Grove).","Practice: mentor someone (ADPList, a university program) and ask for feedback on your coaching.","At work: become an interviewer, then a hiring manager for an intern or APM."],
+ "signals": ["Hired and managed a team of 6 PMs; promoted 2 to senior in 18 months.","Designed the PM leveling framework adopted across the org."]},
+
+"ownership": {"what": "Treating outcomes as yours: driving work to done, taking responsibility when it goes wrong, and not waiting to be told.",
+ "subskills": [
+  {"id":"outcome_ownership","name":"Owning outcomes, not tasks","patterns":["own(s|ing)? (the )?(outcome|result|metric|business|end-?to-?end)","accountab","responsib(le|ility) for"],"example":"Own the activation rate, not the ticket about the onboarding screen."},
+  {"id":"initiative","name":"Taking initiative","patterns":["initiative","proactive","self[- ]start","without being asked","bias (for|toward) action","go above and beyond"],"example":"Notice the gap, propose the fix, start before you're asked."},
+  {"id":"follow_through","name":"Follow-through","patterns":["follow[- ]through","follow[- ]up","see (it|things) through","closes? (the )?loop","get(s|ting)? (it|things) done","finish"],"example":"Every open thread has an owner and a date, and you check."},
+  {"id":"scrappiness","name":"Scrappiness & resourcefulness","patterns":["scrappy","resourceful","hands[- ]on","roll(ing)? up (your|their) sleeves","do whatever it takes","no task (too|is) small"],"example":"Write the support macro yourself if that's what ships it."}],
+ "ladder": {"associate":"Owns their tickets and features to done; flags risks early.","mid":"Owns a product area's outcomes; is the person people ask.","senior":"Owns results across teams; takes accountability publicly.","lead":"Owns business outcomes; sets the ownership culture."},
+ "build": ["Ship a side project end to end, including the boring parts (support, docs, fixes).","At work: pick a problem nobody owns, write the plan, and run it.","Keep a 'things I drove to done' log; that becomes your resume."],
+ "signals": ["Took over the stalled migration project and delivered it in one quarter.","Owned day-30 retention; ran 11 experiments and moved it from 28% to 36%."]},
+
+"adaptability": {"what": "Working well when the plan changes: ambiguity, pace, pivots, and growth that outruns process.",
+ "subskills": [
+  {"id":"ambiguity_tolerance","name":"Comfort with ambiguity","patterns":["ambigu","uncertain","unclear","undefined","figure (it|things) out","chaos"],"example":"Start from a one-paragraph brief and have a plan by Friday."},
+  {"id":"pace","name":"Pace & iteration speed","patterns":["fast[- ]paced","speed","velocity","move fast","quickly","rapid","urgency"],"example":"Ship the 80% version this week instead of the 100% version next month."},
+  {"id":"pivoting","name":"Pivoting & learning","patterns":["pivot","change (course|direction)","learn(ing)? (fast|quickly|mindset)","curious","feedback"],"example":"Drop the plan when the data says so, and say why."},
+  {"id":"generalist","name":"Wearing many hats","patterns":["many hats","multiple hats","generalist","jack of all trades","wide range","do whatever"],"example":"PM, support, QA, and analyst in the same week at an early startup."}],
+ "ladder": {"associate":"Handles changing priorities without losing track.","mid":"Thrives on under-specified problems; keeps the team steady through change.","senior":"Leads through pivots; builds just enough process for the stage.","lead":"Steers the org through strategy changes and scaling pains."},
+ "build": ["Join or build something early-stage: a startup, a hackathon team, a student venture.","Keep a log of times the plan changed and what you did next.","At work: volunteer for the undefined project or the new team."],
+ "signals": ["Joined as employee #12; built the product function from zero through Series B.","Led the pivot from consumer to B2B; shipped the new product in 4 months."]},
+
+"collaboration": {"what": "Being good to work with: generous with credit, open to being wrong, and reliable to the people around you.",
+ "subskills": [
+  {"id":"relationships","name":"Building relationships","patterns":["relationship","trust","rapport","partner(ship)? mindset","interpersonal"],"example":"Know what each partner is measured on and help them hit it."},
+  {"id":"feedback_culture","name":"Giving & receiving feedback","patterns":["feedback","open to","candid","direct","receptive","coachable"],"example":"Ask 'what would make this better' and mean it."},
+  {"id":"humility","name":"Low ego & humility","patterns":["low ego","humble","humility","ego","strong opinions,? (weakly|loosely) held","disagree and commit"],"example":"Change your mind in the meeting when the engineer is right."},
+  {"id":"inclusion","name":"Inclusive teamwork","patterns":["inclusiv","diverse (teams|perspectives)","psychological safety","respect","empath"],"example":"Make room for the person who hasn't spoken."}],
+ "ladder": {"associate":"Reliable teammate; communicates proactively.","mid":"Builds strong partnerships with their triad and adjacent teams.","senior":"Sought out as a partner; raises the team's collaboration norms.","lead":"Sets the culture for how teams treat each other."},
+ "build": ["Any sustained team experience counts: sports, bands, open-source, student orgs.","Read: 'Radical Candor' for feedback; 'The Five Dysfunctions of a Team'.","At work: ask three partners for honest feedback and act on one thing."],
+ "signals": ["Named 'most collaborative partner' by engineering in two consecutive surveys.","Built the product/sales feedback loop that both teams credit for the SMB turnaround."]},
+
+"customer_facing_exec": {"what": "Representing the product to the outside world: customer executives, advisory boards, conferences, analysts, and press.",
+ "subskills": [
+  {"id":"exec_customers","name":"Customer executive engagement","patterns":["customer executives?","\\bC-?level\\b (customers|meetings)","executive (briefing|sponsor)","\\bEBCs?\\b","strategic (accounts|customers)"],"example":"Run an executive briefing that's about their roadmap, not yours."},
+  {"id":"advisory_boards","name":"Advisory boards & councils","patterns":["advisory (board|council)","\\bCAB\\b","customer council","design partners"],"example":"Quarterly CAB with real decisions on the table."},
+  {"id":"speaking","name":"Public speaking & events","patterns":["conference","keynote","speak(ing|er)","webinar","events?","meetups?","podcast"],"example":"A 20-minute talk with one idea the audience repeats afterwards."},
+  {"id":"analysts_press","name":"Analysts, press & thought leadership","patterns":["analyst","gartner","forrester","press","media","thought leader","blog","content"],"example":"Brief analysts twice a year with a clear differentiation story."}],
+ "ladder": {"associate":"Joins customer calls; writes blog posts.","mid":"Presents to customers; runs feature-level briefings.","senior":"Runs advisory boards; speaks at conferences; briefs analysts.","lead":"Is the public face of the product; handles press and key executives."},
+ "build": ["Speak: local meetups, internal brown-bags, Toastmasters.","Write: a blog or newsletter on your product area; that's thought leadership in miniature.","At work: ask to present at the next customer event or run a customer council."],
+ "signals": ["Ran the 20-member customer advisory board for three years.","Spoke at four industry conferences; briefed Gartner for the Magic Quadrant."]},
+
+"agile_scrum": {"what": "Running delivery in short iterations: backlog, sprints, ceremonies, and the discipline that keeps them useful.",
+ "subskills": [
+  {"id":"sprint_planning","name":"Sprint planning & backlog","patterns":["sprint (planning|goal)","backlog (grooming|refinement)","story (points?|writing)","estimation","velocity"],"example":"A sprint goal in one sentence and a backlog ready two sprints ahead."},
+  {"id":"ceremonies","name":"Ceremonies","patterns":["stand-?ups?","daily","retro(spective)?","sprint review","demo","ceremonies"],"example":"Retros that produce one change each, and you check it stuck."},
+  {"id":"scaled_agile","name":"Scaled frameworks","patterns":["\\bSAFe\\b","\\bLeSS\\b","scrum of scrums","\\bPI planning\\b","release train","scaled agile"],"example":"Know PI planning if you're in a large enterprise; know its costs."},
+  {"id":"kanban_flow","name":"Kanban & flow","patterns":["kanban","\\bWIP\\b","work in progress","cycle time","lead time","flow"],"example":"Limit WIP and watch cycle time instead of velocity."}],
+ "ladder": {"associate":"Writes stories, keeps the board current, runs standup.","mid":"Owns the backlog and sprint goals for a squad.","senior":"Tailors process to the team; fixes delivery problems at the root.","lead":"Sets delivery practices across teams; avoids process for its own sake."},
+ "build": ["Course: a Scrum or Product Owner certification (CSPO/PSPO) is cheap and often asked for in enterprises.","Project: run a side project in two-week sprints with a board and retros.","At work: run backlog refinement and the retro for a quarter."],
+ "signals": ["Certified Scrum Product Owner; ran delivery for two squads.","Moved the team from scrum to kanban; cycle time fell from 12 days to 5."]},
+
+"program_mgmt": {"what": "Coordinating large, multi-team efforts: plans, milestones, dependencies, status, and getting the whole thing to land.",
+ "subskills": [
+  {"id":"planning","name":"Planning & milestones","patterns":["project plan","milestones?","timelines?","schedules?","work (breakdown|plan)","\\bWBS\\b","critical path","gantt"],"example":"A milestone plan with the critical path marked and owners per stream."},
+  {"id":"dependency_tracking","name":"Dependency management","patterns":["dependenc","cross-?team","upstream","downstream","blockers?"],"example":"A dependency list reviewed weekly with the teams you depend on."},
+  {"id":"status_reporting","name":"Status & reporting","patterns":["status (report|update)","\\bRAG\\b","red[/ ]amber[/ ]green","weekly report","dashboard","program review"],"example":"A weekly one-pager: green/amber/red, why, what's needed."},
+  {"id":"program_governance","name":"Governance & operating rhythm","patterns":["governance","steering (committee|group)","operating (rhythm|cadence|mechanism)","\\bPMO\\b","program (office|management office)"],"example":"A monthly steering meeting with decisions, not status."},
+  {"id":"launch_coordination","name":"Large launch coordination","patterns":["launch coordination","cross-?functional launch","release coordination","cut-?over","migration plan","rollout plan"],"example":"A cut-over plan with go/no-go criteria and a rollback owner."}],
+ "ladder": {"associate":"Tracks tasks and status for a project; keeps the plan current.","mid":"Runs a multi-team program: plan, dependencies, status, risks.","senior":"Runs org-wide programs with executive sponsors; fixes structural delivery problems.","lead":"Builds the program function; owns the company's biggest initiatives."},
+ "build": ["Course: PMP or Google's Project Management certificate for vocabulary and tools.","Project: plan and run a multi-person event or build with a real plan, risks, and status updates.","At work: offer to run the program for the next cross-team initiative."],
+ "signals": ["Ran the 9-month data-center migration across 12 teams; delivered on date.","Introduced weekly RAG reporting and a steering committee for the platform program."]},
+
+"risk_mgmt": {"what": "Seeing what could go wrong early, deciding what to do about it, and escalating before it becomes a crisis.",
+ "subskills": [
+  {"id":"risk_identification","name":"Identifying risks","patterns":["identif(y|ying) risks?","risk (register|log|assessment|analysis)","pre-?mortem","what could go wrong"],"example":"A pre-mortem before kickoff: 'it's six months later and it failed; why?'"},
+  {"id":"mitigation","name":"Mitigation & contingency","patterns":["mitigat","contingenc","plan b","fallback","buffer","de-?risk"],"example":"Each top risk has an owner, a trigger, and a plan B."},
+  {"id":"escalation","name":"Escalation","patterns":["escalat","raise (the )?flag","surface (issues|risks)","early warning","no surprises"],"example":"Escalate with options, not just the problem, and early."},
+  {"id":"unblocking","name":"Unblocking","patterns":["unblock","remove (blockers|obstacles|roadblocks)","clear the path","resolve (issues|blockers)"],"example":"Spend your week removing the one thing the team is stuck on."}],
+ "ladder": {"associate":"Flags risks in their area and keeps a simple risk list.","mid":"Owns the risk register for a program; mitigates and escalates.","senior":"Anticipates cross-team and business risks; shapes contingency plans.","lead":"Sets risk tolerance and escalation norms for the org."},
+ "build": ["Practice: run a pre-mortem on any plan you make.","Course: risk management is a module in most PM certifications.","At work: keep the risk register for your project and review it in the weekly sync."],
+ "signals": ["Identified the vendor dependency risk three months early; secured a second supplier.","Ran pre-mortems on all tier-1 launches; zero launch-day rollbacks in 2024."]},
+
+"execution": {"what": "Getting things done reliably and well: driving to outcomes, holding quality, and keeping the details from slipping.",
+ "subskills": [
+  {"id":"driving_to_done","name":"Driving to done","patterns":["drive (to|toward) (completion|closure|done)","deliver(ing)? on (time|commitments)","ship(ping)? on time","track record of (delivering|shipping)","get(ting)? (it|things) done"],"example":"Every project has a date, an owner, and a weekly check."},
+  {"id":"detail","name":"Attention to detail","patterns":["attention to detail","detail[- ]oriented","meticulous","thorough","rigor"],"example":"Check the empty state, the error copy, and the email template yourself."},
+  {"id":"operational_excellence","name":"Operational excellence","patterns":["operational excellence","operational rigor","high[- ]quality","quality bar","excellence"],"example":"Launch checklists, dashboards, and a post-launch review, every time."},
+  {"id":"results","name":"Results orientation","patterns":["results[- ](oriented|driven)","outcome[- ](oriented|driven|focused)","impact","measurable results"],"example":"Report what changed for customers and the business, not what shipped."}],
+ "ladder": {"associate":"Delivers features on time with few surprises.","mid":"Reliably lands quarter-sized initiatives with quality.","senior":"Lands big, multi-team bets; known as someone who ships.","lead":"Builds an org that executes; sets the quality bar."},
+ "build": ["Ship things: side projects, open-source contributions, anything with a 'done' state.","Keep a results log: what you delivered, when, and what it changed.","At work: take a slipping project and get it back on track."],
+ "signals": ["Shipped 9 of 9 committed H1 initiatives; two ahead of schedule.","Known for launch quality: zero rollbacks across 20 releases."]},
+
+"process_improvement": {"what": "Designing how work gets done so it scales: operating cadence, mechanisms, playbooks, and removing waste.",
+ "subskills": [
+  {"id":"operating_cadence","name":"Operating cadence & mechanisms","patterns":["operating (cadence|rhythm|model|mechanism)","mechanisms?","rituals?","cadence","planning process"],"example":"Quarterly planning, monthly reviews, weekly syncs, each with a doc."},
+  {"id":"playbooks","name":"Playbooks & templates","patterns":["playbook","template","standardi","\\bSOPs?\\b","best practices","checklist"],"example":"A launch playbook anyone can run without you."},
+  {"id":"lean","name":"Lean & waste removal","patterns":["\\blean\\b","six sigma","kaizen","waste","streamlin","efficien","bottleneck","automat"],"example":"Map the process, find the bottleneck, fix that first."},
+  {"id":"scaling_process","name":"Scaling process with the org","patterns":["scal(e|ing) (the )?(process|team|organization|operations)","as (we|the company) (grow|scale)","right-?siz(e|ing) process","minimum viable process"],"example":"Add process only when its absence is costing more than it would."}],
+ "ladder": {"associate":"Follows and improves the team's templates.","mid":"Designs the operating cadence for their team.","senior":"Builds mechanisms used across teams; removes systemic waste.","lead":"Designs the org's operating model."},
+ "build": ["Course: a lean or operations management intro (many MBA cores are online).","Project: document and improve any recurring process you're part of; measure the time saved.","At work: write the playbook for something your team does repeatedly."],
+ "signals": ["Built the product operating cadence (planning, reviews, launches) for a 40-person org.","Cut launch prep time 50% with a standardized playbook and checklist."]},
+
+"quality_testing": {"what": "Making sure what ships works: test plans, acceptance, beta programs, and the quality bar before and after launch.",
+ "subskills": [
+  {"id":"test_planning","name":"Test plans & acceptance","patterns":["test (plan|cases|strategy)","acceptance (testing|criteria)","\\bUAT\\b","\\bQA\\b","verification"],"example":"Write the acceptance tests with the spec; run UAT yourself."},
+  {"id":"bug_triage","name":"Bug triage & prioritization","patterns":["bug (triage|bash|prioriti)","defects?","severity","\\bP[0-3]\\b bugs","known issues"],"example":"Weekly triage with clear severity rules; P1s block release."},
+  {"id":"beta_quality","name":"Beta & dogfooding","patterns":["dogfood","beta","internal testing","early access","canary"],"example":"Dogfood for two weeks before any customer sees it."},
+  {"id":"quality_metrics","name":"Quality metrics","patterns":["quality metrics","crash","error rate","defect (rate|density)","escaped bugs","regression"],"example":"Track escaped bugs per release and the top causes."}],
+ "ladder": {"associate":"Writes acceptance criteria and tests features before release.","mid":"Owns the quality bar for their features; runs bug triage.","senior":"Sets quality standards for a product; owns beta and dogfood programs.","lead":"Sets the org's quality bar and release criteria."},
+ "build": ["Course: an intro to software testing (ISTQB foundation material is free).","Project: write a test plan for a feature you use and find three bugs.","At work: run the bug bash for the next release."],
+ "signals": ["Instituted release criteria and bug bashes; escaped P1s fell 70%.","Ran a 200-customer beta program for the redesign."]},
+
+"vendor_mgmt": {"what": "Buying and managing what you don't build: vendor selection, contracts, SLAs, and budgets.",
+ "subskills": [
+  {"id":"vendor_selection","name":"Vendor evaluation & selection","patterns":["vendor (selection|evaluation|assessment)","\\bRFPs?\\b","\\bRFIs?\\b","build (vs|versus|or) buy","due diligence","proof of concept"],"example":"A scored RFP with a hands-on proof of concept for the finalists."},
+  {"id":"contracts","name":"Contracts & SLAs","patterns":["contract","\\bSOWs?\\b","\\bMSAs?\\b","\\bSLAs?\\b","terms","renewal","negotiat"],"example":"Negotiate SLAs with teeth and an exit clause."},
+  {"id":"budget_mgmt","name":"Budget management","patterns":["budget","spend","cost (control|management)","forecast (spend|cost)","procurement"],"example":"Own the budget line and forecast it quarterly."},
+  {"id":"vendor_relationship","name":"Ongoing vendor management","patterns":["vendor (management|relationship|performance)","supplier","third[- ]party","outsourc","agency","partner (performance|reviews)"],"example":"Quarterly reviews against the SLA with escalation paths."}],
+ "ladder": {"associate":"Tracks vendor deliverables and invoices.","mid":"Runs a vendor evaluation; manages one or two vendor relationships.","senior":"Owns build-vs-buy decisions and major contracts for a product.","lead":"Owns vendor strategy and budget across products."},
+ "build": ["Course: procurement or negotiation basics.","Project: write an RFP for a tool category you know and score three vendors.","At work: run the next tool evaluation for your team end to end."],
+ "signals": ["Ran the RFP and negotiation for the analytics vendor; saved 30% vs. list.","Managed $2M in vendor contracts with quarterly SLA reviews."]},
+
+"jira": {"what": "The work-tracking and documentation tools product teams run on.",
+ "subskills": [
+  {"id":"jira_use","name":"Jira / Linear / Asana workflows","patterns":["\\bjira\\b","\\blinear\\b","\\basana\\b","\\btrello\\b","\\bclickup\\b","azure devops","\\bADO\\b","monday"],"example":"Set up the board, workflows, and automation your team actually uses."},
+  {"id":"docs_tools","name":"Confluence / Notion documentation","patterns":["confluence","\\bnotion\\b","google docs","coda","wiki"],"example":"A single, findable home for specs, decisions, and runbooks."},
+  {"id":"roadmap_tools","name":"Roadmapping tools","patterns":["productboard","\\baha!?\\b","roadmunk","jira product discovery","\\bPPM\\b"],"example":"Connect feedback to roadmap items so prioritization has a trail."}],
+ "build": ["Set up a free Jira or Linear workspace for a side project and run it properly.","At work: become the person who maintains the team's board and templates."],
+ "signals": ["Administered Jira for a 60-person org; built the intake and triage workflows.","Set up Productboard to link 2,000 feedback items to roadmap themes."]},
+
+"figma": {"what": "Design and whiteboarding tools well enough to sketch, prototype, and collaborate with designers.",
+ "subskills": [
+  {"id":"figma_use","name":"Figma for wireframes & prototypes","patterns":["\\bfigma\\b","\\bsketch\\b","adobe xd","prototype"],"example":"Build a clickable prototype from the design system components."},
+  {"id":"whiteboarding","name":"Whiteboarding (Miro, FigJam)","patterns":["miro","figjam","mural","lucid(chart|spark)?","whiteboard","diagram"],"example":"Run a remote mapping workshop in FigJam."}],
+ "build": ["Figma's own tutorials; recreate three screens of an app you like.","At work: wireframe your next feature before briefing design."],
+ "signals": ["Prototyped the onboarding redesign in Figma; validated with 8 users before build.","Facilitated journey-mapping workshops in Miro with 20 stakeholders."]},
+
+"analytics_tools": {"what": "Product analytics and BI tools: setting up tracking, building dashboards, running analyses.",
+ "subskills": [
+  {"id":"product_analytics","name":"Product analytics (Amplitude, Mixpanel, Pendo)","patterns":["amplitude","mixpanel","pendo","heap","fullstory","hotjar","posthog","product analytics"],"example":"Build the funnel and retention charts yourself; set up the events."},
+  {"id":"bi_tools","name":"BI tools (Looker, Tableau, Power BI)","patterns":["looker","tableau","power ?bi","metabase","\\bmode\\b","superset","\\bhex\\b","\\bsigma\\b","quicksight","\\bBI\\b"],"example":"Own the team dashboard in Looker and the model behind it."},
+  {"id":"web_analytics","name":"Web analytics (GA4)","patterns":["google analytics","\\bGA4\\b","search console","\\bUTM\\b","tag manager","\\bGTM\\b"],"example":"Attribute signups to channels with UTM discipline."}],
+ "build": ["Amplitude and Mixpanel both have free tiers and free certification courses.","Project: instrument a side project and build a funnel, retention, and feature-usage dashboard.","At work: build your own dashboards instead of requesting them."],
+ "signals": ["Amplitude-certified; built the activation funnel and retention dashboards used by 5 teams.","Built the Looker explore for product usage; analyst requests dropped 60%."]},
+
+"experimentation_tools": {"what": "Platforms for running experiments and controlling rollouts.",
+ "subskills": [
+  {"id":"exp_platforms","name":"Experimentation platforms","patterns":["optimizely","statsig","\\bVWO\\b","eppo","growthbook","experiment(ation)? platform","in-?house (experimentation|testing) platform"],"example":"Configure the test, metrics, and exposure yourself."},
+  {"id":"feature_flags","name":"Feature flags & rollouts","patterns":["launchdarkly","feature flags?","feature toggles?","split\\.io","unleash","rollout"],"example":"Use flags for staged rollouts and kill switches, not just tests."}],
+ "build": ["Set up GrowthBook or Statsig's free tier on a side project and run one test.","At work: own the experiment configuration for your team's tests."],
+ "signals": ["Ran 30+ tests in Statsig; built the team's experiment review template.","Introduced LaunchDarkly for staged rollouts across the mobile app."]},
+
+"office_tools": {"what": "Spreadsheets and slides at a level that supports real analysis and persuasion.",
+ "subskills": [
+  {"id":"spreadsheets","name":"Advanced spreadsheets","patterns":["\\bexcel\\b","google sheets","spreadsheet","pivot","vlookup","xlookup","index[/ ]match","power query"],"example":"Build a model with scenarios, pivots, and a clean summary tab."},
+  {"id":"slides","name":"Slides & decks","patterns":["powerpoint","google slides","keynote","\\bdecks?\\b","slides"],"example":"A deck where every slide title is the takeaway."}],
+ "build": ["Any spreadsheet modelling course; practice by rebuilding a public company's unit economics.","At work: own the planning model and the quarterly review deck."],
+ "signals": ["Built the capacity-planning model in Sheets used across 8 teams.","Produced the board-level product deck each quarter."]},
+
+"crm_tools": {"what": "Sales and customer tools: reading pipeline, pulling customer data, and understanding how the field works.",
+ "subskills": [
+  {"id":"crm_use","name":"CRM (Salesforce, HubSpot)","patterns":["salesforce","hubspot","\\bSFDC\\b","\\bCRM\\b","pipeline reports?","opportunit(y|ies)"],"example":"Pull win/loss and pipeline by segment from the CRM yourself."},
+  {"id":"call_intel","name":"Call intelligence & support tools","patterns":["\\bgong\\b","chorus","zendesk","intercom","gainsight","freshdesk","support tickets?"],"example":"Search Gong for every call that mentions your feature."}],
+ "build": ["Trailhead (Salesforce's free training) for CRM basics.","At work: get read access to the CRM and support tool and use them weekly."],
+ "signals": ["Built the Salesforce report that tracks feature-request mentions by deal size.","Reviewed 50 Gong calls per quarter to feed roadmap planning."]},
+
+"ai_tools": {"what": "Using AI tools in daily product work: prototyping, analysis, writing, and research, faster than before.",
+ "subskills": [
+  {"id":"ai_prototyping","name":"AI-assisted prototyping","patterns":["vibe[- ]cod","cursor","claude code","copilot","v0","lovable","replit","bolt","build(ing)? (prototypes|apps) with AI","prototype (with|using) AI"],"example":"Build a working prototype of the feature in an afternoon to test with users."},
+  {"id":"ai_analysis","name":"AI for analysis & synthesis","patterns":["chatgpt","claude","gemini","\\bLLMs? (for|to)","summari[sz]e","synthesi[sz]e (with|using) AI","AI-?assisted (analysis|research|synthesis)"],"example":"Synthesize 40 interview transcripts with an LLM, then verify by hand."},
+  {"id":"ai_workflow","name":"AI-native workflows","patterns":["AI-?native","AI-?first","automat(e|ing) (with|using) AI","agents? (for|to)","AI (fluency|literacy)","leverag(e|ing) AI"],"example":"Automate the weekly update draft from the ticket tracker."}],
+ "build": ["Build something with Cursor, Claude Code, or Replit this week; the only way to learn is to use them.","Project: prototype a feature idea with AI tools and test it with 5 users.","At work: pick one recurring task and automate it with an LLM."],
+ "signals": ["Prototyped 6 feature concepts with AI tools in Q1; 2 shipped after user tests.","Built an LLM pipeline that tags and summarizes support tickets daily."]}
+}

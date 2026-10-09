@@ -1,0 +1,15 @@
+{
+ "company": "KeyCorp",
+ "rank": 386,
+ "group": "fortune500",
+ "industry": "Commercial Banks",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.kcsllc.net/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "kcsllc.net",
+ "seconds": 48
+}

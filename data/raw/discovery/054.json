@@ -1,0 +1,51 @@
+{
+ "company": "Procter & Gamble",
+ "rank": 54,
+ "group": "fortune500",
+ "industry": "Household and Personal Products",
+ "ats": "workday",
+ "config": {
+  "host": "pg.wd5.myworkdayjobs.com",
+  "tenant": "pg",
+  "site": "1000"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.pgcareers.com"
+   },
+   "from": "https://www.pgcareers.com/us/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.pgplantjobs.com"
+   },
+   "from": "https://www.pgplantjobs.com/global/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/PGBPGNGLOBAL/en_us/desktop/assets/images/favicon.ico?v=1740047601088"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "pg.wd5.myworkdayjobs.com",
+    "tenant": "pg",
+    "site": "1000"
+   },
+   "from": "https://www.pgcareers.com/jp/ja",
+   "verify": "Product Manager"
+  }
+ ],
+ "domain": "pg.com",
+ "sample_title": "Product Manager",
+ "description_chars": 5380,
+ "seconds": 31
+}

@@ -1,0 +1,56 @@
+{
+ "company": "Vistra",
+ "rank": 251,
+ "group": "fortune500",
+ "industry": "Energy",
+ "ats": "phenom",
+ "config": {
+  "host": "careers.vistra.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings; phenom 0 product postings; phenom 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.vistra.com"
+   },
+   "from": "https://careers.vistra.com/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "jobs.vistra.com"
+   },
+   "from": "https://jobs.vistra.com/global/en/jointalentcommunity",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/VLIVYTGLOBAL/en_global/desktop/assets/images/favicon.ico?v=1777385336139",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.vistra.com:443"
+   },
+   "from": "https://www.vistra.com:443/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.vistra.com"
+   },
+   "from": "https://www.vistra.com/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "vistra.com",
+ "seconds": 31
+}

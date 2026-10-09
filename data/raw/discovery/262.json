@@ -1,0 +1,15 @@
+{
+ "company": "Targa Resources",
+ "rank": 262,
+ "group": "fortune500",
+ "industry": "Pipelines",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.targaresources.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "targaresources.com",
+ "seconds": 226
+}

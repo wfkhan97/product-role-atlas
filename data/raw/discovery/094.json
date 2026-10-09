@@ -1,0 +1,44 @@
+{
+ "company": "TIAA",
+ "rank": 94,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Mutual)",
+ "ats": "workday",
+ "config": {
+  "host": "tiaa.wd1.myworkdayjobs.com",
+  "tenant": "tiaa",
+  "site": "Search"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "tiaa.wd1.myworkdayjobs.com",
+    "tenant": "tiaa",
+    "site": "Search"
+   },
+   "from": "https://careers.tiaa.org/",
+   "verify": "Associate Product Owner"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.tiaa.org"
+   },
+   "from": "https://careers.tiaa.org/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.tiaa.org"
+   },
+   "from": "https://careers.tiaa.org/"
+  }
+ ],
+ "domain": "tiaa.org",
+ "sample_title": "Associate Product Owner",
+ "description_chars": 4281,
+ "seconds": 9
+}

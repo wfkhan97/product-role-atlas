@@ -1,0 +1,41 @@
+{
+ "company": "Avery Dennison",
+ "rank": 448,
+ "group": "fortune500",
+ "industry": "Packaging, Containers",
+ "ats": "smartrecruiters",
+ "config": {
+  "company": "AveryDennison"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.averydennison.com"
+   },
+   "from": "https://www.averydennison.com/en/home/careers/overview.html"
+  },
+  {
+   "ats": "smartrecruiters",
+   "config": {
+    "company": "external-referrals"
+   },
+   "from": "https://www.averydennison.com/en/home/careers/search-jobs.html",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "smartrecruiters",
+   "config": {
+    "company": "AveryDennison"
+   },
+   "from": "https://www.averydennison.com/en/home/careers/search-jobs.html",
+   "verify": "Senior Director, Product Management (eIL)"
+  }
+ ],
+ "domain": "averydennison.com",
+ "sample_title": "Senior Director, Product Management (eIL)",
+ "description_chars": 8016,
+ "seconds": 13
+}

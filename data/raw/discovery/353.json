@@ -1,0 +1,24 @@
+{
+ "company": "Wayfair",
+ "rank": 353,
+ "group": "fortune500",
+ "industry": "Internet Services and Retailing",
+ "ats": "paradox",
+ "config": {
+  "host": "www.aboutwayfair.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 product postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.aboutwayfair.com"
+   },
+   "from": "https://www.aboutwayfair.com/careers",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "wayfair.com",
+ "seconds": 45
+}

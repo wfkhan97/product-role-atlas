@@ -1,0 +1,30 @@
+{
+ "company": "Primoris Services",
+ "rank": 497,
+ "group": "fortune500",
+ "industry": "Engineering & Construction",
+ "ats": "workday",
+ "config": {
+  "host": "prim.wd108.myworkdayjobs.com",
+  "tenant": "prim",
+  "site": "Primoris"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "prim.wd108.myworkdayjobs.com",
+    "tenant": "prim",
+    "site": "Primoris"
+   },
+   "from": "https://www.prim.com/careers",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "prim.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 8
+}

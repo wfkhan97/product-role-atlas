@@ -1,0 +1,30 @@
+{
+ "company": "Rockwell Automation",
+ "rank": 467,
+ "group": "fortune500",
+ "industry": "Electronics, Electrical Equip.",
+ "ats": "workday",
+ "config": {
+  "host": "rockwellautomation.wd1.myworkdayjobs.com",
+  "tenant": "rockwellautomation",
+  "site": "External_Rockwell_Automation"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "rockwellautomation.wd1.myworkdayjobs.com",
+    "tenant": "rockwellautomation",
+    "site": "External_Rockwell_Automation"
+   },
+   "from": "https://rockwellautomation.wd1.myworkdayjobs.com/External_Rockwell_Automation",
+   "verify": "SAFe Product Manager"
+  }
+ ],
+ "domain": "rockwellautomation.com",
+ "sample_title": "SAFe Product Manager",
+ "description_chars": 5003,
+ "seconds": 18
+}

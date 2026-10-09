@@ -1,0 +1,30 @@
+{
+ "company": "American Electric Power",
+ "rank": 209,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "workday",
+ "config": {
+  "host": "aep.wd1.myworkdayjobs.com",
+  "tenant": "aep",
+  "site": "AEPCareerSite"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "aep.wd1.myworkdayjobs.com",
+    "tenant": "aep",
+    "site": "AEPCareerSite"
+   },
+   "from": "https://www.aep.com/careers/",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "aep.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 10
+}

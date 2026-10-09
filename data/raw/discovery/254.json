@@ -1,0 +1,37 @@
+{
+ "company": "Corteva",
+ "rank": 254,
+ "group": "fortune500",
+ "industry": "Food Production",
+ "ats": "eightfold",
+ "config": {
+  "host": "corteva.eightfold.ai",
+  "domain": "corteva.com",
+  "api": "pcsx"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "corteva.eightfold.ai",
+    "domain": "corteva.com",
+    "api": "pcsx"
+   },
+   "from": "https://careers.corteva.com",
+   "verify": "IT Product Lead, Digital Marketing and eCommerce"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.corteva.com"
+   },
+   "from": "https://careers.corteva.com"
+  }
+ ],
+ "domain": "corteva.ca",
+ "sample_title": "IT Product Lead, Digital Marketing and eCommerce",
+ "description_chars": 5127,
+ "seconds": 12
+}

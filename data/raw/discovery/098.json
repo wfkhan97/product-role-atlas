@@ -1,0 +1,15 @@
+{
+ "company": "Coca-Cola",
+ "rank": 98,
+ "group": "fortune500",
+ "industry": "Beverages",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.coca-cola.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "coca-cola.com",
+ "seconds": 47
+}

@@ -1,0 +1,30 @@
+{
+ "company": "ConocoPhillips",
+ "rank": 75,
+ "group": "fortune500",
+ "industry": "Mining, Crude-Oil Production",
+ "ats": "workday",
+ "config": {
+  "host": "conocophillips.wd1.myworkdayjobs.com",
+  "tenant": "conocophillips",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "conocophillips.wd1.myworkdayjobs.com",
+    "tenant": "conocophillips",
+    "site": "External"
+   },
+   "from": "https://careers.conocophillips.com/",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "conocophillips.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 25
+}

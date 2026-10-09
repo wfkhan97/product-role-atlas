@@ -1,0 +1,35 @@
+{
+ "company": "Molina Healthcare",
+ "rank": 104,
+ "group": "fortune500",
+ "industry": "Health Care: Insurance and Managed Care",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "hckd.fa.us2.oraclecloud.com",
+  "siteNumber": "CX_1"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "hckd.fa.us2.oraclecloud.com",
+    "siteNumber": "CX_1"
+   },
+   "from": "https://careers.molinahealthcare.com/",
+   "verify": "Product Owner (QNXT)"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.molinahealthcare.com"
+   },
+   "from": "https://careers.molinahealthcare.com/"
+  }
+ ],
+ "domain": "molinahealthcare.com",
+ "sample_title": "Product Owner (QNXT)",
+ "description_chars": 5012,
+ "seconds": 10
+}

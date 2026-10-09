@@ -1,0 +1,15 @@
+{
+ "company": "Monster Beverage",
+ "rank": 469,
+ "group": "fortune500",
+ "industry": "Beverages",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.monsterbevcorp.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "monsterbevcorp.com",
+ "seconds": 6
+}

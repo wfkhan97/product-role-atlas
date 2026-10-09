@@ -1,0 +1,32 @@
+{
+ "company": "Builders FirstSource",
+ "rank": 296,
+ "group": "fortune500",
+ "industry": "Building Materials, Glass",
+ "ats": "icims",
+ "config": {
+  "host": "www.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 product postings; jibe 0 product postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://careers.bldr.com/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "careers.bldr.com"
+   },
+   "from": "https://careers.bldr.com/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "bldr.com",
+ "seconds": 8
+}

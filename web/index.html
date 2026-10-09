@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product Role Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <h1>Everything a product role asks for</h1>
+    <p class="sub" id="subtitle">Loading open product roles…</p>
+  </div>
+  <div class="top-actions">
+    <button id="btn-match" class="primary">Match my resume or courses</button>
+    <a class="ghost" href="#" id="btn-about">About the data</a>
+  </div>
+</header>
+
+<main class="layout">
+  <aside class="rail left">
+    <section>
+      <h3>Role family</h3>
+      <div class="chips" id="family-chips"></div>
+    </section>
+    <section>
+      <h3>Level</h3>
+      <div class="chips" id="level-chips"></div>
+    </section>
+    <section>
+      <h3>Companies</h3>
+      <div class="chips" id="group-chips"></div>
+    </section>
+    <section>
+      <h3>Industry</h3>
+      <div class="chips" id="sector-chips"></div>
+    </section>
+    <section>
+      <h3>Company</h3>
+      <input id="company-search" type="search" placeholder="Type a company name…" autocomplete="off">
+      <div class="chips" id="company-chips"></div>
+      <div class="dropdown" id="company-options" hidden></div>
+    </section>
+    <section>
+      <h3>Location</h3>
+      <div class="chips" id="country-chips"></div>
+    </section>
+    <section>
+      <h3>Experience asked for</h3>
+      <div class="chips" id="yoe-chips"></div>
+    </section>
+    <section>
+      <h3>Specialisation (from the title)</h3>
+      <div class="chips" id="spec-chips"></div>
+    </section>
+    <section>
+      <h3>Education asked for</h3>
+      <div class="chips" id="degree-chips"></div>
+    </section>
+    <section>
+      <button id="clear-filters" class="ghost wide-btn">Reset all filters</button>
+    </section>
+    <section>
+      <h3>Skill clusters</h3>
+      <div class="legend" id="cluster-legend"></div>
+    </section>
+    <section>
+      <h3>Pick a specific posting</h3>
+      <input id="job-search" type="search" placeholder="Search company or title…" autocomplete="off">
+      <div class="joblist" id="job-list"></div>
+    </section>
+  </aside>
+
+  <section class="canvas-wrap">
+    <div class="canvas-hud">
+      <span id="hud-count"></span>
+      <span class="axis-toggle" id="axis-toggle">
+        <span class="hud-label">View:</span>
+        <button class="chip on" data-axis="3d" title="Three axes: drag to rotate, scroll to zoom">3D map</button>
+        <button class="chip" data-axis="career" title="Columns are skill areas; higher rows are asked for at more senior levels">Career map</button>
+        <button class="chip" data-axis="common" title="Right = asked for in most postings; up = at more senior levels">Table stakes vs. rare</button>
+        <button class="chip" data-axis="ic_mgmt" title="Left = staff/principal path; right = director/VP path">Which path</button>
+        <button class="chip" data-axis="tech_comm" title="Left = marketing/growth roles; right = technical/platform roles">Kind of role</button>
+        <button class="chip" data-axis="free" title="Cluster layout by co-occurrence">Free</button>
+      </span>
+      <span class="axis-toggle" id="axes3d">
+        <span class="hud-label">Across:</span><select id="ax-x" class="mini"></select>
+        <span class="hud-label">Depth:</span><select id="ax-z" class="mini"></select>
+        <button class="chip" id="reset-view" title="Reset rotation and zoom">reset</button>
+        <button class="chip" id="spin-view" title="Slowly rotate">spin</button>
+      </span>
+      <span class="axis-toggle">
+        <span class="hud-label">Sub-skills:</span>
+        <button class="chip on" data-subs="selected" title="Show a skill's sub-skills when you click it">on click</button>
+        <button class="chip" data-subs="all" title="Show every sub-skill as a small satellite dot">all</button>
+        <button class="chip" data-subs="none">off</button>
+      </span>
+      <span class="hint" id="axis-hint"></span>
+    </div>
+    <svg id="graph"></svg>
+  </section>
+
+  <aside class="rail right" id="detail">
+    <div class="empty">
+      <h3>Click a skill or a posting</h3>
+      <p>Dots are skills and requirements pulled from live postings. Size is how often the current slice of postings asks for it; height is the seniority at which it is asked for most. Lines connect requirements that tend to appear together.</p>
+    </div>
+  </aside>
+</main>
+
+<div class="modal" id="match-modal" hidden>
+  <div class="modal-card">
+    <button class="close" id="match-close" aria-label="Close">×</button>
+    <h2>How well do you match?</h2>
+    <p class="muted">Drop a resume (PDF, DOCX or TXT) or paste course names and descriptions. Everything runs in your browser; nothing is uploaded anywhere.</p>
+    <div class="match-grid">
+      <div>
+        <div class="drop" id="drop">
+          <p><strong>Drop a file here</strong> or <label class="link" for="file">choose one</label></p>
+          <input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden>
+          <p class="muted small" id="file-status"></p>
+        </div>
+        <textarea id="paste" rows="8" placeholder="…or paste resume text / a list of courses, e.g.
+CS 101 Intro to Programming — Python, data structures
+MKTG 340 Product Management — roadmaps, user research, PRDs, A/B testing"></textarea>
+      </div>
+      <div>
+        <label class="field">Compare against
+          <select id="match-target"></select>
+        </label>
+        <button id="run-match" class="primary wide">Score my match</button>
+        <p class="muted small">Scoring is keyword-based against the same taxonomy used to tag the postings. Treat it as a gap finder, not a verdict.</p>
+      </div>
+    </div>
+    <div id="match-results" hidden></div>
+  </div>
+</div>
+
+<div class="modal" id="about-modal" hidden>
+  <div class="modal-card">
+    <button class="close" id="about-close" aria-label="Close">×</button>
+    <h2>About the data</h2>
+    <div id="about-body"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

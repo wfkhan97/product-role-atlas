@@ -1,0 +1,15 @@
+{
+ "company": "U.S. Bancorp",
+ "rank": 110,
+ "group": "fortune500",
+ "industry": "Commercial Banks",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.usbancorpassetmanagement.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "usbancorpassetmanagement.com",
+ "seconds": 11
+}

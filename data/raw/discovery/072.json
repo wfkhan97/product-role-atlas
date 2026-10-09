@@ -1,0 +1,15 @@
+{
+ "company": "Publix Super Markets",
+ "rank": 72,
+ "group": "fortune500",
+ "industry": "Food and Drug Stores",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.publixstockholder.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "publixstockholder.com",
+ "seconds": 17
+}

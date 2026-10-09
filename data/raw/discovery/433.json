@@ -1,0 +1,39 @@
+{
+ "company": "QVC Group",
+ "rank": 433,
+ "group": "fortune500",
+ "industry": "Internet Services and Retailing",
+ "ats": "workday",
+ "config": {
+  "host": "qvc.wd5.myworkdayjobs.com",
+  "tenant": "qvc",
+  "site": "QRG"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "qvc.wd5.myworkdayjobs.com",
+    "tenant": "qvc",
+    "site": "QRG"
+   },
+   "from": "https://careers.qvcgrp.com/",
+   "verify": "(board reachable; no product title on first pages)"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "qvc.wd5.myworkdayjobs.com",
+    "tenant": "qvc",
+    "site": "QVCEurope"
+   },
+   "from": "https://careers.qvcgrp.com/"
+  }
+ ],
+ "domain": "qvcgrp.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 17
+}

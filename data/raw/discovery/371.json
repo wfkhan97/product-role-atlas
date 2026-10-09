@@ -1,0 +1,30 @@
+{
+ "company": "J.B. Hunt Transport Services",
+ "rank": 371,
+ "group": "fortune500",
+ "industry": "Trucking, Truck Leasing",
+ "ats": "workday",
+ "config": {
+  "host": "jbhunt.wd501.myworkdayjobs.com",
+  "tenant": "jbhunt",
+  "site": "Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "jbhunt.wd501.myworkdayjobs.com",
+    "tenant": "jbhunt",
+    "site": "Careers"
+   },
+   "from": "https://careers.jbhunt.com/",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "jbhunt.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 13
+}

@@ -1,0 +1,37 @@
+{
+ "company": "Xylem",
+ "rank": 443,
+ "group": "fortune500",
+ "industry": "Industrial Machinery",
+ "ats": "workday",
+ "config": {
+  "host": "xylem.wd5.myworkdayjobs.com",
+  "tenant": "xylem",
+  "site": "xylem-careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "xylem.wd5.myworkdayjobs.com",
+    "tenant": "xylem",
+    "site": "xylem-careers"
+   },
+   "from": "https://www.xylem.com/en-us/careers/",
+   "verify": "Director, Product Management, Industrial Treatment Solutions"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.xylem.com"
+   },
+   "from": "https://www.xylem.com/en-us/careers/"
+  }
+ ],
+ "domain": "xylem.com",
+ "sample_title": "Director, Product Management, Industrial Treatment Solutions",
+ "description_chars": 9358,
+ "seconds": 15
+}

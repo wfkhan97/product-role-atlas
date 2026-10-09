@@ -1,0 +1,96 @@
+{
+ "company": "Post Holdings",
+ "rank": 479,
+ "group": "fortune500",
+ "industry": "Food Consumer Products",
+ "ats": "icims",
+ "config": {
+  "host": "postholdings.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 product postings; icims 0 product postings; icims 0 product postings; icims 0 product postings; icims 0 product postings; icims 0 product postings; icims 0 product postings; icims 0 product postings; icims 0 product postings; jibe 0 product postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "postholdings.icims.com"
+   },
+   "from": "https://jobs.postholdings.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://jobs.postholdings.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "internal-postholdings.icims.com"
+   },
+   "from": "https://jobs.postholdings.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "postholdingsjobs-postholdings.icims.com"
+   },
+   "from": "https://jobs.postholdings.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "michaelfoodssljobs-postholdings.icims.com"
+   },
+   "from": "https://jobs.postholdings.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "michaelfoodshrjobs-postholdings.icims.com"
+   },
+   "from": "https://jobs.postholdings.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "bobevanssljobs-postholdings.icims.com"
+   },
+   "from": "https://jobs.postholdings.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "bobevanshrjobs-postholdings.icims.com"
+   },
+   "from": "https://jobs.postholdings.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "crystalfarmssljobs-postholdings.icims.com"
+   },
+   "from": "https://jobs.postholdings.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "jobs.postholdings.com"
+   },
+   "from": "https://jobs.postholdings.com/careers-home",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "postholdings.com",
+ "seconds": 16
+}

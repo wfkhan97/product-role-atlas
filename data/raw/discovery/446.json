@@ -1,0 +1,44 @@
+{
+ "company": "PVH",
+ "rank": 446,
+ "group": "fortune500",
+ "industry": "Apparel",
+ "ats": "workday",
+ "config": {
+  "host": "pvh.wd1.myworkdayjobs.com",
+  "tenant": "pvh",
+  "site": "PVH_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.pvh.com"
+   },
+   "from": "https://careers.pvh.com/us/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/PCAPCAUS/en_us/desktop/assets/images/favicon.ico?v=1783951501384"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "pvh.wd1.myworkdayjobs.com",
+    "tenant": "pvh",
+    "site": "PVH_Careers"
+   },
+   "from": "https://careers.pvh.com/us/en/search-results",
+   "verify": "Consumer Data Product Manager - PVH Corp."
+  }
+ ],
+ "domain": "pvh.com",
+ "sample_title": "Consumer Data Product Manager - PVH Corp.",
+ "description_chars": 8379,
+ "seconds": 23
+}

@@ -1,0 +1,28 @@
+{
+ "company": "Fluor",
+ "rank": 292,
+ "group": "fortune500",
+ "industry": "Engineering & Construction",
+ "ats": "eightfold",
+ "config": {
+  "host": "fluor.eightfold.ai",
+  "domain": "fluor.com",
+  "api": "pcsx"
+ },
+ "verified": false,
+ "notes": "candidates: eightfold 0 product postings",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "fluor.eightfold.ai",
+    "domain": "fluor.com",
+    "api": "pcsx"
+   },
+   "from": "https://careers.fluor.com/careers",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "fluor.com",
+ "seconds": 6
+}

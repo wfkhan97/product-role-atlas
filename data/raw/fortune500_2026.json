@@ -1,0 +1,4002 @@
+[
+ {
+  "rank": 1,
+  "company": "Amazon",
+  "revenue_m": "$716,924",
+  "industry": "Internet Services and Retailing",
+  "state": "Washington",
+  "ceo": "Andrew R. Jassy"
+ },
+ {
+  "rank": 2,
+  "company": "Walmart",
+  "revenue_m": "$713,163",
+  "industry": "General Merchandisers",
+  "state": "Arkansas",
+  "ceo": "John R. Furner"
+ },
+ {
+  "rank": 3,
+  "company": "UnitedHealth Group",
+  "revenue_m": "$447,567",
+  "industry": "Health Care: Insurance and Managed Care",
+  "state": "Minnesota",
+  "ceo": "Stephen J. Hemsley"
+ },
+ {
+  "rank": 4,
+  "company": "Apple",
+  "revenue_m": "$416,161",
+  "industry": "Computers, Office Equipment",
+  "state": "California",
+  "ceo": "Tim Cook"
+ },
+ {
+  "rank": 5,
+  "company": "Alphabet",
+  "revenue_m": "$402,836",
+  "industry": "Internet Services and Retailing",
+  "state": "California",
+  "ceo": "Sundar Pichai"
+ },
+ {
+  "rank": 6,
+  "company": "CVS Health",
+  "revenue_m": "$402,067",
+  "industry": "Health Care: Pharmacy and Other Services",
+  "state": "Rhode Island",
+  "ceo": "David Joyner"
+ },
+ {
+  "rank": 7,
+  "company": "Berkshire Hathaway",
+  "revenue_m": "$371,444",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Nebraska",
+  "ceo": "Greg Abel"
+ },
+ {
+  "rank": 8,
+  "company": "McKesson",
+  "revenue_m": "$359,051",
+  "industry": "Wholesalers: Health Care",
+  "state": "Texas",
+  "ceo": "Brian Tyler"
+ },
+ {
+  "rank": 9,
+  "company": "Exxon Mobil",
+  "revenue_m": "$332,238",
+  "industry": "Petroleum Refining",
+  "state": "Texas",
+  "ceo": "Darren Woods"
+ },
+ {
+  "rank": 10,
+  "company": "Cencora",
+  "revenue_m": "$321,332.8",
+  "industry": "Wholesalers: Health Care",
+  "state": "Pennsylvania",
+  "ceo": "Robert Mauch"
+ },
+ {
+  "rank": 11,
+  "company": "Microsoft",
+  "revenue_m": "$281,724",
+  "industry": "Computer Software",
+  "state": "Washington",
+  "ceo": "Satya Nadella"
+ },
+ {
+  "rank": 12,
+  "company": "JPMorgan Chase",
+  "revenue_m": "$280,345",
+  "industry": "Commercial Banks",
+  "state": "New York",
+  "ceo": "Jamie Dimon"
+ },
+ {
+  "rank": 13,
+  "company": "Costco Wholesale",
+  "revenue_m": "$275,235",
+  "industry": "General Merchandisers",
+  "state": "Washington",
+  "ceo": "Ron Vachris"
+ },
+ {
+  "rank": 14,
+  "company": "Cigna Group",
+  "revenue_m": "$274,900",
+  "industry": "Health Care: Pharmacy and Other Services",
+  "state": "Connecticut",
+  "ceo": "David Cordani"
+ },
+ {
+  "rank": 15,
+  "company": "Cardinal Health",
+  "revenue_m": "$222,578",
+  "industry": "Wholesalers: Health Care",
+  "state": "Ohio",
+  "ceo": "Jason Hollar"
+ },
+ {
+  "rank": 16,
+  "company": "Nvidia",
+  "revenue_m": "$215,938",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "California",
+  "ceo": "Jensen Huang"
+ },
+ {
+  "rank": 17,
+  "company": "Meta Platforms",
+  "revenue_m": "$200,966",
+  "industry": "Internet Services and Retailing",
+  "state": "California",
+  "ceo": "Mark Zuckerberg"
+ },
+ {
+  "rank": 18,
+  "company": "Elevance Health",
+  "revenue_m": "$199,125",
+  "industry": "Health Care: Insurance and Managed Care",
+  "state": "Indiana",
+  "ceo": "Gail Boudreaux"
+ },
+ {
+  "rank": 19,
+  "company": "Centene",
+  "revenue_m": "$194,777",
+  "industry": "Health Care: Insurance and Managed Care",
+  "state": "Missouri",
+  "ceo": "Sarah London"
+ },
+ {
+  "rank": 20,
+  "company": "Bank of America",
+  "revenue_m": "$191,567",
+  "industry": "Commercial Banks",
+  "state": "North Carolina",
+  "ceo": "Brian Moynihan"
+ },
+ {
+  "rank": 21,
+  "company": "Chevron",
+  "revenue_m": "$189,031",
+  "industry": "Petroleum Refining",
+  "state": "Texas",
+  "ceo": "Michael Wirth"
+ },
+ {
+  "rank": 22,
+  "company": "Ford Motor",
+  "revenue_m": "$187,267",
+  "industry": "Motor Vehicles & Parts",
+  "state": "Michigan",
+  "ceo": "James Farley Jr."
+ },
+ {
+  "rank": 23,
+  "company": "General Motors",
+  "revenue_m": "$185,019",
+  "industry": "Motor Vehicles & Parts",
+  "state": "Michigan",
+  "ceo": "Mary Barra"
+ },
+ {
+  "rank": 24,
+  "company": "Citigroup",
+  "revenue_m": "$168,297",
+  "industry": "Commercial Banks",
+  "state": "New York",
+  "ceo": "Jane Fraser"
+ },
+ {
+  "rank": 25,
+  "company": "Home Depot",
+  "revenue_m": "$164,683",
+  "industry": "Specialty Retailers: Other",
+  "state": "Georgia",
+  "ceo": "Ted Decker"
+ },
+ {
+  "rank": 26,
+  "company": "Fannie Mae",
+  "revenue_m": "$159,169",
+  "industry": "Diversified Financials",
+  "state": "District of Columbia",
+  "ceo": "Priscilla Almodovar"
+ },
+ {
+  "rank": 27,
+  "company": "Kroger",
+  "revenue_m": "$147,642",
+  "industry": "Food and Drug Stores",
+  "state": "Ohio",
+  "ceo": "Ron Sargent"
+ },
+ {
+  "rank": 28,
+  "company": "Verizon Communications",
+  "revenue_m": "$138,191",
+  "industry": "Telecommunications",
+  "state": "New York",
+  "ceo": "Hans Vestberg"
+ },
+ {
+  "rank": 29,
+  "company": "Phillips 66",
+  "revenue_m": "$136,560",
+  "industry": "Petroleum Refining",
+  "state": "Texas",
+  "ceo": "Mark Lashier"
+ },
+ {
+  "rank": 30,
+  "company": "Marathon Petroleum",
+  "revenue_m": "$135,222",
+  "industry": "Petroleum Refining",
+  "state": "Ohio",
+  "ceo": "Maryann Mannen"
+ },
+ {
+  "rank": 31,
+  "company": "StoneX Group",
+  "revenue_m": "$132,378.2",
+  "industry": "Diversified Financials",
+  "state": "New York",
+  "ceo": "Philip Smith"
+ },
+ {
+  "rank": 32,
+  "company": "State Farm Insurance",
+  "revenue_m": "$132,311.6",
+  "industry": "Insurance: Property and Casualty (Mutual)",
+  "state": "Illinois",
+  "ceo": "Jon Farney"
+ },
+ {
+  "rank": 33,
+  "company": "Freddie Mac",
+  "revenue_m": "$131,688",
+  "industry": "Diversified Financials",
+  "state": "Virginia",
+  "ceo": "Michael Hutchins"
+ },
+ {
+  "rank": 34,
+  "company": "Humana",
+  "revenue_m": "$129,664",
+  "industry": "Health Care: Insurance and Managed Care",
+  "state": "Kentucky",
+  "ceo": "Jim Rechtin"
+ },
+ {
+  "rank": 35,
+  "company": "AT&T",
+  "revenue_m": "$125,648",
+  "industry": "Telecommunications",
+  "state": "Texas",
+  "ceo": "John Stankey"
+ },
+ {
+  "rank": 36,
+  "company": "Goldman Sachs Group",
+  "revenue_m": "$125,097",
+  "industry": "Commercial Banks",
+  "state": "New York",
+  "ceo": "David Solomon"
+ },
+ {
+  "rank": 37,
+  "company": "Comcast",
+  "revenue_m": "$123,707",
+  "industry": "Telecommunications",
+  "state": "Pennsylvania",
+  "ceo": "Brian Roberts"
+ },
+ {
+  "rank": 38,
+  "company": "Wells Fargo",
+  "revenue_m": "$123,529",
+  "industry": "Commercial Banks",
+  "state": "California",
+  "ceo": "Charles Scharf"
+ },
+ {
+  "rank": 39,
+  "company": "Morgan Stanley",
+  "revenue_m": "$119,662",
+  "industry": "Commercial Banks",
+  "state": "New York",
+  "ceo": "Edward Pick"
+ },
+ {
+  "rank": 40,
+  "company": "Valero Energy",
+  "revenue_m": "$115,939",
+  "industry": "Petroleum Refining",
+  "state": "Texas",
+  "ceo": "Lane Riggs"
+ },
+ {
+  "rank": 41,
+  "company": "Dell Technologies",
+  "revenue_m": "$113,538",
+  "industry": "Computers, Office Equipment",
+  "state": "Texas",
+  "ceo": "Michael Dell"
+ },
+ {
+  "rank": 42,
+  "company": "Target",
+  "revenue_m": "$104,780",
+  "industry": "General Merchandisers",
+  "state": "Minnesota",
+  "ceo": "Michael Fiddelke"
+ },
+ {
+  "rank": 43,
+  "company": "Tesla",
+  "revenue_m": "$94,827",
+  "industry": "Motor Vehicles & Parts",
+  "state": "Texas",
+  "ceo": "Elon Musk"
+ },
+ {
+  "rank": 44,
+  "company": "Walt Disney",
+  "revenue_m": "$94,425",
+  "industry": "Entertainment",
+  "state": "California",
+  "ceo": "Robert Iger"
+ },
+ {
+  "rank": 45,
+  "company": "Johnson & Johnson",
+  "revenue_m": "$94,193",
+  "industry": "Pharmaceuticals",
+  "state": "New Jersey",
+  "ceo": "Joaquin Duato"
+ },
+ {
+  "rank": 46,
+  "company": "PepsiCo",
+  "revenue_m": "$93,925",
+  "industry": "Food Consumer Products",
+  "state": "New York",
+  "ceo": "Ramon Laguarta"
+ },
+ {
+  "rank": 47,
+  "company": "Boeing",
+  "revenue_m": "$89,463",
+  "industry": "Aerospace & Defense",
+  "state": "Virginia",
+  "ceo": "Kelly Ortberg"
+ },
+ {
+  "rank": 48,
+  "company": "UPS",
+  "revenue_m": "$88,661",
+  "industry": "Mail, Package, and Freight Delivery",
+  "state": "Georgia",
+  "ceo": "Carol Tome"
+ },
+ {
+  "rank": 49,
+  "company": "RTX",
+  "revenue_m": "$88,603",
+  "industry": "Aerospace & Defense",
+  "state": "Virginia",
+  "ceo": "Christopher Calio"
+ },
+ {
+  "rank": 50,
+  "company": "FedEx",
+  "revenue_m": "$87,926",
+  "industry": "Mail, Package, and Freight Delivery",
+  "state": "Tennessee",
+  "ceo": "Rajesh Subramaniam"
+ },
+ {
+  "rank": 51,
+  "company": "Progressive",
+  "revenue_m": "$87,671",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Ohio",
+  "ceo": "Susan Patricia Griffith"
+ },
+ {
+  "rank": 52,
+  "company": "Lowe\u2019s",
+  "revenue_m": "$86,286",
+  "industry": "Specialty Retailers: Other",
+  "state": "North Carolina",
+  "ceo": "Marvin Ellison"
+ },
+ {
+  "rank": 53,
+  "company": "Energy Transfer",
+  "revenue_m": "$85,536",
+  "industry": "Pipelines",
+  "state": "Texas",
+  "ceo": "Thomas Long"
+ },
+ {
+  "rank": 54,
+  "company": "Procter & Gamble",
+  "revenue_m": "$84,284",
+  "industry": "Household and Personal Products",
+  "state": "Ohio",
+  "ceo": "Jon Moeller"
+ },
+ {
+  "rank": 55,
+  "company": "Sysco",
+  "revenue_m": "$81,370",
+  "industry": "Wholesalers: Food and Grocery",
+  "state": "Texas",
+  "ceo": "Kevin Hourican"
+ },
+ {
+  "rank": 56,
+  "company": "American Express",
+  "revenue_m": "$80,463",
+  "industry": "Diversified Financials",
+  "state": "New York",
+  "ceo": "Stephen Squeri"
+ },
+ {
+  "rank": 57,
+  "company": "Albertsons",
+  "revenue_m": "$80,390.9",
+  "industry": "Food and Drug Stores",
+  "state": "Idaho",
+  "ceo": "Susan Morris"
+ },
+ {
+  "rank": 58,
+  "company": "Archer Daniels Midland",
+  "revenue_m": "$80,269",
+  "industry": "Food Production",
+  "state": "Illinois",
+  "ceo": "Juan Luciano"
+ },
+ {
+  "rank": 59,
+  "company": "MetLife",
+  "revenue_m": "$77,084",
+  "industry": "Insurance: Life, Health (Stock)",
+  "state": "New York",
+  "ceo": "Michel Khalaf"
+ },
+ {
+  "rank": 60,
+  "company": "HCA Healthcare",
+  "revenue_m": "$75,600",
+  "industry": "Health Care: Medical Facilities",
+  "state": "Tennessee",
+  "ceo": "Samuel Hazen"
+ },
+ {
+  "rank": 61,
+  "company": "Lockheed Martin",
+  "revenue_m": "$75,048",
+  "industry": "Aerospace & Defense",
+  "state": "Maryland",
+  "ceo": "James Taiclet"
+ },
+ {
+  "rank": 62,
+  "company": "New York Life Insurance",
+  "revenue_m": "$73,145.5",
+  "industry": "Insurance: Life, Health (Mutual)",
+  "state": "New York",
+  "ceo": "Craig DeSanto"
+ },
+ {
+  "rank": 63,
+  "company": "Capital One Financial",
+  "revenue_m": "$69,252",
+  "industry": "Commercial Banks",
+  "state": "Virginia",
+  "ceo": "Richard Fairbank"
+ },
+ {
+  "rank": 64,
+  "company": "Allstate",
+  "revenue_m": "$67,685",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Illinois",
+  "ceo": "Thomas Wilson"
+ },
+ {
+  "rank": 65,
+  "company": "Caterpillar",
+  "revenue_m": "$67,589",
+  "industry": "Construction and Farm Machinery",
+  "state": "Texas",
+  "ceo": "Joseph E. Creed"
+ },
+ {
+  "rank": 66,
+  "company": "IBM",
+  "revenue_m": "$67,535",
+  "industry": "Information Technology Services",
+  "state": "New York",
+  "ceo": "Arvind Krishna"
+ },
+ {
+  "rank": 67,
+  "company": "Eli Lilly",
+  "revenue_m": "$65,179",
+  "industry": "Pharmaceuticals",
+  "state": "Indiana",
+  "ceo": "David Ricks"
+ },
+ {
+  "rank": 68,
+  "company": "Merck",
+  "revenue_m": "$65,011",
+  "industry": "Pharmaceuticals",
+  "state": "New Jersey",
+  "ceo": "Robert Davis"
+ },
+ {
+  "rank": 69,
+  "company": "Nationwide",
+  "revenue_m": "$64,929.8",
+  "industry": "Insurance: Property and Casualty (Mutual)",
+  "state": "Ohio",
+  "ceo": "Kirt Walker"
+ },
+ {
+  "rank": 70,
+  "company": "Broadcom",
+  "revenue_m": "$63,887",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "California",
+  "ceo": "Hock Tan"
+ },
+ {
+  "rank": 71,
+  "company": "Delta Air Lines",
+  "revenue_m": "$63,364",
+  "industry": "Airlines",
+  "state": "Georgia",
+  "ceo": "Edward Bastian"
+ },
+ {
+  "rank": 72,
+  "company": "Publix Super Markets",
+  "revenue_m": "$63,209",
+  "industry": "Food and Drug Stores",
+  "state": "Florida",
+  "ceo": "Kevin Murphy"
+ },
+ {
+  "rank": 73,
+  "company": "Pfizer",
+  "revenue_m": "$62,579",
+  "industry": "Pharmaceuticals",
+  "state": "New York",
+  "ceo": "Albert Bourla"
+ },
+ {
+  "rank": 74,
+  "company": "TD Synnex",
+  "revenue_m": "$62,508.1",
+  "industry": "Wholesalers: Electronics and Office Equipment",
+  "state": "California",
+  "ceo": "Patrick Zammit"
+ },
+ {
+  "rank": 75,
+  "company": "ConocoPhillips",
+  "revenue_m": "$61,548",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Texas",
+  "ceo": "Ryan Lance"
+ },
+ {
+  "rank": 76,
+  "company": "Galaxy Digital",
+  "revenue_m": "$61,355.7",
+  "industry": "Diversified Financials",
+  "state": "New York",
+  "ceo": "Mike Novogratz"
+ },
+ {
+  "rank": 77,
+  "company": "AbbVie",
+  "revenue_m": "$61,160",
+  "industry": "Pharmaceuticals",
+  "state": "Illinois",
+  "ceo": "Robert Michael"
+ },
+ {
+  "rank": 78,
+  "company": "Prudential Financial",
+  "revenue_m": "$60,774",
+  "industry": "Insurance: Life, Health (Stock)",
+  "state": "New Jersey",
+  "ceo": "Andrew Sullivan"
+ },
+ {
+  "rank": 79,
+  "company": "TJX",
+  "revenue_m": "$60,372",
+  "industry": "Specialty Retailers: Apparel",
+  "state": "Massachusetts",
+  "ceo": "Ernie Herrman"
+ },
+ {
+  "rank": 80,
+  "company": "Performance Food Group",
+  "revenue_m": "$59,898.9",
+  "industry": "Wholesalers: Food and Grocery",
+  "state": "Virginia",
+  "ceo": "George Holm"
+ },
+ {
+  "rank": 81,
+  "company": "United Airlines Holdings",
+  "revenue_m": "$59,070",
+  "industry": "Airlines",
+  "state": "Illinois",
+  "ceo": "Scott Kirby"
+ },
+ {
+  "rank": 82,
+  "company": "Oracle",
+  "revenue_m": "$57,399",
+  "industry": "Computer Software",
+  "state": "Texas",
+  "ceo": "Safra Catz"
+ },
+ {
+  "rank": 83,
+  "company": "Cisco Systems",
+  "revenue_m": "$56,654",
+  "industry": "Network and Other Communications Equipment",
+  "state": "California",
+  "ceo": "Charles Robbins"
+ },
+ {
+  "rank": 84,
+  "company": "HP",
+  "revenue_m": "$55,295",
+  "industry": "Computers, Office Equipment",
+  "state": "California",
+  "ceo": "Enrique Lores"
+ },
+ {
+  "rank": 85,
+  "company": "Charter Communications",
+  "revenue_m": "$54,774",
+  "industry": "Telecommunications",
+  "state": "Connecticut",
+  "ceo": "Christopher Winfrey"
+ },
+ {
+  "rank": 86,
+  "company": "American Airlines Group",
+  "revenue_m": "$54,633",
+  "industry": "Airlines",
+  "state": "Texas",
+  "ceo": "Robert Isom"
+ },
+ {
+  "rank": 87,
+  "company": "Tyson Foods",
+  "revenue_m": "$54,441",
+  "industry": "Food Production",
+  "state": "Arkansas",
+  "ceo": "Donnie King"
+ },
+ {
+  "rank": 88,
+  "company": "Intel",
+  "revenue_m": "$52,853",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "California",
+  "ceo": "Lip-Bu Tan"
+ },
+ {
+  "rank": 89,
+  "company": "Enterprise Products Partners",
+  "revenue_m": "$52,596",
+  "industry": "Pipelines",
+  "state": "Texas",
+  "ceo": "James Teague"
+ },
+ {
+  "rank": 90,
+  "company": "Ingram Micro Holding",
+  "revenue_m": "$52,556.3",
+  "industry": "Wholesalers: Electronics and Office Equipment",
+  "state": "California",
+  "ceo": "Paul Bay"
+ },
+ {
+  "rank": 91,
+  "company": "General Dynamics",
+  "revenue_m": "$52,550",
+  "industry": "Aerospace & Defense",
+  "state": "Virginia",
+  "ceo": "Phebe Novakovic"
+ },
+ {
+  "rank": 92,
+  "company": "Uber Technologies",
+  "revenue_m": "$52,017",
+  "industry": "Internet Services and Retailing",
+  "state": "California",
+  "ceo": "Dara Khosrowshahi"
+ },
+ {
+  "rank": 93,
+  "company": "USAA",
+  "revenue_m": "$51,499.2",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Texas",
+  "ceo": "Juan Andrade"
+ },
+ {
+  "rank": 94,
+  "company": "TIAA",
+  "revenue_m": "$50,604.7",
+  "industry": "Insurance: Life, Health (Mutual)",
+  "state": "New York",
+  "ceo": "Thasunda Brown Duckett"
+ },
+ {
+  "rank": 95,
+  "company": "Liberty Mutual Insurance Group",
+  "revenue_m": "$50,465",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Massachusetts",
+  "ceo": "Timothy Sweeney"
+ },
+ {
+  "rank": 96,
+  "company": "Travelers",
+  "revenue_m": "$48,828",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "New York",
+  "ceo": "Alan Schnitzer"
+ },
+ {
+  "rank": 97,
+  "company": "Bristol-Myers Squibb",
+  "revenue_m": "$48,194",
+  "industry": "Pharmaceuticals",
+  "state": "New Jersey",
+  "ceo": "Christopher Boerner"
+ },
+ {
+  "rank": 98,
+  "company": "Coca-Cola",
+  "revenue_m": "$47,941",
+  "industry": "Beverages",
+  "state": "Georgia",
+  "ceo": "Henrique Braun"
+ },
+ {
+  "rank": 99,
+  "company": "Nike",
+  "revenue_m": "$46,309",
+  "industry": "Apparel",
+  "state": "Oregon",
+  "ceo": "Elliott Hill"
+ },
+ {
+  "rank": 100,
+  "company": "Massachusetts Mutual Life",
+  "revenue_m": "$46,053.7",
+  "industry": "Insurance: Life, Health (Mutual)",
+  "state": "Massachusetts",
+  "ceo": "Roger Crandall"
+ },
+ {
+  "rank": 101,
+  "company": "GE Aerospace",
+  "revenue_m": "$45,855",
+  "industry": "Aerospace & Defense",
+  "state": "Ohio",
+  "ceo": "Lawrence Culp Jr."
+ },
+ {
+  "rank": 102,
+  "company": "Deere",
+  "revenue_m": "$45,684",
+  "industry": "Construction and Farm Machinery",
+  "state": "Illinois",
+  "ceo": "John May"
+ },
+ {
+  "rank": 103,
+  "company": "Plains GP Holdings",
+  "revenue_m": "$45,579",
+  "industry": "Pipelines",
+  "state": "Texas",
+  "ceo": "Wilfred Chiang"
+ },
+ {
+  "rank": 104,
+  "company": "Molina Healthcare",
+  "revenue_m": "$45,426",
+  "industry": "Health Care: Insurance and Managed Care",
+  "state": "California",
+  "ceo": "Joseph Zubretsky"
+ },
+ {
+  "rank": 105,
+  "company": "Netflix",
+  "revenue_m": "$45,183",
+  "industry": "Entertainment",
+  "state": "California",
+  "ceo": "Ted Sarandos"
+ },
+ {
+  "rank": 106,
+  "company": "Thermo Fisher Scientific",
+  "revenue_m": "$44,556",
+  "industry": "Scientific,Photographic and Control Equipment",
+  "state": "Massachusetts",
+  "ceo": "Marc Casper"
+ },
+ {
+  "rank": 107,
+  "company": "Abbott Laboratories",
+  "revenue_m": "$44,328",
+  "industry": "Medical Products and Equipment",
+  "state": "Illinois",
+  "ceo": "Robert Ford"
+ },
+ {
+  "rank": 108,
+  "company": "Qualcomm",
+  "revenue_m": "$44,284",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "California",
+  "ceo": "Cristiano Amon"
+ },
+ {
+  "rank": 109,
+  "company": "Northwestern Mutual",
+  "revenue_m": "$43,676.2",
+  "industry": "Insurance: Life, Health (Mutual)",
+  "state": "Wisconsin",
+  "ceo": "Timothy Gerend"
+ },
+ {
+  "rank": 110,
+  "company": "U.S. Bancorp",
+  "revenue_m": "$42,861",
+  "industry": "Commercial Banks",
+  "state": "Minnesota",
+  "ceo": "Gunjan Kedia"
+ },
+ {
+  "rank": 111,
+  "company": "Dollar General",
+  "revenue_m": "$42,724.4",
+  "industry": "Specialty Retailers: Other",
+  "state": "Tennessee",
+  "ceo": "Todd Vasos"
+ },
+ {
+  "rank": 112,
+  "company": "Northrop Grumman",
+  "revenue_m": "$41,954",
+  "industry": "Aerospace & Defense",
+  "state": "Virginia",
+  "ceo": "Kathy Warden"
+ },
+ {
+  "rank": 113,
+  "company": "Best Buy",
+  "revenue_m": "$41,691",
+  "industry": "Specialty Retailers: Other",
+  "state": "Minnesota",
+  "ceo": "Corie Barry"
+ },
+ {
+  "rank": 114,
+  "company": "Salesforce",
+  "revenue_m": "$41,525",
+  "industry": "Computer Software",
+  "state": "California",
+  "ceo": "Marc Benioff"
+ },
+ {
+  "rank": 115,
+  "company": "Bank of New York (BNY)",
+  "revenue_m": "$40,762",
+  "industry": "Commercial Banks",
+  "state": "New York",
+  "ceo": "Robin Vince"
+ },
+ {
+  "rank": 116,
+  "company": "Honeywell International",
+  "revenue_m": "$40,686",
+  "industry": "Industrial Machinery",
+  "state": "North Carolina",
+  "ceo": "Vimal Kapur"
+ },
+ {
+  "rank": 117,
+  "company": "Philip Morris International",
+  "revenue_m": "$40,648",
+  "industry": "Tobacco",
+  "state": "Connecticut",
+  "ceo": "Jacek Olczak"
+ },
+ {
+  "rank": 118,
+  "company": "CBRE Group",
+  "revenue_m": "$40,550",
+  "industry": "Real Estate",
+  "state": "Texas",
+  "ceo": "Robert Sulentic"
+ },
+ {
+  "rank": 119,
+  "company": "Visa",
+  "revenue_m": "$40,000",
+  "industry": "Financial Data Services",
+  "state": "California",
+  "ceo": "Ryan McInerney"
+ },
+ {
+  "rank": 120,
+  "company": "Dow",
+  "revenue_m": "$39,968",
+  "industry": "Chemicals",
+  "state": "Michigan",
+  "ceo": "James Fitterling"
+ },
+ {
+  "rank": 121,
+  "company": "US Foods Holding",
+  "revenue_m": "$39,424",
+  "industry": "Wholesalers: Food and Grocery",
+  "state": "Illinois",
+  "ceo": "David Flitman"
+ },
+ {
+  "rank": 122,
+  "company": "Mondelez International",
+  "revenue_m": "$38,537",
+  "industry": "Food Consumer Products",
+  "state": "Illinois",
+  "ceo": "Dirk Van de Put"
+ },
+ {
+  "rank": 123,
+  "company": "Lithia Motors",
+  "revenue_m": "$38,133.9",
+  "industry": "Automotive Retailing, Services",
+  "state": "Oregon",
+  "ceo": "Bryan DeBoer"
+ },
+ {
+  "rank": 124,
+  "company": "GE Vernova",
+  "revenue_m": "$38,068",
+  "industry": "Energy",
+  "state": "Massachusetts",
+  "ceo": "Scott Strazik"
+ },
+ {
+  "rank": 125,
+  "company": "Micron Technology",
+  "revenue_m": "$37,378",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "Idaho",
+  "ceo": "Sanjay Mehrotra"
+ },
+ {
+  "rank": 126,
+  "company": "Warner Bros. Discovery",
+  "revenue_m": "$37,296",
+  "industry": "Entertainment",
+  "state": "New York",
+  "ceo": "David Zaslav"
+ },
+ {
+  "rank": 127,
+  "company": "Starbucks",
+  "revenue_m": "$37,184.4",
+  "industry": "Food Services",
+  "state": "Washington",
+  "ceo": "Brian Niccol"
+ },
+ {
+  "rank": 128,
+  "company": "World Kinect",
+  "revenue_m": "$36,916.6",
+  "industry": "Energy",
+  "state": "Florida",
+  "ceo": "Michael Kasbar"
+ },
+ {
+  "rank": 129,
+  "company": "Amgen",
+  "revenue_m": "$36,751",
+  "industry": "Pharmaceuticals",
+  "state": "California",
+  "ceo": "Robert Bradway"
+ },
+ {
+  "rank": 130,
+  "company": "CHS",
+  "revenue_m": "$35,462.6",
+  "industry": "Food Production",
+  "state": "Minnesota",
+  "ceo": "Jay Debertin"
+ },
+ {
+  "rank": 131,
+  "company": "Advanced Micro Devices",
+  "revenue_m": "$34,639",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "California",
+  "ceo": "Lisa Su"
+ },
+ {
+  "rank": 132,
+  "company": "Coupang",
+  "revenue_m": "$34,534",
+  "industry": "Internet Services and Retailing",
+  "state": "Washington",
+  "ceo": "Bom Kim"
+ },
+ {
+  "rank": 133,
+  "company": "Hewlett Packard Enterprise",
+  "revenue_m": "$34,296",
+  "industry": "Computers, Office Equipment",
+  "state": "Texas",
+  "ceo": "Antonio Neri"
+ },
+ {
+  "rank": 134,
+  "company": "D.R. Horton",
+  "revenue_m": "$34,250.4",
+  "industry": "Homebuilders",
+  "state": "Texas",
+  "ceo": "Paul Romanowski"
+ },
+ {
+  "rank": 135,
+  "company": "Lennar",
+  "revenue_m": "$34,186.9",
+  "industry": "Homebuilders",
+  "state": "Florida",
+  "ceo": "Jonathan Jaffe"
+ },
+ {
+  "rank": 136,
+  "company": "PNC Financial Services Group",
+  "revenue_m": "$33,996",
+  "industry": "Commercial Banks",
+  "state": "Pennsylvania",
+  "ceo": "William Demchak"
+ },
+ {
+  "rank": 137,
+  "company": "Cummins",
+  "revenue_m": "$33,670",
+  "industry": "Industrial Machinery",
+  "state": "Indiana",
+  "ceo": "Jennifer Rumsey"
+ },
+ {
+  "rank": 138,
+  "company": "Oneok",
+  "revenue_m": "$33,629",
+  "industry": "Pipelines",
+  "state": "Oklahoma",
+  "ceo": "Pierce Norton II"
+ },
+ {
+  "rank": 139,
+  "company": "PayPal Holdings",
+  "revenue_m": "$33,172",
+  "industry": "Financial Data Services",
+  "state": "California",
+  "ceo": "Alex Chriss"
+ },
+ {
+  "rank": 140,
+  "company": "GuideWell Mutual Holding",
+  "revenue_m": "$32,863.2",
+  "industry": "Insurance: Life, Health (Stock)",
+  "state": "Florida",
+  "ceo": "Patrick Geraghty"
+ },
+ {
+  "rank": 141,
+  "company": "Mastercard",
+  "revenue_m": "$32,791",
+  "industry": "Financial Data Services",
+  "state": "New York",
+  "ceo": "Michael Miebach"
+ },
+ {
+  "rank": 142,
+  "company": "Nucor",
+  "revenue_m": "$32,494",
+  "industry": "Metals",
+  "state": "North Carolina",
+  "ceo": "Leon Topalian"
+ },
+ {
+  "rank": 143,
+  "company": "Apollo Global Management",
+  "revenue_m": "$32,102",
+  "industry": "Securities",
+  "state": "New York",
+  "ceo": "Marc Rowan"
+ },
+ {
+  "rank": 144,
+  "company": "Penske Automotive Group",
+  "revenue_m": "$31,808.5",
+  "industry": "Automotive Retailing, Services",
+  "state": "Michigan",
+  "ceo": "Roger Penske"
+ },
+ {
+  "rank": 145,
+  "company": "Duke Energy",
+  "revenue_m": "$31,794",
+  "industry": "Utilities: Gas and Electric",
+  "state": "North Carolina",
+  "ceo": "Harry Sideris"
+ },
+ {
+  "rank": 146,
+  "company": "United Natural Foods",
+  "revenue_m": "$31,784",
+  "industry": "Wholesalers: Food and Grocery",
+  "state": "Rhode Island",
+  "ceo": "Sandy Douglas"
+ },
+ {
+  "rank": 147,
+  "company": "Ferguson Enterprises",
+  "revenue_m": "$31,316",
+  "industry": "Wholesalers: Diversified",
+  "state": "Virginia",
+  "ceo": "Kevin Murphy"
+ },
+ {
+  "rank": 148,
+  "company": "Arrow Electronics",
+  "revenue_m": "$30,852.9",
+  "industry": "Wholesalers: Electronics and Office Equipment",
+  "state": "Colorado",
+  "ceo": "Sean Kerins"
+ },
+ {
+  "rank": 149,
+  "company": "NRG Energy",
+  "revenue_m": "$30,713",
+  "industry": "Energy",
+  "state": "Texas",
+  "ceo": "Lawrence Coben"
+ },
+ {
+  "rank": 150,
+  "company": "Truist Financial",
+  "revenue_m": "$30,438",
+  "industry": "Commercial Banks",
+  "state": "North Carolina",
+  "ceo": "William Rogers Jr."
+ },
+ {
+  "rank": 151,
+  "company": "Jabil",
+  "revenue_m": "$29,802",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "Florida",
+  "ceo": "Michael Dastoor"
+ },
+ {
+  "rank": 152,
+  "company": "Southern",
+  "revenue_m": "$29,553",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Georgia",
+  "ceo": "Christopher Womack"
+ },
+ {
+  "rank": 153,
+  "company": "Gilead Sciences",
+  "revenue_m": "$29,443",
+  "industry": "Pharmaceuticals",
+  "state": "California",
+  "ceo": "Daniel O\u2019Day"
+ },
+ {
+  "rank": 154,
+  "company": "PBF Energy",
+  "revenue_m": "$29,332.3",
+  "industry": "Petroleum Refining",
+  "state": "New Jersey",
+  "ceo": "Matthew Lucey"
+ },
+ {
+  "rank": 155,
+  "company": "Paramount Skydance",
+  "revenue_m": "$28,891",
+  "industry": "Entertainment",
+  "state": "New York",
+  "ceo": "David Ellison"
+ },
+ {
+  "rank": 156,
+  "company": "KKR",
+  "revenue_m": "$28,888.4",
+  "industry": "Securities",
+  "state": "New York",
+  "ceo": "Joseph Bae"
+ },
+ {
+  "rank": 157,
+  "company": "Quanta Services",
+  "revenue_m": "$28,479.7",
+  "industry": "Engineering & Construction",
+  "state": "Texas",
+  "ceo": "Earl Austin Jr."
+ },
+ {
+  "rank": 158,
+  "company": "Paccar",
+  "revenue_m": "$28,444.8",
+  "industry": "Motor Vehicles & Parts",
+  "state": "Washington",
+  "ceo": "Preston Feight"
+ },
+ {
+  "rank": 159,
+  "company": "Medline",
+  "revenue_m": "$28,432",
+  "industry": "Health Care: Pharmacy and Other Services",
+  "state": "Illinois",
+  "ceo": "Charlie Mills"
+ },
+ {
+  "rank": 160,
+  "company": "Applied Materials",
+  "revenue_m": "$28,368",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "California",
+  "ceo": "Gary Dickerson"
+ },
+ {
+  "rank": 160,
+  "company": "Hartford Insurance Group",
+  "revenue_m": "$28,368",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Connecticut",
+  "ceo": "Christopher Swift"
+ },
+ {
+  "rank": 162,
+  "company": "CarMax",
+  "revenue_m": "$28,207.3",
+  "industry": "Automotive Retailing, Services",
+  "state": "Virginia",
+  "ceo": "William Nash"
+ },
+ {
+  "rank": 163,
+  "company": "Southwest Airlines",
+  "revenue_m": "$28,063",
+  "industry": "Airlines",
+  "state": "Texas",
+  "ceo": "Robert Jordan"
+ },
+ {
+  "rank": 164,
+  "company": "Baker Hughes",
+  "revenue_m": "$27,733",
+  "industry": "Oil and Gas Equipment, Services",
+  "state": "Texas",
+  "ceo": "Lorenzo Simonelli"
+ },
+ {
+  "rank": 165,
+  "company": "Charles Schwab",
+  "revenue_m": "$27,675",
+  "industry": "Securities",
+  "state": "Texas",
+  "ceo": "Richard Wurster"
+ },
+ {
+  "rank": 166,
+  "company": "AutoNation",
+  "revenue_m": "$27,631.4",
+  "industry": "Automotive Retailing, Services",
+  "state": "Florida",
+  "ceo": "Michael Manley"
+ },
+ {
+  "rank": 167,
+  "company": "NextEra Energy",
+  "revenue_m": "$27,412",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Florida",
+  "ceo": "John Ketchum"
+ },
+ {
+  "rank": 168,
+  "company": "Marsh & McLennan",
+  "revenue_m": "$26,981",
+  "industry": "Diversified Financials",
+  "state": "New York",
+  "ceo": "John Doyle"
+ },
+ {
+  "rank": 169,
+  "company": "Booking Holdings",
+  "revenue_m": "$26,917",
+  "industry": "Internet Services and Retailing",
+  "state": "Connecticut",
+  "ceo": "Glenn Fogel"
+ },
+ {
+  "rank": 170,
+  "company": "McDonald\u2019s",
+  "revenue_m": "$26,885",
+  "industry": "Food Services",
+  "state": "Illinois",
+  "ceo": "Christopher Kempczinski"
+ },
+ {
+  "rank": 171,
+  "company": "HF Sinclair",
+  "revenue_m": "$26,869",
+  "industry": "Petroleum Refining",
+  "state": "Texas",
+  "ceo": "Tim Go"
+ },
+ {
+  "rank": 172,
+  "company": "AIG",
+  "revenue_m": "$26,775",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "New York",
+  "ceo": "Peter Zaffino"
+ },
+ {
+  "rank": 173,
+  "company": "Occidental Petroleum",
+  "revenue_m": "$26,446",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Texas",
+  "ceo": "Vicki Hollub"
+ },
+ {
+  "rank": 174,
+  "company": "Marriott International",
+  "revenue_m": "$26,186",
+  "industry": "Hotels, Casinos, Resorts",
+  "state": "Maryland",
+  "ceo": "Anthony Capuano"
+ },
+ {
+  "rank": 175,
+  "company": "Jones Lang LaSalle",
+  "revenue_m": "$26,115.6",
+  "industry": "Real Estate",
+  "state": "Illinois",
+  "ceo": "Christian Ulbrich"
+ },
+ {
+  "rank": 176,
+  "company": "International Paper",
+  "revenue_m": "$26,104",
+  "industry": "Packaging, Containers",
+  "state": "Tennessee",
+  "ceo": "Andrew Silvernail"
+ },
+ {
+  "rank": 177,
+  "company": "Freeport-McMoRan",
+  "revenue_m": "$25,915",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Arizona",
+  "ceo": "Kathleen Quirk"
+ },
+ {
+  "rank": 178,
+  "company": "Constellation Energy",
+  "revenue_m": "$25,533",
+  "industry": "Energy",
+  "state": "Maryland",
+  "ceo": "Joseph Dominguez"
+ },
+ {
+  "rank": 179,
+  "company": "Waste Management",
+  "revenue_m": "$25,204",
+  "industry": "Waste Management",
+  "state": "Texas",
+  "ceo": "James Fish Jr."
+ },
+ {
+  "rank": 180,
+  "company": "Live Nation Entertainment",
+  "revenue_m": "$25,201.4",
+  "industry": "Entertainment",
+  "state": "California",
+  "ceo": "Michael Rapino"
+ },
+ {
+  "rank": 181,
+  "company": "Stryker",
+  "revenue_m": "$25,116",
+  "industry": "Medical Products and Equipment",
+  "state": "Michigan",
+  "ceo": "Kevin Lobo"
+ },
+ {
+  "rank": 182,
+  "company": "Dollar Tree",
+  "revenue_m": "$25,041.8",
+  "industry": "Specialty Retailers: Other",
+  "state": "Virginia",
+  "ceo": "Michael Creedon Jr."
+ },
+ {
+  "rank": 183,
+  "company": "3M",
+  "revenue_m": "$24,948",
+  "industry": "Chemicals",
+  "state": "Minnesota",
+  "ceo": "William Brown"
+ },
+ {
+  "rank": 184,
+  "company": "Kraft Heinz",
+  "revenue_m": "$24,942",
+  "industry": "Food Consumer Products",
+  "state": "Illinois",
+  "ceo": "Carlos Abrams-Rivera"
+ },
+ {
+  "rank": 185,
+  "company": "PG&E",
+  "revenue_m": "$24,935",
+  "industry": "Utilities: Gas and Electric",
+  "state": "California",
+  "ceo": "Patricia Poppe"
+ },
+ {
+  "rank": 186,
+  "company": "Danaher",
+  "revenue_m": "$24,568",
+  "industry": "Medical Products and Equipment",
+  "state": "District of Columbia",
+  "ceo": "Rainer Blair"
+ },
+ {
+  "rank": 187,
+  "company": "Union Pacific",
+  "revenue_m": "$24,510",
+  "industry": "Railroads",
+  "state": "Nebraska",
+  "ceo": "Jim Vena"
+ },
+ {
+  "rank": 188,
+  "company": "Genuine Parts",
+  "revenue_m": "$24,300.1",
+  "industry": "Wholesalers: Diversified",
+  "state": "Georgia",
+  "ceo": "William Stengel II"
+ },
+ {
+  "rank": 189,
+  "company": "Exelon",
+  "revenue_m": "$24,258",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Illinois",
+  "ceo": "Calvin Butler Jr."
+ },
+ {
+  "rank": 190,
+  "company": "BlackRock",
+  "revenue_m": "$24,216",
+  "industry": "Securities",
+  "state": "New York",
+  "ceo": "Laurence Fink"
+ },
+ {
+  "rank": 191,
+  "company": "Block",
+  "revenue_m": "$24,193.7",
+  "industry": "Financial Data Services",
+  "state": "California",
+  "ceo": "Jack Dorsey"
+ },
+ {
+  "rank": 192,
+  "company": "Adobe",
+  "revenue_m": "$23,769",
+  "industry": "Computer Software",
+  "state": "California",
+  "ceo": "Shantanu Narayen"
+ },
+ {
+  "rank": 193,
+  "company": "Reinsurance Group of America",
+  "revenue_m": "$23,698",
+  "industry": "Insurance: Life, Health (Stock)",
+  "state": "Missouri",
+  "ceo": "Tony Cheng"
+ },
+ {
+  "rank": 194,
+  "company": "Sherwin-Williams",
+  "revenue_m": "$23,574.3",
+  "industry": "Chemicals",
+  "state": "Ohio",
+  "ceo": "Heidi Petz"
+ },
+ {
+  "rank": 195,
+  "company": "WESCO International",
+  "revenue_m": "$23,510.9",
+  "industry": "Wholesalers: Diversified",
+  "state": "Pennsylvania",
+  "ceo": "John Engel"
+ },
+ {
+  "rank": 196,
+  "company": "Lear",
+  "revenue_m": "$23,259.1",
+  "industry": "Motor Vehicles & Parts",
+  "state": "Michigan",
+  "ceo": "Raymond Scott"
+ },
+ {
+  "rank": 197,
+  "company": "Synchrony",
+  "revenue_m": "$23,121",
+  "industry": "Diversified Financials",
+  "state": "Connecticut",
+  "ceo": "Brian Doubles"
+ },
+ {
+  "rank": 198,
+  "company": "Amphenol",
+  "revenue_m": "$23,094.7",
+  "industry": "Network and Other Communications Equipment",
+  "state": "Connecticut",
+  "ceo": "Adam Norwitt"
+ },
+ {
+  "rank": 199,
+  "company": "Ross Stores",
+  "revenue_m": "$22,750.6",
+  "industry": "Specialty Retailers: Apparel",
+  "state": "California",
+  "ceo": "James Conroy"
+ },
+ {
+  "rank": 200,
+  "company": "Newmont",
+  "revenue_m": "$22,669",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Colorado",
+  "ceo": "Thomas Palmer"
+ },
+ {
+  "rank": 201,
+  "company": "EOG Resources",
+  "revenue_m": "$22,632",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Texas",
+  "ceo": "Ezra Yacob"
+ },
+ {
+  "rank": 202,
+  "company": "State Street",
+  "revenue_m": "$22,628",
+  "industry": "Commercial Banks",
+  "state": "Massachusetts",
+  "ceo": "Ronald O\u2019Hanley"
+ },
+ {
+  "rank": 203,
+  "company": "Macy\u2019s",
+  "revenue_m": "$22,621",
+  "industry": "General Merchandisers",
+  "state": "New York",
+  "ceo": "Tony Spring"
+ },
+ {
+  "rank": 204,
+  "company": "Group 1 Automotive",
+  "revenue_m": "$22,571.4",
+  "industry": "Automotive Retailing, Services",
+  "state": "Texas",
+  "ceo": "Daryl Kenningham"
+ },
+ {
+  "rank": 205,
+  "company": "CDW",
+  "revenue_m": "$22,424.1",
+  "industry": "Information Technology Services",
+  "state": "Illinois",
+  "ceo": "Christine Leahy"
+ },
+ {
+  "rank": 206,
+  "company": "Avnet",
+  "revenue_m": "$22,200.8",
+  "industry": "Wholesalers: Electronics and Office Equipment",
+  "state": "Arizona",
+  "ceo": "Philip Gallagher"
+ },
+ {
+  "rank": 207,
+  "company": "Halliburton",
+  "revenue_m": "$22,184",
+  "industry": "Oil and Gas Equipment, Services",
+  "state": "Texas",
+  "ceo": "Jeffrey Miller"
+ },
+ {
+  "rank": 208,
+  "company": "Super Micro Computer",
+  "revenue_m": "$21,972",
+  "industry": "Computers, Office Equipment",
+  "state": "California",
+  "ceo": "Charles Liang"
+ },
+ {
+  "rank": 209,
+  "company": "American Electric Power",
+  "revenue_m": "$21,876",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Ohio",
+  "ceo": "William Fehrman"
+ },
+ {
+  "rank": 210,
+  "company": "L3Harris Technologies",
+  "revenue_m": "$21,865",
+  "industry": "Aerospace & Defense",
+  "state": "Florida",
+  "ceo": "Christopher Kubasik"
+ },
+ {
+  "rank": 211,
+  "company": "Becton Dickinson",
+  "revenue_m": "$21,840",
+  "industry": "Medical Products and Equipment",
+  "state": "New Jersey",
+  "ceo": "Thomas Polen"
+ },
+ {
+  "rank": 212,
+  "company": "Carrier Global",
+  "revenue_m": "$21,747",
+  "industry": "Industrial Machinery",
+  "state": "Florida",
+  "ceo": "David Gitlin"
+ },
+ {
+  "rank": 213,
+  "company": "BJ\u2019s Wholesale Club",
+  "revenue_m": "$21,457.3",
+  "industry": "General Merchandisers",
+  "state": "Massachusetts",
+  "ceo": "Robert Eddy"
+ },
+ {
+  "rank": 214,
+  "company": "Tenet Healthcare",
+  "revenue_m": "$21,310",
+  "industry": "Health Care: Medical Facilities",
+  "state": "Texas",
+  "ceo": "Saumya Sutaria"
+ },
+ {
+  "rank": 215,
+  "company": "Fiserv",
+  "revenue_m": "$21,193",
+  "industry": "Financial Data Services",
+  "state": "Wisconsin",
+  "ceo": "Michael Lyons"
+ },
+ {
+  "rank": 216,
+  "company": "Cognizant Technology Solutions",
+  "revenue_m": "$21,108",
+  "industry": "Information Technology Services",
+  "state": "New Jersey",
+  "ceo": "Ravi Kumar S"
+ },
+ {
+  "rank": 217,
+  "company": "GE HealthCare Technologies",
+  "revenue_m": "$20,625",
+  "industry": "Medical Products and Equipment",
+  "state": "Illinois",
+  "ceo": "Peter Arduini"
+ },
+ {
+  "rank": 218,
+  "company": "Automatic Data Processing",
+  "revenue_m": "$20,560.9",
+  "industry": "Diversified Outsourcing Services",
+  "state": "New Jersey",
+  "ceo": "Maria Black"
+ },
+ {
+  "rank": 219,
+  "company": "Colgate-Palmolive",
+  "revenue_m": "$20,382",
+  "industry": "Household and Personal Products",
+  "state": "New York",
+  "ceo": "Noel Wallace"
+ },
+ {
+  "rank": 220,
+  "company": "Carvana",
+  "revenue_m": "$20,322",
+  "industry": "Automotive Retailing, Services",
+  "state": "Arizona",
+  "ceo": "Ernest Garcia III"
+ },
+ {
+  "rank": 221,
+  "company": "Altria Group",
+  "revenue_m": "$20,139",
+  "industry": "Tobacco",
+  "state": "Virginia",
+  "ceo": "Salvatore Mancuso"
+ },
+ {
+  "rank": 222,
+  "company": "Boston Scientific",
+  "revenue_m": "$20,074",
+  "industry": "Medical Products and Equipment",
+  "state": "Massachusetts",
+  "ceo": "Michael Mahoney"
+ },
+ {
+  "rank": 223,
+  "company": "Cheniere Energy",
+  "revenue_m": "$19,976",
+  "industry": "Pipelines",
+  "state": "Texas",
+  "ceo": "Jack Fusco"
+ },
+ {
+  "rank": 224,
+  "company": "Parker-Hannifin",
+  "revenue_m": "$19,850",
+  "industry": "Industrial Machinery",
+  "state": "Ohio",
+  "ceo": "Jennifer Parmentier"
+ },
+ {
+  "rank": 225,
+  "company": "Kimberly-Clark",
+  "revenue_m": "$19,701",
+  "industry": "Household and Personal Products",
+  "state": "Texas",
+  "ceo": "Michael Hsu"
+ },
+ {
+  "rank": 226,
+  "company": "American Family Insurance Group",
+  "revenue_m": "$19,556.8",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Wisconsin",
+  "ceo": "William Westrate"
+ },
+ {
+  "rank": 227,
+  "company": "General Mills",
+  "revenue_m": "$19,486.6",
+  "industry": "Food Consumer Products",
+  "state": "Minnesota",
+  "ceo": "Jeffrey Harmening"
+ },
+ {
+  "rank": 228,
+  "company": "Edison International",
+  "revenue_m": "$19,317",
+  "industry": "Utilities: Gas and Electric",
+  "state": "California",
+  "ceo": "Pedro Pizarro"
+ },
+ {
+  "rank": 229,
+  "company": "AutoZone",
+  "revenue_m": "$18,938.7",
+  "industry": "Specialty Retailers: Other",
+  "state": "Tennessee",
+  "ceo": "Philip Daniele"
+ },
+ {
+  "rank": 230,
+  "company": "Ameriprise Financial",
+  "revenue_m": "$18,911",
+  "industry": "Diversified Financials",
+  "state": "Minnesota",
+  "ceo": "James Cracchiolo"
+ },
+ {
+  "rank": 231,
+  "company": "Intuit",
+  "revenue_m": "$18,831",
+  "industry": "Computer Software",
+  "state": "California",
+  "ceo": "Sasan Goodarzi"
+ },
+ {
+  "rank": 232,
+  "company": "Guardian Life Ins. Co. of America",
+  "revenue_m": "$18,706",
+  "industry": "Insurance: Life, Health (Mutual)",
+  "state": "New York",
+  "ceo": "Andrew McMahon"
+ },
+ {
+  "rank": 233,
+  "company": "Cleveland-Cliffs",
+  "revenue_m": "$18,610",
+  "industry": "Metals",
+  "state": "Ohio",
+  "ceo": "Lourenco Goncalves"
+ },
+ {
+  "rank": 234,
+  "company": "Global Partners",
+  "revenue_m": "$18,561.4",
+  "industry": "Wholesalers: Diversified",
+  "state": "Massachusetts",
+  "ceo": "Eric Slifka"
+ },
+ {
+  "rank": 235,
+  "company": "Aramark",
+  "revenue_m": "$18,506.3",
+  "industry": "Diversified Outsourcing Services",
+  "state": "Pennsylvania",
+  "ceo": "John Zillmer"
+ },
+ {
+  "rank": 236,
+  "company": "Corebridge Financial",
+  "revenue_m": "$18,481",
+  "industry": "Diversified Financials",
+  "state": "Texas",
+  "ceo": "Kevin Hogan"
+ },
+ {
+  "rank": 237,
+  "company": "Loews",
+  "revenue_m": "$18,454",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "New York",
+  "ceo": "James Tisch"
+ },
+ {
+  "rank": 238,
+  "company": "Lam Research",
+  "revenue_m": "$18,435.6",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "California",
+  "ceo": "Timothy Archer"
+ },
+ {
+  "rank": 239,
+  "company": "Goodyear Tire & Rubber",
+  "revenue_m": "$18,280",
+  "industry": "Motor Vehicles & Parts",
+  "state": "Ohio",
+  "ceo": "Mark Stewart"
+ },
+ {
+  "rank": 240,
+  "company": "Pacific Life",
+  "revenue_m": "$18,235",
+  "industry": "Insurance: Life, Health (Mutual)",
+  "state": "California",
+  "ceo": "Darien Jassem"
+ },
+ {
+  "rank": 241,
+  "company": "Auto-Owners Insurance",
+  "revenue_m": "$18,229.3",
+  "industry": "Insurance: Property and Casualty (Mutual)",
+  "state": "Michigan",
+  "ceo": "Todd Eyler"
+ },
+ {
+  "rank": 242,
+  "company": "Peter Kiewit Sons\u2019",
+  "revenue_m": "$18,213",
+  "industry": "Engineering & Construction",
+  "state": "Nebraska",
+  "ceo": "Rick Lanoha"
+ },
+ {
+  "rank": 243,
+  "company": "Lincoln National",
+  "revenue_m": "$18,212",
+  "industry": "Insurance: Life, Health (Stock)",
+  "state": "Pennsylvania",
+  "ceo": "Ellen Cooper"
+ },
+ {
+  "rank": 244,
+  "company": "Steel Dynamics",
+  "revenue_m": "$18,176.6",
+  "industry": "Metals",
+  "state": "Indiana",
+  "ceo": "Mark Millett"
+ },
+ {
+  "rank": 245,
+  "company": "Emerson Electric",
+  "revenue_m": "$18,016",
+  "industry": "Industrial Machinery",
+  "state": "Missouri",
+  "ceo": "Lal Karsanbhai"
+ },
+ {
+  "rank": 246,
+  "company": "Asbury Automotive Group",
+  "revenue_m": "$17,999",
+  "industry": "Automotive Retailing, Services",
+  "state": "Georgia",
+  "ceo": "David Hult"
+ },
+ {
+  "rank": 247,
+  "company": "ManpowerGroup",
+  "revenue_m": "$17,957.1",
+  "industry": "Diversified Outsourcing Services",
+  "state": "Wisconsin",
+  "ceo": "Jonas Prising"
+ },
+ {
+  "rank": 248,
+  "company": "W.W. Grainger",
+  "revenue_m": "$17,942",
+  "industry": "Wholesalers: Diversified",
+  "state": "Illinois",
+  "ceo": "Donald Macpherson"
+ },
+ {
+  "rank": 249,
+  "company": "Jones Financial (Edward Jones)",
+  "revenue_m": "$17,897",
+  "industry": "Securities",
+  "state": "Missouri",
+  "ceo": "Penny Pennington"
+ },
+ {
+  "rank": 250,
+  "company": "O\u2019Reilly Automotive",
+  "revenue_m": "$17,782",
+  "industry": "Specialty Retailers: Other",
+  "state": "Missouri",
+  "ceo": "Brad Beckham"
+ },
+ {
+  "rank": 251,
+  "company": "Vistra",
+  "revenue_m": "$17,738",
+  "industry": "Energy",
+  "state": "Texas",
+  "ceo": "Jim Burke"
+ },
+ {
+  "rank": 252,
+  "company": "Texas Instruments",
+  "revenue_m": "$17,682",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "Texas",
+  "ceo": "Haviv Ilan"
+ },
+ {
+  "rank": 253,
+  "company": "MGM Resorts International",
+  "revenue_m": "$17,537.7",
+  "industry": "Hotels, Casinos, Resorts",
+  "state": "Nevada",
+  "ceo": "William Hornbuckle"
+ },
+ {
+  "rank": 254,
+  "company": "Corteva",
+  "revenue_m": "$17,401",
+  "industry": "Food Production",
+  "state": "Indiana",
+  "ceo": "Chuck Magro"
+ },
+ {
+  "rank": 255,
+  "company": "Universal Health Services",
+  "revenue_m": "$17,364.8",
+  "industry": "Health Care: Medical Facilities",
+  "state": "Pennsylvania",
+  "ceo": "Marc Miller"
+ },
+ {
+  "rank": 256,
+  "company": "PulteGroup",
+  "revenue_m": "$17,312",
+  "industry": "Homebuilders",
+  "state": "Georgia",
+  "ceo": "Ryan Marshall"
+ },
+ {
+  "rank": 257,
+  "company": "Omnicom Group",
+  "revenue_m": "$17,271.9",
+  "industry": "Advertising, Marketing",
+  "state": "New York",
+  "ceo": "John Wren"
+ },
+ {
+  "rank": 258,
+  "company": "Dick\u2019s Sporting Goods",
+  "revenue_m": "$17,215.1",
+  "industry": "Specialty Retailers: Other",
+  "state": "Pennsylvania",
+  "ceo": "Lauren Hobart"
+ },
+ {
+  "rank": 259,
+  "company": "Devon Energy",
+  "revenue_m": "$17,188",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Oklahoma",
+  "ceo": "Rick Muncrief"
+ },
+ {
+  "rank": 260,
+  "company": "Leidos Holdings",
+  "revenue_m": "$17,174",
+  "industry": "Information Technology Services",
+  "state": "Virginia",
+  "ceo": "Thomas Bell"
+ },
+ {
+  "rank": 261,
+  "company": "Aflac",
+  "revenue_m": "$17,164",
+  "industry": "Insurance: Life, Health (Stock)",
+  "state": "Georgia",
+  "ceo": "Daniel Amos"
+ },
+ {
+  "rank": 262,
+  "company": "Targa Resources",
+  "revenue_m": "$17,028.3",
+  "industry": "Pipelines",
+  "state": "Texas",
+  "ceo": "Matthew Meloy"
+ },
+ {
+  "rank": 263,
+  "company": "Murphy USA",
+  "revenue_m": "$17,017.9",
+  "industry": "Specialty Retailers: Other",
+  "state": "Arkansas",
+  "ceo": "Andrew Clyde"
+ },
+ {
+  "rank": 264,
+  "company": "LPL Financial Holdings",
+  "revenue_m": "$16,989.5",
+  "industry": "Securities",
+  "state": "California",
+  "ceo": "Dan Arnold"
+ },
+ {
+  "rank": 265,
+  "company": "EMCOR Group",
+  "revenue_m": "$16,986.4",
+  "industry": "Engineering & Construction",
+  "state": "Connecticut",
+  "ceo": "Anthony Guzzi"
+ },
+ {
+  "rank": 266,
+  "company": "Kinder Morgan",
+  "revenue_m": "$16,937",
+  "industry": "Pipelines",
+  "state": "Texas",
+  "ceo": "Kimberly Dang"
+ },
+ {
+  "rank": 267,
+  "company": "Consolidated Edison",
+  "revenue_m": "$16,918",
+  "industry": "Utilities: Gas and Electric",
+  "state": "New York",
+  "ceo": "Timothy Cawley"
+ },
+ {
+  "rank": 268,
+  "company": "Keurig Dr Pepper",
+  "revenue_m": "$16,603",
+  "industry": "Beverages",
+  "state": "Massachusetts",
+  "ceo": "Tim Cofer"
+ },
+ {
+  "rank": 269,
+  "company": "Republic Services",
+  "revenue_m": "$16,591",
+  "industry": "Waste Management",
+  "state": "Arizona",
+  "ceo": "Jon Vander Ark"
+ },
+ {
+  "rank": 270,
+  "company": "Markel Group",
+  "revenue_m": "$16,589.3",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Virginia",
+  "ceo": "Thomas Gayner"
+ },
+ {
+  "rank": 271,
+  "company": "Farmers Insurance Exchange",
+  "revenue_m": "$16,573.2",
+  "industry": "Insurance: Property and Casualty (Mutual)",
+  "state": "California",
+  "ceo": "Raul Vargas"
+ },
+ {
+  "rank": 272,
+  "company": "Dominion Energy",
+  "revenue_m": "$16,506",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Virginia",
+  "ceo": "Robert Blue"
+ },
+ {
+  "rank": 273,
+  "company": "Land O\u2019Lakes",
+  "revenue_m": "$16,411.5",
+  "industry": "Food Consumer Products",
+  "state": "Minnesota",
+  "ceo": "Beth Ford"
+ },
+ {
+  "rank": 274,
+  "company": "IQVIA Holdings",
+  "revenue_m": "$16,310",
+  "industry": "Health Care: Pharmacy and Other Services",
+  "state": "North Carolina",
+  "ceo": "Ari Bousbib"
+ },
+ {
+  "rank": 275,
+  "company": "Fox",
+  "revenue_m": "$16,300",
+  "industry": "Entertainment",
+  "state": "New York",
+  "ceo": "Lachlan Murdoch"
+ },
+ {
+  "rank": 276,
+  "company": "AECOM",
+  "revenue_m": "$16,237.2",
+  "industry": "Engineering & Construction",
+  "state": "Texas",
+  "ceo": "Troy Rudd"
+ },
+ {
+  "rank": 277,
+  "company": "C.H. Robinson Worldwide",
+  "revenue_m": "$16,232.8",
+  "industry": "Transportation and Logistics",
+  "state": "Minnesota",
+  "ceo": "Scott Anderson"
+ },
+ {
+  "rank": 278,
+  "company": "Bitgo Holdings",
+  "revenue_m": "$16,152.1",
+  "industry": "Financial Data Services",
+  "state": "California",
+  "ceo": "Mike Belshe"
+ },
+ {
+  "rank": 279,
+  "company": "United Rentals",
+  "revenue_m": "$16,099",
+  "industry": "Specialty Retailers: Other",
+  "state": "Connecticut",
+  "ceo": "Matthew Flannery"
+ },
+ {
+  "rank": 280,
+  "company": "Ecolab",
+  "revenue_m": "$16,081.2",
+  "industry": "Chemicals",
+  "state": "Minnesota",
+  "ceo": "Christophe Beck"
+ },
+ {
+  "rank": 281,
+  "company": "Illinois Tool Works",
+  "revenue_m": "$16,044",
+  "industry": "Industrial Machinery",
+  "state": "Illinois",
+  "ceo": "Scott Santi"
+ },
+ {
+  "rank": 282,
+  "company": "Casey\u2019s General Stores",
+  "revenue_m": "$15,940.9",
+  "industry": "Specialty Retailers: Other",
+  "state": "Iowa",
+  "ceo": "Darren Rebelez"
+ },
+ {
+  "rank": 283,
+  "company": "Raymond James Financial",
+  "revenue_m": "$15,912",
+  "industry": "Securities",
+  "state": "Florida",
+  "ceo": "Paul Reilly"
+ },
+ {
+  "rank": 284,
+  "company": "PPG Industries",
+  "revenue_m": "$15,875",
+  "industry": "Chemicals",
+  "state": "Pennsylvania",
+  "ceo": "Timothy Knavish"
+ },
+ {
+  "rank": 285,
+  "company": "DTE Energy",
+  "revenue_m": "$15,814",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Michigan",
+  "ceo": "Gerardo Norcia"
+ },
+ {
+  "rank": 286,
+  "company": "Corning",
+  "revenue_m": "$15,629",
+  "industry": "Electronics, Electrical Equip.",
+  "state": "New York",
+  "ceo": "Wendell Weeks"
+ },
+ {
+  "rank": 287,
+  "company": "Principal Financial",
+  "revenue_m": "$15,625.5",
+  "industry": "Insurance: Life, Health (Stock)",
+  "state": "Iowa",
+  "ceo": "Daniel Houston"
+ },
+ {
+  "rank": 288,
+  "company": "Mutual of Omaha",
+  "revenue_m": "$15,539.5",
+  "industry": "Insurance: Life, Health (Mutual)",
+  "state": "Nebraska",
+  "ceo": "James Blackledge"
+ },
+ {
+  "rank": 289,
+  "company": "Kohl\u2019s",
+  "revenue_m": "$15,527",
+  "industry": "General Merchandisers",
+  "state": "Wisconsin",
+  "ceo": "Ashley Buchanan"
+ },
+ {
+  "rank": 290,
+  "company": "Tractor Supply",
+  "revenue_m": "$15,524.1",
+  "industry": "Specialty Retailers: Other",
+  "state": "Tennessee",
+  "ceo": "Harry Lawton III"
+ },
+ {
+  "rank": 291,
+  "company": "Whirlpool",
+  "revenue_m": "$15,524",
+  "industry": "Electronics, Electrical Equip.",
+  "state": "Michigan",
+  "ceo": "Marc Bitzer"
+ },
+ {
+  "rank": 292,
+  "company": "Fluor",
+  "revenue_m": "$15,503",
+  "industry": "Engineering & Construction",
+  "state": "Texas",
+  "ceo": "David Constable"
+ },
+ {
+  "rank": 293,
+  "company": "Gap",
+  "revenue_m": "$15,366",
+  "industry": "Specialty Retailers: Apparel",
+  "state": "California",
+  "ceo": "Richard Dickson"
+ },
+ {
+  "rank": 294,
+  "company": "S&P Global",
+  "revenue_m": "$15,336",
+  "industry": "Financial Data Services",
+  "state": "New York",
+  "ceo": "Martina Cheung"
+ },
+ {
+  "rank": 295,
+  "company": "Ally Financial",
+  "revenue_m": "$15,259",
+  "industry": "Diversified Financials",
+  "state": "Michigan",
+  "ceo": "Michael Rhodes"
+ },
+ {
+  "rank": 296,
+  "company": "Builders FirstSource",
+  "revenue_m": "$15,190.6",
+  "industry": "Building Materials, Glass",
+  "state": "Texas",
+  "ceo": "Dave Rush"
+ },
+ {
+  "rank": 297,
+  "company": "Sonic Automotive",
+  "revenue_m": "$15,153.6",
+  "industry": "Automotive Retailing, Services",
+  "state": "North Carolina",
+  "ceo": "David Bruton Smith"
+ },
+ {
+  "rank": 298,
+  "company": "Stanley Black & Decker",
+  "revenue_m": "$15,130.4",
+  "industry": "Industrial Machinery",
+  "state": "Connecticut",
+  "ceo": "Donald Allan Jr."
+ },
+ {
+  "rank": 299,
+  "company": "Kenvue",
+  "revenue_m": "$15,124",
+  "industry": "Household and Personal Products",
+  "state": "New Jersey",
+  "ceo": "Thibaut Mongon"
+ },
+ {
+  "rank": 300,
+  "company": "Kyndryl Holdings",
+  "revenue_m": "$15,057",
+  "industry": "Information Technology Services",
+  "state": "New York",
+  "ceo": "Martin Schroeter"
+ },
+ {
+  "rank": 301,
+  "company": "Diamondback Energy",
+  "revenue_m": "$15,026",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Texas",
+  "ceo": "Travis Stice"
+ },
+ {
+  "rank": 302,
+  "company": "EchoStar",
+  "revenue_m": "$15,005",
+  "industry": "Telecommunications",
+  "state": "Colorado",
+  "ceo": "Hamid Akhavan"
+ },
+ {
+  "rank": 303,
+  "company": "Textron",
+  "revenue_m": "$14,799",
+  "industry": "Aerospace & Defense",
+  "state": "Rhode Island",
+  "ceo": "Scott Donnelly"
+ },
+ {
+  "rank": 304,
+  "company": "Expedia Group",
+  "revenue_m": "$14,733",
+  "industry": "Internet Services and Retailing",
+  "state": "Washington",
+  "ceo": "Ariane Gorin"
+ },
+ {
+  "rank": 305,
+  "company": "W.R. Berkley",
+  "revenue_m": "$14,707.9",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Connecticut",
+  "ceo": "Robert Berkley Jr."
+ },
+ {
+  "rank": 306,
+  "company": "Xcel Energy",
+  "revenue_m": "$14,669",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Minnesota",
+  "ceo": "Bob Frenzel"
+ },
+ {
+  "rank": 307,
+  "company": "FirstEnergy",
+  "revenue_m": "$14,627",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Ohio",
+  "ceo": "Brian Tierney"
+ },
+ {
+  "rank": 308,
+  "company": "Erie Insurance Group",
+  "revenue_m": "$14,615.9",
+  "industry": "Insurance: Property and Casualty (Mutual)",
+  "state": "Pennsylvania",
+  "ceo": "Timothy NeCastro"
+ },
+ {
+  "rank": 309,
+  "company": "First Citizens BancShares",
+  "revenue_m": "$14,505",
+  "industry": "Commercial Banks",
+  "state": "North Carolina",
+  "ceo": "Frank Holding Jr."
+ },
+ {
+  "rank": 310,
+  "company": "Blackstone",
+  "revenue_m": "$14,450.3",
+  "industry": "Diversified Financials",
+  "state": "New York",
+  "ceo": "Stephen Schwarzman"
+ },
+ {
+  "rank": 311,
+  "company": "Fidelity National Financial",
+  "revenue_m": "$14,445",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Florida",
+  "ceo": "Michael Nolan"
+ },
+ {
+  "rank": 312,
+  "company": "Otis Worldwide",
+  "revenue_m": "$14,431",
+  "industry": "Industrial Machinery",
+  "state": "Connecticut",
+  "ceo": "Judith Marks"
+ },
+ {
+  "rank": 313,
+  "company": "Amentum Holdings",
+  "revenue_m": "$14,393",
+  "industry": "Engineering & Construction",
+  "state": "Virginia",
+  "ceo": "John Heller"
+ },
+ {
+  "rank": 314,
+  "company": "Regeneron Pharmaceuticals",
+  "revenue_m": "$14,342.9",
+  "industry": "Pharmaceuticals",
+  "state": "New York",
+  "ceo": "Leonard Schleifer"
+ },
+ {
+  "rank": 315,
+  "company": "Estee Lauder",
+  "revenue_m": "$14,326",
+  "industry": "Household and Personal Products",
+  "state": "New York",
+  "ceo": "Stephane de La Faverie"
+ },
+ {
+  "rank": 316,
+  "company": "BorgWarner",
+  "revenue_m": "$14,316",
+  "industry": "Motor Vehicles & Parts",
+  "state": "Michigan",
+  "ceo": "Frederic Lissalde"
+ },
+ {
+  "rank": 317,
+  "company": "Northern Trust",
+  "revenue_m": "$14,300",
+  "industry": "Commercial Banks",
+  "state": "Illinois",
+  "ceo": "Michael O\u2019Grady"
+ },
+ {
+  "rank": 318,
+  "company": "Viatris",
+  "revenue_m": "$14,299.9",
+  "industry": "Pharmaceuticals",
+  "state": "Pennsylvania",
+  "ceo": "Scott Smith"
+ },
+ {
+  "rank": 319,
+  "company": "MasTec",
+  "revenue_m": "$14,299.2",
+  "industry": "Engineering & Construction",
+  "state": "Florida",
+  "ceo": "Jose Mas"
+ },
+ {
+  "rank": 320,
+  "company": "Reliance",
+  "revenue_m": "$14,294.3",
+  "industry": "Metals",
+  "state": "Arizona",
+  "ceo": "Karla Lewis"
+ },
+ {
+  "rank": 321,
+  "company": "Western & Southern Financial Group",
+  "revenue_m": "$14,270.9",
+  "industry": "Insurance: Life, Health (Mutual)",
+  "state": "Ohio",
+  "ceo": "John Barrett"
+ },
+ {
+  "rank": 322,
+  "company": "Alaska Air Group",
+  "revenue_m": "$14,239",
+  "industry": "Airlines",
+  "state": "Washington",
+  "ceo": "Ben Minicucci"
+ },
+ {
+  "rank": 323,
+  "company": "BrightSpring Health Services",
+  "revenue_m": "$14,145",
+  "industry": "Health Care: Pharmacy and Other Services",
+  "state": "Kentucky",
+  "ceo": "Jon Rousseau"
+ },
+ {
+  "rank": 324,
+  "company": "CSX",
+  "revenue_m": "$14,092",
+  "industry": "Railroads",
+  "state": "Florida",
+  "ceo": "Joseph Hinrichs"
+ },
+ {
+  "rank": 325,
+  "company": "LKQ",
+  "revenue_m": "$14,046",
+  "industry": "Wholesalers: Diversified",
+  "state": "Illinois",
+  "ceo": "Justin Jude"
+ },
+ {
+  "rank": 326,
+  "company": "Labcorp Holdings",
+  "revenue_m": "$13,951.7",
+  "industry": "Health Care: Pharmacy and Other Services",
+  "state": "North Carolina",
+  "ceo": "Adam Schechter"
+ },
+ {
+  "rank": 327,
+  "company": "Arthur J. Gallagher",
+  "revenue_m": "$13,942",
+  "industry": "Diversified Financials",
+  "state": "Illinois",
+  "ceo": "J. Patrick Gallagher Jr."
+ },
+ {
+  "rank": 328,
+  "company": "Venture Global",
+  "revenue_m": "$13,769",
+  "industry": "Pipelines",
+  "state": "Virginia",
+  "ceo": "Michael Sabel"
+ },
+ {
+  "rank": 329,
+  "company": "DoorDash",
+  "revenue_m": "$13,717",
+  "industry": "Internet Services and Retailing",
+  "state": "California",
+  "ceo": "Tony Xu"
+ },
+ {
+  "rank": 330,
+  "company": "Sempra",
+  "revenue_m": "$13,702",
+  "industry": "Utilities: Gas and Electric",
+  "state": "California",
+  "ceo": "Jeffrey Martin"
+ },
+ {
+  "rank": 331,
+  "company": "DaVita",
+  "revenue_m": "$13,643.1",
+  "industry": "Health Care: Medical Facilities",
+  "state": "Colorado",
+  "ceo": "Javier Rodriguez"
+ },
+ {
+  "rank": 332,
+  "company": "Eversource Energy",
+  "revenue_m": "$13,547.2",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Massachusetts",
+  "ceo": "Joseph Nolan Jr."
+ },
+ {
+  "rank": 333,
+  "company": "ServiceNow",
+  "revenue_m": "$13,278",
+  "industry": "Computer Software",
+  "state": "California",
+  "ceo": "Bill McDermott"
+ },
+ {
+  "rank": 334,
+  "company": "M&T Bank",
+  "revenue_m": "$13,228",
+  "industry": "Commercial Banks",
+  "state": "New York",
+  "ceo": "Rene Jones"
+ },
+ {
+  "rank": 335,
+  "company": "Henry Schein",
+  "revenue_m": "$13,184",
+  "industry": "Wholesalers: Health Care",
+  "state": "New York",
+  "ceo": "Stanley Bergman"
+ },
+ {
+  "rank": 336,
+  "company": "GXO Logistics",
+  "revenue_m": "$13,178",
+  "industry": "Transportation and Logistics",
+  "state": "Connecticut",
+  "ceo": "Malcolm Wilson"
+ },
+ {
+  "rank": 337,
+  "company": "Ball",
+  "revenue_m": "$13,161",
+  "industry": "Packaging, Containers",
+  "state": "Colorado",
+  "ceo": "Daniel Fisher"
+ },
+ {
+  "rank": 338,
+  "company": "Unum Group",
+  "revenue_m": "$13,075.5",
+  "industry": "Insurance: Life, Health (Stock)",
+  "state": "Tennessee",
+  "ceo": "Christopher O\u2019Brien"
+ },
+ {
+  "rank": 339,
+  "company": "Las Vegas Sands",
+  "revenue_m": "$13,017",
+  "industry": "Hotels, Casinos, Resorts",
+  "state": "Nevada",
+  "ceo": "Robert Goldstein"
+ },
+ {
+  "rank": 340,
+  "company": "Entergy",
+  "revenue_m": "$12,946.7",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Louisiana",
+  "ceo": "Andrew Marsh"
+ },
+ {
+  "rank": 341,
+  "company": "Fifth Third Bancorp",
+  "revenue_m": "$12,938",
+  "industry": "Commercial Banks",
+  "state": "Ohio",
+  "ceo": "Timothy Spence"
+ },
+ {
+  "rank": 342,
+  "company": "Graybar Electric",
+  "revenue_m": "$12,875.6",
+  "industry": "Wholesalers: Diversified",
+  "state": "Missouri",
+  "ceo": "Kathleen Mazzarella"
+ },
+ {
+  "rank": 343,
+  "company": "DXC Technology",
+  "revenue_m": "$12,871",
+  "industry": "Information Technology Services",
+  "state": "Virginia",
+  "ceo": "Raul Fernandez"
+ },
+ {
+  "rank": 344,
+  "company": "Alcoa",
+  "revenue_m": "$12,831",
+  "industry": "Metals",
+  "state": "Pennsylvania",
+  "ceo": "William Oplinger"
+ },
+ {
+  "rank": 345,
+  "company": "Assurant",
+  "revenue_m": "$12,814.3",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Georgia",
+  "ceo": "Keith Demmings"
+ },
+ {
+  "rank": 346,
+  "company": "Ryder System",
+  "revenue_m": "$12,665",
+  "industry": "Trucking, Truck Leasing",
+  "state": "Florida",
+  "ceo": "Robert Sanchez"
+ },
+ {
+  "rank": 347,
+  "company": "Intercontinental Exchange",
+  "revenue_m": "$12,640",
+  "industry": "Securities",
+  "state": "Georgia",
+  "ceo": "Jeffrey Sprecher"
+ },
+ {
+  "rank": 348,
+  "company": "Cincinnati Financial",
+  "revenue_m": "$12,631.5",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Ohio",
+  "ceo": "Stephen Spray"
+ },
+ {
+  "rank": 349,
+  "company": "Chewy",
+  "revenue_m": "$12,601.5",
+  "industry": "Internet Services and Retailing",
+  "state": "Florida",
+  "ceo": "Sumit Singh"
+ },
+ {
+  "rank": 350,
+  "company": "Community Health Systems",
+  "revenue_m": "$12,485",
+  "industry": "Health Care: Medical Facilities",
+  "state": "Tennessee",
+  "ceo": "Tim Hingtgen"
+ },
+ {
+  "rank": 350,
+  "company": "Huntington Bancshares",
+  "revenue_m": "$12,485",
+  "industry": "Commercial Banks",
+  "state": "Ohio",
+  "ceo": "Stephen Steinour"
+ },
+ {
+  "rank": 352,
+  "company": "Huntington Ingalls Industries",
+  "revenue_m": "$12,484",
+  "industry": "Aerospace & Defense",
+  "state": "Virginia",
+  "ceo": "Christopher Kastner"
+ },
+ {
+  "rank": 353,
+  "company": "Wayfair",
+  "revenue_m": "$12,457",
+  "industry": "Internet Services and Retailing",
+  "state": "Massachusetts",
+  "ceo": "Niraj Shah"
+ },
+ {
+  "rank": 354,
+  "company": "Lumen Technologies",
+  "revenue_m": "$12,402",
+  "industry": "Telecommunications",
+  "state": "Louisiana",
+  "ceo": "Kate Johnson"
+ },
+ {
+  "rank": 355,
+  "company": "Ulta Beauty",
+  "revenue_m": "$12,392.8",
+  "industry": "Specialty Retailers: Other",
+  "state": "Illinois",
+  "ceo": "Kecia Steelman"
+ },
+ {
+  "rank": 356,
+  "company": "Crown Holdings",
+  "revenue_m": "$12,365",
+  "industry": "Packaging, Containers",
+  "state": "Pennsylvania",
+  "ceo": "Timothy Donahue"
+ },
+ {
+  "rank": 357,
+  "company": "Airbnb",
+  "revenue_m": "$12,241",
+  "industry": "Internet Services and Retailing",
+  "state": "California",
+  "ceo": "Brian Chesky"
+ },
+ {
+  "rank": 358,
+  "company": "AES",
+  "revenue_m": "$12,233",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Virginia",
+  "ceo": "Andres Gluski"
+ },
+ {
+  "rank": 359,
+  "company": "Norfolk Southern",
+  "revenue_m": "$12,180",
+  "industry": "Railroads",
+  "state": "Virginia",
+  "ceo": "Mark George"
+ },
+ {
+  "rank": 360,
+  "company": "Public Service Enterprise Group",
+  "revenue_m": "$12,168",
+  "industry": "Utilities: Gas and Electric",
+  "state": "New Jersey",
+  "ceo": "Ralph LaRossa"
+ },
+ {
+  "rank": 361,
+  "company": "KLA",
+  "revenue_m": "$12,156.2",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "California",
+  "ceo": "Richard Wallace"
+ },
+ {
+  "rank": 362,
+  "company": "Expand Energy",
+  "revenue_m": "$12,124",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Oklahoma",
+  "ceo": "Domenic Dell\u2019Osso Jr."
+ },
+ {
+  "rank": 363,
+  "company": "Hormel Foods",
+  "revenue_m": "$12,106.2",
+  "industry": "Food Consumer Products",
+  "state": "Minnesota",
+  "ceo": "James Snee"
+ },
+ {
+  "rank": 364,
+  "company": "Darden Restaurants",
+  "revenue_m": "$12,076.7",
+  "industry": "Food Services",
+  "state": "Florida",
+  "ceo": "Raj Vennam"
+ },
+ {
+  "rank": 365,
+  "company": "Citizens Financial Group",
+  "revenue_m": "$12,057",
+  "industry": "Commercial Banks",
+  "state": "Rhode Island",
+  "ceo": "Bruce Van Saun"
+ },
+ {
+  "rank": 366,
+  "company": "Mosaic",
+  "revenue_m": "$12,052.4",
+  "industry": "Chemicals",
+  "state": "Florida",
+  "ceo": "Bruce Bodine"
+ },
+ {
+  "rank": 367,
+  "company": "Hilton Worldwide Holdings",
+  "revenue_m": "$12,039",
+  "industry": "Hotels, Casinos, Resorts",
+  "state": "Virginia",
+  "ceo": "Christopher Nassetta"
+ },
+ {
+  "rank": 368,
+  "company": "Air Products & Chemicals",
+  "revenue_m": "$12,037.3",
+  "industry": "Chemicals",
+  "state": "Pennsylvania",
+  "ceo": "Seifi Ghasemi"
+ },
+ {
+  "rank": 369,
+  "company": "Jacobs Solutions",
+  "revenue_m": "$12,029.8",
+  "industry": "Diversified Outsourcing Services",
+  "state": "Texas",
+  "ceo": "Bob Pragada"
+ },
+ {
+  "rank": 370,
+  "company": "Vertex Pharmaceuticals",
+  "revenue_m": "$12,001.3",
+  "industry": "Pharmaceuticals",
+  "state": "Massachusetts",
+  "ceo": "Reshma Kewalramani"
+ },
+ {
+  "rank": 371,
+  "company": "J.B. Hunt Transport Services",
+  "revenue_m": "$11,999.1",
+  "industry": "Trucking, Truck Leasing",
+  "state": "Arkansas",
+  "ceo": "Shelley Simpson"
+ },
+ {
+  "rank": 372,
+  "company": "Booz Allen Hamilton Holding",
+  "revenue_m": "$11,980",
+  "industry": "Information Technology Services",
+  "state": "Virginia",
+  "ceo": "Horacio Rozanski"
+ },
+ {
+  "rank": 373,
+  "company": "Williams",
+  "revenue_m": "$11,950",
+  "industry": "Pipelines",
+  "state": "Oklahoma",
+  "ceo": "Alan Armstrong"
+ },
+ {
+  "rank": 374,
+  "company": "Chipotle Mexican Grill",
+  "revenue_m": "$11,925.6",
+  "industry": "Food Services",
+  "state": "California",
+  "ceo": "Scott Boatwright"
+ },
+ {
+  "rank": 375,
+  "company": "Yum China Holdings",
+  "revenue_m": "$11,797",
+  "industry": "Food Services",
+  "state": "Texas",
+  "ceo": "Joey Wat"
+ },
+ {
+  "rank": 376,
+  "company": "Oscar Health",
+  "revenue_m": "$11,701.4",
+  "industry": "Health Care: Insurance and Managed Care",
+  "state": "New York",
+  "ceo": "Mark Bertolini"
+ },
+ {
+  "rank": 377,
+  "company": "Hershey",
+  "revenue_m": "$11,692.6",
+  "industry": "Food Consumer Products",
+  "state": "Pennsylvania",
+  "ceo": "Michele Buck"
+ },
+ {
+  "rank": 378,
+  "company": "Motorola Solutions",
+  "revenue_m": "$11,682",
+  "industry": "Network and Other Communications Equipment",
+  "state": "Illinois",
+  "ceo": "Gregory Brown"
+ },
+ {
+  "rank": 379,
+  "company": "Equitable Holdings",
+  "revenue_m": "$11,665",
+  "industry": "Insurance: Life, Health (Stock)",
+  "state": "New York",
+  "ceo": "Mark Pearson"
+ },
+ {
+  "rank": 380,
+  "company": "Avis Budget Group",
+  "revenue_m": "$11,652",
+  "industry": "Automotive Retailing, Services",
+  "state": "New Jersey",
+  "ceo": "Joe Ferraro"
+ },
+ {
+  "rank": 381,
+  "company": "Conagra Brands",
+  "revenue_m": "$11,612.8",
+  "industry": "Food Consumer Products",
+  "state": "Illinois",
+  "ceo": "Sean Connolly"
+ },
+ {
+  "rank": 382,
+  "company": "Baxter International",
+  "revenue_m": "$11,596",
+  "industry": "Medical Products and Equipment",
+  "state": "Illinois",
+  "ceo": "Jose Almeida"
+ },
+ {
+  "rank": 383,
+  "company": "Burlington Stores",
+  "revenue_m": "$11,566.9",
+  "industry": "Specialty Retailers: Apparel",
+  "state": "New Jersey",
+  "ceo": "Michael O\u2019Sullivan"
+ },
+ {
+  "rank": 384,
+  "company": "Caesars Entertainment",
+  "revenue_m": "$11,486",
+  "industry": "Hotels, Casinos, Resorts",
+  "state": "Nevada",
+  "ceo": "Thomas Reeg"
+ },
+ {
+  "rank": 385,
+  "company": "Owens Corning",
+  "revenue_m": "$11,279",
+  "industry": "Building Materials, Glass",
+  "state": "Ohio",
+  "ceo": "Brian Chambers"
+ },
+ {
+  "rank": 386,
+  "company": "KeyCorp",
+  "revenue_m": "$11,228",
+  "industry": "Commercial Banks",
+  "state": "Ohio",
+  "ceo": "Chris Gorman"
+ },
+ {
+  "rank": 387,
+  "company": "Thrivent Financial",
+  "revenue_m": "$11,179.1",
+  "industry": "Insurance: Life, Health (Mutual)",
+  "state": "Minnesota",
+  "ceo": "Terry Rasmussen"
+ },
+ {
+  "rank": 388,
+  "company": "Westlake",
+  "revenue_m": "$11,170",
+  "industry": "Chemicals",
+  "state": "Texas",
+  "ceo": "Albert Chao"
+ },
+ {
+  "rank": 389,
+  "company": "Westinghouse Air Brake",
+  "revenue_m": "$11,167",
+  "industry": "Industrial Machinery",
+  "state": "Pennsylvania",
+  "ceo": "Rafael Santana"
+ },
+ {
+  "rank": 390,
+  "company": "Molson Coors Beverage",
+  "revenue_m": "$11,140.8",
+  "industry": "Beverages",
+  "state": "Illinois",
+  "ceo": "Gavin Hattersley"
+ },
+ {
+  "rank": 391,
+  "company": "Lululemon athletica",
+  "revenue_m": "$11,102.6",
+  "industry": "Specialty Retailers: Apparel",
+  "state": "Washington",
+  "ceo": "Calvin McDonald"
+ },
+ {
+  "rank": 392,
+  "company": "FM",
+  "revenue_m": "$11,101.7",
+  "industry": "Insurance: Property and Casualty (Mutual)",
+  "state": "Rhode Island",
+  "ceo": "Malcolm Roberts"
+ },
+ {
+  "rank": 393,
+  "company": "Ebay",
+  "revenue_m": "$11,100",
+  "industry": "Internet Services and Retailing",
+  "state": "California",
+  "ceo": "Jamie Iannone"
+ },
+ {
+  "rank": 394,
+  "company": "Expeditors Intl. of Washington",
+  "revenue_m": "$11,069",
+  "industry": "Transportation and Logistics",
+  "state": "Washington",
+  "ceo": "Jeffrey Musser"
+ },
+ {
+  "rank": 395,
+  "company": "Quest Diagnostics",
+  "revenue_m": "$11,035",
+  "industry": "Health Care: Pharmacy and Other Services",
+  "state": "New Jersey",
+  "ceo": "Stephen Rusckowski"
+ },
+ {
+  "rank": 396,
+  "company": "Analog Devices",
+  "revenue_m": "$11,019.7",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "Massachusetts",
+  "ceo": "Vincent Roche"
+ },
+ {
+  "rank": 397,
+  "company": "Andersons",
+  "revenue_m": "$11,008.9",
+  "industry": "Food Production",
+  "state": "Ohio",
+  "ceo": "Patrick Bowe"
+ },
+ {
+  "rank": 398,
+  "company": "Gold.com",
+  "revenue_m": "$10,978.6",
+  "industry": "Internet Services and Retailing",
+  "state": "New York",
+  "ceo": "Scott Davis"
+ },
+ {
+  "rank": 399,
+  "company": "Toll Brothers",
+  "revenue_m": "$10,966.7",
+  "industry": "Homebuilders",
+  "state": "Pennsylvania",
+  "ceo": "Douglas Yearley Jr."
+ },
+ {
+  "rank": 400,
+  "company": "International Flavors & Fragrances",
+  "revenue_m": "$10,890",
+  "industry": "Chemicals",
+  "state": "New York",
+  "ceo": "Erik Fyrwald"
+ },
+ {
+  "rank": 401,
+  "company": "Welltower",
+  "revenue_m": "$10,838",
+  "industry": "Real Estate",
+  "state": "Ohio",
+  "ceo": "Shankh Mitra"
+ },
+ {
+  "rank": 402,
+  "company": "Jefferies Financial Group",
+  "revenue_m": "$10,823.7",
+  "industry": "Securities",
+  "state": "New York",
+  "ceo": "Richard Handler"
+ },
+ {
+  "rank": 403,
+  "company": "Autoliv",
+  "revenue_m": "$10,815",
+  "industry": "Motor Vehicles & Parts",
+  "state": "Michigan",
+  "ceo": "Mikael Bratt"
+ },
+ {
+  "rank": 404,
+  "company": "Mohawk Industries",
+  "revenue_m": "$10,785.4",
+  "industry": "Home Equipment, Furnishings",
+  "state": "Georgia",
+  "ceo": "Jeff Lorberbaum"
+ },
+ {
+  "rank": 405,
+  "company": "Delek US Holdings",
+  "revenue_m": "$10,722.9",
+  "industry": "Petroleum Refining",
+  "state": "Tennessee",
+  "ceo": "Avigal Soreq"
+ },
+ {
+  "rank": 406,
+  "company": "Fidelity National Information (FIS)",
+  "revenue_m": "$10,677",
+  "industry": "Financial Data Services",
+  "state": "Florida",
+  "ceo": "Stephanie Ferris"
+ },
+ {
+  "rank": 407,
+  "company": "Accendra Health",
+  "revenue_m": "$10,671.7",
+  "industry": "Health Care: Pharmacy and Other Services",
+  "state": "Kentucky",
+  "ceo": "Brad Behrens"
+ },
+ {
+  "rank": 408,
+  "company": "American Tower",
+  "revenue_m": "$10,644.6",
+  "industry": "Real Estate",
+  "state": "Massachusetts",
+  "ceo": "Steven Vondran"
+ },
+ {
+  "rank": 409,
+  "company": "NVR",
+  "revenue_m": "$10,443.3",
+  "industry": "Homebuilders",
+  "state": "Virginia",
+  "ceo": "Eugene Bredow"
+ },
+ {
+  "rank": 410,
+  "company": "Interactive Brokers Group",
+  "revenue_m": "$10,424",
+  "industry": "Securities",
+  "state": "Connecticut",
+  "ceo": "Milan Galik"
+ },
+ {
+  "rank": 411,
+  "company": "Oshkosh",
+  "revenue_m": "$10,422.3",
+  "industry": "Construction and Farm Machinery",
+  "state": "Wisconsin",
+  "ceo": "John Pfeifer"
+ },
+ {
+  "rank": 412,
+  "company": "Cintas",
+  "revenue_m": "$10,340.2",
+  "industry": "Diversified Outsourcing Services",
+  "state": "Ohio",
+  "ceo": "Todd Schneider"
+ },
+ {
+  "rank": 413,
+  "company": "Campbell\u2019s",
+  "revenue_m": "$10,253",
+  "industry": "Food Consumer Products",
+  "state": "New Jersey",
+  "ceo": "Mark Clouse"
+ },
+ {
+  "rank": 414,
+  "company": "Vertiv Holdings",
+  "revenue_m": "$10,229.9",
+  "industry": "Electronics, Electrical Equip.",
+  "state": "Ohio",
+  "ceo": "Giordano Albertazzi"
+ },
+ {
+  "rank": 415,
+  "company": "Global Payments",
+  "revenue_m": "$10,215.6",
+  "industry": "Financial Data Services",
+  "state": "Georgia",
+  "ceo": "Cameron Bready"
+ },
+ {
+  "rank": 416,
+  "company": "Constellation Brands",
+  "revenue_m": "$10,208.7",
+  "industry": "Beverages",
+  "state": "New York",
+  "ceo": "William Newlands"
+ },
+ {
+  "rank": 417,
+  "company": "AGCO",
+  "revenue_m": "$10,082",
+  "industry": "Construction and Farm Machinery",
+  "state": "Georgia",
+  "ceo": "Eric Hansotia"
+ },
+ {
+  "rank": 418,
+  "company": "Intuitive Surgical",
+  "revenue_m": "$10,064.7",
+  "industry": "Medical Products and Equipment",
+  "state": "California",
+  "ceo": "Gary Guthart"
+ },
+ {
+  "rank": 419,
+  "company": "Ace Hardware",
+  "revenue_m": "$10,043.6",
+  "industry": "Specialty Retailers: Other",
+  "state": "Illinois",
+  "ceo": "Kim Lefko"
+ },
+ {
+  "rank": 420,
+  "company": "Dana",
+  "revenue_m": "$9,998",
+  "industry": "Motor Vehicles & Parts",
+  "state": "Ohio",
+  "ceo": "R. Bruce McDonald"
+ },
+ {
+  "rank": 421,
+  "company": "Biogen",
+  "revenue_m": "$9,890.6",
+  "industry": "Pharmaceuticals",
+  "state": "Massachusetts",
+  "ceo": "Christopher Viehbacher"
+ },
+ {
+  "rank": 422,
+  "company": "News Corp.",
+  "revenue_m": "$9,845",
+  "industry": "Entertainment",
+  "state": "New York",
+  "ceo": "Robert Thomson"
+ },
+ {
+  "rank": 423,
+  "company": "Concentrix",
+  "revenue_m": "$9,825.8",
+  "industry": "Information Technology Services",
+  "state": "California",
+  "ceo": "Chris Caldwell"
+ },
+ {
+  "rank": 424,
+  "company": "WEC Energy Group",
+  "revenue_m": "$9,800.1",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Wisconsin",
+  "ceo": "Scott Lauber"
+ },
+ {
+  "rank": 425,
+  "company": "VF",
+  "revenue_m": "$9,749.2",
+  "industry": "Apparel",
+  "state": "Colorado",
+  "ceo": "Bracken Darrell"
+ },
+ {
+  "rank": 426,
+  "company": "Seaboard",
+  "revenue_m": "$9,746",
+  "industry": "Food Production",
+  "state": "Kansas",
+  "ceo": "Robert Steer"
+ },
+ {
+  "rank": 427,
+  "company": "Icahn Enterprises",
+  "revenue_m": "$9,658",
+  "industry": "Diversified Financials",
+  "state": "Florida",
+  "ceo": "David Willetts"
+ },
+ {
+  "rank": 428,
+  "company": "Regions Financial",
+  "revenue_m": "$9,608",
+  "industry": "Commercial Banks",
+  "state": "Alabama",
+  "ceo": "John Turner Jr."
+ },
+ {
+  "rank": 429,
+  "company": "Thor Industries",
+  "revenue_m": "$9,579.5",
+  "industry": "Motor Vehicles & Parts",
+  "state": "Indiana",
+  "ceo": "Bob Martin"
+ },
+ {
+  "rank": 430,
+  "company": "Workday",
+  "revenue_m": "$9,552",
+  "industry": "Computer Software",
+  "state": "California",
+  "ceo": "Carl Eschenbach"
+ },
+ {
+  "rank": 431,
+  "company": "Celanese",
+  "revenue_m": "$9,544",
+  "industry": "Chemicals",
+  "state": "Texas",
+  "ceo": "Lori Ryerkerk"
+ },
+ {
+  "rank": 432,
+  "company": "Western Digital",
+  "revenue_m": "$9,520",
+  "industry": "Computers, Office Equipment",
+  "state": "California",
+  "ceo": "Irving Tan"
+ },
+ {
+  "rank": 433,
+  "company": "QVC Group",
+  "revenue_m": "$9,497",
+  "industry": "Internet Services and Retailing",
+  "state": "Pennsylvania",
+  "ceo": "David Rawlinson II"
+ },
+ {
+  "rank": 434,
+  "company": "Zoetis",
+  "revenue_m": "$9,467",
+  "industry": "Pharmaceuticals",
+  "state": "New Jersey",
+  "ceo": "Kristin Peck"
+ },
+ {
+  "rank": 435,
+  "company": "CenterPoint Energy",
+  "revenue_m": "$9,357",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Texas",
+  "ceo": "Jason Wells"
+ },
+ {
+  "rank": 436,
+  "company": "Equinix",
+  "revenue_m": "$9,260",
+  "industry": "Real Estate",
+  "state": "California",
+  "ceo": "Adaire Fox-Martin"
+ },
+ {
+  "rank": 437,
+  "company": "Palo Alto Networks",
+  "revenue_m": "$9,221.5",
+  "industry": "Computer Software",
+  "state": "California",
+  "ceo": "Nikesh Arora"
+ },
+ {
+  "rank": 438,
+  "company": "APA",
+  "revenue_m": "$9,220",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Texas",
+  "ceo": "John Christmann IV"
+ },
+ {
+  "rank": 439,
+  "company": "Old Republic International",
+  "revenue_m": "$9,136.3",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Illinois",
+  "ceo": "Craig Smiddy"
+ },
+ {
+  "rank": 440,
+  "company": "Comfort Systems USA",
+  "revenue_m": "$9,101.6",
+  "industry": "Engineering & Construction",
+  "state": "Texas",
+  "ceo": "Brian Lane"
+ },
+ {
+  "rank": 441,
+  "company": "JetBlue Airways",
+  "revenue_m": "$9,062",
+  "industry": "Airlines",
+  "state": "New York",
+  "ceo": "Joanna Geraghty"
+ },
+ {
+  "rank": 442,
+  "company": "PPL",
+  "revenue_m": "$9,042",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Pennsylvania",
+  "ceo": "Vincent Sorgi"
+ },
+ {
+  "rank": 443,
+  "company": "Xylem",
+  "revenue_m": "$9,035",
+  "industry": "Industrial Machinery",
+  "state": "Washington",
+  "ceo": "Matthew Pine"
+ },
+ {
+  "rank": 444,
+  "company": "Arista Networks",
+  "revenue_m": "$9,005.7",
+  "industry": "Network and Other Communications Equipment",
+  "state": "California",
+  "ceo": "Jayshree Ullal"
+ },
+ {
+  "rank": 445,
+  "company": "Packaging Corp. of America",
+  "revenue_m": "$8,989.3",
+  "industry": "Packaging, Containers",
+  "state": "Illinois",
+  "ceo": "Mark Kowlzan"
+ },
+ {
+  "rank": 446,
+  "company": "PVH",
+  "revenue_m": "$8,950.2",
+  "industry": "Apparel",
+  "state": "New York",
+  "ceo": "Stefan Larsson"
+ },
+ {
+  "rank": 447,
+  "company": "Ovintiv",
+  "revenue_m": "$8,908",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Colorado",
+  "ceo": "Brendan McCracken"
+ },
+ {
+  "rank": 448,
+  "company": "Avery Dennison",
+  "revenue_m": "$8,855.5",
+  "industry": "Packaging, Containers",
+  "state": "California",
+  "ceo": "Deon Stander"
+ },
+ {
+  "rank": 449,
+  "company": "TransDigm Group",
+  "revenue_m": "$8,831",
+  "industry": "Aerospace & Defense",
+  "state": "Ohio",
+  "ceo": "Kevin Stein"
+ },
+ {
+  "rank": 450,
+  "company": "Sprouts Farmers Market",
+  "revenue_m": "$8,806.2",
+  "industry": "Food and Drug Stores",
+  "state": "Arizona",
+  "ceo": "Jack Sinclair"
+ },
+ {
+  "rank": 451,
+  "company": "Prologis",
+  "revenue_m": "$8,790.1",
+  "industry": "Real Estate",
+  "state": "California",
+  "ceo": "Hamid Moghadam"
+ },
+ {
+  "rank": 452,
+  "company": "Franklin Resources",
+  "revenue_m": "$8,770.7",
+  "industry": "Securities",
+  "state": "California",
+  "ceo": "Jennifer Johnson"
+ },
+ {
+  "rank": 453,
+  "company": "Eastman Chemical",
+  "revenue_m": "$8,752",
+  "industry": "Chemicals",
+  "state": "Tennessee",
+  "ceo": "Mark Costa"
+ },
+ {
+  "rank": 454,
+  "company": "ABM Industries",
+  "revenue_m": "$8,745.9",
+  "industry": "Diversified Outsourcing Services",
+  "state": "Georgia",
+  "ceo": "Scott Salmirs"
+ },
+ {
+  "rank": 455,
+  "company": "NOV",
+  "revenue_m": "$8,744",
+  "industry": "Oil and Gas Equipment, Services",
+  "state": "Texas",
+  "ceo": "Clay Williams"
+ },
+ {
+  "rank": 456,
+  "company": "J.M. Smucker",
+  "revenue_m": "$8,726.1",
+  "industry": "Food Consumer Products",
+  "state": "Ohio",
+  "ceo": "Mark Smucker"
+ },
+ {
+  "rank": 457,
+  "company": "Securian Financial Group",
+  "revenue_m": "$8,663.4",
+  "industry": "Insurance: Life, Health (Mutual)",
+  "state": "Minnesota",
+  "ceo": "Chris Hilger"
+ },
+ {
+  "rank": 458,
+  "company": "EQT",
+  "revenue_m": "$8,644.2",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Pennsylvania",
+  "ceo": "Toby Rice"
+ },
+ {
+  "rank": 459,
+  "company": "CACI International",
+  "revenue_m": "$8,627.8",
+  "industry": "Information Technology Services",
+  "state": "Virginia",
+  "ceo": "John Mengucci"
+ },
+ {
+  "rank": 460,
+  "company": "Graphic Packaging Holding",
+  "revenue_m": "$8,617",
+  "industry": "Packaging, Containers",
+  "state": "Georgia",
+  "ceo": "Michael Doss"
+ },
+ {
+  "rank": 461,
+  "company": "Advance Auto Parts",
+  "revenue_m": "$8,601",
+  "industry": "Specialty Retailers: Other",
+  "state": "North Carolina",
+  "ceo": "Shane O\u2019Kelly"
+ },
+ {
+  "rank": 462,
+  "company": "Optimum Communications",
+  "revenue_m": "$8,590.5",
+  "industry": "Telecommunications",
+  "state": "New York",
+  "ceo": "Dennis Mathew"
+ },
+ {
+  "rank": 463,
+  "company": "Sirius XM Holdings",
+  "revenue_m": "$8,558",
+  "industry": "Entertainment",
+  "state": "New York",
+  "ceo": "Jennifer Witz"
+ },
+ {
+  "rank": 464,
+  "company": "CMS Energy",
+  "revenue_m": "$8,539",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Michigan",
+  "ceo": "Garrick Rochow"
+ },
+ {
+  "rank": 465,
+  "company": "Hertz Global Holdings",
+  "revenue_m": "$8,504",
+  "industry": "Automotive Retailing, Services",
+  "state": "Florida",
+  "ceo": "Gil West"
+ },
+ {
+  "rank": 466,
+  "company": "Ameren",
+  "revenue_m": "$8,470",
+  "industry": "Utilities: Gas and Electric",
+  "state": "Missouri",
+  "ceo": "Martin Lyons Jr."
+ },
+ {
+  "rank": 467,
+  "company": "Rockwell Automation",
+  "revenue_m": "$8,342",
+  "industry": "Electronics, Electrical Equip.",
+  "state": "Wisconsin",
+  "ceo": "Blake Moret"
+ },
+ {
+  "rank": 468,
+  "company": "Solventum",
+  "revenue_m": "$8,325",
+  "industry": "Medical Products and Equipment",
+  "state": "Minnesota",
+  "ceo": "Bryan Hanson"
+ },
+ {
+  "rank": 469,
+  "company": "Monster Beverage",
+  "revenue_m": "$8,294.3",
+  "industry": "Beverages",
+  "state": "California",
+  "ceo": "Hilton Schlosberg"
+ },
+ {
+  "rank": 470,
+  "company": "Nasdaq",
+  "revenue_m": "$8,262",
+  "industry": "Securities",
+  "state": "New York",
+  "ceo": "Adena Friedman"
+ },
+ {
+  "rank": 471,
+  "company": "Howmet Aerospace",
+  "revenue_m": "$8,252",
+  "industry": "Aerospace & Defense",
+  "state": "Pennsylvania",
+  "ceo": "John Plant"
+ },
+ {
+  "rank": 472,
+  "company": "Insight Enterprises",
+  "revenue_m": "$8,247.2",
+  "industry": "Information Technology Services",
+  "state": "Arizona",
+  "ceo": "Joyce Mullen"
+ },
+ {
+  "rank": 473,
+  "company": "Zimmer Biomet Holdings",
+  "revenue_m": "$8,231.5",
+  "industry": "Medical Products and Equipment",
+  "state": "Indiana",
+  "ceo": "Ivan Tornos"
+ },
+ {
+  "rank": 474,
+  "company": "Yum Brands",
+  "revenue_m": "$8,214",
+  "industry": "Food Services",
+  "state": "Kentucky",
+  "ceo": "David Gibbs"
+ },
+ {
+  "rank": 475,
+  "company": "Fastenal",
+  "revenue_m": "$8,200.5",
+  "industry": "Wholesalers: Diversified",
+  "state": "Minnesota",
+  "ceo": "Daniel Florness"
+ },
+ {
+  "rank": 476,
+  "company": "Marvell Technology",
+  "revenue_m": "$8,194.6",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "Delaware",
+  "ceo": "Matt Murphy"
+ },
+ {
+  "rank": 477,
+  "company": "Voya Financial",
+  "revenue_m": "$8,189",
+  "industry": "Diversified Financials",
+  "state": "New York",
+  "ceo": "Heather Lavallee"
+ },
+ {
+  "rank": 478,
+  "company": "American Financial Group",
+  "revenue_m": "$8,174",
+  "industry": "Insurance: Property and Casualty (Stock)",
+  "state": "Ohio",
+  "ceo": "S. Craig Lindner"
+ },
+ {
+  "rank": 479,
+  "company": "Post Holdings",
+  "revenue_m": "$8,158.1",
+  "industry": "Food Consumer Products",
+  "state": "Missouri",
+  "ceo": "Robert Vitale"
+ },
+ {
+  "rank": 480,
+  "company": "XPO",
+  "revenue_m": "$8,157",
+  "industry": "Transportation and Logistics",
+  "state": "Connecticut",
+  "ceo": "Mario Harik"
+ },
+ {
+  "rank": 481,
+  "company": "DuPont",
+  "revenue_m": "$8,146",
+  "industry": "Chemicals",
+  "state": "Delaware",
+  "ceo": "Lori Koch"
+ },
+ {
+  "rank": 482,
+  "company": "Sanmina",
+  "revenue_m": "$8,128.4",
+  "industry": "Semiconductors and Other Electronic Components",
+  "state": "California",
+  "ceo": "Jure Sola"
+ },
+ {
+  "rank": 483,
+  "company": "Taylor Morrison Home",
+  "revenue_m": "$8,121.5",
+  "industry": "Homebuilders",
+  "state": "Arizona",
+  "ceo": "Sheryl Palmer"
+ },
+ {
+  "rank": 484,
+  "company": "Dover",
+  "revenue_m": "$8,092.6",
+  "industry": "Industrial Machinery",
+  "state": "Illinois",
+  "ceo": "Richard Tobin"
+ },
+ {
+  "rank": 485,
+  "company": "Vulcan Materials",
+  "revenue_m": "$7,941.1",
+  "industry": "Building Materials, Glass",
+  "state": "Alabama",
+  "ceo": "Tom Hill"
+ },
+ {
+  "rank": 486,
+  "company": "APi Group",
+  "revenue_m": "$7,911",
+  "industry": "Engineering & Construction",
+  "state": "Minnesota",
+  "ceo": "Russ Becker"
+ },
+ {
+  "rank": 487,
+  "company": "Roper Technologies",
+  "revenue_m": "$7,902.5",
+  "industry": "Industrial Machinery",
+  "state": "Florida",
+  "ceo": "Neil Hunn"
+ },
+ {
+  "rank": 488,
+  "company": "KBR",
+  "revenue_m": "$7,853",
+  "industry": "Information Technology Services",
+  "state": "Texas",
+  "ceo": "Stuart Bradie"
+ },
+ {
+  "rank": 489,
+  "company": "Sonoco Products",
+  "revenue_m": "$7,839.4",
+  "industry": "Packaging, Containers",
+  "state": "South Carolina",
+  "ceo": "Howard Coker"
+ },
+ {
+  "rank": 490,
+  "company": "Williams-Sonoma",
+  "revenue_m": "$7,806.8",
+  "industry": "Specialty Retailers: Other",
+  "state": "California",
+  "ceo": "Laura Alber"
+ },
+ {
+  "rank": 491,
+  "company": "Commercial Metals",
+  "revenue_m": "$7,798.5",
+  "industry": "Metals",
+  "state": "Texas",
+  "ceo": "Peter Matt"
+ },
+ {
+  "rank": 492,
+  "company": "Moody\u2019s",
+  "revenue_m": "$7,718",
+  "industry": "Financial Data Services",
+  "state": "New York",
+  "ceo": "Robert Fauber"
+ },
+ {
+  "rank": 493,
+  "company": "Continental Resources",
+  "revenue_m": "$7,693.6",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Oklahoma",
+  "ceo": "Doug Lawler"
+ },
+ {
+  "rank": 494,
+  "company": "Ingersoll Rand",
+  "revenue_m": "$7,650.9",
+  "industry": "Industrial Machinery",
+  "state": "North Carolina",
+  "ceo": "Vicente Reynal"
+ },
+ {
+  "rank": 495,
+  "company": "Core & Main",
+  "revenue_m": "$7,647",
+  "industry": "Wholesalers: Diversified",
+  "state": "Missouri",
+  "ceo": "Steve LeClair"
+ },
+ {
+  "rank": 496,
+  "company": "Coterra Energy",
+  "revenue_m": "$7,645",
+  "industry": "Mining, Crude-Oil Production",
+  "state": "Texas",
+  "ceo": "Tom Jorden"
+ },
+ {
+  "rank": 497,
+  "company": "Primoris Services",
+  "revenue_m": "$7,574.9",
+  "industry": "Engineering & Construction",
+  "state": "Texas",
+  "ceo": "Tom McCormick"
+ },
+ {
+  "rank": 498,
+  "company": "Masco",
+  "revenue_m": "$7,562",
+  "industry": "Home Equipment, Furnishings",
+  "state": "Michigan",
+  "ceo": "Keith Allman"
+ },
+ {
+  "rank": 499,
+  "company": "Somnigroup International",
+  "revenue_m": "$7,476.5",
+  "industry": "Home Equipment, Furnishings",
+  "state": "Georgia",
+  "ceo": "Scott Thompson"
+ },
+ {
+  "rank": 500,
+  "company": "Resideo Technologies",
+  "revenue_m": "$7,472",
+  "industry": "Electronics, Electrical Equip.",
+  "state": "Arizona",
+  "ceo": "Jay Geldmacher"
+ }
+]

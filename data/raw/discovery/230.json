@@ -1,0 +1,30 @@
+{
+ "company": "Ameriprise Financial",
+ "rank": 230,
+ "group": "fortune500",
+ "industry": "Diversified Financials",
+ "ats": "workday",
+ "config": {
+  "host": "ameriprise.wd5.myworkdayjobs.com",
+  "tenant": "ameriprise",
+  "site": "Ameriprise"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "ameriprise.wd5.myworkdayjobs.com",
+    "tenant": "ameriprise",
+    "site": "Ameriprise"
+   },
+   "from": "https://www.ameriprise.com/careers",
+   "verify": "Principal Lead- Product Owner"
+  }
+ ],
+ "domain": "ameriprise.com",
+ "sample_title": "Principal Lead- Product Owner",
+ "description_chars": 7765,
+ "seconds": 46
+}

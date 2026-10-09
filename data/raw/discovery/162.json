@@ -1,0 +1,37 @@
+{
+ "company": "CarMax",
+ "rank": 162,
+ "group": "fortune500",
+ "industry": "Automotive Retailing, Services",
+ "ats": "workday",
+ "config": {
+  "host": "carmax.wd1.myworkdayjobs.com",
+  "tenant": "carmax",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "carmax.wd1.myworkdayjobs.com",
+    "tenant": "carmax",
+    "site": "External"
+   },
+   "from": "https://careers.carmax.com/",
+   "verify": "(board reachable; no product title on first pages)"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.carmax.com"
+   },
+   "from": "https://careers.carmax.com/"
+  }
+ ],
+ "domain": "carmax.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 10
+}

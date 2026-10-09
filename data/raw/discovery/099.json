@@ -1,0 +1,46 @@
+{
+ "company": "Nike",
+ "rank": 99,
+ "group": "fortune500",
+ "industry": "Apparel",
+ "ats": "workday",
+ "config": {
+  "host": "nike.wd1.myworkdayjobs.com",
+  "tenant": "nike",
+  "site": "nke"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "nike.wd1.myworkdayjobs.com",
+    "tenant": "nike",
+    "site": "nke"
+   },
+   "from": "https://careers.nike.com/",
+   "verify": "Lead Technical Product Manager, ITC"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "nike.wd1.myworkdayjobs.com",
+    "tenant": "nike",
+    "site": "nke2"
+   },
+   "from": "https://careers.nike.com/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.nike.com"
+   },
+   "from": "https://careers.nike.com/"
+  }
+ ],
+ "domain": "nike.com",
+ "sample_title": "Lead Technical Product Manager, ITC",
+ "description_chars": 2911,
+ "seconds": 21
+}

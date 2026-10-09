@@ -1,0 +1,24 @@
+{
+ "company": "Mutual of Omaha",
+ "rank": 288,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Mutual)",
+ "ats": "phenom",
+ "config": {
+  "host": "www.mutualofomaha.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.mutualofomaha.com"
+   },
+   "from": "https://www.mutualofomaha.com/careers/jobs/alert",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "mutualofomaha.com",
+ "seconds": 18
+}

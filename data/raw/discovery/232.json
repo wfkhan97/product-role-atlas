@@ -1,0 +1,30 @@
+{
+ "company": "Guardian Life Ins. Co. of America",
+ "rank": 232,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Mutual)",
+ "ats": "workday",
+ "config": {
+  "host": "guardianlife.wd5.myworkdayjobs.com",
+  "tenant": "guardianlife",
+  "site": "Guardian-Life-Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "guardianlife.wd5.myworkdayjobs.com",
+    "tenant": "guardianlife",
+    "site": "Guardian-Life-Careers"
+   },
+   "from": "https://www.guardianlife.com/careers",
+   "verify": "Annuity Product Manager (Remote)"
+  }
+ ],
+ "domain": "guardianlife.com",
+ "sample_title": "Annuity Product Manager (Remote)",
+ "description_chars": 7627,
+ "seconds": 17
+}

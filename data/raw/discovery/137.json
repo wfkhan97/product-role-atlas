@@ -1,0 +1,36 @@
+{
+ "company": "Cummins",
+ "rank": 137,
+ "group": "fortune500",
+ "industry": "Industrial Machinery",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "fa-espx-saasfaprod1.fa.ocs.oraclecloud.com",
+  "siteNumber": "CX_1"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "fa-espx-saasfaprod1.fa.ocs.oraclecloud.com",
+    "siteNumber": "CX_1"
+   },
+   "from": "https://cummins.jobs/",
+   "verify": "IAM Product Owner \u2013 Customer Identity Access Management"
+  },
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "fa-espx-saasfaprod1.fa.ocs.oraclecloud.com",
+    "siteNumber": "CX_1006"
+   },
+   "from": "https://cummins.jobs/"
+  }
+ ],
+ "domain": "cummins.com",
+ "sample_title": "IAM Product Owner \u2013 Customer Identity Access Management",
+ "description_chars": 6444,
+ "seconds": 12
+}

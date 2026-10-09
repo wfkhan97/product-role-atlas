@@ -1,0 +1,15 @@
+{
+ "company": "Delta Air Lines",
+ "rank": 71,
+ "group": "fortune500",
+ "industry": "Airlines",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.delta.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "delta.com",
+ "seconds": 74
+}

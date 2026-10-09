@@ -1,0 +1,30 @@
+{
+ "company": "VF",
+ "rank": 425,
+ "group": "fortune500",
+ "industry": "Apparel",
+ "ats": "workday",
+ "config": {
+  "host": "vfc.wd5.myworkdayjobs.com",
+  "tenant": "vfc",
+  "site": "vfc_careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "vfc.wd5.myworkdayjobs.com",
+    "tenant": "vfc",
+    "site": "vfc_careers"
+   },
+   "from": "https://www.vfc.com/careers",
+   "verify": "Product Manager Collaborations, Partnerships & Energy"
+  }
+ ],
+ "domain": "vfc.com",
+ "sample_title": "Product Manager Collaborations, Partnerships & Energy",
+ "description_chars": 6449,
+ "seconds": 12
+}

@@ -1,0 +1,24 @@
+{
+ "company": "Entergy",
+ "rank": 340,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.entergy.com"
+ },
+ "verified": false,
+ "notes": "candidates: successfactors 0 product postings",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.entergy.com"
+   },
+   "from": "https://jobs.entergy.com/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "entergy.com",
+ "seconds": 7
+}

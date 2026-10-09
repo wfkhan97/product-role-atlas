@@ -1,0 +1,13 @@
+{
+ "Technology": ["Internet Services and Retailing", "Semiconductors and Other Electronic Components", "Information Technology Services", "Computer Software", "Computers, Office Equipment", "Network and Other Communications Equipment", "Electronics, Electrical Equip.", "Scientific,Photographic and Control Equipment"],
+ "Financials": ["Commercial Banks", "Diversified Financials", "Securities", "Financial Data Services", "Real Estate"],
+ "Insurance": ["Insurance: Property and Casualty (Stock)", "Insurance: Life, Health (Mutual)", "Insurance: Life, Health (Stock)", "Insurance: Property and Casualty (Mutual)"],
+ "Health Care": ["Pharmaceuticals", "Medical Products and Equipment", "Health Care: Pharmacy and Other Services", "Health Care: Insurance and Managed Care", "Health Care: Medical Facilities", "Wholesalers: Health Care"],
+ "Retail": ["Specialty Retailers: Other", "General Merchandisers", "Automotive Retailing, Services", "Specialty Retailers: Apparel", "Food and Drug Stores", "Apparel", "Home Equipment, Furnishings"],
+ "Energy & Utilities": ["Utilities: Gas and Electric", "Mining, Crude-Oil Production", "Pipelines", "Petroleum Refining", "Energy", "Oil and Gas Equipment, Services"],
+ "Industrials & Manufacturing": ["Industrial Machinery", "Chemicals", "Aerospace & Defense", "Engineering & Construction", "Packaging, Containers", "Metals", "Construction and Farm Machinery", "Building Materials, Glass", "Homebuilders", "Waste Management"],
+ "Automotive & Transportation": ["Motor Vehicles & Parts", "Airlines", "Transportation and Logistics", "Railroads", "Mail, Package, and Freight Delivery", "Trucking, Truck Leasing"],
+ "Consumer Goods & Food": ["Food Consumer Products", "Food Production", "Beverages", "Household and Personal Products", "Tobacco", "Food Services", "Wholesalers: Food and Grocery"],
+ "Media, Telecom & Hospitality": ["Entertainment", "Telecommunications", "Hotels, Casinos, Resorts", "Advertising, Marketing"],
+ "Wholesale & Business Services": ["Wholesalers: Diversified", "Diversified Outsourcing Services", "Wholesalers: Electronics and Office Equipment"]
+}

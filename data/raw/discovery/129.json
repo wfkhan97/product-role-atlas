@@ -1,0 +1,46 @@
+{
+ "company": "Amgen",
+ "rank": 129,
+ "group": "fortune500",
+ "industry": "Pharmaceuticals",
+ "ats": "workday",
+ "config": {
+  "host": "amgen.wd1.myworkdayjobs.com",
+  "tenant": "amgen",
+  "site": "Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "amgen.wd1.myworkdayjobs.com",
+    "tenant": "amgen",
+    "site": "Careers"
+   },
+   "from": "https://careers.amgen.com/en",
+   "verify": "Sr. Digital Product Manager, Product Operations - Playbook & Training"
+  },
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "amgen.eightfold.ai",
+    "domain": "amgen.com",
+    "api": "pcsx"
+   },
+   "from": "https://careers.amgen.com/en"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.amgen.com"
+   },
+   "from": "https://careers.amgen.com/en"
+  }
+ ],
+ "domain": "amgen.com",
+ "sample_title": "Sr. Digital Product Manager, Product Operations - Playbook & Training",
+ "description_chars": 9761,
+ "seconds": 34
+}

@@ -1,0 +1,37 @@
+{
+ "company": "Lennar",
+ "rank": 135,
+ "group": "fortune500",
+ "industry": "Homebuilders",
+ "ats": "workday",
+ "config": {
+  "host": "lennar.wd1.myworkdayjobs.com",
+  "tenant": "lennar",
+  "site": "Early_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.lennar.com"
+   },
+   "from": "https://careers.lennar.com/"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "lennar.wd1.myworkdayjobs.com",
+    "tenant": "lennar",
+    "site": "Early_Careers"
+   },
+   "from": "https://careers.lennar.com/early-careers",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "lennar.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 18
+}

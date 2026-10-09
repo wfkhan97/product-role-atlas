@@ -1,0 +1,26 @@
+{
+ "company": "Cheniere Energy",
+ "rank": 223,
+ "group": "fortune500",
+ "industry": "Pipelines",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "hcgi.fa.us2.oraclecloud.com",
+  "siteNumber": "CX_2"
+ },
+ "verified": false,
+ "notes": "candidates: oracle_hcm 0 product postings",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "hcgi.fa.us2.oraclecloud.com",
+    "siteNumber": "CX_2"
+   },
+   "from": "https://www.cheniere.com/careers",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "cheniere.com",
+ "seconds": 6
+}

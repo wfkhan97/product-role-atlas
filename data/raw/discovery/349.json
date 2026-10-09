@@ -1,0 +1,40 @@
+{
+ "company": "Chewy",
+ "rank": 349,
+ "group": "fortune500",
+ "industry": "Internet Services and Retailing",
+ "ats": "phenom",
+ "config": {
+  "host": "careers.chewy.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings; paradox 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.chewy.com"
+   },
+   "from": "https://careers.chewy.com/us/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/prod/CHINUS/en_us/desktop/assets/images/favicon.ico?v=1713543705228",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.chewy.com"
+   },
+   "from": "https://careers.chewy.com/us/en/corporate-careers",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "chewy.com",
+ "seconds": 28
+}

@@ -1,0 +1,48 @@
+{
+ "company": "Sysco",
+ "rank": 55,
+ "group": "fortune500",
+ "industry": "Wholesalers: Food and Grocery",
+ "ats": "radancy",
+ "config": {
+  "host": "careers.sysco.com"
+ },
+ "verified": false,
+ "notes": "candidates: radancy 0 product postings; radancy 0 product postings; radancy 0 product postings; radancy 0 product postings",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.sysco.com"
+   },
+   "from": "https://careers.sysco.com/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.syscoireland.com"
+   },
+   "from": "https://careers.syscoireland.com/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "www.syscocareers.cr"
+   },
+   "from": "https://www.syscocareers.cr/es",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.sysco.ca"
+   },
+   "from": "https://careers.sysco.ca/en",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "sysco.com",
+ "seconds": 35
+}

@@ -1,0 +1,26 @@
+{
+ "company": "Cincinnati Financial",
+ "rank": 348,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Stock)",
+ "ats": "taleo",
+ "config": {
+  "host": "cinfin.taleo.net",
+  "careersection": "ex"
+ },
+ "verified": false,
+ "notes": "candidates: taleo no adapter",
+ "candidates": [
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "cinfin.taleo.net",
+    "careersection": "ex"
+   },
+   "from": "https://www.cinfin.com/cincinnati-insurance-careers",
+   "verify": "no adapter"
+  }
+ ],
+ "domain": "cinfin.com",
+ "seconds": 9
+}

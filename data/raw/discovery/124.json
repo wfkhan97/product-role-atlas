@@ -1,0 +1,37 @@
+{
+ "company": "GE Vernova",
+ "rank": 124,
+ "group": "fortune500",
+ "industry": "Energy",
+ "ats": "workday",
+ "config": {
+  "host": "gevernova.wd5.myworkdayjobs.com",
+  "tenant": "gevernova",
+  "site": "Vernova_ExternalSite"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "gevernova.wd5.myworkdayjobs.com",
+    "tenant": "gevernova",
+    "site": "Vernova_ExternalSite"
+   },
+   "from": "https://careers.gevernova.com/",
+   "verify": "Sr Staff Technical Product Manager"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.gevernova.com"
+   },
+   "from": "https://careers.gevernova.com/"
+  }
+ ],
+ "domain": "gevernova.com",
+ "sample_title": "Sr Staff Technical Product Manager",
+ "description_chars": 7140,
+ "seconds": 8
+}

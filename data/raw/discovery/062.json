@@ -1,0 +1,26 @@
+{
+ "company": "New York Life Insurance",
+ "rank": 62,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Mutual)",
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.newyorklife.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.newyorklife.com"
+   },
+   "from": "https://jobs.newyorklife.com/go/Investment-Jobs/4451800/",
+   "verify": "Corporate Vice President, Product Ownership and Agile Delivery Leadership"
+  }
+ ],
+ "domain": "newyorklife.com",
+ "sample_title": "Corporate Vice President, Product Ownership and Agile Delivery Leadership",
+ "description_chars": 10203,
+ "seconds": 14
+}

@@ -1,0 +1,61 @@
+{
+ "company": "W.R. Berkley",
+ "rank": 305,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Stock)",
+ "ats": "icims",
+ "config": {
+  "host": "careers-berkley.icims.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-berkley.icims.com"
+   },
+   "from": "https://www.berkley.com/about-us/careers",
+   "verify": "Product Manager"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-apac-berkley.icims.com"
+   },
+   "from": "https://www.berkley.com/about-us/careers"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-spain-berkley.icims.com"
+   },
+   "from": "https://www.berkley.com/about-us/careers"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-canada-berkley.icims.com"
+   },
+   "from": "https://www.berkley.com/about-us/careers"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-germany-berkley.icims.com"
+   },
+   "from": "https://www.berkley.com/about-us/careers"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-uknordicswitz-berkley.icims.com"
+   },
+   "from": "https://www.berkley.com/about-us/careers"
+  }
+ ],
+ "domain": "berkley.com",
+ "sample_title": "Product Manager",
+ "description_chars": 4174,
+ "seconds": 19
+}

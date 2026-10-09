@@ -1,0 +1,15 @@
+{
+ "company": "Dow",
+ "rank": 120,
+ "group": "fortune500",
+ "industry": "Chemicals",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.downdetector.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "downdetector.com",
+ "seconds": 6
+}

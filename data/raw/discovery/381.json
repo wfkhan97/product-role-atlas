@@ -1,0 +1,44 @@
+{
+ "company": "Conagra Brands",
+ "rank": 381,
+ "group": "fortune500",
+ "industry": "Food Consumer Products",
+ "ats": "workday",
+ "config": {
+  "host": "conagrabrands.wd1.myworkdayjobs.com",
+  "tenant": "conagrabrands",
+  "site": "Careers_US"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.conagrabrands.com"
+   },
+   "from": "https://careers.conagrabrands.com/us/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/CXGCONUS/en_us/desktop/assets/images/favicon.ico?v=1656736330433"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "conagrabrands.wd1.myworkdayjobs.com",
+    "tenant": "conagrabrands",
+    "site": "Careers_US"
+   },
+   "from": "https://careers.conagrabrands.com/us/en/maintenance",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "conagrabrands.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 19
+}

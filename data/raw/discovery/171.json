@@ -1,0 +1,26 @@
+{
+ "company": "HF Sinclair",
+ "rank": 171,
+ "group": "fortune500",
+ "industry": "Petroleum Refining",
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.hfsinclair.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.hfsinclair.com"
+   },
+   "from": "https://careers.hfsinclair.com/search/en_US",
+   "verify": "Senior IT Product Manager, (Industrial Platform)"
+  }
+ ],
+ "domain": "hfsinclair.com",
+ "sample_title": "Senior IT Product Manager, (Industrial Platform)",
+ "description_chars": 8447,
+ "seconds": 8
+}

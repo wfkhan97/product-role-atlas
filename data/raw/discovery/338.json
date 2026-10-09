@@ -1,0 +1,30 @@
+{
+ "company": "Unum Group",
+ "rank": 338,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Stock)",
+ "ats": "workday",
+ "config": {
+  "host": "unum.wd1.myworkdayjobs.com",
+  "tenant": "unum",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "unum.wd1.myworkdayjobs.com",
+    "tenant": "unum",
+    "site": "External"
+   },
+   "from": "https://www.unumgroup.com/careers",
+   "verify": "Digital Product Owner"
+  }
+ ],
+ "domain": "unumgroup.com",
+ "sample_title": "Digital Product Owner",
+ "description_chars": 4911,
+ "seconds": 9
+}

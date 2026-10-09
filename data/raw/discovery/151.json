@@ -1,0 +1,30 @@
+{
+ "company": "Jabil",
+ "rank": 151,
+ "group": "fortune500",
+ "industry": "Semiconductors and Other Electronic Components",
+ "ats": "workday",
+ "config": {
+  "host": "jabil.wd5.myworkdayjobs.com",
+  "tenant": "jabil",
+  "site": "Jabil_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "jabil.wd5.myworkdayjobs.com",
+    "tenant": "jabil",
+    "site": "Jabil_Careers"
+   },
+   "from": "https://careers.jabil.com/",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "jabil.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 10
+}

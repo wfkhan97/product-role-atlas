@@ -1,0 +1,388 @@
+[
+ {
+  "company": "Progressive",
+  "rank": 51,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.progressive.com/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Cloudflare JS challenge (HTTP 403 'Just a moment') on every path incl. /widgets, robots.txt; reportedly Jobvite-backed; www.progressive.com/careers also 403. No scrapable endpoint."
+ },
+ {
+  "company": "Albertsons",
+  "rank": 57,
+  "group": "fortune500",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "eofd.fa.us6.oraclecloud.com",
+   "siteNumber": "CX_1001",
+   "queries": [
+    "Product Manager",
+    "Product Management",
+    "Product Owner",
+    "Technical Program Manager"
+   ]
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now. Quirk: lowercase keyword 'product manager' returns 0 items on this pod while 'Product Manager' returns ~4000 fuzzy hits (none product-titled), so queries are overridden with capitalized phrases. Site has 8k+ store/pharmacy jobs; corporate PM roles seen on aggregators were not found here."
+ },
+ {
+  "company": "Caterpillar",
+  "rank": 65,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "cat.wd5.myworkdayjobs.com",
+   "tenant": "cat",
+   "site": "CaterpillarCareers"
+  },
+  "verified": true,
+  "sample_title": "Platform & Product Manager",
+  "description_chars": 6756,
+  "notes": "careers.caterpillar.com is a Cloudflare-gated Phenom front-end; Workday tenant found via search."
+ },
+ {
+  "company": "Delta Air Lines",
+  "rank": 71,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://delta.avature.net/careers"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Avature career site (delta.avature.net/en_US/careers); no Avature adapter."
+ },
+ {
+  "company": "Galaxy Digital",
+  "rank": 76,
+  "group": "fortune500",
+  "ats": "greenhouse",
+  "config": {
+   "board": "galaxydigitalservices"
+  },
+  "verified": true,
+  "sample_title": "Director, Product Manager - Institutional Platform",
+  "description_chars": 7252,
+  "notes": "www.galaxy.com/careers embeds job-boards.greenhouse.io/galaxydigitalservices."
+ },
+ {
+  "company": "United Airlines Holdings",
+  "rank": 81,
+  "group": "fortune500",
+  "ats": "phenom",
+  "config": {
+   "host": "careers.united.com",
+   "widgets_path": "/widgets"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Phenom /widgets search works (returns 'Senior Product Manager - Integration Platforms' etc.) but applyUrl points at Taleo (ual-pro.taleo.net/careersection/10400/jobdetail.ftl) which has no description/JSON-LD, so adapter yields 0. The Phenom job page https://careers.united.com/us/en/job/{jobId} carries phApp.ddo jobDetail.data.job.description; adapter would work if it fetched that instead of applyUrl."
+ },
+ {
+  "company": "Intel",
+  "rank": 88,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "intel.wd1.myworkdayjobs.com",
+   "tenant": "intel",
+   "site": "External"
+  },
+  "verified": true,
+  "sample_title": "Senior Ethernet Product Manager",
+  "description_chars": 6818,
+  "notes": "jobs.intel.com redirects/403s to curl; Workday tenant intel/External responds directly (486 hits)."
+ },
+ {
+  "company": "Uber Technologies",
+  "rank": 92,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.uber.com/us/en/careers/list/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "uber.com returns HTTP 406 to non-browser clients; careers list is a custom RPC (loadSearchJobsResults) not reachable. Batch domain ub3r.host is wrong; real domain uber.com."
+ },
+ {
+  "company": "Netflix",
+  "rank": 105,
+  "group": "fortune500",
+  "ats": "eightfold",
+  "config": {
+   "host": "explore.jobs.netflix.net",
+   "domain": "netflix.com",
+   "api": "apply"
+  },
+  "verified": true,
+  "sample_title": "Product Manager - Content",
+  "description_chars": 6407,
+  "notes": "Eightfold pcsx API is disabled (403 'PCSX is not enabled for this user'); the legacy /api/apply/v2/jobs API works, hence api='apply'."
+ },
+ {
+  "company": "Best Buy",
+  "rank": 113,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.bestbuy.com/bby"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "ServiceNow-based custom portal (x_nero_bb_career scoped app); job search API requires authentication (401). No supported ATS signature."
+ },
+ {
+  "company": "CBRE Group",
+  "rank": 118,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.cbre.com/en_US/careers"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Phenom front-end behind bot protection: HTML and POST /widgets both return HTTP 202 with empty body. No Workday tenant found (cbre.wd1/wd3/wd5/wd12 with CBRE, External, Careers, CBRE_Careers... all 422)."
+ },
+ {
+  "company": "Lithia Motors",
+  "rank": 123,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.lithiadriveway.com/opportunities"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Webflow site whose JS loads jobs from https://cors-middleware.lithia.workers.dev/jobs (a Workday RaaS 'Report_Entry' feed behind a Cloudflare Worker) which currently returns 404 'error code: 1042'. lithia.wd5.myworkdayjobs.com/LithiaCareers -> 422. careers.lithia.com / jobs.lithia.com do not resolve."
+ },
+ {
+  "company": "D.R. Horton",
+  "rank": 134,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://drhorton.taleo.net/careersection/2/jobsearch.ftl"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Taleo (drhorton.taleo.net, careersections 1 and 2); no Taleo adapter."
+ },
+ {
+  "company": "Nucor",
+  "rank": 142,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.nucor.com"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board reachable (search HTML has class=\"jobTitle-link\" anchors); the only product-titled posting is 'Product Management Intern'. Adapter returned 0 because DESC_RE requires the jobdescription </span> to be followed by a <div>, but this layout follows it with <p class=\"job-location\">. Adapter regex gap, not a site problem."
+ },
+ {
+  "company": "Truist Financial",
+  "rank": 150,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "truist.wd1.myworkdayjobs.com",
+   "tenant": "truist",
+   "site": "Careers"
+  },
+  "verified": true,
+  "sample_title": "Product Manager - Brokerage & Retirement Products",
+  "description_chars": 4703,
+  "notes": "careers.truist.com is a Phenom front-end whose applyUrl points at truist.wd1.myworkdayjobs.com/Careers; scrape Workday directly."
+ },
+ {
+  "company": "Quanta Services",
+  "rank": 157,
+  "group": "fortune500",
+  "ats": "icims",
+  "config": {
+   "host": "careers-quanta.icims.com"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (search returns Manufacturing Project Manager, Senior Accountant...). allcareers-quanta.icims.com is a hub view of the same portal."
+ },
+ {
+  "company": "Marsh & McLennan",
+  "rank": 168,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "mmc.wd1.myworkdayjobs.com",
+   "tenant": "mmc",
+   "site": "MMC"
+  },
+  "verified": true,
+  "sample_title": "Senior Product Manager",
+  "description_chars": 5938,
+  "notes": "careers.marshmclennan.com 301s to careers.marsh.com (Phenom) whose applyUrl points at mmc.wd1.myworkdayjobs.com/MMC; scrape Workday directly."
+ },
+ {
+  "company": "Freeport-McMoRan",
+  "rank": 177,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.fcx.com"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (75 hits for 'product manager', all Planner/Supervisor/Engineering titles). Caveat: anchors here are class=\"jobTitle-link fontcolor...\" so the adapter's exact class=\"jobTitle-link\" LINK_RE would miss them; suggest class=\"jobTitle-link[^\"]*\"."
+ },
+ {
+  "company": "Union Pacific",
+  "rank": 187,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "up.jobs"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (interns, co-ops, craft roles). up.jobs is SuccessFactors; Phenom candidate was a false positive."
+ },
+ {
+  "company": "Lear",
+  "rank": 196,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.lear.com"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (Industrial Engineer, Plant Superintendent...). Batch domain learnvest.com is wrong; real domain lear.com, jobs at jobs.lear.com."
+ },
+ {
+  "company": "EOG Resources",
+  "rank": 201,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.eogresources.com/process_jobsearch.asp"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Custom classic-ASP job board (process_jobsearch.asp, jobdetails.asp?jo_num=NNNN); no ATS signature and no JSON endpoint."
+ },
+ {
+  "company": "Avnet",
+  "rank": 206,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "avnet.wd1.myworkdayjobs.com",
+   "tenant": "avnet",
+   "site": "External"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (138 fuzzy hits for 'product manager': FAE, Account Manager, Program Manager, 'Global Product & Supplier Marketing Manager'...). careers.avnet.com does not resolve."
+ },
+ {
+  "company": "Tenet Healthcare",
+  "rank": 214,
+  "group": "fortune500",
+  "ats": "radancy",
+  "config": {
+   "host": "jobs.tenethealth.com",
+   "results_path": "/search-jobs/results"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (hospital operator). Oracle HCM backend eodr.fa.us2.oraclecloud.com siteNumber CX_1001 also reachable with 0 product-titled requisitions."
+ },
+ {
+  "company": "Colgate-Palmolive",
+  "rank": 219,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.colgate.com/search/?q=product+manager&locale=en_US"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "SuccessFactors 'unify' layout: search results are rendered client-side (no jobTitle-link / no /job/ links in server HTML, also with X-Requested-With). RSS feed works: https://jobs.colgate.com/services/rss/job/?locale=en_US&keywords=(product%20manager) -> <item><title>/<link> to /job/... pages (currently no product-titled items)."
+ },
+ {
+  "company": "Parker-Hannifin",
+  "rank": 224,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://parkercareers.ttcportals.com/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Radancy/TalentBrew site (ttcportals) behind Cloudflare JS challenge: root and /search-jobs/results both 403 'Just a moment'. www.parker.com/us/en/careers.html 403. No Workday tenant (parker/parkerhannifin on wd1/wd3/wd5/wd12 all 422)."
+ },
+ {
+  "company": "AutoZone",
+  "rank": 229,
+  "group": "fortune500",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "egud.fa.us2.oraclecloud.com",
+   "siteNumber": "CX_1"
+  },
+  "verified": true,
+  "sample_title": "Product Owner Digital",
+  "description_chars": 3158,
+  "notes": "careers.autozone.com redirects to the Oracle HCM CandidateExperience site CX_1."
+ },
+ {
+  "company": "Peter Kiewit Sons’",
+  "rank": 242,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "kiewitcareers.kiewit.com"
+  },
+  "verified": true,
+  "sample_title": "Product Manager, Recruit to Retire",
+  "description_chars": 7148,
+  "notes": "kiewitcareers.kiewit.com is SuccessFactors (batch had no domain)."
+ },
+ {
+  "company": "ManpowerGroup",
+  "rank": 247,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.manpowergroup.com/en/careers"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Corporate careers page is a Sitecore JSS marketing page with no job-listing endpoint discoverable (no ATS links, Workday guesses manpowergroup/mpg/manpower on wd1/wd3/wd5 all 422; careers./jobs.manpowergroup.com do not resolve). Discovery's Paradox candidate yielded nothing."
+ }
+]

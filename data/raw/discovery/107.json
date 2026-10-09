@@ -1,0 +1,37 @@
+{
+ "company": "Abbott Laboratories",
+ "rank": 107,
+ "group": "fortune500",
+ "industry": "Medical Products and Equipment",
+ "ats": "workday",
+ "config": {
+  "host": "abbott.wd5.myworkdayjobs.com",
+  "tenant": "abbott",
+  "site": "abbottcareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "abbott.wd5.myworkdayjobs.com",
+    "tenant": "abbott",
+    "site": "abbottcareers"
+   },
+   "from": "https://www.jobs.abbott/us/en",
+   "verify": "Product Manager"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.jobs.abbott"
+   },
+   "from": "https://www.jobs.abbott/us/en"
+  }
+ ],
+ "domain": "abbott.com",
+ "sample_title": "Product Manager",
+ "description_chars": 3049,
+ "seconds": 41
+}

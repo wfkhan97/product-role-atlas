@@ -1,0 +1,15 @@
+{
+ "company": "TransDigm Group",
+ "rank": 449,
+ "group": "fortune500",
+ "industry": "Aerospace & Defense",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.transdigm.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "transdigm.com",
+ "seconds": 11
+}

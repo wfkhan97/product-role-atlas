@@ -1,0 +1,30 @@
+{
+ "company": "Pacific Life",
+ "rank": 240,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Mutual)",
+ "ats": "workday",
+ "config": {
+  "host": "pacificlife.wd1.myworkdayjobs.com",
+  "tenant": "pacificlife",
+  "site": "PacificLifeCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "pacificlife.wd1.myworkdayjobs.com",
+    "tenant": "pacificlife",
+    "site": "PacificLifeCareers"
+   },
+   "from": "https://www.pacificlife.com/home/Careers.html",
+   "verify": "Senior Product Manager, Defined Contribution & Retirement Income"
+  }
+ ],
+ "domain": "pacificlife.com",
+ "sample_title": "Senior Product Manager, Defined Contribution & Retirement Income",
+ "description_chars": 6461,
+ "seconds": 11
+}

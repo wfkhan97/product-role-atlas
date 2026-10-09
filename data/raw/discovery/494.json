@@ -1,0 +1,15 @@
+{
+ "company": "Ingersoll Rand",
+ "rank": 494,
+ "group": "fortune500",
+ "industry": "Industrial Machinery",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.ingersollrand.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "ingersollrand.com",
+ "seconds": 42
+}

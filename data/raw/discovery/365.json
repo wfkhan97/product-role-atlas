@@ -1,0 +1,42 @@
+{
+ "company": "Citizens Financial Group",
+ "rank": 365,
+ "group": "fortune500",
+ "industry": "Commercial Banks",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "hcgn.fa.us2.oraclecloud.com",
+  "siteNumber": "CX_1"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "hcgn.fa.us2.oraclecloud.com",
+    "siteNumber": "CX_1"
+   },
+   "from": "https://jobs.citizensbank.com/",
+   "verify": "Lead Product Owner, AI Platform"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.citizensbank.com"
+   },
+   "from": "https://jobs.citizensbank.com/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.citizensbank.com"
+   },
+   "from": "https://jobs.citizensbank.com/"
+  }
+ ],
+ "domain": "citizensbank.com",
+ "sample_title": "Lead Product Owner, AI Platform",
+ "description_chars": 9189,
+ "seconds": 13
+}

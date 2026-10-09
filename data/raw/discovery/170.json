@@ -1,0 +1,15 @@
+{
+ "company": "McDonald\u2019s",
+ "rank": 170,
+ "group": "fortune500",
+ "industry": "Food Services",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.mcdonalds.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "mcdonalds.com",
+ "seconds": 16
+}

@@ -1,0 +1,56 @@
+{
+ "company": "Exelon",
+ "rank": 189,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "icims",
+ "config": {
+  "host": "www.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 product postings; icims 0 product postings; icims 0 product postings; icims 0 product postings; jibe 0 product postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://careers.exeloncorp.com/exelon-corporate/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-exeloncorp.icims.com"
+   },
+   "from": "https://careers.exeloncorp.com/exelon-corporate/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "employees-exeloncorp.icims.com"
+   },
+   "from": "https://careers.exeloncorp.com/exelon-corporate/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "exeloncorp.icims.com"
+   },
+   "from": "https://careers.exeloncorp.com/exelon-corporate/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "careers.exeloncorp.com"
+   },
+   "from": "https://careers.exeloncorp.com/exelon-corporate/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "exeloncorp.com",
+ "seconds": 10
+}

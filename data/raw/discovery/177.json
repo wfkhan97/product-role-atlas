@@ -1,0 +1,15 @@
+{
+ "company": "Freeport-McMoRan",
+ "rank": 177,
+ "group": "fortune500",
+ "industry": "Mining, Crude-Oil Production",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.fcx.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "fcx.com",
+ "seconds": 16
+}

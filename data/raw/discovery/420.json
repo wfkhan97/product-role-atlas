@@ -1,0 +1,15 @@
+{
+ "company": "Dana",
+ "rank": 420,
+ "group": "fortune500",
+ "industry": "Motor Vehicles & Parts",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.danawa.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "danawa.com",
+ "seconds": 12
+}

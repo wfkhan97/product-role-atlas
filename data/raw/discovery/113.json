@@ -1,0 +1,15 @@
+{
+ "company": "Best Buy",
+ "rank": 113,
+ "group": "fortune500",
+ "industry": "Specialty Retailers: Other",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.bestbuy.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "bestbuy.com",
+ "seconds": 313
+}

@@ -1,0 +1,15 @@
+{
+ "company": "Tyson Foods",
+ "rank": 87,
+ "group": "fortune500",
+ "industry": "Food Production",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.tyson.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "tyson.com",
+ "seconds": 8
+}

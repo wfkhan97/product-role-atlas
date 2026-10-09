@@ -1,0 +1,44 @@
+{
+ "company": "LPL Financial Holdings",
+ "rank": 264,
+ "group": "fortune500",
+ "industry": "Securities",
+ "ats": "workday",
+ "config": {
+  "host": "lplfinancial.wd1.myworkdayjobs.com",
+  "tenant": "lplfinancial",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "career.lpl.com"
+   },
+   "from": "https://career.lpl.com/"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/LFMLFFUS/en_us/desktop/assets/images/favicon.ico"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "lplfinancial.wd1.myworkdayjobs.com",
+    "tenant": "lplfinancial",
+    "site": "External"
+   },
+   "from": "https://career.lpl.com/search-results",
+   "verify": "Sr. Product Analyst"
+  }
+ ],
+ "domain": "lpl.com",
+ "sample_title": "Sr. Product Analyst",
+ "description_chars": 6334,
+ "seconds": 19
+}

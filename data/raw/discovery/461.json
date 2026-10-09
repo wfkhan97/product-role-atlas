@@ -1,0 +1,32 @@
+{
+ "company": "Advance Auto Parts",
+ "rank": 461,
+ "group": "fortune500",
+ "industry": "Specialty Retailers: Other",
+ "ats": "phenom",
+ "config": {
+  "host": "jobs.advanceautoparts.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "jobs.advanceautoparts.com"
+   },
+   "from": "https://jobs.advanceautoparts.com/us/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/ADVAAPUS/en_us/desktop/assets/images/favicon.ico?v=1744228463451",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "advanceautoparts.com",
+ "seconds": 135
+}

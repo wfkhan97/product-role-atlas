@@ -1,0 +1,383 @@
+[
+ {
+  "company": "PulteGroup",
+  "rank": 256,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "pultegroup.wd1.myworkdayjobs.com",
+   "tenant": "pultegroup",
+   "site": "PGI"
+  },
+  "verified": true,
+  "sample_title": "Director Product Management",
+  "description_chars": 7339,
+  "notes": "pultegroupinc.com is Cloudflare-403 to curl; Workday tenant found via search."
+ },
+ {
+  "company": "Targa Resources",
+  "rank": 262,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.targaresources.com/careers/careers-overview"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "targaresources.com returns 403 to curl and WebFetch; jobs are on Oracle Taleo (https://targaresources.taleo.net/careersection/ -> 302 to smartorg), no adapter."
+ },
+ {
+  "company": "Markel Group",
+  "rank": 270,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "markelcorp.wd5.myworkdayjobs.com",
+   "tenant": "markelcorp",
+   "site": "GlobalCareers"
+  },
+  "verified": true,
+  "sample_title": "Manager, Product Owner Financial Systems and Technology",
+  "description_chars": 13278,
+  "notes": ""
+ },
+ {
+  "company": "Illinois Tool Works",
+  "rank": 281,
+  "group": "fortune500",
+  "ats": "phenom",
+  "config": {
+   "host": "careers.itw.com",
+   "widgets_path": "/widgets"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (POST /widgets returns 510 fuzzy hits for 'product manager', none product-titled; ITW is decentralized manufacturing)."
+ },
+ {
+  "company": "Tractor Supply",
+  "rank": 290,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "www.tractorsupply.careers"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now. tractorsupply.com blocks curl at the edge (Akamai); careers live on www.tractorsupply.careers (SuccessFactors, jobTitle-link present)."
+ },
+ {
+  "company": "Stanley Black & Decker",
+  "rank": 298,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "sbdinc.wd1.myworkdayjobs.com",
+   "tenant": "sbdinc",
+   "site": "Stanley_Black_Decker_Career_Site"
+  },
+  "verified": true,
+  "sample_title": "Product Manager",
+  "description_chars": 3956,
+  "notes": "stanleyblackanddecker.com unreachable to curl (Akamai); site name taken from the careers page via WebFetch."
+ },
+ {
+  "company": "Otis Worldwide",
+  "rank": 312,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "otis.wd504.myworkdayjobs.com",
+   "tenant": "otis",
+   "site": "REC_Ext_Gateway"
+  },
+  "verified": true,
+  "sample_title": "Senior Product Intelligence Analyst, Product Management",
+  "description_chars": 6070,
+  "notes": "Note the unusual wd504 shard."
+ },
+ {
+  "company": "Alaska Air Group",
+  "rank": 322,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.alaskaair.com/jobs/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "careers.alaskaair.com is a Nuxt SPA backed by DirectEmployers jobsyn (https://prod-search-api.jobsyn.org/api/...); API rejects curl with 'Mismatched origin' even with Origin/Referer set. Only an employee iCIMS (employee-alaskaair.icims.com, SSO) exists."
+ },
+ {
+  "company": "DoorDash",
+  "rank": 329,
+  "group": "fortune500",
+  "ats": "greenhouse",
+  "config": {
+   "board": "doordashusa"
+  },
+  "verified": true,
+  "sample_title": "Associate Manager, Product Marketing",
+  "description_chars": 9351,
+  "notes": "careersatdoordash.com is 403 to curl; Greenhouse board token is doordashusa."
+ },
+ {
+  "company": "Entergy",
+  "rank": 340,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.entergy.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (utility; search returns engineering/sales roles)."
+ },
+ {
+  "company": "Wayfair",
+  "rank": 353,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.wayfair.com/careers/jobs"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "wayfair.com/careers/jobs embeds Greenhouse (job URLs carry gh_jid, e.g. /careers/jobs/7685859002?gh_jid=7685859002) but www.wayfair.com answers 429 to curl/WebFetch and the board token is not 'wayfair' (boards-api 404 for wayfair/wayfairllc/wayfairinc/trackinglink). aboutwayfair.com/careers/jobs is 404."
+ },
+ {
+  "company": "KLA",
+  "rank": 361,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "kla.wd1.myworkdayjobs.com",
+   "tenant": "kla",
+   "site": "Search"
+  },
+  "verified": true,
+  "sample_title": "Regional Product Manager",
+  "description_chars": 6453,
+  "notes": "Batch domain was wrong (klaviyo.com); real site kla.com."
+ },
+ {
+  "company": "Jacobs Solutions",
+  "rank": 369,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.jacobs.com/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "careers.jacobs.com (legacy Phenom, /en_US/careers/JobDetail/...) sits behind AWS WAF: both the page and POST /widgets return HTTP 202 with x-amzn-waf-action: challenge and an empty body."
+ },
+ {
+  "company": "Hershey",
+  "rank": 377,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.thehersheycompany.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Board reachable and returns product roles, but titles use the abbreviation 'Product Mgr' (e.g. 'Sr Product Mgr End User Technologies') which pipeline.roles.title_ok rejects, so the adapter yields 0. Batch's paradox/instagram candidate was a false positive."
+ },
+ {
+  "company": "Westinghouse Air Brake",
+  "rank": 389,
+  "group": "fortune500",
+  "ats": "smartrecruiters",
+  "config": {
+   "company": "Wabtec"
+  },
+  "verified": true,
+  "sample_title": "Global Product Manager-NDT Sensors (based in State College, PA)",
+  "description_chars": 11958,
+  "notes": "careers.wabtec.com links to jobs.smartrecruiters.com/Wabtec."
+ },
+ {
+  "company": "Andersons",
+  "rank": 397,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "andersonsinc.wd1.myworkdayjobs.com",
+   "tenant": "andersonsinc",
+   "site": "TheAndersonsCareers"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (6 fuzzy hits, all operations roles). Batch domain was wrong (anderson5.net); real site andersonsinc.com."
+ },
+ {
+  "company": "Autoliv",
+  "rank": 403,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://career.autoliv.com/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Teamtailor career site (career.autoliv.com, plus regional careerchina.autoliv.com etc.); no Teamtailor adapter."
+ },
+ {
+  "company": "Interactive Brokers Group",
+  "rank": 410,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.dayforcehcm.com/en-US/ibgllc/CANDIDATEPORTAL"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Ceridian Dayforce candidate portal (ibgllc); no adapter."
+ },
+ {
+  "company": "Intuitive Surgical",
+  "rank": 418,
+  "group": "fortune500",
+  "ats": "smartrecruiters",
+  "config": {
+   "company": "Intuitive"
+  },
+  "verified": true,
+  "sample_title": "Sr Product Manager - Ion Systems",
+  "description_chars": 9724,
+  "notes": "careers.intuitive.com is Phenom behind Cloudflare (403/challenge); underlying ATS is SmartRecruiters company 'Intuitive'."
+ },
+ {
+  "company": "Regions Financial",
+  "rank": 428,
+  "group": "fortune500",
+  "ats": "phenom",
+  "config": {
+   "host": "careers.regions.com",
+   "widgets_path": "/widgets"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product-titled postings now (365 fuzzy hits; closest is 'Corporate Banking Group Product and Platform Innovation Manager')."
+ },
+ {
+  "company": "Old Republic International",
+  "rank": 439,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://oldrepublic.com/about/careers"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Holding company page links only to LinkedIn jobs; subsidiaries hire separately, no central ATS."
+ },
+ {
+  "company": "TransDigm Group",
+  "rank": 449,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.transdigm.com/careers/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "transdigm.com is 403 to curl; hiring is decentralized across ~50 operating units with no central ATS."
+ },
+ {
+  "company": "Securian Financial Group",
+  "rank": 457,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "hq.wd12.myworkdayjobs.com",
+   "tenant": "hq",
+   "site": "Securian_External"
+  },
+  "verified": true,
+  "sample_title": "Product Owner (Hybrid)",
+  "description_chars": 7529,
+  "notes": "Tenant is literally 'hq' on wd12."
+ },
+ {
+  "company": "CMS Energy",
+  "rank": 464,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.consumersenergy.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now. cmsenergy.com is 403 to curl; jobs live on the Consumers Energy SuccessFactors site."
+ },
+ {
+  "company": "Zimmer Biomet Holdings",
+  "rank": 473,
+  "group": "fortune500",
+  "ats": "phenom",
+  "config": {
+   "host": "careers.zimmerbiomet.com",
+   "widgets_path": "/widgets"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "ADAPTER GAP: POST /widgets works (404 hits, many 'Product Manager' titles) but search results carry no description and applyUrl points to career8.successfactors.com (company=zimmerin01) login page; the phenom adapter follows applyUrl and finds no description. Full description is in phApp.ddo on https://careers.zimmerbiomet.com/us/en/job/{jobId}. Fix: prefer the Phenom job page when applyUrl is not a Workday/same-host URL."
+ },
+ {
+  "company": "XPO",
+  "rank": 480,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.xpo.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (search returns freight operations roles)."
+ },
+ {
+  "company": "APi Group",
+  "rank": 486,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://apigroupinc.com/careers"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "apigroupinc.com returns 403 to curl and WebFetch; company runs Oracle HCM/Recruiting Cloud (per its own HRIS postings) but the Oracle pod host could not be found via search or aggregator apply links."
+ },
+ {
+  "company": "Core & Main",
+  "rank": 495,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.coreandmain.com/p/coreandmain/home"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "jobs.coreandmain.com is a Largely (app.largely.com) React SPA served from CloudFront, backed by AWS AppSync/execute-api endpoints; no public JSON endpoint matching an adapter."
+ }
+]

@@ -1,0 +1,64 @@
+{
+ "company": "Micron Technology",
+ "rank": 125,
+ "group": "fortune500",
+ "industry": "Semiconductors and Other Electronic Components",
+ "ats": "workday",
+ "config": {
+  "host": "micron.wd1.myworkdayjobs.com",
+  "tenant": "micron",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "careers.micron.com",
+    "domain": "micron.com",
+    "api": "pcsx"
+   },
+   "from": "probe"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "micron.wd1.myworkdayjobs.com",
+    "tenant": "micron",
+    "site": "External"
+   },
+   "from": "https://careers.micron.com/careers",
+   "verify": "New College Grad - Product Manager, HBM"
+  },
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "www.eightfold.ai",
+    "domain": "www.com",
+    "api": "pcsx"
+   },
+   "from": "https://careers.micron.com/careers"
+  },
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "micron.eightfold.ai",
+    "domain": "micron.com",
+    "api": "pcsx"
+   },
+   "from": "https://careers.micron.com/careers"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.micron.com"
+   },
+   "from": "https://careers.micron.com/careers"
+  }
+ ],
+ "domain": "micron.com",
+ "sample_title": "New College Grad - Product Manager, HBM",
+ "description_chars": 5508,
+ "seconds": 9
+}

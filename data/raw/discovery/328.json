@@ -1,0 +1,15 @@
+{
+ "company": "Venture Global",
+ "rank": 328,
+ "group": "fortune500",
+ "industry": "Pipelines",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.venture.hk/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "venture.hk",
+ "seconds": 15
+}

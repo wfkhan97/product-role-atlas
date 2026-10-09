@@ -1,0 +1,147 @@
+{
+"sql": {"what": "Querying the product's data yourself: joins, aggregations, window functions, and knowing where the tables are and what they mean.",
+ "subskills": [
+  {"id":"sql_basics","name":"Joins & aggregations","patterns":["\\bjoins?\\b","group by","aggregat","\\bselect\\b"],"example":"Join events to accounts and count weekly active accounts by plan."},
+  {"id":"sql_windows","name":"Window functions & cohorts","patterns":["window function","partition by","cohort","retention quer","lag\\(|lead\\("],"example":"Compute week-N retention per signup cohort in one query."},
+  {"id":"data_literacy","name":"Knowing the schema","patterns":["data (model|schema|dictionary|catalog)","warehouse","\\bdbt\\b","tables?\\b"],"example":"Know which table is the source of truth for revenue and its known quirks."}],
+ "ladder": {"associate":"Writes simple queries against existing tables.","mid":"Answers their own questions with joins, cohorts, and funnels.","senior":"Writes complex analyses; spots data-quality issues in the warehouse.","lead":"Rarely queries; ensures the team can and the data is trustworthy."},
+ "build": ["Course: Mode's SQL tutorial or 'SQL for Data Analysis' (free); practice on real-looking datasets.","Project: load a public dataset into SQLite or DuckDB and answer ten product questions.","At work: get warehouse access and answer one question a week without an analyst."],
+ "signals": ["Self-serve SQL for all funnel and retention analysis; no analyst dependency.","Built the dbt model for weekly active workspaces used by the whole org."]},
+
+"python_r": {"what": "Scripting for analysis and prototyping: cleaning data, building quick models, automating the repetitive.",
+ "subskills": [
+  {"id":"pandas","name":"Data wrangling (pandas / tidyverse)","patterns":["pandas","tidyverse","dplyr","data (wrangling|cleaning|manipulation)","dataframe"],"example":"Clean a 200k-row export and build a cohort table in a notebook."},
+  {"id":"notebooks","name":"Notebooks & visualization","patterns":["jupyter","notebook","matplotlib","plotly","ggplot","visuali[sz]ation"],"example":"A notebook that regenerates the weekly analysis with one run."},
+  {"id":"scripting_automation","name":"Scripting & automation","patterns":["script","automat","\\bAPIs? (calls|scripts)","cron","\\bbash\\b"],"example":"A script that pulls the metrics and posts the digest to Slack."},
+  {"id":"prototyping_code","name":"Prototyping with code","patterns":["prototype","hack","build(ing)? (a )?(quick|simple|small) (tool|app|prototype)","streamlit","no-?code","low-?code"],"example":"A Streamlit prototype that shows the idea before engineering invests."}],
+ "ladder": {"associate":"Can run and modify an existing notebook.","mid":"Writes analysis scripts and small prototypes independently.","senior":"Builds internal tools and models; prototypes AI features end to end.","lead":"Uses code to stay close to the product; sets expectations for technical PMs."},
+ "build": ["Course: 'Python for Everybody' then a pandas course; or R for Data Science (free online book).","Project: automate a weekly report you'd otherwise do by hand.","At work: prototype the next idea in a notebook before writing the spec."],
+ "signals": ["Built a Python pipeline that automated the weekly cohort report (saved 4h/week).","Prototyped the recommendation feature in a notebook; shipped version matched it within 5%."]},
+
+"data_modeling": {"what": "Understanding how data is structured, moved, and governed: pipelines, warehouses, schemas, quality, and ownership.",
+ "subskills": [
+  {"id":"pipelines","name":"Pipelines & ETL/ELT","patterns":["\\bETL\\b","\\bELT\\b","pipeline","ingestion","airflow","fivetran","streaming","batch","kafka"],"example":"Know when the nightly job runs and what breaks downstream if it fails."},
+  {"id":"schema_design","name":"Schema & data modelling","patterns":["schema","data model","dimensional","star schema","entity","normali[sz]"],"example":"Define the events and entities before engineering picks a table design."},
+  {"id":"data_governance","name":"Data quality & governance","patterns":["data (quality|governance|lineage|catalog|ownership|contracts?)","\\bPII\\b","retention polic","master data"],"example":"Assign an owner and a freshness SLA to every core table."},
+  {"id":"warehouse_platforms","name":"Warehouse & lakehouse platforms","patterns":["snowflake","databricks","bigquery","redshift","lakehouse","data lake","delta lake","spark","iceberg"],"example":"Understand cost and latency trade-offs between warehouse and lake."}],
+ "ladder": {"associate":"Knows where the data comes from and who owns it.","mid":"Writes tracking plans and partners with data engineering on models.","senior":"Owns data products or platforms; sets governance for an area.","lead":"Sets data strategy; owns the data platform roadmap."},
+ "build": ["Course: a data engineering fundamentals course (the dbt Learn courses are free).","Project: design the schema and pipeline for an analytics product; draw the lineage.","At work: own the tracking plan and the data contract for your feature."],
+ "signals": ["Owned the customer data platform roadmap; cut pipeline failures 70%.","Designed the event schema that unified mobile and web analytics."]},
+
+"technical_fluency": {"what": "Understanding how software is built well enough to make good trade-offs with engineers, without needing to write the code yourself.",
+ "subskills": [
+  {"id":"tech_tradeoffs","name":"Technical trade-offs","patterns":["technical (trade-?offs|decisions|constraints|debt)","tech debt","architecture (decision|review)","build (vs|versus|or) buy"],"example":"Decide whether to pay down the migration now or ship the feature first, with eyes open."},
+  {"id":"reading_code","name":"Reading code & systems","patterns":["read(ing)? code","codebase","pull requests?","github","code review"],"example":"Read the PR to check the edge case is handled instead of asking."},
+  {"id":"how_software_works","name":"How the system works","patterns":["how (software|systems|the product) (is|are) built","system (design|architecture)","data flow","request (life-?cycle|path)","databases?"],"example":"Draw the request path from the client to the database for your feature."},
+  {"id":"eng_partnership","name":"Engineering partnership","patterns":["partner(ing)? with engineer","engineering (partner|counterpart|team|lead)","\\bEMs?\\b","tech lead","earn(ed)? the (respect|trust) of engineers"],"example":"Run planning with the tech lead as a peer, not a ticket taker."}],
+ "ladder": {"associate":"Understands the stack at a block-diagram level; asks good questions.","mid":"Discusses trade-offs with engineers credibly; reads code when needed.","senior":"Shapes technical direction with the tech lead; anticipates platform needs.","lead":"Partners with engineering leadership on architecture investments."},
+ "build": ["Course: CS50 or 'How the Internet Works' level fundamentals; then a system design primer.","Project: build and deploy a small app (any stack) so you've touched every layer once.","At work: shadow an engineer for a sprint; draw the architecture of your product."],
+ "signals": ["Led the build-vs-buy decision for the search service with engineering.","CS background; regularly reads PRs and participates in design reviews."]},
+
+"apis": {"what": "Designing and managing APIs and integrations as products: developer experience, versioning, docs, and the ecosystem that builds on them.",
+ "subskills": [
+  {"id":"api_design","name":"API design","patterns":["\\bREST(ful)?\\b","graphql","\\bgRPC\\b","api design","resource model","endpoints?","openapi","swagger"],"example":"Design the resource model and review the OpenAPI spec before build."},
+  {"id":"dev_experience","name":"Developer experience & docs","patterns":["developer (experience|docs|documentation|portal|onboarding)","\\bDX\\b","\\bSDKs?\\b","sample code","quick ?start","time to first call"],"example":"Measure time-to-first-successful-call and get it under 10 minutes."},
+  {"id":"versioning","name":"Versioning & deprecation","patterns":["version","backward compatib","breaking changes?","deprecat","migration guide"],"example":"Ship v2 with a migration guide and keep v1 alive for 12 months."},
+  {"id":"integrations","name":"Integrations & webhooks","patterns":["integration","webhook","connector","\\bOAuth\\b","marketplace","\\biPaaS\\b","zapier"],"example":"Prioritize the five integrations that unblock the most deals."},
+  {"id":"api_metrics","name":"API adoption & reliability","patterns":["api (adoption|usage|metrics|traffic|reliability)","rate limit","\\bSLAs?\\b","error rates?","latency"],"example":"Track active API keys, error rates, and p95 latency per endpoint."}],
+ "ladder": {"associate":"Writes clear integration docs; understands the API surface.","mid":"Owns an API or integration; runs the design review and docs.","senior":"Owns the developer platform; sets versioning and DX standards.","lead":"Sets platform and ecosystem strategy."},
+ "build": ["Course: an API design course (Google's API design guide is free; Stripe's docs are the model).","Project: design an API for a small product: resources, endpoints, errors, a quick-start doc.","At work: own the docs and versioning policy for one API."],
+ "signals": ["Owned the public API; active integrations grew from 80 to 400.","Led the v2 API migration with zero forced breakages for 300 partners."]},
+
+"system_architecture": {"what": "Understanding how large systems are structured and why: services, data stores, scaling limits, reliability, and what changes cost.",
+ "subskills": [
+  {"id":"distributed_systems","name":"Distributed systems basics","patterns":["distributed systems?","microservices","service[- ]oriented","event[- ]driven","message queue","consisten","\\bCAP\\b"],"example":"Know why eventual consistency means the dashboard lags by a minute."},
+  {"id":"scalability","name":"Scalability & performance","patterns":["scalab","performance","latency","throughput","load","caching","\\bCDN\\b"],"example":"Ask what breaks at 10× traffic before promising it to sales."},
+  {"id":"reliability","name":"Reliability & resilience","patterns":["reliabilit","availabilit","\\bSLOs?\\b","\\bSLAs?\\b","uptime","fault[- ]toleran","redundan","disaster recovery","failover"],"example":"Set an SLO with engineering and decide what gets cut when it's breached."},
+  {"id":"platform_thinking","name":"Platform & internal tools","patterns":["platform (team|product|strategy)","internal (tools|platform)","shared services","self-?service","multi-?tenan"],"example":"Decide what belongs in the platform versus the product team's code."}],
+ "ladder": {"associate":"Can read an architecture diagram and explain the main components.","mid":"Discusses scaling and reliability trade-offs for their feature.","senior":"Shapes platform roadmaps; owns SLOs and capacity decisions with engineering.","lead":"Partners with engineering leadership on multi-year architecture bets."},
+ "build": ["Read: 'Designing Data-Intensive Applications' (the first half is enough); the System Design Primer on GitHub.","Project: draw the architecture of a product you use and guess where it would fail at scale.","At work: attend architecture reviews and write up the trade-offs in plain English."],
+ "signals": ["Owned the platform roadmap during the move to microservices; p95 latency down 60%.","Defined SLOs for the payments service and the error budget policy."]},
+
+"cloud": {"what": "Working knowledge of cloud platforms: core services, cost, and how infrastructure choices shape the product.",
+ "subskills": [
+  {"id":"cloud_services","name":"Core cloud services","patterns":["\\bEC2\\b","\\bS3\\b","\\bRDS\\b","lambda","compute","storage","\\bIAM\\b","\\bVPC\\b","managed services"],"example":"Know which services the product runs on and what each costs."},
+  {"id":"containers","name":"Containers & orchestration","patterns":["kubernetes","\\bk8s\\b","docker","container","\\bECS\\b","\\bEKS\\b","\\bGKE\\b","helm"],"example":"Understand what a deployment is and why a rollout can be partial."},
+  {"id":"cloud_cost","name":"Cloud cost & FinOps","patterns":["cloud (cost|spend|bill)","\\bFinOps\\b","cost optimi","reserved instances","right-?siz"],"example":"Own cost per active user and review it monthly."},
+  {"id":"cloud_certs","name":"Cloud certification / depth","patterns":["certif","\\bAWS\\b (solutions architect|certified)","azure (fundamentals|certified)","\\bGCP\\b (certified|professional)"],"example":"Cloud Practitioner or Fundamentals certs cover the vocabulary fast."}],
+ "ladder": {"associate":"Knows the main services the product uses.","mid":"Understands infra choices and costs for their feature.","senior":"Owns a cloud or infra product, or the cost model for a product.","lead":"Sets infra and platform strategy with engineering."},
+ "build": ["Course: AWS Cloud Practitioner or Azure Fundamentals (free prep material, cheap exams).","Project: deploy a small app to a cloud provider and read the bill.","At work: build the cloud cost model for your product area."],
+ "signals": ["AWS Certified Cloud Practitioner; owned the migration PRD to managed Kubernetes.","Cut cloud spend 25% through right-sizing and a reserved-capacity plan."]},
+
+"ai_ml": {"what": "Understanding how machine learning products work: data, models, evaluation, and the product decisions that differ from deterministic software.",
+ "subskills": [
+  {"id":"ml_fundamentals","name":"ML fundamentals","patterns":["supervised","unsupervised","classification","regression","training data","feature engineering","neural network","deep learning","model training"],"example":"Know what the model is predicting, from what data, and how it was labelled."},
+  {"id":"ml_evaluation","name":"Model evaluation & metrics","patterns":["precision","recall","\\bF1\\b","\\bAUC\\b","accuracy","evaluation (metrics|set)","offline (eval|metrics)","ground truth","label"],"example":"Choose precision over recall for the fraud flag and explain why."},
+  {"id":"ml_product","name":"ML product design","patterns":["human[- ]in[- ]the[- ]loop","confidence (score|threshold)","fallback","explainab","model (behavior|errors|failure)","uncertain"],"example":"Design for the 10% of cases where the model is wrong."},
+  {"id":"ml_lifecycle","name":"ML lifecycle & MLOps","patterns":["\\bMLOps\\b","model (deployment|monitoring|drift|retraining|serving)","feature store","data labeling","annotation"],"example":"Plan for retraining and drift monitoring before launch, not after."},
+  {"id":"recsys_search","name":"Recommendations, ranking & search","patterns":["recommend","ranking","personali[sz]","relevance","search (quality|ranking|relevance)","embedding"],"example":"Define relevance for your users and the offline metric that approximates it."}],
+ "ladder": {"associate":"Understands what the model does and reads its metrics.","mid":"Writes specs for ML features including evaluation and failure handling.","senior":"Owns ML products; partners with research on what to build and how to evaluate it.","lead":"Sets AI strategy and the bar for responsible deployment."},
+ "build": ["Course: Andrew Ng's 'AI for Everyone', then 'Machine Learning Specialization' if you want depth.","Project: build a small classifier on a public dataset and write up the product decisions it forces.","At work: own the evaluation plan for the next ML feature."],
+ "signals": ["Owned the ranking model roadmap; click-through up 14% with a new evaluation framework.","Designed the human-in-the-loop review flow for low-confidence predictions."]},
+
+"genai_llm": {"what": "Building products on large language models and agents: prompting, retrieval, evaluation, cost, safety, and the new UX patterns they need.",
+ "subskills": [
+  {"id":"prompting","name":"Prompt design & context engineering","patterns":["prompt (engineering|design)","prompting","system prompt","few-?shot","context (window|engineering)","instruction"],"example":"Write and version the system prompt like code; test it on a fixed set."},
+  {"id":"rag","name":"Retrieval & grounding (RAG)","patterns":["\\bRAG\\b","retrieval[- ]augmented","grounding","vector (database|store|search)","embedding","knowledge base","citations?"],"example":"Decide what to retrieve, how to chunk it, and how to show sources."},
+  {"id":"llm_evals","name":"Evals & quality","patterns":["\\bevals?\\b","evaluation (framework|harness|set)","golden set","hallucinat","LLM[- ]as[- ]judge","rubric","regression (set|suite)"],"example":"Build a 200-example golden set and run it on every prompt change."},
+  {"id":"agents","name":"Agents & tool use","patterns":["agentic","\\bagents?\\b","tool (use|calling)","function calling","\\bMCP\\b","orchestrat","multi-?step","workflow automation"],"example":"Scope which actions the agent can take alone and which need approval."},
+  {"id":"llm_cost_latency","name":"Cost, latency & model selection","patterns":["token","inference (cost|latency)","model (selection|routing|choice)","fine-?tun","distill","open[- ]source models?","\\bGPT|claude|gemini|llama|mistral\\b"],"example":"Route simple requests to a small model; measure cost per task."},
+  {"id":"ai_safety","name":"Safety, guardrails & trust","patterns":["guardrails?","safety","responsible ai","red[- ]team","jailbreak","harmful","bias","content moderation","trust"],"example":"Define failure modes, add guardrails, and red-team before launch."},
+  {"id":"ai_ux","name":"AI UX patterns","patterns":["streaming","confidence","feedback (thumbs|signals)","human[- ]in[- ]the[- ]loop","copilot","assistant","conversational","chat interface"],"example":"Show sources, allow edits, collect thumbs-down reasons."}],
+ "ladder": {"associate":"Has built something with an LLM API; understands prompts and limits.","mid":"Ships LLM features with an eval set, guardrails, and cost tracking.","senior":"Owns an AI product line; sets evaluation and safety standards.","lead":"Sets AI strategy; decides build vs. API vs. fine-tune at the company level."},
+ "build": ["Course: DeepLearning.AI's short courses (prompting, RAG, evals, agents) are free and practical.","Project: build a RAG app over documents you know, with a 50-example eval set, and write up what failed.","At work: own the eval set and the guardrail spec for an AI feature."],
+ "signals": ["Shipped the AI assistant to 50k users; built the eval harness that gates every prompt change.","Cut inference cost 60% with model routing while holding quality on a 300-case golden set."]},
+
+"mobile": {"what": "Building for iOS and Android: platform conventions, app store rules, release cycles, and the constraints of the device.",
+ "subskills": [
+  {"id":"platform_guidelines","name":"Platform conventions","patterns":["human interface guidelines","material design","\\bHIG\\b","platform (conventions|guidelines|patterns)","native"],"example":"Follow platform navigation patterns instead of porting the web UI."},
+  {"id":"app_store","name":"App store & release","patterns":["app store","play store","app review","\\bTestFlight\\b","release train","store listing","\\bASO\\b","rating"],"example":"Plan around review times and a two-week release train."},
+  {"id":"mobile_constraints","name":"Device constraints","patterns":["offline","battery","push notification","permissions?","deep link","app size","crash","\\bANR\\b","performance on (low-?end|older) devices"],"example":"Design the offline state before the happy path."},
+  {"id":"mobile_analytics","name":"Mobile growth & analytics","patterns":["install","uninstall","\\bDAU\\b","retention","crash[- ]free","session","attribution","\\bSDKs?\\b"],"example":"Track crash-free sessions and day-1/7/30 retention per release."}],
+ "ladder": {"associate":"Knows the release process and store requirements.","mid":"Owns a mobile feature end to end including the release.","senior":"Owns a mobile app or platform area; sets quality and release standards.","lead":"Sets mobile strategy across products."},
+ "build": ["Course: an intro iOS or Android development course (even a weekend one) to feel the constraints.","Project: ship a tiny app to TestFlight or an internal track.","At work: own a mobile release end to end, including the store listing."],
+ "signals": ["Owned the Android app; crash-free sessions from 97.2% to 99.6%, rating 3.8 to 4.5.","Shipped offline mode used by 30% of field users."]},
+
+"security_privacy": {"what": "Building products that protect users and data: threat models, access control, privacy by design, and compliance obligations.",
+ "subskills": [
+  {"id":"threat_modeling","name":"Threat modelling","patterns":["threat model","attack (surface|vector)","\\bSTRIDE\\b","abuse case","adversar"],"example":"List how a feature could be abused before it ships."},
+  {"id":"iam","name":"Identity & access","patterns":["\\bIAM\\b","\\bSSO\\b","\\bMFA\\b","\\bRBAC\\b","permissions?","roles? and permissions","\\bSCIM\\b","\\bOAuth\\b","\\bSAML\\b"],"example":"Design roles and permissions that map to how customers actually organize."},
+  {"id":"privacy_design","name":"Privacy by design","patterns":["privacy by design","\\bPII\\b","data minimi","consent","\\bGDPR\\b","\\bCCPA\\b","data (residency|retention|deletion)","\\bDPIA\\b"],"example":"Collect the minimum, define retention, and build deletion in from day one."},
+  {"id":"compliance","name":"Compliance frameworks","patterns":["\\bSOC ?2\\b","\\bISO ?27001\\b","\\bHIPAA\\b","\\bPCI\\b","\\bFedRAMP\\b","audit","compliance"],"example":"Know which controls your feature touches and who signs off."},
+  {"id":"trust_safety","name":"Trust, safety & fraud","patterns":["trust (and|&) safety","fraud","abuse","moderation","spam","account takeover","risk (signals|rules)"],"example":"Define the fraud signals and the manual review path."}],
+ "ladder": {"associate":"Follows security review processes; understands PII handling.","mid":"Runs threat models and privacy reviews for their features.","senior":"Owns security or identity products, or the security posture of an area.","lead":"Sets security and privacy strategy with the CISO."},
+ "build": ["Course: an intro to application security (OWASP Top 10) and a privacy fundamentals module (IAPP).","Project: threat-model a feature of an app you use and write the mitigations.","At work: run the security and privacy review for your next feature yourself."],
+ "signals": ["Owned enterprise identity (SSO, SCIM, RBAC); unblocked $6M in enterprise deals.","Led SOC 2 Type II readiness for the product; zero findings."]},
+
+"devops_sdlc": {"what": "How software gets from commit to production and stays healthy: CI/CD, releases, observability, and incident response.",
+ "subskills": [
+  {"id":"cicd","name":"CI/CD & release process","patterns":["\\bCI/CD\\b","continuous (integration|delivery|deployment)","release (process|train|cadence|management)","deploy","build pipeline"],"example":"Know the release cadence and what a hotfix costs."},
+  {"id":"observability","name":"Observability & monitoring","patterns":["observab","monitoring","alerting","logging","tracing","datadog","grafana","dashboards? for (reliability|uptime)"],"example":"Have a dashboard and an alert for your feature's key failure."},
+  {"id":"incidents","name":"Incident response & postmortems","patterns":["incident","on-?call","postmortem","post-?incident","blameless","\\bRCA\\b","\\bMTTR\\b"],"example":"Run the customer side of an incident and write the postmortem actions."},
+  {"id":"sdlc","name":"SDLC & engineering process","patterns":["\\bSDLC\\b","software development life","code review","testing strategy","environments?","staging","\\bQA\\b process"],"example":"Understand what 'done' means at each stage from PR to production."}],
+ "ladder": {"associate":"Understands the release process and reads incident updates.","mid":"Participates in incidents and postmortems for their area.","senior":"Owns reliability goals for a product; shapes release and on-call practices with engineering.","lead":"Partners with engineering leadership on engineering effectiveness."},
+ "build": ["Read: 'Accelerate' (DORA metrics) and the Google SRE book's early chapters.","Project: set up CI and a deploy pipeline for a small project.","At work: join the on-call channel; own comms for one incident."],
+ "signals": ["Owned the release train; deploy frequency up 3×, change failure rate down 40%.","Ran customer comms and the postmortem for the March outage."]},
+
+"hardware": {"what": "Building physical products or the software on them: development phases, manufacturing, firmware, and the long lead times involved.",
+ "subskills": [
+  {"id":"hw_dev_phases","name":"Hardware development phases","patterns":["\\bEVT\\b","\\bDVT\\b","\\bPVT\\b","\\bNPI\\b","prototype","pilot build","mass production","ramp"],"example":"Lock requirements before EVT; changes after DVT cost months."},
+  {"id":"firmware_embedded","name":"Firmware & embedded software","patterns":["firmware","embedded","\\bRTOS\\b","\\bOTA\\b","over[- ]the[- ]air","drivers?","\\bBSP\\b"],"example":"Plan OTA updates and rollback from the start."},
+  {"id":"manufacturing","name":"Manufacturing & supply chain","patterns":["manufactur","\\bBOM\\b","bill of materials","supplier","contract manufactur","\\bCM\\b","yield","cost down","\\bDFM\\b"],"example":"Know the BOM cost and the three parts with long lead times."},
+  {"id":"hw_quality","name":"Testing, certification & quality","patterns":["certification","\\bFCC\\b","\\bCE\\b","\\bUL\\b","reliability testing","\\bHALT\\b","field failure","\\bRMA\\b","warranty"],"example":"Schedule certification into the timeline; it doesn't compress."},
+  {"id":"silicon","name":"Silicon & compute platforms","patterns":["silicon","\\bSoC\\b","\\bGPUs?\\b","\\bASIC\\b","\\bFPGA\\b","semiconductor","chip","tape-?out","\\bCUDA\\b"],"example":"Understand roadmap dependencies on the chip vendor's schedule."}],
+ "ladder": {"associate":"Understands the build phases and tracks schedule.","mid":"Owns requirements for a subsystem through EVT to production.","senior":"Owns a hardware product line; manages cost, schedule, and quality trade-offs.","lead":"Sets hardware roadmap and platform strategy."},
+ "build": ["Course: an intro to hardware product development (MIT OCW has product design courses; 'Hardware Startup' from O'Reilly).","Project: build something with a Raspberry Pi or Arduino and ship firmware updates to it.","At work: shadow a build at the factory or the lab for a week."],
+ "signals": ["Led the sensor module from EVT through PVT; shipped on schedule at target BOM.","Owned firmware roadmap for 2M fielded devices; OTA success rate 99.7%."]},
+
+"networking": {"what": "How data moves across networks: protocols, connectivity products, and the infrastructure that telecom and networking companies sell.",
+ "subskills": [
+  {"id":"protocols","name":"Protocols & fundamentals","patterns":["\\bTCP\\b","\\bIP\\b","\\bHTTP\\b","\\bDNS\\b","\\bBGP\\b","\\bTLS\\b","routing","switching","\\bOSI\\b","layer [2-7]"],"example":"Explain what happens from DNS lookup to first byte."},
+  {"id":"wireless","name":"Wireless & telecom","patterns":["\\b5G\\b","\\bLTE\\b","wi-?fi","cellular","spectrum","\\bRAN\\b","core network","carrier"],"example":"Know the difference between a RAN and a core network product."},
+  {"id":"network_products","name":"Network & edge products","patterns":["\\bSD-?WAN\\b","\\bSASE\\b","\\bVPN\\b","firewall","load balanc","\\bCDN\\b","edge","zero trust network"],"example":"Define the policy model customers configure, not just the throughput."},
+  {"id":"network_ops","name":"Network operations","patterns":["\\bNOC\\b","network (monitoring|operations|automation|observability)","telemetry","\\bSNMP\\b","netflow"],"example":"Design the alerting a network operator actually acts on."}],
+ "ladder": {"associate":"Knows the fundamentals and the product's place in the stack.","mid":"Owns a networking feature; understands the protocols it touches.","senior":"Owns a networking product; works with standards and large customers.","lead":"Sets networking product strategy."},
+ "build": ["Course: a networking fundamentals course (Cisco's free intro, or 'Computer Networking: A Top-Down Approach').","Project: set up a home network with VLANs and a VPN; document it.","At work: sit with the network engineers for a week of operations."],
+ "signals": ["Owned the SD-WAN policy product; 40% of enterprise customers adopted in a year.","Network engineering background (CCNA); PM for the data-center switching line."]}
+}

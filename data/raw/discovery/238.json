@@ -1,0 +1,46 @@
+{
+ "company": "Lam Research",
+ "rank": 238,
+ "group": "fortune500",
+ "industry": "Semiconductors and Other Electronic Components",
+ "ats": "eightfold",
+ "config": {
+  "host": "careers.lamresearch.com",
+  "domain": "lamresearch.com",
+  "api": "pcsx"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "careers.lamresearch.com",
+    "domain": "lamresearch.com",
+    "api": "pcsx"
+   },
+   "from": "probe",
+   "verify": "Product Manager 5"
+  },
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "app.eightfold.ai",
+    "domain": "app.com",
+    "api": "pcsx"
+   },
+   "from": "https://careers.lamresearch.com/careers"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.lamresearch.com"
+   },
+   "from": "https://careers.lamresearch.com/careers"
+  }
+ ],
+ "domain": "lamresearch.com",
+ "sample_title": "Product Manager 5",
+ "description_chars": 9353,
+ "seconds": 17
+}

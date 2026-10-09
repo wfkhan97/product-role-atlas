@@ -1,0 +1,15 @@
+{
+ "company": "Las Vegas Sands",
+ "rank": 339,
+ "group": "fortune500",
+ "industry": "Hotels, Casinos, Resorts",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.sands.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "sands.com",
+ "seconds": 8
+}

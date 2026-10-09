@@ -1,0 +1,30 @@
+{
+ "company": "Expedia Group",
+ "rank": 304,
+ "group": "fortune500",
+ "industry": "Internet Services and Retailing",
+ "ats": "workday",
+ "config": {
+  "host": "expedia.wd108.myworkdayjobs.com",
+  "tenant": "expedia",
+  "site": "search"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "expedia.wd108.myworkdayjobs.com",
+    "tenant": "expedia",
+    "site": "search"
+   },
+   "from": "https://careers.expediagroup.com/",
+   "verify": "Product Manager II, Personalisation"
+  }
+ ],
+ "domain": "expediagroup.com",
+ "sample_title": "Product Manager II, Personalisation",
+ "description_chars": 6179,
+ "seconds": 9
+}

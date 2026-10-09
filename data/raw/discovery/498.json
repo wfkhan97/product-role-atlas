@@ -1,0 +1,32 @@
+{
+ "company": "Masco",
+ "rank": 498,
+ "group": "fortune500",
+ "industry": "Home Equipment, Furnishings",
+ "ats": "phenom",
+ "config": {
+  "host": "jobs.masco.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "jobs.masco.com"
+   },
+   "from": "https://jobs.masco.com/us/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/MASCUS/en_us/desktop/assets/images/favicon.ico",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "masco.com",
+ "seconds": 22
+}

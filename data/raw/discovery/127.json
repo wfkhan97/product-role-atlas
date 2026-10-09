@@ -1,0 +1,30 @@
+{
+ "company": "Starbucks",
+ "rank": 127,
+ "group": "fortune500",
+ "industry": "Food Services",
+ "ats": "eightfold",
+ "config": {
+  "host": "starbucks.eightfold.ai",
+  "domain": "starbucks.com",
+  "api": "pcsx"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "starbucks.eightfold.ai",
+    "domain": "starbucks.com",
+    "api": "pcsx"
+   },
+   "from": "https://careers.starbucks.com/",
+   "verify": "advanced technical product manager- Digital Commerce"
+  }
+ ],
+ "domain": "starbucks.com",
+ "sample_title": "advanced technical product manager- Digital Commerce",
+ "description_chars": 6618,
+ "seconds": 29
+}

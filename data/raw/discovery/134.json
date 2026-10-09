@@ -1,0 +1,35 @@
+{
+ "company": "D.R. Horton",
+ "rank": 134,
+ "group": "fortune500",
+ "industry": "Homebuilders",
+ "ats": "taleo",
+ "config": {
+  "host": "drhorton.taleo.net",
+  "careersection": "2"
+ },
+ "verified": false,
+ "notes": "candidates: taleo no adapter; taleo no adapter",
+ "candidates": [
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "drhorton.taleo.net",
+    "careersection": "2"
+   },
+   "from": "https://www.drhorton.com/careers",
+   "verify": "no adapter"
+  },
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "drhorton.taleo.net",
+    "careersection": "1"
+   },
+   "from": "https://www.drhorton.com/careers",
+   "verify": "no adapter"
+  }
+ ],
+ "domain": "drhorton.com",
+ "seconds": 4
+}

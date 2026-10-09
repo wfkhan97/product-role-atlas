@@ -1,0 +1,37 @@
+{
+ "company": "Global Partners",
+ "rank": 234,
+ "group": "fortune500",
+ "industry": "Wholesalers: Diversified",
+ "ats": "workday",
+ "config": {
+  "host": "global.wd1.myworkdayjobs.com",
+  "tenant": "global",
+  "site": "globalpartnerscareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "global.wd1.myworkdayjobs.com",
+    "tenant": "global",
+    "site": "globalpartnerscareers"
+   },
+   "from": "https://careers.globalp.com/",
+   "verify": "Technical Product Manager"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.globalp.com"
+   },
+   "from": "https://careers.globalp.com/"
+  }
+ ],
+ "domain": "globalp.com",
+ "sample_title": "Technical Product Manager",
+ "description_chars": 8203,
+ "seconds": 11
+}

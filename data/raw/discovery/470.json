@@ -1,0 +1,30 @@
+{
+ "company": "Nasdaq",
+ "rank": 470,
+ "group": "fortune500",
+ "industry": "Securities",
+ "ats": "workday",
+ "config": {
+  "host": "nasdaq.wd1.myworkdayjobs.com",
+  "tenant": "nasdaq",
+  "site": "Global_External_Site"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "nasdaq.wd1.myworkdayjobs.com",
+    "tenant": "nasdaq",
+    "site": "Global_External_Site"
+   },
+   "from": "https://www.nasdaq.com/about/careers",
+   "verify": "Lead Product Manager"
+  }
+ ],
+ "domain": "nasdaq.com",
+ "sample_title": "Lead Product Manager",
+ "description_chars": 4483,
+ "seconds": 21
+}

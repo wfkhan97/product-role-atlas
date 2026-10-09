@@ -1,0 +1,15 @@
+{
+ "company": "CDW",
+ "rank": 205,
+ "group": "fortune500",
+ "industry": "Information Technology Services",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.cdw.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "cdw.com",
+ "seconds": 120
+}

@@ -1,0 +1,30 @@
+{
+ "company": "BorgWarner",
+ "rank": 316,
+ "group": "fortune500",
+ "industry": "Motor Vehicles & Parts",
+ "ats": "workday",
+ "config": {
+  "host": "borgwarner.wd5.myworkdayjobs.com",
+  "tenant": "borgwarner",
+  "site": "BorgWarner_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "borgwarner.wd5.myworkdayjobs.com",
+    "tenant": "borgwarner",
+    "site": "BorgWarner_Careers"
+   },
+   "from": "https://www.borgwarner.com/careers/job-search?id=R2026-4014",
+   "verify": "Regional Product Manager"
+  }
+ ],
+ "domain": "borgwarner.com",
+ "sample_title": "Regional Product Manager",
+ "description_chars": 2459,
+ "seconds": 10
+}

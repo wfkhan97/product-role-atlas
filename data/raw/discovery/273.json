@@ -1,0 +1,37 @@
+{
+ "company": "Land O\u2019Lakes",
+ "rank": 273,
+ "group": "fortune500",
+ "industry": "Food Consumer Products",
+ "ats": "workday",
+ "config": {
+  "host": "landolakes.wd1.myworkdayjobs.com",
+  "tenant": "landolakes",
+  "site": "LandOLakes"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "landolakes.wd1.myworkdayjobs.com",
+    "tenant": "landolakes",
+    "site": "LandOLakes"
+   },
+   "from": "https://careers.landolakesinc.com/us/en",
+   "verify": "Product Owner, Enterprise Manufacturing Systems"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.landolakesinc.com"
+   },
+   "from": "https://careers.landolakesinc.com/us/en"
+  }
+ ],
+ "domain": "landolakes.com",
+ "sample_title": "Product Owner, Enterprise Manufacturing Systems",
+ "description_chars": 7289,
+ "seconds": 26
+}

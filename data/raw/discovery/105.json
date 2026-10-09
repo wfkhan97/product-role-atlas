@@ -1,0 +1,28 @@
+{
+ "company": "Netflix",
+ "rank": 105,
+ "group": "fortune500",
+ "industry": "Entertainment",
+ "ats": "eightfold",
+ "config": {
+  "host": "netflix.eightfold.ai",
+  "domain": "netflix.com",
+  "api": "pcsx"
+ },
+ "verified": false,
+ "notes": "candidates: eightfold 0 product postings",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "netflix.eightfold.ai",
+    "domain": "netflix.com",
+    "api": "pcsx"
+   },
+   "from": "https://explore.jobs.netflix.net/careers",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "netflix.com",
+ "seconds": 6
+}

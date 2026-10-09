@@ -1,0 +1,82 @@
+{
+ "company": "Steel Dynamics",
+ "rank": 244,
+ "group": "fortune500",
+ "industry": "Metals",
+ "ats": "icims",
+ "config": {
+  "host": "careers-steeldynamics.icims.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-steeldynamics.icims.com"
+   },
+   "from": "https://www.steeldynamics.com/careersnew/",
+   "verify": "Product Owner"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-omnisource.icims.com"
+   },
+   "from": "https://www.steeldynamics.com/careersnew/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-newmillennium.icims.com"
+   },
+   "from": "https://www.steeldynamics.com/careersnew/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-aluminumdynamics.icims.com"
+   },
+   "from": "https://www.steeldynamics.com/careersnew/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-sdilafarga.icims.com"
+   },
+   "from": "https://www.steeldynamics.com/careersnew/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-vulcan.icims.com"
+   },
+   "from": "https://www.steeldynamics.com/careersnew/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-superioraluminumalloys.icims.com"
+   },
+   "from": "https://www.steeldynamics.com/careersnew/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-biocarbonsolutions.icims.com"
+   },
+   "from": "https://www.steeldynamics.com/careersnew/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-steelofwestvirginia.icims.com"
+   },
+   "from": "https://www.steeldynamics.com/careersnew/"
+  }
+ ],
+ "domain": "steeldynamics.com",
+ "sample_title": "Product Owner",
+ "description_chars": 2175,
+ "seconds": 15
+}

@@ -1,0 +1,36 @@
+{
+ "company": "Caesars Entertainment",
+ "rank": 384,
+ "group": "fortune500",
+ "industry": "Hotels, Casinos, Resorts",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "edmn.fa.us2.oraclecloud.com",
+  "siteNumber": "CX_1"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "edmn.fa.us2.oraclecloud.com",
+    "siteNumber": "CX_1"
+   },
+   "from": "https://www.caesars.com/careers",
+   "verify": "Senior Product Manager, Poker"
+  },
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "edmn.fa.us2.oraclecloud.com",
+    "siteNumber": "CX_6001"
+   },
+   "from": "https://www.caesars.com/careers"
+  }
+ ],
+ "domain": "caesars.com",
+ "sample_title": "Senior Product Manager, Poker",
+ "description_chars": 3854,
+ "seconds": 29
+}

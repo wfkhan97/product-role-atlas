@@ -1,0 +1,24 @@
+{
+ "company": "BrightSpring Health Services",
+ "rank": 323,
+ "group": "fortune500",
+ "industry": "Health Care: Pharmacy and Other Services",
+ "ats": "icims",
+ "config": {
+  "host": "login.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 product postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "login.icims.com"
+   },
+   "from": "https://careers.brightspringhealth.com/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "brightspringhealth.com",
+ "seconds": 5
+}

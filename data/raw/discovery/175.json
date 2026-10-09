@@ -1,0 +1,37 @@
+{
+ "company": "Jones Lang LaSalle",
+ "rank": 175,
+ "group": "fortune500",
+ "industry": "Real Estate",
+ "ats": "workday",
+ "config": {
+  "host": "jll.wd1.myworkdayjobs.com",
+  "tenant": "jll",
+  "site": "jllcareerschina"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "jll.wd1.myworkdayjobs.com",
+    "tenant": "jll",
+    "site": "jllcareerschina"
+   },
+   "from": "https://www.jll.cn/zh-cn/",
+   "verify": "(board reachable; no product title on first pages)"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.jll.cn"
+   },
+   "from": "https://www.jll.cn/zh-cn/"
+  }
+ ],
+ "domain": "joneslanglasalle.com.cn",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 11
+}

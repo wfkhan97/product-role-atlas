@@ -1,0 +1,40 @@
+{
+ "company": "Labcorp Holdings",
+ "rank": 326,
+ "group": "fortune500",
+ "industry": "Health Care: Pharmacy and Other Services",
+ "ats": "phenom",
+ "config": {
+  "host": "careers.labcorp.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; paradox 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.labcorp.com"
+   },
+   "from": "https://careers.labcorp.com/global/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.labcorp.com"
+   },
+   "from": "https://careers.labcorp.com/global/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/pp/COVAGLOBAL/en_global/desktop/assets/images/favicon.ico",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "labcorp.com",
+ "seconds": 30
+}

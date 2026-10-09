@@ -1,0 +1,39 @@
+{
+ "company": "Whirlpool",
+ "rank": 291,
+ "group": "fortune500",
+ "industry": "Electronics, Electrical Equip.",
+ "ats": "eightfold",
+ "config": {
+  "host": "jobs.whirlpool.com",
+  "domain": "whirlpool.com",
+  "api": "pcsx"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "jobs.whirlpool.com",
+    "domain": "whirlpool.com",
+    "api": "pcsx"
+   },
+   "from": "probe",
+   "verify": "Senior Manager, Product Marketing"
+  },
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "whirlpool.eightfold.ai",
+    "domain": "whirlpool.com",
+    "api": "pcsx"
+   },
+   "from": "https://jobs.whirlpool.com/careers"
+  }
+ ],
+ "domain": "whirlpool.com",
+ "sample_title": "Senior Manager, Product Marketing",
+ "description_chars": 5086,
+ "seconds": 8
+}

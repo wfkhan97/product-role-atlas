@@ -1,0 +1,56 @@
+{
+ "company": "Constellation Energy",
+ "rank": 178,
+ "group": "fortune500",
+ "industry": "Energy",
+ "ats": "icims",
+ "config": {
+  "host": "www.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 product postings; icims 0 product postings; icims 0 product postings; icims 0 product postings; jibe 0 product postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://jobs.constellationenergy.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-constellationenergy.icims.com"
+   },
+   "from": "https://jobs.constellationenergy.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "referral-constellationenergy.icims.com"
+   },
+   "from": "https://jobs.constellationenergy.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "employees-constellationenergy.icims.com"
+   },
+   "from": "https://jobs.constellationenergy.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "jobs.constellationenergy.com"
+   },
+   "from": "https://jobs.constellationenergy.com/careers-home",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "constellationenergy.com",
+ "seconds": 9
+}

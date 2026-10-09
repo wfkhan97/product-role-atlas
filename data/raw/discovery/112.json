@@ -1,0 +1,28 @@
+{
+ "company": "Northrop Grumman",
+ "rank": 112,
+ "group": "fortune500",
+ "industry": "Aerospace & Defense",
+ "ats": "eightfold",
+ "config": {
+  "host": "app.eightfold.ai",
+  "domain": "app.com",
+  "api": "pcsx"
+ },
+ "verified": false,
+ "notes": "candidates: eightfold 0 product postings",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "app.eightfold.ai",
+    "domain": "app.com",
+    "api": "pcsx"
+   },
+   "from": "https://jobs.northropgrumman.com/careers",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "northropgrumman.com",
+ "seconds": 5
+}

@@ -1,0 +1,37 @@
+{
+ "company": "Graybar Electric",
+ "rank": 342,
+ "group": "fortune500",
+ "industry": "Wholesalers: Diversified",
+ "ats": "workday",
+ "config": {
+  "host": "graybar.wd1.myworkdayjobs.com",
+  "tenant": "graybar",
+  "site": "Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "graybar.wd1.myworkdayjobs.com",
+    "tenant": "graybar",
+    "site": "Careers"
+   },
+   "from": "https://www.graybar.com/careers",
+   "verify": "(board reachable; no product title on first pages)"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.graybar.com"
+   },
+   "from": "https://www.graybar.com/careers"
+  }
+ ],
+ "domain": "graybar.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 15
+}

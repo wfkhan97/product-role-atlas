@@ -1,0 +1,15 @@
+{
+ "company": "Illinois Tool Works",
+ "rank": 281,
+ "group": "fortune500",
+ "industry": "Industrial Machinery",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.itwcs.com.au/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "itwcs.com.au",
+ "seconds": 265
+}

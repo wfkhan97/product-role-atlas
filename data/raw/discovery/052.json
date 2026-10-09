@@ -1,0 +1,44 @@
+{
+ "company": "Lowe\u2019s",
+ "rank": 52,
+ "group": "fortune500",
+ "industry": "Specialty Retailers: Other",
+ "ats": "workday",
+ "config": {
+  "host": "lowes.wd5.myworkdayjobs.com",
+  "tenant": "lowes",
+  "site": "LWS_External_CS"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "talent.lowes.com"
+   },
+   "from": "https://talent.lowes.com/us/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/prod/LOWEUS/en_us/desktop/assets/images/favicon.ico?v=1671669398806"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "lowes.wd5.myworkdayjobs.com",
+    "tenant": "lowes",
+    "site": "LWS_External_CS"
+   },
+   "from": "https://talent.lowes.com/us/en/c/corporate-jobs",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "lowes.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 52
+}

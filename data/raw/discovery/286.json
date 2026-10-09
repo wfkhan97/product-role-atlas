@@ -1,0 +1,15 @@
+{
+ "company": "Corning",
+ "rank": 286,
+ "group": "fortune500",
+ "industry": "Electronics, Electrical Equip.",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.corningcu.org/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "corningcu.org",
+ "seconds": 8
+}

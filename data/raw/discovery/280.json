@@ -1,0 +1,32 @@
+{
+ "company": "Ecolab",
+ "rank": 280,
+ "group": "fortune500",
+ "industry": "Chemicals",
+ "ats": "phenom",
+ "config": {
+  "host": "jobs.ecolab.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "jobs.ecolab.com"
+   },
+   "from": "https://jobs.ecolab.com/global/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/pp/EIYEIEUS/en_global/desktop/assets/images/favicon.ico?v=1696865275130",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "ecolab.com",
+ "seconds": 146
+}

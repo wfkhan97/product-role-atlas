@@ -1,0 +1,32 @@
+{
+ "company": "L3Harris Technologies",
+ "rank": 210,
+ "group": "fortune500",
+ "industry": "Aerospace & Defense",
+ "ats": "radancy",
+ "config": {
+  "host": "careers.l3harris.com"
+ },
+ "verified": false,
+ "notes": "candidates: radancy 0 product postings; paradox 0 product postings",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.l3harris.com"
+   },
+   "from": "https://careers.l3harris.com/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.l3harris.com"
+   },
+   "from": "https://careers.l3harris.com/en",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "l3harris.com",
+ "seconds": 20
+}

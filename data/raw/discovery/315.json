@@ -1,0 +1,15 @@
+{
+ "company": "Estee Lauder",
+ "rank": 315,
+ "group": "fortune500",
+ "industry": "Household and Personal Products",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.esteelauder.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "esteelauder.com",
+ "seconds": 6
+}

@@ -1,0 +1,15 @@
+{
+ "company": "GE Aerospace",
+ "rank": 101,
+ "group": "fortune500",
+ "industry": "Aerospace & Defense",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.lexingtonmenus.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "lexingtonmenus.com",
+ "seconds": 350
+}

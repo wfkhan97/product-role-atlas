@@ -1,0 +1,32 @@
+{
+ "company": "O\u2019Reilly Automotive",
+ "rank": 250,
+ "group": "fortune500",
+ "industry": "Specialty Retailers: Other",
+ "ats": "phenom",
+ "config": {
+  "host": "careers.oreillyauto.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.oreillyauto.com"
+   },
+   "from": "https://careers.oreillyauto.com/us/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/OAPOAPUS/en_us/desktop/assets/images/favicon.ico",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "oreillyauto.com",
+ "seconds": 53
+}

@@ -1,0 +1,1388 @@
+[
+ {
+  "company": "Anthropic",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "anthropic"
+  },
+  "verified": true,
+  "pm_postings": 42,
+  "sample_title": "Product Management, Human Data Platform",
+  "website": "https://anthropic.com",
+  "description": "Anthropic is an AI safety and research company that builds reliable, interpretable and steerable AI systems. Anthropic’s flagship product is Claude, a large language model trusted by millions of users and thousands of businesses worldwide."
+ },
+ {
+  "company": "Glean",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "gleanwork"
+  },
+  "verified": true,
+  "pm_postings": 30,
+  "sample_title": "Head of Product Design ",
+  "website": "https://glean.com",
+  "description": "Glean is the work assistant with intuition. It brings all your company’s knowledge together, so you can search for exactly what you need and discover the things you should know. Glean searches across all your company’s apps, using its understanding of who you are, what you’re working on, and who you’re working with, to deliver highly personalized results, instantly. It surfaces knowledge and makes connections with the people who can help—making it easier for you and your team to get big things done."
+ },
+ {
+  "company": "Harvey",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "harvey"
+  },
+  "verified": true,
+  "pm_postings": 28,
+  "sample_title": "Senior Product Operations Manager",
+  "website": "https://harvey.ai",
+  "description": "Harvey is a generative AI company backed by Sequoia and OpenAI. They partner with elite law firms and professional service providers to augment their expertise with cutting edge AI to tackle the world’s most complex business challenges."
+ },
+ {
+  "company": "Sierra",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "sierra"
+  },
+  "verified": true,
+  "pm_postings": 15,
+  "sample_title": "Product Manager, Agent Development",
+  "website": "https://sierra.ai",
+  "description": "Sierra is a conversational AI platform for businesses. It helps companies elevate customer experience through AI agents that they can personalize to act as extensions of their brand."
+ },
+ {
+  "company": "Ramp",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "ramp"
+  },
+  "verified": true,
+  "pm_postings": 12,
+  "sample_title": "Product Operations Specialist | Generalist",
+  "website": "https://ramp.com",
+  "description": "Ramp provides spend management, corporate cards and accounts payable solutions to help businesses optimize finance operations in a single platform."
+ },
+ {
+  "company": "Zipline",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "flyzipline"
+  },
+  "verified": true,
+  "pm_postings": 11,
+  "sample_title": "Head of Product Operations",
+  "website": "https://flyzipline.com",
+  "description": "As the world’s leading on-demand drone delivery service, Zipline helps pioneering organizations transform how life moves. Zipline facilitates new models of care, extends reach and leverages data to continuously improve on-demand operation."
+ },
+ {
+  "company": "Verkada",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "verkada"
+  },
+  "verified": true,
+  "pm_postings": 10,
+  "sample_title": "Director of Business Systems Product Management",
+  "website": "https://verkada.com",
+  "description": "Verkada is reinventing video security for the enterprise with a hybrid cloud security solution that makes it simple to manage devices at scale. Verkada’s solution offers the sharpness, modernity and user-friendliness of a consumer product."
+ },
+ {
+  "company": "Temporal Technologies",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "temporal"
+  },
+  "verified": true,
+  "pm_postings": 10,
+  "sample_title": "Senior Product Manager, Hybrid Platform & Deployment Models",
+  "website": "https://temporal.io",
+  "description": "Temporal enables any software application to handle failures gracefully and in a user-friendly way. At its core, it is an open-source microservice orchestration platform for writing durable workflows as code. It makes it easier to develop reliable software for the cloud by offering an entirely new way to build scalable and reliable applications."
+ },
+ {
+  "company": "Mercury",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "mercury"
+  },
+  "verified": true,
+  "pm_postings": 9,
+  "sample_title": "Head of Product - Business Banking",
+  "website": "https://mercury.com",
+  "description": "Mercury is a financial technology company that connects start ups and SMBs seamlessly to banking services. From setting up the first account, to managing expenses, bill pay, invoicing, accounting and capital, Mercury is reimagining business banking."
+ },
+ {
+  "company": "Vanta",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "vanta"
+  },
+  "verified": true,
+  "pm_postings": 8,
+  "sample_title": "Staff Product Manager, Data Platform",
+  "website": "https://vanta.com",
+  "description": "Vanta automates and simplifies the complex, time-consuming and tedious process of becoming SOC 2-, HIPAA- or ISO 27001-compliant. It integrates and monitors tools and infrastructure, creates to-do lists for gaps, summarizes results, and connects users with a trained auditor."
+ },
+ {
+  "company": "Grafana",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "grafanalabs"
+  },
+  "verified": true,
+  "pm_postings": 7,
+  "sample_title": "Staff Product Manager, OpenTelemetry | Canada | Remote",
+  "website": "https://grafana.com",
+  "description": "Grafana is open-source technology for dashboards and visualization. It provides an open and composable observability platform."
+ },
+ {
+  "company": "Garner Health",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "garnerhealth"
+  },
+  "verified": true,
+  "pm_postings": 6,
+  "sample_title": "Director of Product, Financial Incentives",
+  "website": "https://getgarner.com",
+  "description": "Garner Health helps employers enrich employee benefits and reduce costs without changing plans or networks. Its proprietary claims database identifies the doctors with the most accurate diagnoses and the best patient outcomes and makes it easy to find convenient, in-network providers."
+ },
+ {
+  "company": "Thumbtack",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "thumbtack"
+  },
+  "verified": true,
+  "pm_postings": 6,
+  "sample_title": "Product Manager, Pro Fulfillment",
+  "website": "https://thumbtack.com",
+  "description": "Thumbtack helps people care for their homes from top to bottom, whether it’s a minor repair or a major remodel. Its home management platform connects customers to the right professionals for projects, empowering them to fix, maintain and improve their most valuable asset."
+ },
+ {
+  "company": "Fireworks AI",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "fireworks"
+  },
+  "verified": true,
+  "pm_postings": 6,
+  "sample_title": "Associate Product Manager",
+  "website": "https://fireworks.ai",
+  "description": "Fireworks AI is a high-performance inference platform for developers and enterprises to run open-source LLMs and image models or to fine-tune and deploy their own."
+ },
+ {
+  "company": "Faire",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "faire"
+  },
+  "verified": true,
+  "pm_postings": 6,
+  "sample_title": "Head of Retailer Product Marketing",
+  "website": "https://faire.com",
+  "description": "Faire uses data and machine learning to connect entrepreneurs worldwide. Its online wholesale marketplaces level the playing field so small businesses can compete with the retail giants."
+ },
+ {
+  "company": "Form Energy",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "formenergy"
+  },
+  "verified": true,
+  "pm_postings": 5,
+  "sample_title": "Senior Staff Technical Program Manager",
+  "website": "https://formenergy.com",
+  "description": "Form Energy is an American company driving innovation in energy manufacturing and technology to ensure a clean, secure and reliable electric grid."
+ },
+ {
+  "company": "Rogo",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "rogo"
+  },
+  "verified": true,
+  "pm_postings": 5,
+  "sample_title": "Product Marketing Manager",
+  "website": "https://rogo.ai",
+  "description": "Rogo is the AI operating system for finance. With a suite of agents purpose-built for Wall Street, it’s trained to understand how bankers and investors actually work: from sourcing, diligence and modeling, to turning analysis into deliverables. Rogo's model-agnostic architecture runs the best model for each task, so a firm's intelligence compounds over time."
+ },
+ {
+  "company": "Strava",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "strava"
+  },
+  "verified": true,
+  "pm_postings": 4,
+  "sample_title": "Director, Product Design",
+  "website": "https://strava.com",
+  "description": "Strava is the world’s social network for athletes, tracking cycling, running and more for smarter training, constant improvement and endless exploring. With billions of activity uploads worldwide, Strava is building a record of the world’s athletic activities."
+ },
+ {
+  "company": "n8n",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "n8n"
+  },
+  "verified": true,
+  "pm_postings": 4,
+  "sample_title": "Head of Product Design",
+  "website": "https://n8n.io",
+  "description": "n8n is a free open node-based workflow automation tool. It can be self-hosted, easily extended and used with third-party web applications or custom in-house tools to automate repetitive tasks. With n8n, people can build multistep workflows using third-party APIs and their own internal tools."
+ },
+ {
+  "company": "Peregrine",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "peregrinetechnologies"
+  },
+  "verified": true,
+  "pm_postings": 4,
+  "sample_title": "Federal Product Marketing Manager",
+  "website": "https://peregrine.io",
+  "description": "Peregrine creates software that helps organizations integrate and analyze large and complex data stores to create intelligence and inform enterprise decision making. Their technology is used by government and commercial organizations for crime reduction, disaster management, fraud detection, health service delivery and more."
+ },
+ {
+  "company": "Factory",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "factory"
+  },
+  "verified": true,
+  "pm_postings": 4,
+  "sample_title": "VP of Product Marketing",
+  "website": "https://factory.ai",
+  "description": "Factory is bringing autonomy to software engineering. Factory’s Droids robustly, reliably, and autonomously solve engineering tasks, like code review, documentation, testing, debugging, coding, and project management."
+ },
+ {
+  "company": "Cresta",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "cresta"
+  },
+  "verified": true,
+  "pm_postings": 4,
+  "sample_title": "Associate Forward Deployed Product Manager",
+  "website": "https://cresta.com",
+  "description": "Cresta helps businesses save money, increase revenue and build customer loyalty with the only unified platform for human and AI agents built for enterprise scale."
+ },
+ {
+  "company": "Linear",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "linear"
+  },
+  "verified": true,
+  "pm_postings": 4,
+  "sample_title": "Product Manager",
+  "website": "https://linear.app",
+  "description": "Linear helps developers streamline software projects, sprints, tasks and bug tracking without hampering progress."
+ },
+ {
+  "company": "Zum",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "lever",
+  "config": {
+   "board": "ridezum"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Director of Product & Customer Marketing",
+  "website": "https://ridezum.com",
+  "description": "Zūm is revolutionizing student transportation, enabling students to get to and from school safely, reliably and sustainably. Its technology platform provide real-time transparency to parents, schools and drivers, as well as route optimizations that save districts money and students time. Zūm is building the nation’s largest mass transit system, deploying EV fleets to reduce emissions, provide cleaner air for our children and deliver energy back to the grid."
+ },
+ {
+  "company": "Notion",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "notion"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Product Operations Manager",
+  "website": "https://notion.so",
+  "description": "Notion is a collaborative workspace for teams. With easy doc sharing, free wiki-software, and project tracking, Notion makes it easy to add information and find later."
+ },
+ {
+  "company": "Kalshi",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "kalshi"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Product Manager, Growth",
+  "website": "https://kalshi.com",
+  "description": "Kalshi is the first federally regulated exchange dedicated to trading on future events. Its exchange allows investors to buy yes or no positions on possible events through a novel asset class called event contracts."
+ },
+ {
+  "company": "Sesame AI",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "sesame"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Product Manager, Hardware  ",
+  "website": "https://sesame.com",
+  "description": "Sesame is an interdisciplinary product and research team focused on creating lifelike voice agents that bring computers to life through natural human speech and interaction. The company develops systems designed to understand context, nuance and intent, enabling machines to see, hear and collaborate conversationally with people while advancing voice technology to cross the uncanny valley and make dialogue feel genuinely human-like. Their work spans intelligent voice agents that stay informed, provide conversational support and help users stay organized, alongside lightweight everyday wearable hardware that delivers seamless, high-quality access to voice agents in daily life."
+ },
+ {
+  "company": "ARQ",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "arq"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Product Manager ",
+  "website": "https://arqfinance.com",
+  "description": "ARQ opens the world’s strongest assets and markets to travelers, investors and professionals across the Americas—so they can spend, receive, send and grow their money wherever they are."
+ },
+ {
+  "company": "Grow Therapy",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "grow-therapy"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Staff Product Manager, New Models & Markets",
+  "website": "https://growtherapy.com",
+  "description": "Grow is the mental health platform for personal and professional growth, built to enable progress, connecting clients, providers, and businesses through clinical expertise, always-on tools, and deep insights."
+ },
+ {
+  "company": "Nevis",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "nevis"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Product Owner (AI)",
+  "website": "https://neviswealth.com",
+  "description": "Nevis is an AI platform built for wealth management that automates the core operational work of advisory firms. It removes manual processes across meetings, tasks, account opening and day-to-day operations, allowing advisors to spend more time with clients and less time on administration. By acting as a system that not only supports work but completes it, Nevis is reshaping how wealth management firms scale, grow and deliver personalized advice."
+ },
+ {
+  "company": "Hex",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "hex"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Product Manager (SF)",
+  "website": "https://hex.tech",
+  "description": "Hex is an all in one collaborative, AI-powered workspace for data science and analytics. Its notebook interface allows data teams to go from quick queries to deep-dive analyses to interactive data apps."
+ },
+ {
+  "company": "Robco",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "robco"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "(Senior) Technical Program Manager (m/f/d)",
+  "website": "https://robco.de",
+  "description": "Robco radically rethinks how products are made, using modular robot systems. From the phones in our pockets, to the rockets launching us to space, physical products are mainly made in a manual, strenuous, repetitive way — at industrial SMBs. Improving the industrial SMB status quo is arguably one of the most impactful global opportunities to ensure sustainability and long-term economic success. Robco does so with its innovative modular robotics platform for industrial use cases."
+ },
+ {
+  "company": "Chainguard",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "chainguard"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Senior Product Manager (AI CICD)",
+  "website": "https://chainguard.dev",
+  "description": "Chainguard is the safe source for open source. The company’s mission is to make the software supply chain secure by default. Chainguard develops enterprise solutions to mitigate attacks along every stage of the software development cycle without sacrificing developer productivity."
+ },
+ {
+  "company": "Ironclad",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "ironcladhq"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Staff Product Manager, AI Data Experience",
+  "website": "https://ironcladapp.com",
+  "description": "Ironclad is a contract lifecycle management platform that enables collaboration and negotiation while maintaining compliance. It’s the only platform flexible enough to handle every type of contract workflow, be it a sales agreement, HR agreement or a complex non-disclosure agreement."
+ },
+ {
+  "company": "Attentive",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "attentive"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Product Management Intern, Agentic Integrations",
+  "website": "https://attentivemobile.com",
+  "description": "Attentive is a personalized text messaging platform for innovative brands. Using real-time behavioral data, Attentive automatically sends engaging text messages to each subscriber at every step of their customer journey."
+ },
+ {
+  "company": "Anrok",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "anrok"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Product Marketing Lead",
+  "website": "https://anrok.com",
+  "description": "Anrok is an end-to-end compliance solution for finance leaders of SaaS businesses. With a Supreme Court ruling increasing the paperwork required for software companies, Anrok allows them to track state nexus thresholds, taxability rules and tax rates, all in real time."
+ },
+ {
+  "company": "Etched",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "etched"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Technical Program Manager, Infrastructure",
+  "website": "https://etched.com",
+  "description": "Etched builds frontier inference clusters designed to run the world’s most advanced AI models faster and more efficiently. It has pioneered technologies including Low Voltage Inference and Cluster Scale Memory, which unlock best-in-class throughput and latency for inference at scale. By co-designing silicon, memory, networking, software and rack-scale systems, Etched turns these breakthroughs into production infrastructure for frontier AI."
+ },
+ {
+  "company": "Front",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "frontcareers"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Senior Product Manager - AI ",
+  "website": "https://front.com",
+  "description": "Front is the AI-powered customer service platform built for collaboration. It brings all support channels into a modern, intuitive workspace where teams can collaborate on requests, automate manual processes and delight customers."
+ },
+ {
+  "company": "Lilt",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "lilt-corporate"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Senior Technical Program Manager, Applied AI",
+  "website": "https://lilt.com",
+  "description": "Lilt is the leading AI solution for enterprise translations. Their stack, made up of our Contextual AI Engine, Connector APIs, and Human Adaptive Feedback, enables global organizations to adopt a true AI translation strategy, focusing on business outcomes instead of outputs. With Lilt, innovative, category-defining organizations like Intel, ASICS, WalkMe, and Canva are using AI technology to deliver multilingual, digital customer experiences at scale."
+ },
+ {
+  "company": "Mecka",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "mecka.ai"
+  },
+  "verified": true,
+  "pm_postings": 3,
+  "sample_title": "Staff Technical Program Manager (Deployment & Logistics)",
+  "website": "https://mecka.ai",
+  "description": "Mecka is the data and deployment layer for physical AI. By designing hardware and sensors that digitize the physical world, operationalizing large scale global partnerships across businesses and users, and training frontier video understanding models, Mecka produces the foundations to train and deploy general purpose robotics."
+ },
+ {
+  "company": "Pennylane",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "pennylane"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Senior Product Manager 🇫🇷",
+  "website": "https://pennylane.tech",
+  "description": "Pennylane is a full-stack financial management platform connecting all financial data for business owners and their CPAs. It offers a full and detailed overview that helps business owners make smarter decisions and manage their finances."
+ },
+ {
+  "company": "Maven",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "mavenclinic"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Product Manager, Care Delivery",
+  "website": "https://mavenclinic.com",
+  "description": "Maven is the largest virtual clinic for women and family health that provides holistic care. Maven’s platform cuts costs and drives better health outcomes for parents and children alike."
+ },
+ {
+  "company": "Juicebox",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "juicebox"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Product Manager",
+  "website": "https://juicebox.ai",
+  "description": "Juicebox is the AI recruiting platform that analyzes millions of profiles using natural language. It ranks candidates against pre-set criteria, recommends the best matches and handles outreach and coordination. With Juicebox, teams win better candidates, faster."
+ },
+ {
+  "company": "Rillet",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "rillet"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Senior Product Marketing Manager",
+  "website": "https://rillet.com",
+  "description": "Rillet is the AI-native ERP made to tailor fit the workflows of accountants and a full replacement for legacy ERPs. Fast-growing companies use Rillet to enable a smarter close with native integrations, automated journal entries and AI embedded workflows supporting multi-entity, multi-currency and multi-geography."
+ },
+ {
+  "company": "Aspora",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "aspora"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Head of Product Design",
+  "website": "https://aspora.com",
+  "description": "Aspora is building full stack banking for diaspora populations starting with the Indian diaspora. They enable non-resident Indians to move money seamlessly across borders at the lowest costs."
+ },
+ {
+  "company": "Gridware",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "lever",
+  "config": {
+   "board": "gridware"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Senior Technical Program Manager, Hardware",
+  "website": "https://gridware.io",
+  "description": "Gridware provides wireless realtime instrumentation for utilities managing the power grid. Its system allows utilities to detect faults, expedite outage repairs and manage the long-term health of their assets."
+ },
+ {
+  "company": "Tilt",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "tilthq"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Lead Product Manager, Growth",
+  "website": "https://tilt.com",
+  "description": "Tilt helps consumers access cash and credit by looking at real-time income and spending, not just credit scores, to see their potential."
+ },
+ {
+  "company": "Abby Care",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "abby-care"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Staff Product Manager, Clinical Monitoring & Intervention",
+  "website": "https://abbycare.org",
+  "description": "Abby Care trains family members to become paid caregivers for loved ones with disabilities or special needs. It provides training and community support to deliver better care at lower cost."
+ },
+ {
+  "company": "Auctor",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "auctor"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Product Manager",
+  "website": "https://getauctor.com",
+  "description": "Auctor is the AI-native system of action for the entire software implementation lifecycle. It enables professional services teams and system integrators to deliver faster, more consistently and smarter with every project."
+ },
+ {
+  "company": "Serval",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "serval"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Product Marketing Lead",
+  "website": "https://serval.com",
+  "description": "Serval deploys AI agents for IT. Companies such as Perplexity, Mercor, Vercel, Verkada and Clay use Serval to automate help desk tickets, just-in-time access requests, onboarding and  offboarding flows, and more. With Serval, IT teams turn natural language prompts into complex automations in seconds, automating more than 50% of tickets on day one."
+ },
+ {
+  "company": "Inferact",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "inferact"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Product Marketing Manager",
+  "website": "https://inferact.ai",
+  "description": "Inferact was founded by the creators and core maintainers of vLLM, the de facto standard open-source inference engine. The company builds inference systems at the intersection of model innovation and hardware diversity—supporting 200+ model architectures across major accelerator platforms with day-zero compatibility. Inferact is committed to advancing open-source infrastructure that makes AI inference fast, efficient and accessible."
+ },
+ {
+  "company": "Meter",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "meter"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Product Manager, Firewall",
+  "website": "https://meter.com",
+  "description": "Meter’s full-stack approach to internet infrastructure combines hardware, software, and operations so that any company can easily set up and run a modern network. The goal is to make secure enterprise-grade networks more accessible, and to help innovative organizations get and stay online seamlessly. Our ambition is to turn Meter’s infrastructure into a turnkey utility––when a company moves into any commercial space, the internet and WiFi just works."
+ },
+ {
+  "company": "CaptivateIQ",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "lever",
+  "config": {
+   "board": "captivateiq"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Staff Product Manager - CIA",
+  "website": "https://captivateiq.com",
+  "description": "CaptivateIQ helps enterprise companies make their sales commissions transparent. With CaptivateIQ, businesses can design and measure incentive plans so their teams feel more connected and motivated to work together."
+ },
+ {
+  "company": "Commure",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "commure"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Senior/Staff Product Manager, Ambient",
+  "website": "https://commure.com",
+  "description": "Commure (FKA Athelas) is an AI-powered operating system for healthcare providers that connects data and workflows while boosting clinical and financial performance."
+ },
+ {
+  "company": "Glow",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "glow"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Senior Product Manager",
+  "website": "https://glow.io",
+  "description": "Glow is the Endpoint AI company. As AI changes how people work, creating a new generation of risks that traditional reactive tools can’t keep up with, Glow is rethinking endpoint security from the ground up. The company’s AI-powered operating model is built on prevention, not reaction, that fixes the endpoint foundation so organizations can adopt new software and AI on solid ground."
+ },
+ {
+  "company": "Healthleap",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "healthleap"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Growth Product Marketing Manager",
+  "website": "https://healthleap.ai",
+  "description": "Healthleap shows hospital clinicians which patients need them first. Its software reads the EHR of every inpatient each night. It screens each patient for conditions that often go undiagnosed. Clinicians see the results in the EHR every morning. Patients at risk get care earlier in their stay. Providers get paid for the care they deliver."
+ },
+ {
+  "company": "Gong",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "gongio"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Principal Product Marketing Manager ",
+  "website": "https://gong.io",
+  "description": "Gong helps revenue teams realize their full potential by sharing customer insights. Gong’s platform captures customer interactions and delivers insights at scale so revenue teams feel empowered to make decisions with data. With Gong, customers see improved win rates, larger deals and faster employee ramp-up times."
+ },
+ {
+  "company": "Sourcegraph",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "sourcegraph91"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Product Manager [IC4]",
+  "website": "https://about.sourcegraph.com",
+  "description": "Sourcegraph is a universal code search tool. It helps developers find and fix things faster across all their code. Sourcegraph also searches every open-source repository so engineers can explore, learn and reference the best community-developed code out there."
+ },
+ {
+  "company": "Enter",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "enter-ai"
+  },
+  "verified": true,
+  "pm_postings": 2,
+  "sample_title": "Staff Product Manager",
+  "website": "https://getenter.ai",
+  "description": "Enter helps large companies use AI to boost efficiency of legal teams with exhaustive document analysis that leads to winning more cases."
+ },
+ {
+  "company": "Zapier",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "zapier"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Sr. Product Marketing Manager, Enterprise",
+  "website": "https://zapier.com",
+  "description": "Zapier is an online automation tool that connects apps and services. It makes it easy to move and synch data between apps without relying on developers to code the integration."
+ },
+ {
+  "company": "Formation Bio",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "formationbio"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Director/Senior Director, Product - Applied Data Science",
+  "website": "https://formation.bio",
+  "description": "Formation Bio is a tech and AI-native pharma company differentiated by radically more efficient drug development."
+ },
+ {
+  "company": "Security Scorecard",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "securityscorecard"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Operations Manager, Human and Agent Experience",
+  "website": "https://securityscorecard.com",
+  "description": "Security Scorecard is the global leader in cybersecurity rankings. Its patented technology makes organizations more resilient with self-monitoring, third-party risk management, board reporting and cyber insurance underwriting."
+ },
+ {
+  "company": "Semgrep",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "semgrep"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Senior/Staff Product Manager",
+  "website": "https://semgrep.dev",
+  "description": "Semgrep, formerly known as r2c, is a code scanning platform for finding first and third-party security vulnerabilities in your code base."
+ },
+ {
+  "company": "Pilot",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "pilothq"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Senior Product Manager, Meridian",
+  "website": "https://pilot.com",
+  "description": "Pilot is the largest provider of bookkeeping, tax preparation and CFO services for startups and small businesses. It combines intelligent software with world-class accountants to deliver quality books at an affordable price. Pilot automates the mundane work that’s not worth users’ valuable time."
+ },
+ {
+  "company": "Oso",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "oso"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Marketing Manager",
+  "website": "https://osohq.com",
+  "description": "Oso puts security in the hands of the makers by presenting security as code. It gives developers a library for authorization, with the freedom to shape and extend it as their needs evolve. By offloading this mental work, developers all over the world can shift their focus to moving fast."
+ },
+ {
+  "company": "Middesk",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "middesk"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Group Product Manager",
+  "website": "https://middesk.com",
+  "description": "Middesk delivers business verifications, legal and regulatory checks, and industry classification products to businesses that work with businesses. With its modern compliance and risk tools, Middesk offers end-to-end solutions so companies can screen and monitor customers."
+ },
+ {
+  "company": "Apollo",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "apolloio"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Senior Product Manager, Expansion",
+  "website": "https://apollo.io",
+  "description": "Apollo is an end-to-end AI sales platform to help companies grow their business. Its integrated GTM suite builds pipeline, enriches data and assists with sales calls."
+ },
+ {
+  "company": "Profound",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "profound"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Marketing Manager",
+  "website": "https://tryprofound.com",
+  "description": "Profound is an AI visibility and content creation platform that helps brands monitor and optimize how they appear in AI-powered search results. As consumers increasingly turn to AI assistants for product research, Profound gives marketers the tools to control their presence in AI systems. Profound empowers businesses to win in a future where AI agents, not blue links, drive discovery."
+ },
+ {
+  "company": "Probook",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "probook"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Senior Product Marketing Manager ",
+  "website": "https://probook.ai",
+  "description": "Probook is the AI operating system for home services. Built around dispatch and by people from the trades, Probook unifies intake, data cleaning, chat and outbound. Operators add points to their EBITDA and run their customer experience as one connected system. Hundreds of the largest home service brands in America run on Probook."
+ },
+ {
+  "company": "Physical Intelligence",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "physicalintelligence"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "NPI Technical Program Manager",
+  "website": "https://physicalintelligence.company",
+  "description": "Physical Intelligence is building a foundation model for robotics, bringing general-purpose AI into the physical world."
+ },
+ {
+  "company": "Cockroach Labs",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "cockroachlabs"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Staff Product Marketing Manager, Developer Experience",
+  "website": "https://cockroachlabs.com",
+  "description": "Cockroach Labs provides a cloud-native, distributed SQL database for critical enterprise applications."
+ },
+ {
+  "company": "Citizen",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "citizen"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Head of Product, Applied AI",
+  "website": "https://citizen.com",
+  "description": "Citizen is a personal safety app and mobile protection service."
+ },
+ {
+  "company": "Traversal",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "traversal"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Senior Manager, Product Marketing ",
+  "website": "https://traversal.com",
+  "description": "Traversal is an AI SRE agent that troubleshoots, resolves and prevents production incidents—so engineers can ship features, not fixes."
+ },
+ {
+  "company": "LangChain",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "langchain"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Manager, LangSmith",
+  "website": "https://langchain.com",
+  "description": "LangChain is an LLM programming framework for AI applications. Its open-source toolkit allows the growing community of developers to build sophisticated, data-aware applications on top of LLMs."
+ },
+ {
+  "company": "Turnkey",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "turnkey"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Manager",
+  "website": "https://turnkey.io",
+  "description": "Turnkey allows developers to generate and manage private keys across blockchains. With a simple API, builders can spin-up thousands of wallets, sign millions of transactions, and set permissions to ensure only allowed transactions are signed. Turnkey was built on a minimal, immutable, and deterministic operating system, designed for environments requiring paranoia and accountability putting builders in control of their keys while providing institutional-grade security."
+ },
+ {
+  "company": "Tavus",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "tavus"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Manager ",
+  "website": "https://tavus.io",
+  "description": "Tavus is a research lab pioneering human computing. Their real-time human simulation models let machines see, hear, respond, and even look real, enabling meaningful face-to-face conversations with people. Imagine a therapist that anyone can afford; a personal trainer that adapts to your schedule; medical assistants that can give every patient the attention they need, available 24/7, in every language."
+ },
+ {
+  "company": "Sandstone",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "sandstone"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Founding Product Manager",
+  "website": "https://sandstone.com",
+  "description": "Sandstone enables modern in-house teams to move at the speed of AI, deliver better outcomes and create measurable business value. It unifies legal data, drives end-to-end workflows and organizes business context within the tools you already use. Sandstone is the home for AI-native legal departments."
+ },
+ {
+  "company": "Scanner",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "scanner"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Senior Product Marketing Manager",
+  "website": "https://scanner.dev",
+  "description": "AI agents are reshaping how security teams investigate threats, and they need a radically different kind of data layer to do it. Scanner indexes security logs directly in S3, making petabytes of data searchable in seconds at a fraction of traditional SIEM costs. Customers including Notion, Ramp and BeyondTrust use Scanner to run detections across years of data. AI agents now execute over 80% of queries on the platform."
+ },
+ {
+  "company": "WithCoverage",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "withcoverage"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Manager",
+  "website": "https://withcoverage.com",
+  "description": "WithCoverage replaces traditional insurance brokers with a new category of risk management. The company combines elite risk advisors with proprietary technology to give businesses full visibility into policies, exposures, compliance and claims. Its AI agents automate workflows, improve decision making, and deliver a materially higher standard of service and cost savings."
+ },
+ {
+  "company": "Crosby",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "crosby"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Manager",
+  "website": "https://crosby.ai",
+  "description": "Crosby is the hybrid AI law company that helps rapidly growing businesses execute faster. Crosby combines the speed and intelligence of AI with the safety of lawyers-in-the-loop to review contracts in minutes. Crosby negotiates MSAs, DPAs and NDAs for fast-growing businesses, using speed and intelligence to reach agreement faster, and unblock sales teams."
+ },
+ {
+  "company": "ElevenLabs",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "elevenlabs"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Enterprise Product Manager - ElevenCreative",
+  "website": "https://elevenlabs.io",
+  "description": "ElevenLabs is a Voice AI research and deployment company making content universally accessible in any language and voice. They use natural speech synthesis to enable users to create and design AI voices across a vast swathe of languages, accents, emotions, and delivery styles. The company’s in-house research drives the development of its technology, which includes tools for audiobook publishing, voiceovers, AI dubbing, and applications in entertainment, education, accessibility, and personal use."
+ },
+ {
+  "company": "Eon",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "eonio"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Marketing Manager",
+  "website": "https://eon.io",
+  "description": "Eon transforms your cloud backups into an accessible, useful asset. Use Eon to back up your entire cloud environment with automatic mapping and classification, so you only store what you need. Nothing more, nothing less."
+ },
+ {
+  "company": "Tacto",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "tacto"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "(Senior) Product Manager",
+  "website": "https://tacto.ai",
+  "description": "Tacto is the AI-based operating system for future-proof supply chains in mid-sized industrials. As the central hub connecting these organizations with their supplier base, Tacto streamlines all procurement workflows, effortlessly ensures compliant and sustainable supply chains, and enables efficient material sourcing. With its solution, Tacto empowers mid-cap industrial organizations to future-proof their supply chains by intelligently procuring materials under optimal conditions with minimal effort."
+ },
+ {
+  "company": "Gladia",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "gladia"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Marketing Manager",
+  "website": "https://gladia.io",
+  "description": "Powered by generative AI, Gladia is an audio intelligence API distinguished by exceptional accuracy and speed of transcription, extended multilingual capabilities, and state-of-the-art features, including speaker separation, word-level timestamps, and code-switching. It allows companies to easily embed language AI into their products to derive valuable insights from audio data."
+ },
+ {
+  "company": "Listen Labs",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "listenlabs"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Marketing Manager",
+  "website": "https://listenlabs.ai",
+  "description": "Listen Labs is an autonomous researcher that talks to thousands of customers to find out what they want and why. Its AI platform goes from market question to interview design, participant sourcing and response analysis, delivering insights in hours instead of weeks."
+ },
+ {
+  "company": "Dust",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "dust"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Founding Product Manager",
+  "website": "https://dust.tt",
+  "description": "Dust is an AI operating system for smart teams. It reshapes information management in the workplace by combining multiple large language models to process information, making it readily available when needed and in the format that makes sense. Dust can augment humans, enhance productivity, foster diversity and facilitate a more dynamic, personalized work experience."
+ },
+ {
+  "company": "Fin",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "fin"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Manager",
+  "website": "https://fin.tech",
+  "description": "Fin is a next-generation payments platform built for high-value, global, and instant transactions. Powered by stablecoins, Fin enables users and businesses to move millions of dollars instantly—whether to other Fin users, directly into bank accounts, or across crypto rails. By combining the speed of crypto with the reliability of traditional finance, Fin reimagines how money moves worldwide. If banks and payment products could be rebuilt from the ground up today, they would look like Fin."
+ },
+ {
+  "company": "Magic Eden",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "magiceden"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Senior Growth Product Manager, AI-Native",
+  "website": "https://magiceden.io",
+  "description": "Magic Eden is the leading destination for NFT discovery, expression, and ownership across digital cultures. Led by former crypto, tech, and hospitality leaders, Magic Eden is driving the next billion users to Web3 by providing a user-friendly platform equipped with powerful minting and trading solutions. Magic Eden brings dynamic cultural moments onto the blockchain, empowering users across thousands of communities to create and collect unique NFTs."
+ },
+ {
+  "company": "Houzz",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "lever",
+  "config": {
+   "board": "houzz"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Manager",
+  "website": "https://houzz.com",
+  "description": "Houzz is a marketplace for homeowners and home professionals. It’s where homeowners get ideas for their projects, buy products from vendors, and find the help they need to bring their vision to life."
+ },
+ {
+  "company": "Found",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "found"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Marketing Manager",
+  "website": "https://found.com",
+  "description": "Found gives self-employed people the support and confidence to work for themselves. It offers an all-in-one business banking, bookkeeping and tax solution for self-employed businesses."
+ },
+ {
+  "company": "Domino Data Lab",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "dominodatalab"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Principal Product Manager, AI Factory",
+  "website": "https://dominodatalab.com",
+  "description": "Domino Data Lab’s platforms help data scientists build and deploy AI applications. Its tool not only trains models, but monitors performance once they’ve gone live."
+ },
+ {
+  "company": "Cribl",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "cribl"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Staff Product Manager - Metrics/Tracing",
+  "website": "https://cribl.io",
+  "description": "Founded by three ex-Splunkers on a mission to get the most out of machine data, Cribl helps customers easily sift through data to find the nuggets they need. Its innovative and customizable controls route security and machine data where it has the most value—and with a singular focus on assuring customers have complete control to shape their data. As data needs evolve, LogStream evolves too, helping to get the right data, to the right destinations, in the right formats, at the right time."
+ },
+ {
+  "company": "Bunkerhill Health",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "bunkerhillhealth"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Forward Deployed Product Lead",
+  "website": "https://bunkerhillhealth.com",
+  "description": "Bunkerhill Health empowers leading health systems across the country to turn their best ideas into reality. Its agentic AI platform, Carebricks, gives health systems a single consolidated foundation for enterprise-wide AI, letting them design, build and deploy agents across clinical, operational and administrative work."
+ },
+ {
+  "company": "Clay",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "claylabs"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Marketing, GTM",
+  "website": "https://clay.com",
+  "description": "Clay makes creative tools that help businesses grow by improving their customer research to scale personalized outreach. Its AI agent helps RevOps and growth teams implement any outreach idea."
+ },
+ {
+  "company": "Captions",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "mirage"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Group Product Manager",
+  "website": "https://captions.ai",
+  "description": "Captions is an AI-powered creative studio. Their goal is to enable anyone, anywhere to produce studio-quality videos with just a few quick taps."
+ },
+ {
+  "company": "Noom",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "noomgrowth"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Growth Product Manager (Builder)",
+  "website": "https://noom.com",
+  "description": "Noom is the world’s leading behavior change company focused on disrupting the weight loss and healthcare industries. Combining the power of AI, mobile tech and psychology with empathetic personal coaches, Noom helps people live healthier lives by changing their long-term habits."
+ },
+ {
+  "company": "fal",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "fal-ai"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Technical Program Manager, Infrastructure",
+  "website": "https://fal.ai",
+  "description": "fal is redefining the generative-media infrastructure layer for the AI era. As the leading platform for real-time video, image, audio and 3D generation, fal is building the world’s first Generative Media Cloud—designed to give developers and enterprises access to more than 600 production-ready models through a unified API. fal’s systems already support hundreds of millions of end users globally, a clear demonstration of the platform’s ability to operate at extraordinary scale."
+ },
+ {
+  "company": "Neros",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "greenhouse",
+  "config": {
+   "board": "nerostechnologies"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Director of Product",
+  "website": "https://neros.tech",
+  "description": "Neros develops and manufactures advanced unmanned drone systems for battlefield defense with a U.S. supply chain."
+ },
+ {
+  "company": "Zafran",
+  "group": "sequoia",
+  "investor": "Sequoia",
+  "ats": "ashby",
+  "config": {
+   "board": "zafran-security"
+  },
+  "verified": true,
+  "pm_postings": 1,
+  "sample_title": "Product Manager",
+  "website": "https://zafran.io",
+  "description": "Zafran is a threat exposure management platform that integrates with security tools to reveal, remediate and mitigate all infrastructure risks. Its agentless approach reveals what is truly exploitable, while reducing manual effort."
+ }
+]

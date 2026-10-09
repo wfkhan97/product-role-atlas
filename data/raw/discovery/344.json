@@ -1,0 +1,39 @@
+{
+ "company": "Alcoa",
+ "rank": 344,
+ "group": "fortune500",
+ "industry": "Metals",
+ "ats": "workday",
+ "config": {
+  "host": "alcoa.wd5.myworkdayjobs.com",
+  "tenant": "alcoa",
+  "site": "Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "alcoa.wd5.myworkdayjobs.com",
+    "tenant": "alcoa",
+    "site": "Careers"
+   },
+   "from": "https://www.alcoa.com/careers/en",
+   "verify": "(board reachable; no product title on first pages)"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "alcoa.wd5.myworkdayjobs.com",
+    "tenant": "alcoa",
+    "site": "es"
+   },
+   "from": "https://www.alcoa.com/careers/en"
+  }
+ ],
+ "domain": "alcoa.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 43
+}

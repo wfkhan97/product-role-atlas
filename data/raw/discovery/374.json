@@ -1,0 +1,103 @@
+{
+ "company": "Chipotle Mexican Grill",
+ "rank": 374,
+ "group": "fortune500",
+ "industry": "Food Services",
+ "ats": "radancy",
+ "config": {
+  "host": "jobs.chipotle.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.chipotle.com"
+   },
+   "from": "https://jobs.chipotle.com/",
+   "verify": "Product Manager, Business Intelligence"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.chipotle.com"
+   },
+   "from": "https://jobs.chipotle.com/"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs-es.chipotle.com"
+   },
+   "from": "https://jobs-es.chipotle.com/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs-es.chipotle.com"
+   },
+   "from": "https://jobs-es.chipotle.com/"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.chipotle.de"
+   },
+   "from": "https://jobs.chipotle.de/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.chipotle.de"
+   },
+   "from": "https://jobs.chipotle.de/"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.chipotle.fr"
+   },
+   "from": "https://jobs.chipotle.fr/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.chipotle.fr"
+   },
+   "from": "https://jobs.chipotle.fr/"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.chipotle.co.uk"
+   },
+   "from": "https://jobs.chipotle.co.uk/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.chipotle.co.uk"
+   },
+   "from": "https://jobs.chipotle.co.uk/"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.chipotle.ca"
+   },
+   "from": "https://jobs.chipotle.ca/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.chipotle.ca"
+   },
+   "from": "https://jobs.chipotle.ca/"
+  }
+ ],
+ "domain": "chipotle.com",
+ "sample_title": "Product Manager, Business Intelligence",
+ "description_chars": 7516,
+ "seconds": 95
+}

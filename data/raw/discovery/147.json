@@ -1,0 +1,30 @@
+{
+ "company": "Ferguson Enterprises",
+ "rank": 147,
+ "group": "fortune500",
+ "industry": "Wholesalers: Diversified",
+ "ats": "workday",
+ "config": {
+  "host": "ferguson.wd1.myworkdayjobs.com",
+  "tenant": "ferguson",
+  "site": "Ferguson_Experienced"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "ferguson.wd1.myworkdayjobs.com",
+    "tenant": "ferguson",
+    "site": "Ferguson_Experienced"
+   },
+   "from": "https://www.ferguson.com/content/corporate-information/careers/",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "ferguson.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 15
+}

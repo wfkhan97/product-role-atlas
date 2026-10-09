@@ -1,0 +1,102 @@
+{
+"pricing_packaging": {"what": "Deciding what to charge, how to bundle features into tiers, and how the model shapes who buys and how they use the product.",
+ "subskills": [
+  {"id":"pricing_models","name":"Pricing models","patterns":["usage[- ]based","seat[- ]based","per[- ]seat","consumption","freemium","tiered pricing","value[- ]based pricing","pricing model"],"example":"Choose seats vs usage based on how value scales for the customer."},
+  {"id":"packaging_tiers","name":"Packaging & tiers","patterns":["packag","tiers?\\b","bundl","feature gating","good[- ]better[- ]best","add-?ons?"],"example":"Decide which feature is the reason to upgrade from Pro to Business."},
+  {"id":"pricing_research","name":"Pricing research","patterns":["willingness to pay","van westendorp","conjoint","price (sensitivity|testing|elasticity)"],"example":"Run a Van Westendorp survey before setting the new tier price."},
+  {"id":"pricing_changes","name":"Pricing changes & migration","patterns":["price (increase|change|migration)","grandfather","legacy plans","repackag"],"example":"Migrate legacy plans with 90 days' notice and a grandfathered option."}],
+ "ladder": {"associate":"Understands the current pricing and why features sit where they do.","mid":"Runs pricing analysis for a feature; proposes where it goes in the packaging.","senior":"Owns pricing and packaging for a product; runs the research and the change.","lead":"Sets monetization strategy across the portfolio."},
+ "build": ["Read: 'Monetizing Innovation'; Patrick Campbell's (ProfitWell) pricing guides are free.","Project: tear down three competitors' pricing pages and explain each packaging choice.","At work: analyze which features drive upgrades and propose one packaging change."],
+ "signals": ["Led the move from per-seat to usage-based pricing; net revenue retention rose to 118%.","Designed the three-tier packaging for the self-serve launch."]},
+
+"gtm": {"what": "Planning how a product reaches customers: channel, positioning, launch, enablement, and what success looks like commercially.",
+ "subskills": [
+  {"id":"gtm_plan","name":"GTM plans","patterns":["go[- ]to[- ]market (plan|strategy|motion)","\\bGTM\\b (plan|strategy|motion)","launch strategy"],"example":"One doc: target segment, message, channels, sales play, launch tiers, metrics."},
+  {"id":"channels","name":"Channel strategy","patterns":["channel strateg","product[- ]led","sales[- ]led","\\bPLG\\b","self[- ]serve","direct sales","partner channel","distribution"],"example":"Decide whether the SMB tier is self-serve or sold."},
+  {"id":"launch_tiers","name":"Launch tiers & readiness","patterns":["launch tier","tier (1|2|3) launch","launch readiness","cross-?functional launch"],"example":"Tier-1 launch: press, keynote, enablement; tier-3: release notes."},
+  {"id":"gtm_metrics","name":"Commercial metrics","patterns":["pipeline","win rate","attach rate","adoption (rate|metrics)","bookings","conversion"],"example":"Track pipeline and attach rate for the new product monthly."}],
+ "ladder": {"associate":"Contributes to launch checklists and enablement docs.","mid":"Writes the GTM plan for a feature with marketing and sales.","senior":"Owns GTM for a product line; decides the motion and the launch tier.","lead":"Sets GTM strategy across products; partners with CMO and CRO."},
+ "build": ["Course: a product marketing or GTM course (Product Marketing Alliance, Reforge).","Project: write a GTM plan for a hypothetical launch, with channels and metrics.","At work: co-own the next launch's GTM plan with marketing."],
+ "signals": ["Owned GTM for the analytics add-on; 22% attach rate in the first two quarters.","Shifted the SMB motion to product-led; CAC fell 40%."]},
+
+"market_research": {"what": "Understanding the market you are in: size, trends, competitors, and where the openings are.",
+ "subskills": [
+  {"id":"market_sizing","name":"Market sizing","patterns":["market siz","\\bTAM\\b","\\bSAM\\b","\\bSOM\\b","addressable market","bottom[- ]up"],"example":"Size the market bottom-up from customer counts, not top-down from a report."},
+  {"id":"competitive_analysis","name":"Competitive analysis","patterns":["competitive (analysis|landscape|intelligence|research|teardown)","competitor","battle ?cards","win[/ -]loss"],"example":"Maintain a feature matrix and a win/loss log, refreshed quarterly."},
+  {"id":"trends","name":"Trend & industry analysis","patterns":["industry trends","market trends","emerging","analyst (reports|briefings)","gartner","forrester"],"example":"Write the one-page 'what changed in our market this quarter'."},
+  {"id":"customer_market","name":"Customer & market segmentation","patterns":["market segment","customer segment","vertical","geograph"],"example":"Identify which vertical over-indexes on your product and why."}],
+ "ladder": {"associate":"Keeps the competitor matrix current; summarizes analyst reports.","mid":"Runs competitive analysis and sizing for a feature or segment.","senior":"Produces the market view that shapes an area's strategy.","lead":"Owns the market thesis; briefs the board on competitive position."},
+ "build": ["Project: write a competitive teardown of three products in a category, with a positioning map.","Course: a strategy or marketing course covering sizing and competitive frameworks.","At work: start a quarterly competitive update for your team."],
+ "signals": ["Built the bottom-up TAM model used to justify entering the healthcare vertical.","Ran quarterly win/loss analysis; identified the integration gap behind 30% of losses."]},
+
+"positioning_messaging": {"what": "Deciding how the product is described: to whom, against what alternative, and why it is better, in words customers repeat.",
+ "subskills": [
+  {"id":"positioning_statement","name":"Positioning statements","patterns":["positioning (statement|framework|doc)","for .{0,30} who .{0,30}, .{0,30} is a","category"],"example":"For ops teams drowning in spreadsheets, X is the system of record that…"},
+  {"id":"messaging_hierarchy","name":"Messaging hierarchy","patterns":["messaging (framework|hierarchy|pillars|guide)","key messages","value props?","benefit"],"example":"Three pillars, each with a proof point and a customer quote."},
+  {"id":"storytelling","name":"Narrative & storytelling","patterns":["storytelling","narrative","story","pitch"],"example":"Open with the customer's problem, not the feature list."},
+  {"id":"naming","name":"Naming & category","patterns":["naming","product name","category (creation|design)","brand"],"example":"Name the feature for what it does for the user, not the tech."}],
+ "ladder": {"associate":"Writes clear feature descriptions and release notes.","mid":"Drafts positioning for a feature; partners with PMM on messaging.","senior":"Owns positioning for a product; tests messaging with customers.","lead":"Sets the company narrative and category position."},
+ "build": ["Read: 'Obviously Awesome' (Dunford) and work through its positioning exercise on a product.","Project: rewrite the homepage copy for a product you know and explain each change.","At work: write the positioning for the next launch and test it on five customers."],
+ "signals": ["Repositioned the product from 'dashboard' to 'ops system of record'; demo-to-close rose 25%.","Wrote the messaging framework used across web, sales decks, and ads."]},
+
+"sales_enablement": {"what": "Giving sales and customer-facing teams what they need to sell and support the product: training, materials, and a feedback channel back.",
+ "subskills": [
+  {"id":"enablement_materials","name":"Enablement materials","patterns":["enablement (materials|content|decks|docs)","battle ?cards","one-?pager","sales deck","demo script","\\bFAQs?\\b"],"example":"A one-pager, a demo script, and a competitive battle card per launch."},
+  {"id":"sales_training","name":"Training & certification","patterns":["sales training","train(ing)? (the )?(sales|field)","certification","enablement session","lunch and learn"],"example":"A 45-minute training with a recorded demo, before launch not after."},
+  {"id":"deal_support","name":"Deal support & field feedback","patterns":["deal support","customer calls with sales","field feedback","sales feedback","join(ing)? sales calls"],"example":"Join the top five deals this quarter and log what blocked them."},
+  {"id":"demo","name":"Product demos","patterns":["demo","demonstrat","proof of concept","\\bPOC\\b"],"example":"Give a 10-minute demo that tells a story instead of touring menus."}],
+ "ladder": {"associate":"Writes FAQs and release notes for the field.","mid":"Runs enablement for their feature launches; supports key deals.","senior":"Owns the enablement program for a product; builds the feedback loop from the field.","lead":"Partners with sales leadership on readiness and pipeline for new products."},
+ "build": ["Project: make a one-pager and a 10-minute demo script for a product you know.","Practice: give the demo to a non-expert and fix what confused them.","At work: run the enablement session for your next launch."],
+ "signals": ["Ran enablement for 120 AEs on the new platform; 85% certified within a month.","Joined 30 sales calls in a quarter; three objections became roadmap items."]},
+
+"customer_success": {"what": "Working with support and success teams to keep customers healthy: escalations, onboarding, renewals, and the feedback they generate.",
+ "subskills": [
+  {"id":"escalations","name":"Escalation handling","patterns":["escalat","\\bP[01]\\b","severity","incident (communication|response)","customer (issues|complaints)"],"example":"Own the customer comms during a P1 and the postmortem after."},
+  {"id":"onboarding","name":"Onboarding & adoption","patterns":["onboarding","time[- ]to[- ]value","adoption","implementation","activation"],"example":"Cut time-to-first-value from 14 days to 3 with a guided setup."},
+  {"id":"retention","name":"Renewals & churn","patterns":["renewal","churn","retention","health score","expansion","upsell"],"example":"Read churn reasons monthly and feed the top one into the roadmap."},
+  {"id":"support_partnership","name":"Support partnership","patterns":["support team","help center","documentation","knowledge base","ticket (volume|deflection)","self-?service"],"example":"Track ticket volume per feature and fix the top driver."}],
+ "ladder": {"associate":"Triages support tickets and keeps help docs current.","mid":"Owns escalations for their area and uses support data in planning.","senior":"Builds the loop between success, support, and product; owns adoption metrics.","lead":"Partners with the head of CS on retention strategy."},
+ "build": ["Do a support rotation: answer tickets for a week.","Project: analyze 100 support tickets for a product and propose three fixes.","At work: own the customer comms for the next incident and write the postmortem."],
+ "signals": ["Reduced ticket volume on billing by 45% by fixing the top three drivers.","Owned onboarding; time-to-value fell from 3 weeks to 4 days."]},
+
+"partnerships": {"what": "Building and managing relationships with other companies: integrations, platforms, resellers, and the ecosystem around the product.",
+ "subskills": [
+  {"id":"partner_strategy","name":"Partner strategy","patterns":["partner(ship)? strateg","ecosystem strateg","build[, ]+partner[, ]+(or )?buy","partner (selection|evaluation)"],"example":"Decide which integrations to build, which to let partners build, and which to buy."},
+  {"id":"integration_partners","name":"Integration & platform partners","patterns":["integration partner","technology partner","app (marketplace|store|directory)","partner (API|platform|program)","\\bISVs?\\b"],"example":"Launch a partner program with an API, docs, and a listing."},
+  {"id":"deal_structuring","name":"Deal structuring & negotiation","patterns":["negotiat","term sheet","revenue share","contract","\\bMOU\\b","commercial (terms|agreement)"],"example":"Negotiate the revenue share and the co-marketing commitments."},
+  {"id":"partner_mgmt","name":"Partner management","patterns":["partner management","manag(e|ing) (partner|vendor) relationships","joint (roadmap|planning)","\\bQBRs?\\b with partners","alliance"],"example":"A quarterly joint roadmap review with each strategic partner."}],
+ "ladder": {"associate":"Supports partner integrations; keeps partner docs current.","mid":"Owns one or two partner relationships and their integration roadmap.","senior":"Builds the partner program for a product; negotiates key deals.","lead":"Sets ecosystem strategy; owns strategic alliances."},
+ "build": ["Project: map the integration ecosystem of a product and propose the three partnerships that matter most.","Course: a business development or negotiation course.","At work: own one partner relationship end to end for two quarters."],
+ "signals": ["Launched the partner marketplace with 40 integrations in year one.","Negotiated the Salesforce partnership that drove 15% of enterprise pipeline."]},
+
+"business_case": {"what": "Making the argument for an investment in terms leadership can evaluate: cost, return, risk, and alternatives.",
+ "subskills": [
+  {"id":"case_writing","name":"Writing the case","patterns":["business case","investment (case|proposal|memo)","proposal","justif"],"example":"Problem, options, recommendation, cost, expected return, risks, ask."},
+  {"id":"roi","name":"ROI & payback","patterns":["\\bROI\\b","return on investment","payback","\\bNPV\\b","\\bIRR\\b","cost[- ]benefit"],"example":"Show the payback period under conservative assumptions."},
+  {"id":"sizing_impact","name":"Sizing impact","patterns":["siz(e|ing) (the )?(impact|opportunity)","impact (estimate|sizing|model)","expected (impact|value|lift)"],"example":"Estimate the lift as a range with the assumptions it hinges on."},
+  {"id":"alternatives","name":"Options & alternatives","patterns":["alternatives","options analysis","do[- ]nothing","build (vs|versus|or) buy"],"example":"Always include 'do nothing' and 'buy it' as options."}],
+ "ladder": {"associate":"Contributes sizing and data to a case written by others.","mid":"Writes the business case for a feature-level investment.","senior":"Writes cases for major investments and gets them funded.","lead":"Evaluates and prioritizes cases across the portfolio."},
+ "build": ["Course: finance for managers (ROI, NPV basics).","Project: write a one-page business case for a feature, with a sized return and the 'do nothing' option.","At work: write the case for the next thing your team wants funded."],
+ "signals": ["Wrote the business case that secured 8 engineers for the platform rebuild.","Sized the self-serve opportunity at $3M ARR; actuals landed within 10%."]},
+
+"pnl": {"what": "Owning the business results of a product: revenue, cost, margin, and the levers that move them.",
+ "subskills": [
+  {"id":"revenue_ownership","name":"Revenue targets","patterns":["revenue (target|goal|growth|ownership|responsibility)","\\bARR\\b","\\bMRR\\b","bookings","top[- ]line"],"example":"Own the ARR target for the product line and report against it monthly."},
+  {"id":"margin","name":"Margin & cost levers","patterns":["gross margin","margin","cost (structure|of goods|to serve)","profitab","\\bCOGS\\b"],"example":"Know which three costs drive margin and have a plan for each."},
+  {"id":"pricing_levers","name":"Monetization levers","patterns":["monetiz","average (revenue|order) (per|value)","\\bARPU\\b","\\bAOV\\b","expansion revenue","net (revenue|dollar) retention","\\bNRR\\b","\\bNDR\\b"],"example":"Decompose growth into new, expansion, and churn and target the weakest."},
+  {"id":"business_reviews","name":"Business reviews","patterns":["business review","\\bQBR\\b","\\bMBR\\b","board (deck|update|meeting)","operating review"],"example":"Present the monthly business review with a clear 'what we're doing about it'."}],
+ "ladder": {"associate":"Understands how the product makes money.","mid":"Owns a metric that feeds revenue (conversion, attach, retention).","senior":"Owns revenue for a product line; forecasts and explains variance.","lead":"Owns a P&L; trades investment across products."},
+ "build": ["Course: finance for non-finance managers; learn to read an income statement.","Project: build a P&L for a hypothetical SaaS product from public benchmarks.","At work: ask to present the business review for your area."],
+ "signals": ["Owned the $25M ARR payments line; grew it 40% YoY.","Improved gross margin 6 points by moving storage to a cheaper tier."]},
+
+"growth_loops": {"what": "Growing usage systematically: acquisition, activation, retention, referral, and the loops that compound.",
+ "subskills": [
+  {"id":"funnel_optimization","name":"Funnel optimization","patterns":["funnel","conversion rate","drop-?off","\\bCRO\\b","signup flow","checkout optimization"],"example":"Find the biggest drop in the signup funnel and run three tests on it."},
+  {"id":"activation","name":"Activation & onboarding","patterns":["activation","aha moment","onboarding","first[- ]run","time[- ]to[- ]value","setup"],"example":"Define the aha moment from data and get users there in session one."},
+  {"id":"retention_engagement","name":"Retention & engagement","patterns":["retention","engagement","\\bDAU\\b","\\bMAU\\b","\\bWAU\\b","stickiness","habit","resurrection","re-?engagement"],"example":"Read retention curves by cohort; fix the week-1 cliff before anything else."},
+  {"id":"loops_virality","name":"Growth loops & referral","patterns":["growth loops?","viral","referral","k-?factor","network effects?","word of mouth","invite"],"example":"Design the loop: user creates → shares → viewer signs up → creates."},
+  {"id":"acquisition","name":"Acquisition channels","patterns":["acquisition","\\bSEO\\b","\\bSEM\\b","paid (media|acquisition|ads)","organic","\\bCAC\\b","lifecycle marketing","\\bCRM\\b campaigns","push notifications?","email campaigns"],"example":"Know CAC by channel and shift spend to the one with payback under 12 months."}],
+ "ladder": {"associate":"Runs funnel analyses and small conversion tests.","mid":"Owns a funnel stage (activation, retention) with an experiment roadmap.","senior":"Owns growth for a product; designs loops and the experimentation program.","lead":"Sets growth strategy and model across products."},
+ "build": ["Course: Reforge's growth series or the free 'Growth' lectures from Brian Balfour.","Project: map the growth loops of a product you use and find the weakest link.","At work: own one funnel stage and run five experiments on it."],
+ "signals": ["Owned activation; day-7 retention rose from 31% to 44% via onboarding redesign.","Built the referral loop that drives 20% of new signups."]}
+}

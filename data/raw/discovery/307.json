@@ -1,0 +1,15 @@
+{
+ "company": "FirstEnergy",
+ "rank": 307,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.firstenergycorp.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "firstenergycorp.com",
+ "seconds": 15
+}

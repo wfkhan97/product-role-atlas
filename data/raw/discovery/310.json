@@ -1,0 +1,15 @@
+{
+ "company": "Blackstone",
+ "rank": 310,
+ "group": "fortune500",
+ "industry": "Diversified Financials",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.blackstone.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "blackstone.com",
+ "seconds": 10
+}

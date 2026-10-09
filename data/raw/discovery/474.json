@@ -1,0 +1,15 @@
+{
+ "company": "Yum Brands",
+ "rank": 474,
+ "group": "fortune500",
+ "industry": "Food Services",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.yum.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "yum.com",
+ "seconds": 58
+}

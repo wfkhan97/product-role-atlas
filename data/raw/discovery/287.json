@@ -1,0 +1,98 @@
+{
+ "company": "Principal Financial",
+ "rank": 287,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Stock)",
+ "ats": "jibe",
+ "config": {
+  "host": "careers.principal.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "internalspanish-principal.icims.com"
+   },
+   "from": "https://careers.principal.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "internal-principal.icims.com"
+   },
+   "from": "https://careers.principal.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://careers.principal.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careerssingapore-principal.icims.com"
+   },
+   "from": "https://careers.principal.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-principal.icims.com"
+   },
+   "from": "https://careers.principal.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careershk-principal.icims.com"
+   },
+   "from": "https://careers.principal.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careersmalaysia-principal.icims.com"
+   },
+   "from": "https://careers.principal.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careersindonesiapam-principal.icims.com"
+   },
+   "from": "https://careers.principal.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careersthailandpam-principal.icims.com"
+   },
+   "from": "https://careers.principal.com/careers-home",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "careers.principal.com"
+   },
+   "from": "https://careers.principal.com/careers-home",
+   "verify": "Senior Associate Product Manager"
+  }
+ ],
+ "domain": "principal.com",
+ "sample_title": "Senior Associate Product Manager",
+ "description_chars": 5340,
+ "seconds": 11
+}

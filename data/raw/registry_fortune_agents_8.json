@@ -1,0 +1,382 @@
+[
+  {
+    "company": "Universal Health Services",
+    "rank": 255,
+    "group": "fortune500",
+    "ats": "jibe",
+    "config": {
+      "host": "jobs.uhsinc.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (68 hits for 'product manager', e.g. 'Product Development Manager - Health Plan' is excluded by title filter)"
+  },
+  {
+    "company": "Aflac",
+    "rank": 261,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "careers.aflac.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now"
+  },
+  {
+    "company": "Republic Services",
+    "rank": 269,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "republic.wd5.myworkdayjobs.com",
+      "tenant": "republic",
+      "site": "Republic"
+    },
+    "verified": true,
+    "sample_title": "Senior Manager Product Management",
+    "description_chars": 10483,
+    "notes": "Phenom front end (jobs.republicservices.com) applyUrl points at this Workday tenant; Workday used directly"
+  },
+  {
+    "company": "Ecolab",
+    "rank": 280,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "ecolab.wd1.myworkdayjobs.com",
+      "tenant": "ecolab",
+      "site": "Ecolab_External"
+    },
+    "verified": true,
+    "sample_title": "Equipment Product Marketing Manager - Data Center and Microelectronics",
+    "description_chars": 5283,
+    "notes": "Phenom front end (jobs.ecolab.com) applyUrl points at this Workday tenant; Workday used directly"
+  },
+  {
+    "company": "Mutual of Omaha",
+    "rank": 288,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://www.mutualofomaha.com/careers/jobs/search?keywords=product"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "custom PageUp-backed site: HTML search at /careers/jobs/search?keywords=, detail pages /careers/jobs/detail/NNN with no JSON-LD and no JSON endpoint; has Product Owner postings"
+  },
+  {
+    "company": "Sonic Automotive",
+    "rank": 297,
+    "group": "fortune500",
+    "ats": "smartrecruiters",
+    "config": {
+      "company": "SonicAutomotive"
+    },
+    "verified": true,
+    "sample_title": "Salesperson Multi franchise - BMW of Nashville CPO",
+    "description_chars": 3149,
+    "notes": "board works (jobs.sonicautomotive.com = SmartRecruiters); only hit is a 'CPO' (certified pre-owned) false positive from the title regex, effectively 0 product postings"
+  },
+  {
+    "company": "Blackstone",
+    "rank": 310,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "blackstone.wd1.myworkdayjobs.com",
+      "tenant": "blackstone",
+      "site": "Blackstone_Careers"
+    },
+    "verified": true,
+    "sample_title": "Private Equity Investor Product Strategy, Associate",
+    "description_chars": 6336,
+    "notes": ""
+  },
+  {
+    "company": "Reliance",
+    "rank": 320,
+    "group": "fortune500",
+    "ats": "jibe",
+    "config": {
+      "host": "careers.reliance.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "Reliance Steel & Aluminum (batch domain reliancedigital.in was wrong; real domain rsac.com). iCIMS Jibe site reachable (107 hits), 0 product postings now"
+  },
+  {
+    "company": "Venture Global",
+    "rank": 328,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "venturegloballng.wd108.myworkdayjobs.com",
+      "tenant": "venturegloballng",
+      "site": "External_Careers"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "batch domain venture.hk was wrong; ventureglobal.com/careers is a WP wrapper over wp-json/vg-careers/v1/jobs whose apply_url points at this Workday tenant. Reachable (249 jobs), 0 product postings now. Old greenhouse board 'ventureglobal' is empty"
+  },
+  {
+    "company": "Las Vegas Sands",
+    "rank": 339,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "sands.wd1.myworkdayjobs.com",
+      "tenant": "sands",
+      "site": "sands_careers"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "sands.com/careers 403s to curl; Workday tenant reachable, 0 product postings now"
+  },
+  {
+    "company": "Community Health Systems",
+    "rank": 350,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://www.careershealthcare.com/job/corporate/"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "custom WordPress site (api.careershealthcare.com/job/wp_job_grid); hospital/clinical roles, no product postings"
+  },
+  {
+    "company": "Public Service Enterprise Group",
+    "rank": 360,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "jobs.pseg.com"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "SuccessFactors site reachable and has 'AI Business Product Manager', but adapter LINK_RE requires exact class=\"jobTitle-link\"; PSEG renders class=\"jobTitle-link fontcolor2c9abf821b003040\" so adapter finds 0"
+  },
+  {
+    "company": "Hilton Worldwide Holdings",
+    "rank": 367,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "efet.fa.us2.oraclecloud.com",
+      "siteNumber": "CX_1"
+    },
+    "verified": true,
+    "sample_title": "Manager, Product Management",
+    "description_chars": 6255,
+    "notes": ""
+  },
+  {
+    "company": "Oscar Health",
+    "rank": 376,
+    "group": "fortune500",
+    "ats": "greenhouse",
+    "config": {
+      "board": "oscar"
+    },
+    "verified": true,
+    "sample_title": "Director of Product, Claims Design",
+    "description_chars": 5364,
+    "notes": ""
+  },
+  {
+    "company": "Westlake",
+    "rank": 388,
+    "group": "fortune500",
+    "ats": "paradox",
+    "config": {
+      "host": "www.westlaketalent.com"
+    },
+    "verified": true,
+    "sample_title": "Product Manager",
+    "description_chars": 5119,
+    "notes": "westlake.com/careers redirects to Paradox-hosted westlaketalent.com"
+  },
+  {
+    "company": "Analog Devices",
+    "rank": 396,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "analogdevices.wd1.myworkdayjobs.com",
+      "tenant": "analogdevices",
+      "site": "External"
+    },
+    "verified": true,
+    "sample_title": "Sr. Principal Product Management \u2013 Software and Digital Platforms",
+    "description_chars": 6816,
+    "notes": ""
+  },
+  {
+    "company": "Jefferies Financial Group",
+    "rank": 402,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "hdid.fa.us2.oraclecloud.com",
+      "siteNumber": "CX_1"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable (146 hits for 'manager'), 0 product postings now"
+  },
+  {
+    "company": "NVR",
+    "rank": 409,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://phg.tbe.taleo.net/phg01/ats/careers/v2/jobSearch?act=redirectCwsV2&cws=52&org=NVRINC"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "nvrcareers.com hands off to Taleo Business Edition (no adapter)"
+  },
+  {
+    "company": "AGCO",
+    "rank": 417,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "careers.agcocorp.com"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "SuccessFactors site reachable and has 'Product Manager, Product Management Application', but adapter LINK_RE requires exact class=\"jobTitle-link\"; AGCO renders class=\"jobTitle-link fontcolor9f56b239db44d82c\" so adapter finds 0"
+  },
+  {
+    "company": "Icahn Enterprises",
+    "rank": 427,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://www.ielp.com/"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "holding company; ielp.com returns 403 and has no careers portal (jobs are at subsidiaries such as CVR Energy)"
+  },
+  {
+    "company": "APA",
+    "rank": 438,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://careers.apachecorp.com/"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "batch domain apartments.com was wrong (APA Corp = apacorp.com). SuccessFactors site but /search/ renders results client-side (no jobTitle-link in HTML); only server-side feed is RSS /services/rss/job/?locale=en_US&keywords=(product); no product postings now"
+  },
+  {
+    "company": "Packaging Corp. of America",
+    "rank": 445,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://careers.packagingcorp.com/career-search/?keyword=product+manager"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "custom WordPress site (/career-search/posting/<slug>/<id>); keyword search works but no product postings and no JSON endpoint"
+  },
+  {
+    "company": "NOV",
+    "rank": 455,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "egay.fa.us6.oraclecloud.com",
+      "siteNumber": "CX_2001"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "batch domain nova.edu was wrong (nov.com). Oracle HCM reachable (415 hits for 'manager'), 0 product postings now"
+  },
+  {
+    "company": "Optimum Communications",
+    "rank": 462,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "www.optimumcareers.com"
+    },
+    "verified": true,
+    "sample_title": "Product Manager",
+    "description_chars": 6845,
+    "notes": ""
+  },
+  {
+    "company": "Insight Enterprises",
+    "rank": 472,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "jobsearch.insight.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now"
+  },
+  {
+    "company": "Post Holdings",
+    "rank": 479,
+    "group": "fortune500",
+    "ats": "jibe",
+    "config": {
+      "host": "jobs.postholdings.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "iCIMS Jibe site reachable; postholdings.icims.com itself 302s to login. 0 product postings now ('Product Change Manager' excluded by title filter)"
+  },
+  {
+    "company": "Vulcan Materials",
+    "rank": 485,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "careers.vulcanmaterials.com",
+      "siteNumber": "careers"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "discovery's vmcfa-dev3 host was a dev pod; production vanity host careers.vulcanmaterials.com works. Reachable (185 hits for 'manager'), 0 product postings now"
+  },
+  {
+    "company": "Ingersoll Rand",
+    "rank": 494,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "careers.irco.com"
+    },
+    "verified": true,
+    "sample_title": "Product Management Excellence Leader",
+    "description_chars": 6775,
+    "notes": "irco.com rate-limits (429) but careers.irco.com is fine"
+  }
+]

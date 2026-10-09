@@ -1,0 +1,30 @@
+{
+ "company": "Duke Energy",
+ "rank": 145,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "workday",
+ "config": {
+  "host": "dukeenergy.wd1.myworkdayjobs.com",
+  "tenant": "dukeenergy",
+  "site": "search"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "dukeenergy.wd1.myworkdayjobs.com",
+    "tenant": "dukeenergy",
+    "site": "search"
+   },
+   "from": "https://www.duke-energy.com/our-company/careers",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "duke-energy.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 8
+}

@@ -1,0 +1,37 @@
+{
+ "company": "Thermo Fisher Scientific",
+ "rank": 106,
+ "group": "fortune500",
+ "industry": "Scientific,Photographic and Control Equipment",
+ "ats": "workday",
+ "config": {
+  "host": "thermofisher.wd5.myworkdayjobs.com",
+  "tenant": "thermofisher",
+  "site": "ThermoFisherCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "jobs.thermofisher.com"
+   },
+   "from": "https://jobs.thermofisher.com/global/en"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "thermofisher.wd5.myworkdayjobs.com",
+    "tenant": "thermofisher",
+    "site": "ThermoFisherCareers"
+   },
+   "from": "https://jobs.thermofisher.com/global/en/c/clinical-research-jobs",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "thermofisher.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 17
+}

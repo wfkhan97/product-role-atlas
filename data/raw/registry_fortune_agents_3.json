@@ -1,0 +1,397 @@
+[
+ {
+  "company": "Sysco",
+  "rank": 55,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "sysco.wd5.myworkdayjobs.com",
+   "tenant": "sysco",
+   "site": "syscocareers"
+  },
+  "verified": true,
+  "sample_title": "Salesforce Product Owner",
+  "description_chars": 5581,
+  "notes": "careers.sysco.com is a Radancy front-end whose keyword search returns no product roles; underlying Workday tenant sysco/syscocareers (job URLs resolve to wd5.myworkdaysite.com/recruiting/sysco/syscocareers)."
+ },
+ {
+  "company": "MetLife",
+  "rank": 59,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.metlifecareers.com/en_US/ml/SearchJobs"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "jobs.metlife.com redirects to metlifecareers.com, an Avature site (no Workday/Phenom/etc. backend found; only an Avature RSS-style feed at /en_US/ml/SearchJobs/feed/). No adapter for Avature."
+ },
+ {
+  "company": "Eli Lilly",
+  "rank": 67,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobsearch.lilly.com/jobs/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "careers.lilly.com is 403 to curl; jobsearch.lilly.com is a Nuxt SPA over the DirectEmployers jobsyn Solr API, not an adapter shape. Working: curl -H 'Accept: application/json' -H 'X-Origin: jobsearch.lilly.com' 'https://prod-search-api.jobsyn.org/api/v1/solr/search?q=product+manager&page=1' -> {jobs:[{title_exact, reqid, guid, description, city_exact,...}], pagination}. No lilly.wdN.myworkdayjobs.com tenant exists (422 on wd1/3/5/12/103)."
+ },
+ {
+  "company": "Pfizer",
+  "rank": 73,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "pfizer.wd1.myworkdayjobs.com",
+   "tenant": "pfizer",
+   "site": "PfizerCareers"
+  },
+  "verified": true,
+  "sample_title": "Sr. Manager, Digital Product Manager",
+  "description_chars": 7441,
+  "notes": "pfizer.com careers pages are 403 to curl; Workday tenant pfizer/PfizerCareers works directly."
+ },
+ {
+  "company": "TJX",
+  "rank": 79,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "tjx.wd1.myworkdayjobs.com",
+   "tenant": "tjx",
+   "site": "TJX_EXTERNAL"
+  },
+  "verified": true,
+  "sample_title": "Staff Product Manager (MOM)",
+  "description_chars": 5770,
+  "notes": "jobs.tjx.com is Phenom (POST /widgets works, 1063 hits) but search results carry only a teaser, applyUrl points at wd1.myworkdaysite.com/recruiting/tjx/TJX_EXTERNAL (not myworkdayjobs.com, so phenom workday_detail regex does not match) and Phenom job pages return HTTP 410. Scrape the Workday tenant directly."
+ },
+ {
+  "company": "American Airlines Group",
+  "rank": 86,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.aa.com/search/?q=product+manager&locale=en_US&startrow=0"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "jobs.aa.com is SAP SuccessFactors (job URLs jobs.aa.com/job/<Title>/<id>-en_US/) but Akamai returns 403 'Access Denied' to curl/requests with browser headers (also 403 via WebFetch). Needs a browser."
+ },
+ {
+  "company": "Ingram Micro Holding",
+  "rank": 90,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "ingrammicro.wd5.myworkdayjobs.com",
+   "tenant": "ingrammicro",
+   "site": "IngramMicro"
+  },
+  "verified": true,
+  "sample_title": "Product Manager",
+  "description_chars": 2225,
+  "notes": "careers.ingrammicro.com is 403 to curl; Workday tenant found by probing."
+ },
+ {
+  "company": "Massachusetts Mutual Life",
+  "rank": 100,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "massmutual.wd1.myworkdayjobs.com",
+   "tenant": "massmutual",
+   "site": "MMCareers"
+  },
+  "verified": true,
+  "sample_title": "Technical Product Manager- Worksite Technology",
+  "description_chars": 7220,
+  "notes": ""
+ },
+ {
+  "company": "U.S. Bancorp",
+  "rank": 110,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "usbank.wd1.myworkdayjobs.com",
+   "tenant": "usbank",
+   "site": "US_Bank_Careers"
+  },
+  "verified": true,
+  "sample_title": "Product Manager",
+  "description_chars": 6936,
+  "notes": "careers.usbank.com is a Phenom front-end; apply links go to usbank.wd1.myworkdayjobs.com/US_Bank_Careers."
+ },
+ {
+  "company": "Honeywell International",
+  "rank": 116,
+  "group": "fortune500",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "ibqbjb.fa.ocs.oraclecloud.com",
+   "siteNumber": "CX_1"
+  },
+  "verified": true,
+  "sample_title": "S4 Product Owner Innovation to Order",
+  "description_chars": 6385,
+  "notes": "careers.honeywell.com embeds Oracle Recruiting Cloud (ibqbjb.fa.ocs.oraclecloud.com, site CX_1); no Workday tenant."
+ },
+ {
+  "company": "US Foods Holding",
+  "rank": 121,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "usfoods.wd1.myworkdayjobs.com",
+   "tenant": "usfoods",
+   "site": "usfoodscareersExternal"
+  },
+  "verified": true,
+  "sample_title": "Intern – Product Analyst, Digital Commerce (Hybrid: Onsite & Remote)",
+  "description_chars": 3783,
+  "notes": ""
+ },
+ {
+  "company": "Advanced Micro Devices",
+  "rank": 131,
+  "group": "fortune500",
+  "ats": "jibe",
+  "config": {
+   "host": "careers.amd.com"
+  },
+  "verified": true,
+  "sample_title": "Senior Product Manager, Client Product Group",
+  "description_chars": 4597,
+  "notes": "careers.amd.com is iCIMS Jibe (GET /api/jobs?keywords=...); detail URLs resolve to careers-amd.icims.com."
+ },
+ {
+  "company": "PayPal Holdings",
+  "rank": 139,
+  "group": "fortune500",
+  "ats": "eightfold",
+  "config": {
+   "host": "paypal.eightfold.ai",
+   "domain": "paypal.com",
+   "api": "pcsx"
+  },
+  "verified": true,
+  "sample_title": "Sr. Lead Product Manager, Enterprise AI Accelerations",
+  "description_chars": 7988,
+  "notes": "careers.pypl.com is behind Cloudflare (403) but the Eightfold API host paypal.eightfold.ai answers directly."
+ },
+ {
+  "company": "United Natural Foods",
+  "rank": 146,
+  "group": "fortune500",
+  "ats": "paradox",
+  "config": {
+   "host": "jobs.unfi.com",
+   "search_path": "/jobs/",
+   "query_param": "search_term",
+   "page_param": "page"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now. jobs.unfi.com is a custom (Incapsula-fronted) site that matches the paradox adapter shape: GET /jobs/?search_term=product+manager&page=1 -> href=\"/job/<id>/<slug>/\" links, job pages carry a JSON-LD JobPosting with full description (~9-10k chars). Current hits ('Senior Manager Product Business', 'Manager, IT Data Products') fail title_ok. Requires the paradox LINK_RE fix (job id not the last path segment)."
+ },
+ {
+  "company": "Paramount Skydance",
+  "rank": 155,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.paramount.com"
+  },
+  "verified": true,
+  "sample_title": "Sr. Director, Technical Program Management AI/ML",
+  "description_chars": 8000,
+  "notes": "SuccessFactors; anchors are class=\"jobTitle-link fontcolor72228158\" so the adapter LINK_RE needed class=\"jobTitle-link[^\"]*\" (fix applied in pipeline/adapters/successfactors.py)."
+ },
+ {
+  "company": "Baker Hughes",
+  "rank": 164,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "bakerhughes.wd5.myworkdayjobs.com",
+   "tenant": "bakerhughes",
+   "site": "BakerHughes"
+  },
+  "verified": true,
+  "sample_title": "Senior Product Manager",
+  "description_chars": 5963,
+  "notes": ""
+ },
+ {
+  "company": "McDonald’s",
+  "rank": 170,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.mcdonalds.com"
+  },
+  "verified": true,
+  "sample_title": "Analyst, Technical Product Management",
+  "description_chars": 8457,
+  "notes": "careers.mcdonalds.com is Akamai-403 to curl, but the SuccessFactors host jobs.mcdonalds.com (corporate roles) is open."
+ },
+ {
+  "company": "Waste Management",
+  "rank": 179,
+  "group": "fortune500",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "emcm.fa.us2.oraclecloud.com",
+   "siteNumber": "WMCareers"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now. Oracle keyword search for 'Product Manager' returns 280 fuzzy hits (drivers, technicians, sales) with no product-titled requisitions; adapter paginates them and finds nothing."
+ },
+ {
+  "company": "Block",
+  "rank": 191,
+  "group": "fortune500",
+  "ats": "greenhouse",
+  "config": {
+   "board": "block"
+  },
+  "verified": true,
+  "sample_title": "Staff Product Data Scientist, Lending",
+  "description_chars": 6782,
+  "notes": "block.xyz/careers/jobs embeds GREENHOUSE_BOARD=\"block\". (blockchain.com in the batch file is the wrong domain; Block Inc. is block.xyz.)"
+ },
+ {
+  "company": "Ross Stores",
+  "rank": 199,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.rossstores.com/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "jobs.rossstores.com is an NAS Recruitment/'Activate' front-end over Avature (ross.avature.net); no Workday/Phenom/etc. JSON backend found. No adapter for Avature."
+ },
+ {
+  "company": "Group 1 Automotive",
+  "rank": 204,
+  "group": "fortune500",
+  "ats": "icims",
+  "config": {
+   "host": "careers-group1auto.icims.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now. iCIMS portal answers (21 anchors for 'manager'); dealership roles only, 'product manager' -> No Results."
+ },
+ {
+  "company": "L3Harris Technologies",
+  "rank": 210,
+  "group": "fortune500",
+  "ats": "radancy",
+  "config": {
+   "host": "careers.l3harris.com",
+   "results_path": "/en/search-jobs/results"
+  },
+  "verified": true,
+  "sample_title": "Product Manager",
+  "description_chars": 5854,
+  "notes": "Radancy with locale prefix: /search-jobs/results 301s, use /en/search-jobs/results; job hrefs are /en/job/... so the adapter LINK_RE needed an optional locale prefix (fix applied in pipeline/adapters/radancy.py)."
+ },
+ {
+  "company": "GE HealthCare Technologies",
+  "rank": 217,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "gehc.wd5.myworkdayjobs.com",
+   "tenant": "gehc",
+   "site": "GEHC_ExternalSite"
+  },
+  "verified": true,
+  "sample_title": "Technical Product Manager - Oracle Fusion Supply Chain Finance & Costing",
+  "description_chars": 5826,
+  "notes": "careers.gehealthcare.com is a Phenom front-end; Workday tenant gehc/GEHC_ExternalSite."
+ },
+ {
+  "company": "Altria Group",
+  "rank": 221,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.altria.com/search/?q=product+manager"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "SuccessFactors 'unify' theme: /search/?q=... returns 100KB shell with results rendered client-side (j2w.searchResultsUnify.js); no jobTitle-link anchors or /job/ links in HTML, tile-search-results is empty, XHR headers do not help. Only a server-side RSS exists: curl 'https://careers.altria.com/services/rss/job/?locale=en_US&keywords=(product%20manager)'. (nu-mark.com in the batch file is unrelated.)"
+ },
+ {
+  "company": "American Family Insurance Group",
+  "rank": 226,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "amfam.wd1.myworkdayjobs.com",
+   "tenant": "amfam",
+   "site": "Careers"
+  },
+  "verified": true,
+  "sample_title": "Product Analyst (Hybrid)",
+  "description_chars": 6782,
+  "notes": ""
+ },
+ {
+  "company": "Aramark",
+  "rank": 235,
+  "group": "fortune500",
+  "ats": "paradox",
+  "config": {
+   "host": "careers.aramark.com"
+  },
+  "verified": true,
+  "sample_title": "Facilities Product Manager - FFP - Healthcare+",
+  "description_chars": 6103,
+  "notes": "Paradox (aramark.paradox.ai); job hrefs are /job/<slug>/<city>/<id>/ so the adapter LINK_RE needed to allow /job/ at the root and extra path segments (fix applied in pipeline/adapters/paradox.py)."
+ },
+ {
+  "company": "Emerson Electric",
+  "rank": 245,
+  "group": "fortune500",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "hdjq.fa.us2.oraclecloud.com",
+   "siteNumber": "CX_1"
+  },
+  "verified": true,
+  "sample_title": "Software Product Owner",
+  "description_chars": 3477,
+  "notes": "emerson.com/careers links to Oracle Recruiting Cloud hdjq.fa.us2.oraclecloud.com site CX_1; emerson.wd5.myworkdayjobs.com exists but has no public site."
+ },
+ {
+  "company": "Jones Financial (Edward Jones)",
+  "rank": 249,
+  "group": "fortune500",
+  "ats": "mcloud",
+  "config": {
+   "host": "jobsapi-internal.m-cloud.io",
+   "path": "/api/job",
+   "organization": "2144"
+  },
+  "verified": true,
+  "sample_title": "AI Product Manager I",
+  "description_chars": 4417,
+  "notes": "careers.edwardjones.com loads jobs from jobsapi-internal.m-cloud.io/api/job?organization=2144."
+ }
+]

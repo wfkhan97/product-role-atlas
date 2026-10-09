@@ -1,0 +1,24 @@
+{
+ "company": "Commercial Metals",
+ "rank": 491,
+ "group": "fortune500",
+ "industry": "Metals",
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.cmc.com"
+ },
+ "verified": false,
+ "notes": "candidates: successfactors 0 product postings",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.cmc.com"
+   },
+   "from": "https://jobs.cmc.com/go/View-All-Jobs/8239200/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "cmc.com",
+ "seconds": 11
+}

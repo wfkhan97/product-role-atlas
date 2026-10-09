@@ -1,0 +1,33 @@
+{
+ "company": "NextEra Energy",
+ "rank": 167,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.nexteraenergy.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.nexteraenergy.com"
+   },
+   "from": "https://jobs.nexteraenergy.com/"
+  },
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.nexteraenergy.com"
+   },
+   "from": "https://jobs.nexteraenergy.com/search/?searchby&",
+   "verify": "Manager of Technical Product Management"
+  }
+ ],
+ "domain": "nexteraenergy.com",
+ "sample_title": "Manager of Technical Product Management",
+ "description_chars": 6121,
+ "seconds": 12
+}

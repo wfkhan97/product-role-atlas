@@ -1,0 +1,30 @@
+{
+ "company": "Ameren",
+ "rank": 466,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "workday",
+ "config": {
+  "host": "ameren.wd1.myworkdayjobs.com",
+  "tenant": "ameren",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "ameren.wd1.myworkdayjobs.com",
+    "tenant": "ameren",
+    "site": "External"
+   },
+   "from": "https://www.ameren.com/career",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "ameren.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 7
+}

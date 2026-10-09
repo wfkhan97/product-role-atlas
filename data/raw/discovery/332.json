@@ -1,0 +1,40 @@
+{
+ "company": "Eversource Energy",
+ "rank": 332,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "radancy",
+ "config": {
+  "host": "jobs.eversource.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.eversource.com"
+   },
+   "from": "https://jobs.eversource.com/",
+   "verify": "IT Product Manager, SAP (Hybrid)"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.eversource.com"
+   },
+   "from": "https://jobs.eversource.com/"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.eversource.com"
+   },
+   "from": "https://www.eversource.com/error/page-not-found?initialRequestUrl=https%3a%2f%2fwww.eversource.com%2fcareers"
+  }
+ ],
+ "domain": "eversource.com",
+ "sample_title": "IT Product Manager, SAP (Hybrid)",
+ "description_chars": 8097,
+ "seconds": 56
+}

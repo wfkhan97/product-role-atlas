@@ -1,0 +1,30 @@
+{
+ "company": "C.H. Robinson Worldwide",
+ "rank": 277,
+ "group": "fortune500",
+ "industry": "Transportation and Logistics",
+ "ats": "workday",
+ "config": {
+  "host": "chrobinson.wd5.myworkdayjobs.com",
+  "tenant": "chrobinson",
+  "site": "CHRobinson"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "chrobinson.wd5.myworkdayjobs.com",
+    "tenant": "chrobinson",
+    "site": "CHRobinson"
+   },
+   "from": "https://www.chrobinson.com/en-us/about-us/careers/",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "chrobinson.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 48
+}

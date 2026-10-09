@@ -1,0 +1,44 @@
+{
+ "company": "Hewlett Packard Enterprise",
+ "rank": 133,
+ "group": "fortune500",
+ "industry": "Computers, Office Equipment",
+ "ats": "workday",
+ "config": {
+  "host": "hpe.wd5.myworkdayjobs.com",
+  "tenant": "hpe",
+  "site": "Jobsathpe"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.hpe.com"
+   },
+   "from": "https://careers.hpe.com/us/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/HPE1US/en_us/desktop/assets/images/favicon.ico?v=1746607922508"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "hpe.wd5.myworkdayjobs.com",
+    "tenant": "hpe",
+    "site": "Jobsathpe"
+   },
+   "from": "https://careers.hpe.com/us/en/c/human-resources-talent-development-jobs",
+   "verify": "Product Manager- DCN"
+  }
+ ],
+ "domain": "hpe.com",
+ "sample_title": "Product Manager- DCN",
+ "description_chars": 7124,
+ "seconds": 32
+}

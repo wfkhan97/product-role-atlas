@@ -1,0 +1,58 @@
+{
+ "company": "Sprouts Farmers Market",
+ "rank": 450,
+ "group": "fortune500",
+ "industry": "Food and Drug Stores",
+ "ats": "jibe",
+ "config": {
+  "host": "jobs.sprouts.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://jobs.sprouts.com/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "distributioncenter-sprouts.icims.com"
+   },
+   "from": "https://jobs.sprouts.com/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "storeops-sprouts.icims.com"
+   },
+   "from": "https://jobs.sprouts.com/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "storesupport-sprouts.icims.com"
+   },
+   "from": "https://jobs.sprouts.com/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "jobs.sprouts.com"
+   },
+   "from": "https://jobs.sprouts.com/jobs",
+   "verify": "Senior Director IT Product Management \u2013 Marketing & Customer Technology"
+  }
+ ],
+ "domain": "sprouts.com",
+ "sample_title": "Senior Director IT Product Management \u2013 Marketing & Customer Technology",
+ "description_chars": 9287,
+ "seconds": 17
+}

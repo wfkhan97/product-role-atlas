@@ -1,0 +1,24 @@
+{
+ "company": "Super Micro Computer",
+ "rank": 208,
+ "group": "fortune500",
+ "industry": "Computers, Office Equipment",
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.supermicro.com"
+ },
+ "verified": false,
+ "notes": "candidates: successfactors 0 product postings",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.supermicro.com"
+   },
+   "from": "https://jobs.supermicro.com/search",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "supermicro.com",
+ "seconds": 16
+}

@@ -1,0 +1,28 @@
+{
+ "company": "Williams-Sonoma",
+ "rank": 490,
+ "group": "fortune500",
+ "industry": "Specialty Retailers: Other",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "ehac.fa.us6.oraclecloud.com",
+  "siteNumber": "CX_1"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ehac.fa.us6.oraclecloud.com",
+    "siteNumber": "CX_1"
+   },
+   "from": "https://www.wsgc.com/careers/jobs",
+   "verify": "Tech Principal Product Manager"
+  }
+ ],
+ "domain": "wsgc.com",
+ "sample_title": "Tech Principal Product Manager",
+ "description_chars": 9636,
+ "seconds": 18
+}

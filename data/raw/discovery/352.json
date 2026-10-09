@@ -1,0 +1,26 @@
+{
+ "company": "Huntington Ingalls Industries",
+ "rank": 352,
+ "group": "fortune500",
+ "industry": "Aerospace & Defense",
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.huntingtoningalls.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.huntingtoningalls.com"
+   },
+   "from": "https://careers.huntingtoningalls.com/search/?createNewAlert=false&amp;q=%22Entity%3A+Ingalls+Shipbuilding%22",
+   "verify": "SENIOR PRODUCT OWNER - PORTFOLIO/PRODUCT DELIVERY MANAGER"
+  }
+ ],
+ "domain": "hii.com",
+ "sample_title": "SENIOR PRODUCT OWNER - PORTFOLIO/PRODUCT DELIVERY MANAGER",
+ "description_chars": 8304,
+ "seconds": 11
+}

@@ -1,0 +1,37 @@
+{
+ "company": "Kohl\u2019s",
+ "rank": 289,
+ "group": "fortune500",
+ "industry": "General Merchandisers",
+ "ats": "workday",
+ "config": {
+  "host": "kohls.wd504.myworkdayjobs.com",
+  "tenant": "kohls",
+  "site": "kohlscareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "kohls.wd504.myworkdayjobs.com",
+    "tenant": "kohls",
+    "site": "kohlscareers"
+   },
+   "from": "https://careers.kohls.com/",
+   "verify": "(board reachable; no product title on first pages)"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.kohls.com"
+   },
+   "from": "https://careers.kohls.com/"
+  }
+ ],
+ "domain": "kohls.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 11
+}

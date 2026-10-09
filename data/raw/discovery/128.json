@@ -1,0 +1,30 @@
+{
+ "company": "World Kinect",
+ "rank": 128,
+ "group": "fortune500",
+ "industry": "Energy",
+ "ats": "workday",
+ "config": {
+  "host": "wfscorp.wd5.myworkdayjobs.com",
+  "tenant": "wfscorp",
+  "site": "wfscareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "wfscorp.wd5.myworkdayjobs.com",
+    "tenant": "wfscorp",
+    "site": "wfscareers"
+   },
+   "from": "https://www.worldfuel.com/careers/",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "world-kinect.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 6
+}

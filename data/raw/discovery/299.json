@@ -1,0 +1,37 @@
+{
+ "company": "Kenvue",
+ "rank": 299,
+ "group": "fortune500",
+ "industry": "Household and Personal Products",
+ "ats": "workday",
+ "config": {
+  "host": "kenvue.wd5.myworkdayjobs.com",
+  "tenant": "kenvue",
+  "site": "kenvue"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "kenvue.wd5.myworkdayjobs.com",
+    "tenant": "kenvue",
+    "site": "kenvue"
+   },
+   "from": "https://jobs.kenvue.com/",
+   "verify": "(board reachable; no product title on first pages)"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.kenvue.com"
+   },
+   "from": "https://jobs.kenvue.com/"
+  }
+ ],
+ "domain": "kenvue.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 8
+}

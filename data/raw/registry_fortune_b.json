@@ -1,0 +1,260 @@
+[
+ {
+  "company": "Elevance Health",
+  "rank": 18,
+  "group": "fortune50",
+  "ats": "workday",
+  "config": {
+   "host": "elevancehealth.wd1.myworkdayjobs.com",
+   "tenant": "elevancehealth",
+   "site": "ANT"
+  },
+  "verified": true,
+  "sample_title": "Initiative Project Leader - Payment Integrity Product",
+  "description_chars": 11561,
+  "notes": "Search 'product manager' returns total=194 but relevance ranking is weak: first 20 are non-Product titles (encryption engineer etc.); Product titles appear at offset>=20, so page through all results and filter on title. Public site careers.elevancehealth.com links to this Workday tenant."
+ },
+ {
+  "company": "Centene",
+  "rank": 19,
+  "group": "fortune50",
+  "ats": "workday",
+  "config": {
+   "host": "centene.wd5.myworkdayjobs.com",
+   "tenant": "centene",
+   "site": "centene_external"
+  },
+  "verified": true,
+  "sample_title": "Commercial Product Manager",
+  "description_chars": 4561,
+  "notes": "Public site jobs.centene.com is Phenom but /widgets and all HTML pages are behind a Cloudflare JS challenge (HTTP 403 for curl). The underlying Workday site centene_external works directly (total=99 for 'product manager')."
+ },
+ {
+  "company": "Bank of America",
+  "rank": 20,
+  "group": "fortune50",
+  "ats": "bofa_servlet",
+  "config": {
+   "host": "careers.bankofamerica.com",
+   "search_path": "/services/jobssearchservlet",
+   "search_params": "term={query}&start={offset}&rows={rows}&search=jobsByKeyword",
+   "detail": "GET https://careers.bankofamerica.com{jcrURL} and parse <script type=application/ld+json> JobPosting.description"
+  },
+  "verified": true,
+  "sample_title": "Treasury Product Manager - Digital Card Product Manager",
+  "description_chars": 10643,
+  "notes": "Custom AEM careers site (Avature/Workday behind it). Search servlet returns JSON {totalMatches, jobsList:[{postingTitle, jobRequisitionId, jcrURL, city, state, country, postedDate,...}]}; jobDescriptionExternal is null in search results, so fetch the jcrURL page (server-rendered, JSON-LD present). 'keywords=' param is ignored; must use 'term=' with search=jobsByKeyword. totalMatches=905."
+ },
+ {
+  "company": "Chevron",
+  "rank": 21,
+  "group": "fortune50",
+  "ats": "radancy",
+  "config": {
+   "host": "careers.chevron.com",
+   "results_path": "/search-jobs/results",
+   "detail": "GET https://careers.chevron.com{href} and parse JSON-LD JobPosting.description"
+  },
+  "verified": true,
+  "sample_title": "Digital Product Owner",
+  "description_chars": 9276,
+  "notes": "Radancy/TalentBrew site. GET /search-jobs/results?Keywords=product+manager&CurrentPage=1&RecordsPerPage=15&SearchType=5&... with Accept: application/json returns {results: <html>}; parse <a href=/job/... data-job-id=...><h2>title</h2>. Job pages carry JSON-LD."
+ },
+ {
+  "company": "Ford Motor",
+  "rank": 22,
+  "group": "fortune50",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "efds.fa.em5.oraclecloud.com",
+   "siteNumber": "CX_1"
+  },
+  "verified": true,
+  "sample_title": "Product Manager",
+  "description_chars": 18240,
+  "notes": "TotalJobsCount=542 for 'product manager'. Detail description = ExternalDescriptionStr (+ExternalQualificationsStr/ExternalResponsibilitiesStr)."
+ },
+ {
+  "company": "General Motors",
+  "rank": 23,
+  "group": "fortune50",
+  "ats": "workday",
+  "config": {
+   "host": "generalmotors.wd5.myworkdayjobs.com",
+   "tenant": "generalmotors",
+   "site": "Careers_GM"
+  },
+  "verified": true,
+  "sample_title": "Senior Product Manager - ADAS",
+  "description_chars": 8164,
+  "notes": "Public site search-careers.gm.com is Phenom behind Cloudflare JS challenge (403 for curl); the Workday site Careers_GM works directly (total=621, 19 Product titles in first 20)."
+ },
+ {
+  "company": "Citigroup",
+  "rank": 24,
+  "group": "fortune50",
+  "ats": "radancy",
+  "config": {
+   "host": "jobs.citi.com",
+   "results_path": "/search-jobs/results",
+   "detail": "GET https://jobs.citi.com{href} and parse JSON-LD JobPosting.description"
+  },
+  "verified": true,
+  "sample_title": "Citi Commerce, Product Manager",
+  "description_chars": 9507,
+  "notes": "Radancy site with different result markup than Chevron: parse <a class=\"sr-job-item__link\" href=\"/job/...\" data-job-id=...>title</a>. data-total-results=2395 for 'product manager'. /widgets is 404 (not Phenom)."
+ },
+ {
+  "company": "Home Depot",
+  "rank": 25,
+  "group": "fortune50",
+  "ats": "mcloud",
+  "config": {
+   "host": "jobsapi-internal.m-cloud.io",
+   "path": "/api/job",
+   "organization": "1814",
+   "params": "Organization=1814&SearchText={query}&Limit={n}&offset={1-based}&fuzzy=false"
+  },
+  "verified": true,
+  "sample_title": "Product Manager",
+  "description_chars": 7821,
+  "notes": "careers.homedepot.com is a WordPress site using Symphony Talent CWS plugin backed by the m-cloud jobs API. GET returns JSON {totalHits, queryResult:[{id,title,description(HTML),url,primary_city,...}]}; description is inline so no detail call is needed. fuzzy=false narrows to 40 hits (19481 without). offset is 1-based. ATS behind it is Workday (homedepot.wd5/CareerDepot is login-only)."
+ },
+ {
+  "company": "Fannie Mae",
+  "rank": 26,
+  "group": "fortune50",
+  "ats": "workday",
+  "config": {
+   "host": "fanniemae.wd1.myworkdayjobs.com",
+   "tenant": "fanniemae",
+   "site": "FannieMaeCareers"
+  },
+  "verified": true,
+  "sample_title": "Hospitality and Culinary Product Manager",
+  "description_chars": 7079,
+  "notes": "total=41 for 'product manager'."
+ },
+ {
+  "company": "Kroger",
+  "rank": 27,
+  "group": "fortune50",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "eluq.fa.us2.oraclecloud.com",
+   "siteNumber": "CX_2001"
+  },
+  "verified": true,
+  "sample_title": "Product Manager",
+  "description_chars": 8436,
+  "notes": "Public URL jobs.kroger.com redirects to www.krogerfamilycareers.com/en/sites/CX_2001 (a vanity proxy); hcmRestApi calls on that host 302 to the real pod eluq.fa.us2.oraclecloud.com, so use eluq host directly. Response is gzip: use curl --compressed. TotalJobsCount=9984 (keyword search is loose)."
+ },
+ {
+  "company": "Verizon Communications",
+  "rank": 28,
+  "group": "fortune50",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://mycareer.verizon.com/jobs/?search=product%20manager"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Phenom site (mycareer.verizon.com) fully behind Cloudflare JS challenge: POST /widgets, search HTML and job pages all return 403 for curl regardless of UA/HTTP version. Only https://mycareer.verizon.com/en/jobs/sitemap.xml is fetchable (lists job URLs like /jobs/r-1100824/senior-technical-product-manager-ai-network-infrastructure/ but the pages themselves are 403). No public Workday tenant found (verizon.wd1/wd3/wd5 do not exist)."
+ },
+ {
+  "company": "Phillips 66",
+  "rank": 29,
+  "group": "fortune50",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.phillips66.com",
+   "search_path": "/search/?q={query}&locale=en_US&startrow={offset}",
+   "detail": "GET https://careers.phillips66.com{href} and extract <span class=\"jobdescription\">...</span>"
+  },
+  "verified": true,
+  "sample_title": "Advisor II, Product Control",
+  "description_chars": 8111,
+  "notes": "SAP SuccessFactors Career Site Builder; no JSON API. Search page is server-rendered HTML: parse <a class=\"jobTitle-link\" href=\"/job/...\">title</a>, 15 rows per page, paginate with startrow=0,15,30... Job pages have no JSON-LD; description is in span.jobdescription. 'product manager' search is loose (first page has no Product titles; 'Advisor II, Product Control' is on page 2)."
+ },
+ {
+  "company": "Marathon Petroleum",
+  "rank": 30,
+  "group": "fortune50",
+  "ats": "workday",
+  "config": {
+   "host": "mpc.wd1.myworkdayjobs.com",
+   "tenant": "mpc",
+   "site": "MPCCareers"
+  },
+  "verified": true,
+  "sample_title": "Lead Product Owner, Middle Office",
+  "description_chars": 12522,
+  "notes": "jobs.marathonpetroleum.com is Cloudflare-blocked for curl; Workday tenant mpc/MPCCareers works directly (total=62)."
+ },
+ {
+  "company": "StoneX Group",
+  "rank": 31,
+  "group": "fortune50",
+  "ats": "icims",
+  "config": {
+   "host": "english-stonex.icims.com",
+   "search_path": "/jobs/search?ss=1&searchKeyword={query}&in_iframe=1",
+   "detail": "GET https://english-stonex.icims.com/jobs/{id}/{slug}/job?in_iframe=1 and parse JSON-LD JobPosting.description (or div.iCIMS_JobContent)"
+  },
+  "verified": true,
+  "sample_title": "Product Manager - Payments",
+  "description_chars": 3894,
+  "notes": "stonex.com careers page (403 for curl) embeds iCIMS. Search with in_iframe=1 returns server-rendered HTML; extract links matching jobs/(\\d+)/([^/?]+)/job. JSON-LD description is 3894 chars; the div.iCIMS_JobContent HTML block is 9460 chars. SmartRecruiters company 'StoneX' exists but has 0 postings."
+ },
+ {
+  "company": "State Farm Insurance",
+  "rank": 32,
+  "group": "fortune50",
+  "ats": "jibe",
+  "config": {
+   "host": "jobs.statefarm.com",
+   "search_path": "/api/jobs?keywords={query}&page={page}&limit=50",
+   "detail": "inline: jobs[].data.description"
+  },
+  "verified": true,
+  "sample_title": "Engineering Manager",
+  "description_chars": 7952,
+  "notes": "endpoint works; currently no product titles"
+ },
+ {
+  "company": "Freddie Mac",
+  "rank": 33,
+  "group": "fortune50",
+  "ats": "phenom",
+  "config": {
+   "host": "careers.freddiemac.com",
+   "widgets_path": "/widgets",
+   "detail": "GET https://careers.freddiemac.com/us/en/job/{jobId} and parse phApp.ddo.jobDetail.data.job.description or JSON-LD JobPosting.description",
+   "workday_detail": {
+    "host": "freddiemac.wd5.myworkdayjobs.com",
+    "tenant": "freddiemac",
+    "site": "External"
+   }
+  },
+  "verified": true,
+  "sample_title": "Product Owner, Senior",
+  "description_chars": 9294,
+  "notes": "Phenom /widgets works (totalHits=43 for 'product manager') but 'description' is empty in search results, so fetch the job page. Alternative: Workday tenant freddiemac.wd5.myworkdayjobs.com / freddiemac / External (applyUrl host); its detail works (JR17698 -> 7632 chars) but its search for 'product manager' returns only 16 loosely matched jobs and misses this posting."
+ },
+ {
+  "company": "Humana",
+  "rank": 34,
+  "group": "fortune50",
+  "ats": "workday",
+  "config": {
+   "host": "humana.wd5.myworkdayjobs.com",
+   "tenant": "humana",
+   "site": "Humana_External_Career_Site"
+  },
+  "verified": true,
+  "sample_title": "Senior Product Manager",
+  "description_chars": 7841,
+  "notes": "total=122 for 'product manager', 16 Product titles in first 20."
+ }
+]

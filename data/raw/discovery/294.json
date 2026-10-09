@@ -1,0 +1,44 @@
+{
+ "company": "S&P Global",
+ "rank": 294,
+ "group": "fortune500",
+ "industry": "Financial Data Services",
+ "ats": "workday",
+ "config": {
+  "host": "spgi.wd5.myworkdayjobs.com",
+  "tenant": "spgi",
+  "site": "SPGI_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "spgi.wd5.myworkdayjobs.com",
+    "tenant": "spgi",
+    "site": "SPGI_Careers"
+   },
+   "from": "https://careers.spglobal.com/jobs",
+   "verify": "Specialist, Product Management & Development"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://careers.spglobal.com/jobs"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "careers.spglobal.com"
+   },
+   "from": "https://careers.spglobal.com/jobs"
+  }
+ ],
+ "domain": "spglobal.com",
+ "sample_title": "Specialist, Product Management & Development",
+ "description_chars": 7843,
+ "seconds": 22
+}

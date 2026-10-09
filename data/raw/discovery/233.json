@@ -1,0 +1,15 @@
+{
+ "company": "Cleveland-Cliffs",
+ "rank": 233,
+ "group": "fortune500",
+ "industry": "Metals",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.clevelandcliffs.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "clevelandcliffs.com",
+ "seconds": 16
+}

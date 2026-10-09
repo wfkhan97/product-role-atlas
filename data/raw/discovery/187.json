@@ -1,0 +1,32 @@
+{
+ "company": "Union Pacific",
+ "rank": 187,
+ "group": "fortune500",
+ "industry": "Railroads",
+ "ats": "phenom",
+ "config": {
+  "host": "up.jobs"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; successfactors 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "up.jobs"
+   },
+   "from": "https://up.jobs/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "up.jobs"
+   },
+   "from": "https://up.jobs/search/?createNewAlert=false&amp;q=&amp;locationsearch=&amp;optionsFacetsDD_department=&amp;optionsFacetsDD_facility=",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "up.com",
+ "seconds": 9
+}

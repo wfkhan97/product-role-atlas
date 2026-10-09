@@ -1,0 +1,396 @@
+[
+  {
+    "company": "MGM Resorts International",
+    "rank": 253,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "mgmresorts.wd5.myworkdayjobs.com",
+      "tenant": "mgmresorts",
+      "site": "MGMCareers"
+    },
+    "verified": true,
+    "sample_title": "Manager, Digital Product Analytics",
+    "description_chars": 4530,
+    "notes": "careers.mgmresorts.com is Cloudflare-403 to curl; Workday tenant mgmresorts (wd5) site MGMCareers found by probing."
+  },
+  {
+    "company": "Leidos Holdings",
+    "rank": 260,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "leidos.wd5.myworkdayjobs.com",
+      "tenant": "leidos",
+      "site": "External"
+    },
+    "verified": true,
+    "sample_title": "Product Manager",
+    "description_chars": 6521,
+    "notes": "careers.leidos.com is 403 to curl; public Workday site leidos.wd5.myworkdayjobs.com/External."
+  },
+  {
+    "company": "Keurig Dr Pepper",
+    "rank": 268,
+    "group": "fortune500",
+    "ats": "eightfold",
+    "config": {
+      "host": "app.eightfold.ai",
+      "domain": "kdrp.com",
+      "api": "pcsx"
+    },
+    "verified": true,
+    "sample_title": "Senior Product Manager, Data",
+    "description_chars": 6296,
+    "notes": "careers.keurigdrpepper.com is Eightfold but its /api/pcsx path 301s to /en/api/... then 302s to /; the same domain (kdrp.com) answers on app.eightfold.ai."
+  },
+  {
+    "company": "AECOM",
+    "rank": 276,
+    "group": "fortune500",
+    "ats": "smartrecruiters",
+    "config": {
+      "company": "AECOM2"
+    },
+    "verified": true,
+    "sample_title": "AI Product Manager - Transportation",
+    "description_chars": 9625,
+    "notes": "aecom.jobs is a DirectEmployers (Nuxt) front-end; ATS is SmartRecruiters company AECOM2 (company 'AECOM' exists but returns 0)."
+  },
+  {
+    "company": "Corning",
+    "rank": 286,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "corningjobs.corning.com"
+    },
+    "verified": true,
+    "sample_title": "Contact Center Product Owner",
+    "description_chars": 8788,
+    "notes": "careers.corning.com times out; the SuccessFactors board is corningjobs.corning.com. Batch domain corningcu.org was wrong (corning.com)."
+  },
+  {
+    "company": "Builders FirstSource",
+    "rank": 296,
+    "group": "fortune500",
+    "ats": "jibe",
+    "config": {
+      "host": "careers.bldr.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (236 keyword hits, all Product Sales Specialist etc.)"
+  },
+  {
+    "company": "Erie Insurance Group",
+    "rank": 308,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "jobs.erieinsurance.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now; domain erieinsurance.com"
+  },
+  {
+    "company": "MasTec",
+    "rank": 319,
+    "group": "fortune500",
+    "ats": "jibe",
+    "config": {
+      "host": "careers.mastec.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (119 keyword hits, none product-titled). careers-mastec.icims.com just JS-redirects to careers.mastec.com/corporate/jobs."
+  },
+  {
+    "company": "Arthur J. Gallagher",
+    "rank": 327,
+    "group": "fortune500",
+    "ats": "jibe",
+    "config": {
+      "host": "jobs.ajg.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (119 keyword hits, none product-titled). Batch domain crisis-resilience.co.uk was wrong (ajg.com)."
+  },
+  {
+    "company": "Ball",
+    "rank": 337,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "jobs.ball.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now. Batch domain ballotpedia.org was wrong (ball.com)."
+  },
+  {
+    "company": "Chewy",
+    "rank": 349,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "chewy.wd5.myworkdayjobs.com",
+      "tenant": "chewy",
+      "site": "External"
+    },
+    "verified": true,
+    "sample_title": "Senior Technical Product Manager",
+    "description_chars": 7950,
+    "notes": "careers.chewy.com is Phenom (widgets work, descriptions empty, applyUrl on wd5.myworkdaysite.com/recruiting/chewy/External which the phenom adapter regex doesn't match); Workday direct works."
+  },
+  {
+    "company": "Norfolk Southern",
+    "rank": 359,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "jobs.nscorp.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now; domain nscorp.com"
+  },
+  {
+    "company": "Mosaic",
+    "rank": 366,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "mosaic.wd5.myworkdayjobs.com",
+      "tenant": "mosaic",
+      "site": "mosaic"
+    },
+    "verified": true,
+    "sample_title": "IT Product Owner Lead - ServiceNow",
+    "description_chars": 5089,
+    "notes": "Batch domain joinmosaic.com was wrong (mosaicco.com)."
+  },
+  {
+    "company": "Yum China Holdings",
+    "rank": 375,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://www.yumchina.com/en/careers"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "JS-only page with no ATS links; hiring runs through Chinese campus/social recruiting platforms (campus.niuqizp.com, zhaopin.com) and email, no supported ATS."
+  },
+  {
+    "company": "Thrivent Financial",
+    "rank": 387,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "thrivent.wd5.myworkdayjobs.com",
+      "tenant": "thrivent",
+      "site": "External"
+    },
+    "verified": true,
+    "sample_title": "Director, Product Management – Inforce Servicing",
+    "description_chars": 9269,
+    "notes": "careers.thrivent.com is 403 to curl; Workday tenant thrivent site External."
+  },
+  {
+    "company": "Expeditors Intl. of Washington",
+    "rank": 394,
+    "group": "fortune500",
+    "ats": "smartrecruiters",
+    "config": {
+      "company": "Expeditors"
+    },
+    "verified": true,
+    "sample_title": "Ocean Product Manager",
+    "description_chars": 3667,
+    "notes": "expeditors.com/careers/jobs/ embeds SmartRecruiters."
+  },
+  {
+    "company": "Welltower",
+    "rank": 401,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://recruiting.ultipro.com/WEL1008WLLT/JobBoard/30969ce4-3b7e-40a6-b86c-34d3616fe0ed/"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "UKG Pro (UltiPro) recruiting job board; no adapter."
+  },
+  {
+    "company": "American Tower",
+    "rank": 408,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "hdsn.fa.us6.oraclecloud.com",
+      "siteNumber": "CX_1"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now. careers.americantower.com is a custom front-end whose JS calls Oracle pod hdsn.fa.us6.oraclecloud.com (7 keyword hits for 'product', none product-titled)."
+  },
+  {
+    "company": "Global Payments",
+    "rank": 415,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "tsys.wd1.myworkdayjobs.com",
+      "tenant": "tsys",
+      "site": "TSYS"
+    },
+    "verified": true,
+    "sample_title": "Senior Product Manager",
+    "description_chars": 3271,
+    "notes": "globalpayments.com/careers is 403 to curl; Workday tenant is legacy TSYS."
+  },
+  {
+    "company": "Seaboard",
+    "rank": 426,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://recruiting.adp.com/srccar/public/RTI.home?c=1157451&d=SeaboardCorporationExternal"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "ADP Recruiting (srccar) job board; no adapter."
+  },
+  {
+    "company": "Equinix",
+    "rank": 436,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "equinix.wd1.myworkdayjobs.com",
+      "tenant": "equinix",
+      "site": "External"
+    },
+    "verified": true,
+    "sample_title": "Service Management Product Manager",
+    "description_chars": 7878,
+    "notes": "careers.equinix.com is a custom site behind AWS WAF challenge; Workday tenant equinix site External."
+  },
+  {
+    "company": "Arista Networks",
+    "rank": 444,
+    "group": "fortune500",
+    "ats": "smartrecruiters",
+    "config": {
+      "company": "AristaNetworks"
+    },
+    "verified": true,
+    "sample_title": "Technical Program Manager, Hardware (PEL)",
+    "description_chars": 5125,
+    "notes": "arista.com/en/careers returns 406 to curl; ATS is SmartRecruiters company AristaNetworks."
+  },
+  {
+    "company": "ABM Industries",
+    "rank": 454,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "eiqg.fa.us2.oraclecloud.com",
+      "siteNumber": "CX_1001"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (111 keyword hits, none product-titled). abm.com/careers 403 to curl; Oracle link found via WebFetch."
+  },
+  {
+    "company": "Advance Auto Parts",
+    "rank": 461,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "advanceauto.wd5.myworkdayjobs.com",
+      "tenant": "advanceauto",
+      "site": "AdvanceExternalCareers"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now. jobs.advanceautoparts.com is Phenom (widgets work, empty descriptions) with applyUrl on this Workday site."
+  },
+  {
+    "company": "Howmet Aerospace",
+    "rank": 471,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "fa-exty-saasfaprod1.fa.ocs.oraclecloud.com",
+      "siteNumber": "CX_1"
+    },
+    "verified": true,
+    "sample_title": "Senior Product Manager",
+    "description_chars": 6244,
+    "notes": "howmet.com/joinus links to Oracle CX_1; domain howmet.com."
+  },
+  {
+    "company": "American Financial Group",
+    "rank": 478,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "gaig.wd1.myworkdayjobs.com",
+      "tenant": "gaig",
+      "site": "GAIG_External"
+    },
+    "verified": true,
+    "sample_title": "Senior Technical Product Manager",
+    "description_chars": 6042,
+    "notes": "Hiring is via Great American Insurance Group (greatamericaninsurancegroup.com/careers) -> Workday tenant gaig."
+  },
+  {
+    "company": "Dover",
+    "rank": 484,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "dover.wd103.myworkdayjobs.com",
+      "tenant": "dover",
+      "site": "Dover"
+    },
+    "verified": true,
+    "sample_title": "Product Manager",
+    "description_chars": 7778,
+    "notes": "careers.dovercorporation.com is a vanity host over Workday (canonical dover.wd103.myworkdayjobs.com/Dover). Batch domain doversaddlery.com was wrong (dovercorporation.com)."
+  },
+  {
+    "company": "Moody’s",
+    "rank": 492,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://careers.moodys.com/en/search-jobs",
+      "candidate": {
+        "ats": "radancy",
+        "host": "careers.moodys.com",
+        "results_path": "/en/search-jobs/results"
+      }
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "Radancy site with locale prefix: /en/search-jobs/results returns JSON with product jobs, but job links are /en/job/... which the radancy adapter LINK_RE (href=\"/job/...\") does not match; underlying ATS is SuccessFactors (career_company=MoodysProd, no public SF board found)."
+  }
+]

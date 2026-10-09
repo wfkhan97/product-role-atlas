@@ -1,0 +1,406 @@
+[
+ {
+  "company": "Vistra",
+  "rank": 251,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "vst.wd5.myworkdayjobs.com",
+   "tenant": "vst",
+   "site": "vistra_careers"
+  },
+  "verified": true,
+  "sample_title": "Product Strategy & Development Associate II",
+  "description_chars": 4789,
+  "notes": "careers.vistra.com / jobs.vistra.com belong to Vistra (HK corporate-services firm), not Vistra Corp; vistracorp.com/careers links to Workday vst.wd5/vistra_careers."
+ },
+ {
+  "company": "Dick’s Sporting Goods",
+  "rank": 258,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "dickssportinggoods.wd1.myworkdayjobs.com",
+   "tenant": "dickssportinggoods",
+   "site": "DSG"
+  },
+  "verified": true,
+  "sample_title": "Group Product Manager - BI and Data Science - Merchandising & Store Operations",
+  "description_chars": 6545,
+  "notes": "dickssportinggoods.jobs links to Workday DSG site."
+ },
+ {
+  "company": "EMCOR Group",
+  "rank": 265,
+  "group": "fortune500",
+  "ats": "icims",
+  "config": {
+   "host": "careers-emcorgroup.icims.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (iCIMS search returns HVAC/ops roles only)."
+ },
+ {
+  "company": "Dominion Energy",
+  "rank": 272,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.dominionenergy.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (SuccessFactors jobTitle-link list works for q=)."
+ },
+ {
+  "company": "Raymond James Financial",
+  "rank": 283,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "raymondjames.wd1.myworkdayjobs.com",
+   "tenant": "raymondjames",
+   "site": "RaymondJamesCareers"
+  },
+  "verified": true,
+  "sample_title": "Product Manager - RJ Trust",
+  "description_chars": 7091,
+  "notes": "raymondjames.com is Akamai-blocked to curl; Workday tenant found via search."
+ },
+ {
+  "company": "Gap",
+  "rank": 293,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.gapinc.com/en-us/careers/job-search?Keywords=product+manager"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Custom Sitecore careers site (Phenom at jobs.gapinc.com was removed; /widgets 404). Listing works via JSON API: POST https://www.gapinc.com/customapi/jobsearch/search with Content-Type: application/json body {\"q\":\"product manager\",\"culture\":\"en-us\",\"currentPage\":1} -> {Count, Results[].Document{title,nodealiaspath,applyurl,jobid,city,state,dateposted,category}} (Count 534 for 'q'; key must be 'q', other keys return all 5116). No description in the API and job pages (www.gapinc.com + nodealiaspath, e.g. /Jobs/W77/93/Product-Manager-I-Growth) have no JSON-LD, so a new adapter would need HTML scraping of the detail page."
+ },
+ {
+  "company": "Textron",
+  "rank": 303,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://textron.taleo.net/careersection/textron/jobsearch.ftl"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Taleo (textron.taleo.net careersection 'textron'); no adapter."
+ },
+ {
+  "company": "Regeneron Pharmaceuticals",
+  "rank": 314,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "regeneron.wd1.myworkdayjobs.com",
+   "tenant": "regeneron",
+   "site": "Careers"
+  },
+  "verified": true,
+  "sample_title": "Senior Director Product Management — Enterprise AI Platforms & Tools",
+  "description_chars": 7825,
+  "notes": "careers.regeneron.com is Phenom behind Cloudflare (403); underlying Workday site is 'Careers'."
+ },
+ {
+  "company": "CSX",
+  "rank": 324,
+  "group": "fortune500",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "fa-eowa-saasfaprod1.fa.ocs.oraclecloud.com",
+   "siteNumber": "CX_4001"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (63 reqs total; 'product' keyword returns mechanical/procurement roles). csx.com is 403 to curl; Oracle CE site CSXCareers = CX_4001."
+ },
+ {
+  "company": "ServiceNow",
+  "rank": 333,
+  "group": "fortune500",
+  "ats": "smartrecruiters",
+  "config": {
+   "company": "ServiceNow"
+  },
+  "verified": true,
+  "sample_title": "Sr Staff Inbound Product Manager",
+  "description_chars": 5252,
+  "notes": "careers.servicenow.com is 403 to curl but SmartRecruiters public API works."
+ },
+ {
+  "company": "Assurant",
+  "rank": 345,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "assurant.wd1.myworkdayjobs.com",
+   "tenant": "assurant",
+   "site": "Assurant_Careers"
+  },
+  "verified": true,
+  "sample_title": "Summer 2027 Intern: Product Analyst Intern - Housing",
+  "description_chars": 7421,
+  "notes": "jobs.assurant.com is Cloudflare-gated (403); Workday site Assurant_Careers works."
+ },
+ {
+  "company": "Airbnb",
+  "rank": 357,
+  "group": "fortune500",
+  "ats": "greenhouse",
+  "config": {
+   "board": "airbnb"
+  },
+  "verified": true,
+  "sample_title": "Product Manager, API Platform",
+  "description_chars": 7556,
+  "notes": "careers.airbnb.com is WordPress over Greenhouse board 'airbnb'."
+ },
+ {
+  "company": "Hormel Foods",
+  "rank": 363,
+  "group": "fortune500",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "ekkh.fa.us2.oraclecloud.com",
+   "siteNumber": "CX_2002"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (198 hits for 'product' are all production-line roles)."
+ },
+ {
+  "company": "Booz Allen Hamilton Holding",
+  "rank": 372,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "bah.wd1.myworkdayjobs.com",
+   "tenant": "bah",
+   "site": "BAH_Jobs"
+  },
+  "verified": true,
+  "sample_title": "ICAM Product Manager",
+  "description_chars": 7308,
+  "notes": ""
+ },
+ {
+  "company": "Burlington Stores",
+  "rank": 383,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://burlingtonstores.jobs/jobs/?q=product+manager"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "DirectEmployers (.jobs / nlx.org) Nuxt site; results rendered client-side, no public JSON endpoint found; no /job/ links or JSON-LD in HTML."
+ },
+ {
+  "company": "Lululemon athletica",
+  "rank": 391,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.lululemon.com/en_US/careers/SearchJobs/product%20manager"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Avature portal (careers.lululemon.com/en_US/careers/SearchJobs/<kw>, job pages /JobDetail/<slug>/<id>); HTML only, no adapter."
+ },
+ {
+  "company": "Toll Brothers",
+  "rank": 399,
+  "group": "fortune500",
+  "ats": "icims",
+  "config": {
+   "host": "jobs-tollbrothers.icims.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now."
+ },
+ {
+  "company": "Delek US Holdings",
+  "rank": 405,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.delekus.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (SuccessFactors list works)."
+ },
+ {
+  "company": "Cintas",
+  "rank": 412,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.cintas.com"
+  },
+  "verified": true,
+  "sample_title": "Senior Digital Product Manager (Billing & Payment)",
+  "description_chars": 3390,
+  "notes": ""
+ },
+ {
+  "company": "Dana",
+  "rank": 420,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.dana.com"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (SuccessFactors list works, mostly plant roles)."
+ },
+ {
+  "company": "Celanese",
+  "rank": 431,
+  "group": "fortune500",
+  "ats": "icims",
+  "config": {
+   "host": "career-celanese.icims.com"
+  },
+  "verified": true,
+  "sample_title": "Digital Product Owner",
+  "description_chars": 2900,
+  "notes": "US board; also europecareers-celanese.icims.com and asiacareers-celanese.icims.com exist."
+ },
+ {
+  "company": "JetBlue Airways",
+  "rank": 441,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.jetblue.com"
+  },
+  "verified": true,
+  "sample_title": "Coordinator, Cruise Product Operations (Paisly)",
+  "description_chars": 5123,
+  "notes": ""
+ },
+ {
+  "company": "Franklin Resources",
+  "rank": 452,
+  "group": "fortune500",
+  "ats": "phenom",
+  "config": {
+   "host": "careers.franklintempleton.com",
+   "widgets_path": "/widgets",
+   "workday_detail": {
+    "host": "franklintempleton.wd5.myworkdayjobs.com",
+    "tenant": "franklintempleton",
+    "site": "Primary-External-1"
+   }
+  },
+  "verified": true,
+  "sample_title": "Digital Product Manager",
+  "description_chars": 5097,
+  "notes": "Phenom at careers.franklintempleton.com (225 hits); applyUrl points to Workday franklintempleton.wd5/Primary-External-1 (cxs search on that site returns total 0, so use Phenom for listing)."
+ },
+ {
+  "company": "CACI International",
+  "rank": 459,
+  "group": "fortune500",
+  "ats": "eightfold",
+  "config": {
+   "host": "searchcareers.caci.com",
+   "domain": "caci.com",
+   "api": "pcsx"
+  },
+  "verified": true,
+  "sample_title": "Product Manager - HR Applications",
+  "description_chars": 6510,
+  "notes": "careers.caci.com is a Webflow marketing site; Eightfold host is searchcareers.caci.com."
+ },
+ {
+  "company": "Solventum",
+  "rank": 468,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "healthcare.wd1.myworkdayjobs.com",
+   "tenant": "healthcare",
+   "site": "Search"
+  },
+  "verified": true,
+  "sample_title": "CDI Product Manager",
+  "description_chars": 10432,
+  "notes": "Workday tenant is 'healthcare' (legacy 3M Health Care), not 'solventum'."
+ },
+ {
+  "company": "Fastenal",
+  "rank": 475,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.fastenal.com/jobs"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Custom Spring app: search is a CSRF-protected POST form (findJobsForm: query, countryLocalityId, distanceInMiles); job pages at /details/<id>; no JSON endpoint."
+ },
+ {
+  "company": "Sanmina",
+  "rank": 482,
+  "group": "fortune500",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://sanminacareers.mua.hrdepartment.com/hr/ats/JobSearch/viewAll"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "HRdepartment (MUA) ATS; HTML only; careers.sanmina.com does not resolve."
+ },
+ {
+  "company": "KBR",
+  "rank": 488,
+  "group": "fortune500",
+  "ats": "workday",
+  "config": {
+   "host": "kbr.wd5.myworkdayjobs.com",
+   "tenant": "kbr",
+   "site": "KBR_Careers"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (621 reqs; 'product manager' search returns production/program roles). careers.kbr.com Phenom redirects to /overview/; careers.trinzic.com/widgets (Phenom) also works for the Mission Tech spin-off."
+ },
+ {
+  "company": "Masco",
+  "rank": 498,
+  "group": "fortune500",
+  "ats": "phenom",
+  "config": {
+   "host": "jobs.masco.com",
+   "widgets_path": "/widgets"
+  },
+  "verified": true,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (widgets returns 106 loose hits, none product-titled)."
+ }
+]

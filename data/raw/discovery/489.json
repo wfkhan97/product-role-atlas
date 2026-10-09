@@ -1,0 +1,30 @@
+{
+ "company": "Sonoco Products",
+ "rank": 489,
+ "group": "fortune500",
+ "industry": "Packaging, Containers",
+ "ats": "workday",
+ "config": {
+  "host": "sonoco.wd1.myworkdayjobs.com",
+  "tenant": "sonoco",
+  "site": "CorporateCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "sonoco.wd1.myworkdayjobs.com",
+    "tenant": "sonoco",
+    "site": "CorporateCareers"
+   },
+   "from": "https://www.sonoco.com/careers",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "sonoco.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 13
+}

@@ -1,0 +1,44 @@
+{
+ "company": "PPG Industries",
+ "rank": 284,
+ "group": "fortune500",
+ "industry": "Chemicals",
+ "ats": "workday",
+ "config": {
+  "host": "ppg.wd5.myworkdayjobs.com",
+  "tenant": "ppg",
+  "site": "PPG_CAREERS"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.ppg.com"
+   },
+   "from": "https://careers.ppg.com/us/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/PIIPIIUS/en_us/desktop/assets/images/favicon.ico"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "ppg.wd5.myworkdayjobs.com",
+    "tenant": "ppg",
+    "site": "PPG_CAREERS"
+   },
+   "from": "https://careers.ppg.com/us/en/c/accounting-finance-jobs",
+   "verify": "Global Product Owner"
+  }
+ ],
+ "domain": "ppg.com",
+ "sample_title": "Global Product Owner",
+ "description_chars": 6709,
+ "seconds": 21
+}

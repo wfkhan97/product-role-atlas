@@ -1,0 +1,32 @@
+{
+ "company": "AutoNation",
+ "rank": 166,
+ "group": "fortune500",
+ "industry": "Automotive Retailing, Services",
+ "ats": "phenom",
+ "config": {
+  "host": "careers.autonation.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.autonation.com"
+   },
+   "from": "https://careers.autonation.com/us/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/AUMAIHUS/en_us/desktop/assets/images/favicon.ico?v=1783692149809",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "autonation.com",
+ "seconds": 19
+}

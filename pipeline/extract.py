@@ -1,0 +1,214 @@
+"""Tag every scraped posting with taxonomy skills, family, level, specialisations, years of experience.
+
+usage: python -m pipeline.extract  ->  data/processed/jobs.json
+"""
+import glob
+import json
+import os
+import re
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from pipeline.roles import family, level, specializations, title_ok
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TAX = json.load(open(os.path.join(ROOT, "pipeline", "taxonomy.json")))
+SKILL_RE = [(s["id"], re.compile("|".join(f"(?:{p})" for p in s["patterns"]), re.I)) for s in TAX["skills"]]
+SKILL_RX = dict(SKILL_RE)
+DEPTH = {}
+for _p in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
+    DEPTH.update(json.load(open(_p)))
+# sub-skill id -> (parent skill, regex)
+SUB_RE = {}
+for sid, d in DEPTH.items():
+    for sub in d.get("subskills", []):
+        SUB_RE[sub["id"]] = (sid, re.compile("|".join(f"(?:{p})" for p in sub["patterns"]), re.I))
+
+US_STATES = set("AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY DC".split())
+US_STATE_NAMES = ["alabama","alaska","arizona","arkansas","california","colorado","connecticut","delaware","florida","georgia","hawaii","idaho","illinois","indiana","iowa","kansas","kentucky","louisiana","maine","maryland","massachusetts","michigan","minnesota","mississippi","missouri","montana","nebraska","nevada","new hampshire","new jersey","new mexico","new york","north carolina","north dakota","ohio","oklahoma","oregon","pennsylvania","rhode island","south carolina","south dakota","tennessee","texas","utah","vermont","virginia","washington","west virginia","wisconsin","wyoming"]
+US_CITIES = ["sf office", "sf bay", "bay area", "culver city", "remote - us", "us remote", "remote (us", "remote, us", "nyc", "san francisco","new york","seattle","austin","boston","chicago","los angeles","mountain view","sunnyvale","palo alto","menlo park","redmond","bellevue","cupertino","san jose","denver","atlanta","dallas","houston","miami","washington","arlington","mclean","reston","philadelphia","pittsburgh","phoenix","portland","minneapolis","detroit","charlotte","nashville","salt lake","santa clara","irvine","san diego","oakland","brooklyn","jersey city","plano","columbus","cincinnati","st. louis","kansas city","raleigh","durham","tampa","orlando","las vegas","costa mesa","el segundo","santa monica","boulder","madison","indianapolis","richmond","hartford","stamford","princeton","new brunswick","basking ridge","bentonville","deerfield","northbrook","woonsocket","minnetonka","eden prairie","st. paul","omaha","milwaukee","louisville","memphis","birmingham","jacksonville","san antonio","sacramento","fremont","foster city","south san francisco","burlingame","san mateo","redwood city","newark","wilmington","dearborn","warren","peoria","moline","round rock","frisco","mesa","tempe","chandler","scottsdale","aurora","englewood","dublin, oh","ann arbor"]
+COUNTRIES = {"usa": "United States", "gbr": "United Kingdom", "ita": "Italy", "vnm": "Vietnam", "sgp": "Singapore", "ind": "India", "can": "Canada", "deu": "Germany", "fra": "France", "irl": "Ireland", "aus": "Australia", "jpn": "Japan", "bra": "Brazil", "mex": "Mexico", "nld": "Netherlands", "isr": "Israel", "pol": "Poland", "esp": "Spain", "swe": "Sweden", "che": "Switzerland", "chn": "China", "twn": "Taiwan", "kor": "South Korea", "phl": "Philippines", "are": "United Arab Emirates", "zaf": "South Africa", "hkg": "Hong Kong", "cze": "Czech Republic", "prt": "Portugal", "bel": "Belgium", "dnk": "Denmark", "aut": "Austria", "hun": "Hungary", "rou": "Romania", "cri": "Costa Rica", "arg": "Argentina", "col": "Colombia", "chl": "Chile", "nzl": "New Zealand", "mys": "Malaysia", "idn": "Indonesia", "tha": "Thailand", "tur": "Turkey", "lux": "Luxembourg", "nor": "Norway", "fin": "Finland", "grc": "Greece", "per": "Peru", "egy": "Egypt", "ken": "Kenya", "nga": "Nigeria", "sau": "Saudi Arabia", "latam": "Latin America", "emea": "Europe (EMEA)", "apac": "Asia-Pacific (APAC)", "united states": "United States", "usa": "United States", "u.s.": "United States", "united kingdom": "United Kingdom", "uk": "United Kingdom", "london": "United Kingdom", "england": "United Kingdom", "india": "India", "bengaluru": "India", "bangalore": "India", "hyderabad": "India", "pune": "India", "mumbai": "India", "gurugram": "India", "gurgaon": "India", "chennai": "India", "noida": "India", "canada": "Canada", "toronto": "Canada", "vancouver": "Canada", "montreal": "Canada", "germany": "Germany", "berlin": "Germany", "munich": "Germany", "ireland": "Ireland", "dublin": "Ireland", "singapore": "Singapore", "australia": "Australia", "sydney": "Australia", "melbourne": "Australia", "japan": "Japan", "tokyo": "Japan", "brazil": "Brazil", "sao paulo": "Brazil", "são paulo": "Brazil", "mexico": "Mexico", "france": "France", "paris": "France", "netherlands": "Netherlands", "amsterdam": "Netherlands", "israel": "Israel", "tel aviv": "Israel", "poland": "Poland", "warsaw": "Poland", "spain": "Spain", "madrid": "Spain", "barcelona": "Spain", "sweden": "Sweden", "stockholm": "Sweden", "switzerland": "Switzerland", "zurich": "Switzerland", "china": "China", "shanghai": "China", "beijing": "China", "shenzhen": "China", "taiwan": "Taiwan", "taipei": "Taiwan", "korea": "South Korea", "seoul": "South Korea", "philippines": "Philippines", "manila": "Philippines", "costa rica": "Costa Rica", "argentina": "Argentina", "colombia": "Colombia", "chile": "Chile", "italy": "Italy", "milan": "Italy", "portugal": "Portugal", "lisbon": "Portugal", "belgium": "Belgium", "brussels": "Belgium", "denmark": "Denmark", "copenhagen": "Denmark", "finland": "Finland", "norway": "Norway", "austria": "Austria", "czech": "Czech Republic", "prague": "Czech Republic", "hungary": "Hungary", "romania": "Romania", "uae": "United Arab Emirates", "dubai": "United Arab Emirates", "abu dhabi": "United Arab Emirates", "saudi": "Saudi Arabia", "south africa": "South Africa", "cape town": "South Africa", "johannesburg": "South Africa", "egypt": "Egypt", "nigeria": "Nigeria", "kenya": "Kenya", "new zealand": "New Zealand", "hong kong": "Hong Kong", "malaysia": "Malaysia", "indonesia": "Indonesia", "jakarta": "Indonesia", "thailand": "Thailand", "bangkok": "Thailand", "vietnam": "Vietnam", "turkey": "Turkey", "luxembourg": "Luxembourg", "estonia": "Estonia", "lithuania": "Lithuania", "serbia": "Serbia", "ukraine": "Ukraine", "greece": "Greece", "peru": "Peru"}
+
+
+def geo(location, title=""):
+    """(country, remote) from a free-text location."""
+    loc = (location or "").strip()
+    low = loc.lower() + " " + title.lower()
+    remote = bool(re.search(r"\bremote\b|work from home|\bwfh\b|anywhere|distributed", low))
+    if not loc:
+        return (None, remote)
+    l = loc.lower()
+    for k, v in COUNTRIES.items():
+        if re.search(r"\b" + re.escape(k) + r"\b", l):
+            if v == "United States":
+                return ("United States", remote)
+            # a US state abbreviation in the same string beats a foreign city name collision (e.g. "Dublin, OH")
+            if any(re.search(r"\b" + st + r"\b", loc) for st in US_STATES) and v != "United Kingdom":
+                return ("United States", remote)
+            return (v, remote)
+    if any(re.search(r"\b" + st + r"\b", loc) for st in US_STATES) or any(n in l for n in US_STATE_NAMES) or any(c in l for c in US_CITIES):
+        return ("United States", remote)
+    return ("Other / unspecified", remote)
+
+
+SENT_RE = re.compile(r"(?<=[.!?])\s+|\n+")
+LEVEL_GROUP = {"associate": "early", "mid": "early", "senior": "senior", "staff": "staff", "group": "lead", "director": "lead", "vp": "lead", "cpo": "lead"}
+
+
+def sentences(text):
+    for sent in SENT_RE.split(text):
+        sent = sent.strip(" -•·*\t")
+        if 50 <= len(sent) <= 260 and not BOILER_RE.search(sent):
+            yield sent
+
+YOE_RE = re.compile(r"\b(\d{1,2})\s*(?:\+|or more|plus)?\s*(?:-|–|to)?\s*(\d{1,2})?\s*\+?\s*(?:years|yrs)\b", re.I)
+WORD_NUM = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10, "twelve": 12, "fifteen": 15}
+YOE_WORD_RE = re.compile(r"\b(" + "|".join(WORD_NUM) + r")\s*(?:\+|or more|plus)?\s*(?:years|yrs)\b", re.I)
+BOILER_RE = re.compile(
+    r"equal (opportunity|employment)|\bEEO\b|discriminat|accommodation|veteran status|sexual orientation|gender identity|"
+    r"national origin|protected (characteristic|class|veteran)|background check|e-?verify|drug[- ]free|affirmative action|"
+    r"visa sponsorship|work authorization|\b401\(?k\)?|dental|vision (insurance|coverage|plan)|paid time off|\bPTO\b|parental leave|"
+    r"\bstock (options|units|purchase)|\bRSUs?\b|base (salary|pay) range|salary range|pay range|compensation (range|package|and benefits)|"
+    r"total rewards|wellness|tuition|commuter|life insurance|disability (insurance|benefits)|employee assistance|"
+    r"\bbenefits? (package|program|include|offered)|we offer (a )?competitive|bonus (program|eligib)|relocation|"
+    r"\bapply (now|today)|privacy (notice|policy|statement)|recruitment (agency|agencies|fraud)|scam|"
+    r"about (amazon|google|microsoft|the company|us\b)|our (mission|values|culture) is|join (us|our team) (and|to)|"
+    r"reasonable accommodation|criminal (histor|record|background)|fair chance|ordinance|\bADA\b|pregnancy|"
+    r"inclusive (culture|environment|workplace)|diversity,? (equity|and inclusion)|\bDEI\b|underrepresented|"
+    r"ninety[- ]day|probation|export control|\bITAR\b|clearance",
+    re.I,
+)
+
+
+def clean(desc):
+    """Drop boilerplate lines (EEO statements, benefits, legal) so they don't inflate skill counts."""
+    out = []
+    for line in desc.split("\n"):
+        if len(line) > 40 and BOILER_RE.search(line):
+            continue
+        out.append(line)
+    return "\n".join(out)
+
+
+SECTION_RE = re.compile(r"(basic|minimum|required|preferred|desired|nice[- ]to[- ]have|bonus|qualifications|requirements|what you('ll| will) bring|about you|who you are|you have|you are)", re.I)
+
+
+def years_required(text):
+    """Smallest explicit years-of-experience ask in the text (None if absent)."""
+    vals = []
+    for m in YOE_RE.finditer(text):
+        n = int(m.group(1))
+        if 1 <= n <= 25:
+            vals.append(n)
+    for m in YOE_WORD_RE.finditer(text):
+        vals.append(WORD_NUM[m.group(1).lower()])
+    return min(vals) if vals else None
+
+
+def tag(text):
+    found = {}
+    for sid, rx in SKILL_RE:
+        hits = rx.findall(text)
+        if hits:
+            found[sid] = len(hits)
+    return found
+
+
+def pick_evidence(cands, k=4):
+    """Diverse examples: at most one per company, prefer mid-length sentences with a verb-ish start."""
+    seen, out = set(), []
+    cands = sorted(cands, key=lambda c: (-c.get("_score", 1), abs(len(c["text"]) - 150)))
+    for c in cands:
+        key = c["company"]
+        if key in seen or c["text"].lower() in {o["text"].lower() for o in out}:
+            continue
+        seen.add(key)
+        out.append({k: v for k, v in c.items() if k != "_score"})
+        if len(out) >= k:
+            break
+    return out
+
+
+def main():
+    jobs = []
+    evidence = {}
+    reg = {r["company"]: r for r in json.load(open(os.path.join(ROOT, "data", "registry.json")))}
+    for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", "jobs", "*.json"))):
+        blob = json.load(open(path))
+        r = reg.get(blob["company"])
+        if r is None or r.get("ats") in (None, "unsupported"):
+            continue  # company dropped from the registry
+        for j in blob["jobs"]:
+            title = j["title"]
+            if not title_ok(title):
+                continue
+            desc = j.get("description") or ""
+            if len(desc) < 300:
+                continue
+            cleaned = clean(desc)
+            text = title + "\n" + cleaned
+            hits = tag(text)
+            # drop years-of-experience buckets that aren't consistent with the explicit ask, keep only the one matching
+            yoe = years_required(cleaned)
+            for k in list(hits):
+                if k.startswith("yoe_"):
+                    del hits[k]
+            if yoe is not None:
+                bucket = "yoe_2" if yoe <= 2 else "yoe_3" if yoe <= 4 else "yoe_5" if yoe <= 6 else "yoe_8" if yoe <= 9 else "yoe_10"
+                hits[bucket] = 1
+            subs = sorted(sub for sub, (parent, rx) in SUB_RE.items() if parent in hits and rx.search(text))
+            lvl = level(title, blob["company"])
+            for sent in sentences(cleaned):
+                for sid in hits:
+                    if sid.startswith("yoe_"):
+                        continue
+                    m = SKILL_RX[sid].findall(sent)
+                    if m:
+                        evidence.setdefault(sid, {}).setdefault(LEVEL_GROUP[lvl], []).append(
+                            {"text": sent, "company": blob["company"], "title": title, "url": j.get("url"), "level": lvl, "_score": len(m)})
+            jobs.append({
+                "id": f"{blob['company']}::{j.get('external_id') or j.get('url')}",
+                "company": blob["company"],
+                "group": r["group"],
+                "investor": r.get("investor"),
+                "sector": r.get("sector"),
+                "industry": r.get("industry"),
+                "rank": r.get("rank"),
+                "ats": j.get("ats"),
+                "title": title,
+                "family": family(title),
+                "level": lvl,
+                "specs": specializations(title),
+                "location": j.get("location", ""),
+                "country": geo(j.get("location", ""), title)[0],
+                "remote": geo(j.get("location", ""), title)[1],
+                "url": j.get("url"),
+                "posted": j.get("posted"),
+                "yoe": yoe,
+                "skills": hits,
+                "sub": subs,
+                "snippet": re.sub(r"\s+", " ", desc)[:400],
+                "desc_chars": len(desc),
+            })
+    os.makedirs(os.path.join(ROOT, "data", "processed"), exist_ok=True)
+    with open(os.path.join(ROOT, "data", "processed", "jobs.json"), "w") as f:
+        json.dump(jobs, f)
+    picked = {sid: {grp: pick_evidence(c) for grp, c in groups.items()} for sid, groups in evidence.items()}
+    with open(os.path.join(ROOT, "data", "processed", "evidence.json"), "w") as f:
+        json.dump(picked, f)
+    import collections as _c
+    subcnt = _c.Counter(k for j in jobs for k in j["sub"])
+    print("subskills never matched:", [k for k in SUB_RE if subcnt[k] == 0])
+    import collections
+    print(len(jobs), "postings tagged")
+    print("by family:", collections.Counter(j["family"] for j in jobs).most_common())
+    print("by level:", collections.Counter(j["level"] for j in jobs).most_common())
+    print("by group:", collections.Counter(j["group"] for j in jobs).most_common())
+    cnt = collections.Counter(k for j in jobs for k in j["skills"])
+    print("top skills:", [(k, round(v / len(jobs), 2)) for k, v in cnt.most_common(25)])
+    print("never matched:", [s["id"] for s in TAX["skills"] if cnt[s["id"]] == 0])
+    print("avg skills/job:", sum(len(j["skills"]) for j in jobs) / max(1, len(jobs)))
+
+
+if __name__ == "__main__":
+    main()

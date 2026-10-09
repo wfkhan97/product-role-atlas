@@ -1,0 +1,24 @@
+{
+ "company": "XPO",
+ "rank": 480,
+ "group": "fortune500",
+ "industry": "Transportation and Logistics",
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.xpo.com"
+ },
+ "verified": false,
+ "notes": "candidates: successfactors 0 product postings",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.xpo.com"
+   },
+   "from": "https://jobs.xpo.com/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "xpo.com",
+ "seconds": 43
+}

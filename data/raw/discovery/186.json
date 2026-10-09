@@ -1,0 +1,37 @@
+{
+ "company": "Danaher",
+ "rank": 186,
+ "group": "fortune500",
+ "industry": "Medical Products and Equipment",
+ "ats": "workday",
+ "config": {
+  "host": "danaher.wd1.myworkdayjobs.com",
+  "tenant": "danaher",
+  "site": "DanaherJobs"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "jobs.danaher.com"
+   },
+   "from": "https://jobs.danaher.com/global/en"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "danaher.wd1.myworkdayjobs.com",
+    "tenant": "danaher",
+    "site": "DanaherJobs"
+   },
+   "from": "https://jobs.danaher.com/global/en/life-sciences-search-results",
+   "verify": "Sr Product Manager, Perfusion System Platform"
+  }
+ ],
+ "domain": "danaher.com",
+ "sample_title": "Sr Product Manager, Perfusion System Platform",
+ "description_chars": 5934,
+ "seconds": 20
+}

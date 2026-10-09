@@ -1,0 +1,15 @@
+{
+ "company": "HCA Healthcare",
+ "rank": 60,
+ "group": "fortune500",
+ "industry": "Health Care: Medical Facilities",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.hcahealthcare.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "hcahealthcare.com",
+ "seconds": 9
+}

@@ -1,0 +1,24 @@
+{
+ "company": "Philip Morris International",
+ "rank": 117,
+ "group": "fortune500",
+ "industry": "Tobacco",
+ "ats": "phenom",
+ "config": {
+  "host": "join.pmicareers.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "join.pmicareers.com"
+   },
+   "from": "https://join.pmicareers.com/gb/en/search-results?m=3?utm_source=pmi.com&utm_medium=organic&utm_campaign=Phenom_CareersSearch_pm_GL_all_car&utm_source=pmi.com&utm_medium=organic&utm_content=Link&utm_campaign=20240902_Phenom_CareersSearch_pm_GL_all_car",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "pmi.com",
+ "seconds": 35
+}

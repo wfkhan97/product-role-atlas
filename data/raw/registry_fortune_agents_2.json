@@ -1,0 +1,386 @@
+[
+ {
+  "company": "Energy Transfer",
+  "rank": 53,
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.energytransfer.com/careers/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Site is a JS SPA (same 2.4MB bundle on every path); Paradox Olivia is only a chatbot. Postings live on Taleo: https://energytransfer.taleo.net/careersection/ex/jobsearch.ftl (no adapter).",
+  "group": "fortune500"
+ },
+ {
+  "company": "Archer Daniels Midland",
+  "rank": 58,
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.adm.com/en-us/careers/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "BrassRing/Kenexa: https://sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=25416&siteid=5998 (no adapter).",
+  "group": "fortune500"
+ },
+ {
+  "company": "IBM",
+  "rank": 66,
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.ibm.com/careers/search"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Custom Next.js search app (__NEXT_DATA__); no endpoint matching a supported adapter shape.",
+  "group": "fortune500"
+ },
+ {
+  "company": "Publix Super Markets",
+  "rank": 72,
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.publix.com/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "jobs.publix.com is a custom Next.js site; applications go to BrassRing https://sjobs.brassring.com/TGNewUI/Search/Home/Home?partnerid=26173&siteid=5197 (no adapter).",
+  "group": "fortune500"
+ },
+ {
+  "company": "AbbVie",
+  "rank": 77,
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.abbvie.com/en/jobs?q=product%20manager"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Custom site: HTML search /en/jobs?q=<kw>&page=N with /en/job/<slug>-jid-<id> links and JSON-LD JobPosting on job pages (paradox-like, but adapter expects ?keyword= and /jobs/page/N; ?keyword is ignored). Workday tenant abbvie.wd5.myworkdayjobs.com exists but no public site name found.",
+  "group": "fortune500"
+ },
+ {
+  "company": "Charter Communications",
+  "rank": 85,
+  "ats": "radancy",
+  "config": {
+   "host": "jobs.spectrum.com",
+   "results_path": "/search-jobs/results"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Endpoint works (JSON results with /job/ links) but relevance ranking buries PM titles: 'Product Manager' reports 1460 results yet none in the first 150 for any query, so adapter returns 0. Workday tenant spectrum.wd1 exists but all site guesses return 401.",
+  "group": "fortune500"
+ },
+ {
+  "company": "Enterprise Products Partners",
+  "rank": 89,
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.enterpriseproducts.com/careers/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Taleo only: epco.taleo.net/careersection/{it,fieldops,ent_trans,6} (no adapter).",
+  "group": "fortune500"
+ },
+ {
+  "company": "Coca-Cola",
+  "rank": 98,
+  "ats": "workday",
+  "config": {
+   "host": "coke.wd1.myworkdayjobs.com",
+   "tenant": "coke",
+   "site": "coca-cola-careers"
+  },
+  "verified": true,
+  "sample_title": "Manager, Data Product Management - Japan",
+  "description_chars": 4099,
+  "notes": "",
+  "group": "fortune500"
+ },
+ {
+  "company": "Northwestern Mutual",
+  "rank": 109,
+  "ats": "workday",
+  "config": {
+   "host": "northwesternmutual.wd5.myworkdayjobs.com",
+   "tenant": "northwesternmutual",
+   "site": "CORPORATE-CAREERS"
+  },
+  "verified": true,
+  "sample_title": "Senior Director Product Management, Client Communications",
+  "description_chars": 4954,
+  "notes": "iCIMS host from discovery is the legacy board; Workday is primary.",
+  "group": "fortune500"
+ },
+ {
+  "company": "Salesforce",
+  "rank": 114,
+  "ats": "workday",
+  "config": {
+   "host": "salesforce.wd12.myworkdayjobs.com",
+   "tenant": "salesforce",
+   "site": "External_Career_Site"
+  },
+  "verified": true,
+  "sample_title": "Senior Product Manager, Hyperforce",
+  "description_chars": 6650,
+  "notes": "",
+  "group": "fortune500"
+ },
+ {
+  "company": "Dow",
+  "rank": 120,
+  "ats": "workday",
+  "config": {
+   "host": "dow.wd1.myworkdayjobs.com",
+   "tenant": "dow",
+   "site": "ExternalCareers"
+  },
+  "verified": true,
+  "sample_title": "Product Manager - India",
+  "description_chars": 10454,
+  "notes": "Batch domain downdetector.com was wrong; real domain dow.com.",
+  "group": "fortune500"
+ },
+ {
+  "company": "CHS",
+  "rank": 130,
+  "ats": "radancy",
+  "config": {
+   "host": "jobs.chsinc.com",
+   "results_path": "/search-jobs/results"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (results are store/production/logistics roles).",
+  "group": "fortune500"
+ },
+ {
+  "company": "Oneok",
+  "rank": 138,
+  "ats": "workday",
+  "config": {
+   "host": "oneok.wd1.myworkdayjobs.com",
+   "tenant": "oneok",
+   "site": "ONEOK"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (85 open jobs, pipeline/field roles).",
+  "group": "fortune500"
+ },
+ {
+  "company": "Penske Automotive Group",
+  "rank": 144,
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.penskeautomotive.com/careers"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "penskeautomotive.com returns 403 to curl and WebFetch (bot block); careers./jobs. subdomains do not resolve; no ATS tenant found via search or Workday probes.",
+  "group": "fortune500"
+ },
+ {
+  "company": "Southern",
+  "rank": 152,
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "emje.fa.us6.oraclecloud.com",
+   "siteNumber": "SouthernCompanyJobs"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (39 hits for 'product', none product-management titles).",
+  "group": "fortune500"
+ },
+ {
+  "company": "Medline",
+  "rank": 159,
+  "ats": "workday",
+  "config": {
+   "host": "medline.wd5.myworkdayjobs.com",
+   "tenant": "medline",
+   "site": "Medline"
+  },
+  "verified": true,
+  "sample_title": "Europe Product Manager",
+  "description_chars": 5389,
+  "notes": "Batch domain medline.org.ua was wrong; real domain medline.com.",
+  "group": "fortune500"
+ },
+ {
+  "company": "Booking Holdings",
+  "rank": 169,
+  "ats": "jibe",
+  "config": {
+   "host": "jobs.booking.com"
+  },
+  "verified": true,
+  "sample_title": "Senior Product Manager",
+  "description_chars": 6127,
+  "notes": "Booking.com (largest subsidiary) Jibe site; holding company has no job board of its own.",
+  "group": "fortune500"
+ },
+ {
+  "company": "Constellation Energy",
+  "rank": 178,
+  "ats": "jibe",
+  "config": {
+   "host": "jobs.constellationenergy.com"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (18 keyword hits, none product-management titles).",
+  "group": "fortune500"
+ },
+ {
+  "company": "Exelon",
+  "rank": 189,
+  "ats": "jibe",
+  "config": {
+   "host": "jobs.exeloncorp.com"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (11 keyword hits, none product-management titles).",
+  "group": "fortune500"
+ },
+ {
+  "company": "Amphenol",
+  "rank": 198,
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://amphenol.com/careers"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "amphenol.com returns 403 to curl/WebFetch; hiring is decentralized per subsidiary; no central ATS found.",
+  "group": "fortune500"
+ },
+ {
+  "company": "Macy’s",
+  "rank": 203,
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "ebwh.fa.us2.oraclecloud.com",
+   "siteNumber": "CX_1001"
+  },
+  "verified": true,
+  "sample_title": "Senior, Stores Product Management",
+  "description_chars": 6541,
+  "notes": "macysjobs.com redirects to this Oracle CX site.",
+  "group": "fortune500"
+ },
+ {
+  "company": "Super Micro Computer",
+  "rank": 208,
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.supermicro.com"
+  },
+  "verified": false,
+  "sample_title": "Sr. Product Manager",
+  "description_chars": 0,
+  "notes": "Search works (Director of Product Management, Sr./Staff Product Manager listed) but adapter DESC_RE needs '</span>' followed by <div>/</div>; Supermicro job pages close the jobdescription span with '</span>\\s*<p' so description is empty. Allowing '<p' in DESC_RE yields ~7400 chars.",
+  "group": "fortune500"
+ },
+ {
+  "company": "Cognizant Technology Solutions",
+  "rank": 216,
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.cognizant.com/global-en/jobs/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Phenom site behind Cloudflare (403 to curl); Apply links go to Taleo https://cognizant.taleo.net/careersection/Lateral/jobapply.ftl (no adapter). Workday tenant cognizant.wd3 exists but no public site name found.",
+  "group": "fortune500"
+ },
+ {
+  "company": "Carvana",
+  "rank": 220,
+  "ats": "greenhouse",
+  "config": {
+   "board": "carvana"
+  },
+  "verified": true,
+  "sample_title": "Product Manager, Multiple Levels",
+  "description_chars": 9291,
+  "notes": "carvana.com is 403 to curl; Greenhouse board API works directly.",
+  "group": "fortune500"
+ },
+ {
+  "company": "Kimberly-Clark",
+  "rank": 225,
+  "ats": "workday",
+  "config": {
+   "host": "kimberlyclark.wd1.myworkdayjobs.com",
+   "tenant": "kimberlyclark",
+   "site": "Global"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (159 open jobs, mostly plant/ops).",
+  "group": "fortune500"
+ },
+ {
+  "company": "Cleveland-Cliffs",
+  "rank": 233,
+  "ats": "mcloud",
+  "config": {
+   "host": "jobsapi-internal.m-cloud.io",
+   "path": "/api/job",
+   "organization": "2205"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 product postings now (310 open jobs, steel/plant roles).",
+  "group": "fortune500"
+ },
+ {
+  "company": "Lincoln National",
+  "rank": 243,
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.lincolnfinancial.com"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "reachable, 0 postings pass title filter now (e.g. 'VP, Group Benefit Product Mgt' uses 'Mgt' abbreviation the filter does not match). Batch domain mylnb.com was wrong; real domain lfg.com.",
+  "group": "fortune500"
+ },
+ {
+  "company": "W.W. Grainger",
+  "rank": 248,
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.grainger.com"
+  },
+  "verified": true,
+  "sample_title": "Sr Product Manager, Customer APIs",
+  "description_chars": 8132,
+  "notes": "",
+  "group": "fortune500"
+ }
+]

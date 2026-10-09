@@ -1,0 +1,30 @@
+{
+ "company": "General Mills",
+ "rank": 227,
+ "group": "fortune500",
+ "industry": "Food Consumer Products",
+ "ats": "workday",
+ "config": {
+  "host": "genmills.wd1.myworkdayjobs.com",
+  "tenant": "genmills",
+  "site": "GMI_External_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "genmills.wd1.myworkdayjobs.com",
+    "tenant": "genmills",
+    "site": "GMI_External_Careers"
+   },
+   "from": "https://www.careers.generalmills.com/",
+   "verify": "Sr. Analyst, Product Project Management (PET)"
+  }
+ ],
+ "domain": "generalmills.com",
+ "sample_title": "Sr. Analyst, Product Project Management (PET)",
+ "description_chars": 4740,
+ "seconds": 11
+}

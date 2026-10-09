@@ -1,0 +1,15 @@
+{
+ "company": "Franklin Resources",
+ "rank": 452,
+ "group": "fortune500",
+ "industry": "Securities",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.franklinresourcesllc.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "franklinresourcesllc.com",
+ "seconds": 6
+}

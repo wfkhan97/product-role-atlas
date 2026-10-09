@@ -1,0 +1,128 @@
+{
+"roadmap": {"what": "Turning strategy into a sequenced, time-boxed plan of what the team will build, and keeping it honest as reality changes.",
+ "subskills": [
+  {"id":"outcome_roadmap","name":"Outcome-based roadmaps","patterns":["outcome[- ]based","now[/ -]next[/ -]later","themes?\\b"],"example":"Frame each quarter as problems to solve, not a list of features."},
+  {"id":"sequencing","name":"Sequencing & dependencies","patterns":["sequenc","dependenc"],"example":"Land the data pipeline before the dashboard that needs it."},
+  {"id":"capacity","name":"Capacity & estimation","patterns":["capacity","estimat","t-?shirt siz","story points?"],"example":"Size initiatives against real team throughput, with buffer for interrupts."},
+  {"id":"roadmap_comms","name":"Roadmap communication","patterns":["roadmap (review|presentation|update|communication)","communicat\\w* (the )?roadmap","publish\\w* (the )?roadmap"],"example":"Publish a one-page roadmap plus a changelog of what moved and why."},
+  {"id":"replanning","name":"Re-planning","patterns":["re-?plan","re-?prioriti","adjust(ing)? (the )?(plan|roadmap)"],"example":"Monthly check: what shipped, what slipped, what we learned, what changes."}],
+ "ladder": {"associate":"Owns a slice of the roadmap for one feature area; keeps the backlog and status current.","mid":"Owns the quarterly roadmap for a product area; negotiates scope with engineering and design.","senior":"Owns a multi-quarter roadmap tied to business goals; makes and defends cut decisions.","lead":"Sets the roadmap across several teams; aligns it with company strategy and resourcing."},
+ "build": ["Course: a product fundamentals class that makes you produce a roadmap, not just read about one.","Project: write a Now/Next/Later roadmap for an app you use, with reasoning for the order.","At work: volunteer to run the planning doc for your team's next quarter."],
+ "signals": ["Owned the H2 roadmap for checkout; shipped 4 of 5 committed initiatives.","Re-sequenced the Q3 plan after a platform dependency slipped, protecting the launch date."]},
+
+"product_strategy": {"what": "Choosing where to play and how to win: which customers, which problems, which bets, and what you will deliberately not do.",
+ "subskills": [
+  {"id":"strategy_doc","name":"Writing a strategy","patterns":["strategy (doc|document|memo|narrative)","vision and strategy","strategic (plan|narrative)"],"example":"A 3-page memo: situation, bet, why now, what we'll stop doing."},
+  {"id":"market_bets","name":"Picking bets & trade-offs","patterns":["bets?\\b","where to (play|invest)","investment (areas|thesis)","portfolio"],"example":"Choose two bets for the year and name the three you're turning down."},
+  {"id":"competitive_position","name":"Competitive positioning","patterns":["competitive (advantage|moat|differentiation|strategy)","moat","differentiat"],"example":"Explain why your product wins against the top two alternatives."},
+  {"id":"strategy_to_okrs","name":"Strategy to goals","patterns":["strategic (goals|objectives|priorities)","translate strategy","cascad"],"example":"Turn the strategy into 3 measurable objectives the team can own."}],
+ "ladder": {"associate":"Understands the team strategy well enough to explain why a feature matters.","mid":"Contributes analysis and options to the area strategy; owns strategy for one feature line.","senior":"Writes the strategy for a product area and gets leadership to fund it.","lead":"Sets multi-year direction across products; decides what the org stops doing."},
+ "build": ["Read and rewrite: take a public strategy memo (e.g. a company's S-1 'why we win' section) and condense it to one page.","Project: write a strategy for a product you know, with explicit non-goals.","At work: draft the 'why now' section for your team's next big proposal."],
+ "signals": ["Authored the 2025 platform strategy adopted by three product teams.","Recommended sunsetting a legacy tier, redirecting 6 engineers to the growth bet."]},
+
+"product_vision": {"what": "Painting a credible picture of where the product is going in 2–5 years, vivid enough that teams can make decisions against it.",
+ "subskills": [
+  {"id":"vision_narrative","name":"Vision narrative","patterns":["vision (statement|narrative|doc|deck)","north star","compelling vision"],"example":"A one-page 'press release from the future' the team can quote."},
+  {"id":"vision_alignment","name":"Aligning teams on the vision","patterns":["align\\w* (the )?(team|org|teams) (on|around|behind)","rally","inspire"],"example":"Run the vision at kickoff and refer back to it in every trade-off."},
+  {"id":"vision_prototype","name":"Vision prototypes & demos","patterns":["vision (prototype|demo|video)","concept (video|demo)","storyboard"],"example":"A clickable prototype of the product two years out."}],
+ "ladder": {"associate":"Can explain the product vision to a new engineer.","mid":"Shapes the vision for a feature area within the product vision.","senior":"Owns the product vision for an area and uses it to settle debates.","lead":"Sets the vision for a product line and sells it to executives and customers."},
+ "build": ["Write a working-backwards press release for a product you'd build.","Study examples: Amazon PR/FAQ, Figma's early vision posts.","At work: propose the 2-year picture for your area at a planning offsite."],
+ "signals": ["Wrote the vision doc that reframed the team from 'reporting' to 'decision support'.","Produced the concept demo used in the Series B pitch."]},
+
+"prioritization": {"what": "Deciding what to do first, what to defer, and what to kill, with a rationale others can check, under constraints you don't control.",
+ "subskills": [
+  {"id":"prio_frameworks","name":"Prioritization frameworks","patterns":["\\bRICE\\b","\\bICE\\b","\\bMoSCoW\\b","kano","weighted scoring","cost of delay","impact.{0,20}effort"],"example":"Score the backlog on reach, impact, confidence, effort, then sanity-check by hand."},
+  {"id":"saying_no","name":"Saying no with reasons","patterns":["say(ing)? no","push(ing)? back","decline","defer"],"example":"Decline an exec request in writing with the trade it would force."},
+  {"id":"tradeoff_analysis","name":"Trade-off analysis","patterns":["trade-?offs?","cost[- ]benefit","opportunity cost"],"example":"Lay out the two options, what each costs, and what you'd give up."},
+  {"id":"backlog_mgmt","name":"Backlog management","patterns":["backlog","groom","refine(ment)?"],"example":"Keep the top 20 items ready, estimated, and in order."}],
+ "ladder": {"associate":"Keeps a prioritized backlog for one feature and can justify the top five.","mid":"Decides what a squad works on each sprint and quarter.","senior":"Makes cut decisions across competing stakeholders and absorbs the pushback.","lead":"Allocates teams and budget across initiatives; decides what the org drops."},
+ "build": ["Project: take 30 feature requests for a known app, score them with RICE, write the top-5 rationale.","Practice: for any request, write the 'what we'd have to give up' sentence.","At work: run backlog refinement for a sprint and publish the order with reasons."],
+ "signals": ["Cut scope 40% to hit the compliance deadline; shipped the deferred items next quarter.","Introduced a weighted scoring model that ended the weekly 'what's next' debate."]},
+
+"prd": {"what": "Writing the document that tells engineering and design exactly what problem to solve, for whom, with what constraints, and how we'll know it worked.",
+ "subskills": [
+  {"id":"problem_statement","name":"Problem statements","patterns":["problem statement","problem definition","define the problem"],"example":"One paragraph: who, what hurts, how often, what it costs them."},
+  {"id":"user_stories","name":"User stories & acceptance criteria","patterns":["user stor","acceptance criteria","given.{0,20}when.{0,20}then","\\bBDD\\b"],"example":"As a seller, I can refund an order within 30 days; refund posts within 24h."},
+  {"id":"edge_cases","name":"Edge cases & non-functional requirements","patterns":["edge cases?","error (states|handling)","non-?functional","failure modes"],"example":"What happens when the payment fails mid-flow, or the user is offline."},
+  {"id":"success_criteria","name":"Success metrics in the spec","patterns":["success (criteria|metrics)","definition of done","launch criteria"],"example":"Ship when refund completion rate is above 95% in beta."},
+  {"id":"spec_review","name":"Spec reviews","patterns":["spec review","design review","requirements review","review(ed)? with engineering"],"example":"Walk engineering through the doc before a line of code is written."}],
+ "ladder": {"associate":"Writes clear tickets and small specs for well-understood features.","mid":"Writes full PRDs for a feature; runs the review with engineering and design.","senior":"Writes specs for ambiguous, multi-team problems; sets the bar for the team's docs.","lead":"Rarely writes PRDs; reviews them and defines what a good one looks like."},
+ "build": ["Course: a technical writing or product spec workshop (Google's technical writing course is free).","Project: write a PRD for a feature you wish an app had, including edge cases and metrics.","At work: offer to spec a small feature end to end and run the review."],
+ "signals": ["Wrote 12 PRDs in 2024; zero launched features required a post-launch requirements change.","Introduced a PRD template with acceptance criteria that cut QA back-and-forth by half."]},
+
+"product_lifecycle": {"what": "Taking a product from idea through discovery, build, launch, growth, and eventually retirement, and knowing what each stage needs.",
+ "subskills": [
+  {"id":"zero_to_one","name":"Zero-to-one","patterns":["0[- ]to[- ]1","zero[- ]to[- ]one","from scratch","new product"],"example":"Validate a problem, ship a narrow MVP, find the first 10 paying users."},
+  {"id":"scaling","name":"Scaling a product","patterns":["scal(e|ing) (a|the) product","growth stage","1[- ]to[- ]n","product[- ]market fit"],"example":"Move from manual onboarding to self-serve without losing conversion."},
+  {"id":"sunsetting","name":"Deprecation & sunsetting","patterns":["sunset","deprecat","end[- ]of[- ]life","retire"],"example":"Migrate users off the old API with a 6-month notice and tooling."},
+  {"id":"post_launch","name":"Post-launch iteration","patterns":["post[- ]launch","iterat","fast follow"],"example":"Hold a 30-day review and ship the three biggest fixes."}],
+ "ladder": {"associate":"Has shipped features and seen one full cycle from spec to post-launch review.","mid":"Has taken a feature from discovery through launch and iteration, end to end.","senior":"Has taken a product or major surface from zero to scale, including hard retirements.","lead":"Manages a portfolio at different lifecycle stages and staffs each appropriately."},
+ "build": ["Project: ship something real end to end (a side project, a no-code tool, an internal tool) and write up each stage.","Read: 'Inspired' (Cagan) for the stages; 'The Lean Startup' for 0-to-1.","At work: ask to own a small feature from discovery through launch metrics review."],
+ "signals": ["Took the referrals product from concept to 15% of new signups in 9 months.","Led the deprecation of v1 API across 400 integrators with zero escalations."]},
+
+"launch": {"what": "Getting a product out the door: readiness, staged rollout, enablement, announcement, and the follow-through once real users hit it.",
+ "subskills": [
+  {"id":"launch_plan","name":"Launch planning & readiness","patterns":["launch (plan|readiness|checklist|criteria|timeline)","go[- ]to[- ]market plan","release plan"],"example":"A checklist covering support docs, legal review, analytics, and rollback."},
+  {"id":"staged_rollout","name":"Staged rollouts & feature flags","patterns":["staged rollout","phased rollout","feature flag","canary","beta (launch|release)","percentage rollout"],"example":"1% → 10% → 50% → 100% with go/no-go metrics at each step."},
+  {"id":"launch_comms","name":"Launch communications","patterns":["launch (communication|announcement|blog|email)","release notes","changelog","announcement"],"example":"Release notes written for users, not for engineers."},
+  {"id":"launch_metrics","name":"Launch monitoring","patterns":["launch metrics","monitor(ing)? (the )?launch","post[- ]launch (review|analysis|metrics)","war room"],"example":"A dashboard watched for 48 hours with an agreed rollback trigger."}],
+ "ladder": {"associate":"Runs launch checklists and writes release notes for small features.","mid":"Owns the launch of a feature end to end, including rollout and monitoring.","senior":"Runs multi-team launches with external announcements and executive visibility.","lead":"Sets launch standards and tiers for the org; owns flagship launches."},
+ "build": ["Project: write a launch plan for a feature in an app you use, with rollout stages and a rollback rule.","Study: public launch retros and 'what went wrong' write-ups.","At work: own the checklist and comms for your team's next release."],
+ "signals": ["Launched the new onboarding to 100% in 3 weeks with no P1 incidents via a staged rollout.","Ran 14 feature launches in 2024 with release notes and support enablement for each."]},
+
+"feature_definition": {"what": "Deciding what's in and out of a feature so it solves the problem without ballooning: the minimum that proves the idea.",
+ "subskills": [
+  {"id":"mvp_scoping","name":"MVP scoping","patterns":["\\bMVP\\b","minimum viable","minimum lovable","smallest (thing|version|slice)","thin slice"],"example":"Ship the single most common path first; defer the settings page."},
+  {"id":"scope_control","name":"Scope control","patterns":["scope creep","scope (control|management|cut|reduction)","descope","de-?scope"],"example":"When the estimate doubles, cut features rather than slip the date."},
+  {"id":"feature_flows","name":"User flows & states","patterns":["user flows?","flow diagram","happy path","empty state"],"example":"Map the happy path, the error path, and the empty state before design starts."}],
+ "ladder": {"associate":"Scopes small features with guidance; writes clear tickets.","mid":"Defines an MVP and defends the cut list with engineering and design.","senior":"Scopes complex, multi-team features and finds the thin slice others missed.","lead":"Reviews scoping decisions across teams; coaches PMs to cut harder."},
+ "build": ["Exercise: take any feature idea and write three versions: 1-week, 1-month, 1-quarter.","Project: build a tiny version of something with no-code tools and note what you cut.","At work: propose the smaller first release of whatever is being planned."],
+ "signals": ["Cut the initial release to 3 of 9 requested capabilities; shipped 6 weeks early and validated demand.","Defined the MVP for the mobile app that reached 10k users before the full build."]},
+
+"customer_obsession": {"what": "Making decisions from the customer's point of view, backed by direct contact with them, rather than from internal convenience.",
+ "subskills": [
+  {"id":"customer_contact","name":"Regular customer contact","patterns":["(talk|speak)(ing)? (to|with) customers","customer (calls|visits|conversations)","in the field","shadow"],"example":"Two customer conversations a week, every week, logged and shared."},
+  {"id":"voc","name":"Voice of the customer","patterns":["voice of (the )?customer","customer feedback","support tickets","reviews"],"example":"A weekly digest of top complaints from support, sales, and app reviews."},
+  {"id":"customer_advocacy","name":"Advocating internally","patterns":["advocate","champion the (user|customer)","represent the (user|customer)"],"example":"Bring a real customer recording into the planning meeting."}],
+ "ladder": {"associate":"Reads support tickets and joins customer calls; can describe the top three pain points.","mid":"Runs a steady customer contact habit and brings it into every spec.","senior":"Builds the team's customer feedback loop and uses it to change priorities.","lead":"Keeps the org close to customers at scale: advisory boards, exec visits, feedback programs."},
+ "build": ["Habit: interview 5 people who use any product you care about; write up what surprised you.","Volunteer: do a support shift or read 50 app-store reviews and cluster them.","At work: sit in on sales or support calls weekly and share a digest."],
+ "signals": ["Ran 80 customer interviews in a year; three roadmap items came directly from them.","Started a weekly 'voice of customer' digest read by 60 people across the company."]},
+
+"product_sense": {"what": "Judgment about what makes a product good: spotting the right problem, the elegant solution, and the detail that will annoy users.",
+ "subskills": [
+  {"id":"product_critique","name":"Product critique","patterns":["critique","teardown","product (review|quality) bar","taste"],"example":"Tear down a competitor's onboarding and explain each choice they made."},
+  {"id":"simplicity","name":"Simplicity & craft","patterns":["simplicity","simple","polish","craft","delight","attention to detail"],"example":"Remove a step from a flow rather than add a tooltip explaining it."},
+  {"id":"opportunity_spotting","name":"Spotting opportunities","patterns":["identify opportunit","spot(ting)? (opportunities|gaps)","unmet needs","white space"],"example":"Notice that 30% of users export to a spreadsheet and build the thing they do there."}],
+ "ladder": {"associate":"Can explain why a product decision is good or bad with specifics.","mid":"Makes solid product calls on features; rarely needs the decision reversed.","senior":"Trusted for judgment on ambiguous calls; raises the quality bar of the team.","lead":"Sets the product quality bar for the org; final say on taste decisions."},
+ "build": ["Practice: write one product teardown a week (what works, what doesn't, what you'd change).","Mock interviews: 'improve X' and 'design Y for Z' product-sense questions.","At work: review designs early and give specific, reasoned feedback."],
+ "signals": ["Redesigned the checkout flow from 6 steps to 3; conversion up 18%.","Published weekly product teardowns followed by 2k readers."]},
+
+"ux_design_collab": {"what": "Working with designers as a partner: framing the problem, reviewing work with specifics, and understanding enough of the craft to be useful.",
+ "subskills": [
+  {"id":"design_brief","name":"Design briefs","patterns":["design brief","design (kickoff|problem framing)","brief(ing)? design"],"example":"Hand design a problem and constraints, not a sketch of the solution."},
+  {"id":"prototyping","name":"Prototyping & wireframes","patterns":["prototyp","wireframe","mock-?ups?","low[- ]fidelity","hi(gh)?[- ]fi(delity)?"],"example":"Build a clickable Figma prototype to test before engineering starts."},
+  {"id":"usability","name":"Usability testing","patterns":["usability (test|stud)","user testing","test(ing)? with users","think[- ]aloud"],"example":"Watch five users attempt the task and count where they get stuck."},
+  {"id":"design_systems","name":"Design systems & accessibility","patterns":["design system","accessib","\\bWCAG\\b","\\ba11y\\b","component librar"],"example":"Know when a new pattern is justified versus reusing the system."}],
+ "ladder": {"associate":"Reviews designs and gives specific feedback; can make a wireframe.","mid":"Runs design kickoffs and usability tests with a design partner.","senior":"Shapes the design strategy for an area; prototypes to test big ideas.","lead":"Partners with design leadership on quality bar and resourcing."},
+ "build": ["Course: an intro UX course that includes running a usability test.","Tool: learn Figma well enough to wireframe and prototype a flow.","At work: run a 5-user usability test on an existing feature and share findings."],
+ "signals": ["Ran 12 usability sessions that reshaped the onboarding flow before build.","Prototyped the new dashboard in Figma and validated it with 8 customers."]},
+
+"problem_solving": {"what": "Breaking an ambiguous situation into parts, finding the real cause, and choosing an approach when the answer isn't obvious.",
+ "subskills": [
+  {"id":"root_cause","name":"Root-cause analysis","patterns":["root[- ]cause","5 whys","fishbone","causal"],"example":"Trace a conversion drop to a slow API, not the new button colour."},
+  {"id":"structuring","name":"Structuring problems","patterns":["structured (thinking|approach)","\\bMECE\\b","issue tree","hypothesis tree","first[- ]principles","frameworks"],"example":"Lay out the three possible causes and what evidence would settle each."},
+  {"id":"ambiguity","name":"Working through ambiguity","patterns":["ambigu","unclear","ill-?defined","open-?ended"],"example":"Turn 'make it better' into a concrete problem statement in a week."},
+  {"id":"decision_making","name":"Decision making","patterns":["decision[- ]making","decisive","make (tough|hard|difficult) (calls|decisions)","one-?way door","two-?way door"],"example":"Decide reversible things fast; slow down only for the irreversible ones."}],
+ "ladder": {"associate":"Breaks down well-defined problems; asks good questions on fuzzy ones.","mid":"Structures ambiguous feature problems and proposes a path with evidence.","senior":"Solves cross-team, poorly defined problems; known for clear thinking.","lead":"Frames org-level problems and sets the decision process for others."},
+ "build": ["Practice: case-style problems (consulting prep books work well for structure).","Exercise: write up a problem you solved as situation → analysis → decision → result.","At work: volunteer for the messy, undefined project nobody wants."],
+ "signals": ["Diagnosed a 12% activation drop to an email deliverability change within two days.","Turned a vague 'fix retention' mandate into three testable hypotheses and a plan."]},
+
+"okrs": {"what": "Setting goals that are measurable and ambitious, tying them to strategy, and running the cadence that keeps them real.",
+ "subskills": [
+  {"id":"goal_setting","name":"Writing good objectives & key results","patterns":["key results","objectives and key results","\\bOKRs?\\b","measurable (goals|objectives)","\\bSMART\\b"],"example":"Objective: make reporting self-serve. KR: 60% of reports created without support."},
+  {"id":"goal_cadence","name":"Goal cadence & reviews","patterns":["quarterly (planning|review|goals)","check-?ins","grading","scor(e|ing) (okrs|goals)"],"example":"Grade KRs monthly and change tactics, not the goal."},
+  {"id":"north_star","name":"North-star metric","patterns":["north[- ]star","single metric","input metrics","output metrics"],"example":"Pick one metric that reflects value delivered, and the inputs that move it."}],
+ "ladder": {"associate":"Understands the team's OKRs and reports progress on their piece.","mid":"Drafts team OKRs and runs the monthly check-in.","senior":"Sets OKRs for an area and aligns them across partner teams.","lead":"Owns org-level OKRs and the planning process."},
+ "build": ["Read: 'Measure What Matters' then write OKRs for a side project.","Exercise: rewrite three vague goals ('improve engagement') into measurable KRs.","At work: offer to draft the team's next-quarter OKRs."],
+ "signals": ["Introduced quarterly OKRs for the platform team; hit 7 of 9 KRs in the first year.","Defined the north-star metric (weekly active workspaces) now used company-wide."]}
+}

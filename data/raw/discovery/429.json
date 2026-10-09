@@ -1,0 +1,24 @@
+{
+ "company": "Thor Industries",
+ "rank": 429,
+ "group": "fortune500",
+ "industry": "Motor Vehicles & Parts",
+ "ats": "paradox",
+ "config": {
+  "host": "www.airstream.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 product postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.airstream.com"
+   },
+   "from": "https://www.airstream.com/explore-products/visit-us-see-it-in-person/visit-your-dealer/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "thorindustries.com",
+ "seconds": 24
+}

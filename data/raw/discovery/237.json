@@ -1,0 +1,15 @@
+{
+ "company": "Loews",
+ "rank": 237,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Stock)",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.loews.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "loews.com",
+ "seconds": 8
+}

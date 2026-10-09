@@ -1,0 +1,30 @@
+{
+ "company": "Allstate",
+ "rank": 64,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Stock)",
+ "ats": "workday",
+ "config": {
+  "host": "allstate.wd5.myworkdayjobs.com",
+  "tenant": "allstate",
+  "site": "allstate_careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "allstate.wd5.myworkdayjobs.com",
+    "tenant": "allstate",
+    "site": "allstate_careers"
+   },
+   "from": "https://www.allstatecorporation.com/careers.aspx",
+   "verify": "Lead Digital Product Manager"
+  }
+ ],
+ "domain": "allstate.com",
+ "sample_title": "Lead Digital Product Manager",
+ "description_chars": 6623,
+ "seconds": 55
+}

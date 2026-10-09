@@ -1,0 +1,15 @@
+{
+ "company": "Amphenol",
+ "rank": 198,
+ "group": "fortune500",
+ "industry": "Network and Other Communications Equipment",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.amphenol.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "amphenol.com",
+ "seconds": 7
+}

@@ -1,0 +1,37 @@
+{
+ "company": "Avis Budget Group",
+ "rank": 380,
+ "group": "fortune500",
+ "industry": "Automotive Retailing, Services",
+ "ats": "workday",
+ "config": {
+  "host": "avisbudget.wd1.myworkdayjobs.com",
+  "tenant": "avisbudget",
+  "site": "ABG_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "avisbudget.wd1.myworkdayjobs.com",
+    "tenant": "avisbudget",
+    "site": "ABG_Careers"
+   },
+   "from": "https://www.avisbudgetgroup.jobs/",
+   "verify": "Product Manager, Web"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.avisbudgetgroup.jobs"
+   },
+   "from": "https://www.avisbudgetgroup.jobs/"
+  }
+ ],
+ "domain": "avisbudgetgroup.com",
+ "sample_title": "Product Manager, Web",
+ "description_chars": 5738,
+ "seconds": 14
+}

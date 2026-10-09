@@ -1,0 +1,30 @@
+{
+ "company": "Constellation Brands",
+ "rank": 416,
+ "group": "fortune500",
+ "industry": "Beverages",
+ "ats": "workday",
+ "config": {
+  "host": "cbrands.wd5.myworkdayjobs.com",
+  "tenant": "cbrands",
+  "site": "CBI_External_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "cbrands.wd5.myworkdayjobs.com",
+    "tenant": "cbrands",
+    "site": "CBI_External_Careers"
+   },
+   "from": "https://cbrands.wd5.myworkdayjobs.com/CBI_External_Careers",
+   "verify": "IT Product Manager- Treasury & Finance"
+  }
+ ],
+ "domain": "cbrands.com",
+ "sample_title": "IT Product Manager- Treasury & Finance",
+ "description_chars": 12878,
+ "seconds": 10
+}

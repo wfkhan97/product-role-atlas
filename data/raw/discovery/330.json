@@ -1,0 +1,24 @@
+{
+ "company": "Sempra",
+ "rank": 330,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "phenom",
+ "config": {
+  "host": "www.sdge.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.sdge.com"
+   },
+   "from": "https://www.sdge.com/careers",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "sempra.com",
+ "seconds": 9
+}

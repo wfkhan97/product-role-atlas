@@ -1,0 +1,48 @@
+{
+ "company": "Kinder Morgan",
+ "rank": 266,
+ "group": "fortune500",
+ "industry": "Pipelines",
+ "ats": "icims",
+ "config": {
+  "host": "www.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 product postings; icims 0 product postings; icims 0 product postings; jibe 0 product postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://careers.kindermorgan.com/careers-home/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-kindermorgan.icims.com"
+   },
+   "from": "https://careers.kindermorgan.com/careers-home/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "fieldcareers-kindermorgan.icims.com"
+   },
+   "from": "https://careers.kindermorgan.com/careers-home/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "careers.kindermorgan.com"
+   },
+   "from": "https://careers.kindermorgan.com/careers-home/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "kindermorgan.com",
+ "seconds": 10
+}

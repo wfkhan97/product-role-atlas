@@ -1,0 +1,186 @@
+[
+ {
+  "company": "United Airlines Holdings",
+  "rank": 81,
+  "group": "fortune500",
+  "ats": "phenom",
+  "config": {
+   "host": "careers.united.com",
+   "widgets_path": "/widgets"
+  },
+  "verified": true,
+  "notes": "phenom page detail after adapter fix"
+ },
+ {
+  "company": "Nucor",
+  "rank": 142,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.nucor.com"
+  },
+  "verified": true,
+  "notes": "after DESC_RE fix"
+ },
+ {
+  "company": "Freeport-McMoRan",
+  "rank": 177,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.fcx.com"
+  },
+  "verified": true,
+  "notes": "reachable"
+ },
+ {
+  "company": "AbbVie",
+  "rank": 77,
+  "group": "fortune500",
+  "ats": "paradox",
+  "config": {
+   "host": "careers.abbvie.com",
+   "search_path": "/en/jobs",
+   "query_param": "q",
+   "page_param": "page"
+  },
+  "verified": true,
+  "notes": "paradox variant with q/page params"
+ },
+ {
+  "company": "Charter Communications",
+  "rank": 85,
+  "group": "fortune500",
+  "ats": "radancy",
+  "config": {
+   "host": "jobs.spectrum.com",
+   "results_path": "/search-jobs/results"
+  },
+  "verified": true,
+  "notes": "needs 100/page"
+ },
+ {
+  "company": "Super Micro Computer",
+  "rank": 208,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.supermicro.com"
+  },
+  "verified": true,
+  "notes": "after DESC_RE fix"
+ },
+ {
+  "company": "Philip Morris International",
+  "rank": 117,
+  "group": "fortune500",
+  "ats": "phenom",
+  "config": {
+   "host": "join.pmicareers.com",
+   "widgets_path": "/widgets"
+  },
+  "verified": true,
+  "notes": "after totalHits fix"
+ },
+ {
+  "company": "NRG Energy",
+  "rank": 149,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.nrgenergy.com"
+  },
+  "verified": true,
+  "notes": "after DESC_RE/JSON-LD fix"
+ },
+ {
+  "company": "Lincoln National",
+  "rank": 243,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.lincolnfinancial.com"
+  },
+  "verified": true,
+  "notes": "Product Mgt titles after roles fix"
+ },
+ {
+  "company": "Public Service Enterprise Group",
+  "rank": 360,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.pseg.com"
+  },
+  "verified": true,
+  "notes": "after LINK_RE fix"
+ },
+ {
+  "company": "AGCO",
+  "rank": 417,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.agcocorp.com"
+  },
+  "verified": true,
+  "notes": "after LINK_RE fix"
+ },
+ {
+  "company": "Moody's",
+  "rank": 492,
+  "group": "fortune500",
+  "ats": "radancy",
+  "config": {
+   "host": "careers.moodys.com",
+   "results_path": "/en/search-jobs/results"
+  },
+  "verified": true,
+  "notes": "locale-prefixed radancy after LINK_RE fix"
+ },
+ {
+  "company": "Zimmer Biomet Holdings",
+  "rank": 473,
+  "group": "fortune500",
+  "ats": "phenom",
+  "config": {
+   "host": "careers.zimmerbiomet.com",
+   "widgets_path": "/widgets"
+  },
+  "verified": true,
+  "notes": "phenom page detail"
+ },
+ {
+  "company": "Hershey",
+  "rank": 377,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.thehersheycompany.com"
+  },
+  "verified": true,
+  "notes": "Product Mgr titles"
+ },
+ {
+  "company": "Estee Lauder",
+  "rank": 315,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "elchxmprod.jobs.hr.cloud.sap"
+  },
+  "verified": true,
+  "notes": "JSON-LD fallback"
+ },
+ {
+  "company": "WEC Energy Group",
+  "rank": 424,
+  "group": "fortune500",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.wecenergygroup.com"
+  },
+  "verified": true,
+  "notes": "after LINK_RE fix; reachable"
+ }
+]

@@ -1,0 +1,35 @@
+{
+ "company": "Vulcan Materials",
+ "rank": 485,
+ "group": "fortune500",
+ "industry": "Building Materials, Glass",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "vmcfa-dev3-iccgjb-dev3.fa.ocs.oraclecloud.com",
+  "siteNumber": "careers"
+ },
+ "verified": false,
+ "notes": "candidates: oracle_hcm 0 product postings; oracle_hcm 0 product postings",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "vmcfa-dev3-iccgjb-dev3.fa.ocs.oraclecloud.com",
+    "siteNumber": "careers"
+   },
+   "from": "https://www.vulcanmaterials.com/careers/operations",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "vmcfa-dev3-iccgjb-dev3.fa.ocs.oraclecloud.com",
+    "siteNumber": "CX_3003"
+   },
+   "from": "https://www.vulcanmaterials.com/careers/operations",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "vulcanmaterials.com",
+ "seconds": 17
+}

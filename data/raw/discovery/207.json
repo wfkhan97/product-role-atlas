@@ -1,0 +1,33 @@
+{
+ "company": "Halliburton",
+ "rank": 207,
+ "group": "fortune500",
+ "industry": "Oil and Gas Equipment, Services",
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.halliburton.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.halliburton.com"
+   },
+   "from": "https://careers.halliburton.com/"
+  },
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.halliburton.com"
+   },
+   "from": "https://jobs.halliburton.com/go/North-America/8412900/",
+   "verify": "Senior Product Manager, Unconventional Development"
+  }
+ ],
+ "domain": "halliburton.com",
+ "sample_title": "Senior Product Manager, Unconventional Development",
+ "description_chars": 6635,
+ "seconds": 11
+}

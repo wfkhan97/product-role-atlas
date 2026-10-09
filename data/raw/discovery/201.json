@@ -1,0 +1,15 @@
+{
+ "company": "EOG Resources",
+ "rank": 201,
+ "group": "fortune500",
+ "industry": "Mining, Crude-Oil Production",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.eogresources.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "eogresources.com",
+ "seconds": 11
+}

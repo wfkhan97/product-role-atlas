@@ -1,0 +1,39 @@
+{
+ "company": "Kraft Heinz",
+ "rank": 184,
+ "group": "fortune500",
+ "industry": "Food Consumer Products",
+ "ats": "eightfold",
+ "config": {
+  "host": "jobs.kraftheinz.com",
+  "domain": "kraftheinz.com",
+  "api": "pcsx"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "jobs.kraftheinz.com",
+    "domain": "kraftheinz.com",
+    "api": "pcsx"
+   },
+   "from": "probe",
+   "verify": "Technical Program Manager"
+  },
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "app.eightfold.ai",
+    "domain": "app.com",
+    "api": "pcsx"
+   },
+   "from": "https://jobs.kraftheinz.com/careers"
+  }
+ ],
+ "domain": "kraftheinz.com",
+ "sample_title": "Technical Program Manager",
+ "description_chars": 5534,
+ "seconds": 9
+}

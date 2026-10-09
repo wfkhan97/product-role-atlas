@@ -1,0 +1,102 @@
+{
+"customer_interviews": {"what": "Talking to users one-on-one to learn how they actually behave and what they struggle with, without leading them to the answer you want.",
+ "subskills": [
+  {"id":"interview_guide","name":"Interview guides & non-leading questions","patterns":["interview (guide|script|protocol)","open-?ended questions","non-?leading","the mom test"],"example":"Ask 'tell me about the last time you did X', never 'would you use Y?'"},
+  {"id":"recruiting","name":"Recruiting participants","patterns":["recruit(ing)? (participants|users|customers)","screener","incentive","panel"],"example":"A screener that filters for people who did the task in the last 30 days."},
+  {"id":"synthesis","name":"Synthesis & affinity mapping","patterns":["synthesi","affinity (map|diagram)","themes","coding (interviews|transcripts)","insights report"],"example":"Tag 20 transcripts, cluster into 5 themes, and rank by frequency."},
+  {"id":"sharing_findings","name":"Sharing findings","patterns":["research (readout|report|findings|share-?out)","highlight reel","research repository"],"example":"A 10-minute readout with three clips that make the point for you."}],
+ "ladder": {"associate":"Takes notes in interviews and can run one from a guide.","mid":"Plans and runs interview rounds; synthesizes into decisions.","senior":"Designs research programs for big bets; teaches others to interview.","lead":"Ensures continuous discovery is funded and practiced across teams."},
+ "build": ["Read: 'The Mom Test' (short) and 'Continuous Discovery Habits'.","Project: interview 8 people about a problem, synthesize themes, write a one-page readout.","At work: join every customer call you can; offer to run the next round."],
+ "signals": ["Ran 45 customer interviews across 3 segments; findings changed the Q2 roadmap.","Built a reusable screener and interview guide adopted by the whole product org."]},
+
+"user_research": {"what": "The broader toolkit for learning about users: qualitative and quantitative methods, when each fits, and how to run them rigorously.",
+ "subskills": [
+  {"id":"method_selection","name":"Choosing the right method","patterns":["qualitative","quantitative","mixed[- ]methods","research (plan|methods|approach)","generative","evaluative"],"example":"Use interviews to find the problem, a survey to size it, a usability test to check the fix."},
+  {"id":"usability_studies","name":"Usability studies","patterns":["usability (test|stud)","moderated","unmoderated","task completion","\\bSUS\\b"],"example":"Five moderated sessions; measure task success and where people stall."},
+  {"id":"field_research","name":"Contextual & field research","patterns":["contextual inquiry","field (research|study|visits)","ethnograph","diary stud","shadow"],"example":"Spend a day on the warehouse floor watching the tool get used."},
+  {"id":"research_ops","name":"Research ops & partnership","patterns":["\\bUXR\\b","research(ers)? (partner|team)","partner with research","research repository"],"example":"Scope the question with the researcher; own the decision the research informs."}],
+ "ladder": {"associate":"Participates in studies and reads research reports critically.","mid":"Scopes and runs lightweight studies; partners well with UXR on bigger ones.","senior":"Builds a research plan for a product area; chooses methods deliberately.","lead":"Invests in research capacity and holds teams to evidence-based decisions."},
+ "build": ["Course: an HCI or UX research methods course (many universities' intro courses are online).","Project: run a diary study with 5 people for a week and write it up.","At work: pair with a researcher on a study from plan to readout."],
+ "signals": ["Led a mixed-methods study (12 interviews, 600-response survey) that defined the SMB segment.","Ran monthly usability studies; task success on core flows rose from 62% to 88%."]},
+
+"discovery": {"what": "Finding out which problems are worth solving and whether a proposed solution works, before committing engineering time.",
+ "subskills": [
+  {"id":"opportunity_mapping","name":"Opportunity mapping","patterns":["opportunity (solution )?tree","opportunity (mapping|assessment|sizing)","problem space"],"example":"Map the outcome to the opportunities under it and the solutions for each."},
+  {"id":"assumption_testing","name":"Assumption & hypothesis testing","patterns":["assumption","hypothes","riskiest","validat(e|ing|ion)"],"example":"List the riskiest assumption and design the cheapest test for it."},
+  {"id":"prototypes_tests","name":"Cheap tests: fake doors, concierge, prototypes","patterns":["fake door","painted door","concierge","wizard of oz","smoke test","landing page test","prototype test"],"example":"Add a 'Export to Notion' button and count clicks before building it."},
+  {"id":"jtbd_framing","name":"Jobs-to-be-done framing","patterns":["jobs?[- ]to[- ]be[- ]done","\\bJTBD\\b","job stories","progress"],"example":"'When I close the month, I want to find discrepancies fast, so I can sign off by day 3.'"}],
+ "ladder": {"associate":"Runs small validation tests designed by others; documents results.","mid":"Owns discovery for a feature: opportunities, assumptions, tests.","senior":"Runs discovery for a product area and kills bets early based on evidence.","lead":"Makes discovery a standard practice; funds exploration before commitment."},
+ "build": ["Read: 'Continuous Discovery Habits' (Torres); 'Testing Business Ideas' for a catalogue of tests.","Project: pick an idea, write its riskiest assumptions, run one cheap test, report.","At work: propose a fake-door or prototype test before the next big build."],
+ "signals": ["Ran 6 fake-door tests in a quarter; killed 4 ideas and shipped the 2 with real demand.","Built an opportunity-solution tree that became the team's planning backbone."]},
+
+"personas_jtbd": {"what": "Describing who you are building for in a way that is specific enough to change decisions: segments, personas, and the jobs they hire the product for.",
+ "subskills": [
+  {"id":"segmentation","name":"Segmentation","patterns":["segment","cohort","tier","\\bSMB\\b","mid-?market","enterprise (segment|customers)"],"example":"Split users by company size and workflow, not by demographics."},
+  {"id":"persona_building","name":"Evidence-based personas","patterns":["persona","archetype","user profiles?"],"example":"Personas built from 20 interviews and usage data, each with a real quote."},
+  {"id":"icp","name":"Ideal customer profile","patterns":["ideal customer","\\bICP\\b","target (customer|market|segment|audience)","beachhead"],"example":"Define the ICP narrowly enough that sales knows who to skip."}],
+ "ladder": {"associate":"Knows the product's personas and uses them in specs.","mid":"Builds or refreshes personas from research for a feature area.","senior":"Defines segments and ICP for a product; aligns GTM on it.","lead":"Decides which segments the company serves and which it won't."},
+ "build": ["Exercise: write two contrasting personas for an app you use, with the different job each hires it for.","Course: any product-marketing or GTM class covering segmentation and ICP.","At work: audit whether the current personas are backed by data; propose fixes."],
+ "signals": ["Redefined the ICP to mid-market ops teams; win rate in that segment rose 30%.","Built 4 research-backed personas used across product, design, and marketing."]},
+
+"surveys_feedback": {"what": "Collecting feedback at scale and turning it into something the team can act on: surveys, NPS, beta programs, and in-product feedback loops.",
+ "subskills": [
+  {"id":"survey_design","name":"Survey design","patterns":["survey (design|question|instrument)","likert","question (bias|wording)","sample size"],"example":"Ten questions max, one open-ended, no double-barrelled questions."},
+  {"id":"nps_csat","name":"NPS / CSAT programs","patterns":["\\bNPS\\b","\\bCSAT\\b","\\bCES\\b","net promoter","satisfaction"],"example":"Track NPS by segment and read the verbatims, not just the number."},
+  {"id":"beta_programs","name":"Beta & early-access programs","patterns":["beta (program|group|users|customers|testing)","early access","design partner","preview program"],"example":"Fifteen design partners who get builds early and a weekly call."},
+  {"id":"feedback_triage","name":"Feedback triage & loops","patterns":["feedback (loop|triage|channel|pipeline)","feature requests?","close the loop","in-?product feedback"],"example":"Tag every request, report monthly, and tell requesters when it ships."}],
+ "ladder": {"associate":"Runs small surveys and triages feedback into the backlog.","mid":"Owns a beta program or feedback channel for a product area.","senior":"Designs feedback systems used across the product; reads signal from noise.","lead":"Ensures customer feedback reaches planning at the org level."},
+ "build": ["Course: a short survey-design module (question wording, bias, sampling).","Project: run a survey of 50 people on a topic, analyze, and present three findings.","At work: start a feedback triage ritual and a 'you asked, we shipped' note."],
+ "signals": ["Ran a 15-customer design partner program that shaped the v2 launch.","Built a feedback tagging system; top-10 requests reviewed monthly with leadership."]},
+
+"metrics_kpis": {"what": "Choosing the few numbers that tell you whether the product is working, instrumenting them, and watching them with discipline.",
+ "subskills": [
+  {"id":"metric_definition","name":"Defining metrics","patterns":["defin(e|ing) (success |key )?metrics","metric definitions?","leading (and|vs) lagging","input (and|vs) output metrics","counter[- ]metrics","guardrail"],"example":"Define 'active' precisely (did a core action in 7 days) and write it down."},
+  {"id":"instrumentation","name":"Instrumentation & tracking plans","patterns":["instrument","tracking plan","event (taxonomy|schema|tracking)","telemetry","logging"],"example":"A tracking plan listing every event, its properties, and who owns it."},
+  {"id":"dashboards","name":"Dashboards & reporting","patterns":["dashboard","weekly (business|metrics) review","reporting","scorecard"],"example":"One dashboard per team with 5 metrics, reviewed every Monday."},
+  {"id":"metric_trees","name":"Metric trees & funnels","patterns":["metric tree","funnel","driver tree","decompos"],"example":"Break revenue into traffic × conversion × AOV and know which you move."}],
+ "ladder": {"associate":"Reports on existing metrics and keeps a dashboard current.","mid":"Defines success metrics for features and gets them instrumented.","senior":"Owns the metric tree for an area; spots and explains movements fast.","lead":"Sets the company-level metrics and the review cadence around them."},
+ "build": ["Course: a product analytics course (Amplitude and Mixpanel both publish free ones).","Project: write a tracking plan and metric tree for an app you know.","At work: own the weekly metrics review for your team for a quarter."],
+ "signals": ["Defined the activation metric now used company-wide and instrumented it end to end.","Built the funnel dashboard that surfaced a 20% drop-off at address entry."]},
+
+"data_driven": {"what": "Using data to make and defend decisions: pulling it, questioning it, and knowing when it is wrong or insufficient.",
+ "subskills": [
+  {"id":"data_analysis","name":"Hands-on analysis","patterns":["analy[sz](e|ing) data","data analysis","pull(ing)? data","cohort analysis","segment(ation)? analysis","deep[- ]dive"],"example":"Pull the cohort retention curve yourself before the meeting."},
+  {"id":"data_skepticism","name":"Data skepticism & quality","patterns":["data quality","data integrity","sanity[- ]check","validate (the )?data","bias","confound"],"example":"Check whether the spike is real or a logging change."},
+  {"id":"insight_to_action","name":"Turning insight into decisions","patterns":["insights?\\b","actionable","recommendation","so what"],"example":"Every analysis ends with a decision and an owner."},
+  {"id":"qual_quant","name":"Combining qualitative & quantitative","patterns":["qualitative and quantitative","quantitative and qualitative","qual(itative)? (and|&) quant","triangulat"],"example":"Use the data to find the where, interviews to find the why."}],
+ "ladder": {"associate":"Reads dashboards and asks for the right cuts of data.","mid":"Does their own analysis in SQL or a BI tool; makes decisions from it.","senior":"Finds non-obvious insights and changes strategy with them.","lead":"Builds a data-informed culture; invests in instrumentation and analytics."},
+ "build": ["Course: an intro data analysis course that includes real datasets (SQL + spreadsheets).","Project: analyze a public dataset and write a one-page memo with a recommendation.","At work: answer one question a week with data you pulled yourself."],
+ "signals": ["Analyzed 2 years of churn data; identified the onboarding gap behind 40% of losses.","Built a self-serve cohort dashboard that cut data requests to analysts by half."]},
+
+"ab_testing": {"what": "Running controlled experiments to learn whether a change actually causes the outcome you want, and reading the results honestly.",
+ "subskills": [
+  {"id":"hypothesis_design","name":"Hypothesis design","patterns":["hypothesis","test plan","experiment (design|plan|brief)","we believe"],"example":"'Shortening signup to 2 fields will raise completion by 5pts' with the reasoning."},
+  {"id":"metric_selection","name":"Primary metrics & guardrails","patterns":["primary metric","success metric","guardrail","secondary metrics","counter[- ]metric"],"example":"One primary metric, two guardrails (latency, support tickets)."},
+  {"id":"sample_power","name":"Sample size, power & duration","patterns":["sample size","statistical power","\\bpower\\b.{0,20}(analysis|calculation)","minimum detectable","\\bMDE\\b","run(ning)? (the test )?for .{0,10}weeks","duration"],"example":"Compute the MDE before launch; commit to two full weekly cycles."},
+  {"id":"reading_results","name":"Reading results & significance","patterns":["statistical significance","significan","p-?value","confidence interval","peeking","novelty effect","false positive"],"example":"Don't stop at day 3 because it's green; watch for novelty effects."},
+  {"id":"experiment_platform","name":"Experiment platforms & rollouts","patterns":["experiment(ation)? platform","feature flag","holdout","variant","treatment","control group","bucketing","randomi[sz]"],"example":"Bucket by account not user for B2B tests; keep a long-term holdout."},
+  {"id":"experiment_culture","name":"Experiment reviews & learning","patterns":["experiment (review|readout|log|repository)","learnings","test[- ]and[- ]learn","velocity of (experiments|testing)"],"example":"A searchable log of every test, result, and decision."}],
+ "ladder": {"associate":"Sets up tests on a platform with a template; reports results.","mid":"Designs experiments end to end: hypothesis, metrics, sizing, readout, decision.","senior":"Runs an experimentation program for an area; catches bad tests and bad reads.","lead":"Builds the platform and culture: velocity, rigor, and what not to test."},
+ "build": ["Course: a statistics-for-experimentation module (Udacity's A/B testing course is free; 'Trustworthy Online Controlled Experiments' is the reference).","Project: design a full test plan for a change in an app you use, including sample size math.","At work: ship one experiment with a pre-registered hypothesis and a written readout."],
+ "signals": ["Ran 22 experiments in 2024 with a 35% win rate; documented every readout.","Introduced guardrail metrics and a minimum run length after two false positives shipped."]},
+
+"statistics": {"what": "Enough statistics to size experiments, forecast, read a regression, and know when a number is noise.",
+ "subskills": [
+  {"id":"descriptive_stats","name":"Distributions & descriptive stats","patterns":["distribution","median","percentile","\\bp9[05]\\b","variance","outlier"],"example":"Report p50 and p90 latency, never just the mean."},
+  {"id":"inference","name":"Inference & hypothesis tests","patterns":["t-?test","chi-?square","confidence interval","hypothesis test","bayesian","frequentist"],"example":"Know what a 95% interval does and doesn't say."},
+  {"id":"forecasting","name":"Forecasting & modelling","patterns":["forecast","time[- ]series","projection","regression","predictive model","scenario"],"example":"Build a simple driver-based forecast with best, base, and worst cases."},
+  {"id":"causal","name":"Causal thinking","patterns":["causal","correlation","confound","difference[- ]in[- ]differences","natural experiment","quasi-?experiment"],"example":"Use a pre/post with a control region when you can't randomize."}],
+ "ladder": {"associate":"Reads averages and rates correctly; knows what a sample is.","mid":"Sizes tests, reads intervals, builds simple forecasts.","senior":"Spots confounds and bad inference; models scenarios for decisions.","lead":"Partners with data science on methodology; sets standards for rigor."},
+ "build": ["Course: an intro statistics course with applied exercises (Khan Academy or a university MOOC).","Book: 'Naked Statistics' for intuition; 'Statistical Rethinking' if you want depth.","At work: build the forecast model for your area's next planning cycle."],
+ "signals": ["Built the driver-based forecast used for 2025 planning; within 6% of actuals.","Caught a Simpson's-paradox read on a test that would have shipped a regression."]},
+
+"financial_analysis": {"what": "Modelling the money: costs, revenue, margins, and budgets, well enough to make a business case and read a P&L.",
+ "subskills": [
+  {"id":"unit_economics","name":"Unit economics","patterns":["unit economics","\\bLTV\\b","\\bCAC\\b","payback","contribution margin","gross margin","cost to serve"],"example":"Know the cost to serve a customer and what moves it."},
+  {"id":"modeling","name":"Financial models","patterns":["financial model","spreadsheet model","\\bexcel\\b","scenario (model|analysis)","sensitivity"],"example":"A three-scenario model with the two assumptions that matter most exposed."},
+  {"id":"budgeting","name":"Budgets & cost management","patterns":["budget","cost (management|control|reduction|savings)","\\bopex\\b","\\bcapex\\b","infra(structure)? cost","\\bCOGS\\b"],"example":"Track cloud cost per active user monthly and own the trend."},
+  {"id":"pnl_literacy","name":"Reading a P&L","patterns":["\\bP&L\\b","income statement","revenue recogni","\\bEBITDA\\b","margin"],"example":"Explain how your feature shows up in revenue, cost, or margin."}],
+ "ladder": {"associate":"Reads a budget and can do a basic cost/benefit.","mid":"Builds a business case model for a feature.","senior":"Owns the financial model for a product; forecasts revenue and cost.","lead":"Owns a P&L or budget; trades investments across products."},
+ "build": ["Course: a 'finance for non-finance managers' or intro corporate finance class.","Project: build a unit-economics model for a subscription product with public numbers.","At work: sit with finance for a planning cycle and build the model for your area."],
+ "signals": ["Built the pricing model that projected $4M ARR from the new tier; actuals $4.6M.","Cut infra cost per request 30% by modelling and renegotiating the storage tier."]}
+}

@@ -1,0 +1,15 @@
+{
+ "company": "CBRE Group",
+ "rank": 118,
+ "group": "fortune500",
+ "industry": "Real Estate",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.cbre.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "cbre.com",
+ "seconds": 8
+}

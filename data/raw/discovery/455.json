@@ -1,0 +1,24 @@
+{
+ "company": "NOV",
+ "rank": 455,
+ "group": "fortune500",
+ "industry": "Oil and Gas Equipment, Services",
+ "ats": "phenom",
+ "config": {
+  "host": "app.joinhandshake.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "app.joinhandshake.com"
+   },
+   "from": "https://app.joinhandshake.com/jobs/11628661/share_preview",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "nova.edu",
+ "seconds": 98
+}

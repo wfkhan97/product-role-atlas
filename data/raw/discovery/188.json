@@ -1,0 +1,72 @@
+{
+ "company": "Genuine Parts",
+ "rank": 188,
+ "group": "fortune500",
+ "industry": "Wholesalers: Diversified",
+ "ats": "workday",
+ "config": {
+  "host": "genpt.wd1.myworkdayjobs.com",
+  "tenant": "genpt",
+  "site": "Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.genpt.com"
+   },
+   "from": "https://jobs.genpt.com/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.genpt.com"
+   },
+   "from": "https://jobs.genpt.com/"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.gpcasiapac.com"
+   },
+   "from": "https://careers.gpcasiapac.com/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.gpcasiapac.com"
+   },
+   "from": "https://careers.gpcasiapac.com/"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.genpt.ca"
+   },
+   "from": "https://jobs.genpt.ca/"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.genpt.mx"
+   },
+   "from": "https://jobs.genpt.mx/"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "genpt.wd1.myworkdayjobs.com",
+    "tenant": "genpt",
+    "site": "Careers"
+   },
+   "from": "https://careers.gpcasiapac.com/search-jobs?acm=ALL&alrpm=1643084,2077456,2186224&ascf=[%7B%22key%22:%22custom_fields.JobFamily%22,%22value%22:%22Store%2fBranch%22%7D,%7B%22key%22:%22custom_fields.SubCategory%22,%22value%22:%22Store%2fBranch+Management%22%7D,%7B%22key%22:%22custom_fields.SubCategory%22,%22value%22:%22Store%2fBranch+Operations%22%7D,%7B%22key%22:%22custom_fields.SubCategory%22,%22value%22:%22Store%2fBranch+Driver%22%7D]",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "genpt.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 12
+}

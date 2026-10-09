@@ -1,0 +1,37 @@
+{
+ "company": "Fidelity National Financial",
+ "rank": 311,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Stock)",
+ "ats": "workday",
+ "config": {
+  "host": "fntg.wd5.myworkdayjobs.com",
+  "tenant": "fntg",
+  "site": "FNF-Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "fntg.wd5.myworkdayjobs.com",
+    "tenant": "fntg",
+    "site": "FNF-Careers"
+   },
+   "from": "https://www.fnf.com/careers",
+   "verify": "Product Manager"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-fnf.icims.com"
+   },
+   "from": "https://www.fnf.com/careers"
+  }
+ ],
+ "domain": "fnf.com",
+ "sample_title": "Product Manager",
+ "description_chars": 6619,
+ "seconds": 8
+}

@@ -1,0 +1,37 @@
+{
+ "company": "PNC Financial Services Group",
+ "rank": 136,
+ "group": "fortune500",
+ "industry": "Commercial Banks",
+ "ats": "workday",
+ "config": {
+  "host": "pnc.wd5.myworkdayjobs.com",
+  "tenant": "pnc",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.pnc.com"
+   },
+   "from": "https://careers.pnc.com/global/en"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "pnc.wd5.myworkdayjobs.com",
+    "tenant": "pnc",
+    "site": "External"
+   },
+   "from": "https://careers.pnc.com/global/en/search-results",
+   "verify": "Credit Product Manager"
+  }
+ ],
+ "domain": "pnc.com",
+ "sample_title": "Credit Product Manager",
+ "description_chars": 7579,
+ "seconds": 39
+}

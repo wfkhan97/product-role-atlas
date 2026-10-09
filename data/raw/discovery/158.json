@@ -1,0 +1,26 @@
+{
+ "company": "Paccar",
+ "rank": 158,
+ "group": "fortune500",
+ "industry": "Motor Vehicles & Parts",
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.paccar.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.paccar.com"
+   },
+   "from": "https://jobs.paccar.com/go/Engineering-Jobs/2706200/",
+   "verify": "Summer Internship - Product Marketing"
+  }
+ ],
+ "domain": "paccar.com",
+ "sample_title": "Summer Internship - Product Marketing",
+ "description_chars": 4703,
+ "seconds": 11
+}

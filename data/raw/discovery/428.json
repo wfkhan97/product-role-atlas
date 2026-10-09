@@ -1,0 +1,15 @@
+{
+ "company": "Regions Financial",
+ "rank": 428,
+ "group": "fortune500",
+ "industry": "Commercial Banks",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.regionsfs.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "regionsfs.com",
+ "seconds": 15
+}

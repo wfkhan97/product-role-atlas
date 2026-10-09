@@ -1,0 +1,39 @@
+{
+ "company": "Corebridge Financial",
+ "rank": 236,
+ "group": "fortune500",
+ "industry": "Diversified Financials",
+ "ats": "workday",
+ "config": {
+  "host": "corebridgefinancial.wd1.myworkdayjobs.com",
+  "tenant": "corebridgefinancial",
+  "site": "CorebridgeFinancial"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "corebridgefinancial.wd1.myworkdayjobs.com",
+    "tenant": "corebridgefinancial",
+    "site": "CorebridgeFinancial"
+   },
+   "from": "https://www.corebridgefinancial.com/careers",
+   "verify": "Vice President, Group Retirement Product Management"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "corebridgefinancial.wd1.myworkdayjobs.com",
+    "tenant": "corebridgefinancial",
+    "site": "early_careers"
+   },
+   "from": "https://www.corebridgefinancial.com/careers"
+  }
+ ],
+ "domain": "corebridgefinancial.com",
+ "sample_title": "Vice President, Group Retirement Product Management",
+ "description_chars": 8703,
+ "seconds": 9
+}

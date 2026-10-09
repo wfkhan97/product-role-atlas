@@ -1,0 +1,32 @@
+{
+ "company": "CHS",
+ "rank": 130,
+ "group": "fortune500",
+ "industry": "Food Production",
+ "ats": "radancy",
+ "config": {
+  "host": "jobs.chsinc.com"
+ },
+ "verified": false,
+ "notes": "candidates: radancy 0 product postings; paradox 0 product postings",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.chsinc.com"
+   },
+   "from": "https://jobs.chsinc.com/career-areas",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.chsinc.com"
+   },
+   "from": "https://www.chsinc.com/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "chsinc.com",
+ "seconds": 16
+}

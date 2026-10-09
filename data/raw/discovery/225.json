@@ -1,0 +1,15 @@
+{
+ "company": "Kimberly-Clark",
+ "rank": 225,
+ "group": "fortune500",
+ "industry": "Household and Personal Products",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.kimberly-clark.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "kimberly-clark.com",
+ "seconds": 7
+}

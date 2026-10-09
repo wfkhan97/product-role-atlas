@@ -1,0 +1,28 @@
+{
+ "company": "Resideo Technologies",
+ "rank": 500,
+ "group": "fortune500",
+ "industry": "Electronics, Electrical Equip.",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "ehtl.fa.us6.oraclecloud.com",
+  "siteNumber": "CX"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ehtl.fa.us6.oraclecloud.com",
+    "siteNumber": "CX"
+   },
+   "from": "https://www.careers.resideo.com/",
+   "verify": "Senior Product Manager - Web"
+  }
+ ],
+ "domain": "resideo.com",
+ "sample_title": "Senior Product Manager - Web",
+ "description_chars": 5288,
+ "seconds": 13
+}

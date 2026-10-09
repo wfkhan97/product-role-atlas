@@ -1,0 +1,44 @@
+{
+ "company": "Becton Dickinson",
+ "rank": 211,
+ "group": "fortune500",
+ "industry": "Medical Products and Equipment",
+ "ats": "workday",
+ "config": {
+  "host": "bdx.wd1.myworkdayjobs.com",
+  "tenant": "bdx",
+  "site": "EXTERNAL_CAREER_SITE_USA"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "bdx.wd1.myworkdayjobs.com",
+    "tenant": "bdx",
+    "site": "EXTERNAL_CAREER_SITE_USA"
+   },
+   "from": "https://jobs.bd.com/en",
+   "verify": "Global Product Manager"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.bd.com"
+   },
+   "from": "https://jobs.bd.com/en"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.bd.com"
+   },
+   "from": "https://jobs.bd.com/en"
+  }
+ ],
+ "domain": "bd.com",
+ "sample_title": "Global Product Manager",
+ "description_chars": 7865,
+ "seconds": 19
+}

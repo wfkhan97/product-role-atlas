@@ -1,0 +1,34 @@
+{
+ "company": "Intercontinental Exchange",
+ "rank": 347,
+ "group": "fortune500",
+ "industry": "Securities",
+ "ats": "jibe",
+ "config": {
+  "host": "careers.ice.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://careers.ice.com/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "careers.ice.com"
+   },
+   "from": "https://careers.ice.com/jobs",
+   "verify": "Senior Product Manager"
+  }
+ ],
+ "domain": "ice.com",
+ "sample_title": "Senior Product Manager",
+ "description_chars": 5911,
+ "seconds": 11
+}

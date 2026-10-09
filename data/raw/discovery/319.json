@@ -1,0 +1,64 @@
+{
+ "company": "MasTec",
+ "rank": 319,
+ "group": "fortune500",
+ "industry": "Engineering & Construction",
+ "ats": "icims",
+ "config": {
+  "host": "www.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 product postings; icims 0 product postings; icims 0 product postings; icims 0 product postings; icims 0 product postings; jibe 0 product postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://careers.mastec.com/corporate/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "mic-careers-mastec.icims.com"
+   },
+   "from": "https://careers.mastec.com/corporate/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-mastec.icims.com"
+   },
+   "from": "https://careers.mastec.com/corporate/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "internal-mastec.icims.com"
+   },
+   "from": "https://careers.mastec.com/corporate/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "scccareers-mastec.icims.com"
+   },
+   "from": "https://careers.mastec.com/corporate/jobs",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "careers.mastec.com"
+   },
+   "from": "https://careers.mastec.com/corporate/jobs",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "mastec.com",
+ "seconds": 12
+}

@@ -1,0 +1,24 @@
+{
+ "company": "Expand Energy",
+ "rank": 362,
+ "group": "fortune500",
+ "industry": "Mining, Crude-Oil Production",
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.expandenergy.com"
+ },
+ "verified": false,
+ "notes": "candidates: successfactors 0 product postings",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.expandenergy.com"
+   },
+   "from": "https://jobs.expandenergy.com/search/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "expandenergy.com",
+ "seconds": 12
+}

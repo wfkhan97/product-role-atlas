@@ -1,0 +1,36 @@
+{
+ "company": "CACI International",
+ "rank": 459,
+ "group": "fortune500",
+ "industry": "Information Technology Services",
+ "ats": "eightfold",
+ "config": {
+  "host": "app.eightfold.ai",
+  "domain": "app.com",
+  "api": "pcsx"
+ },
+ "verified": false,
+ "notes": "candidates: eightfold 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "app.eightfold.ai",
+    "domain": "app.com",
+    "api": "pcsx"
+   },
+   "from": "https://careers.caci.com/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.caci.com"
+   },
+   "from": "https://careers.caci.com/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "caci.com",
+ "seconds": 7
+}

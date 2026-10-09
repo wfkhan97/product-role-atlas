@@ -1,0 +1,39 @@
+{
+ "company": "M&T Bank",
+ "rank": 334,
+ "group": "fortune500",
+ "industry": "Commercial Banks",
+ "ats": "workday",
+ "config": {
+  "host": "mtb.wd5.myworkdayjobs.com",
+  "tenant": "mtb",
+  "site": "MTB"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "mtb.wd5.myworkdayjobs.com",
+    "tenant": "mtb",
+    "site": "MTB"
+   },
+   "from": "https://www.mtb.com/careers",
+   "verify": "Product Manager II"
+  },
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "mtb.eightfold.ai",
+    "domain": "mtb.com",
+    "api": "pcsx"
+   },
+   "from": "https://www.mtb.com/careers"
+  }
+ ],
+ "domain": "mtb.com",
+ "sample_title": "Product Manager II",
+ "description_chars": 5611,
+ "seconds": 89
+}

@@ -1,0 +1,15 @@
+{
+ "company": "Lincoln National",
+ "rank": 243,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Stock)",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.mylnb.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "mylnb.com",
+ "seconds": 9
+}

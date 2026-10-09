@@ -1,0 +1,30 @@
+{
+ "company": "Voya Financial",
+ "rank": 477,
+ "group": "fortune500",
+ "industry": "Diversified Financials",
+ "ats": "workday",
+ "config": {
+  "host": "godirect.wd5.myworkdayjobs.com",
+  "tenant": "godirect",
+  "site": "voya_jobs"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "godirect.wd5.myworkdayjobs.com",
+    "tenant": "godirect",
+    "site": "voya_jobs"
+   },
+   "from": "https://www.voya.com/about-us/find-career-voya",
+   "verify": "Lead AI Product Manager"
+  }
+ ],
+ "domain": "voya.com",
+ "sample_title": "Lead AI Product Manager",
+ "description_chars": 8826,
+ "seconds": 15
+}

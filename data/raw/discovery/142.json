@@ -1,0 +1,24 @@
+{
+ "company": "Nucor",
+ "rank": 142,
+ "group": "fortune500",
+ "industry": "Metals",
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.nucor.com"
+ },
+ "verified": false,
+ "notes": "candidates: successfactors 0 product postings",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.nucor.com"
+   },
+   "from": "https://jobs.nucor.com/search/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "nucor.com",
+ "seconds": 44
+}

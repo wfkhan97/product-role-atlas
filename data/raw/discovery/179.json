@@ -1,0 +1,26 @@
+{
+ "company": "Waste Management",
+ "rank": 179,
+ "group": "fortune500",
+ "industry": "Waste Management",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "emcm.fa.us2.oraclecloud.com",
+  "siteNumber": "WMCareers"
+ },
+ "verified": false,
+ "notes": "candidates: oracle_hcm 0 product postings",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "emcm.fa.us2.oraclecloud.com",
+    "siteNumber": "WMCareers"
+   },
+   "from": "https://emcm.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/WMCareers",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "wm.com",
+ "seconds": 26
+}

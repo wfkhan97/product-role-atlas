@@ -1,0 +1,15 @@
+{
+ "company": "Reliance",
+ "rank": 320,
+ "group": "fortune500",
+ "industry": "Metals",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.reliancedigital.in/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "reliancedigital.in",
+ "seconds": 8
+}

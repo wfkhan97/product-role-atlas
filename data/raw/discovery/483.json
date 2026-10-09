@@ -1,0 +1,15 @@
+{
+ "company": "Taylor Morrison Home",
+ "rank": 483,
+ "group": "fortune500",
+ "industry": "Homebuilders",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.taylormorrisonhf.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "taylormorrisonhf.com",
+ "seconds": 10
+}

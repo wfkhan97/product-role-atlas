@@ -1,0 +1,241 @@
+[
+ {
+  "company": "Amazon",
+  "rank": 1,
+  "group": "fortune50",
+  "ats": "amazon",
+  "config": {},
+  "verified": true,
+  "sample_title": "Sr. Product Manager",
+  "description_chars": 4511,
+  "notes": "GET https://www.amazon.jobs/en/search.json?base_query=product+manager&result_limit=100&offset=0 -> hits=756; description + basic_qualifications + preferred_qualifications are inline in each job object (no detail call needed); job_path gives the HTML page."
+ },
+ {
+  "company": "Walmart",
+  "rank": 2,
+  "group": "fortune50",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.walmart.com/us/en/search-results?keywords=product%20manager"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "careers.walmart.com is a custom Next.js app (not Phenom). Search is client-side via POST https://careers.walmart.com/api/ai/search-ai/api/v1/combined/hybrid-search?page=0&size=10&locale=en-US body {\"query\":\"product manager\",\"basicSearch\":false,\"filter\":\"\",\"locale\":\"en-US\"} but curl gets HTTP 400/520 {\"error\":\"Error occurred\"} even with session cookies + Origin/Referer (WAF/bot gate). POST /widgets (Phenom) times out; Workday walmart.wd5.myworkdayjobs.com/WalmartExternal returns 422/500 (decommissioned). Needs a browser."
+ },
+ {
+  "company": "UnitedHealth Group",
+  "rank": 3,
+  "group": "fortune50",
+  "ats": "radancy",
+  "config": {
+   "host": "careers.unitedhealthgroup.com",
+   "results_path": "/search-jobs/results"
+  },
+  "verified": true,
+  "sample_title": "Product Manager",
+  "description_chars": 5655,
+  "notes": "NEW ATS (Radancy/TMP). Search: GET https://careers.unitedhealthgroup.com/search-jobs/results?ActiveFacetID=0&CurrentPage=1&RecordsPerPage=15&Keywords=product+manager&SearchResultsModuleName=Search+Results&SearchFiltersModuleName=Search+Filters&ShowRadius=False&IsPagination=False with headers Accept: application/json, X-Requested-With: XMLHttpRequest -> JSON {filters,results(HTML),hasJobs}; parse <a href=\"/job/...\"> and <h2>title</h2> from results HTML (2285 results). Detail: GET https://careers.unitedhealthgroup.com/job/<path> -> <script type=application/ld+json> JobPosting.description. Workday uhg.wd1/External_Career_Site now returns 422."
+ },
+ {
+  "company": "Apple",
+  "rank": 4,
+  "group": "fortune50",
+  "ats": "apple",
+  "config": {},
+  "verified": true,
+  "sample_title": "AI Product Manager",
+  "description_chars": 3909,
+  "notes": "POST https://jobs.apple.com/api/v1/search body MUST include \"format\":{\"longDate\":\"MMMM D, YYYY\",\"mediumDate\":\"MMM D, YYYY\"} (otherwise serviceError / 0 results); use \"sort\":\"relevance\" (newest returns retail 'IN-...' roles first). totalRecords=5962. Detail: GET https://jobs.apple.com/api/v1/jobDetails/{positionId}?locale=en-us -> res.{jobSummary,description,minimumQualifications,preferredQualifications,keyQualifications} (sum=3909). /api/role/detail/{id} returns 301 (dead)."
+ },
+ {
+  "company": "Alphabet",
+  "rank": 5,
+  "group": "fortune50",
+  "ats": "google",
+  "config": {},
+  "verified": true,
+  "sample_title": "Product Manager II, Ads",
+  "description_chars": 2457,
+  "notes": "GET https://www.google.com/about/careers/applications/jobs/results?q=%22product%20manager%22&page=2 verified via curl; AF_initDataCallback ds:1 data[0] = list of 20 job arrays (id, title, apply url, description HTML, qualifications HTML). page=N pagination works."
+ },
+ {
+  "company": "CVS Health",
+  "rank": 6,
+  "group": "fortune50",
+  "ats": "phenom",
+  "config": {
+   "host": "jobs.cvshealth.com",
+   "widgets_path": "/widgets",
+   "detail": {
+    "ats": "workday",
+    "host": "cvshealth.wd1.myworkdayjobs.com",
+    "tenant": "cvshealth",
+    "site": "CVS_Health_Careers"
+   }
+  },
+  "verified": true,
+  "sample_title": "Sr Manager, Digital Product",
+  "description_chars": 9558,
+  "notes": "Phenom /widgets search works (totalHits=502) but search response has no 'description' and job page HTML has no phApp.ddo blob. Use applyUrl (https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/<loc>/<slug>/apply): strip host+site and '/apply' -> externalPath, then GET https://cvshealth.wd1.myworkdayjobs.com/wday/cxs/cvshealth/CVS_Health_Careers/job/<loc>/<slug> (Accept: application/json) -> jobPostingInfo.jobDescription. Workday CXS search on this tenant IGNORES searchText (returns all 8776), so do not use Workday for search."
+ },
+ {
+  "company": "Berkshire Hathaway",
+  "rank": 7,
+  "group": "fortune50",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.berkshirehathaway.com/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Holding company; no central careers site. Subsidiaries (GEICO, BNSF, etc.) each run their own ATS."
+ },
+ {
+  "company": "McKesson",
+  "rank": 8,
+  "group": "fortune50",
+  "ats": "workday",
+  "config": {
+   "host": "mckesson.wd3.myworkdayjobs.com",
+   "tenant": "mckesson",
+   "site": "External_Careers"
+  },
+  "verified": true,
+  "sample_title": "Principal Product Manager \u2013 HR Product Management & Employee Experience",
+  "description_chars": 14401,
+  "notes": "total=538 for 'product manager'. Public front careers.mckesson.com links to this Workday site."
+ },
+ {
+  "company": "Exxon Mobil",
+  "rank": 9,
+  "group": "fortune50",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.exxonmobil.com"
+  },
+  "verified": true,
+  "sample_title": "Product Management Advisor",
+  "description_chars": 6162,
+  "notes": "SuccessFactors HTML search + span.jobdescription detail"
+ },
+ {
+  "company": "Cencora",
+  "rank": 10,
+  "group": "fortune50",
+  "ats": "workday",
+  "config": {
+   "host": "myhrabc.wd5.myworkdayjobs.com",
+   "tenant": "myhrabc",
+   "site": "Global"
+  },
+  "verified": true,
+  "sample_title": "Product Owner 2",
+  "description_chars": 8520,
+  "notes": "Public front careers.cencora.com is Phenom (POST /widgets works, totalHits=504) but neither Phenom nor Workday ranks product titles first for 'product manager' (Workday total=211, first Product title at offset 20). Recommend searchText 'product' (total=580) and filter titles containing 'Product'."
+ },
+ {
+  "company": "Microsoft",
+  "rank": 11,
+  "group": "fortune50",
+  "ats": "eightfold",
+  "config": {
+   "host": "apply.careers.microsoft.com",
+   "domain": "microsoft.com",
+   "api": "pcsx"
+  },
+  "verified": true,
+  "sample_title": "Senior Product Manager / Product Manager",
+  "description_chars": 7163,
+  "notes": "Search response is wrapped: {status,data:{positions:[{id,displayJobId,name,locations,...}]}}. Detail GET /api/pcsx/position_details?position_id={id}&domain=microsoft.com&hl=en -> data.jobDescription (HTML). /api/apply/v2/jobs returns {\"message\":\"Not authorized for PCSX\"}."
+ },
+ {
+  "company": "JPMorgan Chase",
+  "rank": 12,
+  "group": "fortune50",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "jpmc.fa.oraclecloud.com",
+   "siteNumber": "CX_1001"
+  },
+  "verified": true,
+  "sample_title": "Controls Room \u2013 Product Owner - Associate",
+  "description_chars": 5944,
+  "notes": "TotalJobsCount=5509 for keyword \"product manager\"; results are mostly 'Product Owner' titles. Detail: recruitingCEJobRequisitionDetails ... finder=ById;Id=%22{Id}%22,siteNumber=CX_1001 -> items[0].ExternalDescriptionStr (HTML). CX_1 also resolves but CX_1001 is the public site linked from jpmorganchase.com/careers."
+ },
+ {
+  "company": "Costco Wholesale",
+  "rank": 13,
+  "group": "fortune50",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.costco.com/jobs?lang=en-US"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "iCIMS behind a Jibe front end (careers-costco.icims.com redirects to careers.costco.com). Jibe JSON works: GET https://careers.costco.com/api/jobs?keywords=product&page=1&limit=100 -> {totalCount,jobs:[{data:{req_id,title,description(full HTML)}}]} but the index only contains warehouse/retail roles (20341 jobs; phrase searches \"product manager\", \"product owner\", \"software engineer\" all return 0; scanned 500 'product' results, no title contains 'Product'). Corporate PM roles are not exposed via any JSON endpoint found."
+ },
+ {
+  "company": "Cigna Group",
+  "rank": 14,
+  "group": "fortune50",
+  "ats": "workday",
+  "config": {
+   "host": "cigna.wd5.myworkdayjobs.com",
+   "tenant": "cigna",
+   "site": "cignacareers"
+  },
+  "verified": true,
+  "sample_title": "Product Management Senior Manager, Patient Engagement & AI - Accredo",
+  "description_chars": 11308,
+  "notes": "Workday total=299. Public front jobs.thecignagroup.com is Phenom (POST /widgets also works, totalHits=273, applyUrl points at this Workday site)."
+ },
+ {
+  "company": "Cardinal Health",
+  "rank": 15,
+  "group": "fortune50",
+  "ats": "workday",
+  "config": {
+   "host": "cardinalhealth.wd1.myworkdayjobs.com",
+   "tenant": "cardinalhealth",
+   "site": "EXT"
+  },
+  "verified": true,
+  "sample_title": "Consultant, Product Manager",
+  "description_chars": 6987,
+  "notes": "Workday total=498. Public front jobs.cardinalhealth.com is a custom JS site (no JSON endpoint found; Radancy-style /search-jobs/results returns HTML)."
+ },
+ {
+  "company": "Nvidia",
+  "rank": 16,
+  "group": "fortune50",
+  "ats": "workday",
+  "config": {
+   "host": "nvidia.wd5.myworkdayjobs.com",
+   "tenant": "nvidia",
+   "site": "NVIDIAExternalCareerSite"
+  },
+  "verified": true,
+  "sample_title": "Principal Product Manager - Networking Platform Product Group",
+  "description_chars": 5244,
+  "notes": "total=1195."
+ },
+ {
+  "company": "Meta Platforms",
+  "rank": 17,
+  "group": "fortune50",
+  "ats": "meta",
+  "config": {
+   "graphql_url": "https://www.metacareers.com/graphql",
+   "search_doc_id": "27506805582236862",
+   "search_query_name": "CareersJobSearchResultsDataQuery",
+   "lsd_source_url": "https://www.metacareers.com/jobs/"
+  },
+  "verified": true,
+  "sample_title": "Rotational Product Manager",
+  "description_chars": 3160,
+  "notes": "Must use curl's DEFAULT User-Agent (a Chrome UA string gets HTTP 400 error page). Step 1: GET https://www.metacareers.com/jobs/ and regex \"LSD\",[],{\"token\":\"(...)\"}. Step 2: POST https://www.metacareers.com/graphql (application/x-www-form-urlencoded) with header X-FB-LSD: <lsd> and fields lsd=<lsd>, fb_api_req_friendly_name=CareersJobSearchResultsDataQuery, doc_id=27506805582236862, variables={\"search_input\":{\"q\":\"product manager\",\"divisions\":[],\"offices\":[],\"roles\":[],\"leadership_levels\":[],\"saved_jobs\":[],\"saved_searches\":[],\"sub_teams\":[],\"teams\":[],\"is_leadership\":false,\"is_remote_only\":false,\"sort_by_new\":false,\"page\":1,\"results_per_page\":null}} -> data.job_search_with_featured_jobs.all_jobs[{id,title,locations}] (514 jobs). Detail: GET https://www.metacareers.com/jobs/{id}/ (default UA) -> <script type=application/ld+json> JobPosting {description,responsibilities,qualifications} (sum=3160). doc_id may rotate with Meta deploys; detail GraphQL (CandidatePortalJobDetailsViewQuery doc_id 27371134039243725) needs unknown required variables, so use the HTML JSON-LD."
+ }
+]

@@ -1,0 +1,15 @@
+{
+ "company": "Thrivent Financial",
+ "rank": 387,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Mutual)",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.thriventfinancial.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "thriventfinancial.com",
+ "seconds": 13
+}

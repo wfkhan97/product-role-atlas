@@ -1,0 +1,15 @@
+{
+ "company": "Alaska Air Group",
+ "rank": 322,
+ "group": "fortune500",
+ "industry": "Airlines",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.horizonair.jobs/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "horizonair.jobs",
+ "seconds": 7
+}

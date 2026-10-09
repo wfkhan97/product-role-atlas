@@ -1,0 +1,26 @@
+{
+ "company": "Hormel Foods",
+ "rank": 363,
+ "group": "fortune500",
+ "industry": "Food Consumer Products",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "ekkh.fa.us2.oraclecloud.com",
+  "siteNumber": "CX_2002"
+ },
+ "verified": false,
+ "notes": "candidates: oracle_hcm 0 product postings",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ekkh.fa.us2.oraclecloud.com",
+    "siteNumber": "CX_2002"
+   },
+   "from": "https://www.hormelfoods.com/careers/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "hormelfoods.com",
+ "seconds": 15
+}

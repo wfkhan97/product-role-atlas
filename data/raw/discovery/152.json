@@ -1,0 +1,26 @@
+{
+ "company": "Southern",
+ "rank": 152,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "emje.fa.us6.oraclecloud.com",
+  "siteNumber": "SouthernCompanyJobs"
+ },
+ "verified": false,
+ "notes": "candidates: oracle_hcm 0 product postings",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "emje.fa.us6.oraclecloud.com",
+    "siteNumber": "SouthernCompanyJobs"
+   },
+   "from": "https://southerncompany.jobs/hiring-process/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "southerncompany.com",
+ "seconds": 15
+}

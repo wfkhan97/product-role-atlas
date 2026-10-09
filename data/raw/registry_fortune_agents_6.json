@@ -1,0 +1,408 @@
+[
+  {
+    "company": "Texas Instruments",
+    "rank": 252,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "edbz.fa.us2.oraclecloud.com",
+      "siteNumber": "CX"
+    },
+    "verified": true,
+    "sample_title": "Product Marketing Engineer | Low Power Radar",
+    "description_chars": 3644,
+    "notes": "careers.ti.com/en/sites/CX is the vanity host; REST calls must go to pod edbz.fa.us2.oraclecloud.com (vanity host 302s to /errors/404)."
+  },
+  {
+    "company": "Devon Energy",
+    "rank": 259,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "devonenergy.wd5.myworkdayjobs.com",
+      "tenant": "devonenergy",
+      "site": "Careers"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (46 open jobs, field/ops roles). Public URL is wd5.myworkdaysite.com/en-US/recruiting/devonenergy/Careers; cxs endpoint works on devonenergy.wd5.myworkdayjobs.com."
+  },
+  {
+    "company": "Kinder Morgan",
+    "rank": 266,
+    "group": "fortune500",
+    "ats": "jibe",
+    "config": {
+      "host": "careers.kindermorgan.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (/api/jobs returns 39 hits for 'product manager', none product-titled). The icims hosts only serve a JS redirect to careers.kindermorgan.com."
+  },
+  {
+    "company": "Fox",
+    "rank": 275,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://www.foxcareers.com/Search/SearchResults"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "Custom ASP.NET site (no ATS adapter): results come from GET https://www.foxcareers.com/Search/JobsList/?page=1&keyword=product%20manager (HTML with /Search/JobDetail/{reqId}/{slug} links; detail pages carry JSON-LD JobPosting). Req ids look like Workday R500xxxxx but no public Workday tenant found."
+  },
+  {
+    "company": "DTE Energy",
+    "rank": 285,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "careers.dteenergy.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (50 jobTitle-link hits for 'product manager', none product-titled)."
+  },
+  {
+    "company": "Ally Financial",
+    "rank": 295,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "ally.wd1.myworkdayjobs.com",
+      "tenant": "ally",
+      "site": "Ally"
+    },
+    "verified": true,
+    "sample_title": "Summer 2027 Internship \u2013 Consumer Banking (Payments Product Management)",
+    "description_chars": 9426,
+    "notes": "Linked from ally.com/about/careers."
+  },
+  {
+    "company": "FirstEnergy",
+    "rank": 307,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "fa-etjd-saasfaprod1.fa.ocs.oraclecloud.com",
+      "siteNumber": "CX_1"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (68 hits for 'product manager', none product-titled). careers.firstenergycorp.com is a JS shim that calls this pod."
+  },
+  {
+    "company": "Estee Lauder",
+    "rank": 315,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "elchxmprod.jobs.hr.cloud.sap"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "SuccessFactors board reachable and lists e.g. 'Data & AI Product Manager', but adapter DESC_RE does not match the job page markup (description span contains nested spans/divs). jobs.elcompanies.com (same board) times out from here."
+  },
+  {
+    "company": "Labcorp Holdings",
+    "rank": 326,
+    "group": "fortune500",
+    "ats": "phenom",
+    "config": {
+      "host": "careers.labcorp.com",
+      "widgets_path": "/widgets",
+      "workday_detail": {
+        "host": "labcorp.wd1.myworkdayjobs.com",
+        "tenant": "labcorp",
+        "site": "External"
+      }
+    },
+    "verified": true,
+    "sample_title": "Director, Product Management (Emerging Segments)",
+    "description_chars": 9355,
+    "notes": "Phenom search works from curl; applyUrl points at labcorp.wd1 Workday (site External) which supplies the description. Workday search alone ranks product roles low, so phenom+workday_detail is the reliable config."
+  },
+  {
+    "company": "GXO Logistics",
+    "rank": 336,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "jobs.gxo.com"
+    },
+    "verified": true,
+    "sample_title": "Director, Product Management",
+    "description_chars": 7619,
+    "notes": ""
+  },
+  {
+    "company": "Cincinnati Financial",
+    "rank": 348,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://cinfin.taleo.net/careersection/ex/jobsearch.ftl"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "Still on Taleo (cinfin.taleo.net careersection ex); no adapter."
+  },
+  {
+    "company": "AES",
+    "rank": 358,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "aes.wd1.myworkdayjobs.com",
+      "tenant": "aes",
+      "site": "AES_US"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (151 open jobs on AES_US). Other sites on same tenant: AES_MCAC, AES_Andes."
+  },
+  {
+    "company": "Darden Restaurants",
+    "rank": 364,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://dardenrscjobs.recruiting.com/jobs"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "Corporate (RSC) jobs are a Paradox-hosted recruiting.com site, but job links go to https://darden.paradox.ai/co/DardenRestaurantSupportCenter/Job?job_id=PDX_... (not the /job/ pattern the paradox adapter expects); 0 product postings now anyway."
+  },
+  {
+    "company": "Williams",
+    "rank": 373,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "williams.wd5.myworkdayjobs.com",
+      "tenant": "williams",
+      "site": "External"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (121 open jobs). Second site on tenant: PowerExternal."
+  },
+  {
+    "company": "KeyCorp",
+    "rank": 386,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "keybank.wd5.myworkdayjobs.com",
+      "tenant": "keybank",
+      "site": "External_Career_Site"
+    },
+    "verified": true,
+    "sample_title": "Product Manager III",
+    "description_chars": 6973,
+    "notes": "careers.key.com redirects here."
+  },
+  {
+    "company": "FM",
+    "rank": 392,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://jobs-fmglobal.icims.com/jobs/search?ss=1"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "iCIMS portal jobs-fmglobal.icims.com returns a 650KB client-rendered page with no job links (and 'Please Enable Cookies' in iframe mode), so the icims adapter finds nothing; fm.com/careers is 403 and jobs.fmglobalcareers.com redirects to careersatfm.com, which does not resolve."
+  },
+  {
+    "company": "International Flavors & Fragrances",
+    "rank": 400,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "iff.wd5.myworkdayjobs.com",
+      "tenant": "iff",
+      "site": "IFF_Careers"
+    },
+    "verified": true,
+    "sample_title": "Global Digital Product Owner",
+    "description_chars": 3947,
+    "notes": "iff.com is 403 to curl; tenant found via search."
+  },
+  {
+    "company": "Fidelity National Information (FIS)",
+    "rank": 406,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "fis.wd5.myworkdayjobs.com",
+      "tenant": "fis",
+      "site": "SearchJobs"
+    },
+    "verified": true,
+    "sample_title": "Agile Product Owner Sr Lead",
+    "description_chars": 5561,
+    "notes": "careers.fisglobal.com is a Phenom front end; Workday tenant fis / site SearchJobs backs it."
+  },
+  {
+    "company": "Vertiv Holdings",
+    "rank": 414,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "egup.fa.us2.oraclecloud.com",
+      "siteNumber": "CX"
+    },
+    "verified": true,
+    "sample_title": "Product Management Senior Analyst",
+    "description_chars": 6845,
+    "notes": "Linked from vertiv.com career-center."
+  },
+  {
+    "company": "WEC Energy Group",
+    "rank": 424,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "careers.wecenergygroup.com"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "SuccessFactors board reachable, but links render as class=\"jobTitle-link fontcolor754d25af8ddc8e08\" so the adapter's exact class=\"jobTitle-link\" regex matches nothing; no product-titled postings currently either."
+  },
+  {
+    "company": "CenterPoint Energy",
+    "rank": 435,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "careers.centerpointenergy.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now."
+  },
+  {
+    "company": "PPL",
+    "rank": 442,
+    "group": "fortune500",
+    "ats": "jibe",
+    "config": {
+      "host": "careers.pplweb.com"
+    },
+    "verified": true,
+    "sample_title": "Product Manager",
+    "description_chars": 6071,
+    "notes": "careers-pplweb.icims.com redirects to this iCIMS/Jibe front end."
+  },
+  {
+    "company": "Eastman Chemical",
+    "rank": 453,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "jobs.eastman.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (search hits are pricing/market managers)."
+  },
+  {
+    "company": "Graphic Packaging Holding",
+    "rank": 460,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://careers.graphicpkg.com/search-jobs"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "Custom Next.js careers site over SAP SuccessFactors (apply links go to career55.sapsf.eu; no public SF /search/ page, it 404s). JSON endpoint GET https://careers.graphicpkg.com/api/mcp/jobs?tool=search_jobs returns {results[]{requisitionId,title,department,location,applyUrl,description(~300 chars)},totalCount,page,pageSize}; keyword param is ignored and descriptions are truncated, so no adapter matches."
+  },
+  {
+    "company": "Monster Beverage",
+    "rank": 469,
+    "group": "fortune500",
+    "ats": "greenhouse",
+    "config": {
+      "board": "monsterenergy"
+    },
+    "verified": true,
+    "sample_title": "Product Manager- ServiceNow",
+    "description_chars": 3076,
+    "notes": "monsterenergy.com/monsterbevcorp.com are 403 to curl; Greenhouse board found via search."
+  },
+  {
+    "company": "Marvell Technology",
+    "rank": 476,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "marvell.wd1.myworkdayjobs.com",
+      "tenant": "marvell",
+      "site": "MarvellCareers"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (297 open jobs; 'product manager' search returns program/sales managers only)."
+  },
+  {
+    "company": "Taylor Morrison Home",
+    "rank": 483,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "taylormorrison.wd1.myworkdayjobs.com",
+      "tenant": "taylormorrison",
+      "site": "TaylorMorrisonCareers"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (46 open jobs). careers.taylormorrison.com is a Paradox front end linking to this tenant."
+  },
+  {
+    "company": "Commercial Metals",
+    "rank": 491,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "jobs.cmc.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now."
+  },
+  {
+    "company": "Somnigroup International",
+    "rank": 499,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "tempurpedic.wd108.myworkdayjobs.com",
+      "tenant": "tempurpedic",
+      "site": "Tempur-Sealy-Careers"
+    },
+    "verified": true,
+    "sample_title": "Marketing Product Manager",
+    "description_chars": 3115,
+    "notes": "Tempur Sealy tenant linked from tempursealy.com/careers."
+  }
+]

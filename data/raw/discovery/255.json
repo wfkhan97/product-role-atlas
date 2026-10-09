@@ -1,0 +1,32 @@
+{
+ "company": "Universal Health Services",
+ "rank": 255,
+ "group": "fortune500",
+ "industry": "Health Care: Medical Facilities",
+ "ats": "icims",
+ "config": {
+  "host": "www.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 product postings; jibe 0 product postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://jobs.uhsinc.com/careers/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "jobs.uhsinc.com"
+   },
+   "from": "https://jobs.uhsinc.com/careers/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "uhs.com.np",
+ "seconds": 15
+}

@@ -1,0 +1,24 @@
+{
+ "company": "CenterPoint Energy",
+ "rank": 435,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.centerpointenergy.com"
+ },
+ "verified": false,
+ "notes": "candidates: successfactors 0 product postings",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.centerpointenergy.com"
+   },
+   "from": "https://careers.centerpointenergy.com/go/Featured-Jobs/9511400/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "centerpointenergy.com",
+ "seconds": 25
+}

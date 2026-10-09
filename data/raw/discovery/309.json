@@ -1,0 +1,58 @@
+{
+ "company": "First Citizens BancShares",
+ "rank": 309,
+ "group": "fortune500",
+ "industry": "Commercial Banks",
+ "ats": "jibe",
+ "config": {
+  "host": "jobs.firstcitizens.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "firstcitizens.icims.com"
+   },
+   "from": "https://jobs.firstcitizens.com/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://jobs.firstcitizens.com/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "external-firstcitizens.icims.com"
+   },
+   "from": "https://jobs.firstcitizens.com/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "internal-firstcitizens.icims.com"
+   },
+   "from": "https://jobs.firstcitizens.com/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "jobs.firstcitizens.com"
+   },
+   "from": "https://jobs.firstcitizens.com/",
+   "verify": "Senior Product Manager"
+  }
+ ],
+ "domain": "firstcitizens.com",
+ "sample_title": "Senior Product Manager",
+ "description_chars": 3689,
+ "seconds": 14
+}

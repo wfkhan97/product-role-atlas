@@ -1,0 +1,15 @@
+{
+ "company": "Icahn Enterprises",
+ "rank": 427,
+ "group": "fortune500",
+ "industry": "Diversified Financials",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.ielp.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "ielp.com",
+ "seconds": 228
+}

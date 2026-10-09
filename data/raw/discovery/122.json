@@ -1,0 +1,48 @@
+{
+ "company": "Mondelez International",
+ "rank": 122,
+ "group": "fortune500",
+ "industry": "Food Consumer Products",
+ "ats": "phenom",
+ "config": {
+  "host": "www.mondelezinternational.com:443"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; paradox 0 product postings; phenom 0 product postings; paradox 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.mondelezinternational.com:443"
+   },
+   "from": "https://www.mondelezinternational.com:443/careers/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.mondelezinternational.com:443"
+   },
+   "from": "https://www.mondelezinternational.com:443/careers/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.mondelezinternational.com"
+   },
+   "from": "https://www.mondelezinternational.com/careers/fraud-warning/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.mondelezinternational.com"
+   },
+   "from": "https://www.mondelezinternational.com/careers/index.html",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "mondelezinternational.com",
+ "seconds": 86
+}

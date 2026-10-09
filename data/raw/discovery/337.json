@@ -1,0 +1,15 @@
+{
+ "company": "Ball",
+ "rank": 337,
+ "group": "fortune500",
+ "industry": "Packaging, Containers",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.ballotpedia.org/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "ballotpedia.org",
+ "seconds": 12
+}

@@ -1,0 +1,30 @@
+{
+ "company": "Motorola Solutions",
+ "rank": 378,
+ "group": "fortune500",
+ "industry": "Network and Other Communications Equipment",
+ "ats": "workday",
+ "config": {
+  "host": "motorolasolutions.wd5.myworkdayjobs.com",
+  "tenant": "motorolasolutions",
+  "site": "Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "motorolasolutions.wd5.myworkdayjobs.com",
+    "tenant": "motorolasolutions",
+    "site": "Careers"
+   },
+   "from": "https://www.motorolasolutions.com/en_us/about/careers.html",
+   "verify": "Product Manager"
+  }
+ ],
+ "domain": "motorolasolutions.com",
+ "sample_title": "Product Manager",
+ "description_chars": 6705,
+ "seconds": 28
+}

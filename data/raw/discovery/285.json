@@ -1,0 +1,32 @@
+{
+ "company": "DTE Energy",
+ "rank": 285,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.dteenergy.com"
+ },
+ "verified": false,
+ "notes": "candidates: successfactors 0 product postings; paradox 0 product postings",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.dteenergy.com"
+   },
+   "from": "https://careers.dteenergy.com/go/View-All-Jobs/4476200/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.dteenergy.com"
+   },
+   "from": "https://careers.dteenergy.com/go/View-All-Jobs/4476200/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "dteenergy.com",
+ "seconds": 10
+}

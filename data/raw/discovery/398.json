@@ -1,0 +1,15 @@
+{
+ "company": "Gold.com",
+ "rank": 398,
+ "group": "fortune500",
+ "industry": "Internet Services and Retailing",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.650gold.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "650gold.com",
+ "seconds": 6
+}

@@ -1,0 +1,15 @@
+{
+ "company": "Insight Enterprises",
+ "rank": 472,
+ "group": "fortune500",
+ "industry": "Information Technology Services",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.insight.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "insight.com",
+ "seconds": 45
+}

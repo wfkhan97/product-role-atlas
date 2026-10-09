@@ -1,0 +1,53 @@
+{
+ "company": "Enterprise Products Partners",
+ "rank": 89,
+ "group": "fortune500",
+ "industry": "Pipelines",
+ "ats": "taleo",
+ "config": {
+  "host": "epco.taleo.net",
+  "careersection": "it"
+ },
+ "verified": false,
+ "notes": "candidates: taleo no adapter; taleo no adapter; taleo no adapter; taleo no adapter",
+ "candidates": [
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "epco.taleo.net",
+    "careersection": "it"
+   },
+   "from": "https://www.enterpriseproducts.com/careers/",
+   "verify": "no adapter"
+  },
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "epco.taleo.net",
+    "careersection": "fieldops"
+   },
+   "from": "https://www.enterpriseproducts.com/careers/",
+   "verify": "no adapter"
+  },
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "epco.taleo.net",
+    "careersection": "ent_trans"
+   },
+   "from": "https://www.enterpriseproducts.com/careers/",
+   "verify": "no adapter"
+  },
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "epco.taleo.net",
+    "careersection": "6"
+   },
+   "from": "https://www.enterpriseproducts.com/careers/",
+   "verify": "no adapter"
+  }
+ ],
+ "domain": "enterpriseproducts.com",
+ "seconds": 8
+}

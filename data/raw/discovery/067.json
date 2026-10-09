@@ -1,0 +1,15 @@
+{
+ "company": "Eli Lilly",
+ "rank": 67,
+ "group": "fortune500",
+ "industry": "Pharmaceuticals",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.lilly.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "lilly.com",
+ "seconds": 44
+}

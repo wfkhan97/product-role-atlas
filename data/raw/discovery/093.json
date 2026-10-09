@@ -1,0 +1,37 @@
+{
+ "company": "USAA",
+ "rank": 93,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Stock)",
+ "ats": "workday",
+ "config": {
+  "host": "usaa.wd1.myworkdayjobs.com",
+  "tenant": "usaa",
+  "site": "USAAJOBSWD"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "usaa.wd1.myworkdayjobs.com",
+    "tenant": "usaa",
+    "site": "USAAJOBSWD"
+   },
+   "from": "https://www.usaajobs.com",
+   "verify": "Product Management Advisor Intern"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "www.usaajobs.com"
+   },
+   "from": "https://www.usaajobs.com"
+  }
+ ],
+ "domain": "usaa.com",
+ "sample_title": "Product Management Advisor Intern",
+ "description_chars": 6322,
+ "seconds": 16
+}

@@ -1,0 +1,15 @@
+{
+ "company": "ABM Industries",
+ "rank": 454,
+ "group": "fortune500",
+ "industry": "Diversified Outsourcing Services",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.abm.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "abm.com",
+ "seconds": 10
+}

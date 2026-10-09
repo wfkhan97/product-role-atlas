@@ -1,0 +1,26 @@
+{
+ "company": "BlackRock",
+ "rank": 190,
+ "group": "fortune500",
+ "industry": "Securities",
+ "ats": "radancy",
+ "config": {
+  "host": "careers.blackrock.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.blackrock.com"
+   },
+   "from": "https://careers.blackrock.com/",
+   "verify": "Technical Product Manager, Aladdin Product Management - Analyst"
+  }
+ ],
+ "domain": "blackrock.com",
+ "sample_title": "Technical Product Manager, Aladdin Product Management - Analyst",
+ "description_chars": 7236,
+ "seconds": 36
+}

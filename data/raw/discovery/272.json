@@ -1,0 +1,24 @@
+{
+ "company": "Dominion Energy",
+ "rank": 272,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.dominionenergy.com"
+ },
+ "verified": false,
+ "notes": "candidates: successfactors 0 product postings",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.dominionenergy.com"
+   },
+   "from": "https://careers.dominionenergy.com/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "dominionenergy.com",
+ "seconds": 7
+}

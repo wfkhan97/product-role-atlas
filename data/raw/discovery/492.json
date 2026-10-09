@@ -1,0 +1,24 @@
+{
+ "company": "Moody\u2019s",
+ "rank": 492,
+ "group": "fortune500",
+ "industry": "Financial Data Services",
+ "ats": "radancy",
+ "config": {
+  "host": "careers.moodys.com"
+ },
+ "verified": false,
+ "notes": "candidates: radancy 0 product postings",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.moodys.com"
+   },
+   "from": "https://careers.moodys.com/en",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "moodys.com",
+ "seconds": 19
+}

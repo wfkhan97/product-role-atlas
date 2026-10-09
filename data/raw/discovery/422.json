@@ -1,0 +1,37 @@
+{
+ "company": "News Corp.",
+ "rank": 422,
+ "group": "fortune500",
+ "industry": "Entertainment",
+ "ats": "workday",
+ "config": {
+  "host": "dowjones.wd1.myworkdayjobs.com",
+  "tenant": "dowjones",
+  "site": "News_Corp_Australia_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "dowjones.wd1.myworkdayjobs.com",
+    "tenant": "dowjones",
+    "site": "News_Corp_Australia_Careers"
+   },
+   "from": "https://www.newscorpaustralia.com/careers/",
+   "verify": "Newsroom Innovation Product Manager"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.newscorpaustralia.com"
+   },
+   "from": "https://www.newscorpaustralia.com/careers/"
+  }
+ ],
+ "domain": "newscorpaustralia.com",
+ "sample_title": "Newsroom Innovation Product Manager",
+ "description_chars": 7029,
+ "seconds": 10
+}

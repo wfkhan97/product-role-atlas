@@ -1,0 +1,37 @@
+{
+ "company": "Ryder System",
+ "rank": 346,
+ "group": "fortune500",
+ "industry": "Trucking, Truck Leasing",
+ "ats": "workday",
+ "config": {
+  "host": "ryder.wd5.myworkdayjobs.com",
+  "tenant": "ryder",
+  "site": "RyderCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "ryder.wd5.myworkdayjobs.com",
+    "tenant": "ryder",
+    "site": "RyderCareers"
+   },
+   "from": "https://www.ryder.com/en-us/careers",
+   "verify": "Commercial Storage Trailer Product Manager"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "warehouse-ryder.icims.com"
+   },
+   "from": "https://www.ryder.com/en-us/careers"
+  }
+ ],
+ "domain": "ryder.com",
+ "sample_title": "Commercial Storage Trailer Product Manager",
+ "description_chars": 7027,
+ "seconds": 51
+}

@@ -1,0 +1,30 @@
+{
+ "company": "PBF Energy",
+ "rank": 154,
+ "group": "fortune500",
+ "industry": "Petroleum Refining",
+ "ats": "workday",
+ "config": {
+  "host": "pbfenergy.wd1.myworkdayjobs.com",
+  "tenant": "pbfenergy",
+  "site": "PBF"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "pbfenergy.wd1.myworkdayjobs.com",
+    "tenant": "pbfenergy",
+    "site": "PBF"
+   },
+   "from": "https://www.pbfenergy.com/careers/",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "pbfenergy.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 6
+}

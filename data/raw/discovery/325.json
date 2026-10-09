@@ -1,0 +1,30 @@
+{
+ "company": "LKQ",
+ "rank": 325,
+ "group": "fortune500",
+ "industry": "Wholesalers: Diversified",
+ "ats": "workday",
+ "config": {
+  "host": "lkqcorp.wd5.myworkdayjobs.com",
+  "tenant": "lkqcorp",
+  "site": "ExternalCareerSite-LKQ"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "lkqcorp.wd5.myworkdayjobs.com",
+    "tenant": "lkqcorp",
+    "site": "ExternalCareerSite-LKQ"
+   },
+   "from": "https://www.jobs.lkqcorp.com/jobs/agent-e-la-collection-100-t-l-travail-jobs-location-blainville-qc-lkq-jobs-r72036",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "lkqcorp.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 8
+}

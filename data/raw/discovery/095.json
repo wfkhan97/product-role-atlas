@@ -1,0 +1,26 @@
+{
+ "company": "Liberty Mutual Insurance Group",
+ "rank": 95,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Stock)",
+ "ats": "icims",
+ "config": {
+  "host": "internal-libertymutual.icims.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "internal-libertymutual.icims.com"
+   },
+   "from": "https://jobs.libertymutualgroup.com/",
+   "verify": "Technical Program Manager - AI Backbone"
+  }
+ ],
+ "domain": "libertymutualgroup.com",
+ "sample_title": "Technical Program Manager - AI Backbone",
+ "description_chars": 13681,
+ "seconds": 30
+}

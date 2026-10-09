@@ -1,0 +1,15 @@
+{
+ "company": "MetLife",
+ "rank": 59,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Stock)",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.metlife.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "metlife.com",
+ "seconds": 60
+}

@@ -1,0 +1,15 @@
+{
+ "company": "Mohawk Industries",
+ "rank": 404,
+ "group": "fortune500",
+ "industry": "Home Equipment, Furnishings",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.mohawkind.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "mohawkind.com",
+ "seconds": 21
+}

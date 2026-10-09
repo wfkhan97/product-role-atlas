@@ -1,0 +1,30 @@
+{
+ "company": "Campbell\u2019s",
+ "rank": 413,
+ "group": "fortune500",
+ "industry": "Food Consumer Products",
+ "ats": "workday",
+ "config": {
+  "host": "campbellsville.wd1.myworkdayjobs.com",
+  "tenant": "campbellsville",
+  "site": "CU"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "campbellsville.wd1.myworkdayjobs.com",
+    "tenant": "campbellsville",
+    "site": "CU"
+   },
+   "from": "https://campbellsville.wd1.myworkdayjobs.com/CU",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "campbellsville.edu",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 6
+}

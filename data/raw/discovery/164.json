@@ -1,0 +1,15 @@
+{
+ "company": "Baker Hughes",
+ "rank": 164,
+ "group": "fortune500",
+ "industry": "Oil and Gas Equipment, Services",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.bakerhughes.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "bakerhughes.com",
+ "seconds": 42
+}

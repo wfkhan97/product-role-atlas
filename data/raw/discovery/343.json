@@ -1,0 +1,30 @@
+{
+ "company": "DXC Technology",
+ "rank": 343,
+ "group": "fortune500",
+ "industry": "Information Technology Services",
+ "ats": "workday",
+ "config": {
+  "host": "dxctechnology.wd1.myworkdayjobs.com",
+  "tenant": "dxctechnology",
+  "site": "DXCJobs"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "dxctechnology.wd1.myworkdayjobs.com",
+    "tenant": "dxctechnology",
+    "site": "DXCJobs"
+   },
+   "from": "https://careers.dxc.com/",
+   "verify": "Platform Product Manager"
+  }
+ ],
+ "domain": "dxc.com",
+ "sample_title": "Platform Product Manager",
+ "description_chars": 2412,
+ "seconds": 18
+}

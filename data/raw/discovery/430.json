@@ -1,0 +1,30 @@
+{
+ "company": "Workday",
+ "rank": 430,
+ "group": "fortune500",
+ "industry": "Computer Software",
+ "ats": "workday",
+ "config": {
+  "host": "workday.wd5.myworkdayjobs.com",
+  "tenant": "workday",
+  "site": "Workday"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "workday.wd5.myworkdayjobs.com",
+    "tenant": "workday",
+    "site": "Workday"
+   },
+   "from": "https://www.workday.com/en-us/company/careers/overview.html",
+   "verify": "Product Manager, Integrations"
+  }
+ ],
+ "domain": "workday.com",
+ "sample_title": "Product Manager, Integrations",
+ "description_chars": 9091,
+ "seconds": 33
+}

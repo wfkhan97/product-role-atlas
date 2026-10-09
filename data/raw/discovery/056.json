@@ -1,0 +1,28 @@
+{
+ "company": "American Express",
+ "rank": 56,
+ "group": "fortune500",
+ "industry": "Diversified Financials",
+ "ats": "eightfold",
+ "config": {
+  "host": "aexp.eightfold.ai",
+  "domain": "aexp.com",
+  "api": "pcsx"
+ },
+ "verified": false,
+ "notes": "candidates: eightfold 0 product postings",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "aexp.eightfold.ai",
+    "domain": "aexp.com",
+    "api": "pcsx"
+   },
+   "from": "https://www.americanexpress.com/en-us/careers/orps/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "americanexpress.com",
+ "seconds": 9
+}

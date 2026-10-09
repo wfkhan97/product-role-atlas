@@ -1,0 +1,24 @@
+{
+ "company": "KBR",
+ "rank": 488,
+ "group": "fortune500",
+ "industry": "Information Technology Services",
+ "ats": "phenom",
+ "config": {
+  "host": "careers.trinzic.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.trinzic.com"
+   },
+   "from": "https://careers.trinzic.com/us/en",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "kbr.com",
+ "seconds": 28
+}

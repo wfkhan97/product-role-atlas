@@ -1,0 +1,15 @@
+{
+ "company": "Raymond James Financial",
+ "rank": 283,
+ "group": "fortune500",
+ "industry": "Securities",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.woodasset.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "woodasset.com",
+ "seconds": 6
+}

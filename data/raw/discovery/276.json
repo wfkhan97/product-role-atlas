@@ -1,0 +1,15 @@
+{
+ "company": "AECOM",
+ "rank": 276,
+ "group": "fortune500",
+ "industry": "Engineering & Construction",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.aecom.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "aecom.com",
+ "seconds": 43
+}

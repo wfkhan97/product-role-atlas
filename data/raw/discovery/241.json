@@ -1,0 +1,30 @@
+{
+ "company": "Auto-Owners Insurance",
+ "rank": 241,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Mutual)",
+ "ats": "workday",
+ "config": {
+  "host": "aoins.wd5.myworkdayjobs.com",
+  "tenant": "aoins",
+  "site": "AutoOwners"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "aoins.wd5.myworkdayjobs.com",
+    "tenant": "aoins",
+    "site": "AutoOwners"
+   },
+   "from": "https://www.auto-owners.com/about/career-opportunities",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "auto-owners.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 7
+}

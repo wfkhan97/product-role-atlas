@@ -1,0 +1,32 @@
+{
+ "company": "Marsh & McLennan",
+ "rank": 168,
+ "group": "fortune500",
+ "industry": "Diversified Financials",
+ "ats": "phenom",
+ "config": {
+  "host": "careers.marsh.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.marsh.com"
+   },
+   "from": "https://careers.marsh.com/global/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/pp/MAMCGLOBAL/en_global/desktop/assets/images/favicon.ico?v=1767890812777",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "marshmclennan.com",
+ "seconds": 24
+}

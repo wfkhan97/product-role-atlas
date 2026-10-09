@@ -1,0 +1,15 @@
+{
+ "company": "Oneok",
+ "rank": 138,
+ "group": "fortune500",
+ "industry": "Pipelines",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.oneokrock.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "oneokrock.com",
+ "seconds": 10
+}

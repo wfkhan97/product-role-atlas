@@ -1,0 +1,24 @@
+{
+ "company": "Toll Brothers",
+ "rank": 399,
+ "group": "fortune500",
+ "industry": "Homebuilders",
+ "ats": "icims",
+ "config": {
+  "host": "jobs-tollbrothers.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 product postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "jobs-tollbrothers.icims.com"
+   },
+   "from": "https://www.tollcareercenter.com/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "tollbrothers.com",
+ "seconds": 20
+}

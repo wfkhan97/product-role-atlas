@@ -1,0 +1,30 @@
+{
+ "company": "Air Products & Chemicals",
+ "rank": 368,
+ "group": "fortune500",
+ "industry": "Chemicals",
+ "ats": "workday",
+ "config": {
+  "host": "airproducts.wd5.myworkdayjobs.com",
+  "tenant": "airproducts",
+  "site": "AP0001"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "airproducts.wd5.myworkdayjobs.com",
+    "tenant": "airproducts",
+    "site": "AP0001"
+   },
+   "from": "https://www.airproducts.com/careers",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "airproducts.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 45
+}

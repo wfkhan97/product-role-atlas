@@ -1,0 +1,44 @@
+{
+ "company": "Dollar Tree",
+ "rank": 182,
+ "group": "fortune500",
+ "industry": "Specialty Retailers: Other",
+ "ats": "workday",
+ "config": {
+  "host": "dollartree.wd5.myworkdayjobs.com",
+  "tenant": "dollartree",
+  "site": "dollartreeus"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.dollartree.com"
+   },
+   "from": "https://careers.dollartree.com/us/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/DTYDTJUS/en_us/desktop/assets/images/favicon.ico?v=1752082370421"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "dollartree.wd5.myworkdayjobs.com",
+    "tenant": "dollartree",
+    "site": "dollartreeus"
+   },
+   "from": "https://careers.dollartree.com/us/en/search-results",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "dollartree.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 17
+}

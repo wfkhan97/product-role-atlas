@@ -1,0 +1,26 @@
+{
+ "company": "Textron",
+ "rank": 303,
+ "group": "fortune500",
+ "industry": "Aerospace & Defense",
+ "ats": "taleo",
+ "config": {
+  "host": "textron.taleo.net",
+  "careersection": "textron"
+ },
+ "verified": false,
+ "notes": "candidates: taleo no adapter",
+ "candidates": [
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "textron.taleo.net",
+    "careersection": "textron"
+   },
+   "from": "https://careers.textron.com/",
+   "verify": "no adapter"
+  }
+ ],
+ "domain": "textron.com",
+ "seconds": 20
+}

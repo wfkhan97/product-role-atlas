@@ -1,0 +1,34 @@
+{
+ "company": "Tenet Healthcare",
+ "rank": 214,
+ "group": "fortune500",
+ "industry": "Health Care: Medical Facilities",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "eodr.fa.us2.oraclecloud.com",
+  "siteNumber": "CX_1001"
+ },
+ "verified": false,
+ "notes": "candidates: oracle_hcm 0 product postings; radancy 0 product postings",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "eodr.fa.us2.oraclecloud.com",
+    "siteNumber": "CX_1001"
+   },
+   "from": "https://jobs.tenethealth.com/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.tenethealth.com"
+   },
+   "from": "https://jobs.tenethealth.com/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "tenethealth.com",
+ "seconds": 12
+}

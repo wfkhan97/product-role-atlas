@@ -1,0 +1,44 @@
+{
+ "company": "Boston Scientific",
+ "rank": 222,
+ "group": "fortune500",
+ "industry": "Medical Products and Equipment",
+ "ats": "eightfold",
+ "config": {
+  "host": "bostonscientific.eightfold.ai",
+  "domain": "bostonscientific.com",
+  "api": "pcsx"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "bostonscientific.eightfold.ai",
+    "domain": "bostonscientific.com",
+    "api": "pcsx"
+   },
+   "from": "https://jobs.bostonscientific.com/",
+   "verify": "Product Manager, Strategy and Growth - Endourology, EMEA"
+  },
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.bostonscientific.com"
+   },
+   "from": "https://jobs.bostonscientific.com/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.bostonscientific.com"
+   },
+   "from": "https://jobs.bostonscientific.com/"
+  }
+ ],
+ "domain": "bostonscientific.com",
+ "sample_title": "Product Manager, Strategy and Growth - Endourology, EMEA",
+ "description_chars": 8726,
+ "seconds": 23
+}

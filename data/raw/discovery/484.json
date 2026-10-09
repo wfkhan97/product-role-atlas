@@ -1,0 +1,15 @@
+{
+ "company": "Dover",
+ "rank": 484,
+ "group": "fortune500",
+ "industry": "Industrial Machinery",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.doversaddlery.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "doversaddlery.com",
+ "seconds": 11
+}

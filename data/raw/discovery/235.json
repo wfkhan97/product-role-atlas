@@ -1,0 +1,40 @@
+{
+ "company": "Aramark",
+ "rank": 235,
+ "group": "fortune500",
+ "industry": "Diversified Outsourcing Services",
+ "ats": "paradox",
+ "config": {
+  "host": "careers.aramark.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 product postings; phenom 0 product postings; paradox 0 product postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.aramark.com"
+   },
+   "from": "https://careers.aramark.com/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "aramarkcareers.com"
+   },
+   "from": "https://aramarkcareers.com/search/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "aramarkcareers.com"
+   },
+   "from": "https://aramarkcareers.com/Canada/go/All-Current-Job-Opportunities-Canada/8950300/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "aramark.com",
+ "seconds": 21
+}

@@ -1,0 +1,30 @@
+{
+ "company": "Travelers",
+ "rank": 96,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Stock)",
+ "ats": "workday",
+ "config": {
+  "host": "travelers.wd5.myworkdayjobs.com",
+  "tenant": "travelers",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "travelers.wd5.myworkdayjobs.com",
+    "tenant": "travelers",
+    "site": "External"
+   },
+   "from": "https://careers.travelers.com/",
+   "verify": "Manager, Product Management - Auto Line"
+  }
+ ],
+ "domain": "travelers.com",
+ "sample_title": "Manager, Product Management - Auto Line",
+ "description_chars": 5945,
+ "seconds": 15
+}

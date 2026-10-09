@@ -1,0 +1,44 @@
+{
+ "company": "Adobe",
+ "rank": 192,
+ "group": "fortune500",
+ "industry": "Computer Software",
+ "ats": "workday",
+ "config": {
+  "host": "adobe.wd5.myworkdayjobs.com",
+  "tenant": "adobe",
+  "site": "external_experienced"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.adobe.com"
+   },
+   "from": "https://careers.adobe.com/us/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/ADOBUS/en_us/desktop/assets/images/favicon.ico"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "adobe.wd5.myworkdayjobs.com",
+    "tenant": "adobe",
+    "site": "external_experienced"
+   },
+   "from": "https://careers.adobe.com/us/en/c/engineering-and-product-jobs",
+   "verify": "Product Manager - International Strategy & Product Management"
+  }
+ ],
+ "domain": "adobe.com",
+ "sample_title": "Product Manager - International Strategy & Product Management",
+ "description_chars": 7834,
+ "seconds": 34
+}

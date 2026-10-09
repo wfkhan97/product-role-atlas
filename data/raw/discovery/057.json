@@ -1,0 +1,26 @@
+{
+ "company": "Albertsons",
+ "rank": 57,
+ "group": "fortune500",
+ "industry": "Food and Drug Stores",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "eofd.fa.us6.oraclecloud.com",
+  "siteNumber": "CX_1001"
+ },
+ "verified": false,
+ "notes": "candidates: oracle_hcm 0 product postings",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "eofd.fa.us6.oraclecloud.com",
+    "siteNumber": "CX_1001"
+   },
+   "from": "https://eofd.fa.us6.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/pages/Albertsons",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "albertsons.com",
+ "seconds": 15
+}

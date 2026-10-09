@@ -1,0 +1,26 @@
+{
+ "company": "International Paper",
+ "rank": 176,
+ "group": "fortune500",
+ "industry": "Packaging, Containers",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "iazbqy.fa.ocs.oraclecloud.com",
+  "siteNumber": "CX_1"
+ },
+ "verified": false,
+ "notes": "candidates: oracle_hcm 0 product postings",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "iazbqy.fa.ocs.oraclecloud.com",
+    "siteNumber": "CX_1"
+   },
+   "from": "https://iazbqy.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "internationalpaper.com",
+ "seconds": 11
+}

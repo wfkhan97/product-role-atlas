@@ -1,0 +1,43 @@
+{
+ "company": "Dollar General",
+ "rank": 111,
+ "group": "fortune500",
+ "industry": "Specialty Retailers: Other",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "ibxwjb.fa.ocs.oraclecloud.com",
+  "siteNumber": "CX_1"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ibxwjb.fa.ocs.oraclecloud.com",
+    "siteNumber": "CX_1"
+   },
+   "from": "https://careers.dollargeneral.com/",
+   "verify": "PRODUCT OWNER II"
+  },
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ibxwjb.fa.ocs.oraclecloud.com",
+    "siteNumber": "CX_1001"
+   },
+   "from": "https://careers.dollargeneral.com/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.dollargeneral.com"
+   },
+   "from": "https://careers.dollargeneral.com/"
+  }
+ ],
+ "domain": "dollargeneral.com",
+ "sample_title": "PRODUCT OWNER II",
+ "description_chars": 2926,
+ "seconds": 25
+}

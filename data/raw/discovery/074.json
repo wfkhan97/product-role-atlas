@@ -1,0 +1,32 @@
+{
+ "company": "TD Synnex",
+ "rank": 74,
+ "group": "fortune500",
+ "industry": "Wholesalers: Electronics and Office Equipment",
+ "ats": "phenom",
+ "config": {
+  "host": "careers.tdsynnex.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.tdsynnex.com"
+   },
+   "from": "https://careers.tdsynnex.com/us/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/TSQTSBUS/en_us/desktop/assets/images/favicon.ico?v=1687289226249",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "tdsynnex.com",
+ "seconds": 21
+}

@@ -1,0 +1,28 @@
+{
+ "company": "Consolidated Edison",
+ "rank": 267,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "ejcu.fa.us6.oraclecloud.com",
+  "siteNumber": "CX_1033"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ejcu.fa.us6.oraclecloud.com",
+    "siteNumber": "CX_1033"
+   },
+   "from": "https://www.coned.com/en/about-us/careers",
+   "verify": "Product Owner - Customer Ops  Customer Analytics"
+  }
+ ],
+ "domain": "coned.com",
+ "sample_title": "Product Owner - Customer Ops  Customer Analytics",
+ "description_chars": 4927,
+ "seconds": 9
+}

@@ -1,0 +1,35 @@
+{
+ "company": "Marriott International",
+ "rank": 174,
+ "group": "fortune500",
+ "industry": "Hotels, Casinos, Resorts",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "ejwl.fa.us2.oraclecloud.com",
+  "siteNumber": "CX"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ejwl.fa.us2.oraclecloud.com",
+    "siteNumber": "CX"
+   },
+   "from": "https://careers.marriott.com/",
+   "verify": "FLEX Manager, Product Owner"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.marriott.com"
+   },
+   "from": "https://careers.marriott.com/"
+  }
+ ],
+ "domain": "marriott.com",
+ "sample_title": "FLEX Manager, Product Owner",
+ "description_chars": 4577,
+ "seconds": 12
+}

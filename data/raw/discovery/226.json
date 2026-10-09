@@ -1,0 +1,15 @@
+{
+ "company": "American Family Insurance Group",
+ "rank": 226,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Stock)",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.amfam.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "amfam.com",
+ "seconds": 13
+}

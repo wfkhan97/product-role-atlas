@@ -1,0 +1,57 @@
+{
+ "company": "Sirius XM Holdings",
+ "rank": 463,
+ "group": "fortune500",
+ "industry": "Entertainment",
+ "ats": "icims",
+ "config": {
+  "host": "employees-siriusxmradio.icims.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://careers.siriusxm.com/careers/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "uscareers-siriusxmradio.icims.com"
+   },
+   "from": "https://careers.siriusxm.com/careers/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "international-siriusxmradio.icims.com"
+   },
+   "from": "https://careers.siriusxm.com/careers/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "employees-siriusxmradio.icims.com"
+   },
+   "from": "https://careers.siriusxm.com/careers/",
+   "verify": "Staff Technical Program Manager"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "careers.siriusxm.com"
+   },
+   "from": "https://careers.siriusxm.com/careers/"
+  }
+ ],
+ "domain": "siriusxm.com",
+ "sample_title": "Staff Technical Program Manager",
+ "description_chars": 10733,
+ "seconds": 24
+}

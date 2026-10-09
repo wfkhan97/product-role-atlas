@@ -1,0 +1,37 @@
+{
+ "company": "Baxter International",
+ "rank": 382,
+ "group": "fortune500",
+ "industry": "Medical Products and Equipment",
+ "ats": "workday",
+ "config": {
+  "host": "baxter.wd1.myworkdayjobs.com",
+  "tenant": "baxter",
+  "site": "baxter"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "baxter.wd1.myworkdayjobs.com",
+    "tenant": "baxter",
+    "site": "baxter"
+   },
+   "from": "https://jobs.baxter.com/en",
+   "verify": "(board reachable; no product title on first pages)"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.baxter.com"
+   },
+   "from": "https://jobs.baxter.com/en"
+  }
+ ],
+ "domain": "baxter.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 10
+}

@@ -1,0 +1,28 @@
+{
+ "company": "Sherwin-Williams",
+ "rank": 194,
+ "group": "fortune500",
+ "industry": "Chemicals",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "ejhp.fa.us6.oraclecloud.com",
+  "siteNumber": "CX_2"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ejhp.fa.us6.oraclecloud.com",
+    "siteNumber": "CX_2"
+   },
+   "from": "https://careers.sherwin-williams.com/us/en/home.html",
+   "verify": "Assistant Product Manager- Protective Coatings"
+  }
+ ],
+ "domain": "sherwin-williams.com",
+ "sample_title": "Assistant Product Manager- Protective Coatings",
+ "description_chars": 4549,
+ "seconds": 11
+}

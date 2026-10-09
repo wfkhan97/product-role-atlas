@@ -1,0 +1,58 @@
+{
+ "company": "Ulta Beauty",
+ "rank": 355,
+ "group": "fortune500",
+ "industry": "Specialty Retailers: Other",
+ "ats": "jibe",
+ "config": {
+  "host": "careers.ulta.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "cdcmcareers-ulta.icims.com"
+   },
+   "from": "https://careers.ulta.com/careers",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "ulta.icims.com"
+   },
+   "from": "https://careers.ulta.com/careers",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "fdcnmcareers-ulta.icims.com"
+   },
+   "from": "https://careers.ulta.com/careers",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://careers.ulta.com/careers",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "careers.ulta.com"
+   },
+   "from": "https://careers.ulta.com/careers",
+   "verify": "Product Manager, Guest AI"
+  }
+ ],
+ "domain": "ulta.com",
+ "sample_title": "Product Manager, Guest AI",
+ "description_chars": 6143,
+ "seconds": 16
+}

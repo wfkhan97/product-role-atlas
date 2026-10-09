@@ -1,0 +1,32 @@
+{
+ "company": "Quanta Services",
+ "rank": 157,
+ "group": "fortune500",
+ "industry": "Engineering & Construction",
+ "ats": "icims",
+ "config": {
+  "host": "allcareers-quanta.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 product postings; icims 0 product postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "allcareers-quanta.icims.com"
+   },
+   "from": "https://www.quantaservices.com/careers",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-quanta.icims.com"
+   },
+   "from": "https://www.quantaservices.com/careers",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "quantaservices.com",
+ "seconds": 10
+}

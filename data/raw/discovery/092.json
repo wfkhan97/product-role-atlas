@@ -1,0 +1,15 @@
+{
+ "company": "Uber Technologies",
+ "rank": 92,
+ "group": "fortune500",
+ "industry": "Internet Services and Retailing",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.ub3r.host/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "ub3r.host",
+ "seconds": 39
+}

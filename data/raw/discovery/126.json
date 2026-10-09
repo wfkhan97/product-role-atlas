@@ -1,0 +1,44 @@
+{
+ "company": "Warner Bros. Discovery",
+ "rank": 126,
+ "group": "fortune500",
+ "industry": "Entertainment",
+ "ats": "workday",
+ "config": {
+  "host": "warnerbros.wd5.myworkdayjobs.com",
+  "tenant": "warnerbros",
+  "site": "global"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.wbd.com"
+   },
+   "from": "https://careers.wbd.com/global/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/pp/WAMEGLOBAL/en_global/desktop/assets/images/favicon.ico?v=1666016609857"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "warnerbros.wd5.myworkdayjobs.com",
+    "tenant": "warnerbros",
+    "site": "global"
+   },
+   "from": "https://careers.wbd.com/search-results",
+   "verify": "Staff, Product Manager"
+  }
+ ],
+ "domain": "wbd.com",
+ "sample_title": "Staff, Product Manager",
+ "description_chars": 5500,
+ "seconds": 19
+}

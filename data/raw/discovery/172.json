@@ -1,0 +1,30 @@
+{
+ "company": "AIG",
+ "rank": 172,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Stock)",
+ "ats": "workday",
+ "config": {
+  "host": "aig.wd1.myworkdayjobs.com",
+  "tenant": "aig",
+  "site": "aig"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "aig.wd1.myworkdayjobs.com",
+    "tenant": "aig",
+    "site": "aig"
+   },
+   "from": "https://www.aig.com/careers",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "aig.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 11
+}

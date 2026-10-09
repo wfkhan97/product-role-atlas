@@ -1,0 +1,37 @@
+{
+ "company": "State Street",
+ "rank": 202,
+ "group": "fortune500",
+ "industry": "Commercial Banks",
+ "ats": "workday",
+ "config": {
+  "host": "statestreet.wd1.myworkdayjobs.com",
+  "tenant": "statestreet",
+  "site": "Global"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "statestreet.wd1.myworkdayjobs.com",
+    "tenant": "statestreet",
+    "site": "Global"
+   },
+   "from": "https://careers.statestreet.com/global/en",
+   "verify": "Product Management, AVP - Alpha End-to-End Product Solutions"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.statestreet.com"
+   },
+   "from": "https://careers.statestreet.com/global/en"
+  }
+ ],
+ "domain": "statestreet.com",
+ "sample_title": "Product Management, AVP - Alpha End-to-End Product Solutions",
+ "description_chars": 7750,
+ "seconds": 24
+}

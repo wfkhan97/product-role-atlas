@@ -1,0 +1,37 @@
+{
+ "company": "Zoetis",
+ "rank": 434,
+ "group": "fortune500",
+ "industry": "Pharmaceuticals",
+ "ats": "workday",
+ "config": {
+  "host": "zoetis.wd5.myworkdayjobs.com",
+  "tenant": "zoetis",
+  "site": "zoetis"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "zoetis.wd5.myworkdayjobs.com",
+    "tenant": "zoetis",
+    "site": "zoetis"
+   },
+   "from": "https://www.zoetis.com/join-us",
+   "verify": "Global Hatchery Product Manager"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.zoetis.com"
+   },
+   "from": "https://www.zoetis.com/join-us"
+  }
+ ],
+ "domain": "zoetis.com",
+ "sample_title": "Global Hatchery Product Manager",
+ "description_chars": 8655,
+ "seconds": 10
+}

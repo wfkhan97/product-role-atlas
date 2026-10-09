@@ -1,0 +1,32 @@
+{
+ "company": "Republic Services",
+ "rank": 269,
+ "group": "fortune500",
+ "industry": "Waste Management",
+ "ats": "phenom",
+ "config": {
+  "host": "jobs.republicservices.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "jobs.republicservices.com"
+   },
+   "from": "https://jobs.republicservices.com/us/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/ROURSAUS/en_us/desktop/assets/images/favicon.ico",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "republicservices.com",
+ "seconds": 92
+}

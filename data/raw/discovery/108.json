@@ -1,0 +1,48 @@
+{
+ "company": "Qualcomm",
+ "rank": 108,
+ "group": "fortune500",
+ "industry": "Semiconductors and Other Electronic Components",
+ "ats": "eightfold",
+ "config": {
+  "host": "careers.qualcomm.com",
+  "domain": "qualcomm.com",
+  "api": "pcsx"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "careers.qualcomm.com",
+    "domain": "qualcomm.com",
+    "api": "pcsx"
+   },
+   "from": "probe",
+   "verify": "Staff Product Manager, Product Planning"
+  },
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "app.eightfold.ai",
+    "domain": "app.com",
+    "api": "pcsx"
+   },
+   "from": "https://careers.qualcomm.com/careers"
+  },
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "qualcomm.eightfold.ai",
+    "domain": "qualcomm.com",
+    "api": "pcsx"
+   },
+   "from": "https://careers.qualcomm.com/careers"
+  }
+ ],
+ "domain": "qualcomm.com",
+ "sample_title": "Staff Product Manager, Product Planning",
+ "description_chars": 7711,
+ "seconds": 27
+}

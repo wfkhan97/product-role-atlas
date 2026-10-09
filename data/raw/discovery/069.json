@@ -1,0 +1,37 @@
+{
+ "company": "Nationwide",
+ "rank": 69,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Mutual)",
+ "ats": "workday",
+ "config": {
+  "host": "nationwide.wd1.myworkdayjobs.com",
+  "tenant": "nationwide",
+  "site": "Nationwide_Career"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "nationwide.wd1.myworkdayjobs.com",
+    "tenant": "nationwide",
+    "site": "Nationwide_Career"
+   },
+   "from": "https://careers.nationwide.com/",
+   "verify": "State Product Manager - Personal Lines"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.nationwide.com"
+   },
+   "from": "https://careers.nationwide.com/"
+  }
+ ],
+ "domain": "nationwide.com",
+ "sample_title": "State Product Manager - Personal Lines",
+ "description_chars": 10908,
+ "seconds": 14
+}

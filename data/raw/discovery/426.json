@@ -1,0 +1,15 @@
+{
+ "company": "Seaboard",
+ "rank": 426,
+ "group": "fortune500",
+ "industry": "Food Production",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.seaboardcorp.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "seaboardcorp.com",
+ "seconds": 45
+}

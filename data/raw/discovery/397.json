@@ -1,0 +1,15 @@
+{
+ "company": "Andersons",
+ "rank": 397,
+ "group": "fortune500",
+ "industry": "Food Production",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.anderson5.net/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "anderson5.net",
+ "seconds": 10
+}

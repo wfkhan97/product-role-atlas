@@ -1,0 +1,38 @@
+{
+ "company": "Henry Schein",
+ "rank": 335,
+ "group": "fortune500",
+ "industry": "Wholesalers: Health Care",
+ "ats": "workday",
+ "config": {
+  "host": "henryschein.wd1.myworkdayjobs.com",
+  "tenant": "henryschein",
+  "site": "External_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "henryschein.wd1.myworkdayjobs.com",
+    "tenant": "henryschein",
+    "site": "External_Careers"
+   },
+   "from": "https://www.henryschein.com/us-en/Corporate/Career/JobSearch.aspx?id=1&hsi_domain=www.henryschein.com&hsi_locale=us-en",
+   "verify": "Product Manager, Handpiece, Small Equipment & Rotary"
+  },
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "henryschein.taleo.net",
+    "careersection": "hsiint"
+   },
+   "from": "https://www.henryschein.com/us-en/Corporate/Career/JobSearch.aspx?id=1&hsi_domain=www.henryschein.com&hsi_locale=us-en"
+  }
+ ],
+ "domain": "henryschein.com",
+ "sample_title": "Product Manager, Handpiece, Small Equipment & Rotary",
+ "description_chars": 6672,
+ "seconds": 8
+}

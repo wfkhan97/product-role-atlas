@@ -1,0 +1,24 @@
+{
+ "company": "Sanmina",
+ "rank": 482,
+ "group": "fortune500",
+ "industry": "Semiconductors and Other Electronic Components",
+ "ats": "paradox",
+ "config": {
+  "host": "www.sanmina.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 product postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.sanmina.com"
+   },
+   "from": "https://www.sanmina.com/careers/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "sanmina.com",
+ "seconds": 28
+}

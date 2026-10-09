@@ -1,0 +1,46 @@
+{
+ "company": "Bristol-Myers Squibb",
+ "rank": 97,
+ "group": "fortune500",
+ "industry": "Pharmaceuticals",
+ "ats": "workday",
+ "config": {
+  "host": "bristolmyerssquibb.wd5.myworkdayjobs.com",
+  "tenant": "bristolmyerssquibb",
+  "site": "BMS"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "jobs.bms.com",
+    "domain": "bms.com",
+    "api": "pcsx"
+   },
+   "from": "probe"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "bristolmyerssquibb.wd5.myworkdayjobs.com",
+    "tenant": "bristolmyerssquibb",
+    "site": "BMS"
+   },
+   "from": "https://careers.bms.com/",
+   "verify": "senior product manager"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.bms.com"
+   },
+   "from": "https://careers.bms.com/"
+  }
+ ],
+ "domain": "bms.com",
+ "sample_title": "senior product manager",
+ "description_chars": 3444,
+ "seconds": 19
+}

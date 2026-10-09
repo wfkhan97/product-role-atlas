@@ -1,0 +1,24 @@
+{
+ "company": "Airbnb",
+ "rank": 357,
+ "group": "fortune500",
+ "industry": "Internet Services and Retailing",
+ "ats": "phenom",
+ "config": {
+  "host": "careers.airbnb.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.airbnb.com"
+   },
+   "from": "https://careers.airbnb.com/wp-json/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "airbnb.com",
+ "seconds": 23
+}

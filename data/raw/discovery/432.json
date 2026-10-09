@@ -1,0 +1,26 @@
+{
+ "company": "Western Digital",
+ "rank": 432,
+ "group": "fortune500",
+ "industry": "Computers, Office Equipment",
+ "ats": "smartrecruiters",
+ "config": {
+  "company": "WesternDigital"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "smartrecruiters",
+   "config": {
+    "company": "WesternDigital"
+   },
+   "from": "https://www.westerndigital.com/careers",
+   "verify": "Vice President, Product Management"
+  }
+ ],
+ "domain": "westerndigital.com",
+ "sample_title": "Vice President, Product Management",
+ "description_chars": 12150,
+ "seconds": 8
+}

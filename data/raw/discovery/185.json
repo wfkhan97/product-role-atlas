@@ -1,0 +1,26 @@
+{
+ "company": "PG&E",
+ "rank": 185,
+ "group": "fortune500",
+ "industry": "Utilities: Gas and Electric",
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.pge.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.pge.com"
+   },
+   "from": "https://careers.pge.com/",
+   "verify": "Expert Compute, Operating Systems(OS), and Hardware Product Owner"
+  }
+ ],
+ "domain": "pgecorp.com",
+ "sample_title": "Expert Compute, Operating Systems(OS), and Hardware Product Owner",
+ "description_chars": 4797,
+ "seconds": 95
+}

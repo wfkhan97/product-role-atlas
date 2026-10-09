@@ -1,0 +1,44 @@
+{
+ "company": "DaVita",
+ "rank": 331,
+ "group": "fortune500",
+ "industry": "Health Care: Medical Facilities",
+ "ats": "workday",
+ "config": {
+  "host": "davita.wd1.myworkdayjobs.com",
+  "tenant": "davita",
+  "site": "DKC_External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.davita.com"
+   },
+   "from": "https://careers.davita.com/"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/pp/DAVIUS/en_us/desktop/assets/images/favicon.ico"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "davita.wd1.myworkdayjobs.com",
+    "tenant": "davita",
+    "site": "DKC_External"
+   },
+   "from": "https://careers.davita.com/search-results",
+   "verify": "Principal Product Manager (Technology)"
+  }
+ ],
+ "domain": "davita.com",
+ "sample_title": "Principal Product Manager (Technology)",
+ "description_chars": 8092,
+ "seconds": 16
+}

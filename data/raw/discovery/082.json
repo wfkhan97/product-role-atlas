@@ -1,0 +1,28 @@
+{
+ "company": "Oracle",
+ "rank": 82,
+ "group": "fortune500",
+ "industry": "Computer Software",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "eeho.fa.us2.oraclecloud.com",
+  "siteNumber": "jobsearch"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "eeho.fa.us2.oraclecloud.com",
+    "siteNumber": "jobsearch"
+   },
+   "from": "https://www.oracle.com/careers/opportunities/security-clearance-jobs-onsr/",
+   "verify": "Product Manager/Strategy 4-ProdDev"
+  }
+ ],
+ "domain": "oracle.com",
+ "sample_title": "Product Manager/Strategy 4-ProdDev",
+ "description_chars": 6635,
+ "seconds": 40
+}

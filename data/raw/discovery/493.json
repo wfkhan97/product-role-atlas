@@ -1,0 +1,30 @@
+{
+ "company": "Continental Resources",
+ "rank": 493,
+ "group": "fortune500",
+ "industry": "Mining, Crude-Oil Production",
+ "ats": "workday",
+ "config": {
+  "host": "clr.wd5.myworkdayjobs.com",
+  "tenant": "clr",
+  "site": "CLR_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "clr.wd5.myworkdayjobs.com",
+    "tenant": "clr",
+    "site": "CLR_Careers"
+   },
+   "from": "https://www.clr.com/careers/",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "clr.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 9
+}

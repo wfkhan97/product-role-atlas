@@ -1,0 +1,15 @@
+{
+ "company": "Farmers Insurance Exchange",
+ "rank": 271,
+ "group": "fortune500",
+ "industry": "Insurance: Property and Casualty (Mutual)",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.farmers.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "farmers.com",
+ "seconds": 305
+}

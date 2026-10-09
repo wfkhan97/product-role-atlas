@@ -1,0 +1,30 @@
+{
+ "company": "Crown Holdings",
+ "rank": 356,
+ "group": "fortune500",
+ "industry": "Packaging, Containers",
+ "ats": "workday",
+ "config": {
+  "host": "crownholdings.wd501.myworkdayjobs.com",
+  "tenant": "crownholdings",
+  "site": "CrownHoldings"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "crownholdings.wd501.myworkdayjobs.com",
+    "tenant": "crownholdings",
+    "site": "CrownHoldings"
+   },
+   "from": "https://www.crowncork.com/careers",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "crowncork.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 9
+}

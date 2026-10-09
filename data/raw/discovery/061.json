@@ -1,0 +1,30 @@
+{
+ "company": "Lockheed Martin",
+ "rank": 61,
+ "group": "fortune500",
+ "industry": "Aerospace & Defense",
+ "ats": "eightfold",
+ "config": {
+  "host": "lockheedmartin.eightfold.ai",
+  "domain": "lockheedmartin.com",
+  "api": "pcsx"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "lockheedmartin.eightfold.ai",
+    "domain": "lockheedmartin.com",
+    "api": "pcsx"
+   },
+   "from": "https://www.lockheedmartin.com/en-us/404.html",
+   "verify": "Ground Segment Systems Engineer - Product Manager"
+  }
+ ],
+ "domain": "lmco.com",
+ "sample_title": "Ground Segment Systems Engineer - Product Manager",
+ "description_chars": 4668,
+ "seconds": 8
+}

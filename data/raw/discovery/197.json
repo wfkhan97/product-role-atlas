@@ -1,0 +1,26 @@
+{
+ "company": "Synchrony",
+ "rank": 197,
+ "group": "fortune500",
+ "industry": "Diversified Financials",
+ "ats": "radancy",
+ "config": {
+  "host": "www.synchronycareers.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "www.synchronycareers.com"
+   },
+   "from": "https://www.synchronycareers.com/",
+   "verify": "VP, Privileged Secret Server Product Owner - Delinea"
+  }
+ ],
+ "domain": "synchrony.com",
+ "sample_title": "VP, Privileged Secret Server Product Owner - Delinea",
+ "description_chars": 9354,
+ "seconds": 16
+}

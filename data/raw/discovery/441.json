@@ -1,0 +1,15 @@
+{
+ "company": "JetBlue Airways",
+ "rank": 441,
+ "group": "fortune500",
+ "industry": "Airlines",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.jetblue.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "jetblue.com",
+ "seconds": 51
+}

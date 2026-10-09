@@ -1,0 +1,399 @@
+[
+  {
+    "company": "American Express",
+    "rank": 56,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "egug.fa.us2.oraclecloud.com",
+      "siteNumber": "CX_1"
+    },
+    "verified": true,
+    "sample_title": "Manager-Digital Product Management",
+    "description_chars": 5525,
+    "notes": "careers.americanexpress.com is Oracle HCM CX_1 (egug pod); aexp.eightfold.ai/careers now 404"
+  },
+  {
+    "company": "HCA Healthcare",
+    "rank": 60,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://careers.hcahealthcare.com/search-jobs"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "Radancy site behind Cloudflare: /search-jobs/results returns 403 'Just a moment' to curl/requests"
+  },
+  {
+    "company": "Broadcom",
+    "rank": 70,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "broadcom.wd1.myworkdayjobs.com",
+      "tenant": "broadcom",
+      "site": "External_Career"
+    },
+    "verified": true,
+    "sample_title": "Product Marketing Manager",
+    "description_chars": 4280,
+    "notes": ""
+  },
+  {
+    "company": "TD Synnex",
+    "rank": 74,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "synnex.wd5.myworkdayjobs.com",
+      "tenant": "synnex",
+      "site": "tdsynnexcareers"
+    },
+    "verified": true,
+    "sample_title": "Product Manager",
+    "description_chars": 6312,
+    "notes": "careers.tdsynnex.com is Phenom whose applyUrl points at this Workday tenant; scraped Workday directly"
+  },
+  {
+    "company": "Performance Food Group",
+    "rank": 80,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://jobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=26350&siteid=6930"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "IBM Kenexa BrassRing (no adapter)"
+  },
+  {
+    "company": "Tyson Foods",
+    "rank": 87,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "tysonfoods.wd5.myworkdayjobs.com",
+      "tenant": "tysonfoods",
+      "site": "TSN"
+    },
+    "verified": true,
+    "sample_title": "Senior IT Product Owner-Onsite",
+    "description_chars": 8910,
+    "notes": ""
+  },
+  {
+    "company": "General Dynamics",
+    "rank": 91,
+    "group": "fortune500",
+    "ats": "icims",
+    "config": {
+      "host": "careers-generaldynamics.icims.com"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable, 0 product postings now (corporate HQ board only; business units have their own sites)"
+  },
+  {
+    "company": "GE Aerospace",
+    "rank": 101,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "geaerospace.wd5.myworkdayjobs.com",
+      "tenant": "geaerospace",
+      "site": "GE_ExternalSite"
+    },
+    "verified": true,
+    "sample_title": "Sr Staff Technical Product Manager – Data Product Marketplace, Defense & Systems Data Fabric",
+    "description_chars": 7381,
+    "notes": "careers.geaerospace.com is Phenom with applyUrl on this Workday tenant; scraped Workday directly"
+  },
+  {
+    "company": "Northrop Grumman",
+    "rank": 112,
+    "group": "fortune500",
+    "ats": "eightfold",
+    "config": {
+      "host": "jobs.northropgrumman.com",
+      "domain": "ngc.com",
+      "api": "pcsx"
+    },
+    "verified": true,
+    "sample_title": "Subcontract Payload Re-Entry System Product Manager 3 - BOSS 12761-1",
+    "description_chars": 6236,
+    "notes": "domain must be ngc.com (page config), not northropgrumman.com"
+  },
+  {
+    "company": "Philip Morris International",
+    "rank": 117,
+    "group": "fortune500",
+    "ats": "phenom",
+    "config": {
+      "host": "join.pmicareers.com",
+      "widgets_path": "/widgets"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "widgets search works (390 hits for 'product manager', e.g. 'Product Manager - People Analytics' at rank ~97) but phenom adapter only reads page 0 because it looks for totalHits under refineSearch.data instead of refineSearch; no product title in first 20"
+  },
+  {
+    "company": "Mondelez International",
+    "rank": 122,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "mdlz.wd3.myworkdayjobs.com",
+      "tenant": "mdlz",
+      "site": "External"
+    },
+    "verified": true,
+    "sample_title": "Senior Product Manager – AI Reporting & Insights",
+    "description_chars": 5601,
+    "notes": ""
+  },
+  {
+    "company": "Coupang",
+    "rank": 132,
+    "group": "fortune500",
+    "ats": "greenhouse",
+    "config": {
+      "board": "coupang"
+    },
+    "verified": true,
+    "sample_title": "Analyst, Pricing Product Ops",
+    "description_chars": 2725,
+    "notes": "www.coupang.jobs is Cloudflare-403 to curl; Greenhouse board API works"
+  },
+  {
+    "company": "GuideWell Mutual Holding",
+    "rank": 140,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "fa-etum-saasfaprod1.fa.ocs.oraclecloud.com",
+      "siteNumber": "CX_1"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "careers.guidewell.com -> Oracle HCM; reachable, 0 product postings now"
+  },
+  {
+    "company": "NRG Energy",
+    "rank": 149,
+    "group": "fortune500",
+    "ats": "successfactors",
+    "config": {
+      "host": "careers.nrgenergy.com"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "search returns jobTitle-link hits (e.g. 'Sr Product Manager, Product Lifecycle') but adapter DESC_RE fails: <span class=\"jobdescription\"> is followed by <p class=\"job-location\">, not </div>/<div; job page has JSON-LD JobPosting"
+  },
+  {
+    "company": "KKR",
+    "rank": 156,
+    "group": "fortune500",
+    "ats": "greenhouse",
+    "config": {
+      "board": "stage"
+    },
+    "verified": true,
+    "sample_title": "AVP, Product Marketing — Independent Distribution",
+    "description_chars": 7893,
+    "notes": "kkr.com/careers/career-opportunities embeds greenhouse board token 'stage' (absolute_url -> kkr.com/...?gh_jid=)"
+  },
+  {
+    "company": "AutoNation",
+    "rank": 166,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "autonation.wd5.myworkdayjobs.com",
+      "tenant": "autonation",
+      "site": "Careers"
+    },
+    "verified": true,
+    "sample_title": "Sr. Product Manager",
+    "description_chars": 6524,
+    "notes": "careers.autonation.com Phenom applyUrl -> this Workday tenant"
+  },
+  {
+    "company": "International Paper",
+    "rank": 176,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "iazbqy.fa.ocs.oraclecloud.com",
+      "siteNumber": "CX_1"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable (461 jobs), 0 product-titled postings now"
+  },
+  {
+    "company": "3M",
+    "rank": 183,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "3m.wd1.myworkdayjobs.com",
+      "tenant": "3m",
+      "site": "Search"
+    },
+    "verified": true,
+    "sample_title": "Global Product Management Analyst",
+    "description_chars": 7299,
+    "notes": ""
+  },
+  {
+    "company": "WESCO International",
+    "rank": 195,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "eklm.fa.us2.oraclecloud.com",
+      "siteNumber": "CX"
+    },
+    "verified": true,
+    "sample_title": "Product Owner (Informatica MDM)",
+    "description_chars": 3823,
+    "notes": "wesco.com is 403 to curl; Oracle HCM pod found via search; siteNumber is 'CX' (no suffix)"
+  },
+  {
+    "company": "Newmont",
+    "rank": 200,
+    "group": "fortune500",
+    "ats": "phenom",
+    "config": {
+      "host": "jobs.newmont.com",
+      "widgets_path": "/widgets"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable (widgets 200, 4 hits for 'product manager', none product-titled), 0 product postings now"
+  },
+  {
+    "company": "CDW",
+    "rank": 205,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "cdw.wd5.myworkdayjobs.com",
+      "tenant": "cdw",
+      "site": "Careers"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable (142 jobs), 0 product-titled postings now"
+  },
+  {
+    "company": "Carrier Global",
+    "rank": 212,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "carrier.wd5.myworkdayjobs.com",
+      "tenant": "carrier",
+      "site": "jobs"
+    },
+    "verified": true,
+    "sample_title": "Data Product Manager",
+    "description_chars": 5094,
+    "notes": "jobs.carrier.com is Phenom front; Workday site 'jobs'"
+  },
+  {
+    "company": "Automatic Data Processing",
+    "rank": 218,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://jobs.adp.com/en/jobs/"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "jobs.adp.com (Jibe-style /en/jobs/{id}/{slug}, /api/jobs) is behind Cloudflare: 403 'Just a moment' to curl/requests; no Workday tenant found"
+  },
+  {
+    "company": "Cheniere Energy",
+    "rank": 223,
+    "group": "fortune500",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "hcgi.fa.us2.oraclecloud.com",
+      "siteNumber": "CX_2"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable (16 hits for 'product', none product-titled), 0 product postings now"
+  },
+  {
+    "company": "Edison International",
+    "rank": 228,
+    "group": "fortune500",
+    "ats": "mcloud",
+    "config": {
+      "host": "jobsapi-internal.m-cloud.io",
+      "path": "/api/job",
+      "organization": "2268"
+    },
+    "verified": true,
+    "sample_title": "Senior Product Manager, Conversational AI & Customer Experience",
+    "description_chars": 8076,
+    "notes": "edisoncareers.com uses Symphony Talent m-cloud (smartPost_org 2268)"
+  },
+  {
+    "company": "Loews",
+    "rank": 237,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "loewscorp.wd1.myworkdayjobs.com",
+      "tenant": "loewscorp",
+      "site": "LoewsCorp"
+    },
+    "verified": true,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "reachable; holding company board has 2 postings total, 0 product postings now (subsidiaries CNA, Loews Hotels etc. recruit separately)"
+  },
+  {
+    "company": "Asbury Automotive Group",
+    "rank": 246,
+    "group": "fortune500",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://us242.dayforcehcm.com/CandidatePortal/en-US/asburyauto"
+    },
+    "verified": false,
+    "sample_title": null,
+    "description_chars": 0,
+    "notes": "asburycareers.com -> Ceridian Dayforce candidate portal (no adapter)"
+  },
+  {
+    "company": "O’Reilly Automotive",
+    "rank": 250,
+    "group": "fortune500",
+    "ats": "workday",
+    "config": {
+      "host": "oreillyauto.wd1.myworkdayjobs.com",
+      "tenant": "oreillyauto",
+      "site": "oreilly"
+    },
+    "verified": true,
+    "sample_title": "Product Owner- Payments Strategy",
+    "description_chars": 6049,
+    "notes": "careers.oreillyauto.com Phenom applyUrl -> this Workday tenant"
+  }
+]

@@ -1,0 +1,30 @@
+{
+ "company": "Northern Trust",
+ "rank": 317,
+ "group": "fortune500",
+ "industry": "Commercial Banks",
+ "ats": "workday",
+ "config": {
+  "host": "ntrs.wd1.myworkdayjobs.com",
+  "tenant": "ntrs",
+  "site": "northerntrust"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "ntrs.wd1.myworkdayjobs.com",
+    "tenant": "ntrs",
+    "site": "northerntrust"
+   },
+   "from": "https://ntrs.wd1.myworkdayjobs.com/northerntrust",
+   "verify": "Associate Product Manager"
+  }
+ ],
+ "domain": "northerntrust.com",
+ "sample_title": "Associate Product Manager",
+ "description_chars": 4156,
+ "seconds": 18
+}

@@ -1,0 +1,30 @@
+{
+ "company": "Plains GP Holdings",
+ "rank": 103,
+ "group": "fortune500",
+ "industry": "Pipelines",
+ "ats": "workday",
+ "config": {
+  "host": "plains.wd1.myworkdayjobs.com",
+  "tenant": "plains",
+  "site": "plains"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "plains.wd1.myworkdayjobs.com",
+    "tenant": "plains",
+    "site": "plains"
+   },
+   "from": "https://www.plains.com/careers",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "plains.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 9
+}

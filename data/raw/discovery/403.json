@@ -1,0 +1,15 @@
+{
+ "company": "Autoliv",
+ "rank": 403,
+ "group": "fortune500",
+ "industry": "Motor Vehicles & Parts",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.autoliv.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "autoliv.com",
+ "seconds": 21
+}

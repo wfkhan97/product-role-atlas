@@ -1,0 +1,15 @@
+{
+ "company": "Coupang",
+ "rank": 132,
+ "group": "fortune500",
+ "industry": "Internet Services and Retailing",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.coupang.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "coupang.com",
+ "seconds": 9
+}

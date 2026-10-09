@@ -1,0 +1,24 @@
+{
+ "company": "Northwestern Mutual",
+ "rank": 109,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Mutual)",
+ "ats": "icims",
+ "config": {
+  "host": "opportunities-northwesternmutual.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 product postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "opportunities-northwesternmutual.icims.com"
+   },
+   "from": "https://www.northwesternmutual.com/careers",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "northwesternmutual.com",
+ "seconds": 6
+}

@@ -1,0 +1,30 @@
+{
+ "company": "Prudential Financial",
+ "rank": 78,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Stock)",
+ "ats": "workday",
+ "config": {
+  "host": "pru.wd5.myworkdayjobs.com",
+  "tenant": "pru",
+  "site": "Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "pru.wd5.myworkdayjobs.com",
+    "tenant": "pru",
+    "site": "Careers"
+   },
+   "from": "https://jobs.prudential.com/",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "prudential.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 74
+}

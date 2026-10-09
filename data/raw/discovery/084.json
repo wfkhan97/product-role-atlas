@@ -1,0 +1,30 @@
+{
+ "company": "HP",
+ "rank": 84,
+ "group": "fortune500",
+ "industry": "Computers, Office Equipment",
+ "ats": "eightfold",
+ "config": {
+  "host": "hp-sandbox.eightfold.ai",
+  "domain": "hp-sandbox.com",
+  "api": "pcsx"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "hp-sandbox.eightfold.ai",
+    "domain": "hp-sandbox.com",
+    "api": "pcsx"
+   },
+   "from": "https://jobs.hp.com/",
+   "verify": "Consumer Product Manager"
+  }
+ ],
+ "domain": "hp.com",
+ "sample_title": "Consumer Product Manager",
+ "description_chars": 4609,
+ "seconds": 13
+}

@@ -1,0 +1,33 @@
+{
+ "company": "Western & Southern Financial Group",
+ "rank": 321,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Mutual)",
+ "ats": "icims",
+ "config": {
+  "host": "careers-westernsouthern.icims.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-westernsouthern.icims.com"
+   },
+   "from": "https://www.westernsouthern.com/careers",
+   "verify": "Product Owner Level 1, Insurance Operations"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "salescareers-westernsouthern.icims.com"
+   },
+   "from": "https://www.westernsouthern.com/careers"
+  }
+ ],
+ "domain": "westernsouthern.com",
+ "sample_title": "Product Owner Level 1, Insurance Operations",
+ "description_chars": 4294,
+ "seconds": 51
+}

@@ -1,0 +1,32 @@
+{
+ "company": "Newmont",
+ "rank": 200,
+ "group": "fortune500",
+ "industry": "Mining, Crude-Oil Production",
+ "ats": "phenom",
+ "config": {
+  "host": "jobs.newmont.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "jobs.newmont.com"
+   },
+   "from": "https://jobs.newmont.com/us/en",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/NMCNMCUS/en_us/desktop/assets/images/favicon.ico",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "newmont.com",
+ "seconds": 11
+}

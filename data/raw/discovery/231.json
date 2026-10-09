@@ -1,0 +1,33 @@
+{
+ "company": "Intuit",
+ "rank": 231,
+ "group": "fortune500",
+ "industry": "Computer Software",
+ "ats": "radancy",
+ "config": {
+  "host": "jobs.intuit.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.intuit.com"
+   },
+   "from": "https://www.intuit.com/careers/"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.intuit.com"
+   },
+   "from": "https://jobs.intuit.com/",
+   "verify": "Staff Product Manager"
+  }
+ ],
+ "domain": "intuit.com",
+ "sample_title": "Staff Product Manager",
+ "description_chars": 2197,
+ "seconds": 62
+}

@@ -1,0 +1,15 @@
+{
+ "company": "Texas Instruments",
+ "rank": 252,
+ "group": "fortune500",
+ "industry": "Semiconductors and Other Electronic Components",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.ti.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "ti.com",
+ "seconds": 15
+}

@@ -1,0 +1,15 @@
+{
+ "company": "Block",
+ "rank": 191,
+ "group": "fortune500",
+ "industry": "Financial Data Services",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.blockchain.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "blockchain.com",
+ "seconds": 23
+}

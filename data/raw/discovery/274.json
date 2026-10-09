@@ -1,0 +1,30 @@
+{
+ "company": "IQVIA Holdings",
+ "rank": 274,
+ "group": "fortune500",
+ "industry": "Health Care: Pharmacy and Other Services",
+ "ats": "workday",
+ "config": {
+  "host": "iqvia.wd1.myworkdayjobs.com",
+  "tenant": "iqvia",
+  "site": "IQVIA"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "iqvia.wd1.myworkdayjobs.com",
+    "tenant": "iqvia",
+    "site": "IQVIA"
+   },
+   "from": "https://jobs.iqvia.com/en",
+   "verify": "Product Manager, Capitation Adjudication"
+  }
+ ],
+ "domain": "iqvia.com",
+ "sample_title": "Product Manager, Capitation Adjudication",
+ "description_chars": 6412,
+ "seconds": 16
+}

@@ -1,0 +1,30 @@
+{
+ "company": "Live Nation Entertainment",
+ "rank": 180,
+ "group": "fortune500",
+ "industry": "Entertainment",
+ "ats": "workday",
+ "config": {
+  "host": "livenation.wd503.myworkdayjobs.com",
+  "tenant": "livenation",
+  "site": "LNExternalSite"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "livenation.wd503.myworkdayjobs.com",
+    "tenant": "livenation",
+    "site": "LNExternalSite"
+   },
+   "from": "https://www.livenationentertainment.com/careers",
+   "verify": "Promoted Ads || Associate Product Manager"
+  }
+ ],
+ "domain": "livenationentertainment.com",
+ "sample_title": "Promoted Ads || Associate Product Manager",
+ "description_chars": 8206,
+ "seconds": 9
+}

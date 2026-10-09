@@ -1,0 +1,39 @@
+{
+ "company": "Kyndryl Holdings",
+ "rank": 300,
+ "group": "fortune500",
+ "industry": "Information Technology Services",
+ "ats": "workday",
+ "config": {
+  "host": "kyndryl.wd5.myworkdayjobs.com",
+  "tenant": "kyndryl",
+  "site": "KyndrylEarlyCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "kyndryl.wd5.myworkdayjobs.com",
+    "tenant": "kyndryl",
+    "site": "KyndrylEarlyCareers"
+   },
+   "from": "https://www.kyndryl.com/us/en/careers",
+   "verify": "(board reachable; no product title on first pages)"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "kyndryl.wd5.myworkdayjobs.com",
+    "tenant": "kyndryl",
+    "site": "KyndrylProfessionalCareers"
+   },
+   "from": "https://www.kyndryl.com/us/en/careers"
+  }
+ ],
+ "domain": "kyndryl.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 13
+}

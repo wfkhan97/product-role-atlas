@@ -1,0 +1,24 @@
+from . import greenhouse, lever, ashby, workday, eightfold, phenom, oracle_hcm, smartrecruiters, amazon, apple, google, gs_graphql, jibe, paradox, radancy, bofa_servlet, mcloud, successfactors, icims, meta
+
+ADAPTERS = {
+    "greenhouse": greenhouse.fetch,
+    "lever": lever.fetch,
+    "ashby": ashby.fetch,
+    "workday": workday.fetch,
+    "eightfold": eightfold.fetch,
+    "phenom": phenom.fetch,
+    "oracle_hcm": oracle_hcm.fetch,
+    "smartrecruiters": smartrecruiters.fetch,
+    "amazon": amazon.fetch,
+    "apple": apple.fetch,
+    "google": google.fetch,
+    "gs_graphql": gs_graphql.fetch,
+    "jibe": jibe.fetch,
+    "paradox": paradox.fetch,
+    "radancy": radancy.fetch,
+    "bofa_servlet": bofa_servlet.fetch,
+    "mcloud": mcloud.fetch,
+    "successfactors": successfactors.fetch,
+    "icims": icims.fetch,
+    "meta": meta.fetch,
+}

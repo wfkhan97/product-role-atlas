@@ -1,0 +1,15 @@
+{
+ "company": "Intuitive Surgical",
+ "rank": 418,
+ "group": "fortune500",
+ "industry": "Medical Products and Equipment",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.intuitive.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "intuitive.com",
+ "seconds": 12
+}

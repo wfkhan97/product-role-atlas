@@ -1,0 +1,24 @@
+{
+ "company": "Advanced Micro Devices",
+ "rank": 131,
+ "group": "fortune500",
+ "industry": "Semiconductors and Other Electronic Components",
+ "ats": "phenom",
+ "config": {
+  "host": "mdimembrane.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "mdimembrane.com"
+   },
+   "from": "https://mdimembrane.com/careers/wp-json/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "mdimembrane.com",
+ "seconds": 89
+}

@@ -1,0 +1,15 @@
+{
+ "company": "Coterra Energy",
+ "rank": 496,
+ "group": "fortune500",
+ "industry": "Mining, Crude-Oil Production",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.coterra.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "coterra.com",
+ "seconds": 15
+}

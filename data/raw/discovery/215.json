@@ -1,0 +1,44 @@
+{
+ "company": "Fiserv",
+ "rank": 215,
+ "group": "fortune500",
+ "industry": "Financial Data Services",
+ "ats": "workday",
+ "config": {
+  "host": "fiserv.wd5.myworkdayjobs.com",
+  "tenant": "fiserv",
+  "site": "EXT"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.fiserv.com"
+   },
+   "from": "https://careers.fiserv.com/us/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/FFFYJUS/en_us/desktop/assets/images/favicon.ico?v=1761830216504"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "fiserv.wd5.myworkdayjobs.com",
+    "tenant": "fiserv",
+    "site": "EXT"
+   },
+   "from": "https://careers.fiserv.com/us/en/search-results",
+   "verify": "Senior Product Manager, GEO Card Present / In-Person Payments"
+  }
+ ],
+ "domain": "fiserv.com",
+ "sample_title": "Senior Product Manager, GEO Card Present / In-Person Payments",
+ "description_chars": 7739,
+ "seconds": 16
+}

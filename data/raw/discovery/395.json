@@ -1,0 +1,35 @@
+{
+ "company": "Quest Diagnostics",
+ "rank": 395,
+ "group": "fortune500",
+ "industry": "Health Care: Pharmacy and Other Services",
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "hdox.fa.us6.oraclecloud.com",
+  "siteNumber": "CX_1"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "hdox.fa.us6.oraclecloud.com",
+    "siteNumber": "CX_1"
+   },
+   "from": "https://careers.questdiagnostics.com/",
+   "verify": "Senior Interoperability Digital Product Manager (Remote)"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.questdiagnostics.com"
+   },
+   "from": "https://careers.questdiagnostics.com/"
+  }
+ ],
+ "domain": "questdiagnostics.com",
+ "sample_title": "Senior Interoperability Digital Product Manager (Remote)",
+ "description_chars": 6513,
+ "seconds": 12
+}

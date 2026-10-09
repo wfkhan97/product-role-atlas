@@ -1,0 +1,30 @@
+{
+ "company": "Accendra Health",
+ "rank": 407,
+ "group": "fortune500",
+ "industry": "Health Care: Pharmacy and Other Services",
+ "ats": "workday",
+ "config": {
+  "host": "accendra.wd504.myworkdayjobs.com",
+  "tenant": "accendra",
+  "site": "AccendraCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "accendra.wd504.myworkdayjobs.com",
+    "tenant": "accendra",
+    "site": "AccendraCareers"
+   },
+   "from": "https://www.accendrahealth.com/careers",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "accendrahealth.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 11
+}

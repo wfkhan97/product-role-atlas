@@ -1,0 +1,32 @@
+{
+ "company": "Altria Group",
+ "rank": 221,
+ "group": "fortune500",
+ "industry": "Tobacco",
+ "ats": "paradox",
+ "config": {
+  "host": "www.altria.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 product postings; phenom 0 product postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.altria.com"
+   },
+   "from": "https://www.altria.com/about-altria/government-affairs/public-policy-positions?src=topnav",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.altria.com"
+   },
+   "from": "https://careers.altria.com/search/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "nu-mark.com",
+ "seconds": 95
+}

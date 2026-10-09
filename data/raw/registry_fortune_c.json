@@ -1,0 +1,265 @@
+[
+  {
+    "company": "AT&T",
+    "rank": 35,
+    "group": "fortune50",
+    "ats": "workday",
+    "config": {
+      "host": "att.wd1.myworkdayjobs.com",
+      "tenant": "att",
+      "site": "ATTGeneral"
+    },
+    "verified": true,
+    "sample_title": "Lead Product Management and Development  (Government)",
+    "description_chars": 6750,
+    "notes": "Public site www.att.jobs is a Radancy front-end; Workday tenant att has sites ATTGeneral (main), ATTcollege, Cricket."
+  },
+  {
+    "company": "Goldman Sachs Group",
+    "rank": 36,
+    "group": "fortune50",
+    "ats": "gs_graphql",
+    "config": {
+      "host": "api-higher.gs.com",
+      "graphql_path": "/gateway/api/v1/graphql",
+      "careers_url": "https://higher.gs.com/results",
+      "search_query": "query GetRoles($searchQueryInput: RoleSearchQueryInput!) { roleSearch(searchQueryInput: $searchQueryInput) { totalCount items { roleId corporateTitle jobTitle jobFunction locations { primary state country city } status division externalSource { sourceId } } } }",
+      "search_variables": {
+        "searchQueryInput": {
+          "searchTerm": "product manager",
+          "experiences": [
+            "PROFESSIONAL"
+          ],
+          "page": {
+            "pageNumber": 1,
+            "pageSize": 20
+          }
+        }
+      },
+      "detail_query": "query GetRole($id: String!) { role(externalSourceId: $id) { roleId jobTitle corporateTitle division shortDescription descriptionHtml } }",
+      "detail_id_field": "externalSource.sourceId",
+      "headers": {
+        "x-higher-request-id": "<any uuid4>",
+        "Origin": "https://higher.gs.com"
+      }
+    },
+    "verified": true,
+    "sample_title": "Asset & Wealth Management–New York-Vice President, Product Management-4993008",
+    "description_chars": 3105,
+    "notes": "Custom Next.js site (higher.gs.com) backed by a public GraphQL gateway on api-higher.gs.com; introspection enabled. searchTerm matching is loose (328 hits) so filter jobTitle/jobFunction client-side. higher.gs.com/gateway/... returns 404; must use api-higher.gs.com."
+  },
+  {
+    "company": "Comcast",
+    "rank": 37,
+    "group": "fortune50",
+    "ats": "workday",
+    "config": {
+      "host": "comcast.wd115.myworkdayjobs.com",
+      "tenant": "comcast",
+      "site": "Comcast_Careers"
+    },
+    "verified": true,
+    "sample_title": "Product Manager, Buyer Cloud, Freewheel",
+    "description_chars": 10275,
+    "notes": "jobs.comcast.com is a Radancy front-end; Workday is the system of record."
+  },
+  {
+    "company": "Wells Fargo",
+    "rank": 38,
+    "group": "fortune50",
+    "ats": "workday",
+    "config": {
+      "host": "wf.wd1.myworkdayjobs.com",
+      "tenant": "wf",
+      "site": "WellsFargoJobs"
+    },
+    "verified": true,
+    "sample_title": "Senior Lead Digital Product Manager- Agentic Operations",
+    "description_chars": 13125,
+    "notes": "Tenant is 'wf' (not 'wellsfargo')."
+  },
+  {
+    "company": "Morgan Stanley",
+    "rank": 39,
+    "group": "fortune50",
+    "ats": "eightfold",
+    "config": {
+      "host": "morganstanley.eightfold.ai",
+      "domain": "morganstanley.com",
+      "api": "pcsx"
+    },
+    "verified": true,
+    "sample_title": "IED Sr Product Manager – Client Intelligence Systems & Analytics",
+    "description_chars": 8039,
+    "notes": "pcsx search returns data.positions[] (not top-level positions); position_details returns data.jobDescription. Older /api/apply/v2/jobs returns 403 'Not authorized for PCSX'."
+  },
+  {
+    "company": "Valero Energy",
+    "rank": 40,
+    "group": "fortune50",
+    "ats": "taleo",
+    "config": {
+      "host": "valero.taleo.net",
+      "portal": "101430233",
+      "careersection": "2",
+      "search_url": "https://valero.taleo.net/careersection/rest/jobboard/searchjobs?lang=en&portal=101430233",
+      "detail_url": "https://valero.taleo.net/careersection/2/jobdetail.ftl?job={contestNo}&lang=en",
+      "careers_url": "https://valero.taleo.net/careersection/2/jobsearch.ftl?lang=en"
+    },
+    "verified": false,
+    "sample_title": "Superintendent Operations",
+    "description_chars": 3712,
+    "notes": "Taleo careersection REST search works (POST JSON with headers tz/tzname) and returns requisitionList[{jobId,contestNo,column:[title,locations,date]}], but 'product manager' returns 0 postings (keyword 'product' returned 5, none titled Product) -> criterion (a) unmet. Detail: jobdetail.ftl HTML embeds a '!|!'-delimited serialized blob after 'descRequisition'; the URL-encoded HTML token is the description (3712 chars decoded). No JSON detail endpoint found (rest/jobboard/requisition and jobdetails -> 404)."
+  },
+  {
+    "company": "Dell Technologies",
+    "rank": 41,
+    "group": "fortune50",
+    "ats": "oracle_hcm",
+    "config": {
+      "host": "enterpriseplatform.dell.com",
+      "siteNumber": "CX_1001"
+    },
+    "verified": true,
+    "sample_title": "Observability Product Manager",
+    "description_chars": 3847,
+    "notes": "jobs.dell.com redirects to enterpriseplatform.dell.com/hcmUI/CandidateExperience/en/sites/careers (siteNumber CX_1001). Detail field ExternalDescriptionStr."
+  },
+  {
+    "company": "Target",
+    "rank": 42,
+    "group": "fortune50",
+    "ats": "workday",
+    "config": {
+      "host": "target.wd5.myworkdayjobs.com",
+      "tenant": "target",
+      "site": "targetcareers"
+    },
+    "verified": true,
+    "sample_title": "Sr Product Manager - Data Product (GCP)",
+    "description_chars": 8992,
+    "notes": "Public site corporate.target.com/careers; Workday search works directly."
+  },
+  {
+    "company": "Tesla",
+    "rank": 43,
+    "group": "fortune50",
+    "ats": "unsupported",
+    "config": {
+      "careers_url": "https://www.tesla.com/careers/search/?query=product%20manager",
+      "api_url": "https://www.tesla.com/cua-api/apps/careers/state"
+    },
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "Akamai bot protection returns HTTP 403 'Access Denied' for every non-browser request (API, careers page, even tesla.com root) regardless of UA/headers/HTTP version; WebFetch also gets 403. Needs a real browser/TLS fingerprint."
+  },
+  {
+    "company": "Walt Disney",
+    "rank": 44,
+    "group": "fortune50",
+    "ats": "workday",
+    "config": {
+      "host": "disney.wd5.myworkdayjobs.com",
+      "tenant": "disney",
+      "site": "disneycareer"
+    },
+    "verified": true,
+    "sample_title": "Lead Product Manager",
+    "description_chars": 8347,
+    "notes": "jobs.disneycareers.com redirects to www.disneycareers.com (custom front-end); Workday search works directly."
+  },
+  {
+    "company": "Johnson & Johnson",
+    "rank": 45,
+    "group": "fortune50",
+    "ats": "workday",
+    "config": {
+      "host": "jj.wd5.myworkdayjobs.com",
+      "tenant": "jj",
+      "site": "JJ"
+    },
+    "verified": true,
+    "sample_title": "MedTech SC - Digital Product Manager",
+    "description_chars": 9769,
+    "notes": "www.careers.jnj.com is behind a Cloudflare JS challenge (403 to curl); Workday tenant jj / site JJ is open."
+  },
+  {
+    "company": "PepsiCo",
+    "rank": 46,
+    "group": "fortune50",
+    "ats": "jibe",
+    "config": {
+      "host": "www.pepsicojobs.com",
+      "search_url": "https://www.pepsicojobs.com/api/jobs?keywords=product%20manager&page=1&limit=20",
+      "detail_url": "https://www.pepsicojobs.com/api/jobs?keywords={req_id}&page=1&limit=1",
+      "careers_url": "https://www.pepsicojobs.com/main/"
+    },
+    "verified": true,
+    "sample_title": "Digital Product Manager",
+    "description_chars": 4316,
+    "notes": "iCIMS Jibe/Attract site (backend pepjobs-pepsico.icims.com). Search JSON: jobs[].data.{title,req_id,slug,description(full HTML)}, totalCount. The list already carries the full description; /api/jobs/{slug} is 404, so detail = search by req_id. Param must be 'keywords' (plural); 'keyword'/'q' are ignored."
+  },
+  {
+    "company": "Boeing",
+    "rank": 47,
+    "group": "fortune50",
+    "ats": "workday",
+    "config": {
+      "host": "boeing.wd1.myworkdayjobs.com",
+      "tenant": "boeing",
+      "site": "EXTERNAL_CAREERS"
+    },
+    "verified": true,
+    "sample_title": "Senior Technical Product Management Specialist",
+    "description_chars": 9597,
+    "notes": "jobs.boeing.com is a Radancy front-end; Workday is the system of record."
+  },
+  {
+    "company": "UPS",
+    "rank": 48,
+    "group": "fortune50",
+    "ats": "workday",
+    "config": {
+      "host": "hcmportal.wd5.myworkdayjobs.com",
+      "tenant": "hcmportal",
+      "site": "Search"
+    },
+    "verified": true,
+    "sample_title": "AI Manager, Product Management (Flex)",
+    "description_chars": 5633,
+    "notes": "Public site www.jobs-ups.com is Phenom (POST /widgets works, refineSearch.data.jobs[], description empty in search) and links to this Workday tenant 'hcmportal' site 'Search', which returns full descriptions."
+  },
+  {
+    "company": "RTX",
+    "rank": 49,
+    "group": "fortune50",
+    "ats": "workday",
+    "config": {
+      "host": "globalhr.wd5.myworkdayjobs.com",
+      "tenant": "globalhr",
+      "site": "REC_RTX_Ext_Gateway"
+    },
+    "verified": true,
+    "sample_title": "Product Manager",
+    "description_chars": 11975,
+    "notes": "Public site careers.rtx.com is Phenom (POST /widgets works; top hit 'Product Manager' 01879911). Workday searchText is loose (1136 hits, PM titles not on first page) so filter titles client-side or map Phenom applyUrl -> Workday externalPath (/job/<loc>/<slug>_<reqId>). Detail verified on the Workday tenant."
+  },
+  {
+    "company": "FedEx",
+    "rank": 50,
+    "group": "fortune50",
+    "ats": "paradox",
+    "config": {
+      "host": "careers.fedex.com",
+      "search_url": "https://careers.fedex.com/jobs?keyword=product%20manager",
+      "page_url": "https://careers.fedex.com/jobs/page/{n}?keyword=product%20manager",
+      "detail": "job page HTML -> <script type=\"application/ld+json\"> JobPosting.description",
+      "careers_url": "https://careers.fedex.com/jobs"
+    },
+    "verified": true,
+    "sample_title": "Product Management Principal - Delivery Experience Product Team",
+    "description_chars": 8362,
+    "notes": "Paradox (Olivia) careers site; no public JSON search API found (only /api/jobs/autocomplete and /api/hiring-events). Search is server-rendered HTML: links href=\"/<slug>/job/<reqId>\", title in anchor text; param must be 'keyword' (singular). Job page carries schema.org JobPosting JSON-LD with full description."
+  }
+]

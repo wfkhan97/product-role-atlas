@@ -1,0 +1,26 @@
+{
+ "company": "Bitgo Holdings",
+ "rank": 278,
+ "group": "fortune500",
+ "industry": "Financial Data Services",
+ "ats": "greenhouse",
+ "config": {
+  "board": "bitgo"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "bitgo"
+   },
+   "from": "https://www.bitgo.com/company/careers/",
+   "verify": "Director, Technical Program Management"
+  }
+ ],
+ "domain": "bitgo.com",
+ "sample_title": "Director, Technical Program Management",
+ "description_chars": 9098,
+ "seconds": 7
+}

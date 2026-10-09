@@ -1,0 +1,15 @@
+{
+ "company": "Tractor Supply",
+ "rank": 290,
+ "group": "fortune500",
+ "industry": "Specialty Retailers: Other",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.tractorsupply.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "tractorsupply.com",
+ "seconds": 269
+}

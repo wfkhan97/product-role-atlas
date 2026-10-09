@@ -1,0 +1,32 @@
+{
+ "company": "Aflac",
+ "rank": 261,
+ "group": "fortune500",
+ "industry": "Insurance: Life, Health (Stock)",
+ "ats": "paradox",
+ "config": {
+  "host": "careers.aflac.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 product postings; successfactors 0 product postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.aflac.com"
+   },
+   "from": "https://careers.aflac.com/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.aflac.com"
+   },
+   "from": "https://careers.aflac.com/go/View-All-Jobs/8697400/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "aflac.com",
+ "seconds": 8
+}

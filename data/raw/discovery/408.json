@@ -1,0 +1,15 @@
+{
+ "company": "American Tower",
+ "rank": 408,
+ "group": "fortune500",
+ "industry": "Real Estate",
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.americantower.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "domain": "americantower.com",
+ "seconds": 6
+}

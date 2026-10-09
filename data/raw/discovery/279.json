@@ -1,0 +1,37 @@
+{
+ "company": "United Rentals",
+ "rank": 279,
+ "group": "fortune500",
+ "industry": "Specialty Retailers: Other",
+ "ats": "workday",
+ "config": {
+  "host": "ur.wd1.myworkdayjobs.com",
+  "tenant": "ur",
+  "site": "URcareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "ur.wd1.myworkdayjobs.com",
+    "tenant": "ur",
+    "site": "URcareers"
+   },
+   "from": "https://jobs.unitedrentals.com/",
+   "verify": "(board reachable; no product title on first pages)"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.unitedrentals.com"
+   },
+   "from": "https://jobs.unitedrentals.com/"
+  }
+ ],
+ "domain": "unitedrentals.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 9
+}

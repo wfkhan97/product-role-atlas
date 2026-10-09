@@ -1,0 +1,30 @@
+{
+ "company": "Goodyear Tire & Rubber",
+ "rank": 239,
+ "group": "fortune500",
+ "industry": "Motor Vehicles & Parts",
+ "ats": "workday",
+ "config": {
+  "host": "goodyear.wd1.myworkdayjobs.com",
+  "tenant": "goodyear",
+  "site": "GoodyearCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "goodyear.wd1.myworkdayjobs.com",
+    "tenant": "goodyear",
+    "site": "GoodyearCareers"
+   },
+   "from": "https://corporate.goodyear.com/us/en/company/working-at-goodyear.html",
+   "verify": "(board reachable; no product title on first pages)"
+  }
+ ],
+ "domain": "goodyear.com",
+ "sample_title": "(board reachable; no product title on first pages)",
+ "description_chars": 0,
+ "seconds": 14
+}

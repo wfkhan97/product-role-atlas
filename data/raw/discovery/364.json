@@ -1,0 +1,48 @@
+{
+ "company": "Darden Restaurants",
+ "rank": 364,
+ "group": "fortune500",
+ "industry": "Food Services",
+ "ats": "paradox",
+ "config": {
+  "host": "www.darden.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 product postings; paradox 0 product postings; paradox 0 product postings; paradox 0 product postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.darden.com"
+   },
+   "from": "https://www.darden.com/careers/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.longhornsteakhouse.com"
+   },
+   "from": "https://jobs.longhornsteakhouse.com/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "dardenmanagerjobs.recruiting.com"
+   },
+   "from": "https://dardenmanagerjobs.recruiting.com/",
+   "verify": "0 product postings"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "dardenrscjobs.recruiting.com"
+   },
+   "from": "https://dardenrscjobs.recruiting.com/",
+   "verify": "0 product postings"
+  }
+ ],
+ "domain": "darden.com",
+ "seconds": 49
+}
