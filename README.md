@@ -32,6 +32,7 @@ cd web && python3 -m http.server 8000   # then open http://localhost:8000
 - `data/raw/registry_*.json` — per-company ATS configs; `pipeline/merge_registry.py` merges them (hand-verified > agents > auto) with Fortune tier, industry and sector into `data/registry.json`.
 - `data/raw/jobs/*.json` — raw scraped postings per company (cache).
 - `web/` — static site; `web/data/graph.json` is the only build output it needs.
+- `web/tokens/` — the GradBuddy design tokens (CSS custom properties, oklch, dark and light), copied verbatim from the design-system snapshot of 2026-10-09; `web/style.css` is written on them and look changes go through tokens only. The theme follows the device unless overridden from the top bar.
 - `web/match.js` — the resume matcher (pure logic, no DOM): per-line evidence with strength, tiered requirements, persona and level read, transfer vocabulary. Used by `app.js` and by the evals.
 - `evals/` — evals and baselines: sample resumes with expectations and `node evals/run.mjs` for the matcher; `extraction_baseline.md` for the taxonomy (regex vs model judgment on 200 postings); `NOTES.md` for the design history and findings.
 - `pipeline/experiments/` — the model-judgment audit (`decisions_audit.py`, `decisions_report.py`, `decisions_compare.py`). Needs `OPENAI_API_KEY` in `.env` for a live run; `--reuse` recomputes the regex side against saved answers without API calls. Output lands in `data/experiments/` (gitignored).
