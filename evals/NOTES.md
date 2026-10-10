@@ -1,8 +1,22 @@
 # Matcher: diagnosis and redesign notes
 
-Written 2026-10-09 from the baseline in [baseline.md](baseline.md). Context: the matcher gave a decent
-internet-sample PM resume a 36% match against a PM role. Our own five-year PM sample scores 52%, the
-grad-student sample 38% at associate, the PhD pivoter 33%.
+Written 2026-10-09; the redesign below landed on 2026-10-10 in `web/match.js`. Context: the old matcher
+gave a decent internet-sample PM resume a 36% match against a PM role. Under the old scoring our own
+PM sample scored 52%, the grad-student sample 38% at associate, the PhD pivoter 33%. After the redesign
+they read 77%, 56% and 54% with 0 false positives (see [baseline.md](baseline.md)).
+
+## Status
+
+Done (steps 0 to 8 below, first pass): matcher extracted to `web/match.js`; per-line evidence with
+sections and strength; tiered requirements with one industry slot and one AI slot; credentials read from
+titles, dates and degrees; persona and level read; transfer vocabulary with rewrite suggestions; evidence
+lines, unmapped lines and a what-if in the UI; resume-language patterns and a drop list for posting
+patterns that misfire on resumes.
+
+Next round (calibration): add real resumes to `evals/resumes/`, starting with the 36% internet sample;
+tune `score_band`s once a few real ones are in; grow `RESUME_PATTERNS` and `RESUME_DROP` from eval
+failures only; add TPM and PMM samples; consider section-aware weighting for pivoters with long
+non-product careers (currently every work bullet counts the same).
 
 ## Why decent resumes score in the 30s and 50s
 
@@ -54,7 +68,7 @@ Three users land on "Match me", and the same number means something different to
 A single percentage cannot carry any of that. It can stay as a summary, but calibrated so that a
 strong profile for the target level reads as strong.
 
-## Proposed design
+## Design (as implemented)
 
 **0. Extract the matcher.** Move `tagText` and the scoring into `web/match.js` as a pure function
 `match(text, target, data) -> result` that `app.js` renders and `evals/run.mjs` imports. Everything

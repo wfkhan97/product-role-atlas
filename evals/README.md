@@ -46,8 +46,12 @@ fix the expectation and say why in the commit.
    what is genuinely missing.
 4. The random internet PM resume that scored 36% belongs here as the first real-world sample.
 
-## Keeping the runner honest
+## What the runner checks
 
-`run.mjs` currently carries a copy of the scoring code from `web/app.js`. Step 0 of the redesign
-([NOTES.md](NOTES.md)) extracts the matcher into `web/match.js` so both the app and this runner import
-the same function and the copy goes away.
+For each sample and target: the three coverage numbers and the overall score against `score_band`;
+`must_evidence`, `must_not_tag` and `real_gaps` against the set of skills evidenced at strength 2 or
+more; `persona` and `expected_level` against the profile read; and a monotonicity property (appending a
+line that evidences a gap never lowers the score). `--verbose` prints every requirement row with the
+line that evidenced it, which is the fastest way to see why a check failed.
+
+The runner requires `web/match.js` directly, so it always runs the code the app runs.
