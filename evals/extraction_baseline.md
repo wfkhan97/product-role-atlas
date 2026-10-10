@@ -1,102 +1,143 @@
-# Extraction baseline: regex vs model judgment on 200 random PM postings (seed 7, 2026-10-10)
+# Extraction baseline: regex vs model judgment on 200 random PM postings (seed 7)
 
-Produced by `pipeline/experiments/decisions_audit.py` (lenient and `--strict` prompts) and `decisions_compare.py`. Raw per-posting answers are in `data/experiments/` (local, gitignored). Regenerate after any taxonomy change to see which shares move.
+Produced by `pipeline/experiments/decisions_audit.py` (lenient prompt, plus `--strict`) and `decisions_compare.py`. Model answers were recorded once on 2026-10-10; after a taxonomy change, rerun with `--reuse data/experiments/decisions_results.jsonl --tag after` to recompute only the regex side (no API calls) and regenerate this file. Raw answers live in `data/experiments/` (local, gitignored).
+
+## Change from the precision/recall pass (2026-10-10)
+
+Regex share before and after the taxonomy edits, with the lenient model share for reference. "Regex-only" = postings the regex tags and the model rejects (the false-positive proxy). Sorted by size of change; skills that moved under 3 points are omitted.
+
+| skill | cluster | regex before | regex after | model (lenient) | regex-only before | regex-only after |
+|---|---|---|---|---|---|---|
+| Automotive, autonomy & robotics | domain | 43% | 9% | 3% | 81 | 12 |
+| Personas & segmentation | discovery | 31% | 9% | 34% | 31 | 4 |
+| Consumer products & B2C | domain | 38% | 16% | 27% | 38 | 9 |
+| Regulated industries & compliance | domain | 44% | 22% | 38% | 25 | 5 |
+| PRDs & requirements writing | craft | 24% | 43% | 63% | 1 | 2 |
+| Product strategy | craft | 47% | 65% | 98% | 0 | 0 |
+| Product launches | craft | 21% | 38% | 72% | 2 | 2 |
+| Security & privacy | technical | 32% | 16% | 29% | 27 | 5 |
+| SDLC, DevOps & CI/CD | technical | 24% | 8% | 11% | 33 | 5 |
+| Supply chain, logistics & operations | domain | 29% | 14% | 12% | 37 | 7 |
+| Vendor, budget & contract management | delivery | 20% | 5% | 9% | 27 | 4 |
+| Executive communication & reviews | leadership | 9% | 22% | 59% | 0 | 0 |
+| Customer success & support partnership | gtm | 26% | 14% | 28% | 19 | 5 |
+| Energy, industrial & manufacturing | domain | 22% | 10% | 9% | 29 | 5 |
+| Networking & connectivity | technical | 17% | 6% | 10% | 17 | 4 |
+| Partnerships & ecosystem | gtm | 37% | 27% | 44% | 27 | 14 |
+| Hardware, devices & embedded | technical | 24% | 15% | 11% | 31 | 14 |
+| Agile / Scrum | delivery | 31% | 22% | 19% | 25 | 8 |
+| AI tooling in daily work | tools | 32% | 24% | 21% | 33 | 20 |
+| Product vision | craft | 24% | 32% | 81% | 0 | 0 |
+| Developer tools & infrastructure products | domain | 20% | 12% | 18% | 20 | 8 |
+| User research | discovery | 15% | 20% | 61% | 0 | 0 |
+| Analytics tools (Amplitude, Mixpanel, GA, Looker, Tableau) | tools | 11% | 6% | 17% | 15 | 5 |
+| Advertising & media | domain | 12% | 8% | 10% | 11 | 5 |
+| Growth, funnels & retention | gtm | 27% | 22% | 30% | 13 | 7 |
+| Positioning & messaging | gtm | 27% | 23% | 42% | 13 | 8 |
+| Enterprise SaaS & B2B | domain | 38% | 34% | 36% | 26 | 19 |
+| Pricing & packaging | gtm | 28% | 25% | 19% | 21 | 15 |
+| Data modeling & pipelines | technical | 18% | 15% | 19% | 13 | 8 |
+| E-commerce, retail & marketplaces | domain | 24% | 21% | 13% | 24 | 18 |
+
+Regex-only cases across all skills: 889 → 457. On industry and technical skills: 533 → 238.
+
+## Full table after the pass (regex vs lenient vs strict)
 
 | skill | cluster | regex | lenient | strict | strict agreement | regex-only (strict) | model-only (strict) |
 |---|---|---|---|---|---|---|---|
-| Ownership & bias for action | leadership | 75% | 94% | 24% | 48% | 103 | 1 |
-| Automotive, autonomy & robotics | domain | 42% | 3% | 0% | 57% | 85 | 0 |
-| Public sector, regulated & compliance | domain | 45% | 39% | 7% | 62% | 76 | 0 |
-| Structured problem solving | craft | 44% | 98% | 6% | 61% | 76 | 2 |
-| Enterprise SaaS & B2B | domain | 38% | 36% | 1% | 64% | 73 | 0 |
-| Consumer products & B2C | domain | 37% | 26% | 1% | 64% | 72 | 0 |
-| Systems & architecture | technical | 46% | 71% | 11% | 64% | 71 | 0 |
-| AI / machine learning | technical | 66% | 57% | 31% | 64% | 71 | 1 |
-| APIs & integrations | technical | 44% | 34% | 10% | 67% | 66 | 0 |
-| Influence without authority | leadership | 47% | 98% | 14% | 66% | 66 | 1 |
-| Process design & operational rigor | delivery | 38% | 84% | 6% | 68% | 64 | 0 |
-| Product discovery & validation | discovery | 46% | 84% | 15% | 66% | 65 | 3 |
-| Personas & segmentation | discovery | 32% | 34% | 2% | 70% | 59 | 0 |
-| Collaboration & teamwork | leadership | 72% | 100% | 42% | 60% | 70 | 11 |
-| Generative AI / LLMs & agents | technical | 42% | 44% | 14% | 72% | 57 | 0 |
-| Security & privacy | technical | 32% | 30% | 5% | 70% | 57 | 2 |
-| Partnerships & ecosystem | gtm | 38% | 44% | 12% | 68% | 58 | 7 |
-| Adaptability & fast-paced environments | leadership | 62% | 84% | 36% | 67% | 58 | 8 |
-| UX & design collaboration | craft | 36% | 56% | 12% | 70% | 54 | 5 |
-| SDLC, DevOps & CI/CD | technical | 24% | 10% | 0% | 76% | 48 | 0 |
-| Supply chain, logistics & operations | domain | 30% | 12% | 6% | 76% | 48 | 0 |
-| Risk & dependency management | delivery | 32% | 76% | 8% | 74% | 49 | 2 |
-| Customer success & support partnership | gtm | 28% | 28% | 4% | 77% | 46 | 0 |
-| Technical fluency | technical | 46% | 91% | 23% | 67% | 56 | 10 |
-| Growth, funnels & retention | gtm | 26% | 30% | 4% | 78% | 45 | 0 |
-| Hardware, devices & embedded | technical | 25% | 11% | 2% | 78% | 45 | 0 |
-| Payments, fintech & banking | domain | 29% | 23% | 6% | 78% | 45 | 0 |
-| Agile / Scrum | delivery | 30% | 18% | 8% | 78% | 45 | 0 |
-| Product launches | craft | 22% | 72% | 44% | 67% | 11 | 55 |
-| E-commerce, retail & marketplaces | domain | 24% | 12% | 2% | 78% | 44 | 0 |
-| Prioritization & trade-offs | craft | 60% | 100% | 38% | 72% | 50 | 6 |
-| Go-to-market strategy | gtm | 36% | 60% | 14% | 78% | 44 | 0 |
-| Cross-functional leadership | leadership | 84% | 100% | 62% | 72% | 50 | 6 |
-| Product strategy | craft | 47% | 98% | 68% | 74% | 4 | 47 |
-| Stakeholder management | leadership | 66% | 100% | 44% | 72% | 49 | 6 |
-| Energy, industrial & manufacturing | domain | 22% | 10% | 0% | 78% | 43 | 0 |
-| AI tooling in daily work | tools | 32% | 21% | 12% | 76% | 44 | 4 |
-| Positioning & messaging | gtm | 28% | 42% | 8% | 80% | 39 | 0 |
-| Vendor, budget & contract management | delivery | 20% | 9% | 0% | 80% | 39 | 0 |
-| End-to-end product lifecycle | craft | 45% | 88% | 26% | 72% | 47 | 9 |
-| Healthcare & life sciences | domain | 20% | 13% | 1% | 81% | 38 | 0 |
-| Developer tools & infrastructure products | domain | 20% | 18% | 2% | 81% | 38 | 0 |
-| Statistics & forecasting | analytics | 18% | 46% | 0% | 82% | 36 | 0 |
-| Pricing & packaging | gtm | 28% | 18% | 10% | 82% | 35 | 0 |
-| Cloud platforms | technical | 23% | 19% | 6% | 82% | 35 | 0 |
-| Product sense & judgment | craft | 27% | 100% | 10% | 80% | 37 | 3 |
-| Customer obsession / user empathy | craft | 52% | 91% | 36% | 68% | 49 | 16 |
-| Data modeling & pipelines | technical | 18% | 20% | 4% | 86% | 29 | 0 |
-| Written & verbal communication | leadership | 76% | 97% | 62% | 84% | 30 | 2 |
-| Networking & connectivity | technical | 18% | 11% | 4% | 86% | 28 | 0 |
-| Financial modeling & analysis | analytics | 16% | 33% | 3% | 86% | 27 | 2 |
-| Surveys & feedback loops | discovery | 14% | 42% | 3% | 87% | 24 | 2 |
-| Advertising & media | domain | 12% | 10% | 2% | 90% | 21 | 0 |
-| Analytics tools (Amplitude, Mixpanel, GA, Looker, Tableau) | tools | 10% | 16% | 0% | 90% | 20 | 0 |
-| People management & coaching | leadership | 20% | 16% | 10% | 86% | 24 | 5 |
-| Office suite (Excel, PowerPoint, Google Workspace) | tools | 10% | 11% | 1% | 92% | 17 | 0 |
+| Ownership & bias for action | leadership | 75% | 93% | 24% | 48% | 101 | 1 |
+| Structured problem solving | craft | 44% | 98% | 7% | 61% | 75 | 2 |
+| Systems & architecture | technical | 46% | 71% | 10% | 64% | 71 | 0 |
+| AI / machine learning | technical | 66% | 57% | 30% | 63% | 71 | 1 |
+| Enterprise SaaS & B2B | domain | 34% | 36% | 1% | 67% | 65 | 0 |
+| Influence without authority | leadership | 47% | 98% | 15% | 67% | 64 | 1 |
+| Process design & operational rigor | delivery | 38% | 84% | 6% | 68% | 63 | 0 |
+| Product discovery & validation | discovery | 46% | 85% | 15% | 66% | 64 | 3 |
+| Collaboration & teamwork | leadership | 73% | 100% | 42% | 59% | 70 | 10 |
+| APIs & integrations | technical | 41% | 34% | 11% | 70% | 59 | 0 |
+| Generative AI / LLMs & agents | technical | 42% | 44% | 14% | 72% | 56 | 0 |
+| UX & design collaboration | craft | 37% | 56% | 12% | 70% | 54 | 5 |
+| Adaptability & fast-paced environments | leadership | 61% | 84% | 37% | 68% | 56 | 8 |
+| Risk & dependency management | delivery | 32% | 77% | 9% | 75% | 48 | 2 |
+| Payments, fintech & banking | domain | 29% | 23% | 7% | 77% | 45 | 0 |
+| Technical fluency | technical | 45% | 91% | 23% | 68% | 54 | 10 |
+| Prioritization & trade-offs | craft | 60% | 100% | 38% | 72% | 49 | 6 |
+| Go-to-market strategy | gtm | 36% | 60% | 14% | 78% | 43 | 0 |
+| Cross-functional leadership | leadership | 84% | 100% | 62% | 72% | 49 | 6 |
+| Stakeholder management | leadership | 65% | 99% | 44% | 73% | 47 | 6 |
+| End-to-end product lifecycle | craft | 45% | 87% | 26% | 73% | 46 | 8 |
+| Healthcare & life sciences | domain | 20% | 13% | 1% | 81% | 37 | 0 |
+| E-commerce, retail & marketplaces | domain | 21% | 13% | 2% | 81% | 37 | 0 |
+| Growth, funnels & retention | gtm | 22% | 30% | 4% | 82% | 36 | 0 |
+| Statistics & forecasting | analytics | 17% | 47% | 0% | 83% | 33 | 0 |
+| Customer obsession / user empathy | craft | 52% | 91% | 36% | 68% | 48 | 16 |
+| Product sense & judgment | craft | 26% | 99% | 10% | 81% | 35 | 3 |
+| Cloud platforms | technical | 22% | 18% | 6% | 84% | 32 | 0 |
+| Regulated industries & compliance | domain | 22% | 38% | 7% | 84% | 31 | 1 |
+| Positioning & messaging | gtm | 23% | 42% | 8% | 85% | 30 | 0 |
+| PRDs & requirements writing | craft | 43% | 63% | 28% | 84% | 30 | 1 |
+| Pricing & packaging | gtm | 25% | 19% | 10% | 85% | 29 | 0 |
+| Consumer products & B2C | domain | 16% | 27% | 1% | 85% | 29 | 0 |
+| Partnerships & ecosystem | gtm | 27% | 44% | 12% | 76% | 38 | 9 |
+| Written & verbal communication | leadership | 76% | 97% | 61% | 84% | 30 | 2 |
+| Agile / Scrum | delivery | 22% | 19% | 8% | 86% | 28 | 0 |
+| Hardware, devices & embedded | technical | 15% | 11% | 2% | 87% | 26 | 0 |
+| Financial modeling & analysis | analytics | 16% | 34% | 3% | 85% | 27 | 2 |
+| AI tooling in daily work | tools | 24% | 21% | 12% | 81% | 30 | 7 |
+| Data modeling & pipelines | technical | 15% | 19% | 4% | 89% | 21 | 0 |
+| Security & privacy | technical | 16% | 29% | 5% | 83% | 27 | 6 |
+| Developer tools & infrastructure products | domain | 12% | 18% | 2% | 89% | 21 | 0 |
+| Surveys & feedback loops | discovery | 14% | 41% | 3% | 87% | 23 | 2 |
+| Customer success & support partnership | gtm | 14% | 28% | 5% | 89% | 20 | 1 |
+| People management & coaching | leadership | 20% | 17% | 11% | 86% | 23 | 5 |
+| Energy, industrial & manufacturing | domain | 10% | 9% | 1% | 91% | 18 | 0 |
+| Automotive, autonomy & robotics | domain | 9% | 3% | 0% | 91% | 17 | 0 |
+| Supply chain, logistics & operations | domain | 14% | 12% | 5% | 90% | 18 | 1 |
+| Office suite (Excel, PowerPoint, Google Workspace) | tools | 10% | 11% | 1% | 91% | 17 | 0 |
 | Metrics & KPIs | analytics | 52% | 82% | 44% | 81% | 27 | 11 |
-| CRM & GTM tools (Salesforce, HubSpot, Gong) | tools | 8% | 2% | 0% | 92% | 16 | 0 |
-| Executive communication & reviews | leadership | 9% | 59% | 16% | 90% | 2 | 17 |
 | A/B testing & experimentation | analytics | 18% | 18% | 10% | 92% | 15 | 0 |
-| Market & competitive analysis | gtm | 30% | 59% | 24% | 88% | 18 | 5 |
-| Execution & delivery | delivery | 74% | 100% | 67% | 64% | 42 | 29 |
-| User research | discovery | 14% | 60% | 20% | 88% | 6 | 18 |
-| Roadmapping | craft | 72% | 86% | 66% | 92% | 14 | 2 |
+| Personas & segmentation | discovery | 9% | 34% | 2% | 92% | 15 | 0 |
+| SDLC, DevOps & CI/CD | technical | 8% | 11% | 1% | 93% | 14 | 0 |
+| Market & competitive analysis | gtm | 29% | 59% | 23% | 88% | 18 | 5 |
+| Advertising & media | domain | 8% | 10% | 2% | 94% | 12 | 0 |
+| CRM & GTM tools (Salesforce, HubSpot, Gong) | tools | 7% | 3% | 1% | 93% | 13 | 1 |
+| Execution & delivery | delivery | 73% | 100% | 67% | 64% | 41 | 29 |
+| Roadmapping | craft | 71% | 86% | 65% | 92% | 13 | 2 |
+| Product launches | craft | 38% | 72% | 44% | 77% | 17 | 28 |
+| P&L / revenue ownership | gtm | 12% | 25% | 7% | 92% | 13 | 2 |
 | Mobile platforms | technical | 6% | 4% | 0% | 94% | 11 | 0 |
-| Product vision | craft | 24% | 81% | 29% | 88% | 7 | 18 |
-| P&L / revenue ownership | gtm | 12% | 25% | 6% | 92% | 13 | 2 |
-| PRDs & requirements writing | craft | 24% | 63% | 28% | 82% | 13 | 23 |
-| Business cases & ROI | gtm | 16% | 40% | 12% | 94% | 10 | 2 |
-| Python / R / scripting | technical | 4% | 4% | 2% | 98% | 5 | 0 |
-| Jira / Confluence / Asana / Linear | tools | 5% | 4% | 2% | 98% | 5 | 0 |
-| Customer & executive-facing engagement | leadership | 16% | 63% | 14% | 84% | 19 | 14 |
-| Program & project management | delivery | 41% | 100% | 38% | 72% | 30 | 25 |
-| Feature definition & scoping | craft | 6% | 92% | 8% | 90% | 8 | 12 |
-| Telecommunications | domain | 2% | 2% | 0% | 98% | 4 | 0 |
-| Sales enablement & field partnership | gtm | 10% | 34% | 8% | 90% | 12 | 9 |
-| Customer interviews | discovery | 6% | 39% | 5% | 90% | 12 | 9 |
-| Data-driven decision making | analytics | 43% | 94% | 44% | 75% | 24 | 26 |
-| SQL | technical | 8% | 9% | 8% | 99% | 2 | 0 |
-| Figma / design tools | tools | 3% | 3% | 2% | 99% | 2 | 0 |
+| Executive communication & reviews | leadership | 22% | 59% | 17% | 86% | 19 | 8 |
+| Analytics tools (Amplitude, Mixpanel, GA, Looker, Tableau) | tools | 6% | 17% | 1% | 95% | 10 | 0 |
+| Business cases & ROI | gtm | 17% | 40% | 13% | 94% | 10 | 2 |
+| Vendor, budget & contract management | delivery | 5% | 9% | 1% | 95% | 9 | 1 |
+| Product strategy | craft | 65% | 98% | 69% | 84% | 12 | 19 |
+| Networking & connectivity | technical | 6% | 10% | 3% | 93% | 10 | 4 |
+| Product vision | craft | 32% | 81% | 29% | 92% | 10 | 5 |
+| Customer & executive-facing engagement | leadership | 15% | 62% | 13% | 83% | 19 | 14 |
+| Jira / Confluence / Asana / Linear | tools | 5% | 4% | 3% | 97% | 5 | 0 |
+| Python / R / scripting | technical | 4% | 5% | 2% | 97% | 5 | 0 |
+| Feature definition & scoping | craft | 7% | 92% | 9% | 90% | 8 | 12 |
+| Sales enablement & field partnership | gtm | 10% | 35% | 8% | 89% | 12 | 9 |
+| Telecommunications | domain | 2% | 2% | 1% | 98% | 3 | 0 |
+| Program & project management | delivery | 41% | 99% | 39% | 73% | 28 | 25 |
+| Data-driven decision making | analytics | 44% | 94% | 45% | 75% | 24 | 26 |
+| User research | discovery | 20% | 61% | 21% | 90% | 9 | 11 |
 | Quality, testing & acceptance | delivery | 11% | 50% | 12% | 89% | 10 | 12 |
-| OKRs & goal setting | craft | 3% | 24% | 4% | 98% | 1 | 2 |
+| Figma / design tools | tools | 3% | 3% | 2% | 99% | 2 | 0 |
+| OKRs & goal setting | craft | 3% | 25% | 4% | 98% | 1 | 2 |
+| Customer interviews | discovery | 6% | 39% | 5% | 90% | 10 | 9 |
+| SQL | technical | 8% | 9% | 8% | 99% | 1 | 0 |
 | Experimentation & feature-flag tools | tools | 0% | 7% | 0% | 100% | 0 | 0 |
 
-mean strict agreement 79%; skills moving ≥15 pts under strict: 47 of 83; under lenient: 42
+mean strict agreement 83%; skills moving ≥15 pts under strict: 30 of 83; under lenient: 44
 
 cluster: mean strict Δ vs regex, mean agreement
-  leadership   -20%   73%
-  domain       -24%   76%
-  craft        -7%   78%
-  technical    -20%   79%
-  delivery     -15%   75%
-  discovery    -13%   80%
-  gtm          -15%   83%
-  tools        -7%   92%
+  leadership   -21%   73%
+  craft        -11%   80%
+  technical    -16%   83%
+  domain       -14%   86%
+  delivery     -11%   79%
+  discovery    -10%   85%
+  gtm          -11%   86%
   analytics    -9%   83%
+  tools        -5%   94%

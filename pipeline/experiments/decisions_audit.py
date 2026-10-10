@@ -71,6 +71,7 @@ def main():
     ap.add_argument("--max-chars", type=int, default=12000)
     ap.add_argument("--strict", action="store_true", help="ask for explicit mentions only, no inference from the title")
     ap.add_argument("--tag", default="", help="suffix for the output files, e.g. --tag strict")
+    ap.add_argument("--reuse", default=None, help="results file whose model answers to reuse (no API calls); regex side is recomputed from the current graph.json")
     a = ap.parse_args()
     skills = [s for s in a.skills.split(",") if s in SKILL]
     out_dir = os.path.join(ROOT, "data", "experiments")
@@ -94,6 +95,22 @@ def main():
             f.write(json.dumps(r) + "\n")
     print(f"{len(reqs)} requests × {len(qs)} questions written to data/experiments/decisions_requests.jsonl")
     if a.dry_run:
+        return
+    if a.reuse:
+        prev = [json.loads(l) for l in open(a.reuse)]
+        answers_by = {(r["url"], r["skill"]): r for r in prev}
+        rows = []
+        for r in prev:
+            j = tagged.get(r["url"])
+            if j is None:
+                continue  # dropped by dedupe since the answers were recorded
+            regex = {ids[k] for k in j["skills"]}
+            rows.append({**r, "regex": r["skill"] in regex})
+        out = os.path.join(out_dir, f"decisions_results{('_' + a.tag) if a.tag else ''}.jsonl")
+        with open(out, "w") as f:
+            for row in rows:
+                f.write(json.dumps(row) + "\n")
+        print(f"reused {len(prev)} saved answers; {len(rows)} still in the map; wrote {os.path.relpath(out, ROOT)}")
         return
     key = os.environ.get("OPENAI_API_KEY")
     if not key:
