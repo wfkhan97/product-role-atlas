@@ -1,0 +1,27 @@
+{
+ "company": "Federal Realty",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "icims",
+ "config": {
+  "host": "careers-federalrealty.icims.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-federalrealty.icims.com"
+   },
+   "from": "https://www.federalrealty.com/careers/1918/",
+   "verify": "General Manager"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "federalrealty.com",
+ "sample_title": "General Manager",
+ "description_chars": 10357,
+ "seconds": 50
+}

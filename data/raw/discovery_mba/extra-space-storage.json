@@ -1,0 +1,31 @@
+{
+ "company": "Extra Space Storage",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "extraspace.wd5.myworkdayjobs.com",
+  "tenant": "extraspace",
+  "site": "ESS_External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "extraspace.wd5.myworkdayjobs.com",
+    "tenant": "extraspace",
+    "site": "ESS_External"
+   },
+   "from": "https://careers.extraspace.com/api/mcp/jobs?tool=search_jobs",
+   "verify": "(board reachable; no matching title on first pages)"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "extraspace.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 13
+}

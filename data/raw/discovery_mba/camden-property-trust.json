@@ -1,0 +1,29 @@
+{
+ "company": "Camden Property Trust",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "ehap.fa.us2.oraclecloud.com",
+  "siteNumber": "CX"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ehap.fa.us2.oraclecloud.com",
+    "siteNumber": "CX"
+   },
+   "from": "https://www.camdenliving.com/",
+   "verify": "Sales Manager | Camden Chandler/Pecos Ranch"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "camdenliving.com",
+ "sample_title": "Sales Manager | Camden Chandler/Pecos Ranch",
+ "description_chars": 4996,
+ "seconds": 10
+}

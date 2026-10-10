@@ -1,0 +1,37 @@
+{
+ "company": "Digital Realty",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "hdep.fa.us2.oraclecloud.com",
+  "siteNumber": "CX_2003"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "hdep.fa.us2.oraclecloud.com",
+    "siteNumber": "CX_2003"
+   },
+   "from": "https://hdep.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX",
+   "verify": "ABM & Activation Strategy Lead"
+  },
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "hdep.fa.us2.oraclecloud.com",
+    "siteNumber": "CX"
+   },
+   "from": "https://hdep.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "digitalrealty.com",
+ "sample_title": "ABM & Activation Strategy Lead",
+ "description_chars": 8287,
+ "seconds": 27
+}

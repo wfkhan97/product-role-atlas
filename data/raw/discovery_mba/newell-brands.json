@@ -1,0 +1,41 @@
+{
+ "company": "Newell Brands",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.newellbrands.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.newellbrands.com"
+   },
+   "from": "https://careers.newellbrands.com/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.newellbrands.com"
+   },
+   "from": "https://jobs.newellbrands.com/"
+  },
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.newellbrands.com"
+   },
+   "from": "https://jobs.newellbrands.com/go/AllJobs/9623000/",
+   "verify": "Senior Director, Total Rewards EMEA/APAC"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "newellbrands.com",
+ "sample_title": "Senior Director, Total Rewards EMEA/APAC",
+ "description_chars": 8764,
+ "seconds": 37
+}

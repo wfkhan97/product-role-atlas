@@ -1,0 +1,45 @@
+{
+ "company": "Mars",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: Kellanova's board (Mars owns Kellanova; already scraped as Kellanova)",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.mars.com"
+   },
+   "from": "https://careers.mars.com/us/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/prod/MARSGLOBAL/en_global/external/desktop/assets/images/favicon.ico?v=1772188433497"
+  },
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.kellanova.com"
+   },
+   "from": "https://jobs.kellanova.com/go/View-All-Jobs/9476800/",
+   "verify": "Activation Brand Manager - FTC 12 months"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "mars.com",
+ "sample_title": "Activation Brand Manager - FTC 12 months",
+ "description_chars": 4335,
+ "seconds": 17,
+ "rejected": {
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.kellanova.com"
+  }
+ }
+}

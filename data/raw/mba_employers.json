@@ -838,5 +838,405 @@
 "company": "Huntington Bancshares",
 "category": "Commercial and corporate banking",
 "domain": "huntington.com"
+},
+{
+"company": "CBRE",
+"category": "Real estate",
+"domain": "cbre.com"
+},
+{
+"company": "Cushman & Wakefield",
+"category": "Real estate",
+"domain": "cushmanwakefield.com"
+},
+{
+"company": "Hines",
+"category": "Real estate",
+"domain": "hines.com"
+},
+{
+"company": "Related Companies",
+"category": "Real estate",
+"domain": "related.com"
+},
+{
+"company": "Tishman Speyer",
+"category": "Real estate",
+"domain": "tishmanspeyer.com"
+},
+{
+"company": "Greystar",
+"category": "Real estate",
+"domain": "greystar.com"
+},
+{
+"company": "Brookfield Properties",
+"category": "Real estate",
+"domain": "brookfieldproperties.com"
+},
+{
+"company": "Starwood Capital Group",
+"category": "Real estate",
+"domain": "starwoodcapital.com"
+},
+{
+"company": "Equity Residential",
+"category": "Real estate",
+"domain": "equityapartments.com"
+},
+{
+"company": "AvalonBay Communities",
+"category": "Real estate",
+"domain": "avalonbay.com"
+},
+{
+"company": "Simon Property Group",
+"category": "Real estate",
+"domain": "simon.com"
+},
+{
+"company": "BXP",
+"category": "Real estate",
+"domain": "bxp.com"
+},
+{
+"company": "Vornado Realty Trust",
+"category": "Real estate",
+"domain": "vno.com"
+},
+{
+"company": "Trammell Crow Company",
+"category": "Real estate",
+"domain": "trammellcrow.com"
+},
+{
+"company": "Crow Holdings",
+"category": "Real estate",
+"domain": "crowholdings.com"
+},
+{
+"company": "Invitation Homes",
+"category": "Real estate",
+"domain": "invitationhomes.com"
+},
+{
+"company": "Welltower",
+"category": "Real estate",
+"domain": "welltower.com"
+},
+{
+"company": "Ventas",
+"category": "Real estate",
+"domain": "ventasreit.com"
+},
+{
+"company": "Kimco Realty",
+"category": "Real estate",
+"domain": "kimcorealty.com"
+},
+{
+"company": "Realty Income",
+"category": "Real estate",
+"domain": "realtyincome.com"
+},
+{
+"company": "Essex Property Trust",
+"category": "Real estate",
+"domain": "essexapartmenthomes.com"
+},
+{
+"company": "UDR",
+"category": "Real estate",
+"domain": "udr.com"
+},
+{
+"company": "Camden Property Trust",
+"category": "Real estate",
+"domain": "camdenliving.com"
+},
+{
+"company": "Howard Hughes",
+"category": "Real estate",
+"domain": "howardhughes.com"
+},
+{
+"company": "Irvine Company",
+"category": "Real estate",
+"domain": "irvinecompany.com"
+},
+{
+"company": "Kilroy Realty",
+"category": "Real estate",
+"domain": "kilroyrealty.com"
+},
+{
+"company": "Alexandria Real Estate Equities",
+"category": "Real estate",
+"domain": "are.com"
+},
+{
+"company": "SL Green",
+"category": "Real estate",
+"domain": "slgreen.com"
+},
+{
+"company": "Colliers",
+"category": "Real estate",
+"domain": "colliers.com"
+},
+{
+"company": "Newmark",
+"category": "Real estate",
+"domain": "nmrk.com"
+},
+{
+"company": "Link Logistics",
+"category": "Real estate",
+"domain": "linklogistics.com"
+},
+{
+"company": "Mill Creek Residential",
+"category": "Real estate",
+"domain": "millcreekplaces.com"
+},
+{
+"company": "Bozzuto",
+"category": "Real estate",
+"domain": "bozzuto.com"
+},
+{
+"company": "LaSalle Investment Management",
+"category": "Real estate",
+"domain": "lasalle.com"
+},
+{
+"company": "Nuveen Real Estate",
+"category": "Real estate",
+"domain": "nuveen.com"
+},
+{
+"company": "Heitman",
+"category": "Real estate",
+"domain": "heitman.com"
+},
+{
+"company": "Clarion Partners",
+"category": "Real estate",
+"domain": "clarionpartners.com"
+},
+{
+"company": "Extra Space Storage",
+"category": "Real estate",
+"domain": "extraspace.com"
+},
+{
+"company": "Regency Centers",
+"category": "Real estate",
+"domain": "regencycenters.com"
+},
+{
+"company": "Federal Realty",
+"category": "Real estate",
+"domain": "federalrealty.com"
+},
+{
+"company": "Mid-America Apartment Communities",
+"category": "Real estate",
+"domain": "maac.com"
+},
+{
+"company": "Sun Communities",
+"category": "Real estate",
+"domain": "suncommunities.com"
+},
+{
+"company": "Rockefeller Group",
+"category": "Real estate",
+"domain": "rockefellergroup.com"
+},
+{
+"company": "Nestlé",
+"category": "Consumer goods",
+"domain": "nestle.com"
+},
+{
+"company": "Unilever",
+"category": "Consumer goods",
+"domain": "unilever.com"
+},
+{
+"company": "L'Oréal",
+"category": "Consumer goods",
+"domain": "loreal.com"
+},
+{
+"company": "Mars",
+"category": "Consumer goods",
+"domain": "mars.com"
+},
+{
+"company": "SC Johnson",
+"category": "Consumer goods",
+"domain": "scjohnson.com"
+},
+{
+"company": "Reckitt",
+"category": "Consumer goods",
+"domain": "reckitt.com"
+},
+{
+"company": "Diageo",
+"category": "Consumer goods",
+"domain": "diageo.com"
+},
+{
+"company": "Anheuser-Busch",
+"category": "Consumer goods",
+"domain": "anheuser-busch.com"
+},
+{
+"company": "Danone",
+"category": "Consumer goods",
+"domain": "danone.com"
+},
+{
+"company": "Henkel",
+"category": "Consumer goods",
+"domain": "henkel.com"
+},
+{
+"company": "Mattel",
+"category": "Consumer goods",
+"domain": "mattel.com"
+},
+{
+"company": "Hasbro",
+"category": "Consumer goods",
+"domain": "hasbro.com"
+},
+{
+"company": "e.l.f. Beauty",
+"category": "Consumer goods",
+"domain": "elfbeauty.com"
+},
+{
+"company": "Church & Dwight",
+"category": "Consumer goods",
+"domain": "churchdwight.com"
+},
+{
+"company": "The Clorox Company",
+"category": "Consumer goods",
+"domain": "thecloroxcompany.com"
+},
+{
+"company": "Kellanova",
+"category": "Consumer goods",
+"domain": "kellanova.com"
+},
+{
+"company": "McCormick",
+"category": "Consumer goods",
+"domain": "mccormick.com"
+},
+{
+"company": "The J.M. Smucker Company",
+"category": "Consumer goods",
+"domain": "jmsmucker.com"
+},
+{
+"company": "Campbell's",
+"category": "Consumer goods",
+"domain": "campbellsoupcompany.com"
+},
+{
+"company": "Coty",
+"category": "Consumer goods",
+"domain": "coty.com"
+},
+{
+"company": "Haleon",
+"category": "Consumer goods",
+"domain": "haleon.com"
+},
+{
+"company": "Beiersdorf",
+"category": "Consumer goods",
+"domain": "beiersdorf.com"
+},
+{
+"company": "LEGO Group",
+"category": "Consumer goods",
+"domain": "lego.com"
+},
+{
+"company": "Chobani",
+"category": "Consumer goods",
+"domain": "chobani.com"
+},
+{
+"company": "Ferrero",
+"category": "Consumer goods",
+"domain": "ferrero.com"
+},
+{
+"company": "Bayer Consumer Health",
+"category": "Consumer goods",
+"domain": "bayer.com"
+},
+{
+"company": "Edgewell",
+"category": "Consumer goods",
+"domain": "edgewell.com"
+},
+{
+"company": "Newell Brands",
+"category": "Consumer goods",
+"domain": "newellbrands.com"
+},
+{
+"company": "Spectrum Brands",
+"category": "Consumer goods",
+"domain": "spectrumbrands.com"
+},
+{
+"company": "Red Bull",
+"category": "Consumer goods",
+"domain": "redbull.com"
+},
+{
+"company": "Lululemon",
+"category": "Consumer goods",
+"domain": "lululemon.com"
+},
+{
+"company": "Levi Strauss",
+"category": "Consumer goods",
+"domain": "levistrauss.com"
+},
+{
+"company": "Lincoln Property Company",
+"category": "Real estate",
+"domain": "lpc.com"
+},
+{
+"company": "Digital Realty",
+"category": "Real estate",
+"domain": "digitalrealty.com"
+},
+{
+"company": "American Tower",
+"category": "Real estate",
+"domain": "americantower.com"
+},
+{
+"company": "Public Storage",
+"category": "Real estate",
+"domain": "publicstorage.com"
+},
+{
+"company": "Constellation Brands",
+"category": "Consumer goods",
+"domain": "cbrands.com"
 }
 ]

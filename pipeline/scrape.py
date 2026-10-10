@@ -1,7 +1,9 @@
 """Scrape product-related postings for every company in the registry.
 
-usage: python -m pipeline.scrape [--only COMPANY ...] [--force] [--roles product|mba]
+usage: python -m pipeline.scrape [--only COMPANY ...] [--force] [--roles product|mba] [--batch N]
 Raw results are cached per company in data/raw/jobs/<slug>.json (data/raw/jobs_mba/ for --roles mba).
+The MBA roles were scraped in batches; --batch N fetches only that batch's roles for companies already
+cached without it and adds them to the company's file (companies with no file get every role).
 """
 import argparse
 import glob
@@ -59,7 +61,9 @@ def main():
     ap.add_argument("--rank-from", type=int)
     ap.add_argument("--rank-to", type=int)
     ap.add_argument("--roles", choices=sorted(ROLE_SETS), default="product")
+    ap.add_argument("--batch", type=int, choices=sorted(roles_mba.BATCH_QUERIES))
     args = ap.parse_args()
+    all_batches = sorted(roles_mba.BATCH_QUERIES)
     title_ok, cache = ROLE_SETS[args.roles]
     RAW = os.path.join(ROOT, "data", "raw", cache)
     os.makedirs(RAW, exist_ok=True)
@@ -80,25 +84,30 @@ def main():
             summary.append((name, entry.get("ats"), "skipped"))
             continue
         path = os.path.join(RAW, slug(name) + ".json")
+        old = None
         if os.path.exists(path) and not args.force:
             with open(path) as f:
-                n = len(json.load(f).get("jobs", []))
-            summary.append((name, entry["ats"], f"cached {n}"))
-            continue
-        todo.append((entry, path))
+                old = json.load(f)
+            # files from before the batches existed hold batch 1 only
+            if not (args.batch and args.batch not in old.get("batches", [1])):
+                summary.append((name, entry["ats"], f"cached {len(old.get('jobs', []))}"))
+                continue
+        todo.append((entry, path, old))
 
     def run(item):
-        entry, path = item
+        entry, path, old = item
+        batch = args.batch if old else None  # add one batch to an existing file, or fetch everything
         name = entry["company"]
         t0 = time.time()
         try:
             cfg, ok, cat = entry.get("config", {}), title_ok, entry.get("category")
             if args.roles == "mba":  # some title rules and searches depend on the kind of employer
                 # a board shared with a parent company is narrowed by its own search text (keep_queries)
-                cfg = cfg if cfg.get("keep_queries") else dict(cfg, queries=roles_mba.queries(cat))
-                ok = lambda t: roles_mba.title_ok(t, cat)
+                cfg = cfg if cfg.get("keep_queries") else dict(cfg, queries=roles_mba.queries(cat, batch))
+                ok = lambda t: roles_mba.title_ok(t, cat, batch)
             jobs = ADAPTERS[entry["ats"]](name, cfg, ok)
-            seen, uniq = set(), []
+            uniq = list(old["jobs"]) if old else []
+            seen = {j.get("url") or j.get("external_id") for j in uniq}
             for j in jobs:
                 k = j.get("url") or j.get("external_id")
                 if k in seen:
@@ -111,7 +120,10 @@ def main():
                     j["category"] = cat
                 uniq.append(j)
             with open(path, "w") as f:
-                json.dump({"company": name, "scraped_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "jobs": uniq}, f)
+                blob = {"company": name, "scraped_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "jobs": uniq}
+                if args.roles == "mba":
+                    blob["batches"] = sorted(set(old.get("batches", [1])) | {batch}) if old else all_batches
+                json.dump(blob, f)
             print(f"[ok] {name:28s} {entry['ats']:14s} {len(uniq):4d} jobs {time.time()-t0:5.0f}s", flush=True)
             return (name, entry["ats"], f"{len(uniq)} jobs in {time.time()-t0:.0f}s")
         except Exception as e:

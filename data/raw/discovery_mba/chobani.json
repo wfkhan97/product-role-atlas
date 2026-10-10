@@ -1,0 +1,27 @@
+{
+ "company": "Chobani",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.chobani.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.chobani.com"
+   },
+   "from": "https://careers.chobani.com/go/All-Jobs/8610600/",
+   "verify": "Director, Supply Chain Value Creation"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "chobani.com",
+ "sample_title": "Director, Supply Chain Value Creation",
+ "description_chars": 7197,
+ "seconds": 12
+}

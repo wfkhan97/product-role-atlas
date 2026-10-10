@@ -1,0 +1,27 @@
+{
+ "company": "McCormick",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.mccormick.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.mccormick.com"
+   },
+   "from": "https://careers.mccormick.com/go/Corporate-Jobs/8553600/",
+   "verify": "RDQR Organizational Effectiveness Manager"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "mccormick.com",
+ "sample_title": "RDQR Organizational Effectiveness Manager",
+ "description_chars": 8937,
+ "seconds": 20
+}

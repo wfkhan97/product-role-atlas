@@ -1,0 +1,31 @@
+{
+ "company": "Brookfield Properties",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "brookfield.wd5.myworkdayjobs.com",
+  "tenant": "brookfield",
+  "site": "bgre"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "brookfield.wd5.myworkdayjobs.com",
+    "tenant": "brookfield",
+    "site": "bgre"
+   },
+   "from": "https://www.bgre.com/careers",
+   "verify": "General Manager"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "brookfieldproperties.com",
+ "sample_title": "General Manager",
+ "description_chars": 6140,
+ "seconds": 11
+}

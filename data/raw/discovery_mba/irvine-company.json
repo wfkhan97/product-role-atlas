@@ -1,0 +1,34 @@
+{
+ "company": "Irvine Company",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.irvinecompany.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.irvinecompany.com"
+   },
+   "from": "https://careers.irvinecompany.com/"
+  },
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.irvinecompany.com"
+   },
+   "from": "https://careers.irvinecompany.com/go/Customer-Service-Jobs/7923600/",
+   "verify": "Director, Brand & Content Strategy ($163,500.00 - $210,500.00)"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "irvinecompany.com",
+ "sample_title": "Director, Brand & Content Strategy ($163,500.00 - $210,500.00)",
+ "description_chars": 6103,
+ "seconds": 16
+}

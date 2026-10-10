@@ -1,0 +1,38 @@
+{
+ "company": "Levi Strauss",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "levistraussandco.wd5.myworkdayjobs.com",
+  "tenant": "levistraussandco",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "levistraussandco.wd5.myworkdayjobs.com",
+    "tenant": "levistraussandco",
+    "site": "External"
+   },
+   "from": "https://www.levistrauss.com/work-with-us/",
+   "verify": "Manager, Transformation Strategy"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.levistrauss.com"
+   },
+   "from": "https://www.levistrauss.com/work-with-us/"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "levistrauss.com",
+ "sample_title": "Manager, Transformation Strategy",
+ "description_chars": 5689,
+ "seconds": 59
+}

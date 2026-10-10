@@ -1,0 +1,45 @@
+{
+ "company": "SC Johnson",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "scj.wd5.myworkdayjobs.com",
+  "tenant": "scj",
+  "site": "External_Career_Site_Lifestyle_Brands"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.scjohnson.com"
+   },
+   "from": "https://jobs.scjohnson.com/en"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "www.scjohnsonjobs.cn"
+   },
+   "from": "https://www.scjohnsonjobs.cn/"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "scj.wd5.myworkdayjobs.com",
+    "tenant": "scj",
+    "site": "External_Career_Site_Lifestyle_Brands"
+   },
+   "from": "https://jobs.scjohnson.com/en/search-jobs?orgIds=5362&amp;acm=59959%2C49009",
+   "verify": "Brand Manager - ECOVER"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "scjohnson.com",
+ "sample_title": "Brand Manager - ECOVER",
+ "description_chars": 8079,
+ "seconds": 12
+}

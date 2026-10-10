@@ -1,0 +1,27 @@
+{
+ "company": "BXP",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "edxn.fa.us2.oraclecloud.com",
+  "siteNumber": "CX_4001"
+ },
+ "verified": false,
+ "notes": "candidates: oracle_hcm 0 matching postings",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "edxn.fa.us2.oraclecloud.com",
+    "siteNumber": "CX_4001"
+   },
+   "from": "https://www.bxp.com/",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "bxp.com",
+ "seconds": 14
+}

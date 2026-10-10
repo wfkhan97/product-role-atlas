@@ -1,0 +1,31 @@
+{
+ "company": "Simon Property Group",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "simon.wd1.myworkdayjobs.com",
+  "tenant": "simon",
+  "site": "Simon"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "simon.wd1.myworkdayjobs.com",
+    "tenant": "simon",
+    "site": "Simon"
+   },
+   "from": "https://careers.simon.com/",
+   "verify": "Vice President, Business Development-Simon Media & Experiences"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "simon.com",
+ "sample_title": "Vice President, Business Development-Simon Media & Experiences",
+ "description_chars": 5482,
+ "seconds": 84
+}

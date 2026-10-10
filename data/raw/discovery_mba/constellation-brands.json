@@ -1,0 +1,31 @@
+{
+ "company": "Constellation Brands",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "cbrands.wd5.myworkdayjobs.com",
+  "tenant": "cbrands",
+  "site": "CBI_External_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "cbrands.wd5.myworkdayjobs.com",
+    "tenant": "cbrands",
+    "site": "CBI_External_Careers"
+   },
+   "from": "https://cbrands.wd5.myworkdayjobs.com/CBI_External_Careers",
+   "verify": "Associate Brand Manager"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "cbrands.com",
+ "sample_title": "Associate Brand Manager",
+ "description_chars": 7281,
+ "seconds": 21
+}

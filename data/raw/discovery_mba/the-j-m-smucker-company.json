@@ -1,0 +1,40 @@
+{
+ "company": "The J.M. Smucker Company",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "smucker.wd5.myworkdayjobs.com",
+  "tenant": "smucker",
+  "site": "US_External_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "smucker.wd5.myworkdayjobs.com",
+    "tenant": "smucker",
+    "site": "US_External_Careers"
+   },
+   "from": "https://www.jmsmucker.com/careers",
+   "verify": "Manager, Sales Strategy & Planning"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "smucker.wd5.myworkdayjobs.com",
+    "tenant": "smucker",
+    "site": "Canada_External_Careers"
+   },
+   "from": "https://www.jmsmucker.com/careers"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "jmsmucker.com",
+ "sample_title": "Manager, Sales Strategy & Planning",
+ "description_chars": 5337,
+ "seconds": 60
+}

@@ -1,0 +1,27 @@
+{
+ "company": "Ferrero",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.ferrero.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.ferrero.com"
+   },
+   "from": "https://jobs.ferrero.com/?locale=de_DE",
+   "verify": "Senior Brand Manager"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "ferrero.com",
+ "sample_title": "Senior Brand Manager",
+ "description_chars": 3550,
+ "seconds": 40
+}
