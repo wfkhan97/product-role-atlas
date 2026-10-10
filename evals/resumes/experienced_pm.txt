@@ -1,0 +1,33 @@
+JANE DOE
+Product Manager | San Francisco, CA | jane@example.com
+
+SUMMARY
+Product manager with 5 years of experience building B2B SaaS and consumer mobile products. Track record of shipping features that grow revenue and engagement, working closely with engineering, design, and sales.
+
+EXPERIENCE
+Senior Product Manager, Acme Software (2022 - Present)
+- Own the roadmap for the analytics dashboard product line, serving 1,200 enterprise customers
+- Led a cross-functional team of 8 engineers and 2 designers to launch a self-serve onboarding flow, increasing activation by 32%
+- Defined OKRs and KPIs for the product area and built dashboards in Looker to track adoption and retention
+- Ran 40+ customer interviews and synthesized findings into personas and a prioritized backlog
+- Wrote PRDs and user stories; partnered with engineering on technical trade-offs and API design
+- Ran A/B tests on pricing page, lifting conversion 11%
+- Presented quarterly roadmap updates to the executive team and managed stakeholder expectations across sales, support and marketing
+
+Product Manager, Beta Apps (2019 - 2022)
+- Shipped 15+ features for a consumer iOS/Android app with 2M MAU, using agile/scrum with two-week sprints
+- Prioritized the backlog using RICE scoring and customer feedback from support tickets and app reviews
+- Partnered with marketing on go-to-market plans and launch messaging for three major releases
+- Used SQL and Amplitude to analyze funnel drop-off and define success metrics
+- Coordinated with legal and security on GDPR compliance for the data export feature
+
+Business Analyst, Consulting Co (2017 - 2019)
+- Gathered requirements from clients and documented process improvements for operations teams
+- Built financial models and competitive analyses for market entry decisions
+
+EDUCATION
+MBA, State University (2019)
+BS Computer Science, Tech University (2017)
+
+SKILLS
+Roadmapping, agile, Jira, Figma, SQL, Amplitude, Looker, A/B testing, user research, stakeholder management, go-to-market, pricing

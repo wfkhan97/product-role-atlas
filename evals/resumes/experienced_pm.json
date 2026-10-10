@@ -1,0 +1,20 @@
+{
+  "persona": "experienced_in_role",
+  "notes": "Five-year PM, B2B SaaS then consumer mobile, MBA + BS CS. Written the way real resumes are: outcomes and verbs, not posting nouns.",
+  "targets": ["pm:senior", "pm:mid", "pm:__all"],
+  "score_band": { "pm:senior": [0.7, 1.0], "pm:mid": [0.75, 1.0] },
+  "expected_level": "senior",
+  "must_evidence": [
+    "roadmap", "cross_functional", "stakeholder_mgmt", "prioritization", "metrics_kpis", "okrs",
+    "customer_interviews", "personas_jtbd", "user_research", "prd", "ab_testing", "sql", "analytics_tools",
+    "agile_scrum", "gtm", "positioning_messaging", "pricing_packaging", "launch", "growth_loops",
+    "exec_communication", "market_research", "ux_design_collab", "data_driven", "security_privacy",
+    "apis", "technical_fluency", "enterprise_saas", "consumer", "mobile", "process_improvement",
+    "pm_experience", "masters_mba", "bachelors", "cs_engineering_degree", "consulting_banking"
+  ],
+  "must_not_tag": [
+    "supply_chain", "public_sector", "telecom", "networking", "ads_media", "fintech", "hardware",
+    "people_management", "customer_facing_exec", "cloud", "developer_tools", "ecommerce_retail"
+  ],
+  "real_gaps": ["ai_ml", "genai_llm", "product_vision", "partnerships", "vendor_mgmt"]
+}

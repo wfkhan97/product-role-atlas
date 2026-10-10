@@ -1,0 +1,6 @@
+MKTG 340 Product Management — roadmaps, user research, PRDs, A/B testing, prioritization frameworks
+CS 101 Intro to Programming — Python, data structures
+STAT 210 Applied Statistics — hypothesis testing, regression, experiment design
+MKTG 410 Marketing Strategy — segmentation, positioning, go-to-market planning, competitive analysis
+MGMT 320 Operations Management — process improvement, project planning, capacity
+FIN 300 Corporate Finance — financial modeling, business cases, unit economics

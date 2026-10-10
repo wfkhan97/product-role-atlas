@@ -1,0 +1,10 @@
+{
+  "persona": "new_to_role",
+  "notes": "The paste-a-course-list path, no work history at all. Should read as foundations, not as a failed job match.",
+  "targets": ["pm:associate"],
+  "score_band": { "pm:associate": [0.3, 0.6] },
+  "expected_level": "associate",
+  "must_evidence": ["roadmap", "user_research", "prd", "ab_testing", "prioritization", "python_r", "statistics", "market_research", "positioning_messaging", "gtm", "process_improvement", "financial_analysis", "business_case"],
+  "must_not_tag": ["supply_chain", "telecom", "hardware", "networking", "vendor_mgmt"],
+  "real_gaps": ["cross_functional", "stakeholder_mgmt", "pm_experience", "agile_scrum", "metrics_kpis"]
+}

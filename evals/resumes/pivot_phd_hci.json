@@ -1,0 +1,17 @@
+{
+  "persona": "pivoter",
+  "notes": "HCI PhD with a software engineering internship. Deep research and experimentation evidence, written in academic vocabulary (semi-structured interviews, RCTs, outcome measures).",
+  "targets": ["pm:associate", "pm:mid", "pm:__all"],
+  "score_band": { "pm:associate": [0.4, 0.65] },
+  "expected_level": "associate",
+  "must_evidence": [
+    "user_research", "customer_interviews", "surveys_feedback", "ab_testing", "statistics", "metrics_kpis",
+    "apis", "technical_fluency", "ai_ml", "mobile", "cross_functional", "program_mgmt", "python_r", "sql",
+    "figma", "ux_design_collab", "phd", "cs_engineering_degree", "big_tech_experience"
+  ],
+  "must_not_tag": [
+    "ecommerce_retail", "telecom", "networking", "hardware", "public_sector", "cloud", "genai_llm",
+    "developer_tools", "people_management", "gtm"
+  ],
+  "real_gaps": ["roadmap", "prioritization", "stakeholder_mgmt", "pricing_packaging", "product_strategy", "okrs", "agile_scrum"]
+}
