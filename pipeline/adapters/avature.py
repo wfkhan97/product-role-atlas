@@ -23,7 +23,9 @@ def fetch(company, cfg, title_ok, max_pages=10):
             r = get(f"https://{host}{search}/{quote(q)}", params={f"{prefix}RecordsPerPage": size, f"{prefix}Offset": page * size})
             if r.status_code != 200:
                 break
-            links = {m.group(2): (m.group(1), html.unescape(m.group(3))) for m in link_re.finditer(r.text)}
+            links = {}
+            for m in link_re.finditer(r.text):  # each card links twice; the first link carries the title
+                links.setdefault(m.group(2), (m.group(1), html.unescape(m.group(3))))
             for jid, (url, title) in links.items():
                 if title_ok(title):
                     seen[jid] = (url, title)
