@@ -62,12 +62,13 @@ specialisation from the title, education asked for. Every chip count reflects th
 
 ## Views (v3/v4)
 
-- 3D map (default): y = seniority, x and z selectable (kind of role, which path, how common, skill area);
+- 3D map: y = seniority, x and z selectable (kind of role, which path, how common, skill area);
   drag rotates, scroll zooms, a cube frame with seniority lanes gives orientation. Pure SVG projection,
   no 3D library, so every 2D interaction (click, satellites, match highlighting) carries over.
 
-- Career map (default): columns = skill area, rows = seniority lanes (quartiles of the share-weighted
-  level at which the skill is asked for).
+- Career map (default since 2026-10-09): columns = skill area, rows = seniority lanes (quartiles of the
+  share-weighted level at which the skill is asked for). It is the one view where position is something a
+  student can act on, and it has no rotation state to get lost in; the 3D map is kept as a secondary view.
 - Table stakes vs. rare: x = share of the current slice, y = seniority.
 - Which path: x = director+ share vs staff/principal share.
 - Kind of role: x = TPM/platform/AI share vs PMM/growth share.
