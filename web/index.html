@@ -3,29 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Product Role Atlas</title>
+<title>Product role atlas · GradBuddy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="tokens/styles.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="top">
   <div class="brand">
-    <h1>Everything a product role asks for</h1>
-    <p class="sub" id="subtitle">Loading open product roles…</p>
+    <span class="mark" aria-hidden="true"></span><span class="wordmark">GradBuddy</span>
+    <span class="sep" aria-hidden="true">/</span><h1 class="crumb">Product role atlas</h1>
   </div>
   <div class="top-actions">
+    <label class="theme">Theme <select id="theme" class="mini"><option value="system">System</option><option value="dark">Dark</option><option value="light">Light</option></select></label>
+    <a class="link" href="#" id="btn-about">About the data</a>
     <button id="btn-match" class="primary">Match my resume or courses</button>
-    <a class="ghost" href="#" id="btn-about">About the data</a>
   </div>
 </header>
 
 <main class="layout">
   <aside class="rail left" aria-label="Filters">
     <section id="active-filters" hidden>
-      <h3>Active filters</h3>
+      <h3>Filters on</h3>
       <div class="chips" id="active-chips"></div>
-      <button id="clear-filters" class="ghost wide-btn">Reset all filters</button>
+      <button id="clear-filters" class="text-btn">Reset all filters</button>
     </section>
     <section>
       <h3>Role family</h3>
@@ -35,61 +36,66 @@
       <h3>Level</h3>
       <div class="chips" id="level-chips"></div>
     </section>
+    <details class="disc" id="more-filters">
+      <summary>More filters</summary>
+      <div class="disc-body">
+        <section>
+          <h3>Companies</h3>
+          <div class="chips" id="group-chips"></div>
+        </section>
+        <section>
+          <h3>Industry</h3>
+          <div class="chips" id="sector-chips"></div>
+        </section>
+        <section>
+          <h3>Investor</h3>
+          <input id="fund-search" type="search" placeholder="Find a fund" aria-label="Find a fund" autocomplete="off">
+          <div class="chips" id="fund-chips"></div>
+        </section>
+        <section>
+          <h3>Funding stage</h3>
+          <div class="chips" id="stage-chips"></div>
+        </section>
+        <section>
+          <h3>Company</h3>
+          <input id="company-search" type="search" placeholder="Company name" aria-label="Company name" autocomplete="off">
+          <div class="chips" id="company-chips"></div>
+          <div class="dropdown" id="company-options" hidden></div>
+        </section>
+        <section>
+          <h3>Location</h3>
+          <div class="chips" id="country-chips"></div>
+        </section>
+        <section>
+          <h3>Years asked for</h3>
+          <div class="chips" id="yoe-chips"></div>
+        </section>
+        <section>
+          <h3>Specialisation</h3>
+          <div class="chips" id="spec-chips"></div>
+        </section>
+        <section>
+          <h3>Degree asked for</h3>
+          <div class="chips" id="degree-chips"></div>
+        </section>
+      </div>
+    </details>
     <section>
-      <h3>Companies</h3>
-      <div class="chips" id="group-chips"></div>
-    </section>
-    <section>
-      <h3>Industry</h3>
-      <div class="chips" id="sector-chips"></div>
-    </section>
-    <section>
-      <h3>Investor (startups)</h3>
-      <input id="fund-search" type="search" placeholder="Find a fund…" autocomplete="off">
-      <div class="chips" id="fund-chips"></div>
-    </section>
-    <section>
-      <h3>Funding stage (startups)</h3>
-      <div class="chips" id="stage-chips"></div>
-    </section>
-    <section>
-      <h3>Company</h3>
-      <input id="company-search" type="search" placeholder="Type a company name…" autocomplete="off">
-      <div class="chips" id="company-chips"></div>
-      <div class="dropdown" id="company-options" hidden></div>
-    </section>
-    <section>
-      <h3>Location</h3>
-      <div class="chips" id="country-chips"></div>
-    </section>
-    <section>
-      <h3>Experience asked for</h3>
-      <div class="chips" id="yoe-chips"></div>
-    </section>
-    <section>
-      <h3>Specialisation (from the title)</h3>
-      <div class="chips" id="spec-chips"></div>
-    </section>
-    <section>
-      <h3>Education asked for</h3>
-      <div class="chips" id="degree-chips"></div>
-    </section>
-    <section>
-      <h3>Skill clusters</h3>
+      <h3>Skill areas</h3>
       <div class="legend" id="cluster-legend"></div>
     </section>
     <section>
-      <h3>Pick a specific posting</h3>
-      <input id="job-search" type="search" placeholder="Search company or title…" autocomplete="off">
+      <h3>Postings</h3>
+      <input id="job-search" type="search" placeholder="Company or title" aria-label="Search postings" autocomplete="off">
       <div class="joblist" id="job-list"></div>
     </section>
   </aside>
 
   <section class="canvas-wrap">
     <div class="canvas-hud">
-      <span id="hud-count" aria-live="polite"></span>
+      <span id="hud-count" class="mono" aria-live="polite"></span>
       <span class="axis-toggle" id="axis-toggle" role="group" aria-label="View">
-        <span class="hud-label">View:</span>
+        <span class="hud-label">View</span>
         <button class="chip on" data-axis="3d" title="Three axes: drag to rotate, scroll to zoom">3D map</button>
         <button class="chip" data-axis="career" title="Columns are skill areas; higher rows are asked for at more senior levels">Career map</button>
         <button class="chip" data-axis="common" title="Right = asked for in most postings; up = at more senior levels">Table stakes vs. rare</button>
@@ -98,35 +104,30 @@
         <button class="chip" data-axis="free" title="Cluster layout by co-occurrence">Free</button>
       </span>
       <span class="axis-toggle" id="axes3d">
-        <span class="hud-label">Across:</span><select id="ax-x" class="mini"></select>
-        <span class="hud-label">Depth:</span><select id="ax-z" class="mini"></select>
-        <button class="chip" id="reset-view" title="Reset rotation and zoom">reset</button>
-        <button class="chip" id="spin-view" title="Slowly rotate">spin</button>
+        <span class="hud-label">Across</span><select id="ax-x" class="mini" aria-label="Across axis"></select>
+        <span class="hud-label">Depth</span><select id="ax-z" class="mini" aria-label="Depth axis"></select>
+        <button class="chip" id="reset-view" title="Reset rotation and zoom">Reset</button>
+        <button class="chip" id="spin-view" title="Slowly rotate">Spin</button>
       </span>
       <span class="axis-toggle" role="group" aria-label="Sub-skills">
-        <span class="hud-label">Sub-skills:</span>
-        <button class="chip on" data-subs="selected" title="Show a skill's sub-skills when you click it">on click</button>
-        <button class="chip" data-subs="all" title="Show every sub-skill as a small satellite dot">all</button>
-        <button class="chip" data-subs="none">off</button>
+        <span class="hud-label">Sub-skills</span>
+        <button class="chip on" data-subs="selected" title="Show a skill's sub-skills when you click it">On click</button>
+        <button class="chip" data-subs="all" title="Show every sub-skill as a small satellite dot">All</button>
+        <button class="chip" data-subs="none">Off</button>
       </span>
       <span class="hint" id="axis-hint"></span>
     </div>
     <svg id="graph" role="group" aria-label="Skill map"></svg>
   </section>
 
-  <aside class="rail right" id="detail" aria-label="Details" aria-live="polite">
-    <div class="empty">
-      <h3>Click a skill or a posting</h3>
-      <p>Dots are skills and requirements pulled from live postings. Size is how often the current slice of postings asks for it; height is the seniority at which it is asked for most. Lines connect requirements that tend to appear together.</p>
-    </div>
-  </aside>
+  <aside class="rail right" id="detail" aria-label="Details" aria-live="polite"></aside>
 </main>
 
 <div class="modal" id="match-modal" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="match-title" tabindex="-1">
     <button class="close" id="match-close" aria-label="Close">×</button>
     <h2 id="match-title">How well do you match?</h2>
-    <p class="muted">Drop a resume (PDF, DOCX or TXT) or paste course names and descriptions. Everything runs in your browser; nothing is uploaded anywhere.</p>
+    <p class="muted">Drop a resume (PDF, DOCX or TXT) or paste course names and descriptions. Everything runs in your browser; nothing is uploaded.</p>
     <div class="match-grid">
       <div>
         <div class="drop" id="drop">
@@ -134,7 +135,7 @@
           <input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden>
           <p class="muted small" id="file-status"></p>
         </div>
-        <textarea id="paste" rows="8" placeholder="…or paste resume text / a list of courses, e.g.
+        <textarea id="paste" rows="8" aria-label="Resume text or course list" placeholder="…or paste resume text / a list of courses, e.g.
 CS 101 Intro to Programming — Python, data structures
 MKTG 340 Product Management — roadmaps, user research, PRDs, A/B testing"></textarea>
       </div>
@@ -143,7 +144,7 @@ MKTG 340 Product Management — roadmaps, user research, PRDs, A/B testing"></te
           <select id="match-target"></select>
         </label>
         <button id="run-match" class="primary wide">Score my match</button>
-        <p class="muted small">Each line of your text is read against the same taxonomy used to tag the postings. A skill counts when a work, project or course line shows it, not just when a word appears. Treat the result as a map of what to evidence next, not a verdict.</p>
+        <details class="disc"><summary>How scoring works</summary><div class="disc-body"><p class="small">Each line of your text is read against the same taxonomy used to tag the postings. A skill counts when a work, project or course line shows it, not just when a word appears. The result is a map of what to evidence next, not a verdict.</p></div></details>
       </div>
     </div>
     <div id="match-results" hidden></div>

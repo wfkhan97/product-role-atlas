@@ -1,0 +1,20 @@
+:root {
+  --space-1: 4px;  --space-1-5: 6px;  --space-2: 8px;  --space-2-5: 10px;
+  --space-3: 12px; --space-3-5: 14px; --space-4: 16px; --space-5: 20px;
+  --space-6: 24px; --space-7: 28px;   --space-8: 32px; --space-10: 40px;
+  --space-12: 48px; --space-14: 56px; --space-16: 64px;
+
+  --radius-sm: 6px;   /* tags, chips, inputs */
+  --radius-md: 8px;   /* cards, buttons, nav items */
+  --radius-lg: 12px;  /* artboard / device frame */
+  --radius-phone: 36px;
+
+  --rail-width: 232px;
+  --topbar-height: 52px;
+  --aside-width: 380px;
+  --reading-max: 760px;
+  --artboard-width: 1440px;
+  --artboard-height: 900px;
+  --phone-width: 390px;
+  --phone-height: 844px;
+}

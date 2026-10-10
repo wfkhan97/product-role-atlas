@@ -1,0 +1,71 @@
+/* GradBuddy color tokens. shadcn-compatible semantic names; oklch values.
+   Both modes are real (D-14). Default follows the device: dark is :root, light applies under prefers-color-scheme: light
+   unless <html data-theme="dark">; <html data-theme="light"> forces light. Hues: neutral 160 · primary green 145 · secondary blue 235 · warning amber 75 (60 in light).
+   Light values re-keyed 2026-10-01 from the canvas (DX-3): --foreground 0.24, heading 0.18, --subtle 0.50, --warning 0.52/0.15/60 (≥4.5:1 on --background), --mark 24%. */
+
+:root {
+  --neutral-950: oklch(0.12 0.006 160);
+  --neutral-900: oklch(0.16 0.008 160);
+  --neutral-850: oklch(0.20 0.009 160);
+  --neutral-800: oklch(0.245 0.01 160);
+  --neutral-700: oklch(0.30 0.012 160);
+  --neutral-500: oklch(0.65 0.01 160);
+  --neutral-300: oklch(0.72 0.01 160);
+  --neutral-100: oklch(0.88 0.005 160);
+  --neutral-50:  oklch(0.95 0.005 160);
+  --green-400: oklch(0.80 0.15 145);
+  --green-950: oklch(0.20 0.05 145);
+  --blue-400:  oklch(0.76 0.12 235);
+  --amber-400: oklch(0.80 0.14 75);
+
+  --background: var(--neutral-900);
+  --foreground: var(--neutral-100);
+  --heading-foreground: var(--neutral-50);
+  --card: var(--neutral-850);
+  --card-foreground: var(--neutral-100);
+  --popover: var(--neutral-850);
+  --popover-foreground: var(--neutral-100);
+  --muted: var(--neutral-800);
+  --muted-foreground: var(--neutral-300);
+  --subtle-foreground: var(--neutral-500);
+  --border: var(--neutral-700);
+  --input: var(--neutral-700);
+  --ring: var(--green-400);
+  --primary: var(--green-400);
+  --primary-foreground: var(--green-950);
+  --primary-tint: oklch(0.80 0.15 145 / 0.14);
+  --secondary: var(--blue-400);
+  --secondary-foreground: var(--neutral-900);
+  --secondary-tint: oklch(0.76 0.12 235 / 0.14);
+  --accent: var(--primary-tint);
+  --accent-foreground: var(--green-400);
+  --warning: var(--amber-400);
+  --warning-tint: oklch(0.80 0.14 75 / 0.14);
+  --destructive: var(--amber-400);
+  --destructive-foreground: var(--neutral-900);
+  --mark: oklch(0.80 0.15 145 / 0.14);   /* shared-number highlight in the problem pair */
+  --canvas: var(--neutral-950);
+
+  --radius: 8px;
+}
+
+/* light token set — one definition, applied two ways */
+:root[data-theme="light"], .light,
+:root:not([data-theme="dark"]).prefers-light { --_light: 1; }
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --neutral-950: oklch(0.94 0.005 160); --neutral-900: oklch(0.99 0.003 160); --neutral-850: oklch(0.965 0.004 160); --neutral-800: oklch(0.93 0.005 160);
+    --neutral-700: oklch(0.88 0.006 160); --neutral-500: oklch(0.50 0.01 160); --neutral-300: oklch(0.45 0.01 160); --neutral-100: oklch(0.24 0.01 160); --neutral-50: oklch(0.18 0.01 160);
+    --green-400: oklch(0.52 0.15 145); --green-950: oklch(0.99 0 0); --blue-400: oklch(0.50 0.13 235); --amber-400: oklch(0.52 0.15 60);
+    --primary-tint: oklch(0.52 0.15 145 / 0.12); --secondary-tint: oklch(0.50 0.13 235 / 0.12); --warning-tint: oklch(0.52 0.15 60 / 0.12);
+    --secondary-foreground: oklch(0.99 0 0); --destructive-foreground: oklch(0.99 0 0); --mark: oklch(0.52 0.15 145 / 0.24);
+  }
+}
+:root[data-theme="light"], .light {
+  --neutral-950: oklch(0.94 0.005 160); --neutral-900: oklch(0.99 0.003 160); --neutral-850: oklch(0.965 0.004 160); --neutral-800: oklch(0.93 0.005 160);
+  --neutral-700: oklch(0.88 0.006 160); --neutral-500: oklch(0.50 0.01 160); --neutral-300: oklch(0.45 0.01 160); --neutral-100: oklch(0.24 0.01 160); --neutral-50: oklch(0.18 0.01 160);
+  --green-400: oklch(0.52 0.15 145); --green-950: oklch(0.99 0 0); --blue-400: oklch(0.50 0.13 235); --amber-400: oklch(0.52 0.15 60);
+  --primary-tint: oklch(0.52 0.15 145 / 0.12); --secondary-tint: oklch(0.50 0.13 235 / 0.12); --warning-tint: oklch(0.52 0.15 60 / 0.12);
+  --secondary-foreground: oklch(0.99 0 0); --destructive-foreground: oklch(0.99 0 0); --mark: oklch(0.52 0.15 145 / 0.24);
+}
