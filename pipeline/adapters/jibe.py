@@ -1,5 +1,6 @@
 """iCIMS Jibe/Attract sites (e.g. pepsicojobs.com): /api/jobs returns full descriptions."""
 import time
+from urllib.parse import quote
 from .common import get, strip_html, job, SEARCH_QUERIES
 
 
@@ -8,7 +9,7 @@ def fetch(company, cfg, title_ok, max_pages=15):
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
         for page in range(1, max_pages + 1):
-            r = get(f"https://{host}/api/jobs?keywords={q.replace(' ', '%20')}&page={page}&limit=50", headers={"Accept": "application/json"})
+            r = get(f"https://{host}/api/jobs?keywords={quote(q)}&page={page}&limit=50", headers={"Accept": "application/json"})
             if r.status_code != 200:
                 break
             try:

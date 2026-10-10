@@ -1,4 +1,5 @@
 import time
+from urllib.parse import quote
 from .common import get, strip_html, job, SEARCH_QUERIES
 
 HDR = {"Accept": "application/json"}
@@ -11,7 +12,7 @@ def fetch(company, cfg, title_ok, max_pages=8):
     for q in cfg.get("queries", [x.title() for x in SEARCH_QUERIES]):
         for page in range(max_pages):
             url = (f"{base}/recruitingCEJobRequisitions?onlyData=true&expand=requisitionList.secondaryLocations"
-                   f"&finder=findReqs;siteNumber={site},keyword=%22{q.replace(' ', '%20')}%22,limit=25,offset={page*25}")
+                   f"&finder=findReqs;siteNumber={site},keyword=%22{quote(q)}%22,limit=25,offset={page*25}")
             r = get(url, headers=HDR)
             if r.status_code != 200:
                 break

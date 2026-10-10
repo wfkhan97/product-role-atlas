@@ -1,4 +1,5 @@
 import time
+from urllib.parse import quote_plus
 from .common import get, strip_html, job
 
 
@@ -7,7 +8,7 @@ def fetch(company, cfg, title_ok, max_offset=2000):
     for q in cfg.get("queries", ["product manager", "technical program manager", "product marketing manager", "product operations"]):
         offset = 0
         while offset < max_offset:
-            r = get(f"https://www.amazon.jobs/en/search.json?base_query={q.replace(' ', '+')}&result_limit=100&offset={offset}&sort=recent"
+            r = get(f"https://www.amazon.jobs/en/search.json?base_query={quote_plus(q)}&result_limit=100&offset={offset}&sort=recent"
                     + ("&country=USA" if cfg.get("usa_only") else ""))
             if r.status_code != 200:
                 break

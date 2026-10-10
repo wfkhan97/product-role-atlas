@@ -14,6 +14,7 @@ python3 -m venv .venv && .venv/bin/pip install requests beautifulsoup4
 ./run_all.sh --force    # re-scrape everything
 .venv/bin/python -m pipeline.discover --from 101 --to 250   # (re)discover careers sites for a rank range
 .venv/bin/python -m pipeline.scrape --rank-from 101 --rank-to 250   # scrape one Fortune tier
+.venv/bin/python -m pipeline.scrape --roles mba   # same companies, the 25 MBA roles -> data/raw/jobs_mba/
 cd web && python3 -m http.server 8000   # then open http://localhost:8000
 ```
 
@@ -31,6 +32,7 @@ cd web && python3 -m http.server 8000   # then open http://localhost:8000
 - `pipeline/probe_startups.py` — for every active portfolio company, finds a Greenhouse / Lever / Ashby board (slug guessing plus a careers-page scan), keeps those with product postings, and writes `data/raw/registry_startups.json` with each company's list of backing funds. Stage: fund-stated Seed/Series letters are kept; otherwise it is inferred from the company's own postings ("we raised our Series B") in `pipeline/extract.py`.
 - `data/raw/registry_*.json` — per-company ATS configs; `pipeline/merge_registry.py` merges them (hand-verified > agents > auto) with Fortune tier, industry and sector into `data/registry.json`.
 - `data/raw/jobs/*.json` — raw scraped postings per company (cache).
+- `pipeline/roles_mba.py` — a second role set: the first 25 roles of mbapreferred.com's "50 MBA Career Options" (consulting, strategy, finance, banking, investing, corporate development, operations, program and general management, technology strategy). `pipeline.scrape --roles mba` runs the same adapters over the same registry with these title patterns and search queries and caches to `data/raw/jobs_mba/*.json`. Product Manager and Product Strategy Manager are the `pm` family already in `data/raw/jobs/`, and technical program managers the `tpm` family, so they are not fetched twice. Scrape only so far: extraction, the taxonomy and the web app are still product-only.
 - `web/` — static site; `web/data/graph.json` is the only build output it needs.
 - `web/tokens/` — the GradBuddy design tokens (CSS custom properties, oklch, dark and light), copied verbatim from the design-system snapshot of 2026-10-09; `web/style.css` is written on them and look changes go through tokens only. The theme follows the device unless overridden from the top bar.
 - `web/match.js` — the resume matcher (pure logic, no DOM): per-line evidence with strength, tiered requirements, persona and level read, transfer vocabulary. Used by `app.js` and by the evals.

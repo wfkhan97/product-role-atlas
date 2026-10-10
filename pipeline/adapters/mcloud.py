@@ -1,5 +1,6 @@
 """Symphony Talent m-cloud API (Home Depot): descriptions inline."""
 import time
+from urllib.parse import quote
 from .common import get, strip_html, job, SEARCH_QUERIES
 
 
@@ -8,7 +9,7 @@ def fetch(company, cfg, title_ok, max_pages=10):
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
         for page in range(max_pages):
-            r = get(f"https://{host}{path}?Organization={org}&SearchText={q.replace(' ', '%20')}&Limit=50&offset={page*50+1}&fuzzy=false")
+            r = get(f"https://{host}{path}?Organization={org}&SearchText={quote(q)}&Limit=50&offset={page*50+1}&fuzzy=false")
             if r.status_code != 200:
                 break
             try:

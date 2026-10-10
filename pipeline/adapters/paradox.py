@@ -2,6 +2,7 @@
 import json
 import re
 import time
+from urllib.parse import quote
 from .common import get, strip_html, job, SEARCH_QUERIES
 
 LINK_RE = re.compile(r'href="((?:/[^"]*?)?/job/([^"?]+?))/?"')
@@ -16,9 +17,9 @@ def fetch(company, cfg, title_ok, max_pages=10):
         for page in range(1, max_pages + 1):
             qp, pp, base = cfg.get("query_param", "keyword"), cfg.get("page_param"), cfg.get("search_path", "/jobs")
             if pp:
-                url = f"https://{host}{base}?{qp}={q.replace(' ', '%20')}&{pp}={page}"
+                url = f"https://{host}{base}?{qp}={quote(q)}&{pp}={page}"
             else:
-                url = f"https://{host}{base}?{qp}={q.replace(' ', '%20')}" if page == 1 else f"https://{host}{base}/page/{page}?{qp}={q.replace(' ', '%20')}"
+                url = f"https://{host}{base}?{qp}={quote(q)}" if page == 1 else f"https://{host}{base}/page/{page}?{qp}={quote(q)}"
             r = get(url)
             if r.status_code != 200:
                 break

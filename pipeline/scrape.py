@@ -1,7 +1,7 @@
 """Scrape product-related postings for every company in the registry.
 
-usage: python -m pipeline.scrape [--only COMPANY ...] [--force]
-Raw results are cached per company in data/raw/jobs/<slug>.json.
+usage: python -m pipeline.scrape [--only COMPANY ...] [--force] [--roles product|mba]
+Raw results are cached per company in data/raw/jobs/<slug>.json (data/raw/jobs_mba/ for --roles mba).
 """
 import argparse
 import json
@@ -14,10 +14,14 @@ from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline.adapters import ADAPTERS
-from pipeline.roles import title_ok
+from pipeline import roles, roles_mba
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-RAW = os.path.join(ROOT, "data", "raw", "jobs")
+# role set -> (title filter, search queries for search-based ATSes or None for the adapter defaults, cache dir)
+ROLE_SETS = {
+    "product": (roles.title_ok, None, "jobs"),
+    "mba": (roles_mba.title_ok, roles_mba.SEARCH_QUERIES, "jobs_mba"),
+}
 
 
 def slug(name):
@@ -37,7 +41,10 @@ def main():
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--rank-from", type=int)
     ap.add_argument("--rank-to", type=int)
+    ap.add_argument("--roles", choices=sorted(ROLE_SETS), default="product")
     args = ap.parse_args()
+    title_ok, queries, cache = ROLE_SETS[args.roles]
+    RAW = os.path.join(ROOT, "data", "raw", cache)
     os.makedirs(RAW, exist_ok=True)
     reg = load_registry()
     summary = []
@@ -68,7 +75,10 @@ def main():
         name = entry["company"]
         t0 = time.time()
         try:
-            jobs = ADAPTERS[entry["ats"]](name, entry.get("config", {}), title_ok)
+            cfg = entry.get("config", {})
+            if queries:
+                cfg = dict(cfg, queries=queries)
+            jobs = ADAPTERS[entry["ats"]](name, cfg, title_ok)
             seen, uniq = set(), []
             for j in jobs:
                 k = j.get("url") or j.get("external_id")

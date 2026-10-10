@@ -1,6 +1,7 @@
 import json
 import re
 import time
+from urllib.parse import quote
 from .common import get, strip_html, job
 
 DS_RE = re.compile(r"AF_initDataCallback\(\{key: 'ds:1'.*?data:(.*?), sideChannel", re.S)
@@ -10,7 +11,7 @@ def fetch(company, cfg, title_ok, max_pages=40):
     seen = {}
     for q in cfg.get("queries", ['"product manager"', '"technical program manager"', '"product marketing"', '"product operations"', '"product lead"']):
         for page in range(1, max_pages + 1):
-            r = get(f"https://www.google.com/about/careers/applications/jobs/results?q={q.replace(' ', '%20')}&page={page}")
+            r = get(f"https://www.google.com/about/careers/applications/jobs/results?q={quote(q)}&page={page}")
             if r.status_code != 200:
                 break
             m = DS_RE.search(r.text)

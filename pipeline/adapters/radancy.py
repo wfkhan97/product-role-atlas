@@ -1,6 +1,7 @@
 """Radancy-hosted sites (jobs.citi.com, careers.chevron.com): JSON search whose `results` is HTML + JSON-LD detail."""
 import re
 import time
+from urllib.parse import quote_plus
 from .common import get, strip_html, job, SEARCH_QUERIES
 from .jsonld import job_posting, location
 
@@ -13,7 +14,7 @@ def fetch(company, cfg, title_ok, max_pages=10):
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
         for page in range(1, max_pages + 1):
-            url = (f"https://{host}{path}?ActiveFacetID=0&CurrentPage={page}&RecordsPerPage=100&Keywords={q.replace(' ', '+')}"
+            url = (f"https://{host}{path}?ActiveFacetID=0&CurrentPage={page}&RecordsPerPage=100&Keywords={quote_plus(q)}"
                    f"&SearchResultsModuleName=Search+Results&SearchFiltersModuleName=Search+Filters&ShowRadius=False&IsPagination=False"
                    f"&SearchType=5&Distance=50&RadiusUnitType=0&SortCriteria=0&SortDirection=0&ResultsType=0")
             r = get(url, headers={"Accept": "application/json", "X-Requested-With": "XMLHttpRequest"})

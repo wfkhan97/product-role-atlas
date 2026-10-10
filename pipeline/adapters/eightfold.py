@@ -1,4 +1,5 @@
 import time
+from urllib.parse import quote
 from .common import get, strip_html, job, SEARCH_QUERIES
 
 
@@ -10,9 +11,9 @@ def fetch(company, cfg, title_ok, max_pages=10):
         for page in range(max_pages):
             start = page * 10 if api == "pcsx" else page * 20
             if api == "pcsx":
-                url = f"https://{host}/api/pcsx/search?domain={domain}&query={q}&location=&start={start}&sort_by=relevance"
+                url = f"https://{host}/api/pcsx/search?domain={domain}&query={quote(q)}&location=&start={start}&sort_by=relevance"
             else:
-                url = f"https://{host}/api/apply/v2/jobs?domain={domain}&query={q}&start={start}&num=20"
+                url = f"https://{host}/api/apply/v2/jobs?domain={domain}&query={quote(q)}&start={start}&num=20"
             r = get(url)
             if r.status_code != 200:
                 break
