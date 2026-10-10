@@ -29,7 +29,7 @@
   const STAGES = ["Seed", "Series A", "Series B", "Series C", "Series D", "Series E", "Series F", "Series G", "Unknown"];
   const GROUPS = Object.keys(groupLabel).filter(g => G.jobs.some(j => j.group === g));
   const COLUMNS = ["craft", "discovery", "analytics", "technical", "gtm", "leadership", "delivery", "domain", "tools"];
-  const LANES = [["Entry & every level", "asked for across levels, from associate up"], ["Mid-career", "weighted toward PM / senior postings"], ["Senior & staff", "weighted toward senior / staff / principal"], ["Leadership", "weighted toward group / director / VP"]];
+  const LANES = [["Entry level", "asked for across levels, from associate up"], ["Mid-career", "weighted toward PM / senior postings"], ["Senior & staff", "weighted toward senior / staff / principal"], ["Leadership", "weighted toward group / director / VP"]];
   const AX3 = {
     tech_comm: { label: "Kind of role", lo: "Marketing & growth", hi: "Technical & platform" },
     ic_mgmt: { label: "Which path", lo: "Staff / principal path", hi: "Director / VP path" },
@@ -50,6 +50,8 @@
 
   const $ = s => document.querySelector(s);
   const fmtPct = v => Math.round(v * 100) + "%";
+  const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+  const COL_SHORT = { craft: "Craft", discovery: "Discovery", analytics: "Data", technical: "Technical", gtm: "GTM", leadership: "Leadership", delivery: "Delivery", domain: "Domain", tools: "Tools", credentials: "Credentials" };
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
   // ---------- filtering ----------
@@ -88,27 +90,58 @@
     <p class="muted">Postings are pulled from each company's public careers API, filtered to product-related titles, and tagged against a hand-built taxonomy of ${G.skills.length} skills and ${Object.values(SUBS).reduce((a, b) => a + b.length, 0)} sub-skills using keyword rules. Shares are "what fraction of postings in the current slice mention this". Vertical position is the share-weighted average level at which a skill is asked for (rank-spread; rare skills are pulled toward the middle). "Which path" compares director-and-above postings with staff/principal ones; "Kind of role" compares TPM/platform/AI postings with PMM/growth ones. Industries are Fortune's own labels grouped into sectors; startups are classed by their investor's vertical where known. Sub-skills, level ladders and learning routes are editorial; quoted sentences come from the postings.</p>
     ${Object.keys(groupLabel).filter(g => companiesByGroup[g]).map(g => { const cs = companiesByGroup[g]; return `<h3>${groupLabel[g]} · ${cs.length} companies · ${cs.reduce((a, c) => a + c.n, 0)} postings</h3>
       <p class="small">${cs.sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999) || b.n - a.n).map(c => `${c.rank ? "#" + c.rank + " " : ""}${esc(c.name)}${c.stage && c.stage !== "Unknown" ? " <span class='muted'>" + esc(c.stage) + "</span>" : ""} <span class="muted">(${c.n})</span>`).join(" · ")}</p>`; }).join("")}`;
-  $("#btn-about").onclick = e => { e.preventDefault(); $("#about-modal").hidden = false; };
-  $("#about-close").onclick = () => $("#about-modal").hidden = true;
+  $("#btn-about").onclick = e => { e.preventDefault(); openModal("#about-modal", e.currentTarget); };
+  $("#about-close").onclick = () => closeModal("#about-modal");
 
   // ---------- chips ----------
+  function chipEl(label, n, on) {
+    const c = document.createElement("button"); c.type = "button";
+    c.className = "chip" + (on ? " on" : ""); c.setAttribute("aria-pressed", on ? "true" : "false");
+    c.innerHTML = `${esc(label)}${n != null ? `<span class="n">${n}</span>` : ""}`;
+    return c;
+  }
   function chipSet(el, items, set, { allowEmpty = true, allLabel = null } = {}) {
     el.innerHTML = "";
     if (allLabel) {
-      const all = document.createElement("span"); all.className = "chip" + (set.size === 0 ? " on" : "");
-      all.innerHTML = `${allLabel}<span class="n">${items.reduce((a, b) => a + b.n, 0)}</span>`; all.onclick = () => { set.clear(); state.selectedJob = null; update(); }; el.appendChild(all);
+      const all = chipEl(allLabel, items.reduce((a, b) => a + b.n, 0), set.size === 0);
+      all.onclick = () => { set.clear(); state.selectedJob = null; update(); }; el.appendChild(all);
     }
     for (const it of items) {
-      const c = document.createElement("span");
-      c.className = "chip" + (set.has(it.id) ? " on" : "");
-      c.innerHTML = `${esc(it.label)}<span class="n">${it.n}</span>`;
+      const c = chipEl(it.label, it.n, set.has(it.id));
       c.onclick = () => { if (set.has(it.id)) { if (allowEmpty || set.size > 1) set.delete(it.id); } else set.add(it.id); state.selectedJob = null; update(); };
+      el.appendChild(c);
+    }
+  }
+  // the strip at the top of the rail: every filter that narrows the slice, each removable in place
+  function renderActiveFilters() {
+    const items = [];
+    const add = (label, remove) => items.push({ label, remove });
+    const d = defaults();
+    if (!(state.family.size === 1 && state.family.has("pm"))) for (const f of state.family) add(G.families[f], () => { if (state.family.size > 1) state.family.delete(f); else state.family = d.family; });
+    for (const l of state.level) add(G.level_labels[l], () => state.level.delete(l));
+    if (state.group.size < GROUPS.length) for (const g of state.group) add(groupLabel[g], () => { if (state.group.size > 1) state.group.delete(g); else state.group = new Set(GROUPS); });
+    for (const s of state.sector) add(s, () => state.sector.delete(s));
+    for (const f of state.fund) add("Backed by " + f, () => state.fund.delete(f));
+    for (const s of state.stage) add(s, () => state.stage.delete(s));
+    for (const c of state.company) add(c, () => state.company.delete(c));
+    for (const c of state.country) add(c, () => state.country.delete(c));
+    if (state.remote) add("Remote", () => { state.remote = false; });
+    for (const y of state.yoe) add(YOE_BUCKETS.find(b => b[0] === y)[1], () => state.yoe.delete(y));
+    for (const s of state.spec) add(SPEC_LABEL[s], () => state.spec.delete(s));
+    for (const dg of state.degree) add(skillById[dg].name, () => state.degree.delete(dg));
+    const sec = $("#active-filters"), el = $("#active-chips"); el.innerHTML = "";
+    sec.hidden = items.length === 0;
+    for (const it of items) {
+      const c = chipEl(it.label, null, true); c.removeAttribute("aria-pressed"); c.setAttribute("aria-label", `Remove filter ${it.label}`);
+      c.insertAdjacentHTML("beforeend", `<span class="x" aria-hidden="true">×</span>`);
+      c.onclick = () => { it.remove(); state.selectedJob = null; update(); };
       el.appendChild(c);
     }
   }
   function countBy(jobs, fn) { const m = {}; for (const j of jobs) { const k = fn(j); if (k != null) m[k] = (m[k] || 0) + 1; } return m; }
 
   function renderControls() {
+    renderActiveFilters();
     let m = countBy(jobsExcept("family"), j => j.family);
     chipSet($("#family-chips"), Object.entries(G.families).map(([id, label]) => ({ id, label, n: m[id] || 0 })).filter(x => x.n > 0), state.family, { allowEmpty: false });
     m = countBy(jobsExcept("level"), j => j.level);
@@ -133,13 +166,13 @@
     const q = state.companyQuery.trim().toLowerCase(); const dd = $("#company-options");
     if (q) {
       const opts = Object.entries(m).filter(([c]) => c.toLowerCase().includes(q) && !state.company.has(c)).sort((a, b) => b[1] - a[1]).slice(0, 12);
-      dd.hidden = opts.length === 0; dd.innerHTML = opts.map(([c, n]) => `<div class="opt" data-c="${esc(c)}"><span>${esc(c)}</span><span class="c">${n}</span></div>`).join("");
+      dd.hidden = opts.length === 0; dd.innerHTML = opts.map(([c, n]) => `<button type="button" class="opt" data-c="${esc(c)}"><span>${esc(c)}</span><span class="c">${n}</span></button>`).join("");
       dd.querySelectorAll(".opt").forEach(o => o.onclick = () => { state.company.add(o.dataset.c); state.companyQuery = ""; $("#company-search").value = ""; update(); });
     } else dd.hidden = true;
     m = countBy(jobsExcept("country"), j => j.country);
     const top = Object.entries(m).sort((a, b) => b[1] - a[1]).slice(0, 9).map(([id, n]) => ({ id, label: id, n }));
     const cEl = $("#country-chips"); chipSet(cEl, top, state.country, { allLabel: "Anywhere" });
-    const rem = document.createElement("span"); rem.className = "chip" + (state.remote ? " on" : ""); rem.innerHTML = `Remote<span class="n">${jobsExcept("country").filter(j => j.remote && (state.country.size === 0 || state.country.has(j.country))).length}</span>`; rem.onclick = () => { state.remote = !state.remote; update(); }; cEl.appendChild(rem);
+    const rem = chipEl("Remote", jobsExcept("country").filter(j => j.remote && (state.country.size === 0 || state.country.has(j.country))).length, state.remote); rem.onclick = () => { state.remote = !state.remote; update(); }; cEl.appendChild(rem);
     const yj = jobsExcept("yoe");
     chipSet($("#yoe-chips"), YOE_BUCKETS.map(([id, label, fn]) => ({ id, label, n: yj.filter(j => fn(j.yoe)).length })), state.yoe, { allLabel: "Any" });
     m = countBy(jobsExcept("spec"), j => j.specs.length ? j.specs[0] : null); const sj = jobsExcept("spec");
@@ -148,13 +181,14 @@
     chipSet($("#degree-chips"), DEGREES.map(([id, label]) => ({ id, label, n: dj.filter(j => j.skills.includes(id)).length })), state.degree, { allLabel: "Any" });
     const leg = $("#cluster-legend"); leg.innerHTML = "";
     for (const [id, c] of Object.entries(CL)) {
-      const r = document.createElement("div"); r.className = "row" + (state.clustersOff.has(id) ? " off" : "");
+      const r = document.createElement("button"); r.type = "button"; r.className = "row" + (state.clustersOff.has(id) ? " off" : "");
+      r.setAttribute("aria-pressed", state.clustersOff.has(id) ? "false" : "true");
       r.innerHTML = `<span class="swatch" style="background:${c.color}"></span>${esc(c.label)}`;
       r.onclick = () => { state.clustersOff.has(id) ? state.clustersOff.delete(id) : state.clustersOff.add(id); update(); };
       leg.appendChild(r);
     }
-    document.querySelectorAll("#axis-toggle .chip").forEach(b => { b.classList.toggle("on", b.dataset.axis === state.axis); b.onclick = () => { state.axis = b.dataset.axis; buildGraph(sliceStats(sliceJobs())); renderControls(); }; });
-    document.querySelectorAll("[data-subs]").forEach(b => { b.classList.toggle("on", b.dataset.subs === state.subs); b.onclick = () => { state.subs = b.dataset.subs; buildGraph(sliceStats(sliceJobs())); renderControls(); }; });
+    document.querySelectorAll("#axis-toggle .chip").forEach(b => { const on = b.dataset.axis === state.axis; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); b.onclick = () => { state.axis = b.dataset.axis; buildGraph(sliceStats(sliceJobs())); renderControls(); }; });
+    document.querySelectorAll("[data-subs]").forEach(b => { const on = b.dataset.subs === state.subs; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); b.onclick = () => { state.subs = b.dataset.subs; buildGraph(sliceStats(sliceJobs())); renderControls(); }; });
     $("#axis-hint").textContent = VIEWS[state.axis].hint;
     $("#axes3d").style.display = state.axis === "3d" ? "" : "none";
     for (const k of ["x", "z"]) {
@@ -176,7 +210,8 @@
     const list = jobs.filter(j => !q || (j.company + " " + j.title + " " + j.location).toLowerCase().includes(q)).slice(0, 200);
     const el = $("#job-list"); el.innerHTML = "";
     for (const j of list) {
-      const d = document.createElement("div"); d.className = "job" + (state.selectedJob === j.id ? " on" : "");
+      const d = document.createElement("button"); d.type = "button"; d.className = "job" + (state.selectedJob === j.id ? " on" : "");
+      d.setAttribute("aria-pressed", state.selectedJob === j.id ? "true" : "false");
       d.innerHTML = `<div>${esc(j.title)}</div><div class="c">${esc(j.company)}${j.location ? " · " + esc(j.location) : ""}</div>`;
       d.onclick = () => { state.selectedJob = state.selectedJob === j.id ? null : j.id; state.selectedSkill = null; update(); };
       el.appendChild(d);
@@ -204,13 +239,14 @@
     for (let i = 0; i < 4; i++) {
       const y0 = pad.top + (1 - (i + 1) / 4) * innerH;
       gLanes.append("rect").attr("x", pad.left - 6).attr("y", y0).attr("width", width - pad.left - pad.right + 12).attr("height", innerH / 4);
-      gLanes.append("text").attr("x", pad.left - 2).attr("y", y0 + 13).text(LANES[i][0]).append("title").text(LANES[i][1]);
+      // lane name in the left gutter, right-aligned, so it never sits under a node
+      gLanes.append("text").attr("x", pad.left - 12).attr("y", y0 + innerH / 8 + 4).attr("text-anchor", "end").text(LANES[i][0]).append("title").text(LANES[i][1]);
     }
     if (state.axis === "career") {
       const cols = COLUMNS.filter(c => !state.clustersOff.has(c));
       const cw = (width - pad.left - pad.right) / cols.length;
       cols.forEach((c, i) => {
-        gLanes.append("text").attr("class", "col").attr("x", pad.left + cw * (i + 0.5)).attr("y", pad.top - 10).attr("text-anchor", "middle").attr("fill", CL[c].color).style("fill", CL[c].color).text(CL[c].label);
+        gLanes.append("text").attr("class", "col").attr("x", pad.left + cw * (i + 0.5)).attr("y", pad.top - 10).attr("text-anchor", "middle").attr("fill", CL[c].color).style("fill", CL[c].color).text(COL_SHORT[c] || CL[c].label).append("title").text(CL[c].label);
         if (i) gLanes.append("line").attr("x1", pad.left + cw * i).attr("x2", pad.left + cw * i).attr("y1", pad.top).attr("y2", height - pad.bottom).attr("stroke", "rgba(255,255,255,0.06)");
       });
     } else {
@@ -274,6 +310,35 @@
     nodeSel.select("text").attr("dy", d => -d.r * d.ps - 4);
     linkSel.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
     satLinkSel.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+    declutter();
+  }
+  // ---------- labels: show a label only where it has room; bigger / selected / matched nodes win ----------
+  const LBL_H = 13;
+  function declutter() {
+    if (!nodeSel) return;
+    const box = svg.node().getBoundingClientRect(); const W = box.width || 900;
+    const prio = d => {
+      if (d.id === state.selectedSkill || (d.sat && d.subId === state.subFocus)) return 1e6;
+      if (d.sat) return state.subs === "all" ? -1 : (state.match && state.match.subs.has(d.subId) ? 50 : 10) + d.share;
+      const m = state.match; const hot = m && (m.matched.has(d.id) || m.required.has(d.id));
+      if (d.share < 0.3 && !hot) return -1;                       // small nodes label only on hover
+      return (hot ? 1000 : 0) + d.share * 100 + (d.ps || 1);
+    };
+    const boxes = [];
+    const cands = nodes.filter(n => n.lw).map(n => ({ n, p: prio(n) })).filter(c => c.p >= 0).sort((a, b) => b.p - a.p);
+    const shown = new Set();
+    const hits = b => boxes.some(o => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0);
+    for (const { n } of cands) {
+      const r = n.r * (n.ps || 1), lw = n.lw + 4;
+      let x0 = n.x - lw / 2; x0 = Math.max(2, Math.min(W - lw - 2, x0));   // keep the label inside the canvas
+      // try above the dot, then below it
+      const above = { x0, x1: x0 + lw, y0: n.y - r - 4 - LBL_H, y1: n.y - r - 4, dy: -r - 4 };
+      const below = { x0, x1: x0 + lw, y0: n.y + r + 4, y1: n.y + r + 4 + LBL_H, dy: r + 4 + LBL_H - 3 };
+      const b = !hits(above) ? above : !hits(below) ? below : null;
+      if (!b) continue;
+      boxes.push(b); shown.add(n.id); n.lx = x0 + lw / 2 - n.x; n.ldy = b.dy;
+    }
+    nodeSel.classed("lbl", d => shown.has(d.id)).select("text").attr("x", d => shown.has(d.id) ? d.lx : 0).attr("dy", d => shown.has(d.id) ? d.ldy : -d.r * (d.ps || 1) - 4);
   }
   function relax3d(ns, iters = 60) {
     // push overlapping dots apart in 3D (cheap O(n^2); ~100 nodes)
@@ -308,14 +373,16 @@
     satLinkSel = satLinkSel.enter().append("line").attr("class", "satlink").merge(satLinkSel);
     nodeSel = gNodes.selectAll("g.node").data(nodes, d => d.id);
     nodeSel.exit().remove();
-    const enter = nodeSel.enter().append("g").attr("class", "node");
+    const enter = nodeSel.enter().append("g").attr("class", "node").attr("tabindex", 0).attr("role", "button");
     enter.append("circle"); enter.append("title"); enter.append("text").attr("text-anchor", "middle");
     nodeSel = enter.merge(nodeSel);
     nodeSel.on(".drag", null);
     nodeSel.select("circle").attr("r", d => d.r).attr("fill", d => d.sat ? d3.color(CL[d.cluster].color).darker(0.6).formatHex() : CL[d.cluster].color);
-    nodeSel.select("text").text(d => d.name).attr("dy", d => -d.r - 4);
-    nodeSel.select("title").text(d => d.sat ? `${d.name} — mentioned in ${fmtPct(d.share)} of postings asking for ${d.parent.name}` : `${d.name} — ${fmtPct(d.share)} of postings`);
-    nodeSel.on("mouseenter", e => d3.select(e.currentTarget).classed("hover", true)).on("mouseleave", e => d3.select(e.currentTarget).classed("hover", false));
+    nodeSel.select("text").text(d => d.name).attr("dy", d => -d.r - 4).each(function (d) { d.lw = this.getComputedTextLength(); });
+    const label = d => d.sat ? `${d.name} — mentioned in ${fmtPct(d.share)} of postings asking for ${d.parent.name}` : `${d.name} — ${fmtPct(d.share)} of postings`;
+    nodeSel.select("title").text(label); nodeSel.attr("aria-label", label);
+    nodeSel.on("mouseenter focus", e => d3.select(e.currentTarget).classed("hover", true)).on("mouseleave blur", e => d3.select(e.currentTarget).classed("hover", false));
+    nodeSel.on("keydown", (e, d) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.dispatchEvent(new MouseEvent("click", { bubbles: true })); } });
     nodeSel.on("click", (e, d) => {
       e.stopPropagation();
       if (d.sat) { state.selectedSkill = d.parent.id; state.subFocus = d.subId; state.selectedJob = null; renderDetail(); paint(); return; }
@@ -332,7 +399,8 @@
     const box = svg.node().getBoundingClientRect();
     const width = box.width || 900, height = box.height || 600;
     const scale = Math.min(width, height) / 720;
-    const pad = { top: 96, bottom: 44, left: 84, right: 40 };
+    const laneView = state.axis !== "free" && state.axis !== "3d";
+    const pad = { top: state.axis === "career" ? 40 : 24, bottom: 44, left: laneView ? 132 : 60, right: 40 };
     const maxShare = Math.max(0.05, ...vis.map(s => stats.share(s.id)));
     const cols = COLUMNS.filter(c => !state.clustersOff.has(c)); const cw = (width - pad.left - pad.right) / Math.max(1, cols.length);
     const clusterIds = Object.keys(CL);
@@ -389,11 +457,14 @@
     nodeSel.style("opacity", null);
     nodeSel.call(d3.drag().on("start", (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
       .on("drag", (e, d) => { d.fx = e.x; d.fy = e.y; }).on("end", (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
+    let tickN = 0;
     sim.on("tick", () => {
+      for (const n of nodes) if (!n.sat) { n.x = Math.max(pad.left + n.r, Math.min(width - pad.right - n.r, n.x)); n.y = Math.max(pad.top + n.r, Math.min(height - pad.bottom - n.r, n.y)); }
       linkSel.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
       satLinkSel.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
       nodeSel.attr("transform", d => `translate(${d.x},${d.y})`);
-    });
+      if (++tickN % 3 === 0) declutter();
+    }).on("end", declutter);
     paint();
   }
   svg.on("click", () => { const had = state.selectedSkill; state.selectedSkill = null; state.selectedJob = null; state.subFocus = null; if (had && state.subs === "selected") buildGraph(sliceStats(sliceJobs())); else paint(); renderDetail(); renderJobList(sliceJobs()); });
@@ -422,11 +493,12 @@
       return c;
     });
     linkSel.attr("class", d => { const s = d.source.id ?? d.source, t = d.target.id ?? d.target; const hi = state.selectedSkill && (s === state.selectedSkill || t === state.selectedSkill); return "link" + (hi ? " hi" : positional ? " hidden-link" : ""); });
+    declutter();
   }
 
   // ---------- detail panel ----------
   function bar(label, v, color) { return `<div class="bar"><span>${esc(label)}</span><div class="track"><div class="fill" style="width:${Math.round(v * 100)}%;background:${color || "var(--accent)"}"></div></div><span class="v">${fmtPct(v)}</span></div>`; }
-  function tag(id, cls = "") { const s = skillById[id]; return `<span class="tag ${cls}" data-skill="${id}"><span class="dot" style="background:${CL[s.cluster].color}"></span>${esc(s.name)}</span>`; }
+  function tag(id, cls = "") { const s = skillById[id]; return `<button type="button" class="tag ${cls}" data-skill="${id}"><span class="dot" style="background:${CL[s.cluster].color}"></span>${esc(s.name)}</button>`; }
   function selectSkill(id) { state.selectedSkill = id; state.selectedJob = null; state.subFocus = null; if (state.subs === "selected") buildGraph(sliceStats(sliceJobs())); else paint(); renderDetail(); }
   function wireTags(root) { root.querySelectorAll(".tag[data-skill]").forEach(t => t.onclick = () => selectSkill(t.dataset.skill)); }
   function currentLadderKey() { if (state.level.size === 1) return LEVEL_TO_LADDER[[...state.level][0]]; return null; }
@@ -448,7 +520,7 @@
     const ev = s.evidence || {};
     const evGroups = EV_GROUPS.filter(([k]) => (ev[k] || []).length);
     if (evGroups.length && !evGroups.some(([k]) => k === state.evTab)) state.evTab = evGroups[0][0];
-    const evHtml = evGroups.length ? `<h3>How postings phrase it</h3><div class="evtabs">${evGroups.map(([k, lab]) => `<span class="chip${state.evTab === k ? " on" : ""}" data-ev="${k}">${lab}</span>`).join("")}</div>
+    const evHtml = evGroups.length ? `<h3>How postings phrase it</h3><div class="evtabs">${evGroups.map(([k, lab]) => `<button type="button" class="chip${state.evTab === k ? " on" : ""}" aria-pressed="${state.evTab === k}" data-ev="${k}">${lab}</button>`).join("")}</div>
       ${(ev[state.evTab] || []).map(q => `<blockquote class="quote">“${esc(q.text)}”<span class="src">${esc(q.company)} · <a href="${esc(q.url)}" target="_blank" rel="noopener">${esc(q.title)}</a></span></blockquote>`).join("")}` : "";
     const build = (s.build || []).length ? `<h3>How to build it</h3><ul class="build">${s.build.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
     const signals = (s.signals || []).length ? `<h3>Resume lines that show it</h3><ul class="signals">${s.signals.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
@@ -463,7 +535,7 @@
       <h3>By company group</h3><div class="bars">${GROUPS.map(g => bar(groupLabel[g], s.by_group[g] || 0, "#9aa5b8")).join("")}</div>
       ${evHtml}${build}${signals}
       <h3>Often appears with</h3><div class="taglist">${related.map(r => tag(r.id)).join("") || "<span class='muted small'>—</span>"}</div>
-      <h3>Companies asking most</h3><div class="rows">${topComp.map(([c, n]) => `<div class="r"><span class="link-ish" data-company="${esc(c)}">${esc(c)}</span><span class="c">${n} posting${n > 1 ? "s" : ""}</span></div>`).join("")}</div>
+      <h3>Companies asking most</h3><div class="rows">${topComp.map(([c, n]) => `<div class="r"><button type="button" class="link-ish" data-company="${esc(c)}" title="Filter the map to ${esc(c)}">${esc(c)}</button><span class="c">${plural(n, "posting", "postings")}</span></div>`).join("")}</div>
       <h3>Example postings</h3><div class="rows">${withSkill.slice(0, 6).map(j => `<div class="r"><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a><span class="c">${esc(j.company)}</span></div>`).join("")}</div></div>`;
   }
 
@@ -482,13 +554,13 @@
         ${Object.entries(byCluster).sort((a, b) => b[1].length - a[1].length).map(([c, ks]) => `<div class="small muted" style="margin-top:8px">${esc(CL[c].label)}</div><div class="taglist">${ks.map(k => tag(k, state.match ? (state.match.matched.has(k) ? "good" : "bad") : "")).join("")}</div>`).join("")}
         ${subSet.size ? `<h3>Specific asks in this posting</h3><div class="taglist">${[...subSet].map(id => subById[id] ? `<span class="tag" data-skill="${subById[id].parent}" title="${esc(skillById[subById[id].parent].name)}">${esc(subById[id].name)}</span>` : "").join("")}</div>` : ""}
         <button id="match-this" class="primary wide">Match my resume against this role</button></div>`;
-      $("#match-this").onclick = () => openMatch(j.id);
+      $("#match-this").onclick = e => openMatch(j.id);
       wireTags(el); return;
     }
     if (state.selectedSkill) {
       el.innerHTML = renderSkill(skillById[state.selectedSkill], jobs, stats);
       el.querySelectorAll("[data-ev]").forEach(t => t.onclick = () => { state.evTab = t.dataset.ev; renderDetail(); });
-      el.querySelectorAll("[data-company]").forEach(t => { t.style.cursor = "pointer"; t.onclick = () => { state.company = new Set([t.dataset.company]); update(); }; });
+      el.querySelectorAll("[data-company]").forEach(t => { t.onclick = () => { state.company = new Set([t.dataset.company]); update(); $(".rail.left").scrollTop = 0; }; });
       wireTags(el);
       const f = state.subFocus && el.querySelector("#sub-" + state.subFocus); if (f) f.scrollIntoView({ block: "center" }); else el.scrollTop = 0;
       return;
@@ -499,7 +571,7 @@
     const famLabel = [...state.family].map(f => G.families[f]).join(" / ");
     const lvlLabel = state.level.size ? [...state.level].map(l => G.level_labels[l]).join(" / ") : "all levels";
     const active = [state.sector.size ? [...state.sector].join(", ") : null, state.company.size ? [...state.company].join(", ") : null, state.country.size ? [...state.country].join(", ") : null, state.remote ? "remote" : null, state.yoe.size ? [...state.yoe].join("/") + " yrs" : null, state.spec.size ? [...state.spec].map(s => SPEC_LABEL[s]).join(", ") : null, state.degree.size ? [...state.degree].map(d => skillById[d].name).join(", ") : null, state.fund.size ? "backed by " + [...state.fund].join(", ") : null, state.stage.size ? [...state.stage].join("/") : null].filter(Boolean);
-    el.innerHTML = `<div class="detail"><h2>${esc(famLabel)}</h2><div class="kicker">${esc(lvlLabel)} · ${stats.n} postings · ${new Set(jobs.map(j => j.company)).size} companies${med ? ` · median ask ${med}+ years` : ""}</div>
+    el.innerHTML = `<div class="detail"><h2>${esc(famLabel)}</h2><div class="kicker">${esc(lvlLabel)} · ${plural(stats.n, "posting", "postings")} · ${plural(new Set(jobs.map(j => j.company)).size, "company", "companies")}${med ? ` · median ask ${med}+ years` : ""}</div>
       ${active.length ? `<p class="active-filters">Filters: ${esc(active.join(" · "))}</p>` : ""}
       <h3>Most requested</h3><div class="bars">${top.map(t => bar(t.s.name, t.v, CL[t.s.cluster].color)).join("")}</div>
       ${state.level.size === 0 && state.family.size === 1 ? ladder(jobs) : ""}
@@ -557,9 +629,15 @@
     else if (cur.length >= 5 && cur.length < G.jobs.length) sel.value = "slice";
     else if (state.family.size === 1) sel.value = `agg:${[...state.family][0]}:${state.level.size === 1 ? [...state.level][0] : "__all"}`;
   }
-  function openMatch(jobId) { targetOptions(jobId); $("#match-modal").hidden = false; }
+  // modals: focus moves in on open, back to the opener on close; Escape closes
+  let modalOpener = null;
+  function openModal(id, opener) { modalOpener = opener || document.activeElement; const m = $(id); m.hidden = false; (m.querySelector("textarea, select, input:not([hidden]), button:not(.close)") || m.querySelector(".modal-card")).focus(); }
+  function closeModal(id) { $(id).hidden = true; if (modalOpener && modalOpener.focus) modalOpener.focus(); modalOpener = null; }
+  document.addEventListener("keydown", e => { if (e.key === "Escape") for (const id of ["#match-modal", "#about-modal"]) if (!$(id).hidden) closeModal(id); });
+  for (const id of ["#match-modal", "#about-modal"]) $(id).addEventListener("click", e => { if (e.target === $(id)) closeModal(id); });
+  function openMatch(jobId) { targetOptions(jobId); openModal("#match-modal"); }
   $("#btn-match").onclick = () => openMatch(state.selectedJob);
-  $("#match-close").onclick = () => $("#match-modal").hidden = true;
+  $("#match-close").onclick = () => closeModal("#match-modal");
 
   const MATCH = Matcher.createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G });
   const PERSONA_TEXT = {
@@ -617,7 +695,7 @@
       ${r.soft.length ? `<p class="muted small" style="margin-top:14px">Also asked for, not scored because resumes rarely state them outright: ${r.soft.map(s => (s.have ? "✓ " : "") + esc(s.name)).join(" · ")}</p>` : ""}
       <p class="muted small" style="margin-top:12px">Close this window to see evidenced (green ring) and missing (red dashed ring) requirements on the map. Click any skill for its sub-skills, with the ones you've evidenced ticked.</p>`;
     wireTags(res);
-    res.querySelectorAll(".tag[data-skill]").forEach(t => { const f = t.onclick; t.onclick = () => { $("#match-modal").hidden = true; f(); }; });
+    res.querySelectorAll(".tag[data-skill]").forEach(t => { const f = t.onclick; t.onclick = () => { closeModal("#match-modal"); f(); }; });
     const required = new Set(); for (const x of rows) { if (x.tier === "diff") continue; if (x.slot === "__ai") r.ai.forEach(id => required.add(id)); else if (x.slot !== "__domain") required.add(x.id); }
     state.match = { matched: new Set([...evid, ...trans].map(x => x.id).filter(id => skillById[id])), required, subs: r.subs, label };
   }
@@ -645,7 +723,7 @@
   function update() {
     renderControls();
     const jobs = sliceJobs();
-    $("#hud-count").textContent = `${jobs.length} postings · ${new Set(jobs.map(j => j.company)).size} companies`;
+    $("#hud-count").textContent = `${plural(jobs.length, "posting", "postings")} · ${plural(new Set(jobs.map(j => j.company)).size, "company", "companies")}`;
     renderJobList(jobs);
     buildGraph(sliceStats(jobs));
     renderDetail();
