@@ -18,10 +18,10 @@ from pipeline.adapters import ADAPTERS
 from pipeline import roles, roles_mba
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# role set -> (title filter, search queries for search-based ATSes or None for the adapter defaults, cache dir)
+# role set -> (title filter, cache dir)
 ROLE_SETS = {
-    "product": (roles.title_ok, None, "jobs"),
-    "mba": (roles_mba.title_ok, roles_mba.SEARCH_QUERIES, "jobs_mba"),
+    "product": (roles.title_ok, "jobs"),
+    "mba": (roles_mba.title_ok, "jobs_mba"),
 }
 
 
@@ -60,7 +60,7 @@ def main():
     ap.add_argument("--rank-to", type=int)
     ap.add_argument("--roles", choices=sorted(ROLE_SETS), default="product")
     args = ap.parse_args()
-    title_ok, queries, cache = ROLE_SETS[args.roles]
+    title_ok, cache = ROLE_SETS[args.roles]
     RAW = os.path.join(ROOT, "data", "raw", cache)
     os.makedirs(RAW, exist_ok=True)
     reg = load_registry(args.roles)
@@ -92,10 +92,12 @@ def main():
         name = entry["company"]
         t0 = time.time()
         try:
-            cfg = entry.get("config", {})
-            if queries:
-                cfg = dict(cfg, queries=queries)
-            jobs = ADAPTERS[entry["ats"]](name, cfg, title_ok)
+            cfg, ok, cat = entry.get("config", {}), title_ok, entry.get("category")
+            if args.roles == "mba":  # some title rules and searches depend on the kind of employer
+                # a board shared with a parent company is narrowed by its own search text (keep_queries)
+                cfg = cfg if cfg.get("keep_queries") else dict(cfg, queries=roles_mba.queries(cat))
+                ok = lambda t: roles_mba.title_ok(t, cat)
+            jobs = ADAPTERS[entry["ats"]](name, cfg, ok)
             seen, uniq = set(), []
             for j in jobs:
                 k = j.get("url") or j.get("external_id")
@@ -105,6 +107,8 @@ def main():
                 j["group"] = entry.get("group")
                 j["investor"] = entry.get("investor")
                 j["ats"] = entry["ats"]
+                if cat:
+                    j["category"] = cat
                 uniq.append(j)
             with open(path, "w") as f:
                 json.dump({"company": name, "scraped_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "jobs": uniq}, f)

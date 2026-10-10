@@ -18,7 +18,7 @@ FAMILY_PATTERNS = [
     ("fpa", r"\bfp\s*&\s*a\b|\bfinancial\s+planning\s*(&|and)\s*analysis\b"),
     ("treasury", r"\btreasury\s+(senior\s+)?(manager|analyst|associate|director|lead|operations)\b|\b(manager|analyst|director|head|vp|vice\s+president|lead),?\s+(of\s+)?(corporate\s+|global\s+)?treasury\b|\b(assistant\s+)?treasurer\b"),
     ("ib_associate", r"\binvestment\s+bank(ing|er)\b"),
-    ("commercial_banking_rm", r"\b(commercial|business)\s+bank(ing|er)\b.*\brelationship\s+(manager|banker)\b|\brelationship\s+(manager|banker)\b.*\b(commercial|business)\s+bank|\bcommercial\s+(relationship\s+manager|banker)\b"),
+    ("commercial_banking_rm", r"\b(commercial|business|middle\s+market)\s+(bank(ing|er)\b)?.*\brelationship\s+(manager|banker)\b|\brelationship\s+(manager|banker)\b.*\b(commercial|business|middle\s+market)\b|\bcommercial\s+(banker|lender|loan\s+officer)\b"),
     ("corporate_banking", r"\bcorporate\s+bank(ing|er)\b"),
     ("pe_associate", r"\bprivate\s+equity\b.*\b(associate|analyst|principal|vice\s+president|vp|invest(or|ment|ing)s?)\b|\b(associate|analyst|principal|vice\s+president|vp|invest(or|ment|ing)s?)\b.*\bprivate\s+equity\b"),
     ("vc_associate", r"\bventure\s+capital\b|\bventures?\s+(associate|analyst|principal|investor|partner)\b|\b(associate|analyst|principal|investor),?\s+ventures\b"),
@@ -52,30 +52,80 @@ EXCLUDE = {
     "operations_manager": r"\bproduct\s+(operations|ops)\b",
     "management_consultant": r"\b(sap|oracle|workday|salesforce|servicenow|implementation|software|technical|solutions?)\b",
     "investment_manager": r"\bproduct\b",
-    "pe_associate": r"\b(sales|account|partner(ship)?s?|representative|counsel|tax|accounting|accountant)\b",
+    "ib_associate": r"\b(assistant|recruit\w*|counsel|compliance|engineer\w*|technology)\b",
+    "pe_associate": r"\b(fund\s+(admin\w*|accounting)|gtm|sales|account|partner(ship)?s?|representative|counsel|tax|accounting|accountant)\b",
     "strategy_manager": r"\b(content|creative|brand|media|social|seo|communications?|design|ux|tax|talent|sourcing|category)\b",
     "financial_manager": r"\b(data\s+scien|engineer|recruit|talent|systems)",
-    "corp_dev": r"\b(counsel|attorney|paralegal|tax|accounting|accountant|legal)\b",
+    "opex": r"\b(engineer|coordinator|technician|intern|specialist|operator)\b",
+    "tech_strategy": r"\b(engineer|architect|developer)\b",
+    "corp_dev": r"\b(communications|counsel|attorney|paralegal|tax|accounting|accountant|legal)\b",
 }
 EXCLUDE_RE = {f: re.compile(p, re.I) for f, p in EXCLUDE.items()}
 
 
-def family(title):
-    t = title or ""
-    for f, rx in FAMILY_RE:
-        if rx.search(t):
-            if f in EXCLUDE_RE and EXCLUDE_RE[f].search(t):
-                continue
-            if f in IN_PRODUCT_SCRAPE and not roles.title_ok(t):
-                continue
+# At a firm whose business is the role, titles drop the role's name: a consulting firm posts "Senior
+# Consultant", a bank "Associate, Healthcare M&A", a fund "Associate, Growth Equity". These rules apply only to
+# employers of that category (data/raw/mba_employers.json): category -> (family, title pattern, searches to add).
+RANK = r"(analyst|associate|vice\s+president|vp|principal|director)"
+_CONSULTING = ("management_consultant", rf"\bconsult(ant|ing)\b|\bengagement\s+manager\b|\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\s+diligence)\b.*\b{RANK}\b|\b{RANK}\b.*\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\s+diligence)\b",
+               ["consultant", "senior consultant", "engagement manager", "strategy associate"])
+# strategy houses use bare ranks ("Associate", "Business Analyst", "Associate Consultant - Chicago")
+_STRATEGY_HOUSE = (_CONSULTING[0], _CONSULTING[1] + r"|^\W*(senior\s+)?(associate|business\s+analyst|analyst|principal|partner|project\s+leader|case\s+team\s+leader)\b",
+                   _CONSULTING[2] + ["associate", "business analyst", "analyst"])
+EMPLOYER_RULES = {
+    "Strategy consulting": _STRATEGY_HOUSE,
+    "Consulting and advisory": _CONSULTING,
+    "Big Four and accounting": _CONSULTING,
+    "Investment banking": ("ib_associate", rf"\b{RANK}\b.*\b(m\s*&\s*a|mergers|advisory|restructuring|capital\s+markets|coverage|leveraged\s+finance|sponsors?|banking|ecm|dcm|generalist)\b|\b(m\s*&\s*a|mergers|advisory|restructuring|capital\s+markets|coverage|leveraged\s+finance|sponsors?|banking|ecm|dcm)\b.*\b{RANK}\b",
+                           ["investment banking analyst", "investment banking associate", "M&A", "restructuring", "capital markets"]),
+    "Private equity": ("pe_associate", rf"\b{RANK}\b.*\b(invest\w*|buyouts?|private\s+equity|growth|credit|infrastructure|real\s+assets|deal|secondaries|portfolio\s+operations|value\s+creation)\b|\b(invest\w*|buyouts?|private\s+equity|growth\s+equity|secondaries|value\s+creation)\b.*\b{RANK}\b|\binvestment\s+professional\b|^\W*(senior\s+)?(associate|analyst|vice\s+president|principal)\b",
+                       ["associate", "analyst", "investment", "vice president", "value creation"]),
+    "Venture capital": ("vc_associate", r"\b(investor|investing|investment)\b|^\W*(senior\s+)?(associate|analyst|principal)\b|\b(deal|investment)\s+partner\b",
+                        ["investor", "associate", "analyst", "principal", "investment"]),
+    "Asset management": ("investment_manager", r"\bportfolio\s+manager\b|\binvestment\s+(analyst|associate|strategist|specialist|professional|research)\b|\b(research|equity|credit|fixed\s+income|quantitative)\s+(research\s+)?(analyst|associate)\b|\b(analyst|associate|vice\s+president)\b.*\b(private\s+(credit|equity|markets)|invest\w*|equit(y|ies)|fixed\s+income|multi[- ]asset|real\s+estate)\b",
+                         ["portfolio manager", "research analyst", "investment analyst", "investment associate"]),
+}
+EMPLOYER_RE = {c: (f, re.compile(p, re.I)) for c, (f, p, _) in EMPLOYER_RULES.items()}
+EMPLOYER_EXCLUDE_RE = re.compile(r"\b(assistant|counsel|attorney|paralegal|recruit\w*|talent|engineer\w*|developer|accountant|tax|audit\w*|payroll|receptionist|compliance|legal|marketing|events?|design\w*|sap|oracle|workday|salesforce|servicenow|implementation|software|cyber\w*|cloud|sales|data\s+(governance|operations|management|engineer\w*|analyst|scien\w*)|operations|ops|onboarding|communications|procurement|client|investor\s+(relations|services|communications)|product\s+specialist|fund\s+(admin\w*|accounting)|technical|technology|it|people|human|hr|treasury|controller|facilities|administrat\w*|security|epic|billing)\b", re.I)
+JUNK_RE = re.compile(r"\bdo\s+not\s+apply\b|\btest\s+req", re.I)
+# employer rules that outrank the general patterns ("M&A Associate" at a bank is banking, not corporate development)
+EMPLOYER_FIRST = {"Investment banking", "Private equity", "Venture capital", "Asset management"}
+
+
+def _employer_family(t, category):
+    if category in EMPLOYER_RE:
+        f, rx = EMPLOYER_RE[category]
+        if rx.search(t) and not EMPLOYER_EXCLUDE_RE.search(t):
             return f
     return None
 
 
-def title_ok(title):
+def family(title, category=None):
+    t = title or ""
+    if JUNK_RE.search(t):
+        return None
+    if category in EMPLOYER_FIRST:
+        f = _employer_family(t, category)
+        if f:
+            return f
+    for f, rx in FAMILY_RE:
+        if rx.search(t):
+            if f in EXCLUDE_RE and EXCLUDE_RE[f].search(t):
+                continue
+            if f in IN_PRODUCT_SCRAPE and not (roles.title_ok(t) and roles.family(t) == "pm"):
+                continue
+            return f
+    return _employer_family(t, category)
+
+
+def title_ok(title, category=None):
     """Titles the MBA scrape fetches (the product families are already in data/raw/jobs)."""
-    f = family(title)
+    f = family(title, category)
     return f is not None and f not in IN_PRODUCT_SCRAPE
+
+
+def queries(category=None):
+    return SEARCH_QUERIES + (EMPLOYER_RULES[category][2] if category in EMPLOYER_RULES else [])
 
 
 # Queries for search-based ATSes; title filtering happens on the results.
