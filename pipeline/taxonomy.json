@@ -57,7 +57,12 @@
    "patterns": [
     "product strateg",
     "strategic (direction|vision|plan)",
-    "long[- ]term (vision|strategy)"
+    "long[- ]term (vision|strategy)",
+    "(commercial|platform|portfolio|growth|go-to-market|product[- ]line|pricing|monetization) strategy",
+    "(own|set|define|drive|shape|build|lead)(s|ing)? (the |a |its |your |our )?(product |commercial |platform |overall |business )?strategy",
+    "strategic (mindset|thinking|direction|bets|priorities|roadmap|planning)",
+    "vision and strategy",
+    "strategy (and|&) (roadmap|vision|execution|direction)"
    ]
   },
   {
@@ -68,7 +73,11 @@
     "product vision",
     "\\bvision\\b.{0,30}\\bproduct\\b",
     "set(ting)? (the|a) vision",
-    "compelling vision"
+    "compelling vision",
+    "(own|set|define|drive|articulate|build|craft|establish|shape)(s|ing)? (the |a |your |our )?(product |platform |long[- ]term |multi[- ]year )?vision",
+    "vision,? (strategy|roadmap)",
+    "vision (and|&) (strategy|roadmap|direction)",
+    "(strategic|long[- ]term|multi[- ]year|\\d[- ]year) vision"
    ]
   },
   {
@@ -94,7 +103,10 @@
     "write (clear|crisp|detailed) (specs|requirements)",
     "user stories",
     "acceptance criteria",
-    "\\bspecs?\\b"
+    "\\bspecs?\\b",
+    "product (requirements|specifications?|specs)",
+    "(define|develop|write|document|gather|author|own)(s|ing)? .{0,30}requirements",
+    "(technical|business|integration|data|functional) requirements"
    ]
   },
   {
@@ -107,7 +119,7 @@
     "from (concept|ideation|idea|inception|discovery) to (launch|delivery|ship|release|scale)",
     "0[- ]to[- ]1",
     "zero[- ]to[- ]one",
-    "0 ?\u2192 ?1",
+    "0 ?→ ?1",
     "conception to launch",
     "through (launch|delivery)"
    ]
@@ -126,7 +138,12 @@
     "general availability",
     "\\bGA\\b",
     "release(s|d)? (to|new|features)",
-    "launch (readiness|plan|strategy|checklist)"
+    "launch (readiness|plan|strategy|checklist)",
+    "(concept|conception|ideation|discovery|idea|definition|inception) (to|through|until) launch",
+    "(post|pre)[- ]launch",
+    "launch (readiness|plans?|strategy|execution|planning)",
+    "successful launch(es)?",
+    "launching (and|new|products|features|capabilities)"
    ]
   },
   {
@@ -227,7 +244,6 @@
     "pricing",
     "packaging",
     "monetiz",
-    "business model",
     "revenue model",
     "unit economics"
    ]
@@ -266,8 +282,7 @@
     "messaging",
     "value proposition",
     "narrative",
-    "storytelling",
-    "\\bstory\\b"
+    "storytelling"
    ]
   },
   {
@@ -293,8 +308,7 @@
     "customer support",
     "support team",
     "account management",
-    "customer (feedback|escalation)",
-    "customer-facing"
+    "customer escalations?"
    ]
   },
   {
@@ -304,7 +318,7 @@
    "patterns": [
     "partnership",
     "partner ecosystem",
-    "third[- ]part",
+    "third[- ]party (partners|integrations|developers|ecosystem|providers)",
     "\\bISVs?\\b",
     "\\bOEMs?\\b",
     "channel partners",
@@ -352,7 +366,7 @@
     "retention",
     "churn",
     "activation",
-    "acquisition",
+    "(user|customer) acquisition",
     "engagement metrics",
     "\\bLTV\\b",
     "\\bCAC\\b",
@@ -385,7 +399,11 @@
     "research (findings|insights)",
     "ethnograph",
     "field research",
-    "diary stud"
+    "diary stud",
+    "qualitative and quantitative research",
+    "(conduct|run|lead|own)(s|ing)? (user|customer|stakeholder|market),? .{0,30}research",
+    "unmet (user|customer) needs",
+    "research (to|that) (identify|uncover|understand|inform|validate)"
    ]
   },
   {
@@ -410,7 +428,7 @@
    "name": "Personas & segmentation",
    "cluster": "discovery",
    "patterns": [
-    "persona",
+    "\\bpersonas?\\b",
     "segment(ation|s)",
     "target (users|customers|audience|segment)",
     "ideal customer profile",
@@ -488,8 +506,7 @@
    "patterns": [
     "\\bSQL\\b",
     "query(ing)? data",
-    "write queries",
-    "\\bqueries\\b"
+    "write queries"
    ]
   },
   {
@@ -516,7 +533,6 @@
     "data governance",
     "data quality",
     "schema",
-    "big ?data",
     "spark",
     "snowflake",
     "databricks",
@@ -529,14 +545,14 @@
    "name": "Statistics & forecasting",
    "cluster": "analytics",
    "patterns": [
-    "statistic",
+    "statistic(s|al)\\b",
     "forecast",
     "regression",
     "predictive",
     "causal",
     "econometric",
     "probabilit",
-    "modeling"
+    "statistical modeling|predictive model(s|ing)?"
    ]
   },
   {
@@ -582,7 +598,6 @@
     "\\bREST(ful)?\\b",
     "graphql",
     "developer (platform|experience|tools|products|ecosystem)",
-    "\\bdevelopers\\b",
     "\\bgRPC\\b",
     "\\bOpenAPI\\b"
    ]
@@ -702,11 +717,11 @@
     "cyber ?security",
     "(application|cloud|product|platform|network|data|information|enterprise) security",
     "security (product|platform|features|requirements|team|posture|controls|engineering|operations|tooling|review)",
-    "privacy",
+    "privacy (by design|requirements|controls|compliance|regulations?|engineering|features)|data privacy|user privacy",
     "\\bIAM\\b",
     "identity (and access|management|platform|verification|provider)",
     "authentication",
-    "authori[sz]ation",
+    "authentication and authori[sz]ation|\\bauthZ\\b|access control",
     "encryption",
     "zero trust",
     "threat (model|detection|intelligence)",
@@ -715,7 +730,7 @@
     "\\bGDPR\\b",
     "\\bCCPA\\b",
     "trust and safety",
-    "fraud",
+    "fraud (prevention|detection|risk|models?)",
     "\\bSIEM\\b",
     "\\bSSO\\b",
     "\\bMFA\\b"
@@ -730,11 +745,11 @@
     "software development life",
     "\\bCI/CD\\b",
     "devops",
-    "deployment",
+    "deployment (pipelines?|process|automation|strategy|frequency)|continuous (integration|delivery|deployment)",
     "release (management|process|pipeline)",
     "observability",
-    "monitoring",
-    "incident",
+    "(production|system|application|performance|service) monitoring|monitoring and alerting",
+    "incident (management|response|reviews?)",
     "on-?call",
     "\\bSRE\\b",
     "site reliability"
@@ -747,18 +762,17 @@
    "patterns": [
     "hardware",
     "firmware",
-    "embedded",
-    "silicon",
+    "embedded (systems|software|firmware|devices|linux|products)",
+    "silicon (design|teams?|products|vendors|roadmap)",
     "\\bchips?\\b",
     "\\bGPUs?\\b",
     "\\bSoC\\b",
     "semiconductor",
     "sensors?\\b",
-    "(consumer|connected|mobile|edge|medical|smart|wearable) devices?",
+    "(connected|wearable|edge|IoT|smart|medical) devices?",
     "device (management|platform|firmware|software|ecosystem)",
     "\\bIoT\\b",
     "robotic",
-    "mechanical engineering",
     "electrical engineering",
     "manufactur(ing|e) (process|partners|readiness)",
     "\\bEVT\\b",
@@ -773,7 +787,7 @@
    "name": "Networking & connectivity",
    "cluster": "technical",
    "patterns": [
-    "network(ing)?\\b",
+    "network (infrastructure|protocols|equipment|engineering|security|operations|products|services|hardware)|networking (products|hardware|stack|protocols|equipment)|\\bSD-?WAN\\b|wi-?fi",
     "\\b5G\\b",
     "\\bLTE\\b",
     "wireless",
@@ -791,18 +805,19 @@
    "name": "Automotive, autonomy & robotics",
    "cluster": "domain",
    "patterns": [
-    "autonomous",
     "self[- ]driving",
-    "vehicle",
-    "automotive",
     "\\bADAS\\b",
     "\\bEVs?\\b",
     "electric vehicle",
     "drone",
     "aerospace",
-    "defense",
     "\\bDoD\\b",
-    "mission"
+    "autonomous (vehicles?|driving|systems|machines|robots?|trucks|mobility|navigation)",
+    "automotive (industry|OEMs?|customers|software|platforms?|products?|sector|suppliers)",
+    "(electric|autonomous|connected|commercial) vehicles?",
+    "vehicle (software|platforms?|data|fleets?|telematics)",
+    "defen[cs]e (industry|customers|contracts|tech|sector|programs|applications)|\\bDoD\\b",
+    "robotics"
    ]
   },
   {
@@ -864,7 +879,6 @@
     "member (experience|engagement|journey)",
     "provider (network|data|experience)",
     "life sciences",
-    "diagnostic",
     "therapeutic",
     "\\bHIPAA\\b"
    ]
@@ -879,11 +893,10 @@
     "marketplace",
     "\\bcheckout\\b",
     "\\bcart\\b",
-    "catalog",
+    "product catalog|catalog management",
     "merchandis",
     "shopper",
     "\\bsellers?\\b",
-    "\\bbuyers?\\b",
     "omni-?channel",
     "store (experience|operations)",
     "grocery",
@@ -900,15 +913,14 @@
     "fulfil+ment",
     "warehouse",
     "inventory",
-    "transportation",
+    "transportation (logistics|networks?|management|industry)",
     "last[- ]mile",
     "delivery (network|operations)",
     "procurement",
     "freight",
-    "shipping",
+    "shipping (logistics|carriers|rates|labels|operations|costs)|shipments?\\b",
     "\\bWMS\\b",
-    "\\bTMS\\b",
-    "\\bERP\\b"
+    "\\bTMS\\b"
    ]
   },
   {
@@ -924,10 +936,9 @@
     "programmatic",
     "(ad|marketing|media) campaigns?",
     "media (buying|planning|platform|company|industry|measurement)",
-    "streaming",
+    "streaming (services?|platforms?|video|media)",
     "video (platform|streaming|product|ads|content|player)",
     "content (platform|creators|monetization|recommendation)",
-    "creators?\\b",
     "publishers?\\b",
     "audience (targeting|segmentation|measurement|insights)",
     "attribution",
@@ -942,11 +953,9 @@
     "\\bB2B\\b",
     "enterprise (software|customers|SaaS|product|sales|grade|scale)",
     "\\bSaaS\\b",
-    "subscription",
     "multi-?tenant",
     "admin(istration)? (console|experience)",
     "\\bIT\\b (admins|teams|buyers)",
-    "procurement",
     "\\bCRM\\b",
     "\\bHCM\\b",
     "workflow automation"
@@ -959,14 +968,12 @@
    "patterns": [
     "\\bB2C\\b",
     "consumer (product|app|experience|facing|internet|tech|brand|hardware)",
-    "millions of (users|customers|people)",
     "mass[- ]market",
     "social (app|network|media|product|platform)",
     "\\bgaming\\b",
-    "\\bgames?\\b",
+    "gaming|video games?|game (studios?|developers?|design)",
     "entertainment",
-    "\\bcommunity\\b",
-    "\\bcreators?\\b",
+    "creator (economy|tools|platforms?|monetization)",
     "shoppers?\\b",
     "\\bmembers?\\b (experience|engagement)"
    ]
@@ -976,10 +983,9 @@
    "name": "Energy, industrial & manufacturing",
    "cluster": "domain",
    "patterns": [
-    "\\benergy\\b",
+    "energy (industry|sector|markets?|systems|storage|grid|management|utilities|companies|transition|products)|renewable energy|oil (and|&) gas|utilities (industry|sector|customers)",
     "oil and gas",
     "refin(ery|ing)",
-    "utility",
     "\\bgrid\\b",
     "renewable",
     "industrial",
@@ -987,7 +993,6 @@
     "\\bplant\\b",
     "\\bfield operations\\b",
     "\\bEHS\\b",
-    "sustainab",
     "climate",
     "carbon"
    ]
@@ -1001,7 +1006,6 @@
     "wireless carrier",
     "broadband",
     "fiber",
-    "\\bcable\\b",
     "\\bISP\\b",
     "subscriber"
    ]
@@ -1016,29 +1020,26 @@
     "open[- ]source",
     "\\bCLI\\b",
     "\\bIDE\\b",
-    "\\bgithub\\b",
     "infrastructure (product|platform)",
-    "data infrastructure",
-    "\\bdatabase\\b",
-    "\\bcompute\\b",
-    "storage"
+    "data infrastructure"
    ]
   },
   {
    "id": "public_sector",
-   "name": "Public sector, regulated & compliance",
+   "name": "Regulated industries & compliance",
    "cluster": "domain",
    "patterns": [
-    "regulat",
-    "compliance",
-    "government",
-    "public sector",
-    "federal",
-    "\\bFedRAMP\\b",
-    "\\bSOX\\b",
-    "audit",
-    "legal (team|requirements)",
-    "policy"
+    "public[- ]sector",
+    "government (agencies|customers|contracts|clients|entities|programs|services|partners)",
+    "(federal|state|local) (agencies|government|customers|contracts|programs)",
+    "\\bFedRAMP\\b|\\bSOX\\b|\\bHIPAA\\b|\\bGDPR\\b|\\bPCI[- ]DSS\\b",
+    "regulatory (requirements|compliance|environment|landscape|bodies|approvals?|frameworks|constraints|changes|affairs)",
+    "(highly |heavily )?regulated (industry|industries|environment|markets?|space|sectors?)",
+    "compliance (requirements|teams?|programs?|frameworks|obligations|standards|controls|risk|features|workflows)",
+    "(legal|risk) and compliance",
+    "compliance and (legal|risk|security)",
+    "audit (requirements|readiness|trails?|controls)",
+    "policy (requirements|compliance|enforcement|engine)"
    ]
   },
   {
@@ -1120,7 +1121,11 @@
     "present(ing)? to (senior |executive )?(leadership|executives|the board|C-?suite)",
     "leadership reviews",
     "\\bQBRs?\\b",
-    "business reviews"
+    "business reviews",
+    "executive (stakeholders|leadership|committee|team|sponsors)",
+    "(present|report|communicat|partner)\\w* .{0,40}(to|with) (senior |executive |company |the )?(leadership|executives|board|C-?suite|exco|founders)",
+    "executive[- ]level communication",
+    "leadership (reviews|updates|alignment)"
    ]
   },
   {
@@ -1241,16 +1246,16 @@
     "\\bscrum\\b",
     "sprint",
     "kanban",
-    "\\bSAFe\\b",
+    "scaled agile|\\bSAFe\\b (framework|certif|agilist)",
     "ceremonies",
     "stand-?ups?",
     "retrospective",
     "iterative (development|approach)",
     "backlog",
     "groom",
-    "refinement",
+    "backlog refinement",
     "story points",
-    "velocity",
+    "(team|sprint|delivery) velocity",
     "epics?\\b"
    ]
   },
@@ -1362,12 +1367,12 @@
    "name": "Vendor, budget & contract management",
    "cluster": "delivery",
    "patterns": [
-    "vendor",
+    "vendor (management|selection|relationships?|contracts?|evaluation|negotiations?|partners)|vendors and partners|third[- ]party vendors?",
     "supplier",
-    "contract",
+    "contract (negotiations?|management|renewals?|terms)|vendor contracts?",
     "\\bRFPs?\\b",
     "\\bSOWs?\\b",
-    "procurement",
+    "procurement (process|teams?)",
     "\\bSLAs?\\b",
     "budget (management|ownership|planning)",
     "third[- ]party (vendors|providers)",
@@ -1427,7 +1432,6 @@
     "pendo",
     "fullstory",
     "hotjar",
-    "segment\\b",
     "\\bdbt\\b",
     "quicksight",
     "\\bsuperset\\b",
@@ -1471,7 +1475,7 @@
    "name": "CRM & GTM tools (Salesforce, HubSpot, Gong)",
    "cluster": "tools",
    "patterns": [
-    "salesforce",
+    "(with|using|in|of) Salesforce|Salesforce (CRM|admin|platform|experience)",
     "hubspot",
     "\\bgong\\b",
     "marketo",
@@ -1489,12 +1493,9 @@
    "cluster": "tools",
    "patterns": [
     "\\bAI tools?\\b",
-    "AI-?native",
-    "AI-?first",
     "AI-?powered (tools|workflow|development)",
     "use(s|d)? AI to",
     "leverag(e|ing) AI",
-    "\\bcopilot",
     "chatgpt",
     "\\bcursor\\b",
     "claude code",
@@ -1503,7 +1504,8 @@
     "AI (fluency|literacy)",
     "generative tools",
     "AI[- ]assisted",
-    "AI[- ]enabled (workflow|productivity)"
+    "AI[- ]enabled (workflow|productivity)",
+    "github copilot"
    ]
   },
   {

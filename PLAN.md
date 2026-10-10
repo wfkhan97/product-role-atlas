@@ -44,8 +44,15 @@ Static site (D3 force graph, no build step), published as an artifact and runnab
   co-occurrence; colour = cluster.
 - Right panel: skill detail (which companies/levels ask for it, what it co-occurs with) or job detail.
 - "Match me": drop a resume (PDF / DOCX / TXT) or paste courses. Parsed in the browser (pdf.js,
-  mammoth), run through the same taxonomy, scored against the selected job or family+level.
-  Shows match %, covered skills, ranked gaps, and the next skills to learn.
+  mammoth); nothing leaves the browser. `web/match.js` reads it line by line with section detection and
+  an evidence strength per hit (named / done / done with an outcome), then scores it against the
+  selected posting or family+level with requirements tiered into must-haves (asked in over half of the
+  slice), common asks and differentiators; one industry slot and one AI-literacy slot instead of every
+  domain as a separate requirement. The panel reads back a persona (experienced in role, pivoter, new to
+  role) and level, three meters (must-haves, common asks, depth), credentials from titles and degrees,
+  evidenced / transferable / named-not-shown / gaps with the line that earned each, rewrites for skills
+  shown in another field's vocabulary, build-next steps, ladder notes, unmapped lines and a what-if.
+  Evals in `evals/` guard it; design history in `evals/NOTES.md`.
 
 ## Filters (v3)
 

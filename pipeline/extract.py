@@ -3,6 +3,7 @@
 usage: python -m pipeline.extract  ->  data/processed/jobs.json
 """
 import glob
+import hashlib
 import json
 import os
 import re
@@ -146,6 +147,8 @@ def main():
     jobs = []
     evidence = {}
     company_stage = {}
+    seen = set()  # (company, title, cleaned text): the same role reposted per city counts once
+    dropped = 0
     reg = {r["company"]: r for r in json.load(open(os.path.join(ROOT, "data", "registry.json")))}
     for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", "jobs", "*.json"))):
         blob = json.load(open(path))
@@ -160,6 +163,11 @@ def main():
             if len(desc) < 300:
                 continue
             cleaned = clean(desc)
+            key = (blob["company"], title.strip().lower(), hashlib.md5(cleaned.strip().encode()).hexdigest())
+            if key in seen:
+                dropped += 1
+                continue
+            seen.add(key)
             st = stage_mentions(desc)
             if st:
                 cur = company_stage.get(blob["company"])
@@ -220,7 +228,7 @@ def main():
     subcnt = _c.Counter(k for j in jobs for k in j["sub"])
     print("subskills never matched:", [k for k in SUB_RE if subcnt[k] == 0])
     import collections
-    print(len(jobs), "postings tagged")
+    print(len(jobs), "postings tagged;", dropped, "exact reposts (same company, title and text) dropped")
     print("by family:", collections.Counter(j["family"] for j in jobs).most_common())
     print("by level:", collections.Counter(j["level"] for j in jobs).most_common())
     print("by group:", collections.Counter(j["group"] for j in jobs).most_common())

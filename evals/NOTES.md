@@ -292,3 +292,38 @@ Plan, in order:
 
 The resume matcher inherits all of step 1: once public sector and automotive stop being "asked in half
 of PM postings", they stop appearing as gaps for everyone.
+
+## Round 2 (2026-10-10): precision and recall pass, dedupe, re-extract
+
+Branch `fix/extraction-precision`, stacked on the matcher PR. Every change below was chosen from the
+per-pattern precision table (model acceptance rate among postings where a pattern fired) and validated
+against the saved model answers before re-extracting; see [extraction_baseline.md](extraction_baseline.md).
+
+- **Precision**: dropped or anchored 60-odd patterns. Notable bugs: `persona` matched "personal",
+  `\bSAFe\b` matched "safe", `segment` matched "Teen segment", `mission` carried most of automotive,
+  `shipping` most of supply chain, `subscription` for enterprise SaaS, `AI-native` / `AI-first` as
+  company self-descriptions, `salesforce` as an employer. "Public sector, regulated & compliance" was
+  relabelled "Regulated industries & compliance" and every pattern anchored, since bare `compliance`,
+  `policy`, `audit` and `federal` were firing on benefits and legal boilerplate.
+- **Recall**: added phrasings for launch ("concept to launch", "post-launch"), product vision ("own
+  the vision", "vision and strategy"), executive communication ("executive stakeholders", "present to
+  leadership"), user research, PRDs ("product requirements", "define requirements") and product
+  strategy ("commercial strategy", "set the strategy").
+- **Dedupe**: `extract.py` now drops exact reposts (same company, title and cleaned text): 186 of
+  9,351 postings. Company counts and the company filter no longer count one role per city.
+
+Effect on the 200-posting sample, regex share before → after (lenient model share for reference):
+automotive 43% → 9% (3%), regulated 44% → 22% (38%), consumer 38% → 16% (27%), personas 31% → 9%
+(34%), security 32% → 16% (29%), DevOps 24% → 8% (11%), supply chain 29% → 14% (12%), vendor 20% → 5%
+(9%); launch 21% → 38% (72%), PRDs 24% → 43% (63%), product strategy 47% → 65% (98%), executive
+communication 9% → 22% (59%). Regex-only cases (regex tags it, model rejects) fell from 889 to 457
+across all skills and from 533 to 238 on industry and technical skills. The remaining model-only gap
+on craft skills is the lenient prompt inferring from the title, which the map does not count by design.
+
+Across the full corpus (PM family): regulated 47% → 20%, automotive 43% → 6%, supply chain 33% → 18%,
+hardware 27% → 20%, personas 35% → 12%, launch 25% → 37%, PRDs 26% → 46%, product strategy 47% → 62%.
+Resume evals: 163 pass, 0 fail on the rebuilt graph; sample scores moved by at most 4 points.
+
+Not done, deliberately: a live model veto in `extract.py`. The residual regex-only count is small
+enough that the next gain is in labelled data, not in another model pass. Next calibration round:
+real resumes (including the 36% sample), a PDF sample through the browser, TPM and PMM samples.
