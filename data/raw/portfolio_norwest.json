@@ -1,0 +1,7199 @@
+[
+ {
+  "name": "1010data",
+  "website": "https://www.1010data.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Advance",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "fintech",
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "41st Parameter",
+  "website": "http://www.experian.com/decision-analytics/41st-parameter.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Experian",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "infra tech",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "6 River Systems",
+  "website": "http://www.6river.com",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Shopify",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "marketplaces",
+   "physicalai",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Above Security",
+  "website": "https://www.above.security/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "AI-native managed insider threat platform built to make insider risk proactive and operational for every organization.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "security",
+   "software"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "AbsenceSoft",
+  "website": "https://absencesoft.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Luminate Capital",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Accord Networks",
+  "website": "http://www.polycom.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Polycom, Inc.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Act-On Software",
+  "website": "https://www.act-on.com/",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "AI-driven marketing automation to create, measure, and refine campaigns faster.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "marketplaces",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Acta Technology",
+  "website": "https://www.sap.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Business Objects",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Actel",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth Equity",
+  "description": "Nasdaq: ACTL",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Adaptive Insights",
+  "website": "http://www.adaptiveinsights.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Workday",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "AdChina",
+  "website": "https://www.alibaba.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Alibaba",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [],
+  "region": null
+ },
+ {
+  "name": "Admeld",
+  "website": "http://www.admeld.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Google",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "media"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Advanced Fibre Comms.",
+  "website": "https://www.tellabs.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Tellabs",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Aesthetic Partners",
+  "website": "https://www.aestheticpartners.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A leading medical aesthetics and plastic surgery company that partners with high-end, physician-led, and patient-centric practices.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "growth products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Agari",
+  "website": "https://www.agari.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by HelpSystems",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Agile Networks",
+  "website": "http://www.alcatel-lucent.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Lucent Technologies",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Airespace",
+  "website": "https://www.cisco.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Cisco Systems",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Aisera",
+  "website": "https://aisera.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Automation Anywhere",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Aizome",
+  "website": "https://www.aizome.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Delivers identity, control, and intent verification for every AI agent in your enterprise.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "saas",
+   "security",
+   "software"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Aktana",
+  "website": "https://www.aktana.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The leader in intelligent customer engagement for the global life sciences industry.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "pharmaceutical services",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Algorithmia",
+  "website": "https://www.datarobot.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by DataRobot",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Alice",
+  "website": "https://www.alice.io",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A trust, safety, and security company built for the GenAI era.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "security"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Allied Riser Comms.",
+  "website": "http://www.cogentco.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Cogent Communications",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Amagi Media Labs",
+  "website": "https://www.amagi.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "An agentic industry cloud platform for unified broadcast, streaming, and monetization.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "adtech",
+   "media",
+   "saas"
+  ],
+  "region": "India, North America"
+ },
+ {
+  "name": "AmberPoint",
+  "website": "http://www.amberpoint.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Oracle",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "American Endovascular",
+  "website": "https://americanendovascular.com/",
+  "status": "alumni",
+  "stage": "Growth Equity",
+  "description": "Outpatient centers for treatment of peripheral artery disease.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Anomalo",
+  "website": "https://www.anomalo.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Leverages the power of Agentic AI to autonomously monitor, investigate, surface, and report on what matters across your data.",
+  "sector": "Consumer, Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "data",
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Anonym",
+  "website": "https://anonymco.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Mozilla",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "adtech",
+   "data",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "APAC Financial Services",
+  "website": "https://apacfin.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "MSME lender serving underbanked and underserved MSMEs in Bharat.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Apigee",
+  "website": "http://apigee.com/about/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Google",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "media",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Aporeto",
+  "website": "https://www.paloaltonetworks.com/prisma/cloud",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Palo Alto Networks",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Appriss",
+  "website": "https://www.equifax.com/business/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Equifax",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Apreo Health",
+  "website": "https://apreohealth.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Dedicated to pioneering safe, transformative solutions for lung disease.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "medical devices",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Arbortext",
+  "website": "https://www.ptc.com/en",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by PTC",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Argus Systems",
+  "website": "https://argus.systems/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Builds data and evaluation infrastructure for robotics and physical AI.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "physicalai"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Asian Genco",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Infrastructure development for power plants.",
+  "sector": null,
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Atlantic Cellular",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Rural Cellular",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [],
+  "region": "North America"
+ },
+ {
+  "name": "Authentica",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by EMC",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Automation Anywhere",
+  "website": "https://www.automationanywhere.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The leader in Agentic Process Automation (APA), transforming how work gets done with AI-powered automation.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Avalyn",
+  "website": "https://www.avalynpharma.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "NASDAQ: AVLN",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "biotech",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Avere Systems",
+  "website": "https://www.microsoft.com/en-us/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Microsoft",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Avetta",
+  "website": "http://www.avetta.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by EQT",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Azuria",
+  "website": "https://www.azuria.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A leading provider of technology-enabled solutions for the water industry, offering sustainable products for aging pipeline infrastructure and end-to-end services spanning water/wastewater treatment operations, engineering, and digital solutions to thousands of North American customers since 1971.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "business industrial products services",
+   "growth products services",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Babylist",
+  "website": "https://www.babylist.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "The leading registry, e-commerce and content platform for growing families.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "growth products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Badgeville",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Callidus",
+  "sector": "Consumer, Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "media",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Bailey 44",
+  "website": "http://www.bailey44.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Digital Brands Group",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Banyan Software",
+  "website": "https://banyansoftware.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Acquires, builds, and grows great enterprise software businesses.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Basis",
+  "website": "https://www.intel.com/content/www/us/en/homepage.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Intel",
+  "sector": "Consumer, Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "healthcare services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Beltic",
+  "website": "https://beltic.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "AI-native products that help businesses establish and maintain trust across people, companies, and AI agents.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "fintech",
+   "saas",
+   "security",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "BillionToOne",
+  "website": "https://billiontoone.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "NASDAQ: BLLN",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare it",
+   "healthcare services",
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Bitglass",
+  "website": "https://www.forcepoint.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Forcepoint",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Blue Cloud",
+  "website": "http://bluecloudpsc.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Great Hill Partners",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Bluecore",
+  "website": "http://bluecore.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Insider One",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "BlueJeans Network",
+  "website": "https://www.verizon.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Verizon",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Borqs Technologies Inc.",
+  "website": "http://www.borqs.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: BRQS",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "mobile",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Brand.net",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Valassis Communications",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "media"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Brite Semiconductor",
+  "website": "http://www.britesemi.com/",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "Fabless semiconductor design and production services.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Broadband Access Sys.",
+  "website": "http://www.adc.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by ADC",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Brocade",
+  "website": "http://www.brocade.com/index.page",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: BRCD",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Brooks Fiber Properties",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by WorldCom",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Budge Studios",
+  "website": "https://budgestudios.com/en/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Developer and publisher of digital interactive entertainment for children.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "edtech",
+   "media",
+   "mobile",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "BuildVision",
+  "website": "https://www.buildvision.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A cloud-based construction procurement solution that connects general contractors directly to manufacturers for sourcing, procuring, financing, and tracking strategic equipment for job sites.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "proptech",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Butter",
+  "website": "https://www.butterpayments.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Machine learning technology that optimizes failed payment recovery from involuntary churn of subscription merchants, leading to 5%+ ARR growth.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "e commerce retail",
+   "fintech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Button",
+  "website": "https://www.usebutton.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Empowering the world\u2019s biggest brands to supercharge their mobile marketing and ad performance using identity, deep linking, and machine learning technology.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "marketplaces",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Callio Therapeutics",
+  "website": "https://www.calliotx.com",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Develops next\u2010generation dual\u2010payload antibody drug conjugates (ADCs) for various cancers.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "biotech",
+   "life science",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Calm",
+  "website": "https://www.calm.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The #1 mental health app designed to help you manage stress, sleep better, and live a happier, healthier life.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "healthcare it",
+   "media",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Capsugel",
+  "website": "https://www.lonza.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Lonza",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "CareCloud",
+  "website": "http://www.carecloud.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Cloud-based healthcare IT solutions.",
+  "sector": "Enterprise, Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare it",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Cast Iron Systems",
+  "website": "https://www.ibm.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by IBM",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Celebal Technologies",
+  "website": "https://celebaltech.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Provider of data, AI, cloud, and IT consulting services tailored to industry needs, helping enterprises adopt digital and analytics solutions.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "infra tech",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Celona",
+  "website": "https://www.celona.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A turnkey private 5G solution designed for enterprises, providing secure, reliable wireless connectivity to meet growing business demands.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Cerent Corporation",
+  "website": "http://www.cisco.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Cisco Systems",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Cholamandalam Finance",
+  "website": "http://www.cholamandalam.com",
+  "status": "alumni",
+  "stage": null,
+  "description": "NSE: CHOLAFIN",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Chordiant Software",
+  "website": "http://www.pega.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: CHRD",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Citcon",
+  "website": "https://citcon.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A global merchant payments provider delivering integrated payment solutions.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "e commerce retail",
+   "fintech",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "CityMall",
+  "website": "https://citymall.live/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Bringing the benefits of e-commerce to the next billion users in India via community commerce.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "marketplaces"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "ClairMail",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Monitise",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "mobile",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "ClariPhy Communications",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Inphi",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Classiq",
+  "website": "https://www.classiq.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Developer of software for quantum algorithms. The company\u2019s software technology helps teams model, synthesize, and analyze previously impossible quantum circuits.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "software"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Classy",
+  "website": "https://www.classy.org/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by GoFundMe",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "ClearDATA",
+  "website": "https://www.cleardata.com",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The leading healthcare-specialized, managed security and cloud operations provider.",
+  "sector": "Enterprise, Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare it",
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Clever Care Health Plan",
+  "website": "https://clevercarehealthplan.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A culturally attuned Medicare Advantage health plan on a mission to empower members to take an active role in achieving better health.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Cmd",
+  "website": "https://www.elastic.co/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Elastic",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Common",
+  "website": "https://www.common.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Habyt",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Connect The Dots",
+  "website": "https://www.ctd.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Network Intelligence Platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "consumer products services",
+   "data",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "ConteXtream",
+  "website": "https://www.hp.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by HP",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Copper",
+  "website": "https://www.copper.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "CRM software solutions company for service businesses.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Corio",
+  "website": "http://www-935.ibm.com/services/us/en/it-services/gts-it-service-home-page-1.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by IBM",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Cority",
+  "website": "https://www.cority.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Environmental health, safety & risk management software.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Corporate Express",
+  "website": "http://www.staplesadvantage.com/learn?storeId=10101",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Staples",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Corsair Communications",
+  "website": "http://www.authorize.net/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Lightbridge",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "CoSine Communications",
+  "website": "http://www.webfinanceholding.com/about-us.html",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: COSN",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Cotality",
+  "website": "https://www.cotality.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Accelerates data, insights and workflows across the property ecosystem to enable industry professionals to surpass their ambitions and impact society.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "data",
+   "proptech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Courier Health",
+  "website": "https://www.courierhealth.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Purpose-built customer relationship management (CRM) platform for life science manufacturers.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare it",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Coval",
+  "website": "https://www.coval.dev",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The leading simulation and evaluation platform for AI voice and chat agents.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "saas",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Covigo",
+  "website": "https://www.motorola.com/us/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Symbol Technologies",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "mobile",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Cray Research",
+  "website": "http://www.cray.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: CRAY",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Crossover Health",
+  "website": "http://crossoverhealth.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Gurnet Point Capital",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare it",
+   "healthcare services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "CrossWeave",
+  "website": "http://www.oracle.com/us/corporate/Acquisitions/amberpoint/index.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by AmberPoint",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Cyan",
+  "website": "https://www.ciena.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Ciena; NYSE: CYNI",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "CyberX",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Microsoft",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "security"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Cynet",
+  "website": "https://www.cynet.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Holistic security simplified.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "security"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Cytovale",
+  "website": "https://cytovale.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Medical diagnostics company focused on advancing early detection technologies to diagnose fast-moving and immune-mediated diseases.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "diagnostics",
+   "life science",
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Dairy Queen",
+  "website": "http://www.dairyqueen.com/us-en/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Berkshire Hathaway",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Datacor",
+  "website": "https://www.datacor.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Leading provider of software solutions for process manufacturers and distributors.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "DataRobot",
+  "website": "https://www.datarobot.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Enterprise AI platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Dave",
+  "website": "https://dave.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "NASDAQ: DAVE",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "fintech",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Dealmap",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Google",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "media",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "deCarta",
+  "website": "https://www.uber.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Uber",
+  "sector": null,
+  "fund": "norwest",
+  "tags": [
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Demandbase",
+  "website": "https://www.demandbase.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "ABM software for mid-market & enterprise B2B companies.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Devoro Medical",
+  "website": "https://www.bostonscientific.com/en-US/Home.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Boston Scientific",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Diagrid",
+  "website": "https://www.diagrid.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Enables enterprises to build reliable, secure distributed systems and AI agents.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Diana Health",
+  "website": "https://heydianahealth.com/%20",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Personalized women\u2019s healthcare, including maternity, gynecology, menopause, mental health, and wellness services.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Diligent",
+  "website": "https://diligent.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "The AI leader in governance, risk and compliance (GRC) SaaS solutions.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Divi",
+  "website": "https://www.diviofficial.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Award-winning Scalp and Hair Health multi-channel brand offering clean, science-backed products.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Docent",
+  "website": null,
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: DCNT",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Documentum",
+  "website": "http://www.emc.com/enterprise-content-management/documentum/index.htm",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by EMC",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Dremio",
+  "website": "https://www.dremio.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by SAP",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "DTEX",
+  "website": "https://www.dtex.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The leader in risk-adaptive security, unifying human, data, and AI risk through a behavioral intelligence platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Duroflex",
+  "website": "https://www.duroflexworld.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "India\u2019s trusted sleep expert for mattresses, sofas, recliners, pillows and protectors.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "E2",
+  "website": "https://endovascularengineering.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A mission-driven company focused on the development and deployment of next generation clot removal technologies that target venous thromboembolism.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "life science",
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "East Range Group",
+  "website": "https://eastrangegroup.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A team of high purity water systems and service companies.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "business industrial products services",
+   "growth products services",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Ebbo",
+  "website": "https://www.ebbo.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "All-in-one loyalty company helping leading brands\u00a0build customer engagement on repeat.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Ediphi",
+  "website": "https://www.ediphi.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A comprehensive cloud-based platform for estimating and preconstruction.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "proptech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Edme Services",
+  "website": "https://www.edmeinsurance.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Insurance broking platform.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Elemental Technologies",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Amazon",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "media",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Elevate",
+  "website": "https://www.elevate.inc/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The first completely cloud-based, API-driven and AI-enabled consumer-directed benefits platform with a focus on configurability, embeddability and real-time automation.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "healthcare it",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Elite Business Ventures",
+  "website": "https://elitebusinessventures.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Provider of services and solutions to automate tracking/management of ongoing labor law compliance.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Elligo Health Research",
+  "website": "https://www.elligohealthresearch.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Streamlines clinical trials through integrated care, recruitment, and patient-centered retention.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "data",
+   "healthcare it",
+   "pharmaceutical services",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Enable",
+  "website": "https://enable.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Helps manufacturers, distributors, and retailers manage rebate programs and drive growth.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "fintech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Engagio",
+  "website": "https://www.demandbase.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Demandbase",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Engrail Therapeutics",
+  "website": "https://www.engrail.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A clinical-stage pharmaceutical company with the aspiration of becoming a leader in neuroscience.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "biotech",
+   "life science",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Ennoble Care",
+  "website": "https://ennoblecare.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A home-based primary care, palliative care, and hospice service provider.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Envestnet",
+  "website": "https://www.envestnet.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A leading provider of intelligent systems for wealth management and financial wellness.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "saas",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Envisage Technologies",
+  "website": "https://www.envisagenow.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Vector Solutions",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "edtech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Ermetic",
+  "website": "https://ermetic.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Tenable",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "security"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Escalate",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by GERS",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Ethos",
+  "website": "https://www.ethossystems.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "AI-powered human readiness for mission outcomes.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "edtech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "EverBrands",
+  "website": "https://culinarybrands.in/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Operates F&B brands in South Asia including Subway and Lavazza.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "food tech services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Exabeam",
+  "website": "http://www.exabeam.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Security analytics technology to help enterprises detect modern cyber threats.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Exablox",
+  "website": "https://www.arcserve.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by StorageCraft",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Excision BioTherapeutics",
+  "website": "https://www.excision.bio/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Developing CRISPR-based therapies to cure viral infectious diseases.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "biotech",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Extole",
+  "website": "http://www.extole.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Enterprise advocacy platform.",
+  "sector": "Consumer, Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "marketplaces",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Extreme Networks",
+  "website": "http://www.extremenetworks.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: EXTR",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Fabric",
+  "website": "https://fabric.inc/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Headless commerce platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "e commerce retail",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Fabrix Security",
+  "website": "https://www.fabrix.security/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Silverfort",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "security"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Face Reality",
+  "website": "https://facerealityskincare.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Award-winning acne brand dedicated to making clear skin possible.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Faire",
+  "website": "https://www.faire.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Online wholesale marketplace connecting 800,000+ local retailers & brands",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "marketplaces"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Fam",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by DraftKings",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Fibe",
+  "website": "https://www.fibe.in/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Cash lending platform.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Fibre Communications",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Tellabs",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Finova Capital",
+  "website": "https://www.finova.in/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "MSME-focused NBFC providing business loans to micro-entrepreneurs and semi-skilled professionals.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "FireEye",
+  "website": "https://www.fireeye.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: FEYE",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Fireglass",
+  "website": "https://www.nortonlifelock.com/us/en/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Symantec",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "security"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Five Star Business Finance",
+  "website": "http://www.fivestargroup.in/",
+  "status": "alumni",
+  "stage": "Growth Equity",
+  "description": "NSE: FIVESTAR",
+  "sector": "Consumer, Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "fintech",
+   "marketplaces"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "FloQast",
+  "website": "https://floqast.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Accounting close management software.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "fintech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Flyhomes",
+  "website": "https://www.flyhomes.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The leading Buy Before You Sell solutions platform in the U.S., helping homeowners purchase their next home before selling their current one.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "proptech",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Forte Software",
+  "website": "http://www.oracle.com/technetwork/java/index.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Sun Microsystems",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "FOSSA",
+  "website": "https://fossa.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Open-source license compliance, security management, and software bill of materials (SBOM) solutions.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Frontline Wildfire Defense",
+  "website": "https://www.frontlinewildfire.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "The first fully integrated wildfire defense system to stop the leading cause of home loss in wildfires: ember-driven ignition.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "data",
+   "growth products services",
+   "proptech",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Fungible",
+  "website": "https://www.microsoft.com/en-us/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Microsoft",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Gabit",
+  "website": "https://www.gabit.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Enabling everyone to live a healthier life for longer, through the power of good habits and community.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Galvanize",
+  "website": "https://www.wegalvanize.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Diligent",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Galvanize Therapeutics",
+  "website": "https://galvanizetx.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Pulsed electric field energy device company focused on the surgical ablation of soft tissue, engineered to work with the body\u2019s biology.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "medical devices",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "GelTex",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Genzyme",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [],
+  "region": "North America"
+ },
+ {
+  "name": "Gemvara",
+  "website": "http://www.gemvara.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Richline",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [],
+  "region": "North America"
+ },
+ {
+  "name": "Gen. Surgical Innovations",
+  "website": "https://www.medtronic.com/covidien/en-us/index.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Covidien",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Generalist AI",
+  "website": "https://generalistai.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A frontier AI research and product driven company building general intelligence for the physical world.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "business industrial products services",
+   "data",
+   "physicalai",
+   "software",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "GeoComply",
+  "website": "https://www.geocomply.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Geolocation compliance, fraud-detection, and cybersecurity services for fintech, iGaming, and media.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "data",
+   "fintech",
+   "mobile",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "GetThere.com",
+  "website": "https://www.sabre.com/products/suites/customer-touchpoints/getthere/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Sabre Holdings Corporation",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Gilt Groupe",
+  "website": "http://www.gilt.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Hudson's Bay",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Glint",
+  "website": "http://www.glintinc.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by LinkedIn",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Glow",
+  "website": "https://www.glow.fm/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Libsyn",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "media",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "GoFundMe",
+  "website": "https://www.gofundme.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Trusted leader in online fundraising.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Gong",
+  "website": "https://www.gong.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Revenue intelligence technology for sales teams.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "saas"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Goyaz",
+  "website": "https://www.goyazjewellery.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "India\u2019s leading occasion-led, gold-plated silver jewelry brand.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Grande Towers",
+  "website": "https://gtctowers.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A premier owner and operator of wireless infrastructure, providing mission-critical solutions for mobile network operators, broadband providers, and public sector clients.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "business industrial products services",
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Grove Collaborative",
+  "website": "https://www.grove.co",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: GROV",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Guidde",
+  "website": "https://www.guidde.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "An AI digital adoption platform that serves as the creation and consumption hub for modern organizations.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "GXS",
+  "website": "http://www.gxs.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by OpenText",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Gymboree",
+  "website": "https://www.gymboree.com/us/home",
+  "status": "ipo",
+  "stage": "Growth Equity",
+  "description": "Nasdaq: GYMB",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Habu",
+  "website": "https://habu.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by LiveRamp",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "data",
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Hadapt",
+  "website": "https://www.teradata.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Teradata",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Harbor Global",
+  "website": "https://harborglobal.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "The leading provider of professional and technology services to the legal industry.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Harness",
+  "website": "https://harness.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Intelligent CI/CD and software delivery platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Hatcheri Foods",
+  "website": "https://www.hatcheri.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Incubator-accelerator that partners with food-focused companies.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "e commerce retail",
+   "food tech services",
+   "growth products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Health Catalyst",
+  "website": "http://www.healthcatalyst.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: HCAT",
+  "sector": "Enterprise, Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare it",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Heeler",
+  "website": "https://www.heeler.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Unifying code, runtime, and business context for comprehensive application security.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "security",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "HighFive Healthcare",
+  "website": "https://www.high5health.com/%20",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Provider of endodontics and oral surgery services with locations across the Southern US.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Homeward",
+  "website": "https://www.homeward.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A modern home finance company.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "proptech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "HoneyBook",
+  "website": "https://www.honeybook.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Tools for the modern creative professional: proposals, contracts, payments, and more.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "marketplaces",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Hyro",
+  "website": "https://www.hyro.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A leading Agentic Care Communications Platform purpose-built for the healthcare industry.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "healthcare it",
+   "saas",
+   "software"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "iCardiac",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by ERT",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services",
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "ICON",
+  "website": "https://www.iconbuild.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The global leader in construction technology, developing robotics, intelligent software systems, and advanced materials that are changing the way the world builds.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "physicalai",
+   "proptech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "IFTTT",
+  "website": "https://ifttt.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Application connectivity service.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "infra tech",
+   "mobile",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "IKF Finance",
+  "website": "https://www.ikffinance.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Secured retail NBFC offering products across vehicle finance, affordable housing finance, and MSME.",
+  "sector": "Consumer, Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Impel Pharmaceuticals",
+  "website": "https://impelpharma.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "NASDAQ: IMPL",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "biotech",
+   "medical devices",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Imperfect Foods",
+  "website": "https://www.imperfectfoods.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Misfits Market",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "food tech services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "IndusInd Bank",
+  "website": "https://www.indusind.com/in/en/personal.html",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "NSE: INDUSIND",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Infinx",
+  "website": "https://www.infinx.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Intelligent payment lifecycle solutions for healthcare providers.",
+  "sector": "Enterprise, Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare it"
+  ],
+  "region": "India, North America"
+ },
+ {
+  "name": "InfluxData",
+  "website": "https://www.influxdata.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Platform for analyzing metrics and events for DevOps and IoT applications.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Information Advantage",
+  "website": "https://www.broadcom.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Sterling Software",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Infutor",
+  "website": "http://www.infutor.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Verisk",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "media",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "ING Vysya Bank",
+  "website": "https://www.kotak.com/en.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Kotak Bank",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Inscope",
+  "website": "https://www.inscopehq.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Automates financial reporting with AI, ensuring accurate, GAAP-compliant statements in minutes.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "fintech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "InsightsOne",
+  "website": "http://www.insightsone.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Apigee",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Intersect ENT",
+  "website": "http://www.intersectent.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: XENT",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services",
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Intezer",
+  "website": "https://intezer.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "AI-driven solutions for security operations centers.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "security",
+   "software"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Intrepid Systems",
+  "website": "http://www.oracle.com/index.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Peoplesoft",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "iRhythm",
+  "website": "http://www.irhythmtech.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: IRTC",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "diagnostics",
+   "healthcare services",
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Irth Solutions",
+  "website": "https://irthsolutions.com/%20%20",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Provides industry-leading technology designed to help organizations enhance the reliability and resilience of their critical network infrastructure.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Jain Irrigation",
+  "website": "http://www.jains.com/",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "NSE: JISLJALEQS",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Jedify",
+  "website": "https://jedify.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Fuses business context with data from multiple sources into a unified context layer that powers grounded, scalable, and efficient enterprise-grade AI applications.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "saas",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Jet.com",
+  "website": "https://jet.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Walmart",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Jigsaw",
+  "website": "https://www.salesforce.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Salesforce",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "marketplaces",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "JJG Aero",
+  "website": "https://www.jjgmachining.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "An aerospace and defense company that manufactures high-precision, build-to-print machined components for the commercial aerospace, automotive, and industrial sectors.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "business industrial products services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "JOLYN",
+  "website": "https://jolynclothing.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Women\u2019s performance training swimwear.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "JoyRun",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Walmart",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "food tech services",
+   "mobile",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Junk King",
+  "website": "https://www.junk-king.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Neighborly",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "growth products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "KACE",
+  "website": "http://www.kace.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Dell",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Karat",
+  "website": "https://www.karat.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Technical interviewing that is data-informed and human-driven.",
+  "sector": "Consumer, Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "marketplaces",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Kayak",
+  "website": "http://www.kayak.com/",
+  "status": "ipo",
+  "stage": "Growth Equity",
+  "description": "Nasdaq: KYAK",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Kendra Scott",
+  "website": "http://www.kendrascott.com/",
+  "status": "alumni",
+  "stage": "Growth Equity",
+  "description": "recapitalized by 65 Equity Partners",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "growth products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Kishlay Foods",
+  "website": "https://kishlayfoods.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Snack food maker in India.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "food tech services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Kiva Software Corporation",
+  "website": "http://netscape.aol.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Netscape",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Kosmos",
+  "website": "https://kosmoslabs.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The intelligence layer for enterprise operations, transforming fragmented operational signals into structured, human-confirmed root cause intelligence.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "saas",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Kotak Mahindra Bank",
+  "website": "https://www.kotak.com/en.html",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "Private sector bank in India.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Kustomer",
+  "website": "https://www.kustomer.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "An AI-powered customer service CRM platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas",
+   "software",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "kwik",
+  "website": "http://www.kwik.me/",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "Re-order products at the push of a button.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Kyo",
+  "website": "https://kyocare.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Provider of Applied Behavioral Analysis (ABA) services for children w/ autism spectrum disorder (ASD).",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "lakeFS",
+  "website": "https://lakefs.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Delivering modern data engineering.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "data"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Lavender",
+  "website": "https://www.lavender.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The leading AI Sales Email Coach: it helps write better emails faster and double replies.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Leanplum",
+  "website": "https://www.leanplum.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by CleverTap",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "mobile",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Legion",
+  "website": "https://legion.co/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "AI-powered, mobile-first workforce engagement platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Lending Club",
+  "website": "https://www.lendingclub.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "NYSE: LC",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "fintech",
+   "marketplaces"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "LifeSize Communications",
+  "website": "http://www.lifesize.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Logitech",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Lifetime Fitness",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by affiliates of Leonard Green & Partners and TPG",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "LlamaIndex",
+  "website": "https://www.llamaindex.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A simple, flexible framework for building knowledge assistants using LLMs connected to your enterprise data.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Lumana",
+  "website": "https://www.lumana.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "AI video security platform, unlocking the value of visual data for real-time insight and response.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "physicalai",
+   "security"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Lumosity",
+  "website": "https://www.lumosity.com/en/",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "Brain training created by scientists and game designers.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "media"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Lyra Collective",
+  "website": "https://www.lyracollective.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A collective of brands in the personal care and family categories, dedicated to caring for you and your loved ones.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "growth products services",
+   "marketplaces"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Madison Reed",
+  "website": "https://www.madison-reed.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Premium hair color products and services.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "MA\u00cbLYS",
+  "website": "https://www.maelyscosmetics.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A prestige, DTC body-care brand offering clinically proven formulas that visibly sculpt and smooth, helping customers feel confident in their skin.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "growth products services"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Maker Communications",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Conexant",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Maman",
+  "website": "https://mamannyc.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A French-inspired bakery and caf\u00e9 brand offering artisanal pastries, coffee, and a seasonal menu of fresh breakfast, brunch, and lunch options.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Manta",
+  "website": "http://www.manta.com",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Boostability",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "media"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Masada Security",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Ameritech",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Matchpoint Therapeutics",
+  "website": "https://matchpointtx.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Biotechnology company pioneering the discovery of precision covalent medicines.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "biotech",
+   "life science",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Mblox",
+  "website": "http://mblox.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by CLX Communications",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "mobile",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "MBX Biosciences",
+  "website": "https://mbxbio.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Improving the treatment of endocrine disorders through transformative peptide therapeutics.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "biotech",
+   "life science",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "McData",
+  "website": "http://www.brocade.com/index.page",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Brocade",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Mensa Brands",
+  "website": "https://mensabrands.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Global House of Brands.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Meridian Fleet Services",
+  "website": "https://www.meridianfleetservices.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A long-term operating partner for independent fleet maintenance businesses across the United States.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "business industrial products services",
+   "growth products services",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Metapath Software (MSI)",
+  "website": "http://www.ericsson.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Marconi",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Mia Labs",
+  "website": "https://www.mia.inc/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Modernizing automotive retail with AI technology built for dealership operations.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Mindtickle",
+  "website": "https://www.mindtickle.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Sales Readiness Platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "mobile",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Minted",
+  "website": "http://www.minted.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "An online marketplace for independent design and art.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "marketplaces"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Mintifi",
+  "website": "https://www.mintifi.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Supply chain financing platform focused on offering BNPL solutions for SMEs.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Misfit Wearables",
+  "website": "http://misfit.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Fossil",
+  "sector": "Consumer, Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Mist",
+  "website": "https://mist.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Juniper Networks",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "MobileIron",
+  "website": "https://www.mobileiron.com/en",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: MOBL",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "mobile",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "ModCloth",
+  "website": "http://www.modcloth.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Walmart",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [],
+  "region": "North America"
+ },
+ {
+  "name": "Moises",
+  "website": "https://moises.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Trailblazing AI-powered music and audio platform offering an expansive suite of stackable AI audio solutions.",
+  "sector": "Consumer, Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "consumer products services",
+   "media",
+   "saas",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Monogram Health",
+  "website": "https://www.monogramhealth.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Leading multispecialty provider of in-home, evidence-based care for patients with multiple chronic conditions.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Morta Security",
+  "website": "https://www.paloaltonetworks.com/company/press/2014/palo-alto-networks-acquires-morta-security.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Palo Alto Networks",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Mosanna Therapeutics",
+  "website": "https://mosanna.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Improving the lives of patients with metabolic obstructive sleep apnea using a transformative approach.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Mozes",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by HelloWorld",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "media",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "mPower",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Morningstar",
+  "sector": null,
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "fintech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "MTN OPS",
+  "website": "https://mtnops.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Outdoor performance supplements, apparel, and gear.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "growth products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "myYearbook",
+  "website": "http://www.meetme.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Quepasa",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "media"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Nano-Tex",
+  "website": "http://www.nanotex.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Crypton, Inc.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Nanopath",
+  "website": "https://nanopath.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Molecular diagnostics for women.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "diagnostics",
+   "healthcare it",
+   "healthcare services",
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Nashoba Networks",
+  "website": "http://www.cisco.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Cisco",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "National Computer Sys.",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Pearson Education",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "NationWide Healthcare",
+  "website": null,
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "Pioneering chain of primary care clinics in India.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Natoma",
+  "website": "https://natoma.ai/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Snowflake",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "infra tech",
+   "saas",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Naviam",
+  "website": "https://www.naviam.io/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Global provider of IBM Maximo solutions, offering cloud, mobile, data, and professional services for enterprise asset management.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "business industrial products services",
+   "saas",
+   "software",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Nectero Therapeutics",
+  "website": "https://necterotherapeutics.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Clinical-stage biotech company pioneering novel therapies to potentially treat aneurysmal disease.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "life science",
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Neocis",
+  "website": "https://www.neocis.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Transforming dental surgery with advanced robotics.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services",
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "NetObjects",
+  "website": "https://newfold.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by web.com",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Netro Corporation",
+  "website": null,
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: NTRO",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "NextHealth Technologies",
+  "website": "https://www.softheon.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Softheon",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "healthcare it",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "ngmoco",
+  "website": "http://blog.ngmoco.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by DeNA",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "media",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Nimble",
+  "website": "https://www.nimbleway.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Enterprise platform for real-time agentic web search that turns the public web into trusted, decision-grade data for AI systems and business-critical workflows.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "software"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "NinthDecimal",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by InMarket",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Noyo",
+  "website": "https://www.noyo.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The first operating system for employee benefits, transforming how enrollment data is managed, exchanged, and used across the entire ecosystem.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "healthcare it",
+   "infra tech",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "NSE, India",
+  "website": "http://www.nse-india.com/",
+  "status": "alumni",
+  "stage": "Growth Equity",
+  "description": "India\u2019s largest electronic stock exchange.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "tech enabled services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Nueclear Healthcare Ltd.",
+  "website": "http://www.nueclear.com/",
+  "status": "alumni",
+  "stage": null,
+  "description": "Radiology diagnostics company in India.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services",
+   "medical devices"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Numbers Station",
+  "website": "https://www.numbersstation.ai/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Alation",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "NVE Corporation",
+  "website": "http://www.nve.com/index.php",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: NVEC",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Obsidian Security",
+  "website": "https://www.obsidiansecurity.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "SaaS security made simple.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Occam Networks",
+  "website": "http://www.occamnetworks.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Calix",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Octane Software",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by E.piphany",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "OfBusiness",
+  "website": "https://www.ofbusiness.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Technology-driven SME financing platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Omada Health",
+  "website": "https://omadahealth.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "NASDAQ: OMDA",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare it",
+   "healthcare services",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Omneon",
+  "website": "http://www.harmonicinc.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Harmonic",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Omni",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Coinbase",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "OnDisplay",
+  "website": "https://www.opentext.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Vignette",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "OneComm",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Nextel",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "oneNav",
+  "website": "https://onenav.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "First pure L5 GNSS receiver supercharged by artificial intelligence.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Onsite Dental",
+  "website": "https://onsitedental.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Bringing comprehensive dentistry directly to organizations and universities.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Open-Silicon",
+  "website": "https://awavesemi.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Unicorn Investment Bank",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [],
+  "region": "North America"
+ },
+ {
+  "name": "Opendoor",
+  "website": "https://www.opendoor.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: OPEN",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "marketplaces",
+   "proptech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Orion Security",
+  "website": "https://www.orionsec.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Detects and prevents data loss across SaaS, email, cloud, AI tools, and endpoints using intelligent, context-aware, proprietary AI agents.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "saas",
+   "security"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Oro Labs",
+  "website": "https://www.orolabs.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Orchestrating end-to-end procurement across teams, systems, and processes.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Ouro Medicines",
+  "website": "https://www.ouromedicines.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Gilead Sciences",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "biotech",
+   "life science",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Owler",
+  "website": "https://corp.owler.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Meltwater",
+  "sector": "Consumer, Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Oxyzo",
+  "website": "https://www.oxyzo.in/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Tech-enabled diversified smart financing solution provider for the SME and mid-corporate segment.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Pack",
+  "website": "https://packdigital.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Front-end-as-a-Service platform that streamlines headless commerce for scaling brands.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "e commerce retail",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Padmini VNA",
+  "website": "https://padminivna.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Focused on the innovation and manufacturing of cutting-edge technologies for the auto components industry.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "business industrial products services",
+   "consumer products services",
+   "infra tech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Pair Eyewear",
+  "website": "https://paireyewear.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Customizable eyewear.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Palerra",
+  "website": "http://palerra.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Oracle",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Paperflip",
+  "website": "https://www.docusign.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by DocuSign",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Pascal AI",
+  "website": "https://www.pascalailabs.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Next-generation AI platform for investment managers \u2013 delivering speed, accuracy, and insights to drive better returns.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Passif Semiconductor",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Apple",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "PCA Skin",
+  "website": "http://www.pcaskin.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Colgate-Palmolive",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "PCH International",
+  "website": "http://www.pchintl.com/",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "Global supply chain services.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "marketplaces",
+   "tech enabled services"
+  ],
+  "region": null
+ },
+ {
+  "name": "Pebl",
+  "website": "https://hellopebl.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "The AI-first leader in global employment, with the leading platform built on a decade of local knowledge and compliance expertise.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "PeopleSoft",
+  "website": "http://www.oracle.com/index.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Oracle",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Pepperfry",
+  "website": "https://www.pepperfry.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Omni channel furniture retailer in India.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "marketplaces"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Pequity",
+  "website": "https://www.getpequity.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by ADP",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Persistent Systems",
+  "website": "https://www.persistent.com/",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "NSE: PERSISTENT",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "tech enabled services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Pertino",
+  "website": "https://cradlepoint.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Cradlepoint",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Petabyte",
+  "website": "https://petabyte.technology/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Chewy",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "data",
+   "healthcare it",
+   "mobile",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Phiar",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Google",
+  "sector": "Consumer, Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "consumer products services",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Pinkfish",
+  "website": "https://www.pinkfish.ai/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Genesys",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "saas",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Plaid",
+  "website": "https://www.plaid.com",
+  "status": "active",
+  "stage": "Venture",
+  "description": "APIs to connect financial applications.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "fintech",
+   "mobile",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Playdom",
+  "website": "https://www.disney.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Disney",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Playground Pediatrics",
+  "website": "https://www.playgroundpediatrics.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A physician\u2011led pediatric care platform that partners with independent pediatric practices to strengthen care for children, families, and communities.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Policygenius",
+  "website": "http://www.policygenius.com",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Zinnia",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "fintech",
+   "marketplaces"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Polycom",
+  "website": "http://www.polycom.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: PLCM",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Pontis",
+  "website": "https://www.amdocs.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Amdocs",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "mobile",
+   "tech enabled services"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Poolwerx",
+  "website": "https://www.poolwerx.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "World\u2019s largest franchise network in pool and spa maintenance.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "growth products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Power Exchange India Limited",
+  "website": "https://powerexindia.in/index.html/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "India\u2019s leading power exchange that provides innovative and credible solutions to transform the Indian Power Markets.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Praxis Labs",
+  "website": "https://www.praxislabs.co/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Torch",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "edtech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Prevedere",
+  "website": "http://www.prevedere.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Board",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Primus",
+  "website": "https://www.oracle.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Art Technology Group",
+  "sector": null,
+  "fund": "norwest",
+  "tags": [],
+  "region": "North America"
+ },
+ {
+  "name": "Prism Solutions",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Ardent Software",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Propel",
+  "website": "https://www.propelplm.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Top-ranked PLM built on the world\u2019s top cloud platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "e commerce retail",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "PSD Citywide",
+  "website": "https://www.psdcitywide.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Leading provider of enterprise asset management, maintenance, budgeting, and permitting software solutions, along with advisory services.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "software",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Qualified",
+  "website": "https://www.qualified.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Salesforce",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Quantum Effect Devices",
+  "website": "http://pmcs.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by PMC-Sierra",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Qubole",
+  "website": "http://www.qubole.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Idera",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Quikr",
+  "website": "http://www.quikr.com/",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "Online classifieds platform in India.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "marketplaces",
+   "media"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Qumranet",
+  "website": "http://www.qumranet.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Red Hat",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Qventus",
+  "website": "https://qventus.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by KKR in secondary transaction",
+  "sector": "Enterprise, Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "healthcare it",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Rackspace",
+  "website": "http://www.rackspace.com/",
+  "status": "ipo",
+  "stage": "Growth Equity",
+  "description": "NYSE: RAX",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Raghu Vamsi",
+  "website": "https://raghuvamsi.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A precision manufacturing and deep-tech company serving the global aerospace, defense, and energy sectors.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "business industrial products services",
+   "tech enabled services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Rain",
+  "website": "https://www.raincards.xyz/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Global stablecoin payments platform for enterprises, neobanks, platforms, developers, and AI agents.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Rainmaker \u2013 Hospitality",
+  "website": "http://www.letitrain.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Cendyn",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Rainmaker \u2013 Multifamily",
+  "website": "https://www.letitrain.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by RealPage",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Rallyteam",
+  "website": "https://www.workday.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Workday",
+  "sector": null,
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Raptor Systems",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by AXENT Technologies",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Ravello",
+  "website": "https://www.oracle.com/index.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Oracle",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Raven",
+  "website": "https://raven.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Cybersecurity company that protects applications at runtime and prevents both known and unknown attacks in real time.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "security",
+   "software"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Ray Therapeutics",
+  "website": "https://raytherapeutics.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Clinical-stage biopharmaceutical company advancing optogenetic therapies to restore vision in patients with retinal degenerative diseases.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "biotech",
+   "life science",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "RBL Bank",
+  "website": null,
+  "status": "alumni",
+  "stage": null,
+  "description": "NSE: RBLBANK",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Reconnex",
+  "website": "https://www.mcafee.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by McAfee",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Red Access",
+  "website": "https://redaccess.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Delivers a simpler path to secure networking, browsing, AI and more, with an agentless, session-based architecture that integrates with existing network environments and firewalls, and scales with the workforce.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "security",
+   "software"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Redback Networks",
+  "website": "https://www.ericsson.com/en",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Ericsson",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Regency Health",
+  "website": "https://regencyhealthcare.in/%20",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Provides specialized tertiary medical care services.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Remedy",
+  "website": "https://remedyskin.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A science-driven clinical skincare brand, developed by a board-certified dermatologist, offering high-performance all-in-one products that make effective skincare accessible to everyone.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Replicant",
+  "website": "https://www.replicant.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Conversational AI platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "e commerce retail",
+   "mobile",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Resonext",
+  "website": "http://www.rfmd.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by RF Micro Devices",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "RetailMeNot",
+  "website": "http://www.retailmenot.com/corp/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "Nasdaq: SALE, acquired by Harland Clarke",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "marketplaces"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Retrevo",
+  "website": "https://www.shopzilla.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Shopzilla",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Revvo",
+  "website": "https://www.revvo.ai",
+  "status": "active",
+  "stage": "Venture",
+  "description": "AI-powered fleet management software platform to automatically connect, monitor, and manage vehicle tires.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "consumer products services",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Rezo Therapeutics",
+  "website": "https://rezotx.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Pioneering the integrated mapping of disease networks for precision therapeutics.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "biotech",
+   "life science",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Rezolv",
+  "website": "https://www.rezolv.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A leading AI-native lending technology platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "fintech",
+   "saas",
+   "software"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "RF Micro Devices",
+  "website": "http://www.rfmd.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: RFMD",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "RightRev",
+  "website": "https://www.rightrev.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Delivering end-to-end automation for revenue accounting.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "fintech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "RiseSmart",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Randstad",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Ritual",
+  "website": "http://ritual.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Reinventing the daily vitamin.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "RiverMend Health",
+  "website": null,
+  "status": "alumni",
+  "stage": "Growth Equity",
+  "description": "Outpatient addiction treatment services.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "healthcare services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Route 92 Medical",
+  "website": "https://www.r92m.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Advancing neurovascular intervention.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Sabre Holdings",
+  "website": "http://www.sabre.com/",
+  "status": "ipo",
+  "stage": "Growth Equity",
+  "description": "Nasdaq: SABR",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Sadbhav",
+  "website": "https://www.sadbhaveng.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Infrastructure construction company.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "ScaleIO",
+  "website": "http://www.scaleio.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by EMC",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Science Exchange",
+  "website": "https://www.scienceexchange.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Waud Capital Partners",
+  "sector": "Enterprise, Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare it",
+   "life science",
+   "marketplaces",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Scratch Financial",
+  "website": "https://scratchpay.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A pioneering veterinary financial technology platform offering services like payment and client engagement platforms designed to simplify financial transactions for clients and veterinarians alike.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "fintech",
+   "healthcare it",
+   "healthcare services",
+   "mobile",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Second Measure",
+  "website": "https://secondmeasure.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Bloomberg",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Seculert",
+  "website": "http://www.seculert.com",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Radware",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Sedai",
+  "website": "https://www.sedai.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "First autonomous cloud management platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "data",
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SeeBeyond",
+  "website": "http://www.oracle.com/index.html",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: SBYN",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Select Comfort",
+  "website": "https://www.sleepnumber.com/",
+  "status": "ipo",
+  "stage": "Growth Equity",
+  "description": "Nasdaq: SCSS",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Serviceware",
+  "website": "https://serviceware-se.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: SVCW",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Session AI",
+  "website": "https://www.sessionai.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Predictive customer engagement platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "e commerce retail",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SetPoint Medical",
+  "website": "https://setpointmedical.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Commercial-stage medical technology company dedicated to improving care for people living with chronic autoimmune diseases.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "life science",
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Shape Security",
+  "website": "https://www.shapesecurity.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by F5 Networks",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "ShiraTronics",
+  "website": "https://shiratronics.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Clinical-stage medical device company dedicated to advancing neurostimulation therapies for people living with chronic migraine.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "life science",
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "ShoreTel",
+  "website": "https://www.shoretel.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: SHOR",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "ShotSpotter",
+  "website": "http://www.shotspotter.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: SSTI",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Showcase Corporation",
+  "website": "https://www.ibm.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by SPSS",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Shriram City",
+  "website": "https://www.shriramfinance.in/",
+  "status": "alumni",
+  "stage": "Growth Equity",
+  "description": "NSE: SHRIRAMCIT",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "tech enabled services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Siara Systems",
+  "website": "https://www.ericsson.com/en",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Redback Networks",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SideStep",
+  "website": "http://www.kayak.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Kayak",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SILA",
+  "website": "https://www.silagroup.co.in/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Business services and real estate platform in India.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "tech enabled services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Silk Road Medical",
+  "website": "http://silkroadmed.com",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: SILK",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Simpplr",
+  "website": "http://www.simpplr.com",
+  "status": "active",
+  "stage": "Venture",
+  "description": "AI-powered employee experience platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Singular",
+  "website": "https://www.singular.net/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Unified marketing analytics platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "mobile",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SK Finance",
+  "website": "https://www.skfin.in/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Financial solutions for purchasing commercial vehicles.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Skybox Imaging",
+  "website": "http://skyboximaging.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Google",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SkyStream Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Tandberg Television",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Skyward",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Verizon",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SlashNext",
+  "website": "https://www.slashnext.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Varonis",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SmartSign",
+  "website": "https://www.smartsign.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Retailer of a wide range of signs, tags, mats, and labels.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "business industrial products services",
+   "e commerce retail",
+   "growth products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Smilo",
+  "website": "https://www.smilobaby.com",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "Sophisticated essentials for babies and toddlers.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Snapfinger",
+  "website": "http://www.snapfinger.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by EMN8, Inc.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SnapRoute",
+  "website": "https://snaproute.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Infoblox",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Snowman Logistics",
+  "website": "https://snowman.in/",
+  "status": "alumni",
+  "stage": null,
+  "description": "NSE: SNOWMAN",
+  "sector": null,
+  "fund": "norwest",
+  "tags": [],
+  "region": "India"
+ },
+ {
+  "name": "Socrates AI",
+  "website": "https://socrates.ai/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Simpplr",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Sojern",
+  "website": "http://www.sojern.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by RateGain",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "media"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SolarEdge",
+  "website": "http://www.solaredge.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: SEDG",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "SourceDay",
+  "website": "https://sourceday.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Provider of supply chain software that integrates with your ERP to automate direct spend PO changes.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SpectraLinear",
+  "website": "https://www.silabs.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Silicon Labs",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Spiff",
+  "website": "https://spiff.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Salesforce",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Spinnaker Networks",
+  "website": "http://www.netapp.com/us/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by NetApp",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Spotify",
+  "website": "https://www.spotify.com/us/",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "Commercial music streaming service.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "media",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SpryPoint",
+  "website": "https://www.sprypoint.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A modern customer and operations software built by utility people for utility people.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SPSS",
+  "website": "https://www.ibm.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by IBM",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SRS Acquiom",
+  "website": "https://www.srsacquiom.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Lovell Minnick Partners",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Stablecore",
+  "website": "https://stablecore.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Digital asset core enabling banks and credit unions to offer stablecoins, tokenized deposits, and other digital asset products.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Stan",
+  "website": "https://www.stan.store/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Works one-on-one with top creators to help them monetize and grow their businesses.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas",
+   "software",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "StarCite",
+  "website": "http://www.activenetwork.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by The Active Network",
+  "sector": null,
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Stella Connect",
+  "website": "https://stellaconnect.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Medallia",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Stratim",
+  "website": "http://www.stratim.com",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by KAR Auction Services",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Sulekha",
+  "website": "https://us.sulekha.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Online community and networking hub.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "marketplaces",
+   "media"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Summit Microelectronics",
+  "website": "https://www.qualcomm.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Qualcomm",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "SundaySky",
+  "website": "http://www.sundaysky.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Clearhaven Partners",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "media",
+   "saas"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "supplier.io",
+  "website": "https://supplier.io/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Provider of supplier and sourcing intelligence.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "data"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Suvidhaa",
+  "website": null,
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "Services aggregator in India.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Swan Labs",
+  "website": "https://f5.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by F5 Networks",
+  "sector": null,
+  "fund": "norwest",
+  "tags": [],
+  "region": "North America"
+ },
+ {
+  "name": "Swiggy",
+  "website": "http://www.swiggy.com/",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "NSE: SWIGGY",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "food tech services",
+   "mobile",
+   "tech enabled services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Swimply",
+  "website": "https://swimply.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Online peer-to-peer marketplace that allows hourly rentals of pools, courts, entire homes, and many other amenities.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "marketplaces"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Synplicity",
+  "website": "http://www.synplicity.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Synopsys",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Talkspace",
+  "website": "https://www.talkspace.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: TALK",
+  "sector": "Consumer, Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services",
+   "marketplaces"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Target RWE",
+  "website": "https://www.targetrwe.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Highlander Health",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "data",
+   "healthcare services",
+   "pharmaceutical services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Telcare",
+  "website": "http://www.telcare.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by BioTelemetry",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare it",
+   "healthcare services",
+   "medical devices",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Tempo",
+  "website": "https://tempo.fit/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "An all-in-one home fitness studio.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "consumer products services",
+   "e commerce retail",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Test Quest Inc.",
+  "website": "https://www.bsquare.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Bsquare",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "The Echo Nest",
+  "website": "https://www.spotify.com/us/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Spotify",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "media",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "The Learning Experience",
+  "website": "http://thelearningexperience.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Golden Gate Capital",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "edtech",
+   "growth products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "The Retail Equation",
+  "website": "http://www.theretailequation.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Appriss",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "e commerce retail",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Third Wave Automation",
+  "website": "https://www.thirdwave.ai/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Advanced autonomous forklifts.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "marketplaces",
+   "physicalai",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Threadflip",
+  "website": "https://www.lordandtaylor.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Le Tote",
+  "sector": null,
+  "fund": "norwest",
+  "tags": [
+   "marketplaces",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Thyrocare",
+  "website": "https://www.thyrocare.com/",
+  "status": "alumni",
+  "stage": "Growth Equity",
+  "description": "Leading diagnostics services provider in India.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services",
+   "mobile"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "TigerConnect",
+  "website": "http://www.tigerconnect.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Clinical communications solutions.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare it",
+   "mobile",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Tivoli",
+  "website": "http://www.tivoli.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by IBM",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Tokaido Health",
+  "website": "https://www.tokaidohealth.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Optimizing medication spending through an AI-native platform that connects people to cost-effective options and delivers personalized care and insights.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "healthcare it",
+   "saas",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Topo Athletic",
+  "website": "https://www.topoathletic.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Designer Brands",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Torch",
+  "website": "https://torch.io/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Xenon Partners",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "edtech",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Transaction Sys Architects",
+  "website": "http://www.aciworldwide.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "Nasdaq: ACIW",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "true[X] media",
+  "website": "http://www.truex.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by 21st Century Fox",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [],
+  "region": "North America"
+ },
+ {
+  "name": "TRUSTID",
+  "website": "http://www.trustid.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Neustar",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "security",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "TrustLogix",
+  "website": "https://trustlogix.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Data security platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "data",
+   "infra tech",
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Turn",
+  "website": "https://www.amobee.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Amobee",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "media"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Turnitin",
+  "website": "http://turnitin.com/",
+  "status": "acquired",
+  "stage": "Growth Equity",
+  "description": "acquired by Advance",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "edtech",
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Turso",
+  "website": "https://turso.tech/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A new generation backend-as-a-service that goes with you from Prototype to Production.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "data",
+   "infra tech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "TuVox",
+  "website": "https://www.west.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by West Interactive",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "tvScientific",
+  "website": "https://www.tvscientific.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Pinterest",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "adtech",
+   "media"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Uber",
+  "website": "https://www.uber.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "NYSE: UBER",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "marketplaces",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Udemy",
+  "website": "https://www.udemy.com/",
+  "status": "ipo",
+  "stage": "Venture",
+  "description": "NASDAQ: UDMY",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "edtech",
+   "marketplaces"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Ummeed Housing",
+  "website": "https://www.ummeedhfc.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Affordable housing finance company providing home and business loans.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Unisfair",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by InterCall",
+  "sector": null,
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Uplevel",
+  "website": "https://uplevelteam.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Operating system for engineering transformation.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "UPSIDE Foods",
+  "website": "https://www.upsidefoods.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A pioneer in the cell-based meat industry.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "food tech services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Uptycs",
+  "website": "https://www.uptycs.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "SQL-powered security analytics platform.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Vantive",
+  "website": "http://www.oracle.com/index.html",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by PeopleSoft",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Vanu",
+  "website": "https://www.vanu.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Mobile communications solutions.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "VAST Data",
+  "website": "http://vastdata.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "AI operating system company powering the next generation of intelligent systems with a unified software infrastructure stack that was purpose-built to unlock the full potential of AI.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Vastu Housing",
+  "website": "https://www.vastuhfc.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Affordable home loans, loan against property, and housing finance solutions in India.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Vector Solutions",
+  "website": "https://www.vectorsolutions.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Industry-specific training, operational readiness, workforce management, and risk management solutions.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "edtech",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Velostrata",
+  "website": "http://velostrata.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Google",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "VenoStent",
+  "website": "https://www.venostent.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A clinical-stage medical device company developing a novel therapeutic device for improving dialysis patient outcomes.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "medical devices"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Veraz Networks",
+  "website": "https://www.enghouse.com/%20",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Dialogic",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Verio",
+  "website": "http://www.verio.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by NTT Comm.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Veriqus",
+  "website": "https://veriqus.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A technology- and AI-enabled wealth and asset management platform.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Veritas Finance",
+  "website": "http://www.veritasfin.in/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Financial services firm for micro, small and medium enterprises in India.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Vertos Medical",
+  "website": "https://www.vertosmed.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Stryker",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "healthcare services",
+   "life science",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Veveo",
+  "website": "https://xperi.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Rovi",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "infra tech",
+   "media"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Veza",
+  "website": "https://www.veza.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by ServiceNow",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "data",
+   "security"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Virtela Communications",
+  "website": "http://www.virtela.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by NTT Communications",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas",
+   "security",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "VisitPay",
+  "website": "https://www.r1rcm.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by R1",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "healthcare it"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Vitalize Care",
+  "website": "https://vitalize.care/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "An AI-powered healthcare operations platform transforming how health systems manage staffing, scheduling, flow, and capacity.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "healthcare it",
+   "saas",
+   "software",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Vridhi Home Finance",
+  "website": "https://www.vridhihomefinance.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A tech-enabled affordable housing finance company in India.",
+  "sector": "Consumer, Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "tech enabled services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Vuori",
+  "website": "https://www.vuoriclothing.com",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Performance apparel inspired by the active California lifestyle.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "growth products services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "WebStacks",
+  "website": "http://www.extremenetworks.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Extreme Networks",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Weka",
+  "website": "http://www.weka.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Cloud storage solutions.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "saas"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Wiliot",
+  "website": "https://www.wiliot.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Battery-free Bluetooth technology for the IoT market.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "healthcare it",
+   "infra tech",
+   "mobile"
+  ],
+  "region": "Israel"
+ },
+ {
+  "name": "Wine Access",
+  "website": "http://www.wineaccess.com/",
+  "status": "alumni",
+  "stage": "Growth Equity",
+  "description": "Access to the world\u2019s most extraordinary wines, direct from the source.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "food tech services",
+   "marketplaces"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Winphoria Networks",
+  "website": "http://www.motorola.com/us/home",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Motorola",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "mobile"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Wisq",
+  "website": "https://www.wisq.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "An agentic HR platform that automates HR service delivery, operations and processes.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "WNP Communications",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by XO Communications",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Workato",
+  "website": "https://www.workato.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Single platform for integration & workflow automation.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "World 50",
+  "website": "https://world50.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "A community for executives and emerging leaders at globally respected organizations.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "World View",
+  "website": "http://www.worldview.space/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Building the future of intelligence as a connected, AI-enabled ecosystem where stratospheric platforms, autonomous systems, and mission software work in concert.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Wyze",
+  "website": "https://www.wyzecam.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The next generation of accessible and affordable smart home products.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services",
+   "e commerce retail",
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Xedia Corporation",
+  "website": "http://www.alcatel-lucent.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Lucent Technologies",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Xpedeon",
+  "website": "https://www.xpedeon.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Integrated purpose-built ERP Suite contributing to digital transformation in the construction and engineering industry across the globe.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "saas"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "XpressBees Logistics",
+  "website": "https://www.xpressbees.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "Leading logistics company offering fast, reliable courier and transport services for B2B, B2C, and cross-border businesses.",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "e commerce retail",
+   "marketplaces",
+   "tech enabled services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "xtype",
+  "website": "https://www.xtype.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "The governance platform integrated with ServiceNow, enhancing compliance and control for financial services, healthcare, and manufacturing.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech",
+   "software"
+  ],
+  "region": "Israel, North America"
+ },
+ {
+  "name": "Xylan",
+  "website": null,
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Alcatel",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Yatra",
+  "website": "https://www.yatra.com/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Terrapin 3",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "consumer products services"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Yes Bank",
+  "website": "http://www.yesbank.in/",
+  "status": "alumni",
+  "stage": "Venture",
+  "description": "NSE: YESBANK",
+  "sector": "Consumer",
+  "fund": "norwest",
+  "tags": [
+   "fintech"
+  ],
+  "region": "India"
+ },
+ {
+  "name": "Yipes",
+  "website": "https://www.rcom.co.in/solutions/",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by Reliance Telecom",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "tech enabled services"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "YipitData",
+  "website": "https://www.yipitdata.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Leading provider of alternative data-driven marketing intelligence, trusted by over 650 customers including many of the world\u2019s largest institutional investors and Fortune 100 companies.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "fintech",
+   "marketplaces",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "You.com",
+  "website": "https://you.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "AI-ready web search APIs, delivering advanced search capabilities to power your next product.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "consumer products services",
+   "data",
+   "saas"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Zelis",
+  "website": "https://www.zelis.com/",
+  "status": "active",
+  "stage": "Growth Equity",
+  "description": "Provider of healthcare technology solutions that bridge the gaps and align interests across payers, providers, and healthcare consumers.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "fintech",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Zenas BioPharma",
+  "website": "https://zenasbio.com/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "A biopharmaceutical company developing inflammation and immunology-directed therapies.",
+  "sector": "Healthcare",
+  "fund": "norwest",
+  "tags": [
+   "biotech",
+   "life science",
+   "therapeutics"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "Zenity",
+  "website": "https://zenity.io/",
+  "status": "active",
+  "stage": "Venture",
+  "description": "End-to-end security and governance for every AI agent across the enterprise.",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "ai",
+   "infra tech",
+   "saas",
+   "security",
+   "software"
+  ],
+  "region": "North America"
+ },
+ {
+  "name": "ZettaCom",
+  "website": "https://www.renesas.com/us/en",
+  "status": "acquired",
+  "stage": "Venture",
+  "description": "acquired by IDT",
+  "sector": "Enterprise",
+  "fund": "norwest",
+  "tags": [
+   "infra tech"
+  ],
+  "region": "North America"
+ }
+]

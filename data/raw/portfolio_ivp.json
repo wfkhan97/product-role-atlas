@@ -1,0 +1,1397 @@
+[
+ {
+  "name": "CircleCI",
+  "website": "https://circleci.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The leading continuous integration and delivery platform for software innovation at scale",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Abridge",
+  "website": "https://www.abridge.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The leader in generative AI for clinical documentation",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Accompany Health",
+  "website": "https://accompanyhealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Primary, behavioral, and social care provider for low-income patients with complex needs",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Aiven",
+  "website": "https://aiven.io/",
+  "status": "active",
+  "stage": null,
+  "description": "A software company that combines the best open source technologies with cloud infrastructure",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Ajaib",
+  "website": "https://ajaib.co.id/",
+  "status": "active",
+  "stage": null,
+  "description": "An online stock trading platform democratizing investments in Southeast Asia",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Aledade",
+  "website": "https://www.aledade.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Partnering with independent practices, health centers, and clinics to build and lead accountable care",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Amplitude",
+  "website": "https://amplitude.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "A provider of product analytics that helps companies build better products",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Anomali",
+  "website": "https://www.anomali.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A threat intelligence platform that identifies cyber threats and facilitates trusted threat sharing",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Anthropic",
+  "website": "https://www.anthropic.com/",
+  "status": "active",
+  "stage": null,
+  "description": "AI safety and research company building reliable, interpretable, and steerable AI systems.",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Appcharge",
+  "website": "https://www.appcharge.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The leading direct-to-consumer payments platform for mobile games and apps",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "AppDynamics",
+  "website": "https://www.appdynamics.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "A leader in application intelligence for software-defined business",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Attentive",
+  "website": "https://www.attentive.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A personalized mobile messaging SaaS platform for brands and organizations",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Baseten",
+  "website": "https://www.baseten.co/",
+  "status": "active",
+  "stage": null,
+  "description": "Fast & scalable model inference in our cloud or yours",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Brex",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "The first corporate card for startups",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Buddy Media",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "The social media management software of choice for the world’s top advertisers",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Business Insider",
+  "website": "https://www.businessinsider.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A leading digital news provider focused on Wall Street, Technology and other business verticals",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Cape",
+  "website": "https://www.cape.co/",
+  "status": "active",
+  "stage": null,
+  "description": "America’s leading privacy-first mobile carrier",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Care.com",
+  "website": "https://www.care.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "The largest online care destination in the world",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Casper",
+  "website": "https://casper.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "An award-winning sleep startup flipping the industry with direct-to-consumer sales",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Chainguard",
+  "website": "https://www.chainguard.dev/",
+  "status": "active",
+  "stage": null,
+  "description": "The secure foundation for software development and deployment",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Checkr",
+  "website": "https://checkr.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The leading software solution for background screening and verifications",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "ClickHouse",
+  "website": "https://clickhouse.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The fastest analytical database for the AI era",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Clipboard Health",
+  "website": "https://www.clipboardhealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": "An online marketplace matching healthcare professionals to open shifts at healthcare facilities",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Coinbase",
+  "website": "https://www.coinbase.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "The world’s most popular way to buy and sell bitcoin, ethereum, and litecoin",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Compass",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "A modern real estate platform pairing top talent with technology to simplify the search and sell process",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Cortex",
+  "website": "https://www.cortex.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Connected and intuitive productivity platform for engineers",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Cowboy Space Corporation",
+  "website": "https://www.cowboyspace.com",
+  "status": "active",
+  "stage": null,
+  "description": "Orbital infrastructure for the AI era",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Cradle",
+  "website": "https://www.cradle.bio/",
+  "status": "active",
+  "stage": null,
+  "description": "Protein engineering without the guesswork",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Cribl",
+  "website": "https://cribl.io/",
+  "status": "active",
+  "stage": null,
+  "description": "The leading observability pipeline built to solve customer data challenges and enable customer choice",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "CrowdStrike",
+  "website": "https://www.crowdstrike.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "The leader in cloud-delivered endpoint protection and cybersecurity",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Curology",
+  "website": "https://curology.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A full-service skincare company offering access to expert dermatologists and personalized treatment plans",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Cyence",
+  "website": "https://www.guidewire.com/products/risk-insights/",
+  "status": "active",
+  "stage": null,
+  "description": "An economic modeling platform that empowers the insurance industry to understand the financial impact of cyber risk",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Data.ai",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "The leading decision-making platform for the mobile app economy",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Datadog",
+  "website": "https://www.datadoghq.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "The essential monitoring platform for cloud applications",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Datalogix",
+  "website": "https://www.oracle.com/cx/advertising/",
+  "status": "acquired",
+  "stage": null,
+  "description": "The leader at connecting digital media and offline purchasing data",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Dataminr",
+  "website": "https://www.dataminr.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A real-time information discovery company",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "DeepL",
+  "website": "https://www.deepl.com/translator",
+  "status": "active",
+  "stage": null,
+  "description": "An AI communications company that breaks down language barriers across the globe",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Deputy",
+  "website": "https://www.deputy.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A workforce management software solution",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Discord",
+  "website": "https://discord.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A free, secure voice-and-text chat provider for gamers that works across desktop and mobile",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "DOMO",
+  "website": "https://www.domo.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "A cloud-based executive management platform that gives users direct, real-time access to the information they care about, all in one place",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Dream Games",
+  "website": "https://dreamgames.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A next-generation mobile gaming company and the developer of Royal Match",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Dropbox",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "A service that lets people bring their documents, photos, and videos everywhere and share them easily",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Eightfold",
+  "website": "https://eightfold.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "An AI talent intelligence platform with everything you need to hire and develop people to their highest potential",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Expanse",
+  "website": "https://www.paloaltonetworks.com/cortex/cortex-xpanse",
+  "status": "acquired",
+  "stage": null,
+  "description": "The first automated global Internet intelligence company",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "FightCamp",
+  "website": "https://joinfightcamp.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The at-home boxing and kickboxing leader in connected fitness",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Figma",
+  "website": "https://www.figma.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "A design platform for teams who build products together",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Fleetmatics",
+  "website": "https://www.verizonconnect.com/solutions/gps-fleet-tracking-software/#fleetmatics",
+  "status": "ipo",
+  "stage": null,
+  "description": "The market leader in SaaS based GPS tracking applications for local commercial fleets",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Found",
+  "website": "https://joinfound.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A digital-first integrated weight care management company",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "G2",
+  "website": "https://www.g2.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The marketplace revolutionizing how businesses discover, buy and manage software and services",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Gamma",
+  "website": "https://gamma.app/",
+  "status": "active",
+  "stage": null,
+  "description": "AI-powered presentations, websites, documents and more",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "GenLogs",
+  "website": "https://genlogs.io/",
+  "status": "active",
+  "stage": null,
+  "description": "The Truck Intelligence Platform Delivering Ground Truth Visibility",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Giphy",
+  "website": "https://giphy.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The first and largest GIF search engine making expression a little more moving",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "GitHub",
+  "website": "https://github.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The world’s largest software community where developers can easily discover, reuse and contribute to projects using an industry standard workflow",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Glean",
+  "website": "https://www.glean.com/",
+  "status": "active",
+  "stage": null,
+  "description": "AI-powered work assistant across all company data.",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Glossier",
+  "website": "https://www.glossier.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A digitally native, mobile-first beauty and skincare brand making everyday essentials",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Grammarly",
+  "website": "https://www.grammarly.com/",
+  "status": "active",
+  "stage": null,
+  "description": "An AI-powered communication assistant that helps users make their writing more impactful",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "GroundTruth",
+  "website": "https://www.groundtruth.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The leading global technology platform driving in-store visits and sales by leveraging location as the primary source of intent",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Group Nine Media",
+  "website": "https://corp.voxmedia.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "The number one publisher on mobile with the largest mobile audience in the U.S.",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "H1",
+  "website": "https://h1.co/",
+  "status": "active",
+  "stage": null,
+  "description": "A global platform for the healthcare ecosystem",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Harness",
+  "website": "https://www.harness.io/",
+  "status": "active",
+  "stage": null,
+  "description": "The first continuous delivery platform enabling DevOps teams to efficiently and securely deliver code to customer-facing applications",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "HashiCorp",
+  "website": "https://www.hashicorp.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "An enduring leader in cloud infrastructure automation",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Hello Heart",
+  "website": "https://www.helloheart.com/",
+  "status": "active",
+  "stage": null,
+  "description": "An AI company on a mission to make heart attacks a thing of the past",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Hims & Hers",
+  "website": "https://www.forhims.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "A multi-specialty telehealth platform building a virtual front door for easy, convenient access to high-quality healthcare",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "HomeAway",
+  "website": "http://www.homeaway.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "The world’s leading online marketplace of vacation rentals",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Humu",
+  "website": "https://www.humu.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Behavioral change software that combines science and machine learning to help people grow",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "IEX",
+  "website": "https://www.iexexchange.io/",
+  "status": "active",
+  "stage": null,
+  "description": "The stock exchange that believes that every investor has the right to trade on equal and fair terms, on every trade",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Indiegogo",
+  "website": "https://www.indiegogo.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The first and largest global crowdfunding platform",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Inspirato",
+  "website": "https://www.inspirato.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "A luxury hospitality company that manages and maintains an exclusive portfolio of vacation homes",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Jasper",
+  "website": "https://www.jasper.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Artificial intelligence that makes it fast and easy to create content for blogs, social media, and websites",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Kalshi",
+  "website": "https://kalshi.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Like the stock market for real-world events",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Kittl",
+  "website": "https://www.kittl.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The most intuitive design platform for creators",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Klarna",
+  "website": "https://www.klarna.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "One of the leading independent European online payments providers",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "LangChain",
+  "website": "https://www.langchain.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Open-source framework for building agents",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Laurel",
+  "website": "https://www.laurel.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "AI timekeeping that grows profit and happiness",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "LegalZoom",
+  "website": "https://www.legalzoom.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "A leading provider of legal documents helping people launch and live their dreams",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "LifeLock",
+  "website": "https://lifelock.norton.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "An industry leader in identity theft protection",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Lime",
+  "website": "https://www.li.me/",
+  "status": "ipo",
+  "stage": null,
+  "description": "A transportation company that makes micromobility affordable and accessible",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Looker",
+  "website": "https://www.looker.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "A complete business intelligence and data analytics platform that offers real-time insights to drive better decision-making",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Lulu's",
+  "website": "https://www.lulus.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "A leading digital-native apparel brand for women",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Lumafield",
+  "website": "https://www.lumafield.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Lumafield's advanced 3D X-ray technology is taking manufacturing into new frontiers of speed, experience, and possibility.",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Lyra Health",
+  "website": "https://www.lyrahealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A leading provider of innovative mental health benefits for employers",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Marketo",
+  "website": "https://business.adobe.com/products/marketo/adobe-marketo.html",
+  "status": "acquired",
+  "stage": null,
+  "description": "The market-leading revenue performance management platform powering marketing and sales success",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "MasterClass",
+  "website": "https://www.masterclass.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The premiere online education platform streaming affordable, engaging, and inspirational classes taught by world-renowned instructors",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "MindBody",
+  "website": "https://www.mindbodyonline.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "The largest global provider of online business management software to the beauty, health and wellness industry",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Monte Carlo",
+  "website": "https://www.montecarlodata.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Delivering end-to-end data observability and reliability to power data-driven business",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Motive",
+  "website": "https://gomotive.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The most comprehensive fleet management and telematics platform",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Mulesoft",
+  "website": "https://www.mulesoft.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "A provider of a software platform that enables organizations to create a network of applications, data sources and devices",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "NerdWallet",
+  "website": "https://www.nerdwallet.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "Giving consumers clarity around key financial decisions at every stage of their lives",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Netflix",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "The world's leading Internet subscription service for enjoying movies and TV shows",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Nextdoor",
+  "website": "https://nextdoor.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The world's largest social network for the neighborhood",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "NextRoll",
+  "website": "https://www.nextroll.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A marketing technology company delivering products ambitious companies use and rely on to grow their businesses",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "ngmoco",
+  "website": "https://dena.com/intl/",
+  "status": "active",
+  "stage": null,
+  "description": "The leading app publisher and developer of social games for iPhone OS devices",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Niantic",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "The leader in mobile augmented reality (AR) experiences and creator of Pokémon GO, Ingress Prime, and Harry Potter: Wizards Unite",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Numeric",
+  "website": "https://www.numeric.io/",
+  "status": "active",
+  "stage": null,
+  "description": "The accounting automation platform",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Obsidian Security",
+  "website": "https://www.obsidiansecurity.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The only comprehensive platform for SaaS security",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "OnDeck Capital",
+  "website": "https://www.ondeck.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A leading online platform for small business lending",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Oportun",
+  "website": "https://oportun.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A mission-driven, high growth financial services company serving the credit needs of the growing Hispanic market",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Papaya Global",
+  "website": "https://www.papayaglobal.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The New Infrastructure for the Global Workforce",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Paper",
+  "website": "https://paper.co/",
+  "status": "active",
+  "stage": null,
+  "description": "The leading software provider of 24/7 high dosage tutoring",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Perplexity",
+  "website": "https://www.perplexity.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Unlocking the power of knowledge with information discovery and sharing",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Personal Capital",
+  "website": "https://www.personalcapital.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Bringing people and tech together to improve everyone’s financial lives",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Pigment",
+  "website": "https://www.gopigment.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A business planning platform for forward-thinking organizations",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Pindrop",
+  "website": "https://www.pindrop.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The pioneer in voice-fraud prevention and authentication",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Podium",
+  "website": "https://www.podium.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The leading customer communication platform for local businesses",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Productiv",
+  "website": "https://productiv.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The data-driven, enterprise SaaS management platform for the modern CIO",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Prosper",
+  "website": "https://www.prosper.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A leading peer-to-peer lending company",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Pure Storage",
+  "website": "https://www.purestorage.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A leading independent solid-state array vendor enabling the broad deployment of flash in the data center",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Roam",
+  "website": "https://ro.am/",
+  "status": "active",
+  "stage": null,
+  "description": "The all-in-one Cloud HQ for distributed teams",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Robinhood",
+  "website": "https://robinhood.com/us/en/",
+  "status": "active",
+  "stage": null,
+  "description": "A pioneer of commission-free investing",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Rubrik",
+  "website": "https://www.rubrik.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "A cybersecurity company with a mission to secure the world's data",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Sage",
+  "website": "https://www.hellosage.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Reinventing care for older adults and the caregivers who care for them",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "SEON",
+  "website": "https://seon.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Fighting fraud and protecting online businesses",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Skydio",
+  "website": "https://www.skydio.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The leading U.S. drone manufacturer and world leader in autonomous flight",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Slack",
+  "website": "https://slack.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A team messaging platform brings all communication together and creates a single, searchable archive",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Snap",
+  "website": "https://www.snap.com/en-US",
+  "status": "ipo",
+  "stage": null,
+  "description": "A new way to share moments with friends",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "SoFi",
+  "website": "https://www.sofi.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A leader in marketplace lending",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Solace Health",
+  "website": "https://www.solace.health/",
+  "status": "active",
+  "stage": null,
+  "description": "Solace connects patients with advocates who navigate healthcare on their behalf, improving outcomes and reducing costs.",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Sorare",
+  "website": "https://sorare.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The fantasy football platform",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "SoundCloud",
+  "website": "https://soundcloud.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The leading audio platform connecting users to the world’s largest community of music and audio creators",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "SteelBrick",
+  "website": "https://www.salesforce.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A fast-growing provider of next-gen quote-to-cash software applications built on the Salesforce platform",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Sublime Security",
+  "website": "https://sublime.security/",
+  "status": "active",
+  "stage": null,
+  "description": "The new standard for email security",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Sumo Logic",
+  "website": "https://www.sumologic.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The industry’s leading, secure, and purpose-built cloud-based machine data analytics service",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Suno",
+  "website": "https://suno.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Music company built to amplify imagination",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Supercell",
+  "website": "https://supercell.com/en/",
+  "status": "acquired",
+  "stage": null,
+  "description": "A leading global mobile games company",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Superhuman",
+  "website": "https://superhuman.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "The fastest email experience ever made",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Supermetrics",
+  "website": "https://supermetrics.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The world leader in data integration used and trusted by Fortune 500 leaders and elite marketing agencies",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Tala",
+  "website": "https://tala.co/",
+  "status": "active",
+  "stage": null,
+  "description": "A mobile technology and data science company that’s changing the way credit scoring and financial services work around the world",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Tanium",
+  "website": "https://www.tanium.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The company that has redefined security and systems management",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "TaxBit",
+  "website": "https://taxbit.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The leading tax and accounting software provider for the digital economy",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Tennr",
+  "website": "https://www.tennr.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Intelligent patient servicing platform",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "The Honest Company",
+  "website": "https://www.honest.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A pioneer in providing non-toxic and natural baby and family products online",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "The Players Tribune",
+  "website": "https://www.theplayerstribune.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The first content platform created, curated, and controlled by athletes, providing unique insight into the daily sports conversation",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Thrive Global",
+  "website": "https://thriveglobal.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A behavior change media and technology company helping individuals, companies and communities improve well-being and performance",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Traceable",
+  "website": "https://www.traceable.ai/",
+  "status": "acquired",
+  "stage": null,
+  "description": "API security for cloud-native apps",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "TuneIn",
+  "website": "https://tunein.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "The most popular way to listen to real radio from around the world",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Twitter",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "A top real-time social media and information network that connects people to the latest information about what they find interesting",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Uber",
+  "website": "https://www.uber.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Bringing transportation for everyone, everywhere",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "UiPath",
+  "website": "https://www.uipath.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The Robotic Process Automation (RPA) market leader",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Venice",
+  "website": "https://www.venice.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Venice is the adaptive privileged access platform for the AI era.",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Vercel",
+  "website": "https://vercel.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Vercel enables the world to ship the best products.",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Veriff",
+  "website": "https://www.veriff.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A global identity verification provider",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Volt",
+  "website": "https://www.volt.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Next generation payment network that is global, instant and interoperable - connecting real-time payments everywhere",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Voxer",
+  "website": "https://www.voxer.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A push-to-talk service that allows users to instantly send voice, text, and photos to individuals and groups in real time",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Whip Media Group",
+  "website": "https://www.whipmedia.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Transforming the business of content throughout the global entertainment ecosystem",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "WHOOP",
+  "website": "https://www.whoop.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The human performance company providing a membership for 24/7 coaching to improve health",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Wise",
+  "website": "https://wise.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The international money transfer platform",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Wonderful",
+  "website": "https://www.wonderful.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "The Enterprise Agent Platform",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Yellowbrick Data",
+  "website": "https://yellowbrick.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The innovation leader in modern data warehousing for large-scale enterprises",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Yext",
+  "website": "https://www.yext.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The local online advertising company focused on making business listings simple",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "ZEFR",
+  "website": "https://www.zefr.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A leading platform that builds social marketing and rights management software for online video",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Zendesk",
+  "website": "https://www.zendesk.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A customer service platform designed to bring organizations and their customers closer together",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Zenefits",
+  "website": "https://www.zenefits.com/",
+  "status": "active",
+  "stage": null,
+  "description": "HR software that helps small and midsize companies empower their modern workforce, manage change and stay compliant",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Zerto",
+  "website": "https://www.zerto.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The world’s leading provider of disaster recovery software for virtualized and cloud environments",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "ZipRecruiter",
+  "website": "https://www.ziprecruiter.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "The market-leading hiring platform for small and medium sized businesses",
+  "sector": null,
+  "fund": "ivp"
+ },
+ {
+  "name": "Zynga",
+  "website": "https://www.zynga.com/",
+  "status": "active",
+  "stage": null,
+  "description": "The largest social gaming company",
+  "sector": null,
+  "fund": "ivp"
+ }
+]

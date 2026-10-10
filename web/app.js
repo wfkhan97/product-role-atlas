@@ -5,6 +5,14 @@
     fetch("data/taxonomy.json").then(r => r.json()),
     fetch("data/subskills.json").then(r => r.json()),
   ]);
+  // decode compact encodings: skill / sub-skill indices and fund ids back to the strings the app uses
+  const FUND_NAME = Object.fromEntries((G.meta.funds || []).map(f => [f.id, f.name]));
+  for (const j of G.jobs) {
+    j.skills = j.skills.map(i => typeof i === "number" ? G.skill_ids[i] : i);
+    j.sub = (j.sub || []).map(i => typeof i === "number" ? G.sub_ids[i] : i);
+    j.investors = (j.investors || []).map(f => FUND_NAME[f] || f);
+  }
+  for (const c of G.meta.companies) c.investors = (c.investors || []).map(f => FUND_NAME[f] || f);
   const CL = G.clusters;
   const skillById = Object.fromEntries(G.skills.map(s => [s.id, s]));
   const subById = {}; for (const [sid, list] of Object.entries(SUBS)) for (const sub of list) subById[sub.id] = { ...sub, parent: sid };
@@ -17,7 +25,8 @@
   const YOE_BUCKETS = [["0-2", "Up to 2 yrs", y => y <= 2], ["3-4", "3–4 yrs", y => y >= 3 && y <= 4], ["5-6", "5–6 yrs", y => y >= 5 && y <= 6], ["7-9", "7–9 yrs", y => y >= 7 && y <= 9], ["10+", "10+ yrs", y => y >= 10], ["none", "Not stated", y => y == null]];
   const DEGREES = [["bachelors", "Bachelor's"], ["masters_mba", "Master's / MBA"], ["cs_engineering_degree", "CS / engineering"], ["phd", "PhD"]];
   const SPEC_LABEL = { growth: "Growth", platform: "Platform", ai_ml: "AI / ML", data: "Data", payments_fintech: "Payments & fintech", consumer: "Consumer", enterprise_b2b: "Enterprise / B2B", hardware_devices: "Hardware & devices", health: "Health", security_identity: "Security & identity", ads_marketing: "Ads & marketing", supply_chain_ops: "Supply chain & ops", commerce: "Commerce" };
-  const groupLabel = { fortune50: "Fortune 1–50", fortune100: "Fortune 51–100", fortune250: "Fortune 101–250", fortune500: "Fortune 251–500", a16z: "a16z-backed", sequoia: "Sequoia-backed" };
+  const groupLabel = { fortune50: "Fortune 1–50", fortune100: "Fortune 51–100", fortune250: "Fortune 101–250", fortune500: "Fortune 251–500", startup: "VC-backed startups", a16z: "a16z-backed", sequoia: "Sequoia-backed" };
+  const STAGES = ["Seed", "Series A", "Series B", "Series C", "Series D", "Series E", "Series F", "Series G", "Unknown"];
   const GROUPS = Object.keys(groupLabel).filter(g => G.jobs.some(j => j.group === g));
   const COLUMNS = ["craft", "discovery", "analytics", "technical", "gtm", "leadership", "delivery", "domain", "tools"];
   const LANES = [["Entry & every level", "asked for across levels, from associate up"], ["Mid-career", "weighted toward PM / senior postings"], ["Senior & staff", "weighted toward senior / staff / principal"], ["Leadership", "weighted toward group / director / VP"]];
@@ -36,8 +45,8 @@
     free: { hint: "Clustered by what tends to be asked for together." },
   };
 
-  const defaults = () => ({ family: new Set(["pm"]), level: new Set(), group: new Set(GROUPS), sector: new Set(), company: new Set(), country: new Set(), remote: false, yoe: new Set(), spec: new Set(), degree: new Set() });
-  const state = { ...defaults(), clustersOff: new Set(), selectedSkill: null, selectedJob: null, subFocus: null, jobQuery: "", companyQuery: "", match: null, axis: "3d", subs: "selected", evTab: "senior", ax3: { x: "tech_comm", z: "ic_mgmt" }, rot: { yaw: -0.6, pitch: 0.35 }, zoom3: 1, spin: false };
+  const defaults = () => ({ family: new Set(["pm"]), level: new Set(), group: new Set(GROUPS), sector: new Set(), company: new Set(), country: new Set(), remote: false, yoe: new Set(), spec: new Set(), degree: new Set(), fund: new Set(), stage: new Set() });
+  const state = { ...defaults(), clustersOff: new Set(), selectedSkill: null, selectedJob: null, subFocus: null, jobQuery: "", companyQuery: "", match: null, fundQuery: "", axis: "3d", subs: "selected", evTab: "senior", ax3: { x: "tech_comm", z: "ic_mgmt" }, rot: { yaw: -0.6, pitch: 0.35 }, zoom3: 1, spin: false };
 
   const $ = s => document.querySelector(s);
   const fmtPct = v => Math.round(v * 100) + "%";
@@ -54,6 +63,8 @@
     yoe: j => state.yoe.size === 0 || YOE_BUCKETS.some(([id, , fn]) => state.yoe.has(id) && fn(j.yoe)),
     spec: j => state.spec.size === 0 || j.specs.some(s => state.spec.has(s)),
     degree: j => state.degree.size === 0 || [...state.degree].every(d => j.skills.includes(d)),
+    fund: j => state.fund.size === 0 || (j.investors || []).some(f => state.fund.has(f)),
+    stage: j => state.stage.size === 0 || state.stage.has(j.stage),
   };
   function jobsExcept(dim) { return G.jobs.filter(j => Object.entries(DIMS).every(([k, fn]) => k === dim || fn(j))); }
   function sliceJobs() { return jobsExcept(null); }
@@ -71,11 +82,12 @@
   // ---------- header / about ----------
   const companiesByGroup = {};
   for (const c of G.meta.companies) (companiesByGroup[c.group] ||= []).push(c);
-  $("#subtitle").textContent = `${G.meta.n_jobs.toLocaleString()} open product roles at ${G.meta.n_companies} companies — Fortune 500 plus a16z- and Sequoia-backed startups. Scraped ${G.meta.generated}.`;
+  const nFunds = new Set(G.jobs.flatMap(j => j.investors || [])).size;
+  $("#subtitle").textContent = `${G.meta.n_jobs.toLocaleString()} open product roles at ${G.meta.n_companies} companies — the Fortune 500 plus startups backed by ${nFunds} leading venture funds. Scraped ${G.meta.generated}.`;
   $("#about-body").innerHTML = `
     <p class="muted">Postings are pulled from each company's public careers API, filtered to product-related titles, and tagged against a hand-built taxonomy of ${G.skills.length} skills and ${Object.values(SUBS).reduce((a, b) => a + b.length, 0)} sub-skills using keyword rules. Shares are "what fraction of postings in the current slice mention this". Vertical position is the share-weighted average level at which a skill is asked for (rank-spread; rare skills are pulled toward the middle). "Which path" compares director-and-above postings with staff/principal ones; "Kind of role" compares TPM/platform/AI postings with PMM/growth ones. Industries are Fortune's own labels grouped into sectors; startups are classed by their investor's vertical where known. Sub-skills, level ladders and learning routes are editorial; quoted sentences come from the postings.</p>
     ${Object.keys(groupLabel).filter(g => companiesByGroup[g]).map(g => { const cs = companiesByGroup[g]; return `<h3>${groupLabel[g]} · ${cs.length} companies · ${cs.reduce((a, c) => a + c.n, 0)} postings</h3>
-      <p class="small">${cs.sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999) || b.n - a.n).map(c => `${c.rank ? "#" + c.rank + " " : ""}${esc(c.name)} <span class="muted">(${c.n})</span>`).join(" · ")}</p>`; }).join("")}`;
+      <p class="small">${cs.sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999) || b.n - a.n).map(c => `${c.rank ? "#" + c.rank + " " : ""}${esc(c.name)}${c.stage && c.stage !== "Unknown" ? " <span class='muted'>" + esc(c.stage) + "</span>" : ""} <span class="muted">(${c.n})</span>`).join(" · ")}</p>`; }).join("")}`;
   $("#btn-about").onclick = e => { e.preventDefault(); $("#about-modal").hidden = false; };
   $("#about-close").onclick = () => $("#about-modal").hidden = true;
 
@@ -105,6 +117,16 @@
     chipSet($("#group-chips"), GROUPS.map(id => ({ id, label: groupLabel[id], n: m[id] || 0 })), state.group, { allowEmpty: false });
     m = countBy(jobsExcept("sector"), j => j.sector);
     chipSet($("#sector-chips"), (G.sectors || []).filter(x => m[x] > 0).sort((x, y) => m[y] - m[x]).map(id => ({ id, label: id, n: m[id] })), state.sector, { allLabel: "All industries" });
+    // investors: multi-select chips (top 18 by count, or those matching the search), startups only
+    const fj = jobsExcept("fund"); const fc = {};
+    for (const j of fj) for (const f of (j.investors || [])) fc[f] = (fc[f] || 0) + 1;
+    const fq = state.fundQuery.trim().toLowerCase();
+    let fundItems = Object.entries(fc).filter(([f]) => !fq || f.toLowerCase().includes(fq)).sort((x, y) => y[1] - x[1]);
+    if (!fq) fundItems = fundItems.filter(([f]) => state.fund.has(f) || fundItems.indexOf(fundItems.find(z => z[0] === f)) < 18);
+    chipSet($("#fund-chips"), fundItems.map(([id, n]) => ({ id, label: id, n })), state.fund, { allLabel: fq ? null : "Any investor" });
+    const sj2 = jobsExcept("stage"); const stc = {};
+    for (const j of sj2) if (j.stage) stc[j.stage] = (stc[j.stage] || 0) + 1;
+    chipSet($("#stage-chips"), STAGES.filter(s => stc[s] > 0).map(id => ({ id, label: id, n: stc[id] })), state.stage, { allLabel: "Any stage" });
     // company: selected chips + search dropdown
     m = countBy(jobsExcept("company"), j => j.company);
     chipSet($("#company-chips"), [...state.company].map(id => ({ id, label: id, n: m[id] || 0 })), state.company, {});
@@ -145,7 +167,8 @@
     $("#spin-view").onclick = () => { state.spin = !state.spin; $("#spin-view").classList.toggle("on", state.spin); if (state.spin) spinLoop(); };
   }
   $("#company-search").oninput = e => { state.companyQuery = e.target.value; renderControls(); };
-  $("#clear-filters").onclick = () => { Object.assign(state, defaults()); state.selectedJob = null; state.companyQuery = ""; $("#company-search").value = ""; update(); };
+  $("#fund-search").oninput = e => { state.fundQuery = e.target.value; renderControls(); };
+  $("#clear-filters").onclick = () => { Object.assign(state, defaults()); state.selectedJob = null; state.companyQuery = ""; state.fundQuery = ""; $("#company-search").value = ""; $("#fund-search").value = ""; update(); };
 
   // ---------- job list ----------
   function renderJobList(jobs) {
@@ -451,7 +474,7 @@
       const byCluster = {};
       for (const k of j.skills) { const s = skillById[k]; (byCluster[s.cluster] ||= []).push(k); }
       const subSet = new Set(j.sub || []);
-      el.innerHTML = `<div class="detail"><h2>${esc(j.title)}</h2><div class="kicker">${esc(j.company)}${j.rank ? " (#" + j.rank + ")" : ""} · ${groupLabel[j.group]}${j.investor && !j.group.startsWith("fortune") ? " (" + esc(j.investor) + ")" : ""}${j.industry ? " · " + esc(j.industry) : ""}${j.location ? " · " + esc(j.location) : ""}${j.remote ? " · remote" : ""}</div>
+      el.innerHTML = `<div class="detail"><h2>${esc(j.title)}</h2><div class="kicker">${esc(j.company)}${j.rank ? " (#" + j.rank + ")" : ""} · ${groupLabel[j.group]}${(j.investors || []).length ? " · backed by " + j.investors.map(esc).join(", ") : ""}${j.stage && j.stage !== "Unknown" ? " · " + esc(j.stage) : ""}${j.industry ? " · " + esc(j.industry) : ""}${j.location ? " · " + esc(j.location) : ""}${j.remote ? " · remote" : ""}</div>
         <p class="small">${esc(G.level_labels[j.level])} · ${esc(G.families[j.family])}${j.yoe ? ` · asks for ${j.yoe}+ years` : ""}${j.specs.length ? " · " + j.specs.map(s => SPEC_LABEL[s] || s).map(esc).join(", ") : ""}</p>
         <p class="small muted">${esc(j.snippet)}…</p>
         <p><a href="${esc(j.url)}" target="_blank" rel="noopener">Open the posting ↗</a></p>
@@ -475,7 +498,7 @@
     const med = yoe.length ? yoe[Math.floor(yoe.length / 2)] : null;
     const famLabel = [...state.family].map(f => G.families[f]).join(" / ");
     const lvlLabel = state.level.size ? [...state.level].map(l => G.level_labels[l]).join(" / ") : "all levels";
-    const active = [state.sector.size ? [...state.sector].join(", ") : null, state.company.size ? [...state.company].join(", ") : null, state.country.size ? [...state.country].join(", ") : null, state.remote ? "remote" : null, state.yoe.size ? [...state.yoe].join("/") + " yrs" : null, state.spec.size ? [...state.spec].map(s => SPEC_LABEL[s]).join(", ") : null, state.degree.size ? [...state.degree].map(d => skillById[d].name).join(", ") : null].filter(Boolean);
+    const active = [state.sector.size ? [...state.sector].join(", ") : null, state.company.size ? [...state.company].join(", ") : null, state.country.size ? [...state.country].join(", ") : null, state.remote ? "remote" : null, state.yoe.size ? [...state.yoe].join("/") + " yrs" : null, state.spec.size ? [...state.spec].map(s => SPEC_LABEL[s]).join(", ") : null, state.degree.size ? [...state.degree].map(d => skillById[d].name).join(", ") : null, state.fund.size ? "backed by " + [...state.fund].join(", ") : null, state.stage.size ? [...state.stage].join("/") : null].filter(Boolean);
     el.innerHTML = `<div class="detail"><h2>${esc(famLabel)}</h2><div class="kicker">${esc(lvlLabel)} · ${stats.n} postings · ${new Set(jobs.map(j => j.company)).size} companies${med ? ` · median ask ${med}+ years` : ""}</div>
       ${active.length ? `<p class="active-filters">Filters: ${esc(active.join(" · "))}</p>` : ""}
       <h3>Most requested</h3><div class="bars">${top.map(t => bar(t.s.name, t.v, CL[t.s.cluster].color)).join("")}</div>

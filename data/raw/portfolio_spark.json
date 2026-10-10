@@ -1,0 +1,425 @@
+[
+ {
+  "name": "Twitter",
+  "website": "twitter.com/home",
+  "status": "ipo",
+  "stage": null,
+  "description": "Twitter is what’s happening in the world and what people are talking about right now.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Slack",
+  "website": "slack.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Slack is the enterprise software platform that brings people, information, and tools together to get work done.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Anthropic",
+  "website": "www.anthropic.com",
+  "status": "active",
+  "stage": null,
+  "description": "AI research and products that put safety at the frontier. Including their first state of the art assistant, Claude.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Discord",
+  "website": "discord.com/new",
+  "status": "active",
+  "stage": null,
+  "description": "Discord is the easiest way to communicate over voice, video, and text with your friends and communities.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Oculus",
+  "website": "www.oculus.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Oculus develops virtual reality platforms and products that let people experience anything, with anyone.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Cruise",
+  "website": "www.getcruise.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Cruise is building the world’s most advanced self-driving vehicles to safely connect people with the places, things, and experiences they care about.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Coinbase",
+  "website": "www.coinbase.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Coinbase is a secure platform that makes it easy to buy, sell, and store cryptocurrency like Bitcoin, Ethereum, and more",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Kalshi",
+  "website": "www.kalshi.com",
+  "status": "active",
+  "stage": null,
+  "description": "Kalshi, Inc. is a U.S.-based, federally regulated prediction market exchange where individuals and institutions can trade event contracts — financial instruments tied to the outcomes of real-world events",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Oratomic",
+  "website": "www.oratomic.com",
+  "status": "active",
+  "stage": null,
+  "description": "Oratomic is building the world's first fault-tolerant quantum computers.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Scale AI",
+  "website": "scale.com",
+  "status": "active",
+  "stage": null,
+  "description": "ScaleAI is the data platform for AI that provides access to human-powered data for hundreds of use cases.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Tumblr",
+  "website": "www.tumblr.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Tumblr is a beautiful and simple way to creatively express yourself online and connect with others.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Sesame",
+  "website": "www.sesame.com",
+  "status": "active",
+  "stage": null,
+  "description": "Sesame.ai builds highly natural, emotionally aware voice AI designed for real, flowing conversations.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "CTRL-labs",
+  "website": "www.ctrl-labs.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "CTRL-labs is a company on a mission to expand human bandwidth with non-invasive neural interfaces. (Acquired by Facebook in 2019)",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Ramp",
+  "website": "www.ramp.com",
+  "status": "active",
+  "stage": null,
+  "description": "Ramp is the world’s first finance automation platform, providing businesses with a single solution to handle all non-payroll corporate expenses, including cards and payments with built-in expense and accounting automation software.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Niantic",
+  "website": "nianticlabs.com/en",
+  "status": "active",
+  "stage": null,
+  "description": "Niantic is the world’s leading augmented reality company with an initial focus on augmented reality games.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "MatX",
+  "website": "matx.com",
+  "status": "active",
+  "stage": null,
+  "description": "MatX is a computer chip manufacturer building high-performance, cost-efficient platforms optimized for large-scale AI workloads and designed to accelerate the development and accessibility of Artificial General Intelligence.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Lightmatter",
+  "website": "lightmatter.co",
+  "status": "active",
+  "stage": null,
+  "description": "Lightmatter combines electronics, photonics, and new algorithms to create a next-generation computing platform purpose-built for artificial intelligence.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Deel",
+  "website": "www.letsdeel.com",
+  "status": "active",
+  "stage": null,
+  "description": "Deel is the first payroll platform for remote teams that connects localized compliance and payments in one system of record and automates everything.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Baseten",
+  "website": "www.baseten.co",
+  "status": "active",
+  "stage": null,
+  "description": "Machine learning infrastructure.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Parallel",
+  "website": "parallel.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Parallel builds web data APIs for AI agents, turning web search and intelligent knowledge tasks into programmable, enterprise-ready infrastructure.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Standard Intelligence",
+  "website": "si.inc",
+  "status": "active",
+  "stage": null,
+  "description": "Standard Intelligence is building intelligent models that learn to use a computer through pre-training on raw video.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Snap",
+  "website": "www.snapchat.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Snap is one of the world's largest social networks and lets people easily talk with friends, view Live Stories from around the world, and explore news in Discover.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Plaid",
+  "website": "plaid.com",
+  "status": "active",
+  "stage": null,
+  "description": "Plaid helps all companies build fintech solutions by making it easy, safe, and reliable for people to connect their financial data to apps and services.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Chainguard",
+  "website": "www.chainguard.dev",
+  "status": "active",
+  "stage": null,
+  "description": "Chainguard enables developers to ship secure software by default.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Zeromatter",
+  "website": "zeromatter.com",
+  "status": "active",
+  "stage": null,
+  "description": "Zeromatter Technologies, Inc. is a software startup building a high-performance simulation platform that enables companies to build, test, and train autonomous systems and complex engineered products in virtual environments.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Affirm",
+  "website": "www.affirm.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Affirm is reinventing credit, giving consumers the flexibility to buy now and pay later without hidden fees and compounding interest.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Mercury",
+  "website": "mercury.com",
+  "status": "active",
+  "stage": null,
+  "description": "Mercury is a banking platform built for startups and scaling companies, offering zero-fee business checking and savings, instant credit cards, automated expense management, and treasury services to help ambitious entrepreneurs manage their finances.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Abridge",
+  "website": "www.abridge.com",
+  "status": "active",
+  "stage": null,
+  "description": "Abridge is generative AI for clinical conversations.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Optimism",
+  "website": "www.optimism.io",
+  "status": "active",
+  "stage": null,
+  "description": "Optimism is a leading L2 project aiming to scale Ethereum.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Stoke Space",
+  "website": "www.stokespace.com",
+  "status": "active",
+  "stage": null,
+  "description": "Resuable rockets for the Space Economy.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "The Bot Company",
+  "website": "www.bot.co",
+  "status": "active",
+  "stage": null,
+  "description": "The Bot Company is a robotics engineer company building robots that do chores and save you time.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Flock Safety",
+  "website": "www.flocksafety.com",
+  "status": "active",
+  "stage": null,
+  "description": "Flock Safety is an all-in-one technology solution that aims to eliminate crime and shape safer communities, together.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Crusoe",
+  "website": "www.crusoe.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Crusoe provides vertically integrated, sustainable AI infrastructure and cloud services designed to power modern artificial intelligence workloads.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Edison Scientific",
+  "website": "edisonscientific.com",
+  "status": "active",
+  "stage": null,
+  "description": "Edison Scientific is an AI platform that automates scientific R&D from hypothesis to validated results, turning months of research into hours with autonomous agents that synthesize literature, analyze data, and generate publication-ready discoveries.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Benchling",
+  "website": "www.benchling.com",
+  "status": "active",
+  "stage": null,
+  "description": "Benchling is the modern software platform powering the biotechnology revolution.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "WildType",
+  "website": "www.wildtypefoods.com",
+  "status": "active",
+  "stage": null,
+  "description": "Wild Type creates the cleanest, most sustainable fish and meat on the planet.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Lumafield",
+  "website": "www.lumafield.com",
+  "status": "active",
+  "stage": null,
+  "description": "AI Powered industrial X-ray CT scanners for R&D and Manufacturing",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Enfabrica",
+  "website": "enfabrica.net",
+  "status": "active",
+  "stage": null,
+  "description": "Enfabrica is a cutting-edge silicon and software company building disruptive networking solutions for parallel, heterogeneous, and accelerated computing infrastructure.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Cyera",
+  "website": "www.cyera.io",
+  "status": "active",
+  "stage": null,
+  "description": "Cyera is building the trust layer for the agentic era",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Base Power",
+  "website": "www.basepowercompany.com",
+  "status": "active",
+  "stage": null,
+  "description": "Base Power is an energy technology company based in Austin, Texas, focused on modernizing the electrical grid through distributed battery storage and home energy services.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Generalist",
+  "website": "generalistai.com",
+  "status": "active",
+  "stage": null,
+  "description": "Generalist builds embodied foundation models that give robots human-like intelligence for real-world tasks.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Handshake",
+  "website": "www.joinhandshake.com",
+  "status": "active",
+  "stage": null,
+  "description": "Handshake is a career network and recruiting platform for college students and alumni.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Profluent",
+  "website": "www.profluent.bio",
+  "status": "active",
+  "stage": null,
+  "description": "Profluent is advancing the frontier of AI research in biology and making biology programmable.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Formation Bio",
+  "website": "www.trialspark.com",
+  "status": "active",
+  "stage": null,
+  "description": "TrialSpark is a technology company that helps bring treatments to patients faster by reimagining how clinical trials are run.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Inversion",
+  "website": "www.inversionspace.com",
+  "status": "active",
+  "stage": null,
+  "description": "Low-cost return from space.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Airspace Intelligence",
+  "website": "www.airspace-intelligence.com",
+  "status": "active",
+  "stage": null,
+  "description": "Airspace Intelligence is a software-first aerospace company to help the world’s most complex air operations succeed.",
+  "sector": null,
+  "fund": "spark"
+ },
+ {
+  "name": "Mirror",
+  "website": "www.mirror.co/how-it-works",
+  "status": "acquired",
+  "stage": null,
+  "description": "Mirror is the nearly invisible interactive home gym.",
+  "sector": null,
+  "fund": "spark"
+ }
+]

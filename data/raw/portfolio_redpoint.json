@@ -1,0 +1,2352 @@
+[
+ {
+  "name": "thredUP",
+  "website": "http://www.thredup.com",
+  "status": "active",
+  "stage": "Series B",
+  "description": "thredUP is the world’s largest fashion resale platform, inspiring a new generation to think secondhand first. We first partnered for their Series B in 2011.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2011-01-01"
+ },
+ {
+  "name": "n8n",
+  "website": "https://n8n.io/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Founded in 2019, n8n is an open-source, low-code automation platform that connects apps and data. Initially developer-focused, n8n has since expanded to serve non-technical users with a visual editor, templates, and pre-built integrations. We first partnered for their Series C in 2025.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2025-10-09"
+ },
+ {
+  "name": "imper.ai",
+  "website": "https://imper.ai/",
+  "status": "active",
+  "stage": "Seed, Series A",
+  "description": "imper.ai prevents AI-driven impersonation and social engineering by analyzing the device, network, and behavioral signals attackers can’t fake. Its real-time risk scoring and automated blocking verify every participant across voice, video, and chat before trust is established. We first partnered for their Seed + Series A in 2025.",
+  "sector": "AI, Security",
+  "fund": "redpoint",
+  "first_invest_date": "2025-12-04"
+ },
+ {
+  "name": "hims",
+  "website": "https://www.forhims.com",
+  "status": "active",
+  "stage": "Series B",
+  "description": "hims is on a mission to eliminate stigmas and make it easier for people to access care and treatment for the conditions that impact their daily lives. We first partnered for their Series B in 2017.",
+  "sector": "Healthcare, Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2017-03-31"
+ },
+ {
+  "name": "eero",
+  "website": "http://www.eero.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "eero is wifi designed to work with every device in every home. We partnered for their Series B in 2015, through their acquisition by Amazon in 2019.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2015-01-01"
+ },
+ {
+  "name": "eBureau",
+  "website": "http://www.ebureau.com",
+  "status": "active",
+  "stage": "Series B",
+  "description": "eBureau offers real-time lead evaluation services.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2007-01-01"
+ },
+ {
+  "name": "Zuora",
+  "website": "https://www.zuora.com",
+  "status": "ipo",
+  "stage": "Series C or Later",
+  "description": "Zuora provides cloud-based software via subscription that enables any company in any industry to successfully launch, manage, and transform into a subscription business.  We partnered for their Series C in 2010,  through their IPO in 2018.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2010-01-01"
+ },
+ {
+  "name": "Zimbra",
+  "website": "http://www.zimbra.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Zimbra offers open-source e-mail, address book, calendar, tasks, and collaboration software. We first partnered for their Series A in 2004.",
+  "sector": "Application, Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2004-01-01"
+ },
+ {
+  "name": "Zendesk",
+  "website": "http://www.zendesk.com",
+  "status": "ipo",
+  "stage": "Series C or Later",
+  "description": "Zendesk is a service-first CRM company that builds support, sales, and customer engagement software designed to foster better customer relationships. We partnered for their Series D in 2012, through their IPO in 2014.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2012-01-01"
+ },
+ {
+  "name": "Zed",
+  "website": "https://zed.dev/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Zed is a high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.  We invested in Zed's Series A in 2022.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2023-03-15"
+ },
+ {
+  "name": "Xata",
+  "website": "https://xata.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Xata is t he go-to serverless database that feels like a spreadsheet.  We invested in their Series A in 2022.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2022-03-08"
+ },
+ {
+  "name": "XMTP",
+  "website": "https://xmtp.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "XMTP is th e communication protocol and network for web3 and crypto.  We partnered for their Series A in 2021.",
+  "sector": "Blockchain",
+  "fund": "redpoint",
+  "first_invest_date": "2021-08-31"
+ },
+ {
+  "name": "Workato",
+  "website": "https://www.workato.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Workato enables both business and IT teams to integrate their apps and automate business workflows without compromising security and governance. We partnered for their Series C in 2019.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "WochIt",
+  "website": "http://www.wochit.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Wochit is the video creation platform that empowers newsrooms, media companies and brands to expand audience engagement through the power of social video. We partnered for their Series A in 2013.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2013-01-01"
+ },
+ {
+  "name": "WiChorus",
+  "website": "http://www.tellabs.com/news/2009/index.cfm/nr/79.cfm",
+  "status": "active",
+  "stage": "Series A",
+  "description": "WiChorus provides 4G core infrastructure products to enable operators to deploy WiMAX and LTE networks. We first partnered for their Series A in 2005.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2005-01-01"
+ },
+ {
+  "name": "Whatnot",
+  "website": "https://www.whatnot.com",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Whatnot is a livestreaming shopping platform for collectors to buy and sell things like rare Pokémon cards and Funko Pops.  We partnered for their Series C in 2021.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2021-09-30"
+ },
+ {
+  "name": "Wealthsimple",
+  "website": "https://www.wealthsimple.com/en-us/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Wealthsimple provides financial tools to help you grow and manage your money. We partnered for their Series B in 2021.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2021-04-30"
+ },
+ {
+  "name": "Wander",
+  "website": "https://www.wander.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Wander is a network of smart homes in empowering places.  We partnered for their Seed in 2021.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2021-10-20"
+ },
+ {
+  "name": "Vurb",
+  "website": "http://vurb.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Vurb is a local app helping consumers find local things to do and letting them save their ideas. We first partnered for their Series A in 2014.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2014-01-01"
+ },
+ {
+  "name": "Voyce.me",
+  "website": "https://www.voyce.me",
+  "status": "active",
+  "stage": null,
+  "description": "VoyceMe is a first-of-its-kind platform that centralizes the manga and anime fandom experience, drawing two million monthly active users.   Redpoint first invested in Voyce.me's seed in 2024.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2024-08-14"
+ },
+ {
+  "name": "Viajanet",
+  "website": "http://www.viajanet.com.br",
+  "status": "active",
+  "stage": "Series A",
+  "description": "ViajaNet is an online travel agency offering flights, hotels, cruises and vacation packages to its consumers. We first partnered for their Series A in 2010.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2010-01-01"
+ },
+ {
+  "name": "Vega",
+  "website": "https://vega.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Vega offers a lightweight Security Analytics fabric that introduces a new, AI-native, approach to interacting with security data wherever it sits, giving analysts complete visibility and detection coverage, without a single migration, replacement or compromise. We first partnered for their Series A in 2025.",
+  "sector": "Security",
+  "fund": "redpoint",
+  "first_invest_date": "2025-09-16"
+ },
+ {
+  "name": "Valerie Health",
+  "website": "https://valeriehealth.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Valerie Health automates the front office for independent provider groups, helping them deliver better care, drive efficiency, and grow. We first participated in their Series A in 2025.",
+  "sector": "Healthcare, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2025-12-16"
+ },
+ {
+  "name": "Twilio",
+  "website": "https://www.twilio.com",
+  "status": "ipo",
+  "stage": "Series C or Later",
+  "description": "Twilio is a cloud communications platform that lets developers easily add messaging, voice, and video into web and mobile applications. We partnered for their Series D in 2013, through their IPO in 2016.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2013-10-31"
+ },
+ {
+  "name": "Tundra",
+  "website": "https://www.tundra.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Tundra is the modern wholesale marketplace that allows buyers and suppliers to transact online with no fees or markups. We first partnered for their Series A in 2019.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "Trunk Tools",
+  "website": "https://trunktools.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Trunk Tools is the trusted construction AI Platform.  Redpoint first invested in the company's Series A in 2024.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2024-09-11"
+ },
+ {
+  "name": "True[x] Media",
+  "website": "http://www.truex.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "True[x] is a digital ad-tech company offering engagement advertising solutions for brands. We first partnered for their Series A in 2007.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2007-01-01"
+ },
+ {
+  "name": "TruSignal",
+  "website": "https://www.tru-signal.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "TruSignal uses AI-powered predictive scoring to make big data actionable for a people-based approach to martech. We first partnered for their Series A in 2017, through their acquisition by TransUnion in 2019.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2017-01-01"
+ },
+ {
+  "name": "Trip.com",
+  "website": "http://www.trip.com",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Trip.com is an online travel agency making travel easier for everyone. We first partnered for their Series B in 2011.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2011-01-01"
+ },
+ {
+  "name": "Transform",
+  "website": "https://transform.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Transform is the  first centralized 'metrics store' that empowers data analysts to deliver accurate, timely, and confident insights. We partnered for their Seed in 2021.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2021-06-17"
+ },
+ {
+  "name": "Tivo",
+  "website": "http://tivo.com",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "TiVo is a digital video recorder that allows users to save TV programs for later viewing based on an electronic TV programming schedule.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2000-01-01"
+ },
+ {
+  "name": "Timescale",
+  "website": "https://www.timescale.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Timescale is a leading relational database for time-series, supercharging PostgreSQL for fast, scalable, easy analytics. We partnered for their Series B in 2021.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2021-05-05"
+ },
+ {
+  "name": "The Rounds",
+  "website": "https://www.therounds.co/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "The Rounds, a psychic home manager to keep your home stocked, by refilling and delivering all the essentials and neighborhood favorites—from toilet paper to local coffee—without so much packaging waste from cardboard boxes and single-use plastic. We first invested in The Rounds Series A in 2022.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2022-10-12"
+ },
+ {
+  "name": "Tenor",
+  "website": "https://www.tenor.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Tenor’s GIF search engine helps you find the perfect GIFs to express your thoughts & feelings in mobile messaging conversations. We partnered for their Seed in 2015.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2015-01-01"
+ },
+ {
+  "name": "Tend",
+  "website": "https://www.hellotend.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Tend is the first dentist you'll actually look forward to. We partnered for their Series A in 2019.",
+  "sector": "Healthcare, Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "TasteMade",
+  "website": "http://www.tastemade.com/about",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Tastemade is a modern media company inspiring the taste of a generation. The company creates award-winning video programming in Food, Home and Travel, which appears on all major digital, mobile and streaming platforms. We partnered for their Series A in 2012.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2012-01-01"
+ },
+ {
+  "name": "Tantalus",
+  "website": "http://www.tantalus.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Tantalus Systems provides smart grid solutions for advanced metering, demand response, and conservation for electric and water utilities. We partnered for their Series A in 2009.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2009-01-01"
+ },
+ {
+  "name": "Tact.ai",
+  "website": "https://tact.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Tact.ai is on a mission to make enterprise software more human-friendly. We partnered for their Series A in 2012.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2012-01-01"
+ },
+ {
+  "name": "Strive Health",
+  "website": "https://strivehealth.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Strive delivers compassionate kidney care the way it should be done. We partnered for their Series B in 2021.",
+  "sector": "Healthcare",
+  "fund": "redpoint",
+  "first_invest_date": "2021-03-16"
+ },
+ {
+  "name": "Stripe",
+  "website": "https://stripe.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Stripe is a developer-oriented commerce company helping small and large companies accept web and mobile payments. We first partnered for their Series B in 2012.",
+  "sector": "Infrastructure, Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2030-07-31"
+ },
+ {
+  "name": "StorSimple",
+  "website": "http://www.storsimple.com",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "StorSimple is a hybrid storage solution providing storage performance and data protection for enterprise storages. We partnered for their Series A in 2009, through their acquisition by Microsoft in 2012.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2009-01-01"
+ },
+ {
+  "name": "StackRox",
+  "website": "https://www.stackrox.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "StackRox helps enterprises secure their containers and Kubernetes environments at scale. We partnered for their Series B in 2018.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2018-01-01"
+ },
+ {
+  "name": "SpringPath",
+  "website": "http://www.springpathinc.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Springpath is hyperconvergence software that turns standard servers of choice into a single pool of compute and storage resources. We partnered for their Series B in 2013, through their acquisition by Cisco in 2017.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2013-01-01"
+ },
+ {
+  "name": "Spot AI",
+  "website": "https://www.spot.ai",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Spot AI builds easy-to-use camera systems that enable every business to make faster, smarter decisions. We partnered for their Series A in 2021.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2021-10-15"
+ },
+ {
+  "name": "Sourcegraph",
+  "website": "https://sourcegraph.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Sourcegraph makes code search universal so developers can work on solving problems. We partnered for their Series A in 2015.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2015-01-01"
+ },
+ {
+  "name": "Sonos",
+  "website": "https://www.sonos.com",
+  "status": "ipo",
+  "stage": "Series C or Later",
+  "description": "Sonos is a sound experience company pioneering multiroom wireless audio. We partnered for their Series D in 2012, through their IPO in 2018.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2012-01-01"
+ },
+ {
+  "name": "Solo.io",
+  "website": "https://www.solo.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Solo.io develops open-source and enterprise software that helps enterprises adopt and operate innovative cloud-native technologies like microservices, serverless and service mesh. We first partnered for their Series A in 2018.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2018-01-01"
+ },
+ {
+  "name": "Snowflake",
+  "website": "https://www.snowflake.com",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Snowflake is a SaaS-based cloud data warehousing platform designed to safely and efficiently store, transform, and analyze business data. We partnered for their Series B in 2014, through their IPO in September 2020.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2014-12-31"
+ },
+ {
+  "name": "Simpo",
+  "website": "https://www.simpo.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Simpo is a zero-configuration onboarding and support platform built for the digital enterprise. We first partnered for their Seed in 2019.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "Silk + Sonder",
+  "website": "http://www.silkandsonder.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Silk + Sonder is the  emotional  wellness company empowering users to live the life they've always wanted. We partnered for their Seed in 2020.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2020-01-01"
+ },
+ {
+  "name": "Signadot",
+  "website": "https://signadot.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Signadot lets you spin up sandboxes in Kubernetes to test every change safely in an end-to-end environment.  We first invested in Signadot's seed in 2021.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2021-03-16"
+ },
+ {
+  "name": "Sesame",
+  "website": "https://www.sesame.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Sesame is bringing the computer to life with its conversational AI and connected hardware. They are building a voice-first AI companion and lightweight eyewear for consumers.  We first partnered for their Series B in 2025.",
+  "sector": "AI, Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2025-05-22"
+ },
+ {
+  "name": "Serval",
+  "website": "https://www.serval.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Serval is a next-generation AI-native platform for IT automation, helping automate help-desk tickets, access provisioning, onboarding/offboarding and complex workflows using natural-language instructions instead of manual coding. We first partnered for their Series A in 2025.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2025-08-08"
+ },
+ {
+  "name": "SentinelOne",
+  "website": "https://sentinelone.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "SentinelOne delivers autonomous endpoint protection that prevents, detects, and responds to attacks across all major vectors. We partnered for their Series C in 2017.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2017-01-01"
+ },
+ {
+  "name": "Semgrep",
+  "website": "https://semgrep.dev/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Semgrep helps security engineers and developers find and fix the issues that matter before production. We partnered for their Series A in 2016. Semgrep was previously r2c.",
+  "sector": "Security",
+  "fund": "redpoint",
+  "first_invest_date": "2016-01-01"
+ },
+ {
+  "name": "Scribe",
+  "website": "https://scribe.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Scribe is a Workflow AI platform that captures how work gets done, creates step-by-step documentation, and identifies the biggest opportunities to improve across your organization.  We first partnered with Scribe for their Series B in 2024.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2024-02-15"
+ },
+ {
+  "name": "Scribd",
+  "website": "http://www.scribd.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Scribd is an unlimited reading subscription that offers access to books, audiobooks, magazine articles, documents and more. We partnered for their Series A in 2007.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2007-01-01"
+ },
+ {
+  "name": "Scale3",
+  "website": "https://www.scale3labs.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Scale3 is an open devops and telemetry platform for web 3.  We first invested in Scale3's seed round in 2022.",
+  "sector": "Blockchain, Application",
+  "fund": "redpoint",
+  "first_invest_date": "2022-11-23"
+ },
+ {
+  "name": "Saysh",
+  "website": "https://saysh.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Founded by Allyson Felix, the most decorated track and field athlete of all time, Saysh is a community-centered lifestyle brand for, and by, women. We partnered for their Seed in 2021.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2021-07-01"
+ },
+ {
+  "name": "Sail",
+  "website": "https://www.sailresearch.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Sail is an infrastructure platform for long-running AI agents that combines highly efficient AI model serving with hosted execution sandboxes, enabling applications like code review, deep research, and cybersecurity at low cost. We first partnered for their Seed in 2026.",
+  "sector": "Infrastructure, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2026-06-25"
+ },
+ {
+  "name": "Root Insurance",
+  "website": "https://www.joinroot.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Root is the insurance company that’s built for consumers. Root gives users rates they earn, based on how they actually drive. We first partnered for their Series C in 2018.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2018-08-31"
+ },
+ {
+  "name": "Right Media",
+  "website": "http://www.rightmedia.com/index.php",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Right Media is the host of the Right Media Exchange, a platform for targeting audiences and monetizing digital media. We first partnered for their Series A in 2005. Right Media was acquired  by Yahoo in 2007.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2005-01-01"
+ },
+ {
+  "name": "Revel",
+  "website": "https://www.revel.io/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Revel provides a comprehensive software platform to develop, deploy, and command hardware systems. We first partnered for their Series B in 2026.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2026-02-26"
+ },
+ {
+  "name": "Restate",
+  "website": "https://restate.dev/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Restate is the simplest way to build resilient applications. We first invested in Restate's Seed in 2024.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2024-06-17"
+ },
+ {
+  "name": "Responsys",
+  "website": "http://www.responsys.com",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Responsys is a cloud software and services company helping brands to manage their digital relationships across email, mobile and the web. We first partnered for their Series B in 2000.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2000-01-01"
+ },
+ {
+  "name": "RelateIQ",
+  "website": "https://www.relateiq.com",
+  "status": "acquired",
+  "stage": "Series C or Later",
+  "description": "RelateIQ, acquired by Salesforce, is a relationship intelligence solution which automatically captures emails, calls and appointments in real time.  We partnered for their Series C in 2014.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2014-01-01"
+ },
+ {
+  "name": "Ramp",
+  "website": "https://ramp.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Ramp is the finance automation platform designed to save you time and money. Redpoint invested in the Series B in 2021.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2021-04-09"
+ },
+ {
+  "name": "Railway",
+  "website": "https://railway.app/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Railway is the cloud that takes the complexity out of shipping software. We first invested in Railway's Series A in 2022.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2022-05-31"
+ },
+ {
+  "name": "Qualified",
+  "website": "https://www.qualified.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Qualified is conversational marketing software for leading B2B companies that run Salesforce. Qualified's platform helps users meet their VIPs in real-time using live chat, chatbots, voice calls, and screen sharing. We first partnered for their Seed in 2019.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "Push Security",
+  "website": "https://pushsecurity.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Push Security delivers real-time in-browser threat detection, visibility, and control, empowering teams to stop attacks and secure critical browser activity. We first partnered for their Series B in 2025.",
+  "sector": "Security",
+  "fund": "redpoint",
+  "first_invest_date": "2025-04-24"
+ },
+ {
+  "name": "Pure Storage",
+  "website": "http://www.purestorage.com",
+  "status": "ipo",
+  "stage": "Series C or Later",
+  "description": "Pure Storage is an all-flash enterprise storage company that enables broad deployment of flash in data centers. We partnered for their Series C in 2011, through their IPO in 2015.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2011-01-01"
+ },
+ {
+  "name": "Proper",
+  "website": "https://www.properfinance.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Proper helps  companies move faster and maintain complete financial accuracy with tools and infrastructure purpose-built for managing and reconciling payments data. We first invested in their Seed in 2022.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2022-06-08"
+ },
+ {
+  "name": "Preset",
+  "website": "https://preset.io/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Preset is the modern cloud-based data exploration and visualization platform. We partnered for their Series B in 2021.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2021-08-18"
+ },
+ {
+  "name": "Posterous",
+  "website": "http://posterous.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Posterous is an innovative company focused on making blogging simple. We first partnered for their Series A in 2010.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2010-01-01"
+ },
+ {
+  "name": "Poolside",
+  "website": "https://poolside.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Poolside aims to unlock humanity’s potential by pursuing AGI for software creation.   Redpoint first invested in Poolside's Seed in 2023.",
+  "sector": "Application, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2023-06-07"
+ },
+ {
+  "name": "Platform9",
+  "website": "http://platform9.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Platform9 enables freedom in cloud computing for enterprises that need the ability to run private, edge or hybrid clouds. We first partnered for their Series A in 2013.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2013-01-01"
+ },
+ {
+  "name": "Pindrop Security",
+  "website": "http://www.pindropsecurity.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Pindrop creates frictionless authentication and fraud detection for voice interactions in contact centers, connected IoT devices, and beyond.  We first partnered for their Series A in 2013.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2013-01-01"
+ },
+ {
+  "name": "Physical Intelligence",
+  "website": "https://www.pi.website/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Physical Intelligence is an AI company building foundation models for general-purpose robotics, aiming to bring universal intelligence into the physical world so robots can understand and execute complex tasks across different hardware platforms. We first partnered for their Series A in 2024.",
+  "sector": "Hardware",
+  "fund": "redpoint",
+  "first_invest_date": null
+ },
+ {
+  "name": "Peel",
+  "website": "http://www.peel.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Peel is the leading universal home control and video content discovery platform with 130M+ users worldwide, generating 140B+ remote commands.  We first partnered for their Series A in 2010.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2010-01-01"
+ },
+ {
+  "name": "Parafin",
+  "website": "https://www.parafin.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Parafin provides ready-to-launch financial products that help merchants grow. \n\nWe first partnered for their Series C in 2024.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2024-12-17"
+ },
+ {
+  "name": "PSI Quantum",
+  "website": "https://psiquantum.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "PsiQuantum is building the world’s first useful quantum computer. We first partnered for their Series A in 2016.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2016-01-01"
+ },
+ {
+  "name": "Owner",
+  "website": "http://owner.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Owner.com offers the all-in-one solution for restaurants to manage their online presence.  Redpoint first partnered with Owner, previously named Profitboss, during their seed in 2020.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2020-10-13"
+ },
+ {
+  "name": "Orca Security",
+  "website": "https://orca.security/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Orca Security is a cloud security platform that gives CSOs full-stack visibility across their entire cloud environment through an elegant approach. We partnered for their Series C in 2021.",
+  "sector": "Security",
+  "fund": "redpoint",
+  "first_invest_date": "2021-03-23"
+ },
+ {
+  "name": "Opsani",
+  "website": "https://opsani.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Opsani is creating the Era of Autonomous Ops by empowering Developers and Operations with tools and services designed from scratch for modern architectures and infrastructure. We partnered for their Series A in 2019.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "OpenAI",
+  "website": "https://openai.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "OpenAI is an AI research and deployment company.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": null
+ },
+ {
+  "name": "Open English",
+  "website": "http://www.openenglish.com",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Open English is an educational technology company focused on English language learning for the Latin American and U.S. Hispanic markets. We first partnered for their Series C in 2012.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2012-01-01"
+ },
+ {
+  "name": "OnPlan",
+  "website": "https://onplan.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "OnPlan lets users  run FP&A more easily, confidently, and quickly by keeping the flexibility and modeling power of spreadsheets and adding visualizations, integrations, and collaboration to give you financial modeling superpowers.  We first invested in OnPlan's seed.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2022-08-16"
+ },
+ {
+  "name": "Omni",
+  "website": "https://www.exploreomni.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Omni is the only BI platform that combines the consistency of a shared data model with the freedom of SQL We first invested in the Series A in 2022.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2023-04-05"
+ },
+ {
+  "name": "Offchain",
+  "website": "https://www.offchainlabs.com",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Offchain Labs is the leading provider of scaling solutions for Ethereum. Arbitrum One is the next generation Layer 2 for Ethereum dApps. We partnered for their Series B in 2021.",
+  "sector": "Blockchain, Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2021-08-31"
+ },
+ {
+  "name": "Nuon",
+  "website": "https://nuon.co/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Nuon enables businesses to create fully managed versions of their apps that run directly in their customers’ cloud accounts through a \"Bring Your Own Cloud\" (BYOC) platform. Redpoint first partnered with Nuon for their Series A in 2024.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2024-06-21"
+ },
+ {
+  "name": "Nubank",
+  "website": "https://www.nubank.com.br/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Nubank is challenging the status quo to create a new generation of financial services in Latin America. We first partnered for their Series D in 2016.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2016-01-01"
+ },
+ {
+  "name": "NorthOne",
+  "website": "https://www.northone.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "NorthOne is building Canada's first mobile-first API-based banking platform that helps startups and small businesses bank, manage their finances, and integrate all of their financial tools in a simple and intuitive way. We first partnered for their Seed in 2019.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "Nextdoor",
+  "website": "https://nextdoor.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Nextdoor is where neighborhoods happen — and connections are made. Nextdoor connects neighbors to each other — and to everything nearby. We partnered for their Series D in 2015.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2015-01-01"
+ },
+ {
+  "name": "Next Insurance",
+  "website": "https://www.next-insurance.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Next Insurance is an online-based insurance company for entrepreneurs and small businesses. We first partnered for their Series C in 2018.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2018-01-01"
+ },
+ {
+  "name": "Netflix",
+  "website": "http://www.netflix.com",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Netflix is an online platform that enables users to watch TV shows and movies on smart TVs, PCs, Macs, mobiles, tablets, and more. We first partnered for their Series B in 1998.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "1999-01-01"
+ },
+ {
+  "name": "Mysten Labs",
+  "website": "https://mystenlabs.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Mysten Labs is laying the foundations for a decentralized web stack suitable for mass adoption. We partnered for their Series A in 2021.",
+  "sector": "Blockchain",
+  "fund": "redpoint",
+  "first_invest_date": "2021-12-06"
+ },
+ {
+  "name": "MySpace",
+  "website": "http://www.myspace.com",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "MySpace is a social networking site that enables members to make friends, write blog posts, add music, and customize their MySpace pages. We first partnered for their Series A in 2005. MySpace was acquired by  Specific Media in 2011.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2005-01-01"
+ },
+ {
+  "name": "Motif",
+  "website": "https://motif.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Motif is redefining 21st-century building design with modern tools for architects, engineers, and construction professionals.  We first partnered for their Seed in 2024.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2025-01-09"
+ },
+ {
+  "name": "MotherDuck",
+  "website": "https://motherduck.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "MotherDuck is on a mission to combine the elegance and speed of DuckDB with the collaboration and scalability of the cloud to provide a serverless, easy to use analytics platform for data small and large. Redpoint first invested in the seed in 2022.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2022-11-17"
+ },
+ {
+  "name": "Moogsoft",
+  "website": "https://www.moogsoft.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Moogsoft is a pioneer and leading provider of AIOps solutions that help IT teams work faster and smarter. We partnered for their Series A in 2013.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2013-01-01"
+ },
+ {
+  "name": "Monte Carlo",
+  "website": "https://www.montecarlodata.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Monte Carlo is on a mission to accelerate the world’s adoption of data by reducing data downtime. We partnered for their Series B in 2021.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2021-02-09"
+ },
+ {
+  "name": "Modal",
+  "website": "https://modal.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Modal helps companies run generative AI models, large-scale batch jobs, job queues, and much more.  Redpoint first invested in Modal's Series A in 2023.",
+  "sector": "Infrastructure, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2023-10-24"
+ },
+ {
+  "name": "Mithril",
+  "website": "https://mithril.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Mithril is an AI omnicloud platform that aggregates and orchestrates multi-cloud GPUs, CPUs, and storage so developers and ML teams can provision compute, run large-scale training, batch jobs, and inference workloads through a single, transparent interface. We first partnered at the Series A in 2024.",
+  "sector": "Infrastructure, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2024-05-28"
+ },
+ {
+  "name": "Mistral AI",
+  "website": "https://mistral.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Mistral is developing best in class generative AI models.  We first invested in Mistral's seed in 2023.",
+  "sector": "Application, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2023-06-15"
+ },
+ {
+  "name": "Mind Robotics",
+  "website": "https://www.mindrobotics.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Mind Robotics builds intelligent, generalizable robotics for industrial deployment, starting with automotive manufacturing in partnership with Rivian to develop a Physical AI platform that scales across industrial verticals. We first partnered for their Series A in 2026.",
+  "sector": "Hardware",
+  "fund": "redpoint",
+  "first_invest_date": "2026-05-13"
+ },
+ {
+  "name": "Maxima",
+  "website": "https://maxima.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Maxima is the first agentic AI platform for enterprise accounting, purpose built to deliver SOX ready, real-time close. From painful journal entries, unwieldy reconciliations to needle in the haystack flux commentaries, Maxima automates the most painful and error prone tasks across record to report operations. We first partnered for their Series A in 2025.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2025-11-18"
+ },
+ {
+  "name": "Mattermost",
+  "website": "https://mattermost.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Mattermost’s mission is to make the world safer and more productive by developing and delivering secure, open source collaboration software that is trusted, flexible and offers fast time-to-value. We first partnered for their Series A in 2018.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2018-01-01"
+ },
+ {
+  "name": "Materialize",
+  "website": "https://materialize.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Materialize is a reactive database that delivers incremental view updates and helps developers build with streaming data using standard SQL. We partnered for their Series C in 2021.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2021-09-30"
+ },
+ {
+  "name": "Lumilens",
+  "website": "https://lumilens.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Lumilens is an optical connectivity company building the interconnect engines that link GPUs together inside AI clusters. The company spans the full stack — silicon photonics, mixed-signal ICs, lasers, packaging, and manufacturing — starting with pluggable transceivers and building toward next-generation NPO and CPO architectures as scale-up connectivity moves from copper to optical. We first partnered for their Series C in 2026.",
+  "sector": "Hardware",
+  "fund": "redpoint",
+  "first_invest_date": "2026-08-05"
+ },
+ {
+  "name": "LoopNet",
+  "website": "http://www.loopnet.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "LoopNet is an online marketplace for commercial real estate and businesses for sale in the United States. We first partnered in 1999.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "1999-01-01"
+ },
+ {
+  "name": "Looker",
+  "website": "https://www.looker.com",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Looker is a business intelligence and big data analytics platform designed to bring better insights and data-driven decisions to every business. We partnered for their Series A in 2013, through their acquisition by Google in 2019.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2013-09-30"
+ },
+ {
+  "name": "Logixboard",
+  "website": "https://www.logixboard.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Logixboard is a platform for freight forwarders to modernize their customer experience and stand out from the crowd with world-class visibility tools. We partnered for their Series A in 2021.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2021-04-28"
+ },
+ {
+  "name": "LiveKit",
+  "website": "https://livekit.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "LiveKit makes it easy to build live audio or video experiences into your mobile app, game or website. We invested in their Seed in 2021.",
+  "sector": "Infrastructure, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2021-12-13"
+ },
+ {
+  "name": "Lilt",
+  "website": "https://lilt.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Lilt is helping businesses make their products accessible to everyone, regardless of the language they speak. Lilt is based on the belief that the future is richer and more exciting if people can communicate and access information in their own languages. We first partnered for their Seed in 2019.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "LightStep",
+  "website": "http://www.lightstep.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Lightstep enables teams to detect and resolve regressions quickly, regardless of system scale or complexity. We first partnered for their Series A in 2015.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2015-01-01"
+ },
+ {
+  "name": "Lifesize",
+  "website": "https://www.lifesize.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Lifesize enables secure communications across the enterprise, from the contact center to the meeting room, and beyond. We first partnered for their Series A in 2003.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2003-01-01"
+ },
+ {
+  "name": "Liberate",
+  "website": "https://www.liberateinc.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Liberate Inc provides AI-powered voice automation for insurance carriers and agencies, handling sales, service and claims calls 24/7. We first partnered for their Series A in 2024.",
+  "sector": "AI, Application",
+  "fund": "redpoint",
+  "first_invest_date": "2025-10-14"
+ },
+ {
+  "name": "Levelpath",
+  "website": "https://www.levelpath.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Levelpath is the mobile-first procurement platform that makes the procurement experience delightful.  Redpoint first partnered for their Series A in 2023.",
+  "sector": "Application, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2023-09-19"
+ },
+ {
+  "name": "Lensing",
+  "website": "https://lensing.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Lensing is an AI-native ERP for fast-growing companies, replacing legacy systems like NetSuite and Intacct with a platform that handles complex finance and operations without costly customization. We first partnered for their Series A in 2024.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2024-11-20"
+ },
+ {
+  "name": "Legora",
+  "website": "https://legora.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Legora is a collaborative AI platform built for lawyers that streamlines review, research, and drafting while enabling seamless teamwork between legal professionals and AI. We first partnered for their Series A in 2024.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2024-09-04"
+ },
+ {
+  "name": "LaunchDarkly",
+  "website": "https://launchdarkly.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "LaunchDarkly is a Feature Management Platform that serves over 100 billion feature flags daily to help software teams build better software, faster. We first partnered for their Series B in 2017.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2017-05-31"
+ },
+ {
+  "name": "Lastline",
+  "website": "http://www.lastline.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Lastline provides innovative AI-powered network security products that detect and defeat advanced cyber attacks attempting to enter and operating within your network. We first partnered for their Series B in 2013.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2013-01-01"
+ },
+ {
+  "name": "Kustomer",
+  "website": "https://www.kustomer.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Kustomer is the customer service CRM platform helping contact centers and businesses reimagine service and support in today’s customer-first world. We first partnered for their Series B in 2018.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2018-01-01"
+ },
+ {
+  "name": "Kodiak Networks",
+  "website": "http://www.kodiaknetworks.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Kodiak Networks provides wireless operators with mobile solutions that promote community-based communication. We first partnered for their Series A in 2003.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2003-01-01"
+ },
+ {
+  "name": "Kazeon",
+  "website": "http://www.kazeon.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Kazeon Systems develops and provides electronic discovery solutions in the United States. We first partnered for their Series A in 2003.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2003-01-01"
+ },
+ {
+  "name": "Kabam",
+  "website": "http://www.kabam.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Kabam develops free-to-play games for mobile devices and web platforms. We first partnered for their Series C in 2011.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2011-01-01"
+ },
+ {
+  "name": "K2 Space",
+  "website": "https://www.k2space.com/#",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "K2 is building the largest and highest-power satellites ever flown, unlocking performance levels previously out of reach across every orbit. We first partnered for their Series C in 2025.",
+  "sector": "Hardware",
+  "fund": "redpoint",
+  "first_invest_date": "2025-12-11"
+ },
+ {
+  "name": "Justworks",
+  "website": "https://justworks.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Justworks is an online platform that handles the payroll and payments procedure, benefits facilities, and compliance issues of its users. We first partnered for their Series C in 2016.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2016-01-01"
+ },
+ {
+  "name": "Just Eat",
+  "website": "http://www.just-eat.com/",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": "JustEat operates a global marketplace for online food delivery, providing customers with an easy and secure way to order and pay for food from Restaurant Partners.  We partnered for their Series A in 2011, through their IPO in 2014.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2011-01-01"
+ },
+ {
+  "name": "Juniper Square",
+  "website": "https://www.junipersquare.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Juniper Square is transforming the private funds industry with easy-to-use software that streamlines fundraising, investment administration, and investor reporting. We partnered for their Series B in 2019.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "Juniper",
+  "website": "http://www.juniper.net",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Juniper Networks is a news network that designs, develops, and sells products and services, along with network infrastructure.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2000-01-01"
+ },
+ {
+  "name": "JetStream",
+  "website": "https://jetstream.security/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "JetStream opens the AI black box to enable trust in AI.  We first partnered for their Seed in 2026.",
+  "sector": "AI, Security",
+  "fund": "redpoint",
+  "first_invest_date": "2026-03-03"
+ },
+ {
+  "name": "Irregular",
+  "website": "https://www.irregular.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Irregular is the first frontier security lab with the mission of protecting the world in the time of increasingly capable and sophisticated AI systems. We first partnered for their Series A in 2025.",
+  "sector": "AI, Security",
+  "fund": "redpoint",
+  "first_invest_date": "2025-09-17"
+ },
+ {
+  "name": "Internet Brands",
+  "website": "http://www.internetbrands.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Internet Brands integrates web solutions for businesses with media websites for consumers in key vertical markets. We first partnered in 2008.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2008-08-01"
+ },
+ {
+  "name": "Intent Media",
+  "website": "http://www.intentmedia.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Intent is the data science company for online commerce and travel brands that predicts user behavior in real-time to identify the future value of every user. We first partnered for their Series B in 2011.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2011-01-01"
+ },
+ {
+  "name": "Inferact (vLLM)",
+  "website": "https://inferact.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Inferact builds the world’s AI inference infrastructure, founded by the creators and core maintainers of vLLM, the most widely used open-source LLM inference engine. Their mission is to make AI inference dramatically faster and cheaper by advancing vLLM and turning the complexity of serving cutting-edge models across diverse hardware into effortless, scalable infrastructure. We first partnered for their Seed in 2026.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": null
+ },
+ {
+  "name": "Impact Radius",
+  "website": "http://www.impactradius.com",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Impact is transforming the way enterprises manage and optimize all types of partnerships. We partnered for their Series B in 2008.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2008-01-01"
+ },
+ {
+  "name": "Ideogram",
+  "website": "https://ideogram.ai/t/explore",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Trained from scratch like all Ideogram models, Ideogram 1.0 offers state-of-the-art text rendering, unprecedented photorealism and prompt adherence, and a new feature called Magic Prompt that helps you write detailed prompts for beautiful, creative images.  Redpoint first invested in the Series A in 2024.",
+  "sector": "Consumer, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2024-03-06"
+ },
+ {
+  "name": "HumanSignal",
+  "website": "https://humansignal.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "HumanSignal powers internal data labeling operations to achieve the most competitive and differentiated ML/AI models at scale. We first invested in their Series A in 2022.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2022-05-18"
+ },
+ {
+  "name": "HomeAway",
+  "website": "http://www.homeaway.com",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "HomeAway connects travelers to the people and places they love. Their platform lets users book beach houses, cabins, and condos with more than two million places to stay in 190 countries. We first partnered for their Series A in 2009. HomeAway was acquired by Expedia in 2015.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2009-01-01"
+ },
+ {
+  "name": "Hex",
+  "website": "https://hex.tech/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Hex is a collaborative data workspace that makes it easy to go from idea to analysis to sharing. We first partnered for their Series A in 2021.",
+  "sector": "Application, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2021-10-20"
+ },
+ {
+  "name": "Heroku",
+  "website": "http://www.heroku.com",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Heroku is a multi-language cloud application platform that enables developers to deploy, scale, and manage their applications. We partnered for their Series A in 2008, through their  acquisition by Salesforce.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2008-01-01"
+ },
+ {
+  "name": "Height",
+  "website": "https://height.app/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Height is the first collaboration platform built for the entire team. With Height, users can c ollaborate faster with real-time tasks, chat, and adaptive workflows.  We partnered for their Series A in 2021.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2021-09-29"
+ },
+ {
+  "name": "HashiCorp",
+  "website": "https://www.hashicorp.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "HashiCorp solves development, operations, and security challenges in infrastructure so organizations can focus on business-critical tasks. We first partnered for their Series B in 2016.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2030-11-30"
+ },
+ {
+  "name": "Guild",
+  "website": "https://www.guildeducation.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Guild is pioneering an approach to Education as a Benefit, helping companies transform traditional tuition assistance programs from a cost center into a recruitment and retention tool. We first partnered for their Series A in 2016.",
+  "sector": "Consumer, Application",
+  "fund": "redpoint",
+  "first_invest_date": "2016-06-30"
+ },
+ {
+  "name": "Gremlin",
+  "website": "http://www.gremlin.com",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Gremlin empowers engineering organizations to harden system reliability by proactively testing resilience at scale. Their platform equips your teams to identify and resolve weaknesses before they escalate into customer-impacting incidents. We partnered for their Series B in 2018.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2018-01-01"
+ },
+ {
+  "name": "Greenplaces",
+  "website": "https://greenplaces.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "GreenPlaces is the all-in-one sustainability platform empowers businesses of all sizes to meet their goals–from carbon reporting, to emission reductions, to measurable ROI. We first invested in GreenPlaces Series A in 2023.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2023-06-21"
+ },
+ {
+  "name": "Gravity",
+  "website": "http://www.gravity.com",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Gravity works with publishers and advertisers to deliver highly personalized content to users. We first partnered in 2009 for their Series A. Gravity was Acquired by AOL.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2009-01-01"
+ },
+ {
+  "name": "Golden Child",
+  "website": "http://mygoldenchild.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Golden Child aims to raise the standards for pet nutrition by providing fresh, high-quality dog food. We first partnered for their Series A in 2026.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2026-04-28"
+ },
+ {
+  "name": "Glow",
+  "website": "https://www.glow.io/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Glow is the Endpoint AI company. They are rethinking endpoint security from the ground up: an AI-powered operating model built on prevention, not reaction, that fixes the foundation so organizations can adopt new software and AI on solid ground. We first partnered for their Series B in 2026.",
+  "sector": "Security",
+  "fund": "redpoint",
+  "first_invest_date": "2026-07-22"
+ },
+ {
+  "name": "Gigster",
+  "website": "https://gigster.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Gigster helps more companies expand their ability to innovate by building dynamic teams made up of top global talent that create industry-changing custom software. We partnered for their Series B in 2017.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2017-01-01"
+ },
+ {
+  "name": "Giga",
+  "website": "https://giga.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Giga creates enterprise-grade voice and chat agents that automate complex customer support with natural, emotionally aware, and brand-aligned interactions.  We first partnered for their Series A in 2025.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2025-11-05"
+ },
+ {
+  "name": "Garner",
+  "website": "https://www.getgarner.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Garner is changing how our healthcare system works at its core using a new approach to data science and novel financial incentives to help patients identify the highest-quality doctors and help doctors improve how they practice medicine. We partnered for their Series B in 2021.",
+  "sector": "Healthcare",
+  "fund": "redpoint",
+  "first_invest_date": "2021-12-14"
+ },
+ {
+  "name": "Galileo Health",
+  "website": "https://galileohealth.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Galileo Health provides users with 24/7 mobile access to medical care and expertise. We partnered for their Series A in 2019.",
+  "sector": "Consumer, Healthcare",
+  "fund": "redpoint",
+  "first_invest_date": "2018-01-01"
+ },
+ {
+  "name": "Function Health",
+  "website": "https://www.functionhealth.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Function Health offers a paid membership platform that gives consumers access to more than 100 lab tests, beyond what they typically receive through their PCP. The service today makes it easier to access comprehensive lab testing, and in the future, plans to become an AI-powered personal health management platform, designed to help people track their health over time and make proactive changes to improve overall health and increase longevity. We first partnered for their Series B in 2025.",
+  "sector": "Healthcare",
+  "fund": "redpoint",
+  "first_invest_date": "2025-11-18"
+ },
+ {
+  "name": "Forus",
+  "website": "https://forus.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Forus is the AI-powered network that connects doctors, pharmacies, payers, and biopharma to bring new science to patients.",
+  "sector": "Healthcare, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2026-05-12"
+ },
+ {
+  "name": "Fortinet",
+  "website": "http://www.fortinet.com",
+  "status": "ipo",
+  "stage": "Series C or Later",
+  "description": "Fortinet is a provider of network security appliances that include firewalls, security gateways, and complementary products. We partnered for their Series D in 2003, through their IPO in 2009.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2003-01-01"
+ },
+ {
+  "name": "Flora Fauna",
+  "website": "https://www.florafauna.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Flora is building an AI-powered 'infinite canvas' for creative professionals.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": null
+ },
+ {
+  "name": "FloQast",
+  "website": "https://floqast.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "FloQast is close management software created by accountants for accountants to close faster and more accurately.  We partnered for their Series D in 2021.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2021-07-21"
+ },
+ {
+  "name": "Flexe",
+  "website": "https://www.flexe.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Flexe delivers innovative eCommerce fulfillment, retail distribution, and network capacity programs to the Fortune 500. We first partnered for their Series A in 2016.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2016-01-01"
+ },
+ {
+  "name": "Fixie",
+  "website": "https://www.fixie.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Fixie is the automation platform for Large Language Models (LLMs).  We first invested in the seed in 2023.",
+  "sector": "Infrastructure, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2023-04-05"
+ },
+ {
+  "name": "Finch Legal",
+  "website": "https://www.finchlegal.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Finch is the world’s first AI-powered pre-litigation team, putting cases on autopilot from intake through demand.  We first partnered for their Series A in 2025.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2025-05-30"
+ },
+ {
+  "name": "Fimio",
+  "website": "https://fimio.xyz/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Fimio is bringing trust to the trustless web. Redpoint first invested in the seed in 2022.",
+  "sector": "Blockchain",
+  "fund": "redpoint",
+  "first_invest_date": "2022-11-23"
+ },
+ {
+  "name": "Fabric",
+  "website": "https://fabric.inc/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Fabric is a headless commerce platform providing the freedom to enrich customer experiences for the modern business. We partnered for their Seed in 2020.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2020-10-20"
+ },
+ {
+  "name": "Fable Security",
+  "website": "https://www.fablesecurity.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Fable Security is a cybersecurity startup focused on tackling human risk. We first partnered with Fable for their Series A in 2025.",
+  "sector": "Security, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2025-07-28"
+ },
+ {
+  "name": "Every",
+  "website": "https://www.every.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Every is all in one back office built for founders.  Redpoint first invested in the Series A in 2024.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2024-09-18"
+ },
+ {
+  "name": "Efficient Frontier",
+  "website": "http://www.efrontier.com",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Efficient Frontier, an online performance and social media marketing platform, manages social media campaigns for advertisers and agencies. We first partnered for their Series A in 2003. Efficient Frontier was acquired by Adobe Systems.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2003-01-01"
+ },
+ {
+  "name": "Dux",
+  "website": "https://dux.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Dux is closing the gap between attack speed and defense capability. We first partnered for their Seed in 2025.",
+  "sector": "Security",
+  "fund": "redpoint",
+  "first_invest_date": "2025-12-16"
+ },
+ {
+  "name": "Duo Security",
+  "website": "http://www.duosecurity.com",
+  "status": "acquired",
+  "stage": "Series C or Later",
+  "description": "Duo Security helps defend organizations against data breaches by making security easy and effective. We first partnered for their Series C in 2015. Duo was acquired by Cisco.",
+  "sector": "Infrastructure, Security",
+  "fund": "redpoint",
+  "first_invest_date": "2015-01-01"
+ },
+ {
+  "name": "Dune Analytics",
+  "website": "https://dune.xyz/home",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Analytics by and for the crypto community.  We partnered for their Series A in 2021.",
+  "sector": "Blockchain, Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2021-08-12"
+ },
+ {
+  "name": "Dremio",
+  "website": "http://www.dremio.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Dremio empowers business users to curate all the data they need, from any data source. We first partnered for their Series A in 2015.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2015-01-01"
+ },
+ {
+  "name": "Dragonfly",
+  "website": "https://dragonflydb.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "DragonflyDB is rethinking what an in-memory datastore should look and behave like, with the goal of building something significantly more performant and easier to scale than Redis. Their goal is to redesign the engine using novel algorithms and data structures, innovating around lockless multithreading, memory structures, caching algorithms, and snapshotting to provide a simple, cost-efficient, and reliable in-memory store that delights the engineering community.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2023-03-21"
+ },
+ {
+  "name": "DraftKings",
+  "website": "https://www.draftkings.com/",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "DraftKings is a digital sports entertainment and gaming company created to fuel the competitive spirits of sports fans with products across daily fantasy, regulated gaming, and digital media. We partnered for their Series B in 2013, through their IPO in April 2020.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2013-01-31"
+ },
+ {
+  "name": "Dome Systems",
+  "website": "https://www.domesystems.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Dome Systems builds the system of control between AI agents and enterprise tools. We first partnered with them for their Seed in 2026.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2026-04-16"
+ },
+ {
+  "name": "Dgraph",
+  "website": "https://dgraph.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Not everything can fit in rows and columns. Dgraph is the fast, transactional, and native GraphQL database. We partnered for their Series A in 2019.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "Descript",
+  "website": "https://www.descript.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Descript builds simple and powerful collaborative tools for new media creators. The platform eliminates the tedious work so that creators can focus on developing their craft. We partnered for their Series A in 2019.",
+  "sector": "Application, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "Deliverect",
+  "website": "https://www.deliverect.com/en-us",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Deliverect integrates all online orders with restaurants existing point-of-sale and offers a suite of omni-channel restaurant management tools.  Redpoint partnered for the Series C in 2021.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2021-04-21"
+ },
+ {
+  "name": "Databento",
+  "website": "https://databento.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Databento provides real-time and historical market data APIs. Access data for equities, futures, options, and more with one integration. We first partnered for their Series A in 2021.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2026-06-30"
+ },
+ {
+  "name": "Danger",
+  "website": "http://www.microsoft.com",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Danger provides the software platform and hardware behind T-Mobile’s Sidekick phone. We first partnered for their Series B in 2001. Danger was  acquired by Microsoft.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2001-01-01"
+ },
+ {
+  "name": "Dagger",
+  "website": "https://dagger.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Dagger lets platform teams build modern AI-powered software factories. Redpoint partnered with Dagger for their Series A in 2022.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2022-03-30"
+ },
+ {
+  "name": "Cyral",
+  "website": "https://www.cyral.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Cyral is the first cloud-native Security as Code solution to protect the modern data layer. We partnered for their Series A in 2019.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "Cylake",
+  "website": "https://cylake.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Cylake is a cybersecurity company built for the world’s largest and most regulated institutions. Led by a team of experienced security engineers and operators, the company is developing a complete platform designed for full data sovereignty and intended for on-premises and private environments that require operational control and accountability. Cylake helps organizations that operate under strict constraints maintain security at scale. We first partnered with Cylake in 2026.",
+  "sector": "Security, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2026-09-08"
+ },
+ {
+  "name": "Cyera",
+  "website": "https://www.cyera.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Cyera automatically discovers and classifies your data, protects it from exposure, and maintains a resilient posture. Redpoint first partnered for Cyera's Series B in 2023.",
+  "sector": "Security",
+  "fund": "redpoint",
+  "first_invest_date": "2023-06-27"
+ },
+ {
+  "name": "Cyberhaven",
+  "website": "https://www.cyberhaven.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Cyberhaven is data protection made simple, accurate, and comprehensive.  We first partnered for their Series B in 2021.",
+  "sector": "Security",
+  "fund": "redpoint",
+  "first_invest_date": "2021-12-14"
+ },
+ {
+  "name": "Crossbeam",
+  "website": "http://www.crossbeam.com",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Crossbeam puts the partner ecosystems & revenue together at last. The platform finds overlapping customers and prospects with your partners while keeping the rest of your data private and secure. We partnered for their Series B in 2020.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2020-09-01"
+ },
+ {
+  "name": "Cribl",
+  "website": "https://cribl.io/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Cribl is an observability pipeline company that provides administrators control over their data in motion. We partnered for their Series C in 2021.",
+  "sector": "Security",
+  "fund": "redpoint",
+  "first_invest_date": "2021-08-24"
+ },
+ {
+  "name": "Comun",
+  "website": "https://www.comun.app/en",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Común empowers immigrants and their families to achieve upward mobility by offering accessible financial tools that make it easier to send money and build toward long-term goals.  Redpoint first invested in Común's Series A in 2024.",
+  "sector": "Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2024-09-18"
+ },
+ {
+  "name": "Collective Health",
+  "website": "https://collectivehealth.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Collective Health is the first integrated solution that allows self-funded employers to administer health insurance plans, control costs, and take care of their people—all in one place. We first partnered for their Series B in 2014.",
+  "sector": "Healthcare",
+  "fund": "redpoint",
+  "first_invest_date": "2014-01-01"
+ },
+ {
+  "name": "Collate",
+  "website": "https://collate.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Collate automates regulatory-documentation workflows using generative AI for diagnostics, medical device and drug-development firms, from concept through market launch. We first partnered for their Seed in 2025.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2025-01-13"
+ },
+ {
+  "name": "Coder",
+  "website": "https://coder.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Coder is moving software development to the cloud, enabling secure developer velocity, from anywhere, on any device, using the tools of your choice. We first partnered for their Seed in 2018.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2018-04-30"
+ },
+ {
+  "name": "Cockroach Labs",
+  "website": "https://www.cockroachlabs.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Cockroach is the company behind CockroachDB, an open-source, distributed SQL database. We first partnered for their Series B in 2017.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2017-01-01"
+ },
+ {
+  "name": "CloudSimple",
+  "website": "http://www.cloudsimple.com",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "CloudSimple is a provider of a next-generation cloud-based platform designed to offer cloud infrastructure services. We partnered for their Series A in 2015 through their acquisition by Google in 2019.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2015-01-01"
+ },
+ {
+  "name": "Cloud.com",
+  "website": "http://www.cloud.com",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Cloud.com develops an open source cloud orchestration software product for the implementation of cloud computing environments.  We first partnered for their Series A in 2008. Cloud.com was acquired by Citrix.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2008-01-01"
+ },
+ {
+  "name": "Clicker",
+  "website": "http://www.clicker.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Clicker is an online platform for viewing TV shows, reading episode reviews, keeping up with breaking news, and joining fan communities. We first partnered for their Series A in 2008.  Clicker was acquired by CBS.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2008-01-01"
+ },
+ {
+  "name": "ClickHouse",
+  "website": "https://clickhouse.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "ClickHouse is an open-source, high performance columnar OLAP database management system for real-time analytics using SQL.  We partnered for their Series B in 2021.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2021-11-17"
+ },
+ {
+  "name": "Clearwell Systems",
+  "website": "http://www.clearwellsystems.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Clearwell Systems offers an e-discovery platform and app that enables companies to manage their legal, regulatory and investigative matters. We first partnered for their Series B in 2006.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2006-01-01"
+ },
+ {
+  "name": "Cityblock Health",
+  "website": "https://www.cityblock.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Cityblock partners with health plans to reach people in neighborhoods that face high poverty rates and accompanying social challenges. We partnered for their Series B in 2019.",
+  "sector": "Healthcare",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "Chorus.ai",
+  "website": "https://www.chorus.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Chorus provides a simple, scalable solution to capture and analyze all customer calls, meetings, and emails to create visibility, drive process and behavior changes, and deliver bottom line impact. We first partnered for their Series A in 2016.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2016-01-01"
+ },
+ {
+  "name": "Champ AI",
+  "website": "https://www.champ.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Champ AI builds autonomous agents that browse, read, call, and work on behalf of your team, so enterprises can scale back-office operations without adding headcount. We first partnered for their Seed in 2026.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2026-05-12"
+ },
+ {
+  "name": "Chainguard",
+  "website": "https://www.chainguard.dev/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Chainguard is the safe source for open source. Redpoint first invested in Chainguard's Series C in 2024.",
+  "sector": "Security",
+  "fund": "redpoint",
+  "first_invest_date": "2024-07-25"
+ },
+ {
+  "name": "Caspida",
+  "website": "http://www.caspida.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Caspida is focused on hidden threat detection using advanced machine learning.  We first partnered for their Series A in 2014. Caspida was acquired by Splunk.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2014-01-01"
+ },
+ {
+  "name": "Cascade",
+  "website": "https://www.cascade.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cascade is the  advanced analysis tool built for teams.  Cascade offers a complete number-crunching toolkit, from data cleaning to regressions, correlations, and predictions.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2021-08-26"
+ },
+ {
+  "name": "Button",
+  "website": "http://www.usebutton.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Button is the mobile commerce platform that powers mobile business growth for brands and publishers, while offering consumers more enjoyable experiences. We partnered for their Series A in 2014.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2014-01-01"
+ },
+ {
+  "name": "Bright Health",
+  "website": "http://www.brighthealthplan.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Bright Health is a new, brighter approach to healthcare, built for individuals. One that is easy to manage, personalized, and more affordable, giving people the quality care they deserve. We first partnered for their Series B in 2017.",
+  "sector": "Healthcare",
+  "fund": "redpoint",
+  "first_invest_date": "2017-01-01"
+ },
+ {
+  "name": "Bravado",
+  "website": "https://bravado.co/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Bravado is the community platform exclusively for sales professionals offering online tools and events that help members amplify their voices, build their personal brands, connect with other sales professionals. We partnered for their Series A in 2019.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2019-01-01"
+ },
+ {
+  "name": "Boon",
+  "website": "https://www.getboon.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Boon is an AI workflow platform for commercial fleets. We first partnered for their Seed in 2023.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2023-07-25"
+ },
+ {
+  "name": "Bluefin Labs",
+  "website": "http://bluefinlabs.com",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "BlueFin, acquired by Twitter in February 2013, provides social TV analytics and tracking.  We first partnered with BlueFin for their Series A in 2010. BlueFin was acquired by Twitter.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2010-01-01"
+ },
+ {
+  "name": "BlueKai",
+  "website": "http://www.bluekai.com",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "BlueKai is a data management platform that provides third-party data for use in a company's intelligent marketing activities.  We first partnered for their Series A in 2007. BlueKai was acquired by Oracle.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2007-01-01"
+ },
+ {
+  "name": "Bitwarden",
+  "website": "https://bitwarden.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Open source password management solutions for individuals, teams, and business organizations.",
+  "sector": "Security",
+  "fund": "redpoint",
+  "first_invest_date": "2019-11-12"
+ },
+ {
+  "name": "BitGo",
+  "website": "https://www.bitgo.com/info/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "BitGo enables clients to navigate the complex landscape of digital assets with a connected, compliant, and secure suite of solutions. We partnered for their Series A in 2014.",
+  "sector": "Blockchain, Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2014-01-01"
+ },
+ {
+  "name": "BioAge Labs",
+  "website": "http://bioagelabs.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "BioAge is mapping human aging from the ground up. They're on a mission to develop a pipeline of therapeutic assets that increase healthspan and lifespan. We partnered for their Series B in 2018.",
+  "sector": "Healthcare",
+  "fund": "redpoint",
+  "first_invest_date": "2018-01-01"
+ },
+ {
+  "name": "Avnera Inc.",
+  "website": "http://www.avnera.com",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Avnera is a fabless semiconductor company developing integrated analogy system-on-chip technology for consumer audio and voice applications. We first partnered in 2004 for their Series C.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2004-09-01"
+ },
+ {
+  "name": "AutoGPT",
+  "website": "https://agpt.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AutoGPT is a platform to build and deploy autonomous AI agents that break goals into tasks, integrate tools and workflows, and act continuously. We first partnered for their Seed in 2023.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2023-10-14"
+ },
+ {
+  "name": "Augment",
+  "website": "https://www.goaugment.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Augment is building fully autonomous AI assistants for the logistics industry. We first partnered for their Series A in 2025.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2025-09-16"
+ },
+ {
+  "name": "Auditude",
+  "website": "http://www.adobe.com/products/auditude.html",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Auditude, a video management and monetization tech company, helps content owners manage their ad serving needs around professional videos. We partnered for their Series A in 2009.   Acquired by Adobe Systems.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2009-09-01"
+ },
+ {
+  "name": "Attio",
+  "website": "https://attio.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Powerful, flexible and data-driven, Attio makes it easy to build the exact CRM your business needs.  We first partnered with Attio on their Series A in 2023.",
+  "sector": "Application, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2023-03-03"
+ },
+ {
+  "name": "Atmosfy",
+  "website": "https://atmosfy.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Atmosfy is the fastest growing platform globally for live video of dining and nightlife.   We first invested in Atmosfy's Seed in 2023.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2023-08-09"
+ },
+ {
+  "name": "Astro",
+  "website": "https://www.helloastro.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Astro Technology built an innovative suite of workplace messaging, collaboration, and AI products. They were acquired by Slack in 2018. We partnered for their Series A in 2016, through their acquisition by Slack in 2018.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2016-09-01"
+ },
+ {
+  "name": "Ask.com",
+  "website": "http://www.ask.com",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Ask.com is a provider of an online search engine that is focused on providing answers to questions, blending search with answers from real people using a specialized routing technology.  We partnered for their Early-stage investment in 1999 through acquisition by IAC for $1.9B in 2005.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "1999-01-01"
+ },
+ {
+  "name": "Armadin",
+  "website": "http://www.armadin.com",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Armadin is an AI-native cybersecurity company delivering the definitive offensive security platform to identify and eliminate an organization’s exploitable risks.  We first partnered for their Series B in 2026.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2026-10-01"
+ },
+ {
+  "name": "Arista Networks",
+  "website": "http://www.aristanetworks.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Arista Networks delivers software driven cloud networking solutions for large datacenter storage and computing environments. We partnered in 2014.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2014-09-01"
+ },
+ {
+  "name": "Arctic Wolf Networks",
+  "website": "http://arcticwolf.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Combining their cloud native platform with their highly-trained Concierge Security® Teams, Artic Wolf works to provide 24x7 monitoring, detection and response, as well as ongoing risk management. We partnered for their Series A in 2012.",
+  "sector": "Infrastructure",
+  "fund": "redpoint",
+  "first_invest_date": "2012-01-01"
+ },
+ {
+  "name": "AppZen",
+  "website": "https://www.appzen.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AppZen overhauls the way finance teams work, automating spend approvals and providing insights that help you reduce spend, comply with policy, and streamline process. We first partnered for their Series A in 2017.",
+  "sector": "Application, Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2017-01-01"
+ },
+ {
+  "name": "Anvyl",
+  "website": "https://www.anvyl.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Anvyl empowers supply chain teams with real-time visibility, automation, and collaboration, to save time and money. We partnered for their Series A in 2018.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2018-09-01"
+ },
+ {
+  "name": "Answers.com",
+  "website": "http://www.answers.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Answers empowers consumers, brands and organizations with the information they need to make better-informed decisions. We first partnered on their Series A in 2008.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2008-01-01"
+ },
+ {
+  "name": "Ande",
+  "website": "https://ande.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Ande is the AI-native network for corporate entertainment, connecting the enterprises that book with the vendors that serve them. Every experience is booked, managed, and measured for the enterprise, and every vendor finally gets the dedicated corporate channel it’s never had. We first partnered for their Series A in 2026.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2026-09-22"
+ },
+ {
+  "name": "Anam",
+  "website": "https://www.anam.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Anam is building lifelike AI personas indistinguishable from real people, powering sales agents and enablement tools that drive conversion and adoption. They’re already working with leading customers like Henkel, Siemens, Preply, Vivun, and ASU. We first partnered for their Seed in 2025.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2025-06-10"
+ },
+ {
+  "name": "Alchemy",
+  "website": "https://www.alchemy.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Alchemy is b lockchain development made easy.  We first partnered for their Series C in 2021.",
+  "sector": "Blockchain, Fintech",
+  "fund": "redpoint",
+  "first_invest_date": "2021-10-28"
+ },
+ {
+  "name": "Airmeet",
+  "website": "https://www.airmeet.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Airmeet is the all-in-one platform to host immersive events and build real connections, online. We partnered for their Series A in 2020.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2020-09-14"
+ },
+ {
+  "name": "Adap.tv",
+  "website": "http://www.adap.tv",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Adap.tv, now a part of ONE by AOL, is transforming the way programmatic video advertising is bought and sold. We partnered for their Series A in 2007 through their acquisition by AOL (now part of Verizon.)",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2007-09-01"
+ },
+ {
+  "name": "AcuityMD",
+  "website": "https://acuitymd.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AcuityMD is a targeting platform for medical device companies that automatically uncovers new opportunities and keeps track of existing users across each of the products you sell. We first invested in their Series A in 2022.",
+  "sector": "Healthcare",
+  "fund": "redpoint",
+  "first_invest_date": "2022-05-12"
+ },
+ {
+  "name": "Acompli",
+  "website": "https://www.acompli.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Acompli is a mobile email application which functions as an all-in-one productivity app for iPhone. We partnered for their Series A in 2013, through their acquisition by Microsoft in 2014.",
+  "sector": "Application",
+  "fund": "redpoint",
+  "first_invest_date": "2013-09-01"
+ },
+ {
+  "name": "Abridge",
+  "website": "https://www.abridge.com/",
+  "status": "active",
+  "stage": "Series C or Later",
+  "description": "Abridge is the leading generative AI company for clinical documentation. \nRedpoint first invested in Abridge's Series C in 2024.",
+  "sector": "Healthcare, AI",
+  "fund": "redpoint",
+  "first_invest_date": "2024-02-23"
+ },
+ {
+  "name": "Aaru",
+  "website": "https://aaru.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Aaru creates simulation software that recreates the world using a multi-agent approach. We first partnered for their Series A in 2026.",
+  "sector": "AI",
+  "fund": "redpoint",
+  "first_invest_date": "2026-04-30"
+ },
+ {
+  "name": "2U",
+  "website": "http://www.2u.com",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": "2U is a cloud based platform that helps universities power digital and in-person educational offerings and provides comprehensive operating infrastructure.  We first partnered for their Series A in 2009 through their IPO in 2014.",
+  "sector": "Consumer",
+  "fund": "redpoint",
+  "first_invest_date": "2009-01-01"
+ }
+]

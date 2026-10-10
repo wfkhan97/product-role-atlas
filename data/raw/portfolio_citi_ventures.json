@@ -1,0 +1,1442 @@
+[
+ {
+  "name": "Adaptive sevurity",
+  "website": "https://www.adaptivesecurity.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Akoya",
+  "website": "https://www.akoya.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Anvil",
+  "website": "https://www.useanvil.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Marketing & Customer Experience",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Anyfin",
+  "website": "https://anyfin.com/en_SE",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Arch",
+  "website": "https://arch.co/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Array",
+  "website": "https://array.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Atomic",
+  "website": "https://atomic.financial/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Belvo",
+  "website": "https://www.belvo.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Betterment",
+  "website": "https://www.betterment.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Binalyze",
+  "website": "https://www.binalyze.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Blockdaemon",
+  "website": "https://www.blockdaemon.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "DLT & Digital Assets",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "BlueVine",
+  "website": "https://www.bluevine.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Bridge",
+  "website": "https://www.bridgemarketplace.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "C2FO",
+  "website": "https://c2fo.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Cart",
+  "website": "https://www.cart.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Future of commerce",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Centrical",
+  "website": "https://centrical.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Marketing & Customer Experience",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "ChargeAfter",
+  "website": "https://chargeafter.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Future of commerce",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Clara",
+  "website": "https://www.clara.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "ClickHouse",
+  "website": "https://www.clickhouse.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AIEnterprise",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Concentricai",
+  "website": "https://concentric.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Conquest",
+  "website": "https:///conquestplanning.com/en-ca/home",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "FinTech Innovation",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Cribl",
+  "website": "https://cribl.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "DataRobot",
+  "website": "https://www.datarobot.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Deepgram",
+  "website": "https://www.deepgram.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Customer Experience & Marketing",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Defacto",
+  "website": "https://www.getdefacto.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Docker",
+  "website": "https://www.docker.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Doconomy",
+  "website": "https://doconomy.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "DriveWealth",
+  "website": "https://drivewealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Eightfold",
+  "website": "https://eightfold.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Endor labs",
+  "website": "https://endorlabs.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Endowus",
+  "website": "https://endowus.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Exa",
+  "website": "https://exa.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Feedzai",
+  "website": "http://www.feedzai.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Big Data & Analytics",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Finix",
+  "website": "https://finix.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Future of Commerce",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Finmo",
+  "website": "https://finmo.net/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Future of Commerce",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Flex",
+  "website": "https://getflex.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "PropTech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Flybits",
+  "website": "https://flybits.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Marketing & Customer Experience",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Forter",
+  "website": "https://www.forter.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Future Of Commerce",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Forto",
+  "website": "https://forto.com/en/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Commerce & Payments",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Galileo",
+  "website": "https://www.rungalileo.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI & Data",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Glean",
+  "website": "https://www.glean.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Data Analytics & Machine Learning",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Harness",
+  "website": "https://harness.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "HighRadius",
+  "website": "https://www.highradius.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Services & Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "HomeLight",
+  "website": "https://www.homelight.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Property Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "homeward",
+  "website": "https://www.homeward.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Property Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "HoneyBook",
+  "website": "https://www.honeybook.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Commerce & Payments",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Hopper",
+  "website": "https://www.hopper.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Commerce & Payments",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "iCapital",
+  "website": "https://www.icapitalnetwork.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Services & Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Influxdata",
+  "website": "https://www.influxdata.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Data Analytics & Machine Learning",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Inkind",
+  "website": "https://inkind.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Costumer experience",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Immersive Labs",
+  "website": "https://www.immersivelabs.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Immuta",
+  "website": "https://www.immuta.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Big Data & Analytics",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "InvestCloud",
+  "website": "https://www.investcloud.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Island",
+  "website": "https://island.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "IVIX",
+  "website": "https://www.ivix.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Services & Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Jump",
+  "website": "https://jumpapp.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Justt",
+  "website": "https://justt.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Future of commerce",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Kasa",
+  "website": "https://kasa.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Proptech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Komgo",
+  "website": "https://www.komgo.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "lakera",
+  "website": "http://lakera.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Lentra",
+  "website": "ttp://lentra.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Lev",
+  "website": "https://www.levcapital.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Proptech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Loft",
+  "website": "https://loft.com.br/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Property Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Masttro",
+  "website": "https://www.masttro.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Matillion",
+  "website": "https://www.matillion.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Data Analytics & Machine Learning",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "MostlyAI",
+  "website": "https://www.mostly.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Big Data & Analytics",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Netskope",
+  "website": "https://www.netskope.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "NormAi",
+  "website": "https://www.norm.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI & Data",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Notarize",
+  "website": "https://www.notarize.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Nylas",
+  "website": "https://www.nylas.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Octane Lending",
+  "website": "https://octane.co/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Future of commerce",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Payjoy",
+  "website": "https://www.payjoy.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Persado",
+  "website": "http://persado.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Marketing & Customer Experience",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Point",
+  "website": "https://www.point.me/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Future of Commerce",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "PointFive",
+  "website": "https://www.pointfive.co/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Future of Commerce",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Pindrop",
+  "website": "https://www.pindrop.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Plaid",
+  "website": "https://www.plaid.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Poolside",
+  "website": "https://poolside.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI & Data",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "PPRO",
+  "website": "https://www.ppro.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Services & Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Prevu",
+  "website": "https://www.prevu.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Proptech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Prophet",
+  "website": "https://www.prophetsecurity.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Cybersecurity",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Proxymity",
+  "website": "https://proxymity.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Pylon",
+  "website": "https://www.pylonlending.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "PropTech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Quantifind",
+  "website": "https://www.quantifind.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Ramp",
+  "website": "https://www.ramp.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Rogo",
+  "website": "https://www.rogo.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Roofstock",
+  "website": "https://www.roofstock.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Property Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Securiti",
+  "website": "https://www.securiti.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterpse IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Sepio",
+  "website": "https://www.sepiocyber.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterpse IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Settle",
+  "website": "https://www.settle.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Future of Commerce",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Setpoint",
+  "website": "https://www.setpoint.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "FinTech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Silverfort",
+  "website": "https://www.silverfort.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Skan",
+  "website": "https://www.skan.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "SmartAsset",
+  "website": "https://www.smartasset.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Snyk",
+  "website": "https://www.snyk.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Socure",
+  "website": "https://www.socure.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Soldo",
+  "website": "https://www.soldo.com/en-eu/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Spinwheel",
+  "website": "https://spinwheel.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "FintechInnovation",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "StreamSecurity",
+  "website": "https://www.stream.security/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Straiker",
+  "website": "https://www.straiker.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Splash Financial",
+  "website": "https://splashfinancial.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Styra",
+  "website": "https://www.styra.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Sublime",
+  "website": "https://sublime.security/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Tanium",
+  "website": "http://www.tanium.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Tealium",
+  "website": "http://tealium.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Marketing & Customer Experience",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Tomo",
+  "website": "https://tomo.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Transmit Security",
+  "website": "https://www.transmitsecurity.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "TRM",
+  "website": "https://www.trmlabs.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "DLT & Digital Assets",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Trulioo",
+  "website": "http://trulioo.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Tuum",
+  "website": "http://tuum.com//",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Ujet",
+  "website": "https://www.ujet.co/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Marketing & Customer Experience",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Unison",
+  "website": "https://www.unison.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Property Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Unlimited",
+  "website": "https://www.unlimitedfunds.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "UrbanFootprint",
+  "website": "https://urbanfootprint.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Proptech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Vega",
+  "website": "https://www.vega.investments/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "FinTech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Vesta",
+  "website": "https://www.vesta.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "FinTech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "vFunction",
+  "website": "https://vfunction.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Volante",
+  "website": "https://www.volantetech.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Warren",
+  "website": "https://warren.com.br/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Wealth",
+  "website": "https://wealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Wildfire",
+  "website": "https://www.wildfire-corp.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Future of Commerce",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Writer",
+  "website": "https://www.writer.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI & Data",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Xalts",
+  "website": "https://www.xalts.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Zest",
+  "website": "https://www.zest.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI & Data",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Zum",
+  "website": "https://ridezum.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Commerce & Payments",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Anaconda",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Big Data & Analytics",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "BioCatch",
+  "website": "https://www.biocatch.com/",
+  "status": "exited",
+  "stage": null,
+  "description": null,
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Braze",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Marketing & Customer Experience",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "BVNK",
+  "website": "https://bvnk.com/",
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "DLT & Digital Assets",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Chain",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Chef",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Claritymoney",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Contour",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "DLT & Digital Assets",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Cylance",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Datavolo",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "AI & Data",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Even",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Fast Pay",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Forage",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Marketing & Customer Experience",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "GoHenry",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Grab",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Commerce & Payments",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Honey",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Commerce & Payments",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Illusive",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Jet",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Commerce & Payments",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Kenna Security",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Lexion",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Data Analytics & Machine Learning",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Liveninja",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Marketing & Customer Experience",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Mdaq",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Ondot",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Financial Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Platfora",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Big Data & Analytics",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Reonomy",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Property Technology",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Second Measure",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Big Data & Analytics",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Shopkick",
+  "website": "h#",
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Commerce & Payments",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "SilverTail",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Square",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: SQ",
+  "sector": "Commerce & Payments",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Tessian",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Traceable",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Unbound",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "DLT & Digital Assets",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Verodin",
+  "website": null,
+  "status": "exited",
+  "stage": null,
+  "description": "Exited",
+  "sector": "Security & Enterprise IT",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Sweeten",
+  "website": "https://sweeten.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Access to Capital & Economic Opportunity",
+  "fund": "citi_ventures"
+ },
+ {
+  "name": "Clerkie",
+  "website": "https://clerkie.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Clerkie",
+  "sector": "Financial Capability",
+  "fund": "citi_ventures"
+ }
+]

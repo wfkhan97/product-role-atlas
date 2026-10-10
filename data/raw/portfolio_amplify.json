@@ -1,0 +1,1073 @@
+[
+ {
+  "name": "Achira",
+  "website": "https://achira.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Achira is building atomistic foundation simulation models to power the future of drug discovery.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "ActionIQ",
+  "website": "https://www.actioniq.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "ActionIQ is changing how brands think about customer experience, digital transformation, and customer data.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Allium",
+  "website": "https://www.allium.so/",
+  "status": "active",
+  "stage": null,
+  "description": "Allium is a fast and comprehensive blockchain data platform for enterprises.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Anchorage",
+  "website": "https://www.anchorage.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Anchorage is a premier digital asset platform for institutions.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Antithesis",
+  "website": "https://antithesis.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Antithesis is one of the pioneers of Deterministic Simulation Testing: their platform runs your complete system, exhaustively analyzes its behavior, and exposes bugs as quickly as agents introduce them.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Anyscale",
+  "website": "https://www.anyscale.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Anyscale is a fully-managed scalable Ray compute platform to develop, deploy, and manage Ray applications.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Archera",
+  "website": "https://archera.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Archera is a cloud resource automation platform that enables organizations to operate dynamically in the cloud.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Authzed",
+  "website": "https://authzed.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Authzed is a database for application permissions.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Avoca",
+  "website": "https://www.avoca.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Avoca is the AI front office for home services, building always-on agents that answer every call, fill every board, and keep your team focused on the work that matters.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Axiom",
+  "website": "https://axi.om/",
+  "status": "active",
+  "stage": null,
+  "description": "Axiom equips scientists with AI models which are more accurate and more affordable than traditional physical experiments.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "Backtrace",
+  "website": "https://saucelabs.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Backtrace, now part of Sauce Labs, provides best-in-class error monitoring solutions for software teams.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Bayes",
+  "website": "https://www.airtable.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Bayes, now part of Airtable, built a no-code exploratory data visualization tool.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Bexorg",
+  "website": "https://bexorg.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Bexorg transforms entire brains into molecular and interventional platforms, enabling us to explore the brain in unprecedented ways.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "bitdrift",
+  "website": "https://bitdrift.io/",
+  "status": "active",
+  "stage": null,
+  "description": "bitdrift is a mobile-first, next-generation observability platform.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Bluedata",
+  "website": "http://www.hpe.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Bluedata, now part of HPE, transforms how enterprises deploy AI, machine learning, and big data analytics.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Boltz",
+  "website": "https://boltz.bio/",
+  "status": "active",
+  "stage": null,
+  "description": "Boltz's open foundation models advance the frontier of AI in biology through open science and make them universally accessible to every scientist.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "Buddybuild",
+  "website": "https://www.apple.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Buddybuild, acquired by Apple, is a continuous integration and delivery platform for mobile.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Cambridge Cancer Genomics",
+  "website": "https://us.dantelabs.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Cambridge Cancer Genomics, acquired by Dante Labs, develops precision oncology solutions to transform the way cancer patients are treated.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "Cask Data",
+  "website": "https://cloud.google.com/data-fusion",
+  "status": "acquired",
+  "stage": null,
+  "description": "Cask, acquired by Google, makes building and running big data solutions on-premises or in the cloud easy.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "CedarDB",
+  "website": "https://cedardb.com/",
+  "status": "active",
+  "stage": null,
+  "description": "CedarDB is a Postgres-compatible database that unites transactional and analytical workloads in a single high-performance system.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Centivax",
+  "website": "https://www.centivax.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Centivax\u2019s mission is to accelerate the world\u2019s transition to a post-pathogen humanity.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "Chai Discovery",
+  "website": "https://www.chaidiscovery.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Chai Discovery is building frontier AI to predict and reprogram the interactions between biochemical molecules.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "Chainguard",
+  "website": "https://www.chainguard.dev/",
+  "status": "active",
+  "stage": null,
+  "description": "Chainguard is the leader in securing the software supply chain by default.",
+  "sector": "Cybersecurity",
+  "fund": "amplify"
+ },
+ {
+  "name": "Chef",
+  "website": "https://www.chef.io/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Chef, now part of Progress, Chef is a continuous automation platform.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "CMD",
+  "website": "https://www.elastic.co/",
+  "status": "acquired",
+  "stage": null,
+  "description": "cmd, acquired by Elastic, allows organizations to monitor and control user interaction within their Linux environment.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Command E",
+  "website": "https://getcommande.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Command E, now part of Dropbox, is a unified search tool.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Conjur",
+  "website": "https://www.conjur.org/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Conjur, acquired by CyberArk, is a comprehensive security orchestration platform",
+  "sector": "Cybersecurity",
+  "fund": "amplify"
+ },
+ {
+  "name": "Continual",
+  "website": "https://continual.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Continual helps you build an AI copilot for your application or business.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Covariant",
+  "website": "https://covariant.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Covariant is an AI Robotics company developing a universal AI that enables robots to see, reason, and act.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Cubist",
+  "website": "https://cubist.dev/",
+  "status": "active",
+  "stage": null,
+  "description": "Cubist offers a software development kit that allows developers to easily build cross-chain decentralized apps.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Dagster",
+  "website": "http://dagster.io",
+  "status": "acquired",
+  "stage": null,
+  "description": "Dagster empowers every organization to build a productive and scalable data platform. Now part of Prefect.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Datadog",
+  "website": "https://www.datadoghq.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "Datadog is the monitoring and security platform for cloud applications.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Datafold",
+  "website": "https://www.datafold.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Datafold builds tools for automating analytical data quality management.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "DataLane",
+  "website": "https://www.datalane.com/",
+  "status": "active",
+  "stage": null,
+  "description": "DataLane is building the identity platform for the local economy, mapping every local business in America so companies can find and verify real owners.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "DatologyAI",
+  "website": "https://www.datologyai.com/",
+  "status": "active",
+  "stage": null,
+  "description": "DatologyAI builds data curation tools to automatically select the best data on which to train GenAI models.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "David AI",
+  "website": "https://www.withdavid.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "David AI is an audio data research company bringing AI into the real world through voice, the most important interface to human interaction.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Determined AI",
+  "website": "https://www.determined.ai/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Determined, acquired by HPE, is an open source deep learning training platform that makes building models fast and easy.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Diagrid",
+  "website": "https://www.diagrid.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Diagrid helps developers simplify and de-risk distributed systems.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Diffbot",
+  "website": "https://www.diffbot.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Diffbot provides knowledge-as-a-service to power intelligent applications.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Dyndrite",
+  "website": "https://www.dyndrite.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Dyndrite gives companies the power to deliver the future of digital manufacturing.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Effectful",
+  "website": "https://www.effectful.co/",
+  "status": "active",
+  "stage": null,
+  "description": "Effectful provides primitives for building end-to-end applications in TypeScript.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Einblick",
+  "website": "http://www.databricks.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Einblick, now part of Databricks, is the fastest and most collaborative way to explore data, create predictions, and deploy data apps.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Emancro",
+  "website": "https://www.emancro.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Emancro is building robotic system that will initially address dire labor shortages in hospitals\u2019 pharmacies.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Engram",
+  "website": "https://engram.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Engram is building AI that learns from you and deeply understands your work.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Enlitic",
+  "website": "https://www.enlitic.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Enlitic builds AI deep learning products to streamline radiologists' workflows and improve healthcare diagnosis.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "Eppo",
+  "website": "https://www.geteppo.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Eppo, now part of Datadog, is a next generation A/B experimentation platform.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "exe.dev",
+  "website": "https://exe.dev/",
+  "status": "active",
+  "stage": null,
+  "description": "Exe.dev is building a new generation of cloud infrastructure for developers and their agents.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Fastly",
+  "website": "https://www.fastly.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "Fastly is the world\u2019s fastest global edge cloud network to develop, deliver, and secure digital experiences.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Fermyon",
+  "website": "https://www.fermyon.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Fermyon, now part of Akamai, created the first cloud-native WebAssembly PaaS that lets developers build better microservices faster.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Fivetran (dbt)",
+  "website": "https://www.getdbt.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Amplify was the first investor in dbt Labs, a pioneer of the analytics engineer and wildly popular open source dbt package. In 2026, dbt Labs merged with Fivetran. The combined company serves more than 100K data teams globally.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Flux",
+  "website": "https://beamery.com/home/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Flux, now part of Beamery, is an internal mobility platform that connects open work opportunities with best-fit internal talent.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Foxglove",
+  "website": "https://foxglove.dev/",
+  "status": "active",
+  "stage": null,
+  "description": "Foxglove is a visualization and debugging platform designed to accelerate robotics development.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Gallop",
+  "website": "https://www.higallop.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Gallop allows developers to easily access NFT data, analytics, and insights.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Goldsky",
+  "website": "https://goldsky.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Goldsky provides real-time, high performance indexing via subgraphs and data replication pipelines.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Gorgias",
+  "website": "https://www.gorgias.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Gorgias is the #1 rated helpdesk for ecommerce merchants.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Gradium",
+  "website": "https://gradium.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Gradium builds the technological backbone, models and infrastructure, to support all voice applications.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Gremlin",
+  "website": "https://www.gremlin.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Gremlin is the leading Chaos Engineering platform helping companies improve resilience and reduce downtime",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Hex",
+  "website": "http://hex.tech",
+  "status": "active",
+  "stage": null,
+  "description": "Hex is a collaborative data software platform for data teams.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Hightouch",
+  "website": "https://hightouch.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Hightouch is the Agentic Marketing Platform that marketing teams use to turn customer data into AI-driven campaigns.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Inception",
+  "website": "https://www.inceptionlabs.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Inception\u2019s breakthrough diffusion-based approach to language generation enables the world\u2019s fastest, most efficient AI models with best-in-class quality.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Inevitable",
+  "website": "https://inevitabletech.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Inevitable Tech invents and builds advanced growing systems using AI, plant science and automation",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Infinitopes",
+  "website": "https://www.infinitopes.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Infinitopes\u2019s AI/ML pipeline allows them to accurately discover the most effective tumor antigens, which they deliver in off-the-shelf vaccines aimed at preventing cancer recurrence.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "Integris Software",
+  "website": "https://www.onetrust.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Integris (acquired by OneTrust DataDiscovery) provides data discovery and classification technology, all powered by AI.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Intellimize",
+  "website": "https://www.intellimize.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Intelimize, now part of Webflow, is a platform that uses AI to optimize for 1:1 personalized website experiences.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "InterVenn",
+  "website": "https://intervenn.com/",
+  "status": "active",
+  "stage": null,
+  "description": "InterVenn has developed the first commercially available platform to exponentially improve the speed, scope, and scale of glycoproteomics.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "Lamini",
+  "website": "https://www.lamini.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Lamini enables every enterprise to safely, quickly, and cost-effectively build their own Expert AI.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "LangChain",
+  "website": "https://www.langchain.com/",
+  "status": "active",
+  "stage": null,
+  "description": "LangChain is the platform developers and enterprises choose to build AI apps from prototype to production.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "LightCyber",
+  "website": "https://www.paloaltonetworks.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "LightCyber, now part of Palo Alto Networks, provides highly automated and accurate behavioral analytics technology.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Luma AI",
+  "website": "https://lumalabs.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Luma AI is enables everyone to capture and experience the world in 3D.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Mabl",
+  "website": "https://www.mabl.com/",
+  "status": "active",
+  "stage": null,
+  "description": "mabl is the enterprise SaaS leader of intelligent test automation for quality engineering.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Magic",
+  "website": "https://magic.dev/",
+  "status": "active",
+  "stage": null,
+  "description": "Magic is building a true AI colleague for software engineering.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Manifold",
+  "website": "https://snyk.io/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Manifold, now part of Snyk, allows you to discover, buy, and manage the best developer services for your application.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Material Security",
+  "website": "https://material.security/",
+  "status": "active",
+  "stage": null,
+  "description": "Material Security develops data-driven security software to protect an organization's users and data.",
+  "sector": "Cybersecurity",
+  "fund": "amplify"
+ },
+ {
+  "name": "Maze",
+  "website": "https://maze.co/",
+  "status": "active",
+  "stage": null,
+  "description": "Maze is empowering modern teams to build better user experiences by testing and learning rapidly with real users.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Meroxa",
+  "website": "https://meroxa.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Meroxa is a data streaming platform designed to create a real-time data infrastructure.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Metaphor",
+  "website": "https://metaphor.io/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Metaphor, now part of KPMG, is a search and discovery tool built for data scientists, data engineers, and AI practitioners.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Minerva Labs",
+  "website": "https://minerva-labs.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Minerva is the most effective anti-ransomware solution.",
+  "sector": "Cybersecurity",
+  "fund": "amplify"
+ },
+ {
+  "name": "Modal",
+  "website": "https://modal.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Modal builds better infrastructure for data engineers and data scientists, and is the fastest way to run code in the cloud.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Moonbounce",
+  "website": "https://moonbounce.io/",
+  "status": "active",
+  "stage": null,
+  "description": "The Moonbounce patented AI control engine closes the gap between intention and outcome, giving teams the real-time insight and nuanced control they need to create with conviction at any scale.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "MotherDuck",
+  "website": "https://motherduck.com/",
+  "status": "active",
+  "stage": null,
+  "description": "MotherDuck is a builder of a serverless, easy to use data analytics platform based on open source database DuckDB.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Motif Analytics",
+  "website": "https://www.motifanalytics.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Motif Analytics is an analytics product tailored to answer complex business questions through analyzing event sequences.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Near",
+  "website": "https://near.org/",
+  "status": "active",
+  "stage": null,
+  "description": "Near is a blockchain built to be simple, secure, and scalable.",
+  "sector": "Developer Tools and Computing Infrastructure; Crypto",
+  "fund": "amplify"
+ },
+ {
+  "name": "Niteshift",
+  "website": "https://niteshift.dev/",
+  "status": "active",
+  "stage": null,
+  "description": "Niteshift is the full-stack cloud for coding agents, giving every agent a real environment to run, verify, and ship its work.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "OctoAI",
+  "website": "https://octo.ai/",
+  "status": "acquired",
+  "stage": null,
+  "description": "OctoAI helps developers run, tune, and scale generative AI in the cloud.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Outerbounds",
+  "website": "https://outerbounds.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Outerbounds allows you to design and develop ML and data applications easily with open-source Metaflow.",
+  "sector": "Data and Analytics",
+  "fund": "amplify"
+ },
+ {
+  "name": "Parrot",
+  "website": "https://www.parrot.us/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Parrot, now part of Filevine, is an AI-powered remote deposition platform that helps attorneys improve and accelerate outcomes.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "PicnicHealth",
+  "website": "https://picnichealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": "PicnicHealth unites clinical expertise, deep patient connections, and cutting-edge technology to empower health.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "Polly",
+  "website": "https://www.polly.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Polly is an engagement app purpose-built for Slack, Microsoft Teams, and Zoom.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "PostgresML",
+  "website": "https://postgresml.org/",
+  "status": "active",
+  "stage": null,
+  "description": "PostgresML is an open source Postgres based platform for your interactive AI powered applications",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Primer",
+  "website": "https://primer.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Primer lets organizations quickly explore and utilize the world's exponentially growing sources of text-based information.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Prisma",
+  "website": "https://www.prisma.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Prisma is building the data layer for modern applications.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Reactor",
+  "website": "https://www.reactor.inc/",
+  "status": "active",
+  "stage": null,
+  "description": "Reactor is building the developer platform for real-time world models.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "ReadySet",
+  "website": "https://readyset.io/",
+  "status": "active",
+  "stage": null,
+  "description": "ReadySet is a SQL caching engine that helps developers build performant, real-time applications.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Recursion",
+  "website": "https://www.recursion.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "Recursion is decoding biology to industrialize drug discovery.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "Replicated",
+  "website": "https://www.replicated.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Replicated is a container-based platform for deploying cloud native applications inside customers'\u200b environments.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Runway",
+  "website": "https://runwayml.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Runway is a next generation video editing solution powered by machine learning.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Scribe",
+  "website": "https://scribe.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Scribe instantly captures how your business actually works, giving your teams & AI agents the context they need to do their best work.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "SiMa",
+  "website": "https://sima.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "SiMa.ai is delivering the industry\u2019s first software-centric, purpose-built MLSoC platform.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Sonera",
+  "website": "https://www.sonera.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Sonera is developing high-performance neural sensing technology for human-machine interfaces.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Sourcegraph",
+  "website": "https://about.sourcegraph.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Sourcegraph is a code intelligence platform to help you understand, fix, and automate across all your code.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Spiral",
+  "website": "https://spiraldb.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Spiral is the multimodal data platform for frontier AI. Every modality, machine-scale throughput.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "StackRox",
+  "website": "http://stackrox.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Stackrox, now part of Red Hat, is a Kubernetes-native container security platform.",
+  "sector": "Cybersecurity",
+  "fund": "amplify"
+ },
+ {
+  "name": "Suborbital",
+  "website": "https://suborbital.dev/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Suborbital creates web services in an entirely new way, taking advantage of cloud native WebAssembly's capabilities.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Superlogical",
+  "website": "https://superlogical.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Superlogical is building the multiplexer for all work.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Suplari",
+  "website": "https://suplari.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Suplari, acquired by Microsoft, provides supplier spend insights that enable companies to proactively manage supplier spend.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Sym",
+  "website": "https://symops.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Sym is an intelligent approvals-as-code platform for developers.",
+  "sector": "Cybersecurity",
+  "fund": "amplify"
+ },
+ {
+  "name": "System Initiative",
+  "website": "https://www.systeminit.com/",
+  "status": "active",
+  "stage": null,
+  "description": "System Initiative is a collaborative power tool designed to remove the papercuts from DevOps work.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Tahoe Therapeutics",
+  "website": "https://www.tahoebio.ai/about",
+  "status": "active",
+  "stage": null,
+  "description": "Tahoe maps how chemistry perturbs biology to build a virtual model of the human cell.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "Temporal",
+  "website": "https://temporal.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Temporal enables developers to write highly reliable and scalable applications.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "TigerBeetle",
+  "website": "https://tigerbeetle.com/",
+  "status": "active",
+  "stage": null,
+  "description": "TigerBeetle is the financial transactions database designed for mission critical safety and performance.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "tldraw",
+  "website": "http://tldraw.dev/",
+  "status": "active",
+  "stage": null,
+  "description": "The tldraw SDK provides a complete canvas experience as a React component.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Tracelytics",
+  "website": "https://www.appneta.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Tracelytics, acquired by AppNeta, provides performance analysis and diagnostic service for web applications.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Unblocked",
+  "website": "https://getunblocked.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Unblocked helps answer questions software development teams have about their applications.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "Useful Sensors",
+  "website": "https://usefulsensors.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Useful sensors uses AI and machine learning to improve peoples\u2019 everyday lives through smarter interfaces.",
+  "sector": "Machine Learning and Artificial Intelligence",
+  "fund": "amplify"
+ },
+ {
+  "name": "Vera",
+  "website": "http://www.helpsystems.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Vera, aquired by HelpSystems, enables organizations to secure, track, and revoke access to confidential data, across any platform or device.",
+  "sector": "Cybersecurity",
+  "fund": "amplify"
+ },
+ {
+  "name": "VeriSIM Life",
+  "website": "https://www.verisimlife.com/",
+  "status": "active",
+  "stage": null,
+  "description": "VeriSIM Life is building AI enabled biosimulation models.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "Visby Medical",
+  "website": "https://www.visbymedical.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Visby Medical is a medical diagnostics company with portable PCR testing technology.",
+  "sector": "Digital Biology",
+  "fund": "amplify"
+ },
+ {
+  "name": "WarpStream",
+  "website": "https://www.warpstream.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "WarpStream, now part of Confluent, is a Kafka compatible data streaming platform built directly on top of S3.",
+  "sector": "Developer Tools and Computing Infrastructure",
+  "fund": "amplify"
+ },
+ {
+  "name": "YeshID",
+  "website": "https://www.yeshid.com/",
+  "status": "active",
+  "stage": null,
+  "description": "YeshID develops an identity and access management software that is simple and easy to use.",
+  "sector": "Cybersecurity",
+  "fund": "amplify"
+ }
+]

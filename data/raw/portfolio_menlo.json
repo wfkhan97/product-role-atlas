@@ -1,0 +1,2900 @@
+[
+ {
+  "name": "3com",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Chipcom was an early pioneer in the Ethernet hub industry, with products that allowed local networks to be aggregated in a single place.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "3PAR",
+  "website": "https://www.hpe.com/us/en/home.html",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "3PAR was a global enterprise storage system provider that created self-configuring, self-optimizing, scalable storage solutions.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "6 River Systems",
+  "website": "https://6river.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "6 River Systems is a fulfillment solutions provider making warehouses more efficient with autonomous mobile robots and AI.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Abacus",
+  "website": "https://www.getabacus.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Abacus helps tax firms eliminate manual data entry workflows with intelligent document processing that integrates with Excel and your filing software—no training required.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Abnormal AI",
+  "website": "https://abnormal.ai",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Abnormal AI is the leading AI-native human behavior security platform, leveraging machine learning to stop sophisticated inbound attacks and detect compromised accounts across email and connected applications.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Accordance AI",
+  "website": "https://accordance.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Accordance is an AI platform built for leading tax, audit, and CPA teams.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Acme Packet",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acme Packet provided next-generation voice, data, and unified communications services and applications across IP networks.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "AeroScout",
+  "website": "http://www.aeroscout.com/",
+  "status": "acquired",
+  "stage": "Series C",
+  "description": "AeroScout provides WiFi-based RFID tags, exciters, and location receivers that helps networks track and manage the location, condition, and status of mobile assets and people.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Affinity",
+  "website": "https://www.affinity.co/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Affinity is a relationship intelligence platform enabling teams to leverage their networks to close the next big deal.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Agency AI",
+  "website": "https://agency.inc/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Agency is an AI agent that automates customer success management tasks, such as scheduling, follow-ups, note-taking, customer onboarding, and meeting preparation.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Airbase",
+  "website": "https://www.airbase.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Airbase is a spend management platform for small and midsize companies. It automates accounting and operational workflows for a faster close, real-time reporting, and a consistent platform experience for all non-payroll spend.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Aisera",
+  "website": "https://aisera.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Aisera transforms the service, support, and operations experience for enterprises with its generative AI and automation platform.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Heaviside Industries",
+  "website": "https://www.theheaviside.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Heaviside Industries builds precise, affordable, and autonomous drones across air, land, and sea for U.S. and allied special operations and conventional forces.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Heidi",
+  "website": "https://www.heidihealth.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Heidi is an ambient AI medical scribe that automates clinical documentation to reduce administrative burden and enable healthcare professionals to focus more on patient care.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Higgsfield",
+  "website": "https://higgsfield.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Higgsfield combines cinematic intelligence and a unified creative workflow, giving creators, marketing agencies, and filmmakers the power to produce cinematic-quality video and visuals at any scale.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "HomeLight",
+  "website": "https://www.homelight.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "HomeLight is a marketplace for connecting home sellers with the best real estate agents.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Hotmail",
+  "website": "https://www.microsoft.com/en-us/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Hotmail was one of the first web-based email services in the world.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Hover",
+  "website": "https://hover.to/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Hover transforms smartphone photos of any property into an accurate, interactive 3D model, giving homeowners the power to unlock the true potential of their largest economic asset.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Immersive Labs",
+  "website": "https://www.immersivelabs.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Immersive Labs is empowering organizations to measure and improve cybersecurity skills across technical and non-technical teams with its Cyber Workforce Optimization platform.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Indio",
+  "website": "https://www.useindio.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Indio simplifies the insurance application process for brokers and their clients. It's fast, easy, and E&O-free, saving agencies time and money.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "IronPort",
+  "website": "https://www.cisco.com/c/en/us/services/acquisitions/ironport.html",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "IronPort developed email and web security tools to protect organizations from spam, viruses, malware, and other internet threats.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "JuliaHub",
+  "website": "https://juliahub.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "JuliaHub is an AI-powered platform that transforms how engineers simulate, model, and deploy complex physical systems.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "JUMP",
+  "website": "https://www.uber.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "JUMP is a dockless scooter and electric bike sharing system.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Kalpana",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Kalpana transformed the Ethernet switching industry with its innovative technologies that increased the throughput of Ethernet networks.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Kinetic",
+  "website": "https://www.kinetic.auto/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Kinetic is ushering in the next generation of mobility (EVs, AVs) with a network of highly automated service centers.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Knoetic",
+  "website": "https://www.knoetic.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Knoetic is no-code people analytics platform that provides a unified view of organizational performance metrics (employee retention, recruiting pipelines, pay equity, DEI, engagement, etc).",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Koala Health",
+  "website": "https://www.koala.health/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Koala is a modern pet healthcare provider with a mail order pharmacy offering for pet medications.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Legora",
+  "website": "https://legora.com/",
+  "status": "active",
+  "stage": "Series D",
+  "description": "Legora is building the world’s first truly collaborative AI for legal professionals: a workspace for boundless collaboration between lawyer ingenuity and machine intelligence.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Levelpath",
+  "website": "https://www.levelpath.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Levelpath is a next-gen procurement platform with an AI- and mobile-first approach that streamlines workflows and approvals for enterprises of all sizes.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Lindy",
+  "website": "https://www.lindy.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Lindy is an AI assistant that can help with all your tasks, from calendar management and email drafting to contract sending and beyond.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Lovable",
+  "website": "https://lovable.dev/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Lovable is an AI-powered development platform that transforms natural language into production-ready web applications, pioneering a new category that democratizes software creation and reshapes how millions build for the web.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "LSI Corporation",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "LSI Corporation designed semiconductors and software that accelerated storage and networking in data centers, mobile networks, and client computing.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Machine Zone",
+  "website": "https://www.mz.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Machine Zone develops mobile games in various genres that include fantasy, RPG, and MMO.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "MailFrontier",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "MailFrontier produced enterprise software and hardware that filtered e-mail for phishing attempts, viruses, and spam.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Manifest",
+  "website": "https://manifestlaw.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Manifest OS enables law firms to provide legal services faster and focus on what matters by empowering them with a unified brand standard, centralized back office, and powerful AI-native software suite.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Matik",
+  "website": "https://www.matik.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Matik enables companies to personalize data-driven content in minutes, adding tailored numbers, tables, and charts directly into decks and PDFs.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "MealPal",
+  "website": "https://mealpal.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "MealPal offers a subscription service that makes lunch pickup from restaurants convenient and affordable.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Medra",
+  "website": "https://www.medra.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Medra is building the Physical AI Scientist, a closed-loop system pairing AI experimental reasoning with robotic wet-lab execution.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Mercor",
+  "website": "https://mercor.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Mercor is an AI-powered hiring platform that matches talent with the opportunities they’re best suited for.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Mimic",
+  "website": "https://mimic.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Mimic is the first enterprise defense system specifically designed to combat ransomware and cyber extortion.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Modal",
+  "website": "https://modal.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Modal is a serverless compute platform that makes it easy for developers to run compute-intensive workloads like ML inference, fine-tuning, and batch jobs.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Monarch",
+  "website": "https://www.monarchmoney.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Monarch is a money management platform that helps users create a financial plan, budget, and track their goals.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "NationGraph",
+  "website": "https://www.nationgraph.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "NationGraph is an AI-driven sales intelligence platform built to transform how organizations uncover and win public-sector business.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "nCircle",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "nCircle Network Security is a global company that provides agentless security risk and compliance management solutions for its clients.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Ndea",
+  "website": "https://ndea.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Ndea is building frontier AI systems that blend intuitive pattern recognition and formal reasoning into a unified architecture.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Nectar Social",
+  "website": "https://www.nectarsocial.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Nectar Social is an AI-native system of record for social marketing that turns DMs, comments, mentions, and creator activity into a measurable, scalable growth channel.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Neon",
+  "website": "https://neon.tech/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Neon is a multi-cloud Serverless Postgres provider that is purpose-built to address modern workloads oriented around edge computing and AI.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "NET",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Network Equipment Technologies (NET) provides leading-edge session mediation products for unified communications and voice over IP solutions in large enterprise and government organizations.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Netlify",
+  "website": "https://www.netlify.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Netlify is an all-in-one platform for automating modern web projects at global scale—without servers, devops, or costly infrastructure.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "New Lantern",
+  "website": "https://newlantern.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "New Lantern accelerates radiology with cloud- and AI-powered medical image analysis.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "nLight",
+  "website": "https://www.nlight.net/",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "nLight manufactures high-performance semiconductor lasers.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Nourish",
+  "website": "https://www.nourish.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Nourish is the country’s largest dietitian-led metabolic health clinic, building the first AI-native virtual care model to tackle America’s healthcare crisis and reverse chronic disease.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Numeric",
+  "website": "https://www.numeric.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Numeric is an AI accounting automation platform, built to take manual work off accountants’ plates so they can focus on what's impactful.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Observable",
+  "website": "https://observablehq.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Observable is a web-based platform for data visualization, exploration, socialization, publication and collaboration.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Observe.AI",
+  "website": "https://www.observe.ai/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Observe.AI transforms customer service experiences and improves agent performance by helping businesses analyze 100% of calls and streamline quality assurance workflows.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Obsidian Security",
+  "website": "https://www.obsidiansecurity.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Obsidian aggregates, normalizes, and enriches user activity, access, and privilege data across SaaS applications to help organizations identify potential account compromise, data leakage, or insider threats.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Octel",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Octel Communications Corp. manufactured and provided voicemail services for the developing world.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "OfferFit",
+  "website": "https://offerfit.ai/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "OfferFit is a ML-powered, automated experimentation platform for lifecycle marketers that enables true mass personalization on a 1:1 basis, all tailored to the specific goal of the marketers.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Open Solutions",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Open Solutions assists community-based financial institutions by providing technologies that enable its clients to operate more profitably, efficiently, and collaboratively.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "OpenEvidence",
+  "website": "https://www.openevidence.com/",
+  "status": "active",
+  "stage": "Series D",
+  "description": "OpenEvidence is an AI copilot for doctors that helps them make high-stakes decisions at the point of care.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "OpenHands AI",
+  "website": "https://openhands.dev/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "OpenHands AI is an open-source AI platform for autonomous software engineering development, powered by AI and LLMs.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "OpenRouter",
+  "website": "https://openrouter.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "OpenRouter is a unified API gateway that provides access to hundreds of AI models from leading providers like Anthropic, Google, Meta, Mistral, and more.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "OpenSpace",
+  "website": "https://www.openspace.ai/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "OpenSpace provides next-generation, 360º photo documentation for jobsites, powerful integrations, and the smartest analytics tools in the industry.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Ophelia",
+  "website": "https://ophelia.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Ophelia is reinventing drug rehab by making evidence-based treatment private, affordable, and accessible via telemedicine.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Opna Bio",
+  "website": "https://www.opnabio.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Opna Bio a clinical-stage biopharmaceutical company focused on the discovery and development of novel oncology therapeutics.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Orb",
+  "website": "https://www.withorb.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "The modern pricing platform to bill for seats, consumption, and everything in between.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Pangram",
+  "website": "https://www.pangram.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Pangram provides AI detection solutions for educators, publishers, law firms, HR departments, foundations, and more.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "ParAccel",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "ParAccel was the world's fastest DBMS for data warehousing and analytics.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Parade",
+  "website": "https://parade.ai/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Parade allows freight brokerages and 3PLs to move more freight, book loads faster, and grow their businesses.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Particle Health",
+  "website": "https://www.particlehealth.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Particle Health is an API designed for healthcare innovators that gives access to vital medical data.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Peregrine",
+  "website": "https://www.peregrine.io/",
+  "status": "active",
+  "stage": "Seed (prior)",
+  "description": "Peregrine creates software that helps organizations integrate and analyze large and complex data stores to create intelligence and inform enterprise decision-making.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Periscope",
+  "website": "https://twitter.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Periscope was a live video streaming app for Android and iOS.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "PernixData",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "PernixData was a premier software platform for scale-out storage acceleration.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Photomath",
+  "website": "https://photomath.com/en/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Photomath is the #1 math learning app that uses the power of AI and the smartphone to instantly solve math concepts and provide step-by-step instructions for users to learn and retain.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "PillPack",
+  "website": "https://www.pillpack.com/",
+  "status": "acquired",
+  "stage": "Series C",
+  "description": "PillPack is a full-service pharmacy that delivers a better, simpler experience through convenient packaging, modern technology, and personalized service.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Pinecone",
+  "website": "https://www.pinecone.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Pinecone makes it easy to build high-performance AI applications with its managed, cloud-native vector database and simple API.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "PlaySpan",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "PlaySpan's payments platform handled transactions for digital goods in online games, digital media, and social networks around the world.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Pliant Technology",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Pliant Technology was a leading developer of enterprise solid state drives (SSD) and disruptive enterprise flash drives (EFDs).",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Pliant Therapeutics",
+  "website": "http://pliantrx.com/",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Pliant Therapeutics is focused on discovering, developing, and commercializing breakthrough treatments for fibrotic diseases.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Pluribus Networks",
+  "website": "https://pluribusnetworks.com/",
+  "status": "acquired",
+  "stage": "Series C",
+  "description": "Pluribus Networks provides performance-oriented network virtualization for private and public cloud data centers.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Polly",
+  "website": "https://polly.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Polly is a software platform transforming mortgage capital markets through workflow automation, optimizing execution, and actionable data analytics.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Poshmark",
+  "website": "https://poshmark.com/",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Poshmark is a social commerce marketplace where people can buy and sell new or used clothing, shoes, accessories, and home goods.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Prime Intellect",
+  "website": "https://www.primeintellect.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Prime Intellect democratizes AI development at scale, making it easy to find global compute resources and train state-of-the-art models through distributed training across clusters.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Prodigal",
+  "website": "https://www.prodigaltech.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Prodigal gives lenders and collections agencies insights from customer interactions using advanced conversational AI.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Q1 Labs",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Q1 Labs was a global provider of risk management, security information and event management (SIEM), user/application/network activity monitors, and log management products.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Qualia",
+  "website": "https://www.qualia.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Qualia is a one-stop shop for every aspect of a real estate closing, redefining the way real estate is transacted by streamlining the home closing experience, removing the stress from home buying, and making the process transparent.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Qualified Health",
+  "website": "https://www.qualifiedhealthai.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Qualified Health is the healthcare-native enterprise AI platform that unifies every workflow, use case, and model under a single, governed operating layer.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Qualio",
+  "website": "https://www.qualio.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Qualio is a cloud-based quality management system for life sciences. Their ready-to-use QMS unites teams, processes, and data all in one place so companies can get to market quickly and scale successfully.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Recursion",
+  "website": "https://www.recursion.com/",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Recursion is discovering transformative new treatments by combining automation, machine learning, and the world’s largest biological image datasets.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "RelationalAI",
+  "website": "https://relational.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "RelationalAI is a next-generation database system for intelligent data applications based on relational knowledge graphs.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Relyance AI",
+  "website": "https://www.relyance.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Relyance AI is the most comprehensive trust and data governance platform, automating privacy compliance, data security posture, and AI governance operations.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "RF Surgical",
+  "website": "https://www.medtronic.com/us-en/index.html",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "RF Surgical developed products such as surgical sponges, gauze, and towels that emitted low-frequency radio signals to track them if left inside the human body.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "RightHand Robotics",
+  "website": "https://www.righthandrobotics.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "RightHand Robotics is a leader in providing robotic piece-picking solutions that improve performance and efficiency in e-commerce order fulfillment and intralogistics.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Rivet Health",
+  "website": "https://www.rivethealth.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Rivet is a healthcare SaaS solution that maximizes payments from payers and patients, making it easy for medical practitioners to get paid.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Roku",
+  "website": "https://www.roku.com/",
+  "status": "ipo",
+  "stage": "Series C",
+  "description": "Roku pioneered streaming TV, connecting users to content they love, enabling content publishers to build and monetize large audiences, and providing advertisers with unique capabilities to engage consumers.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Rover",
+  "website": "https://www.rover.com/",
+  "status": "ipo",
+  "stage": "Series C",
+  "description": "Rover connects dog and cat parents with loving pet sitters and dog walkers in neighborhoods across the US, Canada, UK, and Europe.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "RunSybil",
+  "website": "https://www.runsybil.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "RunSybil is an AI-powered offensive security platform that continuously tests your applications and infrastructure for exploitable vulnerabilities across your entire stack, on every deployment.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Runwise",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Runwise is the first end-to-end boiler and heating system management platform—saving owners money, increasing tenant comfort, and radically lowering carbon output.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Sana",
+  "website": "https://www.sanalabs.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Sana is an AI-powered learning platform that empowers organizations to find, share, and harness the knowledge they need to achieve their missions.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Scout RFP",
+  "website": "https://www.workday.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Scout RFP provides cloud-based strategic sourcing solutions that help companies streamline supplier selection, centralize data, and make more informed purchasing decisions, faster.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Scribe Therapeutics",
+  "website": "https://www.scribetx.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Scribe is focused on the engineering, delivery, and development of next-generation CRISPR molecules to rewrite and repair the underlying causes of genetic disorders.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Semgrep",
+  "website": "https://semgrep.dev/",
+  "status": "active",
+  "stage": "Series D",
+  "description": "Semgrep is an AppSec platform for securing cloud-native apps—fast, accurate, and developer-friendly.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Senti Biosciences",
+  "website": "https://www.sentibio.com/",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": "Led by pioneers in synthetic biology and computation, Senti is pioneering new technology platforms to design synthetic gene circuits for adaptive cell and gene therapies.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "ShipBob",
+  "website": "https://www.shipbob.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "ShipBob is a tech-enabled 3PL that offers simple, fast, and affordable e-commerce fulfillment for direct-to-consumer brands.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "ShopMy",
+  "website": "https://shopmy.us/home",
+  "status": "active",
+  "stage": "Series B",
+  "description": "ShopMy unites brands, creators, and consumers through an intuitive, all-in-one platform that transforms trusted recommendations into powerful performance marketing, redefining how influence drives commerce.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Sidecar Health",
+  "website": "https://sidecarhealth.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Sidecar Health is a health insurtech solution that helps people get the health care they need with price transparency and direct payments for care.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Signifyd",
+  "website": "https://www.signifyd.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Signifyd is the world’s largest provider of guaranteed fraud protection, protecting online retailers against fraud and chargebacks with a 100% financial guarantee for every approved order.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Singularity",
+  "website": "https://singularityus.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Singularity builds affordable, scalable counter-weapon systems to ensure that, no matter how fast technology accelerates, defense maintains a decisive edge.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Siri",
+  "website": "https://www.apple.com/siri/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Siri was a voice recognition company spun out of the non-profit institute SRI International. It launched its Siri virtual personal assistant app in February 2010, two months before it was acquired by Apple.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Siteline",
+  "website": "https://www.siteline.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Siteline is a billing platform designed to increase efficiency and control in construction payment management through a collaborative subcontractor invoicing and payment software system.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Skild AI",
+  "website": "https://www.skild.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Skild is building general purpose artificial intelligence grounded in the physical world.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Slash",
+  "website": "https://www.slash.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Slash provides smart, tailored financial solutions, moving beyond one-size-fits-all banking, to help businesses grow, stay competitive, and operate efficiently and seamlessly.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Sleuth",
+  "website": "https://www.sleuth.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Sleuth is an engineering productivity platform that integrates with a team’s existing tools to provide insight into key metrics and offer automation to speed up the software development process.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Slingshot AI",
+  "website": "https://www.talktoash.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Slingshot is an AI research company with a mission to exponentially increase global access to mental healthcare.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Soha Systems",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Specializing in instant, application security for the cloud-enabled enterprise.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Solace",
+  "website": "https://www.solace.health/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Solace connects Medicare patients with certified healthcare advocates who help patients navigate their complex care journeys.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Sonrai Security",
+  "website": "https://sonraisecurity.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Sonrai Security delivers an enterprise identity and data governance platform for AWS, Azure, Google Cloud, and Kubernetes.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Squint",
+  "website": "https://www.squint.ai/",
+  "status": "active",
+  "stage": "Pre-Seed",
+  "description": "Squint is the leading Manufacturing Intelligence platform that helps the world’s most advanced companies lower downtime and improve quality at scale.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "StackRox",
+  "website": "https://www.redhat.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "StackRox is a Kubernetes-native security platform for cloud-native applications, containers, serverless, and Kubernetes.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Strata Identity",
+  "website": "https://www.strata.io/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Strata is the go-to platform for identity orchestration, enabling enterprises to seamlessly unify on-premises and cloud-based authentication and access systems for consistent identity management in multi-cloud environments.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "StrataCom",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "StrataCom produced Asynchronous Transfer Mode (ATM) and Frame Relay high-speed wide area network (WAN) switching equipment.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Suno",
+  "website": "https://suno.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Suno is an AI-powered music generation platform, transforming music into an interactive, social, and participatory experience.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Sure",
+  "website": "https://www.sureapp.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Sure is an embedded insurance technology company that powers API-based digital insurance programs for global brands and insurance carriers.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "tCell.io",
+  "website": "https://www.rapid7.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "tCell was a leading provider of web application threat defense and monitoring.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "TeleNav",
+  "website": "http://telenav.com/",
+  "status": "ipo",
+  "stage": "Series E",
+  "description": "Telenav is a provider of consumer location-based services (LBS), enterprise LBS and automotive LBS. Telenav’s solutions provide consumers, wireless service providers, enterprises and automakers with location-specific, real-time, personalized services.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Tenor",
+  "website": "https://www.tenor.co/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Tenor's mobile GIF Keyboard for iOS and Android allows users to send millions of animated GIFs and video via text, Tweet, Facebook Messenger, and email.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "The Black Tux",
+  "website": "https://theblacktux.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "The Black Tux is a men's fashion marketplace that makes renting tuxedos, suits, and other men’s formalwear accessories simple, stylish, and affordable.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "True Anomaly",
+  "website": "https://www.trueanomaly.space/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "True Anomaly is a deep technology company developing advanced hardware and software systems to ensure the sustainable security of space.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "TruEra",
+  "website": "https://truera.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "TruEra provides AI quality management software solutions that address performance, explainability, and fairness across the full ML model lifecycle, from development to live use.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Tumblr",
+  "website": "https://www.tumblr.com",
+  "status": "acquired",
+  "stage": "Series E",
+  "description": "Tumblr is a microblogging platform and social networking website that allows users to post multimedia and other content to a short-form blog.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Turing",
+  "website": "https://www.turing.com/",
+  "status": "active",
+  "stage": "Series E",
+  "description": "Turing delivers top-tier talent, data, and tools to help AI labs improve model performance—and enables enterprises to turn those models into powerful, production-ready systems.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Typeface",
+  "website": "https://www.typeface.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Typeface is an enterprise-grade generative AI app to create engaging, personalized content faster and easier than ever before.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Alcove",
+  "website": "https://www.alcove.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Alcove is a procurement management platform for interior designers, increasing efficiency and productivity so they can focus on creating beautiful spaces.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Alloy",
+  "website": "https://alloy.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Alloy is an intelligent supply and demand synchronization platform purpose-built for companies that make, move, and sell goods.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Alta",
+  "website": "https://www.altadaily.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Alta is a personal style companion that simplifies the daily decision of what to wear, offering stress-free outfit suggestions based on your preferences and daily activities.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Ansible",
+  "website": "https://www.ansible.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Ansible is an open-source suite of software tools that enables infrastructure as code, including software provisioning, configuration management, and application deployment functionality.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Anthropic",
+  "website": "https://www.anthropic.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Anthropic is an AI safety and research company that builds reliable, interpretable, and steerable AI systems.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Anvil",
+  "website": "https://www.useanvil.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Anvil automates tedious paperwork through customizable online workflows that gather information, prepare documents, request signatures, and integrate directly with your business software.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Anycart",
+  "website": "https://anycart.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Anycart delivers groceries and offers home cooks over 250 recipes with step-by-step cooking videos.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Appdome",
+  "website": "https://www.appdome.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Appdome is a no-code security and fraud prevention platform for native and non-native Android and iOS apps.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Arc",
+  "website": "https://arcboats.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Arc is electrifying the world of boating, starting with high-performance watersport boats.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Arch",
+  "website": "https://archlabs.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Arch is the digital admin for private investments, delivering the missing infrastructure for managing and understanding private market investments.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Armadin",
+  "website": "https://www.armadin.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Armadin is building an AI-native cyber attacker that autonomously tests customer defenses before real threats can exploit vulnerabilities, creating a continuous cycle of attack simulation and defense hardening.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Assemble Labs",
+  "website": "https://assemblelabs.ai/",
+  "status": "active",
+  "stage": "Pre-Seed",
+  "description": "AssembleAI runs your hardware lab.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Uber",
+  "website": "https://www.uber.com/",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Uber innovates at the intersection of mobile technology, transportation, and logistics. Uber provides mobility-as-a-service with ride-sharing, food and package delivery, couriers, and freight transportation.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Unravel",
+  "website": "http://unraveldata.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Unravel Data automates and simplifies Big Data operations (DataOps) with a full-stack performance intelligence platform that accelerates application performance, optimizes multi-tenant resource usage, and provides operations intelligence—all from a single location.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Unstructured",
+  "website": "https://unstructured.io/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Unstructured transforms organizations’ complex, unstructured data like PDFs, PPTX, HTML files, and more into formats compatible with LLMs so employees can chat with their internal data.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Usermind",
+  "website": "https://www.usermind.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Usermind provides the first unified platform for automating and orchestrating business operations (BizOps). With Usermind, companies can define and automate all aspects of their customer lifecycles to improve revenue, retention, and profitability.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Vareto",
+  "website": "https://www.vareto.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Vareto is a strategic finance platform that powers company planning, reporting, and operational decision-making for enterprise-scale businesses.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Veriflow",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Veriflow brought formal verification to network infrastructure for the first time. Veriflow predicted outages before they impacted the business, and vulnerabilities before they were exploited, allowing IT teams to operate secure and resilient networks.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Vilya",
+  "website": "https://vilyatx.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Vilya is creating a novel class of medicines to treat disease targets inside cells, leveraging its proprietary AI engine to design for drug-like properties and ultimately generate new drug candidates.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Vivun",
+  "website": "https://www.vivun.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Hero by Vivun is the world’s first AI-powered platform for presales leadership, unleashing their strategic potential and creating a seamless interlock between sales and product.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Voltage Security",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Voltage Security delivered breakthrough technology for organizations to protect structured and unstructured data from advanced security threats.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Warby Parker",
+  "website": "https://www.warbyparker.com/",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Warby Parker is an online retailer of prescription glasses, contact lenses, and sunglasses, conceived as an alternative to the overpriced and bland eyewear available today.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Westmag",
+  "website": "https://westmag.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Westmag designs and manufactures drone motors and robot actuators—built and scaled in America to serve the global market.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Whisper Aero",
+  "website": "https://www.whisper.aero/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Whisper Aero makes next-generation components for drones and aircrafts, allowing them to operate more cleanly, efficiently, and quietly than ever before.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Wispr Flow",
+  "website": "https://wisprflow.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Wispr Flow is an immersive voice keyboard that provides effortless voice dictation for every application with AI commands and auto-edits.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Xaira Therapeutics",
+  "website": "https://xaira.com/",
+  "status": "active",
+  "stage": "Seed + Series A",
+  "description": "Xaira Therapeutics is an integrated biotechnology company driving advances in artificial intelligence to learn the language of life and transform how we treat disease.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Yellowbrick Data",
+  "website": "https://yellowbrick.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Yellowbrick is an enterprise data warehouse solution that maximizes the data management capabilities of even the largest enterprise clients while slashing costs.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Yuzu Health",
+  "website": "https://yuzu.health/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Yuzu Health is on a mission to simplify health plan administration from the ground up, starting with claims processing as a third-party administrator (TPA) for plan designers who create employer health insurance plans.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Zafran Security",
+  "website": "https://www.zafran.io/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Zafran Security is the first AI-native, end-to-end Threat Exposure Management platform to help security teams stop vulnerability exploitation everywhere.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Zylo",
+  "website": "https://zylo.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Zylo is the enterprise SaaS management and optimization platform that unlocks the full potential of SaaS for buyers, suppliers, and users.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Assort Health",
+  "website": "https://www.assorthealth.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Assort Health’s voice AI agents work with healthcare providers to automate patient communication, including scheduling, insurance verification, and triage.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Astrix",
+  "website": "https://astrix.security/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Astrix is the leader in non-human identity (NHI) security.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Aurascape",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Aurascape is an AI-native security platform that empowers enterprises with real-time visibility, intent-based controls, and protection for every AI interaction—securing innovation without slowing it down.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Aurora Therapeutics",
+  "website": "https://www.auroratherapeutics.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Aurora is transforming personalized gene editing from a one-patient breakthrough into a scalable platform capable of bringing therapies to millions of patients with rare diseases.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "AVI Networks",
+  "website": "https://avinetworks.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "AVI Networks offers a software solution that maximizes application delivery of enterprise and cloud-based applications.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Axiom",
+  "website": "https://axiommath.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Axiom is building a self-improving, superintelligent reasoner, starting with an AI mathematician.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Bay Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Bay Networks was a provider of data networking software and services for organizations building enterprise-wide information networks.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Benchling",
+  "website": "https://www.benchling.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Benchling is a life sciences R&D cloud platform helping the next generation of scientists make breakthrough discoveries faster than ever before.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Betterment",
+  "website": "https://www.betterment.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Betterment is a financial robo-advisor dedicated to helping people reach their investment goals.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Beyondcore",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "BeyondCore was a pioneer in automated data analytics software.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "BitPay",
+  "website": "https://bitpay.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "BitPay provides enterprise-grade Bitcoin payment solutions for businesses and organizations.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "BitSight",
+  "website": "https://www.bitsight.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "BitSight Technologies is transforming how companies manage information security risk with objective, evidence-based security ratings.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Bluevine",
+  "website": "https://www.bluevine.com/",
+  "status": "active",
+  "stage": "Series C Partner",
+  "description": "Bluevine provides small and medium-sized businesses with access to fast and simple financial products through an advanced, online platform.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Brain Jar Games",
+  "website": "https://www.brainjar.games/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Brain Jar Games is a global studio of AAA veterans on a mission to create vibrant games that players love to share.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Bread",
+  "website": "https://www.breadfinancial.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Bread is a tech-forward financial services company that provides simple, personalized payment, lending, and saving solutions.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Brellium",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Brellium automates chart review with AI so clinical teams can ensure every patient visit meets their payor and clinical quality standards.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Canvas",
+  "website": "https://www.canvas.build/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Canvas is a construction robotics company that uses machine learning to install drywall at construction sites.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Carbonite",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Carbonite is a provider of cloud backup solutions for consumers and small and medium-sized businesses.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Carta",
+  "website": "https://www.carta.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Carta is a software platform for founders, investors, and employees to manage cap tables, equity, and ownership.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Cartwheel",
+  "website": "https://www.cartwheelcare.org/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Cartwheel is a tech-enabled provider for youth mental health services, helping schools and families tackle the student mental health crisis.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Cavium",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Cavium was a provider of highly integrated semiconductor processors that enabled intelligent networking, communications, storage, video and security applications.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Cellfire",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Cellfire offers valuable savings on groceries, shopping, restaurants, and entertainment.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Cequence Security",
+  "website": "https://www.cequence.ai/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Cequence protects an organization’s applications and APIs from attacks, business logic abuse, fraud, and AI, with unified API discovery, compliance, and application protection.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Chai Discovery",
+  "website": "https://www.chaidiscovery.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Chai Discovery builds AI models that predict and reprogram the interactions between biochemical molecules to accelerate life-changing therapeutics.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Check",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Check was a mobile payments and personal finance company. Its free, top-rated mobile app was used by 10 million customers to pay bills.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Cheiron",
+  "website": "https://www.cheiron.bio/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cheiron is building the AI-native operating system for drug development—where biopharma teams execute scientific, clinical, regulatory, and competitive workflows end to end on a unified intelligence layer.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Chime",
+  "website": "http://www.chime.com/",
+  "status": "ipo",
+  "stage": "Series C",
+  "description": "Chime helps members avoid bank fees, save money automatically, and lead healthier financial lives.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Clarifai",
+  "website": "https://www.clarifai.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Clarifai is an artificial intelligence company that excels in visual recognition, solving real-world problems for businesses and developers alike.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Clarify",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Clarify developed e-commerce software solutions that allowed customer service agents to pull up a customer’s historical sales and information during a routine service call.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Cleanlab",
+  "website": "https://cleanlab.ai/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Cleanlab provides no-code, automated data curation for LLMs and the modern AI stack.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Clear Labs",
+  "website": "https://www.clearlabs.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Clear Labs offers the only automated next-generation sequencing platform for applications including COVID diagnostics and food safety testing.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "ClearVector",
+  "website": "https://www.clearvector.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "ClearVector’s identity-focused, real-time platform allows organizations to proactively fight cyberattacks in their AWS environment.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Clerk",
+  "website": "https://clerk.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Clerk provides developer tools for authentication, user management, and session management.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "CloudTrucks",
+  "website": "https://www.cloudtrucks.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Cloudtrucks helps trucking owner-operators and small fleets source and instantly book loads, get paid faster, and streamline back office operations.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "CodeSignal",
+  "website": "https://codesignal.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "CodeSignal’s AI-native skills platform helps organizations hire, train, and grow talent at scale while empowering individuals to advance their careers.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Cofactor Genomics",
+  "website": "https://cofactorgenomics.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Cofactor Genomics is a biotech company whose mission is to enable drug development, medical research, and personalized medicine using RNA-based information and technologies.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "CollegeVine",
+  "website": "https://www.collegevine.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "CollegeVine is an AI agent platform for universities to streamline workflows, drive operational efficiency, and create a better experience for students, faculty, and staff.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "ConverzAI",
+  "website": "https://www.converzai.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "ConverzAI is the leading innovator in AI-driven recruitment solutions. Having pioneered Voice AI for the staffing sector, ConverzAI is now accelerating industry transformation with its AI-powered virtual recruiters.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Credit Sesame",
+  "website": "https://www.creditsesame.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Credit Sesame helps people take control of their credit and save money with smarter loans.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Crogl",
+  "website": "https://www.crogl.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Crogl is a fully autonomous and completely private AI SOC analyst, working on security alerts and threat hunts using the tools your analysts use. No coding, playbooks, or schema normalization required.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Curie.Bio",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Curie.Bio is a seed-stage venture firm and therapeutics accelerator focused on helping founders launch viable therapeutics companies.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "DataXu",
+  "website": "https://www.roku.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "DataXu was an enterprise data and analytics company that offered DX3, the first fully integrated omni-channel marketing management platform.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Daze",
+  "website": "https://daze.chat/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Daze is an AI-powered messaging app that focuses on creative, free-form, and customizable conversations.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Decent",
+  "website": "https://www.decent.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Decent offers more affordable health insurance options for the self-employed by aligning incentives to improve health, reduce costs, and put members at the center of their care.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Dedrone",
+  "website": "https://www.dedrone.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Dedrone is the international market and technology leader in the field of drone detection.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Delfi Diagnostics",
+  "website": "https://delfidiagnostics.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Delfi is developing a revolutionary test for early detection of cancer using machine learning on DNA in the blood.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Delphi",
+  "website": "https://www.delphi.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Delphi turns your expertise into a 24/7 Digital Mind—ready to teach, advise, and scale your impact.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Dropcam",
+  "website": "https://store.google.com/category/nest_cams?hl=en-US",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Dropcam was a WiFi-based camera that an iPhone, Android, or laptop could access to view HD surveillance video anywhere, anytime.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Earli",
+  "website": "https://www.earli.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Earli’s mission is to make cancer a benign experience, by catching and curing it early.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Edge Delta",
+  "website": "https://www.edgedelta.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Edge Delta is an automated observability platform that gives enterprises distributed stream processing, federated machine learning, and intelligent data pipeline capabilities.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "EdgeCast",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "EdgeCast helps digital media companies improve the efficiency and simplicity of managing video streaming, content delivery and cloud security.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "eero",
+  "website": "https://eero.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "eero is a whole home WiFi system, delivering fast, reliable WiFi to every room via a mesh system that’s flexible enough for any layout.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Eleos Health",
+  "website": "https://eleos.health/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Eleos Health leverages specialized clinical AI models to turn behavioral health conversations into documentation and care intelligence, reducing admin work by over 50% and improving outcomes 3–4x.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Enable",
+  "website": "https://www.enable.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Enable is a collaborative B2B rebate management platform that makes it easy to manage and scale rebate programs.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Encoded Therapeutics",
+  "website": "http://www.encoded.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Encoded Therapeutics, a precision gene therapy company, is developing genomics-driven medicines that have the potential to transform the treatment paradigm for severe genetic disorders.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Endgame",
+  "website": "https://www.endgame.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Endgame is the world's first solution for product-led sales, designed to transform how modern software companies go to market.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Envoy",
+  "website": "https://envoy.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "From visitors to meeting rooms, Envoy is redefining how people, places, and technology work together with desk booking, schedule sharing, health checks, and more.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Epic!",
+  "website": "https://www.getepic.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Epic! is the leading digital library for kids 12 and under, where they can explore their interests and learn with instant, unlimited access to 40,000 high-quality ebooks, audiobooks, learning videos, and quizzes.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Epiodyne",
+  "website": "https://epiodyne.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Epiodyne is developing breakthrough opioid medicines to manage pain and treat opioid use disorder (OUD) with minimal potential for addiction and safety risks.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Eppo",
+  "website": "https://www.geteppo.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Eppo helps companies run useful, reliable experiments by automating analysis, diagnostics, and investigations, all on top of their data warehouse.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Eve",
+  "website": "https://www.eve.legal/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Eve is the legal AI platform built for the full plaintiff case lifecycle: handle more cases, reduce time on desk, and increase settlement values.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Everlaw",
+  "website": "https://www.everlaw.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Everlaw is a cloud-based litigation platform that enables teams to collaboratively discover, reveal, and act on the information that drives internal investigations and positively impacts legal outcomes.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "F5",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "F5 application services ensure that applications are always secure and perform the way they should—in any environment and on any device.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Factory",
+  "website": "https://factory.com/",
+  "status": "active",
+  "stage": "Series D",
+  "description": "Factory brings autonomy to software engineering with Droids that automate coding, testing, and deployment for startups and enterprises.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Fieldwire",
+  "website": "https://www.fieldwire.com/",
+  "status": "acquired",
+  "stage": "Series C",
+  "description": "Fieldwire is the field management platform construction professionals count on to easily manage their job sites.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Finch",
+  "website": "https://tryfinch.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Finch allows applications to access data and make changes across payroll and HR systems through a single API.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Fintool",
+  "website": "https://fintool.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Fintool is building the financial copilot for public equity investors, helping discover financial insights beyond the reach of human analysis, summarize annual reports, and compute numbers.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "FireHydrant",
+  "website": "https://firehydrant.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "FireHydrant builds tools that modern operations teams are using to respond to complex problems in their globally distributed applications.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Fireworks",
+  "website": "https://fireworks.ai/",
+  "status": "active",
+  "stage": "Series D",
+  "description": "Fireworks is a global AI inference cloud and infrastructure platform that enables teams to build, tune, and scale highly optimized generative AI applications.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "FiveStars",
+  "website": "https://www.fivestars.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "FiveStars’ mission is to help businesses and communities thrive by turning every transaction into a relationship.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Fleetsmith",
+  "website": "https://www.apple.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Fleetsmith helped companies put device management on auto-pilot by automating new device setup, inventory, patching, and security for their Macs, iPhones, iPads, and Apple TVs.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Flurry",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Flurry is a mobile app analytics platform that empowers product, development, and growth experts to build better apps that users love.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Function Health",
+  "website": "https://www.functionhealth.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Function Health is a membership-based platform for comprehensive lab testing, along with personalized health insights and recommendations.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Genesis Molecular AI",
+  "website": "https://genesis.ml/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Genesis Molecular AI is pioneering foundation models for molecular AI to unlock a new era of drug design and development.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Getaround",
+  "website": "https://www.getaround.com/",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": "Mobile peer-to-peer car sharing marketplace that enables individuals to rent cars to a community of trusted drivers by the hour, day, or week.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Gilead",
+  "website": "http://www.gilead.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "Gilead is a research-based biopharmaceutical company that discovers, develops, and commercializes innovative medicines in areas of unmet medical need.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Gimlet Labs",
+  "website": "https://gimletlabs.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Gimlet provides serverless inference for AI agents, handling scheduling, orchestration, and optimization, so you can focus on adding new capabilities to your agents.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Good Job Games",
+  "website": "https://www.goodjobgames.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Good Job Games builds fun, challenging, and creative games that are crafted with attention to perfection, offering players a radiant gaming experience.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Goodfire",
+  "website": "https://www.goodfire.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Goodfire is an AI interpretability research lab focused on understanding and intentionally designing advanced AI systems.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Graphite",
+  "website": "https://graphite.dev/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Graphite is an AI-powered developer productivity platform that helps developers create, review, and merge smaller code changes, stay unblocked, and ship faster.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Grow Therapy",
+  "website": "https://growtherapy.com/",
+  "status": "active",
+  "stage": "Series D",
+  "description": "Grow Therapy is a mental health care company that makes it easy for people to find incredible, insurance-covered care, while helping therapists build thriving practices.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "H1",
+  "website": "https://www.h1.co/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "H1's health data platform supports the end-to-end therapeutic development process of medical companies and healthcare systems.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Harness",
+  "website": "https://harness.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Harness’ Continuous-Delivery-as-a-Service platform enables every software engineering team in the world to deliver code reliably, efficiently and quickly to their users.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Heap",
+  "website": "https://heap.io/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Heap is a digital insights platform that combines quantitative and qualitative analytics for a 360º degree view of your customer journey.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Walden Robotics",
+  "website": "https://www.waldenrobotics.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Walden Robotics is a full-stack Physical AI company building and deploying general-purpose robots that put human ingenuity to work at industrial scale.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Squad Health",
+  "website": "https://www.squadhealth.ai/",
+  "status": "active",
+  "stage": "Pre-Seed",
+  "description": "Squad Health’s AI platform handles all of the administrative work associated with specialty prescriptions, freeing up practitioners to focus on patients.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Fleet AI",
+  "website": "https://www.fleetai.com/",
+  "status": "active",
+  "stage": "Pre-Seed",
+  "description": "Fleet creates simulated worlds and real-world challenges to better understand and shape the behavior of artificial intelligences.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Flapping Airplanes",
+  "website": "https://flappingairplanes.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Flapping Airplanes is a foundational AI research lab devoted to solving the problem of data efficiency.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Phylo",
+  "website": "https://phylo.bio/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Phylo is an applied research lab building the best agentic intelligence to accelerate discoveries for every biomedical scientist.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Inception",
+  "website": "https://www.inceptionlabs.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Inception is leveraging diffusion technology to develop a new generation of LLMs that are faster and more efficient, accurate, controllable, and performant on multimodal tasks than traditional auto-regressive LLMs.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Trove AI",
+  "website": "https://www.trove.ai",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Trove supercharges research, analysis, and drafting in fields like private equity using AI agents that securely tap into your firm’s knowledge.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "WisdomAI",
+  "website": "https://www.askwisdom.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "WisdomAI is a generative AI conversational assistant to get expert-level insights from your business data.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Bluenote",
+  "website": "https://www.bluenotehealth.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Bluenote AI builds agents for life sciences companies to automate all mechanical work and bring medical breakthroughs to patients sooner.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Gather",
+  "website": "https://www.gatherhq.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Gather is a continuous customer intelligence platform that runs AI-moderated research with real buyers and turns it into shippable strategies and campaigns.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Atta",
+  "website": "https://atta.app/",
+  "status": "acquired",
+  "stage": "SAFE",
+  "description": "Atta’s AI agents help you tackle any analytical challenge—model data, discovering hidden patterns, or forecasting what’s next.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Colla Health",
+  "website": "https://www.collahealth.com/",
+  "status": "active",
+  "stage": "SAFE",
+  "description": "Colla Health provides accessible, relevant behavioral health care to the 17 million cancer patients in the U.S. as an extension of their medical treatment.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Aron",
+  "website": "https://www.aronhq.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Aron is a manufacturing and industrials procurement platform for cleaning ERP spend data, benchmarking, and negotiating indirect spend.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Alma",
+  "website": "https://www.alma.food/",
+  "status": "active",
+  "stage": null,
+  "description": "Alma is reimagining nutrition tracking by combining AI with an intuitive experience, transforming how people approach nutrition and healthy eating.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Okthx",
+  "website": "https://okthx.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Okthx is a coordination assistant for working parents that handles the actual work of scheduling.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Trigo",
+  "website": "https://trigodata.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Trigo is a consumer reporting agency that provides missing rent data through a real-time API and web application to help landlords approve better tenants and lenders write more loans.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "WorkUp",
+  "website": "https://www.workup.health/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "WorkUp is a talent pipeline management tool to help the healthcare system solve the clinical workforce shortage.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Syntellect",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Syntellect, Inc. developed and marketed voice, internet, and call processing services. The company offered services such as project management, system implementation and integration, application development, and speech services.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Swantide",
+  "website": "https://www.swantide.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Swantide automates the configuration and management of a modern GTM tech stack.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "iBasis",
+  "website": "https://ibasis.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "iBasis is the leading communications solutions provider enabling operators and digital players worldwide to perform and transform.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "YuMe",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "YuMe was a leading independent provider of digital video brand advertising solutions.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "VNUS Medical Technologies",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "VNUS Medical Technologies, Inc. developed, manufactured, and marketed the closure system used in the treatment of venous reflux disease.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Valid Logic Systems",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Valid Logic Systems was a technology company that manufactured and distributed commercial electronic design automation systems.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "UUNET",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "UUNET was the first commercial internet service provider and the world’s leading internet carrier in the 1980s and 1990s. The company provided a comprehensive range of internet services to business customers worldwide.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Upwork",
+  "website": "https://www.upwork.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "Upwork is a global freelancing platform where businesses or individuals connect to conduct business.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Upstart",
+  "website": "https://www.upstart.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "Upstart is an AI lending platform that partners with banks and credit unions to provide consumer loans using non-traditional variables, such as education and employment, to predict creditworthiness.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Truework",
+  "website": "https://www.truework.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Truework is a one-stop platform that helps banks, lenders, and others verify income, employment, and other identity data.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Teaching Strategies",
+  "website": "https://teachingstrategies.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Teaching Strategies is the #1 provider of early childhood solutions in the country.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Spinnaker Networks",
+  "website": "https://www.netapp.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Spinnaker Networks was a supplier of next-generation NAS storage solutions.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "SpectraLink",
+  "website": "https://www.spectralink.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "SpectraLink delivers secure, cost-effective mobile communication solutions that empower enterprises to streamline operations, increase their revenues, and deliver a positive customer experience each and every time.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Smartsheet",
+  "website": "https://www.smartsheet.com/",
+  "status": "ipo",
+  "stage": "(at Summit Partners)",
+  "description": "Smartsheet provides businesses with collaboration software and solutions to create team efficiency, effectiveness and scale.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "SimpliVity",
+  "website": "https://www.hpe.com/us/en/home.html",
+  "status": "acquired",
+  "stage": null,
+  "description": "SimpliVity provides a hyper-converged infrastructure that accelerates the deployment of resources and workloads.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Shopkick",
+  "website": "https://www.shopkick.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Shopkick is a shopping app that offers users rewards for shopping activities both online and in store, such as entering stores, scanning items, making purchases, and submitting receipts.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Shazam",
+  "website": "https://www.shazam.com/home",
+  "status": "acquired",
+  "stage": null,
+  "description": "Shazam is a smartphone app that can identify music, movies, advertising, and television shows based on a short audio sample.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "SessionM",
+  "website": "https://www.sessionm.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "SessionM’s customer engagement and loyalty platform empowers the world’s most innovative brands—including retailers, airlines, restaurants and CPG companies—to forge stronger and more profitable consumer relationships.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Schooner",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Schooner Information Technology provided database management system appliances for Web 2.0, cloud computing, and data centers.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Scan",
+  "website": "https://scan.snapchat.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Scan is an AR experience that senses, enhances, and transforms the physical world, merging entertainment, information, and utility.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Scality",
+  "website": "https://www.scality.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Scality is an industry leader in petabyte-scale storage.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Rubric",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Rubric eMA provided a lead management engine to optimize channel lead flow, integrating response and lead management to automatically capture and measure campaign responses from multiple customer touch points.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "RNA Networks",
+  "website": "https://www.dell.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "RNA Networks offered a memory virtualization platform that made memory a shared resource and accelerated business.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Redfin",
+  "website": "https://www.redfin.com/",
+  "status": "ipo",
+  "stage": "(at Globespan)",
+  "description": "Redfin is a real estate brokerage founded with the hopes of upending the traditional brokerage model.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Redfast",
+  "website": "https://www.redfast.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Redfast is a data-driven system for subscription businesses that aims to transform churn into retention.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Puppet",
+  "website": "https://puppet.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Puppet automates the delivery and operation of the software that powers some of the biggest brands in the world.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Palo Alto Networks",
+  "website": "https://www.paloaltonetworks.com/",
+  "status": "ipo",
+  "stage": "(at Globespan)",
+  "description": "Palo Alto Networks is a multinational cybersecurity company. Its core products are a platform that includes advanced firewalls and cloud-based offerings that extend those firewalls to cover other aspects of security.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Lytx",
+  "website": "https://www.lytx.com/en-us/",
+  "status": "active",
+  "stage": null,
+  "description": "Lytx designs, manufactures, and sells video telematics products used by commercial and public-sector fleets to help improve driver safety and business productivity.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Livingly Media",
+  "website": "https://www.livinglymedia.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Livingly Media is a digital media publisher with a large-scale technology platform.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Like.com",
+  "website": "https://www.google.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Like.com was a visual search engine that allowed users to find similar products on the web and compare their prices.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "INVIDI",
+  "website": "https://www.invidi.com/",
+  "status": "active",
+  "stage": null,
+  "description": "INVIDI provides addressable and programmatic TV advertising services and solutions.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Infoseek",
+  "website": "https://thewaltdisneycompany.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Infoseek was a popular search engine that pioneered marketing advertisements on its site and developed behavioral targeting algorithms.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "IMVU",
+  "website": "https://about.imvu.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "IMVU is an online metaverse and social network where users can create 3D avatars and connect and chat with other people around the world.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "HNC Software",
+  "website": "https://www.fico.com/",
+  "status": "active",
+  "stage": null,
+  "description": "HNC Software provided analytics and decision management software and tools that the facilitated management of customer interactions by converting data and business experiences into recommendations.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Freightquote",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Freightquote is an online transportation broker of freight services throughout North America, providing shipping rates for national and regional freight carriers.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Frame Technology Corporation",
+  "website": "https://www.adobe.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Frame Technology Corporation was the original developer of the FrameMaker document processor.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "FaxSav",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "FaxSav was an internet email fax service provider for small office and individual users, which later became known as NetMoves Corporation (NASDAQ: NTMV).",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Exeros",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Exeros operated as a data relationship discovery and management company offering data migration solutions for enterprises.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "eXelate",
+  "website": "https://www.crunchbase.com/organization/exelate",
+  "status": "acquired",
+  "stage": null,
+  "description": "eXelate was the leading data and analytics engine powering optimal digital marketing decisions.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Entone",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Entone was a provider of hybrid TV and media hub solutions that integrated broadcast television, DVR, web media services, and personal media sharing.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "EndoVascular Technologies",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "EndoVascular Technologies designed, developed, and manufactured minimally invasive endovascular systems to repair diseased or damaged vascular structures.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Egnyte",
+  "website": "https://www.egnyte.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Egnyte provides secure enterprise file sharing, intelligent content services, and collaboration solutions.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Efficient Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Efficient Networks supplied high-speed digital subscriber line equipment.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Drawbridge",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Drawbridge used artificial intelligence to learn more about customers and target audiences.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "DocuSign",
+  "website": "https://www.docusign.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "DocuSign helps organizations connect and automate how they prepare, sign, act on, and manage agreements.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Digital Insight",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Digital Insight was a provider of online banking software to banks and credit unions. It also designed FinanceWorks, a product that allowed customers to manage their finances.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "DataStax",
+  "website": "https://www.datastax.com/",
+  "status": "active",
+  "stage": null,
+  "description": "DataStax provides the technology stack for building generative AI applications and managing data at scale.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Cyras",
+  "website": "https://www.ciena.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Cyras Systems developed high-speed, multi-service switching platforms for optical metropolitan area networks.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Clearwater Analytics",
+  "website": "https://clearwateranalytics.com/",
+  "status": "ipo",
+  "stage": "(at Summit Partners)",
+  "description": "Clearwater Analytics is a leading provider of SaaS-based investment accounting, reporting, and analytics solutions.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "ClearBrain",
+  "website": "https://www.clearbrain.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "ClearBrain’s technology continuously simulates A/B tests on marketers' conversion goals, sifting through historical data to isolate the causal effect of every user action.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "CinemaNow",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "CinemaNow was an international over-the-top (OTT) provider of on-demand, internet streaming media.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Carrier Access Corporation",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Carrier Access Corporation was an equipment manufacturer that helped telecommunications companies enhance service revenue, lower operating costs, and extend capital budgets by providing high-performance access and new service technologies.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "BlueGill Technologies",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "BlueGill Technologies was a software development company that provided electronic bill presentment and payment solutions.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "AutoNavi",
+  "website": "https://mobile.amap.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "AutoNavi is a Chinese web mapping, navigation, and location-based services provider.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Asthmatx",
+  "website": "https://www.bostonscientific.com/en-US/Home.html",
+  "status": "acquired",
+  "stage": null,
+  "description": "Asthmatx was a medical device company focused on helping patients breathe easier. The company developed a catheter-based outpatient procedure that provided long-lasting and improved asthma control for adult severe asthma patients.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Ascentis",
+  "website": "https://www.ascentis.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Ascentis provides best-in-class human resources tools including HRIS, payroll, time and attendance, talent management, and recruiting software.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Ascend Communications",
+  "website": "https://www.al-enterprise.com/en",
+  "status": "acquired",
+  "stage": null,
+  "description": "Ascend Communications, Inc. designed and manufactured equipment for high-density dial-up installations.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "AppDynamics",
+  "website": "https://www.appdynamics.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "AppDynamics provides a full-stack application performance management (APM) and IT operations analytics (ITOA) platform.",
+  "sector": null,
+  "fund": "menlo"
+ },
+ {
+  "name": "Aimmune Therapeutics",
+  "website": "https://www.aimmune.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "Aimmune Therapeutics is a biopharmaceutical company developing and bringing new treatments to people with potentially life-threatening food allergies.",
+  "sector": null,
+  "fund": "menlo"
+ }
+]

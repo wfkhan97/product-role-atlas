@@ -1,0 +1,1073 @@
+[
+ {
+  "name": "Addepar",
+  "website": "https://addepar.com/",
+  "status": "active",
+  "stage": "Angel",
+  "description": "Wealth management for financial advisors and family offices.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Affirm",
+  "website": "https://www.affirm.com",
+  "status": "ipo",
+  "stage": "Angel",
+  "description": "Buy-now-pay-later lender that lets shoppers split purchases into installments at checkout.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Agentio",
+  "website": "http://agentio.com/",
+  "status": "active",
+  "stage": "Co-led Seed",
+  "description": "Ad marketplace that connects brands with creators on YouTube and other platforms.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Agentsync",
+  "website": "https://agentsync.io",
+  "status": "active",
+  "stage": "Seed, Led Series A",
+  "description": "Compliance and licensing infrastructure for insurance carriers, brokers, and agencies.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "AirBnB",
+  "website": "https://www.airbnb.com",
+  "status": "ipo",
+  "stage": "Angel",
+  "description": "Online marketplace for short-term home and vacation rentals.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Allen Control Systems",
+  "website": "https://allencontrolsystems.com/",
+  "status": "active",
+  "stage": "Led Seed, Led Series A",
+  "description": "Autonomous precision weapon systems designed to counter drones.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Anduril",
+  "website": "https://www.anduril.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Autonomous hardware and AI software for military applications.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Arch",
+  "website": "https://archlabs.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Automates the administrative work of investing in alternative assets like venture capital and private equity.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Arcol",
+  "website": "https://www.arcol.io/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Collaborative, cloud-based design software for architects and designers.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Autonomic",
+  "website": "https://autonomic.ai/",
+  "status": "acquired",
+  "stage": "Angel",
+  "description": "Cloud platform that powers connected-vehicle data and mobility services.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Bandana",
+  "website": "https://bandana.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Job marketplace for hourly workers that offers transparent, upfront pay.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Bird",
+  "website": "https://www.bird.co/",
+  "status": "ipo",
+  "stage": "Led Series A",
+  "description": "Electric scooter and bike sharing service.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "BitGo",
+  "website": "https://www.bitgo.com/info/",
+  "status": "ipo",
+  "stage": "Co-led Series B",
+  "description": "Digital asset custody, trading, and security platform built for institutional crypto investors.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Bitwise",
+  "website": "https://www.bitwiseinvestments.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Crypto-focused asset manager offering index funds and other investment products.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Cabal",
+  "website": "http://getcabal.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Private workspace for startup founders, investors, and advisors to collaborate.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Callin",
+  "website": "https://www.callin.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "The first social podcasting platform.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Camber",
+  "website": "https://www.camber.health/",
+  "status": "active",
+  "stage": "Led Seed",
+  "description": "Automated revenue cycle management and medical billing for healthcare providers.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Candex",
+  "website": "https://www.candex.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Vendor management and payment platform for enterprise procurement teams.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Cartwheel",
+  "website": "http://getcartwheel.com/",
+  "status": "active",
+  "stage": "Led Seed",
+  "description": "An AI-powered, browser-based 3D motion platform for character animations.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "ClickUp",
+  "website": "http://www.clickup.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "All-in-one productivity platform for project management, docs, and team collaboration.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "CloudTrucks",
+  "website": "https://www.cloudtrucks.com/",
+  "status": "active",
+  "stage": "Led Seed",
+  "description": "A carrier designed for independent truckers.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Crew Ai",
+  "website": "https://crewai.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "A framework designed to orchestrate multiple AI agents to work together as a collaborative team.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Daylight Security",
+  "website": "https://daylight.ai/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Managed Agentic Security Services that combine autonomous AI agents with human threat hunters.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Dune Security",
+  "website": "https://www.dune.security/",
+  "status": "active",
+  "stage": "Led Seed",
+  "description": "An adaptive security awareness platform that runs personalized phishing simulations and training for employees.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "EchoMark",
+  "website": "http://echomark.com/",
+  "status": "active",
+  "stage": "Led Seed",
+  "description": "Invisible document watermarking that tracks and identifies the source of internal leaks.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Eight Sleep",
+  "website": "https://www.eightsleep.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "A sleep system designed for deeper recovery.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "ElevenLabs",
+  "website": "https://elevenlabs.io/",
+  "status": "active",
+  "stage": "Angel-Seed",
+  "description": "AI voice generation platform for realistic text-to-speech, dubbing, and voice cloning.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Ent",
+  "website": "https://ent.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Workspace security platform that understands the intent behind human and AI actions to prevent data loss and cyber threats in real time.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Equals",
+  "website": "https://equals.app",
+  "status": "active",
+  "stage": "Led Seed",
+  "description": "The modern spreadsheet built for business analytics.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Eventbrite",
+  "website": "https://www.eventbrite.com/",
+  "status": "ipo",
+  "stage": "Angel",
+  "description": "Online platform for creating, promoting, and selling tickets to events.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Fellow",
+  "website": "https://fellow.app/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Meeting productivity app for agendas, notes, and action items.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Fingerprint",
+  "website": "https://fingerprint.com/",
+  "status": "active",
+  "stage": "Led Series B",
+  "description": "Fingerprint empowers developers to solve online fraud.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "First Resonance",
+  "website": "https://www.firstresonance.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Manufacturing operations software for hardware companies that build physical products.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Fold",
+  "website": "https://foldapp.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Fold builds apps for spending bitcoin in the real world.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "GenHealth.ai",
+  "website": "http://genhealth.ai",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Generative AI for healthcare operations — intake, eligibility, prior auth, and more.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Glean",
+  "website": "https://www.glean.com/",
+  "status": "active",
+  "stage": "Series E",
+  "description": "AI-powered work assistant and enterprise search that finds information across all your company's apps.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Glue",
+  "website": "http://glue.ai/",
+  "status": "active",
+  "stage": "Led Seed",
+  "description": "Better work chat for the AI era.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Greenlite",
+  "website": "https://www.greenlite.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Simplified construction permitting helping developers, architects, and contractors open projects faster and with less risk.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Grid",
+  "website": "https://www.withgrid.com",
+  "status": "active",
+  "stage": "Led Seed",
+  "description": "Financial intelligence and data analytics platform that is the source of truth for tracking pipeline, revenue, retention, and efficiency.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Harmonic Lab",
+  "website": "https://harmonic.ai/",
+  "status": "active",
+  "stage": "Led Seed",
+  "description": "Startup database and discovery engine to find, analyze, and track private companies.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Horizon3.ai",
+  "website": "http://horizon3.ai",
+  "status": "active",
+  "stage": "Led Series C",
+  "description": "Autonomous penetration testing platform that continuously finds and verifies security vulnerabilities.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Houzz",
+  "website": "https://www.houzz.com/",
+  "status": "active",
+  "stage": "Angel",
+  "description": "Online platform connecting homeowners with designers, contractors, and home improvement products.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Hyfix",
+  "website": "https://hyfix.ai/",
+  "status": "active",
+  "stage": "Led Seed",
+  "description": "American-made autonomous systems chips for high-precision drones and robotics.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Instawork",
+  "website": "https://www.instawork.com/",
+  "status": "active",
+  "stage": "Led Series C",
+  "description": "Staffing app that matches hourly workers with shifts at local businesses.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Intercom",
+  "website": "https://www.intercom.com/",
+  "status": "active",
+  "stage": "Angel",
+  "description": "Customer messaging and support platform combining chat, help center, and AI agents.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Klue",
+  "website": "https://klue.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Competitive intelligence platform that helps sales and marketing teams win deals against rivals.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Knock",
+  "website": "https://knock.app/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Developer infrastructure for sending in-app, email, push, and SMS notifications.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Lightning Labs",
+  "website": "https://lightning.engineering/",
+  "status": "active",
+  "stage": "Led Series A, Seed",
+  "description": "Infrastructure for Bitcoin's Lightning Network, enabling fast, low-cost payments.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Loft Dynamics",
+  "website": "https://www.loftdynamics.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Maker of compact, full-motion VR flight simulators used to train pilots.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Lyft",
+  "website": "https://www.lyft.com/",
+  "status": "active",
+  "stage": "Angel",
+  "description": "Ride-sharing app connecting passengers with drivers.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Meta",
+  "website": "https://www.facebook.com/",
+  "status": "ipo",
+  "stage": "Angel",
+  "description": "Parent company of Facebook, Instagram, WhatsApp, and Reality Labs, focused on social platforms and the metaverse.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "NEO",
+  "website": "https://www.neo.ai/",
+  "status": "active",
+  "stage": "Seed, Series A",
+  "description": "Agentic software control platform to secure organizations' agentic software environments.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Neuralink",
+  "website": "https://neuralink.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Ultra-high bandwidth brain-machine interfaces to connect humans and computers.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Noetive",
+  "website": "https://noetive.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Building the intelligence of record for the physical economy.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Norm Ai",
+  "website": "http://norm.ai",
+  "status": "active",
+  "stage": "Series A",
+  "description": "A legal engineering platform that uses AI agents to automate regulatory compliance.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Oasis",
+  "website": "https://www.oasis.security/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Security platform for managing non-human identities like service accounts and API keys.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Ohalo",
+  "website": "http://ohalo.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Agricultural biotechnology to help farmers grow more food with fewer natural resources.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Onehouse",
+  "website": "https://www.onehouse.ai/",
+  "status": "active",
+  "stage": "Led Series B",
+  "description": "Managed cloud data lakehouse built on Apache Hudi for fast, open analytics.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Opendoor",
+  "website": "https://www.opendoor.com/",
+  "status": "ipo",
+  "stage": "Angel",
+  "description": "Online platform that buys homes directly from sellers and resells them, simplifying residential real estate transactions.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "OpenEvidence",
+  "website": "https://www.openevidence.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "AI-powered medical search engine that helps clinicians find evidence-based answers from peer-reviewed literature.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Orum",
+  "website": "https://www.orumhq.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "AI-powered live conversation platform designed to enhance sales team productivity",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Pair Team",
+  "website": "https://www.pairteam.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-enabled healthcare platform coordinating medical, behavioral, and social care for Medicaid and Medicare patients.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Palantir",
+  "website": "https://www.palantir.com/",
+  "status": "ipo",
+  "stage": "Angel",
+  "description": "Data analytics and AI software for government agencies and large enterprises.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Palmstreet",
+  "website": "https://palmstreet.app/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Live-shopping app selling rare plants, ceramics, and other collectibles.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "ParadeDB",
+  "website": "https://www.paradedb.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Open-source, Postgres-compatible database designed to perform search & analytics on large-scale data.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Pave",
+  "website": "https://www.pave.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Compensation benchmarking and planning platform for HR and finance teams.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Pearl",
+  "website": "https://hellopearl.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "AI-driven solution for enhancing patient care in dentistry.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "People Data Labs",
+  "website": "https://www.peopledatalabs.com/",
+  "status": "active",
+  "stage": "Led Series B",
+  "description": "API that provides developers with structured data on people and companies.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Peregrine",
+  "website": "https://www.peregrine.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Data integration platform that unifies records for public safety and government agencies.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Pickle",
+  "website": "https://www.shoponpickle.com/home",
+  "status": "active",
+  "stage": "Seed, Led Series A",
+  "description": "A peer-to-peer fashion rental app for users to rent clothing, shoes, and accessories directly from other people's closets.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Postmates",
+  "website": "https://postmates.com/",
+  "status": "acquired",
+  "stage": "Angel",
+  "description": "On-demand delivery service for food and local goods, now part of Uber.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Productboard",
+  "website": "https://www.productboard.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Product management software that helps teams prioritize features and roadmaps.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "QUO",
+  "website": "https://www.quo.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "The shared business phone and inbox that gives your team one place for every call, text, and customer",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Quora",
+  "website": "https://www.quora.com/",
+  "status": "active",
+  "stage": "Angel",
+  "description": "Question-and-answer platform where users ask, answer, and follow topics they care about.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Ragie",
+  "website": "https://ragie.ai/",
+  "status": "active",
+  "stage": "Led Seed",
+  "description": "Managed retrieval-augmented generation service that helps developers add knowledge to AI apps.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Reddit",
+  "website": "https://www.reddit.com/",
+  "status": "ipo",
+  "stage": "Series C",
+  "description": "Network of online communities where users post, vote on, and discuss content by topic.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Replit",
+  "website": "http://replit.com/",
+  "status": "active",
+  "stage": "Series B Extension",
+  "description": "Browser-based coding environment with AI agents that build and deploy apps.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Returnly",
+  "website": "https://returnly.com/",
+  "status": "acquired",
+  "stage": "Led Series B",
+  "description": "Returns and exchanges platform for online retailers.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Roboflow",
+  "website": "https://roboflow.com/",
+  "status": "active",
+  "stage": "Seed, Led Series A",
+  "description": "Computer vision platform that helps developers label data, train models, and deploy them.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Route",
+  "website": "https://route.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Package tracking and shipping protection app for online shoppers, integrated with ecommerce stores.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Sandbox VR",
+  "website": "https://sandboxvr.com/",
+  "status": "active",
+  "stage": "Co-led Series A",
+  "description": "Virtual reality entertainment venues offering full-body immersive experiences.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Saronic",
+  "website": "https://www.saronic.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Autonomous surface vessels for defense and maritime missions.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Scratchpad",
+  "website": "https://scratchpad.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Sales workspace designed to increase revenue team productivity by eliminating manual Salesforce admin work.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Secoda",
+  "website": "https://www.secoda.co/",
+  "status": "acquired",
+  "stage": "Seed, Led Series A",
+  "description": "AI-powered data catalog that helps teams find and understand their company's data.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "SecurityPal",
+  "website": "https://www.securitypalhq.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Completes security questionnaires for companies, blending humans and AI.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Sendoso",
+  "website": "https://sendoso.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Corporate gifting and direct mail platform for sales and marketing teams.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Sentilink",
+  "website": "https://www.sentilink.com/",
+  "status": "active",
+  "stage": "Led Series B",
+  "description": "Identity verification and fraud detection platform focused on synthetic identity fraud for lenders.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Shef",
+  "website": "https://myshef.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Marketplace that lets people buy homemade meals from local home cooks.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Slack",
+  "website": "https://slack.com/",
+  "status": "acquired",
+  "stage": "Angel",
+  "description": "Team messaging and collaboration platform organized around channels.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "SnackMagic",
+  "website": "https://www.snackmagic.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Build-your-own snack box gifting service for employees, clients, and event attendees.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Snackpass",
+  "website": "https://www.snackpass.co/",
+  "status": "active",
+  "stage": "Led Series B",
+  "description": "Mobile ordering and rewards app for local restaurants.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Solace",
+  "website": "https://www.solace.health/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Connects patients with healthcare advocates who help them navigate insurance, appointments, and care decisions.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Sourcegraph",
+  "website": "https://sourcegraph.com/",
+  "status": "active",
+  "stage": "Led Series B",
+  "description": "Code search and AI coding assistant for large engineering teams.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "SpaceX",
+  "website": "https://www.spacex.com/",
+  "status": "active",
+  "stage": "Angel",
+  "description": "Aerospace company building reusable rockets and the Starlink satellite internet network.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Spekit",
+  "website": "https://spekit.com/",
+  "status": "active",
+  "stage": "Led Series B",
+  "description": "AI-powered sales enablement platform that delivers training and answers in the flow of work.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Starbridge",
+  "website": "https://starbridge.ai/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Helps businesses win government and school contracts with AI-powered sales intelligence.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Supabase",
+  "website": "http://supabase.com",
+  "status": "active",
+  "stage": "Co-led Series C",
+  "description": "Open-source backend-as-a-service to build secure, scalable, and real-time applications.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Swarm",
+  "website": "https://www.swarm.space/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Low-cost satellite network for connecting IoT devices anywhere on earth, now part of SpaceX.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "The Boring Company",
+  "website": "https://www.boringcompany.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Tunnel construction company building underground transportation systems.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Trellis",
+  "website": "https://trellis.law/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Legal research platform for searching state trial court records.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Trulia",
+  "website": "https://www.trulia.com/",
+  "status": "acquired",
+  "stage": "Angel",
+  "description": "Online real estate marketplace for home buyers and renters.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Trusted Health",
+  "website": "https://www.trustedhealth.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Staffing platform that connects travel nurses and clinicians with healthcare jobs.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "TrustLayer",
+  "website": "https://trustlayer.io/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Automates verification of insurance certificates and vendor compliance for businesses.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Twilio",
+  "website": "https://www.twilio.com/",
+  "status": "ipo",
+  "stage": "Angel",
+  "description": "Cloud communications APIs for sending SMS, voice, email, and chat from apps.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Uber",
+  "website": "https://www.uber.com/",
+  "status": "ipo",
+  "stage": "Angel",
+  "description": "Global platform for ride-sharing, food delivery, and freight.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Upwind",
+  "website": "http://upwind.io/",
+  "status": "active",
+  "stage": "Seed, Led Series A",
+  "description": "Cloud security platform that combines runtime threat detection with vulnerability management.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "UserGems",
+  "website": "https://www.usergems.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "Sales intelligence tool that tracks job changes and warm contacts to surface pipeline opportunities.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Vanta",
+  "website": "https://www.vanta.com/",
+  "status": "active",
+  "stage": "Led Series C",
+  "description": "Automates security and compliance for frameworks like SOC 2, ISO 27001, and HIPAA.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Vendr",
+  "website": "https://www.vendr.com/",
+  "status": "acquired",
+  "stage": "Led Seed",
+  "description": "SaaS buying platform that helps companies negotiate and manage their software contracts.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Verifiable",
+  "website": "https://verifiable.com/",
+  "status": "active",
+  "stage": "Led Series B",
+  "description": "Healthcare credentialing and provider data management platform.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Vooma",
+  "website": "https://vooma.com/",
+  "status": "active",
+  "stage": "Led Series A",
+  "description": "AI agents for freight brokers that automate quoting and load building.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Warby Parker",
+  "website": "https://www.warbyparker.com/",
+  "status": "ipo",
+  "stage": "Angel",
+  "description": "Direct-to-consumer eyewear brand offering glasses, contacts, and eye exams online and in stores.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "WorkOS",
+  "website": "https://workos.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Provides APIs and tools that help developers quickly make their applications \"enterprise-ready.\"",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "X",
+  "website": "https://twitter.com/",
+  "status": "ipo",
+  "stage": "Angel",
+  "description": "Social media platform.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "X1",
+  "website": "https://x1creditcard.com/",
+  "status": "acquired",
+  "stage": "Led Series A",
+  "description": "Credit card that sets limits based on income rather than credit score.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Xona",
+  "website": "https://www.xonaspace.com/",
+  "status": "active",
+  "stage": "Led Series B",
+  "description": "Building a low-earth-orbit satellite network to provide a more accurate, secure alternative to GPS.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Xoom",
+  "website": "https://www.xoom.com/",
+  "status": "acquired",
+  "stage": "Angel",
+  "description": "International money transfer service owned by PayPal.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Yammer",
+  "website": "https://www.yammer.com/",
+  "status": "acquired",
+  "stage": "Angel",
+  "description": "The first Enterprise Social Network, for internal company communication and collaboration.",
+  "sector": null,
+  "fund": "craft"
+ },
+ {
+  "name": "Zocdoc",
+  "website": "https://www.zocdoc.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Online marketplace for finding doctors and booking medical appointments.",
+  "sector": null,
+  "fund": "craft"
+ }
+]

@@ -1,0 +1,1415 @@
+[
+ {
+  "name": "Affirm",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Founders: Max L., Nathan G., Jeffrey K., Alex R.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "AIUC",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Rune K., Rajiv D.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Ajaib",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Anderson S., Yada P.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Alan",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Jean-Charles S., Charles G.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Alpen Labs",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Simanta G., Abishkar C., Pramod K., Chandan S.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Alude",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Jota J., Alef M., Alexandre D.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Antora Energy",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Andrew P., Justin B., David B.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Arbitrum",
+  "website": null,
+  "status": "protocol",
+  "stage": null,
+  "description": "Founders: Ed F., Steven G., Harry K.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Arta",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Caesar S., Felix L.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Axio",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Gaurav H., Sashank R.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Bank Jago",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Jerry Ng",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Baicai",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Lin Cong",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Balance",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Bar G., Yoni S.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Ballet",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Bobby Lee",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Base Power",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Zach D., Justin L.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "BharatPe",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Nalin N., Shashvat N.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Bitcoin",
+  "website": null,
+  "status": "protocol",
+  "stage": null,
+  "description": "Founders: Satoshi Nakamoto",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Blockaid",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Ido N., Raz N.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Breezy",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: James Harris",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Bridge",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Founders: Zach A., Sean Y.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Brex",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Pedro F., Henrique D.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Campfire",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: John Glasgow",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Castle Technologies",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Lucas C., Bruno C., Arjun P., Alexander M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Chainalysis",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Jonathan L., Michael G., Jan M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Checkout",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Guillaume Pousaz",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Cheddar",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Founders: Jon Steinberg",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Clip",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Adolfo Babatz",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Coalition",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Joshua M., John H.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Cognition",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Scott W., Walden Y., Steven H.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Coinbase",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Founders: Brian A., Fred E.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Coinswitch",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Ashish S., Govind S., Vimal T.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Coins.ph",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Wei Zhou",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "ComparaOnline",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Sebastián Valin",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Conta Azul",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Vinicius R., João Z., José S.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "CoPlane",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Chris Sperandio",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Cora",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Igor S., Leonardo M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Cowboy Space",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Baiju Bhatt",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "CRED",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Kunal Shah",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Credit Karma",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Founders: Ken L., Nichole M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Cross River Bank",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Gilles Gade",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Crossmint",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Alfonso M., Rodri T.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Crusoe",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Chase L., Cully C.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Daffy",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Adam N., Alejandro C.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "DCG",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Barry Silbert",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Decagon",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Jesse Z., Ashwin S.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Deel",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Alex B., Shuo W.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Diem",
+  "website": null,
+  "status": "shutdown",
+  "stage": null,
+  "description": "Founders: Morgan B., David M., Kevin W.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "dv01",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Perry Rahbar",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "EarnIn",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Ram Palaniappan",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Enigma",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Jonathan J., Gal N.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Enter",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Mateus C., Henrique V., Michael M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Etched",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Gavin U., Chris Z., Robert W.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Ethena Labs",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Guy Young",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Ethereum",
+  "website": null,
+  "status": "protocol",
+  "stage": null,
+  "description": "Founders: Vitalik Buterin",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Evervault",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Shane Curran",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Fi",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Sujith N., Sumit G.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Farcaster",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Dan R., Varun S.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Fenbeitong",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Henry Lan",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Figure",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Founders: Mike C., June O.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Fireblocks",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Michael S., Pavel B., Idan O.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Forma",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Jason Fan",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Funding Circle",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Founders: Samir D., Andrew M., James M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Fuse Energy",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Alan C., Charles O.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Futu",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Founders: Leaf Li",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Gauntlet",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Tarun C., Rei C., John M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Genesis Digital Assets",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Marco S., Marco K.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Gigs",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Hermann F., Dennis B.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Good Driver",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Founders: William Tu",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Good Leap",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Hayes Barnard",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Gorila",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Guilherme Assis",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Groww",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Lalit K., Harsh J., Neeraj S., Ishan B.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Gusto",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Joshua R., Tomer L., Edward K.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Habito",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Founders: Daniel Hegarty",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Harmonic",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Tudor A., Vlad T.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Hippo",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Founders: Assaf Wand",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Hiro",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Ethan B., Rushabh D.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "ID.me",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Blake H., Tanel S.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Ideal Invest",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Oliver M., Donovan L.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Imprint",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Daragh Murphy",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Invoice2go",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Founders: Chris Strode",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Juniper Square",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Alex R., Yonas F., Adam G.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Jetty",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Michael R., Luke C.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Justos",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Antonio M., Dhaval C., Jorge S.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Kasa",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Roman Pedan",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Kavak",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Carlos G., Roger L.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Kiavi",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Matt H., James H.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Lead Bank",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Jackie R., Erica K., Homam M., Ronak V.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Lighter",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Vladimir Novakovski",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Lightspark",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: David M., Christian C., James E.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Listen Labs",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Alfred W., Florian J.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "M0",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Luca P., Greg P.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Mach Industries",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Ethan Thornton",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Mercado Libre",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Founders: Ariel S., Marcos G., Hernan K., Stelleo T.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Meso",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Ben M., Ali A.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Moneyview",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Puneet A., Sanjay A.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Monzo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: TS A., Tom B.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Morpho",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Paul F., Merlin É., Mathis D., Julien T.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Morse Money",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Mike H., Simon A.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Multiplier",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Noah Pepper",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Nave Bank",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Carlos Garcia",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Navra",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Mike C., June O.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Nevis",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Mark S., Philipp B., Ivan C.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "NEXT Insurance",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Founders: Guy G., Nissim T., Alon H.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Nubank",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Founders: David V., Edward W., Cristina J.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "OneKey",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Yishi Wang",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "OnePay",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Omer Ismail",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Onze",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Antonio R., Rodrigo N.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Outpost",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Will Mahon-Heap",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Parafin",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Sahill P., Vineet G., Ralph F.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Payflows",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Joseph A., Pauline G.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Persona",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Rick S., Charles Y.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "PhonePe",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Sameer N., Burzin E., Rahul C.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Ping++",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Fitz Jin",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Pinhome",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Ahmed A., Dayu D.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Plaid",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Zach P., William H.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Point",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Eddie L., Eoin M., Alex R.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Policy Bazaar",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Founders: Yashish D., Alok B., Avaneesh N.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Privy",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Henri S., Asta L.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "PsiQuantum",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Jeremy O., Mark T., Pete S., Terry R.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Qognitive",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Dario V., Kharen M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Quinto Andar",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Gabriel B., Andre P.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Raisin",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Tamaz G., Frank F., Michael S.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Razorpay",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Harshil M., Shashank K.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Relay Payments",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Ryan D., Spencer B.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Revolut",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Nikolay S., Vlad Y.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Robinhood",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Founders: Vlad T., Baiju B.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "ROOT",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Founders: Alex T., Dan M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "SafetyKit",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: David G., Steven G.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Settle",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Alek K., Shane M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Slash",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Victor C., Kevin B.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Sofia",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Arturo C., Manuel M., Sebastian B.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Solana",
+  "website": null,
+  "status": "protocol",
+  "stage": null,
+  "description": "Founders: Anatoly Y., Raj G.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Somos Internet",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Forrest Heath",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Stark Bank",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Rafael Stark",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Stedi",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Zack Kanter",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Stone Ridge",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Ross Stevens",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Stripe",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Patrick C., John C.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Stitch",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Junaid D., Kiaan P., Priyen P.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Synaptic",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Anurag A., Rohit R.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Tako",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Fernando G., Sebastian M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Tala",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Shivani Siroya",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Taxbit",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Lindsey A., Austin W., Justin W.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Tempo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Matt Huang",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Teya",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Thiago P., Ali M., Eduardo P.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Tomo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Greg S., Carey A.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "TOP Group",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Andrew Rogozov",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Toss",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: SG Lee",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Uala",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Pierpaolo Barbieri",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Uniswap",
+  "website": null,
+  "status": "protocol",
+  "stage": null,
+  "description": "Founders: Hayden Adams",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Upgrade",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Renaud Laplanche",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Valon",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Andrew W., Linda D.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Vouch",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Sam H., Travis H.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Warren",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Tito G., Andre G., Kelly G., Rodrigo G., Marcelo M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Wave",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Drew D., Lincoln Q.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Wealthfront",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Founders: David F., Andy R., Dan C.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Xapo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Wences C., Federico M.",
+  "sector": null,
+  "fund": "ribbit"
+ },
+ {
+  "name": "Yoshi",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founders: Ross Lipson",
+  "sector": null,
+  "fund": "ribbit"
+ }
+]

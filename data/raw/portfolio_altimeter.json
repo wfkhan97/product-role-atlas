@@ -1,0 +1,344 @@
+[
+ {
+  "name": "SciFin",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "SciFin is an AI-powered revenue intelligence platform that unifies fragmented sales data & CRM information into a single context layer.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Volta",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Volta is a vertically integrated AI infrastructure platform.",
+  "sector": "Information Technology",
+  "fund": "altimeter"
+ },
+ {
+  "name": "XBOW",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "XBOW develops autonomous security testing software that identifies and validates vulnerabilities in web applications and digital systems.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Prisma",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "At Prisma, we are building the data access layer for modern applications.",
+  "sector": "Developer Platform",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Parloa",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Parloa is an AI agent management platform that supports contact centers in automating and enhancing customer interactions.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Elorian",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Elorian specializes in creating AI models that can handle a variety of data kinds simultaneously.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Reify Health",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Reify Health is a cloud-based software company that develops tools for the clinical trial ecosystem.",
+  "sector": "Clinical Trials",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Samooha",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Samooha develops “cross-cloud” data collaboration platform.",
+  "sector": "Collaboration",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Clumio",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Clumio delivers cloud-based data protection and backup services tailored to enterprise needs.",
+  "sector": "Cloud Security",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Hammerspace",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Hammerspace is a data platform that obliterates data access delays for AI and high-performance computing.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "altimeter"
+ },
+ {
+  "name": "LiveKit",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "The Realtime Cloud. Build and scale voice and video applications.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Permiso Security",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Permiso Security delivers an identity-based cloud detection and response solution for cloud infrastructures.",
+  "sector": "Cloud Infrastructure",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Tabular",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Tabular is building an independent data automation platform.",
+  "sector": "Analytics",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Inferact",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Inferact mission is to accelerate AI progress by making inference cheaper and faster.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "altimeter"
+ },
+ {
+  "name": "K2 Space",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "K2 Space develops high-power satellite platforms for orbital missions, using vertically integrated hardware and manufacturing processes.",
+  "sector": "Aerospace",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Upbound",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Upbound is an AI-native infrastructure platform that runs, scales, and optimizes services across clouds.",
+  "sector": "Agentic AI",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Vroom",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Vroom is an ecommerce platform designed to offer a better way to buy and sell used vehicles.",
+  "sector": "Automotive",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Density",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Density builds the technical infrastructure for cities, buildings, and spaces to measure how they're used.",
+  "sector": "Analytics",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Solo.io",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Solo.io delivers cloud-native API and service mesh solutions, built on Istio and Envoy, to secure and scale apps across any environment.",
+  "sector": "Agentic AI",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Everest Systems",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Everest Systems is an ERP platform designed for finance and operations management.",
+  "sector": "Enterprise Resource Planning (ERP)",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Profluent Bio",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Profluent Bio is an AI-first protein design company creating new proteins and gene-editing tools for medicine, agriculture, and science.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Udaan",
+  "website": null,
+  "status": "active",
+  "stage": "Series G",
+  "description": "Udaan is an eB2B platform that connects retailers, wholesalers, and manufacturers to solve core trade problems across various industries.",
+  "sector": "B2B",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Sigma Computing",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Sigma Computing is a business intelligence solution providing live access to cloud data warehouses.",
+  "sector": "Analytics",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Personio",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Personio is a comprehensive HR software platform designed specifically for small and medium-sized enterprises.",
+  "sector": "Employment",
+  "fund": "altimeter"
+ },
+ {
+  "name": "Anthropic",
+  "website": "anthropic.com",
+  "status": "active",
+  "stage": null,
+  "description": "AI safety and research company",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "Baseten",
+  "website": "baseten.co",
+  "status": "active",
+  "stage": null,
+  "description": "AI inference infrastructure",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "Cerebras Systems",
+  "website": "cerebras.ai",
+  "status": "active",
+  "stage": null,
+  "description": "AI compute chips and systems",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "Groq",
+  "website": "groq.com",
+  "status": "active",
+  "stage": null,
+  "description": "AI inference chips",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "Ramp",
+  "website": "ramp.com",
+  "status": "active",
+  "stage": null,
+  "description": "Finance automation platform",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "Deel",
+  "website": "deel.com",
+  "status": "active",
+  "stage": null,
+  "description": "Global payroll and compliance",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "Fireblocks",
+  "website": "fireblocks.com",
+  "status": "active",
+  "stage": null,
+  "description": "Digital asset security platform",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "Rapyd",
+  "website": "rapyd.net",
+  "status": "active",
+  "stage": null,
+  "description": "Fintech-as-a-service payments",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "Gusto",
+  "website": "gusto.com",
+  "status": "active",
+  "stage": null,
+  "description": "Payroll and HR for small business",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "Checkout.com",
+  "website": "checkout.com",
+  "status": "active",
+  "stage": null,
+  "description": "Global payments platform",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "Hadrian",
+  "website": "hadrian.co",
+  "status": "active",
+  "stage": null,
+  "description": "Automated precision manufacturing",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "Anduril Industries",
+  "website": "anduril.com",
+  "status": "active",
+  "stage": null,
+  "description": "Defense technology",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "Epic Games",
+  "website": "epicgames.com",
+  "status": "active",
+  "stage": null,
+  "description": "Games and Unreal Engine",
+  "sector": null,
+  "fund": "altimeter"
+ },
+ {
+  "name": "OpenAI",
+  "website": "openai.com",
+  "status": "active",
+  "stage": null,
+  "description": "AI research and products",
+  "sector": null,
+  "fund": "altimeter"
+ }
+]

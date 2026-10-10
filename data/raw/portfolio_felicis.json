@@ -1,0 +1,2792 @@
+[
+ {
+  "name": "Aardvark",
+  "website": "https://vark.io/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Aardvark is a Knowledge market",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Google"
+ },
+ {
+  "name": "Aaru",
+  "website": "https://aaru.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Rethinking the science of prediction",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Acompli",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Mobile email platform",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Microsoft"
+ },
+ {
+  "name": "Adaptive Innovations",
+  "website": "https://www.adaptive.co/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI-native healthcare provider rebuilding the delivery of care from the inside out, starting with home health",
+  "sector": "Health & Bio, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Adyen \u2014 view company page",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series A",
+  "description": null,
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Agency",
+  "website": "https://www.agency.inc/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "AI that turns customer management into growth",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": "Klaviyo"
+ },
+ {
+  "name": "Alloy",
+  "website": "https://www.alloy.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Platform for identity verification used to detect fraud",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Altitude Networks ",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Protecting enterprise data",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": "CoinList"
+ },
+ {
+  "name": "AppJet",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Create web-based applications in a browser",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": "Google"
+ },
+ {
+  "name": "Appurify",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Mobile test automation",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": "Google"
+ },
+ {
+  "name": "Archil",
+  "website": "https://archil.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Storage that scales infinitely",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Arena \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Infrastructure, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Armada",
+  "website": "https://www.armada.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Edge computing and connectivity platform",
+  "sector": "Global Resilience, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Artemis",
+  "website": "https://artemissecurity.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI-Native protection platform powering modern security operations",
+  "sector": "Cybersecurity, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Ascend.io",
+  "website": "https://www.ascend.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "A unified platform for autonomous data pipelines",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Assort Health \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Astranis",
+  "website": "https://www.astranis.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Small and low-cost telecommunications satellites",
+  "sector": "Connected Devices, Global Resilience",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Atalanta",
+  "website": "https://www.atalanta.tech/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Mathematical AI company whose vision is to bring provably correct decision-making to the world's most important missions",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Atlas Health",
+  "website": "https://atlas.health/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Hospital care that patients can access and afford",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Atspoke",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Modern ticketing, self-service AI",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Okta"
+ },
+ {
+  "name": "Attentive",
+  "website": "https://www.attentive.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Personalized messaging platform for brands and organizations",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Automat",
+  "website": "https://www.runautomat.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Business Automations Simplified. Managed automations (RPA) built and maintained by AI",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Azumio",
+  "website": "https://www.azumio.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI driven digital health solutions",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "BioAge Labs",
+  "website": "https://bioagelabs.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Biotechnology company developing drugs to treat aging and associated diseases",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Blomma",
+  "website": "https://www.blomma.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-powered career coach with a mission to make great career coaching accessible to everyone",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Blume",
+  "website": "https://www.blume.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Safe and effective self-care products",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Bonobos",
+  "website": "https://bonobos.com/",
+  "status": "acquired",
+  "stage": "Series C",
+  "description": "Menswear fashion company",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Walmart"
+ },
+ {
+  "name": "Brevian",
+  "website": "https://www.brevian.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "No-code platform to build custom, secure AI agents",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Bright",
+  "website": "https://www.brightmoney.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Solar panel systems for the developing world",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "BrightRoll",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Programmatic video advertising platform",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Yahoo"
+ },
+ {
+  "name": "Browser Use",
+  "website": "https://browser-use.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Making websites accessible for AI agents",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Bunkerhill",
+  "website": "https://www.bunkerhillhealth.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI agent platform for health systems",
+  "sector": "Health & Bio, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "C1",
+  "website": "https://www.c1.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Identity security for the modern workforce",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Cambridge Terahertz",
+  "website": "https://www.thzcorp.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Screening for concealed threats",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Canva \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "CardSpring",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "In-the-moment commerce experiences",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Twitter"
+ },
+ {
+  "name": "Cedar",
+  "website": "https://www.cedarai.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI company providing operational planning software for rail yards",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Cellino",
+  "website": "https://cellinobio.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Personalized, autologous cell therapies",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Chalk",
+  "website": "https://chalk.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "The data platform for inference",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Chomp",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "App search engine",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Apple"
+ },
+ {
+  "name": "Circulate",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Marketing identity resolution",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Acxiom"
+ },
+ {
+  "name": "ClassDojo",
+  "website": "https://www.classdojo.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "A school communication platform",
+  "sector": "Education",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Clear Labs",
+  "website": "https://www.clearlabs.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Fully automated sequencing platform for turnkey diagnostics",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Coalition",
+  "website": "https://www.coalitioninc.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Comprehensive cyber insurance and security",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Condor",
+  "website": "https://www.condorsoftware.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Financial intelligence and automation platform for life science",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Corridor",
+  "website": "https://www.corridor.dev/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Secure AI coding at the source",
+  "sector": "AI, Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Counterpart",
+  "website": "https://yourcounterpart.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Insurance experts with AI driven underwriting and claims technology",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Covalent",
+  "website": "https://www.covalentnetworks.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cloud-based software solutions for corporate and employee performance management",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Credit Karma",
+  "website": "https://www.creditkarma.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Financial progress for all",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": "Intuit"
+ },
+ {
+  "name": "Cruise \u2014 view company page",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Connected Devices",
+  "fund": "felicis",
+  "acquirer": "General Motors"
+ },
+ {
+  "name": "Crunchbase",
+  "website": "https://www.crunchbase.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Leading destination for company insights",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Crusoe",
+  "website": "https://www.crusoe.ai/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Aligning the future of computing with the future of the climate",
+  "sector": "Global Resilience",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Culture Amp",
+  "website": "https://www.cultureamp.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Employee analytics platform",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "DataGrail",
+  "website": "https://www.datagrail.io/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Privacy compliance and regulation platform",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Datology",
+  "website": "https://www.datologyai.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Automated data curation",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Dedrone",
+  "website": "https://www.dedrone.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Counter-drone technology",
+  "sector": "Physical Security, Global Resilience",
+  "fund": "felicis",
+  "acquirer": "Axon"
+ },
+ {
+  "name": "DeepInfra \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "DeepJudge",
+  "website": "https://www.deepjudge.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Precision AI Search for legal teams",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Deeptrace",
+  "website": "https://deeptrace.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI agents for on-call",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Depot",
+  "website": "https://depot.dev/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Accelerating builds, automatically",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Dialpad",
+  "website": "https://www.dialpad.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "AI-powered cloud communications platform",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Diffbot",
+  "website": "https://www.diffbot.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Knowledge as a service to power intelligent applications",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Dig Security",
+  "website": "https://www.paloaltonetworks.com/company/press/2023/palo-alto-networks-completes-acquisition-of-dig-security",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Real-time data security for the cloud",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": "Palo Alto Networks"
+ },
+ {
+  "name": "Disco Technology",
+  "website": "https://www.disconetwork.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI-driven partnership platform for consumer brands",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Disqus",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Blog comment hosting service",
+  "sector": "MarTech",
+  "fund": "felicis",
+  "acquirer": "Zeta Global"
+ },
+ {
+  "name": "Distributed Spectrum",
+  "website": "https://www.distributedspectrum.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Real-time spectrum monitoring",
+  "sector": "Global Resilience",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Distru",
+  "website": "https://www.distru.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Supply chain software for the cannabis industry",
+  "sector": "AgTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Dollar Shave Club",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Direct to consumer personal grooming products",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Unilever"
+ },
+ {
+  "name": "DoNotPay",
+  "website": "https://donotpay.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "The world's first robot lawyer",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Dovetail",
+  "website": "https://dovetail.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cloud-based user research and customer feedback software",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Dreambase",
+  "website": "https://dreambase.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-native analytics for Supabase",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Dropcam",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Connected video streaming cameras",
+  "sector": "Connected Devices",
+  "fund": "felicis",
+  "acquirer": "Google"
+ },
+ {
+  "name": "Dylibso",
+  "website": "https://dylibso.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Making WebAssembly everyone's favorite binary format",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Earnin",
+  "website": "https://www.earnin.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Reimagining the way money moves to empower every person\u2019s potential",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Edia",
+  "website": "https://edia.app/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Personalized AI learning",
+  "sector": "AI, Education",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Elemy",
+  "website": "https://care.elemy.com/peds_b/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Nationwide provider of childhood mental and behavioral healthcare",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Elevate",
+  "website": "https://themindcompany.com/apps/elevate",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Brain training app designed to boost skills",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Emailage",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Fraud prevention and identity verification technology",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "RELX"
+ },
+ {
+  "name": "Endurance Energy",
+  "website": "https://www.enduranceenergy.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Building subsea geothermal power plants to end diesel reliance world wide",
+  "sector": "Energy, Global Resilience",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Ent",
+  "website": "https://ent.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Intent-aware endpoint platform for securing human and AI-driven work",
+  "sector": "AI, Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Entalpic",
+  "website": "https://entalpic.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-driven materials discovery",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Entire",
+  "website": "https://entire.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-native developer platform",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Epinomics",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "A GPS to guide personalized health",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": "10x Genomics"
+ },
+ {
+  "name": "Ethena",
+  "website": "https://www.goethena.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Compliance training for today\u2019s teams",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Eventual Computing",
+  "website": "https://www.eventual.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Multimodal data processing",
+  "sector": "Infrastructure, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Evertune",
+  "website": "https://www.evertune.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI marketing platform for brands",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Exa \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": null,
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Exowatt",
+  "website": "https://www.exowatt.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Next-generation renewable energy",
+  "sector": "Global Resilience, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Extra by BuildForever",
+  "website": "https://buildforever.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Your life's new inbox",
+  "sector": "AI, Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Fellow",
+  "website": "https://fellow.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "The best tool for meetings",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Fifth Door",
+  "website": "https://fifthdoor.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-native gaming platform for custom turn-based games",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Fitbit",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Consumer electronics and fitness company",
+  "sector": "Connected Devices",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Flexport",
+  "website": "https://www.flexport.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Full-service global freight forwarder and logistics platform",
+  "sector": "Global Resilience",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Floored",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Software that turns 3D spatial data into clean interactive virtual worlds",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "CBRE"
+ },
+ {
+  "name": "Flower Labs",
+  "website": "https://flower.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Federated AI",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Fluxx",
+  "website": "https://www.fluxx.io/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Industry-leading cloud-first grant-making solution",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Metamorph"
+ },
+ {
+  "name": "Foodspotting",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Community-driven dish discovery app",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Opentable"
+ },
+ {
+  "name": "Formation Bio",
+  "website": "https://www.formation.bio/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Reimagining how clinical trials are run",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Fractile",
+  "website": "https://www.fractile.ai/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Revolutionising compute to build the engine that can power the next generation of AI",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "FundersClub",
+  "website": "https://fundersclub.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "FundersClub is an online venture capital firm that focuses on Seed and early stage investments",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "General Proximity",
+  "website": "https://www.generalproximity.bio/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Next-gen proximity medicines",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Genesis Therapeutics",
+  "website": "https://genesis.ml/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-powered drug discovery",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Ginkgo Bioworks",
+  "website": "https://www.ginkgo.bio/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Developer of biological engineering products and custom microbes",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Goldsky",
+  "website": "https://goldsky.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Real-time Data Infrastructure for Web3",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Good Dog",
+  "website": "https://www.gooddog.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Marketplace that helps users find dogs from reputable breeders, shelters and rescues",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Granza Bio",
+  "website": "https://www.granzabio.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cancer therapeutics",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Greenhouse Software",
+  "website": "https://www.greenhouse.com/blog/the-next-chapter",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Recruiting software as a service",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "TPG"
+ },
+ {
+  "name": "GreenPlaces",
+  "website": "https://greenplaces.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Software platform providing full visibility into carbon emissions",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Groundswell",
+  "website": "https://www.groundswell.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Making charity an employee benefit",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Guardant Health",
+  "website": "https://guardanthealth.com/",
+  "status": "ipo",
+  "stage": "Series C",
+  "description": "A leading precision oncology company",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Guideline",
+  "website": "https://www.guideline.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Retirement plan platform for growing businesses",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Guild",
+  "website": "https://guild.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Career opportunity platform",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Gusto",
+  "website": "https://gusto.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "A cloud-based payroll, benefits, and human resource management solution",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Handipoints",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Virtual community for families",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Slide"
+ },
+ {
+  "name": "Hearsay Systems",
+  "website": "https://www.yext.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Client engagement platform for financial services",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Yext"
+ },
+ {
+  "name": "Heaviside",
+  "website": "https://www.theheaviside.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Building autonomous precision munitions platforms across air, land and sea for U.S. and allied forces",
+  "sector": "Global Resilience, Defense Tech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Hippo Insurance",
+  "website": "https://www.hippo.com/",
+  "status": "ipo",
+  "stage": "Series C",
+  "description": "Property insurance company",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "humans&",
+  "website": "https://humansand.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-native human relationships",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Iru",
+  "website": "https://www.iru.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Secure users, apps, and devices with an AI-powered platform",
+  "sector": "Infrastructure, Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Juniper Square",
+  "website": "https://www.junipersquare.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Investment management platform",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Karma",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Social gift giving application",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Facebook"
+ },
+ {
+  "name": "Key",
+  "website": "https://key.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Professional networking and community platform",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Kick",
+  "website": "https://www.kick.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Self-driving bookkeeping",
+  "sector": "FinTech, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "KiwiCo",
+  "website": "https://www.kiwico.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "A subscription box for projects with imaginative play and hands-on learning",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Knox",
+  "website": "https://knoxsystems.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "FedRAMP as a service",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Komodo Health",
+  "website": "https://www.komodohealth.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Software that brings transparency and market intelligence to healthcare",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Komodor",
+  "website": "https://komodor.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Automated Kubernetes troubleshooting",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Letta",
+  "website": "https://www.letta.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Build AI with memory",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Liveramp",
+  "website": "https://liveramp.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Data connectivity platform",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Acxiom"
+ },
+ {
+  "name": "Luminal",
+  "website": "https://www.luminal.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Revolutionizing AI infrastructure with complier driving GPU optimization",
+  "sector": "Infrastructure, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Magentic",
+  "website": "https://www.magentic.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Helping global manufacturers hunt down and deliver savings opportunities with AI digital workers called \u201cMages\u201d",
+  "sector": "AI, AI Application",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Mashery",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "API management services",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Intel"
+ },
+ {
+  "name": "Matterport",
+  "website": "https://matterport.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "3D cameras and virtual tour software platform",
+  "sector": "Connected Devices",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Maze",
+  "website": "https://maze.co/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Continuous product discovery",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Meilisearch",
+  "website": "https://www.meilisearch.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "An open-source, blazingly fast, and hyper-relevant search engine",
+  "sector": "Enterprise, Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Meraki",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "The leader in cloud controlled Wi-Fi, routing, and security",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Cisco"
+ },
+ {
+  "name": "Mercor \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Mesmo TV",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "A social video discovery site for gaming enthusiasts",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Game Show Network"
+ },
+ {
+  "name": "Metaplane",
+  "website": "https://www.metaplane.dev/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "End-to-end data observability",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": "Datadog"
+ },
+ {
+  "name": "Metromile",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Pay per mile car insurance",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Midi Health",
+  "website": "https://www.joinmidi.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "The virtual care clinic for women 40+",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "MightyHive",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Leading data and digital media consultancy that helps marketers take control",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "S4"
+ },
+ {
+  "name": "Milo",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Local shopping",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Ebay"
+ },
+ {
+  "name": "Mint",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Personal finance management",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": "Intuit"
+ },
+ {
+  "name": "Mob.ly",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Mobile and online recommendations service",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Groupon"
+ },
+ {
+  "name": "Mochi",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "A browser-based games network",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Shanda Games"
+ },
+ {
+  "name": "Mon Ami",
+  "website": "https://www.monami.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Mon Ami helps facilitate senior services and companionship for families caring for loved ones who might be socially isolated",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Moondream",
+  "website": "https://moondream.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Vision AI that works reliably and runs everywhere",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "MotherDuck",
+  "website": "https://motherduck.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Severless data analytics platform",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Movity",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "A real estate recruitment platform",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Trulia"
+ },
+ {
+  "name": "n8n \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Nayya",
+  "website": "https://www.nayya.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Insurance benefits experience and management platform.",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Nilus",
+  "website": "https://www.nilus.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Next-generation treasury management",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Nimble",
+  "website": "https://www.nimblerx.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "On-demand drug delivery platform",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Notion \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Novi Connect",
+  "website": "https://www.noviconnect.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "A procurement solution for the 21st century",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Observo.ai",
+  "website": "https://www.observo.ai/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "AI Data Pipeline for Security and DevOps",
+  "sector": "AI, Cybersecurity",
+  "fund": "felicis",
+  "acquirer": "SentinelOne"
+ },
+ {
+  "name": "Octave",
+  "website": "https://www.findoctave.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "A modern behavioral health practice",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Octopart",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "The electronic part search engine",
+  "sector": "Connected Devices",
+  "fund": "felicis",
+  "acquirer": "Altium"
+ },
+ {
+  "name": "Ontic",
+  "website": "https://ontic.co/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Protective intelligence software",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Opendoor",
+  "website": "https://www.opendoor.com/",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": "The new way to sell your home",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Operand",
+  "website": "https://www.operand.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI consultant for retailers",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Operant",
+  "website": "https://www.operant.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "The runtime application protection platform",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Opsera",
+  "website": "https://opsera.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Continuous orchestration of DevOps tools, pipelines, and insights",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Optimizely",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "A/B testing and multivariate testing tools",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Episerver"
+ },
+ {
+  "name": "Orca Bio",
+  "website": "https://orcabio.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Clinical-stage cell therapy",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Origin",
+  "website": "https://useorigin.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Money management platform for the modern workforce",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Oro Labs",
+  "website": "https://www.orolabs.ai/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Smart procurement workflows",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Osmosis",
+  "website": "https://www.osmosis.org/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Medical and health education platform for clinicians and caregivers",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": "Elsevier"
+ },
+ {
+  "name": "Oso",
+  "website": "https://www.osohq.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Authorization as a service",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Outright",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Cloud-based accounting solution for small businesses",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": "goDaddy"
+ },
+ {
+  "name": "Paraform",
+  "website": "https://www.paraform.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI-powered recruiting marketplace",
+  "sector": "Enterprise, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Paytient",
+  "website": "https://www.paytient.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Employer-sponsored payment platform for employees' medical expenses",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Pendulum",
+  "website": "https://pendulumlife.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Improving health through products targeting the microbiome",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Perfect Coffee",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Taking the guesswork and unpredictability out of making perfect coffee, every time",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Blue Bottle Coffee"
+ },
+ {
+  "name": "Periodic Labs \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "PermitFlow",
+  "website": "https://www.permitflow.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Construction permit software",
+  "sector": "Vertical SaaS, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Pharos",
+  "website": "https://pharos.health/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-powered analytics for hospitals",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Piazza",
+  "website": "https://piazza.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "A social learning platform designed to connect students, TAs, and professors",
+  "sector": "Education",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "PicnicHealth",
+  "website": "https://picnichealth.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Healthcare technology company helping patients access their medical records and contribute their data to research",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Pindrop",
+  "website": "https://www.pindrop.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI-based IVR authentication and anti-fraud solutions to increase efficiency in call centers and stop fraudulent transactions",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Plaid \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Planet",
+  "website": "https://www.planet.com/",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Aerospace and data analytics company",
+  "sector": "Global Resilience, Connected Devices",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Pluralsight",
+  "website": "https://www.pluralsight.com/",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Online education courses for developers, IT admins, and creative professionals",
+  "sector": "Education",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Plusmo",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Provider of mobile widgets and application store solutions",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "AT&T"
+ },
+ {
+  "name": "Poly",
+  "website": "https://poly.app/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Generate 3D design assets in seconds with AI",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Poolside",
+  "website": "https://www.poolside.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI for software development",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Popmenu",
+  "website": "https://get.popmenu.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "SaaS platform for restaurants with tools that attract and engage guests",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Posterous",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Blogging platform",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Twitter"
+ },
+ {
+  "name": "Powerset",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Semantic search engine",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Microsoft"
+ },
+ {
+  "name": "Predibase",
+  "website": "https://www.rubrik.com/products/rubrik-agent-cloud",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "The first low-code AI platform for developers",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": "Rubrik"
+ },
+ {
+  "name": "PredictSpring",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Modern mobile commerce solution",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Salesforce"
+ },
+ {
+  "name": "Prenuvo",
+  "website": "https://www.prenuvo.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Hardware and AI to provide whole-body MRI scans and give people more insights about their health",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Preql",
+  "website": "https://www.preql.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Create trusted, reporting-ready KPIs in minutes",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Producteev",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Cloud-based task management provider",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Jive Systems"
+ },
+ {
+  "name": "Proton",
+  "website": "https://www.proton.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI-powered sales platform for distributors",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Puzzle",
+  "website": "https://puzzle.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "The new standard in accounting software for startups",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Quarterzip",
+  "website": "https://www.quarterzip.ai/about",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI\u2011driven onboarding",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Radiant Nuclear",
+  "website": "https://radiantnuclear.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Micro nuclear reactors",
+  "sector": "Global Resilience",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "RapidFort",
+  "website": "https://www.rapidfort.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Faster, more secure deployments",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Recursion",
+  "website": "https://www.recursion.com/",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": "Drug discovery through digital biology",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "RelateIQ",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series C",
+  "description": "Relationship intelligence platform",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Salesforce"
+ },
+ {
+  "name": "Revel",
+  "website": "https://www.revel.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Next generation software for hardware",
+  "sector": "Enterprise, Global Resilience",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Ricursive Intelligence",
+  "website": "https://www.ricursive.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Reinforcement learning for chip design",
+  "sector": "Infrastructure, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Rigetti",
+  "website": "https://www.rigetti.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Full-stack quantum computing",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Ring \u2014 view company page",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Connected Devices",
+  "fund": "felicis",
+  "acquirer": "Amazon"
+ },
+ {
+  "name": "Roadmunk",
+  "website": "https://www.tempo.io/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Web-based product roadmap visualization planning tool",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Tempo Software"
+ },
+ {
+  "name": "Rovio",
+  "website": "https://www.rovio.com/",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": "Video game developer based in Finland",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Runlayer \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Cybersecurity, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Runway \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": null,
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Sapho",
+  "website": "https://www.citrix.com/blogs/2019/02/11/citrix-acquired-sapho-now-what/?srsltid=AfmBOoqw9Sg4gH0eynfML0YsQ9CYyjJrWNyEhUhM6kZhI9Xeapfv4p5H",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Provides employees a quick view into the important information they need",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Citrix"
+ },
+ {
+  "name": "SayNow",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Voice-based experiences",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Google"
+ },
+ {
+  "name": "Scalyr",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Server log monitoring tools provider",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": "Sentinel Labs"
+ },
+ {
+  "name": "Scopely",
+  "website": "https://www.scopely.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Global leader in interactive entertainment and mobile games",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Savvy"
+ },
+ {
+  "name": "Semgrep",
+  "website": "https://semgrep.dev/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Secure guardrails for code",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Sendori",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Advertising exchange technology",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "IAC"
+ },
+ {
+  "name": "SentiLink",
+  "website": "https://www.sentilink.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Identity verification that helps detect and block synthetic identities",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Shopify \u2014 view company page",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Simular",
+  "website": "https://www.simular.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Delivering product grade autonomy across platforms",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Singularity",
+  "website": "https://www.singularityus.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Integrated air defense against modern drone threats",
+  "sector": "Global Resilience",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Skild AI",
+  "website": "https://www.skild.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "General purpose robotic intelligence",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Skip the Dishes",
+  "website": "https://www.skipthedishes.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Online food delivery service",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Just Eat"
+ },
+ {
+  "name": "Sleuth",
+  "website": "https://www.sleuth.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Accurate and actionable DORA metrics tracker for improving engineering efficiency",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Slingshot",
+  "website": "https://slingshotai.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Mental health AI",
+  "sector": "AI, Health & Bio",
+  "fund": "felicis",
+  "acquirer": "New York City, New York"
+ },
+ {
+  "name": "Smack",
+  "website": "https://smacktechnologies.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "The Frontier AI Lab for National Security",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Solcoa",
+  "website": "https://solcoaindustries.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Solcoa makes the rare earth metals behind every electric motor, generator, and speaker on Earth",
+  "sector": "Global Resilience, Infrastructure, Defense Tech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Sona",
+  "website": "https://www.getsona.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Workforce management platform",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Sooth Labs",
+  "website": "https://www.sooth.inc/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Building a world model for global foresight that integrates events and signals to deliver calibrated, auditable forecasts",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "SoundHound",
+  "website": "https://www.soundhound.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Voice-enabled AI and conversational intelligence technologies",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Sourcegraph",
+  "website": "https://sourcegraph.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Universal code search for developers and companies",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Spekit",
+  "website": "https://www.spekit.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "The just-in-time learning platform designed to drive team efficiency and impact",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Sphere",
+  "website": "https://www.getsphere.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-powered global tax compliance platform",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Spool",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Save articles and videos to your devices",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Facebook"
+ },
+ {
+  "name": "Stainless",
+  "website": "https://www.stainless.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "The platform for high-quality, easy-to-use APIs",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": "Anthropic"
+ },
+ {
+  "name": "Standard Kernel",
+  "website": "https://standardkernel.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Building AI infrastructure with AI",
+  "sector": "Infrastructure, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Stream",
+  "website": "https://getstream.io/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Build in-app chat and feeds, faster",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Supabase \u2014 view company page",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Enterprise, Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Tapulous",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Video game developer and publisher",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Disney"
+ },
+ {
+  "name": "Teal Health",
+  "website": "https://www.getteal.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "At-home cervical cancer screening for all women",
+  "sector": "Health & Bio",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Tera AI",
+  "website": "https://www.tera-ai.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Spatial reasoning for robots",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Terra Security",
+  "website": "https://www.terra.security/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI augmented penetration testing",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "TestBox",
+  "website": "https://www.testbox.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Platform for software purchase testing",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "The Climate Corporation ",
+  "website": null,
+  "status": "acquired",
+  "stage": "Common",
+  "description": "Digital agriculture company",
+  "sector": "AgTech",
+  "fund": "felicis",
+  "acquirer": "Montsanto"
+ },
+ {
+  "name": "Themis",
+  "website": "https://www.themis.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Compliance collaboration tool for companies",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Third Dimension",
+  "website": "https://thirddimension.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Generative 3D worlds",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "ThirdLove",
+  "website": "https://www.thirdlove.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Intimates brand that believes fit should come first",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Tines",
+  "website": "https://www.tines.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "No-code automation for security teams",
+  "sector": "Cybersecurity",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Topkey",
+  "website": "https://topkey.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Fintech and software platform for property managers",
+  "sector": "FinTech",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Torch",
+  "website": "https://torchdental.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Technology solutions for dental practices",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Twitch \u2014 view company page",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Amazon"
+ },
+ {
+  "name": "Tynker",
+  "website": "https://www.tynker.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Creative computing platform for kids",
+  "sector": "Education",
+  "fund": "felicis",
+  "acquirer": "BYJU\u2019S"
+ },
+ {
+  "name": "Ultimate.ai",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Bringing multilingual customer service automation to businesses",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Zendesk"
+ },
+ {
+  "name": "Unconventional AI",
+  "website": "https://unconv.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Rethinking the foundations of a computer to optimize energy efficiency for AI",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Vannevar Labs",
+  "website": "https://www.vannevarlabs.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Defense technology company solving national security problems",
+  "sector": "Global Resilience, AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Verkada",
+  "website": "https://www.verkada.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Modern security solutions that help enterprises run safer, smarter buildings",
+  "sector": "Enterprise, Physical Security",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Vicarious",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "A turnkey robotics solution integrator using artificial intelligence to automate complex tasks",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": "Intrinsic"
+ },
+ {
+  "name": "Violet Labs",
+  "website": "https://www.violetlabs.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cloud-based data integration for complex hardware engineering",
+  "sector": "Infrastructure, Global Resilience",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Voiceflow",
+  "website": "https://www.voiceflow.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Where teams build chat and voice assistants",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "VoiceStar",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Conversational intelligence software",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": "Marchex"
+ },
+ {
+  "name": "Warby Parker",
+  "website": "https://www.warbyparker.com/",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Lifestyle brand that offers designer eyewear while being a socially conscious business",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Warmly",
+  "website": "https://www.warmly.ai/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Convert website visitors instantly",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Hubspot"
+ },
+ {
+  "name": "Wavii",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Follow topics and receive short updates about them",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Google"
+ },
+ {
+  "name": "Webs",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Free and premium website hosting",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Vistaprint"
+ },
+ {
+  "name": "Weebly",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Free website builder",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Square"
+ },
+ {
+  "name": "Weights & Biases",
+  "website": "https://wandb.ai/site",
+  "status": "acquired",
+  "stage": "Series C",
+  "description": "The developer-first \u200dMLOps platform",
+  "sector": "Infrastructure, AI",
+  "fund": "felicis",
+  "acquirer": "CoreWeave"
+ },
+ {
+  "name": "Wherobots",
+  "website": "https://wherobots.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Geospatial data platform",
+  "sector": "Infrastructure",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Wildfire",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Enterprise social media marketing software",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Google"
+ },
+ {
+  "name": "Wish",
+  "website": "https://www.wish.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Mobile shopping app",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Wordware",
+  "website": "https://www.wordware.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "No-code platform for AI apps",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Yapta",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Travel price optimization",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Coupa"
+ },
+ {
+  "name": "Yes Inc",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Applications that connect people in real life",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Twitter"
+ },
+ {
+  "name": "Yume",
+  "website": null,
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Video ad network",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Yutori",
+  "website": "https://yutori.com/scouts",
+  "status": "active",
+  "stage": "Seed",
+  "description": "An AI Chief of Staff for everyone",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Zefr",
+  "website": "https://zefr.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Enabling digital advertising effectiveness while ensuring brand and social responsibility",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Zinch",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Helping students find scholarships and engage in college networking",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": "Chegg"
+ },
+ {
+  "name": "Zipline",
+  "website": "https://www.zipline.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "The world's largest autonomous on-demand delivery system",
+  "sector": "Connected Devices, Global Resilience",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Zodiac",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Consumer data analytics company",
+  "sector": "Enterprise",
+  "fund": "felicis",
+  "acquirer": "Nike"
+ },
+ {
+  "name": "Zubale",
+  "website": "https://www.zubale.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "E-commerce fulfillment for brands and retailers in Latin America",
+  "sector": "Consumer & Commerce",
+  "fund": "felicis",
+  "acquirer": null
+ },
+ {
+  "name": "Zylon",
+  "website": "https://www.zylon.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Private AI collaborators",
+  "sector": "AI",
+  "fund": "felicis",
+  "acquirer": null
+ }
+]

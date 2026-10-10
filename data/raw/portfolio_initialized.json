@@ -1,0 +1,1676 @@
+[
+ {
+  "name": "10x Science",
+  "website": "10xscience.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "7 Cups",
+  "website": "7cups.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "AdQuick",
+  "website": "adquick.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Adyton",
+  "website": "adyton.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "A-Frame",
+  "website": "aframebrands.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Albedo",
+  "website": "albedo.space",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Algolia",
+  "website": "algolia.com",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Alien",
+  "website": "alien.org",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Alix",
+  "website": "meetalix.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Alliance DAO",
+  "website": "alliance.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Apero",
+  "website": "aperohealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Apollo",
+  "website": "apollographql.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "AptDeco",
+  "website": "aptdeco.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Arcturus",
+  "website": "arcturus.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Arena AI",
+  "website": "arena-ai.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Around",
+  "website": "miro.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "AstroForge",
+  "website": "astroforge.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Athelas",
+  "website": "athelas.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Atomic Finance",
+  "website": "atomic.finance",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Atoms",
+  "website": "atoms.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Automat",
+  "website": "runautomat.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Ava",
+  "website": "ava.me",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Ava Labs",
+  "website": "avalabs.org",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Azura",
+  "website": "azura.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Basalt",
+  "website": "basalt.space",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Beeper",
+  "website": "beeper.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Bellhops",
+  "website": "getbellhops.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Beyond Aero",
+  "website": "www.beyond-aero.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Bison Trails",
+  "website": "bisontrails.co",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Bland Company",
+  "website": "www.theblandcompany.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Blend",
+  "website": "blend.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Bodyport",
+  "website": "bodyport.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Braid",
+  "website": "braid.network",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Bristle",
+  "website": "bristlehealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Bruce",
+  "website": "bruce.bot",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Caliza",
+  "website": "caliza.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Clairity",
+  "website": "clairitytech.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Clever",
+  "website": "clever.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Clipboard Health",
+  "website": "clipboardhealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Clone",
+  "website": "clonerobotics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Cofertility",
+  "website": "cofertility.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Coinbase",
+  "website": "www.coinbase.com",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "CoinTracker",
+  "website": "www.cointracker.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Color Genomics",
+  "website": "www.color.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Coordinate",
+  "website": "coordinatehq.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Coperniq",
+  "website": "www.coperniq.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "CreatorDAO",
+  "website": "creatordao.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Crewline",
+  "website": "crewline.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Cron",
+  "website": "cron.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Cruise",
+  "website": "getcruise.com",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Culdesac",
+  "website": "culdesac.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Curri",
+  "website": "curri.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Data Driven Bioscience",
+  "website": "datadrivenbioscience.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Datasaur",
+  "website": "datasaur.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Deepnight",
+  "website": "deepnight.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Depict.ai",
+  "website": "depict.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "DevCycle",
+  "website": "www.devcycle.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Digger",
+  "website": "digger.dev",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Double",
+  "website": "doublerobotics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Drip Capital",
+  "website": "dripcapital.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Easypost",
+  "website": "easypost.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Eclipse Foods",
+  "website": "eclipsefoods.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Enable",
+  "website": "enablemedicine.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Enhanced Radar",
+  "website": "www.enhancedradar.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Envoy",
+  "website": "envoy.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Feanix",
+  "website": "feanixbio.com/#",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Flexport",
+  "website": "flexport.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Flock Safety",
+  "website": "flocksafety.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Fly.io",
+  "website": "fly.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Formic",
+  "website": "formic.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Fourthwall",
+  "website": "fourthwall.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Front",
+  "website": "front.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Garage",
+  "website": "www.shopgarage.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Glass Health",
+  "website": "glass.health",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "GOAT",
+  "website": "goat.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Greptile",
+  "website": "greptile.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Guide Labs",
+  "website": "www.guidelabs.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Handoff",
+  "website": "handoff.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Heap",
+  "website": "heap.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "HER",
+  "website": "weareher.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "HomeVision",
+  "website": "homevision.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Horizon Blockchain Games",
+  "website": "horizongames.net",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Hummingbot",
+  "website": "hummingbot.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Instacart",
+  "website": "instacart.com",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Invisible Universe",
+  "website": "invisibleuniverse.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Jinx",
+  "website": "thinkjinx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "kapa.ai",
+  "website": "www.kapa.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Kayhan Space",
+  "website": "kayhan.space",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Kinlo",
+  "website": "kinlo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Kinside",
+  "website": "kinside.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Laurel",
+  "website": "www.laurel.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "LeadGenius",
+  "website": "leadgenius.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Lever",
+  "website": "lever.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Lingo.dev",
+  "website": "lingo.dev",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "LOB",
+  "website": "lob.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "LTSE",
+  "website": "ltse.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Manifold",
+  "website": "manifold.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Medivis",
+  "website": "medivis.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Mezmo",
+  "website": "mezmo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Mindstate Design Labs",
+  "website": "mindstate.design",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "MixerBox",
+  "website": "mixerbox.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Modulo",
+  "website": "modulo.bio",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "NanoVMs",
+  "website": "nanovms.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Nara Organics",
+  "website": "nara.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "NoScrubs",
+  "website": "noscrubs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Numero",
+  "website": "numero.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Opendoor",
+  "website": "opendoor.com",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Orbio",
+  "website": "orbio.earth",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Orbital Operations",
+  "website": "www.orbitalops.tech",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Orderful",
+  "website": "orderful.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Outer Bio",
+  "website": "www.outerbio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "OutRival",
+  "website": "outrival.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Pano",
+  "website": "pano.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Panorama Education",
+  "website": "panoramaed.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Papa",
+  "website": "papa.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Paperspace",
+  "website": "paperspace.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Parcha",
+  "website": "www.parcha.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Partiful",
+  "website": "partiful.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Patreon",
+  "website": "patreon.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Pax",
+  "website": "paxai.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "PermitFlow",
+  "website": "permitflow.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Picogrid",
+  "website": "picogrid.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "PIN",
+  "website": "getpin.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "PlanGrid",
+  "website": "plangrid.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "PlateIQ",
+  "website": "plateiq.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Poker Skill",
+  "website": "www.pokerskill.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Polychain",
+  "website": "polychain.capital",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Proudly",
+  "website": "proudly.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Radial Analytics",
+  "website": "radialanalytics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Rainforest QA",
+  "website": "rainforestqa.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "RankScience",
+  "website": "rankscience.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Reddit",
+  "website": "reddit.com",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Red Planet Labs",
+  "website": "redplanetlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Reibus",
+  "website": "reibus.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Repacket",
+  "website": "repacket.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Rescale",
+  "website": "rescale.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Ridecell",
+  "website": "ridecell.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Rippling",
+  "website": "rippling.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Ro",
+  "website": "ro.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Robocurve",
+  "website": "robocurve.org",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Rosebud",
+  "website": "www.rosebud.app",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Routefusion",
+  "website": "routefusion.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Runway",
+  "website": "runway.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Runwise",
+  "website": "runwise.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Sabi",
+  "website": "sabi.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Seamflow",
+  "website": "www.seamflow.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "SendWave",
+  "website": "sendwave.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Shelf Engine",
+  "website": "shelfengine.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Shogun",
+  "website": "getshogun.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Sift Science",
+  "website": "siftscience.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Silo",
+  "website": "usesilo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Simple HealthKit",
+  "website": "www.simplehealthkit.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "SkySelect",
+  "website": "skyselect.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Sol",
+  "website": "solreader.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Spaceium",
+  "website": "spaceium.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Spate",
+  "website": "spate.nyc",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "SpecCheck",
+  "website": "speccheckrx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Stacker",
+  "website": "stackerhq.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Standard Cognition",
+  "website": "standard.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Star Catcher",
+  "website": "star-catcher.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Stellar Sleep",
+  "website": "stellarsleep.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Streak",
+  "website": "streak.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "SXD",
+  "website": "sxd.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Sygaldry",
+  "website": "sygaldry.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Synquote",
+  "website": "synquote.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Talos",
+  "website": "talos.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Terminal 49",
+  "website": "terminal49.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Termius",
+  "website": "termius.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "The Mom Project",
+  "website": "themomproject.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Theorem",
+  "website": "theoremlp.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "TigerEye",
+  "website": "tigereye.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Tilt",
+  "website": "www.tilt.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Torch",
+  "website": "torch.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Trilobio",
+  "website": "www.trilo.bio",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "TRM Labs",
+  "website": "trmlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "True Link Financial",
+  "website": "truelinkfinancial.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Truepill",
+  "website": "truepill.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Trunk",
+  "website": "trunk.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Upwave",
+  "website": "upwave.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Valar Atomics",
+  "website": "www.valaratomics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Vetcove",
+  "website": "vetcove.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Vibe Bio",
+  "website": "vibebio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Weave",
+  "website": "getweave.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "Withco",
+  "website": "with.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "WorkRamp",
+  "website": "workramp.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ },
+ {
+  "name": "ZeroEntropy",
+  "website": "www.zeroentropy.dev",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "initialized"
+ }
+]

@@ -1,0 +1,1082 @@
+[
+ {
+  "name": "Abra",
+  "website": "www.abra.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Airbase",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Airwallex",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Albert",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Anzu",
+  "website": "www.anzu.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Commerce",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Better",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "BigCommerce",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Bill.com",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Bilt",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "BioCatch",
+  "website": "www.biocatch.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Blackbird",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Bluefish",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "BodesWell",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Boom Supersonic",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Boxed",
+  "website": null,
+  "status": "shutdown",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Candex",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Capillary",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Cardless",
+  "website": "www.cardless.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Cignifi",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Clip",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Cloud Elements",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Codat",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Cyrus",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "DataGrail",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Decagon",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "DecisionEngines",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Divido",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Doppel",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Drum",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Dust Identity",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Enigma",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Even",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "EverC",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Extend",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Ezetap",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "FalconX",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Fancy",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Fazeshift",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Finix",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Finmark",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Firework",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Flow",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Freebird",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Galileo",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Glean.ai",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Guideline",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Handle",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "HQ Travel",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "IfOnly",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "InAuth",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "IndiaLends",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Instacart",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "iZettle",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Kiip",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Klasha",
+  "website": "www.klasha.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Knot",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "LearnVest",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Lockstep",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Melio",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Menlo Security",
+  "website": "www.menlosecurity.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Mezi",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Mindtrip",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Mirato",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "MishiPay",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "MobiKwik",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Moderne",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Nekuda",
+  "website": "nekuda.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Ness",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Next Insurance",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Odeko",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "OneDirect",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "OneOf",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Orum",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Palm",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Persado",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Philanthropi",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Pie",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Commerce",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Pilot",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Pinwheel",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Plaid",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Prophet Security",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Radius",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Reflection",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Rent the Runway",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Replit",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "RetailNext",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Rock The Bells",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "SavingStar",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Sedric",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Selfbook",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Sensible Weather",
+  "website": "www.sensibleweather.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Shef",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "ShopRunner",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Signifyd",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Simplee",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Skipify",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Skytree",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Splyt",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Spotnana",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Stripe",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "SumUp",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Tapzo",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Toast",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Torch",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Fintech",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Tradeshift",
+  "website": null,
+  "status": "shutdown",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Traversal",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Trellis",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "TRM Labs",
+  "website": "www.trmlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "TrueAccord",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Truework",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Trulioo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Trust & Will",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Turo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Visor",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Voca.ai",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Warby Parker",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Wonder",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Worth",
+  "website": "worthai.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Wrapp",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "amex_ventures"
+ },
+ {
+  "name": "Zafran",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "B2B",
+  "fund": "amex_ventures"
+ }
+]

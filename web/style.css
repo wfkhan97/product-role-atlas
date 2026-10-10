@@ -128,7 +128,7 @@ textarea, select { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1
 .dropdown .opt { padding: 6px 10px; font-size: 12px; cursor: pointer; display: flex; justify-content: space-between; }
 .dropdown .opt:hover { background: var(--panel); }
 .dropdown .opt .c { color: var(--muted); }
-#company-search { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel-2); color: var(--text); font: inherit; margin-bottom: 6px; }
+#company-search, #fund-search { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel-2); color: var(--text); font: inherit; margin-bottom: 6px; }
 .wide-btn { width: 100%; text-align: center; display: block; font-size: 12px; }
 .lane rect { fill: rgba(255,255,255,0.025); }
 .lane rect:nth-child(odd) { fill: rgba(255,255,255,0.045); }

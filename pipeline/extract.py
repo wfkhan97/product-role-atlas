@@ -114,6 +114,19 @@ def tag(text):
     return found
 
 
+STAGE_RE = re.compile(r"\b(?:series|serie)\s+([A-G])\b(?!\s*(?:of|number|\d))", re.I)
+SEED_RE = re.compile(r"\b(seed|pre-?seed)[- ]?(stage|round|funded|funding)\b", re.I)
+
+
+def stage_mentions(text):
+    letters = [m.group(1).upper() for m in STAGE_RE.finditer(text)]
+    if letters:
+        return "Series " + max(letters)
+    if SEED_RE.search(text):
+        return "Seed"
+    return None
+
+
 def pick_evidence(cands, k=4):
     """Diverse examples: at most one per company, prefer mid-length sentences with a verb-ish start."""
     seen, out = set(), []
@@ -132,6 +145,7 @@ def pick_evidence(cands, k=4):
 def main():
     jobs = []
     evidence = {}
+    company_stage = {}
     reg = {r["company"]: r for r in json.load(open(os.path.join(ROOT, "data", "registry.json")))}
     for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", "jobs", "*.json"))):
         blob = json.load(open(path))
@@ -146,6 +160,10 @@ def main():
             if len(desc) < 300:
                 continue
             cleaned = clean(desc)
+            st = stage_mentions(desc)
+            if st:
+                cur = company_stage.get(blob["company"])
+                company_stage[blob["company"]] = max(cur, st) if cur else st
             text = title + "\n" + cleaned
             hits = tag(text)
             # drop years-of-experience buckets that aren't consistent with the explicit ask, keep only the one matching
@@ -193,6 +211,8 @@ def main():
     os.makedirs(os.path.join(ROOT, "data", "processed"), exist_ok=True)
     with open(os.path.join(ROOT, "data", "processed", "jobs.json"), "w") as f:
         json.dump(jobs, f)
+    with open(os.path.join(ROOT, "data", "processed", "company_stage.json"), "w") as f:
+        json.dump(company_stage, f, indent=1)
     picked = {sid: {grp: pick_evidence(c) for grp, c in groups.items()} for sid, groups in evidence.items()}
     with open(os.path.join(ROOT, "data", "processed", "evidence.json"), "w") as f:
         json.dump(picked, f)

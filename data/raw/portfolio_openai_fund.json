@@ -1,0 +1,191 @@
+[
+ {
+  "name": "Descript",
+  "website": "descript.com",
+  "status": "active",
+  "stage": "Series C",
+  "description": "AI audio/video editing platform",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Harvey",
+  "website": "harvey.ai",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Generative AI for legal workflows",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Mem",
+  "website": "get.mem.ai",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI-powered self-organizing notes workspace",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Speak",
+  "website": "speak.com",
+  "status": "active",
+  "stage": "Series B",
+  "description": "AI language learning app",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "1X Technologies",
+  "website": "1x.tech",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Humanoid robotics",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Ambience Healthcare",
+  "website": "ambiencehealthcare.com",
+  "status": "active",
+  "stage": "Series B",
+  "description": "AI medical documentation for clinicians",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Anysphere (Cursor)",
+  "website": "cursor.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-powered code editor",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Chai Discovery",
+  "website": "chaidiscovery.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI models for molecular/drug discovery",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Class Companion",
+  "website": "classcompanion.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI feedback tool for teachers and students",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Figure AI",
+  "website": "figure.ai",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Humanoid robots for commercial use",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Ghost Autonomy",
+  "website": "ghostautonomy.com",
+  "status": "shutdown",
+  "stage": "Series E",
+  "description": "Autonomous driving software (shut down 2024)",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Heeyo",
+  "website": "heeyo.ai",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Educational AI chatbot for kids",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Kick",
+  "website": "kick.co",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI agents for bookkeeping and accounting",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Milo",
+  "website": "joinmilo.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI assistant for parents managing family logistics",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Physical Intelligence",
+  "website": "physicalintelligence.company",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Foundation models for robots",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Thrive AI Health",
+  "website": "thriveaihealth.com",
+  "status": "active",
+  "stage": null,
+  "description": "AI health coach, co-built with Thrive Global",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Unify",
+  "website": "unifygtm.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI-driven warm outbound sales platform",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Valthos",
+  "website": "valthos.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI for biosecurity / protein discovery",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Adaptive Security",
+  "website": "adaptivesecurity.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "AI-powered social engineering defense",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Endex",
+  "website": "endex.ai",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI agents for Excel and financial analysis",
+  "sector": null,
+  "fund": "openai_fund"
+ },
+ {
+  "name": "Isara",
+  "website": "isara.com",
+  "status": "active",
+  "stage": null,
+  "description": "Listed as notable investment by EverythingStartups",
+  "sector": null,
+  "fund": "openai_fund"
+ }
+]

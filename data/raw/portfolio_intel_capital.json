@@ -1,0 +1,1235 @@
+[
+ {
+  "name": "3D Glass Solutions",
+  "website": "https://3dgsinc.com",
+  "status": "active",
+  "stage": null,
+  "description": "3D Glass Solutions (3DGS) is an innovative advanced packaging substrate solution provider based on glass. Our manufacturing facility is located in Albuquerque, New Mexico, USA and is ISO 9001 and AS9100 certified.",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "AI21",
+  "website": "https://ai21.com",
+  "status": "active",
+  "stage": null,
+  "description": "AI21 is pioneering the development of enterprise AI Systems and Foundation Models. Our mission is to build trustworthy artificial intelligence that powers humanity towards superproductivity. We offer privately deployed models with unmatched performance and reliability with tailored solutions for every organization.",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Airship",
+  "website": "https://airship.com",
+  "status": "active",
+  "stage": null,
+  "description": "Airship is trusted by the world’s leading brands such as Alaska Airlines, BBC and The Home Depot for mobile-first expertise powering seamless, cross-channel customer experiences that drive business outcomes and earn customer loyalty. Airship’s mobile-first customer experience platform allows anyone to build, orchestrate and optimize hyper-personalized end-to-end customer journeys across all channe",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "AIRY3D",
+  "website": "https://www.airy3d.com",
+  "status": "active",
+  "stage": null,
+  "description": "AIRY3D creates simple, disruptive depth solutions – with focus on people, technology, and valued partners – addressing challenges of the 3D vision and imaging industry. Our mission is to establish AIRY3D as a leader in the computer vision ecosystem by offering a cost-effective imaging solution enabling CMOS image sensors to simultaneously capture 2D images with 3D depth.",
+  "sector": "Devices (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Aledia",
+  "website": "https://aledia.com",
+  "status": "active",
+  "stage": null,
+  "description": "Aledia develops 3D micro-light-emitting-diode (microLED) chips used in displays, based on a unique architecture using gallium-nitride (GaN)-on-silicon nanowires (WireLED™). The Aledia technology is currently implemented on 200mm silicon wafers and will evolve to 300mm wafers for high-volume production.",
+  "sector": "Devices (western europe)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Alkymi",
+  "website": "https://alkymi.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Alkymi is the leading AI-powered data workflow platform for financial services, unlocking 100% of the investment and client data trapped in unstructured documents. Alkymi transforms this data into standardized, interactive datasets that integrate seamlessly with clients’ core business processes. The platform empowers institutional investors, wealth managers, asset owners, and asset servicing firms",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "AMFG",
+  "website": "https://amfg.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "AMFG is the leading provider of MES and workflow automation software for additive and advanced manufacturing. The company’s platform enables end-to-end digitalization of production processes, including order management, scheduling, machine connectivity, and quality assurance. AMFG is trusted by manufacturers worldwide to support scalable, traceable, and efficient operations.",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Anodot",
+  "website": "https://anodot.com",
+  "status": "active",
+  "stage": null,
+  "description": "Anodot is a pioneer in autonomous business monitoring, helping data-driven enterprises detect and resolve revenue-impacting anomalies in real time. Since its founding in 2014, Anodot has enabled companies to monitor vast volumes of business and operational metrics without manual thresholds or dashboards. The platform leverages AI to learn normal behavior, detect abnormal patterns, and surface acti",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Anyscale",
+  "website": "https://anyscale.com",
+  "status": "active",
+  "stage": null,
+  "description": "Anyscale is the leading AI application platform. With Anyscale, developers can build, run and scale AI applications instantly. Built by the creators of Ray, the world’s fastest growing open-source unified framework for scalable computing, thousands of companies rely on technology from Anyscale to accelerate the delivery of AI products to market at significantly reduced cost. Backed by Andreessen H",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Articul8 AI",
+  "website": "https://articul8.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Articul8 is a generative AI (GenAI) enterprise software company focused on helping organizations solve the world’s toughest problems. Articul8’s full-stack, vertically-optimized GenAI software platform enables companies to build, deploy, and manage enterprise-grade, secure GenAI applications rapidly and cost-effectively. Articul8’s proprietary GenAI technologies are infrastructure and hardware-agn",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Asato",
+  "website": "https://asato.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Asato is a business observability platform that unifies enterprise asset data, to form insights, and agentic workflows for CIOs and IT teams. Built to integrate across SaaS, infrastructure, and procurement ecosystems, Asato enables intelligent IT operations and optimization at scale. Learn more at www.asato.ai.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Avaamo",
+  "website": "https://www.avaamo.com",
+  "status": "active",
+  "stage": null,
+  "description": "Avaamo is an advanced multimodal generative AI platform empowering global enterprises to automate and deliver outstanding self-service experiences. Our patented AI technology spans voice transcription, natural language understanding, and generative AI, revolutionizing call center automation. Avaamo supports self-service interactions across Healthcare, HR, IT service desks, and customer service for",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Axonne",
+  "website": "https://www.axonne.com",
+  "status": "active",
+  "stage": null,
+  "description": "Axonne Inc. is an innovative, fabless Silicon Valley semiconductor design company specializing in the development of cutting-edge high-speed networking solutions for the automotive and robotics industries. With a focus on driving digital transformation, Axonne combines advanced network technology with practical applications to create products that enhance connectivity, data transfer, security, and",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Ayar Labs",
+  "website": "https://ayarlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": "Ayar Labs, a leader in optical engines for co-packaged optics, is transforming AI infrastructure by accelerating data movement in scale-up networks. Its industry-first optical I/O solution enables customers to maximize compute efficiency and performance while reducing costs, latency, and power consumption. Based on open standards and optimized for AI training and inference, Ayar Labs’ optical inte",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Baya Systems",
+  "website": "http://bayasystems.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Baya Systems is leading the next wave of foundational, high-performance, and modular semiconductor systems technologies that are chiplet-ready and accelerate intelligent compute everywhere. Inspired by the baya bird’s nest-weaving ability, Baya integrates best-in-class compute, communication, and I/O components into seamless, energy-efficient solutions. Its software-based design and exploration pl",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Beep",
+  "website": "https://ridebeep.com",
+  "status": "active",
+  "stage": null,
+  "description": "Beep, Inc. delivers the next generation of autonomous, electric, shared mobility networks through its AI-enabled AutonomOS™ software platform and mobility-as-a-service offerings. Specializing in planning, deploying and managing autonomous transportation services for private and public communities, Beep safely connects people, places, goods and services with solutions that reduce congestion, improv",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Biofourmis",
+  "website": "https://www.biofourmis.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Biofourmis is the leader in care-at-home for hospitals, health systems, and payors. In October 2024, Biofourmis and CopilotIQ announced their strategic merger, creating the industry’s first AI-driven platform that delivers in-home care across the full spectrum of pre-surgery to acute, post-acute, and chronic care. Biofourmis Care enables hospitals, health systems and payors to seamlessly extend ca",
+  "sector": "Frontier (asia pacific)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "BoomTV",
+  "website": "https://boom.tv",
+  "status": "active",
+  "stage": null,
+  "description": "BoomTV provides an esports tournament infrastructure platform that enables gaming communities to organize, broadcast and monetize esports events.",
+  "sector": "Devices (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "BRIA",
+  "website": "https://www.bria.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Bria’s visual generative AI platform enables developers, product teams, and enterprises to build commercial-ready content. Our foundation models, trained on 100% licensed data from 30+ partners, ensure legal compliance with proper attribution to data owners and artists. Bria provides technical teams full access to source code and weights, production-grade APIs/SDKs, and the flexibility to incorpor",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Buildots",
+  "website": "https://www.buildots.com",
+  "status": "active",
+  "stage": null,
+  "description": "Buildots is a global construction technology leader bringing the power of AI and computer vision to automate on-site progress tracking. The platform provides construction teams with accurate data and previously unavailable predictive performance metrics, empowering them to make data-driven decisions. Buildots’ platform improves project visibility and efficiency, leading to reduced delays, enhanced",
+  "sector": "Silicon (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Cambridge Mechatronics",
+  "website": "https://www.cambridgemechatronics.com",
+  "status": "active",
+  "stage": null,
+  "description": "Cambridge Mechatronics has developed world-leading expertise in the mechanical, optical, electrical, software and controller silicon domains for making use of our patented Shape Memory Alloy (SMA) platform technology. Total system solutions, such as actuators based on SMA wire as thin as a human hair, can be controlled to the accuracy of the wavelength of light. These actuators are particularly su",
+  "sector": "Devices (western europe)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Capcon",
+  "website": "https://capconsemicon.com",
+  "status": "active",
+  "stage": null,
+  "description": "Capcon is a leading semiconductor equipment solution provider, specializing in die placement tools for the advanced packaging process. Capcon delivers high-end products and innovative solutions, such as Flip-Chip Bonder, Chip-on-Wafer Bonder, Package-on-Package Bonder, Stack Die Bonder, Pannel-Level Die Bonder, and Multi-Chip Die Bonder, etc.",
+  "sector": "Silicon (other)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "caresyntax",
+  "website": "https://caresyntax.com/",
+  "status": "active",
+  "stage": null,
+  "description": "A digital surgery platform to make surgery smarter and safer. caresyntax supports providers, medtech vendors, and insurers with actionable surgical insights, through a combination of AI, automation, and analytics technologies.",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Censys",
+  "website": "https://censys.io",
+  "status": "active",
+  "stage": null,
+  "description": "Developer of a data-driven security platform designed to provide comprehensive visibility into external attack surface. The company’s platform creates a relevant dataset that provides visibility into vulnerabilities and a comprehensive view of the internet-exposed infrastructure and offers attack surface management, threat hunting, and proactive cyber defense, enabling organizations to address sec",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Centrical",
+  "website": "https://centrical.com",
+  "status": "active",
+  "stage": null,
+  "description": "Centrical’s employee-centric success platform helps companies motivate employees to exceed their goals and KPIs by blending advanced gamification with personalized microlearning and real-time employee performance management as well as adaptive coaching tools, and well-being strategies. Centrical’s solutions are used in global enterprise companies such as WebHelp, BT, Microsoft, Teleperformance, HP",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "ChEmpower",
+  "website": "https://www.chempower-corp.com/",
+  "status": "active",
+  "stage": null,
+  "description": "ChEmpower Corporation is an advanced materials and specialized chemistry company that develops and supplies chemically reactive pads for use in planarization of semiconductor devices. ChEmpower is on a mission to eliminate abrasives from the polish process and to meet advanced sustainability standards for planarization in the semiconductor industry.",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Cornelis Networks",
+  "website": "https://cornelisnetworks.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Cornelis Networks (Wayne, Pennsylvania) is a provider of high-performance purpose-built scale-out interconnects that accelerate the modeling / simulation, high performance data analytics, and artificial intelligence / machine learning workloads that are vital to many scientific, commercial, and government organizations. The company’s end-to-end solutions include the host software, fabric managemen",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "CY Vision",
+  "website": "https://www.cyvision.com/",
+  "status": "active",
+  "stage": null,
+  "description": "3D Augmented Reality Head-Up Displays for Next Generation Vehicles. CY Vision’s approach to computational holography sets apart new vehicle designs by turning the windshield into an always available, always visible display for important information. AR-HUDs work with advanced driver-assist, cameras, GPS, lidar, and smartphones to create a safer and more engaging visual experience for conventional,",
+  "sector": "Devices (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "DataRobot",
+  "website": "https://datarobot.com",
+  "status": "active",
+  "stage": null,
+  "description": "DataRobot was founded in 2012 to democratize access to AI. Today, DataRobot is the AI Cloud leader, with a vision to deliver a unified platform for all users, all data types, and all environments to accelerate delivery of AI to production for every organization. DataRobot enables organizations to leverage the transformational power of AI by delivering the world’s only AI Cloud platform combined wi",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Deep Sentinel",
+  "website": "https://www.deepsentinel.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Deep Sentinel is revolutionizing physical security for businesses and homes as the only system that actually stops crime before it happens. Trusted by thousands of businesses and homes across the U.S., and hundreds of security partners, the company’s patented security solution combines AI-driven surveillance with live guard response to turn passive cameras into powerful crime prevention tools. Thi",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Delair",
+  "website": "https://delair.aero",
+  "status": "active",
+  "stage": null,
+  "description": "Delair is the leading international provider of high performance drone-based solutions for companies and governments. With over a decade of experience in designing and manufacturing professional drones – including the world’s first commercially certified BVLOS drone – Delair is uniquely positioned to assist industry, military and security verticals adopt drone technology.",
+  "sector": "Frontier (western europe)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Duality",
+  "website": "https://dualitytech.com",
+  "status": "active",
+  "stage": null,
+  "description": "Duality is the leader in secure data collaboration, empowering organizations worldwide to maximize the value of their data without compromising on privacy or regulatory compliance. Founded and led by world-renowned cryptographers and data scientists, Duality operationalizes privacy enhancing technologies (PETs) to accelerate data insights by enabling analysis and AI on encrypted data, while preser",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "EasySend",
+  "website": "https://easysend.io",
+  "status": "active",
+  "stage": null,
+  "description": "EasySend is a no-code customer experience platform for building and optimizing digital customer journeys. EasySend helps enterprises go digital by converting paper, PDFs, and manual processes into fully-branded customer journeys for any use case. With the platform, users can design, build and launch digital customer processes in days, and continually optimize with advanced analytics. The EasySend ",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Eclypsium",
+  "website": "https://www.eclypsium.com",
+  "status": "active",
+  "stage": null,
+  "description": "Developer of a security platform designed to defend the unguarded firmware and hardware infrastructure. The company’s platform allows teams to gain instant access to the below-the-operating system attack surface and implement critical security controls for critical software, firmware, and hardware in enterprise infrastructure, enabling organizations to ensure device integrity and mitigate risks fr",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Eko",
+  "website": "https://www.eko.com",
+  "status": "active",
+  "stage": null,
+  "description": "Eko is pioneering a seamless and shoppable video solution that brings the delight of IRL shopping to your online customers, leveraging the best of both worlds.",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Eliyan",
+  "website": "https://eliyan.com",
+  "status": "active",
+  "stage": null,
+  "description": "Eliyan’s mission is to revolutionize chiplet connectivity technologies by challenging the status quo to accelerate the adoption and unleash the ultimate performance of chiplet-based systems.",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "EPIC Microsystems",
+  "website": "https://epicmicro.com",
+  "status": "active",
+  "stage": null,
+  "description": "EPIC is a leading semiconductor company which possesses cutting-edge know-how and experience in the area of power semiconductor products and solutions targeted at Artificial Intelligence and Data Center infrastructure.",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "EUV Tech",
+  "website": "https://www.euvtech.com",
+  "status": "active",
+  "stage": null,
+  "description": "Founded in 1997, EUV Tech is a pioneer and global leader in the development and fabrication of EUV metrology tools for advanced computer chip manufacturing. EUV Tech supplies the semiconductor industry with leading-edge metrology solutions using ultra-short wavelength extreme ultraviolet light. EUV Tech’s tools enable the fabrication of the most advanced computer chips and are found on the product",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Exo Imaging",
+  "website": "https://www.exo.inc",
+  "status": "active",
+  "stage": null,
+  "description": "Exo (pronounced Echo) is pioneering a high-performance, handheld ultrasound platform that uses artificial intelligence for imaging and therapeutic applications. By delivering affordable, easy-to-use medical imaging, Exo empowers healthcare professionals around the world to make critical, real-time decisions that improve patient outcomes.",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Fabric8Labs",
+  "website": "https://fabric8labs.com",
+  "status": "active",
+  "stage": null,
+  "description": "San Diego-based startup specializes in metal 3D printing. Fabric8 does not utilize powder nor thermal processes. Instead, it is based on electrochemical deposition, which operates at room temperature, has a significantly lower power demand, and utilizes an aqueous (water-based) solution made from low-cost metal salts,” CEO Jeff Herman tells TechCrunch. “In combination, the commodity priced raw mat",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "FieldAI",
+  "website": "https://fieldai.com",
+  "status": "active",
+  "stage": null,
+  "description": "Headquartered in Irvine, CA, FieldAI is a pioneer in developing embodied AI software that is redefining autonomous robot operations in real-world environments. The company’s Field Foundation Models provide an embodiment-agnostic autonomy brain, empowering robots to navigate dynamic and unpredictable conditions without maps, GPS, or predefined trajectories. Proven across diverse platforms – from qu",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Figure AI",
+  "website": "https://www.figure.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Figure is an AI robotics company developing autonomous general-purpose humanoid robots. The goal of the company is to ship humanoid robots with human level intelligence. Its robots are engineered to perform a variety of tasks in the home and commercial markets. Figure is headquartered in San Jose, CA.",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Fly.io",
+  "website": "https://fly.io",
+  "status": "active",
+  "stage": null,
+  "description": "Fly.io builds computers for agents — connected infrastructure designed for AI agents and the applications they build. Unlike disposable execution environments, Fly.io gives agents real computers that have durable disk drives, secure connectivity to other systems, and the ability to scale to millions of instances to power production AI applications. Hundreds of thousands of developers across more t",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Formant",
+  "website": "https://formant.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Formant is a cloud platform that helps robotics companies easily deploy, scale, and manage their fleets. Founded in 2017 by former roboticists at Google and Savioke, Formant’s platform powers tens of thousands of field-deployed robots from leading companies such as Knightscope, Scythe, and Burro.",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Fortanix",
+  "website": "https://www.fortanix.com",
+  "status": "active",
+  "stage": null,
+  "description": "Fortanix is the data-first security company. As the industry’s first and largest provider of Confidential Computing solutions, Fortanix decouples data security from infrastructure. Fortanix solutions empower organizations with centralized controls to secure data spread across clouds, applications, SaaS, databases, and data centers. Enterprises worldwide, especially in privacy-sensitive industries ",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Freshpaint",
+  "website": "https://freshpaint.io",
+  "status": "active",
+  "stage": null,
+  "description": "Turn privacy into a strategic advantage that fuels performance. Freshpaint helps healthcare marketers do more with less. Increase demand and revenue without growing budgets, prove marketing’s impact, and stay compliant while doing it.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Gloat",
+  "website": "https://gloat.com",
+  "status": "active",
+  "stage": null,
+  "description": "Gloat pioneered the Talent Marketplace category with the first AI-powered Talent Marketplace, which allows enterprises to break down the silos slowing them down and enables agile, future-ready workforces. By matching employees to internal opportunities that align with their skills, experiences, and goals, Gloat gives managers frictionless access to untapped talent at speed, reducing their reliance",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Goldbelly",
+  "website": "https://goldbelly.com",
+  "status": "active",
+  "stage": null,
+  "description": "Goldbelly is an online marketplace that connects curious eaters with America’s best gourmet food purveyors, an alternative to the food conglomerates and big box retailers that control most of the food world today. They partner up with many of the best and most iconic purveyors in the nation to distribute food products through their proprietary social e-commerce platform. They provide great local f",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "GoodData",
+  "website": "https://gooddata.com",
+  "status": "active",
+  "stage": null,
+  "description": "GoodData powers modern BI for the modern data stack. It’s composable data and analytics platform provides a single source of truth across organizations and to their customers. To date, it has helped more than 140,000 of the world’s top businesses deliver on their analytics goals and scale their data use cases — from self-service and embeddable analytics, to machine learning and IoT.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Grip Security",
+  "website": "https://grip.security",
+  "status": "active",
+  "stage": null,
+  "description": "Grip is a next-gen SaaS Security Platform built for the modern remote workforce. The solution brings comprehensive visibility across all enterprise SaaS applications (sanctioned and unsanctioned), users (regardless of location), and their basic interactions with unmatched accuracy. Grip drives the right security policies and prioritized risk reduction at scale to reign in an exploding self-service",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Healx",
+  "website": "https://healx.io",
+  "status": "active",
+  "stage": null,
+  "description": "AI-powered, patient-inspired treatments for rare diseases. There are over 7,000 rare diseases which affect 400 million people and 95% of them have no treatment. We’re on a mission to change that.",
+  "sector": "Frontier (western europe)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Higgsfield AI",
+  "website": "https://higgsfield.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Higgsfield AI is a generative media platform that turns text, images, or product links into cinematic short-form videos and visuals. It integrates multiple AI tools into a simple workflow, enabling creators to produce high-quality content quickly without filmmaking expertise, acting as a no-code layer orchestrating underlying AI models.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Hugging Face",
+  "website": "https://huggingface.co/",
+  "status": "active",
+  "stage": null,
+  "description": "Hugging Face is the AI community building the future. The platform where the machine learning community collaborates on models, datasets, and applications.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "hypersonix",
+  "website": "https://hypersonix.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Hypersonix is designed to help enterprises drive profitable revenue growth by providing a system of actionable intelligence. Autonomous decisioning platform that works across various disparate data silos. delivering descriptive, diagnostic, predictive, and prescriptive intelligence instantaneously.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Immuta",
+  "website": "https://immuta.com",
+  "status": "active",
+  "stage": null,
+  "description": "The number of people and systems that need access to data is exploding. Delivering data responsibly is the critical challenge for every organization, and Immuta exists to help them meet that moment. Since our inception, we’ve been building the systems and workflows that make it possible to provision data instantly, safely, and at scale, without forcing teams to choose between speed and governance.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Impact Nano",
+  "website": "https://impact-nano.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Impact Nano is a manufacturer of specialty chemicals and advanced materials for high technology industry sectors, including semiconductors, batteries, and pharmaceutical intermediates. Our manufacturing facility in Orange, MA has demonstrated capabilities and expertise in the following areas: synthesis and purification of air-sensitive chemicals, scale-up from bench to pilot to full-scale manufact",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Inrix",
+  "website": "https://www.inrix.com",
+  "status": "active",
+  "stage": null,
+  "description": "INRIX is the global leader in connected car services and transportation analytics. Leveraging big data and the cloud, INRIX delivers comprehensive services and solutions to help move people, cities and businesses forward. Their partners are automakers, governments, mobile operators, developers, advertisers, as well as companies large and small.",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Intezer Labs",
+  "website": "https://intezer.com",
+  "status": "active",
+  "stage": null,
+  "description": "Intezer is the first and leading AI SOC platform for Enterprise, automating security operations end-to-end by investigating every security alert at forensic depth — and escalating only the ~2% that truly require human judgment. Trusted by major enterprises such as MGM, Eli Lilly, Equifax, Salesforce and more, Intezer replaces legacy MDR and SOC-as-a-Service with a true AI-native alternative.",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Inworld.ai",
+  "website": "https://inworld.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Inworld’s mission is to create and inspire new meaningful relationships. Inworld provides a creative suite for building virtual characters, with a focus on gaming, metaverse, and brand experiences. Inworld’s goal is to give creators an intuitive and powerful way to create lifelike, engaging, and expressive personalities.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Joby Aero",
+  "website": "https://jobyaviation.com",
+  "status": "active",
+  "stage": null,
+  "description": "Joby Aviation, Inc. (NYSE: JOBY) is a California-headquartered transportation company developing an all-electric vertical take-off and landing aircraft which it intends to operate as part of a fast, quiet, and convenient air taxi service beginning in 2024. The aircraft, which has a maximum range of 150 miles (241 kilometers) on a single charge, can transport a pilot and four passengers at speeds o",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "JupiterOne",
+  "website": "https://jupiterone.com/",
+  "status": "active",
+  "stage": null,
+  "description": "JupiterOne is the leader in cyber asset attack surface management (CAASM) technology, providing visibility and security into organizations’ entire cyber asset universe. With JupiterOne, teams can discover, monitor, understand, and act on changes in their digital environments. Cloud resources, ephemeral devices, identities, access rights, code, pull requests, and much more are collected, graphed, a",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Kepler Computing",
+  "website": "https://www.keplercompute.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Kepler builds frontier memory and logic for AI.",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "landing.ai",
+  "website": "https://landing.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Founded by Andrew Ng, co-founder of Coursera and founding lead of Google Brain, LandingAI combines deep learning innovation with enterprise-grade reliability and governance to help organizations operationalize AI for the documents that drive their business. LandingAI is redefining intelligent document processing with Agentic Document Extraction (ADE), an API-first Agentic Document Intelligence pla",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Lightbits",
+  "website": "https://lightbitslabs.com",
+  "status": "active",
+  "stage": null,
+  "description": "Lightbits is a robust data storage platform for any cloud with unmatched speed, flexibility, and efficiency. It enables IT organizations with a cloud-first strategy to move critical (IO-sensitive) workloads to the cloud without compromise while still meeting or exceeding their SLAs. It fills a gap that native cloud solutions cannot deliver for these workloads delivering the best and highest perfor",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "LILT",
+  "website": "https://lilt.com",
+  "status": "active",
+  "stage": null,
+  "description": "LILT is the complete AI solution for enterprise content translation and creation. The LILT Contextual AI Platform enables global enterprises to scale and optimize their global content, product, communication, and support operations. The platform provides businesses and government organizations the ability to translate content into any language, or generate content in any language, empowering them ",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "MatrixSpace",
+  "website": "https://matrixspace.com",
+  "status": "active",
+  "stage": null,
+  "description": "MatrixSpace builds AI-powered sensing and radar systems that provide real-time, multi-sensor situational awareness for counter‑drone, airspace, and perimeter security applications across defense and commercial markets. MatrixSpace’s compact radar and AI software platform fuse data from distributed sensors at the edge and in the cloud, delivering affordable, portable detection and tracking in all c",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Matroid",
+  "website": "https://matroid.com",
+  "status": "active",
+  "stage": null,
+  "description": "Matroid makes computer vision simple and accessible to everyone. Matroid is an easy-to-use and intuitive studio for creating and deploying detectors (computer vision models) to search visual media for people, behaviors, objects, and events with no programming required. Once a detector is developed, Matroid can search any live stream or recorded video, providing real time notifications and analytic",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "MaxIQ",
+  "website": "https://www.getmaxiq.com",
+  "status": "active",
+  "stage": null,
+  "description": "MaxIQ, is the first AI-powered Customer Journey Management platform, designed to unify sales, customer success, and revenue operations to maximize customer lifetime value. By bridging customer acquisition and success with actionable insights and seamless collaboration, MaxIQ enables B2B SaaS enterprises to manage revenue across their entire customer lifecycle.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "MDI Health",
+  "website": "https://www.mdihealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": "MDI Health leverages its Artificial Pharmacology Intelligence platform to tackle the 4th leading cause of death- medication related problems. MDI empowers clinicians with technology that can identify high-risk patients for specific adverse drug events, and then autonomously provide suggested clinical recommendations to make changes to medication treatment and reduce those risks from occurring. MDI",
+  "sector": "Frontier (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Medical Informatics",
+  "website": "https://michealthcare.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Medical Informatics Corp. is a software-based monitoring and analytics company. Their revolutionary Sickbay platform archives, aggregates, and transforms otherwise unrecorded, high-resolution waveform data spanning disparate biomedical devices to enable anytime, anywhere remote monitoring across the continuum of care. The same platform can then be leveraged to use machine learning and AI to deploy",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "MemVerge",
+  "website": "https://Memverge.com",
+  "status": "active",
+  "stage": null,
+  "description": "The advent of persistent memory is sparking a new era of Big Memory Computing where heavily data-centric applications can forgo traditional performance storage in favor of pools of memory. Memory Machine™ software from MemVerge makes this possible by virtualizing DRAM and persistent memory. Once virtualized, the pool of software-defined memory is less expensive than DRAM and performs like DRAM. In",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "MerQube",
+  "website": "https://merqube.com/home",
+  "status": "active",
+  "stage": null,
+  "description": "MerQube is a pioneer in the development of technology for next generation index-linked investing. Index-linked investing underpins the USD 17 trillion global passive investment industry. Launched in 2019 by a team of index industry veterans and technology experts, MerQube was created as a fintech driven answer to the most sophisticated rules-based investment strategies. MerQube today calculates a ",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Metalenz",
+  "website": "https://metalenz.com",
+  "status": "active",
+  "stage": null,
+  "description": "Metalenz is leading the development and commercialization of metasurface optics for imaging and display applications. Via simple at-scale semiconductor processes producing flat nano-structured lenses, Metalenz designs and delivers optical systems for consumer electronics, automotive and IoT applications with incumbent crushing levels of performance, form factor and cost.",
+  "sector": "Devices (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Mighty Networks",
+  "website": "https://mightynetworks.com",
+  "status": "active",
+  "stage": null,
+  "description": "Mighty Networks makes extraordinary software for creators, brands, and communities to build their empires offering community, content, online courses, and subscription commerce in one place. With Mighty Pro, creators and brands get their own branded apps without the headache of custom development.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "MinIO",
+  "website": "https://min.io",
+  "status": "active",
+  "stage": null,
+  "description": "For over a decade, MinIO has been engineering the infrastructure that powers artificial intelligence at the world’s most demanding organizations. Our platform, MinIO AIStor, delivers exascale performance and limitless scale—unifying enterprise data across edge, core, and cloud environments.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Moderne",
+  "website": "https://moderne.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Moderne builds the knowledge, discovery, and execution tools coding agents rely on to operate faster, more accurately, and at far lower cost across real-world software systems. Powered by the OpenRewrite Lossless Semantic Tree (LST), the industry’s most comprehensive context model for code for understanding and transforming your code at scale.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Motivo",
+  "website": "https://www.motivo.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Motivo, Inc. is a Silicon Valley-based company developing Artificial Intelligence (AI) and Machine Learning (ML) solutions for chip design analytics and optimization. Motivo’s technology suite includes M-Graph™ and other proprietary combinatorial analytics, search, and learning on graph for automated data-driven feature extraction. Motivo’s goal is to accelerate integrated circuit (IC) time to mar",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Movellus Circuits",
+  "website": "https://www.movellus.com",
+  "status": "active",
+  "stage": null,
+  "description": "Movellus is the infrastructure IP partner for high- performance, energy-efficient silicon. We provide solutions for clocking, droop detection, and power.",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Mueon",
+  "website": "https://mueon.com",
+  "status": "active",
+  "stage": null,
+  "description": "Mueon Corporation is pioneering exponential computing by rethinking data center architecture. Its core innovation, Cubelets™, replaces racks of servers and cables with modular, stackable units that combine compute, memory, power delivery, and thermal management – reducing space, improving efficiency, and simplifying integration. Headquartered in Portland, Oregon, the Mueon team brings together exp",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "NeuroBlade",
+  "website": "https://neuroblade.com",
+  "status": "active",
+  "stage": null,
+  "description": "NeuroBlade data analytics accelerator speeds up queries, enabling faster time to insights analyzing vast amounts of data. Based on its innovative IMPU (Intense memory Processing Unit) technology, NeuroBlade defines a new category of accelerators, speeding up data intensive workloads in cloud and enterprises.",
+  "sector": "Silicon (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Nexite",
+  "website": "https://nexite.io",
+  "status": "active",
+  "stage": null,
+  "description": "Nexite brings merchandise to life. Passive products are transformed into active digital communicators, delivering retailers a continuous stream of real-time data. The data automatically flows in from the merchandise, telling their complete life story from their first stitches in the factory, to their final destination at the customer’s closet. In a world full of scanners, manual processes, and alm",
+  "sector": "Frontier (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Now.gg",
+  "website": "https://www.now.gg",
+  "status": "active",
+  "stage": null,
+  "description": "now.gg and BlueStacks are leaders in multi-platform mobile gaming – now.gg is the world’s first mobile cloud platform and BlueStacks is the only desktop client for mobile cloud. The platforms enable gaming communities to experience high-quality game play on any device or OS, share games on their social channels and pay in-game through payment channels they already have. Not constrained by geograph",
+  "sector": "Devices (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "NxtGen",
+  "website": "https://nxtgen.com",
+  "status": "active",
+  "stage": null,
+  "description": "India-based NxtGen is a leader in the space of Datacenter and cloud-based services.",
+  "sector": "Cloud (asia pacific)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Occipital",
+  "website": "https://occipital.com",
+  "status": "active",
+  "stage": null,
+  "description": "Twindo (formerly known as Occipital) is a purpose-built spatial intelligence platform. The new name and identity reflect the company’s expanded vision: delivering spatial intelligence that helps teams understand spaces clearly and make confident decisions from anywhere. Twindo enables professionals to turn real-world spaces into structured, accurate, design-ready data through a simple mobile scan ",
+  "sector": "Devices (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "OliverIQ",
+  "website": "https://OliverIQ.com",
+  "status": "active",
+  "stage": null,
+  "description": "OliverIQ is developing a next generation smart home solution converging automation, security, entertainment and communications for consumers",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "OPAQUE",
+  "website": "https://opaque.co",
+  "status": "active",
+  "stage": null,
+  "description": "OPAQUE is the Confidential AI company. Born from UC Berkeley’s RISELab, OPAQUE solves the core challenge blocking AI adoption at scale: security concerns about data leaks or compliance violations. OPAQUE provides verifiable privacy and governance for AI so organizations can safely run models, agents, and workflows on their most sensitive data. Its Confidential AI platform delivers verifiable runti",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "OrCam",
+  "website": "https://orcam.com",
+  "status": "active",
+  "stage": null,
+  "description": "OrCam’s mission is to harness the power of artificial vision by incorporating pioneering technology into a wearable platform which improves the lives of individuals who are blind, visually impaired, and have reading difficulties. OrCam was jointly founded in 2010 by Prof. Amnon Shashua and Mr. Ziv Aviram, who are also the co-founders of Mobileye, the collision avoidance system leader and autonomou",
+  "sector": "Devices (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Orchid Security",
+  "website": "https://orchid.security",
+  "status": "active",
+  "stage": null,
+  "description": "Orchid Security is an identity security platform leveraging Large Language Models (LLMs) to unify and secure complex identity environments across enterprises. Founded by AI and cybersecurity experts Roy Katmor, Robert Weisman, and Ido Kelson, and backed by Intel Capital and Team8, Orchid enables organizations to gain full visibility, consistent management, and automated, risk-based identity manage",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Overwolf",
+  "website": "https://overwolf.com",
+  "status": "active",
+  "stage": null,
+  "description": "Overwolf provides an overlay platform that enables developers to create game applications, modifications, or services that enhance the experience of PC games, such as Counter-Strike, League of Legends, Fortnite, and more, available for creation on an open platform of game apps and in-game services. Through the platform, gamers can generate value from the app, and app creators can monetize and cont",
+  "sector": "Devices (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Oxide",
+  "website": "https://www.oxide.computer",
+  "status": "active",
+  "stage": null,
+  "description": "Oxide Computer Company designs and delivers unified hardware and open source software to provide hyperscaler-class efficiency, performance, and ease of use on-premises for enhanced security, latency, and control. Founded in 2019 and based in Emeryville, California, Oxide is backed by leading investors and trusted by enterprise customers across industries.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "OXMIQ Labs",
+  "website": "https://oxmiq.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "OXMIQ Labs is a GPU and AI architecture company with expertise spanning every layer of the AI stack, from renewable energy and data center infrastructure to silicon IP, electron-to-token machines, and cloud software for AI factories and agents. OXMIQ develops licensable compute IP and adaptive AI infrastructure software. The OXMIQ stack, OxCoreTM, OxQuiltTM, OxPythonTM and OxCapsuleTM, enables sem",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Oxos Medical",
+  "website": "https://oxos.com",
+  "status": "active",
+  "stage": null,
+  "description": "OXOS® Medical is driving innovation in delivering and distributing medical imaging and radiographic diagnostics. With a low radiation profile, the OXOS smart devices provide unmatched image sharpness and clarity in the smallest form factor, making X-ray available anywhere it is needed. The cloud-based OXOS® Platform offers growing capabilities for on-demand image management, telehealth collaborati",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Pico",
+  "website": "https://pico.net",
+  "status": "active",
+  "stage": null,
+  "description": "Pico is a leading provider of technology services for the financial markets community. Pico provides a best-in-class portfolio of innovative, transparent, low-latency markets solutions coupled with an agile and expert service delivery model. Instant access to financial markets is provided via PicoNet™, a globally comprehensive network platform instrumented natively with Corvil analytics and teleme",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Prime Intellect AI",
+  "website": "https://primeintellect.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Prime Intellect provides infrastructure for decentralized AI development, enabling AI labs, startups, and enterprises to train and scale advanced models across distributed compute networks. Its platform integrates compute, training, and deployment tools to make building high-performance AI systems more accessible and cost-effective.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "ProteanTecs",
+  "website": "https://proteantecs.com",
+  "status": "active",
+  "stage": null,
+  "description": "ProteanTecs is a leading provider of deep data monitoring solutions for advanced electronics in the Datacenter, Automotive and Communications markets. Based on Universal Chip Telemetry™ (UCT), the company provides system health and performance monitoring, from production to the field. By applying machine learning to novel data created by on-chip UCT agents, the company’s analytics platform deliver",
+  "sector": "Silicon (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Q-Factor",
+  "website": "https://www.q-factor.com",
+  "status": "active",
+  "stage": null,
+  "description": "Founded in Israel in 2026 by professors from the Weizmann Institute of Science and Technion – Israel Institute of Technology, Q-Factor is developing a new generation of scalable quantum computing hardware based on neutral-atom arrays. The company emerged from stealth with $24 million in seed funding to tackle one of the most fundamental challenges in quantum computing: scaling systems from hundred",
+  "sector": "Frontier (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Qnovo",
+  "website": "https://www.qnovo.com",
+  "status": "active",
+  "stage": null,
+  "description": "Qnovo is reinventing one of the most basic foundations of energy storage and mobility – the battery and how it is charged. Qnovo develops innovative and patented adaptive charging algorithms and analytics that improve lifetime battery performance with enhanced safety. By augmenting battery chemistry with software, Qnovo enables batteries to charge faster, with more daily use and longer lifespan. Q",
+  "sector": "Devices (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Quantum Machines",
+  "website": "https://quantum-machines.co",
+  "status": "active",
+  "stage": null,
+  "description": "Quantum Machines (QM) is a global leading provider of quantum control solutions, driving the advancement of quantum computing with its hybrid control approach. By harmonizing quantum and classical operations, hybrid control eliminates friction and optimizes performance across hardware and software, enabling researchers and builders to iterate at speed, resolve setbacks, and bring visionary ideas t",
+  "sector": "Frontier (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "R3",
+  "website": "https://r3.com",
+  "status": "active",
+  "stage": null,
+  "description": "R3 is a leading provider of enterprise technology and services that enable direct, digital collaboration in regulated industries where trust is critical. Multi-party solutions developed on our platforms harness the “Power of 3”—R3’s trust technology, connected networks and regulated markets expertise—to drive market innovation and improve processes in banking, capital markets, global trade and ins",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "RealSense",
+  "website": "https://www.realsenseai.com",
+  "status": "active",
+  "stage": null,
+  "description": "Incubated at Intel Corporation, RealSense delivers industry-leading depth cameras and vision technology used in autonomous mobile robots, access control, industrial automation, healthcare and more. With a mission to deliver world class perception systems for Physical AI and safely integrate robotics and AI into everyday life, RealSense provides intelligent, secure and reliable vision systems that ",
+  "sector": "Devices (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Retrace",
+  "website": "https://www.retrace.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Retrace believes that smarter, more innovative use of dental data is essential for reducing the oral disease burden. Retrace applies artificial intelligence and other advanced technology in its predictive analytics platform that uses real-time data to improve dental decision-making. Retrace empowers health plans, providers, and patients to create a more cost-effective, evidence-based oral healthca",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "RouteThis",
+  "website": "https://routethis.com/",
+  "status": "active",
+  "stage": null,
+  "description": "At RouteThis, we understand WiFi connectivity challenges firsthand. That’s why we’ve made it our mission to help service providers and IoT/smart home brands deliver flawless WiFi connectivity to their customers. We built our revolutionary approach with a global network of partners, and it’s been transforming WiFi satisfaction since 2017—and we’re just getting started.",
+  "sector": "Devices (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "SambaNova",
+  "website": "https://www.sambanova.ai",
+  "status": "active",
+  "stage": null,
+  "description": "SambaNova is a leader in next‑generation AI infrastructure, providing a full stack platform that powers the fastest, most efficient AI inference for enterprises, NeoClouds, AI labs and service providers, and sovereign AI initiatives worldwide. Founded in 2017 and headquartered in Palo Alto, Calif., SambaNova delivers chips, systems and cloud services that enable customers to deploy state‑of‑the‑ar",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "SaVia",
+  "website": "https://saviahealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": "SaVia Health is a healthcare SaaS company born from a large integrated delivery system in the west. It transforms existing analog clinical and operational care processes into digital workflows that standardize care, improve operational efficiency and provide clinical decision support integrated into the EMR. SaVia enables clinical and operational leaders without technical training to digitize exis",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Scale AI",
+  "website": "https://scale.com",
+  "status": "active",
+  "stage": null,
+  "description": "Scale is fueling the Generative AI revolution. Built on a foundation of high-quality data and human insight, Scale’s proprietary Data Engine powers the world’s most advanced models. Our years of deep partnership with every major model builder enables us to provide the roadmap for any organization to apply AI. Scale is trusted by industry leaders, including Meta, Morgan Stanley, Microsoft, the U.S.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "ScienceLogic",
+  "website": "https://sciencelogic.com",
+  "status": "active",
+  "stage": null,
+  "description": "ScienceLogic empowers intelligent, automated IT operations, freeing up time and resources, and driving business outcomes with actionable insights. ScienceLogic’s AIOps platform sees everything across clouds and on-premises, enabling business service visibility with relationship mapping, and workflow automation to eliminate manual tasks. Trusted by thousands of organizations across the globe, Scien",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "SecurityScorecard",
+  "website": "https://www.securityscorecard.com",
+  "status": "active",
+  "stage": null,
+  "description": "SecurityScorecard, founded in 2013 by security and risk experts Dr. Aleksandr Yampolskiy and Sam Kassoumeh, is the global leader in cybersecurity ratings with more than 12 million companies continuously rated. Funded by investors including Evolution Equity Partners, Silver Lake Waterman, Sequoia Capital, GV, Riverwood Capital, and others, SecurityScorecard’s patented rating technology is used by o",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "SiFive",
+  "website": "https://sifive.com",
+  "status": "active",
+  "stage": null,
+  "description": "SiFive is the leading provider of market-ready processor core IP based on the free and open RISC-V instruction set architecture. SiFive helps SoC designers reduce time-to-market and realize cost savings with customized, open-architecture processor cores, and democratizes access to optimized silicon by enabling system designers to build customized RISC-V based semiconductors.",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "SiPhox",
+  "website": "https://siphoxhealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": "SiPhox is the first healthcare company to leverage silicon photonic chips to make diagnostics 100x faster, smaller, and less expensive – without sacrificing quality.",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Skylo",
+  "website": "https://www.skylo.tech/",
+  "status": "active",
+  "stage": null,
+  "description": "Skylo Technologies is a satellite network service provider offering a hybrid capability that allows off-the-shelf, NTN-capable cellular chipsets and devices to connect directly over existing satellites. Devices connected over satellite are managed and served by Skylo’s commercial NTN vRAN, featuring a 3GPP standards-based cloud-native base station and core. Skylo works with existing satellite oper",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Suger.io",
+  "website": "https://www.suger.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Headquartered in San Francisco, Suger is an API-driven platform that enables businesses to quickly list, transact, and co-sell across cloud marketplaces. Backed by Threshold Ventures, Intel Capital, Craft Ventures and Y Combinator, Suger is transforming how software companies approach go-to-market strategies in a cloud native world. Learn more at https://www.suger.io.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Synack",
+  "website": "https://www.synack.com",
+  "status": "active",
+  "stage": null,
+  "description": "We are Synack, the premier on-demand security platform for continuous penetration testing and vulnerability management. Synack’s premier on-demand security testing platform harnesses a talented, vetted community of security researchers and smart technology to deliver continuous penetration testing and vulnerability management, with actionable results. We are committed to making the world more secu",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Syntiant",
+  "website": "https://www.syntiant.com",
+  "status": "active",
+  "stage": null,
+  "description": "Syntiant Corp, headquartered in Irvine, CA, is pushing cutting-edge machine learning from the cloud to edge devices. Utilizing breakthrough technology, intelligent devices are free of cloud connectivity enabling ubiquitous machine intelligence that is always on while consuming ultra low power.",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Teikametrics",
+  "website": "https://www.teikametrics.com",
+  "status": "active",
+  "stage": null,
+  "description": "Teikametrics’ AI-powered Marketplace Optimization Platform helps sellers and brand owners maximize their potential on the world’s most valuable marketplaces. Teikametrics uses proprietary AI technology to maximize growth and efficiency via a simple SaaS interface. Teikametrics optimizes more than $10 billion in GMV across thousands of sellers around the world, with brands including Munchkin, mDesi",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Tetrate",
+  "website": "https://tetrate.io",
+  "status": "active",
+  "stage": null,
+  "description": "Tetrate helps organizations graduate pilots to trusted, autonomous AI agents. Tetrate supplies the standards, guardrails, and evaluation metrics needed to develop agents consistently, promote them to production with confidence, and monitor and supervise their behavior over time. Built on Envoy AI Gateway, the open source project co-created and maintained by Tetrate, Tetrate operationalizes agent r",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "TileDB",
+  "website": "https://tiledb.com",
+  "status": "active",
+  "stage": null,
+  "description": "TileDB, Inc. was founded in February 2017 to develop a novel universal database that unifies all data assets of an organization in a single data management platform. TileDB was created at the Intel Science and Technology Center for Big Data (ISTC-BD), which was a collaboration between Intel Labs and the Massachusetts Institute of Technology.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "TriEye",
+  "website": "https://trieye.tech",
+  "status": "active",
+  "stage": null,
+  "description": "TriEye is the pioneer of mass-market, CMOS-based, Short-Wave Infrared (SWIR) sensing solutions. Based on advanced nanophotonics research, TriEye’s breakthrough and proprietary technology enables cost-effective, high-resolution image data and 3D depth perception in all weather and lighting conditions. Founded in 2017, the company’s innovation allows machine vision systems to leverage the SWIR spect",
+  "sector": "Frontier (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Trinity Cyber",
+  "website": "https://www.trinitycyber.com",
+  "status": "active",
+  "stage": null,
+  "description": "Trinity Cyber, Inc. is a US based corporation that invents and sells technology to solve the most difficult cyber security challenges. The company patented the first ever technology called the Trident Security Engine that can deeply interrogate full-session network traffic in full application layer context and modify it for security in-line, at network speed. The company’s products and services ra",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "TrueFoundry",
+  "website": "https://truefoundry.com",
+  "status": "active",
+  "stage": null,
+  "description": "TrueFoundry is an enterprise platform as a service that empowers enterprise AI/ML teams to build, deploy, and manage large language model applications at scale with speed, cost-efficiency, and robust governance. Designed for full-stack data scientists, it simplifies the end-to-end AI deployment process, offering features like auto-scaling, proactive maintenance, and centralized access controls. Tr",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Truffle Security",
+  "website": "https://trufflesecurity.com/",
+  "status": "active",
+  "stage": null,
+  "description": "At Truffle Security, we make it easier for teams to find and fix security issues before they become problems. Built on our popular open-source project, TruffleHog™, our software helps protect sensitive information such as API keys, private keys, and other machine credentials, no matter where they’re stored or exposed. TruffleHog helps teams detect, verify and analyze over 800+ types of secrets, de",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "TuMeke",
+  "website": "https://www.tumeke.io/",
+  "status": "active",
+  "stage": null,
+  "description": "TuMeke is on a mission to eliminate workplace musculoskeletal injuries. Keeping workers safe should be so easy and cost effective that it is a no-brainer. Our team of engineers, ergonomists, academics, and problem solvers have come together to build the next generation ergonomic risk assessment platform.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Tuskira",
+  "website": "https://www.tuskira.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Tuskira is a Preemptive Cyber Defense & Response Platform powered by Agentic AI, designed to go beyond traditional vulnerability management. Our AI-driven Security Mesh unifies data from 150+ tools into a cohesive defense system, closing posture gaps, enhancing detection coverage, and enabling autonomous threat response. By continuously correlating insights across your security stack, Tuskira proa",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Twelve Labs",
+  "website": "https://twelvelabs.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Twelve Labs trains large video-language models and makes them available to developers and enterprises through a suite of APIs, enabling them to integrate powerful natural language based semantic video search, classification, and summary generation into their video products. The company envisions to provide a single interface for solving all video-related downstream tasks ranging from low-level per",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "UNISERS",
+  "website": "https://www.unisers.ch",
+  "status": "active",
+  "stage": null,
+  "description": "UNISERS is a semiconductor wafer inspection tool company founded in 2019 in Zurich, Switzerland. The company has been developing a novel technology to help the fab operators find the source of invisible contaminations and improve yields. The technology can provide unique chemical IDs of particle defects which can significantly reduce the time to find the root cause of on-wafer defects. The company",
+  "sector": "Silicon (western europe)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Upbound",
+  "website": "https://upbound.io",
+  "status": "active",
+  "stage": null,
+  "description": "Created in 2017, Upbound is a leading enterprise cloud management platform and the company behind the open source Crossplane project. Crossplane is designed for platform teams looking for a cloud-native infrastructure management solution. Customers use Upbound’s Universal Cloud Platform to transform their internal operations into a comprehensive cloud computing platform, simplifying infrastructure",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Upscale AI",
+  "website": "https://upscaleai.com",
+  "status": "active",
+  "stage": null,
+  "description": "Upscale AI is a technology company providing solutions for high-performance computing and AI infrastructure. The company focuses on open-standard approaches and interoperability in AI systems, supporting consortiums like UEC and UAL. Their primary goal is to accelerate AI democratization by addressing network technology challenges and developing performance advertising solutions for streaming plat",
+  "sector": "Silicon (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Vectra",
+  "website": "https://www.vectranetworks.com",
+  "status": "active",
+  "stage": null,
+  "description": "Vectra (R); Networks is the leader in automated threat management solutions for the real-time detection of in-progress cyber attacks. The company’s solution automatically correlates threats against hosts that are under attack and provides unique context about what attackers are doing so organizations can quickly prevent or mitigate loss. Vectra prioritizes attacks that pose the greatest business r",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "VeriSIM Life",
+  "website": "https://verisimlife.com",
+  "status": "active",
+  "stage": null,
+  "description": "VeriSIM Life gives pharmaceutical scientists a competitive advantage to accelerate R&D decisions and bring more personalized drugs to market. The company uses machine learning and in silico simulation to improve drug development through better science.",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Voyantis",
+  "website": "https://voyantis.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Voyantis is the pioneer in the emerging space of enabling growth teams to acquire, engage, and retain their most valuable customers, based on fusing per-customer LTV predictions with prescriptive AI.",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "What3Words",
+  "website": "https://what3words.com",
+  "status": "active",
+  "stage": null,
+  "description": "what3words provides a precise and incredibly simple way to talk about location. They have divided the world into a grid of 3m x 3m squares and assigned each one a unique 3 word address. Better addressing can enhance customer experience, deliver business efficiency, drive growth and support social and economic development.",
+  "sector": "Cloud (western europe)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Wooptix",
+  "website": "https://wooptix.com",
+  "status": "active",
+  "stage": null,
+  "description": "Wooptix is a developer of semiconductor metrology equipment based on their wavefront sensing technology (WFPI™) that captures the full 300mm wafer in milliseconds providing wafer shape/geometry output with the highest resolution.",
+  "sector": "Silicon (western europe)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "WSC Sports",
+  "website": "https://wsc-sports.com",
+  "status": "active",
+  "stage": null,
+  "description": "WSC Sports, the pioneer in AI-powered sports content technology, empowers the NBA, ESPN, YouTubeTV, LaLiga and 500 other sports organizations to connect with their fans through AI-tailored sports content experiences. WSC Sports’ platform automates the creation, management and distribution of content, enabling sports rights holders to expand reach, grow fan bases, and unlock revenue opportunities a",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Xsight Labs",
+  "website": "https://xsightlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": "Xsight Labs is a fabless semiconductor company headquartered in Israel with additional offices in Boston, MA, Raleigh, NC, and San Jose, CA. Founded in 2017, Xsight Labs has assembled a world-class engineering team to re-architect the foundation of cloud infrastructure by delivering a broad portfolio of products that enable end-to-end connectivity. Xsight Labs technology delivers exponential bandw",
+  "sector": "Silicon (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Xyte",
+  "website": "https://www.xyte.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Xyte is building the digital backbone of the Physical AI economy, connecting device manufacturers, service providers, and enterprises through a shared system of record. The platform delivers real-time observability across deployed devices, unlocks intelligent automation and insights, and enables recurring revenue models throughout the value chain.",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Zenity",
+  "website": "https://www.zenity.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Zenity secures AI agents everywhere. As the first unified security and governance platform purpose-built for AI agents, Zenity delivers defense in depth and full-lifecycle protection – discovering agents, managing posture, detecting and responding at deep configuration levels (e.g. actions, steps, knowledge base access, MCP, A2A), and preventing threats in real time. Unlike point tools focused sol",
+  "sector": "Cloud (israel)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "ZeroEyes",
+  "website": "https://zeroeyes.com",
+  "status": "active",
+  "stage": null,
+  "description": "ZeroEyes delivers a proactive, human-verified visual gun detection and situational awareness solution that integrates into existing digital security cameras to stop mass shootings and gun-related violence. Founded in 2018 by a team of Navy SEALs and elite technologists following the Marjory Stoneman Douglas school active shooter incident, ZeroEyes was created to protect people from having to face ",
+  "sector": "Frontier (north america)",
+  "fund": "intel_capital"
+ },
+ {
+  "name": "Zumigo",
+  "website": "https://www.zumigo.com",
+  "status": "active",
+  "stage": null,
+  "description": "Zumigo is the leading provider of authoritative mobile identity and location information to seamlessly verify authentic users while preventing fraudsters from creating fake accounts, stealing user credentials, impersonating valid customers and completing costly transactions. Founded in 2009, Zumigo is a trusted partner of the largest mobile operators, financial institutions, and retail merchants.",
+  "sector": "Cloud (north america)",
+  "fund": "intel_capital"
+ }
+]

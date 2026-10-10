@@ -1,0 +1,5816 @@
+[
+ {
+  "name": "23andMe",
+  "website": "http://23andme.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: ME",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "99 Counties",
+  "website": "http://99counties.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Abacus",
+  "website": "http://abacus.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Certify, 2018",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "About.me",
+  "website": "http://about.me",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Broadly, 2019",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Acalvio",
+  "website": "http://acalvio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Accent Therapeutics",
+  "website": "http://accenttx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Adagio Therapeutics",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: ADGI",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Adapter",
+  "website": "https://www.adapter.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Adelphic Mobile",
+  "website": "http://adelphic.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Viant, 2017",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Aera Therapeutics",
+  "website": "https://aeratx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Affinia Therapeutics",
+  "website": "http://affiniatx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Again",
+  "website": "https://again.bio",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Agtonomy",
+  "website": "http://agtonomy.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Ahana",
+  "website": "http://ahana.io",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by IBM, 2023",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Air Protein",
+  "website": "http://airprotein.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Airtime",
+  "website": "http://airtime.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Alector",
+  "website": "https://alector.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: ALEC",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Aledade",
+  "website": "https://aledade.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Alethea",
+  "website": "https://alethea.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Alkira",
+  "website": "https://www.alkira.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Lumen Technologies, 2026",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Allara Health",
+  "website": "https://www.allarahealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Altana AI",
+  "website": "http://altana.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "AltspaceVR",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Microsoft, 2017",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Ambition",
+  "website": "http://ambition.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "AMP Robotics",
+  "website": "http://amprobotics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Anchor",
+  "website": "http://anchor.fm",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Spotify, 2019",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Andela",
+  "website": "http://andela.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "AngelList",
+  "website": "http://angel.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Ankyra Therapeutics",
+  "website": "http://ankyratx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Anomali",
+  "website": "http://anomali.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Antiva Biosciences",
+  "website": "http://antivabio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Apptentive",
+  "website": "http://apptentive.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Alchemer, 2023",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Apptimize",
+  "website": "http://apptimize.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Airship, 2019",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Appurify",
+  "website": "http://appurify.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Google, 2014",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Apteligent",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by VMWare, 2017",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Arcus Biosciences",
+  "website": "http://arcusbio.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: RCUS",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Arda Therapeutics",
+  "website": "http://ardatherapeutics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Areteia Therapeutics",
+  "website": "https://areteiatx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Armadin",
+  "website": "https://www.armadin.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "ARMO BioSciences",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: ARMO<br>Acquired by Eli Lilly, 2018",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Arrakis",
+  "website": "http://arrakistx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Arsanis",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by X4 Pharmaceuticals, 2019",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Artifact",
+  "website": "https://heyartifact.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Aspen Neuroscience",
+  "website": "aspenneuroscience.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Aspire Health",
+  "website": "http://aspirehealthcare.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Anthem, 2018",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Astrid",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Yahoo!, 2013",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Attio",
+  "website": "https://attio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Autolus",
+  "website": "http://autolus.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: AUTL",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Basis",
+  "website": "https://www.getbasis.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "BBOT",
+  "website": "https://bbotx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Beacon Biosignals",
+  "website": "https://beacon.bio/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Beam Therapeutics",
+  "website": "http://beamtx.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: BEAM",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Benson Hill",
+  "website": "http://bensonhill.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: BHIL",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Biomodal",
+  "website": "https://biomodal.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Bitterroot Bio",
+  "website": "https://brbio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Blacksmith",
+  "website": "https://www.blacksmith.sh/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "BlackThorn Therapeutics",
+  "website": "https://neumoratx.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Neumora Therapeutics, 2020",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Blavity",
+  "website": "http://blavity.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Blockaid",
+  "website": "https://www.blockaid.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Blockchain",
+  "website": "https://www.blockchain.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Bloom Institute of Technology",
+  "website": "http://bloomtech.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Blue Bottle Coffee",
+  "website": "https://www.bluebottlecoffee.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Nestlé, 2017",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Blue Vision Labs",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Lyft, 2018",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Blue Water Autonomy",
+  "website": "https://www.blw.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Bonnet",
+  "website": "http://joinbonnet.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Bounti",
+  "website": "https://www.bounti.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Brightline",
+  "website": "http://hellobrightline.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Buena",
+  "website": "https://buena.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "BufferBox",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Google, 2012",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Bugsnag",
+  "website": "http://bugsnag.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by SmartBear, 2021",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Buoyant",
+  "website": "http://buoyant.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "CacheFlow",
+  "website": "https://www.getcacheflow.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by HubSpot, 2024",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Cala Health",
+  "website": "http://calahealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Cambly",
+  "website": "http://cambly.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Cameo",
+  "website": "https://www.cameo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Caraway Health",
+  "website": "https://www.summerhealth.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Summer Health, 2025",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Carbon",
+  "website": "http://carbon3d.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Cardurion Pharmaceuticals",
+  "website": "https://cardurion.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "CareBridge",
+  "website": "http://carebridgehealth.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Elevance Health, 2024",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Career Karma",
+  "website": "http://careerkarma.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Carmera",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Woven Planet, 2021",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Carnival Mobile",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Sailthru, 2016",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Carrick Therapeutics",
+  "website": "http://carricktherapeutics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Celsius Therapeutics",
+  "website": "https://www.abbvie.com/celsius-therapeutics.html",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by AbbVie, 2024",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Censys",
+  "website": "http://censys.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Cerevance",
+  "website": "http://cerevance.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Checkmate",
+  "website": "https://joincheckmate.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Checkr",
+  "website": "http://checkr.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Chronosphere",
+  "website": "https://chronosphere.io",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Palo Alto Networks, 2025",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "CircleUp",
+  "website": "http://circleup.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "CircuitHub",
+  "website": "http://circuithub.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Clarifai",
+  "website": "http://clarifai.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Nebius, 2026",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "ClassPass",
+  "website": "https://www.classpass.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Clear Labs",
+  "website": "http://clearlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "ClearStory Data",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Alteryx, 2019",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Clever",
+  "website": "http://clever.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Kahoot!, 2021",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Clever Care",
+  "website": "https://clevercarehealthplan.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Climate-X",
+  "website": "https://www.climate-x.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "CliQr Technologies",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Cisco, 2016",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Cloudera",
+  "website": "http://cloudera.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: CLDR",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Clover Health",
+  "website": "http://cloverhealth.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: CLOV",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Clutter",
+  "website": "http://clutter.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Cmd",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Elastic, 2021",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Cockroach Labs",
+  "website": "http://cockroachlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Cognosys",
+  "website": "https://cohere.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Cohere, 2025",
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Cohesity",
+  "website": "http://cohesity.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Collaborate",
+  "website": "http://collaborate.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Cisco, 2013",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Collective Health",
+  "website": "http://collectivehealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Comanche Biopharma",
+  "website": "https://comanchebiopharma.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Comfy",
+  "website": "http://comfyapp.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Siemens, 2018",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Compass Therapeutics",
+  "website": "http://compasstherapeutics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Complyance",
+  "website": "https://www.complyance.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Comstruct",
+  "website": "https://www.comstruct.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Confide",
+  "website": "http://www.getconfide.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by IAC, 2021",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Context.ai",
+  "website": "https://context.ai",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by OpenAI, 2025",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Continua",
+  "website": "https://www.continua.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Contraline",
+  "website": "http://www.contraline.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Cool Planet",
+  "website": "https://www.coolplanet.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Copper",
+  "website": "http://copper.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Cord",
+  "website": "http://www.cordproject.co/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Spotify, 2016",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Corduro",
+  "website": "https://www.corduro.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "CoreOS",
+  "website": "http://coreos.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Red Hat, 2018",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Cosmos",
+  "website": "https://www.cosmos.so",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Counsel Health",
+  "website": "https://www.counselhealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Courier",
+  "website": "courier.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Cozy",
+  "website": "https://www.apartments.com/rental-manager",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by CoStar, 2018",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Crash Override",
+  "website": "https://crashoverride.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "creativeLIVE",
+  "website": "http://creativelive.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Crews By Core",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by WakeCap, 2024",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Cribl",
+  "website": "https://cribl.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "CTRL-labs",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Facebook, 2019",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Cur8",
+  "website": "https://cur8.earth",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Curie.Bio",
+  "website": "https://curie.bio/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Currencycloud",
+  "website": "http://currencycloud.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Visa, 2021",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "CyberGRX",
+  "website": "http://cybergrx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Cymbal",
+  "website": "https://cymbal.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Dandelion Energy",
+  "website": "http://dandelionenergy.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Dapper Labs",
+  "website": "http://dapperlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Dasient",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Twitter, 2012",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "DataFox",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Oracle, 2018",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Datanyze",
+  "website": "https://www.datanyze.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by ZoomInfo, 2018",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Daydream",
+  "website": "https://daydream.ing/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "dbt Labs",
+  "website": "https://getdbt.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Fivetran, 2026",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Decibel Therapeutics",
+  "website": "http://decibeltx.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: DBTX",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Deepset",
+  "website": "http://deepset.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Delighted",
+  "website": "https://www.qualtrics.com/delighted/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Qualtrics, 2018",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Delphia Therapeutics",
+  "website": "https://www.delphiatx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Delve Bio",
+  "website": "https://www.delve.bio",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Denali Therapeutics",
+  "website": "https://www.denalitherapeutics.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Desktop Metal",
+  "website": "http://desktopmetal.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: DM",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Desmos",
+  "website": "http://desmos.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Determined AI",
+  "website": "https://developer.hpe.com/platform/determined-ai/home/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Hewlett Packard Enterprise, 2021",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Devoted Health",
+  "website": "https://devoted.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Dialpad",
+  "website": "http://dialpad.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Digit",
+  "website": "http://digit.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Digits",
+  "website": "http://digits.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Distance",
+  "website": "https://distance.tech",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Diverge Health",
+  "website": "https://divergecares.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Divide",
+  "website": "http://divide.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Google, 2014",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "DNAnexus",
+  "website": "http://dnanexus.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Doctor On Demand",
+  "website": "http://doctorondemand.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "DocuSign",
+  "website": "http://docusign.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: DOCU",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "dope.security",
+  "website": "https://dope.security",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Doppler",
+  "website": "http://doppler.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Driver",
+  "website": "https://www.driver.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "DualEntry",
+  "website": "https://www.dualentry.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Duo Security",
+  "website": "http://duo.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Cisco, 2018",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Dyno Therapeutics",
+  "website": "http://dynotx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "EasyPost",
+  "website": "http://easypost.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Editas Medicine",
+  "website": "http://editasmedicine.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: EDIT",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Egnyte",
+  "website": "https://www.egnyte.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "GI Partners and TA Associates, 2025",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Element Science",
+  "website": "https://elementscience.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Emergent VR",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by River Studios, 2018",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Emissary",
+  "website": "http://emissary.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Encoded Therapeutics",
+  "website": "http://encoded.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Endurosat",
+  "website": "https://www.endurosat.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "English Central",
+  "website": "http://englishcentral.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "EpiBiologics",
+  "website": "https://www.epibiologics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "EQRx",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: EQRX, Acquired by Revolution Medicines, 2023",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Ethos",
+  "website": "https://www.ethoslife.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: LIFE",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Evelo Biosciences",
+  "website": "http://evelobio.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: EVLO",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "EveryONE Medicines",
+  "website": "https://www.everyonemedicines.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Evident.io",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Palo Alto Networks, 2018",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Evox Therapeutics",
+  "website": "http://evoxtherapeutics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Fabric",
+  "website": "https://www.fabrichealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Farmers Business Network",
+  "website": "http://farmersbusinessnetwork.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Farmwise",
+  "website": "farmwise.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Fathom",
+  "website": "http://fathomhealth.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Fin",
+  "website": "https://fin.ai",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Salesforce, 2026",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Firefly",
+  "website": "http://fireflyon.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "firsthand",
+  "website": "https://www.firsthandcares.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "FitStar",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Fitbit, 2015",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Flapping Airplanes",
+  "website": "flappingairplanes.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Flatiron Health",
+  "website": "http://flatiron.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Roche, 2018",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Flexport",
+  "website": "http://flexport.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Flick",
+  "website": "https://flick.art",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Flock Freight",
+  "website": "http://flockfreight.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Flourish",
+  "website": "http://www.flourishlabs.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "FlutterFlow",
+  "website": "https://flutterflow.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Forty Seven",
+  "website": "http://fortyseveninc.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: FTSV",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Found",
+  "website": "http://joinfound.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Foundation Medicine",
+  "website": "http://foundationmedicine.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: FMI",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Framed",
+  "website": "http://framed.io",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Square, 2016",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Freenome",
+  "website": "http://freenome.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: FRNM",
+  "sector": "AI, Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Freshplum",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by TellApart, 2014",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "FullStory",
+  "website": "http://fullstory.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Fyto",
+  "website": "fyto.us",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Gametime",
+  "website": "http://gametime.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Gate Bioscience",
+  "website": "https://www.gatebio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Genesis",
+  "website": "http://genesis.global",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Genie AI",
+  "website": "https://www.genieai.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Genome Medical",
+  "website": "http://genomemedical.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Genomics Medicine Ireland",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Wuxi Nextcode, 2018",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Giphy",
+  "website": "http://giphy.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Facebook, 2020",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "GitLab",
+  "website": "http://about.gitlab.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: GTLB",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Glass Imaging",
+  "website": "https://www.glass-imaging.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "GoCardless",
+  "website": "http://gocardless.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Mollie, 2025",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Good Eggs",
+  "website": "https://goodeggs.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by GrubMarket, 2024",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Gowalla",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Graft",
+  "website": "https://graft.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Grail",
+  "website": "http://grail.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Granata Bio",
+  "website": "https://www.granata.bio",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Granular",
+  "website": "http://granular.ag",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by DuPont, 2017",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Gravity",
+  "website": "https://gravitymobility.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Gravity Sketch",
+  "website": "http://gravitysketch.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Gritstone Bio",
+  "website": "http://gritstoneoncology.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: GRTS",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Groundswell",
+  "website": "http://groundswell.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Guide Therapeutics",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Beam Therapeutics, 2021",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Guidelight Health",
+  "website": "https://guidelighthealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Guild.ai",
+  "website": "https://www.guild.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Gusto",
+  "website": "https://www.gusto.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Gyft",
+  "website": "http://gyft.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by First Data, 2014",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "HAGS",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Snap, 2022",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Happiest Baby",
+  "website": "http://happiestbaby.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Harness",
+  "website": "http://harness.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Harvey",
+  "website": "https://www.harvey.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "HeadSpin",
+  "website": "http://headspin.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Headway",
+  "website": "https://headway.co/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "HeartThis",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Thumbtack, 2015",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "HEAVY.AI",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by NVIDIA, 2025",
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Hebbia",
+  "website": "https://www.hebbia.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Helium",
+  "website": "http://helium.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Helix",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Density, 2021",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "HelloSign",
+  "website": "http://hellosign.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Dropbox, 2019",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "High Fidelity",
+  "website": "http://highfidelity.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Highfive",
+  "website": "http://highfive.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Hipster",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by AOL, 2012",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Home From College",
+  "website": "https://www.homefromcollege.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "HomeAway",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: AWAY",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Homebound",
+  "website": "http://homebound.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "HomeLight",
+  "website": "http://homelight.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "HOVER",
+  "website": "http://hover.to",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "HubSpot",
+  "website": "http://hubspot.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: HUBS",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "humans&",
+  "website": "https://humansand.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Hustle",
+  "website": "http://hustle.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Hyperfine Research",
+  "website": "https://www.hyperfinemri.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "IconOVir Bio",
+  "website": "http://iconovir.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Ideaya Biosciences",
+  "website": "http://ideayabio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Imagen",
+  "website": "http://imagen.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Impossible Foods",
+  "website": "https://impossiblefoods.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Incorta",
+  "website": "http://incorta.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Inertia",
+  "website": "https://inertia.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Infinitus",
+  "website": "http://infinitus.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Insitro",
+  "website": "http://insitro.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Instawork",
+  "website": "http://instawork.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Invetx",
+  "website": "invetx.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Dechra Pharmaceuticals, 2024",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Ionic Security",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Twilio, 2021",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "IonQ",
+  "website": "http://ionq.co",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: IONQ",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "iPierian",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Bristol-Myers Squibb, 2014",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Isomorphic Labs",
+  "website": "https://www.isomorphiclabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Iterative Health",
+  "website": "https://iterative.health",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Jaunt",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Verizon, 2019",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Jet",
+  "website": "http://jet.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Walmart, 2016",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Jetify",
+  "website": "https://www.jetify.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "JumpCam",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Kabam",
+  "website": "http://kabam.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Netmarble, 2017",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Kamcord",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Lyft, 2017",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Kensho",
+  "website": "https://kensho.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by S&P Global, 2018",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Kindbody",
+  "website": "http://kindbody.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Kindred",
+  "website": "http://kindred.ai",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Ocado, 2020",
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Kinetic Apps",
+  "website": "http://www.kineticapps.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Kitchen United",
+  "website": "http://kitchenunited.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Kobalt",
+  "website": "https://kobaltmusic.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Kronos Bio",
+  "website": "http://kronosbio.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: KRON",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Lacework",
+  "website": "https://www.lacework.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Fortinet, 2024",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Lapse",
+  "website": "http://lapse.app",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Lattice",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired in 2017",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "LaunchKit",
+  "website": "http://launchkit.io",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Google, 2016",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Laurel",
+  "website": "https://www.laurel.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Lawhive",
+  "website": "https://lawhive.co.uk",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "LawPivot",
+  "website": "http://lawpivot.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Rocket Lawyer, 2013",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Layer Health",
+  "website": "https://www.layerhealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "LedgerX",
+  "website": "http://ledgerx.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by FTX, 2021",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Lemonade",
+  "website": "http://lemonade.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: LMND",
+  "sector": "AI, Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "LendUp",
+  "website": "http://lendup.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "LevelUp",
+  "website": "http://thelevelup.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Leyden Labs",
+  "website": "https://leydenlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "LifeMine Therapeutics",
+  "website": "http://lifeminetx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Lightmatter",
+  "website": "http://lightmatter.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Lime",
+  "website": "https://www.li.me",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: LIME",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Locker Room",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Spotify, 2021",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Lola",
+  "website": "http://lola.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Loom",
+  "website": "https://www.loom.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Dropbox, 2014",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "LotusFlare",
+  "website": "http://lotusflare.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Lovevery",
+  "website": "http://lovevery.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Luminate",
+  "website": "http://www.luminate.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Yahoo, 2014",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Luminate Wireless",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Luna Park",
+  "website": "https://lunapark.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Luvocracy",
+  "website": "http://luvocracy.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by WalmartLabs, 2014",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Luxe",
+  "website": "http://luxevalet.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Volvo, 2017",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "mabl",
+  "website": "http://mabl.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Machinify",
+  "website": "https://machinify.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by New Mountain Capital, 2025",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Magenta Therapeutics",
+  "website": "http://magentatx.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: MGTA",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Makani",
+  "website": "http://google.com/makani",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Google, 2013",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Managed by Q",
+  "website": "http://managedbyq.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by WeWork, 2019",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Matter",
+  "website": "http://getmatter.app",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Maze Therapeutics",
+  "website": "mazetx.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: MAZE",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Mechanical Orchard",
+  "website": "https://www.mechanical-orchard.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Medallion",
+  "website": "Medallion.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Medium",
+  "website": "https://www.medium.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Merida Biosciences",
+  "website": "https://meridabio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "MessageMe",
+  "website": "http://messageme.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Yahoo, 2014",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Mestag Therapeutics",
+  "website": "http://mestagtx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Metabiota",
+  "website": "http://metabiota.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Metaview",
+  "website": "https://www.metaview.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Metsera",
+  "website": "https://metsera.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Pfizer, 2025",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Midi Health",
+  "website": "https://www.joinmidi.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Mighty AI",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Uber, 2019",
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Milk",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Google, 2012",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Mill",
+  "website": "https://www.mill.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Mimic",
+  "website": "https://mimic.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "MindMeld",
+  "website": "http://mindmeld.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Cisco, 2017",
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "MindSumo",
+  "website": "http://mindsumo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "MirrorTab",
+  "website": "https://www.mirrortab.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Mirvie",
+  "website": "mirvie.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Mist Systems",
+  "website": "http://mist.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Juniper Networks, 2019",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Mitro",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Twitter, 2014",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Mode",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by VMware, 2020",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Modern Age",
+  "website": "http://modern-age.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Modsy",
+  "website": "https://www.modsy.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Lennar, 2023",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Modular",
+  "website": "https://www.modular.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Qualcomm, 2026",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Mohawk",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: MWK",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "MokN",
+  "website": "https://mokn.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Monte Rosa Therapeutics",
+  "website": "http://monterosatx.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: GLUE",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Monzo",
+  "website": "https://www.monzo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Moonhub",
+  "website": "https://moonhub.ai",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Salesforce, 2025",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Moonwalk Biosciences",
+  "website": "https://moonwalk.bio",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Mother Games",
+  "website": "https://www.mothergames.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Motive",
+  "website": "https://gomotive.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "mParticle",
+  "website": "http://mparticle.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Rokt, 2025",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Multiverse",
+  "website": "http://multiverse.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "myLaurel",
+  "website": "https://www.mylaurelhealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "N3twork",
+  "website": "http://n3twork.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Namo Media",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Twitter, 2014",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Nanit",
+  "website": "http://nanit.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Nava Benefits",
+  "website": "navabenefits.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Alliant, 2026",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Nava Therapeutics",
+  "website": "https://navatx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "nChroma Bio",
+  "website": "https://www.nchromabio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Nebex",
+  "website": "https://www.nebex.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Nectar Social",
+  "website": "https://www.nectarsocial.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Neo.Tax",
+  "website": "http://neo.tax",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Neo4j",
+  "website": "http://neo4j.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Nest",
+  "website": "http://nest.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Google, 2014",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Neuralink",
+  "website": "http://neuralink.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Nextbit",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Razer, 2017",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Nextdoor",
+  "website": "http://nextdoor.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: NXDR",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Ngmoco",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by DeNA, 2010",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Nimble",
+  "website": "https://www.nimble.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Nimbus Therapeutics",
+  "website": "https://nimbustx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "NoRedInk",
+  "website": "http://noredink.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Nothing",
+  "website": "https://www.nothing.tech",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "nPlan",
+  "website": "http://nplan.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Nym Health",
+  "website": "http://nym.health",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Oasis Health Partners",
+  "website": "https://oasishealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Oblenio Bio",
+  "website": "https://www.obleniobio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Obsidian Security",
+  "website": "http://obsidiansecurity.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Obsidian Therapeutics",
+  "website": "http://obsidiantx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Odyssey",
+  "website": "https://odyssey.systems",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "OMass Therapeutics",
+  "website": "http://omass.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Omeat",
+  "website": "https://www.omeat.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Omni Analytics",
+  "website": "exploreomni.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Oncologic",
+  "website": "https://www.oncologic.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "OnDeck",
+  "website": "http://ondeck.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: ONDK",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "One Medical",
+  "website": "http://onemedical.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: ONEM",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "oneNav",
+  "website": "http://onenav.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Openbay",
+  "website": "https://app.openbay.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Opendoor",
+  "website": "http://opendoor.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: OPEN",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "OpenEvidence",
+  "website": "https://www.openevidence.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Optimizely",
+  "website": "http://optimizely.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Optiwatt",
+  "website": "getoptiwatt.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Oration",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by PokitDok, 2017",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Orbital Insight",
+  "website": "http://orbitalinsight.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Acquired by Privateer Space, 2024",
+  "sector": "Frontier Tech, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Oscar",
+  "website": "http://hioscar.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: OSCR",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Osmo",
+  "website": "https://osmo.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Oula Health",
+  "website": "https://oulahealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Outdoor Voices",
+  "website": "http://outdoorvoices.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Outlier",
+  "website": "http://outlier.org",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Overture",
+  "website": "http://overture.life",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Overview",
+  "website": "https://overview.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "OWKIN",
+  "website": "http://owkin.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Oxford Science Enterprises",
+  "website": "http://oxfordscienceenterprises.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Packagd",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired in 2019",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "PACT Pharma",
+  "website": "http://pactpharma.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Pager",
+  "website": "https://www.pager.xyz/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Pangea",
+  "website": "https://pangea.cloud",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by CrowdStrike, 2026",
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Panorama Education",
+  "website": "http://panoramaed.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Parabilis Medicines",
+  "website": "https://parabilismed.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: PBLS",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Paradigm Health",
+  "website": "https://www.paradigm.inc/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Parsable",
+  "website": "http://parsable.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Parse",
+  "website": "http://parse.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Facebook, 2013",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Partiful",
+  "website": "https://partiful.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "PatientPing",
+  "website": "http://patientping.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Appriss Health, 2021",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "PayRange",
+  "website": "http://payrange.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Ridgeview Partners, 2024",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Pecan AI",
+  "website": "http://pecan.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Peerspace",
+  "website": "http://peerspace.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Pelage Pharmaceuticals",
+  "website": "https://pelagepharma.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Pensando",
+  "website": "http://pensando.io",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by AMD, 2022",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "PeopleOne Health",
+  "website": "peopleonehealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Perceive Bio",
+  "website": "https://perceivebio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Percolata",
+  "website": "http://percolata.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Periscope",
+  "website": "http://periscope.tv",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Twitter, 2015",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Periscope Data",
+  "website": "http://periscopedata.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by SiSense, 2019",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Phoebe",
+  "website": "https://phoebe.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Physna",
+  "website": "http://physna.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Pindrop",
+  "website": "http://pindrop.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Pixie Labs",
+  "website": "http://pixielabs.ai",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by New Relic, 2020",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Plaid",
+  "website": "http://plaid.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "PlanGrid",
+  "website": "http://plangrid.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Autodesk, 2018",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Plexxi",
+  "website": "http://plexxi.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by HPE, 2018",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Pocket",
+  "website": "http://getpocket.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Mozilla, 2017",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Podium",
+  "website": "http://podium.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Polar Signals",
+  "website": "http://polarsignals.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Dash0, 2026",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "PostHog",
+  "website": "http://posthog.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Poynt",
+  "website": "https://www.poynt.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by GoDaddy, 2021",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Premise",
+  "website": "https://premise.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Pretzel Therapeutics",
+  "website": "pretzeltx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Prime Medicine",
+  "website": "http://primemedicine.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Product Hunt",
+  "website": "http://producthunt.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by AngelList, 2016",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Prudentia Sciences",
+  "website": "https://www.prudentiasciences.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Puppet Labs",
+  "website": "http://puppetlabs.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Perforce, 2022",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Push Security",
+  "website": "https://pushsecurity.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Q.ai",
+  "website": "https://www.q.ai",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Apple, 2026",
+  "sector": "AI, Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Q1",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Q2",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Quadratic",
+  "website": "https://www.quadratichq.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Quartet",
+  "website": "http://quartethealth.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by NueroFlow, 2025",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Quettra",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by SimilarWeb, 2015",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Ramp",
+  "website": "ramp.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Rani Therapeutics",
+  "website": "http://ranitherapeutics.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: RANI",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "RAPT Therapeutics",
+  "website": "https://rapt.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: RAPT",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Rattle",
+  "website": "http://gorattle.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Reaction Commerce",
+  "website": "http://reactioncommerce.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Mailchimp, 2019",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Recorded Future",
+  "website": "http://recordedfuture.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Insight Partners, 2019",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Recursive Superintelligence",
+  "website": "https://www.recursive.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Redpanda",
+  "website": "http://redpanda.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Relay Therapeutics",
+  "website": "http://relaytx.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: RLAY",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Republic Project",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Digital Generation, 2013",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Reserve",
+  "website": "http://reserve.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Resy, 2018",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Resilience",
+  "website": "http://resilience.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Resistant AI",
+  "website": "http://resistant.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Resolution Games",
+  "website": "http://resolutiongames.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "RetailMeNot",
+  "website": "http://retailmenot.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: SALE",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Revolution Medicines",
+  "website": "https://www.revmed.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: RVMD, Acquired EQRx 2023",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "RhyGaze",
+  "website": "https://rhygaze.com/en",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "RightHand Robotics",
+  "website": "http://righthandrobotics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Rilla",
+  "website": "Rilla.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Ripcord",
+  "website": "https://www.ripcord.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Rippl Care",
+  "website": "ripplcare.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Harbor Health, 2026",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Ripple Foods",
+  "website": "http://ripplefoods.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Ripple Labs",
+  "website": "http://ripplelabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Rise",
+  "website": "http://rise.us",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by One Medical Group, 2016",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Robinhood",
+  "website": "http://robinhood.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: HOOD",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Roboflow",
+  "website": "https://roboflow.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Rocana",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Splunk, 2017",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Rockbot",
+  "website": "http://rockbot.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Rocket Lawyer",
+  "website": "http://rocketlawyer.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Rocketrip",
+  "website": "http://rocketrip.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Mondee, 2020",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Rodin Therapeutics",
+  "website": "http://rodintherapeutics.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Alkermes, 2019",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Roger",
+  "website": "https://www.goroger.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "ROME Therapeutics",
+  "website": "http://rometx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Rox",
+  "website": "https://www.rox.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "SambaNova Systems",
+  "website": "http://sambanovasystems.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Sana Biotechnology",
+  "website": "http://sana.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: SANA",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Sanas",
+  "website": "sanas.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Santa Ana Bio",
+  "website": "https://www.santaanabio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Sardine",
+  "website": "sardine.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Savioke",
+  "website": "http://savioke.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Scalus",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Scalyr",
+  "website": "http://scalyr.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by SentinelOne",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Scan",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired in 2014",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Scandit",
+  "website": "http://scandit.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Schematic Labs",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Rhapsody, 2014",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Schrödinger",
+  "website": "http://schrodinger.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: SDGR",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Science 37",
+  "website": "http://science37.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: SNCE",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Scope3",
+  "website": "https://scope3.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "ScoutRFP",
+  "website": "http://scoutrfp.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Workday, 2019",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Secret Escapes",
+  "website": "http://secretescapes.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Security​Scorecard",
+  "website": "http://securityscorecard.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Segment",
+  "website": "http://segment.io",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Twilio, 2020",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Seismic Therapeutic",
+  "website": "http://seismictx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Sense",
+  "website": "http://sensehq.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Sensorum Health",
+  "website": "https://www.sensorum.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Sesame",
+  "website": "sesamecare.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Shape Security",
+  "website": "http://shapesecurity.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by F5, 2019",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "SideQuest",
+  "website": "sidequestvr.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Sierra",
+  "website": "https://sierra.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Sift",
+  "website": "https://www.siftstack.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Signos",
+  "website": "http://signos.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Signpost",
+  "website": "http://signpost.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Silver Spring Networks",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: SSNI",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Simply",
+  "website": "https://www.hellosimply.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "SingleStore",
+  "website": "http://singlestore.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Skycatch",
+  "website": "http://skycatch.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Skyport Systems",
+  "website": "http://skyportsystems.net",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Cisco, 2018",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Slack",
+  "website": "http://slack.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: WORK",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Smarterer",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Pluralsight, 2014",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Smol",
+  "website": "http://smolproducts.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Snorkel AI",
+  "website": "http://snorkel.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Snowball",
+  "website": "http://trysnowball.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Credit Karma, 2015",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Snyk",
+  "website": "http://snyk.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Sold",
+  "website": "http://usesold.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Dropbox, 2013",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "SolveAI",
+  "website": "https://solve.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Sonoma Biotherapeutics",
+  "website": "http://sonomabio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Soylent",
+  "website": "http://soylent.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Starco Brands, 2023",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Space Monkey",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Vivint, 2014",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Speakeasy",
+  "website": "https://speakeasyapi.dev",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "SpeedyBrand",
+  "website": "https://speedybrand.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Spero Therapeutics",
+  "website": "http://sperotherapeutics.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: SPRO",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "SpinLaunch",
+  "website": "https://www.spinlaunch.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Spring",
+  "website": "http://shopspring.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by ShopRunner, 2018",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Sprinter Health",
+  "website": "http://sprinterhealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Spruce Finance",
+  "website": "https://sprucepower.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by ShopRunner, 2018",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Spruce Health",
+  "website": "http://sprucehealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "SpyBiotech",
+  "website": "http://spybiotech.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "SQZ Biotech",
+  "website": "http://sqzbiotech.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "StackBlitz",
+  "website": "http://stackblitz.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "StackOne",
+  "website": "https://www.stackone.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Stamped",
+  "website": "http://stamped.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Yahoo!, 2012",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "StatusPRO",
+  "website": "https://www.status.pro",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Stipple Bio",
+  "website": "https://stipple.bio",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "StockX",
+  "website": "http://stockx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Strella Biotechnology",
+  "website": "strellabiotech.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Stripe",
+  "website": "http://stripe.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "StrongDM",
+  "website": "http://strongdm.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Delinea, 2026",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Subtext",
+  "website": "http://subtext.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Renaissance Learning, 2013",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "SweetLabs",
+  "website": "http://sweetlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Swell",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired in 2014",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Swing Education",
+  "website": "http://swingeducation.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Synack",
+  "website": "http://synack.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Synapticure",
+  "website": "http://synapticure.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Sync Labs",
+  "website": "https://sync.so",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Synthesia",
+  "website": "http://synthesia.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Syremis Therapeutics",
+  "website": "https://syremis.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Tala",
+  "website": "http://tala.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Tamr",
+  "website": "http://tamr.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Taysha Gene Therapies",
+  "website": "http://tayshagtx.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: TSHA",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Teem",
+  "website": "http://teem.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by WeWork, 2018",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Tenaya Therapeutics",
+  "website": "http://tenayatherapeutics.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: TNYA",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Tend",
+  "website": "http://hellotend.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Tennr",
+  "website": "https://www.tennr.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "TenSixteen Bio",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "tenXer",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Twitter, 2015",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Tessl",
+  "website": "https://www.tessl.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Thatch",
+  "website": "https://thatch.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "The Climate Corporation",
+  "website": "http://climate.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Monsanto, 2013",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "The Pill Club",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "The Players' Tribune",
+  "website": "http://theplayerstribune.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Minute Media, 2019",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "TheSkimm",
+  "website": "http://theskimm.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Everyday Health, 2025",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Thinking Machines Lab",
+  "website": "https://thinkingmachines.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "ThinkNear",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Telenav, 2012",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "ThousandEyes",
+  "website": "http://thousandeyes.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Cisco, 2020",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "TMRW Life Sciences",
+  "website": "https://tmrw.org",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Reprotech, 2026",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Toast",
+  "website": "https://pos.toasttab.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: TOST",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Trace Neuroscience",
+  "website": "https://www.traceneuro.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Tracelytics",
+  "website": "http://www.tracelytics.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by AppNeta, 2012",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Transcriptic",
+  "website": "http://transcriptic.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Translucent AI",
+  "website": "https://www.translucent.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Transphorm",
+  "website": "http://transphormusa.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acuired by Renesas Electronics, 2020",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "TravelJoy",
+  "website": "http://traveljoy.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Treeline Biosciences",
+  "website": "http://treelinebiosciences.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "TrueLens",
+  "website": "http://truelens.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "TScan Therapeutics",
+  "website": "https://www.tscan.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: TCRX",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "TuneIn",
+  "website": "http://tunein.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Turo",
+  "website": "http://turo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Twyla",
+  "website": "http://twyla.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Typeface",
+  "website": "https://www.typeface.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Uber",
+  "website": "http://uber.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NYSE: UBER",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "UberSense",
+  "website": "http://ubersense.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Hudl, 2014",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Udacity",
+  "website": "http://udacity.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Accenture, 2024",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "UJET",
+  "website": "http://ujet.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Ultromics",
+  "website": "http://ultromics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Unbabel",
+  "website": "http://unbabel.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Universe",
+  "website": "https://univer.se",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Upbound",
+  "website": "http://upbound.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Upstart",
+  "website": "https://www.upstart.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: UPST",
+  "sector": "AI, Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Upthere",
+  "website": "http://upthere.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Western Digital, 2017",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Urban Engines",
+  "website": "https://en.wikipedia.org/wiki/Urban_Engines",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Google, 2016",
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Urban Machine",
+  "website": "https://urbanmachine.build",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Ursa Computing",
+  "website": "http://ursacomputing.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "URX",
+  "website": "http://urx.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Pinterest, 2016",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Vaccitech",
+  "website": "http://vaccitech.co.uk",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: VACC",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Vareto",
+  "website": "http://vareto.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Veem",
+  "website": "http://veem.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Ventus Therapeutics",
+  "website": "http://ventustx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Veo Robotics",
+  "website": "https://veobot.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Symbotic, 2024",
+  "sector": "Frontier Tech, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Vera Therapeutics",
+  "website": "http://veratx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Verana Health",
+  "website": "http://veranahealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Vercel",
+  "website": "http://vercel.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Verse Enterprises",
+  "website": "https://verse.inc",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Verve Therapeutics",
+  "website": "http://vervetx.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: VERV",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Veza",
+  "website": "http://veza.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by ServiceNow, 2026",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Vicinitas Therapeutics",
+  "website": "https://vicinitastx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "VIDA",
+  "website": "http://shopvida.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Cimpress, 2018",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "VigLink",
+  "website": "http://viglink.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Sovrn, 2018",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Vir Biotechnology",
+  "website": "https://www.vir.bio/",
+  "status": "ipo",
+  "stage": null,
+  "description": "NASDAQ: VIR",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Vitara Biomedical",
+  "website": "https://vitara.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Viz.ai",
+  "website": "http://viz.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Vocode",
+  "website": "https://www.vocode.dev",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Voicea",
+  "website": "http://voicea.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Cisco, 2019",
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Voltage",
+  "website": "http://voltage.cloud",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Voltron Data",
+  "website": "http://voltrondata.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Vungle",
+  "website": "http://vungle.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Blackstone, 2019",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Walker and Company",
+  "website": "http://walkerandcompany.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Procter & Gamble, 2018",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Waltz Health",
+  "website": "http://waltzhealth.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Eversana, 2025",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Wander",
+  "website": "http://onwander.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Yahoo!, 2014",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Warp",
+  "website": "http://warp.dev",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Watch Club",
+  "website": "https://watchclubtv.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Waymo",
+  "website": "https://www.waymo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech, Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Wealth.com",
+  "website": "https://www.wealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise, AI",
+  "fund": "gv"
+ },
+ {
+  "name": "Weaveworks",
+  "website": "http://weave.works",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Wingu",
+  "website": "http://wingu.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by PerkinElmer, 2014",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Witness AI",
+  "website": "https://witness.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI, Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Wonder",
+  "website": "https://www.wonder.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Wonder Workshop",
+  "website": "http://makewonder.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ },
+ {
+  "name": "Wonderbly",
+  "website": "http://wonderbly.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Graphite Capital, 2021",
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Xilis",
+  "website": "http://xilis.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Yellowbrick Data",
+  "website": "http://yellowbrickdata.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Yesware",
+  "website": "http://yesware.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Vendasta",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Yieldify",
+  "website": "http://yieldify.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Acquired by Publicis Groupe, 2023",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Yieldmo",
+  "website": "http://yieldmo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Yuga Labs",
+  "website": "http://yuga.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "ZappRx",
+  "website": "http://zapprx.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Allscripts in 2019",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Zencoder",
+  "website": "http://zencoder.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Brightcove, 2012",
+  "sector": "Enterprise",
+  "fund": "gv"
+ },
+ {
+  "name": "Zephyr Health",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Acquired by Anju Software, 2018",
+  "sector": "Life Sciences",
+  "fund": "gv"
+ },
+ {
+  "name": "Zest",
+  "website": "https://www.zest.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "gv"
+ },
+ {
+  "name": "Zipline",
+  "website": "http://flyzipline.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier Tech",
+  "fund": "gv"
+ }
+]

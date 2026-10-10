@@ -1,0 +1,785 @@
+[
+ {
+  "name": "Adaption",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Adaption is a continual learning research lab focused on extremely efficient intelligence across three core pillars: adaptive data, adaptive intelligence, and adaptive interfaces.",
+  "sector": "AI Infrastructure",
+  "fund": "emergence"
+ },
+ {
+  "name": "Adaptive",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "In the construction industry, it can take anywhere from 60 to 90 days on average for contractors to be paid. This slowness has a real cost: slow contract payments raised construction costs by $273 billion in 2023. That's a 14% penalty on the total cost of construction projects, just waiting for money to move.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Arcee AI",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Arcee AI provides a developer platform to pre-train, align, and continuously adapt domain-specific small language models (SLMs).",
+  "sector": "AI Infrastructure",
+  "fund": "emergence"
+ },
+ {
+  "name": "Artificial Intelligence Underwriting Company",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Artificial Intelligence Underwriting Company (AIUC) is building the trust and risk infrastructure for enterprise AI, providing evals, accreditation, and insurance for AI agents. By evaluating and certifying agent reliability (similar to SOC 2 for data security) and pricing insurance against AI failures (similar to cyber insurance), AIUC gives enterprises the confidence to deploy AI at scale and has the potential to become the adoption layer for AI agents.",
+  "sector": "AI Infrastructure",
+  "fund": "emergence"
+ },
+ {
+  "name": "ASAPP",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Wherever your agents meet your customers — phone, chat, or text — the ASAPP platform augments them, so they can be more efficient and effective.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Assembled",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Assembled builds software to transform and elevate customer support.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Bedrock Robotics",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Bedrock Robotics brings advanced autonomy to the built world, helping the construction industry build at the pace today's society demands. Our technology upgrades existing heavy equipment, enabling truly autonomous operation with expert level quality and superhuman safety. At a time when we need to build faster than ever—from housing to data centers to factories and energy infrastructure—autonomous construction isn't just an innovation, it's an economic necessity.",
+  "sector": "Physical World AI",
+  "fund": "emergence"
+ },
+ {
+  "name": "BetterWorks",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Betterworks develops best-in-class performance management solutions that enable exceptional results and put employee experience at the heart of how companies align, motivate, retain, and develop their people.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Bill.com",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Millions of customers pay and get paid with Bill.com.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Bland",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Bland allows companies to build AI agents tailored to their unique goals, from replicating the tone of their brand to creating multi-language support for global audiences.",
+  "sector": "Agentic Software; AI-Native Services",
+  "fund": "emergence"
+ },
+ {
+  "name": "Blend",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Blend’s cloud-based platform powers end-to-end customer journeys for any banking product.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Bolt",
+  "website": "https://bolt.new/",
+  "status": "active",
+  "stage": null,
+  "description": "StackBlitz began their journey offering a cloud-based IDE for R&D teams to write, run, and debug frontend code in a collaborative environment. More recently, the company released a gamechanging new product,",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Box",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Box is an enterprise content management platform that can share and access files on mobile devices while solving sophisticated business processes, like data governance and retention.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Casap",
+  "website": "https://www.casaphq.com/",
+  "status": "active",
+  "stage": null,
+  "description": "is transforming dispute operations from a risk-drenched cost center into a competitive advantage and trust-building weapon. In a world where fraud tactics constantly evolve, transactions grow more complex, and customer expectations continue rising, Casap provides the intelligent automation that financial institutions desperately need.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Chainalysis",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Chainalysis is paving the way for a global economy built on blockchains.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Chorus",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Chorus is the #1 Conversation Intelligence Platform, providing a simple and scalable solution to capture and analyze all customer calls, meetings, and emails to create visibility, drive process and behavior changes, and deliver bottom line impact.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Civitas Learning",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Civitas Learning delivers technology and services to help more students graduate.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Class",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Class is changing the way the world learns by adding teaching and learning tools to Zoom for K-12, higher education, and the workplace.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Clearco",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": ") offers fast, affordable growth capital to ecommerce and B2B/SaaS companies.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Cline",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "is an open-source, agentic coding environment built",
+  "sector": "AI Infrastructure",
+  "fund": "emergence"
+ },
+ {
+  "name": "Coalesce",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Coalesce is the only data transformation tool built for scale. It fundamentally provides a different approach to building and automating transformations in your data warehouse.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Convex",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Convex is a trusted provider of powerful, unique, and data-rich software designed by and for the commercial service businesses industry. Unlike spreadsheets and generic solutions, Convex leverages a powerful combination of geographic data and easy-to-use software that digitally transforms organizations into efficient and winning teams.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Crunchbase",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Crunchbase is the leading destination for millions of users to discover industry trends, investments, and news about global companies—from startups to the Fortune 1000.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "DAS Technology",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "DAS Technology (formerly known as Digital Air Strike) is the leading social media, intelligent lead response technology, and consumer engagement company helping businesses increase consumer response and conversions in digital and social media environments while generating measurable ROI.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "DevAI",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "DevAI is focused on serving the $2.5 trillion IT software and services marketplace by introducing Network AI agents to address critical pain points in IT infrastructure management.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Donuts",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Donuts Inc. is the world's largest registry of next generation domain names.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Doximity",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Doximity is the largest community of healthcare professionals in the country, with more than 80% of U.S. doctors and 50% of all NPs and physician assistants as verified members.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Drishti",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Drishti’s mission is to extend human capabilities in an increasingly automated world.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "DroneDeploy",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "DroneDeploy is making the skies open and accessible for everyone.",
+  "sector": "Physical World AI",
+  "fund": "emergence"
+ },
+ {
+  "name": "Eversight",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Eversight is a software suite that unlocks continuous revenue optimization for revenue management, trade marketing, sales, pricing, and merchant teams.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Federato",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Federato is the RiskOps platform for underwriters.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Forma",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Forma’s platform allows modern companies to design and scale flexible, global benefits programs with options that fit employees’ lives.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "G2",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "G2 is the largest and most trusted software marketplace, helping 5.5 million people every month make smarter software decisions based on authentic peer reviews.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Genspark",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Genspark is building the AI-powered “super agent” workspace of the future, combining multiple AI models and tools into a single system that can autonomously plan and execute complex tasks from a single prompt. Genspark enables users to offload multi-step workflows like research, content creation, code gen, and even real-world actions like phone calls, so they can achieve outcomes rather than just generate outputs. The company’s multi-agent approach positions it to redefine how knowledge work and business processes are automated across industries.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "GroundTruth",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "GroundTruth is a global location technology company that drives results with real data.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Guru",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Guru is reinventing the way teams share and manage their knowledge, enabling customer facing teams to be faster and more accurate.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Gusto",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Gusto’s mission is to create a world where work empowers a better life.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Hanover Park",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Hanover Park is building the AI-native ERP and fund administration platform for private market investors. By combining a proprietary general ledger with AI automations and world-class fund accountants, Hanover automates reconciliation, reporting, and fund operations, delivering the speed and cost of software with the comprehensive coverage and reliability of a full-service fund administrator. The company’s AI-enabled service positions it to redefine how VC, PE, and private firms manage their back office.",
+  "sector": "AI-Native Services",
+  "fund": "emergence"
+ },
+ {
+  "name": "Harper",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Harper is building the AI-Native commercial insurance brokerage of the future, combining AI with human brokers to dramatically improve the speed, accuracy, and efficiency of policy placement. Harper enables brokers to be multiples more productive while delivering faster, higher-quality outcomes for customers and underwriters. The company’s data-driven approach positions it to redefine how small and mid-market commercial insurance is distributed.",
+  "sector": "AI-Native Services",
+  "fund": "emergence"
+ },
+ {
+  "name": "Hi Marley",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Built by people who know and love insurance, Hi Marley, enables hassle-free texting across the entire insurance ecosystem.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "High Alpha",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "High Alpha is a leading venture studio that conceives, launches, and scales next-generation B2B SaaS companies.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Impartner",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Impartner is the fastest-growing provider of channel management technologies.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "IrisVR",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "IrisVR builds powerful VR tools for the trillion dollar architecture, engineering, and construction industries.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Ironclad",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Ironclad is the leading digital contracting platform for legal teams.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Justifi",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "JustiFi’s mission is to democratize access to competitive payment processing rates and embedded fintech products. Co-founders Joe Keeley, Casey Kipfer, and their team aim to enable and empower industry cloud platforms to reach their greatest potential and to create a world in which any platform’s ability to participate in the economics of funds flow isn’t limited to volume of funds or an objective set of rules - which historically has limited numerous platforms from dominating their corner of the internet.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Layer",
+  "website": "https://www.checkhq.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Layer provides embedded accounting and AI-enabled bookkeeping services for vertical SaaS platforms and SMB financial management tools. Similar to",
+  "sector": "AI-Native Services",
+  "fund": "emergence"
+ },
+ {
+  "name": "Logik.io",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Logik.io is the next generation CPQ (Configure-Price-Quote) category player, eliminating complex sales for all businesses by connecting buyers to perfect-fit solutions across all marketing, selling, commerce, and service channels.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Maze",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Maze empowers researchers to be change makers—turning research into a center of influence and customer insights into enduring competitive advantage. By bringing recruiting, testing, and analysis together, Maze helps organizations move from intuition to evidence, faster. From researchers to designers and PMs, anyone can run studies that answer any question and drive better decisions at any altitude. Equipped with Maze’s research-grade AI, teams can focus on what matters most: understanding people, uncovering insights, and shaping change with confidence.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Mechanical Orchard",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Mechanical Orchard is leading one of the biggest — yet quietly dramatic — tech transformations imaginable. With the help of AI, they're migrating the vast stores of data trapped inside mainframes to the cloud. And they couldn't have picked a better time. The developers who can communicate with mainframes in legacy language COBOL are literally retiring. And the many enormous companies that depend on these machines are missing out on the AI revolution that could change their businesses.",
+  "sector": "AI-Native Services",
+  "fund": "emergence"
+ },
+ {
+  "name": "Mercor",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Mercor is an AI-driven platform that sources, assesses, hires, and pays specialized workers for tech companies and AI labs. Their automated AI‑interviewer tailors questions to a candidate’s résumé and experience, helping companies quickly identify top‑tier talent and filter out weaker candidates.",
+  "sector": "AI Infrastructure",
+  "fund": "emergence"
+ },
+ {
+  "name": "Method",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Consumer debt in America has reached staggering proportions. With over $20 trillion in consumer liabilities spread across mortgages, student loans, credit cards, and other debt products, the average American's financial life has become a complex web of obligations. Behind these numbers lies a deeper challenge: the infrastructure for managing, understanding, and optimizing these debts remains surprisingly antiquated.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Mezmo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Mezmo (formerly known as LogDNA) gives power back to developers.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Mya Systems",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Mya Systems helps companies recruit better candidates with AI.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Nunchux",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Nunchux AI is building the world’s fastest and most cost-effective inference infrastructure for image, video, and world models—full-stack software that pushes generative media beyond the limits of today’s hardware.",
+  "sector": "AI Infrastructure",
+  "fund": "emergence"
+ },
+ {
+  "name": "Openpath",
+  "website": "https://www.openpath.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": "On a mission to improve safety and security for the built world,",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Oyster",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Oyster is removing the barriers between talented people and great full-time jobs at a global scale. They believe it should be easy for any company to hire any person, no matter where either is located in the world.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Pace",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Insurance exists to turn uncertainty into security, but the operations that make it run are anything but. Insurers spend roughly $70 billion every year on business process outsourcers (BPOs) to handle submission intake, policy servicing, claims processing, and data entry. Across financial services more broadly, that figure approaches $400 billion. The work is essential, but it's also manual, document-heavy, and resource-intensive. And that's where Pace comes in.",
+  "sector": "AI-Native Services",
+  "fund": "emergence"
+ },
+ {
+  "name": "Physical Intelligence",
+  "website": "https://www.physicalintelligence.company/",
+  "status": "active",
+  "stage": null,
+  "description": "is building a foundation model for robotics, a generalist AI that enables machines to adapt to new tasks, environments, and hardware with minimal custom programming.",
+  "sector": "Physical World AI",
+  "fund": "emergence"
+ },
+ {
+  "name": "Project44",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "By digitizing the entire shipment lifecycle, project44 ensures access to the right information, at the right time—creating a smarter end-to-end shipping experience.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Prosper",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Prosper AI is building AI agents to automate healthcare administrative work. They’ve started with a suite of voice agents that handle the phone-based workflows underpinning revenue cycle operations. Founders Xavier and Josep Mignot have executed with incredible focus and clear strategy since day one, and now serve some of the largest billers and providers in the country.",
+  "sector": "AI-Native Services; Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Regal",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Regal is the outbound phone and SMS sales solution built to help brands drive more conversations with their customers.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Replicon",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Replicon, the Time Intelligence™ company, has more than 20 years of industry leadership and is pioneering a new approach to time management.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Restorando",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Restorando is Latin America's leading online restaurant reservation platform.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Rowspace",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Rowspace is building the data and reasoning layer for the world’s largest asset managers. It transforms fragmented institutional knowledge into clean, structured data that AI can reliably operate on. Founders Michael Manapat (former CTO of Notion and Head of Applied ML at Stripe) and Yibo Ling (former Chief Business Officer of Binance) bring rare experience applying AI to messy, high-stakes financial data problems.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Saleo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Saleo is the first live sales demo experience platform helping software companies create incredible demos that are data-complete, directly within their live SaaS products.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Salesforce",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Salesforce is one of the first enterprise cloud software services in the world",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Salesloft",
+  "website": "https://www.destinationcrm.com/Articles/CRM-News/CRM-Across-the-Wire/Salesloft-Introduces-the-Modern-Revenue-Workspace-148849.aspx",
+  "status": "acquired",
+  "stage": null,
+  "description": "Salesloft helps thousands of the world’s most successful selling teams drive more revenue with the",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Sendbird",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Sendbird is the #1 chat API for mobile apps and websites, enabling real-time communication among apps' users.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "ServiceMax",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "ServiceMax builds software to help field service workers do their jobs.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "SimpleLegal",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "SimpleLegal provides a modern legal operations platform to streamline the way corporate legal departments manage their matters, track and interpret spend, and collaborate with vendors and law firms.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Textio",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Textio equips HR leaders with the tools to hire effectively and deliver actionable feedback. Founded in 2014, more than 25% of the Fortune 500, including American Express, Bloomberg, Cisco, Johnson & Johnson, Samsung, and Spotify, rely on Textio’s purpose-built AI to elevate the quality of their job postings and performance feedback.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "The OpenAI Deployment Company",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Leveraging AI to help organizations build and deploy AI systems.",
+  "sector": "AI-Native Services",
+  "fund": "emergence"
+ },
+ {
+  "name": "ThreeFlow",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "ThreeFlow is the first Benefits Placement System, a new category of enterprise software that allows brokers and carriers to manage the entire placement process in one shared system.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Together AI",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "In this era of large language models, it’s increasingly clear that industries, companies, and teams will want to be able to train their own, proprietary models to know and do exactly what they need. Think of all the rarefied knowledge required for AI to be useful in a healthcare or legal context. Given the amount of specific and confidential data out there, it’s unlikely that generic, off-the-shelf models are going to fit most enterprise needs.",
+  "sector": "AI Infrastructure",
+  "fund": "emergence"
+ },
+ {
+  "name": "Top Hat",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Top Hat’s software helps college professors activate classrooms.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Total Expert",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Total Expert helps financial and lending services acquire customers digitally and simply.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Unify",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Unify's mission is to reinvent how go-to-market works.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "UpKeep",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "As the only mobile-first tool to help technicians, UpKeep takes the work out of work orders.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Veeva",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Veeva Systems is a leader in cloud-based software for the global life sciences industry.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Vesence",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Vesence is building the quality assurance layer for legal AI. Rather than generating new content, Vesence focuses on validating and improving what’s already written - enforcing firm standards, flagging inconsistencies, and reducing review time substantially. In doing so, it gives legal professionals the confidence needed to trust AI in mission-critical work.",
+  "sector": "Agentic Software",
+  "fund": "emergence"
+ },
+ {
+  "name": "Vymo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Vymo drives sales productivity ground up for frontline personnel, sales managers, and business leaders through intelligent nudges and industry playbooks.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Welltok",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Welltok is the leading enterprise SaaS company for consumer health.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Whistic",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Whistic is a leading provider of proactive vendor security and an innovator in changing the way that companies publish and evaluate security posture to build trust.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Xapo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Xapo is helping the world protect and transfer digital currencies.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Yammer",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": "Yammer is an enterprise social network established to foster team collaboration, empower employees, and drive business transformation.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Zipline",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Zipline is the leading communication and execution platform for retailers who believe in the power of the store experience.",
+  "sector": "Founded",
+  "fund": "emergence"
+ },
+ {
+  "name": "Zoom",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Zoom is the leader in modern enterprise video communications, with an easy, reliable cloud platform for video and audio conferencing, collaboration, chat, and webinars across mobile devices, desktops, telephones, and room systems.",
+  "sector": "Founded",
+  "fund": "emergence"
+ }
+]

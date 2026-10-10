@@ -1,0 +1,1412 @@
+[
+ {
+  "name": "Kooply",
+  "website": "https://kooply.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Apps",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/kooply-2/"
+ },
+ {
+  "name": "Nixtla",
+  "website": "https://www.nixtla.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Data Ops & Models",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/nixtla/"
+ },
+ {
+  "name": "Stuut Technologies",
+  "website": "https://www.stuut.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/stuut-technologies/"
+ },
+ {
+  "name": "Zenity",
+  "website": "https://zenity.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security for AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/zenity/"
+ },
+ {
+  "name": "Upscale AI",
+  "website": "https://www.upscale.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/upscale-ai/"
+ },
+ {
+  "name": "Unsloth",
+  "website": "https://unsloth.ai",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Data Ops & Models",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/unsloth/"
+ },
+ {
+  "name": "SpecterOps",
+  "website": "https://specterops.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security for AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/specterops/"
+ },
+ {
+  "name": "SGNL",
+  "website": "https://sgnl.ai",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Security for AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/sgnl/"
+ },
+ {
+  "name": "Relyance",
+  "website": "https://www.relyance.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security for AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/relyance/"
+ },
+ {
+  "name": "RAAPID",
+  "website": "https://www.raapidinc.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Apps",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/raapid/"
+ },
+ {
+  "name": "Nuon",
+  "website": "https://nuon.co/ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Deep Tech & Systems",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/nuon/"
+ },
+ {
+  "name": "Moondream",
+  "website": "https://moondream.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Data Ops & Models",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/moondream/"
+ },
+ {
+  "name": "Mermaid",
+  "website": "https://mermaid.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Data Ops & Models",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/mermaid/"
+ },
+ {
+  "name": "CruxOCM",
+  "website": "https://cruxocm.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Apps",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/cruxocm/"
+ },
+ {
+  "name": "Arcee AI",
+  "website": "https://www.arcee.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Data Ops & Models",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/arcee-ai/"
+ },
+ {
+  "name": "Allstacks",
+  "website": "https://www.allstacks.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/allstacks/"
+ },
+ {
+  "name": "Akaidentity",
+  "website": "https://www.akaidentity.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security for AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/akaidentity/"
+ },
+ {
+  "name": "Auctor",
+  "website": "https://www.getauctor.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Apps",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/auctor/"
+ },
+ {
+  "name": "NeuBird AI",
+  "website": "https://neubird.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/neubird-ai/"
+ },
+ {
+  "name": "Mem0",
+  "website": "https://mem0.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/mem0/"
+ },
+ {
+  "name": "My DeOs",
+  "website": "https://mydeos.com/home",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Apps, Web3 + Gaming",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/my-deos/"
+ },
+ {
+  "name": "nEye Systems",
+  "website": "https://www.neye.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Deep Tech & Systems, Deep Tech + AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/neye-systems/"
+ },
+ {
+  "name": "Reach Security",
+  "website": "https://www.reach.security/microsoft-e3-e5-security-optimization",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security for AI, Cyber Security",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/reach-security/"
+ },
+ {
+  "name": "Micro1",
+  "website": "https://www.micro1.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/micro1/"
+ },
+ {
+  "name": "Regscale",
+  "website": "https://regscale.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/regscale/"
+ },
+ {
+  "name": "Sola Security",
+  "website": "https://sola.security/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security for AI, Cyber Security",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/sola-security/"
+ },
+ {
+  "name": "Lace Lithography",
+  "website": "https://lacelithography.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Deep Tech & Systems, Deep Tech + AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/lace-lithography/"
+ },
+ {
+  "name": "Solve Intelligence",
+  "website": "https://www.solveintelligence.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/solve-intelligence/"
+ },
+ {
+  "name": "Cooler Screens",
+  "website": "https://coolerscreens.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/cooler-screens/"
+ },
+ {
+  "name": "Edera",
+  "website": "https://edera.dev/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Deep Tech & Systems, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/edera/"
+ },
+ {
+  "name": "Arize AI",
+  "website": "https://arize.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Data Ops & Models, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/arize-ai/"
+ },
+ {
+  "name": "Fastino",
+  "website": "https://www.fastino.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/fastino/"
+ },
+ {
+  "name": "Conduktor",
+  "website": "https://conduktor.io/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/conduktor/"
+ },
+ {
+  "name": "Armada",
+  "website": "https://www.armada.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Deep Tech & Systems, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/armada/"
+ },
+ {
+  "name": "Volley",
+  "website": "https://www.volleygames.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/volley/"
+ },
+ {
+  "name": "Bolster",
+  "website": "https://bolster.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/bolster/"
+ },
+ {
+  "name": "DatologyAI",
+  "website": "https://www.datologyai.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/datologyai/"
+ },
+ {
+  "name": "PAXAFE",
+  "website": "https://www.paxafe.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Deep Tech and AI, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/paxafe/"
+ },
+ {
+  "name": "Builder.io",
+  "website": "https://www.builder.io/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/builder-io/"
+ },
+ {
+  "name": "Synth Labs",
+  "website": "https://www.synthlabs.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/synth-labs/"
+ },
+ {
+  "name": "Unify AI",
+  "website": "https://unify.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/unify-ai/"
+ },
+ {
+  "name": "Rubbrband",
+  "website": "https://www.rubbrband.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/rubbrband/"
+ },
+ {
+  "name": "Guardrails AI",
+  "website": "https://www.guardrailsai.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/guardrails-ai/"
+ },
+ {
+  "name": "Foundry",
+  "website": "https://www.mlfoundry.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Other, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/foundry/"
+ },
+ {
+  "name": "Cerebri",
+  "website": null,
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/cerebri/"
+ },
+ {
+  "name": "Zencity",
+  "website": "https://zencity.io/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/zencity/"
+ },
+ {
+  "name": "Xsight Labs",
+  "website": "https://xsightlabs.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/xsight-labs/"
+ },
+ {
+  "name": "WorkSpan",
+  "website": "https://www.workspan.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/workspan/"
+ },
+ {
+  "name": "WorkBoard",
+  "website": "https://www.workboard.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/workboard/"
+ },
+ {
+  "name": "Webiny",
+  "website": "https://www.webiny.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/webiny/"
+ },
+ {
+  "name": "Weebee",
+  "website": "https://webee.io/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Deep Tech & Systems, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/weebee/"
+ },
+ {
+  "name": "Wandelbots",
+  "website": "https://wandelbots.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Deep Tech & Systems, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/wandelbots/"
+ },
+ {
+  "name": "Wallaroo",
+  "website": "https://wallaroo.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/wallaroo/"
+ },
+ {
+  "name": "Voodle",
+  "website": null,
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/voodle/"
+ },
+ {
+  "name": "Voiceitt",
+  "website": "https://voiceitt.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/voiceitt/"
+ },
+ {
+  "name": "Valence Security",
+  "website": "https://www.valencesecurity.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/valence-security/"
+ },
+ {
+  "name": "Unstructured",
+  "website": "https://unstructured.io/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/unstructured/"
+ },
+ {
+  "name": "Unravel",
+  "website": "https://unraveldata.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/unravel/"
+ },
+ {
+  "name": "Typeface",
+  "website": "https://www.typeface.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/typeface/"
+ },
+ {
+  "name": "Trusona",
+  "website": "https://trusona.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Data Ops & Models, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/trusona/"
+ },
+ {
+  "name": "Truepic",
+  "website": "https://truepic.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/truepic/"
+ },
+ {
+  "name": "Tooljet",
+  "website": "https://www.tooljet.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/tooljet/"
+ },
+ {
+  "name": "Theom",
+  "website": "https://www.theom.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/theom/"
+ },
+ {
+  "name": "Tact.ai",
+  "website": "https://tact.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/tact-ai/"
+ },
+ {
+  "name": "Syntiant",
+  "website": "https://www.syntiant.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/syntiant/"
+ },
+ {
+  "name": "Synack",
+  "website": "https://www.synack.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/synack/"
+ },
+ {
+  "name": "SpyCloud",
+  "website": "https://spycloud.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/spycloud/"
+ },
+ {
+  "name": "Skedulo",
+  "website": "https://skedulo.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/skedulo/"
+ },
+ {
+  "name": "Scuba",
+  "website": "https://www.scuba.io/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Deep Tech & Systems, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/scuba/"
+ },
+ {
+  "name": "SalesKen",
+  "website": "https://www.salesken.ai",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/salesken/"
+ },
+ {
+  "name": "Rescale",
+  "website": "https://rescale.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/rescale/"
+ },
+ {
+  "name": "RapidSOS",
+  "website": "https://rapidsos.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/rapidsos/"
+ },
+ {
+  "name": "PsiQuantum",
+  "website": "https://psiquantum.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Deep Tech & Systems, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/psiquantum/"
+ },
+ {
+  "name": "Private AI",
+  "website": "https://www.private-ai.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Deep Tech & Systems, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/private-ai/"
+ },
+ {
+  "name": "Prevedere",
+  "website": "https://prevedere.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/prevedere/"
+ },
+ {
+  "name": "Pod Foods",
+  "website": "https://podfoods.co/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/pod-foods/"
+ },
+ {
+  "name": "Pickit",
+  "website": "https://pickit.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/pickit/"
+ },
+ {
+  "name": "Parabol",
+  "website": "https://www.parabol.co/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/parabol/"
+ },
+ {
+  "name": "Ozette Technologies",
+  "website": "https://www.ozette.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/ozette-technologies/"
+ },
+ {
+  "name": "Outreach",
+  "website": "https://www.outreach.io/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/outreach/"
+ },
+ {
+  "name": "OX Security",
+  "website": "https://www.ox.security/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/ox-security/"
+ },
+ {
+  "name": "nsKnox",
+  "website": "https://nsknox.net/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/nsknox/"
+ },
+ {
+  "name": "Novu",
+  "website": "https://novu.co/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/novu/"
+ },
+ {
+  "name": "NobleAI",
+  "website": "https://www.noble.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/nobleai/"
+ },
+ {
+  "name": "NextBillion.ai",
+  "website": "https://nextbillion.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/nextbillion-ai/"
+ },
+ {
+  "name": "Netradyne",
+  "website": "https://netradyne.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/netradyne/"
+ },
+ {
+  "name": "Nautilus Labs",
+  "website": "https://nautiluslabs.co/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/nautilus-labs/"
+ },
+ {
+  "name": "modl.ai",
+  "website": "https://modl.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Web3 and Gaming",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/modl-ai/"
+ },
+ {
+  "name": "Metrika",
+  "website": "https://metrika.co/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Deep Tech & Systems, Web3 and Gaming",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/metrika/"
+ },
+ {
+  "name": "Mental Canvas",
+  "website": "https://mentalcanvas.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/mental-canvas/"
+ },
+ {
+  "name": "Mend",
+  "website": "https://www.mend.io/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/mend/"
+ },
+ {
+  "name": "Memgraph",
+  "website": "https://memgraph.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/memgraph/"
+ },
+ {
+  "name": "MedMe",
+  "website": "https://www.medmehealth.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/medme/"
+ },
+ {
+  "name": "LottieFiles",
+  "website": "https://lottiefiles.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/lottiefiles/"
+ },
+ {
+  "name": "LoginRadius",
+  "website": "https://loginradius.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/loginradius/"
+ },
+ {
+  "name": "Loggi",
+  "website": "https://loggi.com/en/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/loggi/"
+ },
+ {
+  "name": "Karlsgate",
+  "website": "https://karlsgate.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/karlsgate/"
+ },
+ {
+  "name": "Inworld",
+  "website": "https://www.inworld.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Web3 and Gaming",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/inworld/"
+ },
+ {
+  "name": "inVia Robotics",
+  "website": "https://www.inviarobotics.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/invia-robotics/"
+ },
+ {
+  "name": "Insite AI",
+  "website": "https://insite.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/insite-ai/"
+ },
+ {
+  "name": "Innovaccer",
+  "website": "https://innovaccer.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/innovaccer/"
+ },
+ {
+  "name": "Incorta",
+  "website": "https://incorta.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/incorta/"
+ },
+ {
+  "name": "iLoF",
+  "website": "https://ilof.tech/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/ilof/"
+ },
+ {
+  "name": "HYAS",
+  "website": "https://hyas.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/hyas/"
+ },
+ {
+  "name": "Huue",
+  "website": "https://www.huue.bio/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/huue/"
+ },
+ {
+  "name": "Hunters",
+  "website": "https://hunters.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/hunters/"
+ },
+ {
+  "name": "HiddenLayer",
+  "website": "https://hiddenlayer.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/hiddenlayer/"
+ },
+ {
+  "name": "Hazy",
+  "website": "https://hazy.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/hazy/"
+ },
+ {
+  "name": "GrowthSpace",
+  "website": "https://www.growthspace.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/growthspace/"
+ },
+ {
+  "name": "GroundTruth",
+  "website": "https://groundtruth.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/groundtruth/"
+ },
+ {
+  "name": "GO1",
+  "website": "https://go1.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/go1/"
+ },
+ {
+  "name": "Fordefi",
+  "website": "https://fordefi.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Deep Tech & Systems, Web3 and Gaming",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/fordefi/"
+ },
+ {
+  "name": "FarEye",
+  "website": "https://getfareye.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/fareye/"
+ },
+ {
+  "name": "Evisort",
+  "website": "https://evisort.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "Deep Tech & Systems, Deep Tech and AI",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/evisort/"
+ },
+ {
+  "name": "Evinced",
+  "website": "https://www.evinced.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/evinced/"
+ },
+ {
+  "name": "Envisagenics",
+  "website": "https://envisagenics.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/envisagenics/"
+ },
+ {
+  "name": "env0",
+  "website": "https://env0.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/env0/"
+ },
+ {
+  "name": "ecomedes",
+  "website": "https://www.ecomedes.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/ecomedes/"
+ },
+ {
+  "name": "Directly",
+  "website": "https://directly.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/directly/"
+ },
+ {
+  "name": "Deployed",
+  "website": "https://deployed.co/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/deployed/"
+ },
+ {
+  "name": "Definely",
+  "website": "https://www.definely.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/definely/"
+ },
+ {
+  "name": "Databook",
+  "website": "https://trydatabook.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/databook/"
+ },
+ {
+  "name": "d-Matrix",
+  "website": "https://www.d-matrix.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/d-matrix/"
+ },
+ {
+  "name": "Contrast Security",
+  "website": "https://contrastsecurity.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/contrast-security/"
+ },
+ {
+  "name": "CognitiveScale",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Deep Tech & Systems, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/cognitivescale/"
+ },
+ {
+  "name": "CodeSee",
+  "website": "https://www.codesee.io/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/codesee/"
+ },
+ {
+  "name": "Code Ocean",
+  "website": "https://codeocean.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Data Ops & Models, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/code-ocean/"
+ },
+ {
+  "name": "CNEXLabs",
+  "website": "https://cnexlabs.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/cnexlabs/"
+ },
+ {
+  "name": "ClearMotion",
+  "website": "https://www.clearmotion.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Cloud Infrastructure",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/clearmotion/"
+ },
+ {
+  "name": "BlueVine",
+  "website": "https://bluevine.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/bluevine/"
+ },
+ {
+  "name": "blackshark.ai",
+  "website": "https://www.blackshark.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Web3 and Gaming",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/blackshark-ai/"
+ },
+ {
+  "name": "Beamery",
+  "website": "https://beamery.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/beamery/"
+ },
+ {
+  "name": "At-Bay",
+  "website": "https://at-bay.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "AI Apps, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/at-bay/"
+ },
+ {
+  "name": "Artificial",
+  "website": "https://www.artificial.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Enterprise Applications",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/artificial/"
+ },
+ {
+  "name": "Arkose Labs",
+  "website": "https://arkoselabs.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Security for AI, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/arkose-labs/"
+ },
+ {
+  "name": "Aqua",
+  "website": "https://aquasec.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Data Ops & Models, Cybersecurity",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/aqua/"
+ },
+ {
+  "name": "Bytewax",
+  "website": "https://bytewax.io/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Cloud Infrastructure, Developer Tools",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/bytewax/"
+ },
+ {
+  "name": "Andor Health",
+  "website": "https://andorhealth.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Vertical SaaS",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/andor-health/"
+ },
+ {
+  "name": "Agolo",
+  "website": "https://agolo.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Vertical SaaS",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/agolo/"
+ },
+ {
+  "name": "Acerta",
+  "website": "https://acerta.ai/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Vertical SaaS",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/acerta/"
+ },
+ {
+  "name": "1910 Genetics",
+  "website": "https://www.1910genetics.com/",
+  "status": "active",
+  "stage": "Early",
+  "description": null,
+  "sector": "AI Apps, Vertical SaaS",
+  "fund": "m12",
+  "m12_url": "https://m12.vc/portfolio/1910-genetics/"
+ }
+]

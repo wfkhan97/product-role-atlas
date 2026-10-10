@@ -1,0 +1,1298 @@
+[
+ {
+  "name": "Savvy Wealth",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Savvy Wealth is a technology-enabled wealth management firm that provides a digital-first platform for financial advisors.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "SplitPay",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Split Pay is a fintech payment platform that allows consumers to split bills, like rent, mortgages, and payments, into smaller installments.",
+  "sector": "Credit",
+  "fund": "thrive"
+ },
+ {
+  "name": "Airplane",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Airplane is a software development company that offers a software platform for engineers to build internal tools.",
+  "sector": "Information Technology",
+  "fund": "thrive"
+ },
+ {
+  "name": "Rightway",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Rightway is a health technology company that provides simplified healthcare experience by lowering costs and improving outcomes.",
+  "sector": "Health Care",
+  "fund": "thrive"
+ },
+ {
+  "name": "Mapbox",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Mapbox develops a location data platform for mobile and web applications.",
+  "sector": "Business Intelligence",
+  "fund": "thrive"
+ },
+ {
+  "name": "Mojo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Mojo is a platform for sports, entertainment, finance, and online betting.",
+  "sector": "Digital Entertainment",
+  "fund": "thrive"
+ },
+ {
+  "name": "Lucent BioSciences",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Lucent BioSciences is a AgTech start-up developing climate-positive smart fertilizer system",
+  "sector": "Agriculture",
+  "fund": "thrive"
+ },
+ {
+  "name": "Grailed",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Grailed is a peer-to-peer marketplace company that offers fashion and lifestyle accessories and apparel for men.",
+  "sector": "Apparel",
+  "fund": "thrive"
+ },
+ {
+  "name": "Rogo",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Rogo is an AI platform that amplifies expertise, accelerates workflows, & unlocks institutional intelligence for IB, PE, & asset management.",
+  "sector": "Analytics",
+  "fund": "thrive"
+ },
+ {
+  "name": "Loft",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Loft is Brazil’s market leader across rent guarantees, broker services, mortgage origination, and real estate fintech.",
+  "sector": "FinTech",
+  "fund": "thrive"
+ },
+ {
+  "name": "Ambrook",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Ambrook provides accounting, bookkeeping, invoicing, payments, and financial management software for farms and businesses.",
+  "sector": "Accounting",
+  "fund": "thrive"
+ },
+ {
+  "name": "Abby Care",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Abby Care helps caregivers get Medicaid compensation for caring for children with disabilities or special needs.",
+  "sector": "Health Care",
+  "fund": "thrive"
+ },
+ {
+  "name": "Lone Palm Labs",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Lone Palm Labs is a consumer technology company focused on social applications for friends and family.",
+  "sector": "Apps",
+  "fund": "thrive"
+ },
+ {
+  "name": "Otter",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Otter connects parents in need of childcare with caregivers in the community.",
+  "sector": "Child Care",
+  "fund": "thrive"
+ },
+ {
+  "name": "Center",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Center is an API for NFT metadata.",
+  "sector": "Internet",
+  "fund": "thrive"
+ },
+ {
+  "name": "Headway",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Headway builds a mental healthcare system that enables therapists to accept insurance and scale their practices.",
+  "sector": "Health Care",
+  "fund": "thrive"
+ },
+ {
+  "name": "Neon",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Neon develops a direct-to-consumer commerce and payments platform for video game publishers and developers.",
+  "sector": "Developer Platform",
+  "fund": "thrive"
+ },
+ {
+  "name": "Folio",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Folio is a financial operations platform tailored for the hospitality sector that simplifies complex back-office processes.",
+  "sector": "Financial Services",
+  "fund": "thrive"
+ },
+ {
+  "name": "Fora",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Fora is a travel agency platform that connects travelers with independent travel advisors for trip planning and booking services.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Unify",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "The world’s first warm outbound platform - book 25% more pipeline with half the effort.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Macroscope",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Macroscope wants on-demand analytics to take the place of status meetings.",
+  "sector": "Project Management",
+  "fund": "thrive"
+ },
+ {
+  "name": "Gong",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Gong is a technology company that offers a revenue intelligence platform using AI to analyze customer interactions.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Cityblock Health",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Cityblock Health is a tech-driven healthcare provider that offers comprehensive and personalised care for underserved communities.",
+  "sector": "Health Care",
+  "fund": "thrive"
+ },
+ {
+  "name": "Airtable",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Airtable is a cloud-based software company that offers an online platform for creating and sharing relational databases.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Glossier",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Glossier is a direct-to-consumer beauty company that leverages content and community to power a superior shopping experience.",
+  "sector": "B2C",
+  "fund": "thrive"
+ },
+ {
+  "name": "Helion Energy",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Helion Energy is a fusion energy company that develops technology designed to generate electricity through nuclear fusion.",
+  "sector": "Energy",
+  "fund": "thrive"
+ },
+ {
+  "name": "Formation Bio",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Formation Bio is a drug development company that strives to provide treatments to patients faster by reimagining clinical trials.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Cadence Solutions",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Cadence is a healthcare technology company that provides remote patient care and chronic disease management services.",
+  "sector": "Health Care",
+  "fund": "thrive"
+ },
+ {
+  "name": "NewLimit",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "NewLimit is a biotech company developing epigenetic therapies to extend human healthspan by reprogramming aging cells.",
+  "sector": "Biotechnology",
+  "fund": "thrive"
+ },
+ {
+  "name": "A24",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "A24 is an American independent entertainment company that specializes in film distribution, and film and television production.",
+  "sector": "Collectibles",
+  "fund": "thrive"
+ },
+ {
+  "name": "Lemonade",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Lemonade is a digital insurance company that uses artificial intelligence and behavioral economics.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "xdof",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "XDOF develops core robotics technology and data collection for the world's largest research labs.",
+  "sector": "Berkeley",
+  "fund": "thrive"
+ },
+ {
+  "name": "Gorillas",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Gorillas is a delivery startup that allows customers to order groceries and other household items.",
+  "sector": "Delivery",
+  "fund": "thrive"
+ },
+ {
+  "name": "MEDIVIS",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Medivis is a medical technology company leveraging augmented reality and artificial intelligence to advance surgical care.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Nubank",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Nubank is a digital bank offering seamless financial services, including payments, credit cards, and personal loans.",
+  "sector": "Banking",
+  "fund": "thrive"
+ },
+ {
+  "name": "Neuralink",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Neuralink is a neurotechnology company that focuses on developing brain-computer interfaces designed to treat neurological disorders.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Parafin",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Parafin is a financial infrastructure company that offers pre-built financial services programs to support small businesses.",
+  "sector": "B2B",
+  "fund": "thrive"
+ },
+ {
+  "name": "Sierra",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Sierra helps businesses to build and deploy AI agents that communicate with users across channels such as chat, voice, email, and messaging.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Garner Health",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Garner Health is a healthcare technology company that connects employers and employees with high-performing medical providers.",
+  "sector": "Big Data",
+  "fund": "thrive"
+ },
+ {
+  "name": "Pace",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Pace is a software company building an artificial intelligence operations platform for the insurance industry.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Socket",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Socket is a developer-first security platform that protects your most critical apps from software supply chain attacks.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Nourish",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Nourish provides nutrition counseling that is covered by most insurance plans, making it accessible for many individuals.",
+  "sector": "Apps",
+  "fund": "thrive"
+ },
+ {
+  "name": "Hims & Hers",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Hims is a wellness brand that helps men and women get access to products for skin care, hair loss, and sexual health.",
+  "sector": "Health Care",
+  "fund": "thrive"
+ },
+ {
+  "name": "Anduril Industries",
+  "website": null,
+  "status": "active",
+  "stage": "Series H",
+  "description": "Anduril Industries is a defense technology company that specializes in developing advanced autonomous systems to enhance national security.",
+  "sector": "Aerospace",
+  "fund": "thrive"
+ },
+ {
+  "name": "Pleo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Pleo provides smart payment cards for employees to buy work-related products while giving employers control and oversight over the spending.",
+  "sector": "Financial Services",
+  "fund": "thrive"
+ },
+ {
+  "name": "Isomorphic Labs",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Isomorphic Labs is an AI-first drug design and development company that transforms drug discovery to design and evaluate new medicines.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Lightspark",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Builds payments infrastructure for digital banks, wallets and exchanges, real-time global money movement for Bitcoin, fiat, and stablecoins.",
+  "sector": "Bitcoin",
+  "fund": "thrive"
+ },
+ {
+  "name": "Robinhood",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Robinhood is a stock brokerage that allows customers to buy and sell stocks, options, ETFs, and cryptocurrencies with zero commission.",
+  "sector": "Cryptocurrency",
+  "fund": "thrive"
+ },
+ {
+  "name": "Chord",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Chord is an AI-native data platform for the agentic commerce era.",
+  "sector": "Agentic AI",
+  "fund": "thrive"
+ },
+ {
+  "name": "Command AI",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Command AI is a firm that offers simple, AI-powered user assistance to make applications easier to use.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "OpenAI",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "OpenAI is an AI research and deployment company that develops advanced AI models, including ChatGPT.",
+  "sector": "Agentic AI",
+  "fund": "thrive"
+ },
+ {
+  "name": "Charm Industrial",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Charm Industrial is putting oil back underground via bio-oil sequestration and industrial syngas production.",
+  "sector": "Agriculture",
+  "fund": "thrive"
+ },
+ {
+  "name": "Maisonette",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Maisonette is a children’s clothing and lifestyle e-commerce site.",
+  "sector": "Children",
+  "fund": "thrive"
+ },
+ {
+  "name": "Raisin",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Raisin is a savings and investment marketplace that connects retail customers with banks looking to expand deposit reach.",
+  "sector": "Banking",
+  "fund": "thrive"
+ },
+ {
+  "name": "Yuga Labs",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Yuga Labs is a blockchain technology company that develops NFTs and digital collectibles.",
+  "sector": "Blockchain",
+  "fund": "thrive"
+ },
+ {
+  "name": "MoonPay",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "MoonPay is a fintech company providing payment infrastructure for converting fiat currencies into cryptocurrencies and NFTs.",
+  "sector": "Blockchain",
+  "fund": "thrive"
+ },
+ {
+  "name": "Cadre",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Cadre is an online marketplace that connects investors and operators of real estate.",
+  "sector": "Financial Services",
+  "fund": "thrive"
+ },
+ {
+  "name": "Scope Security",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Scope provides managed detection and response to protect hospitals, clinics and large provider systems from cyber attacks.",
+  "sector": "Cloud Security",
+  "fund": "thrive"
+ },
+ {
+  "name": "Revel",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Revel provides a software platform that facilitates the development, deployment, and management of hardware systems,",
+  "sector": "Hardware",
+  "fund": "thrive"
+ },
+ {
+  "name": "Morty",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Morty is an online mortgage platform.",
+  "sector": "Finance",
+  "fund": "thrive"
+ },
+ {
+  "name": "Describely",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Write Product Descriptions in Seconds",
+  "sector": "E-Commerce",
+  "fund": "thrive"
+ },
+ {
+  "name": "Shield Technology Partners",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Shield Technology Partners is a managed service provider platform dedicated to drive growth and innovation for IT services businesses",
+  "sector": "Business Development",
+  "fund": "thrive"
+ },
+ {
+  "name": "Mesh Optical Technologies",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Mesh Optical Technologies designs and manufactures the world's most advanced optical hardware.",
+  "sector": "Hardware",
+  "fund": "thrive"
+ },
+ {
+  "name": "Check",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Check is a leading payroll infrastructure provider that allows platforms to build successful payroll businesses.",
+  "sector": "Employee Benefits",
+  "fund": "thrive"
+ },
+ {
+  "name": "LeafLink",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "LeafLink is a wholesale management platform that connects cannabis brands and retailers.",
+  "sector": "B2B",
+  "fund": "thrive"
+ },
+ {
+  "name": "OpenGov",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "OpenGov is a digital cloud software provider that helps local governments and state agencies run government operations.",
+  "sector": "Data Visualization",
+  "fund": "thrive"
+ },
+ {
+  "name": "Nava",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Nava provides employee benefits brokerage services with a focus on affordable healthcare.",
+  "sector": "Employee Benefits",
+  "fund": "thrive"
+ },
+ {
+  "name": "Samara",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Samara is a home services company that provides home renovation, interior design, and architectural services.",
+  "sector": "Architecture",
+  "fund": "thrive"
+ },
+ {
+  "name": "Console",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Console is the AI platform for IT, built to help teams automate support and shift from doing the work to managing the system that does it.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Nudge",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Nudge develops brain interface technology that helps to treat neurological problems.",
+  "sector": "Biotechnology",
+  "fund": "thrive"
+ },
+ {
+  "name": "Clair",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Clair is the mission-driven fintech company that's created the first free, compliant, on-demand pay solution backed by a FDIC-insured bank.",
+  "sector": "Banking",
+  "fund": "thrive"
+ },
+ {
+  "name": "Doji",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Doji operates as an app designed to make apparel try-ons both fun and social.",
+  "sector": "Apps",
+  "fund": "thrive"
+ },
+ {
+  "name": "TruckSmarter",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Our mission is to empower truck drivers lives across the US through technology and grit.",
+  "sector": "Freight Service",
+  "fund": "thrive"
+ },
+ {
+  "name": "HeyGen",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "HeyGen is an AI video generation platform that specializes in video creation, AI avatars, and generative AI.",
+  "sector": "E-Learning",
+  "fund": "thrive"
+ },
+ {
+  "name": "Alsym Energy",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Alsym Energy develops non-lithium rechargeable batteries for stationary storage, maritime shipping, and electric vehicles.",
+  "sector": "Battery",
+  "fund": "thrive"
+ },
+ {
+  "name": "Fabric",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Fabric is an innovator in healthcare enablement software.",
+  "sector": "Health Care",
+  "fund": "thrive"
+ },
+ {
+  "name": "Essential AI",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Essential AI creates AI solutions that enhance efficiency through the automation of labor-intensive and repetitive workflows.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Formal",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Formal is a SaaS technology startup that builds operating system for data of the modern company.",
+  "sector": "Cloud Data Services",
+  "fund": "thrive"
+ },
+ {
+  "name": "Codegen",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Codegen is a SAAS and artificial intelligence company that offers AI-assisted code development services.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Justworks",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Justworks makes it easier to start, run, and grow a business.",
+  "sector": "B2B",
+  "fund": "thrive"
+ },
+ {
+  "name": "Parabola",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Parabola is the spreadsheet alternative where you combine the data running throughout your company and create automated processes.",
+  "sector": "Big Data",
+  "fund": "thrive"
+ },
+ {
+  "name": "Compass",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Compass is a real estate technology company that provides an online platform for buying, renting, and selling real estate assets.",
+  "sector": "Property Management",
+  "fund": "thrive"
+ },
+ {
+  "name": "Jumbo Privacy",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Jumbo Privacy is a B2C privacy and security app that protects users on iOS and Android.",
+  "sector": "Mobile Apps",
+  "fund": "thrive"
+ },
+ {
+  "name": "Fanatics",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Fanatics is a global sports platform reimagining the fan experience across gear, trading cards, sports betting, content, events, and more.",
+  "sector": "eSports",
+  "fund": "thrive"
+ },
+ {
+  "name": "Cedar",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Cedar is a patient payment and engagement platform for hospitals, health systems, and medical groups that elevates the patient experience.",
+  "sector": "Agentic AI",
+  "fund": "thrive"
+ },
+ {
+  "name": "Imprint",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Imprint is a co-brand financial platform that designs, configures, and operates financial products in partnership and loyalty experiences.",
+  "sector": "Finance",
+  "fund": "thrive"
+ },
+ {
+  "name": "Airbyte",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Airbyte is an open-source data integration engine that helps to sync data from applications to warehouses.",
+  "sector": "Analytics",
+  "fund": "thrive"
+ },
+ {
+  "name": "Homebound",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Homebound is a custom homebuilder that makes building the perfect home simple, transparent and human.",
+  "sector": "Architecture",
+  "fund": "thrive"
+ },
+ {
+  "name": "HEIR",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Heir is a platform that allows athletes and other culture creators.",
+  "sector": "Consulting",
+  "fund": "thrive"
+ },
+ {
+  "name": "Supergreat",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Supergreat is a beauty community of real people reviewing the beauty products that work for them.",
+  "sector": "Beauty",
+  "fund": "thrive"
+ },
+ {
+  "name": "Lattice",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Lattice is a people success platform that help business leaders develop engaged, high-performing employees, and winning cultures.",
+  "sector": "Analytics",
+  "fund": "thrive"
+ },
+ {
+  "name": "Harry's",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Harry's is a developer of an online platform used to sell shaving equipment and accessories for men.",
+  "sector": "Consumer Goods",
+  "fund": "thrive"
+ },
+ {
+  "name": "Pipo Saúde",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Pipo Saúde is a Health Care Insuarance firm offering a platform that sells and manages healthcare benefits from healthcare plan.",
+  "sector": "Employee Benefits",
+  "fund": "thrive"
+ },
+ {
+  "name": "Modern Life",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Tech-enabled brokerage helping everyone protect what matters most.",
+  "sector": "Life Insurance",
+  "fund": "thrive"
+ },
+ {
+  "name": "Stytch",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Stytch improves security and user experience with passwordless authentication.",
+  "sector": "Developer APIs",
+  "fund": "thrive"
+ },
+ {
+  "name": "Exowatt",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Powering AI with 24-hour Dispatchable Solar",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Anysphere (Cursor)",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Anysphere is an AI software company that develops AI agents and coding workflows that enable developers to perform engineering tasks.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Skims",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "SKIMS provides a wide-ranging line of underwear, loungewear, and shapewear designed to deliver solutions for every body.",
+  "sector": "Fashion",
+  "fund": "thrive"
+ },
+ {
+  "name": "Mosaic",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Mosaic is a a tech-enabled general contractor for the residential development industry.",
+  "sector": "Architecture",
+  "fund": "thrive"
+ },
+ {
+  "name": "Instacart",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Instacart is an online grocery platform that offers same-day delivery and pickup services for retailers and consumers.",
+  "sector": "Consumer",
+  "fund": "thrive"
+ },
+ {
+  "name": "Patreon",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Patreon is an online platform connecting musicians and other artists with their fan base.",
+  "sector": "Content Creators",
+  "fund": "thrive"
+ },
+ {
+  "name": "Base Power",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Base Power is a modern energy provider that specializes in residential backup battery systems and electricity plans.",
+  "sector": "Battery",
+  "fund": "thrive"
+ },
+ {
+  "name": "Honor",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Honor Technology provides aging care solutions and home care services.",
+  "sector": "Elder Care",
+  "fund": "thrive"
+ },
+ {
+  "name": "Studs",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Studs is a piercing studio meant to appeal to a conscious millennial and Gen-Z customer.",
+  "sector": "Consumer",
+  "fund": "thrive"
+ },
+ {
+  "name": "Sparx",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Sparx is a comprehensive cost-containment platform for all companies, startups to enterprises.",
+  "sector": "Cloud Management",
+  "fund": "thrive"
+ },
+ {
+  "name": "Melio",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Melio is a fintech company that delivers a digital accounts payable and receivable platform tailored for small and medium-sized businesses.",
+  "sector": "B2B",
+  "fund": "thrive"
+ },
+ {
+  "name": "Tempo",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Tempo develops blockchain infrastructure for payment processing and stablecoin transactions.",
+  "sector": "Blockchain",
+  "fund": "thrive"
+ },
+ {
+  "name": "Dutchie",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Dutchie provides an all-in-one technology platform that powers dispensary operations.",
+  "sector": "Cannabis",
+  "fund": "thrive"
+ },
+ {
+  "name": "RivalSense",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "RivalSense uses AI to monitor competitors, track market changes, and provide insights on pricing, products, and campaigns.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Humming Homes",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Humming Homes is an AI Powered Home Manager, bringing ease to all of your home service needs.",
+  "sector": "Real Estate",
+  "fund": "thrive"
+ },
+ {
+  "name": "Monzo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Monzo is a digital bank that provides a user-friendly mobile app, innovative features, and a transparent approach to banking.",
+  "sector": "Banking",
+  "fund": "thrive"
+ },
+ {
+  "name": "OpenEvidence",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "OpenEvidence is a medical AI company that builds a search engine to support clinicians in making evidence-based decisions.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Chai Discovery",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Chai Discovery develops artificial intelligence models that predict and reprogram biochemical molecule interactions.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Anysphere",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Anysphere is an applied research lab focused on automating coding through innovative AI solutions.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Physical Intelligence",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Physical Intelligence is an AI company developing machine learning for robots and other physical devices.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "thrive"
+ },
+ {
+  "name": "Neon Commerce, Inc.",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Neon is a modern direct-to-consumer platform built for games.",
+  "sector": "Developer Platform",
+  "fund": "thrive"
+ },
+ {
+  "name": "Long Game",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Long Game is the mobile personal finance app that uses games with cash prizes to help users win the savings game.",
+  "sector": "Finance",
+  "fund": "thrive"
+ },
+ {
+  "name": "Pitch",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Pitch is collaborative presentation software for modern teams.",
+  "sector": "Collaboration",
+  "fund": "thrive"
+ },
+ {
+  "name": "Capsule",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Capsule is a healthcare technology business rebuilding the pharmacy from the inside out",
+  "sector": "Health Care",
+  "fund": "thrive"
+ },
+ {
+  "name": "Codecademy",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Codecademy provides an online learning platform that teaches employable digital skills.",
+  "sector": "EdTech",
+  "fund": "thrive"
+ },
+ {
+  "name": "Alza",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Alza is a financial app that provides rapid cash transfers, savings program, flexible bill payment options, and debit card support.",
+  "sector": "Finance",
+  "fund": "thrive"
+ },
+ {
+  "name": "Geneva",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Geneva is an online home for groups, clubs, and communities of all shapes and sizes.",
+  "sector": "Apps",
+  "fund": "thrive"
+ },
+ {
+  "name": "Zola",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Zola is a wedding company that reinvents the wedding planning and registry experience.",
+  "sector": "E-Commerce",
+  "fund": "thrive"
+ },
+ {
+  "name": "YOLO",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "YOLO is an app to send and receive anonymous messages on Snapchat.",
+  "sector": "Apps",
+  "fund": "thrive"
+ },
+ {
+  "name": "dot.LA",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Dot.LA is a digital newsroom covering L.A.'s startup and tech community.",
+  "sector": "Digital Entertainment",
+  "fund": "thrive"
+ },
+ {
+  "name": "ClassPass",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "ClassPass is an application that offers training for fitness, wellness, home workouts, in-studio classes, and digital classes.",
+  "sector": "Consumer Applications",
+  "fund": "thrive"
+ },
+ {
+  "name": "Umbrella",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Umbrella provides a task management platform intended to connect senior citizens with workers.",
+  "sector": "Elderly",
+  "fund": "thrive"
+ },
+ {
+  "name": "Welkin Health",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Welkin Health is a care management platform that supports a continuum of care for preventative, follow-up and chronic care management.",
+  "sector": "Enterprise Software",
+  "fund": "thrive"
+ },
+ {
+  "name": "Chain",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Chain built cryptographic ledger systems to make financial services smarter, more secure, and more connected.",
+  "sector": "Blockchain",
+  "fund": "thrive"
+ },
+ {
+  "name": "Neverware",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Neverware develops desktop operating systems designed to optimize security and manageability.",
+  "sector": "EdTech",
+  "fund": "thrive"
+ },
+ {
+  "name": "Oppa",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Oppa is an e-commerce company focused on making smart design furniture.",
+  "sector": "E-Commerce",
+  "fund": "thrive"
+ },
+ {
+  "name": "Juicero",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Juicero is an inventor of a home cold-pressed juicing system.",
+  "sector": "Food and Beverage",
+  "fund": "thrive"
+ },
+ {
+  "name": "AND CO",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "AND CO is a smart back office for freelancers.",
+  "sector": "FinTech",
+  "fund": "thrive"
+ },
+ {
+  "name": "Tictail",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Tictail is an online marketplace that enables users to discover independent brands.",
+  "sector": "DIY",
+  "fund": "thrive"
+ },
+ {
+  "name": "Joyable",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Joyable is the leading online solution for overcoming social anxiety.",
+  "sector": "E-Commerce",
+  "fund": "thrive"
+ },
+ {
+  "name": "Hightower",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Hightower is a commercial leasing management platform that helps brokers and owners to manage their end-to-end leasing workflow.",
+  "sector": "Property Management",
+  "fund": "thrive"
+ },
+ {
+  "name": "Memoir",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Memoir is a smart phone application that allows its users to share photos with their friends.",
+  "sector": "Mobile",
+  "fund": "thrive"
+ },
+ {
+  "name": "RelateIQ",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "RelateIQ offers a relationship intelligence platform that allows teams to track, share and analyze professional relationships.",
+  "sector": "Analytics",
+  "fund": "thrive"
+ },
+ {
+  "name": "Spree Commerce",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Spree Commerce is an automated enterprise e-commerce solution that manages their clients' operations so they can focus on their business.",
+  "sector": "E-Commerce",
+  "fund": "thrive"
+ },
+ {
+  "name": "42Floors",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "42Floors makes it easy to search for office space.",
+  "sector": "Commercial Real Estate",
+  "fund": "thrive"
+ },
+ {
+  "name": "Vyclone",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Vyclone is an application that synchronizes video clips from multiple users and creates one editable film.",
+  "sector": "Broadcasting",
+  "fund": "thrive"
+ },
+ {
+  "name": "Instagram",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Instagram is a free photo-sharing application that enables its users to take photos, apply filters, and share them on social networks.",
+  "sector": "Apps",
+  "fund": "thrive"
+ },
+ {
+  "name": "Baby",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Baby is an e-commerce retailer of baby products in Brazil.",
+  "sector": "Baby",
+  "fund": "thrive"
+ },
+ {
+  "name": "OnSwipe",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Onswipe is a platform for insanely easy mobile publishing",
+  "sector": "Advertising",
+  "fund": "thrive"
+ }
+]

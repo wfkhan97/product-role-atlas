@@ -1,0 +1,2981 @@
+[
+ {
+  "name": "1mind",
+  "website": "https://www.1mind.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "1mind delivers AI GTM “Superhumans” – photorealistic agents with a face, voice, memory and domain knowledge – that engage, qualify, demo, and convert across web, in-app, email, and live Zoom.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "1WorldSync",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "6Sense",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "8fig",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Ai Powered Apps, Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "A Place for Mom",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Consumer, Healthcare It",
+  "fund": "battery"
+ },
+ {
+  "name": "Aalyria",
+  "website": "https://www.aalyria.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Aalyria is an advanced software platform enabling resilient wireless networking and aerospace communications, helping commercial and government customers operate high throughput networks.",
+  "sector": "Data Ai, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "AdaCore",
+  "website": "https://www.adacore.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "AdaCore creates software development tools for safety- and security-critical systems.",
+  "sector": "Application Software, Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Aegis AI",
+  "website": "https://www.aegisai.ai/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Aegis is an AI-native email security platform.",
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Affirm",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Consumer, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Alogent",
+  "website": "https://www.alogent.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Alogent helps financial institutions reduce costs, increase transaction processing efficiencies, generate revenue, mitigate fraud, and optimize the customer experience from any point of presentment — whether it is in-person at the branch, online or on-the-go.",
+  "sector": "Application Software, Financial Tech, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Amplitude",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "AnalytiChem",
+  "website": "https://www.analytichem.com",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "AnalytiChem was formed in early 2021, beginning a journey to create a family of companies providing high-quality analytical chemistry and reference materials to laboratories around the world.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Angie’s List",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Anobit",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "AppDynamics",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Arize AI",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Data Ai, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Array",
+  "website": "https://array.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Helping businesses form deeper bonds with consumers through meaningful information sharing.",
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Ascendant",
+  "website": "https://www.ascendant.world/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Ascendant is a financial technology services company that provides cross-border payment solutions to businesses.",
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "AssistIQ",
+  "website": "https://www.assistiq.ai/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "AssistIQ is streamlining healthcare charge-capture management with cutting-edge computer vision, artificial intelligence (AI) and machine learning that transforms the way supplies and implants are managed in the operating room and procedural areas.",
+  "sector": "Application Software, Healthcare It",
+  "fund": "battery"
+ },
+ {
+  "name": "Avalara",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Axiometrix Solutions",
+  "website": "https://www.axiometrixsolutions.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Axiometrix is a measurement-focused business group comprised of Audio Precision, GRAS Sound & Vibration and imc Test & Measurement.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "B&L Information Systems",
+  "website": "https://www.blinfo.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "B&L Information Systems is a provider of SaaS enterprise resource planning (ERP) software for foundries, die casters and investment casters.",
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Baseten",
+  "website": "https://www.baseten.co/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Baseten is a platform for training, deploying, and serving AI models in a performant, scalable, and cost-efficient manner.",
+  "sector": "Data Ai, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Baz",
+  "website": "https://baz.ai/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "A cloud-native control platform for managing and reviewing code.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Bazaarvoice",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Qognify",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Quantum Art",
+  "website": "https://www.quantum-art.tech/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Quantum Art is a full-stack, trapped-ion quantum computing company, combining scalable hardware with software designed for real-world applications in optimization, simulation, and advanced computing.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Quantum Machines",
+  "website": "http://www.quantum-machines.co",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Quantum Machines (QM) is working to build the first generation of quantum controllers. QM is developing the systems which allow the realization of the potential of quantum computers. They are building the operation and control systems of quantum computers - hardware and software.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Quinyx",
+  "website": "http://www.quinyx.com/en/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Quinyx develops the innovative web-based Workforce Management application Quinyx WFM. The system combines powerful planning and forecasting features with communication and interaction for both employees and employers.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Rally",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "RealPage",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Redox",
+  "website": "http://www.redoxengine.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Redox accelerates the development and distribution of healthcare products with a full-service integration platform to securely and efficiently exchange healthcare data.",
+  "sector": "Application Software, Healthcare It",
+  "fund": "battery"
+ },
+ {
+  "name": "Reflection AI",
+  "website": "https://reflection.ai/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Reflection AI is a frontier AI research lab developing the next generation of open-weight foundation models, with a focus on advanced post-training and reinforcement learning to unlock agentic intelligence.",
+  "sector": "Data Ai, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Reflektion",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Reify Health",
+  "website": "http://www.reifyhealth.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Reify Health provides cloud-based software that accelerates the development of new and life-saving therapies. Reify serves the global life science industry, including thousands of clinical research sites, the most innovative biotechs, and the world's largest biopharmaceutical companies.",
+  "sector": "Application Software, Healthcare It",
+  "fund": "battery"
+ },
+ {
+  "name": "Relay Foods",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Reliability Won",
+  "website": "https://reliabilitywon.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Reliability Won is a worldwide provider of condition-monitoring and asset-reliability training & accredited certification, consulting, lubrication & oil analysis testing, and software.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Repeat",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "ResourceWise",
+  "website": "https://www.resourcewise.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "ResourceWise empowers companies to make wise decisions by providing high-quality data, business intelligence and insights that resolve value chain issues while promoting environmental mindfulness and profitable growth.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "RetailNext",
+  "website": "https://retailnext.net/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "RetailNext provides real-time, cloud-based analytics tools to help retailers collect, analyze and visualize in-store data.",
+  "sector": "Data Ai, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "RiskIQ",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Robotiq",
+  "website": "https://robotiq.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Robotiq’s mission is to free human hands from repetitive tasks. With the tools and know-how to simplify collaborative robot applications, Robotiq allows factories to start production faster.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Rogue Wave Software",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Rundoo",
+  "website": "https://rundoo.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Rundoo is an AI-native ERP and POS built for retail supply stores.",
+  "sector": "Application Software, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Sabre",
+  "website": null,
+  "status": "ipo",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "SafetyWeb",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "SambaNova",
+  "website": "https://sambanova.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "SambaNova is a full-stack AI infrastructure company designing silicon and software purpose-built for fast, efficient AI inference.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Scodix",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Tech Enabled Services",
+  "fund": "battery"
+ },
+ {
+  "name": "Scopely",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Scuba",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Second Front",
+  "website": "https://www.secondfront.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Second Front provides a development, security and operations platform for companies selling software into the United States Department of Defense.",
+  "sector": "Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Send The Trend",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Sensu",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Serena & Lily",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "ServiceTitan",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Shiftmove",
+  "website": "https://www.shiftmove.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Shiftmove aims to reinvent how companies handle their employees, goods and services' mobility. Today, the landscape of solutions for managing business mobility operations is fragmented, resulting in unnecessary complexity and wasted resources and the company's goal is to offer a holistic experience to managing business mobility operations that surpasses the value of traditional methods like mobili",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Shippeo",
+  "website": "https://www.shippeo.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Shippeo helps major shippers and logistics service providers leverage transportation to deliver exceptional customer service and achieve operational excellence.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Shortcut",
+  "website": "https://shortcut.com ",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Shortcut (formerly Clubhouse Software) is a project-management tool for engineering teams around the world. The company allows technology companies to visualize progress across the organization, define deadlines and milestones, and focus on the efforts that matter most right now.",
+  "sector": "Application Software, Collaboration Productivity",
+  "fund": "battery"
+ },
+ {
+  "name": "Signal AI",
+  "website": "https://signal-ai.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Signal AI’s global risk and reputation intelligence platform uses AI to identify overlooked and emerging corporate risks, ranging from regulatory to cyber to supply chain, to help companies preemptively monitor, measure, and manage their organization's reputation and risk exposure.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Signiant",
+  "website": "https://www.signiant.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Signiant provides secure, accelerated file-transfer software to the media and entertainment industry.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "SingleHop",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Sisense",
+  "website": "https://www.sisense.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Sisense takes a different approach to business analytics to drive smarter business decisions. The company was founded on the idea that business intelligence should be accessible to everyone, everywhere regardless of technical ability.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Skullcandy",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "SmarterHQ",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Smartling",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Sociable Labs",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Sofar Sounds",
+  "website": "https://www.sofarsounds.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Sofar Sounds reimagines the live event experience through curated, secret performances in more than 400 cities around the world.",
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "SolarBridge Technologies",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Soldo",
+  "website": "https://www.soldo.com/gb/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Soldo streamlines the entire business expense cycle – from spending to reconciliation. Whether a business has one or 500+ employees, the platform provides visibility and control over company spending.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Sosh",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Splunk",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Sprinklr",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "SPT Labtech",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Stella Connect",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "steute Technologies",
+  "website": "https://www.steute.com/en-us/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "steute Technologies is a global manufacturer of switches, sensors and other products that enable increased automation and safety in the medical and industrial sectors.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "StockX",
+  "website": "https://stockx.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "StockX is an authentication marketplace focused on the resale sneaker and streetwear categories, matching buyers and sellers of new “dead-stock” goods and authenticating these products.",
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Stoke Talent",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "StoneEagle",
+  "website": "https://www.se-fi.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "StoneEagle provides innovative solutions and customer service to the retail automotive industry. StoneEagle's metrics reporting, menu sales tool and F&I product administration solutions make it possible for users across every facet of the F&I value chain to drive performance, improve efficiency and increase profitability.",
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Stratoscale",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "StreamSets",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Styra",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "SumAll",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Sumo Logic",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Sustainability at Work Group",
+  "website": "https://iscc-system.org/about/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "The Sustainability at Work Group is a globally recognized certification platform that authenticates the sustainability of critical supply chains.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Syndigo",
+  "website": "https://syndigo.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "With an extensive integrated network of content distribution available, Syndigo is the single solution for the journey to data confidence and success.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Taster",
+  "website": "https://www.taster.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Taster is a unique collection of online restaurants dedicated to bringing you the best of street food, wherever you are.",
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Tealium",
+  "website": "https://tealium.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Tealium powers the new era of real-time customer engagement and marketing, enabling global businesses to unlock their customer data and create more meaningful, relevant customer experiences.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Tech Soft 3D",
+  "website": "https://www.techsoft3d.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Tech Soft 3D is a global provider of development tools that help software teams deliver successful applications. Tech Soft 3D's current add-on acquisitions include Ceetron AS and Visual Kinematics.",
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "TechProcess Solutions",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Tenzai",
+  "website": "https://www.tenzai.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Tenzai is pioneering AI-driven offensive security by automating the discovery and exploitation of software vulnerabilities.",
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Terminal",
+  "website": "https://www.withterminal.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Terminal provides a universal API and data infrastructure for telematics data applications in insurance, commercial trucking, and logistics.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Theta Lake",
+  "website": "https://thetalake.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Theta Lake provides compliance and security for modern collaboration platforms.",
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "TradeKing",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Tech Enabled Services",
+  "fund": "battery"
+ },
+ {
+  "name": "TrialPay",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Triomics",
+  "website": "https://www.triomics.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Triomics is a generative AI platform for oncology workflows that automates patient-to-trial matching and oncology operations for cancer care providers.",
+  "sector": "Application Software, Healthcare It",
+  "fund": "battery"
+ },
+ {
+  "name": "Trip.com",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "TrueContext",
+  "website": "https://truecontext.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "TrueContext’s workflow-management solution provides software to technicians at field service companies to manage asset inspection, health and safety compliance, installation, repair, maintenance and audit trails.",
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "UBQ Materials",
+  "website": "http://ubqmaterials.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "The material scientists and engineers at UBQ have invented a revolutionary way of converting waste products, specifically the fraction of the waste stream that is sent to landfills into UBQTM, a patented, reusable, versatile and moldable material.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Unify",
+  "website": "https://www.unifygtm.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Unify is a go-to-market technology platform that transforms growth into a science. Using AI and automation, Unify uniquely combines intent signals, prospecting, AI agents, email sequencing and more in one end-to-end platform.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Upsight",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Vayyar",
+  "website": "http://vayyar.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Vayyar Imaging is changing the market of imaging and sensing through its breakthrough 3D imaging sensor technology. Vayyar's goal is to help people worldwide improve their health, safety, and quality of life using mobile, low-cost, and safe 3D imaging sensors.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Velaris",
+  "website": "https://www.velaris.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Velaris is a portfolio of complementary laboratory instrumentation and sample preparation technologies serving a wide range of applications including environmental testing, food, flavors & fragrances, industrial and energy.",
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Vera",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Vercore",
+  "website": "https://www.vercore.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Vercore builds infrastructure to connect mobile machines with humans, the cloud, and each other.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Vero Software",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "VertiGIS",
+  "website": "https://www.vertigis.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "VertiGIS helps organizations all over the world and across multiple industries harness the power of GIS and location intelligence with its proprietary software solutions.",
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Vetspire",
+  "website": "https://www.vetspire.ai/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Vetspire is an AI-powered practice management system at the heart of modern veterinary care, helping teams spend less time on administration and more time caring for pets.",
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Viddy",
+  "website": null,
+  "status": "active",
+  "stage": "Early stage",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Vidyard",
+  "website": "http://www.vidyard.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Vidyard is a video platform for business that helps marketing and sales teams generate more pipeline and ROI with online video content.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Viridity",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Vita Mojo",
+  "website": "https://www.vitamojo.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Vita Mojo is a digital ordering and back-of-house solutions for restaurant, pubs and cafés.",
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "VNDLY",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "VSS Monitoring",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Wag!",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Warp",
+  "website": "https://www.warp.co/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Warp is an AI-native employee management platform that automates core people operations across payroll, HRIS, benefits administration and IT management.",
+  "sector": "Application Software, Collaboration Productivity",
+  "fund": "battery"
+ },
+ {
+  "name": "Wayfair",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Weaviate",
+  "website": "https://weaviate.io/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Weaviate is a cloud-native, real-time vector database that allows you to bring your machine-learning models to scale.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "WebPT",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Healthcare It, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Workato",
+  "website": "http://www.workato.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Workato is the operating system for today’s fast-moving business. It is an AI-based middleware platform that enables both business and IT to integrate their apps and automate complex business workflows with security and governance.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Workwell Technologies",
+  "website": "https://workwelltech.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Workwell is a provider of time and attendance solutions for small and mid-size companies.",
+  "sector": "Application Software, Tech Enabled Services",
+  "fund": "battery"
+ },
+ {
+  "name": "World Golf Tour",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Wunderkind",
+  "website": "http://www.wunderkind.co/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Wunderkind is a performance-marketing engine that delivers tailored experiences at scale.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Xenex",
+  "website": "http://www.xenex.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Xenex is setting a higher standard in environmental disinfection with their fast, safe and effective UV disinfection solution.",
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Xplor Technologies",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Xsight Labs",
+  "website": "http://xsightlabs.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Xsight Labs is a fabless semiconductor company that enables end-to-end connectivity for the next generation of cloud service providers and hyperscale data center networks.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "XtremlO",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Yesware",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Zayo Group",
+  "website": null,
+  "status": "ipo",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Zeitgold",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "ZeroG Wireless",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Tech Enabled Services",
+  "fund": "battery"
+ },
+ {
+  "name": "Zerto",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Cleerly",
+  "website": "https://cleerlyhealth.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Cleerly is an AI-based digital care platform company that is focused on transforming the way clinicians approach the treatment of heart disease.",
+  "sector": "Ai Powered Apps, Healthcare It",
+  "fund": "battery"
+ },
+ {
+  "name": "ClickHouse",
+  "website": "https://clickhouse.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "ClickHouse is a leader in real-time analytics, data warehousing, observability and artificial intelligence/machine learning.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Clubessential Holdings",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Code Ocean",
+  "website": "https://codeocean.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Code Ocean standardizes research workflow and enables computational research creation, organization, and collaboration.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "CodeSecure",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Coefficient",
+  "website": "https://coefficient.io/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Coefficient is a no-code solution that allows business teams to work with real-time data directly from their spreadsheets.",
+  "sector": "Collaboration Productivity",
+  "fund": "battery"
+ },
+ {
+  "name": "Cognition",
+  "website": "https://cognition.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Cognition is an applied AI lab building autonomous software agents designed to plan, execute and manage complex coding workflows.",
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Cohesity",
+  "website": "http://www.cohesity.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Cohesity’s mission is to enable companies of all sizes to bring order to their data chaos. Its intelligent data platform converges secondary storage workflows to transform disparate silos of data into business insight.",
+  "sector": "Data Ai, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Coinbase",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Collibra",
+  "website": "http://www.collibra.com",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Collibra is the Data Intelligence company. The company's cloud-based platform connects IT and the business to build a data-driven culture for the digital enterprise.",
+  "sector": "Data Ai, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Compt",
+  "website": "https://www.compt.io/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Compt is a stipends platform that gives employees the freedom and flexibility to choose the lifestyle perks that fit their unique needs.",
+  "sector": "Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Concurrent Real-Time",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Infrastructure Software, Tech Enabled Services",
+  "fund": "battery"
+ },
+ {
+  "name": "Confluent",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Data Ai, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "conrizon",
+  "website": "https://conrizon.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "conrizon is an ECM (enterprise content management) provider with established software products for audit-proofing archiving, invoice processing, contract management and personnel management.",
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "ContinuumCloud",
+  "website": "http://continuumcloud.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "ContinuumCloud offers a spectrum of cloud-based software solutions intentionally designed to meet the unique needs of the behavioral health and human services industry. Through these offerings, ContinuumCloud empowers organizations to provide high-quality care and deliver on their mission.",
+  "sector": "Healthcare It, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Contrast Security",
+  "website": "http://www.contrastsecurity.com",
+  "status": "active",
+  "stage": null,
+  "description": "Contrast Security is a provider of security technology that enables software applications to protect themselves against cyberattacks, heralding the new era of self-protecting software.",
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Coram",
+  "website": "https://www.coram.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Coram AI provides modern, AI-driven software for video security, boosting workplace safety and efficiency.",
+  "sector": "Ai Powered Apps",
+  "fund": "battery"
+ },
+ {
+  "name": "Cortera",
+  "website": null,
+  "status": "active",
+  "stage": "Buyout",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Coupa",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Craftview",
+  "website": "https://craftview.de/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Craftview provides business management software and mobile tools for SME craftsmen companies located primarily in Europe.",
+  "sector": "Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "CrediFi",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Cross River Bank",
+  "website": "http://www.crossriverbank.com",
+  "status": "active",
+  "stage": null,
+  "description": "Cross River is a New Jersey State Chartered FDIC-insured bank which has developed strategic partnerships with financial-technology leaders to build fully compliant and integrated solutions for the marketplace lending and payment-processing arenas.",
+  "sector": "Financial Tech, Tech Enabled Services",
+  "fund": "battery"
+ },
+ {
+  "name": "Crunchtime",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Crunchtime Holdings",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Cube",
+  "website": "https://www.cubesoftware.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Cube is a spreadsheet-native FP&A platform that focuses on meeting strategic finance teams where they already live and enhancing the workflows they use every day.",
+  "sector": "Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Cumulus Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Curve Dental",
+  "website": "https://www.curvedental.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Curve Dental is a fresh, web-based alternative to dental software and a leading provider of SaaS Clinical and Practice Management software for the North American dental market. These solutions provide dentists with clinical (charting and imaging) and practice management (scheduling, billing and engagement) tools.",
+  "sector": "Healthcare It, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "cVidya Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Cypress.io",
+  "website": "https://www.cypress.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Cypress is an automated testing platform that provides developers and QA engineers with a better, faster, more reliable way to test anything that runs in a browser.",
+  "sector": "Devops And Dev Tools",
+  "fund": "battery"
+ },
+ {
+  "name": "Cyvera",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Data Innovations",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Healthcare It, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Databricks",
+  "website": "http://www.databricks.com",
+  "status": "active",
+  "stage": null,
+  "description": "Databricks provides a data lakehouse platform that allows organizations to unify their data, analytics and AI.",
+  "sector": "Data Ai",
+  "fund": "battery"
+ },
+ {
+  "name": "Dataiku",
+  "website": "http://www.dataiku.com",
+  "status": "active",
+  "stage": null,
+  "description": "Dataiku's Data Science Studio (DSS) is the enterprise data-science platform that enables entire data teams to build and deliver their own data products more efficiently.",
+  "sector": "Data Ai",
+  "fund": "battery"
+ },
+ {
+  "name": "Descartes Underwriting",
+  "website": "https://descartesunderwriting.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Descartes is a global corporate insurance specialist working exclusively with brokers to protect their corporate and public sector clients against climate, cyber and other emerging risks. At the forefront of AI and data analysis, Descartes utilizes cutting-edge technology combined with data from world-class research institutions to model, assess and manage risks.",
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Diablo Technologies",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Diametric Capital",
+  "website": "http://www.diametriccapital.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Diametric Capital is a fund company built on 24 years of industry observations, incorporating key traits of successful firms and structured to address key issues facing the industry today.",
+  "sector": "Application Software, Financial Tech, Tech Enabled Services",
+  "fund": "battery"
+ },
+ {
+  "name": "Digby",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "dLife",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "DomainTools",
+  "website": "https://www.domaintools.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "DomainTools is a global leader for Internet intelligence that enables security practitioners to proactively defend their organization in a constantly evolving threat landscape.",
+  "sector": "Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Drillinginfo",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "DriveNets",
+  "website": "https://drivenets.com/",
+  "status": "active",
+  "stage": null,
+  "description": "DriveNets develops high-performance networking software for large-scale AI infrastructure and service-provider networks.",
+  "sector": "Data Ai",
+  "fund": "battery"
+ },
+ {
+  "name": "Duetto",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Earnest",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Elastifile",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Devops And Dev Tools",
+  "fund": "battery"
+ },
+ {
+  "name": "Encore",
+  "website": "https://www.clapforencore.com/",
+  "status": "active",
+  "stage": null,
+  "description": "An interactive live music app.",
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Entelo",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Enviance",
+  "website": null,
+  "status": "acquired",
+  "stage": "Buyout",
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Enzo Biochem",
+  "website": "https://www.enzo.com/",
+  "status": "active",
+  "stage": "Buyout",
+  "description": "Enzo Biochem is a research reagents company providing life-science technologies for research, drug discovery, drug development and diagnostic solutions.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Epic!",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "ExactTarget",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Excelero",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Fetcherr",
+  "website": "https://www.fetcherr.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Fetcherr is an AI-native platform modernizing legacy processes in the airline industry.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Fibraweb",
+  "website": "http://www.fibraweb.it",
+  "status": "active",
+  "stage": null,
+  "description": "Fibraweb Spa is a national telecommunications operator focused on the creation of a fiber optic access network for companies.",
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "FirstFuel",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Flash",
+  "website": "https://flashapp.com.br/",
+  "status": "active",
+  "stage": null,
+  "description": "Flash is a next-generation benefits platform that empowers employees to consolidate all their benefits money and spend it at any place, at any time.",
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Fluent Trade Technologies",
+  "website": "https://fluenttech.net/",
+  "status": "active",
+  "stage": null,
+  "description": "Fluent Trade Technologies is a trading technology platform for FX capital markets and adjacent asset classes.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Flyhomes",
+  "website": "https://www.flyhomes.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Flyhomes is a real estate startup using financial innovation to back home buyers. The company breaks down each step of the home buying journey with comprehensive consumer education, segmented expertise, financial innovation and on-demand technology.",
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Forte",
+  "website": "http://www.forte.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Forte is building economic technology for games. Its platform enables the emergence of community economics, a system where the interests of game developers and players are aligned, leading to healthier, sustainable game communities.",
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Forterro",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Freehand",
+  "website": "https://www.freehand.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Freehand is an agentic AI platform purpose-built for supply chain and logistics teams to automate audit, procurement, planning, payments, and more.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Freescale",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "FreeWheel",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Front",
+  "website": "https://front.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Front is a communication hub for building strong customer relationships. Front puts customer conversations at the center of a team’s attention and surrounds them with collaboration capabilities and contextual data from multiple systems.",
+  "sector": "Ai Powered Apps, Application Software, Collaboration Productivity",
+  "fund": "battery"
+ },
+ {
+  "name": "Function Health",
+  "website": "https://www.functionhealth.com/?utm_source=google&utm_medium=Google&utm_campaign=20800990020&utm_content={adid}&utm_term=function%20health&gad_source=1&gad_campaignid=20800990020&gbraid=0AAAAAqiw_KFExiKCoQ9G5NEKwcrrjePXb&gclid=Cj0KCQiAi9rJBhCYARIsALyPDttmpuDOephC5Um1LdEhfu26AqPmxZ67mRocG5lC6iFX7x2YcWSfeKMaArUgEALw_wcB",
+  "status": "active",
+  "stage": null,
+  "description": "Function Health is a consumer health-intelligence platform offering comprehensive lab testing and continuous biomarker tracking to power personalized, preventative care.",
+  "sector": "Application Software, Consumer, Healthcare It",
+  "fund": "battery"
+ },
+ {
+  "name": "Fundamental",
+  "website": "https://fundamental.tech/",
+  "status": "active",
+  "stage": null,
+  "description": "Fundamental is an AI lab building scalable foundation models specifically for real-world tabular data that capture complex patterns in enterprise tables to turn structured datasets into predictive intelligence for business decision-making.",
+  "sector": "Data Ai",
+  "fund": "battery"
+ },
+ {
+  "name": "Fungible",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Gainsight",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Galileo",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Data Ai",
+  "fund": "battery"
+ },
+ {
+  "name": "Gen.G",
+  "website": "https://geng.gg/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Gen.G is a global esports organization, offering the premier esports experience for fans, players, and brand partners.",
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "GenLogs",
+  "website": "https://www.genlogs.io/",
+  "status": "active",
+  "stage": null,
+  "description": "GenLogs delivers freight intelligence using a nationwide network of roadside sensors, computer vision, and AI-powered data platforms to improve supply-chain capacity, combat fraud and theft, and serve logistics, law enforcement, insurance, and transportation stakeholders.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "GetYourGuide",
+  "website": "http://www.getyourguide.com",
+  "status": "active",
+  "stage": null,
+  "description": "GetYourGuide, an online travel agency, collects and categorizes all the world’s things to do so you research less and do more.",
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Glassdoor",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Gong",
+  "website": "http://www.gong.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Gong is a conversation intelligence platform for B2B sales teams that helps convert more of your pipeline into revenue by shining the light on your team's sales conversations. Gong records, transcribes, and analyzes every sales call so you can scale the effectiveness of your sales conversations.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Goodfellow",
+  "website": "http://www.goodfellow.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Goodfellow supplies a comprehensive range of highly specialized materials (metals, alloys, ceramics, polymers, compounds, and composites) and related contract manufacturing and laboratory testing services to research and industrial markets.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "GreenBytes",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Groupon",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Guardicore",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Security",
+  "fund": "battery"
+ },
+ {
+  "name": "GuardSquare",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Guidewire",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software, Financial Tech, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "H.Bloom",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Habana Labs",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Harness",
+  "website": "https://harness.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Harness is building an intelligent software delivery platform that enables engineers to deliver software faster, with higher quality, and less effort. The platform is designed to help companies accelerate their cloud initiatives as well as their adoption of containers and orchestration tools like Kubernetes and Amazon ECS.",
+  "sector": "Data Ai, Devops And Dev Tools",
+  "fund": "battery"
+ },
+ {
+  "name": "Healthvision",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software, Healthcare It",
+  "fund": "battery"
+ },
+ {
+  "name": "hibob",
+  "website": "http://www.hibob.com",
+  "status": "active",
+  "stage": null,
+  "description": "hibob, a cloud-based HR and benefits platform, is transforming the way businesses manage and engage with their employees.",
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "HighJump",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Higlobe",
+  "website": "https://higlobe.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Higlobe provides global payments without transaction fees.",
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "HoneyBook",
+  "website": "https://www.honeybook.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "HoneyBook is a business and financial management platform for creative small business owners.",
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "HotelTonight",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Hummingbird",
+  "website": "https://hummingbird.co/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Hummingbird enables compliance and risk professionals to fight financial crime with a case management platform that automates much of their work.",
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Hush Security",
+  "website": "https://www.hush.security/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Hush Security is a unified access and governance platform that enables secretless infrastructure and real time policy enforcement for AI and non-human identities.",
+  "sector": "Security",
+  "fund": "battery"
+ },
+ {
+  "name": "hyperexponential",
+  "website": "https://www.hyperexponential.com/us/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "hyperexponential is a pricing decision-intelligence platform for property-casualty insurers and reinsurers.",
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "IDI Direct Insurance",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Consumer, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "ifplabs",
+  "website": "https://www.ifp-labs.com/",
+  "status": "active",
+  "stage": null,
+  "description": "ifplabs is a provider of analytical laboratory services for customers across the food supply chain, as well as customers within pharmaceutical, water and diagnostic end markets.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "IHS GmbH",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "Imper.ai",
+  "website": "https://imper.ai/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Imper.ai delivers real-time identity validation across enterprise communication channels, correlating device, behavioral, and deepfake-detection signals to stop AI-powered impersonation attacks as they unfold.",
+  "sector": "Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Industrial Safety Technologies (IST)",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "InfluxData",
+  "website": "http://www.influxdata.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "InfluxData is the creator of InfluxDB, a time series platform. More than 1,900 organizations use InfluxDB to collect, store, and analyze all time series data at any scale. Developers can query and analyze their time-stamped data in real-time to discover, interpret, and share new insights to gain a competitive edge.",
+  "sector": "Devops And Dev Tools",
+  "fund": "battery"
+ },
+ {
+  "name": "Insert Mobile",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Insitu",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Intacct",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Internet Brands",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "InVision",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Collaboration Productivity",
+  "fund": "battery"
+ },
+ {
+  "name": "Istra Research",
+  "website": "http://www.istraresearch.com",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Istra Research is a quantitative financial research firm focused on high frequency trading strategies.",
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "ITA Software",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Industry Specific",
+  "fund": "battery"
+ },
+ {
+  "name": "J. Hilburn",
+  "website": null,
+  "status": "active",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "JAMF",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Jask",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Jeeng",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Jfrog",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "JOOR",
+  "website": "http://www.jooraccess.com",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "JOOR’s vision is to be the de facto industry data standard and global digital platform for all wholesale business. Today, JOOR is the world’s largest digital wholesale (B2B) marketplace, connecting the best brands and top retailers for faster, easier, smarter wholesale business.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Jump",
+  "website": "https://jumpapp.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Jump is an AI tool for wealth managers and financial advisors that automates notetaking, compliance, CRM updates, and more.",
+  "sector": "Ai Powered Apps, Application Software, Collaboration Productivity",
+  "fund": "battery"
+ },
+ {
+  "name": "KeyMe Locksmiths",
+  "website": "http://www.key.me",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "KeyMe Locksmiths is the nation's most trusted 24-hour emergency locksmith providing guaranteed service quality. KeyMe locksmiths specialize in residential and commercial lockouts, lock repair and installation, vehicle key fob replacement, door re-keying, and key copying.",
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Kodiak",
+  "website": null,
+  "status": "ipo",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Data Ai, Industrial Tech, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Koi",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Kojo",
+  "website": "https://www.usekojo.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Kojo is a materials procurement platform for trade and self-perform general contractors. By connecting office teams, field crews, the warehouse and vendors on one all-inclusive procurement platform, contractors control their procurement process from takeoff to closeout, saving on material costs, reducing waste and increasing productivity.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Kustomer",
+  "website": "http://www.kustomer.com/",
+  "status": "acquired",
+  "stage": "Growth",
+  "description": "Kustomer's customer management platform for \"people-first enterprises\" is intelligent, powerful and flexible, and scales to meet the needs of any contact center and business.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Lanes and Planes",
+  "website": "http://www.lanes-planes.com/en/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Lanes & Planes is one of the first travel management solutions as SaaS, which maps all areas of the business trip completely digitally.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Leadspace",
+  "website": null,
+  "status": "active",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Learnosity Ltd.",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "LEEO",
+  "website": "https://leeoinsurance.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "LEEO is an AI-powered fleet insurance rewarding safety with savings.",
+  "sector": "Ai Powered Apps, Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Letter AI",
+  "website": "https://www.letter.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Letter AI is an AI-native revenue enablement and acceleration platform that unifies content governance, sales learning and coaching, and deal-pursuit workflows for GTM teams.",
+  "sector": "Ai Powered Apps, Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Level AI",
+  "website": "https://thelevel.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Next generation AI for businesses to automate tedious workflows and transform customer experience.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Levelpath",
+  "website": "https://www.levelpath.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Levelpath is the AI-native procurement platform transforming how global enterprises manage indirect spend.",
+  "sector": "Application Software, Data Ai, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "LI-COR",
+  "website": "https://www.licor.com/",
+  "status": "active",
+  "stage": null,
+  "description": "LI-COR is a leading environmental technology provider addressing food security, water management, energy reliability, and climate change mitigation.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Liberate",
+  "website": "https://www.liberateinc.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Liberate is an Agentic AI platform for the P&C Insurance Industry. Their platform automates policyholder interactions such as claims intake, quotes, service requests and more.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "LICORbio",
+  "website": "https://www.licorbio.com/",
+  "status": "active",
+  "stage": null,
+  "description": "LICORbio develops state-of-the-art, life science imaging solutions integrated with dedicated reagents, powerful software and unmatched support to help scientists obtain reliable, quantitative research results.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Lightbox",
+  "website": "https://www.lightboxre.com/",
+  "status": "active",
+  "stage": null,
+  "description": "LightBox is a provider of due diligence, risk management, location intelligence and workflow solutions that enable decision making for brokers, banks and lenders, appraisal firms, and environmental consulting and engineering firms.",
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "LightCyber",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Lindy",
+  "website": "https://www.lindy.ai/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Lindy is an AI assistant that can help with all your tasks, from calendar management and email drafting to contract sending and beyond.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "LinearB",
+  "website": "https://linearb.io/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "LinearB is software delivery intelligence for dev teams.",
+  "sector": "Application Software, Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "LiveIntent",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "LogRocket",
+  "website": "https://logrocket.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "LogRocket helps product teams build better experiences for their users. By recording videos of user sessions along with logs and network data, LogRocket surfaces UX problems and reveals the root cause of every bug. Their mission is to help developers understand the most impactful problems affecting users.",
+  "sector": "Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Lotame, Inc.",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Machinify",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Data Ai, Healthcare It, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "MadCap",
+  "website": "https://www.madcapsoftware.com/",
+  "status": "active",
+  "stage": null,
+  "description": "MadCap creates, manages and publishes content for technical documentation, chatbots and AI, learning & development programs and more.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Marco Polo",
+  "website": "http://www.marcopolo.me",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Marco Polo's purpose is to help people feel close. It's a way to stay in touch with people who matter most to you. Unlike social media, there is no wasted time, no social comparisons and no likes!",
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Marketo",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Matillion",
+  "website": "http://www.matillion.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Matillion is a data transformation solution for cloud data warehouses, which provides an instant-on experience to get you up and running in just a few clicks.",
+  "sector": "Data Ai, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Mattermost",
+  "website": "https://mattermost.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Mattermost’s mission is to make the world safer and more productive by developing and delivering secure, open source collaboration software that is trusted, flexible and offers fast time-to-value.",
+  "sector": "Application Software, Collaboration Productivity",
+  "fund": "battery"
+ },
+ {
+  "name": "Maxio",
+  "website": "https://www.maxio.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Maxio provides a financial operations platform designed to meet the unique financial challenges of B2B SaaS companies, including billing, subscription management, revenue and expense recognition, and SaaS analytics.",
+  "sector": "Application Software, Financial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "MaxLinear",
+  "website": null,
+  "status": "ipo",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Maybern",
+  "website": "https://www.maybern.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Maybern is modernizing private market fund management as the performance book of record for fund CFOs.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Mendix",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Mews",
+  "website": "https://www.mews.com/en",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Mews makes cloud-based property management software that helps hotels, hostels and apartment groups automate their operations so they can focus on their guests.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Mine",
+  "website": "https://www.saymine.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Mine automates daily privacy and compliance operations in a no-code approach, helping mid-to-large size organizations to avoid manual and repetitive tasks.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Minute Media",
+  "website": "http://www.minutemedia.com",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Minute Media is a sports media and technology company, powered by authentic and socially driven content. They develop products that enable fans to create, publish, share and distribute sports content around the world.",
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Miter",
+  "website": "https://www.miter.com/?utm_source=google&utm_medium=cpc&utm_campaign=Omni%20Lab%20|%20Google%20Ads%20|%20Brand%20-%20USA&utm_content=Miter&utm_ad=759089743385&utm_term=miter&matchtype=e&device=c&GeoLoc=1018127&placement=&network=g&campaign_id=22691555206&adset_id=181026708373&ad_id=759089743385&hstk_creative=759089743385&hstk_campaign=22691555206&hstk_network=googleAds&utm_term=miter&utm_campaign=Omni+Lab+%7C+Google+Ads+%7C+Brand+-+USA&utm_source=google&utm_medium=cpc&hsa_acc=3451717442&hsa_cam=22691555206&hsa_grp=181026708373&hsa_ad=759089743385&hsa_src=g&hsa_tgt=kwd-101987215&hsa_kw=miter&hsa_mt=e&hsa_net=adwords&hsa_ver=3&gad_source=1&gad_campaignid=22691555206&gbraid=0AAAAABTbJxaiTiDjPkdSq_BsajFtG6zpl&gclid=CjwKCAjw687NBhB4EiwAQ645dpoeoYNtLX1y-bJpMS1vlr9zRcgBicUB9LP7J1C4r4M72TG545141BoC2SsQAvD_BwE",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Miter is a software platform that helps construction firms and field service contractors manage their workforce, field operations and spending in one place.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Modern Health",
+  "website": "http://joinmodernhealth.com",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Modern Health is a global mental health benefits solution for employees. It covers the full spectrum of mental well-being needs through both evidence-based technology and professional support within a single platform, so that mental well-being is accessible to an entire workforce.",
+  "sector": "Application Software, Consumer, Healthcare It",
+  "fund": "battery"
+ },
+ {
+  "name": "MRU Holdings",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "MX Technologies",
+  "website": "https://www.mx.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "MX enables financial institutions and fintech companies to gather, enrich, present, and act on data. MX puts a user’s data on center stage, molding it into a cohesive, intelligible and interactive visualization. As a result, users engage more often and more deeply with digital banking products.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Narrative Science",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Narvar",
+  "website": "http://corp.narvar.com",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Narvar is the premium post-purchase experience platform used by the world's most admired retailers to deliver exceptional service vital to their growth and innovation.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Neolane",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Neuron7",
+  "website": "https://neuron7.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Neuron7 is an AI-powered Service Intelligence to help customer and field service organizations diagnose and resolve issues at scale.",
+  "sector": "Ai Powered Apps, Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Newforma",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Nexite",
+  "website": "https://www.nexite.io/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Nexite brings merchandise to life. Passive products are transformed into active digital communicators, delivering retailers a continuous stream of real-time data.",
+  "sector": "Application Software, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Next Insurance",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Niantic, Inc.",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Consumer",
+  "fund": "battery"
+ },
+ {
+  "name": "Nitro Software",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Collaboration Productivity",
+  "fund": "battery"
+ },
+ {
+  "name": "Nobl9",
+  "website": "https://nobl9.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "The Noble Pursuit of Reliable Software. Nobl9’s service level objective (SLO) platform for site reliability engineers (SRE) helps software teams release reliable features faster.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Normalyze",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Data Ai, Devops And Dev Tools, Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "North One",
+  "website": "http://www.northone.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "North One is a mobile-first API-based bank account and mobile app that helps startups and small businesses bank, manage their finances and integrate all of their financial tools in a simple and intuitive way.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Nova Instruments",
+  "website": "http://www.novavg.com/platforms/nova-instruments/",
+  "status": "active",
+  "stage": null,
+  "description": "Nova Instruments is a platform company focused on measurement systems for fluid and solid mechanics, made up of Brookhaven Instruments, Dantec Dynamics, Degree Controls, NDT System, Phoenix Inspection Systems, Technology Design and Stresstech.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Nova Metrix",
+  "website": "http://www.novavg.com/platforms/nova-metrix/",
+  "status": "active",
+  "stage": null,
+  "description": "Nova Metrix is a provider of geotechnical, environmental, and materials testing instruments, sensors, software, and consumables serving the structural health, construction, civil engineering, energy, and medical markets. Nova Metrix's current acquisitions include DGSI, Roctest, Sensornet, Sherborne Sensors, Soil Instruments, Westbay Instruments, Waterloo Hydrogeologic and Van Essen Insturments.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Novidea",
+  "website": "https://www.novidea.com/en-us/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Novidea provides real-time business intelligence and seamless workflow management for brokers, agents, MGAs and corporate risk management.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Nutanix",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "NVT Group",
+  "website": "http://www.nvtgroup.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Noise & Vibration Technologies, LLC (NVT Group) is a platform company focused on measuring, simulating and analyzing the effects of vibration, noise, shock, and other environmental variables for the benefit of a variety of industries. Current acquisitions operating under the NVT Group umbrella include Data Physics and Team Corporation.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Obie",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Olo",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Omio",
+  "website": "http://www.omio.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Omio (formerly GoEuro) is an innovative travel platform that combines and compares rail, air, bus and car for European destinations. Omio allows travellers to plan their entire journey from any point, with the ability to select multiple preferences, based on individual needs.",
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Omniture",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Onebrief",
+  "website": "https://www.onebrief.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Onebrief is a collaboration software platform for the DoD (Department of Defense). Onebrief’s platform streamlines planning and enables military staffs to reach their full potential and empowers leaders with innovative tools to make swift, informed decisions.",
+  "sector": "Application Software, Collaboration Productivity",
+  "fund": "battery"
+ },
+ {
+  "name": "Ontra",
+  "website": "https://www.ontra.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Ontra (formerly InCloudCounsel) combines AI-enabled software with a global network of highly-trained lawyers to offer a comprehensive solution for recurring legal workflows. By streamlining repetitive legal processes and transforming contracts into structured data, Ontra lowers costs, improves quality and reduces turnaround times.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Opal Security",
+  "website": "https://opal.dev/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Opal Security is an identity-security and access-management company that enables enterprises to visualize and orchestrate complete access to their most mission-critical systems. Opal orchestrates access to applications and resources, enforces access policies, and identifies anomalous authorization patterns using AI to remediate identity risks.",
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "OpsGenie",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Optichron",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Optimizely",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Optro",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Ordr",
+  "website": "http://ordr.net/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Ordr provides enterprises with visibility and control over every class of network-connected device and system. The Ordr Systems Control Engine is a purpose-built solution to fully map the device flow genome at scale, using machine learning to continuously inspect, classify and baseline the behavior of every device.",
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Orkes",
+  "website": "https://orkes.io/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Orkes, an orchestration platform for developers, helps scale distributed applications, modernize workflows for durability and protect against software failures and downtimes.",
+  "sector": "Devops And Dev Tools, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "ORTEC",
+  "website": "https://ortec.com/en",
+  "status": "active",
+  "stage": null,
+  "description": "ORTEC helps many of the world’s largest organizations make better data-driven decisions with its decision-support software and other capabilities. The company focuses on logistics and routing solutions; workforce management; and data science and consulting.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "PageUp",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Panaya",
+  "website": null,
+  "status": "acquired",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Panjiva",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Paragon",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Pendo",
+  "website": "http://www.pendo.io/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "With a powerful analytics and guidance platform designed to help companies understand and influence how users interact with their software applications, Pendo is on a mission to reinvent the way product teams build and increase engagement in their products.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Phigenics",
+  "website": "https://phigenics.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Phigenics is a tech-enabled services provider that offers an end-to-end water management solution to help facilities prevent waterborne pathogen outbreaks.",
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Plain",
+  "website": "https://www.plain.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Plain develops next-generation, customer-support software designed for B2B support teams. Its platform consolidates incoming support inquiries from various channels— such as email, live chat, Slack, Teams and more— into a single view.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Platfora",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Data Ai, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "PlayVS",
+  "website": "http://www.playvs.com",
+  "status": "active",
+  "stage": "Growth",
+  "description": "PlayVS is an amateur esports platform. It provides a single community where players come together to compete, fans gather to spectate and coaches manage their programs. Through strategic partnerships with the NFHS and top game publishers, PlayVS has become the backbone of high school esports, powering league play and state championships across the nation.",
+  "sector": null,
+  "fund": "battery"
+ },
+ {
+  "name": "Plixer",
+  "website": "https://www.plixer.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Plixer provides a security and network intelligence platform that supports fast and efficient incident response. The solution allows you to gain visibility into cloud applications, security events and network traffic.",
+  "sector": "Infrastructure Software, Security",
+  "fund": "battery"
+ },
+ {
+  "name": "Postman",
+  "website": "https://www.postman.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "The collaboration platform for API development, used by more than 15 million developers.",
+  "sector": "Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "PPT Group",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Precidian Investments",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Tech Enabled Services",
+  "fund": "battery"
+ },
+ {
+  "name": "Primary Data",
+  "website": null,
+  "status": "acquired",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Data Ai, Infrastructure Software",
+  "fund": "battery"
+ },
+ {
+  "name": "PrimeRevenue",
+  "website": "https://primerevenue.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "PrimeRevenue specializes in technology-enabled, data-driven solutions for both supply chain finance (otherwise known as reverse factoring or approved payables finance) and accounts receivable finance.",
+  "sector": "Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Process Sensing Technologies (PST)",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial Tech",
+  "fund": "battery"
+ },
+ {
+  "name": "Procurement Sciences",
+  "website": "https://procurementsciences.com/",
+  "status": "active",
+  "stage": "Early stage",
+  "description": "Procurement Sciences (PSci) is a workflow software platform that leverages artificial intelligence to assist contractors in searching for bids and creating proposals to more effectively win government contracts.",
+  "sector": "Ai Powered Apps, Application Software",
+  "fund": "battery"
+ },
+ {
+  "name": "Pursway",
+  "website": null,
+  "status": "active",
+  "stage": "Early stage",
+  "description": null,
+  "sector": "Application Software, Sales Marketing",
+  "fund": "battery"
+ },
+ {
+  "name": "Q2ebanking",
+  "website": null,
+  "status": "ipo",
+  "stage": "Growth",
+  "description": null,
+  "sector": "Application Software",
+  "fund": "battery"
+ }
+]

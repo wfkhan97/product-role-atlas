@@ -1,0 +1,4817 @@
+[
+ {
+  "name": "2U",
+  "website": "https://2u.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": "2U is a SaaS platform that provides schools with the comprehensive operating infrastructure. In March 2014, 2U went public (NASDAQ: TWOU).",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "30 Sundays",
+  "website": "https://www.30sundays.club/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-powered custom travel for Indian couples",
+  "sector": "AI, Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Abridge",
+  "website": "https://www.abridge.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Abridge records the details of your care and helps you stay on top of your health, one conversation at a time.",
+  "sector": "AI, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Acceleron",
+  "website": "https://www.acceleronpharma.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Acceleron is a biopharmaceutical company engaged in developing, manufacturing and commercializing novel biotherapeutics. Acceleron went public in September 2013 (NASDAQ: XLRN) and was then acquired by Merck (NYSE: MRK) in 2021.",
+  "sector": "Biotech, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Acquire.com (fka MicroAcquire)",
+  "website": "https://microacquire.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "MicroAcquire is a platform that connects startup buyers and sellers anonymously.",
+  "sector": "Marketplaces",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Act Security",
+  "website": "https://act.security/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Act Security helps organizations configure safe and effective infrastructure access guardrails for their cloud applications, without disrupting production.",
+  "sector": "AI, Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ACTIV Financial Systems",
+  "website": "https://www.activfinancial.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "ACTIV Financial Systems provides market data services for electronic trading strategies. ACQUIRED BY OPTIONS TECHNOLOGY. ",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ACV Auctions",
+  "website": "https://www.acvauctions.com",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "ACV Auctions provides a mobile app and web platform that allows car dealers to quickly buy and sell wholesale vehicles through live auctions. ACV went public in March 2021 (NASDAQ: ACVA).",
+  "sector": "Marketplaces",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Ada",
+  "website": "https://www.ada.cx/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Ada develops a chatbot platform that makes artificial intelligence accessible to non-technical support teams.",
+  "sector": "AI, Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Adaptive Insights",
+  "website": "https://www.adaptiveinsights.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Adaptive Insights is the leader in cloud-based corporate performance management. Adaptive Insights was acquired by Workday in August 2018.",
+  "sector": "Fintech, Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Affirmed Networks",
+  "website": "https://www.affirmednetworks.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Affirmed Networks develops mobile network solutions with gateway functionality, rich application and content delivery services. In March 2020, Affirmed Networks was acquired by Microsoft.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "AIMon",
+  "website": "https://www.aimon.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AIMon enables reliable adoption of Enterprise Generative AI.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Aivar",
+  "website": "https://aivar.tech/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Aivar is an AI services company that helps large enterprises quickly design, build, and deploy production-grade AI systems on major platforms at scale ​",
+  "sector": "Infrastructure, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Aiwyn",
+  "website": "https://www.aiwyn.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Aiwyn provides automation software to help accounting firms to enhance billing, speeds up cash flow, and improves client satisfaction.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Alcresta Therapeutics",
+  "website": "https://www.alcresta.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Alcresta Therapeutics is the developer of enzyme-based products designed to combat gastrointestinal disorders. Alcresta Therapeutics was acquired by Linden Capital Partners in March 2024.",
+  "sector": "Biotech, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "AlgoX2",
+  "website": "https://www.algox2.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AlgoX2 is a data infrastructure company building a next-generation data streaming platform.",
+  "sector": "Data & Cloud, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Allena Pharmaceuticals",
+  "website": "https://www.allenapharma.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Allena Pharmaceuticals develops and commercializes non-systemic protein therapeutics to treat metabolic and orphan diseases. Allena Pharmaceuticals went public in November 2017 (NASDAQ: ALNA).",
+  "sector": "Biotech, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Alloy",
+  "website": "https://alloy.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Alloy helps top banks and fintechs make better decisions using a single API and dashboard to manage Know Your customer (KYC), Anti-Money Laundering (AML), fraud, and more.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Allscripts",
+  "website": "https://www.allscripts.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Allscripts provides healthcare information technology solutions. Allscripts went public in July 1999 (NASDAQ: MDRX).",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Altair Semiconductor",
+  "website": "https://altair-semi.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Altair Semiconductor is a fabless semiconductor company. In January 2016, Altair was acquired by Sony Corporation.",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Amperos",
+  "website": "https://www.amperos.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Amperos is a multi-agent platform for processing medical claims.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Ampersand",
+  "website": "https://www.withampersand.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Ampersand is a declarative integration runtime that enables AI agents to read from, write to, and subscribe to events in their customers' systems of record.",
+  "sector": "Data & Cloud, Infrastructure, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Anaqua",
+  "website": "https://www.anaqua.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Anaqua provides intellectual asset management software solutions and services to corporations of all sizes. Anaqua was acquired by Astorg, a leading European private equity firm, in February 2019.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Ansible Health",
+  "website": "http://www.ansiblehealth.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Anthropic",
+  "website": "https://www.anthropic.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "AI research company that builds reliable, interpretable, and steerable AI systems.",
+  "sector": "Infrastructure, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Anunta",
+  "website": "https://www.anuntatech.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Anunta is an end user computing solutions provider focused on managed virtual desktops and digital workspace technology.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ANYbotics",
+  "website": "https://www.anybotics.com/anymal-autonomous-legged-robot/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "ANYbotics is an end-to-end robotic solution automating industrial inspections for more reliable data.",
+  "sector": "Physical AI & Robotics, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Anything",
+  "website": "https://www.anything.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Anything is a no-code, text-to-app builder for non-technical users with a native GenAI approach.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Appwrite",
+  "website": "https://appwrite.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Appwrite is the end-to-end Backend-as-a-Service (BaaS) platform built for web, mobile, native and backend apps.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Apron",
+  "website": "https://getapron.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-powered financial operating system for small businesses.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Archy",
+  "website": "https://www.archy.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Archy is the all-in-one platform that powers entire dental businesses - practice management, imaging, payment processing, patient engagement, team management, and more.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Arcion Labs",
+  "website": "https://www.arcion.io/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Arcion is the only cloud-native, zero-code data mobility platform that helps customers deploy high-performance, real-time data pipelines in seconds. Databricks announced they will acquire Arcion in October 2023.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Artemis Health",
+  "website": "https://www.artemishealth.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Artemis Health's next-generation data optimization platform enables benefits teams to quantify the impact of their programs, justify new and better programs for their members, and drive their benefits strategy. Artemis Health was acquired by Nomi Health in January 2022.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Aspen RxHealth",
+  "website": "https://aspenrxhealth.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Aspen RxHealth is the leader in next-generation clinical pharmacy services, intelligently matching pharmacists with patients.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Astrix",
+  "website": "https://astrix.security/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Astrix is the developer of an access management platform for for third-party app integrations. Astrix was acquired by Cisco in May 2026.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Atomo Coffee",
+  "website": "https://atomocoffee.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "The first of its kind, Atomo Molecular Coffee is an all natural coffee made in Seattle, WA without the traditional bean.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "August",
+  "website": "https://www.august.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "August is a virtual home automation company. August was acquired by ASSA ABLOY in November 2017.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Auterion",
+  "website": "https://auterion.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "The ecosystem of software-defined drones, payloads, and apps within a single easy to use platform.",
+  "sector": "Deep Tech & Defense, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Auth0",
+  "website": "https://www.auth0.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Auth0 operates a cloud based identity platform for developers. Auth0 was acquired by Okta for $6.5 billion in 2021.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Avant Arte",
+  "website": "https://avantarte.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Avant Arte is a digital platform for collectors, artists, and gallerists to connect.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Avantos",
+  "website": "https://avantos.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Avantos is an AI-native onboarding and servicing platform for producer-led financial services verticals.",
+  "sector": "AI, Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Axiamatic",
+  "website": "https://www.axiamatic.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Axiamatic is an AI platform that enterprises use to capture all of the unstructured communications and documentation in an ERP transformation and then automate project management tasks, codify business requirements and surface misalignments, thus saving them money on SI services and reducing their risk of running over budget.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Axion",
+  "website": "https://www.axion.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Axion is an integrity intelligence platform that automates engineering and quality analytics for manufacturing teams.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Axis Network Technology",
+  "website": "https://www.axisnet.asia/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Axis Network Technology developed a digital radio platform for mobile-broadband networks. In 2010, Axis was acquired by Korea's Ace Technology.",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Axonius",
+  "website": "https://www.axonius.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Axonius is the cybersecurity asset management platform that lets IT and Security teams see devices for what they are to manage & secure all.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Bankjoy",
+  "website": "https://bankjoy.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Basis Theory",
+  "website": "https://basistheory.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Basis Theory is the tokenization API to build secure and compliant applications in minutes.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Bastille Networks",
+  "website": "https://www.bastille.net",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Bastille provides wireless intelligence for TIP, XDR, and ASM security.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Betterment",
+  "website": "https://www.betterment.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Betterment is a goal-based online investment company, delivering personalized financial advice paired with low fees and customer experience.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Bettermode",
+  "website": "https://bettermode.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Tribe is a customizable community platform for businesses.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Bevi",
+  "website": "https://www.bevi.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Bevi is an all-in-one beverage service perfect for any commercial space.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Beyond",
+  "website": "https://beyondpricing.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Beyond (formerly Beyond Pricing) is the world's first revenue management solution for short-term rental managers and owners to get grow and keep revenue.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Bharat Matrimony",
+  "website": "https://www.bharatmatrimony.in/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Bharat Matrimony is India's number one matrimony website. Bharat Matrimony became a publicly listed company on the National Stock Exchange (NSE: MATRIMONY.COM) in September 2017.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "bigbasket",
+  "website": "https://www.bigbasket.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "bigbasket is India's largest online grocery store.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "BigID",
+  "website": "https://bigid.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "BigID aims to transform how enterprise protect and manage the privacy of personal data.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "BillGuard",
+  "website": "https://billguardai.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "BillGuard is a personal-finance security service. In October 2015, BillGuard was acquired by Prosper Marketplace.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Black Sheep Foods",
+  "website": "https://blacksheepfoods.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Black Sheep Foods is a plant-based meat company using revolutionary technology and analytical chemistry to create a delicious lamb alternative that is better for the environment and your health.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "BladeLogic",
+  "website": "http://www.bmc.com/it-solutions/truesight-server-automation.html",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "BladeLogic provides data center automation solutions for IT infrastructure in business organizations. Bladelogic went public in 2007 (NASDAQ: BLOG) and was acquired by BMC in 2008.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Blue Apron",
+  "website": "https://www.blueapron.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Blue Apron delivers fresh ingredients and step-by-step recipes to your door. In June 2017, Blue Apron went public (NYSE: APRN).",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Blue Nile",
+  "website": "https://www.bluenile.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Blue Nile is a pioneering online retailer of diamonds and fine jewelry. Blue Nile went public in 2004 (NASDAQ:NILE).",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Boards",
+  "website": "https://www.boards.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Empowering sales teams to win over consumers with instant messaging.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Bold Metrics",
+  "website": "https://www.boldmetrics.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Bold Metrics is an AI-based body measurement prediction platform designed to serve apparel retailers and brands.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Bold Security",
+  "website": "https://www.bold.security/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Bold Security is a next-gen, AI-first Data Loss Prevention (DLP) solution that uses an AI-powered agent to provide full endpoint visibility and protection.",
+  "sector": "AI, Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Boldfit",
+  "website": "https://www.boldfit.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Boldfit is a company focused on providing fitness gear and apparel. It offers products across sports such as swimming, yoga and trekking, as well as across categories such as apparel, footwear and accessories.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Boom Supersonic",
+  "website": "https://boomsupersonic.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Boom Supersonic is redefining commercial flight by bringing supersonic flight to the skies with the world’s fastest airliner.",
+  "sector": "Deep Tech & Defense, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Box",
+  "website": "https://www.box.com",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Box is a cloud-based enterprise content collaboration platform for people and businesses to share their documents from anywhere and from any device. Box went public in January 2015 (NYSE: BOX).",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Brainbase",
+  "website": "https://www.brainbase.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Brainbase is a platform that helps brands manage and monetize their intellectual property.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Bread Financial",
+  "website": "https://www.getbread.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Bread Financial partners with retailers to offer pay-over-time solutions that make financing easier and more transparent. Bread was acquired by Alliance Data Systems in December 2020.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Breaker",
+  "website": "https://breakerindustries.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Breaker builds software that puts an AI brain on teams of robots, enabling defense mission operators to command them via voice in plain English.",
+  "sector": "AI, Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "BrightBytes",
+  "website": "https://www.brightbytes.net",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "BrightBytes uses a cloud based analytics platform to improve the way millions of students learn. Google acquired BrightBytes in 2022.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Brightwheel",
+  "website": "https://mybrightwheel.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Brightwheel is the first all-in-one software platform for preschools, childcare providers, camps, and afterschool programs.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Brisk Teaching",
+  "website": "https://www.briskteaching.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Brisk Teaching provides AI-powered tools for educators to enhance teaching with digital resources.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Broadsoft",
+  "website": "https://www.broadsoft.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "BroadSoft develops software that enables mobile and fixed-line service providers to deliver real-time communications via their IP networks. In June 2010, BroadSoft went public (NASDAQ: BSFT). Cisco acquired Broadsoft in in February 2018.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Bumble",
+  "website": "https://bumble.com/en/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Bumble is the first app to bring dating, friend-finding, and career-building into a single social networking platform. Bumble went public in February 2021 (NASDAQ: BMBL).",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Cambly",
+  "website": "https://www.cambly.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cambly is an online educational platform that offers English language training services.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Candid Co.",
+  "website": "https://www.candidco.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Candid Co. provides consumers with straighter teeth using a clear aligner system for at-home treatment that is hassle-free and affordable.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Canva",
+  "website": "https://www.canva.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Canva is an online graphic design platform on a mission to simplify the process of graphic design for photographers, illustrators, and designers globally.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Capmo",
+  "website": "https://www.capmo.com/en/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Capmo is a construction management platform designed to facilitate task management operations.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Capsule8",
+  "website": "https://capsule8.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Capsule8 is an information technology company that develops real-time zero-day attack detection at production scale. Capsule8 was acquired by Sophos in July 2021.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "CaptivateIQ",
+  "website": "https://www.captivateiq.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "CaptivateIQ empowers customer-facing teams with clarity into their compensation plans so people can work smarter.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Carefull Corporation",
+  "website": "https://getcarefull.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "cargo.one",
+  "website": "https://www.cargo.one/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "cargo.one is the digital platform for freight forwarders to search, compare and book air freight capacities across airlines.",
+  "sector": "Marketplaces, Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Carwow",
+  "website": "https://www.carwow.co.uk/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Carwow helps to connect car buyers to car dealers to make the process as efficient and cost-effective as possible while enabling consumers to interact with an official dealer throughout the transaction process.",
+  "sector": "Marketplaces",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Cashify",
+  "website": "https://www.cashify.in/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cashify is an e-commerce platform for reselling used electronic gadgets.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Cents",
+  "website": "https://www.trycents.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cents provides modernized payments, employee management, machine tracking, and plant/hub operations.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ChipAgents",
+  "website": "https://chipagents.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "ChipAgents is building AI tools to streamline the design, debugging, and verification of RTL (Register Transfer Level) code for chip developers.",
+  "sector": "Infrastructure, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Choco",
+  "website": "https://www.choco.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Choco is a mobile ordering platform that directly connects restaurants with food suppliers.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Ciena",
+  "website": "https://www.ciena.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Ciena is a global supplier of telecommunications networking equipment, software, and services. Ciena went public in 1997 (NASDAQ: CIEN).",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Clarity",
+  "website": "https://www.getclarity.ai/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Clarity is an AI cybersecurity company that's fighting AI-based misinformation and deepfakes.",
+  "sector": "AI, Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Clarity Money",
+  "website": "https://claritymoney.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Clarity Money is a leading app that helps consumers better manage their personal finances by harnessing the power of machine learning to provide actionable insights. In 2018, Clarity Money was acquired by Goldman Sachs.",
+  "sector": "Consumer, Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Claroty",
+  "website": "https://www.claroty.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Claroty is a cybersecurity software company focused on protecting industrial control networks.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Clear Ballot",
+  "website": "https://www.clearballot.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Clear Ballot is revolutionizing the GovTech space with a modern voting system.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ClearCare",
+  "website": "https://www.clearcareonline.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "ClearCare is a cloud-based home care software provider. In 2017, ClearCare was acquired by WellSky.",
+  "sector": "Data & Cloud, Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Clearing",
+  "website": "https://www.clearing.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Clearing is a digital healthcare platform built to serve the more than 50M chronic pain sufferers in the United States.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ClickHouse",
+  "website": "https://clickhouse.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "ClickHouse is an open-source online analytical processing (OLAP) database, distinctive for its speed, compression, ease-of-use, and scalability.",
+  "sector": "Data & Cloud, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Clio",
+  "website": "https://www.clio.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Clio is a suite of web-based tools that helps law firms in practice management and client collaboration.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Cloudinary",
+  "website": "https://cloudinary.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cloudinary is a cloud-based image and video management service for web and mobile developers.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "CloudLock",
+  "website": "https://www.cloudlock.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "CloudLock is a cloud security company focused on providing enterprise class security solutions for data in the cloud. In June 2016, CloudLock was acquired by Cisco.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Coactive AI",
+  "website": "https://coactive.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Coactive AI is an application programming interface that empowers data practitioners and data-driven teams to unlock insights for unstructured image and video data.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Coder",
+  "website": "https://coder.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Coder provides open-source tools and an enterprise platform that makes it easier to configure, secure, and scale development environments.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Cognition",
+  "website": "https://cognition.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Makers of Devin, the first AI software engineer. Cognition is an applied AI lab building end-to-end software agents.",
+  "sector": "AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Coiled",
+  "website": "https://coiled.io",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Coiled supercharges the Python tools data scientists already use for scale and performance.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Collective Medical",
+  "website": "https://www.collectivemedicaltech.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Collective Medical empowers care teams to improve patient outcomes by closing the communication gaps that undermine patient care. Collective Medical was acquired by PointClickCare Technologies in December 2020.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Columnar",
+  "website": "https://columnar.tech/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Columnar is a SaaS company that offers fast universal data connectivity services for the AI era.",
+  "sector": "Data & Cloud, AI, Infrastructure",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ComboCurve",
+  "website": "https://combocurve.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "ComboCurve is a cloud-based energy analytics and operating platform.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Contractbook",
+  "website": "https://contractbook.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "The contract lifecycle management platform that enables you to manage contracts in a single fully-automated flow.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Converge Bio",
+  "website": "https://converge-bio.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Converge Bio integrates Generative AI with biological data. Converge Bio's mission is to empower biotech and pharmaceutical companies to discover and develop more effective drugs faster, utilizing the power of LLMs specifically trained on biological languages.",
+  "sector": "Biotech, Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Convertro, Inc.",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Convertro provides multi-touch attribution modeling technology for brands and agencies. In May 2014, Convertro was acquired by AOL Inc.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "CopilotIQ",
+  "website": "https://copilotiq.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "CopilotIQ of at-home medical care for people with high blood pressure, diabetes, and heart disease which uses monitoring technology, personalized care, and one-on-one weekly nurse calls.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Cornerstone OnDemand",
+  "website": "https://www.cornerstoneondemand.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Cornerstone OnDemand provides a comprehensive suite of talent-management solutions. Cornerstone OnDemand went public in March 2011 (NASDAQ: CSOD).",
+  "sector": "Data & Cloud, Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Courier",
+  "website": "https://www.courier.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Courier is a single API platform with a no-code editor that enables teams to design and deliver user notifications to any channel.",
+  "sector": "Developer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "CPower, Inc.",
+  "website": "https://cpowerenergymanagement.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "CPower, Inc. offers strategic energy management services that enable companies to optimize their facilities and operations to control energy expenditures. In September 2011, CPower, Inc. was acquired by Constellation.",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Crash Override",
+  "website": "https://crashoverride.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "A cybersecurity company that is building a runtime security product aimed at open source packages.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "CRI",
+  "website": "https://www.criadv.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Carr, Riggs & Ingram provides tax, audit, assurance and business consulting services.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Criteo",
+  "website": "https://www.criteo.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "The world leader in personalized retargeting technology for more than 1200 major online retailers worldwide, driving billions of dollars in post-click sales. Criteo went public in October 2013 (NASDAQ: CRTO).",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Crosschq",
+  "website": "https://crosschq.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Crosschq is pioneering Human Intelligence Hiring™ by harnessing the power of people to help companies better screen, onboard and source the best talent.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "CTERA",
+  "website": "https://www.ctera.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "CTERA is a storage service platform for enterprises and cloud providers.",
+  "sector": "Data & Cloud, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Current",
+  "website": "https://www.current.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Current empowers entrepreneurial accounting firms to navigate change and build what’s next.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Curri",
+  "website": "https://www.curri.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Curri is a logistics platform that assists to move construction-related materials, parts, and tools on demand.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "CyberGRX",
+  "website": "https://www.cybergrx.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "CyberGRX is a cyber risk management platform that mitigates and monitors third party exposure for enterprises.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Cyota, Inc",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Cyota is a cyber security company focused on online banking fraud, e-commerce fraud, and phishing. In December 2005, Cyota was acquired by RSA Security.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Cypress.io",
+  "website": "https://www.cypress.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cypress.io enables front-end testing for anything that runs in the browser.",
+  "sector": "Developer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Dashbot",
+  "website": "https://www.dashbot.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Dashbot is a bot analytics platform that enables developers to increase engagement, acquisition, and retention through actionable data.",
+  "sector": "Developer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Dashlane",
+  "website": "https://www.dashlane.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Dashlane is a consumer password management application and secure digital wallet.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Databand",
+  "website": "https://databand.ai/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Databand is a proactive data observability platform that catches bad data before it impacts your business. Databand was acquired by IBM in July 2022 (NYSE: IBM).",
+  "sector": "Developer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Databook",
+  "website": "https://trydatabook.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Databook is a customer intelligence platform that to drives enterprise sales performance at scale.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Datafy",
+  "website": "https://datafy.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Datafy is developing an autonomous storage admin for managing public cloud storage.",
+  "sector": "Data & Cloud, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "DataHub",
+  "website": "https://datahub.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Developer of a metadata management platform designed to enable comprehensive data management and data discovery.",
+  "sector": "Data & Cloud, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Datalot",
+  "website": "https://www.datalot.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Datalot is a provider of mobile and web marketing technology services designed to connect consumers with insurance carriers and agents.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "dCortex",
+  "website": "https://dcortex.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "dCortex is an AI-powered “System of Action” for airlines that coordinates crews, gates, schedules, maintenance, and constraints in real time to speed up disruption recovery and improve operational decision-making.",
+  "sector": "AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "DeepL",
+  "website": "https://www.deepl.com/en/translator",
+  "status": "active",
+  "stage": "Seed",
+  "description": "DeepL is a translation platform that offers artificial intelligence systems for different languages and communication.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "DEFCON AI",
+  "website": "https://www.defconai.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "DEFCON AI is a modeling, simulation, and analysis (MS&A) company that provides cutting-edge technology solutions for the next generation of logistics and mobility decision making.",
+  "sector": "Deep Tech & Defense, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Defense.net",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Defense.net provides Distributed Denial of Service (DDoS) attack mitigation services. In May 2014, the company was acquired by F5 Networks.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Demostack",
+  "website": "https://www.demostack.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Demostack delivers tailored product demos that drive discovery, build connection, and win more business.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Devo",
+  "website": "https://www.devo.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Devo unlocks the full value of machine data for the world’s most instrumented enterprises by putting more data to work now.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Dinii",
+  "website": "https://dinii.jp/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Dinii is a software company that designs digital ordering platforms for restaurants and local take-out shops.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "DISCO",
+  "website": "https://www.csdisco.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "DISCO has developed electronic discovery software that revolutionizes document review and production. In July 2021, DISCO went public (NYSE: LAW).",
+  "sector": "Consumer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Discord",
+  "website": "https://discord.com/new",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Discord is a voice, video and text communication service used by over a hundred million people to hang out and talk with their friends and communities.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "dltHub",
+  "website": "https://dlthub.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "dltHub is developing a Python-native data platform for the creation, deployment, and management of data pipelines.",
+  "sector": "Developer, Data & Cloud, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "DocuSign",
+  "website": "https://www.docusign.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "DocuSign makes it easy and fast to get documents signed with the world's largest electronic signature platform. Docusign went public in April 2018 (NASDAQ: DOCU).",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "DocuTAP",
+  "website": "https://www.docutap.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "DocuTAP provides urgent care EMR and practice management software for healthcare providers. DocuTAP was acquired by Warburg Pincus in 2016.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Dome Systems",
+  "website": "https://www.domesystems.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Dome Systems builds agent-native infrastructure.",
+  "sector": "Data & Cloud, AI, Developer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Dominion Dynamics",
+  "website": "https://www.dominion-dynamics.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Dominion Dynamics builds platforms that integrate sensor data and autonomous assets for real-time command and control.",
+  "sector": "Deep Tech & Defense, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Doppel",
+  "website": "https://www.doppel.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Doppel is an AI-powered cybersecurity defense platform that combats social engineering attacks against brands and individuals.",
+  "sector": "AI, Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "doubleAI",
+  "website": "https://www.doubleai.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "doubleAI is building Artificial Expert Intelligence (AEI), focused initially on optimizing low-level code.",
+  "sector": "AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "DoubleDutch",
+  "website": "https://www.doubledutch.me/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "DoubleDutch is a market leader in event management software & solutions. In June of 2019, DoubleDutch was acquired by Cvent.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "DriveNets",
+  "website": "https://www.drivenets.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "DriveNets is a software-based networking solution for AI data centers.",
+  "sector": "Data & Cloud, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "DroneDeploy",
+  "website": "http://www.dronedeploy.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "DroneDeploy is the leading cloud software platform for commercial drones, and is making the power of aerial data accessible and productive for everyone.",
+  "sector": "Deep Tech & Defense, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Dropcam",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Dropcam develops a Wi-Fi camera with easy setup and continuous cloud recording. The company was acquired by Google (NASDAQ: GOOG) in July 2014.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Dynamic Yield",
+  "website": "https://www.dynamicyield.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Dynamic Yield is a conversion optimization and personalization platform for web businesses. In March of 2019, McDonald's acquired Dynamic Yield.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Easebuzz",
+  "website": "https://easebuzz.in/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Easebuzz is a vertical software with payments at its core. It helps businesses across industries process digital payments seamlessly and efficiently.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "eEye Digital Security",
+  "website": "https://www.eye.security/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "eEye Digital Security develops end-point security and vulnerability management software solutions. eEye Digital Security was acquired by BeyondTrust in 2012.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Electric",
+  "website": "https://www.electric.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Electric provides all-in-one, real-time tech support for small and mid-size businesses.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "EliseAI",
+  "website": "https://www.eliseai.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "EliseAI provides artificial intelligence–powered automation and conversational services designed for housing and healthcare organizations.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Eloqua",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Eloqua automates the science of marketing. Eloqua went public in August 2012 (NASDAQ: ELOQ) and was then acquired by Oracle (NYSE: ORCL) in December 2012.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Endgame",
+  "website": "https://www.endgame.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Endgame's endpoint protection platform protects the world’s data from advanced attacks. Endgame was acquired by Elastic in June 2019.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Enjoei",
+  "website": "https://www.enjoei.com.br/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Enjoei is a Brazilian company that provides e-commerce web solutions through mobile apps. Enjoei (ENJU3) was listed on the Brazilian Stock Exchange in November 2020.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Entropik",
+  "website": "https://www.entropik.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Entropik is an online emotion intelligence SaaS platform that helps brands measure the cognitive and emotional responses of consumers by using artificial intelligence and machine learning to track user activation and valence levels based on users’ touch gestures, enabling clients to optimize brand experience journeys and solve real business problems.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "EvenUp",
+  "website": "https://www.evenuplaw.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "EvenUp turns medical docs and case files into AI-driven demand packages for injury lawyers.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Everlance",
+  "website": "https://www.everlance.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "A mileage and expense tracking solution for small businesses, teams, and sole proprietors. Acquired by Motus in February 2025.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Eye Security",
+  "website": "https://eye.security/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Eye Security is a cybersecurity company that protects every small and medium size enterprises (SMEs) within Europe.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Fabric Technologies",
+  "website": "https://meetfabric.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Fabric Technologies is a mobile life insurance broker that makes the process of getting coverage quick and easy. Fabric was acquired by Western & Southern Financial Group in January 2021.",
+  "sector": "Consumer, Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Fal.ai",
+  "website": "https://fal.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Generative media platform for developers.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Fandom",
+  "website": "https://www.fandom.com/home",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Fandom runs a network of pop culture sites. Fandom was acquired in 2018 by TPG.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Farther",
+  "website": "https://www.farther.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Farther is a comprehensive wealth management platform for ensuring consumers' prosperity now, and far into the future.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Fern",
+  "website": "https://www.buildwithfern.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Fern is an open-source platform for generating software development kits (SDKs) and application programming interface (API) documentation. Fern was acquired by Postman in 2026.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Fieldguide",
+  "website": "https://www.fieldguide.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Fieldguide is an AI-powered engagement platform for Assurance and Advisory firms.",
+  "sector": "AI, Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Fin",
+  "website": "https://www.intercom.com/",
+  "status": "acquired",
+  "stage": "Growth",
+  "description": "Fin is the Customer Agent company delivering perfect customer experiences – from support to sales to commerce. Fin was founded in 2011 as Intercom. In September 2026 Fin was acquired by Salesforce.",
+  "sector": "AI, Data & Cloud, Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Finmark",
+  "website": "https://finmark.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Finmark provides financial planning and modeling software for startups. Finmark was acquired by Bill.com in November 2022.",
+  "sector": "Data & Cloud, Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Firebolt",
+  "website": "https://www.firebolt.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Firebolt is a cloud data warehouse, purpose-built for high-performance analytics.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Fireworks",
+  "website": "https://fireworks.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Fireworks is the AI inference and training platform for open-source models, founded by the team that built and scaled PyTorch at Meta",
+  "sector": "Infrastructure, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Fiverr",
+  "website": "https://www.fiverr.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Fiverr is a marketplace for creative and professional services. Fiverr went public in June 2019 (NYSE: FVRR).",
+  "sector": "Marketplaces",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Flagler Health",
+  "website": "https://www.flaglerhealth.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Flagler has built an AI-native platform that orchestrates administrative and clinical workflows from patient intake to post-visit follow-up, purpose-built for MSK clinics.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Flarion Technologies",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Flarion is the pioneer of Orthogonal Frequency Division Multiplex Access (OFDMA) technology. In 2006, Flarion was acquired by QUALCOMM.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Flex Pharma, Inc.",
+  "website": "https://www.flex-pharma.com",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Flex Pharma, Inc. develops clinically proven products and treatments for muscle cramps and spasms. In January 2015, Flex Pharma went public (NASDAQ: FLKS).",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Folx Health",
+  "website": "https://folxhealth.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Folx Health is a digital health provider designed with the medical needs and goals of the LGBTQIA+ community in mind.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Foraged",
+  "website": "https://foraged.market/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ForeVR",
+  "website": "https://www.forevrgames.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "ForeVR develops virtual reality (VR) category-defining games built to entertain people of all ages.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Formally",
+  "website": "https://formally.com/home",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Formally is a legal tech company that is increasing access to streamline and simplify complex legal processes, specifically the immigration application process.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Forter",
+  "website": "https://www.forter.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "The leading real-time fraud prevention platform for e-commerce companies.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Foxglove",
+  "website": "https://foxglove.dev/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Foxglove is an observability, visualization and data management software platform for robotics.",
+  "sector": "Physical AI & Robotics, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Fractyl Health",
+  "website": "https://www.fractyl.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Fractyl Health develops innovative medical device solutions for the treatment of chronic diseases. Fractyl Health went public in February 2024 (NASDAQ: $GUTS).",
+  "sector": "Biotech, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Fulcrum",
+  "website": "https://fulcrumpro.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Fulcrum is an enterprise resource planning software to improve efficiency through workflow optimization, through reporting, scheduling, live production tracking, design and engineering, purchasing, security, and other related services, enabling clients to optimize work and increase efficiency.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Fuze",
+  "website": "https://www.fuze.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Fuze is a cloud-based video conferencing solution that connects people and organizations across devices. Fuze was acquired by 8x8 in January 2022.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Gainsight",
+  "website": "https://www.gainsight.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Gainsight, the Customer Success company, helps businesses grow faster by reducing churn, increasing upsell, and driving customer advocacy. In November 2020, Gainsight was acquired by Vista Equity Partners.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Gamefam",
+  "website": "https://gamefam.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Gamefam provides end-to-end Roblox development support and growth strategies to enhance experiences and drive innovation in the metaverse.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Gankster",
+  "website": "https://gankster.gg/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Gankster is a gaming platform that powers the entire competitive gaming industry, offering an experience for all teams and their competitive networks and centralizing everything gamers and teams do beyond matchmaking, recruiting, tournaments, practices, and match data, helping individuals, teams, publishers, and tournament organizers connect with each other and efficiently manage daily operations.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Gerson Lehrman Group (GLG)",
+  "website": "https://glg.it/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Gerson Lehrman Group (GLG) is the world's leading platform connecting business to insight.",
+  "sector": "Enterprise, Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "GetAccept",
+  "website": "https://www.getaccept.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "The best remote selling platform with video, live chat, proposal design, document tracking, and e-signatures in one place.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "GetInsured",
+  "website": "https://www.getinsured.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "GetInsured delivers the best health insurance ecommerce experience for consumers, employers, brokers and insurers.",
+  "sector": "Healthcare, Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "GigFinesse",
+  "website": "https://www.gigfinesse.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "GigFinesse is an online platform that streamlines talent booking for artists and venues.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Ginger",
+  "website": "https://www.headspace.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Ginger is an on-demand mental health company that brings together behavioral health coaches, therapists, and psychiatrists, who work as a team to deliver personalized care, right through your smartphone. Ginger merged with Headspace in October 2021.",
+  "sector": "Consumer, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Glint",
+  "website": "https://www.glintinc.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Glint provides the employee engagement platform. In 2018, Glint was acquired by LinkedIn.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "GlossGenius",
+  "website": "https://glossgenius.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Good Glamm Group",
+  "website": "https://www.goodglamm.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Good Glamm Group is a direct-to-consumer and award winning international beauty products marketplace.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "GoodShip",
+  "website": "https://www.goodship.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Goodship is a freight spend analytics and procurement platform for enterprise shippers.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Gracenote",
+  "website": "http://www.gracenote.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Gracenote is an entertainment data and technology provider across music, video and sports. Gracenote was acquired by Sony.",
+  "sector": "Consumer, Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Graph AI",
+  "website": "https://graphsafety.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Graph uses context-aware AI and intelligent automation to deliver a comprehensive, end-to-end pharmacovigilance solution globally",
+  "sector": "Infrastructure, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Groups",
+  "website": "https://www.joingroups.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Groups helps people recover from opiate use through therapy and medication.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "GTS Central Europe",
+  "website": "https://www.gts.ro/ce",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "GTS provides integrated fixed-line communications services in Central and Eastern Europe. In May 2014, GTS was acquired by Duetsche Telekom in 2014.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Guild",
+  "website": "http://www.guildeducation.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Guild Education's lifelong learning platform offers classes, programs, and degrees for working adults.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Habana Labs",
+  "website": "https://www.habana.ai/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Habana Labs is a fabless semiconductor company. In December 2019, Habana Labs was acquired by Intel Corporation.",
+  "sector": "Infrastructure, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Halter",
+  "website": "https://halterhq.com/home",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Halter is a herd management software that optimizes and modernizes dairy farming.",
+  "sector": "AI, Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "HashiCorp",
+  "website": "https://www.hashicorp.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "HashiCorp enables organizations to provision, secure, and run any infrastructure for any application. HashiCorp went public in December 2021 (NASDAQ: HCP) and IBM announced it will acquire HashiCorp in 2024.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Hatch",
+  "website": "https://www.usehatchapp.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Hatch is an SMS Texting Platform that helps small and medium-size businesses harness the power of two-way SMS messaging. Hatch was acquired by Yelp in January 2026.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Hibob",
+  "website": "https://www.hibob.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Hibob is a cloud platform for employee management that integrates HR and benefits.",
+  "sector": "Data & Cloud, Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Hinge Health",
+  "website": "https://www.hingehealth.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Hinge Health pioneers the world's most patient-centered digital hospital, starting with musculoskeletal health. Hinge Health went public in May 2025 (NYSE: HNGE).",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "HockeyStack",
+  "website": "https://www.hockeystack.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "HockeyStack is the command center for B2B revenue teams that provides modern attribution, unified buyer journeys, and account insights.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "HomeFirst",
+  "website": "https://www.homefirstindia.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "HomeFirst Finance Company provides housing loan financing in India. Home First became a publicly listed company on the National Stock Exchange (NSE: HOMEFIRST) in February 2021.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "House Rx",
+  "website": "https://www.houserx.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "House Rx is a platform that manages specialty medication.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Hungama",
+  "website": "https://www.hungama.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Hungama is India's first digital brand solutions platform.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Hunters",
+  "website": "https://www.hunters.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Hunters is a purpose-built, turn-key data and security platform powering effective detection and rapid response to security incidents.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Hyperscience",
+  "website": "http://hyperscience.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Hyperscience is the world’s first Software-Defined, Input-to-Outcome Automation Platform.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "IAG Research, Inc.",
+  "website": "https://www.iag.com.au/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "IAG Research, Inc. provides media metrics to large advertisers through proprietary research. IAG Research, Inc. was acquired by The Nielsen Co.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "illoca",
+  "website": "https://illoca.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "illoca is building a foundation model to enable a multimodal design copilot for AEC (Architecture, Engineering, and Construction).",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Illusive Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Illusive Networks allows security teams to preemptively harden networks against advanced attackers, stop targeted attacks, and resolve incidents quickly. Illusive Networks was acquired by Proofpoint in December 2022.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Imply",
+  "website": "https://imply.io",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Founded by the original creators of Apache Druid, Imply is the leading developer of a full-stack and multi-cloud data platform designed to enable businesses to integrate real-time analytics into their operations.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Impossible Aerospace",
+  "website": "https://impossible.aero/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Impossible Aerospace manufactures battery-electric aircraft products. Impossible Aerospace was acquired by Alpine 4 Technologies in June 2021.",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Incognia",
+  "website": "https://www.incognia.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "A fraud prevention platform for mobile-first consumer businesses.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Indian Energy Exchange",
+  "website": "http://www.iexindia.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Indian Energy Exchange (IEX) is an India-based automated platform for the physical delivery of electricity. Indian Energy Exchange became a publically listed company on the National Stock Exchange (NSE: IEX) and the Bombay Stock Exchange (BSE: IEX) in October 2017.",
+  "sector": "Enterprise, Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Inertia",
+  "website": "https://inertia.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Inertia is a commercial fusion energy company.",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Innoviti",
+  "website": "https://innoviti.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Innoviti provides solutions for improving operational efficiency in every payment transaction.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "InRisk",
+  "website": "https://inrisk.insure/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "InRisk is a parametric insurance platform which offers real-time product customization, smart AI-based pricing, and continuous claims monitoring for efficient and responsive claims processing.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Insmed",
+  "website": "https://www.insmed.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Insmed is a biopharmaceutical company dedicated to improving the lives of patients battling serious lung diseases. In 2000, Insmed went public (NASDAQ: INSM).",
+  "sector": "Biotech, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Instructure",
+  "website": "https://www.instructure.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Instructure is an educational technology company. Instructure went public in November 2015 (NYSE: INST).",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Intacct",
+  "website": "https://www.sageintacct.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Intacct provides financial management services. Intacct was acquired by the Sage Group in July 2017.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Intego",
+  "website": "https://www.intego.com/?sr=1",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Intego develops and sells desktop Internet security and privacy software for Macs. In July 2018, Kape acquired Intego.",
+  "sector": "Consumer, Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Intucell",
+  "website": "http://www.intucellsystems.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Intucell offers a self-optimizing network solution that enable radio operators to better utilize their radio access networks. In February 2013, Intucell was acquired by Cisco.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Ionis Pharmaceuticals",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "Biotech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Iris Automation",
+  "website": "https://www.irisonboard.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Iris Automation provides robust collision avoidance systems for industrial drones. Iris Automation was acquired by uAvionix in October 2023.",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "iSIGHT Security",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "iSIGHT Partners is a leader in cyber threat intelligence. In January 2016, iSIGHT was acquired by FireEye, Inc.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Jasper",
+  "website": "https://www.jasper.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Jasper is the AI Content Platform that helps teams break through creative blocks to create amazing, original content 10X faster.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Jingle",
+  "website": "https://www.jingle-app.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Jingle is a platform that enables local stores to connect with consumers directly.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "K2 Integrity",
+  "website": "https://k2integrity.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "K2 Integrity provides specialized risk services and solutions to corporations, sovereign nations and individuals.",
+  "sector": "Cybersecurity, Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Kandou",
+  "website": "https://www.kandou.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Kandou is the innovative leader in high-speed, energy efficient chip-to-chip link solutions fundamental to the electronics industry.",
+  "sector": "Deep Tech & Defense, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Kenna Security",
+  "website": "https://www.kennasecurity.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Kenna Security provides risk vulnerability management through its cloud based security platform. Kenna Security was acquired by Cisco in May 2021.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Kindred",
+  "website": "https://livekindred.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Kindred is a trusted home swapping network that allows members to live a travel-centric lifestyle for a fraction of the cost of a hotel or vacation rental, enabling renters and homeowners to travel more affordably.",
+  "sector": "Marketplaces",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Klook",
+  "website": "https://www.klook.com/en-IN/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Klook is a travel and leisure booking platform designed to connect travelers with experiences and attractions.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Knewton",
+  "website": "https://www.knewton.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Knewton is an adaptive learning technology provider with a mission to bring personalized education to the world. In May 2019, Knewton was acquired by John Wiley & Sons.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Kroll Bond Rating Agency",
+  "website": "http://www.kbra.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Kroll Bond Rating Agency is a credit rating agency. KBRA was acquired by Wharf Street Ratings.",
+  "sector": null,
+  "fund": "bessemer"
+ },
+ {
+  "name": "Kymera Therapeutics",
+  "website": "http://www.kymeratx.com",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Kymera Therapeutics is a biotechnology company pioneering a transformative new approach to treating previously untreatable diseases. Kymera went public in August 2020 (NASDAQ: KYMR).",
+  "sector": "Biotech, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "LaunchDarkly",
+  "website": "https://launchdarkly.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "LaunchDarkly is a feature management platform that enables software teams to build better software faster with less risk by decoupling the deployment of code from the release of features to users.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Leaba Semiconductor",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Leaba is a fabless semiconductor company. In March 2016, Leaba was acquired by Cisco.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Leaner Technologies",
+  "website": "https://leaner.co.jp/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Leaner Technologies provides cloud-based software for cost reduction analysis.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Leena AI",
+  "website": "https://leena.ai",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Leena AI is an AI-powered HR assistant providing instant responses to employee queries over chat and voice, enabling organizations to resolve HR queries fast and improve their employee experience.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Legit Security",
+  "website": "https://www.legitsecurity.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Legit Security protects software supply chains from attack by automatically discovering and securing the pipelines, infrastructure, code, and people so that businesses can stay safe while releasing software fast.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Legora",
+  "website": "https://legora.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Legora is an AI legal tech business focused on automating corporate law workstreams.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Lentra",
+  "website": "https://www.lentra.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Lentra is an online platform designed to change the status quo offering banks zero-risk and instant lending solutions.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Liazon",
+  "website": "https://liazon.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Liazon is an online benefits store that operates private benefits exchange for businesses. In November 2013, Liazon was acquired by Towers Watson & Co.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Life360",
+  "website": "https://www.life360.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Life360 is the world's largest mobile app for families. In May of 2019, Life360 went public on the Australian Securities Exchange.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "LifeLock",
+  "website": "https://www.lifelock.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "LifeLock is an industry leader in identity theft protection. Lifelock went public in October 2012 (NYSE: LOCK) and was acquired by Symantec in 2017.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "LinkedIn",
+  "website": "https://www.linkedin.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "LinkedIn operates the world's largest professional network. In May 2011, LinkedIn went public (NYSE: LNKD) and in 2016, was acquired by Microsoft (NASDAQ: MSFT).",
+  "sector": "Data & Cloud, Consumer, Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Lithic",
+  "website": "https://lithic.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Designed for developers, Lithic makes it simple to create payment cards to enable and control spending.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Litify",
+  "website": "https://www.litify.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Litify is the leading end-to-end legal operating platform built on Salesforce.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "LiveAuctioneers",
+  "website": "https://www.liveauctioneers.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "LiveAuctioneers is an online marketplace for the auction of art, antiques and collectibles. LiveAuctioneers was sold to Auction Technology Group in October 2021.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Livspace",
+  "website": "https://www.livspace.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Livspace is a personalized home design and décor marketplace for homeowners in India and Southeast Asia.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "LogicNow",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "LogicNow (fka GFI Software) is a diversified SMB software company offering a number of solutions including remote connection, support, and security products. LogicNow was acquired by SolarWinds.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Lumachain",
+  "website": "https://lumachain.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Lumachain is a software for the food supply chain that tracks and traces the origin, location, and condition of individual items in a supply chain, in real-time, from farm to fork, enabling the food supply chain industry to reduce waste, increase efficiency, and grow revenues and margins.",
+  "sector": "Deep Tech & Defense, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Lumere",
+  "website": "https://lumere.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Lumere (formerly Procured Health) is a software company which provides insights to health care variation and cost reduction. Lumere was acquired by Global Healthcare Exchange in 2020.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Luxury Presence",
+  "website": "https://www.luxurypresence.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Luxury Presence helps realtors thrive online with beautiful, award winning real estate agent websites and marketing.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Main Street Hub",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Main Street Hub is a CRM for local businesses. Main Street Hub was acquired by GoDaddy in 2018.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "MaintainX",
+  "website": "https://www.getmaintainx.com/",
+  "status": "acquired",
+  "stage": "Growth",
+  "description": "MaintainX is a work order and procedure digitization platform designed to empower frontline workers with mobile-first digitized workflow.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Malachyte",
+  "website": "https://www.malachyte.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Malachyte is an early-stage startup building a custom intelligence layer for enterprises to significantly enhance downstream use of user data.",
+  "sector": "AI, Infrastructure",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Mambu",
+  "website": "https://www.mambu.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Mambu is the leading SaaS banking engine powering modern digital financial services. It is the lean alternative to cumbersome core banking systems, a cloud-native solution driving open API-enabled architectures.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Manta",
+  "website": "https://getmanta.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Manta reinvents data lineage and provides organizations with complete visibility into the flow of information to improve productivity, boost data governance and eliminate costly manual processes. IBM announced to acquire Manta in October 2023.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Manychat",
+  "website": "https://manychat.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Manychat helps businesses do marketing, sales and support through Facebook Messenger.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Matrimony.com",
+  "website": "https://www.matrimony.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Matrimony.com is an online match making website in India. Matrimony.com went public in September 2017.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "MCP Manager",
+  "website": "https://mcpmanager.ai/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "MCP Manager is platform that provides spreadsheet-inspired workbooks for managing and sharing data across business applications. MCP Manager was acquired by Usercentrics in January 2026",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "MealPal",
+  "website": "https://mealpal.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "MealPal is a subscription service that provides members with affordable daily lunch options from restaurants near where they live or work.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Medi Assist",
+  "website": "https://mediassist.in/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Medi Assist aims to deliver informed healthcare decisions to a billion lives connected by our technology, partnerships and human touch. Medi Assist became a publicly listed company on the National Stock Exchange (NSE: MEDIASSIST) and Bombay Stock Exchange in January 2024.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "MediBuddy (fka DocsApp)",
+  "website": "https://www.medibuddy.in/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "MediBuddy is a medical consultation application that provides quality healthcare that is easily accessible by patients. MediBuddy merged with DocsApp in June 2020.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "MediSage",
+  "website": "https://mymedisage.com/home",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Medisage is an India-based online community of doctors empowering healthcare practitioners with first-hand medical information.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Melio Payments",
+  "website": "https://www.meliopayments.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Melio Payments is a B2B payments experience, offering small businesses an easy-to-use tool for paying suppliers and controlling cash flow. In June 2025, Melio Payments was acquired by Xero Limited.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "MeltPlan",
+  "website": "https://www.meltplan.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Meltplan provides AI preconstruction software for general contractors. It is an intelligent planning engine for the built environment, solving construction’s productivity problem during preconstruction to reduce delays and cost overruns.",
+  "sector": "AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Metalogix",
+  "website": "https://www.metalogix.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Metalogix provides content lifecycle management solutions for Microsoft SharePoint, Exchange and cloud platforms. In December 2014, Metalogix was acquired by Permira.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Millennial Media",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Millennial Media is a mobile advertising marketplace. In 2015, Millennial Media was acquired by AOL.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Milo",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Milo enables shoppers to research products online and buy local. Milo was acquired by eBay in 2010.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Mind Robotics",
+  "website": "https://www.mindrobotics.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Mind Robotics is building the generalized physical intelligence required to solve the world’s most demanding industrial challenges.",
+  "sector": "Physical AI & Robotics, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Mindbody",
+  "website": "https://www.mindbodyonline.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Mindbody is a business management software for yoga and pilates studios, fitness facilities, spas, salons, and other retail clients. In June 2015, Mindbody went public (NASDAQ: MB). After four years as a public company, MindBody went private in 2019 when it was acquired by Vista Equity Partners for $2 billion.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Miter",
+  "website": "https://www.miter.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Miter is a workforce platform for the construction industry – handling HR & Benefits, payroll & compliance, expense management, timesheets, and scheduling.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Mitigata",
+  "website": "https://mitigata.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Mitigata is a cybersecurity company offering AI-powered cyber and risk management solutions that help businesses assess and mitigate risk.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Modelcode",
+  "website": "https://modelcode.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Modelcode AI is a technology company specializing in automated code modernization.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Moonvalley",
+  "website": "https://www.moonvalley.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Moonvalley builds cinematic videos with AI where generative image will be created with capable video and image foundational models. Moonvalley was acquired by Reka in June 2026.",
+  "sector": "Data & Cloud, AI, Infrastructure",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Motilal Oswal",
+  "website": "https://www.motilaloswal.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Motilal Oswal is India's leading online share trading company. Motilal Oswal went public in September 2007 on the National Stock Exahnge (NSE: MOTILALOFS).",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "MoveInSync",
+  "website": "https://moveinsync.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "A SaaS solution that enables organizations to establish hybrid workplaces and employees' safe return-to-office.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Mural Health",
+  "website": "https://www.muralhealth.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Mural Health is a firm that develops technology for clinical trials and is committed to making it simple for people to take part in studies.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "MyHeritage",
+  "website": "https://www.myheritage.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "MyHeritage is an online service for building family trees, conducting genealogy research and connecting with distant family members. MyHeritage was acquired by Francisco Partners in February 2021.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "NALA",
+  "website": "https://www.nala.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "NALA is a cross-border payments platform.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "nCino",
+  "website": "https://www.ncino.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "nCino is the worldwide leader in cloud banking. nCino went public in July 2020 (NASDAQ: NCNO).",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Neo",
+  "website": "https://www.neo.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Neo is building the new generation of endpoint security, focused on risks created by the rise of AI agents, a category that is gaining momentum as one of the top priorities for security teams today.",
+  "sector": "AI, Cybersecurity, Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "NephroPlus",
+  "website": "https://www.nephroplus.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "NephroPlus is India's highest quality dialysis & top kidney care provider. NephroPlus became a publicly listed company on the National Stock Exchange (NSE: NEPHROPLUS) in December 2025.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Netdata",
+  "website": "https://www.netdata.cloud/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Netdata provides open-source, distributed, real-time, performance and health monitoring for systems and applications.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Netlify",
+  "website": "https://www.netlify.com/?utm_source=google&utm_medium=paid_search&utm_campaign=12755510784&adgroup=118788138897&utm_term=netlify&utm_content=kwd-371509120223&creative=516906172749&device=c&matchtype=e&location=9032056&gclid=Cj0KCQiAys2MBhDOARIsAFf1D1f5-9elcNOueVbCxgBZ2F0frLkUAO57-SqVz09lxUlspe3MxRwCllUaAniqEALw_wcB",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Netlify is a developer of web development tools intended to design, deploy, and host modern websites.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Netography",
+  "website": "https://netography.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Netography is a network security platform intended to detect and block malicious traffic to defend networks.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Netsmart Technologies",
+  "website": "https://www.ntst.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Netsmart Technologies supplies on-demand and enterprise-wide software solutions for health and human services providers. In June 2010 Netsmart Technologies was acquired by Genstar Capital.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "NeueHealth",
+  "website": "https://www.neuehealth.com",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "NeueHealth is a consumer focused health plan offering simple and affordable health insurance. NeueHealth (NEUE), fka Bright Health (BHG) went public in June 2021.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Newfront Insurance",
+  "website": "https://www.newfront.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Newfront is a modern insurance brokerage that leverages technology to vastly simplify the buying process for clients and the selling process for brokers.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Newton Research",
+  "website": "https://www.newtonresearch.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-powered marketing analytics agents automate data preparation, campaign reporting, insight generation, and advanced measurement for brands, agencies, publishers, and platforms, streamlining workflows and delivering actionable insights.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "NewVoiceMedia",
+  "website": "https://www.newvoicemedia.com/en-us",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "NewVoiceMedia is a leading global provider of cloud technology which helps businesses sell more, serve better and grow faster. NewVoiceMedia was acquired by Vonage in 2018.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Nilus",
+  "website": "https://www.nilus.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Nilus is a treasury platform powered by dozens of proactive AI agents that forecast, reconcile, optimize liquidity, and execute.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "NODA AI",
+  "website": "https://www.nodaintelligence.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "NODA AI is a defense tech software company building an AI-powered vendor-agnostic orchestration platform to enable collaborative autonomy across heterogeneous unmanned systems.",
+  "sector": "Deep Tech & Defense, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Noded AI",
+  "website": "https://noded.so/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AI-based notetaking and knowledge productivity application.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Nominum",
+  "website": "https://www.akamai.com/us/en/products/network-operator/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Nominum provides DNS software & applications for top telecom providers to deliver superior performance, security, controls & communications. Nominum was acquired by Akamai Technologies in November 2017.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Nova Benefits",
+  "website": "https://novabenefits.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Nova Benefits is an India-based health benefits platform that helps companies get suitable and personalized benefits for their employees including: health insurance, doctor consultations, claim settlement, mental wellness, physical fitness, and chronic care service.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "npm",
+  "website": "https://www.npmjs.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "npm is the package manager for the JavaScript programming language. In March 2020, npm was acquired by GitHub.",
+  "sector": "Developer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "NYDIG",
+  "website": "https://nydig.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "NYDIG provides the full suite of digital asset services to premier institutions and sophisticated investors.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Nym",
+  "website": "https://nym.health/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Nym is a NLU based autonomous medical coding technology that enables healthcare facilities to optimize their revenue cycle processes.",
+  "sector": "AI, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Okera",
+  "website": "https://www.okera.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Okera enables the management of data access and governance at scale for today’s modern heterogeneous data environments. Okera was acquired by Databricks in May 2023.",
+  "sector": "Data & Cloud, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Ola",
+  "website": "https://olacabs.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Ola is an Indian multinational ride-sharing company.",
+  "sector": null,
+  "fund": "bessemer"
+ },
+ {
+  "name": "OLX",
+  "website": "https://www.olx.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "OLX Group operates a network of market-leading trading platforms in different countries. In August 2010, it was purchased by Naspers.",
+  "sector": "Consumer, Marketplaces",
+  "fund": "bessemer"
+ },
+ {
+  "name": "OMGPOP",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "OMGPOP is a web and mobile game developer. In March 2012, OMGPOP was acquired by Zynga.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "OMsignal",
+  "website": "https://www.omsignal.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Onaroll",
+  "website": "https://www.onaroll.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "OnXMaps",
+  "website": "https://www.onxmaps.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "onXMaps is a mobile apps company that provides maps for hunters and outdoor recreation.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Onyx Security",
+  "website": "https://www.onyx.security/",
+  "status": "active",
+  "stage": null,
+  "description": "Onyx is a cybersecurity company building an enterprise control plane for AI agents.",
+  "sector": "AI, Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Oper",
+  "website": "https://www.opercredits.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Oper is a credit Saas platform that digitizes the mortgage processes for lenders.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Optibus",
+  "website": "https://www.optibus.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Optibus is a cloud-native AI platform that makes public transportation smarter, better, and more efficient.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Optimal Dynamics",
+  "website": "https://www.optimaldynamics.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Optimal Dynamics brings next-generation AI to the logistics industry. It enables logistics companies to automate and optimize their operations.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Oshi Health",
+  "website": "https://oshihealth.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Oshi Health is a gastrointestinal care management application designed to diagnose and treat gastrointestinal or digestive conditions.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Otonomo",
+  "website": "https://otonomo.io/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Otonomo is the first neutral automotive data services platform that paves the way for the development of new apps and services. Otonomo went public in August 2021 (NASDAQ: OTMO).",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "OvaScience",
+  "website": "https://en.wikipedia.org/wiki/OvaScience",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "OvaScience is a biotechnology company focused on female infertility. OvaScience (NASDAQ: OVAS) became a public company in 2012.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "PagerDuty",
+  "website": "https://www.pagerduty.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "PagerDuty is an operations performance platform delivering visibility and actionable intelligence across the entire incident lifecycle. In April 2019, PagerDuty (NYSE: PD) went public on the New York Stock Exchange.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Pana",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Pana is the first corporate travel platform exclusively for world-class guest trips, including on-site interviews, customer visits, internships and more. Pana was acquired by Coupa in March 2021.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Papaya Global",
+  "website": "https://papayaglobal.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Papaya is an AI-first operating system for a borderless global workforce. Built for enterprise scale, it unifies Workforce OS, Payments OS, and Contingent OS to manage employees and contractors, ensure compliance, and enable instant global payments — combining real-time intelligence with human-backed expertise across 180 countries.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Papaya Pay",
+  "website": "https://papayapay.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Papaya Pay is a mobile bill payment application designed to simplify financial transactions.",
+  "sector": "Consumer, Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Paraglide",
+  "website": "https://www.paraglide.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Paraglide is agentic AI for accounts receivable.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Parallels",
+  "website": "https://www.parallels.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Parallels develops cross-platform virtualization and automation solutions which allow users to access applications, files, and computers. Corel Corporation acquired Parallels in 2018.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Pave",
+  "website": "https://www.pave.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Pave is a suite of real-time compensation tools to help companies plan and communicate compensation.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Pepper Content",
+  "website": "https://www.peppercontent.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Pepper Content is the one-stop platform that handles everything from content ideation to delivery.",
+  "sector": "Marketplaces, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Peptone",
+  "website": "https://peptone.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Peptone is an artificial intelligence and advanced atomic imaging techniques company that pursues a tricky class of potential targets for new medicines.",
+  "sector": "Biotech, Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Perfios",
+  "website": "https://www.perfios.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Perfios is an India-based data aggregation and analytics platform for financial services companies.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Periscope",
+  "website": "https://www.pscp.tv/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Periscope offers real-time video feeds, enabling individuals to see the world through another person's eyes. In January 2015, Periscope was acquired by Twitter.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Periscope Data",
+  "website": "https://www.periscopedata.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Periscope Data brings data together in a single platform and delivers SQL, Python, and R in one solution. In May 2019, Periscope Data merged with Bessemer portfolio company, Sisense.",
+  "sector": "Developer, Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Perplexity",
+  "website": "https://www.perplexity.ai/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Perplexity AI is an AI-chat-based conversational search engine that delivers answers to questions using language models.",
+  "sector": "AI, Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Pharmeasy",
+  "website": "https://www.pharmeasy.in/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Pharmeasy is a mobile pharmacy marketplace in India.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "PhishMe",
+  "website": "https://cofense.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "PhishMe is the leading provider of education and incident response tools to help enterprises defend against phishing and social engineering attacks. PhishMe was acquired by a private equity consortium in 2018.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Piazza",
+  "website": "https://www.piazza.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Piazza is the predominant social learning platform connecting students, instructors and employers.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Picogrid",
+  "website": "https://picogrid.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Picogrid builds hardware-enabled data infrastructure that enables different military assets to stream data among each other.",
+  "sector": "Deep Tech & Defense, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Pinterest",
+  "website": "https://www.pinterest.com",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Pinterest is a visual bookmarking tool for saving and discovering creative ideas. In April of 2019, Pinterest went public on the New York Stock Exchange (NYSE: PINS).",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Pipedrive",
+  "website": "https://www.pipedrive.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Pipedrive is a CRM platform designed to help SMBs sell more. Pipedrive was acquired by Vista Equity Partners in 2020.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Pivotal Health",
+  "website": "https://pivotalhealth.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Pivotal Health is a healthcare technology company helping providers achieve fair reimbursement through integrated software, data, and AI.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Playdom",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Playdom is an online social network of game developers. Playdom was acquired by Disney in August 2010.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Plenful",
+  "website": "https://www.plenful.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Plenful partners with healthcare organizations to increase revenue, decrease costs, and optimize workflows through their no-code automation and AI-enabled platform.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Plobal Apps",
+  "website": "https://www.plobalapps.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Plobal Apps is a mobile application development platform that helpa small and midsize businesses to create a custom mobile application",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Pluro",
+  "website": "https://pluro.in/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Pluro brings reliable, high-quality fertility care to families across India",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Port",
+  "website": "https://www.getport.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Port provides an internal developer portal for the software development lifecycle and DevOps sectors.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Portainer",
+  "website": "https://www.portainer.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Portainer is a universal container management tool.",
+  "sector": "Data & Cloud, Developer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Postini",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Postini provides email security and management for the enterprise. In July 2007, Postini was acquired by Google (NASDAQ:GOOG).",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Prefect",
+  "website": "https://www.prefect.io",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Prefect is a data workflow management system, designed for modern infrastructure.",
+  "sector": "AI, Developer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Preql",
+  "website": "https://www.preql.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Preql is a no code tool for business users to define and manage metrics.",
+  "sector": "Data & Cloud, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Procore",
+  "website": "https://www.procore.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Procore provides cloud-based construction management software. Procore (PCOR) went public in May 2021.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "productboard",
+  "website": "https://www.productboard.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "productboard is the product management system that helps organizations get the right products to market, faster.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Prospera",
+  "website": "https://www.prospera.ag/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Prospera is an agriculture technology data company that develops intelligent solutions. Prospera was acquired by Valmont Industries in May 2021.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Protectt AI",
+  "website": "https://www.protectt.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Protectt AI is a mobile app security platform designed to safeguard mobile apps from emerging cyber threats",
+  "sector": "AI, Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Provi",
+  "website": "https://www.provi.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Provi is a communication platform and open marketplace that simplifies the operations for bars, restaurants, and retailers in the beverage industry.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Pure Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Pure Networks provides equipment management, content and digital services to individuals and companies. Pure Networks was acquired by Cisco.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Qiz Security",
+  "website": "https://qizsecurity.com/",
+  "status": "active",
+  "stage": null,
+  "description": "QIZ helps organizations to align cryptographic management and PQC readiness with real-world risks and compliance demands.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Qiz Security",
+  "website": "https://qizsecurity.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "QIZ helps organizations to align cryptographic management and PQC readiness with real-world risks and compliance demands.",
+  "sector": "AI, Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Qogita",
+  "website": "https://www.qogita.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Marketplaces, Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Qualys",
+  "website": "https://www.qualys.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Qualys is a provider of cloud security and compliance solutions. Qualys went public (NASDAQ: QLYS) in September 2012.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Quantopian",
+  "website": "https://www.quantopian.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Quantopian is a platfrom for users to build, test and execute trading algorithms.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Quidsi (fka Diapers.com)",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Quidsi is one of the world's fastest growing e-commerce companies and parent of Diapers.com (baby care), Soap.com (household essentials) and BeautyBar.com (prestige beauty). In April 2011, the company was acquired by Amazon.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Qventus",
+  "website": "https://www.qventus.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Qventus optimizes decisions in hospitals in real time to reduce costs, improve quality and experience.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Qwak",
+  "website": "https://www.qwak.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Qwak is an end-to-end production machine learning (ML) platform that reduces the friction between the ML research and the production phases. JFrog announced to acquire Qwak in June 2024.",
+  "sector": "AI, Developer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Raft",
+  "website": "https://www.raft.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Raft is an intelligent freight platform that works with TMSs to orchestrate, automate and streamline data processing, transactions, approvals, and workflows across the shipment lifecycle, improving communications and collaboration for all stakeholders.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Rainforest QA",
+  "website": "https://www.rainforestqa.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Rainforest QA provides modern testing for web and mobile apps.",
+  "sector": "Developer, Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Ramp",
+  "website": "https://ramp.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Ramp is a financial productivity company that increases the efficiency and output of its customers.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Ravello Systems",
+  "website": "https://cloud.oracle.com/en_US/ravello",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Ravello Systems is a cloud service powered by nested virtualization. In March 2016, Ravello Systems was acquired by Oracle.",
+  "sector": "Data & Cloud, Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Recall AI",
+  "website": "https://www.recall.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Recall AI provides a unified API and developer platform for capturing and managing video & audio content from across major platforms including Zoom, Microsoft Teams, Google Meet, and Webex.",
+  "sector": "AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Recurrency",
+  "website": "https://www.recurrency.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Recurrency is the developer of an ERP automation platform for planning tools in the distribution ecosystem and offers enterprise resource planning with automated sales, purchasing, and pricing workflows in the tool, and on-demand recommendations, enabling wholesale distributors and B2B retailers to automate and optimize their pricing and sales processes.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Relevance AI",
+  "website": "https://relevanceai.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Relevance AI provides an AI agent operating system that helps companies automate repetitive reasoning tasks.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Remedio",
+  "website": "https://remedio.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Remedio is an endpoint security company that helps organizations with endpoint hardening by detecting misconfigurations and remediating them safely and automatically at scale",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Render",
+  "website": "https://render.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Render provides a unified cloud for developers and teams to host all their applications, databases, and websites.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Renoviso",
+  "website": "https://renoviso.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Renoviso is a provider of home renovation services.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Reputation",
+  "website": "https://www.reputation.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Reputation provides solutions for tracking and improving online reviews, social media, and local search visibility for businesses.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Restaurant365",
+  "website": "https://restaurant365.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Restaurant365 is a restaurant software development company focused exclusively on the restaurant and hospitality industry.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Retail Solutions",
+  "website": "https://www.retailsolutions.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Retail Solutions is a software firm providing SaaS products for data management, business intelligence, and point of sale applications.",
+  "sector": "Data & Cloud, Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Rev",
+  "website": "https://www.rev.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Rev is a voice platform for precise transcription, secure recording, and tailored summaries.",
+  "sector": "Marketplaces",
+  "fund": "bessemer"
+ },
+ {
+  "name": "RevenueBase",
+  "website": "https://revenuebase.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "RevenueBase is an all-in-one B2B database for marketing and sales for email, sales leads, lead and demand generation, and revenue growth.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Rewind",
+  "website": "https://rewind.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Rewind protects businesses by backing up their SaaS data.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Rigetti Computing",
+  "website": "http://www.rigetti.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Rigetti Computing is an integrated systems company that builds quantum computers and the superconducting quantum processors that power them. In March 2022, Rigetti went public on NASDAQ (RGTI).",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Rilla",
+  "website": "https://www.rilla.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Rilla is an AI coaching platform for in-person sales.",
+  "sector": "AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Rimsys",
+  "website": "https://www.rimsys.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Rimsys is the leading regulatory information management software for medtech.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Rocket Lab",
+  "website": "https://www.rocketlabusa.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Rocket Lab delivers a range of complete rocket systems and technologies for fast and low-cost payload deployment. Rocket Lab announced to go public in merger with SPAC Vector Acquisition Corp in March 2021. Rocket Lab went public in August 2021 (NASDAQ: RKLB).",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Rohirrim",
+  "website": "https://rohirrim.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Rohirrim leverages LLMs to help large enterprise contractors streamline their proposals to government RFPs.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Rosebud",
+  "website": "https://www.rosebud.app/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Therapist-backed AI journal built to support personal growth and emotional well-being.",
+  "sector": "Consumer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Rundoo",
+  "website": "https://rundoo.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Rundoo provides an AI-first system of record for independent supply stores, supporting the operations of vital small businesses that serve communities across the U.S. and Canada.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Rupa Health",
+  "website": "https://www.rupahealth.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Rupa Health makes root cause medicine accessible to all, starting with a specialty lab ordering and diagnostics platform. Rupa Health was acquired by Fullscript in October 2024.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Rupifi",
+  "website": "https://www.rupifi.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Rupifi is a B2B digital finance platform that helps the financial growth of small and medium enterprises.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Ryft",
+  "website": "https://www.ryft.io/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Ryft is developing a cross-platform data layer for ‘lakehouses’, an emerging architecture that combines the key benefits of data lakes (scalability and flexibility) and data warehouses (simplicity and accessibility). Ryft was acquired by Cyera in April 2026.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Saronic",
+  "website": "https://www.saronic.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Saronic designs and manufactures unmanned surface vehicles for maritime security and domain awareness.",
+  "sector": "Physical AI & Robotics, AI, Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sarvam",
+  "website": "https://www.sarvam.ai",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Sarvam AI is an Indian startup building sovereign large language models and AI infrastructure natively trained on Indian languages, designed to make AI accessible across India's linguistic diversity.",
+  "sector": "Infrastructure, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Scopely",
+  "website": "https://www.scopely.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Scopely is an entertainment and video game company that creates, publishes, and live-operates immersive games. Savvy Games Group Scopely acquired Scopely in April 2023.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ScyllaDB",
+  "website": "https://www.scylladb.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "ScyllaDB is a high performance NoSQL database compatible with Apache Cassandra.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Scytale",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Scytale helps engineers securely and easily build identity-drive, large-scale distributed software using technologies like SPIFFE.io. In February 2020, Scytale was acquired by Hewlett Packard Enterprise.",
+  "sector": "Data & Cloud, Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Seam AI",
+  "website": "https://www.getseam.ai/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "A modern data platform connected to sales and marketing end source systems with a GPT4-powered natural language interface for Revenue teams",
+  "sector": "AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Second Measure",
+  "website": "https://secondmeasure.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Second Measure analyzes billions of credit card transactions to answer real-time questions about consumer behavior.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sedona Systems",
+  "website": "https://sedonasys.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Sedona Systems revolutionizes the way high-end networks are designed and operated, leveraging the emerging wave of SDN (software defined networks). Sedona Systems was acquired by Cisco in June 2021.",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Seekho",
+  "website": "https://seekho.in/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Seekho is on an edu-tainment platform that is on a mission to democratize learning for all Indians.",
+  "sector": "Consumer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Seismic Therapeutic",
+  "website": "https://seismictx.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Seismic Therapeutic is a biotechnology company advancing machine learning for immunology drug development.",
+  "sector": "Biotech, Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "SendGrid",
+  "website": "https://www.sendgrid.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "SendGrid is a proven, cloud-based customer communication platform that drives engagement and business growth. In 2017, SendGrid went public (NYSE: SEND) and was then acquired by Twilio (NYSE: TWLO) in 2018.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sent",
+  "website": "https://www.sent.dm/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Sent is the unified API for sending messages across SMS, WhatsApp, and RCS.",
+  "sector": "Developer, Enterprise, Data & Cloud, Infrastructure",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sentra",
+  "website": "https://www.sentra.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Sentra is a cybersecurity platform that enables cloud-driven organizations to regain control and secure their data.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ServiceTitan",
+  "website": "https://www.servicetitan.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "ServiceTitan provides a mobile, cloud-based management platform for home services businesses. ServiceTitan went public in December 2024 (NASDAQ: TTAN).",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sett AI",
+  "website": "https://www.sett.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Agentic AI solution that delivers winning creatives and scalable user acquisition for games and more.",
+  "sector": "AI, Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Shift Technology",
+  "website": "http://www.shift-technology.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Shift Technology delivers the only AI-native fraud detection and claims automation solutions built specifically for the global insurance industry.",
+  "sector": "Fintech, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Shippo",
+  "website": "https://goshippo.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Shippo helps businesses navigate the complexities of shipping.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Shopify",
+  "website": "https://www.shopify.com/",
+  "status": "ipo",
+  "stage": "Growth",
+  "description": "Shopify is a cloud-based, multi-channel commerce platform designed for small and medium-sized businesses. Shopify went public in May 2015 (NYSE: SHOP).",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Shopmonkey",
+  "website": "https://www.shopmonkey.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Shopmonkey provides modern shop management software for auto shops to run, understand, and grow their business.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ShopMy",
+  "website": "https://shopmy.us/home",
+  "status": "active",
+  "stage": "Growth",
+  "description": "ShopMy is a platform that enables creators to curate digital shops for their product recommendations and monetize them through affiliate links.",
+  "sector": "Marketplaces",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Shriram City",
+  "website": "https://www.shriramcity.in/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Shriram City is a financial company that accepts deposits and offers small-business, vehicle, home, and retail loans. Shriram City became a public company on the National Stock Exchange in 2005 (NSE: SHRIRAMCIT).",
+  "sector": "Consumer, Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sign In Enterprise",
+  "website": "https://signinenterprise.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Sign In Enterprise (formerly Traction Guest) ensures safety and security for employees, contractors and essential visitors through its cloud-based visitor management systems (VMS).",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sila Nanotechnologies",
+  "website": "https://silanano.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Sila Nanotechnologies manufactures advanced battery materials to accelerate the electric car revolution.",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "SilverSky",
+  "website": "https://www.baesystems.com/en/cybersecurity/home",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "SilverSky provides on-demand messaging and security services to businesses. SilverSky was acquired by BAE Systems in 2014.",
+  "sector": "Cybersecurity, Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sirtris Pharmaceuticals",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Sirtris Pharmaceuticals was a biopharmaceutical company that developed therapies for type 2 diabetes, cancer, and other diseases. Sirtris went public in 2007 and was then acquired by GlaxoSmithKline in 2008.",
+  "sector": "Biotech, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sisense",
+  "website": "https://www.sisense.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Sisense simplifies business analytics for complex data by providing a complete solution for preparing, analyzing and visualizing big data.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "SiteAdvisor, Inc.",
+  "website": "https://www.mcafee.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "SiteAdvisor, Inc, developed a centralized service that protects consumers from web-based security threats. SiteAdvisor, Inc. was acquired by McAfee.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sixfold AI",
+  "website": "https://www.sixfold.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Vertical, AI, Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Skippr",
+  "website": "https://skippr.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Skippr's Live AI Employees see, browse, and speak—autonomously running demos, onboarding, training and more.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Skype",
+  "website": "https://www.skype.com/en/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Skype provides a telecommunications platform that offers free video chat and voice calls to internet-connected devices. In 2009, Skype was acquired by eBay and in 2011, Skype was acquired by Microsoft.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "SmarterDx",
+  "website": "https://smarterdx.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "SmarterDx ensures complete documentation and coding of diagnoses that impact hospital revenue and quality using EMR data and proprietary clinical AI. New Mountain Capital acquired SmarterDx in May 2025.",
+  "sector": "AI, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Smashfly",
+  "website": "https://www.smashfly.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "SmashFly Technologies provides marketing automation for recruiting. Symphony Talent acquired SmashFly Technologies in November 2019.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Smule",
+  "website": "https://www.smule.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Smule develops music-making apps that connect people.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "SnapDeal",
+  "website": "https://www.snapdeal.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Snapdeal.com is India's largest e-commerce marketplace.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Social Tables",
+  "website": "https://www.socialtables.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Social Tables is a SaaS suite for hospitality and event planning. Social Tables was acquired by Cvent in 2018.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Solomon",
+  "website": "https://solomontax.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Solomon is an AI platform for tax professionals, automating the preparation of complex returns for CPAs and wealth managers.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Soluto",
+  "website": "https://www.asurion.com/soluto-service/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Soluto is a device protection service. In 2013, Soluto was acquired by Asurion.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sorare",
+  "website": "https://sorare.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Sorare is a blockchain-based fantasy football platform designed to let managers trade official digital collectibles.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Soufflé Therapeutics",
+  "website": "https://www.souffletx.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Soufflé discovers and develops cell-specific ligands to deliver siRNA-based medicines that are rationally designed and transferred across the cell membrane to their target.",
+  "sector": "Biotech, Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Spire",
+  "website": "https://www.spire.com/en",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Spire is a space to cloud data analytics company utilizing satellites to provide maritime, aviation, and weather tracking. Spire Global went public in August 2021 (NYSE: SPIR).",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Spruce",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Spruce aims to improve title insurance assessment and issuance to reduce the time needed to close a real estate deal. Zillow Group acquired Spruce in September 2023.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Statespace",
+  "website": "https://statespace.gg",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Leveraging cognitive science and artificial intelligence to revolutionize human performance.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Storwize",
+  "website": "https://www.ibm.com/it-infrastructure/storage/storwize",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Storwize provides a real-time storage compression solution that boosts available storage space. In August 2019, Storwize was acquired by IBM.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Streamloots",
+  "website": "https://www.streamloots.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Streamloots is a marketplace to buy real-time interactions with live streamers.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Strella",
+  "website": "https://www.strella.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Strella is a SaaS solution that allows innovative product teams to run fast, continuous user research using AI.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Stromedix",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Stromedix is a biomedical company focused on drugs for fibrosis, organ failure and cancer. In 2012, Stromedix was acquired by Biogen Idec.",
+  "sector": "Biotech, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "StubHub",
+  "website": "https://www.stubhub.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Bessemer originally invested in Viagogo in 2012 and then helped finance the company’s acquisition of StubHub from eBay in 2020. The combined company is the leading global event ticketing marketplace on the Internet. StubHub went public in September 2025 (NYSE: STUB).",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "StuffThatWorks",
+  "website": "https://www.stuffthatworks.health/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "StuffThatWorks empowers people with chronic conditions to transform their experience into an organized knowledge database aimed at figuring out which treatments work best.",
+  "sector": "Consumer, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Subtle Medical",
+  "website": "https://www.subtlemedical.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Subtle Medical uses AI to redefine the standards for medical imaging, making it faster, safer, and smarter.",
+  "sector": "AI, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sukino",
+  "website": "https://sukinohealthcare.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Sukino provides continuum healthcare to patients with acute diseases",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Supermaven",
+  "website": "https://supermaven.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Supermaven is an AI coding assistant. Supermaven was acquired by Cursor in November 2024.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Sweep",
+  "website": "https://www.sweep.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Sweep is the agentic layer for existing enterprise systems allowing teams and metadata agents to plan, change, and govern with speed and confidence.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Swiggy",
+  "website": "https://www.swiggy.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Swiggy is an India-based food ordering and delivery company that provides food service solutions for restaurants. Swiggy became a publicly listed company on the National Stock Exchange (NSE: SWIGGY) in November 2024.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Syndio",
+  "website": "https://synd.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Syndio is an HR Analytics company focused on promoting fairness in the workplace.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Tackle.io",
+  "website": "https://tackle.io",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Tackle.io is a software company dedicated to helping software providers accelerate revenue through Cloud Marketplaces. Tackle.io was acquired by AppDirect in December 2025.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "TaxiForSure",
+  "website": "https://www.olacabs.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "TaxiForSure is an aggregator of car rentals and taxis in India. TaxiForSure was acquired by Ola in 2015.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Teachable",
+  "website": "https://teachable.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Teachable is an edtech platform that allows anyone to create and sell online courses. Teachable was acquired by Hotmart in 2020.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Team8",
+  "website": "https://www.team8.vc/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Team8 is a cybersecurity think tank and venture creation foundry.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "TeamViewer",
+  "website": "https://www.teamviewer.com/en-us/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "TeamViewer is a provider of remote control, remote access and online collaboration software. In 2014, TeamViewer was acquired by Permira.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Teleport",
+  "website": "https://goteleport.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Teleport empowers developers to easily access cloud and edge infrastructure with consolidated access to cloud resources including servers, databases, and Kubernetes.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Teleradiology Solutions",
+  "website": "https://telradsol.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Teleradiology Solutions uses tech first solutions for for teleradiology and telemedicine. Their expertise ranges across a wide variety of sub-specialties such as neuro-radiology, musculoskeletal, body, emergency radiology and more.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Teller Finance",
+  "website": "https://www.teller.finance/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Teller Finance is a decentralized, non-custodial liquidity pool, where users can participate as liquidity providers, by depositing assets, and borrowers, by connecting their bank accounts or staking their Fortune Teller NFTs.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "TensorZero",
+  "website": "https://www.tensorzero.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "TensorZero is an open-source API platform that helps LLM applications graduate from simple API wrappers into robust, defensible AI products.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Terra Bella (fka Skybox Imaging)",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Terra Bella (fka Skybox Imaging) provides commercial, high-resolution satellite imagery and high-definition video and analytics services. In August 2014, Skybox was acquired by Google, Inc. (NASDAQ: GOOG).",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "The Exploration Company",
+  "website": "https://www.exploration.space/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "The Exploration Company is a space logistics company that aspires to build a private space transportation services business, initially for moving cargo to and from space, and eventually for ferrying human astronauts.",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ThreatTrack Security",
+  "website": "https://vipre.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "ThreatTrack Security specializes in helping organizations identify and stop malwares designed to evade the traditional cyber-defenses. ThreatTrack Security was acquired by j2 Global in 2018.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Thunes",
+  "website": "https://www.thunes.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Thunes is a cross-border payment network for a seamless transfer of funds between payment systems.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Tile",
+  "website": "https://www.thetileapp.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Tile’s devices, network, and mobile app work together to help people organize their belongings. Tile was acquired by Life360 in 2021.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "TMRW Sports",
+  "website": "https://tmrwsportsgroup.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "TMRW Sports focuses on building progressive approaches in sports, media, and technology.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Toast",
+  "website": "https://pos.toasttab.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Toast is an all-in-one point-of-sale and restaurant management platform for businesses in the food service and hospitality space. In September 2021, Toast went public (NYSE: TOST).",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Torch Dental",
+  "website": "https://www.torchdental.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Torch Dental is the all-in-one solution for dental practices' supply ordering and inventory management needs.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Torq",
+  "website": "https://torq.io",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Torq is a no-code automation platform for security and operations teams. Frontline security professionals use Torq's easy workflow designer, limitless integrations and pre-built templates to deliver stronger security in minutes. Teams use Torq to accelerate threat response, automatically remediate risks, and automate away manual security tasks.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Toss",
+  "website": "https://toss.im/en/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Viva Republica, through its mobile app Toss, provides the simplest P2P mobile payments platform in Korea.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Traffix",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Traffix Systems was a 4G network-signaling company offering diameter products for telecommunications service providers. In 2012, Traffix was acquired by F5 Networks.",
+  "sector": "Data & Cloud",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Trajectory",
+  "website": "https://www.trajectory.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Trajectory is building a continual learning platform that helps enterprises post-train their own models based on their product usage telemetry",
+  "sector": "AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Transbnk",
+  "website": "https://transbnk.co.in/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "TransBnk is building the common operating system for a corporate banking landscape underserved by tech solutions.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "TRIANA Biomedicines",
+  "website": "https://trianabio.com/",
+  "status": "active",
+  "stage": null,
+  "description": "TRIANA Biomedicines is an emerging leader in the “molecular glue degrader” field with several potential best-in-class therapies for precision oncology.",
+  "sector": "Biotech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Tripwire",
+  "website": "https://www.tripwire.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Tripwire provides risk-based security and compliance management solutions. In May 2011, it was acquired by Thoma Bravo and then acquired by Belden in 2014.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "TRM Labs",
+  "website": "https://www.trmlabs.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "TRM Labs is a regulatory technology platform that addresses digital asset compliance and risk management in the cryptocurrency industry.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Truebill",
+  "website": "https://www.truebill.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Truebill is a finance management application designed to optimize spending, manage subscriptions, and save money, which enables users to improve their financial health. Truebill was acquired by Rocket Technologies in December 2021.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "TScan Therapeutics",
+  "website": "https://www.tscan.com",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "TScan Therapeutics is harnessing novel T cell systems to extend the promise of immunotherapy. TScan went public in July 2021 (NASDAQ: TCRX).",
+  "sector": "Biotech, Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "TSM",
+  "website": "https://www.tsm.gg/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "TSM is a leading esports franchise.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "TurbineOne",
+  "website": "https://www.turbineone.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "TurbineOne delivers do-it-yourself Artificial Intelligence & Machine Learning. TurbineOne’s Frontline Perception System (FPS) allows users to build, tune, and deploy computer-powered recognition algorithms without having to code and without requiring a cloud.",
+  "sector": "Deep Tech & Defense, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Turneo",
+  "website": "https://www.turneo.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Turneo is a traveltech company that provides an experience booking platform for hotels and resorts.",
+  "sector": "Vertical, Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Turquoise Health",
+  "website": "https://turquoise.health/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Turquoise Health is a healthcare information services company that reduces the cost and complexity of healthcare by simplifying administration.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Twilio",
+  "website": "https://www.twilio.com/",
+  "status": "ipo",
+  "stage": "Growth",
+  "description": "Twilio is a cloud communication company that enables users to use standard web languages to build voice, VoIP, and SMS apps via a web API. In June 2016, Twilio went public (NYSE: TWLO).",
+  "sector": "Data & Cloud, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Twin1",
+  "website": "https://www.twin1.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Twin-1 gives knowledge workers a digital Twin that mirrors their work context and privacy / permission preferences inside Slack and Teams.",
+  "sector": "AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Twitch",
+  "website": "https://www.twitch.tv/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Twitch is a social video platform for gamers where more than 100 million gather every month to broadcast, watch and talk about video games. In 2014, Twitch was acquired by Amazon for ~$1 billion.",
+  "sector": "Data & Cloud, Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Ualá",
+  "website": "https://www.uala-abc.com.mx/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Ualá is a digital-first bank in Latin America that offers a financial ecosystem to consumers and merchants.",
+  "sector": "Consumer, Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Unframe AI",
+  "website": "https://www.unframe.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Unframe is an AI-first company that builds internal software for businesses.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "United Capital",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "United Capital is a wealth counseling company helping clients to achieve empowerment over their financial aspirations. In 2019, United Capital was acquired by Goldman Sachs.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Unito",
+  "website": "https://unito.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Unito provides detailed, two-way, live task and project syncing between tools, making teams more efficient.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "UniUni",
+  "website": "https://www.uniuni.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "New generation crowdsourcing eCommerce last-mile delivery solutions.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Unrivaled Basketball",
+  "website": "https://www.unrivaled.basketball/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Unrivaled Basketball is the 3v3 women's offseason basketball league founded by WNBA all-stars Napheesa Collier and Breanna Stewart.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Upside",
+  "website": "https://www.upside.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Upside is a retail technology platform that helps users earn cash back at gas stations, grocery stores, and restaurants.",
+  "sector": "Consumer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Upvest",
+  "website": "https://upvest.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Upvest is an investment API that empowers financial institutions to offer investment products in their app with a modular, scalable, and accessible alternative.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Upwind",
+  "website": "https://www.upwind.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Upwind Security provides cybersecurity solutions to protect organizations from digital threats and vulnerabilities.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Urban Company",
+  "website": "https://www.urbancompany.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Urban Company (fka UrbanClap) is a mobile-based local services marketplace in India. Urban Company became a publicly listed company on the National Stock Exchange (NSE: URBANCO) in September 2025.",
+  "sector": "Marketplaces",
+  "fund": "bessemer"
+ },
+ {
+  "name": "US Health Partners, LLC",
+  "website": "https://www.ushphealth.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Valence",
+  "website": "https://www.valence.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Valence is an AI platform that offers personalized leadership coaching and feedback to enhance skills and cohesion.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Vapi",
+  "website": "https://vapi.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Vapi is a voice AI developer platform that abstracts away the complexity of building conversational voice agents on top of 3rd party AI models.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Vayyar",
+  "website": "https://vayyar.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Vayyar develops 3D imaging sensors, opening the world to a new generation of safe, mobile and low cost imaging devices.",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Vega Health",
+  "website": "https://www.vegahealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Vega Health connects health systems with curated AI tools, offering evaluation, governance, deployment, and monitoring support.",
+  "sector": null,
+  "fund": "bessemer"
+ },
+ {
+  "name": "Velo3D",
+  "website": "https://www.velo3d.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Velo3D develops metal additive manufacturing solutions, including 3D printing systems, print preparation software and integration technology. Velo3D went public in September 2021 (NYSE: VLD).",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "VendorPM",
+  "website": "https://vendorpm.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "VendorPM modernizes property management information services that helps simplify vendor management, sourcing, procurement, and compliance.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Verastem",
+  "website": "https://www.verastem.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Verastem is a biopharmaceutical company focused on discovering and developing novel drugs that selectively target cancer stem cells. In January 2012, Verastem went public (NASDAQ: VSTM).",
+  "sector": "Biotech, Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Verata Health",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Verata Health is the developer of an artificial intelligence platform intented to improve the prior authorization process for private practices, hospitals, and health systems. Verata Health was acquired by Olive in December 2020.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Verato",
+  "website": "https://verato.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Verato helps healthcare enterprises maintain identity data and more accurately link customer records within and across enterprises.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "VeriSign",
+  "website": "https://www.verisign.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "VeriSign is a leader in domain names and internet security. The company went public in 1998 (NASDAQ:VRSN).",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Verodin",
+  "website": "https://www.verodin.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Verodin is a business platform that enables organizations to measure, manage, and improve their cybersecurity effectiveness. Verodin was acquired by FireEye in May 2019.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Verse",
+  "website": "https://verse.inc/",
+  "status": "active",
+  "stage": null,
+  "description": "Verse is an AI-powered, software-only energy management platform that gives Fortune 500 enterprises and hyperscale data centers a centralized hub to both manage their total electricity spend and autonomously dispatch their behind-the-meter (BTM), on-site battery storage assets.",
+  "sector": null,
+  "fund": "bessemer"
+ },
+ {
+  "name": "Vertice",
+  "website": "https://www.vertice.one/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Vertice is a SaaS purchasing platform that helps companies save on annual software expenditure.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Vetic",
+  "website": "https://vetic.in/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Vetic provides human-grade healthcare for pets backed by expert veterinarians and state-of-the-art clinics across India.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Vidyard",
+  "website": "https://www.vidyard.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Vidyard is an online video platform for businesses that increases leads, accelerates pipelines, and delights customers.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "View The Space (Fmr Hightower)",
+  "website": "https://www.vts.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Virtru",
+  "website": "https://www.virtru.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Virtru is the provider of a data security platform designed to eliminate the tradeoff between data protection and ease of use for businesses.",
+  "sector": "Cybersecurity, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Vlocity",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Vlocity delivers industry-specific cloud and mobile software that embed digital, omnichannel processes for customer-centric industries. In February 2020, Vlocity was acquired by Salesforce.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Voxel51",
+  "website": "https://voxel51.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Voxel51 is an AI software company that enables computer vision data scientists to rapidly curate and experiment with their datasets in order to build higher performing machine learning systems.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Wandera",
+  "website": "https://www.wandera.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Wandera pioneered the secure mobile gateway to help organizations protect their data and gain better visibility and control over their mobile data usage. Wandera was acquired by JAMF in May 2021.",
+  "sector": "Cybersecurity",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Watershed",
+  "website": "https://www.watershed.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Watershed is a verticalized Bio-IT cloud data lab technology that finds bioinformatics tools for biologists, helping biologists and bioinformaticians with assistance for more efficient and effective experimentation.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Waymo",
+  "website": "https://waymo.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Waymo is a mobility technology company that improves transportation by developing self-driving solutions for travelers and daily commuters.",
+  "sector": "Physical AI & Robotics, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Weave",
+  "website": "https://www.getweave.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Weave is a communication company helping practitioners increase and maintain their patient base by building stronger relationships. Weave became a public company in November 2021.",
+  "sector": "Healthcare, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Welltok",
+  "website": "https://www.welltok.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Welltok is a enterprise SaaS company that delivers the healthcare industry’s consumer activation platform. Welltok was acquired by Virgin Pulse in November 2021.",
+  "sector": "Healthcare",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Wildlife Studios",
+  "website": "https://www.wildlifestudios.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Wildlife Studios (formerly TFG) is a mobile games developer.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Winc",
+  "website": "https://www.winc.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Winc is a subscription wine service. Winc went public in November 2021 (NYSE: WBEV).",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Windfall Bio",
+  "website": "https://www.windfall.bio/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Windfall Bio is an agriculture technology and climate startup focused on transforming dilute methane emissions into value-add products.",
+  "sector": "Biotech, Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "WiredScore",
+  "website": "https://wiredscore.com/en/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "WiredScore is the company behind Wired Certification, the international digital connectivity rating system for commercial office buildings. WiredScore was acquired by Meter in April 2026.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Wix",
+  "website": "https://www.wix.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Wix empowers businesses, organizations, professionals, and individuals to take their businesses, brands, and workflow online. Wix (WIX) went public in November 2013.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Wonderful",
+  "website": "https://www.wonderful.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Wonderful is an agentic enterprise platform using a local deployment to deliver enterprise-grade AI agents to every market and every language.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Wrapbook",
+  "website": "https://www.wrapbook.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Wrapbook is a digital production payroll and cost-tracking platform that provides tools for automated timecards and compliance tracking.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Wukong Education",
+  "website": "https://www.wukongsch.com/en",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Wukong Education is a leader in online education for students between 3 to 18 years old who want to learn math and Chinese.",
+  "sector": "Consumer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Xanadu",
+  "website": "https://www.xanadu.ai/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Xanadu is a photonic quantum computing platform that leverages advanced artificial intelligence to integrate quantum silicon photonic chips into existing hardware to create a full-stack quantum computer. Xanadu went public in March 2026 (TSX and NASDAQ: XNDU).",
+  "sector": "Deep Tech & Defense",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Xtime",
+  "website": "https://xtime.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Xtime is the leading CRM and scheduling platform for automotive manufacturers and dealer service departments. Xtime was acquired by Cox Automotive in November 2014.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Yelp",
+  "website": "https://www.yelp.com",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "Yelp operates an online platform that connects people with local businesses. Yelp went public in 2012 (NYSE: YELP).",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Yodle",
+  "website": "http://www.yodle.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Yodle provides local marketing and lead-generation services to small and medium sized businesses. In March 2016, Yodle was acquired by Web.com.",
+  "sector": "Vertical",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Yotpo",
+  "website": "https://www.yotpo.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Yotpo is a commerce marketing cloud offering businesses customer reviews, visual marketing, loyalty, and referrals.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Zapier",
+  "website": "https://www.zapier.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Zapier is a service that syncs data between web applications.",
+  "sector": "Developer, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Zenskar",
+  "website": "https://zenskar.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Zenskar is a billing software for SaaS companies to easily manage their business. Zenskar specializes in complex pricing and handling contracts seamlessly, usage data metering, automated revenue accounting, viewing KPIs, and setting up dunning workflows, enabling companies to keep track of sales and payments received, and manage cash effectively.",
+  "sector": "Enterprise",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ZenZap",
+  "website": "https://www.zenzap.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Agentic Work Chat for SMBs and Mid-Market.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Zoomin",
+  "website": "https://www.zoominsoftware.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Zoomin is revolutionizing how companies and their customers gain value from documentation. Zoomin was acquired by Salesforce September 2024.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Zoosk",
+  "website": "https://www.zoosk.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Zoosk is the online dating site and dating app where people can browse photos of local singles, match with daters, and chat. In April 2019, Zoosk was acquired by Spark Networks SE.",
+  "sector": "Consumer",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Zopa",
+  "website": "https://www.zopa.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Zopa offers peer-to-peer loans with low rates, flexible terms, and no early repayment fees.",
+  "sector": "Consumer, Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Zopper",
+  "website": "https://www.zopper.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Zopper offers an embedded insurance API suite.",
+  "sector": "Fintech",
+  "fund": "bessemer"
+ },
+ {
+  "name": "ZyG",
+  "website": "https://www.zyg.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "ZyG’s agentic operating system powers an end-to-end service that builds and scales DTC businesses.",
+  "sector": "Vertical, AI",
+  "fund": "bessemer"
+ },
+ {
+  "name": "Zylo",
+  "website": "https://zylo.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Zylo is an enterprise SaaS optimization platform that helps unlock the full potential of SaaS for buyers, providers and users.",
+  "sector": "Enterprise, AI",
+  "fund": "bessemer"
+ }
+]

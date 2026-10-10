@@ -1,0 +1,866 @@
+[
+ {
+  "name": "AAI",
+  "website": "https://doubleai.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - General Purpose",
+  "fund": "nventures"
+ },
+ {
+  "name": "Abridge",
+  "website": "https://www.abridge.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Achira",
+  "website": "https://achira.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Adaptive Security",
+  "website": "https://www.adaptivesecurity.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security",
+  "fund": "nventures"
+ },
+ {
+  "name": "Aidoc",
+  "website": "https://www.aidoc.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Alice & Bob",
+  "website": "https://alice-bob.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Quantum",
+  "fund": "nventures"
+ },
+ {
+  "name": "Basecamp Research",
+  "website": "https://www.basecampresearch.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Bedrock Robotics",
+  "website": "https://bedrockrobotics.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Autonomous Vehicles",
+  "fund": "nventures"
+ },
+ {
+  "name": "Carbon Robotics",
+  "website": "https://www.carbonrobotics.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Charm Therapeutics",
+  "website": "https://www.charmtx.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "CodeRabbit",
+  "website": "https://coderabbit.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - Code Generation",
+  "fund": "nventures"
+ },
+ {
+  "name": "Commonwealth Fusion Systems",
+  "website": "https://www.cfs.energy/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Energy",
+  "fund": "nventures"
+ },
+ {
+  "name": "Contextual AI",
+  "website": "https://www.contextual.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Middleware Software",
+  "fund": "nventures"
+ },
+ {
+  "name": "CuspAI",
+  "website": "https://www.cusp.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial & Materials Discovery",
+  "fund": "nventures"
+ },
+ {
+  "name": "David AI",
+  "website": "https://www.withdavid.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Voice/Audio",
+  "fund": "nventures"
+ },
+ {
+  "name": "Dyna Robotics",
+  "website": "https://www.dynarobotics.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Edison Scientific",
+  "website": "https://www.edisonscientific.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Emerald AI",
+  "website": "https://www.emeraldai.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Vertical Application",
+  "fund": "nventures"
+ },
+ {
+  "name": "Evozyne",
+  "website": "https://www.evozyne.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Exa",
+  "website": "https://exa.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Search",
+  "fund": "nventures"
+ },
+ {
+  "name": "Factory AI",
+  "website": "https://www.factory.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - Code Generation",
+  "fund": "nventures"
+ },
+ {
+  "name": "fal",
+  "website": "https://fal.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Video",
+  "fund": "nventures"
+ },
+ {
+  "name": "FieldAI",
+  "website": "https://www.fieldai.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Flexion Robotics",
+  "website": "https://www.flexionrobotics.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Flywheel",
+  "website": "https://www.flywheel.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Freeform",
+  "website": "https://www.freeformfuture.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial & Materials Discovery",
+  "fund": "nventures"
+ },
+ {
+  "name": "General Robotics",
+  "website": "https://www.generalrobotics.company/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Generalist AI",
+  "website": "https://generalistai.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Generate",
+  "website": "https://www.generatebiomedicines.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Genesis Molecular AI",
+  "website": "https://www.genesistherapeutics.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Harmonic",
+  "website": "https://harmonic.fun/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - Enterprise",
+  "fund": "nventures"
+ },
+ {
+  "name": "Hippocratic",
+  "website": "https://www.hippocraticai.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Hydra Host",
+  "website": "https://hydrahost.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Middleware Software",
+  "fund": "nventures"
+ },
+ {
+  "name": "Iambic Therapeutics",
+  "website": "https://www.iambic.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Inception Labs",
+  "website": "https://www.inceptionlabs.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - General Purpose",
+  "fund": "nventures"
+ },
+ {
+  "name": "Inceptive",
+  "website": "https://www.inceptivemedicine.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Instrumental",
+  "website": "https://instrumental.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial & Materials Discovery",
+  "fund": "nventures"
+ },
+ {
+  "name": "Legora",
+  "website": "https://legora.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Vertical Application",
+  "fund": "nventures"
+ },
+ {
+  "name": "Lila Sciences",
+  "website": "https://www.lilasciences.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Linker Vision",
+  "website": "https://www.linkervision.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial & Materials Discovery",
+  "fund": "nventures"
+ },
+ {
+  "name": "Lovable",
+  "website": "https://lovable.dev/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - Code Generation",
+  "fund": "nventures"
+ },
+ {
+  "name": "LumaLabs",
+  "website": "https://lumalabs.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - Multimodal",
+  "fund": "nventures"
+ },
+ {
+  "name": "Luminary",
+  "website": "https://www.luminarycloud.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial & Materials Discovery",
+  "fund": "nventures"
+ },
+ {
+  "name": "Machina Labs",
+  "website": "https://www.machinalabs.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "MindsDB",
+  "website": "https://mindsdb.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Data Platforms & Analytics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Mirendil",
+  "website": "https://mirendil.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - General Purpose",
+  "fund": "nventures"
+ },
+ {
+  "name": "Moon Surgical",
+  "website": "https://www.moonsurgical.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Moonlake AI",
+  "website": "https://www.moonlakeai.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "n8n",
+  "website": "https://n8n.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Agentic Workflow",
+  "fund": "nventures"
+ },
+ {
+  "name": "Neocis",
+  "website": "https://www.neocis.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "nEye Systems",
+  "website": "https://www.neye.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Networking",
+  "fund": "nventures"
+ },
+ {
+  "name": "nTop",
+  "website": "https://www.ntop.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial & Materials Discovery",
+  "fund": "nventures"
+ },
+ {
+  "name": "Nuance Labs",
+  "website": "https://www.nuancelabs.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - Multimodal",
+  "fund": "nventures"
+ },
+ {
+  "name": "Odyssey",
+  "website": "https://www.odyssey.systems/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - Multimodal",
+  "fund": "nventures"
+ },
+ {
+  "name": "OpenEvidence",
+  "website": "https://www.openevidence.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Orbital Industries",
+  "website": "https://www.orbitalindustries.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial & Materials Discovery",
+  "fund": "nventures"
+ },
+ {
+  "name": "Outrider",
+  "website": "https://www.outrider.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Autonomous Vehicles",
+  "fund": "nventures"
+ },
+ {
+  "name": "PassiveLogic",
+  "website": "https://www.passivelogic.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial & Materials Discovery",
+  "fund": "nventures"
+ },
+ {
+  "name": "Periodic Labs",
+  "website": "https://www.periodiclabs.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial & Materials Discovery",
+  "fund": "nventures"
+ },
+ {
+  "name": "Physical Intelligence",
+  "website": "https://www.physicalintelligence.company/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "PhysicsX",
+  "website": "https://www.physicsx.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial & Materials Discovery",
+  "fund": "nventures"
+ },
+ {
+  "name": "Point2 Technology Inc.",
+  "website": "https://point2tech.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Networking",
+  "fund": "nventures"
+ },
+ {
+  "name": "PolyAI",
+  "website": "https://www.poly.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Voice/Audio",
+  "fund": "nventures"
+ },
+ {
+  "name": "Profound",
+  "website": "https://www.tryprofound.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Data Platforms & Analytics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Proxima",
+  "website": "https://www.proxima.bio/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "PsiQuantum",
+  "website": "https://www.psiquantum.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Quantum",
+  "fund": "nventures"
+ },
+ {
+  "name": "Quantinuum",
+  "website": "https://www.quantinuum.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Quantum",
+  "fund": "nventures"
+ },
+ {
+  "name": "QuEra",
+  "website": "https://www.quera.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Quantum",
+  "fund": "nventures"
+ },
+ {
+  "name": "Radical AI",
+  "website": "https://www.radical-ai.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial & Materials Discovery",
+  "fund": "nventures"
+ },
+ {
+  "name": "Redwood Materials",
+  "website": "https://www.redwoodmaterials.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Energy",
+  "fund": "nventures"
+ },
+ {
+  "name": "Reflection AI",
+  "website": "https://www.reflection.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - Code Generation",
+  "fund": "nventures"
+ },
+ {
+  "name": "Relation Therapeutics",
+  "website": "https://www.relationtx.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Revolut",
+  "website": "https://www.revolut.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Vertical Application",
+  "fund": "nventures"
+ },
+ {
+  "name": "Rhoda",
+  "website": "https://www.rhoda.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Runway ML",
+  "website": "https://runwayml.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - Multimodal",
+  "fund": "nventures"
+ },
+ {
+  "name": "Samaya",
+  "website": "https://samaya.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Vertical Application",
+  "fund": "nventures"
+ },
+ {
+  "name": "Scintil Photonics",
+  "website": "https://www.scintil-photonics.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Networking",
+  "fund": "nventures"
+ },
+ {
+  "name": "Seurat",
+  "website": "https://www.seurat.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Industrial & Materials Discovery",
+  "fund": "nventures"
+ },
+ {
+  "name": "Simular",
+  "website": "https://www.simular.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Agentic Workflow",
+  "fund": "nventures"
+ },
+ {
+  "name": "Skild",
+  "website": "https://www.skild.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Suno",
+  "website": "https://suno.com/home",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Voice/Audio",
+  "fund": "nventures"
+ },
+ {
+  "name": "Superluminal Medicines",
+  "website": "https://www.superluminal.eu/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Synthesia",
+  "website": "https://www.synthesia.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Video",
+  "fund": "nventures"
+ },
+ {
+  "name": "Tensormesh",
+  "website": "https://www.tensormesh.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI Middleware Software",
+  "fund": "nventures"
+ },
+ {
+  "name": "TerraPower",
+  "website": "https://www.terrapower.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Energy",
+  "fund": "nventures"
+ },
+ {
+  "name": "Terray Therapeutics",
+  "website": "https://www.terraytx.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "ThinkLabs",
+  "website": "https://www.thinklabs.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Energy",
+  "fund": "nventures"
+ },
+ {
+  "name": "TwelveLabs",
+  "website": "https://www.twelvelabs.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - Multimodal",
+  "fund": "nventures"
+ },
+ {
+  "name": "Unstructured",
+  "website": "https://unstructured.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Data Platforms & Analytics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Vention",
+  "website": "https://vention.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "nventures"
+ },
+ {
+  "name": "Vilya Therapeutics",
+  "website": "https://www.vilyatx.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Healthcare & Digital Biology",
+  "fund": "nventures"
+ },
+ {
+  "name": "Waabi",
+  "website": "https://waabi.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Autonomous Vehicles",
+  "fund": "nventures"
+ },
+ {
+  "name": "Wisdom AI",
+  "website": "https://www.wisdom.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Data Platforms & Analytics",
+  "fund": "nventures"
+ },
+ {
+  "name": "World Labs",
+  "website": "https://www.worldlabs.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Foundation Models - Multimodal",
+  "fund": "nventures"
+ },
+ {
+  "name": "XBow",
+  "website": "https://xbow.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Security",
+  "fund": "nventures"
+ },
+ {
+  "name": "Xscape Photonics",
+  "website": "https://www.xscapephotonics.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Networking",
+  "fund": "nventures"
+ }
+]

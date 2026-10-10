@@ -1,0 +1,1379 @@
+[
+ {
+  "name": "1mind",
+  "website": "https://www.1mind.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Acopia Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Airgo",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "AirOps",
+  "website": "https://www.airops.com/",
+  "status": "active",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries, Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "Algorand",
+  "website": "https://www.algorand.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Web3",
+  "fund": "wing"
+ },
+ {
+  "name": "Altor Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Amber Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "AMI Labs",
+  "website": "https://amilabs.xyz/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "AI Model Development",
+  "fund": "wing"
+ },
+ {
+  "name": "Angle Health",
+  "website": "https://www.anglehealth.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Health",
+  "fund": "wing"
+ },
+ {
+  "name": "Aporeto",
+  "website": "https://www.paloaltonetworks.com/company/press/2019/palo-alto-networks-completes-acquisition-of-aporeto",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Ario",
+  "website": "https://ariodata.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries, Data",
+  "fund": "wing"
+ },
+ {
+  "name": "Around",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Arpelos Biosciences",
+  "website": "https://www.arpelos.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "ArrowPoint Communications",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Aruba Networks",
+  "website": "http://www.arubanetworks.com/",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Asimov",
+  "website": "https://www.asimov.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "AttoTude",
+  "website": "https://www.attotude.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Base",
+  "website": "http://base.ai",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Bespoke Labs",
+  "website": "https://bespokelabs.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "AI Model Development, Data",
+  "fund": "wing"
+ },
+ {
+  "name": "Billables.ai",
+  "website": "https://billables.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "BlueJeans Network",
+  "website": "http://bluejeans.com",
+  "status": "acquired",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries, Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "BlueRock Security",
+  "website": "https://www.bluerock.io/",
+  "status": "active",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "BoomPop",
+  "website": "https://boompop.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Broadsoft",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Bungalow",
+  "website": "https://bungalow.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "FinTech",
+  "fund": "wing"
+ },
+ {
+  "name": "Cartography Biosciences",
+  "website": "https://cartography.bio/",
+  "status": "active",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "Cellanome",
+  "website": "https://www.cellanome.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "CertiK",
+  "website": "https://certik.org/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Security, Web3",
+  "fund": "wing"
+ },
+ {
+  "name": "Chemify",
+  "website": "http://www.chemify.io/",
+  "status": "active",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Bio, Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Classiq",
+  "website": "https://www.classiq.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "DevOps and DevTools, Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Clear Labs",
+  "website": "https://www.clearlabs.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Bio, Health",
+  "fund": "wing"
+ },
+ {
+  "name": "Clockwork.io",
+  "website": "https://clockwork.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Cogniac",
+  "website": "https://cogniac.ai/",
+  "status": "active",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "AI Model Development, Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Cohesity",
+  "website": "https://www.cohesity.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure, Data, Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Complex Media Network",
+  "website": "https://www.complex.com/about",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Copy.ai",
+  "website": "https://www.copy.ai/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Cumulus Networks",
+  "website": "http://cumulusnetworks.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Cyberhaven",
+  "website": "https://www.cyberhaven.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Security, Data, Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "Deepgram",
+  "website": "https://www.deepgram.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "AI Model Development, DevOps and DevTools",
+  "fund": "wing"
+ },
+ {
+  "name": "DeepSight",
+  "website": "https://deepsightinc.com/",
+  "status": "active",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "Demisto",
+  "website": "https://www.demisto.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Develop Health",
+  "website": "https://www.develophealth.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Health",
+  "fund": "wing"
+ },
+ {
+  "name": "Drip Capital",
+  "website": "http://www.dripcapital.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "FinTech",
+  "fund": "wing"
+ },
+ {
+  "name": "DTEX Systems",
+  "website": "http://www.dtexsystems.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Security, Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "Dust",
+  "website": "https://dust.tt/",
+  "status": "active",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Enterprise AI Enablement, DevOps and DevTools",
+  "fund": "wing"
+ },
+ {
+  "name": "Espressive",
+  "website": "http://espressive.com",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Feathery",
+  "website": "https://www.feathery.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Findem",
+  "website": "https://www.findem.ai/",
+  "status": "active",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "FireEye",
+  "website": "http://www.fireeye.com/",
+  "status": "ipo",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Fusion-io",
+  "website": "?9a5de69c_page=1",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Gimlet Labs",
+  "website": "https://gimletlabs.ai/",
+  "status": "active",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Glyphic Biotechnologies",
+  "website": "https://glyphic.bio/",
+  "status": "active",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "Gong",
+  "website": "http://www.gong.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Goodfire",
+  "website": "https://www.goodfire.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "AI Model Development",
+  "fund": "wing"
+ },
+ {
+  "name": "Gradient",
+  "website": "https://gradient.ai/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "Gray Swan",
+  "website": "https://www.grayswan.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Security, Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "Greenwork",
+  "website": "https://www.joingreenwork.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": null,
+  "fund": "wing"
+ },
+ {
+  "name": "GYANT",
+  "website": "https://gyant.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Health",
+  "fund": "wing"
+ },
+ {
+  "name": "Habu",
+  "website": "https://habu.com/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Data",
+  "fund": "wing"
+ },
+ {
+  "name": "Hireguide",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Human Archive",
+  "website": "https://www.humanarchive.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Physical AI, AI Model Development, Data",
+  "fund": "wing"
+ },
+ {
+  "name": "Human Interest",
+  "website": "http://humaninterest.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "FinTech, Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Hydrolix",
+  "website": "https://www.hydrolix.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Data",
+  "fund": "wing"
+ },
+ {
+  "name": "IBEAM Broadcasting",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Incalmo",
+  "website": "https://www.incalmo.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Infinera",
+  "website": "http://www.infinera.com/",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Instart",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Inventive",
+  "website": "https://www.madeinventive.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Data",
+  "fund": "wing"
+ },
+ {
+  "name": "Jaris",
+  "website": "https://jaris.io/",
+  "status": "active",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "FinTech",
+  "fund": "wing"
+ },
+ {
+  "name": "Jasper",
+  "website": "http://www.jasper.com/",
+  "status": "acquired",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Jellyfish",
+  "website": "https://jellyfish.co/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries, DevOps and DevTools",
+  "fund": "wing"
+ },
+ {
+  "name": "Juvo",
+  "website": "http://juvo.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "FinTech, Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Kay",
+  "website": "https://kay.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Lightfield",
+  "website": "https://lightfield.app/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Link Cell Therapies",
+  "website": "https://linkcelltx.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "Lumana",
+  "website": "https://www.lumana.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "AI Model Development, Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Lumigo",
+  "website": "https://lumigo.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "DevOps and DevTools",
+  "fund": "wing"
+ },
+ {
+  "name": "Matterworks",
+  "website": "https://www.matterworksbio.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Bio, AI Model Development",
+  "fund": "wing"
+ },
+ {
+  "name": "Medely",
+  "website": "https://medely.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Health",
+  "fund": "wing"
+ },
+ {
+  "name": "Mendra",
+  "website": "https://mendra.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "Mimic",
+  "website": "https://mimic.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "MobileIron",
+  "website": "http://www.mobileiron.com/en",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Moogsoft",
+  "website": "https://www.moogsoft.com/dell-technologies-acquires-moogsoft/",
+  "status": "acquired",
+  "stage": "Series B",
+  "description": null,
+  "sector": "DevOps and DevTools",
+  "fund": "wing"
+ },
+ {
+  "name": "Motive",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Mytos",
+  "website": "https://www.mytos.bio/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "NetScaler",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "New Edge Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Nimble Storage",
+  "website": "https://www.hpe.com/us/en/storage/nimble.html",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Northpoint Communications",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Notch",
+  "website": "https://usenotch.ai/?utm_source=wing&amp;utm_medium=portfolio&amp;utm_campaign=wing_directory",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Obsidian",
+  "website": "https://www.obsidiansecurity.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Omneon",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Onava",
+  "website": "https://onava.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "Opower",
+  "website": "http://opower.com",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Orby AI",
+  "website": "https://www.orby.ai/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries, AI Model Development",
+  "fund": "wing"
+ },
+ {
+  "name": "Ordr",
+  "website": "https://ordr.net/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Security, Data",
+  "fund": "wing"
+ },
+ {
+  "name": "Outer Bio",
+  "website": "https://www.outerbio.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "OverT Bio",
+  "website": "https://www.overt.bio/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "Palerra",
+  "website": "http://palerra.com",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Pepperdata",
+  "website": "http://pepperdata.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Data, Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Peribit",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Pinecone",
+  "website": "https://www.pinecone.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Data, Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "Pixee",
+  "website": "https://www.pixee.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "DevOps and DevTools, Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Platfora",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Data",
+  "fund": "wing"
+ },
+ {
+  "name": "PrognomIQ",
+  "website": "https://prognomiq.com/",
+  "status": "active",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "Radar",
+  "website": "https://radar.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "DevOps and DevTools, Data",
+  "fund": "wing"
+ },
+ {
+  "name": "Recursive Superintelligence",
+  "website": "https://www.recursive.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "AI Model Development",
+  "fund": "wing"
+ },
+ {
+  "name": "Redback Networks",
+  "website": null,
+  "status": "ipo",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "RingCentral",
+  "website": "http://www.ringcentral.com/",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure, Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Riverbed Technologies",
+  "website": "http://www.riverbed.com/",
+  "status": "ipo",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Ruckus Wireless",
+  "website": "http://www.ruckuswireless.com",
+  "status": "ipo",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Rula",
+  "website": "https://www.rula.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Health",
+  "fund": "wing"
+ },
+ {
+  "name": "San Francisco Compute Company",
+  "website": "https://sfcompute.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "ScyllaDB",
+  "website": "http://www.scylladb.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Infrastructure, Data",
+  "fund": "wing"
+ },
+ {
+  "name": "Seer",
+  "website": "https://seer.bio/",
+  "status": "ipo",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "SFCompute",
+  "website": "https://sfcompute.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Shape Security",
+  "website": "http://www.shapesecurity.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "SiMa.ai",
+  "website": "https://sima.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Slang.ai",
+  "website": "https://www.slang.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "SlashNext",
+  "website": "http://www.slashnext.com/",
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Snowflake",
+  "website": "https://www.snowflake.com/",
+  "status": "ipo",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Data, Infrastructure, Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "StarkWare",
+  "website": "https://www.starkware.co/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Web3",
+  "fund": "wing"
+ },
+ {
+  "name": "StepZen",
+  "website": "https://stepzen.com/",
+  "status": "acquired",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Data, Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "Sumo Logic",
+  "website": "https://www.sumologic.com/",
+  "status": "ipo",
+  "stage": "Series C",
+  "description": null,
+  "sector": "Security, Data",
+  "fund": "wing"
+ },
+ {
+  "name": "Synack",
+  "website": "https://www.synack.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Synthefy",
+  "website": "https://www.synthefy.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "AI Model Development",
+  "fund": "wing"
+ },
+ {
+  "name": "Tahoe",
+  "website": "https://www.tahoebio.ai/",
+  "status": "active",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "AI Model Development, Bio, Data",
+  "fund": "wing"
+ },
+ {
+  "name": "Tango",
+  "website": "https://www.tango.us/",
+  "status": "active",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Tellium",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "TenSixty Bio",
+  "website": "https://www.tensixty.bio/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "Tensor9",
+  "website": "https://www.tensor9.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Infrastructure, Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "Terraspring",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Tetra AI",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": null,
+  "sector": "AI Model Development",
+  "fund": "wing"
+ },
+ {
+  "name": "Theom",
+  "website": "https://www.theom.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Security, Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "Tigera",
+  "website": "https://www.tigera.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Security, Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "Timetra Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Topspin Communications",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Torii",
+  "website": "https://toriihq.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries, Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "Transitive Technologies",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series B",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Trapeze Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Truera",
+  "website": "https://truera.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Data, AI Model Development",
+  "fund": "wing"
+ },
+ {
+  "name": "Ultra",
+  "website": "https://ultra.tech/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Physical AI",
+  "fund": "wing"
+ },
+ {
+  "name": "Unconventional AI",
+  "website": "https://unconv.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Infrastructure, AI Model Development",
+  "fund": "wing"
+ },
+ {
+  "name": "Unnatural Products",
+  "website": "https://www.unnaturalproducts.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Bio",
+  "fund": "wing"
+ },
+ {
+  "name": "Utila",
+  "website": "https://utila.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Web3",
+  "fund": "wing"
+ },
+ {
+  "name": "Valtix",
+  "website": "https://www.valtix.com/",
+  "status": "acquired",
+  "stage": "Pre-seed",
+  "description": null,
+  "sector": "Security",
+  "fund": "wing"
+ },
+ {
+  "name": "Vimaan",
+  "website": "https://vimaan.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Voyage AI",
+  "website": "https://www.voyageai.com/",
+  "status": "acquired",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Data, Enterprise AI Enablement, AI Model Development",
+  "fund": "wing"
+ },
+ {
+  "name": "Wafer",
+  "website": "https://www.wafer.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Wherobots",
+  "website": "https://wherobots.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Data, Enterprise AI Enablement",
+  "fund": "wing"
+ },
+ {
+  "name": "Wichorus",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": null,
+  "sector": "Infrastructure",
+  "fund": "wing"
+ },
+ {
+  "name": "Workmate",
+  "website": "https://www.workmate.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Agents, Apps, and AI-Native Industries",
+  "fund": "wing"
+ },
+ {
+  "name": "Zipline AI",
+  "website": "https://zipline.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": null,
+  "sector": "Data, Enterprise AI Enablement",
+  "fund": "wing"
+ }
+]

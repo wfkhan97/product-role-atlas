@@ -1,0 +1,4187 @@
+[
+ {
+  "name": "Vecna Robotics",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Vecna Robotics is a robotics and technology company provides material handling automation solutions.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mesh Payments",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Mesh provides a centralized and automated spend platform that helps finance teams with visibility and control.",
+  "sector": "Business Process Automation (BPA)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Essor",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Essor provider of a digital consumer product platform.",
+  "sector": "Consumer Goods",
+  "fund": "tiger"
+ },
+ {
+  "name": "dLocal",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Unlock the power of emerging markets: accept and send cross-border payments in Africa, Asia, and Latin America",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Cora",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Cora is a fintech company that provides digital accounts for small and medium businesses.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Pagaya",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Pagaya enables financial institutions to expand access to more customers through its artificial intelligence network.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Lifebit",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Lifebit CloudOS is the intelligent genomics platform that is the industry standard for unified, secure research over distributed big data.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Obvious",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Obvious is an AI workspace platform for creating documents, apps, automations, and collaborative workflows.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Rightway",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Rightway is a health technology company that provides simplified healthcare experience by lowering costs and improving outcomes.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Emerge",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Emerge is web-based truckload management system that connects shippers and their partners when executing full truckload transactions.",
+  "sector": "Logistics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Archive",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Archive App is a digital asset manager built for modern digital marketers.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "JOKR",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "JOKR operates Brazil’s leading Ai-enabled online supermarket, stocking 5k–10k SKUs delivering groceries within minutes",
+  "sector": "Delivery",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mojo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Mojo is a platform for sports, entertainment, finance, and online betting.",
+  "sector": "Digital Entertainment",
+  "fund": "tiger"
+ },
+ {
+  "name": "The Org",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "The Org is the world's biggest network of public org charts",
+  "sector": "Communities",
+  "fund": "tiger"
+ },
+ {
+  "name": "Magna",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Magna develops a token vesting and DeFi investment management platform.",
+  "sector": "Decentralized Finance (DeFi)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Deep Vision",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Embedded deep learning computer vision solution for drones, robots, and IOT cameras",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Kinara",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Kinara develops low-power, energy-efficient, and programmable discrete neural processing units to deploy edge AI applications.",
+  "sector": "AI Infrastructure",
+  "fund": "tiger"
+ },
+ {
+  "name": "VERSATILE",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "VERSATILE uses machine learning and AI to optimize construction and industrial processes.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Rebill",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "The fastest growing SaaS and platforms sell in Latin America on Rebill's rails. Hold locally, pay out globally.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "VideoAmp",
+  "website": null,
+  "status": "active",
+  "stage": "Series G",
+  "description": "VideoAmp is a software and data company that provides measurement and optimization tools for the advertising ecosystem.",
+  "sector": "Ad Targeting",
+  "fund": "tiger"
+ },
+ {
+  "name": "Locus Robotics",
+  "website": null,
+  "status": "active",
+  "stage": "Series G",
+  "description": "Locus Robotics is a warehouse robotics company that manufactures autonomous mobile robots to support e-commerce.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Morado",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Morado is an online B2B marketplace for beauty businesses, professionals, and beauty lovers.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "DotLab",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "DotLab provides diagnostics using novel biomarkers and machine learning.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Papaya Global",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Papaya Global is a fintech platform that provides cloud-based payroll and payments solutions for global workforce management.",
+  "sector": "Bookkeeping and Payroll",
+  "fund": "tiger"
+ },
+ {
+  "name": "Qualia",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Qualia is the leading digital real estate closing platform used by over half a million real estate and mortgage professionals.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "CleverTap",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "CleverTap is the all-in-one engagement platform that helps brands unlock limitless CLV by helping them create personalized experiences",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Lysto",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "We enable game studio growth through playtest,acquisition & retention strategies, while offering gamers daily play-and-reward opportunities!",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mercanto (previously Miferia)",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Mercanto is an online Mexican wholesale marketplace.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Fazz",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Fazz enables businesses to send and receive payments, grow their capital, and get funding.",
+  "sector": "Banking",
+  "fund": "tiger"
+ },
+ {
+  "name": "GoGuardian",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "GoGuardian is an edtech startup that makes subscription software for K-12 schools.",
+  "sector": "EdTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "Shelf",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Shelf is an answer automation platform helping distributed workers instantly find the answers they need.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Nomad",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Nomad is a fintech company that provides financial services such as a bank account and an investment platform.",
+  "sector": "Finance",
+  "fund": "tiger"
+ },
+ {
+  "name": "Ignition",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Ignition is the leading revenue & billing platform for service-based businesses.",
+  "sector": "Accounting",
+  "fund": "tiger"
+ },
+ {
+  "name": "Rapid Robotics",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Rapid Robotics provides risk-free robotic palletizing solutions for manufacturing and logistics.",
+  "sector": "Industrial Automation",
+  "fund": "tiger"
+ },
+ {
+  "name": "Carrot Fertility",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Carrot Fertility is a fertility healthcare company for employers and health plans.",
+  "sector": "Employee Benefits",
+  "fund": "tiger"
+ },
+ {
+  "name": "Nexacore",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Nexacore is an AI company that delivers generative analytics and machine learning to businesses.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Qonto",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Qonto is an online bank that provides financial tools for small and medium-sized businesses and freelancers.",
+  "sector": "Banking",
+  "fund": "tiger"
+ },
+ {
+  "name": "Spring Health",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Spring Health is a global mental health company built on one AI-native platform so care follows individuals across every life stage.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "PropelAuth",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "PropelAuth provides a full-service auth solution for B2B companies, helping them to better onboard and manage their users.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Emesent",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Emesent is automating the collection and analysis of valuable data in underground environments.",
+  "sector": "Aerospace",
+  "fund": "tiger"
+ },
+ {
+  "name": "Physna",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Physna is a geometric deep-learning and 3D search company that searches, compares, and analyzes 3D models.",
+  "sector": "3D Technology",
+  "fund": "tiger"
+ },
+ {
+  "name": "Augustus",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Augustus builds an AI-native, stablecoin-based clearing and banking platform for financial institutions.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Treble.ai",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Treble.ai is a software company that links businesses with mobile-first users worldwide.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mural",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Mural is a collaborative intelligence company generating effective ideation, innovation, alignment, and team building.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Dover",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Dover provides an integrated hiring platform that connects organizations with fractional recruiters through a marketplace.",
+  "sector": "CRM",
+  "fund": "tiger"
+ },
+ {
+  "name": "BlackSkyTechnology",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "BlackSky Technology is a satellite-imaging-as-a-service startup.",
+  "sector": "Aerospace",
+  "fund": "tiger"
+ },
+ {
+  "name": "Slope",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Slope is a B2B financial platform that offers a variety of payment alternatives while being paid immediately.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "TytoCare",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "TytoCare is a telehealth platform for AI-powered and on-demand remote medical examinations.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "TigerGraph",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "TigerGraph supports advanced analytics and machine learning platforms through its distributed native graph database.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Hang",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Hang provides an AI-based marketing suite for loyalty management, data unification, and automated customer retention.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "HIVERY",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "HIVERY is a software company that offers retail assortment strategy simulation and optimization solutions for consumer packaged goods.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Nuvemshop",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Nuvemshop is the all-in-one D2C platform for Latin America — payments, logistics, marketing, banking, POS, and AI, all built in-house.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "ClickUp",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "ClickUp is a cloud-based productivity and project management software company that provides an all-in-one platforms for task management.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Cityblock Health",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Cityblock Health is a tech-driven healthcare provider that offers comprehensive and personalised care for underserved communities.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Workvivo",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Workvivo provides companies with an internal communications platform designed to engage and connect with employees.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Codat",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Codat is a financial platform that builds integrated software for small business customers.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Ever/Body",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Ever/Body is a cosmetic dermatology provider of personalized and tech-enabled services.",
+  "sector": "Beauty",
+  "fund": "tiger"
+ },
+ {
+  "name": "Moss",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "The corporate credit card built for your entire spend.",
+  "sector": "Accounting",
+  "fund": "tiger"
+ },
+ {
+  "name": "Stellate",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Stellate scales, protects, and optimizes your GraphQL API with edge caching, full observability, and advanced security for top performance.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Simetrik",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Simetrik is a no-code solution that offers the right balance between flexibility and robustness for the reconciliation process automation.",
+  "sector": "Data Management",
+  "fund": "tiger"
+ },
+ {
+  "name": "Factorial",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Factorial is a platform for human resource management that automates various HR processes including time tracking, payroll, and recruitment.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Sidecar Health",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Sidecar Health's employer plans empower members with transparency, control, and financial incentives to make smart healthcare decisions.",
+  "sector": "FinTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "Taktile",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Taktile is an AI decision platform for financial institutions, aiding them in automating and enhancing their risk management strategies.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Float Financial",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Float offers a corporate card and spend management solution that allows corporate cards, reimbursements, approvals, and invoices management.",
+  "sector": "Credit Cards",
+  "fund": "tiger"
+ },
+ {
+  "name": "Getir",
+  "website": null,
+  "status": "active",
+  "stage": "Series G",
+  "description": "Getir is a technology company that provides on-demand delivery services of groceries for local customers.",
+  "sector": "Consumer",
+  "fund": "tiger"
+ },
+ {
+  "name": "Neuehealth",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Neuehealth is a healthcare company that builds partnerships with health systems and care providers to create healthcare networks.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Nuvocargo",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Nuvocargo is the all-in-one digital platform for cross-border trade between USA and Mexico.",
+  "sector": "FinTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "Upscale AI",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Upscale AI redefines networking with purpose-built solutions for high-performance compute.",
+  "sector": "AI Infrastructure",
+  "fund": "tiger"
+ },
+ {
+  "name": "Standard Practice",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Standard Practice AI operates an AI platform that automates and manages outbound insurance calls for healthcare organizations.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Vendr",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Vendr is aSaaS buying and management platform that helps companies find, buy, and manage their stack, money-back guaranteed.",
+  "sector": "Information Technology",
+  "fund": "tiger"
+ },
+ {
+  "name": "Tango",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Tango is a web browser extension for automatically capturing screenshots for training guides and workflows.",
+  "sector": "Enterprise Software",
+  "fund": "tiger"
+ },
+ {
+  "name": "bttn",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Wholesale medical supply platform",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Higo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Higo is to transform B2B payments for small and medium-sized businesses in Latin America.",
+  "sector": "Software",
+  "fund": "tiger"
+ },
+ {
+  "name": "Hologram",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Hologram provides a platform to connect devices to any network with cellular connectivity, and offers software for monitoring an IoT fleet.",
+  "sector": "Information Technology",
+  "fund": "tiger"
+ },
+ {
+  "name": "Harbinger",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Harbinger is a commercial electric vehicle company that focuses on chassis architecture design.",
+  "sector": "Automotive",
+  "fund": "tiger"
+ },
+ {
+  "name": "Arianee",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "The first perpetual, anonymous, and trusted record of global assets.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Elementary",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Elementary helps Fortune 500 manufacturers automate inspection, increase production yield, and achieve measurable ROI in less than 6 months.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Nacelle",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Nacelle is an e-commerce platform that offers commerce and content data solutions.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "HitPay",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "HitPay is a full stack payments infrastructure platform designed for growing businesses in APAC.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Shippit",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Shippit makes multi-carrier connectivity and carrier allocation simple.",
+  "sector": "Delivery",
+  "fund": "tiger"
+ },
+ {
+  "name": "Toplyne",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Toplyne is a SaaS platform that helps businesses and companies to monetize their product-led growth flywheel.",
+  "sector": "Business Intelligence",
+  "fund": "tiger"
+ },
+ {
+  "name": "Regrello",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Regrello is an AI operating system for supply chain and backoffice automation to speed up your business",
+  "sector": "Business Process Automation (BPA)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Palplat",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Palplat is a technology firm that specializes in IT consulting and DX promotion utilizing as well as offers beauty counseling platform.",
+  "sector": "Beauty",
+  "fund": "tiger"
+ },
+ {
+  "name": "Babel Finance",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Babel Finance is a global cryptocurrency financial service provider serving institutional and HNW investors.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Nowports",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Nowports is a digital freight forwarder that automates the supply chain process of companies.",
+  "sector": "Freight Service",
+  "fund": "tiger"
+ },
+ {
+  "name": "Actiondesk",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Actiondesk (YC S19) is a spreadsheet software that lets you import and refresh data from SQL, Stripe, Salesforce, Hubspot and more",
+  "sector": "Information Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Zowie",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Customer AI. Engineered to meet your business needs.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Rivery.io",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Rivery is an intuitive SaaS ELT platform for data ingestion, transformation, and workflow orchestration.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "StrongDM",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "StrongDM is a platform that provides zero-trust access control to databases, servers, and applications.",
+  "sector": "Cloud Security",
+  "fund": "tiger"
+ },
+ {
+  "name": "Peloton",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Peloton is an interactive fitness platform reinventing fitness with live and on-demand boutique studio classes.",
+  "sector": "Cycling",
+  "fund": "tiger"
+ },
+ {
+  "name": "Bravado",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Bravado is a community platform for B2B sales professionals.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "A.Team",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "A.Team builds proprietary agentic systems that turns fragmented enterprise data into self-improving intelligence embedded in your workflows.",
+  "sector": "Agentic AI",
+  "fund": "tiger"
+ },
+ {
+  "name": "Coinshift",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Coinshift builds a crypto treasury management platform for DAOs and companies.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Imply",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Imply is a multi-cloud data platform designed to deliver real-time ingestion and visualizations for event-driven and streaming data flows.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Vivun",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Vivun delivers Hero, the world’s most advanced AI Sales Teammate—automating the critical work required to move complex deals forward.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Daki",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Daki is a mobile application that delivers purchases in seconds.",
+  "sector": "Courier Service",
+  "fund": "tiger"
+ },
+ {
+  "name": "Restaurant365",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Restaurant365 is an enterprise management software for restaurants that provides accounting, inventory, scheduling, and payroll solutions.",
+  "sector": "Accounting",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mayfair",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Mayfair helps you earn yield on your idle cash—no maturity dates, lockup periods, or market risk.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Algorithmiq",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Algorithmiq develops algorithms to solve currently inaccessible problems in life sciences.",
+  "sector": "Biotechnology",
+  "fund": "tiger"
+ },
+ {
+  "name": "Osmind",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Osmind is the premier technology platform for breakthough mental health treatment and research.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Beam",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Beam is the infrastructure provider for the fastest growing AI products for companies who need performance, control, and reliability.",
+  "sector": "AI Infrastructure",
+  "fund": "tiger"
+ },
+ {
+  "name": "WizeHire",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "WizeHire, the most user-friendly, effective hiring solution for small businesses.",
+  "sector": "Human Resources",
+  "fund": "tiger"
+ },
+ {
+  "name": "SILQ",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "SILQ is a platform dedicated to bridging economies and empowering businesses to trade, grow, and navigate new frontiers.",
+  "sector": "Singapore",
+  "fund": "tiger"
+ },
+ {
+  "name": "Built Robotics",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Built Robotics is a developer of AI guidance systems that transform heavy equipment into autonomous robots.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Appwrite",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Appwrite is a secure end-to-end BaaS for Web, Mobile, and Flutter developers",
+  "sector": "Cloud Storage",
+  "fund": "tiger"
+ },
+ {
+  "name": "Minka",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Minka is an open network that enables organizations to move money in real time.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Stake",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Stake is an online brokerage platform that has redesigned investing for Australians.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "GamerGains Lab",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "GamerGains Lab is the first-ever token and cryptocurrency-based play and earn platform.",
+  "sector": "Cryptocurrency",
+  "fund": "tiger"
+ },
+ {
+  "name": "Qualified",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Qualified is a B2B marketer that allows buyers and sales reps to connect through real-time website conversations.",
+  "sector": "Agentic AI",
+  "fund": "tiger"
+ },
+ {
+  "name": "SenseTime",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "SenseTime is an AI software company focused on creating a better AI-empowered future through innovation.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Cloudsmith",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Cloudsmith is an artifact management platform designed to control, secure, and distribute software packages and containers effectively.",
+  "sector": "Cloud Computing",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mutiny",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Mutiny helps B2B companies generate pipeline and revenue from their target accounts through AI-powered personalized web experiences.",
+  "sector": "Advertising",
+  "fund": "tiger"
+ },
+ {
+  "name": "Demostack",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Demostack provides assistance to software companies in creating, delivering, and analyzing demos.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Karat",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "The Talent Elevation Partner for the Human + AI Era",
+  "sector": "Human Resources",
+  "fund": "tiger"
+ },
+ {
+  "name": "Opto Investments",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Our mission is to empower fiduciaries with the technology to confidently invest in private markets.",
+  "sector": "Asset Management",
+  "fund": "tiger"
+ },
+ {
+  "name": "Allbirds",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Allbirds is an apparel and fashion company that specializes in manufacturing eco-friendly wool shoes.",
+  "sector": "Apparel",
+  "fund": "tiger"
+ },
+ {
+  "name": "Push Protocol",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Push Protocol formerly known as EPNS (Ethereum Push Notification Services) is a decentralized communication protocol",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Securden",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Securden is a Windows Privilege Management Software.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Popup Bagels",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Popup Bagels is a bagel franchise company that make and supplies fresh baked bagles.",
+  "sector": "Food and Beverage",
+  "fund": "tiger"
+ },
+ {
+  "name": "Instant Teams",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Saas Remote Team Marketplace",
+  "sector": "Human Resources",
+  "fund": "tiger"
+ },
+ {
+  "name": "Flash",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Flash focuses on food vouchers in Brazil creating an all in one instrument leveraging a MasterCard, a daily used App and an HR platform",
+  "sector": "Employee Benefits",
+  "fund": "tiger"
+ },
+ {
+  "name": "Zaya Care",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Empowering private practices to thrive by accepting insurance at rewarding terms.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Upstream App",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Upstream is the best place to grow your professional community.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Multiplier",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Multiplier is a leading global employment platform that manages employment, payroll & compliance for International Teams",
+  "sector": "Compliance",
+  "fund": "tiger"
+ },
+ {
+  "name": "AI Rudder",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "AI Rudder is an AI startup that develops AI-powered voice solutions to improve B2C communications.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Portside",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Portside is an aircraft data, reporting, and analytics platform for individual and corporate plane owners.",
+  "sector": "Aerospace",
+  "fund": "tiger"
+ },
+ {
+  "name": "Yuno",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Yuno is a global payment orchestration platform built to simplify and optimize the way companies manage and scale their online payments",
+  "sector": "FinTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "Ada",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Ada is an automated customer experience company that provides chat bots used in customer support.",
+  "sector": "Agentic AI",
+  "fund": "tiger"
+ },
+ {
+  "name": "Legal.io",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Legal.io is the enterprise marketplace for legal talent and tools. We help legal departments hire better legal talent faster.",
+  "sector": "Legal",
+  "fund": "tiger"
+ },
+ {
+  "name": "Devron",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Devron is a developer of a data science and machine learning product platform enabling insight from distributed data sets.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Revvable",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Revvable creates software for powersports and vehicle dealers to run and improve their businesses.",
+  "sector": "Information Technology",
+  "fund": "tiger"
+ },
+ {
+  "name": "HeadSpin",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "HeadSpin is a developer of a digital experience intelligence platform used to provide flawless digital experiences.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Cents",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Cents is a laundromat software platform that helps laundromat owners streamline their operations and enhance customer experience.",
+  "sector": "Business Process Automation (BPA)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Carma",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Carma is a fully digital used car dealership, offering a large range of quality pre-owned vehicles at fixed prices, delivered to the home.",
+  "sector": "Automotive",
+  "fund": "tiger"
+ },
+ {
+  "name": "Osso VR",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Osso VR is a training and assessment platform focused on surgical virtual reality.",
+  "sector": "Medical",
+  "fund": "tiger"
+ },
+ {
+  "name": "Dialect",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Dialect enables a more engaging dapp experience with timely, targeted messages and notifications.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Connecteam",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Connecteam is a multi-functional and workforce management mobile solution for companies that manage on-the-go teams.",
+  "sector": "Computer",
+  "fund": "tiger"
+ },
+ {
+  "name": "Klue",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Klue is an AI powered competitive enablement platform that helps salespeople win the deals they should have won.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "PROFISHOP",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "PROFISHOP is an on demand B2B procurement platform",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Intellect",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Intellect is a mental health company that aims to makes mental healthcare and wellbeing support accessible to everyone.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Compete",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Always know where your workforce stands. Compete’s AI turns data into real-time insights so HR leaders act fast, smart, and with confidence.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "inFeedo",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "InFeedo is a SaaS-based analytics company that develops an employee engagement platform for enterprises.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "J2 Health",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "J2 Health is a B2B healthcare SaaS company.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Estimated Inc.",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Modern customer engagement",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mono",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Mono is a fintech company that offers a platform for banking organizations to launch financial products and services.",
+  "sector": "Banking",
+  "fund": "tiger"
+ },
+ {
+  "name": "Celestial AI",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Celestial AI develops an optical interconnect technology platform for data center and AI computing solutions.",
+  "sector": "AI Infrastructure",
+  "fund": "tiger"
+ },
+ {
+  "name": "ArchiPro",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "ArchiPro is an online platform that connects people, products, and professionals in the building industry.",
+  "sector": "Advertising Platforms",
+  "fund": "tiger"
+ },
+ {
+  "name": "Cialfo",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Cialfo is an AI driven solution that brings together people, software, and data to simplify college and career counseling workflows.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "PopSQL",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "PopSQL is a modern, collaborative SQL editor for teams.",
+  "sector": "Business Intelligence",
+  "fund": "tiger"
+ },
+ {
+  "name": "clicOH",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "clicOH is a vertical AI-powered last-mile logistics company, serving leading banks, retailers, telecoms and e-commerce players across LatAm.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Census",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "A Data Activation and Reverse ETL platform that delivers trusted data and audiences from your data warehouse into 150+ operational tools.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Novi Connect",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Novi is the data infrastructure platform that helps CPG brands get their products recommended in AI commerce.",
+  "sector": "Agentic AI",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mos",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Mos offers financial solutions that feature checking accounts, debit cards, and access to financial aid advisors designed for students.",
+  "sector": "Banking",
+  "fund": "tiger"
+ },
+ {
+  "name": "Rare Circles",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "RareCircles simplifies the business of NFTs so you can focus on growing your community",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Prefect",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Prefect is a Python-based orchestration platform that empowers data teams to build resilient, adaptable data pipelines and workflows.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Depict",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Amazon makes one third of their revenue through their product recommendations. We give your store a chance to compete.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "99",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "99 provides taxi services through its application software that enables users to request taxis by phone in Brazil.",
+  "sector": "Android",
+  "fund": "tiger"
+ },
+ {
+  "name": "Traive",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Traive is a lending and credit risk assessment platform powered by LLMs and GANs to revolutionize credit, in agriculture and beyond.",
+  "sector": "AgTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "Tiger Data (creators of TimescaleDB)",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Postgres for Developers, Devices, and Agents. The data platform trusted by hundreds of thousands from IoT to Web3 to AI and more.",
+  "sector": "Computer",
+  "fund": "tiger"
+ },
+ {
+  "name": "Aporia",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Aporia is an AI Control Platform.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Facilio",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Facilio Inc. is an enterprise SaaS company that offers a unified cloud platform to make buildings operationally efficient.",
+  "sector": "Building Maintenance",
+  "fund": "tiger"
+ },
+ {
+  "name": "Lacework",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Lacework is a cloud security services provider that automates cloud security at scale so customers can innovate with speed and safety.",
+  "sector": "Cloud Security",
+  "fund": "tiger"
+ },
+ {
+  "name": "Torii",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Torii is the most advanced SaaS management platform on the market. Discover, optimize, and control your organization’s SaaS usage and cost.",
+  "sector": "Marketing",
+  "fund": "tiger"
+ },
+ {
+  "name": "TrueLayer",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "TrueLayer powers smarter, safer and faster online payments by combining real-time bank payments with financial and identity data.",
+  "sector": "Banking",
+  "fund": "tiger"
+ },
+ {
+  "name": "Fluence Cloud",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Decentralized cloud computing platform to deploy workloads on CPU and GPU cloud at 85% lower costs than hyperscalers",
+  "sector": "Cloud Computing",
+  "fund": "tiger"
+ },
+ {
+  "name": "ICON",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "ICON is a construction technology company that uses 3D robotics, software, and advanced materials.",
+  "sector": "3D Printing",
+  "fund": "tiger"
+ },
+ {
+  "name": "Jellyfish",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Jellyfish is the leading intelligence platform for AI-Integrated engineering, helping companies use AI to transform how they build software.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Chargebee",
+  "website": null,
+  "status": "active",
+  "stage": "Series H",
+  "description": "Chargebee is the leading revenue growth management platform for subscription businesses.",
+  "sector": "Billing",
+  "fund": "tiger"
+ },
+ {
+  "name": "RenoRun",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "RenoRun is building a single source platform for general contractors to purchase materials.",
+  "sector": "Building Material",
+  "fund": "tiger"
+ },
+ {
+  "name": "Metafy",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Metafy is an online coaching platform that enables video gamers to monetize their talent through coaching and courses.",
+  "sector": "E-Learning",
+  "fund": "tiger"
+ },
+ {
+  "name": "Superconductive",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Superconductive is the creator of Great Expectations, an open-source tool for data testing, documentation, and profiling.",
+  "sector": "Data Integration",
+  "fund": "tiger"
+ },
+ {
+  "name": "Kard",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Kard is a rewards-as-a-service API that enhances customer loyalty programs.",
+  "sector": "Advertising Platforms",
+  "fund": "tiger"
+ },
+ {
+  "name": "Bold",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Bold creates financial tools that allow users to increase sales by receiving card payments.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Zippi",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Brazilian fintech transforming small businesses since 2019. Pioneered PIX for payments, processing R$3B/year. Reached breakeven recently.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Hyphen",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Hyphen automates culinary operations for the restaurant and foodservice industry.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "FORT Robotics",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "FORT Robotics is a safety and security platform designed to secure autonomous machines from cybersecurity attacks.",
+  "sector": "Cyber Security",
+  "fund": "tiger"
+ },
+ {
+  "name": "Equip Health",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Equip Health provides a virtual eating disorder treatment program designed to assist families recover from eating disorders at home.",
+  "sector": "Fitness",
+  "fund": "tiger"
+ },
+ {
+  "name": "GupShup",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Gupshup offers a platform for businesses to build AI-powered messaging, chatbots, and customer engagement.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "ServiceUp",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "ServiceUp is a vehicle repair management platform that streamlines the repair process for fleets and insurance carriers.",
+  "sector": "Automotive",
+  "fund": "tiger"
+ },
+ {
+  "name": "Cloudquery",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "CloudQuery is the open-source cloud asset inventory powered by SQL.",
+  "sector": "Cloud Infrastructure",
+  "fund": "tiger"
+ },
+ {
+  "name": "EatClub",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "EatClub develops an app that shows its users restaurants nearby with spare tables, offering last minute deals.",
+  "sector": "Food and Beverage",
+  "fund": "tiger"
+ },
+ {
+  "name": "Avicena Tech",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Avicena Tech manufactures ultra-dense, ultra-low power petabit per second optical chip interconnects.",
+  "sector": "Electronics",
+  "fund": "tiger"
+ },
+ {
+  "name": "BVNK",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "BVNK unifies banks and blockchains in a single platform, so innovators can launch new payments products quickly.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Viam",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Viam is a robotics company that lets users build, monitor, and manage their smart machines via cloud-based management.",
+  "sector": "Machine Learning",
+  "fund": "tiger"
+ },
+ {
+  "name": "Diligent Robotics",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Diligent Robotics develops AI-powered robot assistants to collaborate with and adapt to humans in everyday environments.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "EnCharge AI",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "EnCharge AI designs analog in-memory-computing AI chips and develops AI systems for AI computing.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Air",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Air.inc is a visual workspace designed to automate creative operations by helping teams collect, approve, and share content.",
+  "sector": "Cloud Storage",
+  "fund": "tiger"
+ },
+ {
+  "name": "Butlr",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Butlr is a physical AI startup that specializes in wireless anonymous people sensing and occupancy detection solutions.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mach9",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Mach9 is building the fastest geospatial production platform for engineering and construction firms globally, starting with Digital Surveyor",
+  "sector": "Machine Learning",
+  "fund": "tiger"
+ },
+ {
+  "name": "Crimson Education",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Crimson Education specializes in tutoring , athletic scholarship consulting, extracurricular advising, and leadership mentoring services.",
+  "sector": "Consulting",
+  "fund": "tiger"
+ },
+ {
+  "name": "Checkmate",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Checkmate is a service in integrating 3rd party delivery platforms directly into POS systems.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Nym",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Nym transforms revenue cycle management by fully automating the medical coding process.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "LiquidStack",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "LiquidStack isa liquid cooling that provides hyperscale, edge, and computing.",
+  "sector": "Consulting",
+  "fund": "tiger"
+ },
+ {
+  "name": "Cowboy",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Cowboy is an ebike company that creates innovative electric bikes for city riders.",
+  "sector": "Electric Vehicle",
+  "fund": "tiger"
+ },
+ {
+  "name": "Foundersuite",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Foundersuite is a collection of software tools and templates that help startup CEOs execute more efficiently and effectively.",
+  "sector": "Enterprise Software",
+  "fund": "tiger"
+ },
+ {
+  "name": "Hive",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Hive stores and ships products for small and medium-sized online merchants the next day.",
+  "sector": "Delivery",
+  "fund": "tiger"
+ },
+ {
+  "name": "Alkira",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Alkira is a network infrastructure as-a-service company that unifies multiple clouds, sites, and users via an enterprise network.",
+  "sector": "Cloud Infrastructure",
+  "fund": "tiger"
+ },
+ {
+  "name": "Traceable",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Traceable is an API security company that helps to mitigate risks and optimize the value derived from their APIs for customers.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Circle",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Circle is a community platform that brings together the creators' discussions, memberships, and content.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Scribe",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Scribe's Workflow AI platform helps organizations document and scale how work gets done.",
+  "sector": "Internet",
+  "fund": "tiger"
+ },
+ {
+  "name": "Turquoise Health",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Turquoise Health is a healthcare pricing platform that simplifies administration to reduce the expense and complexity of healthcare.",
+  "sector": "FinTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "GreenSpark Software",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "GreenSpark Software offers an end-to-end, web-based software solution to modernize and digitize the metal recycling industry.",
+  "sector": "Recycling",
+  "fund": "tiger"
+ },
+ {
+  "name": "Briq",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Briq is a financial automation platform that utilizes artificial intelligence to automate finances in construction.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "1X",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "1X is an engineering and robotics company that develops humanoid robots designed to work alongside humans.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Litify",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Litify is an end-to-end legal operating platform offering cloud-based software solutions for law firms and legal professionals.",
+  "sector": "Enterprise Software",
+  "fund": "tiger"
+ },
+ {
+  "name": "Copy.ai",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Copy.ai is a startup building AI-powered copywriting tools for business customers.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "AgentSync",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "AgentSync builds insurance infrastructure that connects carriers, agencies, MGAs, and producers.",
+  "sector": "Compliance",
+  "fund": "tiger"
+ },
+ {
+  "name": "CornerUp",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "CornerUp is a B2B e-commerce platform powered by sourcing, purchasing, and discovery for independent stores.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Verifiable",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Verifiable develops real-time credential verification platform intended to verify licenses, sanctions, and other important records.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Moloco",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Moloco offers programmatic advertising solutions to help optimize the client's acquisition, retention, and monetization campaigns.",
+  "sector": "Advertising",
+  "fund": "tiger"
+ },
+ {
+  "name": "Ariga Technologies",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Ariga gives software engineering teams the quickest and safest approach to manage database schema changes.",
+  "sector": "Data Management",
+  "fund": "tiger"
+ },
+ {
+  "name": "Carrum Health",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Carrum Health is a value-based centers of platform that ensures patients receive quality and less expensive care.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Kustomer",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Kustomer is an omnichannel Software-as-a-Service (SaaS) CRM platform specializing in customer service.",
+  "sector": "CRM",
+  "fund": "tiger"
+ },
+ {
+  "name": "Innovapptive",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Innovapptive provides connected worker solutions for maintenance, operations, and warehousing.",
+  "sector": "Enterprise Software",
+  "fund": "tiger"
+ },
+ {
+  "name": "Noah Medical",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Noah Medical develops medical robotics using its next-generation robotic platform for patient diagnosis and treatment.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Innovaccer",
+  "website": null,
+  "status": "active",
+  "stage": "Series F",
+  "description": "Innovaccer provides an AI cloud platform for healthcare data management and analytics.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Serum",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Serum operates as a decentralized exchange (DEX) platform focusing on the financial ecosystem.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "OneStream Software",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "OneStream Software is an independent software company that develops a financial planning and analysis software.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Livepeer",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Livepeer develops and operates a platform for decentralized live video broadcast on the Internet.",
+  "sector": "Communities",
+  "fund": "tiger"
+ },
+ {
+  "name": "Spenmo",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Spenmo is an expense management platform that empowers finance teams to make smarter financial decisions.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Sirion",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Sirion offers a SaaS enterprise contract management (CLM) platform to help enterprises manage the contracting lifecycle.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Parallel Learning",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Parallel is a provider of learning assessments and treatment solutions for students with learning and thinking differences.",
+  "sector": "Children",
+  "fund": "tiger"
+ },
+ {
+  "name": "Scalapay",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Founded in 2019 by Simone Mancini and Johnny Mitrevski, Scalapay is a fintech company specializing in \"Buy Now, Pay Later\" services",
+  "sector": "Credit",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mambu",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Mambu is the only true SaaS cloud core banking platform.",
+  "sector": "Banking",
+  "fund": "tiger"
+ },
+ {
+  "name": "Aviatrix",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Aviatrix® is a leading cloud network security company.",
+  "sector": "Cloud Computing",
+  "fund": "tiger"
+ },
+ {
+  "name": "Selfbook",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Selfbook develops a payment platform that enables seamless booking flow, merchandising, and one-click payments for hotels.",
+  "sector": "FinTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "Unblocked Brands",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Push notifications for the app-less. Reimagine the customer-brand relationship. Boost customer retention.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Easol",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Easol is an online platform that develops event and experience software to market and sell bookings.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Robust Intelligence",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Robust Intelligence is a software firm that uses an automated approach to protect companies from AI security and safety vulnerabilities.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Veriff",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Veriff is an identity verification company that protects businesses and customers from online identity fraud.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Electric Sheep Robotics",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Electric Sheep is vertically integrated robotics company that's transforming the $1Trillion outdoor services industry",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Rhino",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Rhino is a licensed insurance agency that gives renters financial alternatives to security deposits.",
+  "sector": "Consumer",
+  "fund": "tiger"
+ },
+ {
+  "name": "EquipmentShare",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "EquipmentShare provides solutions to construction companies and equipment rental businesses through the use of technology.",
+  "sector": "Construction",
+  "fund": "tiger"
+ },
+ {
+  "name": "LingoAce",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "LingoAce is an edtech company committed to providing a fun and engaging learning environment for young learners between 3-15 years old.",
+  "sector": "EdTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "Ontop",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Ontop is a HR tech company that offers remote hiring, placed payments and compliance services.",
+  "sector": "FinTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "Facily",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Facily is a social commerce marketplace that focuses on low-ticket items.",
+  "sector": "Consumer",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mews",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Mews is a cloud-native hospitality management system designed to automate operations, enhance revenue, and improve guest experiences.",
+  "sector": "Enterprise Software",
+  "fund": "tiger"
+ },
+ {
+  "name": "Public",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Public is a fintech brokerage firm that offers commission-free trading for a variety of asset classes.",
+  "sector": "Cryptocurrency",
+  "fund": "tiger"
+ },
+ {
+  "name": "Life House",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Life House is a vertically integrated hotel software and management platform on the mission to make hotels operationally autonomous.",
+  "sector": "Hospitality",
+  "fund": "tiger"
+ },
+ {
+  "name": "GreyOrange",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "GreyOrange is a technology startup that creates artificial intelligence-driven software and mobile robots for the warehousing industry.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Metaphor",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "We’re making it easy to discover, join and participate in web3 communities, also known as \"DAO’s\".",
+  "sector": "Cryptocurrency",
+  "fund": "tiger"
+ },
+ {
+  "name": "Nansen",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Nansen is a blockchain analytics platform for crypto professionals and investors.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Fable",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Fable provides a platform for online book clubs.",
+  "sector": "Books",
+  "fund": "tiger"
+ },
+ {
+  "name": "Redis",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Redis provides cloud and on-prem solutions for caching, vector search, and more that seamlessly fit into any tech stack.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Ophelia",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Ophelia offers medication and support for quitting opioids.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Aledade",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Aledade is a primary care center.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "NotCo",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "NotCo is a food tech company that uses artificial intelligence to create food from plants.",
+  "sector": "Alternative Protein",
+  "fund": "tiger"
+ },
+ {
+  "name": "RelationalAI",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "RelationalAI is the creator of a breakthrough relational knowledge graph system.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Metro60",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Metro60 delivers groceries to your door in 10 minutes.",
+  "sector": "Delivery",
+  "fund": "tiger"
+ },
+ {
+  "name": "Dave",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Dave is a banking app that offers customers banking, financial insights, overdraft protection, and building credit products.",
+  "sector": "Banking",
+  "fund": "tiger"
+ },
+ {
+  "name": "JUUL",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "JUUL is a manufacturer and distributor of electronic nicotine vaporizers.",
+  "sector": "B2C",
+  "fund": "tiger"
+ },
+ {
+  "name": "Link Financial Technologies",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Link provides merchants with an alternate, low-cost payment solution and enables shoppers to pay with bank accounts.",
+  "sector": "Finance",
+  "fund": "tiger"
+ },
+ {
+  "name": "Spendesk",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Spendesk is a smart spend management software designed for both finance teams and employees.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Alaiko",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Alaiko is a logistic-as-a-service platform that automates warehouse processes to streamline logistics.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "TradeSquare",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "TradeSquare is a B2B marketplace designed to reduce the friction in communication between small businesses and wholesale suppliers.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Assignar",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Assignar is a SaaS platform that helps construction contractors run their operations by improving productivity, efficiency and safety.",
+  "sector": "Business Intelligence",
+  "fund": "tiger"
+ },
+ {
+  "name": "Ondo Finance",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Ondo Finance develops a cryptocurrency trading platform that makes decentralized finance available for users.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Float",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Float is a global banking and treasury platform for businesses.",
+  "sector": "Accounting",
+  "fund": "tiger"
+ },
+ {
+  "name": "Rokt",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Rokt is an ecommerce marketing technology that enhances the value of transactions through personalized experiences.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Monnai",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Monnai is the global consumer insight infrastructure for fintech.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Papa",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Papa is a platform that connects college students to senior citizens for companionship and assistance.",
+  "sector": "Elder Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Hurb",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Hurb, is an online platform that enables travelers to find and reserve accommodation and activities.",
+  "sector": "Adventure Travel",
+  "fund": "tiger"
+ },
+ {
+  "name": "Aleo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Aleo offers a platform for building private applications using zero-knowledge technology and a specialized programming language called Leo.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Flipdish",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Flipdish helps thousands of restaurants around the world flippin’ thrive with our all-in-one technology platform.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Accrue Savings",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Accrue Savings rewards people who save and helps retailers attract new customers.",
+  "sector": "Finance",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mr Yum",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Mr Yum is a mobile ordering platform that provides a visual menu and tool for table ordering, pickup, and delivery.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Path Robotics",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Path Robotics offers robotic welding systems to improve manufacturing efficiency.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "TradingView",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "TradingView provides traders and investors with charts, tools, and social networking.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mottu",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Mottu is a motorcycle rental startup that enables gig workers to work for logistic and food delivery apps.",
+  "sector": "Automotive",
+  "fund": "tiger"
+ },
+ {
+  "name": "GoExpedi",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "GoExpedi is the only end-to-end digital supply chain and data analytics solutions designed specifically for heavy industry.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Buf",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Buf is building tools to help companies completely change the way they work with APIs throughout their lifecycle.",
+  "sector": "Developer APIs",
+  "fund": "tiger"
+ },
+ {
+  "name": "Deliverr",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Deliverr is a fulfillment service that facilitates shipping services for e-commerce businesses.",
+  "sector": "Delivery",
+  "fund": "tiger"
+ },
+ {
+  "name": "SeekOut",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Grow the talent you have. Find the talent you need.",
+  "sector": "Agentic AI",
+  "fund": "tiger"
+ },
+ {
+  "name": "PathAI",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "PathAI develops AI software and digital pathology systems used in diagnostic workflows, clinical research, and drug development.",
+  "sector": "Biotechnology",
+  "fund": "tiger"
+ },
+ {
+  "name": "Sendbird",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "The omnichannel AI agent platform for delightful customer service.",
+  "sector": "Agentic AI",
+  "fund": "tiger"
+ },
+ {
+  "name": "Biodock",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Biodock offers a cloud AI platform that extracts answers from image data.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "LogiNext",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Enterprise SaaS for Home Delivery and Transportation Businesses to Automate End to End Operational Process",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Cresta",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Cresta uses artificial intelligence to assist sales and service agents in the quality of customer service.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Squire",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "SQUIRE is a barbershop business management system that includes tools for booking, scheduling, payment processing, and marketing management.",
+  "sector": "Consumer",
+  "fund": "tiger"
+ },
+ {
+  "name": "Chiper",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Chiper is a B2B e-commerce ecosystem for the corner store retail market in Latin America",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "nTopology",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "nTopology is a company that develops software used in the design and manufacturing of 3D-printed parts and products.",
+  "sector": "3D Printing",
+  "fund": "tiger"
+ },
+ {
+  "name": "August Schools",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "August Schools is a SaaS platform for school health and wellness practitioner.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "SVT Robotics",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "SVT Robotics connects industrial technologies—from robotics to enterprise software—to the backbone for logistics AI.",
+  "sector": "Information Technology",
+  "fund": "tiger"
+ },
+ {
+  "name": "Greenscreens AI",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Greenscreens.ai provides pricing infrastructure and market insights for the freight industry.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "EngFlow",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "EngFlow helps engineers from startups to Fortune 500 companies accelerate developer productivity and positively impact engineering culture.",
+  "sector": "Cloud Computing",
+  "fund": "tiger"
+ },
+ {
+  "name": "DispatchHealth",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "DispatchHealth is a mobile and virtual healthcare that provides virtual medicine, modern house call, and health information technology.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Calibrate",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Calibrate is a digital metabolic health business that is changing the way the world treats weight.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Pinecone",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Pinecone develops a vector database that makes it easy to connect company data with generative AI models.",
+  "sector": "AI Infrastructure",
+  "fund": "tiger"
+ },
+ {
+  "name": "Grain",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Grain is the easiest meeting insights tool to help you understand and communicate the needs of your customers.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Way",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "The all in one experiential platform",
+  "sector": "Brand Marketing",
+  "fund": "tiger"
+ },
+ {
+  "name": "OctoAI",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "OctoAI is an AI infrastructure platform designed to help developers run, tune, and scale generative AI models efficiently.",
+  "sector": "AI Infrastructure",
+  "fund": "tiger"
+ },
+ {
+  "name": "Embark Trucks",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Embark develops self-driving truck technology designed for freight and logistic services.",
+  "sector": "Automotive",
+  "fund": "tiger"
+ },
+ {
+  "name": "Zak",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "ZAK is an All-in-One management platform for the digitization and financial empowerment of restaurants.",
+  "sector": "FinTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "Moov",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Moov is a software platform for buying and selling preowned manufacturing equipment.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Daily.co",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Daily is the enterprise WebRTC platform to build real-time voice, video and AI for a secure and compliant global infrastructure.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Starry",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Starry is an internet company that creates easy-to-use Wi-Fi products and radical ways to get Internet service.",
+  "sector": "Hardware",
+  "fund": "tiger"
+ },
+ {
+  "name": "Favo",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Favo is a supermarket shopping community that connects local entrepreneurs and neighbors.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Copper",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Copper is a cryptocurrency custody firm that provides a secure infrastructure for the institutional digital asset investment community.",
+  "sector": "Cryptocurrency",
+  "fund": "tiger"
+ },
+ {
+  "name": "Oico",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Oico is a B2B marketplace for construction materials in Brazil.",
+  "sector": "Construction",
+  "fund": "tiger"
+ },
+ {
+  "name": "Abacus.AI",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Abacus.AI is the world's first AI-assisted data science and end-to-end MLOps platform",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "UserGems",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "An AI-powered solution that combines relationship data and trigger events to identify buyers who will most likely buy from you",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "WATI",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Wati is an AI tools company that provides AI-powered chatbot and marketing tools for campaigning, customer engagement, and customer support.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Zip",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Zip is an intake and procurement orchestration platform that enables users to initiate purchase requests across the enterprise.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Ambi Robotics",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Ambi Robotics is an AI and robotics company developing solutions that scale e-commerce operations to tackle real world problems by humans.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Dutchie",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Dutchie provides an all-in-one technology platform that powers dispensary operations.",
+  "sector": "Cannabis",
+  "fund": "tiger"
+ },
+ {
+  "name": "Divvy Homes",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Divvy Homes is a tech-enabled real estate platform that facilitates rent-to-own home purchases.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Resq",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "ResQ is the all-in-one app to request, track and pay for your restaurant's repair and maintenance needs.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Turquoise",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Turquoise provides a transaction efficiency platform utilized by healthcare organizations to streamline payment processes.",
+  "sector": "FinTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "blinkit",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Blinkit is a quick-commerce platform that provides a delivery service for groceries, household essentials, and other daily needs.",
+  "sector": "Delivery",
+  "fund": "tiger"
+ },
+ {
+  "name": "Snowflake",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Snowflake is a cloud data platform that provides a data warehouse as a service designed for the cloud.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Eliyan",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Eliyan manufactures semiconductor interconnects to accelerate chiplet-based systems.",
+  "sector": "Electronics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Rogo",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Rogo provides an enterprise AI platform for automating research, workflows, and document creation in finance.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Nothing",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Nothing develops consumer electronics, including smartphones and earbuds, with a focus on connectivity and design.",
+  "sector": "Consumer",
+  "fund": "tiger"
+ },
+ {
+  "name": "Gridware",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Gridware is a grid‑technology company dedicated to improving safety and reliability on the electrical transmission and distribution systems.",
+  "sector": "Energy",
+  "fund": "tiger"
+ },
+ {
+  "name": "Workato",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Workato is an automation and orchestration platform designed to connect applications, data sources, and workflows across an organization.",
+  "sector": "Cloud Computing",
+  "fund": "tiger"
+ },
+ {
+  "name": "PhonePe",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "PhonePe is a digital payments and financial services company that offers a mobile application enabling users to transfer money.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Jupiter",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Jupiter is a digital banking app that offers smart insights based on your spending, and provides features to make sense of your finances.",
+  "sector": "Banking",
+  "fund": "tiger"
+ },
+ {
+  "name": "Vedantu",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Vedantu provides online and offline tutoring for academic and competitive entrance exams.",
+  "sector": "EdTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "Infra.Market",
+  "website": null,
+  "status": "active",
+  "stage": "Series G",
+  "description": "Infra.Market is a B2B e-commerce platform that focuses on streamlining the construction materials supply chain through tech innovation.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "BharatPe",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "BharatPe is a financial services platform that processes payments via UPI and POS, and provides credit or loans to their merchants.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Kojo",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Kojo is a materials and inventory management platform that manages the procurement, tracking, receipt, and payment of materials.",
+  "sector": "Construction",
+  "fund": "tiger"
+ },
+ {
+  "name": "Porter",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Porter offers logistics service solutions designed to help businesses streamline and optimize their last-mile delivery operations.",
+  "sector": "Delivery",
+  "fund": "tiger"
+ },
+ {
+  "name": "Nuro",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Nuro is a robotics company specializing in the development of autonomous driving technologies.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "EatClub Brands",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "EatClub Brands is a cloud kitchen company that allows consumers to order food from a list of handpicked food brands.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Pristyn Care",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Pristyn Care is Health Care Startup that is disrupting Elective Surgery Procedures",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Virtru",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Virtru provides data encryption for email and file sharing, enabling users to easily control access to their sensitive data.",
+  "sector": "Cyber Security",
+  "fund": "tiger"
+ },
+ {
+  "name": "Cribl",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Cribl is a software company that designs a unified data management platform for exploring, collecting, processing, and accessing data.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Vecmocon Technologies",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Vecmocon Technologies is a deep-tech EV solutions company focused on clean mobility by developing intelligent electric vehicles.",
+  "sector": "Automotive",
+  "fund": "tiger"
+ },
+ {
+  "name": "ApnaKlub",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "ApnaKlub is digitizing and organizing the FMCG procurement market by connecting buyers and brands through a single platform.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Oxyzo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Oxyzo offers customizedcredit solutions to SMEs, helping them expand operations, increase revenue, and improve profit margins.",
+  "sector": "Credit",
+  "fund": "tiger"
+ },
+ {
+  "name": "Blank Street",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Blank Street is a coffee chain that offers coffee as a daily ritual that more people can enjoy, in places convenient to their lives.",
+  "sector": "Coffee",
+  "fund": "tiger"
+ },
+ {
+  "name": "OfBusiness",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "OfBusiness is a tech-enabled platform that facilitates raw material procurement and credit for SMEs.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Chime",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Chime is a financial technology company that offers mobile banking services.",
+  "sector": "Banking",
+  "fund": "tiger"
+ },
+ {
+  "name": "Geniemode",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Geniemode is an apparel sourcing and supply chain platform that connects global buyers with suppliers.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Monograph",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Monograph is a project management platform that specializes in architecture and engineering firms, helping manage projects and budgets.",
+  "sector": "Architecture",
+  "fund": "tiger"
+ },
+ {
+  "name": "Zopper",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Zopper is an InsurTech platform that provides customized insurance solutions and support for partners in the insurance distribution process.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Jabu",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Jabu is a marketplace and distribution partner, offering tech-enabled, route-to-market development and merchandising for FMCG brands.",
+  "sector": "Delivery",
+  "fund": "tiger"
+ },
+ {
+  "name": "Frubana",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Frubana is a one-stop shop for restaurants that connect the countryside and different suppliers with the city through a digital platform.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Root Insurance",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Root Insurance is a property casualty insurtech that offers personalized car insurance coverages through an app.",
+  "sector": "Auto Insurance",
+  "fund": "tiger"
+ },
+ {
+  "name": "M2P Fintech",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "M2P Fintech is a fintech solutions company that provides API infrastructure for payments, lending, and banking services.",
+  "sector": "Developer APIs",
+  "fund": "tiger"
+ },
+ {
+  "name": "Moneyview",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Moneyview is a provider of a credit platform that offers loans and financial management tools.",
+  "sector": "Finance",
+  "fund": "tiger"
+ },
+ {
+  "name": "Iru",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Iru is the AI-powered security & IT platform used by the world’s fastest-growing companies to secure their users, apps, and devices.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "G.O.A.T Brand Labs",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "GOAT Brand Labs acquires and scales differentiated D2C brands in the lifestyle space.",
+  "sector": "Business Development",
+  "fund": "tiger"
+ },
+ {
+  "name": "Amica Finance",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Jupiter's consumer-focused neo-banking startup Amica Finance operates as an NBFC non-banking finance company.",
+  "sector": "Banking",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mark43",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Mark43 offers cloud-based public safety software for law enforcement to ensure accurate responses.",
+  "sector": "GovTech",
+  "fund": "tiger"
+ },
+ {
+  "name": "Arcadia",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Arcadia is a climate software and data company that specializes in decarbonizing the electric grid.",
+  "sector": "Clean Energy",
+  "fund": "tiger"
+ },
+ {
+  "name": "Opus Security",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Cloud Security Orchestration and Remediation Platform",
+  "sector": "Cloud Security",
+  "fund": "tiger"
+ },
+ {
+  "name": "Groyyo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Groyyo is a B2B manufacturing and automation start-up.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Wiz Freight",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Wiz Freight is a digital freight forwarding company that provides digital cross-border supply chain services in developing nations.",
+  "sector": "Freight Service",
+  "fund": "tiger"
+ },
+ {
+  "name": "Quicknode",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "#1 Blockchain Infrastructure Platform. Learn, Build, and Scale Onchain.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Stoneco",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Stone is a leading provider of financial technology solutions that empower merchants and integrated partners to conduct electronic commerce.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "GoMechanic",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "GoMechanic provides an online car servicing platform that helps users schedule various car services including maintenance and detailing.",
+  "sector": "Automotive",
+  "fund": "tiger"
+ },
+ {
+  "name": "Xihuang Technology",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Xihuang Technology is an internet technology service company.",
+  "sector": "Corporate Training",
+  "fund": "tiger"
+ },
+ {
+  "name": "Mensa Brands",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Mensa Brands is a direct-to-consumer company that partners with entrepreneurs to build and scale digital brands.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Absolute",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Absolute® is a pathbreaking plant bioscience company.",
+  "sector": "Agriculture",
+  "fund": "tiger"
+ },
+ {
+  "name": "Candivore",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Candivore is a game development startup that focuses on mobile multiplayer games.",
+  "sector": "Digital Entertainment",
+  "fund": "tiger"
+ },
+ {
+  "name": "KitaLulus",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "KitaLulus provides and offers employment opportunities for each individual through access to community education and technology.",
+  "sector": "Mobile Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Magic",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Magic is a developer of SDK that integrates with applications to enable password-less Web3 onboarding and authentication.",
+  "sector": "Cryptocurrency",
+  "fund": "tiger"
+ },
+ {
+  "name": "Tools For Humanity",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Tools for Humanity is a technology company building for humans in the age of AI. Currently building tools for World.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Cogoport",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Cogoport is a global trade platform that integrates solutions across a company’s trade journey such as advisory, logistics, and financing.",
+  "sector": "Air Transportation",
+  "fund": "tiger"
+ },
+ {
+  "name": "Go1",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "GO1 allows companies to upscale their workforce with on-demand training and a dynamic content-driven platform.",
+  "sector": "Business Development",
+  "fund": "tiger"
+ },
+ {
+  "name": "Tarabut",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "MENA’s first and largest regulated Open Banking platform (AISP & PISP) that connects a regional network of banks and FinTechs via API.",
+  "sector": "Banking",
+  "fund": "tiger"
+ },
+ {
+  "name": "P.T.S ( Proweb Tech Solution )",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "\"\"P.T.S ( Proweb Tech Solution ) is Asia's largest Managed Marketplace for Digital Services.",
+  "sector": "Information Technology",
+  "fund": "tiger"
+ },
+ {
+  "name": "Humane",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Humane is a platform that creates and sells consumer hardware, software, and services.",
+  "sector": "Consumer Electronics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Flutterwave",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Flutterwave is a fintech company that provides payment solutions for businesses.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "NOWCODER",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "NOWCODER develops a written test and interview database platform for IT programmers.",
+  "sector": "Database",
+  "fund": "tiger"
+ },
+ {
+  "name": "ShopUp",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "ShopUp is a full-stack B2B commerce platform for small businesses.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Hutouju",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Hutouju is a Chinese dessert retailer that operates both retail locations and online stores.",
+  "sector": "Food and Beverage",
+  "fund": "tiger"
+ },
+ {
+  "name": "Komodo Health",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Komodo Health is an IT firm that specializes in data engineering, life sciences, artificial intelligence, and machine intelligence services.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "MyGate",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Society Management Software/App",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Flatfile",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Flatfile is a software development company that provides AI-assisted data exchange and API-ready data solutions online.",
+  "sector": "Cloud Data Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Humalect",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Humalect is a low-code platform that helps you automate your DevOps.",
+  "sector": "Developer Platform",
+  "fund": "tiger"
+ },
+ {
+  "name": "Jodo",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Jodo is a mission-oriented fintech company which is building customized financial products for middle-income households in urban India.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Gnosis",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Gnosis is a platform to manage digital assets on ethereum.",
+  "sector": "Cryptocurrency",
+  "fund": "tiger"
+ },
+ {
+  "name": "Forter",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Forter is a software-as-a-service company that delivers real-time, automated, fraud prevention solutions for online merchants.",
+  "sector": "Fraud Detection",
+  "fund": "tiger"
+ },
+ {
+  "name": "Jit",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "JIT is a platform that enables development teams to embrace the MVS approach and iteratively proceed in a just-in-time way.",
+  "sector": "Cyber Security",
+  "fund": "tiger"
+ },
+ {
+  "name": "Outreach",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Outreach is a sales engagement platform that uses AI for predictive analytics as it relates to sales.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Certora",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Certora provides unique technology for guaranteeing code correctness and security",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Komodor",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Komodor tracks changes and alerts across the Kubernetes stack and analyzes their effect.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Shopflo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Shopflo is a SaaS platform that enables easy checkout experience for e-commerce brands.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Sensors Data",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Sensors Data provides big data analysis services for over 300 companies.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Hike",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Hike is a Social Gaming Platform.",
+  "sector": "Casual Games",
+  "fund": "tiger"
+ },
+ {
+  "name": "Inventa",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Inventa is a wholesale marketplace that connects brands with independent retailers across Latin America.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "CertiK",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "CertiK leverages formal verification technology to mathematically ensure security in systems software.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Zaraye",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Zaraye is a secure, user-friendly B2B platform that facilitates the free exchange of raw materials through a reverse-bidding model.",
+  "sector": "Information Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Classplus",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Classplus offers a mobile-first SaaS platform for 3000+ tutors to offer their curriculum and operations completely online.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "INDmoney",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "INDmoney is a mobile app that consolidates and manages finances in one place.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Rupifi",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Rupifi is a digital B2B platform that offers loans, working capital, and payment services to small businesses.",
+  "sector": "Credit",
+  "fund": "tiger"
+ },
+ {
+  "name": "Wasoko",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Wasoko transforms access to essential goods and services by connecting small shops to the digital economy.",
+  "sector": "Consumer Goods",
+  "fund": "tiger"
+ },
+ {
+  "name": "Run:AI",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Run:ai is an AI cluster management platform that helps organizations squeeze more from their GPUs and streamline AI/ML development.",
+  "sector": "AI Infrastructure",
+  "fund": "tiger"
+ },
+ {
+  "name": "Bamboo",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Bamboo is a digital investment platform that provides real-time access to buy, hold, or sell stocks.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Weee!",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Weee! is an online grocery delivery platform that offers hispanic and asian foods specialty products and everyday staples.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Weavr",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Weavr is an online platform that creates, integrates, deploys, and runs digital payment flows.",
+  "sector": "Developer Platform",
+  "fund": "tiger"
+ },
+ {
+  "name": "Guandata",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Guandata is committed to providing next-generation data analytics and business intelligence (BI) solutions.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Fluence Labs",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "A Decentralized Database Platform for Web 3",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Veho",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Reinventing delivery and returns for the e-commerce era.",
+  "sector": "Delivery",
+  "fund": "tiger"
+ },
+ {
+  "name": "PDAX",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "PDAX is a digital currency exchange company that enables trading and settlement in the financial technology sector.",
+  "sector": "Cryptocurrency",
+  "fund": "tiger"
+ },
+ {
+  "name": "Productboard",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Productboard is a product management system that helps organizations get the right products to market faster.",
+  "sector": "Consumer Research",
+  "fund": "tiger"
+ },
+ {
+  "name": "Scaler Academy",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Advanced online computer science program for college graduates and young software engineers",
+  "sector": "Computer",
+  "fund": "tiger"
+ },
+ {
+  "name": "Moglix",
+  "website": null,
+  "status": "active",
+  "stage": "Series F",
+  "description": "Moglix is an online marketplace for business supplies and industrial equipment.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Lummo",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Lummo offers tools for inventory management, payment-related analytics, and digital ledger for micro, small, and medium-sized businesses.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Ankorstore",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Ankorstore is a wholesale marketplace that connects independent shop owners and specialist brands with neighborhood retailers.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Kutumb",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Kutumb is a social community enabler.",
+  "sector": "Internet",
+  "fund": "tiger"
+ },
+ {
+  "name": "CreditBook",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "CreditBook is a digital platform that serves Pakistan’s underserved MSMEs and developers with financial solutions and services.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Cockroach Labs",
+  "website": null,
+  "status": "active",
+  "stage": "Series F",
+  "description": "Cockroach Labs is a software company that develops a cloud-native SQL database for modern cloud applications.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Teya",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Teya builds tools for SMBs to unlock hassle-free payments, better business management, new and returning customers, all on fair terms.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "TVF",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "TVF Play is a youth focussed premium content platform in India.",
+  "sector": "Digital Entertainment",
+  "fund": "tiger"
+ },
+ {
+  "name": "Moka",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Moka is a SaaS-based HR platform that allows companies to optimize recruitment services.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Hinge Health",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Hinge Health is a digital clinic for joint, and muscle care, pelvic pain, bowel, and bladder control.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Authing",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Authing provides identity authentication and authorization services for enterprises and developers.",
+  "sector": "Cloud Computing",
+  "fund": "tiger"
+ },
+ {
+  "name": "EKuaibao",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "EKuaibao is an agile enterprise expense reimbursement and management platform.",
+  "sector": "CRM",
+  "fund": "tiger"
+ },
+ {
+  "name": "OkCredit",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "OkCredit simplifies credit account management for shop owners and their customers.",
+  "sector": "Finance",
+  "fund": "tiger"
+ },
+ {
+  "name": "Own Company",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Own Company is a provider of data protection and management solutions to secure automated and daily backups.",
+  "sector": "Cloud Data Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Superhuman",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Superhuman is a software platform that weaves social insights into a workflow.",
+  "sector": "Email",
+  "fund": "tiger"
+ },
+ {
+  "name": "Contentful",
+  "website": null,
+  "status": "active",
+  "stage": "Series F",
+  "description": "Contentful offers a headless content management system that helps organizations deliver content across channels.",
+  "sector": "Cloud Computing",
+  "fund": "tiger"
+ },
+ {
+  "name": "Amperity",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Amperity is an Intelligent Customer Data Platform that empowers global consumer brands by unlocking all their customer data.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "InVideo",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "InVideo offers tools for video creation and editing using artificial intelligence.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "FairMoney",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "FairMoney is a financial service company that provides digital financial tools, and cloud-based core banking systems.",
+  "sector": "Banking",
+  "fund": "tiger"
+ },
+ {
+  "name": "Moveworks",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Moveworks offers an AI-powered assistant designed to enhance workflows and automate tasks within enterprises.",
+  "sector": "Agentic AI",
+  "fund": "tiger"
+ },
+ {
+  "name": "ironSource",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "IronSource is a business platform enabling mobile content creators to prosper in the app economy.",
+  "sector": "App Marketing",
+  "fund": "tiger"
+ },
+ {
+  "name": "Lucid Software",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Lucid Software is a visual collaboration suite that helps teams implement an idea into reality and game-changing solutions.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Yaoshibang",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Yaoshibang is a Chinese B2B pharmaceutical trading platform.",
+  "sector": "B2B",
+  "fund": "tiger"
+ },
+ {
+  "name": "Katapult",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Katapult is an omnichannel point-of-sale payment platform for retailers and consumers.",
+  "sector": "Financial Services",
+  "fund": "tiger"
+ },
+ {
+  "name": "Fadada.com",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Fadada.com is a electronic contract and electronic signature cloud service platform.",
+  "sector": "Electronics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Dooly",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Dooly is a provider of sales enablement platform that collects customer information essential to close business sales.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "Pitch",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Pitch is collaborative presentation software for modern teams.",
+  "sector": "Collaboration",
+  "fund": "tiger"
+ },
+ {
+  "name": "Contractbook",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Contractbook’s contract management software empowers modern businesses to turn manual processes into fully automated workflows.",
+  "sector": "Legal Tech",
+  "fund": "tiger"
+ },
+ {
+  "name": "Bego",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Building the OS for trade between US and LatAm.",
+  "sector": "Freight Service",
+  "fund": "tiger"
+ },
+ {
+  "name": "AfterShip",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "We help e-commerce businesses grow and make buying and selling accessible to everyone, everywhere.",
+  "sector": "Customer Service",
+  "fund": "tiger"
+ },
+ {
+  "name": "Clubhouse",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Clubhouse is an audio-based social app that allows users to spontaneously join group chats.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Tend",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Tend is a technology-driven dental company that provides hassle-free, personalized, and straightforward dental services.",
+  "sector": "Dental",
+  "fund": "tiger"
+ },
+ {
+  "name": "Acquire",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Acquire is a unified customer engagement platform that brings all communication, interactions, channels, and tools under one roof.",
+  "sector": "Customer Service",
+  "fund": "tiger"
+ },
+ {
+  "name": "Wolt",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Wolt is a food delivery company specializing in real-time logistics optimization.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "InVision",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "InVision is the visual collaboration platform powering the world’s smartest companies.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Toast",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Toast is a point-of-sale and restaurant management platform designed for businesses in the food service and hospitality industry.",
+  "sector": "Delivery",
+  "fund": "tiger"
+ },
+ {
+  "name": "Virtually",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Virtually is an online school that helps in bridging live conferencing, payment-processing and student management in one place.",
+  "sector": "Education",
+  "fund": "tiger"
+ },
+ {
+  "name": "Taimei Technology",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Taimei Technology provides a cloud platform for clinical research collaboration.",
+  "sector": "Biopharma",
+  "fund": "tiger"
+ },
+ {
+  "name": "flaschenpost",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "flaschenpost is a German-based company offering on-demand beverage delivery.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Greenbits",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Greenbits is a cannabis retail platform serving medical dispensaries and adult-use retailers.",
+  "sector": "Cannabis",
+  "fund": "tiger"
+ },
+ {
+  "name": "Vault Health",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Vault Health is a telehealth company that leverages diagnostics, specialty telehealth capabilities, and technology infrastructure.",
+  "sector": "Health Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Zinier",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Zinier offers a low-code field service automation platform that provides a combined power of humans and technology.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "tiger"
+ },
+ {
+  "name": "KredX",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "KredX is an online invoice discounting platform where business owners get an opportunity to raise funds for their working capital needs.",
+  "sector": "Finance",
+  "fund": "tiger"
+ },
+ {
+  "name": "CTO.ai",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "CTO.ai provides a Developer Control Plane that helps companies measurably increase developer productivity up to 200x, without hiring DevOps.",
+  "sector": "Cloud Infrastructure",
+  "fund": "tiger"
+ },
+ {
+  "name": "Danke Apartment",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Danke Apartment is a technology-enabled apartment management company.",
+  "sector": "Property Management",
+  "fund": "tiger"
+ },
+ {
+  "name": "Fyle",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Fyle offers real-time expense management software for smbs on credit cards they already have.",
+  "sector": "Accounting",
+  "fund": "tiger"
+ },
+ {
+  "name": "ShopClues",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Shop Clues provides a platform to establish a connection between buyers and sellers in a managed environment.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Fleetsmith",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Fleetsmith puts Apple device management and security on auto-pilot.",
+  "sector": "Enterprise Software",
+  "fund": "tiger"
+ },
+ {
+  "name": "Panda Selected",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Panda Selected is a catering-oriented life service operator that provides for enterprises.",
+  "sector": "Catering",
+  "fund": "tiger"
+ },
+ {
+  "name": "Exclusively",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Exclusively.In is a members-only shopping site for Indian-inspired fashion, jewelry and home decor.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Peilian.com",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Peilian is an online music education platform based in Shanghai.",
+  "sector": "Education",
+  "fund": "tiger"
+ },
+ {
+  "name": "Metrc",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Metrc is the leading solution for cannabis governance.",
+  "sector": "Cannabis",
+  "fund": "tiger"
+ },
+ {
+  "name": "Meicai",
+  "website": null,
+  "status": "active",
+  "stage": "Series F",
+  "description": "Meicai sells agricultural products online that aims to change agriculture, rural areas, and farmers through the Internet.",
+  "sector": "Agriculture",
+  "fund": "tiger"
+ },
+ {
+  "name": "HEAVY.AI",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "HEAVY.AI provides data analytics software that helps enterprise and public sector make decisions.",
+  "sector": "Analytics",
+  "fund": "tiger"
+ },
+ {
+  "name": "Udesk",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Best Customer Service Software",
+  "sector": "Customer Service",
+  "fund": "tiger"
+ },
+ {
+  "name": "BestSign",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "BestSign is the industry's leading online electronic signature, electronic contract signing and electronic signature cloud service platform.",
+  "sector": "Blockchain",
+  "fund": "tiger"
+ },
+ {
+  "name": "Yunmanman",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Yunmanman is a Chinese online logistics firm.",
+  "sector": "Internet",
+  "fund": "tiger"
+ },
+ {
+  "name": "Shenzhen Zijintongcai",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Shenzhen Zijintongcai is a Hongkong based company.",
+  "sector": "Finance",
+  "fund": "tiger"
+ },
+ {
+  "name": "Cube26",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Cube26, formerly PredictGaze, is at the forefront of the User Interface Revolution. Winner of the Mobile Track at MEGA Startup Weekend",
+  "sector": "Computer Vision",
+  "fund": "tiger"
+ },
+ {
+  "name": "ZO Rooms",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "ZO Rooms is India's Fastest Growing Chain of Standardised Short Stay Accommodations with 600+ properties across 40 cities.",
+  "sector": "Hospitality",
+  "fund": "tiger"
+ },
+ {
+  "name": "Evidea",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Evidea; evine değer katmak isteyenlere; kaliteli ürünleri makul fiyatlarla sunan bir e-ticaret sitesi ve mağazalar zinciridir.",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Moonfrog Labs",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Moonfrog Labs is an independent game studio focusing on Board and Social Card Games.",
+  "sector": "Gaming",
+  "fund": "tiger"
+ },
+ {
+  "name": "Babyoye",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Babyoye is an e-commerce store providing pregnancy, infant-care, and mother-care products and services in India.",
+  "sector": "Child Care",
+  "fund": "tiger"
+ },
+ {
+  "name": "Zovi",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Zovi designs and manufactures high-quality lifestyle apparel and accessory products and exclusively offer them online.",
+  "sector": "Apps",
+  "fund": "tiger"
+ },
+ {
+  "name": "Biglion",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "BIGLION is a service to purchase goods and travel around the world with discounts ranging from 50% to 90%!",
+  "sector": "E-Commerce",
+  "fund": "tiger"
+ },
+ {
+  "name": "Baby",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Baby is an e-commerce retailer of baby products in Brazil.",
+  "sector": "Baby",
+  "fund": "tiger"
+ }
+]

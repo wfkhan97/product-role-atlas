@@ -1,0 +1,3179 @@
+[
+ {
+  "name": "Arrcus",
+  "website": "arrcus.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Perplexity AI",
+  "website": "perplexity.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Liquid AI",
+  "website": "liquid.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "AMI Labs",
+  "website": "amilabs.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Prism ML",
+  "website": "prismml.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Lark",
+  "website": "lark.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Signos, Inc.",
+  "website": "signos.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Apptronik",
+  "website": "apptronik.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "1X Technologies",
+  "website": "1x.tech",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "EmpiricalHealth",
+  "website": "empirical.health",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Field AI",
+  "website": "fieldai.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Eka Robotics",
+  "website": "ekarobotics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Vsim Technology",
+  "website": "v-sim.co.uk",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "XDOF AI",
+  "website": "xdof.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Black Forest Labs",
+  "website": "blackforestlabs.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Twelve Labs",
+  "website": "twelvelabs.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Bastion",
+  "website": "bastion.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Maven Clinic",
+  "website": "mavenclinic.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Function",
+  "website": "functionhealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Nucleus Genomics",
+  "website": "mynucleus.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Doctronic.ai",
+  "website": "doctronic.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "EnGramme",
+  "website": "engramme.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Graphon",
+  "website": "graphon.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Archetype AI",
+  "website": "archetypeai.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Yutori",
+  "website": "yutori.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Unconventional AI",
+  "website": "unconv.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Rhoda AI",
+  "website": "rhoda.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "SiPhox",
+  "website": "siphox.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Walden Robotics",
+  "website": "waldenrobotics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Watney Robotics",
+  "website": "watneyrobotics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Intezer",
+  "website": "intezer.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Intuition Robotics",
+  "website": "intuitionrobotics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Verified",
+  "website": "verified.inc",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Huma",
+  "website": "huma.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "General Intuition",
+  "website": "generalintuition.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "CAST.AI",
+  "website": "cast.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Reality Defender",
+  "website": "realitydefender.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Weekend",
+  "website": "volleythat.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Quantum Machines",
+  "website": "quantum-machines.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Classiq Technologies",
+  "website": "classiq.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Dynamo AI",
+  "website": "dynamo.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Mesh",
+  "website": "meshconnect.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "LayerZero Labs",
+  "website": "layerzero.network",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Vena Vitals",
+  "website": "venavitals.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Opal",
+  "website": "opalcamera.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Affect Therapeutics",
+  "website": "affecttherapeutics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "AIDIN ROBOTICS",
+  "website": "aidinrobotics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Sahara AI",
+  "website": "saharaai.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Please Platform",
+  "website": "please.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Return Entertainment",
+  "website": "returnentertainment.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "IN.WORLD",
+  "website": "inworld.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Draw Things",
+  "website": "drawthings.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "SqueezeBits",
+  "website": "squeezebits.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "AI21 Labs",
+  "website": "ai21.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Atropos Health",
+  "website": "atroposhealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Figure",
+  "website": "figure.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "kudos",
+  "website": "joinkudos.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Opus Pro",
+  "website": "opus.pro",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Afference, Inc.",
+  "website": "afference.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Pi Squared",
+  "website": "pi2.network",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Trace Machina",
+  "website": "tracemachina.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Healthee",
+  "website": "healthee.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Synthefy",
+  "website": "synthefy.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Artificial Agency",
+  "website": "artificial.agency",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Simular AI",
+  "website": "simular.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Lumen",
+  "website": "lumen.me",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Upsolve",
+  "website": "upsolve.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "H Company",
+  "website": "hcompany.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Argmax",
+  "website": "takeargmax.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Operative Games",
+  "website": "operativegames.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Higgsfield AI",
+  "website": "higgsfield.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Arcee AI",
+  "website": "arcee.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Munice",
+  "website": "munice.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Ceramic AI",
+  "website": "ceramic.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "DeepInfra",
+  "website": "deepinfra.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Tacit AI",
+  "website": "tacit.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Harmonic AI",
+  "website": "harmonic.fun",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Pokee AI",
+  "website": "pokee.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "PARASAIL",
+  "website": "parasail.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Simple AI",
+  "website": "usesimple.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Config Intelligence",
+  "website": "config.inc",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "FortyFive Labs",
+  "website": "fortyfive.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Eight Sleep",
+  "website": "eightsleep.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Memories AI",
+  "website": "memories.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Edgescale AI",
+  "website": "edgescaleai.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Hubblenetwork",
+  "website": "hubblenetwork.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Cellular intelligence",
+  "website": "cellularintelligence.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Intology.ai",
+  "website": "intology.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Mirai",
+  "website": "getmirai.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Sibel Health",
+  "website": "sibelhealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Fluid Reality",
+  "website": "fluidreality.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Kumo",
+  "website": "kumo.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Periodic Labs",
+  "website": "periodic.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Circuit & Chisel",
+  "website": "circuitandchisel.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Rain",
+  "website": "rain.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Generation Lab",
+  "website": "generationlab.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "DYNA Robotics",
+  "website": "dyna.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Narada",
+  "website": "narada.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Base Power Company",
+  "website": "basepowercompany.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "THEKER Robotics",
+  "website": "theker.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "CloudChef",
+  "website": "cloudchef.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Patronus AI",
+  "website": "patronus.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "grayswan.ai",
+  "website": "grayswan.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Cordance Medical",
+  "website": "cordancemedical.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Stellon Labs",
+  "website": "stellonlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Odyssey",
+  "website": "odyssey.ml",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "The Bot Company",
+  "website": "bot.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "G5 Labs",
+  "website": "g5labs.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Learning Machine Co.",
+  "website": "learning-machine.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Wabi",
+  "website": "wabi.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "AgentOS",
+  "website": "ag2.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Thea",
+  "website": "hellothea.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Xlue",
+  "website": "xlue.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Beacon Biosignals",
+  "website": "beacon.bio",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Sedona",
+  "website": "sedona.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "MagicX",
+  "website": "magicx.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Eden Robotics",
+  "website": "edenrobotics.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "8i",
+  "website": "8i.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Alchemy",
+  "website": "alchemyapi.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Aliro Technologies",
+  "website": "aliroquantum.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Umbrella Cost",
+  "website": "umbrellacost.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Apptest.ai",
+  "website": "apptest.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Archipelo",
+  "website": "archipelo.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Branch",
+  "website": "branch.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Cylera",
+  "website": "cylera.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Dapper Labs",
+  "website": "dapperlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "data.world",
+  "website": "data.world",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Forte",
+  "website": "forte.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Glooko",
+  "website": "glooko.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Healthy.io",
+  "website": "healthy.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "HYPR",
+  "website": "hypr.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "ISEE",
+  "website": "isee.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Mobidoo",
+  "website": "sauce.im",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Nexar",
+  "website": "us.getnexar.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "PlayVS",
+  "website": "playvs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "SignalWire",
+  "website": "signalwire.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Theta Labs",
+  "website": "thetalabs.org",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Spatial",
+  "website": "spatial.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "StreamElements",
+  "website": "streamelements.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Terapede",
+  "website": "terapede.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Tetrate",
+  "website": "tetrate.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "UniKey Technologies",
+  "website": "unikey.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "VeeR",
+  "website": "veer.tv",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Virtru",
+  "website": "virtru.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Aviron Interactive",
+  "website": "avironactive.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Terra",
+  "website": "tryterra.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Ixana",
+  "website": "ixana.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Webiny",
+  "website": "webiny.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Overwolf",
+  "website": "overwolf.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Livez.ai",
+  "website": "livez.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Enuma",
+  "website": "enuma.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Juvo",
+  "website": "juvo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Metrika",
+  "website": "metrika.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "DSRV",
+  "website": "dsrvlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Players' Lounge",
+  "website": "playerslounge.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "FanCraze",
+  "website": "fancraze.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "HYPERITHM Co.",
+  "website": "hyperithm.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Alpha Medical",
+  "website": "helloalpha.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Shabodi",
+  "website": "shabodi.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "OXIO",
+  "website": "oxio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Curve",
+  "website": "curve.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Nym",
+  "website": "nym.health",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Canopy Care",
+  "website": "canopycare.us",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "ZaiNar",
+  "website": "zainartech.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "ZEDEDA",
+  "website": "zededa.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Multiverse Labs",
+  "website": "multiverselabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Copper Banking",
+  "website": "getcopper.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Verbit",
+  "website": "verbit.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Nirmata",
+  "website": "nirmata.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Marpipe",
+  "website": "marpipe.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Swish.ai",
+  "website": "swish.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "BlueVoyant",
+  "website": "bluevoyant.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Wildfire Systems",
+  "website": "wildfire-corp.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Planetarium",
+  "website": "planetariumhq.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Off Live",
+  "website": "off.live",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Axie Infinity",
+  "website": "axieinfinity.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Atommerce",
+  "website": "atommerce.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Forter",
+  "website": "forter.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "SuperRare",
+  "website": "superrare.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Danggeun Market",
+  "website": "daangn.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Pomelo",
+  "website": "pomelo.la",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "OpenWeb",
+  "website": "openweb.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Kooply",
+  "website": "kooply.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Offchain Labs",
+  "website": "offchainlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Snapcalorie",
+  "website": "snapcalorie.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Fondue",
+  "website": "getfondue.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Bloom",
+  "website": "joinbloom.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Stellar Cyber",
+  "website": "stellarcyber.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Legacy",
+  "website": "givelegacy.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Enso",
+  "website": "ensoanalytics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Canela Media",
+  "website": "canelamedia.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Sitenna",
+  "website": "sitenna.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "The Sandbox",
+  "website": "sandbox.game",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Big Whale Labs",
+  "website": "bigwhalelabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Synadia",
+  "website": "synadia.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Skipify",
+  "website": "skipify.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Expeto",
+  "website": "expeto.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Manifold",
+  "website": "manifold.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Ritual",
+  "website": "ritual-app.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Mysten Labs",
+  "website": "mystenlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Spectral Labs",
+  "website": "spectrallabs.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Aleo",
+  "website": "aleo.org",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "CHAI",
+  "website": "chai.finance",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "gankster",
+  "website": "gankster.gg",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Guardio",
+  "website": "guard.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Metaplex",
+  "website": "metaplex.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Chaos Labs",
+  "website": "chaoslabs.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Ludeo",
+  "website": "ludeo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Travel Wallet",
+  "website": "travel-wallet.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "OneStep Solutions",
+  "website": "onestep.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Ohai AI",
+  "website": "ohai.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "PUNKS Comic / Pixel Vault",
+  "website": "punkscomic.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Agency",
+  "website": "getagency.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "MachineFi",
+  "website": "iotex.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Kite AI",
+  "website": "gokite.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Flow Carbon, Inc.",
+  "website": "flowcarbon.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Anykraft",
+  "website": "biasroom.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Docugami",
+  "website": "docugami.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Spiderville",
+  "website": "spiderville.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Immunefi",
+  "website": "immunefi.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Space and Time",
+  "website": "spaceandtime.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Saga",
+  "website": "saga.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "NeuraLight",
+  "website": "neuralight.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "CypherdWallet",
+  "website": "cypherd.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Nest",
+  "website": "nestgenomics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Lemon Cash",
+  "website": "lemoncash.com.ar",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Tovala",
+  "website": "tovala.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Redesign Health",
+  "website": "redesignhealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Brave Health",
+  "website": "bebravehealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Bold",
+  "website": "agebold.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Anzu.io",
+  "website": "anzu.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "beoble",
+  "website": "beoble.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Ironblocks",
+  "website": "ironblocks.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "OOVA",
+  "website": "oova.life",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Clinii",
+  "website": "clinii.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Malama",
+  "website": "heymalama.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "WellSet",
+  "website": "wellset.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Panorays",
+  "website": "panorays.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Assured",
+  "website": "assured.care",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Chainsight",
+  "website": "chainsight.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Shoelace Learning",
+  "website": "shoelacelearning.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "MiSalud AI",
+  "website": "misalud.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Notch ai",
+  "website": "usenotch.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Deca",
+  "website": "deca.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Hotspotty",
+  "website": "hotspotty.net",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Well Theory",
+  "website": "welltheory.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Point Me To",
+  "website": "point.me",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Pendium",
+  "website": "pendium.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Remepy",
+  "website": "remepy.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Method Financial",
+  "website": "methodfi.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Hyperbolic",
+  "website": "hyperbolic.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Supermodel",
+  "website": "supermodel.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "TailorMed",
+  "website": "tailormed.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Unify AI",
+  "website": "unify.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Argument Computer Corp",
+  "website": "argument.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Truehold",
+  "website": "truehold.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "monogoto",
+  "website": "monogoto.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Playtron",
+  "website": "playtron.one",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Expanso",
+  "website": "expanso.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "HindSight",
+  "website": "usehindsight.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Kivo Health",
+  "website": "kivohealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "EverEx",
+  "website": "everex.kr",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Pillyze",
+  "website": "pillyze.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Moonmath AI",
+  "website": "moonmath.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Raven IO",
+  "website": "raven.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Berachain",
+  "website": "berachain.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Xyte",
+  "website": "xyte.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Sprinter Health",
+  "website": "sprinterhealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Knot",
+  "website": "knotapi.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Bria",
+  "website": "bria.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Coframe",
+  "website": "coframe.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Better Health Supplies",
+  "website": "joinbetter.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "BetterBrain",
+  "website": "betterbrain.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Zesty.co",
+  "website": "zesty.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "LIV",
+  "website": "liv.tv",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Lasso Security",
+  "website": "lasso.security",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Protopia AI",
+  "website": "protopia.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Hegel AI",
+  "website": "hegel-ai.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Cambioml",
+  "website": "cambioml.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Eleos Health",
+  "website": "eleos.health",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Foundation EGI",
+  "website": "foundationegi.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Mitiga",
+  "website": "mitiga.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Prometeo",
+  "website": "prometeoapi.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Activeloop",
+  "website": "activeloop.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Nectry",
+  "website": "nectry.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Spiffy AI",
+  "website": "spiffy.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "0G",
+  "website": "0g.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Atomic",
+  "website": "atomicvest.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Startale Labs",
+  "website": "startale.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Xpander",
+  "website": "xpander.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Rune Labs",
+  "website": "runelabs.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Vectara",
+  "website": "vectara.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "PocketHealth",
+  "website": "pockethealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Superlinked",
+  "website": "superlinked.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Primus Labs",
+  "website": "primuslabs.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Roam",
+  "website": "weroam.xyz",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Standard Bots",
+  "website": "standardbots.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "THT",
+  "website": "thtcorp.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Normal Computing",
+  "website": "normalcomputing.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Crowdbotics",
+  "website": "crowdbotics.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Unsloth AI",
+  "website": "unsloth.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Superscript",
+  "website": "superscript.nyc",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Ventus AI",
+  "website": "ventus.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "mawari",
+  "website": "mawari.co.jp",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Centaur Labs",
+  "website": "centaurlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Superb AI",
+  "website": "superb-ai.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Fiddler Labs",
+  "website": "fiddler.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Music AI",
+  "website": "music.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "AudioMob",
+  "website": "audiomob.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "FRVR",
+  "website": "frvr.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "AMMO AI",
+  "website": "ammoai.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Safely You",
+  "website": "safely-you.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "fin.tech",
+  "website": "fin.tech",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Ziptx",
+  "website": "ziptx.bio",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Faye",
+  "website": "withfaye.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Pamir AI",
+  "website": "pamir.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Alice",
+  "website": "alice.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Persperion Diagnostics",
+  "website": "persperiontech.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "VOCxI Health",
+  "website": "vocxihealth.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Bondu",
+  "website": "bondu.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Diffractive Labs",
+  "website": "diffractive.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "DiaMonTech GmbH",
+  "website": "diamontech.de",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Drafted",
+  "website": "drafted.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Bear",
+  "website": "usebear.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Xona Space Systems",
+  "website": "xonaspace.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Constellation Space",
+  "website": "constellationspace.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Frontier",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Dimension Labs",
+  "website": "dimensionlabs.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Grover",
+  "website": "grover.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Stae",
+  "website": "stae.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Survios",
+  "website": "survios.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Vinli",
+  "website": "vin.li",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "WEVR",
+  "website": "wevr.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Agape",
+  "website": "theagapeapp.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Home365",
+  "website": "home365.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Others",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Zen",
+  "website": "yayzen.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Bright moments",
+  "website": "brightmoments.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "FloatMe",
+  "website": "floatme.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Calibrate",
+  "website": "joincalibrate.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Noox",
+  "website": "noox.world",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Genopets",
+  "website": "genopets.me",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Yuga Labs",
+  "website": "yugalabs.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Lynk",
+  "website": "trylynk.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Dank Bank",
+  "website": "dankbank.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Pery",
+  "website": "mypery.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Health Tech",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Gauss",
+  "website": "gauss.money",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Mahila Money",
+  "website": "mahila.money",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Services",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "integral Robotics",
+  "website": "integral.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Stability AI",
+  "website": "stability.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Grab Labs",
+  "website": "grablabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Lila Sciences",
+  "website": "lila.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Vizo Labs",
+  "website": "vizolabs.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Robotics",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "Blackbox AI",
+  "website": "blackbox.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "AI",
+  "fund": "samsung_next"
+ },
+ {
+  "name": "MachineFi | IoTeX",
+  "website": "iotex.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "Blockchain",
+  "fund": "samsung_next"
+ }
+]

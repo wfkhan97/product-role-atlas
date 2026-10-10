@@ -62,23 +62,53 @@ def main():
             r["ats"] = "unsupported"
         reg.append(r)
     seen = {r["company"].lower() for r in reg}
-    for inv, pattern in (("a16z", "registry_a16z.json"), ("Sequoia", "registry_sequoia.json")):
-        rows = [r for r in load(pattern) if r.get("verified") and r.get("ats") in ("greenhouse", "lever", "ashby", "workday")]
-        rows.sort(key=lambda r: -(r.get("pm_postings") or 0))
-        for r in rows:
-            if r["company"].lower() in seen:
+    funds = {f["id"]: f for f in json.load(open(os.path.join(RAW, "funds.json")))}
+    startups = {}
+    # legacy single-investor registries (a16z / Sequoia) + the multi-fund probe output
+    for inv, pattern in (("a16z", "registry_a16z.json"), ("sequoia", "registry_sequoia.json"), (None, "registry_startups.json")):
+        for r in load(pattern):
+            if not (r.get("verified") and r.get("ats") in ("greenhouse", "lever", "ashby", "workday")):
                 continue
-            seen.add(r["company"].lower())
-            r["group"] = inv.lower(); r["investor"] = inv
-            vert = (r.get("verticals") or "").split(";")[0].strip().lower()
-            r["sector"] = STARTUP_SECTOR.get(vert, "Startup (unclassified)")
-            r["industry"] = r.get("verticals") or None
-            reg.append(r)
+            key = r["company"].lower()
+            if key in seen:
+                continue
+            e = startups.get(key)
+            fund_ids = r.get("funds") or ([inv] if inv else [])
+            if e is None:
+                e = dict(r); e["funds"] = []; e["group"] = "startup"
+                vert = (r.get("verticals") or "").split(";")[0].strip().lower()
+                e["sector"] = STARTUP_SECTOR.get(vert, "Startup (unclassified)")
+                e["industry"] = r.get("verticals") or None
+                e["stage_from_fund"] = r.get("stage_from_fund")
+                startups[key] = e
+            for fid in fund_ids:
+                if fid in funds and fid not in e["funds"]:
+                    e["funds"].append(fid)
+            if r.get("stage_from_fund") and not e.get("stage_from_fund"):
+                e["stage_from_fund"] = r["stage_from_fund"]
+    sector_text = json.load(open(os.path.join(RAW, "startup_sector_text.json"))) if os.path.exists(os.path.join(RAW, "startup_sector_text.json")) else {}
+    import re as _re
+    KW = [('Health Care', 'health|bio|pharma|medic|clinic|therap|life science|care\\b|patient|genomic'), ('Financials', 'fintech|financ|payment|bank|insur|lending|credit|crypto|blockchain|web3|wealth|trading|defi'), ('Energy & Utilities', 'energy|climate|solar|battery|grid|carbon|nuclear|fusion|utilit'), ('Industrials & Manufacturing', 'robot|hardware|defense|aerospace|space\\b|industrial|manufactur|american dynamism|physical ai|semiconductor|chip|construction|materials'), ('Automotive & Transportation', 'mobility|autonom|vehicle|logistic|transport|fleet|supply chain|drone|aviation'), ('Retail', 'commerce|marketplace|retail|shopping|consumer goods|dtc|food|grocery|restaurant'), ('Media, Telecom & Hospitality', 'consumer|media|gaming|game|social|creator|entertain|travel|hospitality|sports|music|video'), ('Technology', 'enterprise|saas|software|infra|developer|devtool|ai\\b|machine learning|data|security|cloud|platform|b2b|productivity|analytics|api|open source|crypto infra|llm|agent')]
+    def map_sector(text):
+        t = (text or "").lower()
+        for sec, rx in KW:
+            if _re.search(rx, t):
+                return sec
+        return None
+    for key, e in startups.items():
+        if e.get("sector") in (None, "Startup (unclassified)"):
+            k = _re.sub(r"[^a-z0-9]+", "", key.replace("&", "and"))
+            e["sector"] = map_sector(sector_text.get(k, "") + " " + (e.get("description") or "")) or "Startup (unclassified)"
+    for e in startups.values():
+        e["investor"] = ", ".join(funds[f]["name"] for f in e["funds"]) if e["funds"] else None
+        e["investors"] = [funds[f]["name"] for f in e["funds"]]
+        reg.append(e)
     json.dump(reg, open(os.path.join(ROOT, "data", "registry.json"), "w"), indent=1)
     import collections
     f = [r for r in reg if r["group"].startswith("fortune")]
     print("fortune:", collections.Counter((r["group"], r["ats"] != "unsupported") for r in f))
-    print("startups:", collections.Counter(r["group"] for r in reg if not r["group"].startswith("fortune")))
+    st = [r for r in reg if r["group"] == "startup"]
+    print("startups:", len(st), "| by fund:", collections.Counter(f for r in st for f in r["funds"]).most_common(12))
     print("ats mix:", collections.Counter(r["ats"] for r in reg).most_common())
 
 

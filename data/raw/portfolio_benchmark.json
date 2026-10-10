@@ -1,0 +1,749 @@
+[
+ {
+  "name": "11x",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "11x develops autonomous digital workers to help organizations optimize their processes.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "AcuityMD",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "AcuityMD is a medtech intelligence platform that leverages AI and precise data to support commercial decision-making.",
+  "sector": "Analytics",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Agentio",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Agentio is an AI-native advertising platform that automates the end-to-end process for creator advertising.",
+  "sector": "Advertising Platforms",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Airplane",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Airplane is a software development company that offers a software platform for engineers to build internal tools.",
+  "sector": "Information Technology",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Applied Compute",
+  "website": null,
+  "status": "active",
+  "stage": "Venture - Series Unknown",
+  "description": "Applied Compute is an AI startup that builds custom AI models and Specific Intelligence solutions for enterprises.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "ArtBinder",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "ArtBinder is the leading application for galleries that allows users to present artworks remotely with simple, intuitive tools.",
+  "sector": "Information Technology",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Bezi",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Bezi is a web-based platform that facilitates collaborative 3D design and prototyping",
+  "sector": "3D Technology",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Blue Hexagon",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Blue Hexagon offers an on-device machine learning-based malware detection.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Cambly",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Transforming English learning through the power of conversation",
+  "sector": "Education",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Citymapper",
+  "website": null,
+  "status": "active",
+  "stage": "Equity Crowdfunding",
+  "description": "Citymapper is a transportation app created to address urban mobility challenges.",
+  "sector": "Big Data",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Cogni",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": "Investment, Venture Capital, Startup Accelerator",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Commerce Layer",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Commerce Layer is a fast, flexible, and secure REST API that lets you add e-commerce to any website, and mobile applications.",
+  "sector": "E-Commerce",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Contentful",
+  "website": null,
+  "status": "active",
+  "stage": "Series F",
+  "description": "Contentful offers tools for creating, personalizing, and optimizing digital content across various channels.",
+  "sector": "Cloud Computing",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Cyanogen",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "a discontinued open-source operating system for mobile devices, based on the Android mobile platform",
+  "sector": "Android",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Decade",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": "Decade is an investing consultancy that blends human care and knowledge with the volume and precision of AI.",
+  "sector": "Information Technology",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Decart",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Decart is an AI company that develops models to transform live footage into immersive digital environments in real time.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Deep Cogito",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Deep Cogito builds general superintelligence via advanced reasoning and iterative self‑improvement LLMs outperforming peers.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "DeepL",
+  "website": null,
+  "status": "active",
+  "stage": "Venture - Series Unknown",
+  "description": "DeepL is a software company that offers a communication platform for AI based translation, editing, and writing services.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Digits",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Digits is a fintech company that offers financial tools for small businesses.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Duetto",
+  "website": null,
+  "status": "active",
+  "stage": "Series D",
+  "description": "Duetto specializes in cloud applications, SAAS, revenue management systems, and hotel leadership software.",
+  "sector": "Big Data",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Duffel",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Duffel is a travel tech company that offers API to sell travel.",
+  "sector": "Developer APIs",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Duo Security",
+  "website": null,
+  "status": "active",
+  "stage": "Series Unknown",
+  "description": "Duo Security is a software company that provides network security software products and services.",
+  "sector": "Cloud Security",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Eigen",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": "Eigen is an AI-driven platform designed to enrich real-world social connectivity.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Elastic",
+  "website": null,
+  "status": "active",
+  "stage": "Secondary Market",
+  "description": "Elastic builds software to make data usable in real time and at scale for search, logging, security, and analytics use cases.",
+  "sector": "Analytics",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Euclid",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Euclid develops shopping analytics platforms to track customer behavior in their retail stores.",
+  "sector": "Analytics",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Exa",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Exa offers an AI-centered search engine tailored for automated systems and applications.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "fomo",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Fomo is a mobile-first crypto trading and social investing platform that lets users buy, track, and trade crypto assets.",
+  "sector": "Cryptocurrency",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Game Closure",
+  "website": null,
+  "status": "active",
+  "stage": "Series Unknown",
+  "description": "Game Closure develops multiplayer gaming technology that helps compile, accelerate and deploy games.",
+  "sector": "Gaming",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Glide Apps",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Glide is a no-code app development platform that helps businesses build custom, AI-based apps without coding.",
+  "sector": "AI Infrastructure",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Global Illumination",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": "Global Illumination is a digital product company that develops products dedicated to incentivizing creativity.",
+  "sector": "Online Games",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Good Eggs",
+  "website": null,
+  "status": "active",
+  "stage": "Venture - Series Unknown",
+  "description": "Good Eggs is an online grocer and meal kit delivery service with a mission to reinvent the food system, for good.",
+  "sector": "Delivery",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Greptile",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Greptile is an AI code reviewer that automatically reviews pull requests with full codebase context.",
+  "sector": "Enterprise Software",
+  "fund": "benchmark"
+ },
+ {
+  "name": "HackerOne",
+  "website": null,
+  "status": "active",
+  "stage": "Venture - Series Unknown",
+  "description": "A global leader in Continuous Threat Exposure Management—uniting AI and human intelligence to find, validate, and eliminate vulnerabilities.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Here Not There Labs",
+  "website": null,
+  "status": "active",
+  "stage": "Venture - Series Unknown",
+  "description": "Here Not There Labs develops a fully decentralized chat protocol for online communities.",
+  "sector": "Developer APIs",
+  "fund": "benchmark"
+ },
+ {
+  "name": "HeyGen",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "HeyGen is an AI video generation platform that specializes in video creation, AI avatars, and generative AI.",
+  "sector": "E-Learning",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Hound Labs",
+  "website": null,
+  "status": "active",
+  "stage": "Debt Financing",
+  "description": "Hound Labs has developed the first cannabis breath test that limits detection to the workday giving employers + employees a fair solution.",
+  "sector": "Biotechnology",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Impact",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Impact is a content accelerator and online marketplace startup.",
+  "sector": "Marketplace",
+  "fund": "benchmark"
+ },
+ {
+  "name": "InfinyOn",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": "InfinyOn is a programmable data streaming platform that manages data movement between users, services, and locations.",
+  "sector": "Database",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Instagram",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Instagram is a free photo-sharing application that enables its users to take photos, apply filters, and share them on social networks.",
+  "sector": "Apps",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Instinct",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Instinct provides a personal assistant that connects with applications and devices to help manage everyday tasks and information.",
+  "sector": "Agentic AI",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Klip",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Klip is a video sharing app that allows users to capture, view and share videos on mobile devices.",
+  "sector": "Content",
+  "fund": "benchmark"
+ },
+ {
+  "name": "LangChain",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "LangChain is a platform that provides open-source frameworks and tools for engineering and deploying language model agents.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Levelpath",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Levelpath is an AI Platform for Unifying Procurement",
+  "sector": "Information Technology",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Manus AI",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Manus is a versatile AI agent enhancing productivity and research across various domains efficiently always.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Mercor",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Mercor is an AI-based hiring platform that improves the recruitment process by matching talent with opportunities tailored to their skills.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Meshcore AI",
+  "website": null,
+  "status": "active",
+  "stage": "Pre-Seed",
+  "description": "An Operating System For The Physical World",
+  "sector": "Security",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Meteor Entertainment",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Meteor Entertainment develops and publishes free-to-play video games.",
+  "sector": "Digital Entertainment",
+  "fund": "benchmark"
+ },
+ {
+  "name": "MindsDB",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": "MindsDB is an open-source platform that enables developers to integrate machine learning into applications.",
+  "sector": "Database",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Minerva Project",
+  "website": null,
+  "status": "active",
+  "stage": "Venture - Series Unknown",
+  "description": "Minerva Project is designed to prepare students for leadership and innovation, combining liberal arts and sciences curriculum.",
+  "sector": "EdTech",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Modern Treasury",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Modern Treasury offers a payment operations platform to simplify and modernize business payments.",
+  "sector": "Banking",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Monaco",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Monaco provides an AI-native revenue platform for startups that replaces legacy CRM systems and separate sales tools.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Mothership",
+  "website": null,
+  "status": "active",
+  "stage": "Venture - Series Unknown",
+  "description": "We’re building the future of freight to deliver what the world needs faster",
+  "sector": "Freight Service",
+  "fund": "benchmark"
+ },
+ {
+  "name": "New Lantern",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "New Lantern develops AI-powered medical imaging software designed to assist radiologists by automating repetitive tasks in their workflow.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Numeral",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Numeral provides a platform that automates the sales tax process for e-commerce and SaaS businesses.",
+  "sector": "Compliance",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Ollama",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Ollama is a software firm that develops local inference platform designed to run large language models.",
+  "sector": "AI Infrastructure",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Pachyderm",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Pachyderm is an enterprise-grade data science platform that makes explainable, repeatable, and scalable AI/ML a reality.",
+  "sector": "Analytics",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Pax",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": "Pax focuses on native public safety.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Pomerium",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Pomerium authenticate, authorize, monitor, and secure user access to any application without a VPN.",
+  "sector": "Apps",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Poparazzi",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Poparazzi is a photo sharing app where users can create social profiles of their friends.",
+  "sector": "Mobile Apps",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Popshop Live",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Popshop Live is a mobile live streaming marketplace where talented individuals can create and host their own shopping channel.",
+  "sector": "E-Commerce",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Quilter",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Quilter develops physics-based autonomous AI software for printed circuit board (PCB) design aimed at accelerating hardware development.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Red Robot Labs",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Red Robot Labs is a mobile gaming studio that provides users with a location-based mobile gaming platform.",
+  "sector": "Apps",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Reducto",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Reducto is an AI-driven API that specializes in converting unstructured documents like PDFs and images into structured data.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Robocorp",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Robocorp is a cloud platform for robotic process automation (RPA) and open source RPA tools.",
+  "sector": "Cloud Infrastructure",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Sema4.ai",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Sema4.ai is an AI platform that empowers organizations to build, deploy, and manage agents designed to transform knowledge work.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Sierra",
+  "website": null,
+  "status": "active",
+  "stage": "Series E",
+  "description": "Sierra helps businesses to build and deploy AI agents that communicate with users across channels such as chat, voice, email, and messaging.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Solv",
+  "website": null,
+  "status": "active",
+  "stage": "Venture - Series Unknown",
+  "description": "Solv is a digital platform which allows patients to book same-day doctor’s appointments and urgent care visits.",
+  "sector": "Advertising",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Sorare",
+  "website": null,
+  "status": "active",
+  "stage": "Venture - Series Unknown",
+  "description": "Sorare is a global fantasy football game where players can buy, trade, and play with official digital cards.",
+  "sector": "Blockchain",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Stytch",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Stytch improves security and user experience with passwordless authentication.",
+  "sector": "Developer APIs",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Summation",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "Summation delivers an AI platform that helps enterprise teams to generate insights, automate workflows, and surface strategic opportunities.",
+  "sector": "Artificial Intelligence (AI)",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Sunday",
+  "website": null,
+  "status": "active",
+  "stage": "Venture - Series Unknown",
+  "description": "Sunday introduce Memo: a household robot capable of doing everyday chores.",
+  "sector": "Robotics",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Supergrain",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": "A modern, warehouse-native customer engagement platform",
+  "sector": "San Francisco",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Supergreat",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Supergreat is a beauty community of real people reviewing the beauty products that work for them.",
+  "sector": "Beauty",
+  "fund": "benchmark"
+ },
+ {
+  "name": "thatgamecompany",
+  "website": null,
+  "status": "active",
+  "stage": "Venture - Series Unknown",
+  "description": "Thatgamecompany develops artistically crafted, broadly accessible interactive video games.",
+  "sector": "Console Games",
+  "fund": "benchmark"
+ },
+ {
+  "name": "The Open Network Foundation",
+  "website": null,
+  "status": "active",
+  "stage": "Initial Coin Offering",
+  "description": "The Open Network Foundation is a non-profit organization founded in Switzerland in 2023.",
+  "sector": "Blockchain",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Tiger Data (creators of TimescaleDB)",
+  "website": null,
+  "status": "active",
+  "stage": "Series C",
+  "description": "Postgres for Developers, Devices, and Agents. The data platform trusted by hundreds of thousands from IoT to Web3 to AI and more.",
+  "sector": "Computer",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Towns",
+  "website": null,
+  "status": "active",
+  "stage": "Venture - Series Unknown",
+  "description": "Towns is an on-chain messaging platform co-founded by the creator of Houseparty and Meerkat.",
+  "sector": "Information Technology",
+  "fund": "benchmark"
+ },
+ {
+  "name": "TTYL",
+  "website": null,
+  "status": "active",
+  "stage": "Series A",
+  "description": "TTYL is an audio social network built to help friends and family keep in touch with each other when they are physically apart.",
+  "sector": "Audio",
+  "fund": "benchmark"
+ },
+ {
+  "name": "webAI",
+  "website": null,
+  "status": "active",
+  "stage": "Corporate Round",
+  "description": "The leader in private AI.",
+  "sector": "AI Infrastructure",
+  "fund": "benchmark"
+ },
+ {
+  "name": "WeWork",
+  "website": null,
+  "status": "active",
+  "stage": "Post-IPO Equity",
+  "description": "WeWork is a platform for creators that transforms buildings into dynamic environments for creativity, focus, and collaboration.",
+  "sector": "Commercial Real Estate",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Wildlife Studios",
+  "website": null,
+  "status": "active",
+  "stage": "Secondary Market",
+  "description": "Wildlife Studios is a gaming company that develops and publishes mobile games.",
+  "sector": "Gaming",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Yunchang Technology",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": "Yunchang Technology is a new energy kitchen fuel and tourism service provider company.",
+  "sector": "Service Industry",
+  "fund": "benchmark"
+ },
+ {
+  "name": "Zenly",
+  "website": null,
+  "status": "active",
+  "stage": "Series B",
+  "description": "Zenly is a free smartphone app that allows friends and families to follow each other's tracks and simplify their busy lives.",
+  "sector": "Android",
+  "fund": "benchmark"
+ }
+]

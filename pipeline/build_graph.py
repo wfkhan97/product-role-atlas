@@ -52,6 +52,17 @@ def main():
     jobs = json.load(open(os.path.join(ROOT, "data", "processed", "jobs.json")))
     evidence = json.load(open(os.path.join(ROOT, "data", "processed", "evidence.json")))
     reg = {r["company"]: r for r in json.load(open(os.path.join(ROOT, "data", "registry.json")))}
+    inferred = json.load(open(os.path.join(ROOT, "data", "processed", "company_stage.json"))) if os.path.exists(os.path.join(ROOT, "data", "processed", "company_stage.json")) else {}
+    funds = {f["id"]: f for f in json.load(open(os.path.join(ROOT, "data", "raw", "funds.json")))}
+    def stage_of(company):
+        r = reg.get(company, {})
+        if not r.get("group", "").startswith("startup"):
+            return None
+        return inferred.get(company) or r.get("stage_from_fund") or "Unknown"
+    for j in jobs:
+        j["stage"] = stage_of(j["company"]); j["investors"] = reg.get(j["company"], {}).get("investors") or []
+        if reg.get(j["company"], {}).get("sector"):
+            j["sector"] = reg[j["company"]]["sector"]
     skills = TAX["skills"]
     n = len(jobs)
     by_level = {l: [j for j in jobs if j["level"] == l] for l in LEVEL_ORDER}
@@ -82,7 +93,7 @@ def main():
                       "n": sum(1 for j in jobs if sid in j["skills"]),
                       "by_family": {f: share([j for j in jobs if j["family"] == f], "skills", sid) for f in FAMILY_LABELS},
                       "by_level": {l: share(by_level[l], "skills", sid) for l in LEVEL_ORDER},
-                      "by_group": {g: share([j for j in jobs if j["group"] == g], "skills", sid) for g in ("fortune50", "fortune100", "fortune250", "fortune500", "a16z", "sequoia")},
+                      "by_group": {g: share([j for j in jobs if j["group"] == g], "skills", sid) for g in ("fortune50", "fortune100", "fortune250", "fortune500", "startup")},
                       "by_sector": {g: share([j for j in jobs if j.get("sector") == g], "skills", sid) for g in sorted({j.get("sector") for j in jobs if j.get("sector")})},
                       "what": d.get("what", ""), "subskills": subs, "ladder": d.get("ladder"), "build": d.get("build", []),
                       "signals": d.get("signals", []), "evidence": evidence.get(sid, {})})
@@ -129,19 +140,26 @@ def main():
 
     companies = collections.OrderedDict()
     for j in jobs:
-        c = companies.setdefault(j["company"], {"name": j["company"], "group": j["group"], "investor": j.get("investor"), "rank": j.get("rank"), "sector": j.get("sector"), "industry": j.get("industry"), "country": j.get("country"), "remote": j.get("remote"), "rank": j.get("rank"), "n": 0})
+        c = companies.setdefault(j["company"], {"name": j["company"], "group": j["group"], "investor": j.get("investor"), "rank": j.get("rank"), "sector": j.get("sector"), "industry": j.get("industry"), "country": j.get("country"), "remote": j.get("remote"), "rank": j.get("rank"), "stage": j.get("stage"), "investors": j.get("investors"), "n": 0})
         c["n"] += 1
 
+    skill_index = {s["id"]: i for i, s in enumerate(skills)}
+    sub_ids = sorted({k for j in jobs for k in j.get("sub", [])})
+    sub_index = {k: i for i, k in enumerate(sub_ids)}
+    fund_by_name = {f["name"]: f["id"] for f in funds.values()}
     out = {
+        "skill_ids": [s["id"] for s in skills], "sub_ids": sub_ids,
         "meta": {"generated": time.strftime("%Y-%m-%d"), "n_jobs": n, "n_companies": len(companies), "companies": list(companies.values()),
                  "seniority_ticks": {l: cdf(level_weights[l]) for l in LEVEL_ORDER},
                  "seniority_range": [lo, hi]},
         "sectors": sorted({j.get("sector") for j in jobs if j.get("sector")}),
+        "funds": [{"id": f["id"], "name": f["name"], "type": f["type"], "parent": f.get("parent")} for f in funds.values()],
         "clusters": TAX["clusters"], "families": FAMILY_LABELS, "levels": LEVEL_ORDER, "level_labels": LEVEL_LABELS,
         "skills": nodes, "edges": edge_list,
-        "jobs": [{"id": j["id"], "company": j["company"], "group": j["group"], "investor": j.get("investor"), "title": j["title"],
-                  "family": j["family"], "level": j["level"], "specs": j["specs"], "location": j["location"], "url": j["url"], "sector": j.get("sector"), "industry": j.get("industry"), "country": j.get("country"), "remote": j.get("remote"), "rank": j.get("rank"),
-                  "yoe": j["yoe"], "skills": sorted(j["skills"]), "sub": j.get("sub", []), "snippet": j["snippet"]} for j in jobs],
+        "jobs": [{"id": i, "company": j["company"], "group": j["group"], "title": j["title"],
+                  "family": j["family"], "level": j["level"], "specs": j["specs"], "location": j["location"], "url": j["url"], "sector": j.get("sector"), "industry": j.get("industry"), "country": j.get("country"), "remote": j.get("remote"), "rank": j.get("rank"), "stage": j.get("stage"),
+                  "investors": [fund_by_name.get(n, n) for n in (j.get("investors") or [])],
+                  "yoe": j["yoe"], "skills": sorted(skill_index[k] for k in j["skills"]), "sub": sorted(sub_index[k] for k in j.get("sub", [])), "snippet": j["snippet"][:180]} for i, j in enumerate(jobs)],
     }
     os.makedirs(os.path.join(ROOT, "web", "data"), exist_ok=True)
     with open(os.path.join(ROOT, "web", "data", "graph.json"), "w") as f:

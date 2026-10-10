@@ -1,0 +1,2222 @@
+[
+ {
+  "name": "Accolade",
+  "website": "https://www.accolade.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "digital-health",
+  "fund": "comcast_ventures",
+  "status_note": "NASDAQ: 2020"
+ },
+ {
+  "name": "Acorns",
+  "website": "https://www.acorns.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Aglet",
+  "website": "https://aglet.app/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "AI21 Labs",
+  "website": "https://www.ai21.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Aircast",
+  "website": "https://www.aircast.tech",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Ample Market",
+  "website": "https://amplemarket.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Aporeto",
+  "website": "https://www.aporeto.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Palo Alto Networks 2019"
+ },
+ {
+  "name": "AptDeco",
+  "website": "https://www.aptdeco.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Aquimo",
+  "website": "https://www.aquimo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Architect.io",
+  "website": "https://www.architect.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Atscale",
+  "website": "http://www.atscale.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data, enterprise",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Attabotics",
+  "website": "https://www.attabotics.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Audazzio",
+  "website": "https://www.audazzio.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "August",
+  "website": "http://www.august.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Assa Abloy 2017"
+ },
+ {
+  "name": "Automat",
+  "website": "http://www.automat.ai/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Salesfloor 2022"
+ },
+ {
+  "name": "Automatic",
+  "website": "https://automatic.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: SiriusXM 2017"
+ },
+ {
+  "name": "Autonomic",
+  "website": "http://www.autonomic.ai/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enterprise",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Ford 2018"
+ },
+ {
+  "name": "Avibra",
+  "website": "https://www.avibra.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Away",
+  "website": "https://www.awaytravel.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Axial",
+  "website": "https://www.axial.net/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "b8ta",
+  "website": "https://b8ta.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Baobab Studios",
+  "website": "https://www.baobabstudios.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "BaubleBar",
+  "website": "https://baublebar.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Bay Dynamics",
+  "website": "https://baydynamics.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Broadcom 2019"
+ },
+ {
+  "name": "Because",
+  "website": "https://becausemarket.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Bento for Business",
+  "website": "https://bentoforbusiness.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: US Bank 2021"
+ },
+ {
+  "name": "BigID",
+  "website": "https://bigid.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Bird",
+  "website": "https://www.bird.co/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "BitSight Technologies",
+  "website": "https://www.bitsight.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Blavity",
+  "website": "https://blavity.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Block Renovation",
+  "website": "https://www.blockrenovation.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "real, the-home-proptech",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Blockdaemon",
+  "website": "https://blockdaemon.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Blueland",
+  "website": "https://www.blueland.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "BNI",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Cisco 2011"
+ },
+ {
+  "name": "BookSeats",
+  "website": "https://bookseats.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Branch Energy",
+  "website": "https://branchenergy.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "climate-tech",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Brightside",
+  "website": "https://www.gobrightside.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Bunker",
+  "website": "https://vault.buildbunker.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Camb.AI",
+  "website": "https://www.camb.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Cheddar",
+  "website": "https://cheddar.com",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Altice 2019"
+ },
+ {
+  "name": "Cloudpassage",
+  "website": "https://www.cloudpassage.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Fidelis Security 2021"
+ },
+ {
+  "name": "College Ave",
+  "website": "https://www.collegeavestudentloans.com",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Color Health",
+  "website": "https://www.color.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "digital-health",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Comparably",
+  "website": "https://www.comparably.com",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: ZoomInfo 2024"
+ },
+ {
+  "name": "Confetti",
+  "website": "https://www.withconfetti.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Creatify",
+  "website": "https://creatify.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "CreativeLIVE",
+  "website": "https://www.creativelive.com",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Cresta",
+  "website": "https://cresta.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Cross MediaWorks",
+  "website": "http://crossmw.tv/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enterprise",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "CTI Towers",
+  "website": "http://www.ctitowers.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Melody Investment Advisors 2020"
+ },
+ {
+  "name": "Curbio",
+  "website": "https://curbio.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "real, the-home-proptech",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Cut",
+  "website": "https://www.cut.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Cuyana",
+  "website": "https://www.cuyana.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Dandelion Energy",
+  "website": "https://dandelionenergy.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "climate-tech",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Data Plus Math",
+  "website": "https://www.dataplusmath.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: LiveRamp 2019"
+ },
+ {
+  "name": "Datadog",
+  "website": "https://www.datadoghq.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": "NASDAQ: 2019"
+ },
+ {
+  "name": "DataStax",
+  "website": "https://www.datastax.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Demdex",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Adobe 2011"
+ },
+ {
+  "name": "Diddo",
+  "website": "https://www.shopdiddo.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Divide",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Google 2014"
+ },
+ {
+  "name": "Dizplai",
+  "website": "https://dizplai.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "DocuSign",
+  "website": "https://www.docusign.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": "NASDAQ: 2018"
+ },
+ {
+  "name": "Dollar Shave Club",
+  "website": "https://www.dollarshaveclub.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Unilever 2016"
+ },
+ {
+  "name": "dot.LA",
+  "website": "https://dot.la/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "DoubleVerify",
+  "website": "https://www.doubleverify.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Providence Equity Partners 2017"
+ },
+ {
+  "name": "Drata",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "security",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "DrayNow",
+  "website": "https://draynow.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Earny",
+  "website": "https://www.earny.co/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Eden",
+  "website": "http://www.eden.io/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "EdgeConneX",
+  "website": "https://www.edgeconnex.com",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Eight Sleep",
+  "website": "https://www.eightsleep.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Einbliq.io",
+  "website": "https://einbliq.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Ekkobar",
+  "website": "https://ekkobar.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Enigma",
+  "website": "https://www.enigma.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Eon Media",
+  "website": "https://eonmedia.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Evabot",
+  "website": "https://www.evabot.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "FanDuel",
+  "website": "https://www.fanduel.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Flutter 2018"
+ },
+ {
+  "name": "FanFest",
+  "website": "https://fanfest.vip",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "FanSaves",
+  "website": "https://www.fansaves.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Felix & Paul Studios",
+  "website": "https://www.felixandpaul.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Flipboard",
+  "website": "https://flipboard.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Fobi AI",
+  "website": "https://www.fobi.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "FortressIQ",
+  "website": "https://www.fortressiq.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Fullscreen",
+  "website": "https://www.fullscreen.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Otter Media/AT&T 2014"
+ },
+ {
+  "name": "GeoSnapShot",
+  "website": "https://geosnapshot.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "GlobalM",
+  "website": "https://globalm.media",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Intinor 2022"
+ },
+ {
+  "name": "goTenna",
+  "website": "https://gotenna.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Forterra, 2025"
+ },
+ {
+  "name": "Grokker",
+  "website": "https://grokker.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Haven",
+  "website": "https://havenenergy.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "climate-tech",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Hawthorne",
+  "website": "https://hawthorne.co/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Head Vantage",
+  "website": "https://www.headvantagefx.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "HealthSnap",
+  "website": "https://healthsnap.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "digital-health",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Heleo",
+  "website": "https://heleo.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Hippo",
+  "website": "https://myhippo.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "NYSE: 2021"
+ },
+ {
+  "name": "Hired",
+  "website": "https://hired.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Hive",
+  "website": "https://hive.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Hollar",
+  "website": "https://www.hollar.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Houseparty",
+  "website": "https://joinhouse.party/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Epic 2019"
+ },
+ {
+  "name": "Houzz",
+  "website": "https://www.houzz.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Hume",
+  "website": "https://hume.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Hydra Host",
+  "website": "https://hydrahost.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "HYPR",
+  "website": "https://www.hypr.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Ice Cream Social",
+  "website": "https://icecreamsocial.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "iControl",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Alarm.com and Comcast 2017"
+ },
+ {
+  "name": "inMarket Media",
+  "website": "https://inmarket.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Instacart",
+  "website": "https://www.instacart.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "NASDAQ: 2023"
+ },
+ {
+  "name": "Instill",
+  "website": "https://instill.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Integrate",
+  "website": "https://www.integrate.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Interactions",
+  "website": "https://www.interactions.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Intro",
+  "website": "https://apps.apple.com/us/app/intro-talk-with-experts/id1512633498",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Invite Media",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: DoubleClick 2010"
+ },
+ {
+  "name": "Italic",
+  "website": "https://italic.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Jornaya",
+  "website": "https://www.jornaya.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Verisk 2020"
+ },
+ {
+  "name": "Juganu",
+  "website": "https://juganu.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "real",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Juno",
+  "website": "https://juno.co/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "real",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "K Health",
+  "website": "https://www.khealth.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "digital-health",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Kensho",
+  "website": "https://www.kensho.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: S&P Global 2018"
+ },
+ {
+  "name": "KeyMe",
+  "website": "https://www.key.me/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Kite and Lightning",
+  "website": "http://kiteandlightning.la/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer, enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "KiwiCo",
+  "website": "https://www.kiwico.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "KodaCloud",
+  "website": "https://kodacloud.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Kymira",
+  "website": "https://kymira.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Lendio",
+  "website": "https://www.lendio.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "LetzChat",
+  "website": "https://www.letzchat.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Life House",
+  "website": "https://friends.life-house.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Liminal Space",
+  "website": "https://liminal.space",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "LiveLike",
+  "website": "https://livelike.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "LUS Brands",
+  "website": "https://lusbrands.ca/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Lyft",
+  "website": "https://www.lyft.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "NASDAQ: 2019"
+ },
+ {
+  "name": "Lytics",
+  "website": "https://www.getlytics.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Contentstack, 2025"
+ },
+ {
+  "name": "Madison Reed",
+  "website": "https://www.madison-reed.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Maginatics",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: EMC 2014"
+ },
+ {
+  "name": "Mantis AI",
+  "website": "https://mantis-ai.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Material",
+  "website": "https://materialkitchen.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "MealPal",
+  "website": "https://mealpal.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Meta",
+  "website": "http://www.metavision.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Mobii",
+  "website": "https://www.mobii.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Modsy",
+  "website": "https://www.modsy.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Moneyline",
+  "website": "https://www.moneylineapp.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Moonvalley",
+  "website": "https://www.moonvalley.com",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Movrs",
+  "website": "https://www.movrs.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Neural Magic",
+  "website": "https://neuralmagic.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Nextdoor",
+  "website": "https://nextdoor.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "NYSE: 2021"
+ },
+ {
+  "name": "NextVR",
+  "website": "http://www.nextvr.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "NLX",
+  "website": "https://nlx.ai/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Amazon Web Services, 2026"
+ },
+ {
+  "name": "Nurx",
+  "website": "https://www.nurx.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "digital-health",
+  "fund": "comcast_ventures",
+  "status_note": "Merger: Thirty Madison 2022"
+ },
+ {
+  "name": "nVenue",
+  "website": "https://www.nvenue.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "OfferUp",
+  "website": "https://offerup.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Merger: letgo 2020"
+ },
+ {
+  "name": "Open Props",
+  "website": "https://www.propsproject.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Orreco",
+  "website": "https://www.orreco.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Osaro",
+  "website": "https://www.osaro.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Oui",
+  "website": "https://www.ouishave.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Outlier Collective",
+  "website": "https://outlier.co/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "OZ Sports",
+  "website": "https://ozsports.is",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "PAM",
+  "website": "https://pam.co",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Papa",
+  "website": "https://www.joinpapa.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "digital-health",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Parallel Markets",
+  "website": "https://parallelmarkets.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: iCapital 2025"
+ },
+ {
+  "name": "Pattern Insurance",
+  "website": "https://pattern.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Petcoach",
+  "website": "https://www.petcoach.co/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Petco 2017"
+ },
+ {
+  "name": "Plantiga",
+  "website": "https://plantiga.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Players’ Lounge",
+  "website": "https://playerslounge.co/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Pony.ai",
+  "website": "https://www.pony.ai/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "climate-tech",
+  "fund": "comcast_ventures",
+  "status_note": "NASDAQ: 2024"
+ },
+ {
+  "name": "Populus",
+  "website": "https://www.populus.ai/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "climate-tech",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: IPS Group 2025"
+ },
+ {
+  "name": "Quantifind",
+  "website": "https://www.quantifind.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Quicc",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Regatta",
+  "website": "https://regatta.dev/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Remotely",
+  "website": "https://www.remotely.works/companies",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "RemyAI",
+  "website": "https://nomadhomes.co/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "real",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Renofi",
+  "website": "https://www.renofi.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "real",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Resemble AI",
+  "website": "https://www.resemble.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Retina.ai",
+  "website": "https://retina.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Rivalry Tech",
+  "website": "https://www.rivalrytech.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Rizzarr",
+  "website": "https://rizzarr.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Rocketrip",
+  "website": "https://www.rocketrip.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Ross Intelligence",
+  "website": "http://rossintelligence.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Runware",
+  "website": "https://runware.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "SafeBase",
+  "website": "https://www.safebase.co/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies, enterprise",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Drata 2025"
+ },
+ {
+  "name": "Safety Skin",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Satisfi Labs",
+  "website": "https://www.satisfilabs.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Selector",
+  "website": "https://www.selector.ai/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "SevenRooms",
+  "website": "https://www.sevenrooms.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: DoorDash 2025"
+ },
+ {
+  "name": "Sharper Sense",
+  "website": "https://www.sharpersense.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Shine",
+  "website": "http://www.shinetext.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "digital-health",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Sidecar Health",
+  "website": "https://sidecarhealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "digital-health",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Sierra",
+  "website": "https://sierra.ai",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Slack",
+  "website": "https://slack.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": "NYSE: 2019"
+ },
+ {
+  "name": "SPACES",
+  "website": "http://www.spaces.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Split",
+  "website": "https://www.split.io/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Harness 2024"
+ },
+ {
+  "name": "Staq",
+  "website": "https://www.staq.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Stella Connect",
+  "website": "https://stellaconnect.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Medallia 2020"
+ },
+ {
+  "name": "StellarAlgo",
+  "website": "https://stellaralgo.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "SundaySky",
+  "website": "https://sundaysky.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Taboola",
+  "website": "https://www.taboola.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "NYSE: 2021"
+ },
+ {
+  "name": "Tastemade",
+  "website": "https://www.tastemade.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "The Athletic",
+  "website": "https://theathletic.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: The New York Times 2022"
+ },
+ {
+  "name": "The Ready Games",
+  "website": "https://www.thereadygames.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "The Yes",
+  "website": "https://theyes.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Thirty Madison",
+  "website": "https://thirtymadison.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "digital-health",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Remedy Meds, 2025"
+ },
+ {
+  "name": "Tickets for Good",
+  "website": "https://www.ticketsforgood.com/us/home",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "tiptap",
+  "website": "https://tiptappay.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Tovala",
+  "website": "https://www.tovala.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Transmit",
+  "website": "https://www.transmit.live",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Treno",
+  "website": "http://www.treno.io/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "future-of-work",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "TuneIn",
+  "website": "https://tunein.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "UberMedia",
+  "website": "http://ubermedia.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Uptycs",
+  "website": "https://www.uptycs.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Uru Sports",
+  "website": "https://www.urusports.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Vimeo",
+  "website": "https://vimeo.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "NASDAQ: 2021"
+ },
+ {
+  "name": "Visible World",
+  "website": null,
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Comcast 2015"
+ },
+ {
+  "name": "Vox Media",
+  "website": "https://www.voxmedia.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Walrus Health",
+  "website": "https://walrus.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "digital-health",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Wellth",
+  "website": "https://www.wellthapp.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "digital-health",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "WhoSay",
+  "website": "http://www.windsorcircle.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: Viacom 2018"
+ },
+ {
+  "name": "Windsor Circle",
+  "website": "http://www.windsorcircle.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "Acquired: OSG 2019"
+ },
+ {
+  "name": "XiQ",
+  "website": "https://xiqinc.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Yieldmo",
+  "website": "http://www.yieldmo.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Zapata AI",
+  "website": "https://www.zapatacomputing.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": "NASDAQ: 2024"
+ },
+ {
+  "name": "Zatap",
+  "website": "https://zatap.io",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "ZeroFox",
+  "website": "https://www.zerofox.com/",
+  "status": "ipo",
+  "stage": null,
+  "description": null,
+  "sector": "enabling-technologies",
+  "fund": "comcast_ventures",
+  "status_note": "NYSE: 2022"
+ },
+ {
+  "name": "Zola",
+  "website": "https://www.zola.com/",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "consumer",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Zoomdata",
+  "website": "https://www.zoomdata.com/",
+  "status": "acquired",
+  "stage": null,
+  "description": null,
+  "sector": "data",
+  "fund": "comcast_ventures",
+  "status_note": null
+ },
+ {
+  "name": "Zoomph",
+  "website": "https://zoomph.com",
+  "status": "active",
+  "stage": null,
+  "description": null,
+  "sector": "sports",
+  "fund": "comcast_ventures",
+  "status_note": null
+ }
+]

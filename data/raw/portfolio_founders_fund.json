@@ -1,0 +1,578 @@
+[
+ {
+  "name": "SpaceX",
+  "website": "www.spacex.com",
+  "status": "active",
+  "stage": null,
+  "description": "The first company to achieve orbit with a liquid-fueled rocket, SpaceX develops launch systems at dramatically-lower costs than any entity — government or private — in history.",
+  "sector": "Aerospace & Transportation",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Palantir",
+  "website": "www.palantir.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Palantir’s ground-breaking software allows analysts to understand vast quantities of information.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Anduril",
+  "website": "www.anduril.com",
+  "status": "active",
+  "stage": null,
+  "description": "Anduril brings together top technical talent to solve the most complex national security challenges.",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Stripe",
+  "website": "stripe.com",
+  "status": "active",
+  "stage": null,
+  "description": "Stripe makes it easy to perform online financial transactions, processing billions of dollars a year for thousands of businesses.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Facebook",
+  "website": "www.facebook.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Facebook is the largest social network in the world.",
+  "sector": "Consumer Internet & Media",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Airbnb",
+  "website": "www.airbnb.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Airbnb is a community marketplace of individuals listing, exploring, and booking property around the world.",
+  "sector": "Consumer Internet & Media",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Ramp",
+  "website": "ramp.com",
+  "status": "active",
+  "stage": null,
+  "description": "Ramp is the only corporate card that automates accounting, lowers your bills, and earns 1.5% cashback.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Neuralink",
+  "website": "neuralink.com",
+  "status": "active",
+  "stage": null,
+  "description": "Neuralink is developing ultra-high bandwidth brain-machine interfaces to connect humans and computers.",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "OpenAI",
+  "website": "openai.com",
+  "status": "active",
+  "stage": null,
+  "description": "OpenAI is a research and deployment company whose mission is to create safe and powerful AI that benefits all of humanity.",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Cognition",
+  "website": "www.cognition-labs.com",
+  "status": "active",
+  "stage": null,
+  "description": "Cognition is an applied AI lab focused on reasoning, and code is just the beginning.",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Nubank",
+  "website": "www.nubank.com.br",
+  "status": "ipo",
+  "stage": null,
+  "description": "Nubank, the leading fintech company in Latin America, is redesigning the credit card experience in Brazil to reduce complexity and empower people.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Trade Republic",
+  "website": "www.traderepublic.com",
+  "status": "active",
+  "stage": null,
+  "description": "Trade Republic is a European platform for commission-free mobile investing.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Spotify",
+  "website": "www.spotify.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Spotify provides users with a free, legal music library of more than 20 million tracks.",
+  "sector": "Consumer Internet & Media",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Rippling",
+  "website": "www.rippling.com/blog",
+  "status": "active",
+  "stage": null,
+  "description": "Rippling is the world’s first system of record for workforce data – allowing you to manage employees’ payroll, benefits, devices, apps, and more, all in one platform.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Affirm",
+  "website": "www.affirm.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Affirm is reinventing credit to make it more honest and friendly, giving consumers the flexibility to buy now and pay later without any hidden fees or compounding interest.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Crusoe",
+  "website": "crusoe.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Crusoe is empowering the AI revolution as the industry’s first vertically integrated AI infrastructure provider.",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Polymarket",
+  "website": "polymarket.com",
+  "status": "active",
+  "stage": null,
+  "description": "Polymarket is the world’s largest prediction market. On Polymarket, traders predict the outcome of future events and earn when they are right.",
+  "sector": "Consumer Internet & Media",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Lighter",
+  "website": "lighter.xyz",
+  "status": "active",
+  "stage": null,
+  "description": "Lighter is building verifiable financial infrastructure for digital assets and beyond.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Figma",
+  "website": "www.figma.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Figma is changing traditional design operations by simplifying the designer workflow, bringing key contributors into the process, and enabling companies to design products more efficiently.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Varda",
+  "website": "varda.com",
+  "status": "active",
+  "stage": null,
+  "description": "Varda is making the worlds first space factories, bringing high-value materials that can only be fabricated in microgravity, back down to earth.",
+  "sector": "Aerospace & Transportation",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "General Matter",
+  "website": "generalmatter.com",
+  "status": "active",
+  "stage": null,
+  "description": "General Matter is fueling American power. America’s future is nuclear. We make its fuel.",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Impulse",
+  "website": "www.impulsespace.com",
+  "status": "active",
+  "stage": null,
+  "description": "Impulse Space is accelerating the future in space through efficient transportation anywhere.",
+  "sector": null,
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Hadrian",
+  "website": "hadrian.co",
+  "status": "active",
+  "stage": null,
+  "description": "Hadrian is reindustrializing America by building highly automated factories that supercharge both American workers and the defense industrial base.",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Enter",
+  "website": "www.getenter.ai/en",
+  "status": "active",
+  "stage": null,
+  "description": "Enter’s AI agents are transforming how Latin America’s leading enterprises manage and win lawsuits at scale.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "ARQ",
+  "website": "www.arqfinance.com",
+  "status": "active",
+  "stage": null,
+  "description": "ARQ opens the world’s strongest assets and markets to travelers, investors, and professionals.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "PsiQuantum",
+  "website": "psiquantum.com",
+  "status": "active",
+  "stage": null,
+  "description": "PsiQuantum is using silicon photonics to build the world’s first useful quantum computer, applying existing semiconductor and photonics manufacturing processes.",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Until",
+  "website": "www.untillabs.com",
+  "status": "active",
+  "stage": null,
+  "description": "Until is building the medical infrastructure to pause biological time: starting with organ-scale reversible cryopreservation, and methodically scaling to whole-body preservation.",
+  "sector": "Biotechnology & Health",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "DeepMind",
+  "website": "deepmind.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "DeepMind is the world leader in artificial intelligence research and its application for positive impact.",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Scale",
+  "website": "scale.com",
+  "status": "active",
+  "stage": null,
+  "description": "Scale is building infrastructure for the democratization and proliferation of AI technology.",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Flock Safety",
+  "website": "www.flocksafety.com",
+  "status": "active",
+  "stage": null,
+  "description": "Flock Safety is a public safety operating system that helps communities and law enforcement in thousands of cities work together to eliminate crime, protect privacy, and mitigate bias.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Boring Company",
+  "website": "www.boringcompany.com",
+  "status": "active",
+  "stage": null,
+  "description": "The Boring Company creates safe, fast-to-dig, and low-cost transportation, utility, and freight tunnels. The mission: solve traffic, enable rapid point-to-point transportation, and transform cities.",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Oculus",
+  "website": "www.oculus.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Oculus develops virtual reality platforms and products that let people experience anything, with anyone.",
+  "sector": "Consumer Internet & Media",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Persona",
+  "website": "withpersona.com",
+  "status": "active",
+  "stage": null,
+  "description": "Persona offers trusted identity infrastructure that allows businesses to craft personalized and automated identity experiences so they can better understand and protect users.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "BuildOps",
+  "website": "buildops.com",
+  "status": "active",
+  "stage": null,
+  "description": "BuildOps serves the unsung heroes of the trades by delivering an end-to-end scalable platform for commercial contractors that empowers owners to build enduring businesses.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Twilio",
+  "website": "www.twilio.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Twilio enables phones, VoIP and messaging to be embedded into web, desktop and mobile software.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Credit Karma",
+  "website": "www.creditkarma.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Credit Karma is a personal finance company focused on helping everyone make financial progress.",
+  "sector": "Consumer Internet & Media",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Netic",
+  "website": "www.netic.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Netic’s AI-driven platform helps service enterprises boost revenue, engage customers, and scale growth with intelligent automation.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Monaco",
+  "website": "www.monaco.com",
+  "status": "active",
+  "stage": null,
+  "description": "Monaco is an AI sales platform automating customer acquisition and revenue growth for startups.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Oscar",
+  "website": "www.hioscar.com/ny",
+  "status": "ipo",
+  "stage": null,
+  "description": "Oscar is fixing and humanizing healthcare through the use of technology, design, and data.",
+  "sector": "Biotechnology & Health",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Solugen",
+  "website": "www.solugentech.com",
+  "status": "active",
+  "stage": null,
+  "description": "Develops and manufactures bio-based chemicals for use in the agriculture, energy, water, personal care, and cleaning sectors.",
+  "sector": "Biotechnology & Health",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Wave",
+  "website": "www.wave.com/en",
+  "status": "active",
+  "stage": null,
+  "description": "Wave is building financial infrastructure for Sub-Saharan Africa. They offer a better, faster, radically cheaper mobile money platform for consumers and businesses.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Kavak",
+  "website": "www.kavak.com",
+  "status": "active",
+  "stage": null,
+  "description": "Kavak is the leading marketplace for pre-owned cars in emerging markets.",
+  "sector": "Consumer Internet & Media",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Flexport",
+  "website": "www.flexport.com",
+  "status": "active",
+  "stage": null,
+  "description": "Flexport is an international freight forwarder built around a modern technology stack. The company provides air freight, ocean freight and other vital supply chain services to high-growth brands aroun",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Faire",
+  "website": "www.faire.com",
+  "status": "active",
+  "stage": null,
+  "description": "Curated wholesale marketplace that connects more than 100,000 independent retailers with thousands of the world’s best emerging and established brands.",
+  "sector": "Consumer Internet & Media",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Workrise",
+  "website": "www.workrise.com",
+  "status": "active",
+  "stage": null,
+  "description": "Workrise is the leading workforce management solution for the skilled trades.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Aven",
+  "website": "www.aven.com",
+  "status": "active",
+  "stage": null,
+  "description": "Our mission is to provide the lowest cost, most convenient, and most transparent access to capital.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Found",
+  "website": "found.com",
+  "status": "active",
+  "stage": null,
+  "description": "Found provides an all-in-one banking solution for small businesses and the self-employed with integrated bookkeeping, taxes, and invoicing.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Cedar",
+  "website": "www.cedar.com",
+  "status": "active",
+  "stage": null,
+  "description": "Cedar is a smarter payment platform for providers and patients.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Asana",
+  "website": null,
+  "status": "ipo",
+  "stage": null,
+  "description": "Asana is a web and mobile application designed to enable teamwork without email.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Lyft",
+  "website": "www.lyft.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Lyft’s friendly, affordable peer-to-peer ridesharing model is transforming modern transportation.",
+  "sector": "Aerospace & Transportation",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Wish",
+  "website": "www.wish.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Wish is a platform for discovering, collecting, and sharing products with friends.",
+  "sector": "Consumer Internet & Media",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Postmates",
+  "website": "postmates.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Postmates is transforming the way goods move around cities by enabling anyone to have anything delivered on-demand.",
+  "sector": null,
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Tagomi",
+  "website": "tagomi.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "Tagomi is an electronic brokerage for digital assets, combining institutional-grade services with proven robust infrastructure that clients have come to expect in other institutional asset classes.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Sword Health",
+  "website": "swordhealth.com",
+  "status": "active",
+  "stage": null,
+  "description": "Sword Health provides clinical-grade digital physical therapy that outperforms in-person care.",
+  "sector": "Biotechnology & Health",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "The Athletic",
+  "website": "theathletic.com",
+  "status": "acquired",
+  "stage": null,
+  "description": "The Athletic is a direct-to-consumer subscription service serving sports fans in North America.",
+  "sector": "Consumer Internet & Media",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Traba",
+  "website": "www.traba.work",
+  "status": "active",
+  "stage": null,
+  "description": "Traba is building a world where the supply chain operates at peak efficiency. They connect industrial businesses with reliable workers to fill open shifts and empower both businesses and workers to re",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Paxos",
+  "website": "paxos.com",
+  "status": "active",
+  "stage": null,
+  "description": "Paxos is regulated blockchain infrastructure provider building enterprise solutions for an open, digital economy.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Fortell",
+  "website": "fortell.com",
+  "status": "active",
+  "stage": null,
+  "description": "Fortell is a hearing technology company combining AI-powered hearing aids that separate speech from noise in real time with expert care delivered through its own audiology clinics.",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Nanotronics",
+  "website": null,
+  "status": "active",
+  "stage": null,
+  "description": "Nanotronics is a leading developer of optical inspection tools for the semiconductor industry, using both hardware and software to provide industrial-scale, high-throughput, super-resolution imaging s",
+  "sector": "Advanced Machines & Intelligence",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "ZocDoc",
+  "website": "www.zocdoc.com",
+  "status": "active",
+  "stage": null,
+  "description": "ZocDoc is the tech company at the beginning of a better healthcare experience. With a mission to give power to the patient, ZocDoc’s online marketplace delivers the accessible, seamless, and simple ex",
+  "sector": "Biotechnology & Health",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Mnzil",
+  "website": "mnzil.com/en",
+  "status": "active",
+  "stage": null,
+  "description": "Mnzil is redefining workforce living through technology, creating smarter, more comfortable, and more productive environments for workers and the companies that rely on them.",
+  "sector": "Real Estate & Technology",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "EnduroSat",
+  "website": "www.endurosat.com",
+  "status": "active",
+  "stage": null,
+  "description": "EnduroSat is transforming the complex satellite industry into a streamlined data service.",
+  "sector": "Aerospace & Transportation",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "Nominal",
+  "website": "nominal.io",
+  "status": "active",
+  "stage": null,
+  "description": "Nominal modernizes the data supply chain for testing and operations across aerospace, defense, robotics, energy, and advanced manufacturing — helping hardware organizations operate at the speed of sof",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ },
+ {
+  "name": "River",
+  "website": "rivertechnologies.com",
+  "status": "active",
+  "stage": null,
+  "description": "River Technologies builds custom software for financial institutions, helping bridge them into an AI-native future.",
+  "sector": "Analytics & Software",
+  "fund": "founders_fund"
+ }
+]

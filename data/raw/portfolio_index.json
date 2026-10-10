@@ -1,0 +1,2963 @@
+[
+ {
+  "name": "1stdibs",
+  "website": "http://1stdibs.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "1stdibs: 1stdibs is the leading marketplace for luxury antiques and vintage goods. Originally inspired by Parisian flea markets, today the website brings together more than 1,500 of the world’s most prestigious international dealers of antiques, vintage furniture and design, fine art, estate jewellery, vintage couture and fine homes.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "7AI",
+  "website": "http://7ai.com",
+  "status": "active",
+  "stage": null,
+  "description": "7AI: 7AI is the first agentic security platform that harnesses the speed, swarming capabilities, and power of AI to finally give defenders the advantage over evolving threats.",
+  "sector": "aiml, security",
+  "fund": "index"
+ },
+ {
+  "name": "Abacus.ai",
+  "website": "https://abacus.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Abacus.ai: Effortlessly Embed Cutting-Edge AI Into Your Applications",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Adaptive ML",
+  "website": "http://adaptive-ml.com",
+  "status": "active",
+  "stage": null,
+  "description": "Adaptive ML: Adaptive ML builds key GenAI infrastructure to enable companies to perpetually improve their models.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Adfin",
+  "website": "http://adfin.com",
+  "status": "active",
+  "stage": null,
+  "description": "Adfin: None",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Adyen",
+  "website": "http://adyen.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Adyen: A global omni-channel payment company, Adyen provides a fully- outsourced payment solution for large international merchants. Adyen processes over 250 different payment methods and 187 transaction currencies used across six continents.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Adzuna",
+  "website": "http://adzuna.com",
+  "status": "active",
+  "stage": null,
+  "description": "Adzuna: Adzuna is a search engine for job ads used by over 10 million visitors per month that aims to list every job, everywhere.",
+  "sector": "business-applications, talent",
+  "fund": "index"
+ },
+ {
+  "name": "Alan",
+  "website": "http://alan.eu",
+  "status": "active",
+  "stage": null,
+  "description": "Alan: Alan is the leading digital health insurance provider in France. Alan is making health experience simple and modern. It is a primary insurer that distributes its own health plans directly to companies and individuals.",
+  "sector": "fintech, healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "Albert",
+  "website": "https://www.albertinvent.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Albert: Everyday Albert’s cloud-based, data-driven platform is empowering thousands of scientists across 30+ countries to achieve better results.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Allara",
+  "website": "http://allarahealth.com",
+  "status": "active",
+  "stage": null,
+  "description": "Allara: Allara is a specialty care platform built for the tens of millions of women living with complex hormonal and gynecologic conditions, such as polycystic ovary syndrome (PCOS) and endometriosis.",
+  "sector": "Healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "Ando",
+  "website": "http://ando.so",
+  "status": "active",
+  "stage": null,
+  "description": "Ando: Ando is a team messaging platform for the new generation. Work moves faster when humans and agents share the channel.",
+  "sector": "aiml, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Anine Bing",
+  "website": "http://aninebing.com",
+  "status": "active",
+  "stage": null,
+  "description": "Anine Bing: Classic, yet edgy pieces for the modern woman.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "ankar.ai",
+  "website": "http://ankar.ai",
+  "status": "active",
+  "stage": null,
+  "description": "ankar.ai: None",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Ankorstore",
+  "website": "https://www.ankorstore.com",
+  "status": "active",
+  "stage": null,
+  "description": "Ankorstore: Ankorstore is a curated marketplace connecting up-and-coming specialist brands with the most loved neighbourhood retailers.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Anrok",
+  "website": "https://www.anrok.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Anrok: None",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Anthropic",
+  "website": "http://anthropic.com",
+  "status": "active",
+  "stage": null,
+  "description": "Anthropic: Anthropic is an AI safety and research company working to build reliable, interpretable, and steerable AI systems.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Apex",
+  "website": "https://apexhq.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Apex: Apex is a leading AI security platform designed to empower organizations to adapt to the AI era.",
+  "sector": "aiml, security",
+  "fund": "index"
+ },
+ {
+  "name": "ApplyBoard Inc.",
+  "website": "https://www.applyboard.com/",
+  "status": "active",
+  "stage": null,
+  "description": "ApplyBoard Inc.: None",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Apron",
+  "website": "https://getapron.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Apron: Apron enables business owners and accountants to sort, pay and reconcile invoices in seconds – flipping the payment experience from obstructing business to boosting it. With seamless onboarding, easy integration with existing tools and instant reconciliation, Apron frees up small businesses from the pain of payments, so they can keep everything else moving forward.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Arca",
+  "website": "http://arcawealth.com",
+  "status": "active",
+  "stage": null,
+  "description": "Arca: Arca is an AI-native wealth management company that is redefining how financial advice is delivered by pairing great financial advisors with a fully integrated, agentic platform.",
+  "sector": "aiml, fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Argent",
+  "website": "https://www.argent.xyz",
+  "status": "active",
+  "stage": null,
+  "description": "Argent: The most simple and secure smart wallet for crypto.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Arondite",
+  "website": "http://arondite.com",
+  "status": "active",
+  "stage": null,
+  "description": "Arondite: AI to power the autonomous age",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "ArthurAI",
+  "website": "http://arthur.ai",
+  "status": "active",
+  "stage": null,
+  "description": "ArthurAI: Maximize performance, minimize risk.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Ascend",
+  "website": "https://useascend.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Ascend: The modern insurance payments platform",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Astelia",
+  "website": "http://astelia.io",
+  "status": "active",
+  "stage": null,
+  "description": "Astelia: Astelia is the only platform that reveals true vulnerability exposure through reachability analysis.",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Atlantic Money",
+  "website": "https://atlantic.money/",
+  "status": "active",
+  "stage": null,
+  "description": "Atlantic Money: With a flat £3 fee, zero FX markup, and an app designed just for you, moving money across borders has never been so easy.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Atlar",
+  "website": "https://www.atlar.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Atlar: Atlar is the AI-native treasury platform for modern finance teams. It unifies payments, cash management, forecasting, and investments in one place—with real-time connections to banks, ERPs, and finance tools.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "AttackIQ",
+  "website": "http://attackiq.com",
+  "status": "active",
+  "stage": null,
+  "description": "AttackIQ: AttackIQ offers the first live remote testing platform that continuously challenges your security assumptions.",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Augment",
+  "website": "https://www.augmentcode.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Augment: The AI-powered coding assistant.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Aurora",
+  "website": "http://aurora.tech",
+  "status": "active",
+  "stage": null,
+  "description": "Aurora: Aurora delivers the benefits of self-driving technology safely, quickly, and broadly.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Auxmoney",
+  "website": "http://auxmoney.com",
+  "status": "active",
+  "stage": null,
+  "description": "Auxmoney: auxmoney is a leading digital-lending platform for consumer credit in Europe. Through AI-powered risk models and truly digital processes, auxmoney improves access to affordable credit and thus promotes financial inclusion.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Backbone",
+  "website": "https://playbackbone.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Backbone: Next-level play, now in your hands.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "BallerTV",
+  "website": "http://baller.tv",
+  "status": "active",
+  "stage": null,
+  "description": "BallerTV: Featuring live streams, replays, and highlights of top amateur sporting events.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Beam",
+  "website": "https://beamimpact.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Beam: Make part of your spending go to nonprofits you choose, at no extra cost to you.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Beamery",
+  "website": "http://www.beamery.com",
+  "status": "active",
+  "stage": null,
+  "description": "Beamery: Beamery is a provider of recruiting software that transforms the way companies hire the best talent.",
+  "sector": "business-applications, talent",
+  "fund": "index"
+ },
+ {
+  "name": "Beauty Pie",
+  "website": "http://www.beautypie.com",
+  "status": "active",
+  "stage": null,
+  "description": "Beauty Pie: Beauty Pie is the first luxury beauty product buyers’ club.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Because",
+  "website": "http://becausemarket.com",
+  "status": "active",
+  "stage": null,
+  "description": "Because: Because is a social, community centric, personal care brand for older adults. We empower the older generation by enabling their contributions to product innovation. Getting feedback first hand, we deliver constant product customization directly to their doorsteps.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Behavox",
+  "website": "http://behavox.com",
+  "status": "active",
+  "stage": null,
+  "description": "Behavox: Behavox is an AI-driven platform that transforms behavior in the financial workplace.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Beside",
+  "website": "http://beside.com",
+  "status": "active",
+  "stage": null,
+  "description": "Beside: Beside is building the AI operating system that runs your local business.",
+  "sector": "aiml, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Bigger Games",
+  "website": "https://biggergames.com",
+  "status": "active",
+  "stage": null,
+  "description": "Bigger Games: Bigger Games is an Istanbul-based mobile gaming company founded by three former team members of Peak Games, building a world-class studio for casual puzzle games.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Big Health",
+  "website": "http://bighealth.com",
+  "status": "active",
+  "stage": null,
+  "description": "Big Health: Big Health uses tracked data to create highly personalized behavioural medicine programmes, all delivered via the web and mobile to the highest standards of clinical evidence. Its first product, Sleepio, is a digital sleep improvement programme which uses clinically proven Cognitive Behavioural Therapy (CBT) techniques  to help patients overcome even long term poor sleep.",
+  "sector": "Healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "Bird",
+  "website": "http://bird.co",
+  "status": "ipo",
+  "stage": null,
+  "description": "Bird: Bird is a last-mile electric vehicle sharing company dedicated to bringing safe, low-cost, environmentally-friendly transportation solutions to communities across the world.",
+  "sector": "Mobility",
+  "fund": "index"
+ },
+ {
+  "name": "Birdie",
+  "website": "http://www.birdie.care",
+  "status": "active",
+  "stage": null,
+  "description": "Birdie: Your complete homecare software solution designed to give you better visibility over your care and support older adults to live happily at home.",
+  "sector": "Healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "BIT ODD",
+  "website": "http://www.bit-odd.com",
+  "status": "active",
+  "stage": null,
+  "description": "BIT ODD: Building games filled with wonder, weirdness and delight",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "BitPay",
+  "website": "http://bitpay.com",
+  "status": "active",
+  "stage": null,
+  "description": "BitPay: The leading payment service provider (PSP) specializing in the peer-to-peer virtual currency Bitcoin which provides for instantaneous transactions from anywhere in the world with no risk of fraud or chargebacks.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "BlaBlaCar",
+  "website": "http://blablacar.com",
+  "status": "active",
+  "stage": null,
+  "description": "BlaBlaCar: BlaBlaCar is a long-distance ride-sharing community, which connects cities globally by pairing people looking to travel long distances with drivers making the same journey, so they can travel together and share the costs.",
+  "sector": "Mobility",
+  "fund": "index"
+ },
+ {
+  "name": "Bloom & Wild",
+  "website": "http://bloomandwild.com",
+  "status": "active",
+  "stage": null,
+  "description": "Bloom & Wild: Bloom & Wild uses technology, AI, supply chain and product innovation to make sending and receiving flowers the joy it should be for both the sender and the recipient.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Boulevard",
+  "website": "http://joinblvd.com",
+  "status": "active",
+  "stage": null,
+  "description": "Boulevard: The business management platform powering the next generation of premium salons and spas.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "BrightGo",
+  "website": "https://www.brightgo.com/",
+  "status": "active",
+  "stage": null,
+  "description": "BrightGo: Your janitorial operating system that stops time theft and terminations.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "BrightHire",
+  "website": "https://brighthire.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "BrightHire: The future of hiring is rigorous, fast and fair.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "BRINC",
+  "website": "http://brincdrones.com",
+  "status": "active",
+  "stage": null,
+  "description": "BRINC: BRINC builds technology in the service of public safety. Their systems give first responders eyes and ears inside structures to make life saving decisions and keep people safe.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Build",
+  "website": "http://build.inc",
+  "status": "active",
+  "stage": null,
+  "description": "Build: Build is an AI-native infrastructure company helping governments, developers and\ninstitutional investors deliver complex projects faster.",
+  "sector": "aiml, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Built",
+  "website": "http://getbuilt.com",
+  "status": "active",
+  "stage": null,
+  "description": "Built: Built is the leading provider of secure, cloud-based construction lending software. Built's collaboration software brings the draw management process online and helps reduce construction loan risk, increases loan profitability, transforms the borrower experience, and simplifies compliance. Built serves small, regional and national lenders across the US.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Capitolis",
+  "website": "http://capitolis.com",
+  "status": "active",
+  "stage": null,
+  "description": "Capitolis: Capitolis is a pioneering technology provider for the global capital markets.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "cargo.one",
+  "website": "http://www.cargo.one",
+  "status": "active",
+  "stage": null,
+  "description": "cargo.one: The easiest way to book air cargo. The cargo.one booking platform gives you access to real-time prices and available capacities of multiple airlines. Directly book online within seconds, 24/7.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Cartesia",
+  "website": "http://cartesia.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Cartesia: Real-time multimodal intelligence for every device.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Castle",
+  "website": "http://castle.io",
+  "status": "active",
+  "stage": null,
+  "description": "Castle: Keep out fake accounts. Protect real ones.",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Catch",
+  "website": "http://getcatch.com",
+  "status": "active",
+  "stage": null,
+  "description": "Catch: Earn store credit by helping merchants save on credit card fees.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Causaly",
+  "website": "https://www.causaly.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Causaly: An operating system for biomedical and health data",
+  "sector": "Healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "Chai Discovery",
+  "website": "http://chaidiscovery.com",
+  "status": "active",
+  "stage": null,
+  "description": "Chai Discovery: Building frontier artificial intelligence to predict and reprogram the interactions between biochemical molecules.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Check",
+  "website": "http://checkhq.com",
+  "status": "active",
+  "stage": null,
+  "description": "Check: Embed payroll in your platform.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "CipherCloud",
+  "website": "http://ciphercloud.com",
+  "status": "active",
+  "stage": null,
+  "description": "CipherCloud: CipherCloud is the leader in cloud information protection, enabling organisations to securely adopt cloud applications by overcoming data privacy, residency, security and regulatory compliance risks.",
+  "sector": "Data",
+  "fund": "index"
+ },
+ {
+  "name": "Citymapper",
+  "website": "http://citymapper.com",
+  "status": "active",
+  "stage": null,
+  "description": "Citymapper: Citymapper is reinventing the transport app by helping users navigate the world's most complex transport cities – London and New York. The mobile app is available on iOS and Android.",
+  "sector": "Mobility",
+  "fund": "index"
+ },
+ {
+  "name": "Class Companion",
+  "website": "https://classcompanion.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Class Companion: Class Companion empowers teachers to give instant feedback and support each student to learn at their own pace. Thousands of teachers use the AI platform to create assignments, engage students, generate feedback, and gain insights into progress.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "ClickHouse",
+  "website": "https://clickhouse.tech/",
+  "status": "active",
+  "stage": null,
+  "description": "ClickHouse: ClickHouse® is a fast open-source OLAP database management system",
+  "sector": "Open Source",
+  "fund": "index"
+ },
+ {
+  "name": "Clumio",
+  "website": "http://clumio.com",
+  "status": "active",
+  "stage": null,
+  "description": "Clumio: Authentic SaaS for Enterprise Backup",
+  "sector": "Data",
+  "fund": "index"
+ },
+ {
+  "name": "Coalition",
+  "website": "http://www.coalitioninc.com",
+  "status": "active",
+  "stage": null,
+  "description": "Coalition: Cybersecurity and insurance to keep your business safe.",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Cockroach Labs",
+  "website": "http://cockroachlabs.com",
+  "status": "active",
+  "stage": null,
+  "description": "Cockroach Labs: CockroachDB enables developers to build scalable applications that can survive data center outages without breaking a sweat. With strong consistency, distributed SQL, and transactions, CockroachDB frees developers to focus on what matters – building great applications.",
+  "sector": "data, open-source",
+  "fund": "index"
+ },
+ {
+  "name": "Cocoon",
+  "website": "https://www.meetcocoon.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Cocoon: Employee leave, as it should be",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Codat",
+  "website": "http://www.codat.io",
+  "status": "active",
+  "stage": null,
+  "description": "Codat: Codat is the platform for business data. Through our single API, we provide real-time connectivity to the financial software used by small businesses globally.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Codecademy",
+  "website": "http://codecademy.com",
+  "status": "active",
+  "stage": null,
+  "description": "Codecademy: Codecademy provides education without borders. More than 10m students and 20k governments, companies and universities in Asia, Europe, the U.S. and Latin America are trialling and adopting Codecademy to transform programming literacy.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "CodeSignal, Inc.",
+  "website": "https://codesignal.com/",
+  "status": "active",
+  "stage": null,
+  "description": "CodeSignal, Inc.: Certify, Test, and Interview All on One Platform",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Cohere",
+  "website": "https://cohere.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Cohere: Build incredible products with world-class language AI",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Collibra",
+  "website": "http://collibra.com",
+  "status": "active",
+  "stage": null,
+  "description": "Collibra: Collibra is the trusted data authority that provides data stewardship, data governance and data management for the enterprise business user.",
+  "sector": "Data",
+  "fund": "index"
+ },
+ {
+  "name": "Common Room",
+  "website": "https://commonroom.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Common Room: Common Room’s Customer Intelligence Platform gives thousands of GTM teams an unfair pipeline advantage. Know who to target, when to engage, and how to convert with the most informed GTM AI.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "ComplyAdvantage",
+  "website": "http://complyadvantage.com",
+  "status": "active",
+  "stage": null,
+  "description": "ComplyAdvantage: ComplyAdvantage is transforming financial crime detection on a global scale. The company’s vision is to take on and neutralize the risk of money laundering, terrorist financing, corruption and all other global financial crimes. It does this by providing the world’s only dynamic global risk database to large banks, insurers, fintechs and other institutions with financial regulatory requirements.",
+  "sector": "business-applications, fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Conduct",
+  "website": "http://conduct.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Conduct: None",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Confluent",
+  "website": "http://confluent.io",
+  "status": "ipo",
+  "stage": null,
+  "description": "Confluent: A Streaming Platform powered by Apache Kafka",
+  "sector": "data, open-source",
+  "fund": "index"
+ },
+ {
+  "name": "Cord",
+  "website": "http://cord.com",
+  "status": "active",
+  "stage": null,
+  "description": "Cord: Make your product multiplayer",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Covariant.ai",
+  "website": "http://covariant.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Covariant.ai: AI Robotics for the Real World",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Cowboy",
+  "website": "http://cowboy.com",
+  "status": "active",
+  "stage": null,
+  "description": "Cowboy: A new electric bike for urban riders.",
+  "sector": "Mobility",
+  "fund": "index"
+ },
+ {
+  "name": "Cowboy Space",
+  "website": "https://www.cowboyspace.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Cowboy Space: Cowboy Space Corporation (formerly Aetherflux) is building vertically integrated orbital infrastructure for the AI era, spanning launch vehicles, space-based power and in-orbit compute.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Cradle",
+  "website": "http://cradle.bio",
+  "status": "active",
+  "stage": null,
+  "description": "Cradle: 🧬 + 🧠 = 🏭",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Creative Juice",
+  "website": "https://getjuice.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Creative Juice: The financial network for creators.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Credit Benchmark",
+  "website": "http://creditbenchmark.com",
+  "status": "active",
+  "stage": null,
+  "description": "Credit Benchmark: Credit Benchmark, an innovative provider of credit risk data and analytics, pools credit risk estimates from the world’s biggest banks and financial institutions -- global, regional and national -- to create consensus credit views.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Crosby",
+  "website": "http://crosby.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Crosby: The agentic law firm built for execution, providing lawyer-assisted AI to close deals faster.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Crossing Minds",
+  "website": "http://crossingminds.com",
+  "status": "active",
+  "stage": null,
+  "description": "Crossing Minds: The e-commerce recommendation engine that’s as unique as your business and customers",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Culture Amp",
+  "website": "http://cultureamp.com",
+  "status": "active",
+  "stage": null,
+  "description": "Culture Amp: Culture Amp is a culture-first software company that is building the world's leading People Analytics platform for people and culture.",
+  "sector": "business-applications, talent",
+  "fund": "index"
+ },
+ {
+  "name": "Curtsy",
+  "website": "http://curtsyapp.com",
+  "status": "active",
+  "stage": null,
+  "description": "Curtsy: Say 'peace out' to being bored of your clothes.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Cutover",
+  "website": "http://cutover.com",
+  "status": "active",
+  "stage": null,
+  "description": "Cutover: Cutover is a cloud-enabled work orchestration and observability platform that helps enterprises succeed in transformation and operational excellence by more effectively orchestrating humans and technology at pace.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Datadog",
+  "website": "http://datadoghq.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Datadog: Datadog is a SaaS-based monitoring and data analytics platform for IT, Operations and Development teams who write and run applications at scale, and want to turn the data deluge produced by their apps, tools and services into actionable insight.",
+  "sector": "Data",
+  "fund": "index"
+ },
+ {
+  "name": "DataSnipper",
+  "website": "https://www.datasnipper.com/",
+  "status": "active",
+  "stage": null,
+  "description": "DataSnipper: DataSnipper focuses on audit and data reconciliation, using AI to automate tedious task, improve efficiency and freeing up auditors to do more value-added work.",
+  "sector": "business-applications, fintech, future-of-work",
+  "fund": "index"
+ },
+ {
+  "name": "Daydream",
+  "website": "https://daydream.ing",
+  "status": "active",
+  "stage": null,
+  "description": "Daydream: A new era of shopping",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Decagon",
+  "website": "http://decagon.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Decagon: The conversational AI platform to build, optimize, and scale AI agents.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "DeepL",
+  "website": "https://www.deepl.com/",
+  "status": "active",
+  "stage": null,
+  "description": "DeepL: DeepL is on a mission to break down language barriers for businesses everywhere. Over 100,000 businesses, governments and other organizations and millions of individuals in 63 global markets trust DeepL’s Language AI platform for human-like translation and better writing.",
+  "sector": "aiml, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Deepnote",
+  "website": "http://deepnote.com",
+  "status": "active",
+  "stage": null,
+  "description": "Deepnote: Deepnote is a new kind of data science notebook. Jupyter-compatible with real-time collaboration and running in the cloud.",
+  "sector": "Future Of Work",
+  "fund": "index"
+ },
+ {
+  "name": "DeepScribe",
+  "website": "https://www.deepscribe.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "DeepScribe: Take care of your patients. Our AI-based scribe technology will take care of your documentation.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Deliveroo",
+  "website": "http://deliveroo.co.uk",
+  "status": "ipo",
+  "stage": null,
+  "description": "Deliveroo: Deliveroo delivers top quality food from premium local restaurants to homes and offices.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "/dev/agents",
+  "website": "http://sdsa.ai",
+  "status": "active",
+  "stage": null,
+  "description": "/dev/agents: None",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Discord",
+  "website": "http://discordapp.com",
+  "status": "active",
+  "stage": null,
+  "description": "Discord: Discord is the easiest way to talk over voice, video, and text. Talk, chat, hang out, and stay close with your friends and communities.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Dorsia",
+  "website": "http://dorsia.com",
+  "status": "active",
+  "stage": null,
+  "description": "Dorsia: A members-only platform with access to coveted reservations at the most in-demand restaurants and events in cities around the globe.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Dot Product",
+  "website": "https://dotproduct.xyz/",
+  "status": "active",
+  "stage": null,
+  "description": "Dot Product: Dot Product is building AI coworkers for operations teams.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Double",
+  "website": "http://withdouble.com",
+  "status": "active",
+  "stage": null,
+  "description": "Double: Work better with your executive assistant.",
+  "sector": "Future Of Work",
+  "fund": "index"
+ },
+ {
+  "name": "DraftWise",
+  "website": "https://www.draftwise.com/",
+  "status": "active",
+  "stage": null,
+  "description": "DraftWise: DraftWise is on a mission to transform the legal industry by harnessing the power of AI.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Dream Games",
+  "website": "http://dreamgames.com",
+  "status": "active",
+  "stage": null,
+  "description": "Dream Games: Dream Games is a mobile casual puzzle studio based in Istanbul.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Duffel",
+  "website": "http://duffel.com",
+  "status": "active",
+  "stage": null,
+  "description": "Duffel:  Duffel is rethinking travel from the ground up. Its platform allows online and mobile travel agents to connect directly with airlines’ reservation systems, providing a new booking infrastructure to the next generation of online and mobile only travel agents that are transforming travel.",
+  "sector": "Mobility",
+  "fund": "index"
+ },
+ {
+  "name": "Duna",
+  "website": "http://duna.com",
+  "status": "active",
+  "stage": null,
+  "description": "Duna: None",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "duvo.ai",
+  "website": "http://duvo.ai",
+  "status": "active",
+  "stage": null,
+  "description": "duvo.ai: Duvo is the AI that maps your real operations, optimizes them, and runs the better version every day.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Eisen",
+  "website": "https://www.witheisen.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Eisen: Eisen is the first escheatment operations solution that proactively manages offboarding for dormant accounts, stale checks, wind downs, and more.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Elementl",
+  "website": "http://elementl.com",
+  "status": "active",
+  "stage": null,
+  "description": "Elementl: The data orchestrator for machine learning, analytics, and ETL.",
+  "sector": "Open Source",
+  "fund": "index"
+ },
+ {
+  "name": "Empathy",
+  "website": "https://www.empathy.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Empathy: Empathy is an innovative technology company transforming the way the world deals with grief and the loss of a loved one.",
+  "sector": "Healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "Enigma",
+  "website": "http://enigma.inc",
+  "status": "active",
+  "stage": null,
+  "description": "Enigma: The Physical AI company building the AI layer for intelligent robots.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "EthonAI",
+  "website": "https://ethon.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "EthonAI: EthonAI builds causal AI to help manufacturers to gain unprecedented insights into their processes",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "evervault",
+  "website": "http://evervault.com",
+  "status": "active",
+  "stage": null,
+  "description": "evervault: API for data privacy.",
+  "sector": "Data",
+  "fund": "index"
+ },
+ {
+  "name": "Expel",
+  "website": "http://expel.io",
+  "status": "active",
+  "stage": null,
+  "description": "Expel: Transparent managed security",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Factual",
+  "website": "http://factual.com",
+  "status": "active",
+  "stage": null,
+  "description": "Factual: Factual is a data company that helps developers, publishers, and advertisers build more relevant and personalized mobile experiences using the context of location.",
+  "sector": "Data",
+  "fund": "index"
+ },
+ {
+  "name": "Feathery",
+  "website": "https://www.feathery.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Feathery: Feathery is a powerful, developer-friendly form builder for product teams.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Ferry Health",
+  "website": "http://ferry.health",
+  "status": "active",
+  "stage": null,
+  "description": "Ferry Health: Ferry is on a mission to make navigating healthcare as easy and pain-free as possible with its agentic AI platform that takes action on patients' behalf, acting as their personal assistant for tasks like finding and scheduling care.",
+  "sector": "aiml, healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "Figma",
+  "website": "http://figma.com",
+  "status": "active",
+  "stage": null,
+  "description": "Figma: A design platform for teams who build products together.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Fireblocks",
+  "website": "https://www.fireblocks.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Fireblocks: #1 Crypto and Digital Asset Platform for Institutions",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Fireworks",
+  "website": "http://fireworks.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Fireworks: Fireworks is the fastest way to build, tune, and scale AI on open models.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Flagship",
+  "website": "https://landing.flagship.shop/",
+  "status": "active",
+  "stage": null,
+  "description": "Flagship: Creators are the future of retail.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Flapping Airplanes",
+  "website": "https://flappingairplanes.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Flapping Airplanes: Flapping Airplanes is a foundational AI research lab devoted to solving the data-efficiency problem.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "flatfair",
+  "website": "http://flatfair.co.uk",
+  "status": "active",
+  "stage": null,
+  "description": "flatfair: The home of deposit-free renting. Tenants pay a small one-off fee and landlords get up to 12 weeks' protection compared to a traditional deposit.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Flipboard",
+  "website": "http://flipboard.com",
+  "status": "active",
+  "stage": null,
+  "description": "Flipboard: A personalised magazine, Flipboard’s mission is to transform the way people discover, view and share content by merging the ease and beauty of print with the power and spontaneity of social media.",
+  "sector": "Media",
+  "fund": "index"
+ },
+ {
+  "name": "fomo",
+  "website": "http://fomo.family",
+  "status": "active",
+  "stage": null,
+  "description": "fomo: The trading platform designed to simplify access to on-chain markets for everyone.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Fonoa",
+  "website": "https://www.fonoa.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Fonoa: Automating taxes for the internet economy",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Footprint",
+  "website": "http://onefootprint.com",
+  "status": "active",
+  "stage": null,
+  "description": "Footprint: The agentic platform that learns your compliance program and runs it end-to-end.",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Frame Security",
+  "website": "http://framesecurity.com",
+  "status": "active",
+  "stage": null,
+  "description": "Frame Security: Frame Security is a human security and security awareness company helping organizations defend against the growing wave of social engineering, deepfakes, and AI-powered threats.",
+  "sector": "aiml, security",
+  "fund": "index"
+ },
+ {
+  "name": "Funding Circle",
+  "website": "http://fundingcircle.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Funding Circle: Funding Circle is a P2P lending network for small businesses. Freeing up critical liquidity for SMEs, the company has created a digital marketplace which matches deposits from investors, seeking better returns, with loans to carefully-screened businesses, who need finance fast.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Garner Health",
+  "website": "http://garnerhealth.com",
+  "status": "active",
+  "stage": null,
+  "description": "Garner Health: None",
+  "sector": "data, healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "Gather",
+  "website": "https://gather.town/",
+  "status": "active",
+  "stage": null,
+  "description": "Gather: A better way to meet online",
+  "sector": "Future Of Work",
+  "fund": "index"
+ },
+ {
+  "name": "Gatsby",
+  "website": "http://gatsbyjs.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Gatsby: The modern way to build the web",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "GetHarley",
+  "website": "http://www.getharley.com",
+  "status": "active",
+  "stage": null,
+  "description": "GetHarley: GetHarley, named after the famous ‘Harley Street’ in London where many leading doctors and physicians have their practices, is a digital platform and service that connects skincare clinicians with consumers and pharmaceutical brands.",
+  "sector": "business-applications, retail",
+  "fund": "index"
+ },
+ {
+  "name": "Glossier",
+  "website": "http://glossier.com",
+  "status": "active",
+  "stage": null,
+  "description": "Glossier: Beauty products for real life.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Glow",
+  "website": "http://glow.io",
+  "status": "active",
+  "stage": null,
+  "description": "Glow: Glow is rethinking endpoint security for the AI era, giving security teams control over everything that runs on the endpoint.",
+  "sector": "aiml, security",
+  "fund": "index"
+ },
+ {
+  "name": "GOAT",
+  "website": "http://goat.com",
+  "status": "active",
+  "stage": null,
+  "description": "GOAT: GOAT is a premium marketplace for buying and selling authentic sneakers. Founded in 2015 to bring trust and safety to sneaker reselling, the platform now offers the largest selection of sneakers ranging from general releases to rare exclusives.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Gong",
+  "website": "http://gong.io",
+  "status": "active",
+  "stage": null,
+  "description": "Gong: The #1 Platform for Remote Sales Teams",
+  "sector": "aiml, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Good Eggs",
+  "website": "http://goodeggs.com",
+  "status": "active",
+  "stage": null,
+  "description": "Good Eggs: We connect you to local farmers and foodmakers. You shop for exactly what you want, and we deliver it all to your door.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Goody",
+  "website": "https://www.ongoody.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Goody: Send a gift as easily as a text.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Grailed",
+  "website": "http://grailed.com",
+  "status": "active",
+  "stage": null,
+  "description": "Grailed: For Enthusiasts,\nBy Enthusiasts",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Granola",
+  "website": "http://www.granola.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Granola: The AI notepad for people in back-to-back meetings",
+  "sector": "aiml, business-applications, future-of-work",
+  "fund": "index"
+ },
+ {
+  "name": "Greg",
+  "website": "https://greg.app/",
+  "status": "active",
+  "stage": null,
+  "description": "Greg: The smarter way to care for\nand discover new plants",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Gremlin",
+  "website": "http://gremlin.com",
+  "status": "active",
+  "stage": null,
+  "description": "Gremlin: Break things on purpose.",
+  "sector": "Data",
+  "fund": "index"
+ },
+ {
+  "name": "Harmonic",
+  "website": "https://harmonic.fun/",
+  "status": "active",
+  "stage": null,
+  "description": "Harmonic: The artificial intelligence platform leading the development of Mathematical Superintelligence (MSI).",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Hebbia",
+  "website": "https://hebbia.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Hebbia: Hebbia is the AI platform for knowledge work used by leading finance, law, and Fortune 500 companies. The product orchestrates \"AI agents\" that accurately tackle the most complex tasks by breaking them down into understandable actions.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Hoop",
+  "website": "https://www.hoop.app/",
+  "status": "active",
+  "stage": null,
+  "description": "Hoop: The AI powered to-do list that writes itself.",
+  "sector": "aiml, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Humanloop",
+  "website": "https://humanloop.com",
+  "status": "active",
+  "stage": null,
+  "description": "Humanloop: Humanloop uses cutting-edge research in machine learning and natural language processing to make it easy for every company to integrate AI algorithms that understand language",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Humu",
+  "website": "http://humu.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Humu: Humu helps companies understand—and act on—what matters most, then drive behavioral change to build stronger, happier, more capable teams from the inside out, and bottom up.",
+  "sector": "talent, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Hutch Games",
+  "website": "http://hutchgames.com",
+  "status": "active",
+  "stage": null,
+  "description": "Hutch Games: Hutch is a collective of passionate designers, engineers and artists who all share the same obsession: making action-packed, visually stunning games that can be played and enjoyed by everyone.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Hyperline",
+  "website": "http://hyperline.co",
+  "status": "active",
+  "stage": null,
+  "description": "Hyperline: Hyperline introduces a radically simple pricing and billing solution that solves two of the most critical aspects of running a business: setting prices and getting paid. The company’s platform guides users to the right pricing models for their customers’ needs and ensures billing according to that model is seamless. This results in a better experience for customers and increased revenue for businesses.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Ideogram AI",
+  "website": "https://ideogram.ai/launch",
+  "status": "active",
+  "stage": null,
+  "description": "Ideogram AI: Our mission is to help people become more creative through generative AI.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Immersive Gamebox",
+  "website": "https://immersivegamebox.com",
+  "status": "active",
+  "stage": null,
+  "description": "Immersive Gamebox: Immersive Gamebox is building the world's first immersive entertainment platform designed to bring people together through shared play. The Gameboxes feature a range of cutting-edge technologies such as projection mapping, touch screens using our patented ‘Lidar’, 3D motion tracking, and surround sound to deliver an entirely new form of immersive entertainment. Teams of 2-6 play 30-60 minute games featuring levels and challenges designed to be fun, social, and collaborative.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "incident.io",
+  "website": "http://incident.io",
+  "status": "active",
+  "stage": null,
+  "description": "incident.io: The best way for your whole organisation to respond, review and learn from incidents.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Ineffable",
+  "website": "http://ineffable.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Ineffable: Ineffable's mission is to make first contact with superintelligence. Ineffable is creating a superlearner that discovers all knowledge from its own experience, from elementary motor skills through to profound intellectual breakthroughs.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Inherent",
+  "website": "http://www.inherentlaboratories.com",
+  "status": "active",
+  "stage": null,
+  "description": "Inherent: The recursive company",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Instabase",
+  "website": "http://instabase.com",
+  "status": "active",
+  "stage": null,
+  "description": "Instabase: Why does the world need another computer?",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Intelligence",
+  "website": "https://www.intelligence.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Intelligence: Intelligence is building Design Arena, the universal interface between human intent and AI, to create the real-world feedback and distribution layer for AI.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Intercom",
+  "website": "http://intercom.com",
+  "status": "active",
+  "stage": null,
+  "description": "Intercom: Intercom is a fundamentally new way for internet businesses to communicate with customers, personally, at scale.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Iterable",
+  "website": "http://iterable.com",
+  "status": "active",
+  "stage": null,
+  "description": "Iterable: None",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Josh Wood Colour",
+  "website": "http://joshwoodcolour.com",
+  "status": "active",
+  "stage": null,
+  "description": "Josh Wood Colour: The ultimate home hair colour system, the first of its kind created by a world-leading colourist.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Jumbo",
+  "website": "http://www.jumboprivacy.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Jumbo: Jumbo is a leading privacy and security assistant that protects you from online risks.",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Jump",
+  "website": "http://join-jump.com",
+  "status": "active",
+  "stage": null,
+  "description": "Jump: A better life for the self-employed",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "JustPark",
+  "website": "http://justpark.com",
+  "status": "active",
+  "stage": null,
+  "description": "JustPark: JustPark is The Parking App leading a £50bn industry into the digital age. Parking has been difficult for too long, and JustPark are on a mission to make it easy. Today, their apps help over 1.5 million drivers find parking in seconds - and their technology helps over 20,000 property owners manage their parking assets more effectively.",
+  "sector": "Mobility",
+  "fund": "index"
+ },
+ {
+  "name": "Justworks",
+  "website": "http://justworks.com",
+  "status": "active",
+  "stage": null,
+  "description": "Justworks: Justworks helps simplify payroll and benefits for small businesses, enabling them to get up and running in minutes.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Kayrros",
+  "website": "http://kayrros.com",
+  "status": "active",
+  "stage": null,
+  "description": "Kayrros: Kayrros develops predictive analytics products combining machine learning and advanced mathematics with petroleum and financial engineering to bring transparency to the energy markets.",
+  "sector": "business-applications, data",
+  "fund": "index"
+ },
+ {
+  "name": "Kindred",
+  "website": "https://livekindred.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Kindred: A members-only home exchange community.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Kong",
+  "website": "http://konghq.com",
+  "status": "active",
+  "stage": null,
+  "description": "Kong: Quickly build API-centric applications. Leverage the latest microservice and container design patterns. And tie it all together with the Kong microservice API gateway.",
+  "sector": "data, open-source",
+  "fund": "index"
+ },
+ {
+  "name": "KRY | LIVI",
+  "website": "http://kry.se",
+  "status": "active",
+  "stage": null,
+  "description": "KRY | LIVI: KRY | LIVI connects patients with healthcare professionals for consultations via video. It aims to provide around the clock healthcare for patients all over the world, reducing the pressure put on traditional healthcare providers.",
+  "sector": "Healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "Lever",
+  "website": "http://lever.co",
+  "status": "ipo",
+  "stage": null,
+  "description": "Lever: Lever is a modern web-app that enables you to hire the best people more easily by introducing a new way to track applicants.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Lightning AI",
+  "website": "https://lightning.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Lightning AI: Seamlessly train hundreds of Machine Learning models on the cloud from your laptop.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Linear",
+  "website": "http://linear.app",
+  "status": "active",
+  "stage": null,
+  "description": "Linear: The issue tracking tool you'll enjoy using.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Linktree",
+  "website": "http://www.linktr.ee",
+  "status": "active",
+  "stage": null,
+  "description": "Linktree: Linktree is the rapidly growing social identity layer. It enables brands, artists, publishers, agencies, creators and small businesses to curate an online ecosystem, instantly guiding their audience to the destinations that they care about, without using a search engine or websites as a starting point.",
+  "sector": "Media",
+  "fund": "index"
+ },
+ {
+  "name": "Linx Security",
+  "website": "http://www.linx.security",
+  "status": "active",
+  "stage": null,
+  "description": "Linx Security: Linx is the modern Identity Security solution for modern enterprises",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Lithic",
+  "website": "https://lithic.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Lithic: Create configurable cards and approve transactions in real-time as easily as any other tech.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "LiveKit",
+  "website": "http://livekit.io",
+  "status": "active",
+  "stage": null,
+  "description": "LiveKit: LiveKit is an end-to-end platform that gives developers everything they need to build and scale voice, video, and physical AI agents.",
+  "sector": "aiml, open-source",
+  "fund": "index"
+ },
+ {
+  "name": "Loctax",
+  "website": "http://www.loc.tax",
+  "status": "active",
+  "stage": null,
+  "description": "Loctax: Loctax is the first collaborative tax governance platform for global in-house tax teams",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Lookout",
+  "website": "http://lookout.com",
+  "status": "active",
+  "stage": null,
+  "description": "Lookout: As smart-phones go global and tablets overtake PCs, Lookout harnesses the power of millions of users across 400 networks in 170 countries to be at the cutting edge of cross-platform, cloud-connected device security for the post-desktop era.",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Loop",
+  "website": "https://loop.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Loop: Loop is a modern audit & pay platform that unlocks friction trapped in the supply chain. It's AI-driven platform improves transportation spend visibility so customers can control costs and power profit. Loop consolidates and analyzes all transportation financial data to accelerate the movement of money between supply chain stakeholders by improving cost visibility, cutting unnecessary spend, and optimizing transportation budget.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Marker",
+  "website": "http://marker.page",
+  "status": "active",
+  "stage": null,
+  "description": "Marker: Marker is a writing tool for people who believe in writing. It's a reimagined word processor, built to support writers and designed with AI tools that write with you, not for you.",
+  "sector": "aiml, future-of-work",
+  "fund": "index"
+ },
+ {
+  "name": "Matera",
+  "website": "http://matera.eu",
+  "status": "ipo",
+  "stage": null,
+  "description": "Matera: Matera enables residential property owners to self-manage all building operations, offering a suite of online services and direct access to professionals (in the fields of accounting, legal, insurance, building services and others).",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Mercantile",
+  "website": "https://www.getmercantile.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Mercantile: Branded business credit cards that help your SMB customers succeed.\n\nPartner with Mercantile and offer your customers a custom branded card that delivers group purchasing and up to thousands off association dues.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Metromile",
+  "website": "http://metromile.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Metromile: Using mobile, cloud and data technology, MetroMile’s mission is to change the car insurance industry by developing a new range of smart products which save time and money for people who drive less.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Mirage",
+  "website": "https://mirage.app/",
+  "status": "active",
+  "stage": null,
+  "description": "Mirage: Mirage is redefining short-form video with frontier AI research.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Mirelo",
+  "website": "http://mirelo.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Mirelo: Mirelo builds state-of-the-art AI audio models that bring emotion and impact to visual media. Founded by AI researchers from Amazon, Google Brain, the Max Planck Institute and ETH Zurich – who are also talented musicians – the company combines technical rigor with creative intuition to build AI for both amateur creators and professional sound designers.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Mistral",
+  "website": "https://mistral.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Mistral: Assembling a world-class team to develop the best generative AI models.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Moment",
+  "website": "http://moment.com",
+  "status": "active",
+  "stage": null,
+  "description": "Moment: Moment unifies trading, research, portfolio optimization, reporting, and compliance monitoring in a single platform, with a layer of automation that allows financial institutions to supercharge their fixed income teams.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Monad",
+  "website": "https://trymonad.co/",
+  "status": "active",
+  "stage": null,
+  "description": "Monad: The first security data cloud platform",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Monograph",
+  "website": "http://monograph.io",
+  "status": "active",
+  "stage": null,
+  "description": "Monograph: Take control of your firm's financial health with an easy-to-use budget tracking solution built for architecture, landscape, and interior firms.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Montonio",
+  "website": "http://www.montonio.com",
+  "status": "active",
+  "stage": null,
+  "description": "Montonio: Montonio is an all-in-one platform for online merchants to accept payments, offer financing and handle the entire post-checkout experience from shipping to returns and refunds.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "MOO",
+  "website": "http://moo.com",
+  "status": "active",
+  "stage": null,
+  "description": "MOO: Born out of a passion for print, MOO is a printing business for the digital age, which dreams up new tools that help people turn their virtual content into beautiful print products such as business and greetings cards, stickers and accessories.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Motive",
+  "website": "https://gomotive.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Motive: Modern Fleet Management Software: Live GPS Tracking, Smart Dashcams, Fuel, Maintenance, ELD Compliance, and more—all in one place.",
+  "sector": "Mobility",
+  "fund": "index"
+ },
+ {
+  "name": "Motorway",
+  "website": "http://www.motorway.co.uk",
+  "status": "active",
+  "stage": null,
+  "description": "Motorway: The UK's fastest-growing marketplace for privately-owned used cars and vans",
+  "sector": "mobility, retail",
+  "fund": "index"
+ },
+ {
+  "name": "Multiverse",
+  "website": "https://www.multiverse.io",
+  "status": "active",
+  "stage": null,
+  "description": "Multiverse: Multiverse is a tech company that identifies, closes and prevents skills gaps, through personalized, on-the-job learning. They focus on AI, tech and data skills for people of any age and any career stage, in order to transform access to economic opportunity.",
+  "sector": "business-applications, talent",
+  "fund": "index"
+ },
+ {
+  "name": "MyHeritage",
+  "website": "http://myheritage.com",
+  "status": "active",
+  "stage": null,
+  "description": "MyHeritage: MyHeritage is an online service with a mission to make it easier for people around the world to harness the power of the Internet to discover their heritage and strengthen their bonds with family and friends.",
+  "sector": "Media",
+  "fund": "index"
+ },
+ {
+  "name": "Nacelle",
+  "website": "http://nacelle.com",
+  "status": "active",
+  "stage": null,
+  "description": "Nacelle: The Headless Commerce Platform that boosts conversions. Your webstore with sub-second page load speeds, mobile-first functionality and a superior shopping experience.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Natoma",
+  "website": "https://www.natoma.id/",
+  "status": "active",
+  "stage": null,
+  "description": "Natoma: None",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "navabi",
+  "website": "https://www.navabi.ca/",
+  "status": "active",
+  "stage": null,
+  "description": "navabi: navabi’s mission is to become the premier destination for plus-size designer fashion worldwide, offering the style-savvy plus-size customer unprecedented access to the newest looks from leading European labels.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "NewCore",
+  "website": "http://newcore.io",
+  "status": "active",
+  "stage": null,
+  "description": "NewCore: The identity platform purpose-built to secure humans and AI agents — not retrofitted to support them.",
+  "sector": "aiml, security",
+  "fund": "index"
+ },
+ {
+  "name": "Newfront",
+  "website": "http://newfrontinsurance.com",
+  "status": "active",
+  "stage": null,
+  "description": "Newfront: \nWe built a better brokerage.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "nexos.ai",
+  "website": "http://nexos.ai",
+  "status": "active",
+  "stage": null,
+  "description": "nexos.ai: nexos.ai is a cutting-edge AI infrastructure company providing a centralized platform for enterprises to seamlessly integrate and manage multiple AI models.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Nexthink",
+  "website": "http://nexthink.com",
+  "status": "active",
+  "stage": null,
+  "description": "Nexthink: Nexthink is the global leader in digital experience management.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Nomos",
+  "website": "http://nomos.energy",
+  "status": "active",
+  "stage": null,
+  "description": "Nomos: Nomos is a full-stack power company connecting household energy assets to Europe's electricity markets.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "NOTHS",
+  "website": "http://notonthehighstreet.com",
+  "status": "active",
+  "stage": null,
+  "description": "NOTHS: Notonthehighstreet.com is the leading curated online marketplace connecting the best small creative businesses, with the world.  The site has more than 5,000 partners with over 170,000 products.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Notion",
+  "website": "http://notion.so",
+  "status": "active",
+  "stage": null,
+  "description": "Notion: The all-in-one workspace for your notes, tasks, wikis, and databases.",
+  "sector": "business-applications, future-of-work",
+  "fund": "index"
+ },
+ {
+  "name": "Nourish",
+  "website": "https://www.nourish.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Nourish: Expanding access to evidence-based nutritional counseling from registered dietitians.",
+  "sector": "Healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "Nova Credit",
+  "website": "http://novacredit.com",
+  "status": "active",
+  "stage": null,
+  "description": "Nova Credit: Your gateway to international credit bureaus.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Novus",
+  "website": "http://novus.com",
+  "status": "active",
+  "stage": null,
+  "description": "Novus: Novus is a portfolio analytics company founded by a group of investors, engineers and data scientists. The company works with top hedge funds, sovereign wealth funds, endowments, pensions and other institutional investors, managing almost $1 trillion, to help them generate higher returns.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Nuvo",
+  "website": "http://nuvo.com",
+  "status": "active",
+  "stage": null,
+  "description": "Nuvo: Nuvo is building the infrastructure to accelerate the trade of physical goods.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Okendo",
+  "website": "https://www.okendo.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Okendo: The New Standard in Customer Reviews.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "OpenX",
+  "website": "http://openx.com",
+  "status": "active",
+  "stage": null,
+  "description": "OpenX: A global leader in digital and mobile ad tech, OpenX enables digital media companies to unleash their full economic power by maximising ad revenue. OpenX solutions provide a unique SaaS platform which combines ad serving, a real-time bidding exchange, yield optimisation and content valuation.",
+  "sector": "Media",
+  "fund": "index"
+ },
+ {
+  "name": "Oratomic",
+  "website": "http://oratomic.com",
+  "status": "active",
+  "stage": null,
+  "description": "Oratomic: Building the world's first fault-tolerant quantum computers.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Otrium",
+  "website": "http://www.otrium.com",
+  "status": "active",
+  "stage": null,
+  "description": "Otrium: Otrium’s mission is to build the world’s leading online outlet, connecting previous collections with fashion-lovers.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Otterize",
+  "website": "https://otterize.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Otterize: Otterize provides an open source intent-based access control (IBAC) solution for DevOps and platform engineers to automate the secure connection of services to each other and to infrastructure.",
+  "sector": "business-applications, open-source",
+  "fund": "index"
+ },
+ {
+  "name": "Outbrain",
+  "website": "http://outbrain.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Outbrain: Outbrain is the Internet’s leading personalised content discovery platform. By recommending news, blogs and other content to a receptive reader, at the right moment, Outbrain enables publishers to boost traffic and marketers to reach audiences at their most engaged.",
+  "sector": "Media",
+  "fund": "index"
+ },
+ {
+  "name": "OZON.ru",
+  "website": "http://ozon.ru",
+  "status": "ipo",
+  "stage": null,
+  "description": "OZON.ru: Russia’s leading digital retailer, Ozon.ru covers bases from entertainment to software and fashion to logistics. With 50% of Russians now online, the company is growing fast across its divisions which include Sapato, O-Courier and Ozon.travel.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Parallel",
+  "website": "http://beparallel.com",
+  "status": "active",
+  "stage": null,
+  "description": "Parallel: Parallel is a software solution that builds AI agents to automate administrative tasks in hospitals. Using Large Language Models and Computer Use Agents, Parallel leverages medical data to streamline operations and improve quality of care.",
+  "sector": "aiml, healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "Parallel Web Systems",
+  "website": "https://parallel.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Parallel Web Systems: Web Search Infrastructure for AIs",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Patreon",
+  "website": "http://patreon.com",
+  "status": "active",
+  "stage": null,
+  "description": "Patreon: Harkening back to old-school patronage, Patreon enables fans and sponsors to support artists and creators. Patrons pledge to support artists and creators on a reoccurring basis for each work created, empowering a new generation of creators the ability to make a living off of their passions.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Pave",
+  "website": "http://pave.com",
+  "status": "active",
+  "stage": null,
+  "description": "Pave: Make smarter compensation decisions",
+  "sector": "Talent",
+  "fund": "index"
+ },
+ {
+  "name": "Peanut",
+  "website": "http://peanut-app.io",
+  "status": "active",
+  "stage": null,
+  "description": "Peanut: Peanut is the first social network for women to build strong ties from the moment they consider motherhood - enabling women at similar life stages to connect.",
+  "sector": "Media",
+  "fund": "index"
+ },
+ {
+  "name": "Pepper",
+  "website": "http://www.usepepper.com",
+  "status": "active",
+  "stage": null,
+  "description": "Pepper: The eCommerce Platform for Food Distributors",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Persona",
+  "website": "https://withpersona.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Persona: Automate your identity verification process throughout the customer lifecycle — from collecting information to making decisions — all in one place.",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Personio",
+  "website": "http://personio.com",
+  "status": "active",
+  "stage": null,
+  "description": "Personio: Personio is the HR operating system that lets HR managers store, process, and manage all employee data through one holistic solution.",
+  "sector": "business-applications, talent",
+  "fund": "index"
+ },
+ {
+  "name": "Phaidra",
+  "website": "https://www.phaidra.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Phaidra: The AI-powered virtual plant operator that helps mission-critical facilities like data centers improve energy efficiency, plant stability, and sustainability.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Physical Intelligence",
+  "website": "https://www.pi.website/",
+  "status": "active",
+  "stage": null,
+  "description": "Physical Intelligence: Physical Intelligence is bringing general-purpose AI into the physical world.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Pilot",
+  "website": "http://pilot.com",
+  "status": "active",
+  "stage": null,
+  "description": "Pilot: Pilot puts premium bookkeeping within reach of every business. We’re building a reliable, time saving, bookkeeping solution that recognizes the individual strengths of both software and people — and then brings them together.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Piñata Farms",
+  "website": "https://www.pinatafarm.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Piñata Farms: None",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Pitch",
+  "website": "http://pitch.com",
+  "status": "active",
+  "stage": null,
+  "description": "Pitch: Pitch, a software technology company started in January 2018 in Berlin, is building a new platform for presentations and content collaboration for individuals and teams.",
+  "sector": "business-applications, future-of-work",
+  "fund": "index"
+ },
+ {
+  "name": "Plaid",
+  "website": "http://plaid.com",
+  "status": "active",
+  "stage": null,
+  "description": "Plaid: The easiest way for users to connect their bank accounts to an app.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Plain",
+  "website": "https://plain.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Plain: The API-first customer support platform",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "PointFive",
+  "website": "https://www.pointfive.co/",
+  "status": "active",
+  "stage": null,
+  "description": "PointFive: Expose unseen cloud waste and ensure ongoing cost efficiency. All on a single platform.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Pomelo",
+  "website": "http://pomelo.la",
+  "status": "active",
+  "stage": null,
+  "description": "Pomelo: None",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Printify",
+  "website": "http://www.printify.com",
+  "status": "active",
+  "stage": null,
+  "description": "Printify: Create and sell custom products",
+  "sector": "business-applications, retail",
+  "fund": "index"
+ },
+ {
+  "name": "Prodigy Finance",
+  "website": "http://prodigyfinance.com",
+  "status": "active",
+  "stage": null,
+  "description": "Prodigy Finance: Prodigy Finance is a lending platform that provides postgraduate loans to international students from 150 countries attending the world’s top universities, who would otherwise have no alternative access to finance.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Productboard",
+  "website": "http://productboard.com",
+  "status": "active",
+  "stage": null,
+  "description": "Productboard: Make products that matter, together.",
+  "sector": "business-applications, future-of-work",
+  "fund": "index"
+ },
+ {
+  "name": "Qapa",
+  "website": "http://qapa.fr",
+  "status": "ipo",
+  "stage": null,
+  "description": "Qapa: Qapa is a job matching marketplace that connects job seekers and recruiters with a matching algorithm.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Quantive",
+  "website": "https://quantive.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Quantive: Quantive enables your enterprise to orchestrate strategy and deliver business results with OKRs - at scale.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Quill",
+  "website": "http://quill.chat",
+  "status": "ipo",
+  "stage": null,
+  "description": "Quill: Messaging for people & teams that focus.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Quilter",
+  "website": "http://quilter.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Quilter: The first physics-driven AI to fully automate complete PCB layout.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Raisin",
+  "website": "http://raisin.com",
+  "status": "active",
+  "stage": null,
+  "description": "Raisin: The first online marketplace for European deposits, Raisin offers customers better deposit rates than average bank, and gives banking partners from the EU/EEA access to Europe’s largest savings pool.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "ReadySet",
+  "website": "http://readyset.io",
+  "status": "active",
+  "stage": null,
+  "description": "ReadySet: Same database, (much) faster queries",
+  "sector": "Data",
+  "fund": "index"
+ },
+ {
+  "name": "Rebtel",
+  "website": "http://rebtel.com",
+  "status": "active",
+  "stage": null,
+  "description": "Rebtel: As one of the most successful international calling companies in the world, Rebtel has a vision of breaking down borders. Rebtel’s portfolio of calling products lets a global audience of several million users make international calls at the cheapest possible rates.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Rec Room",
+  "website": "http://rec.net",
+  "status": "active",
+  "stage": null,
+  "description": "Rec Room: Rec Room is a virtual social club where you create and play games with friends.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Remote",
+  "website": "http://remote.com",
+  "status": "active",
+  "stage": null,
+  "description": "Remote: Remote helps amazing companies hire the best talent all over the world. They take care of global payroll, benefits, compliance and taxes, so companies can focus on their people.",
+  "sector": "Future Of Work",
+  "fund": "index"
+ },
+ {
+  "name": "Resistant AI",
+  "website": "https://resistant.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Resistant AI: Resistant AI helps to protect AI systems from targeted manipulation, adversarial machine learning attacks and advanced fraud",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Revel",
+  "website": "http://revel.io",
+  "status": "active",
+  "stage": null,
+  "description": "Revel: Revel is a unified software platform for hardware test and control.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "RevenueCat",
+  "website": "https://www.revenuecat.com/",
+  "status": "active",
+  "stage": null,
+  "description": "RevenueCat: The better way to build subscription apps.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Revolut",
+  "website": "http://revolut.com",
+  "status": "active",
+  "stage": null,
+  "description": "Revolut: Revolut's global mission is for every person and business to do all things money — spending, saving, investing, borrowing, managing, and more — in just a few taps.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Robinhood",
+  "website": "http://robinhood.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Robinhood: Robinhood is a zero commission stock trading app.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Roblox",
+  "website": "http://roblox.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Roblox: Roblox is the largest social platform for play that allows kids to imagine, create, and play together in immersive 3D worlds.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Rohlik",
+  "website": "http://rohlik.cz",
+  "status": "active",
+  "stage": null,
+  "description": "Rohlik: Europe’s leading online grocery business founded in 2014 with the vision to elevate the standards of food quality and service in the grocery industry.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Roli",
+  "website": "http://roli.com",
+  "status": "active",
+  "stage": null,
+  "description": "Roli: A design-led technology start-up, ROLI make hardware and software products and services designed to increase the bandwidth of interaction between people and technology.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Ryft",
+  "website": "http://ryft.io",
+  "status": "active",
+  "stage": null,
+  "description": "Ryft: Ryft is the only automated Iceberg management solution that maintains and optimizes your Iceberg tables based on your usage patterns, while keeping your lakehouse truly open.",
+  "sector": "Data",
+  "fund": "index"
+ },
+ {
+  "name": "SafetyCulture",
+  "website": "http://safetyculture.com",
+  "status": "active",
+  "stage": null,
+  "description": "SafetyCulture: SafetyCulture provides mobile-first technology that puts safety and quality applications into workers' hands. Companies rely on the SafetyCulture iAuditor app and platform to create smart checklists, conduct on-site inspections, analyze data and share insights in real time.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Sanlo",
+  "website": "https://sanlo.io",
+  "status": "active",
+  "stage": null,
+  "description": "Sanlo: The financial hub for gaming and apps.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Savvy",
+  "website": "https://www.savvywealth.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Savvy: Modern Wealth Management\nfor Modern Professionals",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Scale",
+  "website": "http://scale.com",
+  "status": "active",
+  "stage": null,
+  "description": "Scale: Democratize access to intelligent data.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Science Exchange",
+  "website": "http://scienceexchange.com",
+  "status": "active",
+  "stage": null,
+  "description": "Science Exchange: Science Exchange is a marketplace for scientific collaboration, where researchers can order experiments from the world's best labs.",
+  "sector": "Healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "Scoop",
+  "website": "http://scoopforwork.com",
+  "status": "active",
+  "stage": null,
+  "description": "Scoop: Scoop is the fastest way to plan your next great office day. With Scoop, employees get more out of going in, with easily scheduled in-office days and invites. For HR and workplace leaders, Scoop provides insights on work location trends, office usage, and additional workplace solutions to get the most out of hybrid work.",
+  "sector": "Future Of Work",
+  "fund": "index"
+ },
+ {
+  "name": "Scope",
+  "website": "https://www.getscope.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Scope: None",
+  "sector": "aiml, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Second Home",
+  "website": "http://secondhome.io",
+  "status": "active",
+  "stage": null,
+  "description": "Second Home: Second Home is a creative workspace and cultural venue, bringing together diverse industries, disciplines and types of social businesses.",
+  "sector": "Future Of Work",
+  "fund": "index"
+ },
+ {
+  "name": "Secret Escapes",
+  "website": "http://secretescapes.com",
+  "status": "active",
+  "stage": null,
+  "description": "Secret Escapes: The worst-kept secret in luxury travel, Secret Escapes is a free-to-join members-only flash sales site which offers handpicked exclusive deals on the finest four and five-star hotels and holidays worldwide.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Seedcamp",
+  "website": "http://seedcamp.com",
+  "status": "active",
+  "stage": null,
+  "description": "Seedcamp: Seedcamp is the world’s best connected international seed investment network and Europe’s leading micro-seed investment and mentoring programme.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "SeedLegals",
+  "website": "http://seedlegals.com",
+  "status": "active",
+  "stage": null,
+  "description": "SeedLegals: SeedLegals helps startups manage the entire fundraising process and all related legal documents. The platform helps companies build and negotiate terms sheets, shareholder agreements, cap tables, stock option allocations, EIS approvals, hiring agreements, NDAs and more.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "ServiceTitan",
+  "website": "http://servicetitan.com",
+  "status": "active",
+  "stage": null,
+  "description": "ServiceTitan: The #1 Software for Home Services.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Seso",
+  "website": "https://www.sesolabor.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Seso: Seso is building the first end-to-end recruiting and workforce management platform for the agriculture industry.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Shapeways",
+  "website": "http://shapeways.com",
+  "status": "active",
+  "stage": null,
+  "description": "Shapeways: Shapeways has built the world’s leading 3D printing marketplace and community, enabling individuals to make and share designs with the world. The company 3D-prints products on-demand, meaning that every order is customised and personalised.",
+  "sector": "Retail",
+  "fund": "index"
+ },
+ {
+  "name": "Shopmonkey",
+  "website": "http://shopmonkey.io",
+  "status": "active",
+  "stage": null,
+  "description": "Shopmonkey: The smart & simple way to run your auto shop. Say goodbye to complex software and the chaos of printed paper. Say hello to monkey business.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Signal Sciences",
+  "website": "http://signalsciences.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Signal Sciences: Signal Sciences is a software as a service platform providing security monitoring and defence for your web application.",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Silverfin",
+  "website": "http://silverfin.com",
+  "status": "active",
+  "stage": null,
+  "description": "Silverfin: Silverfin is a real-time connected accounting platform that unifies businesses’ financial data, reporting and communication.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Simile",
+  "website": "http://simile.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Simile: A platform for simulating the future with generative agents.",
+  "sector": "aiml, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Siro",
+  "website": "https://siro.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Siro: Siro is building an AI coach for Field Sales.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Sofía",
+  "website": "http://sofiasalud.com",
+  "status": "active",
+  "stage": null,
+  "description": "Sofía: Sofía is a Mexican healthtech company that aims to change how people approach healthcare through extraordinary experiences, products, and services, impacting the health of millions.",
+  "sector": "Healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "Solvo",
+  "website": "http://solvo.finance",
+  "status": "active",
+  "stage": null,
+  "description": "Solvo: Solvo provides access to quality crypto investments in a new, seamless and transparent way",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Sourceful",
+  "website": "https://www.sourceful.com",
+  "status": "active",
+  "stage": null,
+  "description": "Sourceful: The all-in-one platform for sustainable sourcing",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Spendesk",
+  "website": "http://spendesk.com",
+  "status": "active",
+  "stage": null,
+  "description": "Spendesk: Spendesk rethinks the way employees make company purchases and the way businesses manage all expenses. Instead of wasting time on painful expense reports, tedious approval processes and sharing of company credit cards, Spendesk has developed an innovative solution that gives businesses all the control they require and employees the autonomy they need to get the job done.",
+  "sector": "business-applications, fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Spiko",
+  "website": "http://spiko.io",
+  "status": "active",
+  "stage": null,
+  "description": "Spiko: Transforming the European cash management market through tokenized infrastructure",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Squarespace",
+  "website": "http://squarespace.com",
+  "status": "active",
+  "stage": null,
+  "description": "Squarespace: Squarespace empowers individuals and companies to design, build and maintain bespoke websites that raise the bar for online publishing. By fusing elegant design with robust engineering, the company’s mission is to provide the creative tools that power the future of the web.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Stack Overflow",
+  "website": "https://stackoverflow.com",
+  "status": "active",
+  "stage": null,
+  "description": "Stack Overflow: Stack Overflow empowers the world to develop technology faster through shared knowledge. More than 100 million people visit Stack Overflow every month making it one of the 50 most-visited websites in the world.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Starburst",
+  "website": "http://starburstdata.com",
+  "status": "active",
+  "stage": null,
+  "description": "Starburst: Starburst is the Analytics Engine for All Your Data. The fastest, most efficient query engine for your data warehouse, data lake, or data mesh.",
+  "sector": "Open Source",
+  "fund": "index"
+ },
+ {
+  "name": "Strapi",
+  "website": "http://strapi.io",
+  "status": "active",
+  "stage": null,
+  "description": "Strapi: Strapi is the leading open-source headless CMS.",
+  "sector": "Open Source",
+  "fund": "index"
+ },
+ {
+  "name": "Stytch",
+  "website": "https://www.stytch.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Stytch: User infrastructure for modern applications. Stytch's APIs make it simple to seamlessly onboard, authenticate, and engage users.",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Sublime Security",
+  "website": "https://sublime.security/",
+  "status": "active",
+  "stage": null,
+  "description": "Sublime Security: None",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Subset",
+  "website": "http://www.subset.so",
+  "status": "active",
+  "stage": null,
+  "description": "Subset: Subset is a collaborative spreadsheet on an endless canvas.",
+  "sector": "Future Of Work",
+  "fund": "index"
+ },
+ {
+  "name": "Superconductive",
+  "website": "https://www.superconductive.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Superconductive: Always know what to expect from your data.",
+  "sector": "Data",
+  "fund": "index"
+ },
+ {
+  "name": "Super Evil Megacorp",
+  "website": "http://superevilmegacorp.com",
+  "status": "active",
+  "stage": null,
+  "description": "Super Evil Megacorp: Super Evil Megacorp seeks to destroy the productivity of mankind with endlessly entertaining games.\n\nWe challenge the notion that touch screens are for harvesting crops and slicing fruit. Secretly, tablets are all deadly weapons waiting to be put to use.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Superlinked",
+  "website": "https://superlinked.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Superlinked: Superlinked is a compute and data engineering framework for turning data into vector embeddings.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Supersolid",
+  "website": "http://supersolid.com",
+  "status": "active",
+  "stage": null,
+  "description": "Supersolid: Supersolid is a London-based mobile games studio, whose creations include Super Penguins and Adventure Town.",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Swile",
+  "website": "https://www.swile.co",
+  "status": "active",
+  "stage": null,
+  "description": "Swile: The must-have app for life at work",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Sylvera",
+  "website": "http://sylvera.com",
+  "status": "active",
+  "stage": null,
+  "description": "Sylvera: Sylvera is the world’s first carbon offset ratings provider that leverages geospatial data, machine learning and proprietary climate data to create a reliable and transparent assessment of carbon offset projects.",
+  "sector": "data, fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Tactic",
+  "website": "https://tactic.fyi/",
+  "status": "active",
+  "stage": null,
+  "description": "Tactic: None",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Tactile Games",
+  "website": "http://tactilegames.com",
+  "status": "active",
+  "stage": null,
+  "description": "Tactile Games: None",
+  "sector": "Entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Tacto",
+  "website": "http://tacto.ai/en",
+  "status": "active",
+  "stage": null,
+  "description": "Tacto: Tacto is an AI-based supply-chain operating system tailored specifically to the needs of mid-sized industrial companies.",
+  "sector": "aiml, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Taktile",
+  "website": "https://www.taktile.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Taktile: Machine learning for the financial services industry.",
+  "sector": "business-applications, fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Taxfix",
+  "website": "http://taxfix.de",
+  "status": "active",
+  "stage": null,
+  "description": "Taxfix: The digital tax app that reduces the painful and time consuming process of filing a tax return to a matter of minutes.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Tebi",
+  "website": "http://tebi.co",
+  "status": "active",
+  "stage": null,
+  "description": "Tebi: Tebi is a connected restaurant management system that makes restaurants, cafés, and bars flow. With a seamless platform that connects sales, reservations, payments, kitchen tickets, insights, and more, Tebi is everything a hospitality business needs to run smoothly and plan with confidence. Founded in 2021, Tebi serves thousands of hospitality businesses across Europe.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Tekion",
+  "website": "http://tekion.com",
+  "status": "active",
+  "stage": null,
+  "description": "Tekion: The first and fastest cloud-native automotive retail platform.",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Tema",
+  "website": "https://www.temaetfs.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Tema: ETF platform focused on expert-led, institutional grade thematic ETFs.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Temporal",
+  "website": "http://temporal.io",
+  "status": "active",
+  "stage": null,
+  "description": "Temporal: Build Invincible Apps",
+  "sector": "aiml, open-source",
+  "fund": "index"
+ },
+ {
+  "name": "tessl.io",
+  "website": "http://tessl.io",
+  "status": "active",
+  "stage": null,
+  "description": "tessl.io: Tessl is an open software development platform that reimagines how software is created in the AI era.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Thatch",
+  "website": "https://thatch.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Thatch: Thatch is an all-in-one platform that makes it easy to offer your employees the most personalized healthcare experience.",
+  "sector": "fintech, healthcare",
+  "fund": "index"
+ },
+ {
+  "name": "The Business of Fashion",
+  "website": "http://businessoffashion.com",
+  "status": "active",
+  "stage": null,
+  "description": "The Business of Fashion: Fashion’s answer to The Economist, The Business of Fashion is a one-stop resource and insiders’ guide for fashion creatives, executives and entrepreneurs in over 200 countries.",
+  "sector": "Media",
+  "fund": "index"
+ },
+ {
+  "name": "Thread AI",
+  "website": "http://threadai.com",
+  "status": "active",
+  "stage": null,
+  "description": "Thread AI: Building the next phase of critical AI infrastructure.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Tiney",
+  "website": "http://tiney.co",
+  "status": "active",
+  "stage": null,
+  "description": "Tiney: Find amazing childcare near you",
+  "sector": "Future Of Work",
+  "fund": "index"
+ },
+ {
+  "name": "Tofu",
+  "website": "http://tofuhq.com",
+  "status": "active",
+  "stage": null,
+  "description": "Tofu: Tofu scales B2B marketing campaigns with AI by personalizing omni-channel content across customer segments and repurposing existing content.",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Transcend",
+  "website": "http://transcend.io",
+  "status": "active",
+  "stage": null,
+  "description": "Transcend: Transcend is the data privacy infrastructure that makes it simple to give your users control over their personal data.",
+  "sector": "Data",
+  "fund": "index"
+ },
+ {
+  "name": "Trustpilot",
+  "website": "http://trustpilot.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Trustpilot: Trustpilot is an open community-based platform for sharing real reviews of shopping experiences and connecting online customers with the companies they buy from.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Twelve Labs",
+  "website": "http://twelvelabs.io",
+  "status": "active",
+  "stage": null,
+  "description": "Twelve Labs: Unlock the Potential of Your Video Data",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Typeform",
+  "website": "http://typeform.com",
+  "status": "active",
+  "stage": null,
+  "description": "Typeform: Typeform has reimagined forms and surveys for the smartphone era.",
+  "sector": "future-of-work, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Ubiquity6",
+  "website": "http://ubiquity6.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Ubiquity6: Our mission is to unlock new ways for people to connect in the physical spaces they care about.",
+  "sector": "business-applications, entertainment",
+  "fund": "index"
+ },
+ {
+  "name": "Upollo",
+  "website": "https://upollo.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Upollo: Find and convert repeat trialers, account sharers & more",
+  "sector": null,
+  "fund": "index"
+ },
+ {
+  "name": "Valdera",
+  "website": "https://www.valdera.com/",
+  "status": "active",
+  "stage": null,
+  "description": "Valdera: Valdera is the modern sourcing platform that makes it easy to buy and sell high-quality chemicals and raw materials.",
+  "sector": "aiml, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Venice",
+  "website": "https://www.venice.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Venice: The adaptive privileged access management (PAM) platform for the AI era.",
+  "sector": "aiml, security",
+  "fund": "index"
+ },
+ {
+  "name": "Vetted",
+  "website": "https://vetted.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Vetted: The Internet's Favorite Products",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Vinyl Equity",
+  "website": "http://vinylequity.com",
+  "status": "active",
+  "stage": null,
+  "description": "Vinyl Equity: The transfer agent for modern public companies.",
+  "sector": "business-applications, fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Vizcom",
+  "website": "https://www.vizcom.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Vizcom: Deploying AI to transform the future of industrial product visualization and design at the speed of thought.",
+  "sector": "aiml, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Vooma",
+  "website": "http://vooma.ai",
+  "status": "active",
+  "stage": null,
+  "description": "Vooma: None",
+  "sector": "aiml, data",
+  "fund": "index"
+ },
+ {
+  "name": "Vouch",
+  "website": "http://vouch.us",
+  "status": "active",
+  "stage": null,
+  "description": "Vouch: Vouch Insurance is a new kind of insurance company for startups. Built by founders for founders, we’ve re-designed everything about business insurance from scratch so you can move faster.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Wealthfront",
+  "website": "http://wealthfront.com",
+  "status": "active",
+  "stage": null,
+  "description": "Wealthfront: Wealthfront fuses world-class financial expertise with next generation technology to provide access to the same high quality financial advice offered by major institutions and private wealth managers, without the high account minimums or costs.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Weaviate",
+  "website": "https://weaviate.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Weaviate: The AI Native Vector Database",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "WeTravel",
+  "website": "https://www.wetravel.com/",
+  "status": "active",
+  "stage": null,
+  "description": "WeTravel: A complete booking and payment solution for multi-day and group travel companies of all sizes.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Wise",
+  "website": "http://wise.com",
+  "status": "ipo",
+  "stage": null,
+  "description": "Wise: Wise was launched in 2011 with the vision of making international money transfers cheap, fair, and simple. Today, its multi-currency account helps over 10 million people and businesses manage their money across the world.",
+  "sector": "Fintech",
+  "fund": "index"
+ },
+ {
+  "name": "Wiz",
+  "website": "https://wiz.io",
+  "status": "active",
+  "stage": null,
+  "description": "Wiz: Wiz is a new approach to cloud security that finds the most critical risks and infiltration vectors with complete coverage across the full stack of multi-cloud environments.",
+  "sector": "Security",
+  "fund": "index"
+ },
+ {
+  "name": "Wonderful",
+  "website": "https://www.wonderful.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Wonderful: AI agents that perform like your best team members",
+  "sector": "AI/ML",
+  "fund": "index"
+ },
+ {
+  "name": "Wordsmith AI",
+  "website": "https://www.wordsmith.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "Wordsmith AI: A secure AI workplace built for in-house lawyers.",
+  "sector": "aiml, business-applications",
+  "fund": "index"
+ },
+ {
+  "name": "Workbounce",
+  "website": "http://workbounce.com",
+  "status": "active",
+  "stage": null,
+  "description": "Workbounce: Win deals and wow customers",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Worldover",
+  "website": "https://www.worldover.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Worldover: The all-in-one compliance automation platform for cosmetics brands, manufacturers, suppliers and distributors.",
+  "sector": "Business Applications",
+  "fund": "index"
+ },
+ {
+  "name": "Xata",
+  "website": "https://www.xata.io/",
+  "status": "active",
+  "stage": null,
+  "description": "Xata: Next-generation database for serverless and low-code apps",
+  "sector": "Data",
+  "fund": "index"
+ }
+]

@@ -1,0 +1,1460 @@
+[
+ {
+  "name": "0x Labs",
+  "website": "https://0x.org",
+  "status": "active",
+  "stage": "Series B",
+  "description": "0x Labs is a global technology company at the forefront of blockchain adoption and the architect of trusted Web3 exchange infrastructure 0x. With a mission to “build a tokenized world where all value can flow freely,” they help businesses eliminate the complexity of accessing decentralized markets across all layers of the Web3 exchange stack.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "7AI",
+  "website": "https://7ai.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "7AI empowers enterprises to reimagine security operations, using AI agents to finally deliver security outcomes today. With its Service as Software delivery model, 7AI partners with customers to understand the manual, repetitive, non-human work that wastes human talent and leverages AI agents to ingest alerts, enrich data, perform end-to-end investigations, and let people focus on high value work.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Abnormal",
+  "website": "https://abnormal.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Abnormal AI is a behavioral AI cybersecurity platform that protects people across email and cloud applications. The platform uses a proprietary behavioral foundation model trained on over one billion behavioral signals to detect sophisticated social engineering and AI-generated attacks. The company was founded in 2018 and initiated at Greylock's offices.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Adept",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Useful general intelligence.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "AI Fund",
+  "website": "https://aifund.ai/",
+  "status": "active",
+  "stage": null,
+  "description": "AI Fund is a venture studio that works alongside entrepreneurs, venture funds, and corporate partners to build new companies rapidly and increase their odds of success.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "airbnb",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series A",
+  "description": "A community marketplace for unique spaces.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "AirOps",
+  "website": "https://www.airops.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "AirOps helps brands get found and stay found in the AI era. It’s the content engineering platform helping top marketing teams grow visibility and win in AI search. Teams like Webflow, Klaviyo, Wiz, and Kayak use AirOps to measure their content's performance across SEO and AI platforms, take precise action on the highest-impact opportunities, and measure results, creating a continuous loop of uniqu",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Altara",
+  "website": "https://www.altara.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Altara is building the scientific intelligence platform for physical science companies, from R&D to manufacturing. Its AI agents reason across complex, multimodal technical data to help scientists and engineers resolve failures faster, design better experiments, and accelerate discovery.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Amplify MD",
+  "website": "https://amplifymd.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "AmplifyMD connects medical institutions with a lack of specialty access – often in rural or small regions of the United States – to a network of leading specialists. The company provides both the clinical team as well as the software to streamline and automate virtual care delivery and billing workflows and integrates seamlessly with hospitals’ existing EHRs.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Anthropic",
+  "website": "https://www.anthropic.com/",
+  "status": "active",
+  "stage": "Series F",
+  "description": "Anthropic is an AI safety and research company that builds reliable, interpretable, and steerable AI systems. The company develops frontier models and applies safety techniques across its research and products, including the Claude AI assistant, Claude Code for agentic software development, and Cowork for task and workflow automation.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Antioch logo",
+  "website": "https://antioch.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Antioch enables robotics and autonomy teams to develop, test and validate AI systems in high-fidelity simulation, scaling from a single experiment to thousands of parallel evaluations before real-world deployment.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Apiiro",
+  "website": "https://www.apiiro.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Apiiro Guardian Agent is the control plane for Agentic Development Security. It helps CISOs reduce risk, reduce costs, and meet compliance by seamlessly governing AI coding agents and preventing them from generating vulnerable or non-compliant code before it exists. Fortune 500 companies, including BlackRock, TIAA, USAA, Bloomberg, SoFi, and Shell, rely on Apiiro’s patented Deep Code Analysis tech",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "AppDynamics",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Next generation application performance management.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Arista",
+  "website": null,
+  "status": "ipo",
+  "stage": "Common Stock",
+  "description": "Software-driven cloud networking solutions.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Aspora",
+  "website": "https://www.aspora.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Aspora is building banking solutions for immigrant diasporas starting with the Indian Diaspora. The company helps over 250,000 users remit money and save $15M in fees.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Atomic",
+  "website": "https://atomic.financial/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Atomic simplifies complicated payroll integrations with a single API that covers over 450 unique payroll connections, including incumbent payroll providers, bespoke enterprise solutions, modern HR tech providers, gig-economy platforms and government systems. Atomic’s payroll APIs cover 75% of the U.S. workforce with a combined reach of 120 million workers.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Atomic AI",
+  "website": "https://atomic.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Atomic is harnessing the cutting-edge fusion of machine learning and structural biology to unlock the next generation of RNA-centric medicines, from RNA-targeted small molecules to RNA-based therapeutics.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Aurora",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series A",
+  "description": "Self-driving freight is here.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Ava",
+  "website": "https://www.meetava.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Ava was made to give people financial freedom and success. The company gives members simple tools designed to make saving easier, and building credit more accessible.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Ava Protocol",
+  "website": "https://avaprotocol.org/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Ava Protocol is an intent-based Eigenlayer AVS that seamlessly enables private autonomous transactions for numerous use cases, such as DeFi, NFTs, and games.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "AVI Networks",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Delivering software-defined application services.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Awake",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Advanced security analytics.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Axiamatic",
+  "website": "https://www.axiamatic.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Axiamatic is the agentic control plane for enterprise transformation. Its platform continuously monitors complex programs, surfaces risks early, and delivers the context and recommendations every stakeholder needs to act — so enterprises can run transformations with the speed, visibility, and predictability that human teams alone cannot achieve.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Baseten",
+  "website": "https://www.baseten.co/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Baseten is an AI inference infrastructure company that enables developers and enterprises to deploy, scale, and run machine learning models in production. The platform processes over one billion inference calls per day across 18 cloud providers.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Bedrock Data",
+  "website": "https://www.bedrockdata.ai",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Bedrock Data is at the forefront of revolutionizing data security in the cloud and GenAI era.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Blend",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series D",
+  "description": "Consumer lending technology platform.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Blockaid",
+  "website": "https://blockaid.io",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Blockaid provides an end-to-end solution that can help any company building in the space keep their users safe - including tools like smart contract monitoring, transaction simulation, dApp scanning, token security tools, on-chain and off-chain threat hunting capabilities, and more.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Boost",
+  "website": "https://boost.xyz/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Boost is a distributed incentives network. With Boost, anyone can incentivize any on-chain action with any token reward.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Braintrust",
+  "website": "https://www.braintrust.dev/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Braintrust is an AI observability platform that enables teams to evaluate, test, and monitor AI applications in production. The platform provides tools for tracing, prompt engineering, dataset versioning, and automated scoring, helping engineering teams catch regressions before they reach users.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Bretton AI",
+  "website": "https://www.bretton.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Bretton AI is the leading AI platform for financial crime operations. Regulated banks and global financial institutions trust Bretton AI’s agents to staff mission-critical workflows across KYC, AML, sanctions, and ongoing monitoring.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Builder.io",
+  "website": "https://www.builder.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Builder.io is a drag and drop visual builder that works with any site, app, and ecommerce store. It enables digital teams — ecommerce, product, marketing, growth — to move faster by breaking free from constantly relying on developers.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "ByteDance logo",
+  "website": "https://www.bytedance.com/en/",
+  "status": "active",
+  "stage": "Series D",
+  "description": "ByteDance is a global technology company that builds content, entertainment, and productivity products powered by artificial intelligence. Its products include TikTok and Douyin for short-form video, CapCut for video creation and editing, and Lark for workplace collaboration.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Cato Networks",
+  "website": "https://www.catonetworks.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Cato is the world’s first SASE platform, converging SD-WAN and network security into a global cloud service. Cato optimizes and secures application access for all users and locations.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Censys",
+  "website": "https://censys.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Censys maintains the authoritative map of global Internet infrastructure used by organizations worldwide to uncover risks faster, respond more effectively, and prevent breaches before they happen.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Chia",
+  "website": "https://www.chia.net/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Founded by Bram Cohen, the inventor of the BitTorrent network, Chia Network is building a better blockchain and smart transaction platform which is more decentralized, more efficient, and more secure.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Chronosphere",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Cloud-native observability.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Cleo",
+  "website": "https://hicleo.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Cleo is the only global, holistic family care platform supporting individuals throughout every life stage. Cleo provides virtual coaching, concierge support, and navigation to resources and benefits so families can be happier and healthier both at home and at work.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Clockwise",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Time management for teams.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Cloudera",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "The enterprise data cloud company.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Coda",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "A new doc for teams.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Coffee",
+  "website": "https://www.coffee.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Coffee is an AI-first CRM for small and medium businesses. It can be used as a standalone CRM, or in conjunction with existing CRMs, like Salesforce and Hubspot.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Cogent",
+  "website": "https://www.cogent.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cogent Security is the company pioneering the world’s first AI taskforce for vulnerability management. The platform delivers a suite of cross-functional AI agents with expert-level reasoning to autonomously execute time-intensive tasks across the vulnerability management lifecycle.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Cognition logo",
+  "website": "https://cognition.com/",
+  "status": "active",
+  "stage": "Series E",
+  "description": "Cognition is building collaborative AI teammates that enable engineers to focus on more interesting problems and empower engineering teams to strive for more ambitious goals.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Coinbase",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series D",
+  "description": "Creating an open financial system for the world.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Common Room",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Complete pipeline intelligence.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Cresta",
+  "website": "https://cresta.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Cresta is an enterprise AI company with the mission of enabling everyone to start as an expert on their first day on the job. Spun out of the Stanford AI lab and chaired by Google-X founder Sebastian Thrun, Cresta brings together industry-leading AI experts, proven leadership, and top-tier investors.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Crew",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "The leading digital workplace for frontline teams.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Cribl",
+  "website": "https://cribl.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cribl is a data infrastructure company that gives enterprises control over their observability and security telemetry, routing, reducing, and enriching data before it reaches its destination. The platform is used by half of the Fortune 100.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Cylake",
+  "website": "https://cylake.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Cylake is developing a complete, AI-native, data-driven cybersecurity platform intended for on-premises and private environments. The company was founded to address the challenges faced by the world's largest and most regulated organizations and institutions.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Dazz",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "The cloud security remediation platform.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Delphix",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Delivering virtual data on demand.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Demisto",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series C",
+  "description": "Security orchestration, automation, and response (SOAR) platform.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Discord",
+  "website": "https://discord.com/",
+  "status": "active",
+  "stage": "Series D",
+  "description": "Discord is a communication platform for real-time voice, video, and text interactions across communities and friend groups. Originally built for gamers, Discord now serves everyone from study groups to art communities, with over 200 million monthly active users.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Docker",
+  "website": "https://www.docker.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Docker helps developers bring their ideas to life by conquering the complexity of app development. Actively used by millions of developers around the world, Docker Desktop and Docker Hub provide unmatched simplicity, agility and choice.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Domo",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series C",
+  "description": "Business intelligence for the cloud.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Dropbox",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "The one place to keep life organized and keep work moving.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Entrepreneur First",
+  "website": "https://www.joinef.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Founded by Alice Bentinck and Matt Clifford, Entrepreneurs First is a category-defining global investor in entrepreneurial talent.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Espresso",
+  "website": "https://www.espressosys.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Espresso Systems is building the infrastructure and tools needed for more safe, open, and performant on-chain experiences.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Fable",
+  "website": "https://fablesecurity.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Fable Security delivers the human risk platform that directly shapes employee behavior. Designed for simplicity and enterprise scale, our agentic platform synthesizes complex employee data, pinpoints risky behaviors, and deploys highly-relevant interventions to people automatically, in real time, right where they work.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Facebook",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "The world’s leading social network.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Fermat",
+  "website": "https://www.fermatcommerce.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "FERMÀT is the next generation of influencer driven e-commerce, where influencers and brands collide. FERMÀT provides the tooling and the network to enable distributed commerce.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Figma",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series A",
+  "description": "Design together.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Frec",
+  "website": "https://frec.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Frec is transforming complex financial products that have traditionally been available through wealth advisors into automated, easy-to-use technology accessible to everybody.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Gem",
+  "website": "https://www.gem.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Gem is an all-in-one recruiting platform that integrates with LinkedIn, email, and Applicant Tracking Systems (ATS). It enables data-driven, world-class recruiting teams to find, engage, and nurture top talent.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Gladly",
+  "website": "https://www.gladly.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Gladly is a radically personal customer service platform. Unlike legacy customer service platforms that are case centric, Gladly is designed with people at the center and uniquely enables a single lifelong customer conversation from voice to modern messaging.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "GoFundMe",
+  "website": "https://gofundme.com",
+  "status": "active",
+  "stage": "Series A",
+  "description": "GoFundMe is the world’s largest and most trusted free online fundraising platform. The GoFundMe community has raised over $9 billion from more than 120 million donations for people, causes, and organizations.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Gretel",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Create safe, shareable data.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Handshake",
+  "website": "https://handshake.org/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Handshake is a decentralized, permissionless naming protocol where every peer is validating and in charge of managing the root DNS naming zone with the goal of creating an alternative to existing Certificate Authorities and naming systems.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Highstock",
+  "website": "https://www.highstock.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Highstock is the leading technology platform for brands with unsold inventory to find trustworthy global wholesale buyers.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Houseparty",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Face to face social network.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Included Health",
+  "website": "https://includedhealth.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Included Health is raising the standard of healthcare for everyone. It breaks down barriers to care with a personalized, end-to-end healthcare experience for every person in every community.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Inflection",
+  "website": "https://inflection.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Inflection is an AI studio, incubated at Greylock. Inflection is driven by a simple mission: to create a personal intelligence for everyone.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Innovium",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Next generation infrastructure solutions.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Instagram",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "Fast beautiful photo sharing.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Instawork",
+  "website": "https://www.instawork.com/",
+  "status": "active",
+  "stage": "Series C",
+  "description": "Instawork is the leading flexible staffing solution for local, hourly professionals. Its digital marketplace connects thousands of businesses and more than one million workers in the U.S.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Inventa",
+  "website": "https://inventa.com.br/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Inventa is a B2B marketplace that connects brands and retailers on an easy to use platform, offering a comprehensive portfolio at suitable prices.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "JubileeTV",
+  "website": "https://getjubileetv.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "JubileeTV (formerly Caavo) connects users’ phones directly to a senior relative or friend’s TV, so they can control it remotely. Users can fix the TV, change the channel, start a video call, and more — no matter where they are.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Kodem",
+  "website": "https://www.kodemsecurity.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Kodem is redefining application security for fast-moving teams. Kodem Dynamic is the industry’s only software composition analysis platform that uses runtime intelligence to determine actual application risk.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Lapse",
+  "website": "https://lapse.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Lapse transforms your iPhone into a camera for living in the moment and photo journal for close friends.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Lightfield",
+  "website": "https://lightfield.app/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Lightfield is a next-generation CRM that automatically captures every customer interaction—from emails and meetings to support tickets—and turns them into structured, queryable data.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "LinkedIn",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series B",
+  "description": "The world’s leading professional network.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Lithos",
+  "website": "https://www.lithoscarbon.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Carbon removal using the power of enhanced rock weathering. Lithos accelerates mineral weathering by spreading basalt on croplands to increase dissolved inorganic carbon with eventual storage as ocean carbonates.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "LlamaIndex",
+  "website": "https://www.llamaindex.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "LlamaIndex offers a practical toolkit that empowers any developer to unlock the full capabilities and use cases of LLMs on top of their own data. It can be used with any LLM and offers an easy to use and optimized experience.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Lyra",
+  "website": "https://www.lyrahealth.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Lyra helps companies improve access to effective, high-quality mental health care for their employees and their families. With Lyra’s digital care platform and elite network of coaches, therapists, and psychiatrists, finding care is easier, more personalized, and more effective.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Magic Eden",
+  "website": "https://magiceden.io/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Magic Eden is a leading NFT marketplace on Solana. Their mission is to be the destination for discovering, trading, and creating NFTs.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Magical",
+  "website": "https://www.getmagical.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "With no integrations and just a simple keystroke, Magical can move data across your websites and apps, speeding up workflows like messaging, data-entry, populating spreadsheets and more. Over 10,000 businesses use Magical today.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Mammoth Media",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "The world's only mobile-first media company.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Mandolin",
+  "website": "https://www.mandolin.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Mandolin is the leading AI automation platform for specialty drug access. The company’s AI agents act just like a best employee, completing tasks like reasoning about clinical policies, calling payers, parsing faxes and handwritten notes, and making decisions across entire workflows.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Medium",
+  "website": "https://medium.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Medium is a subscription publishing platform with 120 million monthly readers. It delivers journalistic rigor alongside insights from thousands of publications and diverse voices from across the web in an elegant, personalized, and entirely ad-free experience.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Modular",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "AI development platform.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Multi",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Talk live instead of typing.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "musical.ly",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Instant music videos.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Natoma",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "A platform to secure, automate, and govern Non-Human Identities.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Nauto",
+  "website": "https://www.nauto.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "AI-powered driver behavior modification technology.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Neeva",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Neeva is search re-imagined — always ad-free, private, and deeply personal.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Netic",
+  "website": "https://www.netic.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Netic combines real-time AI agents with automated marketing campaigns to capture every potential lead across calls, texts, online widgets, and third party channels, and proactively uncovers new prioritized opportunities to dramatically boost revenue.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Nextdoor",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series C",
+  "description": "Private social network for your neighborhood.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Niteshift",
+  "website": "https://niteshift.dev/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Niteshift helps companies capture the productivity gains of agentic software development. Its platform gives coding agents the runtime, context, compute, and verification loop they need, so teams can ship faster.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Notable",
+  "website": "https://notablehealth.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Notable helps forward-thinking health organizations automate from the front desk to the back office, using digital assistants and intelligent automation.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Novi",
+  "website": "https://www.noviconnect.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Novi is the infrastructure powering brand growth in AI commerce. By connecting brands, certification bodies, and major retailers, Novi ensures verified product data is accurate, consistent, and surfaced where shoppers and AI models search.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Nuro",
+  "website": "https://nuro.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Nuro is a self-driving technology company building a universal autonomy platform that licenses across robotaxis, commercial fleets, and personal vehicles. The Nuro Driver is applied across nine vehicle platforms and has logged over one million autonomous miles with zero at-fault incidents. Nuro has partnered with Uber and Lucid to deploy over 20,000 autonomous vehicles.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Oak  logo",
+  "website": null,
+  "status": "active",
+  "stage": "Seed",
+  "description": "Oak's AI-native platform replaces fragmented legacy identity governance tools with a single, continuously updated control plane that governs every identity across an organization, whether human, machine, or AI agent.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Obsidian Security",
+  "website": "https://www.obsidiansecurity.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Obsidian provides full visibility, runtime protection, and continuous governance across every application, agent, and integration an enterprise runs on.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Okta",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "On-demand identity and access management.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Onehouse",
+  "website": "https://onehouse.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Onehouse delivers a new bedrock for data, through a cloud-native managed lakehouse service built on Apache Hudi, which was created by the founding team while they were at Uber.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Opal Security",
+  "website": "https://opal.dev/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Opal is the access control plane for every identity, from employees to service accounts to AI agents. Its AI understands the CISO's context with a security engineer's precision, giving security teams real-time visibility, policy-as-code, and continuous control over who and what can reach every system.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "OpenAI",
+  "website": "https://openai.com/",
+  "status": "active",
+  "stage": "Series B+",
+  "description": "OpenAI is an AI research and deployment company building frontier models and products including ChatGPT, the GPT model family, and enterprise AI tools. The company focuses on closing the gap between what AI makes possible and how people, companies, and countries use it day to day.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "OpenDNS",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Internet infrastructure security and services.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Oportun",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series A",
+  "description": "Consumer lending to the Hispanic community.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Optic",
+  "website": "https://www.optic.inc",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Optic Inc., an AI drug discovery company, are the creators of Bioptic.io — a proprietary ligand-based molecular search AI. Bioptic identifies small molecules by their activity-expressing fingerprints, assisting drug hunters in discovering a diverse set of candidates.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Orb",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Usage-based billing and pricing platform.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Palo Alto Networks",
+  "website": null,
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "The global cybersecurity leader.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Pandora",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series F",
+  "description": "Internet music and radio discovery service.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Parallax logo",
+  "website": "https://parallax.ai/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Parallax builds gas turbines designed for the needs of AI data centers — modular, fast to deploy, and engineered to close the gap between surging AI energy demand and the grid's limited capacity.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Paramark",
+  "website": "https://paramark.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Paramark is a platform that gives marketing teams the ability to measure the true incremental impact of their investments and make spending decisions with confidence.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "PayJoy",
+  "website": "https://www.payjoy.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "PayJoy’s mission is to unlock access to technology and credit for billions of people in emerging markets. The company partners with leading retailers, lenders, and device manufacturers around the world to help them reach new customer segments.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Pepper",
+  "website": "http://www.usepepper.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Pepper is the eCommerce platform for food distributors. Thousands of restaurants, grocery stores, and convenience stores across North America order from their distributors on an ordering system that’s powered by Pepper.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Pinata",
+  "website": "https://www.pinata.cloud/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Pinata started by solving one core problem: how to make data verifiable and reliable in distributed environments. That infrastructure now supports billions in transaction volume.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Pine",
+  "website": "https://www.pine.ca/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Pine is transforming the outdated and complicated home financing process in Canada by creating a simpler, faster, and better experience.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Portals",
+  "website": "https://theportal.to/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "A web-based metaverse built on the Solana blockchain. With a focus on a dense city center and zero-friction UX, Portals is an immersive social space where you can explore, build, and gather with others.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Postscript",
+  "website": "https://postscript.io/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Postscript is the leading ecommerce SMS platform that enables brands to communicate and engage with customers through text message marketing. Built to connect directly with Shopify and Shopify Plus merchants.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Pragma",
+  "website": "https://pragma.gg/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Pragma makes it easier, more affordable, and more scalable for game developers to launch new games by providing a “backend as a service” solution.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Predibase",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Engineering platform for productionizing open-source AI.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Pure Storage",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Cost-effective enterprise flash storage.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Quip",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "The modern productivity suite.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Ramp",
+  "website": "https://ramp.com/",
+  "status": "active",
+  "stage": "Series D",
+  "description": "Ramp is a finance operations platform that combines corporate cards, expense management, bill payments, procurement, and travel into a single system designed to help companies spend less and close their books faster.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Red Hat",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Open source for the enterprise.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Redfin",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series D",
+  "description": "Customer-first real estate brokerage.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Reduct",
+  "website": "https://reduct.video/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Reduct transcribes teams' recordings and allows everyone to search, edit, and share video — as easily as text.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Resolve AI",
+  "website": "https://www.resolve.ai",
+  "status": "active",
+  "stage": "Seed",
+  "description": "ResolveAI is an applied AI company building autonomous production engineering tools that respond to alerts, perform root cause analysis, and resolve incidents. The platform is designed to make on-call stress-free for engineering teams.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Responsiv",
+  "website": "https://responsiv.ai/",
+  "status": "active",
+  "stage": "Pre-seed",
+  "description": "Responsiv is the copilot for legal know-how. Specifically designed for in-house attorneys, it cuts down on research time by providing direct, verifiable answers.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Revolut",
+  "website": "https://www.revolut.com/",
+  "status": "active",
+  "stage": "Growth",
+  "description": "Revolut gives people and businesses more control over their money. Its platform brings together everyday spending, saving, investing, payments, and international transfers for more than 75 million customers worldwide.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Rhumbix",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Mobile tools designed for the blue-collar workforce.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Roblox",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series F",
+  "description": "Next generation entertainment platform.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Rockset",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Search and analytics for the AI era.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Rubrik",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Securing the world's data.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "ServiceNow",
+  "website": null,
+  "status": "ipo",
+  "stage": "Common Stock",
+  "description": "Digital workflows that let employees work the way they want to.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Shortcut",
+  "website": "https://www.shortcut.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Shortcut (formerly Clubhouse Software) is the collaborative home for modern software teams that is fast, enjoyable, loved by developers, and easy-to-use so teams can work cross-functionally on building products that their customers love.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Skyhigh",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Discover, analyze and control the usage and risk of all your cloud services.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Snorkel AI",
+  "website": "https://www.snorkel.ai",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Founded out of the Stanford AI Lab in 2019, Snorkel AI helps leading AI labs and enterprises build the data and environments behind high-performing frontier and agentic AI. The company combines platform technology with research-driven data development to create datasets, benchmarks, evals, and custom solutions for real-world AI systems. Its work includes leading the development of Senior SWE-Bench",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Solv",
+  "website": "https://www.solvhealth.com/",
+  "status": "active",
+  "stage": "Series B",
+  "description": "Solv is building the AI-powered infrastructure that makes everyday healthcare effortless. The platform powers over 100M visits, connecting patients to same-day care within 5 miles of home and helping providers deliver faster, more modern experiences. From instant booking to automated payments and zero phone calls, Solv is simplifying care for millions of patients and thousands of providers nationw",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Sonder",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series B",
+  "description": "Beautiful spaces built for travel and life.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Sqreen",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Modern application security platform.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "StackBlitz",
+  "website": "https://stackblitz.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "StackBlitz is on a mission to bring web development into the browser. Trusted by over 2M developers every month who use StackBlitz for learning, collaboration, open source projects, and at work on world-class development teams.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Sumo Logic",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Next generation log management and analytics company.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "SuperApp logo",
+  "website": "https://superapp.chat/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "SuperApp allows entire teams and the world’s leading AI models to think, debate, and create together in one live thread — from the first idea to the final deliverable.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "SuperMe",
+  "website": "https://superme.ai/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "With SuperMe, professionals can share their perspectives on topics they are experts in, and users can get instant insights and advice from professionals they admire. SuperMe profiles are trained on a professional’s content.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "TellApart",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Predictive customer analytics.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Tenzai",
+  "website": "https://www.tenzai.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Tenzai is an AI-native cybersecurity company building cutting-edge AI hackers to ensure enterprises deliver unbreakable code. Its platform actively hacks, exploits, and helps fix vulnerabilities across enterprise software - continuously and at scale.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Tin Can",
+  "website": "https://tincan.kids/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Based in Seattle, WA, Tin Can was founded with a simple belief: connection doesn’t have to be complicated to be meaningful. The Tin Can is a landline, reinvented for friends—a screen-free, ad-free, text-free phone that allows kids to stay in touch while encouraging real conversation and independence.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "TruEra",
+  "website": null,
+  "status": "acquired",
+  "stage": "Seed",
+  "description": "Analyze machine learning. Improve model quality. Build trust.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Uplimit",
+  "website": "https://uplimit.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Uplimit is on a mission to upskill the world’s workforce, achieving quality at scale by leveraging community and technology. Uplimit offers cohort-based professional courses with industry-leading engagement and career-changing impact that can scale to thousands of learners.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Upwind",
+  "website": "https://www.upwind.io/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Upwind is the runtime-powered CNAPP that protects everything businesses run in the cloud with real-time insights. Upwind discovers what cloud infrastructure and applications are actually doing in real time, and allows businesses to stop threats and proactively fix security risks before they can be exploited.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Validere",
+  "website": "https://validere.com/",
+  "status": "active",
+  "stage": "Series A",
+  "description": "Validere is optimizing the global energy industry through data transparency. It enables industry participants to make better logistics and trading decisions through accurate and timely product quality insights.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Vori",
+  "website": "https://www.vori.com",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Vori is the modern operating system for the grocery industry, giving small and mid-sized supermarkets a performance edge to compete against retail giants and combat macroeconomic forces such as inflation, the labor crisis, the rise of e-commerce, and supply chain issues.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "WarpStream",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "Cloud-native data streaming infrastructure.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Wealthsimple",
+  "website": "https://www.wealthsimple.com/",
+  "status": "active",
+  "stage": "Series E",
+  "description": "Wealthsimple is a financial company on a mission to help everyone achieve financial freedom by providing products and advice that are accessible and affordable. Using smart technology, Wealthsimple makes financial services simple, transparent, and low-cost.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Wisetack",
+  "website": "https://www.wisetack.com/",
+  "status": "active",
+  "stage": "Seed",
+  "description": "Through its suite of APIs, Wisetack embeds financing options into software platforms that thousands of businesses already use. With Wisetack, in-person businesses can offer financing to consumers in minutes.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Wiz",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series F",
+  "description": "Transforming cloud security.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Workday",
+  "website": null,
+  "status": "ipo",
+  "stage": "Seed",
+  "description": "HR, financial and payroll software in the cloud.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Xapo",
+  "website": null,
+  "status": "acquired",
+  "stage": "Series A",
+  "description": "International private bank giving access to US Dollars and Bitcoin.",
+  "sector": null,
+  "fund": "greylock"
+ },
+ {
+  "name": "Zuora",
+  "website": null,
+  "status": "ipo",
+  "stage": "Series D",
+  "description": "On-demand subscription commerce and billing solutions.",
+  "sector": null,
+  "fund": "greylock"
+ }
+]
