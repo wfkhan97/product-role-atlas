@@ -1,0 +1,25 @@
+ALEX CHEN
+MBA Candidate, Class of 2027 | alex@example.edu
+
+EDUCATION
+MBA, Business School (expected 2027). Coursework: Product Management, Marketing Strategy, Data Analytics, Entrepreneurship, Operations.
+BA Economics, Liberal Arts College (2022)
+
+EXPERIENCE
+Product Management Intern, FinServ Startup (Summer 2026)
+- Conducted 15 user interviews to understand onboarding friction and summarized findings for the product team
+- Wrote a PRD for a budgeting feature and worked with two engineers to scope the MVP
+- Analyzed usage data in Mixpanel to identify drop-off points in the signup funnel
+- Presented recommendations to the founders
+
+Marketing Associate, Consumer Brand (2022 - 2025)
+- Managed social media campaigns and email marketing calendar
+- Ran customer surveys and compiled monthly reports on campaign performance
+- Coordinated with agency partners and the design team on creative assets
+
+PROJECTS
+- Capstone: product strategy for a campus food delivery app; built a roadmap and go-to-market plan, pitched to a panel
+- Hackathon: prototyped a study-group matching app in Figma; won 2nd place
+
+SKILLS
+Excel, SQL (basic), Figma, Mixpanel, Jira

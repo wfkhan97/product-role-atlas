@@ -32,3 +32,4 @@ cd web && python3 -m http.server 8000   # then open http://localhost:8000
 - `data/raw/registry_*.json` — per-company ATS configs; `pipeline/merge_registry.py` merges them (hand-verified > agents > auto) with Fortune tier, industry and sector into `data/registry.json`.
 - `data/raw/jobs/*.json` — raw scraped postings per company (cache).
 - `web/` — static site; `web/data/graph.json` is the only build output it needs.
+- `evals/` — matcher evals: sample resumes with human-written expectations, a runner that mirrors the app's scoring, the recorded baseline, and redesign notes. `node evals/run.mjs`.

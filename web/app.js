@@ -521,14 +521,6 @@
   }
 
   // ---------- matching ----------
-  const RX = TAX.skills.map(s => ({ id: s.id, rx: new RegExp(s.patterns.map(p => "(?:" + p + ")").join("|"), "i") }));
-  const SUBRX = []; for (const [sid, list] of Object.entries(SUBS)) for (const sub of list) SUBRX.push({ id: sub.id, parent: sid, rx: new RegExp(sub.patterns.map(p => "(?:" + p + ")").join("|"), "i") });
-  function tagText(text) {
-    const skills = new Set(), subs = new Set();
-    for (const { id, rx } of RX) if (rx.test(text)) skills.add(id);
-    for (const { id, parent, rx } of SUBRX) if (rx.test(text)) { subs.add(id); skills.add(parent); }
-    return { skills, subs };
-  }
   let matchText = "";
   async function readFile(file) {
     $("#file-status").textContent = `Reading ${file.name}…`;
@@ -537,7 +529,7 @@
         pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
         const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
         const t = [];
-        for (let p = 1; p <= pdf.numPages; p++) { const pg = await pdf.getPage(p); const c = await pg.getTextContent(); t.push(c.items.map(i => i.str).join(" ")); }
+        for (let p = 1; p <= pdf.numPages; p++) { const pg = await pdf.getPage(p); const c = await pg.getTextContent(); t.push(c.items.map(i => i.str + (i.hasEOL ? "\n" : " ")).join("").replace(/[ \t]+\n/g, "\n")); }
         matchText = t.join("\n");
       } else if (/\.docx$/i.test(file.name)) matchText = (await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() })).value;
       else matchText = await file.text();
@@ -569,54 +561,84 @@
   $("#btn-match").onclick = () => openMatch(state.selectedJob);
   $("#match-close").onclick = () => $("#match-modal").hidden = true;
 
+  const MATCH = Matcher.createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G });
+  const PERSONA_TEXT = {
+    experienced_in_role: p => `Reads as a <b>${esc(Matcher.LADDER_LABEL[p.level])}</b> product profile: ${fmtYears(p.pmYears)} in product roles, ${fmtYears(p.years)} overall.`,
+    pivoter: p => `Reads as a <b>career pivot into product</b> from ${p.backgrounds.length ? esc(p.backgrounds.map(b => Matcher.VIA_LABEL[b] || b).join(", ")) : "another field"}: ${fmtYears(p.years)} of experience, none yet under a product title.`,
+    new_to_role: p => `Reads as <b>early-career, new to product</b>${p.pmIntern ? " with a product internship" : ""}${p.years >= 1 ? `, ${fmtYears(p.years)} of other work` : ""}.`,
+  };
+  const fmtYears = y => y < 1 ? "under a year" : `${Math.round(y * 2) / 2} yrs`;
+  const STATUS_CLS = { evidenced: "good", transferable: "amber", thin: "thin", gap: "bad" };
+  function rowTag(row, cls) { return skillById[row.id] ? tag(row.id, cls) : `<span class="tag ${cls}">${esc(row.slotName)}</span>`; }
+  function meter(label, v, sub) { return `<div class="meter"><div class="lbl">${label}</div><div class="val">${v == null ? "–" : fmtPct(v)}</div><div class="bar"><i style="width:${Math.round((v || 0) * 100)}%"></i></div><div class="sub">${sub}</div></div>`; }
+
+  function renderMatch(r, label, isJob) {
+    const p = r.profile; const rows = r.rows;
+    const by = st => rows.filter(x => x.status === st).sort((a, b) => (a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : b.tier === "core" ? 1 : a.tier === "common" ? -1 : 1));
+    const evid = by("evidenced"), trans = by("transferable"), thin = by("thin"), gaps = by("gap");
+    const coreRows = rows.filter(x => x.tier === "core"); const coreHave = coreRows.filter(x => x.status === "evidenced" || x.status === "transferable").length;
+    const col = r.overall >= 0.7 ? "var(--good)" : r.overall >= 0.45 ? "var(--warn)" : "var(--bad)";
+    const shareOf = w => fmtPct(w);
+    const list = (xs, n) => xs.slice(0, n).map(x => esc(x.slotName)).join(", ") + (xs.length > n ? ` and ${xs.length - n} more` : "");
+    const levelNote = r.targetLevel && r.targetLevel !== p.level && p.persona === "experienced_in_role" ? (isJob ? ` This posting is a ${esc(Matcher.LADDER_LABEL[r.targetLevel])} role; the ladder notes below describe that bar.` : ` You chose the ${esc(Matcher.LADDER_LABEL[r.targetLevel])} bar; the ladder notes below describe that bar.`) : "";
+    const thinNamed = evid.filter(x => !x.depth);
+    const mainGaps = gaps.filter(g => g.tier !== "diff");
+    const yoeAsk = r.creds.filter(c => c.id.startsWith("yoe_")).sort((a, b) => b.w - a.w)[0];
+    const creds = r.creds.filter(c => !c.id.startsWith("yoe_"));
+    if (yoeAsk) creds.unshift({ id: "yoe", name: `${yoeAsk.name.replace(" experience", "")} experience asked (you: ${fmtYears(p.years)})`, w: yoeAsk.w, have: yoeAsk.have, detail: null });
+    const missSubs = id => (SUBS[id] || []).filter(s => !r.subs.has(s.id)).map(s => s.name);
+    const evItem = x => `<li>${rowTag(x, STATUS_CLS[x.status])}${x.tier === "core" ? ` <span class="muted small">core · asked in ${shareOf(x.w)}</span>` : ` <span class="muted small">asked in ${shareOf(x.w)}</span>`}${x.lines[0] ? `<span class="q">${esc(x.lines[0].text.slice(0, 160))}</span>` : ""}${x.status === "transferable" && x.signals[0] ? `<span class="say">Postings say it like: <b>${esc(x.signals[0])}</b> <span class="muted">(via ${esc(x.via.map(v => Matcher.VIA_LABEL[v] || v).join(", "))})</span></span>` : ""}${x.ladder ? `<span class="ladder small"><span class="muted">At ${esc(Matcher.LADDER_LABEL[r.targetLevel])}:</span> ${esc(x.ladder)}</span>` : ""}</li>`;
+    const res = $("#match-results"); res.hidden = false;
+    res.innerHTML = `
+      <div class="score-row"><div class="ring" style="background:conic-gradient(${col} ${r.overall * 360}deg, var(--panel-2) 0)"><span style="background:var(--panel);border-radius:50%;width:78px;height:78px;display:grid;place-items:center">${fmtPct(r.overall)}</span></div>
+        <div><p class="headline">${PERSONA_TEXT[p.persona](p)}${levelNote}</p>
+        <p class="muted small" style="margin:0">Against <b>${esc(label)}</b>${isJob ? "" : ` (${r.req.n.toLocaleString()} postings)`}: <b>${coreHave} of ${coreRows.length}</b> must-haves evidenced${coreRows.some(x => x.status === "thin") ? ` (${coreRows.filter(x => x.status === "thin").length} only named)` : ""}${thin.length ? `; ${thin.length} ${thin.length === 1 ? "skill" : "skills"} named but not shown` : ""}${mainGaps.length ? `; missing ${list(mainGaps, 3)}` : "; nothing important missing"}.
+        ${r.whatIfSkills.length ? `Evidence ${r.whatIfSkills.length === 1 ? "that one" : `those ${r.whatIfSkills.length === 3 ? "three" : "two"}`} alone and this reads <b>${fmtPct(r.whatIf)}</b>.` : ""}</p></div></div>
+      <div class="meters">
+        ${meter("Must-haves", r.core, `${coreRows.length} skills in over half of postings`)}
+        ${meter("Common asks", r.common, `${rows.filter(x => x.tier === "common").length} skills in 25–50% of postings`)}
+        ${meter("Depth", r.depth, `evidenced skills shown with specifics or an outcome`)}
+      </div>
+      ${creds.length ? `<div class="credrow">${creds.map(c => `<span class="${c.have ? "ok" : "no"}" title="asked in ${shareOf(c.w)} of postings">${c.have ? "✓" : "○"} ${esc(c.name)}${c.detail ? ` <span class="muted">(${esc(c.detail)})</span>` : ""}</span>`).join("")}</div>` : ""}
+      ${r.industries.length ? `<p class="muted small" style="margin:8px 0 0">Industries hiring for this: ${r.industries.slice(0, 8).map(d => `<span class="${d.have ? "ok" : ""}" style="${d.have ? "color:var(--good)" : ""}">${d.have ? "✓ " : ""}${esc(d.name)} ${shareOf(d.w)}</span>`).join(" · ")}. One industry is enough; the others are context, not gaps.</p>` : ""}
+      <div class="cols" style="margin-top:14px">
+        <div><h4>Evidenced <span class="muted small">(${evid.length})</span></h4><div class="taglist">${evid.map(x => rowTag(x, "good")).join("") || "<span class='muted small'>Nothing yet.</span>"}</div>
+          ${trans.length ? `<h4 style="margin-top:12px">Transferable <span class="muted small">(${trans.length}) — real, but said in another field's words</span></h4><div class="taglist">${trans.map(x => rowTag(x, "amber")).join("")}</div>` : ""}
+          ${thin.length ? `<h4 style="margin-top:12px">Named, not shown <span class="muted small">(${thin.length})</span></h4><div class="taglist">${thin.map(x => rowTag(x, "thin")).join("")}</div><p class="muted small" style="margin:4px 0 0">Listed as a word, or hinted at, but no work or project line shows it.</p>` : ""}</div>
+        <div><h4>Gaps <span class="muted small">(most important first)</span></h4><div class="taglist">${gaps.filter(g => g.tier !== "diff").map(x => rowTag(x, "bad")).join("") || "<span class='muted small'>No gaps among the core and common asks.</span>"}</div>
+          ${gaps.some(g => g.tier === "diff") ? `<p class="muted small" style="margin:8px 0 0">Differentiators you don't show (asked in 10–25%): ${gaps.filter(g => g.tier === "diff").map(x => esc(x.slotName)).join(", ")}.</p>` : ""}
+          ${r.extras.length ? `<p class="muted small" style="margin:8px 0 0">You also show ${r.extras.length} skills this target rarely asks for: ${r.extras.slice(0, 8).map(e => esc(e.name)).join(", ")}.</p>` : ""}</div>
+      </div>
+      ${trans.length ? `<div class="learn"><strong>Say it in product words</strong><p class="muted small" style="margin:4px 0 0">These lines already show the skill. Rewrite them the way postings phrase it so a screener sees it too.</p><ul class="evlist">${trans.slice(0, 5).map(evItem).join("")}</ul></div>` : ""}
+      ${gaps.filter(g => g.tier !== "diff").length ? `<div class="learn"><strong>${p.persona === "new_to_role" ? "Build next" : "Learn or evidence next"}</strong><ol>${gaps.filter(g => g.tier !== "diff").slice(0, 5).map(x => `<li>${rowTag(x, "bad").replace('class="tag bad"', 'class="tag bad" style="border:0;padding:0"')} <span class="muted small">— asked in ${shareOf(x.w)} of postings${x.tier === "core" ? ", core" : ""}</span>${x.build[0] ? `<div class="small">${esc(x.build[0])}</div>` : ""}${x.signals[0] ? `<div class="muted small">A line that would show it: “${esc(x.signals[0])}”</div>` : ""}</li>`).join("")}</ol></div>` : ""}
+      ${thinNamed.length ? `<div class="learn"><strong>Evidenced, but thin</strong><p class="muted small" style="margin:4px 0 6px">You show these, but without the specifics or outcomes postings ask about.</p><ol>${thinNamed.slice(0, 5).map(x => `<li>${esc(x.name)}${missSubs(x.id).length ? ` <span class="muted small">— add: ${missSubs(x.id).slice(0, 3).map(esc).join(" · ")}</span>` : ""}${x.ladder ? `<div class="muted small">At ${esc(Matcher.LADDER_LABEL[r.targetLevel])}: ${esc(x.ladder)}</div>` : ""}</li>`).join("")}</ol></div>` : ""}
+      ${evid.some(x => x.ladder) ? `<details class="more"><summary>What each evidenced skill looks like at the ${esc(Matcher.LADDER_LABEL[r.targetLevel])} bar</summary><ul class="evlist">${evid.filter(x => x.ladder).slice(0, 12).map(evItem).join("")}</ul></details>` : ""}
+      ${r.unmapped.length ? `<details class="more"><summary>${r.unmapped.length} lines we could not map to any requirement</summary><ul class="evlist">${r.unmapped.map(t => `<li class="muted">${esc(t)}</li>`).join("")}</ul><p class="muted small">If these are product work, name the skill the way postings do: roadmap, discovery, launch, metrics, stakeholders.</p></details>` : ""}
+      ${r.soft.length ? `<p class="muted small" style="margin-top:14px">Also asked for, not scored because resumes rarely state them outright: ${r.soft.map(s => (s.have ? "✓ " : "") + esc(s.name)).join(" · ")}</p>` : ""}
+      <p class="muted small" style="margin-top:12px">Close this window to see evidenced (green ring) and missing (red dashed ring) requirements on the map. Click any skill for its sub-skills, with the ones you've evidenced ticked.</p>`;
+    wireTags(res);
+    res.querySelectorAll(".tag[data-skill]").forEach(t => { const f = t.onclick; t.onclick = () => { $("#match-modal").hidden = true; f(); }; });
+    const required = new Set(); for (const x of rows) { if (x.tier === "diff") continue; if (x.slot === "__ai") r.ai.forEach(id => required.add(id)); else if (x.slot !== "__domain") required.add(x.id); }
+    state.match = { matched: new Set([...evid, ...trans].map(x => x.id).filter(id => skillById[id])), required, subs: r.subs, label };
+  }
+
   $("#run-match").onclick = () => {
     const text = ($("#paste").value + "\n" + matchText).trim();
     if (text.length < 40) { $("#file-status").textContent = "Add a file or paste some text first."; return; }
-    const have = tagText(text);
-    const v = $("#match-target").value;
-    let required, label, softAsked, isJob = v.startsWith("job:");
+    const v = $("#match-target").value; const isJob = v.startsWith("job:");
+    let target, levelOpt;
     if (isJob) {
-      const j = G.jobs.find(x => x.id === v.slice(4));
-      const fam = sliceStats(G.jobs.filter(x => x.family === j.family));
-      required = new Map(j.skills.filter(k => !CRED(k) && !SOFT.has(k)).map(k => [k, 0.5 + fam.share(k)]));
-      softAsked = j.skills.filter(k => SOFT.has(k));
-      label = `${j.title} at ${j.company}`;
-      state.selectedJob = j.id; state.selectedSkill = null;
-    } else {
-      let js;
-      if (v === "slice") { js = sliceJobs(); label = "the current filters"; }
-      else { const [, f, l] = v.split(":"); js = G.jobs.filter(x => x.family === f && (l === "__all" || x.level === l)); label = `${G.families[f]} — ${l === "__all" ? "all levels" : G.level_labels[l]}`; state.family = new Set([f]); state.level = l === "__all" ? new Set() : new Set([l]); }
-      const st = sliceStats(js);
-      required = new Map(G.skills.filter(s => !CRED(s.id) && !SOFT.has(s.id) && st.share(s.id) >= 0.2).map(s => [s.id, st.share(s.id)]));
-      softAsked = G.skills.filter(s => SOFT.has(s.id) && st.share(s.id) >= 0.3).map(s => s.id);
-      state.selectedJob = null;
+      const j = G.jobs.find(x => String(x.id) === v.slice(4));
+      target = { job: j, jobs: [j], familyJobs: G.jobs.filter(x => x.family === j.family), label: `${j.title} at ${j.company}` };
+      levelOpt = LEVEL_TO_LADDER[j.level]; state.selectedJob = j.id; state.selectedSkill = null;
+    } else if (v === "slice") { target = { jobs: sliceJobs(), label: "the current filters" }; state.selectedJob = null; }
+    else {
+      const [, f, l] = v.split(":");
+      target = { jobs: G.jobs.filter(x => x.family === f && (l === "__all" || x.level === l)), label: `${G.families[f]} — ${l === "__all" ? "all levels" : G.level_labels[l]}` };
+      levelOpt = l === "__all" ? undefined : LEVEL_TO_LADDER[l]; state.family = new Set([f]); state.level = l === "__all" ? new Set() : new Set([l]); state.selectedJob = null;
     }
-    let got = 0, tot = 0; const matched = [], gaps = [], partial = {};
-    for (const [k, w] of required) {
-      tot += w;
-      const subs = SUBS[k] || []; const hit = subs.filter(s => have.subs.has(s.id));
-      const frac = have.skills.has(k) && !hit.length ? 1 : hit.length ? Math.min(1, 0.5 + 0.5 * hit.length / Math.max(1, subs.length - 1)) : 0;
-      partial[k] = { hit: hit.map(s => s.name), miss: subs.filter(s => !have.subs.has(s.id)).map(s => s.name), frac };
-      if (frac > 0) { got += w * frac; matched.push([k, w, frac]); } else gaps.push([k, w]);
-    }
-    const score = tot ? got / tot : 0;
-    gaps.sort((a, b) => b[1] - a[1]); matched.sort((a, b) => b[1] - a[1]);
-    const extras = [...have.skills].filter(k => !required.has(k) && !CRED(k));
-    state.match = { matched: new Set(matched.map(m => m[0])), required: new Set(required.keys()), subs: have.subs, label };
-    const col = score >= 0.7 ? "var(--good)" : score >= 0.45 ? "var(--warn)" : "var(--bad)";
-    const learn = gaps.slice(0, 5);
-    const shareOf = w => fmtPct(isJob ? w - 0.5 : w);
-    const res = $("#match-results"); res.hidden = false;
-    res.innerHTML = `<div class="score-row"><div class="ring" style="background:conic-gradient(${col} ${score * 360}deg, var(--panel-2) 0)"><span style="background:var(--panel);border-radius:50%;width:78px;height:78px;display:grid;place-items:center">${fmtPct(score)}</span></div>
-      <div><h4 style="margin:0">Match against ${esc(label)}</h4><p class="muted small" style="margin:4px 0 0">${matched.length} of ${required.size} requirements evidenced, weighted by how often each is asked for. A requirement counts fully when its sub-skills are evidenced too; naming it once earns half credit.${extras.length ? ` You also show ${extras.length} skills this target doesn't emphasise.` : ""}</p></div></div>
-      <div class="cols"><div><h4>Covered</h4><div class="taglist">${matched.map(([k, , f]) => tag(k, "good") + (f < 1 ? `<span class="muted small" style="align-self:center">${Math.round(f * 100)}%</span>` : "")).join("") || "<span class='muted small'>Nothing matched yet.</span>"}</div></div>
-      <div><h4>Gaps (most important first)</h4><div class="taglist">${gaps.map(([k]) => tag(k, "bad")).join("") || "<span class='muted small'>No gaps.</span>"}</div></div></div>
-      ${softAsked.length ? `<p class="muted small" style="margin-top:14px">Also asked for, but not scored because resumes rarely state them outright: ${softAsked.map(k => (have.skills.has(k) ? "✓ " : "") + esc(skillById[k].name)).join(" · ")}</p>` : ""}
-      ${learn.length ? `<div class="learn"><strong>Learn or evidence next</strong><ol>${learn.map(([k, w]) => `<li><span class="tag bad" data-skill="${k}" style="border:0;padding:0">${esc(skillById[k].name)}</span> <span class="muted small">— asked in ${shareOf(w)} of postings</span>${partial[k].miss.length ? `<div class="muted small">Start with: ${partial[k].miss.slice(0, 3).map(esc).join(" · ")}</div>` : ""}${skillById[k].build?.[0] ? `<div class="small">${esc(skillById[k].build[0])}</div>` : ""}</li>`).join("")}</ol></div>` : ""}
-      ${matched.some(([k, , f]) => f < 1) ? `<div class="learn" style="margin-top:10px"><strong>Covered, but thin</strong><p class="muted small" style="margin:4px 0 6px">You name these, but the postings ask for specific components you don't mention yet.</p><ol>${matched.filter(([k, , f]) => f < 1).slice(0, 5).map(([k]) => `<li>${esc(skillById[k].name)} <span class="muted small">— add: ${partial[k].miss.slice(0, 3).map(esc).join(" · ")}</span></li>`).join("")}</ol></div>` : ""}
-      <p class="muted small" style="margin-top:12px">Close this window to see covered (green ring) and missing (red dashed ring) requirements on the map. Click any skill for its sub-skills, with the ones you've evidenced ticked.</p>`;
-    wireTags(res);
-    res.querySelectorAll(".tag[data-skill]").forEach(t => { const f = t.onclick; t.onclick = () => { $("#match-modal").hidden = true; f(); }; });
+    const r = MATCH.match(text, target, { level: levelOpt });
+    renderMatch(r, target.label, isJob);
     update();
   };
 

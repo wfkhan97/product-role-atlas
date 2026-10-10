@@ -1,0 +1,24 @@
+PRIYA NAIR
+PhD Candidate, Human-Computer Interaction | priya@example.edu
+
+EDUCATION
+PhD, Computer Science (HCI), Research University (expected 2027)
+MS Computer Science (2023); BS Electrical Engineering (2021)
+
+RESEARCH EXPERIENCE
+Graduate Researcher, Interaction Lab (2022 - Present)
+- Designed and ran 6 mixed-methods studies (n=400 total) on accessibility of mobile health apps; published 4 papers at CHI and CSCW
+- Built a React Native prototype and a Python/Flask backend with a REST API; deployed to 120 study participants
+- Conducted 60+ semi-structured interviews and thematic analysis; developed design guidelines adopted by two hospital partners
+- Ran randomized controlled experiments and statistical analysis in R; defined primary and secondary outcome measures
+- Mentored 5 undergraduate research assistants; coordinated timelines with clinicians and IRB
+
+Software Engineering Intern, Big Tech Co (Summer 2024)
+- Implemented a feature in a machine learning pipeline for ranking; wrote design doc and shipped behind a feature flag
+- Collaborated with a PM and UX researcher on experiment design and success metrics
+
+Teaching Assistant, Intro to HCI (2023 - 2024)
+- Led weekly sections for 40 students; graded design critiques
+
+SKILLS
+Python, R, SQL, React, Figma, user studies, survey design, statistics, A/B testing
