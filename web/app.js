@@ -46,7 +46,18 @@
   };
 
   const defaults = () => ({ family: new Set(["pm"]), level: new Set(), group: new Set(GROUPS), sector: new Set(), company: new Set(), country: new Set(), remote: false, yoe: new Set(), spec: new Set(), degree: new Set(), fund: new Set(), stage: new Set() });
-  const state = { ...defaults(), clustersOff: new Set(), selectedSkill: null, selectedJob: null, subFocus: null, jobQuery: "", companyQuery: "", match: null, fundQuery: "", axis: "3d", subs: "selected", evTab: "senior", ax3: { x: "tech_comm", z: "ic_mgmt" }, rot: { yaw: -0.6, pitch: 0.35 }, zoom3: 1, spin: false };
+  const state = { ...defaults(), clustersOff: new Set(), selectedSkill: null, selectedJob: null, subFocus: null, jobQuery: "", companyQuery: "", match: null, fundQuery: "", axis: "3d", subs: "selected", evTab: "senior", ax3: { x: "tech_comm", z: "ic_mgmt" }, rot: { yaw: -0.6, pitch: 0.35 }, zoom3: 1, spin: false, openDisc: new Set() };
+
+  // ---------- theme: the device decides unless the user overrides (GradBuddy D-14) ----------
+  const themeSel = document.querySelector("#theme");
+  let savedTheme = null; try { savedTheme = localStorage.getItem("theme"); } catch { }
+  function applyTheme(t) { if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme; themeSel.value = t || "system"; }
+  applyTheme(savedTheme);
+  themeSel.onchange = () => { applyTheme(themeSel.value); try { localStorage.setItem("theme", themeSel.value); } catch { } update(); };
+  matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => update());
+  const isLight = () => getComputedStyle(document.documentElement).colorScheme.includes("light");
+  // cluster colours are data colours; in light mode they are darkened so they still read against the page
+  const clColor = id => isLight() ? d3.color(CL[id].color).darker(0.75).formatHex() : CL[id].color;
 
   const $ = s => document.querySelector(s);
   const fmtPct = v => Math.round(v * 100) + "%";
@@ -85,8 +96,9 @@
   const companiesByGroup = {};
   for (const c of G.meta.companies) (companiesByGroup[c.group] ||= []).push(c);
   const nFunds = new Set(G.jobs.flatMap(j => j.investors || [])).size;
-  $("#subtitle").textContent = `${G.meta.n_jobs.toLocaleString()} open product roles at ${G.meta.n_companies} companies — the Fortune 500 plus startups backed by ${nFunds} leading venture funds. Scraped ${G.meta.generated}.`;
   $("#about-body").innerHTML = `
+    <p>${G.meta.n_jobs.toLocaleString()} open product roles at ${G.meta.n_companies} companies: the Fortune 500 plus startups backed by ${nFunds} venture funds. Scraped ${G.meta.generated}.</p>
+    <p class="muted">Each line of a resume is read against the same taxonomy used to tag the postings. A skill counts when a work, project or course line shows it, not just when a word appears. The match result is a map of what to evidence next, not a verdict.</p>
     <p class="muted">Postings are pulled from each company's public careers API, filtered to product-related titles, and tagged against a hand-built taxonomy of ${G.skills.length} skills and ${Object.values(SUBS).reduce((a, b) => a + b.length, 0)} sub-skills using keyword rules. Shares are "what fraction of postings in the current slice mention this". Vertical position is the share-weighted average level at which a skill is asked for (rank-spread; rare skills are pulled toward the middle). "Which path" compares director-and-above postings with staff/principal ones; "Kind of role" compares TPM/platform/AI postings with PMM/growth ones. Industries are Fortune's own labels grouped into sectors; startups are classed by their investor's vertical where known. Sub-skills, level ladders and learning routes are editorial; quoted sentences come from the postings.</p>
     ${Object.keys(groupLabel).filter(g => companiesByGroup[g]).map(g => { const cs = companiesByGroup[g]; return `<h3>${groupLabel[g]} · ${cs.length} companies · ${cs.reduce((a, c) => a + c.n, 0)} postings</h3>
       <p class="small">${cs.sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999) || b.n - a.n).map(c => `${c.rank ? "#" + c.rank + " " : ""}${esc(c.name)}${c.stage && c.stage !== "Unknown" ? " <span class='muted'>" + esc(c.stage) + "</span>" : ""} <span class="muted">(${c.n})</span>`).join(" · ")}</p>`; }).join("")}`;
@@ -131,6 +143,10 @@
     for (const dg of state.degree) add(skillById[dg].name, () => state.degree.delete(dg));
     const sec = $("#active-filters"), el = $("#active-chips"); el.innerHTML = "";
     sec.hidden = items.length === 0;
+    // a filter set from elsewhere (a company picked in the detail panel) lives inside "More filters": open it so the chip is visible
+    const inner = state.sector.size + state.fund.size + state.stage.size + state.company.size + state.country.size + state.yoe.size + state.spec.size + state.degree.size + (state.remote ? 1 : 0) + (state.group.size < GROUPS.length ? 1 : 0);
+    if (inner && !state.moreOpened) { $("#more-filters").open = true; state.moreOpened = true; }
+    if (!inner) state.moreOpened = false;
     for (const it of items) {
       const c = chipEl(it.label, null, true); c.removeAttribute("aria-pressed"); c.setAttribute("aria-label", `Remove filter ${it.label}`);
       c.insertAdjacentHTML("beforeend", `<span class="x" aria-hidden="true">×</span>`);
@@ -183,7 +199,7 @@
     for (const [id, c] of Object.entries(CL)) {
       const r = document.createElement("button"); r.type = "button"; r.className = "row" + (state.clustersOff.has(id) ? " off" : "");
       r.setAttribute("aria-pressed", state.clustersOff.has(id) ? "false" : "true");
-      r.innerHTML = `<span class="swatch" style="background:${c.color}"></span>${esc(c.label)}`;
+      r.innerHTML = `<span class="swatch" style="background:${clColor(id)}"></span>${esc(c.label)}`;
       r.onclick = () => { state.clustersOff.has(id) ? state.clustersOff.delete(id) : state.clustersOff.add(id); update(); };
       leg.appendChild(r);
     }
@@ -246,7 +262,8 @@
       const cols = COLUMNS.filter(c => !state.clustersOff.has(c));
       const cw = (width - pad.left - pad.right) / cols.length;
       cols.forEach((c, i) => {
-        gLanes.append("text").attr("class", "col").attr("x", pad.left + cw * (i + 0.5)).attr("y", pad.top - 10).attr("text-anchor", "middle").attr("fill", CL[c].color).style("fill", CL[c].color).text(COL_SHORT[c] || CL[c].label).append("title").text(CL[c].label);
+        // headers staggered on two rows so neighbouring names never touch
+        gLanes.append("text").attr("class", "col").attr("x", pad.left + cw * (i + 0.5)).attr("y", pad.top - (i % 2 ? 8 : 24)).attr("text-anchor", "middle").style("fill", clColor(c)).text(COL_SHORT[c] || CL[c].label).append("title").text(CL[c].label);
         if (i) gLanes.append("line").attr("x1", pad.left + cw * i).attr("x2", pad.left + cw * i).attr("y1", pad.top).attr("y2", height - pad.bottom).attr("stroke", "rgba(255,255,255,0.06)");
       });
     } else {
@@ -294,7 +311,7 @@
     T({ x: 1.06, y: -1.14, z: -1 }, Z.lo ? "↙ " + Z.lo : Z.label, "axis-end", "start"); T({ x: 1.06, y: -1.14, z: 1 }, Z.hi ? Z.hi + " ↗" : "", "axis-end", "start");
     if (state.ax3.x === "cluster" || state.ax3.z === "cluster") {
       const cols = COLUMNS.filter(cc => !state.clustersOff.has(cc));
-      cols.forEach((cc, i) => { const t = cols.length > 1 ? (i / (cols.length - 1)) * 2 - 1 : 0; const p3 = state.ax3.x === "cluster" ? { x: t, y: 1.1, z: -1 } : { x: 1.1, y: 1.1, z: t }; const p = project(p3); gFrame.append("text").attr("x", p.sx).attr("y", p.sy).attr("text-anchor", "middle").style("fill", CL[cc].color).text(CL[cc].label); });
+      cols.forEach((cc, i) => { const t = cols.length > 1 ? (i / (cols.length - 1)) * 2 - 1 : 0; const p3 = state.ax3.x === "cluster" ? { x: t, y: 1.1, z: -1 } : { x: 1.1, y: 1.1, z: t }; const p = project(p3); gFrame.append("text").attr("x", p.sx).attr("y", p.sy).attr("text-anchor", "middle").style("fill", clColor(cc)).text(COL_SHORT[cc] || CL[cc].label); });
     }
   }
   function render3d() {
@@ -313,7 +330,8 @@
     declutter();
   }
   // ---------- labels: show a label only where it has room; bigger / selected / matched nodes win ----------
-  const LBL_H = 13;
+  const LBL_H = 14;
+  let lblMinX = 2;
   function declutter() {
     if (!nodeSel) return;
     const box = svg.node().getBoundingClientRect(); const W = box.width || 900;
@@ -330,7 +348,7 @@
     const hits = b => boxes.some(o => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0);
     for (const { n } of cands) {
       const r = n.r * (n.ps || 1), lw = n.lw + 4;
-      let x0 = n.x - lw / 2; x0 = Math.max(2, Math.min(W - lw - 2, x0));   // keep the label inside the canvas
+      let x0 = n.x - lw / 2; x0 = Math.max(lblMinX, Math.min(W - lw - 2, x0));   // keep the label inside the canvas and out of the lane gutter
       // try above the dot, then below it
       const above = { x0, x1: x0 + lw, y0: n.y - r - 4 - LBL_H, y1: n.y - r - 4, dy: -r - 4 };
       const below = { x0, x1: x0 + lw, y0: n.y + r + 4, y1: n.y + r + 4 + LBL_H, dy: r + 4 + LBL_H - 3 };
@@ -377,7 +395,7 @@
     enter.append("circle"); enter.append("title"); enter.append("text").attr("text-anchor", "middle");
     nodeSel = enter.merge(nodeSel);
     nodeSel.on(".drag", null);
-    nodeSel.select("circle").attr("r", d => d.r).attr("fill", d => d.sat ? d3.color(CL[d.cluster].color).darker(0.6).formatHex() : CL[d.cluster].color);
+    nodeSel.select("circle").attr("r", d => d.r).attr("fill", d => d.sat ? d3.color(clColor(d.cluster)).darker(0.6).formatHex() : clColor(d.cluster));
     nodeSel.select("text").text(d => d.name).attr("dy", d => -d.r - 4).each(function (d) { d.lw = this.getComputedTextLength(); });
     const label = d => d.sat ? `${d.name} — mentioned in ${fmtPct(d.share)} of postings asking for ${d.parent.name}` : `${d.name} — ${fmtPct(d.share)} of postings`;
     nodeSel.select("title").text(label); nodeSel.attr("aria-label", label);
@@ -400,7 +418,8 @@
     const width = box.width || 900, height = box.height || 600;
     const scale = Math.min(width, height) / 720;
     const laneView = state.axis !== "free" && state.axis !== "3d";
-    const pad = { top: state.axis === "career" ? 40 : 24, bottom: 44, left: laneView ? 132 : 60, right: 40 };
+    const pad = { top: state.axis === "career" ? 52 : 24, bottom: 44, left: laneView ? 132 : 60, right: 40 };
+    lblMinX = laneView ? pad.left - 4 : 2;
     const maxShare = Math.max(0.05, ...vis.map(s => stats.share(s.id)));
     const cols = COLUMNS.filter(c => !state.clustersOff.has(c)); const cw = (width - pad.left - pad.right) / Math.max(1, cols.length);
     const clusterIds = Object.keys(CL);
@@ -497,8 +516,11 @@
   }
 
   // ---------- detail panel ----------
-  function bar(label, v, color) { return `<div class="bar"><span>${esc(label)}</span><div class="track"><div class="fill" style="width:${Math.round(v * 100)}%;background:${color || "var(--accent)"}"></div></div><span class="v">${fmtPct(v)}</span></div>`; }
-  function tag(id, cls = "") { const s = skillById[id]; return `<button type="button" class="tag ${cls}" data-skill="${id}"><span class="dot" style="background:${CL[s.cluster].color}"></span>${esc(s.name)}</button>`; }
+  function bar(label, v, color) { return `<div class="bar"><span>${esc(label)}</span><div class="track"><div class="fill" style="width:${Math.round(v * 100)}%;background:${color || "var(--secondary)"}"></div></div><span class="v">${fmtPct(v)}</span></div>`; }
+  function tag(id, cls = "") { const s = skillById[id]; return `<button type="button" class="tag ${cls}" data-skill="${id}"><span class="dot" style="background:${clColor(s.cluster)}"></span>${esc(s.name)}</button>`; }
+  // disclosures (GradBuddy D-15): one-word trigger, opens in place; open state survives a re-render
+  function disc(key, label, inner) { return `<details class="disc" data-k="${key}"${state.openDisc.has(key) ? " open" : ""}><summary>${label}</summary><div class="disc-body">${inner}</div></details>`; }
+  function wireDiscs(root) { root.querySelectorAll("details[data-k]").forEach(d => { d.ontoggle = () => { d.open ? state.openDisc.add(d.dataset.k) : state.openDisc.delete(d.dataset.k); }; }); }
   function selectSkill(id) { state.selectedSkill = id; state.selectedJob = null; state.subFocus = null; if (state.subs === "selected") buildGraph(sliceStats(sliceJobs())); else paint(); renderDetail(); }
   function wireTags(root) { root.querySelectorAll(".tag[data-skill]").forEach(t => t.onclick = () => selectSkill(t.dataset.skill)); }
   function currentLadderKey() { if (state.level.size === 1) return LEVEL_TO_LADDER[[...state.level][0]]; return null; }
@@ -516,27 +538,33 @@
       return `<div class="sub${cls}" id="sub-${sub.id}"><span class="name">${esc(sub.name)}</span><span class="pct" title="share of postings asking for ${esc(s.name)} that mention this">${fmtPct(ss.share(sub.id))}</span><span class="ex">${esc(sub.example)}</span></div>`;
     }).join("");
     const here = currentLadderKey();
-    const ladder = s.ladder ? `<h3>What it looks like at each level</h3><div class="ladder">${LADDER_KEYS.map(([k, lab]) => `<span class="lv${here === k ? " here" : ""}">${lab}</span><span>${esc(s.ladder[k])}</span>`).join("")}</div>` : "";
+    const ladder = s.ladder ? `<div class="ladder">${LADDER_KEYS.map(([k, lab]) => `<span class="lv${here === k ? " here" : ""}">${lab}</span><span>${esc(s.ladder[k])}</span>`).join("")}</div>` : "";
     const ev = s.evidence || {};
     const evGroups = EV_GROUPS.filter(([k]) => (ev[k] || []).length);
     if (evGroups.length && !evGroups.some(([k]) => k === state.evTab)) state.evTab = evGroups[0][0];
-    const evHtml = evGroups.length ? `<h3>How postings phrase it</h3><div class="evtabs">${evGroups.map(([k, lab]) => `<button type="button" class="chip${state.evTab === k ? " on" : ""}" aria-pressed="${state.evTab === k}" data-ev="${k}">${lab}</button>`).join("")}</div>
+    const evHtml = evGroups.length ? `<div class="evtabs">${evGroups.map(([k, lab]) => `<button type="button" class="chip${state.evTab === k ? " on" : ""}" aria-pressed="${state.evTab === k}" data-ev="${k}">${lab}</button>`).join("")}</div>
       ${(ev[state.evTab] || []).map(q => `<blockquote class="quote">“${esc(q.text)}”<span class="src">${esc(q.company)} · <a href="${esc(q.url)}" target="_blank" rel="noopener">${esc(q.title)}</a></span></blockquote>`).join("")}` : "";
-    const build = (s.build || []).length ? `<h3>How to build it</h3><ul class="build">${s.build.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
-    const signals = (s.signals || []).length ? `<h3>Resume lines that show it</h3><ul class="signals">${s.signals.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
+    const build = (s.build || []).length ? `<ul class="build">${s.build.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
+    const signals = (s.signals || []).length ? `<p class="muted" style="margin:10px 0 0">Resume lines that show it</p><ul class="signals">${s.signals.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
     const secs = (G.sectors || []).map(sec => { const sj = jobs.filter(j => j.sector === sec); return { sec, v: sj.length >= 15 ? sj.filter(j => j.skills.includes(s.id)).length / sj.length : null }; }).filter(x => x.v !== null).sort((x, y) => y.v - x.v);
-    return `<div class="detail"><div class="kicker" style="color:${CL[s.cluster].color}">${esc(CL[s.cluster].label)}</div><h2>${esc(s.name)}</h2>
+    const where = `<p class="muted" style="margin:0 0 4px">By level</p><div class="bars">${levelsWithData.map(l => { const lj = jobs.filter(j => j.level === l); return bar(G.level_labels[l], lj.filter(j => j.skills.includes(s.id)).length / lj.length); }).join("")}</div>
+      ${secs.length > 1 ? `<p class="muted" style="margin:12px 0 4px">By industry</p><div class="bars">${secs.slice(0, 8).map(x => bar(x.sec, x.v)).join("")}</div>` : ""}
+      <p class="muted" style="margin:12px 0 4px">By company group</p><div class="bars">${GROUPS.map(g => bar(groupLabel[g], s.by_group[g] || 0)).join("")}</div>`;
+    const postings = `<p class="muted" style="margin:0 0 4px">Companies asking most</p><div class="rows">${topComp.map(([c, n]) => `<div class="r"><button type="button" class="link-ish" data-company="${esc(c)}" title="Filter the map to ${esc(c)}">${esc(c)}</button><span class="c">${plural(n, "posting", "postings")}</span></div>`).join("")}</div>
+      <p class="muted" style="margin:12px 0 4px">Example postings</p><div class="rows">${withSkill.slice(0, 6).map(j => `<div class="r"><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a><span class="c">${esc(j.company)}</span></div>`).join("")}</div>`;
+    // resting state: what it is, how often, what it breaks down into. Everything explanatory is one click away.
+    return `<div class="detail"><div class="kicker" style="color:${clColor(s.cluster)}">${esc(CL[s.cluster].label)}</div><h2>${esc(s.name)}</h2>
       ${s.what ? `<p class="what">${esc(s.what)}</p>` : ""}
-      <div class="big">${fmtPct(stats.share(s.id))}</div><div class="kicker">of ${stats.n} postings in this slice ask for it (${fmtPct(s.share)} across all ${G.meta.n_jobs})</div>
+      <div class="big">${fmtPct(stats.share(s.id))}</div><div class="facts">of ${plural(stats.n, "posting", "postings")} in this slice ask for it · ${fmtPct(s.share)} across all ${G.meta.n_jobs.toLocaleString()}</div>
       ${subsHtml ? `<h3>What it breaks down into</h3>${haveSubs ? `<p class="subgap"><span class="have">✓ evidenced in your text</span> · <span class="miss">not evidenced</span></p>` : ""}${subsHtml}` : ""}
-      ${ladder}
-      <h3>By level</h3><div class="bars">${levelsWithData.map(l => { const lj = jobs.filter(j => j.level === l); return bar(G.level_labels[l], lj.filter(j => j.skills.includes(s.id)).length / lj.length); }).join("")}</div>
-      ${secs.length > 1 ? `<h3>By industry</h3><div class="bars">${secs.slice(0, 8).map(x => bar(x.sec, x.v, "#9aa5b8")).join("")}</div>` : ""}
-      <h3>By company group</h3><div class="bars">${GROUPS.map(g => bar(groupLabel[g], s.by_group[g] || 0, "#9aa5b8")).join("")}</div>
-      ${evHtml}${build}${signals}
-      <h3>Often appears with</h3><div class="taglist">${related.map(r => tag(r.id)).join("") || "<span class='muted small'>—</span>"}</div>
-      <h3>Companies asking most</h3><div class="rows">${topComp.map(([c, n]) => `<div class="r"><button type="button" class="link-ish" data-company="${esc(c)}" title="Filter the map to ${esc(c)}">${esc(c)}</button><span class="c">${plural(n, "posting", "postings")}</span></div>`).join("")}</div>
-      <h3>Example postings</h3><div class="rows">${withSkill.slice(0, 6).map(j => `<div class="r"><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a><span class="c">${esc(j.company)}</span></div>`).join("")}</div></div>`;
+      <div class="disc-row">
+        ${ladder ? disc("ladder", "At each level", ladder) : ""}
+        ${evHtml ? disc("sources", "Sources", evHtml) : ""}
+        ${disc("where", "Where it's asked", where)}
+        ${build || signals ? disc("build", "How to build it", build + signals) : ""}
+        ${disc("postings", "Postings", postings)}
+      </div>
+      <h3>Often appears with</h3><div class="taglist">${related.map(r => tag(r.id)).join("") || "<span class='muted small'>none in this slice</span>"}</div></div>`;
   }
 
   function renderDetail() {
@@ -553,7 +581,7 @@
         <h3>${j.skills.filter(k => !CRED(k)).length} requirements found</h3>
         ${Object.entries(byCluster).sort((a, b) => b[1].length - a[1].length).map(([c, ks]) => `<div class="small muted" style="margin-top:8px">${esc(CL[c].label)}</div><div class="taglist">${ks.map(k => tag(k, state.match ? (state.match.matched.has(k) ? "good" : "bad") : "")).join("")}</div>`).join("")}
         ${subSet.size ? `<h3>Specific asks in this posting</h3><div class="taglist">${[...subSet].map(id => subById[id] ? `<span class="tag" data-skill="${subById[id].parent}" title="${esc(skillById[subById[id].parent].name)}">${esc(subById[id].name)}</span>` : "").join("")}</div>` : ""}
-        <button id="match-this" class="primary wide">Match my resume against this role</button></div>`;
+        <button id="match-this" class="outline wide">Match my resume against this role</button></div>`;
       $("#match-this").onclick = e => openMatch(j.id);
       wireTags(el); return;
     }
@@ -561,7 +589,7 @@
       el.innerHTML = renderSkill(skillById[state.selectedSkill], jobs, stats);
       el.querySelectorAll("[data-ev]").forEach(t => t.onclick = () => { state.evTab = t.dataset.ev; renderDetail(); });
       el.querySelectorAll("[data-company]").forEach(t => { t.onclick = () => { state.company = new Set([t.dataset.company]); update(); $(".rail.left").scrollTop = 0; }; });
-      wireTags(el);
+      wireTags(el); wireDiscs(el);
       const f = state.subFocus && el.querySelector("#sub-" + state.subFocus); if (f) f.scrollIntoView({ block: "center" }); else el.scrollTop = 0;
       return;
     }
@@ -571,18 +599,20 @@
     const famLabel = [...state.family].map(f => G.families[f]).join(" / ");
     const lvlLabel = state.level.size ? [...state.level].map(l => G.level_labels[l]).join(" / ") : "all levels";
     const active = [state.sector.size ? [...state.sector].join(", ") : null, state.company.size ? [...state.company].join(", ") : null, state.country.size ? [...state.country].join(", ") : null, state.remote ? "remote" : null, state.yoe.size ? [...state.yoe].join("/") + " yrs" : null, state.spec.size ? [...state.spec].map(s => SPEC_LABEL[s]).join(", ") : null, state.degree.size ? [...state.degree].map(d => skillById[d].name).join(", ") : null, state.fund.size ? "backed by " + [...state.fund].join(", ") : null, state.stage.size ? [...state.stage].join("/") : null].filter(Boolean);
-    el.innerHTML = `<div class="detail"><h2>${esc(famLabel)}</h2><div class="kicker">${esc(lvlLabel)} · ${plural(stats.n, "posting", "postings")} · ${plural(new Set(jobs.map(j => j.company)).size, "company", "companies")}${med ? ` · median ask ${med}+ years` : ""}</div>
-      ${active.length ? `<p class="active-filters">Filters: ${esc(active.join(" · "))}</p>` : ""}
-      <h3>Most requested</h3><div class="bars">${top.map(t => bar(t.s.name, t.v, CL[t.s.cluster].color)).join("")}</div>
-      ${state.level.size === 0 && state.family.size === 1 ? ladder(jobs) : ""}
-      <p class="muted small">Click a dot to see what the skill breaks down into, what it means at each level, how postings phrase it, and how to build it.</p></div>`;
-    wireTags(el);
+    const lad = state.level.size === 0 && state.family.size === 1 ? ladder(jobs) : "";
+    el.innerHTML = `<div class="detail"><h2>${esc(famLabel)}</h2><div class="facts">${esc(lvlLabel)} · ${plural(stats.n, "posting", "postings")} · ${plural(new Set(jobs.map(j => j.company)).size, "company", "companies")}${med ? ` · median ask ${med}+ years` : ""}</div>
+      ${active.length ? `<p class="active-filters">${esc(active.join(" · "))}</p>` : ""}
+      <a class="ask" href="#" id="ask-match">${state.match ? "Match again or against something else →" : "Match your resume to see what's missing →"}</a>
+      <h3>Most requested</h3><div class="bars">${top.map(t => bar(t.s.name, t.v, clColor(t.s.cluster))).join("")}</div>
+      ${lad ? `<div class="disc-row">${disc("moveup", "What changes as you move up", lad)}</div>` : ""}</div>`;
+    $("#ask-match").onclick = e => { e.preventDefault(); openMatch(state.selectedJob); };
+    wireTags(el); wireDiscs(el);
   }
   function ladder(jobs) {
     const lv = G.levels.filter(l => jobs.filter(j => j.level === l).length >= 8);
     if (lv.length < 2) return "";
     const st = Object.fromEntries(lv.map(l => [l, sliceStats(jobs.filter(j => j.level === l))]));
-    let html = `<h3>What changes as you move up</h3>`;
+    let html = "";
     for (let i = 1; i < lv.length; i++) {
       const a = st[lv[i - 1]], b = st[lv[i]];
       const gain = G.skills.filter(s => !CRED(s.id)).map(s => ({ s, d: b.share(s.id) - a.share(s.id) })).filter(x => x.d > 0.08).sort((x, y) => y.d - x.d).slice(0, 4);
@@ -655,7 +685,7 @@
     const by = st => rows.filter(x => x.status === st).sort((a, b) => (a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : b.tier === "core" ? 1 : a.tier === "common" ? -1 : 1));
     const evid = by("evidenced"), trans = by("transferable"), thin = by("thin"), gaps = by("gap");
     const coreRows = rows.filter(x => x.tier === "core"); const coreHave = coreRows.filter(x => x.status === "evidenced" || x.status === "transferable").length;
-    const col = r.overall >= 0.7 ? "var(--good)" : r.overall >= 0.45 ? "var(--warn)" : "var(--bad)";
+    const col = r.overall >= 0.7 ? "var(--primary)" : "var(--warning)";
     const shareOf = w => fmtPct(w);
     const list = (xs, n) => xs.slice(0, n).map(x => esc(x.slotName)).join(", ") + (xs.length > n ? ` and ${xs.length - n} more` : "");
     const levelNote = r.targetLevel && r.targetLevel !== p.level && p.persona === "experienced_in_role" ? (isJob ? ` This posting is a ${esc(Matcher.LADDER_LABEL[r.targetLevel])} role; the ladder notes below describe that bar.` : ` You chose the ${esc(Matcher.LADDER_LABEL[r.targetLevel])} bar; the ladder notes below describe that bar.`) : "";
@@ -668,7 +698,7 @@
     const evItem = x => `<li>${rowTag(x, STATUS_CLS[x.status])}${x.tier === "core" ? ` <span class="muted small">core · asked in ${shareOf(x.w)}</span>` : ` <span class="muted small">asked in ${shareOf(x.w)}</span>`}${x.lines[0] ? `<span class="q">${esc(x.lines[0].text.slice(0, 160))}</span>` : ""}${x.status === "transferable" && x.signals[0] ? `<span class="say">Postings say it like: <b>${esc(x.signals[0])}</b> <span class="muted">(via ${esc(x.via.map(v => Matcher.VIA_LABEL[v] || v).join(", "))})</span></span>` : ""}${x.ladder ? `<span class="ladder small"><span class="muted">At ${esc(Matcher.LADDER_LABEL[r.targetLevel])}:</span> ${esc(x.ladder)}</span>` : ""}</li>`;
     const res = $("#match-results"); res.hidden = false;
     res.innerHTML = `
-      <div class="score-row"><div class="ring" style="background:conic-gradient(${col} ${r.overall * 360}deg, var(--panel-2) 0)"><span style="background:var(--panel);border-radius:50%;width:78px;height:78px;display:grid;place-items:center">${fmtPct(r.overall)}</span></div>
+      <div class="score-row"><div class="ring" style="background:conic-gradient(${col} ${r.overall * 360}deg, var(--muted) 0)"><span>${fmtPct(r.overall)}</span></div>
         <div><p class="headline">${PERSONA_TEXT[p.persona](p)}${levelNote}</p>
         <p class="muted small" style="margin:0">Against <b>${esc(label)}</b>${isJob ? "" : ` (${r.req.n.toLocaleString()} postings)`}: <b>${coreHave} of ${coreRows.length}</b> must-haves evidenced${coreRows.some(x => x.status === "thin") ? ` (${coreRows.filter(x => x.status === "thin").length} only named)` : ""}${thin.length ? `; ${thin.length} ${thin.length === 1 ? "skill" : "skills"} named but not shown` : ""}${mainGaps.length ? `; missing ${list(mainGaps, 3)}` : "; nothing important missing"}.
         ${r.whatIfSkills.length ? `Evidence ${r.whatIfSkills.length === 1 ? "that one" : `those ${r.whatIfSkills.length === 3 ? "three" : "two"}`} alone and this reads <b>${fmtPct(r.whatIf)}</b>.` : ""}</p></div></div>
@@ -678,7 +708,7 @@
         ${meter("Depth", r.depth, `evidenced skills shown with specifics or an outcome`)}
       </div>
       ${creds.length ? `<div class="credrow">${creds.map(c => `<span class="${c.have ? "ok" : "no"}" title="asked in ${shareOf(c.w)} of postings">${c.have ? "✓" : "○"} ${esc(c.name)}${c.detail ? ` <span class="muted">(${esc(c.detail)})</span>` : ""}</span>`).join("")}</div>` : ""}
-      ${r.industries.length ? `<p class="muted small" style="margin:8px 0 0">Industries hiring for this: ${r.industries.slice(0, 8).map(d => `<span class="${d.have ? "ok" : ""}" style="${d.have ? "color:var(--good)" : ""}">${d.have ? "✓ " : ""}${esc(d.name)} ${shareOf(d.w)}</span>`).join(" · ")}. One industry is enough; the others are context, not gaps.</p>` : ""}
+      ${r.industries.length ? `<p class="muted small" style="margin:8px 0 0">Industries hiring for this: ${r.industries.slice(0, 8).map(d => `<span class="${d.have ? "ok" : ""}" style="${d.have ? "color:var(--primary)" : ""}">${d.have ? "✓ " : ""}${esc(d.name)} ${shareOf(d.w)}</span>`).join(" · ")}. One industry is enough; the others are context, not gaps.</p>` : ""}
       <div class="cols" style="margin-top:14px">
         <div><h4>Evidenced <span class="muted small">(${evid.length})</span></h4><div class="taglist">${evid.map(x => rowTag(x, "good")).join("") || "<span class='muted small'>Nothing yet.</span>"}</div>
           ${trans.length ? `<h4 style="margin-top:12px">Transferable <span class="muted small">(${trans.length}) — real, but said in another field's words</span></h4><div class="taglist">${trans.map(x => rowTag(x, "amber")).join("")}</div>` : ""}
@@ -693,7 +723,7 @@
       ${evid.some(x => x.ladder) ? `<details class="more"><summary>What each evidenced skill looks like at the ${esc(Matcher.LADDER_LABEL[r.targetLevel])} bar</summary><ul class="evlist">${evid.filter(x => x.ladder).slice(0, 12).map(evItem).join("")}</ul></details>` : ""}
       ${r.unmapped.length ? `<details class="more"><summary>${r.unmapped.length} lines we could not map to any requirement</summary><ul class="evlist">${r.unmapped.map(t => `<li class="muted">${esc(t)}</li>`).join("")}</ul><p class="muted small">If these are product work, name the skill the way postings do: roadmap, discovery, launch, metrics, stakeholders.</p></details>` : ""}
       ${r.soft.length ? `<p class="muted small" style="margin-top:14px">Also asked for, not scored because resumes rarely state them outright: ${r.soft.map(s => (s.have ? "✓ " : "") + esc(s.name)).join(" · ")}</p>` : ""}
-      <p class="muted small" style="margin-top:12px">Close this window to see evidenced (green ring) and missing (red dashed ring) requirements on the map. Click any skill for its sub-skills, with the ones you've evidenced ticked.</p>`;
+      <p class="muted small" style="margin-top:12px">Close this window to see evidenced (green ring) and missing (amber dashed ring) requirements on the map. Click any skill for its sub-skills, with the ones you've evidenced ticked.</p>`;
     wireTags(res);
     res.querySelectorAll(".tag[data-skill]").forEach(t => { const f = t.onclick; t.onclick = () => { closeModal("#match-modal"); f(); }; });
     const required = new Set(); for (const x of rows) { if (x.tier === "diff") continue; if (x.slot === "__ai") r.ai.forEach(id => required.add(id)); else if (x.slot !== "__domain") required.add(x.id); }

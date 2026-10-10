@@ -1,0 +1,15 @@
+/* Minimal base. Components carry their own styles via tokens. */
+:root { color-scheme: dark; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { color-scheme: light; } }
+:root[data-theme="light"], .light { color-scheme: light; }
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { color: var(--heading-foreground); }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
