@@ -21,7 +21,12 @@
 </header>
 
 <main class="layout">
-  <aside class="rail left">
+  <aside class="rail left" aria-label="Filters">
+    <section id="active-filters" hidden>
+      <h3>Active filters</h3>
+      <div class="chips" id="active-chips"></div>
+      <button id="clear-filters" class="ghost wide-btn">Reset all filters</button>
+    </section>
     <section>
       <h3>Role family</h3>
       <div class="chips" id="family-chips"></div>
@@ -70,9 +75,6 @@
       <div class="chips" id="degree-chips"></div>
     </section>
     <section>
-      <button id="clear-filters" class="ghost wide-btn">Reset all filters</button>
-    </section>
-    <section>
       <h3>Skill clusters</h3>
       <div class="legend" id="cluster-legend"></div>
     </section>
@@ -85,8 +87,8 @@
 
   <section class="canvas-wrap">
     <div class="canvas-hud">
-      <span id="hud-count"></span>
-      <span class="axis-toggle" id="axis-toggle">
+      <span id="hud-count" aria-live="polite"></span>
+      <span class="axis-toggle" id="axis-toggle" role="group" aria-label="View">
         <span class="hud-label">View:</span>
         <button class="chip on" data-axis="3d" title="Three axes: drag to rotate, scroll to zoom">3D map</button>
         <button class="chip" data-axis="career" title="Columns are skill areas; higher rows are asked for at more senior levels">Career map</button>
@@ -101,7 +103,7 @@
         <button class="chip" id="reset-view" title="Reset rotation and zoom">reset</button>
         <button class="chip" id="spin-view" title="Slowly rotate">spin</button>
       </span>
-      <span class="axis-toggle">
+      <span class="axis-toggle" role="group" aria-label="Sub-skills">
         <span class="hud-label">Sub-skills:</span>
         <button class="chip on" data-subs="selected" title="Show a skill's sub-skills when you click it">on click</button>
         <button class="chip" data-subs="all" title="Show every sub-skill as a small satellite dot">all</button>
@@ -109,10 +111,10 @@
       </span>
       <span class="hint" id="axis-hint"></span>
     </div>
-    <svg id="graph"></svg>
+    <svg id="graph" role="group" aria-label="Skill map"></svg>
   </section>
 
-  <aside class="rail right" id="detail">
+  <aside class="rail right" id="detail" aria-label="Details" aria-live="polite">
     <div class="empty">
       <h3>Click a skill or a posting</h3>
       <p>Dots are skills and requirements pulled from live postings. Size is how often the current slice of postings asks for it; height is the seniority at which it is asked for most. Lines connect requirements that tend to appear together.</p>
@@ -121,9 +123,9 @@
 </main>
 
 <div class="modal" id="match-modal" hidden>
-  <div class="modal-card">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="match-title" tabindex="-1">
     <button class="close" id="match-close" aria-label="Close">×</button>
-    <h2>How well do you match?</h2>
+    <h2 id="match-title">How well do you match?</h2>
     <p class="muted">Drop a resume (PDF, DOCX or TXT) or paste course names and descriptions. Everything runs in your browser; nothing is uploaded anywhere.</p>
     <div class="match-grid">
       <div>
@@ -149,9 +151,9 @@ MKTG 340 Product Management — roadmaps, user research, PRDs, A/B testing"></te
 </div>
 
 <div class="modal" id="about-modal" hidden>
-  <div class="modal-card">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="about-title" tabindex="-1">
     <button class="close" id="about-close" aria-label="Close">×</button>
-    <h2>About the data</h2>
+    <h2 id="about-title">About the data</h2>
     <div id="about-body"></div>
   </div>
 </div>
