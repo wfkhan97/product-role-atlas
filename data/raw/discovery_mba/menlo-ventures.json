@@ -1,0 +1,73 @@
+{
+ "company": "Menlo Ventures",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (True Anomaly)",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "trueanomalyinc"
+   },
+   "from": "https://jobs.menlovc.com/jobs",
+   "verify": "Senior Program Manager, IT Governance and Compliance"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "harnessinc"
+   },
+   "from": "https://jobs.menlovc.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "anthropic"
+   },
+   "from": "https://jobs.menlovc.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "goodfire"
+   },
+   "from": "https://jobs.menlovc.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "homelight"
+   },
+   "from": "https://jobs.menlovc.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "shipbobinc"
+   },
+   "from": "https://jobs.menlovc.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "benchling"
+   },
+   "from": "https://jobs.menlovc.com/jobs"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "menlovc.com",
+ "sample_title": "Senior Program Manager, IT Governance and Compliance",
+ "description_chars": 7489,
+ "seconds": 10,
+ "rejected": {
+  "ats": "greenhouse",
+  "config": {
+   "board": "trueanomalyinc"
+  }
+ }
+}

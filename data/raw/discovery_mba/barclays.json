@@ -1,0 +1,38 @@
+{
+ "company": "Barclays",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "barclays.wd3.myworkdayjobs.com",
+  "tenant": "barclays",
+  "site": "External_Career_Site_Barclays"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "barclays.wd3.myworkdayjobs.com",
+    "tenant": "barclays",
+    "site": "External_Career_Site_Barclays"
+   },
+   "from": "https://search.jobs.barclays/",
+   "verify": "Resilience Programme Manager"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "search.jobs.barclays"
+   },
+   "from": "https://search.jobs.barclays/"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "barclays.com",
+ "sample_title": "Resilience Programme Manager",
+ "description_chars": 6882,
+ "seconds": 18
+}

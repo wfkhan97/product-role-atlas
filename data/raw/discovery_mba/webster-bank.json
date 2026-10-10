@@ -1,0 +1,35 @@
+{
+ "company": "Webster Bank",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "paradox",
+ "config": {
+  "host": "careers.websteronline.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 matching postings; workday 0 matching postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.websteronline.com"
+   },
+   "from": "https://careers.websteronline.com/?_ga=2.242800194.1759806723.1631627972-296609041.1617124185",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "websteronline.wd12.myworkdayjobs.com",
+    "tenant": "websteronline",
+    "site": "WebsterExternalCareerSite"
+   },
+   "from": "https://careers.websteronline.com/consumer-bank-careers",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Commercial and corporate banking",
+ "domain": "websterbank.com",
+ "seconds": 12
+}

@@ -1,0 +1,27 @@
+{
+ "company": "East West Bank",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "icims",
+ "config": {
+  "host": "careers-eastwestbank.icims.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-eastwestbank.icims.com"
+   },
+   "from": "https://www.eastwestbank.com/en/careers",
+   "verify": "Senior FP&A Manager"
+  }
+ ],
+ "category": "Commercial and corporate banking",
+ "domain": "eastwestbank.com",
+ "sample_title": "Senior FP&A Manager",
+ "description_chars": 4670,
+ "seconds": 28
+}

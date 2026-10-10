@@ -1,0 +1,27 @@
+{
+ "company": "EY",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.ey.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.ey.com"
+   },
+   "from": "https://careers.ey.com/ey/search/?createNewAlert=false&amp;q=&amp;locationsearch=&amp;optionsFacetsDD_country=&amp;optionsFacetsDD_customfield1=&amp;locale=en_US",
+   "verify": "EY Parthenon Strategy Consultant - Beirut"
+  }
+ ],
+ "category": "Big Four and accounting",
+ "domain": "ey.com",
+ "sample_title": "EY Parthenon Strategy Consultant - Beirut",
+ "description_chars": 4380,
+ "seconds": 90
+}

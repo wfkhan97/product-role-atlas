@@ -1,0 +1,38 @@
+{
+ "company": "Mizuho",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "mizuho.wd1.myworkdayjobs.com",
+  "tenant": "mizuho",
+  "site": "mizuhoamericas"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "mizuho.wd1.myworkdayjobs.com",
+    "tenant": "mizuho",
+    "site": "mizuhoamericas"
+   },
+   "from": "https://www.mizuhogroup.com/americas/careers",
+   "verify": "Investment & Corporate Banking - Financial Sponsors & Strategic Solutions Group (FS&SSG) \u2013 Analyst"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.mizuhogroup.com"
+   },
+   "from": "https://www.mizuhogroup.com/americas/careers"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "mizuhogroup.com",
+ "sample_title": "Investment & Corporate Banking - Financial Sponsors & Strategic Solutions Group (FS&SSG) \u2013 Analyst",
+ "description_chars": 4646,
+ "seconds": 35
+}

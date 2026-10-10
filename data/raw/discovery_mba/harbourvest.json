@@ -1,0 +1,31 @@
+{
+ "company": "HarbourVest",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "harbourvest.wd5.myworkdayjobs.com",
+  "tenant": "harbourvest",
+  "site": "HVP"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "harbourvest.wd5.myworkdayjobs.com",
+    "tenant": "harbourvest",
+    "site": "HVP"
+   },
+   "from": "https://www.harbourvest.com/us/en/about-harbourvest/careers",
+   "verify": "Senior Associate, Strategic Partnerships & Corporate Development"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "harbourvest.com",
+ "sample_title": "Senior Associate, Strategic Partnerships & Corporate Development",
+ "description_chars": 5343,
+ "seconds": 14
+}

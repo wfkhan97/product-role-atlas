@@ -1,0 +1,31 @@
+{
+ "company": "Wintrust",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "wintrust.wd1.myworkdayjobs.com",
+  "tenant": "wintrust",
+  "site": "Search"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "wintrust.wd1.myworkdayjobs.com",
+    "tenant": "wintrust",
+    "site": "Search"
+   },
+   "from": "https://wintrust.wd1.myworkdayjobs.com/Search",
+   "verify": "VP, Business Strategy - WLF"
+  }
+ ],
+ "category": "Commercial and corporate banking",
+ "domain": "wintrust.com",
+ "sample_title": "VP, Business Strategy - WLF",
+ "description_chars": 5635,
+ "seconds": 18
+}

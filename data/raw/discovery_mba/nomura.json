@@ -1,0 +1,16 @@
+{
+ "company": "Nomura",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.nomura.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Investment banking",
+ "domain": "nomura.com",
+ "seconds": 13
+}

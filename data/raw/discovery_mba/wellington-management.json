@@ -1,0 +1,31 @@
+{
+ "company": "Wellington Management",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "wellington.wd5.myworkdayjobs.com",
+  "tenant": "wellington",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "wellington.wd5.myworkdayjobs.com",
+    "tenant": "wellington",
+    "site": "External"
+   },
+   "from": "https://www.wellington.com/en/about-us/careers",
+   "verify": "Investment Analyst"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "wellington.com",
+ "sample_title": "Investment Analyst",
+ "description_chars": 9270,
+ "seconds": 18
+}

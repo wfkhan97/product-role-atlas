@@ -1,0 +1,66 @@
+{
+ "company": "Lux Capital",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (Mendaera)",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "mendaerainc"
+   },
+   "from": "https://jobs.luxcapital.com/jobs",
+   "verify": "(board reachable; no matching title on first pages)"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "databricks"
+   },
+   "from": "https://jobs.luxcapital.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "science37"
+   },
+   "from": "https://jobs.luxcapital.com/jobs"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "zoox"
+   },
+   "from": "https://jobs.luxcapital.com/jobs"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "lumafield"
+   },
+   "from": "https://jobs.luxcapital.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "benchling"
+   },
+   "from": "https://jobs.luxcapital.com/jobs"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "luxcapital.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 6,
+ "rejected": {
+  "ats": "greenhouse",
+  "config": {
+   "board": "mendaerainc"
+  }
+ }
+}

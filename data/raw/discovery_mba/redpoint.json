@@ -1,0 +1,87 @@
+{
+ "company": "Redpoint",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (LaunchDarkly)",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "launchdarkly"
+   },
+   "from": "https://careers.redpoint.com/jobs",
+   "verify": "(board reachable; no matching title on first pages)"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "floqast"
+   },
+   "from": "https://careers.redpoint.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "scribe"
+   },
+   "from": "https://careers.redpoint.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "mistral"
+   },
+   "from": "https://careers.redpoint.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "livekit"
+   },
+   "from": "https://careers.redpoint.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "ramp"
+   },
+   "from": "https://careers.redpoint.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "n8n"
+   },
+   "from": "https://careers.redpoint.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "materialize"
+   },
+   "from": "https://careers.redpoint.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "lilt-production"
+   },
+   "from": "https://careers.redpoint.com/jobs"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "redpoint.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 8,
+ "rejected": {
+  "ats": "greenhouse",
+  "config": {
+   "board": "launchdarkly"
+  }
+ }
+}

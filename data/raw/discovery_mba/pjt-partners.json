@@ -1,0 +1,31 @@
+{
+ "company": "PJT Partners",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "pjtpartners.wd1.myworkdayjobs.com",
+  "tenant": "pjtpartners",
+  "site": "Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "pjtpartners.wd1.myworkdayjobs.com",
+    "tenant": "pjtpartners",
+    "site": "Careers"
+   },
+   "from": "https://www.pjtpartners.com/careers",
+   "verify": "Analyst \u2013 Strategic Advisory (Technology M&A)"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "pjtpartners.com",
+ "sample_title": "Analyst \u2013 Strategic Advisory (Technology M&A)",
+ "description_chars": 5285,
+ "seconds": 13
+}

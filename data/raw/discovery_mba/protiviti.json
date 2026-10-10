@@ -1,0 +1,31 @@
+{
+ "company": "Protiviti",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "roberthalf.wd1.myworkdayjobs.com",
+  "tenant": "roberthalf",
+  "site": "ProtivitiNA"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "roberthalf.wd1.myworkdayjobs.com",
+    "tenant": "roberthalf",
+    "site": "ProtivitiNA"
+   },
+   "from": "https://www.protiviti.com/us-en/careers",
+   "verify": "Atlanta BPT M&A IT Integration PM Senior Manager"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "protiviti.com",
+ "sample_title": "Atlanta BPT M&A IT Integration PM Senior Manager",
+ "description_chars": 9669,
+ "seconds": 16
+}

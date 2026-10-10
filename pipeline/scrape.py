@@ -4,6 +4,7 @@ usage: python -m pipeline.scrape [--only COMPANY ...] [--force] [--roles product
 Raw results are cached per company in data/raw/jobs/<slug>.json (data/raw/jobs_mba/ for --roles mba).
 """
 import argparse
+import glob
 import json
 import os
 import re
@@ -28,9 +29,25 @@ def slug(name):
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
 
 
-def load_registry():
+def load_registry(roles_name="product"):
     with open(os.path.join(ROOT, "data", "registry.json")) as f:
-        return json.load(f)
+        reg = json.load(f)
+    if roles_name == "product":
+        return reg
+    # Employers added for this role set only (consulting firms, banks, funds): discovery records, then
+    # hand- or agent-verified rows, which win. They stay out of data/registry.json so the product map is unchanged.
+    extra = {}
+    paths = sorted(glob.glob(os.path.join(ROOT, "data", "raw", f"discovery_{roles_name}", "*.json")))
+    paths += sorted(glob.glob(os.path.join(ROOT, "data", "raw", f"registry_{roles_name}_employers*.json")))
+    for p in paths:
+        with open(p) as f:
+            rows = json.load(f)
+        for r in rows if isinstance(rows, list) else [rows]:
+            if r.get("verified") and r.get("ats") in ADAPTERS:
+                extra[r["company"].lower()] = {k: v for k, v in r.items() if k not in ("candidates", "seconds")}
+    have = {e["company"].lower() for e in reg if e.get("ats") in ADAPTERS}
+    reg = [e for e in reg if e["company"].lower() not in extra or e["company"].lower() in have]
+    return reg + [dict(r, group=f"{roles_name}_employer") for k, r in extra.items() if k not in have]
 
 
 def main():
@@ -46,7 +63,7 @@ def main():
     title_ok, queries, cache = ROLE_SETS[args.roles]
     RAW = os.path.join(ROOT, "data", "raw", cache)
     os.makedirs(RAW, exist_ok=True)
-    reg = load_registry()
+    reg = load_registry(args.roles)
     summary = []
     todo = []
     for entry in reg:

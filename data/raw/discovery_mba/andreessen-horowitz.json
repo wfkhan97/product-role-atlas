@@ -1,0 +1,59 @@
+{
+ "company": "Andreessen Horowitz",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (Flexport)",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "flexport"
+   },
+   "from": "https://jobs.a16z.com/",
+   "verify": "Business Operations Manager, Office of the CEO"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "shieldai"
+   },
+   "from": "https://jobs.a16z.com/"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "alluxio"
+   },
+   "from": "https://jobs.a16z.com/"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "openevidence"
+   },
+   "from": "https://jobs.a16z.com/"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.a16z.com"
+   },
+   "from": "https://jobs.a16z.com/"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "a16z.com",
+ "sample_title": "Business Operations Manager, Office of the CEO",
+ "description_chars": 5125,
+ "seconds": 5,
+ "rejected": {
+  "ats": "greenhouse",
+  "config": {
+   "board": "flexport"
+  }
+ }
+}

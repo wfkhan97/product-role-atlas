@@ -1,0 +1,31 @@
+{
+ "company": "Putnam",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: parent company board (Inizio)",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "inizio"
+   },
+   "from": "https://inizio.com/our-businesses/ignite/about-inizio-ignite/our-teams/",
+   "verify": "(board reachable; no matching title on first pages)"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "putassoc.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 6,
+ "rejected": {
+  "ats": "greenhouse",
+  "config": {
+   "board": "inizio"
+  }
+ }
+}

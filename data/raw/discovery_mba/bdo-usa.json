@@ -1,0 +1,37 @@
+{
+ "company": "BDO USA",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "ebqb.fa.us2.oraclecloud.com",
+  "siteNumber": "BDOExperiencedCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ebqb.fa.us2.oraclecloud.com",
+    "siteNumber": "BDOExperiencedCareers"
+   },
+   "from": "https://www.bdo.com/careers",
+   "verify": "Managing Director, Enterprise Architecture & Technology Strategy"
+  },
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ebqb.fa.us2.oraclecloud.com",
+    "siteNumber": "BDOEntryLevelCareers"
+   },
+   "from": "https://www.bdo.com/careers"
+  }
+ ],
+ "category": "Big Four and accounting",
+ "domain": "bdo.com",
+ "sample_title": "Managing Director, Enterprise Architecture & Technology Strategy",
+ "description_chars": 7685,
+ "seconds": 27
+}

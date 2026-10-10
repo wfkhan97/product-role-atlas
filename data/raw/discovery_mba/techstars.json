@@ -1,0 +1,66 @@
+{
+ "company": "Techstars",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (Zipline)",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "flyzipline"
+   },
+   "from": "https://jobs.techstars.com/jobs",
+   "verify": "Business Operations Manager, Supply Chain"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "gusto"
+   },
+   "from": "https://jobs.techstars.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "chainalysis-careers"
+   },
+   "from": "https://jobs.techstars.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "preply"
+   },
+   "from": "https://jobs.techstars.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "pilot-fiber"
+   },
+   "from": "https://jobs.techstars.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "openly"
+   },
+   "from": "https://jobs.techstars.com/jobs"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "techstars.com",
+ "sample_title": "Business Operations Manager, Supply Chain",
+ "description_chars": 9499,
+ "seconds": 12,
+ "rejected": {
+  "ats": "greenhouse",
+  "config": {
+   "board": "flyzipline"
+  }
+ }
+}

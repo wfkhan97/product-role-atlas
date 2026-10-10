@@ -1,0 +1,31 @@
+{
+ "company": "Berkeley Research Group",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "thinkbrg.wd5.myworkdayjobs.com",
+  "tenant": "thinkbrg",
+  "site": "BRG_External_Career_Site"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "thinkbrg.wd5.myworkdayjobs.com",
+    "tenant": "thinkbrg",
+    "site": "BRG_External_Career_Site"
+   },
+   "from": "https://www.thinkbrg.com/careers",
+   "verify": "Senior Finance Manager \u2013 Corporate Finance - Boston, MA"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "thinkbrg.com",
+ "sample_title": "Senior Finance Manager \u2013 Corporate Finance - Boston, MA",
+ "description_chars": 5764,
+ "seconds": 10
+}

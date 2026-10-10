@@ -1,0 +1,52 @@
+{
+ "company": "Insight Partners",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (Keeper Security)",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "keepersecurity"
+   },
+   "from": "https://jobs.insightpartners.com/jobs",
+   "verify": "(board reachable; no matching title on first pages)"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "coreview"
+   },
+   "from": "https://jobs.insightpartners.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "connecteam"
+   },
+   "from": "https://jobs.insightpartners.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "checkout"
+   },
+   "from": "https://jobs.insightpartners.com/jobs"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "insightpartners.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 6,
+ "rejected": {
+  "ats": "greenhouse",
+  "config": {
+   "board": "keepersecurity"
+  }
+ }
+}

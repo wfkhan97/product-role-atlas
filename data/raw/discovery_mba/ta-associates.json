@@ -1,0 +1,49 @@
+{
+ "company": "TA Associates",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (MRI Software)",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "mrisoftware.wd501.myworkdayjobs.com",
+    "tenant": "mrisoftware",
+    "site": "External_CareerSite"
+   },
+   "from": "https://careers.ta.com/jobs",
+   "verify": "Director of Global Strategic Finance"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "a3c41b8b71eff8c4"
+   },
+   "from": "https://careers.ta.com/jobs"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "too-lost"
+   },
+   "from": "https://careers.ta.com/jobs"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "ta.com",
+ "sample_title": "Director of Global Strategic Finance",
+ "description_chars": 8094,
+ "seconds": 16,
+ "rejected": {
+  "ats": "workday",
+  "config": {
+   "host": "mrisoftware.wd501.myworkdayjobs.com",
+   "tenant": "mrisoftware",
+   "site": "External_CareerSite"
+  }
+ }
+}

@@ -1,0 +1,31 @@
+{
+ "company": "Santander",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "santander.wd3.myworkdayjobs.com",
+  "tenant": "santander",
+  "site": "SantanderCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "santander.wd3.myworkdayjobs.com",
+    "tenant": "santander",
+    "site": "SantanderCareers"
+   },
+   "from": "https://www.santander.com/en/careers",
+   "verify": "Customer Strategy Analyst - Santander Insurance"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "santander.com",
+ "sample_title": "Customer Strategy Analyst - Santander Insurance",
+ "description_chars": 7694,
+ "seconds": 32
+}

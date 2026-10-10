@@ -1,0 +1,29 @@
+{
+ "company": "First Horizon",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "ibpwjb.fa.ocs.oraclecloud.com",
+  "siteNumber": "CX_1"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ibpwjb.fa.ocs.oraclecloud.com",
+    "siteNumber": "CX_1"
+   },
+   "from": "https://www.firsthorizon.com/First-Horizon-Corporation/Careers",
+   "verify": "Senior Business Banking Relationship Manager"
+  }
+ ],
+ "category": "Commercial and corporate banking",
+ "domain": "firsthorizon.com",
+ "sample_title": "Senior Business Banking Relationship Manager",
+ "description_chars": 4035,
+ "seconds": 24
+}

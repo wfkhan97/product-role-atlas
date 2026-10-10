@@ -5,6 +5,9 @@ signatures in the HTML/redirects, derive an adapter config, and verify it by run
 with a single query. Writes data/raw/discovery/<rank>.json and a merged registry_fortune_auto.json.
 
 usage: python -m pipeline.discover --from 51 --to 100 [--workers 6] [--force]
+       python -m pipeline.discover --list data/raw/mba_employers.json --roles mba
+With --list the companies come from a JSON list (company, domain, category) instead of the Fortune 500
+and the records go to data/raw/discovery_<roles>/<slug>.json.
 """
 import argparse
 import json
@@ -20,7 +23,7 @@ import requests
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline.adapters import ADAPTERS
-from pipeline.roles import title_ok
+from pipeline import roles, roles_mba
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "data", "raw", "discovery")
@@ -28,6 +31,10 @@ UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML,
 S = requests.Session()
 S.headers.update({"User-Agent": UA, "Accept-Language": "en-US,en;q=0.9"})
 
+# what a board has to show to count as verified: (title filter, search queries); --roles switches it
+VERIFY = {"product": (roles.title_ok, ["product manager", "product management"]),
+          "mba": (roles_mba.title_ok, ["strategy", "finance manager", "program manager", "operations manager", "associate"])}
+VERIFY_ROLES = "product"
 OVERRIDE_DOMAINS = {}  # company -> domain, filled from data/raw/domain_overrides.json if present
 
 SIG = [
@@ -226,14 +233,15 @@ def verify(company, ats, cfg):
     if ats not in ADAPTERS:
         return False, "no adapter", 0
     try:
-        c = dict(cfg); c["queries"] = ["product manager", "product management"]
+        title_ok, queries = VERIFY[VERIFY_ROLES]
+        c = dict(cfg); c["queries"] = queries
         kw = {"max_pages": 2} if ats not in ("greenhouse", "lever", "ashby", "smartrecruiters") else {}
         jobs = ADAPTERS[ats](company, c, title_ok, **kw)
         if jobs:
             return True, jobs[0]["title"], len(jobs[0]["description"])
         if reachable(ats, cfg):
-            return True, "(board reachable; no product title on first pages)", 0
-        return False, "0 product postings", 0
+            return True, "(board reachable; no matching title on first pages)", 0
+        return False, "0 matching postings", 0
     except Exception as e:
         return False, f"{type(e).__name__}: {str(e)[:80]}", 0
 
@@ -247,14 +255,16 @@ def eightfold_probe(domain):
     return None
 
 
-def discover(row, force=False):
-    rank, name = row["rank"], row["company"]
-    path = os.path.join(OUT, f"{rank:03d}.json")
+def discover(row, force=False, out=OUT):
+    rank, name = row.get("rank"), row["company"]
+    path = os.path.join(out, f"{rank:03d}.json" if rank else re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-") + ".json")
     if os.path.exists(path) and not force:
         return json.load(open(path))
-    rec = {"company": name, "rank": rank, "group": "fortune500", "industry": row.get("industry"), "ats": "unsupported", "config": {}, "verified": False, "notes": "", "candidates": []}
+    rec = {"company": name, "rank": rank, "group": row.get("group", "fortune500"), "industry": row.get("industry"), "ats": "unsupported", "config": {}, "verified": False, "notes": "", "candidates": []}
+    if row.get("category"):
+        rec["category"] = row["category"]
     t0 = time.time()
-    domain = OVERRIDE_DOMAINS.get(name) or find_domain(name)
+    domain = row.get("domain") or OVERRIDE_DOMAINS.get(name) or find_domain(name)
     rec["domain"] = domain
     if not domain:
         rec["notes"] = "no website found"
@@ -306,7 +316,7 @@ def discover(row, force=False):
             rec["ats"] = rec["candidates"][0]["ats"]; rec["config"] = rec["candidates"][0]["config"]
     rec["seconds"] = round(time.time() - t0)
     json.dump(rec, open(path, "w"), indent=1)
-    print(f"[{'ok' if rec['verified'] else '--'}] {rank:3d} {name:32s} {rec['ats']:14s} {domain or '-':28s} {rec.get('sample_title') or rec['notes'][:70]}", flush=True)
+    print(f"[{'ok' if rec['verified'] else '--'}] {rank or 0:3d} {name:32s} {rec['ats']:14s} {domain or '-':28s} {rec.get('sample_title') or rec['notes'][:70]}", flush=True)
     return rec
 
 
@@ -317,14 +327,22 @@ def main():
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--only", nargs="*")
+    ap.add_argument("--list", help="JSON list of companies to discover instead of a Fortune rank range")
+    ap.add_argument("--roles", choices=sorted(VERIFY), default="product")
     args = ap.parse_args()
-    os.makedirs(OUT, exist_ok=True)
+    global VERIFY_ROLES
+    VERIFY_ROLES = args.roles
+    out = os.path.join(ROOT, "data", "raw", f"discovery_{args.roles}") if args.list else OUT
+    os.makedirs(out, exist_ok=True)
     ov = os.path.join(ROOT, "data", "raw", "domain_overrides.json")
     if os.path.exists(ov):
         OVERRIDE_DOMAINS.update(json.load(open(ov)))
-    rows = [r for r in json.load(open(os.path.join(ROOT, "data", "raw", "fortune500_2026.json"))) if args.lo <= r["rank"] <= args.hi and (not args.only or r["company"] in args.only)]
+    if args.list:
+        rows = [dict(r, group=f"{args.roles}_employer") for r in json.load(open(args.list)) if not args.only or r["company"] in args.only]
+    else:
+        rows = [r for r in json.load(open(os.path.join(ROOT, "data", "raw", "fortune500_2026.json"))) if args.lo <= r["rank"] <= args.hi and (not args.only or r["company"] in args.only)]
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
-        results = list(ex.map(lambda r: discover(r, args.force), rows))
+        results = list(ex.map(lambda r: discover(r, args.force, out), rows))
     ok = [r for r in results if r["verified"]]
     print(f"\n{len(ok)}/{len(results)} verified")
     import collections

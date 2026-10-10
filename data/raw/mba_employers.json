@@ -1,0 +1,842 @@
+[
+{
+"company": "McKinsey & Company",
+"category": "Strategy consulting",
+"domain": "mckinsey.com"
+},
+{
+"company": "Boston Consulting Group",
+"category": "Strategy consulting",
+"domain": "bcg.com"
+},
+{
+"company": "Bain & Company",
+"category": "Strategy consulting",
+"domain": "bain.com"
+},
+{
+"company": "Oliver Wyman",
+"category": "Strategy consulting",
+"domain": "oliverwyman.com"
+},
+{
+"company": "Kearney",
+"category": "Strategy consulting",
+"domain": "kearney.com"
+},
+{
+"company": "L.E.K. Consulting",
+"category": "Strategy consulting",
+"domain": "lek.com"
+},
+{
+"company": "Roland Berger",
+"category": "Strategy consulting",
+"domain": "rolandberger.com"
+},
+{
+"company": "Simon-Kucher",
+"category": "Strategy consulting",
+"domain": "simon-kucher.com"
+},
+{
+"company": "ZS",
+"category": "Strategy consulting",
+"domain": "zs.com"
+},
+{
+"company": "Analysis Group",
+"category": "Strategy consulting",
+"domain": "analysisgroup.com"
+},
+{
+"company": "Charles River Associates",
+"category": "Strategy consulting",
+"domain": "crai.com"
+},
+{
+"company": "Cornerstone Research",
+"category": "Strategy consulting",
+"domain": "cornerstone.com"
+},
+{
+"company": "Putnam",
+"category": "Strategy consulting",
+"domain": "putassoc.com"
+},
+{
+"company": "ClearView Healthcare Partners",
+"category": "Strategy consulting",
+"domain": "clearviewhcp.com"
+},
+{
+"company": "Accenture",
+"category": "Consulting and advisory",
+"domain": "accenture.com"
+},
+{
+"company": "Alvarez & Marsal",
+"category": "Consulting and advisory",
+"domain": "alvarezandmarsal.com"
+},
+{
+"company": "AlixPartners",
+"category": "Consulting and advisory",
+"domain": "alixpartners.com"
+},
+{
+"company": "FTI Consulting",
+"category": "Consulting and advisory",
+"domain": "fticonsulting.com"
+},
+{
+"company": "Huron",
+"category": "Consulting and advisory",
+"domain": "huronconsultinggroup.com"
+},
+{
+"company": "West Monroe",
+"category": "Consulting and advisory",
+"domain": "westmonroe.com"
+},
+{
+"company": "Guidehouse",
+"category": "Consulting and advisory",
+"domain": "guidehouse.com"
+},
+{
+"company": "Slalom",
+"category": "Consulting and advisory",
+"domain": "slalom.com"
+},
+{
+"company": "Capgemini",
+"category": "Consulting and advisory",
+"domain": "capgemini.com"
+},
+{
+"company": "Protiviti",
+"category": "Consulting and advisory",
+"domain": "protiviti.com"
+},
+{
+"company": "Gartner",
+"category": "Consulting and advisory",
+"domain": "gartner.com"
+},
+{
+"company": "IBM",
+"category": "Consulting and advisory",
+"domain": "ibm.com"
+},
+{
+"company": "Kroll",
+"category": "Consulting and advisory",
+"domain": "kroll.com"
+},
+{
+"company": "Berkeley Research Group",
+"category": "Consulting and advisory",
+"domain": "thinkbrg.com"
+},
+{
+"company": "Publicis Sapient",
+"category": "Consulting and advisory",
+"domain": "publicissapient.com"
+},
+{
+"company": "Cognizant",
+"category": "Consulting and advisory",
+"domain": "cognizant.com"
+},
+{
+"company": "Deloitte",
+"category": "Big Four and accounting",
+"domain": "deloitte.com"
+},
+{
+"company": "PwC",
+"category": "Big Four and accounting",
+"domain": "pwc.com"
+},
+{
+"company": "EY",
+"category": "Big Four and accounting",
+"domain": "ey.com"
+},
+{
+"company": "KPMG",
+"category": "Big Four and accounting",
+"domain": "kpmg.com"
+},
+{
+"company": "Grant Thornton",
+"category": "Big Four and accounting",
+"domain": "grantthornton.com"
+},
+{
+"company": "BDO USA",
+"category": "Big Four and accounting",
+"domain": "bdo.com"
+},
+{
+"company": "RSM US",
+"category": "Big Four and accounting",
+"domain": "rsmus.com"
+},
+{
+"company": "Baker Tilly",
+"category": "Big Four and accounting",
+"domain": "bakertilly.com"
+},
+{
+"company": "CohnReznick",
+"category": "Big Four and accounting",
+"domain": "cohnreznick.com"
+},
+{
+"company": "Crowe",
+"category": "Big Four and accounting",
+"domain": "crowe.com"
+},
+{
+"company": "Lazard",
+"category": "Investment banking",
+"domain": "lazard.com"
+},
+{
+"company": "Evercore",
+"category": "Investment banking",
+"domain": "evercore.com"
+},
+{
+"company": "Moelis & Company",
+"category": "Investment banking",
+"domain": "moelis.com"
+},
+{
+"company": "Centerview Partners",
+"category": "Investment banking",
+"domain": "centerviewpartners.com"
+},
+{
+"company": "PJT Partners",
+"category": "Investment banking",
+"domain": "pjtpartners.com"
+},
+{
+"company": "Perella Weinberg Partners",
+"category": "Investment banking",
+"domain": "pwpartners.com"
+},
+{
+"company": "Houlihan Lokey",
+"category": "Investment banking",
+"domain": "hl.com"
+},
+{
+"company": "Guggenheim Partners",
+"category": "Investment banking",
+"domain": "guggenheimpartners.com"
+},
+{
+"company": "Rothschild & Co",
+"category": "Investment banking",
+"domain": "rothschildandco.com"
+},
+{
+"company": "William Blair",
+"category": "Investment banking",
+"domain": "williamblair.com"
+},
+{
+"company": "Baird",
+"category": "Investment banking",
+"domain": "rwbaird.com"
+},
+{
+"company": "Piper Sandler",
+"category": "Investment banking",
+"domain": "pipersandler.com"
+},
+{
+"company": "Stifel",
+"category": "Investment banking",
+"domain": "stifel.com"
+},
+{
+"company": "Lincoln International",
+"category": "Investment banking",
+"domain": "lincolninternational.com"
+},
+{
+"company": "Harris Williams",
+"category": "Investment banking",
+"domain": "harriswilliams.com"
+},
+{
+"company": "Barclays",
+"category": "Investment banking",
+"domain": "barclays.com"
+},
+{
+"company": "UBS",
+"category": "Investment banking",
+"domain": "ubs.com"
+},
+{
+"company": "Deutsche Bank",
+"category": "Investment banking",
+"domain": "db.com"
+},
+{
+"company": "RBC",
+"category": "Investment banking",
+"domain": "rbc.com"
+},
+{
+"company": "BMO",
+"category": "Investment banking",
+"domain": "bmo.com"
+},
+{
+"company": "Nomura",
+"category": "Investment banking",
+"domain": "nomura.com"
+},
+{
+"company": "HSBC",
+"category": "Investment banking",
+"domain": "hsbc.com"
+},
+{
+"company": "BNP Paribas",
+"category": "Investment banking",
+"domain": "bnpparibas.com"
+},
+{
+"company": "Mizuho",
+"category": "Investment banking",
+"domain": "mizuhogroup.com"
+},
+{
+"company": "MUFG",
+"category": "Investment banking",
+"domain": "mufgamericas.com"
+},
+{
+"company": "TD",
+"category": "Investment banking",
+"domain": "td.com"
+},
+{
+"company": "Santander",
+"category": "Investment banking",
+"domain": "santander.com"
+},
+{
+"company": "Macquarie",
+"category": "Investment banking",
+"domain": "macquarie.com"
+},
+{
+"company": "Cantor Fitzgerald",
+"category": "Investment banking",
+"domain": "cantor.com"
+},
+{
+"company": "Oppenheimer",
+"category": "Investment banking",
+"domain": "oppenheimer.com"
+},
+{
+"company": "Truist Securities",
+"category": "Investment banking",
+"domain": "truist.com"
+},
+{
+"company": "Carlyle",
+"category": "Private equity",
+"domain": "carlyle.com"
+},
+{
+"company": "TPG",
+"category": "Private equity",
+"domain": "tpg.com"
+},
+{
+"company": "Bain Capital",
+"category": "Private equity",
+"domain": "baincapital.com"
+},
+{
+"company": "Warburg Pincus",
+"category": "Private equity",
+"domain": "warburgpincus.com"
+},
+{
+"company": "Advent International",
+"category": "Private equity",
+"domain": "adventinternational.com"
+},
+{
+"company": "General Atlantic",
+"category": "Private equity",
+"domain": "generalatlantic.com"
+},
+{
+"company": "Silver Lake",
+"category": "Private equity",
+"domain": "silverlake.com"
+},
+{
+"company": "Vista Equity Partners",
+"category": "Private equity",
+"domain": "vistaequitypartners.com"
+},
+{
+"company": "Thoma Bravo",
+"category": "Private equity",
+"domain": "thomabravo.com"
+},
+{
+"company": "Ares Management",
+"category": "Private equity",
+"domain": "aresmgmt.com"
+},
+{
+"company": "Brookfield",
+"category": "Private equity",
+"domain": "brookfield.com"
+},
+{
+"company": "Hellman & Friedman",
+"category": "Private equity",
+"domain": "hf.com"
+},
+{
+"company": "EQT",
+"category": "Private equity",
+"domain": "eqtgroup.com"
+},
+{
+"company": "Clayton, Dubilier & Rice",
+"category": "Private equity",
+"domain": "cdr.com"
+},
+{
+"company": "Golub Capital",
+"category": "Private equity",
+"domain": "golubcapital.com"
+},
+{
+"company": "HarbourVest",
+"category": "Private equity",
+"domain": "harbourvest.com"
+},
+{
+"company": "Neuberger Berman",
+"category": "Private equity",
+"domain": "nb.com"
+},
+{
+"company": "StepStone Group",
+"category": "Private equity",
+"domain": "stepstonegroup.com"
+},
+{
+"company": "Hamilton Lane",
+"category": "Private equity",
+"domain": "hamiltonlane.com"
+},
+{
+"company": "Blue Owl",
+"category": "Private equity",
+"domain": "blueowl.com"
+},
+{
+"company": "Oaktree",
+"category": "Private equity",
+"domain": "oaktreecapital.com"
+},
+{
+"company": "H.I.G. Capital",
+"category": "Private equity",
+"domain": "hig.com"
+},
+{
+"company": "Francisco Partners",
+"category": "Private equity",
+"domain": "franciscopartners.com"
+},
+{
+"company": "Leonard Green & Partners",
+"category": "Private equity",
+"domain": "leonardgreen.com"
+},
+{
+"company": "Summit Partners",
+"category": "Private equity",
+"domain": "summitpartners.com"
+},
+{
+"company": "TA Associates",
+"category": "Private equity",
+"domain": "ta.com"
+},
+{
+"company": "Andreessen Horowitz",
+"category": "Venture capital",
+"domain": "a16z.com"
+},
+{
+"company": "Sequoia Capital",
+"category": "Venture capital",
+"domain": "sequoiacap.com"
+},
+{
+"company": "General Catalyst",
+"category": "Venture capital",
+"domain": "generalcatalyst.com"
+},
+{
+"company": "Lightspeed Venture Partners",
+"category": "Venture capital",
+"domain": "lsvp.com"
+},
+{
+"company": "Accel",
+"category": "Venture capital",
+"domain": "accel.com"
+},
+{
+"company": "Bessemer Venture Partners",
+"category": "Venture capital",
+"domain": "bvp.com"
+},
+{
+"company": "Kleiner Perkins",
+"category": "Venture capital",
+"domain": "kleinerperkins.com"
+},
+{
+"company": "Khosla Ventures",
+"category": "Venture capital",
+"domain": "khoslaventures.com"
+},
+{
+"company": "Founders Fund",
+"category": "Venture capital",
+"domain": "foundersfund.com"
+},
+{
+"company": "Index Ventures",
+"category": "Venture capital",
+"domain": "indexventures.com"
+},
+{
+"company": "NEA",
+"category": "Venture capital",
+"domain": "nea.com"
+},
+{
+"company": "Greylock",
+"category": "Venture capital",
+"domain": "greylock.com"
+},
+{
+"company": "Battery Ventures",
+"category": "Venture capital",
+"domain": "battery.com"
+},
+{
+"company": "Insight Partners",
+"category": "Venture capital",
+"domain": "insightpartners.com"
+},
+{
+"company": "Thrive Capital",
+"category": "Venture capital",
+"domain": "thrivecap.com"
+},
+{
+"company": "Tiger Global",
+"category": "Venture capital",
+"domain": "tigerglobal.com"
+},
+{
+"company": "Coatue",
+"category": "Venture capital",
+"domain": "coatue.com"
+},
+{
+"company": "GV",
+"category": "Venture capital",
+"domain": "gv.com"
+},
+{
+"company": "Y Combinator",
+"category": "Venture capital",
+"domain": "ycombinator.com"
+},
+{
+"company": "First Round Capital",
+"category": "Venture capital",
+"domain": "firstround.com"
+},
+{
+"company": "IVP",
+"category": "Venture capital",
+"domain": "ivp.com"
+},
+{
+"company": "Redpoint",
+"category": "Venture capital",
+"domain": "redpoint.com"
+},
+{
+"company": "Menlo Ventures",
+"category": "Venture capital",
+"domain": "menlovc.com"
+},
+{
+"company": "Norwest",
+"category": "Venture capital",
+"domain": "norwest.com"
+},
+{
+"company": "8VC",
+"category": "Venture capital",
+"domain": "8vc.com"
+},
+{
+"company": "Lux Capital",
+"category": "Venture capital",
+"domain": "luxcapital.com"
+},
+{
+"company": "Felicis",
+"category": "Venture capital",
+"domain": "felicis.com"
+},
+{
+"company": "TCV",
+"category": "Venture capital",
+"domain": "tcv.com"
+},
+{
+"company": "ICONIQ",
+"category": "Venture capital",
+"domain": "iconiqcapital.com"
+},
+{
+"company": "Bain Capital Ventures",
+"category": "Venture capital",
+"domain": "baincapitalventures.com"
+},
+{
+"company": "Silicon Valley Bank",
+"category": "Venture capital",
+"domain": "svb.com"
+},
+{
+"company": "Techstars",
+"category": "Venture capital",
+"domain": "techstars.com"
+},
+{
+"company": "Vanguard",
+"category": "Asset management",
+"domain": "vanguard.com"
+},
+{
+"company": "Fidelity Investments",
+"category": "Asset management",
+"domain": "fidelity.com"
+},
+{
+"company": "PIMCO",
+"category": "Asset management",
+"domain": "pimco.com"
+},
+{
+"company": "T. Rowe Price",
+"category": "Asset management",
+"domain": "troweprice.com"
+},
+{
+"company": "Wellington Management",
+"category": "Asset management",
+"domain": "wellington.com"
+},
+{
+"company": "Capital Group",
+"category": "Asset management",
+"domain": "capitalgroup.com"
+},
+{
+"company": "Invesco",
+"category": "Asset management",
+"domain": "invesco.com"
+},
+{
+"company": "AllianceBernstein",
+"category": "Asset management",
+"domain": "alliancebernstein.com"
+},
+{
+"company": "Bridgewater Associates",
+"category": "Asset management",
+"domain": "bridgewater.com"
+},
+{
+"company": "Citadel",
+"category": "Asset management",
+"domain": "citadel.com"
+},
+{
+"company": "Two Sigma",
+"category": "Asset management",
+"domain": "twosigma.com"
+},
+{
+"company": "Point72",
+"category": "Asset management",
+"domain": "point72.com"
+},
+{
+"company": "D. E. Shaw",
+"category": "Asset management",
+"domain": "deshaw.com"
+},
+{
+"company": "Millennium",
+"category": "Asset management",
+"domain": "mlp.com"
+},
+{
+"company": "AQR",
+"category": "Asset management",
+"domain": "aqr.com"
+},
+{
+"company": "Dimensional Fund Advisors",
+"category": "Asset management",
+"domain": "dimensional.com"
+},
+{
+"company": "MFS Investment Management",
+"category": "Asset management",
+"domain": "mfs.com"
+},
+{
+"company": "Janus Henderson",
+"category": "Asset management",
+"domain": "janushenderson.com"
+},
+{
+"company": "Lord Abbett",
+"category": "Asset management",
+"domain": "lordabbett.com"
+},
+{
+"company": "Nuveen",
+"category": "Asset management",
+"domain": "nuveen.com"
+},
+{
+"company": "Cambridge Associates",
+"category": "Asset management",
+"domain": "cambridgeassociates.com"
+},
+{
+"company": "Morningstar",
+"category": "Asset management",
+"domain": "morningstar.com"
+},
+{
+"company": "Balyasny",
+"category": "Asset management",
+"domain": "bamfunds.com"
+},
+{
+"company": "Jane Street",
+"category": "Asset management",
+"domain": "janestreet.com"
+},
+{
+"company": "Man Group",
+"category": "Asset management",
+"domain": "man.com"
+},
+{
+"company": "Schroders",
+"category": "Asset management",
+"domain": "schroders.com"
+},
+{
+"company": "PGIM",
+"category": "Asset management",
+"domain": "pgim.com"
+},
+{
+"company": "Comerica",
+"category": "Commercial and corporate banking",
+"domain": "comerica.com"
+},
+{
+"company": "Zions Bancorporation",
+"category": "Commercial and corporate banking",
+"domain": "zionsbancorporation.com"
+},
+{
+"company": "Webster Bank",
+"category": "Commercial and corporate banking",
+"domain": "websterbank.com"
+},
+{
+"company": "Western Alliance Bank",
+"category": "Commercial and corporate banking",
+"domain": "westernalliancebancorporation.com"
+},
+{
+"company": "East West Bank",
+"category": "Commercial and corporate banking",
+"domain": "eastwestbank.com"
+},
+{
+"company": "Popular",
+"category": "Commercial and corporate banking",
+"domain": "popular.com"
+},
+{
+"company": "Synovus",
+"category": "Commercial and corporate banking",
+"domain": "synovus.com"
+},
+{
+"company": "First Horizon",
+"category": "Commercial and corporate banking",
+"domain": "firsthorizon.com"
+},
+{
+"company": "Wintrust",
+"category": "Commercial and corporate banking",
+"domain": "wintrust.com"
+},
+{
+"company": "Cullen/Frost",
+"category": "Commercial and corporate banking",
+"domain": "frostbank.com"
+},
+{
+"company": "City National Bank",
+"category": "Commercial and corporate banking",
+"domain": "cnb.com"
+},
+{
+"company": "Huntington Bancshares",
+"category": "Commercial and corporate banking",
+"domain": "huntington.com"
+}
+]

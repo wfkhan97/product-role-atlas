@@ -1,0 +1,33 @@
+{
+ "company": "Analysis Group",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "icims",
+ "config": {
+  "host": "datasciencecareers-analysisgroup.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 matching postings; icims 0 matching postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "datasciencecareers-analysisgroup.icims.com"
+   },
+   "from": "https://www.analysisgroup.com/careers",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "professionalcareers-analysisgroup.icims.com"
+   },
+   "from": "https://www.analysisgroup.com/careers",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "analysisgroup.com",
+ "seconds": 8
+}

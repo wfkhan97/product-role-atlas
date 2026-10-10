@@ -1,0 +1,38 @@
+{
+ "company": "Khosla Ventures",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (Affirm)",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "affirm"
+   },
+   "from": "https://jobs.khoslaventures.com/jobs",
+   "verify": "Chief of Staff Director, Product"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "omnea"
+   },
+   "from": "https://jobs.khoslaventures.com/jobs"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "khoslaventures.com",
+ "sample_title": "Chief of Staff Director, Product",
+ "description_chars": 6268,
+ "seconds": 7,
+ "rejected": {
+  "ats": "greenhouse",
+  "config": {
+   "board": "affirm"
+  }
+ }
+}

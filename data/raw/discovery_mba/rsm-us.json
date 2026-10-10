@@ -1,0 +1,31 @@
+{
+ "company": "RSM US",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "rsm.wd1.myworkdayjobs.com",
+  "tenant": "rsm",
+  "site": "RSMCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "rsm.wd1.myworkdayjobs.com",
+    "tenant": "rsm",
+    "site": "RSMCareers"
+   },
+   "from": "https://jobs.rsmus.com/",
+   "verify": "Deal Services Consulting Partner/Principal - M&A Integration, Separations and Value Creation Advisory (Location Flexible)"
+  }
+ ],
+ "category": "Big Four and accounting",
+ "domain": "rsmus.com",
+ "sample_title": "Deal Services Consulting Partner/Principal - M&A Integration, Separations and Value Creation Advisory (Location Flexible)",
+ "description_chars": 9424,
+ "seconds": 19
+}

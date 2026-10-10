@@ -1,0 +1,45 @@
+{
+ "company": "RBC",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "rbc.wd3.myworkdayjobs.com",
+  "tenant": "rbc",
+  "site": "RBCGLOBAL1"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "jobs.rbc.com"
+   },
+   "from": "https://jobs.rbc.com/ca/en"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/prod/RBCAA0088/en_ca/desktop/assets/images/favicon.ico"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "rbc.wd3.myworkdayjobs.com",
+    "tenant": "rbc",
+    "site": "RBCGLOBAL1"
+   },
+   "from": "https://jobs.rbc.com/ca/en/search-results",
+   "verify": "Director, Finance Intelligent Automation & Controls"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "rbc.com",
+ "sample_title": "Director, Finance Intelligent Automation & Controls",
+ "description_chars": 8129,
+ "seconds": 77
+}

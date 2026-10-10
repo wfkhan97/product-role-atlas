@@ -1,0 +1,16 @@
+{
+ "company": "Silver Lake",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.silverlake.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Private equity",
+ "domain": "silverlake.com",
+ "seconds": 12
+}

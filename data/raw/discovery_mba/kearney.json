@@ -1,0 +1,16 @@
+{
+ "company": "Kearney",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.kearney.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Strategy consulting",
+ "domain": "kearney.com",
+ "seconds": 6
+}

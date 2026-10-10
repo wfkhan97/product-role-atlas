@@ -1,0 +1,63 @@
+{
+ "company": "Silicon Valley Bank",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: First Citizens board, already in the registry",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "firstcitizens.icims.com"
+   },
+   "from": "https://jobs.firstcitizens.com",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://jobs.firstcitizens.com",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "external-firstcitizens.icims.com"
+   },
+   "from": "https://jobs.firstcitizens.com",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "internal-firstcitizens.icims.com"
+   },
+   "from": "https://jobs.firstcitizens.com",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "jobs.firstcitizens.com"
+   },
+   "from": "https://jobs.firstcitizens.com",
+   "verify": "2027 Summer Intern \u2013 Business Strategy & Analytics (Raleigh, NC)"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "svb.com",
+ "sample_title": "2027 Summer Intern \u2013 Business Strategy & Analytics (Raleigh, NC)",
+ "description_chars": 3884,
+ "seconds": 26,
+ "rejected": {
+  "ats": "jibe",
+  "config": {
+   "host": "jobs.firstcitizens.com"
+  }
+ }
+}

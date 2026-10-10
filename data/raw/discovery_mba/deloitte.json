@@ -1,0 +1,72 @@
+{
+ "company": "Deloitte",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: Irish Workday tenant (deloitteie), not the US firm",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "deloitteie.wd3.myworkdayjobs.com",
+    "tenant": "deloitteie",
+    "site": "Experienced_Professionals"
+   },
+   "from": "https://www.deloitte.com/global/en/careers/job-search.html?icid=top_job-search",
+   "verify": "Customer Strategy Manager"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "deloitte"
+   },
+   "from": "https://www.deloitte.com/global/en/careers/job-search.html?icid=top_job-search"
+  },
+  {
+   "ats": "smartrecruiters",
+   "config": {
+    "company": "Deloitte6"
+   },
+   "from": "https://www.deloitte.com/global/en/careers/job-search.html?icid=top_job-search"
+  },
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "dttit.taleo.net",
+    "careersection": "d_corporate+28greece29"
+   },
+   "from": "https://www.deloitte.com/global/en/careers/job-search.html?icid=top_job-search"
+  },
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "dttit.taleo.net",
+    "careersection": "d_corporate+28malta29"
+   },
+   "from": "https://www.deloitte.com/global/en/careers/job-search.html?icid=top_job-search"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.deloitte.com"
+   },
+   "from": "https://www.deloitte.com/global/en/careers/job-search.html?icid=top_job-search"
+  }
+ ],
+ "category": "Big Four and accounting",
+ "domain": "deloitte.com",
+ "sample_title": "Customer Strategy Manager",
+ "description_chars": 5779,
+ "seconds": 29,
+ "rejected": {
+  "ats": "workday",
+  "config": {
+   "host": "deloitteie.wd3.myworkdayjobs.com",
+   "tenant": "deloitteie",
+   "site": "Experienced_Professionals"
+  }
+ }
+}

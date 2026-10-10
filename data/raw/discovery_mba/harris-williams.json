@@ -1,0 +1,31 @@
+{
+ "company": "Harris Williams",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "pnc.wd5.myworkdayjobs.com",
+  "tenant": "pnc",
+  "site": "HarrisWilliams"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "pnc.wd5.myworkdayjobs.com",
+    "tenant": "pnc",
+    "site": "HarrisWilliams"
+   },
+   "from": "https://www.harriswilliams.com/careers",
+   "verify": "Senior FP&A Analyst"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "harriswilliams.com",
+ "sample_title": "Senior FP&A Analyst",
+ "description_chars": 11118,
+ "seconds": 18
+}

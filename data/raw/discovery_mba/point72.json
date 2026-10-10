@@ -1,0 +1,27 @@
+{
+ "company": "Point72",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "greenhouse",
+ "config": {
+  "board": "point72"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "point72"
+   },
+   "from": "https://careers.point72.com/",
+   "verify": "2027 Point72 Academy Investment Analyst Summer Internship Program - Hong Kong"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "point72.com",
+ "sample_title": "2027 Point72 Academy Investment Analyst Summer Internship Program - Hong Kong",
+ "description_chars": 4915,
+ "seconds": 6
+}

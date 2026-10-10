@@ -1,0 +1,16 @@
+{
+ "company": "AlixPartners",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.alixpartners.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Consulting and advisory",
+ "domain": "alixpartners.com",
+ "seconds": 16
+}

@@ -1,0 +1,43 @@
+{
+ "company": "ZS",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "jibe",
+ "config": {
+  "host": "jobs.zs.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-zs.icims.com"
+   },
+   "from": "https://jobs.zs.com/jobs",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://jobs.zs.com/jobs",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "jobs.zs.com"
+   },
+   "from": "https://jobs.zs.com/jobs",
+   "verify": "AI Strategy Consultant Intern (North America - University Students)"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "zs.com",
+ "sample_title": "AI Strategy Consultant Intern (North America - University Students)",
+ "description_chars": 6965,
+ "seconds": 19
+}

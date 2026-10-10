@@ -1,0 +1,70 @@
+{
+ "company": "8VC",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (Resilience)",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "resilience.wd1.myworkdayjobs.com",
+    "tenant": "resilience",
+    "site": "Resilience_Careers"
+   },
+   "from": "https://www.8vc.com/jobs",
+   "verify": "(board reachable; no matching title on first pages)"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "habi"
+   },
+   "from": "https://www.8vc.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "platformscience"
+   },
+   "from": "https://www.8vc.com/jobs"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "commure"
+   },
+   "from": "https://www.8vc.com/jobs"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "tilda-research"
+   },
+   "from": "https://www.8vc.com/jobs"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "anduril"
+   },
+   "from": "https://www.8vc.com/jobs"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "8vc.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 29,
+ "rejected": {
+  "ats": "workday",
+  "config": {
+   "host": "resilience.wd1.myworkdayjobs.com",
+   "tenant": "resilience",
+   "site": "Resilience_Careers"
+  }
+ }
+}

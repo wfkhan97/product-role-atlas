@@ -1,0 +1,31 @@
+{
+ "company": "Cambridge Associates",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "cambridgeassociates.wd5.myworkdayjobs.com",
+  "tenant": "cambridgeassociates",
+  "site": "Cambridge_Associates"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "cambridgeassociates.wd5.myworkdayjobs.com",
+    "tenant": "cambridgeassociates",
+    "site": "Cambridge_Associates"
+   },
+   "from": "https://www.cambridgeassociates.com/careers/",
+   "verify": "Investment Analyst, Investment Strategy Research"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "cambridgeassociates.com",
+ "sample_title": "Investment Analyst, Investment Strategy Research",
+ "description_chars": 4641,
+ "seconds": 16
+}

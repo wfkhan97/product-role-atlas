@@ -1,0 +1,38 @@
+{
+ "company": "Accenture",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "accenture.wd103.myworkdayjobs.com",
+  "tenant": "accenture",
+  "site": "AccentureCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "accenture.wd103.myworkdayjobs.com",
+    "tenant": "accenture",
+    "site": "AccentureCareers"
+   },
+   "from": "https://www.accenture.com/us-en/careers",
+   "verify": "Strategy Consultant - Corporate Strategy & Growth"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.accenture.com"
+   },
+   "from": "https://www.accenture.com/us-en/careers"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "accenture.com",
+ "sample_title": "Strategy Consultant - Corporate Strategy & Growth",
+ "description_chars": 7373,
+ "seconds": 127
+}

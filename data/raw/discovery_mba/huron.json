@@ -1,0 +1,31 @@
+{
+ "company": "Huron",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "huron.wd1.myworkdayjobs.com",
+  "tenant": "huron",
+  "site": "huroncareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "huron.wd1.myworkdayjobs.com",
+    "tenant": "huron",
+    "site": "huroncareers"
+   },
+   "from": "https://www.huronconsultinggroup.com/en/careers",
+   "verify": "Innosight Consulting Senior Associate, Strategy & Operations"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "huronconsultinggroup.com",
+ "sample_title": "Innosight Consulting Senior Associate, Strategy & Operations",
+ "description_chars": 6140,
+ "seconds": 18
+}

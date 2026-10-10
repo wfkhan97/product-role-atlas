@@ -1,0 +1,25 @@
+{
+ "company": "AQR",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "greenhouse",
+ "config": {
+  "board": "embed"
+ },
+ "verified": false,
+ "notes": "candidates: greenhouse HTTPError: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "embed"
+   },
+   "from": "https://careers.aqr.com/",
+   "verify": "HTTPError: 404 Client Error: Not Found for url: https://boards-api.greenhouse.io/v1/boards/"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "aqr.com",
+ "seconds": 5
+}

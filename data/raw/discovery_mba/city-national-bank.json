@@ -1,0 +1,43 @@
+{
+ "company": "City National Bank",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "jibe",
+ "config": {
+  "host": "careers.cnb.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://careers.cnb.com/",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-cnb.icims.com"
+   },
+   "from": "https://careers.cnb.com/",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "careers.cnb.com"
+   },
+   "from": "https://careers.cnb.com/",
+   "verify": "Relationship Manager Business Banking Sr"
+  }
+ ],
+ "category": "Commercial and corporate banking",
+ "domain": "cnb.com",
+ "sample_title": "Relationship Manager Business Banking Sr",
+ "description_chars": 8049,
+ "seconds": 12
+}

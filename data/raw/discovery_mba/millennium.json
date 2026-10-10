@@ -1,0 +1,39 @@
+{
+ "company": "Millennium",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "eightfold",
+ "config": {
+  "host": "mlp.eightfold.ai",
+  "domain": "mlp.com",
+  "api": "pcsx"
+ },
+ "verified": false,
+ "notes": "candidates: eightfold 0 matching postings; eightfold 0 matching postings",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "mlp.eightfold.ai",
+    "domain": "mlp.com",
+    "api": "pcsx"
+   },
+   "from": "https://www.mlp.com/careers/",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "app.eightfold.ai",
+    "domain": "app.com",
+    "api": "pcsx"
+   },
+   "from": "https://www.mlp.com/careers/",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "mlp.com",
+ "seconds": 9
+}

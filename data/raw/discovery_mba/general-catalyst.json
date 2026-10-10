@@ -1,0 +1,25 @@
+{
+ "company": "General Catalyst",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "greenhouse",
+ "config": {
+  "board": "generalcatalyst"
+ },
+ "verified": false,
+ "notes": "candidates: greenhouse 0 matching postings",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "generalcatalyst"
+   },
+   "from": "https://jobs.generalcatalyst.com/companies",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "generalcatalyst.com",
+ "seconds": 14
+}

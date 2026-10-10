@@ -1,0 +1,34 @@
+{
+ "company": "Synovus",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "phenom",
+ "config": {
+  "host": "careers.synovus.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.synovus.com"
+   },
+   "from": "https://careers.synovus.com/us/en",
+   "verify": "Process Automation & AI Program Manager (Onsite in Birmingham, AL or Atlanta, GA)"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/prod/SYNOUS/en_us/desktop/assets/images/favicon.ico"
+  }
+ ],
+ "category": "Commercial and corporate banking",
+ "domain": "synovus.com",
+ "sample_title": "Process Automation & AI Program Manager (Onsite in Birmingham, AL or Atlanta, GA)",
+ "description_chars": 6087,
+ "seconds": 27
+}

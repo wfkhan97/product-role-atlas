@@ -1,0 +1,42 @@
+{
+ "company": "Oliver Wyman",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: whole Marsh McLennan board, already in the registry as Marsh & McLennan",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "mmc.wd1.myworkdayjobs.com",
+    "tenant": "mmc",
+    "site": "MMC"
+   },
+   "from": "https://careers.marsh.com/global/en/oliver-wyman-search",
+   "verify": "Lippincott - Consultant, Strategy"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.marsh.com"
+   },
+   "from": "https://careers.marsh.com/global/en/oliver-wyman-search"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "oliverwyman.com",
+ "sample_title": "Lippincott - Consultant, Strategy",
+ "description_chars": 6536,
+ "seconds": 33,
+ "rejected": {
+  "ats": "workday",
+  "config": {
+   "host": "mmc.wd1.myworkdayjobs.com",
+   "tenant": "mmc",
+   "site": "MMC"
+  }
+ }
+}

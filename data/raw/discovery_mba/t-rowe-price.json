@@ -1,0 +1,40 @@
+{
+ "company": "T. Rowe Price",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "troweprice.wd5.myworkdayjobs.com",
+  "tenant": "troweprice",
+  "site": "TRowePrice"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "troweprice.wd5.myworkdayjobs.com",
+    "tenant": "troweprice",
+    "site": "TRowePrice"
+   },
+   "from": "https://www.troweprice.com/en/us/careers?van=Careers",
+   "verify": "Corporate Strategy Director"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "troweprice.wd5.myworkdayjobs.com",
+    "tenant": "troweprice",
+    "site": "TRowePriceInternational"
+   },
+   "from": "https://www.troweprice.com/en/us/careers?van=Careers"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "troweprice.com",
+ "sample_title": "Corporate Strategy Director",
+ "description_chars": 7070,
+ "seconds": 21
+}

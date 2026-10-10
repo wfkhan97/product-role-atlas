@@ -1,0 +1,16 @@
+{
+ "company": "Citadel",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.citadel.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Asset management",
+ "domain": "citadel.com",
+ "seconds": 89
+}

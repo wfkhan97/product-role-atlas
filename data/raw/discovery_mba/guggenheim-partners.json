@@ -1,0 +1,56 @@
+{
+ "company": "Guggenheim Partners",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "guggenheiminvestment.wd5.myworkdayjobs.com",
+  "tenant": "guggenheiminvestment",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "guggenheiminvestment.wd5.myworkdayjobs.com",
+    "tenant": "guggenheiminvestment",
+    "site": "External"
+   },
+   "from": "https://www.guggenheimpartners.com/firm/careers",
+   "verify": "(board reachable; no matching title on first pages)"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "guggenheim.wd1.myworkdayjobs.com",
+    "tenant": "guggenheim",
+    "site": "Guggenheim_Partners"
+   },
+   "from": "https://www.guggenheimpartners.com/firm/careers"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "guggenheim.wd1.myworkdayjobs.com",
+    "tenant": "guggenheim",
+    "site": "External_Careers_Site"
+   },
+   "from": "https://www.guggenheimpartners.com/firm/careers"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-guggenheimpartners.icims.com"
+   },
+   "from": "https://www.guggenheimpartners.com/firm/careers"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "guggenheimpartners.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 7
+}

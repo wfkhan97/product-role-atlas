@@ -1,0 +1,29 @@
+{
+ "company": "Grant Thornton",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "ehzq.fa.us2.oraclecloud.com",
+  "siteNumber": "CX_1"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ehzq.fa.us2.oraclecloud.com",
+    "siteNumber": "CX_1"
+   },
+   "from": "https://www.grantthornton.com/careers",
+   "verify": "Technology Strategy Manager"
+  }
+ ],
+ "category": "Big Four and accounting",
+ "domain": "grantthornton.com",
+ "sample_title": "Technology Strategy Manager",
+ "description_chars": 3752,
+ "seconds": 21
+}

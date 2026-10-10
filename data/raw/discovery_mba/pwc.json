@@ -1,0 +1,16 @@
+{
+ "company": "PwC",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.pwc.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Big Four and accounting",
+ "domain": "pwc.com",
+ "seconds": 10
+}
