@@ -1,0 +1,574 @@
+[
+ {
+  "company": "CBRE",
+  "category": "Real estate",
+  "ats": "avature",
+  "config": {
+   "host": "careers.cbre.com",
+   "search": "/en_US/careers/SearchJobs",
+   "detail": "JobDetail",
+   "prefix": "job",
+   "page_size": 10
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Blocked, not verified. CBRE's board is an Avature portal at https://careers.cbre.com/en_US/careers/SearchJobs (same URL already recorded for 'CBRE Group' in registry_fortune_agents_1.json). Every request from curl gets HTTP 202 with x-amzn-waf-action: challenge (AWS WAF JavaScript challenge), and cbre.com itself returns 403; not attempted further. The config is the usual Avature layout (as Deloitte/lululemon) and is a guess for search/detail/prefix; the adapter will get the same challenge unless run from an allowed client. No Workday board exists at cbre.wd1 (422)."
+ },
+ {
+  "company": "Cushman & Wakefield",
+  "category": "Real estate",
+  "ats": "workday",
+  "config": {
+   "host": "cw.wd1.myworkdayjobs.com",
+   "tenant": "cw",
+   "site": "External"
+  },
+  "verified": true,
+  "sample_title": "Portfolio Strategy Director",
+  "description_chars": 5714,
+  "notes": "careers.cushmanwakefield.com (403 to curl) links to https://cw.wd1.myworkdayjobs.com/External; tenant is 'cw', not 'cushwake'. Global board, large (verify_one took ~2 minutes for 4 queries x 2 pages); ok n=29."
+ },
+ {
+  "company": "Hines",
+  "category": "Real estate",
+  "ats": "icims",
+  "config": {
+   "host": "careers-hines.icims.com"
+  },
+  "verified": true,
+  "sample_title": "Senior Director - Finance Strategy & Operations",
+  "description_chars": 4512,
+  "notes": "hines.com is 403/SSL-error to curl; iCIMS portal careers-hines.icims.com found via web search (posting URLs careers-hines.icims.com/jobs/<id>/...). verify_one ok n=8."
+ },
+ {
+  "company": "Tishman Speyer",
+  "category": "Real estate",
+  "ats": "workday",
+  "config": {
+   "host": "ts.wd5.myworkdayjobs.com",
+   "tenant": "ts",
+   "site": "TishmanSpeyer"
+  },
+  "verified": true,
+  "sample_title": "General Manager",
+  "description_chars": 9088,
+  "notes": "tishmanspeyer.com returns 403 (Cloudflare) to curl; third-party listings say applications go through Workday. Tenant found by probing: 'ts' on wd5, site 'TishmanSpeyer' (31 postings, e.g. 'Senior Director, Destination Sales Rockefeller Center'; posting URLs use /tishmanspeyer/). verify_one ok n=6."
+ },
+ {
+  "company": "AvalonBay Communities",
+  "category": "Real estate",
+  "ats": "radancy",
+  "config": {
+   "host": "jobs.avalonbay.com"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Blocked, not verified. AvalonBay's board is a Radancy (TalentBrew) site at jobs.avalonbay.com (indexed posting URLs like jobs.avalonbay.com/job/<city>/<title>/125/<id>). Today every path on jobs.avalonbay.com 301-redirects to the same path on jobs.vivmarkresidential.com, which answers 403 with a Cloudflare managed challenge (cf-mitigated: challenge); not attempted further. I could not confirm what 'vivmarkresidential.com' is (rebrand, new careers domain, or something else), so check that in a browser before trusting the redirect; if it is legitimate the host should probably become jobs.vivmarkresidential.com. avalonbay.com/careers returns 503 to curl."
+ },
+ {
+  "company": "BXP",
+  "category": "Real estate",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "edxn.fa.us2.oraclecloud.com",
+   "siteNumber": "CX_5001"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board confirmed, no matching title. bxp.com links to .../sites/CX_4001, which now 302-redirects to CX_5001 (page title 'Careers | BXP'), so CX_5001 is recorded. The REST API returns the same 32 postings for any site number on this pod, so the auto pass's CX_4001 was reachable too; it found nothing because the titles are property operations and accounting ('Property Manager', 'Senior Accountant, Property Accounting', 'Construction Manager', 'Marketing Coordinator', 'Building Engineer - Union') and none pass the MBA title filter. verify_one ok:false, no error."
+ },
+ {
+  "company": "Equity Residential",
+  "category": "Real estate",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "hcjm.fa.us2.oraclecloud.com",
+   "siteNumber": "CX_1"
+  },
+  "verified": true,
+  "sample_title": "Strategy & Analytics Manager",
+  "description_chars": 5564,
+  "notes": "Production pod is the '-test' host without the suffix: hcjm.fa.us2.oraclecloud.com, site CX_1 (page title 'Equity Residential'). jobs.equityapartments.com still embeds the hcjm-test host, which answers 403. Only 5 postings on the board today (corporate roles: 'Manager, Asset Management', 'Sr Tax Manager', ...); verify_one ok n=1."
+ },
+ {
+  "company": "Essex Property Trust",
+  "category": "Real estate",
+  "ats": "workday",
+  "config": {
+   "host": "essex.wd5.myworkdayjobs.com",
+   "tenant": "essex",
+   "site": "essexcareers"
+  },
+  "verified": true,
+  "sample_title": "Senior Benefits Analyst",
+  "description_chars": 5569,
+  "notes": "essexapartmenthomes.com/careers answers 429 to curl; Workday board found via web search (Essex recruiting posts link to essex.wd5.myworkdayjobs.com/essexcareers). 74 postings, mostly property staff; verify_one ok n=2."
+ },
+ {
+  "company": "Starwood Capital Group",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.starwoodcapital.com/careers/open-positions/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Jobvite, no adapter. The open-positions page embeds the Jobvite career-site iframe script with data-careersite=\"starwoodcapitalgroup\" (board: https://jobs.jobvite.com/starwoodcapitalgroup/jobs). No Greenhouse board under that name."
+ },
+ {
+  "company": "Trammell Crow Company",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.cbre.com/en_US/careers/SearchJobs"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No own board: Trammell Crow Company is a CBRE subsidiary and hires through CBRE's Avature board (careers.cbre.com), so it is not duplicated here; see the CBRE entry (itself blocked by an AWS WAF challenge). trammellcrow.com/en/careers returns 403 to curl. Note Crow Holdings' board (separate company) lists 'Trammell Crow Residential' roles; that is a different business."
+ },
+ {
+  "company": "Lincoln Property Company",
+  "category": "Real estate",
+  "ats": "greenhouse",
+  "config": {
+   "board": "lpc"
+  },
+  "verified": true,
+  "sample_title": "General Manager",
+  "description_chars": 12519,
+  "notes": "lpc.com/about-us/careers/job-opportunities/ loads the list with JavaScript; Greenhouse board 'lpc' found via web search (job-boards.greenhouse.io/lpc/jobs/<id>) and confirmed through the boards API: 129 postings (commercial property management, engineering, construction, 'Director, Acquisitions & Development', 'Manager, Corporate Real Estate'). verify_one ok n=1. An older board 'lincolnpropertycompany' (the residential business, since spun off) now returns 404. The board contains one posting titled 'TEST'."
+ },
+ {
+  "company": "Crow Holdings",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.crowholdings.com/careers/"
+  },
+  "verified": false,
+  "sample_title": "Analyst, Asset Management",
+  "description_chars": 0,
+  "notes": "UKG Pro (UltiPro) recruiting, no adapter. crowholdings.com/careers/ is a server-rendered WordPress list (one /career/<slug>/ page per job, covering Crow Holdings Capital, Trammell Crow Residential, etc.); each job page's apply link goes to https://recruiting2.ultipro.com/CRO1013CRFM/JobBoard/96781b0d-b298-4bd5-a9d9-c0f8b2102e4c/ . The WordPress pages are plain HTML and could be scraped directly."
+ },
+ {
+  "company": "Welltower",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://recruiting.ultipro.com/WEL1008WLLT/JobBoard/30969ce4-3b7e-40a6-b86c-34d3616fe0ed/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "UKG Pro (UltiPro) recruiting, no adapter. Linked from https://welltower.com/careers/ (same board already recorded in registry_fortune_agents)."
+ },
+ {
+  "company": "American Tower",
+  "category": "Real estate",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "hdsn.fa.us6.oraclecloud.com",
+   "siteNumber": "CX_1"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board confirmed, no matching title. americantower.com returns 403 to curl; careers.americantower.com is a custom front-end over Oracle pod hdsn.fa.us6.oraclecloud.com, site CX_1 (page title 'American Tower Global'; same config already in registry_fortune_agents_1.json). 30 postings worldwide (e.g. 'Manager, Tax Reporting', 'Senior Marketing Specialist', 'Director, Global Account Payable Solutions', several interns, some French-language); none pass the MBA title filter with the verify queries. verify_one ok:false, no error."
+ },
+ {
+  "company": "Public Storage",
+  "category": "Real estate",
+  "ats": "smartrecruiters",
+  "config": {
+   "company": "PublicStorage"
+  },
+  "verified": true,
+  "sample_title": "Senior Financial Analyst - Real Estate FP&A",
+  "description_chars": 8054,
+  "notes": "www.publicstoragejobs.com is a Webflow site (its '/search-jobs' path made the auto pass guess Radancy/Phenom; neither is right). Job pages end in SmartRecruiters posting ids; the SmartRecruiters API answers for company 'PublicStorage' (company name 'Public Storage'). verify_one ok n=2. Most postings are store staff."
+ },
+ {
+  "company": "Kimco Realty",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.kimcorealty.com/careers"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Not found. kimcorealty.com returns 403 to curl and to the fetch tool, and web search only surfaces third-party reposts (requisition ids look like 'R366-2025'), none of which shows the apply host. Guessed Workday tenants kimco/kimcorealty on wd1/wd3/wd5/wd12 do not exist. Needs a look in a real browser at where the careers page's job links go."
+ },
+ {
+  "company": "UDR",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://recruiting2.ultipro.com/UNI1027UDRT"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "UKG Pro (UltiPro) recruiting, no adapter. Linked from https://www.udr.com/careers/."
+ },
+ {
+  "company": "Kilroy Realty",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://kilroy.rec.pro.ukg.net/KIL1500KILR/JobBoard/d3f79338-4694-418c-a155-a696193db0c0"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "UKG Pro recruiting, no adapter. Linked from https://kilroyrealty.com/company/careers/."
+ },
+ {
+  "company": "Alexandria Real Estate Equities",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.are.com/careers.html"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Oracle Taleo, no adapter (and blocked). are.com/careers.html returns an Imperva/Incapsula challenge page to curl; not attempted further. Web search shows postings linking to a Taleo career section for org 'ALEXANDRIARE'; I could not confirm the exact Taleo URL (careers.are.com and alexandriare.taleo.net do not resolve from here)."
+ },
+ {
+  "company": "SL Green",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=7b5a8611-658d-4838-a0b2-5666add6f55d&ccId=19000101_000001&lang=en_US"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "ADP Workforce Now recruitment, no adapter. Linked from https://slgreen.com/careers/."
+ },
+ {
+  "company": "Vornado Realty Trust",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://recruiting.ultipro.com/VOR1000VORRT"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "UKG Pro (UltiPro) recruiting, no adapter. Linked from https://www.vno.com/careers/overview."
+ },
+ {
+  "company": "Colliers",
+  "category": "Real estate",
+  "ats": "workday",
+  "config": {
+   "host": "colliers.wd3.myworkdayjobs.com",
+   "tenant": "colliers",
+   "site": "Colliers-External-Career-Site"
+  },
+  "verified": true,
+  "sample_title": "Senior Vice President, Portfolio Strategy Consulting",
+  "description_chars": 9230,
+  "notes": "colliers.com returns 403 to curl; Workday site name found via web search and confirmed (261 postings, US and Canada, some French-language). verify_one ok n=5. Colliers also has careers.colliers.com and a SmartRecruiters board 'Colliers1' for Asia-Pacific; the Workday board is the North American one."
+ },
+ {
+  "company": "Newmark",
+  "category": "Real estate",
+  "ats": "oracle_hcm",
+  "config": {
+   "host": "hdow.fa.us6.oraclecloud.com",
+   "siteNumber": "CX_1001"
+  },
+  "verified": true,
+  "sample_title": "Head of Category Management",
+  "description_chars": 8000,
+  "notes": "nmrk.com returns 403 to curl. Newmark shares the Cantor Fitzgerald/BGC Oracle pod (hdow.fa.us6.oraclecloud.com); site CX_1001 has page title 'Newmark' and 244 postings (CX_1003 is 'Cantor Fitzgerald/BGC', already used for Cantor). The site number matters here: an invalid site number on this pod returns all 343 postings of both companies. verify_one ok n=4."
+ },
+ {
+  "company": "Link Logistics",
+  "category": "Real estate",
+  "ats": "workday",
+  "config": {
+   "host": "linklogistics.wd5.myworkdayjobs.com",
+   "tenant": "linklogistics",
+   "site": "Link"
+  },
+  "verified": true,
+  "sample_title": "Director, Marketing – Development and Power & Infrastructure",
+  "description_chars": 8303,
+  "notes": "linklogistics.com returns 403 to curl; its job pages carry Workday ids (jr1017xx). Tenant/site found by probing: linklogistics on wd5, site 'Link' (23 postings, e.g. 'Analyst, Investment', 'Assistant Vice President, Leasing'). verify_one ok n=2."
+ },
+ {
+  "company": "Mill Creek Residential",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.dayforcehcm.com/en-US/mcrtrllc/MillCreekCareers"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Dayforce, no adapter. Linked from https://millcreekplaces.com/careers/."
+ },
+ {
+  "company": "Bozzuto",
+  "category": "Real estate",
+  "ats": "greenhouse",
+  "config": {
+   "board": "bozzuto"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board confirmed, no matching title. bozzuto.com/careers/job-search renders a Greenhouse board ('bozzuto'; posting URLs are www.bozzuto.com/careers/job-search/<id>/?gh_jid=<id>). The boards API returns 129 postings, nearly all on-site property roles (leasing consultant, maintenance, concierge, assistant property manager) plus e.g. 'Accounting Associate'; none pass the MBA title filter today. verify_one ok:false, no error."
+ },
+ {
+  "company": "LaSalle Investment Management",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jll.wd1.myworkdayjobs.com/jllcareers"
+  },
+  "verified": false,
+  "sample_title": "Analyst, Asset Management - LaSalle Debt Investors",
+  "description_chars": 0,
+  "notes": "No own board: LaSalle is a JLL subsidiary and its roles are posted on JLL's Workday board (jll.wd1.myworkdayjobs.com, site 'jllcareers', 2000+ postings, answers the API), which is JLL's whole board and is not duplicated here ('Jones Lang LaSalle' is already in the registry). lasalle.com returns 403 to curl. If LaSalle roles are wanted, searching that board for 'LaSalle' would be the way; sample title is from a third-party listing, not from the adapter."
+ },
+ {
+  "company": "Heitman",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.jobvite.com/heitman/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Jobvite, no adapter. https://www.heitman.com/careers/ links to jobs.jobvite.com/heitman."
+ },
+ {
+  "company": "Regency Centers",
+  "category": "Real estate",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.dayforcehcm.com/CandidatePortal/en-US/regency"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Dayforce candidate portal, no adapter. Linked from https://www.regencycenters.com/regency/careers."
+ },
+ {
+  "company": "Mid-America Apartment Communities",
+  "category": "Real estate",
+  "ats": "phenom",
+  "config": {
+   "host": "careers.maac.com"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board confirmed, no matching title. careers.maac.com is MAA's own Phenom site (tenant MACMUS); the /widgets refineSearch call the adapter uses returns 141 postings, nearly all property staff (maintenance technician, leasing consultant, assistant property manager) plus a few corporate ('Capital Project Manager', 'GL Accountant', 'IT Enterprise Support Application Manager'); none pass the MBA title filter today. verify_one ok:false, no error."
+ },
+ {
+  "company": "Nestlé",
+  "category": "Consumer goods",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobdetails.nestle.com"
+  },
+  "verified": true,
+  "sample_title": "Senior Director of Sales Finance Co-Pilot",
+  "description_chars": 13273,
+  "notes": "www.nestlejobs.com (the US landing site; the auto pass mistook it for Paradox because of an Olivia chat widget) links every posting to jobdetails.nestle.com, Nestlé's SuccessFactors career site (company id nestleHRprdBX). verify_one ok n=4. The SuccessFactors site is Nestlé's global board; the adapter's locale=en_US search returned US roles in the check."
+ },
+ {
+  "company": "Mars",
+  "category": "Consumer goods",
+  "ats": "workday",
+  "config": {
+   "host": "mars.wd3.myworkdayjobs.com",
+   "tenant": "mars",
+   "site": "External"
+  },
+  "verified": true,
+  "sample_title": "Strategic Revenue Management (SRM) Lead, North America",
+  "description_chars": 1276,
+  "notes": "careers.mars.com is a Phenom front-end; the underlying Workday board mars.wd3.myworkdayjobs.com/External (825 postings worldwide) answers the adapter directly. verify_one ok n=33, but the first match was a Chinese-language posting ('冠军宠物-Online Trade Marketing Manager', 1276 description chars); sample_title here is another title from the same board's first page. The board exposes no country facet (only a flat 'locations' list of 254 sites), so US filtering has to happen downstream. Not checked whether Kellanova roles appear on this board; Kellanova is scraped separately from jobs.kellanova.com."
+ },
+ {
+  "company": "Reckitt",
+  "category": "Consumer goods",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.reckitt.com"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Not scraped: the successfactors adapter hard-codes locale=en_US, which returns nothing useful here. Board confirmed, adapter returns nothing as written. careers.reckitt.com is Reckitt's own SuccessFactors site (company id reckittb01) and is reachable, but the adapter hard-codes locale=en_US: with that parameter the search returns a single unrelated posting, while the same search without it, or with locale=en_GB, returns the full list (e.g. q=finance -> 100 results, 25 per page: 'Sales Finance Trainee', 'Intern/Trainee FP&A', ...). The successfactors adapter needs a locale option (en_GB) before this config yields postings. verify_one ok:false, no error."
+ },
+ {
+  "company": "Anheuser-Busch",
+  "category": "Consumer goods",
+  "ats": "workday",
+  "config": {
+   "host": "wd1.myworkdaysite.com",
+   "tenant": "abinbev",
+   "site": "USA"
+  },
+  "verified": true,
+  "sample_title": "AB InBev MBA Summer 2027 Intern - FINANCE/STRATEGY",
+  "description_chars": 5312,
+  "notes": "https://www.anheuser-busch.com/careers links to https://wd1.myworkdaysite.com/en-US/recruiting/abinbev/USA: AB InBev's Workday tenant, US site, on the myworkdaysite host (the adapter's /wday/cxs path works there). verify_one ok n=5."
+ },
+ {
+  "company": "Henkel",
+  "category": "Consumer goods",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.henkel-northamerica.com/careers/jobs-and-application"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Custom site, no adapter. Henkel lists jobs on its own CMS pages (henkel.com/careers/find-your-job-apply; US: henkel-northamerica.com/careers/jobs-and-application), loaded by the site's own search service; applications go to Taleo (henkel.taleo.net, as the auto pass found). The only ATS link in the page HTML is a Paylocity board for a Henkel subsidiary (ATP North America), which is not Henkel's board."
+ },
+ {
+  "company": "Mattel",
+  "category": "Consumer goods",
+  "ats": "smartrecruiters",
+  "config": {
+   "company": "MattelInc"
+  },
+  "verified": true,
+  "sample_title": "Manager Data Analytics",
+  "description_chars": 9464,
+  "notes": "https://corporate.mattel.com/careers links to SmartRecruiters company 'MattelInc' (join.smartrecruiters.com/MattelInc). verify_one ok n=26. Global board (includes American Girl, Fisher-Price roles)."
+ },
+ {
+  "company": "e.l.f. Beauty",
+  "category": "Consumer goods",
+  "ats": "lever",
+  "config": {
+   "board": "elfbeauty"
+  },
+  "verified": true,
+  "sample_title": "Analyst, Financial Planning & Analysis",
+  "description_chars": 4848,
+  "notes": "elfbeauty.com/work-with-us renders its 'careers-feed' with JavaScript; Lever board 'elfbeauty' found via web search (jobs.lever.co/elfbeauty/<id>) and confirmed through the Lever API. verify_one ok n=16. Includes rhode and other e.l.f. brand roles."
+ },
+ {
+  "company": "The Clorox Company",
+  "category": "Consumer goods",
+  "ats": "workday",
+  "config": {
+   "host": "clorox.wd1.myworkdayjobs.com",
+   "tenant": "clorox",
+   "site": "Clorox"
+  },
+  "verified": true,
+  "sample_title": "Ecommerce & Digital Growth Manager ANZ",
+  "description_chars": 6171,
+  "notes": "Tenant clorox on wd1, site 'Clorox' (199 postings worldwide; posting URLs resolve to wd1.myworkdaysite.com/recruiting/clorox/Clorox). verify_one ok n=27; the first match is an Australian role, US roles are in the same board."
+ },
+ {
+  "company": "Campbell's",
+  "category": "Consumer goods",
+  "ats": "workday",
+  "config": {
+   "host": "campbellsoup.wd5.myworkdayjobs.com",
+   "tenant": "campbellsoup",
+   "site": "ExternalCareers_GlobalSite"
+  },
+  "verified": true,
+  "sample_title": "Procurement Manager, DSD & Inbound Logistics",
+  "description_chars": 7079,
+  "notes": "Tenant campbellsoup on wd5, site 'ExternalCareers_GlobalSite' (308 postings, many plant roles). verify_one ok n=16."
+ },
+ {
+  "company": "Coty",
+  "category": "Consumer goods",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.coty.com"
+  },
+  "verified": true,
+  "sample_title": "HR Director DACH (m/w/d)",
+  "description_chars": 8290,
+  "notes": "careers.coty.com is Coty's own SuccessFactors site (server-rendered jobTitle-link lists). verify_one ok n=16. Global board: the first match is a German role; US roles are mixed in."
+ },
+ {
+  "company": "Beiersdorf",
+  "category": "Consumer goods",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.beiersdorf.com/career/your-application/job-search"
+  },
+  "verified": false,
+  "sample_title": "Senior Quality & Regulatory Manager",
+  "description_chars": 0,
+  "notes": "Custom site, no adapter. The job search is Beiersdorf's own Sitecore job board: results come from https://www.beiersdorf.com/ajax/Jobboard/JobResultAjax?db=web&contextItemId={213FB95D-4545-426C-9F6A-7CD5753A00EA}&lang=en (server-rendered HTML fragment, data-result-count=190, links to https://www.beiersdorf.com/career/jobs/<hash>). Reachable with curl, so a small adapter is feasible. Global board, few US roles."
+ },
+ {
+  "company": "Bayer",
+  "category": "Consumer goods",
+  "ats": "eightfold",
+  "config": {
+   "host": "talent.bayer.com",
+   "domain": "bayer.com",
+   "api": "v2"
+  },
+  "verified": true,
+  "sample_title": "Director, Sales Incentive Compensation",
+  "description_chars": 7916,
+  "notes": "Bayer's board is Eightfold at talent.bayer.com (domain bayer.com); the pcsx API is disabled there ('PCSX is not enabled for this user'), the older /api/apply/v2/jobs API works, hence api 'v2'. verify_one ok n=3. This is Bayer's whole global board (Pharmaceuticals, Crop Science and Consumer Health together); there is no separate Consumer Health board. bayer.com/en/career returns 403 to curl."
+ },
+ {
+  "company": "Spectrum Brands",
+  "category": "Consumer goods",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.spectrumbrands.com/careers/job-search/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Lumesse TalentLink (Cornerstone), no adapter. spectrumbrands.com/careers.html (AngularJS) links to https://www.spectrumbrands.com/careers/job-search/, a Lumesse-hosted search (list.html?searchCriteria[...], scripts/jobs.js, 'lumesse-' CSS classes). Guessed Workday tenants do not exist."
+ },
+ {
+  "company": "Red Bull",
+  "category": "Consumer goods",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.redbull.com/us-en"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Custom site, no adapter. jobs.redbull.com is Red Bull's own JavaScript job site; no ATS host or public JSON endpoint appears in the page HTML."
+ },
+ {
+  "company": "Lululemon",
+  "category": "Consumer goods",
+  "ats": "avature",
+  "config": {
+   "host": "careers.lululemon.com",
+   "search": "/en_US/careers/SearchJobs",
+   "detail": "JobDetail",
+   "prefix": "job",
+   "page_size": 10
+  },
+  "verified": true,
+  "sample_title": "Program Manager - Risk and Supplier Relationship Management",
+  "description_chars": 10432,
+  "notes": "careers.lululemon.com is an Avature portal (search pages /en_US/careers/SearchJobs/<query>?jobRecordsPerPage=10&jobOffset=N, job links /en_US/careers/JobDetail/<slug>/<id>). verify_one ok n=8. The guessed Workday board lululemon.wd3/lululemon answers 401. Global board including store roles."
+ }
+]

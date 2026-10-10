@@ -13,7 +13,7 @@ MGR = r"(manager|lead|leader|director|head|vp|vice\s+president|principal)"
 
 # Order matters (first match wins): narrow functions before the broad manager titles.
 FAMILY_PATTERNS = [
-    ("ldp", r"\bleadership\s+development\s+program|\b[A-Z]{0,2}LDP\b|\brotational\s+(leadership\s+|development\s+|management\s+)?(program|associate|analyst)\b|\bmba\b.*\b(program|associate|intern|rotation\w*|graduate)\b|\bmanagement\s+(development|trainee|associate)\s+program\b|\bgeneral\s+management\s+(development\s+)?program\b"),
+    ("ldp", r"\bleadership\s+development\s+(program|associate|intern\w*|analyst|rotation\w*)|\b[A-Z]{0,2}LDP\b|\brotational\s+(leadership\s+|development\s+|management\s+)?(program|associate|analyst)\b|\bmba\b.*\b(program|associate|intern|rotation\w*|graduate)\b|\bmanagement\s+(development|trainee|associate)\s+program\b|\bgeneral\s+management\s+(development\s+)?program\b"),
     ("ma_integration", r"\b(m\s*&\s*a|mergers?|acquisitions?|post[- ]merger)\b.*\bintegration\b|\bintegration\b.*\b(m\s*&\s*a|mergers?|acquisitions?)\b|\bintegration\s+management\s+office\b"),
     ("corp_dev", r"\bcorporate\s+development\b|\bcorp\.?\s+dev\b|\bmergers\s*(&|and)\s*acquisitions\b|\bm\s*&\s*a\b"),
     ("strategic_finance", r"\bstrategic\s+finance\b"),
@@ -92,7 +92,9 @@ EXCLUDE = {
     "org_dev": r"\bprogram\s+(associate|analyst|participant)\b",
     "hr_manager": r"\bpeople\s+(analytics|data)\b",
     "enterprise_risk": r"\b(engineer\w*|insurance\s+sales)\b",
-    "sales_manager": r"\b(assistant|store|retail\s+sales)\b",
+    "sales_manager": r"\b(assistant|store|retail\s+sales|associate|representative|cashier|engineer\w*)\b",
+    "growth_manager": r"\bengineer\w*\b",
+    "governance": r"\b(engineer\w*|product\s+owner|developer)\b",
     "re_acquisitions": r"\b(talent|banking|counsel|attorney)\b",
     "customer_success": r"\bengineer\w*\b",
     "corp_dev": r"\b(communications|counsel|attorney|paralegal|tax|accounting|accountant|legal)\b",
