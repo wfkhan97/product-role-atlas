@@ -130,3 +130,76 @@ hits. Stop promoting a parent skill from single-word sub-skill patterns such as 
   detection; each `must_evidence` skill carries at least one evidence line; a property test that
   appending any bullet never lowers any score.
 - Re-run `--baseline` with every matcher commit and read the diff before merging.
+
+## Evaluation of the implemented logic (2026-10-10)
+
+Honest read of `web/match.js` after the first round, strongest concerns first.
+
+1. **PDF uploads lost every line break** (fixed in this PR). pdf.js text items were joined with spaces,
+   so a PDF became one paragraph: no headings, no role lines, no dates. Everything then read as "body"
+   text, the persona fell back to new-to-role with zero years, and credentials vanished. The evals never
+   caught it because they feed plain text. Fix: honour pdf.js's `hasEOL`. Still untested on a real PDF;
+   the next calibration round must include a PDF sample run through the browser.
+2. **Evidence strength is a proxy, not a judgment.** "Done with an outcome" means "the line contains a
+   number or an impact verb". "Led a team of 8" and "lifted conversion 11%" both score 3. Specificity,
+   scope and recency are not read.
+3. **Vocabulary coverage is a treadmill.** Resume-language patterns fix the misses the four samples
+   exposed; every new resume will expose more paraphrases. The unmapped-lines panel is the safety valve,
+   not a solution.
+4. **Persona and level rules are brittle.** Years come from date ranges on role lines; titles decide
+   seniority; backgrounds come from a handful of title words ("analyst" implies consulting). A resume
+   with unusual formatting (two-column, dates on the right, "2019–present" split across lines) degrades
+   quietly.
+5. **Posting-side noise flows into the requirements.** Public sector at 47% of PM postings and systems
+   architecture at 52% come from loose extraction patterns in `pipeline/extract.py`. The tiering hides
+   some of it; a single-posting target shows all of it ("and 12 more").
+6. **Coursework and projects count the same at every target level.** Right for associate, generous for
+   senior. Section-aware weighting by target level is the obvious next step.
+7. **No real resumes in the evals yet.** The score bands are my judgment on four samples I wrote.
+
+## Would the OpenAI Decisions API help?
+
+What it is (per the docs, public beta, model `gpt-6-luna` only): one request carries a shared `input`
+(text, images) and a list of independent `questions`, each `predicate` (probability 0–1), `choice`
+(option, probabilities, confidence) or `score` (probability-weighted index over ordered `levels`).
+Priced at $0.10 per 1M input tokens, no output charge, described as about 10x faster than Responses.
+It has no feedback or reward loop and no notion of candidate actions; despite the name it is a fast,
+cheap, calibrated classifier, not a decision optimiser.
+
+**Where it maps onto the matcher.** The `score` type is exactly the evidence ladder: one request per
+resume with one `score` question per skill, levels "not shown / named / done / done with a concrete
+outcome", would replace `tag()`'s regexes and sub-skill heuristics with a model judgment that reads
+paraphrase, scope and specificity (concerns 2, 3 and 4 above). A `choice` question gives the level read
+and the persona with probabilities. A `predicate` per skill ("shown in a non-product role, using another
+field's vocabulary") gives transferability. Cost per match is around a tenth of a cent; a 98-question
+request over a one-page resume is a few thousand input tokens.
+
+**Where it would help most, and first: the posting side.** Running a `predicate` per skill over each
+of the 9,351 postings is about 14M input tokens, roughly $1.40, offline, on public text. That attacks
+concern 5, which the resume-side matcher inherits no matter how good it gets, and it needs no change to
+the privacy model. The regex tags become the baseline the model tags are calibrated against.
+
+**What it costs on the resume side.**
+- The match modal promises "everything runs in your browser; nothing is uploaded anywhere." Sending
+  resumes to OpenAI breaks that promise and the static-site architecture: the key must live behind a
+  proxy, so the published artifact cannot ship the feature on its own. For grad students uploading
+  resumes, that means explicit opt-in and the Zero Data Retention tier.
+- Model answers are not deterministic. The evals would need recorded fixtures for replay and tolerance
+  bands instead of exact sets, and CI would need a key or a replay mode.
+- Beta, single model, pricing and shape may change. Thresholds must be set from labelled examples,
+  which is the calibration set this repo is building anyway.
+- It does not replace the taxonomy, the tiers, the industry and AI slots, the ladders, build steps,
+  signal lines, or the UI. It replaces one function (`tag`) and could inform `profileOf`.
+
+**Recommendation.** Keep the regex matcher as the private, offline, always-on path and as the eval
+baseline. Stage any model use:
+1. Postings first: add a pipeline stage that asks one `predicate` per skill per posting, compare with
+   the regex tags on a few hundred postings, set thresholds, and rebuild the graph from the better tags.
+   No privacy change, biggest error mass, fully measurable.
+2. Then, if the posting result is good, an opt-in "deeper read" on the resume side behind a proxy:
+   model `score`s per skill feed the same `rows` structure, regex still supplies the evidence lines and
+   runs when the user declines. Record model answers for the eval samples as fixtures so `run.mjs`
+   stays deterministic.
+Any model with structured outputs can do the same job; the distinctive parts of this API are price,
+speed, and calibrated probabilities over many questions on one input, which fit the per-skill ladder
+unusually well.
