@@ -46,7 +46,7 @@
   };
 
   const defaults = () => ({ family: new Set(["pm"]), level: new Set(), group: new Set(GROUPS), sector: new Set(), company: new Set(), country: new Set(), remote: false, yoe: new Set(), spec: new Set(), degree: new Set(), fund: new Set(), stage: new Set() });
-  const state = { ...defaults(), clustersOff: new Set(), selectedSkill: null, selectedJob: null, subFocus: null, jobQuery: "", companyQuery: "", match: null, fundQuery: "", axis: "3d", subs: "selected", evTab: "senior", ax3: { x: "tech_comm", z: "ic_mgmt" }, rot: { yaw: -0.6, pitch: 0.35 }, zoom3: 1, spin: false, openDisc: new Set() };
+  const state = { ...defaults(), clustersOff: new Set(), selectedSkill: null, selectedJob: null, subFocus: null, jobQuery: "", companyQuery: "", match: null, fundQuery: "", axis: "career", subs: "selected", evTab: "senior", ax3: { x: "tech_comm", z: "ic_mgmt" }, rot: { yaw: -0.6, pitch: 0.35 }, zoom3: 1, spin: false, openDisc: new Set() };
 
   // ---------- theme: the device decides unless the user overrides (GradBuddy D-14) ----------
   const themeSel = document.querySelector("#theme");
@@ -261,9 +261,9 @@
     if (state.axis === "career") {
       const cols = COLUMNS.filter(c => !state.clustersOff.has(c));
       const cw = (width - pad.left - pad.right) / cols.length;
+      const rows = cw < 95 ? 3 : 2;   // headers staggered on two (or three, when narrow) rows so neighbouring names never touch
       cols.forEach((c, i) => {
-        // headers staggered on two rows so neighbouring names never touch
-        gLanes.append("text").attr("class", "col").attr("x", pad.left + cw * (i + 0.5)).attr("y", pad.top - (i % 2 ? 8 : 24)).attr("text-anchor", "middle").style("fill", clColor(c)).text(COL_SHORT[c] || CL[c].label).append("title").text(CL[c].label);
+        gLanes.append("text").attr("class", "col").attr("x", pad.left + cw * (i + 0.5)).attr("y", pad.top - 8 - 16 * (rows - 1 - (i % rows))).attr("text-anchor", "middle").style("fill", clColor(c)).text(COL_SHORT[c] || CL[c].label).append("title").text(CL[c].label);
         if (i) gLanes.append("line").attr("x1", pad.left + cw * i).attr("x2", pad.left + cw * i).attr("y1", pad.top).attr("y2", height - pad.bottom).attr("stroke", "rgba(255,255,255,0.06)");
       });
     } else {
