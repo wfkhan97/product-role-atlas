@@ -40,19 +40,25 @@ MODEL = "gpt-6-luna"
 ENDPOINT = "https://api.openai.com/v1/decisions"
 
 
-def question(skill_id):
+def question(skill_id, strict=False):
     s = SKILL[skill_id]
     what = DEPTH.get(skill_id, {}).get("what", "")
-    return {
-        "type": "predicate",
-        "name": skill_id,
-        "instructions": (
+    if strict:
+        text = (
+            f"Does the text of this job posting EXPLICITLY name the skill '{s['name']}'"
+            f"{' (' + what + ')' if what else ''}, or an unmistakable synonym for it, in the role's responsibilities "
+            "or qualifications? Answer from the words on the page only: do not infer the skill from the job title or "
+            "from what product managers usually do. Do not count mentions in the company description, mission "
+            "statement, benefits, equal-opportunity or legal boilerplate, or lists of other teams."
+        )
+    else:
+        text = (
             f"Does this job posting ask the person in the role to have or use the skill '{s['name']}'"
             f"{' (' + what + ')' if what else ''}? Count it only when it is part of the role's responsibilities "
             "or qualifications. Do not count mentions in the company description, mission statement, benefits, "
             "equal-opportunity or legal boilerplate, or lists of other teams."
-        ),
-    }
+        )
+    return {"type": "predicate", "name": skill_id, "instructions": text}
 
 
 def main():
@@ -63,6 +69,8 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--max-chars", type=int, default=12000)
+    ap.add_argument("--strict", action="store_true", help="ask for explicit mentions only, no inference from the title")
+    ap.add_argument("--tag", default="", help="suffix for the output files, e.g. --tag strict")
     a = ap.parse_args()
     skills = [s for s in a.skills.split(",") if s in SKILL]
     out_dir = os.path.join(ROOT, "data", "experiments")
@@ -76,12 +84,12 @@ def main():
         cache += [j for j in (d if isinstance(d, list) else d.get("jobs", [])) if j.get("url") in tagged]
     random.seed(a.seed)
     sample = random.sample(cache, min(a.n, len(cache)))
-    qs = [question(s) for s in skills]
+    qs = [question(s, a.strict) for s in skills]
 
     reqs = []
     for j in sample:
         reqs.append({"model": MODEL, "input": j["description"][: a.max_chars], "questions": qs, "_url": j["url"]})
-    with open(os.path.join(out_dir, "decisions_requests.jsonl"), "w") as f:
+    with open(os.path.join(out_dir, f"decisions_requests{('_' + a.tag) if a.tag else ''}.jsonl"), "w") as f:
         for r in reqs:
             f.write(json.dumps(r) + "\n")
     print(f"{len(reqs)} requests × {len(qs)} questions written to data/experiments/decisions_requests.jsonl")
@@ -113,7 +121,7 @@ def main():
         if i % 10 == 0:
             print(f"[{i}/{len(reqs)}] ok")
 
-    with open(os.path.join(out_dir, "decisions_results.jsonl"), "w") as f:
+    with open(os.path.join(out_dir, f"decisions_results{('_' + a.tag) if a.tag else ''}.jsonl"), "w") as f:
         for row in rows:
             f.write(json.dumps(row) + "\n")
 

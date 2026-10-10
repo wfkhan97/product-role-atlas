@@ -232,3 +232,63 @@ anchored patterns and no model. The Decisions API is the right tool for the resi
 "AI" or "compliance" in a posting is a requirement of the role or a mention in the company blurb.
 `pipeline/experiments/decisions_audit.py` runs that comparison on a sample once `OPENAI_API_KEY` is set;
 `--dry-run` writes the requests without sending anything.
+
+## Decisions API experiment results (2026-10-10, live)
+
+Setup: 200 random PM postings (seed 7), one `predicate` per skill for all 83 non-credential skills, two
+prompts. Lenient: "does the posting ask the person to have or use this skill; ignore company blurb and
+boilerplate". Strict: "does the text explicitly name the skill; do not infer from the title". Two runs cost
+well under a dollar. Full table in [extraction_baseline.md](extraction_baseline.md).
+
+**1. The model is a reliable veto on industry and technical nouns.** It rejects 48% of the 1,017 regex
+hits on industry and technical skills under the lenient prompt, and the strict prompt agrees on the same
+skills. Checked by eye, the rejections are right: "mission statement" is not automotive, "shipping
+features" is not supply chain, "Mechanical Engineering" in a degree list is not hardware, "Flexible PTO
+policy" and "in compliance with federal law" are not public sector, AI in the company blurb is not an AI
+role. Regex share vs lenient model share: automotive 42% → 3%, supply chain 30% → 12%, hardware 25% → 11%,
+DevOps 24% → 10%, energy 22% → 10%, e-commerce 24% → 12%, vendor management 20% → 9%, agile 30% → 18%.
+
+**2. Neither prompt is a calibrated measure of craft and soft skills.** Lenient infers from the title:
+product strategy, prioritization, stakeholder management, program management and product sense all come
+back at 98–100%, which would flatten the map. Strict denies explicit mentions: it rejects the literal word
+"roadmap" in 14 postings, tool names (analytics tools 10% → 0%), "large-enterprise customers" for
+enterprise SaaS. On skills with unmistakable vocabulary (tool names, SQL, roadmap, PRD, OKR, A/B testing)
+the lenient prompt accepts 87% of regex hits, strict only 58%. So: lenient is a good judge of "is this
+mention real", strict is not, and neither should redefine what the map measures.
+
+**3. The regex has recall gaps the model exposes.** Under both prompts the model finds mentions the
+regex misses for launch ("from concept through launch"), product vision ("vision, roadmap, execution"),
+executive communication ("partner closely with leadership and executive stakeholders"), user research and
+PRDs. Those are pattern additions, found by reading the strict model-only cases.
+
+**4. Some "regex hits" the model rejected were plain regex bugs**: `Segment` (the analytics tool) matching
+"Teen segment", `quer(y|ies)` matching "explicit queries" for SQL, "experimentation" matching
+"experimenting with AI tools" for A/B testing.
+
+**5. Scrape quality is fine; duplicates are not.** Of 9,374 cached postings, 3 are under 800 characters,
+13 start with ATS login boilerplate (Broadcom's Workday) but carry real text after it, 43 lack any
+responsibilities or qualifications wording. 628 postings are exact-description duplicates of another
+(mostly one role reposted per city: Anduril 114 copies, OpenAI 41, Home Depot 25). They move aggregate
+shares by under half a point but inflate company counts and the company filter.
+
+### What this means for the product
+
+The map should keep measuring **what postings explicitly say**. That is a consistent definition, it is
+what differentiates skills, and it is what a grad student can act on (the words screeners look for).
+The model's job is precision, not redefinition.
+
+Plan, in order:
+1. **Precision pass on the taxonomy** for the industry and technical skills above: anchored phrases,
+   drop the generic words. Validate against the 200-posting lenient answers: after the pass, regex-only
+   cases on those skills should be near zero.
+2. **Recall pass** for launch, product vision, executive communication, user research, PRDs, product
+   strategy, from the strict model-only examples. Fix the Segment / queries / experimentation bugs.
+3. **Dedupe reposts** in `build_graph.py` (same company, title and description; keep one, union the
+   locations).
+4. **Re-extract and rebuild**, then rerun `decisions_audit.py` on the same seed and diff
+   `extraction_baseline.md`. This is the extraction eval loop; it costs cents per run.
+5. Only after that, consider the model as a live veto stage in `extract.py` for the long tail (about
+   $1.40 for the full corpus). Not for the resume side, where the privacy promise holds.
+
+The resume matcher inherits all of step 1: once public sector and automotive stop being "asked in half
+of PM postings", they stop appearing as gaps for everyone.
