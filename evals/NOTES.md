@@ -203,3 +203,32 @@ baseline. Stage any model use:
 Any model with structured outputs can do the same job; the distinctive parts of this API are price,
 speed, and calibrated probabilities over many questions on one input, which fit the per-skill ladder
 unusually well.
+
+## Extraction audit (2026-10-10): the map's biggest nodes are partly noise
+
+The scraped cache is intact: 9,374 postings with full descriptions in `data/raw/jobs/` (local, gitignored).
+Running the taxonomy patterns over 1,500 random PM postings after `extract.clean()` and removing the
+generic words that dominate each skill:
+
+| skill | share | share without the generic words | generic words |
+|---|---|---|---|
+| public_sector | 49% | 9% | regulat, compliance, policy, federal, audit |
+| automotive_autonomy | 43% | 6% | mission, autonomous, defense |
+| system_architecture | 51% | 24% | architecture, infrastructure |
+| ai_ml | 64% | 25% | `\bAI\b` |
+| supply_chain | 34% | 21% | shipping |
+| hardware | 25% | 17% | silicon, embedded, electrical/mechanical engineering |
+
+"Mission" fires on company mission statements, "federal" on equal-opportunity boilerplate that the
+cleaner does not catch, "shipping" on "shipping products", "silicon" on "Silicon Valley". The truth sits
+between the two columns (a fintech compliance PM genuinely needs "compliance"), but public sector and
+automotive are shown on the map as asked for in roughly half of PM postings when the honest number is
+probably 10–15%. Across all 98 skills, the single-pattern dependence table (same script, top 30) also
+flags `community` → consumer, `craft` → product_sense, `network(ing)` → networking, `experiment` →
+ab_testing as single generic words carrying most of a skill's share.
+
+This is a core-offering defect, independent of the resume matcher, and most of it is fixable with
+anchored patterns and no model. The Decisions API is the right tool for the residual: deciding whether
+"AI" or "compliance" in a posting is a requirement of the role or a mention in the company blurb.
+`pipeline/experiments/decisions_audit.py` runs that comparison on a sample once `OPENAI_API_KEY` is set;
+`--dry-run` writes the requests without sending anything.
