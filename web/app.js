@@ -6,7 +6,7 @@
     fetch("data/subskills.json").then(r => r.json()),
   ]);
   // decode compact encodings: skill / sub-skill indices and fund ids back to the strings the app uses
-  const FUND_NAME = Object.fromEntries((G.meta.funds || []).map(f => [f.id, f.name]));
+  const FUND_NAME = Object.fromEntries((G.funds || G.meta.funds || []).map(f => [f.id, f.name]));
   for (const j of G.jobs) {
     j.skills = j.skills.map(i => typeof i === "number" ? G.skill_ids[i] : i);
     j.sub = (j.sub || []).map(i => typeof i === "number" ? G.sub_ids[i] : i);
