@@ -8,7 +8,6 @@ import itertools
 import json
 import math
 import os
-import shutil
 import sys
 import time
 
@@ -16,10 +15,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline.roles import FAMILY_LABELS, LEVEL_LABELS, LEVEL_ORDER
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TAX = json.load(open(os.path.join(ROOT, "pipeline", "taxonomy.json")))
+from pipeline import tax
+TAX = tax.for_roles("product")  # the product map shows the product role set's part of the taxonomy
 DEPTH = {}
 for _p in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
     DEPTH.update(json.load(open(_p)))
+DEPTH = {sid: d for sid, d in DEPTH.items() if sid in {s["id"] for s in TAX["skills"]}}
 
 IC_LEVELS = ("senior", "staff")
 MGMT_LEVELS = ("group", "director", "vp", "cpo")
@@ -164,7 +165,7 @@ def main():
     os.makedirs(os.path.join(ROOT, "web", "data"), exist_ok=True)
     with open(os.path.join(ROOT, "web", "data", "graph.json"), "w") as f:
         json.dump(out, f)
-    shutil.copy(os.path.join(ROOT, "pipeline", "taxonomy.json"), os.path.join(ROOT, "web", "data", "taxonomy.json"))
+    tax.dump(TAX, os.path.join(ROOT, "web", "data", "taxonomy.json"))
     depth_subs = {sid: [{"id": s["id"], "name": s["name"], "patterns": s["patterns"]} for s in d.get("subskills", [])] for sid, d in DEPTH.items()}
     with open(os.path.join(ROOT, "web", "data", "subskills.json"), "w") as f:
         json.dump(depth_subs, f)

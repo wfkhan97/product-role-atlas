@@ -229,3 +229,39 @@ FAMILY_LABELS = {
 }
 # scrape batch of each family: the first 25 roles of the list, then the rest
 BATCH = {f: 1 if i < 25 else 2 for i, f in enumerate(FAMILY_LABELS)}
+
+
+# Banks and funds use corporate titles ("Vice President" is a mid-career grade), as roles.BANK_GRADES does
+# for the Fortune banks.
+GRADE_CATEGORIES = {"Investment banking", "Commercial and corporate banking", "Private equity", "Asset management"}
+# Consulting ladders name the rank, not the seniority.
+CONSULTING_GRADES = [
+    ("vp", r"\b(partner|managing\s+director|senior\s+partner)\b"),
+    ("director", r"\b(principal|associate\s+partner|director)\b"),
+    ("staff", r"\b(engagement\s+manager|project\s+leader|senior\s+manager|case\s+team\s+leader)\b"),
+    ("senior", r"\b(manager|senior\s+consultant|senior\s+associate|consultant\s+ii+)\b"),
+    ("associate", r"\b(business\s+analyst|analyst|associate\s+consultant|intern\w*)\b"),
+    ("mid", r"\b(consultant|associate)\b"),
+]
+CONSULTING_RE = [(l, re.compile(p, re.I)) for l, p in CONSULTING_GRADES]
+CONSULTING_CATEGORIES = {"Strategy consulting", "Consulting and advisory", "Big Four and accounting"}
+
+LEVEL_LABELS = {
+    "associate": "Entry / analyst", "mid": "Mid-level", "senior": "Senior", "staff": "Lead / principal",
+    "group": "Group / senior manager", "director": "Director", "vp": "VP / head of function", "cpo": "Chief officer",
+}
+
+
+def level(title, company=None, category=None):
+    t = title or ""
+    if category in GRADE_CATEGORIES:
+        for l, rx in roles.BANK_RE:
+            if rx.search(t):
+                return l
+    if category in CONSULTING_CATEGORIES and family(t, category) == "management_consultant":
+        for l, rx in CONSULTING_RE:
+            if rx.search(t):
+                return l
+    if re.search(r"\bchief\b(?!\s+of\s+staff)", t, re.I):
+        return "cpo"
+    return roles.level(t, company)

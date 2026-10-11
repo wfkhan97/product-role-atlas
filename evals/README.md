@@ -9,7 +9,7 @@ node evals/run.mjs --baseline    # same, and rewrite baseline.md (commit it with
 node evals/run.mjs --only grad   # one sample
 ```
 
-No install needed; it reads `pipeline/taxonomy.json`, `web/data/subskills.json` and `web/data/graph.json`.
+No install needed; it reads `web/data/taxonomy.json` (the product part of `pipeline/taxonomy.json`, written by `build_graph`), `web/data/subskills.json` and `web/data/graph.json`.
 
 ## Samples
 
