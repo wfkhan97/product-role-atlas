@@ -546,7 +546,7 @@
    "cluster": "analytics",
    "patterns": [
     "statistic(s|al)\\b",
-    "forecast",
+    "(?<!budget and )(?<!budget & )(?<!plan and )(?<!budget )(?<!budgets and )(?<!budgeting and )(?<!budgeting, )(?<!budgeting & )(?<!financial )(?<!revenue )(?<!sales )(?<!cash )(?<!expense )(?<!cost )(?<!headcount )(?<!quarterly )(?<!annual )(?<!rolling )forecast(?!s? (vs\\.?|versus|to actuals?|and budget|accuracy and budget))",
     "regression",
     "predictive",
     "causal",

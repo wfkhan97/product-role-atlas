@@ -106,11 +106,27 @@ BOILER_RE = re.compile(
 )
 
 
-def clean(desc):
-    """Drop boilerplate lines (EEO statements, benefits, legal) so they don't inflate skill counts."""
+# The employer describing itself ("X is a leading global investment firm ...") says what the company does,
+# not what the role asks for.
+ABOUT_RE = re.compile(
+    r"^\W*(we are|we're|as) (a|an|the|one of the) (\w+ )?(leading|global|premier|world'?s?|largest|top|fastest|trusted|independent)\b|"
+    r"^\W*(founded|established|headquartered) in\b|^\W*with (over|more than|approximately) [\d$,.]+ ?\w* (in assets|employees|offices|clients|customers)",
+    re.I,
+)
+SELF_VERB = r"(is (?!seeking|looking|hiring|searching|recruiting|currently|an equal|committed|proud)|was founded|has been|provides|offers|serves|operates|delivers|helps|manages|advises)"
+ENTITY = r"(,? (group|inc\.?|llc|l\.?p\.?|& co\.?|and company|company|corporation|corp\.?|partners|capital|management|financial|holdings|bank|\([A-Z]+: ?[A-Z.]+\)))*"
+
+
+def clean(desc, company=None):
+    """Drop boilerplate lines (EEO statements, benefits, legal, the employer's own description) so they don't inflate skill counts."""
+    about = None
+    if company:
+        # the name as the posting writes it: the registry name, or its first word ("Houlihan Lokey", "Carlyle")
+        first = re.escape(company.split()[0])
+        about = re.compile(rf"^\W*(about )?(the )?({re.escape(company)}|{first}){ENTITY},? {SELF_VERB}", re.I)
     out = []
     for line in desc.split("\n"):
-        if len(line) > 40 and BOILER_RE.search(line):
+        if len(line) > 40 and (BOILER_RE.search(line) or ABOUT_RE.search(line) or (about and about.search(line))):
             continue
         out.append(line)
     return "\n".join(out)
@@ -195,7 +211,7 @@ def postings(roleset):
                 desc = j.get("description") or ""
                 if len(desc) < 300:
                     continue
-                cleaned = clean(desc)
+                cleaned = clean(desc, company)
                 key = (company, j["title"].strip().lower(), hashlib.md5(cleaned.strip().encode()).hexdigest())
                 # the same URL under a second company name is the same posting (a board shared by two registry entries)
                 if key in seen or (j.get("url") and j["url"] in seen):

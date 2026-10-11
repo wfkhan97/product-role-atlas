@@ -582,7 +582,7 @@
    "cluster": "analytics",
    "patterns": [
     "statistic(s|al)\\b",
-    "forecast",
+    "(?<!budget and )(?<!budget & )(?<!plan and )(?<!budget )(?<!budgets and )(?<!budgeting and )(?<!budgeting, )(?<!budgeting & )(?<!financial )(?<!revenue )(?<!sales )(?<!cash )(?<!expense )(?<!cost )(?<!headcount )(?<!quarterly )(?<!annual )(?<!rolling )forecast(?!s? (vs\\.?|versus|to actuals?|and budget|accuracy and budget))",
     "regression",
     "predictive",
     "causal",
@@ -1783,14 +1783,16 @@
   },
   {
    "id": "synthesis_recommendations",
-   "name": "Synthesis & recommendations",
+   "name": "Insights, synthesis & recommendations",
    "cluster": "strategy",
    "patterns": [
     "(actionable|strategic|clear|data[- ]driven|concrete|practical|fact[- ]based|well[- ]reasoned|sound) recommendations",
     "(insights|findings|conclusions|analysis|analyses) (and|into|to|&) (actionable |clear |strategic )?recommendations",
     "synthesi[sz](e|es|ing|ed) (complex |large |disparate |multiple |qualitative |quantitative |\\w+ )?(information|data|findings|insights|research|analysis|analyses|inputs|results|ideas)",
     "(develop|formulat|present|deliver|mak|provid)\\w* recommendations (to|for) (senior |executive |the )?(leadership|management|executives|clients?|leaders|the board|stakeholders)",
-    "so[- ]what"
+    "so[- ]what",
+    "actionable insights?|insights? (and|&) recommendations|data (to|into) (actionable )?insights?|(turn\\w*|translat\\w+|transform\\w*|convert\\w*|distill\\w*) (complex )?(data|analys[ie]s|analytics|numbers|findings) into",
+    "data[- ]?stor(y|ies)\\w*|stor(y|ies)[- ]?tell\\w* (with|through|using) data|stor(y|ies) (with|through|using|from|behind) (the )?data|narratives? (from|with|around|using|behind) (the )?data"
    ],
    "only": [
     "mba"
@@ -1830,12 +1832,12 @@
   },
   {
    "id": "operating_model_design",
-   "name": "Operating model & org design",
+   "name": "Operating model design",
    "cluster": "strategy",
    "patterns": [
     "target operating model|\\bTOM\\b design|operating[- ]model (design|redesign|transformation|development|changes?|definition|assessment|strategy)",
     "(design|defin|develop|redesign|build|evolv|refin|implement)\\w* (the |a |new |future[- ]state |our |target |and \\w+ )*operating models?",
-    "org(ani[sz]ation(al)?)? (design|redesign|restructuring)|spans (and|&) layers|decision rights|\\bRACI\\b|future[- ]state (design|organization|operating|process)"
+    "decision rights|\\bRACI\\b|future[- ]state (operating|process) (model|design)"
    ],
    "only": [
     "mba"
@@ -1879,7 +1881,7 @@
    "cluster": "strategy",
    "patterns": [
     "performance improvement",
-    "cost (reduction|take-?out|transformation|savings|optimi[sz]ation|efficienc\\w+|containment)",
+    "cost (take-?out|transformation|optimi[sz]ation|containment)|cost[- ]reduction (program|initiative|strateg|opportunit|target|plan)\\w*",
     "(operational|operating|margin|profit|profitability|productivity) improvements?",
     "value creation (plans?|opportunit\\w+|initiatives|levers)|efficiency (gains|opportunities|initiatives)|profit improvement|margin expansion|turnaround (and|&) restructuring|turnaround (situations?|plans?|strateg\\w+|management)"
    ],
@@ -4228,18 +4230,6 @@
     "(data|analytics?|analytical|BI|dashboard|measurement) requirements\\b|reporting needs\\b|(business|stakeholder|user) reporting requirements",
     "translat\\w+ (business|stakeholder|customer|client|user) (\\w+ )?(needs|questions|requirements|problems|objectives|goals|asks|requests) into (\\w+ ){0,2}(analytic\\w*|data|report\\w*|dashboard\\w*|metrics|BI|quantitative|measur\\w+)",
     "(gather\\w*|elicit\\w*|defin\\w+|document\\w*|understand\\w*|captur\\w+) (and \\w+ )?(business |user |stakeholder )?(reporting|data|analytic\\w*|BI|dashboard) requirements|analytics (partner\\w*|consult\\w+|business partner)"
-   ],
-   "only": [
-    "mba"
-   ]
-  },
-  {
-   "id": "insights_storytelling",
-   "name": "Insights & data storytelling",
-   "cluster": "analytics",
-   "patterns": [
-    "actionable insights?|insights? (and|&) recommendations|data (to|into) (actionable )?insights?|(turn\\w*|translat\\w+|transform\\w*|convert\\w*|distill\\w*) (complex )?(data|analys[ie]s|analytics|numbers|findings) into",
-    "data[- ]?stor(y|ies)\\w*|stor(y|ies)[- ]?tell\\w* (with|through|using) data|stor(y|ies) (with|through|using|from|behind) (the )?data|narratives? (from|with|around|using|behind) (the )?data"
    ],
    "only": [
     "mba"

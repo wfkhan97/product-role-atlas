@@ -4,17 +4,40 @@ Produced by `pipeline/experiments/decisions_audit.py` (lenient prompt, plus `--s
 
 ## Change from the role-set pass (2026-10-11)
 
-Two things changed for the product set. One job board is now one employer, which removed 399 double-counted postings (3 of the 200 sampled postings fell out; 197 remain). And seven patterns that fired on everyday phrasing outside product work were anchored: `sigma` no longer matches Six Sigma, `schedules` no longer matches work or shift schedules, `partnership` no longer matches "in partnership with", `retention` no longer matches employee or records retention, `commercial` no longer matches commercial banking or lending, `survey` no longer matches salary surveys, and `integration` no longer matches merger integration. Regex-only cases across all skills: 457 before, 448 after. Skills whose regex share moved:
+Three things changed for the product set.
+
+1. One job board is now one employer. This removed 399 double-counted postings; 3 of the 200 sampled postings fell out and 197 remain.
+2. Eight patterns that fired on everyday phrasing outside product work were anchored: `sigma` (Six Sigma), `schedules` (work and shift schedules), `partnership` ("in partnership with"), `retention` (employee and records retention), `commercial` (commercial banking and lending), `survey` (salary surveys), `integration` (merger integration) and `forecast` (budget and revenue forecasts, which are finance work).
+3. The cleaner now drops the employer's own description ("X is a leading global ...") before tagging.
+
+Regex-only cases across all skills go from 457 to 431. Cases where regex and model agree go from 4,121 to 4,090: the lines removed carried as many accepted matches as rejected ones, because a company description can name a skill the role also asks for elsewhere. Skills whose regex share moved:
 
 | skill | cluster | regex before | regex after | model (lenient) | regex-only before | regex-only after |
 |---|---|---|---|---|---|---|
+| Product strategy | craft | 65% | 64% | 98% | 0 | 0 |
+| Customer obsession / user empathy | craft | 52% | 52% | 91% | 1 | 1 |
+| Product sense & judgment | craft | 26% | 25% | 99% | 0 | 0 |
+| UX & design collaboration | craft | 37% | 37% | 56% | 12 | 12 |
+| Pricing & packaging | gtm | 25% | 24% | 19% | 15 | 14 |
 | Go-to-market strategy | gtm | 36% | 34% | 60% | 8 | 7 |
 | Partnerships & ecosystem | gtm | 27% | 21% | 44% | 14 | 8 |
 | Surveys & feedback loops | discovery | 14% | 13% | 41% | 3 | 2 |
+| Statistics & forecasting | analytics | 17% | 16% | 47% | 7 | 7 |
+| APIs & integrations | technical | 41% | 40% | 34% | 24 | 23 |
+| Systems & architecture | technical | 46% | 44% | 71% | 9 | 9 |
+| Generative AI / LLMs & agents | technical | 42% | 40% | 44% | 9 | 7 |
+| Networking & connectivity | technical | 6% | 6% | 10% | 4 | 3 |
+| Automotive, autonomy & robotics | domain | 9% | 7% | 3% | 12 | 9 |
+| Payments, fintech & banking | domain | 29% | 29% | 23% | 17 | 16 |
+| E-commerce, retail & marketplaces | domain | 21% | 19% | 13% | 18 | 14 |
+| Enterprise SaaS & B2B | domain | 34% | 33% | 36% | 19 | 17 |
+| Adaptability & fast-paced environments | leadership | 61% | 60% | 84% | 12 | 12 |
+| Collaboration & teamwork | leadership | 73% | 72% | 100% | 0 | 0 |
+| Customer & executive-facing engagement | leadership | 15% | 14% | 62% | 3 | 3 |
 | Program & project management | delivery | 41% | 37% | 99% | 1 | 1 |
+| Execution & delivery | delivery | 73% | 73% | 100% | 0 | 0 |
 | Analytics tools (Amplitude, Mixpanel, GA, Looker, Tableau) | tools | 6% | 5% | 17% | 5 | 4 |
-
-A narrower `forecast` pattern for "Statistics & forecasting" was tried and reverted: on this sample it removed eight accepted matches and no rejected ones.
+| AI tooling in daily work | tools | 24% | 23% | 21% | 20 | 18 |
 
 ## Change from the precision/recall pass (2026-10-10)
 
