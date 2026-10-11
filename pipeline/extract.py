@@ -22,8 +22,13 @@ SKILL_RX = dict(SKILL_RE)
 SKILL_ONLY = {s["id"]: s["only"] for s in TAX["skills"] if s.get("only")}
 
 
+_SKILLS_FOR = {}
+
+
 def skills_for(roleset):
-    return [(sid, rx) for sid, rx in SKILL_RE if roleset in SKILL_ONLY.get(sid, [roleset])]
+    if roleset not in _SKILLS_FOR:
+        _SKILLS_FOR[roleset] = [(sid, rx) for sid, rx in SKILL_RE if roleset in SKILL_ONLY.get(sid, [roleset])]
+    return _SKILLS_FOR[roleset]
 
 
 # role set -> where its postings are cached, how a title is classified, and where the output goes
@@ -192,75 +197,91 @@ def postings(roleset):
                     continue
                 cleaned = clean(desc)
                 key = (company, j["title"].strip().lower(), hashlib.md5(cleaned.strip().encode()).hexdigest())
-                if key in seen:
+                # the same URL under a second company name is the same posting (a board shared by two registry entries)
+                if key in seen or (j.get("url") and j["url"] in seen):
                     postings.dropped += 1
                     continue
                 seen.add(key)
+                seen.add(j.get("url"))
                 yield company, r, j, fam, cleaned
+
+
+def tag_posting(item):
+    """One posting -> (job row, evidence sentences, funding stage it mentions). Runs in worker processes."""
+    roleset, company, r, j, fam, cleaned = item
+    cfg = ROLE_SETS[roleset]
+    title = j["title"]
+    desc = j.get("description") or ""
+    text = title + "\n" + cleaned
+    hits = tag(text, skills_for(roleset))
+    # drop years-of-experience buckets that aren't consistent with the explicit ask, keep only the one matching
+    yoe = years_required(cleaned)
+    for k in list(hits):
+        if k.startswith("yoe_"):
+            del hits[k]
+    if yoe is not None:
+        bucket = "yoe_2" if yoe <= 2 else "yoe_3" if yoe <= 4 else "yoe_5" if yoe <= 6 else "yoe_8" if yoe <= 9 else "yoe_10"
+        hits[bucket] = 1
+    subs = sorted(sub for sub, (parent, rx) in SUB_RE.items() if parent in hits and rx.search(text))
+    lvl = cfg["level"](title, company, j)
+    found = []
+    for sent in sentences(cleaned):
+        for sid in hits:
+            if sid.startswith("yoe_"):
+                continue
+            m = SKILL_RX[sid].findall(sent)
+            if m:
+                found.append((sid, {"text": sent, "company": company, "title": title, "url": j.get("url"), "level": lvl, "_score": len(m)}))
+    job = {
+        "id": f"{company}::{j.get('external_id') or j.get('url')}",
+        "company": company,
+        "group": r["group"],
+        "investor": r.get("investor"),
+        "sector": r.get("sector"),
+        "industry": r.get("industry"),
+        "rank": r.get("rank"),
+        "ats": j.get("ats"),
+        "title": title,
+        "family": fam,
+        "level": lvl,
+        "specs": specializations(title),
+        "location": j.get("location", ""),
+        "country": geo(j.get("location", ""), title)[0],
+        "remote": geo(j.get("location", ""), title)[1],
+        "url": j.get("url"),
+        "posted": j.get("posted"),
+        "yoe": yoe,
+        "skills": hits,
+        "sub": subs,
+        "snippet": re.sub(r"\s+", " ", desc)[:400],
+        "desc_chars": len(desc),
+        **({"category": j["category"]} if j.get("category") else {}),
+    }
+    return job, found, stage_mentions(desc)
 
 
 def main():
     import argparse
+    import multiprocessing
     ap = argparse.ArgumentParser()
     ap.add_argument("--roles", choices=sorted(ROLE_SETS), default="product")
+    ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) - 1))
     args = ap.parse_args()
     cfg = ROLE_SETS[args.roles]
     skills = skills_for(args.roles)
     jobs = []
     evidence = {}
     company_stage = {}
-    for company, r, j, fam, cleaned in postings(args.roles):
-        title = j["title"]
-        desc = j.get("description") or ""
-        st = stage_mentions(desc)
-        if st:
-            cur = company_stage.get(company)
-            company_stage[company] = max(cur, st) if cur else st
-        text = title + "\n" + cleaned
-        hits = tag(text, skills)
-        # drop years-of-experience buckets that aren't consistent with the explicit ask, keep only the one matching
-        yoe = years_required(cleaned)
-        for k in list(hits):
-            if k.startswith("yoe_"):
-                del hits[k]
-        if yoe is not None:
-            bucket = "yoe_2" if yoe <= 2 else "yoe_3" if yoe <= 4 else "yoe_5" if yoe <= 6 else "yoe_8" if yoe <= 9 else "yoe_10"
-            hits[bucket] = 1
-        subs = sorted(sub for sub, (parent, rx) in SUB_RE.items() if parent in hits and rx.search(text))
-        lvl = cfg["level"](title, company, j)
-        for sent in sentences(cleaned):
-            for sid in hits:
-                if sid.startswith("yoe_"):
-                    continue
-                m = SKILL_RX[sid].findall(sent)
-                if m:
-                    evidence.setdefault(sid, {}).setdefault(LEVEL_GROUP[lvl], []).append(
-                        {"text": sent, "company": company, "title": title, "url": j.get("url"), "level": lvl, "_score": len(m)})
-        jobs.append({
-            "id": f"{company}::{j.get('external_id') or j.get('url')}",
-            "company": company,
-            "group": r["group"],
-            "investor": r.get("investor"),
-            "sector": r.get("sector"),
-            "industry": r.get("industry"),
-            "rank": r.get("rank"),
-            "ats": j.get("ats"),
-            "title": title,
-            "family": fam,
-            "level": lvl,
-            "specs": specializations(title),
-            "location": j.get("location", ""),
-            "country": geo(j.get("location", ""), title)[0],
-            "remote": geo(j.get("location", ""), title)[1],
-            "url": j.get("url"),
-            "posted": j.get("posted"),
-            "yoe": yoe,
-            "skills": hits,
-            "sub": subs,
-            "snippet": re.sub(r"\s+", " ", desc)[:400],
-            "desc_chars": len(desc),
-            **({"category": j["category"]} if j.get("category") else {}),
-        })
+    items = ((args.roles, company, r, j, fam, cleaned) for company, r, j, fam, cleaned in postings(args.roles))
+    # results come back in posting order, so the output does not depend on the number of workers
+    with multiprocessing.Pool(args.workers) as pool:
+        for job, found, st in pool.imap(tag_posting, items, chunksize=40):
+            if st:
+                cur = company_stage.get(job["company"])
+                company_stage[job["company"]] = max(cur, st) if cur else st
+            for sid, ev in found:
+                evidence.setdefault(sid, {}).setdefault(LEVEL_GROUP[ev["level"]], []).append(ev)
+            jobs.append(job)
     os.makedirs(os.path.join(ROOT, "data", "processed"), exist_ok=True)
     sfx = cfg["suffix"]
     with open(os.path.join(ROOT, "data", "processed", f"jobs{sfx}.json"), "w") as f:

@@ -1,0 +1,47 @@
+{
+ "pipeline_forecasting": {
+  "what": "Building enough pipeline, keeping it honest and forecasting what will close."
+ },
+ "quota_attainment": {
+  "what": "Carrying a number: owning a sales quota or revenue target and consistently meeting it."
+ },
+ "territory_account_planning": {
+  "what": "Deciding where to spend selling time: territory plans, account plans and coverage."
+ },
+ "prospecting": {
+  "what": "Finding and opening new business: outbound outreach, cold calls, qualifying leads."
+ },
+ "deal_negotiation": {
+  "what": "Negotiating commercial terms and structuring partnership or sales agreements through to signature."
+ },
+ "consultative_selling": {
+  "what": "Selling by diagnosing the buyer's problem and tailoring a solution, often over long multi-stakeholder cycles."
+ },
+ "key_account_mgmt": {
+  "what": "Owning the relationship with important customers and growing the business done with them."
+ },
+ "channel_sales": {
+  "what": "Selling through others: distributors, dealers, resellers and systems integrators."
+ },
+ "partner_gtm": {
+  "what": "Working with a partner company to market and sell together: joint plans, co-selling, partner enablement."
+ },
+ "sales_leadership": {
+  "what": "Hiring, coaching and holding a sales team to its number."
+ },
+ "sales_process": {
+  "what": "Defining how the team sells and keeping the machinery (stages, playbooks, CRM discipline, comp plans) working."
+ },
+ "renewals_expansion": {
+  "what": "Keeping and growing revenue from existing customers: renewals, upsell, cross-sell, net revenue retention."
+ },
+ "onboarding_adoption": {
+  "what": "Getting new customers live and using the product enough to see its value."
+ },
+ "customer_health": {
+  "what": "Watching account health signals and running regular business reviews to catch risk and prove value."
+ },
+ "proposals_capture": {
+  "what": "Winning competitive bids: capture planning, proposal writing and RFP responses."
+ }
+}

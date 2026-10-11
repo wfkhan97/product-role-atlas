@@ -1,0 +1,53 @@
+{
+ "strategic_planning": {
+  "what": "Running the company's annual, quarterly or long-range planning process and turning it into agreed priorities."
+ },
+ "strategy_development": {
+  "what": "Working out where and how a business should compete and grow, and writing that up as a strategy."
+ },
+ "hypothesis_driven": {
+  "what": "Breaking an open business question into testable hypotheses and the analyses needed to answer it."
+ },
+ "synthesis_recommendations": {
+  "what": "Boiling research and analysis down to a clear answer and a recommendation leaders can act on."
+ },
+ "exec_decks": {
+  "what": "Building the slides, memos and board-ready materials that carry an argument to senior leaders."
+ },
+ "client_engagement": {
+  "what": "Delivering consulting projects for outside clients: scoping the work, running the team's workstream and managing the client day to day."
+ },
+ "operating_model_design": {
+  "what": "Designing how an organisation is structured and run: roles, decision rights, governance and ways of working."
+ },
+ "change_management": {
+  "what": "Getting people to adopt a new process, system or structure: readiness, communications, training and resistance."
+ },
+ "transformation_programs": {
+  "what": "Leading a multi-year overhaul of how a function or company works, from roadmap through to tracked, delivered benefits."
+ },
+ "performance_improvement": {
+  "what": "Finding and delivering ways for a business to run cheaper, faster or more profitably."
+ },
+ "operating_cadence": {
+  "what": "Running the rhythm a leadership team works to: weekly, monthly and quarterly reviews, planning checkpoints and follow-ups."
+ },
+ "special_projects": {
+  "what": "Picking up one-off, high-priority projects for leadership that have no natural owner and driving them to an answer."
+ },
+ "exec_partnership": {
+  "what": "Acting as a senior leader's right hand: preparing them, representing them and making sure their priorities move."
+ },
+ "technology_strategy": {
+  "what": "Deciding what technology a business should invest in and in what order: IT strategy, roadmaps, modernisation and vendor choices."
+ },
+ "ai_strategy": {
+  "what": "Finding where AI can change how a business works, prioritising use cases and getting teams to adopt them."
+ },
+ "litigation_consulting": {
+  "what": "Supporting disputes and investigations with economic, financial or forensic analysis, expert reports and testimony."
+ },
+ "business_unit_leadership": {
+  "what": "Being accountable for a whole unit: its sales, costs, service and people, day to day."
+ }
+}

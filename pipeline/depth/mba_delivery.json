@@ -1,0 +1,14 @@
+{
+ "cost_schedule_control": {
+  "what": "Owning a programme's budget and schedule: tracking spend and progress against the baseline and correcting course."
+ },
+ "earned_value_mgmt": {
+  "what": "Measuring programme progress with earned value (EVM/EVMS), control accounts and an integrated master schedule, as defence and government contracts require."
+ },
+ "program_governance_reviews": {
+  "what": "Setting up how programmes are run and reviewed: PMO standards, steering committees, stage gates and programme reviews with leadership or the customer."
+ },
+ "resource_planning": {
+  "what": "Working out the people and capacity a programme needs, when, and resolving conflicts across projects."
+ }
+}

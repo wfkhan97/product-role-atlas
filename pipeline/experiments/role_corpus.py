@@ -36,7 +36,7 @@ def main():
             country = extract.geo(j.get("location", ""), j["title"])[0]
             if args.country and country != args.country:
                 continue
-            f.write(json.dumps({"company": company, "title": j["title"], "family": fam, "country": country,
+            f.write(json.dumps({"company": company, "title": j["title"], "url": j.get("url"), "family": fam, "country": country,
                                 "category": j.get("category"), "text": j["title"] + "\n" + cleaned}) + "\n")
             n += 1
     print(n, "postings ->", path(args.roles))

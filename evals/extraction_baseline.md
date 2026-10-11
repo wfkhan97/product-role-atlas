@@ -2,6 +2,20 @@
 
 Produced by `pipeline/experiments/decisions_audit.py` (lenient prompt, plus `--strict`) and `decisions_compare.py`. Model answers were recorded once on 2026-10-10; after a taxonomy change, rerun with `--reuse data/experiments/decisions_results.jsonl --tag after` to recompute only the regex side (no API calls) and regenerate this file. Raw answers live in `data/experiments/` (local, gitignored).
 
+## Change from the role-set pass (2026-10-11)
+
+Two things changed for the product set. One job board is now one employer, which removed 399 double-counted postings (3 of the 200 sampled postings fell out; 197 remain). And seven patterns that fired on everyday phrasing outside product work were anchored: `sigma` no longer matches Six Sigma, `schedules` no longer matches work or shift schedules, `partnership` no longer matches "in partnership with", `retention` no longer matches employee or records retention, `commercial` no longer matches commercial banking or lending, `survey` no longer matches salary surveys, and `integration` no longer matches merger integration. Regex-only cases across all skills: 457 before, 448 after. Skills whose regex share moved:
+
+| skill | cluster | regex before | regex after | model (lenient) | regex-only before | regex-only after |
+|---|---|---|---|---|---|---|
+| Go-to-market strategy | gtm | 36% | 34% | 60% | 8 | 7 |
+| Partnerships & ecosystem | gtm | 27% | 21% | 44% | 14 | 8 |
+| Surveys & feedback loops | discovery | 14% | 13% | 41% | 3 | 2 |
+| Program & project management | delivery | 41% | 37% | 99% | 1 | 1 |
+| Analytics tools (Amplitude, Mixpanel, GA, Looker, Tableau) | tools | 6% | 5% | 17% | 5 | 4 |
+
+A narrower `forecast` pattern for "Statistics & forecasting" was tried and reverted: on this sample it removed eight accepted matches and no rejected ones.
+
 ## Change from the precision/recall pass (2026-10-10)
 
 Regex share before and after the taxonomy edits, with the lenient model share for reference. "Regex-only" = postings the regex tags and the model rejects (the false-positive proxy). Sorted by size of change; skills that moved under 3 points are omitted.

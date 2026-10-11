@@ -1,0 +1,20 @@
+{
+ "re_underwriting": {
+  "what": "Model a property's income, costs and returns, grounded in local rents and sales, to decide what it is worth."
+ },
+ "re_acquisitions_dispositions": {
+  "what": "Find, bid on and close purchases and sales of land and buildings."
+ },
+ "re_development_entitlements": {
+  "what": "Take a site from raw land through approvals and construction to a finished project."
+ },
+ "re_leasing": {
+  "what": "Negotiate leases and keep buildings occupied with paying tenants."
+ },
+ "re_asset_mgmt": {
+  "what": "Run a property or portfolio so it hits its business plan and budget."
+ },
+ "re_property_types": {
+  "what": "Know how a given property type is bought, built, leased and run."
+ }
+}

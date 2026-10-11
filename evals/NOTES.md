@@ -327,3 +327,54 @@ Resume evals: 163 pass, 0 fail on the rebuilt graph; sample scores moved by at m
 Not done, deliberately: a live model veto in `extract.py`. The residual regex-only count is small
 enough that the next gain is in labelled data, not in another model pass. Next calibration round:
 real resumes (including the 36% sample), a PDF sample through the browser, TPM and PMM samples.
+
+## Taxonomy for the MBA role set (2026-10-11)
+
+Branch `feat/mba-taxonomy`. The 50 MBA roles were scraped with title rules only; this round gives them skills.
+
+**Structure.** One taxonomy, not two. A skill marked `only: ["mba"]` is tagged for that role set alone, an
+unmarked skill is shared, and `pipeline/tax.py` hands each role set its part. The product map therefore keeps
+its 98 skills (its taxonomy file is byte-identical after the additions) until its interface is designed for
+more. `extract.py` runs both sets through one path and tags in worker processes.
+
+**How the skills were written.** From the postings, not from a syllabus: `role_terms.py` ranks the phrases that
+set a role's postings apart, `skill_probe.py` shows what a draft pattern matches, and four drafting passes (one
+per group of related roles) iterated on those. 190 drafts were merged to 181 skills in nine new clusters
+(strategy & consulting, corporate finance & accounting, banking/deals/investing, real estate, marketing & brand,
+sales & customer relationships, operations & supply chain, people & organization, risk/compliance/governance)
+plus additions to analytics, delivery, tools and credentials. Each has a one-line definition in
+`pipeline/depth/mba_*.json`; sub-skills, ladders and build steps wait for the interface design.
+
+**Result.** [extraction_baseline_mba.md](extraction_baseline_mba.md): 21,589 US postings, a median of 29 skills
+per posting, 7 of them from the new skills; 4% of postings get none of the new skills. Product Manager postings
+get a median of 2 (their skills are the shared product ones), general managers 5, leadership-programme
+associates 4.
+
+**Found along the way.**
+- 96 startups were in the registry under two names and their postings counted twice (399 product postings).
+  Fixed in `merge_registry.py`, with a repeated-URL guard in `extract.py`.
+- Seven shared patterns fired on everyday phrasing in the new roles and were anchored (see
+  [extraction_baseline.md](extraction_baseline.md)). "Analytics tools" was tagging 69% of operational-excellence
+  postings through the word "sigma".
+- DEI was dropped as a skill: once boilerplate is removed, almost no posting asks for it as work.
+
+**Known weak spots, kept on purpose or not yet fixed.**
+- Shared skills that restate a role or its industry: "Supply chain, logistics & operations" on nearly every
+  supply and procurement posting, "Payments, fintech & banking" on every banking and treasury posting,
+  "Risk & dependency management" on 97% of enterprise-risk postings, "Consulting / banking / finance
+  background" on most strategy and banking postings. True, but uninformative for those roles; the interface
+  should treat a role's own domain as given.
+- "Statistics & forecasting" tags most FP&A postings through `forecast`, next to the new "Budgeting &
+  forecasting". Splitting forecasting out of statistics is a naming decision for both role sets.
+- Overlapping pairs kept for now: performance improvement / spend and cost savings; synthesis &
+  recommendations / insights & storytelling; operating model design / organization design; three negotiation
+  skills by context (deals, sales, suppliers).
+- Company blurbs at banks and asset managers ("we provide capital markets and wealth solutions") still trip
+  capital markets, wealth advisory, investment research and client coverage in non-investing roles there.
+- A few employers dominate some roles (Amazon is a quarter of operations managers), so those shares lean on
+  one template.
+- Small roles: venture capital associate (18 postings), the three real-estate roles (119 together), M&A
+  integration (35), digital transformation (35). Their percentages swing on a few postings.
+
+**Not yet done.** The model audit of the new skills (`skill_audit.py`, 3,197 requests prepared): the OpenAI key
+in `.env` had expired. Until it runs, the new patterns are checked by reading samples only.

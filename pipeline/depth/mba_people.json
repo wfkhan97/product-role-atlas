@@ -1,0 +1,53 @@
+{
+ "employee_relations": {
+  "what": "Handling workplace issues fairly: complaints, investigations, discipline and conflict between employees and managers."
+ },
+ "hr_business_partnering": {
+  "what": "Acting as the people adviser to a business unit's leaders, tying HR work to their goals."
+ },
+ "talent_acquisition": {
+  "what": "Finding and hiring people: sourcing, interviewing, offers and the hiring process."
+ },
+ "performance_mgmt": {
+  "what": "Running the cycle that sets expectations, reviews performance and decides who is ready for more."
+ },
+ "succession_workforce_planning": {
+  "what": "Planning who the organisation will need and who steps up next: headcount, pipelines and successors."
+ },
+ "learning_design": {
+  "what": "Designing and delivering training: needs analysis, curricula, facilitation and measuring whether it worked."
+ },
+ "leadership_dev_coaching": {
+  "what": "Growing leaders: development programmes, assessments, executive coaching and feedback."
+ },
+ "org_design": {
+  "what": "Shaping how an organisation is structured and works: roles, spans, structures and their health."
+ },
+ "engagement_culture": {
+  "what": "Measuring and improving how people experience work: engagement surveys, culture, recognition, retention."
+ },
+ "comp_design": {
+  "what": "Designing and running how people are paid: salary structures, incentive plans, the annual pay cycle."
+ },
+ "market_pricing_job_arch": {
+  "what": "Benchmarking pay against the market and keeping jobs, levels and grades in a consistent structure."
+ },
+ "exec_equity_comp": {
+  "what": "Pay for executives and equity plans: long-term incentives, stock administration, proxy and committee work."
+ },
+ "benefits_admin": {
+  "what": "Choosing, running and explaining health, retirement and leave benefits, including the vendors and rules behind them."
+ },
+ "hr_compliance": {
+  "what": "Keeping people practices inside employment law and company policy."
+ },
+ "hr_operations": {
+  "what": "Running the day-to-day people processes: hiring paperwork, onboarding, records, payroll and policy upkeep."
+ },
+ "people_analytics": {
+  "what": "Using workforce data (headcount, turnover, pay, engagement) to explain what is happening and what to do."
+ },
+ "rotational_program": {
+  "what": "Moving through several placements in different teams or functions as a structured early-career programme."
+ }
+}

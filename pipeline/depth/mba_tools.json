@@ -1,0 +1,50 @@
+{
+ "advanced_excel": {
+  "what": "Build and audit complex spreadsheet models quickly and accurately."
+ },
+ "erp_finance_systems": {
+  "what": "Work in the ERP and planning systems that hold the company's actuals, budgets and forecasts."
+ },
+ "market_data_terminals": {
+  "what": "Pull company, deal and market data from the standard research platforms."
+ },
+ "re_tools": {
+  "what": "Use the standard property valuation, market-data and property-management systems."
+ },
+ "treasury_systems": {
+  "what": "Operate the treasury management system, bank portals and payment rails."
+ },
+ "grc_tools": {
+  "what": "Using governance, risk and compliance software to keep the risk register, controls, evidence and issues in one place."
+ },
+ "marketing_automation_tools": {
+  "what": "Named platforms for automating email, lifecycle and campaign workflows."
+ },
+ "ad_platforms": {
+  "what": "Named advertising platforms for buying and optimising paid media."
+ },
+ "syndicated_data": {
+  "what": "Purchased market data that tracks sales and share at retail, the daily numbers of consumer-goods brand work."
+ },
+ "hris_tools": {
+  "what": "Named HR systems of record for employee data, pay and benefits."
+ },
+ "learning_tools": {
+  "what": "Named systems for building and hosting training content."
+ },
+ "procurement_tools": {
+  "what": "Using e-sourcing and procure-to-pay software to run sourcing events, contracts and purchase orders."
+ },
+ "supply_chain_systems": {
+  "what": "Using planning, warehouse or transport management software to run the supply chain."
+ },
+ "pm_scheduling_tools": {
+  "what": "Building and maintaining project schedules in dedicated scheduling software."
+ },
+ "bi_dev_tools": {
+  "what": "Hands-on BI build skills beyond drag-and-drop: DAX, Power Query, Power Platform, or enterprise BI suites such as Qlik, MicroStrategy and Cognos."
+ },
+ "stats_analytics_packages": {
+  "what": "Using statistical or data-prep packages such as SAS, SPSS, Alteryx, Minitab or JMP for analysis."
+ }
+}

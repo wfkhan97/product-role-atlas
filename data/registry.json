@@ -9148,41 +9148,6 @@
   "state": "Arizona"
  },
  {
-  "company": "Anduril",
-  "group": "startup",
-  "investor": "a16z, Lux Capital, Lightspeed Venture Partners, General Catalyst, 8VC, Founders Fund, Craft Ventures",
-  "ats": "greenhouse",
-  "config": {
-   "board": "andurilindustries"
-  },
-  "verified": true,
-  "pm_postings": 94,
-  "sample_title": "Lead Industrial Design Product Manager",
-  "website": "https://www.anduril.com",
-  "verticals": "American Dynamism;Cultural Leadership Fund;Enterprise;Growth",
-  "funds": [
-   "a16z",
-   "lux",
-   "lightspeed",
-   "general_catalyst",
-   "8vc",
-   "founders_fund",
-   "craft"
-  ],
-  "sector": "Industrials & Manufacturing",
-  "industry": "American Dynamism;Cultural Leadership Fund;Enterprise;Growth",
-  "stage_from_fund": "Series E",
-  "investors": [
-   "a16z",
-   "Lux Capital",
-   "Lightspeed Venture Partners",
-   "General Catalyst",
-   "8VC",
-   "Founders Fund",
-   "Craft Ventures"
-  ]
- },
- {
   "company": "Stripe",
   "group": "startup",
   "investor": "a16z",
@@ -9231,7 +9196,7 @@
  {
   "company": "OpenAI",
   "group": "startup",
-  "investor": "a16z",
+  "investor": "a16z, Sequoia Capital, Y Combinator, Coatue",
   "ats": "ashby",
   "config": {
    "board": "openai"
@@ -9242,13 +9207,22 @@
   "website": "https://openai.com/",
   "verticals": "Enterprise;Growth;Infra",
   "funds": [
-   "a16z"
+   "a16z",
+   "sequoia",
+   "yc",
+   "coatue"
   ],
   "sector": "Technology",
   "industry": "Enterprise;Growth;Infra",
   "stage_from_fund": null,
+  "also_listed_as": [
+   "Open"
+  ],
   "investors": [
-   "a16z"
+   "a16z",
+   "Sequoia Capital",
+   "Y Combinator",
+   "Coatue"
   ]
  },
  {
@@ -9485,7 +9459,7 @@
  {
   "company": "Temporal",
   "group": "startup",
-  "investor": "a16z, Amplify Partners, Lightspeed Venture Partners, Index Ventures, Sapphire Ventures",
+  "investor": "a16z, Amplify Partners, Lightspeed Venture Partners, Index Ventures, Sapphire Ventures, Sequoia Capital",
   "ats": "ashby",
   "config": {
    "board": "temporal"
@@ -9500,17 +9474,22 @@
    "amplify",
    "lightspeed",
    "index",
-   "sapphire"
+   "sapphire",
+   "sequoia"
   ],
   "sector": "Technology",
   "industry": "Growth",
   "stage_from_fund": "Series D",
+  "also_listed_as": [
+   "Temporal Technologies"
+  ],
   "investors": [
    "a16z",
    "Amplify Partners",
    "Lightspeed Venture Partners",
    "Index Ventures",
-   "Sapphire Ventures"
+   "Sapphire Ventures",
+   "Sequoia Capital"
   ]
  },
  {
@@ -9781,7 +9760,7 @@
  {
   "company": "Alchemy",
   "group": "startup",
-  "investor": "a16z, Lightspeed Venture Partners, Redpoint Ventures, Y Combinator, Samsung Next",
+  "investor": "a16z, Lightspeed Venture Partners, Redpoint Ventures, Y Combinator, Samsung Next, Coatue",
   "ats": "ashby",
   "config": {
    "board": "alchemy"
@@ -9796,17 +9775,22 @@
    "lightspeed",
    "redpoint",
    "yc",
-   "samsung_next"
+   "samsung_next",
+   "coatue"
   ],
   "sector": "Financials",
   "industry": "Crypto;Growth",
   "stage_from_fund": "Series C",
+  "also_listed_as": [
+   "Alchemy Insights"
+  ],
   "investors": [
    "a16z",
    "Lightspeed Venture Partners",
    "Redpoint Ventures",
    "Y Combinator",
-   "Samsung Next"
+   "Samsung Next",
+   "Coatue"
   ]
  },
  {
@@ -10320,7 +10304,7 @@
  {
   "company": "Luma AI",
   "group": "startup",
-  "investor": "a16z, Amplify Partners, General Catalyst",
+  "investor": "a16z, Amplify Partners, General Catalyst, NVentures (Nvidia)",
   "ats": "ashby",
   "config": {
    "board": "lumaai"
@@ -10333,15 +10317,20 @@
   "funds": [
    "a16z",
    "amplify",
-   "general_catalyst"
+   "general_catalyst",
+   "nventures"
   ],
   "sector": "Media, Telecom & Hospitality",
   "industry": "Consumer;Infra",
   "stage_from_fund": null,
+  "also_listed_as": [
+   "LumaLabs"
+  ],
   "investors": [
    "a16z",
    "Amplify Partners",
-   "General Catalyst"
+   "General Catalyst",
+   "NVentures (Nvidia)"
   ]
  },
  {
@@ -10480,7 +10469,7 @@
  {
   "company": "Sesame",
   "group": "startup",
-  "investor": "a16z, Redpoint Ventures, Spark Capital, General Catalyst, GV (Google Ventures)",
+  "investor": "a16z, Redpoint Ventures, Spark Capital, General Catalyst, GV (Google Ventures), Sequoia Capital",
   "ats": "ashby",
   "config": {
    "board": "sesame"
@@ -10495,17 +10484,22 @@
    "redpoint",
    "spark",
    "general_catalyst",
-   "gv"
+   "gv",
+   "sequoia"
   ],
   "sector": "Media, Telecom & Hospitality",
   "industry": "Consumer",
   "stage_from_fund": "Series B",
+  "also_listed_as": [
+   "Sesame AI"
+  ],
   "investors": [
    "a16z",
    "Redpoint Ventures",
    "Spark Capital",
    "General Catalyst",
-   "GV (Google Ventures)"
+   "GV (Google Ventures)",
+   "Sequoia Capital"
   ]
  },
  {
@@ -10558,31 +10552,6 @@
    "a16z",
    "General Catalyst",
    "Y Combinator"
-  ]
- },
- {
-  "company": "Thinking Machines Lab",
-  "group": "startup",
-  "investor": "a16z, GV (Google Ventures)",
-  "ats": "ashby",
-  "config": {
-   "board": "thinkingmachines"
-  },
-  "verified": true,
-  "pm_postings": 3,
-  "sample_title": "Product Manager - Deployment",
-  "website": "https://thinkingmachines.ai",
-  "verticals": "Growth",
-  "funds": [
-   "a16z",
-   "gv"
-  ],
-  "sector": "Technology",
-  "industry": "Growth",
-  "stage_from_fund": null,
-  "investors": [
-   "a16z",
-   "GV (Google Ventures)"
   ]
  },
  {
@@ -10686,7 +10655,7 @@
  {
   "company": "Ambience Healthcare",
   "group": "startup",
-  "investor": "a16z, OpenAI Startup Fund",
+  "investor": "a16z, OpenAI Startup Fund, Kleiner Perkins",
   "ats": "ashby",
   "config": {
    "board": "ambiencehealthcare"
@@ -10698,14 +10667,19 @@
   "verticals": "Bio + Health;Cultural Leadership Fund",
   "funds": [
    "a16z",
-   "openai_fund"
+   "openai_fund",
+   "kleiner"
   ],
   "sector": "Health Care",
   "industry": "Bio + Health;Cultural Leadership Fund",
   "stage_from_fund": "Series B",
+  "also_listed_as": [
+   "Ambience"
+  ],
   "investors": [
    "a16z",
-   "OpenAI Startup Fund"
+   "OpenAI Startup Fund",
+   "Kleiner Perkins"
   ]
  },
  {
@@ -10906,7 +10880,7 @@
  {
   "company": "Inferact",
   "group": "startup",
-  "investor": "a16z, Sequoia Capital, Lightspeed Venture Partners, Altimeter",
+  "investor": "a16z, Sequoia Capital, Lightspeed Venture Partners, Altimeter, Redpoint Ventures",
   "ats": "ashby",
   "config": {
    "board": "inferact"
@@ -10920,16 +10894,21 @@
    "a16z",
    "sequoia",
    "lightspeed",
-   "altimeter"
+   "altimeter",
+   "redpoint"
   ],
   "sector": "Technology",
   "industry": "Infra",
   "stage_from_fund": "Seed",
+  "also_listed_as": [
+   "Inferact (vLLM)"
+  ],
   "investors": [
    "a16z",
    "Sequoia Capital",
    "Lightspeed Venture Partners",
-   "Altimeter"
+   "Altimeter",
+   "Redpoint Ventures"
   ]
  },
  {
@@ -10993,7 +10972,7 @@
  {
   "company": "Komodo Health",
   "group": "startup",
-  "investor": "a16z, Felicis, Dragoneer, Tiger Global",
+  "investor": "a16z, Felicis, Dragoneer, Tiger Global, Coatue",
   "ats": "greenhouse",
   "config": {
    "board": "komodohealth"
@@ -11007,16 +10986,21 @@
    "a16z",
    "felicis",
    "dragoneer",
-   "tiger"
+   "tiger",
+   "coatue"
   ],
   "sector": "Health Care",
   "industry": "Bio + Health;Cultural Leadership Fund;Growth",
   "stage_from_fund": "Series A",
+  "also_listed_as": [
+   "Komodo"
+  ],
   "investors": [
    "a16z",
    "Felicis",
    "Dragoneer",
-   "Tiger Global"
+   "Tiger Global",
+   "Coatue"
   ]
  },
  {
@@ -11188,7 +11172,7 @@
  {
   "company": "Saronic",
   "group": "startup",
-  "investor": "a16z, Lightspeed Venture Partners, General Catalyst, 8VC, Craft Ventures, Bessemer Venture Partners",
+  "investor": "a16z, Lightspeed Venture Partners, General Catalyst, 8VC, Craft Ventures, Bessemer Venture Partners, Kleiner Perkins",
   "ats": "ashby",
   "config": {
    "board": "saronic"
@@ -11204,18 +11188,23 @@
    "general_catalyst",
    "8vc",
    "craft",
-   "bessemer"
+   "bessemer",
+   "kleiner"
   ],
   "sector": "Industrials & Manufacturing",
   "industry": "American Dynamism",
   "stage_from_fund": "Series C",
+  "also_listed_as": [
+   "Saronic Technologies"
+  ],
   "investors": [
    "a16z",
    "Lightspeed Venture Partners",
    "General Catalyst",
    "8VC",
    "Craft Ventures",
-   "Bessemer Venture Partners"
+   "Bessemer Venture Partners",
+   "Kleiner Perkins"
   ]
  },
  {
@@ -11621,7 +11610,7 @@
  {
   "company": "Anchorage",
   "group": "startup",
-  "investor": "a16z, Lux Capital, Amplify Partners",
+  "investor": "a16z, Lux Capital, Amplify Partners, Ribbit Capital",
   "ats": "lever",
   "config": {
    "board": "anchorage"
@@ -11634,15 +11623,20 @@
   "funds": [
    "a16z",
    "lux",
-   "amplify"
+   "amplify",
+   "ribbit"
   ],
   "sector": "Financials",
   "industry": "Crypto",
   "stage_from_fund": null,
+  "also_listed_as": [
+   "Solana"
+  ],
   "investors": [
    "a16z",
    "Lux Capital",
-   "Amplify Partners"
+   "Amplify Partners",
+   "Ribbit Capital"
   ]
  },
  {
@@ -11715,29 +11709,6 @@
   ],
   "sector": "Health Care",
   "industry": "Bio + Health",
-  "stage_from_fund": null,
-  "investors": [
-   "a16z"
-  ]
- },
- {
-  "company": "Blackbird.xyz",
-  "group": "startup",
-  "investor": "a16z",
-  "ats": "ashby",
-  "config": {
-   "board": "blackbird-labs-inc"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager, Consumer",
-  "website": "https://blackbird.xyz",
-  "verticals": "Crypto",
-  "funds": [
-   "a16z"
-  ],
-  "sector": "Financials",
-  "industry": "Crypto",
   "stage_from_fund": null,
   "investors": [
    "a16z"
@@ -11820,31 +11791,6 @@
   "investors": [
    "a16z",
    "Tiger Global"
-  ]
- },
- {
-  "company": "Cowboy Space Corporation",
-  "group": "startup",
-  "investor": "a16z, IVP",
-  "ats": "ashby",
-  "config": {
-   "board": "cowboyspace"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Technical Program Manager, Avionics",
-  "website": "https://www.cowboyspace.com/",
-  "verticals": "American Dynamism",
-  "funds": [
-   "a16z",
-   "ivp"
-  ],
-  "sector": "Industrials & Manufacturing",
-  "industry": "American Dynamism",
-  "stage_from_fund": null,
-  "investors": [
-   "a16z",
-   "IVP"
   ]
  },
  {
@@ -12172,29 +12118,6 @@
   ]
  },
  {
-  "company": "Gamma.app",
-  "group": "startup",
-  "investor": "a16z",
-  "ats": "ashby",
-  "config": {
-   "board": "gamma"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Sr. Product Manager, B2B",
-  "website": "https://www.gamma.app",
-  "verticals": "Growth",
-  "funds": [
-   "a16z"
-  ],
-  "sector": "Startup (unclassified)",
-  "industry": "Growth",
-  "stage_from_fund": null,
-  "investors": [
-   "a16z"
-  ]
- },
- {
   "company": "Genesis Molecular AI",
   "group": "startup",
   "investor": "a16z, NVentures (Nvidia), Menlo Ventures",
@@ -12395,7 +12318,7 @@
  {
   "company": "Infinitus",
   "group": "startup",
-  "investor": "a16z, Kleiner Perkins, GV (Google Ventures)",
+  "investor": "a16z, Kleiner Perkins, GV (Google Ventures), Coatue",
   "ats": "ashby",
   "config": {
    "board": "infinitus"
@@ -12408,15 +12331,20 @@
   "funds": [
    "a16z",
    "kleiner",
-   "gv"
+   "gv",
+   "coatue"
   ],
   "sector": "Health Care",
   "industry": "Bio + Health;Growth",
   "stage_from_fund": null,
+  "also_listed_as": [
+   "Infinitus Systems"
+  ],
   "investors": [
    "a16z",
    "Kleiner Perkins",
-   "GV (Google Ventures)"
+   "GV (Google Ventures)",
+   "Coatue"
   ]
  },
  {
@@ -12472,7 +12400,7 @@
  {
   "company": "Method",
   "group": "startup",
-  "investor": "a16z, Emergence Capital",
+  "investor": "a16z, Emergence Capital, General Catalyst, Y Combinator, Samsung Next",
   "ats": "ashby",
   "config": {
    "board": "method"
@@ -12484,14 +12412,24 @@
   "verticals": "Fintech",
   "funds": [
    "a16z",
-   "emergence"
+   "emergence",
+   "general_catalyst",
+   "yc",
+   "samsung_next"
   ],
   "sector": "Financials",
   "industry": "Fintech",
   "stage_from_fund": null,
+  "also_listed_as": [
+   "Method Security",
+   "Method Financial"
+  ],
   "investors": [
    "a16z",
-   "Emergence Capital"
+   "Emergence Capital",
+   "General Catalyst",
+   "Y Combinator",
+   "Samsung Next"
   ]
  },
  {
@@ -12520,7 +12458,7 @@
  {
   "company": "Mirage",
   "group": "startup",
-  "investor": "a16z, Kleiner Perkins, Index Ventures, General Catalyst",
+  "investor": "a16z, Kleiner Perkins, Index Ventures, General Catalyst, Sequoia Capital",
   "ats": "ashby",
   "config": {
    "board": "mirage"
@@ -12534,39 +12472,21 @@
    "a16z",
    "kleiner",
    "index",
-   "general_catalyst"
+   "general_catalyst",
+   "sequoia"
   ],
   "sector": "Media, Telecom & Hospitality",
   "industry": "Consumer",
   "stage_from_fund": null,
+  "also_listed_as": [
+   "Captions"
+  ],
   "investors": [
    "a16z",
    "Kleiner Perkins",
    "Index Ventures",
-   "General Catalyst"
-  ]
- },
- {
-  "company": "Mirelo AI",
-  "group": "startup",
-  "investor": "a16z",
-  "ats": "ashby",
-  "config": {
-   "board": "mirelo"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Principal Product Manager",
-  "website": "https://mirelo.ai",
-  "verticals": "Infra",
-  "funds": [
-   "a16z"
-  ],
-  "sector": "Technology",
-  "industry": "Infra",
-  "stage_from_fund": null,
-  "investors": [
-   "a16z"
+   "General Catalyst",
+   "Sequoia Capital"
   ]
  },
  {
@@ -12642,39 +12562,6 @@
    "a16z",
    "Lightspeed Venture Partners",
    "Y Combinator"
-  ]
- },
- {
-  "company": "Pindrop",
-  "group": "startup",
-  "investor": "a16z, IVP, Felicis, Citi Ventures, CapitalG, GV (Google Ventures)",
-  "ats": "greenhouse",
-  "config": {
-   "board": "pindropsecurity"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager, AI Enablement",
-  "website": "https://www.pindrop.com/",
-  "verticals": "Enterprise;Infra;Seed",
-  "funds": [
-   "a16z",
-   "ivp",
-   "felicis",
-   "citi_ventures",
-   "capitalg",
-   "gv"
-  ],
-  "sector": "Technology",
-  "industry": "Enterprise;Infra;Seed",
-  "stage_from_fund": "Series A",
-  "investors": [
-   "a16z",
-   "IVP",
-   "Felicis",
-   "Citi Ventures",
-   "CapitalG",
-   "GV (Google Ventures)"
   ]
  },
  {
@@ -12786,7 +12673,7 @@
  {
   "company": "Slingshot AI",
   "group": "startup",
-  "investor": "a16z, Menlo Ventures",
+  "investor": "a16z, Menlo Ventures, Felicis",
   "ats": "ashby",
   "config": {
    "board": "slingshotai"
@@ -12798,14 +12685,19 @@
   "verticals": "Bio + Health",
   "funds": [
    "a16z",
-   "menlo"
+   "menlo",
+   "felicis"
   ],
   "sector": "Health Care",
   "industry": "Bio + Health",
   "stage_from_fund": "Series A",
+  "also_listed_as": [
+   "Slingshot"
+  ],
   "investors": [
    "a16z",
-   "Menlo Ventures"
+   "Menlo Ventures",
+   "Felicis"
   ]
  },
  {
@@ -12857,29 +12749,6 @@
   ]
  },
  {
-  "company": "Spruce Systems",
-  "group": "startup",
-  "investor": "a16z",
-  "ats": "ashby",
-  "config": {
-   "board": "spruceid"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Technical Program Manager (TPM)",
-  "website": "https://spruceid.com",
-  "verticals": "Crypto",
-  "funds": [
-   "a16z"
-  ],
-  "sector": "Financials",
-  "industry": "Crypto",
-  "stage_from_fund": null,
-  "investors": [
-   "a16z"
-  ]
- },
- {
   "company": "Stacker",
   "group": "startup",
   "investor": "a16z, Initialized Capital",
@@ -12905,29 +12774,6 @@
   ]
  },
  {
-  "company": "Stuut",
-  "group": "startup",
-  "investor": "a16z",
-  "ats": "ashby",
-  "config": {
-   "board": "stuut-ai"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Staff Product Manager",
-  "website": "https://www.stuut.ai/",
-  "verticals": "Enterprise",
-  "funds": [
-   "a16z"
-  ],
-  "sector": "Technology",
-  "industry": "Enterprise",
-  "stage_from_fund": null,
-  "investors": [
-   "a16z"
-  ]
- },
- {
   "company": "Tessera Labs",
   "group": "startup",
   "investor": "a16z",
@@ -12945,29 +12791,6 @@
   ],
   "sector": "Technology",
   "industry": "Enterprise",
-  "stage_from_fund": null,
-  "investors": [
-   "a16z"
-  ]
- },
- {
-  "company": "Thatch Health",
-  "group": "startup",
-  "investor": "a16z",
-  "ats": "greenhouse",
-  "config": {
-   "board": "thatch"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager",
-  "website": "https://thatch.ai/",
-  "verticals": "Bio + Health",
-  "funds": [
-   "a16z"
-  ],
-  "sector": "Health Care",
-  "industry": "Bio + Health",
   "stage_from_fund": null,
   "investors": [
    "a16z"
@@ -12996,6 +12819,9 @@
   "sector": "Financials",
   "industry": "Fintech;Growth",
   "stage_from_fund": null,
+  "also_listed_as": [
+   "Titan Invest"
+  ],
   "investors": [
    "a16z",
    "General Catalyst",
@@ -13152,39 +12978,6 @@
   "investors": [
    "a16z",
    "NEA"
-  ]
- },
- {
-  "company": "fal",
-  "group": "startup",
-  "investor": "a16z, Sequoia Capital, First Round Capital, Kleiner Perkins, NVentures (Nvidia), Salesforce Ventures",
-  "ats": "ashby",
-  "config": {
-   "board": "fal-ai"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Technical Program Manager, Infrastructure",
-  "website": "https://fal.ai/",
-  "verticals": "Enterprise;Infra;Seed",
-  "funds": [
-   "a16z",
-   "sequoia",
-   "first_round",
-   "kleiner",
-   "nventures",
-   "salesforce_ventures"
-  ],
-  "sector": "Technology",
-  "industry": "Enterprise;Infra;Seed",
-  "stage_from_fund": "Seed",
-  "investors": [
-   "a16z",
-   "Sequoia Capital",
-   "First Round Capital",
-   "Kleiner Perkins",
-   "NVentures (Nvidia)",
-   "Salesforce Ventures"
   ]
  },
  {
@@ -13417,29 +13210,6 @@
   ]
  },
  {
-  "company": "Temporal Technologies",
-  "group": "startup",
-  "investor": "Sequoia Capital",
-  "ats": "ashby",
-  "config": {
-   "board": "temporal"
-  },
-  "verified": true,
-  "pm_postings": 10,
-  "sample_title": "Senior Product Manager, Hybrid Platform & Deployment Models",
-  "website": "https://temporal.io",
-  "description": "Temporal enables any software application to handle failures gracefully and in a user-friendly way. At its core, it is an open-source microservice orchestration platform for writing durable workflows as code. It makes it easier to develop reliable software for the cloud by offering an entirely new way to build scalable and reliable applications.",
-  "funds": [
-   "sequoia"
-  ],
-  "sector": "Technology",
-  "industry": null,
-  "stage_from_fund": null,
-  "investors": [
-   "Sequoia Capital"
-  ]
- },
- {
   "company": "Vanta",
   "group": "startup",
   "investor": "Sequoia Capital, Y Combinator, Craft Ventures",
@@ -13467,32 +13237,9 @@
   ]
  },
  {
-  "company": "Grafana",
-  "group": "startup",
-  "investor": "Sequoia Capital",
-  "ats": "greenhouse",
-  "config": {
-   "board": "grafanalabs"
-  },
-  "verified": true,
-  "pm_postings": 7,
-  "sample_title": "Staff Product Manager, OpenTelemetry | Canada | Remote",
-  "website": "https://grafana.com",
-  "description": "Grafana is open-source technology for dashboards and visualization. It provides an open and composable observability platform.",
-  "funds": [
-   "sequoia"
-  ],
-  "sector": "Technology",
-  "industry": null,
-  "stage_from_fund": null,
-  "investors": [
-   "Sequoia Capital"
-  ]
- },
- {
   "company": "Garner Health",
   "group": "startup",
-  "investor": "Sequoia Capital, Thrive Capital, Kleiner Perkins, Index Ventures",
+  "investor": "Sequoia Capital, Thrive Capital, Kleiner Perkins, Index Ventures, Redpoint Ventures",
   "ats": "greenhouse",
   "config": {
    "board": "garnerhealth"
@@ -13506,16 +13253,21 @@
    "sequoia",
    "thrive",
    "kleiner",
-   "index"
+   "index",
+   "redpoint"
   ],
   "sector": "Health Care",
   "industry": null,
   "stage_from_fund": "Series E",
+  "also_listed_as": [
+   "Garner"
+  ],
   "investors": [
    "Sequoia Capital",
    "Thrive Capital",
    "Kleiner Perkins",
-   "Index Ventures"
+   "Index Ventures",
+   "Redpoint Ventures"
   ]
  },
  {
@@ -13541,31 +13293,6 @@
   "investors": [
    "Sequoia Capital",
    "CapitalG"
-  ]
- },
- {
-  "company": "Fireworks AI",
-  "group": "startup",
-  "investor": "Sequoia Capital, Lightspeed Venture Partners",
-  "ats": "ashby",
-  "config": {
-   "board": "fireworks"
-  },
-  "verified": true,
-  "pm_postings": 6,
-  "sample_title": "Associate Product Manager",
-  "website": "https://fireworks.ai",
-  "description": "Fireworks AI is a high-performance inference platform for developers and enterprises to run open-source LLMs and image models or to fine-tune and deploy their own.",
-  "funds": [
-   "sequoia",
-   "lightspeed"
-  ],
-  "sector": "Technology",
-  "industry": null,
-  "stage_from_fund": "Series C",
-  "investors": [
-   "Sequoia Capital",
-   "Lightspeed Venture Partners"
   ]
  },
  {
@@ -13739,7 +13466,7 @@
  {
   "company": "Factory",
   "group": "startup",
-  "investor": "Sequoia Capital, Khosla Ventures, NEA, Menlo Ventures",
+  "investor": "Sequoia Capital, Khosla Ventures, NEA, Menlo Ventures, NVentures (Nvidia)",
   "ats": "ashby",
   "config": {
    "board": "factory"
@@ -13753,16 +13480,21 @@
    "sequoia",
    "khosla",
    "nea",
-   "menlo"
+   "menlo",
+   "nventures"
   ],
   "sector": "Automotive & Transportation",
   "industry": null,
   "stage_from_fund": "Series D",
+  "also_listed_as": [
+   "Factory AI"
+  ],
   "investors": [
    "Sequoia Capital",
    "Khosla Ventures",
    "NEA",
-   "Menlo Ventures"
+   "Menlo Ventures",
+   "NVentures (Nvidia)"
   ]
  },
  {
@@ -13822,7 +13554,7 @@
  {
   "company": "Notion",
   "group": "startup",
-  "investor": "Sequoia Capital, First Round Capital, Index Ventures, Coatue",
+  "investor": "Sequoia Capital, First Round Capital, Index Ventures, Coatue, Salesforce Ventures",
   "ats": "ashby",
   "config": {
    "board": "notion"
@@ -13836,39 +13568,21 @@
    "sequoia",
    "first_round",
    "index",
-   "coatue"
+   "coatue",
+   "salesforce_ventures"
   ],
   "sector": "Industrials & Manufacturing",
   "industry": null,
   "stage_from_fund": "Seed",
+  "also_listed_as": [
+   "Notion.io"
+  ],
   "investors": [
    "Sequoia Capital",
    "First Round Capital",
    "Index Ventures",
-   "Coatue"
-  ]
- },
- {
-  "company": "Sesame AI",
-  "group": "startup",
-  "investor": "Sequoia Capital",
-  "ats": "ashby",
-  "config": {
-   "board": "sesame"
-  },
-  "verified": true,
-  "pm_postings": 3,
-  "sample_title": "Product Manager, Hardware  ",
-  "website": "https://sesame.com",
-  "description": "Sesame is an interdisciplinary product and research team focused on creating lifelike voice agents that bring computers to life through natural human speech and interaction. The company develops systems designed to understand context, nuance and intent, enabling machines to see, hear and collaborate conversationally with people while advancing voice technology to cross the uncanny valley and make dialogue feel genuinely human-like. Their work spans intelligent voice agents that stay informed, provide conversational support and help users stay organized, alongside lightweight everyday wearable hardware that delivers seamless, high-quality access to voice agents in daily life.",
-  "funds": [
-   "sequoia"
-  ],
-  "sector": "Industrials & Manufacturing",
-  "industry": null,
-  "stage_from_fund": null,
-  "investors": [
-   "Sequoia Capital"
+   "Coatue",
+   "Salesforce Ventures"
   ]
  },
  {
@@ -14048,7 +13762,7 @@
  {
   "company": "Attentive",
   "group": "startup",
-  "investor": "Sequoia Capital, IVP, Bain Capital Ventures, Felicis, Sapphire Ventures, Coatue",
+  "investor": "Sequoia Capital, IVP, Bain Capital Ventures, Felicis, Sapphire Ventures, Coatue, Insight Partners",
   "ats": "greenhouse",
   "config": {
    "board": "attentive"
@@ -14064,18 +13778,23 @@
    "bcv",
    "felicis",
    "sapphire",
-   "coatue"
+   "coatue",
+   "insight"
   ],
   "sector": "Retail",
   "industry": null,
   "stage_from_fund": "Series C",
+  "also_listed_as": [
+   "Attentive.ai"
+  ],
   "investors": [
    "Sequoia Capital",
    "IVP",
    "Bain Capital Ventures",
    "Felicis",
    "Sapphire Ventures",
-   "Coatue"
+   "Coatue",
+   "Insight Partners"
   ]
  },
  {
@@ -14242,37 +13961,6 @@
   "investors": [
    "Sequoia Capital",
    "CapitalG"
-  ]
- },
- {
-  "company": "Maven",
-  "group": "startup",
-  "investor": "Sequoia Capital, Lux Capital, First Round Capital, General Catalyst, a16z",
-  "ats": "greenhouse",
-  "config": {
-   "board": "mavenclinic"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Product Manager, Care Delivery",
-  "website": "https://mavenclinic.com",
-  "description": "Maven is the largest virtual clinic for women and family health that provides holistic care. Maven\u2019s platform cuts costs and drives better health outcomes for parents and children alike.",
-  "funds": [
-   "sequoia",
-   "lux",
-   "first_round",
-   "general_catalyst",
-   "a16z"
-  ],
-  "sector": "Health Care",
-  "industry": null,
-  "stage_from_fund": "Seed",
-  "investors": [
-   "Sequoia Capital",
-   "Lux Capital",
-   "First Round Capital",
-   "General Catalyst",
-   "a16z"
   ]
  },
  {
@@ -14836,35 +14524,6 @@
   ]
  },
  {
-  "company": "Apollo",
-  "group": "startup",
-  "investor": "Sequoia Capital, Initialized Capital, a16z, Y Combinator",
-  "ats": "greenhouse",
-  "config": {
-   "board": "apolloio"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Senior Product Manager, Expansion",
-  "website": "https://apollo.io",
-  "description": "Apollo is an end-to-end AI sales platform to help companies grow their business. Its integrated GTM suite builds pipeline, enriches data and assists with sales calls.",
-  "funds": [
-   "sequoia",
-   "initialized",
-   "a16z",
-   "yc"
-  ],
-  "sector": "Financials",
-  "industry": null,
-  "stage_from_fund": null,
-  "investors": [
-   "Sequoia Capital",
-   "Initialized Capital",
-   "a16z",
-   "Y Combinator"
-  ]
- },
- {
   "company": "Profound",
   "group": "startup",
   "investor": "Sequoia Capital, Kleiner Perkins, Lightspeed Venture Partners, NVentures (Nvidia)",
@@ -15344,7 +15003,7 @@
  {
   "company": "Fin",
   "group": "startup",
-  "investor": "Sequoia Capital, Accel",
+  "investor": "Sequoia Capital, Accel, Samsung Next",
   "ats": "ashby",
   "config": {
    "board": "fin"
@@ -15356,14 +15015,19 @@
   "description": "Fin is a next-generation payments platform built for high-value, global, and instant transactions. Powered by stablecoins, Fin enables users and businesses to move millions of dollars instantly\u2014whether to other Fin users, directly into bank accounts, or across crypto rails. By combining the speed of crypto with the reliability of traditional finance, Fin reimagines how money moves worldwide. If banks and payment products could be rebuilt from the ground up today, they would look like Fin.",
   "funds": [
    "sequoia",
-   "accel"
+   "accel",
+   "samsung_next"
   ],
   "sector": "Financials",
   "industry": null,
   "stage_from_fund": "Seed",
+  "also_listed_as": [
+   "fin.tech"
+  ],
   "investors": [
    "Sequoia Capital",
-   "Accel"
+   "Accel",
+   "Samsung Next"
   ]
  },
  {
@@ -15514,7 +15178,7 @@
  {
   "company": "Bunkerhill Health",
   "group": "startup",
-  "investor": "Sequoia Capital, Khosla Ventures, Y Combinator",
+  "investor": "Sequoia Capital, Khosla Ventures, Y Combinator, Felicis",
   "ats": "ashby",
   "config": {
    "board": "bunkerhillhealth"
@@ -15527,15 +15191,20 @@
   "funds": [
    "sequoia",
    "khosla",
-   "yc"
+   "yc",
+   "felicis"
   ],
   "sector": "Health Care",
   "industry": null,
   "stage_from_fund": null,
+  "also_listed_as": [
+   "Bunkerhill"
+  ],
   "investors": [
    "Sequoia Capital",
    "Khosla Ventures",
-   "Y Combinator"
+   "Y Combinator",
+   "Felicis"
   ]
  },
  {
@@ -15565,29 +15234,6 @@
    "First Round Capital",
    "Sapphire Ventures",
    "CapitalG"
-  ]
- },
- {
-  "company": "Captions",
-  "group": "startup",
-  "investor": "Sequoia Capital",
-  "ats": "ashby",
-  "config": {
-   "board": "mirage"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Group Product Manager",
-  "website": "https://captions.ai",
-  "description": "Captions is an AI-powered creative studio. Their goal is to enable anyone, anywhere to produce studio-quality videos with just a few quick taps.",
-  "funds": [
-   "sequoia"
-  ],
-  "sector": "Media, Telecom & Hospitality",
-  "industry": null,
-  "stage_from_fund": null,
-  "investors": [
-   "Sequoia Capital"
   ]
  },
  {
@@ -15634,31 +15280,6 @@
   "stage_from_fund": null,
   "investors": [
    "Sequoia Capital"
-  ]
- },
- {
-  "company": "Zafran",
-  "group": "startup",
-  "investor": "Sequoia Capital, Amex Ventures",
-  "ats": "ashby",
-  "config": {
-   "board": "zafran-security"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager",
-  "website": "https://zafran.io",
-  "description": "Zafran is a threat exposure management platform that integrates with security tools to reveal, remediate and mitigate all infrastructure risks. Its agentless approach reveals what is truly exploitable, while reducing manual effort.",
-  "funds": [
-   "sequoia",
-   "amex_ventures"
-  ],
-  "sector": "Media, Telecom & Hospitality",
-  "industry": null,
-  "stage_from_fund": null,
-  "investors": [
-   "Sequoia Capital",
-   "Amex Ventures"
   ]
  },
  {
@@ -16110,19 +15731,24 @@
    "index",
    "general_catalyst",
    "scale_vp",
-   "gv"
+   "gv",
+   "a16z"
   ],
   "stage_from_fund": null,
   "description": "Thatch is on a mission to help startups give great healthcare to their teams. The platform uses financial infrastructure to create a unified interface for healthcare spending and saving, helping startups provide competitive health and wellness benefits for their teams in less time.",
   "sector": "Health Care",
   "industry": null,
-  "investor": "Lux Capital, Index Ventures, General Catalyst, Scale Venture Partners, GV (Google Ventures)",
+  "also_listed_as": [
+   "Thatch Health"
+  ],
+  "investor": "Lux Capital, Index Ventures, General Catalyst, Scale Venture Partners, GV (Google Ventures), a16z",
   "investors": [
    "Lux Capital",
    "Index Ventures",
    "General Catalyst",
    "Scale Venture Partners",
-   "GV (Google Ventures)"
+   "GV (Google Ventures)",
+   "a16z"
   ]
  },
  {
@@ -16150,29 +15776,6 @@
    "Lux Capital",
    "Felicis",
    "Accel"
-  ]
- },
- {
-  "company": "Together.xyz",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "togetherai"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Product Manager, AI Infrastructure",
-  "website": "https://www.together.xyz/",
-  "funds": [
-   "lux"
-  ],
-  "stage_from_fund": null,
-  "description": "Together\u2019s mission is to empower innovation and creativity by providing leading open-source generative AI models and a cloud platform that makes AI accessible to anyone, anywhere. They aim to help create open models that out rival closed models and establish open-source as the default way to incorporate AI. Leveraging research in distributed optimization, Together built a specialized cloud platform for large models that efficiently scales training and inference.",
-  "sector": "Technology",
-  "industry": null,
-  "investor": "Lux Capital",
-  "investors": [
-   "Lux Capital"
   ]
  },
  {
@@ -16228,56 +15831,6 @@
   ]
  },
  {
-  "company": "1X Technologies",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "1x"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Senior/Staff Technical Product Manager, Platform",
-  "website": "1x.tech",
-  "funds": [
-   "openai_fund",
-   "samsung_next"
-  ],
-  "stage_from_fund": "Series B",
-  "description": "Humanoid robotics",
-  "sector": "Industrials & Manufacturing",
-  "industry": null,
-  "investor": "OpenAI Startup Fund, Samsung Next",
-  "investors": [
-   "OpenAI Startup Fund",
-   "Samsung Next"
-  ]
- },
- {
-  "company": "Anysphere (Cursor)",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "cursor"
-  },
-  "verified": true,
-  "pm_postings": 3,
-  "sample_title": "Product Marketing Manager",
-  "website": "cursor.com",
-  "funds": [
-   "openai_fund",
-   "thrive"
-  ],
-  "stage_from_fund": "Series D",
-  "description": "AI-powered code editor",
-  "sector": "Technology",
-  "industry": null,
-  "investor": "OpenAI Startup Fund, Thrive Capital",
-  "investors": [
-   "OpenAI Startup Fund",
-   "Thrive Capital"
-  ]
- },
- {
   "company": "Unify",
   "group": "startup",
   "ats": "ashby",
@@ -16292,18 +15845,25 @@
    "openai_fund",
    "thrive",
    "battery",
-   "emergence"
+   "emergence",
+   "m12",
+   "samsung_next"
   ],
   "stage_from_fund": "Series B",
   "description": "AI-driven warm outbound sales platform",
   "sector": "Technology",
   "industry": null,
-  "investor": "OpenAI Startup Fund, Thrive Capital, Battery Ventures, Emergence Capital",
+  "also_listed_as": [
+   "Unify AI"
+  ],
+  "investor": "OpenAI Startup Fund, Thrive Capital, Battery Ventures, Emergence Capital, M12 (Microsoft), Samsung Next",
   "investors": [
    "OpenAI Startup Fund",
    "Thrive Capital",
    "Battery Ventures",
-   "Emergence Capital"
+   "Emergence Capital",
+   "M12 (Microsoft)",
+   "Samsung Next"
   ]
  },
  {
@@ -16755,29 +16315,6 @@
   ]
  },
  {
-  "company": "Vitalize Care",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "vitalize"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Marketing ",
-  "website": "https://vitalize.care/",
-  "funds": [
-   "norwest"
-  ],
-  "stage_from_fund": null,
-  "description": "An AI-powered healthcare operations platform transforming how health systems manage staffing, scheduling, flow, and capacity.",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "Norwest Venture Partners",
-  "investors": [
-   "Norwest Venture Partners"
-  ]
- },
- {
   "company": "Workato",
   "group": "startup",
   "ats": "greenhouse",
@@ -16870,15 +16407,20 @@
   "sample_title": "Staff Product Manager",
   "website": "https://www.stuut.ai/",
   "funds": [
-   "m12"
+   "m12",
+   "a16z"
   ],
   "stage_from_fund": null,
   "description": null,
   "sector": "Technology",
   "industry": null,
-  "investor": "M12 (Microsoft)",
+  "also_listed_as": [
+   "Stuut"
+  ],
+  "investor": "M12 (Microsoft), a16z",
   "investors": [
-   "M12 (Microsoft)"
+   "M12 (Microsoft)",
+   "a16z"
   ]
  },
  {
@@ -16967,41 +16509,21 @@
   "website": "https://www.datologyai.com/",
   "funds": [
    "m12",
-   "amplify"
+   "amplify",
+   "felicis"
   ],
   "stage_from_fund": null,
   "description": "DatologyAI builds data curation tools to automatically select the best data on which to train GenAI models.",
   "sector": "Technology",
   "industry": null,
-  "investor": "M12 (Microsoft), Amplify Partners",
-  "investors": [
-   "M12 (Microsoft)",
-   "Amplify Partners"
-  ]
- },
- {
-  "company": "Unify AI",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "unify"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Senior Product Manager",
-  "website": "https://unify.ai/",
-  "funds": [
-   "m12",
-   "samsung_next"
+  "also_listed_as": [
+   "Datology"
   ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Technology",
-  "industry": null,
-  "investor": "M12 (Microsoft), Samsung Next",
+  "investor": "M12 (Microsoft), Amplify Partners, Felicis",
   "investors": [
    "M12 (Microsoft)",
-   "Samsung Next"
+   "Amplify Partners",
+   "Felicis"
   ]
  },
  {
@@ -17278,15 +16800,20 @@
   "sample_title": "Senior Product Manager",
   "website": "https://www.artificial.com/",
   "funds": [
-   "m12"
+   "m12",
+   "samsung_next"
   ],
   "stage_from_fund": null,
   "description": null,
   "sector": "Technology",
   "industry": null,
-  "investor": "M12 (Microsoft)",
+  "also_listed_as": [
+   "Artificial Agency"
+  ],
+  "investor": "M12 (Microsoft), Samsung Next",
   "investors": [
-   "M12 (Microsoft)"
+   "M12 (Microsoft)",
+   "Samsung Next"
   ]
  },
  {
@@ -17482,17 +17009,34 @@
   "funds": [
    "thrive",
    "altimeter",
-   "coatue"
+   "coatue",
+   "a16z",
+   "lux",
+   "lightspeed",
+   "general_catalyst",
+   "8vc",
+   "founders_fund",
+   "craft"
   ],
   "stage_from_fund": null,
   "description": "Anduril Industries is a defense technology company that specializes in developing advanced autonomous systems to enhance national security.",
   "sector": "Industrials & Manufacturing",
   "industry": null,
-  "investor": "Thrive Capital, Altimeter, Coatue",
+  "also_listed_as": [
+   "Anduril"
+  ],
+  "investor": "Thrive Capital, Altimeter, Coatue, a16z, Lux Capital, Lightspeed Venture Partners, General Catalyst, 8VC, Founders Fund, Craft Ventures",
   "investors": [
    "Thrive Capital",
    "Altimeter",
-   "Coatue"
+   "Coatue",
+   "a16z",
+   "Lux Capital",
+   "Lightspeed Venture Partners",
+   "General Catalyst",
+   "8VC",
+   "Founders Fund",
+   "Craft Ventures"
   ]
  },
  {
@@ -18222,17 +17766,22 @@
   "funds": [
    "ivp",
    "sapphire",
-   "accel"
+   "accel",
+   "a16z"
   ],
   "stage_from_fund": "Seed",
   "description": "AI-powered presentations, websites, documents and more",
   "sector": "Technology",
   "industry": null,
-  "investor": "IVP, Sapphire Ventures, Accel",
+  "also_listed_as": [
+   "Gamma.app"
+  ],
+  "investor": "IVP, Sapphire Ventures, Accel, a16z",
   "investors": [
    "IVP",
    "Sapphire Ventures",
-   "Accel"
+   "Accel",
+   "a16z"
   ]
  },
  {
@@ -18301,17 +17850,24 @@
   "funds": [
    "ivp",
    "salesforce_ventures",
-   "dragoneer"
+   "dragoneer",
+   "greylock",
+   "coatue"
   ],
   "stage_from_fund": null,
   "description": "A leading provider of innovative mental health benefits for employers",
   "sector": "Health Care",
   "industry": null,
-  "investor": "IVP, Salesforce Ventures, Dragoneer",
+  "also_listed_as": [
+   "Lyra"
+  ],
+  "investor": "IVP, Salesforce Ventures, Dragoneer, Greylock, Coatue",
   "investors": [
    "IVP",
    "Salesforce Ventures",
-   "Dragoneer"
+   "Dragoneer",
+   "Greylock",
+   "Coatue"
   ]
  },
  {
@@ -18377,18 +17933,23 @@
    "ivp",
    "nea",
    "accel",
-   "bessemer"
+   "bessemer",
+   "samsung_next"
   ],
   "stage_from_fund": null,
   "description": "Unlocking the power of knowledge with information discovery and sharing",
   "sector": "Media, Telecom & Hospitality",
   "industry": null,
-  "investor": "IVP, NEA, Accel, Bessemer Venture Partners",
+  "also_listed_as": [
+   "Perplexity AI"
+  ],
+  "investor": "IVP, NEA, Accel, Bessemer Venture Partners, Samsung Next",
   "investors": [
    "IVP",
    "NEA",
    "Accel",
-   "Bessemer Venture Partners"
+   "Bessemer Venture Partners",
+   "Samsung Next"
   ]
  },
  {
@@ -18535,29 +18096,6 @@
   "stage_from_fund": null,
   "description": "A leader in marketplace lending",
   "sector": "Financials",
-  "industry": null,
-  "investor": "IVP",
-  "investors": [
-   "IVP"
-  ]
- },
- {
-  "company": "Solace Health",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "solace"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Associate Product Manager (College Grad 2027)",
-  "website": "https://www.solace.health/",
-  "funds": [
-   "ivp"
-  ],
-  "stage_from_fund": null,
-  "description": "Solace connects patients with advocates who navigate healthcare on their behalf, improving outcomes and reducing costs.",
-  "sector": "Health Care",
   "industry": null,
   "investor": "IVP",
   "investors": [
@@ -19133,29 +18671,6 @@
   ]
  },
  {
-  "company": "Dyna",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "dyna-robotics"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager, Data Engine ",
-  "website": "https://www.dyna.co/",
-  "funds": [
-   "first_round"
-  ],
-  "stage_from_fund": "Seed",
-  "description": "Imagine if robots could perform any task you wanted them to.",
-  "sector": "Industrials & Manufacturing",
-  "industry": null,
-  "investor": "First Round Capital",
-  "investors": [
-   "First Round Capital"
-  ]
- },
- {
   "company": "FleetWorks",
   "group": "startup",
   "ats": "ashby",
@@ -19380,16 +18895,21 @@
   "website": "https://www.exploreomni.com/",
   "funds": [
    "first_round",
-   "redpoint"
+   "redpoint",
+   "gv"
   ],
   "stage_from_fund": "Series A",
   "description": "Imagine if business intelligence combined the consistency of a shared data model with the speed and freedom of SQL.",
   "sector": "Media, Telecom & Hospitality",
   "industry": null,
-  "investor": "First Round Capital, Redpoint Ventures",
+  "also_listed_as": [
+   "Omni Analytics"
+  ],
+  "investor": "First Round Capital, Redpoint Ventures, GV (Google Ventures)",
   "investors": [
    "First Round Capital",
-   "Redpoint Ventures"
+   "Redpoint Ventures",
+   "GV (Google Ventures)"
   ]
  },
  {
@@ -19577,13 +19097,17 @@
    "salesforce_ventures",
    "nea",
    "coatue",
-   "emergence"
+   "emergence",
+   "lux"
   ],
   "stage_from_fund": "Seed",
   "description": "Imagine if anyone could build or fine-tune their own generative AI models.",
   "sector": "Health Care",
   "industry": null,
-  "investor": "First Round Capital, Kleiner Perkins, General Catalyst, Salesforce Ventures, NEA, Coatue, Emergence Capital",
+  "also_listed_as": [
+   "Together.xyz"
+  ],
+  "investor": "First Round Capital, Kleiner Perkins, General Catalyst, Salesforce Ventures, NEA, Coatue, Emergence Capital, Lux Capital",
   "investors": [
    "First Round Capital",
    "Kleiner Perkins",
@@ -19591,7 +19115,8 @@
    "Salesforce Ventures",
    "NEA",
    "Coatue",
-   "Emergence Capital"
+   "Emergence Capital",
+   "Lux Capital"
   ]
  },
  {
@@ -19637,31 +19162,6 @@
   "stage_from_fund": null,
   "description": "Airwallex is a global payments platform with a mission to empower businesses of all sizes to grow without borders, and by doing so, contribute to the global economy. With technology at its core, Airwallex has built a financial infrastructure and platform to help businesses manage online payments, treasury and payout globally, without the constraints of",
   "sector": "Financials",
-  "industry": null,
-  "investor": "Amex Ventures, Salesforce Ventures",
-  "investors": [
-   "Amex Ventures",
-   "Salesforce Ventures"
-  ]
- },
- {
-  "company": "Bluefish",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "bluefishai"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Product Lead",
-  "website": "https://www.bluefishai.com/",
-  "funds": [
-   "amex_ventures",
-   "salesforce_ventures"
-  ],
-  "stage_from_fund": null,
-  "description": "Bluefish helps the world\u2019s leading brands manage how they appear in AI tools like ChatGPT and Google Gemini. As more consumers turn to AI assistants to research products and make buying decisions, Bluefish gives marketers the ability to see how these tools describe their brand, improve that presence, and measure the results. The platform treats",
-  "sector": "Media, Telecom & Hospitality",
   "industry": null,
   "investor": "Amex Ventures, Salesforce Ventures",
   "investors": [
@@ -19880,18 +19380,25 @@
    "amex_ventures",
    "initialized",
    "yc",
-   "bessemer"
+   "bessemer",
+   "citi_ventures",
+   "salesforce_ventures"
   ],
   "stage_from_fund": null,
   "description": "TRM is building a safer world for billions of people.",
   "sector": "Financials",
   "industry": null,
-  "investor": "Amex Ventures, Initialized Capital, Y Combinator, Bessemer Venture Partners",
+  "also_listed_as": [
+   "TRM"
+  ],
+  "investor": "Amex Ventures, Initialized Capital, Y Combinator, Bessemer Venture Partners, Citi Ventures, Salesforce Ventures",
   "investors": [
    "Amex Ventures",
    "Initialized Capital",
    "Y Combinator",
-   "Bessemer Venture Partners"
+   "Bessemer Venture Partners",
+   "Citi Ventures",
+   "Salesforce Ventures"
   ]
  },
  {
@@ -20594,29 +20101,6 @@
   ]
  },
  {
-  "company": "Saronic Technologies",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "saronic"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Product Manager/Senior Product Manager",
-  "website": "https://www.saronic.com/",
-  "funds": [
-   "kleiner"
-  ],
-  "stage_from_fund": null,
-  "description": "Saronic Technologies develops advanced unmanned surface vessels that enhance maritime security through technologies such as adaptive path planning, passive sensors, and resilient communication systems. These vessels support flexible payload integration and can be tailored to specific mission requirements, improving operational reach and survivability for naval forces.",
-  "sector": "Technology",
-  "industry": null,
-  "investor": "Kleiner Perkins",
-  "investors": [
-   "Kleiner Perkins"
-  ]
- },
- {
   "company": "Reevo",
   "group": "startup",
   "ats": "ashby",
@@ -21103,29 +20587,6 @@
   ]
  },
  {
-  "company": "Ambience",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "ambiencehealthcare"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Product Lead, Inpatient",
-  "website": "https://www.ambiencehealthcare.com/",
-  "funds": [
-   "kleiner"
-  ],
-  "stage_from_fund": null,
-  "description": "The AI operating system for healthcare",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "Kleiner Perkins",
-  "investors": [
-   "Kleiner Perkins"
-  ]
- },
- {
   "company": "PermitFlow",
   "group": "startup",
   "ats": "ashby",
@@ -21347,15 +20808,20 @@
   "sample_title": "Product Lead",
   "website": "https://beaconsoftware.com",
   "funds": [
-   "lightspeed"
+   "lightspeed",
+   "general_catalyst"
   ],
   "stage_from_fund": null,
   "description": "Beacon acquires essential software businesses with a lasting promise to protect their legacy, deepen customer love, and accelerate growth together with our world-class operators.",
   "sector": "Technology",
   "industry": null,
-  "investor": "Lightspeed Venture Partners",
+  "also_listed_as": [
+   "Beacon"
+  ],
+  "investor": "Lightspeed Venture Partners, General Catalyst",
   "investors": [
-   "Lightspeed Venture Partners"
+   "Lightspeed Venture Partners",
+   "General Catalyst"
   ]
  },
  {
@@ -21463,31 +20929,6 @@
   ]
  },
  {
-  "company": "Cohere Technologies",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "cohere"
-  },
-  "verified": true,
-  "pm_postings": 9,
-  "sample_title": "Product Manager, Agent Harness & Modelling",
-  "website": "https://cohere-technologies.com",
-  "funds": [
-   "lightspeed",
-   "nea"
-  ],
-  "stage_from_fund": "Seed",
-  "description": "Cohere Technologies is the innovator of software which improves spectrum and user experience with channel detection, estimation, prediction and precoding deployed within a standard-compliant 4G, 5G or open Cloud RAN.",
-  "sector": "Industrials & Manufacturing",
-  "industry": null,
-  "investor": "Lightspeed Venture Partners, NEA",
-  "investors": [
-   "Lightspeed Venture Partners",
-   "NEA"
-  ]
- },
- {
   "company": "Composio",
   "group": "startup",
   "ats": "ashby",
@@ -21523,16 +20964,21 @@
   "website": "https://www.doctronic.ai/",
   "funds": [
    "lightspeed",
-   "usv"
+   "usv",
+   "samsung_next"
   ],
   "stage_from_fund": "Series A",
   "description": "We believe in empowering you to better understand your health \u2014 privately, effectively, and conveniently. That\u2019s why we built the world\u2019s #1 AI doctor: to provide free, 24/7 access to personalized and practical health information. Plus, access to a licensed doctor at an affordable cost, on the spot, whenever you need one.",
   "sector": "Health Care",
   "industry": null,
-  "investor": "Lightspeed Venture Partners, Union Square Ventures",
+  "also_listed_as": [
+   "Doctronic.ai"
+  ],
+  "investor": "Lightspeed Venture Partners, Union Square Ventures, Samsung Next",
   "investors": [
    "Lightspeed Venture Partners",
-   "Union Square Ventures"
+   "Union Square Ventures",
+   "Samsung Next"
   ]
  },
  {
@@ -21899,15 +21345,20 @@
   "sample_title": "Team Lead Product Management (w/m/x) - German-speaking",
   "website": "https://patronus.ai",
   "funds": [
-   "lightspeed"
+   "lightspeed",
+   "samsung_next"
   ],
   "stage_from_fund": "Seed",
   "description": "Our mission is to empower the world with tools to use AI safely and confidently. We are dedicated to leading the way in shaping a trustworthy AI landscape.",
   "sector": "Technology",
   "industry": null,
-  "investor": "Lightspeed Venture Partners",
+  "also_listed_as": [
+   "Patronus AI"
+  ],
+  "investor": "Lightspeed Venture Partners, Samsung Next",
   "investors": [
-   "Lightspeed Venture Partners"
+   "Lightspeed Venture Partners",
+   "Samsung Next"
   ]
  },
  {
@@ -21924,17 +21375,22 @@
   "funds": [
    "lightspeed",
    "greylock",
-   "salesforce_ventures"
+   "salesforce_ventures",
+   "insight"
   ],
   "stage_from_fund": "Series A",
   "description": "Faction Ventures, L.L.C. (\"Faction\") and Lightspeed Management Company, L.L.C. (\"LSVP\") are separate businesses that operate independently of each other. Faction advises its own fund(s) and does not advise any LSVP clients, and LSVP does not advise Faction or any of its clients. LSVP and Faction are parties to an agreement pursuant to which LSVP holds certain interests in Faction and the fund(s) F",
   "sector": "Automotive & Transportation",
   "industry": null,
-  "investor": "Lightspeed Venture Partners, Greylock, Salesforce Ventures",
+  "also_listed_as": [
+   "Resolve"
+  ],
+  "investor": "Lightspeed Venture Partners, Greylock, Salesforce Ventures, Insight Partners",
   "investors": [
    "Lightspeed Venture Partners",
    "Greylock",
-   "Salesforce Ventures"
+   "Salesforce Ventures",
+   "Insight Partners"
   ]
  },
  {
@@ -21949,15 +21405,20 @@
   "sample_title": "Director, Product Management, Global Payouts",
   "website": "https://ripple.com",
   "funds": [
-   "lightspeed"
+   "lightspeed",
+   "gv"
   ],
   "stage_from_fund": "Seed",
   "description": "Ripple provides global financial settlement solutions to enable the world to exchange value like it already exchanges information \u2013 giving rise to an Internet of Value (IoV). Ripple solutions lower the total cost of settlement by enabling banks to transact directly, instantly and with certainty of settlement. Banks around the world are partnering with Ripple to improve their cross-border payment o",
   "sector": "Financials",
   "industry": null,
-  "investor": "Lightspeed Venture Partners",
+  "also_listed_as": [
+   "Ripple Labs"
+  ],
+  "investor": "Lightspeed Venture Partners, GV (Google Ventures)",
   "investors": [
-   "Lightspeed Venture Partners"
+   "Lightspeed Venture Partners",
+   "GV (Google Ventures)"
   ]
  },
  {
@@ -21996,16 +21457,21 @@
   "website": "https://www.sarvam.ai/",
   "funds": [
    "lightspeed",
-   "bessemer"
+   "bessemer",
+   "khosla"
   ],
   "stage_from_fund": "Series A",
   "description": "Sarvam is an innovative Indian startup focused on crafting a comprehensive \u201cfull-stack\u201d for Generative AI model tailored to meet the needs of the Indian market.",
   "sector": "Technology",
   "industry": null,
-  "investor": "Lightspeed Venture Partners, Bessemer Venture Partners",
+  "also_listed_as": [
+   "Sarvam AI"
+  ],
+  "investor": "Lightspeed Venture Partners, Bessemer Venture Partners, Khosla Ventures",
   "investors": [
    "Lightspeed Venture Partners",
-   "Bessemer Venture Partners"
+   "Bessemer Venture Partners",
+   "Khosla Ventures"
   ]
  },
  {
@@ -22069,16 +21535,23 @@
   "website": "https://thinkingmachines.ai/",
   "funds": [
    "lightspeed",
-   "accel"
+   "accel",
+   "a16z",
+   "gv"
   ],
   "stage_from_fund": "Seed",
   "description": "Thinking Machines Lab is an artificial intelligence research and product company. Our mission is to make artificial intelligence work for you by building a future where everyone has access to the knowledge and tools to make AI serve their unique needs.",
   "sector": "Technology",
   "industry": null,
-  "investor": "Lightspeed Venture Partners, Accel",
+  "also_listed_as": [
+   "Thinking Machines Lab"
+  ],
+  "investor": "Lightspeed Venture Partners, Accel, a16z, GV (Google Ventures)",
   "investors": [
    "Lightspeed Venture Partners",
-   "Accel"
+   "Accel",
+   "a16z",
+   "GV (Google Ventures)"
   ]
  },
  {
@@ -22194,16 +21667,23 @@
   "website": "https://zest.ai/",
   "funds": [
    "lightspeed",
-   "insight"
+   "insight",
+   "citi_ventures",
+   "gv"
   ],
   "stage_from_fund": "Series A",
   "description": "Zest AI develops big data underwriting technologies to give lenders a better understanding of risk, and by extension, offer their products and services to more people at lower prices.",
   "sector": "Financials",
   "industry": null,
-  "investor": "Lightspeed Venture Partners, Insight Partners",
+  "also_listed_as": [
+   "Zest"
+  ],
+  "investor": "Lightspeed Venture Partners, Insight Partners, Citi Ventures, GV (Google Ventures)",
   "investors": [
    "Lightspeed Venture Partners",
-   "Insight Partners"
+   "Insight Partners",
+   "Citi Ventures",
+   "GV (Google Ventures)"
   ]
  },
  {
@@ -22795,17 +22275,24 @@
   "funds": [
    "index",
    "salesforce_ventures",
-   "cisco_investments"
+   "cisco_investments",
+   "lightspeed",
+   "nea"
   ],
   "stage_from_fund": null,
   "description": "Cohere: Build incredible products with world-class language AI",
   "sector": "Technology",
   "industry": null,
-  "investor": "Index Ventures, Salesforce Ventures, Cisco Investments",
+  "also_listed_as": [
+   "Cohere Technologies"
+  ],
+  "investor": "Index Ventures, Salesforce Ventures, Cisco Investments, Lightspeed Venture Partners, NEA",
   "investors": [
    "Index Ventures",
    "Salesforce Ventures",
-   "Cisco Investments"
+   "Cisco Investments",
+   "Lightspeed Venture Partners",
+   "NEA"
   ]
  },
  {
@@ -22845,17 +22332,24 @@
   "funds": [
    "index",
    "ribbit",
-   "nea"
+   "nea",
+   "a16z",
+   "ivp"
   ],
   "stage_from_fund": null,
   "description": "Cowboy Space: Cowboy Space Corporation (formerly Aetherflux) is building vertically integrated orbital infrastructure for the AI era, spanning launch vehicles, space-based power and in-orbit compute.",
   "sector": "Energy & Utilities",
   "industry": null,
-  "investor": "Index Ventures, Ribbit Capital, NEA",
+  "also_listed_as": [
+   "Cowboy Space Corporation"
+  ],
+  "investor": "Index Ventures, Ribbit Capital, NEA, a16z, IVP",
   "investors": [
    "Index Ventures",
    "Ribbit Capital",
-   "NEA"
+   "NEA",
+   "a16z",
+   "IVP"
   ]
  },
  {
@@ -23050,18 +22544,25 @@
    "index",
    "insight",
    "menlo",
-   "bessemer"
+   "bessemer",
+   "sequoia",
+   "lightspeed"
   ],
   "stage_from_fund": "Series D",
   "description": "Fireworks: Fireworks is the fastest way to build, tune, and scale AI on open models.",
   "sector": "Technology",
   "industry": null,
-  "investor": "Index Ventures, Insight Partners, Menlo Ventures, Bessemer Venture Partners",
+  "also_listed_as": [
+   "Fireworks AI"
+  ],
+  "investor": "Index Ventures, Insight Partners, Menlo Ventures, Bessemer Venture Partners, Sequoia Capital, Lightspeed Venture Partners",
   "investors": [
    "Index Ventures",
    "Insight Partners",
    "Menlo Ventures",
-   "Bessemer Venture Partners"
+   "Bessemer Venture Partners",
+   "Sequoia Capital",
+   "Lightspeed Venture Partners"
   ]
  },
  {
@@ -23126,17 +22627,22 @@
   "funds": [
    "index",
    "bcv",
-   "coatue"
+   "coatue",
+   "craft"
   ],
   "stage_from_fund": "Seed",
   "description": "Lightning AI: Seamlessly train hundreds of Machine Learning models on the cloud from your laptop.",
   "sector": "Technology",
   "industry": null,
-  "investor": "Index Ventures, Bain Capital Ventures, Coatue",
+  "also_listed_as": [
+   "Lightning Labs"
+  ],
+  "investor": "Index Ventures, Bain Capital Ventures, Coatue, Craft Ventures",
   "investors": [
    "Index Ventures",
    "Bain Capital Ventures",
-   "Coatue"
+   "Coatue",
+   "Craft Ventures"
   ]
  },
  {
@@ -23180,15 +22686,20 @@
   "sample_title": "Principal Product Manager",
   "website": "http://mirelo.ai",
   "funds": [
-   "index"
+   "index",
+   "a16z"
   ],
   "stage_from_fund": null,
   "description": "Mirelo: Mirelo builds state-of-the-art AI audio models that bring emotion and impact to visual media. Founded by AI researchers from Amazon, Google Brain, the Max Planck Institute and ETH Zurich \u2013 who are also talented musicians \u2013 the company combines technical rigor with creative intuition to build AI for both amateur creators and professional sound designers.",
   "sector": "Media, Telecom & Hospitality",
   "industry": null,
-  "investor": "Index Ventures",
+  "also_listed_as": [
+   "Mirelo AI"
+  ],
+  "investor": "Index Ventures, a16z",
   "investors": [
-   "Index Ventures"
+   "Index Ventures",
+   "a16z"
   ]
  },
  {
@@ -23206,18 +22717,23 @@
    "index",
    "general_catalyst",
    "salesforce_ventures",
-   "gv"
+   "gv",
+   "samsung_next"
   ],
   "stage_from_fund": null,
   "description": "Multiverse: Multiverse is a tech company that identifies, closes and prevents skills gaps, through personalized, on-the-job learning. They focus on AI, tech and data skills for people of any age and any career stage, in order to transform access to economic opportunity.",
   "sector": "Media, Telecom & Hospitality",
   "industry": null,
-  "investor": "Index Ventures, General Catalyst, Salesforce Ventures, GV (Google Ventures)",
+  "also_listed_as": [
+   "Multiverse Labs"
+  ],
+  "investor": "Index Ventures, General Catalyst, Salesforce Ventures, GV (Google Ventures), Samsung Next",
   "investors": [
    "Index Ventures",
    "General Catalyst",
    "Salesforce Ventures",
-   "GV (Google Ventures)"
+   "GV (Google Ventures)",
+   "Samsung Next"
   ]
  },
  {
@@ -23346,33 +22862,6 @@
   ]
  },
  {
-  "company": "Scale",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "scaleai"
-  },
-  "verified": true,
-  "pm_postings": 20,
-  "sample_title": "AI Product Manager (Coding/Multimodal)",
-  "website": "http://scale.com",
-  "funds": [
-   "index",
-   "accel",
-   "founders_fund"
-  ],
-  "stage_from_fund": "Series A",
-  "description": "Scale: Democratize access to intelligent data.",
-  "sector": "Technology",
-  "industry": null,
-  "investor": "Index Ventures, Accel, Founders Fund",
-  "investors": [
-   "Index Ventures",
-   "Accel",
-   "Founders Fund"
-  ]
- },
- {
   "company": "Simile",
   "group": "startup",
   "ats": "ashby",
@@ -23493,29 +22982,6 @@
   "investors": [
    "Index Ventures",
    "Dragoneer"
-  ]
- },
- {
-  "company": "tessl.io",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "tesslcareers"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Member of Product Staff - Product Manager",
-  "website": "http://tessl.io",
-  "funds": [
-   "index"
-  ],
-  "stage_from_fund": null,
-  "description": "tessl.io: Tessl is an open software development platform that reimagines how software is created in the AI era.",
-  "sector": "Technology",
-  "industry": null,
-  "investor": "Index Ventures",
-  "investors": [
-   "Index Ventures"
   ]
  },
  {
@@ -23723,16 +23189,25 @@
   "website": "https://www.apollo.io/",
   "funds": [
    "bcv",
-   "yc"
+   "yc",
+   "sequoia",
+   "initialized",
+   "a16z"
   ],
   "stage_from_fund": null,
   "description": "Helping sales teams find their ideal buyers and convert them into customers.\r\n",
   "sector": "Technology",
   "industry": null,
-  "investor": "Bain Capital Ventures, Y Combinator",
+  "also_listed_as": [
+   "Apollo"
+  ],
+  "investor": "Bain Capital Ventures, Y Combinator, Sequoia Capital, Initialized Capital, a16z",
   "investors": [
    "Bain Capital Ventures",
-   "Y Combinator"
+   "Y Combinator",
+   "Sequoia Capital",
+   "Initialized Capital",
+   "a16z"
   ]
  },
  {
@@ -23809,29 +23284,6 @@
   ]
  },
  {
-  "company": "Crusoe Energy",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "crusoe"
-  },
-  "verified": true,
-  "pm_postings": 15,
-  "sample_title": "Staff Technical Program Manager, Managed Intelligence",
-  "website": "https://crusoe.ai/",
-  "funds": [
-   "bcv"
-  ],
-  "stage_from_fund": "Seed",
-  "description": "Provides sustainable AI cloud computing by using wasted energy to power GPU-optimized data centers.",
-  "sector": "Energy & Utilities",
-  "industry": null,
-  "investor": "Bain Capital Ventures",
-  "investors": [
-   "Bain Capital Ventures"
-  ]
- },
- {
   "company": "Docker",
   "group": "startup",
   "ats": "ashby",
@@ -23883,29 +23335,6 @@
   "stage_from_fund": "Seed",
   "description": "Empowering business travelers, finance professionals and CFOs to eliminate manual, time-consuming tasks so they can focus on what matters most.",
   "sector": "Financials",
-  "industry": null,
-  "investor": "Bain Capital Ventures",
-  "investors": [
-   "Bain Capital Ventures"
-  ]
- },
- {
-  "company": "Forus (fka Tandem Health)",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "forus"
-  },
-  "verified": true,
-  "pm_postings": 4,
-  "sample_title": "Product Lead, Core Product",
-  "website": "https://forus.com/",
-  "funds": [
-   "bcv"
-  ],
-  "stage_from_fund": "Seed",
-  "description": "Helping patients get their prescriptions quickly and affordably.",
-  "sector": "Health Care",
   "industry": null,
   "investor": "Bain Capital Ventures",
   "investors": [
@@ -24233,31 +23662,6 @@
   ]
  },
  {
-  "company": "Sunday Robotics",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "sunday"
-  },
-  "verified": true,
-  "pm_postings": 3,
-  "sample_title": "Technical Program Manager, Data Engine",
-  "website": "https://www.sunday.ai/",
-  "funds": [
-   "bcv",
-   "coatue"
-  ],
-  "stage_from_fund": null,
-  "description": "Shaping the future of helpful robotics.",
-  "sector": "Industrials & Manufacturing",
-  "industry": null,
-  "investor": "Bain Capital Ventures, Coatue",
-  "investors": [
-   "Bain Capital Ventures",
-   "Coatue"
-  ]
- },
- {
   "company": "Venminder (Digital Comply)",
   "group": "startup",
   "ats": "ashby",
@@ -24294,44 +23698,22 @@
   "funds": [
    "sequoia",
    "benchmark",
-   "coatue"
+   "coatue",
+   "bcv"
   ],
   "stage_from_fund": null,
   "description": "We help the daring build legendary companies from idea to IPO and beyond.",
   "sector": "Industrials & Manufacturing",
   "industry": null,
-  "investor": "Sequoia Capital, Benchmark, Coatue",
+  "also_listed_as": [
+   "Sunday Robotics"
+  ],
+  "investor": "Sequoia Capital, Benchmark, Coatue, Bain Capital Ventures",
   "investors": [
    "Sequoia Capital",
    "Benchmark",
-   "Coatue"
-  ]
- },
- {
-  "company": "Open",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "openai"
-  },
-  "verified": true,
-  "pm_postings": 41,
-  "sample_title": "Technical Program Manager, Compute Infrastructure",
-  "website": "https://open.cx",
-  "funds": [
-   "sequoia",
-   "yc",
-   "coatue"
-  ],
-  "stage_from_fund": null,
-  "description": "Open (formerly Acelerate) is an online sales engine helps restaurants effortlessly increase their sales and profits.",
-  "sector": "Retail",
-  "industry": null,
-  "investor": "Sequoia Capital, Y Combinator, Coatue",
-  "investors": [
-   "Sequoia Capital",
-   "Y Combinator",
-   "Coatue"
+   "Coatue",
+   "Bain Capital Ventures"
   ]
  },
  {
@@ -24386,29 +23768,6 @@
    "Felicis",
    "Redpoint Ventures",
    "General Catalyst"
-  ]
- },
- {
-  "company": "Bunkerhill",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "bunkerhillhealth"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Forward Deployed Product Lead",
-  "website": "https://www.bunkerhillhealth.com/",
-  "funds": [
-   "felicis"
-  ],
-  "stage_from_fund": "Series A",
-  "description": "AI agent platform for health systems",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "Felicis",
-  "investors": [
-   "Felicis"
   ]
  },
  {
@@ -24550,42 +23909,24 @@
    "spark",
    "ribbit",
    "salesforce_ventures",
-   "founders_fund"
+   "founders_fund",
+   "bcv"
   ],
   "stage_from_fund": "Series C",
   "description": "Aligning the future of computing with the future of the climate",
   "sector": "Energy & Utilities",
   "industry": null,
-  "investor": "Felicis, Spark Capital, Ribbit Capital, Salesforce Ventures, Founders Fund",
+  "also_listed_as": [
+   "Crusoe Energy"
+  ],
+  "investor": "Felicis, Spark Capital, Ribbit Capital, Salesforce Ventures, Founders Fund, Bain Capital Ventures",
   "investors": [
    "Felicis",
    "Spark Capital",
    "Ribbit Capital",
    "Salesforce Ventures",
-   "Founders Fund"
-  ]
- },
- {
-  "company": "Datology",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "datologyai"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager",
-  "website": "https://www.datologyai.com/",
-  "funds": [
-   "felicis"
-  ],
-  "stage_from_fund": "Series A",
-  "description": "Automated data curation",
-  "sector": "Technology",
-  "industry": null,
-  "investor": "Felicis",
-  "investors": [
-   "Felicis"
+   "Founders Fund",
+   "Bain Capital Ventures"
   ]
  },
  {
@@ -24671,15 +24012,20 @@
   "sample_title": "Senior Product Marketing Manager",
   "website": "https://www.goethena.com/",
   "funds": [
-   "felicis"
+   "felicis",
+   "ribbit"
   ],
   "stage_from_fund": "Series A",
   "description": "Compliance training for today\u2019s teams",
   "sector": "Technology",
   "industry": null,
-  "investor": "Felicis",
+  "also_listed_as": [
+   "Ethena Labs"
+  ],
+  "investor": "Felicis, Ribbit Capital",
   "investors": [
-   "Felicis"
+   "Felicis",
+   "Ribbit Capital"
   ]
  },
  {
@@ -24705,29 +24051,6 @@
   "investors": [
    "Felicis",
    "Craft Ventures"
-  ]
- },
- {
-  "company": "Genesis Therapeutics",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "genesis"
-  },
-  "verified": true,
-  "pm_postings": 5,
-  "sample_title": "Technical Product Manager",
-  "website": "https://genesis.ml/",
-  "funds": [
-   "felicis"
-  ],
-  "stage_from_fund": "Seed",
-  "description": "AI-powered drug discovery",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "Felicis",
-  "investors": [
-   "Felicis"
   ]
  },
  {
@@ -24862,39 +24185,21 @@
   "website": "https://www.simular.ai/",
   "funds": [
    "felicis",
-   "nventures"
+   "nventures",
+   "samsung_next"
   ],
   "stage_from_fund": "Series A",
   "description": "Delivering product grade autonomy across platforms",
   "sector": "Automotive & Transportation",
   "industry": null,
-  "investor": "Felicis, NVentures (Nvidia)",
+  "also_listed_as": [
+   "Simular AI"
+  ],
+  "investor": "Felicis, NVentures (Nvidia), Samsung Next",
   "investors": [
    "Felicis",
-   "NVentures (Nvidia)"
-  ]
- },
- {
-  "company": "Slingshot",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "slingshotai"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager",
-  "website": "https://slingshotai.com/",
-  "funds": [
-   "felicis"
-  ],
-  "stage_from_fund": "Seed",
-  "description": "Mental health AI",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "Felicis",
-  "investors": [
-   "Felicis"
+   "NVentures (Nvidia)",
+   "Samsung Next"
   ]
  },
  {
@@ -24909,15 +24214,20 @@
   "sample_title": "Product Manager - Mission Agents",
   "website": "https://www.vannevarlabs.com/",
   "funds": [
-   "felicis"
+   "felicis",
+   "general_catalyst"
   ],
   "stage_from_fund": "Series B",
   "description": "Defense technology company solving national security problems",
   "sector": "Industrials & Manufacturing",
   "industry": null,
-  "investor": "Felicis",
+  "also_listed_as": [
+   "Vannevar"
+  ],
+  "investor": "Felicis, General Catalyst",
   "investors": [
-   "Felicis"
+   "Felicis",
+   "General Catalyst"
   ]
  },
  {
@@ -24982,15 +24292,30 @@
   "sample_title": "Product Manager, AI Enablement",
   "website": "http://www.pindropsecurity.com/",
   "funds": [
-   "redpoint"
+   "redpoint",
+   "a16z",
+   "ivp",
+   "felicis",
+   "citi_ventures",
+   "capitalg",
+   "gv"
   ],
   "stage_from_fund": "Series A",
   "description": "Pindrop creates frictionless authentication and fraud detection for voice interactions in contact centers, connected IoT devices, and beyond.  We first partnered for their Series A in 2013.",
   "sector": "Technology",
   "industry": null,
-  "investor": "Redpoint Ventures",
+  "also_listed_as": [
+   "Pindrop"
+  ],
+  "investor": "Redpoint Ventures, a16z, IVP, Felicis, Citi Ventures, CapitalG, GV (Google Ventures)",
   "investors": [
-   "Redpoint Ventures"
+   "Redpoint Ventures",
+   "a16z",
+   "IVP",
+   "Felicis",
+   "Citi Ventures",
+   "CapitalG",
+   "GV (Google Ventures)"
   ]
  },
  {
@@ -25090,29 +24415,6 @@
   ]
  },
  {
-  "company": "Inferact (vLLM)",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "inferact"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Product Marketing Manager",
-  "website": "https://inferact.ai/",
-  "funds": [
-   "redpoint"
-  ],
-  "stage_from_fund": "Seed",
-  "description": "Inferact builds the world\u2019s AI inference infrastructure, founded by the creators and core maintainers of vLLM, the most widely used open-source LLM inference engine. Their mission is to make AI inference dramatically faster and cheaper by advancing vLLM and turning the complexity of serving cutting-edge models across diverse hardware into effortless, scalable infrastructure. We first partnered for their Seed in 2026.",
-  "sector": "Industrials & Manufacturing",
-  "industry": null,
-  "investor": "Redpoint Ventures",
-  "investors": [
-   "Redpoint Ventures"
-  ]
- },
- {
   "company": "HumanSignal",
   "group": "startup",
   "ats": "greenhouse",
@@ -25136,29 +24438,6 @@
   ]
  },
  {
-  "company": "Garner",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "garnerhealth"
-  },
-  "verified": true,
-  "pm_postings": 5,
-  "sample_title": "Product Manager II",
-  "website": "https://www.getgarner.com/",
-  "funds": [
-   "redpoint"
-  ],
-  "stage_from_fund": "Series B",
-  "description": "Garner is changing how our healthcare system works at its core using a new approach to data science and novel financial incentives to help patients identify the highest-quality doctors and help doctors improve how they practice medicine. We partnered for their Series B in 2021.",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "Redpoint Ventures",
-  "investors": [
-   "Redpoint Ventures"
-  ]
- },
- {
   "company": "Forus",
   "group": "startup",
   "ats": "ashby",
@@ -25172,17 +24451,22 @@
   "funds": [
    "redpoint",
    "general_catalyst",
-   "accel"
+   "accel",
+   "bcv"
   ],
   "stage_from_fund": "Series B",
   "description": "Forus is the AI-powered network that connects doctors, pharmacies, payers, and biopharma to bring new science to patients.",
   "sector": "Health Care",
   "industry": null,
-  "investor": "Redpoint Ventures, General Catalyst, Accel",
+  "also_listed_as": [
+   "Forus (fka Tandem Health)"
+  ],
+  "investor": "Redpoint Ventures, General Catalyst, Accel, Bain Capital Ventures",
   "investors": [
    "Redpoint Ventures",
    "General Catalyst",
-   "Accel"
+   "Accel",
+   "Bain Capital Ventures"
   ]
  },
  {
@@ -25305,29 +24589,6 @@
   ]
  },
  {
-  "company": "BitGo",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "bitgo"
-  },
-  "verified": true,
-  "pm_postings": 3,
-  "sample_title": "Product Marketing Manager",
-  "website": "https://www.bitgo.com/info/",
-  "funds": [
-   "redpoint"
-  ],
-  "stage_from_fund": "Series A",
-  "description": "BitGo enables clients to navigate the complex landscape of digital assets with a connected, compliant, and secure suite of solutions. We partnered for their Series A in 2014.",
-  "sector": "Financials",
-  "industry": null,
-  "investor": "Redpoint Ventures",
-  "investors": [
-   "Redpoint Ventures"
-  ]
- },
- {
   "company": "Attio",
   "group": "startup",
   "ats": "ashby",
@@ -25424,29 +24685,6 @@
   ]
  },
  {
-  "company": "Unlearn.AI",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "unlearn"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager",
-  "website": "https://www.unlearn.ai/",
-  "funds": [
-   "insight"
-  ],
-  "stage_from_fund": null,
-  "description": "Unlearn.AI is the only company creating TwinRCTs\u2122, which combine AI, digital twins, and novel statistical methods to enable smaller, more efficient clinical trials. Unlearn\u2019s technology has been published in conference abstracts and scientific journals, including Scientific Reports - Nature and The International Journal of Biostatistics. Unlearn is partnering with the world\u2019s leading pharma companies, including Merck KGaA, Darmstadt, Germany, and continues to have discussions with regulators. The European Medicines Agency (EMA) published a draft qualification opinion for PROCOVA\u2122 \u2014 a patent-pe",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "Insight Partners",
-  "investors": [
-   "Insight Partners"
-  ]
- },
- {
   "company": "Skyflow",
   "group": "startup",
   "ats": "ashby",
@@ -25517,29 +24755,6 @@
   "investors": [
    "Insight Partners",
    "Menlo Ventures"
-  ]
- },
- {
-  "company": "Resolve",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "resolveai"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Marketing Manager",
-  "website": "https://resolvepay.com/",
-  "funds": [
-   "insight"
-  ],
-  "stage_from_fund": null,
-  "description": "Resolve is a complete net terms-as-a-service and embedded BNPL payment solution that extends buy now pay later capabilities for B2B transactions. Designed for growing B2B companies, Resolve eliminates the headaches and risk of managing traditional credit decisions, automating underwriting and 30-, 60-, or 90-day net terms to maximize revenue and speed up invoice payment. With Resolve, merchants can simplify their B2B payments and add BNPL payment options without the complexity or risk.",
-  "sector": "Financials",
-  "industry": null,
-  "investor": "Insight Partners",
-  "investors": [
-   "Insight Partners"
   ]
  },
  {
@@ -26212,6 +25427,9 @@
   "description": "Scaling Enterprise Sales & Driving Global Developer Adoption",
   "sector": "Technology",
   "industry": null,
+  "also_listed_as": [
+   "Tidelift"
+  ],
   "investor": "Insight Partners, General Catalyst",
   "investors": [
    "Insight Partners",
@@ -26889,29 +26107,6 @@
   ]
  },
  {
-  "company": "Attentive.ai",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "attentive"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Product Management Intern, Agentic Integrations",
-  "website": "https://attentive.ai/",
-  "funds": [
-   "insight"
-  ],
-  "stage_from_fund": null,
-  "description": "Attentive.ai is transforming preconstruction and field-service workflows with Beam AI, the leading AI-based takeoff software. Trusted by over 1,200 contractors and suppliers, Attentive.ai helps teams save time, bid more competitively, and grow revenue, without adding headcount. Learn more at ibeam.ai.",
-  "sector": "Industrials & Manufacturing",
-  "industry": null,
-  "investor": "Insight Partners",
-  "investors": [
-   "Insight Partners"
-  ]
- },
- {
   "company": "ScaleOps",
   "group": "startup",
   "ats": "greenhouse",
@@ -27119,19 +26314,24 @@
    "khosla",
    "salesforce_ventures",
    "accel",
-   "gv"
+   "gv",
+   "felicis"
   ],
   "stage_from_fund": null,
   "description": "The world's leading financial institutions \"buy-to-build\" with Genesis to power application development in weeks, not years. The Genesis platform powers application development with the speed, performance and flexibility today's financial institutions need to gain a sustained competitive edge. With highly composable and customizable components, financial markets organizations can accelerate innovation today while scaling for tomorrow. Whether it's extending the capabilities of legacy applications or building brand new apps or platforms, Genesis supercharges developers with reusable components,",
   "sector": "Financials",
   "industry": null,
-  "investor": "Insight Partners, Khosla Ventures, Salesforce Ventures, Accel, GV (Google Ventures)",
+  "also_listed_as": [
+   "Genesis Therapeutics"
+  ],
+  "investor": "Insight Partners, Khosla Ventures, Salesforce Ventures, Accel, GV (Google Ventures), Felicis",
   "investors": [
    "Insight Partners",
    "Khosla Ventures",
    "Salesforce Ventures",
    "Accel",
-   "GV (Google Ventures)"
+   "GV (Google Ventures)",
+   "Felicis"
   ]
  },
  {
@@ -27146,15 +26346,20 @@
   "sample_title": "Strategic Technical Program Manager ",
   "website": "https://www.colabsoftware.com/",
   "funds": [
-   "insight"
+   "insight",
+   "yc"
   ],
   "stage_from_fund": null,
   "description": "CoLab is a web-based CoDesign and collaboration tool that lets your team share CAD, provide feedback with full mechanical context, and capture the critical design data that your other systems don\u2019t\u2014giving you a design review and collaboration process that\u2019s standardized, simplified, and twice-as-fast. Today CoLab is trusted by Fortune 500 companies like Johnson Controls and Hyundai Mobis, who use the platform to accelerate design cycles by 51%, drive continuous improvement, and reduce product costs and changes.",
   "sector": "Technology",
   "industry": null,
-  "investor": "Insight Partners",
+  "also_listed_as": [
+   "CoLab"
+  ],
+  "investor": "Insight Partners, Y Combinator",
   "investors": [
-   "Insight Partners"
+   "Insight Partners",
+   "Y Combinator"
   ]
  },
  {
@@ -27521,38 +26726,20 @@
   "sample_title": "Product Manager, Consumer",
   "website": "https://www.blackbird.xyz/",
   "funds": [
-   "usv"
+   "usv",
+   "a16z"
   ],
   "stage_from_fund": "Seed",
   "description": "Blackbird is the loyalty company that rewards people who love restaurants.",
   "sector": "Retail",
   "industry": null,
-  "investor": "Union Square Ventures",
-  "investors": [
-   "Union Square Ventures"
-  ]
- },
- {
-  "company": "Causal Labs",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "causal"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Forward Deployed Product Manager",
-  "website": "https://www.causallabs.ai/",
-  "funds": [
-   "usv"
+  "also_listed_as": [
+   "Blackbird.xyz"
   ],
-  "stage_from_fund": "Seed",
-  "description": "Causal Labs is building a Large Physics foundation Model (LPM) to learn causality through physics and weather.",
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "Union Square Ventures",
+  "investor": "Union Square Ventures, a16z",
   "investors": [
-   "Union Square Ventures"
+   "Union Square Ventures",
+   "a16z"
   ]
  },
  {
@@ -27982,17 +27169,22 @@
   "funds": [
    "sapphire",
    "capitalg",
-   "coatue"
+   "coatue",
+   "sequoia"
   ],
   "stage_from_fund": null,
   "description": "Grafana Labs provides an open and composable monitoring and observability stack built around Grafana, the leading open source technology for dashboards and visualization. Grafana Labs customers include Bloomberg, Citigroup, Dell Technologies, Salesforce, and TomTom, and more than 20 million Grafana users around the world. Grafana Labs helps companies achieve their observability goals with the LGTM Stack, which features scalable metrics (Grafana Mimir), logs (Grafana Loki), and traces (Grafana Tempo) as well as extensive enterprise data source plugins, dashboard management, alerting, reporting, and security. The fully managed Grafana Cloud offering is designed to help organizations get observability up and running easier and faster, with turnkey solutions for Kubernetes and infrastructure monitoring, incident response management, load testing, application observability, and more. Grafana Labs is backed by leading investors Lightspeed Venture Partners, Lead Edge Capital, GIC, Sequoia Capital, Coatue, J.P. Morgan, and CapitalG.",
   "sector": "Technology",
   "industry": null,
-  "investor": "Sapphire Ventures, CapitalG, Coatue",
+  "also_listed_as": [
+   "Grafana"
+  ],
+  "investor": "Sapphire Ventures, CapitalG, Coatue, Sequoia Capital",
   "investors": [
    "Sapphire Ventures",
    "CapitalG",
-   "Coatue"
+   "Coatue",
+   "Sequoia Capital"
   ]
  },
  {
@@ -28042,29 +27234,6 @@
   ]
  },
  {
-  "company": "Phoenix Labs",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "phoenix"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Senior Product Manager",
-  "website": "https://phxlabs.ca/",
-  "funds": [
-   "sapphire"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "Sapphire Ventures",
-  "investors": [
-   "Sapphire Ventures"
-  ]
- },
- {
   "company": "SWORD Health",
   "group": "startup",
   "ats": "greenhouse",
@@ -28078,17 +27247,22 @@
   "funds": [
    "sapphire",
    "khosla",
-   "founders_fund"
+   "founders_fund",
+   "general_catalyst"
   ],
   "stage_from_fund": null,
   "description": "The world\u2019s fastest growing virtual musculoskeletal (MSK) care provider solution.",
   "sector": "Health Care",
   "industry": null,
-  "investor": "Sapphire Ventures, Khosla Ventures, Founders Fund",
+  "also_listed_as": [
+   "Sword"
+  ],
+  "investor": "Sapphire Ventures, Khosla Ventures, Founders Fund, General Catalyst",
   "investors": [
    "Sapphire Ventures",
    "Khosla Ventures",
-   "Founders Fund"
+   "Founders Fund",
+   "General Catalyst"
   ]
  },
  {
@@ -28266,31 +27440,6 @@
    "Y Combinator",
    "GV (Google Ventures)",
    "Craft Ventures"
-  ]
- },
- {
-  "company": "Lyra",
-  "group": "startup",
-  "ats": "lever",
-  "config": {
-   "board": "lyrahealth"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Clinical Product Manager (PhD/PsyD)",
-  "website": "https://www.lyrahealth.com/",
-  "funds": [
-   "greylock",
-   "coatue"
-  ],
-  "stage_from_fund": "Seed",
-  "description": "Lyra helps companies improve access to effective, high-quality mental health care for their employees and their families. With Lyra\u2019s digital care platform and elite network of coaches, therapists, and psychiatrists, finding care is easier, more personalized, and more effective.",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "Greylock, Coatue",
-  "investors": [
-   "Greylock",
-   "Coatue"
   ]
  },
  {
@@ -28496,29 +27645,6 @@
   ]
  },
  {
-  "company": "Sarvam AI",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "sarvam"
-  },
-  "verified": true,
-  "pm_postings": 8,
-  "sample_title": "Product Manager (Models)",
-  "website": "https://www.sarvam.ai/",
-  "funds": [
-   "khosla"
-  ],
-  "stage_from_fund": null,
-  "description": "Building the full-stack for Generative AI in India",
-  "sector": "Technology",
-  "industry": null,
-  "investor": "Khosla Ventures",
-  "investors": [
-   "Khosla Ventures"
-  ]
- },
- {
   "company": "Twenty",
   "group": "startup",
   "ats": "ashby",
@@ -28653,31 +27779,6 @@
   "investors": [
    "Khosla Ventures",
    "General Catalyst"
-  ]
- },
- {
-  "company": "Rhoda",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "rhoda-ai"
-  },
-  "verified": true,
-  "pm_postings": 3,
-  "sample_title": "Product Manager, Rhoda Platform",
-  "website": "https://www.rhoda.ai/",
-  "funds": [
-   "khosla",
-   "nventures"
-  ],
-  "stage_from_fund": null,
-  "description": "Redefining robotic intelligence",
-  "sector": "Financials",
-  "industry": null,
-  "investor": "Khosla Ventures, NVentures (Nvidia)",
-  "investors": [
-   "Khosla Ventures",
-   "NVentures (Nvidia)"
   ]
  },
  {
@@ -28840,19 +27941,28 @@
    "intel_capital",
    "dragoneer",
    "yc",
-   "coatue"
+   "coatue",
+   "index",
+   "accel",
+   "founders_fund"
   ],
   "stage_from_fund": "Series G",
   "description": "ScaleAI is the data platform for AI that provides access to human-powered data for hundreds of use cases.",
   "sector": "Technology",
   "industry": null,
-  "investor": "Spark Capital, Intel Capital, Dragoneer, Y Combinator, Coatue",
+  "also_listed_as": [
+   "Scale"
+  ],
+  "investor": "Spark Capital, Intel Capital, Dragoneer, Y Combinator, Coatue, Index Ventures, Accel, Founders Fund",
   "investors": [
    "Spark Capital",
    "Intel Capital",
    "Dragoneer",
    "Y Combinator",
-   "Coatue"
+   "Coatue",
+   "Index Ventures",
+   "Accel",
+   "Founders Fund"
   ]
  },
  {
@@ -28901,29 +28011,6 @@
   "investors": [
    "Spark Capital",
    "GV (Google Ventures)"
-  ]
- },
- {
-  "company": "Inversion",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "inversionspace"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Technical Program Manager II",
-  "website": "www.inversionspace.com",
-  "funds": [
-   "spark"
-  ],
-  "stage_from_fund": null,
-  "description": "Low-cost return from space.",
-  "sector": "Industrials & Manufacturing",
-  "industry": null,
-  "investor": "Spark Capital",
-  "investors": [
-   "Spark Capital"
   ]
  },
  {
@@ -28999,29 +28086,6 @@
    "Initialized Capital",
    "8VC",
    "Coatue"
-  ]
- },
- {
-  "company": "Pano",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "pano-ai"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Senior Product Manager-Hardware ",
-  "website": "pano.ai",
-  "funds": [
-   "initialized"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "Initialized Capital",
-  "investors": [
-   "Initialized Capital"
   ]
  },
  {
@@ -29364,29 +28428,6 @@
   "pm_postings": 1,
   "sample_title": "Product Marketing Manager",
   "website": "https://autoscience.ai/",
-  "funds": [
-   "general_catalyst"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "General Catalyst",
-  "investors": [
-   "General Catalyst"
-  ]
- },
- {
-  "company": "Beacon",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "beaconsoftware"
-  },
-  "verified": true,
-  "pm_postings": 3,
-  "sample_title": "Product Lead",
-  "website": "https://beaconsoftware.com/",
   "funds": [
    "general_catalyst"
   ],
@@ -29759,29 +28800,6 @@
   ]
  },
  {
-  "company": "Latent Health",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "latent"
-  },
-  "verified": true,
-  "pm_postings": 3,
-  "sample_title": "Product Manager",
-  "website": "https://latenthealth.com/",
-  "funds": [
-   "general_catalyst"
-  ],
-  "stage_from_fund": null,
-  "description": "Scaling medication access with clinical AI",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "General Catalyst",
-  "investors": [
-   "General Catalyst"
-  ]
- },
- {
   "company": "Lila Sciences",
   "group": "startup",
   "ats": "greenhouse",
@@ -29886,31 +28904,6 @@
   ]
  },
  {
-  "company": "Method Security",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "method"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Forward Deployed Product Manager",
-  "website": "https://www.method.security/",
-  "funds": [
-   "general_catalyst",
-   "a16z"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Technology",
-  "industry": null,
-  "investor": "General Catalyst, a16z",
-  "investors": [
-   "General Catalyst",
-   "a16z"
-  ]
- },
- {
   "company": "Minio",
   "group": "startup",
   "ats": "greenhouse",
@@ -29933,29 +28926,6 @@
   "investors": [
    "General Catalyst",
    "Intel Capital"
-  ]
- },
- {
-  "company": "Ophelia Health",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "ophelia"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Analyst III",
-  "website": "https://ophelia.com/",
-  "funds": [
-   "general_catalyst"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "General Catalyst",
-  "investors": [
-   "General Catalyst"
   ]
  },
  {
@@ -30054,33 +29024,6 @@
   "investor": "General Catalyst",
   "investors": [
    "General Catalyst"
-  ]
- },
- {
-  "company": "Ping",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "pingidentity"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Senior Director Product Marketing \u2013 Competitive and Sales Enablement",
-  "website": "https://www.pingidentity.com/en.html",
-  "funds": [
-   "general_catalyst",
-   "ribbit",
-   "yc"
-  ],
-  "stage_from_fund": null,
-  "description": "Founders: Fitz Jin",
-  "sector": "Financials",
-  "industry": null,
-  "investor": "General Catalyst, Ribbit Capital, Y Combinator",
-  "investors": [
-   "General Catalyst",
-   "Ribbit Capital",
-   "Y Combinator"
   ]
  },
  {
@@ -30299,29 +29242,6 @@
   ]
  },
  {
-  "company": "Sword",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "swordhealth"
-  },
-  "verified": true,
-  "pm_postings": 4,
-  "sample_title": "Head of Product, Pulse",
-  "website": "https://swordhealth.com/",
-  "funds": [
-   "general_catalyst"
-  ],
-  "stage_from_fund": null,
-  "description": "Sword offers virtual physical therapy services through a combination of AI and human expertise.",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "General Catalyst",
-  "investors": [
-   "General Catalyst"
-  ]
- },
- {
   "company": "Take Two",
   "group": "startup",
   "ats": "greenhouse",
@@ -30367,52 +29287,6 @@
   "investors": [
    "General Catalyst",
    "Dragoneer"
-  ]
- },
- {
-  "company": "Tidelift",
-  "group": "startup",
-  "ats": "lever",
-  "config": {
-   "board": "sonarsource"
-  },
-  "verified": true,
-  "pm_postings": 5,
-  "sample_title": "Agentic Code Review Product Manager",
-  "website": "https://tidelift.com/",
-  "funds": [
-   "general_catalyst"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Technology",
-  "industry": null,
-  "investor": "General Catalyst",
-  "investors": [
-   "General Catalyst"
-  ]
- },
- {
-  "company": "Titan Invest",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "titan"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager",
-  "website": "https://www.titan.com/",
-  "funds": [
-   "general_catalyst"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Financials",
-  "industry": null,
-  "investor": "General Catalyst",
-  "investors": [
-   "General Catalyst"
   ]
  },
  {
@@ -30465,29 +29339,6 @@
   "investors": [
    "General Catalyst",
    "Bessemer Venture Partners"
-  ]
- },
- {
-  "company": "Vannevar",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "vannevarlabs"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Product Manager - Mission Agents",
-  "website": "https://www.vannevarlabs.com/",
-  "funds": [
-   "general_catalyst"
-  ],
-  "stage_from_fund": null,
-  "description": "Vannevar builds advanced AI solutions for national security and defense applications.",
-  "sector": "Industrials & Manufacturing",
-  "industry": null,
-  "investor": "General Catalyst",
-  "investors": [
-   "General Catalyst"
   ]
  },
  {
@@ -30627,63 +29478,22 @@
   "funds": [
    "nventures",
    "salesforce_ventures",
-   "samsung_next"
+   "samsung_next",
+   "first_round"
   ],
   "stage_from_fund": null,
   "description": "DYNA brings embodied AGI to the real world by building high-performance, intelligent robots that scale. We develop a foundation model for robotics that adapts across environments and learns new skills within hours. Our robots come with out-of-the-box intelligence\u2014easy to set up and scale. Dyna\u2019s world-class team delivers the best of research and product to push",
   "sector": "Industrials & Manufacturing",
   "industry": null,
-  "investor": "NVentures (Nvidia), Salesforce Ventures, Samsung Next",
+  "also_listed_as": [
+   "Dyna"
+  ],
+  "investor": "NVentures (Nvidia), Salesforce Ventures, Samsung Next, First Round Capital",
   "investors": [
    "NVentures (Nvidia)",
    "Salesforce Ventures",
-   "Samsung Next"
-  ]
- },
- {
-  "company": "Factory AI",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "factory"
-  },
-  "verified": true,
-  "pm_postings": 4,
-  "sample_title": "VP of Product Marketing",
-  "website": "https://www.factory.ai/",
-  "funds": [
-   "nventures"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "NVentures (Nvidia)",
-  "investors": [
-   "NVentures (Nvidia)"
-  ]
- },
- {
-  "company": "LumaLabs",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "lumaai"
-  },
-  "verified": true,
-  "pm_postings": 3,
-  "sample_title": "Product Manager, Core Product",
-  "website": "https://lumalabs.ai/",
-  "funds": [
-   "nventures"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "NVentures (Nvidia)",
-  "investors": [
-   "NVentures (Nvidia)"
+   "Samsung Next",
+   "First Round Capital"
   ]
  },
  {
@@ -30785,29 +29595,6 @@
   ]
  },
  {
-  "company": "Samaya",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "samayaai"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager - Finance",
-  "website": "https://samaya.ai/",
-  "funds": [
-   "nventures"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "NVentures (Nvidia)",
-  "investors": [
-   "NVentures (Nvidia)"
-  ]
- },
- {
   "company": "Articul8 AI",
   "group": "startup",
   "ats": "ashby",
@@ -30870,16 +29657,23 @@
   "website": "https://higgsfield.ai",
   "funds": [
    "intel_capital",
-   "samsung_next"
+   "samsung_next",
+   "accel",
+   "menlo"
   ],
   "stage_from_fund": null,
   "description": "Higgsfield AI is a generative media platform that turns text, images, or product links into cinematic short-form videos and visuals. It integrates multiple AI tools into a simple workflow, enabling creators to produce high-quality content quickly without filmmaking expertise, acting as a no-code layer orchestrating underlying AI models.",
   "sector": "Media, Telecom & Hospitality",
   "industry": null,
-  "investor": "Intel Capital, Samsung Next",
+  "also_listed_as": [
+   "Higgsfield"
+  ],
+  "investor": "Intel Capital, Samsung Next, Accel, Menlo Ventures",
   "investors": [
    "Intel Capital",
-   "Samsung Next"
+   "Samsung Next",
+   "Accel",
+   "Menlo Ventures"
   ]
  },
  {
@@ -30917,15 +29711,20 @@
   "sample_title": "Product Marketing Manager",
   "website": "https://www.suger.io/",
   "funds": [
-   "intel_capital"
+   "intel_capital",
+   "yc"
   ],
   "stage_from_fund": null,
   "description": "Headquartered in San Francisco, Suger is an API-driven platform that enables businesses to quickly list, transact, and co-sell across cloud marketplaces. Backed by Threshold Ventures, Intel Capital, Craft Ventures and Y Combinator, Suger is transforming how software companies approach go-to-market strategies in a cloud native world. Learn more at https://www.suger.io.",
   "sector": "Retail",
   "industry": null,
-  "investor": "Intel Capital",
+  "also_listed_as": [
+   "Suger"
+  ],
+  "investor": "Intel Capital, Y Combinator",
   "investors": [
-   "Intel Capital"
+   "Intel Capital",
+   "Y Combinator"
   ]
  },
  {
@@ -31005,29 +29804,6 @@
    "Ribbit Capital",
    "Y Combinator",
    "Accel"
-  ]
- },
- {
-  "company": "Ethena Labs",
-  "group": "startup",
-  "ats": "lever",
-  "config": {
-   "board": "ethena"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Senior Product Marketing Manager",
-  "website": null,
-  "funds": [
-   "ribbit"
-  ],
-  "stage_from_fund": null,
-  "description": "Founders: Guy Young",
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "Ribbit Capital",
-  "investors": [
-   "Ribbit Capital"
   ]
  },
  {
@@ -31151,31 +29927,6 @@
   "investors": [
    "Ribbit Capital",
    "Dragoneer"
-  ]
- },
- {
-  "company": "Solana",
-  "group": "startup",
-  "ats": "lever",
-  "config": {
-   "board": "anchorage"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Member of Product Marketing, Stablecoins",
-  "website": "https://solana.com",
-  "funds": [
-   "ribbit",
-   "a16z"
-  ],
-  "stage_from_fund": null,
-  "description": "Founders: Anatoly Y., Raj G.",
-  "sector": "Financials",
-  "industry": null,
-  "investor": "Ribbit Capital, a16z",
-  "investors": [
-   "Ribbit Capital",
-   "a16z"
   ]
  },
  {
@@ -31504,79 +30255,6 @@
   ]
  },
  {
-  "company": "TRM",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "trm-labs"
-  },
-  "verified": true,
-  "pm_postings": 4,
-  "sample_title": "Senior Product Marketing Manager",
-  "website": "https://www.trmlabs.com/",
-  "funds": [
-   "citi_ventures",
-   "salesforce_ventures"
-  ],
-  "stage_from_fund": null,
-  "description": "TRM brings together experts in machine learning, data science, anti-fraud and compliance to crack complex problems and serve an inspiring community of customers and partners.",
-  "sector": "Financials",
-  "industry": null,
-  "investor": "Citi Ventures, Salesforce Ventures",
-  "investors": [
-   "Citi Ventures",
-   "Salesforce Ventures"
-  ]
- },
- {
-  "company": "Wealth",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "wealth-com"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Senior Product Marketing Manager",
-  "website": "https://wealth.com/",
-  "funds": [
-   "citi_ventures"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Financials",
-  "industry": null,
-  "investor": "Citi Ventures",
-  "investors": [
-   "Citi Ventures"
-  ]
- },
- {
-  "company": "Zest",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "zestai"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager",
-  "website": "https://www.zest.ai/",
-  "funds": [
-   "citi_ventures",
-   "gv"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Media, Telecom & Hospitality",
-  "industry": null,
-  "investor": "Citi Ventures, GV (Google Ventures)",
-  "investors": [
-   "Citi Ventures",
-   "GV (Google Ventures)"
-  ]
- },
- {
   "company": "Clerkie",
   "group": "startup",
   "ats": "greenhouse",
@@ -31875,31 +30553,6 @@
   ]
  },
  {
-  "company": "Sixfold AI",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "sixfold"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "VP, Product",
-  "website": "https://www.sixfold.ai/",
-  "funds": [
-   "salesforce_ventures",
-   "bessemer"
-  ],
-  "stage_from_fund": null,
-  "description": "Sixfold AI is a purpose driven AI solution d designed to boost underwriting capacity, accuracy and transparency for insurers, MGAs, and reinsurers. Sixfold provides every underwriter with their own virtual team of researches and assistants to evaluate risk. The platform delivers greater efficiency and high quality user experience for the insurance industry.",
-  "sector": "Financials",
-  "industry": null,
-  "investor": "Salesforce Ventures, Bessemer Venture Partners",
-  "investors": [
-   "Salesforce Ventures",
-   "Bessemer Venture Partners"
-  ]
- },
- {
   "company": "Sentry",
   "group": "startup",
   "ats": "ashby",
@@ -31927,29 +30580,6 @@
   ]
  },
  {
-  "company": "Notion.io",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "notion"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Product Operations Manager",
-  "website": "https://www.notion.so/",
-  "funds": [
-   "salesforce_ventures"
-  ],
-  "stage_from_fund": null,
-  "description": "Notion is the all-in-one workspace for notes, tasks, wikis, and databases. In Notion, daily work and knowledge live side by side \u2014 so context is never lost.",
-  "sector": "Industrials & Manufacturing",
-  "industry": null,
-  "investor": "Salesforce Ventures",
-  "investors": [
-   "Salesforce Ventures"
-  ]
- },
- {
   "company": "Pano AI",
   "group": "startup",
   "ats": "ashby",
@@ -31961,15 +30591,20 @@
   "sample_title": "Senior Product Manager-Hardware ",
   "website": "https://www.pano.ai/",
   "funds": [
-   "salesforce_ventures"
+   "salesforce_ventures",
+   "initialized"
   ],
   "stage_from_fund": null,
   "description": "Pano AI (Pano) is the leader in early wildfire detection and intelligence, providing government, utilities, insurers, and private landowners with advanced tools and up-to-the-minute intelligence to quickly mitigate wildfire threats while protecting lives, property, and the environment. Pano combines advanced hardware, artificial intelligence, and software in a single integrated enterprise solution. Leveraging data and satellite",
   "sector": "Financials",
   "industry": null,
-  "investor": "Salesforce Ventures",
+  "also_listed_as": [
+   "Pano"
+  ],
+  "investor": "Salesforce Ventures, Initialized Capital",
   "investors": [
-   "Salesforce Ventures"
+   "Salesforce Ventures",
+   "Initialized Capital"
   ]
  },
  {
@@ -32439,15 +31074,24 @@
   "sample_title": "Senior Director Product Marketing \u2013 Competitive and Sales Enablement",
   "website": "https://www.pingidentity.com/",
   "funds": [
-   "capitalg"
+   "capitalg",
+   "general_catalyst",
+   "ribbit",
+   "yc"
   ],
   "stage_from_fund": null,
   "description": null,
   "sector": "Technology",
   "industry": null,
-  "investor": "CapitalG",
+  "also_listed_as": [
+   "Ping"
+  ],
+  "investor": "CapitalG, General Catalyst, Ribbit Capital, Y Combinator",
   "investors": [
-   "CapitalG"
+   "CapitalG",
+   "General Catalyst",
+   "Ribbit Capital",
+   "Y Combinator"
   ]
  },
  {
@@ -32562,15 +31206,22 @@
   "sample_title": "Product Lead",
   "website": null,
   "funds": [
-   "nea"
+   "nea",
+   "amex_ventures",
+   "salesforce_ventures"
   ],
   "stage_from_fund": null,
   "description": "Bluefish AI is the enterprise marketing platform that enables Fortune 500 brands to measure, optimize, and influence how they\u2019re portrayed across the AI channel.",
   "sector": "Technology",
   "industry": null,
-  "investor": "NEA",
+  "also_listed_as": [
+   "Bluefish"
+  ],
+  "investor": "NEA, Amex Ventures, Salesforce Ventures",
   "investors": [
-   "NEA"
+   "NEA",
+   "Amex Ventures",
+   "Salesforce Ventures"
   ]
  },
  {
@@ -32819,15 +31470,20 @@
   "sample_title": "Product Manager - Finance",
   "website": null,
   "funds": [
-   "nea"
+   "nea",
+   "nventures"
   ],
   "stage_from_fund": null,
   "description": "Samaya AI equips finance professionals to build expert AI agents that accelerate research, streamline analysis, and enhance decision-making.",
   "sector": "Financials",
   "industry": null,
-  "investor": "NEA",
+  "also_listed_as": [
+   "Samaya"
+  ],
+  "investor": "NEA, NVentures (Nvidia)",
   "investors": [
-   "NEA"
+   "NEA",
+   "NVentures (Nvidia)"
   ]
  },
  {
@@ -32913,15 +31569,20 @@
   "sample_title": "Product Lead",
   "website": null,
   "funds": [
-   "nea"
+   "nea",
+   "gv"
   ],
   "stage_from_fund": null,
   "description": "Translucent is building an agentic AI platform to automate strategic financial planning & analysis workstreams for health systems and physician medical groups.",
   "sector": "Health Care",
   "industry": null,
-  "investor": "NEA",
+  "also_listed_as": [
+   "Translucent AI"
+  ],
+  "investor": "NEA, GV (Google Ventures)",
   "investors": [
-   "NEA"
+   "NEA",
+   "GV (Google Ventures)"
   ]
  },
  {
@@ -33012,16 +31673,29 @@
   "website": "mavenclinic.com",
   "funds": [
    "dragoneer",
-   "samsung_next"
+   "samsung_next",
+   "sequoia",
+   "lux",
+   "first_round",
+   "general_catalyst",
+   "a16z"
   ],
   "stage_from_fund": "Series F",
   "description": null,
   "sector": "Health Care",
   "industry": null,
-  "investor": "Dragoneer, Samsung Next",
+  "also_listed_as": [
+   "Maven"
+  ],
+  "investor": "Dragoneer, Samsung Next, Sequoia Capital, Lux Capital, First Round Capital, General Catalyst, a16z",
   "investors": [
    "Dragoneer",
-   "Samsung Next"
+   "Samsung Next",
+   "Sequoia Capital",
+   "Lux Capital",
+   "First Round Capital",
+   "General Catalyst",
+   "a16z"
   ]
  },
  {
@@ -33355,29 +32029,6 @@
   ]
  },
  {
-  "company": "Sixfold Bioscience",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "sixfold"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "VP, Product",
-  "website": "https://www.sixfold.bio",
-  "funds": [
-   "yc"
-  ],
-  "stage_from_fund": null,
-  "description": "Delivering RNA therapies.",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "Y Combinator",
-  "investors": [
-   "Y Combinator"
-  ]
- },
- {
   "company": "Pelago",
   "group": "startup",
   "ats": "greenhouse",
@@ -33539,31 +32190,6 @@
   ]
  },
  {
-  "company": "Method Financial",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "method"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Forward Deployed Product Manager",
-  "website": "https://methodfi.com",
-  "funds": [
-   "yc",
-   "samsung_next"
-  ],
-  "stage_from_fund": null,
-  "description": "Financial connectivity API for consumer liabilities",
-  "sector": "Financials",
-  "industry": null,
-  "investor": "Y Combinator, Samsung Next",
-  "investors": [
-   "Y Combinator",
-   "Samsung Next"
-  ]
- },
- {
   "company": "Pair Team",
   "group": "startup",
   "ats": "greenhouse",
@@ -33605,29 +32231,6 @@
   "stage_from_fund": null,
   "description": "Making diverse, high-quality data easily available to anyone, anywhere",
   "sector": "Technology",
-  "industry": null,
-  "investor": "Y Combinator",
-  "investors": [
-   "Y Combinator"
-  ]
- },
- {
-  "company": "CoLab",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "colabsoftware"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Strategic Technical Program Manager ",
-  "website": "http://colabsoftware.com",
-  "funds": [
-   "yc"
-  ],
-  "stage_from_fund": null,
-  "description": "Human and AI design review for hardware",
-  "sector": "Industrials & Manufacturing",
   "industry": null,
   "investor": "Y Combinator",
   "investors": [
@@ -33694,17 +32297,22 @@
   "funds": [
    "yc",
    "tiger",
-   "menlo"
+   "menlo",
+   "general_catalyst"
   ],
   "stage_from_fund": "Series A",
   "description": "Medication & support to beat opioid addiction from home",
   "sector": "Health Care",
   "industry": null,
-  "investor": "Y Combinator, Tiger Global, Menlo Ventures",
+  "also_listed_as": [
+   "Ophelia Health"
+  ],
+  "investor": "Y Combinator, Tiger Global, Menlo Ventures, General Catalyst",
   "investors": [
    "Y Combinator",
    "Tiger Global",
-   "Menlo Ventures"
+   "Menlo Ventures",
+   "General Catalyst"
   ]
  },
  {
@@ -33986,15 +32594,20 @@
   "sample_title": "Technical Program Manager (TPM)",
   "website": "https://www.spruceid.com",
   "funds": [
-   "yc"
+   "yc",
+   "a16z"
   ],
   "stage_from_fund": null,
   "description": "SpruceID lets users control their data across the web.",
   "sector": "Technology",
   "industry": null,
-  "investor": "Y Combinator",
+  "also_listed_as": [
+   "Spruce Systems"
+  ],
+  "investor": "Y Combinator, a16z",
   "investors": [
-   "Y Combinator"
+   "Y Combinator",
+   "a16z"
   ]
  },
  {
@@ -34149,15 +32762,20 @@
   "sample_title": "Senior Product Manager",
   "website": "https://phoenix.ca",
   "funds": [
-   "yc"
+   "yc",
+   "sapphire"
   ],
   "stage_from_fund": null,
   "description": "Canada's digital health clinic for men",
   "sector": "Health Care",
   "industry": null,
-  "investor": "Y Combinator",
+  "also_listed_as": [
+   "Phoenix Labs"
+  ],
+  "investor": "Y Combinator, Sapphire Ventures",
   "investors": [
-   "Y Combinator"
+   "Y Combinator",
+   "Sapphire Ventures"
   ]
  },
  {
@@ -34243,15 +32861,20 @@
   "sample_title": "Technical Program Manager II",
   "website": "https://www.inversionspace.com/",
   "funds": [
-   "yc"
+   "yc",
+   "spark"
   ],
   "stage_from_fund": null,
   "description": "Turning space into a transportation layer for Earth",
   "sector": "Industrials & Manufacturing",
   "industry": null,
-  "investor": "Y Combinator",
+  "also_listed_as": [
+   "Inversion"
+  ],
+  "investor": "Y Combinator, Spark Capital",
   "investors": [
-   "Y Combinator"
+   "Y Combinator",
+   "Spark Capital"
   ]
  },
  {
@@ -34734,38 +33357,23 @@
   "sample_title": "Product Manager",
   "website": "https://latenthealth.com",
   "funds": [
-   "yc"
+   "yc",
+   "general_catalyst",
+   "8vc"
   ],
   "stage_from_fund": null,
   "description": "Medical language models to automate healthcare operations",
   "sector": "Health Care",
   "industry": null,
-  "investor": "Y Combinator",
-  "investors": [
-   "Y Combinator"
-  ]
- },
- {
-  "company": "Suger",
-  "group": "startup",
-  "ats": "lever",
-  "config": {
-   "board": "fours"
-  },
-  "verified": true,
-  "pm_postings": 3,
-  "sample_title": "Product Marketing Manager",
-  "website": "https://www.suger.io/",
-  "funds": [
-   "yc"
+  "also_listed_as": [
+   "Latent Health",
+   "Latent Labs"
   ],
-  "stage_from_fund": null,
-  "description": "Salesforce for Cloud marketplaces on AWS, Azure, GCP",
-  "sector": "Retail",
-  "industry": null,
-  "investor": "Y Combinator",
+  "investor": "Y Combinator, General Catalyst, 8VC",
   "investors": [
-   "Y Combinator"
+   "Y Combinator",
+   "General Catalyst",
+   "8VC"
   ]
  },
  {
@@ -34780,15 +33388,20 @@
   "sample_title": "Product Marketing ",
   "website": "https://vitalize.care",
   "funds": [
-   "yc"
+   "yc",
+   "norwest"
   ],
   "stage_from_fund": null,
   "description": "Transforming how health systems optimize labor",
   "sector": "Health Care",
   "industry": null,
-  "investor": "Y Combinator",
+  "also_listed_as": [
+   "Vitalize Care"
+  ],
+  "investor": "Y Combinator, Norwest Venture Partners",
   "investors": [
-   "Y Combinator"
+   "Y Combinator",
+   "Norwest Venture Partners"
   ]
  },
  {
@@ -35062,15 +33675,25 @@
   "sample_title": "VP, Product",
   "website": null,
   "funds": [
-   "scale_vp"
+   "scale_vp",
+   "salesforce_ventures",
+   "bessemer",
+   "yc"
   ],
   "stage_from_fund": null,
   "description": "Sixfold leverages AI to automate and augment pieces of the underwriting process to enable carriers to underwrite higher priority, higher volume submissions in a fraction of the time. The platform delivers a step-function improvement in the automated underwriting experience by becoming an underwriter\u2019s copilot solution.",
   "sector": "Technology",
   "industry": null,
-  "investor": "Scale Venture Partners",
+  "also_listed_as": [
+   "Sixfold AI",
+   "Sixfold Bioscience"
+  ],
+  "investor": "Scale Venture Partners, Salesforce Ventures, Bessemer Venture Partners, Y Combinator",
   "investors": [
-   "Scale Venture Partners"
+   "Scale Venture Partners",
+   "Salesforce Ventures",
+   "Bessemer Venture Partners",
+   "Y Combinator"
   ]
  },
  {
@@ -35254,15 +33877,22 @@
   "sample_title": "Senior/Staff Technical Product Manager, Platform",
   "website": null,
   "funds": [
-   "tiger"
+   "tiger",
+   "openai_fund",
+   "samsung_next"
   ],
   "stage_from_fund": "Series B",
   "description": "1X is an engineering and robotics company that develops humanoid robots designed to work alongside humans.",
   "sector": "Industrials & Manufacturing",
   "industry": null,
-  "investor": "Tiger Global",
+  "also_listed_as": [
+   "1X Technologies"
+  ],
+  "investor": "Tiger Global, OpenAI Startup Fund, Samsung Next",
   "investors": [
-   "Tiger Global"
+   "Tiger Global",
+   "OpenAI Startup Fund",
+   "Samsung Next"
   ]
  },
  {
@@ -35640,75 +34270,6 @@
   ]
  },
  {
-  "company": "Latent Labs",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "latent"
-  },
-  "verified": true,
-  "pm_postings": 3,
-  "sample_title": "Product Manager",
-  "website": null,
-  "funds": [
-   "8vc"
-  ],
-  "stage_from_fund": null,
-  "description": "Latent Labs is making biology programmable to transform health and sustainability for the benefit of all.",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "8VC",
-  "investors": [
-   "8VC"
-  ]
- },
- {
-  "company": "Oscar",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "oscar"
-  },
-  "verified": true,
-  "pm_postings": 6,
-  "sample_title": "Group Product Manager, Lucie Platform",
-  "website": "https://www.hioscar.com/",
-  "funds": [
-   "8vc"
-  ],
-  "stage_from_fund": null,
-  "description": "Health care is broken; we're trying to fix it. The Oscar team is focused on utilizing technology, design and data to humanize health care. They're a group of technology and health care professionals who looked at the current state of the US health care system, got frustrated by the horrible consumer experience, and decided to do something big about it. Backed by a renowned set of investors and advisors, they\u2019ve set out to revolutionize health care.",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "8VC",
-  "investors": [
-   "8VC"
-  ]
- },
- {
-  "company": "Oula",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "oulahealth"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager ",
-  "website": "https://oulahealth.com/",
-  "funds": [
-   "8vc"
-  ],
-  "stage_from_fund": "Series A",
-  "description": "Oula is redesigning maternity care from the ground up. Their modern maternity center combines the best of obstetrics and midwifery care to deliver a more evidence-based and personalized pregnancy experience. From their collaborative medical team, welcoming clinic, and remote care platform, Oula is setting a new standard for pregnancy that unifies modern medicine and human intuition.",
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "8VC",
-  "investors": [
-   "8VC"
-  ]
- },
- {
   "company": "Our Place",
   "group": "startup",
   "ats": "lever",
@@ -35860,15 +34421,20 @@
   "sample_title": "Product Manager",
   "website": "https://www.unlearn.ai/",
   "funds": [
-   "8vc"
+   "8vc",
+   "insight"
   ],
   "stage_from_fund": "Series B",
   "description": "Unlearn is the only company using AI to create Digital Twins to populate Intelligent Control Arms in clinical studies. By leveraging historical datasets and disease-specific machine-learning models, Unlearn generates virtual placebo patients, created from actual patient baseline data in clinical studies. This novel approach increases trial power and confidence, accelerates trial timelines, and enables patient level insights. Unlearn was founded in 2017 by a team of world-class machine learning scientists who shared a vision of using machine learning to streamline clinical trials.",
   "sector": "Health Care",
   "industry": null,
-  "investor": "8VC",
+  "also_listed_as": [
+   "Unlearn.AI"
+  ],
+  "investor": "8VC, Insight Partners",
   "investors": [
-   "8VC"
+   "8VC",
+   "Insight Partners"
   ]
  },
  {
@@ -36024,16 +34590,21 @@
   "website": "https://www.causal.app/",
   "funds": [
    "accel",
-   "coatue"
+   "coatue",
+   "usv"
   ],
   "stage_from_fund": "Seed",
   "description": "Modern financial planning tool",
   "sector": "Financials",
   "industry": null,
-  "investor": "Accel, Coatue",
+  "also_listed_as": [
+   "Causal Labs"
+  ],
+  "investor": "Accel, Coatue, Union Square Ventures",
   "investors": [
    "Accel",
-   "Coatue"
+   "Coatue",
+   "Union Square Ventures"
   ]
  },
  {
@@ -36263,15 +34834,20 @@
   "sample_title": "Product Manager (Senior/Staff/Principal)",
   "website": "https://www.monarchmoney.com/",
   "funds": [
-   "accel"
+   "accel",
+   "menlo"
   ],
   "stage_from_fund": "Seed",
   "description": "Subscription-based personal finance program",
   "sector": "Financials",
   "industry": null,
-  "investor": "Accel",
+  "also_listed_as": [
+   "Monarch"
+  ],
+  "investor": "Accel, Menlo Ventures",
   "investors": [
-   "Accel"
+   "Accel",
+   "Menlo Ventures"
   ]
  },
  {
@@ -36379,16 +34955,21 @@
   "website": "https://www.tessl.io/",
   "funds": [
    "accel",
-   "gv"
+   "gv",
+   "index"
   ],
   "stage_from_fund": "Series A",
   "description": "Software development platform for the AI era",
   "sector": "Technology",
   "industry": null,
-  "investor": "Accel, GV (Google Ventures)",
+  "also_listed_as": [
+   "tessl.io"
+  ],
+  "investor": "Accel, GV (Google Ventures), Index Ventures",
   "investors": [
    "Accel",
-   "GV (Google Ventures)"
+   "GV (Google Ventures)",
+   "Index Ventures"
   ]
  },
  {
@@ -36529,31 +35110,6 @@
   "investor": "Accel",
   "investors": [
    "Accel"
-  ]
- },
- {
-  "company": "Higgsfield",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "higgsfieldai"
-  },
-  "verified": true,
-  "pm_postings": 7,
-  "sample_title": "Growth Product Manager (PLG)",
-  "website": "https://higgsfield.ai/",
-  "funds": [
-   "accel",
-   "menlo"
-  ],
-  "stage_from_fund": "Series A",
-  "description": "AI powered video image generation platform",
-  "sector": "Media, Telecom & Hospitality",
-  "industry": null,
-  "investor": "Accel, Menlo Ventures",
-  "investors": [
-   "Accel",
-   "Menlo Ventures"
   ]
  },
  {
@@ -36789,29 +35345,6 @@
   ]
  },
  {
-  "company": "Alchemy Insights",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "alchemy"
-  },
-  "verified": true,
-  "pm_postings": 5,
-  "sample_title": "Senior Product Manager, Growth",
-  "website": "www.alchemy.com",
-  "funds": [
-   "coatue"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "Coatue",
-  "investors": [
-   "Coatue"
-  ]
- },
- {
   "company": "BeReal",
   "group": "startup",
   "ats": "ashby",
@@ -36915,61 +35448,22 @@
   "sample_title": "Product Marketing Manager",
   "website": "cursor.com/home",
   "funds": [
-   "coatue"
+   "coatue",
+   "openai_fund",
+   "thrive"
   ],
   "stage_from_fund": null,
   "description": null,
   "sector": "Technology",
   "industry": null,
-  "investor": "Coatue",
-  "investors": [
-   "Coatue"
-  ]
- },
- {
-  "company": "Infinitus Systems",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "infinitus"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager, AI Hub ",
-  "website": "www.infinitus.ai",
-  "funds": [
-   "coatue"
+  "also_listed_as": [
+   "Anysphere (Cursor)"
   ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "Coatue",
+  "investor": "Coatue, OpenAI Startup Fund, Thrive Capital",
   "investors": [
-   "Coatue"
-  ]
- },
- {
-  "company": "Komodo",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "komodohealth"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Principal Product Manager, AI Products",
-  "website": "www.komodohealth.com",
-  "funds": [
-   "coatue"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "Coatue",
-  "investors": [
-   "Coatue"
+   "Coatue",
+   "OpenAI Startup Fund",
+   "Thrive Capital"
   ]
  },
  {
@@ -37397,29 +35891,6 @@
   ]
  },
  {
-  "company": "Omni Analytics",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "omni"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Marketing, Enterprise",
-  "website": "exploreomni.com",
-  "funds": [
-   "gv"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Technology",
-  "industry": null,
-  "investor": "GV (Google Ventures)",
-  "investors": [
-   "GV (Google Ventures)"
-  ]
- },
- {
   "company": "Oula Health",
   "group": "startup",
   "ats": "greenhouse",
@@ -37431,38 +35902,20 @@
   "sample_title": "Product Manager ",
   "website": "https://oulahealth.com",
   "funds": [
-   "gv"
+   "gv",
+   "8vc"
   ],
   "stage_from_fund": null,
   "description": null,
   "sector": "Health Care",
   "industry": null,
-  "investor": "GV (Google Ventures)",
-  "investors": [
-   "GV (Google Ventures)"
-  ]
- },
- {
-  "company": "Ripple Labs",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "ripple"
-  },
-  "verified": true,
-  "pm_postings": 9,
-  "sample_title": "Director, Product Management, Global Payouts",
-  "website": "http://ripplelabs.com",
-  "funds": [
-   "gv"
+  "also_listed_as": [
+   "Oula"
   ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Media, Telecom & Hospitality",
-  "industry": null,
-  "investor": "GV (Google Ventures)",
+  "investor": "GV (Google Ventures), 8VC",
   "investors": [
-   "GV (Google Ventures)"
+   "GV (Google Ventures)",
+   "8VC"
   ]
  },
  {
@@ -37512,29 +35965,6 @@
   ]
  },
  {
-  "company": "Translucent AI",
-  "group": "startup",
-  "ats": "greenhouse",
-  "config": {
-   "board": "translucent"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Lead",
-  "website": "https://www.translucent.ai/",
-  "funds": [
-   "gv"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Health Care",
-  "industry": null,
-  "investor": "GV (Google Ventures)",
-  "investors": [
-   "GV (Google Ventures)"
-  ]
- },
- {
   "company": "Verana Health",
   "group": "startup",
   "ats": "greenhouse",
@@ -37569,38 +35999,20 @@
   "sample_title": "Senior Product Marketing Manager",
   "website": "https://www.wealth.com",
   "funds": [
-   "gv"
+   "gv",
+   "citi_ventures"
   ],
   "stage_from_fund": null,
   "description": null,
   "sector": "Technology",
   "industry": null,
-  "investor": "GV (Google Ventures)",
-  "investors": [
-   "GV (Google Ventures)"
-  ]
- },
- {
-  "company": "Monarch",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "monarchmoney"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Product Manager (Senior/Staff/Principal)",
-  "website": "https://www.monarchmoney.com/",
-  "funds": [
-   "menlo"
+  "also_listed_as": [
+   "Wealth"
   ],
-  "stage_from_fund": "Series A",
-  "description": "Monarch is a money management platform that helps users create a financial plan, budget, and track their goals.",
-  "sector": "Financials",
-  "industry": null,
-  "investor": "Menlo Ventures",
+  "investor": "GV (Google Ventures), Citi Ventures",
   "investors": [
-   "Menlo Ventures"
+   "GV (Google Ventures)",
+   "Citi Ventures"
   ]
  },
  {
@@ -37639,16 +36051,21 @@
   "website": "https://www.solace.health/",
   "funds": [
    "menlo",
-   "craft"
+   "craft",
+   "ivp"
   ],
   "stage_from_fund": "Series B",
   "description": "Solace connects Medicare patients with certified healthcare advocates who help patients navigate their complex care journeys.",
   "sector": "Health Care",
   "industry": null,
-  "investor": "Menlo Ventures, Craft Ventures",
+  "also_listed_as": [
+   "Solace Health"
+  ],
+  "investor": "Menlo Ventures, Craft Ventures, IVP",
   "investors": [
    "Menlo Ventures",
-   "Craft Ventures"
+   "Craft Ventures",
+   "IVP"
   ]
  },
  {
@@ -37664,16 +36081,23 @@
   "website": "https://www.zafran.io/",
   "funds": [
    "menlo",
-   "cisco_investments"
+   "cisco_investments",
+   "sequoia",
+   "amex_ventures"
   ],
   "stage_from_fund": "Series C",
   "description": "Zafran Security is the first AI-native, end-to-end Threat Exposure Management platform to help security teams stop vulnerability exploitation everywhere.",
   "sector": "Media, Telecom & Hospitality",
   "industry": null,
-  "investor": "Menlo Ventures, Cisco Investments",
+  "also_listed_as": [
+   "Zafran"
+  ],
+  "investor": "Menlo Ventures, Cisco Investments, Sequoia Capital, Amex Ventures",
   "investors": [
    "Menlo Ventures",
-   "Cisco Investments"
+   "Cisco Investments",
+   "Sequoia Capital",
+   "Amex Ventures"
   ]
  },
  {
@@ -37762,29 +36186,6 @@
   "stage_from_fund": "Series A",
   "description": "Manufacturing operations software for hardware companies that build physical products.",
   "sector": "Industrials & Manufacturing",
-  "industry": null,
-  "investor": "Craft Ventures",
-  "investors": [
-   "Craft Ventures"
-  ]
- },
- {
-  "company": "Lightning Labs",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "lightning"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Technical Product Manager (Remote)",
-  "website": "https://lightning.engineering/",
-  "funds": [
-   "craft"
-  ],
-  "stage_from_fund": null,
-  "description": "Infrastructure for Bitcoin's Lightning Network, enabling fast, low-cost payments.",
-  "sector": "Financials",
   "industry": null,
   "investor": "Craft Ventures",
   "investors": [
@@ -37884,52 +36285,6 @@
   ]
  },
  {
-  "company": "Xona",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "xona-space"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Technical Program Manager, Software ",
-  "website": "https://www.xonaspace.com/",
-  "funds": [
-   "craft"
-  ],
-  "stage_from_fund": null,
-  "description": "Building a low-earth-orbit satellite network to provide a more accurate, secure alternative to GPS.",
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "Craft Ventures",
-  "investors": [
-   "Craft Ventures"
-  ]
- },
- {
-  "company": "Perplexity AI",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "perplexity"
-  },
-  "verified": true,
-  "pm_postings": 12,
-  "sample_title": "Product Marketing Manager, Partnerships",
-  "website": "perplexity.ai",
-  "funds": [
-   "samsung_next"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Technology",
-  "industry": null,
-  "investor": "Samsung Next",
-  "investors": [
-   "Samsung Next"
-  ]
- },
- {
   "company": "Lark",
   "group": "startup",
   "ats": "ashby",
@@ -37976,29 +36331,6 @@
   ]
  },
  {
-  "company": "Doctronic.ai",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "doctronic"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Clinical Product Manager",
-  "website": "doctronic.ai",
-  "funds": [
-   "samsung_next"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Technology",
-  "industry": null,
-  "investor": "Samsung Next",
-  "investors": [
-   "Samsung Next"
-  ]
- },
- {
   "company": "Rhoda AI",
   "group": "startup",
   "ats": "ashby",
@@ -38010,15 +36342,22 @@
   "sample_title": "Product Manager, Rhoda Platform",
   "website": "rhoda.ai",
   "funds": [
-   "samsung_next"
+   "samsung_next",
+   "khosla",
+   "nventures"
   ],
   "stage_from_fund": null,
   "description": null,
   "sector": "Industrials & Manufacturing",
   "industry": null,
-  "investor": "Samsung Next",
+  "also_listed_as": [
+   "Rhoda"
+  ],
+  "investor": "Samsung Next, Khosla Ventures, NVentures (Nvidia)",
   "investors": [
-   "Samsung Next"
+   "Samsung Next",
+   "Khosla Ventures",
+   "NVentures (Nvidia)"
   ]
  },
  {
@@ -38032,52 +36371,6 @@
   "pm_postings": 1,
   "sample_title": "AI Product Management Intern",
   "website": "opus.pro",
-  "funds": [
-   "samsung_next"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Technology",
-  "industry": null,
-  "investor": "Samsung Next",
-  "investors": [
-   "Samsung Next"
-  ]
- },
- {
-  "company": "Artificial Agency",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "artificial"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Senior Product Manager",
-  "website": "artificial.agency",
-  "funds": [
-   "samsung_next"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Technology",
-  "industry": null,
-  "investor": "Samsung Next",
-  "investors": [
-   "Samsung Next"
-  ]
- },
- {
-  "company": "Simular AI",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "simular"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "AI Product Manager",
-  "website": "simular.ai",
   "funds": [
    "samsung_next"
   ],
@@ -38137,29 +36430,6 @@
   ]
  },
  {
-  "company": "Patronus AI",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "patronus"
-  },
-  "verified": true,
-  "pm_postings": 2,
-  "sample_title": "Team Lead Product Management (w/m/x) - German-speaking",
-  "website": "patronus.ai",
-  "funds": [
-   "samsung_next"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Technology",
-  "industry": null,
-  "investor": "Samsung Next",
-  "investors": [
-   "Samsung Next"
-  ]
- },
- {
   "company": "Canopy Care",
   "group": "startup",
   "ats": "greenhouse",
@@ -38176,29 +36446,6 @@
   "stage_from_fund": null,
   "description": null,
   "sector": "Health Care",
-  "industry": null,
-  "investor": "Samsung Next",
-  "investors": [
-   "Samsung Next"
-  ]
- },
- {
-  "company": "Multiverse Labs",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "multiverse"
-  },
-  "verified": true,
-  "pm_postings": 3,
-  "sample_title": "Senior Product Marketing Manager",
-  "website": "multiverselabs.com",
-  "funds": [
-   "samsung_next"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Startup (unclassified)",
   "industry": null,
   "investor": "Samsung Next",
   "investors": [
@@ -38275,29 +36522,6 @@
   ]
  },
  {
-  "company": "fin.tech",
-  "group": "startup",
-  "ats": "ashby",
-  "config": {
-   "board": "fin"
-  },
-  "verified": true,
-  "pm_postings": 1,
-  "sample_title": "Product Manager",
-  "website": "fin.tech",
-  "funds": [
-   "samsung_next"
-  ],
-  "stage_from_fund": null,
-  "description": null,
-  "sector": "Startup (unclassified)",
-  "industry": null,
-  "investor": "Samsung Next",
-  "investors": [
-   "Samsung Next"
-  ]
- },
- {
   "company": "Xona Space Systems",
   "group": "startup",
   "ats": "ashby",
@@ -38309,15 +36533,20 @@
   "sample_title": "Technical Program Manager, Software ",
   "website": "xonaspace.com",
   "funds": [
-   "samsung_next"
+   "samsung_next",
+   "craft"
   ],
   "stage_from_fund": null,
   "description": null,
   "sector": "Startup (unclassified)",
   "industry": null,
-  "investor": "Samsung Next",
+  "also_listed_as": [
+   "Xona"
+  ],
+  "investor": "Samsung Next, Craft Ventures",
   "investors": [
-   "Samsung Next"
+   "Samsung Next",
+   "Craft Ventures"
   ]
  },
  {
@@ -38562,15 +36791,30 @@
   "sample_title": "Technical Program Manager, Infrastructure",
   "website": "https://fal.ai/",
   "funds": [
-   "bessemer"
+   "bessemer",
+   "a16z",
+   "sequoia",
+   "first_round",
+   "kleiner",
+   "nventures",
+   "salesforce_ventures"
   ],
   "stage_from_fund": null,
   "description": "Generative media platform for developers.",
   "sector": "Media, Telecom & Hospitality",
   "industry": null,
-  "investor": "Bessemer Venture Partners",
+  "also_listed_as": [
+   "fal"
+  ],
+  "investor": "Bessemer Venture Partners, a16z, Sequoia Capital, First Round Capital, Kleiner Perkins, NVentures (Nvidia), Salesforce Ventures",
   "investors": [
-   "Bessemer Venture Partners"
+   "Bessemer Venture Partners",
+   "a16z",
+   "Sequoia Capital",
+   "First Round Capital",
+   "Kleiner Perkins",
+   "NVentures (Nvidia)",
+   "Salesforce Ventures"
   ]
  },
  {

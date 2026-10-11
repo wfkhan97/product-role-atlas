@@ -1,0 +1,47 @@
+{
+ "valuation": {
+  "what": "Estimate what a company or asset is worth using standard valuation methods."
+ },
+ "ma_execution": {
+  "what": "Run mergers, acquisitions and divestitures from first evaluation through signing and close."
+ },
+ "due_diligence": {
+  "what": "Investigate a target's finances, operations and risks before a deal is signed."
+ },
+ "integration_planning": {
+  "what": "Plan and run the combining of an acquired business so the deal delivers its expected value."
+ },
+ "deal_sourcing": {
+  "what": "Find and screen companies or assets worth buying or investing in."
+ },
+ "pitch_materials": {
+  "what": "Build the presentations and offering documents used to win mandates and market deals."
+ },
+ "credit_analysis": {
+  "what": "Judge a borrower's ability to repay and structure a loan the bank can approve."
+ },
+ "capital_markets": {
+  "what": "Help companies and funds raise money through debt and equity offerings."
+ },
+ "client_coverage": {
+  "what": "Win and deepen client relationships and match them with the bank's credit, deposit and treasury products."
+ },
+ "portfolio_management": {
+  "what": "Build and oversee a portfolio of investments to meet return and risk goals."
+ },
+ "portfolio_company": {
+  "what": "Work with companies the firm owns to improve their performance after the investment."
+ },
+ "investment_committee": {
+  "what": "Write up a deal recommendation and defend it to the committee that approves it."
+ },
+ "investment_research": {
+  "what": "Research companies, sectors and markets to form a view on where to invest."
+ },
+ "deal_structuring": {
+  "what": "Shape the terms of a transaction and negotiate the legal documents."
+ },
+ "wealth_advisory": {
+  "what": "Help wealthy individuals and families plan and invest their money."
+ }
+}

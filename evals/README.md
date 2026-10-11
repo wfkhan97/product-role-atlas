@@ -55,3 +55,33 @@ line that evidences a gap never lowers the score). `--verbose` prints every requ
 line that evidenced it, which is the fastest way to see why a check failed.
 
 The runner requires `web/match.js` directly, so it always runs the code the app runs.
+
+## Extraction baselines
+
+The matcher evals above check how a resume is read. These check how postings are tagged.
+
+- [extraction_baseline.md](extraction_baseline.md): the product taxonomy against model judgment on 200 PM postings.
+  The model's answers were recorded once and live in `data/experiments/` (gitignored). After a taxonomy change,
+  re-extract and rebuild the graph, then recompute the regex side against the saved answers (no API calls) and
+  add a dated section for the skills that moved:
+
+  ```bash
+  .venv/bin/python -m pipeline.extract && .venv/bin/python -m pipeline.build_graph
+  .venv/bin/python -m pipeline.experiments.decisions_audit --n 200 --seed 7 --skills <all product skill ids> \
+      --reuse data/experiments/decisions_results.jsonl --tag after
+  ```
+
+- [extraction_baseline_mba.md](extraction_baseline_mba.md): the MBA role set. Per role, how many skills a posting
+  gets and which are asked most; per skill, its share and the roles that ask for it. Regenerate after any
+  taxonomy change that touches shared or MBA skills:
+
+  ```bash
+  .venv/bin/python -m pipeline.extract --roles mba
+  .venv/bin/python -m pipeline.experiments.role_corpus --roles mba
+  .venv/bin/python -m pipeline.experiments.role_coverage --roles mba
+  ```
+
+- `extraction_audit_mba.md` (once run): model judgment on the MBA skills, from
+  `pipeline.experiments.skill_audit --roles mba` (needs `OPENAI_API_KEY` in `.env`; `--reuse` afterwards).
+
+A shared skill serves both role sets, so a change to one of its patterns means both sets of steps.

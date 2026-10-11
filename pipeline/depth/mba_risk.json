@@ -1,0 +1,68 @@
+{
+ "erm_framework": {
+  "what": "Running the firm-wide system for identifying, measuring and overseeing risk: appetite, taxonomy, lines of defence, indicators and reporting."
+ },
+ "controls_testing": {
+  "what": "Designing the checks that keep a process safe and testing whether they actually work."
+ },
+ "operational_risk": {
+  "what": "Managing the risk of things going wrong in day-to-day operations: process failures, outages, incidents and recovery plans."
+ },
+ "third_party_risk": {
+  "what": "Assessing and monitoring the risk that suppliers, vendors and partners bring to the company."
+ },
+ "model_risk": {
+  "what": "Checking that the quantitative and AI models a firm relies on are sound, documented and used within limits."
+ },
+ "financial_risk": {
+  "what": "Measuring and limiting the money a firm could lose on loans, trading positions or funding."
+ },
+ "compliance_program": {
+  "what": "Building and running the company's compliance function: its framework, priorities, training and advice to the business."
+ },
+ "compliance_monitoring": {
+  "what": "Checking, through reviews, sampling and surveillance, that the business is following the rules, and reporting what is found."
+ },
+ "regulatory_change": {
+  "what": "Reading new laws and regulations, working out what they mean for the business and getting the changes made."
+ },
+ "regulator_exams": {
+  "what": "Preparing for and handling regulators: examinations, inquiries, filings and follow-up on findings."
+ },
+ "policy_management": {
+  "what": "Writing, maintaining and enforcing the company's formal policies, standards and procedures."
+ },
+ "internal_audit_sox": {
+  "what": "Auditing the company's own processes and keeping financial-reporting controls up to Sarbanes-Oxley standard."
+ },
+ "issue_remediation": {
+  "what": "Logging control failures and audit or exam findings, agreeing fixes and tracking them to closure."
+ },
+ "financial_crime": {
+  "what": "Stopping the firm being used for money laundering, sanctions evasion or other financial crime."
+ },
+ "consumer_compliance": {
+  "what": "Applying US consumer-protection rules to lending, cards, deposits and marketing."
+ },
+ "security_frameworks": {
+  "what": "Getting and keeping security certifications and attestations: mapping controls, collecting evidence and working with auditors."
+ },
+ "data_governance": {
+  "what": "Setting who owns data, what it means and how good it must be, and getting the business to follow those rules."
+ },
+ "ai_governance": {
+  "what": "Setting the rules and reviews that keep a company's use of AI safe, lawful and fair."
+ },
+ "it_risk": {
+  "what": "Assessing the risk in the company's technology and security set-up and checking IT controls."
+ },
+ "board_governance": {
+  "what": "Supporting boards and senior committees: charters, agendas, papers, minutes and the decisions that follow."
+ },
+ "trade_compliance": {
+  "what": "Keeping cross-border shipments and technology transfers within customs, export-control and sanctions law."
+ },
+ "governance_design": {
+  "what": "Setting up how decisions get made and overseen: forums, charters, escalation paths and who signs off what."
+ }
+}
