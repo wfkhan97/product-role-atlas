@@ -1,0 +1,16 @@
+{
+ "company": "BNP Paribas",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.bnpparibas.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Investment banking",
+ "domain": "bnpparibas.com",
+ "seconds": 8
+}

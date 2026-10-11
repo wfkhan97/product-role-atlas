@@ -1,0 +1,29 @@
+{
+ "company": "Hamilton Lane",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "hamiltonlane.wd108.myworkdayjobs.com",
+  "tenant": "hamiltonlane",
+  "site": "en-us"
+ },
+ "verified": false,
+ "notes": "candidates: workday 0 matching postings",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "hamiltonlane.wd108.myworkdayjobs.com",
+    "tenant": "hamiltonlane",
+    "site": "en-us"
+   },
+   "from": "https://www.hamiltonlane.com/en-us/careers",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "hamiltonlane.com",
+ "seconds": 6
+}

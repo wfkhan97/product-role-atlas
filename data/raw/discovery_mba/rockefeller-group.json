@@ -1,0 +1,31 @@
+{
+ "company": "Rockefeller Group",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "rockefellergroup.wd503.myworkdayjobs.com",
+  "tenant": "rockefellergroup",
+  "site": "Rockefeller"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "rockefellergroup.wd503.myworkdayjobs.com",
+    "tenant": "rockefellergroup",
+    "site": "Rockefeller"
+   },
+   "from": "https://www.rockefellergroup.com/working-here/",
+   "verify": "(board reachable; no matching title on first pages)"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "rockefellergroup.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 8
+}

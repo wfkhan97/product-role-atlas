@@ -1,0 +1,27 @@
+{
+ "company": "Sun Communities",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.suncommunities.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.suncommunities.com"
+   },
+   "from": "https://careers.suncommunities.com/",
+   "verify": "VP, Strategy and M&A"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "suncommunities.com",
+ "sample_title": "VP, Strategy and M&A",
+ "description_chars": 6496,
+ "seconds": 11
+}

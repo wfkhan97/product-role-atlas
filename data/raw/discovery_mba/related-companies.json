@@ -1,0 +1,43 @@
+{
+ "company": "Related Companies",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "jibe",
+ "config": {
+  "host": "www.related.jobs"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "careers-related.icims.com"
+   },
+   "from": "https://www.related.jobs/careers-home/",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://www.related.jobs/careers-home/",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "www.related.jobs"
+   },
+   "from": "https://www.related.jobs/careers-home/",
+   "verify": "Digital Marketing Manager & Content Production Lead"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "related.com",
+ "sample_title": "Digital Marketing Manager & Content Production Lead",
+ "description_chars": 5816,
+ "seconds": 22
+}

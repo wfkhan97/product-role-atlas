@@ -1,0 +1,38 @@
+{
+ "company": "Piper Sandler",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "pipersandler.wd501.myworkdayjobs.com",
+  "tenant": "pipersandler",
+  "site": "Piper_Sandler_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.pipersandler.com"
+   },
+   "from": "https://www.pipersandler.com/careers"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "pipersandler.wd501.myworkdayjobs.com",
+    "tenant": "pipersandler",
+    "site": "Piper_Sandler_Careers"
+   },
+   "from": "https://pipersandler.wd501.myworkdayjobs.com/Piper_Sandler_Careers",
+   "verify": "Public Finance Investment Banking Director \u2013 Senior Living"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "pipersandler.com",
+ "sample_title": "Public Finance Investment Banking Director \u2013 Senior Living",
+ "description_chars": 6421,
+ "seconds": 25
+}

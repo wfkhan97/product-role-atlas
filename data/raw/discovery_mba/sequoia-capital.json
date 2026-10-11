@@ -1,0 +1,16 @@
+{
+ "company": "Sequoia Capital",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.sequoiacap.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Venture capital",
+ "domain": "sequoiacap.com",
+ "seconds": 10
+}

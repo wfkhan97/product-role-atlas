@@ -1,0 +1,38 @@
+{
+ "company": "Cullen/Frost",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "frostbank.wd5.myworkdayjobs.com",
+  "tenant": "frostbank",
+  "site": "external"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "frostbank.wd5.myworkdayjobs.com",
+    "tenant": "frostbank",
+    "site": "external"
+   },
+   "from": "https://careers.frostbank.com/us/en",
+   "verify": "IT Strategy Consultant"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.frostbank.com"
+   },
+   "from": "https://careers.frostbank.com/us/en"
+  }
+ ],
+ "category": "Commercial and corporate banking",
+ "domain": "frostbank.com",
+ "sample_title": "IT Strategy Consultant",
+ "description_chars": 4143,
+ "seconds": 15
+}

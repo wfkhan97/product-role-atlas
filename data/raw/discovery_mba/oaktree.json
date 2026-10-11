@@ -1,0 +1,31 @@
+{
+ "company": "Oaktree",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "oaktree.wd1.myworkdayjobs.com",
+  "tenant": "oaktree",
+  "site": "Oaktree"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "oaktree.wd1.myworkdayjobs.com",
+    "tenant": "oaktree",
+    "site": "Oaktree"
+   },
+   "from": "https://www.oaktreecapital.com/careers",
+   "verify": "Vice President, Regional Head of Treasury"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "oaktreecapital.com",
+ "sample_title": "Vice President, Regional Head of Treasury",
+ "description_chars": 7165,
+ "seconds": 13
+}

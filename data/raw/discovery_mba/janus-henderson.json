@@ -1,0 +1,27 @@
+{
+ "company": "Janus Henderson",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.janushenderson.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.janushenderson.com"
+   },
+   "from": "https://jobs.janushenderson.com/search",
+   "verify": "Client Portfolio Manager (Equities)"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "janushenderson.com",
+ "sample_title": "Client Portfolio Manager (Equities)",
+ "description_chars": 7386,
+ "seconds": 11
+}

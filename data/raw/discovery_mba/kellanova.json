@@ -1,0 +1,27 @@
+{
+ "company": "Kellanova",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.kellanova.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.kellanova.com"
+   },
+   "from": "https://jobs.kellanova.com/search/?createNewAlert=false&amp;q=&amp;locationsearch=",
+   "verify": "Activation Brand Manager - FTC 12 months"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "kellanova.com",
+ "sample_title": "Activation Brand Manager - FTC 12 months",
+ "description_chars": 4335,
+ "seconds": 17
+}

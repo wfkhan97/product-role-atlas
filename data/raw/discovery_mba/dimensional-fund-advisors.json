@@ -1,0 +1,31 @@
+{
+ "company": "Dimensional Fund Advisors",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "dimensional.wd5.myworkdayjobs.com",
+  "tenant": "dimensional",
+  "site": "DFA_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "dimensional.wd5.myworkdayjobs.com",
+    "tenant": "dimensional",
+    "site": "DFA_Careers"
+   },
+   "from": "https://careers.dimensional.com/",
+   "verify": "Senior Investment Strategist"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "dimensional.com",
+ "sample_title": "Senior Investment Strategist",
+ "description_chars": 5190,
+ "seconds": 14
+}

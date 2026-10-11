@@ -1,0 +1,80 @@
+{
+ "company": "Greylock",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (Discord)",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "discord"
+   },
+   "from": "https://greylock.com/jobs/portfolio-jobs/",
+   "verify": "Marketing Program Manager"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "fermat"
+   },
+   "from": "https://greylock.com/jobs/portfolio-jobs/"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "obsidiansecurity"
+   },
+   "from": "https://greylock.com/jobs/portfolio-jobs/"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "cresta"
+   },
+   "from": "https://greylock.com/jobs/portfolio-jobs/"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "instawork"
+   },
+   "from": "https://greylock.com/jobs/portfolio-jobs/"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "snorkelai"
+   },
+   "from": "https://greylock.com/jobs/portfolio-jobs/"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "lyrahealth"
+   },
+   "from": "https://greylock.com/jobs/portfolio-jobs/"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "ramp"
+   },
+   "from": "https://greylock.com/jobs/portfolio-jobs/"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "greylock.com",
+ "sample_title": "Marketing Program Manager",
+ "description_chars": 6462,
+ "seconds": 6,
+ "rejected": {
+  "ats": "greenhouse",
+  "config": {
+   "board": "discord"
+  }
+ }
+}

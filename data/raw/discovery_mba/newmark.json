@@ -1,0 +1,16 @@
+{
+ "company": "Newmark",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.nmrk.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Real estate",
+ "domain": "nmrk.com",
+ "seconds": 6
+}

@@ -1,0 +1,16 @@
+{
+ "company": "IVP",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.ivp.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Venture capital",
+ "domain": "ivp.com",
+ "seconds": 11
+}

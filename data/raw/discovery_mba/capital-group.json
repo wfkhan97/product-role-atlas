@@ -1,0 +1,31 @@
+{
+ "company": "Capital Group",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "capgroup.wd1.myworkdayjobs.com",
+  "tenant": "capgroup",
+  "site": "capitalgroupcareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "capgroup.wd1.myworkdayjobs.com",
+    "tenant": "capgroup",
+    "site": "capitalgroupcareers"
+   },
+   "from": "https://www.capitalgroup.com/about-us/careers.html",
+   "verify": "Global Finance Senior Manager - Strategic Analysis"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "capitalgroup.com",
+ "sample_title": "Global Finance Senior Manager - Strategic Analysis",
+ "description_chars": 6820,
+ "seconds": 22
+}

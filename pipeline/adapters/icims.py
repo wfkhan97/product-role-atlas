@@ -1,6 +1,7 @@
 """iCIMS hosted career portals (HTML search in iframe mode + JSON-LD / iCIMS_JobContent detail)."""
 import re
 import time
+from urllib.parse import quote_plus
 from .common import get, strip_html, job, SEARCH_QUERIES
 from .jsonld import job_posting, location
 
@@ -13,7 +14,7 @@ def fetch(company, cfg, title_ok, max_pages=6):
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
         for page in range(1, max_pages + 1):
-            r = get(f"https://{host}/jobs/search?ss=1&searchKeyword={q.replace(' ', '+')}&in_iframe=1&pr={page-1}")
+            r = get(f"https://{host}/jobs/search?ss=1&searchKeyword={quote_plus(q)}&in_iframe=1&pr={page-1}")
             if r.status_code != 200:
                 break
             found = 0

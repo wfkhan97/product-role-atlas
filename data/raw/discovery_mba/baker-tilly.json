@@ -1,0 +1,31 @@
+{
+ "company": "Baker Tilly",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "bakertilly.wd5.myworkdayjobs.com",
+  "tenant": "bakertilly",
+  "site": "BTCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "bakertilly.wd5.myworkdayjobs.com",
+    "tenant": "bakertilly",
+    "site": "BTCareers"
+   },
+   "from": "https://bakertilly.wd5.myworkdayjobs.com/BTCareers",
+   "verify": "Director, Strategy & Transformation"
+  }
+ ],
+ "category": "Big Four and accounting",
+ "domain": "bakertilly.com",
+ "sample_title": "Director, Strategy & Transformation",
+ "description_chars": 9478,
+ "seconds": 16
+}

@@ -1,0 +1,27 @@
+{
+ "company": "L'Or\u00e9al",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "radancy",
+ "config": {
+  "host": "careers.loreal.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.loreal.com"
+   },
+   "from": "https://careers.loreal.com/en",
+   "verify": "IT Digital and Data Strategy Manager"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "loreal.com",
+ "sample_title": "IT Digital and Data Strategy Manager",
+ "description_chars": 3762,
+ "seconds": 75
+}

@@ -1,0 +1,29 @@
+{
+ "company": "Lazard",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "icbpjb.fa.ocs.oraclecloud.com",
+  "siteNumber": "LazardProfessionalCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "icbpjb.fa.ocs.oraclecloud.com",
+    "siteNumber": "LazardProfessionalCareers"
+   },
+   "from": "https://www.lazard.com/careers",
+   "verify": "Financial Planning & Analysis Manager (New York)"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "lazard.com",
+ "sample_title": "Financial Planning & Analysis Manager (New York)",
+ "description_chars": 7733,
+ "seconds": 20
+}

@@ -1,0 +1,16 @@
+{
+ "company": "Crow Holdings",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.crowholdings.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Real estate",
+ "domain": "crowholdings.com",
+ "seconds": 9
+}

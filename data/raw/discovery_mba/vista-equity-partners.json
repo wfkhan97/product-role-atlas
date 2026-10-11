@@ -1,0 +1,59 @@
+{
+ "company": "Vista Equity Partners",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (LogicMonitor)",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "logicmonitor"
+   },
+   "from": "https://vistaequitypartners.getro.com/jobs",
+   "verify": "CX Strategy & Operations Manager"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "smartsheet"
+   },
+   "from": "https://vistaequitypartners.getro.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "nasuni"
+   },
+   "from": "https://vistaequitypartners.getro.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "simplepractice55"
+   },
+   "from": "https://vistaequitypartners.getro.com/jobs"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "decareers-jaggaer.icims.com"
+   },
+   "from": "https://vistaequitypartners.getro.com/jobs"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "vistaequitypartners.com",
+ "sample_title": "CX Strategy & Operations Manager",
+ "description_chars": 10680,
+ "seconds": 5,
+ "rejected": {
+  "ats": "greenhouse",
+  "config": {
+   "board": "logicmonitor"
+  }
+ }
+}

@@ -1,0 +1,16 @@
+{
+ "company": "Welltower",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.welltower.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Real estate",
+ "domain": "welltower.com",
+ "seconds": 10
+}

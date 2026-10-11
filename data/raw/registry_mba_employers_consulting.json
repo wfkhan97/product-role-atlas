@@ -1,0 +1,358 @@
+[
+ {
+  "company": "McKinsey & Company",
+  "category": "Strategy consulting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.mckinsey.com/careers/search-jobs",
+   "api": "https://gateway.mckinsey.com/apigw-x0cceuow60/v1/api/jobs/search"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Custom Next.js/Sitecore site; www.mckinsey.com itself tarpits plain HTTP clients (curl hangs, Akamai), but the search API it calls is on another host and answers curl with a browser UA, no cookies/keys: GET https://gateway.mckinsey.com/apigw-x0cceuow60/v1/api/jobs/search?pageSize=20&start=1&lang=en&q=strategy (base = publicRuntimeConfig API_HOST_GLOBAL_SEARCH_EXTERNALIZED_SERVICE + '/apigw-' + GLOBAL_SEARCH_API_GATEWAY_ID + '/v1' in the page's __NEXT_DATA__; the gateway id could change). Response JSON: {numFound, start, docs:[{jobID, title, friendlyURL, cities[], countries[], continents[], interest, interestCategory, functions[], whoYouWillWorkWith, whatYouWillDo, yourBackground (HTML; these three are the full description, ~6.5k chars together), jobApplyURL (mckinsey.avature.net), ...}]}. 623 jobs with no query, 328 for q=strategy. Paging is 1-based 'start' = page number (start=6 returned different docs; response 'start' field always 0). Filter params in the site JS: interest, cities, countries, interestCategory, industries, functions (a 'countries=United States' param reduced numFound to 90 but the first docs were multi-country, so filter on docs[].countries client-side). Single job: GET .../v1/api/jobs/details?friendlyUrl=<friendlyURL> -> same doc shape. Public job URL: https://www.mckinsey.com/careers/search-jobs/jobs/<friendlyURL>. jobs.mckinsey.com is the Avature apply portal only (no SearchJobs, feed empty)."
+ },
+ {
+  "company": "Bain & Company",
+  "category": "Strategy consulting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.bain.com/jobs/SearchJobs"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Avature portal on careers.bain.com (www.bain.com/careers is behind a Cloudflare challenge - 403 to curl - but careers.bain.com is not). Search (HTML, GET, browser UA): https://careers.bain.com/jobs/SearchJobs/<keyword>?folderRecordsPerPage=50&folderOffset=<n> (keyword path segment optional; 50 per page accepted) -> result links href=\"https://careers.bain.com/jobs/FolderDetail/<Title-Slug>/<id>\". RSS: https://careers.bain.com/jobs/SearchJobs/feed/?folderRecordsPerPage=50 -> <item><title>, <link> (FolderDetail URL), <pubDate>, <description> is only ' - <req id>'; feed returned 20 items regardless of page size. Detail page (HTML 200): has a JSON-LD JobPosting with title but EMPTY description; the text is in the HTML under div.article__content / .article__content__view__field__value (fields: Job Title, Job ID, Work Areas, Employment Type, Location(s), then description). Global board; filter by Location(s) for US. No adapter for Avature yet - one Avature adapter would cover Bain, Deloitte US and Slalom."
+ },
+ {
+  "company": "Kearney",
+  "category": "Strategy consulting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://kearney.recsolu.com/job_boards/1"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "www.kearney.com is Cloudflare-challenged for curl (403); its careers page links to a Yello (recsolu) board, which is open: https://kearney.recsolu.com/job_boards/1 (board id EPd41qlA4_03IncZMnWyRQ; 25 postings, campus and experienced, global). JSON search: GET https://kearney.recsolu.com/job_boards/EPd41qlA4_03IncZMnWyRQ/search?query=<kw>&page_number=1 with X-Requested-With: XMLHttpRequest -> {\"html\": \"<li class=search-results__item>...<a class=search-results__req_title href=/jobs/<id>?job_board_id=...>Title</a>...\"}. Detail https://kearney.recsolu.com/jobs/<id>?job_board_id=EPd41qlA4_03IncZMnWyRQ is server-rendered HTML (h1 title, no JSON-LD). Yello has no adapter."
+ },
+ {
+  "company": "L.E.K. Consulting",
+  "category": "Strategy consulting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://lek.tal.net/vx/lang-en-GB/mobile-0/appcentre-2/brand-2/candidate/jobboard/vacancy/3/adv/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "tal.net (Oleeo), no adapter. US/Americas job board: .../appcentre-2/brand-2/candidate/jobboard/vacancy/3/adv/ (other regions use other appcentre/vacancy numbers: appcentre-3 vacancy/5, appcentre-1 vacancy/1, appcentre-4 vacancy/7, middle_east vacancy/11). Atom feed, no browser needed: https://lek.tal.net/vx/mobile-0/appcentre-2/brand-2/candidate/jobboard/vacancy/3/feed (14 entries: <title>, <link href=.../opp/<id>-<slug>/en-GB>, <published>, content = Title/Location/Closing Date) and .../feed/structured (title only). Feed has no description; the opp page HTML must be fetched for the text. Same tal.net family as CohnReznick, whose structured feed does carry descriptions."
+ },
+ {
+  "company": "Roland Berger",
+  "category": "Strategy consulting",
+  "ats": "smartrecruiters",
+  "config": {
+   "company": "RolandBerger"
+  },
+  "verified": true,
+  "sample_title": "Experienced Consultant: Industrials & Automotive / Strategy & Operations (m/f/d)",
+  "description_chars": 1851,
+  "notes": "verify_one ok (n=4). Firm's own global SmartRecruiters board (213 postings, mostly DACH; only 3 with country=us today: Consultant/Senior Consultant - Automotive, Senior Consultant - Water). Found by probing api.smartrecruiters.com/v1/companies/RolandBerger; rolandberger.com/en/Join loads it with JS. The adapter has no country filter, so most results are non-US; filter on location downstream."
+ },
+ {
+  "company": "Simon-Kucher",
+  "category": "Strategy consulting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://simon-kucher.csod.com/ux/ats/careersite/6/home?c=simon-kucher"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Cornerstone OnDemand (csod) career site 6, linked from simon-kucher.com/en/careers; no adapter. The career-site HTML embeds a short-lived JWT (\"token\") and API base (\"cloud\":\"https://eu-fra.api.csod.com/\"); the SPA then POSTs to <cloud>rec-job-search/external/jobs with Authorization: Bearer <token> (standard CSOD pattern - not exercised here). Workday guesses (simonkucher.wd3) do not exist."
+ },
+ {
+  "company": "Analysis Group",
+  "category": "Strategy consulting",
+  "ats": "icims",
+  "config": {
+   "host": "associatecareers-analysisgroup.icims.com"
+  },
+  "verified": true,
+  "sample_title": "Associate - Generalist (MBA/MA) (2027 Start Date)",
+  "description_chars": 7765,
+  "notes": "Board confirmed and reachable but verify_one returns ok:false, n=0 only because no title passes the MBA title filter: the adapter with an accept-all filter returns 9 postings with full descriptions (Associate - Generalist (MBA/MA), Associate - Generalist (PhD), Summer Associate Intern - Generalist (MBA/MA), Associate - Health Care ...). sample_title/description_chars are from that unfiltered run. Analysis Group runs one iCIMS portal per track: associatecareers- (MBA/PhD associates, the relevant one), analystcareers- (undergrad analysts), professionalcareers- (corporate staff, 13 jobs), datasciencecareers- (empty today). The auto pass only saw the last two. To capture these, 'associate' titles at consulting firms would need to pass title_ok.",
+  "additional_configs": [
+   {
+    "ats": "icims",
+    "config": {
+     "host": "analystcareers-analysisgroup.icims.com"
+    }
+   },
+   {
+    "ats": "icims",
+    "config": {
+     "host": "professionalcareers-analysisgroup.icims.com"
+    }
+   }
+  ]
+ },
+ {
+  "company": "Charles River Associates",
+  "category": "Strategy consulting",
+  "ats": "greenhouse",
+  "config": {
+   "board": "charlesriverassociates"
+  },
+  "verified": true,
+  "sample_title": "Intern/Strategy Consulting (Life Sciences practice) - Summer 2027",
+  "description_chars": 7521,
+  "notes": "verify_one ok (n=3). Board token taken from the embed links on crai.com/cra-careers/jobs/ (boards.greenhouse.io/embed/job_app?for=charlesriverassociates); the auto pass mis-read 'embed' as the token."
+ },
+ {
+  "company": "ClearView Healthcare Partners",
+  "category": "Strategy consulting",
+  "ats": "greenhouse",
+  "config": {
+   "board": "clearviewhealthcarepartners"
+  },
+  "verified": true,
+  "sample_title": "Consulting Project Team Lead - Corporate Strategy",
+  "description_chars": 4866,
+  "notes": "verify_one ok (n=5). clearviewhcp.com/careers links to grnh.se/f89fe4c48us, which redirects to job-boards.greenhouse.io/clearviewhealthcarepartners."
+ },
+ {
+  "company": "AlixPartners",
+  "category": "Consulting and advisory",
+  "ats": "greenhouse",
+  "config": {
+   "board": "alixpartners"
+  },
+  "verified": true,
+  "sample_title": "CCSI Cloud Strategy Director",
+  "description_chars": 8025,
+  "notes": "verify_one ok (n=4; board has 116 postings, global). alixpartners.com/careers/job-search is an Astro/Vue page that renders Greenhouse jobs client-side (job URLs alixpartners.com/careers/<id>?gh_jid=<id>); token found by probing boards-api.greenhouse.io/v1/boards/alixpartners. The alixpartners Workday tenant has no public site."
+ },
+ {
+  "company": "Alvarez & Marsal",
+  "category": "Consulting and advisory",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.alvarezandmarsal.com/search/jobs"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "alvarezandmarsal.com/careers redirects to careers.alvarezandmarsal.com, a Talemetry (Jobvite) career site (search at /search/jobs with cfm6[]=<practice> filters, apply via apply.talemetry.com). The whole host is behind a Cloudflare bot challenge: every curl request (/, /search/jobs, /search/jobs.json, /sitemap.xml) returns 403 'Just a moment...', so it cannot be scraped without a browser; not attempted further. The old Workday tenant (alvarezandmarsal.wd1.myworkdayjobs.com/alvarezandmarsal) still answers but has 0 postings. No Greenhouse/SmartRecruiters board."
+ },
+ {
+  "company": "FTI Consulting",
+  "category": "Consulting and advisory",
+  "ats": "workday",
+  "config": {
+   "host": "fticonsulting.wd108.myworkdayjobs.com",
+   "tenant": "fticonsulting",
+   "site": "FTIConsultingCareers",
+   "facets": {
+    "locationCountry": [
+     "bc33aa3152ec42d4995f4791a106ed09"
+    ]
+   }
+  },
+  "verified": true,
+  "sample_title": "Analyst, Strategy and Transformation",
+  "description_chars": 6399,
+  "notes": "verify_one ok (n=8 with the US facet; n=18 without it, sample then Madrid). Link only appears after JS on fticonsulting.com/careers (read from the rendered page): fticonsulting.wd108.myworkdayjobs.com/FTIConsultingCareers. 247 postings globally, 88 in the US; facets.locationCountry = United States of America restricts to US - drop the facets key for the global board."
+ },
+ {
+  "company": "Capgemini",
+  "category": "Consulting and advisory",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.capgemini.com"
+  },
+  "verified": true,
+  "sample_title": "Capgemini Invent - Organizational Purpose & Strategy Consultant",
+  "description_chars": 9193,
+  "notes": "verify_one ok (n=9, US postings e.g. Atlanta). The auto pass's paradox guess on www.capgemini.com was wrong: the US job search page (capgemini.com/us-en/careers/join-capgemini/job-search/) is a WP plugin over a Capgemini API whose US records have source SAP_BTP and apply_job_url on careers.capgemini.com (SuccessFactors career site, jobTitle-link markup). Alternative richer source (no adapter): GET https://cg-jobstream-api.azurewebsites.net/api/job-search?page=1&size=50&search=<kw>&country_code=us-en -> {total, count, data:[{id, ref, title, brand, sbu, location, experience_level, contract_type, professional_communities, description (HTML), description_stripped, apply_job_url, updated_at}]} (686 hits for 'strategy' in us-en, includes Capgemini Invent and frog)."
+ },
+ {
+  "company": "Cognizant",
+  "category": "Consulting and advisory",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.cognizant.com/us-en/jobs/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Custom server-rendered careers site (not Phenom despite the us-en path; scripts under /phb/): search https://careers.cognizant.com/us-en/jobs/?keyword=<kw>&page=<n>, job pages https://careers.cognizant.com/us-en/jobs/<11-digit id>/<slug>/ (no JSON-LD on the listing). The host returns 403 to curl/requests (bot protection; the phenom adapter also gets nothing), it only loads in a real browser, so recorded as blocked and not pursued."
+ },
+ {
+  "company": "Gartner",
+  "category": "Consulting and advisory",
+  "ats": "workday",
+  "config": {
+   "host": "gartner.wd5.myworkdayjobs.com",
+   "tenant": "gartner",
+   "site": "EXT",
+   "facets": {
+    "locationCountry": [
+     "bc33aa3152ec42d4995f4791a106ed09"
+    ]
+   }
+  },
+  "verified": true,
+  "sample_title": "Director,  IT Strategy Consulting, Sourcing",
+  "description_chars": 10068,
+  "notes": "verify_one ok (n=21 with the US facet, n=26 without). jobs.gartner.com is Cloudflare-challenged for curl; its jobs live on gartner.wd5.myworkdayjobs.com/EXT (778 postings, 409 US). facets.locationCountry = United States of America; drop for global."
+ },
+ {
+  "company": "IBM",
+  "category": "Consulting and advisory",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.ibm.com/careers/search",
+   "api": "https://www-api.ibm.com/search/api/v2"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Custom search over IBM's own index; apply/detail pages are Avature (careers.ibm.com). Listing API works from curl, no auth: POST https://www-api.ibm.com/search/api/v2 with JSON {\"appId\":\"careers\",\"scopes\":[\"careers2\"],\"query\":{\"bool\":{\"must\":[{\"simple_query_string\":{\"query\":\"strategy\",\"fields\":[\"title^2\",\"description\"]}}]}},\"size\":30,\"from\":0,\"lang\":\"zz\",\"sm\":{\"query\":\"strategy\",\"lang\":\"zz\"},\"_source\":[\"_id\",\"title\",\"url\",\"description\",\"language\",\"field_keyword_08\",\"field_keyword_17\",\"field_keyword_18\",\"field_keyword_19\"]} -> Elasticsearch-style {hits:{total:{value:97}, hits:[{_id, _source:{title, url:'https://careers.ibm.com/careers/JobDetail?jobId=<id>', description (truncated teaser ending '...'), field_keyword_08 (business area e.g. Consulting), field_keyword_17 (Hybrid/Remote), field_keyword_18 (level), field_keyword_19 (location e.g. 'New York, US')}}]}}. Full descriptions are the problem: the JobDetail page on careers.ibm.com answered curl with HTTP 202 and an empty body (bot challenge), so only title/location/teaser are obtainable without a browser."
+ },
+ {
+  "company": "Kroll",
+  "category": "Consulting and advisory",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.kroll.com/en/listing-page?keyword=&location="
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "careers.kroll.com is a custom Next.js/Sitecore site (legacy TalentBrew assets only; the radancy adapter's /search-jobs/results path is 404 and paradox finds no links because results are rendered client-side from Sitecore Discover: POST https://discover.sitecorecloud.io/discover/v2/176843135, payload not captured). www.kroll.com is not a job board. What works without a browser: job pages https://careers.kroll.com/en/job/<city>/<slug>/<id> return 200 HTML with a JSON-LD JobPosting; the listing page HTML and its /_next/data/<buildId>/en/listing-page.json contain no job links. A small adapter would need the Discover search request (capture it from the page's network calls) plus the existing JSON-LD detail parsing."
+ },
+ {
+  "company": "Slalom",
+  "category": "Consulting and advisory",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.slalom.com/en_US/careersmarketplace/SearchJobs"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Avature portal (careers.slalom.com redirects to jobs.slalom.com/en_US/careersmarketplace); the auto pass's paradox guess is wrong and slalom.wd1 Workday site 'Slalom' returns nothing. The HTML search page renders results with JS (no job links in the HTML), but the RSS feed works from curl: https://jobs.slalom.com/en_US/careersmarketplace/SearchJobs/<keyword>/feed/ (keyword optional) -> 20 <item>s with <title>, <link> https://jobs.slalom.com/careersmarketplace/JobDetail/<Title-Slug>/<id>, <pubDate>; jobRecordsPerPage/jobOffset did not change the 20-item page, so iterate keywords. Detail page is 200 HTML with JSON-LD JobPosting (title, empty description) and the text in div.article__content. Would be covered by the same Avature adapter as Bain/Deloitte."
+ },
+ {
+  "company": "West Monroe",
+  "category": "Consulting and advisory",
+  "ats": "greenhouse",
+  "config": {
+   "board": "westmonroe4"
+  },
+  "verified": true,
+  "sample_title": "Director, Energy & Utilities, Operational Technology Strategy & Transformation",
+  "description_chars": 10429,
+  "notes": "verify_one ok (n=23). Token from the embed on westmonroe.com/careers/job-search (job-boards.greenhouse.io/embed/job_board?for=westmonroe4); the auto pass mis-read 'embed' as the token."
+ },
+ {
+  "company": "KPMG",
+  "category": "Big Four and accounting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.kpmguscareers.com/job-search/"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "KPMG US uses its own WordPress site kpmguscareers.com (jobs fed from a Google-CTS-backed PHP endpoint; Paradox is only the chat widget), no adapter matches (job links are /jobdetail/?jobId=, not /job/). Everything works from curl with a browser UA. (1) Server-rendered search: GET https://www.kpmguscareers.com/job-search/?keyword=<kw>&spage=<n> -> 12 results per page as <a href=\"/jobdetail/?jobId=<id>\" data-id=...> with title in div.h4/.h5 and 'Practice | locations' text; filters: career-level, practice-areas, location-filter, season, clearance, order. (2) JSON: GET https://www.kpmguscareers.com/wp-content/themes/understrap-child-main/page-templates/google/get-jobs.php?ajax=1&page_type=&keyword=<kw>&spage=<n> -> {\"postings\":{\"jobs\":\"<html of the same result cards>\",\"size\":N},\"pagination\":\"<ul ...>\",\"showing\":\"<span data-action=count>169</span> Results\"} (169 results for 'strategy'). (3) Detail: GET https://www.kpmguscareers.com/jobdetail/?jobId=<id> -> HTML with <h1> title and one JSON-LD JobPosting {title, datePosted, validThrough, hiringOrganization, jobLocation, description (~7k chars HTML)}; the JSON-LD contains raw newlines, parse with json.loads(strict=False) or newline replacement (pipeline/adapters/jsonld.job_posting already retries that way). Early-career roles are on the same site (/early-career/)."
+ },
+ {
+  "company": "Deloitte",
+  "category": "Big Four and accounting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://apply.deloitte.com/en_US/careers/SearchJobs"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "Deloitte US = Avature portal apply.deloitte.com (confirmed: page h1 'Deloitte US', US requisitions). The Irish Workday tenant deloitteie found by the auto pass is a different member firm. Works from curl with a browser UA, no cookies. (1) Search (HTML, GET): https://apply.deloitte.com/en_US/careers/SearchJobs/<keyword>?jobRecordsPerPage=10&jobOffset=<n> (keyword path segment optional; trailing-slash form 302s to this) -> result links href=\"https://apply.deloitte.com/en_US/careers/JobDetail/<Public-Title-Slug>/<id>\"; pagination via jobOffset steps of 10. (2) RSS: https://apply.deloitte.com/en_US/careers/SearchJobs/feed/?jobRecordsPerPage=10 -> <item><title> (internal requisition name such as 'US E - Tax Manager - ...', not the public title), <link>/<guid> JobDetail URL, <pubDate>, empty <description>; the feed returned the same 20 items regardless of keyword/offset, so use the HTML search for paging. (3) Detail: the JobDetail URL returns HTML with two JSON-LD JobPosting blocks: one with the internal title and a ~9k-char description, one with the public title ('Head of Products, ConvergeSPORTS...') and a ~7.5k-char description; jobLocation address fields are empty, location is in the HTML (div.article__content). Other Deloitte candidates from the auto pass (lever 'deloitte', smartrecruiters 'Deloitte6') are not the US firm."
+ },
+ {
+  "company": "CohnReznick",
+  "category": "Big Four and accounting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.cohnreznick.com/careers/experienced-professional-opportunities#apply",
+   "feed": "https://cohnreznick.tal.net/vx/mobile-0/appcentre-1/brand-4/candidate/jobboard/vacancy/3/feed/structured"
+  },
+  "verified": false,
+  "sample_title": "",
+  "description_chars": 0,
+  "notes": "tal.net (Oleeo), no adapter; cohnreznick.com renders the list client-side from a tal.net feed named in the page data (SourceURL). That feed is public and complete: GET https://cohnreznick.tal.net/vx/mobile-0/appcentre-1/brand-4/candidate/jobboard/vacancy/3/feed/structured -> Atom XML (3 MB, 262 entries, one request) with per entry <title>, <link rel=alternate href=.../opp/<id>-<slug>/en-GB?instant=apply>, <published>, <updated> and <content type=xhtml> holding itemprop spans: ID, Title, State, Location, Position type, Department, Deadline, Function, Description (full HTML, ~10k chars). A tal.net adapter would be ~30 lines (also usable for L.E.K., whose feed lacks descriptions). First entry today: 'Strategic Transformation Programs - Senior Manager', New York."
+ },
+ {
+  "company": "PwC",
+  "category": "Big Four and accounting",
+  "ats": "workday",
+  "config": {
+   "host": "pwc.wd3.myworkdayjobs.com",
+   "tenant": "pwc",
+   "site": "US_Experienced_Careers"
+  },
+  "verified": true,
+  "sample_title": "Pricing, Promotions, and Revenue Management Consulting Director",
+  "description_chars": 5278,
+  "notes": "verify_one ok (n=10; 563 postings). The pwc tenant has US-specific sites alongside the already-verified Global_Experienced_Careers: US_Experienced_Careers (563 US experienced roles) and US_Entry_Level_Careers (69 US campus/intern roles; verify_one ok, n=7, sample 'Management Consulting - Sales, Service and Marketing Senior Associate Intern - Summer 2027', 4733 chars). Global_Campus_Careers also verifies (n=10) but is worldwide (sample was Singapore) and has no country facet. Recommend the two US_ sites for US roles; they overlap with the Global_ sites, so dedupe by requisition id if both are kept.",
+  "additional_configs": [
+   {
+    "ats": "workday",
+    "config": {
+     "host": "pwc.wd3.myworkdayjobs.com",
+     "tenant": "pwc",
+     "site": "US_Entry_Level_Careers"
+    },
+    "verified": true,
+    "sample_title": "Management Consulting - Sales, Service and Marketing Senior Associate Intern - Summer 2027",
+    "description_chars": 4733
+   },
+   {
+    "ats": "workday",
+    "config": {
+     "host": "pwc.wd3.myworkdayjobs.com",
+     "tenant": "pwc",
+     "site": "Global_Campus_Careers"
+    },
+    "verified": true,
+    "sample_title": "Risk Services - Program Management (AI Hub) Off-Cycle Internship (Jan - Jun 27)",
+    "description_chars": 4614
+   }
+  ]
+ },
+ {
+  "company": "Oliver Wyman",
+  "category": "Strategy consulting",
+  "ats": "workday",
+  "config": {
+   "host": "mmc.wd1.myworkdayjobs.com",
+   "tenant": "mmc",
+   "site": "MMC",
+   "facets": {
+    "Location_Country": [
+     "bc33aa3152ec42d4995f4791a106ed09"
+    ]
+   },
+   "queries": [
+    "Oliver Wyman"
+   ],
+   "keep_queries": true
+  },
+  "verified": true,
+  "sample_title": "Oliver Wyman - Senior FP&A Analyst",
+  "description_chars": 4754,
+  "notes": "verify_one ok (n=1). There is no Oliver Wyman-only Workday site (OliverWyman, Oliver_Wyman, OW all 404) and the MMC site has no company/business facet (facets: jobFamilyGroup, jobFamily, Location_Country, Location_Region_State_Province, timeType, workerSubType, locations). The workable restriction is the search text: searchText 'Oliver Wyman' + Location_Country = United States of America gives 93 postings, of which ~80 have 'Oliver Wyman' (or Lippincott) in the title and the rest are Oliver Wyman Actuarial / Veritas units. IMPORTANT: the config relies on \"queries\":[\"Oliver Wyman\"] replacing the default role queries - if the scraper overrides queries with the MBA list, the result reverts to the whole Marsh McLennan board. For a hard guarantee, post-filter on title containing 'Oliver Wyman' or 'Lippincott'. n is low under the MBA title filter because OW titles are mostly 'Oliver Wyman - Consultant/Associate/Principal - <practice>', which title_ok does not match. The Phenom site careers.marsh.com/global/en/oliver-wyman-search is the same data; the phenom adapter cannot pass a business filter."
+ }
+]

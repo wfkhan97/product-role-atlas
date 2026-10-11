@@ -1,0 +1,31 @@
+{
+ "company": "Church & Dwight",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "churchdwight.wd1.myworkdayjobs.com",
+  "tenant": "churchdwight",
+  "site": "chdcareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "churchdwight.wd1.myworkdayjobs.com",
+    "tenant": "churchdwight",
+    "site": "chdcareers"
+   },
+   "from": "https://www.churchdwight.com/careers/",
+   "verify": "Brand Manager, Innovation GTM & Retailer Strategy-Hero"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "churchdwight.com",
+ "sample_title": "Brand Manager, Innovation GTM & Retailer Strategy-Hero",
+ "description_chars": 5494,
+ "seconds": 66
+}

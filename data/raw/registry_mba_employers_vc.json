@@ -1,0 +1,332 @@
+[
+  {
+    "company": "Andreessen Horowitz",
+    "category": "Venture capital",
+    "ats": "greenhouse",
+    "config": {
+      "board": "a16z"
+    },
+    "verified": true,
+    "sample_title": "Partner 20, Program Manager, Global Partnerships",
+    "description_chars": 6802,
+    "notes": "Firm's own board (name 'a16z', embedded at a16z.com/about/jobs/); 18 jobs; verify_one ok:true n=1. jobs.a16z.com is the portfolio board."
+  },
+  {
+    "company": "Sequoia Capital",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No firm board found. sequoiacap.com links only to jobs.sequoiacap.com (Consider portfolio board). Ashby slug 'sequoia' is a different company (Sequoia, benefits/people-spend consultancy, Tempe/Mexico City) - do not use."
+  },
+  {
+    "company": "General Catalyst",
+    "category": "Venture capital",
+    "ats": "greenhouse",
+    "config": {
+      "board": "generalcatalyst"
+    },
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "Firm's own board (name 'General Catalyst', linked from generalcatalyst.com as job-boards.greenhouse.io/generalcatalyst) but lists 0 jobs at verification."
+  },
+  {
+    "company": "Lightspeed Venture Partners",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No firm board found. lsvp.com links only to jobs.lsvp.com (Consider portfolio board). Ashby slug 'lightspeed' is LightSpeed Build Technologies (construction robotics) - do not use."
+  },
+  {
+    "company": "Accel",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No firm board found. accel.com/careers redirects to jobs.accel.com (Getro portfolio board)."
+  },
+  {
+    "company": "Bessemer Venture Partners",
+    "category": "Venture capital",
+    "ats": "greenhouse",
+    "config": {
+      "board": "bessemerventurepartners"
+    },
+    "verified": true,
+    "sample_title": "Associate, AI & Data Infrastructure",
+    "description_chars": 9585,
+    "notes": "Firm's own board (name 'Bessemer Venture Partners'); 4 investing Associate/Senior Associate roles. No matching title at verification (verify_one ok:false: mba title filter does not accept these 'Associate, ...' titles). jobs.bvp.com is the portfolio board."
+  },
+  {
+    "company": "Kleiner Perkins",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No careers page (kleinerperkins.com/careers 404; no board linked)."
+  },
+  {
+    "company": "Khosla Ventures",
+    "category": "Venture capital",
+    "ats": "ashby",
+    "config": {
+      "board": "khoslaventures"
+    },
+    "verified": true,
+    "sample_title": "KV | Staff Software Engineer",
+    "description_chars": 2617,
+    "notes": "Firm's own board (department 'Khosla Ventures'); 1 job. No matching title at verification. jobs.khoslaventures.com is the Getro portfolio board."
+  },
+  {
+    "company": "Founders Fund",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No careers page (foundersfund.com/careers 404; no board linked)."
+  },
+  {
+    "company": "Index Ventures",
+    "category": "Venture capital",
+    "ats": "lever",
+    "config": {
+      "board": "indexventures"
+    },
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "Lever board 'indexventures' exists but lists 0 jobs, so ownership could not be confirmed from postings. indexventures.com links only to /startup-jobs/ (portfolio)."
+  },
+  {
+    "company": "NEA",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No firm board found. nea.com links only to careers.nea.com (Consider portfolio board)."
+  },
+  {
+    "company": "Greylock",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No firm board found. greylock.com/jobs is a talent-network form plus jobs.greylock.com portfolio board."
+  },
+  {
+    "company": "Battery Ventures",
+    "category": "Venture capital",
+    "ats": "greenhouse",
+    "config": {
+      "board": "batteryventures"
+    },
+    "verified": true,
+    "sample_title": "2027 Summer Investment Internship",
+    "description_chars": 1823,
+    "notes": "Firm's own board (name 'Battery'); 2 jobs (investment internship, communications co-op). No matching title at verification. jobs.battery.com is the Consider portfolio board."
+  },
+  {
+    "company": "Thrive Capital",
+    "category": "Venture capital",
+    "ats": "ashby",
+    "config": {
+      "board": "thrivecapital"
+    },
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "Ashby board 'thrivecapital' exists but lists 0 jobs; ownership not confirmable from postings. thrivecap.com has no careers page. Greenhouse slug 'thrive' is an unrelated company (THRIVE) - do not use."
+  },
+  {
+    "company": "Tiger Global",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No careers page (tigerglobal.com has none)."
+  },
+  {
+    "company": "Coatue",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No firm board found. coatue.com links only to jobs.coatue.com (Getro portfolio board)."
+  },
+  {
+    "company": "GV",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No careers page on gv.com; GV roles are posted through Google/Alphabet careers (no adapter)."
+  },
+  {
+    "company": "Y Combinator",
+    "category": "Venture capital",
+    "ats": "ashby",
+    "config": {
+      "board": "ycombinator"
+    },
+    "verified": true,
+    "sample_title": "Investment Associate & Product Engineer",
+    "description_chars": 4994,
+    "notes": "Firm's own board (YC staff roles: product engineers, events, EA); 9 jobs. No matching title at verification. ycombinator.com/jobs (Work at a Startup) is the portfolio board."
+  },
+  {
+    "company": "IVP",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No firm board found. ivp.com/careers/ is a JS page with no ATS link; careers.ivp.com is the Consider portfolio board."
+  },
+  {
+    "company": "Redpoint",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No firm board found. redpoint.com links only to careers.redpoint.com (Getro portfolio board)."
+  },
+  {
+    "company": "Menlo Ventures",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No firm board found. menlovc.com links only to jobs.menlovc.com (Getro portfolio board)."
+  },
+  {
+    "company": "Norwest",
+    "category": "Venture capital",
+    "ats": "greenhouse",
+    "config": {
+      "board": "norwestcareers"
+    },
+    "verified": true,
+    "sample_title": "2026 Venture Associate/Sr. Associate (Healthcare)",
+    "description_chars": 485,
+    "notes": "Firm's own board, linked from norwest.com/join-norwest/; 5 jobs; verify_one ok:true n=1. Descriptions are short (485-1039 chars). Second firm board for internships: greenhouse 'norwestinternships' (2 jobs, no matching title). careers.norwest.com / careers.nvp.com is the Consider portfolio board."
+  },
+  {
+    "company": "8VC",
+    "category": "Venture capital",
+    "ats": "ashby",
+    "config": {
+      "board": "8vc"
+    },
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "Ashby board '8vc' is run by 8VC but its 5 current postings are all for incubated/portfolio companies (MeritFirst, Thorin, 'IT Administrator with 8VC portfolio company'); no 8VC team roles and no matching title at verification. jobs.8vc.com is the Getro portfolio board."
+  },
+  {
+    "company": "Lux Capital",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No careers page (luxcapital.com/careers 404; no board linked)."
+  },
+  {
+    "company": "Felicis",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No firm board found. felicis.com links only to jobs.felicis.com (Consider portfolio board)."
+  },
+  {
+    "company": "TCV",
+    "category": "Venture capital",
+    "ats": "unsupported",
+    "config": {},
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "No careers page (tcv.com/careers 404; no board linked)."
+  },
+  {
+    "company": "ICONIQ",
+    "category": "Venture capital",
+    "ats": "greenhouse",
+    "config": {
+      "board": "iconiq"
+    },
+    "verified": true,
+    "sample_title": "Analyst, Financial Planning & Analysis",
+    "description_chars": 7261,
+    "notes": "Firm's own board (name 'ICONIQ', rendered at iconiq.com/careers/open-roles); 16 jobs; verify_one ok:true n=1. Covers all of ICONIQ (family office/advisory as well as the investing side)."
+  },
+  {
+    "company": "Bain Capital Ventures",
+    "category": "Venture capital",
+    "ats": "workday",
+    "config": {
+      "host": "baincapital.wd1.myworkdayjobs.com",
+      "tenant": "baincapital",
+      "site": "External_Public"
+    },
+    "verified": false,
+    "sample_title": "Coinvest Finance Manager - Private Markets",
+    "description_chars": 7894,
+    "notes": "This is the parent Bain Capital firm-wide Workday board (linked from baincapital.com/careers), not a BCV board: verify_one ok:true n=6 but the matches are Bain Capital PE/credit/real-estate finance roles and there is no business-unit facet to isolate BCV. Left unverified so those roles are not attributed to BCV; use only if relabelled 'Bain Capital'. baincapitalventures.com links only to jobs.baincapitalventures.com (Consider portfolio board)."
+  },
+  {
+    "company": "Techstars",
+    "category": "Venture capital",
+    "ats": "greenhouse",
+    "config": {
+      "board": "techstars57"
+    },
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "Firm's own board (linked from techstars.com/careers as boards.greenhouse.io/techstars57) but lists 0 jobs at verification. jobs.techstars.com is the Getro portfolio board."
+  },
+  {
+    "company": "Insight Partners",
+    "category": "Venture capital",
+    "ats": "smartrecruiters",
+    "config": {
+      "company": "InsightPartners"
+    },
+    "verified": false,
+    "sample_title": "",
+    "description_chars": 0,
+    "notes": "insightpartners.com/join-insight/ links to SmartRecruiters company 'InsightPartners' (talent-pool posting only); API returns 0 public postings at verification. Ashby board 'insightpartners' also exists with 0 jobs. jobs.insightpartners.com is the Getro portfolio board."
+  }
+]

@@ -1,0 +1,31 @@
+{
+ "company": "Rothschild & Co",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "rothschildandco.wd3.myworkdayjobs.com",
+  "tenant": "rothschildandco",
+  "site": "RothschildAndCo_Lateral"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "rothschildandco.wd3.myworkdayjobs.com",
+    "tenant": "rothschildandco",
+    "site": "RothschildAndCo_Lateral"
+   },
+   "from": "https://www.rothschildandco.com/en-us/careers/colleague-stories/",
+   "verify": "Fixed Income Portfolio Manager"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "rothschildandco.com",
+ "sample_title": "Fixed Income Portfolio Manager",
+ "description_chars": 4144,
+ "seconds": 30
+}

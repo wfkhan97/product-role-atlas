@@ -1,0 +1,31 @@
+{
+ "company": "Realty Income",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "realtyincome.wd108.myworkdayjobs.com",
+  "tenant": "realtyincome",
+  "site": "realty_income_careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "realtyincome.wd108.myworkdayjobs.com",
+    "tenant": "realtyincome",
+    "site": "realty_income_careers"
+   },
+   "from": "https://www.realtyincome.com/careers",
+   "verify": "Director/AVP, HR Business Partner"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "realtyincome.com",
+ "sample_title": "Director/AVP, HR Business Partner",
+ "description_chars": 9447,
+ "seconds": 8
+}

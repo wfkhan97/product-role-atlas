@@ -5,18 +5,19 @@ from .common import get, strip_html, job
 def fetch(company, cfg, title_ok):
     c = cfg["company"]
     seen = {}
-    offset = 0
-    while True:
-        r = get(f"https://api.smartrecruiters.com/v1/companies/{c}/postings?q=product&limit=100&offset={offset}")
-        if r.status_code != 200:
-            break
-        data = r.json()
-        for p in data.get("content", []):
-            if title_ok(p.get("name", "")):
-                seen[p["id"]] = p
-        offset += 100
-        if offset >= data.get("totalFound", 0):
-            break
+    for q in cfg.get("queries", ["product"]):
+        offset = 0
+        while True:
+            r = get(f"https://api.smartrecruiters.com/v1/companies/{c}/postings", params={"q": q, "limit": 100, "offset": offset})
+            if r.status_code != 200:
+                break
+            data = r.json()
+            for p in data.get("content", []):
+                if title_ok(p.get("name", "")):
+                    seen[p["id"]] = p
+            offset += 100
+            if offset >= data.get("totalFound", 0):
+                break
     out = []
     for pid, p in seen.items():
         r = get(f"https://api.smartrecruiters.com/v1/companies/{c}/postings/{pid}")

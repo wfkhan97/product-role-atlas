@@ -1,0 +1,44 @@
+{
+ "company": "Howard Hughes",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "phenom",
+ "config": {
+  "host": "careers.howardhughes.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.howardhughes.com"
+   },
+   "from": "https://careers.howardhughes.com/us/en",
+   "verify": "Vice President, Marketing - Arizona Region"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/prod/HOHUUS/en_us/desktop/assets/images/favicon.ico?v=1757361828455"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "osv-howardhughes.wd5.myworkdayjobs.com",
+    "tenant": "osv-howardhughes",
+    "site": "HowardHughes"
+   },
+   "from": "https://careers.howardhughes.com/us/en/texas-search-results",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "howardhughes.com",
+ "sample_title": "Vice President, Marketing - Arizona Region",
+ "description_chars": 6653,
+ "seconds": 11
+}

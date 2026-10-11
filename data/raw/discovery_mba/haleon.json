@@ -1,0 +1,40 @@
+{
+ "company": "Haleon",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "eightfold",
+ "config": {
+  "host": "careers.haleon.com",
+  "domain": "haleon.com",
+  "api": "pcsx"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "careers.haleon.com",
+    "domain": "haleon.com",
+    "api": "pcsx"
+   },
+   "from": "probe",
+   "verify": "Wellness Strategy Lead"
+  },
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "app.eightfold.ai",
+    "domain": "app.com",
+    "api": "pcsx"
+   },
+   "from": "https://careers.haleon.com/careers"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "haleon.com",
+ "sample_title": "Wellness Strategy Lead",
+ "description_chars": 8836,
+ "seconds": 28
+}

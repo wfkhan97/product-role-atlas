@@ -1,0 +1,38 @@
+{
+ "company": "Truist Securities",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: Truist board, already in the registry",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.truist.com"
+   },
+   "from": "https://careers.truist.com/us/en",
+   "verify": "Wealth Omni Digital Strategy Manager II"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/TBJTBFUS/en_us/desktop/assets/images/favicon.ico"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "truist.com",
+ "sample_title": "Wealth Omni Digital Strategy Manager II",
+ "description_chars": 7755,
+ "seconds": 110,
+ "rejected": {
+  "ats": "phenom",
+  "config": {
+   "host": "careers.truist.com"
+  }
+ }
+}

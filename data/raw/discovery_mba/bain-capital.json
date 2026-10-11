@@ -1,0 +1,31 @@
+{
+ "company": "Bain Capital",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "baincapital.wd1.myworkdayjobs.com",
+  "tenant": "baincapital",
+  "site": "External_Public"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "baincapital.wd1.myworkdayjobs.com",
+    "tenant": "baincapital",
+    "site": "External_Public"
+   },
+   "from": "https://www.baincapital.com/careers",
+   "verify": "Coinvest Finance Manager - Private Markets"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "baincapital.com",
+ "sample_title": "Coinvest Finance Manager - Private Markets",
+ "description_chars": 7894,
+ "seconds": 13
+}

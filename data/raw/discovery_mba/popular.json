@@ -1,0 +1,27 @@
+{
+ "company": "Popular",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.popular.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.popular.com"
+   },
+   "from": "https://jobs.popular.com/search/?createNewAlert=false&amp;q=",
+   "verify": "Program Manager | Enterprise Architecture & Governance"
+  }
+ ],
+ "category": "Commercial and corporate banking",
+ "domain": "popular.com",
+ "sample_title": "Program Manager | Enterprise Architecture & Governance",
+ "description_chars": 5491,
+ "seconds": 13
+}

@@ -1,0 +1,27 @@
+{
+ "company": "First Round Capital",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "ashby",
+ "config": {
+  "board": "firstround"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "firstround"
+   },
+   "from": "https://www.firstround.com/",
+   "verify": "(board reachable; no matching title on first pages)"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "firstround.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 19
+}

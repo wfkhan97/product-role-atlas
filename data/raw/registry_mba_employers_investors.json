@@ -1,0 +1,415 @@
+[
+ {
+  "company": "Carlyle",
+  "category": "Private equity",
+  "ats": "workday",
+  "config": {
+   "host": "carlyle.wd1.myworkdayjobs.com",
+   "tenant": "carlyle",
+   "site": "Carlyle"
+  },
+  "verified": true,
+  "sample_title": "Analyst, Product Specialist, Global Private Equity Client Solutions Group",
+  "description_chars": 4502,
+  "notes": "verify_one ok (n=4). carlyle.com returns 403 bot challenge to curl; Workday tenant found by direct probe (73 postings)."
+ },
+ {
+  "company": "Advent International",
+  "category": "Private equity",
+  "ats": "workday",
+  "config": {
+   "host": "adventinternational.wd12.myworkdayjobs.com",
+   "tenant": "adventinternational",
+   "site": "AdventCareers"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board confirmed as the firm's own and reachable, but no title currently matches the MBA role patterns (verify_one ok:false, no error). Linked from adventinternational.com/contact-us (introduceYourself link). 1 posting live: 'Analyst, Finance - Exempt'."
+ },
+ {
+  "company": "Ares Management",
+  "category": "Private equity",
+  "ats": "workday",
+  "config": {
+   "host": "aresmgmt.wd1.myworkdayjobs.com",
+   "tenant": "aresmgmt",
+   "site": "External"
+  },
+  "verified": true,
+  "sample_title": "Senior Associate, Corporate Strategy (HR M&A and Transformation)",
+  "description_chars": 9632,
+  "notes": "verify_one ok (n=4 on 2 pages; 250 postings). aresmgmt.com returns 403 bot challenge to curl; tenant found by direct probe."
+ },
+ {
+  "company": "Clayton Dubilier & Rice",
+  "category": "Private equity",
+  "ats": "unsupported",
+  "config": {},
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No public job board found. https://www.cdr.com/working-at-cdr has no job listings or ATS link (only LinkedIn); /careers is 404. No greenhouse/lever/ashby board under cdr, cdrinc, claytondubilierrice."
+ },
+ {
+  "company": "EQT",
+  "category": "Private equity",
+  "ats": "greenhouse",
+  "config": {
+   "board": "eqtpartners"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board confirmed as the firm's own and reachable, but no title currently matches the MBA role patterns (verify_one ok:false, no error). Linked from https://eqtgroup.com/about/careers (job-boards.eu.greenhouse.io/eqtpartners); the boards-api endpoint works for it, 15 postings (e.g. 'Business Line Controller - VP')."
+ },
+ {
+  "company": "General Atlantic",
+  "category": "Private equity",
+  "ats": "greenhouse",
+  "config": {
+   "board": "generalatlantic"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board confirmed as the firm's own and reachable, but no title currently matches the MBA role patterns (verify_one ok:false, no error). 12 postings, e.g. 'Associate, Life Sciences', 'Analyst, Munich' (investment roles whose titles lack 'private equity'/'investment')."
+ },
+ {
+  "company": "Golub Capital",
+  "category": "Private equity",
+  "ats": "workday",
+  "config": {
+   "host": "wd501.myworkdaysite.com",
+   "tenant": "golubcapital",
+   "site": "Golub_Capital_Careers"
+  },
+  "verified": true,
+  "sample_title": "Associate, Corporate Development",
+  "description_chars": 6880,
+  "notes": "verify_one ok (n=2). Linked from golubcapital.com/careers (wd501.myworkdaysite.com/recruiting/golubcapital/Golub_Capital_Careers); the auto pass mis-detected phenom."
+ },
+ {
+  "company": "H.I.G. Capital",
+  "category": "Private equity",
+  "ats": "unsupported",
+  "config": {},
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No public job board found. https://hig.com/people-culture/ has no listings or ATS link; /careers is 404. A greenhouse board 'higcapital' is indexed by search engines but now returns 404 (board and API)."
+ },
+ {
+  "company": "Hamilton Lane",
+  "category": "Private equity",
+  "ats": "workday",
+  "config": {
+   "host": "hamiltonlane.wd108.myworkdayjobs.com",
+   "tenant": "hamiltonlane",
+   "site": "Search"
+  },
+  "verified": true,
+  "sample_title": "AI Strategy & Operations Associate",
+  "description_chars": 5815,
+  "notes": "verify_one ok (n=2; 45 postings). Linked from hamiltonlane.com/en-us/careers; the auto pass took the locale 'en-us' as the site, the real site is 'Search'."
+ },
+ {
+  "company": "Hellman & Friedman",
+  "category": "Private equity",
+  "ats": "unsupported",
+  "config": {},
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No public job board found. hf.com has no careers page (sitemap has only a candidate privacy notice; https://hf.com/contact/). No greenhouse/lever/ashby board under hf, hellmanfriedman."
+ },
+ {
+  "company": "Leonard Green & Partners",
+  "category": "Private equity",
+  "ats": "unsupported",
+  "config": {},
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No public job board found. leonardgreen.com has no careers page (/careers 404; https://www.leonardgreen.com/contact/). No ATS link found."
+ },
+ {
+  "company": "Neuberger Berman",
+  "category": "Private equity",
+  "ats": "workday",
+  "config": {
+   "host": "nb.wd1.myworkdayjobs.com",
+   "tenant": "nb",
+   "site": "NBCareers"
+  },
+  "verified": true,
+  "sample_title": "Investment Strategist",
+  "description_chars": 4596,
+  "notes": "verify_one ok (n=4; 85 postings). Tenant found by direct probe."
+ },
+ {
+  "company": "Silver Lake",
+  "category": "Private equity",
+  "ats": "unsupported",
+  "config": {},
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No public job board found. silverlake.com has no careers page (https://www.silverlake.com/connect/). A greenhouse talent-database board 'silverlakecareerpage' is indexed by search engines but now returns 404."
+ },
+ {
+  "company": "StepStone Group",
+  "category": "Private equity",
+  "ats": "greenhouse",
+  "config": {
+   "board": "stepstone"
+  },
+  "verified": true,
+  "sample_title": "2027 Private Equity Analyst",
+  "description_chars": 4093,
+  "notes": "verify_one ok (n=13; 51 postings). Job URLs point to stepstonegroup.com/current-opportunities."
+ },
+ {
+  "company": "Thoma Bravo",
+  "category": "Private equity",
+  "ats": "unsupported",
+  "config": {},
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No public job board found. thomabravo.com has no careers page (/careers 404; https://www.thomabravo.com/contact). A lever account 'thomabravo' exists (api.lever.co returns 200) but has 0 postings and is not linked from the site; could be configured as lever {board: thomabravo} if it ever fills."
+ },
+ {
+  "company": "Warburg Pincus",
+  "category": "Private equity",
+  "ats": "greenhouse",
+  "config": {
+   "board": "warburgpincusllc"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board confirmed as the firm's own and reachable, but no title currently matches the MBA role patterns (verify_one ok:false, no error). 4 postings ('2028 US Analyst Program (Full-Time)', 'Europe Investing Opportunities', ...). Not linked in the static HTML of https://warburgpincus.com/careers/; found by slug probe, titles identify it as the firm's own."
+ },
+ {
+  "company": "Vista Equity Partners",
+  "category": "Private equity",
+  "ats": "icims",
+  "config": {
+   "host": "careers-vistaequitypartners.icims.com"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board confirmed as the firm's own and reachable, but no title currently matches the MBA role patterns (verify_one ok:false, no error). Linked from https://www.vistaequitypartners.com/careers/vista-career-opportunities/ (the firm's own roles, not the getro portfolio board). 3 postings: 'Senior Associate, Data Science & Analytics', 'Manager, Valuation', 'Senior Vice President, Data & AI Transformation'."
+ },
+ {
+  "company": "Francisco Partners",
+  "category": "Private equity",
+  "ats": "unsupported",
+  "config": {},
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No public job board found. Only the getro portfolio-company board (careers.franciscopartners.com) and a Recruiting@ mailto on https://www.franciscopartners.com/about/contact."
+ },
+ {
+  "company": "TA Associates",
+  "category": "Private equity",
+  "ats": "smartrecruiters",
+  "config": {
+   "company": "TAAssociates"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board confirmed as the firm's own and reachable, but no title currently matches the MBA role patterns (verify_one ok:false, no error). SmartRecruiters company 'TAAssociates' (TA Associates, Boston, Financial Services) has 1 posting: 'Help Desk Representative'. Found by slug probe; ta.com/careers itself links only the portfolio board careers.ta.com."
+ },
+ {
+  "company": "Insight Partners",
+  "category": "Private equity",
+  "ats": "smartrecruiters",
+  "config": {
+   "company": "InsightPartners"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "https://www.insightpartners.com/join-insight/ links only a SmartRecruiters talent-pool form (jobs.smartrecruiters.com/ni/InsightPartners/...) and the getro portfolio board jobs.insightpartners.com. The SmartRecruiters postings API returns 0 public postings for InsightPartners (it also returns 0 for nonexistent slugs, so the board is not confirmable). An ashby board 'insightpartners' also exists with 0 jobs. Effectively no public postings right now."
+ },
+ {
+  "company": "AQR",
+  "category": "Asset management",
+  "ats": "greenhouse",
+  "config": {
+   "board": "aqr"
+  },
+  "verified": true,
+  "sample_title": "Business Development Strategy Associate",
+  "description_chars": 5967,
+  "notes": "verify_one ok (n=1; 53 postings). careers.aqr.com embeds greenhouse board 'aqr' (auto pass picked up 'embed' as the slug)."
+ },
+ {
+  "company": "Balyasny",
+  "category": "Asset management",
+  "ats": "unsupported",
+  "config": {},
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Open roles are on a Salesforce Experience site, https://bambusdev.my.site.com/s/ (linked from https://www.bamfunds.com/careers); no adapter."
+ },
+ {
+  "company": "Bridgewater Associates",
+  "category": "Asset management",
+  "ats": "greenhouse",
+  "config": {
+   "board": "bridgewater89"
+  },
+  "verified": true,
+  "sample_title": "2027 Investment Associate Intern",
+  "description_chars": 11235,
+  "notes": "verify_one ok (n=2; 18 postings). Found by slug probe; titles are Bridgewater's own roles."
+ },
+ {
+  "company": "D. E. Shaw",
+  "category": "Asset management",
+  "ats": "unsupported",
+  "config": {},
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Custom in-house job site: listings are server-rendered at https://www.deshaw.com/careers (e.g. /careers/corporate-development-associate-6065); no adapter."
+ },
+ {
+  "company": "Fidelity Investments",
+  "category": "Asset management",
+  "ats": "workday",
+  "config": {
+   "host": "fmr.wd1.myworkdayjobs.com",
+   "tenant": "fmr",
+   "site": "targeted"
+  },
+  "verified": true,
+  "sample_title": "EI&O Workplace Technology Program Manager",
+  "description_chars": 4816,
+  "notes": "verify_one ok (n=3 on 2 pages). Tenant 'fmr' found by direct probe; job URLs resolve to wd1.myworkdaysite.com/recruiting/fmr/targeted."
+ },
+ {
+  "company": "Jane Street",
+  "category": "Asset management",
+  "ats": "greenhouse",
+  "config": {
+   "board": "janestreet"
+  },
+  "verified": true,
+  "sample_title": "Swag Program Manager",
+  "description_chars": 1989,
+  "notes": "verify_one ok (n=2; 231 postings). Job URLs point to janestreet.com/join-jane-street. Few MBA-pattern titles (mostly trading/engineering)."
+ },
+ {
+  "company": "Lord Abbett",
+  "category": "Asset management",
+  "ats": "icims",
+  "config": {
+   "host": "careers-lordabbett.icims.com"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board confirmed as the firm's own and reachable, but no title currently matches the MBA role patterns (verify_one ok:false, no error). Linked from https://www.lordabbett.com/en-us/financial-advisor/about-us/careers.html. About 20 postings on the first page, e.g. 'Senior Associate, Private Credit', 'Senior Associate, Fund Treasury', 'Associate Portfolio Manager, Non-Agency RMBS'."
+ },
+ {
+  "company": "Man Group",
+  "category": "Asset management",
+  "ats": "greenhouse",
+  "config": {
+   "board": "mangroup"
+  },
+  "verified": true,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Board confirmed as the firm's own and reachable, but no title currently matches the MBA role patterns (verify_one ok:false, no error). 56 postings, e.g. 'Business Manager', 'Associate, Discretionary Investment Specialists'. Found by slug probe."
+ },
+ {
+  "company": "Millennium",
+  "category": "Asset management",
+  "ats": "eightfold",
+  "config": {
+   "host": "mlp.eightfold.ai",
+   "domain": "mlp.com",
+   "api": "v2"
+  },
+  "verified": true,
+  "sample_title": "Analyst / Senior Analyst / Portfolio Manager, Fundamental Equity",
+  "description_chars": 3792,
+  "notes": "verify_one ok (n=1). Linked from mlp.com/careers. The pcsx API returns 403 on this host (why the auto pass failed); any non-'pcsx' api value selects the adapter's /api/apply/v2 path, which works."
+ },
+ {
+  "company": "Morningstar",
+  "category": "Asset management",
+  "ats": "workday",
+  "config": {
+   "host": "morningstar.wd5.myworkdayjobs.com",
+   "tenant": "morningstar",
+   "site": "Morningstar"
+  },
+  "verified": true,
+  "sample_title": "Equity Portfolio Manager",
+  "description_chars": 4165,
+  "notes": "verify_one ok (n=6; 188 postings). Site 'Morningstar' is the global board; 'Americas' is a 28-posting subset. morningstar.com/careers returned HTTP 202 (bot check) to curl; tenant found by direct probe."
+ },
+ {
+  "company": "Two Sigma",
+  "category": "Asset management",
+  "ats": "unsupported",
+  "config": {},
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Avature site at https://careers.twosigma.com/careers/OpenRoles; no adapter."
+ },
+ {
+  "company": "Vanguard",
+  "category": "Asset management",
+  "ats": "workday",
+  "config": {
+   "host": "vanguard.wd5.myworkdayjobs.com",
+   "tenant": "vanguard",
+   "site": "vanguard_external"
+  },
+  "verified": true,
+  "sample_title": "Senior Strategy Manager, Debit Card",
+  "description_chars": 4007,
+  "notes": "verify_one ok (n=8 on 2 pages; 347 postings). Tenant found by direct probe."
+ },
+ {
+  "company": "Citadel",
+  "category": "Asset management",
+  "ats": "unsupported",
+  "config": {},
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "https://www.citadel.com/careers/open-opportunities/ returns 403 (bot challenge) to curl, so the job board could not be inspected; not bypassed. No greenhouse/lever/ashby board under 'citadel'; believed to be a custom in-house site."
+ },
+ {
+  "company": "PGIM",
+  "category": "Asset management",
+  "ats": "workday",
+  "config": {
+   "host": "pru.wd5.myworkdayjobs.com",
+   "tenant": "pru",
+   "site": "Careers",
+   "facets": {
+    "CF-EEB-Job_Posting_Company_Extended": [
+     "85d85ed78e3e1036118f79c42b760001"
+    ]
+   }
+  },
+  "verified": true,
+  "sample_title": "Senior Financial Planning Analyst (FP&A) | PGIM Ireland",
+  "description_chars": 5207,
+  "notes": "verify_one ok (n=12). Prudential board restricted with the 'Company' facet value PGIM (72 of 159 postings); jobs.pgim.com points at this board."
+ }
+]

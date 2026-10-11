@@ -1,0 +1,25 @@
+{
+ "company": "Reckitt",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.reckitt.com"
+ },
+ "verified": false,
+ "notes": "candidates: successfactors 0 matching postings",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.reckitt.com"
+   },
+   "from": "https://careers.reckitt.com/search/",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "reckitt.com",
+ "seconds": 15
+}

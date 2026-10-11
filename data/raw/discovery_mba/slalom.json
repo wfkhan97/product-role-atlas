@@ -1,0 +1,25 @@
+{
+ "company": "Slalom",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "paradox",
+ "config": {
+  "host": "jobs.slalom.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 matching postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "jobs.slalom.com"
+   },
+   "from": "https://jobs.slalom.com/en_US/careersmarketplace/TalentCommunity",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "slalom.com",
+ "seconds": 19
+}

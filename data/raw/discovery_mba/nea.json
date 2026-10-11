@@ -1,0 +1,33 @@
+{
+ "company": "NEA",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "phenom",
+ "config": {
+  "host": "neacareers.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 matching postings; phenom 0 matching postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "neacareers.com"
+   },
+   "from": "https://neacareers.com/",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "newedgeassociates.com"
+   },
+   "from": "https://newedgeassociates.com/career-opportunities",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "nea.com",
+ "seconds": 16
+}

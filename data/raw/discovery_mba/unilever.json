@@ -1,0 +1,38 @@
+{
+ "company": "Unilever",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "unilever.wd3.myworkdayjobs.com",
+  "tenant": "unilever",
+  "site": "Unilever_Experienced_Professionals"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "unilever.wd3.myworkdayjobs.com",
+    "tenant": "unilever",
+    "site": "Unilever_Experienced_Professionals"
+   },
+   "from": "https://careers.unilever.com/en",
+   "verify": "Head of Sales, US Strategic Grocery"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "careers.unilever.com"
+   },
+   "from": "https://careers.unilever.com/en"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "unilever.com",
+ "sample_title": "Head of Sales, US Strategic Grocery",
+ "description_chars": 6854,
+ "seconds": 32
+}

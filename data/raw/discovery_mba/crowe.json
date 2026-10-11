@@ -1,0 +1,45 @@
+{
+ "company": "Crowe",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "crowe.wd12.myworkdayjobs.com",
+  "tenant": "crowe",
+  "site": "External_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.crowe.com"
+   },
+   "from": "https://careers.crowe.com/"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/CROCROUS/en_us/desktop/assets/images/favicon.ico"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "crowe.wd12.myworkdayjobs.com",
+    "tenant": "crowe",
+    "site": "External_Careers"
+   },
+   "from": "https://careers.crowe.com/search-results",
+   "verify": "M&A Integration Manager"
+  }
+ ],
+ "category": "Big Four and accounting",
+ "domain": "crowe.com",
+ "sample_title": "M&A Integration Manager",
+ "description_chars": 8162,
+ "seconds": 13
+}

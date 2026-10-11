@@ -1,0 +1,31 @@
+{
+ "company": "Invesco",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "invesco.wd1.myworkdayjobs.com",
+  "tenant": "invesco",
+  "site": "IVZ"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "invesco.wd1.myworkdayjobs.com",
+    "tenant": "invesco",
+    "site": "IVZ"
+   },
+   "from": "https://careers.invesco.com/",
+   "verify": "Director, Finance & Transformation"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "invesco.com",
+ "sample_title": "Director, Finance & Transformation",
+ "description_chars": 8709,
+ "seconds": 13
+}

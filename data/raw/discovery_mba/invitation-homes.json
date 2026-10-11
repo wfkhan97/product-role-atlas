@@ -1,0 +1,38 @@
+{
+ "company": "Invitation Homes",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "invitationhomes.wd503.myworkdayjobs.com",
+  "tenant": "invitationhomes",
+  "site": "INVH"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "invitationhomes.wd503.myworkdayjobs.com",
+    "tenant": "invitationhomes",
+    "site": "INVH"
+   },
+   "from": "https://careers.invitationhomes.com/",
+   "verify": "(board reachable; no matching title on first pages)"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.invitationhomes.com"
+   },
+   "from": "https://careers.invitationhomes.com/"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "invitationhomes.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 9
+}

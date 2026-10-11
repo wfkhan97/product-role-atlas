@@ -1,0 +1,27 @@
+{
+ "company": "Hasbro",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "greenhouse",
+ "config": {
+  "board": "hasbro"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "hasbro"
+   },
+   "from": "https://jobs.hasbro.com/en-us",
+   "verify": "Associate Brand Manager, Preschool & Fashion Global Brand Team"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "hasbro.com",
+ "sample_title": "Associate Brand Manager, Preschool & Fashion Global Brand Team",
+ "description_chars": 4008,
+ "seconds": 6
+}

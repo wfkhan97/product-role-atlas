@@ -1,0 +1,25 @@
+{
+ "company": "Public Storage",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "phenom",
+ "config": {
+  "host": "www.publicstoragejobs.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 matching postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.publicstoragejobs.com"
+   },
+   "from": "https://www.publicstoragejobs.com",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "publicstorage.com",
+ "seconds": 132
+}

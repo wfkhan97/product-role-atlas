@@ -1,0 +1,55 @@
+{
+ "company": "Publicis Sapient",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: whole Publicis Groupe board",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "cookie-policy-scripts.icims.com"
+   },
+   "from": "https://careers.publicisgroupe.com/jobs",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://careers.publicisgroupe.com/jobs",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "publicisgroupe.icims.com"
+   },
+   "from": "https://careers.publicisgroupe.com/jobs",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "careers.publicisgroupe.com"
+   },
+   "from": "https://careers.publicisgroupe.com/jobs",
+   "verify": "Director, Strategy & Analytics"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "publicissapient.com",
+ "sample_title": "Director, Strategy & Analytics",
+ "description_chars": 6332,
+ "seconds": 27,
+ "rejected": {
+  "ats": "jibe",
+  "config": {
+   "host": "careers.publicisgroupe.com"
+  }
+ }
+}

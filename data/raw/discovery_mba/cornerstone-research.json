@@ -1,0 +1,108 @@
+{
+ "company": "Cornerstone Research",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "cornerstone.wd501.myworkdayjobs.com",
+  "tenant": "cornerstone",
+  "site": "CornerstoneResearch_Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "cornerstone.wd501.myworkdayjobs.com",
+    "tenant": "cornerstone",
+    "site": "CornerstoneResearch_Careers"
+   },
+   "from": "https://www.cornerstone.com/careers/",
+   "verify": "(board reachable; no matching title on first pages)"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "ug-chire.icims.com"
+   },
+   "from": "https://www.cornerstone.com/careers/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "uguk-chire.icims.com"
+   },
+   "from": "https://www.cornerstone.com/careers/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "ugbe-chire.icims.com"
+   },
+   "from": "https://www.cornerstone.com/careers/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "grad-chire.icims.com"
+   },
+   "from": "https://www.cornerstone.com/careers/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "graduk-chire.icims.com"
+   },
+   "from": "https://www.cornerstone.com/careers/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "gradbe-chire.icims.com"
+   },
+   "from": "https://www.cornerstone.com/careers/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "corpadmin-chire.icims.com"
+   },
+   "from": "https://www.cornerstone.com/careers/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "corpadminuk-chire.icims.com"
+   },
+   "from": "https://www.cornerstone.com/careers/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "exp-chire.icims.com"
+   },
+   "from": "https://www.cornerstone.com/careers/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "expuk-chire.icims.com"
+   },
+   "from": "https://www.cornerstone.com/careers/"
+  },
+  {
+   "ats": "icims",
+   "config": {
+    "host": "expbe-chire.icims.com"
+   },
+   "from": "https://www.cornerstone.com/careers/"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "cornerstone.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 6
+}

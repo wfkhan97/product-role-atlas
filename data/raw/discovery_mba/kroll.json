@@ -1,0 +1,25 @@
+{
+ "company": "Kroll",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "paradox",
+ "config": {
+  "host": "www.kroll.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 matching postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.kroll.com"
+   },
+   "from": "https://www.kroll.com/en",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "kroll.com",
+ "seconds": 17
+}

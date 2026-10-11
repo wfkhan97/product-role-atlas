@@ -1,0 +1,27 @@
+{
+ "company": "TPG",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "greenhouse",
+ "config": {
+  "board": "tpgcareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "tpgcareers"
+   },
+   "from": "https://www.tpg.com/careers",
+   "verify": "(board reachable; no matching title on first pages)"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "tpg.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 4
+}

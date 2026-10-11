@@ -1,0 +1,36 @@
+{
+ "company": "Henkel",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "taleo",
+ "config": {
+  "host": "henkel.taleo.net",
+  "careersection": "iam"
+ },
+ "verified": false,
+ "notes": "candidates: taleo no adapter; taleo no adapter",
+ "candidates": [
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "henkel.taleo.net",
+    "careersection": "iam"
+   },
+   "from": "https://www.henkel.in/careers/jobs-and-application/faq",
+   "verify": "no adapter"
+  },
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "henkel.taleo.net",
+    "careersection": "external"
+   },
+   "from": "https://www.henkel.in/careers/jobs-and-application/faq",
+   "verify": "no adapter"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "henkel.com",
+ "seconds": 23
+}

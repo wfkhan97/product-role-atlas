@@ -1,0 +1,66 @@
+{
+ "company": "Francisco Partners",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (Follett Software)",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "follettsoftware"
+   },
+   "from": "https://careers.franciscopartners.com/jobs",
+   "verify": "(board reachable; no matching title on first pages)"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "sonicwall"
+   },
+   "from": "https://careers.franciscopartners.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "verifone"
+   },
+   "from": "https://careers.franciscopartners.com/jobs"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "prosper"
+   },
+   "from": "https://careers.franciscopartners.com/jobs"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "vendavo"
+   },
+   "from": "https://careers.franciscopartners.com/jobs"
+  },
+  {
+   "ats": "lever",
+   "config": {
+    "board": "keyloop"
+   },
+   "from": "https://careers.franciscopartners.com/jobs"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "franciscopartners.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 7,
+ "rejected": {
+  "ats": "greenhouse",
+  "config": {
+   "board": "follettsoftware"
+  }
+ }
+}

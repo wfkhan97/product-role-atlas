@@ -1,0 +1,35 @@
+{
+ "company": "Danone",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "jibe",
+ "config": {
+  "host": "notifications.careers.danone.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "www.icims.com"
+   },
+   "from": "https://notifications.careers.danone.com/notifications/jobs?page=1",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "jibe",
+   "config": {
+    "host": "notifications.careers.danone.com"
+   },
+   "from": "https://notifications.careers.danone.com/notifications/jobs?page=1",
+   "verify": "Company Strategy Manager (M/F)"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "danone.com",
+ "sample_title": "Company Strategy Manager (M/F)",
+ "description_chars": 3822,
+ "seconds": 14
+}

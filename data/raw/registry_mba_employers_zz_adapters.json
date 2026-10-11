@@ -1,0 +1,51 @@
+[
+ {
+  "company": "McKinsey & Company",
+  "category": "Strategy consulting",
+  "ats": "mckinsey",
+  "config": {},
+  "verified": true,
+  "notes": "Own careers API (gateway.mckinsey.com), found by the consulting lookup; global board, locations per posting."
+ },
+ {
+  "company": "Bain & Company",
+  "category": "Strategy consulting",
+  "ats": "avature",
+  "config": {
+   "host": "careers.bain.com",
+   "search": "/jobs/SearchJobs",
+   "detail": "FolderDetail",
+   "prefix": "folder",
+   "page_size": 10,
+   "max_pages": 40,
+   "queries": [
+    ""
+   ],
+   "keep_queries": true
+  },
+  "verified": true,
+  "notes": "Avature portal; about 260 postings worldwide, so the whole board is listed (empty search) and filtered by title."
+ },
+ {
+  "company": "Deloitte",
+  "category": "Big Four and accounting",
+  "ats": "avature",
+  "config": {
+   "host": "apply.deloitte.com",
+   "search": "/en_US/careers/SearchJobs",
+   "detail": "JobDetail",
+   "prefix": "job",
+   "page_size": 10
+  },
+  "verified": true,
+  "notes": "Deloitte US Avature portal (the automatic pass had found the Irish Workday tenant)."
+ },
+ {
+  "company": "KPMG",
+  "category": "Big Four and accounting",
+  "ats": "kpmg",
+  "config": {},
+  "verified": true,
+  "notes": "KPMG US careers site (kpmguscareers.com), own adapter."
+ }
+]

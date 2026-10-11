@@ -1,0 +1,31 @@
+{
+ "company": "Ventas",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "ventas.wd503.myworkdayjobs.com",
+  "tenant": "ventas",
+  "site": "ventas_careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "ventas.wd503.myworkdayjobs.com",
+    "tenant": "ventas",
+    "site": "ventas_careers"
+   },
+   "from": "https://www.ventasreit.com/careers",
+   "verify": "Manager, HR Systems"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "ventasreit.com",
+ "sample_title": "Manager, HR Systems",
+ "description_chars": 6053,
+ "seconds": 7
+}

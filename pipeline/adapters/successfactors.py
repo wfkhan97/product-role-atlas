@@ -1,6 +1,7 @@
 """SAP SuccessFactors career sites (HTML only)."""
 import re
 import time
+from urllib.parse import quote, quote_plus
 from .common import get, strip_html, job, SEARCH_QUERIES
 
 LINK_RE = re.compile(r'<a[^>]+class="jobTitle-link[^"]*"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', re.S)
@@ -13,7 +14,7 @@ def fetch(company, cfg, title_ok, max_pages=8):
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
         for page in range(max_pages):
-            r = get(f"https://{host}/search/?q={q.replace(' ', '+')}&locale=en_US&startrow={page*15}")
+            r = get(f"https://{host}/search/?q={quote_plus(q)}&locale=en_US&startrow={page*15}")
             if r.status_code != 200:
                 break
             found = 0
@@ -27,7 +28,7 @@ def fetch(company, cfg, title_ok, max_pages=8):
             time.sleep(0.4)
         if not seen:
             # some SuccessFactors layouts render results client-side; the RSS feed still works
-            r = get(f"https://{host}/services/rss/job/?locale=en_US&keywords=({q.replace(' ', '%20')})")
+            r = get(f"https://{host}/services/rss/job/?locale=en_US&keywords=({quote(q)})")
             if r.status_code == 200:
                 for m in RSS_ITEM_RE.finditer(r.text):
                     title = strip_html(m.group(1)).strip(); href = m.group(2).strip()

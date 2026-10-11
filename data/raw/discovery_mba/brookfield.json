@@ -1,0 +1,31 @@
+{
+ "company": "Brookfield",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "brookfield.wd5.myworkdayjobs.com",
+  "tenant": "brookfield",
+  "site": "brookfield"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "brookfield.wd5.myworkdayjobs.com",
+    "tenant": "brookfield",
+    "site": "brookfield"
+   },
+   "from": "https://www.brookfield.com/pt-br/careers/life-at-brookfield",
+   "verify": "Finance Manager"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "brookfield.com",
+ "sample_title": "Finance Manager",
+ "description_chars": 4520,
+ "seconds": 21
+}

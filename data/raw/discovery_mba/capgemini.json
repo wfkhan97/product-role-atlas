@@ -1,0 +1,34 @@
+{
+ "company": "Capgemini",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "paradox",
+ "config": {
+  "host": "www.capgemini.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 matching postings; taleo no adapter",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.capgemini.com"
+   },
+   "from": "https://www.capgemini.com/insights/research-institute/conversations-for-tomorrow/",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "capgemini.taleo.net",
+    "careersection": "1"
+   },
+   "from": "https://www.frog.co/careers",
+   "verify": "no adapter"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "capgemini.com",
+ "seconds": 20
+}

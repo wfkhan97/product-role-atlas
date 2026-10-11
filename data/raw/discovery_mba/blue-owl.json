@@ -1,0 +1,38 @@
+{
+ "company": "Blue Owl",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "blueowl.wd1.myworkdayjobs.com",
+  "tenant": "blueowl",
+  "site": "blueowl"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "blueowl.wd1.myworkdayjobs.com",
+    "tenant": "blueowl",
+    "site": "blueowl"
+   },
+   "from": "https://www.blueowl.com/careers",
+   "verify": "Associate, Strategy and Corporate Development (IB experience required)"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.blueowl.com"
+   },
+   "from": "https://www.blueowl.com/careers"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "blueowl.com",
+ "sample_title": "Associate, Strategy and Corporate Development (IB experience required)",
+ "description_chars": 4025,
+ "seconds": 10
+}

@@ -1,0 +1,25 @@
+{
+ "company": "Golub Capital",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "phenom",
+ "config": {
+  "host": "golubcapital.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 matching postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "golubcapital.com"
+   },
+   "from": "https://golubcapital.com/careers/",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "golubcapital.com",
+ "seconds": 21
+}

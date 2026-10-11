@@ -1,0 +1,31 @@
+{
+ "company": "Moelis & Company",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "moelis.wd1.myworkdayjobs.com",
+  "tenant": "moelis",
+  "site": "Experienced-Hires"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "moelis.wd1.myworkdayjobs.com",
+    "tenant": "moelis",
+    "site": "Experienced-Hires"
+   },
+   "from": "https://www.moelis.com/careers/",
+   "verify": "Vice President, Investment Banking \u2013 Biopharma/Life Sciences"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "moelis.com",
+ "sample_title": "Vice President, Investment Banking \u2013 Biopharma/Life Sciences",
+ "description_chars": 5268,
+ "seconds": 20
+}

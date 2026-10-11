@@ -1,0 +1,27 @@
+{
+ "company": "Summit Partners",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "greenhouse",
+ "config": {
+  "board": "summitpartnerslp"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "summitpartnerslp"
+   },
+   "from": "https://www.summitpartners.com/summit-careers",
+   "verify": "(board reachable; no matching title on first pages)"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "summitpartners.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 5
+}

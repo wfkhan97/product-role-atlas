@@ -1,0 +1,29 @@
+{
+ "company": "Schroders",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "oracle_hcm",
+ "config": {
+  "host": "ekbq.fa.em2.oraclecloud.com",
+  "siteNumber": "CX_2"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "oracle_hcm",
+   "config": {
+    "host": "ekbq.fa.em2.oraclecloud.com",
+    "siteNumber": "CX_2"
+   },
+   "from": "https://www.schroders.com/en/global/individual/",
+   "verify": "Implementation Portfolio Manager, Asian Equities"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "schroders.com",
+ "sample_title": "Implementation Portfolio Manager, Asian Equities",
+ "description_chars": 5288,
+ "seconds": 17
+}

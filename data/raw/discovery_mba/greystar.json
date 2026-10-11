@@ -1,0 +1,38 @@
+{
+ "company": "Greystar",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "greystar.wd1.myworkdayjobs.com",
+  "tenant": "greystar",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "greystar.wd1.myworkdayjobs.com",
+    "tenant": "greystar",
+    "site": "External"
+   },
+   "from": "https://jobs.greystar.com",
+   "verify": "Manager, Marketing Strategy - Owned Assets"
+  },
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "jobs.greystar.com"
+   },
+   "from": "https://jobs.greystar.com"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "greystar.com",
+ "sample_title": "Manager, Marketing Strategy - Owned Assets",
+ "description_chars": 13382,
+ "seconds": 41
+}

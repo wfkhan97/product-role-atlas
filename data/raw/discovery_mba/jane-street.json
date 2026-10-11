@@ -1,0 +1,16 @@
+{
+ "company": "Jane Street",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.janestreet.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Asset management",
+ "domain": "janestreet.com",
+ "seconds": 6
+}

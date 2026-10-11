@@ -1,0 +1,31 @@
+{
+ "company": "MFS Investment Management",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "mfs.wd1.myworkdayjobs.com",
+  "tenant": "mfs",
+  "site": "MFS-Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "mfs.wd1.myworkdayjobs.com",
+    "tenant": "mfs",
+    "site": "MFS-Careers"
+   },
+   "from": "https://www.mfs.com/en-us/investment-professional/about-mfs/careers.html",
+   "verify": "(board reachable; no matching title on first pages)"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "mfs.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 9
+}

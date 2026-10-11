@@ -1,0 +1,33 @@
+{
+ "company": "Mid-America Apartment Communities",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "phenom",
+ "config": {
+  "host": "careers.maac.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 matching postings; phenom 0 matching postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.maac.com"
+   },
+   "from": "https://careers.maac.com/us/en",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/MACMUS/en_us/desktop/assets/images/favicon.ico?v=1724253040361",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "maac.com",
+ "seconds": 16
+}

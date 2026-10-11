@@ -1,0 +1,16 @@
+{
+ "company": "Kimco Realty",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.kimcorealty.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Real estate",
+ "domain": "kimcorealty.com",
+ "seconds": 6
+}

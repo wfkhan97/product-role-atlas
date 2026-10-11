@@ -1,0 +1,27 @@
+{
+ "company": "Edgewell",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "careers.edgewell.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "careers.edgewell.com"
+   },
+   "from": "https://careers.edgewell.com/go/Finance-&amp;-Controllership-Jobs/4455900/",
+   "verify": "Sr. BI Analyst"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "edgewell.com",
+ "sample_title": "Sr. BI Analyst",
+ "description_chars": 6030,
+ "seconds": 10
+}

@@ -1,0 +1,31 @@
+{
+ "company": "PIMCO",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "pimco.wd1.myworkdayjobs.com",
+  "tenant": "pimco",
+  "site": "pimco-careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "pimco.wd1.myworkdayjobs.com",
+    "tenant": "pimco",
+    "site": "pimco-careers"
+   },
+   "from": "https://www.pimco.com/us/en/about-us/careers",
+   "verify": "Data Strategy Lead"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "pimco.com",
+ "sample_title": "Data Strategy Lead",
+ "description_chars": 6230,
+ "seconds": 63
+}

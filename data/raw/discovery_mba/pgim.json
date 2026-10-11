@@ -1,0 +1,35 @@
+{
+ "company": "PGIM",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: Prudential board",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "pru.wd5.myworkdayjobs.com",
+    "tenant": "pru",
+    "site": "Careers"
+   },
+   "from": "https://jobs.pgim.com/",
+   "verify": "Senior Financial Planning Analyst (FP&A) | PGIM Ireland"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "pgim.com",
+ "sample_title": "Senior Financial Planning Analyst (FP&A) | PGIM Ireland",
+ "description_chars": 5207,
+ "seconds": 22,
+ "rejected": {
+  "ats": "workday",
+  "config": {
+   "host": "pru.wd5.myworkdayjobs.com",
+   "tenant": "pru",
+   "site": "Careers"
+  }
+ }
+}

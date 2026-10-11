@@ -1,0 +1,73 @@
+{
+ "company": "Thrive Capital",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: portfolio company board (Isomorphic Labs)",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "isomorphiclabs"
+   },
+   "from": "https://jobs.thrivecap.com/jobs",
+   "verify": "Technical Support Operations Manager, London"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "gongio"
+   },
+   "from": "https://jobs.thrivecap.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "databricks"
+   },
+   "from": "https://jobs.thrivecap.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "dashlane"
+   },
+   "from": "https://jobs.thrivecap.com/jobs"
+  },
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "wizinc"
+   },
+   "from": "https://jobs.thrivecap.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "benchling"
+   },
+   "from": "https://jobs.thrivecap.com/jobs"
+  },
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "base-power"
+   },
+   "from": "https://jobs.thrivecap.com/jobs"
+  }
+ ],
+ "category": "Venture capital",
+ "domain": "thrivecap.com",
+ "sample_title": "Technical Support Operations Manager, London",
+ "description_chars": 6262,
+ "seconds": 6,
+ "rejected": {
+  "ats": "greenhouse",
+  "config": {
+   "board": "isomorphiclabs"
+  }
+ }
+}

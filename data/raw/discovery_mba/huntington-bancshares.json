@@ -1,0 +1,25 @@
+{
+ "company": "Huntington Bancshares",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "paradox",
+ "config": {
+  "host": "huntington-careers.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 matching postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "huntington-careers.com"
+   },
+   "from": "https://huntington-careers.com/",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Commercial and corporate banking",
+ "domain": "huntington.com",
+ "seconds": 58
+}

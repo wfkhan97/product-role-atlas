@@ -1,0 +1,31 @@
+{
+ "company": "Clarion Partners",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "franklintempleton.wd5.myworkdayjobs.com",
+  "tenant": "franklintempleton",
+  "site": "Jobs-Clarion"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "franklintempleton.wd5.myworkdayjobs.com",
+    "tenant": "franklintempleton",
+    "site": "Jobs-Clarion"
+   },
+   "from": "https://www.clarionpartners.com/careers",
+   "verify": "(board reachable; no matching title on first pages)"
+  }
+ ],
+ "category": "Real estate",
+ "domain": "clarionpartners.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 7
+}

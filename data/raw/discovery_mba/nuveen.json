@@ -1,0 +1,49 @@
+{
+ "company": "Nuveen",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: TIAA board, already in the registry",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "tiaa.wd1.myworkdayjobs.com",
+    "tenant": "tiaa",
+    "site": "Search"
+   },
+   "from": "https://careers.tiaa.org:443/nuveen",
+   "verify": "Treasury Analyst II - Registered"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.tiaa.org:443"
+   },
+   "from": "https://careers.tiaa.org:443/nuveen"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.tiaa.org:443"
+   },
+   "from": "https://careers.tiaa.org:443/nuveen"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "nuveen.com",
+ "sample_title": "Treasury Analyst II - Registered",
+ "description_chars": 8220,
+ "seconds": 21,
+ "rejected": {
+  "ats": "workday",
+  "config": {
+   "host": "tiaa.wd1.myworkdayjobs.com",
+   "tenant": "tiaa",
+   "site": "Search"
+  }
+ }
+}

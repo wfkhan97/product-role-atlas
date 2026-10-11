@@ -1,0 +1,37 @@
+{
+ "company": "Boston Consulting Group",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "phenom",
+ "config": {
+  "host": "careers.bcg.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "eightfold",
+   "config": {
+    "host": "bcg.eightfold.ai",
+    "domain": "bcg.com",
+    "api": "pcsx"
+   },
+   "from": "https://careers.bcg.com/global/en/",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.bcg.com"
+   },
+   "from": "https://careers.bcg.com/global/en/",
+   "verify": "NAMR Major Contract Execution & Strategy Director"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "bcg.com",
+ "sample_title": "NAMR Major Contract Execution & Strategy Director",
+ "description_chars": 8020,
+ "seconds": 23
+}

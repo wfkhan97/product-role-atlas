@@ -1,0 +1,31 @@
+{
+ "company": "Guidehouse",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "guidehouse.wd1.myworkdayjobs.com",
+  "tenant": "guidehouse",
+  "site": "External"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "guidehouse.wd1.myworkdayjobs.com",
+    "tenant": "guidehouse",
+    "site": "External"
+   },
+   "from": "https://guidehouse.com/careers",
+   "verify": "Governance Strategy Analyst"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "guidehouse.com",
+ "sample_title": "Governance Strategy Analyst",
+ "description_chars": 5259,
+ "seconds": 53
+}

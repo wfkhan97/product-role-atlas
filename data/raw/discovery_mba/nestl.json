@@ -1,0 +1,25 @@
+{
+ "company": "Nestl\u00e9",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "paradox",
+ "config": {
+  "host": "www.nestlejobs.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 matching postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.nestlejobs.com"
+   },
+   "from": "https://www.nestlejobs.com/nestle-usa",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Consumer goods",
+ "domain": "nestle.com",
+ "seconds": 18
+}

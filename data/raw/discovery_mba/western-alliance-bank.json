@@ -1,0 +1,31 @@
+{
+ "company": "Western Alliance Bank",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "westernalliancebank.wd5.myworkdayjobs.com",
+  "tenant": "westernalliancebank",
+  "site": "WAB"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "westernalliancebank.wd5.myworkdayjobs.com",
+    "tenant": "westernalliancebank",
+    "site": "WAB"
+   },
+   "from": "https://www.westernalliancebancorporation.com/about-us/careers",
+   "verify": "IT Manager - IT Workforce Strategy & Program Manager"
+  }
+ ],
+ "category": "Commercial and corporate banking",
+ "domain": "westernalliancebancorporation.com",
+ "sample_title": "IT Manager - IT Workforce Strategy & Program Manager",
+ "description_chars": 8319,
+ "seconds": 19
+}

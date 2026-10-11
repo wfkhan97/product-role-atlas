@@ -1,0 +1,27 @@
+{
+ "company": "William Blair",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "greenhouse",
+ "config": {
+  "board": "williamblair"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "williamblair"
+   },
+   "from": "https://www.williamblair.com/Careers/Job-Search",
+   "verify": "2027 Investment Banking Full-Time MBA Associate"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "williamblair.com",
+ "sample_title": "2027 Investment Banking Full-Time MBA Associate",
+ "description_chars": 6472,
+ "seconds": 6
+}

@@ -1,0 +1,31 @@
+{
+ "company": "AllianceBernstein",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "abglobal.wd1.myworkdayjobs.com",
+  "tenant": "abglobal",
+  "site": "alliancebernsteincareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "abglobal.wd1.myworkdayjobs.com",
+    "tenant": "abglobal",
+    "site": "alliancebernsteincareers"
+   },
+   "from": "https://www.alliancebernstein.com/corporate/en/home.html",
+   "verify": "Senior Investment Strategist - Head of Taxable FI (US Retail)"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "alliancebernstein.com",
+ "sample_title": "Senior Investment Strategist - Head of Taxable FI (US Retail)",
+ "description_chars": 5685,
+ "seconds": 19
+}
