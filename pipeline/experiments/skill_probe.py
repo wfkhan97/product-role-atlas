@@ -2,7 +2,7 @@
 
     .venv/bin/python -m pipeline.experiments.skill_probe --skills draft.json [--skill id] [--samples 8] [--roles mba]
 
-draft.json is a list of skills in taxonomy.json's shape (id, name, cluster, patterns). For each skill it prints
+draft.json is a list of skills in taxonomy.json's shape (id, name, cluster, patterns), or a taxonomy file itself. For each skill it prints
 the share of postings tagged, the roles that ask for it most, each pattern's own share, and random sentences
 that matched, which is where over-broad patterns show. Needs the corpus from role_corpus.py.
 """
@@ -26,6 +26,8 @@ def main():
     ap.add_argument("--brief", action="store_true", help="one line per skill, no samples")
     args = ap.parse_args()
     draft = json.load(open(args.skills))
+    if isinstance(draft, dict):  # a taxonomy file ({clusters, skills}) works as well as a bare list of skills
+        draft = draft["skills"]
     if args.skill:
         draft = [s for s in draft if s["id"] in set(args.skill.split(","))]
     rows = role_corpus.load(args.roles)

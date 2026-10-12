@@ -1789,7 +1789,7 @@
     "(actionable|strategic|clear|data[- ]driven|concrete|practical|fact[- ]based|well[- ]reasoned|sound) recommendations",
     "(insights|findings|conclusions|analysis|analyses) (and|into|to|&) (actionable |clear |strategic )?recommendations",
     "synthesi[sz](e|es|ing|ed) (complex |large |disparate |multiple |qualitative |quantitative |\\w+ )?(information|data|findings|insights|research|analysis|analyses|inputs|results|ideas)",
-    "(develop|formulat|present|deliver|mak|provid)\\w* recommendations (to|for) (senior |executive |the )?(leadership|management|executives|clients?|leaders|the board|stakeholders)",
+    "(develop|formulat|present|deliver|mak|provid)\\w* recommendations (to|for) (senior |executive |the |key |business )*(leadership|management|executives|clients?|leaders|the board|stakeholders|partners)",
     "so[- ]what",
     "actionable insights?|insights? (and|&) recommendations|data (to|into) (actionable )?insights?|(turn\\w*|translat\\w+|transform\\w*|convert\\w*|distill\\w*) (complex )?(data|analys[ie]s|analytics|numbers|findings) into",
     "data[- ]?stor(y|ies)\\w*|stor(y|ies)[- ]?tell\\w* (with|through|using) data|stor(y|ies) (with|through|using|from|behind) (the )?data|narratives? (from|with|around|using|behind) (the )?data"
@@ -1883,7 +1883,8 @@
     "performance improvement",
     "cost (take-?out|transformation|optimi[sz]ation|containment)|cost[- ]reduction (program|initiative|strateg|opportunit|target|plan)\\w*",
     "(operational|operating|margin|profit|profitability|productivity) improvements?",
-    "value creation (plans?|opportunit\\w+|initiatives|levers)|efficiency (gains|opportunities|initiatives)|profit improvement|margin expansion|turnaround (and|&) restructuring|turnaround (situations?|plans?|strateg\\w+|management)"
+    "value creation (plans?|opportunit\\w+|initiatives|levers)|efficiency (gains|opportunities|initiatives)|profit improvement|margin expansion|turnaround (and|&) restructuring|turnaround (situations?|plans?|strateg\\w+|management)",
+    "cost[- ]reductions?\\b|cost[- ]savings? (opportunit\\w+|initiatives|targets|programs?|projects)"
    ],
    "only": [
     "mba"
@@ -1966,8 +1967,8 @@
    "cluster": "strategy",
    "patterns": [
     "expert (witness|testimony|reports?|testifying)|testifying experts?",
-    "litigation (support|consulting|matters|engagements|cases)|economic (consulting|damages)|(commercial|complex) (litigation|disputes)|disputes? (and|&) investigations|dispute (consulting|advisory)",
-    "(calculat|quantif|assess|estimat)\\w+ (economic |financial )?damages|damages (analysis|analyses|calculations?|models?|claims)|antitrust|forensic (accounting|investigations?|analysis|services|technology)|e-?discovery|arbitration"
+    "litigation (support|consulting|matters|engagements|cases)|economic (consulting|damages)|(commercial|complex) litigation|complex (commercial )?disputes|disputes? (and|&) investigations|dispute (consulting|advisory)",
+    "(calculat|quantif|assess|estimat)\\w+ (economic |financial )?damages|damages (analysis|analyses|calculations?|models?|claims)|antitrust|forensic (accounting|investigations?|services|technology)|e-?discovery|(commercial|international|securities|construction) arbitration|arbitration (proceedings|hearings|panels?|matters)|litigation (and|&|or|,) arbitration"
    ],
    "only": [
     "mba"
@@ -1978,11 +1979,11 @@
    "name": "Business unit / site leadership",
    "cluster": "strategy",
    "patterns": [
-    "(full|overall|total|complete) (P&L|profit and loss)|P&L (responsibility|ownership|accountability|leadership)|profit and loss (responsibility|accountability|management)",
+    "(full|overall|total|complete) (P&L|profit and loss) (responsibilit\\w+|ownership|accountabilit\\w+|management|leadership|owner)|P&L (responsibility|ownership|accountability|leadership)|profit and loss (responsibility|accountability|management)",
     "(manag|overse|direct|lead|run|responsible for|accountable for)\\w* (all |the |overall |daily |day[- ]to[- ]day |aspects of )*(store|site|property|plant|branch|facility|hotel|restaurant|club|unit|location|center|dealership|multi[- ]unit|multi[- ]site) (operations|performance|profitability|P&L|financials)",
     "(manag|overse|direct|lead)\\w* (the |all )?(day[- ]to[- ]day|daily|overall) operations of",
     "(labor|payroll|food|controllable|operating) (costs?|expenses?) (control|goals|targets|management|budgets?)|(control|manag|reduc)\\w* (labor|payroll|food|controllable) (costs?|expenses?)",
-    "general management (experience|responsibilit\\w+|skills)|run(ning)? (the|a) (business|site|store|unit|property) (as|like)"
+    "general management (experience|responsibilit\\w+)|run(ning)? (the|a) (business|site|store|unit|property) (as|like)"
    ],
    "only": [
     "mba"
@@ -2007,7 +2008,8 @@
     "(multi|three|five|3|5)[- ]year (financial )?(plan|forecast|outlook)\\b",
     "financial forecast(s|ing)?\\b",
     "(revenue|expense|bookings|P&L|opex|headcount) forecast(s|ing)?\\b",
-    "forecast(s|ing)? (and|,|&) (budget|plan|report)\\w*"
+    "forecast(s|ing)? (and|,|&) (budget|plan|report)\\w*",
+    "(?<!demand )(?<!supply )(?<!inventory )(?<!capacity )(?<!workforce )(?<!production )(?<!labor )\\bplanning,? (and |& )?forecasting|(?<!demand )(?<!inventory )(?<!labor )(?<!sales )(?<!volume )\\bforecasting,? (and |& )?planning\\b"
    ],
    "only": [
     "mba"
@@ -2070,7 +2072,7 @@
     "internal controls?",
     "\\bSOX\\b",
     "sarbanes",
-    "controllership",
+    "(?<!financial analysis, accounting, )controllership",
     "financial controls?"
    ],
    "only": [
@@ -2089,7 +2091,8 @@
     "board (decks?|materials|reporting|packages?)",
     "(financial|variance|management) commentary",
     "consolidat(ed|ion) (financial|report|results)",
-    "financial consolidation"
+    "financial consolidation",
+    "(monthly|quarterly|month[- ]end) (financial |management |business |executive |operational )?reporting\\b|(financial and operational|operational and financial) report(s|ing)?\\b"
    ],
    "only": [
     "mba"
@@ -2117,9 +2120,9 @@
    "cluster": "finance",
    "patterns": [
     "cash (management|forecast|position|flow forecast|flow management|planning|operations|concentration|pooling)",
-    "liquidity (management|planning|forecast|risk|position|needs|analysis)",
+    "liquidity (management|planning|forecast|position|needs|analysis)",
     "cash and liquidity",
-    "working capital",
+    "working capital (management|optimi[sz]ation|improvement\\w*|forecast\\w*|initiatives|efficiency|needs|requirements|facilit\\w+|planning|strateg\\w+|targets)|(manag|optimi[sz]|improv|forecast|monitor)\\w* (the |our |net |company\\W?s? )*working capital",
     "daily cash",
     "short[- ]term invest",
     "bank account (management|administration|structure)",
@@ -2168,9 +2171,9 @@
    "name": "FX & interest-rate hedging",
    "cluster": "finance",
    "patterns": [
-    "foreign exchange",
+    "foreign exchange (risks?|exposures?|hedg\\w+|management|transactions|trades|contracts|forwards|derivatives|rates?|operations|strategy|activity|\\(FX\\))|(hedg|manag)\\w+ (of )?(\\w+ )?foreign exchange|(investments?|debt|liquidity|cash|interest rates?|commodit\\w+),? (and )?foreign exchange|foreign exchange,? (and )?(interest rate|commodit|hedging|derivatives)",
     "\\bFX\\b",
-    "\\bhedging\\b",
+    "(?<!commodity )\\bhedging\\b",
     "\\bhedges?\\b(?! funds?)",
     "\\bderivatives\\b",
     "interest[- ]rate (risk|swaps?|exposure|hedg|derivat)",
@@ -2210,13 +2213,13 @@
     "sell[- ]side analysts",
     "(shareholder|investor) (communications?|engagement|messaging)",
     "investor (presentations?|decks?|materials)",
-    "fund-?rais",
+    "fund-?rais(?!ing (platforms?|apps?|sites?|software|tools?))",
     "limited partners?",
     "\\bLPs\\b",
     "investor (reporting|updates|letters|requests|due diligence)",
     "fund (performance|administration|accounting|operations|reporting|structur|formation|terms)",
     "capital calls?",
-    "co-?invest",
+    "co-?invest(ments?|ors?|ing)?\\b(?! (budget|and co-development))",
     "general partners?\\b"
    ],
    "only": [
@@ -2234,7 +2237,8 @@
     "(strategic|trusted|key|thought) (finance|financial) (partner|advis)",
     "non-finance",
     "business partner(ing|ship)?\\b[^.\\n]{0,60}\\bfinanc",
-    "finance (lead|support|leader) (for|to)\\b"
+    "finance (lead|support|leader) (for|to)\\b",
+    "FP&A (business )?partner"
    ],
    "only": [
     "mba"
@@ -2274,7 +2278,7 @@
     "transaction (execution|process(es)?\\b|lifecycle|teams?)(?! simplif)",
     "deal (execution|lifecycle|teams?)",
     "execut(e|ing|ion of) (transactions|deals|acquisitions)",
-    "(buy|sell)[- ]side",
+    "(buy|sell)[- ]side(?! (and (buy|sell)[- ]side )?(analysts?|research|firms?|coverage|equity research))",
     "strategic transactions",
     "inorganic",
     "joint ventures?"
@@ -2288,7 +2292,7 @@
    "name": "Due diligence",
    "cluster": "deals",
    "patterns": [
-    "(?<!customer )(?<!vendor )(?<!supplier )(?<!party )(?<!enhanced )(?<!client )due diligence",
+    "(?<!customer )(?<!vendor )(?<!supplier )(?<!party )(?<!enhanced )(?<!client )due diligence(?! screening)",
     "(financial|commercial|legal|operational|business|transaction|confirmatory|M&A|investment|acquisition|deal|buy-side|sell-side) diligence",
     "\\bdiligence (process|workstreams?|findings|efforts|materials|requests|items|teams?)",
     "data ?rooms?\\b"
@@ -2325,7 +2329,7 @@
    "name": "Deal sourcing & pipeline",
    "cluster": "deals",
    "patterns": [
-    "(deal|investment|transaction|acquisition) (sourc|flow|origination|pipeline|screening)",
+    "(?<!client )(?<!customer )(?<!talent )(?<!user )\\b(deal|investment|acquisition) (sourc|flow|origination|pipeline|screening)|transaction (sourc|origination|pipeline|screening)",
     "sourc(e|es|ing) (and (evaluat|screen|execut|underwrit|diligenc)\\w+ )?(new )?(deals|investments?|investment opportunities|acquisitions?|transactions|targets)",
     "(acquisition|M&A|investment) targets?",
     "target (identification|screening)",
@@ -2445,7 +2449,7 @@
    "name": "Investment portfolio management",
    "cluster": "deals",
    "patterns": [
-    "(investment|fund|securities|fixed income|equity|multi-asset|model|real estate) portfolios?\\b",
+    "(investment|fund|securities|fixed income|(?<!private )equity|multi-asset|model|real estate (investment|debt|equity)) portfolios?\\b",
     "portfolio (construction|rebalanc|allocation|managers?\\b|monitoring|positioning|attribution)",
     "asset allocation",
     "investment (performance|polic(y|ies)|process|guidelines|objectives|mandates?)",
@@ -2463,8 +2467,8 @@
    "patterns": [
     "portfolio compan",
     "value[- ]creation plans?",
-    "operating partners?",
-    "exit (strateg|planning|process|opportunit)"
+    "\\boperating partners?\\b",
+    "exit (strateg|opportunit)|(investment|portfolio|sponsor|successful) exits?\\b|(?<!TSA strategy, execution, and )(?<!surveys, and )exit (planning|process)(?=[^.\\n]{0,80}(invest|portfolio|sponsor|fund|sale))"
    ],
    "only": [
     "mba"
@@ -2536,7 +2540,7 @@
     "(trusts?|estates?) (and|&) (estates?|trusts?)",
     "estate planning",
     "family offices?",
-    "financial advisors?\\b"
+    "(?<!as a )(?<!trusted )\\bfinancial advisor\\b(?!s)"
    ],
    "only": [
     "mba"
@@ -2551,8 +2555,8 @@
     "cap(itali[sz]ation)? rates?\\b",
     "\\bNOI\\b",
     "net operating income",
-    "underwrit\\w+[^.\\n]{0,60}(propert|real estate|acquisition|development|asset|land|site)",
-    "(propert|real estate|acquisition|development|land|site)[^.\\n]{0,40}underwrit",
+    "underwrit\\w+[^.\\n]{0,60}\\b(propert|real estate|acquisition|development|asset|land\\b|sites?\\b)",
+    "\\b(propert\\w*|real estate|acquisitions?|development|land|sites?)\\b[^.\\n]{0,40}underwrit",
     "(equity|cash flow|distribution) waterfalls?",
     "waterfall (model|structur|calc)",
     "equity multiple",
@@ -2563,8 +2567,8 @@
     "(rent|sales?|lease|land) comp(s|arables)\\b",
     "comparable (sales|properties|rents|leases)",
     "market (stud(y|ies)|fundamentals)",
-    "market (research|analysis|data|trends|conditions)[^.\\n]{0,60}(real estate|propert|site|land|rent|leas)",
-    "(real estate|propert|site|land)[^.\\n]{0,60}market (research|analysis|data|trends|conditions)"
+    "market (research|analysis|data|trends|conditions)[^.\\n]{0,60}\\b(real estate|propert|sites?\\b|land\\b|rent|leas)",
+    "\\b(real estate|propert\\w*|sites?|land)\\b[^.\\n]{0,60}market (research|analysis|data|trends|conditions)"
    ],
    "only": [
     "mba"
@@ -2582,13 +2586,12 @@
     "(acquir|purchas)\\w+ (of )?(land|sites|properties|real estate|parcels)",
     "under contract",
     "land ?owners",
-    "(off[- ]market|land) (deals|opportunities)",
+    "off[- ]market (deals|opportunities)|land (deals|opportunities)(?=[^.\\n]{0,80}(acqui|purchas|develop|home|communit|lots))",
     "(brokers|sellers),? (and )?(land ?owners|developers|owners)",
     "closing (documents|checklist|statements?)|(acquisition|property|land) closings?",
     "\\btitle\\b[^.\\n]{0,30}(survey|insurance|commitment)",
-    "environmental (reports?|assessments?|site)",
     "third[- ]party reports",
-    "(property|real estate|land|commercial) appraisals?|\\bappraisers?\\b",
+    "(property|real estate|land|commercial) appraisals?",
     "estoppel",
     "property (inspections?|tours?)"
    ],
@@ -2621,7 +2624,7 @@
     "tenant improvements?",
     "\\bTI/?LC\\b",
     "\\brenovations?\\b",
-    "change orders?",
+    "change orders?(?=[^\\n]{0,150}(construction|contractor|architect|building))|(construction|contractor|architect|building)[^\\n]{0,150}change orders?",
     "design (and|&) construction"
    ],
    "only": [
@@ -2659,7 +2662,7 @@
     "third[- ]party (property )?(managers?|operators)",
     "real estate (portfolio|assets|investments)",
     "operating properties",
-    "(asset|property) (valuations?|strateg(y|ies))"
+    "property (valuations?|strateg(y|ies))|asset (valuations?|strateg(y|ies))(?=[^.\\n]{0,100}(propert|real estate|tenant|leas))"
    ],
    "only": [
     "mba"
@@ -2675,7 +2678,7 @@
     "office (buildings?|propert|assets|portfolio)",
     "retail (centers?|propert|assets|real estate)|shopping centers?",
     "mixed[- ]use",
-    "(affordable|student|senior|workforce|single[- ]family|build[- ]to[- ]rent) (housing|living|rental)",
+    "((?<!safe, )affordable|student|senior|workforce|single[- ]family|build[- ]to[- ]rent) (housing|living|rental)",
     "self[- ]storage",
     "commercial real estate",
     "\\bCRE\\b",
@@ -2781,11 +2784,11 @@
     "social media",
     "editorial (calendar|strategy|planning|content|standards)",
     "copywriting",
-    "blog (posts?|content)",
+    "blog (posts?\\b|content)",
     "\\bblogs\\b",
     "thought leadership content",
     "influencer (marketing|partnerships|programs|campaigns|strategy)",
-    "(marketing|social|web|website|digital|blog|video|editorial|brand|SEO|long[- ]form|short[- ]form) content"
+    "(marketing|social|web|website|digital|blog|video|editorial|brand|SEO|long[- ]form|short[- ]form) content(?! management)"
    ],
    "only": [
     "mba"
@@ -2796,9 +2799,9 @@
    "name": "Lifecycle, CRM & email marketing",
    "cluster": "marketing",
    "patterns": [
-    "lifecycle (marketing|programs|campaigns|communications|strategy|journeys)",
+    "(?<!product )(?<!asset )(?<!contract )(?<!employee )(?<!development )lifecycle (marketing|programs|campaigns|communications|strategy|journeys)",
     "email (marketing|campaigns|programs|nurtur)",
-    "CRM (marketing|campaigns|programs|strategy)",
+    "\\bCRM (marketing|campaigns|programs|strategy)",
     "retention marketing",
     "customer marketing",
     "nurture (campaigns|programs|streams|tracks|sequences|flows)",
@@ -2865,13 +2868,13 @@
    "cluster": "marketing",
    "patterns": [
     "field marketing",
-    "event (marketing|strategy|planning|programs?|execution|logistics|portfolio|sponsorships?)|(?<!risk )(?<!incident )(?<!and )(?<!security )event management",
+    "\\bevent (marketing|strategy|planning|programs?|execution|logistics|portfolio|sponsorships?)|(?<!risk )(?<!incident )(?<!and )(?<!security )event management",
     "trade ?shows?",
     "sponsorship (strateg|activation|programs|packages|opportunities|portfolio)",
     "(events?|conferences?|trade shows?)(,| and| &|, and) sponsorships|sponsorships(,| and| &|, and) (events|conferences|activations|trade shows)",
-    "roundtables?",
+    "(customer|executive|industry|CXO|CIO|CISO|CFO|CMO|partner|prospect|analyst|investor) roundtables?|roundtables?,? (and|&|or) (dinners|events|webinars|conferences|summits)|(dinners|events|webinars|conferences|summits|tradeshows|trade shows),? (and|&|or)? ?(\\w+ )?roundtables?",
     "experiential (marketing|events?|activations?|campaigns|programs|brand)",
-    "(industry|customer|executive|hosted|virtual|in-person|regional|third[- ]party|marketing|field|partner) events",
+    "(industry|customer|executive|hosted|regional|third[- ]party|marketing|partner) events|(?<!quarterly )(?<!regular )(?<!team )(?<!company )(virtual|in-person) events(?! and an annual)|field events(?! get)",
     "(brand|retail|consumer|event|partner|field) activations?"
    ],
    "only": [
@@ -2918,7 +2921,7 @@
    "name": "Consumer-goods brand work (CPG innovation, shopper & trade)",
    "cluster": "marketing",
    "patterns": [
-    "innovation (pipeline|and renovation|funnel|launches|agenda)",
+    "(?<!technical )(?<!technology )(?<!supplier )innovation (pipeline|and renovation|funnel|launches)",
     "innovation (and|&|,|/) ?renovation",
     "shopper (marketing|activation|programs)",
     "trade (marketing|promotions?|spend|funds|investment)",
@@ -2955,9 +2958,9 @@
    "name": "Quota & revenue target attainment",
    "cluster": "sales",
    "patterns": [
-    "(?<!and )(?<!resource )(?<!usage )(?<!rate )(?<!api )\\bquotas?\\b(?! (limits|management system|enforcement|service))",
-    "(sales|revenue|booking|bookings|new business) (targets?|goals|objectives|plan attainment)\\b",
-    "(quota|target|goal|plan|sales|revenue) attainment",
+    "(?<!and )(?<!resource )(?<!usage )(?<!rate )(?<!api )(?<!non-)(?<!% of )\\bquotas?\\b(?! (limits|management system|enforcement|service|setting|design|planning|allocation|and non-quota))(?!/incentive)(?!-based (incentive|sales roles))(?!;)",
+    "(?<!such as strategic )(sales|revenue|booking|bookings|new business) (targets?|goals|objectives|plan attainment)\\b(?! incentive compensation)",
+    "(quota|target|goal|plan|sales|revenue) attainment(?! up to)",
     "\\b(meet|exceed|achieve|hit|deliver)(s|ed|ing)? (or exceed\\w* |and exceed\\w* )?(\\w+ )?(sales|revenue|bookings) (targets|goals|objectives|plans?|numbers|quotas?)",
     "track record of (exceeding|meeting|achieving|over-?achiev)\\w* (\\w+ )?(sales|revenue|quota|targets)",
     "President'?s Club"
@@ -3012,7 +3015,8 @@
     "\\b(close|closing|closed) (\\w+ )?(deals|new business|sales)\\b",
     "structur\\w+ (and \\w+ )?(\\w+ )?(deals|partnerships)",
     "partnership agreements",
-    "negotiat\\w+ (and \\w+ )?(\\w+ )?(contracts|agreements|terms|pricing) with (customers|clients|partners|prospects|distributors|dealers|resellers)"
+    "negotiat\\w+ (and \\w+ )?(\\w+ )?(contracts|agreements|terms|pricing) with (customers|clients|partners|prospects|distributors|dealers|resellers)",
+    "negotiat\\w+ (and \\w+ )?(\\w+ )?(business|commercial|customer|partner|complex|six-figure|multi-year|enterprise) (\\w+ )?(agreements|contracts)"
    ],
    "only": [
     "mba"
@@ -3096,11 +3100,11 @@
    "name": "Sales team leadership & coaching",
    "cluster": "sales",
    "patterns": [
-    "\\b(coach|mentor|develop|lead|manage|recruit|hire|train|build|motivate|inspire|scale)(s|d|ing)? (and \\w+ |, \\w+,? and \\w+ )?(a |an |the |your |our )?(\\w+ |high-performing )?(sales (team|reps|representatives|professionals|talent|managers|organization|force|associates|people|leaders)|account (executives|managers)|AEs\\b|sellers|reps\\b|BDRs\\b|SDRs\\b)",
-    "sales (coaching|training|talent)",
+    "\\b(coach|mentor|develop|lead|manage|recruit|hire|train|build|motivate|inspire|scale)(s|d|ing)? (and \\w+ |, \\w+,? and \\w+ )?(a |an |the |your |our )?(\\w+ |high-performing )?(sales (team|reps|representatives|professionals|talent|managers|organization|force|associates|people|leaders)|account (executives|managers)|AEs\\b|sellers\\b(?! to)|reps\\b|BDRs\\b|SDRs\\b)",
+    "sales (coaching|talent)|(deliver|lead|conduct|design|develop|build|provide|facilitate|own)\\w* (\\w+ ){0,2}sales training|sales training (programs?|curricul\\w+) for",
     "sales (leadership|management) (experience|role|skills|position|capabilit)",
     "(experience|years|background) (in|of|with) (\\w+ )?sales (leadership|management)",
-    "(high[- ]performing|top[- ]performing|world[- ]class) sales",
+    "(high[- ]performing|top[- ]performing|world[- ]class) sales(?! training)",
     "ride[- ]alongs|field coaching|deal coaching|call coaching",
     "sales (leader|manager) experience",
     "(first|second|front)[- ]line sales (leader|manager)"
@@ -3288,7 +3292,7 @@
    "cluster": "operations",
    "patterns": [
     "lean (manufactur\\w+|principles|methodolog\\w+|tools|practices|six|techniques|thinking|management|enterprise|concepts|transformation|philosophy|production|process\\w*|culture|events|sigma|deployment|daily|systems?|certif\\w+)",
-    "(of|in|with|using|apply\\w*|implement\\w*|leading|and|or) lean\\b(?! (on|into|in|team|toward|forward|heavily|organization|and (agile|nimble|mean|efficient)))",
+    "(of|in|with|using|apply\\w*|implement\\w*|leading|and|or) lean\\b(?! (product|portfolio|startup|agile|budget|on|into|in|team|toward|forward|heavily|organization|and (agile|nimble|mean|efficient)))",
     "six sigma|6 ?sigma|\\bLSS\\b|\\bDMAIC\\b|kaizen|value[- ]stream",
     "\\b5S\\b|\\b6S\\b|\\bgemba\\b|standard work\\b|visual management|daily management|poka[- ]yoke|\\bSMED\\b|toyota production|hoshin|strategy deployment|policy deployment",
     "waste (elimination|reduction)|eliminat\\w+ (of )?waste|non[- ]value[- ]add\\w*"
@@ -3466,7 +3470,7 @@
    "patterns": [
     "procure[- ]to[- ]pay|source[- ]to[- ]pay|\\bS2P\\b|purchase[- ]to[- ]pay|source[- ]to[- ]contract|\\bS2C\\b|\\bP2P\\b (process\\w*|systems?|cycle|operations|tools?|platforms?|workflows?|polic\\w+|compliance|transformation)",
     "purchase orders?|purchase requisitions?|requisitions? (and|to|/) (purchase|PO)|requisition (process\\w*|approvals?)|\\bPO\\b (process\\w*|creation|management|issuance|placement|approval)",
-    "purchasing (process\\w*|polic\\w+|activities|function|department|team|operations|systems?|procedures|cards?|experience|and (procurement|sourcing|supply|inventory))|\\bP-?cards?\\b|procurement (polic\\w+|operations|procedures|compliance|processes|transactions|cycle)|tactical (buying|procurement|purchasing)|buyer/planner"
+    "purchasing (process\\w*|polic\\w+|activities|function|department|team|operations|systems?|procedures|cards?|experience|and (procurement|sourcing|supply|inventory))|\\bP-?cards?\\b|(?<!formal )(?<!customer )(?<!navigate )(?<!government )(?<!public )(?<!enterprise )(?<!client )(?<!buyer )procurement (polic\\w+|operations|procedures|compliance|processes|transactions)|tactical (buying|procurement|purchasing)|buyer/planner"
    ],
    "only": [
     "mba"
@@ -3530,7 +3534,7 @@
    "cluster": "operations",
    "patterns": [
     "assortments?\\b|planograms?|shelf (space|sets?|placement|strateg\\w+)|on[- ]shelf|\\bSKU (rationali[sz]ation|mix|productivity|optimi[sz]ation)",
-    "category (growth|performance|insights?|reviews?|captain\\w*|development|advis\\w+|analysis|vision|roles?|P&L|sales|profitability)|joint business plan\\w*|\\bJBPs?\\b|\\bline reviews?",
+    "category (growth|performance|insights?|reviews?|captain\\w*|development|advis\\w+|analysis|vision|roles?|P&L|sales|profitability)|(joint business plan\\w*|\\bJBPs?\\b)(?=[^\\n]{0,150}(retail|categor|shopper|merchan|grocer|store|trade (spend|promotion|funds)|walmart|kroger|costco|buyers\\b|wholesal))|(retail|categor|shopper|merchan|grocer|store|trade (spend|promotion|funds)|walmart|kroger|costco|buyers\\b|wholesal)[^\\n]{0,150}(joint business plan|\\bJBPs?\\b)|\\bline reviews?",
     "merchandising (strateg\\w+|plans?|decisions|calendar)|syndicated data|nielsen|circana|\\bIRI\\b|\\bnumerator\\b|\\bPOS data\\b"
    ],
    "only": [
@@ -3613,7 +3617,7 @@
    "cluster": "people",
    "patterns": [
     "(?<!supplier )(?<!vendor )(?<!business )(?<!financial )(?<!portfolio )(?<!enterprise )(?<!project )(?<!program )(?<!contract )(?<!risk )(?<!category )(?<!carrier )(?<!partner )(?<!sales )(?<!KPI and )(?<!operational )(?<!corporate )(?<!cost )(?<!network )(?<!application )(?<!investment )(?<!fund )(?<!asset )(?<!improvement, )performance management",
-    "performance (reviews?|appraisals?|evaluations?|calibration|ratings)",
+    "(?<!product )(?<!business )(?<!financial )(?<!portfolio )(?<!supplier )(?<!vendor )(?<!recurring )(?<!system )(?<!model )(?<!investment )(?<!fund )(?<!campaign )(?<!operational )(?<!program )(?<!project )performance (reviews?|appraisals?|evaluations?|calibration|ratings)",
     "talent (reviews?|calibration|assessment|management|planning|strategy|strategies|processes|practices|cycle)",
     "calibration (sessions|process)",
     "9[- ]box",
@@ -3649,7 +3653,7 @@
    "patterns": [
     "(?<!organizational development, )instructional (design|systems|materials|strateg|content)(?! or related)",
     "\\bL&D\\b",
-    "(?<!your )learning (and|&) (organi[sz]ational )?development(?! (opportunities|resources|benefits|stipend|budget|programs to help|allowance))",
+    "(?<!your )(?<!ongoing )learning (and|&) (organi[sz]ational )?development(?! (opportunities|resources|benefits|stipend|budget|programs to help|allowance))",
     "adult learning",
     "(?<!-)(?<!machine )(?<!deep )(?<!reinforcement )learning (solutions|strategy|strategies|journeys|design|objectives|paths|interventions|modalities|outcomes|ecosystem|offerings|curricul)|(design|develop|create|build|curate)\\w* (\\w+ )?(?<!machine )(?<!deep )learning content",
     "e-?learning",
@@ -3659,10 +3663,10 @@
     "(training|learning) needs (analysis|assessments?)",
     "\\bcurricul(um|a)\\b (design|development)|(design|develop|build|create)(s|ed|ing)? (\\w+ )?curricul(um|a)",
     "\\b(design|develop|deliver|facilitate|create|build|lead|conduct)(s|ed|ing)? (and \\w+ |, \\w+,? and \\w+ )?(\\w+ )?(training|trainings|courses)\\b",
-    "training (delivery|materials|content|curricul\\w+|design|effectiveness|modules)",
+    "training (delivery|content|curricul\\w+|design|effectiveness|modules)",
     "facilitat(ion|or|ors|ing) (skills|guides?|experience|of (training|workshops|learning|leadership))",
     "kirkpatrick",
-    "upskilling|reskilling"
+    "(upskilling|reskilling) (programs?|initiatives|curricul\\w+|content|strateg\\w+|academ\\w+|offerings|solutions)|(design|build|develop|deliver|lead)\\w* (\\w+ )?(upskilling|reskilling)"
    ],
    "only": [
     "mba"
@@ -3807,17 +3811,17 @@
     "health (and|&) welfare (plans?|programs?|benefits? (plans?|programs?|administration|strategy|vendors))",
     "(?<!your )open enrollment",
     "annual enrollment",
-    "leaves? of absence",
+    "leaves? of absence(?! for medical, personal)",
     "leave (administration|management|requests|cases)",
     "\\bLOA\\b",
     "\\bERISA\\b",
-    "\\bCOBRA\\b",
-    "\\bFMLA\\b(?! poster)",
+    "\\bCOBRA\\b(?=[^\\n]{0,100}(benefit|ERISA|FMLA|HIPAA|\\bACA\\b|leave|enrollment|insurance|coverage|section 125|401))|(benefit|ERISA|FMLA|HIPAA|\\bACA\\b|leave|enrollment|insurance|coverage|section 125|401)[^\\n]{0,100}\\bCOBRA\\b",
+    "(?<!Act \\()\\bFMLA\\b(?! poster)",
     "\\bACA\\b (compliance|reporting|requirements|regulations|filings?)",
     "\\b5500",
     "(401\\(?k\\)?|retirement|pension) (plan )?(administration|committee|audits?|compliance|recordkeep\\w*)",
     "non-?discrimination testing",
-    "(benefits?|health|retirement|welfare|401\\(?k\\)?|pension|medical) plan (design\\b|sponsors?|amendments)",
+    "(benefits?|health|retirement|welfare|401\\(?k\\)?|pension|medical) plan (design\\b|amendments)",
     "self[- ](insured|funded)",
     "workers'? compensation (claims|program|administration|cases)"
    ],
@@ -3987,7 +3991,7 @@
    "name": "Compliance programme management",
    "cluster": "risk",
    "patterns": [
-    "compliance (programs?|programmes?|frameworks?|function|oversight|management systems?|strategy|governance|initiatives|plans?|roadmap|infrastructure)",
+    "(?<!all risk and )compliance (programs?|programmes?|frameworks?|function|oversight|management systems?|strategy|governance|initiatives|plans?|roadmap|infrastructure)",
     "ethics (and|&) compliance|culture of compliance|compliance culture",
     "compliance (training|guidance|advice|advisory|subject matter)",
     "(advis|counsel|guid)\\w+ (the business|business (partners|units|lines|teams|leaders)|product teams|management|stakeholders) on (compliance|regulatory|legal)"
@@ -4028,8 +4032,8 @@
    "name": "Regulator exams & relations",
    "cluster": "risk",
    "patterns": [
-    "regulatory (exam|examination|inquir|audit|review|request|finding|filing|submission|reporting|engagement|relations|relationships|interactions|commitments|remediation|scrutiny)\\w*",
-    "regulators\\b|regulatory (agencies|bodies|authorities)|examiners\\b|supervisory (exams?|examinations?|expectations|findings|letters|guidance)",
+    "regulatory (exam|examination|inquir|audit|review|request|finding|engagement|relations|relationships|interactions|remediation|scrutiny)\\w*",
+    "(with|to|from|by|before) ((the|our|its|their|federal|state|banking|bank|financial|prudential|global|local|US|U\\.S\\.|key|various|external|primary|applicable|relevant|appropriate|government|governmental|industry|and) )*(regulators\\b|regulatory (agencies|bodies|authorities))(?! such as the Department of Transportation)|(regulators|regulatory (agencies|bodies|authorities))(,| and| or|, and|, or) (auditors|examiners|supervisors|law enforcement|exchanges|rating agencies)|(auditors|examiners)(,| and| or|, and|, or) (\\w+ )?regulators\\b|examiners\\b|supervisory (exams?|examinations?|expectations|findings|letters|guidance)",
     "(?<!member )\\b(OCC|CFPB|FDIC|Federal Reserve|FRB|NCUA|FinCEN|NYDFS)\\b|FINRA (rules?|exams?|examinations?|regulations|requirements|inquir\\w+)|SEC (rules?|exams?|examinations?|regulations|requirements|inquir\\w+)|consent orders?|\\bMRAs?\\b|matters requiring attention"
    ],
    "only": [
@@ -4093,7 +4097,7 @@
    "cluster": "risk",
    "patterns": [
     "\\bUDAAP\\b|\\bUDAP\\b|\\bFCRA\\b|fair lending|\\bECOA\\b|\\bTILA\\b|\\bFDCPA\\b|\\bRESPA\\b|\\bSCRA\\b|\\bHMDA\\b|\\bEFTA\\b|\\bTCPA\\b",
-    "Reg(ulation)? ?(B|E|Z|DD|CC|X|O|W|BI)\\b|truth in (lending|savings)|equal credit|fair credit|consumer (protection|compliance|financial (protection|laws|regulations))|consumer (lending|banking|finance) (laws|regulations|compliance)",
+    "Reg(ulation)? ?(B|E|Z|DD|CC|X|O|W|BI)\\b|truth in (lending|savings)|equal credit|fair credit (reporting|billing)|consumer protection (laws?|regulations?|rules|requirements|statutes|compliance|act\\b)|consumer (compliance|financial (protection|laws|regulations))|consumer (lending|banking|finance) (laws|regulations|compliance)",
     "\\bCFPB\\b|marketing compliance|complaints? (management|handling) (program|process|function)"
    ],
    "only": [
@@ -4105,7 +4109,7 @@
    "name": "Security compliance frameworks (SOC 2, ISO 27001, NIST)",
    "cluster": "risk",
    "patterns": [
-    "\\bSOC ?[12]\\b|\\bSOC (Type|reports?)|ISO[ /]?(IEC )?27001|ISO ?2700\\d|\\bNIST\\b|PCI[- ]DSS|\\bPCI\\b|\\bHITRUST\\b|FedRAMP|\\bCMMC\\b|\\bCSA STAR\\b|\\bCIS (controls|benchmarks)|\\bSSAE ?1[68]\\b|ISO ?42001",
+    "\\bSOC ?[12]\\b|\\bSOC (Type|reports?)|ISO[ /]?(IEC )?27001|ISO ?2700\\d|\\bNIST\\b(?![- ]traceab)|PCI[- ]DSS|\\bPCI\\b|\\bHITRUST\\b|FedRAMP|\\bCMMC\\b|\\bCSA STAR\\b|\\bCIS (controls|benchmarks)|\\bSSAE ?1[68]\\b|ISO ?42001",
     "control mapping|continuous controls? monitoring|trust center|evidence (collection|gathering|requests)|audit evidence|compliance (automation|as code)|security (attestations?|frameworks)|common controls? framework"
    ],
    "only": [
@@ -4153,9 +4157,9 @@
    "name": "Board & committee governance",
    "cluster": "risk",
    "patterns": [
-    "board (and|&|or|/) (board )?committees?|(board|committee) (reporting|materials|charters?|papers|minutes|packages|books|secretariat|calendar|agendas?|resolutions)|board of directors (meetings|materials|reporting)",
+    "board (and|&|or|/) (board )?committees?|(?<!steering )\\b(board|committee) (reporting|materials|charters?|papers|minutes|packages|books|secretariat|calendar|agendas?|resolutions)|board of directors (meetings|materials|reporting)",
     "(risk|audit|governance|compliance|disclosure|nominating|compensation) committees?\\b",
-    "corporate (secretary|secretarial|governance)|entity management|subsidiary (governance|management)|meeting minutes|proxy statements?|governance (matters|documents|best practices)"
+    "corporate (secretary|secretarial|governance)|\\bentity management|subsidiary (governance|management)|meeting minutes|proxy statements?|governance (matters|documents|best practices)"
    ],
    "only": [
     "mba"
@@ -4166,8 +4170,8 @@
    "name": "Trade compliance & export controls",
    "cluster": "risk",
    "patterns": [
-    "trade compliance|(import|export|customs) compliance|export controls? (compliance|program|officer|classification|laws|regulations and)|import/export (compliance|regulations|laws|controls)|(global|international) trade (regulations|laws|operations|team)",
-    "customs (broker\\w*|regulations|clearance|entries|entry|valuation|laws|duties)|\\bECCN\\b|\\bHTS (classification|codes?)|harmoni[sz]ed tariff|\\bC-?TPAT\\b|tariff classification|denied part(y|ies)|country of origin|\\b(EAR|ITAR) (compliance|regulations|classification|requirements)|\\bEAR\\b (and|/|,) ?\\bITAR\\b|\\bITAR\\b (and|/|,) ?\\bEAR\\b"
+    "trade compliance|(import|export|customs) compliance|export controls? (compliance(?! *(\\n|$))|program|officer|classification|laws|regulations and)|import/export (compliance|regulations|laws|controls)|(global|international) trade (regulations|laws|operations|team)",
+    "customs (broker\\w*|regulations|clearance|entries|entry|valuation|laws|duties)|\\bECCN\\b|\\bHTS (classification|codes?)|harmoni[sz]ed tariff|\\bC-?TPAT\\b|tariff classification|denied part(y|ies)|country of origin|\\b(EAR|ITAR) (compliance|regulations|classification)|\\bEAR\\b (and|/|,) ?\\bITAR\\b|\\bITAR\\b (and|/|,) ?\\bEAR\\b"
    ],
    "only": [
     "mba"
@@ -4204,7 +4208,7 @@
    "cluster": "analytics",
    "patterns": [
     "report(s|ing)? (automation|solutions|tools|capabilit\\w+|suite|infrastructure|platforms?|framework|layers?)|automat\\w+ (of |the |recurring |manual |standard |routine )?report\\w*|automated report\\w*",
-    "ad[- ]?hoc (analys[ie]s|analytics|report\\w*|requests?|quer\\w+)|(BI|MIS|business intelligence) reporting|reports (and|&) dashboards|dashboards (and|&|,) reports"
+    "ad[- ]?hoc (financial |business |data )?(analys[ie]s|analytics|report\\w*|requests?|quer\\w+)|(BI|MIS|business intelligence) reporting|report(s|ing) (and|&) dashboards|dashboards (and|&|,) report(s|ing)\\b"
    ],
    "only": [
     "mba"
@@ -4397,8 +4401,7 @@
     "\\bTMS\\b[^.\\n]{0,60}(treasury|bank|cash)|(treasury|bank|cash)[^.\\n]{0,60}\\bTMS\\b",
     "bank(ing)? (portals?|connectivity)",
     "SWIFT (messag|network|payments?|gpi|codes?)|\\bSWIFT\\b[^.\\n]{0,30}(ACH|wire|bank)",
-    "gtreasury|\\breval\\b|FIS (quantum|integrity)|\\bFXall\\b|clearwater analytics|\\bICD portal",
-    "\\bACH\\b[^.\\n]{0,40}wires?|wires?[^.\\n]{0,40}\\bACH\\b"
+    "gtreasury|\\breval\\b|FIS (quantum|integrity)|\\bFXall\\b|clearwater analytics|\\bICD portal"
    ],
    "only": [
     "mba"
@@ -4432,7 +4435,7 @@
     "salesforce marketing cloud|\\bSFMC\\b|marketing cloud",
     "\\b6sense\\b",
     "demandbase",
-    "\\bmartech\\b|marketing (technology|tech) stack|marketing technolog"
+    "(manag|own|administ|optimi[sz]|build|run|maintain)\\w* (the |our |a |and \\w+ (the |our )?)?(martech|marketing (technology|tech)) (stack|platforms|systems|tools)"
    ],
    "only": [
     "mba"
@@ -4444,7 +4447,7 @@
    "cluster": "tools",
    "patterns": [
     "google ads?\\b",
-    "\\badwords\\b",
+    "(?<![=\\w])adwords\\b",
     "(meta|facebook|linkedin|tiktok|reddit|instagram|pinterest|snapchat|twitter|youtube|microsoft|bing|apple search) ads\\b",
     "facebook (advertising|business manager)",
     "linkedin (campaign manager|advertising)",
@@ -4453,7 +4456,8 @@
     "ads manager",
     "campaign manager 360|\\bCM360\\b",
     "(paid media|media buying|paid social|paid search) platforms",
-    "\\b(Google|Meta|LinkedIn|TikTok|Reddit)( Ads)?(, | and | & |/)(Google|Meta|LinkedIn|TikTok|Reddit|Facebook|Bing|YouTube)\\b"
+    "\\b(paid|ads|advertising|ad campaigns|campaigns|media buying|PPC|SEM|performance marketing)\\b[^.\\n]{0,60}\\b(Google|Meta|LinkedIn|TikTok|Reddit)(, | and | & |/)(Google|Meta|LinkedIn|TikTok|Reddit|Facebook|Bing|YouTube)\\b",
+    "\\b(Google|Meta|LinkedIn|TikTok|Reddit)(, | and | & |/)(Google|Meta|LinkedIn|TikTok|Reddit|Facebook|Bing|YouTube)\\b(, \\w+)?(,? (and|or) \\w+)? (ads|advertising|ad platforms|ads platforms|ad campaigns|campaigns)\\b"
    ],
    "only": [
     "mba"
@@ -4491,10 +4495,10 @@
     "workday (HCM|HRIS|recruiting|learning|compensation|advanced compensation|payroll|benefits|reporting|reports|configuration|implementation|experience|system|platform|modules?|talent|core)",
     "(experience|proficien\\w+|familiarity|knowledge|expertise|skills|background) (with|in|of|using) (\\w+,? ){0,4}workday\\b(?! (financials?|adaptive|procurement|strategic sourcing))",
     "(e\\.g\\.,?|such as|including|like|i\\.e\\.,?) (\\w+,? ){0,4}workday\\b(?! (financials?|adaptive|procurement|strategic sourcing))",
-    "workday(,| or| and|/) ?(successfactors|ADP|oracle|SAP|UKG|peoplesoft|greenhouse|lever|HRIS|servicenow|radford|ultipro|kronos|cornerstone)",
-    "(successfactors|ADP|oracle|SAP|UKG|peoplesoft|HRIS|HCM|greenhouse|servicenow)(,| or| and|/|, or|, and) ?workday\\b(?! (financials?|adaptive|procurement|strategic sourcing))",
+    "workday(,| or| and|/) ?(successfactors|ADP|oracle HCM|UKG|peoplesoft|greenhouse|lever|HRIS|servicenow|radford|ultipro|kronos|cornerstone)",
+    "(successfactors|ADP|UKG|peoplesoft|HRIS|HCM|greenhouse)(,| or| and|/|, or|, and) ?workday\\b(?! (financials?|adaptive|procurement|strategic sourcing))",
     "successfactors|SAP success factors",
-    "\\bADP\\b",
+    "\\bADP\\b(?! (program|production|pursuit|aircraft))",
     "\\bUKG\\b|ultipro|\\bkronos\\b",
     "oracle (HCM|HR|cloud HCM|fusion HCM)|peoplesoft",
     "\\bSAP\\b (HCM|HR|SF)",
@@ -4513,12 +4517,12 @@
    "name": "Learning platforms & authoring tools (LMS, Articulate)",
    "cluster": "tools",
    "patterns": [
-    "\\bLMS\\b",
+    "(?<!\\()\\bLMS\\b(?!\\'s?\\b| business)",
     "learning management systems?",
     "cornerstone (ondemand|LMS|learning|CSOD)|\\bCSOD\\b",
     "\\bdocebo\\b",
     "workday learning",
-    "\\bdegreed\\b",
+    "(?<!non-)(?<!non )(?<!if )\\bdegreed\\b(?! (engineer|professional|candidate|individual|accountant|in\\b|with\\b|or\\b))(?!;|,? (or|and) )",
     "articulate (360|storyline|rise)|storyline 360|articulate/storyline|\\(articulate\\b",
     "adobe captivate|\\bcaptivate\\b,",
     "\\bcamtasia\\b",
@@ -4560,7 +4564,7 @@
    "name": "Scheduling tools (MS Project, Primavera, Smartsheet)",
    "cluster": "tools",
    "patterns": [
-    "\\bMS[- ]project\\b|microsoft project|primavera|\\bP6\\b|smartsheets?|deltek|planview|\\bPPM\\b (tools?|software|systems?|platforms?)|project (management|scheduling|portfolio) (software|tools|systems|applications)|scheduling (software|tools)"
+    "\\bMS[- ]project\\b|microsoft project|primavera|\\bP6\\b|smartsheets?|deltek|planview|\\bPPM\\b (tools?|software|systems?|platforms?)|project (scheduling|portfolio) (software|tools|systems|applications)|(?<!calendar and )(?<!interview )\\b(project )?scheduling (software|tools)"
    ],
    "only": [
     "mba"
@@ -4661,7 +4665,7 @@
    "name": "Risk, audit & compliance certifications (CISA, CRISC, CIA, FRM, CAMS, CRCM, CIPP)",
    "cluster": "credentials",
    "patterns": [
-    "\\bCISA\\b|\\bCRISC\\b|\\bCISM\\b|\\bCISSP\\b|\\bCRMA\\b|\\bFRM\\b|\\bCGEIT\\b|\\bCERA\\b|certified (internal auditor|fraud examiner|information systems auditor|information security manager|in risk)|financial risk manager|ISO ?27001 lead (auditor|implementer)|\\bCIA\\b(?= ?[,/]| or| certif| designation| preferred| required)|\\bCRCMP\\b|\\bCBCP\\b",
+    "\\bCISA\\b|\\bCRISC\\b|\\bCISM\\b|\\bCISSP\\b|\\bCRMA\\b|(?<!Management \\()\\bFRM\\b|\\bCGEIT\\b|\\bCERA\\b|certified (internal auditor|fraud examiner|information systems auditor|information security manager|in risk)|financial risk manager|ISO ?27001 lead (auditor|implementer)|\\bCIA\\b(?= ?[,/]| or| certif| designation| preferred| required)|\\bCRCMP\\b|\\bCBCP\\b",
     "(?<!Managers \\()\\bCAMS\\b|\\bACAMS\\b|\\bCRCM\\b|\\bCCEP\\b|\\bCIPP(/\\w+)?\\b|\\bCIPM\\b|\\bCIPT\\b|\\bCHPC\\b|\\bCFCS\\b|\\bCGSS\\b|certified (anti[- ]money laundering|regulatory compliance|compliance (and|&) ethics|in healthcare compliance|information privacy)|licensed customs broker|customs broker('?s)? licen[sc]e"
    ],
    "only": [
@@ -4736,7 +4740,8 @@
     "experience (in|with) (\\w+ )?(sales|selling)\\b(?! (and use|tax|operations|ops\\b|enablement|force|compensation|planning|analytics|strategy|tools|and marketing operations|,? (marketing|strategy|finance)))",
     "(proven|demonstrated|consistent|successful|strong|documented) (sales )?(track record|history|record|success) (of|in) (\\w+ )?(sales|selling|closing|quota)",
     "President'?s Club",
-    "closing experience"
+    "closing experience",
+    "quota (achievement|over-?achievement)|(track record|history|record) of (consistently )?(hitting|exceeding|meeting|achieving|over-?achieving|beating|surpassing|attaining)( or (exceeding|beating|surpassing))? (\\w+ ){0,2}(quotas?\\b|sales (targets|goals|plans?))"
    ],
    "only": [
     "mba"
