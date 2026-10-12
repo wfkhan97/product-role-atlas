@@ -10,7 +10,9 @@ export const READABLE = /\.(txt|pdf|docx)$/i;
 export async function extractText(file) {
   const ext = path.extname(file).toLowerCase();
   if (ext === ".pdf") {
-    const pdfjs = require("pdfjs-dist/legacy/build/pdf.js");
+    // pdf.js prints a warning about the canvas module when it loads; it needs no canvas to read text
+    const say = [console.log, console.warn]; console.log = console.warn = () => {};
+    let pdfjs; try { pdfjs = require("pdfjs-dist/legacy/build/pdf.js"); } finally { [console.log, console.warn] = say; }
     const pdf = await pdfjs.getDocument({ data: new Uint8Array(fs.readFileSync(file)), useSystemFonts: true, verbosity: 0 }).promise;
     const pages = [];
     for (let p = 1; p <= pdf.numPages; p++) {
@@ -22,3 +24,6 @@ export async function extractText(file) {
   if (ext === ".docx") return (await require("mammoth").extractRawText({ buffer: fs.readFileSync(file) })).value;
   return fs.readFileSync(file, "utf8");
 }
+
+// node evals/extract.mjs <file>   print a file's text as the app reads it (to read a sample before writing its expectations)
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname) && process.argv[2]) console.log(await extractText(process.argv[2]));

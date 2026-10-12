@@ -1,0 +1,645 @@
+{
+ "_about": "Job titles as resumes write them, with the role family each must be read as (null: none of the 50). The resume-side twin of the posting title eval. Titles come from the kinds of title seen in the published samples; employers on the job lines are invented. 'known_gap' marks a case the title rules cannot read yet: it is reported and not counted as a failure, and it stops being a gap the day it passes. Checked by node evals/run.mjs with the role families of web/data/roles_mba.json.",
+ "titles": [
+  {
+   "title": "FP&A Manager",
+   "family": "fpa"
+  },
+  {
+   "title": "Senior FP&A Analyst",
+   "family": "fpa"
+  },
+  {
+   "title": "FP&A Analyst",
+   "family": "fpa"
+  },
+  {
+   "title": "Senior Finance Manager, Corporate FP&A",
+   "family": "fpa"
+  },
+  {
+   "title": "Director, Financial Planning & Analysis",
+   "family": "fpa"
+  },
+  {
+   "title": "Finance Manager",
+   "family": "financial_manager"
+  },
+  {
+   "title": "Finance Manager, GTM Finance",
+   "family": "financial_manager"
+  },
+  {
+   "title": "Senior Finance Manager",
+   "family": "financial_manager"
+  },
+  {
+   "title": "Director of Finance",
+   "family": "financial_manager"
+  },
+  {
+   "title": "Strategic Finance Manager",
+   "family": "strategic_finance"
+  },
+  {
+   "title": "Senior Associate, Strategic Finance",
+   "family": "strategic_finance"
+  },
+  {
+   "title": "Treasury Manager",
+   "family": "treasury"
+  },
+  {
+   "title": "Treasury Analyst",
+   "family": "treasury"
+  },
+  {
+   "title": "Assistant Treasurer",
+   "family": "treasury"
+  },
+  {
+   "title": "Investment Banking Analyst",
+   "family": "ib_associate"
+  },
+  {
+   "title": "Investment Banking Associate",
+   "family": "ib_associate"
+  },
+  {
+   "title": "Associate, Healthcare Investment Banking",
+   "family": "ib_associate"
+  },
+  {
+   "title": "Summer Analyst, Investment Banking",
+   "family": "ib_associate"
+  },
+  {
+   "title": "Private Equity Associate",
+   "family": "pe_associate"
+  },
+  {
+   "title": "Private Equity Analyst",
+   "family": "pe_associate"
+  },
+  {
+   "title": "Venture Capital Associate",
+   "family": "vc_associate"
+  },
+  {
+   "title": "Commercial Banker",
+   "family": "commercial_banking_rm"
+  },
+  {
+   "title": "Commercial Banking Relationship Manager",
+   "family": "commercial_banking_rm"
+  },
+  {
+   "title": "Corporate Banker",
+   "family": "corporate_banking"
+  },
+  {
+   "title": "Corporate Banking Associate",
+   "family": "corporate_banking"
+  },
+  {
+   "title": "Corporate Development Manager",
+   "family": "corp_dev"
+  },
+  {
+   "title": "Senior Associate, Corporate Development",
+   "family": "corp_dev"
+  },
+  {
+   "title": "M&A Integration Manager",
+   "family": "ma_integration"
+  },
+  {
+   "title": "Real Estate Investment Senior Associate",
+   "family": "re_acquisitions"
+  },
+  {
+   "title": "Real Estate Acquisitions Analyst",
+   "family": "re_acquisitions"
+  },
+  {
+   "title": "Real Estate Development Manager",
+   "family": "re_development"
+  },
+  {
+   "title": "Management Consultant",
+   "family": "management_consultant"
+  },
+  {
+   "title": "Senior Management Consultant",
+   "family": "management_consultant"
+  },
+  {
+   "title": "Strategy Consultant",
+   "family": "management_consultant"
+  },
+  {
+   "title": "Associate Management Consultant",
+   "family": "management_consultant"
+  },
+  {
+   "title": "Strategy Manager",
+   "family": "strategy_manager"
+  },
+  {
+   "title": "Associate Strategy Manager",
+   "family": "strategy_manager",
+   "known_gap": "The analyst rule matches 'Associate Strategy' before the manager rule is tried."
+  },
+  {
+   "title": "Director of Corporate Strategy",
+   "family": "strategy_manager"
+  },
+  {
+   "title": "Strategy Analyst",
+   "family": "corp_strategy_analyst"
+  },
+  {
+   "title": "Senior Strategy Analyst",
+   "family": "corp_strategy_analyst"
+  },
+  {
+   "title": "Strategy Associate",
+   "family": "corp_strategy_analyst"
+  },
+  {
+   "title": "Transformation Manager",
+   "family": "transformation"
+  },
+  {
+   "title": "Director, Business Transformation",
+   "family": "transformation"
+  },
+  {
+   "title": "Digital Transformation Manager",
+   "family": "digital_transformation"
+  },
+  {
+   "title": "Technology Strategy Manager",
+   "family": "tech_strategy"
+  },
+  {
+   "title": "IT Strategy Lead",
+   "family": "tech_strategy"
+  },
+  {
+   "title": "Chief of Staff",
+   "family": "chief_of_staff"
+  },
+  {
+   "title": "Deputy Chief of Staff",
+   "family": "chief_of_staff"
+  },
+  {
+   "title": "Executive Chief of Staff",
+   "family": "chief_of_staff"
+  },
+  {
+   "title": "Business Operations Manager",
+   "family": "bizops"
+  },
+  {
+   "title": "Associate Business Operations Manager",
+   "family": "bizops"
+  },
+  {
+   "title": "Strategy & Operations Manager",
+   "family": "bizops"
+  },
+  {
+   "title": "General Manager",
+   "family": "general_manager"
+  },
+  {
+   "title": "Senior General Manager, Upper Midwest Region",
+   "family": "general_manager"
+  },
+  {
+   "title": "Program Manager",
+   "family": "program_manager"
+  },
+  {
+   "title": "Senior Program Manager",
+   "family": "program_manager"
+  },
+  {
+   "title": "Associate Program Manager",
+   "family": "program_manager"
+  },
+  {
+   "title": "Operations Manager",
+   "family": "operations_manager"
+  },
+  {
+   "title": "Senior Operations Manager",
+   "family": "operations_manager"
+  },
+  {
+   "title": "Director of Operations",
+   "family": "operations_manager"
+  },
+  {
+   "title": "Executive Operations Manager",
+   "family": "operations_manager"
+  },
+  {
+   "title": "Process Improvement Manager",
+   "family": "opex"
+  },
+  {
+   "title": "Continuous Improvement Lead",
+   "family": "opex"
+  },
+  {
+   "title": "Operational Excellence Manager",
+   "family": "opex"
+  },
+  {
+   "title": "Product Manager",
+   "family": "product_manager"
+  },
+  {
+   "title": "Senior Product Manager",
+   "family": "product_manager"
+  },
+  {
+   "title": "Product Marketing Manager",
+   "family": "pmm"
+  },
+  {
+   "title": "Senior Product Marketing Manager",
+   "family": "pmm"
+  },
+  {
+   "title": "Associate Product Marketing Manager",
+   "family": "pmm"
+  },
+  {
+   "title": "Business Analytics Manager",
+   "family": "business_analytics"
+  },
+  {
+   "title": "Director of Analytics",
+   "family": "business_analytics"
+  },
+  {
+   "title": "Business Intelligence Manager",
+   "family": "business_intelligence"
+  },
+  {
+   "title": "Business Intelligence Analyst",
+   "family": "business_intelligence"
+  },
+  {
+   "title": "Junior Business Intelligence Analyst",
+   "family": "business_intelligence"
+  },
+  {
+   "title": "Marketing Manager",
+   "family": "marketing_manager"
+  },
+  {
+   "title": "Senior Marketing Manager",
+   "family": "marketing_manager"
+  },
+  {
+   "title": "Digital Marketing Manager",
+   "family": "marketing_manager"
+  },
+  {
+   "title": "Associate Marketing Manager",
+   "family": "marketing_manager"
+  },
+  {
+   "title": "Brand Manager",
+   "family": "brand_manager"
+  },
+  {
+   "title": "Associate Brand Manager",
+   "family": "brand_manager"
+  },
+  {
+   "title": "Growth Manager",
+   "family": "growth_manager"
+  },
+  {
+   "title": "Growth Marketing Manager",
+   "family": "growth_manager"
+  },
+  {
+   "title": "Sales Manager",
+   "family": "sales_manager"
+  },
+  {
+   "title": "Regional Sales Manager",
+   "family": "sales_manager"
+  },
+  {
+   "title": "Senior Sales Manager",
+   "family": "sales_manager"
+  },
+  {
+   "title": "Business Development Manager",
+   "family": "bizdev"
+  },
+  {
+   "title": "Senior Business Development Manager",
+   "family": "bizdev"
+  },
+  {
+   "title": "Business Development Specialist",
+   "family": "bizdev"
+  },
+  {
+   "title": "Strategic Partnerships Manager",
+   "family": "partnerships"
+  },
+  {
+   "title": "Partner Manager",
+   "family": "partnerships"
+  },
+  {
+   "title": "Customer Success Manager",
+   "family": "customer_success"
+  },
+  {
+   "title": "Director of Customer Success",
+   "family": "customer_success"
+  },
+  {
+   "title": "Supply Chain Manager",
+   "family": "supply_chain"
+  },
+  {
+   "title": "Vice President, Global Supply Chain",
+   "family": "supply_chain"
+  },
+  {
+   "title": "Senior Director, Supply Chain Planning",
+   "family": "supply_chain"
+  },
+  {
+   "title": "Procurement Manager",
+   "family": "procurement"
+  },
+  {
+   "title": "Senior Manager, Procurement",
+   "family": "procurement"
+  },
+  {
+   "title": "Assistant Procurement Manager",
+   "family": "procurement"
+  },
+  {
+   "title": "Strategic Sourcing Manager",
+   "family": "strategic_sourcing"
+  },
+  {
+   "title": "Sourcing Manager",
+   "family": "strategic_sourcing"
+  },
+  {
+   "title": "Associate Strategic Sourcing Manager",
+   "family": "strategic_sourcing"
+  },
+  {
+   "title": "Category Manager",
+   "family": "category_manager"
+  },
+  {
+   "title": "Associate Category Manager",
+   "family": "category_manager"
+  },
+  {
+   "title": "HR Manager",
+   "family": "hr_manager"
+  },
+  {
+   "title": "Human Resources Manager",
+   "family": "hr_manager"
+  },
+  {
+   "title": "HR Generalist",
+   "family": "hr_manager"
+  },
+  {
+   "title": "Senior HR Manager",
+   "family": "hr_manager"
+  },
+  {
+   "title": "HR Business Partner",
+   "family": "hr_manager"
+  },
+  {
+   "title": "Organizational Development Manager",
+   "family": "org_dev"
+  },
+  {
+   "title": "Talent Development Manager",
+   "family": "org_dev"
+  },
+  {
+   "title": "Compensation and Benefits Manager",
+   "family": "comp_benefits"
+  },
+  {
+   "title": "Total Rewards Analyst",
+   "family": "comp_benefits"
+  },
+  {
+   "title": "Enterprise Risk Manager",
+   "family": "enterprise_risk"
+  },
+  {
+   "title": "Risk Manager",
+   "family": "enterprise_risk"
+  },
+  {
+   "title": "Compliance Manager",
+   "family": "compliance"
+  },
+  {
+   "title": "Compliance Officer",
+   "family": "compliance"
+  },
+  {
+   "title": "Governance Manager",
+   "family": "governance"
+  },
+  {
+   "title": "Data Governance Lead",
+   "family": "governance"
+  },
+  {
+   "title": "Financial Analyst Rotational Program",
+   "family": "ldp"
+  },
+  {
+   "title": "Leadership Development Program Associate",
+   "family": "ldp"
+  },
+  {
+   "title": "Financial Analyst",
+   "family": null
+  },
+  {
+   "title": "Staff Accountant",
+   "family": null
+  },
+  {
+   "title": "Loan Officer",
+   "family": null
+  },
+  {
+   "title": "Bank Teller",
+   "family": null
+  },
+  {
+   "title": "Executive Assistant to the CEO",
+   "family": null
+  },
+  {
+   "title": "Project Manager",
+   "family": null
+  },
+  {
+   "title": "IT Project Manager",
+   "family": null
+  },
+  {
+   "title": "Operations Coordinator",
+   "family": null
+  },
+  {
+   "title": "Operations Analyst",
+   "family": null
+  },
+  {
+   "title": "Assistant General Manager",
+   "family": null
+  },
+  {
+   "title": "General Manager, Flagship Store",
+   "family": null
+  },
+  {
+   "title": "Business Analyst",
+   "family": null
+  },
+  {
+   "title": "Marketing Coordinator",
+   "family": null
+  },
+  {
+   "title": "Marketing Analyst",
+   "family": null
+  },
+  {
+   "title": "Sales Associate",
+   "family": null
+  },
+  {
+   "title": "Business Development Representative",
+   "family": null
+  },
+  {
+   "title": "Customer Support Specialist",
+   "family": null
+  },
+  {
+   "title": "Supply Chain Analyst",
+   "family": null
+  },
+  {
+   "title": "Buyer",
+   "family": null
+  },
+  {
+   "title": "Recruiter",
+   "family": null
+  },
+  {
+   "title": "Barista",
+   "family": null
+  },
+  {
+   "title": "Software Engineer",
+   "family": null
+  },
+  {
+   "title": "Research Assistant",
+   "family": null
+  },
+  {
+   "title": "Technical Program Manager",
+   "family": null
+  },
+  {
+   "title": "Product Operations Manager",
+   "family": null
+  },
+  {
+   "title": "Associate",
+   "line": "Associate | Harlow Reed Investment Banking | 2019 - 2022",
+   "family": "ib_associate"
+  },
+  {
+   "title": "Vice President",
+   "line": "Vice President | Summit Ridge Private Equity Partners | 2018 - 2022",
+   "family": "pe_associate"
+  },
+  {
+   "title": "Analyst",
+   "line": "Analyst, Corporate Strategy | Northfield Foods | 2020 - 2022",
+   "family": "corp_strategy_analyst"
+  },
+  {
+   "title": "Manager",
+   "line": "Manager | Corner Bakery | 2015 - 2017",
+   "family": null
+  },
+  {
+   "title": "Associate",
+   "line": "Associate | Dunmore Legal Services | 2016 - 2018",
+   "family": null
+  },
+  {
+   "title": "Consultant",
+   "line": "Consultant | Halvern & Quill Consulting | 2019 - 2021",
+   "family": "management_consultant",
+   "known_gap": "A consultant at a consulting firm. The title rules name the role only with 'management', 'strategy' or 'business'; the posting side uses the employer's category, which a resume does not have."
+  },
+  {
+   "title": "Principal",
+   "line": "Principal | Bain & Company | 2015 - 2019",
+   "family": "management_consultant",
+   "known_gap": "A grade at a strategy house; needs a list of employers by category."
+  },
+  {
+   "title": "Associate",
+   "line": "Associate | Goldman Sachs | 2017 - 2020",
+   "family": "ib_associate",
+   "known_gap": "A bank named without its division; needs a list of employers by category."
+  },
+  {
+   "title": "Strategic Planning Analyst",
+   "family": "corp_strategy_analyst",
+   "known_gap": "'Strategic planning' goes to the strategy manager family before the analyst rule is tried."
+  },
+  {
+   "title": "Growth Marketer",
+   "family": "growth_manager",
+   "known_gap": "The rule asks for 'growth marketing' or 'growth manager'."
+  },
+  {
+   "title": "Asset Manager",
+   "line": "Asset Manager | Crestline Residential Properties | 2018 - 2022",
+   "family": "re_asset_manager",
+   "known_gap": "Read with its employer line only when the title is a bare grade."
+  }
+ ]
+}

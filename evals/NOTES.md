@@ -472,6 +472,87 @@ title holds the read at mid. The publishers' seniority labels are too loose to s
 product owner requirements overlap heavily. The samples are tidier than real resumes, so real ones sit lower in
 each band. Only product roles can be scored until the MBA role set has a graph.
 
+## The reader and the matcher on the 50 MBA roles (2026-10-11 to 12)
+
+Branch `feat/mba-resume-matcher`. Goal: read resumes written for the MBA roles as well as product resumes, and
+measure it on published samples. Steps 1 to 4 below are done. Step 5 (scoring and bands for the MBA roles) waits
+for the MBA graph (`web/data/graph_mba*.json`), which did not exist when this branch was written.
+
+**1. Coverage.** 258 sample files are on the machine (248 before; ten more fetched from university pages). After
+reading each file, 18 of the 50 roles have three or more files, a PDF or DOCX, and an early and a senior sample.
+The publishers' seniority labels were wrong often enough that the count uses the seniority read from each resume.
+196 more published samples were found for the thin roles (`external_sources.json`, 495 entries). Most are on
+resume sites and must be downloaded by hand. Twelve university samples are marked `ask`: the page calls the file
+a sample and does not say that the person is invented, so nothing is fetched until the owner decides. No source
+was found for an early M&A integration sample or a senior governance sample.
+
+**2. Reading.** Every single-resume file now has parse expectations, written from the file's text before the
+reader ran on it (244 files; 9 more are templates). The five packets are cut into their 37 resumes by line range
+(24 with real dates). 250 of 269 parse expectations pass; before this branch the same expectations gave 211 of
+260. Parse health: 252 of 268 read with no flag (210 of 239 before). One class of layout at a time:
+
+| layout class | seen in | change | layout variant |
+|---|---|---|---|
+| Ligatures set apart by the PDF ("pro fi t", "for   fi nance") | 71 files | joined | `ligatures_split` |
+| A line that only starts like a heading ("Project planning" in a skills list, the start of a wrapped bullet) | 73 distinct lines | a heading is made of heading words | (guarded by the samples) |
+| A side column's heading inside the work history (Word text boxes, two-column PDFs) | 10 expectations | a dated job title under Summary, Skills or Education is a job | `side_heading_inside_jobs` |
+| Dates in a column apart from the job lines | 3 files | dated entries with no title are paired, in order, with undated "title, employer, place" lines | `dates_in_a_column` |
+| Placeholder years ("20XX") | 8 files | read as dates; the job has a title and no years; the result page says so | sample `template_placeholder_years` |
+| A year split in two ("Summer 20 24") | 2 files | joined | `dates_year_split` |
+| Only a place beside the dates ("2019 - 2023 / Detroit, MI"), titles with no manager word (teller, processor, buyer) | 8 expectations | the place is not a title; more job nouns | `dates_with_place` |
+| Schooling printed away from its heading | 14 expectations | a degree written out is read anywhere; dates beside a school and no title are not a job | (guarded by the samples) |
+| Seasons and short ranges ("Fall 2021 - present", "May – August 2025") | 4 expectations | read as ranges | (guarded by the samples) |
+
+The layout check is stricter now: a variant must evidence the same skills as the original, not only the same
+roles, years and score. That showed a false tag in the product samples: a word in an employer's name counted as
+a skill ("Beta Apps" gave quality testing). A job line is now read for skills by its title only.
+
+**Held-out measure.** The ten files fetched late in the branch were read by a person first and then by the
+reader, with no tuning in between: one of nine passed. After three general fixes, five of nine pass. The 250 of
+269 above is measured on files the reader was tuned on, so it is optimistic. New files from the download list
+give the next honest number.
+
+**Known misses (19 expectations fail).** Words and month names broken letter by letter by the PDF ("Dece m b er
+2011"); a year split three and one ("Jan 202 2"); a ligature lost as a NUL character ("So ware"); a title printed
+below its bullets, or apart from its employer by another job's bullets; a functional resume with twelve one-line
+jobs; a page header ("Name | Page 2") inside a job; dated publications, courses and memberships read as jobs;
+resumes with no dates (four files). They are in `external_expectations.json` and fail by name in
+`node evals/run.mjs --external`.
+
+**3. Skill expectations.** 130 resumes, two or three per role, each have `must_evidence` and `must_not_tag`
+lists against the MBA taxonomy (1,238 and 807 checks), written by reading the resume. They run with a matcher
+built on `pipeline/taxonomy.json` as the MBA role set sees it. With posting patterns alone the matcher found 871
+of 1,238 (70%) and held 649 of 807. After a pass of resume-language patterns and drops driven by the failures:
+1,022 (83%) and 672 (83%). What is left: skills shown by meaning with no fixed wording (performance improvement,
+client work), course lines and skills lists counted as evidence for experienced people,
+and reader judgment calls ("strategic partnerships" with agencies). The 135 false tags and 216 misses are listed
+per sample by the runner. A certificate or licence now counts wherever it is listed; a line under Interests,
+Awards or Languages is a mention, not evidence.
+
+**4. Role families in resumes.** `createMatcher` takes `roles`: for each family an id, a label, title patterns,
+optional patterns that rule a title out, and `covers` (the families a person is taken to have held when they
+held this one). Each job gets `roleFamily`; the read of a person (in the role, pivoter, new to the role) and the
+presumption of skills are relative to the family asked about when it is not a product family. Product reads do
+not change. A title that is only a grade ("Associate") is read with its employer line.
+The branch was written against a stand-in copied from `pipeline/roles_mba.py`; at the merge the evals moved to
+`web/data/roles_mba.json`, with the same results, and the stand-in was deleted. `evals/resume_titles.json` holds 156 resume titles with the family each
+must get: 149 pass, 7 are marked `known_gap` (a consultant or a bare grade at a firm whose business is the role,
+which the posting side reads from the employer's category; "Associate Strategy Manager" read as analyst;
+"Strategic Planning Analyst" read as manager; "Growth Marketer"; "Asset Manager"). On the samples themselves, the
+role a mid or senior sample was written for is read from one of its job titles in 129 of 191. Most misses are
+neighbouring titles (a "Business Analyst" sample filed under business analytics manager).
+
+**Product results.** `node evals/run.mjs`: 444 pass (272 before, plus new variants, a sample and the title
+eval). Sample scores in `baseline.md` do not move; `experienced_pm` loses one false tag. `calibration.md` now
+counts 263 resumes (packet parts and new files included): bands 34%, 50% and 69% (70% before), same-role above
+other-field 95% of the time, above adjacent-role 88% (89%).
+
+**Open, for the owner.**
+- Which of the twelve `ask` samples to accept.
+- `covers` in the role file is marked "proposed" (seven pairs). Which roles cover which is a product decision.
+- Level from a bank or consulting grade on a resume ("Vice President" at a bank is mid-career). The posting side
+  knows the employer's category; a resume does not. Not handled.
+- Course lines count as evidence at every level. Right for a student, generous for a director.
 ## The MBA graph and its evals (2026-10-12)
 
 Branch `feat/mba-graph`. Data layer only: `pipeline.build_graph --roles mba`, `web/data/roles_mba.json`, and the

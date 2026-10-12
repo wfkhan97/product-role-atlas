@@ -1,0 +1,16 @@
+FIRSTNAME LASTNAME
+City, ST | name@email.com | (555) 555-5555
+
+EXPERIENCE
+Regional Bank, City, ST
+Credit Analyst, June 20XX – Present
+- Wrote credit memos for 30 middle-market borrowers and presented them to the loan committee
+- Built cash-flow models in Excel to test debt service under three scenarios
+
+Community Credit Union, City, ST
+Loan Operations Intern, May 20xx – August 20xx
+- Reviewed 200 loan files for missing documents before the annual audit
+
+EDUCATION
+State University, City, ST
+Bachelor of Science in Finance, May 20XX

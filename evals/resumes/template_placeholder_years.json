@@ -1,0 +1,6 @@
+{
+  "about": "A career-office template that still has its placeholder years. The jobs must be read; the years cannot be.",
+  "targets": ["pm:__all"],
+  "persona": "new_to_role",
+  "parse": { "roles": 2, "max_years": 0, "titles": ["Credit Analyst", "Loan Operations Intern"], "degrees": ["bachelors"] }
+}

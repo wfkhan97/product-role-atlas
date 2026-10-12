@@ -15,6 +15,8 @@ const wrap = (text, width) => text.split("\n").map(l => {
 export const VARIANTS = {
   dates_mm_yyyy: t => mapRoles(t, (title, emp, a, b) => `${title}, ${emp}   01/${a}   –   ${b === "Present" ? "Present" : "01/" + b}`),
   dates_month_names: t => mapRoles(t, (title, emp, a, b) => `${title}, ${emp} | Jan ${a} - ${b === "Present" ? "Present" : "Jan " + b}`),
+  // a PDF that breaks the year in two after the month: "Jan 20 19 - Jan 20 22"
+  dates_year_split: t => mapRoles(t, (title, emp, a, b) => `${title}, ${emp} | Jan ${a.slice(0, 2)} ${a.slice(2)} - ${b === "Present" ? "Present" : "Jan " + b.slice(0, 2) + " " + b.slice(2)}`),
   dates_no_parens: t => mapRoles(t, (title, emp, a, b) => `${title}, ${emp}   ${a} – ${b}`),
   employer_line_above: t => mapRoles(t, (title, emp, a, b) => `${emp.toUpperCase()}   New York, NY\n${title}   ${a} – ${b}`),
   employer_first: t => mapRoles(t, (title, emp, a, b) => `${emp} — ${title} (${a} - ${b})`),
@@ -23,6 +25,15 @@ export const VARIANTS = {
   bullets_wrapped: t => wrap(bullets(t, "• "), 95),
   crlf: t => t.replace(/\n/g, "\r\n"),
   spaced_hyphens: t => t.replace(/([a-z])-([a-z])/g, "$1 - $2"),
+  // a PDF text layer that sets the ligatures apart: "pro fi t", "work fl ow", "for   fi nance"
+  ligatures_split: t => t.replace(/ (fi|fl)(?=[a-z]{2})/g, "   $1 ").replace(/([a-z])(ffi|ffl|ff|fi|fl)(?=[a-z])/g, "$1 $2 "),
+  // a Word text box or a side column whose heading lands inside the work history: the later jobs then sit under
+  // "Key Skills", with the title on its own line above the employer and dates
+  side_heading_inside_jobs: t => { let n = 0; return mapRoles(t, (title, emp, a, b) => `${++n === 2 ? "Key Skills\n" : ""}${title}\n${emp}, New York, NY | ${a} to ${b}`); },
+  // a two-column builder template: the dates of every job in one block, the job lines ("Title   Employer, City, ST") in another
+  dates_in_a_column: t => { if (/\((Summer|Fall|Spring|Winter) \d{4}\)$/m.test(t)) return t; /* a job this rewrite cannot move */ const dates = []; const body = mapRoles(t, (title, emp, a, b) => { dates.push(`January ${a}   -   ${b === "Present" ? "Current" : "January " + b}`); return `${title}   ${emp} ,   New York, NY`; }); return body.replace(/^EXPERIENCE$/m, "EXPERIENCE\n" + dates.join("\n")); },
+  // title, employer, then the dates with only a place beside them: "2019 - 2022 / Austin, TX"
+  dates_with_place: t => mapRoles(t, (title, emp, a, b) => `${title}\n${emp}\n${a} - ${b === "Present" ? "current" : b} / Austin, TX`),
   headings_long: t => t.replace(/^EXPERIENCE$/m, "PROFESSIONAL EXPERIENCE").replace(/^SKILLS$/m, "TECHNICAL PROFICIENCY").replace(/^EDUCATION$/m, "EDUCATION & CREDENTIALS"),
   headings_title_case: t => t.replace(/^(SUMMARY|EXPERIENCE|EDUCATION|SKILLS|PROJECTS|COURSEWORK)$/gm, h => h[0] + h.slice(1).toLowerCase()),
   // what a text layer of a one-page PDF often looks like: all of the above at once

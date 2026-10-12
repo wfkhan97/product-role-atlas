@@ -7,6 +7,7 @@ Each entry gets an id and a `fetch` rule:
   manual  - a resume site: its terms limit use to personal or internal use, or forbid automated retrieval, or could
             not be read. Download by hand if wanted and save under the id in evals/resumes/external/
   page    - a web page whose text is the resume: open it and paste the text
+  ask     - a university sample that is not confirmed as an invented person: the owner decides before any fetch
   no      - left out, with the reason
 """
 import glob
@@ -26,6 +27,18 @@ LEFT_OUT = {
     "kickresume.com/en/help-center/portfolio-manager-resume-sample": "the page says a real person who got hired contributed it",
 }
 
+# published as samples, but nothing on the page says the person is invented: the owner decides before any fetch
+ASK = {
+    "grad-business.media.uconn.edu": "the page calls it a sample; it does not say the person is invented",
+    "sites/598/2025/07/Management-Sample-Resume": "the page calls it a sample; it does not say the person is invented",
+    "zarbcar-mba-business-analytics-resume": "the page calls it a sample; it does not say the person is invented",
+    "zarbcar-mba-marketing-resume.pdf": "the page calls it a sample; it does not say the person is invented",
+    "zarbcar-mba-finance-resume": "found by its file name beside the other samples, with no listing page",
+    "sites/232/2026/01/MBA-Sample": "the page calls it a sample; it does not say the person is invented",
+    "management.buffalo.edu/content/dam/mgt/Career-Resources": "the page calls it a sample; it does not say the person is invented",
+    "sandiego.edu/careers/documents/torero-career-guide": "the file was not opened to confirm a placeholder name",
+}
+
 rows = []
 for p in sorted(glob.glob(os.path.join(SRC, "resume_sources_*.json"))):
     rows += json.load(open(p))
@@ -39,8 +52,11 @@ for r in rows:
     base = f"{r['role']}_{slug}"
     n[base] = n.get(base, 0) + 1
     reason = next((why for k, why in LEFT_OUT.items() if k in r["url"]), None)
+    ask = None if reason else next((why for k, why in ASK.items() if k in r["url"]), None)
     if reason:
         fetch = "no"
+    elif ask:
+        fetch, reason = "ask", ask
     elif r["file_type"] == "html":
         fetch = "page"
     elif r["source_kind"] in OPEN:
