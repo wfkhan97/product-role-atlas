@@ -7124,5 +7124,162 @@
   },
   "note": "two columns flattened badly; the sidebar (CONTACT INFORMATION, KEY SKILLS) prints first, then both job header lines and the degree line together, then the name, headline and summary, then the PROFESSIONAL EXPERIENCE heading and all bullets in one run without glyphs; job header is one line 'Title | Employer, City, ST | YYYY – Present' (pipes, en dash, years only) both job headers and the degree line print BEFORE the n",
   "seniority": "early"
+ },
+ "business_intelligence_suffolkunivers_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Teaching Assistant",
+    "Regulatory Analyst"
+   ],
+   "min_years": 0.2,
+   "max_years": 1.5,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; employer in capitals with the place, then title and dates on the next line; a teaching assistant and a peer tutor (three date ranges on one line) are dated jobs that give no years. The text layer breaks a year (\"Jan 202 2\"), a month (\"No v\") and a title (\"Manage ment\"). Projects are dated.",
+  "seniority": "early"
+ },
+ "financial_manager_universityofrh_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Equity Analyst",
+    "Finance Intern"
+   ],
+   "min_years": 4,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "One column; employer line, then title and a season (\"Spring 2025\", \"Summer 2024\", \"Fall 2021 - present\") on the next. Name in small capitals set apart. A year is split in the graduation date (\"May 202 5\"). Two experience sections: Related and Other.",
+  "seniority": "early"
+ },
+ "hr_manager_universityofrh_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Human Resources Intern"
+   ],
+   "max_years": 0.5,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "One column; employer and place, then title and dates. Both jobs are internships; one range gives the year once (\"May – August 2025\"). Leadership section holds an undated and a dated role.",
+  "seniority": "early"
+ },
+ "investment_manager_rutgersunivers_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Junior Financial Analyst",
+    "Assistant Branch Manager"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; headings in small capitals set apart (\"P ROFESSIONAL E XPERIENCE\", \"F INANCE I NTERNSHIP\"); education and a two-column course list come first; employer and place, then title and dates.",
+  "seniority": "mid"
+ },
+ "ldp_americanuniver_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "MBA Consultant",
+    "Operations Manager",
+    "Operations Specialist"
+   ],
+   "min_years": 6,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Word file; employer, place, a tab and the dates on one line, the title on the next. A dated project and a dated club role sit outside the work history.",
+  "seniority": "mid"
+ },
+ "ldp_loyolamarymoun_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Founder"
+   ],
+   "min_years": 9.5,
+   "max_years": 13,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; title, employer, place and dates on one line with wide gaps. The text layer breaks words and month names letter by letter (\"M a rketing\", \"Dece m b er 2011 - Janua r y 2018\").",
+  "seniority": "senior"
+ },
+ "management_consultant_suffolkunivers_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Business Consultant",
+    "Management Consulting Intern"
+   ],
+   "min_years": 7,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; skills first; employer, place and dates on one line (\"June 2018–Present\", no spaces), bullets, then the title BELOW its bullets. Community roles are dated.",
+  "seniority": "mid"
+ },
+ "org_dev_georgewashingt_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Human Resource Development and Communications Specialist",
+    "Research Center Intern",
+    "Information Intake Assistant"
+   ],
+   "min_years": 17,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; the degrees are printed before the Education heading, which comes last; employer, place and dates (\"September 2007 to Present\", \"September to December 2006\") on one line, title on the next; a second, undated title under the first employer. Career-office footer at the end.",
+  "seniority": "senior"
+ },
+ "procurement_rutgersbusines_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Customer Service Officer",
+    "Procurement Intern"
+   ],
+   "min_years": 6,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "One column; headings end with a colon and a note (\"LEADERSHIP: (OPTIONAL SECTION)\"); employer, place and dates on one line, title on the next. An associate degree, a dated club role and a dated class project.",
+  "seniority": "early"
+ },
+ "strategic_finance_universityofco_1": {
+  "kind": "template",
+  "note": "Word template: \"Company, City, ST, Month 20XX – Present\" and \"Title\" as placeholders.",
+  "seniority": "early"
  }
 }

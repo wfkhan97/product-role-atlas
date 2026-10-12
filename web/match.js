@@ -192,7 +192,7 @@
   const VIA_LABEL = { research: "academic research", consulting: "consulting / analyst work", engineering: "engineering", marketing: "marketing", finance: "finance / operations", founder: "founder / venture work", coursework: "coursework" };
 
   const OUTCOME = /\d+ ?%|\$\s?\d|\b\d+(\.\d+)?\s?(x|k|m|b|mm)\b|\b\d{2,}\+?\s?(users|customers|participants|clients|engineers|people|accounts|students|enterprise|interviews|studies|features|releases|papers)\b|\b(increas|reduc|improv|grew|lift|boost|cut|saved|doubled|tripled|drove|accelerat|won|adopted|published)\w*\b/i;
-  const DATE = /((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}\s*(–|-|—|to|through)\s*(((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}|present|current|now|today)|\b(summer|fall|spring|winter)\s+(19|20)\d{2}\b|\((19|20)\d{2}\)|\b(19|20)\d{2}\s*[-–]\s*(19|20)\d{2}\b|\b\d{1,2}\/\s?\d{2}\s*(–|-|—|to|through)\s*(\d{1,2}\/\s?\d{2}\b|present|current|now|today)|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+['’]\d{2}\s*(–|-|—|to|through)\s*((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+['’]\d{2}|present|current|now|today)/i;
+  const DATE = /((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}\s*(–|-|—|to|through)\s*(((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}|present|current|now|today)|\b(summer|fall|autumn|spring|winter)\s+(19|20)\d{2}\b(\s*(–|-|—|to)\s*(present|current|now|today|((summer|fall|autumn|spring|winter)\s+)?(19|20)\d{2})\b)?|\((19|20)\d{2}\)|\b(19|20)\d{2}\s*[-–]\s*(19|20)\d{2}\b|\b\d{1,2}\/\s?\d{2}\s*(–|-|—|to|through)\s*(\d{1,2}\/\s?\d{2}\b|present|current|now|today)|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+['’]\d{2}\s*(–|-|—|to|through)\s*((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+['’]\d{2}|present|current|now|today)/i;
   // a word that marks a job title, to tell the title from the employer and the city when they sit on separate lines
   const TITLE_WORD = /\b(manager|director|analyst|engineer|associate|intern|lead|leader|officer|consultant|specialist|coordinator|president|head|owner|founder|developer|designer|scientist|representative|supervisor|trainee|assistant|strategist|partner|administrator|advisor|adviser|banker|accountant|auditor|buyer|planner|recruiter|researcher|fellow|architect|controller|treasurer|economist|underwriter|trader|broker|agent|clerk|technician|teacher|tutor|instructor|professor|editor|writer|marketer|generalist|apprentice|chief|vp|cfo|ceo|coo|cto|cmo|principal|executive|processor|teller|barista|cashier|nurse|operator|receptionist|secretary|bookkeeper|paralegal|attorney|counsel|lawyer|coach|commander|captain|programmer|tester|appraiser|investigator|examiner|inspector|merchandiser|purchaser|scheduler|bartender|extern|lecturer|trainer|producer|reporter|advocate|liaison|superintendent|foreman|estimator|dispatcher|counselor|organizer|facilitator|aide|expediter|sergeant|lieutenant|chef|steward|attendant|ambassador|cpa)\b/i;
   // a line that starts with a verb in the past tense is a sentence about work, not a title ("Tracked partner campaigns")
@@ -216,7 +216,7 @@
     [/^(research experience|research)\b/i, "experience"],
     [/^(leadership|volunteer|community|campus|extra[- ]?curricular)\b.*\b(experience|activities|involvement|service)$/i, "projects"],
     // "Business experience", "Related experience", "Other employment": a short line that ends with the word
-    [/^([A-Za-z&]+ ){1,3}(experience|employment)$/i, "experience"],
+    [/^([A-Za-z&]+ ){1,3}(experience|employment|internships?)$/i, "experience"],
     [/^(education|academic)\b/i, "education"],
     [/^(relevant )?(coursework|courses)/i, "coursework"],
     [/^(academic |class |course )?(projects?|capstone|selected projects|side projects|hackathons?|leadership( & activities)?|activities|extra[- ]?curricular|volunteer(ing| work| experience)?|organi[sz]ations|affiliations|memberships|involvement)\b/i, "projects"],
@@ -228,7 +228,7 @@
   const HEAD_WORD = /^(professional|work|relevant|research|industry|experience|employment|history|positions?|career|leadership|volunteer(ing)?|community|campus|extra-?curriculars?|activities|involvement|service|education|educational|academic|coursework|courses?|projects?|capstone|selected|side|hackathons?|organi[sz]ations?|affiliations?|memberships?|technical|core|key|skills?|tools?|technologies|competenc(y|ies)|certifications?|proficienc(y|ies)|summary|profile|objective|about|me|overview|highlights?|publications?|awards?|honou?rs|interests|languages?|references|and|of|additional|other|related|training|background|qualifications?|accomplishments?|achievements?|credentials?|licen[sc]es?|areas?|expertise|information|personal|executive|internships?|spoken|software|computer|cont|continued|select|prior|previous)$/i;
   const headWords = s => s.replace(/\(cont(inued|\.|'d)?\)/i, "").split(/[\s,\/&:\-–]+/).filter(Boolean);
   // "Health Law Experience", "ATHLETIC COACHING EXPERIENCE": any few capitalised words that end with the word
-  const headingWords = s => { const w = headWords(s); return w.length > 0 && (w.every(x => HEAD_WORD.test(x)) || (/\b(experience|employment)$/i.test(s) && w.length <= 4 && w.every(x => /^[A-Z]/.test(x) || /^(and|of)$/.test(x)))); };
+  const headingWords = s => { const w = headWords(s); return w.length > 0 && (w.every(x => HEAD_WORD.test(x)) || (/\b(experience|employment|internships?)$/i.test(s) && w.length <= 4 && w.every(x => /^[A-Z]/.test(x) || /^(and|of)$/.test(x)))); };
   const PM_TITLE = /\b(product (manager|management|owner|lead|director|marketing manager|(data )?analyst|operations|ops|strategist)|\bAPM\b|\bTPM\b|technical program manager|\bPM\b|head of product|chief product|\bCPO\b|\bVP,? product)/i;
   const INTERN = /\bintern(ship)?\b|\bco-?op\b|\bfellow(ship)?\b/i;
   const TITLE_LEVEL = [[/\b(chief|cpo|vp|vice president|head of|director|group product|principal|staff|lead)\b/i, "lead"], [/\b(senior|sr\.?)\b/i, "senior"], [/\b(associate|junior|jr\.?|apm|intern|assistant)\b/i, "associate"]];
@@ -242,7 +242,9 @@
   function yearsBetween(text) {
     const d = datesOf(text); if (!d.length) return null;
     const now = new Date(); const open = /present|current|now|today/i.test(text);
-    if (/\b(summer|fall|spring|winter)\b/i.test(text) && d.length === 1) return 0.25;
+    const season = text.match(/\b(summer|fall|autumn|spring|winter)\s+(?:19|20)\d{2}/i);
+    if (season && d.length === 1 && !open) return 0.25;
+    if (season && d[0].m == null) d[0].m = { spring: 1, summer: 6, fall: 9, autumn: 9, winter: 1 }[season[1].toLowerCase()]; // "Fall 2021 - present"
     if (d.length === 1 && !open) return 0.5;
     const frac = (x, end) => x.y + (x.m ? (x.m - (end ? 0 : 1)) / 12 : 0);
     let a = frac(d[0], false), z = open && d.length === 1 ? now.getFullYear() + now.getMonth() / 12 : open ? Math.max(now.getFullYear() + now.getMonth() / 12, frac(d[d.length - 1], true)) : frac(d[d.length - 1], true);
@@ -265,6 +267,8 @@
     // and it often sets the ligatures fi, fl, ff apart from their word: "pro fi t", "work fl ow", "for   fi nance"
     // (one space on each side inside a word, a wide gap before it at the start of a word)
     text = text.replace(/([A-Za-z]) (ffi|ffl|ff|fi|fl) (?=[a-z])/g, "$1$2").replace(/(^|\s{2,}|[-(\/]\s?)(ffi|ffl|ff|fi|fl) (?=[a-z]{2})/gm, "$1$2");
+    // a range that names the year once: "May – August 2025", "September to December 2006"
+    text = text.replace(/\b((?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?)(\s*(?:–|-|—|to)\s*)((?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+((?:19|20)\d{2}))\b/gi, (m, a, sep, b, y) => /^(may|mar|jan|jun|jul|aug|sep|oct|nov|dec|feb|apr)/i.test(a) ? `${a} ${y}${sep}${b}` : m);
     // a year the PDF split in two after a month or a season: "Summer 20 24", "May 20 xx"
     text = text.replace(/\b((?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?|summer|fall|autumn|spring|winter)(\s+)(19|20) (\d{2}|[xX]{2})\b/gi, "$1$2$3$4");
     // The placeholder years of a template ("20XX", "19xx") are read as dates, so its jobs are found. They give
