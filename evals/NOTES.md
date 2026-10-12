@@ -390,9 +390,6 @@ are: the model rejects a tool named in the qualifications (BI tools, procurement
 mentions the thing without the person doing it (transformation programmes, another team's name). About 21
 skills show a high missed share because the model infers the skill from the role; nothing in the posting names it.
 
-**Not yet done.** The model audit of the new skills (`skill_audit.py`, 3,197 requests prepared): the OpenAI key
-in `.env` had expired. Until it runs, the new patterns are checked by reading samples only.
-
 ## Role held counts as evidence (2026-10-11)
 
 Branch `feat/held-role-scoring`. A staff PM put a real resume in and read 42% against entry-level product roles.
