@@ -178,7 +178,7 @@
     [/^([A-Za-z&]+ ){1,3}(experience|employment)$/i, "experience"],
     [/^(education|academic)\b/i, "education"],
     [/^(relevant )?(coursework|courses)/i, "coursework"],
-    [/^(academic |class |course )?(projects?|capstone|selected projects|side projects|hackathons?|portfolio|leadership( & activities)?|activities|extra[- ]?curricular|volunteer|organi[sz]ations|affiliations|memberships|involvement)\b/i, "projects"],
+    [/^(academic |class |course )?(projects?|capstone|selected projects|side projects|hackathons?|portfolio|leadership( & activities)?|activities|extra[- ]?curricular|volunteer(ing| work| experience)?|organi[sz]ations|affiliations|memberships|involvement)\b/i, "projects"],
     [/^(technical |core |key )?(skills|tools|technologies|competencies|certifications?|proficienc(y|ies))\b/i, "skills"],
     [/^((professional|executive|career|personal) )?(summary|profile|objective|about( me)?|overview|highlights)\b/i, "summary"],
     [/^(publications?|awards?|honou?rs|interests|languages|references)\b/i, "other"],
@@ -214,17 +214,25 @@
   function parseResume(text) {
     // PDF text often spaces out hyphens ("purpose - built", "self - learning"); join them so words match again
     const raw = text.replace(/\r/g, "").replace(/([A-Za-z]) - ([a-z])/g, "$1-$2").split(/\n|(?=\s[•▪●‣◦■\uf0b7\uf0a7\uf0d8]\s)|(?<=[a-z]{4}\.)\s{2,}(?=[A-Z])/);
+    // a date range that a narrow column broke in two: "October 2020 -" / "Current", "June 2018 - October" / "2020"
+    const MON = "(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\\.?";
+    const openEnd = new RegExp("(?:(?:19|20)\\d{2}|\\d{1,2}\\/\\d{2,4})\\s*[-–—]\\s*(?:" + MON + ")?\\s*$", "i"), closeStart = new RegExp("^\\s*(?:(?:" + MON + "\\s+)?(?:19|20)\\d{2}|\\d{1,2}\\/\\d{2,4}|present|current)\\b", "i");
+    for (let k = 0; k < raw.length - 1; k++) if (openEnd.test(raw[k]) && closeStart.test(raw[k + 1])) { raw[k] = raw[k].trimEnd() + " " + raw[k + 1].trim(); raw.splice(k + 1, 1); }
+    // a heading set with a space between every letter: "E D U C AT I O N", "K E Y S K I L L S"
+    const HEAD_WORDS = /(professional|work|relevant|experience|employment|history|education|academic|technical|key|core|skills|summary|profile|about|me|projects|certifications|awards|activities|leadership|additional|information)/g;
+    for (let k = 0; k < raw.length; k++) { const t = raw[k].trim().replace(/\s+/g, " "); if (/^(?:[A-Z&]{1,2} ){3,}[A-Z]{1,2}$/.test(t)) raw[k] = t.replace(/ /g, "").toLowerCase().replace(HEAD_WORDS, " $1").replace(/\s+/g, " ").trim().toUpperCase(); }
     const BULLET = /^\s*([•▪●‣◦■\uf0b7\uf0a7\uf0d8\-–—*·]\s+|o\s{2,})/; const usesBullets = raw.filter(r => BULLET.test(r)).length >= 3;
     // an employer on its own line above its roles: "AMERICAN EXPRESS   New York, NY"
     const EMPLOYER_LINE = /^[A-Z][A-Z0-9&.'’\-]+( [A-Z0-9&.'’\-]+)*(\s{2,}|\s*[|,]|$)/;
-    const lines = []; let section = null; let role = -1; const roles = []; const degrees = new Set(); let csDegree = false; let employer = null;
+    for (let k = 0; k < raw.length; k++) { const m = raw[k].match(/^\s*(\S(?:.{0,30}?\S)?)\s{2,}(\S.*)$/); if (m && SECTION.some(([re]) => re.test(m[1])) && m[1].split(" ").length <= 3 && !/\d/.test(m[1])) raw.splice(k, 1, m[1], m[2]); }
+    const lines = []; let section = null; let role = -1; const roles = []; const degrees = new Set(); let csDegree = false; let employer = null; let strayMode = false;
     // a heading carries no year: "Project Engineer 2004-2007" is a job, not the Projects section
     const headerLike = s => s.length < 60 && !/[.;:]$/.test(s) && !/(19|20)\d{2}/.test(s) && !(TITLE_WORD.test(s) && !/\b(experience|summary|profile|history)\b/i.test(s)) && (s === s.toUpperCase() || SECTION.some(([r]) => r.test(s)));
     // each line as written (r0, to see wide gaps), on single spaces (r), and whether it carried a bullet mark
     const items = raw.map(x => { const hadBullet = BULLET.test(x); const r0 = x.replace(/^\s*o\s{2,}/, "").replace(/^[\s•▪●‣◦■\uf0b7\uf0a7\uf0d8\-–—*·]+/, "").trim(); return { r0, r: r0.replace(/[ \t\u00a0]{2,}/g, " "), hadBullet }; }).filter(x => x.r);
     const isHeading = t => { const h = t.replace(/\s*:$/, ""); return headerLike(h) && SECTION.some(([re]) => re.test(h)); };
     // a short line that could name a job, an employer or a place: not a bullet, not a sentence, not a heading
-    const labelLike = it => it && !it.hadBullet && it.r.length < 70 && (!/[.!?;]$/.test(it.r) || /\b(inc|ltd|co|corp|llc|llp|plc|l\.p|n\.a|s\.a|gmbh)\.$/i.test(it.r)) && it.r.split(" ").length <= 9 && !DATE.test(it.r) && !isHeading(it.r);
+    const labelLike = it => it && !it.hadBullet && it.r.length < 110 && (!/[.!?;]$/.test(it.r) || /\b(inc|ltd|co|corp|llc|llp|plc|l\.p|n\.a|s\.a|gmbh)\.$/i.test(it.r)) && it.r.split(" ").length <= 14 && !DATE.test(it.r) && !isHeading(it.r);
     const SEP = /\s*(?:,| at | \| |\||—|–| - |\(|\)|•|·)\s*/;
     const parts = t => t.split(SEP).map(x => x.trim()).filter(x => x.length > 1);
     for (let i = 0; i < items.length; i++) {
@@ -235,17 +243,29 @@
       const isCourse = sec === "coursework" || (!section && COURSE_LINE.test(r));
       const hasDate = DATE.test(r);
       // a long bullet that mentions a date range ("sales from 2004-present") is not a job line
-      if ((sec === "experience" || sec === "body" || sec === "projects") && hasDate && r.length < 160 && !/^[a-z]/.test(r) && !(hadBullet && r.length >= 90)) {
+      // A dated line with a job title beside it is a job wherever it sits, unless it reads as schooling: columns
+      // and text boxes can bunch the headings together and leave the wrong section in force.
+      const SCHOOL = /\b(university|college|school|institute|academy|degree|bachelor|master|diploma|gpa|certificat\w*|certified|licen[sc]e)\b/i;
+      // only in a resume whose jobs have not been found under an experience heading
+      const stray = (strayMode || !roles.length) && hasDate && sec !== "experience" && sec !== "body" && sec !== "projects" && sec !== "education" && !hadBullet && r.length < 160 && !SCHOOL.test(r)
+        && [r, ...lines.slice(-3).filter(l => l.label).map(l => l.text), labelLike(items[i + 1]) ? items[i + 1].r : ""].some(x => x && !SCHOOL.test(x) && parts(x).some(y => TITLE_WORD.test(y) && y.split(" ").length <= 7));
+      if (stray) { section = "experience"; strayMode = true; }
+      if ((sec === "experience" || sec === "body" || sec === "projects" || stray) && hasDate && r.length < 160 && !/^[a-z]/.test(r) && !(hadBullet && r.length >= 90)) {
         // What stands on the dated line besides the dates: a title, an employer, a place, or nothing at all.
         const dateText = r.match(DATE)[0]; const dm = r.indexOf(dateText);
         const own = parts(r.slice(0, dm) + " | " + r.slice(dm + dateText.length));
+        // the same dates printed again under a job line ("... | 2022 to Present |" then "2022 – Present")
+        const lastRole = roles[roles.length - 1], sp = spanOf(dateText);
+        if (!own.length && lastRole && lines[lines.length - 1].kind === "role" && lastRole.span && sp && lastRole.span[0] === sp[0] && lastRole.span[1] === sp[1]) continue;
         let title = own.find(x => TITLE_WORD.test(x)); const near = [];
         if (!title) {
           // The title is on a line of its own: just above the dates ("Senior Product Manager" / "Plaid" /
           // "01/2021 - Present") or just below them ("Microsoft July 2015 - December 2019" / "Program Manager").
-          const prev = []; for (let k = lines.length - 1; k >= 0 && prev.length < 3; k--) { const l = lines[k]; if (l.label && l.section === sec) prev.push(l); else break; }
+          const prev = []; for (let k = lines.length - 1; k >= 0 && prev.length < 3; k--) { const l = lines[k]; if (l.label && (l.section === sec || stray)) prev.push(l); else break; }
           const next = []; for (let k = i + 1; k < items.length && next.length < 2 && labelLike(items[k]); k++) next.push(items[k]);
-          const order = [prev[0], next[0], prev[1], next[1], prev[2]].filter(Boolean); // up to three lines above: title / city / employer / dates
+          // Dates alone on a line belong with the label lines above them (title / city / employer / dates, or a title
+          // line wrapped in two); dates that share a line with the employer often have the title just below.
+          const order = (own.length ? [prev[0], next[0], prev[1], next[1], prev[2]] : [prev[0], prev[1], prev[2], next[0], next[1]]).filter(Boolean);
           const pick = order.find(c => parts(c.text || c.r).some(x => TITLE_WORD.test(x)));
           if (pick) {
             title = parts(pick.text || pick.r).find(x => TITLE_WORD.test(x));
@@ -259,8 +279,8 @@
         const lvl = (TITLE_LEVEL.find(([re]) => re.test(title)) || [, isPM ? "mid" : null])[1];
         const family = isPM ? (TITLE_FAMILY.find(([, re]) => re.test(title)) || ["pm"])[0] : null;
         const around = [...own, ...near.flatMap(parts)].filter(x => x !== title).join(" | ");
-        roles.push({ title, text: whole, years: yearsBetween(dateText), isPM, family, isIntern: INTERN.test(title) || INTERN.test(r), level: lvl, section: sec, line: lines.length, employerLine: [employer, around].filter(Boolean).join(" | ") || null, capsLead: EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(own[0] || ""), span: spanOf(dateText) });
-        role = roles.length - 1; lines.push({ text: whole, kind: "role", section: sec, role }); continue;
+        roles.push({ title, text: whole, years: yearsBetween(dateText), isPM, family, isIntern: INTERN.test(title) || INTERN.test(r), level: lvl, section: stray ? "experience" : sec, line: lines.length, employerLine: [employer, around].filter(Boolean).join(" | ") || null, capsLead: EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(own[0] || ""), span: spanOf(dateText) });
+        role = roles.length - 1; lines.push({ text: whole, kind: "role", section: stray ? "experience" : sec, role }); continue;
       }
       if ((sec === "experience" || sec === "body") && !hadBullet && !hasDate && r.length < 80 && EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(r)) { employer = r; lines.push({ text: r, kind: "employer", section: sec, role: -1, label: true }); continue; }
       // a wrapped bullet: in a resume that marks bullets, an unmarked line after a bullet continues it
@@ -269,7 +289,7 @@
       if (sec === "education" || /\b(university|college|school|institute)\b/i.test(r) && DEGREE.some(([re]) => re.test(r))) {
         for (const [re, id] of DEGREE) if (re.test(r)) { degrees.add(id); if (CS_DEGREE.test(r)) csDegree = true; }
       }
-      lines.push({ text: r, kind: isCourse ? "course" : sec === "skills" ? "skill" : sec === "summary" ? "summary" : sec === "education" ? "education" : "bullet", section: sec, role: sec === "experience" || sec === "body" ? role : -1, label: (sec === "experience" || sec === "body" || sec === "projects") && labelLike(items[i]) });
+      lines.push({ text: r, kind: isCourse ? "course" : sec === "skills" ? "skill" : sec === "summary" ? "summary" : sec === "education" ? "education" : "bullet", section: sec, role: sec === "experience" || sec === "body" ? role : -1, label: sec !== "education" && labelLike(items[i]) });
     }
     // An employer line that carries the dates of the whole stay, with the roles held there dated beneath it
     // ("MAJOR TELECOM CORP. 1994 – 2017", then "Director (2001 – 2017)", "Manager (1999 – 2001)"): the employer
