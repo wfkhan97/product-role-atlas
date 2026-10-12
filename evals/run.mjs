@@ -73,6 +73,7 @@ for (const f of samples) {
   const fp = check("must_not_tag ", spec.must_not_tag, false);
   const gapsWrong = check("real_gaps    ", spec.real_gaps, false);
   if (spec.persona) { const ok = r.profile.persona === spec.persona; ok ? pass++ : fail++; out(`  persona      : ${ok ? "PASS" : "FAIL (" + r.profile.persona + ")"}`); }
+  if (spec.expect_employer) { const got = (r.standing && r.standing.employers) || []; const ok = got.includes(spec.expect_employer); ok ? pass++ : fail++; out(`  employer     : ${ok ? "PASS" : "FAIL (" + (got.join(", ") || "none") + ")"}`); }
   if (spec.expected_level) { const ok = LEVEL_OF[spec.expected_level] === r.profile.level; ok ? pass++ : fail++; out(`  level read   : ${ok ? "PASS" : "FAIL (" + r.profile.level + ")"}`); }
   // monotonicity: adding a line that evidences a gap must never lower the overall score
   const tg0 = target(spec.targets[0]);

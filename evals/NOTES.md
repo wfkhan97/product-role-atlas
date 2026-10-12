@@ -408,3 +408,25 @@ every target where a role was held (60% above the level, 50% at it). 193 checks 
 credit values are a first setting; tune them on real resumes in `evals/resumes/private/`. Presumption covers the
 six product families only until the MBA role set has a graph. The real resume that started this is not in the
 samples yet.
+
+### The real resume (2026-10-11, same branch)
+
+The resume that started this then read 40% against product owner. The cause was upstream of scoring: the parser
+read **no roles at all** from it (zero years, "early-career, new to product"), so nothing held could count. It
+is a one-page PDF in a common layout that none of the samples had:
+
+- dates written `05/2025 – 04/2026` (the date pattern knew month names and bare years only);
+- the employer in capitals on its own line above several roles;
+- bullets wrapped onto a second line, which read as separate lines;
+- hyphens spaced out by the PDF text layer ("purpose - built", "self - learning");
+- a "Technical proficiency" heading.
+
+The parser now handles each of these. Two more rules: a product manager counts as having held the product owner
+role (`COVERS`), and an employer line in capitals is matched to our companies in any case. Resume patterns added
+for direct reports and for a named metric that moved (NPS, ARR, handling time).
+
+Result on that resume: product owner (senior) 40% -> 69%, product manager (senior) 47% -> 78%, entry-level
+51% -> 85%; read as senior with 5.6 years in product and American Express recognised. Against staff roles it
+reads 48%: nothing is presumed above the level held. The resume itself stays in `evals/resumes/private/`
+(gitignored). `senior_pm_pdf_layout` is a synthetic sample with the same layout and an employer we hold postings
+for, so the layout and the employer rule are both guarded. 220 checks pass.

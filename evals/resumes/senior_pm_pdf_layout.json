@@ -1,0 +1,48 @@
+{
+  "persona": "experienced_in_role",
+  "notes": "Synthetic. Same layout as a real PDF resume that read as zero roles and 40% against product owner (2026-10-11): employer in capitals on its own line above the roles, MM/YYYY dates, bullets wrapped onto a second line, hyphens spaced out by the PDF text layer, a 'Technical proficiency' heading. The employer is one we hold postings for, so this also covers the employer rule. A product manager counts as having held the product owner role.",
+  "targets": [
+    "pm:senior",
+    "product_owner:senior",
+    "pm:associate"
+  ],
+  "score_band": {
+    "product_owner:senior": [
+      0.55,
+      1.0
+    ],
+    "pm:senior": [
+      0.6,
+      1.0
+    ],
+    "pm:associate": [
+      0.7,
+      1.0
+    ]
+  },
+  "expected_level": "senior",
+  "must_evidence": [
+    "people_management",
+    "metrics_kpis",
+    "launch",
+    "pm_experience",
+    "masters_mba",
+    "bachelors",
+    "sql",
+    "python_r",
+    "genai_llm"
+  ],
+  "must_not_tag": [
+    "ab_testing",
+    "user_research",
+    "customer_interviews",
+    "figma",
+    "prd",
+    "hardware"
+  ],
+  "real_gaps": [
+    "prd",
+    "user_research"
+  ],
+  "expect_employer": "Stripe"
+}

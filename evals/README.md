@@ -27,6 +27,7 @@ it holds the expectations:
 | `persona` | `experienced_in_role`, `new_to_role` or `pivoter`. The redesign should produce a different reading for each. |
 | `targets` | slices to score against, as `family:level` or `family:__all`. |
 | `score_band` | per target, the range a sensible score should land in. A judgment call; tune after the scoring model settles. |
+| `expect_employer` | an employer the matcher must recognise on the first target, because we hold its postings. |
 | `expected_level` | the level a reader would place this person at. Not checked yet; for the level-read feature. |
 | `must_evidence` | skills a human reader says are clearly shown. Each one not tagged is a miss. |
 | `must_not_tag` | skills that are not on the page. Each one tagged is a false positive. The hard constraint: false positives cost user trust faster than misses. |
