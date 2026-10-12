@@ -78,11 +78,79 @@ Sub-skills can be shown as satellite dots: on click (default), for every skill, 
 ## Role sets (v5, 2026-10-11)
 
 A role set is a list of roles with its own title rules: `product` (the six product families) and `mba` (the 50
-roles of mbapreferred.com's "50 MBA Career Options", `pipeline/roles_mba.py`). Scrape and extraction take
-`--roles`; the taxonomy is one vocabulary in which a skill is either shared or belongs to one role set
-(`pipeline/tax.py`). The MBA set is scraped (data/raw/jobs_mba) and extracted (data/processed/jobs_mba.json,
-279 skills); its graph build and interface are not designed yet, and the product map shows only its own part of
-the taxonomy until they are. Only US postings of the MBA set are meant to be shown.
+roles of mbapreferred.com's "50 MBA Career Options", `pipeline/roles_mba.py`). Scrape, extraction and the graph
+build take `--roles`; the taxonomy is one vocabulary in which a skill is either shared or belongs to one role set
+(`pipeline/tax.py`). Only US postings of the MBA set are shown.
+
+## The MBA graph (v6, 2026-10-12)
+
+`pipeline.build_graph --roles mba` writes the data the interface and the matcher need. The interface is not
+designed yet; this is the data layer only.
+
+- **One index, one file per role.** `web/data/graph_mba.json` (about 1 MB, always loaded) has every key of
+  `graph.json` with `jobs` empty. `web/data/graph_mba/<role>.json` holds one role's postings. The index plus the
+  postings of the roles loaded is a graph `web/match.js` reads unchanged. Comparing roles needs the index only.
+  Cost: a view across roles ("all postings at one bank") loads many files.
+- **Company-balanced shares.** One employer counts for at most 5% of a role (`pipeline/balance.py`). Each posting
+  carries its weight `w`. Every share in the index is weighted.
+- **What defines a role, kept apart.** `roles.<role>.defining` lists the skills on at least 80% of the role's
+  postings that are at least 2.5 times as common as elsewhere (the role's own field). `asks` lists what the role
+  asks beyond that. `credentials` lists degrees and experience.
+- **Levels: one scale, three ladders.** Every posting has a level on one scale of eight keys, so levels compare
+  across roles and the matcher keeps one order. The name of a level depends on the ladder: `corporate`, `bank`
+  (banks, private equity, venture capital, asset managers) or `consulting`. A bank Vice President and a consulting
+  Manager both sit at `senior`. Each posting carries its `ladder`; the index has the names per ladder.
+- **Groups are labels.** The 11 groups in the index name sets of roles for the interface. They do not decide files.
+- **Title rules as data.** `web/data/roles_mba.json` has each role's label, group, title patterns (JavaScript
+  regular expressions), the roles it covers, the employer rules and the grade patterns of each ladder.
+  `evals/roles_mba.mjs` is a reference reader.
+- **Evals.** `evals/run_pipeline.py`: labelled titles, levels and countries, 99 golden postings, integrity of the
+  processed file and of the graph files, the JavaScript reader against the Python rules, and the matcher on every role.
+
+## Skill depth for the MBA skills (proposed, not built)
+
+The 180 MBA skills have a one-line definition. Sub-skills, level ladders and build steps are not written. No
+subject experts are available to review them, so every statement must come from postings and pass automated
+checks. Ladders are specific to an industry. Nothing generic is kept.
+
+The unit of content is a **claim**: one sentence with the postings that support it. A claim with no support is
+not published.
+
+1. **Evidence packs** (code, no model). For each skill, ladder and level: the sentences of US postings that
+   matched the skill, with company, title, level and URL. At most two sentences per employer. A cell with fewer
+   than 8 postings from 4 employers gets no rung; the interface says "not enough postings at this level".
+   Cost: about 40% of cells will be empty, mostly senior grades of small roles.
+2. **Draft** (model 1). Input: one skill's evidence packs and its definition. Output per ladder: 3 to 6
+   sub-skills (name, patterns, example), one rung per level with evidence, 3 build steps. Every sentence carries
+   the ids of the evidence sentences it rests on and one quoted phrase of at most 12 words.
+3. **Evidence check** (code). Each quoted phrase must appear word for word in the cited posting. Each sub-skill
+   pattern must match at least 5% of the skill's postings and at least 3 employers. Each rung must cite postings
+   of its own ladder and level. A claim that fails is dropped, not repaired by hand.
+4. **Specificity check** (code, then model 2). A rung must name a tool, an artefact, a counterparty or a number
+   that occurs in its evidence. The code check is a list of terms taken from the evidence. Then a swap test: the
+   critic sees the rung without the skill name and the level, and must pick both from four options. A rung that
+   fits two levels or two skills equally is generic and is dropped.
+5. **Style check** (code). ASD-STE100 about 80% of the way: at most 20 words for an instruction and 25 for a
+   description, one idea per sentence, active voice, simple present, no idioms. Domain terms stay (DCF, S&OP).
+6. **Critic** (model 2, a different model family from model 1). For each claim: "Do the cited sentences support
+   this? Answer from the sentences only." Unsupported claims are dropped. The critic also lists what the evidence
+   says that the draft left out; that list feeds one redraft.
+7. **Ladder check** (code). Within a ladder, a higher rung must not repeat a lower one, and the evidence of a
+   higher rung must come from higher-level postings. Rungs out of order are dropped.
+8. **Release report** per skill: claims drafted, dropped at each check, cells with no rung. A skill with fewer
+   than two rungs on a ladder shows the definition only on that ladder.
+
+Evals that stay in the repository: the evidence, specificity, style and ladder checks run on the published
+files with no model (`evals/README.md`, "Content evals for skill depth"). A sample of 100 claims per release is
+re-judged by the critic with a new seed, to measure how many supported claims the first pass let through wrongly.
+
+Cost: about 180 skills, up to 3 ladders. About 400 drafting requests, 400 redrafts, and 6,000 to 9,000 critic
+and swap-test requests (one per claim). That is above 5,000 requests, so it needs a go-ahead. A pilot on 12
+skills (4 per ladder) costs about 600 requests and shows the drop rates before the full run.
+
+What this does not give: a judgment that a rung is true of the job where postings are silent. Postings say what
+employers ask for, not how the work is done. The content will say "postings at this level ask for", not "at
+this level you do".
 
 ## Later
 

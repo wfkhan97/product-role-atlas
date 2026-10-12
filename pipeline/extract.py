@@ -33,14 +33,25 @@ def skills_for(roleset):
 
 # role set -> where its postings are cached, how a title is classified, and where the output goes
 ROLE_SETS = {
-    "product": {"raw": ["jobs"], "suffix": "",
+    "product": {"raw": ["jobs"], "suffix": "", "geo": lambda j, title: geo(j.get("location", ""), title) + (j.get("location", ""),),
                 "family": lambda title, j: roles.family(title) if roles.title_ok(title) else None,
                 "level": lambda title, company, j: roles.level(title, company)},
     # the three product roles of the MBA list live in the product cache; every other family in jobs_mba
-    "mba": {"raw": ["jobs_mba", "jobs"], "suffix": "_mba",
-            "family": lambda title, j: roles_mba.family(title, j.get("category")),
-            "level": lambda title, company, j: roles_mba.level(title, company, j.get("category"))},
+    # Only US postings of this set are shown, so its country reader is the stricter one (pipeline/geo.py) and its
+    # evidence sentences come from US postings.
+    "mba": {"raw": ["jobs_mba", "jobs"], "suffix": "_mba", "evidence_country": "United States", "split_long": True,
+            "geo": lambda j, title: _geo().country(j.get("location", ""), title, j.get("url"), j.get("ats")),
+            "family": lambda title, j: roles_mba.family(title, j.get("category"), j.get("company")),
+            "level": lambda title, company, j: roles_mba.level(title, company, j.get("category"), j.get("industry"), j.get("family")),
+            "ladder": lambda title, company, j: roles_mba.ladder(title, company, j.get("category"), j.get("industry"), j.get("family"))},
 }
+
+
+def _geo():
+    from pipeline import geo as g  # imported late: pipeline.geo reads this module's tables
+    return g
+
+
 DEPTH = {}
 for _p in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
     DEPTH.update(json.load(open(_p)))
@@ -117,21 +128,30 @@ SELF_VERB = r"(is (?!seeking|looking|hiring|searching|recruiting|currently|an eq
 ENTITY = r"(,? (group|inc\.?|llc|l\.?p\.?|& co\.?|and company|company|corporation|corp\.?|partners|capital|management|financial|holdings|bank|\([A-Z]+: ?[A-Z.]+\)))*"
 
 
-def clean(desc, company=None):
-    """Drop boilerplate lines (EEO statements, benefits, legal, the employer's own description) so they don't inflate skill counts."""
+def clean(desc, company=None, split_long=False):
+    """Drop boilerplate lines (EEO statements, benefits, legal, the employer's own description) so they don't inflate skill counts.
+
+    Some boards send a posting as one line with no breaks. Any boilerplate phrase then removes the whole posting.
+    With split_long, a line over LONG_LINE characters is cut into sentences first. The product set keeps the old
+    behaviour until its baselines are rerun (98 of its postings are affected).
+    """
     about = None
     if company:
         # the name as the posting writes it: the registry name, or its first word ("Houlihan Lokey", "Carlyle")
         first = re.escape(company.split()[0])
         about = re.compile(rf"^\W*(about )?(the )?({re.escape(company)}|{first}){ENTITY},? {SELF_VERB}", re.I)
     out = []
-    for line in desc.split("\n"):
+    lines = desc.split("\n")
+    if split_long:
+        lines = [part for line in lines for part in (SENT_RE.split(line) if len(line) > LONG_LINE else [line])]
+    for line in lines:
         if len(line) > 40 and (BOILER_RE.search(line) or ABOUT_RE.search(line) or (about and about.search(line))):
             continue
         out.append(line)
     return "\n".join(out)
 
 
+LONG_LINE = 600
 SECTION_RE = re.compile(r"(basic|minimum|required|preferred|desired|nice[- ]to[- ]have|bonus|qualifications|requirements|what you('ll| will) bring|about you|who you are|you have|you are)", re.I)
 
 
@@ -211,7 +231,7 @@ def postings(roleset):
                 desc = j.get("description") or ""
                 if len(desc) < 300:
                     continue
-                cleaned = clean(desc, company)
+                cleaned = clean(desc, company, cfg.get("split_long", False))
                 key = (company, j["title"].strip().lower(), hashlib.md5(cleaned.strip().encode()).hexdigest())
                 # the same URL under a second company name is the same posting (a board shared by two registry entries)
                 if key in seen or (j.get("url") and j["url"] in seen):
@@ -239,7 +259,9 @@ def tag_posting(item):
         bucket = "yoe_2" if yoe <= 2 else "yoe_3" if yoe <= 4 else "yoe_5" if yoe <= 6 else "yoe_8" if yoe <= 9 else "yoe_10"
         hits[bucket] = 1
     subs = sorted(sub for sub, (parent, rx) in SUB_RE.items() if parent in hits and rx.search(text))
-    lvl = cfg["level"](title, company, j)
+    ctx = dict(j, company=company, industry=r.get("industry"), family=fam)
+    lvl = cfg["level"](title, company, ctx)
+    country, remote, location = cfg["geo"](j, title)
     found = []
     for sent in sentences(cleaned):
         for sid in hits:
@@ -261,9 +283,9 @@ def tag_posting(item):
         "family": fam,
         "level": lvl,
         "specs": specializations(title),
-        "location": j.get("location", ""),
-        "country": geo(j.get("location", ""), title)[0],
-        "remote": geo(j.get("location", ""), title)[1],
+        "location": location,
+        "country": country,
+        "remote": remote,
         "url": j.get("url"),
         "posted": j.get("posted"),
         "yoe": yoe,
@@ -272,6 +294,7 @@ def tag_posting(item):
         "snippet": re.sub(r"\s+", " ", desc)[:400],
         "desc_chars": len(desc),
         **({"category": j["category"]} if j.get("category") else {}),
+        **({"ladder": cfg["ladder"](title, company, ctx)} if "ladder" in cfg else {}),
     }
     return job, found, stage_mentions(desc)
 
@@ -295,7 +318,7 @@ def main():
             if st:
                 cur = company_stage.get(job["company"])
                 company_stage[job["company"]] = max(cur, st) if cur else st
-            for sid, ev in found:
+            for sid, ev in found if job["country"] == cfg.get("evidence_country", job["country"]) else ():
                 evidence.setdefault(sid, {}).setdefault(LEVEL_GROUP[ev["level"]], []).append(ev)
             jobs.append(job)
     os.makedirs(os.path.join(ROOT, "data", "processed"), exist_ok=True)
