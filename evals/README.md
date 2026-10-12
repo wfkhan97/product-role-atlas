@@ -126,35 +126,70 @@ The matcher evals above check how a resume is read. These check how postings are
   .venv/bin/python -m pipeline.experiments.role_coverage --roles mba
   ```
 
-- `extraction_audit_mba.md` (once run): model judgment on the MBA skills, from
+- `extraction_audit_mba.md`: model judgment on the MBA skills, from
   `pipeline.experiments.skill_audit --roles mba` (needs `OPENAI_API_KEY` in `.env`; `--reuse` afterwards).
 
 A shared skill serves both role sets, so a change to one of its patterns means both sets of steps.
 
+## Pipeline evals for the MBA role set
+
+The evals above check a resume and the tags of a posting. These check the data layer under them: which role and
+level a title gets, which country a location gets, which skills a known posting gets, and whether the graph files
+are whole.
+
+```bash
+.venv/bin/python evals/run_pipeline.py               # all parts; exit 1 when a check fails
+.venv/bin/python evals/run_pipeline.py --only titles # one part: titles, countries, golden, integrity, graph, js, matcher
+.venv/bin/python evals/run_pipeline.py --baseline    # also rewrite pipeline_baseline_mba.md (commit it with the change)
+```
+
+No API key is needed. The `js` and `matcher` parts need `node`.
+
+| part | file | what it guards |
+|---|---|---|
+| titles | `titles_mba.json` | 629 titles with the role each must get, or none. 470 come from the scraped postings, 159 were written to probe the edges ("Executive Assistant, Investment Banking", "Talent Sourcing Manager"). |
+| levels | same file | The level each title must get on its ladder: corporate, bank or consulting. A bank Vice President is `senior`. |
+| countries | `countries.json` | 280 location strings with the country each must get. A wrong country hides a US posting or shows a foreign one. |
+| golden | `golden_mba.json` | 99 postings, two per role, each with the skills it must get and must not get. The posting text is in the file, so the eval does not move when the scrape is refreshed. |
+| integrity | – | No two registry entries share a job board. No URL or id repeats in the processed file. Every skill id exists. Every role has US postings. |
+| graph | – | The role files add up to the index. Every posting is a US posting of its role. Shares in the index equal the weighted shares of the files. No employer weighs more than the cap. The product files are untouched. |
+| js | `roles_mba.mjs` | The JavaScript reader of `web/data/roles_mba.json` gives the same role, level and ladder as `pipeline/roles_mba.py` on every title we hold. |
+| matcher | `graph_mba.mjs` | `web/match.js` builds requirements and scores a resume against each of the 50 roles, with no change to the matcher. |
+
+**How the labels were made.** Before the code was run on them, by reading: each title with its employer, each
+location, each posting in full with the skill names and definitions (not the patterns). The labellers were model
+readers that did not see the code. The instructions they followed are summarised in each file's `about`.
+
+**Rows that do not count.** `"sure": false` marks a row a reader could label either way (about a third of the
+titles). It is reported, not counted. `"known_miss"` (`known_miss_role`, `known_miss_level` for titles) marks a
+wrong answer we accept for now, with the reason. It fails when it starts to pass, so the mark gets removed.
+
+**Golden floors.** The tagger does not find every `must` skill and tags some `must_not` skills. The file holds a
+floor for the first and a ceiling for the second. A change that makes either worse fails. When a taxonomy
+change makes them better, move the floors in the same commit. `pipeline_baseline_mba.md` lists every miss per
+posting; a skill marked * is shared with the product map.
+
+**When a check fails.** Labels are the spec. Fix the rule. If the label is wrong, fix the label and say why in
+its `note` and in the commit. Do not relabel to make a rule pass.
+
+**What these evals do not show.** The rules were fixed on the same titles and locations that now measure them,
+so "all pass" is optimistic. Draw a new sample (other seed) to get an honest rate. The golden postings were
+labelled once by one reader each; two readers per posting would show how much the labels themselves vary.
+
 ## Evals to build
 
-The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline
-only. Each eval below guards one thing that can go wrong without anyone seeing it. Build them in this order.
+The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a
+model audit and the pipeline evals above (items 1 to 6 of the first list). Still to build, in this order:
 
-1. **Title classification** (`evals/titles_mba.json`). A labelled list of job titles with the role each must get,
-   or none. Include titles that must be rejected ("Executive Assistant, Investment Banking", "Talent Sourcing
-   Manager"). Every title rule in `pipeline/roles_mba.py` is a regex; today nothing fails when one breaks.
-2. **Level reading.** The same list with the level each title must get, including bank grades (a bank "Vice
-   President" is mid-career) and consulting grades.
-3. **Country reading.** Locations with the country each must get. Only US postings are shown, so a wrong country
-   hides a posting or shows a foreign one.
-4. **Golden postings.** About 100 postings, two per role, each with the skills it must get and the skills it
-   must not get. This is the posting-side twin of the resume expectations. It runs without an API key.
-5. **Model audit** (`skill_audit.py`). Sampled tagged and untagged postings per skill, judged by a model. It needs
-   an API key once; after that `--reuse` checks every taxonomy change for free.
-6. **Data integrity.** No two registry entries share a job board. No URL appears twice in a processed file. Every
-   skill id in a processed file exists in the taxonomy. Every role has postings.
-7. **Matcher evals per role group.** Sample resumes for finance, banking, consulting, marketing, sales,
-   operations, HR and risk, with the same expectation fields as the product samples. These need the graph build
-   for the MBA set.
-8. **Scoring properties.** A person who held a role at a level scores high against that role at that level and
+1. **Matcher evals per role group.** Sample resumes for finance, banking, consulting, marketing, sales,
+   operations, HR and risk, with the same expectation fields as the product samples. The graph they need now
+   exists (`evals/graph_mba.mjs` loads it).
+2. **Scoring properties.** A person who held a role at a level scores high against that role at that level and
    below. The score against a lower level is never below the score against a higher level for the same resume.
    Adding a line of evidence never lowers a score (this one exists).
-9. **Content evals for skill depth.** Every definition, ladder rung and build step passes a style check (sentence
+3. **Content evals for skill depth.** Every definition, ladder rung and build step passes a style check (sentence
    length, active voice), a specificity check (it names a tool, an artefact or a number from the postings) and an
-   evidence check (its sub-skill patterns match postings; each rung is backed by postings at that level).
+   evidence check (its sub-skill patterns match postings; each rung is backed by postings at that level and on
+   that ladder). The pipeline that produces the content is proposed in `PLAN.md`.
+4. **A fresh sample for titles and countries**, labelled and run once without fixing rules on it.
+5. **A second reader for the golden postings**, to measure agreement between labellers.

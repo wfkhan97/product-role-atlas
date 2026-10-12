@@ -471,3 +471,92 @@ title holds the read at mid. The publishers' seniority labels are too loose to s
 **Open.** A resume's own role is its top-scoring product role in about two of three cases: product manager and
 product owner requirements overlap heavily. The samples are tidier than real resumes, so real ones sit lower in
 each band. Only product roles can be scored until the MBA role set has a graph.
+
+## The MBA graph and its evals (2026-10-12)
+
+Branch `feat/mba-graph`. Data layer only: `pipeline.build_graph --roles mba`, `web/data/roles_mba.json`, and the
+evals for titles, levels, countries, golden postings and integrity (`evals/run_pipeline.py`). The interface is not
+designed. `web/match.js` and `web/app.js` were not touched. Design in [PLAN.md](../PLAN.md), usage in
+[README.md](README.md).
+
+**Order of work.** Labels first: 629 titles, 280 locations and 99 postings were labelled by readers that did not
+see the code. Then the rules were run on them. That order found what follows.
+
+**What the labels found.**
+
+- **Country.** The old reader placed 28 of 276 locations wrongly. "US - Remote" had no country. A state
+  abbreviation anywhere made a posting American ("PARIS LA DÉFENSE", "IN - Bengaluru, India", "DE - Munich").
+  Country codes were not read. SuccessFactors postings (2,300, EY among them) have no location field; the city is
+  in the URL. The new reader (`pipeline/geo.py`) is used for the MBA set only. Result: 21,586 -> 22,378 US
+  postings; 68 postings have no location, down from 2,368.
+- **Titles.** 31 sure labels disagreed with the rules. Sales enablement, sales operations and sales compensation
+  were sales managers. A hotel general manager, a supply-chain software engineer and an auditor "for investment
+  banking" each got a role. At consulting firms, practice titles went to whatever general rule matched first
+  ("Strategy Associate" at Bain was a corporate strategy analyst); the firm's rule now goes first. Management
+  consultant grew from 845 to 1,057 US postings. "Investment Banking Associate, M&A" was corporate development.
+- **Levels.** 39 sure labels disagreed. An analyst read as mid-level on the corporate ladder. "Chief of Staff"
+  read as `staff` (the word) and "Chief of Staff to the Head of X" as VP. "Assistant Brand Manager" read as mid. A
+  principal at a fund read as `staff`, and "Associate Partner" as partner. The three ladders are now explicit
+  lists in `pipeline/roles_mba.py`. Banks in the Fortune list with no employer category (State Street, PNC, BNY)
+  use the bank ladder by Fortune's industry label. Entry-level postings rose from 1,105 to 1,566.
+- **Golden postings.** The tagger finds 85% of the skills a reader says a posting asks for and tags 15.5% of the
+  hard negatives (skills a keyword could wrongly assign). Most missed: people management, synthesis and
+  recommendations, process improvement. Most wrongly tagged: capital markets, AI/ML, energy, healthcare. Many of
+  these are shared skills, so fixing them moves the product map. No pattern was changed in this round; the
+  per-posting list is in [pipeline_baseline_mba.md](pipeline_baseline_mba.md).
+
+**What the integrity checks found.**
+
+- **The cleaner deleted whole postings.** Some boards send a posting as one line. Any boilerplate phrase then
+  removed all of it: 966 MBA postings (AMD, PepsiCo, Ulta, ZS) kept under 30% of their text and 186 US postings had
+  no skills. Long lines are now cut into sentences first, for the MBA set. 98 product postings have the same
+  defect; the product path is unchanged in this branch because the fix moves the product graph.
+- **The 5% cap was not 5%.** Cutting a large employer lowers the total, so its share rose again, to 8% in some
+  roles. `pipeline/balance.py` now solves for the limit. A role with fewer than 20 employers cannot meet 5%;
+  there every employer is cut to the same weight, down to three postings.
+- **Two employers were in the registry twice** (Coterra Energy pointing at Devon Energy's board; J.M. Smucker
+  under two names). The URL guard kept each posting once, but under the wrong name for Coterra.
+- **The matcher looks at the first posting of a graph** to see how skills are stored. A first posting with no
+  skills left every posting unread. The build now puts postings with no skills last in a role file.
+
+**Choices and what each costs.**
+
+- *One file per role.* Small loads and no file consequence for grouping. Cost: 50 files change on a refresh, and
+  a view across roles loads many files (all of them: 22 MB).
+- *One level scale, names per ladder.* The matcher keeps one order of levels. Cost: a bank VP and a consulting
+  Manager are treated as the same seniority, which is a convention, not a fact. The corporate ladder puts
+  "Senior Analyst" at mid-level and "Associate Director" at `group`.
+- *Shares weighted in the index; the matcher counts postings unweighted.* Until the matcher uses `w`, its
+  requirement tiers for a role lean on large employers and can differ from the shares the index shows.
+- *"Defines the role" by rule* (80% of the role, 2.5 times elsewhere). 27 of 50 roles have at least one such
+  skill. Cost: a role with a broad field (program manager, brand manager) has none, and a credential can be
+  one ("Consulting / banking / finance background" for consultants).
+- *Unsure labels are not counted.* 196 of 629 titles. Cost: the hard cases are the ones left out.
+- *Rules were fixed on the labelled sets.* "All pass" is optimistic; a fresh sample gives the honest rate.
+- *Puerto Rico is its own entry*, so its postings are not shown. Postings whose location is only "Remote" (282)
+  have no country and are not shown.
+- *Covers is a proposal.* Seven pairs, each the same function with the covered role narrower or junior
+  (strategy manager covers strategy analyst; strategic finance and financial manager cover FP&A; product manager
+  covers product strategy; procurement covers strategic sourcing; transformation covers digital transformation;
+  business analytics covers business intelligence). A data test did not help: most roles' postings ask for most
+  of another role's core skills.
+
+**Changes the matcher needs to use this graph well (not made here).**
+
+1. Use each posting's weight `w` in `shares()`, so requirement tiers are company-balanced like the index.
+2. Decide how skills are stored from any posting, not from `jobs[0]`.
+3. Treat a role's `defining` skills as given for someone targeting that role (as the industry slot is), not as
+   requirements with gaps.
+4. Read `covers` from `web/data/roles_mba.json`. Its entries have `patterns` and `exclude` as lists and `covers`
+   as "holding this role counts as holding those".
+5. Use the employer's category and the ladder when reading a resume title: "Associate" at a bank is mid-level,
+   "Vice President" is senior. `roles_mba.json` has `employers`, `employer_rules` and `ladders.*.grades` for this;
+   `evals/roles_mba.mjs` shows the order of the rules.
+6. Show a level by its ladder's name (`ladders.<ladder>.levels`), not by `level_labels` alone.
+7. `SOFT`, the AI group and the `domain` cluster are product choices. For the MBA roles, decide which clusters
+   form the industry slot (the taxonomy has `domain`; `real_estate` and `deals` behave like industries too).
+8. Load the index and role files on demand (`evals/graph_mba.mjs` is the pattern); taxonomy and sub-skills
+   come from `taxonomy_mba.json` and `subskills_mba.json`.
+
+**Open.** Skill depth for the 180 MBA skills is proposed in PLAN.md and not built. The golden postings have one
+reader each. The product map still has the one-line cleaner defect and the old country reader.

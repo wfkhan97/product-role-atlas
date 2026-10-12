@@ -17,6 +17,11 @@
   `pipeline.experiments.role_coverage --roles mba`, and committing the updated `evals/extraction_baseline_mba.md`;
   when model answers exist, `pipeline.experiments.skill_audit --roles mba --reuse` as well. Steps are in
   `evals/README.md`.
+- A change to the title rules or levels (`pipeline/roles_mba.py`), to the country reader (`pipeline/geo.py`), to the
+  MBA path of `pipeline/extract.py` or to the role-set part of `pipeline/build_graph.py` also means
+  `.venv/bin/python -m pipeline.build_graph --roles mba`, then `.venv/bin/python evals/run_pipeline.py --baseline`, and
+  committing `web/data/*mba*` and `evals/pipeline_baseline_mba.md`. Labels in `evals/titles_mba.json`,
+  `evals/countries.json` and `evals/golden_mba.json` are the spec; change one only with the reason in its note.
 - Every eval that exists for the product roles gets its counterpart for a new role set before that role set is
   shown in the interface. New kinds of evals are listed in `evals/README.md` under "Evals to build".
 - Permanent documentation lives in `README.md`, `PLAN.md`, `evals/README.md` and `evals/NOTES.md`. Interim

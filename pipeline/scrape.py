@@ -49,7 +49,17 @@ def load_registry(roles_name="product"):
                 extra[r["company"].lower()] = {k: v for k, v in r.items() if k not in ("candidates", "seconds")}
     have = {e["company"].lower() for e in reg if e.get("ats") in ADAPTERS}
     reg = [e for e in reg if e["company"].lower() not in extra or e["company"].lower() in have]
-    return reg + [dict(r, group=f"{roles_name}_employer") for k, r in extra.items() if k not in have]
+    reg = reg + [dict(r, group=f"{roles_name}_employer") for k, r in extra.items() if k not in have]
+    # One job board is one employer: an entry whose board an earlier entry already has is the same employer under
+    # another name ("The J.M. Smucker Company") or a wrong lookup, and its postings would be read twice.
+    seen, out = set(), []
+    for e in reg:
+        board = (e.get("ats"), json.dumps(e.get("config", {}), sort_keys=True))
+        if e.get("ats") in ADAPTERS and e.get("config") and board in seen:
+            continue
+        seen.add(board)
+        out.append(e)
+    return out
 
 
 def main():
