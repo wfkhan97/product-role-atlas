@@ -113,7 +113,7 @@ Checks: 444 pass, 0 fail.
   evidenced but not covered by expectations (review these): fintech, financial_analysis, office_tools, bachelors
   transferable: none
   unmapped bullets: 1
-=== resume titles → role family (stand-in role file): 149/149
+=== resume titles → role family (web/data/roles_mba.json): 149/149
   known gaps (not counted): 7 — Associate Strategy Manager; Consultant; Principal; Associate; Strategic Planning Analyst; Growth Marketer; Asset Manager
 TOTAL: 444 pass, 0 fail
 ```

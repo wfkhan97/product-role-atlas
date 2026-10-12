@@ -1,5 +1,5 @@
 {
- "_about": "Job titles as resumes write them, with the role family each must be read as (null: none of the 50). The resume-side twin of the posting title eval. Titles come from the kinds of title seen in the published samples; employers on the job lines are invented. 'known_gap' marks a case the title rules cannot read yet: it is reported and not counted as a failure, and it stops being a gap the day it passes. Checked by node evals/run.mjs with the role families of web/data/roles_mba.json (or the stand-in in evals/fixtures/ until that file exists).",
+ "_about": "Job titles as resumes write them, with the role family each must be read as (null: none of the 50). The resume-side twin of the posting title eval. Titles come from the kinds of title seen in the published samples; employers on the job lines are invented. 'known_gap' marks a case the title rules cannot read yet: it is reported and not counted as a failure, and it stops being a gap the day it passes. Checked by node evals/run.mjs with the role families of web/data/roles_mba.json.",
  "titles": [
   {
    "title": "FP&A Manager",

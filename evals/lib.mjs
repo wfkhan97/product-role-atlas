@@ -12,11 +12,8 @@ export const EXTERNAL_DIR = path.join(here, "resumes", "external");
 export const EXPECTED = J(path.join(here, "external_expectations.json"));
 export const SOURCES = Object.fromEntries(J(path.join(here, "external_sources.json")).map(e => [e.id, e]));
 
-// Role families of the MBA role set: web/data/roles_mba.json once the graph build writes it, a stand-in until then.
-export function rolesData() {
-  const real = path.join(root, "web/data/roles_mba.json");
-  return fs.existsSync(real) ? { ...J(real), standIn: false } : { ...J(path.join(here, "fixtures/roles_mba.json")), standIn: true };
-}
+// Role families of the MBA role set, written by the graph build from pipeline/roles_mba.py.
+export function rolesData() { return J(path.join(root, "web/data/roles_mba.json")); }
 
 // The taxonomy as the MBA role set sees it (shared skills plus those marked only: ["mba"]), as pipeline/tax.py gives it.
 export function mbaTaxonomy() {

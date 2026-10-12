@@ -146,7 +146,7 @@ for (const sample of samples) {
 if (!only) {
   const T = JSON.parse(fs.readFileSync(path.join(here, "resume_titles.json"))).titles; const wrong = [], gaps = [], closed = [];
   for (const t of T) { const got = MBA.roleFamilyOf(t.title, t.line || ""); const ok = got === t.family; if (t.known_gap) (ok ? closed : gaps).push(t.title); else { ok ? pass++ : (fail++, wrong.push(`"${t.line || t.title}" read as ${got || "none"}, want ${t.family || "none"}`)); } }
-  out(`\n=== resume titles → role family (${ROLES.standIn ? "stand-in role file" : "web/data/roles_mba.json"}): ${T.length - gaps.length - closed.length - wrong.length}/${T.length - gaps.length - closed.length}${wrong.length ? "\n  WRONG: " + wrong.join("\n  WRONG: ") : ""}`);
+  out(`\n=== resume titles → role family (web/data/roles_mba.json): ${T.length - gaps.length - closed.length - wrong.length}/${T.length - gaps.length - closed.length}${wrong.length ? "\n  WRONG: " + wrong.join("\n  WRONG: ") : ""}`);
   out(`  known gaps (not counted): ${gaps.length}${gaps.length ? " — " + gaps.join("; ") : ""}${closed.length ? "\n  no longer a gap, remove the mark: " + closed.join("; ") : ""}`);
 }
 out(`\nTOTAL: ${pass} pass, ${fail} fail`);

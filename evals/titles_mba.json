@@ -2877,7 +2877,9 @@
    "industry": "Wholesalers: Health Care",
    "role": "strategy_manager",
    "level": "director",
-   "ladder": "corporate"
+   "ladder": "corporate",
+   "sure": false,
+   "note": "reviewed: a strategy director inside a supply-chain segment; a reader could say either role"
   },
   {
    "title": "Global Product Marketing Manager",
@@ -3856,7 +3858,8 @@
    "role": "product_manager",
    "level": "mid",
    "ladder": "corporate",
-   "note": "Capital One senior associate = mid on corporate ladder"
+   "note": "Capital One senior associate = mid on corporate ladder",
+   "known_miss_level": "Capital One uses its own grades (\"Senior Associate\" is an early grade); the bank ladder reads it as a bank senior associate"
   },
   {
    "title": "Technical Program Manager, Risk Analysis and Insights, SPARC Portfolio, Data Center Infrastructure",

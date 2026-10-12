@@ -33,7 +33,7 @@ def main():
     n = 0
     with open(path(args.roles), "w") as f:
         for company, r, j, fam, cleaned in extract.postings(args.roles):
-            country = extract.geo(j.get("location", ""), j["title"])[0]
+            country = extract.ROLE_SETS[args.roles]["geo"](j, j["title"])[0]
             if args.country and country != args.country:
                 continue
             f.write(json.dumps({"company": company, "title": j["title"], "url": j.get("url"), "family": fam, "country": country,
