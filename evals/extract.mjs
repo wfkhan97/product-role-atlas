@@ -22,3 +22,6 @@ export async function extractText(file) {
   if (ext === ".docx") return (await require("mammoth").extractRawText({ buffer: fs.readFileSync(file) })).value;
   return fs.readFileSync(file, "utf8");
 }
+
+// node evals/extract.mjs <file>   print a file's text as the app reads it (to read a sample before writing its expectations)
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname) && process.argv[2]) console.log(await extractText(process.argv[2]));

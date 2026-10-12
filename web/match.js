@@ -5,6 +5,7 @@
    Pipeline: parseResume(text) -> lines with section / role context
              tag(parsed)        -> per-skill evidence {strength, lines, subs, via}
              requirements(...)  -> core / common / differentiator tiers, one industry slot, one AI slot
+             readRoles(...)     -> the role family of each job title, from data (the product families are built in)
              standing(...)      -> skills presumed from a role the person held at or above the target level
              score(...)         -> coverage, depth, breadth, level read, persona, what-if */
 (function (root, factory) {
@@ -30,6 +31,10 @@
   const LEVEL_GROUP = { associate: "associate", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
   // which product family a job title belongs to (first match wins; a plain product title is "pm")
   const TITLE_FAMILY = [["tpm", /technical program|\bTPM\b/i], ["pmm", /product marketing/i], ["product_owner", /product owner/i], ["product_analyst", /product (data )?(analyst|analytics|scientist)/i], ["product_ops", /product (operations|ops)/i]];
+  const PRODUCT_FAMILIES = new Set(["pm", "product_owner", "tpm", "pmm", "product_analyst", "product_ops"]);
+  // A title that is only a grade. At a bank, a fund or a consulting firm the employer says what the job is
+  // ("Associate" under "Harris Williams, Investment Banking"), so the whole job line is read, not the title alone.
+  const BARE_RANK = /^(summer |senior |sr\.? |junior |jr\.? )?(analyst|associate|vice president|vp|principal|consultant|manager|director|managing director|partner|intern)( intern)?$/i;
   const LEVEL_TO_LADDER = { associate: "associate", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
   const LADDER_LABEL = { associate: "associate", mid: "mid-level", senior: "senior", lead: "lead" };
 
@@ -324,7 +329,27 @@
     return { lines, roles, degrees, totalYears, pmYears, pmIntern, isStudent, hasSections: lines.some(l => l.kind === "heading") };
   }
 
-  function createMatcher({ taxonomy, subskills, graph }) {
+  // Role families beyond the product ones come from data (web/data/roles_mba.json): for each family an id, a
+  // label, title patterns as regex strings, an optional list of patterns that rule a title out, and `covers`,
+  // the families a person is taken to have held when they held this one. The first family that matches wins.
+  function compileRoles(roles) {
+    const list = Array.isArray(roles) ? roles : (roles && roles.families) || [];
+    return list.map(f => ({ id: f.id, label: f.label, rx: rx(f.patterns || []), not: rx(f.exclude || []), covers: f.covers || [] }));
+  }
+
+  function createMatcher({ taxonomy, subskills, graph, roles }) {
+    const FAMS = compileRoles(roles);
+    const famOf = t => { const f = FAMS.find(f => f.rx && f.rx.test(t) && !(f.not && f.not.test(t))); return f ? f.id : null; };
+    // The role family of a job title, or null: "FP&A Manager" -> fpa. An internship keeps its family; the reads
+    // that count years in a role leave internships out.
+    function roleFamilyOf(title, line) {
+      const t = (title || "").trim(); if (!t || !FAMS.length) return null;
+      return famOf(t) || (BARE_RANK.test(t) && line ? famOf(line.replace(DATE, " ")) : null);
+    }
+    function readRoles(parsed) { for (const r of parsed.roles) if (r.roleFamily === undefined) r.roleFamily = roleFamilyOf(r.title, r.text); return parsed; }
+    // who counts as having held a role family: the family itself and every family that covers it
+    const countsAs = family => [family, ...(COVERS[family] || []), ...FAMS.filter(f => f.covers.includes(family)).map(f => f.id)];
+    const heldIn = (r, counts) => counts.includes(r.family) || counts.includes(r.roleFamily);
     const skills = taxonomy.skills; const byId = Object.fromEntries(skills.map(s => [s.id, s]));
     const G = graph;
     if (G.jobs.length && typeof G.jobs[0].skills[0] === "number") for (const j of G.jobs) { j.skills = j.skills.map(i => G.skill_ids[i]); j.sub = (j.sub || []).map(i => G.sub_ids[i]); }
@@ -418,16 +443,24 @@
       return level;
     }
 
-    function profileOf(parsed) {
-      const years = parsed.totalYears, pm = parsed.pmYears;
-      const titleLevel = parsed.roles.filter(r => r.isPM && !r.isIntern).map(r => r.level).reduce((a, l) => ({ lead: 4, senior: 3, mid: 2, associate: 1 }[l] > ({ lead: 4, senior: 3, mid: 2, associate: 1 }[a] || 0) ? l : a), null);
+    // The read is relative to the role asked about. For a product role (or no role), any product title counts,
+    // as before. For another role family, only jobs in that family (or one that covers it) count as "in the role".
+    function profileOf(parsed, family) {
+      readRoles(parsed);
+      const years = parsed.totalYears;
+      const other = family && !PRODUCT_FAMILIES.has(family) ? countsAs(family) : null;
+      const inRole = r => other ? heldIn(r, other) : r.isPM;
+      const work = parsed.roles.filter(r => !/teaching assistant|\bTA\b|tutor/i.test(r.title));
+      const pm = other ? work.filter(r => inRole(r) && !r.isIntern).reduce((a, r) => a + (r.years || 0), 0) : parsed.pmYears;
+      const pmIntern = other ? work.some(r => inRole(r) && r.isIntern) : parsed.pmIntern;
+      const titleLevel = parsed.roles.filter(r => inRole(r) && !r.isIntern).map(r => r.level).reduce((a, l) => ({ lead: 4, senior: 3, mid: 2, associate: 1 }[l] > ({ lead: 4, senior: 3, mid: 2, associate: 1 }[a] || 0) ? l : a), null);
       let persona, level;
-      if (pm > 0) { persona = "experienced_in_role"; level = levelFrom(pm, titleLevel, parsed.roles.filter(r => r.isPM && !r.isIntern)); }
-      else if (years >= 3 && !parsed.pmIntern) { persona = "pivoter"; level = years >= 8 ? "mid" : "associate"; } // a PM internship means the early-career path, not a pivot
+      if (pm > 0) { persona = "experienced_in_role"; level = levelFrom(pm, titleLevel, parsed.roles.filter(r => inRole(r) && !r.isIntern)); }
+      else if (years >= 3 && !pmIntern) { persona = "pivoter"; level = years >= 8 ? "mid" : "associate"; } // a PM internship means the early-career path, not a pivot
       else { persona = "new_to_role"; level = "associate"; }
       const backgrounds = []; const bg = (re, id) => { if (parsed.roles.some(r => re.test(r.text)) || (id === "research" && parsed.degrees.has("phd"))) backgrounds.push(id); };
       bg(/research|phd|postdoc|lab\b|scientist|fellow/i, "research"); bg(/engineer|developer|\bswe\b|programmer/i, "engineering"); bg(/consult|analyst|strateg|advisory/i, "consulting"); bg(/design/i, "design"); bg(/marketing|brand|growth|content|communications/i, "marketing"); bg(/finance|financial|operations|supply|accounting|banking/i, "finance"); bg(/founder|co-?founder|founded/i, "founder");
-      return { persona, level, years, pmYears: pm, pmIntern: parsed.pmIntern, backgrounds, titleLevel, roles: parsed.roles.length };
+      return { persona, level, years, pmYears: pm, pmIntern, family: family || null, backgrounds, titleLevel, roles: parsed.roles.length };
     }
 
     // Employers we hold postings for, to recognise on a role line ("Senior Product Manager, Stripe (2019 - 2022)").
@@ -447,8 +480,8 @@
     // held it for under a year, or held it only below the target level.
     function standing(parsed, profile, target, targetLevel) {
       const family = target.job ? target.job.family : (target.jobs[0] || {}).family;
-      const counts = [family, ...(COVERS[family] || [])];
-      const held = parsed.roles.filter(r => counts.includes(r.family) && !r.isIntern && !/teaching assistant|\bTA\b|tutor/i.test(r.title));
+      const counts = countsAs(family);
+      const held = parsed.roles.filter(r => heldIn(r, counts) && !r.isIntern && !/teaching assistant|\bTA\b|tutor/i.test(r.title));
       const years = held.reduce((a, r) => a + (r.years || 0), 0);
       if (!family || !held.length || years < PRESUMED.minYears) return null;
       const byTitle = held.map(r => r.level).filter(Boolean).sort((a, b) => LEVEL_ORDER.indexOf(b) - LEVEL_ORDER.indexOf(a))[0];
@@ -511,7 +544,8 @@
     }
 
     function match(text, target, opts = {}) {
-      const parsed = parseResume(text); const ev = tag(parsed); const profile = profileOf(parsed); const req = requirements(target);
+      const parsed = readRoles(parseResume(text)); const ev = tag(parsed); const req = requirements(target);
+      const profile = profileOf(parsed, target.job ? target.job.family : (target.jobs[0] || {}).family);
       const st = standing(parsed, profile, target, opts.level || profile.level);
       const res = score(ev, req, profile, { ...opts, standing: st });
       res.standing = st ? { family: st.family, level: st.level, years: st.years, above: st.above, employers: st.employers, presumed: res.rows.filter(r => r.status === "presumed").length } : null;
@@ -522,7 +556,7 @@
       return { ...res, profile, parsed: { roles: parsed.roles, degrees: [...parsed.degrees], lines: parsed.lines.length, hasSections: parsed.hasSections }, unmapped, extras, covered, subs, evidence: ev, ai: req.ai.ids, req: { n: req.n, label: req.label, core: [...req.tiers.core.keys()], common: [...req.tiers.common.keys()], diff: [...req.tiers.diff.keys()] } };
     }
 
-    return { match, parseResume, tag, requirements, profileOf, score, nameOf, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
+    return { match, parseResume, readRoles, roleFamilyOf, tag, requirements, profileOf, score, nameOf, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
   }
 
   return { createMatcher, parseResume, RESUME_PATTERNS, RESUME_DROP, SOFT, AI_GROUP, TIER, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };

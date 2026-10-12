@@ -7,17 +7,18 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
 import { extractText, READABLE } from "./extract.mjs";
+import { externalSamples } from "./lib.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url);
 const { parseResume } = require(path.join(here, "..", "web", "match.js"));
 const args = process.argv.slice(2); const all = args.includes("--all");
-const dir = args.find(a => !a.startsWith("--")) || path.join(here, "resumes", "external");
-const known = JSON.parse(fs.readFileSync(path.join(here, "external_expectations.json")));
+const dir = args.find(a => !a.startsWith("--"));
+// the published samples (packets cut into their resumes), or every readable file of a folder you name
+const samples = dir ? await Promise.all(fs.readdirSync(dir).filter(f => READABLE.test(f)).sort().map(async f => { let text = ""; try { text = await extractText(path.join(dir, f)); } catch (e) {} return { id: f, text }; }))
+  : (await externalSamples()).filter(s => !s.spec || s.spec.kind === "single").map(s => ({ id: s.packet ? s.id : s.file, text: s.text || "" }));
 let n = 0, bad = 0; const reasons = {};
-for (const f of fs.readdirSync(dir).filter(f => READABLE.test(f)).sort()) {
-  const id = f.replace(READABLE, ""); if (known[id] && known[id].kind !== "single") continue; // packets and templates
-  let text; try { text = await extractText(path.join(dir, f)); } catch (e) { text = ""; }
+for (const { id: f, text } of samples) {
   const p = parseResume(text); const jobs = p.roles.filter(r => r.section !== "projects");
   const words = text.trim() ? text.trim().split(/\s+/).length : 0; const flags = [];
   if (words < 120) flags.push("almost no text");

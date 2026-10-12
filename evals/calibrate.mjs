@@ -11,7 +11,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
-import { extractText, READABLE } from "./extract.mjs";
+import { externalSamples } from "./lib.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url)), root = path.join(here, "..");
 const require = createRequire(import.meta.url);
@@ -19,16 +19,15 @@ const { createMatcher } = require(path.join(root, "web/match.js"));
 const J = f => JSON.parse(fs.readFileSync(path.join(root, f)));
 const G = J("web/data/graph.json");
 const M = createMatcher({ taxonomy: J("web/data/taxonomy.json"), subskills: J("web/data/subskills.json"), graph: G });
-const src = Object.fromEntries(J("evals/external_sources.json").map(e => [e.id, e])), known = J("evals/external_expectations.json");
 const OWN = { pm: "pm", product_owner: "product_owner", tpm: "tpm", pmm: "pmm", product_analyst: "product_analyst", product_ops: "product_ops", product_strategy: "pm" };
 const fams = ["pm", "product_owner", "tpm", "pmm", "product_analyst", "product_ops"];
 const jobs = Object.fromEntries(fams.map(f => [f, G.jobs.filter(j => j.family === f)]));
 const SENIORITY = { early: ["associate"], mid: ["mid", "senior"], senior: ["senior", "lead"] };
 
-const dir = path.join(here, "resumes", "external"); const files = [];
-for (const f of fs.readdirSync(dir).filter(f => READABLE.test(f)).sort()) {
-  const id = f.replace(READABLE, ""), e = src[id]; if (!e || (known[id] && known[id].kind !== "single")) continue;
-  let text; try { text = await extractText(path.join(dir, f)); } catch { continue; }
+const files = [];
+for (const smp of await externalSamples()) {
+  const { id, text } = smp; if (!smp.role || !text || (smp.spec && smp.spec.kind !== "single")) continue;
+  const e = { role: smp.role, seniority: smp.seniority };
   if (text.trim().split(/\s+/).length < 120) continue;
   const sc = {}; let prof = null;
   for (const fam of fams) { const r = M.match(text, { jobs: jobs[fam], label: fam }); sc[fam] = r.overall; prof ||= r.profile; }

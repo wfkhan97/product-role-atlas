@@ -14,6 +14,7 @@ import { fileURLToPath } from "url";
 import { createRequire } from "module";
 import { variants } from "./layouts.mjs";
 import { extractText, READABLE } from "./extract.mjs";
+import { externalSamples, rolesData, mbaTaxonomy } from "./lib.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(here, "..");
@@ -23,7 +24,11 @@ const TAX = JSON.parse(fs.readFileSync(path.join(root, "web/data/taxonomy.json")
 const SUBS = JSON.parse(fs.readFileSync(path.join(root, "web/data/subskills.json")));
 const G = JSON.parse(fs.readFileSync(path.join(root, "web/data/graph.json")));
 const M = createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G });
-const EXTERNAL = JSON.parse(fs.readFileSync(path.join(root, "evals/external_expectations.json")));
+// The MBA role set: its skills and its role families. Until its graph exists there are no postings to score
+// against, so this matcher is used for what a resume shows (skills tagged, role families read), not for a score.
+const ROLES = rolesData();
+const MBA = createMatcher({ taxonomy: mbaTaxonomy(), subskills: SUBS, graph: { jobs: [], skills: [] }, roles: ROLES });
+const NO_TARGET = { jobs: [], label: "mba" };
 
 function target(spec) {
   const [fam, lv] = spec.split(":");
@@ -42,21 +47,23 @@ const ext = args.includes("--external");
 if (ext && args.includes("--baseline")) { console.error("--external samples are not written to the baseline; run them without --baseline"); process.exit(1); }
 const listTxt = dir => fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => READABLE.test(f) && (!only || f.includes(only))).sort() : [];
 const sub = d => listTxt(path.join(here, "resumes", d)).map(f => path.join(d, f));
-const samples = [...listTxt(path.join(here, "resumes")), ...(priv ? sub("private") : []), ...(ext ? sub("external") : [])];
+// in-repo and private samples are files; an external sample is a file or one resume cut out of a packet
+const samples = [...listTxt(path.join(here, "resumes")), ...(priv ? sub("private") : [])].map(f => ({ f, name: f.replace(READABLE, "") }));
+if (ext) for (const s of await externalSamples({ only })) samples.push({ f: "external/" + s.file + (s.packet ? " (" + s.id + ")" : ""), name: "external/" + s.id, text: s.text, error: s.error, extSpec: s.spec, external: true });
 const pct = x => x == null ? "–" : Math.round(x * 100) + "%";
 const rows = []; let pass = 0, fail = 0; const lines = [];
 const out = s => { lines.push(s); console.log(s); };
 const LEVEL_OF = { associate: "associate", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
 
-for (const f of samples) {
-  const name = f.replace(READABLE, "");
-  let text;
-  try { text = await extractText(path.join(here, "resumes", f)); }
+for (const sample of samples) {
+  const { f, name } = sample;
+  let text = sample.text;
+  try { if (sample.error) throw new Error(sample.error); if (!sample.external) text = await extractText(path.join(here, "resumes", f)); }
   catch (e) { fail++; out(`\n=== ${f}: could not be read (${String(e.message).split("\n")[0]})`); continue; }
   const specPath = path.join(here, "resumes", name + ".json");
   // fetched samples are not in the repository; what each must read is in external_expectations.json
-  const extSpec = f.startsWith("external") ? EXTERNAL[path.basename(name)] : null;
-  if (f.startsWith("external") && (!extSpec || extSpec.kind !== "single")) { out(`\n=== ${f}: ${extSpec ? extSpec.kind + (extSpec.note ? " — " + extSpec.note : "") : "no expectations yet"}; ${text.trim().split(/\s+/).length} words read, not checked`); continue; }
+  const extSpec = sample.external ? sample.extSpec : null;
+  if (sample.external && (!extSpec || extSpec.kind !== "single")) { out(`\n=== ${f}: ${extSpec ? extSpec.kind + (extSpec.note ? " — " + extSpec.note : "") : "no expectations yet"}; ${text.trim().split(/\s+/).length} words read, not checked`); continue; }
   const spec = extSpec ? { targets: ["pm:__all"], ...extSpec } : fs.existsSync(specPath) ? JSON.parse(fs.readFileSync(specPath)) : { targets: ["pm:__all"] };
   let first = null; const scores = {};
   for (const t of spec.targets) {
@@ -76,9 +83,12 @@ for (const f of samples) {
     if (verbose && t === spec.targets[0]) for (const row of r.rows) out(`      ${row.tier.padEnd(6)} ${row.status.padEnd(12)} s${row.strength} ${row.slotName.padEnd(32)} ${row.lines[0] ? JSON.stringify(row.lines[0].text.slice(0, 90)) : row.hintLines[0] ? "(hint) " + JSON.stringify(row.hintLines[0].text.slice(0, 80)) : ""}`);
   }
   const r = first;
+  // a published sample's skill lists are written against the MBA taxonomy, so they are checked with that matcher
+  const mba = sample.external && (spec.must_evidence || spec.must_not_tag || spec.held) ? MBA.match(text, NO_TARGET) : null;
+  const covered = mba ? mba.covered : r.covered;
   const check = (label, list, want) => {
     if (!list) return [];
-    const bad = list.filter(k => r.covered.has(k) !== want);
+    const bad = list.filter(k => covered.has(k) !== want);
     pass += list.length - bad.length; fail += bad.length;
     out(`  ${label}: ${list.length - bad.length}/${list.length}${bad.length ? "  WRONG: " + bad.join(", ") : ""}`);
     return bad;
@@ -86,6 +96,8 @@ for (const f of samples) {
   const missed = check("must_evidence", spec.must_evidence, true);
   const fp = check("must_not_tag ", spec.must_not_tag, false);
   const gapsWrong = check("real_gaps    ", spec.real_gaps, false);
+  // role families the person held as jobs (not internships), read from their titles
+  if (spec.held) { const got = new Set(mba.parsed.roles.filter(x => !x.isIntern && x.section !== "projects").map(x => x.roleFamily).filter(Boolean)); const bad = spec.held.filter(k => !got.has(k)); bad.length ? fail++ : pass++; out(`  roles held   : ${bad.length ? "FAIL (not read: " + bad.join(", ") + "; read: " + ([...got].join(", ") || "none") + ")" : "PASS"}`); }
   if (spec.persona) { const ok = r.profile.persona === spec.persona; ok ? pass++ : fail++; out(`  persona      : ${ok ? "PASS" : "FAIL (" + r.profile.persona + ")"}`); }
   // what the parser must find in this file, whatever its layout
   if (spec.parse) {
@@ -122,7 +134,7 @@ for (const f of samples) {
   for (const id of gapIds) { const sig = (G.skills.find(s => s.id === id) || {}).signals?.[0]; if (!sig) continue; const r2 = M.match(text + "\n- " + sig, tg0); if (r2.overall < r.overall - 1e-9) { mono = false; out(`  monotonic    : FAIL adding evidence for ${id} lowered ${pct(r.overall)} → ${pct(r2.overall)}`); } }
   if (mono) { pass++; out(`  monotonic    : PASS`); } else fail++;
   const known = new Set([...(spec.must_evidence || []), ...(spec.must_not_tag || []), ...(spec.real_gaps || [])]);
-  const unreviewed = [...r.covered].filter(k => !known.has(k));
+  const unreviewed = [...covered].filter(k => !known.has(k));
   out(`  evidenced but not covered by expectations (review these): ${unreviewed.join(", ") || "none"}`);
   out(`  transferable: ${r.rows.filter(x => x.status === "transferable").map(x => x.slotName + " (via " + x.via.join("/") + ")").join(", ") || "none"}`);
   out(`  unmapped bullets: ${r.unmapped.length}`);
