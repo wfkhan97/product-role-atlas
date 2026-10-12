@@ -275,8 +275,12 @@
       // A dated line with a job title beside it is a job wherever it sits, unless it reads as schooling: columns
       // and text boxes can bunch the headings together and leave the wrong section in force.
       const SCHOOL = /\b(university|college|school|institute|academy|degree|bachelor|master|diploma|gpa|certificat\w*|certified|licen[sc]e)\b/i;
-      // only in a resume whose jobs have not been found under an experience heading
-      const stray = (strayMode || !roles.length) && hasDate && sec !== "experience" && sec !== "body" && sec !== "projects" && sec !== "education" && !hadBullet && r.length < 160 && !SCHOOL.test(r)
+      // A summary or a skills list holds no dated job titles of its own, so there it is always a job (a side
+      // column's heading has cut into the work history). Under Education the title must stand on the dated line
+      // itself and the work of the job, or the next job, must follow it. Elsewhere, only in a resume whose jobs have not been found under an experience heading.
+      const titled = x => parts(x).some(y => TITLE_WORD.test(y) && y.split(" ").length <= 7);
+      const strayHere = sec === "summary" || sec === "skills" ? true : sec === "education" ? hasDate && titled(r) && !/\bassociate(['’]?s)? (of|in|degree)\b|\b(club|society|list|honou?rs?|scholar\w*|abroad|gpa)\b/i.test(r) && !!items[i + 1] && (items[i + 1].hadBullet || items[i + 1].r.length >= 90 || (DATE.test(items[i + 1].r) && titled(items[i + 1].r))) : (strayMode || !roles.length);
+      const stray = strayHere && hasDate && sec !== "experience" && sec !== "body" && sec !== "projects" && !hadBullet && r.length < 160 && !SCHOOL.test(r)
         && [r, ...lines.slice(-3).filter(l => l.label).map(l => l.text), labelLike(items[i + 1]) ? items[i + 1].r : ""].some(x => x && !SCHOOL.test(x) && parts(x).some(y => TITLE_WORD.test(y) && y.split(" ").length <= 7));
       if (stray) { section = "experience"; strayMode = true; }
       if ((sec === "experience" || sec === "body" || sec === "projects" || stray) && hasDate && r.length < 160 && !/^[a-z]/.test(r) && !(hadBullet && r.length >= 90)) {

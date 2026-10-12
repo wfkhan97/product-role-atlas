@@ -27,6 +27,9 @@ export const VARIANTS = {
   spaced_hyphens: t => t.replace(/([a-z])-([a-z])/g, "$1 - $2"),
   // a PDF text layer that sets the ligatures apart: "pro fi t", "work fl ow", "for   fi nance"
   ligatures_split: t => t.replace(/ (fi|fl)(?=[a-z]{2})/g, "   $1 ").replace(/([a-z])(ffi|ffl|ff|fi|fl)(?=[a-z])/g, "$1 $2 "),
+  // a Word text box or a side column whose heading lands inside the work history: the later jobs then sit under
+  // "Key Skills", with the title on its own line above the employer and dates
+  side_heading_inside_jobs: t => { let n = 0; return mapRoles(t, (title, emp, a, b) => `${++n === 2 ? "Key Skills\n" : ""}${title}\n${emp}, New York, NY | ${a} to ${b}`); },
   headings_long: t => t.replace(/^EXPERIENCE$/m, "PROFESSIONAL EXPERIENCE").replace(/^SKILLS$/m, "TECHNICAL PROFICIENCY").replace(/^EDUCATION$/m, "EDUCATION & CREDENTIALS"),
   headings_title_case: t => t.replace(/^(SUMMARY|EXPERIENCE|EDUCATION|SKILLS|PROJECTS|COURSEWORK)$/gm, h => h[0] + h.slice(1).toLowerCase()),
   // what a text layer of a one-page PDF often looks like: all of the above at once
