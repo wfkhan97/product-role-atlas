@@ -673,7 +673,7 @@ runner checks holds in 139 of 144.
 **By group.** Finance, banking and investing, marketing and product separate same-role from other-field well
 (92% to 97%). Operations and general management (72%) and consulting and strategy (79%) are weaker: their postings
 ask for general skills that most resumes show. Risk and compliance does not work yet: the same-role median is
-30% and it separates from other fields 68% of the time. Nine of its thirteen samples are law-school compliance
+30% and it separates from other fields 68% of the time. Eight of its thirteen samples are law-school compliance
 resumes of students and career changers, so this is as much the samples as the matcher. Product and analytics
 separate poorly from their adjacent roles (62% and 58%), as the product roles did: the roles in those groups ask
 for nearly the same things.
