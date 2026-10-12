@@ -10,6 +10,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
+import { variants } from "./layouts.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(here, "..");
@@ -75,6 +76,20 @@ for (const f of samples) {
   if (spec.persona) { const ok = r.profile.persona === spec.persona; ok ? pass++ : fail++; out(`  persona      : ${ok ? "PASS" : "FAIL (" + r.profile.persona + ")"}`); }
   if (spec.expect_employer) { const got = (r.standing && r.standing.employers) || []; const ok = got.includes(spec.expect_employer); ok ? pass++ : fail++; out(`  employer     : ${ok ? "PASS" : "FAIL (" + (got.join(", ") || "none") + ")"}`); }
   if (spec.expected_level) { const ok = LEVEL_OF[spec.expected_level] === r.profile.level; ok ? pass++ : fail++; out(`  level read   : ${ok ? "PASS" : "FAIL (" + r.profile.level + ")"}`); }
+  // layouts: the same resume written other ways must read the same (roles, years, persona, level, score within 4 points)
+  if (!f.startsWith("private")) {
+    const o0 = { level: target(spec.targets[0]).level ? LEVEL_OF[target(spec.targets[0]).level] : undefined };
+    const vs = variants(text); const badV = [];
+    for (const v of vs) {
+      const r2 = M.match(v.text, target(spec.targets[0]), o0); const why = [];
+      if (r2.parsed.roles.length !== r.parsed.roles.length) why.push(`roles ${r2.parsed.roles.length} vs ${r.parsed.roles.length}`);
+      if (Math.abs(r2.profile.pmYears - r.profile.pmYears) > 0.6) why.push(`product years ${r2.profile.pmYears.toFixed(1)} vs ${r.profile.pmYears.toFixed(1)}`);
+      if (r2.profile.persona !== r.profile.persona || r2.profile.level !== r.profile.level) why.push(`read as ${r2.profile.persona}/${r2.profile.level}`);
+      if (Math.abs(r2.overall - r.overall) > 0.04) why.push(`score ${pct(r2.overall)} vs ${pct(r.overall)}`);
+      why.length ? (fail++, badV.push(`${v.name} (${why.join("; ")})`)) : pass++;
+    }
+    if (vs.length) out(`  layouts      : ${vs.length - badV.length}/${vs.length}${badV.length ? "  WRONG: " + badV.join(", ") : ""}`);
+  }
   // monotonicity: adding a line that evidences a gap must never lower the overall score
   const tg0 = target(spec.targets[0]);
   const gapIds = r.gaps.slice(0, 3).map(g => g.id).filter(id => M.nameOf(id) && TAX.skills.some(s => s.id === id));

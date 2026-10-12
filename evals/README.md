@@ -61,6 +61,12 @@ more; `persona` and `expected_level` against the profile read; and a monotonicit
 line that evidences a gap never lowers the score). `--verbose` prints every requirement row with the
 line that evidenced it, which is the fastest way to see why a check failed.
 
+**Layouts.** Each sample is also rewritten in the layouts of `evals/layouts.mjs` (dates as `01/2020 – 03/2022`
+or `Jan 2020 - Mar 2022`, employer in capitals on its own line, other bullet glyphs, wrapped bullets, spaced
+hyphens, other headings, Windows line ends, and all of these at once as a PDF text layer gives them). Every
+variant must read like the original: the same number of roles, the same years in product, the same persona and
+level, and a score within four points. Add a variant when a real resume shows a layout that is not there yet.
+
 The runner requires `web/match.js` directly, so it always runs the code the app runs.
 
 ## Extraction baselines

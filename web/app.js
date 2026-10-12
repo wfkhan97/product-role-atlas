@@ -635,7 +635,9 @@
         matchText = t.join("\n");
       } else if (/\.docx$/i.test(file.name)) matchText = (await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() })).value;
       else matchText = await file.text();
-      $("#file-status").textContent = `${file.name} — ${matchText.split(/\s+/).length.toLocaleString()} words read.`;
+      const words = matchText.trim() ? matchText.trim().split(/\s+/).length : 0;
+      // a scanned PDF has pictures of text and nothing to read
+      $("#file-status").textContent = words < 40 ? `${file.name} — only ${words} words could be read. If this is a scan, paste the text of your resume in the box.` : `${file.name} — ${words.toLocaleString()} words read.`;
     } catch (e) { $("#file-status").textContent = "Could not read that file: " + e.message; matchText = ""; }
   }
   const drop = $("#drop");
@@ -699,8 +701,10 @@
     if (yoeAsk) creds.unshift({ id: "yoe", name: `${yoeAsk.name.replace(" experience", "")} experience asked (you: ${fmtYears(p.years)})`, w: yoeAsk.w, have: yoeAsk.have, detail: null });
     const missSubs = id => (SUBS[id] || []).filter(s => !r.subs.has(s.id)).map(s => s.name);
     const evItem = x => `<li>${rowTag(x, STATUS_CLS[x.status])}${x.tier === "core" ? ` <span class="muted small">core · asked in ${shareOf(x.w)}</span>` : ` <span class="muted small">asked in ${shareOf(x.w)}</span>`}${x.lines[0] ? `<span class="q">${esc(x.lines[0].text.slice(0, 160))}</span>` : ""}${x.status === "transferable" && x.signals[0] ? `<span class="say">Postings say it like: <b>${esc(x.signals[0])}</b> <span class="muted">(via ${esc(x.via.map(v => Matcher.VIA_LABEL[v] || v).join(", "))})</span></span>` : ""}${x.ladder ? `<span class="ladder small"><span class="muted">At ${esc(Matcher.LADDER_LABEL[r.targetLevel])}:</span> ${esc(x.ladder)}</span>` : ""}</li>`;
+    // Say so when the job history could not be read: the score then counts no roles and no years.
+    const unread = r.parsed.roles.length === 0 && r.parsed.lines >= 15 ? `<p class="small" style="margin:0 0 10px;padding:8px 10px;border:1px solid var(--warning);border-radius:8px"><b>We did not find any jobs with dates in this text.</b> Roles and years are not counted in this result. Put each job title and its dates on one line (for example "Product Manager, Acme, 2021 – 2024"), or paste the text of your resume.</p>` : "";
     const res = $("#match-results"); res.hidden = false;
-    res.innerHTML = `
+    res.innerHTML = unread + `
       <div class="score-row"><div class="ring" style="background:conic-gradient(${col} ${r.overall * 360}deg, var(--muted) 0)"><span>${fmtPct(r.overall)}</span></div>
         <div><p class="headline">${PERSONA_TEXT[p.persona](p)}${levelNote}${standingNote}</p>
         <p class="muted small" style="margin:0">Against <b>${esc(label)}</b>${isJob ? "" : ` (${r.req.n.toLocaleString()} postings)`}: <b>${coreHave} of ${coreRows.length}</b> must-haves evidenced${coreRows.some(x => x.status === "thin") ? ` (${coreRows.filter(x => x.status === "thin").length} only named)` : ""}${thin.length ? `; ${thin.length} ${thin.length === 1 ? "skill" : "skills"} named but not shown` : ""}${mainGaps.length ? `; missing ${list(mainGaps, 3)}` : "; nothing important missing"}.
