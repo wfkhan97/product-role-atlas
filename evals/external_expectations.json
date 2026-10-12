@@ -7281,5 +7281,212 @@
   "kind": "template",
   "note": "Word template: \"Company, City, ST, Month 20XX – Present\" and \"Title\" as placeholders.",
   "seniority": "early"
+ },
+ "business_intelligence_hofstraunivers_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Sales Analyst Intern",
+    "Graduate Assistant",
+    "Economic Analyst Intern"
+   ],
+   "min_years": 0.1,
+   "max_years": 1.5,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; employer and place, then title and dates. Three of four jobs are internships. The text layer splits every year three and one (\"Feb 201 6\") and some words. The MBA is named in the summary line only.",
+  "seniority": "early"
+ },
+ "financial_manager_hofstraunivers_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Finance & Business Analyst",
+    "Finance Intern",
+    "Sales and Marketing Executive"
+   ],
+   "min_years": 25,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; headings end with a colon; employer, its business, place and dates (\"5/2015-Present\", no spaces) on one line joined with dashes, title on the next. Two jobs run to the present. Degree dates in brackets (\"December-2015\").",
+  "seniority": "mid"
+ },
+ "general_manager_floridagulfcoa_1": {
+  "kind": "template",
+  "note": "Word file with placeholder years (\"August 20XX-Present\"); titles and dates on one line with tabs; clubs and volunteering dated the same way.",
+  "seniority": "early"
+ },
+ "marketing_manager_hofstraunivers_2": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Director of Strategic Marketing",
+    "Marketing Manager",
+    "Marketing Consultant"
+   ],
+   "min_years": 4,
+   "max_years": 6.5,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; headings letter-spaced (\"E X P E R I E N C E\", \"L E A D E R S H I P + A W A R D S\"); title, place and dates on one line, employer on the next. Dated awards and club roles.",
+  "seniority": "mid"
+ },
+ "re_acquisitions_universityofsa_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Financial Analyst Assistant",
+    "Campus Marketing Consultant"
+   ],
+   "min_years": 7.5,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "The dates of every entry (schooling, projects, jobs, leadership) are printed in one block at the end, apart from the lines they belong to. Job lines are title, employer, place. Some words run together (\"ofAmerica\").",
+  "seniority": "early"
+ },
+ "ldp_tulaneuniversi_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Project Engineer",
+    "Valuation Intern",
+    "Civil Engineer"
+   ],
+   "min_years": 5,
+   "max_years": 7.5,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; employer in capitals and place, then title and dates; one range names the year once (\"June – August 2024\"). Leadership and service roles are dated.",
+  "seniority": "mid"
+ },
+ "ldp_tulaneuniversi_2": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Consultant",
+    "Program Management Analyst",
+    "Intern"
+   ],
+   "min_years": 3.9,
+   "max_years": 6,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; employer in capitals and place, then title and dates; an intern title with its department after a comma. Leadership and service roles are dated.",
+  "seniority": "mid"
+ },
+ "ldp_universityatbu_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Financial Intern",
+    "Associate",
+    "Software Engineer"
+   ],
+   "min_years": 1.8,
+   "max_years": 3.4,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; every word gap is three spaces; employer in capitals and place, then title and dates (\"Jul. 2018–Jun. 2019\", no spaces). A dated project under \"Project Experience\" is not a job.",
+  "seniority": "early"
+ },
+ "ldp_universityatbu_2": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "General Manager",
+    "Assistant Manager",
+    "Teaching Assistant"
+   ],
+   "min_years": 3.3,
+   "max_years": 5.3,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; every word gap is three spaces; title, department and dates on one line joined with commas (\"General Manager, Nov. 2016-Aug. 2019\"); a teaching assistant job with no employer line.",
+  "seniority": "mid"
+ },
+ "business_intelligence_universityofco_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Business Intelligence Engineer Intern",
+    "Forensic Risk Intern",
+    "Assurance Intern"
+   ],
+   "max_years": 0.5,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column, placeholder name; school, place and date on one line with the degree on the next; employer, place and dates on one line, title on the next. All three jobs are internships. Academic projects are dated with a season after a bar.",
+  "seniority": "early"
+ },
+ "management_consultant_universityofco_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Customer Success Consultant",
+    "Project Coordinator",
+    "Client Service Representative"
+   ],
+   "min_years": 6.8,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column, placeholder name; \"Employer – Place | Title   dates\" on one line. The first employer line carries the dates of the whole stay and a title, with two dated titles beneath it: the stay is not a third job.",
+  "seniority": "mid"
+ },
+ "marketing_manager_universityofco_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Digital Analytics Lead",
+    "Digital Marketing Manager",
+    "Digital Campaign Coordinator"
+   ],
+   "min_years": 9.5,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column, placeholder name; \"Employer – Place | Title   dates\" on one line; the degree on one line with its date, the school on the next.",
+  "seniority": "senior"
  }
 }
