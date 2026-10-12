@@ -23,6 +23,7 @@ LEFT_OUT = {
     "ubalt.edu": "an anonymised real student's resume, by the publisher's own description",
     "AlumniResumes": "in an alumni-resumes folder; may be adapted from a real alumnus",
     "pub.umn.edu": "real employers and an abbreviated name; may be an anonymised real resume",
+    "kickresume.com/en/help-center/investment-manager": "the page says a real person who got hired contributed it",
 }
 
 rows = []

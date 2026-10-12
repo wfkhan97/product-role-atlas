@@ -155,47 +155,58 @@
   const VIA_LABEL = { research: "academic research", consulting: "consulting / analyst work", engineering: "engineering", marketing: "marketing", finance: "finance / operations", founder: "founder / venture work", coursework: "coursework" };
 
   const OUTCOME = /\d+ ?%|\$\s?\d|\b\d+(\.\d+)?\s?(x|k|m|b|mm)\b|\b\d{2,}\+?\s?(users|customers|participants|clients|engineers|people|accounts|students|enterprise|interviews|studies|features|releases|papers)\b|\b(increas|reduc|improv|grew|lift|boost|cut|saved|doubled|tripled|drove|accelerat|won|adopted|published)\w*\b/i;
-  const DATE = /((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}\s*(–|-|—|to|through)\s*(((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}|present|current|now|today)|\b(summer|fall|spring|winter)\s+(19|20)\d{2}\b|\((19|20)\d{2}\)|\b(19|20)\d{2}\s*[-–]\s*(19|20)\d{2}\b|\b\d{1,2}\/\s?\d{2}\s*(–|-|—|to|through)\s*(\d{1,2}\/\s?\d{2}\b|present|current|now|today)/i;
+  const DATE = /((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}\s*(–|-|—|to|through)\s*(((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}|present|current|now|today)|\b(summer|fall|spring|winter)\s+(19|20)\d{2}\b|\((19|20)\d{2}\)|\b(19|20)\d{2}\s*[-–]\s*(19|20)\d{2}\b|\b\d{1,2}\/\s?\d{2}\s*(–|-|—|to|through)\s*(\d{1,2}\/\s?\d{2}\b|present|current|now|today)|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+['’]\d{2}\s*(–|-|—|to|through)\s*((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+['’]\d{2}|present|current|now|today)/i;
+  // a word that marks a job title, to tell the title from the employer and the city when they sit on separate lines
+  const TITLE_WORD = /\b(manager|director|analyst|engineer|associate|intern|lead|leader|officer|consultant|specialist|coordinator|president|head|owner|founder|developer|designer|scientist|representative|supervisor|trainee|assistant|strategist|partner|administrator|advisor|adviser|banker|accountant|auditor|buyer|planner|recruiter|researcher|fellow|architect|controller|treasurer|economist|underwriter|trader|broker|agent|clerk|technician|teacher|tutor|instructor|professor|editor|writer|marketer|generalist|apprentice|chief|vp|cfo|ceo|coo|cto|cmo|principal|executive)\b/i;
+  const MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
+  // Every date on a line as a fractional year, in order: "Jan 2020", "January 2020", "01/2020", "9/17", "Jul '19", "2020".
+  function datesOf(text) {
+    const out = []; const yy = v => { const n = +v; return v.length === 4 ? n : n <= (new Date().getFullYear() % 100) + 1 ? 2000 + n : 1900 + n; };
+    const re = /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(?:((?:19|20)\d{2})|['’](\d{2}))|\b(\d{1,2})[\/.]\s?((?:19|20)\d{2}|\d{2})(?![\d\/])|\b((?:19|20)\d{2})\b/gi;
+    for (const m of text.matchAll(re)) {
+      if (m[1]) out.push({ y: yy(m[2] || m[3]), m: MONTHS[m[1].toLowerCase().slice(0, 3)] });
+      else if (m[4]) { if (+m[4] >= 1 && +m[4] <= 12) out.push({ y: yy(m[5]), m: +m[4] }); }
+      else out.push({ y: +m[6], m: null });
+    }
+    return out;
+  }
   const SECTION = [
     [/^(professional |work |relevant |research |industry )?(experience|employment|history|positions?|career)\b/i, "experience"],
     [/^(research experience|research)\b/i, "experience"],
     [/^(leadership|volunteer|community|campus|extra[- ]?curricular)\b.*\b(experience|activities|involvement|service)$/i, "projects"],
     // "Business experience", "Related experience", "Other employment": a short line that ends with the word
     [/^([A-Za-z&]+ ){1,3}(experience|employment)$/i, "experience"],
-    [/^(education|academic)/i, "education"],
+    [/^(education|academic)\b/i, "education"],
     [/^(relevant )?(coursework|courses)/i, "coursework"],
-    [/^(academic |class |course )?(projects?|capstone|selected projects|side projects|hackathons?|portfolio|leadership( & activities)?|activities|extra[- ]?curricular|volunteer|organi[sz]ations|affiliations|memberships|involvement)/i, "projects"],
+    [/^(academic |class |course )?(projects?|capstone|selected projects|side projects|hackathons?|portfolio|leadership( & activities)?|activities|extra[- ]?curricular|volunteer|organi[sz]ations|affiliations|memberships|involvement)\b/i, "projects"],
     [/^(technical |core |key )?(skills|tools|technologies|competencies|certifications?|proficienc(y|ies))\b/i, "skills"],
-    [/^(summary|profile|objective|about( me)?|overview|highlights)/i, "summary"],
-    [/^(publications?|awards?|honou?rs|interests|languages|references)/i, "other"],
+    [/^((professional|executive|career|personal) )?(summary|profile|objective|about( me)?|overview|highlights)\b/i, "summary"],
+    [/^(publications?|awards?|honou?rs|interests|languages|references)\b/i, "other"],
   ];
   const PM_TITLE = /\b(product (manager|management|owner|lead|director|marketing manager)|\bAPM\b|\bTPM\b|technical program manager|\bPM\b|head of product|chief product|\bCPO\b|\bVP,? product)/i;
   const INTERN = /\bintern(ship)?\b|\bco-?op\b|\bfellow(ship)?\b/i;
   const TITLE_LEVEL = [[/\b(chief|cpo|vp|vice president|head of|director|group product|principal|staff|lead)\b/i, "lead"], [/\b(senior|sr\.?)\b/i, "senior"], [/\b(associate|junior|jr\.?|apm|intern|assistant)\b/i, "associate"]];
-  const DEGREE = [[/\b(ph\.?d|doctor(ate|al))\b/i, "phd"], [/\b(mba|m\.?s\.?c?|m\.?eng|m\.?a\.?|master'?s?|ms in)\b/i, "masters_mba"], [/\b(b\.?s\.?c?|b\.?a\.?|b\.?eng|bachelor'?s?|bsc|ba in|bs in)\b/i, "bachelors"]];
+  const DEGREE = [[/\b(ph\.?d|doctor(ate|al))\b/i, "phd"], [/\b(mba|m\.b\.a\.?|m\.?s\.?c?|m\.?eng|m\.?a\.?|master'?s?|ms in|m\.?phil|ll\.?m)\b|\bm\.b\.a\./i, "masters_mba"], [/\b(b\.?s\.?c?|b\.?a\.?|b\.?eng|bachelor'?s?|bsc|ba in|bs in|b\.?b\.?a|b\.?com|b\.?tech|b\.?pharm|b\.?f\.?a)\b/i, "bachelors"]];
   const CS_DEGREE = /computer science|\bCS\b|software|electrical|computer engineering|\bEE\b|\bECE\b|engineering|mathematics|\bstatistics\b|physics|data science/i;
   const COURSE_LINE = /^[A-Z]{2,5}\s?\d{3}[A-Z]?\b|^[A-Z][a-z]+ \d{3}\b/;
 
-  // "9/17 to present": month and a two-digit year
-  const shortDates = text => [...text.matchAll(/\b(\d{1,2})\/\s?(\d{2})(?![\d\/])/g)].map(x => { const yy = +x[2], y = yy <= (new Date().getFullYear() % 100) + 1 ? 2000 + yy : 1900 + yy; return y + (Math.min(12, Math.max(1, +x[1])) - 1) / 12; });
   function yearsBetween(text) {
-    const now0 = new Date(); const sd = /(19|20)\d{2}/.test(text) ? [] : shortDates(text);
-    if (sd.length) { const end = sd.length > 1 ? sd[sd.length - 1] + 1 / 12 : /present|current|now|today/i.test(text) ? now0.getFullYear() + now0.getMonth() / 12 : null; if (end !== null) return Math.max(0.25, Math.min(40, end - sd[0])); }
-    const m = text.match(/(19|20)\d{2}/g); if (!m) return null;
-    const now = new Date();
-    // month/year dates (05/2022 – 02/2024) give the span to the month
-    const my = [...text.matchAll(/\b(\d{1,2})[\/.]((?:19|20)\d{2})\b/g)].map(x => +x[2] + (Math.min(12, Math.max(1, +x[1])) - 1) / 12);
-    if (my.length) { const end = my.length > 1 ? my[my.length - 1] + 1 / 12 : /present|current|now|today/i.test(text) ? now.getFullYear() + now.getMonth() / 12 : null; if (end !== null) return Math.max(0.25, Math.min(40, end - my[0])); } const start = +m[0]; const end = /present|current|now|today/i.test(text) ? now.getFullYear() + now.getMonth() / 12 : +m[m.length - 1];
-    if (/\b(summer|fall|spring|winter)\b/i.test(text) && m.length === 1) return 0.25;
-    if (m.length === 1 && !/present|current|now|today/i.test(text)) return 0.5;
-    return Math.max(0.25, Math.min(40, end - start));
+    const d = datesOf(text); if (!d.length) return null;
+    const now = new Date(); const open = /present|current|now|today/i.test(text);
+    if (/\b(summer|fall|spring|winter)\b/i.test(text) && d.length === 1) return 0.25;
+    if (d.length === 1 && !open) return 0.5;
+    const frac = (x, end) => x.y + (x.m ? (x.m - (end ? 0 : 1)) / 12 : 0);
+    let a = frac(d[0], false), z = open && d.length === 1 ? now.getFullYear() + now.getMonth() / 12 : open ? Math.max(now.getFullYear() + now.getMonth() / 12, frac(d[d.length - 1], true)) : frac(d[d.length - 1], true);
+    if (open && d.length > 1) z = now.getFullYear() + now.getMonth() / 12;
+    if (z < a) [a, z] = [z, a]; // a reversed range ("09/2021 - 05/2021") is a typing slip
+    return Math.max(0.25, Math.min(40, z - a));
   }
 
   // first and last year of a dated line, "present" read as now
   function spanOf(text) {
-    const m = text.match(/(19|20)\d{2}/g) || shortDates(text).map(Math.floor); if (!m.length) return null;
-    const now = new Date().getFullYear() + 1;
-    return [+m[0], /present|current|now|today/i.test(text) ? now : +m[m.length - 1]];
+    const d = datesOf(text).map(x => x.y); if (!d.length) return null;
+    const end = /present|current|now|today/i.test(text) ? new Date().getFullYear() + 1 : d[d.length - 1];
+    return [Math.min(d[0], end), Math.max(d[0], end)];
   }
 
   function rx(list) { return list.length ? new RegExp(list.map(p => "(?:" + p + ")").join("|"), "i") : null; }
@@ -208,12 +219,16 @@
     const EMPLOYER_LINE = /^[A-Z][A-Z0-9&.'’\-]+( [A-Z0-9&.'’\-]+)*(\s{2,}|\s*[|,]|$)/;
     const lines = []; let section = null; let role = -1; const roles = []; const degrees = new Set(); let csDegree = false; let employer = null;
     // a heading carries no year: "Project Engineer 2004-2007" is a job, not the Projects section
-    const headerLike = s => s.length < 60 && !/[.;:]$/.test(s) && !/(19|20)\d{2}/.test(s) && (s === s.toUpperCase() || SECTION.some(([r]) => r.test(s)));
-    for (let r of raw) {
-      const hadBullet = BULLET.test(r);
-      // keep the line as written to see wide gaps; match on single spaces (a PDF may put three between every word)
-      const r0 = r.replace(/^\s*o\s{2,}/, "").replace(/^[\s•▪●‣◦■\uf0b7\uf0a7\uf0d8\-–—*·]+/, "").trim();
-      r = r0.replace(/[ \t\u00a0]{2,}/g, " "); if (!r) continue;
+    const headerLike = s => s.length < 60 && !/[.;:]$/.test(s) && !/(19|20)\d{2}/.test(s) && !(TITLE_WORD.test(s) && !/\b(experience|summary|profile|history)\b/i.test(s)) && (s === s.toUpperCase() || SECTION.some(([r]) => r.test(s)));
+    // each line as written (r0, to see wide gaps), on single spaces (r), and whether it carried a bullet mark
+    const items = raw.map(x => { const hadBullet = BULLET.test(x); const r0 = x.replace(/^\s*o\s{2,}/, "").replace(/^[\s•▪●‣◦■\uf0b7\uf0a7\uf0d8\-–—*·]+/, "").trim(); return { r0, r: r0.replace(/[ \t\u00a0]{2,}/g, " "), hadBullet }; }).filter(x => x.r);
+    const isHeading = t => { const h = t.replace(/\s*:$/, ""); return headerLike(h) && SECTION.some(([re]) => re.test(h)); };
+    // a short line that could name a job, an employer or a place: not a bullet, not a sentence, not a heading
+    const labelLike = it => it && !it.hadBullet && it.r.length < 70 && (!/[.!?;]$/.test(it.r) || /\b(inc|ltd|co|corp|llc|llp|plc|l\.p|n\.a|s\.a|gmbh)\.$/i.test(it.r)) && it.r.split(" ").length <= 9 && !DATE.test(it.r) && !isHeading(it.r);
+    const SEP = /\s*(?:,| at | \| |\||—|–| - |\(|\)|•|·)\s*/;
+    const parts = t => t.split(SEP).map(x => x.trim()).filter(x => x.length > 1);
+    for (let i = 0; i < items.length; i++) {
+      const { r0, hadBullet } = items[i]; let r = items[i].r;
       const h = r.replace(/\s*:$/, ""); // "EDUCATION:" is a heading too
       if (headerLike(h)) { const hit = SECTION.find(([re]) => re.test(h)); if (hit) { section = hit[1]; employer = null; lines.push({ text: r, kind: "heading", section }); continue; } }
       const sec = section || (COURSE_LINE.test(r) ? "coursework" : "body");
@@ -221,23 +236,40 @@
       const hasDate = DATE.test(r);
       // a long bullet that mentions a date range ("sales from 2004-present") is not a job line
       if ((sec === "experience" || sec === "body" || sec === "projects") && hasDate && r.length < 160 && !/^[a-z]/.test(r) && !(hadBullet && r.length >= 90)) {
-        // the title ends where the dates start ("Associate Product Manager 2007-Present") or at a separator
-        const dm = r.search(DATE); const head = dm > 0 ? r.slice(0, dm) : dm === 0 ? r.replace(DATE, "") : r;
-        const title = head.split(/,| at | \| | — | – |\(/)[0].trim() || head.trim();
-        const isPM = PM_TITLE.test(title) || PM_TITLE.test(r.split(/\(|\d{4}/)[0]);
+        // What stands on the dated line besides the dates: a title, an employer, a place, or nothing at all.
+        const dateText = r.match(DATE)[0]; const dm = r.indexOf(dateText);
+        const own = parts(r.slice(0, dm) + " | " + r.slice(dm + dateText.length));
+        let title = own.find(x => TITLE_WORD.test(x)); const near = [];
+        if (!title) {
+          // The title is on a line of its own: just above the dates ("Senior Product Manager" / "Plaid" /
+          // "01/2021 - Present") or just below them ("Microsoft July 2015 - December 2019" / "Program Manager").
+          const prev = []; for (let k = lines.length - 1; k >= 0 && prev.length < 3; k--) { const l = lines[k]; if (l.label && l.section === sec) prev.push(l); else break; }
+          const next = []; for (let k = i + 1; k < items.length && next.length < 2 && labelLike(items[k]); k++) next.push(items[k]);
+          const order = [prev[0], next[0], prev[1], next[1], prev[2]].filter(Boolean); // up to three lines above: title / city / employer / dates
+          const pick = order.find(c => parts(c.text || c.r).some(x => TITLE_WORD.test(x)));
+          if (pick) {
+            title = parts(pick.text || pick.r).find(x => TITLE_WORD.test(x));
+            if (pick.r !== undefined) { const upto = next.indexOf(pick); for (let k = 0; k <= upto; k++) { near.push(next[k].r); } i += upto + 1; }
+          } else if (!own.length && prev[0]) title = parts(prev[0].text)[0];
+          for (const l of prev) { l.kind = "employer"; near.push(l.text); }
+        }
+        if (!title) title = own[0] || "";
+        const whole = [r, ...near].join(" | ");
+        const isPM = PM_TITLE.test(title);
         const lvl = (TITLE_LEVEL.find(([re]) => re.test(title)) || [, isPM ? "mid" : null])[1];
         const family = isPM ? (TITLE_FAMILY.find(([, re]) => re.test(title)) || ["pm"])[0] : null;
-        roles.push({ title, text: r, years: yearsBetween(r), isPM, family, isIntern: INTERN.test(r), level: lvl, section: sec, line: lines.length, employerLine: employer, capsLead: EMPLOYER_LINE.test(r0), span: spanOf(r) });
-        role = roles.length - 1; lines.push({ text: r, kind: "role", section: sec, role }); continue;
+        const around = [...own, ...near.flatMap(parts)].filter(x => x !== title).join(" | ");
+        roles.push({ title, text: whole, years: yearsBetween(dateText), isPM, family, isIntern: INTERN.test(title) || INTERN.test(r), level: lvl, section: sec, line: lines.length, employerLine: [employer, around].filter(Boolean).join(" | ") || null, capsLead: EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(own[0] || ""), span: spanOf(dateText) });
+        role = roles.length - 1; lines.push({ text: whole, kind: "role", section: sec, role }); continue;
       }
-      if ((sec === "experience" || sec === "body") && !hadBullet && !hasDate && r.length < 80 && EMPLOYER_LINE.test(r0)) { employer = r; lines.push({ text: r, kind: "employer", section: sec, role: -1 }); continue; }
+      if ((sec === "experience" || sec === "body") && !hadBullet && !hasDate && r.length < 80 && EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(r)) { employer = r; lines.push({ text: r, kind: "employer", section: sec, role: -1, label: true }); continue; }
       // a wrapped bullet: in a resume that marks bullets, an unmarked line after a bullet continues it
       const last = lines[lines.length - 1];
-      if (usesBullets && !hadBullet && !hasDate && last && last.kind === "bullet" && last.section === sec && (sec === "experience" || sec === "body" || sec === "projects") && !/[.!?]$/.test(last.text)) { last.text += " " + r; continue; }
+      if (usesBullets && !hadBullet && !hasDate && last && last.kind === "bullet" && !last.label && last.section === sec && (sec === "experience" || sec === "body" || sec === "projects") && !/[.!?]$/.test(last.text) && !(labelLike(items[i]) && TITLE_WORD.test(r))) { last.text += " " + r; continue; }
       if (sec === "education" || /\b(university|college|school|institute)\b/i.test(r) && DEGREE.some(([re]) => re.test(r))) {
         for (const [re, id] of DEGREE) if (re.test(r)) { degrees.add(id); if (CS_DEGREE.test(r)) csDegree = true; }
       }
-      lines.push({ text: r, kind: isCourse ? "course" : sec === "skills" ? "skill" : sec === "summary" ? "summary" : sec === "education" ? "education" : "bullet", section: sec, role: sec === "experience" || sec === "body" ? role : -1 });
+      lines.push({ text: r, kind: isCourse ? "course" : sec === "skills" ? "skill" : sec === "summary" ? "summary" : sec === "education" ? "education" : "bullet", section: sec, role: sec === "experience" || sec === "body" ? role : -1, label: (sec === "experience" || sec === "body" || sec === "projects") && labelLike(items[i]) });
     }
     // An employer line that carries the dates of the whole stay, with the roles held there dated beneath it
     // ("MAJOR TELECOM CORP. 1994 – 2017", then "Director (2001 – 2017)", "Manager (1999 – 2001)"): the employer

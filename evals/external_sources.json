@@ -1718,9 +1718,10 @@
   "source_kind": "resume site",
   "fictional": "yes",
   "seniority": "mid",
-  "fetch": "page",
+  "fetch": "no",
   "terms": "Kickresume: sample written by the site's resume writers; page invites readers to use it; Terms linked in footer, no explicit reuse licence. PDF/DOCX download needs an account.",
-  "layout_note": "HTML page, full-text version of one resume. Dates MM/YYYY - MM/YYYY (e.g. '02/2015 - 10/2015') placed before the job title; job title then employer and location; short bullets; 'Profile' paragraph at top; skills grouped under sub-headings (Languages / Computer Skills / Interpersonal Skills); Volunteering and Certificates sections."
+  "layout_note": "HTML page, full-text version of one resume. Dates MM/YYYY - MM/YYYY (e.g. '02/2015 - 10/2015') placed before the job title; job title then employer and location; short bullets; 'Profile' paragraph at top; skills grouped under sub-headings (Languages / Computer Skills / Interpersonal Skills); Volunteering and Certificates sections.",
+  "left_out": "the page says a real person who got hired contributed it"
  },
  {
   "id": "investment_manager_velvetjobs_1",

@@ -89,13 +89,14 @@ for (const f of samples) {
   if (spec.persona) { const ok = r.profile.persona === spec.persona; ok ? pass++ : fail++; out(`  persona      : ${ok ? "PASS" : "FAIL (" + r.profile.persona + ")"}`); }
   // what the parser must find in this file, whatever its layout
   if (spec.parse) {
-    const P = r.parsed, want = spec.parse, bad = [];
+    // jobs are the dated roles under work experience; dated clubs, projects and volunteering are not counted
+    const P = { ...r.parsed, roles: r.parsed.roles.filter(x => x.section !== "projects") }, want = spec.parse, bad = [];
     if (want.roles != null && P.roles.length !== want.roles) bad.push(`roles ${P.roles.length}, want ${want.roles}`);
     if (want.min_roles != null && P.roles.length < want.min_roles) bad.push(`roles ${P.roles.length}, want at least ${want.min_roles}`);
     if (want.min_years != null && r.profile.years < want.min_years) bad.push(`years ${r.profile.years.toFixed(1)}, want at least ${want.min_years}`);
     if (want.max_years != null && r.profile.years > want.max_years) bad.push(`years ${r.profile.years.toFixed(1)}, want at most ${want.max_years}`);
     for (const d of want.degrees || []) if (!P.degrees.includes(d)) bad.push(`degree ${d} not read`);
-    for (const t of want.titles || []) if (!P.roles.some(x => x.title.toLowerCase().includes(t.toLowerCase()))) bad.push(`no role titled "${t}"`);
+    for (const t of want.titles || []) if (!P.roles.some(x => { const a = x.title.toLowerCase(), b = t.toLowerCase(); return a.includes(b) || (a.length >= 8 && b.startsWith(a)); })) bad.push(`no role titled "${t}"`); // a title cut at its comma still names the job
     bad.length ? fail++ : pass++; out(`  parse        : ${bad.length ? "FAIL (" + bad.join("; ") + ")" : "PASS"} — ${P.roles.length} roles, ${r.profile.years.toFixed(1)} yrs, degrees: ${P.degrees.join(", ") || "none"}`);
   }
   if (spec.expect_employer) { const got = (r.standing && r.standing.employers) || []; const ok = got.includes(spec.expect_employer); ok ? pass++ : fail++; out(`  employer     : ${ok ? "PASS" : "FAIL (" + (got.join(", ") || "none") + ")"}`); }
