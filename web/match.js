@@ -221,6 +221,12 @@
     // and it often sets the ligatures fi, fl, ff apart from their word: "pro fi t", "work fl ow", "for   fi nance"
     // (one space on each side inside a word, a wide gap before it at the start of a word)
     text = text.replace(/([A-Za-z]) (ffi|ffl|ff|fi|fl) (?=[a-z])/g, "$1$2").replace(/(^|\s{2,}|[-(\/]\s?)(ffi|ffl|ff|fi|fl) (?=[a-z]{2})/gm, "$1$2");
+    // a year the PDF split in two after a month or a season: "Summer 20 24", "May 20 xx"
+    text = text.replace(/\b((?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?|summer|fall|autumn|spring|winter)(\s+)(19|20) (\d{2}|[xX]{2})\b/gi, "$1$2$3$4");
+    // The placeholder years of a template ("20XX", "19xx") are read as dates, so its jobs are found. They give
+    // no years. 2098 stands in for the placeholder while the lines are read.
+    let placeholderDates = false; const PH = "2098";
+    text = text.replace(/\b(19|20)[xX]{2}\b/g, () => { placeholderDates = true; return PH; });
     const raw = text.replace(/\r/g, "").replace(/([A-Za-z]) - ([a-z])/g, "$1-$2").split(/\n|(?=\s[•▪●‣◦■\uf0b7\uf0a7\uf0d8]\s)|(?<=[a-z]{4}\.)\s{2,}(?=[A-Z])/);
     // a date range that a narrow column broke in two: "October 2020 -" / "Current", "June 2018 - October" / "2020"
     const MON = "(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\\.?";
@@ -289,7 +295,8 @@
         const lvl = (TITLE_LEVEL.find(([re]) => re.test(title)) || [, isPM ? "mid" : null])[1];
         const family = isPM ? (TITLE_FAMILY.find(([, re]) => re.test(title)) || ["pm"])[0] : null;
         const around = [...own, ...near.flatMap(parts)].filter(x => x !== title).join(" | ");
-        roles.push({ title, text: whole, years: yearsBetween(dateText), isPM, family, isIntern: INTERN.test(title) || INTERN.test(r), level: lvl, section: stray ? "experience" : sec, line: lines.length, employerLine: [employer, around].filter(Boolean).join(" | ") || null, capsLead: EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(own[0] || ""), span: spanOf(dateText) });
+        const ph = placeholderDates && dateText.includes(PH);
+        roles.push({ title, text: whole, years: ph ? 0 : yearsBetween(dateText), placeholder: ph || undefined, isPM, family, isIntern: INTERN.test(title) || INTERN.test(r), level: lvl, section: stray ? "experience" : sec, line: lines.length, employerLine: [employer, around].filter(Boolean).join(" | ") || null, capsLead: EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(own[0] || ""), span: ph ? null : spanOf(dateText) });
         role = roles.length - 1; lines.push({ text: whole, kind: "role", section: stray ? "experience" : sec, role }); continue;
       }
       if ((sec === "experience" || sec === "body") && !hadBullet && !hasDate && r.length < 80 && EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(r)) { employer = r; lines.push({ text: r, kind: "employer", section: sec, role: -1, label: true }); continue; }
@@ -322,6 +329,7 @@
       for (const l of lines) { if (l.kind === "role" && drop.has(l.role)) { l.kind = "employer"; l.role = -1; } else if (l.role >= 0) l.role = remap[l.role]; }
       for (let i = roles.length - 1; i >= 0; i--) if (drop.has(i)) roles.splice(i, 1);
     }
+    if (placeholderDates) { const back = t => t.split(PH).join("20XX"); for (const l of lines) l.text = back(l.text); for (const u of roles) { u.text = back(u.text); u.title = back(u.title); if (u.employerLine) u.employerLine = back(u.employerLine); } }
     if (csDegree) degrees.add("cs_engineering_degree");
     const work = roles.filter(r => !/teaching assistant|\bTA\b|tutor/i.test(r.title));
     // years of work: projects, clubs and activities are dated too, but they are not jobs
@@ -329,7 +337,7 @@
     const pmYears = work.filter(r => r.isPM && !r.isIntern).reduce((a, r) => a + (r.years || 0), 0);
     const pmIntern = work.some(r => r.isPM && r.isIntern);
     const isStudent = lines.some(l => (l.kind === "education" || l.kind === "summary" || l.kind === "bullet") && /\b(expected|candidate|anticipated|class of 20\d\d|graduating)\b/i.test(l.text));
-    return { lines, roles, degrees, totalYears, pmYears, pmIntern, isStudent, hasSections: lines.some(l => l.kind === "heading") };
+    return { lines, roles, degrees, totalYears, pmYears, pmIntern, isStudent, placeholderDates, hasSections: lines.some(l => l.kind === "heading") };
   }
 
   // Role families beyond the product ones come from data (web/data/roles_mba.json): for each family an id, a
@@ -563,7 +571,7 @@
       const extras = Object.entries(ev).filter(([id, e]) => e.strength >= 2 && !CRED.has(id) && !SOFT.has(id) && !res.rows.some(r => r.id === id)).map(([id]) => ({ id, name: nameOf(id) }));
       const covered = new Set(Object.entries(ev).filter(([id, e]) => e.strength >= 2 && !SOFT.has(id) && !id.startsWith("yoe_")).map(([id]) => id));
       const subs = new Set(); for (const e of Object.values(ev)) if (e.strength >= 2) for (const s of e.subs) subs.add(s);
-      return { ...res, profile, parsed: { roles: parsed.roles, degrees: [...parsed.degrees], lines: parsed.lines.length, hasSections: parsed.hasSections }, unmapped, extras, covered, subs, evidence: ev, ai: req.ai.ids, req: { n: req.n, label: req.label, core: [...req.tiers.core.keys()], common: [...req.tiers.common.keys()], diff: [...req.tiers.diff.keys()] } };
+      return { ...res, profile, parsed: { roles: parsed.roles, degrees: [...parsed.degrees], lines: parsed.lines.length, hasSections: parsed.hasSections, placeholderDates: parsed.placeholderDates }, unmapped, extras, covered, subs, evidence: ev, ai: req.ai.ids, req: { n: req.n, label: req.label, core: [...req.tiers.core.keys()], common: [...req.tiers.common.keys()], diff: [...req.tiers.diff.keys()] } };
     }
 
     return { match, parseResume, readRoles, roleFamilyOf, tag, requirements, profileOf, score, nameOf, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };

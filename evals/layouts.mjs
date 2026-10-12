@@ -15,6 +15,8 @@ const wrap = (text, width) => text.split("\n").map(l => {
 export const VARIANTS = {
   dates_mm_yyyy: t => mapRoles(t, (title, emp, a, b) => `${title}, ${emp}   01/${a}   –   ${b === "Present" ? "Present" : "01/" + b}`),
   dates_month_names: t => mapRoles(t, (title, emp, a, b) => `${title}, ${emp} | Jan ${a} - ${b === "Present" ? "Present" : "Jan " + b}`),
+  // a PDF that breaks the year in two after the month: "Jan 20 19 - Jan 20 22"
+  dates_year_split: t => mapRoles(t, (title, emp, a, b) => `${title}, ${emp} | Jan ${a.slice(0, 2)} ${a.slice(2)} - ${b === "Present" ? "Present" : "Jan " + b.slice(0, 2) + " " + b.slice(2)}`),
   dates_no_parens: t => mapRoles(t, (title, emp, a, b) => `${title}, ${emp}   ${a} – ${b}`),
   employer_line_above: t => mapRoles(t, (title, emp, a, b) => `${emp.toUpperCase()}   New York, NY\n${title}   ${a} – ${b}`),
   employer_first: t => mapRoles(t, (title, emp, a, b) => `${emp} — ${title} (${a} - ${b})`),
