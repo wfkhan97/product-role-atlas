@@ -11,6 +11,22 @@ node evals/run.mjs --only grad   # one sample
 
 No install needed; it reads `web/data/taxonomy.json` (the product part of `pipeline/taxonomy.json`, written by `build_graph`), `web/data/subskills.json` and `web/data/graph.json`.
 
+## File types
+
+A sample may be `.txt`, `.pdf` or `.docx`. The runner reads PDF and DOCX with the libraries the app loads in the
+browser, at the same versions, and builds the text the same way (`evals/extract.mjs` mirrors `readFile` in
+`web/app.js`), so a two-column PDF or a Word table is tested as a user's file would be. Text samples need no
+install. For PDF and DOCX, run `npm install` once in `evals/`.
+
+A sample's JSON may carry `parse`: what the parser must find whatever the layout. Fields: `roles` or `min_roles`,
+`min_years`, `max_years`, `degrees` (ids), `titles` (each must appear in some role's title).
+
+## Published sample resumes
+
+`node evals/run.mjs --external` also scores the files in `evals/resumes/external/`. The folder is gitignored:
+published sample resumes belong to their publishers, so the repository keeps only the list of sources and our own
+expectations for each file, not the files.
+
 ## Real resumes, kept private
 
 Put a real resume in `evals/resumes/private/<name>.txt`, with a `<name>.json` of expectations beside it if you

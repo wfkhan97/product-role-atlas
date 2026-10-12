@@ -1,0 +1,10 @@
+{
+  "name": "product-role-atlas-evals",
+  "private": true,
+  "description": "Optional: lets the eval runner read PDF and DOCX samples with the same libraries the app loads in the browser. Text samples need no install.",
+  "type": "module",
+  "devDependencies": {
+    "mammoth": "1.6.0",
+    "pdfjs-dist": "3.11.174"
+  }
+}

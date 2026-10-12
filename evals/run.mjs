@@ -3,7 +3,9 @@
 //
 //   node evals/run.mjs                 # report
 //   node evals/run.mjs --baseline      # also rewrite evals/baseline.md
-//   node evals/run.mjs --private       # also score evals/resumes/private/*.txt (gitignored, never in the baseline)
+//   node evals/run.mjs --private       # also score evals/resumes/private/* (gitignored, never in the baseline)
+//   node evals/run.mjs --external      # also score evals/resumes/external/* (gitignored; fetched sample resumes)
+// Samples may be .txt, .pdf or .docx; PDF and DOCX are read as the app reads them (needs npm install in evals/).
 //   node evals/run.mjs --only grad     # filter samples by substring
 //   node evals/run.mjs --verbose       # print every row with its evidence line
 import fs from "fs";
@@ -11,6 +13,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
 import { variants } from "./layouts.mjs";
+import { extractText, READABLE } from "./extract.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(here, "..");
@@ -33,16 +36,22 @@ const verbose = args.includes("--verbose");
 // --private adds evals/resumes/private/ (gitignored): real resumes that stay on this machine. They never go into baseline.md.
 const priv = args.includes("--private");
 if (priv && args.includes("--baseline")) { console.error("--private samples are not written to the baseline; run them without --baseline"); process.exit(1); }
-const listTxt = dir => fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => f.endsWith(".txt") && (!only || f.includes(only))).sort() : [];
-const samples = [...listTxt(path.join(here, "resumes")), ...(priv ? listTxt(path.join(here, "resumes", "private")).map(f => path.join("private", f)) : [])];
+// --external adds evals/resumes/external/ (gitignored): published sample resumes fetched by evals/fetch_external.mjs.
+const ext = args.includes("--external");
+if (ext && args.includes("--baseline")) { console.error("--external samples are not written to the baseline; run them without --baseline"); process.exit(1); }
+const listTxt = dir => fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => READABLE.test(f) && (!only || f.includes(only))).sort() : [];
+const sub = d => listTxt(path.join(here, "resumes", d)).map(f => path.join(d, f));
+const samples = [...listTxt(path.join(here, "resumes")), ...(priv ? sub("private") : []), ...(ext ? sub("external") : [])];
 const pct = x => x == null ? "–" : Math.round(x * 100) + "%";
 const rows = []; let pass = 0, fail = 0; const lines = [];
 const out = s => { lines.push(s); console.log(s); };
 const LEVEL_OF = { associate: "associate", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
 
 for (const f of samples) {
-  const name = f.replace(/\.txt$/, "");
-  const text = fs.readFileSync(path.join(here, "resumes", f), "utf8");
+  const name = f.replace(READABLE, "");
+  let text;
+  try { text = await extractText(path.join(here, "resumes", f)); }
+  catch (e) { fail++; out(`\n=== ${f}: could not be read (${String(e.message).split("\n")[0]})`); continue; }
   const specPath = path.join(here, "resumes", name + ".json");
   const spec = fs.existsSync(specPath) ? JSON.parse(fs.readFileSync(specPath)) : { targets: ["pm:__all"] };
   let first = null; const scores = {};
@@ -74,6 +83,17 @@ for (const f of samples) {
   const fp = check("must_not_tag ", spec.must_not_tag, false);
   const gapsWrong = check("real_gaps    ", spec.real_gaps, false);
   if (spec.persona) { const ok = r.profile.persona === spec.persona; ok ? pass++ : fail++; out(`  persona      : ${ok ? "PASS" : "FAIL (" + r.profile.persona + ")"}`); }
+  // what the parser must find in this file, whatever its layout
+  if (spec.parse) {
+    const P = r.parsed, want = spec.parse, bad = [];
+    if (want.roles != null && P.roles.length !== want.roles) bad.push(`roles ${P.roles.length}, want ${want.roles}`);
+    if (want.min_roles != null && P.roles.length < want.min_roles) bad.push(`roles ${P.roles.length}, want at least ${want.min_roles}`);
+    if (want.min_years != null && r.profile.years < want.min_years) bad.push(`years ${r.profile.years.toFixed(1)}, want at least ${want.min_years}`);
+    if (want.max_years != null && r.profile.years > want.max_years) bad.push(`years ${r.profile.years.toFixed(1)}, want at most ${want.max_years}`);
+    for (const d of want.degrees || []) if (!P.degrees.includes(d)) bad.push(`degree ${d} not read`);
+    for (const t of want.titles || []) if (!P.roles.some(x => x.title.toLowerCase().includes(t.toLowerCase()))) bad.push(`no role titled "${t}"`);
+    bad.length ? fail++ : pass++; out(`  parse        : ${bad.length ? "FAIL (" + bad.join("; ") + ")" : "PASS"} — ${P.roles.length} roles, ${r.profile.years.toFixed(1)} yrs, degrees: ${P.degrees.join(", ") || "none"}`);
+  }
   if (spec.expect_employer) { const got = (r.standing && r.standing.employers) || []; const ok = got.includes(spec.expect_employer); ok ? pass++ : fail++; out(`  employer     : ${ok ? "PASS" : "FAIL (" + (got.join(", ") || "none") + ")"}`); }
   if (spec.expected_level) { const ok = LEVEL_OF[spec.expected_level] === r.profile.level; ok ? pass++ : fail++; out(`  level read   : ${ok ? "PASS" : "FAIL (" + r.profile.level + ")"}`); }
   // layouts: the same resume written other ways must read the same (roles, years, persona, level, score within 4 points)
