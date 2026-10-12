@@ -176,6 +176,7 @@
     return out;
   }
   const SECTION = [
+    [/^((professional|executive|career|personal) )?(summary|profile|objective|about( me)?|overview|highlights)\b/i, "summary"],
     [/^(professional |work |relevant |research |industry )?(experience|employment|history|positions?|career)\b/i, "experience"],
     [/^(research experience|research)\b/i, "experience"],
     [/^(leadership|volunteer|community|campus|extra[- ]?curricular)\b.*\b(experience|activities|involvement|service)$/i, "projects"],
@@ -183,15 +184,23 @@
     [/^([A-Za-z&]+ ){1,3}(experience|employment)$/i, "experience"],
     [/^(education|academic)\b/i, "education"],
     [/^(relevant )?(coursework|courses)/i, "coursework"],
-    [/^(academic |class |course )?(projects?|capstone|selected projects|side projects|hackathons?|portfolio|leadership( & activities)?|activities|extra[- ]?curricular|volunteer(ing| work| experience)?|organi[sz]ations|affiliations|memberships|involvement)\b/i, "projects"],
+    [/^(academic |class |course )?(projects?|capstone|selected projects|side projects|hackathons?|leadership( & activities)?|activities|extra[- ]?curricular|volunteer(ing| work| experience)?|organi[sz]ations|affiliations|memberships|involvement)\b/i, "projects"],
     [/^(technical |core |key )?(skills|tools|technologies|competencies|certifications?|proficienc(y|ies))\b/i, "skills"],
-    [/^((professional|executive|career|personal) )?(summary|profile|objective|about( me)?|overview|highlights)\b/i, "summary"],
     [/^(publications?|awards?|honou?rs|interests|languages|references)\b/i, "other"],
   ];
+  // The words a section heading is made of. A short line that only starts like a heading is not one: "Project
+  // planning" in a skills list, "Leadership development", "research that led to" at the start of a wrapped bullet.
+  const HEAD_WORD = /^(professional|work|relevant|research|industry|experience|employment|history|positions?|career|leadership|volunteer(ing)?|community|campus|extra-?curriculars?|activities|involvement|service|education|educational|academic|coursework|courses?|projects?|capstone|selected|side|hackathons?|organi[sz]ations?|affiliations?|memberships?|technical|core|key|skills?|tools?|technologies|competenc(y|ies)|certifications?|proficienc(y|ies)|summary|profile|objective|about|me|overview|highlights?|publications?|awards?|honou?rs|interests|languages?|references|and|of|additional|other|related|training|background|qualifications?|accomplishments?|achievements?|credentials?|licen[sc]es?|areas?|expertise|information|personal|executive|internships?|spoken|software|computer|cont|continued|select|prior|previous)$/i;
+  const headWords = s => s.replace(/\(cont(inued|\.|'d)?\)/i, "").split(/[\s,\/&:\-–]+/).filter(Boolean);
+  // "Health Law Experience", "ATHLETIC COACHING EXPERIENCE": any few capitalised words that end with the word
+  const headingWords = s => { const w = headWords(s); return w.length > 0 && (w.every(x => HEAD_WORD.test(x)) || (/\b(experience|employment)$/i.test(s) && w.length <= 4 && w.every(x => /^[A-Z]/.test(x) || /^(and|of)$/.test(x)))); };
   const PM_TITLE = /\b(product (manager|management|owner|lead|director|marketing manager|(data )?analyst|operations|ops|strategist)|\bAPM\b|\bTPM\b|technical program manager|\bPM\b|head of product|chief product|\bCPO\b|\bVP,? product)/i;
   const INTERN = /\bintern(ship)?\b|\bco-?op\b|\bfellow(ship)?\b/i;
   const TITLE_LEVEL = [[/\b(chief|cpo|vp|vice president|head of|director|group product|principal|staff|lead)\b/i, "lead"], [/\b(senior|sr\.?)\b/i, "senior"], [/\b(associate|junior|jr\.?|apm|intern|assistant)\b/i, "associate"]];
   const DEGREE = [[/\b(ph\.?d|doctor(ate|al))\b/i, "phd"], [/\b(mba|m\.b\.a\.?|m\.?s\.?c?|m\.?eng|m\.?a\.?|master'?s?|ms in|m\.?phil|ll\.?m)\b|\bm\.b\.a\./i, "masters_mba"], [/\b(b\.?s\.?c?|b\.?a\.?|b\.?eng|bachelor'?s?|bsc|ba in|bs in|b\.?b\.?a|b\.?com|b\.?tech|b\.?pharm|b\.?f\.?a)\b/i, "bachelors"]];
+  // A degree written out in full is a degree wherever it stands: columns and text boxes often print the education
+  // lines away from the Education heading. ("MA" and "BA" alone are not enough: "Boston, MA".)
+  const DEGREE_PHRASE = /\b(bachelor|master)(['’]?s)?\s+(of|in|degree)\b|\b(B\.?S\.?c?|B\.?A\.?|B\.?B\.?A\.?|M\.?S\.?c?|M\.?A\.?|M\.?B\.?A\.?)\s+in\s+[A-Z]|\b(B\.S\.|B\.A\.|B\.B\.A\.|M\.S\.|M\.A\.|M\.B\.A\.),|\bMBA,? (candidate|class of|\(?expected)|\b(doctor(ate)? (of|in)|ph\.?d\.? (in|candidate))\b/i;
   const CS_DEGREE = /computer science|\bCS\b|software|electrical|computer engineering|\bEE\b|\bECE\b|engineering|mathematics|\bstatistics\b|physics|data science/i;
   const COURSE_LINE = /^[A-Z]{2,5}\s?\d{3}[A-Z]?\b|^[A-Z][a-z]+ \d{3}\b/;
 
@@ -237,13 +246,17 @@
     // a heading set with a space between every letter: "E D U C AT I O N", "K E Y S K I L L S"
     const HEAD_WORDS = /(professional|work|relevant|experience|employment|history|education|academic|technical|key|core|skills|summary|profile|about|me|projects|certifications|awards|activities|leadership|additional|information)/g;
     for (let k = 0; k < raw.length; k++) { const t = raw[k].trim().replace(/\s+/g, " "); if (/^(?:[A-Z&]{1,2} ){3,}[A-Z]{1,2}$/.test(t)) raw[k] = t.replace(/ /g, "").toLowerCase().replace(HEAD_WORDS, " $1").replace(/\s+/g, " ").trim().toUpperCase(); }
+    // small capitals set apart from the rest of their word: "P ROFESSIONAL   E XPERIENCE", "C HRIS   H UNTER"
+    for (let k = 0; k < raw.length; k++) { const t = raw[k].trim(); if (t.length < 60 && /^(?:[A-Z] [A-Z]{2,}[.,:]?(?:\s+(?:&|AND|OF)\b)?(?:\s+|$))+$/.test(t)) raw[k] = t.replace(/\b([A-Z]) ([A-Z]{2,})/g, "$1$2").replace(/\s{2,}/g, " "); }
+    // a heading with its content on the same line: "Relevant Coursework: Statistics, Finance", "Languages: Hindi"
+    for (let k = 0; k < raw.length; k++) { const m = raw[k].match(/^\s*([A-Za-z][A-Za-z &\/]{2,28}?)\s*:\s+(\S.*)$/); if (m && m[1].split(" ").length <= 3 && headingWords(m[1]) && SECTION.some(([re]) => re.test(m[1]))) raw.splice(k, 1, m[1], m[2]); }
     const BULLET = /^\s*([•▪●‣◦■\uf0b7\uf0a7\uf0d8\-–—*·]\s+|o\s{2,})/; const usesBullets = raw.filter(r => BULLET.test(r)).length >= 3;
     // an employer on its own line above its roles: "AMERICAN EXPRESS   New York, NY"
     const EMPLOYER_LINE = /^[A-Z][A-Z0-9&.'’\-]+( [A-Z0-9&.'’\-]+)*(\s{2,}|\s*[|,]|$)/;
     for (let k = 0; k < raw.length; k++) { const m = raw[k].match(/^\s*(\S(?:.{0,30}?\S)?)\s{2,}(\S.*)$/); if (m && SECTION.some(([re]) => re.test(m[1])) && m[1].split(" ").length <= 3 && !/\d/.test(m[1])) raw.splice(k, 1, m[1], m[2]); }
     const lines = []; let section = null; let role = -1; const roles = []; const degrees = new Set(); let csDegree = false; let employer = null; let strayMode = false;
     // a heading carries no year: "Project Engineer 2004-2007" is a job, not the Projects section
-    const headerLike = s => s.length < 60 && !/[.;:]$/.test(s) && !/(19|20)\d{2}/.test(s) && !(TITLE_WORD.test(s) && !/\b(experience|summary|profile|history)\b/i.test(s)) && (s === s.toUpperCase() || SECTION.some(([r]) => r.test(s)));
+    const headerLike = s => s.length < 60 && !/[.;:]$/.test(s) && !/(19|20)\d{2}/.test(s) && !(TITLE_WORD.test(s) && !/\b(experience|summary|profile|history)\b/i.test(s)) && headingWords(s);
     // each line as written (r0, to see wide gaps), on single spaces (r), and whether it carried a bullet mark
     const items = raw.map(x => { const hadBullet = BULLET.test(x); const r0 = x.replace(/^\s*o\s{2,}/, "").replace(/^[\s•▪●‣◦■\uf0b7\uf0a7\uf0d8\-–—*·]+/, "").trim(); return { r0, r: r0.replace(/[ \t\u00a0]{2,}/g, " "), hadBullet }; }).filter(x => x.r);
     const isHeading = t => { const h = t.replace(/\s*:$/, ""); return headerLike(h) && SECTION.some(([re]) => re.test(h)); };
@@ -303,7 +316,7 @@
       // a wrapped bullet: in a resume that marks bullets, an unmarked line after a bullet continues it
       const last = lines[lines.length - 1];
       if (usesBullets && !hadBullet && !hasDate && last && last.kind === "bullet" && !last.label && last.section === sec && (sec === "experience" || sec === "body" || sec === "projects") && !/[.!?]$/.test(last.text) && !(labelLike(items[i]) && TITLE_WORD.test(r))) { last.text += " " + r; continue; }
-      if (sec === "education" || /\b(university|college|school|institute)\b/i.test(r) && DEGREE.some(([re]) => re.test(r))) {
+      if (sec === "education" || /\b(university|college|school|institute)\b/i.test(r) && DEGREE.some(([re]) => re.test(r)) || (DEGREE_PHRASE.test(r) && r.length < 140 && !(hadBullet && sec === "experience"))) {
         for (const [re, id] of DEGREE) if (re.test(r)) { degrees.add(id); if (CS_DEGREE.test(r)) csDegree = true; }
       }
       lines.push({ text: r, kind: isCourse ? "course" : sec === "skills" ? "skill" : sec === "summary" ? "summary" : sec === "education" ? "education" : "bullet", section: sec, role: sec === "experience" || sec === "body" ? role : -1, label: sec !== "education" && labelLike(items[i]) });
