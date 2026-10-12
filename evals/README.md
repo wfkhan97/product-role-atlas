@@ -28,8 +28,22 @@ resume sites publish, by role, with a `fetch` rule for each: `script` (a univers
 professional body: `node evals/fetch_external.mjs` fetches it), `manual` (a resume site whose terms allow
 personal or internal use but not automated retrieval, or whose terms could not be read: download it by hand and
 save it under its id), `page` (a web page: paste its text into a `.txt`), `no` (left out, with the reason; real
-people's resumes are never used). `evals/external_expectations.json` says what the parser must read from each
-file. `evals/build_external_sources.py` rebuilds the list from search results.
+people's resumes are never used), `ask` (a university sample that is not confirmed as an invented person: the
+owner decides before any fetch). `evals/build_external_sources.py` rebuilds the list from search results.
+
+`evals/external_expectations.json` says what the reader must find in each file. Write an entry by reading the
+file first (`node evals/extract.mjs <file>` prints its text as the app reads it), never from the reader's output.
+Fields: `kind` (`single`; `template`, placeholder text or dates; `packet`, several resumes in one file), `parse`
+(as above), `seniority` (early, mid or senior, as read from the resume), `must_evidence` and `must_not_tag`
+(skill ids of the MBA taxonomy; checked with a matcher built on `pipeline/taxonomy.json` as the MBA role set sees
+it), `held` (role families the person held as jobs), `note` (the layout). A packet has `parts`: each is one resume,
+cut by `lines` (first and last line of the file's text, counted from 1) with `starts` (the first characters of
+the first line, so a cut that has moved fails loudly), its own `role`, `seniority` and `parse`.
+
+`evals/resume_titles.json` lists job titles as resumes write them with the role family each must be read as, or
+none. `node evals/run.mjs` checks it with the role families of `web/data/roles_mba.json`; until the graph build
+writes that file it uses the stand-in `evals/fixtures/roles_mba.json`. A case marked `known_gap` is reported and
+not counted.
 
 `node evals/run.mjs --external` also scores the files in `evals/resumes/external/`.
 
@@ -95,9 +109,11 @@ line that evidenced it, which is the fastest way to see why a check failed.
 
 **Layouts.** Each sample is also rewritten in the layouts of `evals/layouts.mjs` (dates as `01/2020 – 03/2022`
 or `Jan 2020 - Mar 2022`, employer in capitals on its own line, other bullet glyphs, wrapped bullets, spaced
-hyphens, other headings, Windows line ends, and all of these at once as a PDF text layer gives them). Every
-variant must read like the original: the same number of roles, the same years in product, the same persona and
-level, and a score within four points. Add a variant when a real resume shows a layout that is not there yet.
+hyphens, split ligatures, a year broken in two, a side column's heading inside the work history, dates in a
+column apart from the job lines, only a place beside the dates, other headings, Windows line ends, and several of
+these at once as a PDF text layer gives them). Every variant must read like the original: the same number of
+roles, the same years in product, the same persona and level, the same skills evidenced, and a score within four
+points. Add a variant when a real resume shows a layout that is not there yet.
 
 The runner requires `web/match.js` directly, so it always runs the code the app runs.
 
@@ -149,9 +165,9 @@ only. Each eval below guards one thing that can go wrong without anyone seeing i
    an API key once; after that `--reuse` checks every taxonomy change for free.
 6. **Data integrity.** No two registry entries share a job board. No URL appears twice in a processed file. Every
    skill id in a processed file exists in the taxonomy. Every role has postings.
-7. **Matcher evals per role group.** Sample resumes for finance, banking, consulting, marketing, sales,
-   operations, HR and risk, with the same expectation fields as the product samples. These need the graph build
-   for the MBA set.
+7. **Matcher evals per role group.** Built for what a resume shows: skill lists for 130 published samples, two or
+   three per role, and resume titles to role families (see "Published sample resumes"). Still to build once the
+   MBA graph exists: score bands per role group, from `calibrate.mjs` run on the MBA roles.
 8. **Scoring properties.** A person who held a role at a level scores high against that role at that level and
    below. The score against a lower level is never below the score against a higher level for the same resume.
    Adding a line of evidence never lowers a score (this one exists).
