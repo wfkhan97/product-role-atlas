@@ -361,7 +361,7 @@ assert set(GROUP_OF) == set(FAMILY_LABELS), set(FAMILY_LABELS) ^ set(GROUP_OF)
 
 # COVERS[a] = roles whose work role a contains: a person who held a is read as having held those too (as a
 # product manager is for product owner in web/match.js, where the table is keyed the other way round).
-# Proposed, not yet confirmed: each pair is the same function with the covered role narrower or the junior grade.
+# Confirmed on 2026-10-12: each pair is the same function with the covered role narrower or the junior grade.
 COVERS = {
     "strategy_manager": ["corp_strategy_analyst"],
     "strategic_finance": ["fpa"],
@@ -404,7 +404,7 @@ def export():
         "families": [{"id": f, "label": FAMILY_LABELS[f], "group": GROUP_OF[f], "patterns": [p], "exclude": [EXCLUDE[f]] if f in EXCLUDE else [],
                       "covers": COVERS.get(f, []), "covered_by": covered_by.get(f, []),
                       **({"product_gate": IN_PRODUCT_SCRAPE[f]} if f in IN_PRODUCT_SCRAPE else {})} for f, p in FAMILY_PATTERNS],
-        "covers_status": "proposed",
+        "covers_status": "confirmed",
         "junk": JUNK_RE.pattern,
         "employer_first": sorted(EMPLOYER_FIRST), "named_first": sorted(NAMED_FIRST), "banks": sorted(BANKS),
         "consulting_categories": sorted(CONSULTING_CATEGORIES),
