@@ -5,6 +5,7 @@
    Pipeline: parseResume(text) -> lines with section / role context
              tag(parsed)        -> per-skill evidence {strength, lines, subs, via}
              requirements(...)  -> core / common / differentiator tiers, one industry slot, one AI slot
+             standing(...)      -> skills presumed from a role the person held at or above the target level
              score(...)         -> coverage, depth, breadth, level read, persona, what-if */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();
@@ -16,6 +17,17 @@
   const AI_GROUP = ["ai_ml", "genai_llm", "ai_tools"];
   const TIER = { core: 0.5, common: 0.25, diff: 0.1 };
   const CREDIT = [0, 0.5, 1, 1]; // by evidence strength: none / mentioned / done / done with an outcome
+  // A person who held the target role was qualified to hold it. A requirement their resume does not show is then
+  // presumed, not a gap, for less credit than a line of evidence earns (so adding the line always helps).
+  // Credit by how sure the presumption is: what most postings at the level they held ask for (core) counts more
+  // than what a quarter to a half of them ask for (common); holding a level above the target counts more than
+  // holding the same level; their own employer's postings asking for it adds a little. Two things are never
+  // presumed: the industry, and AI literacy, which is a recent ask that years in the role do not imply.
+  const PRESUMED = { above: { core: 0.75, common: 0.6 }, same: { core: 0.6, common: 0.4 }, employer: 0.1, minYears: 1, minEmployerPostings: 5 };
+  const LEVEL_ORDER = ["associate", "mid", "senior", "lead"];
+  const LEVEL_GROUP = { associate: "associate", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
+  // which product family a job title belongs to (first match wins; a plain product title is "pm")
+  const TITLE_FAMILY = [["tpm", /technical program|\bTPM\b/i], ["pmm", /product marketing/i], ["product_owner", /product owner/i], ["product_analyst", /product (data )?(analyst|analytics|scientist)/i], ["product_ops", /product (operations|ops)/i]];
   const LEVEL_TO_LADDER = { associate: "associate", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
   const LADDER_LABEL = { associate: "associate", mid: "mid-level", senior: "senior", lead: "lead" };
 
@@ -96,7 +108,7 @@
     process_improvement: ["process (improvement|redesign|optimization|mapping)", "streamlin", "automat(ed|ing|ion)", "reduc(ed|ing) .{0,30}(time|cost|cycle|manual|errors)", "\\bSOPs?\\b", "operational (efficiency|excellence)", "\\blean\\b|six sigma"],
     quality_testing: ["\\bQA\\b", "(acceptance|regression|user acceptance) test", "\\bUAT\\b", "bug (bash|triage)", "test (plans?|cases)"],
     vendor_mgmt: ["vendors?\\b", "suppliers?\\b", "\\bRFPs?\\b", "\\bSOWs?\\b", "\\bSLAs?\\b", "(managed|negotiated) .{0,30}(contract|agency|vendor)"],
-    people_management: ["direct reports", "managed (a )?team of \\d+ (PMs|product managers|people|reports|analysts|associates)", "hired (and|,) (managed|coached|developed|onboarded)", "(hiring|performance) (manager|reviews)", "(managed|led) \\d+ (PMs|product managers|direct reports)"],
+    people_management: ["direct reports", "managed (a )?team of \\d+ (PMs|product managers|people|reports|analysts|associates)", "hired (and|,) (managed|coached|developed|onboarded|mentored)", "(mentored|coached|managed) \\d+ (PMs|product managers|APMs|analysts|engineers|designers)", "(hiring|performance) (manager|reviews)", "(managed|led) \\d+ (PMs|product managers|direct reports)"],
     technical_fluency: ["technical (background|depth|fluency|trade-?offs|discussions|design)", "computer science", "engineering (degree|background)", "(partnered|worked) with engineer(s|ing) on .{0,30}(technical|architecture|trade)", { p: "(software|engineering|developer) intern(ship)?|software engineer|full[- ]stack|built (a |the )?(prototype|backend|front-?end|pipeline|app|API)|implemented (a )?feature", via: "engineering" }, { p: "(Python|Java|JavaScript|TypeScript|React|Golang|C\\+\\+|Flask|Django|Node\\.js)\\b", via: "engineering" }],
     apis: ["\\bAPIs?\\b", "\\bREST(ful)?\\b", "\\bGraphQL\\b", "endpoints?", "\\bSDKs?\\b", "integrations?\\b", "webhooks?"],
     system_architecture: ["system design", "distributed systems", "microservices", "scalab(le|ility)", "\\bbackend\\b|\\bback-end\\b", "(service|data|platform) architecture", { p: "design docs?|(designed|built) .{0,30}(backend|service|pipeline|system)", via: "engineering" }],
@@ -183,7 +195,8 @@
         const title = r.split(/,| at | \| | — | – |\(/)[0].trim();
         const isPM = PM_TITLE.test(title) || PM_TITLE.test(r.split(/\(|\d{4}/)[0]);
         const lvl = (TITLE_LEVEL.find(([re]) => re.test(title)) || [, isPM ? "mid" : null])[1];
-        roles.push({ title, text: r, years: yearsBetween(r), isPM, isIntern: INTERN.test(r), level: lvl, section: sec, line: lines.length });
+        const family = isPM ? (TITLE_FAMILY.find(([, re]) => re.test(title)) || ["pm"])[0] : null;
+        roles.push({ title, text: r, years: yearsBetween(r), isPM, family, isIntern: INTERN.test(r), level: lvl, section: sec, line: lines.length });
         role = roles.length - 1; lines.push({ text: r, kind: "role", section: sec, role }); continue;
       }
       if (sec === "education" || /\b(university|college|school|institute)\b/i.test(r) && DEGREE.some(([re]) => re.test(r))) {
@@ -296,6 +309,46 @@
       return { persona, level, years, pmYears: pm, pmIntern: parsed.pmIntern, backgrounds, titleLevel, roles: parsed.roles.length };
     }
 
+    // Employers we hold postings for, to recognise on a role line ("Senior Product Manager, Stripe (2019 - 2022)").
+    const byCompany = {}; for (const j of G.jobs) (byCompany[j.company] ||= []).push(j);
+    const companyRx = Object.keys(byCompany).filter(c => c.length >= 4).map(c => ({ name: c, rx: new RegExp("(^|[^A-Za-z0-9])" + c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "($|[^A-Za-z0-9])", / /.test(c) ? "i" : "") }));
+    function employerOf(role) {
+      const rest = role.text.slice(role.title.length); // the part after the title: where the employer is written
+      const hit = companyRx.filter(c => c.rx.test(rest)).sort((a, b) => b.name.length - a.name.length)[0];
+      return hit ? hit.name : null;
+    }
+    function askedBy(jobs, min) { const st = shares(jobs); return new Set(skills.filter(s => !SOFT.has(s.id) && !CRED.has(s.id) && st.share(s.id) >= min).map(s => s.id)); }
+    const coreOf = jobs => askedBy(jobs, TIER.core);
+
+    // What a person is presumed to do because they held the target role. Null when they did not hold it,
+    // held it for under a year, or held it only below the target level.
+    function standing(parsed, profile, target, targetLevel) {
+      const family = target.job ? target.job.family : (target.jobs[0] || {}).family;
+      const held = parsed.roles.filter(r => r.family === family && !r.isIntern && !/teaching assistant|\bTA\b|tutor/i.test(r.title));
+      const years = held.reduce((a, r) => a + (r.years || 0), 0);
+      if (!family || !held.length || years < PRESUMED.minYears) return null;
+      const byYears = years >= 9 ? "lead" : years >= 5 ? "senior" : years >= 2 ? "mid" : "associate";
+      const byTitle = held.map(r => r.level).filter(Boolean).sort((a, b) => LEVEL_ORDER.indexOf(b) - LEVEL_ORDER.indexOf(a))[0];
+      const level = byTitle && LEVEL_ORDER.indexOf(byTitle) > LEVEL_ORDER.indexOf(byYears) ? byTitle : byYears;
+      const gap = LEVEL_ORDER.indexOf(level) - LEVEL_ORDER.indexOf(targetLevel);
+      if (gap < 0) return null;
+      const famJobs = G.jobs.filter(j => j.family === family);
+      const atLevel = famJobs.filter(j => LEVEL_GROUP[j.level] === level);
+      const market = coreOf(atLevel), marketCommon = askedBy(atLevel, TIER.common);
+      const employers = [...new Set(held.map(employerOf).filter(Boolean))];
+      const employerJobs = famJobs.filter(j => employers.includes(j.company));
+      const employer = employerJobs.length >= PRESUMED.minEmployerPostings ? coreOf(employerJobs) : new Set();
+      return { family, level, years, above: gap > 0, market, marketCommon, employer, employers: employerJobs.length >= PRESUMED.minEmployerPostings ? employers.filter(e => (byCompany[e] || []).some(j => j.family === family)) : [] };
+    }
+    function presumedCredit(st, id, tier) {
+      if (!st || tier === "diff" || id === "__domain" || id === "__ai") return 0;
+      const table = st.above ? PRESUMED.above : PRESUMED.same;
+      const inEmployer = st.employer.has(id);
+      // above the target level, every core or common ask of the target is within what they did
+      const base = st.market.has(id) || inEmployer ? table.core : (st.above || st.marketCommon.has(id)) ? table.common : 0;
+      return base ? base + (inEmployer ? PRESUMED.employer : 0) : 0;
+    }
+
     function ladderFor(id, level) { const s = gSkill[id]; const l = s && s.ladder; return l ? l[level] || null : null; }
     function signalsFor(id) { const s = gSkill[id]; return (s && s.signals) || []; }
     function buildFor(id) { const s = gSkill[id]; return (s && s.build) || []; }
@@ -311,8 +364,10 @@
       const targetLevel = opts.level || profile.level;
       const rows = []; const tierSum = { core: [0, 0], common: [0, 0], diff: [0, 0] };
       for (const tier of ["core", "common", "diff"]) for (const [id, w] of req.tiers[tier]) {
-        const e = evidenceFor(ev, id, req); const strength = e ? e.strength : 0; const credit = CREDIT[strength];
-        const status = strength >= 2 ? (e.transfer ? "transferable" : "evidenced") : strength === 1 ? "thin" : "gap";
+        const e = evidenceFor(ev, id, req); const strength = e ? e.strength : 0;
+        const pc = strength < 2 ? presumedCredit(opts.standing, id, tier) : 0;
+        const credit = Math.max(CREDIT[strength], pc);
+        const status = strength >= 2 ? (e.transfer ? "transferable" : "evidenced") : pc ? "presumed" : strength === 1 ? "thin" : "gap";
         const depth = e ? (e.subs.size > 0 || strength === 3) : false;
         rows.push({ id: e && e.id !== id ? e.id : id, slot: id, name: nameOf(e && e.id !== id ? e.id : id), slotName: nameOf(id), tier, w, strength, credit, status, depth, subs: e ? [...e.subs] : [], via: e ? [...e.via] : [], lines: e ? e.lines.sort((a, b) => b.strength - a.strength).slice(0, 2) : [], hintLines: e && e.subLines ? e.subLines.slice(0, 2) : [], ladder: ladderFor(e && e.id !== id ? e.id : id, targetLevel), signals: signalsFor(e && e.id !== id ? e.id : id), build: buildFor(e && e.id !== id ? e.id : id) });
         tierSum[tier][0] += w * credit; tierSum[tier][1] += w;
@@ -334,7 +389,9 @@
 
     function match(text, target, opts = {}) {
       const parsed = parseResume(text); const ev = tag(parsed); const profile = profileOf(parsed); const req = requirements(target);
-      const res = score(ev, req, profile, opts);
+      const st = standing(parsed, profile, target, opts.level || profile.level);
+      const res = score(ev, req, profile, { ...opts, standing: st });
+      res.standing = st ? { family: st.family, level: st.level, years: st.years, above: st.above, employers: st.employers, presumed: res.rows.filter(r => r.status === "presumed").length } : null;
       const unmapped = parsed.lines.filter((l, i) => l.kind === "bullet" && l.text.length > 30 && !Object.values(ev).some(e => e.nLines.has(i) || (e.subLines || []).some(s => s.i === i))).map(l => l.text).slice(0, 8);
       const extras = Object.entries(ev).filter(([id, e]) => e.strength >= 2 && !CRED.has(id) && !SOFT.has(id) && !res.rows.some(r => r.id === id)).map(([id]) => ({ id, name: nameOf(id) }));
       const covered = new Set(Object.entries(ev).filter(([id, e]) => e.strength >= 2 && !SOFT.has(id) && !id.startsWith("yoe_")).map(([id]) => id));

@@ -1,0 +1,48 @@
+{
+  "persona": "experienced_in_role",
+  "notes": "Synthetic. Eleven years in product, staff level, written the way senior people often write: short lines, outcomes, few posting nouns. Stands in for a real resume that scored 42% against an entry-level product role (2026-10-11). The resume shows little; the roles held show a lot. Scores must not read as unqualified.",
+  "targets": [
+    "pm:associate",
+    "pm:senior",
+    "pm:staff"
+  ],
+  "score_band": {
+    "pm:associate": [
+      0.6,
+      1.0
+    ],
+    "pm:senior": [
+      0.6,
+      1.0
+    ],
+    "pm:staff": [
+      0.5,
+      1.0
+    ]
+  },
+  "expected_level": "staff",
+  "must_evidence": [
+    "launch",
+    "pricing_packaging",
+    "people_management",
+    "pm_experience",
+    "cs_engineering_degree",
+    "bachelors"
+  ],
+  "must_not_tag": [
+    "ab_testing",
+    "sql",
+    "user_research",
+    "customer_interviews",
+    "figma",
+    "jira",
+    "prd",
+    "ai_ml",
+    "genai_llm"
+  ],
+  "real_gaps": [
+    "ai_ml",
+    "user_research",
+    "prd"
+  ]
+}

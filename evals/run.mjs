@@ -54,6 +54,11 @@ for (const f of samples) {
     const ok = band ? (r.overall >= band[0] && r.overall <= band[1]) : null;
     if (ok !== null) ok ? pass++ : fail++;
     out(`  ${t.padEnd(14)} n=${String(tg.jobs.length).padEnd(5)} core ${pct(r.core)} (${r.req.core.length})  common ${pct(r.common)} (${r.req.common.length})  depth ${pct(r.depth)}  breadth ${pct(r.breadth)}  overall ${pct(r.overall)}${band ? `  band ${pct(band[0])}–${pct(band[1])} ${ok ? "PASS" : "FAIL"}` : ""}  what-if ${pct(r.whatIf)}`);
+    // Role held: a person who held the target role at or above the target level must not read as unqualified for it.
+    if (r.standing) {
+      const floor = r.standing.above ? 0.6 : 0.5; const held = r.overall >= floor; held ? pass++ : fail++;
+      out(`      role held (${r.standing.level}, ${r.standing.years.toFixed(1)} yrs${r.standing.above ? ", above this level" : ""}${r.standing.employers.length ? ", employer known: " + r.standing.employers.join(", ") : ""}): ${r.standing.presumed} presumed, floor ${pct(floor)} ${held ? "PASS" : "FAIL"}`);
+    }
     if (verbose && t === spec.targets[0]) for (const row of r.rows) out(`      ${row.tier.padEnd(6)} ${row.status.padEnd(12)} s${row.strength} ${row.slotName.padEnd(32)} ${row.lines[0] ? JSON.stringify(row.lines[0].text.slice(0, 90)) : row.hintLines[0] ? "(hint) " + JSON.stringify(row.hintLines[0].text.slice(0, 80)) : ""}`);
   }
   const r = first;

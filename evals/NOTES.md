@@ -378,3 +378,33 @@ associates 4.
 
 **Not yet done.** The model audit of the new skills (`skill_audit.py`, 3,197 requests prepared): the OpenAI key
 in `.env` had expired. Until it runs, the new patterns are checked by reading samples only.
+
+## Role held counts as evidence (2026-10-11)
+
+Branch `feat/held-role-scoring`. A staff PM put a real resume in and read 42% against entry-level product roles.
+The sample resumes did not show the problem (the experienced sample, retitled staff, read 81% there), so the
+cause is how real senior resumes are written: short lines, outcomes, few posting nouns. The new sample
+`staff_pm_terse` reproduces it: eleven years in product, 19% against associate roles, 5 of 24 requirements read.
+
+**Rule.** A person who held the target role family for a year or more, at the target level or above, was
+qualified to hold it. A requirement their resume does not show is then *presumed*, not a gap.
+
+- Credit is below a line of evidence (1.0), so adding the line always raises the score: 0.75 for what most
+  postings at the level they held ask for and 0.6 for the rest of the target's core and common asks, when they
+  held a level above the target; 0.6 and 0.4 when they held the same level (there, only what postings at that
+  level ask for is presumed). Plus 0.1 when their own employer's postings ask for it.
+- The employer is read from the role line and matched to the companies we hold postings for (five or more
+  postings in the family). Then the bar comes from that firm, not from the market average.
+- Never presumed: the industry slot, and AI literacy (a recent ask that years in the role do not imply).
+  Differentiators are not presumed either.
+- No presumption for students, pivoters, internships, or a level above the one held.
+
+**Result.** `staff_pm_terse`: 19% -> 66% against associate, 24% -> 70% against senior, 23% -> 57% against staff,
+with 18 to 20 requirements shown as presumed and the headline saying the role was held above the level.
+`experienced_pm`: 83% -> 87% at senior. Student and pivoter samples do not move. The runner checks a floor for
+every target where a role was held (60% above the level, 50% at it). 193 checks pass.
+
+**Open.** The employer rule has no eval sample yet (no sample names an employer we hold postings for). The
+credit values are a first setting; tune them on real resumes in `evals/resumes/private/`. Presumption covers the
+six product families only until the MBA role set has a graph. The real resume that started this is not in the
+samples yet.
