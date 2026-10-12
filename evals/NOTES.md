@@ -533,9 +533,9 @@ see the code. Then the rules were run on them. That order found what follows.
   one ("Consulting / banking / finance background" for consultants).
 - *Unsure labels are not counted.* 196 of 629 titles. Cost: the hard cases are the ones left out.
 - *Rules were fixed on the labelled sets.* "All pass" is optimistic; a fresh sample gives the honest rate.
-- *Puerto Rico is its own entry*, so its postings are not shown. Postings whose location is only "Remote" (282)
+- *Puerto Rico is its own entry*, so its postings are not shown (confirmed on 2026-10-12: the 50 states and DC). Postings whose location is only "Remote" (282)
   have no country and are not shown.
-- *Covers is a proposal.* Seven pairs, each the same function with the covered role narrower or junior
+- *Covers: confirmed on 2026-10-12.* Seven pairs, each the same function with the covered role narrower or junior
   (strategy manager covers strategy analyst; strategic finance and financial manager cover FP&A; product manager
   covers product strategy; procurement covers strategic sourcing; transformation covers digital transformation;
   business analytics covers business intelligence). A data test did not help: most roles' postings ask for most
