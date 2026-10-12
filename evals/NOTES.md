@@ -491,17 +491,17 @@ reader ran on it (244 files; 9 more are templates). The five packets are cut int
 (24 with real dates). 250 of 269 parse expectations pass; before this branch the same expectations gave 211 of
 260. Parse health: 252 of 268 read with no flag (210 of 239 before). One class of layout at a time:
 
-| layout class | files | change | layout variant |
+| layout class | seen in | change | layout variant |
 |---|---|---|---|
-| Ligatures set apart by the PDF ("pro fi t", "for   fi nance") | 71 | joined | `ligatures_split` |
-| A line that only starts like a heading ("Project planning" in a skills list, the start of a wrapped bullet) | 73 false headings | a heading is made of heading words | (guarded by the samples) |
-| A side column's heading inside the work history (Word text boxes, two-column PDFs) | about 12 | a dated job title under Summary, Skills or Education is a job | `side_heading_inside_jobs` |
-| Dates in a column apart from the job lines | 4 | dated entries with no title are paired, in order, with undated "title, employer, place" lines | `dates_in_a_column` |
-| Placeholder years ("20XX") | 8 | read as dates; the job has a title and no years; the result page says so | sample `template_placeholder_years` |
-| A year split in two ("Summer 20 24") | 2 | joined | `dates_year_split` |
-| Only a place beside the dates ("2019 - 2023 / Detroit, MI"), titles with no manager word (teller, processor, buyer) | about 10 | the place is not a title; more job nouns | `dates_with_place` |
-| Schooling printed away from its heading | about 20 | a degree written out is read anywhere; dates beside a school and no title are not a job | (guarded by the samples) |
-| Seasons and short ranges ("Fall 2021 - present", "May – August 2025") | 3 | read as ranges | (guarded by the samples) |
+| Ligatures set apart by the PDF ("pro fi t", "for   fi nance") | 71 files | joined | `ligatures_split` |
+| A line that only starts like a heading ("Project planning" in a skills list, the start of a wrapped bullet) | 73 distinct lines | a heading is made of heading words | (guarded by the samples) |
+| A side column's heading inside the work history (Word text boxes, two-column PDFs) | 10 expectations | a dated job title under Summary, Skills or Education is a job | `side_heading_inside_jobs` |
+| Dates in a column apart from the job lines | 3 files | dated entries with no title are paired, in order, with undated "title, employer, place" lines | `dates_in_a_column` |
+| Placeholder years ("20XX") | 8 files | read as dates; the job has a title and no years; the result page says so | sample `template_placeholder_years` |
+| A year split in two ("Summer 20 24") | 2 files | joined | `dates_year_split` |
+| Only a place beside the dates ("2019 - 2023 / Detroit, MI"), titles with no manager word (teller, processor, buyer) | 8 expectations | the place is not a title; more job nouns | `dates_with_place` |
+| Schooling printed away from its heading | 14 expectations | a degree written out is read anywhere; dates beside a school and no title are not a job | (guarded by the samples) |
+| Seasons and short ranges ("Fall 2021 - present", "May – August 2025") | 4 expectations | read as ranges | (guarded by the samples) |
 
 The layout check is stricter now: a variant must evidence the same skills as the original, not only the same
 roles, years and score. That showed a false tag in the product samples: a word in an employer's name counted as
@@ -524,7 +524,7 @@ lists against the MBA taxonomy (1,238 and 807 checks), written by reading the re
 built on `pipeline/taxonomy.json` as the MBA role set sees it. With posting patterns alone the matcher found 871
 of 1,238 (70%) and held 649 of 807. After a pass of resume-language patterns and drops driven by the failures:
 1,022 (83%) and 672 (83%). What is left: skills shown by meaning with no fixed wording (performance improvement,
-client work), course lines and skills lists counted as evidence for experienced people (17 of the false tags),
+client work), course lines and skills lists counted as evidence for experienced people,
 and reader judgment calls ("strategic partnerships" with agencies). The 135 false tags and 216 misses are listed
 per sample by the runner. A certificate or licence now counts wherever it is listed; a line under Interests,
 Awards or Languages is a mention, not evidence.
