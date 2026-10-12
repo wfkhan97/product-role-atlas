@@ -59,9 +59,15 @@
     program_mgmt: ["schedules?\\b", "deliverables", "on[- ]time", "status (report|update)s?"],
     vendor_mgmt: ["contract", "budget (management|ownership|planning)"],
     customer_facing_exec: ["conference", "speak(ing)? at"],
-    cloud: [],
+    cloud: ["\\bcloud\\b", "\\bPaaS\\b"], // "Oracle HCM Cloud", "Adobe Creative Cloud" are product names
+    partnerships: ["partnerships\\b|(?<!in )(?<!in close )(?<!close )(?<!business )partnership\\b(?! with\\b)"], // "partnerships with designers" are colleagues
     big_tech_experience: ["global scale", "enterprise[- ]scale", "large[- ]scale (systems|products|platforms|organizations|programs)"],
     pm_experience: ["shipping (software )?products"],
+    // skills of the MBA role set
+    strategic_planning: ["strategic plan(s|ning)\\b"], // "aiding strategic planning" is a phrase, not the planning cycle
+    erp_finance_systems: ["\\bSAP\\b", "peoplesoft", "quickbooks"], // SAP SuccessFactors and PeopleSoft HCM are HR systems
+    investment_research: ["financial markets"], // a line of interests
+    internal_audit_sox: ["audit (findings|plans?|committee|evidence|issues|engagements?|readiness|reports?|program|methodology|observations|universe|work ?papers|testing|procedures)|(internal|external|regulatory|independent|third[- ]party|customer|IT|compliance) audits\\b"], // being audited, or the audit committee as an audience
   };
 
   // Resume-language patterns, per skill. `via` marks vocabulary from another discipline: a hit is
@@ -69,6 +75,7 @@
   // say it the way product postings do.
   const RESUME_PATTERNS = {
     cross_functional: [
+      "cross[- ]functional", "(with|across) \\d+\\+? (departments|functions|business units)", "(global|regional) functional teams",
       "(led|lead|leading|managed|coordinated|partnered|worked|collaborated|aligned) (closely )?(with|alongside|across) (a |the |an |\\d+ |two |three |four |five |six )?(cross|team of|engineers?|engineering|designers?|design|data|marketing|sales|legal|finance|operations|support|clinicians|researchers|stakeholders|agency)",
       "team of \\d+ (engineers|developers|designers|people)",
       "engineers? (and|,) (\\d+ |two |three )?(designers?|data|researchers|marketers)",
@@ -79,7 +86,7 @@
       "manag(ed|ing) (stakeholder|expectations|up)", "stakeholders?", "executive team", "buy[- ]in", "align(ed|ing|ment) (with|across) (leadership|stakeholders|teams|departments)",
       { p: "(client|partner) (stakeholders|leadership|executives)|steering committee", via: "consulting" },
     ],
-    exec_communication: ["present(ed|ing|ations?) .{0,40}(executive|leadership|founders|board|c-?suite|panel|clients|senior)", "(quarterly|monthly) (business )?reviews?", "executive (summary|readout|update)", { p: "(published|presented) .{0,30}(papers?|at [A-Z]{2,}|conference|workshop)", via: "research" }, { p: "(pitched|pitch(ed)? to) .{0,30}(panel|judges|investors|founders)", via: "founder" }],
+    exec_communication: ["(present|report)\\w* [^.]{0,50}(to|for) (the )?(senior |upper |executive )?(management|leadership|executives|VPs?|C-?suite|CFO|CEO|CIO|COO|board)\\b", "executive (readouts?|briefings?|presentations?)", "present(ed|ing|ations?) .{0,40}(executive|leadership|founders|board|c-?suite|panel|clients|senior)", "(quarterly|monthly) (business )?reviews?", "executive (summary|readout|update)", { p: "(published|presented) .{0,30}(papers?|at [A-Z]{2,}|conference|workshop)", via: "research" }, { p: "(pitched|pitch(ed)? to) .{0,30}(panel|judges|investors|founders)", via: "founder" }],
     customer_interviews: ["(conducted|ran|led|completed) \\d+\\+? (user |customer |stakeholder |client )?interviews", "customer (interview|conversation|call)s?", "user interviews?", { p: "semi-?structured interviews?", via: "research" }, { p: "interviews? with (\\d+\\+? )?(users|customers|participants|patients|clinicians|practitioners|experts)", via: "research" }, { p: "(client|stakeholder) interviews?", via: "consulting" }],
     user_research: ["user research", "usability (test|stud)", "user stud(y|ies)", "contextual inquir", "diary stud", { p: "mixed[- ]methods", via: "research" }, { p: "(n ?= ?\\d+|\\d+ participants|study participants)", via: "research" }, { p: "ethnograph|field stud(y|ies)|observational stud", via: "research" }, { p: "thematic analysis|qualitative (coding|analysis)", via: "research" }],
     surveys_feedback: ["surveys?", "\\bNPS\\b", "(customer|user|app) (feedback|reviews)", "support tickets", { p: "questionnaire|likert|mixed[- ]methods", via: "research" }],
@@ -106,23 +113,23 @@
     financial_analysis: ["financial (model|analysis|projections|forecast)", "unit economics", "\\bP&L\\b", "budget(s|ing|ed)?\\b", "forecast(s|ing|ed)?", "\\bLTV\\b|\\bCAC\\b|payback"],
     growth_loops: ["(signup|sign-up|onboarding|activation|checkout) funnel", "funnel", "(conversion|activation|retention|engagement) (rate|lift|improvement)?", "(increas|improv|lift|grew|boost)\\w* .{0,30}(conversion|activation|retention|engagement|adoption|sign-?ups|MAU|DAU)", "growth (loop|experiment|strategy)", "\\b(MAU|DAU|WAU)\\b", { p: "(acquisition|email|lifecycle) (campaign|marketing)|open rates?|click-?through", via: "marketing" }],
     customer_success: ["onboarding", "customer success", "retention", "churn", "\\bCSMs?\\b", "customer (support|service) (team|tickets)"],
-    partnerships: ["partnerships?\\b", "(partner|channel) (program|ecosystem)", "integration partners?", { p: "(agency|vendor|academic|industry) partners", via: "marketing" }],
+    partnerships: ["(strategic|channel|technology|distribution|co-?marketing|reseller|ecosystem|commercial|corporate) (partnerships?|alliances)", "partnership (agreements?|deals?|programs?|pipeline|revenue|strategy)", "(signed|closed|negotiated|secured|sourced|launched|formed|established|managed) [^.]{0,40}partnerships?\\b", "(partner|channel) (program|ecosystem)", "integration partners?", { p: "(agency|vendor|academic|industry) partners", via: "marketing" }],
     customer_facing_exec: ["customer[- ]facing", "(met|meeting|meetings) with customers", "customer (advisory|council|visits)", "(sales|customer) (calls|demos)", "demo(ed|s)? .{0,20}(to|for) (customers|prospects)"],
     cross_functional_alias: [],
-    agile_scrum: ["\\bagile\\b", "\\bscrum\\b", "sprints?\\b", "stand-?ups?", "kanban", "retrospectives?|retros\\b", "backlog (grooming|refinement)", "story points"],
-    program_mgmt: ["program management", "project management", "(project|program) plans?", "timelines?", "milestones?", "work-?streams?", "(coordinated|managed) .{0,30}(timeline|schedule|delivery|dependencies)", "\\bPMP\\b", "critical path", "\\bRAID\\b"],
+    agile_scrum: ["Scrum ?Master|\\bSAFe\\b", "\\bagile\\b", "\\bscrum\\b", "sprints?\\b", "stand-?ups?", "kanban", "retrospectives?|retros\\b", "backlog (grooming|refinement)", "story points"],
+    program_mgmt: ["(deliver|complet|led|manag)\\w* [^.]{0,60}(projects?|implementations?|migrations?|rollouts?|programs?) [^.]{0,40}(on time|ahead of schedule|within budget|under budget|days ahead)", "(led|managed|oversaw) (the )?[^.]{0,30}(migration|implementations?|rollout|integration project|consolidation project)", "program management", "project management", "(project|program) plans?", "timelines?", "milestones?", "work-?streams?", "(coordinated|managed) .{0,30}(timeline|schedule|delivery|dependencies)", "\\bPMP\\b", "critical path", "\\bRAID\\b"],
     risk_mgmt: ["risks? (register|mitigation|assessment|management)", "mitigat", "contingenc", "\\bIRB\\b"],
-    process_improvement: ["process (improvement|redesign|optimization|mapping)", "streamlin", "automat(ed|ing|ion)", "reduc(ed|ing) .{0,30}(time|cost|cycle|manual|errors)", "\\bSOPs?\\b", "operational (efficiency|excellence)", "\\blean\\b|six sigma"],
+    process_improvement: ["(redesigned|mapped|re-?engineered|standardi[sz]ed|overhauled|streamlined) [^.]{0,40}(process(es)?|workflows?|procedures?)", "policies and procedures|procedures and processes|new procedures", "manual (handoffs|steps|processes)", "process (re-?engineering|design|standardi[sz]ation|efficienc\\w+)", "process (improvement|redesign|optimization|mapping)", "streamlin", "automat(ed|ing|ion)", "reduc(ed|ing) .{0,30}(time|cost|cycle|manual|errors)", "\\bSOPs?\\b", "operational (efficiency|excellence)", "\\blean\\b|six sigma"],
     quality_testing: ["\\bQA\\b", "(acceptance|regression|user acceptance) test", "\\bUAT\\b", "bug (bash|triage)", "test (plans?|cases)"],
     vendor_mgmt: ["vendors?\\b", "suppliers?\\b", "\\bRFPs?\\b", "\\bSOWs?\\b", "\\bSLAs?\\b", "(managed|negotiated) .{0,30}(contract|agency|vendor)"],
-    people_management: ["direct reports", "\\d+ direct reports?", "(managed|led|mentored|coached) (a team of )?\\d+ (engineers|PMs|product managers|analysts|designers|interns)[^.]{0,40}direct report", "managed (a )?team of \\d+ (PMs|product managers|people|reports|analysts|associates)", "hired (and|,) (managed|coached|developed|onboarded|mentored)", "(mentored|coached|managed) \\d+ (PMs|product managers|APMs|analysts|engineers|designers)", "(hiring|performance) (manager|reviews)", "(managed|led) \\d+ (PMs|product managers|direct reports)"],
+    people_management: ["(led|lead|leads|managed|manage|manages|supervised|supervise|directed|oversaw|oversee|spearheaded) (a |an |the )?([\\w-]+ ){0,3}team of (\\d+\\+?|two|three|four|five|six|seven|eight|nine|ten|twelve)(?! (software |data |ML )?(engineers|developers|designers))\\b(?![^.]{0,25}(engineers|developers|designers))", "team of (\\d+\\+?|two|three|four|five|six|seven|eight|nine|ten|twelve) ([\\w-]+ ){0,2}(analysts|bankers|buyers|marketers|consultants|specialists|strategists|employees|staff|technicians|professionals|associates|representatives|reps|planners|agents|recruiters|accountants|managers)", "(managed|manage|supervised|supervise|mentored|coached|developed) (\\d+\\+?|two|three|four|five|six) ([\\w-]+ ){0,3}(analysts|bankers|buyers|technicians|specialists|employees|staff|consultants|representatives|reps|associates|managers|dispatchers)", "(supervised|mentored|coached|developed|trained) (and (mentored|developed|trained|coached) )?(junior|new) (staff|consultants|analysts|bankers|buyers|associates|employees|team members)", "(managing|developing|coaching)[^.]{0,30}team members", "(led|managed|supervised|mentored) a team of ([\\w-]+ )?(professionals|analysts|sales representatives|product managers|consultants)", "(manage|managed|manages) (two|three|four|five|\\d+) (program|project|product|account|sales) managers", "direct reports", "\\d+ direct reports?", "(managed|led|mentored|coached) (a team of )?\\d+ (engineers|PMs|product managers|analysts|designers|interns)[^.]{0,40}direct report", "managed (a )?team of \\d+ (PMs|product managers|people|reports|analysts|associates)", "hired (and|,) (managed|coached|developed|onboarded|mentored)", "(mentored|coached|managed) \\d+ (PMs|product managers|APMs|analysts|engineers|designers)", "(hiring|performance) (manager|reviews)", "(managed|led) \\d+ (PMs|product managers|direct reports)"],
     technical_fluency: ["technical (background|depth|fluency|trade-?offs|discussions|design)", "(worked|collaborated|partnered) (closely |directly )?with (a team of )?(\\d+ )?(software |data |ML )?(engineers|developers|engineering|data scientists)", "(led|managed) (a (scrum )?team of )?\\d+ (software |data |ML )?(engineers|developers)", "computer science", "engineering (degree|background)", "(partnered|worked) with engineer(s|ing) on .{0,30}(technical|architecture|trade)", { p: "(software|engineering|developer) intern(ship)?|software engineer|full[- ]stack|built (a |the )?(prototype|backend|front-?end|pipeline|app|API)|implemented (a )?feature", via: "engineering" }, { p: "(Python|Java|JavaScript|TypeScript|React|Golang|C\\+\\+|Flask|Django|Node\\.js)\\b", via: "engineering" }],
     apis: ["\\bAPIs?\\b", "\\bREST(ful)?\\b", "\\bGraphQL\\b", "endpoints?", "\\bSDKs?\\b", "integrations?\\b", "webhooks?"],
     system_architecture: ["system design", "distributed systems", "microservices", "scalab(le|ility)", "\\bbackend\\b|\\bback-end\\b", "(service|data|platform) architecture", { p: "design docs?|(designed|built) .{0,30}(backend|service|pipeline|system)", via: "engineering" }],
     data_modeling: ["data (model|modeling|modelling|pipeline|warehouse|schema)", "\\bETL\\b|\\bELT\\b", "schema"],
     sql: ["\\bSQL\\b", "\\bBigQuery\\b|\\bSnowflake\\b|\\bRedshift\\b|\\bPostgres(QL)?\\b", "(wrote|ran|built) .{0,20}queries"],
     python_r: ["\\bPython\\b", "\\bpandas\\b", "\\bR\\b (and|,|/)|\\bin R\\b|\\(R\\)", "\\bJupyter\\b", "\\bnotebooks?\\b"],
-    cloud: ["\\bAWS\\b|\\bGCP\\b|\\bAzure\\b|\\bcloud\\b", "kubernetes|\\bk8s\\b|docker"],
+    cloud: ["\\bAWS\\b|\\bGCP\\b|\\bAzure\\b", "kubernetes|\\bk8s\\b|docker", "cloud[- ](migration|infrastructure|platforms?|architecture|computing|services|native|costs?|based|solutions?|strategy|adoption)", "(migrat\\w+|mov(ed|ing)) [^.]{0,40}to (the )?cloud", "\\bcloud\\b(?= (and|,|/))|(,|and|/) cloud\\b"],
     ai_ml: ["machine learning", "\\bML\\b", "\\bAI\\b", "(recommendation|ranking) (system|model|pipeline)", "(trained|deployed|built|fine-?tuned|evaluated) .{0,30}(ML|machine[- ]learning|prediction|predictive|classification|ranking|recommendation|language|vision|neural) models?", "deep learning|neural", "\\bNLP\\b|computer vision"],
     genai_llm: ["\\bLLMs?\\b", "generative AI|GenAI", "\\bGPT\\b|Claude|ChatGPT|OpenAI|Anthropic", "prompt(ing| engineering)", "\\bRAG\\b", "(AI|LLM)[- ](powered|driven|native|assistant|agent|copilot|feature)"],
     ai_tools: ["(ChatGPT|Claude|Copilot|Cursor|Gemini|Midjourney)", "AI tools?"],
@@ -134,8 +141,8 @@
     figma: ["\\bFigma\\b", "\\bSketch\\b|\\bBalsamiq\\b|\\bMiro\\b"],
     analytics_tools: ["(Amplitude|Mixpanel|Looker|Tableau|Google Analytics|Heap|Pendo|Power ?BI|Metabase|Hex|Mode)\\b"],
     experimentation_tools: ["(Optimizely|LaunchDarkly|Statsig|Split\\.io|VWO|Eppo)\\b"],
-    office_tools: ["\\bExcel\\b", "\\bPowerPoint\\b", "Google (Sheets|Slides|Docs)"],
-    crm_tools: ["\\bSalesforce\\b|\\bHubSpot\\b|\\bZendesk\\b|\\bIntercom\\b"],
+    office_tools: ["\\bExcel\\b", "\\bPowerPoint\\b", "Google (Sheets|Slides|Docs|Workspace)", "(Microsoft|MS) Office|Office 365|\\bG Suite\\b|\\bMS (Word|Excel)"],
+    crm_tools: ["\\bSalesforce\\b|\\bHubSpot\\b|\\bZendesk\\b|\\bIntercom\\b|\\bPipedrive\\b|\\bSugarCRM\\b|\\bZoho\\b|Dynamics CRM"],
     enterprise_saas: ["\\bB2B\\b", "\\bSaaS\\b", "enterprise (customers|software|clients|accounts|product)", "(self-?serve|admin) (onboarding|console|experience)"],
     consumer: ["\\bB2C\\b", "consumer (app|product|mobile|brand|experience|facing|internet)", "\\d+(M|K|\\+)? (MAU|DAU|users|downloads)", "social (app|media|network)"],
     fintech: ["fintech", "banking", "payments? (product|platform|flow|rails)", "lending|loans?\\b|mortgage|credit (card|risk)", "budgeting (app|feature|tool)", "\\bKYC\\b|\\bAML\\b", "personal finance|financial services|insurance|insurtech|wealth"],
@@ -152,10 +159,35 @@
     pm_experience: ["product (manager|management|owner|lead)", "\\bAPM\\b|\\bPM\\b (intern|role|team)"],
     startup_experience: ["start-?ups?\\b", "founded|co-?founder|founder", "early[- ]stage|seed[- ]stage|series [a-c]\\b", "\\bYC\\b|y ?combinator"],
     big_tech_experience: ["big tech", "\\bFAANG\\b|\\bMAANG\\b", "\\b(Google|Meta|Facebook|Amazon|Apple|Microsoft|Netflix|Nvidia|Uber|Airbnb|Stripe|Salesforce|Oracle|Adobe|LinkedIn)\\b"],
+    // skills of the MBA role set, in the words resumes use
+    market_data_terminals: ["\\bBloomberg\\b|\\bEikon\\b|\\bFactSet\\b|Capital IQ|\\bCapIQ\\b|\\bPitchBook\\b"],
+    due_diligence: ["\\bdiligence\\b"],
+    performance_improvement: ["(reduc|cut|lower|sav)\\w* [^.]{0,40}(operating |operational |production |office |overhead |annual )?(costs?|expenses|expenditures?|waste)\\b", "cost[- ]sav(ing|ings)\\b", "\\d+% reduction in [^.]{0,30}(costs?|expenses|waste|cycle time|lead time)?", "(increas|improv)\\w* [^.]{0,30}(operational |operating )?efficienc(y|ies) by \\d", "reduc\\w+ (wait|cycle|lead|turnaround|processing) times?", "operational improvements"],
+    client_engagement: ["(advis|consult)\\w+ (\\d+\\+? )?(clients?|businesses|companies|organi[sz]ations)\\b", "client (projects|executives|leadership teams?|satisfaction)", "Fortune \\d+ clients", "(assisted|helped|supported|engaged with) clients (in|with|to)", "for (a|an) [^.]{0,30}\\bclient\\b"],
+    learning_design: ["(design|develop|buil[dt]|creat|deliver|led|execut|launch|implement)\\w* [^.]{0,40}(training|onboarding|learning|development) (programs?|curricul\\w+|frameworks?|modules?|workshops?|sessions|materials|courses)", "(designed|delivered|taught|facilitated|conducted) [^.]{0,30}(workshops|trainings|training sessions|courses)", "trained (over |more than )?\\d+\\+? (employees|staff|managers|associates|team members|new hires)", "(mentored and )?trained (over |more than )?\\d+ employees"],
+    reporting_adhoc_analysis: ["(creat|buil[dt]|develop|automat|prepar|generat|produc|streamlin|draft)\\w* [^.]{0,50}\\breport(s|ing)\\b", "ad[- ]hoc (analys[ie]s|reports?|requests)", "(daily|weekly|operational|management|data) report(s|ing)\\b"],
+    financial_reporting: ["(prepar|produc|creat|present|report|conduct)\\w* [^.]{0,40}(financial|performance|management|board|monthly|quarterly|annual) (reports?|statements|results|status|information)", "financial statements?", "(month|quarter|year)[- ]end (reporting|close)", "reported on [^.]{0,30}financial"],
+    key_account_mgmt: ["(point of contact|primary contact) for \\d+", "(cultivat|maintain|manag|buil[dt]|foster)\\w* [^.]{0,30}relationships with (\\d+\\+? )?(key |existing |current |strategic |enterprise )?(clients|accounts|customers)", "(portfolio|book) of \\d+\\+? (clients|accounts|customers)", "key accounts?"],
+    renewals_expansion: ["(upsold|upsell\\w*|cross-?s(ell\\w*|old)|renewals?)\\b", "(reduc\\w+|lower\\w+) (customer |client )?churn", "(increas|improv)\\w* [^.]{0,30}(customer retention|client retention|renewal|return clients|repeat (business|customers))"],
+    budgeting_forecasting: ["(annual|operating|departmental|capital) budgets?", "budget (season|cycle|process|planning)", "(rolling|quarterly|monthly|long[- ]range) (forecasts?|plan)\\b", "forecasting models?", "(buil[dt]|develop|prepar|manag|own)\\w* [^.]{0,40}(budgets?|forecasts?|operating plans?|financial plans?)\\b"],
+    marketing_analytics: ["(campaign|marketing|social media|channel) (analysis|analytics|performance|effectiveness|attribution|ROI)", "(measur|analy[sz]|track)\\w* [^.]{0,40}(campaign\\w*|marketing initiatives|site visits|web traffic|social media)"],
+    dashboards_dataviz: ["dashboards?", "(Tableau|Power ?BI|Looker|Data Studio|Qlik)\\b[^.]{0,30}(reports?|visuali[sz]ations?|views)|reports? in (Tableau|Power ?BI|Looker)", "data visuali[sz]ation"],
+    financial_risk: ["(credit|market|liquidity|counterparty|portfolio) risk", "risk exposure", "(loan )?(defaults?|delinquenc\\w+)\\b", "RiskManager|Value at Risk|\\bVaR\\b|stress test"],
+    exec_decks: ["(presentations?|decks?|materials) (for|to) (the )?(senior |upper |client |executive )?(management|leadership|board|executives|clients|C-?suite|steering committee)", "board (materials|decks?|presentations?|packs?|books?)", "(buil[dt]|creat|develop|prepar|produc)\\w* [^.]{0,40}(presentations|decks|slides)\\b"],
+    finance_partnering: ["partner(ed|ing|s)? with (the )?(CRO|CMO|COO|CTO|sales|marketing|operations|ops|engineering|product|department|business)[^.]{0,60}(budget|forecast|spend|pipeline|staffing|headcount|pricing|drivers|variance|plan)", "walk(ed|s)? (department|business|functional) (heads|leaders) through", "(advis|support)\\w+ [^.]{0,30}(business|department|functional) (leaders|heads|decisions)"],
+    change_management: ["change management", "(organi[sz]ational|change) readiness", "(drove|drive|ensur\\w+|increas\\w+) [^.]{0,40}(user |employee |successful )?adoption\\b", "digital literacy"],
+    supplier_contract_negotiation: ["(negotiat|renegotiat|secur)\\w+ [^.]{0,60}(suppliers?|vendors?|co-?manufactur\\w+|carriers?)\\b", "(negotiat|renegotiat)\\w+ [^.]{0,40}(contracts?|rebates?|terms|pricing)\\b[^.]{0,30}(with|from) [^.]{0,20}(suppliers?|vendors?)", "(supplier|vendor|supply) (contracts?|agreements?|negotiations?)"],
+    strategic_planning: ["(led|lead|own|owned|ran|run|buil[dt]|developed|drove|facilitated|managed|coordinated) [^.]{0,40}(strategic|annual|long[- ]range|operating|three[- ]year|five[- ]year) plan(s|ning)?\\b", "strategic planning (process|cycle|sessions?|offsites?)"],
+    erp_finance_systems: ["\\bSAP\\b(?! (SuccessFactors|Ariba|Concur|Fieldglass))", "peoplesoft(?! (HCM|HR))", "quickbooks(?! payroll)"],
+    internal_audit_sox: ["(led|conducted|performed|executed|planned|managed) [^.]{0,30}(internal|operational|IT|financial) audits?\\b", "audit (plans?|work ?papers|testing|methodology|universe)"],
+    pm_change_certs: ["(project|program) management professional", "change management professional", "\\bSAFe\\b (program consultant|\\(?SPC)"],
+    finance_degree: ["(bachelor|master|\\bB\\.?S\\.?c?|\\bB\\.?A\\.?|\\bBBA|\\bMBA|\\bM\\.?S\\.?c?)\\b[^.\\n]{0,60}\\b(finance|accounting|accountancy|economics)\\b", "\\b(finance|accounting|economics)\\b[^.\\n]{0,30}\\b(BSc|MSc|BA|BS|degree)\\b"],
     consulting_banking: ["consult(ing|ant)", "\\bMBB\\b|McKinsey|\\bBain\\b|\\bBCG\\b|Deloitte|Accenture|\\bEY\\b|\\bKPMG\\b|\\bPwC\\b", "investment bank(ing)?|Goldman|Morgan Stanley|JPMorgan"],
   };
   // A credential is read from the structure of the resume (titles, dates, degrees), not from these
   // patterns alone. These only run on role / summary / education lines.
+  // read from a line of schooling only
+  const EDU_CREDENTIAL = new Set(["finance_degree", "law_degree"]);
   const STRUCTURAL = new Set(["pm_experience", "startup_experience", "big_tech_experience", "consulting_banking", "bachelors", "masters_mba", "phd", "cs_engineering_degree", "security_clearance", "domain_expertise", "yoe_2", "yoe_3", "yoe_5", "yoe_8", "yoe_10"]);
   const VIA_LABEL = { research: "academic research", consulting: "consulting / analyst work", engineering: "engineering", marketing: "marketing", finance: "finance / operations", founder: "founder / venture work", coursework: "coursework" };
 
@@ -339,7 +371,7 @@
       if (sec === "education" || /\b(university|college|school|institute)\b/i.test(r) && DEGREE.some(([re]) => re.test(r)) || (DEGREE_PHRASE.test(r) && r.length < 140 && !(hadBullet && sec === "experience"))) {
         for (const [re, id] of DEGREE) if (re.test(r)) { degrees.add(id); if (CS_DEGREE.test(r)) csDegree = true; }
       }
-      lines.push({ text: r, r0, kind: isCourse ? "course" : sec === "skills" ? "skill" : sec === "summary" ? "summary" : sec === "education" ? "education" : "bullet", section: sec, role: sec === "experience" || sec === "body" ? role : -1, label: sec !== "education" && labelLike(items[i]) });
+      lines.push({ text: r, r0, kind: isCourse ? "course" : sec === "skills" ? "skill" : sec === "summary" ? "summary" : sec === "education" ? "education" : sec === "other" ? "other" : "bullet", section: sec, role: sec === "experience" || sec === "body" ? role : -1, label: sec !== "education" && labelLike(items[i]) });
     }
     // An employer line that carries the dates of the whole stay, with the roles held there dated beneath it
     // ("MAJOR TELECOM CORP. 1994 – 2017", then "Director (2001 – 2017)", "Manager (1999 – 2001)"): the employer
@@ -428,6 +460,8 @@
     const DEGREE_IDS = new Set(["bachelors", "masters_mba", "phd", "cs_engineering_degree"]);
     const TOOLISH = new Set([...skills.filter(s => s.cluster === "tools").map(s => s.id), "sql", "python_r", "figma", "jira"]);
     function lineStrength(l, id) {
+      if (l.kind === "other") return 1; // interests, awards, languages: a word there is a mention
+      if (CRED.has(id) && !STRUCTURAL.has(id)) return 2; // a certificate or a licence is held wherever it is listed
       if (l.kind === "course") return 2; // a course is something done, not just a word
       if (l.kind === "skill") return TOOLISH.has(id) ? 2 : 1; // nobody writes a bullet about Jira
       if (l.kind === "employer") return DOMAIN.has(id) ? 2 : 1; // where a person worked shows the industry
@@ -452,7 +486,9 @@
           const base = lineStrength(l, c.id);
           const structural = STRUCTURAL.has(c.id);
           if (structural && !(DEGREE_IDS.has(c.id) ? l.kind === "education" : (l.kind === "role" || l.kind === "summary" || l.kind === "employer"))) continue;
-          const text = named && !structural && !DOMAIN.has(c.id) ? own : l.text;
+          if (EDU_CREDENTIAL.has(c.id) && !(l.kind === "education" || DEGREE_PHRASE.test(l.text))) continue;
+          const next = parsed.lines[i + 1];
+          const text = EDU_CREDENTIAL.has(c.id) && next && next.kind === l.kind && next.text.length < 60 ? l.text + " " + next.text : named && !structural && !DOMAIN.has(c.id) ? own : l.text; // "Bachelor of Science" / "Finance"
           if (!text) continue;
           if (c.direct && c.direct.test(text)) add(c.id, l, i, structural ? 2 : base);
           else for (const v of c.via) if (v.rx.test(text)) { add(c.id, l, i, base, v.via); break; }

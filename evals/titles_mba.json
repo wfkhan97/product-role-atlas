@@ -1,0 +1,6310 @@
+{
+ "about": "Job titles with the role and the level each must get (role null: the title is none of the 50 roles). Labelled by reading, before the rules were run on them (2026-10-12): 470 titles drawn from the scraped postings by plain keyword and at random, 159 written to probe the edges. Rows with sure=false are reported, not counted. Checked by evals/run_pipeline.py.",
+ "rows": [
+  {
+   "title": "Manufacturing Strategy Associate",
+   "company": "GE HealthCare Technologies",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": "corp_strategy_analyst",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Manufacturing strategy is a functional strategy, not clearly corporate or business strategy"
+  },
+  {
+   "title": "General Program Manager (L5) - Developer Enablement",
+   "company": "Netflix",
+   "category": null,
+   "industry": "Entertainment",
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "L5 is a company grade; read as plain title"
+  },
+  {
+   "title": "Manager, Finance, AWS SMGS Operations Finance",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "financial_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Lead, Strategy & Corporate Development",
+   "company": "MoonPay",
+   "category": null,
+   "industry": null,
+   "role": "corp_dev",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Strategy and corporate development both named; took the narrower corp dev"
+  },
+  {
+   "title": "Data Governance Manager",
+   "company": "Mastercard",
+   "category": null,
+   "industry": "Financial Data Services",
+   "role": "governance",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Program Manager",
+   "company": "Zimmer Biomet Holdings",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Brand Ambassador",
+   "company": "Red Bull",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "note": "Brand ambassador is excluded",
+   "written": true
+  },
+  {
+   "title": "Senior Product Marketing Manager and Evangelist",
+   "company": "Snowflake",
+   "category": null,
+   "industry": null,
+   "role": "pmm",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Equity Portfolio Manager",
+   "company": "Morningstar",
+   "category": "Asset management",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Senior Product Manager (Pass)",
+   "company": "Proton",
+   "category": null,
+   "industry": null,
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Global Network - Strategy - M&A and Private Equity Consulting – Senior Manager / Manager",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "staff",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Two grades (Senior Manager / Manager); took the higher"
+  },
+  {
+   "title": "Vice President, Leveraged Finance",
+   "company": "Jefferies",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "senior",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Executive Assistant, Investment Banking",
+   "company": "Evercore",
+   "category": "Investment banking",
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "bank",
+   "note": "Executive assistant",
+   "written": true
+  },
+  {
+   "title": "Director, Global Supply Chain",
+   "company": "Abbott Laboratories",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": "supply_chain",
+   "level": "director",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Lean Six Sigma Black Belt Manager",
+   "company": "General Electric",
+   "category": null,
+   "industry": null,
+   "role": "opex",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Director, Dispute Advisory Services",
+   "company": "FTI Consulting",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": null,
+   "level": "director",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Dispute advisory is forensic and litigation work; could be read as an advisory practice grade"
+  },
+  {
+   "title": "Director, Operational Excellence & Assurance",
+   "company": "Related Companies",
+   "category": "Real estate",
+   "industry": null,
+   "role": "opex",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Product Manager, Payments",
+   "company": "Stripe",
+   "category": null,
+   "industry": "Fintech;Growth",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Investment Analyst Development Program",
+   "company": "Travelers",
+   "category": null,
+   "industry": "Insurance: Property and Casualty (Stock)",
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Development program participant; could be investment_manager"
+  },
+  {
+   "title": "Business Development Representative",
+   "company": "Rippling",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "BDR excluded",
+   "written": true
+  },
+  {
+   "title": "Strategic Partnerships Manager",
+   "company": "OpenAI",
+   "category": null,
+   "industry": "Enterprise;Growth;Infra",
+   "role": "partnerships",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Director Product Manager",
+   "company": "Adobe",
+   "category": null,
+   "industry": "Computer Software",
+   "role": "product_manager",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Enterprise Sales Director - Strategic",
+   "company": "Sierra",
+   "category": null,
+   "industry": null,
+   "role": "sales_manager",
+   "level": "director",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Sales director by title; at a startup this may be an individual seller"
+  },
+  {
+   "title": "Head of Sales Enablement",
+   "company": "Sysco",
+   "category": null,
+   "industry": "Wholesalers: Food and Grocery",
+   "role": null,
+   "level": "vp",
+   "ladder": "corporate",
+   "note": "Sales enablement is not sales management"
+  },
+  {
+   "title": "Data Analytics Manager",
+   "company": "Ashby",
+   "category": null,
+   "industry": null,
+   "role": "business_analytics",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Robot Operations Manager PM",
+   "company": "1X Technologies",
+   "category": null,
+   "industry": null,
+   "role": "operations_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Meaning of trailing PM unclear (shift or product manager)"
+  },
+  {
+   "title": "General Manager, Cloud Infrastructure",
+   "company": "Oracle",
+   "category": null,
+   "industry": "Computer Software",
+   "role": "general_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Compensation Advisor - Asset Management Group",
+   "company": "PNC Financial Services Group",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "comp_benefits",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Advisor grade not in the spec; PNC is a bank but not on the bank list"
+  },
+  {
+   "title": "Site Procurement Manager",
+   "company": "Microsoft",
+   "category": null,
+   "industry": "Computer Software",
+   "role": "procurement",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Analyst, Asset-Backed Investments",
+   "company": "Invesco",
+   "category": "Asset management",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "associate",
+   "ladder": "bank"
+  },
+  {
+   "title": "Procurement Leadership Development Associate",
+   "company": "CSX",
+   "category": null,
+   "industry": "Railroads",
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Relationship Manager, Big Business Banking",
+   "company": "SoFi",
+   "category": null,
+   "industry": null,
+   "role": "commercial_banking_rm",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Customer Success Manager",
+   "company": "Gong",
+   "category": null,
+   "industry": null,
+   "role": "customer_success",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "General Manager, The Ritz-Carlton, Half Moon Bay",
+   "company": "Marriott International",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Hotel general manager excluded"
+  },
+  {
+   "title": "Senior Accountant",
+   "company": "Dell Technologies",
+   "category": null,
+   "industry": "Computers, Office Equipment",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Accountant",
+   "written": true
+  },
+  {
+   "title": "Business Development Manager Services",
+   "company": "TD Synnex",
+   "category": null,
+   "industry": "Wholesalers: Electronics and Office Equipment",
+   "role": "bizdev",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Portfolio Manager Engagement - Fixed Income Technology",
+   "company": "Millennium",
+   "category": "Asset management",
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "bank",
+   "sure": false,
+   "note": "Technology role that engages with portfolio managers, not an investor"
+  },
+  {
+   "title": "Senior Manager, Marketing, Mexico",
+   "company": "Airwallex",
+   "category": null,
+   "industry": null,
+   "role": "marketing_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Chief of Staff",
+   "company": "Sapien",
+   "category": null,
+   "industry": null,
+   "role": "chief_of_staff",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Governance Manager - Outsourcing",
+   "company": "State Street",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "governance",
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Outsourcing or vendor governance is not one of the listed governance kinds"
+  },
+  {
+   "title": "Growth Lead",
+   "company": "Shepherd",
+   "category": null,
+   "industry": null,
+   "role": "growth_manager",
+   "level": "staff",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Associate Partner",
+   "company": "Oliver Wyman",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "director",
+   "ladder": "consulting",
+   "written": true
+  },
+  {
+   "title": "Strategic Sourcing Analyst – Memory & Storage",
+   "company": "Oracle",
+   "category": null,
+   "industry": "Computer Software",
+   "role": "strategic_sourcing",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Care Strategy Lead",
+   "company": "GetYourGuide",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Customer care strategy is functional; could be read as strategy_manager"
+  },
+  {
+   "title": "Deputy Chief of Staff",
+   "company": "Scale AI",
+   "category": null,
+   "industry": null,
+   "role": "chief_of_staff",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Private Equity Associate",
+   "company": "KKR",
+   "category": "Private equity",
+   "industry": "Securities",
+   "role": "pe_associate",
+   "level": "mid",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "DFC General Manager",
+   "company": "Lowe’s",
+   "category": null,
+   "industry": "Specialty Retailers: Other",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Distribution centre general manager: a facility, like a store or branch, but not listed"
+  },
+  {
+   "title": "Process Automation & AI Program Manager (Onsite in Birmingham, AL or Atlanta, GA)",
+   "company": "Synovus",
+   "category": "Commercial and corporate banking",
+   "industry": null,
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Director, M&A Integration",
+   "company": "Cisco Systems",
+   "category": null,
+   "industry": "Network and Other Communications Equipment",
+   "role": "ma_integration",
+   "level": "director",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Staff Technical Product Manager (HW Server)",
+   "company": "Super Micro Computer",
+   "category": null,
+   "industry": "Computers, Office Equipment",
+   "role": "product_manager",
+   "level": "staff",
+   "ladder": "corporate",
+   "note": "Technical product manager, not TPM"
+  },
+  {
+   "title": "Investment Banking Associate/ Senior Associate, Mergers and Acquisitions ('M&A')",
+   "company": "Citigroup",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Two grades (Associate / Senior Associate); took the higher"
+  },
+  {
+   "title": "Assistant Treasurer",
+   "company": "Ford Motor",
+   "category": null,
+   "industry": "Motor Vehicles & Parts",
+   "role": "treasury",
+   "level": "director",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Assistant Treasurer is a senior officer in practice; the assistant rule would say associate",
+   "written": true
+  },
+  {
+   "title": "Marketing Coordinator",
+   "company": "HubSpot",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "Coordinator excluded",
+   "written": true
+  },
+  {
+   "title": "Gestionnaire des opérations d’affaires — Évaluation et services-conseils, Canada | Business Operations Manager, Canada Valuation & Advisory",
+   "company": "Newmark",
+   "category": "Real estate",
+   "industry": null,
+   "role": "bizops",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Product Marketing Manager, Advertising",
+   "company": "Open",
+   "category": null,
+   "industry": null,
+   "role": "pmm",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Principal, Buyouts",
+   "company": "Carlyle",
+   "category": "Private equity",
+   "industry": null,
+   "role": "pe_associate",
+   "level": "director",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Capgemini Invent- Contact Center AI Consultant",
+   "company": "Capgemini",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Capgemini Invent is the consulting arm, but contact-centre AI may be technology consulting"
+  },
+  {
+   "title": "Sr Partner Sales Manager, FSI, Partner Sales",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "partnerships",
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Partner sales manager: partner manager or sales manager"
+  },
+  {
+   "title": "Analyst, Private Equity Real Assets",
+   "company": "New York Life Insurance",
+   "category": null,
+   "industry": "Insurance: Life, Health (Mutual)",
+   "role": "pe_associate",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "PE investing at an insurer; could be investment_manager"
+  },
+  {
+   "title": "Audit Manager",
+   "company": "EY",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Audit",
+   "written": true
+  },
+  {
+   "title": "Manufacturing Operations Program Manager (Taiwan)",
+   "company": "Etched",
+   "category": null,
+   "industry": null,
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Lead Software Engineer - AI/Supply Chain Full Stack",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": null,
+   "ladder": "bank",
+   "note": "Engineer"
+  },
+  {
+   "title": "Retail Sales Associate",
+   "company": "Best Buy",
+   "category": null,
+   "industry": "Specialty Retailers: Other",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "Retail sales",
+   "written": true
+  },
+  {
+   "title": "CIB Executive Director, Software Investment Banking",
+   "company": "Santander",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "director",
+   "ladder": "bank"
+  },
+  {
+   "title": "Associate Brand Manager, Preschool & Fashion Global Brand Team",
+   "company": "Hasbro",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "brand_manager",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Enterprise Risk Management, Vice President",
+   "company": "State Street",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "enterprise_risk",
+   "level": "vp",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "State Street is a bank but not on the bank list and has no category; as a bank VP this would be senior"
+  },
+  {
+   "title": "Business Unit Finance Manager Hauling -DC/ Richmond Markets",
+   "company": "Republic Services",
+   "category": null,
+   "industry": "Waste Management",
+   "role": "financial_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Chief of Staff",
+   "company": "PermitFlow",
+   "category": null,
+   "industry": null,
+   "role": "chief_of_staff",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Consultant / Senior Consultant - Risk Consulting - Finanzielle Gesamtbanksteuerung",
+   "company": "EY",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Risk consulting for banks; two grades, took the higher"
+  },
+  {
+   "title": "Investment Banking Division - Industrials  - Vice President - London",
+   "company": "Morgan Stanley",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "senior",
+   "ladder": "bank"
+  },
+  {
+   "title": "GCIB Corporate Coverage - Global Relationship Manager, Director",
+   "company": "MUFG",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "corporate_banking",
+   "level": "director",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Corporate coverage relationship manager; could be commercial_banking_rm or ib_associate"
+  },
+  {
+   "title": "Customer Success Manager - Mid-Market & Enterprise - Audit background",
+   "company": "DataSnipper",
+   "category": null,
+   "industry": null,
+   "role": "customer_success",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Associate (Manager), M&A (Montreal)",
+   "company": "EY",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Big Four M&A advisory; not a bank, so read as advisory practice"
+  },
+  {
+   "title": "Americas Benefits Lead",
+   "company": "Wellington Management",
+   "category": "Asset management",
+   "industry": null,
+   "role": "comp_benefits",
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Lead has no bank grade; corporate ladder would give staff"
+  },
+  {
+   "title": "Kinaxis Program Manager",
+   "company": "Lam Research",
+   "category": null,
+   "industry": "Semiconductors and Other Electronic Components",
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Risk Manager, RISC - Extended Producer Responsibility (EPR)",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "enterprise_risk",
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Regulatory risk manager; close to compliance"
+  },
+  {
+   "title": "Responsable, Industrialisation avancée / Advanced Industrialization Lead (product lead)",
+   "company": "RTX",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": null,
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Manufacturing industrialization lead; parenthesis says product lead"
+  },
+  {
+   "title": "Manager, Compliance Testing",
+   "company": "RBC",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "compliance",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Business Development Manager - MPS – Fundhouse (Nationwide)",
+   "company": "Marsh & McLennan",
+   "category": null,
+   "industry": "Diversified Financials",
+   "role": "bizdev",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Business Banking Relationship Manager",
+   "company": "First Horizon",
+   "category": "Commercial and corporate banking",
+   "industry": null,
+   "role": "commercial_banking_rm",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Senior is not a bank grade word in the spec; could be mid"
+  },
+  {
+   "title": "Compliance Manager (FCC)",
+   "company": "Santander",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "compliance",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Transaction Specialist - IT Mergers & Acquisitions, Finance",
+   "company": "Solventum",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "IT M&A transaction specialist; could be corp_dev or ma_integration"
+  },
+  {
+   "title": "Senior Product Marketing Manager",
+   "company": "Zum",
+   "category": null,
+   "industry": null,
+   "role": "pmm",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "VP & General Manager, North America",
+   "company": "Honeywell International",
+   "category": null,
+   "industry": "Industrial Machinery",
+   "role": "general_manager",
+   "level": "vp",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Chief of Staff, Office of CTO",
+   "company": "Beacon",
+   "category": null,
+   "industry": null,
+   "role": "chief_of_staff",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Associate to Consultant, Principal Investors and Private Equity Practice",
+   "company": "Boston Consulting Group",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting"
+  },
+  {
+   "title": "Product Director - Employee Platforms Data Product Management",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "product_manager",
+   "level": "director",
+   "ladder": "bank"
+  },
+  {
+   "title": "Manager - Global Media Partnerships & Procurement",
+   "company": "Diageo",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "procurement",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Media partnerships and procurement; could be partnerships"
+  },
+  {
+   "title": "Sales Manager | Camden Belleview Station/Caley",
+   "company": "Camden Property Trust",
+   "category": "Real estate",
+   "industry": null,
+   "role": "sales_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Sales manager of an apartment community; similar to store sales"
+  },
+  {
+   "title": "Corporate Finance, Strategic Finance - Associate / Assistant Vice President",
+   "company": "iCapital",
+   "category": null,
+   "industry": null,
+   "role": "strategic_finance",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Bank-style grades (Associate / AVP) at a firm on the corporate ladder"
+  },
+  {
+   "title": "Executive Director, Corporate Banking",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "corporate_banking",
+   "level": "director",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Technical GTM Strategy & Operations Lead",
+   "company": "Campfire",
+   "category": null,
+   "industry": null,
+   "role": "bizops",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "GTM strategy and operations, technical"
+  },
+  {
+   "title": "Senior Financial Analyst",
+   "company": "Intel",
+   "category": null,
+   "industry": "Semiconductors and Other Electronic Components",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Plain financial analyst excluded",
+   "written": true
+  },
+  {
+   "title": "Compensation Intern - Summer 2027",
+   "company": "Veeam Software",
+   "category": null,
+   "industry": null,
+   "role": "comp_benefits",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Agent Strategy Manager - German Speaking",
+   "company": "Decagon",
+   "category": null,
+   "industry": "Enterprise;Growth;Seed",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Agent strategy is customer deployment work, not corporate strategy"
+  },
+  {
+   "title": "Supply Chain Manager",
+   "company": "Tesla",
+   "category": null,
+   "industry": "Motor Vehicles & Parts",
+   "role": "supply_chain",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Analyst/Associate, Private Strategies (CRE Equity Acquisitions)",
+   "company": "PIMCO",
+   "category": "Asset management",
+   "industry": null,
+   "role": "re_acquisitions",
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Two grades (Analyst / Associate); took the higher"
+  },
+  {
+   "title": "Partnerships, Private Equity & Venture Capital",
+   "company": "Rillet",
+   "category": null,
+   "industry": "Fintech",
+   "role": "partnerships",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Staff Industrial Engineer – Contract Manufacturing & Operational Excellence - Corporate",
+   "company": "Thermo Fisher Scientific",
+   "category": null,
+   "industry": "Scientific,Photographic and Control Equipment",
+   "role": null,
+   "level": "staff",
+   "ladder": "corporate",
+   "note": "Engineer"
+  },
+  {
+   "title": "Director, Partnerships SI",
+   "company": "Cursor",
+   "category": null,
+   "industry": null,
+   "role": "partnerships",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Global Audit and Assurance Technology Risk & Compliance Manager",
+   "company": "Deloitte",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "compliance",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Risk and compliance manager, internal role; could be enterprise_risk"
+  },
+  {
+   "title": "Bank Teller",
+   "company": "Wells Fargo",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": null,
+   "ladder": "bank",
+   "note": "Teller",
+   "written": true
+  },
+  {
+   "title": "Program Manager, Amazon Flex Mexico",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Amazon Cobrand Strategy Vice President",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "strategy_manager",
+   "level": "senior",
+   "ladder": "bank"
+  },
+  {
+   "title": "3PL Program Manager",
+   "company": "Lululemon",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Associate Consultant – Logistics & Distribution (Supply Chain Transformation)",
+   "company": "ZS",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting"
+  },
+  {
+   "title": "Digital Transformation Lead - Global Procurement",
+   "company": "Nestlé",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "digital_transformation",
+   "level": "staff",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Program Manager",
+   "company": "Capital Group",
+   "category": "Asset management",
+   "industry": null,
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Director of Sales - NoMad Detroit",
+   "company": "Hilton Worldwide Holdings",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": "sales_manager",
+   "level": "director",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Sales director of one hotel"
+  },
+  {
+   "title": "Wealth Investment Associate",
+   "company": "M&T Bank",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Wealth support role; could be investment_manager"
+  },
+  {
+   "title": "Senior Product Marketing Manager, Desktop AI Products",
+   "company": "Nvidia",
+   "category": null,
+   "industry": "Semiconductors and Other Electronic Components",
+   "role": "pmm",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Category Manager, Indirect Procurement",
+   "company": "Merck",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": "category_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Model Governance Lead, Credit",
+   "company": "Plaid",
+   "category": null,
+   "industry": "Cultural Leadership Fund;Fintech;Growth",
+   "role": "governance",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Model governance is close to model risk"
+  },
+  {
+   "title": "Senior Associate, Portfolio Management, Private Equity Real Estate (Data Center Team)",
+   "company": "Principal Financial",
+   "category": null,
+   "industry": "Insurance: Life, Health (Stock)",
+   "role": "investment_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Real estate PE portfolio management; could be re_asset_manager or pe_associate"
+  },
+  {
+   "title": "Analyst, Technology M&A",
+   "company": "Goldman Sachs Group",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Manager, Sales Compensation",
+   "company": "Sirius XM Holdings",
+   "category": null,
+   "industry": "Entertainment",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Sales compensation excluded"
+  },
+  {
+   "title": "Business Development Manager – Enterprise Fleet Solutions / Gestionnaire du développement des affaires – Solutions de flotte d’entreprise",
+   "company": "Ryder System",
+   "category": null,
+   "industry": "Trucking, Truck Leasing",
+   "role": "bizdev",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Development Program Manager",
+   "company": "Lockheed Martin",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Program manager of a development program at a defence firm"
+  },
+  {
+   "title": "Operations Manager",
+   "company": "AIR",
+   "category": null,
+   "industry": null,
+   "role": "operations_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Legal Compliance Lead Analyst - Cigna Healthcare",
+   "company": "Cigna Group",
+   "category": null,
+   "industry": "Health Care: Pharmacy and Other Services",
+   "role": null,
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Lead Analyst: analyst grade is excluded, lead grade is included"
+  },
+  {
+   "title": "VP of Marketing",
+   "company": "Siro",
+   "category": null,
+   "industry": null,
+   "role": "marketing_manager",
+   "level": "vp",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Business Transformation Senior Assoc",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "transformation",
+   "level": "senior",
+   "ladder": "bank"
+  },
+  {
+   "title": "Finance Systems Manager",
+   "company": "Uber Technologies",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Finance systems excluded",
+   "written": true
+  },
+  {
+   "title": "Investment Banking Vice President | FinTech",
+   "company": "Houlihan Lokey",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "senior",
+   "ladder": "bank"
+  },
+  {
+   "title": "Product Marketing Engineer",
+   "company": "ClickHouse",
+   "category": null,
+   "industry": null,
+   "role": "pmm",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Product marketing engineer; technical marketing role"
+  },
+  {
+   "title": "Senior Manager, Strategic Partnerships",
+   "company": "Flex",
+   "category": null,
+   "industry": null,
+   "role": "partnerships",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Portfolio Manager, Fixed Income",
+   "company": "PIMCO",
+   "category": "Asset management",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "mid",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Senior Associate, HR Integration, M&A Strategy",
+   "company": "KPMG",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "M&A integration consulting at a Big Four firm"
+  },
+  {
+   "title": "Senior Vice President, Corporate Banking",
+   "company": "PNC Financial Services",
+   "category": null,
+   "industry": null,
+   "role": "corporate_banking",
+   "level": "vp",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "PNC is a bank but not on the bank list and has no category; as a bank SVP this would be director",
+   "written": true
+  },
+  {
+   "title": "Experienced Analyst – Investment Banking, Healthcare Services",
+   "company": "Guggenheim Securities",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank"
+  },
+  {
+   "title": "Product Manager, Crypto Asset Management (Mid)",
+   "company": "MoonPay",
+   "category": null,
+   "industry": null,
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Business Development Executive, LE, GBS",
+   "company": "Gartner",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "bizdev",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Business development executive is a seller; grade not in spec"
+  },
+  {
+   "title": "LEAD SALES ASSOCIATE-PT in RUSSELL KS S02557",
+   "company": "Dollar General",
+   "category": null,
+   "industry": "Specialty Retailers: Other",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "Retail sales"
+  },
+  {
+   "title": "Consultant - Tech Consulting - National - CNS - TC - AI and Data - Bangalore",
+   "company": "EY",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Technology consulting, AI and data; could be management_consultant"
+  },
+  {
+   "title": "Corporate Controller",
+   "company": "Chewy",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "financial_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Corporate controller is an executive in practice; no grade word",
+   "written": true
+  },
+  {
+   "title": "Business Banking Relationship Manager- Cherry Hill, NJ",
+   "company": "Bank of America",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "commercial_banking_rm",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Director of Sales Operations",
+   "company": "Datadog",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "director",
+   "ladder": "corporate",
+   "note": "Sales operations excluded",
+   "written": true
+  },
+  {
+   "title": "Managing Director, Restructuring",
+   "company": "Houlihan Lokey",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "vp",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Analyst - BCG Vantage, Principal Investors & Private Equity",
+   "company": "Boston Consulting Group",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "BCG Vantage is a knowledge team, not the consulting track"
+  },
+  {
+   "title": "Program Manager | Enterprise Architecture & Governance",
+   "company": "Popular",
+   "category": "Commercial and corporate banking",
+   "industry": null,
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Business Banking Relationship Manager - Rochester, NY",
+   "company": "M&T Bank",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "commercial_banking_rm",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Manager, FP&A",
+   "company": "Walt Disney",
+   "category": null,
+   "industry": "Entertainment",
+   "role": "fpa",
+   "level": "senior",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Devens Spring Co-Op (Supply Chain / Operational Excellence)",
+   "company": "Bristol-Myers Squibb",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "Co-op; no manager grade"
+  },
+  {
+   "title": "2027 Guardian Summer Intern, Corporate Finance & Risk - Treasury Operations Specialist",
+   "company": "Guardian Life Ins. Co. of America",
+   "category": null,
+   "industry": "Insurance: Life, Health (Mutual)",
+   "role": "treasury",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Intern in treasury operations"
+  },
+  {
+   "title": "Tech Senior Auditor- Commercial & Investment Banking",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": null,
+   "ladder": "bank",
+   "note": "Auditor"
+  },
+  {
+   "title": "Product Manager, Portfolio Analytics",
+   "company": "BlackRock",
+   "category": "Asset management",
+   "industry": "Securities",
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Associate- Vector(IP)",
+   "company": "Bain & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Vector is the digital delivery group; plain grade at a strategy firm"
+  },
+  {
+   "title": "UK Financial Controller, Consulting",
+   "company": "Marsh & McLennan",
+   "category": null,
+   "industry": "Diversified Financials",
+   "role": "financial_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "STAGE - ASSISTANT(E) BUSINESS DEVELOPMENT & SALES EXCELLENCE",
+   "company": "Coty",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Intern assistant in business development and sales excellence; below manager grade"
+  },
+  {
+   "title": "Director of Sales",
+   "company": "Illinois Tool Works",
+   "category": null,
+   "industry": "Industrial Machinery",
+   "role": "sales_manager",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Investment Vice President, Mexico",
+   "company": "General Atlantic",
+   "category": "Private equity",
+   "industry": null,
+   "role": "pe_associate",
+   "level": "senior",
+   "ladder": "bank"
+  },
+  {
+   "title": "Auto Finance Commercial Relationship Manager",
+   "company": "Huntington Bancshares",
+   "category": "Commercial and corporate banking",
+   "industry": "Commercial Banks",
+   "role": "commercial_banking_rm",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Manager, FP&A",
+   "company": "Warner Bros. Discovery",
+   "category": null,
+   "industry": "Entertainment",
+   "role": "fpa",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Analyste en Intelligence d'Affaires / Business Intelligence Analyst",
+   "company": "McKesson",
+   "category": null,
+   "industry": "Wholesalers: Health Care",
+   "role": "business_intelligence",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Analyst, Corporate Treasury",
+   "company": "Mastercard",
+   "category": null,
+   "industry": "Financial Data Services",
+   "role": "treasury",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Analyst- Associate, Client Development (New York and San Francisco)",
+   "company": "ICONIQ",
+   "category": "Venture capital",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "note": "Client development, not investing"
+  },
+  {
+   "title": "Vice President, Treasury",
+   "company": "Bank of New York (BNY)",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "treasury",
+   "level": "vp",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "BNY is a bank but not on the bank list and has no category; as a bank VP this would be senior"
+  },
+  {
+   "title": "AM Data Product Manager - VP",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "bank"
+  },
+  {
+   "title": "Sr. Product Manager, External Fulfillment",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Bioproduction Business Development Associate",
+   "company": "Thermo Fisher Scientific",
+   "category": null,
+   "industry": "Scientific,Photographic and Control Equipment",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Business development below manager grade"
+  },
+  {
+   "title": "AI Strategy, Assistant Vice President",
+   "company": "State Street",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "tech_strategy",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "AVP at a bank that is not on the bank list"
+  },
+  {
+   "title": "Marketing Manager, Lifecycle",
+   "company": "Peloton",
+   "category": null,
+   "industry": null,
+   "role": "marketing_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Product Manager - Treasury & Enterprise Applications, FinTech",
+   "company": "Booking Holdings",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Head of Business Development",
+   "company": "Anthropic",
+   "category": null,
+   "industry": null,
+   "role": "bizdev",
+   "level": "vp",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Rotational Product Manager",
+   "company": "Meta Platforms",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "product_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Rotational program; could be ldp",
+   "written": true
+  },
+  {
+   "title": "MBA Intern, Corporate Strategy",
+   "company": "Walt Disney",
+   "category": null,
+   "industry": "Entertainment",
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "MBA intern; could be corp_strategy_analyst",
+   "written": true
+  },
+  {
+   "title": "Gift City Branch - Market Operations Lead, Vice President",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "operations_manager",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Markets operations lead at a bank"
+  },
+  {
+   "title": "VP, Mergers & Acquisitions",
+   "company": "Iterative Health",
+   "category": null,
+   "industry": null,
+   "role": "corp_dev",
+   "level": "vp",
+   "ladder": "corporate"
+  },
+  {
+   "title": "General Manager Amsterdam",
+   "company": "TJX",
+   "category": null,
+   "industry": "Specialty Retailers: Apparel",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Probably a store general manager at a retailer; title does not say"
+  },
+  {
+   "title": "Product Owner (Informatica MDM)",
+   "company": "WESCO International",
+   "category": null,
+   "industry": "Wholesalers: Diversified",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Product owner excluded"
+  },
+  {
+   "title": "Program Specialist, M&A",
+   "company": "Anthropic",
+   "category": null,
+   "industry": null,
+   "role": "corp_dev",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Program specialist in M&A; could be program_manager or null"
+  },
+  {
+   "title": "Director, People Business Partner",
+   "company": "e.l.f. Beauty",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "hr_manager",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Associate, Investor Services",
+   "company": "Ares Management",
+   "category": "Private equity",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "note": "Investor services"
+  },
+  {
+   "title": "Investment Banking Associate, Healthcare",
+   "company": "Jefferies",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "mid",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Assistant General Manager",
+   "company": "Marriott International",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "note": "Assistant general manager excluded",
+   "written": true
+  },
+  {
+   "title": "Business Operations",
+   "company": "Exa",
+   "category": null,
+   "industry": "Growth;Infra",
+   "role": "bizops",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Manager, Business Analytics",
+   "company": "e.l.f. Beauty",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "business_analytics",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Associate, Peru",
+   "company": "Boston Consulting Group",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting"
+  },
+  {
+   "title": "Analyst, Financial Planning & Analysis",
+   "company": "ICONIQ",
+   "category": "Venture capital",
+   "industry": null,
+   "role": "fpa",
+   "level": "associate",
+   "ladder": "bank"
+  },
+  {
+   "title": "Workers' Compensation Claims Adjuster",
+   "company": "Travelers",
+   "category": null,
+   "industry": "Insurance: Property and Casualty (Stock)",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "note": "Claims adjuster",
+   "written": true
+  },
+  {
+   "title": "Senior Lifecycle Marketing Manager",
+   "company": "Gusto",
+   "category": null,
+   "industry": null,
+   "role": "marketing_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Strategic Sourcing Manager",
+   "company": "Delta Air Lines",
+   "category": null,
+   "industry": "Airlines",
+   "role": "strategic_sourcing",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Site Lean Transformation Leader (DBS) - (Onsite in Muskegon, MI)",
+   "company": "Danaher",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": "opex",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Leader read as lead; could be mid"
+  },
+  {
+   "title": "Strategy & Operations Lead",
+   "company": "DoorDash",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "bizops",
+   "level": "staff",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Business Development Executive",
+   "company": "UPS",
+   "category": null,
+   "industry": "Mail, Package, and Freight Delivery",
+   "role": "bizdev",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Business development executive is a seller; grade not in spec"
+  },
+  {
+   "title": "Senior Investment Director, Venture Capital",
+   "company": "Cambridge Associates",
+   "category": "Asset management",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "director",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Invests in venture funds for clients; could be vc_associate"
+  },
+  {
+   "title": "Senior Consultant, Network Industry Strategies – Rail & Transportation | Economic Consulting",
+   "company": "FTI Consulting",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Economic consulting"
+  },
+  {
+   "title": "Director, Regulatory Compliance",
+   "company": "Humana",
+   "category": null,
+   "industry": "Health Care: Insurance and Managed Care",
+   "role": "compliance",
+   "level": "director",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Data Management Strategy & Governance Lead Analyst - Cigna Healthcare",
+   "company": "Cigna Group",
+   "category": null,
+   "industry": "Health Care: Pharmacy and Other Services",
+   "role": "governance",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Lead Analyst: analyst grade, lead word"
+  },
+  {
+   "title": "Technical Program Manager, Infrastructure",
+   "company": "Meta Platforms",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "TPM excluded",
+   "written": true
+  },
+  {
+   "title": "Senior Program Manager, Supply Chain",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "program_manager",
+   "level": "senior",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Category Manager - Grenade",
+   "company": "Mondelez International",
+   "category": null,
+   "industry": "Food Consumer Products",
+   "role": "category_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Director, Finance Transformation | Office of CFO Advisory | Corporate Finance",
+   "company": "FTI Consulting",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "director",
+   "ladder": "consulting"
+  },
+  {
+   "title": "Project Procurement Manager (f/m/d)",
+   "company": "Danaher",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": "procurement",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Investor, Early Stage",
+   "company": "Sequoia Capital",
+   "category": "Venture capital",
+   "industry": null,
+   "role": "vc_associate",
+   "level": "mid",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Praktikum Engineering, Fertigungstechnik & Operational Excellence (m/w/d) – 6 Monate | Start Frühjahr 2027",
+   "company": "Stryker",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "Engineering intern"
+  },
+  {
+   "title": "Commercial Relationship Manager Sr",
+   "company": "First Horizon",
+   "category": "Commercial and corporate banking",
+   "industry": null,
+   "role": "commercial_banking_rm",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Sr is not a bank grade word in the spec; could be mid"
+  },
+  {
+   "title": "Product Strategy Manager",
+   "company": "Visa",
+   "category": null,
+   "industry": "Financial Data Services",
+   "role": "product_strategy",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Business Banking Senior Relationship Manager - Nashville Market",
+   "company": "Bank of America",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "commercial_banking_rm",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Senior is not a bank grade word in the spec; could be mid"
+  },
+  {
+   "title": "Benefits Manager",
+   "company": "Costco Wholesale",
+   "category": null,
+   "industry": "General Merchandisers",
+   "role": "comp_benefits",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Private Equity Performance Improvement Operations Senior Consultant",
+   "company": "Crowe",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting"
+  },
+  {
+   "title": "Senior Manager, Total Rewards",
+   "company": "Starbucks",
+   "category": null,
+   "industry": "Food Services",
+   "role": "comp_benefits",
+   "level": "senior",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "2027 Private Equity Summer Analyst",
+   "company": "StepStone Group",
+   "category": "Private equity",
+   "industry": null,
+   "role": "pe_associate",
+   "level": "associate",
+   "ladder": "bank"
+  },
+  {
+   "title": "Associate Brand Manager, Hair Care",
+   "company": "Kenvue",
+   "category": null,
+   "industry": "Household and Personal Products",
+   "role": "brand_manager",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Development Program Operations Manager",
+   "company": "RTX",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": "operations_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Operations manager of a development program"
+  },
+  {
+   "title": "Sales Manager, Enterprise Platforms, Grower (Tier 1)",
+   "company": "Stripe",
+   "category": null,
+   "industry": "Fintech;Growth",
+   "role": "sales_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Head of Growth",
+   "company": "Perplexity",
+   "category": null,
+   "industry": null,
+   "role": "growth_manager",
+   "level": "vp",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Senior Client Success Manager (Large Market)",
+   "company": "Garner Health",
+   "category": null,
+   "industry": null,
+   "role": "customer_success",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior HRBP, Commercial & Functions",
+   "company": "Diageo",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "hr_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Logistics Program Manager, Advanced Effects",
+   "company": "Anduril",
+   "category": null,
+   "industry": null,
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "VP, Customer Success",
+   "company": "Zendesk",
+   "category": null,
+   "industry": null,
+   "role": "customer_success",
+   "level": "vp",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Consumer Banking – Deposits 2.0,  Product Portfolio Operations Manager, Vice President",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Product portfolio operations; product operations is excluded from operations_manager"
+  },
+  {
+   "title": "Business Operations Associate",
+   "company": "Stripe",
+   "category": null,
+   "industry": "Fintech;Growth",
+   "role": "bizops",
+   "level": "associate",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Category Manager / Produkt Manager (m/w/d)",
+   "company": "Genuine Parts",
+   "category": null,
+   "industry": "Wholesalers: Diversified",
+   "role": "category_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Title names both category manager and product manager"
+  },
+  {
+   "title": "Asset Management Product Owner (Derivatives) - Vice President",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "senior",
+   "ladder": "bank",
+   "note": "Product owner excluded"
+  },
+  {
+   "title": "Senior Technical Program Manager, Platform Operations",
+   "company": "Chewy",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": "senior",
+   "ladder": "corporate",
+   "note": "TPM excluded"
+  },
+  {
+   "title": "Senior Strategic Sourcing Manager – Real Estate and Data Center Construction",
+   "company": "Nvidia",
+   "category": null,
+   "industry": "Semiconductors and Other Electronic Components",
+   "role": "strategic_sourcing",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Associate - SaT - GOV - SaT - TCF - Infrastructure Advisory - New Delhi",
+   "company": "EY",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Infrastructure transaction advisory at a Big Four firm"
+  },
+  {
+   "title": "Product Manager",
+   "company": "Yext",
+   "category": null,
+   "industry": null,
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Finance Leadership Development Program Associate",
+   "company": "Johnson & Johnson",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "HR Business Partner",
+   "company": "Netflix",
+   "category": null,
+   "industry": "Entertainment",
+   "role": "hr_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Internships Business Development (Paid) - February 2027",
+   "company": "L'Oréal",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "bizdev",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Intern in plain business development"
+  },
+  {
+   "title": "Corporate Banking Intern - Summer Analyst, Power & Renewable Energy (Santa Monica)",
+   "company": "First Citizens BancShares",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "corporate_banking",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Commercial Sales Director",
+   "company": "Digital Realty",
+   "category": "Real estate",
+   "industry": null,
+   "role": "sales_manager",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Product Operations Manager",
+   "company": "Airbnb",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Product operations excluded",
+   "written": true
+  },
+  {
+   "title": "Business Development Manager",
+   "company": "Ingram Micro Holding",
+   "category": null,
+   "industry": "Wholesalers: Electronics and Office Equipment",
+   "role": "bizdev",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Product Marketing Manager, Google Kubernetes Engine",
+   "company": "Alphabet",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "pmm",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Digital Transformation Lead",
+   "company": "Thermo Fisher Scientific",
+   "category": null,
+   "industry": "Scientific,Photographic and Control Equipment",
+   "role": "digital_transformation",
+   "level": "staff",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Technical Alliances Lead, Security & AI",
+   "company": "Veeam Software",
+   "category": null,
+   "industry": null,
+   "role": "partnerships",
+   "level": "staff",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Assistant Brand Manager",
+   "company": "Colgate-Palmolive",
+   "category": "Consumer goods",
+   "industry": "Household and Personal Products",
+   "role": "brand_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Group Product Manager, B2C",
+   "company": "GetYourGuide",
+   "category": null,
+   "industry": null,
+   "role": "product_manager",
+   "level": "group",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Director - IT Strategy Consulting - AI",
+   "company": "Gartner",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "director",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "IT strategy consulting at a consulting firm; could be tech_strategy"
+  },
+  {
+   "title": "Sr. Principal Venture Capital",
+   "company": "Micron Technology",
+   "category": null,
+   "industry": "Semiconductors and Other Electronic Components",
+   "role": "vc_associate",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Corporate venture arm on the corporate ladder; principal is staff there, director on the bank ladder"
+  },
+  {
+   "title": "Senior Manager - Business Consulting Risk - FS - CNS - RISK - FSRM - Mumbai",
+   "company": "EY",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "staff",
+   "ladder": "consulting"
+  },
+  {
+   "title": "TEBG Consumer Electronics Strategy Lead",
+   "company": "3M",
+   "category": null,
+   "industry": "Chemicals",
+   "role": "strategy_manager",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Business-unit segment strategy lead"
+  },
+  {
+   "title": "Director of Operations",
+   "company": "UnitedHealth Group",
+   "category": null,
+   "industry": "Health Care: Insurance and Managed Care",
+   "role": "operations_manager",
+   "level": "director",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Sr. Planning Lead, ASP Planning & Business Operations, SMGS Ops - APO Business Operations",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "bizops",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Planning and business operations lead"
+  },
+  {
+   "title": "Learning & Development Program Manager",
+   "company": "Realty Income",
+   "category": "Real estate",
+   "industry": null,
+   "role": "org_dev",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Learning and development; could be program_manager"
+  },
+  {
+   "title": "Corporate Banking Sr Analyst - Global Capital Management",
+   "company": "Citigroup",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "corporate_banking",
+   "level": "associate",
+   "ladder": "bank"
+  },
+  {
+   "title": "Purchasing Manager General Admin",
+   "company": "Builders FirstSource",
+   "category": null,
+   "industry": "Building Materials, Glass",
+   "role": "procurement",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Sales Engineer",
+   "company": "Snowflake",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Sales engineer excluded",
+   "written": true
+  },
+  {
+   "title": "Corporate Brand Marketing Manager",
+   "company": "Mars",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "brand_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Brand marketing manager; could be marketing_manager"
+  },
+  {
+   "title": "Senior Growth Lead",
+   "company": "Mercor",
+   "category": null,
+   "industry": null,
+   "role": "growth_manager",
+   "level": "staff",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Director, Strategic Partnerships & Sales",
+   "company": "Minio",
+   "category": null,
+   "industry": null,
+   "role": "partnerships",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "HR Generalist",
+   "company": "Dover",
+   "category": null,
+   "industry": "Industrial Machinery",
+   "role": "hr_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Strategic Partner Manager, Offline Channel (English)",
+   "company": "Alphabet",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "partnerships",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Kinexys Digital Assets - Product Manager - Vice President",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "bank"
+  },
+  {
+   "title": "Senior People Program Manager",
+   "company": "Anduril",
+   "category": null,
+   "industry": null,
+   "role": "program_manager",
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "People program manager; could be hr or org_dev"
+  },
+  {
+   "title": "AI Strategy Lead",
+   "company": "IBM",
+   "category": null,
+   "industry": "Information Technology Services",
+   "role": "tech_strategy",
+   "level": "staff",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Recruiting Manager",
+   "company": "Apple",
+   "category": null,
+   "industry": "Computers, Office Equipment",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Recruiting",
+   "written": true
+  },
+  {
+   "title": "Associate, AI & Data Infrastructure",
+   "company": "Bessemer Venture Partners",
+   "category": "Venture capital",
+   "industry": null,
+   "role": "vc_associate",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Strategic Finance Lead",
+   "company": "Figma",
+   "category": null,
+   "industry": null,
+   "role": "strategic_finance",
+   "level": "staff",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Head of Product Strategy, Research & Partner Engagement | U.S. Consumer Cards",
+   "company": "Citigroup",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "product_strategy",
+   "level": "vp",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Head of has no bank-ladder grade; read as head of a function"
+  },
+  {
+   "title": "Senior Global Sourcing Manager, Semiconductor (Chips)",
+   "company": "Anduril",
+   "category": null,
+   "industry": null,
+   "role": "strategic_sourcing",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Program Manager Global Learning Academies",
+   "company": "Lam Research",
+   "category": null,
+   "industry": "Semiconductors and Other Electronic Components",
+   "role": "org_dev",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Learning academies; could be program_manager"
+  },
+  {
+   "title": "Senior Associate, PPK Reporting & Analytics CoE",
+   "company": "Bain & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Internal reporting and analytics role at a consulting firm; could be a plain practice grade"
+  },
+  {
+   "title": "Business Intelligence Sr. Associate",
+   "company": "Amgen",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": "business_intelligence",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Strategy Associate (Financial Services)",
+   "company": "Bain & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting"
+  },
+  {
+   "title": "Fraud Manager III- Business Operations",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Fraud manager within business operations"
+  },
+  {
+   "title": "Supply Chain Ops Manager",
+   "company": "Ryder System",
+   "category": null,
+   "industry": "Trucking, Truck Leasing",
+   "role": "supply_chain",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Could be operations_manager"
+  },
+  {
+   "title": "Senior Sales Manager",
+   "company": "Ripple",
+   "category": null,
+   "industry": null,
+   "role": "sales_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Program Manager, Supply Chain Fulfillment Optimization",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "program_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Associate Brand Manager",
+   "company": "Procter & Gamble",
+   "category": "Consumer goods",
+   "industry": "Household and Personal Products",
+   "role": "brand_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Credit Portfolio Manager - position located within the Georgia Region",
+   "company": "Synovus",
+   "category": "Commercial and corporate banking",
+   "industry": null,
+   "role": "commercial_banking_rm",
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Credit portfolio manager on the lending side; could be investment_manager by keyword or null"
+  },
+  {
+   "title": "Product Management Manager - Deposits (Payments)",
+   "company": "USAA",
+   "category": null,
+   "industry": "Insurance: Property and Casualty (Stock)",
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Program Manager II",
+   "company": "Microsoft",
+   "category": null,
+   "industry": "Computer Software",
+   "role": "program_manager",
+   "level": "senior",
+   "ladder": "corporate",
+   "note": "Grade II",
+   "written": true
+  },
+  {
+   "title": "Sr. Manager, Strategic Planning",
+   "company": "Merck",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": "strategy_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Sales Development Representative",
+   "company": "Ramp",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "SDR excluded",
+   "written": true
+  },
+  {
+   "title": "LEAD SALES ASSOCIATE-PT - 21 and older only - in SYCAMORE AL S12775",
+   "company": "Dollar General",
+   "category": null,
+   "industry": "Specialty Retailers: Other",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "Retail sales"
+  },
+  {
+   "title": "Director, Talent Development",
+   "company": "Comcast",
+   "category": null,
+   "industry": "Telecommunications",
+   "role": "org_dev",
+   "level": "director",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "MBA Marketing Intern - Summer 2027",
+   "company": "Constellation Brands",
+   "category": "Consumer goods",
+   "industry": "Beverages",
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Employee Benefits Consultant - ACA Reporting",
+   "company": "Baker Tilly",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Client-facing benefits reporting consultant; could be comp_benefits"
+  },
+  {
+   "title": "Growth Manager, App Sales, Same Store Growth Scaled Program (English)",
+   "company": "Alphabet",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "growth_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Growth manager in an app sales team"
+  },
+  {
+   "title": "Sr. Ops Manager, New Equipment & Modernization",
+   "company": "Otis Worldwide",
+   "category": null,
+   "industry": "Industrial Machinery",
+   "role": "operations_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Analyst, Investor Communications",
+   "company": "Golub Capital",
+   "category": "Private equity",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "bank",
+   "note": "Investor communications"
+  },
+  {
+   "title": "Digital transformation intern",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "digital_transformation",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Intern at a consulting firm; could be management_consultant"
+  },
+  {
+   "title": "Senior Development Manager , North America Real Estate",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "re_development",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Sr. Category Manager, Frozen, Worldwide Grocery Category Management",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "category_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Growth Marketing Sr. Associate, Podcasts & CTV",
+   "company": "Acorns",
+   "category": null,
+   "industry": null,
+   "role": "growth_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Senior associate grade is below the grades listed for the role"
+  },
+  {
+   "title": "Sr Manager, Transformation",
+   "company": "McDonald’s",
+   "category": null,
+   "industry": "Food Services",
+   "role": "transformation",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Sr. Director, Head of Integration Mgmt. Office and Post M&A Integrations",
+   "company": "Digital Realty",
+   "category": "Real estate",
+   "industry": null,
+   "role": "ma_integration",
+   "level": "vp",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Sr. Director and Head of; took head as the higher grade"
+  },
+  {
+   "title": "Staff Product Manager",
+   "company": "Tekion",
+   "category": null,
+   "industry": null,
+   "role": "product_manager",
+   "level": "staff",
+   "ladder": "corporate"
+  },
+  {
+   "title": "District Sales Manager - St Paul, MN",
+   "company": "Henry Schein",
+   "category": null,
+   "industry": "Wholesalers: Health Care",
+   "role": "sales_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "(Senior) Consultant/Project Manager Organizational Performance (all genders)",
+   "company": "Roland Berger",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "staff",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Three grades; project manager read as project leader"
+  },
+  {
+   "title": "Sr. Director, Product Development Manager (PDM) AI Platforms and Systems Solutions",
+   "company": "Qualcomm",
+   "category": null,
+   "industry": "Semiconductors and Other Electronic Components",
+   "role": null,
+   "level": "director",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Product development manager is an engineering program role; could be product_manager"
+  },
+  {
+   "title": "Managing Partner, IT Strategy, Los Angeles, SLED",
+   "company": "Gartner",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "vp",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Managing partner in IT strategy consulting; could be tech_strategy"
+  },
+  {
+   "title": "Corporate Development Associate",
+   "company": "Adobe",
+   "category": null,
+   "industry": "Computer Software",
+   "role": "corp_dev",
+   "level": "associate",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Sr. Director, Segment Strategy - Supply Chain Operations",
+   "company": "McKesson",
+   "category": null,
+   "industry": "Wholesalers: Health Care",
+   "role": "strategy_manager",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Global Product Marketing Manager",
+   "company": "Ignition",
+   "category": null,
+   "industry": null,
+   "role": "pmm",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Corporate Governance Director",
+   "company": "Exxon Mobil",
+   "category": null,
+   "industry": "Petroleum Refining",
+   "role": "governance",
+   "level": "director",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Supply Chain Manager, OTS-Supply Chain",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "supply_chain",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Product Marketing Manager",
+   "company": "Stepful",
+   "category": null,
+   "industry": null,
+   "role": "pmm",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Client Relationship Manager",
+   "company": "Fidelity Investments",
+   "category": "Asset management",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "note": "Client service",
+   "written": true
+  },
+  {
+   "title": "Senior Technical Business Development, EU Automotive (Sunnyvale HQ)",
+   "company": "Applied Intuition",
+   "category": null,
+   "industry": "American Dynamism;Enterprise;Growth",
+   "role": "bizdev",
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Senior with no manager word"
+  },
+  {
+   "title": "Sales Manager - Franchise",
+   "company": "Hilton Worldwide Holdings",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": "sales_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Sales manager at a hotel company"
+  },
+  {
+   "title": "SBS Assistant Brand Manager, India Consumables",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "brand_manager",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Treasury Analyst",
+   "company": "General Motors",
+   "category": null,
+   "industry": "Motor Vehicles & Parts",
+   "role": "treasury",
+   "level": "associate",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "MBA Finance Intern (Summer 2027)",
+   "company": "The Clorox Company",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "2027 Venture Capital Business Development Summer Associate",
+   "company": "StepStone Group",
+   "category": "Private equity",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Business development for a venture group, not investing; summer associate could be ldp"
+  },
+  {
+   "title": "Staff Product Manager",
+   "company": "Siro",
+   "category": null,
+   "industry": null,
+   "role": "product_manager",
+   "level": "staff",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Tax Senior Associate",
+   "company": "KPMG",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Tax",
+   "written": true
+  },
+  {
+   "title": "Marketing Manager, Multifamily Digital Marketing",
+   "company": "Cushman & Wakefield",
+   "category": "Real estate",
+   "industry": null,
+   "role": "marketing_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Sr. Data Analyst - Enterprise Risk",
+   "company": "Capital One Financial",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Data analyst"
+  },
+  {
+   "title": "Program Cost Controls Finance Manager",
+   "company": "RTX",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": "financial_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Associate - Tech & AI",
+   "company": "McKinsey & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting"
+  },
+  {
+   "title": "Assistant Manager Learning & Development",
+   "company": "Hilton Worldwide Holdings",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": "org_dev",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Assistant manager; could be mid"
+  },
+  {
+   "title": "Manager, Strategic Finance",
+   "company": "Float",
+   "category": null,
+   "industry": null,
+   "role": "strategic_finance",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Acquisitions Associate",
+   "company": "Greystar",
+   "category": "Real estate",
+   "industry": null,
+   "role": "re_acquisitions",
+   "level": "associate",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Executive Assistant - Investment & Corporate Banking",
+   "company": "Mizuho",
+   "category": "Investment banking",
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "bank",
+   "note": "Executive assistant"
+  },
+  {
+   "title": "Senior Analyst - Associate, Financial Advisory (New York and San Francisco)",
+   "company": "ICONIQ",
+   "category": "Venture capital",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "note": "Wealth advisory, not investing"
+  },
+  {
+   "title": "Financial Controller, Mars Global Services & Digital Technology",
+   "company": "Mars",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "financial_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "R2A Sr. Specialist – FP&A and Reporting",
+   "company": "AECOM",
+   "category": null,
+   "industry": "Engineering & Construction",
+   "role": "fpa",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "DOW Financial Management Consultant (Fayetteville, NC)",
+   "company": "Guidehouse",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Federal financial management consultant"
+  },
+  {
+   "title": "Associate D&T Analyst – Business Intelligence",
+   "company": "General Mills",
+   "category": null,
+   "industry": "Food Consumer Products",
+   "role": "business_intelligence",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Head of HR NPTC Confectionery & Snacking",
+   "company": "Nestlé",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "hr_manager",
+   "level": "vp",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Principal Associate, Financial Planning & Analysis - Financial Services",
+   "company": "Capital One Financial",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "fpa",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Capital One 'Principal Associate': principal (staff) vs associate; took the higher word, though it is a fairly junior grade there"
+  },
+  {
+   "title": "Business Intelligence Manager",
+   "company": "Lowe's",
+   "category": null,
+   "industry": null,
+   "role": "business_intelligence",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Vice President, Compliance & Control - Pershing",
+   "company": "Bank of New York (BNY)",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "compliance",
+   "level": "vp",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "BNY is a bank but category is null and it is not in the named list, so corporate ladder gives vp; a bank VP is really mid-career"
+  },
+  {
+   "title": "FP&A Analyst",
+   "company": "Airbnb",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "fpa",
+   "level": "associate",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Business Application Consulting - Program Risk & Quality Manager",
+   "company": "PwC",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "business application (systems) consulting, not management consulting"
+  },
+  {
+   "title": "Senior PMT External Services, CloudFront Product Management",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "PMT = Product Manager Technical at Amazon; abbreviation"
+  },
+  {
+   "title": "Analytics Engineer",
+   "company": "Spotify",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "engineer",
+   "written": true
+  },
+  {
+   "title": "Lead Analytics Consultant Branch Banking",
+   "company": "Wells Fargo",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "business_analytics",
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "'Lead Analytics Consultant' is an individual analyst grade at Wells; lead has no bank-ladder grade"
+  },
+  {
+   "title": "Associate/Senior Associate, Client Services - Portfolio Analytics and Reporting (6 Month Contract)",
+   "company": "StepStone Group",
+   "category": "Private equity",
+   "industry": null,
+   "role": null,
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "client services; two grades offered (associate/senior associate), took the higher"
+  },
+  {
+   "title": "Strategic Partnerships Manager (Pharmaceuticals)",
+   "company": "Nitra",
+   "category": null,
+   "industry": null,
+   "role": "partnerships",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Commercial Real Estate - Construction Asset Management",
+   "company": "TIAA",
+   "category": null,
+   "industry": "Insurance: Life, Health (Mutual)",
+   "role": "re_asset_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "construction loan asset management at a lender; no grade word"
+  },
+  {
+   "title": "Private Wealth Advisor",
+   "company": "Morgan Stanley",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "note": "wealth advisor",
+   "written": true
+  },
+  {
+   "title": "Talent Development and Service Manager",
+   "company": "Caesars Entertainment",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": "org_dev",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "S&C - GN - Finance - Treasury - Consultant",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Accenture Strategy & Consulting treasury practice; could be read as treasury"
+  },
+  {
+   "title": "Compliance Analyst",
+   "company": "Charles Schwab",
+   "category": null,
+   "industry": "Securities",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "compliance analyst excluded by spec",
+   "written": true
+  },
+  {
+   "title": "Product Strategy & Operations",
+   "company": "Vercel",
+   "category": null,
+   "industry": null,
+   "role": "product_strategy",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "says product strategy and also 'strategy & operations' (bizops); took the narrower"
+  },
+  {
+   "title": "Senior Compliance Officer - Institutional Fixed Income",
+   "company": "Baird",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "compliance",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "'Senior ... Officer' has no bank-ladder grade word; read as senior"
+  },
+  {
+   "title": "Vice President, Evergreen Product Operations",
+   "company": "HarbourVest",
+   "category": "Private equity",
+   "industry": null,
+   "role": null,
+   "level": "senior",
+   "ladder": "bank",
+   "note": "product operations"
+  },
+  {
+   "title": "Product Operations Analyst",
+   "company": "McKesson",
+   "category": null,
+   "industry": "Wholesalers: Health Care",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "product operations"
+  },
+  {
+   "title": "Business Intelligence Developer",
+   "company": "Humana",
+   "category": null,
+   "industry": "Health Care: Insurance and Managed Care",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "BI developer",
+   "written": true
+  },
+  {
+   "title": "Global Corporate Banking - Large Cap Analyst/Junior Associate - Helsinki",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "corporate_banking",
+   "level": "associate",
+   "ladder": "bank",
+   "sure": false,
+   "note": "Analyst/Junior Associate: analyst=associate, junior associate between associate and mid"
+  },
+  {
+   "title": "Senior Manager, Finance",
+   "company": "Brookfield Properties",
+   "category": "Real estate",
+   "industry": null,
+   "role": "financial_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Associate, Financial Advisory (New York and San Francisco)",
+   "company": "ICONIQ",
+   "category": "Venture capital",
+   "industry": null,
+   "role": null,
+   "level": "senior",
+   "ladder": "bank",
+   "note": "ICONIQ financial advisory is family-office wealth advisory, not investing"
+  },
+  {
+   "title": "Business Transformation Director",
+   "company": "Kraft Heinz",
+   "category": null,
+   "industry": "Food Consumer Products",
+   "role": "transformation",
+   "level": "director",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Investment Analyst",
+   "company": "MetLife",
+   "category": null,
+   "industry": "Insurance: Life, Health (Stock)",
+   "role": "investment_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Associate or Senior Associate - AI",
+   "company": "Bessemer Venture Partners",
+   "category": "Venture capital",
+   "industry": null,
+   "role": "vc_associate",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "two grades offered; took the higher"
+  },
+  {
+   "title": "Director/Senior Director - Acquisitions, San Francisco",
+   "company": "Tishman Speyer",
+   "category": "Real estate",
+   "industry": null,
+   "role": "re_acquisitions",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Global Continuous Improvement Specialist",
+   "company": "Marsh & McLennan",
+   "category": null,
+   "industry": "Diversified Financials",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "specialist excluded"
+  },
+  {
+   "title": "MBA Summer Associate",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Human Resources Manager",
+   "company": "FedEx",
+   "category": null,
+   "industry": "Mail, Package, and Freight Delivery",
+   "role": "hr_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Relationship Manager Sales Associate",
+   "company": "City National Bank",
+   "category": "Commercial and corporate banking",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "support/sales associate to relationship managers; not clearly commercial RM"
+  },
+  {
+   "title": "Marketing Manager, Global Consulting Services",
+   "company": "Deloitte",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "marketing_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Sr. Analyst, FP&A",
+   "company": "Tractor Supply",
+   "category": null,
+   "industry": "Specialty Retailers: Other",
+   "role": "fpa",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Latin America Investment Banking - Analyst",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank"
+  },
+  {
+   "title": "Corporate Governance Associate Senior",
+   "company": "Capital Group",
+   "category": "Asset management",
+   "industry": null,
+   "role": null,
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "corporate governance but associate grade; spec lists manager/director/lead/officer only"
+  },
+  {
+   "title": "Payroll Tax/Compliance Manager",
+   "company": "Cummins",
+   "category": null,
+   "industry": "Industrial Machinery",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "payroll tax; tax is excluded, but title also says compliance manager"
+  },
+  {
+   "title": "Engagement Manager",
+   "company": "McKinsey & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "staff",
+   "ladder": "consulting",
+   "written": true
+  },
+  {
+   "title": "Commercial Loan Officer",
+   "company": "Regions Financial",
+   "category": "Commercial and corporate banking",
+   "industry": "Commercial Banks",
+   "role": "commercial_banking_rm",
+   "level": "mid",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Staff Product Manager - CIA",
+   "company": "CaptivateIQ",
+   "category": null,
+   "industry": null,
+   "role": "product_manager",
+   "level": "staff",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Product Manager Senior- Data Platform",
+   "company": "PNC Financial Services Group",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Compensation Specialist",
+   "company": "McKinsey & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "comp_benefits",
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "specialist grade"
+  },
+  {
+   "title": "Principal Domain Architect- M&A",
+   "company": "LPL Financial Holdings",
+   "category": null,
+   "industry": "Securities",
+   "role": null,
+   "level": "staff",
+   "ladder": "corporate",
+   "note": "architect"
+  },
+  {
+   "title": "Project Manager, Procurement Manager, Project & Development Services",
+   "company": "Cushman & Wakefield",
+   "category": "Real estate",
+   "industry": null,
+   "role": "procurement",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "construction project manager who does procurement"
+  },
+  {
+   "title": "Senior Product Manager - Machine Learning (m/f/d)",
+   "company": "voize",
+   "category": null,
+   "industry": null,
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Manager, Corporate Strategy & Business Development",
+   "company": "Walt Disney",
+   "category": null,
+   "industry": "Entertainment",
+   "role": "strategy_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "also business development"
+  },
+  {
+   "title": "Associate of R&D Strategic Finance (FP&A)",
+   "company": "Toast",
+   "category": null,
+   "industry": null,
+   "role": "strategic_finance",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "says both strategic finance and FP&A"
+  },
+  {
+   "title": "Amazon Finance Rotational Program (AFRP), Accounting, Early Career - 2026",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "rotational program, but in accounting (accounting is excluded)"
+  },
+  {
+   "title": "Supply Chain Solution Architect / Principal SCM Analyst– Supply Operations & Planning (Kinaxis)",
+   "company": "Marvell Technology",
+   "category": null,
+   "industry": "Semiconductors and Other Electronic Components",
+   "role": null,
+   "level": "staff",
+   "ladder": "corporate",
+   "note": "architect/analyst"
+  },
+  {
+   "title": "Business Operations & Data Analyst",
+   "company": "Digital Asset",
+   "category": null,
+   "industry": null,
+   "role": "bizops",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Claims Associate, Risk Management",
+   "company": "Related Companies",
+   "category": "Real estate",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "insurance claims inside a risk management department"
+  },
+  {
+   "title": "Associate/Senior Associate, Product Management - Real Estate",
+   "company": "StepStone Group",
+   "category": "Private equity",
+   "industry": null,
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "fund product management at a PE firm; two grades offered"
+  },
+  {
+   "title": "Director, People Success - Digital Infrastructure Group",
+   "company": "Crusoe",
+   "category": null,
+   "industry": null,
+   "role": "hr_manager",
+   "level": "director",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "'People Success' read as HR/people"
+  },
+  {
+   "title": "Advisory Strategist, Cloud Transformation Office",
+   "company": "Broadcom",
+   "category": null,
+   "industry": "Semiconductors and Other Electronic Components",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "customer-facing cloud advisory; 'transformation office' is cloud, not business transformation"
+  },
+  {
+   "title": "Senior Physical Security Operations Manager",
+   "company": "Robinhood",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "security function; title contains 'operations manager'"
+  },
+  {
+   "title": "Operational Excellence Director",
+   "company": "Danaher",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": "opex",
+   "level": "director",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Senior Project Consultant-Tech Consulting-GOV-CNS-TC-Technology Strategy & Transformation-New Delhi",
+   "company": "EY",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "technology strategy practice at EY; could be tech_strategy; 'Senior Project Consultant' read as senior consultant"
+  },
+  {
+   "title": "Land Acquisition Manager",
+   "company": "Lennar",
+   "category": null,
+   "industry": "Homebuilders",
+   "role": "re_acquisitions",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "(Sr) Manager, Strategic Finance & Business Operations - GTM",
+   "company": "Verkada",
+   "category": null,
+   "industry": null,
+   "role": "strategic_finance",
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "(Sr) Manager: either manager or senior manager; also business operations"
+  },
+  {
+   "title": "Director, Technical Program Manager",
+   "company": "Capital One Financial",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "director",
+   "ladder": "corporate",
+   "note": "TPM"
+  },
+  {
+   "title": "Senior Software Product Manager, Strategic Defense",
+   "company": "Anduril",
+   "category": null,
+   "industry": null,
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Associate, Acquisitions",
+   "company": "Digital Realty",
+   "category": "Real estate",
+   "industry": null,
+   "role": "re_acquisitions",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Managing Director, Enterprise Architecture & Technology Strategy",
+   "company": "BDO USA",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "tech_strategy",
+   "level": "vp",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Managing Director at an accounting firm; not on corporate ladder, read as vp; could be client-facing consulting"
+  },
+  {
+   "title": "Joint Replacement & Mako Sales Manager, Taiwan",
+   "company": "Stryker",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": "sales_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Manager, Marketing- Softsheen-Carson (US)",
+   "company": "L'Oréal",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "marketing_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Investment Banking Recruiter",
+   "company": "Lazard",
+   "category": "Investment banking",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "note": "recruiter",
+   "written": true
+  },
+  {
+   "title": "Strategy Analyst",
+   "company": "CarMax",
+   "category": null,
+   "industry": "Automotive Retailing, Services",
+   "role": "corp_strategy_analyst",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Program Manager",
+   "company": "Bobyard",
+   "category": null,
+   "industry": null,
+   "role": "program_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Manager, Investor Relations & FP&A",
+   "company": "Cushman & Wakefield",
+   "category": "Real estate",
+   "industry": null,
+   "role": "fpa",
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "investor relations and FP&A"
+  },
+  {
+   "title": "Growth Engineer",
+   "company": "Vercel",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "engineer",
+   "written": true
+  },
+  {
+   "title": "Senior Associate, Product Manager - Trade Credit Settlements",
+   "company": "Capital One Financial",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "Capital One senior associate = mid on corporate ladder"
+  },
+  {
+   "title": "Technical Program Manager, Risk Analysis and Insights, SPARC Portfolio, Data Center Infrastructure",
+   "company": "Alphabet",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "TPM"
+  },
+  {
+   "title": "Sr AI & Product Transformation Manager",
+   "company": "Huntington Bancshares",
+   "category": "Commercial and corporate banking",
+   "industry": "Commercial Banks",
+   "role": "transformation",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "AI & product transformation, not plainly business or digital transformation; 'Sr ... Manager' has no bank grade"
+  },
+  {
+   "title": "HR Manager",
+   "company": "Caesars Entertainment",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": "hr_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Managing Consultant - Financial Services Operations & Technology",
+   "company": "Berkeley Research Group",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "'Managing Consultant' is not on the consulting ladder; read as manager"
+  },
+  {
+   "title": "Director, Regional General Manager",
+   "company": "Tishman Speyer",
+   "category": "Real estate",
+   "industry": null,
+   "role": "general_manager",
+   "level": "director",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "regional GM at a property company may be a property-operations role"
+  },
+  {
+   "title": "Sr Manager, Strategic Partnerships DaVita Venture Group",
+   "company": "DaVita",
+   "category": null,
+   "industry": "Health Care: Medical Facilities",
+   "role": "partnerships",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Customer Success Manager - Youth, Club & High School",
+   "company": "Hudl",
+   "category": null,
+   "industry": null,
+   "role": "customer_success",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Associate, Product Management-Home Lending Transformation",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "bank"
+  },
+  {
+   "title": "Product Operations, Brand Partnerships",
+   "company": "Substack",
+   "category": null,
+   "industry": "Consumer;Cultural Leadership Fund;Growth",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "product operations, though for brand partnerships"
+  },
+  {
+   "title": "Senior Director of Asset Management, Retail Real Estate",
+   "company": "Global Partners",
+   "category": null,
+   "industry": "Wholesalers: Diversified",
+   "role": "re_asset_manager",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Customer Success Executive, Health Plans",
+   "company": "Carrot Fertility",
+   "category": null,
+   "industry": null,
+   "role": "customer_success",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "IT Strategy Lead",
+   "company": "Base Power",
+   "category": null,
+   "industry": "American Dynamism",
+   "role": "tech_strategy",
+   "level": "staff",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Customer Success Data & Insights",
+   "company": "S&P Global",
+   "category": null,
+   "industry": "Financial Data Services",
+   "role": "customer_success",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "analytics job inside customer success"
+  },
+  {
+   "title": "Equity Research Associate",
+   "company": "T. Rowe Price",
+   "category": "Asset management",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "mid",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Brand Manager MY",
+   "company": "Mondelez International",
+   "category": null,
+   "industry": "Food Consumer Products",
+   "role": "brand_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Partner Manager, Channel",
+   "company": "Zoom",
+   "category": null,
+   "industry": null,
+   "role": "partnerships",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Product Manager, Google Wallet",
+   "company": "Alphabet",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Product Designer",
+   "company": "Figma",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "designer",
+   "written": true
+  },
+  {
+   "title": "Director, IT Strategy & Portfolio",
+   "company": "Philip Morris International",
+   "category": null,
+   "industry": "Tobacco",
+   "role": "tech_strategy",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Customer Success Manager",
+   "company": "Ping Identity",
+   "category": null,
+   "industry": null,
+   "role": "customer_success",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Investment Associate - Private Debt & Equity",
+   "company": "Northwestern Mutual",
+   "category": null,
+   "industry": "Insurance: Life, Health (Mutual)",
+   "role": "investment_manager",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Manager, Deals Strategy",
+   "company": "PwC",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "written": true
+  },
+  {
+   "title": "Director, Luxury Brand Management",
+   "company": "Hilton Worldwide Holdings",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": "brand_manager",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Treasury Management Sales Officer",
+   "company": "U.S. Bancorp",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "treasury services sales",
+   "written": true
+  },
+  {
+   "title": "Chief Operating Officer",
+   "company": "Brex",
+   "category": null,
+   "industry": null,
+   "role": "operations_manager",
+   "level": "cpo",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "COO: spec lists up to head/VP of operations",
+   "written": true
+  },
+  {
+   "title": "Senior Sales Manager cross industries F/H",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "sales_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Principal Associate, Dealer Brand Manager (Auto)",
+   "company": "Capital One Financial",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "brand_manager",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "'Dealer Brand Manager' at an auto lender may not be classic brand management; principal associate grade"
+  },
+  {
+   "title": "Partner, Private Equity Practice",
+   "company": "Kearney",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "vp",
+   "ladder": "consulting",
+   "written": true
+  },
+  {
+   "title": "Product Manager, Integrations",
+   "company": "Workday",
+   "category": null,
+   "industry": "Computer Software",
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Marketing Strategic Planner - MBA Leadership Program Class of 2027",
+   "company": "Emerson Electric",
+   "category": null,
+   "industry": "Industrial Machinery",
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Land Acquisition Manager",
+   "company": "Taylor Morrison Home",
+   "category": null,
+   "industry": "Homebuilders",
+   "role": "re_acquisitions",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Digital Asset Manager",
+   "company": "Nike",
+   "category": null,
+   "industry": "Apparel",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "digital asset manager",
+   "written": true
+  },
+  {
+   "title": "Lead Strategist, Technology Strategy & Operations",
+   "company": "Target",
+   "category": null,
+   "industry": "General Merchandisers",
+   "role": "tech_strategy",
+   "level": "staff",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Data Strategy and Governance Lead",
+   "company": "Capgemini",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "governance",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "at a consulting firm; may be a client-facing consultant"
+  },
+  {
+   "title": "Business Development Strategy Associate",
+   "company": "AQR",
+   "category": "Asset management",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "business development below manager grade; spec says manager up"
+  },
+  {
+   "title": "Banking - Corporate Banking, Summer Analyst, Korea, Republic of – APAC, 2027",
+   "company": "Citigroup",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "corporate_banking",
+   "level": "associate",
+   "ladder": "bank"
+  },
+  {
+   "title": "Global Banking & Markets, Investment Banking Division, Advisory Group, Analyst, Tokyo",
+   "company": "Goldman Sachs Group",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank"
+  },
+  {
+   "title": "Supply Chain Program Manager 1",
+   "company": "Northrop Grumman",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": "program_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "supply chain program manager; grade 1 read as I"
+  },
+  {
+   "title": "Residential Energy Product Strategy Intern - MN, WI",
+   "company": "Xcel Energy",
+   "category": null,
+   "industry": "Utilities: Gas and Electric",
+   "role": "product_strategy",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Commercial Sourcing Manager, Power and Cooling Infrastructure Equipment",
+   "company": "Meta Platforms",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "strategic_sourcing",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Product Manager, Perimeter & Intrusion Security",
+   "company": "Verkada",
+   "category": null,
+   "industry": null,
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Chief of Staff",
+   "company": "Knot",
+   "category": null,
+   "industry": null,
+   "role": "chief_of_staff",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Product Management Advisor (Mid-level) - Real Estate",
+   "company": "USAA",
+   "category": null,
+   "industry": "Insurance: Property and Casualty (Stock)",
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Project Leader- ENR",
+   "company": "Bain & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "staff",
+   "ladder": "consulting"
+  },
+  {
+   "title": "Field Marketing Manager, Tech Partnership",
+   "company": "Anthropic",
+   "category": null,
+   "industry": null,
+   "role": "marketing_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Treasury Associate, FX & Interest Rate Hedging - PFS",
+   "company": "BlackRock",
+   "category": null,
+   "industry": "Securities",
+   "role": "treasury",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "BlackRock has null category so corporate ladder; may be fund-level rather than corporate treasury"
+  },
+  {
+   "title": "Corporate Development Manager",
+   "company": "Iterative Health",
+   "category": null,
+   "industry": null,
+   "role": "corp_dev",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Director of Finance - DoubleTree by Hilton Abilene Downtown Convention Center",
+   "company": "Hilton Worldwide Holdings",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": "financial_manager",
+   "level": "director",
+   "ladder": "corporate",
+   "note": "hotel-level finance director"
+  },
+  {
+   "title": "Procurement Contract Manager",
+   "company": "Massachusetts Mutual Life",
+   "category": null,
+   "industry": "Insurance: Life, Health (Mutual)",
+   "role": "procurement",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "contract manager within procurement"
+  },
+  {
+   "title": "Program Manager, Global Procurement Central Services (GPCS)",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Sales Leader I - Healthcare Business Banking",
+   "company": "PNC Financial Services Group",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "commercial_banking_rm",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "leads a team of business bankers (could be sales_manager); 'Leader I' mixes lead and grade I"
+  },
+  {
+   "title": "Associate - Financial Restructuring, Chicago",
+   "company": "Houlihan Lokey",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Venture Capital Analyst",
+   "company": "Insight Partners",
+   "category": "Venture capital",
+   "industry": null,
+   "role": "vc_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Business Intelligence Analyst",
+   "company": "Carrot Fertility",
+   "category": null,
+   "industry": null,
+   "role": "business_intelligence",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Assistant Vice President, Commercial Banking Relationship Manager",
+   "company": "M&T Bank",
+   "category": "Commercial and corporate banking",
+   "industry": "Commercial Banks",
+   "role": "commercial_banking_rm",
+   "level": "mid",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Investment Banking Analyst - Advisory, Business Services",
+   "company": "Citizens Financial Group",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "Citizens is not on the bank list and has null category; level is the same on either ladder"
+  },
+  {
+   "title": "Project Finance - Investment Banking - Director",
+   "company": "Barclays",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "director",
+   "ladder": "bank"
+  },
+  {
+   "title": "Senior Associate, Portfolio Analytics and Reporting – Private Debt",
+   "company": "StepStone Group",
+   "category": "Private equity",
+   "industry": null,
+   "role": null,
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "portfolio reporting, not investing"
+  },
+  {
+   "title": "Epic Cadence and Prelude Senior Consultant",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "note": "Epic system implementation consultant"
+  },
+  {
+   "title": "Buyer II",
+   "company": "Lockheed Martin",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": null,
+   "level": "senior",
+   "ladder": "corporate",
+   "note": "buyer excluded",
+   "written": true
+  },
+  {
+   "title": "Digital Transformation Manager",
+   "company": "Johnson & Johnson",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": "digital_transformation",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Production Integration & Readiness Program Manager",
+   "company": "RTX",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Growth Marketing Manager",
+   "company": "Duolingo",
+   "category": null,
+   "industry": null,
+   "role": "growth_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "ICQA Operations Manager (Level 6)",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "operations_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Organizational Development Manager",
+   "company": "CVS Health",
+   "category": null,
+   "industry": "Health Care: Pharmacy and Other Services",
+   "role": "org_dev",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "ML Data Operations Lead, Dataset Release and Delivery - Autonomous Vehicles",
+   "company": "Nvidia",
+   "category": null,
+   "industry": "Semiconductors and Other Electronic Components",
+   "role": null,
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "ML data operations lead; technical data role rather than operations manager"
+  },
+  {
+   "title": "Senior Product Marketing Manager",
+   "company": "Atlassian",
+   "category": null,
+   "industry": null,
+   "role": "pmm",
+   "level": "senior",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Chief of Staff to the CEO",
+   "company": "Nooks",
+   "category": null,
+   "industry": null,
+   "role": "chief_of_staff",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Enterprise Sales Manager - Wolt Benefits",
+   "company": "Wolt",
+   "category": null,
+   "industry": null,
+   "role": "sales_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "probably an individual seller despite the title"
+  },
+  {
+   "title": "Associate Director, Incentive Compensation Design & Analytics, Cardiovascular BU",
+   "company": "Amgen",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": null,
+   "level": "group",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "sales incentive compensation, excluded from comp_benefits"
+  },
+  {
+   "title": "Senior Strategy Analyst",
+   "company": "Delta Air Lines",
+   "category": null,
+   "industry": "Airlines",
+   "role": "corp_strategy_analyst",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Associate, Internship, Vietnam",
+   "company": "Boston Consulting Group",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Associate (mid) but an internship (associate)"
+  },
+  {
+   "title": "Investment & Corporate Banking | Infrastructure & Project Finance | Digital Infrastructure - Associate",
+   "company": "Mizuho",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Product Owner",
+   "company": "Capital One Financial",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "product owner",
+   "written": true
+  },
+  {
+   "title": "Content Strategy Manager",
+   "company": "Netflix",
+   "category": null,
+   "industry": "Entertainment",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "content strategy",
+   "written": true
+  },
+  {
+   "title": "Enterprise Sales Director - Majors, Retail",
+   "company": "Sierra",
+   "category": null,
+   "industry": null,
+   "role": "sales_manager",
+   "level": "director",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "may be an individual enterprise seller"
+  },
+  {
+   "title": "Account Executive, Enterprise",
+   "company": "Salesforce",
+   "category": null,
+   "industry": "Computer Software",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "account executive",
+   "written": true
+  },
+  {
+   "title": "Investment Banking Senior Associate",
+   "company": "Citigroup",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "senior",
+   "ladder": "bank"
+  },
+  {
+   "title": "Senior Enterprise Sales Manager - Wolt Ads",
+   "company": "Wolt",
+   "category": null,
+   "industry": null,
+   "role": "sales_manager",
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "probably an individual seller despite the title"
+  },
+  {
+   "title": "Technology Product Owner - Vice President",
+   "company": "Citigroup",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "senior",
+   "ladder": "bank",
+   "note": "product owner"
+  },
+  {
+   "title": "Senior Technical Program Manager, Digital Transformation",
+   "company": "Ford Motor",
+   "category": null,
+   "industry": "Motor Vehicles & Parts",
+   "role": null,
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "TPM, but title says digital transformation"
+  },
+  {
+   "title": "Sr. Product Manager - Advertising Technologies",
+   "company": "Comcast",
+   "category": null,
+   "industry": "Telecommunications",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Core Ops Manager",
+   "company": "Capital Group",
+   "category": "Asset management",
+   "industry": null,
+   "role": "operations_manager",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Senior Program Manager, GOSS Infrastructure PMO",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "program_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Business Analyst",
+   "company": "McKinsey & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "written": true
+  },
+  {
+   "title": "Partner 20, Program Manager, Global Partnerships",
+   "company": "Andreessen Horowitz",
+   "category": "Venture capital",
+   "industry": null,
+   "role": "program_manager",
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "a16z calls all staff 'Partner'; not an investor; program manager for partnerships"
+  },
+  {
+   "title": "Intern, Product Analytics Leadership Development Program",
+   "company": "Hartford Insurance Group",
+   "category": null,
+   "industry": "Insurance: Property and Casualty (Stock)",
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Director, Mergers & Acquisitions Integration",
+   "company": "IQVIA Holdings",
+   "category": null,
+   "industry": "Health Care: Pharmacy and Other Services",
+   "role": "ma_integration",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Product Manager, Growth",
+   "company": "Ondo Finance",
+   "category": null,
+   "industry": null,
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Solutions Architect, IT Strategy",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "architect, though IT strategy",
+   "written": true
+  },
+  {
+   "title": "Compliance Manager",
+   "company": "Coinbase",
+   "category": null,
+   "industry": null,
+   "role": "compliance",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Manager Research Analyst",
+   "company": "Schroders",
+   "category": "Asset management",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "associate",
+   "ladder": "bank",
+   "sure": false,
+   "note": "'manager research' = fund-selection analyst; 'Manager' is not the grade"
+  },
+  {
+   "title": "Research Analyst",
+   "company": "Point72",
+   "category": "Asset management",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "associate",
+   "ladder": "bank"
+  },
+  {
+   "title": "2027 Business Analytics & Digital Transformation Summer Internship",
+   "company": "New York Life Insurance",
+   "category": null,
+   "industry": "Insurance: Life, Health (Mutual)",
+   "role": "digital_transformation",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "says business analytics and digital transformation"
+  },
+  {
+   "title": "Procurement Senior Specialist - Global Procurement Direct Sourcing",
+   "company": "Kimberly-Clark",
+   "category": null,
+   "industry": "Household and Personal Products",
+   "role": "strategic_sourcing",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "direct sourcing, specialist grade inside procurement"
+  },
+  {
+   "title": "Platform Manager",
+   "company": "Andreessen Horowitz",
+   "category": "Venture capital",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "note": "VC platform staff",
+   "written": true
+  },
+  {
+   "title": "Specialist, Continuous Improvement",
+   "company": "L3Harris Technologies",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "specialist excluded"
+  },
+  {
+   "title": "Category Growth Manager (Books), Amazon AU Retail",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "category_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "'Category Growth Manager': category or growth"
+  },
+  {
+   "title": "Property Manager",
+   "company": "Greystar",
+   "category": "Real estate",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "property manager",
+   "written": true
+  },
+  {
+   "title": "Associate, GTB (Global Transaction Banking) Advisory",
+   "company": "Mizuho",
+   "category": "Investment banking",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "transaction banking advisory = treasury services sold to clients"
+  },
+  {
+   "title": "Enterprise Risk Manager",
+   "company": "American Express",
+   "category": null,
+   "industry": "Diversified Financials",
+   "role": "enterprise_risk",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Development Manager",
+   "company": "Hines",
+   "category": "Real estate",
+   "industry": null,
+   "role": "re_development",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Senior Director, Brand Marketing",
+   "company": "Nike",
+   "category": null,
+   "industry": "Apparel",
+   "role": "brand_manager",
+   "level": "director",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Internship - Talent Development & Projects (Janvier 2027]",
+   "company": "Boston Consulting Group",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "org_dev",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Junior Consultant - McKinsey Lanyue",
+   "company": "McKinsey & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "'Junior Consultant' is not on the consulting ladder"
+  },
+  {
+   "title": "Senior Business Manager - CDX Product Strategy",
+   "company": "Capital One Financial",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "product_strategy",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Associate IR, Employee Co-Investment",
+   "company": "Ares Management",
+   "category": "Private equity",
+   "industry": null,
+   "role": null,
+   "level": "senior",
+   "ladder": "bank",
+   "note": "investor relations"
+  },
+  {
+   "title": "Deals Valuation - Tangible Assets Experienced Associate",
+   "company": "PwC",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "valuation in the Deals practice; advisory but not strategy consulting"
+  },
+  {
+   "title": "Vice President, Investor Relations",
+   "company": "Apollo Global Management",
+   "category": "Private equity",
+   "industry": "Securities",
+   "role": null,
+   "level": "senior",
+   "ladder": "bank",
+   "note": "investor relations",
+   "written": true
+  },
+  {
+   "title": "Sr. Program Manager- IFF (Onsite)",
+   "company": "RTX",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": "program_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Restaurant General Manager",
+   "company": "Yum Brands",
+   "category": null,
+   "industry": "Food Services",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "restaurant GM",
+   "written": true
+  },
+  {
+   "title": "Product marketing lead",
+   "company": "Writer",
+   "category": null,
+   "industry": null,
+   "role": "pmm",
+   "level": "staff",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Business Manager / Category Manager HP (m/w/d)",
+   "company": "TD Synnex",
+   "category": null,
+   "industry": "Wholesalers: Electronics and Office Equipment",
+   "role": "category_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Sr. Product Marketing Manager, Trust & Safety",
+   "company": "Chime",
+   "category": null,
+   "industry": null,
+   "role": "pmm",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Chief of Staff to the CEO",
+   "company": "Notion",
+   "category": null,
+   "industry": null,
+   "role": "chief_of_staff",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "HR Business Partner",
+   "company": "East West Bank",
+   "category": "Commercial and corporate banking",
+   "industry": null,
+   "role": "hr_manager",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Manager, Strategic Finance",
+   "company": "Robco",
+   "category": null,
+   "industry": null,
+   "role": "strategic_finance",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Relationship Manager, Middle Market Banking",
+   "company": "Wells Fargo",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "commercial_banking_rm",
+   "level": "mid",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Investment Associate",
+   "company": "Synovus",
+   "category": "Commercial and corporate banking",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "at a regional bank this may be a wealth support role"
+  },
+  {
+   "title": "Business Development Analyst - U.S. Wealth",
+   "company": "AQR",
+   "category": "Asset management",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "bank",
+   "sure": false,
+   "note": "business development at analyst grade; spec says manager up"
+  },
+  {
+   "title": "Director, Business Development & Market Growth, China Corridor",
+   "company": "KPMG",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "bizdev",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Regional Sales Manager Joint Replacement - Yorkshire & North East",
+   "company": "Stryker",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": "sales_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Marketing Data & Analytics Strategy Manager (R6054)",
+   "company": "Shield AI",
+   "category": null,
+   "industry": "American Dynamism;Enterprise",
+   "role": "business_analytics",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "marketing analytics manager; could be marketing_manager"
+  },
+  {
+   "title": "Marketing Operations & Analytics Lead",
+   "company": "Sierra",
+   "category": null,
+   "industry": null,
+   "role": "marketing_manager",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "marketing operations and analytics; could be business_analytics"
+  },
+  {
+   "title": "Senior Associate - SaT - CHS - SaT - TCF - M&A Advisory - Mumbai",
+   "company": "EY",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "M&A advisory at a Big Four firm: IB-like work but not at a bank"
+  },
+  {
+   "title": "Asset Manager",
+   "company": "Prologis",
+   "category": "Real estate",
+   "industry": "Real Estate",
+   "role": "re_asset_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Operations Manager, Fulfillment Center",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "operations_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "GTM Strategy Manager, Visa Direct - Commercial Banks",
+   "company": "Visa",
+   "category": null,
+   "industry": "Financial Data Services",
+   "role": "strategy_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "go-to-market strategy, not corporate strategy"
+  },
+  {
+   "title": "Chief Financial Officer",
+   "company": "Ramp",
+   "category": null,
+   "industry": null,
+   "role": "financial_manager",
+   "level": "cpo",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "CFO: spec lists up to head/VP of finance",
+   "written": true
+  },
+  {
+   "title": "Senior Associate - Corporate Finance Advisory",
+   "company": "Baker Tilly",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "corporate finance advisory at an accounting firm"
+  },
+  {
+   "title": "Procurement Manager",
+   "company": "Pfizer",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": "procurement",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Product Manager, Trust and Safety",
+   "company": "Chime",
+   "category": null,
+   "industry": null,
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Supply Chain Analyst",
+   "company": "Boeing",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "supply chain analyst excluded",
+   "written": true
+  },
+  {
+   "title": "Test Req - Do Not Apply",
+   "company": "Acme",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "note": "test requisition, not a job",
+   "written": true
+  },
+  {
+   "title": "Senior Sales Manager - Microsoft Advertising Dublin based",
+   "company": "Microsoft",
+   "category": null,
+   "industry": "Computer Software",
+   "role": "sales_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Banking Associate Graduate Program 2027 New York City – Mergers and Acquisitions",
+   "company": "Barclays",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "graduate associate program; could be ldp"
+  },
+  {
+   "title": "Customer Support Specialist",
+   "company": "Shopify",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "support",
+   "written": true
+  },
+  {
+   "title": "General Manager - Warehousing",
+   "company": "Ryder System",
+   "category": null,
+   "industry": "Trucking, Truck Leasing",
+   "role": "general_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "may be GM of a single warehouse site"
+  },
+  {
+   "title": "Customer Success Engineer",
+   "company": "Databricks",
+   "category": null,
+   "industry": "Cultural Leadership Fund;Enterprise;Growth;Infra",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "engineer",
+   "written": true
+  },
+  {
+   "title": "Talent Sourcing Manager",
+   "company": "Stripe",
+   "category": null,
+   "industry": "Fintech;Growth",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "recruiting",
+   "written": true
+  },
+  {
+   "title": "Associate, Data Operations",
+   "company": "ICONIQ",
+   "category": "Venture capital",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "note": "data operations"
+  },
+  {
+   "title": "Integration Engineer",
+   "company": "Epic Systems",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "engineer",
+   "written": true
+  },
+  {
+   "title": "Vice President, Product Strategy",
+   "company": "Centene",
+   "category": null,
+   "industry": "Health Care: Insurance and Managed Care",
+   "role": "product_strategy",
+   "level": "vp",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Customer Success Manager (m/f/d)",
+   "company": "Digital Realty",
+   "category": "Real estate",
+   "industry": null,
+   "role": "customer_success",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Treasury Management Sales Manager Senior",
+   "company": "First Horizon",
+   "category": "Commercial and corporate banking",
+   "industry": null,
+   "role": null,
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "treasury services sales; could be sales_manager if it leads a team"
+  },
+  {
+   "title": "2027 MUFG UK Summer Analyst Programme: Capital Markets",
+   "company": "MUFG",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank"
+  },
+  {
+   "title": "Risk Engineer",
+   "company": "Chubb",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "engineer",
+   "written": true
+  },
+  {
+   "title": "Lead Business Analyst, Data & Analytics Product Management",
+   "company": "Tyson Foods",
+   "category": null,
+   "industry": "Food Production",
+   "role": null,
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "business analyst in a product management group"
+  },
+  {
+   "title": "Senior Analyst, People Operations Training Compliance",
+   "company": "Chipotle Mexican Grill",
+   "category": null,
+   "industry": "Food Services",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "training compliance analyst"
+  },
+  {
+   "title": "Brex Rotational Program",
+   "company": "Brex",
+   "category": null,
+   "industry": null,
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Director, Strategic Alliances",
+   "company": "ServiceNow",
+   "category": null,
+   "industry": "Computer Software",
+   "role": "partnerships",
+   "level": "director",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Business Development Manager, GA and SC",
+   "company": "PPG Industries",
+   "category": null,
+   "industry": "Chemicals",
+   "role": "bizdev",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Strategic Finance, GTM & Revenue",
+   "company": "Plaid",
+   "category": null,
+   "industry": "Cultural Leadership Fund;Fintech;Growth",
+   "role": "strategic_finance",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Chief of Staff to Head of Engagement Management",
+   "company": "Mercor",
+   "category": null,
+   "industry": null,
+   "role": "chief_of_staff",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Associate Vice President, Fund Accounting – Venture Capital",
+   "company": "Ares Management",
+   "category": "Private equity",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "note": "fund accounting"
+  },
+  {
+   "title": "KPP/PRICING STRATEGY MANAGER",
+   "company": "Kroger",
+   "category": null,
+   "industry": "Food and Drug Stores",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "pricing strategy is not corporate strategy, but title says strategy manager"
+  },
+  {
+   "title": "Senior Manager – Sourcing & Procurement",
+   "company": "Deloitte",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "staff",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "Deloitte sourcing & procurement consulting practice; could be procurement"
+  },
+  {
+   "title": "Senior Category Manager, Snacks",
+   "company": "Kroger",
+   "category": null,
+   "industry": "Food and Drug Stores",
+   "role": "category_manager",
+   "level": "senior",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "HR Generalist - FT - ROC",
+   "company": "Universal Health Services",
+   "category": null,
+   "industry": "Health Care: Medical Facilities",
+   "role": "hr_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Store Manager",
+   "company": "Target",
+   "category": null,
+   "industry": "General Merchandisers",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "store manager",
+   "written": true
+  },
+  {
+   "title": "Senior Business Development Manager, Education",
+   "company": "ABM Industries",
+   "category": null,
+   "industry": "Diversified Outsourcing Services",
+   "role": "bizdev",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "HR Manager Belgium & Netherlands (12 month FTC)",
+   "company": "Levi Strauss",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "hr_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "2027 Summer Investment Internship",
+   "company": "Battery Ventures",
+   "category": "Venture capital",
+   "industry": null,
+   "role": "vc_associate",
+   "level": "associate",
+   "ladder": "bank"
+  },
+  {
+   "title": "Senior Finance Director, DS Trauma, Orthopedics",
+   "company": "Johnson & Johnson",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": "financial_manager",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "IP&E Finance Director - APAC",
+   "company": "Arrow Electronics",
+   "category": null,
+   "industry": "Wholesalers: Electronics and Office Equipment",
+   "role": "financial_manager",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Site Operations Manager (SG 41) - Evening)",
+   "company": "Paccar",
+   "category": null,
+   "industry": "Motor Vehicles & Parts",
+   "role": "operations_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Product Manager - HIV",
+   "company": "Quest Diagnostics",
+   "category": null,
+   "industry": "Health Care: Pharmacy and Other Services",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Head of Strategy",
+   "company": "Mars",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "strategy_manager",
+   "level": "vp",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Global Finance Senior Manager - Strategic Analysis",
+   "company": "Capital Group",
+   "category": "Asset management",
+   "industry": null,
+   "role": "financial_manager",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "finance senior manager doing strategic analysis (could be fpa); no bank grade word"
+  },
+  {
+   "title": "Senior AI Transformation Specialist - Amazon Quick, Customer Success Center of Excellence",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "customer-facing AI specialist; mentions transformation and customer success"
+  },
+  {
+   "title": "Director, Real Estate Development",
+   "company": "Walmart",
+   "category": null,
+   "industry": "General Merchandisers",
+   "role": "re_development",
+   "level": "director",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Campus Graduate Full-Time Senior Associate - 2027 Digital Product Management, Enterprise Technology Services- New York, NY",
+   "company": "American Express",
+   "category": null,
+   "industry": "Diversified Financials",
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "campus graduate hire titled Senior Associate"
+  },
+  {
+   "title": "Credit Portfolio Manager - Securitization, Director",
+   "company": "Mizuho",
+   "category": "Investment banking",
+   "industry": null,
+   "role": null,
+   "level": "director",
+   "ladder": "bank",
+   "sure": false,
+   "note": "credit portfolio management at a bank: risk/lending rather than investing"
+  },
+  {
+   "title": "Bilingual Marketing Officer, Associate for Japanese Corporate Banking in NYC",
+   "company": "MUFG",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "corporate_banking",
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "'marketing officer' at a Japanese bank is a coverage role, not marketing"
+  },
+  {
+   "title": "EY-Parthenon Consultant M&A, Carve-out & Post-Merger Integration - Strategy and Transactions (w/m/d)",
+   "company": "EY",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting"
+  },
+  {
+   "title": "Fund Accounting Associate, Private Equity",
+   "company": "Blackstone",
+   "category": "Private equity",
+   "industry": "Diversified Financials",
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "note": "fund accounting",
+   "written": true
+  },
+  {
+   "title": "Associate, Growth Equity",
+   "company": "General Atlantic",
+   "category": "Private equity",
+   "industry": null,
+   "role": "pe_associate",
+   "level": "mid",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Associate, Corporate Banking",
+   "company": "MUFG",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "corporate_banking",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Analytics Manager - Corporate (New Orleans)",
+   "company": "Caesars Entertainment",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": "business_analytics",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Asset & Wealth Management (Private)– Real Estate Asset Management Analyst - Bengaluru",
+   "company": "Goldman Sachs Group",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "re_asset_manager",
+   "level": "associate",
+   "ladder": "bank"
+  },
+  {
+   "title": "Technical Governance Manager",
+   "company": "Fiserv",
+   "category": null,
+   "industry": "Financial Data Services",
+   "role": "governance",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "DIRECTOR - SUPPLY CHAIN OPERATIONS",
+   "company": "Universal Health Services",
+   "category": null,
+   "industry": "Health Care: Medical Facilities",
+   "role": "supply_chain",
+   "level": "director",
+   "ladder": "corporate"
+  },
+  {
+   "title": "General Manager II - Raleigh/Durham, NC",
+   "company": "Advance Auto Parts",
+   "category": null,
+   "industry": "Specialty Retailers: Other",
+   "role": null,
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "auto parts store GM (excluded as store); grade II"
+  },
+  {
+   "title": "Continuous Improvement Engineer",
+   "company": "3M",
+   "category": null,
+   "industry": "Chemicals",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "engineer",
+   "written": true
+  },
+  {
+   "title": "Denver Technology Consulting Intern - 2027",
+   "company": "Protiviti",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "technology consulting (IT risk/audit) rather than management consulting"
+  },
+  {
+   "title": "Senior Analyst- BUSINESS INTELLIGENCE",
+   "company": "MUFG",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "business_intelligence",
+   "level": "associate",
+   "ladder": "bank",
+   "sure": false,
+   "note": "senior analyst on the bank ladder"
+  },
+  {
+   "title": "Business Development Manager, Vertical Expansion",
+   "company": "Xylem",
+   "category": null,
+   "industry": "Industrial Machinery",
+   "role": "bizdev",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Sr. FP&A Analyst - Global Services",
+   "company": "GE HealthCare Technologies",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": "fpa",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Assistant Brand Manager - UPro Home Care",
+   "company": "Unilever",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "brand_manager",
+   "level": "associate",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Real Estate Acquisitions Analyst",
+   "company": "Blackstone",
+   "category": "Private equity",
+   "industry": "Diversified Financials",
+   "role": "re_acquisitions",
+   "level": "associate",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Safety Operations Lead",
+   "company": "Thinking Machines Lab",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "trust-and-safety operations lead; not general operations management"
+  },
+  {
+   "title": "Corporate Counsel, M&A",
+   "company": "Alphabet",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "legal",
+   "written": true
+  },
+  {
+   "title": "Senior Associate, Business Automation Solutions  - Data & Technology Solutions",
+   "company": "StepStone Group",
+   "category": "Private equity",
+   "industry": null,
+   "role": null,
+   "level": "senior",
+   "ladder": "bank",
+   "note": "technology"
+  },
+  {
+   "title": "AWM, GS Ayco, Workplace Advisory Solutions, Regional Business Development, Vice President - Chicago",
+   "company": "Goldman Sachs Group",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "bizdev",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "regional business development at a wealth unit is sales"
+  },
+  {
+   "title": "Regional Sales Manager",
+   "company": "Cisco Systems",
+   "category": null,
+   "industry": "Network and Other Communications Equipment",
+   "role": "sales_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Sr. Program Manager",
+   "company": "CACI International",
+   "category": null,
+   "industry": "Information Technology Services",
+   "role": "program_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Operational Risk Officer",
+   "company": "Citigroup",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "enterprise_risk",
+   "level": "mid",
+   "ladder": "bank",
+   "written": true
+  },
+  {
+   "title": "Sr. Program Manager III, R2L - Rural Super Rural Plus (RSR+)",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "program_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Compliance manager",
+   "company": "Marriott International",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": "compliance",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Sourcing & Procurement Manager - NASPFY26",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "procurement",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "at Accenture this may be consulting or outsourced procurement delivery"
+  },
+  {
+   "title": "Business Development Manager",
+   "company": "CBRE",
+   "category": "Real estate",
+   "industry": null,
+   "role": "bizdev",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Product Strategy and Operations, Senior Associate - New Verticals | Housing",
+   "company": "EliseAI",
+   "category": null,
+   "industry": "Growth",
+   "role": "product_strategy",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "product strategy and operations; could be bizops"
+  },
+  {
+   "title": "VP, Treasury - Payment Hub Product Owner",
+   "company": "Synchrony",
+   "category": null,
+   "industry": "Diversified Financials",
+   "role": null,
+   "level": "vp",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "product owner inside treasury"
+  },
+  {
+   "title": "Business Operations Specialist (Live Operations - Colombia)",
+   "company": "Traba",
+   "category": null,
+   "industry": null,
+   "role": "bizops",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "live operations specialist; may be hourly-style ops support"
+  },
+  {
+   "title": "Consultant, Experienced Hire, Canada",
+   "company": "Boston Consulting Group",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting"
+  },
+  {
+   "title": "Principal Product Manager",
+   "company": "ClickUp",
+   "category": null,
+   "industry": "Enterprise;Growth",
+   "role": "product_manager",
+   "level": "staff",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Junior Sales Manager",
+   "company": "Marriott International",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": "sales_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "hotel junior sales manager is an individual seller"
+  },
+  {
+   "title": "People Analytics Manager",
+   "company": "LinkedIn",
+   "category": null,
+   "industry": null,
+   "role": "business_analytics",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "people analytics: excluded from hr_manager, not named under business_analytics",
+   "written": true
+  },
+  {
+   "title": "U.S. Banks Financial Planning & Analysis - Director",
+   "company": "Morgan Stanley",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "fpa",
+   "level": "director",
+   "ladder": "bank"
+  },
+  {
+   "title": "Senior Product Manager, Hardware",
+   "company": "Abbott Laboratories",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Payments- Cross Currency Product Manager- Vice President",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "bank"
+  },
+  {
+   "title": "Project Leader",
+   "company": "Boston Consulting Group",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "staff",
+   "ladder": "consulting",
+   "written": true
+  },
+  {
+   "title": "IM UAM Governance Manager",
+   "company": "Johnson & Johnson",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": "governance",
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "IT user-access governance"
+  },
+  {
+   "title": "Strategic Finance, GTM",
+   "company": "Decagon",
+   "category": null,
+   "industry": "Enterprise;Growth;Seed",
+   "role": "strategic_finance",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Operational Risk Manager",
+   "company": "Schroders",
+   "category": "Asset management",
+   "industry": null,
+   "role": "enterprise_risk",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Finance Manager, Infrastructure Data Center",
+   "company": "Meta Platforms",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "financial_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "National Performance and Business Intelligence Leader",
+   "company": "City National Bank",
+   "category": "Commercial and corporate banking",
+   "industry": null,
+   "role": "business_intelligence",
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "'Leader' has no bank grade word"
+  },
+  {
+   "title": "Manager, Investment and Insurance Specialist, Corporate Banking - Hang Seng Bank (HK)",
+   "company": "HSBC",
+   "category": "Investment banking",
+   "industry": null,
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "sure": false,
+   "note": "sells investment and insurance products to corporate banking clients"
+  },
+  {
+   "title": "Finance & Strategy Analyst",
+   "company": "Stripe",
+   "category": null,
+   "industry": "Fintech;Growth",
+   "role": "fpa",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "Stripe 'Finance & Strategy' is FP&A/strategic finance; could be corp_strategy_analyst"
+  },
+  {
+   "title": "Technology Product Management Lead Analyst, Vice President",
+   "company": "Citigroup",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "'Lead Analyst' in technology product management"
+  },
+  {
+   "title": "Director, Financial Planning & Analysis",
+   "company": "PepsiCo",
+   "category": null,
+   "industry": "Food Consumer Products",
+   "role": "fpa",
+   "level": "director",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Global Adhesive Engineering & Digital Transformation Leader (m/f/d)",
+   "company": "DuPont",
+   "category": null,
+   "industry": "Chemicals",
+   "role": "digital_transformation",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "mainly an engineering leader"
+  },
+  {
+   "title": "Nordic Market Insight and Category Lead - Corporate Division (CDMO)",
+   "company": "L'Oréal",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "category_manager",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "market insight plus category lead"
+  },
+  {
+   "title": "Digital Transformation Principal - Payments",
+   "company": "HighRadius",
+   "category": null,
+   "industry": null,
+   "role": "digital_transformation",
+   "level": "staff",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "at a software vendor this is likely a client-facing presales/consulting role"
+  },
+  {
+   "title": "Wealth Management Solution - International Insurance Client & Advisor Experience (Asia Focus) - Product Manager - Vice President / Associate",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "product_manager",
+   "level": "senior",
+   "ladder": "bank",
+   "sure": false,
+   "note": "two grades offered (VP / Associate)"
+  },
+  {
+   "title": "SAP Finance Consultant",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "note": "SAP consultant",
+   "written": true
+  },
+  {
+   "title": "Senior Manager, Business Analytics",
+   "company": "Target",
+   "category": null,
+   "industry": "General Merchandisers",
+   "role": "business_analytics",
+   "level": "senior",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Operations Associate",
+   "company": "Walmart",
+   "category": null,
+   "industry": "General Merchandisers",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "note": "hourly operations associate",
+   "written": true
+  },
+  {
+   "title": "Associate",
+   "company": "Bain & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting",
+   "written": true
+  },
+  {
+   "title": "Sales Manager (m/w/d) Region Süd-West",
+   "company": "Carrier Global",
+   "category": null,
+   "industry": "Industrial Machinery",
+   "role": "sales_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Category Manager (Frozen)",
+   "company": "Kraft Heinz",
+   "category": null,
+   "industry": "Food Consumer Products",
+   "role": "category_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Data Scientist, Product Analytics",
+   "company": "Meta Platforms",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "note": "data scientist",
+   "written": true
+  },
+  {
+   "title": "Tax Governance Manager, Tax and Account Compliance",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": "mid",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "tax (excluded) but titled governance manager"
+  },
+  {
+   "title": "Software Engineer, Investment Banking Technology",
+   "company": "Morgan Stanley",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "note": "engineer",
+   "written": true
+  },
+  {
+   "title": "Strategy Associate",
+   "company": "JPMorgan Chase",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "corp_strategy_analyst",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Portfolio Manager",
+   "company": "PIMCO",
+   "category": "Asset management",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "mid",
+   "ladder": "bank"
+  },
+  {
+   "title": "Compensation Analyst",
+   "company": "Nvidia",
+   "category": null,
+   "industry": "Semiconductors and Other Electronic Components",
+   "role": "comp_benefits",
+   "level": "associate",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Senior Consultant, Strategy & Operations",
+   "company": "Deloitte",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "written": true
+  },
+  {
+   "title": "Strategy Manager",
+   "company": "Uber Technologies",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "strategy_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "Procurement Consultant (Category Management)",
+   "company": "McKinsey & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting",
+   "sure": false,
+   "note": "procurement specialist consultant at McKinsey"
+  },
+  {
+   "title": "Product Manager, OpenRouter Connect",
+   "company": "OpenRouter",
+   "category": null,
+   "industry": "Infra",
+   "role": "product_manager",
+   "level": "mid",
+   "ladder": "corporate"
+  },
+  {
+   "title": "Senior Manager, Technology Strategy",
+   "company": "Capital One Financial",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": "tech_strategy",
+   "level": "senior",
+   "ladder": "corporate",
+   "written": true
+  },
+  {
+   "title": "GRC Analyst",
+   "company": "Okta",
+   "category": null,
+   "industry": null,
+   "role": "governance",
+   "level": "associate",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "GRC is named in scope but analyst grade is not",
+   "written": true
+  },
+  {
+   "title": "Sr. PM, HR Business Operations, Global Specialty Recruiting",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "program_manager",
+   "level": "senior",
+   "ladder": "corporate",
+   "sure": false,
+   "note": "'PM' unexpanded: program or product manager; also HR business operations"
+  }
+ ]
+}

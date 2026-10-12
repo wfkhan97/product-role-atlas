@@ -1,0 +1,1148 @@
+{
+ "about": "Locations as postings write them, with the country each must get. Labelled by reading, before the reader was run on them (2026-10-12). The 70 most frequent location strings of the MBA scrape plus 210 drawn at random. Rows with sure=false are reported but not counted. Checked by evals/run_pipeline.py. A list of sites that includes a US site is \"United States\": the posting is open in the US.",
+ "rows": [
+  {
+   "location": "",
+   "country": null
+  },
+  {
+   "location": "San Francisco",
+   "country": "United States"
+  },
+  {
+   "location": "Seattle, Washington, USA",
+   "country": "United States"
+  },
+  {
+   "location": "United States",
+   "country": "United States"
+  },
+  {
+   "location": "New York, NY",
+   "country": "United States"
+  },
+  {
+   "location": "New York, NY, United States",
+   "country": "United States"
+  },
+  {
+   "location": "New York",
+   "country": "United States"
+  },
+  {
+   "location": "London",
+   "country": "United Kingdom"
+  },
+  {
+   "location": "Bellevue, Washington, USA",
+   "country": "United States"
+  },
+  {
+   "location": "Costa Mesa, California, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Singapore",
+   "country": "Singapore"
+  },
+  {
+   "location": "Remote",
+   "country": "Other / unspecified"
+  },
+  {
+   "location": "Bengaluru, Karnataka, IND",
+   "country": "India"
+  },
+  {
+   "location": "New York City",
+   "country": "United States"
+  },
+  {
+   "location": "New York, New York, United States",
+   "country": "United States"
+  },
+  {
+   "location": "London, United Kingdom",
+   "country": "United Kingdom"
+  },
+  {
+   "location": "San Francisco, CA",
+   "country": "United States"
+  },
+  {
+   "location": "Cupertino",
+   "country": "United States"
+  },
+  {
+   "location": "Nashville, TN, United States",
+   "country": "United States"
+  },
+  {
+   "location": "McLean, VA",
+   "country": "United States"
+  },
+  {
+   "location": "New York, New York, USA",
+   "country": "United States"
+  },
+  {
+   "location": "Tokyo, Japan",
+   "country": "Japan"
+  },
+  {
+   "location": "Tokyo, JPN",
+   "country": "Japan"
+  },
+  {
+   "location": "London, UK",
+   "country": "United Kingdom"
+  },
+  {
+   "location": "Bengaluru",
+   "country": "India"
+  },
+  {
+   "location": "Boston, MA",
+   "country": "United States"
+  },
+  {
+   "location": "Arlington, Virginia, USA",
+   "country": "United States"
+  },
+  {
+   "location": "New York, New York",
+   "country": "United States"
+  },
+  {
+   "location": "India - Hyderabad",
+   "country": "India"
+  },
+  {
+   "location": "London, England, GBR",
+   "country": "United Kingdom"
+  },
+  {
+   "location": "Boston",
+   "country": "United States"
+  },
+  {
+   "location": "Austin, Texas, USA",
+   "country": "United States"
+  },
+  {
+   "location": "Paris, France",
+   "country": "France"
+  },
+  {
+   "location": "Singapore, Singapore",
+   "country": "Singapore"
+  },
+  {
+   "location": "NY-New York",
+   "country": "United States"
+  },
+  {
+   "location": "Chicago, IL",
+   "country": "United States"
+  },
+  {
+   "location": "San Francisco, California",
+   "country": "United States"
+  },
+  {
+   "location": "Seoul, South Korea",
+   "country": "South Korea"
+  },
+  {
+   "location": "Hyderabad, Telangana, IND",
+   "country": "India"
+  },
+  {
+   "location": "Chicago",
+   "country": "United States"
+  },
+  {
+   "location": "Mumbai, India",
+   "country": "India"
+  },
+  {
+   "location": "Nashville, Tennessee, USA",
+   "country": "United States"
+  },
+  {
+   "location": "Toronto, Ontario",
+   "country": "Canada"
+  },
+  {
+   "location": "Shanghai",
+   "country": "China"
+  },
+  {
+   "location": "Chicago, IL, United States",
+   "country": "United States"
+  },
+  {
+   "location": "United States - Remote",
+   "country": "United States"
+  },
+  {
+   "location": "Washington, DC",
+   "country": "United States"
+  },
+  {
+   "location": "Paris",
+   "country": "France"
+  },
+  {
+   "location": "Los Angeles, CA",
+   "country": "United States"
+  },
+  {
+   "location": "Mountain View, California, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Berlin",
+   "country": "Germany"
+  },
+  {
+   "location": "Dublin, Ireland",
+   "country": "Ireland"
+  },
+  {
+   "location": "Houston, TX, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Sunnyvale",
+   "country": "United States"
+  },
+  {
+   "location": "San Francisco, California, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Bengaluru, Karnataka, India",
+   "country": "India"
+  },
+  {
+   "location": "Austin, TX",
+   "country": "United States"
+  },
+  {
+   "location": "Shanghai, China",
+   "country": "China"
+  },
+  {
+   "location": "Taipei, Taiwan",
+   "country": "Taiwan"
+  },
+  {
+   "location": "New York, New York, United States of America",
+   "country": "United States"
+  },
+  {
+   "location": "United States, Washington, Redmond",
+   "country": "United States"
+  },
+  {
+   "location": "Remote - US",
+   "country": "United States"
+  },
+  {
+   "location": "North Chicago, IL",
+   "country": "United States"
+  },
+  {
+   "location": "Bangalore, India",
+   "country": "India"
+  },
+  {
+   "location": "Rosslyn, Virginia, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Hong Kong",
+   "country": "Hong Kong"
+  },
+  {
+   "location": "Remote, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Sydney, New South Wales, AUS",
+   "country": "Australia"
+  },
+  {
+   "location": "Sao Paulo, Sao Paulo, BRA",
+   "country": "Brazil"
+  },
+  {
+   "location": "Chicago, Illinois, United States",
+   "country": "United States"
+  },
+  {
+   "location": "STHS - ROC",
+   "country": "Other / unspecified",
+   "sure": false,
+   "note": "Internal code; ROC could be Rochester or Republic of China; cannot place"
+  },
+  {
+   "location": "Montreal, Canada",
+   "country": "Canada"
+  },
+  {
+   "location": "NY, SF or Remote (US) ",
+   "country": "United States"
+  },
+  {
+   "location": "Brandon, MS, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Office - Saudi Arabia - Riyadh",
+   "country": "Saudi Arabia"
+  },
+  {
+   "location": "Sedona, AZ, United States",
+   "country": "United States"
+  },
+  {
+   "location": "CORPORATE OFFICE-REMOTE",
+   "country": "Other / unspecified"
+  },
+  {
+   "location": "Dallas Warehouse",
+   "country": "United States"
+  },
+  {
+   "location": "ASIA > CHN > Shanghai > 688 Henderson Office",
+   "country": "China"
+  },
+  {
+   "location": "Jersey City, NJ, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Christiansburg, Virginia, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Freshwater, Victoria, Australia",
+   "country": "Australia"
+  },
+  {
+   "location": "Daventry, Northamptonshire, United Kingdom",
+   "country": "United Kingdom"
+  },
+  {
+   "location": "Solna, Sweden",
+   "country": "Sweden"
+  },
+  {
+   "location": "Manawatu",
+   "country": "New Zealand"
+  },
+  {
+   "location": "Czech Republic, Prague, Prague",
+   "country": "Czech Republic"
+  },
+  {
+   "location": "Vandalia",
+   "country": "United States",
+   "sure": false,
+   "note": "Bare town name; Vandalia towns (OH, IL, MO) are all in the US, but no state given",
+   "known_miss": "a small town or a site name with no state: the reader has no list of every US town"
+  },
+  {
+   "location": "Murfreesboro, Tennessee, USA",
+   "country": "United States"
+  },
+  {
+   "location": "Greenville, North Carolina, USA",
+   "country": "United States"
+  },
+  {
+   "location": "China Grove, NC, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Austin Domain 11 - HomeAway",
+   "country": "United States"
+  },
+  {
+   "location": "NC - Raleigh - Capital Boulevard",
+   "country": "United States"
+  },
+  {
+   "location": "Bengaluru, BDC14A",
+   "country": "India"
+  },
+  {
+   "location": "Yenagoa, Bayelsa State, Nigeria",
+   "country": "Nigeria"
+  },
+  {
+   "location": "Fort Meade, MD, US",
+   "country": "United States"
+  },
+  {
+   "location": "Dallas-Fort Worth, Texas, USA",
+   "country": "United States"
+  },
+  {
+   "location": "US - MEMPHIS HUB (TNMEM)",
+   "country": "United States"
+  },
+  {
+   "location": "Office - Australia - Melbourne",
+   "country": "Australia"
+  },
+  {
+   "location": "AutoNation Ford Katy",
+   "country": "United States"
+  },
+  {
+   "location": "Perth, Exchange Tower",
+   "country": "Australia"
+  },
+  {
+   "location": "Burlington, North Carolina, United States of America",
+   "country": "United States"
+  },
+  {
+   "location": "Palm Beach Gardens, FL",
+   "country": "United States"
+  },
+  {
+   "location": "SG-SINGAPORE-273 JALAN AHMAD IBRAHIM",
+   "country": "Singapore"
+  },
+  {
+   "location": "Guangzhou, cn",
+   "country": "China"
+  },
+  {
+   "location": "Hamilton, Ohio, USA",
+   "country": "United States"
+  },
+  {
+   "location": "LAKEWOOD RANCH MEDICAL CENTER",
+   "country": "United States"
+  },
+  {
+   "location": "US-CA-Woodland Hills, California (Oxnard St)",
+   "country": "United States"
+  },
+  {
+   "location": "Remote - Central US",
+   "country": "United States"
+  },
+  {
+   "location": "Salinas, California, USA",
+   "country": "United States"
+  },
+  {
+   "location": "Rio de Janeiro, Rio de Janeiro, Brazil; São Paulo, São Paulo, Brazil",
+   "country": "Brazil"
+  },
+  {
+   "location": "San Francisco - Onsite",
+   "country": "United States"
+  },
+  {
+   "location": "Luxembourg,Luxembourg,Luxembourg",
+   "country": "Luxembourg"
+  },
+  {
+   "location": "Istanbul, TUR",
+   "country": "Turkey"
+  },
+  {
+   "location": "Ashville, Ohio, United States; Costa Mesa, California, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Concord, California, United States",
+   "country": "United States"
+  },
+  {
+   "location": "MYS Kuala Lumpur Nu Tower 2",
+   "country": "Malaysia"
+  },
+  {
+   "location": "France; Germany - Remote; Italy - Remote; United Kingdom",
+   "country": "Other / unspecified"
+  },
+  {
+   "location": "New York, NY; San Francisco, CA; Seattle, WA; Los Angeles, CA; Washington D.C.; Tempe, AZ; Mountain View, CA",
+   "country": "United States"
+  },
+  {
+   "location": "Groningen, Groningen, Netherlands",
+   "country": "Netherlands"
+  },
+  {
+   "location": "Bessemer, AL",
+   "country": "United States"
+  },
+  {
+   "location": "SG,Singapore",
+   "country": "Singapore"
+  },
+  {
+   "location": "USA-MN-Minneapolis",
+   "country": "United States"
+  },
+  {
+   "location": "Meßkirch, Baden-Wurttemberg, DEU",
+   "country": "Germany"
+  },
+  {
+   "location": "GUADALAJARA",
+   "country": "Mexico"
+  },
+  {
+   "location": "San Jose, CA, United States",
+   "country": "United States"
+  },
+  {
+   "location": "NZL - Auckland - Auckland",
+   "country": "New Zealand"
+  },
+  {
+   "location": "Charlotte",
+   "country": "United States"
+  },
+  {
+   "location": "Birmingham, West Midlands, United Kingdom",
+   "country": "United Kingdom"
+  },
+  {
+   "location": "Any City, United Kingdom",
+   "country": "United Kingdom"
+  },
+  {
+   "location": "Hattiesburg, MS, United States",
+   "country": "United States"
+  },
+  {
+   "location": "DNU-MX-DF-MEXICO CITY-AVENIDA ANTONIO DOVALI JAIME 70",
+   "country": "Mexico"
+  },
+  {
+   "location": "GA-Atlanta",
+   "country": "United States"
+  },
+  {
+   "location": "Cividate al Piano, Lombardy, ITA",
+   "country": "Italy"
+  },
+  {
+   "location": "CHN - Shanghai - Shanghai (Tower A)",
+   "country": "China"
+  },
+  {
+   "location": "New York - Park Avenue",
+   "country": "United States"
+  },
+  {
+   "location": "Los Angeles",
+   "country": "United States"
+  },
+  {
+   "location": "Windsor, Connecticut, USA",
+   "country": "United States"
+  },
+  {
+   "location": "09621 - Calvine HT At Home",
+   "country": "United States",
+   "sure": false,
+   "note": "Facility code; Calvine read as the Sacramento, CA area (dialysis home-training site); a Calvine also exists in Scotland",
+   "known_miss": "a small town or a site name with no state: the reader has no list of every US town"
+  },
+  {
+   "location": "Newquay, United Kingdom",
+   "country": "United Kingdom"
+  },
+  {
+   "location": "Office - India - Mumbai",
+   "country": "India"
+  },
+  {
+   "location": "Maple Grove, Minnesota, USA",
+   "country": "United States"
+  },
+  {
+   "location": "Prairie du Chien, WI, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Client Site - USA - GA - Atlanta - 250 Williams St.",
+   "country": "United States"
+  },
+  {
+   "location": "Distribution Center Saraland, AL",
+   "country": "United States"
+  },
+  {
+   "location": "Seadrift (TX, USA)",
+   "country": "United States"
+  },
+  {
+   "location": "Dallas-Fort Worth, Texas",
+   "country": "United States"
+  },
+  {
+   "location": "Beijing - China",
+   "country": "China"
+  },
+  {
+   "location": "Austin, MN, United States",
+   "country": "United States"
+  },
+  {
+   "location": "United States-Maryland-Linthicum; United States-Virginia-Falls Church; United States-Virginia-McLean",
+   "country": "United States"
+  },
+  {
+   "location": "NOIDA, UTTAR PRADESH, India",
+   "country": "India"
+  },
+  {
+   "location": "Mercor HQ, 181 Fremont Street",
+   "country": "United States"
+  },
+  {
+   "location": "VA0883-Leesburg",
+   "country": "United States"
+  },
+  {
+   "location": "NV - Las Vegas - Centennial",
+   "country": "United States"
+  },
+  {
+   "location": "Dubai",
+   "country": "United Arab Emirates"
+  },
+  {
+   "location": "Park City, Kansas, USA",
+   "country": "United States"
+  },
+  {
+   "location": "Center Valley, PA, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Panipat, Haryana, India",
+   "country": "India"
+  },
+  {
+   "location": "US, Texas, Austin",
+   "country": "United States"
+  },
+  {
+   "location": "New York, NY; Austin, TX; Chicago, IL; San Francisco, CA; Seattle, WA",
+   "country": "United States"
+  },
+  {
+   "location": "Amsterdam, Netherlands",
+   "country": "Netherlands"
+  },
+  {
+   "location": "United States, North Carolina, Charlotte",
+   "country": "United States"
+  },
+  {
+   "location": "Netherlands, Remote",
+   "country": "Netherlands"
+  },
+  {
+   "location": "Vienna, Virginia, us",
+   "country": "United States"
+  },
+  {
+   "location": "Navi Mumbai",
+   "country": "India"
+  },
+  {
+   "location": "Roswell, Georgia, United States",
+   "country": "United States"
+  },
+  {
+   "location": "USA - St Louis (Chapin) DC",
+   "country": "United States"
+  },
+  {
+   "location": "Springfield, MA",
+   "country": "United States"
+  },
+  {
+   "location": "Woonsocket, Rhode Island, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Chicago; New York; United States",
+   "country": "United States"
+  },
+  {
+   "location": "Northborough, Massachusetts, USA",
+   "country": "United States"
+  },
+  {
+   "location": "Lehi, UT, US",
+   "country": "United States"
+  },
+  {
+   "location": "Beachwood-3900 Park",
+   "country": "United States",
+   "sure": false,
+   "note": "Read as Beachwood, Ohio (Park East Drive office); no state or country given",
+   "known_miss": "a small town or a site name with no state: the reader has no list of every US town"
+  },
+  {
+   "location": "Middlefield, Ohio, United States of America",
+   "country": "United States"
+  },
+  {
+   "location": "El Paso, TX 79925",
+   "country": "United States"
+  },
+  {
+   "location": "Summerville, South Carolina, USA",
+   "country": "United States"
+  },
+  {
+   "location": "Mercedes-Benz of North Orlando",
+   "country": "United States"
+  },
+  {
+   "location": "CN-Shenzhen, China (2/F Hong Hua Rd)",
+   "country": "China"
+  },
+  {
+   "location": "Salt Lake City, UT, USA",
+   "country": "United States"
+  },
+  {
+   "location": "NY-Rochester-400-32015",
+   "country": "United States"
+  },
+  {
+   "location": "US - CO, Boulder",
+   "country": "United States"
+  },
+  {
+   "location": "CA Burbank Bldg. 700, Second Century, Tower 1",
+   "country": "United States"
+  },
+  {
+   "location": "FRA - IDF - PARIS LA DÉFENSE CEDEX",
+   "country": "France"
+  },
+  {
+   "location": "CT - Hartford",
+   "country": "United States"
+  },
+  {
+   "location": "Parsippany, New Jersey, United States of America",
+   "country": "United States"
+  },
+  {
+   "location": "Wisner, LA, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Spain - L'Hospitalet de Llobregat",
+   "country": "Spain"
+  },
+  {
+   "location": "SAO PAULO, , BRAZIL",
+   "country": "Brazil"
+  },
+  {
+   "location": "San Diego, California, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Chicago/Aon Center, Illinois, United States of America",
+   "country": "United States"
+  },
+  {
+   "location": "Bucharest - RO",
+   "country": "Romania"
+  },
+  {
+   "location": "MSB, Singapore",
+   "country": "Singapore"
+  },
+  {
+   "location": "Burlingame, CA - Hybrid; Denver, CO - Hybrid; New York, NY - Hybrid; San Francisco, CA - Hybrid; Scottsdale, AZ - Hybrid",
+   "country": "United States"
+  },
+  {
+   "location": "Providence, Rhode Island, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Okayama, JPN",
+   "country": "Japan"
+  },
+  {
+   "location": "California - Remote",
+   "country": "United States"
+  },
+  {
+   "location": "Waco, TX, US",
+   "country": "United States"
+  },
+  {
+   "location": "JOHANNESBURG, SOUTH AFRICA",
+   "country": "South Africa"
+  },
+  {
+   "location": "Athens, Attica, Greece",
+   "country": "Greece"
+  },
+  {
+   "location": "Akron, OH",
+   "country": "United States"
+  },
+  {
+   "location": "Melbourne, FL, US",
+   "country": "United States"
+  },
+  {
+   "location": "Edmonton, Alberta",
+   "country": "Canada"
+  },
+  {
+   "location": "Santo Domingo, Dominican Republic",
+   "country": "Dominican Republic"
+  },
+  {
+   "location": "Eagle Farm, QL, au",
+   "country": "Australia"
+  },
+  {
+   "location": "Denver, CO; Reston, VA; Menlo Park, CA",
+   "country": "United States"
+  },
+  {
+   "location": "Schaumburg - Martingale",
+   "country": "United States"
+  },
+  {
+   "location": "Guatemala, Guatemala",
+   "country": "Guatemala"
+  },
+  {
+   "location": "Legacy Village",
+   "country": "Other / unspecified",
+   "sure": false,
+   "note": "Named centre with no place; a Legacy Village exists in Ohio but the name is generic"
+  },
+  {
+   "location": "Thane, India",
+   "country": "India"
+  },
+  {
+   "location": "US - AL, Huntsville",
+   "country": "United States"
+  },
+  {
+   "location": "Cobblestone Creek Retail Center",
+   "country": "Other / unspecified"
+  },
+  {
+   "location": "FL0373-Coral Gables",
+   "country": "United States"
+  },
+  {
+   "location": "CHN-Guangdong-Guangzhou",
+   "country": "China"
+  },
+  {
+   "location": "ID, Dki Jakarta Selatan",
+   "country": "Indonesia"
+  },
+  {
+   "location": "Stamford, CT, US",
+   "country": "United States"
+  },
+  {
+   "location": "AUS - VIC - MELBOURNE",
+   "country": "Australia"
+  },
+  {
+   "location": "Austin, TX; Toronto, Canada",
+   "country": "United States",
+   "note": "relabelled: a list with a US site is a US posting (first label: Other / unspecified)"
+  },
+  {
+   "location": "Lakewood, CO, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Maryland/DC area",
+   "country": "United States"
+  },
+  {
+   "location": "Remote - Saudi Arabia",
+   "country": "Saudi Arabia"
+  },
+  {
+   "location": "The Woodlands, TX",
+   "country": "United States"
+  },
+  {
+   "location": "Chennai, Tamil Naidu, in",
+   "country": "India"
+  },
+  {
+   "location": "RO - Bucharest, Romania",
+   "country": "Romania"
+  },
+  {
+   "location": "Boston, Massachusetts, United States (On-Site)",
+   "country": "United States"
+  },
+  {
+   "location": "US-CA-Livermore (1028)",
+   "country": "United States"
+  },
+  {
+   "location": "Hsinchu, Hsinchu City, Taiwan Region; Austin, Texas, United States of America",
+   "country": "United States",
+   "note": "relabelled: a list with a US site is a US posting (first label: Other / unspecified)"
+  },
+  {
+   "location": "Pewaukee",
+   "country": "United States",
+   "known_miss": "a small town or a site name with no state: the reader has no list of every US town"
+  },
+  {
+   "location": "Brussels, Belgium; Luxembourg, Luxembourg",
+   "country": "Other / unspecified"
+  },
+  {
+   "location": "OTTAWA, Ontario, Canada",
+   "country": "Canada"
+  },
+  {
+   "location": "Atlanta, Boston, Chicago, Dallas, Seattle",
+   "country": "United States"
+  },
+  {
+   "location": "Hyattsville, MD, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Kent, WA",
+   "country": "United States"
+  },
+  {
+   "location": "DE - Munich, Germany",
+   "country": "Germany"
+  },
+  {
+   "location": "CHN-Beijing-Beijing-Dongcheng",
+   "country": "China"
+  },
+  {
+   "location": "Morocco-Casablanca-Le Siege",
+   "country": "Morocco"
+  },
+  {
+   "location": "Brea, California, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Aurora, CO, US",
+   "country": "United States"
+  },
+  {
+   "location": "Skarbimierz, Poland",
+   "country": "Poland"
+  },
+  {
+   "location": "Atlanta, 75 Fifth, Corp",
+   "country": "United States"
+  },
+  {
+   "location": "Sunnyvale, California, USA",
+   "country": "United States"
+  },
+  {
+   "location": "QUEZON CITY, , PHILIPPINES",
+   "country": "Philippines"
+  },
+  {
+   "location": "Fort Worth, Texas, USA",
+   "country": "United States"
+  },
+  {
+   "location": "Baltimore, MD, US",
+   "country": "United States"
+  },
+  {
+   "location": "Ludington, MI, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Charlotte NC",
+   "country": "United States"
+  },
+  {
+   "location": "Leipzig, Germany",
+   "country": "Germany"
+  },
+  {
+   "location": "CHN SHAN 512 FL17 STE04",
+   "country": "China"
+  },
+  {
+   "location": "Hybrid - Washington DC",
+   "country": "United States"
+  },
+  {
+   "location": "Glen Allen, Virginia, USA",
+   "country": "United States"
+  },
+  {
+   "location": "USA - Arizona - Chandler",
+   "country": "United States"
+  },
+  {
+   "location": "Irving, Texas, USA",
+   "country": "United States"
+  },
+  {
+   "location": "Ireland, Dublin, Dublin; Germany, North Rhine-Westphalia, Cologne; Spain, Madrid, Madrid",
+   "country": "Other / unspecified"
+  },
+  {
+   "location": "QUEBEC, Canada",
+   "country": "Canada"
+  },
+  {
+   "location": "Newton Office ",
+   "country": "Other / unspecified",
+   "sure": false,
+   "note": "Newton exists in several countries (MA most likely); no state or country given"
+  },
+  {
+   "location": "Atlanta",
+   "country": "United States"
+  },
+  {
+   "location": "COL Bogota - Cra. 15 #77-50",
+   "country": "Colombia"
+  },
+  {
+   "location": "Bristol, gb",
+   "country": "United Kingdom"
+  },
+  {
+   "location": "San Francisco, CA / Chicago, IL / Seattle, WA / NYC / Remote",
+   "country": "United States",
+   "sure": false,
+   "note": "All named places are US cities; trailing 'Remote' has no country"
+  },
+  {
+   "location": "Chicago, IL; Atlanta, GA; San Francisco, CA; Seattle, WA; New York, NY ",
+   "country": "United States"
+  },
+  {
+   "location": "Kigali, Rwanda",
+   "country": "Rwanda"
+  },
+  {
+   "location": "TW-Taichung-01 (3105)",
+   "country": "Taiwan"
+  },
+  {
+   "location": "Hub - New York",
+   "country": "United States"
+  },
+  {
+   "location": "VA - Tysons Corner",
+   "country": "United States"
+  },
+  {
+   "location": "Ingalls, IN, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Gurugram",
+   "country": "India"
+  },
+  {
+   "location": "DETROIT, MI, US",
+   "country": "United States"
+  },
+  {
+   "location": "Mountain View, US",
+   "country": "United States"
+  },
+  {
+   "location": "Remote: United States",
+   "country": "United States"
+  },
+  {
+   "location": "Whitehall, New York, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Seoul,Korea, Republic of",
+   "country": "South Korea"
+  },
+  {
+   "location": "Mumbai",
+   "country": "India"
+  },
+  {
+   "location": "Tempe, Arizona, United States Of America",
+   "country": "United States"
+  },
+  {
+   "location": "06808 - Prescott Dialysis",
+   "country": "United States",
+   "sure": false,
+   "note": "Facility code; Prescott read as Prescott, AZ; no state or country given",
+   "known_miss": "a small town or a site name with no state: the reader has no list of every US town"
+  },
+  {
+   "location": "Oak Hill, East Durham, New York, United States of America",
+   "country": "United States"
+  },
+  {
+   "location": "New York, New York; Phoenix, Arizona",
+   "country": "United States"
+  },
+  {
+   "location": "Dublin, Dublin, Ireland, EMEA",
+   "country": "Ireland"
+  },
+  {
+   "location": "Ho Chi Minh-HQ-VNM",
+   "country": "Vietnam"
+  },
+  {
+   "location": "US - ROCKFORD (ILRKO)",
+   "country": "United States"
+  },
+  {
+   "location": "Irvine, California, United States; Washington, District of Columbia, United States",
+   "country": "United States"
+  },
+  {
+   "location": "Oakdale, California",
+   "country": "United States"
+  },
+  {
+   "location": "West Village Center",
+   "country": "Other / unspecified"
+  }
+ ]
+}

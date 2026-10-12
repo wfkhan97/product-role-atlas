@@ -87,7 +87,7 @@ Checks: 295 pass, 0 fail.
   monotonic    : PASS
   evidenced but not covered by expectations (review these): market_research, technical_fluency, big_tech_experience, pnl, ai_ml, product_strategy, process_improvement, customer_success, growth_loops, cs_engineering_degree
   transferable: none
-  unmapped bullets: 1
+  unmapped bullets: 0
 === staff_pm_terse  (experienced_in_role) → read as experienced_in_role, lead; 14.8 yrs total, 11.8 in product; backgrounds: engineering; 11 skills evidenced
   pm:associate   n=162   core 41% (2)  common 73% (22)  depth 17%  breadth 8%  overall 66%  band 60%–100% PASS  what-if 76%
       role held (lead, 11.8 yrs, above this level): 18 presumed, floor 60% PASS
