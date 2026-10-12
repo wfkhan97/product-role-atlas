@@ -635,7 +635,9 @@
         matchText = t.join("\n");
       } else if (/\.docx$/i.test(file.name)) matchText = (await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() })).value;
       else matchText = await file.text();
-      $("#file-status").textContent = `${file.name} — ${matchText.split(/\s+/).length.toLocaleString()} words read.`;
+      const words = matchText.trim() ? matchText.trim().split(/\s+/).length : 0;
+      // a scanned PDF has pictures of text and nothing to read
+      $("#file-status").textContent = words < 40 ? `${file.name} — only ${words} words could be read. If this is a scan, paste the text of your resume in the box.` : `${file.name} — ${words.toLocaleString()} words read.`;
     } catch (e) { $("#file-status").textContent = "Could not read that file: " + e.message; matchText = ""; }
   }
   const drop = $("#drop");
@@ -676,14 +678,17 @@
     new_to_role: p => `Reads as <b>early-career, new to product</b>${p.pmIntern ? " with a product internship" : ""}${p.years >= 1 ? `, ${fmtYears(p.years)} of other work` : ""}.`,
   };
   const fmtYears = y => y < 1 ? "under a year" : `${Math.round(y * 2) / 2} yrs`;
-  const STATUS_CLS = { evidenced: "good", transferable: "amber", thin: "thin", gap: "bad" };
+  const STATUS_CLS = { evidenced: "good", transferable: "amber", presumed: "thin", thin: "thin", gap: "bad" };
   function rowTag(row, cls) { return skillById[row.id] ? tag(row.id, cls) : `<span class="tag ${cls}">${esc(row.slotName)}</span>`; }
   function meter(label, v, sub) { return `<div class="meter"><div class="lbl">${label}</div><div class="val">${v == null ? "–" : fmtPct(v)}</div><div class="bar"><i style="width:${Math.round((v || 0) * 100)}%"></i></div><div class="sub">${sub}</div></div>`; }
 
   function renderMatch(r, label, isJob) {
     const p = r.profile; const rows = r.rows;
     const by = st => rows.filter(x => x.status === st).sort((a, b) => (a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : b.tier === "core" ? 1 : a.tier === "common" ? -1 : 1));
-    const evid = by("evidenced"), trans = by("transferable"), thin = by("thin"), gaps = by("gap");
+    const evid = by("evidenced"), trans = by("transferable"), thin = by("thin"), gaps = by("gap"), presumed = by("presumed");
+    const st = r.standing;
+    // a person who held this role at or above the target level: say so before the number
+    const standingNote = st ? ` You held this role${st.above ? ` above this level (${esc(Matcher.LADDER_LABEL[st.level])}, ${fmtYears(st.years)})` : ` at this level for ${fmtYears(st.years)}`}${st.employers.length ? `, and we hold ${esc(st.employers[0])}'s own postings` : ""}. ${st.presumed ? `<b>${st.presumed}</b> ${st.presumed === 1 ? "requirement is" : "requirements are"} presumed from that; your resume does not show ${st.presumed === 1 ? "it" : "them"}.` : ""}` : "";
     const coreRows = rows.filter(x => x.tier === "core"); const coreHave = coreRows.filter(x => x.status === "evidenced" || x.status === "transferable").length;
     const col = r.overall >= 0.7 ? "var(--primary)" : "var(--warning)";
     const shareOf = w => fmtPct(w);
@@ -696,10 +701,12 @@
     if (yoeAsk) creds.unshift({ id: "yoe", name: `${yoeAsk.name.replace(" experience", "")} experience asked (you: ${fmtYears(p.years)})`, w: yoeAsk.w, have: yoeAsk.have, detail: null });
     const missSubs = id => (SUBS[id] || []).filter(s => !r.subs.has(s.id)).map(s => s.name);
     const evItem = x => `<li>${rowTag(x, STATUS_CLS[x.status])}${x.tier === "core" ? ` <span class="muted small">core · asked in ${shareOf(x.w)}</span>` : ` <span class="muted small">asked in ${shareOf(x.w)}</span>`}${x.lines[0] ? `<span class="q">${esc(x.lines[0].text.slice(0, 160))}</span>` : ""}${x.status === "transferable" && x.signals[0] ? `<span class="say">Postings say it like: <b>${esc(x.signals[0])}</b> <span class="muted">(via ${esc(x.via.map(v => Matcher.VIA_LABEL[v] || v).join(", "))})</span></span>` : ""}${x.ladder ? `<span class="ladder small"><span class="muted">At ${esc(Matcher.LADDER_LABEL[r.targetLevel])}:</span> ${esc(x.ladder)}</span>` : ""}</li>`;
+    // Say so when the job history could not be read: the score then counts no roles and no years.
+    const unread = r.parsed.roles.length === 0 && r.parsed.lines >= 15 ? `<p class="small" style="margin:0 0 10px;padding:8px 10px;border:1px solid var(--warning);border-radius:8px"><b>We did not find any jobs with dates in this text.</b> Roles and years are not counted in this result. Put each job title and its dates on one line (for example "Product Manager, Acme, 2021 – 2024"), or paste the text of your resume.</p>` : "";
     const res = $("#match-results"); res.hidden = false;
-    res.innerHTML = `
+    res.innerHTML = unread + `
       <div class="score-row"><div class="ring" style="background:conic-gradient(${col} ${r.overall * 360}deg, var(--muted) 0)"><span>${fmtPct(r.overall)}</span></div>
-        <div><p class="headline">${PERSONA_TEXT[p.persona](p)}${levelNote}</p>
+        <div><p class="headline">${PERSONA_TEXT[p.persona](p)}${levelNote}${standingNote}</p>
         <p class="muted small" style="margin:0">Against <b>${esc(label)}</b>${isJob ? "" : ` (${r.req.n.toLocaleString()} postings)`}: <b>${coreHave} of ${coreRows.length}</b> must-haves evidenced${coreRows.some(x => x.status === "thin") ? ` (${coreRows.filter(x => x.status === "thin").length} only named)` : ""}${thin.length ? `; ${thin.length} ${thin.length === 1 ? "skill" : "skills"} named but not shown` : ""}${mainGaps.length ? `; missing ${list(mainGaps, 3)}` : "; nothing important missing"}.
         ${r.whatIfSkills.length ? `Evidence ${r.whatIfSkills.length === 1 ? "that one" : `those ${r.whatIfSkills.length === 3 ? "three" : "two"}`} alone and this reads <b>${fmtPct(r.whatIf)}</b>.` : ""}</p></div></div>
       <div class="meters">
@@ -712,12 +719,14 @@
       <div class="cols" style="margin-top:14px">
         <div><h4>Evidenced <span class="muted small">(${evid.length})</span></h4><div class="taglist">${evid.map(x => rowTag(x, "good")).join("") || "<span class='muted small'>Nothing yet.</span>"}</div>
           ${trans.length ? `<h4 style="margin-top:12px">Transferable <span class="muted small">(${trans.length}) — real, but said in another field's words</span></h4><div class="taglist">${trans.map(x => rowTag(x, "amber")).join("")}</div>` : ""}
+          ${presumed.length ? `<h4 style="margin-top:12px">Presumed from roles you held <span class="muted small">(${presumed.length})</span></h4><div class="taglist">${presumed.map(x => rowTag(x, "thin")).join("")}</div><p class="muted small" style="margin:4px 0 0">People who hold this role do these. Your resume does not show them, so they earn part credit. A line of evidence earns full credit.</p>` : ""}
           ${thin.length ? `<h4 style="margin-top:12px">Named, not shown <span class="muted small">(${thin.length})</span></h4><div class="taglist">${thin.map(x => rowTag(x, "thin")).join("")}</div><p class="muted small" style="margin:4px 0 0">Listed as a word, or hinted at, but no work or project line shows it.</p>` : ""}</div>
         <div><h4>Gaps <span class="muted small">(most important first)</span></h4><div class="taglist">${gaps.filter(g => g.tier !== "diff").map(x => rowTag(x, "bad")).join("") || "<span class='muted small'>No gaps among the core and common asks.</span>"}</div>
           ${gaps.some(g => g.tier === "diff") ? `<p class="muted small" style="margin:8px 0 0">Differentiators you don't show (asked in 10–25%): ${gaps.filter(g => g.tier === "diff").map(x => esc(x.slotName)).join(", ")}.</p>` : ""}
           ${r.extras.length ? `<p class="muted small" style="margin:8px 0 0">You also show ${r.extras.length} skills this target rarely asks for: ${r.extras.slice(0, 8).map(e => esc(e.name)).join(", ")}.</p>` : ""}</div>
       </div>
       ${trans.length ? `<div class="learn"><strong>Say it in product words</strong><p class="muted small" style="margin:4px 0 0">These lines already show the skill. Rewrite them the way postings phrase it so a screener sees it too.</p><ul class="evlist">${trans.slice(0, 5).map(evItem).join("")}</ul></div>` : ""}
+      ${presumed.length ? `<div class="learn"><strong>Show what you already do</strong><p class="muted small" style="margin:4px 0 0">Add one line for each of these. Start with the ones asked for most.</p><ol>${presumed.slice(0, 6).map(x => `<li>${esc(x.slotName)} <span class="muted small">— asked in ${shareOf(x.w)} of postings${x.tier === "core" ? ", core" : ""}${x.signals && x.signals[0] ? `. Postings say it like: <b>${esc(x.signals[0])}</b>` : ""}</span></li>`).join("")}</ol></div>` : ""}
       ${gaps.filter(g => g.tier !== "diff").length ? `<div class="learn"><strong>${p.persona === "new_to_role" ? "Build next" : "Learn or evidence next"}</strong><ol>${gaps.filter(g => g.tier !== "diff").slice(0, 5).map(x => `<li>${rowTag(x, "bad").replace('class="tag bad"', 'class="tag bad" style="border:0;padding:0"')} <span class="muted small">— asked in ${shareOf(x.w)} of postings${x.tier === "core" ? ", core" : ""}</span>${x.build[0] ? `<div class="small">${esc(x.build[0])}</div>` : ""}${x.signals[0] ? `<div class="muted small">A line that would show it: “${esc(x.signals[0])}”</div>` : ""}</li>`).join("")}</ol></div>` : ""}
       ${thinNamed.length ? `<div class="learn"><strong>Evidenced, but thin</strong><p class="muted small" style="margin:4px 0 6px">You show these, but without the specifics or outcomes postings ask about.</p><ol>${thinNamed.slice(0, 5).map(x => `<li>${esc(x.name)}${missSubs(x.id).length ? ` <span class="muted small">— add: ${missSubs(x.id).slice(0, 3).map(esc).join(" · ")}</span>` : ""}${x.ladder ? `<div class="muted small">At ${esc(Matcher.LADDER_LABEL[r.targetLevel])}: ${esc(x.ladder)}</div>` : ""}</li>`).join("")}</ol></div>` : ""}
       ${evid.some(x => x.ladder) ? `<details class="more"><summary>What each evidenced skill looks like at the ${esc(Matcher.LADDER_LABEL[r.targetLevel])} bar</summary><ul class="evlist">${evid.filter(x => x.ladder).slice(0, 12).map(evItem).join("")}</ul></details>` : ""}

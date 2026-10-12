@@ -1,0 +1,1315 @@
+{
+ "_about": "What the parser must read from each fetched sample resume (evals/resumes/external/<id>.*, listed in external_sources.json). Written by reading each file's dated lines. 'Present' in an old sample runs to today, so years have a floor, not an exact value. kind: single (one resume), packet (several resumes in one file; not checked until it is split), template (placeholder text, no real dates).",
+ "hr_manager_shrm_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 6,
+   "min_years": 21,
+   "max_years": 25,
+   "titles": [
+    "Senior Manager",
+    "Organizational Development Specialist",
+    "Learning & Development Specialist"
+   ],
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Every word gap is three spaces. The second employer line carries the dates of the whole stay (1999 - 2020) with five dated roles beneath it."
+ },
+ "hr_manager_ucberkeleypeop_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "min_years": 21,
+   "max_years": 25,
+   "titles": [
+    "Director",
+    "Manager",
+    "Staff Supervisor"
+   ],
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Employer line with the dates of the stay, three dated roles beneath it, then a second employer with its role title on the next line."
+ },
+ "ldp_rutgersunivers_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "min_years": 14,
+   "titles": [
+    "Associate Product Manager",
+    "Project Engineer",
+    "Design Engineer"
+   ],
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Title and dates on one line with no separator. 'Project Engineer 2004-2007' must not read as the Projects heading."
+ },
+ "marketing_manager_rutgersunivers_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "min_years": 16,
+   "titles": [
+    "Director of Marketing",
+    "Brand Manager",
+    "Product Manager"
+   ],
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Sub-bullets marked with the letter o."
+ },
+ "marketing_manager_hofstraunivers_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "max_years": 1,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Four internships: they are roles, but they add no years of work. Month and year split by wide gaps (Jun   2015-Present)."
+ },
+ "business_analytics_northeastwisco_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "min_years": 9,
+   "titles": [
+    "Business Analyst",
+    "Sales Associate"
+   ]
+  },
+  "note": "Headings 'RELTATED EXPERIENCE' (misspelt in the source) and 'WORK   EXPERIENCE'. Full month names."
+ },
+ "supply_chain_northeastwisco_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 1,
+   "min_years": 7,
+   "titles": [
+    "Driver Support Representative"
+   ]
+  }
+ },
+ "supply_chain_universityofrh_1": {
+  "kind": "single",
+  "parse": {
+   "min_roles": 1,
+   "max_years": 1,
+   "titles": [
+    "Warehouse Intern"
+   ]
+  },
+  "note": "Known miss: the PDF breaks a year in two ('Waiter 20 21 - present'), so that job is not read."
+ },
+ "supply_chain_utdallasnaveen_1": {
+  "kind": "single",
+  "parse": {
+   "min_roles": 3,
+   "max_years": 2,
+   "titles": [
+    "Supply Chain Intern",
+    "Lead Consultant",
+    "Summer Analyst"
+   ],
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "A bullet says 'sales from 2004-present': not a job. Clubs under ORGANIZATIONS are dated but add no years of work."
+ },
+ "operations_manager_regentuniversi_1": {
+  "kind": "single",
+  "parse": {
+   "min_roles": 2,
+   "max_years": 3,
+   "titles": [
+    "Supply Chain Supervisor Trainee"
+   ],
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  }
+ },
+ "management_consultant_universityofpe_1": {
+  "kind": "template",
+  "note": "Dates are written 'October 20 xx': no year to read."
+ },
+ "brand_manager_vanderbiltuniv_1": {
+  "kind": "template",
+  "note": "Word template with no years in it."
+ },
+ "ldp_universityofio_1": {
+  "kind": "template",
+  "note": "Word template with no years in it."
+ },
+ "ldp_universityofma_1": {
+  "kind": "packet",
+  "note": "Guidelines plus several sample resumes in one Word file."
+ },
+ "bizdev_harvardextensi_1": {
+  "kind": "packet"
+ },
+ "customer_success_universityofge_1": {
+  "kind": "packet"
+ },
+ "marketing_manager_unckenanflagle_1": {
+  "kind": "packet"
+ },
+ "compliance_universityofwa_1": {
+  "kind": "single",
+  "parse": {
+   "min_roles": 1,
+   "min_years": 0,
+   "titles": [
+    "Compliance Intern"
+   ]
+  },
+  "note": "Date written '9/ 17 to present': month and a two-digit year."
+ },
+ "compliance_universityofwi_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "min_years": 2,
+   "max_years": 6,
+   "titles": [
+    "Compliance Officer",
+    "Summer Associate"
+   ]
+  },
+  "note": "Month and year split by wide gaps."
+ },
+ "re_development_coloradostateu_1": {
+  "kind": "template",
+  "note": "Dates are written 'August 20XX': no year to read."
+ },
+ "compliance_nalp_1": {
+  "kind": "packet"
+ },
+ "pm_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Senior Product Manager",
+    "Product Manager",
+    "Associate Product Manager"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, employer, dates, location. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "pm_indeedcareergu_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Product Manager",
+    "Assistant Product Manager"
+   ],
+   "min_years": 10,
+   "degrees": []
+  },
+  "note": "Indeed sample: \"Employer, Title\" on one line, dates on the next as \"Jul '19 - Current\" (abbreviated month, apostrophe two-digit year, \"Current\"); duty lines have no bullet marks; Education sits before Experience and gives school and major only (no degree word, no dates)."
+ },
+ "product_owner_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Senior Product Owner",
+    "Product Manager",
+    "Project Lead"
+   ],
+   "min_years": 12,
+   "max_years": 14,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, employer, dates, location, then a one-sentence role description before the bullets. Year-only ranges \"2016 - 2022\"; education carries a single year; name line has a credential suffix (\"George Smith, A-CSPO\"); certifications dated \"Scrum Alliance, 2023\"."
+ },
+ "tpm_resumeworded_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Technical Program Manager",
+    "Program Manager",
+    "Software Engineer"
+   ],
+   "min_years": 16,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Placeholder name \"Your Name\"; \"Employer Month YYYY - Present\" on one line (employer left, date right, no separator), title on the next line, then achievement lines with NO bullet marks; education \"School Month YYYY\" then degree line; sections EXPERIENCE, EDUCATION, SKILLS, OTHER in caps; no summary; third text sample on the page."
+ },
+ "pmm_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Product Marketing Manager",
+    "Senior Marketing Specialist",
+    "Marketing Coordinator"
+   ],
+   "min_years": 5,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order employer, location, title, dates; skills list sits above Experience. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "product_analyst_cvcompiler_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Product Analyst",
+    "Associate Product Analyst",
+    "Junior Product Analyst"
+   ],
+   "min_years": 7,
+   "degrees": [
+    "masters_mba"
+   ]
+  },
+  "note": "Placeholder name \"Your Name\"; \"Employer Month YYYY - Present\" on one line (employer left, date right, no separator), title on the next line, then achievement lines with NO bullet marks; education \"School Month YYYY\" then degree line; sections EXPERIENCE, EDUCATION, SKILLS, OTHER in caps; no summary; fourth role is a dated \"Data Analyst Intern\" (not counted in years); education holds an MS and a part-time professional certificate dated after it; years in the OTHER section (\"(2022)\", \"Conference 2021\")."
+ },
+ "product_analyst_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Senior Product Analyst",
+    "Product Analyst",
+    "Junior Product Analyst"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order employer, location, title, dates; skills list above Experience. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "product_ops_resumementor_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Product Operations Manager",
+    "Product Manager",
+    "Strategy and Operations Manager"
+   ],
+   "min_years": 13,
+   "max_years": 14,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Resume Mentor builder sample, every field on its own line; lead sample: order title, employer, dates, location under heading \"Employment History\"; skills as one comma line above it; no current role (ends 09/2023); MM/YYYY dates; second page holds achievements, interests, languages, courses."
+ },
+ "product_strategy_resumementor_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Senior Product Manager",
+    "Product Strategy Manager",
+    "Product Development Specialist"
+   ],
+   "min_years": 13,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Resume Mentor builder sample, every field on its own line; order title, location, employer, dates under \"Employment History\"; MM/YYYY dates; Languages and Key Achievements sit between the last job and Education; languages as \"English (Native)\"."
+ },
+ "product_strategy_resumementor_2": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Product Operations Director",
+    "Product Strategy Manager",
+    "Senior Product Analyst"
+   ],
+   "min_years": 11,
+   "max_years": 12,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Resume Mentor builder sample, every field on its own line; order title, location, employer, dates; MM/YYYY dates, no current role; Languages, Key Achievements and a one-line comma Skills list sit between the last job and Education."
+ },
+ "bizops_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Operations Manager",
+    "Operations Coordinator",
+    "Operational Analyst"
+   ],
+   "min_years": 7,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order employer, location, title, dates; skills list above Experience. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "bizops_resumeworded_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Senior Business Operations Manager",
+    "Operations Manager",
+    "Business Analyst"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Placeholder name \"Your Name\"; \"Employer Month YYYY - Present\" on one line (employer left, date right, no separator), title on the next line, then achievement lines with NO bullet marks; education \"School Month YYYY\" then degree line; sections EXPERIENCE, EDUCATION, SKILLS, OTHER in caps; no summary; education dates use abbreviated months (\"Dec 2015\", \"Jun 2013\"); degree written \"MBA - Business Administration\"."
+ },
+ "brand_manager_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Brand Manager",
+    "Marketing Strategist",
+    "Assistant Brand Manager"
+   ],
+   "min_years": 8,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, employer, dates, location; Languages and Training / Courses (with years 2023, 2022) sit between the last job and Education. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "business_analytics_resumetemplate_4": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Senior Business Analyst",
+    "Business Analyst",
+    "Junior Business Analyst"
+   ],
+   "min_years": 8,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "One column; title on its own line, then \"Employer | City, ST | YYYY-Present\" (pipes, year-only ranges, hyphen without spaces); education is bullets \"Degree, School, YYYY\" followed by certification bullets with years; two consecutive roles share the title \"Business Analyst\" at different employers; degree abbreviated \"B.S.\"."
+ },
+ "business_intelligence_365datascience_1": {
+  "kind": "single",
+  "parse": {
+   "min_roles": 0,
+   "titles": []
+  },
+  "note": "no dates anywhere: placeholder name line \"Your Name and Contact Information\"; EMPLOYER then TITLE in all caps on separate lines, three bullets each; education is school then degree in caps (MSC, B.SC.) with no years; skills on one pipe-separated line."
+ },
+ "business_intelligence_kickresume_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Business Intelligence Analyst",
+    "Business and Data Analyst",
+    "Intership"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "masters_mba"
+   ]
+  },
+  "note": "Kickresume full-text version: each entry is one comma-joined line \"MM/YYYY - MM/YYYY, Title, Employer, City, Country\" with the date first; Education comes BEFORE Work Experience (a master's dated 09/2003 - 06/2010); lowercase \"present\"; third entry is a year-only internship \"2011 - 2012, Intership\" (misspelt, no bullets); certificates dated by year first; skill ratings as \"Azure - 100%\"."
+ },
+ "category_manager_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Category Manager",
+    "Category Analyst",
+    "Assistant Category Manager"
+   ],
+   "min_years": 6,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order DATES first, then location, title, employer (education entry likewise); skills list above Experience; \"Interests\" heading appears twice. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "chief_of_staff_careerflow_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Chief of Staff to the COO",
+    "Director of Business Operations",
+    "Management Consultant"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Careerflow text sample: education and skills come BEFORE experience; \"Title MM/YYYY – Present\" on one line (en dash, no separator between title and date), then \"Employer City, ST\" on the next; education lines end in a year range \"2015 – 2017\"; two-year gap (MBA 2015 – 2017) between the first and second job; degrees abbreviated \"M.B.A.\" and \"B.A.\"; Projects, Extra-Curricular Activities and Leadership sections after Experience."
+ },
+ "chief_of_staff_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Chief Strategy Officer",
+    "Director of Strategic Operations",
+    "Project Manager"
+   ],
+   "min_years": 12,
+   "degrees": [
+    "masters_mba"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order employer, location, title, dates; employer names carry commas and brackets (\"General Electric (GE Renewable Energy)\"); education is \"MBA\" alone on a line; a skills entry is literally \"Leadership\". Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "commercial_banking_rm_resumementor_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Senior Commercial Banking Relationship Manager",
+    "Commercial Banking Associate",
+    "Risk Management Analyst"
+   ],
+   "min_years": 13,
+   "max_years": 14,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Resume Mentor builder sample, every field on its own line; order title, location, employer, dates under \"Employment History\"; top sections headed \"Profile\" and \"Key Skills\"; \"Key Achievements\" heading appears twice after Education; MM/YYYY dates, no current role."
+ },
+ "commercial_banking_rm_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Senior Commercial Banking Officer",
+    "Commercial Banking Officer",
+    "Banking Associate"
+   ],
+   "min_years": 5,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, employer, dates, location; Languages and Training / Courses sit between the last job and Education. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "comp_benefits_huntr_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Senior Compensation Manager",
+    "Compensation and Benefits Manager",
+    "Senior Compensation Analyst"
+   ],
+   "min_years": 14,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Huntr text sample: title, employer, dates (MM/YYYY - MM/YYYY), location each on its own line; summary headed \"About\"; education dated MM/YYYY ranges; certifications with \"Issued: YYYY\"; skills on one line joined by bullet dots; the \"Senior Compensation Analyst\" example (Fatima Said) of 15 on the page."
+ },
+ "comp_benefits_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Compensation Analyst",
+    "HR Data Analyst",
+    "Compensation Specialist"
+   ],
+   "min_years": 5,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order employer, location, title, dates; skills list above Experience. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "compliance_kickresume_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 1,
+   "titles": [
+    "Compliance Officer"
+   ],
+   "min_years": 2,
+   "max_years": 4,
+   "degrees": []
+  },
+  "note": "Kickresume full-text version: each entry is one comma-joined line \"MM/YYYY - MM/YYYY, Title, Employer, City, Country\" with the date first; ONE job only; headings \"Profile\", \"Work experience\"; education lines name the field but no degree word; a dated Volunteering entry (09/2008 - 05/2012, Class Treasurer) and month-dated certificates (\"05/2016, ...\") must not count as jobs; skills in sub-groups."
+ },
+ "corp_dev_velvetjobs_1": {
+  "kind": "single",
+  "parse": {
+   "min_roles": 0,
+   "titles": []
+  },
+  "note": "no dates. VelvetJobs machine-generated sample: no dates at all (only the word \"present\" above the current role); each entry is city, title, employer on separate lines then long job-description bullets; education is degree then school with no year; page markup repeats each field, de-duplicated here."
+ },
+ "corp_strategy_analyst_cvcompiler_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Junior Strategy Analyst",
+    "Strategy Intern",
+    "Research Analyst"
+   ],
+   "min_years": 6,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Placeholder name \"Your Name\"; \"Employer Month YYYY - Present\" on one line (employer left, date right, no separator), title on the next line, then achievement lines with NO bullet marks; education \"School Month YYYY\" then degree line; sections EXPERIENCE, EDUCATION, SKILLS, OTHER in caps; no summary; the \"Junior Strategy Analyst\" sample: four dated entries of which two are internships (Strategy Intern 06/2020 - 08/2021, Business Development Intern 2018); MBA dated August 2021 after a bachelor's of May 2019."
+ },
+ "corp_strategy_analyst_kickresume_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 1,
+   "titles": [
+    "Strategy Analyst"
+   ],
+   "min_years": 1,
+   "max_years": 3,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Kickresume full-text version: each entry is one comma-joined line \"MM/YYYY - MM/YYYY, Title, Employer, City, Country\" with the date first; ONE job only; three education lines (field names, no degree words, one is a high school); dated Volunteering entry (President of a club) and certificates must not count as jobs."
+ },
+ "corporate_banking_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Corporate Banking Relationship Manager",
+    "Senior Financial Analyst",
+    "Corporate Banking Associate"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, employer, dates, location; NO summary at the top (Summary comes near the end); Skills list sits between the last job and Education. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "corporate_banking_resumementor_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Corporate Finance Lead Analyst",
+    "Senior Financial Analyst",
+    "Financial Analyst"
+   ],
+   "min_years": 18,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Resume Mentor builder sample, every field on its own line; lead sample over two pages: order title, dates, employer, location under \"Work Experience\"; Key Achievements and Skills interrupt before Education; then a SECOND \"Work Experience\" heading after Education and Certifications holds the oldest job (Junior Financial Analyst 01/2008 - 05/2010); education has no location line."
+ },
+ "digital_transformation_resumementor_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Digital Transformation Lead",
+    "IT Project Manager",
+    "Business Process Analyst"
+   ],
+   "min_years": 10,
+   "max_years": 11,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Resume Mentor builder sample, every field on its own line; order title, location, employer, dates under \"Work History\"; MM/YYYY dates, no current role; Languages, Key Achievements, Key Skills between the last job and Education; MBA dates (01/2018 - 01/2020) overlap work."
+ },
+ "enterprise_risk_careerflowai_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Enterprise Risk Manager",
+    "Operational Risk Manager",
+    "Internal Auditor, then Senior Auditor"
+   ],
+   "min_years": 11,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Careerflow text sample: education and skills come BEFORE experience; \"Title MM/YYYY – Present\" on one line (en dash, no separator between title and date), then \"Employer City, ST\" on the next; education lines end in a year range \"2015 – 2017\"; third title is \"Internal Auditor, then Senior Auditor\" (comma inside the title); the bachelor's appears only in a sentence (\"Holds a B.S. in Accounting from ... (2013)\"); certification line ends in a bare year."
+ },
+ "enterprise_risk_kickresume_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Risk Manager",
+    "Assistant Risk Manager"
+   ],
+   "min_years": 2,
+   "max_years": 3,
+   "degrees": []
+  },
+  "note": "Kickresume full-text version: each entry is one comma-joined line \"MM/YYYY - MM/YYYY, Title, Employer, City, Country\" with the date first; two jobs sharing the boundary month 10/2017; education lines give the field only (no degree word); dated Volunteering and certificate lines must not count as jobs."
+ },
+ "financial_manager_careerflowai_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Finance Manager",
+    "Senior Financial Analyst",
+    "Financial Analyst"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Careerflow text sample: education and skills come BEFORE experience; \"Title MM/YYYY – Present\" on one line (en dash, no separator between title and date), then \"Employer City, ST\" on the next; education lines end in a year range \"2015 – 2017\"; two consecutive roles at one employer; a certification line ending in a bare year (2020) sits in Education."
+ },
+ "financial_manager_kickresume_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Finance Manager",
+    "Finance Analyst"
+   ],
+   "min_years": 4,
+   "max_years": 5,
+   "degrees": [
+    "masters_mba"
+   ]
+  },
+  "note": "Kickresume full-text version: each entry is one comma-joined line \"MM/YYYY - MM/YYYY, Title, Employer, City, Country\" with the date first; degree written \"MSc Finance\" (the earlier degree has no degree word); dated Volunteering and certificate lines must not count as jobs."
+ },
+ "fpa_resumetemplate_5": {
+  "kind": "single",
+  "parse": {
+   "roles": 5,
+   "titles": [
+    "Senior FP&A Manager",
+    "FP&A Manager",
+    "Senior FP&A Analyst"
+   ],
+   "min_years": 11,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "One column; title on its own line, then \"Employer | City, ST | YYYY-Present\" (pipes, year-only ranges, hyphen without spaces); education is bullets \"Degree, School, YYYY\" followed by certification bullets with years; titles contain an ampersand (\"FP&A\"); degrees abbreviated \"MBA\" and \"BBA\"; five roles."
+ },
+ "governance_careerflowai_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Data Governance Manager",
+    "Clinical Data Architect",
+    "Clinical Data Analyst"
+   ],
+   "min_years": 12,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Careerflow text sample: education and skills come BEFORE experience; \"Title MM/YYYY – Present\" on one line (en dash, no separator between title and date), then \"Employer City, ST\" on the next; education lines end in a year range \"2015 – 2017\"; degrees \"M.S. in Health Informatics\" and, in a sentence, \"Holds a B.Pharm. from ... (2010)\"; two consecutive roles at one employer."
+ },
+ "growth_manager_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Growth Marketing Specialist",
+    "Digital Marketing Manager",
+    "Marketing Analyst"
+   ],
+   "min_years": 7,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order employer, location, title, dates; no contact lines under the headline; a Specialist role follows a Manager role; education order is school, degree, location, dates; Languages, Courses and Skills sit between the last job and Education; \"Interests\" heading twice. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "hr_manager_resumetemplate_3": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Human Resources Manager",
+    "HR Business Partner",
+    "HR Generalist"
+   ],
+   "min_years": 11,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "One column; title on its own line, then \"Employer | City, ST | YYYY-Present\" (pipes, year-only ranges, hyphen without spaces); education is bullets \"Degree, School, YYYY\" followed by certification bullets with years; two consecutive roles at one employer; one employer name contains a comma (\"Briarcliff State University, Office of Human Resources\"); certifications written \"certified 2022\"."
+ },
+ "ib_associate_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Investment Banking Associate",
+    "Senior Financial Analyst",
+    "Financial Analyst"
+   ],
+   "min_years": 8,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, employer, dates, location. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "investment_manager_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Investment Manager",
+    "Senior Portfolio Analyst",
+    "Investment Analyst"
+   ],
+   "min_years": 8,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order employer, location, title, dates; skills list above Experience. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "investment_manager_enhancv_2": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Portfolio Manager",
+    "Financial Analyst",
+    "Junior Portfolio Manager"
+   ],
+   "min_years": 5,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order DATES first, then location, title, employer (education likewise); skills list above Experience. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "ma_integration_velvetjobs_1": {
+  "kind": "single",
+  "parse": {
+   "min_roles": 0,
+   "titles": []
+  },
+  "note": "no dates. VelvetJobs machine-generated sample: no dates at all (only the word \"present\" above the current role); each entry is city, title, employer on separate lines then long job-description bullets; education is degree then school with no year; page markup repeats each field, de-duplicated here."
+ },
+ "management_consultant_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Management Consultant",
+    "Senior Business Analyst",
+    "Business Analyst"
+   ],
+   "min_years": 6,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, dates, employer, location (education likewise: degree, dates, school, location). Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "marketing_manager_resumetemplate_3": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Marketing Manager",
+    "Senior Marketing Specialist",
+    "Marketing Specialist"
+   ],
+   "min_years": 9,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "One column; title on its own line, then \"Employer | City, ST | YYYY-Present\" (pipes, year-only ranges, hyphen without spaces); education is bullets \"Degree, School, YYYY\" followed by certification bullets with years; employer names with \"&\" and \"Co.\"; degree \"B.A. Marketing\" with an en dash in the school name."
+ },
+ "operations_manager_resumetemplate_4": {
+  "kind": "single",
+  "parse": {
+   "roles": 5,
+   "titles": [
+    "Operations Manager",
+    "Operations Team Lead",
+    "Senior Operations Analyst"
+   ],
+   "min_years": 13,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "One column; title on its own line, then \"Employer | City, ST | YYYY-Present\" (pipes, year-only ranges, hyphen without spaces); education is bullets \"Degree, School, YYYY\" followed by certification bullets with years; five roles across three employers, the title \"Operations Manager\" held at two employers in a row; location given as city only on some lines."
+ },
+ "opex_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Continuous Improvement Manager",
+    "Process Improvement Lead",
+    "Operational Excellence Coordinator"
+   ],
+   "min_years": 7,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, employer, dates, location; Languages sits between the last job and Education. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "opex_kickresume_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Continuous Improvement Lead",
+    "Process Analyst",
+    "Operations Coordinator"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Kickresume full-text version: each entry is one comma-joined line \"MM/YYYY - MM/YYYY, Title, Employer, City, Country\" with the date first; Education BEFORE Work Experience; lowercase \"present\"; no summary; two consecutive roles at one employer; degree \"Bachelor in Business Administration\"."
+ },
+ "org_dev_resumetemplate_5": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Operational Systems Instructor",
+    "Training Coordinator",
+    "Training Assistant"
+   ],
+   "min_years": 5,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "One column; title on its own line, then \"Employer | City, ST | YYYY-Present\" (pipes, year-only ranges, hyphen without spaces); education is bullets \"Degree, School, YYYY\" followed by certification bullets with years; degree written \"BS in Business Administration\" with city and state before the year; only one education bullet."
+ },
+ "partnerships_resumementor_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Senior Strategic Partnership Manager",
+    "Business Development Manager",
+    "Partnership Development Lead"
+   ],
+   "min_years": 13,
+   "max_years": 14,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Resume Mentor builder sample, every field on its own line; order title, location, employer, dates; NO summary at the top: Skills (one comma line), Languages, Summary and Key Achievements all sit between the last job and Education; MBA dates (01/2011 - 01/2013) overlap work; no current role."
+ },
+ "partnerships_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Alliance Manager",
+    "Business Development Manager",
+    "Strategic Partnerships Specialist"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, employer, dates, location; Languages and Training / Courses sit between the last job and Education. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "pe_associate_huntr_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Senior Private Equity Associate",
+    "Private Equity Associate",
+    "Investment Banking Analyst"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Huntr text sample: title, employer, dates (MM/YYYY - MM/YYYY), location each on its own line; summary headed \"About\"; education dated MM/YYYY ranges; certifications with \"Issued: YYYY\"; skills on one line joined by bullet dots; MBA dates (09/2018 - 05/2020) overlap a job; degree lines use \" - \" before the major; one bullet under each degree."
+ },
+ "procurement_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Senior Procurement Manager",
+    "Procurement Specialist",
+    "Junior Buyer"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, dates, employer, location; \"Experience\" heading appears TWICE: Key Achievements interrupt after the second job and the third job follows under a repeated heading; phone on its own line and \"LinkedIn\" as a word. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "program_manager_resumetemplate_3": {
+  "kind": "single",
+  "parse": {
+   "roles": 5,
+   "titles": [
+    "Senior Program Manager",
+    "Program Manager",
+    "Project Manager"
+   ],
+   "min_years": 14,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "One column; title on its own line, then \"Employer | City, ST | YYYY-Present\" (pipes, year-only ranges, hyphen without spaces); education is bullets \"Degree, School, YYYY\" followed by certification bullets with years; five roles, \"Program Manager\" at two employers and two roles at one employer; degree \"B.A., Communication\"."
+ },
+ "re_acquisitions_kickresume_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 1,
+   "titles": [
+    "Real Estate Analyst"
+   ],
+   "min_years": 2,
+   "max_years": 4,
+   "degrees": []
+  },
+  "note": "Kickresume full-text version: each entry is one comma-joined line \"MM/YYYY - MM/YYYY, Title, Employer, City, Country\" with the date first; ONE job only; education gives the field only (\"Real Estate\") and a high school; two dated Volunteering entries and certificates must not count as jobs."
+ },
+ "re_asset_manager_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Senior Asset Manager",
+    "Asset Manager",
+    "Assistant Asset Manager"
+   ],
+   "min_years": 5,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, dates, employer, location; degree written \"Bachelor's degree in Finance\". Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "re_asset_manager_resumementor_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Senior Real Estate Asset Manager",
+    "Asset Manager",
+    "Property and Asset Analyst"
+   ],
+   "min_years": 15,
+   "max_years": 17,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Resume Mentor builder sample, every field on its own line; order title, location, employer, dates; employer names with commas and brackets (\"Jones Lang LaSalle Incorporated (JLL)\"); MBA dates (01/2009 - 01/2011) overlap work; no current role."
+ },
+ "re_development_resumementor_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Commercial Real Estate Development Manager",
+    "Real Estate Project Manager",
+    "Assistant Project Manager"
+   ],
+   "min_years": 12,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Resume Mentor builder sample, every field on its own line; order title, location, employer, dates under \"Employment History\"; degrees written with a curly apostrophe: \"Master’s in Business Administration\", \"Bachelor’s in Real Estate\"."
+ },
+ "sales_manager_resumetemplate_3": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Senior Sales Manager",
+    "Sales Manager",
+    "Senior Account Executive"
+   ],
+   "min_years": 11,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "One column; title on its own line, then \"Employer | City, ST | YYYY-Present\" (pipes, year-only ranges, hyphen without spaces); education is bullets \"Degree, School, YYYY\" followed by certification bullets with years; two consecutive roles at one employer; degree year (2015) is later than the first job's start year (2014)."
+ },
+ "strategic_finance_huntr_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Corporate Finance Manager",
+    "Senior Finance Analyst",
+    "Treasury Analyst"
+   ],
+   "min_years": 13,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Huntr text sample: title, employer, dates (MM/YYYY - MM/YYYY), location each on its own line; summary headed \"About\"; education dated MM/YYYY ranges; certifications with \"Issued: YYYY\"; skills on one line joined by bullet dots; contact line starts with the job title; MBA dates (08/2014 - 05/2016) overlap work; certification \"Issued: 06/2018\"."
+ },
+ "strategic_finance_resumementor_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Senior Corporate Finance Analyst",
+    "Corporate Strategy Consultant",
+    "Financial Analyst"
+   ],
+   "min_years": 11,
+   "max_years": 12,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Resume Mentor builder sample, every field on its own line; order title, location, employer, dates; education has no location line; no current role."
+ },
+ "strategic_sourcing_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Strategic Sourcing Manager",
+    "Procurement Specialist",
+    "Sourcing Analyst"
+   ],
+   "min_years": 9,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, dates, employer, location. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "strategic_sourcing_velvetjobs_1": {
+  "kind": "single",
+  "parse": {
+   "min_roles": 0,
+   "titles": []
+  },
+  "note": "no dates. VelvetJobs machine-generated sample: no dates at all (only the word \"present\" above the current role); each entry is city, title, employer on separate lines then long job-description bullets; education is degree then school with no year; page markup repeats each field, de-duplicated here. One title reads \"Strategic Sourcing Manager Stage\"."
+ },
+ "strategy_manager_cvcompiler_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Senior Strategic Planning Manager",
+    "Strategic Planning Manager",
+    "Corporate Strategy Analyst"
+   ],
+   "min_years": 12,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Placeholder name \"Your Name\"; \"Employer Month YYYY - Present\" on one line (employer left, date right, no separator), title on the next line, then achievement lines with NO bullet marks; education \"School Month YYYY\" then degree line; sections EXPERIENCE, EDUCATION, SKILLS, OTHER in caps; no summary; the \"Senior Strategic Planning Manager\" sample; employer names with \"&\" (\"Procter & Gamble\", \"McKinsey & Company\"); both degrees at the same school."
+ },
+ "strategy_manager_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Strategy Manager",
+    "Senior Strategy Analyst",
+    "Strategy Consultant"
+   ],
+   "min_years": 5,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order employer, location, title, dates. ODD: the third job is dated \"09/2021 - 05/2021\" (end before start) and overlaps the second (06/2021 - 12/2022); years counted from the two sound ranges only. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "supply_chain_resumetemplate_4": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Supply Chain Manager",
+    "Senior Supply Chain Analyst",
+    "Supply Chain Analyst"
+   ],
+   "min_years": 11,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "One column; title on its own line, then \"Employer | City, ST | YYYY-Present\" (pipes, year-only ranges, hyphen without spaces); education is bullets \"Degree, School, YYYY\" followed by certification bullets with years; one-word title \"Buyer\"; certification bullets \"CPIM, certified 2017\"."
+ },
+ "tech_strategy_resumementor_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Senior IT Strategy Manager",
+    "IT Strategy Consultant",
+    "IT Project Manager"
+   ],
+   "min_years": 14,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Resume Mentor builder sample, every field on its own line; order title, location, employer, dates under \"Employment History\"; master's is \"Master of Science in Information Technology Management\" dated inside a job (01/2014 - 01/2016); employer \"HP Inc.\"."
+ },
+ "transformation_resumementor_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Business Transformation Lead",
+    "Business Process Improvement Manager",
+    "Operations Manager"
+   ],
+   "min_years": 14,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Resume Mentor builder sample, every field on its own line; order title, location, employer, dates under \"Employment History\"; Languages and Key Achievements between the last job and Education."
+ },
+ "treasury_enhancv_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Treasury Manager",
+    "Assistant Treasury Manager",
+    "Treasury Analyst"
+   ],
+   "min_years": 5,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Enhancv builder sample, every field on its own line; order title, location, employer, dates. Dates MM/YYYY - MM/YYYY or \"Present\"; bullets; education dated 01/YYYY - 01/YYYY; side sections (languages, courses, achievements, interests, skills) follow in page order."
+ },
+ "treasury_kickresume_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Treasury Analyst"
+   ],
+   "min_years": 2,
+   "max_years": 3,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Kickresume full-text version: each entry is one comma-joined line \"MM/YYYY - MM/YYYY, Title, Employer, City, Country\" with the date first; two jobs with the same title at different employers, sharing the boundary month 06/2017; degree written after the subject (\"Economics and Finance BSc\"); dated Volunteering and certificate lines must not count as jobs."
+ },
+ "vc_associate_huntr_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 4,
+   "titles": [
+    "Partner",
+    "Senior Associate",
+    "Founder & CEO"
+   ],
+   "min_years": 14,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Huntr text sample: title, employer, dates (MM/YYYY - MM/YYYY), location each on its own line; summary headed \"About\"; education dated MM/YYYY ranges; certifications with \"Issued: YYYY\"; skills on one line joined by bullet dots; the \"Venture Capital\" example: one-word title \"Partner\", employer \"TechNova (Acquired)\", MBA dates (09/2015 - 06/2017) overlap the founder role; extra sections after education."
+ }
+}

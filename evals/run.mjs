@@ -3,13 +3,17 @@
 //
 //   node evals/run.mjs                 # report
 //   node evals/run.mjs --baseline      # also rewrite evals/baseline.md
-//   node evals/run.mjs --private       # also score evals/resumes/private/*.txt (gitignored, never in the baseline)
+//   node evals/run.mjs --private       # also score evals/resumes/private/* (gitignored, never in the baseline)
+//   node evals/run.mjs --external      # also score evals/resumes/external/* (gitignored; fetched sample resumes)
+// Samples may be .txt, .pdf or .docx; PDF and DOCX are read as the app reads them (needs npm install in evals/).
 //   node evals/run.mjs --only grad     # filter samples by substring
 //   node evals/run.mjs --verbose       # print every row with its evidence line
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
+import { variants } from "./layouts.mjs";
+import { extractText, READABLE } from "./extract.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(here, "..");
@@ -19,6 +23,7 @@ const TAX = JSON.parse(fs.readFileSync(path.join(root, "web/data/taxonomy.json")
 const SUBS = JSON.parse(fs.readFileSync(path.join(root, "web/data/subskills.json")));
 const G = JSON.parse(fs.readFileSync(path.join(root, "web/data/graph.json")));
 const M = createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G });
+const EXTERNAL = JSON.parse(fs.readFileSync(path.join(root, "evals/external_expectations.json")));
 
 function target(spec) {
   const [fam, lv] = spec.split(":");
@@ -32,18 +37,27 @@ const verbose = args.includes("--verbose");
 // --private adds evals/resumes/private/ (gitignored): real resumes that stay on this machine. They never go into baseline.md.
 const priv = args.includes("--private");
 if (priv && args.includes("--baseline")) { console.error("--private samples are not written to the baseline; run them without --baseline"); process.exit(1); }
-const listTxt = dir => fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => f.endsWith(".txt") && (!only || f.includes(only))).sort() : [];
-const samples = [...listTxt(path.join(here, "resumes")), ...(priv ? listTxt(path.join(here, "resumes", "private")).map(f => path.join("private", f)) : [])];
+// --external adds evals/resumes/external/ (gitignored): published sample resumes fetched by evals/fetch_external.mjs.
+const ext = args.includes("--external");
+if (ext && args.includes("--baseline")) { console.error("--external samples are not written to the baseline; run them without --baseline"); process.exit(1); }
+const listTxt = dir => fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => READABLE.test(f) && (!only || f.includes(only))).sort() : [];
+const sub = d => listTxt(path.join(here, "resumes", d)).map(f => path.join(d, f));
+const samples = [...listTxt(path.join(here, "resumes")), ...(priv ? sub("private") : []), ...(ext ? sub("external") : [])];
 const pct = x => x == null ? "–" : Math.round(x * 100) + "%";
 const rows = []; let pass = 0, fail = 0; const lines = [];
 const out = s => { lines.push(s); console.log(s); };
 const LEVEL_OF = { associate: "associate", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
 
 for (const f of samples) {
-  const name = f.replace(/\.txt$/, "");
-  const text = fs.readFileSync(path.join(here, "resumes", f), "utf8");
+  const name = f.replace(READABLE, "");
+  let text;
+  try { text = await extractText(path.join(here, "resumes", f)); }
+  catch (e) { fail++; out(`\n=== ${f}: could not be read (${String(e.message).split("\n")[0]})`); continue; }
   const specPath = path.join(here, "resumes", name + ".json");
-  const spec = fs.existsSync(specPath) ? JSON.parse(fs.readFileSync(specPath)) : { targets: ["pm:__all"] };
+  // fetched samples are not in the repository; what each must read is in external_expectations.json
+  const extSpec = f.startsWith("external") ? EXTERNAL[path.basename(name)] : null;
+  if (f.startsWith("external") && (!extSpec || extSpec.kind !== "single")) { out(`\n=== ${f}: ${extSpec ? extSpec.kind + (extSpec.note ? " — " + extSpec.note : "") : "no expectations yet"}; ${text.trim().split(/\s+/).length} words read, not checked`); continue; }
+  const spec = extSpec ? { targets: ["pm:__all"], ...extSpec } : fs.existsSync(specPath) ? JSON.parse(fs.readFileSync(specPath)) : { targets: ["pm:__all"] };
   let first = null; const scores = {};
   for (const t of spec.targets) {
     const tg = target(t);
@@ -54,6 +68,11 @@ for (const f of samples) {
     const ok = band ? (r.overall >= band[0] && r.overall <= band[1]) : null;
     if (ok !== null) ok ? pass++ : fail++;
     out(`  ${t.padEnd(14)} n=${String(tg.jobs.length).padEnd(5)} core ${pct(r.core)} (${r.req.core.length})  common ${pct(r.common)} (${r.req.common.length})  depth ${pct(r.depth)}  breadth ${pct(r.breadth)}  overall ${pct(r.overall)}${band ? `  band ${pct(band[0])}–${pct(band[1])} ${ok ? "PASS" : "FAIL"}` : ""}  what-if ${pct(r.whatIf)}`);
+    // Role held: a person who held the target role at or above the target level must not read as unqualified for it.
+    if (r.standing) {
+      const floor = r.standing.above ? 0.6 : 0.5; const held = r.overall >= floor; held ? pass++ : fail++;
+      out(`      role held (${r.standing.level}, ${r.standing.years.toFixed(1)} yrs${r.standing.above ? ", above this level" : ""}${r.standing.employers.length ? ", employer known: " + r.standing.employers.join(", ") : ""}): ${r.standing.presumed} presumed, floor ${pct(floor)} ${held ? "PASS" : "FAIL"}`);
+    }
     if (verbose && t === spec.targets[0]) for (const row of r.rows) out(`      ${row.tier.padEnd(6)} ${row.status.padEnd(12)} s${row.strength} ${row.slotName.padEnd(32)} ${row.lines[0] ? JSON.stringify(row.lines[0].text.slice(0, 90)) : row.hintLines[0] ? "(hint) " + JSON.stringify(row.hintLines[0].text.slice(0, 80)) : ""}`);
   }
   const r = first;
@@ -68,7 +87,34 @@ for (const f of samples) {
   const fp = check("must_not_tag ", spec.must_not_tag, false);
   const gapsWrong = check("real_gaps    ", spec.real_gaps, false);
   if (spec.persona) { const ok = r.profile.persona === spec.persona; ok ? pass++ : fail++; out(`  persona      : ${ok ? "PASS" : "FAIL (" + r.profile.persona + ")"}`); }
+  // what the parser must find in this file, whatever its layout
+  if (spec.parse) {
+    // jobs are the dated roles under work experience; dated clubs, projects and volunteering are not counted
+    const P = { ...r.parsed, roles: r.parsed.roles.filter(x => x.section !== "projects") }, want = spec.parse, bad = [];
+    if (want.roles != null && P.roles.length !== want.roles) bad.push(`roles ${P.roles.length}, want ${want.roles}`);
+    if (want.min_roles != null && P.roles.length < want.min_roles) bad.push(`roles ${P.roles.length}, want at least ${want.min_roles}`);
+    if (want.min_years != null && r.profile.years < want.min_years) bad.push(`years ${r.profile.years.toFixed(1)}, want at least ${want.min_years}`);
+    if (want.max_years != null && r.profile.years > want.max_years) bad.push(`years ${r.profile.years.toFixed(1)}, want at most ${want.max_years}`);
+    for (const d of want.degrees || []) if (!P.degrees.includes(d)) bad.push(`degree ${d} not read`);
+    for (const t of want.titles || []) if (!P.roles.some(x => { const a = x.title.toLowerCase(), b = t.toLowerCase(); return a.includes(b) || (a.length >= 8 && b.startsWith(a)); })) bad.push(`no role titled "${t}"`); // a title cut at its comma still names the job
+    bad.length ? fail++ : pass++; out(`  parse        : ${bad.length ? "FAIL (" + bad.join("; ") + ")" : "PASS"} — ${P.roles.length} roles, ${r.profile.years.toFixed(1)} yrs, degrees: ${P.degrees.join(", ") || "none"}`);
+  }
+  if (spec.expect_employer) { const got = (r.standing && r.standing.employers) || []; const ok = got.includes(spec.expect_employer); ok ? pass++ : fail++; out(`  employer     : ${ok ? "PASS" : "FAIL (" + (got.join(", ") || "none") + ")"}`); }
   if (spec.expected_level) { const ok = LEVEL_OF[spec.expected_level] === r.profile.level; ok ? pass++ : fail++; out(`  level read   : ${ok ? "PASS" : "FAIL (" + r.profile.level + ")"}`); }
+  // layouts: the same resume written other ways must read the same (roles, years, persona, level, score within 4 points)
+  if (!f.startsWith("private")) {
+    const o0 = { level: target(spec.targets[0]).level ? LEVEL_OF[target(spec.targets[0]).level] : undefined };
+    const vs = variants(text); const badV = [];
+    for (const v of vs) {
+      const r2 = M.match(v.text, target(spec.targets[0]), o0); const why = [];
+      if (r2.parsed.roles.length !== r.parsed.roles.length) why.push(`roles ${r2.parsed.roles.length} vs ${r.parsed.roles.length}`);
+      if (Math.abs(r2.profile.pmYears - r.profile.pmYears) > 0.6) why.push(`product years ${r2.profile.pmYears.toFixed(1)} vs ${r.profile.pmYears.toFixed(1)}`);
+      if (r2.profile.persona !== r.profile.persona || r2.profile.level !== r.profile.level) why.push(`read as ${r2.profile.persona}/${r2.profile.level}`);
+      if (Math.abs(r2.overall - r.overall) > 0.04) why.push(`score ${pct(r2.overall)} vs ${pct(r.overall)}`);
+      why.length ? (fail++, badV.push(`${v.name} (${why.join("; ")})`)) : pass++;
+    }
+    if (vs.length) out(`  layouts      : ${vs.length - badV.length}/${vs.length}${badV.length ? "  WRONG: " + badV.join(", ") : ""}`);
+  }
   // monotonicity: adding a line that evidences a gap must never lower the overall score
   const tg0 = target(spec.targets[0]);
   const gapIds = r.gaps.slice(0, 3).map(g => g.id).filter(id => M.nameOf(id) && TAX.skills.some(s => s.id === id));

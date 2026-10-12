@@ -5,6 +5,7 @@
    Pipeline: parseResume(text) -> lines with section / role context
              tag(parsed)        -> per-skill evidence {strength, lines, subs, via}
              requirements(...)  -> core / common / differentiator tiers, one industry slot, one AI slot
+             standing(...)      -> skills presumed from a role the person held at or above the target level
              score(...)         -> coverage, depth, breadth, level read, persona, what-if */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();
@@ -16,6 +17,19 @@
   const AI_GROUP = ["ai_ml", "genai_llm", "ai_tools"];
   const TIER = { core: 0.5, common: 0.25, diff: 0.1 };
   const CREDIT = [0, 0.5, 1, 1]; // by evidence strength: none / mentioned / done / done with an outcome
+  // A person who held the target role was qualified to hold it. A requirement their resume does not show is then
+  // presumed, not a gap, for less credit than a line of evidence earns (so adding the line always helps).
+  // Credit by how sure the presumption is: what most postings at the level they held ask for (core) counts more
+  // than what a quarter to a half of them ask for (common); holding a level above the target counts more than
+  // holding the same level; their own employer's postings asking for it adds a little. Two things are never
+  // presumed: the industry, and AI literacy, which is a recent ask that years in the role do not imply.
+  const PRESUMED = { above: { core: 0.75, common: 0.6 }, same: { core: 0.6, common: 0.4 }, employer: 0.1, minYears: 1, minEmployerPostings: 5 };
+  const LEVEL_ORDER = ["associate", "mid", "senior", "lead"];
+  // A role that covers another role's work: a product manager does what a product owner does.
+  const COVERS = { product_owner: ["pm"] };
+  const LEVEL_GROUP = { associate: "associate", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
+  // which product family a job title belongs to (first match wins; a plain product title is "pm")
+  const TITLE_FAMILY = [["tpm", /technical program|\bTPM\b/i], ["pmm", /product marketing/i], ["product_owner", /product owner/i], ["product_analyst", /product (data )?(analyst|analytics|scientist)/i], ["product_ops", /product (operations|ops)/i]];
   const LEVEL_TO_LADDER = { associate: "associate", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
   const LADDER_LABEL = { associate: "associate", mid: "mid-level", senior: "senior", lead: "lead" };
 
@@ -67,7 +81,7 @@
     discovery: ["(identif|understand|uncover|diagnos)\\w* .{0,40}(friction|pain|needs|problems|drop-?off|why)", "drop-?offs?", "opportunit(y|ies) (assessment|sizing)", "problem (space|statement|discovery)", { p: "research questions?|formative (study|research)", via: "research" }],
     personas_jtbd: ["personas?", "jobs[- ]to[- ]be[- ]done", "segment(s|ation|ed)?\\b.{0,30}(users|customers|audience)", "(user|customer) segments?"],
     data_driven: ["analy[sz]ed .{0,50}(data|funnel|usage|metrics|results|behaviou?r|performance)", "data[- ]driven", "(usage|product|behaviou?ral) (data|analytics)", "\\bSQL\\b", "(Amplitude|Mixpanel|Looker|Tableau|Google Analytics|Heap|Pendo)", { p: "quantitative (analysis|methods|study|research)", via: "research" }, { p: "(analy[sz]ed|modell?ed) .{0,40}(client|market|financial) data", via: "consulting" }],
-    metrics_kpis: ["\\bKPIs?\\b", "\\bOKRs?\\b", "success metrics", "dashboards?", "(north[- ]star|guardrail) metric", "(activation|retention|conversion|engagement|churn) (rate|metrics)?", "track(ed|ing)? (adoption|retention|usage|engagement)", { p: "(primary|secondary) (outcome|endpoint)s?|outcome measures?", via: "research" }, { p: "campaign performance|(monthly|weekly) report(s|ing)", via: "marketing" }],
+    metrics_kpis: ["\\bKPIs?\\b", "\\bOKRs?\\b", "success metrics", "dashboards?", "\\b(NPS|CSAT|ARR|MRR|MAU|DAU|WAU)\\b[^.]{0,40}\\d|\\d[^.]{0,40}\\b(NPS|CSAT|ARR|MRR|MAU|DAU|WAU)\\b", "(handling|resolution|response|deployment|cycle) time[^.]{0,30}\\d|\\d[^.]{0,40}(handling|resolution|response|deployment|cycle) time", "(north[- ]star|guardrail) metric", "(activation|retention|conversion|engagement|churn) (rate|metrics)?", "track(ed|ing)? (adoption|retention|usage|engagement)", { p: "(primary|secondary) (outcome|endpoint)s?|outcome measures?", via: "research" }, { p: "campaign performance|(monthly|weekly) report(s|ing)", via: "marketing" }],
     okrs: ["\\bOKRs?\\b", "objectives and key results"],
     ab_testing: ["\\bA/?B[- ]?tests?(ing)?\\b", "split test", "multivariate", "experiment(s|ed|ation)?\\b.{0,40}(lift|conversion|variant|control|treatment)", { p: "randomi[sz]ed|controlled (trial|experiment|stud)|\\bRCTs?\\b", via: "research" }, { p: "(between|within)[- ]subjects?", via: "research" }],
     statistics: ["statistic(s|al)", "regression", "significan(ce|t)", "hypothesis test", "confidence interval", "(in|using) R\\b", "\\bSPSS\\b|\\bStata\\b|scipy|statsmodels"],
@@ -77,7 +91,7 @@
     product_vision: ["product vision", "\\bvision\\b"],
     prd: ["\\bPRDs?\\b", "product requirements?", "(wrote|authored|owned|drafted) .{0,30}(specs?|requirements|user stories|acceptance criteria|design docs?)", "user stories", "acceptance criteria", "functional (spec|requirements)", { p: "requirements (gathering|elicitation|documentation)|documented requirements|gathered requirements", via: "consulting" }, { p: "design docs?", via: "engineering" }],
     feature_definition: ["(defined|scoped|specced|designed) .{0,30}(feature|MVP|flow|experience)", "\\bMVP\\b", "scope(d)? (the )?(MVP|v1|feature)"],
-    product_lifecycle: ["end[- ]to[- ]end", "shipped \\d+\\+? (features|products|releases)", "from (idea|concept|discovery|zero|0) to (launch|ship|scale|one|1)", "(owned|drove|led) .{0,40}(from|through) (discovery|concept|launch)", "0[- ]to[- ]1|zero[- ]to[- ]one", "full (product )?lifecycle"],
+    product_lifecycle: ["end[- ]to[- ]end", "(led|oversaw|managed|drove|owned|spearheaded|directed|pioneered) (the )?(end-to-end |full )?(development|delivery|design|build|rollout|creation)( and (launch|delivery|release|rollout))? of (an? |the |new |[\\w'’-]+ ){0,6}(features?|products?|platforms?|apps?|applications?|tools?|modules?|services?|chatbots?|models?)\\b", "(developed|built|delivered|shipped|released) (an? |the )?(new |first )?([\\w'’-]+ ){0,5}(features?|products?|platforms?|apps?|applications?|tools?|chatbots?)\\b", "shipped \\d+\\+? (features|products|releases)", "from (idea|concept|discovery|zero|0) to (launch|ship|scale|one|1)", "(owned|drove|led) .{0,40}(from|through) (discovery|concept|launch)", "0[- ]to[- ]1|zero[- ]to[- ]one", "full (product )?lifecycle"],
     launch: ["launch(ed|es|ing)?\\b", "released?\\b", "shipped\\b", "go[- ]live", "rolled? out", { p: "deployed .{0,30}(to|with) \\d+ (users|participants|customers)", via: "research" }, { p: "shipped (behind|under) (a )?feature flag", via: "engineering" }],
     gtm: ["go[- ]to[- ]market", "\\bGTM\\b", "launch (plan|strategy|messaging|campaign)", { p: "(campaign|channel) (strategy|planning|launch)", via: "marketing" }, { p: "market entry", via: "consulting" }],
     positioning_messaging: ["positioning", "messaging", "value prop(osition)?", { p: "brand (voice|guidelines|campaign|strategy)|copywriting|content strategy", via: "marketing" }],
@@ -96,8 +110,8 @@
     process_improvement: ["process (improvement|redesign|optimization|mapping)", "streamlin", "automat(ed|ing|ion)", "reduc(ed|ing) .{0,30}(time|cost|cycle|manual|errors)", "\\bSOPs?\\b", "operational (efficiency|excellence)", "\\blean\\b|six sigma"],
     quality_testing: ["\\bQA\\b", "(acceptance|regression|user acceptance) test", "\\bUAT\\b", "bug (bash|triage)", "test (plans?|cases)"],
     vendor_mgmt: ["vendors?\\b", "suppliers?\\b", "\\bRFPs?\\b", "\\bSOWs?\\b", "\\bSLAs?\\b", "(managed|negotiated) .{0,30}(contract|agency|vendor)"],
-    people_management: ["direct reports", "managed (a )?team of \\d+ (PMs|product managers|people|reports|analysts|associates)", "hired (and|,) (managed|coached|developed|onboarded)", "(hiring|performance) (manager|reviews)", "(managed|led) \\d+ (PMs|product managers|direct reports)"],
-    technical_fluency: ["technical (background|depth|fluency|trade-?offs|discussions|design)", "computer science", "engineering (degree|background)", "(partnered|worked) with engineer(s|ing) on .{0,30}(technical|architecture|trade)", { p: "(software|engineering|developer) intern(ship)?|software engineer|full[- ]stack|built (a |the )?(prototype|backend|front-?end|pipeline|app|API)|implemented (a )?feature", via: "engineering" }, { p: "(Python|Java|JavaScript|TypeScript|React|Golang|C\\+\\+|Flask|Django|Node\\.js)\\b", via: "engineering" }],
+    people_management: ["direct reports", "\\d+ direct reports?", "(managed|led|mentored|coached) (a team of )?\\d+ (engineers|PMs|product managers|analysts|designers|interns)[^.]{0,40}direct report", "managed (a )?team of \\d+ (PMs|product managers|people|reports|analysts|associates)", "hired (and|,) (managed|coached|developed|onboarded|mentored)", "(mentored|coached|managed) \\d+ (PMs|product managers|APMs|analysts|engineers|designers)", "(hiring|performance) (manager|reviews)", "(managed|led) \\d+ (PMs|product managers|direct reports)"],
+    technical_fluency: ["technical (background|depth|fluency|trade-?offs|discussions|design)", "(worked|collaborated|partnered) (closely |directly )?with (a team of )?(\\d+ )?(software |data |ML )?(engineers|developers|engineering|data scientists)", "(led|managed) (a (scrum )?team of )?\\d+ (software |data |ML )?(engineers|developers)", "computer science", "engineering (degree|background)", "(partnered|worked) with engineer(s|ing) on .{0,30}(technical|architecture|trade)", { p: "(software|engineering|developer) intern(ship)?|software engineer|full[- ]stack|built (a |the )?(prototype|backend|front-?end|pipeline|app|API)|implemented (a )?feature", via: "engineering" }, { p: "(Python|Java|JavaScript|TypeScript|React|Golang|C\\+\\+|Flask|Django|Node\\.js)\\b", via: "engineering" }],
     apis: ["\\bAPIs?\\b", "\\bREST(ful)?\\b", "\\bGraphQL\\b", "endpoints?", "\\bSDKs?\\b", "integrations?\\b", "webhooks?"],
     system_architecture: ["system design", "distributed systems", "microservices", "scalab(le|ility)", "\\bbackend\\b|\\bback-end\\b", "(service|data|platform) architecture", { p: "design docs?|(designed|built) .{0,30}(backend|service|pipeline|system)", via: "engineering" }],
     data_modeling: ["data (model|modeling|modelling|pipeline|warehouse|schema)", "\\bETL\\b|\\bELT\\b", "schema"],
@@ -141,59 +155,169 @@
   const VIA_LABEL = { research: "academic research", consulting: "consulting / analyst work", engineering: "engineering", marketing: "marketing", finance: "finance / operations", founder: "founder / venture work", coursework: "coursework" };
 
   const OUTCOME = /\d+ ?%|\$\s?\d|\b\d+(\.\d+)?\s?(x|k|m|b|mm)\b|\b\d{2,}\+?\s?(users|customers|participants|clients|engineers|people|accounts|students|enterprise|interviews|studies|features|releases|papers)\b|\b(increas|reduc|improv|grew|lift|boost|cut|saved|doubled|tripled|drove|accelerat|won|adopted|published)\w*\b/i;
-  const DATE = /((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+)?(19|20)\d{2}\s*(–|-|—|to|through)\s*(((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+)?(19|20)\d{2}|present|current|now|today)|\b(summer|fall|spring|winter)\s+(19|20)\d{2}\b|\((19|20)\d{2}\)|\b(19|20)\d{2}\s*[-–]\s*(19|20)\d{2}\b/i;
+  const DATE = /((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}\s*(–|-|—|to|through)\s*(((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}|present|current|now|today)|\b(summer|fall|spring|winter)\s+(19|20)\d{2}\b|\((19|20)\d{2}\)|\b(19|20)\d{2}\s*[-–]\s*(19|20)\d{2}\b|\b\d{1,2}\/\s?\d{2}\s*(–|-|—|to|through)\s*(\d{1,2}\/\s?\d{2}\b|present|current|now|today)|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+['’]\d{2}\s*(–|-|—|to|through)\s*((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+['’]\d{2}|present|current|now|today)/i;
+  // a word that marks a job title, to tell the title from the employer and the city when they sit on separate lines
+  const TITLE_WORD = /\b(manager|director|analyst|engineer|associate|intern|lead|leader|officer|consultant|specialist|coordinator|president|head|owner|founder|developer|designer|scientist|representative|supervisor|trainee|assistant|strategist|partner|administrator|advisor|adviser|banker|accountant|auditor|buyer|planner|recruiter|researcher|fellow|architect|controller|treasurer|economist|underwriter|trader|broker|agent|clerk|technician|teacher|tutor|instructor|professor|editor|writer|marketer|generalist|apprentice|chief|vp|cfo|ceo|coo|cto|cmo|principal|executive)\b/i;
+  const MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
+  // Every date on a line as a fractional year, in order: "Jan 2020", "January 2020", "01/2020", "9/17", "Jul '19", "2020".
+  function datesOf(text) {
+    const out = []; const yy = v => { const n = +v; return v.length === 4 ? n : n <= (new Date().getFullYear() % 100) + 1 ? 2000 + n : 1900 + n; };
+    const re = /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(?:((?:19|20)\d{2})|['’](\d{2}))|\b(\d{1,2})[\/.]\s?((?:19|20)\d{2}|\d{2})(?![\d\/])|\b((?:19|20)\d{2})\b/gi;
+    for (const m of text.matchAll(re)) {
+      if (m[1]) out.push({ y: yy(m[2] || m[3]), m: MONTHS[m[1].toLowerCase().slice(0, 3)] });
+      else if (m[4]) { if (+m[4] >= 1 && +m[4] <= 12) out.push({ y: yy(m[5]), m: +m[4] }); }
+      else out.push({ y: +m[6], m: null });
+    }
+    return out;
+  }
   const SECTION = [
     [/^(professional |work |relevant |research |industry )?(experience|employment|history|positions?|career)\b/i, "experience"],
     [/^(research experience|research)\b/i, "experience"],
-    [/^(education|academic)/i, "education"],
+    [/^(leadership|volunteer|community|campus|extra[- ]?curricular)\b.*\b(experience|activities|involvement|service)$/i, "projects"],
+    // "Business experience", "Related experience", "Other employment": a short line that ends with the word
+    [/^([A-Za-z&]+ ){1,3}(experience|employment)$/i, "experience"],
+    [/^(education|academic)\b/i, "education"],
     [/^(relevant )?(coursework|courses)/i, "coursework"],
-    [/^(projects?|capstone|selected projects|side projects|hackathons?|portfolio|leadership( & activities)?|activities|volunteer)/i, "projects"],
-    [/^(technical |core |key )?(skills|tools|technologies|competencies|certifications?)\b/i, "skills"],
-    [/^(summary|profile|objective|about( me)?|overview|highlights)/i, "summary"],
-    [/^(publications?|awards?|honou?rs|interests|languages|references)/i, "other"],
+    [/^(academic |class |course )?(projects?|capstone|selected projects|side projects|hackathons?|portfolio|leadership( & activities)?|activities|extra[- ]?curricular|volunteer(ing| work| experience)?|organi[sz]ations|affiliations|memberships|involvement)\b/i, "projects"],
+    [/^(technical |core |key )?(skills|tools|technologies|competencies|certifications?|proficienc(y|ies))\b/i, "skills"],
+    [/^((professional|executive|career|personal) )?(summary|profile|objective|about( me)?|overview|highlights)\b/i, "summary"],
+    [/^(publications?|awards?|honou?rs|interests|languages|references)\b/i, "other"],
   ];
-  const PM_TITLE = /\b(product (manager|management|owner|lead|director|marketing manager)|\bAPM\b|\bTPM\b|technical program manager|\bPM\b|head of product|chief product|\bCPO\b|\bVP,? product)/i;
+  const PM_TITLE = /\b(product (manager|management|owner|lead|director|marketing manager|(data )?analyst|operations|ops|strategist)|\bAPM\b|\bTPM\b|technical program manager|\bPM\b|head of product|chief product|\bCPO\b|\bVP,? product)/i;
   const INTERN = /\bintern(ship)?\b|\bco-?op\b|\bfellow(ship)?\b/i;
   const TITLE_LEVEL = [[/\b(chief|cpo|vp|vice president|head of|director|group product|principal|staff|lead)\b/i, "lead"], [/\b(senior|sr\.?)\b/i, "senior"], [/\b(associate|junior|jr\.?|apm|intern|assistant)\b/i, "associate"]];
-  const DEGREE = [[/\b(ph\.?d|doctor(ate|al))\b/i, "phd"], [/\b(mba|m\.?s\.?c?|m\.?eng|m\.?a\.?|master'?s?|ms in)\b/i, "masters_mba"], [/\b(b\.?s\.?c?|b\.?a\.?|b\.?eng|bachelor'?s?|bsc|ba in|bs in)\b/i, "bachelors"]];
+  const DEGREE = [[/\b(ph\.?d|doctor(ate|al))\b/i, "phd"], [/\b(mba|m\.b\.a\.?|m\.?s\.?c?|m\.?eng|m\.?a\.?|master'?s?|ms in|m\.?phil|ll\.?m)\b|\bm\.b\.a\./i, "masters_mba"], [/\b(b\.?s\.?c?|b\.?a\.?|b\.?eng|bachelor'?s?|bsc|ba in|bs in|b\.?b\.?a|b\.?com|b\.?tech|b\.?pharm|b\.?f\.?a)\b/i, "bachelors"]];
   const CS_DEGREE = /computer science|\bCS\b|software|electrical|computer engineering|\bEE\b|\bECE\b|engineering|mathematics|\bstatistics\b|physics|data science/i;
   const COURSE_LINE = /^[A-Z]{2,5}\s?\d{3}[A-Z]?\b|^[A-Z][a-z]+ \d{3}\b/;
 
   function yearsBetween(text) {
-    const m = text.match(/(19|20)\d{2}/g); if (!m) return null;
-    const now = new Date(); const start = +m[0]; const end = /present|current|now|today/i.test(text) ? now.getFullYear() + now.getMonth() / 12 : +m[m.length - 1];
-    if (/\b(summer|fall|spring|winter)\b/i.test(text) && m.length === 1) return 0.25;
-    if (m.length === 1 && !/present|current|now|today/i.test(text)) return 0.5;
-    return Math.max(0.25, Math.min(40, end - start));
+    const d = datesOf(text); if (!d.length) return null;
+    const now = new Date(); const open = /present|current|now|today/i.test(text);
+    if (/\b(summer|fall|spring|winter)\b/i.test(text) && d.length === 1) return 0.25;
+    if (d.length === 1 && !open) return 0.5;
+    const frac = (x, end) => x.y + (x.m ? (x.m - (end ? 0 : 1)) / 12 : 0);
+    let a = frac(d[0], false), z = open && d.length === 1 ? now.getFullYear() + now.getMonth() / 12 : open ? Math.max(now.getFullYear() + now.getMonth() / 12, frac(d[d.length - 1], true)) : frac(d[d.length - 1], true);
+    if (open && d.length > 1) z = now.getFullYear() + now.getMonth() / 12;
+    if (z < a) [a, z] = [z, a]; // a reversed range ("09/2021 - 05/2021") is a typing slip
+    return Math.max(0.25, Math.min(40, z - a));
+  }
+
+  // first and last year of a dated line, "present" read as now
+  function spanOf(text) {
+    const d = datesOf(text).map(x => x.y); if (!d.length) return null;
+    const end = /present|current|now|today/i.test(text) ? new Date().getFullYear() + 1 : d[d.length - 1];
+    return [Math.min(d[0], end), Math.max(d[0], end)];
   }
 
   function rx(list) { return list.length ? new RegExp(list.map(p => "(?:" + p + ")").join("|"), "i") : null; }
 
   function parseResume(text) {
-    const raw = text.replace(/\r/g, "").split(/\n|(?=\s[•▪●‣◦■]\s)|(?<=\.)\s{2,}(?=[A-Z])/);
-    const lines = []; let section = null; let role = -1; const roles = []; const degrees = new Set(); let csDegree = false;
-    const headerLike = s => s.length < 60 && !/[.;:]$/.test(s) && (s === s.toUpperCase() || SECTION.some(([r]) => r.test(s)));
-    for (let r of raw) {
-      r = r.replace(/^[\s•▪●‣◦■\-–—*·]+/, "").trim(); if (!r) continue;
-      if (headerLike(r)) { const hit = SECTION.find(([re]) => re.test(r)); if (hit) { section = hit[1]; lines.push({ text: r, kind: "heading", section }); continue; } }
+    // PDF text often spaces out hyphens ("purpose - built", "self - learning"); join them so words match again
+    const raw = text.replace(/\r/g, "").replace(/([A-Za-z]) - ([a-z])/g, "$1-$2").split(/\n|(?=\s[•▪●‣◦■\uf0b7\uf0a7\uf0d8]\s)|(?<=[a-z]{4}\.)\s{2,}(?=[A-Z])/);
+    // a date range that a narrow column broke in two: "October 2020 -" / "Current", "June 2018 - October" / "2020"
+    const MON = "(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\\.?";
+    const openEnd = new RegExp("(?:(?:19|20)\\d{2}|\\d{1,2}\\/\\d{2,4})\\s*[-–—]\\s*(?:" + MON + ")?\\s*$", "i"), closeStart = new RegExp("^\\s*(?:(?:" + MON + "\\s+)?(?:19|20)\\d{2}|\\d{1,2}\\/\\d{2,4}|present|current)\\b", "i");
+    // also "| JUNE" / "2017 TO PRESENT" and "2020 to" / "Present"
+    const monthEnd = new RegExp("\\b" + MON + "\\s*$", "i"), yearStart = /^\s*(?:19|20)\d{2}\b/, toEnd = /(?:19|20)\d{2}\s+(?:to|through)\s*$/i;
+    for (let k = 0; k < raw.length - 1; k++) if ((openEnd.test(raw[k]) && closeStart.test(raw[k + 1])) || (monthEnd.test(raw[k]) && yearStart.test(raw[k + 1]) && raw[k].length < 120) || (toEnd.test(raw[k]) && closeStart.test(raw[k + 1]))) { raw[k] = raw[k].trimEnd() + " " + raw[k + 1].trim(); raw.splice(k + 1, 1); }
+    // a heading set with a space between every letter: "E D U C AT I O N", "K E Y S K I L L S"
+    const HEAD_WORDS = /(professional|work|relevant|experience|employment|history|education|academic|technical|key|core|skills|summary|profile|about|me|projects|certifications|awards|activities|leadership|additional|information)/g;
+    for (let k = 0; k < raw.length; k++) { const t = raw[k].trim().replace(/\s+/g, " "); if (/^(?:[A-Z&]{1,2} ){3,}[A-Z]{1,2}$/.test(t)) raw[k] = t.replace(/ /g, "").toLowerCase().replace(HEAD_WORDS, " $1").replace(/\s+/g, " ").trim().toUpperCase(); }
+    const BULLET = /^\s*([•▪●‣◦■\uf0b7\uf0a7\uf0d8\-–—*·]\s+|o\s{2,})/; const usesBullets = raw.filter(r => BULLET.test(r)).length >= 3;
+    // an employer on its own line above its roles: "AMERICAN EXPRESS   New York, NY"
+    const EMPLOYER_LINE = /^[A-Z][A-Z0-9&.'’\-]+( [A-Z0-9&.'’\-]+)*(\s{2,}|\s*[|,]|$)/;
+    for (let k = 0; k < raw.length; k++) { const m = raw[k].match(/^\s*(\S(?:.{0,30}?\S)?)\s{2,}(\S.*)$/); if (m && SECTION.some(([re]) => re.test(m[1])) && m[1].split(" ").length <= 3 && !/\d/.test(m[1])) raw.splice(k, 1, m[1], m[2]); }
+    const lines = []; let section = null; let role = -1; const roles = []; const degrees = new Set(); let csDegree = false; let employer = null; let strayMode = false;
+    // a heading carries no year: "Project Engineer 2004-2007" is a job, not the Projects section
+    const headerLike = s => s.length < 60 && !/[.;:]$/.test(s) && !/(19|20)\d{2}/.test(s) && !(TITLE_WORD.test(s) && !/\b(experience|summary|profile|history)\b/i.test(s)) && (s === s.toUpperCase() || SECTION.some(([r]) => r.test(s)));
+    // each line as written (r0, to see wide gaps), on single spaces (r), and whether it carried a bullet mark
+    const items = raw.map(x => { const hadBullet = BULLET.test(x); const r0 = x.replace(/^\s*o\s{2,}/, "").replace(/^[\s•▪●‣◦■\uf0b7\uf0a7\uf0d8\-–—*·]+/, "").trim(); return { r0, r: r0.replace(/[ \t\u00a0]{2,}/g, " "), hadBullet }; }).filter(x => x.r);
+    const isHeading = t => { const h = t.replace(/\s*:$/, ""); return headerLike(h) && SECTION.some(([re]) => re.test(h)); };
+    // a short line that could name a job, an employer or a place: not a bullet, not a sentence, not a heading
+    const labelLike = it => it && !it.hadBullet && it.r.length < 110 && (!/[.!?;]$/.test(it.r) || /\b(inc|ltd|co|corp|llc|llp|plc|l\.p|n\.a|s\.a|gmbh)\.$/i.test(it.r)) && it.r.split(" ").length <= 14 && !DATE.test(it.r) && !isHeading(it.r);
+    const SEP = /\s*(?:,| at | \| |\||—|–| - |\(|\)|•|·)\s*/;
+    const parts = t => t.split(SEP).map(x => x.trim()).filter(x => x.length > 1);
+    for (let i = 0; i < items.length; i++) {
+      const { r0, hadBullet } = items[i]; let r = items[i].r;
+      const h = r.replace(/\s*:$/, ""); // "EDUCATION:" is a heading too
+      if (headerLike(h)) { const hit = SECTION.find(([re]) => re.test(h)); if (hit) { section = hit[1]; employer = null; lines.push({ text: r, kind: "heading", section }); continue; } }
       const sec = section || (COURSE_LINE.test(r) ? "coursework" : "body");
       const isCourse = sec === "coursework" || (!section && COURSE_LINE.test(r));
       const hasDate = DATE.test(r);
-      if ((sec === "experience" || sec === "body" || sec === "projects") && hasDate && r.length < 160 && !/^[a-z]/.test(r)) {
-        const title = r.split(/,| at | \| | — | – |\(/)[0].trim();
-        const isPM = PM_TITLE.test(title) || PM_TITLE.test(r.split(/\(|\d{4}/)[0]);
+      // a long bullet that mentions a date range ("sales from 2004-present") is not a job line
+      // A dated line with a job title beside it is a job wherever it sits, unless it reads as schooling: columns
+      // and text boxes can bunch the headings together and leave the wrong section in force.
+      const SCHOOL = /\b(university|college|school|institute|academy|degree|bachelor|master|diploma|gpa|certificat\w*|certified|licen[sc]e)\b/i;
+      // only in a resume whose jobs have not been found under an experience heading
+      const stray = (strayMode || !roles.length) && hasDate && sec !== "experience" && sec !== "body" && sec !== "projects" && sec !== "education" && !hadBullet && r.length < 160 && !SCHOOL.test(r)
+        && [r, ...lines.slice(-3).filter(l => l.label).map(l => l.text), labelLike(items[i + 1]) ? items[i + 1].r : ""].some(x => x && !SCHOOL.test(x) && parts(x).some(y => TITLE_WORD.test(y) && y.split(" ").length <= 7));
+      if (stray) { section = "experience"; strayMode = true; }
+      if ((sec === "experience" || sec === "body" || sec === "projects" || stray) && hasDate && r.length < 160 && !/^[a-z]/.test(r) && !(hadBullet && r.length >= 90)) {
+        // What stands on the dated line besides the dates: a title, an employer, a place, or nothing at all.
+        const dateText = r.match(DATE)[0]; const dm = r.indexOf(dateText);
+        const own = parts(r.slice(0, dm) + " | " + r.slice(dm + dateText.length));
+        // the same dates printed again under a job line ("... | 2022 to Present |" then "2022 – Present")
+        const lastRole = roles[roles.length - 1], sp = spanOf(dateText);
+        if (!own.length && lastRole && lines[lines.length - 1].kind === "role" && lastRole.span && sp && lastRole.span[0] === sp[0] && lastRole.span[1] === sp[1]) continue;
+        let title = own.find(x => TITLE_WORD.test(x)); const near = [];
+        if (!title) {
+          // The title is on a line of its own: just above the dates ("Senior Product Manager" / "Plaid" /
+          // "01/2021 - Present") or just below them ("Microsoft July 2015 - December 2019" / "Program Manager").
+          const prev = []; for (let k = lines.length - 1; k >= 0 && prev.length < 3; k--) { const l = lines[k]; if (l.label && (l.section === sec || stray)) prev.push(l); else break; }
+          const next = []; for (let k = i + 1; k < items.length && next.length < 2 && labelLike(items[k]); k++) next.push(items[k]);
+          // Dates alone on a line belong with the label lines above them (title / city / employer / dates, or a title
+          // line wrapped in two); dates that share a line with the employer often have the title just below.
+          const order = (own.length ? [prev[0], next[0], prev[1], next[1], prev[2]] : [prev[0], prev[1], prev[2], next[0], next[1]]).filter(Boolean);
+          const pick = order.find(c => parts(c.text || c.r).some(x => TITLE_WORD.test(x)));
+          if (pick) {
+            title = parts(pick.text || pick.r).find(x => TITLE_WORD.test(x));
+            if (pick.r !== undefined) { const upto = next.indexOf(pick); for (let k = 0; k <= upto; k++) { near.push(next[k].r); } i += upto + 1; }
+          } else if (!own.length && prev[0]) title = parts(prev[0].text)[0];
+          for (const l of prev) { l.kind = "employer"; near.push(l.text); }
+        }
+        if (!title) title = own[0] || "";
+        const whole = [r, ...near].join(" | ");
+        const isPM = PM_TITLE.test(title);
         const lvl = (TITLE_LEVEL.find(([re]) => re.test(title)) || [, isPM ? "mid" : null])[1];
-        roles.push({ title, text: r, years: yearsBetween(r), isPM, isIntern: INTERN.test(r), level: lvl, section: sec, line: lines.length });
-        role = roles.length - 1; lines.push({ text: r, kind: "role", section: sec, role }); continue;
+        const family = isPM ? (TITLE_FAMILY.find(([, re]) => re.test(title)) || ["pm"])[0] : null;
+        const around = [...own, ...near.flatMap(parts)].filter(x => x !== title).join(" | ");
+        roles.push({ title, text: whole, years: yearsBetween(dateText), isPM, family, isIntern: INTERN.test(title) || INTERN.test(r), level: lvl, section: stray ? "experience" : sec, line: lines.length, employerLine: [employer, around].filter(Boolean).join(" | ") || null, capsLead: EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(own[0] || ""), span: spanOf(dateText) });
+        role = roles.length - 1; lines.push({ text: whole, kind: "role", section: stray ? "experience" : sec, role }); continue;
       }
+      if ((sec === "experience" || sec === "body") && !hadBullet && !hasDate && r.length < 80 && EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(r)) { employer = r; lines.push({ text: r, kind: "employer", section: sec, role: -1, label: true }); continue; }
+      // a wrapped bullet: in a resume that marks bullets, an unmarked line after a bullet continues it
+      const last = lines[lines.length - 1];
+      if (usesBullets && !hadBullet && !hasDate && last && last.kind === "bullet" && !last.label && last.section === sec && (sec === "experience" || sec === "body" || sec === "projects") && !/[.!?]$/.test(last.text) && !(labelLike(items[i]) && TITLE_WORD.test(r))) { last.text += " " + r; continue; }
       if (sec === "education" || /\b(university|college|school|institute)\b/i.test(r) && DEGREE.some(([re]) => re.test(r))) {
         for (const [re, id] of DEGREE) if (re.test(r)) { degrees.add(id); if (CS_DEGREE.test(r)) csDegree = true; }
       }
-      lines.push({ text: r, kind: isCourse ? "course" : sec === "skills" ? "skill" : sec === "summary" ? "summary" : sec === "education" ? "education" : "bullet", section: sec, role: sec === "experience" || sec === "body" ? role : -1 });
+      lines.push({ text: r, kind: isCourse ? "course" : sec === "skills" ? "skill" : sec === "summary" ? "summary" : sec === "education" ? "education" : "bullet", section: sec, role: sec === "experience" || sec === "body" ? role : -1, label: sec !== "education" && labelLike(items[i]) });
+    }
+    // An employer line that carries the dates of the whole stay, with the roles held there dated beneath it
+    // ("MAJOR TELECOM CORP. 1994 – 2017", then "Director (2001 – 2017)", "Manager (1999 – 2001)"): the employer
+    // line is not a role, or its years would count twice.
+    const drop = new Set();
+    roles.forEach((u, i) => {
+      if (!u.capsLead || !u.span) return;
+      let nested = 0;
+      for (let k = i + 1; k < roles.length && !roles[k].capsLead && roles[k].section === u.section; k++) {
+        const sp = roles[k].span; if (!sp || sp[0] < u.span[0] - 0.01 || sp[1] > u.span[1] + 1.01) break;
+        roles[k].employerLine = u.text; nested++;
+      }
+      if (nested) drop.add(i);
+    });
+    // A column of dates printed apart from the jobs they belong to leaves dated entries with no title; when a
+    // titled job has the same dates, the bare entry is that job again.
+    roles.forEach((u, i) => { if (!u.title && u.span && roles.some((v, k) => k !== i && v.title && v.span && v.span[0] === u.span[0] && v.span[1] === u.span[1])) drop.add(i); });
+    if (drop.size) {
+      const remap = {}; let n = 0; roles.forEach((_, i) => { remap[i] = drop.has(i) ? -1 : n++; });
+      for (const l of lines) { if (l.kind === "role" && drop.has(l.role)) { l.kind = "employer"; l.role = -1; } else if (l.role >= 0) l.role = remap[l.role]; }
+      for (let i = roles.length - 1; i >= 0; i--) if (drop.has(i)) roles.splice(i, 1);
     }
     if (csDegree) degrees.add("cs_engineering_degree");
     const work = roles.filter(r => !/teaching assistant|\bTA\b|tutor/i.test(r.title));
-    const totalYears = work.filter(r => !r.isIntern).reduce((a, r) => a + (r.years || 0), 0);
+    // years of work: projects, clubs and activities are dated too, but they are not jobs
+    const totalYears = work.filter(r => !r.isIntern && r.section !== "projects").reduce((a, r) => a + (r.years || 0), 0);
     const pmYears = work.filter(r => r.isPM && !r.isIntern).reduce((a, r) => a + (r.years || 0), 0);
     const pmIntern = work.some(r => r.isPM && r.isIntern);
     const isStudent = lines.some(l => (l.kind === "education" || l.kind === "summary" || l.kind === "bullet") && /\b(expected|candidate|anticipated|class of 20\d\d|graduating)\b/i.test(l.text));
@@ -222,7 +346,7 @@
     function lineStrength(l, id) {
       if (l.kind === "course") return 2; // a course is something done, not just a word
       if (l.kind === "skill") return TOOLISH.has(id) ? 2 : 1; // nobody writes a bullet about Jira
-      if (l.kind === "summary" || l.kind === "education" || l.kind === "heading") return 1;
+      if (l.kind === "summary" || l.kind === "education" || l.kind === "heading" || l.kind === "employer") return 1;
       return OUTCOME.test(l.text) ? 3 : 2;
     }
 
@@ -238,7 +362,7 @@
         for (const c of compiled) {
           const base = lineStrength(l, c.id);
           const structural = STRUCTURAL.has(c.id);
-          if (structural && !(DEGREE_IDS.has(c.id) ? l.kind === "education" : (l.kind === "role" || l.kind === "summary"))) continue;
+          if (structural && !(DEGREE_IDS.has(c.id) ? l.kind === "education" : (l.kind === "role" || l.kind === "summary" || l.kind === "employer"))) continue;
           if (c.direct && c.direct.test(l.text)) add(c.id, l, i, structural ? 2 : base);
           else for (const v of c.via) if (v.rx.test(l.text)) { add(c.id, l, i, base, v.via); break; }
         }
@@ -284,16 +408,68 @@
       return { tiers, domains, ai, creds, soft, n: st.n, label: target.label, share: st.share };
     }
 
+    // Level from years and titles. Years alone reach senior: lead needs a title that says so (staff, principal,
+    // director, head). A current title of associate or junior holds the read at mid, however long it has been held.
+    function levelFrom(years, titleLevel, held) {
+      let level = years >= 5 ? "senior" : years >= 2 ? "mid" : "associate";
+      if (titleLevel && LEVEL_ORDER.indexOf(titleLevel) > LEVEL_ORDER.indexOf(level)) level = titleLevel;
+      const latest = held.filter(r => r.span).sort((a, b) => b.span[1] - a.span[1] || b.span[0] - a.span[0])[0];
+      if (latest && latest.level === "associate" && LEVEL_ORDER.indexOf(level) > 1) level = "mid";
+      return level;
+    }
+
     function profileOf(parsed) {
       const years = parsed.totalYears, pm = parsed.pmYears;
       const titleLevel = parsed.roles.filter(r => r.isPM && !r.isIntern).map(r => r.level).reduce((a, l) => ({ lead: 4, senior: 3, mid: 2, associate: 1 }[l] > ({ lead: 4, senior: 3, mid: 2, associate: 1 }[a] || 0) ? l : a), null);
       let persona, level;
-      if (pm > 0) { persona = "experienced_in_role"; level = pm >= 9 ? "lead" : pm >= 5 ? "senior" : pm >= 2 ? "mid" : "associate"; const tl = titleLevel; const ord = ["associate", "mid", "senior", "lead"]; if (tl && ord.indexOf(tl) > ord.indexOf(level)) level = tl; }
+      if (pm > 0) { persona = "experienced_in_role"; level = levelFrom(pm, titleLevel, parsed.roles.filter(r => r.isPM && !r.isIntern)); }
       else if (years >= 3 && !parsed.pmIntern) { persona = "pivoter"; level = years >= 8 ? "mid" : "associate"; } // a PM internship means the early-career path, not a pivot
       else { persona = "new_to_role"; level = "associate"; }
       const backgrounds = []; const bg = (re, id) => { if (parsed.roles.some(r => re.test(r.text)) || (id === "research" && parsed.degrees.has("phd"))) backgrounds.push(id); };
       bg(/research|phd|postdoc|lab\b|scientist|fellow/i, "research"); bg(/engineer|developer|\bswe\b|programmer/i, "engineering"); bg(/consult|analyst|strateg|advisory/i, "consulting"); bg(/design/i, "design"); bg(/marketing|brand|growth|content|communications/i, "marketing"); bg(/finance|financial|operations|supply|accounting|banking/i, "finance"); bg(/founder|co-?founder|founded/i, "founder");
       return { persona, level, years, pmYears: pm, pmIntern: parsed.pmIntern, backgrounds, titleLevel, roles: parsed.roles.length };
+    }
+
+    // Employers we hold postings for, to recognise on a role line ("Senior Product Manager, Stripe (2019 - 2022)").
+    const byCompany = {}; for (const j of G.jobs) (byCompany[j.company] ||= []).push(j);
+    const companyRx = Object.keys(byCompany).filter(c => c.length >= 4).map(c => ({ name: c, rx: new RegExp("(^|[^A-Za-z0-9])" + c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "($|[^A-Za-z0-9])", / /.test(c) ? "i" : ""), any: new RegExp("(^|[^A-Za-z0-9])" + c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "($|[^A-Za-z0-9])", "i") }));
+    function employerOf(role) {
+      // After the title a one-word name must be capitalised as we hold it ("Ramp", not "ramp up"). A line that is
+      // an employer line by its form ("STRIPE   Chicago, IL") is matched in any case.
+      const rest = role.text.slice(role.title.length), above = role.employerLine || "";
+      const hit = companyRx.filter(c => c.rx.test(rest) || c.any.test(above)).sort((a, b) => b.name.length - a.name.length)[0];
+      return hit ? hit.name : null;
+    }
+    function askedBy(jobs, min) { const st = shares(jobs); return new Set(skills.filter(s => !SOFT.has(s.id) && !CRED.has(s.id) && st.share(s.id) >= min).map(s => s.id)); }
+    const coreOf = jobs => askedBy(jobs, TIER.core);
+
+    // What a person is presumed to do because they held the target role. Null when they did not hold it,
+    // held it for under a year, or held it only below the target level.
+    function standing(parsed, profile, target, targetLevel) {
+      const family = target.job ? target.job.family : (target.jobs[0] || {}).family;
+      const counts = [family, ...(COVERS[family] || [])];
+      const held = parsed.roles.filter(r => counts.includes(r.family) && !r.isIntern && !/teaching assistant|\bTA\b|tutor/i.test(r.title));
+      const years = held.reduce((a, r) => a + (r.years || 0), 0);
+      if (!family || !held.length || years < PRESUMED.minYears) return null;
+      const byTitle = held.map(r => r.level).filter(Boolean).sort((a, b) => LEVEL_ORDER.indexOf(b) - LEVEL_ORDER.indexOf(a))[0];
+      const level = levelFrom(years, byTitle, held);
+      const gap = LEVEL_ORDER.indexOf(level) - LEVEL_ORDER.indexOf(targetLevel);
+      if (gap < 0) return null;
+      const famJobs = G.jobs.filter(j => j.family === family);
+      const atLevel = famJobs.filter(j => LEVEL_GROUP[j.level] === level);
+      const market = coreOf(atLevel), marketCommon = askedBy(atLevel, TIER.common);
+      const employers = [...new Set(held.map(employerOf).filter(Boolean))];
+      const employerJobs = famJobs.filter(j => employers.includes(j.company));
+      const employer = employerJobs.length >= PRESUMED.minEmployerPostings ? coreOf(employerJobs) : new Set();
+      return { family, level, years, above: gap > 0, market, marketCommon, employer, employers: employerJobs.length >= PRESUMED.minEmployerPostings ? employers.filter(e => (byCompany[e] || []).some(j => j.family === family)) : [] };
+    }
+    function presumedCredit(st, id, tier) {
+      if (!st || tier === "diff" || id === "__domain" || id === "__ai") return 0;
+      const table = st.above ? PRESUMED.above : PRESUMED.same;
+      const inEmployer = st.employer.has(id);
+      // above the target level, every core or common ask of the target is within what they did
+      const base = st.market.has(id) || inEmployer ? table.core : (st.above || st.marketCommon.has(id)) ? table.common : 0;
+      return base ? base + (inEmployer ? PRESUMED.employer : 0) : 0;
     }
 
     function ladderFor(id, level) { const s = gSkill[id]; const l = s && s.ladder; return l ? l[level] || null : null; }
@@ -311,8 +487,10 @@
       const targetLevel = opts.level || profile.level;
       const rows = []; const tierSum = { core: [0, 0], common: [0, 0], diff: [0, 0] };
       for (const tier of ["core", "common", "diff"]) for (const [id, w] of req.tiers[tier]) {
-        const e = evidenceFor(ev, id, req); const strength = e ? e.strength : 0; const credit = CREDIT[strength];
-        const status = strength >= 2 ? (e.transfer ? "transferable" : "evidenced") : strength === 1 ? "thin" : "gap";
+        const e = evidenceFor(ev, id, req); const strength = e ? e.strength : 0;
+        const pc = strength < 2 ? presumedCredit(opts.standing, id, tier) : 0;
+        const credit = Math.max(CREDIT[strength], pc);
+        const status = strength >= 2 ? (e.transfer ? "transferable" : "evidenced") : pc ? "presumed" : strength === 1 ? "thin" : "gap";
         const depth = e ? (e.subs.size > 0 || strength === 3) : false;
         rows.push({ id: e && e.id !== id ? e.id : id, slot: id, name: nameOf(e && e.id !== id ? e.id : id), slotName: nameOf(id), tier, w, strength, credit, status, depth, subs: e ? [...e.subs] : [], via: e ? [...e.via] : [], lines: e ? e.lines.sort((a, b) => b.strength - a.strength).slice(0, 2) : [], hintLines: e && e.subLines ? e.subLines.slice(0, 2) : [], ladder: ladderFor(e && e.id !== id ? e.id : id, targetLevel), signals: signalsFor(e && e.id !== id ? e.id : id), build: buildFor(e && e.id !== id ? e.id : id) });
         tierSum[tier][0] += w * credit; tierSum[tier][1] += w;
@@ -334,7 +512,9 @@
 
     function match(text, target, opts = {}) {
       const parsed = parseResume(text); const ev = tag(parsed); const profile = profileOf(parsed); const req = requirements(target);
-      const res = score(ev, req, profile, opts);
+      const st = standing(parsed, profile, target, opts.level || profile.level);
+      const res = score(ev, req, profile, { ...opts, standing: st });
+      res.standing = st ? { family: st.family, level: st.level, years: st.years, above: st.above, employers: st.employers, presumed: res.rows.filter(r => r.status === "presumed").length } : null;
       const unmapped = parsed.lines.filter((l, i) => l.kind === "bullet" && l.text.length > 30 && !Object.values(ev).some(e => e.nLines.has(i) || (e.subLines || []).some(s => s.i === i))).map(l => l.text).slice(0, 8);
       const extras = Object.entries(ev).filter(([id, e]) => e.strength >= 2 && !CRED.has(id) && !SOFT.has(id) && !res.rows.some(r => r.id === id)).map(([id]) => ({ id, name: nameOf(id) }));
       const covered = new Set(Object.entries(ev).filter(([id, e]) => e.strength >= 2 && !SOFT.has(id) && !id.startsWith("yoe_")).map(([id]) => id));

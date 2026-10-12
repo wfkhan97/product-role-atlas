@@ -389,3 +389,85 @@ fresh sample (a new `--seed`, new model calls) gives the honest number. Ten flag
 are: the model rejects a tool named in the qualifications (BI tools, procurement platforms), or the posting
 mentions the thing without the person doing it (transformation programmes, another team's name). About 21
 skills show a high missed share because the model infers the skill from the role; nothing in the posting names it.
+
+## Role held counts as evidence (2026-10-11)
+
+Branch `feat/held-role-scoring`. A staff PM put a real resume in and read 42% against entry-level product roles.
+The sample resumes did not show the problem (the experienced sample, retitled staff, read 81% there), so the
+cause is how real senior resumes are written: short lines, outcomes, few posting nouns. The new sample
+`staff_pm_terse` reproduces it: eleven years in product, 19% against associate roles, 5 of 24 requirements read.
+
+**Rule.** A person who held the target role family for a year or more, at the target level or above, was
+qualified to hold it. A requirement their resume does not show is then *presumed*, not a gap.
+
+- Credit is below a line of evidence (1.0), so adding the line always raises the score: 0.75 for what most
+  postings at the level they held ask for and 0.6 for the rest of the target's core and common asks, when they
+  held a level above the target; 0.6 and 0.4 when they held the same level (there, only what postings at that
+  level ask for is presumed). Plus 0.1 when their own employer's postings ask for it.
+- The employer is read from the role line and matched to the companies we hold postings for (five or more
+  postings in the family). Then the bar comes from that firm, not from the market average.
+- Never presumed: the industry slot, and AI literacy (a recent ask that years in the role do not imply).
+  Differentiators are not presumed either.
+- No presumption for students, pivoters, internships, or a level above the one held.
+
+**Result.** `staff_pm_terse`: 19% -> 66% against associate, 24% -> 70% against senior, 23% -> 57% against staff,
+with 18 to 20 requirements shown as presumed and the headline saying the role was held above the level.
+`experienced_pm`: 83% -> 87% at senior. Student and pivoter samples do not move. The runner checks a floor for
+every target where a role was held (60% above the level, 50% at it). 193 checks pass.
+
+**Open.** The employer rule has no eval sample yet (no sample names an employer we hold postings for). The
+credit values are a first setting; tune them on real resumes in `evals/resumes/private/`. Presumption covers the
+six product families only until the MBA role set has a graph. The real resume that started this is not in the
+samples yet.
+
+### The real resume (2026-10-11, same branch)
+
+The resume that started this then read 40% against product owner. The cause was upstream of scoring: the parser
+read **no roles at all** from it (zero years, "early-career, new to product"), so nothing held could count. It
+is a one-page PDF in a common layout that none of the samples had:
+
+- dates written `05/2025 – 04/2026` (the date pattern knew month names and bare years only);
+- the employer in capitals on its own line above several roles;
+- bullets wrapped onto a second line, which read as separate lines;
+- hyphens spaced out by the PDF text layer ("purpose - built", "self - learning");
+- a "Technical proficiency" heading.
+
+The parser now handles each of these. Two more rules: a product manager counts as having held the product owner
+role (`COVERS`), and an employer line in capitals is matched to our companies in any case. Resume patterns added
+for direct reports and for a named metric that moved (NPS, ARR, handling time).
+
+Result on that resume: product owner (senior) 40% -> 69%, product manager (senior) 47% -> 78%, entry-level
+51% -> 85%; read as senior with 5.6 years in product and American Express recognised. Against staff roles it
+reads 48%: nothing is presumed above the level held. The resume itself stays in `evals/resumes/private/`
+(gitignored). `senior_pm_pdf_layout` is a synthetic sample with the same layout and an employer we hold postings
+for, so the layout and the employer rule are both guarded. 220 checks pass.
+
+### Real sample resumes, the reader and calibration (2026-10-11 to 12, same branch)
+
+**Why.** Samples we write ourselves cannot show the layouts we did not think of. 299 published sample resumes
+were found for the indexed roles (`external_sources.json`); 21 from universities and professional bodies are
+fetched by script, 157 from resume sites were downloaded by hand (their terms forbid automated retrieval), and
+70 web pages were saved as text. The files stay in a gitignored folder. Real people's resumes are left out.
+
+**What they broke.** On the web-page set the reader got the job title right on 7 of 70. Resume builders put
+title, employer, city and dates each on a line of its own; two-column pages and Word text boxes bunch the
+headings together; narrow columns break a date range in two; one employer line carries the dates for several
+roles. The reader now anchors a job on its dates and looks for the title on that line, up to three label lines
+above or two below. 82 single resumes have expectations written by reading them first; all pass. Parse health
+over 239 single-resume files: 210 read with no flag.
+
+**Known misses.** Placeholder years ("20XX"), a year split by the PDF ("20 21"), resumes with no dates, a column
+of dates printed apart from job lines that carry none, lost ligatures ("So ware").
+
+**Calibration** ([calibration.md](calibration.md)). The role a sample was written for is the answer key. Same-role
+resumes score a median of 64% against their own product role, adjacent-role 34%, other-field 22%; the score ranks
+same-role above other-field 95% of the time. Bands of fit come from those distributions with bootstrap
+intervals, not from round numbers. The interface should show the band, not the percentage.
+
+**Level read.** Years alone now reach senior; lead needs a title that says so; a current associate or junior
+title holds the read at mid. The publishers' seniority labels are too loose to score this well: a ten-year
+"Product Manager" sample is labelled mid.
+
+**Open.** A resume's own role is its top-scoring product role in about two of three cases: product manager and
+product owner requirements overlap heavily. The samples are tidier than real resumes, so real ones sit lower in
+each band. Only product roles can be scored until the MBA role set has a graph.

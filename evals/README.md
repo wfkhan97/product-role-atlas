@@ -11,6 +11,38 @@ node evals/run.mjs --only grad   # one sample
 
 No install needed; it reads `web/data/taxonomy.json` (the product part of `pipeline/taxonomy.json`, written by `build_graph`), `web/data/subskills.json` and `web/data/graph.json`.
 
+## File types
+
+A sample may be `.txt`, `.pdf` or `.docx`. The runner reads PDF and DOCX with the libraries the app loads in the
+browser, at the same versions, and builds the text the same way (`evals/extract.mjs` mirrors `readFile` in
+`web/app.js`), so a two-column PDF or a Word table is tested as a user's file would be. Text samples need no
+install. For PDF and DOCX, run `npm install` once in `evals/`.
+
+A sample's JSON may carry `parse`: what the parser must find whatever the layout. Fields: `roles` or `min_roles`,
+`min_years`, `max_years`, `degrees` (ids), `titles` (each must appear in some role's title).
+
+## Published sample resumes
+
+`evals/external_sources.json` lists sample resumes that universities, business schools, professional bodies and
+resume sites publish, by role, with a `fetch` rule for each: `script` (a university, business school or
+professional body: `node evals/fetch_external.mjs` fetches it), `manual` (a resume site whose terms allow
+personal or internal use but not automated retrieval, or whose terms could not be read: download it by hand and
+save it under its id), `page` (a web page: paste its text into a `.txt`), `no` (left out, with the reason; real
+people's resumes are never used). `evals/external_expectations.json` says what the parser must read from each
+file. `evals/build_external_sources.py` rebuilds the list from search results.
+
+`node evals/run.mjs --external` also scores the files in `evals/resumes/external/`.
+
+`node evals/parse_health.mjs` reads every external file and flags the ones the parser reads badly (no jobs, a job
+with no title, implausible years), with no expectations needed.
+
+`node evals/calibrate.mjs` writes [calibration.md](calibration.md): how same-role, adjacent-role and other-field
+resumes score, how well the score separates them, and the cut points for bands of fit that those distributions
+give, with bootstrap intervals. Rerun it after any change to the matcher; the bands the interface shows must come
+from this file, not from round numbers. The folder is gitignored:
+published sample resumes belong to their publishers, so the repository keeps only the list of sources and our own
+expectations for each file, not the files.
+
 ## Real resumes, kept private
 
 Put a real resume in `evals/resumes/private/<name>.txt`, with a `<name>.json` of expectations beside it if you
@@ -27,6 +59,7 @@ it holds the expectations:
 | `persona` | `experienced_in_role`, `new_to_role` or `pivoter`. The redesign should produce a different reading for each. |
 | `targets` | slices to score against, as `family:level` or `family:__all`. |
 | `score_band` | per target, the range a sensible score should land in. A judgment call; tune after the scoring model settles. |
+| `expect_employer` | an employer the matcher must recognise on the first target, because we hold its postings. |
 | `expected_level` | the level a reader would place this person at. Not checked yet; for the level-read feature. |
 | `must_evidence` | skills a human reader says are clearly shown. Each one not tagged is a miss. |
 | `must_not_tag` | skills that are not on the page. Each one tagged is a false positive. The hard constraint: false positives cost user trust faster than misses. |
@@ -59,6 +92,12 @@ For each sample and target: the three coverage numbers and the overall score aga
 more; `persona` and `expected_level` against the profile read; and a monotonicity property (appending a
 line that evidences a gap never lowers the score). `--verbose` prints every requirement row with the
 line that evidenced it, which is the fastest way to see why a check failed.
+
+**Layouts.** Each sample is also rewritten in the layouts of `evals/layouts.mjs` (dates as `01/2020 – 03/2022`
+or `Jan 2020 - Mar 2022`, employer in capitals on its own line, other bullet glyphs, wrapped bullets, spaced
+hyphens, other headings, Windows line ends, and all of these at once as a PDF text layer gives them). Every
+variant must read like the original: the same number of roles, the same years in product, the same persona and
+level, and a score within four points. Add a variant when a real resume shows a layout that is not there yet.
 
 The runner requires `web/match.js` directly, so it always runs the code the app runs.
 

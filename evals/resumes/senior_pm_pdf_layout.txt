@@ -1,0 +1,22 @@
+SAM RIVERA
+Chicago, IL |   sam.rivera@example.com   |   LinkedIn
+EDUCATION
+Master of Business Administration (MBA)   | Lakeside School of Management, Chicago, IL   05/2027
+B.S., Statistics   | Midwest State University, Madison, WI   05/2017
+TECHNICAL PROFICIENCY
+Technical:   Python, SQL | LLMs, RAG
+PROFESSIONAL EXPERIENCE
+STRIPE   Chicago, IL
+Senior Product Manager, Billing Automation   03/2023   –   04/2026
+•   Led 6 engineers and 1 direct report to deliver the company’s first self - serve invoicing flow, which drove
+$400,000 in new ARR
+•   Built a RAG - enabled assistant for support agents, leading to a 9% reduction in handling time
+•   Launched ML - powered in - app search for 20,000 users and deflected 5,000 tickets a month
+Product Manager,   Billing Platform   06/2020   –   03/2023
+•   Devised a platform strategy for usage - based billing, reducing invoice errors from 4% to 1%
+•   Managed 1 direct report and mentored 2 interns across a summer - long build cycle
+HARBOR ANALYTICS   Chicago, IL
+Product Analyst   07/2017   –   06/2020
+•   Oversaw a churn model for real - time account monitoring
+AWARDS
+Founder’s Award   | Top 1% of colleagues   2024
