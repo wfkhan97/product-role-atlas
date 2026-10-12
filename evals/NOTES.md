@@ -366,9 +366,8 @@ associates 4.
   should treat a role's own domain as given.
 - "Statistics & forecasting" tags most FP&A postings through `forecast`, next to the new "Budgeting &
   forecasting". Splitting forecasting out of statistics is a naming decision for both role sets.
-- Overlapping pairs kept for now: performance improvement / spend and cost savings; synthesis &
-  recommendations / insights & storytelling; operating model design / organization design; three negotiation
-  skills by context (deals, sales, suppliers).
+- Three negotiation skills by context (deals, sales, suppliers) are kept apart: the work differs. The other
+  overlapping pairs were merged or separated on 2026-10-11.
 - Company blurbs at banks and asset managers ("we provide capital markets and wealth solutions") still trip
   capital markets, wealth advisory, investment research and client coverage in non-investing roles there.
 - A few employers dominate some roles (Amazon is a quarter of operations managers), so those shares lean on
@@ -376,5 +375,17 @@ associates 4.
 - Small roles: venture capital associate (18 postings), the three real-estate roles (119 together), M&A
   integration (35), digital transformation (35). Their percentages swing on a few postings.
 
-**Not yet done.** The model audit of the new skills (`skill_audit.py`, 3,197 requests prepared): the OpenAI key
-in `.env` had expired. Until it runs, the new patterns are checked by reading samples only.
+**Model audit (2026-10-11).** `skill_audit.py` put 3,600 judgments to the model: for each of the 180 skills,
+10 postings the patterns tagged and 10 untagged postings from the skill's main roles. First pass: the model
+accepted 75% of tagged samples; 17 skills were under 50%. The false matches were mostly bare words that are also
+employers or everyday terms ("Meta, Google" in alumni lists for ad platforms; "regulators" as an audience;
+"MarTech"; "land" inside "landscape"), page-footer headings (ITAR), perks blurbs (learning stipends, events) and
+one employer's boilerplate repeated across its postings. 42 skills were tightened and 8 given phrasings the
+model found in untagged postings. Recomputed against the same answers: 82% accepted, 5 skills under 50%, the
+missed share 33% -> 30%. See [extraction_audit_mba.md](extraction_audit_mba.md).
+
+Read the 82% with care: the patterns were fixed on the same sample that measures them, so it is optimistic. A
+fresh sample (a new `--seed`, new model calls) gives the honest number. Ten flagged skills were left as they
+are: the model rejects a tool named in the qualifications (BI tools, procurement platforms), or the posting
+mentions the thing without the person doing it (transformation programmes, another team's name). About 21
+skills show a high missed share because the model infers the skill from the role; nothing in the posting names it.
