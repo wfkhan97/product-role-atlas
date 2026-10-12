@@ -430,3 +430,33 @@ Result on that resume: product owner (senior) 40% -> 69%, product manager (senio
 reads 48%: nothing is presumed above the level held. The resume itself stays in `evals/resumes/private/`
 (gitignored). `senior_pm_pdf_layout` is a synthetic sample with the same layout and an employer we hold postings
 for, so the layout and the employer rule are both guarded. 220 checks pass.
+
+### Real sample resumes, the reader and calibration (2026-10-11 to 12, same branch)
+
+**Why.** Samples we write ourselves cannot show the layouts we did not think of. 299 published sample resumes
+were found for the indexed roles (`external_sources.json`); 21 from universities and professional bodies are
+fetched by script, 157 from resume sites were downloaded by hand (their terms forbid automated retrieval), and
+70 web pages were saved as text. The files stay in a gitignored folder. Real people's resumes are left out.
+
+**What they broke.** On the web-page set the reader got the job title right on 7 of 70. Resume builders put
+title, employer, city and dates each on a line of its own; two-column pages and Word text boxes bunch the
+headings together; narrow columns break a date range in two; one employer line carries the dates for several
+roles. The reader now anchors a job on its dates and looks for the title on that line, up to three label lines
+above or two below. 82 single resumes have expectations written by reading them first; all pass. Parse health
+over 239 single-resume files: 210 read with no flag.
+
+**Known misses.** Placeholder years ("20XX"), a year split by the PDF ("20 21"), resumes with no dates, a column
+of dates printed apart from job lines that carry none, lost ligatures ("So ware").
+
+**Calibration** ([calibration.md](calibration.md)). The role a sample was written for is the answer key. Same-role
+resumes score a median of 64% against their own product role, adjacent-role 34%, other-field 22%; the score ranks
+same-role above other-field 95% of the time. Bands of fit come from those distributions with bootstrap
+intervals, not from round numbers. The interface should show the band, not the percentage.
+
+**Level read.** Years alone now reach senior; lead needs a title that says so; a current associate or junior
+title holds the read at mid. The publishers' seniority labels are too loose to score this well: a ten-year
+"Product Manager" sample is labelled mid.
+
+**Open.** A resume's own role is its top-scoring product role in about two of three cases: product manager and
+product owner requirements overlap heavily. The samples are tidier than real resumes, so real ones sit lower in
+each band. Only product roles can be scored until the MBA role set has a graph.

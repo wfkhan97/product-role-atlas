@@ -217,7 +217,9 @@
     // a date range that a narrow column broke in two: "October 2020 -" / "Current", "June 2018 - October" / "2020"
     const MON = "(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\\.?";
     const openEnd = new RegExp("(?:(?:19|20)\\d{2}|\\d{1,2}\\/\\d{2,4})\\s*[-–—]\\s*(?:" + MON + ")?\\s*$", "i"), closeStart = new RegExp("^\\s*(?:(?:" + MON + "\\s+)?(?:19|20)\\d{2}|\\d{1,2}\\/\\d{2,4}|present|current)\\b", "i");
-    for (let k = 0; k < raw.length - 1; k++) if (openEnd.test(raw[k]) && closeStart.test(raw[k + 1])) { raw[k] = raw[k].trimEnd() + " " + raw[k + 1].trim(); raw.splice(k + 1, 1); }
+    // also "| JUNE" / "2017 TO PRESENT" and "2020 to" / "Present"
+    const monthEnd = new RegExp("\\b" + MON + "\\s*$", "i"), yearStart = /^\s*(?:19|20)\d{2}\b/, toEnd = /(?:19|20)\d{2}\s+(?:to|through)\s*$/i;
+    for (let k = 0; k < raw.length - 1; k++) if ((openEnd.test(raw[k]) && closeStart.test(raw[k + 1])) || (monthEnd.test(raw[k]) && yearStart.test(raw[k + 1]) && raw[k].length < 120) || (toEnd.test(raw[k]) && closeStart.test(raw[k + 1]))) { raw[k] = raw[k].trimEnd() + " " + raw[k + 1].trim(); raw.splice(k + 1, 1); }
     // a heading set with a space between every letter: "E D U C AT I O N", "K E Y S K I L L S"
     const HEAD_WORDS = /(professional|work|relevant|experience|employment|history|education|academic|technical|key|core|skills|summary|profile|about|me|projects|certifications|awards|activities|leadership|additional|information)/g;
     for (let k = 0; k < raw.length; k++) { const t = raw[k].trim().replace(/\s+/g, " "); if (/^(?:[A-Z&]{1,2} ){3,}[A-Z]{1,2}$/.test(t)) raw[k] = t.replace(/ /g, "").toLowerCase().replace(HEAD_WORDS, " $1").replace(/\s+/g, " ").trim().toUpperCase(); }
@@ -304,6 +306,9 @@
       }
       if (nested) drop.add(i);
     });
+    // A column of dates printed apart from the jobs they belong to leaves dated entries with no title; when a
+    // titled job has the same dates, the bare entry is that job again.
+    roles.forEach((u, i) => { if (!u.title && u.span && roles.some((v, k) => k !== i && v.title && v.span && v.span[0] === u.span[0] && v.span[1] === u.span[1])) drop.add(i); });
     if (drop.size) {
       const remap = {}; let n = 0; roles.forEach((_, i) => { remap[i] = drop.has(i) ? -1 : n++; });
       for (const l of lines) { if (l.kind === "role" && drop.has(l.role)) { l.kind = "employer"; l.role = -1; } else if (l.role >= 0) l.role = remap[l.role]; }
@@ -403,11 +408,21 @@
       return { tiers, domains, ai, creds, soft, n: st.n, label: target.label, share: st.share };
     }
 
+    // Level from years and titles. Years alone reach senior: lead needs a title that says so (staff, principal,
+    // director, head). A current title of associate or junior holds the read at mid, however long it has been held.
+    function levelFrom(years, titleLevel, held) {
+      let level = years >= 5 ? "senior" : years >= 2 ? "mid" : "associate";
+      if (titleLevel && LEVEL_ORDER.indexOf(titleLevel) > LEVEL_ORDER.indexOf(level)) level = titleLevel;
+      const latest = held.filter(r => r.span).sort((a, b) => b.span[1] - a.span[1] || b.span[0] - a.span[0])[0];
+      if (latest && latest.level === "associate" && LEVEL_ORDER.indexOf(level) > 1) level = "mid";
+      return level;
+    }
+
     function profileOf(parsed) {
       const years = parsed.totalYears, pm = parsed.pmYears;
       const titleLevel = parsed.roles.filter(r => r.isPM && !r.isIntern).map(r => r.level).reduce((a, l) => ({ lead: 4, senior: 3, mid: 2, associate: 1 }[l] > ({ lead: 4, senior: 3, mid: 2, associate: 1 }[a] || 0) ? l : a), null);
       let persona, level;
-      if (pm > 0) { persona = "experienced_in_role"; level = pm >= 9 ? "lead" : pm >= 5 ? "senior" : pm >= 2 ? "mid" : "associate"; const tl = titleLevel; const ord = ["associate", "mid", "senior", "lead"]; if (tl && ord.indexOf(tl) > ord.indexOf(level)) level = tl; }
+      if (pm > 0) { persona = "experienced_in_role"; level = levelFrom(pm, titleLevel, parsed.roles.filter(r => r.isPM && !r.isIntern)); }
       else if (years >= 3 && !parsed.pmIntern) { persona = "pivoter"; level = years >= 8 ? "mid" : "associate"; } // a PM internship means the early-career path, not a pivot
       else { persona = "new_to_role"; level = "associate"; }
       const backgrounds = []; const bg = (re, id) => { if (parsed.roles.some(r => re.test(r.text)) || (id === "research" && parsed.degrees.has("phd"))) backgrounds.push(id); };
@@ -436,9 +451,8 @@
       const held = parsed.roles.filter(r => counts.includes(r.family) && !r.isIntern && !/teaching assistant|\bTA\b|tutor/i.test(r.title));
       const years = held.reduce((a, r) => a + (r.years || 0), 0);
       if (!family || !held.length || years < PRESUMED.minYears) return null;
-      const byYears = years >= 9 ? "lead" : years >= 5 ? "senior" : years >= 2 ? "mid" : "associate";
       const byTitle = held.map(r => r.level).filter(Boolean).sort((a, b) => LEVEL_ORDER.indexOf(b) - LEVEL_ORDER.indexOf(a))[0];
-      const level = byTitle && LEVEL_ORDER.indexOf(byTitle) > LEVEL_ORDER.indexOf(byYears) ? byTitle : byYears;
+      const level = levelFrom(years, byTitle, held);
       const gap = LEVEL_ORDER.indexOf(level) - LEVEL_ORDER.indexOf(targetLevel);
       if (gap < 0) return null;
       const famJobs = G.jobs.filter(j => j.family === family);

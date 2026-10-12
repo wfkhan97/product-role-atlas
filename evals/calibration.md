@@ -6,11 +6,11 @@ Produced by `node evals/calibrate.mjs` on 2026-10-12 from 239 published sample r
 
 | group | scores | 5th pct | 25th | median | 75th | 95th |
 |---|---|---|---|---|---|---|
-| Same role (a product resume against its own role) | 50 | 28% | 58% | 64% | 70% | 77% |
+| Same role (a product resume against its own role) | 50 | 28% | 57% | 64% | 70% | 77% |
 | Adjacent role (against the other product roles) | 250 | 11% | 23% | 34% | 45% | 63% |
 | Other field (a non-product resume against product roles) | 1134 | 5% | 13% | 22% | 34% | 48% |
 
-The score ranks a same-role resume above an other-field resume 95% of the time, and above an adjacent-role one 89% of the time (0.5 would be chance). A resume's own role is its highest-scoring product role in 33 of 50. The level read agrees with the sample's stated seniority in 27 of 44.
+The score ranks a same-role resume above an other-field resume 95% of the time, and above an adjacent-role one 89% of the time (0.5 would be chance). A resume's own role is its highest-scoring product role in 32 of 50. The level read agrees with the sample's stated seniority in 36 of 44.
 
 ## Bands of fit
 
@@ -18,8 +18,8 @@ Cut points come from the distributions above, not from round numbers. The interv
 
 | band | score | rule | interval | same role | adjacent role | other field |
 |---|---|---|---|---|---|---|
-| Reads like people in the role | 70% and above | the top quarter of same-role resumes | 67% to 73% | 28% | 2% | 0% |
-| In range for the role | 50% to 70% | from the score that best splits same-role from adjacent-role resumes | 47% to 57% | 58% | 17% | 4% |
+| Reads like people in the role | 70% and above | the top quarter of same-role resumes | 67% to 72% | 26% | 2% | 0% |
+| In range for the role | 50% to 70% | from the score that best splits same-role from adjacent-role resumes | 47% to 58% | 60% | 17% | 4% |
 | Related background | 34% to 50% | above three in four other-field resumes | 32% to 35% | 6% | 33% | 21% |
 | A different field so far | below 34% | | | 8% | 48% | 75% |
 
