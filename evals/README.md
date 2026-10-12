@@ -23,6 +23,14 @@ A sample's JSON may carry `parse`: what the parser must find whatever the layout
 
 ## Published sample resumes
 
+`evals/external_sources.json` lists sample resumes that universities, business schools, professional bodies and
+resume sites publish, by role, with a `fetch` rule for each: `script` (a university, business school or
+professional body: `node evals/fetch_external.mjs` fetches it), `manual` (a resume site whose terms allow
+personal or internal use but not automated retrieval, or whose terms could not be read: download it by hand and
+save it under its id), `page` (a web page: paste its text into a `.txt`), `no` (left out, with the reason; real
+people's resumes are never used). `evals/external_expectations.json` says what the parser must read from each
+file. `evals/build_external_sources.py` rebuilds the list from search results.
+
 `node evals/run.mjs --external` also scores the files in `evals/resumes/external/`. The folder is gitignored:
 published sample resumes belong to their publishers, so the repository keeps only the list of sources and our own
 expectations for each file, not the files.

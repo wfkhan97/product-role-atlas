@@ -159,9 +159,12 @@
   const SECTION = [
     [/^(professional |work |relevant |research |industry )?(experience|employment|history|positions?|career)\b/i, "experience"],
     [/^(research experience|research)\b/i, "experience"],
+    [/^(leadership|volunteer|community|campus|extra[- ]?curricular)\b.*\b(experience|activities|involvement|service)$/i, "projects"],
+    // "Business experience", "Related experience", "Other employment": a short line that ends with the word
+    [/^([A-Za-z&]+ ){1,3}(experience|employment)$/i, "experience"],
     [/^(education|academic)/i, "education"],
     [/^(relevant )?(coursework|courses)/i, "coursework"],
-    [/^(projects?|capstone|selected projects|side projects|hackathons?|portfolio|leadership( & activities)?|activities|extra[- ]?curricular|volunteer)/i, "projects"],
+    [/^(academic |class |course )?(projects?|capstone|selected projects|side projects|hackathons?|portfolio|leadership( & activities)?|activities|extra[- ]?curricular|volunteer|organi[sz]ations|affiliations|memberships|involvement)/i, "projects"],
     [/^(technical |core |key )?(skills|tools|technologies|competencies|certifications?|proficienc(y|ies))\b/i, "skills"],
     [/^(summary|profile|objective|about( me)?|overview|highlights)/i, "summary"],
     [/^(publications?|awards?|honou?rs|interests|languages|references)/i, "other"],
@@ -184,32 +187,45 @@
     return Math.max(0.25, Math.min(40, end - start));
   }
 
+  // first and last year of a dated line, "present" read as now
+  function spanOf(text) {
+    const m = text.match(/(19|20)\d{2}/g); if (!m) return null;
+    const now = new Date().getFullYear() + 1;
+    return [+m[0], /present|current|now|today/i.test(text) ? now : +m[m.length - 1]];
+  }
+
   function rx(list) { return list.length ? new RegExp(list.map(p => "(?:" + p + ")").join("|"), "i") : null; }
 
   function parseResume(text) {
     // PDF text often spaces out hyphens ("purpose - built", "self - learning"); join them so words match again
-    const raw = text.replace(/\r/g, "").replace(/([A-Za-z]) - ([a-z])/g, "$1-$2").split(/\n|(?=\s[•▪●‣◦■]\s)|(?<=\.)\s{2,}(?=[A-Z])/);
-    const BULLET = /^\s*[•▪●‣◦■\-–—*·]\s+/; const usesBullets = raw.filter(r => BULLET.test(r)).length >= 3;
+    const raw = text.replace(/\r/g, "").replace(/([A-Za-z]) - ([a-z])/g, "$1-$2").split(/\n|(?=\s[•▪●‣◦■\uf0b7\uf0a7\uf0d8]\s)|(?<=[a-z]{4}\.)\s{2,}(?=[A-Z])/);
+    const BULLET = /^\s*([•▪●‣◦■\uf0b7\uf0a7\uf0d8\-–—*·]\s+|o\s{2,})/; const usesBullets = raw.filter(r => BULLET.test(r)).length >= 3;
     // an employer on its own line above its roles: "AMERICAN EXPRESS   New York, NY"
     const EMPLOYER_LINE = /^[A-Z][A-Z0-9&.'’\-]+( [A-Z0-9&.'’\-]+)*(\s{2,}|\s*[|,]|$)/;
     const lines = []; let section = null; let role = -1; const roles = []; const degrees = new Set(); let csDegree = false; let employer = null;
-    const headerLike = s => s.length < 60 && !/[.;:]$/.test(s) && (s === s.toUpperCase() || SECTION.some(([r]) => r.test(s)));
+    // a heading carries no year: "Project Engineer 2004-2007" is a job, not the Projects section
+    const headerLike = s => s.length < 60 && !/[.;:]$/.test(s) && !/(19|20)\d{2}/.test(s) && (s === s.toUpperCase() || SECTION.some(([r]) => r.test(s)));
     for (let r of raw) {
       const hadBullet = BULLET.test(r);
-      r = r.replace(/^[\s•▪●‣◦■\-–—*·]+/, "").trim(); if (!r) continue;
-      if (headerLike(r)) { const hit = SECTION.find(([re]) => re.test(r)); if (hit) { section = hit[1]; lines.push({ text: r, kind: "heading", section }); continue; } }
+      // keep the line as written to see wide gaps; match on single spaces (a PDF may put three between every word)
+      const r0 = r.replace(/^\s*o\s{2,}/, "").replace(/^[\s•▪●‣◦■\uf0b7\uf0a7\uf0d8\-–—*·]+/, "").trim();
+      r = r0.replace(/[ \t\u00a0]{2,}/g, " "); if (!r) continue;
+      if (headerLike(r)) { const hit = SECTION.find(([re]) => re.test(r)); if (hit) { section = hit[1]; employer = null; lines.push({ text: r, kind: "heading", section }); continue; } }
       const sec = section || (COURSE_LINE.test(r) ? "coursework" : "body");
       const isCourse = sec === "coursework" || (!section && COURSE_LINE.test(r));
       const hasDate = DATE.test(r);
-      if ((sec === "experience" || sec === "body" || sec === "projects") && hasDate && r.length < 160 && !/^[a-z]/.test(r)) {
-        const title = r.split(/,| at | \| | — | – |\(/)[0].trim();
+      // a long bullet that mentions a date range ("sales from 2004-present") is not a job line
+      if ((sec === "experience" || sec === "body" || sec === "projects") && hasDate && r.length < 160 && !/^[a-z]/.test(r) && !(hadBullet && r.length >= 90)) {
+        // the title ends where the dates start ("Associate Product Manager 2007-Present") or at a separator
+        const dm = r.search(DATE); const head = dm > 0 ? r.slice(0, dm) : dm === 0 ? r.replace(DATE, "") : r;
+        const title = head.split(/,| at | \| | — | – |\(/)[0].trim() || head.trim();
         const isPM = PM_TITLE.test(title) || PM_TITLE.test(r.split(/\(|\d{4}/)[0]);
         const lvl = (TITLE_LEVEL.find(([re]) => re.test(title)) || [, isPM ? "mid" : null])[1];
         const family = isPM ? (TITLE_FAMILY.find(([, re]) => re.test(title)) || ["pm"])[0] : null;
-        roles.push({ title, text: r, years: yearsBetween(r), isPM, family, isIntern: INTERN.test(r), level: lvl, section: sec, line: lines.length, employerLine: employer });
+        roles.push({ title, text: r, years: yearsBetween(r), isPM, family, isIntern: INTERN.test(r), level: lvl, section: sec, line: lines.length, employerLine: employer, capsLead: EMPLOYER_LINE.test(r0), span: spanOf(r) });
         role = roles.length - 1; lines.push({ text: r, kind: "role", section: sec, role }); continue;
       }
-      if ((sec === "experience" || sec === "body") && !hadBullet && !hasDate && r.length < 80 && EMPLOYER_LINE.test(r)) { employer = r; lines.push({ text: r, kind: "employer", section: sec, role: -1 }); continue; }
+      if ((sec === "experience" || sec === "body") && !hadBullet && !hasDate && r.length < 80 && EMPLOYER_LINE.test(r0)) { employer = r; lines.push({ text: r, kind: "employer", section: sec, role: -1 }); continue; }
       // a wrapped bullet: in a resume that marks bullets, an unmarked line after a bullet continues it
       const last = lines[lines.length - 1];
       if (usesBullets && !hadBullet && !hasDate && last && last.kind === "bullet" && last.section === sec && (sec === "experience" || sec === "body" || sec === "projects") && !/[.!?]$/.test(last.text)) { last.text += " " + r; continue; }
@@ -218,9 +234,28 @@
       }
       lines.push({ text: r, kind: isCourse ? "course" : sec === "skills" ? "skill" : sec === "summary" ? "summary" : sec === "education" ? "education" : "bullet", section: sec, role: sec === "experience" || sec === "body" ? role : -1 });
     }
+    // An employer line that carries the dates of the whole stay, with the roles held there dated beneath it
+    // ("MAJOR TELECOM CORP. 1994 – 2017", then "Director (2001 – 2017)", "Manager (1999 – 2001)"): the employer
+    // line is not a role, or its years would count twice.
+    const drop = new Set();
+    roles.forEach((u, i) => {
+      if (!u.capsLead || !u.span) return;
+      let nested = 0;
+      for (let k = i + 1; k < roles.length && !roles[k].capsLead && roles[k].section === u.section; k++) {
+        const sp = roles[k].span; if (!sp || sp[0] < u.span[0] - 0.01 || sp[1] > u.span[1] + 1.01) break;
+        roles[k].employerLine = u.text; nested++;
+      }
+      if (nested) drop.add(i);
+    });
+    if (drop.size) {
+      const remap = {}; let n = 0; roles.forEach((_, i) => { remap[i] = drop.has(i) ? -1 : n++; });
+      for (const l of lines) { if (l.kind === "role" && drop.has(l.role)) { l.kind = "employer"; l.role = -1; } else if (l.role >= 0) l.role = remap[l.role]; }
+      for (let i = roles.length - 1; i >= 0; i--) if (drop.has(i)) roles.splice(i, 1);
+    }
     if (csDegree) degrees.add("cs_engineering_degree");
     const work = roles.filter(r => !/teaching assistant|\bTA\b|tutor/i.test(r.title));
-    const totalYears = work.filter(r => !r.isIntern).reduce((a, r) => a + (r.years || 0), 0);
+    // years of work: projects, clubs and activities are dated too, but they are not jobs
+    const totalYears = work.filter(r => !r.isIntern && r.section !== "projects").reduce((a, r) => a + (r.years || 0), 0);
     const pmYears = work.filter(r => r.isPM && !r.isIntern).reduce((a, r) => a + (r.years || 0), 0);
     const pmIntern = work.some(r => r.isPM && r.isIntern);
     const isStudent = lines.some(l => (l.kind === "education" || l.kind === "summary" || l.kind === "bullet") && /\b(expected|candidate|anticipated|class of 20\d\d|graduating)\b/i.test(l.text));

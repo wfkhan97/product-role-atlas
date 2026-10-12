@@ -1,0 +1,20 @@
+{
+ "_about": "What the parser must read from each fetched sample resume (evals/resumes/external/<id>.*, listed in external_sources.json). Written by reading each file's dated lines. 'Present' in an old sample runs to today, so years have a floor, not an exact value. kind: single (one resume), packet (several resumes in one file; not checked until it is split), template (placeholder text, no real dates).",
+ "hr_manager_shrm_1": {"kind": "single", "parse": {"roles": 6, "min_years": 21, "max_years": 25, "titles": ["Senior Manager", "Organizational Development Specialist", "Learning & Development Specialist"], "degrees": ["masters_mba", "bachelors"]}, "note": "Every word gap is three spaces. The second employer line carries the dates of the whole stay (1999 - 2020) with five dated roles beneath it."},
+ "hr_manager_ucberkeleypeop_1": {"kind": "single", "parse": {"roles": 4, "min_years": 21, "max_years": 25, "titles": ["Director", "Manager", "Staff Supervisor"], "degrees": ["bachelors"]}, "note": "Employer line with the dates of the stay, three dated roles beneath it, then a second employer with its role title on the next line."},
+ "ldp_rutgersunivers_1": {"kind": "single", "parse": {"roles": 3, "min_years": 14, "titles": ["Associate Product Manager", "Project Engineer", "Design Engineer"], "degrees": ["masters_mba", "bachelors"]}, "note": "Title and dates on one line with no separator. 'Project Engineer 2004-2007' must not read as the Projects heading."},
+ "marketing_manager_rutgersunivers_1": {"kind": "single", "parse": {"roles": 3, "min_years": 16, "titles": ["Director of Marketing", "Brand Manager", "Product Manager"], "degrees": ["masters_mba", "bachelors"]}, "note": "Sub-bullets marked with the letter o."},
+ "marketing_manager_hofstraunivers_1": {"kind": "single", "parse": {"roles": 4, "max_years": 1, "degrees": ["masters_mba", "bachelors"]}, "note": "Four internships: they are roles, but they add no years of work. Month and year split by wide gaps (Jun   2015-Present)."},
+ "business_analytics_northeastwisco_1": {"kind": "single", "parse": {"roles": 3, "min_years": 9, "titles": ["Business Analyst", "Sales Associate"]}, "note": "Headings 'RELTATED EXPERIENCE' (misspelt in the source) and 'WORK   EXPERIENCE'. Full month names."},
+ "supply_chain_northeastwisco_1": {"kind": "single", "parse": {"roles": 1, "min_years": 7, "titles": ["Driver Support Representative"]}},
+ "supply_chain_universityofrh_1": {"kind": "single", "parse": {"min_roles": 1, "max_years": 1, "titles": ["Warehouse Intern"]}, "note": "Known miss: the PDF breaks a year in two ('Waiter 20 21 - present'), so that job is not read."},
+ "supply_chain_utdallasnaveen_1": {"kind": "single", "parse": {"min_roles": 3, "max_years": 2, "titles": ["Supply Chain Intern", "Lead Consultant", "Summer Analyst"], "degrees": ["masters_mba", "bachelors"]}, "note": "A bullet says 'sales from 2004-present': not a job. Clubs under ORGANIZATIONS are dated but add no years of work."},
+ "operations_manager_regentuniversi_1": {"kind": "single", "parse": {"min_roles": 2, "max_years": 3, "titles": ["Supply Chain Supervisor Trainee"], "degrees": ["masters_mba", "bachelors"]}},
+ "management_consultant_universityofpe_1": {"kind": "template", "note": "Dates are written 'October 20 xx': no year to read."},
+ "brand_manager_vanderbiltuniv_1": {"kind": "template", "note": "Word template with no years in it."},
+ "ldp_universityofio_1": {"kind": "template", "note": "Word template with no years in it."},
+ "ldp_universityofma_1": {"kind": "packet", "note": "Guidelines plus several sample resumes in one Word file."},
+ "bizdev_harvardextensi_1": {"kind": "packet"},
+ "customer_success_universityofge_1": {"kind": "packet"},
+ "marketing_manager_unckenanflagle_1": {"kind": "packet"}
+}

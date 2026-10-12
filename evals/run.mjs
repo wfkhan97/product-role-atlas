@@ -23,6 +23,7 @@ const TAX = JSON.parse(fs.readFileSync(path.join(root, "web/data/taxonomy.json")
 const SUBS = JSON.parse(fs.readFileSync(path.join(root, "web/data/subskills.json")));
 const G = JSON.parse(fs.readFileSync(path.join(root, "web/data/graph.json")));
 const M = createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G });
+const EXTERNAL = JSON.parse(fs.readFileSync(path.join(root, "evals/external_expectations.json")));
 
 function target(spec) {
   const [fam, lv] = spec.split(":");
@@ -53,7 +54,10 @@ for (const f of samples) {
   try { text = await extractText(path.join(here, "resumes", f)); }
   catch (e) { fail++; out(`\n=== ${f}: could not be read (${String(e.message).split("\n")[0]})`); continue; }
   const specPath = path.join(here, "resumes", name + ".json");
-  const spec = fs.existsSync(specPath) ? JSON.parse(fs.readFileSync(specPath)) : { targets: ["pm:__all"] };
+  // fetched samples are not in the repository; what each must read is in external_expectations.json
+  const extSpec = f.startsWith("external") ? EXTERNAL[path.basename(name)] : null;
+  if (f.startsWith("external") && (!extSpec || extSpec.kind !== "single")) { out(`\n=== ${f}: ${extSpec ? extSpec.kind + (extSpec.note ? " — " + extSpec.note : "") : "no expectations yet"}; ${text.trim().split(/\s+/).length} words read, not checked`); continue; }
+  const spec = extSpec ? { targets: ["pm:__all"], ...extSpec } : fs.existsSync(specPath) ? JSON.parse(fs.readFileSync(specPath)) : { targets: ["pm:__all"] };
   let first = null; const scores = {};
   for (const t of spec.targets) {
     const tg = target(t);
