@@ -32,6 +32,8 @@ export const VARIANTS = {
   side_heading_inside_jobs: t => { let n = 0; return mapRoles(t, (title, emp, a, b) => `${++n === 2 ? "Key Skills\n" : ""}${title}\n${emp}, New York, NY | ${a} to ${b}`); },
   // a two-column builder template: the dates of every job in one block, the job lines ("Title   Employer, City, ST") in another
   dates_in_a_column: t => { if (/\((Summer|Fall|Spring|Winter) \d{4}\)$/m.test(t)) return t; /* a job this rewrite cannot move */ const dates = []; const body = mapRoles(t, (title, emp, a, b) => { dates.push(`January ${a}   -   ${b === "Present" ? "Current" : "January " + b}`); return `${title}   ${emp} ,   New York, NY`; }); return body.replace(/^EXPERIENCE$/m, "EXPERIENCE\n" + dates.join("\n")); },
+  // title, employer, then the dates with only a place beside them: "2019 - 2022 / Austin, TX"
+  dates_with_place: t => mapRoles(t, (title, emp, a, b) => `${title}\n${emp}\n${a} - ${b === "Present" ? "current" : b} / Austin, TX`),
   headings_long: t => t.replace(/^EXPERIENCE$/m, "PROFESSIONAL EXPERIENCE").replace(/^SKILLS$/m, "TECHNICAL PROFICIENCY").replace(/^EDUCATION$/m, "EDUCATION & CREDENTIALS"),
   headings_title_case: t => t.replace(/^(SUMMARY|EXPERIENCE|EDUCATION|SKILLS|PROJECTS|COURSEWORK)$/gm, h => h[0] + h.slice(1).toLowerCase()),
   // what a text layer of a one-page PDF often looks like: all of the above at once

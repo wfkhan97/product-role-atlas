@@ -108,7 +108,7 @@ for (const sample of samples) {
     if (want.min_years != null && r.profile.years < want.min_years) bad.push(`years ${r.profile.years.toFixed(1)}, want at least ${want.min_years}`);
     if (want.max_years != null && r.profile.years > want.max_years) bad.push(`years ${r.profile.years.toFixed(1)}, want at most ${want.max_years}`);
     for (const d of want.degrees || []) if (!P.degrees.includes(d)) bad.push(`degree ${d} not read`);
-    for (const t of want.titles || []) if (!P.roles.some(x => { const a = x.title.toLowerCase(), b = t.toLowerCase(); return a.includes(b) || (a.length >= 8 && b.startsWith(a)); })) bad.push(`no role titled "${t}"`); // a title cut at its comma still names the job
+    for (const t of want.titles || []) if (!P.roles.some(x => { const a = x.title.toLowerCase(), b = t.toLowerCase(); return a.includes(b) || (b.startsWith(a) && (a.length >= 8 || b[a.length] === ",")); })) bad.push(`no role titled "${t}"`); // a title cut at its comma still names the job
     bad.length ? fail++ : pass++; out(`  parse        : ${bad.length ? "FAIL (" + bad.join("; ") + ")" : "PASS"} — ${P.roles.length} roles, ${r.profile.years.toFixed(1)} yrs, degrees: ${P.degrees.join(", ") || "none"}`);
   }
   if (spec.expect_employer) { const got = (r.standing && r.standing.employers) || []; const ok = got.includes(spec.expect_employer); ok ? pass++ : fail++; out(`  employer     : ${ok ? "PASS" : "FAIL (" + (got.join(", ") || "none") + ")"}`); }

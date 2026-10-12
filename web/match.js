@@ -162,7 +162,10 @@
   const OUTCOME = /\d+ ?%|\$\s?\d|\b\d+(\.\d+)?\s?(x|k|m|b|mm)\b|\b\d{2,}\+?\s?(users|customers|participants|clients|engineers|people|accounts|students|enterprise|interviews|studies|features|releases|papers)\b|\b(increas|reduc|improv|grew|lift|boost|cut|saved|doubled|tripled|drove|accelerat|won|adopted|published)\w*\b/i;
   const DATE = /((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}\s*(–|-|—|to|through)\s*(((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}|present|current|now|today)|\b(summer|fall|spring|winter)\s+(19|20)\d{2}\b|\((19|20)\d{2}\)|\b(19|20)\d{2}\s*[-–]\s*(19|20)\d{2}\b|\b\d{1,2}\/\s?\d{2}\s*(–|-|—|to|through)\s*(\d{1,2}\/\s?\d{2}\b|present|current|now|today)|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+['’]\d{2}\s*(–|-|—|to|through)\s*((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+['’]\d{2}|present|current|now|today)/i;
   // a word that marks a job title, to tell the title from the employer and the city when they sit on separate lines
-  const TITLE_WORD = /\b(manager|director|analyst|engineer|associate|intern|lead|leader|officer|consultant|specialist|coordinator|president|head|owner|founder|developer|designer|scientist|representative|supervisor|trainee|assistant|strategist|partner|administrator|advisor|adviser|banker|accountant|auditor|buyer|planner|recruiter|researcher|fellow|architect|controller|treasurer|economist|underwriter|trader|broker|agent|clerk|technician|teacher|tutor|instructor|professor|editor|writer|marketer|generalist|apprentice|chief|vp|cfo|ceo|coo|cto|cmo|principal|executive)\b/i;
+  const TITLE_WORD = /\b(manager|director|analyst|engineer|associate|intern|lead|leader|officer|consultant|specialist|coordinator|president|head|owner|founder|developer|designer|scientist|representative|supervisor|trainee|assistant|strategist|partner|administrator|advisor|adviser|banker|accountant|auditor|buyer|planner|recruiter|researcher|fellow|architect|controller|treasurer|economist|underwriter|trader|broker|agent|clerk|technician|teacher|tutor|instructor|professor|editor|writer|marketer|generalist|apprentice|chief|vp|cfo|ceo|coo|cto|cmo|principal|executive|processor|teller|barista|cashier|nurse|operator|receptionist|secretary|bookkeeper|paralegal|attorney|counsel|lawyer|coach|commander|captain|programmer|tester|appraiser|investigator|examiner|inspector|merchandiser|purchaser|scheduler|bartender|extern|lecturer|trainer|producer|reporter|advocate|liaison|superintendent|foreman|estimator|dispatcher|counselor|organizer|facilitator|aide|expediter|sergeant|lieutenant|chef|steward|attendant|ambassador|cpa)\b/i;
+  // a line that starts with a verb in the past tense is a sentence about work, not a title ("Tracked partner campaigns")
+  const SENTENCE_START = /^(?!(certified|licensed|registered|chartered|accredited|advanced|integrated|associated|retired|embedded|distributed|applied|allied|united|unified|managed|skilled)\b)[A-Z][a-z]+ed\s/i;
+  const titlePart = x => TITLE_WORD.test(x) && x.split(" ").length <= 8 && !SENTENCE_START.test(x);
   const MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
   // Every date on a line as a fractional year, in order: "Jan 2020", "January 2020", "01/2020", "9/17", "Jul '19", "2020".
   function datesOf(text) {
@@ -255,7 +258,7 @@
     const BULLET = /^\s*([•▪●‣◦■\uf0b7\uf0a7\uf0d8\-–—*·]\s+|o\s{2,})/; const usesBullets = raw.filter(r => BULLET.test(r)).length >= 3;
     // an employer on its own line above its roles: "AMERICAN EXPRESS   New York, NY"
     const EMPLOYER_LINE = /^[A-Z][A-Z0-9&.'’\-]+( [A-Z0-9&.'’\-]+)*(\s{2,}|\s*[|,]|$)/;
-    for (let k = 0; k < raw.length; k++) { const m = raw[k].match(/^\s*(\S(?:.{0,30}?\S)?)\s{2,}(\S.*)$/); if (m && SECTION.some(([re]) => re.test(m[1])) && m[1].split(" ").length <= 3 && !/\d/.test(m[1])) raw.splice(k, 1, m[1], m[2]); }
+    for (let k = 0; k < raw.length; k++) { const m = raw[k].match(/^\s*(\S(?:.{0,30}?\S)?)\s{2,}(\S.*)$/); if (m && SECTION.some(([re]) => re.test(m[1])) && headingWords(m[1]) && m[1].split(" ").length <= 3 && !/\d/.test(m[1]) && !/^[a-z]/.test(m[2])) raw.splice(k, 1, m[1], m[2]); }
     const lines = []; let section = null; let role = -1; const roles = []; const degrees = new Set(); let csDegree = false; let employer = null; let strayMode = false;
     // a heading carries no year: "Project Engineer 2004-2007" is a job, not the Projects section
     const headerLike = s => s.length < 60 && !/[.;:]$/.test(s) && !/(19|20)\d{2}/.test(s) && !(TITLE_WORD.test(s) && !/\b(experience|summary|profile|history)\b/i.test(s)) && headingWords(s);
@@ -288,11 +291,13 @@
       if ((sec === "experience" || sec === "body" || sec === "projects" || stray) && hasDate && r.length < 160 && !/^[a-z]/.test(r) && !(hadBullet && r.length >= 90)) {
         // What stands on the dated line besides the dates: a title, an employer, a place, or nothing at all.
         const dateText = r.match(DATE)[0]; const dm = r.indexOf(dateText);
-        const own = parts(r.slice(0, dm) + " | " + r.slice(dm + dateText.length));
+        const ownAll = parts(r.slice(0, dm) + " | " + r.slice(dm + dateText.length));
+        // only a place beside the dates ("2019 - 2023 / Detroit, MI"): nothing there can be the title
+        const own = ownAll.length <= 2 && /^[A-Z]{2}$/.test(ownAll[ownAll.length - 1] || "") && !ownAll.some(x => TITLE_WORD.test(x)) ? [] : ownAll;
         // the same dates printed again under a job line ("... | 2022 to Present |" then "2022 – Present")
         const lastRole = roles[roles.length - 1], sp = spanOf(dateText);
-        if (!own.length && lastRole && lines[lines.length - 1].kind === "role" && lastRole.span && sp && lastRole.span[0] === sp[0] && lastRole.span[1] === sp[1]) continue;
-        let title = own.find(x => TITLE_WORD.test(x)); const near = [];
+        if (!own.some(titlePart) && lastRole && lines[lines.length - 1].kind === "role" && lastRole.span && sp && lastRole.span[0] === sp[0] && lastRole.span[1] === sp[1]) continue;
+        let title = own.find(titlePart); const near = [];
         // two or more lines of dates and nothing else, one after the other, are a column of dates: the lines
         // around them are not their titles (the pairing after the loop finds those)
         const bareDate = x => { const m = x && x.match(DATE); return !!m && !parts(x.slice(0, m.index) + " | " + x.slice(m.index + m[0].length)).length; };
@@ -305,15 +310,20 @@
           // Dates alone on a line belong with the label lines above them (title / city / employer / dates, or a title
           // line wrapped in two); dates that share a line with the employer often have the title just below.
           const order = (own.length ? [prev[0], next[0], prev[1], next[1], prev[2]] : [prev[0], prev[1], prev[2], next[0], next[1]]).filter(Boolean);
-          const pick = order.find(c => parts(c.text || c.r).some(x => TITLE_WORD.test(x)));
+          const pick = order.find(c => parts(c.text || c.r).some(titlePart));
           if (pick) {
-            title = parts(pick.text || pick.r).find(x => TITLE_WORD.test(x));
+            title = parts(pick.text || pick.r).find(titlePart);
             if (pick.r !== undefined) { const upto = next.indexOf(pick); for (let k = 0; k <= upto; k++) { near.push(next[k].r); } i += upto + 1; }
           } else if (!own.length && prev[0]) title = parts(prev[0].text)[0];
           for (const l of prev) { l.kind = "employer"; near.push(l.text); }
         }
         if (!title) title = column ? "" : own[0] || "";
         const whole = [r, ...near].join(" | ");
+        // dates beside a school or a degree and no job title: schooling printed away from its heading, not a job
+        if (!TITLE_WORD.test(title) && (SCHOOL.test(whole) || DEGREE_PHRASE.test(whole))) {
+          for (const [re, id] of DEGREE) if (re.test(whole)) { degrees.add(id); if (CS_DEGREE.test(whole)) csDegree = true; }
+          lines.push({ text: whole, kind: "education", section: "education", role: -1 }); continue;
+        }
         const isPM = PM_TITLE.test(title);
         const lvl = (TITLE_LEVEL.find(([re]) => re.test(title)) || [, isPM ? "mid" : null])[1];
         const family = isPM ? (TITLE_FAMILY.find(([, re]) => re.test(title)) || ["pm"])[0] : null;
