@@ -123,6 +123,8 @@ for (const sample of samples) {
       if (Math.abs(r2.profile.pmYears - r.profile.pmYears) > 0.6) why.push(`product years ${r2.profile.pmYears.toFixed(1)} vs ${r.profile.pmYears.toFixed(1)}`);
       if (r2.profile.persona !== r.profile.persona || r2.profile.level !== r.profile.level) why.push(`read as ${r2.profile.persona}/${r2.profile.level}`);
       if (Math.abs(r2.overall - r.overall) > 0.04) why.push(`score ${pct(r2.overall)} vs ${pct(r.overall)}`);
+      const lost = [...r.covered].filter(k => !r2.covered.has(k)), gained = [...r2.covered].filter(k => !r.covered.has(k));
+      if (lost.length || gained.length) why.push(`skills ${lost.map(k => "-" + k).concat(gained.map(k => "+" + k)).join(" ")}`);
       why.length ? (fail++, badV.push(`${v.name} (${why.join("; ")})`)) : pass++;
     }
     if (vs.length) out(`  layouts      : ${vs.length - badV.length}/${vs.length}${badV.length ? "  WRONG: " + badV.join(", ") : ""}`);

@@ -218,6 +218,9 @@
 
   function parseResume(text) {
     // PDF text often spaces out hyphens ("purpose - built", "self - learning"); join them so words match again
+    // and it often sets the ligatures fi, fl, ff apart from their word: "pro fi t", "work fl ow", "for   fi nance"
+    // (one space on each side inside a word, a wide gap before it at the start of a word)
+    text = text.replace(/([A-Za-z]) (ffi|ffl|ff|fi|fl) (?=[a-z])/g, "$1$2").replace(/(^|\s{2,}|[-(\/]\s?)(ffi|ffl|ff|fi|fl) (?=[a-z]{2})/gm, "$1$2");
     const raw = text.replace(/\r/g, "").replace(/([A-Za-z]) - ([a-z])/g, "$1-$2").split(/\n|(?=\s[•▪●‣◦■\uf0b7\uf0a7\uf0d8]\s)|(?<=[a-z]{4}\.)\s{2,}(?=[A-Z])/);
     // a date range that a narrow column broke in two: "October 2020 -" / "Current", "June 2018 - October" / "2020"
     const MON = "(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\\.?";
@@ -371,7 +374,8 @@
     function lineStrength(l, id) {
       if (l.kind === "course") return 2; // a course is something done, not just a word
       if (l.kind === "skill") return TOOLISH.has(id) ? 2 : 1; // nobody writes a bullet about Jira
-      if (l.kind === "summary" || l.kind === "education" || l.kind === "heading" || l.kind === "employer") return 1;
+      if (l.kind === "employer") return DOMAIN.has(id) ? 2 : 1; // where a person worked shows the industry
+      if (l.kind === "summary" || l.kind === "education" || l.kind === "heading") return 1;
       return OUTCOME.test(l.text) ? 3 : 2;
     }
 
@@ -384,14 +388,20 @@
       };
       parsed.lines.forEach((l, i) => {
         if (l.kind === "heading") return;
+        // An employer's name shows an industry or a kind of employer, never a skill ("Beta Apps" is not beta
+        // testing): on a job line only the title is read for skills, and an employer line is read for none.
+        const named = l.kind === "role" || l.kind === "employer";
+        const own = l.kind === "role" ? (parsed.roles[l.role] || {}).title || "" : l.kind === "employer" ? "" : l.text;
         for (const c of compiled) {
           const base = lineStrength(l, c.id);
           const structural = STRUCTURAL.has(c.id);
           if (structural && !(DEGREE_IDS.has(c.id) ? l.kind === "education" : (l.kind === "role" || l.kind === "summary" || l.kind === "employer"))) continue;
-          if (c.direct && c.direct.test(l.text)) add(c.id, l, i, structural ? 2 : base);
-          else for (const v of c.via) if (v.rx.test(l.text)) { add(c.id, l, i, base, v.via); break; }
+          const text = named && !structural && !DOMAIN.has(c.id) ? own : l.text;
+          if (!text) continue;
+          if (c.direct && c.direct.test(text)) add(c.id, l, i, structural ? 2 : base);
+          else for (const v of c.via) if (v.rx.test(text)) { add(c.id, l, i, base, v.via); break; }
         }
-        for (const s of subRx) if (s.rx && s.rx.test(l.text)) { const e = ev[s.parent] ||= { strength: 0, lines: [], subs: new Set(), via: new Set(), direct: false, nLines: new Set() }; e.subs.add(s.id); e.subLines = e.subLines || []; e.subLines.push({ i, text: l.text, sub: s.name }); }
+        for (const s of subRx) if (s.rx && s.rx.test(own)) { const e = ev[s.parent] ||= { strength: 0, lines: [], subs: new Set(), via: new Set(), direct: false, nLines: new Set() }; e.subs.add(s.id); e.subLines = e.subLines || []; e.subLines.push({ i, text: l.text, sub: s.name }); }
       });
       // structural credentials
       const p = parsed;
@@ -404,7 +414,7 @@
       // domain skills: one line is a hint unless it is a role / summary line
       for (const [id, e] of Object.entries(ev)) {
         if (e.lines.length === 0 && e.subs.size) { e.strength = 0; e.hintOnly = true; continue; } // sub-skill only: a hint, never credited
-        if (DOMAIN.has(id)) { const strong = e.lines.some(l => l.kind === "role" || l.kind === "summary") || e.nLines.size >= 2; if (!strong) { e.strength = 0; e.capped = true; } }
+        if (DOMAIN.has(id)) { const strong = e.lines.some(l => l.kind === "role" || l.kind === "summary" || l.kind === "employer") || e.nLines.size >= 2; if (!strong) { e.strength = 0; e.capped = true; } }
         if (!e.direct && e.via.size) e.transfer = true;
       }
       return ev;

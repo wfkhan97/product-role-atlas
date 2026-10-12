@@ -23,6 +23,8 @@ export const VARIANTS = {
   bullets_wrapped: t => wrap(bullets(t, "• "), 95),
   crlf: t => t.replace(/\n/g, "\r\n"),
   spaced_hyphens: t => t.replace(/([a-z])-([a-z])/g, "$1 - $2"),
+  // a PDF text layer that sets the ligatures apart: "pro fi t", "work fl ow", "for   fi nance"
+  ligatures_split: t => t.replace(/ (fi|fl)(?=[a-z]{2})/g, "   $1 ").replace(/([a-z])(ffi|ffl|ff|fi|fl)(?=[a-z])/g, "$1 $2 "),
   headings_long: t => t.replace(/^EXPERIENCE$/m, "PROFESSIONAL EXPERIENCE").replace(/^SKILLS$/m, "TECHNICAL PROFICIENCY").replace(/^EDUCATION$/m, "EDUCATION & CREDENTIALS"),
   headings_title_case: t => t.replace(/^(SUMMARY|EXPERIENCE|EDUCATION|SKILLS|PROJECTS|COURSEWORK)$/gm, h => h[0] + h.slice(1).toLowerCase()),
   // what a text layer of a one-page PDF often looks like: all of the above at once

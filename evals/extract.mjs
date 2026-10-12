@@ -10,7 +10,9 @@ export const READABLE = /\.(txt|pdf|docx)$/i;
 export async function extractText(file) {
   const ext = path.extname(file).toLowerCase();
   if (ext === ".pdf") {
-    const pdfjs = require("pdfjs-dist/legacy/build/pdf.js");
+    // pdf.js prints a warning about the canvas module when it loads; it needs no canvas to read text
+    const say = [console.log, console.warn]; console.log = console.warn = () => {};
+    let pdfjs; try { pdfjs = require("pdfjs-dist/legacy/build/pdf.js"); } finally { [console.log, console.warn] = say; }
     const pdf = await pdfjs.getDocument({ data: new Uint8Array(fs.readFileSync(file)), useSystemFonts: true, verbosity: 0 }).promise;
     const pages = [];
     for (let p = 1; p <= pdf.numPages; p++) {
