@@ -257,7 +257,7 @@
     "\\bGTM\\b",
     "launch plan",
     "market(ing)? strateg",
-    "commercial(i[sz]ation)?"
+    "commerciali[sz]ation|\\bcommercial\\b(?! (bank|lend|loan|real estate|credit|cards?\\b|paper|insurance|propert|mortgage|clients?\\b|customers?\\b|accounts?\\b|relationship|driver|vehicle|truck|kitchen|construction|building|lines?\\b|deposits?))"
    ]
   },
   {
@@ -316,7 +316,7 @@
    "name": "Partnerships & ecosystem",
    "cluster": "gtm",
    "patterns": [
-    "partnership",
+    "partnerships\\b|(?<!in )(?<!in close )(?<!close )(?<!business )partnership\\b(?! with\\b)",
     "partner ecosystem",
     "third[- ]party (partners|integrations|developers|ecosystem|providers)",
     "\\bISVs?\\b",
@@ -363,7 +363,7 @@
     "growth (strategy|loop|lever|initiative|team|product)",
     "\\bfunnel\\b",
     "conversion",
-    "retention",
+    "(?<!employee )(?<!talent )(?<!staff )(?<!associate )(?<!records )(?<!record )(?<!data )(?<!document )retention\\b(?! (of|and development of) (employees|talent|staff|associates|records))(?! (policy|policies|schedule|bonus))",
     "churn",
     "activation",
     "(user|customer) acquisition",
@@ -440,7 +440,7 @@
    "name": "Surveys & feedback loops",
    "cluster": "discovery",
    "patterns": [
-    "survey",
+    "(?<!salary )(?<!compensation )(?<!pay )(?<!market )survey",
     "\\bNPS\\b",
     "net promoter",
     "feedback loop",
@@ -546,7 +546,7 @@
    "cluster": "analytics",
    "patterns": [
     "statistic(s|al)\\b",
-    "forecast",
+    "(?<!budget and )(?<!budget & )(?<!plan and )(?<!budget )(?<!budgets and )(?<!budgeting and )(?<!budgeting, )(?<!budgeting & )(?<!financial )(?<!revenue )(?<!sales )(?<!cash )(?<!expense )(?<!cost )(?<!headcount )(?<!quarterly )(?<!annual )(?<!rolling )forecast(?!s? (vs\\.?|versus|to actuals?|and budget|accuracy and budget))",
     "regression",
     "predictive",
     "causal",
@@ -592,7 +592,7 @@
    "cluster": "technical",
    "patterns": [
     "\\bAPIs?\\b",
-    "integrations?\\b",
+    "(?<!merger )(?<!acquisition )(?<!acquisitions )(?<!m&a )(?<!post-merger )(?<!post-close )(?<!post-deal )(?<!business )(?<!company )integrations?\\b(?! (management office|planning|playbook|workstreams?|of (the )?(acquired|acquisitions?|compan)))",
     "\\bSDKs?\\b",
     "webhooks?",
     "\\bREST(ful)?\\b",
@@ -1271,7 +1271,7 @@
     "work[- ]?streams?",
     "milestones?",
     "timelines?",
-    "schedules?\\b",
+    "(?<!work )(?<!shift )(?<!flexible )(?<!rotating )(?<!weekend )(?<!hybrid )schedules?\\b(?! flexib)",
     "on[- ]time",
     "on[- ]budget",
     "deliverables",
@@ -1436,7 +1436,7 @@
     "quicksight",
     "\\bsuperset\\b",
     "\\bhex\\b",
-    "\\bsigma\\b"
+    "(?<!six[ -])(?<!6[ -])(?<!lean )\\bsigma\\b(?! (black|green|yellow) belt)"
    ]
   },
   {

@@ -1,0 +1,38 @@
+{
+ "budgeting_forecasting": {
+  "what": "Build the annual budget or operating plan and keep the forecast current as the year unfolds."
+ },
+ "variance_analysis": {
+  "what": "Explain why actual results differ from budget, forecast or prior periods."
+ },
+ "scenario_modeling": {
+  "what": "Build driver-based models and test how results change under different assumptions."
+ },
+ "accounting_close_controls": {
+  "what": "Keep the books right: close each period, apply accounting standards and maintain financial controls."
+ },
+ "financial_reporting": {
+  "what": "Produce the recurring reports and commentary that tell leadership how the business is performing."
+ },
+ "financial_statements": {
+  "what": "Read and work with the income statement, balance sheet and cash flow statement."
+ },
+ "cash_liquidity": {
+  "what": "Forecast and manage the company's cash so obligations are met and spare cash is put to work."
+ },
+ "debt_capital_structure": {
+  "what": "Manage borrowing, lender relationships and the mix of debt and equity that funds a company."
+ },
+ "fx_hedging": {
+  "what": "Protect the company from currency and interest-rate swings using hedges and derivatives."
+ },
+ "capital_allocation": {
+  "what": "Decide where the company puts its capital and judge the return on those investments."
+ },
+ "investor_relations": {
+  "what": "Raise capital and keep shareholders, analysts or fund investors informed with reports and presentations."
+ },
+ "finance_partnering": {
+  "what": "Act as the finance counterpart to a business team and shape its decisions with numbers."
+ }
+}

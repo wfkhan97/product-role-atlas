@@ -1,0 +1,44 @@
+{
+ "brand_strategy": {
+  "what": "Defining what a brand stands for and growing its equity, health and consistency over time."
+ },
+ "campaign_management": {
+  "what": "Planning, launching and optimising marketing campaigns across channels."
+ },
+ "demand_generation": {
+  "what": "Creating qualified pipeline for sales through demand programmes and account-based marketing."
+ },
+ "performance_marketing": {
+  "what": "Running paid and digital acquisition channels (search, social, display) against efficiency targets."
+ },
+ "seo_web_conversion": {
+  "what": "Growing unpaid search traffic and tuning the website and landing pages so more visitors convert."
+ },
+ "content_social": {
+  "what": "Planning and producing content (blogs, video, social posts) that draws and engages an audience."
+ },
+ "lifecycle_marketing": {
+  "what": "Reaching existing customers with email, in-app and CRM programmes that move them through the lifecycle."
+ },
+ "marketing_analytics": {
+  "what": "Measuring what marketing spend returns: attribution, incrementality, channel and campaign performance."
+ },
+ "consumer_insights": {
+  "what": "Turning research on consumer behaviour and attitudes into brand and marketing decisions."
+ },
+ "creative_agency": {
+  "what": "Briefing and steering creative and media agencies to produce work that meets the brand's goals."
+ },
+ "events_field_marketing": {
+  "what": "Planning events, trade shows, sponsorships and regional programmes that put the company in front of buyers."
+ },
+ "pr_communications": {
+  "what": "Managing how the company is covered and heard: media relations, analyst relations and corporate communications."
+ },
+ "customer_proof": {
+  "what": "Turning customer wins into case studies, references and advocacy that help sell."
+ },
+ "cpg_innovation": {
+  "what": "Brand management as consumer-goods companies practise it: an innovation and renovation pipeline, plus shopper and trade marketing with retailers."
+ }
+}

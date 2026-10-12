@@ -99,6 +99,33 @@ def main():
         if e.get("sector") in (None, "Startup (unclassified)"):
             k = _re.sub(r"[^a-z0-9]+", "", key.replace("&", "and"))
             e["sector"] = map_sector(sector_text.get(k, "") + " " + (e.get("description") or "")) or "Startup (unclassified)"
+    # One job board is one employer. Fund portfolios name the same company differently ("Anduril" and
+    # "Anduril Industries"), and each name would otherwise count the same postings again.
+    def board(e):
+        return (e["ats"], json.dumps(e.get("config", {}), sort_keys=True))
+    def slug(name):
+        return _re.sub(r"[^a-z0-9]+", "", name.lower())
+    fortune_boards = {board(r) for r in reg if r["ats"] != "unsupported"}
+    by_board = {}
+    for key, e in startups.items():
+        by_board.setdefault(board(e), []).append(key)
+    merged = 0
+    for b, keys in by_board.items():
+        if b in fortune_boards:  # already listed as a Fortune company
+            for k in keys:
+                del startups[k]; merged += 1
+            continue
+        if len(keys) == 1:
+            continue
+        target = slug(str(startups[keys[0]].get("config", {}).get("board", "")))
+        # keep the name the board itself uses, else the one most funds use, else the longer one
+        keep = max(keys, key=lambda k: (slug(startups[k]["company"]) == target, len(startups[k]["funds"]), len(k)))
+        for k in keys:
+            if k != keep:
+                startups[keep]["funds"] += [f for f in startups[k]["funds"] if f not in startups[keep]["funds"]]
+                startups[keep].setdefault("also_listed_as", []).append(startups[k]["company"])
+                del startups[k]; merged += 1
+    print("startup entries merged into another entry with the same job board:", merged)
     for e in startups.values():
         e["investor"] = ", ".join(funds[f]["name"] for f in e["funds"]) if e["funds"] else None
         e["investors"] = [funds[f]["name"] for f in e["funds"]]

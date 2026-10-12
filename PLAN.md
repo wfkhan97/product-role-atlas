@@ -75,6 +75,15 @@ specialisation from the title, education asked for. Every chip count reflects th
 - Free: force layout by co-occurrence.
 Sub-skills can be shown as satellite dots: on click (default), for every skill, or off.
 
+## Role sets (v5, 2026-10-11)
+
+A role set is a list of roles with its own title rules: `product` (the six product families) and `mba` (the 50
+roles of mbapreferred.com's "50 MBA Career Options", `pipeline/roles_mba.py`). Scrape and extraction take
+`--roles`; the taxonomy is one vocabulary in which a skill is either shared or belongs to one role set
+(`pipeline/tax.py`). The MBA set is scraped (data/raw/jobs_mba) and extracted (data/processed/jobs_mba.json,
+279 skills); its graph build and interface are not designed yet, and the product map shows only its own part of
+the taxonomy until they are. Only US postings of the MBA set are meant to be shown.
+
 ## Later
 
 - LLM-based extraction (Claude) for higher-recall skill tagging and requirement vs nice-to-have split.

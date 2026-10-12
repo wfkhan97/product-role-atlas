@@ -1,0 +1,14 @@
+{
+ "dashboards_dataviz": {
+  "what": "Building dashboards and charts that let others see and explore the numbers."
+ },
+ "reporting_adhoc_analysis": {
+  "what": "Building and automating the reports a business runs on, and answering one-off data questions."
+ },
+ "self_service_bi": {
+  "what": "Setting up governed data sets, tools and training so business teams can answer their own questions."
+ },
+ "analytics_requirements": {
+  "what": "Turning a stakeholder's business question into a clear analytics or reporting requirement, then into a delivered answer."
+ }
+}

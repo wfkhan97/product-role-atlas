@@ -1,0 +1,77 @@
+{
+ "demand_supply_planning": {
+  "what": "Forecasting demand and balancing it against supply, materials and production through an S&OP cycle."
+ },
+ "inventory_mgmt": {
+  "what": "Setting and controlling stock levels so product is available without tying up excess cash."
+ },
+ "logistics_transportation": {
+  "what": "Moving goods between suppliers, sites and customers: carriers, freight, distribution networks and trade compliance."
+ },
+ "warehouse_fulfillment": {
+  "what": "Running the floor of a warehouse, fulfilment or distribution centre: receiving, storage, picking, packing and shipping."
+ },
+ "capacity_production_planning": {
+  "what": "Planning how much sites, lines and networks can make or handle, and scheduling production to meet demand."
+ },
+ "lean_six_sigma": {
+  "what": "Using Lean and Six Sigma tools (kaizen, value-stream mapping, DMAIC, 5S, standard work) to remove waste and variation."
+ },
+ "root_cause_corrective_action": {
+  "what": "Finding the true cause of a defect, delay or miss and putting a lasting fix in place."
+ },
+ "quality_systems": {
+  "what": "Keeping products and processes within specification through a quality management system, audits and standards such as ISO 9001 or GMP."
+ },
+ "safety_ehs": {
+  "what": "Keeping people safe at a site: safety programmes, incident investigation and OSHA/EHS compliance."
+ },
+ "labor_shift_mgmt": {
+  "what": "Staffing and running hourly or shift-based teams: labour plans, schedules and performance per shift."
+ },
+ "ops_performance_mgmt": {
+  "what": "Running an operation to its numbers: productivity, throughput, cycle time, on-time delivery and service-level targets."
+ },
+ "equipment_maintenance": {
+  "what": "Keeping plant, equipment and facilities running: preventive maintenance, reliability and repairs."
+ },
+ "sourcing_category_strategy": {
+  "what": "Deciding what to buy from whom: building category or commodity strategies and running the sourcing process behind them."
+ },
+ "rfx_bid_mgmt": {
+  "what": "Running RFIs, RFQs and RFPs: writing the request, comparing bids and recommending an award."
+ },
+ "supplier_relationship_mgmt": {
+  "what": "Managing suppliers after the deal: scorecards, business reviews, development plans and issue resolution."
+ },
+ "supplier_contract_negotiation": {
+  "what": "Negotiating price and terms with suppliers and turning the deal into contracts such as MSAs and SOWs."
+ },
+ "spend_cost_savings": {
+  "what": "Analysing what the company spends and with whom, then delivering and tracking savings against targets."
+ },
+ "tco_should_cost": {
+  "what": "Building cost models of a part, service or supplier (total cost of ownership, should-cost) to set negotiation targets."
+ },
+ "procure_to_pay": {
+  "what": "Operating the buying process end to end: requisitions, purchase orders, receipts and supplier payment, within policy."
+ },
+ "supply_risk_continuity": {
+  "what": "Spotting and reducing the risk that a supplier fails or supply is disrupted: dual sourcing, resilience plans, risk assessments, supplier diversity."
+ },
+ "supply_market_intel": {
+  "what": "Tracking supplier markets, commodity prices and benchmarks to inform sourcing decisions."
+ },
+ "npi_manufacturing_ramp": {
+  "what": "Getting a new product from design into volume production with suppliers and contract manufacturers: BOMs, builds, lead times."
+ },
+ "capital_projects": {
+  "what": "Planning, justifying and delivering capital investments such as new lines, equipment or facilities."
+ },
+ "retail_category_assortment": {
+  "what": "Managing a product category for a retailer or brand: assortment, shelf space, promotions and category growth."
+ },
+ "gov_contracts_far": {
+  "what": "Working inside US government contracting rules: FAR/DFARS compliance, subcontract management and contract types."
+ }
+}

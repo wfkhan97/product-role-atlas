@@ -9,3 +9,6 @@ tools/
 data/experiments/
 
 .env
+
+# real resumes used as local eval samples
+evals/resumes/private/

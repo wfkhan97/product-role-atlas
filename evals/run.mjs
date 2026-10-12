@@ -3,6 +3,7 @@
 //
 //   node evals/run.mjs                 # report
 //   node evals/run.mjs --baseline      # also rewrite evals/baseline.md
+//   node evals/run.mjs --private       # also score evals/resumes/private/*.txt (gitignored, never in the baseline)
 //   node evals/run.mjs --only grad     # filter samples by substring
 //   node evals/run.mjs --verbose       # print every row with its evidence line
 import fs from "fs";
@@ -14,7 +15,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(here, "..");
 const require = createRequire(import.meta.url);
 const { createMatcher } = require(path.join(root, "web/match.js"));
-const TAX = JSON.parse(fs.readFileSync(path.join(root, "pipeline/taxonomy.json")));
+const TAX = JSON.parse(fs.readFileSync(path.join(root, "web/data/taxonomy.json"))); // the app's copy: the product part of pipeline/taxonomy.json
 const SUBS = JSON.parse(fs.readFileSync(path.join(root, "web/data/subskills.json")));
 const G = JSON.parse(fs.readFileSync(path.join(root, "web/data/graph.json")));
 const M = createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G });
@@ -28,7 +29,11 @@ function target(spec) {
 const args = process.argv.slice(2);
 const only = args.includes("--only") ? args[args.indexOf("--only") + 1] : null;
 const verbose = args.includes("--verbose");
-const samples = fs.readdirSync(path.join(here, "resumes")).filter(f => f.endsWith(".txt") && (!only || f.includes(only))).sort();
+// --private adds evals/resumes/private/ (gitignored): real resumes that stay on this machine. They never go into baseline.md.
+const priv = args.includes("--private");
+if (priv && args.includes("--baseline")) { console.error("--private samples are not written to the baseline; run them without --baseline"); process.exit(1); }
+const listTxt = dir => fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => f.endsWith(".txt") && (!only || f.includes(only))).sort() : [];
+const samples = [...listTxt(path.join(here, "resumes")), ...(priv ? listTxt(path.join(here, "resumes", "private")).map(f => path.join("private", f)) : [])];
 const pct = x => x == null ? "–" : Math.round(x * 100) + "%";
 const rows = []; let pass = 0, fail = 0; const lines = [];
 const out = s => { lines.push(s); console.log(s); };

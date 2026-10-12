@@ -1,6 +1,6 @@
 """Tag every scraped posting with taxonomy skills, family, level, specialisations, years of experience.
 
-usage: python -m pipeline.extract  ->  data/processed/jobs.json
+usage: python -m pipeline.extract [--roles product|mba]  ->  data/processed/jobs.json (jobs_mba.json for mba)
 """
 import glob
 import hashlib
@@ -10,12 +10,37 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pipeline.roles import family, level, specializations, title_ok
+from pipeline import roles, roles_mba
+from pipeline.roles import specializations
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TAX = json.load(open(os.path.join(ROOT, "pipeline", "taxonomy.json")))
+from pipeline import tax
+TAX = tax.load()
 SKILL_RE = [(s["id"], re.compile("|".join(f"(?:{p})" for p in s["patterns"]), re.I)) for s in TAX["skills"]]
 SKILL_RX = dict(SKILL_RE)
+# A skill with "only": [role sets] is tagged for those sets alone; the rest of the vocabulary is shared.
+SKILL_ONLY = {s["id"]: s["only"] for s in TAX["skills"] if s.get("only")}
+
+
+_SKILLS_FOR = {}
+
+
+def skills_for(roleset):
+    if roleset not in _SKILLS_FOR:
+        _SKILLS_FOR[roleset] = [(sid, rx) for sid, rx in SKILL_RE if roleset in SKILL_ONLY.get(sid, [roleset])]
+    return _SKILLS_FOR[roleset]
+
+
+# role set -> where its postings are cached, how a title is classified, and where the output goes
+ROLE_SETS = {
+    "product": {"raw": ["jobs"], "suffix": "",
+                "family": lambda title, j: roles.family(title) if roles.title_ok(title) else None,
+                "level": lambda title, company, j: roles.level(title, company)},
+    # the three product roles of the MBA list live in the product cache; every other family in jobs_mba
+    "mba": {"raw": ["jobs_mba", "jobs"], "suffix": "_mba",
+            "family": lambda title, j: roles_mba.family(title, j.get("category")),
+            "level": lambda title, company, j: roles_mba.level(title, company, j.get("category"))},
+}
 DEPTH = {}
 for _p in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
     DEPTH.update(json.load(open(_p)))
@@ -81,11 +106,27 @@ BOILER_RE = re.compile(
 )
 
 
-def clean(desc):
-    """Drop boilerplate lines (EEO statements, benefits, legal) so they don't inflate skill counts."""
+# The employer describing itself ("X is a leading global investment firm ...") says what the company does,
+# not what the role asks for.
+ABOUT_RE = re.compile(
+    r"^\W*(we are|we're|as) (a|an|the|one of the) (\w+ )?(leading|global|premier|world'?s?|largest|top|fastest|trusted|independent)\b|"
+    r"^\W*(founded|established|headquartered) in\b|^\W*with (over|more than|approximately) [\d$,.]+ ?\w* (in assets|employees|offices|clients|customers)",
+    re.I,
+)
+SELF_VERB = r"(is (?!seeking|looking|hiring|searching|recruiting|currently|an equal|committed|proud)|was founded|has been|provides|offers|serves|operates|delivers|helps|manages|advises)"
+ENTITY = r"(,? (group|inc\.?|llc|l\.?p\.?|& co\.?|and company|company|corporation|corp\.?|partners|capital|management|financial|holdings|bank|\([A-Z]+: ?[A-Z.]+\)))*"
+
+
+def clean(desc, company=None):
+    """Drop boilerplate lines (EEO statements, benefits, legal, the employer's own description) so they don't inflate skill counts."""
+    about = None
+    if company:
+        # the name as the posting writes it: the registry name, or its first word ("Houlihan Lokey", "Carlyle")
+        first = re.escape(company.split()[0])
+        about = re.compile(rf"^\W*(about )?(the )?({re.escape(company)}|{first}){ENTITY},? {SELF_VERB}", re.I)
     out = []
     for line in desc.split("\n"):
-        if len(line) > 40 and BOILER_RE.search(line):
+        if len(line) > 40 and (BOILER_RE.search(line) or ABOUT_RE.search(line) or (about and about.search(line))):
             continue
         out.append(line)
     return "\n".join(out)
@@ -106,9 +147,9 @@ def years_required(text):
     return min(vals) if vals else None
 
 
-def tag(text):
+def tag(text, skills=SKILL_RE):
     found = {}
-    for sid, rx in SKILL_RE:
+    for sid, rx in skills:
         hits = rx.findall(text)
         if hits:
             found[sid] = len(hits)
@@ -143,98 +184,140 @@ def pick_evidence(cands, k=4):
     return out
 
 
+def postings(roleset):
+    """Every posting of a role set that extraction keeps: (company, registry row, raw job, family, cleaned text).
+
+    Drops titles outside the set, descriptions too short to tag, and exact reposts (same company, title and
+    cleaned text: the same role reposted per city counts once). Sets postings()["dropped"] to the repost count.
+    """
+    from pipeline.scrape import load_registry
+    cfg = ROLE_SETS[roleset]
+    reg = {r["company"]: r for r in load_registry(roleset)}
+    seen = set()
+    postings.dropped = 0
+    for folder in cfg["raw"]:
+        for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", folder, "*.json"))):
+            blob = json.load(open(path))
+            company = blob["company"]
+            r = reg.get(company)
+            if r is None or r.get("ats") in (None, "unsupported"):
+                continue  # company dropped from the registry
+            for j in blob["jobs"]:
+                fam = cfg["family"](j["title"], j)
+                if fam is None:
+                    continue
+                if roleset == "mba" and (folder == "jobs") != (fam in roles_mba.IN_PRODUCT_SCRAPE):
+                    continue
+                desc = j.get("description") or ""
+                if len(desc) < 300:
+                    continue
+                cleaned = clean(desc, company)
+                key = (company, j["title"].strip().lower(), hashlib.md5(cleaned.strip().encode()).hexdigest())
+                # the same URL under a second company name is the same posting (a board shared by two registry entries)
+                if key in seen or (j.get("url") and j["url"] in seen):
+                    postings.dropped += 1
+                    continue
+                seen.add(key)
+                seen.add(j.get("url"))
+                yield company, r, j, fam, cleaned
+
+
+def tag_posting(item):
+    """One posting -> (job row, evidence sentences, funding stage it mentions). Runs in worker processes."""
+    roleset, company, r, j, fam, cleaned = item
+    cfg = ROLE_SETS[roleset]
+    title = j["title"]
+    desc = j.get("description") or ""
+    text = title + "\n" + cleaned
+    hits = tag(text, skills_for(roleset))
+    # drop years-of-experience buckets that aren't consistent with the explicit ask, keep only the one matching
+    yoe = years_required(cleaned)
+    for k in list(hits):
+        if k.startswith("yoe_"):
+            del hits[k]
+    if yoe is not None:
+        bucket = "yoe_2" if yoe <= 2 else "yoe_3" if yoe <= 4 else "yoe_5" if yoe <= 6 else "yoe_8" if yoe <= 9 else "yoe_10"
+        hits[bucket] = 1
+    subs = sorted(sub for sub, (parent, rx) in SUB_RE.items() if parent in hits and rx.search(text))
+    lvl = cfg["level"](title, company, j)
+    found = []
+    for sent in sentences(cleaned):
+        for sid in hits:
+            if sid.startswith("yoe_"):
+                continue
+            m = SKILL_RX[sid].findall(sent)
+            if m:
+                found.append((sid, {"text": sent, "company": company, "title": title, "url": j.get("url"), "level": lvl, "_score": len(m)}))
+    job = {
+        "id": f"{company}::{j.get('external_id') or j.get('url')}",
+        "company": company,
+        "group": r["group"],
+        "investor": r.get("investor"),
+        "sector": r.get("sector"),
+        "industry": r.get("industry"),
+        "rank": r.get("rank"),
+        "ats": j.get("ats"),
+        "title": title,
+        "family": fam,
+        "level": lvl,
+        "specs": specializations(title),
+        "location": j.get("location", ""),
+        "country": geo(j.get("location", ""), title)[0],
+        "remote": geo(j.get("location", ""), title)[1],
+        "url": j.get("url"),
+        "posted": j.get("posted"),
+        "yoe": yoe,
+        "skills": hits,
+        "sub": subs,
+        "snippet": re.sub(r"\s+", " ", desc)[:400],
+        "desc_chars": len(desc),
+        **({"category": j["category"]} if j.get("category") else {}),
+    }
+    return job, found, stage_mentions(desc)
+
+
 def main():
+    import argparse
+    import multiprocessing
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--roles", choices=sorted(ROLE_SETS), default="product")
+    ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) - 1))
+    args = ap.parse_args()
+    cfg = ROLE_SETS[args.roles]
+    skills = skills_for(args.roles)
     jobs = []
     evidence = {}
     company_stage = {}
-    seen = set()  # (company, title, cleaned text): the same role reposted per city counts once
-    dropped = 0
-    reg = {r["company"]: r for r in json.load(open(os.path.join(ROOT, "data", "registry.json")))}
-    for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", "jobs", "*.json"))):
-        blob = json.load(open(path))
-        r = reg.get(blob["company"])
-        if r is None or r.get("ats") in (None, "unsupported"):
-            continue  # company dropped from the registry
-        for j in blob["jobs"]:
-            title = j["title"]
-            if not title_ok(title):
-                continue
-            desc = j.get("description") or ""
-            if len(desc) < 300:
-                continue
-            cleaned = clean(desc)
-            key = (blob["company"], title.strip().lower(), hashlib.md5(cleaned.strip().encode()).hexdigest())
-            if key in seen:
-                dropped += 1
-                continue
-            seen.add(key)
-            st = stage_mentions(desc)
+    items = ((args.roles, company, r, j, fam, cleaned) for company, r, j, fam, cleaned in postings(args.roles))
+    # results come back in posting order, so the output does not depend on the number of workers
+    with multiprocessing.Pool(args.workers) as pool:
+        for job, found, st in pool.imap(tag_posting, items, chunksize=40):
             if st:
-                cur = company_stage.get(blob["company"])
-                company_stage[blob["company"]] = max(cur, st) if cur else st
-            text = title + "\n" + cleaned
-            hits = tag(text)
-            # drop years-of-experience buckets that aren't consistent with the explicit ask, keep only the one matching
-            yoe = years_required(cleaned)
-            for k in list(hits):
-                if k.startswith("yoe_"):
-                    del hits[k]
-            if yoe is not None:
-                bucket = "yoe_2" if yoe <= 2 else "yoe_3" if yoe <= 4 else "yoe_5" if yoe <= 6 else "yoe_8" if yoe <= 9 else "yoe_10"
-                hits[bucket] = 1
-            subs = sorted(sub for sub, (parent, rx) in SUB_RE.items() if parent in hits and rx.search(text))
-            lvl = level(title, blob["company"])
-            for sent in sentences(cleaned):
-                for sid in hits:
-                    if sid.startswith("yoe_"):
-                        continue
-                    m = SKILL_RX[sid].findall(sent)
-                    if m:
-                        evidence.setdefault(sid, {}).setdefault(LEVEL_GROUP[lvl], []).append(
-                            {"text": sent, "company": blob["company"], "title": title, "url": j.get("url"), "level": lvl, "_score": len(m)})
-            jobs.append({
-                "id": f"{blob['company']}::{j.get('external_id') or j.get('url')}",
-                "company": blob["company"],
-                "group": r["group"],
-                "investor": r.get("investor"),
-                "sector": r.get("sector"),
-                "industry": r.get("industry"),
-                "rank": r.get("rank"),
-                "ats": j.get("ats"),
-                "title": title,
-                "family": family(title),
-                "level": lvl,
-                "specs": specializations(title),
-                "location": j.get("location", ""),
-                "country": geo(j.get("location", ""), title)[0],
-                "remote": geo(j.get("location", ""), title)[1],
-                "url": j.get("url"),
-                "posted": j.get("posted"),
-                "yoe": yoe,
-                "skills": hits,
-                "sub": subs,
-                "snippet": re.sub(r"\s+", " ", desc)[:400],
-                "desc_chars": len(desc),
-            })
+                cur = company_stage.get(job["company"])
+                company_stage[job["company"]] = max(cur, st) if cur else st
+            for sid, ev in found:
+                evidence.setdefault(sid, {}).setdefault(LEVEL_GROUP[ev["level"]], []).append(ev)
+            jobs.append(job)
     os.makedirs(os.path.join(ROOT, "data", "processed"), exist_ok=True)
-    with open(os.path.join(ROOT, "data", "processed", "jobs.json"), "w") as f:
+    sfx = cfg["suffix"]
+    with open(os.path.join(ROOT, "data", "processed", f"jobs{sfx}.json"), "w") as f:
         json.dump(jobs, f)
-    with open(os.path.join(ROOT, "data", "processed", "company_stage.json"), "w") as f:
+    with open(os.path.join(ROOT, "data", "processed", f"company_stage{sfx}.json"), "w") as f:
         json.dump(company_stage, f, indent=1)
     picked = {sid: {grp: pick_evidence(c) for grp, c in groups.items()} for sid, groups in evidence.items()}
-    with open(os.path.join(ROOT, "data", "processed", "evidence.json"), "w") as f:
+    with open(os.path.join(ROOT, "data", "processed", f"evidence{sfx}.json"), "w") as f:
         json.dump(picked, f)
     import collections as _c
     subcnt = _c.Counter(k for j in jobs for k in j["sub"])
     print("subskills never matched:", [k for k in SUB_RE if subcnt[k] == 0])
     import collections
-    print(len(jobs), "postings tagged;", dropped, "exact reposts (same company, title and text) dropped")
+    print(len(jobs), "postings tagged;", postings.dropped, "exact reposts (same company, title and text) dropped")
     print("by family:", collections.Counter(j["family"] for j in jobs).most_common())
     print("by level:", collections.Counter(j["level"] for j in jobs).most_common())
     print("by group:", collections.Counter(j["group"] for j in jobs).most_common())
     cnt = collections.Counter(k for j in jobs for k in j["skills"])
     print("top skills:", [(k, round(v / len(jobs), 2)) for k, v in cnt.most_common(25)])
-    print("never matched:", [s["id"] for s in TAX["skills"] if cnt[s["id"]] == 0])
+    print("never matched:", [sid for sid, _ in skills if cnt[sid] == 0])
     print("avg skills/job:", sum(len(j["skills"]) for j in jobs) / max(1, len(jobs)))
 
 

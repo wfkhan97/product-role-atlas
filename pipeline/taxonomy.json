@@ -39,6 +39,42 @@
   "credentials": {
    "label": "Credentials & experience",
    "color": "#D98C6A"
+  },
+  "strategy": {
+   "label": "Strategy & consulting",
+   "color": "#7A9E4E"
+  },
+  "finance": {
+   "label": "Corporate finance & accounting",
+   "color": "#4FA3A5"
+  },
+  "deals": {
+   "label": "Banking, deals & investing",
+   "color": "#C07A3E"
+  },
+  "real_estate": {
+   "label": "Real estate",
+   "color": "#A68B6A"
+  },
+  "marketing": {
+   "label": "Marketing & brand",
+   "color": "#E0709A"
+  },
+  "sales": {
+   "label": "Sales & customer relationships",
+   "color": "#E58A5A"
+  },
+  "operations": {
+   "label": "Operations & supply chain",
+   "color": "#5E8FC9"
+  },
+  "people": {
+   "label": "People & organization",
+   "color": "#9B7FD1"
+  },
+  "risk": {
+   "label": "Risk, compliance & governance",
+   "color": "#B56B6B"
   }
  },
  "skills": [
@@ -257,7 +293,7 @@
     "\\bGTM\\b",
     "launch plan",
     "market(ing)? strateg",
-    "commercial(i[sz]ation)?"
+    "commerciali[sz]ation|\\bcommercial\\b(?! (bank|lend|loan|real estate|credit|cards?\\b|paper|insurance|propert|mortgage|clients?\\b|customers?\\b|accounts?\\b|relationship|driver|vehicle|truck|kitchen|construction|building|lines?\\b|deposits?))"
    ]
   },
   {
@@ -316,7 +352,7 @@
    "name": "Partnerships & ecosystem",
    "cluster": "gtm",
    "patterns": [
-    "partnership",
+    "partnerships\\b|(?<!in )(?<!in close )(?<!close )(?<!business )partnership\\b(?! with\\b)",
     "partner ecosystem",
     "third[- ]party (partners|integrations|developers|ecosystem|providers)",
     "\\bISVs?\\b",
@@ -363,7 +399,7 @@
     "growth (strategy|loop|lever|initiative|team|product)",
     "\\bfunnel\\b",
     "conversion",
-    "retention",
+    "(?<!employee )(?<!talent )(?<!staff )(?<!associate )(?<!records )(?<!record )(?<!data )(?<!document )retention\\b(?! (of|and development of) (employees|talent|staff|associates|records))(?! (policy|policies|schedule|bonus))",
     "churn",
     "activation",
     "(user|customer) acquisition",
@@ -440,7 +476,7 @@
    "name": "Surveys & feedback loops",
    "cluster": "discovery",
    "patterns": [
-    "survey",
+    "(?<!salary )(?<!compensation )(?<!pay )(?<!market )survey",
     "\\bNPS\\b",
     "net promoter",
     "feedback loop",
@@ -546,7 +582,7 @@
    "cluster": "analytics",
    "patterns": [
     "statistic(s|al)\\b",
-    "forecast",
+    "(?<!budget and )(?<!budget & )(?<!plan and )(?<!budget )(?<!budgets and )(?<!budgeting and )(?<!budgeting, )(?<!budgeting & )(?<!financial )(?<!revenue )(?<!sales )(?<!cash )(?<!expense )(?<!cost )(?<!headcount )(?<!quarterly )(?<!annual )(?<!rolling )forecast(?!s? (vs\\.?|versus|to actuals?|and budget|accuracy and budget))",
     "regression",
     "predictive",
     "causal",
@@ -592,7 +628,7 @@
    "cluster": "technical",
    "patterns": [
     "\\bAPIs?\\b",
-    "integrations?\\b",
+    "(?<!merger )(?<!acquisition )(?<!acquisitions )(?<!m&a )(?<!post-merger )(?<!post-close )(?<!post-deal )(?<!business )(?<!company )integrations?\\b(?! (management office|planning|playbook|workstreams?|of (the )?(acquired|acquisitions?|compan)))",
     "\\bSDKs?\\b",
     "webhooks?",
     "\\bREST(ful)?\\b",
@@ -1271,7 +1307,7 @@
     "work[- ]?streams?",
     "milestones?",
     "timelines?",
-    "schedules?\\b",
+    "(?<!work )(?<!shift )(?<!flexible )(?<!rotating )(?<!weekend )(?<!hybrid )schedules?\\b(?! flexib)",
     "on[- ]time",
     "on[- ]budget",
     "deliverables",
@@ -1436,7 +1472,7 @@
     "quicksight",
     "\\bsuperset\\b",
     "\\bhex\\b",
-    "\\bsigma\\b"
+    "(?<!six[ -])(?<!6[ -])(?<!lean )\\bsigma\\b(?! (black|green|yellow) belt)"
    ]
   },
   {
@@ -1696,6 +1732,3041 @@
     "\\bSME\\b",
     "industry (expertise|experience|knowledge|background)",
     "deep (understanding|knowledge|expertise) of the"
+   ]
+  },
+  {
+   "id": "strategic_planning",
+   "name": "Strategic planning cycles",
+   "cluster": "strategy",
+   "patterns": [
+    "strategic plan(s|ning)\\b",
+    "(annual|long[- ]range|multi[- ]year|quarterly|corporate|enterprise) (strategic |operating |business )?planning\\b",
+    "(annual|long[- ]range|multi[- ]year|three[- ]year|five[- ]year|3[- ]year|5[- ]year) (strategic |operating |business |strategy )?plans?\\b",
+    "(strategy|strategic|business|annual|quarterly) planning (process|cycle|cadence)",
+    "strategy (and|&) planning"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "strategy_development",
+   "name": "Corporate & growth strategy development",
+   "cluster": "strategy",
+   "patterns": [
+    "strategy (development|formulation)",
+    "(develop|formulat|defin|shap|craft|refin|inform|set)\\w* (the |our |a |its |their )?(corporate|enterprise|business|company|growth|long[- ]term|overall|commercial|market|client'?s?) strateg(y|ies)",
+    "(corporate|enterprise|business[- ]unit|growth|company|long[- ]term) strateg(y|ies) (development|formulation|work|projects|engagements|refresh|process|and planning|questions|topics|issues)",
+    "strategic (choices|options|questions|bets)",
+    "market entry|new market opportunit|adjacenc(y|ies)|where to play"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "hypothesis_driven",
+   "name": "Hypothesis-driven analysis & problem framing",
+   "cluster": "strategy",
+   "patterns": [
+    "hypothesis[- ](driven|based|led)",
+    "(develop|form|generat|test|build|fram|refin|validat)\\w* (and \\w+ )?(clear |key |initial |working |business |strategic )*hypothes[ie]s",
+    "fact[- ]based",
+    "(structur|fram|decompos|break\\w* down|scop)\\w* (the |and \\w+ |ambiguous |complex |key |strategic |business |open[- ]ended |unstructured |ill[- ]defined |large |hard |difficult )*(problems|questions|issues)\\b",
+    "fram(e|es|ing) (the |a |ambiguous |complex |key |strategic |business )*(problem|question|issue)\\b",
+    "strategic questions",
+    "issue trees?|\\bMECE\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "synthesis_recommendations",
+   "name": "Insights, synthesis & recommendations",
+   "cluster": "strategy",
+   "patterns": [
+    "(actionable|strategic|clear|data[- ]driven|concrete|practical|fact[- ]based|well[- ]reasoned|sound) recommendations",
+    "(insights|findings|conclusions|analysis|analyses) (and|into|to|&) (actionable |clear |strategic )?recommendations",
+    "synthesi[sz](e|es|ing|ed) (complex |large |disparate |multiple |qualitative |quantitative |\\w+ )?(information|data|findings|insights|research|analysis|analyses|inputs|results|ideas)",
+    "(develop|formulat|present|deliver|mak|provid)\\w* recommendations (to|for) (senior |executive |the |key |business )*(leadership|management|executives|clients?|leaders|the board|stakeholders|partners)",
+    "so[- ]what",
+    "actionable insights?|insights? (and|&) recommendations|data (to|into) (actionable )?insights?|(turn\\w*|translat\\w+|transform\\w*|convert\\w*|distill\\w*) (complex )?(data|analys[ie]s|analytics|numbers|findings) into",
+    "data[- ]?stor(y|ies)\\w*|stor(y|ies)[- ]?tell\\w* (with|through|using) data|stor(y|ies) (with|through|using|from|behind) (the )?data|narratives? (from|with|around|using|behind) (the )?data"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "exec_decks",
+   "name": "Executive decks & storylining",
+   "cluster": "strategy",
+   "patterns": [
+    "storyboard|storylin",
+    "executive[- ]ready|board[- ]ready|executive[- ]level (presentations?|materials|decks|deliverables|documents|content)|C-?(suite|level)[- ]ready",
+    "(build|creat|develop|prepar|craft|draft|produc|design)\\w* (and \\w+ )?(the |high[- ]quality |compelling |clear |polished |executive |strategy |client |board |investor |leadership |powerpoint )*(decks|presentations|slides|briefing materials|board materials|pre-?reads)",
+    "\\b(strategy|executive|board|investor|leadership|client|pitch|slide|powerpoint) decks?\\b",
+    "board (materials|decks|packages|books|papers)",
+    "pre-?reads\\b|read[- ]aheads?|decision memos?|briefing (documents|materials|memos|papers)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "client_engagement",
+   "name": "Client engagement delivery",
+   "cluster": "strategy",
+   "patterns": [
+    "client engagements\\b|client engagement (teams?|delivery|leads?|managers?)",
+    "engagement (teams?|managers?|delivery|leads?|economics)",
+    "client (delivery|deliverables|service teams?|workshops)",
+    "(consulting|advisory) (engagements|projects)",
+    "advis(e|es|ing) (our |the firm's |a variety of |multiple |senior )?clients\\b",
+    "client[- ]service (delivery|teams?)|(deliver|delivering) (high[- ]quality |exceptional )?(work|results|solutions|value) (to|for) (our )?clients"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "operating_model_design",
+   "name": "Operating model design",
+   "cluster": "strategy",
+   "patterns": [
+    "target operating model|\\bTOM\\b design|operating[- ]model (design|redesign|transformation|development|changes?|definition|assessment|strategy)",
+    "(design|defin|develop|redesign|build|evolv|refin|implement)\\w* (the |a |new |future[- ]state |our |target |and \\w+ )*operating models?",
+    "decision rights|\\bRACI\\b|future[- ]state (operating|process) (model|design)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "change_management",
+   "name": "Change management",
+   "cluster": "strategy",
+   "patterns": [
+    "(?<!engineering )(?<!IT )(?<!software )(?<!agentic )change management",
+    "organi[sz]ational change",
+    "change (readiness|adoption|impact|agents?|leadership|strategy|strategies|network|champions?|enablement)",
+    "business readiness|\\bOCM\\b|prosci|\\bADKAR\\b|(user|stakeholder|employee) adoption|adoption (strategy|strategies|plans?)",
+    "(lead|driv|manag)\\w* (organizational |large[- ]scale |complex |enterprise |transformational )change\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "transformation_programs",
+   "name": "Transformation programme leadership",
+   "cluster": "strategy",
+   "patterns": [
+    "transformation (programs?|programmes?|initiatives?|roadmaps?|office|portfolio|strategy|strategies|efforts?|agenda|journey|plans?|projects?|priorities|goals|objectives|work)",
+    "(business|enterprise|finance|digital|large[- ]scale|operational|operations|organi[sz]ational|technology|IT|process|strategic|functional|workforce|supply chain|HR|commercial|cost|ERP|enterprise[- ]wide) transformations?\\b",
+    "(lead|driv|deliver|manag|execut|support)\\w* (complex |large |major |multi[- ]year |cross[- ]functional |end[- ]to[- ]end )*transformations?\\b",
+    "transformation (management )?office",
+    "benefits? (reali[sz]ation|tracking|capture|delivery)|value capture|(savings|value) (tracking|reali[sz]ation plans?)|value reali[sz]ation (office|framework|tracking|plans?)",
+    "(track|measur|quantif|report)\\w* (and \\w+ )?(the )?(benefits|savings|value delivered|financial impact|initiative progress) (of|from|across|against|for) ",
+    "initiative (tracking|pipeline|portfolio|governance|charters?)|portfolio of initiatives"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "performance_improvement",
+   "name": "Performance improvement & cost reduction",
+   "cluster": "strategy",
+   "patterns": [
+    "performance improvement",
+    "cost (take-?out|transformation|optimi[sz]ation|containment)|cost[- ]reduction (program|initiative|strateg|opportunit|target|plan)\\w*",
+    "(operational|operating|margin|profit|profitability|productivity) improvements?",
+    "value creation (plans?|opportunit\\w+|initiatives|levers)|efficiency (gains|opportunities|initiatives)|profit improvement|margin expansion|turnaround (and|&) restructuring|turnaround (situations?|plans?|strateg\\w+|management)",
+    "cost[- ]reductions?\\b|cost[- ]savings? (opportunit\\w+|initiatives|targets|programs?|projects)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "operating_cadence",
+   "name": "Operating cadence & business reviews",
+   "cluster": "strategy",
+   "patterns": [
+    "operating (cadence|rhythm)s?|rhythm of (the )?business|business rhythms?|(management|leadership|planning|governance|business|team) (cadence|rhythm)s?",
+    "(weekly|monthly|quarterly) (business|operating|operations|performance|leadership) reviews?|\\bMBRs?\\b|\\bWBRs?\\b|operating reviews?|business performance reviews?",
+    "(leadership|staff|executive|exec|ELT|SLT) (team )?(meetings|offsites)|offsites\\b|all[- ]hands",
+    "(action items|follow[- ]ups?|commitments|decisions) (are |and \\w+ )?(tracked|captured|closed|documented|completed|executed|owners)|track\\w* (action items|follow[- ]ups|commitments|decisions)|(driv|ensur)\\w+ follow[- ]through"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "special_projects",
+   "name": "Strategic initiatives & special projects",
+   "cluster": "strategy",
+   "patterns": [
+    "special projects(?! (as|when) (assigned|needed|directed|required|requested))",
+    "(lead|driv|own|manag|execut|support|deliver|run|advanc)\\w* (and \\w+ )?(\\w+ )?(key |critical |cross[- ]functional |high[- ]impact |high[- ]priority |enterprise |company[- ]wide |complex |our |the |multiple )*strategic (initiatives|projects)",
+    "(high|highest|top)[- ]priority (strategic |cross[- ]functional |company |business )?initiatives|critical initiatives|(company|enterprise|firm)[- ]wide (strategic )?initiatives",
+    "ad[- ]?hoc (projects|strategic|analys[ie]s and projects)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "exec_partnership",
+   "name": "Executive thought partnership",
+   "cluster": "strategy",
+   "patterns": [
+    "thought[- ]partner",
+    "force multiplier|right[- ]hand|sounding board|trusted (advisor|partner|counsel) to the (CEO|COO|CFO|CTO|CIO|president|founders?|executive|chief|head|general manager|leadership)",
+    "(on behalf of|proxy for|extension of|represent\\w*) the (CEO|COO|CFO|CTO|CIO|CRO|president|founders?|executive|chief \\w+ officer|head of|general manager|GM)\\b",
+    "(CEO|COO|CFO|CTO|president|founder|executive)(’s|'s) (time|priorities|calendar|office|agenda|communications)|office of the (CEO|COO|CFO|CTO|CIO|president|chief)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "technology_strategy",
+   "name": "Technology & digital strategy",
+   "cluster": "strategy",
+   "patterns": [
+    "\\b(IT|technology|digital|cloud|tech|data (and|&) (AI|analytics)) strateg(y|ies)\\b",
+    "(technology|IT|digital|AI|data|capability|modernization) roadmaps?",
+    "application (portfolio )?rationali[sz]ation|(legacy|IT|technology|application|platform|infrastructure|systems?|core) moderni[sz]ation|moderni[sz](e|ing) (legacy|platforms|applications|technology|systems|core)",
+    "enterprise architecture|IT operating model|IT (cost|portfolio|investment) (optimi[sz]ation|management|planning)|technology (investment|portfolio|operating model)s?",
+    "(technology|tool|platform|software) (evaluation|selection)s?|build[- ]vs\\.?[- ]buy|build/buy"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "ai_strategy",
+   "name": "AI strategy & adoption",
+   "cluster": "strategy",
+   "patterns": [
+    "\\b(AI|GenAI|generative AI|agentic AI) (transformation (strategy|roadmap|program|initiatives|lead|office|efforts)|adoption|strategy|strategies|strategist|roadmaps?|enablement|opportunit\\w+|maturity|readiness|operating model)",
+    "\\b(AI|GenAI|generative AI|agentic) use[- ]cases?",
+    "(identify|prioriti[sz]e|evaluate|scale|pilot|operationali[sz]e)\\w* (and \\w+ )?(high[- ]value |high[- ]impact |new |enterprise )?(AI|GenAI|generative AI|agentic) (opportunities|use[- ]cases?|solutions|pilots|initiatives|capabilities)",
+    "AI[- ](first|native) (operating model|transformation|ways of working|organization)|AI center of excellence|AI CoE|(lead|driv)\\w* (the |our |enterprise |company[- ]wide )*AI transformation"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "litigation_consulting",
+   "name": "Litigation & economic consulting",
+   "cluster": "strategy",
+   "patterns": [
+    "expert (witness|testimony|reports?|testifying)|testifying experts?",
+    "litigation (support|consulting|matters|engagements|cases)|economic (consulting|damages)|(commercial|complex) litigation|complex (commercial )?disputes|disputes? (and|&) investigations|dispute (consulting|advisory)",
+    "(calculat|quantif|assess|estimat)\\w+ (economic |financial )?damages|damages (analysis|analyses|calculations?|models?|claims)|antitrust|forensic (accounting|investigations?|services|technology)|e-?discovery|(commercial|international|securities|construction) arbitration|arbitration (proceedings|hearings|panels?|matters)|litigation (and|&|or|,) arbitration"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "business_unit_leadership",
+   "name": "Business unit / site leadership",
+   "cluster": "strategy",
+   "patterns": [
+    "(full|overall|total|complete) (P&L|profit and loss) (responsibilit\\w+|ownership|accountabilit\\w+|management|leadership|owner)|P&L (responsibility|ownership|accountability|leadership)|profit and loss (responsibility|accountability|management)",
+    "(manag|overse|direct|lead|run|responsible for|accountable for)\\w* (all |the |overall |daily |day[- ]to[- ]day |aspects of )*(store|site|property|plant|branch|facility|hotel|restaurant|club|unit|location|center|dealership|multi[- ]unit|multi[- ]site) (operations|performance|profitability|P&L|financials)",
+    "(manag|overse|direct|lead)\\w* (the |all )?(day[- ]to[- ]day|daily|overall) operations of",
+    "(labor|payroll|food|controllable|operating) (costs?|expenses?) (control|goals|targets|management|budgets?)|(control|manag|reduc)\\w* (labor|payroll|food|controllable) (costs?|expenses?)",
+    "general management (experience|responsibilit\\w+)|run(ning)? (the|a) (business|site|store|unit|property) (as|like)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "budgeting_forecasting",
+   "name": "Budgeting & forecasting",
+   "cluster": "finance",
+   "patterns": [
+    "budget(ing)?,? (and|&|/) ?(re-?)?forecast",
+    "forecast(ing)?,? (and|&|/) ?budget",
+    "budgeting,? forecasting",
+    "forecasting,? budgeting",
+    "annual (operating plan|budget|financial plan)",
+    "\\bAOP\\b",
+    "rolling forecast",
+    "(quarterly|monthly) (re-?)?forecast",
+    "(budget|forecast)(ing)? (process|cycle)s?\\b",
+    "long[- ]range (plan|financial|forecast)",
+    "\\bLRP\\b",
+    "(multi|three|five|3|5)[- ]year (financial )?(plan|forecast|outlook)\\b",
+    "financial forecast(s|ing)?\\b",
+    "(revenue|expense|bookings|P&L|opex|headcount) forecast(s|ing)?\\b",
+    "forecast(s|ing)? (and|,|&) (budget|plan|report)\\w*",
+    "(?<!demand )(?<!supply )(?<!inventory )(?<!capacity )(?<!workforce )(?<!production )(?<!labor )\\bplanning,? (and |& )?forecasting|(?<!demand )(?<!inventory )(?<!labor )(?<!sales )(?<!volume )\\bforecasting,? (and |& )?planning\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "variance_analysis",
+   "name": "Variance analysis",
+   "cluster": "finance",
+   "patterns": [
+    "variance analys[ie]s",
+    "\\bvariances?\\b",
+    "budget[- ](to|vs\\.?|versus)[- ]actual",
+    "actuals? (vs\\.?|versus|to|against) (budget|forecast|plan)",
+    "plan[- ](to|vs\\.?|versus)[- ]actual"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "scenario_modeling",
+   "name": "Scenario & sensitivity modelling",
+   "cluster": "finance",
+   "patterns": [
+    "scenario (model|analys|planning|plan\\b)",
+    "sensitivity (analys|tables?|model)",
+    "\\bsensitivities\\b",
+    "driver[- ]based",
+    "what[- ]if (analys|scenario|model)",
+    "(three|3)[- ]statement",
+    "(integrated financial|long[- ]range|corporate financial) models?\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "accounting_close_controls",
+   "name": "Accounting: close, GAAP & controls",
+   "cluster": "finance",
+   "patterns": [
+    "month[- ]end",
+    "quarter[- ]end (close|closing|reporting|process)",
+    "year[- ]end (close|closing)",
+    "(monthly|quarterly|annual|financial|accounting|period) clos(e|ing)\\b",
+    "\\bclose (process|cycle|calendar|activities)",
+    "journal entr",
+    "(account|bank|balance sheet|general ledger|GL|cash|intercompany) reconciliations?",
+    "(?<!PTO )(?<!leave )(?<!vacation )(?<!time )\\baccruals\\b",
+    "general ledger",
+    "\\bGAAP\\b",
+    "\\bIFRS\\b",
+    "technical accounting",
+    "accounting (standards|principles|policies|policy|guidance|treatment|rules|pronouncements|concepts|knowledge)",
+    "revenue recognition",
+    "\\bASC ?\\d{3}",
+    "\\bSEC (reporting|filings?)",
+    "\\b10-?[KQ]s?\\b",
+    "internal controls?",
+    "\\bSOX\\b",
+    "sarbanes",
+    "(?<!financial analysis, accounting, )controllership",
+    "financial controls?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "financial_reporting",
+   "name": "Financial & management reporting",
+   "cluster": "finance",
+   "patterns": [
+    "financial report(s|ing)?\\b",
+    "management report(s|ing)?\\b",
+    "(monthly|quarterly) financial (reviews?|results|packages?)",
+    "reporting packages?",
+    "board (decks?|materials|reporting|packages?)",
+    "(financial|variance|management) commentary",
+    "consolidat(ed|ion) (financial|report|results)",
+    "financial consolidation",
+    "(monthly|quarterly|month[- ]end) (financial |management |business |executive |operational )?reporting\\b|(financial and operational|operational and financial) report(s|ing)?\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "financial_statements",
+   "name": "Financial statements (P&L, balance sheet, cash flow)",
+   "cluster": "finance",
+   "patterns": [
+    "financial statements?",
+    "balance sheets?",
+    "income statements?",
+    "cash[- ]flows? statements?",
+    "statements? of cash flows?",
+    "(three|3) (financial )?statements"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "cash_liquidity",
+   "name": "Cash & liquidity management",
+   "cluster": "finance",
+   "patterns": [
+    "cash (management|forecast|position|flow forecast|flow management|planning|operations|concentration|pooling)",
+    "liquidity (management|planning|forecast|position|needs|analysis)",
+    "cash and liquidity",
+    "working capital (management|optimi[sz]ation|improvement\\w*|forecast\\w*|initiatives|efficiency|needs|requirements|facilit\\w+|planning|strateg\\w+|targets)|(manag|optimi[sz]|improv|forecast|monitor)\\w* (the |our |net |company\\W?s? )*working capital",
+    "daily cash",
+    "short[- ]term invest",
+    "bank account (management|administration|structure)",
+    "treasury operations",
+    "13[- ]week cash"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "debt_capital_structure",
+   "name": "Debt financing & capital structure",
+   "cluster": "finance",
+   "patterns": [
+    "capital structures?\\b",
+    "debt (financing|issuance|portfolio|management|compliance|covenants?|facilit|offerings?|instruments|service|capacity)",
+    "credit (facilit|agreements?)",
+    "\\brevolv(er|ing credit)",
+    "covenant (compliance|calculation|testing|reporting)",
+    "(loan|debt|financial) covenants?",
+    "rating agenc",
+    "(bank|lender) relationships|relationships with (banks|lenders)|bank group",
+    "term loans?",
+    "bond (issuance|offering)",
+    "financing (transactions|strateg|arrangements|activities)",
+    "capital stack",
+    "(construction|project|property|acquisition|permanent|mezzanine|bridge) (financing|loans?|debt|lend)",
+    "debt (and|&|/) equity (financing|partners|sources|capital|placement|investors)",
+    "(JV|joint[- ]venture) (partners?|structures?|agreements?)",
+    "lenders,? (and |& )?(equity |JV |joint venture )?(partners|investors)",
+    "\\blenders?\\b[^.\\n]{0,50}(propert|real estate|construction|development|project)",
+    "loan (documents|closing|modifications?|covenants?|servic)",
+    "refinanc",
+    "\\bLIHTC\\b",
+    "(housing|historic|low[- ]income) tax credits?",
+    "\\bCMBS\\b",
+    "\\bmezz(anine)?\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "fx_hedging",
+   "name": "FX & interest-rate hedging",
+   "cluster": "finance",
+   "patterns": [
+    "foreign exchange (risks?|exposures?|hedg\\w+|management|transactions|trades|contracts|forwards|derivatives|rates?|operations|strategy|activity|\\(FX\\))|(hedg|manag)\\w+ (of )?(\\w+ )?foreign exchange|(investments?|debt|liquidity|cash|interest rates?|commodit\\w+),? (and )?foreign exchange|foreign exchange,? (and )?(interest rate|commodit|hedging|derivatives)",
+    "\\bFX\\b",
+    "(?<!commodity )\\bhedging\\b",
+    "\\bhedges?\\b(?! funds?)",
+    "\\bderivatives\\b",
+    "interest[- ]rate (risk|swaps?|exposure|hedg|derivat)",
+    "currency (risk|exposure)",
+    "financial risk management"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "capital_allocation",
+   "name": "Capital allocation & capex",
+   "cluster": "finance",
+   "patterns": [
+    "capital (allocation|planning|deployment|budgeting|expenditures?|investments?|plan\\b|requests?|approval)",
+    "\\bcap-?ex\\b",
+    "\\bROIC\\b",
+    "return on (invested )?capital",
+    "\\bIRR\\b",
+    "internal rate of return",
+    "allocat\\w+ (of )?capital"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "investor_relations",
+   "name": "Investor relations & fundraising",
+   "cluster": "finance",
+   "patterns": [
+    "investor relations",
+    "earnings (calls?|releases?|scripts?|materials|process|preparation|guidance)",
+    "quarterly earnings",
+    "external guidance",
+    "sell[- ]side analysts",
+    "(shareholder|investor) (communications?|engagement|messaging)",
+    "investor (presentations?|decks?|materials)",
+    "fund-?rais(?!ing (platforms?|apps?|sites?|software|tools?))",
+    "limited partners?",
+    "\\bLPs\\b",
+    "investor (reporting|updates|letters|requests|due diligence)",
+    "fund (performance|administration|accounting|operations|reporting|structur|formation|terms)",
+    "capital calls?",
+    "co-?invest(ments?|ors?|ing)?\\b(?! (budget|and co-development))",
+    "general partners?\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "finance_partnering",
+   "name": "Finance business partnering",
+   "cluster": "finance",
+   "patterns": [
+    "finance (business )?partner",
+    "financ(e|ial) business partner",
+    "financial (guidance|leadership|insights?|perspective) (to|for)",
+    "(strategic|trusted|key|thought) (finance|financial) (partner|advis)",
+    "non-finance",
+    "business partner(ing|ship)?\\b[^.\\n]{0,60}\\bfinanc",
+    "finance (lead|support|leader) (for|to)\\b",
+    "FP&A (business )?partner"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "valuation",
+   "name": "Valuation (DCF, comps, LBO)",
+   "cluster": "deals",
+   "patterns": [
+    "(?<!billion )(?<!million )\\bvaluations?\\b",
+    "\\bDCF\\b",
+    "discounted cash flow",
+    "\\bLBO\\b",
+    "leveraged buy-?out",
+    "(trading|public|transaction|company) comp(s|arables)\\b",
+    "comparable (compan|transaction|public)",
+    "precedent transactions?",
+    "accretion",
+    "merger model",
+    "returns? (analys|model)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "ma_execution",
+   "name": "M&A execution",
+   "cluster": "deals",
+   "patterns": [
+    "\\bM&A\\b",
+    "mergers? (and|&|,) acquisitions?",
+    "acquisitions? (and|&|,|or) (divestitures?|investments|mergers|joint ventures|partnerships)",
+    "divestitures?",
+    "carve[- ]outs?",
+    "transaction (execution|process(es)?\\b|lifecycle|teams?)(?! simplif)",
+    "deal (execution|lifecycle|teams?)",
+    "execut(e|ing|ion of) (transactions|deals|acquisitions)",
+    "(buy|sell)[- ]side(?! (and (buy|sell)[- ]side )?(analysts?|research|firms?|coverage|equity research))",
+    "strategic transactions",
+    "inorganic",
+    "joint ventures?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "due_diligence",
+   "name": "Due diligence",
+   "cluster": "deals",
+   "patterns": [
+    "(?<!customer )(?<!vendor )(?<!supplier )(?<!party )(?<!enhanced )(?<!client )due diligence(?! screening)",
+    "(financial|commercial|legal|operational|business|transaction|confirmatory|M&A|investment|acquisition|deal|buy-side|sell-side) diligence",
+    "\\bdiligence (process|workstreams?|findings|efforts|materials|requests|items|teams?)",
+    "data ?rooms?\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "integration_planning",
+   "name": "Post-merger integration",
+   "cluster": "deals",
+   "patterns": [
+    "integration (planning|management office|playbooks?|workstreams?)",
+    "(M&A|merger|acquisition|post-\\w+|deal) integrations?\\b",
+    "\\bIMO\\b",
+    "post[- ](merger|acquisition|deal|transaction)",
+    "post[- ]clos(e|ing) (integration|execution|activities|planning|value|synerg|operations|support)",
+    "pre[- ]close",
+    "day[- ](1|one) (readiness|planning|operations|integration)",
+    "synerg(y|ies) (reali[sz]ation|tracking|capture|targets|analysis|planning|case|estimates)|(cost|revenue|deal) synerg",
+    "\\bTSAs?\\b",
+    "transition services? agreements?",
+    "separation (planning|management)",
+    "acquired (compan|business|entit)",
+    "integrat(e|ing|ion of) (acquired|acquisitions|newly)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "deal_sourcing",
+   "name": "Deal sourcing & pipeline",
+   "cluster": "deals",
+   "patterns": [
+    "(?<!client )(?<!customer )(?<!talent )(?<!user )\\b(deal|investment|acquisition) (sourc|flow|origination|pipeline|screening)|transaction (sourc|origination|pipeline|screening)",
+    "sourc(e|es|ing) (and (evaluat|screen|execut|underwrit|diligenc)\\w+ )?(new )?(deals|investments?|investment opportunities|acquisitions?|transactions|targets)",
+    "(acquisition|M&A|investment) targets?",
+    "target (identification|screening)",
+    "(pipeline|universe) of (potential )?(targets|acquisition|investment|deals)",
+    "market mapping",
+    "(new|potential|prospective|attractive) investment opportunities|investment opportunities (in|across)",
+    "originat(e|es|ing|ion) (of )?(new )?(deals|transactions|investments|mandates|loans)",
+    "proprietary (deal|sourcing)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "pitch_materials",
+   "name": "Pitch books & deal marketing materials",
+   "cluster": "deals",
+   "patterns": [
+    "pitch ?books?\\b",
+    "pitch(es)? (materials|presentations)",
+    "(client|new business|M&A|deal) pitches",
+    "information memorand",
+    "\\bCIMs?\\b",
+    "offering (memorand|materials|documents)",
+    "management presentations?",
+    "(lender|rating agency|transaction) (presentations?|materials)",
+    "\\bteasers?\\b",
+    "marketing (documents|memorand)",
+    "marketing materials[^.\\n]{0,60}(transaction|deal|offering|investor|buyer)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "credit_analysis",
+   "name": "Credit analysis & underwriting",
+   "cluster": "deals",
+   "patterns": [
+    "credit (analys|underwrit|approval|memo|risk|quality|structur|review|decision|worthiness|polic|request|administration|write-?ups?|exposure)",
+    "creditworth",
+    "underwrit(e|es|ing) (and |of )?(new |commercial |complex )?(loans?|credit|transactions|deals|facilit)",
+    "loan (underwriting|structur|approval|origination|documentation|portfolio|review|request)",
+    "financial (statement )?spread",
+    "analy[sz](e|es|ing) financial (conditions|statements)",
+    "commercial (lending|loans?|credit)",
+    "\\bC&I\\b",
+    "(asset|cash[- ]flow)[- ]based lending",
+    "portfolio (monitoring|management)[^.\\n]{0,40}(credit|loan)",
+    "credit train",
+    "formal(ly)? credit"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "capital_markets",
+   "name": "Capital markets & financing transactions",
+   "cluster": "deals",
+   "patterns": [
+    "capital markets?",
+    "\\b(ECM|DCM)\\b",
+    "leveraged (finance|loans?|lending)",
+    "\\bIPOs\\b|\\bIPO (process|readiness|execution|transactions?)",
+    "initial public offering",
+    "(loan|debt|bank|equity) syndicat|syndicated (loans?|lending|credit|financ|facilit|debt|transactions)|\\bsyndications?\\b(?! (of|partner|network|feed))",
+    "(equity|debt|bond|follow-on|securities) (offerings?|placements?|issuances?|raises?)|private placements?",
+    "capital rais",
+    "high[- ]yield",
+    "investment[- ]grade",
+    "private (credit|debt)",
+    "structured (finance|products|credit)",
+    "securiti[sz]ation",
+    "fixed income"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "client_coverage",
+   "name": "Banking relationships & product cross-sell",
+   "cluster": "deals",
+   "patterns": [
+    "(client|sector|industry|corporate|sponsor) coverage",
+    "coverage (bankers?|teams?|groups?|officers?)",
+    "centers? of influence",
+    "\\bCOIs\\b",
+    "calling (effort|program|officer|plan|activit)",
+    "referral (sources?|network)",
+    "portfolio of (commercial|business|middle[- ]market|corporate|banking) (clients|relationships|customers)",
+    "(client|commercial|business|corporate|customer) banking relationships|banking relationships with (clients|customers|companies|businesses)",
+    "(commercial|corporate|business|investment) banking (clients|customers|prospects)",
+    "middle[- ]market (clients|companies|customers|prospects|businesses)",
+    "prospect(s|ing)\\b[^.\\n]{0,60}(bank|lending|loan|credit)",
+    "(banking|commercial|business|corporate) relationship manag(er|ement)",
+    "treasury (services|solutions|products)",
+    "treasury management (services|solutions|products|sales|officers?|specialists?|needs|capabilities)",
+    "(credit|lending|deposits?|merchant services),? (and |& )?treasury management|treasury management,? (and |& )?(credit|merchant|deposit|card)",
+    "cash management (products|services|solutions)",
+    "cross[- ]sell\\w*[^.\\n]{0,60}(bank|treasury|credit|deposit|loan|wealth)",
+    "deposits? (products|growth|accounts|relationships|balances|and (loan|credit|treasury))|(loans?|lending|credit) (and|,|&) deposits?",
+    "bank's products|bank(ing)? (products|solutions) (and|&|,) services|full (suite|range|array) of (bank|banking|financial) (products|services|solutions)",
+    "(sell|deliver|present|offer|introduc|recommend)\\w* [^.\\n]{0,30}(bank|banking|lending|deposit|treasury) (products|solutions|services)",
+    "(banking|lending|deposit|credit) (products|solutions) (and services )?(to|for) (clients|customers|businesses|prospects|companies)",
+    "lines? of credit",
+    "merchant services",
+    "financial solutions"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "portfolio_management",
+   "name": "Investment portfolio management",
+   "cluster": "deals",
+   "patterns": [
+    "(investment|fund|securities|fixed income|(?<!private )equity|multi-asset|model|real estate (investment|debt|equity)) portfolios?\\b",
+    "portfolio (construction|rebalanc|allocation|managers?\\b|monitoring|positioning|attribution)",
+    "asset allocation",
+    "investment (performance|polic(y|ies)|process|guidelines|objectives|mandates?)",
+    "performance attribution",
+    "rebalanc"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "portfolio_company",
+   "name": "Portfolio-company value creation",
+   "cluster": "deals",
+   "patterns": [
+    "portfolio compan",
+    "value[- ]creation plans?",
+    "\\boperating partners?\\b",
+    "exit (strateg|opportunit)|(investment|portfolio|sponsor|successful) exits?\\b|(?<!TSA strategy, execution, and )(?<!surveys, and )exit (planning|process)(?=[^.\\n]{0,80}(invest|portfolio|sponsor|fund|sale))"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "investment_committee",
+   "name": "Investment memos & committee approval",
+   "cluster": "deals",
+   "patterns": [
+    "investment (memo|committee|recommendation|thes[ie]s)",
+    "(committee|approval|deal|credit|board) (memo|memorand)",
+    "committee (presentation|approval|materials|packages?)",
+    "(present|recommend)\\w* (to|for) (the )?(investment|credit|loan) committee"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "investment_research",
+   "name": "Investment research & asset classes",
+   "cluster": "deals",
+   "patterns": [
+    "investment (research|analysis|ideas|themes)",
+    "equity research",
+    "fundamental (analysis|research)",
+    "(industry|sector|company|thematic) research",
+    "(security|manager|fund) (selection|research|due diligence)",
+    "asset class",
+    "public equit",
+    "alternative (investments?|assets)",
+    "macroeconomic",
+    "financial markets",
+    "market (commentary|outlook)",
+    "\\bequities\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "deal_structuring",
+   "name": "Deal structuring & negotiation",
+   "cluster": "deals",
+   "patterns": [
+    "(deal|transaction|loan|financing|investment) structur",
+    "structur(e|es|ing) (and (negotiat|execut|clos)\\w+ )?(deals|transactions|loans|financings|investments|credit)",
+    "term ?sheets?",
+    "(purchase|definitive|merger|credit|loan|transaction) (agreements?|documents?|documentation)",
+    "letters? of intent",
+    "\\bLOIs?\\b",
+    "negotiat\\w+ (of )?(the )?(deals?|transactions?|definitive|purchase)",
+    "deal terms"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "wealth_advisory",
+   "name": "Wealth planning & private clients",
+   "cluster": "deals",
+   "patterns": [
+    "high[- ]net[- ]worth",
+    "\\bU?HNW\\b",
+    "wealth (planning|advis|strateg|plan\\b)",
+    "private (bank|client|wealth)",
+    "(trusts?|estates?) (and|&) (estates?|trusts?)",
+    "estate planning",
+    "family offices?",
+    "(?<!as a )(?<!trusted )\\bfinancial advisor\\b(?!s)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "re_underwriting",
+   "name": "Real estate underwriting, pro formas & market comps",
+   "cluster": "real_estate",
+   "patterns": [
+    "pro[- ]?formas?\\b",
+    "cap(itali[sz]ation)? rates?\\b",
+    "\\bNOI\\b",
+    "net operating income",
+    "underwrit\\w+[^.\\n]{0,60}\\b(propert|real estate|acquisition|development|asset|land\\b|sites?\\b)",
+    "\\b(propert\\w*|real estate|acquisitions?|development|land|sites?)\\b[^.\\n]{0,40}underwrit",
+    "(equity|cash flow|distribution) waterfalls?",
+    "waterfall (model|structur|calc)",
+    "equity multiple",
+    "argus (valuation|model|cash)",
+    "sub-?markets?\\b",
+    "real estate markets?",
+    "market rents?\\b",
+    "(rent|sales?|lease|land) comp(s|arables)\\b",
+    "comparable (sales|properties|rents|leases)",
+    "market (stud(y|ies)|fundamentals)",
+    "market (research|analysis|data|trends|conditions)[^.\\n]{0,60}\\b(real estate|propert|sites?\\b|land\\b|rent|leas)",
+    "\\b(real estate|propert\\w*|sites?|land)\\b[^.\\n]{0,60}market (research|analysis|data|trends|conditions)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "re_acquisitions_dispositions",
+   "name": "Property acquisitions & dispositions",
+   "cluster": "real_estate",
+   "patterns": [
+    "(land|property|site|real estate) acquisitions?",
+    "(acquisitions?|property|asset|real estate|land) (and|&|,|/|or) dispositions?",
+    "dispositions? (of (assets|propert|real)|process|strateg|team)",
+    "purchase and sale agreements?",
+    "(acquir|purchas)\\w+ (of )?(land|sites|properties|real estate|parcels)",
+    "under contract",
+    "land ?owners",
+    "off[- ]market (deals|opportunities)|land (deals|opportunities)(?=[^.\\n]{0,80}(acqui|purchas|develop|home|communit|lots))",
+    "(brokers|sellers),? (and )?(land ?owners|developers|owners)",
+    "closing (documents|checklist|statements?)|(acquisition|property|land) closings?",
+    "\\btitle\\b[^.\\n]{0,30}(survey|insurance|commitment)",
+    "third[- ]party reports",
+    "(property|real estate|land|commercial) appraisals?",
+    "estoppel",
+    "property (inspections?|tours?)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "re_development_entitlements",
+   "name": "Development, entitlements & construction",
+   "cluster": "real_estate",
+   "patterns": [
+    "(land|zoning|development|project|site|secur\\w+|obtain\\w+) entitlements?|entitlements? (process|and (permit|zoning|approval|design)|,? (permit|zoning|approval))",
+    "\\b(re)?zoning\\b",
+    "ground[- ]up (development|construction|projects?)",
+    "site plans?\\b",
+    "\\bpermitting\\b|building permits?",
+    "pre-?development",
+    "land (use|development|planning)",
+    "(real estate|property|multifamily|residential|housing|mixed[- ]use|industrial|site|community) development",
+    "feasibility (stud|analys)",
+    "municipal (approvals|agencies|officials|planning|codes?)",
+    "redevelopment",
+    "development (pro[- ]?formas?|feasibility)",
+    "construction (management|oversight|budget|schedul|draw|loan|costs?|administration|process|team|manager|progress|documents|contracts?|projects?|consultants|activities|phase)",
+    "general contractors?",
+    "architects?,? (and |& )?(engineers|contractors|consultants|general)",
+    "draw (requests?|reviews?|process)",
+    "capital improvements?",
+    "tenant improvements?",
+    "\\bTI/?LC\\b",
+    "\\brenovations?\\b",
+    "change orders?(?=[^\\n]{0,150}(construction|contractor|architect|building))|(construction|contractor|architect|building)[^\\n]{0,150}change orders?",
+    "design (and|&) construction"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "re_leasing",
+   "name": "Leasing & tenant relations",
+   "cluster": "real_estate",
+   "patterns": [
+    "\\bleasing\\b",
+    "\\blease (negotiat|analys|administration|terms|agreements?|renewals?|proposals|documents|abstract|review|transactions|expirations|up\\b)",
+    "\\bleases\\b[^.\\n]{0,40}(tenant|propert|real estate|space|landlord|retail|office)",
+    "\\btenants? (relations|improvement|retention|mix|satisfaction|negotiat|credit|requests|leases?)",
+    "(prospective|existing|commercial|retail|office|anchor|potential) tenants\\b",
+    "rent rolls?",
+    "lease-?up\\b",
+    "landlords?\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "re_asset_mgmt",
+   "name": "Property & asset management",
+   "cluster": "real_estate",
+   "patterns": [
+    "asset management (plan|strateg|team|function|experience|activities|responsibilities)",
+    "property (management|managers?|operations|performance|budgets?|tax(es)?)\\b",
+    "(asset|property)[- ]level",
+    "(asset|property) business plans?",
+    "hold[/ -](sell|vs)",
+    "third[- ]party (property )?(managers?|operators)",
+    "real estate (portfolio|assets|investments)",
+    "operating properties",
+    "property (valuations?|strateg(y|ies))|asset (valuations?|strateg(y|ies))(?=[^.\\n]{0,100}(propert|real estate|tenant|leas))"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "re_property_types",
+   "name": "Property types (multifamily, industrial, office, retail)",
+   "cluster": "real_estate",
+   "patterns": [
+    "multi-?family",
+    "industrial (real estate|propert|assets|portfolio|development|buildings)",
+    "office (buildings?|propert|assets|portfolio)",
+    "retail (centers?|propert|assets|real estate)|shopping centers?",
+    "mixed[- ]use",
+    "((?<!safe, )affordable|student|senior|workforce|single[- ]family|build[- ]to[- ]rent) (housing|living|rental)",
+    "self[- ]storage",
+    "commercial real estate",
+    "\\bCRE\\b",
+    "home ?build",
+    "property types?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "brand_strategy",
+   "name": "Brand strategy & equity",
+   "cluster": "marketing",
+   "patterns": [
+    "brand (strateg|equity|health|building|identity|architecture|guidelines|voice|vision|plans?\\b|governance|consistency|stewardship|positioning|awareness|management|narrative|storytelling|purpose)",
+    "build(ing)? (the |our |a |strong |iconic )?brands?\\b",
+    "brand[- ]building"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "campaign_management",
+   "name": "Marketing campaigns",
+   "cluster": "marketing",
+   "patterns": [
+    "(marketing|integrated|brand|multi-?channel|omni-?channel|digital|advertising|demand|email|awareness|acquisition|global|regional|paid|360) campaigns?\\b",
+    "campaign (planning|execution|strateg|management|performance|development|optimi[sz]ation|results|briefs?|calendar)",
+    "\\b(plan|launch|execute|develop|run|manage|lead|build|design|optimi[sz]e)(s|d|ing)? (and \\w+ )?(\\w+ )?campaigns\\b",
+    "marketing (programs|plans?|initiatives|calendar)\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "demand_generation",
+   "name": "Demand generation & ABM",
+   "cluster": "marketing",
+   "patterns": [
+    "demand[- ]gen(eration)?\\b",
+    "account[- ]based (marketing|programs|strateg|campaigns)",
+    "\\bABM\\b(?! (is a|industries|\\(NYSE|employees|team members))",
+    "\\bMQLs?\\b",
+    "\\bSQLs\\b",
+    "lead (nurtur|scoring)",
+    "marketing[- ](sourced|qualified|influenced)",
+    "pipeline (and|&) revenue",
+    "(measurable|qualified) pipeline",
+    "revenue marketing"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "performance_marketing",
+   "name": "Digital & performance marketing",
+   "cluster": "marketing",
+   "patterns": [
+    "performance marketing",
+    "digital marketing",
+    "paid (media|search|social|acquisition|channels|advertising|marketing|campaigns)",
+    "(?<!/)\\bSEM\\b(?! de\\b)",
+    "\\bPPC\\b",
+    "\\bROAS\\b",
+    "(bid|bidding) (strateg|optimi)",
+    "creative testing",
+    "acquisition channels",
+    "channel mix"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "seo_web_conversion",
+   "name": "SEO, website & conversion optimisation",
+   "cluster": "marketing",
+   "patterns": [
+    "\\bSEO\\b",
+    "\\bAEO\\b",
+    "search engine optimi[sz]ation",
+    "organic (search|traffic|growth channels|social|acquisition|channels)",
+    "keyword (research|strategy)",
+    "landing pages?",
+    "conversion (rate )?optimi[sz]ation",
+    "(improve|increase|optimi[sz]e|lift|boost)(s|d|ing)? (\\w+ )?conversion rates?",
+    "web(site)? (optimi[sz]ation|conversion|traffic|personali[sz]ation)|website (experience|strategy|performance|content)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "content_social",
+   "name": "Content & social media marketing",
+   "cluster": "marketing",
+   "patterns": [
+    "content (marketing|strategy|calendar|creation|creators?)",
+    "social media",
+    "editorial (calendar|strategy|planning|content|standards)",
+    "copywriting",
+    "blog (posts?\\b|content)",
+    "\\bblogs\\b",
+    "thought leadership content",
+    "influencer (marketing|partnerships|programs|campaigns|strategy)",
+    "(marketing|social|web|website|digital|blog|video|editorial|brand|SEO|long[- ]form|short[- ]form) content(?! management)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "lifecycle_marketing",
+   "name": "Lifecycle, CRM & email marketing",
+   "cluster": "marketing",
+   "patterns": [
+    "(?<!product )(?<!asset )(?<!contract )(?<!employee )(?<!development )lifecycle (marketing|programs|campaigns|communications|strategy|journeys)",
+    "email (marketing|campaigns|programs|nurtur)",
+    "\\bCRM (marketing|campaigns|programs|strategy)",
+    "retention marketing",
+    "customer marketing",
+    "nurture (campaigns|programs|streams|tracks|sequences|flows)",
+    "push notifications",
+    "audience segmentation",
+    "loyalty marketing"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "marketing_analytics",
+   "name": "Marketing measurement & attribution",
+   "cluster": "marketing",
+   "patterns": [
+    "(marketing|multi-?touch|campaign|channel|revenue|pipeline|media|funnel|conversion|ad|first[- ]touch|last[- ]touch|measurement and|measurement,) attribution|attribution (model|modeling|models|reporting|methodolog|framework|tools|platforms|systems|and (measurement|incrementality|reporting))|attribution,? (and )?(incrementality|measurement|ROI|ROAS|event ROI|MMM|media mix)",
+    "marketing (analytics|measurement|performance|mix|effectiveness|metrics|ROI|reporting|data)",
+    "campaign (performance|analytics|effectiveness|reporting|measurement|metrics|results)",
+    "incrementality",
+    "\\bMMM\\b",
+    "media mix model",
+    "lift (studies|tests|analysis)",
+    "marketing[- ]mix model",
+    "return on ad spend"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "consumer_insights",
+   "name": "Consumer insights",
+   "cluster": "marketing",
+   "patterns": [
+    "consumer (insights?|behavio|understanding|research|trends|learnings)",
+    "(audience|shopper|human|cultural|brand) insights",
+    "brand (health )?track(ing|er)",
+    "insights? (into|on) (consumer|shopper)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "creative_agency",
+   "name": "Creative development & agency management",
+   "cluster": "marketing",
+   "patterns": [
+    "creative (briefs?|development|direction|strategy|execution|agenc|excellence|assets|process|production|partners|teams?|reviews?)",
+    "(creative|media|advertising|marketing|PR|external|brand|digital) (and \\w+ )?(agency|agencies) (partners?|management|relationships?|teams?)|agency partners",
+    "(external|creative|media|advertising|digital|PR|marketing|brand) agenc(y|ies)",
+    "manag\\w+ (creative|media|advertising|marketing|PR|external|brand|digital|our) agenc(y|ies)",
+    "media (strategy|plans?\\b|planning|buying|mix|investment|spend)",
+    "(creative|campaign|agency|marketing|messaging|content|brand|media) briefs?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "events_field_marketing",
+   "name": "Events & field marketing",
+   "cluster": "marketing",
+   "patterns": [
+    "field marketing",
+    "\\bevent (marketing|strategy|planning|programs?|execution|logistics|portfolio|sponsorships?)|(?<!risk )(?<!incident )(?<!and )(?<!security )event management",
+    "trade ?shows?",
+    "sponsorship (strateg|activation|programs|packages|opportunities|portfolio)",
+    "(events?|conferences?|trade shows?)(,| and| &|, and) sponsorships|sponsorships(,| and| &|, and) (events|conferences|activations|trade shows)",
+    "(customer|executive|industry|CXO|CIO|CISO|CFO|CMO|partner|prospect|analyst|investor) roundtables?|roundtables?,? (and|&|or) (dinners|events|webinars|conferences|summits)|(dinners|events|webinars|conferences|summits|tradeshows|trade shows),? (and|&|or)? ?(\\w+ )?roundtables?",
+    "experiential (marketing|events?|activations?|campaigns|programs|brand)",
+    "(industry|customer|executive|hosted|regional|third[- ]party|marketing|partner) events|(?<!quarterly )(?<!regular )(?<!team )(?<!company )(virtual|in-person) events(?! and an annual)|field events(?! get)",
+    "(brand|retail|consumer|event|partner|field) activations?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "pr_communications",
+   "name": "PR & communications",
+   "cluster": "marketing",
+   "patterns": [
+    "public relations",
+    "\\bPR\\b(?!/| ?-? ?FAQ)",
+    "media relations",
+    "analyst (relations|briefings)",
+    "press (releases?(?!,? (and |& )?FAQ)|coverage|outreach)",
+    "marketing communications",
+    "corporate communications",
+    "earned media",
+    "\\bmarcom"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "customer_proof",
+   "name": "Customer stories & advocacy",
+   "cluster": "marketing",
+   "patterns": [
+    "case studies|customer case stud",
+    "customer (stories|story|proof|references?|testimonials|advocacy|advocates)",
+    "testimonials",
+    "reference (customers|program|accounts)",
+    "proof points",
+    "advocacy programs?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "cpg_innovation",
+   "name": "Consumer-goods brand work (CPG innovation, shopper & trade)",
+   "cluster": "marketing",
+   "patterns": [
+    "(?<!technical )(?<!technology )(?<!supplier )innovation (pipeline|and renovation|funnel|launches)",
+    "innovation (and|&|,|/) ?renovation",
+    "shopper (marketing|activation|programs)",
+    "trade (marketing|promotions?|spend|funds|investment)",
+    "in-?store (marketing|activation|execution|programs|promotion|display)",
+    "(retail|retailer) (activation|marketing)",
+    "\\bCPG\\b",
+    "consumer packaged goods",
+    "\\bFMCG\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "pipeline_forecasting",
+   "name": "Pipeline management & sales forecasting",
+   "cluster": "sales",
+   "patterns": [
+    "(?<!data )(?<!talent )(?<!candidate )(?<!ETL )(?<!project )(?<!product )(?<!clinical )(?<!drug )(?<!acquisition )(?<!investment )pipeline (management|reviews?|health|generation|development|coverage|growth|creation|hygiene|inspection|goals|targets|building|velocity|progression)",
+    "sales (pipeline|forecast|funnel)",
+    "(sales|deal|bookings|pipeline) forecast",
+    "forecast(ing)? (sales|bookings|and pipeline)|(sales|pipeline|revenue|deal) forecast(ing)? accuracy|forecast accuracy and pipeline|accurate (sales |revenue |pipeline )forecast",
+    "weekly (sales )?forecast",
+    "\\b(build|grow|manage|develop|generate|maintain|create|drive)(s|d|ing)? (a |an |the |your |their |and \\w+ )?(robust |healthy |strong |qualified |sales |new |own |opportunity )*pipeline\\b",
+    "deal (reviews?|inspection|velocity|desk)",
+    "win rates?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "quota_attainment",
+   "name": "Quota & revenue target attainment",
+   "cluster": "sales",
+   "patterns": [
+    "(?<!and )(?<!resource )(?<!usage )(?<!rate )(?<!api )(?<!non-)(?<!% of )\\bquotas?\\b(?! (limits|management system|enforcement|service|setting|design|planning|allocation|and non-quota))(?!/incentive)(?!-based (incentive|sales roles))(?!;)",
+    "(?<!such as strategic )(sales|revenue|booking|bookings|new business) (targets?|goals|objectives|plan attainment)\\b(?! incentive compensation)",
+    "(quota|target|goal|plan|sales|revenue) attainment(?! up to)",
+    "\\b(meet|exceed|achieve|hit|deliver)(s|ed|ing)? (or exceed\\w* |and exceed\\w* )?(\\w+ )?(sales|revenue|bookings) (targets|goals|objectives|plans?|numbers|quotas?)",
+    "track record of (exceeding|meeting|achieving|over-?achiev)\\w* (\\w+ )?(sales|revenue|quota|targets)",
+    "President'?s Club"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "territory_account_planning",
+   "name": "Territory & account planning",
+   "cluster": "sales",
+   "patterns": [
+    "territory (plan|management|strategy|coverage|design|development|growth|business plan)",
+    "(assigned|defined|sales|geographic) territor(y|ies)",
+    "account (plans?\\b|planning|strateg|mapping|segmentation|coverage)",
+    "\\b(manage|own|grow|develop|cover)(s|ing)? (a |an |the |your |their )?(\\w+ )?territor(y|ies)",
+    "(target|named) accounts?\\b",
+    "white ?space (analysis|opportunit|accounts|mapping)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "prospecting",
+   "name": "Prospecting & lead generation",
+   "cluster": "sales",
+   "patterns": [
+    "prospecting",
+    "lead[- ]generation",
+    "cold[- ]?(call|email|outreach)",
+    "outbound (sales|prospecting|outreach|campaigns|calls|motion|strategy|efforts)",
+    "\\b(identify|qualify|generate|pursue|source|develop)(s|ing)? (and \\w+ )?(new |qualified |sales |potential |prospective )+(leads|prospects)",
+    "qualify(ing)? (leads|prospects|opportunities)",
+    "new (business|logo|client|customer) (acquisition|development|generation|sales|wins)",
+    "new logos?\\b",
+    "hunter (mentality|mindset)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "deal_negotiation",
+   "name": "Deal negotiation & structuring",
+   "cluster": "sales",
+   "patterns": [
+    "deal (structur|negotiat)\\w*",
+    "negotiat\\w+ (and \\w+ )?(\\w+ )?(deals|partnerships?|commercial (terms|agreements)|partner agreements|partnership agreements)",
+    "(commercial|deal|partnership) negotiations?",
+    "\\b(close|closing|closed) (\\w+ )?(deals|new business|sales)\\b",
+    "structur\\w+ (and \\w+ )?(\\w+ )?(deals|partnerships)",
+    "partnership agreements",
+    "negotiat\\w+ (and \\w+ )?(\\w+ )?(contracts|agreements|terms|pricing) with (customers|clients|partners|prospects|distributors|dealers|resellers)",
+    "negotiat\\w+ (and \\w+ )?(\\w+ )?(business|commercial|customer|partner|complex|six-figure|multi-year|enterprise) (\\w+ )?(agreements|contracts)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "consultative_selling",
+   "name": "Consultative & solution selling",
+   "cluster": "sales",
+   "patterns": [
+    "consultative(ly)? (sell|sales|approach|selling|manner|skills|relationship|engagement|conversations|mindset|partner)",
+    "(solution|value|value-based|insight|enterprise|complex|technical|SaaS|software|B2B|relationship|outcome-based) selling",
+    "solution[- ]s(elling|ales)",
+    "\\bMEDDP?ICC?\\b",
+    "challenger (sale|selling|methodology)",
+    "sandler",
+    "sales methodolog",
+    "sales cycles?\\b",
+    "sell(ing)? to (C-?level|C-?suite|executives|senior|enterprise|technical|economic)",
+    "objection handling",
+    "multi-?thread(ed|ing)? (relationships|deals|accounts|sales|into|across (accounts|the customer|customer)|within)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "key_account_mgmt",
+   "name": "Key account & client relationships",
+   "cluster": "sales",
+   "patterns": [
+    "(key|strategic|major|national|enterprise|named|existing) accounts?\\b",
+    "key customers",
+    "book of business",
+    "(portfolio|book) of (\\w+ )?(accounts|clients|customers)",
+    "(?<!our focus on )\\b(build|maintain|manage|develop|grow|own|deepen|cultivate|strengthen|foster|nurture)(s|ing)? (and \\w+ )?(\\w+ |\\w+ \\w+ |\\w+, \\w+ )?(client|customer|account|C-?level|executive[- ]level) relationships",
+    "relationships with (key |senior |existing |new |prospective |enterprise |strategic )*(clients|accounts|decision[- ]makers|buyers)",
+    "account (growth|penetration|ownership|retention)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "channel_sales",
+   "name": "Channel, reseller & distributor sales",
+   "cluster": "sales",
+   "patterns": [
+    "distributors?\\b",
+    "(?<!broker-)(?<!broker )(?<!broker/)\\bdealers?(ships?)?\\b",
+    "resellers?",
+    "\\bVARs?\\b",
+    "channel (sales|strategy|program|management|development|manager|partnerships?|partner|business|ecosystem|accounts)",
+    "(systems?|global) integrators?",
+    "\\bGSIs?\\b",
+    "\\bSIs\\b",
+    "(indirect|channel)[- ]sales"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "partner_gtm",
+   "name": "Partner co-selling & joint go-to-market",
+   "cluster": "sales",
+   "patterns": [
+    "co-?sell",
+    "co-?marketing",
+    "joint (go[- ]to[- ]market|GTM|business plan|marketing|selling|solutions?|value proposition|offerings?|account planning|pipeline|sales)",
+    "partner[- ](sourced|influenced|led)",
+    "partner (enablement|programs?|marketing|ecosystems?|recruitment|pipeline|sales|business plans?|onboarding|portfolio|performance|strategy)",
+    "partnership (strateg|performance|pipeline)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "sales_leadership",
+   "name": "Sales team leadership & coaching",
+   "cluster": "sales",
+   "patterns": [
+    "\\b(coach|mentor|develop|lead|manage|recruit|hire|train|build|motivate|inspire|scale)(s|d|ing)? (and \\w+ |, \\w+,? and \\w+ )?(a |an |the |your |our )?(\\w+ |high-performing )?(sales (team|reps|representatives|professionals|talent|managers|organization|force|associates|people|leaders)|account (executives|managers)|AEs\\b|sellers\\b(?! to)|reps\\b|BDRs\\b|SDRs\\b)",
+    "sales (coaching|talent)|(deliver|lead|conduct|design|develop|build|provide|facilitate|own)\\w* (\\w+ ){0,2}sales training|sales training (programs?|curricul\\w+) for",
+    "sales (leadership|management) (experience|role|skills|position|capabilit)",
+    "(experience|years|background) (in|of|with) (\\w+ )?sales (leadership|management)",
+    "(high[- ]performing|top[- ]performing|world[- ]class) sales(?! training)",
+    "ride[- ]alongs|field coaching|deal coaching|call coaching",
+    "sales (leader|manager) experience",
+    "(first|second|front)[- ]line sales (leader|manager)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "sales_process",
+   "name": "Sales process & operations",
+   "cluster": "sales",
+   "patterns": [
+    "sales (process(es)?|operations|ops|playbooks?|motions?|plays|cadence|effectiveness|productivity|excellence|methodolog\\w+)\\b",
+    "revenue operations",
+    "\\bRevOps\\b",
+    "go-to-market motions?",
+    "CRM (hygiene|discipline|data|accuracy|usage|adoption)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "renewals_expansion",
+   "name": "Renewals, upsell & expansion",
+   "cluster": "sales",
+   "patterns": [
+    "(customer|client|account|subscription|contract|license|on-time|drive|driving|manage|managing|own|owning|secure|securing|upcoming|annual|and|for|of) renewals?\\b",
+    "renewals? (rates?|process|forecast|strategy|motion|cycle|management|and (expansion|upsell|growth|retention)|pipeline|conversations|negotiations|risk|targets|quota|opportunities)",
+    "renewals?,? (upsells?|expansions?|cross-sells?)",
+    "up-?sell",
+    "cross-?sell",
+    "expansion (opportunit|revenue|pipeline|deals|motions?|plays|targets|goals|sales)",
+    "(account|customer|revenue) expansion",
+    "\\bNRR\\b",
+    "\\bGRR\\b",
+    "\\bNDR\\b",
+    "(net|gross) (revenue|dollar) retention",
+    "(customer|client|revenue|logo|account) retention",
+    "\\b(reduce|prevent|mitigate|minimi[sz]e)(s|d|ing)? (customer |client |revenue |logo )?churn",
+    "churn (risk|rate|reduction|prevention|mitigation)",
+    "land[- ]and[- ]expand"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "onboarding_adoption",
+   "name": "Customer onboarding & adoption",
+   "cluster": "sales",
+   "patterns": [
+    "(customer|client|new customer|merchant) onboarding",
+    "onboard(ing)? (new |of )?(customers|clients|accounts|merchants)",
+    "(product|customer|feature|platform|solution|client) adoption",
+    "onboarding(,| and) adoption",
+    "time[- ]to[- ]value",
+    "adoption(,| and) value realization|value realization (for|with|across) (customers|clients|accounts|our customers)|customer value realization",
+    "success plans?\\b",
+    "success planning",
+    "post[- ]sales?\\b",
+    "customer (training|education|enablement)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "customer_health",
+   "name": "Customer health & business reviews",
+   "cluster": "sales",
+   "patterns": [
+    "(customer|account|client) health",
+    "health (scor\\w+|checks?)",
+    "\\bEBRs?\\b",
+    "executive business reviews",
+    "(customer|client|account|partner)[- ]?(facing )?(QBRs?|business reviews)",
+    "(QBRs?|business reviews) (with|for) (customers|clients|accounts|partners|key|executive|strategic|enterprise)",
+    "at[- ]risk (customers|accounts|clients)",
+    "(churn|renewal) risks?\\b",
+    "risk early",
+    "\\bCSAT\\b",
+    "(?<!supplier )(?<!vendor )(?<!internal )(?<!and )(?<!meetings, )\\bQBRs?\\b(?! (with|for) (suppliers|vendors|leadership))",
+    "(?<!supplier )(?<!vendor )(?<!formal )quarterly business reviews(?! (with|for) (\\w+ )?(suppliers|vendors))"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "proposals_capture",
+   "name": "Proposals, RFP responses & capture",
+   "cluster": "sales",
+   "patterns": [
+    "proposal (development|writing|management|preparation|responses?|teams?|efforts|strategy|submissions?|content)",
+    "(RFP|RFI|RFQ|RFx)s? (responses?|submissions?|completion)",
+    "(respond|response|responding|responses) to (RFPs?|RFIs?|RFx|solicitations|requests for proposals?)",
+    "capture (management|planning|strateg|manager|plans?|process|efforts|activities|lead)",
+    "\\b(prepare|develop|write|deliver|create|lead|present|draft)(s|d|ing)? (and \\w+ )?(\\w+ )?(proposals|bids)\\b",
+    "\\bbids?\\b (and|&|/) proposals?",
+    "teaming (agreements|partners|arrangements|strategies)",
+    "go/no-go|bid/no-bid",
+    "win themes?",
+    "price[- ]to[- ]win"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "demand_supply_planning",
+   "name": "Demand & supply planning (S&OP)",
+   "cluster": "operations",
+   "patterns": [
+    "\\bS&OP\\b|\\bSIOP\\b|sales (and|&) operations planning|integrated business planning|\\bIBP\\b",
+    "demand (planning|plans?\\b|forecast\\w*|signals?)",
+    "supply (planning|plans?\\b)|supply (and|&|/) demand|demand (and|&|/) supply",
+    "(materials?|production|replenishment) planning|material requirements planning|\\bMRP\\b (planning|process\\w*|parameters|runs?|logic)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "inventory_mgmt",
+   "name": "Inventory management",
+   "cluster": "operations",
+   "patterns": [
+    "inventory (management|control(?! society)|levels?|optimi[sz]ation|accuracy|turns?|planning|targets|polic(y|ies)|health|position\\w*|strateg\\w+|reduction|analysis|performance)",
+    "(optimi[sz]|reduc|balanc)\\w+ inventor(y|ies)",
+    "cycle count|safety stock|excess (and|&) obsolete|\\bE&O\\b|stock[- ]?outs?\\b|days of (supply|inventory)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "logistics_transportation",
+   "name": "Logistics & transportation",
+   "cluster": "operations",
+   "patterns": [
+    "logistics (operations|network|providers?|management|strateg\\w+|costs?|team|optimi[sz]ation|planning|partners|services|processes|performance)",
+    "(inbound|outbound|global|international|reverse|transportation|distribution|warehousing) (and |& )?logistics|logistics (and|&|,) (transportation|distribution|warehous\\w+|fulfil+ment)",
+    "transportation (management|operations|network|planning|costs?|providers|optimi[sz]ation|strateg\\w+|team|modes?)",
+    "\\bfreight\\b|carrier (management|performance|relationships?|contracts?|rates|selection|network|capacity)|\\b[34]PLs?\\b|third[- ]party logistics",
+    "distribution (network|operations|strateg\\w+|footprint)|(logistics|distribution|transportation|delivery|supply chain) network (design|optimi[sz]ation|planning|strateg\\w+)|network (design|optimi[sz]ation)",
+    "(middle|last|first)[- ]mile (delivery|logistics|network|operations|carriers?|leads?|-|where)|line ?haul",
+    "trade compliance|customs (compliance|clearance|brokers?|regulations)|import/export|import (and|&) export|incoterms"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "warehouse_fulfillment",
+   "name": "Warehouse & fulfilment operations",
+   "cluster": "operations",
+   "patterns": [
+    "(?<!data )warehouse (operations|management|team|associates|environment|processes|layout|staff|activities|managers?|space|capacity|network)|(?<!data )warehousing (operations|and|&|,)",
+    "fulfil+ment (centers?|operations|network|sites?)|delivery stations?|sort(ation)? centers?",
+    "distribution center (operations|management|environment|leadership|teams?|managers?)|(in|within|of|at|manag\\w+|run\\w*|lead\\w*|across) (a |the |our |multiple )?distribution centers?",
+    "shipping (and|&|/) receiving|receiving (and|&|,) (shipping|put-?away|storage|stow)|pick(ing)?,? (and |& )?pack|order picking|material handling|put-?away|cross[- ]dock"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "capacity_production_planning",
+   "name": "Capacity & production planning",
+   "cluster": "operations",
+   "patterns": [
+    "capacity (planning|plans?\\b|management|analysis|constraints?|model\\w*|requirements|utili[sz]ation|expansion)",
+    "production (planning|plans?\\b|schedul\\w+|control|targets|goals|output|rates?|ramp|capacity|requirements)",
+    "manufacturing (capacity|capacities|schedules?|readiness|ramp)|master (production )?schedul\\w+|line balanc\\w+|load balanc\\w+"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "lean_six_sigma",
+   "name": "Lean & Six Sigma methods",
+   "cluster": "operations",
+   "patterns": [
+    "lean (manufactur\\w+|principles|methodolog\\w+|tools|practices|six|techniques|thinking|management|enterprise|concepts|transformation|philosophy|production|process\\w*|culture|events|sigma|deployment|daily|systems?|certif\\w+)",
+    "(of|in|with|using|apply\\w*|implement\\w*|leading|and|or) lean\\b(?! (product|portfolio|startup|agile|budget|on|into|in|team|toward|forward|heavily|organization|and (agile|nimble|mean|efficient)))",
+    "six sigma|6 ?sigma|\\bLSS\\b|\\bDMAIC\\b|kaizen|value[- ]stream",
+    "\\b5S\\b|\\b6S\\b|\\bgemba\\b|standard work\\b|visual management|daily management|poka[- ]yoke|\\bSMED\\b|toyota production|hoshin|strategy deployment|policy deployment",
+    "waste (elimination|reduction)|eliminat\\w+ (of )?waste|non[- ]value[- ]add\\w*"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "root_cause_corrective_action",
+   "name": "Root-cause analysis & corrective action",
+   "cluster": "operations",
+   "patterns": [
+    "root[- ]cause",
+    "corrective (and preventive |and preventative |& preventive )?actions?|\\bCAPAs?\\b",
+    "\\b8D\\b|5[- ]why\\w*|five why\\w*|fishbone|ishikawa|\\bPDCA\\b|\\bFMEA\\b|\\bA3\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "quality_systems",
+   "name": "Quality systems & standards",
+   "cluster": "operations",
+   "patterns": [
+    "quality (management )?systems?\\b|\\bQMS\\b",
+    "\\bISO[ -]?(9001|9000|13485|14001|45001)|\\bAS ?9100|\\bIATF|\\bc?GMPs?\\b|good manufacturing practice",
+    "quality (control|engineering|audits?)|supplier quality",
+    "statistical process control|process capability|\\bCpk\\b|non-?conform\\w+|first[- ]pass yield|scrap (and|&|,) rework|scrap (rates?|reduction)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "safety_ehs",
+   "name": "Workplace safety & EHS",
+   "cluster": "operations",
+   "patterns": [
+    "\\bEHS\\b|\\bEH&S\\b|\\bOSHA\\b|environmental,? health,? (and|&) safety",
+    "safety (culture|programs?|performance|initiatives|audits?|metrics|incidents|standards|compliance|regulations|training)",
+    "(workplace|employee|associate|plant|site|worker|occupational) safety|safe work(ing)? environment|maintain\\w* a safe",
+    "safety,? quality,? (attendance|delivery|cost|productivity|and)|incident investigations?|near[- ]miss"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "labor_shift_mgmt",
+   "name": "Shift & labour management",
+   "cluster": "operations",
+   "patterns": [
+    "labor (planning|plans?\\b|management|scheduling|costs?|hours|budgets?|productivity|utili[sz]ation|efficiency|model\\w*|forecast\\w*|allocation)",
+    "staffing (levels?|plans?\\b|needs|models?|requirements)|(workforce|staff|crew|employee|labor) schedul\\w+|schedul\\w+ (of )?(staff|employees|associates|shifts|labor|crews)",
+    "hourly (associates|workforce|team members|workers|talent|staff)|(frontline|front-line) (associates|employees|workforce|team members|teams?|workers|staff|leaders)",
+    "during their shifts|(manag\\w+|lead\\w*|supervis\\w+|oversee\\w*|run\\w*|across|multiple) (\\w+ )?shifts\\b|shift (planning|leads?|managers?|supervisors?|hand-?offs?|coverage|operations?|teams?)|multi[- ]shift",
+    "union(ized)? (environment|workforce|facility|plant|shop|employees)|quality, attendance|attendance (polic\\w+|issues|management|tracking)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "ops_performance_mgmt",
+   "name": "Productivity & service-level performance",
+   "cluster": "operations",
+   "patterns": [
+    "productivity (targets?|goals|metrics|plans?|standards|rates?|requirements|measures|objectives)|(labor|plant|site|warehouse|operational|workforce) productivity|(determining|execute) productivity",
+    "throughput|cycle[- ]times?\\b|\\bOEE\\b|equipment effectiveness|(equipment|unplanned|reduce|minimi[sz]e) downtime",
+    "on[- ]time (delivery|shipment) (performance|metrics|rates?|of (product|parts|materials?|orders))|on[- ]time,? in[- ]full|\\bOTD\\b|\\bOTIF\\b|fill rates?|delivery performance",
+    "service[- ]levels?\\b|\\bSLAs?\\b",
+    "operational (metrics|performance|kpis?|targets|reviews?|scorecards?)|operations (metrics|performance|kpis?|reviews?|scorecards?)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "equipment_maintenance",
+   "name": "Equipment, facilities & maintenance",
+   "cluster": "operations",
+   "patterns": [
+    "(preventive|preventative|predictive|equipment|facilit(y|ies)|building|plant|fleet|vehicle|planned|routine) maintenance",
+    "maintenance (programs?|teams?|plans?\\b|technicians|operations|schedules?|department|activities|costs|staff|managers?|procedures|planning|and (repair|reliability|engineering|facilities))",
+    "total productive maintenance|\\bCMMS\\b|equipment (reliability|uptime|repairs?|availability)|facilit(y|ies) (management|operations|upkeep|engineering)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "sourcing_category_strategy",
+   "name": "Strategic sourcing & category strategy",
+   "cluster": "operations",
+   "patterns": [
+    "(?<!deal )(?<!talent )(?<!candidate )sourcing (strateg\\w+|process\\w*|events?|initiatives|projects|plans?\\b|methodolog\\w+|best practices|roadmap)",
+    "category (strateg\\w+|plans?\\b|planning|management (strateg\\w+|process|methodolog\\w+|principles|experience|best practices))|commodity (strateg\\w+|management|plans?\\b|teams?)",
+    "strategic sourcing (process\\w*|initiatives|projects|strateg\\w+|activities|experience|methodolog\\w+|events?|principles|best practices|practices|plans?\\b|efforts|and|,|of|for|to\\b|expertise|skills|background)|(in|of|with|lead\\w*|drive|manage\\w*|execut\\w+|perform|conduct\\w*) strategic sourcing",
+    "make[- ](vs\\.?|versus|or)[- ]buy|supplier (selection|consolidation|landscape)|supply base (strateg\\w+|optimi[sz]ation|consolidation|rationali[sz]ation)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "rfx_bid_mgmt",
+   "name": "RFx & competitive bidding",
+   "cluster": "operations",
+   "patterns": [
+    "\\bRF[PQIX]s?\\b|\\bRFx\\b|RFI/RFQ|requests? for (proposals?|quot\\w+)",
+    "competitive (bid\\w*|sourcing|tender\\w*)|bid (analysis|evaluation|process|packages?|management|comparison|events?|leveling|tabs?)|bidding (process|events?)|\\btenders?\\b|e-?auctions?|reverse auctions?|quote (analysis|submissions|comparison)|source selection"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "supplier_relationship_mgmt",
+   "name": "Supplier relationship & performance management",
+   "cluster": "operations",
+   "patterns": [
+    "supplier (relationship\\w*|performance|management|scorecards?|development|base|evaluations?|qualification|audits?|reviews?|engagement|partnerships?|collaboration|metrics|capabilit\\w+|onboarding|issues|innovation)|\\bSRM\\b",
+    "(manag\\w+|develop\\w+|build\\w*|maintain\\w*|cultivat\\w+|own\\w*) (strong |strategic |key |and maintain )?(relationships with )?(key |strategic |critical |external |our |new )?suppliers?( relationships| partnerships| performance)?\\b",
+    "vendor (performance|scorecards?|development)|quarterly business reviews? with (suppliers|vendors)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "supplier_contract_negotiation",
+   "name": "Supplier negotiation & contracts (MSAs, SOWs)",
+   "cluster": "operations",
+   "patterns": [
+    "negotiat\\w+ (\\w+ ){0,4}(suppliers?|vendors?|MSAs?|SOWs?|supply agreements?|subcontracts?)\\b",
+    "(supplier|vendor|supply|sourcing|procurement|price|cost) negotiations?|negotiation (strateg\\w+|planning|tactics)",
+    "contract negotiations?.{0,60}(supplier|vendor|procure|sourcing)|(supplier|vendor|procure|sourcing)\\w*.{0,60}contract negotiations?",
+    "\\bMSAs?\\b|master (service|services|supply|purchase|purchasing) agreements?|statements? of work|\\bSOWs?\\b|(supplier|vendor|supply|purchasing|procurement|sourcing|long[- ]term) (agreements|contracts)\\b|\\bLTAs?\\b|\\bCLM\\b|contract lifecycle"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "spend_cost_savings",
+   "name": "Spend analysis & cost savings",
+   "cluster": "operations",
+   "patterns": [
+    "spend (analysis|analytics|analyses|data|categor\\w+|under management|visibility|profile|cube|reports?|patterns|trends|base|optimi[sz]ation)|(addressable|indirect|direct|category|managed|third[- ]party|supplier|vendor) spend\\b",
+    "cost[- ](savings?|reductions?|avoidance|take-?out|down)\\b|savings (targets?|goals|opportunit\\w+|pipeline|initiatives|tracking|commitments|results)|(deliver\\w*|achiev\\w+|driv\\w+|generat\\w+|identify\\w*|realiz\\w+|track\\w*) (cost )?savings\\b(?! plan)",
+    "\\bPPV\\b|purchase price variance|value engineering"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "tco_should_cost",
+   "name": "Cost modelling (TCO, should-cost)",
+   "cluster": "operations",
+   "patterns": [
+    "total cost of ownership|\\bTCO\\b",
+    "should[- ]cost|clean[- ]sheet|cost (models?|modell?ing|breakdowns?|build-?ups?|transparency)|landed costs?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "procure_to_pay",
+   "name": "Purchasing & procure-to-pay",
+   "cluster": "operations",
+   "patterns": [
+    "procure[- ]to[- ]pay|source[- ]to[- ]pay|\\bS2P\\b|purchase[- ]to[- ]pay|source[- ]to[- ]contract|\\bS2C\\b|\\bP2P\\b (process\\w*|systems?|cycle|operations|tools?|platforms?|workflows?|polic\\w+|compliance|transformation)",
+    "purchase orders?|purchase requisitions?|requisitions? (and|to|/) (purchase|PO)|requisition (process\\w*|approvals?)|\\bPO\\b (process\\w*|creation|management|issuance|placement|approval)",
+    "purchasing (process\\w*|polic\\w+|activities|function|department|team|operations|systems?|procedures|cards?|experience|and (procurement|sourcing|supply|inventory))|\\bP-?cards?\\b|(?<!formal )(?<!customer )(?<!navigate )(?<!government )(?<!public )(?<!enterprise )(?<!client )(?<!buyer )procurement (polic\\w+|operations|procedures|compliance|processes|transactions)|tactical (buying|procurement|purchasing)|buyer/planner"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "supply_risk_continuity",
+   "name": "Supplier risk & supply continuity",
+   "cluster": "operations",
+   "patterns": [
+    "(supplier|supply|supply[- ]chain|third[- ]party|vendor|sourcing) risks?\\b|\\bTPRM\\b",
+    "supply (continuity|assurance|resilien\\w+|disruptions?|shortages?|constraints|security)|continuity of supply|assurance of supply|supply[- ]chain (resilien\\w+|disruptions?)",
+    "(dual|second|multi|alternate|alternative)[- ]sourc\\w+|(single|sole)[- ]source(d)? (suppliers?|parts|components|materials?|supply|items|vendors?)",
+    "supplier (financial health|due diligence|compliance|code of conduct|sustainability|diversity)|responsible sourcing|diverse suppliers?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "supply_market_intel",
+   "name": "Supply-market intelligence & benchmarking",
+   "cluster": "operations",
+   "patterns": [
+    "supply[- ]markets?\\b|supplier markets?|(supply|supplier|commodity|category|procurement|sourcing) (market )?intelligence|commodity (markets?|trends|pricing|prices|indices|expertise|knowledge)",
+    "(supplier|price|pricing|cost|rate) benchmark\\w*|benchmark\\w* (suppliers?|pricing|prices|costs?|rates)",
+    "market (trends|conditions|dynamics|analysis|research|intelligence).{0,60}(supplier|sourcing|commodit|categor|procure)|(supplier|sourcing|commodit|categor|procure)\\w*.{0,60}market (trends|conditions|dynamics|analysis|research|intelligence)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "npi_manufacturing_ramp",
+   "name": "New product introduction & manufacturing ramp",
+   "cluster": "operations",
+   "patterns": [
+    "\\bNPI\\b|new product introductions?",
+    "contract manufactur\\w+|\\bEMS\\b (providers?|partners?)|\\bODMs?\\b|\\bJDMs?\\b",
+    "\\bBOMs?\\b|bills? of materials?|lead[- ]times?\\b",
+    "(prototype|pilot|engineering|production) builds?\\b|build (milestones|schedules?|plans?|readiness)|design for (manufactur\\w+|supply chain)|\\bDFM\\b|\\bDFx\\b|ramp to (volume|production|mass)|mass production|first article|\\b[EDP]VT\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "capital_projects",
+   "name": "Capital projects & equipment spend",
+   "cluster": "operations",
+   "patterns": [
+    "capital (projects?|expenditures?|equipment|improvements?|appropriation\\w*|requests?|purchases|spend\\w*)|\\bcap-?ex\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "retail_category_assortment",
+   "name": "Retail category & assortment planning",
+   "cluster": "operations",
+   "patterns": [
+    "assortments?\\b|planograms?|shelf (space|sets?|placement|strateg\\w+)|on[- ]shelf|\\bSKU (rationali[sz]ation|mix|productivity|optimi[sz]ation)",
+    "category (growth|performance|insights?|reviews?|captain\\w*|development|advis\\w+|analysis|vision|roles?|P&L|sales|profitability)|(joint business plan\\w*|\\bJBPs?\\b)(?=[^\\n]{0,150}(retail|categor|shopper|merchan|grocer|store|trade (spend|promotion|funds)|walmart|kroger|costco|buyers\\b|wholesal))|(retail|categor|shopper|merchan|grocer|store|trade (spend|promotion|funds)|walmart|kroger|costco|buyers\\b|wholesal)[^\\n]{0,150}(joint business plan|\\bJBPs?\\b)|\\bline reviews?",
+    "merchandising (strateg\\w+|plans?|decisions|calendar)|syndicated data|nielsen|circana|\\bIRI\\b|\\bnumerator\\b|\\bPOS data\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "gov_contracts_far",
+   "name": "Government contracts & subcontracts (FAR/DFARS)",
+   "cluster": "operations",
+   "patterns": [
+    "\\bDFARS?\\b|federal acquisition reg\\w+|\\bFAR\\b( part| clause| \\d| compliance| regulations| flow|\\W{1,5}(and |or |& )?DFARS?)",
+    "subcontract (management|administrat\\w+|agreements?|negotiations?|awards?|managers?|performance)|subcontracts\\b|manag\\w+ (of )?subcontractors|prime contract\\w*",
+    "(firm[- ])?fixed[- ]price|cost[- ]plus|cost[- ]reimburs\\w+|time (and|&) materials?|\\bFFP\\b|\\bCPFF\\b|\\bCPIF\\b|\\bIDIQ\\b|\\bT&M\\b|contract (types|data requirements)|\\bCDRLs?\\b",
+    "(DoD|department of defense|government|defense|federal) (acquisition|contracting|procurement)\\b|\\bDCAA\\b|\\bDCMA\\b|cost accounting standards|truth in negotiations|\\bCPSR\\b|flow[- ]?down (clauses?|requirements|of)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "employee_relations",
+   "name": "Employee relations & investigations",
+   "cluster": "people",
+   "patterns": [
+    "employee relations",
+    "\\bER\\b (issues|cases|matters|investigations|team|specialist|partner|trends)",
+    "\\b(workplace|employee|HR|ER|misconduct|harassment|discrimination) investigations?",
+    "(?<!-)\\bdisciplinary (actions?|process|procedures?|matters|issues|measures|meetings|hearings)",
+    "grievances?",
+    "(labor|labour|union|industrial) relations",
+    "(negotiat|administ|interpret|manag)\\w* (\\w+ ){0,3}collective bargaining|collective bargaining (negotiations|process|experience|strategy)",
+    "union(ized)? (environment|avoidance|negotiations|contracts?|stewards?|represent\\w+|workforce|employees)",
+    "performance improvement plans?",
+    "employee (complaints|concerns|grievances|discipline|conflicts)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "hr_business_partnering",
+   "name": "HR business partnering",
+   "cluster": "people",
+   "patterns": [
+    "\\bHRBPs?\\b",
+    "(HR|human resources?|people) business partner",
+    "people partners?\\b",
+    "strategic (HR|human resources|people) partner",
+    "client groups?",
+    "HR (strategy|strategies|generalist|initiatives|support|guidance|expertise|solutions|consult)",
+    "people (strategy|strategies|initiatives|priorities|agenda)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "talent_acquisition",
+   "name": "Talent acquisition & recruiting",
+   "cluster": "people",
+   "patterns": [
+    "(?<!member of our )(?<!contact our )(?<!contact )(?<!your )(?<!our )(?<!'s )(?<!’s )talent acquisition(?! (professional|representative|specialist|department|coordinator|team (will|at|member|for|to|can)|partner will|at\\b|process\\b|team\\.|and hiring teams?|role\\b))",
+    "full[- ]cycle recruit",
+    "recruit(ing|ment) (strateg|pipeline|plans?|initiatives|needs|and (selection|retention|onboarding|staffing))",
+    "\\b(lead|manage|support|drive|oversee|own|direct|coordinate)(s|ing)? (the |all |local |site |full[- ]cycle )?(recruiting|recruitment)\\b",
+    "candidate (sourcing|pipeline|selection)|sourcing (candidates|talent)",
+    "employer brand",
+    "hiring (strategy|plans?|needs)",
+    "campus recruit",
+    "offer (negotiation|approvals?)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "performance_mgmt",
+   "name": "Performance management & talent reviews",
+   "cluster": "people",
+   "patterns": [
+    "(?<!supplier )(?<!vendor )(?<!business )(?<!financial )(?<!portfolio )(?<!enterprise )(?<!project )(?<!program )(?<!contract )(?<!risk )(?<!category )(?<!carrier )(?<!partner )(?<!sales )(?<!KPI and )(?<!operational )(?<!corporate )(?<!cost )(?<!network )(?<!application )(?<!investment )(?<!fund )(?<!asset )(?<!improvement, )performance management",
+    "(?<!product )(?<!business )(?<!financial )(?<!portfolio )(?<!supplier )(?<!vendor )(?<!recurring )(?<!system )(?<!model )(?<!investment )(?<!fund )(?<!campaign )(?<!operational )(?<!program )(?<!project )performance (reviews?|appraisals?|evaluations?|calibration|ratings)",
+    "talent (reviews?|calibration|assessment|management|planning|strategy|strategies|processes|practices|cycle)",
+    "calibration (sessions|process)",
+    "9[- ]box",
+    "annual review (process|cycle)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "succession_workforce_planning",
+   "name": "Succession & workforce planning",
+   "cluster": "people",
+   "patterns": [
+    "succession (plan|management|strateg|pipeline|process)",
+    "workforce (plan|forecast|needs|modeling|readiness)",
+    "(leadership|leader|internal talent|succession) (pipeline|bench)|talent (bench|mobility)|(build|develop|strengthen)\\w* (a |the |our |strong |diverse |robust )*talent pipelines?",
+    "(headcount|staffing|organi[sz]ational|org) planning",
+    "career (pathing|frameworks?|ladders|architecture)",
+    "internal mobility",
+    "bench strength",
+    "high[- ]potentials\\b|high[- ]potential (employees|talent|leaders|individuals|associates)",
+    "\\bHiPo"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "learning_design",
+   "name": "Learning programmes & instructional design",
+   "cluster": "people",
+   "patterns": [
+    "(?<!organizational development, )instructional (design|systems|materials|strateg|content)(?! or related)",
+    "\\bL&D\\b",
+    "(?<!your )(?<!ongoing )learning (and|&) (organi[sz]ational )?development(?! (opportunities|resources|benefits|stipend|budget|programs to help|allowance))",
+    "adult learning",
+    "(?<!-)(?<!machine )(?<!deep )(?<!reinforcement )learning (solutions|strategy|strategies|journeys|design|objectives|paths|interventions|modalities|outcomes|ecosystem|offerings|curricul)|(design|develop|create|build|curate)\\w* (\\w+ )?(?<!machine )(?<!deep )learning content",
+    "e-?learning",
+    "\\bLMS\\b",
+    "instructor[- ]led",
+    "\\bADDIE\\b",
+    "(training|learning) needs (analysis|assessments?)",
+    "\\bcurricul(um|a)\\b (design|development)|(design|develop|build|create)(s|ed|ing)? (\\w+ )?curricul(um|a)",
+    "\\b(design|develop|deliver|facilitate|create|build|lead|conduct)(s|ed|ing)? (and \\w+ |, \\w+,? and \\w+ )?(\\w+ )?(training|trainings|courses)\\b",
+    "training (delivery|content|curricul\\w+|design|effectiveness|modules)",
+    "facilitat(ion|or|ors|ing) (skills|guides?|experience|of (training|workshops|learning|leadership))",
+    "kirkpatrick",
+    "(upskilling|reskilling) (programs?|initiatives|curricul\\w+|content|strateg\\w+|academ\\w+|offerings|solutions)|(design|build|develop|deliver|lead)\\w* (\\w+ )?(upskilling|reskilling)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "leadership_dev_coaching",
+   "name": "Leadership development & coaching",
+   "cluster": "people",
+   "patterns": [
+    "leadership development (strateg|solutions|initiatives|curricul|content|offerings|experiences|efforts|needs|programming|portfolio|framework|activities|courses|workshops|team|function|and (succession|talent|coaching|learning|organi|executive|team|manager|change|performance))",
+    "\\b(design|deliver|facilitate|build|lead|manage|create|develop|implement|own|execute|support|evaluate|scale|drive)(s|d|ing)? (and \\w+ |, \\w+,? and \\w+ )?(\\w+ |\\w+ \\w+ )?(leadership|leader|executive) development",
+    "(leader|executive) (development|effectiveness|capabilit|coaching|assessment)",
+    "manager (effectiveness|capabilit|development)",
+    "leadership (coaching|effectiveness|assessments?|competenc|training|academy)",
+    "executive coach",
+    "\\bHogan\\b",
+    "\\bDiSC\\b (assessments?|profiles?|certif\\w+|facilitat\\w+|styles?|training|workshops?)|(Hogan|MBTI|Myers[- ]Briggs|360|StrengthsFinder|CliftonStrengths|EQ-?i|Birkman|Korn Ferry)(,| and| or|/) ?DiSC\\b|\\bDiSC(,| and| or|/) ?(Hogan|MBTI|Myers|360|Strengths|EQ|Birkman|Insights)",
+    "\\bMBTI\\b|myers[- ]briggs",
+    "360[- ]?(degree)?[- ]?(feedback|assessments?)",
+    "\\bICF\\b[- ](certif|credential|accredit|coach|ACC|PCC|MCC)|\\(ICF\\)",
+    "competency (models?|frameworks?)",
+    "coach(ing|es)? (business |people |senior |site |frontline |front-line |new |executive )+(leaders|managers)|coach(ing|es)? (leaders|managers|executives) (on|through|to|in)\\b|coach(ing)? executives",
+    "(talent|employee) development (programs?|strateg|initiatives|solutions|framework)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "org_design",
+   "name": "Organization design & effectiveness",
+   "cluster": "people",
+   "patterns": [
+    "organi[sz]ation(al)? (design\\b|effectiveness|assessments?|diagnos|health|capabilit|dynamics|psychology|behavior|redesign)",
+    "organi[sz]ation(al)? development(?!, instructional design)",
+    "\\borg (design|effectiveness|health)",
+    "spans? (and|&) (layers|control)|spans of control",
+    "team effectiveness",
+    "\\bOD\\b (practitioner|consult|interventions?|strateg|experience|solutions|initiatives)",
+    "(industrial|I)[-/ ]?(organi[sz]ational|O) psychology"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "engagement_culture",
+   "name": "Employee engagement & culture",
+   "cluster": "people",
+   "patterns": [
+    "employee (engagement|experience|retention|morale|satisfaction|recognition|listening|value proposition|sentiment|surveys?)",
+    "engagement (surveys?|action plan)|(employee|team|associate|talent|staff|workforce) engagement and retention",
+    "(culture|cultural) (initiatives|building|transformation|strategy|programs)",
+    "recognition programs?",
+    "(turnover|attrition) (data|trends|rates?|analysis|reduction|drivers)",
+    "\\b(reduce|address|analyze|monitor|improve)(s|d|ing)? (\\w+ )?(turnover|attrition)",
+    "(pulse|stay|exit) (surveys?|interviews?)",
+    "signs of disengagement",
+    "(employee|talent|staff|workforce|associate) retention strateg"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "comp_design",
+   "name": "Compensation programme design",
+   "cluster": "people",
+   "patterns": [
+    "(?<!competitive )(?<!workers )(?<!worker )(?<!workers' )(?<!workers’ )compensation (strateg|design\\b|analys[ie]s|cycles?|planning|governance|recommendations|analytics|projects|initiatives|consult|framework|guidelines|processes|administration|matters|issues)|(design|build|develop|maintain|review|manage)\\w* (\\w+ ){0,2}(compensation|salary|pay) structures?",
+    "\\b(design|develop|administer|manage|evaluate|lead|implement|review|maintain|deliver|oversee|support|build|own)(s|ed|ing)? (\\w+ ){0,3}(?<!worker )(?<!workers )(?<!workers' )(?<!workers’ )compensation (programs?|plans|philosophy|policies|practices)",
+    "(broad[- ]based|global|sales|executive|variable) compensation (programs?|plans?|philosophy|policies|practices)",
+    "total rewards (strateg|programs|function|leader|initiatives|framework|design\\b|portfolio|partner)",
+    "salary (structures?|bands|planning|administration)",
+    "(?<!geographic )pay bands|pay (positioning|for performance)",
+    "pay equity (analys|review|audit|stud)",
+    "pay-for-performance",
+    "incentive (plan )?design",
+    "\\b(design|administer|develop|evaluate|model)(s|ed|ing)? (\\w+ ){0,2}incentive (plans?|programs|compensation)",
+    "sales (compensation|incentive) (plans?|design|administration|programs?|strategy)",
+    "merit (cycle|planning|process|budgets?|increases? (process|planning|cycle))",
+    "(annual|year-?end|mid-?year) compensation (cycle|planning|process)",
+    "\\bFLSA\\b(?!:| ?status| classification:| code| exempt| ?-| non)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "market_pricing_job_arch",
+   "name": "Pay benchmarking & job architecture",
+   "cluster": "people",
+   "patterns": [
+    "(?<!correct )(?<!product )(?<!and )(?<!to )market pricing(?! (is|are|was|strateg|for (all|our|key|products)))",
+    "(compensation|salary|pay) (benchmark\\w*|competitiveness)",
+    "benchmark\\w* (\\w+ )?(compensation|salar|pay|jobs|roles|benefits)",
+    "(salary|compensation|pay) surveys? (participation|submissions?|analysis|management|process)|(participat\\w+ in|complet\\w+|submit\\w*|manag\\w+|conduct\\w*|analyz\\w+) (\\w+ ){0,3}(salary|compensation|market|pay|benefits) surveys",
+    "survey (participation|submissions?|matching)",
+    "\\bRadford\\b",
+    "Mercer (surveys?|data|IPE|job|benchmark\\w*|WIN|compar)|(Radford|Mercer|WTW|Willis Towers Watson|Korn Ferry|Aon|McLagan)(,| or| and|/) ?(Radford|Mercer|WTW|Willis Towers Watson|Korn Ferry|Aon|Pave|Payscale|McLagan)",
+    "\\bPayscale\\b|\\bMarketPay\\b|\\bPayFactors\\b|\\bCompAnalyst\\b",
+    "job (architecture|evaluations?|level(l)?ing|families|grading|grades|catalog|matching)|job classifications\\b|job classification (system|structure|review|analysis|process)",
+    "(leveling|levelling|grade) (framework|guides?|structure|architecture)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "exec_equity_comp",
+   "name": "Executive & equity compensation",
+   "cluster": "people",
+   "patterns": [
+    "executive (compensation|pay)\\b",
+    "compensation committee",
+    "proxy (statements?|disclosures?|advis|filings?|season|materials)",
+    "\\bCD&A\\b",
+    "say[- ]on[- ]pay",
+    "equity (compensation|plans?|programs?|awards?) (administration|design|management|strategy|programs?|plans?|processes)",
+    "equity (administration|plan administration)",
+    "stock (plan )?administration",
+    "\\b(administer|design|manage|oversee)(s|ed|ing)? (\\w+ ){0,2}(equity|long[- ]term incentive|LTI|stock) (plans?|programs?|awards|compensation)",
+    "long[- ]term incentive (plan )?(design|administration|strategy)",
+    "\\b409A\\b|\\b162\\(m\\)|\\b280G\\b",
+    "peer group (analysis|development|benchmarking|selection|review)",
+    "(director|board) compensation",
+    "deferred compensation (plans?|programs?) (design|administration)|non-?qualified (deferred|plans?)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "benefits_admin",
+   "name": "Benefits design & administration",
+   "cluster": "people",
+   "patterns": [
+    "benefits? (administration|plan design|strategy|strategies|enrollment|vendors?|brokers?|carriers?|compliance|renewals?|operations|analyst|specialist|consult\\w*|portfolio|function)",
+    "benefits? design\\b",
+    "benefits? (programs?|plans?) (design\\b|management|administration|strategy|compliance|documents)",
+    "health (and|&) welfare (plans?|programs?|benefits? (plans?|programs?|administration|strategy|vendors))",
+    "(?<!your )open enrollment",
+    "annual enrollment",
+    "leaves? of absence(?! for medical, personal)",
+    "leave (administration|management|requests|cases)",
+    "\\bLOA\\b",
+    "\\bERISA\\b",
+    "\\bCOBRA\\b(?=[^\\n]{0,100}(benefit|ERISA|FMLA|HIPAA|\\bACA\\b|leave|enrollment|insurance|coverage|section 125|401))|(benefit|ERISA|FMLA|HIPAA|\\bACA\\b|leave|enrollment|insurance|coverage|section 125|401)[^\\n]{0,100}\\bCOBRA\\b",
+    "(?<!Act \\()\\bFMLA\\b(?! poster)",
+    "\\bACA\\b (compliance|reporting|requirements|regulations|filings?)",
+    "\\b5500",
+    "(401\\(?k\\)?|retirement|pension) (plan )?(administration|committee|audits?|compliance|recordkeep\\w*)",
+    "non-?discrimination testing",
+    "(benefits?|health|retirement|welfare|401\\(?k\\)?|pension|medical) plan (design\\b|amendments)",
+    "self[- ](insured|funded)",
+    "workers'? compensation (claims|program|administration|cases)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "hr_compliance",
+   "name": "Employment law & HR compliance",
+   "cluster": "people",
+   "patterns": [
+    "(?<!pursuant to federal )employment (law|laws|legislation|regulations|litigation|counsel|compliance)",
+    "(labor|labour) (law|laws|legislation|regulations|compliance|code)",
+    "wage (and|&) hour",
+    "\\bFLSA\\b(?!:| ?status| classification:| code| exempt| ?-| non)",
+    "\\bFMLA\\b(?! poster)",
+    "\\bEEOC?\\b (compliance|regulations|reporting|laws|requirements|charges|claims|reports?)|\\bEEO-1\\b",
+    "\\bOFCCP\\b",
+    "Title VII",
+    "\\bNLRA\\b|\\bNLRB\\b",
+    "(HR|human resources|personnel) (polic(y|ies)|compliance|regulations|laws|audits?|procedures)",
+    "employee handbooks?",
+    "(federal,? state,? (and|&|or) local|federal (and|&|or) state|state (and|&|or) federal|applicable|local|relevant) (employment |labor |labour |HR )(laws|regulations|legislation|requirements)",
+    "I-9",
+    "(unemployment|EEOC) (claims|charges|hearings)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "hr_operations",
+   "name": "HR operations, onboarding & payroll",
+   "cluster": "people",
+   "patterns": [
+    "(HR|human resources|people) (operations|ops\\b|processes|process (improvement|excellence|design|optimi)|services|service delivery|shared services|administration|transactions|records|service center)",
+    "(employee|new hire|new[- ]hire|associate|staff|team member) (onboarding|orientation|offboarding|life-?cycle|transactions|self[- ]service)",
+    "onboarding (and|&|/) (offboarding|orientation)",
+    "off-?boarding",
+    "payroll (processing|administration|operations|team|accuracy|compliance|vendors?|systems?|and benefits|tax|audits?|function|department|specialist|manager|support|issues|changes|data|reporting|cycles?|inquiries)|\\b(process|processing|manage|oversee|administer)(s|ing)? (\\w+ ){0,2}payroll|(HR|benefits|compensation|HRIS|timekeeping)(,| and|, and| &|/) ?payroll",
+    "timekeeping (systems?|records|accuracy|process(es)?|and payroll|compliance|audits?)|time (and|&) attendance",
+    "personnel (files|records|actions)",
+    "hire[- ]to[- ]retire",
+    "global mobility"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "people_analytics",
+   "name": "People analytics & HR reporting",
+   "cluster": "people",
+   "patterns": [
+    "people (analytics|metrics|insights|reporting|dashboards)",
+    "(HR|human resources|workforce|talent|HRIS|headcount|turnover|attrition) (analytics|metrics|data|reporting|reports|dashboards|insights|trends|KPIs)|(compensation|benefits|total rewards) (analytics|metrics|reporting|dashboards)",
+    "(turnover|attrition|headcount) (data|trends|rates?|analysis|reports?|reporting|metrics)",
+    "data[- ]driven (HR|people|talent)",
+    "organizational data",
+    "(HR|people) scorecard"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "rotational_program",
+   "name": "Rotational programme assignments",
+   "cluster": "people",
+   "patterns": [
+    "rotational (program|assignments?|experiences?|roles?|opportunit|positions?|development|leadership|associate|analyst|track)",
+    "\\brotations\\b",
+    "(?<!non-)\\b[A-Z]{0,2}LDP\\b",
+    "(rotate|rotating) (through|across|among|between)",
+    "(management trainee|management associate|general management (development )?|graduate (development|rotation\\w*)|management rotation\\w*) program",
+    "(accelerated|early[- ]career) (leadership |development |talent )+program"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "erm_framework",
+   "name": "Enterprise risk frameworks & reporting",
+   "cluster": "risk",
+   "patterns": [
+    "enterprise risk|\\bERM\\b",
+    "risk (frameworks?|taxonomy|taxonomies|governance|oversight|culture|profiles?|tolerances?|identification process)|risk appetite (framework|statements?|metrics|limits|and)",
+    "(three|3|first|second|third|1st|2nd|3rd) lines? of defen[cs]e|lines of defen[cs]e|second[- ]line|first[- ]line (risk|business|control|teams?|partners|units)|effective challenge|independent (risk|oversight|challenge)",
+    "key risk indicators?|\\bKRIs?\\b",
+    "risk (reporting|metrics|dashboards?|indicators|analytics|data aggregation|reports|insights|measurement|quantification|scoring|ratings?)",
+    "(report|escalat|present)\\w* (on )?(key |emerging |top |material |enterprise )?risks? (to|and issues to) (senior |executive |the )?(management|leadership|committees?|the board|stakeholders)",
+    "risk heat ?maps?|emerging risks?|horizon scanning"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "controls_testing",
+   "name": "Controls design & testing",
+   "cluster": "risk",
+   "patterns": [
+    "\\bRCSAs?\\b|risk (and|&) control self|risks? (and|&) controls?\\b",
+    "controls? (testing|design|environment|frameworks?|effectiveness|monitoring|mapping|owners?|gaps|deficienc\\w+|assessments?|library|inventory|objectives|assurance|weaknesses|evaluation|enhancements?|failures)",
+    "internal controls?|key controls|(preventive|detective|compensating|mitigating) controls\\b|\\bCOSO\\b",
+    "(test|assess|evaluat|strengthen)\\w* (and \\w+ )?(the |key |new |effective |robust |adequacy of |effectiveness of |design of |existing )?controls\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "operational_risk",
+   "name": "Operational risk & resilience",
+   "cluster": "risk",
+   "patterns": [
+    "operational risk|non-?financial risk|\\bop(s)? risk\\b",
+    "business continuity|operational resilience|disaster recovery|crisis management|\\bBCP\\b|business resilience|resiliency (planning|program|testing)",
+    "loss events?\\b|operational (loss|losses|incidents)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "third_party_risk",
+   "name": "Third-party & vendor risk",
+   "cluster": "risk",
+   "patterns": [
+    "third[- ]party risk|vendor risk|\\bTPRM\\b|outsourcing risk|supplier risk (management|assessments?|program)",
+    "(vendor|third[- ]party) (due diligence|oversight|risk|security (reviews?|assessments?))|(vendor|third[- ]party) (risk )?assessments?",
+    "security questionnaires?|vendor questionnaires?|(customer|client) security (questionnaires|audits)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "model_risk",
+   "name": "Model risk & validation",
+   "cluster": "risk",
+   "patterns": [
+    "model risk|model validation|SR ?11-7|model governance|model (inventory|performance monitoring|oversight|development and validation)",
+    "\\bMRM\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "financial_risk",
+   "name": "Credit, market & liquidity risk",
+   "cluster": "risk",
+   "patterns": [
+    "credit risk|market risk|liquidity risk|counterparty (risk|credit|exposure)|interest rate risk|investment risk",
+    "stress test(s|ing)?|\\bCCAR\\b|\\bVaR\\b|value[- ]at[- ]risk|\\bDFAST\\b|\\bCECL\\b|\\bBasel\\b|capital adequacy|risk[- ]weighted",
+    "credit portfolio (risk|monitoring|management|quality)|loss forecasting|risk limits|limit (monitoring|framework|breaches)|credit (loss|losses|exposure)s?\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "compliance_program",
+   "name": "Compliance programme management",
+   "cluster": "risk",
+   "patterns": [
+    "(?<!all risk and )compliance (programs?|programmes?|frameworks?|function|oversight|management systems?|strategy|governance|initiatives|plans?|roadmap|infrastructure)",
+    "ethics (and|&) compliance|culture of compliance|compliance culture",
+    "compliance (training|guidance|advice|advisory|subject matter)",
+    "(advis|counsel|guid)\\w+ (the business|business (partners|units|lines|teams|leaders)|product teams|management|stakeholders) on (compliance|regulatory|legal)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "compliance_monitoring",
+   "name": "Compliance monitoring & testing",
+   "cluster": "risk",
+   "patterns": [
+    "compliance (monitoring|testing|reviews?|audits?|risk assessments?|assessments?|surveillance|exceptions)",
+    "monitoring (and|&|,|/) ?testing|testing (and|&) monitoring",
+    "trade surveillance|surveillance (program|alerts|systems)|(risk[- ]based|compliance) (monitoring|testing|audit) (plans?|programs?|schedule)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "regulatory_change",
+   "name": "Regulatory analysis & change management",
+   "cluster": "risk",
+   "patterns": [
+    "regulatory (change|developments|guidance|expectations|updates|interpretation|analysis|horizon|obligations)s?",
+    "(monitor|track|interpret|analy[sz]|research)\\w* (and \\w+ )?(new |emerging |proposed |changes (in|to) |applicable |evolving |relevant |the impact of |\\w+ )?(laws|regulations|regulatory|legislation|rules|statutes)\\b",
+    "(new|changing|evolving|proposed|emerging) (laws|regulations|legislation|rules|regulatory)|changes (in|to) (laws|regulations|legislation|regulatory)",
+    "translate\\w* (complex )?(regulatory|legal) (requirements|obligations|guidance)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "regulator_exams",
+   "name": "Regulator exams & relations",
+   "cluster": "risk",
+   "patterns": [
+    "regulatory (exam|examination|inquir|audit|review|request|finding|engagement|relations|relationships|interactions|remediation|scrutiny)\\w*",
+    "(with|to|from|by|before) ((the|our|its|their|federal|state|banking|bank|financial|prudential|global|local|US|U\\.S\\.|key|various|external|primary|applicable|relevant|appropriate|government|governmental|industry|and) )*(regulators\\b|regulatory (agencies|bodies|authorities))(?! such as the Department of Transportation)|(regulators|regulatory (agencies|bodies|authorities))(,| and| or|, and|, or) (auditors|examiners|supervisors|law enforcement|exchanges|rating agencies)|(auditors|examiners)(,| and| or|, and|, or) (\\w+ )?regulators\\b|examiners\\b|supervisory (exams?|examinations?|expectations|findings|letters|guidance)",
+    "(?<!member )\\b(OCC|CFPB|FDIC|Federal Reserve|FRB|NCUA|FinCEN|NYDFS)\\b|FINRA (rules?|exams?|examinations?|regulations|requirements|inquir\\w+)|SEC (rules?|exams?|examinations?|regulations|requirements|inquir\\w+)|consent orders?|\\bMRAs?\\b|matters requiring attention"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "policy_management",
+   "name": "Policy development & management",
+   "cluster": "risk",
+   "patterns": [
+    "policy (management|development|governance|frameworks?|lifecycle|library|exceptions?|drafting|writing)",
+    "\\b(develop|draft|writ|maintain|updat|creat|author|design|revis)\\w*[^.;:\\n]{0,40}(?<!public )(?<!development )(?<!development, )\\bpolic(y|ies)\\b",
+    "(policies|procedures|standards) (are|remain) (current|up[- ]to[- ]date|aligned)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "internal_audit_sox",
+   "name": "Audit & SOX",
+   "cluster": "risk",
+   "patterns": [
+    "internal audit|\\bSOX\\b|sarbanes|\\bICFR\\b|\\bPCAOB\\b",
+    "audit (findings|plans?|committee|evidence|issues|engagements?|readiness|reports?|program|methodology|observations|universe|work ?papers|testing|procedures)|(internal|external|regulatory|independent|third[- ]party|customer|IT|compliance) audits\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "issue_remediation",
+   "name": "Issue management & remediation",
+   "cluster": "risk",
+   "patterns": [
+    "issue (management|remediation|closure|validation)|issues management|issues and (findings|remediation)",
+    "remediation (plans?|efforts|activities|actions?|tracking|programs?|strategies|work|projects?|initiatives|progress)|remediat(e|es|ing) (issues|findings|gaps|deficienc\\w+|control|compliance|identified|audit|weaknesses)",
+    "corrective action plans?|corrective (and|&) preventive|\\bCAPAs?\\b|management action plans?|(audit|exam|examination|regulatory|control|compliance|testing) (findings|deficienc\\w+|gaps|observations)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "financial_crime",
+   "name": "AML, KYC & sanctions",
+   "cluster": "risk",
+   "patterns": [
+    "\\bAML\\b|anti[- ]money[- ]laundering|\\bBSA\\b|bank secrecy|\\bKYC\\b|know your (customer|client|business)|\\bKYB\\b",
+    "\\bOFAC\\b|sanctions (screening|compliance|program|risk|regulations|laws|requirements|controls|monitoring|evasion)|economic sanctions|financial crimes?|customer due diligence|enhanced due diligence|\\bCDD\\b|\\bEDD\\b",
+    "transaction monitoring|suspicious activity (reports?|reporting|monitoring)|\\bSARs?\\b (filing|reporting|narratives)|money laundering|terrorist financing|anti[- ]?(bribery|corruption)|\\bFCPA\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "consumer_compliance",
+   "name": "Consumer-finance regulations (UDAAP, fair lending)",
+   "cluster": "risk",
+   "patterns": [
+    "\\bUDAAP\\b|\\bUDAP\\b|\\bFCRA\\b|fair lending|\\bECOA\\b|\\bTILA\\b|\\bFDCPA\\b|\\bRESPA\\b|\\bSCRA\\b|\\bHMDA\\b|\\bEFTA\\b|\\bTCPA\\b",
+    "Reg(ulation)? ?(B|E|Z|DD|CC|X|O|W|BI)\\b|truth in (lending|savings)|equal credit|fair credit (reporting|billing)|consumer protection (laws?|regulations?|rules|requirements|statutes|compliance|act\\b)|consumer (compliance|financial (protection|laws|regulations))|consumer (lending|banking|finance) (laws|regulations|compliance)",
+    "\\bCFPB\\b|marketing compliance|complaints? (management|handling) (program|process|function)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "security_frameworks",
+   "name": "Security compliance frameworks (SOC 2, ISO 27001, NIST)",
+   "cluster": "risk",
+   "patterns": [
+    "\\bSOC ?[12]\\b|\\bSOC (Type|reports?)|ISO[ /]?(IEC )?27001|ISO ?2700\\d|\\bNIST\\b(?![- ]traceab)|PCI[- ]DSS|\\bPCI\\b|\\bHITRUST\\b|FedRAMP|\\bCMMC\\b|\\bCSA STAR\\b|\\bCIS (controls|benchmarks)|\\bSSAE ?1[68]\\b|ISO ?42001",
+    "control mapping|continuous controls? monitoring|trust center|evidence (collection|gathering|requests)|audit evidence|compliance (automation|as code)|security (attestations?|frameworks)|common controls? framework"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "data_governance",
+   "name": "Data governance & stewardship",
+   "cluster": "risk",
+   "patterns": [
+    "data (governance|stewardship|stewards?|lineage|catalogu?e?s?|classification|retention|ownership|owners|quality (rules|standards|controls|monitoring|issues|management|framework|metrics)|management (framework|standards|policies|office|strategy))",
+    "\\bmetadata\\b|business glossary|data dictionar(y|ies)|master data|\\bMDM\\b|\\bDAMA\\b|\\bDCAM\\b|\\bCDMP\\b|\\bBCBS ?239\\b|\\bcollibra\\b|\\balation\\b|microsoft purview|\\binformatica\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "ai_governance",
+   "name": "AI governance & responsible AI",
+   "cluster": "risk",
+   "patterns": [
+    "\\bAI governance|responsible (AI|use of AI)|\\bAI (risks?|ethics|compliance|regulations?|controls|assurance|oversight|guardrails|risk management)\\b|AI polic(y|ies) (and|development|frameworks?|standards)",
+    "EU AI Act|ISO ?42001|NIST AI|AI RMF|algorithmic (bias|fairness|accountability|impact)|model (fairness|bias|explainability)|AI (use[- ]case|model) (reviews?|inventory|intake|approvals?)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "it_risk",
+   "name": "Technology & cyber risk",
+   "cluster": "risk",
+   "patterns": [
+    "\\bIT (risks?|governance|controls?|audits?|general controls|compliance)\\b|\\bITGCs?\\b|technology risks?|tech risk|cyber ?(security)? risks?|information (security )?risks?|\\bCOBIT\\b|technology (controls|governance|compliance|audit)",
+    "(security|cyber|information security|infosec|cybersecurity) (governance|GRC|compliance|risk (management|assessments?)|assurance|audits?)|\\bGRC\\b|governance,? risk,? (and|&) compliance|risk exceptions?|risk acceptances?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "board_governance",
+   "name": "Board & committee governance",
+   "cluster": "risk",
+   "patterns": [
+    "board (and|&|or|/) (board )?committees?|(?<!steering )\\b(board|committee) (reporting|materials|charters?|papers|minutes|packages|books|secretariat|calendar|agendas?|resolutions)|board of directors (meetings|materials|reporting)",
+    "(risk|audit|governance|compliance|disclosure|nominating|compensation) committees?\\b",
+    "corporate (secretary|secretarial|governance)|\\bentity management|subsidiary (governance|management)|meeting minutes|proxy statements?|governance (matters|documents|best practices)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "trade_compliance",
+   "name": "Trade compliance & export controls",
+   "cluster": "risk",
+   "patterns": [
+    "trade compliance|(import|export|customs) compliance|export controls? (compliance(?! *(\\n|$))|program|officer|classification|laws|regulations and)|import/export (compliance|regulations|laws|controls)|(global|international) trade (regulations|laws|operations|team)",
+    "customs (broker\\w*|regulations|clearance|entries|entry|valuation|laws|duties)|\\bECCN\\b|\\bHTS (classification|codes?)|harmoni[sz]ed tariff|\\bC-?TPAT\\b|tariff classification|denied part(y|ies)|country of origin|\\b(EAR|ITAR) (compliance|regulations|classification)|\\bEAR\\b (and|/|,) ?\\bITAR\\b|\\bITAR\\b (and|/|,) ?\\bEAR\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "governance_design",
+   "name": "Governance frameworks & decision forums",
+   "cluster": "risk",
+   "patterns": [
+    "governance (frameworks?|structures?|forums?|models?|bodies|routines|councils?|boards?|cadence|mechanisms|operating model|charters?|committees?)",
+    "(establish|design|build|defin|implement|stand up|strengthen|run|lead)\\w* (and \\w+ )?(the |a |an |our |new |clear |effective |robust |enterprise |program |portfolio |data |AI |\\w+ )?governance\\b",
+    "steering committees?|decision[- ]making (forums?|bodies|frameworks?)|escalation (paths?|frameworks?|protocols|matrix|matrices)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "dashboards_dataviz",
+   "name": "Dashboards & data visualisation",
+   "cluster": "analytics",
+   "patterns": [
+    "dashboards?\\b|dashboarding",
+    "data visuali[sz]ations?|visuali[sz]ations?\\b|visuali[sz]e data|visual analytics"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "reporting_adhoc_analysis",
+   "name": "Reporting automation & ad hoc analysis",
+   "cluster": "analytics",
+   "patterns": [
+    "report(s|ing)? (automation|solutions|tools|capabilit\\w+|suite|infrastructure|platforms?|framework|layers?)|automat\\w+ (of |the |recurring |manual |standard |routine )?report\\w*|automated report\\w*",
+    "ad[- ]?hoc (financial |business |data )?(analys[ie]s|analytics|report\\w*|requests?|quer\\w+)|(BI|MIS|business intelligence) reporting|report(s|ing) (and|&) dashboards|dashboards (and|&|,) report(s|ing)\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "self_service_bi",
+   "name": "Self-service BI enablement",
+   "cluster": "analytics",
+   "patterns": [
+    "self[- ]serv(ice|e) (BI|analytics?|reporting|data|dashboards?|business intelligence|insights|visuali[sz]ation)",
+    "data democrati[sz]ation|democrati[sz]\\w+ (access to )?data|(BI|analytics|dashboard|tableau|power ?bi) (training|adoption|user community|center of excellence|CoE)|semantic layers?|certified (datasets?|data sources?)|data marts?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "analytics_requirements",
+   "name": "Analytics requirements & business partnering",
+   "cluster": "analytics",
+   "patterns": [
+    "(data|analytics?|analytical|BI|dashboard|measurement) requirements\\b|reporting needs\\b|(business|stakeholder|user) reporting requirements",
+    "translat\\w+ (business|stakeholder|customer|client|user) (\\w+ )?(needs|questions|requirements|problems|objectives|goals|asks|requests) into (\\w+ ){0,2}(analytic\\w*|data|report\\w*|dashboard\\w*|metrics|BI|quantitative|measur\\w+)",
+    "(gather\\w*|elicit\\w*|defin\\w+|document\\w*|understand\\w*|captur\\w+) (and \\w+ )?(business |user |stakeholder )?(reporting|data|analytic\\w*|BI|dashboard) requirements|analytics (partner\\w*|consult\\w+|business partner)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "cost_schedule_control",
+   "name": "Budget, cost & schedule control",
+   "cluster": "delivery",
+   "patterns": [
+    "cost,? (and |& )?schedule|schedule,? (and |& )?(cost|budget)|cost/schedule|budget,? (and |& )?schedule|scope,? (schedule|cost|budget)|schedule,? (scope|quality|budget|technical)",
+    "(program|project|programme) (budgets?|financials\\b|costs?|funding|profitability)|budgets? (and|&) (schedules?|timelines?)|on time (and )?(within|on|under) budget|within budget",
+    "(program|project|performance measurement|schedule|technical|cost) baselines?|baseline (management|schedule|plan|changes?|control)|schedule (control|performance|adherence|variances?|risk|slips?)|estimates? at complet\\w+|\\bEACs?\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "earned_value_mgmt",
+   "name": "Earned value management & integrated master schedule",
+   "cluster": "delivery",
+   "patterns": [
+    "earned[- ]value|\\bEVMS?\\b",
+    "integrated master (schedules?|plans?)|\\(IMS\\)|\\bIMP/IMS\\b",
+    "control accounts?|work breakdown structures?|\\bWBS\\b|\\bIBRs?\\b|integrated baseline review|\\bCPI\\b.{0,10}\\bSPI\\b|\\bSPI\\b.{0,10}\\bCPI\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "program_governance_reviews",
+   "name": "PMO governance & programme reviews",
+   "cluster": "delivery",
+   "patterns": [
+    "\\bPMO\\b|(project|program|programme|portfolio) management office",
+    "(program|project|programme|portfolio) governance|governance (forums?|cadence|boards?)",
+    "steering (committees?|groups?)|\\bsteerco\\w*|program (management )?reviews?\\b|\\bPMRs?\\b|stage[- ]gates?|phase[- ]gates?|gate reviews?|tollgates?|milestone reviews?"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "resource_planning",
+   "name": "Resource planning for programmes",
+   "cluster": "delivery",
+   "patterns": [
+    "(?<!enterprise )resource (planning|plans?\\b|loading|forecast\\w*|requirements|constraints|capacity|utili[sz]ation|levell?ing|conflicts|availability)",
+    "(project|program|engineering|team|staff|personnel|manpower) resource (allocation|management|needs)|resource (allocation|management) (across|for|of) (projects|programs|the program|the project|teams)|resourcing (plans?|models?|needs|requirements|strateg\\w+)|manpower (planning|plans?|requirements)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "advanced_excel",
+   "name": "Advanced Excel modelling",
+   "cluster": "tools",
+   "patterns": [
+    "advanced (proficiency (in|with) )?(microsoft |ms )?excel",
+    "excel (model|macros?|expert|power user|proficien|skills)",
+    "(expert|strong|superior|exceptional|advanced|excellent|highly proficient)[^.\\n]{0,30}\\bexcel\\b",
+    "pivot ?tables?",
+    "v-?lookups?",
+    "x-?lookups?",
+    "\\bVBA\\b",
+    "index[/ -]match",
+    "power ?query",
+    "excel[- ]based (model|financial)",
+    "model(l)?ing (in|using) excel"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "erp_finance_systems",
+   "name": "ERP & finance systems (SAP, Oracle, NetSuite, Anaplan, Hyperion)",
+   "cluster": "tools",
+   "patterns": [
+    "\\bSAP\\b",
+    "Oracle (ERP|EBS|Fusion|Financials|Cloud ERP|E-?Business|GL|General Ledger|NetSuite)",
+    "(SAP|NetSuite|Workday|JD Edwards|Lawson|PeopleSoft|ERPs?|Anaplan|Hyperion|Essbase)\\b[^.\\n]{0,40}\\bOracle\\b",
+    "\\bOracle[,/ ]+(or |and |and/or )?(SAP|NetSuite|Hyperion|Workday|PeopleSoft|Essbase|Lawson|JD|Anaplan)",
+    "net ?suite",
+    "\\bERPs?\\b",
+    "jd ?edwards",
+    "\\bJDE\\b",
+    "\\blawson\\b",
+    "workday financials?",
+    "dynamics (365|GP|AX|NAV)|\\bD365\\b",
+    "peoplesoft",
+    "quickbooks",
+    "blackline",
+    "general ledger system",
+    "hyperion",
+    "essbase",
+    "anaplan",
+    "adaptive (insights|planning)|workday adaptive|(Anaplan|Pigment|Hyperion|NetSuite|Planful|e\\.g\\.,?|as|like)[, /]+adaptive\\b|\\badaptive[,/ ]+(or |and )?(Anaplan|Pigment|Hyperion|Planful|Workday|NetSuite|Mosaic|Vena|OneStream)",
+    "onestream",
+    "\\bpigment\\b",
+    "planful",
+    "\\bTM1\\b",
+    "cognos",
+    "\\bvena\\b",
+    "\\bEPM (tools?|systems?|platforms?|solutions?|software)",
+    "\\bHFM\\b",
+    "oracle (planning|PBCS|EPBCS|EPM)",
+    "SAP (BPC|analytics cloud)|\\bBPC\\b",
+    "workiva",
+    "(FP&A|financial planning|budgeting) (tools|systems|software|platforms?)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "market_data_terminals",
+   "name": "Market data platforms (Bloomberg, Capital IQ, FactSet, PitchBook)",
+   "cluster": "tools",
+   "patterns": [
+    "bloomberg (terminals?|professional|data|tools?|AIM|PORT|functions?|experience|proficiency|knowledge|skills)\\b",
+    "bloomberg[,/ ]+(and |or |and/or )?(factset|capital ?iq|cap ?iq|refinitiv|reuters|pitchbook|morningstar|excel|aladdin|S&P|intex|trepp|dealogic|fxall|kyriba|clearwater|tradeweb|markit)",
+    "(factset|capital ?iq|cap ?iq|refinitiv|reuters|pitchbook|morningstar|aladdin|S&P|dealogic|fxall|kyriba|excel|markit|tradeweb)[,/ ]+(and |or |and/or )?bloomberg",
+    "(experience|proficien\\w+|familiar\\w*|knowledge|skills?)( \\w+){0,3} (with|in|of|using) bloomberg",
+    "capital ?iq",
+    "\\bcap ?iq\\b",
+    "factset",
+    "pitch ?book[,/ ]+(and |or )?(capital ?iq|cap ?iq|factset|crunchbase|bloomberg|preqin|S&P)|(capital ?iq|cap ?iq|factset|crunchbase|bloomberg|preqin)[,/ ]+(and |or )?pitch ?book\\b|pitchbook data",
+    "refinitiv",
+    "(,|and|or|using|with|including|as) morningstar( direct)?\\b|morningstar direct",
+    "preqin",
+    "\\bdealogic\\b",
+    "thomson (reuters|one)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "re_tools",
+   "name": "Real estate software (Argus, CoStar, Yardi)",
+   "cluster": "tools",
+   "patterns": [
+    "\\bargus\\b",
+    "co-?star\\b",
+    "\\byardi\\b",
+    "\\bMRI software\\b|\\bMRI\\b(?=,| or| and|/)[^.\\n]{0,30}(yardi|argus|costar)|(yardi|argus|costar)[^.\\n]{0,30}\\bMRI\\b",
+    "realpage",
+    "\\bVTS\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "treasury_systems",
+   "name": "Treasury workstations & bank portals",
+   "cluster": "tools",
+   "patterns": [
+    "kyriba",
+    "treasury (management )?(systems?|workstations?|technology|platforms?)\\b",
+    "\\bTMS\\b[^.\\n]{0,60}(treasury|bank|cash)|(treasury|bank|cash)[^.\\n]{0,60}\\bTMS\\b",
+    "bank(ing)? (portals?|connectivity)",
+    "SWIFT (messag|network|payments?|gpi|codes?)|\\bSWIFT\\b[^.\\n]{0,30}(ACH|wire|bank)",
+    "gtreasury|\\breval\\b|FIS (quantum|integrity)|\\bFXall\\b|clearwater analytics|\\bICD portal"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "grc_tools",
+   "name": "GRC platforms (Archer, ServiceNow GRC, OneTrust, Vanta)",
+   "cluster": "tools",
+   "patterns": [
+    "\\bRSA Archer\\b|\\bArcher\\b (GRC|IRM|platform|tool)|\\bArcher\\b(?=,? (process ?unity|servicenow|onetrust|metricstream|or other))|experience (with|in|using) Archer\\b|servicenow (GRC|IRM)|\\bonetrust\\b|\\bmetricstream\\b|\\blogicgate\\b|\\bauditboard\\b|\\bworkiva\\b|\\bvanta\\b(?=,? ?(or |and |/)? ?(drata|secureframe|similar|equivalent))|(drata|secureframe)[ ,/]+(or |and )?vanta\\b|\\(vanta\\b|(like|as) vanta\\b|\\bdrata\\b|\\bsecureframe\\b|\\bhyperproof\\b|\\bprocessunity\\b|\\briskonnect\\b|\\bnavex\\b|\\bSAI360\\b|\\bopenpages\\b|\\bLogicManager\\b|\\btrustarc\\b|\\bbigid\\b",
+    "\\bGRC (platforms?|tools?|tooling|systems?|solutions?|software|technology|technologies|automation|applications?)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "marketing_automation_tools",
+   "name": "Marketing automation (Marketo, Braze, Pardot)",
+   "cluster": "tools",
+   "patterns": [
+    "marketing automation",
+    "\\bmarketo\\b",
+    "\\bbraze\\b",
+    "\\bpardot\\b",
+    "\\beloqua\\b",
+    "\\biterable\\b",
+    "klaviyo",
+    "customer\\.io",
+    "salesforce marketing cloud|\\bSFMC\\b|marketing cloud",
+    "\\b6sense\\b",
+    "demandbase",
+    "(manag|own|administ|optimi[sz]|build|run|maintain)\\w* (the |our |a |and \\w+ (the |our )?)?(martech|marketing (technology|tech)) (stack|platforms|systems|tools)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "ad_platforms",
+   "name": "Ad platforms (Google Ads, Meta, LinkedIn)",
+   "cluster": "tools",
+   "patterns": [
+    "google ads?\\b",
+    "(?<![=\\w])adwords\\b",
+    "(meta|facebook|linkedin|tiktok|reddit|instagram|pinterest|snapchat|twitter|youtube|microsoft|bing|apple search) ads\\b",
+    "facebook (advertising|business manager)",
+    "linkedin (campaign manager|advertising)",
+    "\\bDV360\\b|display (&|and) video 360|the trade desk|\\bTTD\\b",
+    "search ads 360|\\bSA360\\b",
+    "ads manager",
+    "campaign manager 360|\\bCM360\\b",
+    "(paid media|media buying|paid social|paid search) platforms",
+    "\\b(paid|ads|advertising|ad campaigns|campaigns|media buying|PPC|SEM|performance marketing)\\b[^.\\n]{0,60}\\b(Google|Meta|LinkedIn|TikTok|Reddit)(, | and | & |/)(Google|Meta|LinkedIn|TikTok|Reddit|Facebook|Bing|YouTube)\\b",
+    "\\b(Google|Meta|LinkedIn|TikTok|Reddit)(, | and | & |/)(Google|Meta|LinkedIn|TikTok|Reddit|Facebook|Bing|YouTube)\\b(, \\w+)?(,? (and|or) \\w+)? (ads|advertising|ad platforms|ads platforms|ad campaigns|campaigns)\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "syndicated_data",
+   "name": "Syndicated retail data (Nielsen, Circana)",
+   "cluster": "tools",
+   "patterns": [
+    "\\bnielsen(IQ)?\\b",
+    "\\bNIQ\\b",
+    "\\bcircana\\b",
+    "\\bIRI\\b",
+    "\\bnumerator\\b(?! ?(&|and|or|/|,) ?denominator)",
+    "\\bkantar\\b",
+    "\\bSPINS\\b",
+    "syndicated (data|sources|research|databases?|sales)",
+    "(POS|point[- ]of[- ]sale|scan|scanner|sell[- ]through|sell[- ]out) data",
+    "retail link",
+    "\\b84\\.51|dunnhumby",
+    "household panel"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "hris_tools",
+   "name": "HRIS (Workday, SuccessFactors, ADP)",
+   "cluster": "tools",
+   "patterns": [
+    "\\bHRIS\\b",
+    "\\bHCM\\b (systems?|platforms?|software|suite|tools?|modules?|implementation)",
+    "workday (HCM|HRIS|recruiting|learning|compensation|advanced compensation|payroll|benefits|reporting|reports|configuration|implementation|experience|system|platform|modules?|talent|core)",
+    "(experience|proficien\\w+|familiarity|knowledge|expertise|skills|background) (with|in|of|using) (\\w+,? ){0,4}workday\\b(?! (financials?|adaptive|procurement|strategic sourcing))",
+    "(e\\.g\\.,?|such as|including|like|i\\.e\\.,?) (\\w+,? ){0,4}workday\\b(?! (financials?|adaptive|procurement|strategic sourcing))",
+    "workday(,| or| and|/) ?(successfactors|ADP|oracle HCM|UKG|peoplesoft|greenhouse|lever|HRIS|servicenow|radford|ultipro|kronos|cornerstone)",
+    "(successfactors|ADP|UKG|peoplesoft|HRIS|HCM|greenhouse)(,| or| and|/|, or|, and) ?workday\\b(?! (financials?|adaptive|procurement|strategic sourcing))",
+    "successfactors|SAP success factors",
+    "\\bADP\\b(?! (program|production|pursuit|aircraft))",
+    "\\bUKG\\b|ultipro|\\bkronos\\b",
+    "oracle (HCM|HR|cloud HCM|fusion HCM)|peoplesoft",
+    "\\bSAP\\b (HCM|HR|SF)",
+    "\\bdayforce\\b|\\bceridian\\b",
+    "\\bpaycom\\b|\\bpaylocity\\b|\\bpaychex\\b|\\bbamboo ?HR\\b|\\brippling\\b",
+    "(HR|human resources|people) (information )?(systems|technology|tech stack)",
+    "applicant tracking",
+    "\\bicims\\b|\\btaleo\\b|smartrecruiters"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "learning_tools",
+   "name": "Learning platforms & authoring tools (LMS, Articulate)",
+   "cluster": "tools",
+   "patterns": [
+    "(?<!\\()\\bLMS\\b(?!\\'s?\\b| business)",
+    "learning management systems?",
+    "cornerstone (ondemand|LMS|learning|CSOD)|\\bCSOD\\b",
+    "\\bdocebo\\b",
+    "workday learning",
+    "(?<!non-)(?<!non )(?<!if )\\bdegreed\\b(?! (engineer|professional|candidate|individual|accountant|in\\b|with\\b|or\\b))(?!;|,? (or|and) )",
+    "articulate (360|storyline|rise)|storyline 360|articulate/storyline|\\(articulate\\b",
+    "adobe captivate|\\bcaptivate\\b,",
+    "\\bcamtasia\\b",
+    "rise 360",
+    "authoring tools",
+    "\\bLXP\\b",
+    "(?<!machine )(?<!deep )learning technologies\\b|(LMS|learning) (and|&|/) ?(LXP|authoring)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "procurement_tools",
+   "name": "Procurement platforms (Ariba, Coupa)",
+   "cluster": "tools",
+   "patterns": [
+    "\\bariba\\b|\\bcoupa\\b|jaggaer|ivalua|zycus|\\bGEP smart|scout ?rfp|icertis|sirion\\w*|oracle procurement|workday strategic sourcing|sievo|spendhq",
+    "\\be[- ]?sourcing\\b|\\be[- ]?procurement\\b|(procurement|e-?sourcing|P2P|S2P|contract management|spend) (systems?|tools|platforms?|software|technolog\\w+)\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "supply_chain_systems",
+   "name": "Supply-chain planning & execution systems (WMS, TMS, Kinaxis)",
+   "cluster": "tools",
+   "patterns": [
+    "\\bWMS\\b|\\bYMS\\b|(warehouse|transportation|labor|yard) management systems?|\\bTMS\\b.{0,40}(WMS|freight|carriers?|logistics|transportation|fleet|routing)|(WMS|freight|carriers?|logistics|transportation|ERP)\\W{1,3}(and |or )?TMS\\b",
+    "kinaxis|blue ?yonder|\\bJDA\\b|manhattan (associates|active|WMS|scale)|\\bo9\\b|\\bSAP (IBP|APO|EWM|TM)\\b|e2open|llamasoft|logility|demantra|supply chain (planning )?(systems|software|platforms)\\b|(demand|supply) planning (systems?|tools?|software)|advanced planning (systems?|and scheduling)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "pm_scheduling_tools",
+   "name": "Scheduling tools (MS Project, Primavera, Smartsheet)",
+   "cluster": "tools",
+   "patterns": [
+    "\\bMS[- ]project\\b|microsoft project|primavera|\\bP6\\b|smartsheets?|deltek|planview|\\bPPM\\b (tools?|software|systems?|platforms?)|project (scheduling|portfolio) (software|tools|systems|applications)|(?<!calendar and )(?<!interview )\\b(project )?scheduling (software|tools)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "bi_dev_tools",
+   "name": "BI development tools (DAX, Power Query, SSRS, Qlik)",
+   "cluster": "tools",
+   "patterns": [
+    "\\bDAX\\b|power ?query|power (apps|automate|platform|pivot)|\\bpowerpivot\\b|semantic model\\w*|microsoft fabric|\\bLookML\\b|tableau (prep|server|desktop|cloud)",
+    "qlik\\w*|microstrategy|cognos|\\bSSRS\\b|\\bSSIS\\b|\\bSSAS\\b|business ?objects|\\bOBIEE\\b|thoughtspot|\\bdomo\\b|sisense|spotfire|oracle analytics|sap analytics cloud|\\bSAP BW\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "stats_analytics_packages",
+   "name": "Analytics packages (SAS, Alteryx, Minitab)",
+   "cluster": "tools",
+   "patterns": [
+    "\\bSAS\\b(?! (zero|\\d))|\\bSPSS\\b|\\bstata\\b|alteryx|\\bminitab\\b|\\bJMP\\b|\\bmatlab\\b|\\bknime\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "cpa",
+   "name": "CPA / CMA",
+   "cluster": "credentials",
+   "patterns": [
+    "\\bCPA\\b",
+    "certified public accountant",
+    "\\bCMA\\b",
+    "certified management accountant"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "cfa",
+   "name": "CFA / CAIA",
+   "cluster": "credentials",
+   "patterns": [
+    "\\bCFA\\b",
+    "chartered financial analyst",
+    "\\bCAIA\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "finra_licenses",
+   "name": "FINRA licences (SIE, Series 7, 63, 79)",
+   "cluster": "credentials",
+   "patterns": [
+    "series[- ]?(7|63|65|66|79|24|3|6|9|10|82)\\b",
+    "\\bSIE\\b",
+    "FINRA (licen|regist|series|exam)",
+    "securities (licen|regist)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "ctp",
+   "name": "CTP (Certified Treasury Professional)",
+   "cluster": "credentials",
+   "patterns": [
+    "\\bCTP\\b",
+    "certified treasury professional"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "finance_degree",
+   "name": "Finance, accounting or economics degree",
+   "cluster": "credentials",
+   "patterns": [
+    "degree[^.\\n]{0,40}\\b(finance|accounting|economics)\\b",
+    "(bachelor|master|\\bB\\.?[AS]\\.?|undergraduate)[^.\\n]{0,60}\\b(finance|accounting|economics)\\b",
+    "(finance|accounting|economics),? (or (a )?(related|similar)|degree|major)",
+    "major(ed|ing)? in (finance|accounting|economics)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "risk_compliance_certs",
+   "name": "Risk, audit & compliance certifications (CISA, CRISC, CIA, FRM, CAMS, CRCM, CIPP)",
+   "cluster": "credentials",
+   "patterns": [
+    "\\bCISA\\b|\\bCRISC\\b|\\bCISM\\b|\\bCISSP\\b|\\bCRMA\\b|(?<!Management \\()\\bFRM\\b|\\bCGEIT\\b|\\bCERA\\b|certified (internal auditor|fraud examiner|information systems auditor|information security manager|in risk)|financial risk manager|ISO ?27001 lead (auditor|implementer)|\\bCIA\\b(?= ?[,/]| or| certif| designation| preferred| required)|\\bCRCMP\\b|\\bCBCP\\b",
+    "(?<!Managers \\()\\bCAMS\\b|\\bACAMS\\b|\\bCRCM\\b|\\bCCEP\\b|\\bCIPP(/\\w+)?\\b|\\bCIPM\\b|\\bCIPT\\b|\\bCHPC\\b|\\bCFCS\\b|\\bCGSS\\b|certified (anti[- ]money laundering|regulatory compliance|compliance (and|&) ethics|in healthcare compliance|information privacy)|licensed customs broker|customs broker('?s)? licen[sc]e"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "law_degree",
+   "name": "JD / law degree",
+   "cluster": "credentials",
+   "patterns": [
+    "\\bJ\\.?D\\.?\\b(?! ?(edwards|power|sports|vance|\\.com))|juris doctor|law degree|degree in law|\\bLL\\.[MB]\\b|\\bLLB\\b|\\bLLM (degree|in)\\b|(licensed|practicing|admitted) (attorney|to practice)|bar (admission|membership|license)|member of the .{0,30}\\bbar\\b|state bar|law firm experience|experience at a (top |major |leading )?law firm|paralegal certificate"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "pm_change_certs",
+   "name": "Project & change certifications (PMP, Prosci)",
+   "cluster": "credentials",
+   "patterns": [
+    "\\bPMP\\b|project management professional|\\bPgMP\\b|\\bPMI\\b[- ](ACP|certif\\w+)|\\bPRINCE ?2\\b|prosci (certif\\w+|trained|methodology)|\\bCCMP\\b|certified (scrum|change management|project manag)\\w*|\\bCAPM\\b|\\bCSM\\b certif|SAFe (certif\\w+|agilist)|\\bITIL\\b|\\bTOGAF\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "hr_certification",
+   "name": "HR certification (SHRM, PHR/SPHR)",
+   "cluster": "credentials",
+   "patterns": [
+    "\\bSHRM[- ]?(CP|SCP)\\b",
+    "\\bSHRM\\b",
+    "\\bS?PHR\\b",
+    "\\bGPHR\\b",
+    "\\bHRCI\\b",
+    "(HR|human resources) certif",
+    "\\baPHR\\b"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "rewards_certification",
+   "name": "Rewards certification (CCP, CEBS)",
+   "cluster": "credentials",
+   "patterns": [
+    "\\bCCP\\b(?! (monitoring|verification))",
+    "certified compensation professional",
+    "\\bCEBS\\b",
+    "certified employee benefits? specialist",
+    "global remuneration professional",
+    "world ?at ?work",
+    "certified benefits professional|\\bCEP\\b (designation|certif)|certified equity professional|certified sales compensation professional",
+    "certified payroll professional"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "sales_track_record",
+   "name": "Quota-carrying sales experience",
+   "cluster": "credentials",
+   "patterns": [
+    "quota[- ]carrying",
+    "(years?|experience|background|track record|history|success) (of |in |with )?(\\w+ )?(B2B|enterprise|SaaS|software|technology|direct|field|outside|inside|consultative|solution|technical|complex|medical|pharmaceutical|industrial|commercial|channel) sales\\b",
+    "sales experience",
+    "experience (in|with) (\\w+ )?(sales|selling)\\b(?! (and use|tax|operations|ops\\b|enablement|force|compensation|planning|analytics|strategy|tools|and marketing operations|,? (marketing|strategy|finance)))",
+    "(proven|demonstrated|consistent|successful|strong|documented) (sales )?(track record|history|record|success) (of|in) (\\w+ )?(sales|selling|closing|quota)",
+    "President'?s Club",
+    "closing experience",
+    "quota (achievement|over-?achievement)|(track record|history|record) of (consistently )?(hitting|exceeding|meeting|achieving|over-?achieving|beating|surpassing|attaining)( or (exceeding|beating|surpassing))? (\\w+ ){0,2}(quotas?\\b|sales (targets|goals|plans?))"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "lean_six_sigma_belt",
+   "name": "Lean Six Sigma belt",
+   "cluster": "credentials",
+   "patterns": [
+    "(green|black|yellow)[- ]belt|\\bLSSBB\\b|\\bLSSGB\\b|\\bCSSBB\\b|\\bCSSGB\\b|(six sigma|lean|LSS) (\\w+ )?(certifi(ed|cation)|trained|training)"
+   ],
+   "only": [
+    "mba"
+   ]
+  },
+  {
+   "id": "supply_chain_certs",
+   "name": "Supply-chain & procurement certifications (CPSM, CPIM, CSCP)",
+   "cluster": "credentials",
+   "patterns": [
+    "\\bAPICS\\b|\\bCPIM\\b|\\bCSCP\\b|\\bASCM\\b|\\bCLTD\\b|\\bCPSM\\b|\\bC\\.P\\.M\\.|\\bCIPS\\b|\\bMCIPS\\b|\\bISM\\b (certif\\w+|CPSM)|institute (for|of) supply management|\\bCPSD\\b|\\bCPCM\\b|\\bCFCM\\b|\\bNCMA\\b|certified (professional in supply|supply chain|purchasing)|(CPSM|CPIM|ISM|CIPS)\\W{1,3}CPM\\b|\\bCPM\\W{1,3}(CPSM|CPIM|ISM|CIPS)"
+   ],
+   "only": [
+    "mba"
    ]
   }
  ]
