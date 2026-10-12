@@ -155,7 +155,7 @@
   const VIA_LABEL = { research: "academic research", consulting: "consulting / analyst work", engineering: "engineering", marketing: "marketing", finance: "finance / operations", founder: "founder / venture work", coursework: "coursework" };
 
   const OUTCOME = /\d+ ?%|\$\s?\d|\b\d+(\.\d+)?\s?(x|k|m|b|mm)\b|\b\d{2,}\+?\s?(users|customers|participants|clients|engineers|people|accounts|students|enterprise|interviews|studies|features|releases|papers)\b|\b(increas|reduc|improv|grew|lift|boost|cut|saved|doubled|tripled|drove|accelerat|won|adopted|published)\w*\b/i;
-  const DATE = /((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}\s*(–|-|—|to|through)\s*(((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}|present|current|now|today)|\b(summer|fall|spring|winter)\s+(19|20)\d{2}\b|\((19|20)\d{2}\)|\b(19|20)\d{2}\s*[-–]\s*(19|20)\d{2}\b/i;
+  const DATE = /((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}\s*(–|-|—|to|through)\s*(((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}|present|current|now|today)|\b(summer|fall|spring|winter)\s+(19|20)\d{2}\b|\((19|20)\d{2}\)|\b(19|20)\d{2}\s*[-–]\s*(19|20)\d{2}\b|\b\d{1,2}\/\s?\d{2}\s*(–|-|—|to|through)\s*(\d{1,2}\/\s?\d{2}\b|present|current|now|today)/i;
   const SECTION = [
     [/^(professional |work |relevant |research |industry )?(experience|employment|history|positions?|career)\b/i, "experience"],
     [/^(research experience|research)\b/i, "experience"],
@@ -176,7 +176,11 @@
   const CS_DEGREE = /computer science|\bCS\b|software|electrical|computer engineering|\bEE\b|\bECE\b|engineering|mathematics|\bstatistics\b|physics|data science/i;
   const COURSE_LINE = /^[A-Z]{2,5}\s?\d{3}[A-Z]?\b|^[A-Z][a-z]+ \d{3}\b/;
 
+  // "9/17 to present": month and a two-digit year
+  const shortDates = text => [...text.matchAll(/\b(\d{1,2})\/\s?(\d{2})(?![\d\/])/g)].map(x => { const yy = +x[2], y = yy <= (new Date().getFullYear() % 100) + 1 ? 2000 + yy : 1900 + yy; return y + (Math.min(12, Math.max(1, +x[1])) - 1) / 12; });
   function yearsBetween(text) {
+    const now0 = new Date(); const sd = /(19|20)\d{2}/.test(text) ? [] : shortDates(text);
+    if (sd.length) { const end = sd.length > 1 ? sd[sd.length - 1] + 1 / 12 : /present|current|now|today/i.test(text) ? now0.getFullYear() + now0.getMonth() / 12 : null; if (end !== null) return Math.max(0.25, Math.min(40, end - sd[0])); }
     const m = text.match(/(19|20)\d{2}/g); if (!m) return null;
     const now = new Date();
     // month/year dates (05/2022 – 02/2024) give the span to the month
@@ -189,7 +193,7 @@
 
   // first and last year of a dated line, "present" read as now
   function spanOf(text) {
-    const m = text.match(/(19|20)\d{2}/g); if (!m) return null;
+    const m = text.match(/(19|20)\d{2}/g) || shortDates(text).map(Math.floor); if (!m.length) return null;
     const now = new Date().getFullYear() + 1;
     return [+m[0], /present|current|now|today/i.test(text) ? now : +m[m.length - 1]];
   }
@@ -210,7 +214,8 @@
       // keep the line as written to see wide gaps; match on single spaces (a PDF may put three between every word)
       const r0 = r.replace(/^\s*o\s{2,}/, "").replace(/^[\s•▪●‣◦■\uf0b7\uf0a7\uf0d8\-–—*·]+/, "").trim();
       r = r0.replace(/[ \t\u00a0]{2,}/g, " "); if (!r) continue;
-      if (headerLike(r)) { const hit = SECTION.find(([re]) => re.test(r)); if (hit) { section = hit[1]; employer = null; lines.push({ text: r, kind: "heading", section }); continue; } }
+      const h = r.replace(/\s*:$/, ""); // "EDUCATION:" is a heading too
+      if (headerLike(h)) { const hit = SECTION.find(([re]) => re.test(h)); if (hit) { section = hit[1]; employer = null; lines.push({ text: r, kind: "heading", section }); continue; } }
       const sec = section || (COURSE_LINE.test(r) ? "coursework" : "body");
       const isCourse = sec === "coursework" || (!section && COURSE_LINE.test(r));
       const hasDate = DATE.test(r);
