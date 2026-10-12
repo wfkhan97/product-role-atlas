@@ -31,7 +31,15 @@ save it under its id), `page` (a web page: paste its text into a `.txt`), `no` (
 people's resumes are never used). `evals/external_expectations.json` says what the parser must read from each
 file. `evals/build_external_sources.py` rebuilds the list from search results.
 
-`node evals/run.mjs --external` also scores the files in `evals/resumes/external/`. The folder is gitignored:
+`node evals/run.mjs --external` also scores the files in `evals/resumes/external/`.
+
+`node evals/parse_health.mjs` reads every external file and flags the ones the parser reads badly (no jobs, a job
+with no title, implausible years), with no expectations needed.
+
+`node evals/calibrate.mjs` writes [calibration.md](calibration.md): how same-role, adjacent-role and other-field
+resumes score, how well the score separates them, and the cut points for bands of fit that those distributions
+give, with bootstrap intervals. Rerun it after any change to the matcher; the bands the interface shows must come
+from this file, not from round numbers. The folder is gitignored:
 published sample resumes belong to their publishers, so the repository keeps only the list of sources and our own
 expectations for each file, not the files.
 
