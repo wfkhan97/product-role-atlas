@@ -430,12 +430,13 @@
 
   function createMatcher({ taxonomy, subskills, graph, roles }) {
     const FAMS = compileRoles(roles);
-    const famOf = t => { const f = FAMS.find(f => f.rx && f.rx.test(t) && !(f.not && f.not.test(t))); return f ? f.id : null; };
+    // `title` is what the ruled-out words are looked for in: an employer named "... Partners" does not rule a job out
+    const famOf = (t, title) => { const f = FAMS.find(f => f.rx && f.rx.test(t) && !(f.not && f.not.test(title === undefined ? t : title))); return f ? f.id : null; };
     // The role family of a job title, or null: "FP&A Manager" -> fpa. An internship keeps its family; the reads
     // that count years in a role leave internships out.
     function roleFamilyOf(title, line) {
       const t = (title || "").trim(); if (!t || !FAMS.length) return null;
-      return famOf(t) || (BARE_RANK.test(t) && line ? famOf(line.replace(DATE, " ")) : null);
+      return famOf(t) || (BARE_RANK.test(t) && line ? famOf(line.replace(DATE, " "), t) : null);
     }
     function readRoles(parsed) { for (const r of parsed.roles) if (r.roleFamily === undefined) r.roleFamily = roleFamilyOf(r.title, r.text); return parsed; }
     // who counts as having held a role family: the family itself and every family that covers it
