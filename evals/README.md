@@ -53,7 +53,12 @@ with no title, implausible years), with no expectations needed.
 resumes score against the product roles, how well the score separates them, and the cut points for bands of fit
 that those distributions give, with bootstrap intervals. `node evals/calibrate.mjs --roles mba` does the same for
 the 50 roles of the MBA graph and writes [calibration_mba.md](calibration_mba.md), with a table per role group
-(about five minutes). Rerun both after any change to the matcher; the bands the interface shows must come from
+(about five minutes). Each run also writes the bands as data for the interface: `web/data/bands.json` (product) and
+`web/data/bands_mba.json`, the cut points the interface uses: two upper lines shared
+by every role, a bottom line per role group, and the groups that get no bands yet. `Matcher.bandOf(score, bands,
+group)` in `web/match.js` reads it. The file also states the scoring the cut points were made with
+(`scoring.distinct`); create the MBA matcher with that setting or the bands do not hold.
+`DISTINCT='{"floor":0,"full":3}' node evals/calibrate.mjs --roles mba` tries another setting and writes nothing. Rerun both after any change to the matcher; the bands the interface shows must come from
 these files, not from round numbers. The folder is gitignored:
 published sample resumes belong to their publishers, so the repository keeps only the list of sources and our own
 expectations for each file, not the files.
@@ -90,6 +95,9 @@ fix the expectation and say why in the commit.
 - `grad_student_new` — MBA student, one PM internship, marketing background. The core user.
 - `pivot_phd_hci` — HCI PhD with an engineering internship; academic vocabulary for PM skills.
 - `course_list` — the paste-a-course-list path, no work history.
+- `experienced_with_coursework` — twelve years of work, a course list and a skills column with no heading: only
+  the work lines are evidence.
+- `template_placeholder_years` — a career-office template with "20XX" for every year: jobs are read, years are not.
 
 ## Adding a sample
 

@@ -404,14 +404,14 @@
    "label": "Corporate Strategy Analyst or Associate",
    "group": "consulting_strategy",
    "patterns": [
-    "\\bstrategy\\s+(senior\\s+)?(analyst|associate)\\b|\\b(analyst|associate),?\\s+(corporate\\s+|business\\s+)?strategy\\b"
+    "\\bstrategy\\s+(senior\\s+)?(analyst|associate)\\b|\\b(analyst|associate),?\\s+(corporate\\s+|business\\s+)?strategy\\b(?!\\s+(senior\\s+)?(manager|lead|leader|director))|\\bstrategic\\s+planning\\s+(senior\\s+)?(analyst|associate)\\b|\\b(analyst|associate),?\\s+strategic\\s+planning\\b"
    ],
    "exclude": [],
    "covers": [],
    "covered_by": [
     "strategy_manager"
    ],
-   "n": 81
+   "n": 83
   },
   {
    "id": "strategy_manager",
@@ -427,7 +427,7 @@
     "corp_strategy_analyst"
    ],
    "covered_by": [],
-   "n": 463
+   "n": 461
   },
   {
    "id": "digital_transformation",
@@ -1717,9 +1717,6 @@
   "Mars": {
    "category": "Consumer goods"
   },
-  "Mattel": {
-   "category": "Consumer goods"
-  },
   "Morgan Stanley": {
    "category": "Investment banking",
    "industry": "Commercial Banks"
@@ -1779,6 +1776,9 @@
   },
   "Dodge & Cox": {
    "category": "Asset management"
+  },
+  "Mattel": {
+   "category": "Consumer goods"
   },
   "Nomura": {
    "category": "Investment banking"

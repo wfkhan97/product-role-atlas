@@ -92,13 +92,11 @@
    "cluster": "craft",
    "patterns": [
     "product strateg",
-    "strategic (direction|vision|plan)",
-    "long[- ]term (vision|strategy)",
-    "(commercial|platform|portfolio|growth|go-to-market|product[- ]line|pricing|monetization) strategy",
-    "(own|set|define|drive|shape|build|lead)(s|ing)? (the |a |its |your |our )?(product |commercial |platform |overall |business )?strategy",
-    "strategic (mindset|thinking|direction|bets|priorities|roadmap|planning)",
-    "vision and strategy",
-    "strategy (and|&) (roadmap|vision|execution|direction)"
+    "(platform|portfolio|product[- ]line|pricing|monetization|go-to-market) strategy",
+    "(own|set|define|drive|shape|build|lead)(s|ing)? (the |a |its |your |our )?(product|platform|portfolio) (strategy|vision|direction)",
+    "product (vision|direction)",
+    "strategy (and|&) roadmap",
+    "roadmap (and|&) strategy"
    ]
   },
   {
@@ -643,20 +641,19 @@
    "name": "Systems & architecture",
    "cluster": "technical",
    "patterns": [
-    "architecture",
+    "(systems?|solutions?|enterprise|technical|data|software|cloud|application|platform|IT|security|integration|reference) architecture",
+    "architecture (reviews?|decisions|standards|roadmap|principles|patterns|diagrams)",
     "system design",
     "distributed systems",
     "scalab(le|ility) (systems|architecture|platforms?|infrastructure|services)",
     "microservices",
-    "infrastructure",
+    "(technology|IT|cloud|data|technical|network|digital|computing) infrastructure",
     "\\bbackend\\b",
     "\\bback-end\\b",
-    "front-?end",
+    "front-?end (development|engineering|architecture)",
     "full[- ]stack",
-    "latency",
     "reliability engineering",
     "system reliability",
-    "throughput",
     "high[- ]availability",
     "technical (design|architecture|tradeoffs|trade-offs)",
     "\\bSDKs?\\b"

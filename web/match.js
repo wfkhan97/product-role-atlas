@@ -225,8 +225,8 @@
   ];
   // The words a section heading is made of. A short line that only starts like a heading is not one: "Project
   // planning" in a skills list, "Leadership development", "research that led to" at the start of a wrapped bullet.
-  const HEAD_WORD = /^(professional|work|relevant|research|industry|experience|employment|history|positions?|career|leadership|volunteer(ing)?|community|campus|extra-?curriculars?|activities|involvement|service|education|educational|academic|coursework|courses?|projects?|capstone|selected|side|hackathons?|organi[sz]ations?|affiliations?|memberships?|technical|core|key|skills?|tools?|technologies|competenc(y|ies)|certifications?|proficienc(y|ies)|summary|profile|objective|about|me|overview|highlights?|publications?|awards?|honou?rs|interests|languages?|references|and|of|additional|other|related|training|background|qualifications?|accomplishments?|achievements?|credentials?|licen[sc]es?|areas?|expertise|information|personal|executive|internships?|spoken|software|computer|cont|continued|select|prior|previous)$/i;
-  const headWords = s => s.replace(/\(cont(inued|\.|'d)?\)/i, "").split(/[\s,\/&:\-–]+/).filter(Boolean);
+  const HEAD_WORD = /^(professional|work|relevant|research|industry|experience|employment|history|positions?|career|leadership|volunteer(ing)?|community|campus|extra-?curriculars?|activities|involvement|service|education|educational|academic|coursework|courses?|projects?|capstone|selected|side|hackathons?|organi[sz]ations?|affiliations?|memberships?|technical|core|key|skills?|tools?|technologies|competenc(y|ies)|certifications?|proficienc(y|ies)|summary|profile|objective|about|me|overview|highlights?|publications?|awards?|honou?rs|interests|languages?|references|and|of|additional|other|related|training|background|qualifications?|accomplishments?|achievements?|credentials?|licen[sc]es?|areas?|expertise|information|personal|executive|internships?|spoken|software|computer|cont|continued|select|special|optional|section|prior|previous)$/i;
+  const headWords = s => s.replace(/\(cont(inued|\.|'d)?\)/i, "").replace(/[()]/g, " ").split(/[\s,\/&:\-–]+/).filter(Boolean);
   // "Health Law Experience", "ATHLETIC COACHING EXPERIENCE": any few capitalised words that end with the word
   const headingWords = s => { const w = headWords(s); return w.length > 0 && (w.every(x => HEAD_WORD.test(x)) || (/\b(experience|employment|internships?)$/i.test(s) && w.length <= 4 && w.every(x => /^[A-Z]/.test(x) || /^(and|of)$/.test(x)))); };
   const PM_TITLE = /\b(product (manager|management|owner|lead|director|marketing manager|(data )?analyst|operations|ops|strategist)|\bAPM\b|\bTPM\b|technical program manager|\bPM\b|head of product|chief product|\bCPO\b|\bVP,? product)/i;
@@ -267,10 +267,12 @@
     // and it often sets the ligatures fi, fl, ff apart from their word: "pro fi t", "work fl ow", "for   fi nance"
     // (one space on each side inside a word, a wide gap before it at the start of a word)
     text = text.replace(/([A-Za-z]) (ffi|ffl|ff|fi|fl) (?=[a-z])/g, "$1$2").replace(/(^|\s{2,}|[-(\/]\s?)(ffi|ffl|ff|fi|fl) (?=[a-z]{2})/gm, "$1$2");
+    // a degree set with spaces between its letters: "B . S . Finance", "M . B. A."
+    text = text.replace(/\b[BM] ?\. ?[A-Z] ?\.(?: ?[A-Z] ?\.)?/g, m => m.replace(/ /g, ""));
     // a range that names the year once: "May – August 2025", "September to December 2006"
     text = text.replace(/\b((?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?)(\s*(?:–|-|—|to)\s*)((?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+((?:19|20)\d{2}))\b/gi, (m, a, sep, b, y) => /^(may|mar|jan|jun|jul|aug|sep|oct|nov|dec|feb|apr)/i.test(a) ? `${a} ${y}${sep}${b}` : m);
     // a year the PDF split in two after a month or a season: "Summer 20 24", "May 20 xx"
-    text = text.replace(/\b((?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?|summer|fall|autumn|spring|winter)(\s+)(19|20) (\d{2}|[xX]{2})\b/gi, "$1$2$3$4");
+    text = text.replace(/\b((?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?|summer|fall|autumn|spring|winter)(\s+)(?:(19|20) (\d{2}|[xX]{2})|((?:19|20)\d) (\d))\b/gi, (m, a, gap, c, d, e, f) => a + gap + (c ? c + d : e + f)); // "20 24", "201 6"
     // The placeholder years of a template ("20XX", "19xx") are read as dates, so its jobs are found. They give
     // no years. 2098 stands in for the placeholder while the lines are read.
     let placeholderDates = false; const PH = "2098";
@@ -320,9 +322,13 @@
       // column's heading has cut into the work history). Under Education the title must stand on the dated line
       // itself and the work of the job, or the next job, must follow it. Elsewhere, only in a resume whose jobs have not been found under an experience heading.
       const titled = x => parts(x).some(y => TITLE_WORD.test(y) && y.split(" ").length <= 7);
-      const strayHere = sec === "summary" || sec === "skills" ? true : sec === "education" ? hasDate && titled(r) && !/\bassociate(['’]?s)? (of|in|degree)\b|\b(club|society|list|honou?rs?|scholar\w*|abroad|gpa)\b/i.test(r) && !!items[i + 1] && (items[i + 1].hadBullet || items[i + 1].r.length >= 90 || (DATE.test(items[i + 1].r) && titled(items[i + 1].r))) : (strayMode || !roles.length);
+      const bareDateLine = x => { const m = x.match(DATE); return !!m && !parts(x.slice(0, m.index) + " | " + x.slice(m.index + m[0].length)).length; };
+      const prevLine = lines[lines.length - 1];
+      const eduTitled = hasDate && titled(r) && !!items[i + 1] && (items[i + 1].hadBullet || items[i + 1].r.length >= 90 || (DATE.test(items[i + 1].r) && titled(items[i + 1].r)));
+      const eduAbove = hasDate && bareDateLine(r) && !!prevLine && prevLine.maybeLabel && titled(prevLine.text) && !SCHOOL.test(prevLine.text); // "Chief of Staff | Acme, Bozeman, MT" / "2017 – 2020"
+      const strayHere = sec === "summary" || sec === "skills" ? true : sec === "education" ? (eduTitled || eduAbove) && !/\bassociate(['’]?s)? (of|in|degree)\b|\b(club|society|list|honou?rs?|scholar\w*|abroad|gpa)\b/i.test(r + " " + (eduAbove ? prevLine.text : "")) : (strayMode || !roles.length);
       const stray = strayHere && hasDate && sec !== "experience" && sec !== "body" && sec !== "projects" && !hadBullet && r.length < 160 && !SCHOOL.test(r)
-        && [r, ...lines.slice(-3).filter(l => l.label).map(l => l.text), labelLike(items[i + 1]) ? items[i + 1].r : ""].some(x => x && !SCHOOL.test(x) && parts(x).some(y => TITLE_WORD.test(y) && y.split(" ").length <= 7));
+        && [r, ...lines.slice(-3).filter(l => l.label || (sec === "education" && l.maybeLabel)).map(l => l.text), labelLike(items[i + 1]) ? items[i + 1].r : ""].some(x => x && !SCHOOL.test(x) && parts(x).some(y => TITLE_WORD.test(y) && y.split(" ").length <= 7));
       if (stray) { section = "experience"; strayMode = true; }
       if ((sec === "experience" || sec === "body" || sec === "projects" || stray) && hasDate && r.length < 160 && !/^[a-z]/.test(r) && !(hadBullet && r.length >= 90)) {
         // What stands on the dated line besides the dates: a title, an employer, a place, or nothing at all.
@@ -341,7 +347,7 @@
         if (!title && !column) {
           // The title is on a line of its own: just above the dates ("Senior Product Manager" / "Plaid" /
           // "01/2021 - Present") or just below them ("Microsoft July 2015 - December 2019" / "Program Manager").
-          const prev = []; for (let k = lines.length - 1; k >= 0 && prev.length < 3; k--) { const l = lines[k]; if (l.label && (l.section === sec || stray)) prev.push(l); else break; }
+          const prev = []; for (let k = lines.length - 1; k >= 0 && prev.length < 3; k--) { const l = lines[k]; if ((l.label || (stray && l.maybeLabel)) && (l.section === sec || stray)) prev.push(l); else break; }
           const next = []; for (let k = i + 1; k < items.length && next.length < 2 && labelLike(items[k]); k++) next.push(items[k]);
           // Dates alone on a line belong with the label lines above them (title / city / employer / dates, or a title
           // line wrapped in two); dates that share a line with the employer often have the title just below.
@@ -365,7 +371,7 @@
         const family = isPM ? (TITLE_FAMILY.find(([, re]) => re.test(title)) || ["pm"])[0] : null;
         const around = [...own, ...near.flatMap(parts)].filter(x => x !== title).join(" | ");
         const ph = placeholderDates && dateText.includes(PH);
-        roles.push({ title, text: whole, years: ph ? 0 : yearsBetween(dateText), placeholder: ph || undefined, isPM, family, isIntern: INTERN.test(title) || INTERN.test(r), level: lvl, section: stray ? "experience" : sec, line: lines.length, employerLine: [employer, around].filter(Boolean).join(" | ") || null, capsLead: EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(own[0] || ""), span: ph ? null : spanOf(dateText) });
+        roles.push({ title, text: whole, years: ph ? 0 : yearsBetween(dateText), placeholder: ph || undefined, isPM, family, isIntern: INTERN.test(title) || INTERN.test(r), level: lvl, section: stray ? "experience" : sec, line: lines.length, employerLine: [employer, around].filter(Boolean).join(" | ") || null, capsLead: EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(own[0] || "") && !TITLE_WORD.test(title), span: ph ? null : spanOf(dateText) });
         role = roles.length - 1; lines.push({ text: whole, kind: "role", section: stray ? "experience" : sec, role }); continue;
       }
       if ((sec === "experience" || sec === "body") && !hadBullet && !hasDate && r.length < 80 && EMPLOYER_LINE.test(r0) && !TITLE_WORD.test(r) && !DEGREE_PHRASE.test(r)) { employer = r; lines.push({ text: r, kind: "employer", section: sec, role: -1, label: true }); continue; }
@@ -375,7 +381,7 @@
       if (sec === "education" || /\b(university|college|school|institute)\b/i.test(r) && DEGREE.some(([re]) => re.test(r)) || (DEGREE_PHRASE.test(r) && r.length < 140 && !(hadBullet && sec === "experience"))) {
         for (const [re, id] of DEGREE) if (re.test(r)) { degrees.add(id); if (CS_DEGREE.test(r)) csDegree = true; }
       }
-      lines.push({ text: r, r0, kind: isCourse ? "course" : sec === "skills" ? "skill" : sec === "summary" ? "summary" : sec === "education" ? "education" : sec === "other" ? "other" : "bullet", section: sec, role: sec === "experience" || sec === "body" ? role : -1, label: sec !== "education" && labelLike(items[i]) });
+      lines.push({ text: r, r0, kind: isCourse ? "course" : sec === "skills" ? "skill" : sec === "summary" ? "summary" : sec === "education" ? "education" : sec === "other" ? "other" : "bullet", section: sec, role: sec === "experience" || sec === "body" ? role : -1, label: sec !== "education" && labelLike(items[i]), maybeLabel: labelLike(items[i]) });
     }
     // An employer line that carries the dates of the whole stay, with the roles held there dated beneath it
     // ("MAJOR TELECOM CORP. 1994 – 2017", then "Director (2001 – 2017)", "Manager (1999 – 2001)"): the employer
@@ -424,25 +430,99 @@
     return { lines, roles, degrees, totalYears, pmYears, pmIntern, isStudent, placeholderDates, hasSections: lines.some(l => l.kind === "heading") };
   }
 
-  // Role families beyond the product ones come from data (web/data/roles_mba.json): for each family an id, a
-  // label, title patterns as regex strings, an optional list of patterns that rule a title out, and `covers`,
-  // the families a person is taken to have held when they held this one. The first family that matches wins.
+  // Role families beyond the product ones come from data (web/data/roles_mba.json, written by the graph build).
+  // This reads a title by the steps that file states under "how", the same steps as evals/roles_mba.mjs: the
+  // first family whose patterns match and whose excludes do not; at a firm whose business is the role (a bank,
+  // a fund, a consulting firm) the employer's rule, which knows bare grades; then the level from the ladder of
+  // that kind of employer. A plain list of { id, label, patterns, exclude, covers } is read by the first step alone.
   function compileRoles(roles) {
-    const list = Array.isArray(roles) ? roles : (roles && roles.families) || [];
-    return list.map(f => ({ id: f.id, label: f.label, rx: rx(f.patterns || []), not: rx(f.exclude || []), covers: f.covers || [] }));
-  }
-
-  function createMatcher({ taxonomy, subskills, graph, roles }) {
-    const FAMS = compileRoles(roles);
-    // `title` is what the ruled-out words are looked for in: an employer named "... Partners" does not rule a job out
-    const famOf = (t, title) => { const f = FAMS.find(f => f.rx && f.rx.test(t) && !(f.not && f.not.test(title === undefined ? t : title))); return f ? f.id : null; };
-    // The role family of a job title, or null: "FP&A Manager" -> fpa. An internship keeps its family; the reads
-    // that count years in a role leave internships out.
-    function roleFamilyOf(title, line) {
-      const t = (title || "").trim(); if (!t || !FAMS.length) return null;
-      return famOf(t) || (BARE_RANK.test(t) && line ? famOf(line.replace(DATE, " "), t) : null);
+    const R = Array.isArray(roles) ? { families: roles } : roles || { families: [] };
+    const fl = R.flags || "i", re = p => new RegExp(p, fl), opt = p => p ? re(p) : null, any = l => l && l.length ? re(l.map(p => "(?:" + p + ")").join("|")) : null;
+    const fams = (R.families || []).map(f => ({ id: f.id, label: f.label, rx: any(f.patterns), ex: any(f.exclude), covers: f.covers || [], gate: f.product_gate }));
+    const P = R.product, pFams = P ? P.families.map(f => ({ id: f.id, rx: re(f.pattern) })) : [];
+    const pRx = P ? { exclude: re(P.exclude), keep: re(P.keep), nonproduct: re(P.nonproduct), food: re(P.food), manage: re(P.product_manage) } : null;
+    const productFamily = t => (pFams.find(f => f.rx.test(t)) || {}).id || null;
+    const productOk = t => !!productFamily(t) && !pRx.food.test(t) && !(pRx.exclude.test(t) && !pRx.keep.test(t)) && !(pRx.nonproduct.test(t) && !pRx.manage.test(t));
+    const junk = opt(R.junk), consultant = opt(R.consultant), consultantEx = opt(R.consultant_exclude), employerEx = opt(R.employer_exclude), realEstateEx = opt(R.real_estate_exclude), corpDevNamed = opt(R.corp_dev_named);
+    const employerRules = Object.fromEntries(Object.entries(R.employer_rules || {}).map(([c, list]) => [c, list.map(r => ({ family: r.family, rx: re(r.pattern) }))]));
+    const first = new Set(R.employer_first || []), named = new Set(R.named_first || []), banks = new Set(R.banks || []), consulting = new Set(R.consulting_categories || []);
+    const ladders = Object.fromEntries(Object.entries(R.ladders || {}).map(([k, l]) => [k, l.grades.map(g => ({ level: g.level, rx: re(g.pattern) }))]));
+    const cos = opt(R.chief_of_staff), ldpStaff = opt(R.ldp_staff);
+    // `ruledOut` is the text the excludes are looked for in (the title, when a whole job line is read)
+    function general(t, ruledOut) {
+      const x = ruledOut === undefined ? t : ruledOut;
+      for (const f of fams) { if (!f.rx || !f.rx.test(t) || (f.ex && f.ex.test(x))) continue; if (f.gate && P && !(productOk(t) && productFamily(t) === f.gate)) continue; return f.id; }
+      return null;
     }
-    function readRoles(parsed) { for (const r of parsed.roles) if (r.roleFamily === undefined) r.roleFamily = roleFamilyOf(r.title, r.text); return parsed; }
+    function employer(t, category) {
+      if (!category) return null;
+      if (consulting.has(category) && consultant && consultant.test(t)) return consultantEx && consultantEx.test(t) ? null : "management_consultant";
+      if ((employerEx && employerEx.test(t)) || (category === "Real estate" && realEstateEx && realEstateEx.test(t))) return null;
+      const hit = (employerRules[category] || []).find(r => r.rx.test(t)); return hit ? hit.family : null;
+    }
+    function family(title, who = {}) {
+      const t = title || ""; if (junk && junk.test(t)) return null;
+      const g = general(t);
+      if (first.has(who.category) && !named.has(g)) { const f = employer(t, who.category); if (f) return f; }
+      if (g === "corp_dev" && who.company && banks.has(who.company.toLowerCase()) && corpDevNamed && !corpDevNamed.test(t)) return "ib_associate";
+      return g || employer(t, who.category);
+    }
+    function ladder(who = {}, fam) {
+      const b = R.ladders && R.ladders.bank && R.ladders.bank.applies; if (!b) return "corporate";
+      if (b.categories.includes(who.category) || (who.industry && b.industries.includes(who.industry)) || (who.company && banks.has(who.company.toLowerCase()))) return "bank";
+      return consulting.has(who.category) && fam === "management_consultant" ? "consulting" : "corporate";
+    }
+    function level(title, who, fam) {
+      const which = ladder(who, fam); if (!ladders[which]) return null;
+      if (fam === "ldp" && ldpStaff && !ldpStaff.test(title)) return "associate";
+      const t = cos ? title.replace(cos, "CoS") : title; const hit = ladders[which].find(g => g.rx.test(t)); return hit ? hit.level : "mid";
+    }
+    // Employers we hold, by name, with the kind of business each is. A one-word name ("Mars", "Baird") must be written as we hold it or in capitals.
+    const known = Object.entries(R.employers || {}).flatMap(([name, e]) => name.split(/\s*[()]\s*/).filter(Boolean).flatMap(n => { const short = n.replace(/,? (Group|Inc\.?|Corporation|Corp\.?|& Company|& Co\.?|LLC|LLP|Holdings|Financial)$/i, ""); return / /.test(short) ? [n, short] : [n]; }) // "Goldman Sachs Group" is also "Goldman Sachs"; "Capital Group" is not "Capital"
+      .filter((n, k, a) => n.length >= 2 && a.indexOf(n) === k).map(n => ({ name, e, len: n.length, rx: new RegExp("(^|[^A-Za-z0-9])(?:" + [n, n.toUpperCase()].map(v => v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")($|[^A-Za-z0-9])", / /.test(n) ? "i" : "") }))).sort((a, b) => b.len - a.len);
+    return { fams, general, family, ladder, level, known, full: !!R.employer_rules };
+  }
+  // What an employer's own name says about its business, for employers we do not hold. A resume gives no
+  // category as a posting's source does; these words stand in for it. The first that matches wins.
+  const EMPLOYER_HINT = [
+    ["Investment banking", /\binvestment bank(ing|ers?)?\b|\bsecurities\b|\bcapital markets\b/i],
+    ["Private equity", /\bprivate equity\b|\bbuyouts?\b|\b(capital|equity) partners\b/i],
+    ["Venture capital", /\bventure capital\b|\bventures\b/i],
+    ["Consulting and advisory", /\bconsult(ing|ants|ancy)\b|\badvisory\b/i],
+    ["Asset management", /\b(asset|investment|wealth|fund) management\b|\binvestments\b|\binvestment (advisers|advisors|company|group|partners)\b/i],
+    ["Real estate", /\breal estate\b|\brealty\b|\bproperties\b|\bREIT\b/i],
+    ["Commercial and corporate banking", /\bbank\b|\bbancorp\b|\bbanking\b/i],
+  ];
+  // the same job under the name resumes give it
+  const RESUME_TITLE = [["growth_manager", /\bgrowth marketer\b/i], ["org_dev", /\bchange manager\b/i]];
+
+  function createMatcher({ taxonomy, subskills, graph, roles, distinct }) {
+    const RR = compileRoles(roles); const FAMS = RR.fams;
+    // the employer of a job, from the text beside its title: one we hold, or the kind its name gives away
+    function employerOfLine(text) {
+      if (!text) return {};
+      const hit = RR.known.find(k => k.rx.test(text)); if (hit) return { company: hit.name, category: hit.e.category, industry: hit.e.industry };
+      const hint = RR.full && EMPLOYER_HINT.find(([, re]) => re.test(text)); return hint ? { category: hint[0] } : {};
+    }
+    // The role family of a job title, or null: "FP&A Manager" -> fpa; "Associate" at a private-equity firm ->
+    // pe_associate. An internship keeps its family; the reads that count years in a role leave internships out.
+    function roleOf(title, line) {
+      const t = (title || "").trim(); if (!t || !FAMS.length) return { family: null };
+      const beside = line ? line.split(t).join(" ").replace(DATE, " ") : ""; const who = employerOfLine(beside);
+      let family = RR.family(t, who);
+      // a bare grade whose employer line names the role itself ("Associate | Harlow Reed Investment Banking")
+      if (!family && BARE_RANK.test(t) && line) family = RR.general(line.replace(DATE, " "), t);
+      if (!family) family = (RESUME_TITLE.find(([, re]) => re.test(t)) || [null])[0];
+      const which = RR.full ? RR.ladder(who, family) : "corporate";
+      return { family, who, ladder: which, level: family && which !== "corporate" ? LEVEL_GROUP[RR.level(t, who, family)] || null : null };
+    }
+    const roleFamilyOf = (title, line) => roleOf(title, line).family;
+    // A bank or a consulting firm names grades its own way ("Vice President" at a bank is mid-career): there the
+    // level comes from that ladder, not from the words of the title.
+    function readRoles(parsed) {
+      for (const r of parsed.roles) if (r.roleFamily === undefined) { const x = roleOf(r.title, [r.text, r.employerLine].filter(Boolean).join(" | ")); r.roleFamily = x.family; if (x.level) { r.level = x.level; r.ladder = x.ladder; } }
+      return parsed;
+    }
     // who counts as having held a role family: the family itself and every family that covers it
     const countsAs = family => [family, ...(COVERS[family] || []), ...FAMS.filter(f => f.covers.includes(family)).map(f => f.id)];
     const heldIn = (r, counts) => counts.includes(r.family) || counts.includes(r.roleFamily);
@@ -467,14 +547,21 @@
     function lineStrength(l, id) {
       if (l.kind === "other") return 1; // interests, awards, languages: a word there is a mention
       if (CRED.has(id) && !STRUCTURAL.has(id)) return 2; // a certificate or a licence is held wherever it is listed
-      if (l.kind === "course") return 2; // a course is something done, not just a word
+      // A course is something done, not just a word: for a student it is evidence. For a person with years of
+      // work who is not studying now, a course or an item of a list is a mention; the work lines carry the evidence.
+      if (l.kind === "course") return seasoned ? 1 : 2;
+      // a list item outside any job (a skills column whose heading the PDF moved away): a few words, no number
+      if (seasoned && l.kind === "bullet" && l.role < 0 && l.label && l.text.split(" ").length <= 5 && !OUTCOME.test(l.text)) return TOOLISH.has(id) ? 2 : 1;
       if (l.kind === "skill") return TOOLISH.has(id) ? 2 : 1; // nobody writes a bullet about Jira
       if (l.kind === "employer") return DOMAIN.has(id) ? 2 : 1; // where a person worked shows the industry
       if (l.kind === "summary" || l.kind === "education" || l.kind === "heading") return 1;
       return OUTCOME.test(l.text) ? 3 : 2;
     }
 
+    // not a current student, and three or more years of work: set by tag() for the resume in hand
+    let seasoned = false; const SEASONED_YEARS = 3;
     function tag(parsed) {
+      seasoned = !parsed.isStudent && parsed.totalYears >= SEASONED_YEARS;
       const ev = {}; const add = (id, l, i, strength, via) => {
         const e = ev[id] ||= { strength: 0, lines: [], subs: new Set(), via: new Set(), direct: false, nLines: new Set() };
         e.lines.push({ i, text: l.text, strength, via: via || null, kind: l.kind, role: l.role });
@@ -517,7 +604,31 @@
       return ev;
     }
 
-    function shares(jobs) { const n = jobs.length || 1, cnt = {}; for (const j of jobs) for (const k of j.skills) cnt[k] = (cnt[k] || 0) + 1; return { n: jobs.length, share: id => (cnt[id] || 0) / n }; }
+    // How distinctive an ask is for a role. Postings of almost every role say "stakeholders" and "prioritize":
+    // such an ask tells roles apart no better than chance, and a resume that does not show it is not a weaker
+    // fit for this role than for any other. An ask is weighed by its lift: its share in the role's postings over
+    // its mean share across the role families of the graph (each family counts once, whatever its size). At lift 1
+    // or below it keeps `floor` of its weight; from lift `full` up, all of it. Off unless `distinct` is passed
+    // ({ floor, full } or true for the defaults), so a role set opts in.
+    const DISTINCT = distinct ? { floor: 0.2, full: 2, ...(distinct === true ? {} : distinct) } : null;
+    // `baseline` ({ skill id: mean share }) says what "all roles" means when the graph in hand is too narrow to
+    // say it: the six product families all ask for the same product skills, so among themselves nothing is
+    // distinctive. Their baseline is the mean over the 50 roles of the MBA graph.
+    const meanShare = (() => {
+      if (!DISTINCT) return null; if (DISTINCT.baseline) return id => DISTINCT.baseline[id] || 0; const byFam = {}; for (const j of G.jobs) (byFam[j.family] ||= []).push(j);
+      const fams = Object.values(byFam), sum = {};
+      for (const jobs of fams) { const sh = shares(jobs).share, seen = new Set(jobs.flatMap(j => j.skills)); for (const k of seen) sum[k] = (sum[k] || 0) + sh(k); }
+      return id => (sum[id] || 0) / (fams.length || 1);
+    })();
+    // the industry slot is one ask by design and keeps its weight; AI literacy is judged by its most asked member
+    function lift(id, w) {
+      if (!DISTINCT || id === "__domain") return 1;
+      const a = id === "__ai" ? Math.max(...AI_GROUP.map(meanShare)) : meanShare(id); if (!a) return 1;
+      return Math.max(DISTINCT.floor, Math.min(1, DISTINCT.floor + (1 - DISTINCT.floor) * (w / a - 1) / (DISTINCT.full - 1)));
+    }
+    // A posting may carry a weight `w` (the MBA graph balances employers: no one employer counts for more than a
+    // set part of a role). Shares are of weight, as on the map; `n` stays the number of postings.
+    function shares(jobs) { let n = 0; const cnt = {}; for (const j of jobs) { const w = j.w == null ? 1 : j.w; n += w; for (const k of j.skills) cnt[k] = (cnt[k] || 0) + w; } return { n: jobs.length, share: id => (cnt[id] || 0) / (n || 1) }; }
 
     // target: { jobs, job?, familyJobs?, label }
     function requirements(target) {
@@ -633,7 +744,8 @@
         const status = strength >= 2 ? (e.transfer ? "transferable" : "evidenced") : pc ? "presumed" : strength === 1 ? "thin" : "gap";
         const depth = e ? (e.subs.size > 0 || strength === 3) : false;
         rows.push({ id: e && e.id !== id ? e.id : id, slot: id, name: nameOf(e && e.id !== id ? e.id : id), slotName: nameOf(id), tier, w, strength, credit, status, depth, subs: e ? [...e.subs] : [], via: e ? [...e.via] : [], lines: e ? e.lines.sort((a, b) => b.strength - a.strength).slice(0, 2) : [], hintLines: e && e.subLines ? e.subLines.slice(0, 2) : [], ladder: ladderFor(e && e.id !== id ? e.id : id, targetLevel), signals: signalsFor(e && e.id !== id ? e.id : id), build: buildFor(e && e.id !== id ? e.id : id) });
-        tierSum[tier][0] += w * credit; tierSum[tier][1] += w;
+        const weight = w * lift(id, w); rows[rows.length - 1].weight = weight; // w is the share of postings (shown to the user); weight is what the score counts
+        tierSum[tier][0] += weight * credit; tierSum[tier][1] += weight;
       }
       const cov = t => tierSum[t][1] ? tierSum[t][0] / tierSum[t][1] : null;
       const core = cov("core"), common = cov("common"), diff = cov("diff");
@@ -642,8 +754,8 @@
       const depth = evidencedRows.length ? evidencedRows.filter(r => r.depth).length / evidencedRows.length : 0;
       const breadth = diff;
       // what-if: credit the top three core/common gaps
-      const gaps = rows.filter(r => r.status === "gap" && r.tier !== "diff").sort((a, b) => b.w - a.w);
-      const top3 = gaps.slice(0, 3); const bonus = top3.reduce((a, r) => a + (r.tier === "core" ? 2 : 1) * r.w, 0);
+      const gaps = rows.filter(r => r.status === "gap" && r.tier !== "diff").sort((a, b) => b.weight - a.weight || b.w - a.w);
+      const top3 = gaps.slice(0, 3); const bonus = top3.reduce((a, r) => a + (r.tier === "core" ? 2 : 1) * r.weight, 0);
       const whatIf = (2 * tierSum.core[0] + tierSum.common[0] + bonus) / ((2 * tierSum.core[1] + tierSum.common[1]) || 1);
       const creds = [...req.creds].map(([id, w]) => ({ id, name: nameOf(id), w, have: !!(ev[id] && ev[id].strength >= 2), detail: ev[id] && ev[id].lines[0] ? ((ev[id].lines.find(l => l.i === -1) || ev[id].lines.slice().sort((a, b) => a.text.length - b.text.length)[0]).text.slice(0, 80)) : null }));
       const industries = [...req.domains].sort((a, b) => b[1] - a[1]).map(([id, w]) => ({ id, name: nameOf(id), w, have: !!(ev[id] && ev[id].strength >= 2), hint: !!(ev[id] && (ev[id].capped || ev[id].strength === 1)) }));
@@ -663,8 +775,18 @@
       return { ...res, profile, parsed: { roles: parsed.roles, degrees: [...parsed.degrees], lines: parsed.lines.length, hasSections: parsed.hasSections, placeholderDates: parsed.placeholderDates }, unmapped, extras, covered, subs, evidence: ev, ai: req.ai.ids, req: { n: req.n, label: req.label, core: [...req.tiers.core.keys()], common: [...req.tiers.common.keys()], diff: [...req.tiers.diff.keys()] } };
     }
 
-    return { match, parseResume, readRoles, roleFamilyOf, tag, requirements, profileOf, score, nameOf, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
+    return { match, parseResume, readRoles, roleFamilyOf, roleOf, tag, requirements, profileOf, score, nameOf, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
   }
 
-  return { createMatcher, parseResume, RESUME_PATTERNS, RESUME_DROP, SOFT, AI_GROUP, TIER, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
+  // The band of fit a score falls in, from the cut points that evals/calibrate.mjs derives (bands.strong and
+  // bands.in_range for every role, bands.related per group of roles). Returns "strong", "in_range", "related",
+  // "different", or null when the group has no bands (the score does not yet sort resumes for its roles).
+  function bandOf(score, bands, group) {
+    if (!bands || (bands.no_bands && group in bands.no_bands)) return null;
+    const low = typeof bands.related === "number" ? bands.related : (bands.related || {})[group];
+    if (low == null) return null;
+    return score >= bands.strong ? "strong" : score >= bands.in_range ? "in_range" : score >= low ? "related" : "different";
+  }
+
+  return { createMatcher, bandOf, parseResume, RESUME_PATTERNS, RESUME_DROP, SOFT, AI_GROUP, TIER, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
 });
