@@ -53,7 +53,9 @@ with no title, implausible years), with no expectations needed.
 resumes score against the product roles, how well the score separates them, and the cut points for bands of fit
 that those distributions give, with bootstrap intervals. `node evals/calibrate.mjs --roles mba` does the same for
 the 50 roles of the MBA graph and writes [calibration_mba.md](calibration_mba.md), with a table per role group
-(about five minutes). Rerun both after any change to the matcher; the bands the interface shows must come from
+(about five minutes). It also writes `bands_mba.json`, the cut points the interface uses: two upper lines shared
+by every role, a bottom line per role group, and the groups that get no bands yet. `Matcher.bandOf(score, bands,
+group)` in `web/match.js` reads it. Rerun both after any change to the matcher; the bands the interface shows must come from
 these files, not from round numbers. The folder is gitignored:
 published sample resumes belong to their publishers, so the repository keeps only the list of sources and our own
 expectations for each file, not the files.

@@ -690,8 +690,15 @@ today; the per-group table says where that set fits badly.
   role is read as held, and so most of the score. `evals/roles_mba.mjs` already reads employer categories for
   postings; the matcher does not use them yet.
 - Risk and compliance needs samples of people who hold the role, and then a second look.
-- One set of bands or a set per group: the owner's decision. The interface should show the band, not the
-  percentage.
+- The interface should show the band, not the percentage.
+
+**Bands in use (owner's decision, 2026-10-12).** The two upper lines are shared by all roles (in range from 55%,
+reads like people in the role from 72%). The bottom line is each group's own, because it is steady in every group
+(intervals of two to four points) and it is where groups differ most: other-field resumes score high against
+operations roles (47%) and low against banking roles (26%). Risk and compliance gets no bands until its samples
+are better: its own cut points come out of order. The rule is in `calibrate.mjs`, not a list of names: a group
+with too few same-role resumes or with cut points out of order gets none. `evals/bands_mba.json` holds the result
+for the interface, and `Matcher.bandOf` reads it. Copying it into `web/data/` is the graph build's step.
 
 
 ## Postings backlog, entry-level titles and more employers (2026-10-13)
