@@ -1,0 +1,42 @@
+{
+ "company": "NERA",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: whole Marsh McLennan board, already in the registry; narrowed row in registry_mba_employers_new60.json",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "mmc.wd1.myworkdayjobs.com",
+    "tenant": "mmc",
+    "site": "MMC"
+   },
+   "from": "https://careers.marsh.com/global/en/nera-search",
+   "verify": "Lippincott - Consultant, Strategy"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.marsh.com"
+   },
+   "from": "https://careers.marsh.com/global/en/nera-search"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "nera.com",
+ "sample_title": "Lippincott - Consultant, Strategy",
+ "description_chars": 6536,
+ "seconds": 45,
+ "rejected": {
+  "ats": "workday",
+  "config": {
+   "host": "mmc.wd1.myworkdayjobs.com",
+   "tenant": "mmc",
+   "site": "MMC"
+  }
+ }
+}

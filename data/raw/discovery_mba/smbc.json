@@ -1,0 +1,25 @@
+{
+ "company": "SMBC",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "icims",
+ "config": {
+  "host": "smbcgroup.icims.com"
+ },
+ "verified": false,
+ "notes": "candidates: icims 0 matching postings",
+ "candidates": [
+  {
+   "ats": "icims",
+   "config": {
+    "host": "smbcgroup.icims.com"
+   },
+   "from": "https://smbct5.valhalla.stage.jobs2web.com/smbc_manubank/?locale=en_US&amp;previewLink=true&amp;referrerSave=false",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "smbcgroup.com",
+ "seconds": 9
+}

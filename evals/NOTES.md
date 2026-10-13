@@ -693,3 +693,87 @@ today; the per-group table says where that set fits badly.
 - One set of bands or a set per group: the owner's decision. The interface should show the band, not the
   percentage.
 
+
+## Postings backlog, entry-level titles and more employers (2026-10-13)
+
+Branch `feat/postings-backlog`. The depth pilot (below) showed that about 40% of ladder rungs would be empty when
+every statement must be asked for by two employers. A measurement of the gaps found the reasons were mostly ours,
+not the market's.
+
+**What was wrong.**
+
+- **A refresh threw postings away.** `scrape --force` replaced a company's file. The median posting was 21 days
+  old, so each refresh lost most of the stock. The raw files are now a backlog: a refresh adds, marks `closed`
+  and never drops (`pipeline.scrape.merge`, with an eval). A closed posting is not listed as open and counts in
+  the statistics for 12 months.
+- **Every Workday search stopped at 40 postings.** The API gives the total on the first page only; the adapter
+  read it on each page. 315 employers, and the product scrape too.
+- **Campus titles got no role**: "Summer Analyst", "2028 US Analyst Program (Full-Time)", "Full-Time Analyst
+  2027", "Summer Business Analyst", "Advisory Intern".
+- **Bankers who cover technology were dropped**, because "technology" was an exclusion word.
+- **Fortune banks and investors had no employer category**, so the bank title rules and searches never ran for
+  them. Goldman Sachs had one US analyst posting.
+- **17 roles had almost no entry-level postings by design**: the title rules wanted a manager word.
+
+**Decisions (the owner's, 2026-10-13).**
+
+- Keep closed postings; refresh weekly; US only; add the 60 employers of the sourcing plan.
+- Analyst and associate grades are a role's entry level, case by case. They count for 20 roles (financial
+  analyst, supply chain analyst, procurement analyst, sourcing analyst, category analyst, compliance analyst,
+  risk analyst, governance analyst, operations analyst and supervisor, marketing associate, analyst and
+  specialist, growth associate, HR analyst and specialist, program analyst, partnerships associate, transformation
+  analyst, commercial banking analyst and credit analyst at a bank). They do not count for sales manager,
+  general manager and chief of staff (`NO_ENTRY_LEVEL`): a sales associate is another job. Left out on purpose:
+  buyers, planners, coordinators, assistants, hourly operations associates, accountants, plain "Business Analyst"
+  and "Data Analyst".
+- An MBA internship that names a function is that role at entry level ("Brand Management Intern, MBA" is a brand
+  manager posting). The programme role is for titles that name none.
+
+**Result.** Backlog 34,434 -> 45,780 raw postings (11,346 new, 2,392 closed). US postings in the graph 22,378 ->
+26,887 (26,213 open). Entry-level US postings: consulting ladder 65 -> 132, bank ladder 371 -> 663, corporate
+1,130 -> 2,419. Employers with US postings 1,434 -> 1,489. Title eval: 785 titles (156 new, labelled before the
+patterns were written). All pipeline evals pass (2,255 checks).
+
+**Employers.** 60 added to the list; 37 have a board we can read. Adapters for tal.net (L.E.K., CohnReznick) and
+Yello (Kearney). Repaired: Two Sigma, Truist Securities, Silicon Valley Bank, LaSalle.
+
+**Left alone, and why.**
+
+- Boards behind a captcha or bot check: Evercore, Needham, Citadel, CBRE, Health Advances, Stephens.
+- 12 board types with no adapter (list in `data/raw/registry_mba_employers_new60.json` notes).
+- Parent boards that cannot be narrowed to one business: Nuveen, Publicis Sapient, Putnam, Bain Capital Ventures.
+- Bare "Associate" or "Analyst" at Big Four and general advisory firms: usually tax or audit there. Boutiques
+  such as Accordion lose postings to this rule.
+- Three refreshes returned almost nothing and closed nothing (Bank of America, Dollar General, Deloitte). Bank
+  of America's posting URLs changed, so its backlog holds old and new copies; the repost rule in `extract`
+  merges those with the same title and text.
+
+**Costs.**
+
+- The raw files grow with every refresh and are in git.
+- "Closed" means "not returned by our searches". On a search-based board a posting can stop matching a search
+  and still be open.
+- Resume titles follow the same rules: `evals/resume_titles.json` had "Financial Analyst", "Operations
+  Analyst", "Marketing Analyst" and "Supply Chain Analyst" as no role; they are now the entry level of their role.
+- `evals/calibration_mba.md` was made on the earlier graph. Rerun it (`node evals/calibrate.mjs --roles mba`).
+- The product map still drops closed postings (its interface cannot hide them yet), and its next scrape will
+  bring more Workday postings.
+
+**MBA entry level is not one rung** (researched, not built). A strategy house hires an MBA as Consultant or
+Associate (`mid`), Deloitte as Senior Consultant (`senior`), an investment bank as Associate (`mid`), private
+equity as Senior Associate or VP; a McKinsey "Associate" is post-MBA and a BCG "Associate" is pre-MBA. The
+proposal is a per-posting mark from a table of firm titles, not a change of levels.
+
+## Skill depth pilot (2026-10-12 to 13)
+
+Branch `feat/depth-pilot` holds `pipeline/depth_gen.py`; nothing is published. Twelve skills, four per ladder,
+through OpenRouter (drafter `openai/gpt-6.1-sol`, critic `anthropic/claude-haiku-5.5`), about $4 in total.
+
+- Posting evidence gives sub-skills and rungs. It does not give build steps: they came back as duties with
+  "practice" in front. Build steps need another source (plan in `data/experiments/depth/build_steps_plan.md`).
+- A rung that cites one employer is true of one posting. With every statement asked for by two employers, 29 of
+  48 rungs survived on the old data. With 14 sentences per level the shared part was the general part; with 40
+  the drafter found shared specifics.
+- The critic's "is it supported" check drops almost nothing once the draft must quote its evidence. The code
+  checks and the test "can a reader tell the level from the text" do the filtering. The cheap critic agreed
+  with the strong one on 128 of 130 claims after it was told that the level comes from the job title.

@@ -1,0 +1,38 @@
+{
+ "company": "Leerink Partners",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "leerink.wd5.myworkdayjobs.com",
+  "tenant": "leerink",
+  "site": "leerinkpartners"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "leerink.wd5.myworkdayjobs.com",
+    "tenant": "leerink",
+    "site": "leerinkpartners"
+   },
+   "from": "https://leerink.com/careers/",
+   "verify": "Investment Banking Assocate, Biopharma"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "leerink.com"
+   },
+   "from": "https://leerink.com/careers/"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "leerink.com",
+ "sample_title": "Investment Banking Assocate, Biopharma",
+ "description_chars": 2540,
+ "seconds": 9
+}

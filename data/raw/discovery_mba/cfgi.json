@@ -1,0 +1,27 @@
+{
+ "company": "CFGI",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "lever",
+ "config": {
+  "board": "cfgi"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "lever",
+   "config": {
+    "board": "cfgi"
+   },
+   "from": "https://jobs.lever.co/cfgi/",
+   "verify": "FP&A Advisory - Managing Director"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "cfgi.com",
+ "sample_title": "FP&A Advisory - Managing Director",
+ "description_chars": 6036,
+ "seconds": 8
+}

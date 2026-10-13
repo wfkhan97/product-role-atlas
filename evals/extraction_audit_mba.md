@@ -1,8 +1,8 @@
 # Extraction audit: the MBA role set, regex against model judgment
 
-Produced by `pipeline/experiments/skill_audit.py` on 2026-10-12. For each skill, a sample of postings the patterns tagged (accepted = the model agrees the posting asks for it) and a sample from the skill's three most common roles that the patterns did not tag (missed = the model says the posting asks for it). Model answers at probability 0.5 or more count as yes. The samples are small, so read each row as a flag, not a measurement. After a taxonomy change rerun with `--reuse` to recompute the regex side without new model calls.
+Produced by `pipeline/experiments/skill_audit.py` on 2026-10-13. For each skill, a sample of postings the patterns tagged (accepted = the model agrees the posting asks for it) and a sample from the skill's three most common roles that the patterns did not tag (missed = the model says the posting asks for it). Model answers at probability 0.5 or more count as yes. The samples are small, so read each row as a flag, not a measurement. After a taxonomy change rerun with `--reuse` to recompute the regex side without new model calls.
 
-Across 180 skills: the model accepts 1,364 of 1,686 tagged samples (81%) and finds the skill in 567 of 1,866 untagged samples from the same roles (30%).
+Across 180 skills: the model accepts 1,356 of 1,673 tagged samples (81%) and finds the skill in 561 of 1,849 untagged samples from the same roles (30%).
 
 | skill | cluster | tagged: accepted | untagged: missed |
 |---|---|---|---|
@@ -10,31 +10,32 @@ Across 180 skills: the model accepts 1,364 of 1,686 tagged samples (81%) and fin
 | Development, entitlements & construction | real_estate | 4/10 (40%) | 1/9 |
 | Transformation programme leadership | strategy | 4/10 (40%) | 7/10 |
 | HR operations, onboarding & payroll | people | 5/12 (42%) | 2/8 |
-| Board & committee governance | risk | 3/7 (43%) | 0/13 |
 | HRIS (Workday, SuccessFactors, ADP) | tools | 4/9 (44%) | 2/11 |
 | Property types (multifamily, industrial, office, retail) | real_estate | 4/9 (44%) | 2/11 |
+| Board & committee governance | risk | 3/6 (50%) | 0/13 |
 | Procurement platforms (Ariba, Coupa) | tools | 5/10 (50%) | 0/10 |
 | Leasing & tenant relations | real_estate | 5/10 (50%) | 1/10 |
+| Credit analysis & underwriting | deals | 5/9 (56%) | 4/9 |
 | Audit & SOX | risk | 5/9 (56%) | 3/10 |
 | Risk, audit & compliance certifications (CISA, CRISC, CIA, FRM, CAMS, CRCM, CIPP) | credentials | 5/9 (56%) | 0/10 |
+| Banking relationships & product cross-sell | deals | 4/7 (57%) | 1/10 |
 | Investor relations & fundraising | finance | 4/7 (57%) | 1/13 |
 | Portfolio-company value creation | deals | 4/7 (57%) | 1/12 |
-| Credit analysis & underwriting | deals | 6/10 (60%) | 5/10 |
 | Demand & supply planning (S&OP) | operations | 6/10 (60%) | 3/10 |
 | GRC platforms (Archer, ServiceNow GRC, OneTrust, Vanta) | tools | 6/10 (60%) | 1/10 |
 | Shift & labour management | operations | 6/10 (60%) | 4/10 |
 | Deal sourcing & pipeline | deals | 5/8 (62%) | 3/10 |
 | Performance management & talent reviews | people | 5/8 (62%) | 0/12 |
-| Wealth planning & private clients | deals | 5/8 (62%) | 0/12 |
+| Wealth planning & private clients | deals | 5/8 (62%) | 0/8 |
 | Enterprise risk frameworks & reporting | risk | 7/11 (64%) | 3/9 |
 | Consumer-goods brand work (CPG innovation, shopper & trade) | marketing | 6/9 (67%) | 1/11 |
-| FX & interest-rate hedging | finance | 2/3 (67%) | 0/15 |
+| FX & interest-rate hedging | finance | 2/3 (67%) | 0/10 |
 | Lean & Six Sigma methods | operations | 6/9 (67%) | 1/11 |
 | Litigation & economic consulting | strategy | 4/6 (67%) | 0/14 |
+| Quota & revenue target attainment | sales | 4/6 (67%) | 6/12 |
 | Retail category & assortment planning | operations | 6/9 (67%) | 0/10 |
 | Security compliance frameworks (SOC 2, ISO 27001, NIST) | risk | 6/9 (67%) | 0/11 |
 | Channel, reseller & distributor sales | sales | 7/10 (70%) | 1/10 |
-| Banking relationships & product cross-sell | deals | 7/10 (70%) | 1/10 |
 | Client engagement delivery | strategy | 7/10 (70%) | 6/10 |
 | Budget, cost & schedule control | delivery | 7/10 (70%) | 7/10 |
 | Creative development & agency management | marketing | 7/10 (70%) | 1/10 |
@@ -53,7 +54,6 @@ Across 180 skills: the model accepts 1,364 of 1,686 tagged samples (81%) and fin
 | Policy development & management | risk | 7/10 (70%) | 4/10 |
 | PR & communications | marketing | 7/10 (70%) | 3/10 |
 | Quality systems & standards | operations | 7/10 (70%) | 2/10 |
-| Regulatory analysis & change management | risk | 7/10 (70%) | 6/10 |
 | Renewals, upsell & expansion | sales | 7/10 (70%) | 4/10 |
 | Sales process & operations | sales | 7/10 (70%) | 3/9 |
 | Self-service BI enablement | analytics | 7/10 (70%) | 3/10 |
@@ -62,11 +62,8 @@ Across 180 skills: the model accepts 1,364 of 1,686 tagged samples (81%) and fin
 | Territory & account planning | sales | 7/10 (70%) | 7/10 |
 | Valuation (DCF, comps, LBO) | deals | 7/10 (70%) | 3/9 |
 | Consumer-finance regulations (UDAAP, fair lending) | risk | 5/7 (71%) | 0/13 |
-| Quota & revenue target attainment | sales | 5/7 (71%) | 6/12 |
 | ERP & finance systems (SAP, Oracle, NetSuite, Anaplan, Hyperion) | tools | 8/11 (73%) | 2/9 |
-| AML, KYC & sanctions | risk | 8/11 (73%) | 0/9 |
 | Accounting: close, GAAP & controls | finance | 6/8 (75%) | 2/12 |
-| Compliance programme management | risk | 6/8 (75%) | 4/12 |
 | Content & social media marketing | marketing | 6/8 (75%) | 2/12 |
 | Learning platforms & authoring tools (LMS, Articulate) | tools | 6/8 (75%) | 0/11 |
 | Lifecycle, CRM & email marketing | marketing | 6/8 (75%) | 1/12 |
@@ -85,6 +82,7 @@ Across 180 skills: the model accepts 1,364 of 1,686 tagged samples (81%) and fin
 | Employee engagement & culture | people | 8/10 (80%) | 7/10 |
 | Executive & equity compensation | people | 8/10 (80%) | 0/10 |
 | Finance, accounting or economics degree | credentials | 8/10 (80%) | 0/10 |
+| AML, KYC & sanctions | risk | 8/10 (80%) | 0/9 |
 | Employment law & HR compliance | people | 8/10 (80%) | 8/10 |
 | Investment research & asset classes | deals | 8/10 (80%) | 7/10 |
 | Logistics & transportation | operations | 8/10 (80%) | 3/10 |
@@ -106,14 +104,17 @@ Across 180 skills: the model accepts 1,364 of 1,686 tagged samples (81%) and fin
 | Treasury workstations & bank portals | tools | 5/6 (83%) | 0/13 |
 | Financial & management reporting | finance | 11/13 (85%) | 6/7 |
 | Business unit / site leadership | strategy | 6/7 (86%) | 6/13 |
+| Compliance programme management | risk | 6/7 (86%) | 4/12 |
 | Due diligence | deals | 6/7 (86%) | 4/13 |
 | Performance improvement & cost reduction | strategy | 13/15 (87%) | 4/5 |
-| Deal structuring & negotiation | deals | 7/8 (88%) | 8/10 |
+| Deal structuring & negotiation | deals | 7/8 (88%) | 6/8 |
+| Regulatory analysis & change management | risk | 7/8 (88%) | 6/10 |
+| Scenario & sensitivity modelling | finance | 8/9 (89%) | 5/10 |
 | Marketing campaigns | marketing | 9/10 (90%) | 6/10 |
 | Capacity & production planning | operations | 9/10 (90%) | 5/10 |
 | Capital projects & equipment spend | operations | 9/10 (90%) | 1/10 |
 | Compensation programme design | people | 9/10 (90%) | 0/10 |
-| Consultative & solution selling | sales | 9/10 (90%) | 8/9 |
+| Consultative & solution selling | sales | 9/10 (90%) | 7/8 |
 | Customer health & business reviews | sales | 9/10 (90%) | 8/10 |
 | Dashboards & data visualisation | analytics | 9/10 (90%) | 1/10 |
 | Debt financing & capital structure | finance | 9/10 (90%) | 3/10 |
@@ -133,7 +134,6 @@ Across 180 skills: the model accepts 1,364 of 1,686 tagged samples (81%) and fin
 | Organization design & effectiveness | people | 9/10 (90%) | 4/10 |
 | Prospecting & lead generation | sales | 9/10 (90%) | 6/10 |
 | Rotational programme assignments | people | 9/10 (90%) | 0/10 |
-| Scenario & sensitivity modelling | finance | 9/10 (90%) | 5/10 |
 | Strategic initiatives & special projects | strategy | 9/10 (90%) | 6/10 |
 | Spend analysis & cost savings | operations | 9/10 (90%) | 6/10 |
 | Analytics packages (SAS, Alteryx, Minitab) | tools | 9/10 (90%) | 0/10 |
@@ -153,7 +153,7 @@ Across 180 skills: the model accepts 1,364 of 1,686 tagged samples (81%) and fin
 | Analytics requirements & business partnering | analytics | 10/10 (100%) | 8/9 |
 | Benefits design & administration | people | 4/4 (100%) | 1/16 |
 | Capital allocation & capex | finance | 10/10 (100%) | 6/10 |
-| Cash & liquidity management | finance | 6/6 (100%) | 2/13 |
+| Cash & liquidity management | finance | 6/6 (100%) | 0/9 |
 | CFA / CAIA | credentials | 10/10 (100%) | 0/10 |
 | Change management | strategy | 10/10 (100%) | 8/10 |
 | Compliance monitoring & testing | risk | 10/10 (100%) | 6/9 |
@@ -163,7 +163,7 @@ Across 180 skills: the model accepts 1,364 of 1,686 tagged samples (81%) and fin
 | Customer stories & advocacy | marketing | 10/10 (100%) | 2/10 |
 | Events & field marketing | marketing | 5/5 (100%) | 2/15 |
 | Finance business partnering | finance | 11/11 (100%) | 8/9 |
-| Financial statements (P&L, balance sheet, cash flow) | finance | 10/10 (100%) | 6/10 |
+| Financial statements (P&L, balance sheet, cash flow) | finance | 8/8 (100%) | 6/10 |
 | Inventory management | operations | 10/10 (100%) | 2/10 |
 | Issue management & remediation | risk | 10/10 (100%) | 9/10 |
 | Key account & client relationships | sales | 9/9 (100%) | 10/11 |

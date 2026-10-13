@@ -1,0 +1,50 @@
+{
+ "company": "Stout",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "stout.wd5.myworkdayjobs.com",
+  "tenant": "stout",
+  "site": "Stout-Experienced-Careers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "stout.wd5.myworkdayjobs.com",
+    "tenant": "stout",
+    "site": "Stout-Student-Careers"
+   },
+   "from": "https://www.stout.com/en/careers/",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "stout.wd5.myworkdayjobs.com",
+    "tenant": "stout",
+    "site": "Stout-Experienced-Careers"
+   },
+   "from": "https://www.stout.com/en/careers/",
+   "verify": "Associate, Business Services - Investment Banking"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "stout.wd5.myworkdayjobs.com",
+    "tenant": "stout",
+    "site": "Stout-Careers"
+   },
+   "from": "https://www.stout.com/en/careers/"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "stout.com",
+ "sample_title": "Associate, Business Services - Investment Banking",
+ "description_chars": 7677,
+ "seconds": 21
+}

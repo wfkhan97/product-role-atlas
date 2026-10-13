@@ -1,0 +1,25 @@
+{
+ "company": "WTW",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "paradox",
+ "config": {
+  "host": "careers.wtwco.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 matching postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "careers.wtwco.com"
+   },
+   "from": "https://careers.wtwco.com/blogs/life-at-wtw",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "wtwco.com",
+ "seconds": 36
+}

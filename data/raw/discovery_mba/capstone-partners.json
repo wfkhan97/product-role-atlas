@@ -1,0 +1,35 @@
+{
+ "company": "Capstone Partners",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: Huntington's whole board; narrowed row in registry_mba_employers_new60.json",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "huntington.wd12.myworkdayjobs.com",
+    "tenant": "huntington",
+    "site": "HNBcareers"
+   },
+   "from": "https://www.capstonepartners.com/about/careers/",
+   "verify": "E Commerce Strategy Manager"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "capstonepartners.com",
+ "sample_title": "E Commerce Strategy Manager",
+ "description_chars": 5486,
+ "seconds": 29,
+ "rejected": {
+  "ats": "workday",
+  "config": {
+   "host": "huntington.wd12.myworkdayjobs.com",
+   "tenant": "huntington",
+   "site": "HNBcareers"
+  }
+ }
+}

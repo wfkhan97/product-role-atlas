@@ -1,0 +1,27 @@
+{
+ "company": "Sia Partners",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "smartrecruiters",
+ "config": {
+  "company": "Sia"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "smartrecruiters",
+   "config": {
+    "company": "Sia"
+   },
+   "from": "https://www.sia-partners.com/en/career/final-year-internship-operations-research-consultant",
+   "verify": "Senior Consultant - IT Strategy & Operating Model"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "sia-partners.com",
+ "sample_title": "Senior Consultant - IT Strategy & Operating Model",
+ "description_chars": 3108,
+ "seconds": 74
+}

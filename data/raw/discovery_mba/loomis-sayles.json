@@ -1,0 +1,25 @@
+{
+ "company": "Loomis Sayles",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "paradox",
+ "config": {
+  "host": "www.loomissayles.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 matching postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.loomissayles.com"
+   },
+   "from": "https://www.loomissayles.com/insights/?category-name%5B%5D=research-insights",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "loomissayles.com",
+ "seconds": 105
+}

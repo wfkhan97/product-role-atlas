@@ -156,7 +156,7 @@ are whole.
 
 ```bash
 .venv/bin/python evals/run_pipeline.py               # all parts; exit 1 when a check fails
-.venv/bin/python evals/run_pipeline.py --only titles # one part: titles, countries, golden, integrity, graph, js, matcher
+.venv/bin/python evals/run_pipeline.py --only titles # one part: backlog, titles, countries, golden, integrity, graph, js, matcher
 .venv/bin/python evals/run_pipeline.py --baseline    # also rewrite pipeline_baseline_mba.md (commit it with the change)
 ```
 
@@ -164,7 +164,8 @@ No API key is needed. The `js` and `matcher` parts need `node`.
 
 | part | file | what it guards |
 |---|---|---|
-| titles | `titles_mba.json` | 629 titles with the role each must get, or none. 470 come from the scraped postings, 159 were written to probe the edges ("Executive Assistant, Investment Banking", "Talent Sourcing Manager"). |
+| backlog | – | What a refresh does to a company's postings (`pipeline.scrape.merge`): it adds new ones, closes missing ones, reopens returning ones, drops none, and closes nothing when most postings fail to come back. |
+| titles | `titles_mba.json` | 785 titles with the role each must get, or none. 470 come from the scraped postings, 159 were written to probe the edges ("Executive Assistant, Investment Banking", "Talent Sourcing Manager"), 156 cover campus titles, sector bankers and entry-level grades (set `entry-2026-10-13`). |
 | levels | same file | The level each title must get on its ladder: corporate, bank or consulting. A bank Vice President is `senior`. |
 | countries | `countries.json` | 280 location strings with the country each must get. A wrong country hides a US posting or shows a foreign one. |
 | golden | `golden_mba.json` | 99 postings, two per role, each with the skills it must get and must not get. The posting text is in the file, so the eval does not move when the scrape is refreshed. |

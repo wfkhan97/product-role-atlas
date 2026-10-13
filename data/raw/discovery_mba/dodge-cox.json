@@ -1,0 +1,31 @@
+{
+ "company": "Dodge & Cox",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "dodgeandcox.wd5.myworkdayjobs.com",
+  "tenant": "dodgeandcox",
+  "site": "Dodgecox"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "dodgeandcox.wd5.myworkdayjobs.com",
+    "tenant": "dodgeandcox",
+    "site": "Dodgecox"
+   },
+   "from": "https://www.dodgeandcox.com/careers",
+   "verify": "2027 Trading Strategy Associate"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "dodgeandcox.com",
+ "sample_title": "2027 Trading Strategy Associate",
+ "description_chars": 5497,
+ "seconds": 13
+}

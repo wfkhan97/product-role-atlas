@@ -1,0 +1,42 @@
+{
+ "company": "Insight Sourcing Group",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: Accenture's whole board (insightsourcing.com redirects to accenture.com; the firm is part of Accenture and search text 'Insight Sourcing' returns 1,273 general sourcing postings)",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "accenture.wd103.myworkdayjobs.com",
+    "tenant": "accenture",
+    "site": "AccentureCareers"
+   },
+   "from": "https://www.accenture.com/us-en/careers",
+   "verify": "Strategy & Consulting | Tech Strategy Consultant"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.accenture.com"
+   },
+   "from": "https://www.accenture.com/us-en/careers"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "insightsourcing.com",
+ "sample_title": "Strategy & Consulting | Tech Strategy Consultant",
+ "description_chars": 7421,
+ "seconds": 256,
+ "rejected": {
+  "ats": "workday",
+  "config": {
+   "host": "accenture.wd103.myworkdayjobs.com",
+   "tenant": "accenture",
+   "site": "AccentureCareers"
+  }
+ }
+}

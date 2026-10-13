@@ -2,13 +2,14 @@
 
     .venv/bin/python evals/run_pipeline.py               # report; exit 1 when a check fails
     .venv/bin/python evals/run_pipeline.py --baseline    # also rewrite evals/pipeline_baseline_mba.md
-    .venv/bin/python evals/run_pipeline.py --only titles # one part: titles, countries, golden, integrity, graph, js, matcher
+    .venv/bin/python evals/run_pipeline.py --only titles # one part: backlog, titles, countries, golden, integrity, graph, js, matcher
 
 Labels are the spec. They were written by reading titles, locations and postings before the code was run on
 them. A row with "sure": false is one a reader could label either way: it is reported, not counted. A row with
 "known_miss" (titles: "known_miss_role", "known_miss_level") is a wrong answer we accept for now, with the reason; it fails only if it starts to pass (then
 remove the mark).
 
+0. backlog    pipeline.scrape.merge: a refresh adds new postings, closes missing ones, reopens returning ones, drops none
 1. titles     evals/titles_mba.json   the role each title must get (or none), and its level on its ladder
 2. countries  evals/countries.json    the country each location must get
 3. golden     evals/golden_mba.json   skills each posting must get and must not get; floors guard against regressions
@@ -125,6 +126,30 @@ def golden():
     return per
 
 
+def backlog():
+    """The raw files are a backlog: a refresh adds and closes, and never drops."""
+    from pipeline.scrape import merge
+    out("\n== backlog: what a refresh does to a company's postings")
+    e = {"company": "X", "ats": "greenhouse", "group": "g", "category": "Investment banking"}
+    job = lambda u: {"title": "t", "url": u}
+    old = {"scraped_at": "2026-10-10T09:00:00", "jobs": [job("a"), job("b"), job("c")]}
+    jobs, note = merge(old, [job("a"), job("d")], e, "2026-10-17")
+    by = {j["url"]: j for j in jobs}
+    check("backlog", set(by) == {"a", "b", "c", "d"}, "a refresh dropped a posting")
+    check("backlog", by["a"]["first_seen"] == "2026-10-10" and by["a"]["last_seen"] == "2026-10-17" and "closed" not in by["a"], "a posting still shown is not open with a new last_seen")
+    check("backlog", by["b"].get("closed") == "2026-10-17" and by["b"]["last_seen"] == "2026-10-10", "a posting no longer shown is not closed")
+    check("backlog", by["d"]["first_seen"] == "2026-10-17" and by["d"]["category"] == "Investment banking" and "closed" not in by["d"], "a new posting is not added as open")
+    jobs, _ = merge({"scraped_at": "2026-10-17T09:00:00", "jobs": jobs}, [job("b")], e, "2026-10-24")
+    by = {j["url"]: j for j in jobs}
+    check("backlog", "closed" not in by["b"] and by["a"].get("closed") == "2026-10-24" and by["c"].get("closed") == "2026-10-17", "a posting that comes back is not reopened, or a closed date moved")
+    many = {"scraped_at": "2026-10-10T09:00:00", "jobs": [job(str(i)) for i in range(20)]}
+    jobs, note = merge(many, [job("0"), job("1")], e, "2026-10-17")
+    check("backlog", note and not any(j.get("closed") for j in jobs), "a refresh that returned 2 of 20 open postings closed the rest; it must close nothing")
+    jobs, _ = merge({"scraped_at": "2026-10-10T09:00:00", "jobs": [job("a"), job("b")]}, [job("z")], e, "2026-10-17", full=False)
+    check("backlog", not any(j.get("closed") for j in jobs), "a refresh of one batch of searches closed postings")
+    out(f"  {totals[('backlog', 'pass')]} pass, {totals[('backlog', 'fail')]} fail")
+
+
 def integrity():
     out("\n== integrity: registry and processed file")
     reg = [r for r in load_registry(ROLES) if r.get("ats") not in (None, "unsupported")]
@@ -150,6 +175,8 @@ def integrity():
     check("integrity", not empty, f"roles with no US postings: {empty}")
     check("integrity", set(us) <= set(roles_mba.FAMILY_LABELS), f"postings carry a role that is not in the role list: {set(us) - set(roles_mba.FAMILY_LABELS)}")
     check("integrity", all(j["level"] in roles_mba.LEVEL_ORDER and j.get("ladder") in roles_mba.LADDERS for j in jobs), "a posting has a level or a ladder outside the lists")
+    check("integrity", all(isinstance(j.get("open"), bool) and j.get("first_seen") and j.get("last_seen") for j in jobs), "a posting lacks open, first_seen or last_seen")
+    check("integrity", all(j["open"] or j["last_seen"] >= (__import__("datetime").date.today() - __import__("datetime").timedelta(days=extract.KEEP_CLOSED_DAYS)).isoformat() for j in jobs), "a closed posting older than the limit is still counted")
     none = sum(1 for j in jobs if j["country"] is None)
     check("integrity", none / len(jobs) < 0.01, f"{none} postings have no location at all")
     out(f"  {len(reg)} employers, {len(jobs):,} postings, {sum(us.values()):,} in the United States, {none} with no location; smallest roles: "
@@ -184,6 +211,7 @@ def graph(jobs):
         check(part, all(j["family"] == f and j["country"] == "United States" for j in rows), f"{f}: a posting of another role or another country")
         check(part, all(job_keys <= set(j) for j in rows), f"{f}: a posting lacks fields that graph.json postings have: {job_keys - set(rows[0]) if rows else ''}")
         check(part, all(j["level"] in G["levels"] and j["ladder"] in G["ladders"] for j in rows), f"{f}: a level or ladder outside the lists")
+        check(part, all(isinstance(j.get("open"), bool) for j in rows) and sum(1 for j in rows if j["open"]) == G["roles"][f].get("n_open"), f"{f}: open marks are missing or do not add up to the index")
         check(part, all(0 <= i < len(G["skill_ids"]) for j in rows for i in j["skills"]) and all(0 <= i < len(G["sub_ids"]) for j in rows for i in j["sub"]), f"{f}: a skill index out of range")
         check(part, not (seen_ids & {j["id"] for j in rows}), f"{f}: posting ids repeat across files")
         seen_ids |= {j["id"] for j in rows}
@@ -273,6 +301,8 @@ def main():
     per = None
     if want("titles"):
         titles()
+    if want("backlog"):
+        backlog()
     if want("countries"):
         countries()
     if want("golden"):

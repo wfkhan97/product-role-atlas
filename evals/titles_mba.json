@@ -1,5 +1,5 @@
 {
- "about": "Job titles with the role and the level each must get (role null: the title is none of the 50 roles). Labelled by reading, before the rules were run on them (2026-10-12): 470 titles drawn from the scraped postings by plain keyword and at random, 159 written to probe the edges. Rows with sure=false are reported, not counted. Checked by evals/run_pipeline.py.",
+ "about": "Job titles with the role and the level each must get (role null: the title is none of the 50 roles). Labelled by reading, before the rules were run on them (2026-10-12): 470 titles drawn from the scraped postings by plain keyword and at random, 159 written to probe the edges. Rows with sure=false are reported, not counted. Checked by evals/run_pipeline.py. Rows with set \"entry-2026-10-13\" (148) were added when campus titles, sector bankers and the entry-level grades of manager roles were brought in; they were labelled from the rules of that decision, before the patterns were written. \"category_before\" marks a row whose employer got a category after it was labelled (Fortune banks and investors).",
  "rows": [
   {
    "title": "Manufacturing Strategy Associate",
@@ -276,13 +276,14 @@
   {
    "title": "Compensation Advisor - Asset Management Group",
    "company": "PNC Financial Services Group",
-   "category": null,
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks",
    "role": "comp_benefits",
    "level": "mid",
    "ladder": "corporate",
    "sure": false,
-   "note": "Advisor grade not in the spec; PNC is a bank but not on the bank list"
+   "note": "Advisor grade not in the spec; PNC is a bank but not on the bank list",
+   "category_before": null
   },
   {
    "title": "Site Procurement Manager",
@@ -392,13 +393,14 @@
   {
    "title": "Senior Governance Manager - Outsourcing",
    "company": "State Street",
-   "category": null,
+   "category": "Asset management",
    "industry": "Commercial Banks",
    "role": "governance",
    "level": "senior",
    "ladder": "corporate",
    "sure": false,
-   "note": "Outsourcing or vendor governance is not one of the listed governance kinds"
+   "note": "Outsourcing or vendor governance is not one of the listed governance kinds",
+   "category_before": null
   },
   {
    "title": "Growth Lead",
@@ -502,13 +504,14 @@
   {
    "title": "Investment Banking Associate/ Senior Associate, Mergers and Acquisitions ('M&A')",
    "company": "Citigroup",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "ib_associate",
    "level": "senior",
    "ladder": "bank",
    "sure": false,
-   "note": "Two grades (Associate / Senior Associate); took the higher"
+   "note": "Two grades (Associate / Senior Associate); took the higher",
+   "category_before": null
   },
   {
    "title": "Assistant Treasurer",
@@ -617,12 +620,13 @@
   {
    "title": "Lead Software Engineer - AI/Supply Chain Full Stack",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": null,
    "level": null,
    "ladder": "bank",
-   "note": "Engineer"
+   "note": "Engineer",
+   "category_before": null
   },
   {
    "title": "Retail Sales Associate",
@@ -656,13 +660,14 @@
   {
    "title": "Enterprise Risk Management, Vice President",
    "company": "State Street",
-   "category": null,
+   "category": "Asset management",
    "industry": "Commercial Banks",
    "role": "enterprise_risk",
    "level": "vp",
    "ladder": "corporate",
    "sure": false,
-   "note": "State Street is a bank but not on the bank list and has no category; as a bank VP this would be senior"
+   "note": "State Street is a bank but not on the bank list and has no category; as a bank VP this would be senior",
+   "category_before": null
   },
   {
    "title": "Business Unit Finance Manager Hauling -DC/ Richmond Markets",
@@ -696,11 +701,12 @@
   {
    "title": "Investment Banking Division - Industrials  - Vice President - London",
    "company": "Morgan Stanley",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "ib_associate",
    "level": "senior",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "GCIB Corporate Coverage - Global Relationship Manager, Director",
@@ -864,11 +870,12 @@
   {
    "title": "Product Director - Employee Platforms Data Product Management",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "product_manager",
    "level": "director",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Manager - Global Media Partnerships & Procurement",
@@ -906,12 +913,13 @@
   {
    "title": "Executive Director, Corporate Banking",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "corporate_banking",
    "level": "director",
    "ladder": "bank",
-   "written": true
+   "written": true,
+   "category_before": null
   },
   {
    "title": "Technical GTM Strategy & Operations Lead",
@@ -929,10 +937,10 @@
    "company": "Intel",
    "category": null,
    "industry": "Semiconductors and Other Electronic Components",
-   "role": null,
+   "role": "financial_manager",
    "level": "mid",
    "ladder": "corporate",
-   "note": "Plain financial analyst excluded",
+   "note": "relabelled 2026-10-13: analyst grades of this function now count as the role's entry level (first label: no role)",
    "written": true
   },
   {
@@ -1018,13 +1026,14 @@
   {
    "title": "Bank Teller",
    "company": "Wells Fargo",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": null,
    "level": null,
    "ladder": "bank",
    "note": "Teller",
-   "written": true
+   "written": true,
+   "category_before": null
   },
   {
    "title": "Program Manager, Amazon Flex Mexico",
@@ -1038,11 +1047,12 @@
   {
    "title": "Amazon Cobrand Strategy Vice President",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "strategy_manager",
    "level": "senior",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "3PL Program Manager",
@@ -1094,13 +1104,14 @@
   {
    "title": "Wealth Investment Associate",
    "company": "M&T Bank",
-   "category": null,
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks",
    "role": null,
    "level": "associate",
    "ladder": "corporate",
    "sure": false,
-   "note": "Wealth support role; could be investment_manager"
+   "note": "Wealth support role; could be investment_manager",
+   "category_before": null
   },
   {
    "title": "Senior Product Marketing Manager, Desktop AI Products",
@@ -1146,12 +1157,13 @@
   {
    "title": "Analyst, Technology M&A",
    "company": "Goldman Sachs Group",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "ib_associate",
    "level": "associate",
    "ladder": "bank",
-   "written": true
+   "written": true,
+   "category_before": null
   },
   {
    "title": "Manager, Sales Compensation",
@@ -1215,11 +1227,12 @@
   {
    "title": "Business Transformation Senior Assoc",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "transformation",
    "level": "senior",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Finance Systems Manager",
@@ -1359,11 +1372,12 @@
   {
    "title": "Business Banking Relationship Manager- Cherry Hill, NJ",
    "company": "Bank of America",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "commercial_banking_rm",
    "level": "mid",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Director of Sales Operations",
@@ -1409,11 +1423,12 @@
   {
    "title": "Business Banking Relationship Manager - Rochester, NY",
    "company": "M&T Bank",
-   "category": null,
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks",
    "role": "commercial_banking_rm",
    "level": "mid",
-   "ladder": "corporate"
+   "ladder": "corporate",
+   "category_before": null
   },
   {
    "title": "Senior Manager, FP&A",
@@ -1449,12 +1464,13 @@
   {
    "title": "Tech Senior Auditor- Commercial & Investment Banking",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": null,
    "level": null,
    "ladder": "bank",
-   "note": "Auditor"
+   "note": "Auditor",
+   "category_before": null
   },
   {
    "title": "Product Manager, Portfolio Analytics",
@@ -1564,22 +1580,24 @@
   {
    "title": "Vice President, Treasury",
    "company": "Bank of New York (BNY)",
-   "category": null,
+   "category": "Asset management",
    "industry": "Commercial Banks",
    "role": "treasury",
    "level": "vp",
    "ladder": "corporate",
    "sure": false,
-   "note": "BNY is a bank but not on the bank list and has no category; as a bank VP this would be senior"
+   "note": "BNY is a bank but not on the bank list and has no category; as a bank VP this would be senior",
+   "category_before": null
   },
   {
    "title": "AM Data Product Manager - VP",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "product_manager",
    "level": "senior",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Sr. Product Manager, External Fulfillment",
@@ -1604,13 +1622,14 @@
   {
    "title": "AI Strategy, Assistant Vice President",
    "company": "State Street",
-   "category": null,
+   "category": "Asset management",
    "industry": "Commercial Banks",
    "role": "tech_strategy",
    "level": "mid",
    "ladder": "corporate",
    "sure": false,
-   "note": "AVP at a bank that is not on the bank list"
+   "note": "AVP at a bank that is not on the bank list",
+   "category_before": null
   },
   {
    "title": "Marketing Manager, Lifecycle",
@@ -1668,13 +1687,14 @@
   {
    "title": "Gift City Branch - Market Operations Lead, Vice President",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "operations_manager",
    "level": "senior",
    "ladder": "bank",
    "sure": false,
-   "note": "Markets operations lead at a bank"
+   "note": "Markets operations lead at a bank",
+   "category_before": null
   },
   {
    "title": "VP, Mergers & Acquisitions",
@@ -1990,13 +2010,14 @@
   {
    "title": "Business Banking Senior Relationship Manager - Nashville Market",
    "company": "Bank of America",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "commercial_banking_rm",
    "level": "senior",
    "ladder": "bank",
    "sure": false,
-   "note": "Senior is not a bank grade word in the spec; could be mid"
+   "note": "Senior is not a bank grade word in the spec; could be mid",
+   "category_before": null
   },
   {
    "title": "Benefits Manager",
@@ -2115,13 +2136,14 @@
   {
    "title": "Consumer Banking – Deposits 2.0,  Product Portfolio Operations Manager, Vice President",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": null,
    "level": "senior",
    "ladder": "bank",
    "sure": false,
-   "note": "Product portfolio operations; product operations is excluded from operations_manager"
+   "note": "Product portfolio operations; product operations is excluded from operations_manager",
+   "category_before": null
   },
   {
    "title": "Business Operations Associate",
@@ -2147,12 +2169,13 @@
   {
    "title": "Asset Management Product Owner (Derivatives) - Vice President",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": null,
    "level": "senior",
    "ladder": "bank",
-   "note": "Product owner excluded"
+   "note": "Product owner excluded",
+   "category_before": null
   },
   {
    "title": "Senior Technical Program Manager, Platform Operations",
@@ -2227,11 +2250,12 @@
   {
    "title": "Corporate Banking Intern - Summer Analyst, Power & Renewable Energy (Santa Monica)",
    "company": "First Citizens BancShares",
-   "category": null,
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks",
    "role": "corporate_banking",
    "level": "associate",
-   "ladder": "corporate"
+   "ladder": "corporate",
+   "category_before": null
   },
   {
    "title": "Commercial Sales Director",
@@ -2385,11 +2409,12 @@
   {
    "title": "Corporate Banking Sr Analyst - Global Capital Management",
    "company": "Citigroup",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "corporate_banking",
    "level": "associate",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Purchasing Manager General Admin",
@@ -2461,11 +2486,12 @@
   {
    "title": "Kinexys Digital Assets - Product Manager - Vice President",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "product_manager",
    "level": "senior",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Senior People Program Manager",
@@ -2481,12 +2507,13 @@
   {
    "title": "AI Strategy Lead",
    "company": "IBM",
-   "category": null,
+   "category": "Consulting and advisory",
    "industry": "Information Technology Services",
    "role": "tech_strategy",
    "level": "staff",
    "ladder": "corporate",
-   "written": true
+   "written": true,
+   "category_before": null
   },
   {
    "title": "Recruiting Manager",
@@ -2521,13 +2548,14 @@
   {
    "title": "Head of Product Strategy, Research & Partner Engagement | U.S. Consumer Cards",
    "company": "Citigroup",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "product_strategy",
    "level": "vp",
    "ladder": "bank",
    "sure": false,
-   "note": "Head of has no bank-ladder grade; read as head of a function"
+   "note": "Head of has no bank-ladder grade; read as head of a function",
+   "category_before": null
   },
   {
    "title": "Senior Global Sourcing Manager, Semiconductor (Chips)",
@@ -2581,13 +2609,14 @@
   {
    "title": "Fraud Manager III- Business Operations",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": null,
    "level": "mid",
    "ladder": "bank",
    "sure": false,
-   "note": "Fraud manager within business operations"
+   "note": "Fraud manager within business operations",
+   "category_before": null
   },
   {
    "title": "Supply Chain Ops Manager",
@@ -3168,13 +3197,14 @@
   {
    "title": "Vice President, Compliance & Control - Pershing",
    "company": "Bank of New York (BNY)",
-   "category": null,
+   "category": "Asset management",
    "industry": "Commercial Banks",
    "role": "compliance",
    "level": "vp",
    "ladder": "corporate",
    "sure": false,
-   "note": "BNY is a bank but category is null and it is not in the named list, so corporate ladder gives vp; a bank VP is really mid-career"
+   "note": "BNY is a bank but category is null and it is not in the named list, so corporate ladder gives vp; a bank VP is really mid-career",
+   "category_before": null
   },
   {
    "title": "FP&A Analyst",
@@ -3221,13 +3251,14 @@
   {
    "title": "Lead Analytics Consultant Branch Banking",
    "company": "Wells Fargo",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "business_analytics",
    "level": "mid",
    "ladder": "bank",
    "sure": false,
-   "note": "'Lead Analytics Consultant' is an individual analyst grade at Wells; lead has no bank-ladder grade"
+   "note": "'Lead Analytics Consultant' is an individual analyst grade at Wells; lead has no bank-ladder grade",
+   "category_before": null
   },
   {
    "title": "Associate/Senior Associate, Client Services - Portfolio Analytics and Reporting (6 Month Contract)",
@@ -3263,13 +3294,14 @@
   {
    "title": "Private Wealth Advisor",
    "company": "Morgan Stanley",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": null,
    "level": "mid",
    "ladder": "bank",
    "note": "wealth advisor",
-   "written": true
+   "written": true,
+   "category_before": null
   },
   {
    "title": "Talent Development and Service Manager",
@@ -3294,13 +3326,14 @@
   {
    "title": "Compliance Analyst",
    "company": "Charles Schwab",
-   "category": null,
+   "category": "Asset management",
    "industry": "Securities",
-   "role": null,
+   "role": "compliance",
    "level": "associate",
    "ladder": "corporate",
-   "note": "compliance analyst excluded by spec",
-   "written": true
+   "note": "relabelled 2026-10-13: analyst grades of this function now count as the role's entry level (first label: no role)",
+   "written": true,
+   "category_before": null
   },
   {
    "title": "Product Strategy & Operations",
@@ -3358,13 +3391,14 @@
   {
    "title": "Global Corporate Banking - Large Cap Analyst/Junior Associate - Helsinki",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "corporate_banking",
    "level": "associate",
    "ladder": "bank",
    "sure": false,
-   "note": "Analyst/Junior Associate: analyst=associate, junior associate between associate and mid"
+   "note": "Analyst/Junior Associate: analyst=associate, junior associate between associate and mid",
+   "category_before": null
   },
   {
    "title": "Senior Manager, Finance",
@@ -3487,11 +3521,12 @@
   {
    "title": "Latin America Investment Banking - Analyst",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "ib_associate",
    "level": "associate",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Corporate Governance Associate Senior",
@@ -3547,11 +3582,12 @@
   {
    "title": "Product Manager Senior- Data Platform",
    "company": "PNC Financial Services Group",
-   "category": null,
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks",
    "role": "product_manager",
    "level": "senior",
-   "ladder": "corporate"
+   "ladder": "corporate",
+   "category_before": null
   },
   {
    "title": "Compensation Specialist",
@@ -3559,9 +3595,9 @@
    "category": "Strategy consulting",
    "industry": null,
    "role": "comp_benefits",
-   "level": "mid",
+   "level": "associate",
    "ladder": "corporate",
-   "note": "specialist grade"
+   "note": "relabelled 2026-10-13: a specialist with no \"senior\" is an entry grade on the corporate ladder (first label: mid)"
   },
   {
    "title": "Principal Domain Architect- M&A",
@@ -3934,11 +3970,12 @@
   {
    "title": "Senior Associate, Product Management-Home Lending Transformation",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "product_manager",
    "level": "senior",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Product Operations, Brand Partnerships",
@@ -4087,13 +4124,14 @@
   {
    "title": "Treasury Management Sales Officer",
    "company": "U.S. Bancorp",
-   "category": null,
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks",
    "role": null,
    "level": "mid",
    "ladder": "corporate",
    "note": "treasury services sales",
-   "written": true
+   "written": true,
+   "category_before": null
   },
   {
    "title": "Chief Operating Officer",
@@ -4209,20 +4247,22 @@
   {
    "title": "Banking - Corporate Banking, Summer Analyst, Korea, Republic of – APAC, 2027",
    "company": "Citigroup",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "corporate_banking",
    "level": "associate",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Global Banking & Markets, Investment Banking Division, Advisory Group, Analyst, Tokyo",
    "company": "Goldman Sachs Group",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "ib_associate",
    "level": "associate",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Supply Chain Program Manager 1",
@@ -4301,13 +4341,14 @@
   {
    "title": "Treasury Associate, FX & Interest Rate Hedging - PFS",
    "company": "BlackRock",
-   "category": null,
+   "category": "Asset management",
    "industry": "Securities",
    "role": "treasury",
    "level": "associate",
    "ladder": "corporate",
    "sure": false,
-   "note": "BlackRock has null category so corporate ladder; may be fund-level rather than corporate treasury"
+   "note": "BlackRock has null category so corporate ladder; may be fund-level rather than corporate treasury",
+   "category_before": null
   },
   {
    "title": "Corporate Development Manager",
@@ -4351,13 +4392,14 @@
   {
    "title": "Sales Leader I - Healthcare Business Banking",
    "company": "PNC Financial Services Group",
-   "category": null,
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks",
    "role": "commercial_banking_rm",
    "level": "staff",
    "ladder": "corporate",
    "sure": false,
-   "note": "leads a team of business bankers (could be sales_manager); 'Leader I' mixes lead and grade I"
+   "note": "leads a team of business bankers (could be sales_manager); 'Leader I' mixes lead and grade I",
+   "category_before": null
   },
   {
    "title": "Associate - Financial Restructuring, Chicago",
@@ -4400,12 +4442,13 @@
   {
    "title": "Investment Banking Analyst - Advisory, Business Services",
    "company": "Citizens Financial Group",
-   "category": null,
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks",
    "role": "ib_associate",
    "level": "associate",
    "ladder": "corporate",
-   "note": "Citizens is not on the bank list and has null category; level is the same on either ladder"
+   "note": "Citizens is not on the bank list and has null category; level is the same on either ladder",
+   "category_before": null
   },
   {
    "title": "Project Finance - Investment Banking - Director",
@@ -4625,11 +4668,12 @@
   {
    "title": "Investment Banking Senior Associate",
    "company": "Citigroup",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "ib_associate",
    "level": "senior",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Senior Enterprise Sales Manager - Wolt Ads",
@@ -4645,12 +4689,13 @@
   {
    "title": "Technology Product Owner - Vice President",
    "company": "Citigroup",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": null,
    "level": "senior",
    "ladder": "bank",
-   "note": "product owner"
+   "note": "product owner",
+   "category_before": null
   },
   {
    "title": "Senior Technical Program Manager, Digital Transformation",
@@ -5025,12 +5070,13 @@
   {
    "title": "Relationship Manager, Middle Market Banking",
    "company": "Wells Fargo",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "commercial_banking_rm",
    "level": "mid",
    "ladder": "bank",
-   "written": true
+   "written": true,
+   "category_before": null
   },
   {
    "title": "Investment Associate",
@@ -5183,10 +5229,10 @@
    "company": "Boeing",
    "category": null,
    "industry": "Aerospace & Defense",
-   "role": null,
+   "role": "supply_chain",
    "level": "associate",
    "ladder": "corporate",
-   "note": "supply chain analyst excluded",
+   "note": "relabelled 2026-10-13: analyst grades of this function now count as the role's entry level (first label: no role)",
    "written": true
   },
   {
@@ -5652,11 +5698,12 @@
   {
    "title": "Asset & Wealth Management (Private)– Real Estate Asset Management Analyst - Bengaluru",
    "company": "Goldman Sachs Group",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "re_asset_manager",
    "level": "associate",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Technical Governance Manager",
@@ -5792,13 +5839,14 @@
   {
    "title": "AWM, GS Ayco, Workplace Advisory Solutions, Regional Business Development, Vice President - Chicago",
    "company": "Goldman Sachs Group",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "bizdev",
    "level": "senior",
    "ladder": "bank",
    "sure": false,
-   "note": "regional business development at a wealth unit is sales"
+   "note": "regional business development at a wealth unit is sales",
+   "category_before": null
   },
   {
    "title": "Regional Sales Manager",
@@ -5822,12 +5870,13 @@
   {
    "title": "Operational Risk Officer",
    "company": "Citigroup",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "enterprise_risk",
    "level": "mid",
    "ladder": "bank",
-   "written": true
+   "written": true,
+   "category_before": null
   },
   {
    "title": "Sr. Program Manager III, R2L - Rural Super Rural Plus (RSR+)",
@@ -5945,11 +5994,12 @@
   {
    "title": "U.S. Banks Financial Planning & Analysis - Director",
    "company": "Morgan Stanley",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "fpa",
    "level": "director",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Senior Product Manager, Hardware",
@@ -5963,11 +6013,12 @@
   {
    "title": "Payments- Cross Currency Product Manager- Vice President",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "product_manager",
    "level": "senior",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Project Leader",
@@ -6053,13 +6104,14 @@
   {
    "title": "Technology Product Management Lead Analyst, Vice President",
    "company": "Citigroup",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "product_manager",
    "level": "senior",
    "ladder": "bank",
    "sure": false,
-   "note": "'Lead Analyst' in technology product management"
+   "note": "'Lead Analyst' in technology product management",
+   "category_before": null
   },
   {
    "title": "Director, Financial Planning & Analysis",
@@ -6107,13 +6159,14 @@
   {
    "title": "Wealth Management Solution - International Insurance Client & Advisor Experience (Asia Focus) - Product Manager - Vice President / Associate",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "product_manager",
    "level": "senior",
    "ladder": "bank",
    "sure": false,
-   "note": "two grades offered (VP / Associate)"
+   "note": "two grades offered (VP / Associate)",
+   "category_before": null
   },
   {
    "title": "SAP Finance Consultant",
@@ -6200,22 +6253,24 @@
   {
    "title": "Software Engineer, Investment Banking Technology",
    "company": "Morgan Stanley",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": null,
    "level": "mid",
    "ladder": "bank",
    "note": "engineer",
-   "written": true
+   "written": true,
+   "category_before": null
   },
   {
    "title": "Strategy Associate",
    "company": "JPMorgan Chase",
-   "category": null,
+   "category": "Investment banking",
    "industry": "Commercial Banks",
    "role": "corp_strategy_analyst",
    "level": "mid",
-   "ladder": "bank"
+   "ladder": "bank",
+   "category_before": null
   },
   {
    "title": "Portfolio Manager",
@@ -6308,6 +6363,1813 @@
    "ladder": "corporate",
    "sure": false,
    "note": "'PM' unexpanded: program or product manager; also HR business operations"
+  },
+  {
+   "title": "Summer Associate",
+   "company": "Goldman Sachs Group",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Summer Analyst",
+   "company": "Evercore",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "2027 Summer Analyst",
+   "company": "Jefferies",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "2028 US Analyst Program (Full-Time)",
+   "company": "Warburg Pincus",
+   "category": "Private equity",
+   "industry": null,
+   "role": "pe_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Analyst Program",
+   "company": "Lazard",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Full-Time Analyst 2027",
+   "company": "Moelis & Company",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "2027 Full-time Associate",
+   "company": "Houlihan Lokey",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Class-year full-time Associate: read as a campus/programme title (associate per addendum); as a plain bank Associate it would be mid."
+  },
+  {
+   "title": "Campus Analyst",
+   "company": "PJT Partners",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "2027 Full-Time Analyst, Valuations & Opinions Group",
+   "company": "Lincoln International",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Valuations & opinions is an advisory group at an investment bank but not M&A, capital markets or coverage; a reader could call it null."
+  },
+  {
+   "title": "2027 Summer Analyst Intern, Valuations & Opinions Group",
+   "company": "Lincoln International",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Same as n=8: valuations & opinions group, not core investment banking."
+  },
+  {
+   "title": "Debt Advisory Internship",
+   "company": "Lincoln International",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Debt advisory is capital-markets advisory at a bank."
+  },
+  {
+   "title": "2028 US Advisory Summer Analyst",
+   "company": "LionTree",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Investment Banking Associate - Technology",
+   "company": "William Blair",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "mid",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Sector word, not technology staff."
+  },
+  {
+   "title": "Investment Banking Analyst, Technology Group",
+   "company": "William Blair",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Vice President, Technology Investment Banking",
+   "company": "Jefferies",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "senior",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Analyst, Technology M&A",
+   "company": "Evercore",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Technology Analyst",
+   "company": "Goldman Sachs Group",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Technology staff."
+  },
+  {
+   "title": "Investment Banking Technology Engineer",
+   "company": "Morgan Stanley",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": null,
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Engineer."
+  },
+  {
+   "title": "Summer Analyst - Technology Division",
+   "company": "Goldman Sachs Group",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Technology division is a support function."
+  },
+  {
+   "title": "2027 Summer Analyst - Operations",
+   "company": "Morgan Stanley",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": "operations_manager",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Support function, so not ib_associate; an operations programme analyst reads as the entry title 'Operations Analyst', but a reader could say null (bank back-office)."
+  },
+  {
+   "title": "Summer Analyst, Compliance",
+   "company": "Jefferies",
+   "category": "Investment banking",
+   "industry": null,
+   "role": "compliance",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Support function, so not ib_associate; a compliance programme analyst reads as the entry title 'Compliance Analyst', but a reader could say null."
+  },
+  {
+   "title": "Investment Banking Summer Associate (MBA)",
+   "company": "Bank of America",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "MBA summer associate at a bank is the bank's own role, not ldp."
+  },
+  {
+   "title": "Global Banking & Markets, Investment Banking, Analyst",
+   "company": "Goldman Sachs Group",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Associate, Leveraged Finance",
+   "company": "JPMorgan Chase",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "mid",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Vice President, Healthcare Coverage",
+   "company": "Citigroup",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "senior",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Analyst, Private Credit",
+   "company": "Blackstone",
+   "category": "Private equity",
+   "industry": "Diversified Financials",
+   "role": "investment_manager",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Private credit investor at a PE-category firm: not private equity, growth or buyout, so investment_manager; pe_associate is defensible."
+  },
+  {
+   "title": "Associate, Private Equity",
+   "company": "KKR",
+   "category": "Private equity",
+   "industry": "Securities",
+   "role": "pe_associate",
+   "level": "mid",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Summer Analyst",
+   "company": "Apollo",
+   "category": "Private equity",
+   "industry": null,
+   "role": "pe_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Analyst",
+   "company": "Audax Group",
+   "category": "Private equity",
+   "industry": null,
+   "role": "pe_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Bare rank counts at a PE firm."
+  },
+  {
+   "title": "Associate, Private Debt",
+   "company": "Audax Group",
+   "category": "Private equity",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "mid",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Private debt investor at a PE firm; same question as n=25."
+  },
+  {
+   "title": "Analyst, Primary",
+   "company": "Adams Street Partners",
+   "category": "Private equity",
+   "industry": null,
+   "role": "pe_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "'Primary' = primary fund investments at a fund-of-funds; investing in PE funds rather than companies, could be investment_manager."
+  },
+  {
+   "title": "Fund Accounting Analyst",
+   "company": "KKR",
+   "category": "Private equity",
+   "industry": "Securities",
+   "role": null,
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Fund accounting."
+  },
+  {
+   "title": "Analyst, Investor Relations",
+   "company": "Apollo",
+   "category": "Private equity",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Investor relations."
+  },
+  {
+   "title": "Summer Associate",
+   "company": "General Atlantic",
+   "category": "Private equity",
+   "industry": null,
+   "role": "pe_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Investor",
+   "company": "Bessemer Venture Partners",
+   "category": "Venture capital",
+   "industry": null,
+   "role": "vc_associate",
+   "level": "mid",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "No grade word."
+  },
+  {
+   "title": "Summer Associate",
+   "company": "Andreessen Horowitz",
+   "category": "Venture capital",
+   "industry": null,
+   "role": "vc_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Analyst",
+   "company": "Insight Partners",
+   "category": "Venture capital",
+   "industry": null,
+   "role": "vc_associate",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Category given as venture capital."
+  },
+  {
+   "title": "Research Analyst Intern",
+   "company": "Cohen & Steers",
+   "category": "Asset management",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Investment Analyst, Equity",
+   "company": "BlackRock",
+   "category": "Asset management",
+   "industry": "Securities",
+   "role": "investment_manager",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Summer Analyst, Portfolio Management",
+   "company": "BlackRock",
+   "category": "Asset management",
+   "industry": "Securities",
+   "role": "investment_manager",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Sector Analyst, Proprietary Research",
+   "company": "Point72",
+   "category": "Asset management",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Research analyst at an asset manager, but 'Proprietary Research' may be a market-intelligence support group rather than investing."
+  },
+  {
+   "title": "Client Service Associate",
+   "company": "State Street",
+   "category": "Asset management",
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "mid",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Client service."
+  },
+  {
+   "title": "Technology Summer Analyst",
+   "company": "BlackRock",
+   "category": "Asset management",
+   "industry": "Securities",
+   "role": null,
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Technology."
+  },
+  {
+   "title": "Summer Business Analyst",
+   "company": "McKinsey & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Associate Consultant Intern",
+   "company": "Bain & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Life Sciences Summer Analyst Intern (Summer 2027)",
+   "company": "ClearView Healthcare Partners",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Analyst",
+   "company": "Altman Solon",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Associate",
+   "company": "Kaiser Associates",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Business Analyst",
+   "company": "Oliver Wyman",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Summer Consultant",
+   "company": "Boston Consulting Group",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Analyst, Economic Consulting",
+   "company": "Brattle Group",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Economic (litigation/regulatory) consulting is not clearly 'strategy, management or business consulting'; category says Strategy consulting."
+  },
+  {
+   "title": "Research Analyst",
+   "company": "Bates White",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Research Analyst is the entry consulting grade at this economic consulting firm, but it is not a listed bare rank and could be read as research support."
+  },
+  {
+   "title": "Executive Assistant",
+   "company": "Bain & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Administrative."
+  },
+  {
+   "title": "Recruiting Coordinator",
+   "company": "McKinsey & Company",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Recruiting."
+  },
+  {
+   "title": "Advisory Intern",
+   "company": "KPMG",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Risk Advisory Intern",
+   "company": "AlixPartners",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Advisory intern in a risk practice; 'risk' is also a named support function in the bank bullet, and it is not strategy consulting."
+  },
+  {
+   "title": "Performance | Internship",
+   "company": "AlixPartners",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Title is only a practice name (performance improvement) plus internship; read as an advisory intern."
+  },
+  {
+   "title": "Business Analyst",
+   "company": "Deloitte",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Bare rank at a Big Four firm."
+  },
+  {
+   "title": "Analyst",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Bare rank at a general advisory firm."
+  },
+  {
+   "title": "Associate",
+   "company": "PwC",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Bare rank at a Big Four firm."
+  },
+  {
+   "title": "Associate",
+   "company": "Accordion",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Bare rank at a general advisory firm."
+  },
+  {
+   "title": "Tax Intern",
+   "company": "EY",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Tax."
+  },
+  {
+   "title": "Audit Associate",
+   "company": "KPMG",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Audit."
+  },
+  {
+   "title": "Strategy Consulting Intern - Summer 2027",
+   "company": "Deloitte",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Technology Consulting Intern",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Technology consulting intern."
+  },
+  {
+   "title": "Consulting Analyst, Strategy",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Not a bare rank: says consulting and strategy."
+  },
+  {
+   "title": "Senior Associate, Restructuring",
+   "company": "Ankura",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Restructuring advisory at a consulting firm; not strategy consulting in the narrow sense, and restructuring is listed under ib_associate only for banks."
+  },
+  {
+   "title": "MBA Internship",
+   "company": "PepsiCo",
+   "category": null,
+   "industry": "Food Consumer Products",
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Marketing Intern - MBA",
+   "company": "Clorox",
+   "category": "Consumer goods",
+   "industry": null,
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "MBA Summer Associate, Strategy",
+   "company": "Walt Disney",
+   "category": null,
+   "industry": "Entertainment",
+   "role": "corp_strategy_analyst",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "relabelled 2026-10-13: an MBA internship that names a function is that role at entry level; the programme role is for titles that name none (first label: ldp)"
+  },
+  {
+   "title": "Finance MBA Intern",
+   "company": "Microsoft",
+   "category": null,
+   "industry": "Computer Software",
+   "role": "ldp",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Software Engineering Intern",
+   "company": "Microsoft",
+   "category": null,
+   "industry": "Computer Software",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Engineering."
+  },
+  {
+   "title": "Marketing Intern",
+   "company": "Nike",
+   "category": null,
+   "industry": "Apparel",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Non-MBA marketing intern at an ordinary company: not in the entry-title table and not an MBA title; the general 'programme titles count' sentence could make it marketing_manager."
+  },
+  {
+   "title": "Financial Analyst",
+   "company": "Intel",
+   "category": null,
+   "industry": "Semiconductors and Other Electronic Components",
+   "role": "financial_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Senior Financial Analyst",
+   "company": "Home Depot",
+   "category": null,
+   "industry": "Specialty Retailers: Other",
+   "role": "financial_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Finance Analyst II",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "financial_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Level conflict: main text puts grade II at senior, addendum puts Analyst without 'Senior' at associate; addendum followed. A human might say mid."
+  },
+  {
+   "title": "Finance Associate",
+   "company": "Ramp",
+   "category": null,
+   "industry": null,
+   "role": "financial_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Staff Accountant",
+   "company": "Cisco Systems",
+   "category": null,
+   "industry": "Network and Other Communications Equipment",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Accountant."
+  },
+  {
+   "title": "Accounts Payable Specialist",
+   "company": "FedEx",
+   "category": null,
+   "industry": "Mail, Package, and Freight Delivery",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Accounts payable."
+  },
+  {
+   "title": "Supply Chain Analyst",
+   "company": "Boeing",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": "supply_chain",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Supply Chain Specialist",
+   "company": "Tesla",
+   "category": null,
+   "industry": "Motor Vehicles & Parts",
+   "role": "supply_chain",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Supply Chain Planner",
+   "company": "Nike",
+   "category": null,
+   "industry": "Apparel",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Planner."
+  },
+  {
+   "title": "Senior Supply Chain Analyst",
+   "company": "PepsiCo",
+   "category": null,
+   "industry": "Food Consumer Products",
+   "role": "supply_chain",
+   "level": "mid",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Procurement Analyst",
+   "company": "Pfizer",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": "procurement",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Procurement Specialist",
+   "company": "Lockheed Martin",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": "procurement",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Buyer",
+   "company": "General Motors",
+   "category": null,
+   "industry": "Motor Vehicles & Parts",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Buyer."
+  },
+  {
+   "title": "Sourcing Analyst",
+   "company": "Delta Air Lines",
+   "category": null,
+   "industry": "Airlines",
+   "role": "strategic_sourcing",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Talent Sourcing Specialist",
+   "company": "Meta Platforms",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Talent sourcing is recruiting."
+  },
+  {
+   "title": "Category Analyst",
+   "company": "Kroger",
+   "category": null,
+   "industry": "Food and Drug Stores",
+   "role": "category_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Assistant Category Manager",
+   "company": "Target",
+   "category": null,
+   "industry": "General Merchandisers",
+   "role": "category_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Compliance Analyst",
+   "company": "Charles Schwab",
+   "category": null,
+   "industry": "Securities",
+   "role": "compliance",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Compliance Associate",
+   "company": "Coinbase",
+   "category": null,
+   "industry": null,
+   "role": "compliance",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Senior Compliance Specialist",
+   "company": "Humana",
+   "category": null,
+   "industry": "Health Care: Insurance and Managed Care",
+   "role": "compliance",
+   "level": "mid",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Risk Analyst",
+   "company": "American Express",
+   "category": null,
+   "industry": "Diversified Financials",
+   "role": "enterprise_risk",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Operational Risk Analyst",
+   "company": "Citigroup",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": "enterprise_risk",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Credit Risk Analyst",
+   "company": "Capital One Financial",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Credit Risk Analyst is excluded from enterprise_risk and pointed to commercial banking, which needs a commercial-banking category or title word; Capital One is a bank but category is null."
+  },
+  {
+   "title": "Risk Engineer",
+   "company": "Chubb",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Risk engineer."
+  },
+  {
+   "title": "Governance Analyst",
+   "company": "Mastercard",
+   "category": null,
+   "industry": "Financial Data Services",
+   "role": "governance",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Operations Analyst",
+   "company": "UnitedHealth Group",
+   "category": null,
+   "industry": "Health Care: Insurance and Managed Care",
+   "role": "operations_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Operations Supervisor",
+   "company": "FedEx",
+   "category": null,
+   "industry": "Mail, Package, and Freight Delivery",
+   "role": "operations_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Operations Associate",
+   "company": "Walmart",
+   "category": null,
+   "industry": "General Merchandisers",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Hourly operations associate."
+  },
+  {
+   "title": "Warehouse Operations Specialist",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Warehouse/hourly."
+  },
+  {
+   "title": "Machine Operator",
+   "company": "3M",
+   "category": null,
+   "industry": "Chemicals",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Operator."
+  },
+  {
+   "title": "Marketing Associate",
+   "company": "Peloton",
+   "category": null,
+   "industry": null,
+   "role": "marketing_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Marketing Analyst",
+   "company": "Target",
+   "category": null,
+   "industry": "General Merchandisers",
+   "role": "marketing_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Marketing Specialist",
+   "company": "HubSpot",
+   "category": null,
+   "industry": null,
+   "role": "marketing_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Marketing Coordinator",
+   "company": "Nike",
+   "category": null,
+   "industry": "Apparel",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Coordinator."
+  },
+  {
+   "title": "Growth Associate",
+   "company": "Duolingo",
+   "category": null,
+   "industry": null,
+   "role": "growth_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Growth Analyst",
+   "company": "DoorDash",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "growth_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "HR Analyst",
+   "company": "Netflix",
+   "category": null,
+   "industry": "Entertainment",
+   "role": "hr_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Human Resources Associate",
+   "company": "FedEx",
+   "category": null,
+   "industry": "Mail, Package, and Freight Delivery",
+   "role": "hr_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "HR Specialist",
+   "company": "Comcast",
+   "category": null,
+   "industry": "Telecommunications",
+   "role": "hr_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "HR Coordinator",
+   "company": "Apple",
+   "category": null,
+   "industry": "Computers, Office Equipment",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Coordinator."
+  },
+  {
+   "title": "Recruiter",
+   "company": "Stripe",
+   "category": null,
+   "industry": "Fintech;Growth",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Recruiter."
+  },
+  {
+   "title": "Learning & Development Specialist",
+   "company": "CVS Health",
+   "category": null,
+   "industry": "Health Care: Pharmacy and Other Services",
+   "role": "org_dev",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Talent Development Analyst",
+   "company": "Comcast",
+   "category": null,
+   "industry": "Telecommunications",
+   "role": "org_dev",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Program Analyst",
+   "company": "Lockheed Martin",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": "program_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Associate Program Manager",
+   "company": "Microsoft",
+   "category": null,
+   "industry": "Computer Software",
+   "role": "program_manager",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Program Coordinator",
+   "company": "Boeing",
+   "category": null,
+   "industry": "Aerospace & Defense",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Coordinator."
+  },
+  {
+   "title": "Technical Program Analyst",
+   "company": "Alphabet",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Technical program."
+  },
+  {
+   "title": "Partnerships Associate",
+   "company": "OpenAI",
+   "category": null,
+   "industry": "Enterprise;Growth;Infra",
+   "role": "partnerships",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Business Development Associate",
+   "company": "Thermo Fisher Scientific",
+   "category": null,
+   "industry": "Scientific,Photographic and Control Equipment",
+   "role": "bizdev",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Business Development Analyst",
+   "company": "AQR",
+   "category": "Asset management",
+   "industry": null,
+   "role": "bizdev",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Business development at an asset manager is client-facing fundraising, still the listed entry title."
+  },
+  {
+   "title": "Business Development Representative",
+   "company": "Rippling",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "BDR."
+  },
+  {
+   "title": "Customer Success Associate",
+   "company": "Gong",
+   "category": null,
+   "industry": null,
+   "role": "customer_success",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Customer Success Specialist",
+   "company": "Zendesk",
+   "category": null,
+   "industry": null,
+   "role": "customer_success",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Customer Support Specialist",
+   "company": "Shopify",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Customer support."
+  },
+  {
+   "title": "Transformation Analyst",
+   "company": "Kraft Heinz",
+   "category": null,
+   "industry": "Food Consumer Products",
+   "role": "transformation",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Continuous Improvement Analyst",
+   "company": "Danaher",
+   "category": null,
+   "industry": "Medical Products and Equipment",
+   "role": "opex",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Continuous Improvement Engineer",
+   "company": "3M",
+   "category": null,
+   "industry": "Chemicals",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Engineer."
+  },
+  {
+   "title": "Commercial Banking Analyst",
+   "company": "Wells Fargo",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": "commercial_banking_rm",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Credit Analyst",
+   "company": "M&T Bank",
+   "category": "Commercial and corporate banking",
+   "industry": "Commercial Banks",
+   "role": "commercial_banking_rm",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Commercial Banking Development Program Analyst",
+   "company": "PNC Financial Services Group",
+   "category": "Commercial and corporate banking",
+   "industry": "Commercial Banks",
+   "role": "commercial_banking_rm",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Programme title belongs to the role the programme is for; ldp is the alternative."
+  },
+  {
+   "title": "Credit Analyst",
+   "company": "General Motors",
+   "category": null,
+   "industry": "Motor Vehicles & Parts",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Credit analyst outside a bank."
+  },
+  {
+   "title": "Personal Banker",
+   "company": "U.S. Bancorp",
+   "category": "Commercial and corporate banking",
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": null,
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Personal banker."
+  },
+  {
+   "title": "Mortgage Loan Officer",
+   "company": "Regions Financial",
+   "category": "Commercial and corporate banking",
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": null,
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Mortgage loan officer."
+  },
+  {
+   "title": "M&A Integration Analyst",
+   "company": "Cisco Systems",
+   "category": null,
+   "industry": "Network and Other Communications Equipment",
+   "role": "ma_integration",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Integration Analyst",
+   "company": "Epic Systems",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Systems integration."
+  },
+  {
+   "title": "Sales Analyst",
+   "company": "Cisco Systems",
+   "category": null,
+   "industry": "Network and Other Communications Equipment",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "No entry title for sales_manager."
+  },
+  {
+   "title": "Sales Associate",
+   "company": "Best Buy",
+   "category": null,
+   "industry": "Specialty Retailers: Other",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Retail sales."
+  },
+  {
+   "title": "Account Executive",
+   "company": "Salesforce",
+   "category": null,
+   "industry": "Computer Software",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Account executive."
+  },
+  {
+   "title": "Assistant General Manager",
+   "company": "Marriott International",
+   "category": null,
+   "industry": "Hotels, Casinos, Resorts",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Assistant GM at a hotel company."
+  },
+  {
+   "title": "Business Analyst",
+   "company": "Capital One Financial",
+   "category": null,
+   "industry": "Commercial Banks",
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "note": "Plain Business Analyst at an ordinary company is null by the spec (at Capital One it is in fact a strategy/analytics job)."
+  },
+  {
+   "title": "Data Analyst",
+   "company": "Spotify",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Senior Business Analyst, Strategy",
+   "company": "Uber Technologies",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": "corp_strategy_analyst",
+   "level": "mid",
+   "ladder": "corporate",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Business analyst with a strategy suffix: read as the analyst grade of business strategy; could be null (plain business analyst) or bizops."
+  },
+  {
+   "title": "Strategy Analyst",
+   "company": "Blackstone",
+   "category": "Private equity",
+   "industry": "Diversified Financials",
+   "role": "corp_strategy_analyst",
+   "level": "associate",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true,
+   "sure": false,
+   "note": "Strategy analyst at a PE firm: read as corporate strategy; could be an investment-strategy role (investment_manager) or null."
+  },
+  {
+   "title": "Vice President, Relationship Manager, Commercial Banking",
+   "company": "KeyCorp",
+   "category": "Commercial and corporate banking",
+   "industry": "Commercial Banks",
+   "role": "commercial_banking_rm",
+   "level": "senior",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Associate, Corporate Banking",
+   "company": "Bank of America",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": "corporate_banking",
+   "level": "mid",
+   "ladder": "bank",
+   "set": "entry-2026-10-13",
+   "written": true
+  },
+  {
+   "title": "Kearney Summer Associate 2027 (Atlanta, Boston, Chicago)",
+   "company": "Kearney",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "note": "a real title from the firm's board, read by the adapter work; labelled by hand from the entry-level rules"
+  },
+  {
+   "title": "Kearney Senior Business Analyst, Communications, Media & Technology (US)",
+   "company": "Kearney",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "note": "a real title from the firm's board, read by the adapter work; labelled by hand from the entry-level rules"
+  },
+  {
+   "title": "Kearney Business Analyst Intern 2027 (Paris)",
+   "company": "Kearney",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "note": "a real title from the firm's board, read by the adapter work; labelled by hand from the entry-level rules"
+  },
+  {
+   "title": "Lateral Associate - Feb '27",
+   "company": "L.E.K. Consulting",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "note": "a real title from the firm's board, read by the adapter work; labelled by hand from the entry-level rules"
+  },
+  {
+   "title": "London Office - Summer Associate 2027",
+   "company": "L.E.K. Consulting",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "associate",
+   "ladder": "consulting",
+   "set": "entry-2026-10-13",
+   "note": "a real title from the firm's board, read by the adapter work; labelled by hand from the entry-level rules"
+  },
+  {
+   "title": "Tax Associate - Minneapolis, MN - Class of 2027",
+   "company": "CohnReznick",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": null,
+   "set": "entry-2026-10-13",
+   "note": "a real title from the firm's board, read by the adapter work; labelled by hand from the entry-level rules"
+  },
+  {
+   "title": "Audit Summer 2027 Internship - San Francisco, CA",
+   "company": "CohnReznick",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": null,
+   "set": "entry-2026-10-13",
+   "note": "a real title from the firm's board, read by the adapter work; labelled by hand from the entry-level rules"
+  },
+  {
+   "title": "Alumni Engagement Manager",
+   "company": "L.E.K. Consulting",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": null,
+   "set": "entry-2026-10-13",
+   "note": "a real title from the firm's board, read by the adapter work; labelled by hand from the entry-level rules"
   }
  ]
 }

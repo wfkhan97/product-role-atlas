@@ -1,0 +1,25 @@
+{
+ "company": "OC&C Strategy Consultants",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "paradox",
+ "config": {
+  "host": "www.occstrategy.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 matching postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.occstrategy.com"
+   },
+   "from": "https://www.occstrategy.com/en/careers/careers-at-occ/",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "occstrategy.com",
+ "seconds": 34
+}
