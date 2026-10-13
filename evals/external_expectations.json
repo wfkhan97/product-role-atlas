@@ -839,7 +839,7 @@
  "compliance_universityofwi_1": {
   "kind": "single",
   "parse": {
-   "roles": 2,
+   "roles": 3,
    "min_years": 2,
    "max_years": 6,
    "titles": [
@@ -847,7 +847,7 @@
     "Summer Associate"
    ]
   },
-  "note": "Month and year split by wide gaps.",
+  "note": "Month and year split by wide gaps. Three dated jobs: the third (a second summer associate post) prints its year split three and one (\\\"June 202 1\\\"), and the first reading of this file missed it, as the reader did until it joined such years.",
   "seniority": "early",
   "must_evidence": [
    "law_degree",

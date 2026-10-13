@@ -725,3 +725,18 @@ of what the role's postings ask for; the 70% median score comes from the presump
 not held show about the same share (core 40%, common 27%). Evidence reading is the weak part for these roles, for
 everyone. That is the next lever: resume wording for the MBA skills, and which asks a role's postings really set.
 
+## Reader: a third pass on known misses (2026-10-13)
+
+Branch `fix/reader-known-misses`. 259 of 280 parse expectations pass (258 before).
+- A year split three and one after a month ("Feb 201 6", "June 202 1") is joined, as "20 24" was.
+- An employer line in capitals that has a title of its own (on the next line) is a job. It was dropped as "the
+  dates of a whole stay" when a later job fell within a year of it.
+- Under Education, a line of dates alone whose title stands on the line above is a job (two-column templates).
+- Degree letters set apart by spaces ("B . S . Finance") are read.
+- **One expectation was wrong and is corrected:** `compliance_universityofwi_1` has three dated jobs, not two.
+  The third prints its year as "202 1"; the person who first read the file missed it, and so did the reader.
+
+Still failing (21): letter-by-letter damage, a NUL for a ligature, a title below its bullets, all dates in one
+block at the end of the page, a functional resume, page headers inside jobs, dated publications and class
+projects read as jobs, and a heading glued to the end of a bullet by the PDF.
+
