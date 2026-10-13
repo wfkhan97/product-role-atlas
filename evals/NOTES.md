@@ -512,7 +512,15 @@ reader, with no tuning in between: one of nine passed. After three general fixes
 269 above is measured on files the reader was tuned on, so it is optimistic. New files from the download list
 give the next honest number.
 
-**Known misses (19 expectations fail).** Words and month names broken letter by letter by the PDF ("Dece m b er
+**Second held-out round (2026-10-12, branch `data/accepted-university-samples`).** The owner accepted the twelve
+university samples that waited under `ask`. Eleven are resumes with real dates and one is a template. Read by a
+person first, then by the reader with no tuning: 8 of 11 pass, against 1 of 9 in the first round. The three that
+fail are left failing: every year split three and one by the PDF ("Feb 201 6"), all dates in one block at the end
+of the page, and an employer line that carries the dates of the stay and a title of its own. With them, 258 of
+280 parse expectations pass on 270 files. `fetch_external.mjs` could not reach the UConn host (the request failed
+in node; the same single request with curl worked), so those three files were fetched with curl.
+
+**Known misses (19 expectations failed at the merge of the first branch).** Words and month names broken letter by letter by the PDF ("Dece m b er
 2011"); a year split three and one ("Jan 202 2"); a ligature lost as a NUL character ("So ware"); a title printed
 below its bullets, or apart from its employer by another job's bullets; a functional resume with twelve one-line
 jobs; a page header ("Name | Page 2") inside a job; dated publications, courses and memberships read as jobs;
@@ -548,8 +556,6 @@ counts 263 resumes (packet parts and new files included): bands 34%, 50% and 69%
 other-field 95% of the time, above adjacent-role 88% (89%).
 
 **Open, for the owner.**
-- Which of the twelve `ask` samples to accept.
-- `covers` in the role file is marked "proposed" (seven pairs). Which roles cover which is a product decision.
 - Level from a bank or consulting grade on a resume ("Vice President" at a bank is mid-career). The posting side
   knows the employer's category; a resume does not. Not handled.
 - Course lines count as evidence at every level. Right for a student, generous for a director.

@@ -29,14 +29,8 @@ LEFT_OUT = {
 
 # published as samples, but nothing on the page says the person is invented: the owner decides before any fetch
 ASK = {
-    "grad-business.media.uconn.edu": "the page calls it a sample; it does not say the person is invented",
-    "sites/598/2025/07/Management-Sample-Resume": "the page calls it a sample; it does not say the person is invented",
-    "zarbcar-mba-business-analytics-resume": "the page calls it a sample; it does not say the person is invented",
-    "zarbcar-mba-marketing-resume.pdf": "the page calls it a sample; it does not say the person is invented",
-    "zarbcar-mba-finance-resume": "found by its file name beside the other samples, with no listing page",
-    "sites/232/2026/01/MBA-Sample": "the page calls it a sample; it does not say the person is invented",
-    "management.buffalo.edu/content/dam/mgt/Career-Resources": "the page calls it a sample; it does not say the person is invented",
-    "sandiego.edu/careers/documents/torero-career-guide": "the file was not opened to confirm a placeholder name",
+    # Twelve samples (UConn, Hofstra, Tulane, Buffalo, Florida Gulf Coast, San Diego) waited here until the owner
+    # accepted them on 2026-10-12. Add a URL fragment and a reason to hold a new one.
 }
 
 rows = []
