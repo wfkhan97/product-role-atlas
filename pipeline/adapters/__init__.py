@@ -1,4 +1,4 @@
-from . import greenhouse, lever, ashby, workday, eightfold, phenom, oracle_hcm, smartrecruiters, amazon, apple, google, gs_graphql, jibe, paradox, radancy, bofa_servlet, mcloud, successfactors, icims, meta, mckinsey, avature, kpmg
+from . import greenhouse, lever, ashby, workday, eightfold, phenom, oracle_hcm, smartrecruiters, amazon, apple, google, gs_graphql, jibe, paradox, radancy, bofa_servlet, mcloud, successfactors, icims, meta, mckinsey, avature, kpmg, talnet, yello
 
 ADAPTERS = {
     "greenhouse": greenhouse.fetch,
@@ -24,4 +24,6 @@ ADAPTERS = {
     "mckinsey": mckinsey.fetch,
     "avature": avature.fetch,
     "kpmg": kpmg.fetch,
+    "talnet": talnet.fetch,
+    "yello": yello.fetch,
 }

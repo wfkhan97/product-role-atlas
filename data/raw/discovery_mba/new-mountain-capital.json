@@ -1,0 +1,25 @@
+{
+ "company": "New Mountain Capital",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "radancy",
+ "config": {
+  "host": "www.newmountaincapital.com"
+ },
+ "verified": false,
+ "notes": "candidates: radancy 0 matching postings",
+ "candidates": [
+  {
+   "ats": "radancy",
+   "config": {
+    "host": "www.newmountaincapital.com"
+   },
+   "from": "https://www.newmountaincapital.com/",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "newmountaincapital.com",
+ "seconds": 15
+}

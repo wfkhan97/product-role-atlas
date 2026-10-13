@@ -1,0 +1,42 @@
+{
+ "company": "BTIG",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: U.S. Bancorp board, already in the registry (btig.com links to careers.usbank.com for benefits); BTIG's own Greenhouse board is in registry_mba_employers_new60.json",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "usbank.wd1.myworkdayjobs.com",
+    "tenant": "usbank",
+    "site": "US_Bank_Careers"
+   },
+   "from": "https://careers.usbank.com/global/en/benefits",
+   "verify": "Global Custody Strategy Manager"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.usbank.com"
+   },
+   "from": "https://careers.usbank.com/global/en/benefits"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "btig.com",
+ "sample_title": "Global Custody Strategy Manager",
+ "description_chars": 12284,
+ "seconds": 56,
+ "rejected": {
+  "ats": "workday",
+  "config": {
+   "host": "usbank.wd1.myworkdayjobs.com",
+   "tenant": "usbank",
+   "site": "US_Bank_Careers"
+  }
+ }
+}

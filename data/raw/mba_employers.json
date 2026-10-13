@@ -636,7 +636,7 @@
 },
 {
 "company": "Silicon Valley Bank",
-"category": "Venture capital",
+"category": "Commercial and corporate banking",
 "domain": "svb.com"
 },
 {
@@ -1238,5 +1238,305 @@
 "company": "Constellation Brands",
 "category": "Consumer goods",
 "domain": "cbrands.com"
+},
+{
+"company": "Altman Solon",
+"category": "Strategy consulting",
+"domain": "altmansolon.com"
+},
+{
+"company": "OC&C Strategy Consultants",
+"category": "Strategy consulting",
+"domain": "occstrategy.com"
+},
+{
+"company": "Kaiser Associates",
+"category": "Strategy consulting",
+"domain": "kaiserassociates.com"
+},
+{
+"company": "Stax",
+"category": "Strategy consulting",
+"domain": "stax.com"
+},
+{
+"company": "Innosight",
+"category": "Strategy consulting",
+"domain": "innosight.com"
+},
+{
+"company": "Bridgespan",
+"category": "Strategy consulting",
+"domain": "bridgespan.org"
+},
+{
+"company": "Dalberg",
+"category": "Strategy consulting",
+"domain": "dalberg.com"
+},
+{
+"company": "Trinity Life Sciences",
+"category": "Strategy consulting",
+"domain": "trinitylifesciences.com"
+},
+{
+"company": "Health Advances",
+"category": "Strategy consulting",
+"domain": "healthadvances.com"
+},
+{
+"company": "Keystone Strategy",
+"category": "Strategy consulting",
+"domain": "keystone.com"
+},
+{
+"company": "Brattle Group",
+"category": "Strategy consulting",
+"domain": "brattle.com"
+},
+{
+"company": "NERA",
+"category": "Strategy consulting",
+"domain": "nera.com"
+},
+{
+"company": "Compass Lexecon",
+"category": "Strategy consulting",
+"domain": "compasslexecon.com"
+},
+{
+"company": "Bates White",
+"category": "Strategy consulting",
+"domain": "bateswhite.com"
+},
+{
+"company": "Ankura",
+"category": "Consulting and advisory",
+"domain": "ankura.com"
+},
+{
+"company": "Stout",
+"category": "Consulting and advisory",
+"domain": "stout.com"
+},
+{
+"company": "Accordion",
+"category": "Consulting and advisory",
+"domain": "accordion.com"
+},
+{
+"company": "Riveron",
+"category": "Consulting and advisory",
+"domain": "riveron.com"
+},
+{
+"company": "Portage Point Partners",
+"category": "Consulting and advisory",
+"domain": "portagepointpartners.com"
+},
+{
+"company": "CFGI",
+"category": "Consulting and advisory",
+"domain": "cfgi.com"
+},
+{
+"company": "Point B",
+"category": "Consulting and advisory",
+"domain": "pointb.com"
+},
+{
+"company": "North Highland",
+"category": "Consulting and advisory",
+"domain": "northhighland.com"
+},
+{
+"company": "Eagle Hill Consulting",
+"category": "Consulting and advisory",
+"domain": "eaglehillconsulting.com"
+},
+{
+"company": "Sia Partners",
+"category": "Consulting and advisory",
+"domain": "sia-partners.com"
+},
+{
+"company": "Chartis",
+"category": "Consulting and advisory",
+"domain": "chartis.com"
+},
+{
+"company": "Clarkston Consulting",
+"category": "Consulting and advisory",
+"domain": "clarkstonconsulting.com"
+},
+{
+"company": "Insight Sourcing Group",
+"category": "Consulting and advisory",
+"domain": "insightsourcing.com"
+},
+{
+"company": "Mercer",
+"category": "Consulting and advisory",
+"domain": "mercer.com"
+},
+{
+"company": "WTW",
+"category": "Consulting and advisory",
+"domain": "wtwco.com"
+},
+{
+"company": "LionTree",
+"category": "Investment banking",
+"domain": "liontree.com"
+},
+{
+"company": "Solomon Partners",
+"category": "Investment banking",
+"domain": "solomonpartners.com"
+},
+{
+"company": "Leerink Partners",
+"category": "Investment banking",
+"domain": "leerink.com"
+},
+{
+"company": "Qatalyst Partners",
+"category": "Investment banking",
+"domain": "qatalyst.com"
+},
+{
+"company": "BTIG",
+"category": "Investment banking",
+"domain": "btig.com"
+},
+{
+"company": "Canaccord Genuity",
+"category": "Investment banking",
+"domain": "canaccordgenuity.com"
+},
+{
+"company": "Stephens",
+"category": "Investment banking",
+"domain": "stephens.com"
+},
+{
+"company": "D.A. Davidson",
+"category": "Investment banking",
+"domain": "dadavidson.com"
+},
+{
+"company": "Needham & Company",
+"category": "Investment banking",
+"domain": "needhamco.com"
+},
+{
+"company": "Capstone Partners",
+"category": "Investment banking",
+"domain": "capstonepartners.com"
+},
+{
+"company": "Brown Gibbons Lang",
+"category": "Investment banking",
+"domain": "bglco.com"
+},
+{
+"company": "Societe Generale",
+"category": "Investment banking",
+"domain": "societegenerale.com"
+},
+{
+"company": "Scotiabank",
+"category": "Investment banking",
+"domain": "scotiabank.com"
+},
+{
+"company": "CIBC",
+"category": "Investment banking",
+"domain": "cibc.com"
+},
+{
+"company": "SMBC",
+"category": "Investment banking",
+"domain": "smbcgroup.com"
+},
+{
+"company": "Audax Group",
+"category": "Private equity",
+"domain": "audaxgroup.com"
+},
+{
+"company": "Adams Street Partners",
+"category": "Private equity",
+"domain": "adamsstreetpartners.com"
+},
+{
+"company": "HPS Investment Partners",
+"category": "Private equity",
+"domain": "hpspartners.com"
+},
+{
+"company": "GTCR",
+"category": "Private equity",
+"domain": "gtcr.com"
+},
+{
+"company": "Sixth Street",
+"category": "Private equity",
+"domain": "sixthstreet.com"
+},
+{
+"company": "New Mountain Capital",
+"category": "Private equity",
+"domain": "newmountaincapital.com"
+},
+{
+"company": "Partners Group",
+"category": "Private equity",
+"domain": "partnersgroup.com"
+},
+{
+"company": "Antares Capital",
+"category": "Private equity",
+"domain": "antares.com"
+},
+{
+"company": "Churchill Asset Management",
+"category": "Private equity",
+"domain": "churchillam.com"
+},
+{
+"company": "Monroe Capital",
+"category": "Private equity",
+"domain": "monroecap.com"
+},
+{
+"company": "Cohen & Steers",
+"category": "Asset management",
+"domain": "cohenandsteers.com"
+},
+{
+"company": "Dodge & Cox",
+"category": "Asset management",
+"domain": "dodgeandcox.com"
+},
+{
+"company": "GMO",
+"category": "Asset management",
+"domain": "gmo.com"
+},
+{
+"company": "Brown Advisory",
+"category": "Asset management",
+"domain": "brownadvisory.com"
+},
+{
+"company": "Loomis Sayles",
+"category": "Asset management",
+"domain": "loomissayles.com"
+},
+{
+"company": "Artisan Partners",
+"category": "Asset management",
+"domain": "artisanpartners.com"
 }
 ]

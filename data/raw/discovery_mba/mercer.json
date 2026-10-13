@@ -1,0 +1,49 @@
+{
+ "company": "Mercer",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: whole Marsh McLennan board, already in the registry; narrowed row in registry_mba_employers_new60.json",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.marsh.com"
+   },
+   "from": "https://careers.marsh.com/global/en/people-and-investments"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "cdn.phenompeople.com"
+   },
+   "from": "https://cdn.phenompeople.com/CareerConnectResources/MAMCGLOBAL/en_global/desktop/assets/images/favicon.ico?v=1767890604386"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "mmc.wd1.myworkdayjobs.com",
+    "tenant": "mmc",
+    "site": "MMC"
+   },
+   "from": "https://careers.marsh.com/global/en/people-and-investments-jobs",
+   "verify": "Lippincott - Consultant, Strategy"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "mercer.com",
+ "sample_title": "Lippincott - Consultant, Strategy",
+ "description_chars": 6536,
+ "seconds": 78,
+ "rejected": {
+  "ats": "workday",
+  "config": {
+   "host": "mmc.wd1.myworkdayjobs.com",
+   "tenant": "mmc",
+   "site": "MMC"
+  }
+ }
+}

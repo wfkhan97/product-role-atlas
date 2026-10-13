@@ -1,0 +1,34 @@
+{
+ "company": "Riveron",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "ashby",
+ "config": {
+  "board": "riveron"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "riveron"
+   },
+   "from": "https://riveron.com/about-us/careers/",
+   "verify": "Financial Planning and Analysis (FP&A) - Manager"
+  },
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "riveron.com"
+   },
+   "from": "https://riveron.com/about-us/careers/"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "riveron.com",
+ "sample_title": "Financial Planning and Analysis (FP&A) - Manager",
+ "description_chars": 5729,
+ "seconds": 11
+}

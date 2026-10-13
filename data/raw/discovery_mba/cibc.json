@@ -1,0 +1,40 @@
+{
+ "company": "CIBC",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "cibc.wd3.myworkdayjobs.com",
+  "tenant": "cibc",
+  "site": "search"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "cibc.wd3.myworkdayjobs.com",
+    "tenant": "cibc",
+    "site": "search"
+   },
+   "from": "https://www.cibc.com/en/about-cibc/careers.html",
+   "verify": "Senior Director, Risk Data Strategy"
+  },
+  {
+   "ats": "workday",
+   "config": {
+    "host": "cibc.wd3.myworkdayjobs.com",
+    "tenant": "cibc",
+    "site": "campus"
+   },
+   "from": "https://www.cibc.com/en/about-cibc/careers.html"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "cibc.com",
+ "sample_title": "Senior Director, Risk Data Strategy",
+ "description_chars": 8255,
+ "seconds": 39
+}

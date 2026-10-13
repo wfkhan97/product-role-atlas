@@ -1,0 +1,27 @@
+{
+ "company": "GMO",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "lever",
+ "config": {
+  "board": "gmo"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "lever",
+   "config": {
+    "board": "gmo"
+   },
+   "from": "https://www.gmo.com/americas/careers/",
+   "verify": "Business Development Manager - Germany"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "gmo.com",
+ "sample_title": "Business Development Manager - Germany",
+ "description_chars": 6204,
+ "seconds": 11
+}

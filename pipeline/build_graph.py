@@ -324,7 +324,7 @@ def build_roleset(roleset):
         rows = []
         for j in js:
             rows.append({"id": jid, "company": j["company"], "group": j["group"], "title": j["title"], "family": f, "level": j["level"], "ladder": j["ladder"],
-                         "w": R4(j["w"]), "specs": j["specs"], "location": j["location"], "url": j["url"], "sector": j.get("sector"), "industry": j.get("industry"),
+                         "w": R4(j["w"]), "open": j.get("open", True), "specs": j["specs"], "location": j["location"], "url": j["url"], "sector": j.get("sector"), "industry": j.get("industry"),
                          "category": j.get("category"), "country": j.get("country"), "remote": j.get("remote"), "rank": j.get("rank"), "stage": j.get("stage"),
                          "investors": [fund_by_name.get(x, x) for x in (j.get("investors") or [])], "yoe": j["yoe"],
                          "skills": sorted(skill_index[k] for k in j["skills"] if k in skill_index), "sub": sorted(sub_index[k] for k in j.get("sub", [])),
@@ -341,7 +341,7 @@ def build_roleset(roleset):
         asks = [k for k, _ in wcount[f].most_common() if k in known and k not in defining and sh(f, k) >= 0.1]
         lad = collections.Counter(j["ladder"] for j in js)
         roles_out[f] = {
-            "label": label, "group": R.GROUP_OF[f], "n": len(js), "n_companies": len({j["company"] for j in js}), "small": len(js) < balance.SMALL,
+            "label": label, "group": R.GROUP_OF[f], "n": len(js), "n_open": sum(1 for j in js if j.get("open", True)), "n_companies": len({j["company"] for j in js}), "small": len(js) < balance.SMALL,
             "file": rel, "bytes": os.path.getsize(os.path.join(out_dir, rel)),
             "skills_per_posting": statistics.median(len([k for k in j["skills"] if not k.startswith("yoe_")]) for j in js),
             # the role's own field: on nearly every posting and uncommon elsewhere. A reader takes it as given.
@@ -356,7 +356,9 @@ def build_roleset(roleset):
         }
     index = {
         "skill_ids": skill_ids, "sub_ids": sub_ids,
-        "meta": {"generated": generated, "role_set": roleset, "country": country, "n_jobs": n, "n_companies": len(companies), "companies": list(companies.values()),
+        "meta": {"generated": generated, "role_set": roleset, "country": country, "n_jobs": n, "n_open": sum(1 for j in jobs if j.get("open", True)),
+                 "n_companies": len(companies), "companies": list(companies.values()),
+                 "backlog": "A posting with open false has closed. Do not list it or offer it as a target. It counts in every share and statistic.",
                  "seniority_ticks": {l: R4(sum(1 for x in sen_sorted if x < level_weights[l]) / len(sen_sorted)) for l in levels},
                  "seniority_range": [R4(min(sen_raw)), R4(max(sen_raw))],
                  "shares": {"balanced": True, "cap": balance.CAP, "small": balance.SMALL, "defining_share": balance.DEFINING_SHARE, "defining_lift": balance.DEFINING_LIFT,

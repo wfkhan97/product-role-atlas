@@ -1,0 +1,31 @@
+{
+ "company": "Compass Lexecon",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "fticonsulting.wd108.myworkdayjobs.com",
+  "tenant": "fticonsulting",
+  "site": "CompassLexeconCareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "fticonsulting.wd108.myworkdayjobs.com",
+    "tenant": "fticonsulting",
+    "site": "CompassLexeconCareers"
+   },
+   "from": "https://www.compasslexecon.com/careers",
+   "verify": "(board reachable; no matching title on first pages)"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "compasslexecon.com",
+ "sample_title": "(board reachable; no matching title on first pages)",
+ "description_chars": 0,
+ "seconds": 10
+}

@@ -1,0 +1,31 @@
+{
+ "company": "Ankura",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "ankura.wd5.myworkdayjobs.com",
+  "tenant": "ankura",
+  "site": "Ankura"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "ankura.wd5.myworkdayjobs.com",
+    "tenant": "ankura",
+    "site": "Ankura"
+   },
+   "from": "https://ankura.com/careers",
+   "verify": "Director/Senior Director, FP&A / Corporate Finance - Office of the CFO"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "ankura.com",
+ "sample_title": "Director/Senior Director, FP&A / Corporate Finance - Office of the CFO",
+ "description_chars": 6386,
+ "seconds": 18
+}

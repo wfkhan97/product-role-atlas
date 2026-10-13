@@ -1,0 +1,27 @@
+{
+ "company": "Scotiabank",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "successfactors",
+ "config": {
+  "host": "jobs.scotiabank.com"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "successfactors",
+   "config": {
+    "host": "jobs.scotiabank.com"
+   },
+   "from": "https://jobs.scotiabank.com/go/Student-&amp;-New-Grad-Jobs/2298417/",
+   "verify": "Director, Enterprise Strategy - Global Banking & Markets"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "scotiabank.com",
+ "sample_title": "Director, Enterprise Strategy - Global Banking & Markets",
+ "description_chars": 8732,
+ "seconds": 30
+}

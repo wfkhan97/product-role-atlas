@@ -1,0 +1,649 @@
+[
+ {
+  "company": "Altman Solon",
+  "category": "Strategy consulting",
+  "ats": "greenhouse",
+  "config": {
+   "board": "altmansolonuslp"
+  },
+  "verified": true,
+  "sample_title": "Business Analyst TMT (m/f/d)",
+  "description_chars": 3084,
+  "notes": "altmansolon.com/careers/job-opportunities embeds boards.eu.greenhouse.io/embed/job_board/js?for=altmansolonuslp; the board answers on the standard boards-api.greenhouse.io host. Adapter run with the Strategy consulting title rules: 12 postings (7 distinct titles, several are non-US, e.g. 'm/f/d' German postings)."
+ },
+ {
+  "company": "Keystone Strategy",
+  "category": "Strategy consulting",
+  "ats": "greenhouse",
+  "config": {
+   "board": "keystone"
+  },
+  "verified": true,
+  "sample_title": "Director, Sr. Talent Development",
+  "description_chars": 6688,
+  "notes": "The firm now trades as Keystone at keystone.com (keystone.ai answers 403 to curl); keystone.com/careers names Keystone Strategy and its postings are on Greenhouse board 'keystone' (absolute_url www.keystone.com/careers?gh_jid=...). Board 'keystonestrategy' also exists and is empty. Adapter: 6 of 22 titles match."
+ },
+ {
+  "company": "Brattle Group",
+  "category": "Strategy consulting",
+  "ats": "greenhouse",
+  "config": {
+   "board": "thebrattlegroup"
+  },
+  "verified": true,
+  "sample_title": "2027 Research Analyst - Competition - London",
+  "description_chars": 4808,
+  "notes": "brattle.com/careers embeds Greenhouse board thebrattlegroup (discovery read the token as 'embed'). Adapter: 39 postings, 23 distinct titles; many are campus 'Research Analyst' titles by office, several non-US."
+ },
+ {
+  "company": "Accordion",
+  "category": "Consulting and advisory",
+  "ats": "greenhouse",
+  "config": {
+   "board": "accordion"
+  },
+  "verified": true,
+  "sample_title": "Associate, Exit Planning and Transaction Support",
+  "description_chars": 7997,
+  "notes": "accordion.com/careers lists openings as /careers/openings/?job=<greenhouse id>; Greenhouse board 'accordion' (company_name 'Accordion', 45 postings). Adapter: 9 of 38 distinct titles match; the bare 'Associate' / 'Vice President, <practice>' titles are rejected by the Consulting and advisory rules."
+ },
+ {
+  "company": "Point B",
+  "category": "Consulting and advisory",
+  "ats": "lever",
+  "config": {
+   "board": "pointb"
+  },
+  "verified": true,
+  "sample_title": "Senior Manager, Payer Growth & GTM Strategy",
+  "description_chars": 8510,
+  "notes": "careers.pointb.com is a WordPress site (discovery's phenom guess is wrong); postings are on Lever board 'pointb' (description text names Point B). Small board today: 3 postings, 1 matches."
+ },
+ {
+  "company": "BTIG",
+  "category": "Investment banking",
+  "ats": "greenhouse",
+  "config": {
+   "board": "btig27"
+  },
+  "verified": true,
+  "sample_title": "Business Operations & Analytics, Associate",
+  "description_chars": 3726,
+  "notes": "btig.com/careers/career-opportunities embeds Greenhouse board btig27 (job pages ?gh_jid=...). Adapter: 14 of 30 titles match. BTIG is now owned by U.S. Bancorp but keeps this board; discovery had matched the U.S. Bank Workday board."
+ },
+ {
+  "company": "LionTree",
+  "category": "Investment banking",
+  "ats": "greenhouse",
+  "config": {
+   "board": "liontree"
+  },
+  "verified": true,
+  "sample_title": "Capital Markets - Research Associate",
+  "description_chars": 3240,
+  "notes": "Greenhouse board 'liontree' (company_name LionTree), 3 postings today, all match."
+ },
+ {
+  "company": "Solomon Partners",
+  "category": "Investment banking",
+  "ats": "greenhouse",
+  "config": {
+   "board": "solomonpartnersprofessionals"
+  },
+  "verified": true,
+  "sample_title": "Investment Banking Associate - Capital Advisory",
+  "description_chars": 950,
+  "notes": "solomonpartners.com/careers/experienced-professionals embeds Greenhouse board solomonpartnersprofessionals. 3 postings, all match; descriptions are short (about 950 characters). The campus page (/careers/campus-and-early-career/) was not looked up."
+ },
+ {
+  "company": "Brown Gibbons Lang",
+  "category": "Investment banking",
+  "ats": "greenhouse",
+  "config": {
+   "board": "browngibbonslangcompany"
+  },
+  "verified": true,
+  "sample_title": "Consumer Investment Banking Associate",
+  "description_chars": 3468,
+  "notes": "bglco.com/careers/view-open-positions embeds Greenhouse board browngibbonslangcompany. Adapter: 9 of 10 titles match."
+ },
+ {
+  "company": "D.A. Davidson",
+  "category": "Investment banking",
+  "ats": "lever",
+  "config": {
+   "board": "dadavidson"
+  },
+  "verified": true,
+  "sample_title": "Class of 2028 Diversified Industrials Group, Investment Banking - Summer Analyst",
+  "description_chars": 3521,
+  "notes": "dadavidson.com answers 403 to curl (not attempted further); the firm's Lever board 'dadavidson' is public (posting text names D.A. Davidson). Adapter: 11 of 37 titles match; the board also carries wealth-management and branch roles."
+ },
+ {
+  "company": "SMBC",
+  "category": "Investment banking",
+  "ats": "successfactors",
+  "config": {
+   "host": "careers.smbcgroup.com"
+  },
+  "verified": true,
+  "sample_title": "Capital Management Oversight Risk Manager",
+  "description_chars": 6469,
+  "notes": "smbcgroup.com/americas/careers links to careers.smbcgroup.com (SuccessFactors career site, SMBC Americas incl. SMBC MANUBANK and Nikko). Discovery's icims candidate is wrong. Adapter on six test queries, 2 pages each: 9 of 127 titles match (most titles carry a bank rank only, e.g. 'Vice President, Leveraged Finance')."
+ },
+ {
+  "company": "Adams Street Partners",
+  "category": "Private equity",
+  "ats": "greenhouse",
+  "config": {
+   "board": "adamsstreetpartners"
+  },
+  "verified": true,
+  "sample_title": "Analyst or Associate, Wealth Management",
+  "description_chars": 6256,
+  "notes": "adamsstreetpartners.com/careers embeds Greenhouse board adamsstreetpartners. Adapter: 10 of 22 titles match."
+ },
+ {
+  "company": "Partners Group",
+  "category": "Private equity",
+  "ats": "successfactors",
+  "config": {
+   "host": "jobs.partnersgroup.com"
+  },
+  "verified": true,
+  "sample_title": "6-month Internship - Private Equity Directs, Services",
+  "description_chars": 1746,
+  "notes": "partnersgroup.com/en/careers links to jobs.partnersgroup.com (SuccessFactors career site). Global board, mostly Baar, London, Singapore; US offices are a minority. Adapter on six test queries, 2 pages each: 21 of 66 titles match."
+ },
+ {
+  "company": "Cohen & Steers",
+  "category": "Asset management",
+  "ats": "greenhouse",
+  "config": {
+   "board": "cohensteers"
+  },
+  "verified": true,
+  "sample_title": "Associate Director, FP&A and Strategic Finance – Private Real Estate",
+  "description_chars": 5239,
+  "notes": "Greenhouse board 'cohensteers' (absolute_url www.cohenandsteers.com/current-job-openings/?gh_jid=...); 'cohenandsteers' does not exist. cohenandsteers.com itself answers 403 to curl. Adapter: 5 of 27 titles match."
+ },
+ {
+  "company": "Artisan Partners",
+  "category": "Asset management",
+  "ats": "greenhouse",
+  "config": {
+   "board": "artisanpartners"
+  },
+  "verified": true,
+  "sample_title": "Compliance Specialist",
+  "description_chars": 3002,
+  "notes": "artisanpartners.com/careers/career-opportunities.html embeds Greenhouse board artisanpartners. Adapter: 5 of 17 titles match."
+ },
+ {
+  "company": "Innosight",
+  "category": "Strategy consulting",
+  "ats": "workday",
+  "config": {
+   "host": "huron.wd1.myworkdayjobs.com",
+   "tenant": "huron",
+   "site": "huroncareers",
+   "queries": [
+    "Innosight"
+   ],
+   "keep_queries": true
+  },
+  "verified": true,
+  "sample_title": "Innosight Consulting Senior Associate, Strategy & Operations",
+  "description_chars": 6140,
+  "notes": "Innosight is part of Huron and hires on Huron's Workday board (innosight.com redirects to huronconsultinggroup.com/en/innosight). searchText 'Innosight' gives 4 postings: 3 have Innosight in the title, 1 ('High Reliability & Operational Transformation Consultant') only names it in the text. Relies on keep_queries; the same 4 postings are also in Huron's own scrape."
+ },
+ {
+  "company": "NERA",
+  "category": "Strategy consulting",
+  "ats": "workday",
+  "config": {
+   "host": "mmc.wd1.myworkdayjobs.com",
+   "tenant": "mmc",
+   "site": "MMC",
+   "facets": {
+    "Location_Country": [
+     "bc33aa3152ec42d4995f4791a106ed09"
+    ]
+   },
+   "queries": [
+    "NERA Economic Consulting"
+   ],
+   "keep_queries": true
+  },
+  "verified": true,
+  "sample_title": "NERA Senior Consultant/Director – Energy",
+  "description_chars": 5722,
+  "notes": "NERA is a Marsh McLennan business on the MMC Workday board (same board and US facet as the Oliver Wyman row). searchText 'NERA Economic Consulting' + United States gives 10 postings, 9 with NERA in the title (the tenth, 'Pharmacy Claims and Rebates Audit Consultant', is rejected by the title rules today). The plain search 'NERA' gives 19 of which only 9 are NERA, so do not shorten the query. Campus titles ('NERA Research Associate (Summer 2027 Grads)', 'NERA Researcher') are rejected by the current title rules."
+ },
+ {
+  "company": "Mercer",
+  "category": "Consulting and advisory",
+  "ats": "workday",
+  "config": {
+   "host": "mmc.wd1.myworkdayjobs.com",
+   "tenant": "mmc",
+   "site": "MMC",
+   "facets": {
+    "Location_Country": [
+     "bc33aa3152ec42d4995f4791a106ed09"
+    ]
+   },
+   "queries": [
+    "Mercer"
+   ],
+   "keep_queries": true
+  },
+  "verified": true,
+  "sample_title": "Senior Population Health Consultant",
+  "description_chars": 6464,
+  "notes": "Mercer is a Marsh McLennan business on the MMC Workday board; no business facet exists (see the Oliver Wyman row). searchText 'Mercer' + United States gives 123 postings; of the first 40, 35 name Mercer in the title or the head of the description and the other 5 are 'Marsh Health and Benefits' / 'Marsh People and Investments' postings (Mercer's businesses under the Marsh name) plus one Marsh Corporate legal role. The adapter read only the first 40 (17 match): the Workday API returns total=0 after the first page, so the adapter's paging stops at page 2."
+ },
+ {
+  "company": "Capstone Partners",
+  "category": "Investment banking",
+  "ats": "workday",
+  "config": {
+   "host": "huntington.wd12.myworkdayjobs.com",
+   "tenant": "huntington",
+   "site": "HNBcareers",
+   "queries": [
+    "Capstone"
+   ],
+   "keep_queries": true
+  },
+  "verified": true,
+  "sample_title": "Associate and/or Vice President - Capstone Investment Banking",
+  "description_chars": 6806,
+  "notes": "Capstone Partners is Huntington's investment bank and hires on Huntington's Workday board. searchText 'Capstone' gives 5 postings, all Capstone Partners (4 by title, 1 'Associate - Financial Advisory Services'). 1 matches the Investment banking title rules today."
+ },
+ {
+  "company": "HPS Investment Partners",
+  "category": "Private equity",
+  "ats": "greenhouse",
+  "config": {
+   "board": "hpsinvestmentpartners"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Greenhouse board hpsinvestmentpartners is HPS's own (company_name 'HPS Investment Partners') and answers, but holds 1 posting today ('Associate, Enterprise Technology Integration'), which the Private equity title rules reject. Not verified: the adapter returned no posting. HPS is now part of BlackRock; most hiring may have moved to BlackRock's board. Re-check later; the config is right."
+ },
+ {
+  "company": "GTCR",
+  "category": "Private equity",
+  "ats": "greenhouse",
+  "config": {
+   "board": "gtcr"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Greenhouse board 'gtcr' exists and is empty today (0 postings); gtcr.com/careers is 404 and the site shows no openings. Not verified. Re-check later."
+ },
+ {
+  "company": "OC&C Strategy Consultants",
+  "category": "Strategy consulting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.occstrategy.com/vacancies/vacancy-search-results.aspx"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Own vacancy site (careers.occstrategy.com, .aspx vacancy search), no adapter. www.occstrategy.com answers 403 to plain curl but 200 to the adapter session. Discovery's paradox guess found no job links."
+ },
+ {
+  "company": "Stax",
+  "category": "Strategy consulting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://stax.hire.trakstar.com/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Trakstar Hire (stax.hire.trakstar.com, linked from stax.com/careers), no adapter. The firm is now 'Grant Thornton Stax'. Lever board 'stax' exists but is empty and not confirmed as this firm."
+ },
+ {
+  "company": "Bridgespan",
+  "category": "Strategy consulting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://phh.tbe.taleo.net/phh01/ats/careers/v2/searchResults?org=THEBRIDG12"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Taleo Business Edition (phh.tbe.taleo.net, org THEBRIDG12), linked from bridgespan.org/careers-at-bridgespan; no adapter."
+ },
+ {
+  "company": "Dalberg",
+  "category": "Strategy consulting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://dalberg.hua.hrsmart.com/hr/ats/JobSearch/viewAll"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Deltek Talent / HRsmart (dalberg.hua.hrsmart.com), no adapter."
+ },
+ {
+  "company": "Health Advances",
+  "category": "Strategy consulting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.healthadvances.com/careers"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "healthadvances.com answers 403 to curl (bot protection); not attempted further. No Greenhouse, Lever or Ashby board under the firm's name."
+ },
+ {
+  "company": "Bates White",
+  "category": "Strategy consulting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.bateswhite.com/careers/current-openings"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Own careers pages with no ATS link in the HTML (applications by e-mail to careers@ / own form); no board to read."
+ },
+ {
+  "company": "Kaiser Associates",
+  "category": "Strategy consulting",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://kaiserassociates.com/roles-and-open-positions/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No own board: Kaiser Associates is part of Sia and its roles page links to Sia's SmartRecruiters board, which the Sia Partners row already reads. The board has no Kaiser brand value (brands: Sia, Sia Uside, Sia Experience) and the search 'Kaiser Associates' returns 38 general Sia postings worldwide, so it cannot be narrowed."
+ },
+ {
+  "company": "North Highland",
+  "category": "Consulting and advisory",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.northhighland.com/jobs/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "careers.northhighland.com is a SourceFlow site (Next.js, jobs feed loaded by script); no adapter."
+ },
+ {
+  "company": "Eagle Hill Consulting",
+  "category": "Consulting and advisory",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.paycomonline.net/v4/ats/web.php/jobs?clientkey=9BC727FFD9BDD9CB60ED6876692A75B3"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Paycom (paycomonline.net, linked from eaglehillconsulting.com/careers/search-jobs/); no adapter. www.eaglehillconsulting.com answers 403 to plain curl, 200 to the adapter session."
+ },
+ {
+  "company": "Clarkston Consulting",
+  "category": "Consulting and advisory",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://apply.workable.com/clarkston-consulting/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Workable (apply.workable.com/clarkston-consulting; clarkstonconsulting.com/careers redirects there); no adapter. Workable has a public JSON API, so an adapter is small."
+ },
+ {
+  "company": "Insight Sourcing Group",
+  "category": "Consulting and advisory",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.accenture.com/en/industries/private-equity"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No own board: insightsourcing.com redirects to accenture.com (the firm is part of Accenture). Accenture's Workday board cannot be narrowed: searchText 'Insight Sourcing' returns 1,273 general sourcing postings. Suggest removing it from the list."
+ },
+ {
+  "company": "WTW",
+  "category": "Consulting and advisory",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.wtwco.com/jobs/search"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Own careers site at careers.wtwco.com (server-side job search under /jobs/search, events on willistowerswatson.recsolu.com); no supported ATS signature and no Workday tenant under wtw / wtwco / willistowerswatson. www.wtwco.com answers 429 to curl. Discovery's paradox guess found no job links. Needs its own adapter."
+ },
+ {
+  "company": "Qatalyst Partners",
+  "category": "Investment banking",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://qatalyst.com/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No job board: the site gives only e-mail addresses (uscareers@ / ukcareers@). Nothing to scrape."
+ },
+ {
+  "company": "Canaccord Genuity",
+  "category": "Investment banking",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=cf46812f-b021-426f-844b-c83523c426e6"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "ADP Workforce Now recruitment site for the US arm (linked from canaccordgenuity.com/global-careers/us-opportunities/); no adapter. Site domain is canaccordgenuity.com (cgf.com redirects to it)."
+ },
+ {
+  "company": "Stephens",
+  "category": "Investment banking",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.stephens.com/careers/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "stephens.com answers 403 to curl (bot protection); not attempted further. No Workday tenant, Greenhouse, Lever or Ashby board under the firm's name."
+ },
+ {
+  "company": "Needham & Company",
+  "category": "Investment banking",
+  "ats": "talnet",
+  "config": {
+   "host": "needhamandco.tal.net",
+   "boards": [
+    {
+     "name": "Experienced",
+     "path": "appcentre-ext/brand-4",
+     "vacancy": 3
+    }
+   ]
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "tal.net (Oleeo); needhamco.com/careers links to needhamandco.tal.net (board appcentre-ext/brand-4, vacancy/3). The feed is open and lists 2 postings today (e.g. 'Equity Research Associate- Disruptive Industrial Tech'), but the vacancy pages answer with the site's captcha check, as at Evercore, so the talnet adapter reads no description. Not verified, and the title rules reject both titles today."
+ },
+ {
+  "company": "Societe Generale",
+  "category": "Investment banking",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://careers.societegenerale.com/en"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Own careers site (careers.societegenerale.com) over Taleo (socgen.taleo.net, careersection sgcareers); no adapter for either."
+ },
+ {
+  "company": "New Mountain Capital",
+  "category": "Private equity",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.newmountaincapital.com/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No public board found: newmountaincapital.com has no careers page (/careers is 404) and no ATS link; discovery's radancy guess is a false signature."
+ },
+ {
+  "company": "Churchill Asset Management",
+  "category": "Private equity",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://www.churchillam.com/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "No own board: Churchill is a Nuveen / TIAA affiliate; churchillam.com/careers is 404 and TIAA's Workday board returns 0 postings for searchText 'Churchill'."
+ },
+ {
+  "company": "Monroe Capital",
+  "category": "Private equity",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://monroecap.com/careers-2/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Paylocity (recruiting.paylocity.com, postings linked from monroecap.com/careers-2/, about 9 today, e.g. 'Analyst, Investor Relations', 'Senior Associate/AVP - Treasury'); no adapter."
+ },
+ {
+  "company": "Loomis Sayles",
+  "category": "Asset management",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://dayforcehcm.com/CandidatePortal/en-US/loomissayles/site/CANDIDATEPORTAL"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Dayforce candidate portal (linked from loomissayles.com/careers); no adapter. The planned Dayforce adapter (Mill Creek, Regency Centers) would cover it."
+ },
+ {
+  "company": "Two Sigma",
+  "category": "Asset management",
+  "ats": "avature",
+  "config": {
+   "host": "careers.twosigma.com",
+   "search": "/careers/OpenRoles",
+   "detail": "JobDetail",
+   "prefix": "job",
+   "page_size": 10,
+   "max_pages": 30,
+   "queries": [
+    ""
+   ],
+   "keep_queries": true
+  },
+  "verified": true,
+  "sample_title": "AI Fluency: Program Manager",
+  "description_chars": 4689,
+  "notes": "Avature portal; the whole board is listed with an empty search (59 postings) and filtered by title, as for Bain. Adapter: 6 match (e.g. 'Corporate Strategy Associate', 'FP&A Sr. Analyst'). The adapter returns an empty location for this portal: the place is only in the job URL slug (.../JobDetail/New-York-New-York-United-States-<title>/<id>), so US postings need the location read from the URL."
+ },
+ {
+  "company": "Macquarie",
+  "category": "Investment banking",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://recruitment.macquarie.com/en_US/careers/SearchJobs/"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Avature portal, public and server-rendered, but the current adapter cannot read it: job links are .../careers/JobDetail?jobId=<id> (no title slug), and pipeline/adapters/avature.py only matches .../<detail>/<slug>/<id>. .../careers/JobDetail/x/<id> does answer 200, so the fix is a second link pattern (href=\".../JobDetail?jobId=(\\d+)\" followed by the title text); search and paging parameters (jobRecordsPerPage, jobOffset) are the usual ones. Not verified."
+ },
+ {
+  "company": "Slalom",
+  "category": "Consulting and advisory",
+  "ats": "unsupported",
+  "config": {
+   "careers_url": "https://jobs.slalom.com/en_US/careersmarketplace/SearchJobs"
+  },
+  "verified": false,
+  "sample_title": null,
+  "description_chars": 0,
+  "notes": "Avature portal, but the current adapter cannot read it: the search page renders its list with JavaScript (no job links in the HTML), so pipeline/adapters/avature.py finds nothing. The RSS feed .../SearchJobs/<keyword>/feed/ (20 items per keyword) and the JobDetail pages are public, so the fix is a feed mode in the adapter. Not verified."
+ },
+ {
+  "company": "Truist Securities",
+  "category": "Investment banking",
+  "ats": "workday",
+  "config": {
+   "host": "truist.wd1.myworkdayjobs.com",
+   "tenant": "truist",
+   "site": "Careers",
+   "facets": {
+    "Job_Area": [
+     "79e521f9f723100102e8a7e145c30000"
+    ]
+   },
+   "queries": [
+    "Truist Securities"
+   ],
+   "keep_queries": true
+  },
+  "verified": true,
+  "sample_title": "2027 Truist Securities - Investment Banking - Summer Associate Program (Internship) - Houston - Energy (MBA)",
+  "description_chars": 6425,
+  "notes": "Truist's Workday board narrowed two ways: facet Job_Area = 'Wholesale Banking Group' and searchText 'Truist Securities'. That gives 17 postings, all securities roles (equity research, ECM, DCM, sales and trading) except one Grandbridge mortgage producer, which the title rules reject; 6 match. The search text alone gives 145 postings, mostly 'Truist Investment Services' financial advisors, so the facet is needed."
+ },
+ {
+  "company": "Silicon Valley Bank",
+  "category": "Venture capital",
+  "ats": "jibe",
+  "config": {
+   "host": "jobs.firstcitizens.com",
+   "queries": [
+    "Silicon Valley Bank"
+   ],
+   "keep_queries": true
+  },
+  "verified": true,
+  "sample_title": "Managing Director, Innovation Banking Investor Coverage - Healthcare",
+  "description_chars": 8975,
+  "notes": "First Citizens' board (iCIMS Jibe API) narrowed by keywords 'Silicon Valley Bank': 13 postings, 12 tagged 'SVB Commercial Bank' (category Innovation Banking) and 1 treasury-management sales role for the same business; 4 match. The API also takes an exact filter tags4='SVB Commercial Bank' (12 postings), which the jibe adapter cannot pass. Locations are office codes ('MASSTA-Boston-State St'), not city, state. The list's category for this bank is 'Venture capital', so 'Associate I - Tech Sponsor Finance, Innovation Banking' is read as a venture associate; 'Commercial and corporate banking' would fit the business better."
+ },
+ {
+  "company": "LaSalle Investment Management",
+  "category": "Real estate",
+  "ats": "workday",
+  "config": {
+   "host": "jll.wd1.myworkdayjobs.com",
+   "tenant": "jll",
+   "site": "lasallecareers",
+   "queries": [
+    ""
+   ],
+   "keep_queries": true
+  },
+  "verified": true,
+  "sample_title": "Associate, Asset Management (Fixed Term Contract)",
+  "description_chars": 7044,
+  "notes": "LaSalle has its own site on JLL's Workday tenant: 'lasallecareers' (11 postings, all LaSalle; 4 match, 2 of them in Chicago). So no search text is needed: the whole site is listed with an empty search. JLL's main site 'jllcareers' cannot be narrowed (searchText 'LaSalle' matches all 2,000+ postings; its 'LaSalle Investment Management Group' job category holds 2 non-matching postings)."
+ }
+]

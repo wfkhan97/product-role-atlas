@@ -1,0 +1,31 @@
+{
+ "company": "Sixth Street",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "sixthstreet.wd1.myworkdayjobs.com",
+  "tenant": "sixthstreet",
+  "site": "sixthstreetcareers"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "sixthstreet.wd1.myworkdayjobs.com",
+    "tenant": "sixthstreet",
+    "site": "sixthstreetcareers"
+   },
+   "from": "https://sixthstreet.com/current-opportunities/",
+   "verify": "Treasury Operations Senior Associate"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "sixthstreet.com",
+ "sample_title": "Treasury Operations Senior Associate",
+ "description_chars": 4087,
+ "seconds": 13
+}
