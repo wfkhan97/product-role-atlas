@@ -156,7 +156,7 @@ are whole.
 
 ```bash
 .venv/bin/python evals/run_pipeline.py               # all parts; exit 1 when a check fails
-.venv/bin/python evals/run_pipeline.py --only titles # one part: backlog, titles, countries, golden, integrity, graph, js, matcher
+.venv/bin/python evals/run_pipeline.py --only titles # one part: backlog, titles, entry, countries, golden, integrity, graph, js, matcher
 .venv/bin/python evals/run_pipeline.py --baseline    # also rewrite pipeline_baseline_mba.md (commit it with the change)
 ```
 
@@ -167,16 +167,19 @@ No API key is needed. The `js` and `matcher` parts need `node`.
 | backlog | – | What a refresh does to a company's postings (`pipeline.scrape.merge`): it adds new ones, closes missing ones, reopens returning ones, drops none, and closes nothing when most postings fail to come back. |
 | titles | `titles_mba.json` | 785 titles with the role each must get, or none. 470 come from the scraped postings, 159 were written to probe the edges ("Executive Assistant, Investment Banking", "Talent Sourcing Manager"), 156 cover campus titles, sector bankers and entry-level grades (set `entry-2026-10-13`). |
 | levels | same file | The level each title must get on its ladder: corporate, bank or consulting. A bank Vice President is `senior`. |
+| entry | `entry_mba.json` | 231 postings with the entry mark each must get: `mba`, `pre_mba` or none, and internship or not. 210 are real US postings drawn by seed from 20 strata; 21 are titles written to probe the firm table. 32 are read with their posting text. The part also checks that every row of the firm table has a source. |
 | countries | `countries.json` | 280 location strings with the country each must get. A wrong country hides a US posting or shows a foreign one. |
 | golden | `golden_mba.json` | 99 postings, two per role, each with the skills it must get and must not get. The posting text is in the file, so the eval does not move when the scrape is refreshed. |
-| integrity | – | No two registry entries share a job board. No URL or id repeats in the processed file. Every skill id exists. Every role has US postings. |
-| graph | – | The role files add up to the index. Every posting is a US posting of its role. Shares in the index equal the weighted shares of the files. No employer weighs more than the cap. The product files are untouched. |
-| js | `roles_mba.mjs` | The JavaScript reader of `web/data/roles_mba.json` gives the same role, level and ladder as `pipeline/roles_mba.py` on every title we hold. |
+| integrity | – | No two registry entries share a job board. No URL or id repeats in the processed file. Every skill id exists. Every role has US postings. Every posting has an entry mark from the allowed values, and a source exactly when it has a mark. |
+| graph | – | The role files add up to the index. Every posting is a US posting of its role. The entry marks in the files equal the processed file, and the entry counts in the index (per role and ladder, per ladder) add up to the files. Shares in the index equal the weighted shares of the files. No employer weighs more than the cap. The product files are untouched. |
+| js | `roles_mba.mjs` | The JavaScript reader of `web/data/roles_mba.json` gives the same role, level, ladder and entry mark as `pipeline/roles_mba.py` on every title we hold, and the same entry mark on the labelled postings that carry a text. |
 | matcher | `graph_mba.mjs` | `web/match.js` builds requirements and scores a resume against each of the 50 roles, with no change to the matcher. |
 
 **How the labels were made.** Before the code was run on them, by reading: each title with its employer, each
 location, each posting in full with the skill names and definitions (not the patterns). The labellers were model
 readers that did not see the code. The instructions they followed are summarised in each file's `about`.
+
+**The entry labels.** One model reader labelled the 231 rows from a written spec, the research note and the sample. It did not see the code, and the rule was not run on the rows before. The spec defines `mba` as "written for MBA students or new MBA graduates, or the grade at which that firm hires MBA graduates into its main line of work", and `pre_mba` likewise. 60 rows are `sure: false` (funds, asset managers, brand titles, internships with no audience in the title): the research does not settle them. After a change to `pipeline/entry_mba.json`, to `entry()` or to a level rule, run `evals/run_pipeline.py`; the chain for the MBA extract path applies (below), because the mark is written at extraction.
 
 **Rows that do not count.** `"sure": false` marks a row a reader could label either way (about a third of the
 titles). It is reported, not counted. `"known_miss"` (`known_miss_role`, `known_miss_level` for titles) marks a
@@ -210,5 +213,5 @@ model audit and the pipeline evals above (items 1 to 6 of the first list). Still
    length, active voice), a specificity check (it names a tool, an artefact or a number from the postings) and an
    evidence check (its sub-skill patterns match postings; each rung is backed by postings at that level and on
    that ladder). The pipeline that produces the content is proposed in `PLAN.md`.
-4. **A fresh sample for titles and countries**, labelled and run once without fixing rules on it.
+4. **A fresh sample for titles, entry marks and countries**, labelled and run once without fixing rules on it. For the entry mark also: a second reader, and a sample of marked postings judged with their full text (the precision in `NOTES.md` was read by the author of the rules).
 5. **A second reader for the golden postings**, to measure agreement between labellers.

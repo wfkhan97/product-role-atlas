@@ -7,7 +7,8 @@
   "4. When general is corp_dev, the employer is big or in 'banks', its category is none or Investment banking, and the title does not say corporate development ('corp_dev_named'): the role is ib_associate. Otherwise, when general is not empty, the role is general.",
   "5. Employer rule (the fallback when general is empty): at a consulting category, a title matching 'consultant' is management_consultant unless it matches 'consultant_exclude'. At a Strategy consulting firm, a title matching 'house_rank' is management_consultant unless it matches 'house_staff'. At a 'bank_categories' employer, when the title matches 'deal' and not 'tech_staff', take the 'sector' words out first. Then no role when the title matches 'employer_exclude' (or 'real_estate_exclude' at a real-estate firm); else the first rule of 'employer_rules'[category] that matches. For a big employer the result counts only when the title matches 'deal' or 'campus_rank'.",
   "6. Still no role: 'last_resort'.family when the title matches its pattern.",
-  "7. Level: pick the ladder ('ladders'.*.applies), replace a chief-of-staff phrase ('chief_of_staff') with 'CoS', then the first grade whose pattern matches; none: 'mid'. An ldp title with no manager word ('ldp_staff') is 'associate'."
+  "7. Level: pick the ladder ('ladders'.*.applies), replace a chief-of-staff phrase ('chief_of_staff') with 'CoS', then the first grade whose pattern matches; none: 'mid'. An ldp title with no manager word ('ldp_staff') is 'associate'. In a title that matches 'mba_word', a match of 'program_grade' is replaced by 'program' before the grades are read.",
+  "8. Entry mark (who enters at this title: 'mba', 'pre_mba' or none; with intern true or false and the source of the evidence): see 'entry'.about and its notes. Order: no mark when the title matches entry.title.not_for_them, or entry.title.phd without an MBA word; the firm's row in entry.firms (company name, role in the row's families, default management_consultant; the title without the firm's first word); entry.title.pre, then entry.title.mba; no mark on entry.title.no_mark_levels; a student line of the text (entry.text); the row of entry.categories for the employer's category, role and level; entry.title.summer_associate; a weak line of the text; campus words, an internship or the ldp role."
  ],
  "flags": "i",
  "groups": [
@@ -1017,6 +1018,308 @@
   "vp": "VP / head of function",
   "cpo": "Chief officer"
  },
+ "mba_word": "\\bMBA\\b",
+ "program_grade": "\\b(director|manager|lead|leader)\\s+(development\\s+)?program(me)?\\b",
+ "entry": {
+  "about": "Who enters at a posting of the MBA role set: an MBA graduate (\"mba\"), a bachelor's or non-MBA master's graduate (\"pre_mba\"), or neither (null, an experienced-hire job or no evidence). Read by pipeline/roles_mba.py (entry()) and written into web/data/roles_mba.json under \"entry\". Levels are not changed by this table. Every pattern is a JavaScript regular expression used with the \"i\" flag. A firm row is tested on the title after the firm's own first word is removed, first match wins. \"basis\": \"primary\" = the firm's own posting or page says it; \"secondary\" = a guide, a forum, a page of another office or an inference. Facts come from the research note of 2026-10-12 (evals/NOTES.md, \"Entry mark\"). What a source means: \"title\" and \"text\" say the posting itself is written for that audience; \"firm\" and \"category\" say the title is the grade at which that audience joins (the posting may also be open to experienced hires).",
+  "values": [
+   "mba",
+   "pre_mba"
+  ],
+  "sources": [
+   "firm",
+   "title",
+   "text",
+   "category"
+  ],
+  "firms": [
+   {
+    "firm": "McKinsey & Company",
+    "basis": "primary",
+    "source": [
+     "https://www.mckinsey.com/careers/search-jobs/jobs/businessanalyst-15136",
+     "https://www.mckinsey.com/careers/search-jobs/jobs/associate-manufacturing-100763"
+    ],
+    "note": "Business Analyst: an undergraduate degree and under 4 years of work. Associate: an advanced degree (MBA, PhD) or equal experience. Associate Intern: enrolled in an advanced degree programme.",
+    "titles": [
+     {
+      "pattern": "^\\W*business\\s+analyst\\b",
+      "entry": "pre_mba"
+     },
+     {
+      "pattern": "^\\W*associate\\b(?!\\s*(/|partner|director|principal|consultant))",
+      "entry": "mba"
+     }
+    ]
+   },
+   {
+    "firm": "Boston Consulting Group",
+    "basis": "primary",
+    "source": [
+     "https://careers.bcg.com/global/en/job/58355",
+     "https://careers.bcg.com/global/en/job/58829",
+     "https://careers.bcg.com/global/en/job/58498"
+    ],
+    "note": "Associates have 0-4 years of work; a non-business master's applies as Associate. Consultants have 4+ years or an advanced degree (MBA, PhD). The MBA internship is \"Consultant, Internship MBA\".",
+    "titles": [
+     {
+      "pattern": "^\\W*consultant\\b",
+      "entry": "mba"
+     },
+     {
+      "pattern": "^\\W*associate\\b(?!\\s*(/|to\\b|partner|director|principal))",
+      "entry": "pre_mba"
+     }
+    ]
+   },
+   {
+    "firm": "Bain & Company",
+    "basis": "primary",
+    "source": [
+     "https://www.bain.com/careers/work-with-us/students/massachusetts-institute-of-technology/",
+     "https://bain.com/careers/roles/summer-associate"
+    ],
+    "note": "Read as search extracts of the firm's pages. Undergraduates join as Associate Consultant. Summer Associate is for MBA students and leads to a full-time Consultant offer.",
+    "titles": [
+     {
+      "pattern": "^\\W*associate\\s+consultant\\b",
+      "entry": "pre_mba"
+     },
+     {
+      "pattern": "^\\W*summer\\s+associate\\b",
+      "entry": "mba",
+      "intern": true
+     },
+     {
+      "pattern": "^\\W*consultant\\b",
+      "entry": "mba"
+     }
+    ]
+   },
+   {
+    "firm": "L.E.K. Consulting",
+    "basis": "primary",
+    "source": [
+     "https://www.lek.com/careers/the-lek-career/roles-at-lek"
+    ],
+    "note": "Associate and Summer Associate are for undergraduates. Consultant and Summer Consultant are for MBA students.",
+    "titles": [
+     {
+      "pattern": "\\bsummer\\s+associate\\b",
+      "entry": "pre_mba",
+      "intern": true
+     },
+     {
+      "pattern": "\\bsummer\\s+consultant\\b",
+      "entry": "mba",
+      "intern": true
+     },
+     {
+      "pattern": "(?<!senior\\s)\\bassociate\\b(?!\\s+(consultant|partner|director))",
+      "entry": "pre_mba"
+     },
+     {
+      "pattern": "(?<!senior\\s)(?<!associate\\s)\\bconsultant\\b",
+      "entry": "mba"
+     }
+    ]
+   },
+   {
+    "firm": "Kearney",
+    "basis": "secondary",
+    "source": [
+     "https://www.kearney.com/about/locations/southeast-asia/careers/kuala-lumpur",
+     "https://managementconsulted.com/kearney/"
+    ],
+    "note": "A firm page of another office and a guide. Business Analyst is the undergraduate title, Associate the post-MBA title.",
+    "titles": [
+     {
+      "pattern": "^\\W*business\\s+analyst\\b",
+      "entry": "pre_mba"
+     },
+     {
+      "pattern": "^\\W*associate\\b(?!\\s*(/|partner|director|principal|consultant))",
+      "entry": "mba"
+     }
+    ]
+   },
+   {
+    "firm": "Analysis Group",
+    "basis": "primary",
+    "source": [
+     "https://associatecareers-analysisgroup.icims.com/jobs/3047/associate---generalist-%28mba-ma%29-%282027-start-date%29/job"
+    ],
+    "note": "Associate: an MBA or a master's degree; a non-MBA master's needs four more years of work. Analyst is the undergraduate title.",
+    "titles": [
+     {
+      "pattern": "^\\W*(summer\\s+)?associate\\b(?!\\s*(/|partner|director|principal))",
+      "entry": "mba"
+     },
+     {
+      "pattern": "^\\W*analyst\\b",
+      "entry": "pre_mba"
+     }
+    ]
+   },
+   {
+    "firm": "ZS",
+    "basis": "primary",
+    "source": [
+     "https://careers-zs.icims.com/jobs/63463/login",
+     "https://careers-zs.icims.com/jobs/22926/login"
+    ],
+    "note": "Consultant postings ask for an MBA, or 5-8 years of work in lieu of an MBA or PhD.",
+    "titles": [
+     {
+      "pattern": "(?<!associate\\s)\\bconsultant\\b",
+      "entry": "mba"
+     }
+    ]
+   },
+   {
+    "firm": "Deloitte",
+    "basis": "primary",
+    "families": null,
+    "source": [
+     "https://apply.deloitte.com/en_US/careers/JobDetail/Consultative-Offerings-Senior-Consultant-Enterprise-Strategy/365503",
+     "https://apply.deloitte.com/en_US/careers/JobDetail/Consultative-Offerings-Summer-Associate-Enterprise-Strategy/368915"
+    ],
+    "note": "The MBA class joins as Senior Consultant; the MBA internship is Summer Associate. Senior Consultant is also the grade of experienced hires in every practice, so this row marks a grade, not a campus posting.",
+    "titles": [
+     {
+      "pattern": "\\bsummer\\s+associate\\b",
+      "entry": "mba",
+      "intern": true
+     },
+     {
+      "pattern": "\\bsenior\\s+consultant\\b",
+      "entry": "mba",
+      "families": [
+       "management_consultant"
+      ]
+     }
+    ]
+   },
+   {
+    "firm": "Oliver Wyman",
+    "basis": "secondary",
+    "source": [
+     "https://caseinterview.com/oliver-wyman-careers",
+     "https://mmc.wd1.myworkdayjobs.com/MMC/job/New-York---1166/Oliver-Wyman---2027-MBA-Summer-Associate---Health---Life-Sciences_R_363378"
+    ],
+    "note": "A guide says Associates are hired from graduate business programmes. The firm's own posting confirms only the MBA Summer Associate internship.",
+    "titles": [
+     {
+      "pattern": "(^\\W*(wyman\\W+)?|[-–]\\s*)associate\\s*$",
+      "entry": "mba"
+     }
+    ]
+   }
+  ],
+  "categories": [
+   {
+    "category": "Investment banking",
+    "families": [
+     "ib_associate"
+    ],
+    "basis": "primary",
+    "source": [
+     "https://barclays.wd3.myworkdayjobs.com/External_Career_Site_Barclays/job/San-Francisco-Four-Embarcadero-Center/Banking-Associate-Graduate-Program-2027-San-Francisco_JR-0000123462-1",
+     "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/210784644",
+     "https://www.williamblair.com/Careers/job-description?gh_jid=5181697007"
+    ],
+    "note": "In investment banking the Analyst is the undergraduate hire and the Associate the MBA hire (or an analyst of about three years). Summer Analyst and Summer Associate are the two internships. Four banks' own postings say so. A posting that asks for more than 'max_yoe' years is a later year of the grade and gets no mark from this default.",
+    "titles": [
+     {
+      "pattern": "\\bsummer\\s+analyst\\b|\\banalyst\\b.*\\bintern|\\bintern\\w*\\b.*\\banalyst\\b",
+      "entry": "pre_mba",
+      "intern": true
+     },
+     {
+      "pattern": "\\bsummer\\s+associate\\b|\\bassociate\\b.*\\bintern|\\bintern\\w*\\b.*\\bassociate\\b",
+      "entry": "mba",
+      "intern": true
+     },
+     {
+      "pattern": "\\banalyst\\b",
+      "entry": "pre_mba",
+      "level": "associate",
+      "not": "\\b(senior|sr\\.?|lead)\\s+analyst\\b|\\banalyst\\s+(ii+|[2-9])\\b|\\bbanker\\b|\\bbranch\\b|\\bbilingual\\b|\\bteam\\s+lead\\b|\\bmanager\\b|\\bjunior\\b|\\bexperienced\\b|\\b(analyst|associate|president|vp)\\s*/|/\\s*(analyst|associate|vice|vp)\\b"
+     },
+     {
+      "pattern": "\\bassociate\\b",
+      "entry": "mba",
+      "level": "mid",
+      "not": "\\b(senior|sr\\.?)\\s+associate\\b|\\bassociate\\s+(vice|director|ii+|[2-9])\\b|\\bbanker\\b|\\bbranch\\b|\\bbilingual\\b|\\bteam\\s+lead\\b|\\bmanager\\b|\\bjunior\\b|\\bexperienced\\b|\\b(analyst|associate|president|vp)\\s*/|/\\s*(analyst|associate|vice|vp)\\b"
+     }
+    ],
+    "max_yoe": 3
+   },
+   {
+    "category": "Strategy consulting",
+    "families": [
+     "management_consultant"
+    ],
+    "basis": "primary",
+    "source": [
+     "https://www.mckinsey.com/careers/search-jobs/jobs/businessanalyst-15136",
+     "https://careers.bcg.com/global/en/job/58355",
+     "https://www.lek.com/careers/the-lek-career/roles-at-lek"
+    ],
+    "note": "The analyst grade is the undergraduate entry grade at every strategy house read. There is no default for the MBA grade: \"Associate\" and \"Consultant\" change meaning from firm to firm, so only a firm row marks them.",
+    "titles": [
+     {
+      "pattern": "\\bsummer\\s+analyst\\b|\\banalyst\\b.*\\bintern|\\bintern\\w*\\b.*\\banalyst\\b",
+      "entry": "pre_mba",
+      "intern": true
+     },
+     {
+      "pattern": "\\b(business\\s+analyst|research\\s+analyst|analyst)\\b",
+      "entry": "pre_mba",
+      "level": "associate",
+      "not": "\\b(senior|sr\\.?|experienced|lead)\\b|\\banalyst\\s+(ii+|[2-9])\\b|\\bintern"
+     }
+    ]
+   }
+  ],
+  "title": {
+   "note": "Words in a title, for any employer. 'not_for_them' and 'phd' stop every rule: a job about students is not a job for them, and a posting for PhD graduates only is not marked. 'pre' and 'mba' name the audience outright ('pre' not with a 'campus_not' word, 'mba' not with 'mba_not'). A posting on a 'no_mark_levels' level gets a mark only from a firm row or from these two. 'summer_associate' is the MBA internship at banks and most firms (a firm row says otherwise for L.E.K.). 'campus' words, an internship or a programme (the ldp role) show a student or new-graduate posting whose audience the title does not name: it is read as pre_mba after the text and the category have had their say, unless the title has a 'campus_not' word.",
+   "intern": "\\bintern(ship)?s?\\b|\\bco-?op\\b|\\bsummer\\s+(associate|analyst|consultant|fellow|program(me)?)s?\\b",
+   "not_for_them": "\\brecruit(er|ers|ment)\\b|\\b(recruiting|talent\\s+acquisition|admissions|early\\s+careers?|campus|university\\s+relations)\\s+(manager|lead|leader|director|coordinator|specialist|partner|advisor|program\\s+manager)\\b|\\b(manager|lead|leader|director|head|coordinator|specialist|partner|advisor|vice\\s+president|vp),?\\s+(of\\s+)?(\\w+\\s+){0,2}(recruit\\w*|talent\\s+acquisition|early\\s+careers?|campus|university)\\b|\\bprogram\\s+manager\\b|\\bprograms?\\s+(leader|advisor|manager|lead|director|specialist|coordinator)\\b|\\blearning\\s*(&|and)\\s*development\\b|\\bL&D\\b|\\btalent\\s+acquisition\\b",
+   "phd": "\\bph\\.?d\\b|\\bABD\\b|\\bpost-?doc",
+   "mba_not": "\\bMBA\\s+(preferred|a\\s+plus|desired|or\\s+equivalent)\\b",
+   "pre": "\\b(pre|non)[- ]?MBA\\b|\\bundergrad(uate)?s?\\b|\\bbachelor'?s?\\b|\\bsummer\\s+analyst\\b",
+   "mba": "\\bMBA\\b",
+   "summer_associate": "\\bsummer\\s+(associate|consultant)\\b",
+   "campus": "\\bnew\\s+grad(uate)?s?\\b|\\bentry[- ]level\\b|\\bclass\\s+of\\s+20\\d\\d\\b|(?<![A-Za-z0-9_])20(2[6-9])(?![A-Za-z0-9_])|\\bearly\\s+(career|talent)s?\\b|\\buniversity\\s+(grad(uate)?s?|associate|analyst|hire|program)\\b|^\\W*campus\\b|\\bcampus\\s+(20\\d\\d|recruiting|hire|graduate|program)\\b|\\b(recent|college)\\s+(college\\s+)?grad(uate)?s?\\b|\\bgraduate\\s+(program(me)?|rotational|scheme|analyst|associate|trainee|leadership)\\b|\\bgraduate\\W*$|\\brotational\\b|\\banalyst\\s+program(me)?\\b|\\btrainee\\b",
+   "campus_not": "\\b(senior|sr\\.?|director|vice\\s+president|vp|principal|head|store|branch)\\b|\\bexperienced\\s+(professional|hire)s?\\b",
+   "no_mark_levels": [
+    "staff",
+    "group",
+    "director",
+    "vp",
+    "cpo"
+   ]
+  },
+  "text": {
+   "note": "Words in the cleaned posting text. 'student' lines say who the posting is written for (a degree in progress, a graduation year) and are trusted before the category default. A student line that names an MBA ('mba') marks the posting mba, unless the line has an 'mba_not' word (then the line is skipped: most MBA mentions are \"MBA preferred\") or also names a bachelor's degree ('undergrad': then pre_mba). A student line with no MBA marks it pre_mba. 'weak' lines (no experience asked) are read after the category default, only on 'weak_levels' and only when the title has no 'weak_not' word.",
+   "student": "\\b(pursuing|enrolled\\s+in|completing|working\\s+towards?)\\s+(an?\\s+|your\\s+|their\\s+|the\\s+)?((undergraduate|graduate|bachelor'?s?|master'?s?|MBA|BA|BS|B\\.[AS]\\.?|MS|four[- ]year|4[- ]year|college|university|full[- ]time|part[- ]time|advanced|accredited|business|[a-z]+)\\W+){0,4}?(degree|MBA|bachelor'?s|master'?s|(under)?graduate\\s+program)|\\b(expected\\s+)?(to\\s+)?graduat(e|es|ing|ion)(\\s+date)?\\b[^.\\n]{0,70}(?<![A-Za-z0-9_])20(2[6-9])(?![A-Za-z0-9_])|\\b(first|1st|second|2nd|final|last|penultimate)[- ]year\\b[^.\\n]{0,30}\\b(MBA|business\\s+school|students?|undergraduates?)\\b|\\brising\\s+(junior|senior|sophomore)s?\\b|\\bcurrent(ly)?\\s+(an?\\s+)?(college\\s+|university\\s+|undergraduate\\s+|graduate\\s+|MBA\\s+|full[- ]time\\s+)?students?\\b|\\b(college|university)\\s+(junior|senior|sophomore)s?\\b|\\bMBA\\s+(student|candidate|intern)s?\\b",
+   "mba": "\\bM\\.?B\\.?A\\b|\\bmaster'?s?\\s+(degree\\s+)?(of|in)\\s+business\\s+administration\\b|\\bbusiness\\s+school\\b",
+   "mba_not": "\\bprefer|\\ba\\s+plus\\b|\\bdesir|\\basset\\b|\\bnot\\s+required\\b|\\bpost[- ]?MBA\\b|\\bnice\\s+to\\s+have\\b|\\b(non|pre)[- ]?MBA\\b|\\bor\\s+(a\\s+)?(CPA|CFA)\\b|\\b(earned|possess\\w*|obtained|completed|have)\\s+or\\b|\\bmay\\s+include\\b|\\bencouraged\\b|\\bworking\\s+towards?\\s+obtaining\\b",
+   "weak": "\\b0\\s*(-|–|to)\\s*[12]\\s*\\+?\\s*years?\\b|\\bminimum\\s+years\\s+of\\s+experience:\\s*0\\b|\\bno\\s+(prior\\s+|previous\\s+)?(work\\s+)?experience\\s+(is\\s+)?(required|necessary|needed)\\b|\\b(recent|new)\\s+(college\\s+|university\\s+)?graduates?\\b|\\bentry[- ]level\\s+(position|role|opportunity)\\b",
+   "weak_not": "\\b(senior|sr\\.?|experienced|manager|lead|director|principal|ii+|[2-9])\\b",
+   "student_levels": [
+    "associate",
+    "mid",
+    "senior"
+   ],
+   "weak_levels": [
+    "associate",
+    "mid"
+   ],
+   "undergrad": "\\bbachelor|\\bundergraduate|\\bB\\.?[AS]\\b\\.?"
+  }
+ },
  "chief_of_staff": "\\b(deputy\\s+)?chief\\s+of\\s+staff\\b(\\s*(,|to|-|–|for)\\s+.*)?$",
  "ldp_staff": "\\b(director|manager|lead|head|vp|vice\\s+president)\\b",
  "ladders": {
@@ -1075,7 +1378,7 @@
     },
     {
      "level": "senior",
-     "pattern": "\\bvice\\s+president\\b|\\bVP\\b|\\bsenior\\s+associate\\b"
+     "pattern": "\\bvice\\s+president\\b|\\bVP\\b|\\b(senior|sr\\.?)\\s+associate\\b"
     },
     {
      "level": "mid",
@@ -1130,7 +1433,7 @@
     },
     {
      "level": "senior",
-     "pattern": "\\b(manager|senior\\s+consultant|senior\\s+associate|consultant\\s+ii+)\\b"
+     "pattern": "\\b(manager|(senior|sr\\.?)\\s+consultant|(senior|sr\\.?)\\s+associate|consultant\\s+ii+)\\b"
     },
     {
      "level": "associate",

@@ -2,7 +2,7 @@
 
     .venv/bin/python evals/run_pipeline.py               # report; exit 1 when a check fails
     .venv/bin/python evals/run_pipeline.py --baseline    # also rewrite evals/pipeline_baseline_mba.md
-    .venv/bin/python evals/run_pipeline.py --only titles # one part: backlog, titles, countries, golden, integrity, graph, js, matcher
+    .venv/bin/python evals/run_pipeline.py --only titles # one part: backlog, titles, entry, countries, golden, integrity, graph, js, matcher
 
 Labels are the spec. They were written by reading titles, locations and postings before the code was run on
 them. A row with "sure": false is one a reader could label either way: it is reported, not counted. A row with
@@ -11,6 +11,7 @@ remove the mark).
 
 0. backlog    pipeline.scrape.merge: a refresh adds new postings, closes missing ones, reopens returning ones, drops none
 1. titles     evals/titles_mba.json   the role each title must get (or none), and its level on its ladder
+1b. entry     evals/entry_mba.json    who enters at each posting: an MBA graduate, a pre-MBA graduate or neither; internship or not
 2. countries  evals/countries.json    the country each location must get
 3. golden     evals/golden_mba.json   skills each posting must get and must not get; floors guard against regressions
 4. integrity  registry, processed file: no shared job board, no repeated URL, known skill ids, every role has postings
@@ -81,6 +82,42 @@ def titles():
     out(f"\n== levels ({len(lv)} titles with a role and a level; by ladder: {dict(collections.Counter(roles_mba.ladder(r['title'], r['company'], r['category'], r.get('industry')) for r in lv))})")
     unsure, known = labelled("levels", lv, got, "level", show, "known_miss_level")
     out(f"  {totals[('levels', 'pass')]} pass, {totals[('levels', 'fail')]} fail; {known} known misses; {sum(1 for r in lv if not r.get('sure', True))} unsure rows not counted ({unsure} differ)")
+
+
+def entry_text(r):
+    """The cleaned text and the years asked, as extraction hands them to roles_mba.entry (None when the row has no text)."""
+    if not r.get("description"):
+        return None, None
+    text = extract.clean(r["description"], r["company"], extract.ROLE_SETS[ROLES].get("split_long", False))
+    return text, extract.years_required(text)
+
+
+def entry():
+    rows = load("entry_mba.json")["rows"]
+    out(f"\n== entry mark ({len(rows)} postings: {sum(1 for r in rows if r['entry'] == 'mba')} mba, {sum(1 for r in rows if r['entry'] == 'pre_mba')} pre_mba, "
+        f"{sum(1 for r in rows if r['entry'] is None)} none; {sum(1 for r in rows if r.get('description'))} read with their text, {sum(1 for r in rows if r.get('written'))} written)")
+    src = collections.Counter()
+
+    def got(r):
+        text, yoe = entry_text(r)
+        e, intern, s = roles_mba.entry(r["title"], r["company"], r["category"], r.get("industry"), text=text, yoe=yoe)
+        if r.get("sure", True) and not r.get("known_miss"):
+            src[(s or "none", (e, e and intern) == r["want"])] += 1
+        return (e, e and intern)  # intern is compared only where there is a mark
+    for r in rows:
+        r["want"] = (r["entry"], r["entry"] and r["intern"])
+    check("entry", all(r["entry"] in roles_mba.ENTRY_VALUES + (None,) and isinstance(r["intern"], bool) for r in rows), "a label is outside the allowed values")
+    unsure, known = labelled("entry", rows, got, "want", lambda r: f"{r['title']!r} at {r['company']} ({r['category'] or 'no category'})")
+    out(f"  {totals[('entry', 'pass')]} pass, {totals[('entry', 'fail')]} fail; {known} known misses; {sum(1 for r in rows if not r.get('sure', True))} unsure rows not counted ({unsure} of them differ from their label)")
+    out("  sure rows by the evidence the rule used (right / all): " + ", ".join(f"{s} {src[(s, True)]}/{src[(s, True)] + src[(s, False)]}" for s in ("firm", "title", "text", "category", "none")))
+    # the table itself: every row has a source, and every pattern compiles (the import did that) and is used
+    E = roles_mba.ENTRY
+    check("entry", all(f.get("source") and f.get("basis") in ("primary", "secondary") for f in E["firms"] + E["categories"]), "a row of the firm or category table has no source or no basis")
+    check("entry", all(t["entry"] in roles_mba.ENTRY_VALUES for f in E["firms"] + E["categories"] for t in f["titles"]), "a row of the table gives a mark outside the allowed values")
+    known_cats = set(roles_mba.EMPLOYER_RE) | set(roles_mba.FORTUNE_CATEGORIES.values())
+    check("entry", all(c["category"] in known_cats and set(c["families"]) <= set(roles_mba.FAMILY_LABELS) for c in E["categories"]), "the category table names a category or a role that does not exist")
+    reg = {r["company"] for r in load_registry(ROLES)}
+    check("entry", all(f["firm"] in reg for f in E["firms"]), f"the firm table names employers that are not in the registry: {[f['firm'] for f in E['firms'] if f['firm'] not in reg]}")
 
 
 def countries():
@@ -175,6 +212,8 @@ def integrity():
     check("integrity", not empty, f"roles with no US postings: {empty}")
     check("integrity", set(us) <= set(roles_mba.FAMILY_LABELS), f"postings carry a role that is not in the role list: {set(us) - set(roles_mba.FAMILY_LABELS)}")
     check("integrity", all(j["level"] in roles_mba.LEVEL_ORDER and j.get("ladder") in roles_mba.LADDERS for j in jobs), "a posting has a level or a ladder outside the lists")
+    check("integrity", all(j.get("entry", 0) in roles_mba.ENTRY_VALUES + (None,) and isinstance(j.get("intern"), bool) for j in jobs), "a posting has no entry mark, or one outside the allowed values")
+    check("integrity", all((j["entry_src"] in roles_mba.ENTRY_SOURCES) == (j["entry"] is not None) for j in jobs), "a posting has an entry mark without its source, or a source without a mark")
     check("integrity", all(isinstance(j.get("open"), bool) and j.get("first_seen") and j.get("last_seen") for j in jobs), "a posting lacks open, first_seen or last_seen")
     check("integrity", all(j["open"] or j["last_seen"] >= (__import__("datetime").date.today() - __import__("datetime").timedelta(days=extract.KEEP_CLOSED_DAYS)).isoformat() for j in jobs), "a closed posting older than the limit is still counted")
     none = sum(1 for j in jobs if j["country"] is None)
@@ -202,6 +241,10 @@ def graph(jobs):
     us = [j for j in jobs if j["country"] == "United States"]
     want_n = collections.Counter(j["family"] for j in us)
     seen_ids, total, worst = set(), 0, (0, None)
+    ekey = lambda j: (j["entry"] + ("_intern" if j["intern"] else "")) if j["entry"] else None
+    ecount = lambda js: {k: {"n": sum(1 for j in js if ekey(j) == k), "posted": sum(1 for j in js if ekey(j) == k and j["entry_src"] in ("title", "text"))} for k in ("mba", "mba_intern", "pre_mba", "pre_mba_intern")}
+    by_id = {(j["company"], j["url"]): j for j in us}
+    marked = collections.Counter()
     job_keys = set(product["jobs"][0])
     for f in G["families"]:
         F = read(G["meta"]["files"][f])
@@ -211,6 +254,10 @@ def graph(jobs):
         check(part, all(j["family"] == f and j["country"] == "United States" for j in rows), f"{f}: a posting of another role or another country")
         check(part, all(job_keys <= set(j) for j in rows), f"{f}: a posting lacks fields that graph.json postings have: {job_keys - set(rows[0]) if rows else ''}")
         check(part, all(j["level"] in G["levels"] and j["ladder"] in G["ladders"] for j in rows), f"{f}: a level or ladder outside the lists")
+        check(part, all(j.get("entry", 0) in roles_mba.ENTRY_VALUES + (None,) and isinstance(j.get("intern"), bool) and (j.get("entry_src") in roles_mba.ENTRY_SOURCES) == (j["entry"] is not None) for j in rows), f"{f}: an entry mark is missing or outside the allowed values")
+        check(part, all((j["entry"], j["intern"], j["entry_src"]) == tuple(by_id[(j["company"], j["url"])][k] for k in ("entry", "intern", "entry_src")) for j in rows), f"{f}: an entry mark differs from the processed file")
+        check(part, G["roles"][f].get("entry") == {l: ecount([j for j in rows if j["ladder"] == l]) for l in G["roles"][f]["by_ladder"]}, f"{f}: the entry counts in the index do not add up to the file")
+        marked.update((j["ladder"], ekey(j)) for j in rows if j["entry"])
         check(part, all(isinstance(j.get("open"), bool) for j in rows) and sum(1 for j in rows if j["open"]) == G["roles"][f].get("n_open"), f"{f}: open marks are missing or do not add up to the index")
         check(part, all(0 <= i < len(G["skill_ids"]) for j in rows for i in j["skills"]) and all(0 <= i < len(G["sub_ids"]) for j in rows for i in j["sub"]), f"{f}: a skill index out of range")
         check(part, not (seen_ids & {j["id"] for j in rows}), f"{f}: posting ids repeat across files")
@@ -237,6 +284,9 @@ def graph(jobs):
         check(part, all(c in G["families"] for c in R["covers"] + R["covered_by"]), f"{f}: covers a role that does not exist")
         check(part, R["bytes"] == os.path.getsize(os.path.join(data, R["file"])), f"{f}: file size in the index is stale")
     check(part, total == G["meta"]["n_jobs"] == len(us) and seen_ids == set(range(total)), f"postings: {total} in files, {G['meta']['n_jobs']} in the index, {len(us)} extracted")
+    check(part, all(G["ladders"][l].get("entry") == ecount([j for j in us if j["ladder"] == l]) for l in G["ladders"]), "the entry counts per ladder in the index do not add up to the postings")
+    check(part, set(G["meta"].get("entry", {}).get("labels", {})) == {"mba", "mba_intern", "pre_mba", "pre_mba_intern"}, "the index lacks the labels of the entry mark")
+    out("  entry marks (n, of which the posting says so): " + "; ".join(f"{l}: " + ", ".join(f"{k} {v['n']} ({v['posted']})" for k, v in G["ladders"][l]["entry"].items()) for l in G["ladders"]))
     check(part, os.path.getsize(os.path.join(data, f"graph_{ROLES}.json")) < 2.5e6, "the index is above 2.5 MB; it is loaded on every visit")
     ev = read(G["meta"]["evidence"])
     us_urls = {j["url"] for j in us}
@@ -263,21 +313,27 @@ def js(jobs):
     for r in load("titles_mba.json")["rows"]:
         seen.setdefault((r["title"], r["company"], r["category"], r.get("industry")), None)
     rows = [{"title": t, "company": c, "category": cat, "industry": ind} for t, c, cat, ind in seen]
+    # the entry mark is also compared with the posting text, on the labelled postings that carry one
+    for r in load("entry_mba.json")["rows"]:
+        text, yoe = entry_text(r)
+        rows.append({"title": r["title"], "company": r["company"], "category": r["category"], "industry": r.get("industry"), **({"text": text, "yoe": yoe} if text else {})})
     try:
         res = subprocess.run(["node", os.path.join(HERE, "roles_mba.mjs")], input=json.dumps(rows), capture_output=True, text=True, check=True)
     except (OSError, subprocess.CalledProcessError) as e:
         check("js", False, f"node evals/roles_mba.mjs did not run: {getattr(e, 'stderr', e)}")
         return
     bad = 0
-    for r, (f, l, lad) in zip(rows, json.loads(res.stdout)):
+    for r, got in zip(rows, json.loads(res.stdout)):
         pf = roles_mba.family(r["title"], r["category"], r["company"])
-        want = (pf, roles_mba.level(r["title"], r["company"], r["category"], r["industry"], pf), roles_mba.ladder(r["title"], r["company"], r["category"], r["industry"], pf))
-        if (f, l, lad) != want:
+        lv = roles_mba.level(r["title"], r["company"], r["category"], r["industry"], pf)
+        want = (pf, lv, roles_mba.ladder(r["title"], r["company"], r["category"], r["industry"], pf), *roles_mba.entry(r["title"], r["company"], r["category"], r["industry"], pf, lv, r.get("text"), r.get("yoe")))
+        f = tuple(got)
+        if f != want:
             bad += 1
             if bad <= 5:
-                out(f"  differs: {r['title']!r} at {r['company']}: python {want}, javascript {(f, l, lad)}")
+                out(f"  differs: {r['title']!r} at {r['company']}: python {want}, javascript {f}")
     check("js", bad == 0, f"{bad} of {len(rows)} titles read differently")
-    out(f"  {len(rows):,} distinct titles: {len(rows) - bad:,} read the same, {bad} differ")
+    out(f"  {len(rows):,} titles (role, level, ladder, entry mark): {len(rows) - bad:,} read the same, {bad} differ")
 
 
 def matcher():
@@ -301,6 +357,8 @@ def main():
     per = None
     if want("titles"):
         titles()
+    if want("entry"):
+        entry()
     if want("backlog"):
         backlog()
     if want("countries"):

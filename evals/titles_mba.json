@@ -1,5 +1,5 @@
 {
- "about": "Job titles with the role and the level each must get (role null: the title is none of the 50 roles). Labelled by reading, before the rules were run on them (2026-10-12): 470 titles drawn from the scraped postings by plain keyword and at random, 159 written to probe the edges. Rows with sure=false are reported, not counted. Checked by evals/run_pipeline.py. Rows with set \"entry-2026-10-13\" (148) were added when campus titles, sector bankers and the entry-level grades of manager roles were brought in; they were labelled from the rules of that decision, before the patterns were written. \"category_before\" marks a row whose employer got a category after it was labelled (Fortune banks and investors).",
+ "about": "Job titles with the role and the level each must get (role null: the title is none of the 50 roles). Labelled by reading, before the rules were run on them (2026-10-12): 470 titles drawn from the scraped postings by plain keyword and at random, 159 written to probe the edges. Rows with sure=false are reported, not counted. Checked by evals/run_pipeline.py. Rows with set \"entry-2026-10-13\" (148) were added when campus titles, sector bankers and the entry-level grades of manager roles were brought in; they were labelled from the rules of that decision, before the patterns were written. \"category_before\" marks a row whose employer got a category after it was labelled (Fortune banks and investors). Set entry-mark-2026-10-13: 6 real titles that show two level rules were wrong (\"Sr.\" not read as \"Senior\" on the bank and consulting ladders; a grade word inside the name of an MBA programme).",
  "rows": [
   {
    "title": "Manufacturing Strategy Associate",
@@ -8170,6 +8170,72 @@
    "ladder": null,
    "set": "entry-2026-10-13",
    "note": "a real title from the firm's board, read by the adapter work; labelled by hand from the entry-level rules"
+  },
+  {
+   "title": "Investment Banking Sr Associate",
+   "company": "Citigroup",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": "ib_associate",
+   "level": "senior",
+   "ladder": "bank",
+   "set": "entry-mark-2026-10-13",
+   "note": "A real title. \"Sr.\" is \"Senior\": the spelled-out grade is senior on this ladder in the rows above. Labelled by hand on 2026-10-13; the rule read it as mid before."
+  },
+  {
+   "title": "Corporate Banking Sr. Associate - Power",
+   "company": "Citigroup",
+   "category": "Investment banking",
+   "industry": "Commercial Banks",
+   "role": "corporate_banking",
+   "level": "senior",
+   "ladder": "bank",
+   "set": "entry-mark-2026-10-13",
+   "note": "A real title. \"Sr.\" is \"Senior\": the spelled-out grade is senior on this ladder in the rows above. Labelled by hand on 2026-10-13; the rule read it as mid before."
+  },
+  {
+   "title": "Strategy& Deals Strategy - Commercial Due Diligence -  Sr. Associate",
+   "company": "PwC",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "set": "entry-mark-2026-10-13",
+   "note": "A real title. \"Sr.\" is \"Senior\": the spelled-out grade is senior on this ladder in the rows above. Labelled by hand on 2026-10-13; the rule read it as mid before."
+  },
+  {
+   "title": "Sr. Associate, Supply Chain Strategy",
+   "company": "KPMG",
+   "category": "Big Four and accounting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "set": "entry-mark-2026-10-13",
+   "note": "A real title. \"Sr.\" is \"Senior\": the spelled-out grade is senior on this ladder in the rows above. Labelled by hand on 2026-10-13; the rule read it as mid before."
+  },
+  {
+   "title": "Sr. Consultant, Forecasting",
+   "company": "Trinity Life Sciences",
+   "category": "Strategy consulting",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "senior",
+   "ladder": "consulting",
+   "set": "entry-mark-2026-10-13",
+   "note": "A real title. \"Sr.\" is \"Senior\": the spelled-out grade is senior on this ladder in the rows above. Labelled by hand on 2026-10-13; the rule read it as mid before."
+  },
+  {
+   "title": "MBA Investment Director Program",
+   "company": "Cambridge Associates",
+   "category": "Asset management",
+   "industry": null,
+   "role": "investment_manager",
+   "level": "mid",
+   "ladder": "bank",
+   "set": "entry-mark-2026-10-13",
+   "note": "A real title. A programme for new MBA graduates: \"Director\" names the programme, not the grade. The MBA hire sits at the Associate grade of the bank ladder. Labelled by hand on 2026-10-13; the rule read it as director before."
   }
  ]
 }

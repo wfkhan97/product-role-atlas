@@ -120,8 +120,36 @@ designed yet; this is the data layer only.
   and the Fortune banks and investors now have a category. Adapters for tal.net and Yello boards.
 - **Not done.** Boards behind a captcha or bot check are left alone (Evercore, Citadel, CBRE). Twelve board
   types have no adapter. A separate student board per bank is not looked up yet. "Entry level for an MBA"
-  differs by firm (Consultant at a strategy house, Senior Consultant at Deloitte, Associate at a bank) and is
-  not marked yet; see `evals/NOTES.md`.
+  differs by firm (Consultant at a strategy house, Senior Consultant at Deloitte, Associate at a bank): see the
+  entry mark below.
+
+## The entry mark (v8, 2026-10-13)
+
+Which level is "entry" for an MBA graduate? Not one level per ladder. A strategy house hires an MBA as
+Consultant or Associate (`mid`), Deloitte as Senior Consultant (`senior`), a bank as Associate (`mid`), and the
+corporate roles spread over three levels. "Associate" is the MBA grade at McKinsey and the bachelor's grade at
+BCG. So the levels stay as they are, and each posting gets a second fact.
+
+- **Three fields on a posting.** `entry`: `"mba"`, `"pre_mba"` or `null`. `intern`: true or false. `entry_src`:
+  the evidence. An MBA internship is `entry: "mba", intern: true`. Internship is a field of its own because
+  bachelor's internships exist too, and the interface needs both pairs.
+- **Two kinds of evidence, kept apart.** `title` and `text`: the posting says who it is for ("MBA", "Summer
+  Analyst", "currently pursuing an MBA", "graduating 2027"). `firm` and `category`: the title is the grade that
+  group joins at (McKinsey Associate, an investment bank's Associate). A grade mark does not say the posting is
+  for new graduates; most such postings also ask for experience. The index counts both: `n` and `posted`.
+- **`null` means "experienced hire or no evidence".** A plain "Financial Analyst" has no mark. A low level is
+  not evidence.
+- **The table is data** (`pipeline/entry_mba.json`): nine firms and two categories, each row with its source
+  and `basis` (`primary`: the firm's own posting or page; `secondary`: a guide or another office). It is
+  exported in `web/data/roles_mba.json` for the resume reader.
+- **Order of rules.** A job about students (a campus recruiter) and a posting for PhD graduates only get no
+  mark. Then: the firm's row; a title that names the audience; a line of the text that says who the posting is
+  for; the category default for the grade; "Summer Associate"; a text that asks for no experience; campus
+  words, an internship or a programme (read as pre-MBA).
+- **Not built, on purpose.** No default for private equity, venture capital, asset management, commercial
+  banking, the Big Four other than Deloitte, or brand management: the research has only secondary sources, or
+  our postings contradict it (see `evals/NOTES.md`). The interface is not designed; label text is in
+  `meta.entry` of the index.
 
 ## Skill depth for the MBA skills (proposed, not built)
 
