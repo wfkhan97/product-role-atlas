@@ -1,23 +1,29 @@
 {
- "about": "Bands of fit for the MBA role set, written by node evals/calibrate.mjs --roles mba (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above the 'related' line of the role's group it is a related background; below that, a different field so far. A group under 'no_bands' gets no band: show no verdict for its roles. web/match.js reads this with Matcher.bandOf(score, bands, group).",
+ "about": "Bands of fit for the MBA role set, written by node evals/calibrate.mjs --roles mba (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above the 'related' line of the role's group it is a related background; below that, a different field so far. A group under 'no_bands' gets no band: show no verdict for its roles. web/match.js reads this with Matcher.bandOf(score, bands, group). The cut points hold only for scores made with createMatcher({ ..., distinct: scoring.distinct }).",
+ "scoring": {
+  "distinct": {
+   "floor": 0.2,
+   "full": 2
+  }
+ },
  "generated": "2026-10-13",
- "resumes": 274,
+ "resumes": 304,
  "in_range": 0.55,
- "strong": 0.72,
+ "strong": 0.74,
  "related": {
-  "consulting_strategy": 0.37,
-  "finance": 0.34,
-  "banking_investing": 0.26,
-  "operations": 0.47,
-  "product": 0.33,
-  "marketing": 0.31,
-  "sales": 0.3,
-  "supply_chain": 0.34,
-  "people": 0.34,
-  "analytics": 0.36
+  "consulting_strategy": 0.31,
+  "finance": 0.29,
+  "banking_investing": 0.22,
+  "operations": 0.39,
+  "product": 0.26,
+  "marketing": 0.23,
+  "sales": 0.21,
+  "supply_chain": 0.28,
+  "people": 0.24,
+  "analytics": 0.33
  },
  "no_bands": {
-  "risk": "its own cut points are out of order"
+  "risk": "held back by the owner until the group has more samples of people who hold the role (most are law-school resumes of students and career changers)"
  },
  "group_of": {
   "management_consultant": "consulting_strategy",

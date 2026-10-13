@@ -1,9 +1,11 @@
-/* Product Role Atlas — static D3 app. Data: data/graph.json, data/taxonomy.json, data/subskills.json */
+/* Product Role Atlas — static D3 app. Data: data/graph.json, data/taxonomy.json, data/subskills.json,
+   data/bands.json (how the match score is made and where its bands of fit begin; written by evals/calibrate.mjs) */
 (async function () {
-  const [G, TAX, SUBS] = await Promise.all([
+  const [G, TAX, SUBS, BANDS] = await Promise.all([
     fetch("data/graph.json").then(r => r.json()),
     fetch("data/taxonomy.json").then(r => r.json()),
     fetch("data/subskills.json").then(r => r.json()),
+    fetch("data/bands.json").then(r => r.ok ? r.json() : {}).catch(() => ({})),
   ]);
   // decode compact encodings: skill / sub-skill indices and fund ids back to the strings the app uses
   const FUND_NAME = Object.fromEntries((G.funds || G.meta.funds || []).map(f => [f.id, f.name]));
@@ -671,7 +673,8 @@
   $("#btn-match").onclick = () => openMatch(state.selectedJob);
   $("#match-close").onclick = () => closeModal("#match-modal");
 
-  const MATCH = Matcher.createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G });
+  // the score is made the way the bands were calibrated: asks weighed by how distinctive they are for the role
+  const MATCH = Matcher.createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G, distinct: (BANDS.scoring || {}).distinct });
   const PERSONA_TEXT = {
     experienced_in_role: p => `Reads as a <b>${esc(Matcher.LADDER_LABEL[p.level])}</b> product profile: ${fmtYears(p.pmYears)} in product roles, ${fmtYears(p.years)} overall.`,
     pivoter: p => `Reads as a <b>career pivot into product</b> from ${p.backgrounds.length ? esc(p.backgrounds.map(b => Matcher.VIA_LABEL[b] || b).join(", ")) : "another field"}: ${fmtYears(p.years)} of experience, none yet under a product title.`,

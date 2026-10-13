@@ -784,3 +784,164 @@ through OpenRouter (drafter `openai/gpt-6.1-sol`, critic `anthropic/claude-haiku
 - The critic's "is it supported" check drops almost nothing once the draft must quote its evidence. The code
   checks and the test "can a reader tell the level from the text" do the filtering. The cheap critic agreed
   with the strong one on 128 of 130 claims after it was told that the level comes from the job title.
+## Resume titles read with the employer's kind (2026-10-13)
+
+Branch `feat/resume-title-reading`. The matcher now reads a title by all the steps of `web/data/roles_mba.json`
+(the same steps as `evals/roles_mba.mjs`), not by the first step alone. A resume has no employer category, so the
+matcher takes it from the job line: an employer we hold by name (176 of them), or the words of the employer's own
+name ("... Capital Partners", "... Ventures", "... Consulting", "... Asset Management", "... Realty", "... Bank").
+At a bank or a consulting firm the level comes from that ladder: a bank "Vice President" reads as senior, not as
+a lead.
+
+- `resume_titles.json`: 171 of 171, with 3 known gaps left (7 before). New cases include ones that must not
+  match: a recruiter at a venture firm, an engineer at a consulting firm, a teller at a bank.
+- Two known gaps are pattern order in the role file, for the graph thread: "Associate Strategy Manager" is read
+  as the analyst role, "Strategic Planning Analyst" as the manager role.
+
+**It did not move the scores much, and that corrects the last section.** The role is read as held in 147 of 251
+same-role resumes (144 before); same-role above adjacent-role 76% of the time (75%). The other 104 break down as:
+60 mid or senior samples with no job title in the family at all (a "Business Analyst" filed under business
+analytics manager, a "Change Manager" under transformation), 29 early-career samples, 7 where no jobs were read,
+4 internships, 4 held for under a year. So most are not title-reading misses; the person did not hold the role.
+
+**What the breakdown shows instead.** A resume of a person who held the role shows on the page a median of 35%
+of what the role's postings ask for; the 70% median score comes from the presumption. Resumes where the role is
+not held show about the same share (core 40%, common 27%). Evidence reading is the weak part for these roles, for
+everyone. That is the next lever: resume wording for the MBA skills, and which asks a role's postings really set.
+
+## Reader: a third pass on known misses (2026-10-13)
+
+Branch `fix/reader-known-misses`. 259 of 280 parse expectations pass (258 before).
+- A year split three and one after a month ("Feb 201 6", "June 202 1") is joined, as "20 24" was.
+- An employer line in capitals that has a title of its own (on the next line) is a job. It was dropped as "the
+  dates of a whole stay" when a later job fell within a year of it.
+- Under Education, a line of dates alone whose title stands on the line above is a job (two-column templates).
+- Degree letters set apart by spaces ("B . S . Finance") are read.
+- **One expectation was wrong and is corrected:** `compliance_universityofwi_1` has three dated jobs, not two.
+  The third prints its year as "202 1"; the person who first read the file missed it, and so did the reader.
+
+Still failing (21): letter-by-letter damage, a NUL for a ligature, a title below its bullets, all dates in one
+block at the end of the page, a functional resume, page headers inside jobs, dated publications and class
+projects read as jobs, and a heading glued to the end of a bullet by the PDF.
+
+## Distinctive asks (2026-10-13)
+
+Branch `feat/mba-skill-evidence`. Owner's decision: weigh an ask by how distinctive it is for the role.
+
+**Why.** For 203 mid and senior same-role resumes, the asks of their own role that most often go unshown are not
+role skills. They are phrases that postings of almost every role contain, tagged by loose shared patterns:
+stakeholder management (asked of 203, shown by 71), prioritization (138, 6), systems and architecture (94, 5),
+product strategy (149, 30), AI literacy (166, 13). The people who read 130 of these resumes marked prioritization
+as shown zero times. Such an ask lowers every resume's score against every role by the same amount, so it tells
+nothing about fit; and a resume that happens to say "stakeholders" looks a little like every role.
+
+**What.** `createMatcher({ ..., distinct: { floor, full } })`. An ask's weight is its share in the role's postings
+times a factor from its lift (that share over the mean share across the role families of the graph, each family
+counted once). At lift 1 or below the factor is `floor`; from lift `full` up it is 1. The share shown to the user
+(`w`) does not change; `weight` on each row is what the score counts. The industry slot keeps its weight. Tiers
+still come from the share. Off unless passed: the product app does not pass it, so product scores are unchanged.
+
+**Setting.** floor 0.2, full 2. Five settings were tried (floor 0, 0.2, 0.4; full 1.5, 2, 3): all gave 88% to 90%
+and 76% to 77% on the two separation measures, so the setting is not tuned further. It is stored in
+`bands_mba.json` (`scoring.distinct`) because the cut points hold for it alone; the interface must create the MBA
+matcher with it. `run.mjs` checks the weights and that evidence never lowers a score.
+
+**Result on the MBA roles** ([calibration_mba.md](calibration_mba.md)). Same-role above other-field 86% -> 89%,
+above adjacent-role 76% -> 77%. Other-field median 23% -> 17%; same-role median 61% -> 60%. By group, above
+other-field: sales 85% -> 93%, supply chain 85% -> 91%, people 82% -> 89%, risk and compliance 68% -> 83%;
+operations 72% -> 69% (its roles have few distinctive asks, so little is left to score on). A resume's own role
+is its top role in 119 of 251 (123 before); its top role is in its own group in 179 (176).
+
+**Bands now.** In range from 52%, reads like people in the role from 73%; related background per group from 21%
+(banking) to 40% (operations). Risk and compliance now has cut points in order, but the owner holds it back until
+its samples improve; that is an explicit entry (`HOLD` in `calibrate.mjs`), no longer an effect of the numbers.
+
+**On the product roles** (tried, not turned on): same-role above adjacent-role 88% -> 90%, above other-field 95%
+unchanged, own role on top 33 -> 35 of 51. Turning it on would move the product bands and every product score,
+and it is set where the app creates its matcher (`web/app.js`), so it is a separate decision.
+
+**For the graph thread.** The cleaner fix is at the source: the shared patterns for prioritization ("prioriti"),
+systems and architecture ("infrastructure", "architecture"), product strategy ("strategic direction",
+"strategic planning"), stakeholder management ("stakeholder", "VP") fire on most MBA postings. The weighting
+makes the score robust to that; tightening them would also clean the map.
+
+## Courses and loose list items for experienced people (2026-10-13)
+
+Branch `feat/course-lines-experienced`. Owner's decision. For a person who is not a current student and has three
+or more years of work, a course line is a mention, not evidence, and so is a short list-like line outside any job
+(five words or fewer, no number; a skills column whose heading a two-column PDF moved away). A named tool in
+such a list still counts. Nothing changes for a current student ("expected", "candidate", "class of",
+"graduating"), whatever their years of work, or for a pasted course list with no work history.
+
+- False tags on the published samples: 135 -> 120 of 807. Skills correctly found: 1,022 of 1,238, unchanged.
+- New sample `experienced_with_coursework` guards it: before the change it was tagged with A/B testing, AI,
+  product strategy, financial modeling and go-to-market from its course list and its unheaded skills column.
+- The other in-repo sample scores do not move.
+- Bands. Product: 34%, 51%, 69% (the middle line was 50%). MBA: in range from 48% (52% before), like the role
+  from 73%, related per group 21% to 40%. The MBA middle line is the least steady cut (its interval is 45% to
+  55%); separation is unchanged at 89% and 77%.
+
+**Known cost.** A career changer who has finished a degree and no longer writes "expected" or "candidate" loses
+credit for coursework. Reading degree dates (keep the credit for two years after the last degree) would cover
+that case; not built.
+
+## Graph and interface items, third held-out round (2026-10-13)
+
+Branch `feat/shared-patterns-product-weighting`. The owner asked for the open graph and interface items to be
+done from the resume thread. This branch touches `pipeline/` and `web/data/`.
+
+**Third held-out round.** 31 more files came from the hand list (25 early-career). Read by a person first, then
+by the reader with no tuning: 26 of 30 parse expectations pass (one file is a template); on their skill lists
+169 of 216 found, 154 of 174 held. Rounds so far: 1 of 9, 8 of 11, 26 of 30. Three of the four failures are one
+layout: every date in a block apart from the jobs, with the education years in the same block. All parse
+expectations: 286 of 311. Skill lists: 1,195 of 1,456 found, 847 of 987 held.
+
+**Title rules** (`pipeline/roles_mba.py`). "Associate Strategy Manager" is the manager role; "Strategic Planning
+Analyst" is the analyst role. Posting title eval: 778 pass. Both resume-side known gaps are closed.
+
+**Loose shared patterns.** A shared skill can now be worded more strictly for one role set
+(`"patterns_for": {"mba": [...]}` in `pipeline/taxonomy.json`; `tax.for_roles` and the extractor apply it). The
+product part of the taxonomy and the product data are unchanged, byte for byte. Four skills were tried; two were
+kept, because the golden postings decide:
+- Systems & architecture: a bare "infrastructure" or "architecture" no longer tags it (29% of MBA postings -> 12%).
+  No labelled posting lost.
+- Product strategy: "strategic direction" and "strategic planning" no longer tag it (36% -> 16%). One of three
+  labelled postings lost.
+- Prioritization and stakeholder management were tightened and then put back. The golden postings label "strong
+  prioritization skills" and "build relationships with key stakeholders" as real asks; the strict wording lost 8
+  of 16 and 11 of 28 of them and pushed must-found to 83.7%, under its 85% floor. Those two patterns are not
+  wrong. The ask is universal, and the weighting by distinctiveness is the answer to that.
+Golden postings after the change: must found 85.0% (floor 85%), must-not tagged 15.3% (ceiling 16%).
+`evals/run_pipeline.py`: 1,965 pass.
+
+**Bands are interface data now.** `calibrate.mjs` writes `web/data/bands.json` (product) and
+`web/data/bands_mba.json`, each with the scoring its cut points were made with. `web/app.js` loads `bands.json`
+and creates its matcher with that scoring. The evals read the MBA taxonomy from `web/data/taxonomy_mba.json`.
+
+**The matcher counts postings by weight.** The MBA graph gives each posting a weight so that no employer counts
+for more than 5% of a role; the map's shares use it and the matcher did not. It does now (product postings carry
+no weight, so nothing changes there).
+
+**A group with no bands.** The rule was "its own cut points come out of order". After the rebuild that rule
+dropped the product group, whose two roles ask for the same things, though its resumes sort well against other
+fields (95%). The rule now looks at what the bands use: a group gets none when half of its same-role resumes
+score below its own bottom line. Risk and compliance stays held by the owner.
+
+**MBA calibration now** (304 resumes, 281 same-role): same-role above other-field 89%, above adjacent 76%.
+Bands: in range from 52%, like the role from 73%, related per group 21% to 39%.
+
+**Weighting for the product roles: built, measured, not turned on.** Among the six product families nothing is
+distinctive (they ask for the same skills), so their baseline is the mean share across the 50 MBA roles
+(`distinct.baseline`). With it: same-role above adjacent 88% -> 90%, above other-field 95% -> 96%, own role on
+top 33 -> 37 of 51, bands 28% / 46% / 68%. But the sample `grad_student_new` (an MBA student with one PM
+internship, the core user) scores 43% against entry-level PM roles, under its expected 45% to 70% and just under
+"in range" (46%); without the weighting it scores 56%, in range. That score band is part of the spec, so the
+weighting stays off for the product roles (`scoring.distinct: null` in `bands.json`) until the owner decides.
+`PRODUCT_DISTINCT=1 node evals/calibrate.mjs` prints the report with it on.
+
+**After the merge with the postings backlog (same day).** Main gained 4,500 US postings, 60 employers and
+entry-level title rules while this branch waited. The code merged cleanly; the MBA data, graph and baselines were
+regenerated from the merged code (26,887 US postings; `run_pipeline.py` 2,255 pass; golden must-found 85.0%) and
+both calibrations rerun. MBA bands: in range from 55%, like the role from 74%, related per group 21% to 39%;
+same-role above other-field 89%, above adjacent 77%. Product bands: 33%, 51%, 69%.
+

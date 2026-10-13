@@ -27,7 +27,8 @@ _SKILLS_FOR = {}
 
 def skills_for(roleset):
     if roleset not in _SKILLS_FOR:
-        _SKILLS_FOR[roleset] = [(sid, rx) for sid, rx in SKILL_RE if roleset in SKILL_ONLY.get(sid, [roleset])]
+        # the role set's part of the taxonomy, with its own wording of a shared skill where it has one ("patterns_for")
+        _SKILLS_FOR[roleset] = [(s["id"], re.compile("|".join(f"(?:{p})" for p in s["patterns"]), re.I)) for s in tax.for_roles(roleset, TAX)["skills"]]
     return _SKILLS_FOR[roleset]
 
 

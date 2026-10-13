@@ -99,7 +99,17 @@
     "strategic (mindset|thinking|direction|bets|priorities|roadmap|planning)",
     "vision and strategy",
     "strategy (and|&) (roadmap|vision|execution|direction)"
-   ]
+   ],
+   "patterns_for": {
+    "mba": [
+     "product strateg",
+     "(platform|portfolio|product[- ]line|pricing|monetization|go-to-market) strategy",
+     "(own|set|define|drive|shape|build|lead)(s|ing)? (the |a |its |your |our )?(product|platform|portfolio) (strategy|vision|direction)",
+     "product (vision|direction)",
+     "strategy (and|&) roadmap",
+     "roadmap (and|&) strategy"
+    ]
+   }
   },
   {
    "id": "product_vision",
@@ -660,7 +670,27 @@
     "high[- ]availability",
     "technical (design|architecture|tradeoffs|trade-offs)",
     "\\bSDKs?\\b"
-   ]
+   ],
+   "patterns_for": {
+    "mba": [
+     "(systems?|solutions?|enterprise|technical|data|software|cloud|application|platform|IT|security|integration|reference) architecture",
+     "architecture (reviews?|decisions|standards|roadmap|principles|patterns|diagrams)",
+     "system design",
+     "distributed systems",
+     "scalab(le|ility) (systems|architecture|platforms?|infrastructure|services)",
+     "microservices",
+     "(technology|IT|cloud|data|technical|network|digital|computing) infrastructure",
+     "\\bbackend\\b",
+     "\\bback-end\\b",
+     "front-?end (development|engineering|architecture)",
+     "full[- ]stack",
+     "reliability engineering",
+     "system reliability",
+     "high[- ]availability",
+     "technical (design|architecture|tradeoffs|trade-offs)",
+     "\\bSDKs?\\b"
+    ]
+   }
   },
   {
    "id": "cloud",

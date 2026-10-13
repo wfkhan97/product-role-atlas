@@ -15,11 +15,9 @@ export const SOURCES = Object.fromEntries(J(path.join(here, "external_sources.js
 // Role families of the MBA role set, written by the graph build from pipeline/roles_mba.py.
 export function rolesData() { return J(path.join(root, "web/data/roles_mba.json")); }
 
-// The taxonomy as the MBA role set sees it (shared skills plus those marked only: ["mba"]), as pipeline/tax.py gives it.
-export function mbaTaxonomy() {
-  const tax = J(path.join(root, "pipeline/taxonomy.json"));
-  return { clusters: tax.clusters, skills: tax.skills.filter(s => !s.only || s.only.includes("mba")) };
-}
+// The taxonomy as the MBA role set sees it (shared skills, those marked only: ["mba"], and the MBA wording of a
+// shared skill where it has one): the file the graph build writes for the interface.
+export function mbaTaxonomy() { return J(path.join(root, "web/data/taxonomy_mba.json")); }
 
 // One resume cut out of a packet: lines first..last (1-based) of the packet's text. `starts` guards the cut: if the
 // text of the file comes out differently one day, the part fails loudly rather than reading the wrong lines.
