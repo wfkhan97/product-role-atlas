@@ -149,6 +149,15 @@ if (!only) {
   out(`\n=== resume titles → role family (web/data/roles_mba.json): ${T.length - gaps.length - closed.length - wrong.length}/${T.length - gaps.length - closed.length}${wrong.length ? "\n  WRONG: " + wrong.join("\n  WRONG: ") : ""}`);
   out(`  known gaps (not counted): ${gaps.length}${gaps.length ? " — " + gaps.join("; ") : ""}${closed.length ? "\n  no longer a gap, remove the mark: " + closed.join("; ") : ""}`);
 }
+// Bands of fit: the cut points file must be in order, and bandOf must read it as documented.
+if (!only) {
+  const B = JSON.parse(fs.readFileSync(path.join(here, "bands_mba.json"))); const { bandOf } = require(path.join(root, "web/match.js")); const bad = [];
+  if (!(B.in_range < B.strong)) bad.push("in_range is not below strong");
+  for (const [g, low] of Object.entries(B.related)) { if (!(low < B.in_range)) bad.push(`${g}: related is not below in_range`); if (bandOf(low - 0.01, B, g) !== "different" || bandOf(low, B, g) !== "related" || bandOf(B.in_range, B, g) !== "in_range" || bandOf(B.strong, B, g) !== "strong") bad.push(`${g}: bandOf does not follow the cut points`); }
+  for (const g of Object.keys(B.no_bands)) if (bandOf(0.9, B, g) !== null) bad.push(`${g}: has no bands but bandOf gives one`);
+  for (const f of ROLES.families) if (!(B.group_of[f.id] in B.related) && !(B.group_of[f.id] in B.no_bands)) bad.push(`${f.id}: its group has neither bands nor a reason for none`);
+  bad.length ? fail++ : pass++; out(`\n=== bands of fit (evals/bands_mba.json): ${bad.length ? "FAIL — " + bad.join("; ") : `PASS — in range from ${pct(B.in_range)}, like the role from ${pct(B.strong)}, ${Object.keys(B.related).length} groups with a bottom line, no bands for: ${Object.keys(B.no_bands).join(", ") || "none"}`}`);
+}
 out(`\nTOTAL: ${pass} pass, ${fail} fail`);
 
 if (args.includes("--baseline")) {

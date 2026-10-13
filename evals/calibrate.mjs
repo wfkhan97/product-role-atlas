@@ -120,6 +120,24 @@ else {
   const inGroup = f => S.groupOf(fams.reduce((a, x) => f.sc[x] > f.sc[a] ? x : a, fams[0])) === f.group;
   const perGroup = S.groups.map(gr => { const gg = groups(files, gr.families); return { gr, gg, cc: cuts(gg), cii: bootstrap(gr.families) }; });
   const MIN = 10; // fewer same-role resumes than this give no cut points worth printing
+  // The bands the interface uses (the owner's choice, 2026-10-12): the two upper lines are shared by all roles,
+  // because a group has too few same-role resumes to place them; the bottom line is each group's own, because it
+  // is steady in every group and it is where the groups differ most. A group gets no bands when it has too few
+  // same-role resumes or when its own lines come out of order (the score does not yet sort its resumes).
+  const use = perGroup.map(({ gr, gg, cc, cii }) => {
+    const why = gg.same.length < MIN ? `fewer than ${MIN} same-role resumes` : !(cc.low < cc.high && cc.high < cc.strong) ? "its own cut points are out of order" : cc.low >= c.high ? "its bottom line is above the shared middle line" : null;
+    const b = x => x >= c.strong ? 3 : x >= c.high ? 2 : x >= cc.low ? 1 : 0; const sh = (a, k) => a.length ? pct(a.filter(x => b(x) === k).length / a.length) : "–";
+    return { gr, gg, cc, cii, why, sh };
+  });
+  const r2 = x => Math.round(x * 100) / 100;
+  fs.writeFileSync(path.join(here, "bands_mba.json"), JSON.stringify({
+    about: "Bands of fit for the MBA role set, written by node evals/calibrate.mjs --roles mba (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above the 'related' line of the role's group it is a related background; below that, a different field so far. A group under 'no_bands' gets no band: show no verdict for its roles. web/match.js reads this with Matcher.bandOf(score, bands, group).",
+    generated: new Date().toISOString().slice(0, 10), resumes: files.length,
+    in_range: r2(c.high), strong: r2(c.strong),
+    related: Object.fromEntries(use.filter(u => !u.why).map(u => [u.gr.id, r2(u.cc.low)])),
+    no_bands: Object.fromEntries(use.filter(u => u.why).map(u => [u.gr.id, u.why])),
+    group_of: Object.fromEntries(fams.map(f => [f, S.groupOf(f)])),
+  }, null, 1) + "\n");
   const mid = a => a.length ? `${pct(q(a, 0.5))} (${pct(q(a, 0.25))}–${pct(q(a, 0.75))})` : "–";
   out = [
     "# Calibration for the MBA role set: what a match score means", "",
@@ -138,6 +156,11 @@ else {
     "Cut points come from the distributions above, not from round numbers. The interval is the 5th to 95th percentile over 400 bootstrap resamples of the files.", "",
     ...bandTable(), "",
     "Read each row across: of the scores in a group, the share that lands in the band.", "",
+    "## The bands in use", "",
+    `Written to \`bands_mba.json\`. The two upper lines are the same for every role: in range from ${pct(c.high)}, reads like people in the role from ${pct(c.strong)}. The bottom line (related background) is each group's own. A group with too few same-role resumes, or whose own cut points come out of order, gets no bands: the interface shows no verdict for its roles.`, "",
+    "| role group | related background from | interval | same role: different / related / in range / like the role | other field: different / related / in range / like the role |", "|---|---|---|---|---|",
+    ...use.map(u => u.why ? `| ${u.gr.label} | no bands | ${u.why} | | |` : `| ${u.gr.label} | ${pct(u.cc.low)} | ${u.cii("low")} | ${[0, 1, 2, 3].map(k => u.sh(u.gg.same, k)).join(" / ")} | ${[0, 1, 2, 3].map(k => u.sh(u.gg.other, k)).join(" / ")} |`), "",
+    "Read a row across: of the same-role scores against the roles of that group, the share in each band, then the same for other-field scores.", "",
     "## Cut points by role group", "",
     `The same three rules, on the roles of one group. A group with fewer than ${MIN} same-role resumes gets no cut points of its own.`, "",
     "| role group | same-role resumes | related background from | in range from | reads like people in the role from |", "|---|---|---|---|---|",

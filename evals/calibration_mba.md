@@ -1,6 +1,6 @@
 # Calibration for the MBA role set: what a match score means
 
-Produced by `node evals/calibrate.mjs --roles mba` on 2026-10-12 from 274 published sample resumes in `evals/resumes/external/` (the files are not in the repository; see `external_sources.json`). Each is scored against the 50 role families of the MBA graph (US postings, all levels). 251 were written for one of these roles. The role a sample was written for is the answer key. Adjacent roles are the other roles of the same group (11 groups, from `web/data/roles_mba.json`); roles of other groups are another field.
+Produced by `node evals/calibrate.mjs --roles mba` on 2026-10-13 from 274 published sample resumes in `evals/resumes/external/` (the files are not in the repository; see `external_sources.json`). Each is scored against the 50 role families of the MBA graph (US postings, all levels). 251 were written for one of these roles. The role a sample was written for is the answer key. Adjacent roles are the other roles of the same group (11 groups, from `web/data/roles_mba.json`); roles of other groups are another field.
 
 ## Score by group of resumes
 
@@ -46,6 +46,26 @@ Cut points come from the distributions above, not from round numbers. The interv
 | A different field so far | below 33% | | | 20% | 47% | 75% |
 
 Read each row across: of the scores in a group, the share that lands in the band.
+
+## The bands in use
+
+Written to `bands_mba.json`. The two upper lines are the same for every role: in range from 55%, reads like people in the role from 72%. The bottom line (related background) is each group's own. A group with too few same-role resumes, or whose own cut points come out of order, gets no bands: the interface shows no verdict for its roles.
+
+| role group | related background from | interval | same role: different / related / in range / like the role | other field: different / related / in range / like the role |
+|---|---|---|---|---|
+| Consulting & strategy | 37% | 35% to 39% | 29% / 20% / 29% / 22% | 75% / 21% / 4% / 0% |
+| Finance | 34% | 32% to 36% | 5% / 14% / 43% / 38% | 75% / 24% / 1% / 0% |
+| Banking & investing | 26% | 25% to 28% | 7% / 26% / 30% / 37% | 75% / 25% / 0% / 0% |
+| Operations & general management | 47% | 45% to 49% | 43% / 6% / 29% / 23% | 75% / 11% / 13% / 1% |
+| Product | 33% | 32% to 34% | 10% / 24% / 52% / 14% | 75% / 21% / 4% / 0% |
+| Marketing | 31% | 30% to 33% | 4% / 31% / 50% / 15% | 75% / 23% / 2% / 0% |
+| Sales & partnerships | 30% | 29% to 32% | 23% / 15% / 38% / 23% | 75% / 24% / 1% / 0% |
+| Supply chain & procurement | 34% | 33% to 36% | 21% / 26% / 16% / 37% | 75% / 23% / 2% / 0% |
+| People | 34% | 32% to 35% | 29% / 12% / 29% / 29% | 75% / 23% / 2% / 0% |
+| Risk & compliance | no bands | its own cut points are out of order | | |
+| Analytics | 36% | 34% to 38% | 21% / 21% / 36% / 21% | 75% / 22% / 3% / 0% |
+
+Read a row across: of the same-role scores against the roles of that group, the share in each band, then the same for other-field scores.
 
 ## Cut points by role group
 

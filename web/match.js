@@ -666,5 +666,15 @@
     return { match, parseResume, readRoles, roleFamilyOf, tag, requirements, profileOf, score, nameOf, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
   }
 
-  return { createMatcher, parseResume, RESUME_PATTERNS, RESUME_DROP, SOFT, AI_GROUP, TIER, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
+  // The band of fit a score falls in, from the cut points that evals/calibrate.mjs derives (bands.strong and
+  // bands.in_range for every role, bands.related per group of roles). Returns "strong", "in_range", "related",
+  // "different", or null when the group has no bands (the score does not yet sort resumes for its roles).
+  function bandOf(score, bands, group) {
+    if (!bands || (bands.no_bands && group in bands.no_bands)) return null;
+    const low = typeof bands.related === "number" ? bands.related : (bands.related || {})[group];
+    if (low == null) return null;
+    return score >= bands.strong ? "strong" : score >= bands.in_range ? "in_range" : score >= low ? "related" : "different";
+  }
+
+  return { createMatcher, bandOf, parseResume, RESUME_PATTERNS, RESUME_DROP, SOFT, AI_GROUP, TIER, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
 });
