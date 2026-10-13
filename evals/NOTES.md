@@ -740,3 +740,44 @@ Still failing (21): letter-by-letter damage, a NUL for a ligature, a title below
 block at the end of the page, a functional resume, page headers inside jobs, dated publications and class
 projects read as jobs, and a heading glued to the end of a bullet by the PDF.
 
+## Distinctive asks (2026-10-13)
+
+Branch `feat/mba-skill-evidence`. Owner's decision: weigh an ask by how distinctive it is for the role.
+
+**Why.** For 203 mid and senior same-role resumes, the asks of their own role that most often go unshown are not
+role skills. They are phrases that postings of almost every role contain, tagged by loose shared patterns:
+stakeholder management (asked of 203, shown by 71), prioritization (138, 6), systems and architecture (94, 5),
+product strategy (149, 30), AI literacy (166, 13). The people who read 130 of these resumes marked prioritization
+as shown zero times. Such an ask lowers every resume's score against every role by the same amount, so it tells
+nothing about fit; and a resume that happens to say "stakeholders" looks a little like every role.
+
+**What.** `createMatcher({ ..., distinct: { floor, full } })`. An ask's weight is its share in the role's postings
+times a factor from its lift (that share over the mean share across the role families of the graph, each family
+counted once). At lift 1 or below the factor is `floor`; from lift `full` up it is 1. The share shown to the user
+(`w`) does not change; `weight` on each row is what the score counts. The industry slot keeps its weight. Tiers
+still come from the share. Off unless passed: the product app does not pass it, so product scores are unchanged.
+
+**Setting.** floor 0.2, full 2. Five settings were tried (floor 0, 0.2, 0.4; full 1.5, 2, 3): all gave 88% to 90%
+and 76% to 77% on the two separation measures, so the setting is not tuned further. It is stored in
+`bands_mba.json` (`scoring.distinct`) because the cut points hold for it alone; the interface must create the MBA
+matcher with it. `run.mjs` checks the weights and that evidence never lowers a score.
+
+**Result on the MBA roles** ([calibration_mba.md](calibration_mba.md)). Same-role above other-field 86% -> 89%,
+above adjacent-role 76% -> 77%. Other-field median 23% -> 17%; same-role median 61% -> 60%. By group, above
+other-field: sales 85% -> 93%, supply chain 85% -> 91%, people 82% -> 89%, risk and compliance 68% -> 83%;
+operations 72% -> 69% (its roles have few distinctive asks, so little is left to score on). A resume's own role
+is its top role in 119 of 251 (123 before); its top role is in its own group in 179 (176).
+
+**Bands now.** In range from 52%, reads like people in the role from 73%; related background per group from 21%
+(banking) to 40% (operations). Risk and compliance now has cut points in order, but the owner holds it back until
+its samples improve; that is an explicit entry (`HOLD` in `calibrate.mjs`), no longer an effect of the numbers.
+
+**On the product roles** (tried, not turned on): same-role above adjacent-role 88% -> 90%, above other-field 95%
+unchanged, own role on top 33 -> 35 of 51. Turning it on would move the product bands and every product score,
+and it is set where the app creates its matcher (`web/app.js`), so it is a separate decision.
+
+**For the graph thread.** The cleaner fix is at the source: the shared patterns for prioritization ("prioriti"),
+systems and architecture ("infrastructure", "architecture"), product strategy ("strategic direction",
+"strategic planning"), stakeholder management ("stakeholder", "VP") fire on most MBA postings. The weighting
+makes the score robust to that; tightening them would also clean the map.
+

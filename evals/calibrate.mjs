@@ -19,6 +19,13 @@ const here = path.dirname(fileURLToPath(import.meta.url)), root = path.join(here
 const require = createRequire(import.meta.url);
 const { createMatcher } = require(path.join(root, "web/match.js"));
 const J = f => JSON.parse(fs.readFileSync(path.join(root, f)));
+// The MBA role set scores with distinctive asks weighed up (see `distinct` in web/match.js). The bands are valid
+// for this setting only, so it is written into bands_mba.json for the interface to use. DISTINCT='{"floor":0,"full":3}'
+// in the environment tries another setting: the report is printed and nothing is written.
+const DISTINCT_MBA = { floor: 0.2, full: 2 };
+// Groups the owner holds back whatever the numbers say (decided 2026-10-12, to be lifted when the samples improve).
+const HOLD = { risk: "held back by the owner: 8 of its 13 same-role samples are law-school resumes of students and career changers" };
+const TRY = process.env.DISTINCT ? JSON.parse(process.env.DISTINCT) : null;
 const MBA = process.argv.includes("--roles") && process.argv[process.argv.indexOf("--roles") + 1] === "mba";
 
 // A role set: its matcher, its role families, the group of each family, and how a sample's role maps onto them.
@@ -27,7 +34,7 @@ function productSet() {
   const G = J("web/data/graph.json");
   const fams = ["pm", "product_owner", "tpm", "pmm", "product_analyst", "product_ops"];
   const OWN = { pm: "pm", product_owner: "product_owner", tpm: "tpm", pmm: "pmm", product_analyst: "product_analyst", product_ops: "product_ops", product_strategy: "pm" };
-  return { G, fams, M: createMatcher({ taxonomy: J("web/data/taxonomy.json"), subskills: J("web/data/subskills.json"), graph: G }),
+  return { G, fams, M: createMatcher({ taxonomy: J("web/data/taxonomy.json"), subskills: J("web/data/subskills.json"), graph: G, distinct: TRY || false }),
     groupOf: () => "product", groups: [{ id: "product", label: "Product", families: fams }], own: r => OWN[r] || null, groupOfSample: r => OWN[r] ? "product" : null };
 }
 function mbaSet() {
@@ -38,7 +45,7 @@ function mbaSet() {
   // the program manager's group)
   const OWN = { pm: "product_manager" }, BESIDE = { product_owner: "product", product_analyst: "product", product_ops: "product", tpm: "operations" };
   const own = r => OWN[r] || (fams.includes(r) ? r : null);
-  return { G, fams, M: createMatcher({ taxonomy: J("web/data/taxonomy_mba.json"), subskills: J("web/data/subskills_mba.json"), graph: G, roles: R, distinct: !!process.env.DISTINCT }),
+  return { G, fams, M: createMatcher({ taxonomy: J("web/data/taxonomy_mba.json"), subskills: J("web/data/subskills_mba.json"), graph: G, roles: R, distinct: TRY || DISTINCT_MBA }),
     groupOf: f => groupOf[f], groups: R.groups, own, groupOfSample: r => own(r) ? groupOf[own(r)] : BESIDE[r] || null };
 }
 const S = MBA ? mbaSet() : productSet();
@@ -125,13 +132,14 @@ else {
   // is steady in every group and it is where the groups differ most. A group gets no bands when it has too few
   // same-role resumes or when its own lines come out of order (the score does not yet sort its resumes).
   const use = perGroup.map(({ gr, gg, cc, cii }) => {
-    const why = gg.same.length < MIN ? `fewer than ${MIN} same-role resumes` : !(cc.low < cc.high && cc.high < cc.strong) ? "its own cut points are out of order" : cc.low >= c.high ? "its bottom line is above the shared middle line" : null;
+    const why = HOLD[gr.id] ? HOLD[gr.id] : gg.same.length < MIN ? `fewer than ${MIN} same-role resumes` : !(cc.low < cc.high && cc.high < cc.strong) ? "its own cut points are out of order" : cc.low >= c.high ? "its bottom line is above the shared middle line" : null;
     const b = x => x >= c.strong ? 3 : x >= c.high ? 2 : x >= cc.low ? 1 : 0; const sh = (a, k) => a.length ? pct(a.filter(x => b(x) === k).length / a.length) : "–";
     return { gr, gg, cc, cii, why, sh };
   });
   const r2 = x => Math.round(x * 100) / 100;
-  fs.writeFileSync(path.join(here, "bands_mba.json"), JSON.stringify({
-    about: "Bands of fit for the MBA role set, written by node evals/calibrate.mjs --roles mba (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above the 'related' line of the role's group it is a related background; below that, a different field so far. A group under 'no_bands' gets no band: show no verdict for its roles. web/match.js reads this with Matcher.bandOf(score, bands, group).",
+  if (!TRY) fs.writeFileSync(path.join(here, "bands_mba.json"), JSON.stringify({
+    about: "Bands of fit for the MBA role set, written by node evals/calibrate.mjs --roles mba (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above the 'related' line of the role's group it is a related background; below that, a different field so far. A group under 'no_bands' gets no band: show no verdict for its roles. web/match.js reads this with Matcher.bandOf(score, bands, group). The cut points hold only for scores made with createMatcher({ ..., distinct: scoring.distinct }).",
+    scoring: { distinct: DISTINCT_MBA },
     generated: new Date().toISOString().slice(0, 10), resumes: files.length,
     in_range: r2(c.high), strong: r2(c.strong),
     related: Object.fromEntries(use.filter(u => !u.why).map(u => [u.gr.id, r2(u.cc.low)])),
@@ -141,7 +149,7 @@ else {
   const mid = a => a.length ? `${pct(q(a, 0.5))} (${pct(q(a, 0.25))}–${pct(q(a, 0.75))})` : "–";
   out = [
     "# Calibration for the MBA role set: what a match score means", "",
-    `Produced by \`node evals/calibrate.mjs --roles mba\` on ${new Date().toISOString().slice(0, 10)} from ${files.length} published sample resumes in \`evals/resumes/external/\` (the files are not in the repository; see \`external_sources.json\`). Each is scored against the ${fams.length} role families of the MBA graph (US postings, all levels). ${top.length} were written for one of these roles. The role a sample was written for is the answer key. Adjacent roles are the other roles of the same group (${S.groups.length} groups, from \`web/data/roles_mba.json\`); roles of other groups are another field.`, "",
+    `Produced by \`node evals/calibrate.mjs --roles mba\` on ${new Date().toISOString().slice(0, 10)} from ${files.length} published sample resumes in \`evals/resumes/external/\` (the files are not in the repository; see \`external_sources.json\`). Each is scored against the ${fams.length} role families of the MBA graph (US postings, all levels). ${top.length} were written for one of these roles. The role a sample was written for is the answer key. Adjacent roles are the other roles of the same group (${S.groups.length} groups, from \`web/data/roles_mba.json\`); roles of other groups are another field. An ask counts by how distinctive it is for the role (\`distinct\`: an ask that the role's postings set no more often than the mean of all roles keeps ${DISTINCT_MBA.floor} of its weight; one set ${DISTINCT_MBA.full} times as often or more keeps all of it).`, "",
     "## Score by group of resumes", "",
     "| group | scores | 5th pct | 25th | median | 75th | 95th |", "|---|---|---|---|---|---|---|",
     row("Same role (a resume against its own role)", g.same), row("Adjacent role (against the other roles of its group)", g.adjacent), row("Other field (against the roles of other groups)", g.other), "",
@@ -157,7 +165,7 @@ else {
     ...bandTable(), "",
     "Read each row across: of the scores in a group, the share that lands in the band.", "",
     "## The bands in use", "",
-    `Written to \`bands_mba.json\`. The two upper lines are the same for every role: in range from ${pct(c.high)}, reads like people in the role from ${pct(c.strong)}. The bottom line (related background) is each group's own. A group with too few same-role resumes, or whose own cut points come out of order, gets no bands: the interface shows no verdict for its roles.`, "",
+    `Written to \`bands_mba.json\`. The two upper lines are the same for every role: in range from ${pct(c.high)}, reads like people in the role from ${pct(c.strong)}. The bottom line (related background) is each group's own. A group gets no bands when it has too few same-role resumes, when its own cut points come out of order, or when the owner holds it back: the interface shows no verdict for its roles.`, "",
     "| role group | related background from | interval | same role: different / related / in range / like the role | other field: different / related / in range / like the role |", "|---|---|---|---|---|",
     ...use.map(u => u.why ? `| ${u.gr.label} | no bands | ${u.why} | | |` : `| ${u.gr.label} | ${pct(u.cc.low)} | ${u.cii("low")} | ${[0, 1, 2, 3].map(k => u.sh(u.gg.same, k)).join(" / ")} | ${[0, 1, 2, 3].map(k => u.sh(u.gg.other, k)).join(" / ")} |`), "",
     "Read a row across: of the same-role scores against the roles of that group, the share in each band, then the same for other-field scores.", "",
@@ -172,6 +180,6 @@ else {
     "- Scores are against all levels of a role, and against US postings only.", "",
   ];
 }
-if (process.env.DISTINCT) { console.log(out.join("\n")); process.exit(0); } // an experiment: print, write nothing
+if (TRY) { console.log(out.join("\n")); process.exit(0); } // another setting on trial: print, write nothing
 fs.writeFileSync(path.join(here, MBA ? "calibration_mba.md" : "calibration.md"), out.join("\n"));
 console.log(out.slice(4, 60).join("\n"));

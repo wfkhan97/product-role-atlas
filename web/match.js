@@ -597,12 +597,25 @@
       return ev;
     }
 
-    // EXPERIMENT (off unless `distinct` is passed): weigh an ask by how much more a role's postings set it than
-    // postings of the whole role set do. An ask that every role sets ("stakeholders", "prioritize") tells roles
-    // apart no better than chance; at lift 1 it keeps a fifth of its weight, at lift 2 or more all of it.
-    const allShare = distinct ? shares0(G.jobs) : null;
-    function shares0(jobs) { const n = jobs.length || 1, cnt = {}; for (const j of jobs) for (const k of j.skills) cnt[k] = (cnt[k] || 0) + 1; return id => (cnt[id] || 0) / n; }
-    const lift = (id, w) => { if (!allShare) return 1; const a = id === "__ai" ? Math.max(...AI_GROUP.map(allShare)) : id === "__domain" ? null : allShare(id); if (a == null || !a) return 1; return Math.max(0.2, Math.min(1, (w / a - 0.8) / 1.2)); };
+    // How distinctive an ask is for a role. Postings of almost every role say "stakeholders" and "prioritize":
+    // such an ask tells roles apart no better than chance, and a resume that does not show it is not a weaker
+    // fit for this role than for any other. An ask is weighed by its lift: its share in the role's postings over
+    // its mean share across the role families of the graph (each family counts once, whatever its size). At lift 1
+    // or below it keeps `floor` of its weight; from lift `full` up, all of it. Off unless `distinct` is passed
+    // ({ floor, full } or true for the defaults), so a role set opts in.
+    const DISTINCT = distinct ? { floor: 0.2, full: 2, ...(distinct === true ? {} : distinct) } : null;
+    const meanShare = (() => {
+      if (!DISTINCT) return null; const byFam = {}; for (const j of G.jobs) (byFam[j.family] ||= []).push(j);
+      const fams = Object.values(byFam), sum = {};
+      for (const jobs of fams) { const cnt = {}; for (const j of jobs) for (const k of j.skills) cnt[k] = (cnt[k] || 0) + 1; for (const k in cnt) sum[k] = (sum[k] || 0) + cnt[k] / jobs.length; }
+      return id => (sum[id] || 0) / (fams.length || 1);
+    })();
+    // the industry slot is one ask by design and keeps its weight; AI literacy is judged by its most asked member
+    function lift(id, w) {
+      if (!DISTINCT || id === "__domain") return 1;
+      const a = id === "__ai" ? Math.max(...AI_GROUP.map(meanShare)) : meanShare(id); if (!a) return 1;
+      return Math.max(DISTINCT.floor, Math.min(1, DISTINCT.floor + (1 - DISTINCT.floor) * (w / a - 1) / (DISTINCT.full - 1)));
+    }
     function shares(jobs) { const n = jobs.length || 1, cnt = {}; for (const j of jobs) for (const k of j.skills) cnt[k] = (cnt[k] || 0) + 1; return { n: jobs.length, share: id => (cnt[id] || 0) / n }; }
 
     // target: { jobs, job?, familyJobs?, label }
@@ -719,7 +732,8 @@
         const status = strength >= 2 ? (e.transfer ? "transferable" : "evidenced") : pc ? "presumed" : strength === 1 ? "thin" : "gap";
         const depth = e ? (e.subs.size > 0 || strength === 3) : false;
         rows.push({ id: e && e.id !== id ? e.id : id, slot: id, name: nameOf(e && e.id !== id ? e.id : id), slotName: nameOf(id), tier, w, strength, credit, status, depth, subs: e ? [...e.subs] : [], via: e ? [...e.via] : [], lines: e ? e.lines.sort((a, b) => b.strength - a.strength).slice(0, 2) : [], hintLines: e && e.subLines ? e.subLines.slice(0, 2) : [], ladder: ladderFor(e && e.id !== id ? e.id : id, targetLevel), signals: signalsFor(e && e.id !== id ? e.id : id), build: buildFor(e && e.id !== id ? e.id : id) });
-        const we = w * lift(id, w); tierSum[tier][0] += we * credit; tierSum[tier][1] += we;
+        const weight = w * lift(id, w); rows[rows.length - 1].weight = weight; // w is the share of postings (shown to the user); weight is what the score counts
+        tierSum[tier][0] += weight * credit; tierSum[tier][1] += weight;
       }
       const cov = t => tierSum[t][1] ? tierSum[t][0] / tierSum[t][1] : null;
       const core = cov("core"), common = cov("common"), diff = cov("diff");
@@ -728,8 +742,8 @@
       const depth = evidencedRows.length ? evidencedRows.filter(r => r.depth).length / evidencedRows.length : 0;
       const breadth = diff;
       // what-if: credit the top three core/common gaps
-      const gaps = rows.filter(r => r.status === "gap" && r.tier !== "diff").sort((a, b) => b.w - a.w);
-      const top3 = gaps.slice(0, 3); const bonus = top3.reduce((a, r) => a + (r.tier === "core" ? 2 : 1) * r.w, 0);
+      const gaps = rows.filter(r => r.status === "gap" && r.tier !== "diff").sort((a, b) => b.weight - a.weight || b.w - a.w);
+      const top3 = gaps.slice(0, 3); const bonus = top3.reduce((a, r) => a + (r.tier === "core" ? 2 : 1) * r.weight, 0);
       const whatIf = (2 * tierSum.core[0] + tierSum.common[0] + bonus) / ((2 * tierSum.core[1] + tierSum.common[1]) || 1);
       const creds = [...req.creds].map(([id, w]) => ({ id, name: nameOf(id), w, have: !!(ev[id] && ev[id].strength >= 2), detail: ev[id] && ev[id].lines[0] ? ((ev[id].lines.find(l => l.i === -1) || ev[id].lines.slice().sort((a, b) => a.text.length - b.text.length)[0]).text.slice(0, 80)) : null }));
       const industries = [...req.domains].sort((a, b) => b[1] - a[1]).map(([id, w]) => ({ id, name: nameOf(id), w, have: !!(ev[id] && ev[id].strength >= 2), hint: !!(ev[id] && (ev[id].capped || ev[id].strength === 1)) }));

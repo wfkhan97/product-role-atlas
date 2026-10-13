@@ -27,7 +27,8 @@ const M = createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G });
 // The MBA role set: its skills and its role families. Until its graph exists there are no postings to score
 // against, so this matcher is used for what a resume shows (skills tagged, role families read), not for a score.
 const ROLES = rolesData();
-const MBA = createMatcher({ taxonomy: mbaTaxonomy(), subskills: SUBS, graph: { jobs: [], skills: [] }, roles: ROLES });
+const TAXM = mbaTaxonomy();
+const MBA = createMatcher({ taxonomy: TAXM, subskills: SUBS, graph: { jobs: [], skills: [] }, roles: ROLES });
 const NO_TARGET = { jobs: [], label: "mba" };
 
 function target(spec) {
@@ -149,10 +150,31 @@ if (!only) {
   out(`\n=== resume titles → role family (web/data/roles_mba.json): ${T.length - gaps.length - closed.length - wrong.length}/${T.length - gaps.length - closed.length}${wrong.length ? "\n  WRONG: " + wrong.join("\n  WRONG: ") : ""}`);
   out(`  known gaps (not counted): ${gaps.length}${gaps.length ? " — " + gaps.join("; ") : ""}${closed.length ? "\n  no longer a gap, remove the mark: " + closed.join("; ") : ""}`);
 }
+// Distinctive asks: with the weighting on, an ask keeps between `floor` and all of its weight, an ask that no
+// role sets more than the others sits at the floor, the industry slot keeps its weight, and adding evidence for a
+// gap never lowers the score.
+if (!only) {
+  const { loadGraph } = await import("./graph_mba.mjs"); const GM = loadGraph(["fpa", "treasury", "operations_manager", "brand_manager"]);
+  const J2 = f => JSON.parse(fs.readFileSync(path.join(root, f)));
+  const cfg = { floor: 0.2, full: 2 }; const D = createMatcher({ taxonomy: J2("web/data/taxonomy_mba.json"), subskills: J2("web/data/subskills_mba.json"), graph: GM, roles: ROLES, distinct: cfg });
+  const text = fs.readFileSync(path.join(here, "resumes/template_placeholder_years.txt"), "utf8").replace(/20[xX]{2}/g, "2021"); const bad = [];
+  const fams = [...new Set(GM.jobs.map(j => j.family))]; const share = {}; for (const f of fams) { const js = GM.jobs.filter(j => j.family === f); share[f] = id => js.filter(j => j.skills.includes(id)).length / js.length; }
+  for (const f of fams) {
+    const tg = { jobs: GM.jobs.filter(j => j.family === f), label: f }; const r = D.match(text, tg);
+    for (const x of r.rows) {
+      if (!(x.weight <= x.w + 1e-9 && x.weight >= cfg.floor * x.w - 1e-9)) bad.push(`${f}/${x.slot}: weight ${x.weight.toFixed(3)} outside ${cfg.floor} to 1 of ${x.w.toFixed(3)}`);
+      if (x.slot === "__domain" && Math.abs(x.weight - x.w) > 1e-9) bad.push(`${f}: the industry slot lost weight`);
+      if (!x.slot.startsWith("__")) { const mean = fams.reduce((a, g) => a + share[g](x.slot), 0) / fams.length; if (x.w <= mean && Math.abs(x.weight - cfg.floor * x.w) > 1e-9) bad.push(`${f}/${x.slot}: asked no more than elsewhere but not at the floor`); if (x.w >= cfg.full * mean && Math.abs(x.weight - x.w) > 1e-9) bad.push(`${f}/${x.slot}: asked ${cfg.full} times more than elsewhere but not at full weight`); }
+    }
+    for (const g of r.gaps.slice(0, 3)) { const sig = ((GM.skills.find(s => s.id === g.id) || {}).signals || [])[0] || (TAXM.skills.find(s => s.id === g.id) || {}).name; if (!sig) continue; const r2 = D.match(text + "\n- " + sig, tg); if (r2.overall < r.overall - 1e-9) bad.push(`${f}: adding evidence for ${g.id} lowered the score`); }
+  }
+  bad.length ? fail++ : pass++; out(`\n=== distinctive asks (weighting on, ${fams.length} roles): ${bad.length ? "FAIL — " + bad.slice(0, 6).join("; ") : "PASS — every weight between the floor and the full share, the floor and the full weight where the lift says so, industry slot whole, evidence never lowers a score"}`);
+}
 // Bands of fit: the cut points file must be in order, and bandOf must read it as documented.
 if (!only) {
   const B = JSON.parse(fs.readFileSync(path.join(here, "bands_mba.json"))); const { bandOf } = require(path.join(root, "web/match.js")); const bad = [];
   if (!(B.in_range < B.strong)) bad.push("in_range is not below strong");
+  if (!(B.scoring && B.scoring.distinct && B.scoring.distinct.floor >= 0 && B.scoring.distinct.full > 1)) bad.push("the scoring the cut points were made with is not stated");
   for (const [g, low] of Object.entries(B.related)) { if (!(low < B.in_range)) bad.push(`${g}: related is not below in_range`); if (bandOf(low - 0.01, B, g) !== "different" || bandOf(low, B, g) !== "related" || bandOf(B.in_range, B, g) !== "in_range" || bandOf(B.strong, B, g) !== "strong") bad.push(`${g}: bandOf does not follow the cut points`); }
   for (const g of Object.keys(B.no_bands)) if (bandOf(0.9, B, g) !== null) bad.push(`${g}: has no bands but bandOf gives one`);
   for (const f of ROLES.families) if (!(B.group_of[f.id] in B.related) && !(B.group_of[f.id] in B.no_bands)) bad.push(`${f.id}: its group has neither bands nor a reason for none`);

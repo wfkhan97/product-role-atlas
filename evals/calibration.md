@@ -1,6 +1,6 @@
 # Calibration: what a match score means
 
-Produced by `node evals/calibrate.mjs` on 2026-10-12 from 274 published sample resumes in `evals/resumes/external/` (the files are not in the repository; see `external_sources.json`). Each is scored against the six product role families (all levels). 51 were written for a product role and 223 for another field. The role a sample was written for is the answer key.
+Produced by `node evals/calibrate.mjs` on 2026-10-13 from 274 published sample resumes in `evals/resumes/external/` (the files are not in the repository; see `external_sources.json`). Each is scored against the six product role families (all levels). 51 were written for a product role and 223 for another field. The role a sample was written for is the answer key.
 
 ## Score by group
 

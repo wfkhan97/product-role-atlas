@@ -55,7 +55,9 @@ that those distributions give, with bootstrap intervals. `node evals/calibrate.m
 the 50 roles of the MBA graph and writes [calibration_mba.md](calibration_mba.md), with a table per role group
 (about five minutes). It also writes `bands_mba.json`, the cut points the interface uses: two upper lines shared
 by every role, a bottom line per role group, and the groups that get no bands yet. `Matcher.bandOf(score, bands,
-group)` in `web/match.js` reads it. Rerun both after any change to the matcher; the bands the interface shows must come from
+group)` in `web/match.js` reads it. The file also states the scoring the cut points were made with
+(`scoring.distinct`); create the MBA matcher with that setting or the bands do not hold.
+`DISTINCT='{"floor":0,"full":3}' node evals/calibrate.mjs --roles mba` tries another setting and writes nothing. Rerun both after any change to the matcher; the bands the interface shows must come from
 these files, not from round numbers. The folder is gitignored:
 published sample resumes belong to their publishers, so the repository keeps only the list of sources and our own
 expectations for each file, not the files.

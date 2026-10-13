@@ -1,20 +1,20 @@
 # Calibration for the MBA role set: what a match score means
 
-Produced by `node evals/calibrate.mjs --roles mba` on 2026-10-13 from 274 published sample resumes in `evals/resumes/external/` (the files are not in the repository; see `external_sources.json`). Each is scored against the 50 role families of the MBA graph (US postings, all levels). 251 were written for one of these roles. The role a sample was written for is the answer key. Adjacent roles are the other roles of the same group (11 groups, from `web/data/roles_mba.json`); roles of other groups are another field.
+Produced by `node evals/calibrate.mjs --roles mba` on 2026-10-13 from 274 published sample resumes in `evals/resumes/external/` (the files are not in the repository; see `external_sources.json`). Each is scored against the 50 role families of the MBA graph (US postings, all levels). 251 were written for one of these roles. The role a sample was written for is the answer key. Adjacent roles are the other roles of the same group (11 groups, from `web/data/roles_mba.json`); roles of other groups are another field. An ask counts by how distinctive it is for the role (`distinct`: an ask that the role's postings set no more often than the mean of all roles keeps 0.2 of its weight; one set 2 times as often or more keeps all of it).
 
 ## Score by group of resumes
 
 | group | scores | 5th pct | 25th | median | 75th | 95th |
 |---|---|---|---|---|---|---|
-| Same role (a resume against its own role) | 251 | 15% | 42% | 61% | 72% | 82% |
-| Adjacent role (against the other roles of its group) | 1112 | 10% | 23% | 35% | 48% | 68% |
-| Other field (against the roles of other groups) | 12337 | 4% | 14% | 23% | 33% | 50% |
+| Same role (a resume against its own role) | 251 | 14% | 38% | 60% | 73% | 85% |
+| Adjacent role (against the other roles of its group) | 1112 | 6% | 19% | 30% | 47% | 68% |
+| Other field (against the roles of other groups) | 12337 | 2% | 9% | 17% | 28% | 47% |
 
-The score ranks a same-role score above an other-field score 86% of the time, and above an adjacent-role score 76% of the time (50% would be chance). A resume's own role is its highest-scoring role of the 50 in 123 of 251; its highest-scoring role is in its own group in 176 of 251. The level read agrees with the seniority read from the resume in 169 of 251.
+The score ranks a same-role score above an other-field score 89% of the time, and above an adjacent-role score 77% of the time (50% would be chance). A resume's own role is its highest-scoring role of the 50 in 119 of 251; its highest-scoring role is in its own group in 179 of 251. The level read agrees with the seniority read from the resume in 169 of 251.
 
 ## Role held
 
-A person who held the target role for a year or more, at the level read or above, gets part credit for what the resume does not show. Of the 251 same-role resumes, the matcher read the role as held in 147. Their median score against their own role is 70%; the median of the 104 where the role was not read as held is 36%. The floor that `run.mjs` checks (60% when held above the level, 50% at it) holds in 142 of 147.
+A person who held the target role for a year or more, at the level read or above, gets part credit for what the resume does not show. Of the 251 same-role resumes, the matcher read the role as held in 147. Their median score against their own role is 71%; the median of the 104 where the role was not read as held is 33%. The floor that `run.mjs` checks (60% when held above the level, 50% at it) holds in 138 of 147.
 
 ## By role group
 
@@ -22,17 +22,17 @@ Each row scores the resumes against the roles of one group only. The last two co
 
 | role group | same-role resumes | same: median (25th–75th) | adjacent: median (25th–75th) | other field: median (25th–75th) | above adjacent | above other field |
 |---|---|---|---|---|---|---|
-| Consulting & strategy | 45 | 59% (35%–68%) | 34% (21%–49%) | 26% (16%–37%) | 71% | 80% |
-| Finance | 21 | 67% (56%–75%) | 38% (26%–49%) | 25% (16%–34%) | 86% | 95% |
-| Banking & investing | 27 | 69% (46%–80%) | 31% (23%–42%) | 17% (10%–26%) | 84% | 93% |
-| Operations & general management | 35 | 56% (35%–71%) | 37% (26%–47%) | 33% (20%–47%) | 69% | 72% |
-| Product | 21 | 60% (52%–65%) | 54% (43%–62%) | 22% (13%–33%) | 62% | 92% |
-| Marketing | 26 | 63% (57%–67%) | 37% (26%–51%) | 22% (14%–31%) | 90% | 99% |
-| Sales & partnerships | 13 | 70% (49%–72%) | 26% (19%–38%) | 21% (14%–30%) | 80% | 85% |
-| Supply chain & procurement | 19 | 64% (40%–76%) | 41% (28%–57%) | 25% (17%–34%) | 67% | 85% |
-| People | 17 | 65% (28%–73%) | 28% (21%–35%) | 22% (13%–34%) | 75% | 82% |
-| Risk & compliance | 13 | 30% (20%–57%) | 17% (13%–26%) | 22% (13%–31%) | 71% | 68% |
-| Analytics | 14 | 60% (38%–71%) | 47% (42%–65%) | 25% (14%–36%) | 58% | 86% |
+| Consulting & strategy | 45 | 55% (36%–66%) | 26% (15%–43%) | 21% (12%–33%) | 74% | 81% |
+| Finance | 21 | 70% (59%–78%) | 36% (24%–50%) | 20% (11%–29%) | 86% | 96% |
+| Banking & investing | 27 | 69% (44%–81%) | 27% (17%–38%) | 12% (4%–21%) | 84% | 94% |
+| Operations & general management | 35 | 46% (25%–68%) | 30% (20%–43%) | 28% (16%–40%) | 66% | 69% |
+| Product | 21 | 57% (49%–65%) | 53% (40%–61%) | 17% (9%–27%) | 62% | 94% |
+| Marketing | 26 | 64% (57%–69%) | 39% (29%–52%) | 15% (10%–24%) | 87% | 99% |
+| Sales & partnerships | 13 | 70% (50%–73%) | 24% (16%–37%) | 15% (10%–22%) | 84% | 93% |
+| Supply chain & procurement | 19 | 70% (43%–81%) | 44% (31%–61%) | 21% (12%–29%) | 68% | 91% |
+| People | 17 | 66% (33%–74%) | 23% (20%–27%) | 14% (7%–24%) | 80% | 89% |
+| Risk & compliance | 13 | 36% (21%–58%) | 18% (13%–29%) | 13% (5%–23%) | 75% | 83% |
+| Analytics | 14 | 69% (42%–72%) | 57% (44%–73%) | 22% (11%–33%) | 55% | 90% |
 
 ## Bands of fit, all roles together
 
@@ -40,30 +40,30 @@ Cut points come from the distributions above, not from round numbers. The interv
 
 | band | score | rule | interval | same role | adjacent role | other field |
 |---|---|---|---|---|---|---|
-| Reads like people in the role | 72% and above | the top quarter of same-role resumes | 70% to 73% | 25% | 3% | 0% |
-| In range for the role | 55% to 72% | from the score that best splits same-role from adjacent-role resumes | 48% to 57% | 35% | 13% | 3% |
-| Related background | 33% to 55% | above three in four other-field resumes | 32% to 35% | 21% | 37% | 22% |
-| A different field so far | below 33% | | | 19% | 47% | 75% |
+| Reads like people in the role | 73% and above | the top quarter of same-role resumes | 71% to 75% | 25% | 3% | 0% |
+| In range for the role | 52% to 73% | from the score that best splits same-role from adjacent-role resumes | 45% to 55% | 39% | 16% | 3% |
+| Related background | 28% to 52% | above three in four other-field resumes | 27% to 29% | 21% | 35% | 22% |
+| A different field so far | below 28% | | | 16% | 46% | 75% |
 
 Read each row across: of the scores in a group, the share that lands in the band.
 
 ## The bands in use
 
-Written to `bands_mba.json`. The two upper lines are the same for every role: in range from 55%, reads like people in the role from 72%. The bottom line (related background) is each group's own. A group with too few same-role resumes, or whose own cut points come out of order, gets no bands: the interface shows no verdict for its roles.
+Written to `bands_mba.json`. The two upper lines are the same for every role: in range from 52%, reads like people in the role from 73%. The bottom line (related background) is each group's own. A group gets no bands when it has too few same-role resumes, when its own cut points come out of order, or when the owner holds it back: the interface shows no verdict for its roles.
 
 | role group | related background from | interval | same role: different / related / in range / like the role | other field: different / related / in range / like the role |
 |---|---|---|---|---|
-| Consulting & strategy | 37% | 35% to 39% | 27% / 20% / 36% / 18% | 75% / 21% / 4% / 0% |
-| Finance | 34% | 32% to 36% | 5% / 14% / 38% / 43% | 75% / 24% / 1% / 0% |
-| Banking & investing | 26% | 25% to 28% | 7% / 26% / 30% / 37% | 75% / 25% / 0% / 0% |
-| Operations & general management | 47% | 45% to 49% | 43% / 6% / 29% / 23% | 75% / 11% / 13% / 1% |
-| Product | 33% | 32% to 34% | 10% / 24% / 52% / 14% | 75% / 21% / 4% / 0% |
-| Marketing | 31% | 30% to 33% | 0% / 23% / 62% / 15% | 75% / 23% / 2% / 0% |
-| Sales & partnerships | 30% | 29% to 32% | 23% / 15% / 38% / 23% | 75% / 24% / 1% / 0% |
-| Supply chain & procurement | 34% | 33% to 36% | 21% / 26% / 16% / 37% | 75% / 23% / 2% / 0% |
-| People | 34% | 32% to 35% | 29% / 12% / 29% / 29% | 75% / 23% / 2% / 0% |
-| Risk & compliance | no bands | its own cut points are out of order | | |
-| Analytics | 36% | 34% to 38% | 21% / 21% / 29% / 29% | 75% / 22% / 3% / 0% |
+| Consulting & strategy | 33% | 31% to 35% | 24% / 22% / 42% / 11% | 75% / 20% / 5% / 0% |
+| Finance | 29% | 28% to 31% | 5% / 5% / 48% / 43% | 75% / 24% / 1% / 0% |
+| Banking & investing | 21% | 20% to 23% | 7% / 26% / 26% / 41% | 75% / 24% / 0% / 0% |
+| Operations & general management | 40% | 38% to 43% | 46% / 11% / 23% / 20% | 75% / 14% / 10% / 1% |
+| Product | 27% | 25% to 29% | 5% / 24% / 57% / 14% | 75% / 21% / 4% / 0% |
+| Marketing | 24% | 22% to 26% | 0% / 12% / 73% / 15% | 75% / 23% / 2% / 0% |
+| Sales & partnerships | 22% | 21% to 23% | 8% / 23% / 38% / 31% | 75% / 24% / 1% / 0% |
+| Supply chain & procurement | 29% | 28% to 30% | 11% / 26% / 16% / 47% | 75% / 24% / 1% / 0% |
+| People | 24% | 23% to 26% | 12% / 24% / 35% / 29% | 75% / 24% / 1% / 0% |
+| Risk & compliance | no bands | held back by the owner: 8 of its 13 same-role samples are law-school resumes of students and career changers | | |
+| Analytics | 33% | 30% to 34% | 21% / 7% / 50% / 21% | 75% / 20% / 5% / 0% |
 
 Read a row across: of the same-role scores against the roles of that group, the share in each band, then the same for other-field scores.
 
@@ -73,17 +73,17 @@ The same three rules, on the roles of one group. A group with fewer than 10 same
 
 | role group | same-role resumes | related background from | in range from | reads like people in the role from |
 |---|---|---|---|---|
-| Consulting & strategy | 45 | 37% (35% to 39%) | 50% (40% to 58%) | 68% (64% to 73%) |
-| Finance | 21 | 34% (32% to 36%) | 51% (46% to 55%) | 75% (69% to 79%) |
-| Banking & investing | 27 | 26% (25% to 28%) | 59% (38% to 62%) | 80% (71% to 84%) |
-| Operations & general management | 35 | 47% (45% to 49%) | 55% (45% to 66%) | 71% (61% to 74%) |
-| Product | 21 | 33% (32% to 34%) | 55% (20% to 63%) | 65% (60% to 73%) |
-| Marketing | 26 | 31% (30% to 33%) | 47% (42% to 56%) | 67% (64% to 73%) |
-| Sales & partnerships | 13 | 30% (29% to 32%) | 48% (45% to 68%) | 72% (70% to 74%) |
-| Supply chain & procurement | 19 | 34% (33% to 36%) | 62% (38% to 66%) | 76% (66% to 78%) |
-| People | 17 | 34% (32% to 35%) | 48% (38% to 48%) | 73% (65% to 76%) |
-| Risk & compliance | 13 | 31% (29% to 32%) | 23% (21% to 59%) | 57% (30% to 74%) |
-| Analytics | 14 | 36% (34% to 38%) | 67% (48% to 70%) | 71% (61% to 81%) |
+| Consulting & strategy | 45 | 33% (31% to 35%) | 49% (34% to 54%) | 66% (61% to 71%) |
+| Finance | 21 | 29% (28% to 31%) | 52% (48% to 57%) | 78% (72% to 82%) |
+| Banking & investing | 27 | 21% (20% to 23%) | 64% (31% to 64%) | 81% (72% to 86%) |
+| Operations & general management | 35 | 40% (38% to 43%) | 46% (34% to 67%) | 68% (55% to 77%) |
+| Product | 21 | 27% (25% to 29%) | 45% (25% to 67%) | 65% (59% to 75%) |
+| Marketing | 26 | 24% (22% to 26%) | 53% (47% to 56%) | 69% (66% to 75%) |
+| Sales & partnerships | 13 | 22% (21% to 23%) | 45% (24% to 66%) | 73% (70% to 75%) |
+| Supply chain & procurement | 19 | 29% (28% to 30%) | 69% (42% to 75%) | 81% (71% to 83%) |
+| People | 17 | 24% (23% to 26%) | 45% (25% to 45%) | 74% (66% to 81%) |
+| Risk & compliance | 13 | 23% (22% to 24%) | 31% (20% to 58%) | 58% (36% to 79%) |
+| Analytics | 14 | 33% (30% to 34%) | 67% (21% to 77%) | 72% (69% to 83%) |
 
 ## Limits
 
