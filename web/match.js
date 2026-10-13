@@ -496,7 +496,7 @@
   // the same job under the name resumes give it
   const RESUME_TITLE = [["growth_manager", /\bgrowth marketer\b/i], ["org_dev", /\bchange manager\b/i]];
 
-  function createMatcher({ taxonomy, subskills, graph, roles }) {
+  function createMatcher({ taxonomy, subskills, graph, roles, distinct }) {
     const RR = compileRoles(roles); const FAMS = RR.fams;
     // the employer of a job, from the text beside its title: one we hold, or the kind its name gives away
     function employerOfLine(text) {
@@ -597,6 +597,12 @@
       return ev;
     }
 
+    // EXPERIMENT (off unless `distinct` is passed): weigh an ask by how much more a role's postings set it than
+    // postings of the whole role set do. An ask that every role sets ("stakeholders", "prioritize") tells roles
+    // apart no better than chance; at lift 1 it keeps a fifth of its weight, at lift 2 or more all of it.
+    const allShare = distinct ? shares0(G.jobs) : null;
+    function shares0(jobs) { const n = jobs.length || 1, cnt = {}; for (const j of jobs) for (const k of j.skills) cnt[k] = (cnt[k] || 0) + 1; return id => (cnt[id] || 0) / n; }
+    const lift = (id, w) => { if (!allShare) return 1; const a = id === "__ai" ? Math.max(...AI_GROUP.map(allShare)) : id === "__domain" ? null : allShare(id); if (a == null || !a) return 1; return Math.max(0.2, Math.min(1, (w / a - 0.8) / 1.2)); };
     function shares(jobs) { const n = jobs.length || 1, cnt = {}; for (const j of jobs) for (const k of j.skills) cnt[k] = (cnt[k] || 0) + 1; return { n: jobs.length, share: id => (cnt[id] || 0) / n }; }
 
     // target: { jobs, job?, familyJobs?, label }
@@ -713,7 +719,7 @@
         const status = strength >= 2 ? (e.transfer ? "transferable" : "evidenced") : pc ? "presumed" : strength === 1 ? "thin" : "gap";
         const depth = e ? (e.subs.size > 0 || strength === 3) : false;
         rows.push({ id: e && e.id !== id ? e.id : id, slot: id, name: nameOf(e && e.id !== id ? e.id : id), slotName: nameOf(id), tier, w, strength, credit, status, depth, subs: e ? [...e.subs] : [], via: e ? [...e.via] : [], lines: e ? e.lines.sort((a, b) => b.strength - a.strength).slice(0, 2) : [], hintLines: e && e.subLines ? e.subLines.slice(0, 2) : [], ladder: ladderFor(e && e.id !== id ? e.id : id, targetLevel), signals: signalsFor(e && e.id !== id ? e.id : id), build: buildFor(e && e.id !== id ? e.id : id) });
-        tierSum[tier][0] += w * credit; tierSum[tier][1] += w;
+        const we = w * lift(id, w); tierSum[tier][0] += we * credit; tierSum[tier][1] += we;
       }
       const cov = t => tierSum[t][1] ? tierSum[t][0] / tierSum[t][1] : null;
       const core = cov("core"), common = cov("common"), diff = cov("diff");

@@ -38,7 +38,7 @@ function mbaSet() {
   // the program manager's group)
   const OWN = { pm: "product_manager" }, BESIDE = { product_owner: "product", product_analyst: "product", product_ops: "product", tpm: "operations" };
   const own = r => OWN[r] || (fams.includes(r) ? r : null);
-  return { G, fams, M: createMatcher({ taxonomy: J("web/data/taxonomy_mba.json"), subskills: J("web/data/subskills_mba.json"), graph: G, roles: R }),
+  return { G, fams, M: createMatcher({ taxonomy: J("web/data/taxonomy_mba.json"), subskills: J("web/data/subskills_mba.json"), graph: G, roles: R, distinct: !!process.env.DISTINCT }),
     groupOf: f => groupOf[f], groups: R.groups, own, groupOfSample: r => own(r) ? groupOf[own(r)] : BESIDE[r] || null };
 }
 const S = MBA ? mbaSet() : productSet();
@@ -172,5 +172,6 @@ else {
     "- Scores are against all levels of a role, and against US postings only.", "",
   ];
 }
+if (process.env.DISTINCT) { console.log(out.join("\n")); process.exit(0); } // an experiment: print, write nothing
 fs.writeFileSync(path.join(here, MBA ? "calibration_mba.md" : "calibration.md"), out.join("\n"));
 console.log(out.slice(4, 60).join("\n"));
