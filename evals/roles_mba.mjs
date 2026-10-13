@@ -24,10 +24,14 @@ export function createRoles(rules) {
   const first = new Set(rules.employer_first), named = new Set(rules.named_first), banks = new Set(rules.banks), consulting = new Set(rules.consulting_categories);
   const ladders = Object.fromEntries(Object.entries(rules.ladders).map(([k, l]) => [k, l.grades.map(g => ({ level: g.level, rx: rx(g.pattern) }))]));
   const cos = rx(rules.chief_of_staff), ldpStaff = rx(rules.ldp_staff);
+  const houseRank = rx(rules.house_rank), houseStaff = rx(rules.house_staff);
+  const big = new Set(rules.big_employers), deal = rx(rules.deal), campusRank = rx(rules.campus_rank), techStaff = rx(rules.tech_staff);
+  const sector = new RegExp(rules.sector, "gi"), bankCats = new Set(rules.bank_categories), lastResort = rx(rules.last_resort.pattern);
 
   function general(t) {
     for (const f of fams) {
       if (!f.rx.test(t) || (f.ex && f.ex.test(t))) continue;
+      if ((f.id === "ib_associate" || f.id === "corporate_banking") && techStaff.test(t)) continue;
       if (f.product_gate && !(productOk(t) && productFamily(t) === f.product_gate)) continue;
       return f.id;
     }
@@ -35,18 +39,26 @@ export function createRoles(rules) {
   }
   function employer(t, category) {
     if (consulting.has(category) && consultant.test(t)) return consultantEx.test(t) ? null : "management_consultant";
+    if (bankCats.has(category) && deal.test(t) && !techStaff.test(t)) t = t.replace(sector, " ");
+    if (category === "Strategy consulting" && houseRank.test(t)) return houseStaff.test(t) ? null : "management_consultant";
     if (employerEx.test(t) || (category === "Real estate" && realEstateEx.test(t))) return null;
     const hit = (employerRules[category] || []).find(r => r.rx.test(t));
     return hit ? hit.family : null;
   }
   // who: { category, industry, company } of the employer, each optional (rules.employers has them for employers we hold)
   function family(title, who = {}) {
-    const t = title || "";
+    let t = title || "";
     if (junk.test(t)) return null;
+    const firm = who.company ? who.company.split(/\s+/)[0] : "";
+    if (firm.length >= 4 && t.toLowerCase().startsWith(firm.toLowerCase() + " ")) t = t.slice(firm.length + 1);
     const g = general(t);
-    if (first.has(who.category) && !named.has(g)) { const f = employer(t, who.category); if (f) return f; }
-    if (g === "corp_dev" && who.company && banks.has(who.company.toLowerCase()) && !corpDevNamed.test(t)) return "ib_associate";
-    return g || employer(t, who.category);
+    const isBig = big.has(who.company);
+    if (first.has(who.category) && !named.has(g) && !isBig) { const f = employer(t, who.category); if (f) return g && campusRank.test(t) && !deal.test(t) ? g : f; }
+    if (g === "corp_dev" && (isBig || (who.company && banks.has(who.company.toLowerCase()))) && (who.category == null || who.category === "Investment banking") && !corpDevNamed.test(t)) return "ib_associate";
+    if (g) return g;
+    let f = employer(t, who.category);
+    if (f && isBig && !(deal.test(t) || campusRank.test(t))) f = null;
+    return f || (lastResort.test(t) ? rules.last_resort.family : null);
   }
   function ladder(title, who = {}, fam) {
     const b = rules.ladders.bank.applies;

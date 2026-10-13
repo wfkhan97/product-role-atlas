@@ -1,0 +1,31 @@
+{
+ "company": "Trinity Life Sciences",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "trinitylifesciences.wd108.myworkdayjobs.com",
+  "tenant": "trinitylifesciences",
+  "site": "Trinity"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "trinitylifesciences.wd108.myworkdayjobs.com",
+    "tenant": "trinitylifesciences",
+    "site": "Trinity"
+   },
+   "from": "https://trinitylifesciences.com/company/careers/",
+   "verify": "Associate Principal- Corporate Strategy Advisory"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "trinitylifesciences.com",
+ "sample_title": "Associate Principal- Corporate Strategy Advisory",
+ "description_chars": 5845,
+ "seconds": 14
+}

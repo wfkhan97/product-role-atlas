@@ -107,6 +107,22 @@ designed yet; this is the data layer only.
 - **Evals.** `evals/run_pipeline.py`: labelled titles, levels and countries, 99 golden postings, integrity of the
   processed file and of the graph files, the JavaScript reader against the Python rules, and the matcher on every role.
 
+## Postings backlog and more sources (v7, 2026-10-13)
+
+- **A backlog, not a snapshot.** The raw files keep every posting ever seen, with `first_seen`, `last_seen` and
+  `closed`. A closed posting is not listed as open. It counts in shares and statistics for 12 months. The MBA
+  set is refreshed weekly (`pipeline.scrape --roles mba --refresh`); entry-level and MBA postings open in
+  recruiting windows and close fast.
+- **Entry level.** Campus and programme titles count. For 20 roles the analyst and associate grades of the
+  function are the role's entry level. Sales manager, general manager and chief of staff have none: people come
+  to them from another job. An MBA internship that names a function is that role at entry level.
+- **Employers.** 308 listed employers for these roles (60 added for the thin consulting, bank and fund cells),
+  and the Fortune banks and investors now have a category. Adapters for tal.net and Yello boards.
+- **Not done.** Boards behind a captcha or bot check are left alone (Evercore, Citadel, CBRE). Twelve board
+  types have no adapter. A separate student board per bank is not looked up yet. "Entry level for an MBA"
+  differs by firm (Consultant at a strategy house, Senior Consultant at Deloitte, Associate at a bank) and is
+  not marked yet; see `evals/NOTES.md`.
+
 ## Skill depth for the MBA skills (proposed, not built)
 
 The 180 MBA skills have a one-line definition. Sub-skills, level ladders and build steps are not written. No

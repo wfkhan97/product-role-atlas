@@ -1,0 +1,25 @@
+{
+ "company": "Dalberg",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "paradox",
+ "config": {
+  "host": "dalberg.hua.hrsmart.com"
+ },
+ "verified": false,
+ "notes": "candidates: paradox 0 matching postings",
+ "candidates": [
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "dalberg.hua.hrsmart.com"
+   },
+   "from": "https://dalberg.hua.hrsmart.com/hr/ats/JobSeeker/createAccount",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "dalberg.com",
+ "seconds": 35
+}

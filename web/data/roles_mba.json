@@ -1,12 +1,13 @@
 {
  "about": "Title rules of the MBA role set, written by pipeline/roles_mba.py (do not edit by hand). Patterns are JavaScript regular expressions; use the 'i' flag. How to read a title: see 'how'.",
  "how": [
-  "1. A title that matches 'junk' has no role.",
-  "2. general = the first entry of 'families' with a match in 'patterns' and none in 'exclude'. An entry with 'product_gate' also needs the product rules to hold: product.family(title) equals the gate, and product.title_ok(title).",
-  "3. When the employer's category is in 'employer_first' and general is not in 'named_first': use the employer rule (step 5) if it gives a role.",
-  "4. When general is corp_dev, the employer is in 'banks' and the title does not say corporate development: the role is ib_associate. Otherwise the role is general.",
-  "5. Employer rule, also the fallback when general is empty: at a consulting category, a title matching 'consultant' is management_consultant unless it matches 'consultant_exclude'. Otherwise no role when the title matches 'employer_exclude' (or 'real_estate_exclude' at a real-estate firm); else the first rule of 'employer_rules'[category] that matches.",
-  "6. Level: pick the ladder ('ladders'.*.applies), replace a chief-of-staff phrase ('chief_of_staff') with 'CoS', then the first grade whose pattern matches; none: 'mid'. An ldp title with no manager word ('ldp_staff') is 'associate'."
+  "1. A title that matches 'junk' has no role. When the title starts with the first word of the employer's name (four letters or more) and a space, that word is removed first.",
+  "2. general = the first entry of 'families' with a match in 'patterns' and none in 'exclude'. ib_associate and corporate_banking are also skipped when the title matches 'tech_staff'. An entry with 'product_gate' also needs the product rules to hold: product.family(title) equals the gate, and product.title_ok(title).",
+  "3. big = the employer is in 'big_employers'. When the employer's category is in 'employer_first', general is not in 'named_first' and not big: use the employer rule (step 5) if it gives a role; but when general is not empty and the title matches 'campus_rank' and not 'deal', the role is general.",
+  "4. When general is corp_dev, the employer is big or in 'banks', its category is none or Investment banking, and the title does not say corporate development ('corp_dev_named'): the role is ib_associate. Otherwise, when general is not empty, the role is general.",
+  "5. Employer rule (the fallback when general is empty): at a consulting category, a title matching 'consultant' is management_consultant unless it matches 'consultant_exclude'. At a Strategy consulting firm, a title matching 'house_rank' is management_consultant unless it matches 'house_staff'. At a 'bank_categories' employer, when the title matches 'deal' and not 'tech_staff', take the 'sector' words out first. Then no role when the title matches 'employer_exclude' (or 'real_estate_exclude' at a real-estate firm); else the first rule of 'employer_rules'[category] that matches. For a big employer the result counts only when the title matches 'deal' or 'campus_rank'.",
+  "6. Still no role: 'last_resort'.family when the title matches its pattern.",
+  "7. Level: pick the ladder ('ladders'.*.applies), replace a chief-of-staff phrase ('chief_of_staff') with 'CoS', then the first grade whose pattern matches; none: 'mid'. An ldp title with no manager word ('ldp_staff') is 'associate'."
  ],
  "flags": "i",
  "groups": [
@@ -133,12 +134,12 @@
    "label": "Leadership Development Program Associate",
    "group": "operations",
    "patterns": [
-    "\\bleadership\\s+development\\s+(program|associate|intern\\w*|analyst|rotation\\w*)|\\b[A-Z]{0,2}LDP\\b|\\brotational\\s+(leadership\\s+|development\\s+|management\\s+)?(program|associate|analyst)\\b|\\bmba\\b.*\\b(program|associate|intern|rotation\\w*|graduate)\\b|\\bmanagement\\s+(development|trainee|associate)\\s+program\\b|\\bgeneral\\s+management\\s+(development\\s+)?program\\b"
+    "\\bleadership\\s+development\\s+(program|associate|intern\\w*|analyst|rotation\\w*)|\\b[A-Z]{0,2}LDP\\b|\\brotational\\s+(leadership\\s+|development\\s+|management\\s+)?(program|associate|analyst)\\b|\\bmanagement\\s+(development|trainee|associate)\\s+program\\b|\\bgeneral\\s+management\\s+(development\\s+)?program\\b"
    ],
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 273
+   "n": 279
   },
   {
    "id": "ib_associate",
@@ -148,11 +149,11 @@
     "\\binvestment\\s+bank(ing|er)\\b|\\binvestment\\s*(&|and)\\s*corporate\\s+banking\\b"
    ],
    "exclude": [
-    "\\b(assistant|recruit\\w*|counsel|compliance|engineer\\w*|technology|audit\\w*)\\b"
+    "\\b(assistant|recruit\\w*|counsel|compliance|audit\\w*)\\b"
    ],
    "covers": [],
    "covered_by": [],
-   "n": 451
+   "n": 643
   },
   {
    "id": "ma_integration",
@@ -164,7 +165,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 33
+   "n": 36
   },
   {
    "id": "corp_dev",
@@ -178,7 +179,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 207
+   "n": 211
   },
   {
    "id": "strategic_finance",
@@ -192,7 +193,7 @@
     "fpa"
    ],
    "covered_by": [],
-   "n": 165
+   "n": 173
   },
   {
    "id": "fpa",
@@ -207,7 +208,7 @@
     "strategic_finance",
     "financial_manager"
    ],
-   "n": 429
+   "n": 450
   },
   {
    "id": "treasury",
@@ -221,19 +222,19 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 112
+   "n": 119
   },
   {
    "id": "commercial_banking_rm",
    "label": "Commercial Banking Relationship Manager",
    "group": "banking_investing",
    "patterns": [
-    "\\b(commercial|business|middle\\s+market)\\s+(bank(ing|er)\\b)?.*\\brelationship\\s+(manager|banker)\\b|\\brelationship\\s+(manager|banker)\\b.*\\b(commercial|business|middle\\s+market)\\b|\\bcommercial\\s+(banker|lender|loan\\s+officer)\\b"
+    "\\b(commercial|business|middle\\s+market)\\s+banking\\s+(\\w+\\s+){0,3}(analyst|associate)\\b|\\b(commercial|business|middle\\s+market)\\s+(bank(ing|er)\\b)?.*\\brelationship\\s+(manager|banker)\\b|\\brelationship\\s+(manager|banker)\\b.*\\b(commercial|business|middle\\s+market)\\b|\\bcommercial\\s+(banker|lender|loan\\s+officer)\\b"
    ],
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 284
+   "n": 608
   },
   {
    "id": "corporate_banking",
@@ -243,11 +244,11 @@
     "\\bcorporate\\s+bank(ing|er)\\b"
    ],
    "exclude": [
-    "\\b(assistant|recruit\\w*|counsel|compliance|engineer\\w*|technology|audit\\w*)\\b"
+    "\\b(assistant|recruit\\w*|counsel|compliance|audit\\w*)\\b"
    ],
    "covers": [],
    "covered_by": [],
-   "n": 81
+   "n": 96
   },
   {
    "id": "re_acquisitions",
@@ -261,7 +262,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 24
+   "n": 26
   },
   {
    "id": "re_development",
@@ -273,7 +274,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 39
+   "n": 43
   },
   {
    "id": "re_asset_manager",
@@ -285,7 +286,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 59
+   "n": 63
   },
   {
    "id": "pe_associate",
@@ -299,7 +300,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 161
+   "n": 193
   },
   {
    "id": "vc_associate",
@@ -313,7 +314,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 15
+   "n": 19
   },
   {
    "id": "investment_manager",
@@ -327,7 +328,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 224
+   "n": 281
   },
   {
    "id": "chief_of_staff",
@@ -339,7 +340,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 102
+   "n": 106
   },
   {
    "id": "tech_strategy",
@@ -353,7 +354,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 92
+   "n": 100
   },
   {
    "id": "product_strategy",
@@ -368,7 +369,7 @@
     "product_manager"
    ],
    "product_gate": "pm",
-   "n": 72
+   "n": 73
   },
   {
    "id": "product_manager",
@@ -383,7 +384,7 @@
    ],
    "covered_by": [],
    "product_gate": "pm",
-   "n": 3653
+   "n": 3657
   },
   {
    "id": "bizops",
@@ -395,7 +396,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 595
+   "n": 664
   },
   {
    "id": "corp_strategy_analyst",
@@ -409,7 +410,7 @@
    "covered_by": [
     "strategy_manager"
    ],
-   "n": 79
+   "n": 83
   },
   {
    "id": "strategy_manager",
@@ -425,7 +426,7 @@
     "corp_strategy_analyst"
    ],
    "covered_by": [],
-   "n": 420
+   "n": 461
   },
   {
    "id": "digital_transformation",
@@ -439,7 +440,7 @@
    "covered_by": [
     "transformation"
    ],
-   "n": 35
+   "n": 47
   },
   {
    "id": "opex",
@@ -453,14 +454,14 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 119
+   "n": 131
   },
   {
    "id": "transformation",
    "label": "Transformation Manager",
    "group": "consulting_strategy",
    "patterns": [
-    "\\btransformation\\s+(office|program|senior\\s+)?\\s*(manager|lead|leader|director|head|vp|vice\\s+president|principal)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(business\\s+|enterprise\\s+|finance\\s+|operations\\s+)?transformation\\b|\\b(business|enterprise)\\s+transformation\\b|\\btransformation\\s+office\\b"
+    "\\btransformation\\s+(analyst|associate)\\b|\\btransformation\\s+(office|program|senior\\s+)?\\s*(manager|lead|leader|director|head|vp|vice\\s+president|principal)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(business\\s+|enterprise\\s+|finance\\s+|operations\\s+)?transformation\\b|\\b(business|enterprise)\\s+transformation\\b|\\btransformation\\s+office\\b"
    ],
    "exclude": [
     "\\bdigital\\s+transformation\\b"
@@ -469,7 +470,7 @@
     "digital_transformation"
    ],
    "covered_by": [],
-   "n": 158
+   "n": 188
   },
   {
    "id": "management_consultant",
@@ -483,14 +484,14 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1057
+   "n": 1609
   },
   {
    "id": "financial_manager",
    "label": "Financial Manager",
    "group": "finance",
    "patterns": [
-    "\\b(finance|financial)\\s+(senior\\s+)?(manager|director)\\b|\\b(manager|director|head|vp|vice\\s+president),?\\s+(of\\s+)?finance\\b|\\bfinance\\s+lead\\b|\\bfinancial\\s+controller\\b"
+    "\\b(financial|finance)\\s+(analyst|associate)\\b|\\b(finance|financial)\\s+(senior\\s+)?(manager|director)\\b|\\b(manager|director|head|vp|vice\\s+president),?\\s+(of\\s+)?finance\\b|\\bfinance\\s+lead\\b|\\bfinancial\\s+controller\\b"
    ],
    "exclude": [
     "\\b(data\\s+scien|engineer|recruit|talent|systems)"
@@ -499,7 +500,7 @@
     "fpa"
    ],
    "covered_by": [],
-   "n": 580
+   "n": 1350
   },
   {
    "id": "general_manager",
@@ -513,21 +514,21 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 174
+   "n": 185
   },
   {
    "id": "program_manager",
    "label": "Program Manager",
    "group": "operations",
    "patterns": [
-    "\\bprogram(me)?\\s+manage(r|ment)\\b"
+    "\\bprogram(me)?\\s+manage(r|ment)\\b|\\bprogram\\s+(analyst|associate)\\b"
    ],
    "exclude": [
     "\\b(technical|tech)\\s+program\\b|\\bTPM\\b"
    ],
    "covers": [],
    "covered_by": [],
-   "n": 2127
+   "n": 2352
   },
   {
    "id": "pmm",
@@ -540,7 +541,7 @@
    "covers": [],
    "covered_by": [],
    "product_gate": "pmm",
-   "n": 609
+   "n": 613
   },
   {
    "id": "brand_manager",
@@ -552,21 +553,21 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 210
+   "n": 227
   },
   {
    "id": "growth_manager",
    "label": "Growth Manager",
    "group": "marketing",
    "patterns": [
-    "\\bgrowth\\s+(marketing\\s+|strategy\\s+|operations\\s+)?(manager|lead|director)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?growth\\b|\\bgrowth\\s+(marketing|strategy)\\b"
+    "\\bgrowth\\s+(associate|analyst)\\b|\\bgrowth\\s+(marketing\\s+|strategy\\s+|operations\\s+)?(manager|lead|director)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?growth\\b|\\bgrowth\\s+(marketing|strategy)\\b"
    ],
    "exclude": [
     "\\bengineer\\w*\\b"
    ],
    "covers": [],
    "covered_by": [],
-   "n": 248
+   "n": 262
   },
   {
    "id": "customer_success",
@@ -580,19 +581,19 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 565
+   "n": 598
   },
   {
    "id": "partnerships",
    "label": "Strategic Partnerships Manager",
    "group": "sales",
    "patterns": [
-    "\\b(strategic\\s+)?partnerships?\\s+(senior\\s+)?(manager|director|lead)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(strategic\\s+|global\\s+|business\\s+)?partnerships\\b|\\bstrategic\\s+(partnerships?|alliances?)\\b|\\balliances?\\s+(manager|director|lead)\\b|\\bpartner\\s+manager\\b|^\\W*(strategic\\s+)?partnerships\\b"
+    "\\bpartnerships?\\s+(associate|analyst)\\b|\\b(strategic\\s+)?partnerships?\\s+(senior\\s+)?(manager|director|lead)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(strategic\\s+|global\\s+|business\\s+)?partnerships\\b|\\bstrategic\\s+(partnerships?|alliances?)\\b|\\balliances?\\s+(manager|director|lead)\\b|\\bpartner\\s+manager\\b|^\\W*(strategic\\s+)?partnerships\\b"
    ],
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 333
+   "n": 380
   },
   {
    "id": "bizdev",
@@ -606,7 +607,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 905
+   "n": 977
   },
   {
    "id": "business_analytics",
@@ -622,7 +623,7 @@
     "business_intelligence"
    ],
    "covered_by": [],
-   "n": 219
+   "n": 239
   },
   {
    "id": "business_intelligence",
@@ -638,14 +639,14 @@
    "covered_by": [
     "business_analytics"
    ],
-   "n": 73
+   "n": 82
   },
   {
    "id": "strategic_sourcing",
    "label": "Strategic Sourcing Manager",
    "group": "supply_chain",
    "patterns": [
-    "\\b(strategic|global|indirect|direct)\\s+sourcing\\b|\\bsourcing\\s+(senior\\s+)?(manager|director|lead)\\b"
+    "\\b(strategic|global|indirect|direct)\\s+sourcing\\b|\\bsourcing\\s+(senior\\s+)?(manager|director|lead|analyst|associate|specialist)\\b"
    ],
    "exclude": [
     "\\b(talent|recruit\\w*|candidate)\\b"
@@ -654,47 +655,47 @@
    "covered_by": [
     "procurement"
    ],
-   "n": 305
+   "n": 360
   },
   {
    "id": "category_manager",
    "label": "Category Manager",
    "group": "supply_chain",
    "patterns": [
-    "\\bcategory\\s+(senior\\s+)?(manage(r|ment)|director|lead)\\b"
+    "\\bcategory\\s+analyst\\b|\\bcategory\\s+(senior\\s+)?(manage(r|ment)|director|lead)\\b"
    ],
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 219
+   "n": 240
   },
   {
    "id": "procurement",
    "label": "Procurement Manager",
    "group": "supply_chain",
    "patterns": [
-    "\\bprocurement\\b.*\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal)\\b.*\\bprocurement\\b|\\bpurchasing\\s+(manager|director)\\b"
+    "\\bprocurement\\s+(senior\\s+)?(analyst|associate|specialist)\\b|\\b(analyst|associate|specialist),?\\s+procurement\\b|\\bprocurement\\b.*\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal)\\b.*\\bprocurement\\b|\\bpurchasing\\s+(manager|director)\\b"
    ],
    "exclude": [],
    "covers": [
     "strategic_sourcing"
    ],
    "covered_by": [],
-   "n": 311
+   "n": 445
   },
   {
    "id": "supply_chain",
    "label": "Supply Chain Manager",
    "group": "supply_chain",
    "patterns": [
-    "\\bsupply\\s+chain\\b.*\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal)\\b.*\\bsupply\\s+chain\\b"
+    "\\bsupply\\s+chain\\s+(senior\\s+)?(analyst|associate|specialist)\\b|\\b(analyst|associate|specialist),?\\s+supply\\s+chain\\b|\\bsupply\\s+chain\\b.*\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal)\\b.*\\bsupply\\s+chain\\b"
    ],
    "exclude": [
     "\\b(engineer\\w*|architect|developer|co-?op|intern\\w*)\\b"
    ],
    "covers": [],
    "covered_by": [],
-   "n": 451
+   "n": 588
   },
   {
    "id": "comp_benefits",
@@ -708,7 +709,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 304
+   "n": 316
   },
   {
    "id": "org_dev",
@@ -722,61 +723,61 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 125
+   "n": 141
   },
   {
    "id": "hr_manager",
    "label": "Human Resources Manager",
    "group": "people",
    "patterns": [
-    "\\b(hr|human\\s+resources?|people)\\s+(senior\\s+)?(manager|director|business\\s+partner|generalist|lead|operations)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(hr|human\\s+resources|people)\\b|\\bHRBP\\b|\\bpeople\\s+partner\\b"
+    "\\b(hr|human\\s+resources?)\\s+(senior\\s+)?(analyst|associate|specialist)\\b|\\b(hr|human\\s+resources?|people)\\s+(senior\\s+)?(manager|director|business\\s+partner|generalist|lead|operations)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(hr|human\\s+resources|people)\\b|\\bHRBP\\b|\\bpeople\\s+partner\\b"
    ],
    "exclude": [
-    "\\bpeople\\s+(analytics|data)\\b|\\banalyst\\b"
+    "\\bpeople\\s+(analytics|data)\\b|\\bpeople\\s+operations\\b.*\\banalyst\\b|\\banalyst\\b.*\\bpeople\\s+operations\\b"
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1031
+   "n": 1123
   },
   {
    "id": "enterprise_risk",
    "label": "Enterprise Risk Manager",
    "group": "risk",
    "patterns": [
-    "\\benterprise\\s+risk\\b|\\b(operational|business)\\s+risk\\s+(senior\\s+)?(manager|director|lead|officer)\\b|\\brisk\\s+manage(r|ment)\\s*(manager|director|lead|officer)?\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(enterprise\\s+)?risk\\b"
+    "\\b(enterprise|operational|business)\\s+risk\\s+(analyst|associate)\\b|^\\W*(senior\\s+|sr\\.?\\s+)?risk\\s+(analyst|associate)\\b|\\benterprise\\s+risk\\b|\\b(operational|business)\\s+risk\\s+(senior\\s+)?(manager|director|lead|officer)\\b|\\brisk\\s+manage(r|ment)\\s*(manager|director|lead|officer)?\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(enterprise\\s+)?risk\\b"
    ],
    "exclude": [
     "\\b(engineer\\w*|insurance\\s+sales|data\\s+analyst|technical\\s+program|claims?)\\b"
    ],
    "covers": [],
    "covered_by": [],
-   "n": 447
+   "n": 519
   },
   {
    "id": "compliance",
    "label": "Compliance Manager",
    "group": "risk",
    "patterns": [
-    "\\bcompliance\\s+(senior\\s+)?(manager|director|officer|lead)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(regulatory\\s+|corporate\\s+)?compliance\\b"
+    "\\bcompliance\\s+(senior\\s+)?(manager|director|officer|lead|analyst|associate|specialist)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(regulatory\\s+|corporate\\s+)?compliance\\b"
    ],
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 223
+   "n": 446
   },
   {
    "id": "governance",
    "label": "Governance Manager",
    "group": "risk",
    "patterns": [
-    "\\bgovernance\\s+(senior\\s+)?(manager|director|lead|officer)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(corporate\\s+|data\\s+|it\\s+|ai\\s+)?governance\\b|\\bcorporate\\s+governance\\b|\\bGRC\\b"
+    "\\bgovernance\\s+(senior\\s+)?(manager|director|lead|officer|analyst|associate)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(corporate\\s+|data\\s+|it\\s+|ai\\s+)?governance\\b|\\bcorporate\\s+governance\\b|\\bGRC\\b"
    ],
    "exclude": [
     "\\b(engineer\\w*|product\\s+owner|developer)\\b"
    ],
    "covers": [],
    "covered_by": [],
-   "n": 130
+   "n": 163
   },
   {
    "id": "sales_manager",
@@ -790,37 +791,78 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1334
+   "n": 1499
   },
   {
    "id": "marketing_manager",
    "label": "Marketing Manager",
    "group": "marketing",
    "patterns": [
-    "\\bmarketing\\s+(senior\\s+)?(manager|director|lead)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?marketing\\b"
+    "\\bmarketing\\s+(associate|analyst|specialist)\\b|\\bmarketing\\s+(senior\\s+)?(manager|director|lead)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?marketing\\b"
    ],
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 749
+   "n": 931
   },
   {
    "id": "operations_manager",
    "label": "Operations Manager",
    "group": "operations",
    "patterns": [
-    "\\boperations\\s+(senior\\s+)?(manager|director|lead)\\b|\\b(manager|director|head|vp|vice\\s+president),?\\s+(of\\s+)?operations\\b|\\bops\\s+manager\\b"
+    "\\boperations\\s+(analyst|supervisor)\\b|\\boperations\\s+(senior\\s+)?(manager|director|lead)\\b|\\b(manager|director|head|vp|vice\\s+president),?\\s+(of\\s+)?operations\\b|\\bops\\s+manager\\b"
    ],
    "exclude": [
-    "\\bproduct\\s+(operations|ops)\\b"
+    "\\bproduct\\s+(operations|ops)\\b|\\b(sales|revenue|marketing|trading|fund|investment)\\s+operations\\s+(analyst|supervisor)\\b"
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1767
+   "n": 2492
   }
  ],
  "covers_status": "confirmed",
  "junk": "\\bdo\\s+not\\s+apply\\b|\\btest\\s+req",
+ "last_resort": {
+  "family": "ldp",
+  "pattern": "\\bmba\\b.*\\b(program|associate|intern\\w*|rotation\\w*|graduate)\\b|\\bintern(ship)?\\b.*\\bmba\\b"
+ },
+ "big_employers": [
+  "Apollo Global Management",
+  "Bank of America",
+  "Bank of New York (BNY)",
+  "BlackRock",
+  "Blackstone",
+  "Charles Schwab",
+  "Citigroup",
+  "Franklin Resources",
+  "Goldman Sachs Group",
+  "JPMorgan Chase",
+  "Jefferies Financial Group",
+  "KKR",
+  "Morgan Stanley",
+  "Northern Trust",
+  "Raymond James Financial",
+  "State Street",
+  "Wells Fargo"
+ ],
+ "deal": "\\b(m\\s*&\\s*a|mergers|investment\\s+bank\\w*|coverage|capital\\s+markets|leveraged\\s+finance|restructuring|advisory|sponsors?|private\\s+equity|buyouts?|growth\\s+equity|invest(or|ment|ing)s?)\\b",
+ "campus_rank": "^\\W*(?=.*\\b(20\\d\\d|summer|full[- ]time|campus|program(me)?|intern(ship)?)\\b)(?:(?:20\\d\\d|summer|full[- ]time|campus|us|u\\.s\\.|global|incoming)\\W+)*(analyst|associate)(\\s+(program(me)?|intern(ship)?|class))?\\b",
+ "house_rank": "^\\W*(?:(?:20\\d\\d|summer|full[- ]time|campus|us|u\\.s\\.|global|incoming)\\W+)*(senior\\s+)?(associate|business\\s+analyst|analyst|consultant|principal|partner|project\\s+leader|case\\s+team\\s+leader)\\b",
+ "house_staff": "\\b(alumni|recruit\\w*|talent|marketing|events?|people|human|hr|legal|counsel|finance|financial\\s+planning|accounting|payroll|facilities|administrat\\w*|assistant|it|security|engineer\\w*|developer|data\\s+(engineer\\w*|scien\\w*)|software|research\\s+operations|knowledge)\\b",
+ "tech_staff": "\\b(engineer\\w*|developer|architect|technology\\s+(analyst|associate|division|officer|risk|operations|summer|intern\\w*)|bank(ing)?\\s+technology|information\\s+technology|IT)\\b",
+ "sector": "\\b(technology|tech|software|cloud|data)\\b",
+ "bank_categories": [
+  "Asset management",
+  "Commercial and corporate banking",
+  "Investment banking",
+  "Private equity",
+  "Venture capital"
+ ],
+ "no_entry_level": [
+  "chief_of_staff",
+  "general_manager",
+  "sales_manager"
+ ],
  "employer_first": [
   "Asset management",
   "Big Four and accounting",
@@ -855,49 +897,55 @@
  ],
  "consultant": "\\bconsult(ant|ing)\\b",
  "consultant_exclude": "\\b(sap|oracle|workday|salesforce|servicenow|implementation|software|technical|tech|technology|cyber\\w*|cloud|tax|audit\\w*|payroll|benefits|application|recruit\\w*|talent|engineer\\w*|developer|assistant|counsel|legal|epic|billing|data|marketing|communications|events?)\\b",
- "employer_exclude": "\\b(assistant|counsel|attorney|paralegal|recruit\\w*|talent|engineer\\w*|developer|accountant|tax|audit\\w*|payroll|receptionist|compliance|legal|marketing|events?|design\\w*|sap|oracle|workday|salesforce|servicenow|implementation|software|cyber\\w*|cloud|sales|data\\s+(governance|operations|management|engineer\\w*|analyst|scien\\w*)|operations|ops|onboarding|communications|procurement|client|investor\\s+(relations|services|communications)|product\\s+(specialist|management)|fund\\s+(admin\\w*|accounting)|accounting|financial\\s+(advisory|planning)|fp\\s*&\\s*a|IR|application|reporting|technical|technology|it|people|human|hr|treasury|controller|facilities|administrat\\w*|security|epic|billing)\\b",
+ "employer_exclude": "\\b(alumni|assistant|counsel|attorney|paralegal|recruit\\w*|talent|engineer\\w*|developer|accountant|tax|audit\\w*|payroll|receptionist|compliance|legal|marketing|events?|design\\w*|sap|oracle|workday|salesforce|servicenow|implementation|software|cyber\\w*|cloud|sales|data\\s+(governance|operations|management|engineer\\w*|analyst|scien\\w*)|operations|ops|onboarding|communications|procurement|client|investor\\s+(relations|services|communications)|product\\s+(specialist|management)|fund\\s+(admin\\w*|accounting)|accounting|financial\\s+(advisory|planning)|fp\\s*&\\s*a|IR|application|reporting|technical|technology|it|people|human|hr|treasury|controller|facilities|administrat\\w*|security|epic|billing)\\b",
  "real_estate_exclude": "\\b(business|software|learning|talent|fund|donor|web|application|product|organi[sz]ation\\w*|leadership|career|sales)\\s+(development|acquisitions?)\\b",
  "employer_rules": {
   "Strategy consulting": [
    {
     "family": "management_consultant",
-    "pattern": "\\bconsult(ant|ing)\\b|\\bengagement\\s+manager\\b|\\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\\s+diligence)\\b.*\\b(analyst|associate|manager|vice\\s+president|vp|principal|director|partner)\\b|\\b(analyst|associate|manager|vice\\s+president|vp|principal|director|partner)\\b.*\\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\\s+diligence)\\b|^\\W*(senior\\s+)?(associate|business\\s+analyst|analyst|principal|partner|project\\s+leader|case\\s+team\\s+leader)\\b"
+    "pattern": "\\bconsult(ant|ing)\\b|\\bengagement\\s+manager\\b|\\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\\s+diligence)\\b.*\\b(analyst|associate|manager|vice\\s+president|vp|principal|director|partner|intern(ship)?)\\b|\\b(analyst|associate|manager|vice\\s+president|vp|principal|director|partner|intern(ship)?)\\b.*\\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\\s+diligence)\\b|\\b(summer|lateral)\\s+(\\w+\\s+)?(business\\s+)?(analyst|associate)\\b|\\b(analyst|associate)\\s+intern\\b|\\bassociate\\s+\\(entry\\s+level\\)|^\\W*(?:(?:20\\d\\d|summer|full[- ]time|campus|us|u\\.s\\.|global|incoming)\\W+)*(senior\\s+|research\\s+)?(associate|business\\s+analyst|analyst|principal|partner|project\\s+leader|case\\s+team\\s+leader)\\b"
    }
   ],
   "Consulting and advisory": [
    {
     "family": "management_consultant",
-    "pattern": "\\bconsult(ant|ing)\\b|\\bengagement\\s+manager\\b|\\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\\s+diligence)\\b.*\\b(analyst|associate|manager|vice\\s+president|vp|principal|director|partner)\\b|\\b(analyst|associate|manager|vice\\s+president|vp|principal|director|partner)\\b.*\\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\\s+diligence)\\b"
+    "pattern": "\\bconsult(ant|ing)\\b|\\bengagement\\s+manager\\b|\\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\\s+diligence)\\b.*\\b(analyst|associate|manager|vice\\s+president|vp|principal|director|partner|intern(ship)?)\\b|\\b(analyst|associate|manager|vice\\s+president|vp|principal|director|partner|intern(ship)?)\\b.*\\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\\s+diligence)\\b"
    }
   ],
   "Big Four and accounting": [
    {
     "family": "management_consultant",
-    "pattern": "\\bconsult(ant|ing)\\b|\\bengagement\\s+manager\\b|\\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\\s+diligence)\\b.*\\b(analyst|associate|manager|vice\\s+president|vp|principal|director|partner)\\b|\\b(analyst|associate|manager|vice\\s+president|vp|principal|director|partner)\\b.*\\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\\s+diligence)\\b"
+    "pattern": "\\bconsult(ant|ing)\\b|\\bengagement\\s+manager\\b|\\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\\s+diligence)\\b.*\\b(analyst|associate|manager|vice\\s+president|vp|principal|director|partner|intern(ship)?)\\b|\\b(analyst|associate|manager|vice\\s+president|vp|principal|director|partner|intern(ship)?)\\b.*\\b(strategy|advisory|deals|transactions?|turnaround|restructuring|due\\s+diligence)\\b"
    }
   ],
   "Investment banking": [
    {
     "family": "ib_associate",
-    "pattern": "\\b(analyst|associate|vice\\s+president|vp|principal|director)\\b.*\\b(m\\s*&\\s*a|mergers|advisory|restructuring|capital\\s+markets|coverage|leveraged\\s+finance|sponsors?|banking|ecm|dcm|generalist)\\b|\\b(m\\s*&\\s*a|mergers|advisory|restructuring|capital\\s+markets|coverage|leveraged\\s+finance|sponsors?|banking|ecm|dcm)\\b.*\\b(analyst|associate|vice\\s+president|vp|principal|director)\\b"
+    "pattern": "\\b(analyst|associate|vice\\s+president|vp|principal|director|intern(ship)?)\\b.*\\b(m\\s*&\\s*a|mergers|advisory|restructuring|capital\\s+markets|coverage|leveraged\\s+finance|sponsors?|banking|ecm|dcm|generalist)\\b|\\b(m\\s*&\\s*a|mergers|advisory|restructuring|capital\\s+markets|coverage|leveraged\\s+finance|sponsors?|banking|ecm|dcm)\\b.*\\b(analyst|associate|vice\\s+president|vp|principal|director|intern(ship)?)\\b|^\\W*(?=.*\\b(20\\d\\d|summer|full[- ]time|campus|program(me)?|intern(ship)?)\\b)(?:(?:20\\d\\d|summer|full[- ]time|campus|us|u\\.s\\.|global|incoming)\\W+)*(analyst|associate)(\\s+(program(me)?|intern(ship)?|class))?\\b"
    }
   ],
   "Private equity": [
    {
     "family": "pe_associate",
-    "pattern": "\\b(analyst|associate|vice\\s+president|vp|principal|director)\\b.*\\b(invest\\w*|buyouts?|private\\s+equity|growth|credit|infrastructure|real\\s+assets|deal|secondaries|portfolio\\s+operations|value\\s+creation)\\b|\\b(invest\\w*|buyouts?|private\\s+equity|growth\\s+equity|secondaries|value\\s+creation)\\b.*\\b(analyst|associate|vice\\s+president|vp|principal|director)\\b|\\binvestment\\s+professional\\b|^\\W*(senior\\s+)?(associate|analyst|vice\\s+president|principal)\\b"
+    "pattern": "\\b(analyst|associate|vice\\s+president|vp|principal|director|intern(ship)?)\\b.*\\b(invest\\w*|buyouts?|private\\s+equity|growth|credit|infrastructure|real\\s+assets|deal|secondaries|portfolio\\s+operations|value\\s+creation)\\b|\\b(invest\\w*|buyouts?|private\\s+equity|growth\\s+equity|secondaries|value\\s+creation)\\b.*\\b(analyst|associate|vice\\s+president|vp|principal|director|intern(ship)?)\\b|\\binvestment\\s+professional\\b|^\\W*(?:(?:20\\d\\d|summer|full[- ]time|campus|us|u\\.s\\.|global|incoming)\\W+)*(senior\\s+)?(associate|analyst|vice\\s+president|principal)\\b"
    }
   ],
   "Venture capital": [
    {
     "family": "vc_associate",
-    "pattern": "\\b(investor|investing|investment)\\b|^\\W*(senior\\s+)?(associate|analyst|principal)\\b|\\b(deal|investment)\\s+partner\\b"
+    "pattern": "\\b(investor|investing|investment)\\b|^\\W*(?:(?:20\\d\\d|summer|full[- ]time|campus|us|u\\.s\\.|global|incoming)\\W+)*(senior\\s+)?(associate|analyst|principal)\\b|\\b(deal|investment)\\s+partner\\b"
+   }
+  ],
+  "Commercial and corporate banking": [
+   {
+    "family": "commercial_banking_rm",
+    "pattern": "\\bcredit\\s+analyst\\b|\\b(commercial|business|corporate)\\s+bank\\w*\\b.*\\b(analyst|associate)\\b|\\b(analyst|associate)\\b.*\\b(commercial|business)\\s+bank\\w*\\b"
    }
   ],
   "Asset management": [
    {
     "family": "investment_manager",
-    "pattern": "\\bportfolio\\s+manager\\b|\\binvestment\\s+(analyst|associate|strategist|specialist|professional|research)\\b|\\b(research|equity|credit|fixed\\s+income|quantitative)\\s+(research\\s+)?(analyst|associate)\\b|\\b(analyst|associate|vice\\s+president)\\b.*\\b(private\\s+(credit|equity|markets)|invest\\w*|equit(y|ies)|fixed\\s+income|multi[- ]asset|real\\s+estate)\\b"
+    "pattern": "\\bportfolio\\s+manager\\b|\\binvestment\\s+(analyst|associate|strategist|specialist|professional|research)\\b|\\b(research|equity|credit|fixed\\s+income|quantitative)\\s+(research\\s+)?(analyst|associate)\\b|\\b(analyst|associate|vice\\s+president)\\b.*\\b(private\\s+(credit|equity|markets)|invest\\w*|equit(y|ies)|fixed\\s+income|multi[- ]asset|real\\s+estate|portfolio\\s+management|research)\\b|\\b(sector|research)\\s+analyst\\b|^\\W*(?=.*\\b(20\\d\\d|summer|full[- ]time|campus|program(me)?|intern(ship)?)\\b)(?:(?:20\\d\\d|summer|full[- ]time|campus|us|u\\.s\\.|global|incoming)\\W+)*(analyst|associate)(\\s+(program(me)?|intern(ship)?|class))?\\b"
    }
   ],
   "Real estate": [
@@ -1154,7 +1202,7 @@
     },
     {
      "level": "associate",
-     "pattern": "^(?!.*\\b(manager|mgr)\\b).*\\b(analyst|associate|assistant|junior|jr\\.?|entry|graduate|rotational|coordinator|early\\s+career|new\\s+grad)\\b|\\bI$"
+     "pattern": "^(?!.*\\b(manager|mgr)\\b).*\\b(analyst|associate|assistant|specialist|supervisor|junior|jr\\.?|entry|graduate|rotational|coordinator|early\\s+career|new\\s+grad)\\b|\\bI$"
     }
    ]
   }
@@ -1164,8 +1212,20 @@
   "Accenture": {
    "category": "Consulting and advisory"
   },
+  "Accordion": {
+   "category": "Consulting and advisory"
+  },
+  "AlixPartners": {
+   "category": "Consulting and advisory"
+  },
+  "Altman Solon": {
+   "category": "Strategy consulting"
+  },
   "Analysis Group": {
    "category": "Strategy consulting"
+  },
+  "Ankura": {
+   "category": "Consulting and advisory"
   },
   "Bain & Company": {
    "category": "Strategy consulting"
@@ -1182,17 +1242,29 @@
   "Boston Consulting Group": {
    "category": "Strategy consulting"
   },
+  "Brattle Group": {
+   "category": "Strategy consulting"
+  },
   "Capgemini": {
    "category": "Consulting and advisory"
   },
   "Capital One Financial": {
    "industry": "Commercial Banks"
   },
+  "CFGI": {
+   "category": "Consulting and advisory"
+  },
   "Charles River Associates": {
    "category": "Strategy consulting"
   },
+  "Chartis": {
+   "category": "Consulting and advisory"
+  },
   "ClearView Healthcare Partners": {
    "category": "Strategy consulting"
+  },
+  "CohnReznick": {
+   "category": "Big Four and accounting"
   },
   "Colliers": {
    "category": "Real estate"
@@ -1225,7 +1297,14 @@
    "industry": "Securities"
   },
   "JPMorgan Chase": {
+   "category": "Investment banking",
    "industry": "Commercial Banks"
+  },
+  "Kearney": {
+   "category": "Strategy consulting"
+  },
+  "Keystone Strategy": {
+   "category": "Strategy consulting"
   },
   "KPMG": {
    "category": "Big Four and accounting"
@@ -1236,11 +1315,23 @@
   "McKinsey & Company": {
    "category": "Strategy consulting"
   },
+  "Mercer": {
+   "category": "Consulting and advisory"
+  },
+  "NERA": {
+   "category": "Strategy consulting"
+  },
   "Newmark": {
    "category": "Real estate"
   },
   "Oliver Wyman": {
    "category": "Strategy consulting"
+  },
+  "Point B": {
+   "category": "Consulting and advisory"
+  },
+  "Portage Point Partners": {
+   "category": "Consulting and advisory"
   },
   "Protiviti": {
    "category": "Consulting and advisory"
@@ -1248,16 +1339,30 @@
   "PwC": {
    "category": "Big Four and accounting"
   },
+  "Riveron": {
+   "category": "Consulting and advisory"
+  },
   "Roland Berger": {
    "category": "Strategy consulting"
   },
   "RSM US": {
    "category": "Big Four and accounting"
   },
+  "Sia Partners": {
+   "category": "Consulting and advisory"
+  },
+  "Stout": {
+   "category": "Consulting and advisory"
+  },
+  "Trinity Life Sciences": {
+   "category": "Strategy consulting"
+  },
   "U.S. Bancorp": {
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks"
   },
   "Wells Fargo": {
+   "category": "Investment banking",
    "industry": "Commercial Banks"
   },
   "West Monroe": {
@@ -1266,16 +1371,18 @@
   "ZS": {
    "category": "Strategy consulting"
   },
-  "AlixPartners": {
-   "category": "Consulting and advisory"
-  },
   "Bank of New York (BNY)": {
+   "category": "Asset management",
    "industry": "Commercial Banks"
   },
   "BMO": {
    "category": "Investment banking"
   },
+  "Campbell's": {
+   "category": "Consumer goods"
+  },
   "Charles Schwab": {
+   "category": "Asset management",
    "industry": "Securities"
   },
   "Cushman & Wakefield": {
@@ -1291,6 +1398,7 @@
    "category": "Consumer goods"
   },
   "Fifth Third Bancorp": {
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks"
   },
   "Haleon": {
@@ -1300,12 +1408,14 @@
    "category": "Asset management"
   },
   "KKR": {
+   "category": "Private equity",
    "industry": "Securities"
   },
   "Mars": {
    "category": "Consumer goods"
   },
   "Morgan Stanley": {
+   "category": "Investment banking",
    "industry": "Commercial Banks"
   },
   "Nasdaq": {
@@ -1318,18 +1428,21 @@
    "category": "Consumer goods"
   },
   "Northern Trust": {
+   "category": "Asset management",
    "industry": "Commercial Banks"
   },
   "PIMCO": {
    "category": "Asset management"
   },
   "PNC Financial Services Group": {
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks"
   },
   "RBC": {
    "category": "Investment banking"
   },
   "State Street": {
+   "category": "Asset management",
    "industry": "Commercial Banks"
   },
   "T. Rowe Price": {
@@ -1339,6 +1452,7 @@
    "category": "Investment banking"
   },
   "Truist Financial": {
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks"
   },
   "Vanguard": {
@@ -1351,9 +1465,13 @@
    "category": "Asset management"
   },
   "Bank of America": {
+   "category": "Investment banking",
    "industry": "Commercial Banks"
   },
   "Bridgewater Associates": {
+   "category": "Asset management"
+  },
+  "Dodge & Cox": {
    "category": "Asset management"
   },
   "Mattel": {
@@ -1362,16 +1480,23 @@
   "Nomura": {
    "category": "Investment banking"
   },
+  "AllianceBernstein": {
+   "category": "Asset management"
+  },
   "Baird": {
    "category": "Investment banking"
   },
   "Church & Dwight": {
    "category": "Consumer goods"
   },
+  "CIBC": {
+   "category": "Investment banking"
+  },
   "First Horizon": {
    "category": "Commercial and corporate banking"
   },
   "Goldman Sachs Group": {
+   "category": "Investment banking",
    "industry": "Commercial Banks"
   },
   "Golub Capital": {
@@ -1383,7 +1508,12 @@
   "Levi Strauss": {
    "category": "Consumer goods"
   },
+  "Raymond James Financial": {
+   "category": "Investment banking",
+   "industry": "Securities"
+  },
   "Regions Financial": {
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks"
   },
   "Synovus": {
@@ -1392,11 +1522,19 @@
   "Ares Management": {
    "category": "Private equity"
   },
+  "Audax Group": {
+   "category": "Private equity"
+  },
   "Bain Capital": {
    "category": "Private equity"
   },
   "BlackRock": {
+   "category": "Asset management",
    "industry": "Securities"
+  },
+  "Blackstone": {
+   "category": "Private equity",
+   "industry": "Diversified Financials"
   },
   "Blue Owl": {
    "category": "Private equity"
@@ -1426,9 +1564,11 @@
    "category": "Real estate"
   },
   "Jefferies Financial Group": {
+   "category": "Investment banking",
    "industry": "Securities"
   },
   "KeyCorp": {
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks"
   },
   "Lazard": {
@@ -1449,8 +1589,8 @@
   "Public Storage": {
    "category": "Real estate"
   },
-  "Raymond James Financial": {
-   "industry": "Securities"
+  "Realty Income": {
+   "category": "Real estate"
   },
   "Santander": {
    "category": "Investment banking"
@@ -1462,12 +1602,17 @@
    "category": "Commercial and corporate banking"
   },
   "Apollo Global Management": {
+   "category": "Private equity",
    "industry": "Securities"
+  },
+  "Cohen & Steers": {
+   "category": "Asset management"
   },
   "Hamilton Lane": {
    "category": "Private equity"
   },
   "M&T Bank": {
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks"
   },
   "MFS Investment Management": {
@@ -1476,11 +1621,20 @@
   "Point72": {
    "category": "Asset management"
   },
+  "Sixth Street": {
+   "category": "Private equity"
+  },
+  "SMBC": {
+   "category": "Investment banking"
+  },
   "StepStone Group": {
    "category": "Private equity"
   },
   "Stifel": {
    "category": "Investment banking"
+  },
+  "Artisan Partners": {
+   "category": "Asset management"
   },
   "Brookfield Properties": {
    "category": "Real estate"
@@ -1495,36 +1649,77 @@
    "category": "Consumer goods"
   },
   "Citizens Financial Group": {
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks"
+  },
+  "City National Bank": {
+   "category": "Commercial and corporate banking"
+  },
+  "Danone": {
+   "category": "Consumer goods"
+  },
+  "Federal Realty": {
+   "category": "Real estate"
   },
   "Fidelity Investments": {
    "category": "Asset management"
   },
+  "Houlihan Lokey": {
+   "category": "Investment banking"
+  },
   "McCormick": {
+   "category": "Consumer goods"
+  },
+  "Millennium": {
+   "category": "Asset management"
+  },
+  "Popular": {
+   "category": "Commercial and corporate banking"
+  },
+  "Scotiabank": {
+   "category": "Investment banking"
+  },
+  "The Clorox Company": {
    "category": "Consumer goods"
   },
   "Unilever": {
    "category": "Consumer goods"
   },
+  "Ventas": {
+   "category": "Real estate"
+  },
   "Barclays": {
+   "category": "Investment banking"
+  },
+  "Brown Gibbons Lang": {
+   "category": "Investment banking"
+  },
+  "BTIG": {
    "category": "Investment banking"
   },
   "Cantor Fitzgerald": {
    "category": "Investment banking"
   },
   "Citigroup": {
+   "category": "Investment banking",
    "industry": "Commercial Banks"
   },
-  "Guggenheim Securities": {
+  "D.A. Davidson": {
    "category": "Investment banking"
   },
-  "Houlihan Lokey": {
+  "Guggenheim Securities": {
    "category": "Investment banking"
   },
   "HSBC": {
    "category": "Investment banking"
   },
+  "Leerink Partners": {
+   "category": "Investment banking"
+  },
   "Lincoln International": {
+   "category": "Investment banking"
+  },
+  "LionTree": {
    "category": "Investment banking"
   },
   "Moelis & Company": {
@@ -1542,34 +1737,39 @@
   "Rothschild & Co": {
    "category": "Investment banking"
   },
-  "William Blair": {
+  "Solomon Partners": {
    "category": "Investment banking"
   },
-  "City National Bank": {
-   "category": "Commercial and corporate banking"
+  "Truist Securities": {
+   "category": "Investment banking"
+  },
+  "William Blair": {
+   "category": "Investment banking"
   },
   "Cullen/Frost": {
    "category": "Commercial and corporate banking"
   },
   "First Citizens BancShares": {
+   "category": "Commercial and corporate banking",
    "industry": "Commercial Banks"
   },
-  "AllianceBernstein": {
+  "Franklin Resources": {
+   "category": "Asset management",
+   "industry": "Securities"
+  },
+  "Brown Advisory": {
    "category": "Asset management"
   },
   "Dimensional Fund Advisors": {
    "category": "Asset management"
   },
-  "Franklin Resources": {
-   "industry": "Securities"
+  "GMO": {
+   "category": "Asset management"
   },
   "Jane Street": {
    "category": "Asset management"
   },
   "Janus Henderson": {
-   "category": "Asset management"
-  },
-  "Millennium": {
    "category": "Asset management"
   },
   "Neuberger Berman": {
@@ -1581,7 +1781,13 @@
   "Wellington Management": {
    "category": "Asset management"
   },
+  "Adams Street Partners": {
+   "category": "Private equity"
+  },
   "Advent International": {
+   "category": "Private equity"
+  },
+  "Antares Capital": {
    "category": "Private equity"
   },
   "Carlyle": {
@@ -1596,10 +1802,16 @@
   "Oaktree": {
    "category": "Private equity"
   },
+  "Partners Group": {
+   "category": "Private equity"
+  },
   "Summit Partners": {
    "category": "Private equity"
   },
   "Vista Equity Partners": {
+   "category": "Private equity"
+  },
+  "Warburg Pincus": {
    "category": "Private equity"
   },
   "Battery Ventures": {
@@ -1611,14 +1823,14 @@
   "Norwest": {
    "category": "Venture capital"
   },
+  "Silicon Valley Bank": {
+   "category": "Venture capital"
+  },
   "Hines": {
    "category": "Real estate"
   },
   "Bayer": {
    "category": "Consumer goods"
-  },
-  "Federal Realty": {
-   "category": "Real estate"
   },
   "Lincoln Property Company": {
    "category": "Real estate"
@@ -1626,17 +1838,11 @@
   "Tishman Speyer": {
    "category": "Real estate"
   },
-  "Danone": {
-   "category": "Consumer goods"
-  },
   "Andreessen Horowitz": {
    "category": "Venture capital"
   },
   "Hasbro": {
    "category": "Consumer goods"
-  },
-  "Realty Income": {
-   "category": "Real estate"
   },
   "Camden Property Trust": {
    "category": "Real estate"
@@ -1656,17 +1862,25 @@
   "Related Companies": {
    "category": "Real estate"
   },
+  "Constellation Brands": {
+   "category": "Consumer goods",
+   "industry": "Beverages"
+  },
   "Equity Residential": {
    "category": "Real estate"
   },
   "SC Johnson": {
    "category": "Consumer goods"
   },
-  "The Clorox Company": {
-   "category": "Consumer goods"
+  "American Tower": {
+   "category": "Real estate",
+   "industry": "Real Estate"
   },
   "Anheuser-Busch": {
    "category": "Consumer goods"
+  },
+  "Bozzuto": {
+   "category": "Real estate"
   },
   "Coty": {
    "category": "Consumer goods"
@@ -1674,14 +1888,20 @@
   "Howard Hughes": {
    "category": "Real estate"
   },
+  "LaSalle Investment Management": {
+   "category": "Real estate"
+  },
+  "Extra Space Storage": {
+   "category": "Real estate"
+  },
   "TPG": {
    "category": "Private equity"
   },
-  "Ventas": {
-   "category": "Real estate"
-  },
   "Cornerstone Research": {
    "category": "Strategy consulting"
+  },
+  "Man Group": {
+   "category": "Asset management"
   },
   "Clarion Partners": {
    "category": "Real estate"

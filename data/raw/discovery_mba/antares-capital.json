@@ -1,0 +1,31 @@
+{
+ "company": "Antares Capital",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "antares.wd5.myworkdayjobs.com",
+  "tenant": "antares",
+  "site": "antares"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "antares.wd5.myworkdayjobs.com",
+    "tenant": "antares",
+    "site": "antares"
+   },
+   "from": "http://www.antares.com/about-us/working-at-antares/",
+   "verify": "Vice President, Front Office Program Manager - Asset Management"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "antares.com",
+ "sample_title": "Vice President, Front Office Program Manager - Asset Management",
+ "description_chars": 12513,
+ "seconds": 11
+}

@@ -1,0 +1,25 @@
+{
+ "company": "Point B",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "phenom",
+ "config": {
+  "host": "careers.pointb.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 matching postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "careers.pointb.com"
+   },
+   "from": "https://careers.pointb.com/wp-json/",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "pointb.com",
+ "seconds": 39
+}

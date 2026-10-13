@@ -9,6 +9,7 @@ def fetch(company, cfg, title_ok, max_pages=15):
     base = f"https://{host}/wday/cxs/{tenant}/{site}"
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
+        total = 0
         for page in range(max_pages):
             body = {"appliedFacets": cfg.get("facets", {}), "limit": 20, "offset": page * 20, "searchText": q}
             r = post(f"{base}/jobs", json=body, headers=HDR)
@@ -20,7 +21,10 @@ def fetch(company, cfg, title_ok, max_pages=15):
                 path = p.get("externalPath")
                 if path and title_ok(p.get("title", "")):
                     seen[path] = p
-            if (page + 1) * 20 >= data.get("total", 0) or not posts:
+            # the API gives the total on the first page only (0 on later pages); reading it per page stopped every
+            # search after 40 postings
+            total = data.get("total") or total
+            if (page + 1) * 20 >= total or not posts:
                 break
             time.sleep(0.3)
     out = []

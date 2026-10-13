@@ -1,0 +1,39 @@
+{
+ "company": "Kaiser Associates",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {},
+ "verified": false,
+ "notes": "auto-discovery matched the wrong board: Sia's whole SmartRecruiters board (Kaiser Associates is part of Sia; its roles page links to jobs.smartrecruiters.com/Sia and no search text or brand field separates Kaiser postings)",
+ "candidates": [
+  {
+   "ats": "smartrecruiters",
+   "config": {
+    "company": "ni"
+   },
+   "from": "https://kaiserassociates.com/roles-and-open-positions/",
+   "verify": "0 matching postings"
+  },
+  {
+   "ats": "smartrecruiters",
+   "config": {
+    "company": "Sia"
+   },
+   "from": "https://kaiserassociates.com/roles-and-open-positions/",
+   "verify": "Senior Consultant - IT Strategy & Operating Model"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "kaiserassociates.com",
+ "sample_title": "Senior Consultant - IT Strategy & Operating Model",
+ "description_chars": 3108,
+ "seconds": 85,
+ "rejected": {
+  "ats": "smartrecruiters",
+  "config": {
+   "company": "Sia"
+  }
+ }
+}

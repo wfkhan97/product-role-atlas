@@ -1,0 +1,16 @@
+{
+ "company": "LionTree",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "unsupported",
+ "config": {
+  "careers_url": "https://www.liontree.com/careers"
+ },
+ "verified": false,
+ "notes": "no ATS signature found on careers pages",
+ "candidates": [],
+ "category": "Investment banking",
+ "domain": "liontree.com",
+ "seconds": 13
+}

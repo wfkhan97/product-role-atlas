@@ -1,0 +1,27 @@
+{
+ "company": "Chartis",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "ashby",
+ "config": {
+  "board": "chartis"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "ashby",
+   "config": {
+    "board": "chartis"
+   },
+   "from": "https://www.chartis.com/jobs-chartis",
+   "verify": "Associate Consultant, Private Equity, Strategic Transformation"
+  }
+ ],
+ "category": "Consulting and advisory",
+ "domain": "chartis.com",
+ "sample_title": "Associate Consultant, Private Equity, Strategic Transformation",
+ "description_chars": 4773,
+ "seconds": 5
+}

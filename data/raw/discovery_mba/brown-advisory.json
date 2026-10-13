@@ -1,0 +1,38 @@
+{
+ "company": "Brown Advisory",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "workday",
+ "config": {
+  "host": "brownadvisory.wd1.myworkdayjobs.com",
+  "tenant": "brownadvisory",
+  "site": "Brown"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "workday",
+   "config": {
+    "host": "brownadvisory.wd1.myworkdayjobs.com",
+    "tenant": "brownadvisory",
+    "site": "Brown"
+   },
+   "from": "https://www.brownadvisory.com/careers",
+   "verify": "Senior Business Intelligence Analyst"
+  },
+  {
+   "ats": "paradox",
+   "config": {
+    "host": "www.brownadvisory.com"
+   },
+   "from": "https://www.brownadvisory.com/careers"
+  }
+ ],
+ "category": "Asset management",
+ "domain": "brownadvisory.com",
+ "sample_title": "Senior Business Intelligence Analyst",
+ "description_chars": 5397,
+ "seconds": 14
+}

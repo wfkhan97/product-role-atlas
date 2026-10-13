@@ -1,0 +1,27 @@
+{
+ "company": "Audax Group",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "greenhouse",
+ "config": {
+  "board": "audaxgroup"
+ },
+ "verified": true,
+ "notes": "",
+ "candidates": [
+  {
+   "ats": "greenhouse",
+   "config": {
+    "board": "audaxgroup"
+   },
+   "from": "https://www.audaxgroup.com/leadership",
+   "verify": "Director Financial Planning & Analysis, Family Office"
+  }
+ ],
+ "category": "Private equity",
+ "domain": "audaxgroup.com",
+ "sample_title": "Director Financial Planning & Analysis, Family Office",
+ "description_chars": 9914,
+ "seconds": 9
+}

@@ -1,0 +1,25 @@
+{
+ "company": "Stax",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "phenom",
+ "config": {
+  "host": "www.stax.com"
+ },
+ "verified": false,
+ "notes": "candidates: phenom 0 matching postings",
+ "candidates": [
+  {
+   "ats": "phenom",
+   "config": {
+    "host": "www.stax.com"
+   },
+   "from": "https://www.stax.com/careers/working-at-stax",
+   "verify": "0 matching postings"
+  }
+ ],
+ "category": "Strategy consulting",
+ "domain": "stax.com",
+ "seconds": 9
+}

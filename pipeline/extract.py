@@ -40,7 +40,10 @@ ROLE_SETS = {
     # the three product roles of the MBA list live in the product cache; every other family in jobs_mba
     # Only US postings of this set are shown, so its country reader is the stricter one (pipeline/geo.py) and its
     # evidence sentences come from US postings.
-    "mba": {"raw": ["jobs_mba", "jobs"], "suffix": "_mba", "evidence_country": "United States", "split_long": True,
+    # The raw files are a backlog (pipeline/scrape.py). This set keeps closed postings for KEEP_CLOSED_DAYS: they are
+    # not listed as open, and they count in shares and evidence. The product set drops them until its interface
+    # can hide them.
+    "mba": {"raw": ["jobs_mba", "jobs"], "suffix": "_mba", "evidence_country": "United States", "split_long": True, "backlog": True,
             "geo": lambda j, title: _geo().country(j.get("location", ""), title, j.get("url"), j.get("ats")),
             "family": lambda title, j: roles_mba.family(title, j.get("category"), j.get("company")),
             "level": lambda title, company, j: roles_mba.level(title, company, j.get("category"), j.get("industry"), j.get("family")),
@@ -153,6 +156,7 @@ def clean(desc, company=None, split_long=False):
 
 
 LONG_LINE = 600
+KEEP_CLOSED_DAYS = 365  # a closed posting counts in the statistics for this long after it was last seen
 SECTION_RE = re.compile(r"(basic|minimum|required|preferred|desired|nice[- ]to[- ]have|bonus|qualifications|requirements|what you('ll| will) bring|about you|who you are|you have|you are)", re.I)
 
 
@@ -212,8 +216,10 @@ def postings(roleset):
     cleaned text: the same role reposted per city counts once). Sets postings()["dropped"] to the repost count.
     """
     from pipeline.scrape import load_registry
+    import datetime
     cfg = ROLE_SETS[roleset]
     reg = {r["company"]: r for r in load_registry(roleset)}
+    oldest = (datetime.date.today() - datetime.timedelta(days=KEEP_CLOSED_DAYS)).isoformat()
     seen = set()
     postings.dropped = 0
     for folder in cfg["raw"]:
@@ -223,7 +229,24 @@ def postings(roleset):
             r = reg.get(company)
             if r is None or r.get("ats") in (None, "unsupported"):
                 continue  # company dropped from the registry
-            for j in blob["jobs"]:
+            # An employer that retitles a requisition gives it a new URL: the backlog then holds it twice under one
+            # id. The one seen last is the posting. (Product files have no backlog and are read as they are.)
+            rows = blob["jobs"]
+            if cfg.get("backlog"):
+                latest = {}
+                for j in rows:
+                    k = j.get("external_id") or j.get("url")
+                    if k not in latest or (j.get("last_seen") or "") >= (latest[k].get("last_seen") or ""):
+                        latest[k] = j
+                rows = [j for j in rows if latest[j.get("external_id") or j.get("url")] is j]
+            for j in rows:
+                if j.get("closed") and (not cfg.get("backlog") or (j.get("last_seen") or "") < oldest):
+                    continue
+                # the employer's category comes from the registry: postings scraped before it had one carry none
+                if r.get("category") and j.get("category") != r["category"]:
+                    j = dict(j, category=r["category"])
+                was = (blob.get("scraped_at") or "")[:10]  # a file not refreshed since the backlog began
+                j = dict(j, company=company, first_seen=j.get("first_seen") or was, last_seen=j.get("last_seen") or was)
                 fam = cfg["family"](j["title"], j)
                 if fam is None:
                     continue
@@ -296,6 +319,7 @@ def tag_posting(item):
         "desc_chars": len(desc),
         **({"category": j["category"]} if j.get("category") else {}),
         **({"ladder": cfg["ladder"](title, company, ctx)} if "ladder" in cfg else {}),
+        **({"open": not j.get("closed"), "first_seen": j.get("first_seen"), "last_seen": j.get("last_seen")} if cfg.get("backlog") else {}),
     }
     return job, found, stage_mentions(desc)
 

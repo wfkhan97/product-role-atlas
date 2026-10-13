@@ -8,19 +8,19 @@
  },
  "generated": "2026-10-13",
  "resumes": 304,
- "in_range": 0.52,
- "strong": 0.73,
+ "in_range": 0.55,
+ "strong": 0.74,
  "related": {
   "consulting_strategy": 0.31,
   "finance": 0.29,
-  "banking_investing": 0.21,
+  "banking_investing": 0.22,
   "operations": 0.39,
   "product": 0.26,
   "marketing": 0.23,
-  "sales": 0.22,
+  "sales": 0.21,
   "supply_chain": 0.28,
   "people": 0.24,
-  "analytics": 0.32
+  "analytics": 0.33
  },
  "no_bands": {
   "risk": "held back by the owner until the group has more samples of people who hold the role (most are law-school resumes of students and career changers)"

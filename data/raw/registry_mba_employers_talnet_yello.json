@@ -1,0 +1,58 @@
+[
+ {
+  "company": "L.E.K. Consulting",
+  "category": "Strategy consulting",
+  "ats": "talnet",
+  "config": {
+   "host": "lek.tal.net",
+   "boards": [
+    {"name": "Americas", "path": "appcentre-2/brand-2", "vacancy": 3},
+    {"name": "Europe", "path": "appcentre-1/brand-2", "vacancy": 1},
+    {"name": "Asia-Pacific", "path": "appcentre-3/brand-2", "vacancy": 5},
+    {"name": "Australia", "path": "appcentre-4/brand-2", "vacancy": 7},
+    {"name": "Middle East", "path": "appcentre-middle_east/brand-2", "vacancy": 11}
+   ]
+  },
+  "verified": true,
+  "notes": "tal.net (Oleeo). The five regional boards that lek.com/careers links to; each regional board carries campus and experienced postings together (there is no separate student board; appcentre-2/brand-3 vacancy/4 is campus events, not jobs). The feed has titles only, so each vacancy page is read for the description and the location. 57 postings on 2026-10-13 (Americas 15, Europe 23, Asia-Pacific 15, Australia 4, Middle East 0)."
+ },
+ {
+  "company": "CohnReznick",
+  "category": "Big Four and accounting",
+  "ats": "talnet",
+  "config": {
+   "host": "cohnreznick.tal.net",
+   "boards": [
+    {"name": "Experienced professionals", "path": "appcentre-1/brand-4", "vacancy": 3},
+    {"name": "Early career", "path": "appcentre-1/brand-4", "vacancy": 2}
+   ]
+  },
+  "verified": true,
+  "notes": "tal.net (Oleeo). The two feeds that cohnreznick.com names as SourceURL on /careers/experienced-professional-opportunities (vacancy/3) and /careers/early-career-opportunities (vacancy/2). The structured feed carries the full description, so no vacancy page is read; the vacancy pages themselves sit behind the site's captcha. 304 postings on 2026-10-13 (258 experienced, 46 early career; 2 more have a short description in the feed and are not returned)."
+ },
+ {
+  "company": "Evercore",
+  "category": "Investment banking",
+  "ats": "talnet",
+  "config": {
+   "host": "evercore.tal.net",
+   "boards": [
+    {"name": "Experienced hires", "path": "appcentre-ext/brand-5", "vacancy": 3},
+    {"name": "Students and graduates", "path": "appcentre-ext/brand-6", "vacancy": 2}
+   ]
+  },
+  "verified": false,
+  "notes": "tal.net (Oleeo). Boards from evercore.com/careers/professionals (brand-5 vacancy/3) and /careers/students-graduates/students-graduates-u-s (brand-6 vacancy/2). Both feeds are open and list titles (56 experienced, 40 students on 2026-10-13), but the feed has no description and every vacancy page answers with the site's captcha ('Quick Check Needed', oleeoProtect/altcha), which the adapter does not pass. The adapter returns nothing for Evercore until the firm puts the description in its feed or lifts the check."
+ },
+ {
+  "company": "Kearney",
+  "category": "Strategy consulting",
+  "ats": "yello",
+  "config": {
+   "host": "kearney.recsolu.com",
+   "board": 1
+  },
+  "verified": true,
+  "notes": "Yello (recsolu). One global board for campus and experienced postings, linked from kearney.com; 193 postings on 2026-10-13 (8 pages of 25), listed whole and filtered by title, then each job page is read. The list gives an age or a day without a year, so 'posted' is approximate."
+ }
+]

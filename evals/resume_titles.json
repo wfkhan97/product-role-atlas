@@ -484,7 +484,8 @@
   },
   {
    "title": "Financial Analyst",
-   "family": null
+   "family": "financial_manager",
+   "note": "changed 2026-10-13: the analyst grade of this function is now the role's entry level (owner's decision; was none)"
   },
   {
    "title": "Staff Accountant",
@@ -516,7 +517,8 @@
   },
   {
    "title": "Operations Analyst",
-   "family": null
+   "family": "operations_manager",
+   "note": "changed 2026-10-13: the analyst grade of this function is now the role's entry level (owner's decision; was none)"
   },
   {
    "title": "Assistant General Manager",
@@ -536,7 +538,8 @@
   },
   {
    "title": "Marketing Analyst",
-   "family": null
+   "family": "marketing_manager",
+   "note": "changed 2026-10-13: the analyst grade of this function is now the role's entry level (owner's decision; was none)"
   },
   {
    "title": "Sales Associate",
@@ -552,7 +555,8 @@
   },
   {
    "title": "Supply Chain Analyst",
-   "family": null
+   "family": "supply_chain",
+   "note": "changed 2026-10-13: the analyst grade of this function is now the role's entry level (owner's decision; was none)"
   },
   {
    "title": "Buyer",

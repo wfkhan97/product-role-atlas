@@ -1,0 +1,27 @@
+{
+ "company": "Societe Generale",
+ "rank": null,
+ "group": "mba_employer",
+ "industry": null,
+ "ats": "taleo",
+ "config": {
+  "host": "socgen.taleo.net",
+  "careersection": "sgcareers"
+ },
+ "verified": false,
+ "notes": "candidates: taleo no adapter",
+ "candidates": [
+  {
+   "ats": "taleo",
+   "config": {
+    "host": "socgen.taleo.net",
+    "careersection": "sgcareers"
+   },
+   "from": "https://careers.societegenerale.com/",
+   "verify": "no adapter"
+  }
+ ],
+ "category": "Investment banking",
+ "domain": "societegenerale.com",
+ "seconds": 7
+}
