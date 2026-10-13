@@ -23,18 +23,34 @@ const J = f => JSON.parse(fs.readFileSync(path.join(root, f)));
 // for this setting only, so it is written into bands_mba.json for the interface to use. DISTINCT='{"floor":0,"full":3}'
 // in the environment tries another setting: the report is printed and nothing is written.
 const DISTINCT_MBA = { floor: 0.2, full: 2 };
+// For the product roles the weighting is built and measured but OFF (PRODUCT_ON) until the owner decides: with it
+// the sample of an MBA student with one PM internship falls just below "in range" against entry-level PM roles,
+// and that sample's score band is part of the spec. The six product families ask for the same product
+// skills, so among themselves nothing is distinctive: their "all roles" is the 50 roles of the MBA graph, given
+// to the matcher as a baseline (the mean share of each skill across those roles).
+function mbaBaseline(ids) {
+  const g = loadGraph(), by = {}; for (const j of g.jobs) (by[j.family] ||= []).push(j);
+  const fams = Object.values(by), out = {};
+  const numeric = g.jobs.length && typeof g.jobs[0].skills[0] === "number"; // the graph files store skills as indices into skill_ids
+  for (const id of ids) { const key = numeric ? g.skill_ids.indexOf(id) : id; let sum = 0; for (const jobs of fams) { let n = 0, c = 0; for (const j of jobs) { const w = j.w == null ? 1 : j.w; n += w; if (j.skills.includes(key)) c += w; } sum += c / (n || 1); } out[id] = Math.round(1e4 * sum / fams.length) / 1e4; }
+  return out;
+}
+const DISTINCT_PRODUCT = { floor: 0.2, full: 2 };
+const PRODUCT_ON = !!process.env.PRODUCT_DISTINCT; // PRODUCT_DISTINCT=1 prints the report with it on and writes nothing
+const DATA = path.join(root, "web/data"); // the bands are data of the interface: bands.json (product), bands_mba.json
 // Groups the owner holds back whatever the numbers say (decided 2026-10-12, to be lifted when the samples improve).
-const HOLD = { risk: "held back by the owner: 8 of its 13 same-role samples are law-school resumes of students and career changers" };
+const HOLD = { risk: "held back by the owner until the group has more samples of people who hold the role (most are law-school resumes of students and career changers)" };
 const TRY = process.env.DISTINCT ? JSON.parse(process.env.DISTINCT) : null;
 const MBA = process.argv.includes("--roles") && process.argv[process.argv.indexOf("--roles") + 1] === "mba";
 
 // A role set: its matcher, its role families, the group of each family, and how a sample's role maps onto them.
 // `own` is the family a sample was written for; `group` is the group whose other families count as adjacent.
 function productSet() {
-  const G = J("web/data/graph.json");
+  const G = J("web/data/graph.json"), TAXP = J("web/data/taxonomy.json");
+  DISTINCT_PRODUCT.baseline = mbaBaseline(TAXP.skills.map(s => s.id));
   const fams = ["pm", "product_owner", "tpm", "pmm", "product_analyst", "product_ops"];
   const OWN = { pm: "pm", product_owner: "product_owner", tpm: "tpm", pmm: "pmm", product_analyst: "product_analyst", product_ops: "product_ops", product_strategy: "pm" };
-  return { G, fams, M: createMatcher({ taxonomy: J("web/data/taxonomy.json"), subskills: J("web/data/subskills.json"), graph: G, distinct: TRY || false }),
+  return { G, fams, M: createMatcher({ taxonomy: TAXP, subskills: J("web/data/subskills.json"), graph: G, distinct: TRY || (PRODUCT_ON ? DISTINCT_PRODUCT : false) }),
     groupOf: () => "product", groups: [{ id: "product", label: "Product", families: fams }], own: r => OWN[r] || null, groupOfSample: r => OWN[r] ? "product" : null };
 }
 function mbaSet() {
@@ -103,9 +119,14 @@ const bandTable = () => [
   `| A different field so far | below ${pct(c.low)} | | | ${share(g.same, 0)} | ${share(g.adjacent, 0)} | ${share(g.other, 0)} |`];
 
 let out;
+if (!MBA && !TRY && !PRODUCT_ON) fs.writeFileSync(path.join(DATA, "bands.json"), JSON.stringify({
+  about: "Bands of fit for the product roles, written by node evals/calibrate.mjs (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above 'related' it is a related background; below that, a different field so far. The cut points hold only for scores made with createMatcher({ ..., distinct: scoring.distinct }) (null: every ask counts by its share); web/app.js creates its matcher that way.",
+  generated: new Date().toISOString().slice(0, 10), resumes: files.length, scoring: { distinct: null },
+  related: Math.round(c.low * 100) / 100, in_range: Math.round(c.high * 100) / 100, strong: Math.round(c.strong * 100) / 100,
+}, null, 1) + "\n");
 if (!MBA) out = [
   "# Calibration: what a match score means", "",
-  `Produced by \`node evals/calibrate.mjs\` on ${new Date().toISOString().slice(0, 10)} from ${files.length} published sample resumes in \`evals/resumes/external/\` (the files are not in the repository; see \`external_sources.json\`). Each is scored against the six product role families (all levels). ${top.length} were written for a product role and ${files.length - top.length} for another field. The role a sample was written for is the answer key.`, "",
+  `Produced by \`node evals/calibrate.mjs\` on ${new Date().toISOString().slice(0, 10)} from ${files.length} published sample resumes in \`evals/resumes/external/\` (the files are not in the repository; see \`external_sources.json\`). Each is scored against the six product role families (all levels)${PRODUCT_ON ? ", with asks weighed by how distinctive they are against the 50 MBA roles" : ""}. ${top.length} were written for a product role and ${files.length - top.length} for another field. The role a sample was written for is the answer key.`, "",
   "## Score by group", "",
   "| group | scores | 5th pct | 25th | median | 75th | 95th |", "|---|---|---|---|---|---|---|",
   row("Same role (a product resume against its own role)", g.same), row("Adjacent role (against the other product roles)", g.adjacent), row("Other field (a non-product resume against product roles)", g.other), "",
@@ -130,14 +151,14 @@ else {
   // The bands the interface uses (the owner's choice, 2026-10-12): the two upper lines are shared by all roles,
   // because a group has too few same-role resumes to place them; the bottom line is each group's own, because it
   // is steady in every group and it is where the groups differ most. A group gets no bands when it has too few
-  // same-role resumes or when its own lines come out of order (the score does not yet sort its resumes).
+  // same-role resumes or when half of its same-role resumes score below its own bottom line (the score does not yet sort its resumes).
   const use = perGroup.map(({ gr, gg, cc, cii }) => {
-    const why = HOLD[gr.id] ? HOLD[gr.id] : gg.same.length < MIN ? `fewer than ${MIN} same-role resumes` : !(cc.low < cc.high && cc.high < cc.strong) ? "its own cut points are out of order" : cc.low >= c.high ? "its bottom line is above the shared middle line" : null;
+    const why = HOLD[gr.id] ? HOLD[gr.id] : gg.same.length < MIN ? `fewer than ${MIN} same-role resumes` : q(gg.same, 0.5) < cc.low ? "half of its same-role resumes score below its own bottom line" : cc.low >= c.high ? "its bottom line is above the shared middle line" : null;
     const b = x => x >= c.strong ? 3 : x >= c.high ? 2 : x >= cc.low ? 1 : 0; const sh = (a, k) => a.length ? pct(a.filter(x => b(x) === k).length / a.length) : "–";
     return { gr, gg, cc, cii, why, sh };
   });
   const r2 = x => Math.round(x * 100) / 100;
-  if (!TRY) fs.writeFileSync(path.join(here, "bands_mba.json"), JSON.stringify({
+  if (!TRY) fs.writeFileSync(path.join(DATA, "bands_mba.json"), JSON.stringify({
     about: "Bands of fit for the MBA role set, written by node evals/calibrate.mjs --roles mba (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above the 'related' line of the role's group it is a related background; below that, a different field so far. A group under 'no_bands' gets no band: show no verdict for its roles. web/match.js reads this with Matcher.bandOf(score, bands, group). The cut points hold only for scores made with createMatcher({ ..., distinct: scoring.distinct }).",
     scoring: { distinct: DISTINCT_MBA },
     generated: new Date().toISOString().slice(0, 10), resumes: files.length,
@@ -165,7 +186,7 @@ else {
     ...bandTable(), "",
     "Read each row across: of the scores in a group, the share that lands in the band.", "",
     "## The bands in use", "",
-    `Written to \`bands_mba.json\`. The two upper lines are the same for every role: in range from ${pct(c.high)}, reads like people in the role from ${pct(c.strong)}. The bottom line (related background) is each group's own. A group gets no bands when it has too few same-role resumes, when its own cut points come out of order, or when the owner holds it back: the interface shows no verdict for its roles.`, "",
+    `Written to \`web/data/bands_mba.json\`. The two upper lines are the same for every role: in range from ${pct(c.high)}, reads like people in the role from ${pct(c.strong)}. The bottom line (related background) is each group's own. A group gets no bands when it has too few same-role resumes, when half of them score below the group's own bottom line, or when the owner holds it back: the interface shows no verdict for its roles.`, "",
     "| role group | related background from | interval | same role: different / related / in range / like the role | other field: different / related / in range / like the role |", "|---|---|---|---|---|",
     ...use.map(u => u.why ? `| ${u.gr.label} | no bands | ${u.why} | | |` : `| ${u.gr.label} | ${pct(u.cc.low)} | ${u.cii("low")} | ${[0, 1, 2, 3].map(k => u.sh(u.gg.same, k)).join(" / ")} | ${[0, 1, 2, 3].map(k => u.sh(u.gg.other, k)).join(" / ")} |`), "",
     "Read a row across: of the same-role scores against the roles of that group, the share in each band, then the same for other-field scores.", "",
@@ -180,6 +201,6 @@ else {
     "- Scores are against all levels of a role, and against US postings only.", "",
   ];
 }
-if (TRY) { console.log(out.join("\n")); process.exit(0); } // another setting on trial: print, write nothing
+if (TRY || (PRODUCT_ON && !MBA)) { console.log(out.join("\n")); process.exit(0); } // another setting on trial: print, write nothing
 fs.writeFileSync(path.join(here, MBA ? "calibration_mba.md" : "calibration.md"), out.join("\n"));
 console.log(out.slice(4, 60).join("\n"));

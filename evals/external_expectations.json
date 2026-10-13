@@ -7488,5 +7488,1014 @@
   },
   "note": "One column, placeholder name; \"Employer – Place | Title   dates\" on one line; the degree on one line with its date, the school on the next.",
   "seniority": "senior"
+ },
+ "bizops_beamjobs_2": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Business Operations Analyst",
+    "Junior Business Operations Analyst",
+    "Business Operations Analyst Intern"
+   ],
+   "min_years": 1.6,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Two columns; sidebar (contact, education, skills, certifications) comes out first, then work. Per job: title line, employer line, then 'Month YYYY - current / Place'. No bullet glyph; bullets wrap over several lines. name letter-spaced and joined to the headline on line 1 lost ligatures: 'fi xes', 'fl ows' education years '2019 - 2023' sit in the sidebar before any job end word is lowercase 'current' about 2.8 years ",
+  "seniority": "early",
+  "must_evidence": [
+   "jira",
+   "sql",
+   "process_improvement",
+   "operating_cadence",
+   "stakeholder_mgmt",
+   "quality_testing",
+   "spend_cost_savings"
+  ],
+  "must_not_tag": [
+   "capital_markets",
+   "networking",
+   "pricing_packaging",
+   "capacity_production_planning",
+   "devops_sdlc",
+   "logistics_transportation"
+  ]
+ },
+ "bizops_resumebuilderc_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Operations Intern",
+    "Administrative Intern"
+   ],
+   "min_years": 0,
+   "degrees": [
+    "bachelors"
+   ],
+   "max_years": 0.5
+  },
+  "note": "Two-column PDF read out of order: summary, then both job headers together (title line; 'Employer, City, ST Month YYYY - Month YYYY' on one line), then the Key Skills and Education headings, contact, and only then all five bullets in one block. No bullet glyph. Words separated by runs of spaces. job header lines and bullets are printed apart; bullets cannot be attached to a job from position skill phrases broken and i",
+  "seniority": "early",
+  "must_evidence": [
+   "sql",
+   "inventory_mgmt",
+   "warehouse_fulfillment",
+   "process_improvement",
+   "trade_compliance",
+   "ops_performance_mgmt"
+  ],
+  "must_not_tag": [
+   "program_mgmt",
+   "compliance_program",
+   "vendor_mgmt",
+   "lean_six_sigma_belt",
+   "cross_functional"
+  ]
+ },
+ "commercial_banking_rm_beamjobs_2": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Commercial Credit Analyst",
+    "Credit Analyst",
+    "Financial Analyst"
+   ],
+   "min_years": 10,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Two columns; sidebar (contact, education, skills) first, then work. Per job: title line, employer line, 'YYYY - current / Place'. Year-only dates. No bullet glyph. name letter-spaced unevenly ('B R A ND O N T U R NE R') and joined to the headline lost ligatures: 'fi nancial', 'fi nes' numbers split: '$14, 784', '$127, 000+' a bullet broken so that 'cost' stands alone on a line education years '2011 - 2015' printed be",
+  "seniority": "senior",
+  "must_evidence": [
+   "credit_analysis",
+   "financial_risk",
+   "financial_analysis",
+   "advanced_excel",
+   "due_diligence",
+   "dashboards_dataviz",
+   "analytics_tools",
+   "sql",
+   "financial_reporting"
+  ],
+  "must_not_tag": [
+   "client_coverage",
+   "energy_industrial",
+   "portfolio_management",
+   "regulator_exams",
+   "consumer_compliance"
+  ]
+ },
+ "commercial_banking_rm_beamjobs_3": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Credit Analyst Intern",
+    "Cashier"
+   ],
+   "min_years": 6.4,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Two columns; sidebar (contact, education, skills) first, then career objective, work, projects. Per job: title line, employer line, 'YYYY - YYYY / Place'. Year-only dates. No bullet glyph. name and headline are printed at the very end of the text lost ligatures: 'fi nancial', 'pro fi cient', 'pro fi tability', 'fi ndings' project entry: project name line, then role 'Presenter', then a single year '2021' on its own li",
+  "seniority": "early",
+  "must_evidence": [
+   "credit_analysis",
+   "scenario_modeling",
+   "office_tools",
+   "statistics",
+   "python_r",
+   "financial_risk",
+   "inventory_mgmt"
+  ],
+  "must_not_tag": [
+   "client_coverage",
+   "cash_liquidity",
+   "renewals_expansion",
+   "erm_framework",
+   "sales_track_record"
+  ]
+ },
+ "corp_dev_resumebuilderc_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Director",
+    "Associate"
+   ],
+   "min_years": 10.4,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Two-column PDF read out of order: a block of dates first, then name, summary, job headers (title line; 'Employer , City, ST'), education, headings, contact, then all bullets in one block, skills, certifications. Dates 'Month YYYY - Current'. No bullet glyph. dates printed in a column apart from the jobs, at the very top of the text both date ranges broken over two lines ('January 2018 -' / 'Current'; 'August 2014 -' ",
+  "seniority": "senior",
+  "must_evidence": [
+   "ma_execution",
+   "due_diligence",
+   "valuation",
+   "scenario_modeling",
+   "finra_licenses",
+   "consulting_banking"
+  ],
+  "must_not_tag": [
+   "integration_planning",
+   "regulatory_change",
+   "telecom",
+   "trade_compliance",
+   "law_degree",
+   "capital_markets",
+   "erm_framework"
+  ]
+ },
+ "corporate_banking_beamjobs_2": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Credit Analyst",
+    "Financial Analyst",
+    "Loan Processor"
+   ],
+   "min_years": 6.4,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Two columns; sidebar (name on two lines, headline, contact, education, skills) first, then work. Per job: title line, employer line, 'YYYY - current Place' (no slash). Year-only dates. No bullet glyph. third job is printed with a reversed range '2016 - 2013'; recorded as printed, most likely meant 2016 - 2019 lost ligatures: 'fi nancial', 'identi fi ed', 'ef fi ciency', 'ef fi cient' education years '2012 - 2016' pri",
+  "seniority": "senior",
+  "must_evidence": [
+   "credit_analysis",
+   "financial_statements",
+   "advanced_excel",
+   "budgeting_forecasting",
+   "accounting_close_controls",
+   "erp_finance_systems",
+   "financial_risk",
+   "crm_tools",
+   "finance_degree"
+  ],
+  "must_not_tag": [
+   "client_coverage",
+   "healthcare",
+   "portfolio_management",
+   "financial_crime",
+   "compliance_program"
+  ]
+ },
+ "corporate_banking_resumebuilderc_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Credit Analyst",
+    "Credit Risk Associate"
+   ],
+   "min_years": 6,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "DOCX, single column: name, contact, summary, Key Skills, then experience. Per job: date range on its own line ('Month YYYY - Current'), then 'Title Employer, City, ST' on one line. No bullet glyph. Education: date line then degree and school on one line. title is on a different line from its dates (dates come first, on the line above) title and employer share one line, separated only by spaces many blank lines and st",
+  "seniority": "mid",
+  "must_evidence": [
+   "credit_analysis",
+   "financial_statements",
+   "financial_analysis",
+   "financial_risk",
+   "scenario_modeling",
+   "finance_degree"
+  ],
+  "must_not_tag": [
+   "client_coverage",
+   "portfolio_management",
+   "compliance_monitoring",
+   "debt_capital_structure",
+   "cash_liquidity"
+  ]
+ },
+ "customer_success_resumetemplate_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Junior Customer Success Manager",
+    "Customer Support Specialist"
+   ],
+   "min_years": 3.7,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Two-column PDF read out of order: sidebar (contact, key skills), then both job header lines ('Title | Employer, City, ST | YYYY – Present'), then the education line, name, letter-spaced headline, summary, the experience heading, all bullets in one block, and the EDUCATION heading last. Year-only dates with en dash. No bullet glyph. job header lines come before the PROFESSIONAL EXPERIENCE heading and apart from the bu",
+  "seniority": "mid",
+  "must_evidence": [
+   "onboarding_adoption",
+   "customer_success",
+   "surveys_feedback",
+   "crm_tools",
+   "enterprise_saas"
+  ],
+  "must_not_tag": [
+   "renewals_expansion",
+   "customer_health",
+   "key_account_mgmt",
+   "law_degree",
+   "roadmap",
+   "learning_design"
+  ]
+ },
+ "digital_transformation_beamjobs_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Digital Project Manager",
+    "Digital Project Team Lead",
+    "Digital Project Specialist"
+   ],
+   "min_years": 5.5,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Two columns; sidebar (name and headline each on two lines, contact, education, skills, certifications) first, then work. Per job: title line, employer line, 'YYYY - current Place'. Year-only dates. No bullet glyph. lost ligatures: 'speci fi c', 'hando ff s', 'work fl ows', 'Quali fi o' bullets broken mid-phrase onto short lines ('averaging 4.9/5 KPI' / 'attainment') 'Slack' listed twice in skills; 'Methodoligies' mis",
+  "seniority": "mid",
+  "must_evidence": [
+   "program_mgmt",
+   "cost_schedule_control",
+   "vendor_mgmt",
+   "agile_scrum",
+   "pm_change_certs",
+   "jira",
+   "analytics_tools",
+   "pm_scheduling_tools",
+   "crm_tools",
+   "quality_testing",
+   "seo_web_conversion"
+  ],
+  "must_not_tag": [
+   "transformation_programs",
+   "technology_strategy",
+   "change_management",
+   "erp_finance_systems",
+   "risk_mgmt"
+  ]
+ },
+ "enterprise_risk_resumebuilderc_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Risk Management Analyst",
+    "Credit Risk Associate"
+   ],
+   "min_years": 7,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Two-column PDF read out of order: name, summary, both job headers (title line; 'Employer, City, ST Month YYYY - Current'), all bullets in one block, education, contact, skills, and the 'Professional Experience' and 'Education' headings last. No bullet glyph. section headings are printed at the end of the text, after the content they belong to second job: employer, place and dates spread over three lines; range broken",
+  "seniority": "senior",
+  "must_evidence": [
+   "financial_risk",
+   "scenario_modeling",
+   "credit_analysis",
+   "dashboards_dataviz",
+   "exec_communication",
+   "sql",
+   "python_r"
+  ],
+  "must_not_tag": [
+   "board_governance",
+   "portfolio_management",
+   "model_risk",
+   "regulator_exams",
+   "controls_testing",
+   "compliance_program"
+  ]
+ },
+ "enterprise_risk_resumebuilderc_2": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Financial Risk Analyst",
+    "Risk Management Associate"
+   ],
+   "min_years": 11.4,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "DOCX, single column: name on two lines, contact, summary, experience, education, skills, certifications. Per job: title line, then ' Employer, City, ST | Month YYYY - Current'. No bullet glyph. Education 'School, City, ST | YYYY'. converter artefacts in the text: 'aspose_leftindent', '..', '.' on their own lines education line carries '| 2013' in the same pattern as a job line skills carry a level word ('Risk assessm",
+  "seniority": "senior",
+  "must_evidence": [
+   "financial_risk",
+   "erm_framework",
+   "scenario_modeling",
+   "risk_mgmt",
+   "risk_compliance_certs",
+   "finance_degree"
+  ],
+  "must_not_tag": [
+   "client_engagement",
+   "controls_testing",
+   "model_risk",
+   "compliance_program",
+   "it_risk",
+   "credit_analysis"
+  ]
+ },
+ "general_manager_beamjobs_3": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Assistant General Manager",
+    "Shift Supervisor",
+    "Sales Associate"
+   ],
+   "min_years": 10.9,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Two columns; sidebar (contact, education, skills) first, then work. Per job: title line, employer line, 'YYYY - current / Place'. Year-only dates. No bullet glyph. name letter-spaced unevenly ('KA I M E R C E R') many lost ligatures: 'sta ff', 'e ffi ciency', 'con fl ict', 'fi rst', 'pro fi ts' bullets broken mid-phrase onto short lines school name broken over two lines; education years '2010 - 2014' printed before t",
+  "seniority": "senior",
+  "must_evidence": [
+   "people_management",
+   "supplier_contract_negotiation",
+   "labor_shift_mgmt",
+   "campaign_management",
+   "hris_tools",
+   "marketing_automation_tools",
+   "events_field_marketing",
+   "office_tools",
+   "engagement_culture",
+   "crm_tools",
+   "erp_finance_systems"
+  ],
+  "must_not_tag": [
+   "pnl",
+   "logistics_transportation",
+   "sales_track_record",
+   "quota_attainment",
+   "program_mgmt"
+  ]
+ },
+ "general_manager_resumebuilderc_3": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Assistant Manager",
+    "Customer Service Supervisor"
+   ],
+   "min_years": 8.1,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Two-column PDF: sidebar (name on two lines, contact, skills) first, then the headings 'Work History', 'Education', 'Certifications' stacked together, the certification line, the jobs, education, and the summary last. Per job: title line, then 'Employer , City, ST | Month YYYY - Current'. No bullet glyph. three section headings printed together before any content the certification line ('... | 2019') comes directly be",
+  "seniority": "senior",
+  "must_evidence": [
+   "people_management",
+   "inventory_mgmt",
+   "ecommerce_retail",
+   "process_improvement",
+   "surveys_feedback",
+   "ops_performance_mgmt"
+  ],
+  "must_not_tag": [
+   "pnl",
+   "strategy_development",
+   "sales_track_record",
+   "learning_design",
+   "customer_success",
+   "leadership_dev_coaching"
+  ]
+ },
+ "governance_beamjobs_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Data Governance Analyst",
+    "Data Analyst I",
+    "Data Coordinator"
+   ],
+   "min_years": 2.3,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Main column first (name, headline, contact line, work), then education and skills at the end. Per job: title line, employer line, 'Month YYYY - current Place'. No bullet glyph. lost ligatures: 'work fl ows', 'identi fi ed', 'OpenRe fi ne', 'fi les', 'fi nance' bullets broken mid-phrase onto short lines one bullet's first two lines are merged into a single long line title 'Data Analyst I' ends in a roman numeral borde",
+  "seniority": "early",
+  "must_evidence": [
+   "data_governance",
+   "policy_management",
+   "data_modeling",
+   "security_privacy",
+   "issue_remediation"
+  ],
+  "must_not_tag": [
+   "board_governance",
+   "ai_governance",
+   "fintech",
+   "pricing_packaging",
+   "supplier_relationship_mgmt",
+   "retail_category_assortment",
+   "sql"
+  ]
+ },
+ "growth_manager_resumetemplate_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Digital Marketing Intern",
+    "Marketing Assistant (Part-Time)"
+   ],
+   "min_years": 0.4,
+   "degrees": [
+    "bachelors"
+   ],
+   "max_years": 2.7
+  },
+  "note": "DOCX: name, headline, summary, contact, education, then the 'Key Skills' heading directly followed by the 'Professional Experience' heading; jobs; the skill items come last. Per job: 'Title | date' line, then 'Employer, City, ST | date' line (the date is printed twice). No bullet glyph. season date 'Summer 2024' instead of months second job's range printed two ways: '2023 - 2024' and '2023 to 2024' 'Key Skills' headi",
+  "seniority": "early",
+  "must_evidence": [
+   "content_social",
+   "lifecycle_marketing",
+   "ab_testing",
+   "performance_marketing",
+   "ad_platforms",
+   "analytics_tools",
+   "seo_web_conversion",
+   "office_tools"
+  ],
+  "must_not_tag": [
+   "growth_loops",
+   "crm_tools",
+   "sourcing_category_strategy",
+   "investor_relations",
+   "demand_generation",
+   "experimentation_tools"
+  ]
+ },
+ "investment_manager_financialedget_1": {
+  "kind": "template",
+  "note": "DOCX, single column, education first. Per entry: 'Organisation <spaces> City, State' line, then 'Title <long run of spaces> Month YYYY – Month YYYY' line (date right-aligned with spaces, en dash). No bullet glyph. placeholder text: name 'Candidate Surname', '[Sentence summarizing what you did ...]', '[Project 1]' to '[Project 3]'; dates look real employer is on the line above the title; title and dates share a line s",
+  "seniority": "early"
+ },
+ "investment_manager_resumebuilderc_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Investment Analyst",
+    "Research Assistant"
+   ],
+   "min_years": 4,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Two-column PDF read out of order: name with city on one line, contact, summary, experience heading, both job headers, education, contact links, the Key Skills heading, then all bullets in one block and the skill items. Job header: title and the start of the employer on the same line, employer and place wrapping over the next lines, then the dates. No bullet glyph. title and employer share a line with one space betwee",
+  "seniority": "mid",
+  "must_evidence": [
+   "investment_research",
+   "valuation",
+   "synthesis_recommendations",
+   "python_r",
+   "office_tools",
+   "finance_degree"
+  ],
+  "must_not_tag": [
+   "wealth_advisory",
+   "market_research",
+   "capital_allocation",
+   "cfa",
+   "ma_execution",
+   "data_modeling"
+  ]
+ },
+ "org_dev_resumebuilderc_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Training and Development Coordinator",
+    "HR Assistant"
+   ],
+   "min_years": 8.7,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "DOCX, single column: name, contact, summary, experience, education, skills, certifications. Per job: title line, 'Employer, City, ST' line, then the date range on its own line ('Month YYYY - Current'). No bullet glyph. Degree and year on one line ('... Communication 2016'). title is two lines above its dates (title, employer, dates on three lines) many blank lines, also between skill items education year printed at t",
+  "seniority": "senior",
+  "must_evidence": [
+   "learning_design",
+   "leadership_dev_coaching",
+   "learning_tools"
+  ],
+  "must_not_tag": [
+   "performance_mgmt",
+   "org_design",
+   "onboarding_adoption",
+   "compliance_program",
+   "hr_certification",
+   "healthcare",
+   "change_management"
+  ]
+ },
+ "partnerships_resumecat_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Partnership Coordinator",
+    "Associate Partnership Coordinator"
+   ],
+   "min_years": 4.1,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Main column first (name, headline, profile, employment, education, certificates), then the sidebar (details, links, skills, languages, hobbies). Per job: 'Title at Employer, ME' on one line, then 'Mon YYYY - Present' on the next. Bullet glyph '•'. title and employer joined by ' at ' on one line; dates on the line below abbreviated months ('Jan 2023', 'Jul 2021') education uses the same 'X at Y' pattern with a date ra",
+  "seniority": "mid",
+  "must_evidence": [
+   "partnerships",
+   "events_field_marketing",
+   "process_improvement",
+   "cross_functional",
+   "crm_tools",
+   "office_tools"
+  ],
+  "must_not_tag": [
+   "ads_media",
+   "market_research",
+   "brand_strategy",
+   "channel_sales",
+   "performance_marketing",
+   "consumer_insights",
+   "pm_change_certs"
+  ]
+ },
+ "program_manager_beamjobs_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Program Coordinator",
+    "Program Associate",
+    "Program Assistant"
+   ],
+   "min_years": 9.1,
+   "degrees": []
+  },
+  "note": "Two columns; sidebar (name on two lines, headline, contact, education, skills) first, then work. Per job: title line, employer line, 'YYYY - current Place'. Year-only dates. No bullet glyph. highest education is an associate degree: no bachelor's lost ligatures: 'fi eld', 'of fi ce', 'fi le', 'clari fi cations' bullets broken mid-phrase onto short lines school name broken over two lines; education years '2014 - 2016'",
+  "seniority": "senior",
+  "must_evidence": [
+   "program_mgmt",
+   "surveys_feedback",
+   "office_tools",
+   "reporting_adhoc_analysis",
+   "content_social",
+   "safety_ehs",
+   "inventory_mgmt",
+   "healthcare"
+  ],
+  "must_not_tag": [
+   "strategic_planning",
+   "logistics_transportation",
+   "pm_scheduling_tools",
+   "program_governance_reviews",
+   "learning_design"
+  ]
+ },
+ "program_manager_resumebuilderc_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Assistant Program Manager",
+    "Marketing Specialist"
+   ],
+   "min_years": 6.1,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Multi-column PDF read out of order: key skills, then a block of dates, then the experience heading with both job headers (title line; 'Employer, City, ST'), education, the Certifications heading, all bullets in one narrow block, the certification line, and name, contact and summary last. Dates 'Month YYYY - Current'. No bullet glyph. dates printed in a column apart from the jobs, before the 'Professional Experience' ",
+  "seniority": "mid",
+  "must_evidence": [
+   "campaign_management",
+   "cross_functional",
+   "seo_web_conversion",
+   "positioning_messaging"
+  ],
+  "must_not_tag": [
+   "crm_tools",
+   "renewals_expansion",
+   "key_account_mgmt",
+   "pm_change_certs",
+   "program_governance_reviews",
+   "sales_track_record"
+  ]
+ },
+ "re_asset_manager_resumebuilderc_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Real Estate Financial Analyst",
+    "Junior Financial Analyst"
+   ],
+   "min_years": 10.5,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "PDF read out of order: name and contact on one line, summary, both job headers (title line; 'Employer , City, ST Month YYYY - Current'), the education lines, all bullets in one block, skills, certification, and the four section headings stacked at the very end. No bullet glyph; skill items start with '-' and a level word. all section headings are printed at the end of the text, after the content job headers and bulle",
+  "seniority": "senior",
+  "must_evidence": [
+   "re_underwriting",
+   "valuation",
+   "market_research",
+   "financial_analysis",
+   "re_property_types",
+   "finance_degree"
+  ],
+  "must_not_tag": [
+   "re_asset_mgmt",
+   "re_leasing",
+   "re_tools",
+   "investor_relations",
+   "ma_execution",
+   "portfolio_management",
+   "cfa"
+  ]
+ },
+ "re_development_beamjobs_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Real Estate Project Manager",
+    "Real Estate Analyst",
+    "Real Estate Sales Agent"
+   ],
+   "min_years": 7.3,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Main column first (name, headline, contact line, work), then education and skills at the end. Per job: title line, employer line, 'YYYY - current Place'. Year-only dates. No bullet glyph; bullets have no final full stop. employer name contains brackets ('JLL (Jones Lang LaSalle)') lost ligature: 'work fl ows' bullets broken mid-phrase; '9 out10' printed without a space soft-skill items in the skills list ('Quality mi",
+  "seniority": "mid",
+  "must_evidence": [
+   "re_development_entitlements",
+   "program_mgmt",
+   "supplier_contract_negotiation",
+   "cost_schedule_control",
+   "re_tools",
+   "re_asset_mgmt",
+   "re_leasing",
+   "crm_tools",
+   "finance_degree"
+  ],
+  "must_not_tag": [
+   "risk_mgmt",
+   "quality_testing",
+   "portfolio_management",
+   "renewals_expansion",
+   "re_acquisitions_dispositions",
+   "apis"
+  ]
+ },
+ "strategic_finance_resumebuilderc_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Corporate Finance Analyst",
+    "Financial Analyst"
+   ],
+   "min_years": 7.9,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Two-column PDF read out of order: both date ranges first, then name, summary, the experience heading with both job headers (title line; 'Employer, City, ST'), contact, all bullets in one block, key skills, education ('School | Month YYYY'). No bullet glyph. dates printed apart from the jobs, as the first two lines of the text job headers and bullets printed apart amount split from its unit over a line break ('$200' /",
+  "seniority": "senior",
+  "must_evidence": [
+   "financial_analysis",
+   "variance_analysis",
+   "investor_relations",
+   "debt_capital_structure",
+   "capital_allocation",
+   "scenario_modeling",
+   "reporting_adhoc_analysis",
+   "advanced_excel",
+   "analytics_tools",
+   "finance_degree"
+  ],
+  "must_not_tag": [
+   "cash_liquidity",
+   "treasury_systems",
+   "board_governance",
+   "integration_planning",
+   "accounting_close_controls"
+  ]
+ },
+ "strategic_sourcing_beamjobs_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Sourcing Specialist",
+    "Sourcing Coordinator",
+    "Procurement Assistant"
+   ],
+   "min_years": 6.4,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Main column first (name, headline, contact line, work), then education and skills at the end. Per job: title line, employer line, 'YYYY - current Place'. Year-only dates. No bullet glyph. bullets broken mid-phrase onto short lines ('resulting in a' / '19% decline in raw') employer names with a hyphen and a curly apostrophe tool names that read like ordinary words ('Gartner', 'RFQ Pro', 'ThomasNet') education years '2",
+  "seniority": "mid",
+  "must_evidence": [
+   "spend_cost_savings",
+   "procurement_tools",
+   "supplier_contract_negotiation",
+   "rfx_bid_mgmt",
+   "supplier_relationship_mgmt",
+   "procure_to_pay",
+   "supply_market_intel",
+   "analytics_tools",
+   "inventory_mgmt"
+  ],
+  "must_not_tag": [
+   "logistics_transportation",
+   "warehouse_fulfillment",
+   "healthcare",
+   "budgeting_forecasting",
+   "compliance_program",
+   "supply_chain_certs"
+  ]
+ },
+ "tech_strategy_beamjobs_2": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "IT Business Analyst",
+    "Associate Business Analyst (IT)",
+    "Service Desk Analyst"
+   ],
+   "min_years": 1.9,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Main column first (name, headline, contact line, work), then education, skills, certifications at the end. Per job: title line, employer line, 'Mon YYYY - current Place'. No bullet glyph. mixed month formats: 'Feb 2026' abbreviated, 'January 2025' in full title contains brackets ('Associate Business Analyst (IT)') place 'Washington D.C.' with full stops one bullet's first two lines merged into a single long line lost",
+  "seniority": "early",
+  "must_evidence": [
+   "prd",
+   "quality_testing",
+   "analytics_requirements",
+   "prioritization",
+   "feature_definition",
+   "agile_scrum",
+   "dashboards_dataviz",
+   "bi_dev_tools",
+   "stakeholder_mgmt"
+  ],
+  "must_not_tag": [
+   "technology_strategy",
+   "portfolio_management",
+   "change_management",
+   "cloud",
+   "pm_change_certs",
+   "exec_communication"
+  ]
+ },
+ "tech_strategy_resumebuilderc_3": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "IT Manager"
+   ],
+   "min_years": 13.4,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Two-column PDF: name, headline, address, contact, then the headings and skill items mixed, the summary, education ('| Month YYYY - Month YYYY'), three certifications each with '| Month YYYY' on its own line, then the jobs. Per job: title line, then 'Employer, City, ST | Month YYYY - Present'. No bullet glyph. two positions with the same title 'IT Manager'; both must be counted the second position has no employer: its",
+  "seniority": "senior",
+  "must_evidence": [
+   "people_management",
+   "system_architecture",
+   "security_privacy",
+   "program_mgmt",
+   "stakeholder_mgmt",
+   "pm_change_certs"
+  ],
+  "must_not_tag": [
+   "investment_research",
+   "fintech",
+   "client_engagement",
+   "healthcare",
+   "internal_audit_sox",
+   "capacity_production_planning"
+  ]
+ },
+ "transformation_beamjobs_2": {
+  "kind": "single",
+  "parse": {
+   "roles": 3,
+   "titles": [
+    "Change Management Analyst",
+    "Assistant Change Coordinator",
+    "Junior Data Analyst"
+   ],
+   "min_years": 9.1,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Two columns; sidebar (contact, education, skills) first, then work. Per job: title line, employer line, 'YYYY - current / Place'. Year-only dates. No bullet glyph. headline and name are printed at the very end of the text; the headline equals the first job title lost ligature in a place name ('Broom fi eld') bullets broken mid-phrase onto short lines school name broken over two lines; education years '2012 - 2016' pr",
+  "seniority": "senior",
+  "must_evidence": [
+   "change_management",
+   "learning_design",
+   "dashboards_dataviz",
+   "analytics_tools",
+   "pm_scheduling_tools",
+   "surveys_feedback",
+   "ab_testing",
+   "lean_six_sigma",
+   "root_cause_corrective_action",
+   "statistics",
+   "office_tools"
+  ],
+  "must_not_tag": [
+   "transformation_programs",
+   "lean_six_sigma_belt",
+   "erp_finance_systems",
+   "logistics_transportation",
+   "operating_model_design",
+   "pm_change_certs"
+  ]
+ },
+ "transformation_resumetemplate_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Change Analyst",
+    "Change Support Coordinator"
+   ],
+   "min_years": 1.9,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "Two-column PDF read out of order: name, headline, summary, experience heading, both job headers, education, letter-spaced sidebar headings, contact, skills, then all bullets in one block. Job header: date range on its own line ('2025 - Present'), then 'Title | Employer, City, ST'. Year-only dates. No bullet glyph. title is on a different line from its dates (dates on the line above) the two job headers are printed to",
+  "seniority": "early",
+  "must_evidence": [
+   "change_management",
+   "stakeholder_mgmt",
+   "surveys_feedback",
+   "exec_decks",
+   "reporting_adhoc_analysis",
+   "learning_design"
+  ],
+  "must_not_tag": [
+   "customer_interviews",
+   "talent_acquisition",
+   "sourcing_category_strategy",
+   "onboarding_adoption",
+   "pm_change_certs",
+   "transformation_programs"
+  ]
+ },
+ "treasury_resumebuilderc_1": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Treasury Operations Manager",
+    "Senior Treasury Analyst"
+   ],
+   "min_years": 18.4,
+   "degrees": [
+    "masters_mba",
+    "bachelors"
+   ]
+  },
+  "note": "Two-column PDF read out of order: the three headings stacked first, skills, then jobs with their bullets, education ('School | YYYY'), contact, summary, and the name last. Per job: title line, then 'Employer, City, ST | Month YYYY -' with the end on the next line. No bullet glyph. both jobs are printed as running to 'Current' (the earlier one, from May 2014, most likely ended in early 2018); recorded as printed first",
+  "seniority": "senior",
+  "must_evidence": [
+   "cash_liquidity",
+   "fx_hedging",
+   "process_improvement",
+   "dashboards_dataviz",
+   "treasury_systems",
+   "erp_finance_systems",
+   "finance_degree"
+  ],
+  "must_not_tag": [
+   "client_coverage",
+   "brand_strategy",
+   "ctp",
+   "compliance_program",
+   "fintech"
+  ]
+ },
+ "treasury_resumebuilderc_2": {
+  "kind": "single",
+  "parse": {
+   "roles": 2,
+   "titles": [
+    "Treasury Analyst",
+    "Assistant Treasury Analyst"
+   ],
+   "min_years": 7.8,
+   "degrees": [
+    "bachelors"
+   ]
+  },
+  "note": "DOCX, single column: name, contact line with '|', summary, experience, key skills, education. Per job: title line, 'Employer, City, ST' line, blank lines, then the date range on its own line ('Month YYYY - Current'). No bullet glyph. Education: degree and 'May 2017' on one line, school below. title is several lines above its dates (title, employer, blank lines, dates) stray '.' lines and many blank lines, also betwee",
+  "seniority": "senior",
+  "must_evidence": [
+   "cash_liquidity",
+   "fx_hedging",
+   "debt_capital_structure",
+   "process_improvement",
+   "erp_finance_systems",
+   "reporting_adhoc_analysis",
+   "finance_degree"
+  ],
+  "must_not_tag": [
+   "client_coverage",
+   "compliance_monitoring",
+   "credit_analysis",
+   "variance_analysis",
+   "ctp"
+  ]
  }
 }

@@ -801,3 +801,57 @@ such a list still counts. Nothing changes for a current student ("expected", "ca
 credit for coursework. Reading degree dates (keep the credit for two years after the last degree) would cover
 that case; not built.
 
+## Graph and interface items, third held-out round (2026-10-13)
+
+Branch `feat/shared-patterns-product-weighting`. The owner asked for the open graph and interface items to be
+done from the resume thread. This branch touches `pipeline/` and `web/data/`.
+
+**Third held-out round.** 31 more files came from the hand list (25 early-career). Read by a person first, then
+by the reader with no tuning: 26 of 30 parse expectations pass (one file is a template); on their skill lists
+169 of 216 found, 154 of 174 held. Rounds so far: 1 of 9, 8 of 11, 26 of 30. Three of the four failures are one
+layout: every date in a block apart from the jobs, with the education years in the same block. All parse
+expectations: 286 of 311. Skill lists: 1,195 of 1,456 found, 847 of 987 held.
+
+**Title rules** (`pipeline/roles_mba.py`). "Associate Strategy Manager" is the manager role; "Strategic Planning
+Analyst" is the analyst role. Posting title eval: 778 pass. Both resume-side known gaps are closed.
+
+**Loose shared patterns.** A shared skill can now be worded more strictly for one role set
+(`"patterns_for": {"mba": [...]}` in `pipeline/taxonomy.json`; `tax.for_roles` and the extractor apply it). The
+product part of the taxonomy and the product data are unchanged, byte for byte. Four skills were tried; two were
+kept, because the golden postings decide:
+- Systems & architecture: a bare "infrastructure" or "architecture" no longer tags it (29% of MBA postings -> 12%).
+  No labelled posting lost.
+- Product strategy: "strategic direction" and "strategic planning" no longer tag it (36% -> 16%). One of three
+  labelled postings lost.
+- Prioritization and stakeholder management were tightened and then put back. The golden postings label "strong
+  prioritization skills" and "build relationships with key stakeholders" as real asks; the strict wording lost 8
+  of 16 and 11 of 28 of them and pushed must-found to 83.7%, under its 85% floor. Those two patterns are not
+  wrong. The ask is universal, and the weighting by distinctiveness is the answer to that.
+Golden postings after the change: must found 85.0% (floor 85%), must-not tagged 15.3% (ceiling 16%).
+`evals/run_pipeline.py`: 1,965 pass.
+
+**Bands are interface data now.** `calibrate.mjs` writes `web/data/bands.json` (product) and
+`web/data/bands_mba.json`, each with the scoring its cut points were made with. `web/app.js` loads `bands.json`
+and creates its matcher with that scoring. The evals read the MBA taxonomy from `web/data/taxonomy_mba.json`.
+
+**The matcher counts postings by weight.** The MBA graph gives each posting a weight so that no employer counts
+for more than 5% of a role; the map's shares use it and the matcher did not. It does now (product postings carry
+no weight, so nothing changes there).
+
+**A group with no bands.** The rule was "its own cut points come out of order". After the rebuild that rule
+dropped the product group, whose two roles ask for the same things, though its resumes sort well against other
+fields (95%). The rule now looks at what the bands use: a group gets none when half of its same-role resumes
+score below its own bottom line. Risk and compliance stays held by the owner.
+
+**MBA calibration now** (304 resumes, 281 same-role): same-role above other-field 89%, above adjacent 76%.
+Bands: in range from 52%, like the role from 73%, related per group 21% to 39%.
+
+**Weighting for the product roles: built, measured, not turned on.** Among the six product families nothing is
+distinctive (they ask for the same skills), so their baseline is the mean share across the 50 MBA roles
+(`distinct.baseline`). With it: same-role above adjacent 88% -> 90%, above other-field 95% -> 96%, own role on
+top 33 -> 37 of 51, bands 28% / 46% / 68%. But the sample `grad_student_new` (an MBA student with one PM
+internship, the core user) scores 43% against entry-level PM roles, under its expected 45% to 70% and just under
+"in range" (46%); without the weighting it scores 56%, in range. That score band is part of the spec, so the
+weighting stays off for the product roles (`scoring.distinct: null` in `bands.json`) until the owner decides.
+`PRODUCT_DISTINCT=1 node evals/calibrate.mjs` prints the report with it on.
+

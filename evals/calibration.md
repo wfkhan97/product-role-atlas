@@ -1,6 +1,6 @@
 # Calibration: what a match score means
 
-Produced by `node evals/calibrate.mjs` on 2026-10-13 from 274 published sample resumes in `evals/resumes/external/` (the files are not in the repository; see `external_sources.json`). Each is scored against the six product role families (all levels). 51 were written for a product role and 223 for another field. The role a sample was written for is the answer key.
+Produced by `node evals/calibrate.mjs` on 2026-10-13 from 304 published sample resumes in `evals/resumes/external/` (the files are not in the repository; see `external_sources.json`). Each is scored against the six product role families (all levels). 51 were written for a product role and 253 for another field. The role a sample was written for is the answer key.
 
 ## Score by group
 
@@ -8,7 +8,7 @@ Produced by `node evals/calibrate.mjs` on 2026-10-13 from 274 published sample r
 |---|---|---|---|---|---|---|
 | Same role (a product resume against its own role) | 51 | 27% | 54% | 64% | 69% | 77% |
 | Adjacent role (against the other product roles) | 255 | 10% | 21% | 31% | 45% | 62% |
-| Other field (a non-product resume against product roles) | 1338 | 4% | 13% | 22% | 34% | 49% |
+| Other field (a non-product resume against product roles) | 1518 | 4% | 13% | 22% | 33% | 48% |
 
 The score ranks a same-role resume above an other-field resume 95% of the time, and above an adjacent-role one 88% of the time (0.5 would be chance). A resume's own role is its highest-scoring product role in 34 of 51. The level read agrees with the sample's stated seniority in 40 of 50.
 
@@ -18,10 +18,10 @@ Cut points come from the distributions above, not from round numbers. The interv
 
 | band | score | rule | interval | same role | adjacent role | other field |
 |---|---|---|---|---|---|---|
-| Reads like people in the role | 69% and above | the top quarter of same-role resumes | 67% to 71% | 25% | 1% | 0% |
+| Reads like people in the role | 69% and above | the top quarter of same-role resumes | 67% to 72% | 25% | 1% | 0% |
 | In range for the role | 51% to 69% | from the score that best splits same-role from adjacent-role resumes | 46% to 57% | 57% | 16% | 4% |
-| Related background | 34% to 51% | above three in four other-field resumes | 32% to 35% | 10% | 30% | 21% |
-| A different field so far | below 34% | | | 8% | 54% | 75% |
+| Related background | 33% to 51% | above three in four other-field resumes | 32% to 35% | 10% | 30% | 21% |
+| A different field so far | below 33% | | | 8% | 53% | 75% |
 
 Read each row across: of the resumes in a group, the share that lands in the band.
 

@@ -23,7 +23,9 @@ const { createMatcher } = require(path.join(root, "web/match.js"));
 const TAX = JSON.parse(fs.readFileSync(path.join(root, "web/data/taxonomy.json"))); // the app's copy: the product part of pipeline/taxonomy.json
 const SUBS = JSON.parse(fs.readFileSync(path.join(root, "web/data/subskills.json")));
 const G = JSON.parse(fs.readFileSync(path.join(root, "web/data/graph.json")));
-const M = createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G });
+// the product matcher as the app creates it: with the scoring that the product bands were calibrated with
+const BANDS = JSON.parse(fs.readFileSync(path.join(root, "web/data/bands.json")));
+const M = createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G, distinct: BANDS.scoring.distinct || undefined });
 // The MBA role set: its skills and its role families. Until its graph exists there are no postings to score
 // against, so this matcher is used for what a resume shows (skills tagged, role families read), not for a score.
 const ROLES = rolesData();
@@ -158,7 +160,7 @@ if (!only) {
   const J2 = f => JSON.parse(fs.readFileSync(path.join(root, f)));
   const cfg = { floor: 0.2, full: 2 }; const D = createMatcher({ taxonomy: J2("web/data/taxonomy_mba.json"), subskills: J2("web/data/subskills_mba.json"), graph: GM, roles: ROLES, distinct: cfg });
   const text = fs.readFileSync(path.join(here, "resumes/template_placeholder_years.txt"), "utf8").replace(/20[xX]{2}/g, "2021"); const bad = [];
-  const fams = [...new Set(GM.jobs.map(j => j.family))]; const share = {}; for (const f of fams) { const js = GM.jobs.filter(j => j.family === f); share[f] = id => js.filter(j => j.skills.includes(id)).length / js.length; }
+  const fams = [...new Set(GM.jobs.map(j => j.family))]; const share = {}; const wt = j => j.w == null ? 1 : j.w; for (const f of fams) { const js = GM.jobs.filter(j => j.family === f), n = js.reduce((a, j) => a + wt(j), 0); share[f] = id => js.reduce((a, j) => a + (j.skills.includes(id) ? wt(j) : 0), 0) / n; } // shares are of weight, as in the matcher
   for (const f of fams) {
     const tg = { jobs: GM.jobs.filter(j => j.family === f), label: f }; const r = D.match(text, tg);
     for (const x of r.rows) {
@@ -172,13 +174,15 @@ if (!only) {
 }
 // Bands of fit: the cut points file must be in order, and bandOf must read it as documented.
 if (!only) {
-  const B = JSON.parse(fs.readFileSync(path.join(here, "bands_mba.json"))); const { bandOf } = require(path.join(root, "web/match.js")); const bad = [];
+  const B = JSON.parse(fs.readFileSync(path.join(root, "web/data/bands_mba.json")));
+  const { bandOf } = require(path.join(root, "web/match.js")); const bad = [];
+  if (!(BANDS.related < BANDS.in_range && BANDS.in_range < BANDS.strong && bandOf(BANDS.in_range, BANDS) === "in_range" && bandOf(BANDS.related - 0.01, BANDS) === "different")) bad.push("web/data/bands.json is out of order");
   if (!(B.in_range < B.strong)) bad.push("in_range is not below strong");
   if (!(B.scoring && B.scoring.distinct && B.scoring.distinct.floor >= 0 && B.scoring.distinct.full > 1)) bad.push("the scoring the cut points were made with is not stated");
   for (const [g, low] of Object.entries(B.related)) { if (!(low < B.in_range)) bad.push(`${g}: related is not below in_range`); if (bandOf(low - 0.01, B, g) !== "different" || bandOf(low, B, g) !== "related" || bandOf(B.in_range, B, g) !== "in_range" || bandOf(B.strong, B, g) !== "strong") bad.push(`${g}: bandOf does not follow the cut points`); }
   for (const g of Object.keys(B.no_bands)) if (bandOf(0.9, B, g) !== null) bad.push(`${g}: has no bands but bandOf gives one`);
   for (const f of ROLES.families) if (!(B.group_of[f.id] in B.related) && !(B.group_of[f.id] in B.no_bands)) bad.push(`${f.id}: its group has neither bands nor a reason for none`);
-  bad.length ? fail++ : pass++; out(`\n=== bands of fit (evals/bands_mba.json): ${bad.length ? "FAIL — " + bad.join("; ") : `PASS — in range from ${pct(B.in_range)}, like the role from ${pct(B.strong)}, ${Object.keys(B.related).length} groups with a bottom line, no bands for: ${Object.keys(B.no_bands).join(", ") || "none"}`}`);
+  bad.length ? fail++ : pass++; out(`\n=== bands of fit (web/data/bands.json, bands_mba.json): ${bad.length ? "FAIL — " + bad.join("; ") : `PASS — in range from ${pct(B.in_range)}, like the role from ${pct(B.strong)}, ${Object.keys(B.related).length} groups with a bottom line, no bands for: ${Object.keys(B.no_bands).join(", ") || "none"}`}`);
 }
 out(`\nTOTAL: ${pass} pass, ${fail} fail`);
 

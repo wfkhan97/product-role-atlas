@@ -611,10 +611,13 @@
     // or below it keeps `floor` of its weight; from lift `full` up, all of it. Off unless `distinct` is passed
     // ({ floor, full } or true for the defaults), so a role set opts in.
     const DISTINCT = distinct ? { floor: 0.2, full: 2, ...(distinct === true ? {} : distinct) } : null;
+    // `baseline` ({ skill id: mean share }) says what "all roles" means when the graph in hand is too narrow to
+    // say it: the six product families all ask for the same product skills, so among themselves nothing is
+    // distinctive. Their baseline is the mean over the 50 roles of the MBA graph.
     const meanShare = (() => {
-      if (!DISTINCT) return null; const byFam = {}; for (const j of G.jobs) (byFam[j.family] ||= []).push(j);
+      if (!DISTINCT) return null; if (DISTINCT.baseline) return id => DISTINCT.baseline[id] || 0; const byFam = {}; for (const j of G.jobs) (byFam[j.family] ||= []).push(j);
       const fams = Object.values(byFam), sum = {};
-      for (const jobs of fams) { const cnt = {}; for (const j of jobs) for (const k of j.skills) cnt[k] = (cnt[k] || 0) + 1; for (const k in cnt) sum[k] = (sum[k] || 0) + cnt[k] / jobs.length; }
+      for (const jobs of fams) { const sh = shares(jobs).share, seen = new Set(jobs.flatMap(j => j.skills)); for (const k of seen) sum[k] = (sum[k] || 0) + sh(k); }
       return id => (sum[id] || 0) / (fams.length || 1);
     })();
     // the industry slot is one ask by design and keeps its weight; AI literacy is judged by its most asked member
@@ -623,7 +626,9 @@
       const a = id === "__ai" ? Math.max(...AI_GROUP.map(meanShare)) : meanShare(id); if (!a) return 1;
       return Math.max(DISTINCT.floor, Math.min(1, DISTINCT.floor + (1 - DISTINCT.floor) * (w / a - 1) / (DISTINCT.full - 1)));
     }
-    function shares(jobs) { const n = jobs.length || 1, cnt = {}; for (const j of jobs) for (const k of j.skills) cnt[k] = (cnt[k] || 0) + 1; return { n: jobs.length, share: id => (cnt[id] || 0) / n }; }
+    // A posting may carry a weight `w` (the MBA graph balances employers: no one employer counts for more than a
+    // set part of a role). Shares are of weight, as on the map; `n` stays the number of postings.
+    function shares(jobs) { let n = 0; const cnt = {}; for (const j of jobs) { const w = j.w == null ? 1 : j.w; n += w; for (const k of j.skills) cnt[k] = (cnt[k] || 0) + w; } return { n: jobs.length, share: id => (cnt[id] || 0) / (n || 1) }; }
 
     // target: { jobs, job?, familyJobs?, label }
     function requirements(target) {

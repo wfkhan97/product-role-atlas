@@ -7,23 +7,23 @@
   }
  },
  "generated": "2026-10-13",
- "resumes": 274,
- "in_range": 0.48,
+ "resumes": 304,
+ "in_range": 0.52,
  "strong": 0.73,
  "related": {
-  "consulting_strategy": 0.33,
+  "consulting_strategy": 0.31,
   "finance": 0.29,
   "banking_investing": 0.21,
-  "operations": 0.4,
-  "product": 0.27,
-  "marketing": 0.24,
+  "operations": 0.39,
+  "product": 0.26,
+  "marketing": 0.23,
   "sales": 0.22,
-  "supply_chain": 0.29,
+  "supply_chain": 0.28,
   "people": 0.24,
   "analytics": 0.32
  },
  "no_bands": {
-  "risk": "held back by the owner: 8 of its 13 same-role samples are law-school resumes of students and career changers"
+  "risk": "held back by the owner until the group has more samples of people who hold the role (most are law-school resumes of students and career changers)"
  },
  "group_of": {
   "management_consultant": "consulting_strategy",

@@ -53,7 +53,8 @@ with no title, implausible years), with no expectations needed.
 resumes score against the product roles, how well the score separates them, and the cut points for bands of fit
 that those distributions give, with bootstrap intervals. `node evals/calibrate.mjs --roles mba` does the same for
 the 50 roles of the MBA graph and writes [calibration_mba.md](calibration_mba.md), with a table per role group
-(about five minutes). It also writes `bands_mba.json`, the cut points the interface uses: two upper lines shared
+(about five minutes). Each run also writes the bands as data for the interface: `web/data/bands.json` (product) and
+`web/data/bands_mba.json`, the cut points the interface uses: two upper lines shared
 by every role, a bottom line per role group, and the groups that get no bands yet. `Matcher.bandOf(score, bands,
 group)` in `web/match.js` reads it. The file also states the scoring the cut points were made with
 (`scoring.distinct`); create the MBA matcher with that setting or the bands do not hold.

@@ -126,8 +126,9 @@ Checks: 497 pass, 0 fail.
   transferable: none
   unmapped bullets: 1
 === resume titles → role family (web/data/roles_mba.json): 171/171
-  known gaps (not counted): 3 — Associate Strategy Manager; Associate; Strategic Planning Analyst
+  known gaps (not counted): 1 — Associate
+  no longer a gap, remove the mark: Associate Strategy Manager; Strategic Planning Analyst
 === distinctive asks (weighting on, 4 roles): PASS — every weight between the floor and the full share, the floor and the full weight where the lift says so, industry slot whole, evidence never lowers a score
-=== bands of fit (evals/bands_mba.json): PASS — in range from 48%, like the role from 73%, 10 groups with a bottom line, no bands for: risk
+=== bands of fit (web/data/bands.json, bands_mba.json): PASS — in range from 52%, like the role from 73%, 9 groups with a bottom line, no bands for: product, risk
 TOTAL: 497 pass, 0 fail
 ```
