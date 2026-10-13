@@ -29,5 +29,5 @@ Read each row across: of the resumes in a group, the share that lands in the ban
 
 - The samples are examples that resume sites and career offices publish: tidier and richer in keywords than most real resumes, so real resumes will sit lower in each band.
 - 51 same-role resumes is a small sample; the intervals show how far the cut points move.
-- Only product roles can be scored until the other role sets have a graph. The bands are for product roles.
-- A sample's seniority is the publisher's label, and the scores here are against all levels of a role.
+- These bands are for the product roles. The MBA role set has its own file, `calibration_mba.md`.
+- A sample's seniority is the publisher's label or the one read from the resume, and the scores here are against all levels of a role.

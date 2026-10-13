@@ -50,9 +50,11 @@ reported and not counted.
 with no title, implausible years), with no expectations needed.
 
 `node evals/calibrate.mjs` writes [calibration.md](calibration.md): how same-role, adjacent-role and other-field
-resumes score, how well the score separates them, and the cut points for bands of fit that those distributions
-give, with bootstrap intervals. Rerun it after any change to the matcher; the bands the interface shows must come
-from this file, not from round numbers. The folder is gitignored:
+resumes score against the product roles, how well the score separates them, and the cut points for bands of fit
+that those distributions give, with bootstrap intervals. `node evals/calibrate.mjs --roles mba` does the same for
+the 50 roles of the MBA graph and writes [calibration_mba.md](calibration_mba.md), with a table per role group
+(about five minutes). Rerun both after any change to the matcher; the bands the interface shows must come from
+these files, not from round numbers. The folder is gitignored:
 published sample resumes belong to their publishers, so the repository keeps only the list of sources and our own
 expectations for each file, not the files.
 
@@ -197,9 +199,9 @@ The product roles have matcher evals and an extraction baseline. The MBA role se
 model audit and the pipeline evals above (items 1 to 6 of the first list). Still to build, in this order:
 
 1. **Matcher evals per role group.** Built for what a resume shows: skill lists for 130 published samples, two or
-   three per role, and resume titles to role families (see "Published sample resumes"). Still to build: score
-   bands per role group, from `calibrate.mjs` run on the MBA roles. The graph they need now exists
-   (`evals/graph_mba.mjs` loads it).
+   three per role, and resume titles to role families (see "Published sample resumes"). Score bands for the MBA roles
+   come from `calibrate.mjs --roles mba`. Still to build: hand-written samples per role group with score bands
+   and a persona, as the product samples have.
 2. **Scoring properties.** A person who held a role at a level scores high against that role at that level and
    below. The score against a lower level is never below the score against a higher level for the same resume.
    Adding a line of evidence never lowers a score (this one exists).

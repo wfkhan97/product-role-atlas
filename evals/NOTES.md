@@ -647,3 +647,49 @@ see the code. Then the rules were run on them. That order found what follows.
 
 **Open.** Skill depth for the 180 MBA skills is proposed in PLAN.md and not built. The golden postings have one
 reader each. The product map still has the one-line cleaner defect and the old country reader.
+
+## Scores and bands for the MBA roles (2026-10-12)
+
+Branch `feat/mba-calibration`. Step 5 of the resume work, done when the MBA graph landed.
+`node evals/calibrate.mjs --roles mba` scores 274 published samples against the 50 roles (US postings, all levels)
+and writes [calibration_mba.md](calibration_mba.md). 251 samples were written for one of the 50 roles. Adjacent
+roles are the other roles of the same group (the 11 groups of `web/data/roles_mba.json`).
+
+**What the score does.** Same-role scores have a median of 61%, adjacent-role 35%, other-field 23%. A same-role
+score is above an other-field score 86% of the time and above an adjacent-role score 75% of the time. For the
+product roles the same two numbers are 95% and 88%: the score separates less well here. A resume's own role is
+its top role of the 50 in 124 of 251, and its top role is in its own group in 174 of 251.
+
+**Bands, all 50 roles together.** From the distributions, with bootstrap intervals: related background from 33%
+(32% to 35%), in range from 55% (48% to 58%), reads like people in the role from 72% (71% to 73%). The product
+bands are 34%, 50% and 69%.
+
+**The role held carries most of the same-role score.** The matcher read the role as held in 144 of the 251
+same-role resumes. Their median score is 71%. The median of the other 107 is 36%, close to an adjacent-role score.
+So a same-role resume scores high mainly when one of its job titles is read as the role, and the title rules were
+written for postings: they miss neighbouring resume titles (see the section above: 129 of 191). The floor the
+runner checks holds in 139 of 144.
+
+**By group.** Finance, banking and investing, marketing and product separate same-role from other-field well
+(92% to 97%). Operations and general management (72%) and consulting and strategy (79%) are weaker: their postings
+ask for general skills that most resumes show. Risk and compliance does not work yet: the same-role median is
+30% and it separates from other fields 68% of the time. Eight of its thirteen samples are law-school compliance
+resumes of students and career changers, so this is as much the samples as the matcher. Product and analytics
+separate poorly from their adjacent roles (62% and 58%), as the product roles did: the roles in those groups ask
+for nearly the same things.
+
+**Cut points by group** are in the file. Their intervals are wide (the middle cut for product runs from 20% to
+63%), because a group has 13 to 45 same-role resumes. One set of bands for all 50 roles is the defensible choice
+today; the per-group table says where that set fits badly.
+
+**Level.** The level read against a sample's own role agrees with the seniority read from the resume in 165 of
+251. When the role is not read as held, the read falls back to years of work and the early or pivot rule.
+
+**Open.**
+- Resume-side title reading for the MBA roles (employer categories, neighbouring titles). It decides whether the
+  role is read as held, and so most of the score. `evals/roles_mba.mjs` already reads employer categories for
+  postings; the matcher does not use them yet.
+- Risk and compliance needs samples of people who hold the role, and then a second look.
+- One set of bands or a set per group: the owner's decision. The interface should show the band, not the
+  percentage.
+
