@@ -700,3 +700,28 @@ are better: its own cut points come out of order. The rule is in `calibrate.mjs`
 with too few same-role resumes or with cut points out of order gets none. `evals/bands_mba.json` holds the result
 for the interface, and `Matcher.bandOf` reads it. Copying it into `web/data/` is the graph build's step.
 
+## Resume titles read with the employer's kind (2026-10-13)
+
+Branch `feat/resume-title-reading`. The matcher now reads a title by all the steps of `web/data/roles_mba.json`
+(the same steps as `evals/roles_mba.mjs`), not by the first step alone. A resume has no employer category, so the
+matcher takes it from the job line: an employer we hold by name (176 of them), or the words of the employer's own
+name ("... Capital Partners", "... Ventures", "... Consulting", "... Asset Management", "... Realty", "... Bank").
+At a bank or a consulting firm the level comes from that ladder: a bank "Vice President" reads as senior, not as
+a lead.
+
+- `resume_titles.json`: 171 of 171, with 3 known gaps left (7 before). New cases include ones that must not
+  match: a recruiter at a venture firm, an engineer at a consulting firm, a teller at a bank.
+- Two known gaps are pattern order in the role file, for the graph thread: "Associate Strategy Manager" is read
+  as the analyst role, "Strategic Planning Analyst" as the manager role.
+
+**It did not move the scores much, and that corrects the last section.** The role is read as held in 147 of 251
+same-role resumes (144 before); same-role above adjacent-role 76% of the time (75%). The other 104 break down as:
+60 mid or senior samples with no job title in the family at all (a "Business Analyst" filed under business
+analytics manager, a "Change Manager" under transformation), 29 early-career samples, 7 where no jobs were read,
+4 internships, 4 held for under a year. So most are not title-reading misses; the person did not hold the role.
+
+**What the breakdown shows instead.** A resume of a person who held the role shows on the page a median of 35%
+of what the role's postings ask for; the 70% median score comes from the presumption. Resumes where the role is
+not held show about the same share (core 40%, common 27%). Evidence reading is the weak part for these roles, for
+everyone. That is the next lever: resume wording for the MBA skills, and which asks a role's postings really set.
+
