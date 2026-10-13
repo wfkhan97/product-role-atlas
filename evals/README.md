@@ -94,6 +94,9 @@ fix the expectation and say why in the commit.
 - `grad_student_new` — MBA student, one PM internship, marketing background. The core user.
 - `pivot_phd_hci` — HCI PhD with an engineering internship; academic vocabulary for PM skills.
 - `course_list` — the paste-a-course-list path, no work history.
+- `experienced_with_coursework` — twelve years of work, a course list and a skills column with no heading: only
+  the work lines are evidence.
+- `template_placeholder_years` — a career-office template with "20XX" for every year: jobs are read, years are not.
 
 ## Adding a sample
 

@@ -781,3 +781,23 @@ systems and architecture ("infrastructure", "architecture"), product strategy ("
 "strategic planning"), stakeholder management ("stakeholder", "VP") fire on most MBA postings. The weighting
 makes the score robust to that; tightening them would also clean the map.
 
+## Courses and loose list items for experienced people (2026-10-13)
+
+Branch `feat/course-lines-experienced`. Owner's decision. For a person who is not a current student and has three
+or more years of work, a course line is a mention, not evidence, and so is a short list-like line outside any job
+(five words or fewer, no number; a skills column whose heading a two-column PDF moved away). A named tool in
+such a list still counts. Nothing changes for a current student ("expected", "candidate", "class of",
+"graduating"), whatever their years of work, or for a pasted course list with no work history.
+
+- False tags on the published samples: 135 -> 120 of 807. Skills correctly found: 1,022 of 1,238, unchanged.
+- New sample `experienced_with_coursework` guards it: before the change it was tagged with A/B testing, AI,
+  product strategy, financial modeling and go-to-market from its course list and its unheaded skills column.
+- The other in-repo sample scores do not move.
+- Bands. Product: 34%, 51%, 69% (the middle line was 50%). MBA: in range from 48% (52% before), like the role
+  from 73%, related per group 21% to 40%. The MBA middle line is the least steady cut (its interval is 45% to
+  55%); separation is unchanged at 89% and 77%.
+
+**Known cost.** A career changer who has finished a degree and no longer writes "expected" or "candidate" loses
+credit for coursework. Reading degree dates (keep the credit for two years after the last degree) would cover
+that case; not built.
+

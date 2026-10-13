@@ -1,0 +1,8 @@
+{
+  "about": "Twelve years of work, not a student. A course list and a skills column with no heading (as a two-column PDF gives it) are mentions, not evidence: only the work lines count. The tool in the list (Tableau) still counts. The student samples must not change.",
+  "targets": ["pm:__all"],
+  "persona": "pivoter",
+  "must_evidence": ["vendor_mgmt", "analytics_tools"],
+  "must_not_tag": ["ab_testing", "ai_ml", "product_strategy", "financial_analysis", "positioning_messaging", "gtm"],
+  "parse": { "roles": 2, "min_years": 11, "titles": ["Procurement Manager", "Buyer"], "degrees": ["bachelors"] }
+}

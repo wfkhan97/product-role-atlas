@@ -547,14 +547,21 @@
     function lineStrength(l, id) {
       if (l.kind === "other") return 1; // interests, awards, languages: a word there is a mention
       if (CRED.has(id) && !STRUCTURAL.has(id)) return 2; // a certificate or a licence is held wherever it is listed
-      if (l.kind === "course") return 2; // a course is something done, not just a word
+      // A course is something done, not just a word: for a student it is evidence. For a person with years of
+      // work who is not studying now, a course or an item of a list is a mention; the work lines carry the evidence.
+      if (l.kind === "course") return seasoned ? 1 : 2;
+      // a list item outside any job (a skills column whose heading the PDF moved away): a few words, no number
+      if (seasoned && l.kind === "bullet" && l.role < 0 && l.label && l.text.split(" ").length <= 5 && !OUTCOME.test(l.text)) return TOOLISH.has(id) ? 2 : 1;
       if (l.kind === "skill") return TOOLISH.has(id) ? 2 : 1; // nobody writes a bullet about Jira
       if (l.kind === "employer") return DOMAIN.has(id) ? 2 : 1; // where a person worked shows the industry
       if (l.kind === "summary" || l.kind === "education" || l.kind === "heading") return 1;
       return OUTCOME.test(l.text) ? 3 : 2;
     }
 
+    // not a current student, and three or more years of work: set by tag() for the resume in hand
+    let seasoned = false; const SEASONED_YEARS = 3;
     function tag(parsed) {
+      seasoned = !parsed.isStudent && parsed.totalYears >= SEASONED_YEARS;
       const ev = {}; const add = (id, l, i, strength, via) => {
         const e = ev[id] ||= { strength: 0, lines: [], subs: new Set(), via: new Set(), direct: false, nLines: new Set() };
         e.lines.push({ i, text: l.text, strength, via: via || null, kind: l.kind, role: l.role });

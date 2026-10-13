@@ -8,7 +8,7 @@
  },
  "generated": "2026-10-13",
  "resumes": 274,
- "in_range": 0.52,
+ "in_range": 0.48,
  "strong": 0.73,
  "related": {
   "consulting_strategy": 0.33,
@@ -20,7 +20,7 @@
   "sales": 0.22,
   "supply_chain": 0.29,
   "people": 0.24,
-  "analytics": 0.33
+  "analytics": 0.32
  },
  "no_bands": {
   "risk": "held back by the owner: 8 of its 13 same-role samples are law-school resumes of students and career changers"
