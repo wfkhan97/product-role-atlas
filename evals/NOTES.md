@@ -1025,3 +1025,62 @@ postings on the Marsh & McLennan board stay on the corporate ladder: the ladder 
 **What stays uncertain.** The Kearney and Oliver Wyman rows rest on secondary sources (`basis` in the table).
 Bain and L.E.K. have no US consultant postings in the data, so their rows are tested on written titles only.
 Titles are the US autumn 2026 cycle. One reader made the labels; 60 of 231 rows are unsure.
+
+## Build steps pilot (2026-10-13)
+
+Branch `feat/build-steps-pilot` (on top of `feat/depth-pilot`). `pipeline/build_steps.py`, `pipeline/build_lexicon.json`,
+`data/raw/build_sources.json`. Nothing is published. Output and the report are in `data/experiments/depth/build_pilot*`
+(gitignored). The plan is `data/experiments/depth/build_steps_plan.md` in the main checkout.
+
+**Rule.** Two keys, or no step. Postings choose the target: a certification, tool, document or qualification that
+three employers name at entry level for the skill on the ladder. A target in the skill's own sentences is "skill"
+level; a target elsewhere in the posting is "role" level and says only "postings that ask for this skill also ask
+for X". A source on the allow-list (US government, regulators, certification bodies) says what the target contains.
+The model picks a target, a passage and slot values; the code writes the sentence from one of eight templates
+(learn, practise, prove). Fewer than three steps, or none, is a valid result.
+
+**Measured on 12 pairs** (4 bank, 4 consulting, 4 corporate; drafter `openai/gpt-6.1-sol`, critic
+`anthropic/claude-haiku-5.5`; 218 requests sent, 155 answered, $0.52):
+
+- 143 targets pass the three-employer rule; 80 have something in the registry of 29 sources.
+- 28 steps drafted, 20 final. Pairs with 3, 2, 1, 0 steps: 2, 5, 4, 1. Six drafting requests got no answer (OpenRouter
+  refused them for lack of credit), so five pairs had no second request and one had no first request.
+- 13 of the 20 final steps rest on a role-level target. The critic calls 7 of 20 specific to the skill, and says for
+  7 of 20 that the source itself says what the target contains.
+- Bank skills: the regulator's exam pages and one OCC handbook ground learn and prove steps. Series 79 needs a firm's
+  sponsorship, so only the SIE and Series 63 can be a "prove" step for a student. No allowed source that may be
+  quoted says what a DCF or LBO model contains; the SEC bulletin on Form 10-K grounds the input only.
+- Consulting skills: no certification exists and postings name almost no document. What is left is "Learn Tableau"
+  from an O*NET software list. That is the role's tool, not the skill.
+- O*NET task statements are job duties. They ground no step. Its software lists name a tool and say nothing about it.
+- Sites that refuse scripts were not read by script (bls.gov, dol.gov, careeronestop.org, investor.gov). FINRA forbids
+  scraping; its two exam pages were read once by hand and only titles and our own words are kept.
+
+**The eval.** `python -m pipeline.build_steps check` runs the code checks on a finished run with no model (demand,
+source allow-list and reachability, skill link, template, quote, licence, vendor block-list, style, not a duty,
+exam access, slots only, numbers, different kinds and targets). 12 planted faults were caught by the named check.
+It reads `data/experiments/depth/`; it moves to `evals/` when steps are published.
+
+## Depth: full run, stopped at 209 of 366 pairs (2026-10-13)
+
+`pipeline.depth_gen --pairs all` on the refreshed data, cheap critic. The OpenRouter account ran out of credit
+part-way ($25 of credit; the key's own limit is $50). Answers are cached and failed requests are not, so a rerun
+sends only what is missing: 157 pairs still need a draft, about $10 at the rate so far. Nothing is published.
+
+| ladder | pairs done | rungs kept of rungs with evidence |
+|---|---|---|
+| corporate | 83 | 184 of 327 (56%) |
+| bank | 74 | 132 of 256 (52%) |
+| consulting | 52 | 55 of 156 (35%) |
+
+Sub-skills: 1,235 kept of 1,630; 335 dropped because their patterns match too few postings. Empty rungs: for 169
+the drafter found nothing that two employers both ask; 177 could not be told from a neighbouring level; 56 failed
+the critic's two-employer check. The 50% is an upper bound: some rungs of the last pairs were drafted and not
+yet put to the level test when the credit ran out.
+
+**Decided for the build steps (owner, 2026-10-13), not yet in the code.** A licence, an exam or a degree is a
+step of the role and is shown once per role and ladder, not under each skill. A tool is not a target unless a
+source says what to learn. A request to FINRA and the certification bodies for leave to quote their outline
+topics is drafted in `data/experiments/depth/permission_request.md` for the owner to send. Consulting stays
+empty until a source is agreed. Six drafting requests of the pilot got no answer (no credit); rerun
+`python -m pipeline.build_steps run` when credit is there.
