@@ -5,6 +5,8 @@
 //   import { createRoles } from "./roles_mba.mjs";  const R = createRoles(rules);
 //   R.family("Associate, Healthcare M&A", { category: "Investment banking" })   -> "ib_associate"
 //   R.level("Vice President", { company: "Goldman Sachs Group" })              -> "senior"   (a bank grade)
+//   R.entry("Associate", { company: "McKinsey & Company", category: "Strategy consulting" })
+//                                              -> { entry: "mba", intern: false, source: "firm" }   (who enters at this title)
 //   echo '[{"title": "...", "company": "...", "category": null, "industry": null}]' | node evals/roles_mba.mjs
 import fs from "fs";
 import path from "path";
@@ -26,6 +28,13 @@ export function createRoles(rules) {
   const cos = rx(rules.chief_of_staff), ldpStaff = rx(rules.ldp_staff);
   const houseRank = rx(rules.house_rank), houseStaff = rx(rules.house_staff);
   const big = new Set(rules.big_employers), deal = rx(rules.deal), campusRank = rx(rules.campus_rank), techStaff = rx(rules.tech_staff);
+  const mbaWord = rx(rules.mba_word), programGrade = new RegExp(rules.program_grade, "gi");
+  const E = rules.entry, own = (o, k) => (k != null && Object.hasOwn(o, k) ? o[k] : undefined);  // an employer may be called "Constructor"
+  const entryFirms = Object.fromEntries(E.firms.map(f => [f.firm.toLowerCase(), f.titles.map(t => ({ ...t, rx: rx(t.pattern), families: t.families !== undefined ? t.families : f.families !== undefined ? f.families : ["management_consultant"] }))]));
+  const entryCats = Object.fromEntries(E.categories.map(c => [c.category, { ...c, titles: c.titles.map(t => ({ ...t, rx: rx(t.pattern), no: t.not ? rx(t.not) : null })) }]));
+  const tIntern = rx(E.title.intern), tNotForThem = rx(E.title.not_for_them), tPhd = rx(E.title.phd), tMbaNot = rx(E.title.mba_not), tPre = rx(E.title.pre), tMba = rx(E.title.mba);
+  const tSummerAssociate = rx(E.title.summer_associate), tCampus = rx(E.title.campus), tCampusNot = rx(E.title.campus_not);
+  const xMba = rx(E.text.mba), xMbaNot = rx(E.text.mba_not), xUndergrad = rx(E.text.undergrad), xWeak = rx(E.text.weak), xWeakNot = rx(E.text.weak_not);
   const sector = new RegExp(rules.sector, "gi"), bankCats = new Set(rules.bank_categories), lastResort = rx(rules.last_resort.pattern);
 
   function general(t) {
@@ -72,16 +81,56 @@ export function createRoles(rules) {
     const which = ladder(t, who, fam);
     if (fam === "ldp" && !ldpStaff.test(t)) return "associate";
     t = t.replace(cos, "CoS");
+    if (mbaWord.test(t)) t = t.replace(programGrade, "program");
     const hit = ladders[which].find(g => g.rx.test(t));
     return hit ? hit.level : "mid";
   }
+  // Who enters at this title: { entry: "mba" | "pre_mba" | null, intern, source }. See rules.entry.about.
+  // opts: { text } the cleaned posting text, { yoe } the years of experience the posting asks for; both optional.
+  function textAudience(text) {
+    let found = null;
+    for (const m of text.matchAll(new RegExp(E.text.student, "gi"))) {
+      const end = m.index + m[0].length, a = text.lastIndexOf("\n", m.index - 1) + 1, b = text.indexOf("\n", end);
+      const line = text.slice(Math.max(a, m.index - 200), Math.min(b >= 0 ? b : text.length, end + 200));
+      if (xMba.test(line)) {
+        if (xMbaNot.test(line)) continue;
+        if (!xUndergrad.test(line)) return "mba";
+      }
+      found = "pre_mba";
+    }
+    return found;
+  }
+  function entry(title, who = {}, opts = {}) {
+    const t0 = title || "";
+    const fam = family(t0, who), lvl = level(t0, who, fam);
+    const firm = who.company ? who.company.split(/\s+/)[0] : "";
+    const t = firm.length >= 4 && t0.toLowerCase().startsWith(firm.toLowerCase() + " ") ? t0.slice(firm.length + 1) : t0;
+    const intern = tIntern.test(t), saysMba = tMba.test(t) && !tMbaNot.test(t);
+    const out = (entry, i, source) => ({ entry, intern: i, source });
+    if (tNotForThem.test(t) || (tPhd.test(t) && !saysMba)) return out(null, intern, null);
+    for (const row of own(entryFirms, (who.company || "").toLowerCase()) || [])
+      if ((row.families === null || row.families.includes(fam)) && row.rx.test(t)) return out(row.entry, row.intern === undefined ? intern : row.intern, "firm");
+    if (tPre.test(t) && !tCampusNot.test(t)) return out("pre_mba", intern, "title");
+    if (saysMba) return out("mba", intern, "title");
+    if (E.title.no_mark_levels.includes(lvl)) return out(null, intern, null);
+    const text = opts.text;
+    if (text && (intern || E.text.student_levels.includes(lvl))) { const a = textAudience(text); if (a) return out(a, intern, "text"); }
+    const cat = own(entryCats, who.category);
+    if (cat && cat.families.includes(fam) && !(cat.max_yoe != null && opts.yoe != null && opts.yoe > cat.max_yoe))
+      for (const row of cat.titles)
+        if (row.rx.test(t) && !(row.no && row.no.test(t)) && (row.level === undefined || row.level === lvl)) return out(row.entry, row.intern === undefined ? intern : row.intern, "category");
+    if (tSummerAssociate.test(t)) return out("mba", true, "title");
+    if (text && E.text.weak_levels.includes(lvl) && !xWeakNot.test(t) && xWeak.test(text)) return out("pre_mba", intern, "text");
+    if ((intern || tCampus.test(t) || fam === "ldp") && !tCampusNot.test(t)) return out("pre_mba", intern, "title");
+    return out(null, intern, null);
+  }
   const label = (lvl, which = "corporate") => rules.ladders[which].levels[lvl] || rules.level_labels[lvl];
-  return { family, ladder, level, label };
+  return { family, ladder, level, label, entry };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const here = path.dirname(fileURLToPath(import.meta.url));
   const R = createRoles(JSON.parse(fs.readFileSync(path.join(here, "../web/data/roles_mba.json"))));
   const rows = JSON.parse(fs.readFileSync(0, "utf8"));
-  process.stdout.write(JSON.stringify(rows.map(r => { const f = R.family(r.title, r); return [f, R.level(r.title, r, f), R.ladder(r.title, r, f)]; })));
+  process.stdout.write(JSON.stringify(rows.map(r => { const f = R.family(r.title, r), e = R.entry(r.title, r, { text: r.text, yoe: r.yoe }); return [f, R.level(r.title, r, f), R.ladder(r.title, r, f), e.entry, e.intern, e.source]; })));
 }

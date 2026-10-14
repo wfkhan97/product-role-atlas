@@ -194,6 +194,34 @@ def wshare(pairs, sid):
     return sum(w for j, w in pairs if sid in j["skills"]) / tot if tot else 0.0
 
 
+# The entry mark in plain words, for the interface (pipeline/roles_mba.py, entry()).
+ENTRY_KEYS = ("mba", "mba_intern", "pre_mba", "pre_mba_intern")
+ENTRY_META = {
+    "fields": "On each posting: entry is \"mba\", \"pre_mba\" or null; intern is true for an internship, a co-op or a summer programme; "
+              "entry_src is the evidence: \"title\" or \"text\" (the posting says who it is for), \"firm\" or \"category\" (the title is the grade that group joins at; "
+              "the posting may also be open to experienced hires). null means an experienced-hire job or no evidence. The level of a posting is not changed by the mark.",
+    "counts": "roles.<role>.entry.<ladder>.<key> = {n, posted}: n postings carry the mark, posted of them because the posting says so (entry_src title or text). "
+              "n minus posted are marked by grade only. Closed postings count, as in every statistic.",
+    "labels": {"mba": "A job for new MBA graduates", "mba_intern": "An MBA summer internship", "pre_mba": "A job for new bachelor's or master's graduates",
+               "pre_mba_intern": "An internship for bachelor's or master's students"},
+    "source_labels": {"posted": "The posting says so", "grade": "The title is the grade this group usually joins at"},
+}
+
+
+def entry_key(j):
+    return (j["entry"] + ("_intern" if j.get("intern") else "")) if j.get("entry") else None
+
+
+def entry_counts(js):
+    out = {k: {"n": 0, "posted": 0} for k in ENTRY_KEYS}
+    for j in js:
+        k = entry_key(j)
+        if k:
+            out[k]["n"] += 1
+            out[k]["posted"] += j.get("entry_src") in ("title", "text")
+    return out
+
+
 def build_roleset(roleset):
     import importlib
     import statistics
@@ -324,6 +352,7 @@ def build_roleset(roleset):
         rows = []
         for j in js:
             rows.append({"id": jid, "company": j["company"], "group": j["group"], "title": j["title"], "family": f, "level": j["level"], "ladder": j["ladder"],
+                         "entry": j.get("entry"), "intern": bool(j.get("intern")), "entry_src": j.get("entry_src"),
                          "w": R4(j["w"]), "open": j.get("open", True), "specs": j["specs"], "location": j["location"], "url": j["url"], "sector": j.get("sector"), "industry": j.get("industry"),
                          "category": j.get("category"), "country": j.get("country"), "remote": j.get("remote"), "rank": j.get("rank"), "stage": j.get("stage"),
                          "investors": [fund_by_name.get(x, x) for x in (j.get("investors") or [])], "yoe": j["yoe"],
@@ -352,6 +381,8 @@ def build_roleset(roleset):
             "by_level": {l: c for l in levels if (c := sum(1 for j in js if j["level"] == l))},
             "by_ladder": {l: {"n": c, "by_level": {x: y for x in levels if (y := sum(1 for j in js if j["ladder"] == l and j["level"] == x))}} for l, c in lad.most_common()},
             "ladder": lad.most_common(1)[0][0],
+            # where a new graduate enters this role: postings marked for MBA and for pre-MBA graduates, per ladder
+            "entry": {l: entry_counts([j for j in js if j["ladder"] == l]) for l, _ in lad.most_common()},
             "covers": R.COVERS.get(f, []), "covered_by": covered_by.get(f, []),
         }
     index = {
@@ -363,11 +394,12 @@ def build_roleset(roleset):
                  "seniority_range": [R4(min(sen_raw)), R4(max(sen_raw))],
                  "shares": {"balanced": True, "cap": balance.CAP, "small": balance.SMALL, "defining_share": balance.DEFINING_SHARE, "defining_lift": balance.DEFINING_LIFT,
                             "note": "Every share is company-balanced: a posting carries weight w, so that one employer counts for at most cap of a role."},
+                 "entry": ENTRY_META,
                  "files": files, "evidence": f"graph_{roleset}/_evidence.json"},
         "sectors": sectors,
         "funds": [{"id": f["id"], "name": f["name"], "type": f["type"], "parent": f.get("parent")} for f in funds.values()],
         "clusters": T["clusters"], "families": dict(R.FAMILY_LABELS), "levels": levels, "level_labels": R.LEVEL_LABELS,
-        "ladders": {k: {**v, "n": sum(1 for j in jobs if j["ladder"] == k)} for k, v in R.LADDERS.items()},
+        "ladders": {k: {**v, "n": sum(1 for j in jobs if j["ladder"] == k), "entry": entry_counts([j for j in jobs if j["ladder"] == k])} for k, v in R.LADDERS.items()},
         "groups": [{"id": g, "label": label, "families": fs} for g, (label, fs) in R.GROUPS.items()],
         "roles": roles_out, "skills": nodes, "edges": edge_list, "jobs": [],
     }

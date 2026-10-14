@@ -47,7 +47,9 @@ ROLE_SETS = {
             "geo": lambda j, title: _geo().country(j.get("location", ""), title, j.get("url"), j.get("ats")),
             "family": lambda title, j: roles_mba.family(title, j.get("category"), j.get("company")),
             "level": lambda title, company, j: roles_mba.level(title, company, j.get("category"), j.get("industry"), j.get("family")),
-            "ladder": lambda title, company, j: roles_mba.ladder(title, company, j.get("category"), j.get("industry"), j.get("family"))},
+            "ladder": lambda title, company, j: roles_mba.ladder(title, company, j.get("category"), j.get("industry"), j.get("family")),
+            # who enters at the posting (roles_mba.entry): read from the title, the employer and the cleaned text
+            "entry": lambda title, company, j, lvl, text, yoe: roles_mba.entry(title, company, j.get("category"), j.get("industry"), j.get("family"), lvl, text, yoe)},
 }
 
 
@@ -319,6 +321,7 @@ def tag_posting(item):
         "desc_chars": len(desc),
         **({"category": j["category"]} if j.get("category") else {}),
         **({"ladder": cfg["ladder"](title, company, ctx)} if "ladder" in cfg else {}),
+        **(dict(zip(("entry", "intern", "entry_src"), cfg["entry"](title, company, ctx, lvl, cleaned, yoe))) if "entry" in cfg else {}),
         **({"open": not j.get("closed"), "first_seen": j.get("first_seen"), "last_seen": j.get("last_seen")} if cfg.get("backlog") else {}),
     }
     return job, found, stage_mentions(desc)

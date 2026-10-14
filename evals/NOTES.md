@@ -766,10 +766,10 @@ Yello (Kearney). Repaired: Two Sigma, Truist Securities, Silicon Valley Bank, La
 - The product map still drops closed postings (its interface cannot hide them yet), and its next scrape will
   bring more Workday postings.
 
-**MBA entry level is not one rung** (researched, not built). A strategy house hires an MBA as Consultant or
-Associate (`mid`), Deloitte as Senior Consultant (`senior`), an investment bank as Associate (`mid`), private
-equity as Senior Associate or VP; a McKinsey "Associate" is post-MBA and a BCG "Associate" is pre-MBA. The
-proposal is a per-posting mark from a table of firm titles, not a change of levels.
+**MBA entry level is not one rung** (built on the same day: see "Entry mark" below). A strategy house hires an
+MBA as Consultant or Associate (`mid`), Deloitte as Senior Consultant (`senior`), an investment bank as Associate
+(`mid`); a McKinsey "Associate" is post-MBA and a BCG "Associate" is pre-MBA. The answer is a per-posting mark
+from a table of firm titles, not a change of levels.
 
 ## Skill depth pilot (2026-10-12 to 13)
 
@@ -945,3 +945,83 @@ regenerated from the merged code (26,887 US postings; `run_pipeline.py` 2,255 pa
 both calibrations rerun. MBA bands: in range from 55%, like the role from 74%, related per group 21% to 39%;
 same-role above other-field 89%, above adjacent 77%. Product bands: 33%, 51%, 69%.
 
+
+
+## Entry mark: who enters at a posting (2026-10-13)
+
+Question from the owner: which level is "entry" for an MBA graduate? Research (2026-10-12, firm pages and our
+postings) says it is not one level per ladder. So levels stay, and each posting gets a mark: `entry` (`mba`,
+`pre_mba`, null), `intern` (true or false), `entry_src` (the evidence). Rules and table: `pipeline/entry_mba.json`,
+`roles_mba.entry()`. Eval: `evals/entry_mba.json`, `run_pipeline.py --only entry`.
+
+**Counts (measured, 26,887 US postings).** In brackets: postings where the posting itself says who it is for.
+
+| ladder | MBA job | MBA internship | pre-MBA job | pre-MBA internship |
+|---|---|---|---|---|
+| corporate | 31 (31) | 146 (145) | 260 (260) | 289 (289) |
+| bank | 161 (8) | 46 (42) | 161 (76) | 67 (67) |
+| consulting | 143 (4) | 12 (3) | 71 (56) | 45 (38) |
+
+25,455 postings have no mark. 331 employers have a marked posting, 133 an MBA mark.
+
+**The main finding: two kinds of mark.** Only 43 full-time postings say they are for new MBA graduates.
+Firms hire MBAs through the internship and through school portals. The other 292 full-time MBA marks are
+grade marks: the title is the grade an MBA joins at. 109 of the 143 on the consulting ladder are Deloitte
+"Senior Consultant" postings, most of them for experienced hires in one practice. 153 are investment-bank
+"Associate" postings. So `entry_src` matters: `title` and `text` mean "posted for", `firm` and `category` mean
+"the grade". The index gives both numbers. An interface that shows the grade marks as "MBA jobs" is wrong.
+
+**Eval (measured).** 231 labelled rows: 172 pass, 0 fail, 1 known miss, 60 unsure rows not counted (19 of them
+differ). The labels were written first by a model reader that had the spec and the research, not the code. The
+rules were then written by someone who had seen the labels, on the full data. "All pass" is optimistic.
+
+**Precision, by reading samples (measured; the reader was the author of the rules, one posting per employer).**
+
+- Text, MBA: first read 33, 3 wrong (experienced jobs: "earned or pursuing an MBA", "may include pursuing an
+  MBA", "working towards CPA and/or MBA"). Patterns tightened. Second read, new seed, 31 of 61 postings: 0 wrong;
+  4 are open to MBA and other graduate students alike.
+- Text, pre-MBA: first read 60, 1 wrong (a legal line with "entry level job seekers") and 2 doubtful (internships
+  for master's or MBA students). Second read 45: 1 wrong (a programme for people who leave the military), 1 doubtful.
+- Title, pre-MBA, full-time: about 120 titles read, about 7 doubtful (a retail store programme, a branch trainee,
+  fund "Associate 2027" classes that ask for banking years, two Amazon 2027 programmes that may be for MBAs).
+- Category, investment-bank Associate: 24 read with their text. The grade is right in all 24. None is written
+  for new MBA graduates. 6 name an MBA as a way in. 5 ask for experience at the associate grade. After that a
+  posting that asks for more than 3 years gets no mark from the default (53 postings dropped).
+- A plain "MBA" in the text is not used. Only a line about a degree in progress or a graduation year counts,
+  and not when the line says "preferred", "a plus", "desired" or "post-MBA".
+
+**What the research says and our postings do not support (measured). No rule was built for these.**
+
+- Brand management. 43 "Associate Brand / Marketing Manager" postings. The campus and internship postings say
+  MBA (General Mills, Keurig Dr Pepper, Mondelez). The others ask for a bachelor's degree and 1 to 5 years, "MBA
+  preferred". The title alone is not an MBA mark.
+- Private equity. Fund "Senior Associate" postings ask for a bachelor's degree and 2 to 7 years; fund "Analyst"
+  postings ask for 1 to 3 years. No default. One labelled row ("Private Equity Analyst", Blackstone) is a known miss.
+- Big Four other than Deloitte, Accenture, asset managers, commercial banks, venture capital: no default. The
+  Accenture "Consultant" postings ask for a bachelor's degree and 3 years.
+- Strategy houses have a default for the analyst grade only. "Associate" and "Consultant" need a firm row.
+- William Blair and AlixPartners, named in the research, were already right after the backlog change.
+
+**Level rules changed (41 US postings move).** (1) "Sr. Associate" and "Sr. Consultant" are read as "Senior" on
+the bank and consulting ladders: 40 postings go from `mid` to `senior`. (2) In a title with "MBA", a grade word
+before "Program" is part of the programme's name: "MBA Investment Director Program" goes from `director` to `mid`.
+Six labelled titles were added for these (`titles_mba.json`, set `entry-mark-2026-10-13`). The old title eval
+still passes.
+
+**Level rules not changed, and why.** BCG "Associate" stays `mid`: three labelled titles say so, and the mark
+now says `pre_mba`. Internships stay on the lowest level; the mark tells MBA internships apart. Programmes
+(`ldp`) stay `associate`: whether an MBA programme is `associate` or `mid` is a product decision. Oliver Wyman
+postings on the Marsh & McLennan board stay on the corporate ladder: the ladder comes from the registry employer.
+
+**What each choice costs.**
+
+- Grade marks make Deloitte and the banks look rich in MBA jobs. Counter: the `posted` number and `entry_src`.
+- null means "experienced hire or no evidence". A real entry job with a plain title and a text without student
+  words gets no mark. Recall was not measured.
+- A posting for PhD graduates only gets no mark, also where the firm treats a PhD as an MBA hire.
+- A programme or an internship with no audience in title or text is read as pre-MBA. Some are for MBAs.
+- `intern` misses a title where a word stands between "Summer" and the grade (2 postings).
+
+**What stays uncertain.** The Kearney and Oliver Wyman rows rest on secondary sources (`basis` in the table).
+Bain and L.E.K. have no US consultant postings in the data, so their rows are tested on written titles only.
+Titles are the US autumn 2026 cycle. One reader made the labels; 60 of 231 rows are unsure.

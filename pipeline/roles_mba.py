@@ -5,6 +5,8 @@ Product Manager (#23) and Product Strategy Manager (#24) are the `pm` family of 
 (data/raw/jobs) and Product Marketing Manager (#31) its `pmm` family, so they are classified here but not
 scraped again; technical program managers are likewise left to the product scrape.
 """
+import json
+import os
 import re
 
 from pipeline import roles
@@ -339,7 +341,7 @@ CONSULTING_GRADES = [
     ("vp", r"(?<!associate\s)\bpartner\b|\bmanaging\s+director\b|\bsenior\s+partner\b"),
     ("director", r"\bprincipal\b(?!\s+invest)|\bassociate\s+partner\b|\bdirector\b"),
     ("staff", r"\b(engagement\s+manager|project\s+leader|senior\s+manager|case\s+team\s+leader)\b"),
-    ("senior", r"\b(manager|senior\s+consultant|senior\s+associate|consultant\s+ii+)\b"),
+    ("senior", r"\b(manager|(senior|sr\.?)\s+consultant|(senior|sr\.?)\s+associate|consultant\s+ii+)\b"),
     ("associate", r"\b(business\s+analyst|analyst|associate\s+consultant)\b"),
     ("mid", r"\b(consultant|associate)\b"),
 ]
@@ -349,7 +351,7 @@ BANK_GRADES = [
     ("vp", r"\bmanaging\s+director\b|\b(general|managing)\s+partner\b|(?<!business\s)(?<!people\s)\bpartner\b(?!\s+(manager|sales|success|marketing))"),
     ("director", r"\bexecutive\s+director\b|\bdirector\b|\bsenior\s+vice\s+president\b|\bSVP\b|\bprincipal\b(?!\s+(associate|invest))"),
     ("mid", r"\b(assistant|associate)\s+vice\s+president\b|\bAVP\b"),
-    ("senior", r"\bvice\s+president\b|\bVP\b|\bsenior\s+associate\b"),
+    ("senior", r"\bvice\s+president\b|\bVP\b|\b(senior|sr\.?)\s+associate\b"),
     ("mid", r"\bassociate\b"),
     ("associate", r"\banalyst\b"),
     ("senior", r"\b(senior|sr\.?)\b"),
@@ -374,6 +376,9 @@ BANK_RE = [(l, re.compile(p, re.I)) for l, p in BANK_GRADES]
 CORPORATE_RE = [(l, re.compile(p, re.I)) for l, p in CORPORATE_GRADES]
 # "Chief of Staff to the Head of Sales" is one job at one grade: the office it serves is not its level
 COS_RE = re.compile(r"\b(deputy\s+)?chief\s+of\s+staff\b(\s*(,|to|-|–|for)\s+.*)?$", re.I)
+# "MBA Investment Director Program": the grade word names the programme, not the participant's grade
+MBA_RE = re.compile(r"\bMBA\b", re.I)
+PROGRAM_GRADE_RE = re.compile(r"\b(director|manager|lead|leader)\s+(development\s+)?program(me)?\b", re.I)
 
 # The name of each level on each ladder. Corporate names are the default (LEVEL_LABELS).
 LADDERS = {
@@ -406,10 +411,93 @@ def level(title, company=None, category=None, industry=None, fam=None):
     if fam == "ldp" and not re.search(r"\b(director|manager|lead|head|vp|vice\s+president)\b", t, re.I):
         return "associate"  # a programme participant, whatever the programme is called
     t = COS_RE.sub("CoS", t)
+    if MBA_RE.search(t):
+        t = PROGRAM_GRADE_RE.sub("program", t)
     for l, rx in {"bank": BANK_RE, "consulting": CONSULTING_RE, "corporate": CORPORATE_RE}[which]:
         if rx.search(t):
             return l
     return "mid"
+
+
+# ---- Entry mark ---------------------------------------------------------------------------------------------
+# Who enters at a posting: an MBA graduate ("mba"), a bachelor's or non-MBA master's graduate ("pre_mba"), or
+# neither (None: an experienced-hire job, or no evidence). It is a second fact beside the level, not a level:
+# an MBA joins McKinsey as Associate (mid), Deloitte as Senior Consultant (senior) and a bank as Associate (mid),
+# and "Associate" is the undergraduate grade at BCG. The table of firm titles, the category defaults and the
+# words read in titles and texts are data: pipeline/entry_mba.json, with the source of every row.
+ENTRY = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "entry_mba.json")))
+ENTRY_VALUES = tuple(ENTRY["values"])
+ENTRY_SOURCES = tuple(ENTRY["sources"])
+_rx = lambda p: re.compile(p, re.I)
+_ENTRY_FIRMS = {f["firm"].lower(): [(_rx(t["pattern"]), t, t.get("families", f.get("families", ["management_consultant"]))) for t in f["titles"]] for f in ENTRY["firms"]}
+_ENTRY_CATS = {c["category"]: (set(c["families"]), [(_rx(t["pattern"]), _rx(t["not"]) if t.get("not") else None, t) for t in c["titles"]], c.get("max_yoe")) for c in ENTRY["categories"]}
+_ET = {k: _rx(v) for k, v in ENTRY["title"].items() if k not in ("note", "no_mark_levels")}
+_EX = {k: _rx(v) for k, v in ENTRY["text"].items() if k in ("student", "mba", "mba_not", "undergrad", "weak", "weak_not")}
+
+
+def _strip_firm(t, company):
+    first = company.split()[0] if company else ""
+    return t[len(first) + 1:] if len(first) >= 4 and t.lower().startswith(first.lower() + " ") else t
+
+
+def _text_audience(text):
+    """"mba" or "pre_mba" when a line of the text says who the posting is written for, else None."""
+    found = None
+    for m in _EX["student"].finditer(text):
+        a, b = text.rfind("\n", 0, m.start()) + 1, text.find("\n", m.end())
+        line = text[max(a, m.start() - 200):min(b if b >= 0 else len(text), m.end() + 200)]
+        if _EX["mba"].search(line):
+            if _EX["mba_not"].search(line):
+                continue
+            if not _EX["undergrad"].search(line):
+                return "mba"
+        found = "pre_mba"
+    return found
+
+
+def entry(title, company=None, category=None, industry=None, fam=None, lvl=None, text=None, yoe=None):
+    """(entry, intern, source) of a posting: entry is "mba", "pre_mba" or None; intern is True for an internship,
+    a co-op or a summer programme; source is the kind of evidence that decided ("firm", "title", "text", "category").
+
+    Order: a job about students or for PhD graduates only is not marked; the firm's own titles; a title that names
+    the audience (MBA, undergraduate); a line of the text that says who the posting is for; the default of the
+    employer's category for the grade; "Summer Associate"; a text that asks for no experience; campus words.
+    "title" and "text" mean the posting is written for that audience. "firm" and "category" mean the title is the
+    grade at which that audience joins; such a posting may also be open to experienced hires.
+    """
+    t0 = title or ""
+    fam = fam or family(t0, category, company)
+    lvl = lvl or level(t0, company, category, industry, fam)
+    t = _strip_firm(t0, company)
+    intern = bool(_ET["intern"].search(t))
+    says_mba = bool(_ET["mba"].search(t)) and not _ET["mba_not"].search(t)
+    if _ET["not_for_them"].search(t) or (_ET["phd"].search(t) and not says_mba):
+        return None, intern, None
+    for rx, row, fams in _ENTRY_FIRMS.get((company or "").lower(), ()):
+        if (fams is None or fam in fams) and rx.search(t):
+            return row["entry"], row.get("intern", intern), "firm"
+    if _ET["pre"].search(t) and not _ET["campus_not"].search(t):
+        return "pre_mba", intern, "title"
+    if says_mba:
+        return "mba", intern, "title"
+    if lvl in ENTRY["title"]["no_mark_levels"]:
+        return None, intern, None
+    if text and (intern or lvl in ENTRY["text"]["student_levels"]):
+        who = _text_audience(text)
+        if who:
+            return who, intern, "text"
+    fams, rows, max_yoe = _ENTRY_CATS.get(category, ((), (), None))
+    if fam in fams and not (max_yoe is not None and yoe is not None and yoe > max_yoe):
+        for rx, no, row in rows:
+            if rx.search(t) and not (no and no.search(t)) and row.get("level", lvl) == lvl:
+                return row["entry"], row.get("intern", intern), "category"
+    if _ET["summer_associate"].search(t):
+        return "mba", True, "title"
+    if text and lvl in ENTRY["text"]["weak_levels"] and not _EX["weak_not"].search(t) and _EX["weak"].search(text):
+        return "pre_mba", intern, "text"
+    if (intern or _ET["campus"].search(t) or fam == "ldp") and not _ET["campus_not"].search(t):
+        return "pre_mba", intern, "title"
+    return None, intern, None
 
 
 # ---- Groups, and roles that count for another role -------------------------------------------------------------
@@ -472,7 +560,11 @@ def export():
             "'employer_rules'[category] that matches. For a big employer the result counts only when the title matches 'deal' or 'campus_rank'.",
             "6. Still no role: 'last_resort'.family when the title matches its pattern.",
             "7. Level: pick the ladder ('ladders'.*.applies), replace a chief-of-staff phrase ('chief_of_staff') with 'CoS', then the first grade whose pattern matches; none: 'mid'. "
-            "An ldp title with no manager word ('ldp_staff') is 'associate'.",
+            "An ldp title with no manager word ('ldp_staff') is 'associate'. In a title that matches 'mba_word', a match of 'program_grade' is replaced by 'program' before the grades are read.",
+            "8. Entry mark (who enters at this title: 'mba', 'pre_mba' or none; with intern true or false and the source of the evidence): see 'entry'.about and its notes. "
+            "Order: no mark when the title matches entry.title.not_for_them, or entry.title.phd without an MBA word; the firm's row in entry.firms (company name, role in the row's families, default management_consultant; "
+            "the title without the firm's first word); entry.title.pre, then entry.title.mba; no mark on entry.title.no_mark_levels; a student line of the text (entry.text); "
+            "the row of entry.categories for the employer's category, role and level; entry.title.summer_associate; a weak line of the text; campus words, an internship or the ldp role.",
         ],
         "flags": "i",
         "groups": [{"id": g, "label": label, "families": fs} for g, (label, fs) in GROUPS.items()],
@@ -496,6 +588,8 @@ def export():
                     "keep": roles.KEEP_RE.pattern, "nonproduct": roles.NONPRODUCT_RE.pattern, "food": roles.FOOD_RE.pattern,
                     "product_manage": r"\bproduct\s+manage"},
         "levels": LEVEL_ORDER, "level_labels": LEVEL_LABELS,
+        "mba_word": MBA_RE.pattern, "program_grade": PROGRAM_GRADE_RE.pattern,
+        "entry": ENTRY,
         "chief_of_staff": COS_RE.pattern, "ldp_staff": r"\b(director|manager|lead|head|vp|vice\s+president)\b",
         "ladders": {
             "bank": {**LADDERS["bank"], "applies": {"categories": sorted(BANK_CATEGORIES), "industries": sorted(BANK_INDUSTRIES), "companies": sorted(BANKS)},
