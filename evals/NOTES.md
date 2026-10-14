@@ -1085,13 +1085,14 @@ topics is drafted in `data/experiments/depth/permission_request.md` for the owne
 empty until a source is agreed. Six drafting requests of the pilot got no answer (no credit); rerun
 `python -m pipeline.build_steps run` when credit is there.
 
-## The interface around journeys, step 1 (2026-10-13)
+## The interface around journeys (2026-10-13, steps 1 to 5)
 
-Branch `feat/ui-journeys`. The web app is rewritten as pages (`web/atlas.js`, `web/app.js`, `web/index.html`,
-`web/style.css`); `web/match.js` is untouched. Decisions by the owner: a first-visit choice, three questions plus an
-optional resume, Explore as fields sized by open postings with Product opening the product role set, the skill grid
-(rows by share tier, two columns by level growth), the fit as a band scale, level and employer filters in the chip row
-with the rest behind "More", a side panel on desktop, and no phone layout at all.
+Branches `feat/ui-journeys` (step 1), `feat/ui-fit` (2), `feat/ui-events` (3), `feat/ui-filters` (4) and
+`feat/ui-notes-acted` (5), each on the one before. The web app is rewritten as pages (`web/atlas.js`, `web/app.js`,
+`web/index.html`, `web/style.css`); `web/match.js` is untouched. The owner's decisions: a first-visit choice, three
+questions plus an optional resume, Explore as fields sized by open postings with Product opening the product role set,
+the skill grid (rows by share tier, two columns by level growth), the fit as a band scale, level and employer filters
+in the chip row with the rest behind "More filters", a side panel on desktop, and no phone layout at all.
 
 **Measured, and it shaped the grid.** Over the whole role, the share of a skill barely moves with level for most
 skills. Skills asked at least 1.5 times as often in leadership postings (and in at least 15% of them) as in entry
@@ -1100,88 +1101,53 @@ marketing manager 31 of 77, supply chain 24 of 81, product manager 27 of 66. Ski
 leadership: 1 to 11 per role (Office suite, pitch books, data-driven decision making). So level is a two-way split and
 a filter, not an axis: a seniority axis spread the dots over nothing.
 
-**Not built yet, for the next steps.** The three questions and the resume reader (step 2); the band of fit shown as
-a four-step scale, with plain words for a group that has no bands (`bands_mba.json` `no_bands`); the course check and
-the event screens (step 3); industry, employer and location filters behind "More filters" (step 4). What the matcher
-does not return and the journeys need will be listed here as each step is built.
-
-**Known.** The product set has no defining skills (`defining` is computed for the MBA roles only; the product families
-ask for the same things), so no ◆ appears on product roles. The product set is one 8.9 MB file, fetched when the
-Product field or a product role is opened; the Explore screen shows its count once the file arrives.
-
-## The interface around journeys, step 2: the questions and the fit (2026-10-13)
-
-Branch `feat/ui-fit` on top of `feat/ui-journeys`. `web/match.js` untouched.
+**Defining skills in both sets.** The MBA build marks a role's defining skills (share at least 0.8, at least 2.5 times
+the mean share over the 50 roles). The product build does not, so the interface applies the same rule to the six product
+families against the same baseline: Product Marketing Manager gets go-to-market strategy and positioning & messaging,
+Product Owner gets agile & scrum, the other four families none (their most asked skills, roadmapping and product
+strategy, sit at 0.6 to 0.75 of postings). The mark means the same thing on both sides.
 
 **How the fit is made.** `Atlas.matcher(R)` creates the matcher per role the way `evals/calibrate.mjs` does: the MBA
 set with `bands_mba.json` `scoring.distinct` plus a `baseline` of the mean share of each skill over the 50 roles
-(computed from `by_family` in the index, so no role file beyond the one opened is loaded); the product set with the
-whole product graph and `scoring.distinct` null. The target is the postings in the current view (level and employer
-chips); `familyJobs` is the whole role. The band is `Matcher.bandOf(overall, bands, group)` with the group from
-`bands_mba.json` `group_of`.
+(from `by_family` in the index, so only the role's own file is loaded); the product set with the whole product graph
+and `scoring.distinct` null. The target is the postings in the current view (every filter); `familyJobs` is the whole
+role. The band is `Matcher.bandOf(overall, bands, group)` with the group from `bands_mba.json` `group_of`. The
+interface writes its own plain words for the two slots that stand for a group of skills (`__domain`: which industries
+the postings are in; `__ai`: which AI skills), and never offers a slot as a skill card. Presumed skills are painted
+neither green nor amber, and their sub-skills are not ticked, because the resume shows none of them. The four level
+steps map onto the matcher's four ladder keys; the entry mark is a filter on the postings, not a scoring input.
 
-**The rough read on Explore** (`Atlas.roughFit`) is not the matcher's score: it is the share of a role's main asks
-(share at least 0.5, plus the defining skills) the resume shows at strength 2 or more, from the index alone, plus the
-roles the title reader says the person held. It ranks; it never shows a band. A role with a rough read of 0.6 or more
-gets "your resume reads close to it" on the field screen. Not evaluated; it should get an eval when the fields it
-picks can be compared with the full matcher's bands across the 50 roles (cost: 29 MB of role files per resume).
+**The rough read on Explore** (`Atlas.roughFit`) picks the fields and marks roles from the index alone, with no role
+file. It has the shape of the full score (core asks count twice, common once, each weighed by share and by
+distinctiveness against the baseline; a mention earns half credit, a line of work full credit), without the transfer
+vocabulary, the presumed skills, the industry slot and the depth reading. `node evals/rough_fit.mjs` measures it
+against the full matcher on 59 resumes (the in-repo samples and 45 published ones; `rough_fit.md` is the report):
+median Spearman over the 50 roles 0.80; the full matcher's top role is in the rough top 5 for 80% and its field in the
+rough top 3 fields for 85%; a published sample's own role is in the rough top 5 for 58% and its field in the top 3 for
+84%. The first version (the plain share of core asks shown) measured 0.64, 64% and 76%; the shape of the score is what
+moved it. The check fails below a median of 0.7 or a top-5 rate of 70%.
 
-**What the journeys need that the matcher does not return (for the matcher thread).**
-- The `__domain` and `__ai` slots come back with the names "Industry fit" and "AI literacy"; the fit screen writes
-  its own plain words for them (which industries, which AI skills). A `members` list on the row would make that
-  generic.
-- Presumed skills have no sub-skill reading, so the skill card cannot tick their sub-skills.
-- No per-course read: step 3 (check a course) will call `tag()` on the syllabus text and compare the skills found
-  with the role's grid; what is missing is a reading of a syllabus as a course (a course line is a mention for an
-  experienced person, see the 2026-10-13 entry above), so the course check will read the text as a student's.
-- The level option is one of four ladder keys; the fit screen maps the four level steps onto them, so an MBA
-  student who picks "Analyst / associate" on a bank ladder is scored at the associate bar. The entry mark
-  (`entry: "mba"`) is not used by the matcher.
+**Check a course** reads the text with the resume reader and counts every mention, and a sub-skill pattern hit
+counts for its parent (the matcher keeps a sub-skill-only hit as a hint): "working capital" names cash & liquidity
+management through its sub-skill. A course that teaches a skill in words neither the skill nor its sub-skills use is
+missed; the patterns are tuned on postings. The last course read stays in the browser's local storage. There is no
+course catalogue: one text at a time.
 
-**Checked in the browser.** The questions, a dropped PDF (262 words read) and a dropped DOCX, the Explore chip
-"Fields that fit you", the field marks, the fit screen for an MBA role (in range), a group without bands (compliance:
-the notice, no verdict), a product role (different field so far), the painted grid, light and dark.
+**Prepare for an event.** No event data exists: "who will be in the room" is the field's roles sorted by open
+postings, "employers hiring now" is counted from the field's postings (every role file of the field is loaded, 2 to
+6 MB). What sets a role apart is its defining skills; a role without them (23 of 50) shows its most asked skills that
+are not generic. Generic is measured, not listed: a skill asked by most postings of at least half of the 50 roles
+(communication, collaboration, ownership, execution, stakeholder management, cross-functional leadership, influence,
+structured problem solving). The roundtable runs the full matcher on every role of the field, so a skill said in
+another field's words shows with "say it like" and the roles the person held count; the hackathon list and "what to
+say about yourself" use the rough read. Build steps exist for the 64 shared skills; the MBA-only skills get theirs
+when the depth pipeline publishes (the depth thread), and the screen says so per skill until then.
 
-## The interface around journeys, step 3: a course, an event (2026-10-13)
+**Filters.** Level, "Graduates and interns" (the entry mark or an internship; MBA set only) and employer type in the
+row; industry, employer and location behind "More filters"; every count reflects the other filters; the fit and the
+course screens read the same view. Dropped for good: investor, funding stage, years asked for, specialisation and
+degree. The product set's "Startup (unclassified)" sector is left out of the industry chips.
 
-Branch `feat/ui-events` on top of `feat/ui-fit`. Both screens run on data that exists; nothing new was built in the
-pipeline. What is missing, for the next thread:
-
-**Check a course.**
-- The reader is the resume reader (`parseResume` + `tag`) with every mention counted. A syllabus is not a resume: its
-  lines are topics, weeks and learning outcomes, and the course name, code and credits carry meaning the reader drops.
-  A course reader would read "Week 3: variance analysis" as a topic with weight, and a learning outcome ("students
-  will build a three-statement model") as evidence of depth. Not built.
-- A course that teaches a skill without naming it the way postings do is missed ("working capital" for cash and
-  liquidity management is caught; "the time value of money" for financial modelling is not). The taxonomy patterns
-  are tuned on postings, not on syllabi. A sample of real syllabi with labels would show the recall; none is in the
-  repository.
-- No course catalogue: a student cannot pick a course by name. The screen reads one text at a time and keeps the
-  last one in memory only (not in local storage).
-- Sub-skill shares in the course result come from the role's postings, not from the course text.
-
-**Prepare for an event.**
-- No event data. "Who will be in the room" is the field's roles sorted by open postings; "employers hiring now"
-  is counted from the field's postings (every role file of the field is loaded for it, 2 to 6 MB). A real guest list
-  or a list of attending employers would replace both.
-- "What sets a role apart" is the role's defining skills; 23 of 50 roles have none and fall back to the most asked
-  skills that are not generic to every role (a fixed list in `app.js`: the soft skills, cross-functional leadership,
-  execution, program management, process design, stakeholder management, office suite, data-driven decisions,
-  metrics, people management). That list is a judgment, not a measurement.
-- Roundtable lines come from the rough read (`Atlas.roughFit`), which keeps the evidence lines per skill; the full
-  matcher's reading (transferable skills, presumed skills, depth) is not used, so a skill said in another field's
-  words is a gap here and evidenced on the fit screen.
-- Hackathon build steps exist for 64 shared skills only; the MBA-only skills have none until the depth pipeline
-  publishes (see "Skill depth for the MBA skills" in PLAN.md). The screen says so per skill.
-- The product field uses the product graph for employers; its families have no defining skills, so "ask about"
-  falls back to the most asked non-generic skills for every product family.
-
-## The interface around journeys, step 4: the filters (2026-10-13)
-
-Branch `feat/ui-filters` on top of `feat/ui-events`. Industry, employer and location moved behind "More filters" on
-the role screen (owner's choice 7A); investor, funding stage, years asked for, specialisation and degree are gone
-(the audit: analyst cuts, or what the skills already show). Counts on every chip reflect the other filters, as in the
-old rail; the fit and the course screens score against the same view, and the fit label names the extra filters.
-Not built: a filter on the entry mark (postings for MBA graduates or interns only); the list already sorts them
-first, and the mark's precision is in the entry-mark entry above. The product set's "Startup (unclassified)" sector
-is left out of the industry chips.
+**Checked in the browser.** Every screen, light and dark, a dropped PDF and a dropped DOCX, an MBA role in range, a
+group without bands (compliance: the notice, no verdict), a product role, a pasted syllabus, the three event screens
+with a stored resume, the filters narrowing to one posting.
