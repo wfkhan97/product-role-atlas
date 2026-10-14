@@ -1,6 +1,6 @@
 # Calibration for the MBA role set: what a match score means
 
-Produced by `node evals/calibrate.mjs --roles mba` on 2026-10-13 from 304 published sample resumes in `evals/resumes/external/` (the files are not in the repository; see `external_sources.json`). Each is scored against the 50 role families of the MBA graph (US postings, all levels). 281 were written for one of these roles. The role a sample was written for is the answer key. Adjacent roles are the other roles of the same group (11 groups, from `web/data/roles_mba.json`); roles of other groups are another field. An ask counts by how distinctive it is for the role (`distinct`: an ask that the role's postings set no more often than the mean of all roles keeps 0.2 of its weight; one set 2 times as often or more keeps all of it).
+Produced by `node evals/calibrate.mjs --roles mba` on 2026-10-14 from 304 published sample resumes in `evals/resumes/external/` (the files are not in the repository; see `external_sources.json`). Each is scored against the 50 role families of the MBA graph (US postings, all levels). 281 were written for one of these roles. The role a sample was written for is the answer key. Adjacent roles are the other roles of the same group (11 groups, from `web/data/roles_mba.json`); roles of other groups are another field. An ask counts by how distinctive it is for the role (`distinct`: an ask that the role's postings set no more often than the mean of all roles keeps 0.2 of its weight; one set 2 times as often or more keeps all of it).
 
 ## Score by group of resumes
 
@@ -75,7 +75,7 @@ The same three rules, on the roles of one group. A group with fewer than 10 same
 |---|---|---|---|---|
 | Consulting & strategy | 52 | 31% (30% to 33%) | 49% (23% to 58%) | 64% (59% to 71%) |
 | Finance | 25 | 29% (28% to 31%) | 58% (54% to 58%) | 80% (76% to 83%) |
-| Banking & investing | 34 | 22% (21% to 23%) | 35% (35% to 61%) | 78% (71% to 85%) |
+| Banking & investing | 34 | 22% (21% to 23%) | 35% (35% to 61%) | 78% (70% to 85%) |
 | Operations & general management | 39 | 39% (37% to 41%) | 53% (51% to 62%) | 69% (58% to 77%) |
 | Product | 21 | 26% (25% to 28%) | 71% (33% to 71%) | 64% (58% to 77%) |
 | Marketing | 27 | 23% (22% to 25%) | 55% (45% to 57%) | 72% (67% to 76%) |
