@@ -1084,3 +1084,54 @@ source says what to learn. A request to FINRA and the certification bodies for l
 topics is drafted in `data/experiments/depth/permission_request.md` for the owner to send. Consulting stays
 empty until a source is agreed. Six drafting requests of the pilot got no answer (no credit); rerun
 `python -m pipeline.build_steps run` when credit is there.
+
+## Build steps: the decisions in code, the pilot rerun, what expansion needs (2026-10-14)
+
+Branch `feat/depth-publish`. The owner's decisions of 2026-10-13 are in `pipeline/build_steps.py` and the source
+registry; the pilot's open items are closed. Measured on the same 12 pairs as the pilot.
+
+**What changed.** (1) A licence, an exam or a degree is a step of the role: `build_steps roles` reads every role on
+every ladder, keeps a credential that five employers name in 5% of the entry-level postings, and writes the steps
+by code from the source record (no model): "Study the {outline} from {body}" when the record names an outline,
+"Pass the {exam} from {body}. {access fact}" when the record says a person with no firm can sit it. A degree or
+coursework is listed as an ask with its counts: no source on the list says what a degree contains. (2) A tool is
+not a target unless a passage says what to learn about it; the 356 O*NET "Technology Skills" lines were removed
+from the registry and the "Learn {tool}" template with them. (3) `ladders_on_hold` in the registry holds
+consulting: its pairs get targets but no draft. (4) A title-only source (regulator, certification body) gives its
+title, the outline's name, a link and facts in our own words; the template that quoted a section title is gone.
+(5) Fewer steps is a result. Also: a content step must rest on a passage whose record says it is about the target
+(`about`), and the critic must confirm that the passage says what the target contains, or the step is dropped
+(`critic:content`); a passage that names a public input gives a step labelled "input only". A role-scope target
+needs five employers. The request cap counts answered requests (`--cap`, default 600 over all runs).
+
+**Sources.** `pipeline.build_sources verify` hashes every record (`record_sha256`), fetches the sources a script
+may read (12 O*NET pages, two FAR sections, two PDFs with pypdf, the SBA page), stores the document hash and marks
+each passage found or not. Findings: the two hand-cleaned PDF extractions are replaced by pypdf text with the
+running page headers stripped; one OCC passage (`cashflow`) still spans a page break and is marked not found; sec.gov
+answers 403 to a script without a contact address in the user agent (`--ua`); the SBA guide text the three
+marketing passages came from is no longer at its URL (the page is a hub now), so those passages ground no step
+until the text is found again. The 13 hand-read sources (BLS, FINRA, NASAA, certification bodies) keep no document
+hash: the sites refuse scripts or their terms forbid them.
+
+**Pilot rerun (12 pairs, 60 requests, $0.19).** 98 document targets, 41 with a source. 19 steps drafted, 4 final:
+one DCF practise step (input only, SEC 10-K bulletin), one credit-risk learn step (content, OCC handbook), one pitch
+book practise step (input only) and the same OCC step again under client coverage. Dropped: 5 because the critic
+says the passage does not say what the target contains (the new rule), 4 unsupported, 3 on the SBA passages that
+are gone, 2 read as another skill. Four consulting pairs on hold; HR business partnering has no document target
+with a source now that SHRM and PHR are role steps. Role steps: 57 role-and-ladder pairs name a credential at
+five employers; 17 steps on 10 of them (SIE, Series 63 and 79 for investment and corporate banking; CPA blueprints
+for FP&A, treasury, financial manager and transformation; Six Sigma for operational excellence, supply chain and
+transformation; PHR and SHRM for HR). The other 47 list asks only: a degree in finance (38 pairs), an MBA (26),
+a marketing or supply-chain degree (11 each), CFA (6), PMP (4). `build_steps check` passes on all 21 steps; the
+self-test plants 15 faults and the named check catches each.
+
+**What expansion to every skill needs (measured by `build_steps needs --pairs all`).** 286 skill-and-ladder pairs
+have an entry cell of 30 postings and 8 employers; 28 have no target; only 7 have a document target with a source,
+because sources are mapped to the pilot pairs. 47 document targets pass the demand rule somewhere and have no
+source. The ones that would serve most pairs are broad (dashboard 89 pairs, financial model 83, due diligence 71,
+performance review cycle 58, business case 54). The pilot already found that no source on the allow-list says what
+a DCF, LBO or comps model contains. Expected: a source record takes 20 to 30 minutes by hand (find the page, read
+its terms, store the passages, mark `about`, verify); 20 to 30 records for the targets that a US government or
+regulator document can plausibly ground, about 10 hours, and many targets will stay without one. Model cost for a
+run over every pair with a source: under $5 at the pilot's rate (about $0.03 a pair). The role steps cost nothing
+and are done.

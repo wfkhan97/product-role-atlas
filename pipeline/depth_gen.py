@@ -284,6 +284,17 @@ class Models:
     def cost(self):
         return sum((r["usage"].get("cost") or 0) for r in self.cache.values())
 
+    def per_pair(self):
+        """Mean cost of one pair, from the cache: one draft, and the redraft, omission check, support and swap calls that follow it."""
+        n, c = collections.Counter(), collections.Counter()
+        for r in self.cache.values():
+            if r["model"] in (DRAFTER, CRITIC):
+                n[r["kind"]] += 1
+                c[r["kind"]] += r["usage"].get("cost") or 0
+        if not n["draft"]:
+            return 0.0
+        return sum(c.values()) / n["draft"]
+
 
 # ---- 3. code checks ---------------------------------------------------------------------------------------------
 def claims_of(draft, ladder, source):
@@ -328,18 +339,9 @@ def code_checks(c, p, skill_name, postings):
         hit = [co for co, t in postings if rx.search(t)]
         if len(hit) < SUB_MIN_SHARE * len(postings) or len(set(hit)) < SUB_MIN_EMPLOYERS:
             return ("evidence", f"its patterns match {len(hit)} of {len(postings)} postings at {len(set(hit))} employers")
-    cited = set().union(*(terms(by_id[e][1]["text"]) for e in ev))
-    if c["kind"] == "stmt":
-        # the statement must share a term with the sentences of two different employers: both ask for it
-        per = collections.defaultdict(set)
-        for e in ev:
-            per[by_id[e][1]["company"]] |= terms(by_id[e][1]["text"]) & terms(text)
-        if sum(1 for v in per.values() if v) < STMT_MIN_EMPLOYERS:
-            return ("specificity", "its terms come from one employer's sentence only")
-    own = terms(text) if c["kind"] != "subskill" else terms(text + " " + (c.get("name") or ""))
-    shared = own & cited
-    if len(shared) < 2 or not (shared - terms(skill_name)):
-        return ("specificity", f"names {len(shared)} terms of its evidence ({', '.join(sorted(shared)) or 'none'})")
+    why = specificity(text if c["kind"] != "subskill" else text + " " + (c.get("name") or ""), [(by_id[e][1]["company"], by_id[e][1]["text"]) for e in ev], skill_name, c["kind"] == "stmt")
+    if why:
+        return ("specificity", why)
     sents = [s for s in re.split(r"(?<=[.!?])\s+", text.strip()) if s]
     limit = MAX_WORDS[c["kind"]]
     if any(len(words(s)) > limit for s in sents):
@@ -349,6 +351,23 @@ def code_checks(c, p, skill_name, postings):
     m = BANNED.search(text) or PASSIVE.search(text)
     if m:
         return ("style", f"filler or passive voice: \"{m.group(0)}\"")
+    return None
+
+
+def specificity(text, sentences, skill_name, two_employers):
+    """The rule a claim's wording must pass, shared with evals/run_depth.py. sentences: [(employer, text)]. A statement
+    must share a term with the sentences of two different employers (both ask for it), and any claim must name two
+    terms of its evidence, not only the words of the skill's name. Returns the reason it fails, or None."""
+    cited = set().union(*(terms(t) for _, t in sentences)) if sentences else set()
+    if two_employers:
+        per = collections.defaultdict(set)
+        for co, t in sentences:
+            per[co] |= terms(t) & terms(text)
+        if sum(1 for v in per.values() if v) < STMT_MIN_EMPLOYERS:
+            return "its terms come from one employer's sentence only"
+    shared = terms(text) & cited
+    if len(shared) < 2 or not (shared - terms(skill_name)):
+        return f"names {len(shared)} terms of its evidence ({', '.join(sorted(shared)) or 'none'})"
     return None
 
 
@@ -486,6 +505,122 @@ def rejudge(M, tag, model):
         print(f"  first critic {x:6} | {model.split('/')[1]} {y}: {v}")
 
 
+DROP_WHY = {"no evidence": "fewer than 8 postings from 4 employers at this level", "not drafted": "the drafter gave no answer (request failed or not sent)",
+            "drafter": "the drafter found nothing that two employers ask at this level", "evidence": "cites one employer, another level, or a quote not in the sentence",
+            "specificity": "its terms come from one employer, or it names too few terms of its evidence", "style": "sentence length, passive voice or filler",
+            "critic": "the critic finds it unsupported, or in one employer's sentences only", "ladder": "says nearly the same as the rung below",
+            "swap": "read as another level or another skill when shown alone"}
+
+
+def final_rungs(r):
+    """{rung: (status, claim)} for one pair: ok when any round kept the rung, else the last round's reason."""
+    out = {}
+    for rung in RUNGS:
+        if rung not in r["pack"]:
+            out[rung] = ("no evidence", None)
+            continue
+        cs = [c for c in r["claims"] if c["kind"] == "rung" and c["key"] == rung]
+        ok = [c for c in cs if c["status"] == "ok"]
+        if ok:
+            out[rung] = ("ok", ok[-1])
+        elif cs:
+            out[rung] = (cs[-1]["status"], cs[-1])
+        else:
+            out[rung] = ("not drafted", None)
+    return out
+
+
+def final_subskills(r):
+    return [c for c in r["claims"] if c["kind"] == "subskill"]
+
+
+def report(tag):
+    """Release report (PLAN.md step 8): rungs and sub-skills kept per ladder, why the rest were dropped, examples, empty pairs."""
+    d = json.load(open(os.path.join(OUT, f"{tag}.json")))
+    R = d["results"]
+    L = [f"# Skill depth run `{tag}`: {len(R)} skill-and-ladder pairs", "",
+         f"Generated {d['generated']}. Drafter `{d['drafter']}`, critic `{d['critic']}`. Rule: every statement of a rung is asked for by two employers; an empty rung stays empty.", ""]
+    for ladder in ("corporate", "bank", "consulting"):
+        rs = [r for r in R if r["ladder"] == ladder]
+        drafted = [r for r in rs if r["claims"]]
+        rung_status, sub = collections.Counter(), collections.Counter()
+        with_ev = kept = 0
+        no_rungs = []
+        for r in rs:
+            fr = final_rungs(r)
+            for rung, (st, _) in fr.items():
+                rung_status[st] += 1
+                with_ev += st != "no evidence"
+                kept += st == "ok"
+            if r["claims"] and not any(st == "ok" for st, _ in fr.values()):
+                no_rungs.append(r)
+            for c in final_subskills(r):
+                sub[c["status"]] += 1
+        in_drafted = sum(1 for r in drafted for st, _ in final_rungs(r).values() if st != "no evidence")
+        L += [f"## {roles_mba.LADDERS[ladder]['label']} ladder: {len(rs)} pairs, {len(drafted)} drafted", "",
+              f"- Rungs with evidence: {with_ev} of {len(rs) * 4} cells. Kept: **{kept}** ({kept / max(1, with_ev):.0%} of rungs with evidence; {kept / max(1, in_drafted):.0%} of the {in_drafted} in drafted pairs).",
+              f"- Sub-skills: {sub['ok']} kept of {sum(sub.values())} drafted.",
+              f"- Pairs with no rung kept: {len(no_rungs)} of {len(drafted)} drafted.", "", "Why rungs were dropped:", ""]
+        for st, n in rung_status.most_common():
+            if st != "ok":
+                L.append(f"- {st}: {n} — {DROP_WHY.get(st, '')}")
+        L += ["", "Why sub-skills were dropped:", ""]
+        for st, n in sub.most_common():
+            if st != "ok":
+                L.append(f"- {st}: {n} — {DROP_WHY.get(st, '')}")
+        L += ["", "### Three examples", ""]
+        ranked = sorted(drafted, key=lambda r: (-sum(1 for st, _ in final_rungs(r).values() if st == "ok"), -sum(1 for c in final_subskills(r) if c["status"] == "ok")))
+        shown, seen = [], set()
+        for r in ranked:
+            cl = r["skill"].split("_")[0]
+            if cl in seen and len(ranked) > 6:
+                continue
+            seen.add(cl)
+            shown.append(r)
+            if len(shown) == 3:
+                break
+        for r in shown:
+            L += example_md(r)
+        L += ["### Pairs drafted that ended with no rungs", ""]
+        for r in no_rungs:
+            L.append(f"- {r['name']} (`{r['skill']}`): " + "; ".join(f"{k} {st}" for k, (st, _) in final_rungs(r).items() if st != "no evidence"))
+        if not no_rungs:
+            L.append("- none")
+        L += ["", "### All pairs", "", "| Skill | Rungs with evidence | Kept | Dropped (reason) | Sub-skills kept / drafted |", "|---|---|---|---|---|"]
+        for r in sorted(rs, key=lambda r: r["name"]):
+            fr = final_rungs(r)
+            ev = [k for k, (st, _) in fr.items() if st != "no evidence"]
+            ok = [k for k, (st, _) in fr.items() if st == "ok"]
+            dropped = ", ".join(f"{k} ({st})" for k, (st, _) in fr.items() if st not in ("ok", "no evidence"))
+            ss = final_subskills(r)
+            L.append(f"| {r['name']} | {', '.join(ev) or '–'} | {', '.join(ok) or '–'} | {dropped or '–'} | {sum(1 for c in ss if c['status'] == 'ok')} / {len(ss)} |")
+        L.append("")
+    path = os.path.join(OUT, f"{tag}_report.md")
+    with open(path, "w") as f:
+        f.write("\n".join(L) + "\n")
+    print("wrote", path)
+
+
+def example_md(r):
+    by_id = {s["id"]: s for cell in r["pack"].values() for s in cell["sentences"]}
+    L = [f"**{r['name']}** (`{r['skill']}`). Postings per level: " + ", ".join(f"{k} {v['n_postings']} ({v['n_employers']} employers)" for k, v in r["pack"].items()) + ".", "", "Sub-skills kept:", ""]
+    for c in final_subskills(r):
+        if c["status"] == "ok":
+            L.append(f"- *{c['name']}* — {c['example']} Patterns: `{'`, `'.join(c['patterns'] or [])}`. Quote: \"{c['quote']}\" ({', '.join(sorted({by_id[e]['company'] for e in c['evidence'] if e in by_id}))})")
+    L += ["", "Rungs:", ""]
+    for rung, (st, c) in final_rungs(r).items():
+        if st == "ok":
+            emp = sorted({by_id[e]["company"] for e in c["evidence"] if e in by_id})
+            L.append(f"- **{c['rung_name']}**: {c['text']} — evidence from {', '.join(emp)}")
+            for e in c["evidence"][:4]:
+                if e in by_id:
+                    L.append(f"  - ({by_id[e]['company']}; {by_id[e]['title']}) {by_id[e]['text']}")
+        else:
+            L.append(f"- {RUNG_NAMES[r['ladder']][rung]}: empty — {st}: {DROP_WHY.get(st, '')}" + (f" ({c['why']})" if c and c.get("why") else ""))
+    L.append("")
+    return L
+
+
 def listing(jobs, T):
     rows = []
     for sid, s in T.items():
@@ -509,8 +644,11 @@ def main():
     ap.add_argument("--tag", default="pilot")
     ap.add_argument("--workers", type=int, default=6, help="pairs run at the same time")
     ap.add_argument("--rejudge", metavar="MODEL", help="ask another critic the support questions of a finished run")
+    ap.add_argument("--report", action="store_true", help="write the release report of a finished run (--tag) and stop")
     args = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
+    if args.report:
+        return report(args.tag)
     jobs, corpus = load(args.roles)
     T = {s["id"]: s for s in tax.for_roles(args.roles)["skills"]}
     if args.list:
@@ -518,7 +656,8 @@ def main():
     import glob
     depth = {}
     for f in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
-        depth.update(json.load(open(f)))
+        if not f.endswith("_roles.json"):
+            depth.update(json.load(open(f)))
     M = Models(args.dry_run)
     if args.rejudge:
         rejudge(M, args.tag, args.rejudge)
@@ -546,6 +685,9 @@ def main():
     with open(os.path.join(OUT, f"{args.tag}.json"), "w") as f:
         json.dump({"drafter": DRAFTER, "critic": CRITIC, "generated": time.strftime("%Y-%m-%d"), "results": results}, f, indent=1, ensure_ascii=False)
     print("requests sent this run:", dict(M.sent), "| answers cached:", len(M.cache), f"| spend so far: ${M.cost():.2f}")
+    if args.dry_run:
+        print(f"a draft starts a pair: with the critic calls and the redraft that follow, about ${M.per_pair():.3f} per pair at the cached rate, "
+              f"so about ${M.per_pair() * M.sent['draft']:.2f} for the {M.sent['draft']} drafts still missing")
     print("wrote", os.path.join(OUT, f"{args.tag}.json"))
 
 

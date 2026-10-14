@@ -205,10 +205,38 @@ its `note` and in the commit. Do not relabel to make a rule pass.
 so "all pass" is optimistic. Draw a new sample (other seed) to get an honest rate. The golden postings were
 labelled once by one reader each; two readers per posting would show how much the labels themselves vary.
 
+## Content evals for skill depth
+
+The published depth of the MBA skills (`pipeline/depth/mba_*.json`, written by `pipeline.depth_publish`) is checked
+with no model:
+
+```bash
+.venv/bin/python evals/run_depth.py                 # all parts; exit 1 when a check fails
+.venv/bin/python evals/run_depth.py --only evidence # one part: shape, style, specificity, evidence, ladder, subskills, build, roles
+.venv/bin/python evals/run_depth.py --with-corpus   # also check every cited sentence against the posting's text (needs data/experiments/corpus_mba.jsonl)
+.venv/bin/python evals/run_depth.py --baseline      # also rewrite depth_baseline_mba.md (commit it with the change)
+```
+
+| part | what it guards |
+|---|---|
+| shape | Every MBA skill has a definition. Sub-skill ids are unique, their patterns compile and carry no inline flag (the web matcher cannot read one). Ladders and rungs use the known names; a shown ladder has two rungs or more. Every statement, sub-skill and step has provenance, and a rung's text is its statements joined. |
+| style | Definitions, examples, rungs and steps: at most 25 words a sentence (20 for a step), one or two sentences, active voice, no filler; a rung or an example starts with "You". |
+| specificity | A rung statement names at least two content terms of its cited sentences, from two employers. A step names its target or its source. |
+| evidence | Every statement cites two employers. Its postings exist in the processed file, are US postings on this ladder and at this level, and carry the skill. The quote is word for word in a cited sentence. With the corpus: each cited sentence is still in the posting. A sub-skill's patterns match its own cited sentences. |
+| ladder | A higher rung does not say what the rung below says (term overlap under 0.6). |
+| subskills | On the processed file, a sub-skill is tagged in 5% to 50% of the skill's US postings at three employers or more, and is not named like another skill. |
+| build, roles | Every step passes the code checks of `pipeline.build_steps` against its stored provenance (demand, no credential under a skill, no step on a ladder on hold, source on the allow-list with a hash and the passage still found, grounding label, template, quote, licence, vendor, style, duty, exam access, slots only, numbers). At most three steps per ladder, one per kind. Role asks have five employers. |
+
+**What these evals do not show.** The checks measure form and grounding, not truth: a rung says what two employers
+ask at that level, which may still be an odd pair. The critic's judgment (support, swap test) ran once in the
+pipeline and is not rerun here; `pipeline.depth_gen --rejudge` measures how much another critic agrees. The
+sub-skill shares are measured on the same postings the patterns were drafted from.
+
 ## Evals to build
 
 The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a
-model audit and the pipeline evals above (items 1 to 6 of the first list). Still to build, in this order:
+model audit, the pipeline evals and the content evals above (items 1 to 6 of the first list). Still to build, in
+this order:
 
 1. **Matcher evals per role group.** Built for what a resume shows: skill lists for 130 published samples, two or
    three per role, and resume titles to role families (see "Published sample resumes"). Score bands for the MBA roles
@@ -217,9 +245,7 @@ model audit and the pipeline evals above (items 1 to 6 of the first list). Still
 2. **Scoring properties.** A person who held a role at a level scores high against that role at that level and
    below. The score against a lower level is never below the score against a higher level for the same resume.
    Adding a line of evidence never lowers a score (this one exists).
-3. **Content evals for skill depth.** Every definition, ladder rung and build step passes a style check (sentence
-   length, active voice), a specificity check (it names a tool, an artefact or a number from the postings) and an
-   evidence check (its sub-skill patterns match postings; each rung is backed by postings at that level and on
-   that ladder). The pipeline that produces the content is proposed in `PLAN.md`.
+3. **A re-judged sample of depth claims.** 100 published rungs and sub-skills per release, judged again by the critic
+   with a new seed, to measure how many supported claims the first pass let through wrongly (PLAN.md, "Skill depth").
 4. **A fresh sample for titles, entry marks and countries**, labelled and run once without fixing rules on it. For the entry mark also: a second reader, and a sample of marked postings judged with their full text (the precision in `NOTES.md` was read by the author of the rules).
 5. **A second reader for the golden postings**, to measure agreement between labellers.

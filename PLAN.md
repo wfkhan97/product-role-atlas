@@ -151,11 +151,14 @@ BCG. So the levels stay as they are, and each posting gets a second fact.
   our postings contradict it (see `evals/NOTES.md`). The interface is not designed; label text is in
   `meta.entry` of the index.
 
-## Skill depth for the MBA skills (proposed, not built)
+## Skill depth for the MBA skills (built 2026-10-14; the plan below is what was built, with the changes noted)
 
-The 180 MBA skills have a one-line definition. Sub-skills, level ladders and build steps are not written. No
-subject experts are available to review them, so every statement must come from postings and pass automated
-checks. Ladders are specific to an industry. Nothing generic is kept.
+The 180 MBA skills had a one-line definition. Sub-skills and level ladders are now drafted from postings by
+`pipeline/depth_gen.py` and published by `pipeline/depth_publish.py`; build steps come from `pipeline/build_steps.py`
+on two keys (postings name the target, an allow-listed source says what it contains), not from posting sentences
+(step 2 below drafted duties, not ways to learn: `evals/NOTES.md`, "Skill depth pilot"). The content evals of step 8
+are `evals/run_depth.py`. No subject experts are available to review the content, so every statement comes from
+postings and passes automated checks. Ladders are specific to an industry. Nothing generic is kept.
 
 The unit of content is a **claim**: one sentence with the postings that support it. A claim with no support is
 not published.

@@ -22,6 +22,12 @@
   `.venv/bin/python -m pipeline.build_graph --roles mba`, then `.venv/bin/python evals/run_pipeline.py --baseline`, and
   committing `web/data/*mba*` and `evals/pipeline_baseline_mba.md`. Labels in `evals/titles_mba.json`,
   `evals/countries.json` and `evals/golden_mba.json` are the spec; change one only with the reason in its note.
+- The MBA depth files (`pipeline/depth/mba_*.json`) are written by `pipeline.depth_publish` from checked runs, never by
+  hand. A change to them, to `pipeline/build_steps.py`, to `pipeline/build_lexicon.json` or to
+  `data/raw/build_sources.json` means `.venv/bin/python evals/run_depth.py --baseline` and committing
+  `evals/depth_baseline_mba.md`; a change to the sub-skills also means the MBA extract chain above (sub-skills are
+  tagged at extraction). A source record changes only through `pipeline.build_sources verify` (hashes) or by hand
+  with its `date_read` and `terms_note` updated.
 - The raw posting files are a backlog. Never replace one with a fresh scrape and never delete postings from it:
   `pipeline.scrape --refresh` merges. A change to `pipeline.scrape.merge` needs `evals/run_pipeline.py --only backlog`.
 - Every eval that exists for the product roles gets its counterpart for a new role set before that role set is

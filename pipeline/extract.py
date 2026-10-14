@@ -60,7 +60,8 @@ def _geo():
 
 DEPTH = {}
 for _p in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
-    DEPTH.update(json.load(open(_p)))
+    if not _p.endswith("_roles.json"):   # per-role credential steps, not a skill
+        DEPTH.update(json.load(open(_p)))
 # sub-skill id -> (parent skill, regex)
 SUB_RE = {}
 for sid, d in DEPTH.items():
