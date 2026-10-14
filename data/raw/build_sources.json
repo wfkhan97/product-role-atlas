@@ -1,0 +1,4741 @@
+{
+ "_doc": "Sources for build steps. Key 2 of the two-key rule: what a target contains. licence_class: open (text may be kept and quoted), title_only (title, section titles and link; facts are in our own words and are not quotes). Text was collected by hand on the date given. `about` on a passage names the lexicon targets it is about; `use` is content (what the target contains), input (a public input for it) or access (who can take the exam).",
+ "allowed_publisher_classes": [
+  "us_government",
+  "regulator",
+  "certification_body"
+ ],
+ "blocked_vendors": [
+  "Wall Street Prep",
+  "Corporate Finance Institute",
+  "CFI",
+  "Coursera",
+  "Udemy",
+  "LinkedIn Learning",
+  "edX",
+  "Udacity",
+  "Breaking Into Wall Street",
+  "Training The Street",
+  "Kaplan",
+  "Wall Street Oasis",
+  "Mergers & Inquisitions",
+  "Investopedia",
+  "Khan Academy",
+  "HubSpot Academy",
+  "Trailhead",
+  "Skillshare",
+  "Pluralsight",
+  "DataCamp"
+ ],
+ "sources": [
+  {
+   "id": "onet_13_2051",
+   "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine)",
+   "publisher_class": "us_government",
+   "title": "O*NET OnLine summary report 13-2051.00, Financial and Investment Analysts",
+   "short_title": "O*NET summary for Financial and Investment Analysts",
+   "url": "https://www.onetonline.org/link/summary/13-2051.00",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per page, 2 seconds apart",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "O*NET OnLine page, licensed CC BY 4.0 (stated on the page and at onetcenter.org/license_db.html). Attribution line required: 'This page includes information from O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET is a trademark of USDOL/ETA.' Modified text needs the 'has modified' notice. robots.txt allows /link/summary/.",
+   "may_quote": "any passage, with the attribution line",
+   "pairs": [
+    "valuation:bank",
+    "ma_execution:bank"
+   ],
+   "passages": [
+    {
+     "id": "task01",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Advise clients on aspects of capitalization, such as amounts, sources, or timing."
+    },
+    {
+     "id": "task02",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Analyze financial or operational performance of companies facing financial difficulties to identify or recommend remedies."
+    },
+    {
+     "id": "task03",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Assess companies as investments for clients by examining company facilities."
+    },
+    {
+     "id": "task04",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Collaborate on projects with other professionals, such as lawyers, accountants, or public relations experts."
+    },
+    {
+     "id": "task05",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Collaborate with investment bankers to attract new corporate clients."
+    },
+    {
+     "id": "task06",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Conduct financial analyses related to investments in green construction or green retrofitting projects."
+    },
+    {
+     "id": "task07",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Confer with clients to restructure debt, refinance debt, or raise new debt."
+    },
+    {
+     "id": "task08",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Create client presentations of plan details."
+    },
+    {
+     "id": "task09",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Determine the prices at which securities should be syndicated and offered to the public."
+    },
+    {
+     "id": "task10",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Develop and maintain client relationships."
+    },
+    {
+     "id": "task11",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Draw charts and graphs, using computer spreadsheets, to illustrate technical reports."
+    },
+    {
+     "id": "task12",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Employ financial models to develop solutions to financial problems or to assess the financial or capital impact of transactions."
+    },
+    {
+     "id": "task13",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Evaluate and compare the relative quality of various securities in a given industry."
+    },
+    {
+     "id": "task14",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Evaluate capital needs of clients and assess market conditions to inform structuring of financial packages."
+    },
+    {
+     "id": "task15",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Inform investment decisions by analyzing financial information to forecast business, industry, or economic conditions."
+    },
+    {
+     "id": "task16",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Interpret data on price, yield, stability, future investment-risk trends, economic influences, and other factors affecting investment programs."
+    },
+    {
+     "id": "task17",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Monitor developments in the fields of industrial technology, business, finance, and economic theory."
+    },
+    {
+     "id": "task18",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Monitor fundamental economic, industrial, and corporate developments by analyzing information from financial publications and services, investment banking firms, government agencies, trade publications, company sources, or personal interviews."
+    },
+    {
+     "id": "task19",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Perform securities valuation or pricing."
+    },
+    {
+     "id": "task20",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare all materials for transactions or execution of deals."
+    },
+    {
+     "id": "task21",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare plans of action for investment, using financial analyses."
+    },
+    {
+     "id": "task22",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Present oral or written reports on general economic trends, individual corporations, and entire industries."
+    },
+    {
+     "id": "task23",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Purchase investments for companies in accordance with company policy."
+    },
+    {
+     "id": "task24",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Recommend investments and investment timing to companies, investment firm staff, or the public."
+    },
+    {
+     "id": "task25",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Specialize in green financial instruments, such as socially responsible mutual funds or exchange-traded funds (ETF) that are comprised of green companies."
+    },
+    {
+     "id": "task26",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Supervise, train, or mentor junior team members."
+    },
+    {
+     "id": "tech01",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Accounting software — Fund accounting software; Intuit QuickBooks; Sage 50 Accounting; Tax software"
+    },
+    {
+     "id": "tech02",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Analytical or scientific software — IBM SPSS Statistics; SAS; StataCorp Stata; The MathWorks MATLAB; 14 more"
+    },
+    {
+     "id": "tech03",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Business intelligence and data analysis software — Alteryx software; IBM Cognos Impromptu; Microsoft Power BI; Tableau; 4 more"
+    },
+    {
+     "id": "tech04",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Charting software — Montgomery Investment Technology Utility XL; TickQuest NeoTicker"
+    },
+    {
+     "id": "tech05",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Configuration management software — Perforce Helix software"
+    },
+    {
+     "id": "tech06",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Customer relationship management CRM software — Salesforce software"
+    },
+    {
+     "id": "tech07",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base management system software — Apache Hive; Apache Pig; Teradata Database"
+    },
+    {
+     "id": "tech08",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base reporting software — Microsoft SQL Server Reporting Services SSRS; Reporting software; SAP Crystal Reports"
+    },
+    {
+     "id": "tech09",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base user interface and query software — Microsoft SQL Server; Oracle Database; Structured query language SQL; Yardi software; 4 more"
+    },
+    {
+     "id": "tech10",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Development environment software — Microsoft Visual Basic; Microsoft Visual Basic for Applications VBA"
+    },
+    {
+     "id": "tech11",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Document management software — Microsoft SharePoint; Microsoft SharePoint Server"
+    },
+    {
+     "id": "tech12",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Electronic mail software — Email software; IBM Notes; Microsoft Exchange; Microsoft Outlook"
+    },
+    {
+     "id": "tech13",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise resource planning ERP software — Microsoft Dynamics; Oracle PeopleSoft; SAP software; Workday software; 9 more"
+    },
+    {
+     "id": "tech14",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise system management software — IBM Power Systems software"
+    },
+    {
+     "id": "tech15",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Expert system software — Ivorix Neurostrategy Finance; Matheny Pattern Forecaster Plus; NeuroSolutions for MatLab"
+    },
+    {
+     "id": "tech16",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Financial analysis software — Delphi Technology; Moody's RiskCalc; Oracle E-Business Suite Financials; Oracle Hyperion Financial Management; 77 more"
+    },
+    {
+     "id": "tech17",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Human resources software — ADP Workforce Now; Human resource management software HRMS"
+    },
+    {
+     "id": "tech18",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Information retrieval or search software — dailyVest Investment Personalization Platform; LexisNexis; TradeTools Monthly U.S. Economic Database; Ward Systems Group NeuroShell Trader; 1 more"
+    },
+    {
+     "id": "tech19",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Internet browser software — Web browser software"
+    },
+    {
+     "id": "tech20",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Object or component oriented development software — R"
+    },
+    {
+     "id": "tech21",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Office suite software — Microsoft Office software"
+    },
+    {
+     "id": "tech22",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Presentation software — Apple Keynote; DealMaven PresLink for PowerPoint and Word; Google Slides; Microsoft PowerPoint"
+    },
+    {
+     "id": "tech23",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Process mapping and design software — Microsoft Visio"
+    },
+    {
+     "id": "tech24",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Project management software — Microsoft Project; Oracle Primavera Enterprise Project Portfolio Management"
+    },
+    {
+     "id": "tech25",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Sales and marketing software — Marketo Marketing Automation"
+    },
+    {
+     "id": "tech26",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Spreadsheet software — Apple AppleWorks; Corel QuattroPro; IBM Lotus 1-2-3; Microsoft Excel"
+    },
+    {
+     "id": "tech27",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Word processing software — Google Docs; Microsoft OneNote; Microsoft Word; Report generation software"
+    }
+   ]
+  },
+  {
+   "id": "onet_13_2041",
+   "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine)",
+   "publisher_class": "us_government",
+   "title": "O*NET OnLine summary report 13-2041.00, Credit Analysts",
+   "short_title": "O*NET summary for Credit Analysts",
+   "url": "https://www.onetonline.org/link/summary/13-2041.00",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per page, 2 seconds apart",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "O*NET OnLine page, licensed CC BY 4.0 (stated on the page and at onetcenter.org/license_db.html). Attribution line required: 'This page includes information from O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET is a trademark of USDOL/ETA.' Modified text needs the 'has modified' notice. robots.txt allows /link/summary/.",
+   "may_quote": "any passage, with the attribution line",
+   "pairs": [
+    "credit_analysis:bank"
+   ],
+   "passages": [
+    {
+     "id": "task01",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Analyze credit data and financial statements to determine the degree of risk involved in extending credit or lending money."
+    },
+    {
+     "id": "task02",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Complete loan applications, including credit analyses and summaries of loan requests, and submit to loan committees for approval."
+    },
+    {
+     "id": "task03",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Generate financial ratios, using computer programs, to evaluate customers' financial status."
+    },
+    {
+     "id": "task04",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare reports that include the degree of risk involved in extending credit or lending money."
+    },
+    {
+     "id": "task05",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Analyze financial data, such as income growth, quality of management, and market share to determine expected profitability of loans."
+    },
+    {
+     "id": "task06",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Compare liquidity, profitability, and credit histories of establishments being evaluated with those of similar establishments in the same industries and geographic locations."
+    },
+    {
+     "id": "task07",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Consult with customers to resolve complaints and verify financial and credit transactions."
+    },
+    {
+     "id": "task08",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Contact customers to collect payments on delinquent accounts."
+    },
+    {
+     "id": "task09",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Evaluate customer records and recommend payment plans, based on earnings, savings data, payment history, and purchase activity."
+    },
+    {
+     "id": "task10",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review individual or commercial customer files to identify and select delinquent accounts for collection."
+    },
+    {
+     "id": "task11",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Confer with credit association and other business representatives to exchange credit information."
+    },
+    {
+     "id": "tech01",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Analytical or scientific software — SAS"
+    },
+    {
+     "id": "tech02",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Business intelligence and data analysis software — Oracle Business Intelligence Enterprise Edition"
+    },
+    {
+     "id": "tech03",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Content workflow software — Equifax Application Engine; Experian Transact SM"
+    },
+    {
+     "id": "tech04",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base user interface and query software — Microsoft SQL Server; Structured query language SQL"
+    },
+    {
+     "id": "tech05",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Development environment software — Microsoft Visual Basic; Microsoft Visual Basic for Applications VBA"
+    },
+    {
+     "id": "tech06",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Document management software — Credit adjudication and lending management system CALMS"
+    },
+    {
+     "id": "tech07",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Electronic mail software — Microsoft Outlook"
+    },
+    {
+     "id": "tech08",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise resource planning ERP software — Microsoft Dynamics; Oracle JD Edwards EnterpriseOne; SAP software"
+    },
+    {
+     "id": "tech09",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Financial analysis software — CGI-AMS Strata; Experian Quest; Fair Isaac Capstone Decision Manager; Moody's KMV Risk Advisor; 17 more"
+    },
+    {
+     "id": "tech10",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Information retrieval or search software — CGI-AMS BureauLink Enterprise"
+    },
+    {
+     "id": "tech11",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Object or component oriented development software — Python"
+    },
+    {
+     "id": "tech12",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Office suite software — Experian Strategy Management; Microsoft Office software"
+    },
+    {
+     "id": "tech13",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Presentation software — Microsoft PowerPoint"
+    },
+    {
+     "id": "tech14",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Spreadsheet software — Microsoft Excel"
+    },
+    {
+     "id": "tech15",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Word processing software — Microsoft Word"
+    }
+   ]
+  },
+  {
+   "id": "onet_13_2072",
+   "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine)",
+   "publisher_class": "us_government",
+   "title": "O*NET OnLine summary report 13-2072.00, Loan Officers",
+   "short_title": "O*NET summary for Loan Officers",
+   "url": "https://www.onetonline.org/link/summary/13-2072.00",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per page, 2 seconds apart",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "O*NET OnLine page, licensed CC BY 4.0 (stated on the page and at onetcenter.org/license_db.html). Attribution line required: 'This page includes information from O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET is a trademark of USDOL/ETA.' Modified text needs the 'has modified' notice. robots.txt allows /link/summary/.",
+   "may_quote": "any passage, with the attribution line",
+   "pairs": [
+    "client_coverage:bank",
+    "credit_analysis:bank"
+   ],
+   "passages": [
+    {
+     "id": "task01",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Meet with applicants to obtain information for loan applications and to answer questions about the process."
+    },
+    {
+     "id": "task02",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Analyze applicants' financial status, credit, and property evaluations to determine feasibility of granting loans."
+    },
+    {
+     "id": "task03",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Approve loans within specified limits, and refer loan applications outside those limits to management for approval."
+    },
+    {
+     "id": "task04",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Explain to customers the different types of loans and credit options that are available, as well as the terms of those services."
+    },
+    {
+     "id": "task05",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Submit applications to credit analysts for verification and recommendation."
+    },
+    {
+     "id": "task06",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review loan agreements to ensure that they are complete and accurate according to policy."
+    },
+    {
+     "id": "task07",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review and update credit and loan files."
+    },
+    {
+     "id": "task08",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Obtain and compile copies of loan applicants' credit histories, corporate financial statements, and other financial information."
+    },
+    {
+     "id": "task09",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Work with clients to identify their financial goals and to find ways of reaching those goals."
+    },
+    {
+     "id": "task10",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Handle customer complaints and take appropriate action to resolve them."
+    },
+    {
+     "id": "task11",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Stay abreast of new types of loans and other financial services and products to better meet customers' needs."
+    },
+    {
+     "id": "task12",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Market bank products to individuals and firms, promoting bank services that may meet customers' needs."
+    },
+    {
+     "id": "task13",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Analyze potential loan markets and develop referral networks to locate prospects for loans."
+    },
+    {
+     "id": "task14",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Compute payment schedules."
+    },
+    {
+     "id": "task15",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Supervise loan personnel."
+    },
+    {
+     "id": "task16",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare reports to send to customers whose accounts are delinquent, and forward irreconcilable accounts for collector action."
+    },
+    {
+     "id": "task17",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Set credit policies, credit lines, procedures and standards in conjunction with senior managers."
+    },
+    {
+     "id": "task18",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Assist in selection of financial award candidates using electronic databases to certify loan eligibility."
+    },
+    {
+     "id": "task19",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Authorize or sign mail collection letters."
+    },
+    {
+     "id": "task20",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Calculate amount of debt and funds available to plan methods of payoff and to estimate time for debt liquidation."
+    },
+    {
+     "id": "task21",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Confer with underwriters to resolve mortgage application problems."
+    },
+    {
+     "id": "task22",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Contact applicants or creditors to resolve questions about applications or to assist with completion of paperwork."
+    },
+    {
+     "id": "task23",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Contact borrowers with delinquent accounts to obtain payment in full or to negotiate repayment plans."
+    },
+    {
+     "id": "task24",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Counsel clients on personal and family financial problems, such as excessive spending or borrowing of funds."
+    },
+    {
+     "id": "task25",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Establish payment priorities according to credit terms and interest rates to reduce clients' overall costs."
+    },
+    {
+     "id": "task26",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Inform individuals and groups about the financial assistance available to college or university students."
+    },
+    {
+     "id": "task27",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Maintain and review account records, updating and recategorizing them according to status changes."
+    },
+    {
+     "id": "task28",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Match individuals' needs and eligibility with available financial aid programs to provide informed recommendations."
+    },
+    {
+     "id": "task29",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review accounts to determine write-offs for collection agencies."
+    },
+    {
+     "id": "task30",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review billing for accuracy."
+    },
+    {
+     "id": "tech01",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Accounting software — Bottom Line LoanMaster Loan Servicing; Financial Industry Computer Systems Loan Accountant; Tax software"
+    },
+    {
+     "id": "tech02",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Compliance software — Wolters Kluwer Financial Services ComplianceOne"
+    },
+    {
+     "id": "tech03",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Content workflow software — Equifax Application Engine; Experian Transact SM"
+    },
+    {
+     "id": "tech04",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Customer relationship management CRM software — Microsoft Dynamics"
+    },
+    {
+     "id": "tech05",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base user interface and query software — FileMaker Pro; Microsoft Access; Student information systems SIS software; Sungard Higher Education PowerFAIDS; 5 more"
+    },
+    {
+     "id": "tech06",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Development environment software — Common business oriented language COBOL"
+    },
+    {
+     "id": "tech07",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Document management software — eOriginal eCore Business Suite"
+    },
+    {
+     "id": "tech08",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Electronic mail software — IBM Notes; Microsoft Outlook"
+    },
+    {
+     "id": "tech09",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise resource planning ERP software — Datatel Colleague; Oracle PeopleSoft; SAP software"
+    },
+    {
+     "id": "tech10",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Financial analysis software — Delphi Discovery; Experian Credinomics; VueCentric MortgageDashboard; White Clarke North America Credit Adjudication and Lending Management; 50 more"
+    },
+    {
+     "id": "tech11",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Information retrieval or search software — CGI-AMS BureauLink Enterprise; LexisNexis"
+    },
+    {
+     "id": "tech12",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Internet browser software — Microsoft Internet Explorer; Web browser software"
+    },
+    {
+     "id": "tech13",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Office suite software — Experian Strategy Management; Microsoft Office software"
+    },
+    {
+     "id": "tech14",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Presentation software — Microsoft PowerPoint"
+    },
+    {
+     "id": "tech15",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Spreadsheet software — Microsoft Excel"
+    },
+    {
+     "id": "tech16",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Transaction server software — Customer information control system CICS"
+    },
+    {
+     "id": "tech17",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Video conferencing software — Zoom"
+    },
+    {
+     "id": "tech18",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Word processing software — Microsoft Word"
+    }
+   ]
+  },
+  {
+   "id": "onet_41_3031",
+   "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine)",
+   "publisher_class": "us_government",
+   "title": "O*NET OnLine summary report 41-3031.00, Securities, Commodities, and Financial Services Sales Agents",
+   "short_title": "O*NET summary for Securities, Commodities, and Financial Services Sales Agents",
+   "url": "https://www.onetonline.org/link/summary/41-3031.00",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per page, 2 seconds apart",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "O*NET OnLine page, licensed CC BY 4.0 (stated on the page and at onetcenter.org/license_db.html). Attribution line required: 'This page includes information from O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET is a trademark of USDOL/ETA.' Modified text needs the 'has modified' notice. robots.txt allows /link/summary/.",
+   "may_quote": "any passage, with the attribution line",
+   "pairs": [
+    "client_coverage:bank",
+    "ma_execution:bank"
+   ],
+   "passages": [
+    {
+     "id": "task01",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Make bids or offers to buy or sell securities."
+    },
+    {
+     "id": "task02",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Monitor markets or positions."
+    },
+    {
+     "id": "task03",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Agree on buying or selling prices at optimal levels for clients."
+    },
+    {
+     "id": "task04",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Keep accurate records of transactions."
+    },
+    {
+     "id": "task05",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Buy or sell stocks, bonds, commodity futures, foreign currencies, or other securities on behalf of investment dealers."
+    },
+    {
+     "id": "task06",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Complete sales order tickets and submit for processing of client-requested transactions."
+    },
+    {
+     "id": "task07",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Report all positions or trading results."
+    },
+    {
+     "id": "task08",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Interview clients to determine clients' assets, liabilities, cash flow, insurance coverage, tax status, or financial objectives."
+    },
+    {
+     "id": "task09",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Discuss financial options with clients and keep them informed about transactions."
+    },
+    {
+     "id": "task10",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Identify opportunities or develop channels for purchase or sale of securities or commodities."
+    },
+    {
+     "id": "task11",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Develop financial plans, based on analysis of clients' financial status."
+    },
+    {
+     "id": "task12",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review all securities transactions to ensure accuracy of information and conformance to governing agency regulations."
+    },
+    {
+     "id": "task13",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Devise trading, option, or hedge strategies."
+    },
+    {
+     "id": "task14",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Determine customers' financial services needs and prepare proposals to sell services that address these needs."
+    },
+    {
+     "id": "task15",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Track and analyze factors that affect price movement, such as trade policies, weather conditions, political developments, or supply and demand changes."
+    },
+    {
+     "id": "task16",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Inform other traders, managers, or customers of market conditions, including volume, price, competition, or dynamics."
+    },
+    {
+     "id": "task17",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Offer advice on the purchase or sale of particular securities."
+    },
+    {
+     "id": "task18",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Contact prospective customers to present information and explain available services."
+    },
+    {
+     "id": "task19",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Explain stock market terms or trading practices to clients."
+    },
+    {
+     "id": "task20",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Calculate costs for billings or commissions."
+    },
+    {
+     "id": "task21",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare financial reports to monitor client or corporate finances."
+    },
+    {
+     "id": "task22",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Supply the latest price quotes on any security, as well as information on the activities or financial positions of the corporations issuing these securities."
+    },
+    {
+     "id": "task23",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Supervise support staff and ensure proper execution of contracts."
+    },
+    {
+     "id": "task24",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Relay buy or sell orders to securities exchanges or to firm trading departments."
+    },
+    {
+     "id": "task25",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Evaluate costs and revenue of agreements to determine continued profitability."
+    },
+    {
+     "id": "task26",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Sell services or equipment, such as trusts, investments, or check processing services."
+    },
+    {
+     "id": "task27",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Negotiate prices or contracts for securities or commodities sales or purchases."
+    },
+    {
+     "id": "task28",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare and send requests for price quotations to all companies in a particular market."
+    },
+    {
+     "id": "task29",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Price securities or commodities based on market conditions."
+    },
+    {
+     "id": "task30",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Purchase or sell financial derivatives for customers."
+    },
+    {
+     "id": "tech01",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Accounting software — Fund accounting software; Sage 50 Accounting"
+    },
+    {
+     "id": "tech02",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Analytical or scientific software — The MathWorks MATLAB"
+    },
+    {
+     "id": "tech03",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Business intelligence and data analysis software — IBM Cognos Impromptu"
+    },
+    {
+     "id": "tech04",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Calendar and scheduling software — Scheduling software"
+    },
+    {
+     "id": "tech05",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Compliance software — Regulatory agency compliance software"
+    },
+    {
+     "id": "tech06",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Customer relationship management CRM software — CSI Complex Systems ClientTrade; Microsoft Dynamics; Oracle Siebel CRM; Salesforce software"
+    },
+    {
+     "id": "tech07",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base user interface and query software — Database management software; FileMaker Pro; Microsoft Access; Web-based information systems; 1 more"
+    },
+    {
+     "id": "tech08",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Desktop communications software — ADP/Vantra VOLTS; Imagine Software Imagine Trading System"
+    },
+    {
+     "id": "tech09",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Development environment software — Microsoft Visual Basic"
+    },
+    {
+     "id": "tech10",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Document management software — Microsoft SharePoint"
+    },
+    {
+     "id": "tech11",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Electronic mail software — Email software; IBM Notes; Microsoft Outlook"
+    },
+    {
+     "id": "tech12",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise resource planning ERP software — Microsoft Dynamics GP; Oracle PeopleSoft; Oracle PeopleSoft Financials; SAP software; 1 more"
+    },
+    {
+     "id": "tech13",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Financial analysis software — Bloomberg Professional; Oracle E-Business Suite Financials; Triple Point Commodity XL; Web-based trading systems; 23 more"
+    },
+    {
+     "id": "tech14",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Graphics or photo imaging software — Graphics software"
+    },
+    {
+     "id": "tech15",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Internet browser software — Web browser software"
+    },
+    {
+     "id": "tech16",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Object or component oriented development software — C++; Oracle Java; Python; R"
+    },
+    {
+     "id": "tech17",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Office suite software — Microsoft Office software"
+    },
+    {
+     "id": "tech18",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Operating system software — Linux; Microsoft Windows; UNIX"
+    },
+    {
+     "id": "tech19",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Presentation software — Microsoft PowerPoint"
+    },
+    {
+     "id": "tech20",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Spreadsheet software — Microsoft Excel"
+    },
+    {
+     "id": "tech21",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Transaction server software — Customer information control system CICS"
+    },
+    {
+     "id": "tech22",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Web page creation and editing software — LinkedIn"
+    },
+    {
+     "id": "tech23",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Word processing software — Microsoft Word"
+    }
+   ]
+  },
+  {
+   "id": "onet_13_1111",
+   "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine)",
+   "publisher_class": "us_government",
+   "title": "O*NET OnLine summary report 13-1111.00, Management Analysts",
+   "short_title": "O*NET summary for Management Analysts",
+   "url": "https://www.onetonline.org/link/summary/13-1111.00",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per page, 2 seconds apart",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "O*NET OnLine page, licensed CC BY 4.0 (stated on the page and at onetcenter.org/license_db.html). Attribution line required: 'This page includes information from O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET is a trademark of USDOL/ETA.' Modified text needs the 'has modified' notice. robots.txt allows /link/summary/.",
+   "may_quote": "any passage, with the attribution line",
+   "pairs": [
+    "client_engagement:consulting",
+    "synthesis_recommendations:consulting",
+    "hypothesis_driven:consulting",
+    "exec_decks:consulting"
+   ],
+   "passages": [
+    {
+     "id": "task01",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Gather and organize information on problems or procedures."
+    },
+    {
+     "id": "task02",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Confer with personnel concerned to ensure successful functioning of newly implemented systems or procedures."
+    },
+    {
+     "id": "task03",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Analyze data gathered and develop solutions or alternative methods of proceeding."
+    },
+    {
+     "id": "task04",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Document findings of study and prepare recommendations for implementation of new systems, procedures, or organizational changes."
+    },
+    {
+     "id": "task05",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Plan study of work problems and procedures, such as organizational change, communications, information flow, integrated production methods, inventory control, or cost analysis."
+    },
+    {
+     "id": "task06",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Interview personnel and conduct on-site observation to ascertain unit functions, work performed, and methods, equipment, and personnel used."
+    },
+    {
+     "id": "task07",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare manuals and train workers in use of new forms, reports, procedures or equipment, according to organizational policy."
+    },
+    {
+     "id": "task08",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review forms and reports and confer with management and users about format, distribution, and purpose, identifying problems and improvements."
+    },
+    {
+     "id": "task09",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Develop and implement records management program for filing, protection, and retrieval of records, and assure compliance with program."
+    },
+    {
+     "id": "task10",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Design, evaluate, recommend, and approve changes of forms and reports."
+    },
+    {
+     "id": "task11",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Recommend purchase of storage equipment and design area layout to locate equipment in space available."
+    },
+    {
+     "id": "tech01",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Access software — Citrix cloud computing software"
+    },
+    {
+     "id": "tech02",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Accounting software — Fund accounting software; Sage 50 Accounting; Tax software"
+    },
+    {
+     "id": "tech03",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Analytical or scientific software — IBM SPSS Statistics; Minitab; SAS; The MathWorks MATLAB; 1 more"
+    },
+    {
+     "id": "tech04",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Application server software — GitHub; Oracle WebLogic Server; Red Hat WildFly"
+    },
+    {
+     "id": "tech05",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Backup or archival software — Veritas NetBackup"
+    },
+    {
+     "id": "tech06",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Business intelligence and data analysis software — Alteryx software; Apache Spark; Microsoft Power BI; Tableau; 4 more"
+    },
+    {
+     "id": "tech07",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Cloud-based data access and sharing software — Dropbox; Google Drive"
+    },
+    {
+     "id": "tech08",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Cloud-based management software — IBM WebSphere; Splunk Enterprise"
+    },
+    {
+     "id": "tech09",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Clustering software — VMware"
+    },
+    {
+     "id": "tech10",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Communications server software — IBM Domino"
+    },
+    {
+     "id": "tech11",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Configuration management software — Chef; Perforce Helix software; Puppet"
+    },
+    {
+     "id": "tech12",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Content workflow software — Atlassian JIRA"
+    },
+    {
+     "id": "tech13",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Customer relationship management CRM software — Blackbaud The Raiser's Edge; Oracle Eloqua; Salesforce software"
+    },
+    {
+     "id": "tech14",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base management system software — Apache Hive; Elasticsearch; MongoDB; Oracle PL/SQL; 7 more"
+    },
+    {
+     "id": "tech15",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base reporting software — Information Builders WebFOCUS; Microsoft SQL Server Reporting Services SSRS; SAP Crystal Reports"
+    },
+    {
+     "id": "tech16",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base user interface and query software — Airtable; Blackboard software; MySQL; Transact-SQL; 10 more"
+    },
+    {
+     "id": "tech17",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data mining software — Google Analytics"
+    },
+    {
+     "id": "tech18",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Desktop communications software — Eko; Skype"
+    },
+    {
+     "id": "tech19",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Desktop publishing software — Adobe InDesign; Microsoft Publisher"
+    },
+    {
+     "id": "tech20",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Development environment software — Apache Kafka; Apache Maven; Go; Microsoft PowerShell; 13 more"
+    },
+    {
+     "id": "tech21",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Document management software — Adobe Acrobat; Microsoft SharePoint"
+    },
+    {
+     "id": "tech22",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Electronic mail software — IBM Notes; MicroFocus GroupWise; Microsoft Exchange; Microsoft Outlook"
+    },
+    {
+     "id": "tech23",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise application integration software — Atlassian Bamboo; Extensible markup language XML; IBM InfoSphere DataStage; Microsoft SQL Server Integration Services SSIS"
+    },
+    {
+     "id": "tech24",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise resource planning ERP software — Microsoft Dynamics; NetSuite ERP; Oracle Hyperion; SAP software; 10 more"
+    },
+    {
+     "id": "tech25",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise system management software — IBM Power Systems software"
+    },
+    {
+     "id": "tech26",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Expert system software — Ansible software"
+    },
+    {
+     "id": "tech27",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "File versioning software — Apache Subversion SVN; Git"
+    },
+    {
+     "id": "tech28",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Financial analysis software — Delphi Technology; Oracle E-Business Suite Financials"
+    },
+    {
+     "id": "tech29",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Geographic information system — ESRI ArcGIS software; Geographic information system GIS software"
+    },
+    {
+     "id": "tech30",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Graphical user interface development software — Salesforce Visualforce"
+    },
+    {
+     "id": "tech31",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Graphics or photo imaging software — SmugMug Flickr; Trimble SketchUp Pro"
+    },
+    {
+     "id": "tech32",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Human resources software — ADP Workforce Now; Ceridian Dayforce enterprise HCM; Human resource management software HRMS; Oracle Taleo"
+    },
+    {
+     "id": "tech33",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Industrial control software — Supervisory control and data acquisition SCADA software"
+    },
+    {
+     "id": "tech34",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Information retrieval or search software — LexisNexis"
+    },
+    {
+     "id": "tech35",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Internet browser software — Web browser software"
+    },
+    {
+     "id": "tech36",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Medical software — Epic Systems; Medical condition coding software; Medical procedure coding software; MEDITECH software; 1 more"
+    },
+    {
+     "id": "tech37",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Metadata management software — Quest Erwin Data Modeler"
+    },
+    {
+     "id": "tech38",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Network conferencing software — Slido interaction software"
+    },
+    {
+     "id": "tech39",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Network monitoring software — Nagios; Wireshark"
+    },
+    {
+     "id": "tech40",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Network security and virtual private network VPN equipment software — Virtual private networking VPN software"
+    },
+    {
+     "id": "tech41",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Object or component oriented development software — C#; jQuery; Scala; Swift; 9 more"
+    },
+    {
+     "id": "tech42",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Object oriented data base management software — Hibernate ORM; PostgreSQL"
+    },
+    {
+     "id": "tech43",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Office suite software — Microsoft Office software"
+    },
+    {
+     "id": "tech44",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Operating system software — Apple macOS; Bash; Red Hat Enterprise Linux; Shell script; 8 more"
+    },
+    {
+     "id": "tech45",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Portal server software — Apache HTTP Server"
+    },
+    {
+     "id": "tech46",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Presentation software — Google Slides; Mentimeter; Microsoft PowerPoint"
+    },
+    {
+     "id": "tech47",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Process mapping and design software — Microsoft Visio"
+    },
+    {
+     "id": "tech48",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Program testing software — Hewlett Packard LoadRunner; JUnit; Selenium"
+    },
+    {
+     "id": "tech49",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Project management software — Atlassian Confluence; Microsoft Team Foundation Server; Microsoft Teams; Oracle Primavera Enterprise Project Portfolio Management; 1 more"
+    },
+    {
+     "id": "tech50",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Requirements analysis and system architecture software — IBM Rational RequisitePro; Unified modeling language UML"
+    },
+    {
+     "id": "tech51",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Sales and marketing software — Marketo Marketing Automation"
+    },
+    {
+     "id": "tech52",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Spreadsheet software — Microsoft Excel"
+    },
+    {
+     "id": "tech53",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Transaction security and virus protection software — McAfee; NortonLifeLock cybersecurity software"
+    },
+    {
+     "id": "tech54",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Transaction server software — Customer information control system CICS"
+    },
+    {
+     "id": "tech55",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Video conferencing software — Cisco Webex; Google Meet; LogMeIn GoToMeeting"
+    },
+    {
+     "id": "tech56",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Video creation and editing software — Screencastify"
+    },
+    {
+     "id": "tech57",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Web page creation and editing software — Adobe Dreamweaver; LinkedIn"
+    },
+    {
+     "id": "tech58",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Web platform development software — Apache Tomcat; Google Angular; Microsoft ASP.NET; Spring Framework; 18 more"
+    },
+    {
+     "id": "tech59",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Word processing software — 3M Post-it App; Google Docs; Microsoft OneNote; Microsoft Word"
+    }
+   ]
+  },
+  {
+   "id": "onet_13_2031",
+   "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine)",
+   "publisher_class": "us_government",
+   "title": "O*NET OnLine summary report 13-2031.00, Budget Analysts",
+   "short_title": "O*NET summary for Budget Analysts",
+   "url": "https://www.onetonline.org/link/summary/13-2031.00",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per page, 2 seconds apart",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "O*NET OnLine page, licensed CC BY 4.0 (stated on the page and at onetcenter.org/license_db.html). Attribution line required: 'This page includes information from O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET is a trademark of USDOL/ETA.' Modified text needs the 'has modified' notice. robots.txt allows /link/summary/.",
+   "may_quote": "any passage, with the attribution line",
+   "pairs": [
+    "budgeting_forecasting:corporate"
+   ],
+   "passages": [
+    {
+     "id": "task01",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Analyze monthly department budgeting and accounting reports to maintain expenditure controls."
+    },
+    {
+     "id": "task02",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Provide advice and technical assistance with cost analysis, fiscal allocation, and budget preparation."
+    },
+    {
+     "id": "task03",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review operating budgets to analyze trends affecting budget needs."
+    },
+    {
+     "id": "task04",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Compile and analyze accounting records and other data to determine the financial resources required to implement a program."
+    },
+    {
+     "id": "task05",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Examine budget estimates for completeness, accuracy, and conformance with procedures and regulations."
+    },
+    {
+     "id": "task06",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Summarize budgets and submit recommendations for the approval or disapproval of funds requests."
+    },
+    {
+     "id": "task07",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Consult with managers to ensure that budget adjustments are made in accordance with program changes."
+    },
+    {
+     "id": "task08",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Direct the preparation of regular and special budget reports."
+    },
+    {
+     "id": "task09",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Interpret budget directives and establish policies for carrying out directives."
+    },
+    {
+     "id": "task10",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Perform cost-benefit analyses to compare operating programs, review financial requests, or explore alternative financing methods."
+    },
+    {
+     "id": "task11",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Match appropriations for specific programs with appropriations for broader programs, including items for emergency funds."
+    },
+    {
+     "id": "task12",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Seek new ways to improve efficiency and increase profits."
+    },
+    {
+     "id": "task13",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Testify before examining and fund-granting authorities, clarifying and promoting the proposed budgets."
+    },
+    {
+     "id": "task14",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Communicate financial reports and budgets to stakeholders."
+    },
+    {
+     "id": "task15",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Submit and monitor salary raises."
+    },
+    {
+     "id": "tech01",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Accounting software — Deltek Costpoint; Fund accounting software; Hyperion Enterprise"
+    },
+    {
+     "id": "tech02",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Analytical or scientific software — Statistical software"
+    },
+    {
+     "id": "tech03",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Business intelligence and data analysis software — IBM Cognos Business Intelligence; Microsoft Power BI"
+    },
+    {
+     "id": "tech04",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base reporting software — SAP BusinessObjects Crystal Reports"
+    },
+    {
+     "id": "tech05",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base user interface and query software — Microsoft Access; Online analytical processing OLAP software; Relational database software; Structured query language SQL"
+    },
+    {
+     "id": "tech06",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Development environment software — Business Objects Data Integrator; Microsoft Visual Basic"
+    },
+    {
+     "id": "tech07",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Document management software — Microsoft SharePoint"
+    },
+    {
+     "id": "tech08",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Electronic mail software — Email software; Microsoft Outlook"
+    },
+    {
+     "id": "tech09",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise resource planning ERP software — Microsoft Dynamics GP; Oracle Hyperion; Sage Active Planner; SAP software; 18 more"
+    },
+    {
+     "id": "tech10",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Financial analysis software — Budget monitoring systems; Microsoft FRx; Oracle E-Business Suite Financials; Satori Group proCube; 2 more"
+    },
+    {
+     "id": "tech11",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Graphics or photo imaging software — Graphics software"
+    },
+    {
+     "id": "tech12",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Human resources software — Human resources management system HRMS; Ultimate Software UltiPro Workplace"
+    },
+    {
+     "id": "tech13",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Object or component oriented development software — Microsoft Visual Basic.NET"
+    },
+    {
+     "id": "tech14",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Office suite software — Microsoft Office software"
+    },
+    {
+     "id": "tech15",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Presentation software — Microsoft PowerPoint; SAP Crystal Xcelsius"
+    },
+    {
+     "id": "tech16",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Spreadsheet software — Microsoft Excel"
+    },
+    {
+     "id": "tech17",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Time accounting software — Payroll software; Time and attendance software; Valiant Vantage"
+    },
+    {
+     "id": "tech18",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Word processing software — Microsoft Word"
+    }
+   ]
+  },
+  {
+   "id": "onet_11_3031",
+   "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine)",
+   "publisher_class": "us_government",
+   "title": "O*NET OnLine summary report 11-3031.00, Financial Managers",
+   "short_title": "O*NET summary for Financial Managers",
+   "url": "https://www.onetonline.org/link/summary/11-3031.00",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per page, 2 seconds apart",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "O*NET OnLine page, licensed CC BY 4.0 (stated on the page and at onetcenter.org/license_db.html). Attribution line required: 'This page includes information from O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET is a trademark of USDOL/ETA.' Modified text needs the 'has modified' notice. robots.txt allows /link/summary/.",
+   "may_quote": "any passage, with the attribution line",
+   "pairs": [
+    "budgeting_forecasting:corporate"
+   ],
+   "passages": [
+    {
+     "id": "task01",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Establish and maintain relationships with individual or business customers or provide assistance with problems these customers may encounter."
+    },
+    {
+     "id": "task02",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Oversee the flow of cash or financial instruments."
+    },
+    {
+     "id": "task03",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Plan, direct, or coordinate the activities of workers in branches, offices, or departments of establishments, such as branch banks, brokerage firms, risk and insurance departments, or credit departments."
+    },
+    {
+     "id": "task04",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Recruit staff members."
+    },
+    {
+     "id": "task05",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Evaluate data pertaining to costs to plan budgets."
+    },
+    {
+     "id": "task06",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Oversee training programs."
+    },
+    {
+     "id": "task07",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Establish procedures for custody or control of assets, records, loan collateral, or securities to ensure safekeeping."
+    },
+    {
+     "id": "task08",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Communicate with stockholders or other investors to provide information or to raise capital."
+    },
+    {
+     "id": "task09",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Develop or analyze information to assess the current or future financial status of firms."
+    },
+    {
+     "id": "task10",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Approve, reject, or coordinate the approval or rejection of lines of credit or commercial, real estate, or personal loans."
+    },
+    {
+     "id": "task11",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare financial or regulatory reports required by laws, regulations, or boards of directors."
+    },
+    {
+     "id": "task12",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Examine, evaluate, or process loan applications."
+    },
+    {
+     "id": "task13",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Evaluate financial reporting systems, accounting or collection procedures, or investment activities and make recommendations for changes to procedures, operating systems, budgets, or other financial control functions."
+    },
+    {
+     "id": "task14",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Network within communities to find and attract new business."
+    },
+    {
+     "id": "task15",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare operational or risk reports for management analysis."
+    },
+    {
+     "id": "task16",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review collection reports to determine the status of collections and the amounts of outstanding balances."
+    },
+    {
+     "id": "task17",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review reports of securities transactions or price lists to analyze market conditions."
+    },
+    {
+     "id": "tech01",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Accounting software — Accounts receivable software; Fund accounting software; Intuit QuickBooks; Sage 50 Accounting; 1 more"
+    },
+    {
+     "id": "tech02",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Analytical or scientific software — IBM SPSS Statistics; SAS"
+    },
+    {
+     "id": "tech03",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Business intelligence and data analysis software — Alteryx software; IBM Cognos Impromptu; Oracle Business Intelligence Enterprise Edition; Tableau; 2 more"
+    },
+    {
+     "id": "tech04",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Compliance software — Tax compliance property tax management software"
+    },
+    {
+     "id": "tech05",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Customer relationship management CRM software — Blackbaud The Raiser's Edge; Salesforce software"
+    },
+    {
+     "id": "tech06",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base management system software — Teradata Database"
+    },
+    {
+     "id": "tech07",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base reporting software — SAP Crystal Reports"
+    },
+    {
+     "id": "tech08",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base user interface and query software — Microsoft SQL Server; Oracle Database; Structured query language SQL; Yardi software; 3 more"
+    },
+    {
+     "id": "tech09",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Development environment software — Microsoft Visual Basic; Microsoft Visual Basic for Applications VBA"
+    },
+    {
+     "id": "tech10",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Document management software — Adobe Acrobat; Microsoft SharePoint"
+    },
+    {
+     "id": "tech11",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Electronic mail software — IBM Notes; Microsoft Exchange; Microsoft Outlook"
+    },
+    {
+     "id": "tech12",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise resource planning ERP software — Microsoft Dynamics; Oracle PeopleSoft; SAP software; Workday software; 7 more"
+    },
+    {
+     "id": "tech13",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise system management software — IBM Power Systems software"
+    },
+    {
+     "id": "tech14",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Financial analysis software — ARES Corporation PRISM Project Estimator; Credit management software; Delphi Technology; Oracle E-Business Suite Financials"
+    },
+    {
+     "id": "tech15",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Human resources software — ADP Workforce Now; Human resource information system (HRIS); Human resource management software HRMS"
+    },
+    {
+     "id": "tech16",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Information retrieval or search software — LexisNexis"
+    },
+    {
+     "id": "tech17",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Medical software — Healthcare common procedure coding system HCPCS"
+    },
+    {
+     "id": "tech18",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Object or component oriented development software — R"
+    },
+    {
+     "id": "tech19",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Office suite software — Microsoft Office software"
+    },
+    {
+     "id": "tech20",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Operating system software — Microsoft Windows"
+    },
+    {
+     "id": "tech21",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Presentation software — Microsoft PowerPoint"
+    },
+    {
+     "id": "tech22",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Process mapping and design software — Microsoft Visio"
+    },
+    {
+     "id": "tech23",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Project management software — Microsoft Project; Oracle Primavera Enterprise Project Portfolio Management"
+    },
+    {
+     "id": "tech24",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Sales and marketing software — Marketo Marketing Automation"
+    },
+    {
+     "id": "tech25",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Spreadsheet software — Microsoft Excel; Moody's KMV FAMAS"
+    },
+    {
+     "id": "tech26",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Word processing software — Microsoft Word"
+    }
+   ]
+  },
+  {
+   "id": "onet_13_1023",
+   "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine)",
+   "publisher_class": "us_government",
+   "title": "O*NET OnLine summary report 13-1023.00, Purchasing Agents, Except Wholesale, Retail, and Farm Products",
+   "short_title": "O*NET summary for Purchasing Agents, Except Wholesale, Retail, and Farm Products",
+   "url": "https://www.onetonline.org/link/summary/13-1023.00",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per page, 2 seconds apart",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "O*NET OnLine page, licensed CC BY 4.0 (stated on the page and at onetcenter.org/license_db.html). Attribution line required: 'This page includes information from O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET is a trademark of USDOL/ETA.' Modified text needs the 'has modified' notice. robots.txt allows /link/summary/.",
+   "may_quote": "any passage, with the attribution line",
+   "pairs": [
+    "spend_cost_savings:corporate"
+   ],
+   "passages": [
+    {
+     "id": "task01",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Monitor and follow applicable laws and regulations."
+    },
+    {
+     "id": "task02",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Purchase the highest quality merchandise at the lowest possible price and in correct amounts."
+    },
+    {
+     "id": "task03",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Formulate policies and procedures for bid proposals and procurement of goods and services."
+    },
+    {
+     "id": "task04",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare purchase orders, solicit bid proposals, and review requisitions for goods and services."
+    },
+    {
+     "id": "task05",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Write and review product specifications, maintaining a working technical knowledge of the goods or services to be purchased."
+    },
+    {
+     "id": "task06",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Analyze price proposals, financial reports, and other data and information to determine reasonable prices."
+    },
+    {
+     "id": "task07",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Hire, train, or supervise purchasing clerks, buyers, and expediters."
+    },
+    {
+     "id": "task08",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Research and evaluate suppliers, based on price, quality, selection, service, support, availability, reliability, production and distribution capabilities, and the supplier's reputation and history."
+    },
+    {
+     "id": "task09",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Evaluate and monitor contract performance to ensure compliance with contractual obligations and to determine need for changes."
+    },
+    {
+     "id": "task10",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Negotiate, renegotiate, and administer contracts with suppliers, vendors, and other representatives."
+    },
+    {
+     "id": "task11",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Study sales records and inventory levels of current stock to develop strategic purchasing programs that facilitate employee access to supplies."
+    },
+    {
+     "id": "task12",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Confer with staff, users, and vendors to discuss defective or unacceptable goods or services and determine corrective action."
+    },
+    {
+     "id": "task13",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Maintain and review computerized or manual records of purchased items, costs, deliveries, product performance, and inventories."
+    },
+    {
+     "id": "task14",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Monitor changes affecting supply and demand, tracking market conditions, price trends, or futures markets."
+    },
+    {
+     "id": "task15",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Monitor shipments to ensure that goods come in on time, and resolve problems related to undelivered goods."
+    },
+    {
+     "id": "task16",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review catalogs, industry periodicals, directories, trade journals, and Internet sites and consult with other department personnel to locate necessary goods and services."
+    },
+    {
+     "id": "task17",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Attend meetings, trade shows, conferences, conventions, and seminars to network with people in other purchasing departments."
+    },
+    {
+     "id": "task18",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Arrange the payment of duty and freight charges."
+    },
+    {
+     "id": "task19",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Interview vendors and visit suppliers' plants and distribution centers to examine and learn about products, services, and prices."
+    },
+    {
+     "id": "tech01",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Accounting software — Choice Job Cost; Cost accounting software; CPR International GeneralCOST Estimator; Intuit QuickBooks"
+    },
+    {
+     "id": "tech02",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Analytical or scientific software — Construction Management Software ProEst; QSM SLIM Suite; Resources Calculations Incorporated SoftCost; WinEstimator WinEst"
+    },
+    {
+     "id": "tech03",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Business intelligence and data analysis software — IBM Cognos Impromptu; MicroStrategy"
+    },
+    {
+     "id": "tech04",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base reporting software — Database reporting software; SAP BusinessObjects Crystal Reports; Software AG enterprise software"
+    },
+    {
+     "id": "tech05",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base user interface and query software — Assured Software JPP; Database software; Microsoft Access; Oracle Database; 3 more"
+    },
+    {
+     "id": "tech06",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Document management software — Adobe Acrobat; Microsoft SharePoint"
+    },
+    {
+     "id": "tech07",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Electronic mail software — IBM Notes; Microsoft Outlook"
+    },
+    {
+     "id": "tech08",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise resource planning ERP software — Infor ERP SyteLine; Microsoft Dynamics; Oracle PeopleSoft; SAP software; 5 more"
+    },
+    {
+     "id": "tech09",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise system management software — IBM Power Systems software"
+    },
+    {
+     "id": "tech10",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Financial analysis software — Cost estimating software; IBM Costimater; Oracle E-Business Suite Financials; Softstar Costar COCOMO II; 1 more"
+    },
+    {
+     "id": "tech11",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Graphics or photo imaging software — SmugMug Flickr"
+    },
+    {
+     "id": "tech12",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Internet browser software — Web browser software"
+    },
+    {
+     "id": "tech13",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Inventory management software — Inventory management systems"
+    },
+    {
+     "id": "tech14",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Office suite software — Microsoft Office software"
+    },
+    {
+     "id": "tech15",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Presentation software — Microsoft PowerPoint"
+    },
+    {
+     "id": "tech16",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Process mapping and design software — Microsoft Visio"
+    },
+    {
+     "id": "tech17",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Project management software — Dexter + Cheney Spectrum Construction Software; Galorath SEER-SEM; Microsoft Project; Oracle Primavera Enterprise Project Portfolio Management"
+    },
+    {
+     "id": "tech18",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Sales and marketing software — Google Ads"
+    },
+    {
+     "id": "tech19",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Spreadsheet software — Apple AppleWorks; Corel QuattroPro; IBM Lotus 1-2-3; Microsoft Excel"
+    },
+    {
+     "id": "tech20",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Word processing software — Google Docs; Microsoft Word"
+    }
+   ]
+  },
+  {
+   "id": "onet_11_2021",
+   "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine)",
+   "publisher_class": "us_government",
+   "title": "O*NET OnLine summary report 11-2021.00, Marketing Managers",
+   "short_title": "O*NET summary for Marketing Managers",
+   "url": "https://www.onetonline.org/link/summary/11-2021.00",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per page, 2 seconds apart",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "O*NET OnLine page, licensed CC BY 4.0 (stated on the page and at onetcenter.org/license_db.html). Attribution line required: 'This page includes information from O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET is a trademark of USDOL/ETA.' Modified text needs the 'has modified' notice. robots.txt allows /link/summary/.",
+   "may_quote": "any passage, with the attribution line",
+   "pairs": [
+    "campaign_management:corporate"
+   ],
+   "passages": [
+    {
+     "id": "task01",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Formulate, direct, or coordinate marketing activities or policies to promote products or services, working with advertising or promotion managers."
+    },
+    {
+     "id": "task02",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Use sales forecasting or strategic planning to ensure the sale and profitability of products, lines, or services, analyzing business developments and monitoring market trends."
+    },
+    {
+     "id": "task03",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Identify, develop, or evaluate marketing strategy, based on knowledge of establishment objectives, market characteristics, and cost and markup factors."
+    },
+    {
+     "id": "task04",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Direct the hiring, training, or performance evaluations of marketing or sales staff and oversee their daily activities."
+    },
+    {
+     "id": "task05",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Evaluate the financial aspects of product development, such as budgets, expenditures, research and development appropriations, or return-on-investment and profit-loss projections."
+    },
+    {
+     "id": "task06",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Develop pricing strategies, balancing firm objectives and customer satisfaction."
+    },
+    {
+     "id": "task07",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Initiate market research studies, or analyze their findings."
+    },
+    {
+     "id": "task08",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Compile lists describing product or service offerings."
+    },
+    {
+     "id": "task09",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Consult with product development personnel on product specifications, such as design, color, or packaging."
+    },
+    {
+     "id": "task10",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Recommend modifications to products, packaging, production processes, or other characteristics to improve the environmental soundness or sustainability of products."
+    },
+    {
+     "id": "task11",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Conduct economic or commercial surveys to identify potential markets for products or services."
+    },
+    {
+     "id": "task12",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Coordinate or participate in promotional activities or trade shows, working with developers, advertisers, or production managers, to market products or services."
+    },
+    {
+     "id": "task13",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Consult with buying personnel to gain advice regarding the types of products or services expected to be in demand."
+    },
+    {
+     "id": "task14",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Negotiate contracts with vendors or distributors to manage product distribution, establishing distribution networks or developing distribution strategies."
+    },
+    {
+     "id": "task15",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Confer with legal staff to resolve problems, such as copyright infringement or royalty sharing with outside producers or distributors."
+    },
+    {
+     "id": "task16",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Consult with buying personnel to gain advice regarding environmentally sound or sustainable products."
+    },
+    {
+     "id": "task17",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Advise business or other groups on local, national, or international factors affecting the buying or selling of products or services."
+    },
+    {
+     "id": "task18",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Select products or accessories to be displayed at trade or special production shows."
+    },
+    {
+     "id": "task19",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Integrate environmental information into product or company marketing strategies, policies, or activities."
+    },
+    {
+     "id": "task20",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Develop business cases for environmental marketing strategies."
+    },
+    {
+     "id": "task21",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review and edit content for marketing materials."
+    },
+    {
+     "id": "tech01",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Access software — Citrix cloud computing software"
+    },
+    {
+     "id": "tech02",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Accounting software — Fund accounting software; Intuit QuickBooks; Tax software"
+    },
+    {
+     "id": "tech03",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Analytical or scientific software — IBM SPSS Statistics; Minitab; SAS; The MathWorks MATLAB; 4 more"
+    },
+    {
+     "id": "tech04",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Application server software — GitHub"
+    },
+    {
+     "id": "tech05",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Business intelligence and data analysis software — Google Looker Analytics; IBM Cognos Impromptu; Oracle Business Intelligence Enterprise Edition; Tableau; 2 more"
+    },
+    {
+     "id": "tech06",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Cloud-based data access and sharing software — Asana; Dropbox; Google Drive; Slack; 1 more"
+    },
+    {
+     "id": "tech07",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Cloud-based management software — Splunk Enterprise"
+    },
+    {
+     "id": "tech08",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Communications server software — IBM Domino"
+    },
+    {
+     "id": "tech09",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Computer based training software — Padlet"
+    },
+    {
+     "id": "tech10",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Content workflow software — Atlassian JIRA"
+    },
+    {
+     "id": "tech11",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Customer relationship management CRM software — Blackbaud The Raiser's Edge; Oracle Eloqua; QAD Marketing Automation; Salesforce software; 5 more"
+    },
+    {
+     "id": "tech12",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base management system software — Apache Cassandra; Apache Hive; Elasticsearch; Oracle PL/SQL; 5 more"
+    },
+    {
+     "id": "tech13",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base reporting software — Database reporting software"
+    },
+    {
+     "id": "tech14",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base user interface and query software — Airtable; Amazon Redshift; MySQL; Yardi software; 11 more"
+    },
+    {
+     "id": "tech15",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data mining software — Google Analytics"
+    },
+    {
+     "id": "tech16",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Desktop communications software — Eko"
+    },
+    {
+     "id": "tech17",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Desktop publishing software — Adobe InDesign; Microsoft Publisher"
+    },
+    {
+     "id": "tech18",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Development environment software — C; Microsoft Azure software; Microsoft Visual Basic for Applications VBA; Ruby; 3 more"
+    },
+    {
+     "id": "tech19",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Document management software — Adobe Acrobat; Adobe Acrobat Reader; Microsoft SharePoint"
+    },
+    {
+     "id": "tech20",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Electronic mail software — IBM Notes; Microsoft Outlook"
+    },
+    {
+     "id": "tech21",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise application integration software — Extensible markup language XML; IBM InfoSphere DataStage"
+    },
+    {
+     "id": "tech22",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise resource planning ERP software — Microsoft Dynamics; Oracle Fusion Applications; Oracle PeopleSoft; SAP software; 4 more"
+    },
+    {
+     "id": "tech23",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise system management software — IBM Power Systems software"
+    },
+    {
+     "id": "tech24",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Expert system software — Oracle Beehive"
+    },
+    {
+     "id": "tech25",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Financial analysis software — Delphi Technology; Oracle E-Business Suite Financials"
+    },
+    {
+     "id": "tech26",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Graphical user interface development software — Figma"
+    },
+    {
+     "id": "tech27",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Graphics or photo imaging software — Adobe Creative Cloud software; Adobe Illustrator; Canva; JamBoard; 2 more"
+    },
+    {
+     "id": "tech28",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Information retrieval or search software — LexisNexis"
+    },
+    {
+     "id": "tech29",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Internet browser software — Web browser software"
+    },
+    {
+     "id": "tech30",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Multi-media educational software — Nearpod"
+    },
+    {
+     "id": "tech31",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Network conferencing software — LogMeIn GoToWebinar"
+    },
+    {
+     "id": "tech32",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Object or component oriented development software — Jupyter Notebook; Python; R; Swift"
+    },
+    {
+     "id": "tech33",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Office suite software — Microsoft Office software"
+    },
+    {
+     "id": "tech34",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Operating system software — Apple macOS"
+    },
+    {
+     "id": "tech35",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Presentation software — Apple Keynote; Google Slides; Mentimeter; Microsoft PowerPoint"
+    },
+    {
+     "id": "tech36",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Process mapping and design software — Microsoft Visio"
+    },
+    {
+     "id": "tech37",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Project management software — Atlassian Confluence; Microsoft Project; Microsoft Teams"
+    },
+    {
+     "id": "tech38",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Sales and marketing software — Google Ads; HubSpot software; Marketo Marketing Automation"
+    },
+    {
+     "id": "tech39",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Spreadsheet software — Microsoft Excel"
+    },
+    {
+     "id": "tech40",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Transaction security and virus protection software — McAfee; NortonLifeLock cybersecurity software"
+    },
+    {
+     "id": "tech41",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Transaction server software — Armand Morin MultiTrack Generator"
+    },
+    {
+     "id": "tech42",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Video conferencing software — Google Meet; LogMeIn GoToMeeting"
+    },
+    {
+     "id": "tech43",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Video creation and editing software — Adobe After Effects; Flipgrid; TikTok; YouTube; 5 more"
+    },
+    {
+     "id": "tech44",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Web page creation and editing software — Adobe Dreamweaver; Facebook; Instagram; WordPress; 2 more"
+    },
+    {
+     "id": "tech45",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Web platform development software — Cascading style sheets CSS; Hypertext markup language HTML; JavaScript; PHP; 6 more"
+    },
+    {
+     "id": "tech46",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Word processing software — Evernote; Google Docs; Microsoft Word"
+    }
+   ]
+  },
+  {
+   "id": "onet_13_1161",
+   "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine)",
+   "publisher_class": "us_government",
+   "title": "O*NET OnLine summary report 13-1161.00, Market Research Analysts and Marketing Specialists",
+   "short_title": "O*NET summary for Market Research Analysts and Marketing Specialists",
+   "url": "https://www.onetonline.org/link/summary/13-1161.00",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per page, 2 seconds apart",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "O*NET OnLine page, licensed CC BY 4.0 (stated on the page and at onetcenter.org/license_db.html). Attribution line required: 'This page includes information from O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET is a trademark of USDOL/ETA.' Modified text needs the 'has modified' notice. robots.txt allows /link/summary/.",
+   "may_quote": "any passage, with the attribution line",
+   "pairs": [
+    "campaign_management:corporate"
+   ],
+   "passages": [
+    {
+     "id": "task01",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare reports of findings, illustrating data graphically and translating complex findings into written text."
+    },
+    {
+     "id": "task02",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Seek and provide information to help companies determine their position in the marketplace."
+    },
+    {
+     "id": "task03",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Conduct research on consumer opinions and marketing strategies, collaborating with marketing professionals, statisticians, pollsters, and other professionals."
+    },
+    {
+     "id": "task04",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Collect and analyze data on customer demographics, preferences, needs, and buying habits to identify potential markets and factors affecting product demand."
+    },
+    {
+     "id": "task05",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Devise and evaluate methods and procedures for collecting data, such as surveys, opinion polls, or questionnaires, or arrange to obtain existing data."
+    },
+    {
+     "id": "task06",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Gather data on competitors and analyze their prices, sales, and method of marketing and distribution."
+    },
+    {
+     "id": "task07",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Measure and assess customer and employee satisfaction."
+    },
+    {
+     "id": "task08",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Monitor industry statistics and follow trends in trade literature."
+    },
+    {
+     "id": "task09",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Direct trained survey interviewers."
+    },
+    {
+     "id": "task10",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Measure the effectiveness of marketing, advertising, and communications programs and strategies."
+    },
+    {
+     "id": "task11",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Forecast and track marketing and sales trends, analyzing collected data."
+    },
+    {
+     "id": "task12",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Attend staff conferences to provide management with information and proposals concerning the promotion, distribution, design, and pricing of company products or services."
+    },
+    {
+     "id": "task13",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Develop and implement procedures for identifying advertising needs."
+    },
+    {
+     "id": "tech01",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Analytical or scientific software — IBM SPSS Statistics; Minitab; Sawtooth Composite Product Mapping CPM; The MathWorks MATLAB; 18 more"
+    },
+    {
+     "id": "tech02",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Business intelligence and data analysis software — Google Looker Analytics; IBM Cognos Impromptu; Oracle Business Intelligence Enterprise Edition; Tableau; 2 more"
+    },
+    {
+     "id": "tech03",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Categorization or classification software — Map Maker"
+    },
+    {
+     "id": "tech04",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Cloud-based data access and sharing software — Asana; Dropbox; Google Drive; Slack"
+    },
+    {
+     "id": "tech05",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Content workflow software — Adxstudio, for Microsoft"
+    },
+    {
+     "id": "tech06",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Customer relationship management CRM software — Blackbaud The Raiser's Edge; Insightful Corporation Confirmit; Oracle Eloqua; Salesforce software; 4 more"
+    },
+    {
+     "id": "tech07",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base management system software — Apache Hadoop; Apache Hive; Apache Pig; Teradata Database"
+    },
+    {
+     "id": "tech08",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base reporting software — SAP Crystal Reports"
+    },
+    {
+     "id": "tech09",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base user interface and query software — Airtable; Amazon Redshift; Microsoft SQL Server; MySQL; 10 more"
+    },
+    {
+     "id": "tech10",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data mining software — Cytel Software XLMiner; Google Analytics; NCR Teradata Warehouse Miner; Oracle Darwin; 1 more"
+    },
+    {
+     "id": "tech11",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Desktop publishing software — Adobe InDesign; LogiXML Ad-HOC; Microsoft Publisher; Sawtooth SSI Web"
+    },
+    {
+     "id": "tech12",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Development environment software — Adobe ActionScript; Microsoft Visual Basic; Microsoft Visual Basic for Applications VBA"
+    },
+    {
+     "id": "tech13",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Document management software — Adobe Acrobat; Microsoft SharePoint"
+    },
+    {
+     "id": "tech14",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Electronic mail software — IBM Notes; Microsoft Outlook"
+    },
+    {
+     "id": "tech15",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise resource planning ERP software — Aprimo Marketing; Microsoft Dynamics; Oracle PeopleSoft; SAP software; 3 more"
+    },
+    {
+     "id": "tech16",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Expert system software — Digivey software (expert system feature)"
+    },
+    {
+     "id": "tech17",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Financial analysis software — Delphi Technology; Financial planning software"
+    },
+    {
+     "id": "tech18",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Geographic information system — ESRI ArcGIS software"
+    },
+    {
+     "id": "tech19",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Graphics or photo imaging software — Adobe Creative Cloud software; Adobe Illustrator; Adobe Photoshop; Canva; 2 more"
+    },
+    {
+     "id": "tech20",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Information retrieval or search software — Factiva; LexisNexis; Mintel Reports; Verispan Patient Parameters; 5 more"
+    },
+    {
+     "id": "tech21",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Instant messaging software — GroupMe"
+    },
+    {
+     "id": "tech22",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Internet browser software — Web browser software"
+    },
+    {
+     "id": "tech23",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Network conferencing software — LogMeIn GoToWebinar"
+    },
+    {
+     "id": "tech24",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Object or component oriented development software — R"
+    },
+    {
+     "id": "tech25",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Office suite software — Microsoft Office software"
+    },
+    {
+     "id": "tech26",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Operating system software — Apple macOS; Red Hat Enterprise Linux"
+    },
+    {
+     "id": "tech27",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Point of sale POS software — Digivey software (point of sale feature)"
+    },
+    {
+     "id": "tech28",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Presentation software — Apple Keynote; Google Slides; Microsoft PowerPoint"
+    },
+    {
+     "id": "tech29",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Process mapping and design software — Microsoft Visio"
+    },
+    {
+     "id": "tech30",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Project management software — Basecamp; ClassApps SelectSurveyASP; Microsoft Project; Perseus SurveySolutions"
+    },
+    {
+     "id": "tech31",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Sales and marketing software — Google Ads; HubSpot software; Marketo Marketing Automation"
+    },
+    {
+     "id": "tech32",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Spreadsheet software — Microsoft Excel"
+    },
+    {
+     "id": "tech33",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Transaction security and virus protection software — NortonLifeLock cybersecurity software"
+    },
+    {
+     "id": "tech34",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Video conferencing software — LogMeIn GoToMeeting; Zoom"
+    },
+    {
+     "id": "tech35",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Video creation and editing software — Adobe After Effects; Loom; TikTok; YouTube; 2 more"
+    },
+    {
+     "id": "tech36",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Web page creation and editing software — Adobe Dreamweaver; Facebook; Instagram; WordPress; 2 more"
+    },
+    {
+     "id": "tech37",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Web platform development software — Cascading style sheets CSS; Hypertext markup language HTML; JavaScript; PHP; 3 more"
+    },
+    {
+     "id": "tech38",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Word processing software — 3M Post-it App; Evernote; Google Docs; Microsoft Word"
+    }
+   ]
+  },
+  {
+   "id": "onet_13_1071",
+   "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine)",
+   "publisher_class": "us_government",
+   "title": "O*NET OnLine summary report 13-1071.00, Human Resources Specialists",
+   "short_title": "O*NET summary for Human Resources Specialists",
+   "url": "https://www.onetonline.org/link/summary/13-1071.00",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per page, 2 seconds apart",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "O*NET OnLine page, licensed CC BY 4.0 (stated on the page and at onetcenter.org/license_db.html). Attribution line required: 'This page includes information from O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET is a trademark of USDOL/ETA.' Modified text needs the 'has modified' notice. robots.txt allows /link/summary/.",
+   "may_quote": "any passage, with the attribution line",
+   "pairs": [
+    "hr_business_partnering:corporate"
+   ],
+   "passages": [
+    {
+     "id": "task01",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Interpret and explain human resources policies, procedures, laws, standards, or regulations."
+    },
+    {
+     "id": "task02",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Hire employees and process hiring-related paperwork."
+    },
+    {
+     "id": "task03",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Maintain current knowledge of Equal Employment Opportunity (EEO) and affirmative action guidelines and laws, such as the Americans with Disabilities Act (ADA)."
+    },
+    {
+     "id": "task04",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare or maintain employment records related to events, such as hiring, termination, leaves, transfers, or promotions, using human resources management system software."
+    },
+    {
+     "id": "task05",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Address employee relations issues, such as harassment allegations, work complaints, or other employee concerns."
+    },
+    {
+     "id": "task06",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review employment applications and job orders to match applicants with job requirements."
+    },
+    {
+     "id": "task07",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Inform job applicants of details such as duties and responsibilities, compensation, benefits, schedules, working conditions, or promotion opportunities."
+    },
+    {
+     "id": "task08",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Select qualified job applicants or refer them to managers, making hiring recommendations when appropriate."
+    },
+    {
+     "id": "task09",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Schedule or conduct new employee orientations."
+    },
+    {
+     "id": "task10",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Maintain and update human resources documents, such as organizational charts, employee handbooks or directories, or performance evaluation forms."
+    },
+    {
+     "id": "task11",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Confer with management to develop or implement personnel policies or procedures."
+    },
+    {
+     "id": "task12",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Contact job applicants to inform them of the status of their applications."
+    },
+    {
+     "id": "task13",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Conduct exit interviews and ensure that necessary employment termination paperwork is completed."
+    },
+    {
+     "id": "task14",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Interview job applicants to obtain information on work history, training, education, or job skills."
+    },
+    {
+     "id": "task15",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Perform searches for qualified job candidates, using sources such as computer databases, networking, Internet recruiting resources, media advertisements, job fairs, recruiting firms, or employee referrals."
+    },
+    {
+     "id": "task16",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Provide management with information or training related to interviewing, performance appraisals, counseling techniques, or documentation of performance issues."
+    },
+    {
+     "id": "task17",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Analyze employment-related data and prepare required reports."
+    },
+    {
+     "id": "task18",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Advise management on organizing, preparing, or implementing recruiting or retention programs."
+    },
+    {
+     "id": "task19",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Develop or implement recruiting strategies to meet current or anticipated staffing needs."
+    },
+    {
+     "id": "task20",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Administer employee benefit plans."
+    },
+    {
+     "id": "task21",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Schedule or administer skill, intelligence, psychological, or drug tests for current or prospective employees."
+    },
+    {
+     "id": "task22",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Conduct reference or background checks on job applicants."
+    },
+    {
+     "id": "task23",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Review and evaluate applicant qualifications or eligibility for specified licensing, according to established guidelines and designated licensing codes."
+    },
+    {
+     "id": "task24",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Evaluate recruitment or selection criteria to ensure conformance to professional, statistical, or testing standards, recommending revisions, as needed."
+    },
+    {
+     "id": "task25",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Coordinate with outside staffing agencies to secure temporary employees, based on departmental needs."
+    },
+    {
+     "id": "task26",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Evaluate selection or testing techniques by conducting research or follow-up activities and conferring with management or supervisory personnel."
+    },
+    {
+     "id": "tech01",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Accounting software — Intuit QuickBooks; Sage 50 Accounting; Tax software"
+    },
+    {
+     "id": "tech02",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Analytical or scientific software — Assessment software; IBM SPSS Statistics; SAS; StataCorp Stata"
+    },
+    {
+     "id": "tech03",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Application server software — GitHub; Oracle WebLogic Server"
+    },
+    {
+     "id": "tech04",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Business intelligence and data analysis software — IBM Cognos Impromptu; Oracle Business Intelligence Enterprise Edition; Qlik Tech QlikView; Tableau; 1 more"
+    },
+    {
+     "id": "tech05",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Cloud-based data access and sharing software — Google Drive; Slack"
+    },
+    {
+     "id": "tech06",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Communications server software — IBM Domino"
+    },
+    {
+     "id": "tech07",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Configuration management software — Perforce Helix software"
+    },
+    {
+     "id": "tech08",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Customer relationship management CRM software — Blackbaud The Raiser's Edge; Oracle Eloqua; Salesforce software; Vendor management system software"
+    },
+    {
+     "id": "tech09",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base management system software — Teradata Database"
+    },
+    {
+     "id": "tech10",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base reporting software — Microsoft SQL Server Reporting Services SSRS; SAP Crystal Reports"
+    },
+    {
+     "id": "tech11",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base user interface and query software — Airtable; Blackboard software; Microsoft SQL Server; Oracle Database; 7 more"
+    },
+    {
+     "id": "tech12",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data mining software — Google Analytics"
+    },
+    {
+     "id": "tech13",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Desktop communications software — Skype"
+    },
+    {
+     "id": "tech14",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Desktop publishing software — Adobe InDesign; Microsoft Publisher"
+    },
+    {
+     "id": "tech15",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Development environment software — Microsoft Visual Basic; Microsoft Visual Basic for Applications VBA"
+    },
+    {
+     "id": "tech16",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Document management software — Adobe Acrobat; Adobe LifeCycle Enterprise Suite; Microsoft SharePoint"
+    },
+    {
+     "id": "tech17",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Electronic mail software — IBM Notes; Microsoft Outlook"
+    },
+    {
+     "id": "tech18",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise application integration software — Extensible markup language XML; IBM InfoSphere DataStage"
+    },
+    {
+     "id": "tech19",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise resource planning ERP software — Microsoft Dynamics; Oracle PeopleSoft; SAP software; Workday software; 8 more"
+    },
+    {
+     "id": "tech20",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise system management software — IBM Power Systems software"
+    },
+    {
+     "id": "tech21",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Financial analysis software — Oracle E-Business Suite Financials"
+    },
+    {
+     "id": "tech22",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Geographic information system — ESRI ArcGIS software"
+    },
+    {
+     "id": "tech23",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Graphics or photo imaging software — Adobe Creative Cloud software; Adobe Illustrator; Adobe Photoshop; SmugMug Flickr"
+    },
+    {
+     "id": "tech24",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Human resources software — ADP Workforce Now; Lawson Human Resource Management; Oracle Taleo; TempWorks recruiting and staffing software; 64 more"
+    },
+    {
+     "id": "tech25",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Information retrieval or search software — LexisNexis"
+    },
+    {
+     "id": "tech26",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Internet browser software — Microsoft Internet Explorer; Web browser software"
+    },
+    {
+     "id": "tech27",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Medical software — MEDITECH software"
+    },
+    {
+     "id": "tech28",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Object or component oriented development software — Advanced business application programming ABAP"
+    },
+    {
+     "id": "tech29",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Office suite software — Microsoft Office software"
+    },
+    {
+     "id": "tech30",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Operating system software — Apple macOS; Microsoft Windows; Oracle Solaris"
+    },
+    {
+     "id": "tech31",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Presentation software — Google Slides; Microsoft PowerPoint"
+    },
+    {
+     "id": "tech32",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Process mapping and design software — Microsoft Visio"
+    },
+    {
+     "id": "tech33",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Project management software — Microsoft Project; Oracle Primavera Enterprise Project Portfolio Management"
+    },
+    {
+     "id": "tech34",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Sales and marketing software — Google Ads; Marketo Marketing Automation"
+    },
+    {
+     "id": "tech35",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Spreadsheet software — Microsoft Excel"
+    },
+    {
+     "id": "tech36",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Time accounting software — Kronos Workforce Payroll; Kronos Workforce Timekeeper; MPAY Millennium"
+    },
+    {
+     "id": "tech37",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Video conferencing software — Cisco Webex; FaceTime; Google Meet; Zoom"
+    },
+    {
+     "id": "tech38",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Video creation and editing software — Apple Final Cut Pro; Loom; YouTube"
+    },
+    {
+     "id": "tech39",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Web page creation and editing software — Adobe Dreamweaver; Facebook; Social media sites"
+    },
+    {
+     "id": "tech40",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Web platform development software — Drupal; Enterprise JavaBeans; Hypertext markup language HTML"
+    },
+    {
+     "id": "tech41",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Word processing software — Evernote; Google Docs; Microsoft Word"
+    }
+   ]
+  },
+  {
+   "id": "onet_11_3121",
+   "publisher": "U.S. Department of Labor, Employment and Training Administration (O*NET OnLine)",
+   "publisher_class": "us_government",
+   "title": "O*NET OnLine summary report 11-3121.00, Human Resources Managers",
+   "short_title": "O*NET summary for Human Resources Managers",
+   "url": "https://www.onetonline.org/link/summary/11-3121.00",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per page, 2 seconds apart",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "O*NET OnLine page, licensed CC BY 4.0 (stated on the page and at onetcenter.org/license_db.html). Attribution line required: 'This page includes information from O*NET OnLine by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the CC BY 4.0 license. O*NET is a trademark of USDOL/ETA.' Modified text needs the 'has modified' notice. robots.txt allows /link/summary/.",
+   "may_quote": "any passage, with the attribution line",
+   "pairs": [
+    "hr_business_partnering:corporate"
+   ],
+   "passages": [
+    {
+     "id": "task01",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Serve as a link between management and employees by handling questions, interpreting and administering contracts and helping resolve work-related problems."
+    },
+    {
+     "id": "task02",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Plan, direct, supervise, and coordinate work activities of subordinates and staff relating to employment, compensation, labor relations, and employee relations."
+    },
+    {
+     "id": "task03",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Perform difficult staffing duties, including dealing with understaffing, refereeing disputes, firing employees, and administering disciplinary procedures."
+    },
+    {
+     "id": "task04",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Represent organization at personnel-related hearings and investigations."
+    },
+    {
+     "id": "task05",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Negotiate bargaining agreements and help interpret labor contracts."
+    },
+    {
+     "id": "task06",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Advise managers on organizational policy matters, such as equal employment opportunity and sexual harassment, and recommend needed changes."
+    },
+    {
+     "id": "task07",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Plan and conduct new employee orientation to foster positive attitude toward organizational objectives."
+    },
+    {
+     "id": "task08",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Analyze and modify compensation and benefits policies to establish competitive programs and ensure compliance with legal requirements."
+    },
+    {
+     "id": "task09",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Identify staff vacancies and recruit, interview, and select applicants."
+    },
+    {
+     "id": "task10",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Investigate and report on industrial accidents for insurance carriers."
+    },
+    {
+     "id": "task11",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Analyze statistical data and reports to identify and determine causes of personnel problems and develop recommendations for improvement of organization's personnel policies and practices."
+    },
+    {
+     "id": "task12",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Administer compensation, benefits, and performance management systems, and safety and recreation programs."
+    },
+    {
+     "id": "task13",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare and follow budgets for personnel operations."
+    },
+    {
+     "id": "task14",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Maintain records and compile statistical reports concerning personnel-related data such as hires, transfers, performance appraisals, and absenteeism rates."
+    },
+    {
+     "id": "task15",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Provide current and prospective employees with information about policies, job duties, working conditions, wages, opportunities for promotion, and employee benefits."
+    },
+    {
+     "id": "task16",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Plan, organize, direct, control, or coordinate the personnel, training, or labor relations activities of an organization."
+    },
+    {
+     "id": "task17",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Conduct exit interviews to identify reasons for employee termination."
+    },
+    {
+     "id": "task18",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Oversee the evaluation, classification, and rating of occupations and job positions."
+    },
+    {
+     "id": "task19",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Analyze training needs to design employee development, language training, and health and safety programs."
+    },
+    {
+     "id": "task20",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Allocate human resources, ensuring appropriate matches between personnel."
+    },
+    {
+     "id": "task21",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Prepare personnel forecast to project employment needs."
+    },
+    {
+     "id": "task22",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Study legislation, arbitration decisions, and collective bargaining contracts to assess industry trends."
+    },
+    {
+     "id": "task23",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Develop or administer special projects in areas such as pay equity, savings bond programs, day care, and employee awards."
+    },
+    {
+     "id": "task24",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Develop, administer, and evaluate applicant tests."
+    },
+    {
+     "id": "task25",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Contract with vendors to provide employee services, such as food service, transportation, or relocation service."
+    },
+    {
+     "id": "task26",
+     "section": "Tasks",
+     "use": "content",
+     "text": "Provide terminated employees with outplacement or relocation assistance."
+    },
+    {
+     "id": "tech01",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Accounting software — AccountantsWorld Payroll Relief; Intuit QuickBooks; New World Systems Logos.NET; Sage 50 Accounting"
+    },
+    {
+     "id": "tech02",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Analytical or scientific software — IBM SPSS Statistics"
+    },
+    {
+     "id": "tech03",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Business intelligence and data analysis software — IBM Cognos Impromptu; Oracle Business Intelligence Enterprise Edition"
+    },
+    {
+     "id": "tech04",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Charting software — AASoftTech Web Organization Chart"
+    },
+    {
+     "id": "tech05",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Compliance software — Stratitec TimeIPS"
+    },
+    {
+     "id": "tech06",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Computer based training software — Training software"
+    },
+    {
+     "id": "tech07",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base reporting software — SAP BusinessObjects Crystal Reports"
+    },
+    {
+     "id": "tech08",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Data base user interface and query software — Automation Centre Personnel Tracker; Microsoft Access"
+    },
+    {
+     "id": "tech09",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Desktop publishing software — Microsoft Publisher"
+    },
+    {
+     "id": "tech10",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Document management software — Atlas Business Solutions Staff Files; Microsoft SharePoint Server; PDF readers; WinOcular"
+    },
+    {
+     "id": "tech11",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Electronic mail software — IBM Notes; Microsoft Outlook"
+    },
+    {
+     "id": "tech12",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Enterprise resource planning ERP software — Microsoft Dynamics; Oracle PeopleSoft; SAP software; Workday software; 6 more"
+    },
+    {
+     "id": "tech13",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Financial analysis software — Oracle E-Business Suite Financials"
+    },
+    {
+     "id": "tech14",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Human resources software — Human resource management software HRMS; Oracle Taleo; peoplefluent Performance; UniFocus Watson Human Resources Manager; 38 more"
+    },
+    {
+     "id": "tech15",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Internet browser software — Web browser software"
+    },
+    {
+     "id": "tech16",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Multi-media educational software — Nearpod"
+    },
+    {
+     "id": "tech17",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Office suite software — Corel WordPerfect Office Suite; Microsoft Office software"
+    },
+    {
+     "id": "tech18",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Presentation software — Mentimeter; Microsoft PowerPoint"
+    },
+    {
+     "id": "tech19",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Process mapping and design software — Microsoft Visio"
+    },
+    {
+     "id": "tech20",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Project management software — Microsoft Project"
+    },
+    {
+     "id": "tech21",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Spreadsheet software — IBM Lotus 1-2-3; Microsoft Excel"
+    },
+    {
+     "id": "tech22",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Time accounting software — ADP ezLaborManager; ADP Pay eXpert; Kronos Workforce Timekeeper; Stromberg Enterprise; 9 more"
+    },
+    {
+     "id": "tech23",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Video creation and editing software — YouTube"
+    },
+    {
+     "id": "tech24",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Web page creation and editing software — Facebook; LinkedIn; Social media sites"
+    },
+    {
+     "id": "tech25",
+     "section": "Technology Skills",
+     "use": "content",
+     "text": "Word processing software — Microsoft Word; Nuvosoft Rwiz"
+    }
+   ]
+  },
+  {
+   "id": "sec_10k",
+   "publisher": "U.S. Securities and Exchange Commission, Office of Investor Education and Advocacy",
+   "publisher_class": "us_government",
+   "title": "Investor Bulletin: How to Read a 10-K",
+   "short_title": "SEC bulletin How to Read a 10-K",
+   "url": "https://www.sec.gov/files/reada10k.pdf",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request; text taken from the PDF with a crude extractor and cleaned by hand (ligatures and apostrophes restored)",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "Work of the US government; not subject to copyright in the US (17 USC 105). The site's own policy page was not read; this note is the reader's inference. investor.gov answered 403 to the web tool; that copy was not read.",
+   "may_quote": "any passage, with the source named",
+   "pairs": [
+    "valuation:bank",
+    "ma_execution:bank",
+    "credit_analysis:bank",
+    "client_coverage:bank"
+   ],
+   "passages": [
+    {
+     "id": "edgar",
+     "section": "The Roles of Companies and the SEC",
+     "use": "input",
+     "about": [
+      "dcf",
+      "comps",
+      "financial_statements",
+      "cash_flow_analysis",
+      "financial_model",
+      "credit_memo",
+      "spreads",
+      "pitch_book",
+      "lbo_model",
+      "three_statement"
+     ],
+     "text": "All 10-Ks filed with SEC are available to the public on the SEC's EDGAR website. Most companies also post their 10-Ks on their own websites."
+    },
+    {
+     "id": "item1",
+     "section": "Item 1",
+     "use": "input",
+     "about": [
+      "pitch_book",
+      "comps",
+      "cim",
+      "credit_memo"
+     ],
+     "text": "Item 1 - Business requires a description of the company's business, including its main products and services, what subsidiaries it owns, and what markets it operates in."
+    },
+    {
+     "id": "item1a",
+     "section": "Item 1A",
+     "use": "input",
+     "about": [
+      "credit_memo",
+      "due_diligence",
+      "cim"
+     ],
+     "text": "Item 1A - Risk Factors includes information about the most significant risks that apply to the company or to its securities."
+    },
+    {
+     "id": "item7",
+     "section": "Item 7",
+     "use": "input",
+     "about": [
+      "credit_memo",
+      "financial_statements",
+      "dcf",
+      "cash_flow_analysis",
+      "financial_model"
+     ],
+     "text": "Item 7 - Management's Discussion and Analysis of Financial Condition and Results of Operations gives the company's perspective on the business results of the past financial year. The MD&A presents: The company's operations and financial results, including information about the company's liquidity and capital resources and any known trends or uncertainties that could materially affect the company's results."
+    },
+    {
+     "id": "item8",
+     "section": "Item 8",
+     "use": "input",
+     "about": [
+      "dcf",
+      "comps",
+      "financial_statements",
+      "cash_flow_analysis",
+      "financial_model",
+      "spreads",
+      "credit_memo",
+      "lbo_model",
+      "three_statement"
+     ],
+     "text": "Item 8 - Financial Statements and Supplementary Data requires the company's audited financial statements. This includes the company's income statement (which is sometimes called the statement of earnings or the statement of operations), balance sheets, statement of cash flows and statement of stockholders' equity. The financial statements are accompanied by notes that explain the information presented in the financial statements."
+    }
+   ]
+  },
+  {
+   "id": "occ_rcr",
+   "publisher": "Office of the Comptroller of the Currency",
+   "publisher_class": "us_government",
+   "title": "Comptroller's Handbook: Rating Credit Risk (April 2001, updated June 26, 2017)",
+   "short_title": "OCC handbook Rating Credit Risk",
+   "url": "https://www.occ.gov/publications-and-resources/publications/comptrollers-handbook/files/rating-credit-risk/pub-ch-rating-credit-risk.pdf",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request; text taken from the PDF with a crude extractor and cleaned by hand (apostrophes restored, page headers removed)",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "Work of the US government; not subject to copyright in the US (17 USC 105). The site's own policy page was not read; this note is the reader's inference. The 2017 update date comes from a search summary, not from the PDF.",
+   "may_quote": "any passage, with the source named",
+   "pairs": [
+    "credit_analysis:bank",
+    "client_coverage:bank"
+   ],
+   "passages": [
+    {
+     "id": "process",
+     "section": "The Credit Risk Evaluation Process",
+     "use": "content",
+     "about": [
+      "credit_memo",
+      "risk_rating",
+      "covenants",
+      "cash_flow_analysis"
+     ],
+     "text": "The risk rating process starts with a thorough analysis of the borrower's ability to repay and the support provided by the structure and any credit risk mitigants. When analyzing the risk in a credit exposure, examiners will consider: The borrower's current and expected financial condition, i.e., cash flow, liquidity, leverage, free assets; The borrower's ability to withstand adverse, or stressed, conditions; The borrower's history of servicing debt, whether projected and historical repayment capacity are correlated, and the borrower's willingness to repay; Underwriting elements in the loan agreement, such as loan covenants, amortization, and reporting requirements; Collateral pledged (amount, quality, and liquidity), control over collateral, and other credit risk mitigants; and Qualitative factors such as the caliber of the borrower's management, the strength of its industry, and the condition of the economy."
+    },
+    {
+     "id": "fsa",
+     "section": "Financial Statement Analysis",
+     "use": "content",
+     "about": [
+      "financial_statements",
+      "spreads",
+      "credit_memo",
+      "financial_model"
+     ],
+     "text": "There is no substitute for rigorous analysis of a borrower's financial statements. The balance sheet, income statement, sources and uses of funds statement, and financial projections provide essential information about the borrower's initial and ongoing repayment capacity. Quantitative analysis of revenues, profit margins, income and cash flow, leverage, liquidity, and capitalization should be sufficiently detailed to identify trends and anomalies that may affect borrower performance. The balance sheet deserves as much attention as the income statement."
+    },
+    {
+     "id": "cashflow",
+     "section": "Cash Flow",
+     "use": "content",
+     "about": [
+      "cash_flow_analysis",
+      "credit_memo"
+     ],
+     "text": "Business cash flow is the operating revenue derived from ordinary business activities less operating costs paid (not simply incurred), plus noncash expenses such as depreciation and amortization. Changes in working capital accounts should be reviewed to understand the cash flow implications. Shortfalls in cash flow or debt service coverage are usually the most obvious indications of a problem credit."
+    },
+    {
+     "id": "ratios",
+     "section": "Ratio Analysis and Benchmarks",
+     "use": "content",
+     "about": [
+      "financial_statements",
+      "spreads",
+      "credit_memo"
+     ],
+     "text": "Financial ratios provide vital information about balance sheet and income statement proportions (debt to equity, income to revenues, etc.). Comparing a borrower's financial ratios with prior periods and industry or peer group norms can identify potential weaknesses."
+    },
+    {
+     "id": "projections",
+     "section": "Analysis of Projections",
+     "use": "content",
+     "about": [
+      "financial_model",
+      "cash_flow_analysis",
+      "credit_memo"
+     ],
+     "text": "Projections should be analyzed under multiple scenarios - downside, break-even, best case, most likely case - and stress-tested periodically."
+    },
+    {
+     "id": "file",
+     "section": "Introduction",
+     "use": "content",
+     "about": [
+      "risk_rating",
+      "credit_memo"
+     ],
+     "text": "The rating assigned to a credit should be well supported and documented in the credit file."
+    }
+   ]
+  },
+  {
+   "id": "sba_marketing",
+   "publisher": "U.S. Small Business Administration",
+   "publisher_class": "us_government",
+   "title": "Manage your business: Marketing and sales, Make a marketing plan",
+   "short_title": "SBA guide Make a marketing plan",
+   "url": "https://www.sba.gov/business-guide/manage-your-business/marketing-sales",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request (the URL redirects to sba.gov/counseling/manage-your-business/#marketing-and-sales)",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "Work of the US government; not subject to copyright in the US (17 USC 105). The site's own policy page was not read; this note is the reader's inference. robots.txt allows the page.",
+   "may_quote": "any passage, with the source named",
+   "pairs": [
+    "campaign_management:corporate"
+   ],
+   "passages": [
+    {
+     "id": "intro",
+     "section": "Make a marketing plan",
+     "use": "content",
+     "about": [
+      "marketing_plan"
+     ],
+     "text": "One of the best ways to stay on schedule and on budget is to make a marketing plan. It describes the actions you'll take to persuade potential customers to buy your products or services. Most marketing plans cover these topics."
+    },
+    {
+     "id": "sections",
+     "section": "Use these sections in your marketing plan",
+     "use": "content",
+     "about": [
+      "marketing_plan"
+     ],
+     "text": "Target market. Describe your audience in detail. Look at the market's size, demographics, unique traits, and trends that relate to demand for your business. Competitive advantage. Describe what gives your product or service an advantage over the competition. Sales plan. Marketing and sales goals. Describe your marketing and sales goals for the next year. Common marketing and sales goals are to increase email subscribers, grow market share, or increase sales by a certain percent. Marketing action plan. Describe how you'll achieve your marketing and sales goals. List marketing channels you'll use, like online advertising, radio ads, or billboards. Explain your pricing strategy and how you'll use promotions. Budget. Include a complete breakdown of the costs of your marketing plan."
+    },
+    {
+     "id": "measure",
+     "section": "Measure and update your plan",
+     "use": "content",
+     "about": [
+      "campaign_report",
+      "marketing_plan"
+     ],
+     "text": "Plan to compare your marketing and sales costs to the revenue it generates. You want to make sure you're getting a positive return on investment, or ROI. Some tactics are hard to measure - like print advertising or word-of-mouth campaigns. Get creative and use others' advice, but be consistent in how you measure the effectiveness of your marketing efforts. Measuring ROI will help you know which part of the plan is working and which part needs to be updated."
+    }
+   ]
+  },
+  {
+   "id": "far_15_204",
+   "publisher": "General Services Administration, Acquisition.gov (Federal Acquisition Regulation)",
+   "publisher_class": "us_government",
+   "title": "FAR 15.204-1 Uniform contract format and 15.204-5 Part IV, Representations and Instructions (FAC 2026-01)",
+   "short_title": "FAR 15.204 Uniform contract format",
+   "url": "https://www.acquisition.gov/far/15.204-1",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request per section (15.204-1 and 15.204-5)",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "Work of the US government; not subject to copyright in the US (17 USC 105). The site's own policy page was not read; this note is the reader's inference. It describes a federal request for proposals, not a company's.",
+   "may_quote": "any passage, with the source named",
+   "pairs": [
+    "spend_cost_savings:corporate",
+    "client_engagement:consulting",
+    "client_coverage:bank"
+   ],
+   "passages": [
+    {
+     "id": "table",
+     "section": "Table 15-1, Uniform Contract Format",
+     "use": "content",
+     "about": [
+      "rfp",
+      "contract",
+      "sow"
+     ],
+     "text": "Part I-The Schedule. A Solicitation/contract form. B Supplies or services and prices/costs. C Description/specifications/statement of work. D Packaging and marking. E Inspection and acceptance. F Deliveries or performance. G Contract administration data. H Special contract requirements. Part II-Contract Clauses. I Contract clauses. Part III-List of Documents, Exhibits, and Other Attachments. J List of attachments. Part IV-Representations and Instructions. K Representations, certifications, and other statements of offerors or respondents. L Instructions, conditions, and notices to offerors or respondents. M Evaluation factors for award."
+    },
+    {
+     "id": "section_m",
+     "section": "15.204-5, Section M",
+     "use": "content",
+     "about": [
+      "rfp"
+     ],
+     "text": "Section M, Evaluation factors for award. Identify all significant factors and any significant subfactors that will be considered in awarding the contract and their relative importance."
+    },
+    {
+     "id": "section_l",
+     "section": "15.204-5, Section L",
+     "use": "content",
+     "about": [
+      "rfp"
+     ],
+     "text": "Section L, Instructions, conditions, and notices to offerors or respondents. Prospective offerors or respondents may be instructed to submit proposals or information in a specific format or severable parts to facilitate evaluation. The instructions may specify further organization of proposal or response parts, such as- (1) Administrative; (2) Management; (3) Technical; (4) Past performance; and (5) Certified cost or pricing data."
+    }
+   ]
+  },
+  {
+   "id": "far_15_407_4",
+   "publisher": "General Services Administration, Acquisition.gov (Federal Acquisition Regulation)",
+   "publisher_class": "us_government",
+   "title": "FAR 15.407-4 Should-cost review (FAC 2026-01)",
+   "short_title": "FAR 15.407-4 Should-cost review",
+   "url": "https://www.acquisition.gov/far/15.407-4",
+   "date_read": "2026-10-13",
+   "read_with": "script, one request",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "Work of the US government; not subject to copyright in the US (17 USC 105). The site's own policy page was not read; this note is the reader's inference. It describes a government review of a contractor, not a company's cost model.",
+   "may_quote": "any passage, with the source named",
+   "pairs": [
+    "spend_cost_savings:corporate"
+   ],
+   "passages": [
+    {
+     "id": "general",
+     "section": "General",
+     "use": "content",
+     "about": [
+      "cost_model"
+     ],
+     "text": "Should-cost reviews are a specialized form of cost analysis. Should-cost reviews differ from traditional evaluation methods because they do not assume that a contractor's historical costs reflect efficient and economical operation. Instead, these reviews evaluate the economy and efficiency of the contractor's existing work force, methods, materials, equipment, real property, operating systems, and management."
+    },
+    {
+     "id": "program",
+     "section": "Program should-cost review",
+     "use": "content",
+     "about": [
+      "cost_model"
+     ],
+     "text": "A program should-cost review is used to evaluate significant elements of direct costs, such as material and labor, and associated indirect costs, usually associated with the production of major systems."
+    }
+   ]
+  },
+  {
+   "id": "bls_financial_analysts",
+   "publisher": "U.S. Bureau of Labor Statistics",
+   "publisher_class": "us_government",
+   "title": "Occupational Outlook Handbook: Financial Analysts (last modified August 27, 2026)",
+   "short_title": "BLS Occupational Outlook Handbook, Financial Analysts",
+   "url": "https://www.bls.gov/ooh/business-and-financial/financial-analysts.htm",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request (no script: bls.gov answers 403 to scripts)",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "BLS Occupational Outlook Handbook. BLS states its text is in the public domain and free to use with citation (plan, 2026-10-12; not re-read). bls.gov refuses scripts (403), so the page was read once with the web tool, which returns quotes of at most 125 characters. Only those quotes are stored.",
+   "may_quote": "the stored sentences, with the source named",
+   "pairs": [
+    "valuation:bank",
+    "ma_execution:bank",
+    "client_coverage:bank",
+    "credit_analysis:bank"
+   ],
+   "passages": [
+    {
+     "id": "q1",
+     "section": "How to Become a Financial Analyst",
+     "use": "access",
+     "about": [
+      "series_79",
+      "series_63",
+      "sie",
+      "series_7"
+     ],
+     "text": "The Financial Industry Regulatory Authority (FINRA) is the main licensing organization for the securities industry."
+    },
+    {
+     "id": "q2",
+     "section": "How to Become a Financial Analyst",
+     "use": "access",
+     "about": [
+      "series_79",
+      "series_63",
+      "sie",
+      "series_7"
+     ],
+     "text": "Because most of the licenses require sponsorship by an employer, companies do not expect individuals to have these licenses"
+    },
+    {
+     "id": "q3",
+     "section": "How to Become a Financial Analyst",
+     "use": "content",
+     "about": [
+      "deg_finance"
+     ],
+     "text": "Financial analysts typically need a bachelor's degree to enter the occupation."
+    }
+   ]
+  },
+  {
+   "id": "bls_hr_specialists",
+   "publisher": "U.S. Bureau of Labor Statistics",
+   "publisher_class": "us_government",
+   "title": "Occupational Outlook Handbook: Human Resources Specialists (last modified August 27, 2026)",
+   "short_title": "BLS Occupational Outlook Handbook, Human Resources Specialists",
+   "url": "https://www.bls.gov/ooh/business-and-financial/human-resources-specialists.htm",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request (no script: bls.gov answers 403 to scripts)",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "BLS Occupational Outlook Handbook. BLS states its text is in the public domain and free to use with citation (plan, 2026-10-12; not re-read). bls.gov refuses scripts (403), so the page was read once with the web tool, which returns quotes of at most 125 characters. Only those quotes are stored.",
+   "may_quote": "the stored sentences, with the source named",
+   "pairs": [
+    "hr_business_partnering:corporate"
+   ],
+   "passages": [
+    {
+     "id": "q1",
+     "section": "How to Become a Human Resources Specialist",
+     "use": "content",
+     "about": [
+      "deg_hr"
+     ],
+     "text": "typically need a bachelor's degree in human resources, business, communications, or a related field."
+    },
+    {
+     "id": "q2",
+     "section": "How to Become a Human Resources Specialist",
+     "use": "content",
+     "about": [
+      "hrci_phr",
+      "shrm_cert"
+     ],
+     "text": "Although certification is usually voluntary, some employers prefer or require it."
+    }
+   ]
+  },
+  {
+   "id": "bls_purchasing",
+   "publisher": "U.S. Bureau of Labor Statistics",
+   "publisher_class": "us_government",
+   "title": "Occupational Outlook Handbook: Purchasing Managers, Buyers, and Purchasing Agents (last modified August 27, 2026)",
+   "short_title": "BLS Occupational Outlook Handbook, Purchasing Managers, Buyers, and Purchasing Agents",
+   "url": "https://www.bls.gov/ooh/business-and-financial/purchasing-managers-buyers-and-purchasing-agents.htm",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request (no script: bls.gov answers 403 to scripts)",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "BLS Occupational Outlook Handbook. BLS states its text is in the public domain and free to use with citation (plan, 2026-10-12; not re-read). bls.gov refuses scripts (403), so the page was read once with the web tool, which returns quotes of at most 125 characters. Only those quotes are stored.",
+   "may_quote": "the stored sentences, with the source named",
+   "pairs": [
+    "spend_cost_savings:corporate"
+   ],
+   "passages": [
+    {
+     "id": "q1",
+     "section": "How to Become",
+     "use": "content",
+     "about": [
+      "deg_supply_chain"
+     ],
+     "text": "Purchasing managers, buyers, and purchasing agents typically need a bachelor's degree for entry-level positions."
+    },
+    {
+     "id": "q2",
+     "section": "How to Become",
+     "use": "content",
+     "about": [
+      "cpsm",
+      "ascm_cert"
+     ],
+     "text": "Some workers may choose to earn optional certification in an area such as procurement or supply chain management."
+    }
+   ]
+  },
+  {
+   "id": "bls_budget_analysts",
+   "publisher": "U.S. Bureau of Labor Statistics",
+   "publisher_class": "us_government",
+   "title": "Occupational Outlook Handbook: Budget Analysts (last modified August 27, 2026)",
+   "short_title": "BLS Occupational Outlook Handbook, Budget Analysts",
+   "url": "https://www.bls.gov/ooh/business-and-financial/budget-analysts.htm",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request (no script: bls.gov answers 403 to scripts)",
+   "status_when_read": 200,
+   "licence_class": "open",
+   "terms_note": "BLS Occupational Outlook Handbook. BLS states its text is in the public domain and free to use with citation (plan, 2026-10-12; not re-read). bls.gov refuses scripts (403), so the page was read once with the web tool, which returns quotes of at most 125 characters. Only those quotes are stored.",
+   "may_quote": "the stored sentences, with the source named",
+   "pairs": [
+    "budgeting_forecasting:corporate"
+   ],
+   "passages": [
+    {
+     "id": "q1",
+     "section": "How to Become a Budget Analyst",
+     "use": "content",
+     "about": [
+      "deg_finance",
+      "accounting_course"
+     ],
+     "text": "Budget analysts typically need a bachelor's degree to enter the occupation."
+    },
+    {
+     "id": "q2",
+     "section": "How to Become a Budget Analyst",
+     "use": "content",
+     "about": [
+      "deg_finance",
+      "accounting_course"
+     ],
+     "text": "Courses in accounting, economics, and statistics are helpful."
+    },
+    {
+     "id": "q3",
+     "section": "What Budget Analysts Do",
+     "use": "content",
+     "about": [
+      "variance_analysis",
+      "budget_doc"
+     ],
+     "text": "if there is a difference between the approved budget and actual spending,"
+    },
+    {
+     "id": "q4",
+     "section": "What Budget Analysts Do",
+     "use": "content",
+     "about": [
+      "business_case",
+      "budget_doc"
+     ],
+     "text": "Sometimes, budget analysts use cost-benefit analyses to review financial requests,"
+    }
+   ]
+  },
+  {
+   "id": "finra_sie",
+   "publisher": "FINRA",
+   "publisher_class": "regulator",
+   "title": "Securities Industry Essentials (SIE) Exam",
+   "short_title": "FINRA SIE exam page",
+   "url": "https://www.finra.org/registration-exams-ce/qualification-exams/securities-industry-essentials-exam",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request, by hand",
+   "status_when_read": 200,
+   "licence_class": "title_only",
+   "terms_note": "FINRA Terms of Use (finra.org/terms-of-use, read once with the web tool, 2026-10-13): no data mining, scraping or harvesting tools, no copying in bulk; content may not be copied or reproduced without written consent except as fair use; linking is allowed (the linked page must show whole, not in a frame; FINRA may withdraw consent to a link). Kept here: the page title, the section titles and facts in our own words. No sentence of FINRA's is stored.",
+   "may_quote": "title and section titles only, with a link",
+   "pairs": [
+    "valuation:bank",
+    "ma_execution:bank",
+    "credit_analysis:bank",
+    "client_coverage:bank"
+   ],
+   "about": [
+    "sie"
+   ],
+   "exam": "SIE exam",
+   "outline_title": "SIE content outline",
+   "sections": [
+    "Knowledge of Capital Markets",
+    "Understanding Products and Their Risks",
+    "Understanding Trading, Customer Accounts and Prohibited Activities",
+    "Overview of Regulatory Framework"
+   ],
+   "facts": [
+    {
+     "id": "f1",
+     "text": "Anyone aged 18 or over can take the SIE exam."
+    },
+    {
+     "id": "f2",
+     "text": "You do not need a firm to sponsor you for the SIE exam."
+    },
+    {
+     "id": "f3",
+     "text": "The SIE exam has 75 questions and a limit of 1 hour 45 minutes."
+    },
+    {
+     "id": "f4",
+     "text": "A SIE pass stays valid for four years."
+    },
+    {
+     "id": "f5",
+     "text": "The SIE alone does not register you. You also need a representative exam such as Series 79."
+    }
+   ],
+   "student_can_take": true,
+   "passages": []
+  },
+  {
+   "id": "finra_s79",
+   "publisher": "FINRA",
+   "publisher_class": "regulator",
+   "title": "Series 79 - Investment Banking Representative Exam",
+   "short_title": "FINRA Series 79 exam page",
+   "url": "https://www.finra.org/registration-exams-ce/qualification-exams/series79",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request, by hand",
+   "status_when_read": 200,
+   "licence_class": "title_only",
+   "terms_note": "FINRA Terms of Use (finra.org/terms-of-use, read once with the web tool, 2026-10-13): no data mining, scraping or harvesting tools, no copying in bulk; content may not be copied or reproduced without written consent except as fair use; linking is allowed (the linked page must show whole, not in a frame; FINRA may withdraw consent to a link). Kept here: the page title, the section titles and facts in our own words. No sentence of FINRA's is stored. The outline PDF named in the plan (Series_79_Content_Outline.pdf) returned a Series 7 task list, so it was not used.",
+   "may_quote": "title and section titles only, with a link",
+   "pairs": [
+    "valuation:bank",
+    "ma_execution:bank",
+    "credit_analysis:bank",
+    "client_coverage:bank"
+   ],
+   "about": [
+    "series_79"
+   ],
+   "exam": "Series 79 exam",
+   "outline_title": "Series 79 content outline",
+   "sections": [
+    "Collection, Analysis, and Evaluation of Data",
+    "Underwriting/New Financing Transaction, Types of Offerings and Registration of Securities",
+    "Mergers and Acquisitions, Tender Offers and Financial Restructuring Transaction"
+   ],
+   "facts": [
+    {
+     "id": "f1",
+     "text": "Only a person sponsored by a FINRA member firm can take the Series 79 exam."
+    },
+    {
+     "id": "f2",
+     "text": "The SIE exam is a corequisite of the Series 79 exam."
+    },
+    {
+     "id": "f3",
+     "text": "The Series 79 exam has 75 questions and a limit of 2 hours 30 minutes."
+    }
+   ],
+   "student_can_take": false,
+   "passages": []
+  },
+  {
+   "id": "nasaa_s63",
+   "publisher": "NASAA (North American Securities Administrators Association)",
+   "publisher_class": "regulator",
+   "title": "Exam FAQs (Series 63)",
+   "short_title": "NASAA exam FAQs",
+   "url": "https://www.nasaa.org/exams/exam-faqs/",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request, by hand",
+   "status_when_read": 200,
+   "licence_class": "title_only",
+   "terms_note": "NASAA's terms of use were not read. Kept: the page title and facts in our own words. No sentence of NASAA's is stored.",
+   "may_quote": "title and section titles only, with a link",
+   "pairs": [
+    "valuation:bank",
+    "ma_execution:bank",
+    "credit_analysis:bank",
+    "client_coverage:bank"
+   ],
+   "about": [
+    "series_63"
+   ],
+   "exam": "Series 63 exam",
+   "outline_title": "",
+   "sections": [],
+   "facts": [
+    {
+     "id": "f1",
+     "text": "A person with no firm can enrol for the Series 63 exam through FINRA's TESS system."
+    },
+    {
+     "id": "f2",
+     "text": "A person at a FINRA member firm enrols through the firm."
+    }
+   ],
+   "student_can_take": true,
+   "passages": []
+  },
+  {
+   "id": "shrm_cp",
+   "publisher": "SHRM",
+   "publisher_class": "certification_body",
+   "title": "SHRM Certified Professional (SHRM-CP)",
+   "short_title": "SHRM-CP page",
+   "url": "https://www.shrm.org/credentials/certification/shrm-cp",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request, by hand",
+   "status_when_read": 200,
+   "licence_class": "title_only",
+   "terms_note": "SHRM: all rights reserved, permission form for reuse (plan, 2026-10-12; the terms page was not re-read). Kept: the page title, the name of the outline and facts in our own words.",
+   "may_quote": "title and section titles only, with a link",
+   "pairs": [
+    "hr_business_partnering:corporate"
+   ],
+   "about": [
+    "shrm_cert"
+   ],
+   "exam": "SHRM-CP exam",
+   "outline_title": "SHRM Body of Applied Skills and Knowledge",
+   "sections": [],
+   "facts": [
+    {
+     "id": "f1",
+     "text": "The SHRM-CP is for people who do HR work or plan an HR career."
+    },
+    {
+     "id": "f2",
+     "text": "The exam has 134 questions and takes four hours."
+    },
+    {
+     "id": "f3",
+     "text": "The page does not say whether a student can take the exam."
+    }
+   ],
+   "student_can_take": null,
+   "passages": []
+  },
+  {
+   "id": "hrci_phr",
+   "publisher": "HRCI",
+   "publisher_class": "certification_body",
+   "title": "PHR Certification - Requirements & Exam Info",
+   "short_title": "HRCI PHR page",
+   "url": "https://www.hrci.org/certifications/individual-certifications/phr",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request, by hand",
+   "status_when_read": 200,
+   "licence_class": "title_only",
+   "terms_note": "HRCI's terms of use were not read. Kept: the page title and facts in our own words.",
+   "may_quote": "title and section titles only, with a link",
+   "pairs": [
+    "hr_business_partnering:corporate"
+   ],
+   "about": [
+    "hrci_phr"
+   ],
+   "exam": "PHR exam",
+   "outline_title": "PHR exam content outline",
+   "sections": [],
+   "facts": [
+    {
+     "id": "f1",
+     "text": "The PHR needs professional HR experience: one year with a master's degree, two with a bachelor's degree, or four."
+    },
+    {
+     "id": "f2",
+     "text": "The exam has 90 scored questions and takes two hours."
+    }
+   ],
+   "student_can_take": false,
+   "passages": []
+  },
+  {
+   "id": "asq_ssgb",
+   "publisher": "ASQ",
+   "publisher_class": "certification_body",
+   "title": "Six Sigma Green Belt Certification (CSSGB)",
+   "short_title": "ASQ Six Sigma Green Belt page",
+   "url": "https://www.asq.org/cert/six-sigma-green-belt",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request, by hand",
+   "status_when_read": 200,
+   "licence_class": "title_only",
+   "terms_note": "ASQ's terms of use were not read. Kept: the page title, the name of the outline and facts in our own words.",
+   "may_quote": "title and section titles only, with a link",
+   "pairs": [
+    "spend_cost_savings:corporate"
+   ],
+   "about": [
+    "six_sigma"
+   ],
+   "exam": "Six Sigma Green Belt exam",
+   "outline_title": "Six Sigma Green Belt Body of Knowledge",
+   "sections": [],
+   "facts": [
+    {
+     "id": "f1",
+     "text": "The ASQ Green Belt needs three years of full-time paid work in the body of knowledge."
+    },
+    {
+     "id": "f2",
+     "text": "The exam has 110 questions and is open book."
+    }
+   ],
+   "student_can_take": false,
+   "passages": []
+  },
+  {
+   "id": "aicpa_cpa",
+   "publisher": "AICPA & CIMA",
+   "publisher_class": "certification_body",
+   "title": "Learn what to study for the CPA Exam",
+   "short_title": "AICPA CPA Exam page",
+   "url": "https://www.aicpa-cima.com/resources/article/learn-what-is-tested-on-the-cpa-exam",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request, by hand",
+   "status_when_read": 200,
+   "licence_class": "title_only",
+   "terms_note": "AICPA's terms of use were not read (plan: 'public PDF, terms not confirmed'). Kept: the page title, the name of the blueprint document and the section abbreviations.",
+   "may_quote": "title and section titles only, with a link",
+   "pairs": [
+    "budgeting_forecasting:corporate"
+   ],
+   "about": [
+    "cpa"
+   ],
+   "exam": "CPA Exam",
+   "outline_title": "CPA Exam Blueprints",
+   "sections": [
+    "AUD",
+    "FAR",
+    "REG",
+    "BAR",
+    "ISC",
+    "TCP"
+   ],
+   "facts": [
+    {
+     "id": "f1",
+     "text": "The CPA Exam Blueprints list the knowledge and skills tested for a first licence."
+    },
+    {
+     "id": "f2",
+     "text": "The page does not state who can sit the exam."
+    }
+   ],
+   "student_can_take": null,
+   "passages": []
+  },
+  {
+   "id": "ima_cma",
+   "publisher": "IMA (Institute of Management Accountants)",
+   "publisher_class": "certification_body",
+   "title": "How to earn the CMA Certification",
+   "short_title": "IMA CMA page",
+   "url": "https://www.imaglobal.org/certifications/cma/how-to",
+   "date_read": "2026-10-13",
+   "read_with": "web tool, one request, by hand",
+   "status_when_read": 200,
+   "licence_class": "title_only",
+   "terms_note": "IMA's terms of use were not read. The page named in the plan (imanet.org/ima-certifications/cma-certification) redirects to imaglobal.org. Kept: the page title, the name of the outline and facts in our own words.",
+   "may_quote": "title and section titles only, with a link",
+   "pairs": [
+    "budgeting_forecasting:corporate"
+   ],
+   "about": [
+    "cma"
+   ],
+   "exam": "CMA exam",
+   "outline_title": "CMA Content Specification Outline",
+   "sections": [],
+   "facts": [
+    {
+     "id": "f1",
+     "text": "The CMA exam has two parts. You can take them in any order."
+    },
+    {
+     "id": "f2",
+     "text": "The CMA needs a bachelor's degree and two years of work in management accounting or financial management."
+    },
+    {
+     "id": "f3",
+     "text": "You can finish the two years of work within seven years after you pass the exam."
+    }
+   ],
+   "student_can_take": true,
+   "passages": []
+  }
+ ],
+ "tried_and_not_usable": [
+  {
+   "id": "investor_gov_10k",
+   "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/how-read-10-k",
+   "why": "403 to the web tool; the SEC PDF of the same bulletin was read instead"
+  },
+  {
+   "id": "ism_cpsm",
+   "url": "https://www.ismworld.org/certification-and-training/certification/cpsm/",
+   "why": "redirects to a login page; not read, so CPSM has no source"
+  },
+  {
+   "id": "dol_gov",
+   "url": "https://www.dol.gov/",
+   "why": "403 to a script (robots.txt could not be read); not read, so employment law has no source"
+  },
+  {
+   "id": "careeronestop",
+   "url": "https://www.careeronestop.org/",
+   "why": "403 to a script; not read"
+  },
+  {
+   "id": "opm_workforce_planning",
+   "url": "https://www.opm.gov/policy-data-oversight/human-capital-management/workforce-planning/",
+   "why": "404; the guide is a PDF on another host and was not read"
+  },
+  {
+   "id": "finra_s79_outline_pdf",
+   "url": "https://www.finra.org/sites/default/files/Series_79_Content_Outline.pdf",
+   "why": "the file at this URL is a Series 7 task list, not the Series 79 outline"
+  },
+  {
+   "id": "eeoc_employee_rights",
+   "url": "https://www.eeoc.gov/employers/small-business/employee-rights",
+   "why": "read (200); it lists rights, and says nothing an HR step could use about employment law as a subject of study"
+  }
+ ]
+}
