@@ -39,7 +39,7 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
-from pipeline import build_steps, depth_gen, roles_mba, tax  # noqa: E402
+from pipeline import build_steps, depth_gen, processed, roles_mba, tax  # noqa: E402
 
 ROLES = "mba"
 lines, totals = [], collections.Counter()
@@ -90,7 +90,7 @@ def style_of(text, kind):
         return "more than two sentences, or a semicolon or bracket"
     if kind in ("rung", "example") and not text.startswith("You "):
         return "does not start with 'You'"
-    m = depth_gen.BANNED.search(text) or depth_gen.PASSIVE.search(text)
+    m = (build_steps.FILLER if kind == "step" else depth_gen.BANNED).search(text) or depth_gen.PASSIVE.search(text)
     if m:
         return f"filler or passive voice: \"{m.group(0)}\""
     return None
@@ -253,16 +253,18 @@ def subskills(depth, jobs, T):
 
 
 def target_row(step, p, lex_by_id):
-    """A target row rebuilt from a step's provenance, for pipeline.build_steps.check_step."""
+    """A target row rebuilt from a step's provenance (every stored sentence of the target), for pipeline.build_steps.check_step."""
     t = lex_by_id[step["target"]]
     return {"id": step["target"], "label": step["target_label"], "kind": t["kind"], "activity": bool(t.get("activity")), "scope": step["scope"], "level": step.get("level") or "associate",
-            "employers": p["target_employers"], "evidence": [{"id": f"e{i}", "company": s["employer"], "text": s["text"]} for i, s in enumerate(p["sentences"])]}
+            "employers": p["target_employers"], "evidence": [{"id": f"e{i}", "company": s["employer"], "text": s["text"]} for i, s in enumerate(p.get("target_sentences") or p["sentences"])]}
 
 
 def step_record(step, p, skill, role):
+    cited = {s["text"] for s in p["sentences"]}
+    allsent = p.get("target_sentences") or p["sentences"]
     return {"n": step["text"][:30], "for": "role" if role else "skill", "skill": skill, "family": role, "template": p["template"], "kind": step["kind"], "target": step["target"], "scope": step["scope"],
             "level": step.get("level") or "associate", "source": step["source"], "item": p.get("item", ""), "slots": p.get("slots") or {}, "quote": p.get("quote", ""),
-            "evidence": [f"e{i}" for i in range(len(p["sentences"]))], "text": step["text"], "grounding": step["grounding"]}
+            "evidence": [f"e{i}" for i, s in enumerate(allsent) if s["text"] in cited], "text": step["text"], "grounding": step["grounding"]}
 
 
 def build(depth, roles):
@@ -314,7 +316,7 @@ def main():
     want = lambda p: not args.only or args.only == p
     depth, roles = load_depth()
     T = tax.for_roles(ROLES)
-    jobs = json.load(open(os.path.join(ROOT, "data", "processed", f"jobs_{ROLES}.json")))
+    jobs = processed.load(ROLES)
     corpus = None
     if args.with_corpus:
         corpus = {}

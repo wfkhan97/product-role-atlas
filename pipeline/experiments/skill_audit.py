@@ -26,7 +26,7 @@ import requests
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, ROOT)
-from pipeline import tax
+from pipeline import processed, tax
 from pipeline.experiments import role_corpus
 from pipeline.experiments.decisions_audit import ENDPOINT, MODEL
 
@@ -59,7 +59,7 @@ def paths(roleset):
 
 
 def tagged_by_url(roleset):
-    jobs = json.load(open(os.path.join(ROOT, "data", "processed", f"jobs_{roleset}.json")))
+    jobs = processed.load(roleset)
     return {j["url"]: j for j in jobs if j.get("url")}
 
 

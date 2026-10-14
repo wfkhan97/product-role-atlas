@@ -36,7 +36,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
-from pipeline import extract, roles_mba, tax  # noqa: E402
+from pipeline import extract, processed, roles_mba, tax  # noqa: E402
 
 OUT = os.path.join(ROOT, "data", "experiments", "depth")
 ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
@@ -89,7 +89,7 @@ def norm(s):
 
 # ---- 1. evidence packs ------------------------------------------------------------------------------------------
 def load(roleset):
-    jobs = {j["url"]: j for j in json.load(open(os.path.join(ROOT, "data", "processed", f"jobs_{roleset}.json"))) if j["country"] == "United States"}
+    jobs = {j["url"]: j for j in processed.load(roleset) if j["country"] == "United States"}
     corpus = {}
     with open(os.path.join(ROOT, "data", "experiments", f"corpus_{roleset}.jsonl")) as f:
         for line in f:

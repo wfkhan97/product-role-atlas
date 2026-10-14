@@ -1,0 +1,3421 @@
+{
+ "management_consultant": {
+  "consulting": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 12,
+     "postings": 33,
+     "of_postings": 132
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 9,
+     "postings": 21,
+     "of_postings": 132
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 132,
+    "entry_employers": 24
+   }
+  }
+ },
+ "strategy_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 10,
+     "postings": 12,
+     "of_postings": 25
+    },
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 6,
+     "of_postings": 25
+    },
+    {
+     "target": "deg_marketing",
+     "label": "degree in marketing",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 7,
+     "postings": 7,
+     "of_postings": 125
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 25,
+    "entry_employers": 20
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 6,
+     "postings": 7,
+     "of_postings": 21
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 1,
+    "entry_employers": 1
+   }
+  }
+ },
+ "corp_strategy_analyst": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 8,
+     "postings": 8,
+     "of_postings": 30
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 30,
+    "entry_employers": 26
+   }
+  }
+ },
+ "transformation": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 9,
+     "postings": 11,
+     "of_postings": 47
+    },
+    {
+     "target": "pmp",
+     "label": "PMP",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 8,
+     "postings": 10,
+     "of_postings": 47
+    },
+    {
+     "target": "six_sigma",
+     "label": "Six Sigma belt",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 8,
+     "postings": 9,
+     "of_postings": 47,
+     "note": "The ASQ Green Belt needs three years of full-time paid work in the body of knowledge."
+    },
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 8,
+     "postings": 12,
+     "of_postings": 47
+    },
+    {
+     "target": "cpa",
+     "label": "CPA licence",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 5,
+     "postings": 7,
+     "of_postings": 47
+    }
+   ],
+   "build": [
+    {
+     "kind": "learn",
+     "text": "Study the Six Sigma Green Belt Body of Knowledge from ASQ.",
+     "target": "six_sigma",
+     "target_label": "Six Sigma belt",
+     "scope": "role",
+     "level": "mid",
+     "source": "asq_ssgb",
+     "source_title": "Six Sigma Green Belt Certification (CSSGB)",
+     "url": "https://www.asq.org/cert/six-sigma-green-belt",
+     "grounding": "title and facts",
+     "demand": "8 employers name it in 9 of 47 US manager-level postings for this role."
+    },
+    {
+     "kind": "learn",
+     "text": "Study the CPA Exam Blueprints from AICPA & CIMA.",
+     "target": "cpa",
+     "target_label": "CPA licence",
+     "scope": "role",
+     "level": "mid",
+     "source": "aicpa_cpa",
+     "source_title": "Learn what to study for the CPA Exam",
+     "url": "https://www.aicpa-cima.com/resources/article/learn-what-is-tested-on-the-cpa-exam",
+     "grounding": "title and facts",
+     "demand": "5 employers name it in 7 of 47 US manager-level postings for this role."
+    }
+   ],
+   "provenance": {
+    "build": [
+     {
+      "postings": [
+       "Deloitte::353001",
+       "RTX::01863028",
+       "Sia Partners::744000151137239",
+       "Walt Disney::10160833"
+      ],
+      "employers": [
+       "Deloitte",
+       "RTX",
+       "Sia Partners",
+       "Walt Disney"
+      ],
+      "sentences": [
+       {
+        "posting": "Sia Partners::744000151137239",
+        "employer": "Sia Partners",
+        "text": "Experience leading business process improvement initiatives utilizing Lean, Six Sigma, Business Process Management (BPM), or similar methodologies."
+       },
+       {
+        "posting": "Deloitte::353001",
+        "employer": "Deloitte",
+        "text": "PMP, Six Sigma, Lean, Agile, or related certification li > li > Master of Business Administration or other relevant advanced degree."
+       },
+       {
+        "posting": "RTX::01863028",
+        "employer": "RTX",
+        "text": "Experience applying Lean, Six Sigma, and other operational excellence methodologies to logistics and manufacturing environments."
+       },
+       {
+        "posting": "Walt Disney::10160833",
+        "employer": "Walt Disney",
+        "text": "Formal project management, Agile, Six Sigma, consulting, PMP, MBA, CPA, or related transformation credentials are a plus."
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "Sia Partners::744000151137239",
+        "employer": "Sia Partners",
+        "text": "Experience leading business process improvement initiatives utilizing Lean, Six Sigma, Business Process Management (BPM), or similar methodologies."
+       },
+       {
+        "posting": "Deloitte::353001",
+        "employer": "Deloitte",
+        "text": "PMP, Six Sigma, Lean, Agile, or related certification li > li > Master of Business Administration or other relevant advanced degree."
+       },
+       {
+        "posting": "RTX::01863028",
+        "employer": "RTX",
+        "text": "Experience applying Lean, Six Sigma, and other operational excellence methodologies to logistics and manufacturing environments."
+       },
+       {
+        "posting": "Walt Disney::10160833",
+        "employer": "Walt Disney",
+        "text": "Formal project management, Agile, Six Sigma, consulting, PMP, MBA, CPA, or related transformation credentials are a plus."
+       },
+       {
+        "posting": "BDO USA::14267",
+        "employer": "BDO USA",
+        "text": "Project Management Professional (PMP), Certified Associate in Project Management (CAPM), Agile, Scrum, Lean Six Sigma, or similar project management certification, preferred"
+       },
+       {
+        "posting": "EY::1440693433",
+        "employer": "EY",
+        "text": "A PMP, Lean Six Sigma, Agile/Scrum or comparable delivery-leadership certification"
+       },
+       {
+        "posting": "CVS Health::R1040866",
+        "employer": "CVS Health",
+        "text": "         Certified Six Sigma Green Belt"
+       },
+       {
+        "posting": "Accenture::R00350804",
+        "employer": "Accenture",
+        "text": "Lean or Six Sigma qualifications."
+       }
+      ],
+      "target_employers": 8,
+      "template": "learn_outline_whole",
+      "slots": {}
+     },
+     {
+      "postings": [
+       "Amazon::10573557",
+       "Deloitte::350687",
+       "Mars::R168680",
+       "Walt Disney::10160833"
+      ],
+      "employers": [
+       "Amazon",
+       "Deloitte",
+       "Mars",
+       "Walt Disney"
+      ],
+      "sentences": [
+       {
+        "posting": "Deloitte::350687",
+        "employer": "Deloitte",
+        "text": "Master of Business Administration (MBA), Certified Public Accountant (CPA), Certified Treasury Professional (CTP), or Chartered Financial Analyst (CFA)"
+       },
+       {
+        "posting": "Walt Disney::10160833",
+        "employer": "Walt Disney",
+        "text": "Formal project management, Agile, Six Sigma, consulting, PMP, MBA, CPA, or related transformation credentials are a plus."
+       },
+       {
+        "posting": "Mars::R168680",
+        "employer": "Mars",
+        "text": "CPA, CMA, ACCA, MBA, or recognized project/change-management certification (Preferred)."
+       },
+       {
+        "posting": "Amazon::10573557",
+        "employer": "Amazon",
+        "text": "Master's degree in finance, accounting or related field or CPA"
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "Deloitte::350687",
+        "employer": "Deloitte",
+        "text": "Master of Business Administration (MBA), Certified Public Accountant (CPA), Certified Treasury Professional (CTP), or Chartered Financial Analyst (CFA)"
+       },
+       {
+        "posting": "Walt Disney::10160833",
+        "employer": "Walt Disney",
+        "text": "Formal project management, Agile, Six Sigma, consulting, PMP, MBA, CPA, or related transformation credentials are a plus."
+       },
+       {
+        "posting": "Mars::R168680",
+        "employer": "Mars",
+        "text": "CPA, CMA, ACCA, MBA, or recognized project/change-management certification (Preferred)."
+       },
+       {
+        "posting": "Amazon::10573557",
+        "employer": "Amazon",
+        "text": "Master's degree in finance, accounting or related field or CPA"
+       },
+       {
+        "posting": "Salesforce::JR357000",
+        "employer": "Salesforce",
+        "text": "You hold an active CPA."
+       }
+      ],
+      "target_employers": 5,
+      "template": "learn_outline_whole",
+      "slots": {}
+     }
+    ],
+    "entry_postings": 8,
+    "entry_employers": 8
+   }
+  }
+ },
+ "fpa": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 29,
+     "postings": 40,
+     "of_postings": 60
+    },
+    {
+     "target": "cpa",
+     "label": "CPA licence",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 10,
+     "postings": 13,
+     "of_postings": 60
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 7,
+     "of_postings": 60
+    },
+    {
+     "target": "cfa",
+     "label": "CFA charter",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 5,
+     "of_postings": 60
+    },
+    {
+     "target": "accounting_course",
+     "label": "accounting coursework",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 6,
+     "of_postings": 60
+    }
+   ],
+   "build": [
+    {
+     "kind": "learn",
+     "text": "Study the CPA Exam Blueprints from AICPA & CIMA.",
+     "target": "cpa",
+     "target_label": "CPA licence",
+     "scope": "role",
+     "level": "associate",
+     "source": "aicpa_cpa",
+     "source_title": "Learn what to study for the CPA Exam",
+     "url": "https://www.aicpa-cima.com/resources/article/learn-what-is-tested-on-the-cpa-exam",
+     "grounding": "title and facts",
+     "demand": "10 employers name it in 13 of 60 US analyst or associate-level postings for this role."
+    }
+   ],
+   "provenance": {
+    "build": [
+     {
+      "postings": [
+       "Apple::200668983",
+       "Cross River Bank::7600632003",
+       "KBR::R2130968",
+       "Mainspring Energy::51273d9f-5f33-4a57-92bd-e3381be5add9"
+      ],
+      "employers": [
+       "Apple",
+       "Cross River Bank",
+       "KBR",
+       "Mainspring Energy"
+      ],
+      "sentences": [
+       {
+        "posting": "Apple::200668983",
+        "employer": "Apple",
+        "text": "BS/BA or equivalent in Accounting, Finance, or a related field required (MBA and/or CPA is a plus)."
+       },
+       {
+        "posting": "KBR::R2130968",
+        "employer": "KBR",
+        "text": "CPA, CPA eligible or progress toward an equivalent professional accounting qualification."
+       },
+       {
+        "posting": "Mainspring Energy::51273d9f-5f33-4a57-92bd-e3381be5add9",
+        "employer": "Mainspring Energy",
+        "text": "Bachelor’s degree in Finance, Economics or related area; MBA, CFA, or CPA a plus"
+       },
+       {
+        "posting": "Cross River Bank::7600632003",
+        "employer": "Cross River Bank",
+        "text": "Bachelor’s degree in Finance or Accounting (CPA and/or CFA is a plus)"
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "Apple::200668983",
+        "employer": "Apple",
+        "text": "BS/BA or equivalent in Accounting, Finance, or a related field required (MBA and/or CPA is a plus)."
+       },
+       {
+        "posting": "KBR::R2130968",
+        "employer": "KBR",
+        "text": "CPA, CPA eligible or progress toward an equivalent professional accounting qualification."
+       },
+       {
+        "posting": "Mainspring Energy::51273d9f-5f33-4a57-92bd-e3381be5add9",
+        "employer": "Mainspring Energy",
+        "text": "Bachelor’s degree in Finance, Economics or related area; MBA, CFA, or CPA a plus"
+       },
+       {
+        "posting": "Cross River Bank::7600632003",
+        "employer": "Cross River Bank",
+        "text": "Bachelor’s degree in Finance or Accounting (CPA and/or CFA is a plus)"
+       },
+       {
+        "posting": "iCapital::8576018002",
+        "employer": "iCapital",
+        "text": "Advanced degree and/or credentials desired, such as MBA, CPA, CFA"
+       },
+       {
+        "posting": "Oshkosh::R50301",
+        "employer": "Oshkosh",
+        "text": "Certified Public Accountant (CPA) designation."
+       },
+       {
+        "posting": "Greystar::R0200733",
+        "employer": "Greystar",
+        "text": "MBA, CFA, or CPA designation preferred."
+       },
+       {
+        "posting": "Sonoco Products::JR-160024",
+        "employer": "Sonoco Products",
+        "text": "Preferred Certifications: CPA, CMA"
+       }
+      ],
+      "target_employers": 10,
+      "template": "learn_outline_whole",
+      "slots": {}
+     }
+    ],
+    "entry_postings": 60,
+    "entry_employers": 43
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 7,
+     "of_postings": 11
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 11,
+    "entry_employers": 9
+   }
+  }
+ },
+ "strategic_finance": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 13,
+     "of_postings": 26
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 16,
+     "of_postings": 26
+    },
+    {
+     "target": "accounting_course",
+     "label": "accounting coursework",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 5,
+     "postings": 6,
+     "of_postings": 75
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 26,
+    "entry_employers": 12
+   }
+  }
+ },
+ "treasury": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 12,
+     "postings": 12,
+     "of_postings": 19
+    },
+    {
+     "target": "ctp",
+     "label": "CTP",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 11,
+     "postings": 14,
+     "of_postings": 33
+    },
+    {
+     "target": "cfa",
+     "label": "CFA charter",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 9,
+     "postings": 11,
+     "of_postings": 33
+    },
+    {
+     "target": "cpa",
+     "label": "CPA licence",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 6,
+     "postings": 6,
+     "of_postings": 33
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 6,
+     "postings": 8,
+     "of_postings": 33
+    }
+   ],
+   "build": [
+    {
+     "kind": "learn",
+     "text": "Study the CPA Exam Blueprints from AICPA & CIMA.",
+     "target": "cpa",
+     "target_label": "CPA licence",
+     "scope": "role",
+     "level": "mid",
+     "source": "aicpa_cpa",
+     "source_title": "Learn what to study for the CPA Exam",
+     "url": "https://www.aicpa-cima.com/resources/article/learn-what-is-tested-on-the-cpa-exam",
+     "grounding": "title and facts",
+     "demand": "6 employers name it in 6 of 33 US manager-level postings for this role."
+    }
+   ],
+   "provenance": {
+    "build": [
+     {
+      "postings": [
+       "Deloitte::365991",
+       "Form Energy::5afce4a1-86b7-4c9c-920f-443a45c665f1",
+       "Microsoft::200058840",
+       "RSM US::JR121548"
+      ],
+      "employers": [
+       "Deloitte",
+       "Form Energy",
+       "Microsoft",
+       "RSM US"
+      ],
+      "sentences": [
+       {
+        "posting": "RSM US::JR121548",
+        "employer": "RSM US",
+        "text": "Certified Treasury Professional (CTP), Certified Public Accountant (CPA), or progress toward a relevant professional certification"
+       },
+       {
+        "posting": "Microsoft::200058840",
+        "employer": "Microsoft",
+        "text": "Professional certification such as Certified Public Accountant (CPA), Chartered Financial Analyst (CFA), or equivalent."
+       },
+       {
+        "posting": "Deloitte::365991",
+        "employer": "Deloitte",
+        "text": "Bachelor’s degree in accounting, finance, or related discipline; CPA or advanced credential preferred."
+       },
+       {
+        "posting": "Form Energy::5afce4a1-86b7-4c9c-920f-443a45c665f1",
+        "employer": "Form Energy",
+        "text": "Certifications: Certified Treasury Professional (CTP), CFA, or CPA designation is highly preferred."
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "RSM US::JR121548",
+        "employer": "RSM US",
+        "text": "Certified Treasury Professional (CTP), Certified Public Accountant (CPA), or progress toward a relevant professional certification"
+       },
+       {
+        "posting": "Microsoft::200058840",
+        "employer": "Microsoft",
+        "text": "Professional certification such as Certified Public Accountant (CPA), Chartered Financial Analyst (CFA), or equivalent."
+       },
+       {
+        "posting": "Deloitte::365991",
+        "employer": "Deloitte",
+        "text": "Bachelor’s degree in accounting, finance, or related discipline; CPA or advanced credential preferred."
+       },
+       {
+        "posting": "Form Energy::5afce4a1-86b7-4c9c-920f-443a45c665f1",
+        "employer": "Form Energy",
+        "text": "Certifications: Certified Treasury Professional (CTP), CFA, or CPA designation is highly preferred."
+       },
+       {
+        "posting": "Expedia Group::R-109482",
+        "employer": "Expedia Group",
+        "text": "MBA, CPA, CFA, CTP, or other relevant professional certification is a plus."
+       },
+       {
+        "posting": "Amazon::10452316",
+        "employer": "Amazon",
+        "text": "CTP, CFA, or CPA certification"
+       }
+      ],
+      "target_employers": 6,
+      "template": "learn_outline_whole",
+      "slots": {}
+     }
+    ],
+    "entry_postings": 19,
+    "entry_employers": 19
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 6,
+     "of_postings": 14
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 14,
+    "entry_employers": 12
+   }
+  }
+ },
+ "financial_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 96,
+     "postings": 180,
+     "of_postings": 239
+    },
+    {
+     "target": "accounting_course",
+     "label": "accounting coursework",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 32,
+     "postings": 41,
+     "of_postings": 239
+    },
+    {
+     "target": "cpa",
+     "label": "CPA licence",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 28,
+     "postings": 30,
+     "of_postings": 239
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 17,
+     "postings": 21,
+     "of_postings": 239
+    }
+   ],
+   "build": [
+    {
+     "kind": "learn",
+     "text": "Study the CPA Exam Blueprints from AICPA & CIMA.",
+     "target": "cpa",
+     "target_label": "CPA licence",
+     "scope": "role",
+     "level": "associate",
+     "source": "aicpa_cpa",
+     "source_title": "Learn what to study for the CPA Exam",
+     "url": "https://www.aicpa-cima.com/resources/article/learn-what-is-tested-on-the-cpa-exam",
+     "grounding": "title and facts",
+     "demand": "28 employers name it in 30 of 239 US analyst or associate-level postings for this role."
+    }
+   ],
+   "provenance": {
+    "build": [
+     {
+      "postings": [
+       "Entergy::1439113000",
+       "International Paper::2003957",
+       "PG&E::1436433100",
+       "Quanta Services::18666"
+      ],
+      "employers": [
+       "Entergy",
+       "International Paper",
+       "PG&E",
+       "Quanta Services"
+      ],
+      "sentences": [
+       {
+        "posting": "PG&E::1436433100",
+        "employer": "PG&E",
+        "text": "MBA, CPA, CFA, FinOps Certified Practitioner, cloud financial management certification, or equivalent experience."
+       },
+       {
+        "posting": "International Paper::2003957",
+        "employer": "International Paper",
+        "text": "Bachelor’s degree in Accounting, Finance, business or related field required; CPA or CMA a plus."
+       },
+       {
+        "posting": "Quanta Services::18666",
+        "employer": "Quanta Services",
+        "text": "Bachelor’s degree in Finance, Accounting, Economics, or a related field; MBA or CPA preferred"
+       },
+       {
+        "posting": "Entergy::1439113000",
+        "employer": "Entergy",
+        "text": "required for the position: Desired: CPA, CFA, PE or similar certificates/licenses."
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "PG&E::1436433100",
+        "employer": "PG&E",
+        "text": "MBA, CPA, CFA, FinOps Certified Practitioner, cloud financial management certification, or equivalent experience."
+       },
+       {
+        "posting": "International Paper::2003957",
+        "employer": "International Paper",
+        "text": "Bachelor’s degree in Accounting, Finance, business or related field required; CPA or CMA a plus."
+       },
+       {
+        "posting": "Quanta Services::18666",
+        "employer": "Quanta Services",
+        "text": "Bachelor’s degree in Finance, Accounting, Economics, or a related field; MBA or CPA preferred"
+       },
+       {
+        "posting": "Entergy::1439113000",
+        "employer": "Entergy",
+        "text": "required for the position: Desired: CPA, CFA, PE or similar certificates/licenses."
+       },
+       {
+        "posting": "Danaher::R1320459",
+        "employer": "Danaher",
+        "text": "Progress toward a CPA or other relevant professional certification is preferred."
+       },
+       {
+        "posting": "Nucor::1437525500",
+        "employer": "Nucor",
+        "text": "CPA, CMA, or Master’s Degree in Accounting, Business, or Construction Management"
+       },
+       {
+        "posting": "Northrop Grumman::R10253239",
+        "employer": "Northrop Grumman",
+        "text": "Master’s degree and a CPA may be traded for a total of 3 years of experience."
+       },
+       {
+        "posting": "Sysco::R270074",
+        "employer": "Sysco",
+        "text": "Bachelor’s degree in Accounting or Finance, MBA Degree or CPA preferred"
+       }
+      ],
+      "target_employers": 28,
+      "template": "learn_outline_whole",
+      "slots": {}
+     }
+    ],
+    "entry_postings": 239,
+    "entry_employers": 123
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 24,
+     "postings": 36,
+     "of_postings": 59
+    },
+    {
+     "target": "cpa",
+     "label": "CPA licence",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 9,
+     "postings": 12,
+     "of_postings": 59
+    },
+    {
+     "target": "cfa",
+     "label": "CFA charter",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 8,
+     "of_postings": 59
+    },
+    {
+     "target": "accounting_course",
+     "label": "accounting coursework",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 10,
+     "of_postings": 59
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 6,
+     "postings": 8,
+     "of_postings": 59
+    }
+   ],
+   "build": [
+    {
+     "kind": "learn",
+     "text": "Study the CPA Exam Blueprints from AICPA & CIMA.",
+     "target": "cpa",
+     "target_label": "CPA licence",
+     "scope": "role",
+     "level": "associate",
+     "source": "aicpa_cpa",
+     "source_title": "Learn what to study for the CPA Exam",
+     "url": "https://www.aicpa-cima.com/resources/article/learn-what-is-tested-on-the-cpa-exam",
+     "grounding": "title and facts",
+     "demand": "9 employers name it in 12 of 59 US analyst-level postings for this role."
+    }
+   ],
+   "provenance": {
+    "build": [
+     {
+      "postings": [
+       "Baird::R20261068",
+       "Capital One Financial::R247500",
+       "First Horizon::1394",
+       "Morningstar::AP-25115126"
+      ],
+      "employers": [
+       "Baird",
+       "Capital One Financial",
+       "First Horizon",
+       "Morningstar"
+      ],
+      "sentences": [
+       {
+        "posting": "Morningstar::AP-25115126",
+        "employer": "Morningstar",
+        "text": "Five years of experience in a financial planning and analysis and/or accounting-related position with a bachelor’s degree; CPA/MBA a plus."
+       },
+       {
+        "posting": "Baird::R20261068",
+        "employer": "Baird",
+        "text": "CPA license or the ability to meet CPA requirements with a desire to obtain licensure within one year of employment"
+       },
+       {
+        "posting": "First Horizon::1394",
+        "employer": "First Horizon",
+        "text": "    Bachelor’s degree; advanced degree and/or certification such as CFA or CPA preferred"
+       },
+       {
+        "posting": "Capital One Financial::R247500",
+        "employer": "Capital One Financial",
+        "text": "Chartered Financial Analyst (CFA) license or Certified Public Accountant (CPA) license"
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "Morningstar::AP-25115126",
+        "employer": "Morningstar",
+        "text": "Five years of experience in a financial planning and analysis and/or accounting-related position with a bachelor’s degree; CPA/MBA a plus."
+       },
+       {
+        "posting": "Baird::R20261068",
+        "employer": "Baird",
+        "text": "CPA license or the ability to meet CPA requirements with a desire to obtain licensure within one year of employment"
+       },
+       {
+        "posting": "First Horizon::1394",
+        "employer": "First Horizon",
+        "text": "    Bachelor’s degree; advanced degree and/or certification such as CFA or CPA preferred"
+       },
+       {
+        "posting": "Capital One Financial::R247500",
+        "employer": "Capital One Financial",
+        "text": "Chartered Financial Analyst (CFA) license or Certified Public Accountant (CPA) license"
+       },
+       {
+        "posting": "Jones Financial (Edward Jones)::23862474",
+        "employer": "Jones Financial (Edward Jones)",
+        "text": "What could set you apart: - CPA/International country equivalent or MBA preferred."
+       },
+       {
+        "posting": "JPMorgan Chase::210789863",
+        "employer": "JPMorgan Chase",
+        "text": "Hold or actively pursue a CPA designation or equivalent professional certification"
+       },
+       {
+        "posting": "Morgan Stanley::JR041580",
+        "employer": "Morgan Stanley",
+        "text": "    Working toward or having a CPA or CFA is a plus"
+       },
+       {
+        "posting": "KeyCorp::R-42093",
+        "employer": "KeyCorp",
+        "text": "CPA or CFA (preferred)"
+       }
+      ],
+      "target_employers": 9,
+      "template": "learn_outline_whole",
+      "slots": {}
+     }
+    ],
+    "entry_postings": 59,
+    "entry_employers": 27
+   }
+  }
+ },
+ "ib_associate": {
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 22,
+     "postings": 76,
+     "of_postings": 189
+    },
+    {
+     "target": "accounting_course",
+     "label": "accounting coursework",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 15,
+     "postings": 38,
+     "of_postings": 189
+    },
+    {
+     "target": "series_79",
+     "label": "FINRA Series 79",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 14,
+     "postings": 37,
+     "of_postings": 189,
+     "note": "Only a person sponsored by a FINRA member firm can take the Series 79 exam."
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 14,
+     "postings": 31,
+     "of_postings": 189
+    },
+    {
+     "target": "series_63",
+     "label": "NASAA Series 63",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 13,
+     "postings": 36,
+     "of_postings": 189
+    },
+    {
+     "target": "sie",
+     "label": "FINRA SIE exam",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 11,
+     "postings": 22,
+     "of_postings": 189
+    }
+   ],
+   "build": [
+    {
+     "kind": "learn",
+     "text": "Study the Series 79 content outline from FINRA.",
+     "target": "series_79",
+     "target_label": "FINRA Series 79",
+     "scope": "role",
+     "level": "associate",
+     "source": "finra_s79",
+     "source_title": "Series 79 - Investment Banking Representative Exam",
+     "url": "https://www.finra.org/registration-exams-ce/qualification-exams/series79",
+     "grounding": "title and facts",
+     "demand": "14 employers name it in 37 of 189 US analyst-level postings for this role. 4 of them set a deadline after hire."
+    },
+    {
+     "kind": "prove",
+     "text": "Pass the Series 63 exam from NASAA. A person with no firm can enrol for the Series 63 exam through FINRA's TESS system.",
+     "target": "series_63",
+     "target_label": "NASAA Series 63",
+     "scope": "role",
+     "level": "associate",
+     "source": "nasaa_s63",
+     "source_title": "Exam FAQs (Series 63)",
+     "url": "https://www.nasaa.org/exams/exam-faqs/",
+     "grounding": "title and facts",
+     "demand": "13 employers name it in 36 of 189 US analyst-level postings for this role. 4 of them set a deadline after hire."
+    },
+    {
+     "kind": "learn",
+     "text": "Study the SIE content outline from FINRA.",
+     "target": "sie",
+     "target_label": "FINRA SIE exam",
+     "scope": "role",
+     "level": "associate",
+     "source": "finra_sie",
+     "source_title": "Securities Industry Essentials (SIE) Exam",
+     "url": "https://www.finra.org/registration-exams-ce/qualification-exams/securities-industry-essentials-exam",
+     "grounding": "title and facts",
+     "demand": "11 employers name it in 22 of 189 US analyst-level postings for this role. 3 of them set a deadline after hire."
+    },
+    {
+     "kind": "prove",
+     "text": "Pass the SIE exam from FINRA. You do not need a firm to sponsor you for the SIE exam.",
+     "target": "sie",
+     "target_label": "FINRA SIE exam",
+     "scope": "role",
+     "level": "associate",
+     "source": "finra_sie",
+     "source_title": "Securities Industry Essentials (SIE) Exam",
+     "url": "https://www.finra.org/registration-exams-ce/qualification-exams/securities-industry-essentials-exam",
+     "grounding": "title and facts",
+     "demand": "11 employers name it in 22 of 189 US analyst-level postings for this role. 3 of them set a deadline after hire."
+    }
+   ],
+   "provenance": {
+    "build": [
+     {
+      "postings": [
+       "Citigroup::95139903424",
+       "Guggenheim Securities::14859",
+       "Wells Fargo::R-568597",
+       "William Blair::5221829007"
+      ],
+      "employers": [
+       "Citigroup",
+       "Guggenheim Securities",
+       "Wells Fargo",
+       "William Blair"
+      ],
+      "sentences": [
+       {
+        "posting": "William Blair::5221829007",
+        "employer": "William Blair",
+        "text": "SIE Exam, Series 79, and Series 63 must be acquired within 150 days of employment (for US only)"
+       },
+       {
+        "posting": "Guggenheim Securities::14859",
+        "employer": "Guggenheim Securities",
+        "text": "SIE Exam, Series 79 and Series 63 must be acquired within 150 days of employment"
+       },
+       {
+        "posting": "Citigroup::95139903424",
+        "employer": "Citigroup",
+        "text": "Series 79 and 63 required within 150 days of joining."
+       },
+       {
+        "posting": "Wells Fargo::R-568597",
+        "employer": "Wells Fargo",
+        "text": "Securities Industry Essentials (SIE) and FINRA Series 63 and 79 examinations, or equivalent must be completed within either a 90 or 180-day time period following commencement of employment, depending upon the number of license(s) needed if not immediately available to transfer upon hire."
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "William Blair::5221829007",
+        "employer": "William Blair",
+        "text": "SIE Exam, Series 79, and Series 63 must be acquired within 150 days of employment (for US only)"
+       },
+       {
+        "posting": "Guggenheim Securities::14859",
+        "employer": "Guggenheim Securities",
+        "text": "SIE Exam, Series 79 and Series 63 must be acquired within 150 days of employment"
+       },
+       {
+        "posting": "Citigroup::95139903424",
+        "employer": "Citigroup",
+        "text": "Series 79 and 63 required within 150 days of joining."
+       },
+       {
+        "posting": "Wells Fargo::R-568597",
+        "employer": "Wells Fargo",
+        "text": "Securities Industry Essentials (SIE) and FINRA Series 63 and 79 examinations, or equivalent must be completed within either a 90 or 180-day time period following commencement of employment, depending upon the number of license(s) needed if not immediately available to transfer upon hire."
+       },
+       {
+        "posting": "BTIG::8816802002",
+        "employer": "BTIG",
+        "text": "SIE, Series 79, and Series 63 licenses are preferred, or the candidate must have the ability to obtain them shortly after joining."
+       },
+       {
+        "posting": "JPMorgan Chase::210788993",
+        "employer": "JPMorgan Chase",
+        "text": "SIE, Series 7, Series 63, and Series 79 licenses, or willingness to obtain within the first 90 days of start date"
+       },
+       {
+        "posting": "TD::R_1515753",
+        "employer": "TD",
+        "text": "Series 7, 63 and 79, or the ability to obtain licenses within the designated time period"
+       },
+       {
+        "posting": "Cantor Fitzgerald::248875",
+        "employer": "Cantor Fitzgerald",
+        "text": "Licensed or willing to obtain SIE, Series 79, and Series 63 licenses."
+       }
+      ],
+      "target_employers": 14,
+      "template": "learn_outline_whole",
+      "slots": {}
+     },
+     {
+      "postings": [
+       "Citigroup::95139903424",
+       "Guggenheim Securities::14859",
+       "Wells Fargo::R-568597",
+       "William Blair::5221829007"
+      ],
+      "employers": [
+       "Citigroup",
+       "Guggenheim Securities",
+       "Wells Fargo",
+       "William Blair"
+      ],
+      "sentences": [
+       {
+        "posting": "William Blair::5221829007",
+        "employer": "William Blair",
+        "text": "SIE Exam, Series 79, and Series 63 must be acquired within 150 days of employment (for US only)"
+       },
+       {
+        "posting": "Guggenheim Securities::14859",
+        "employer": "Guggenheim Securities",
+        "text": "SIE Exam, Series 79 and Series 63 must be acquired within 150 days of employment"
+       },
+       {
+        "posting": "Citigroup::95139903424",
+        "employer": "Citigroup",
+        "text": "Series 79 and 63 required within 150 days of joining."
+       },
+       {
+        "posting": "Wells Fargo::R-568597",
+        "employer": "Wells Fargo",
+        "text": "Securities Industry Essentials (SIE) and FINRA Series 63 and 79 examinations, or equivalent must be completed within either a 90 or 180-day time period following commencement of employment, depending upon the number of license(s) needed if not immediately available to transfer upon hire."
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "William Blair::5221829007",
+        "employer": "William Blair",
+        "text": "SIE Exam, Series 79, and Series 63 must be acquired within 150 days of employment (for US only)"
+       },
+       {
+        "posting": "Guggenheim Securities::14859",
+        "employer": "Guggenheim Securities",
+        "text": "SIE Exam, Series 79 and Series 63 must be acquired within 150 days of employment"
+       },
+       {
+        "posting": "Citigroup::95139903424",
+        "employer": "Citigroup",
+        "text": "Series 79 and 63 required within 150 days of joining."
+       },
+       {
+        "posting": "Wells Fargo::R-568597",
+        "employer": "Wells Fargo",
+        "text": "Securities Industry Essentials (SIE) and FINRA Series 63 and 79 examinations, or equivalent must be completed within either a 90 or 180-day time period following commencement of employment, depending upon the number of license(s) needed if not immediately available to transfer upon hire."
+       },
+       {
+        "posting": "BTIG::8816802002",
+        "employer": "BTIG",
+        "text": "SIE, Series 79, and Series 63 licenses are preferred, or the candidate must have the ability to obtain them shortly after joining."
+       },
+       {
+        "posting": "JPMorgan Chase::210788993",
+        "employer": "JPMorgan Chase",
+        "text": "SIE, Series 7, Series 63, and Series 79 licenses, or willingness to obtain within the first 90 days of start date"
+       },
+       {
+        "posting": "Jefferies Financial Group::4614",
+        "employer": "Jefferies Financial Group",
+        "text": "Progress toward CFA, Series 52, Series 63, or other relevant securities licenses is a plus."
+       },
+       {
+        "posting": "TD::R_1515753",
+        "employer": "TD",
+        "text": "Series 7, 63 and 79, or the ability to obtain licenses within the designated time period"
+       }
+      ],
+      "target_employers": 13,
+      "template": "prove_exam",
+      "slots": {
+       "fact": "f1"
+      }
+     },
+     {
+      "postings": [
+       "BTIG::8816802002",
+       "Guggenheim Securities::14859",
+       "Wells Fargo::R-568597",
+       "William Blair::5221829007"
+      ],
+      "employers": [
+       "BTIG",
+       "Guggenheim Securities",
+       "Wells Fargo",
+       "William Blair"
+      ],
+      "sentences": [
+       {
+        "posting": "William Blair::5221829007",
+        "employer": "William Blair",
+        "text": "SIE Exam, Series 79, and Series 63 must be acquired within 150 days of employment (for US only)"
+       },
+       {
+        "posting": "Guggenheim Securities::14859",
+        "employer": "Guggenheim Securities",
+        "text": "SIE Exam, Series 79 and Series 63 must be acquired within 150 days of employment"
+       },
+       {
+        "posting": "Wells Fargo::R-568597",
+        "employer": "Wells Fargo",
+        "text": "Securities Industry Essentials (SIE) and FINRA Series 63 and 79 examinations, or equivalent must be completed within either a 90 or 180-day time period following commencement of employment, depending upon the number of license(s) needed if not immediately available to transfer upon hire."
+       },
+       {
+        "posting": "BTIG::8816802002",
+        "employer": "BTIG",
+        "text": "SIE, Series 79, and Series 63 licenses are preferred, or the candidate must have the ability to obtain them shortly after joining."
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "William Blair::5221829007",
+        "employer": "William Blair",
+        "text": "SIE Exam, Series 79, and Series 63 must be acquired within 150 days of employment (for US only)"
+       },
+       {
+        "posting": "Guggenheim Securities::14859",
+        "employer": "Guggenheim Securities",
+        "text": "SIE Exam, Series 79 and Series 63 must be acquired within 150 days of employment"
+       },
+       {
+        "posting": "Wells Fargo::R-568597",
+        "employer": "Wells Fargo",
+        "text": "Securities Industry Essentials (SIE) and FINRA Series 63 and 79 examinations, or equivalent must be completed within either a 90 or 180-day time period following commencement of employment, depending upon the number of license(s) needed if not immediately available to transfer upon hire."
+       },
+       {
+        "posting": "BTIG::8816802002",
+        "employer": "BTIG",
+        "text": "SIE, Series 79, and Series 63 licenses are preferred, or the candidate must have the ability to obtain them shortly after joining."
+       },
+       {
+        "posting": "JPMorgan Chase::210788993",
+        "employer": "JPMorgan Chase",
+        "text": "SIE, Series 7, Series 63, and Series 79 licenses, or willingness to obtain within the first 90 days of start date"
+       },
+       {
+        "posting": "CIBC::2619487",
+        "employer": "CIBC",
+        "text": "If not already obtained, SIE, at a minimum, required to be completed ahead of start date"
+       },
+       {
+        "posting": "Cantor Fitzgerald::248875",
+        "employer": "Cantor Fitzgerald",
+        "text": "Licensed or willing to obtain SIE, Series 79, and Series 63 licenses."
+       },
+       {
+        "posting": "RBC::R-0000189705",
+        "employer": "RBC",
+        "text": "Securities Industry Essentials (SIE) and Series 79 licenses"
+       }
+      ],
+      "target_employers": 11,
+      "template": "learn_outline_whole",
+      "slots": {}
+     },
+     {
+      "postings": [
+       "BTIG::8816802002",
+       "Guggenheim Securities::14859",
+       "Wells Fargo::R-568597",
+       "William Blair::5221829007"
+      ],
+      "employers": [
+       "BTIG",
+       "Guggenheim Securities",
+       "Wells Fargo",
+       "William Blair"
+      ],
+      "sentences": [
+       {
+        "posting": "William Blair::5221829007",
+        "employer": "William Blair",
+        "text": "SIE Exam, Series 79, and Series 63 must be acquired within 150 days of employment (for US only)"
+       },
+       {
+        "posting": "Guggenheim Securities::14859",
+        "employer": "Guggenheim Securities",
+        "text": "SIE Exam, Series 79 and Series 63 must be acquired within 150 days of employment"
+       },
+       {
+        "posting": "Wells Fargo::R-568597",
+        "employer": "Wells Fargo",
+        "text": "Securities Industry Essentials (SIE) and FINRA Series 63 and 79 examinations, or equivalent must be completed within either a 90 or 180-day time period following commencement of employment, depending upon the number of license(s) needed if not immediately available to transfer upon hire."
+       },
+       {
+        "posting": "BTIG::8816802002",
+        "employer": "BTIG",
+        "text": "SIE, Series 79, and Series 63 licenses are preferred, or the candidate must have the ability to obtain them shortly after joining."
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "William Blair::5221829007",
+        "employer": "William Blair",
+        "text": "SIE Exam, Series 79, and Series 63 must be acquired within 150 days of employment (for US only)"
+       },
+       {
+        "posting": "Guggenheim Securities::14859",
+        "employer": "Guggenheim Securities",
+        "text": "SIE Exam, Series 79 and Series 63 must be acquired within 150 days of employment"
+       },
+       {
+        "posting": "Wells Fargo::R-568597",
+        "employer": "Wells Fargo",
+        "text": "Securities Industry Essentials (SIE) and FINRA Series 63 and 79 examinations, or equivalent must be completed within either a 90 or 180-day time period following commencement of employment, depending upon the number of license(s) needed if not immediately available to transfer upon hire."
+       },
+       {
+        "posting": "BTIG::8816802002",
+        "employer": "BTIG",
+        "text": "SIE, Series 79, and Series 63 licenses are preferred, or the candidate must have the ability to obtain them shortly after joining."
+       },
+       {
+        "posting": "JPMorgan Chase::210788993",
+        "employer": "JPMorgan Chase",
+        "text": "SIE, Series 7, Series 63, and Series 79 licenses, or willingness to obtain within the first 90 days of start date"
+       },
+       {
+        "posting": "CIBC::2619487",
+        "employer": "CIBC",
+        "text": "If not already obtained, SIE, at a minimum, required to be completed ahead of start date"
+       },
+       {
+        "posting": "Cantor Fitzgerald::248875",
+        "employer": "Cantor Fitzgerald",
+        "text": "Licensed or willing to obtain SIE, Series 79, and Series 63 licenses."
+       },
+       {
+        "posting": "RBC::R-0000189705",
+        "employer": "RBC",
+        "text": "Securities Industry Essentials (SIE) and Series 79 licenses"
+       }
+      ],
+      "target_employers": 11,
+      "template": "prove_exam",
+      "slots": {
+       "fact": "f2"
+      }
+     }
+    ],
+    "entry_postings": 189,
+    "entry_employers": 38
+   }
+  }
+ },
+ "corporate_banking": {
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 8,
+     "postings": 9,
+     "of_postings": 23
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 7,
+     "postings": 9,
+     "of_postings": 40
+    },
+    {
+     "target": "credit_training",
+     "label": "formal credit training",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 6,
+     "postings": 7,
+     "of_postings": 40
+    },
+    {
+     "target": "series_79",
+     "label": "FINRA Series 79",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 5,
+     "postings": 9,
+     "of_postings": 40,
+     "note": "Only a person sponsored by a FINRA member firm can take the Series 79 exam."
+    },
+    {
+     "target": "series_63",
+     "label": "NASAA Series 63",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 5,
+     "postings": 9,
+     "of_postings": 40
+    }
+   ],
+   "build": [
+    {
+     "kind": "learn",
+     "text": "Study the Series 79 content outline from FINRA.",
+     "target": "series_79",
+     "target_label": "FINRA Series 79",
+     "scope": "role",
+     "level": "mid",
+     "source": "finra_s79",
+     "source_title": "Series 79 - Investment Banking Representative Exam",
+     "url": "https://www.finra.org/registration-exams-ce/qualification-exams/series79",
+     "grounding": "title and facts",
+     "demand": "5 employers name it in 9 of 40 US associate-level postings for this role. 3 of them set a deadline after hire."
+    },
+    {
+     "kind": "prove",
+     "text": "Pass the Series 63 exam from NASAA. A person with no firm can enrol for the Series 63 exam through FINRA's TESS system.",
+     "target": "series_63",
+     "target_label": "NASAA Series 63",
+     "scope": "role",
+     "level": "mid",
+     "source": "nasaa_s63",
+     "source_title": "Exam FAQs (Series 63)",
+     "url": "https://www.nasaa.org/exams/exam-faqs/",
+     "grounding": "title and facts",
+     "demand": "5 employers name it in 9 of 40 US associate-level postings for this role. 3 of them set a deadline after hire."
+    }
+   ],
+   "provenance": {
+    "build": [
+     {
+      "postings": [
+       "Bank of America::26031696",
+       "Citigroup::100296000224",
+       "JPMorgan Chase::210780832",
+       "Regions Financial::R106345"
+      ],
+      "employers": [
+       "Bank of America",
+       "Citigroup",
+       "JPMorgan Chase",
+       "Regions Financial"
+      ],
+      "sentences": [
+       {
+        "posting": "Bank of America::26031696",
+        "employer": "Bank of America",
+        "text": "Securities Industry Essentials (SIE), Series 79, 63 (Must obtain SIE, series 79 & 63 license within 180 days of start date."
+       },
+       {
+        "posting": "JPMorgan Chase::210780832",
+        "employer": "JPMorgan Chase",
+        "text": "FINRA Series 79, 63 and Securities Industry Essentials licenses required or must be obtained within 180 days of hire"
+       },
+       {
+        "posting": "Citigroup::100296000224",
+        "employer": "Citigroup",
+        "text": "Series 79 and 63 required within 90 days of accepting the job"
+       },
+       {
+        "posting": "Regions Financial::R106345",
+        "employer": "Regions Financial",
+        "text": "Financial Industry Regulatory Authority (FINRA) Series 79 and 63 licenses, or the ability to obtain both within six (6) months of employment (paid for by Regions)"
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "Bank of America::26031696",
+        "employer": "Bank of America",
+        "text": "Securities Industry Essentials (SIE), Series 79, 63 (Must obtain SIE, series 79 & 63 license within 180 days of start date."
+       },
+       {
+        "posting": "JPMorgan Chase::210780832",
+        "employer": "JPMorgan Chase",
+        "text": "FINRA Series 79, 63 and Securities Industry Essentials licenses required or must be obtained within 180 days of hire"
+       },
+       {
+        "posting": "Citigroup::100296000224",
+        "employer": "Citigroup",
+        "text": "Series 79 and 63 required within 90 days of accepting the job"
+       },
+       {
+        "posting": "Regions Financial::R106345",
+        "employer": "Regions Financial",
+        "text": "Financial Industry Regulatory Authority (FINRA) Series 79 and 63 licenses, or the ability to obtain both within six (6) months of employment (paid for by Regions)"
+       },
+       {
+        "posting": "U.S. Bancorp::2026-0029904",
+        "employer": "U.S. Bancorp",
+        "text": "FINRA License: As a condition of employment, you are required to hold or obtain the following licenses: SIE, Series 79, and Series 63 within 180 calendar days of your start date."
+       }
+      ],
+      "target_employers": 5,
+      "template": "learn_outline_whole",
+      "slots": {}
+     },
+     {
+      "postings": [
+       "Bank of America::26031696",
+       "Citigroup::100296000224",
+       "JPMorgan Chase::210780832",
+       "Regions Financial::R106345"
+      ],
+      "employers": [
+       "Bank of America",
+       "Citigroup",
+       "JPMorgan Chase",
+       "Regions Financial"
+      ],
+      "sentences": [
+       {
+        "posting": "Bank of America::26031696",
+        "employer": "Bank of America",
+        "text": "Securities Industry Essentials (SIE), Series 79, 63 (Must obtain SIE, series 79 & 63 license within 180 days of start date."
+       },
+       {
+        "posting": "JPMorgan Chase::210780832",
+        "employer": "JPMorgan Chase",
+        "text": "FINRA Series 79, 63 and Securities Industry Essentials licenses required or must be obtained within 180 days of hire"
+       },
+       {
+        "posting": "Citigroup::100296000224",
+        "employer": "Citigroup",
+        "text": "Series 79 and 63 required within 90 days of accepting the job"
+       },
+       {
+        "posting": "Regions Financial::R106345",
+        "employer": "Regions Financial",
+        "text": "Financial Industry Regulatory Authority (FINRA) Series 79 and 63 licenses, or the ability to obtain both within six (6) months of employment (paid for by Regions)"
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "Bank of America::26031696",
+        "employer": "Bank of America",
+        "text": "Securities Industry Essentials (SIE), Series 79, 63 (Must obtain SIE, series 79 & 63 license within 180 days of start date."
+       },
+       {
+        "posting": "JPMorgan Chase::210780832",
+        "employer": "JPMorgan Chase",
+        "text": "FINRA Series 79, 63 and Securities Industry Essentials licenses required or must be obtained within 180 days of hire"
+       },
+       {
+        "posting": "Citigroup::100296000224",
+        "employer": "Citigroup",
+        "text": "Series 79 and 63 required within 90 days of accepting the job"
+       },
+       {
+        "posting": "Regions Financial::R106345",
+        "employer": "Regions Financial",
+        "text": "Financial Industry Regulatory Authority (FINRA) Series 79 and 63 licenses, or the ability to obtain both within six (6) months of employment (paid for by Regions)"
+       },
+       {
+        "posting": "U.S. Bancorp::2026-0029904",
+        "employer": "U.S. Bancorp",
+        "text": "FINRA License: As a condition of employment, you are required to hold or obtain the following licenses: SIE, Series 79, and Series 63 within 180 calendar days of your start date."
+       }
+      ],
+      "target_employers": 5,
+      "template": "prove_exam",
+      "slots": {
+       "fact": "f1"
+      }
+     }
+    ],
+    "entry_postings": 23,
+    "entry_employers": 13
+   }
+  }
+ },
+ "investment_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 11,
+     "of_postings": 18
+    },
+    {
+     "target": "cfa",
+     "label": "CFA charter",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 5,
+     "of_postings": 18
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 18,
+    "entry_employers": 12
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "cfa",
+     "label": "CFA charter",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 13,
+     "postings": 29,
+     "of_postings": 70
+    },
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 12,
+     "postings": 25,
+     "of_postings": 70
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 8,
+     "postings": 14,
+     "of_postings": 70
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 70,
+    "entry_employers": 23
+   }
+  }
+ },
+ "pe_associate": {
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 12,
+     "of_postings": 33
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 33,
+    "entry_employers": 16
+   }
+  }
+ },
+ "corp_dev": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 12,
+     "postings": 13,
+     "of_postings": 29
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 5,
+     "of_postings": 29
+    },
+    {
+     "target": "accounting_course",
+     "label": "accounting coursework",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 5,
+     "postings": 5,
+     "of_postings": 63
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 29,
+    "entry_employers": 24
+   }
+  }
+ },
+ "bizops": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 12,
+     "postings": 20,
+     "of_postings": 186
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 10,
+     "postings": 16,
+     "of_postings": 186
+    },
+    {
+     "target": "deg_supply_chain",
+     "label": "degree in supply chain",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 10,
+     "of_postings": 186
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 186,
+    "entry_employers": 62
+   }
+  }
+ },
+ "general_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_supply_chain",
+     "label": "degree in supply chain",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 5,
+     "postings": 8,
+     "of_postings": 151
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 12,
+    "entry_employers": 4
+   }
+  }
+ },
+ "chief_of_staff": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 12,
+     "postings": 14,
+     "of_postings": 74
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 0,
+    "entry_employers": 0
+   }
+  }
+ },
+ "program_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 8,
+     "postings": 9,
+     "of_postings": 93
+    },
+    {
+     "target": "deg_supply_chain",
+     "label": "degree in supply chain",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 9,
+     "of_postings": 93
+    },
+    {
+     "target": "pmp",
+     "label": "PMP",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 11,
+     "of_postings": 93
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 93,
+    "entry_employers": 43
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "pmp",
+     "label": "PMP",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 10,
+     "postings": 12,
+     "of_postings": 66
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 6,
+     "postings": 6,
+     "of_postings": 66
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 12,
+    "entry_employers": 3
+   }
+  }
+ },
+ "operations_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 16,
+     "postings": 22,
+     "of_postings": 407
+    },
+    {
+     "target": "deg_supply_chain",
+     "label": "degree in supply chain",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 16,
+     "postings": 41,
+     "of_postings": 407
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 407,
+    "entry_employers": 132
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 8,
+     "of_postings": 46
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 46,
+    "entry_employers": 24
+   }
+  }
+ },
+ "opex": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "six_sigma",
+     "label": "Six Sigma belt",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 34,
+     "postings": 47,
+     "of_postings": 69,
+     "note": "The ASQ Green Belt needs three years of full-time paid work in the body of knowledge."
+    },
+    {
+     "target": "deg_supply_chain",
+     "label": "degree in supply chain",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 9,
+     "postings": 12,
+     "of_postings": 69
+    },
+    {
+     "target": "pmp",
+     "label": "PMP",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 5,
+     "postings": 6,
+     "of_postings": 69
+    }
+   ],
+   "build": [
+    {
+     "kind": "learn",
+     "text": "Study the Six Sigma Green Belt Body of Knowledge from ASQ.",
+     "target": "six_sigma",
+     "target_label": "Six Sigma belt",
+     "scope": "role",
+     "level": "mid",
+     "source": "asq_ssgb",
+     "source_title": "Six Sigma Green Belt Certification (CSSGB)",
+     "url": "https://www.asq.org/cert/six-sigma-green-belt",
+     "grounding": "title and facts",
+     "demand": "34 employers name it in 47 of 69 US manager-level postings for this role."
+    }
+   ],
+   "provenance": {
+    "build": [
+     {
+      "postings": [
+       "Ford Motor::71998",
+       "GXO Logistics::1382267300",
+       "Howmet Aerospace::118815",
+       "L'Oréal::43294956352"
+      ],
+      "employers": [
+       "Ford Motor",
+       "GXO Logistics",
+       "Howmet Aerospace",
+       "L'Oréal"
+      ],
+      "sentences": [
+       {
+        "posting": "Ford Motor::71998",
+        "employer": "Ford Motor",
+        "text": "Six Sigma Black Belt certification or ability to earn within 6 months."
+       },
+       {
+        "posting": "GXO Logistics::1382267300",
+        "employer": "GXO Logistics",
+        "text": "Identify, engage, mentor and develop talented candidates to become Lean and Six Sigma practitioners, Lean leaders and/or Kaizen facilitators"
+       },
+       {
+        "posting": "Howmet Aerospace::118815",
+        "employer": "Howmet Aerospace",
+        "text": "Design, develop, and continuously improve Six Sigma Green Belt training curriculum, instructional materials, and certification requirements."
+       },
+       {
+        "posting": "L'Oréal::43294956352",
+        "employer": "L'Oréal",
+        "text": "Lead the deployment of Lean, Six Sigma, Daily Management System (DMS), Kaizen, Value Stream Mapping, and Problem-Solving methodologies."
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "Ford Motor::71998",
+        "employer": "Ford Motor",
+        "text": "Six Sigma Black Belt certification or ability to earn within 6 months."
+       },
+       {
+        "posting": "GXO Logistics::1382267300",
+        "employer": "GXO Logistics",
+        "text": "Identify, engage, mentor and develop talented candidates to become Lean and Six Sigma practitioners, Lean leaders and/or Kaizen facilitators"
+       },
+       {
+        "posting": "Howmet Aerospace::118815",
+        "employer": "Howmet Aerospace",
+        "text": "Design, develop, and continuously improve Six Sigma Green Belt training curriculum, instructional materials, and certification requirements."
+       },
+       {
+        "posting": "L'Oréal::43294956352",
+        "employer": "L'Oréal",
+        "text": "Lead the deployment of Lean, Six Sigma, Daily Management System (DMS), Kaizen, Value Stream Mapping, and Problem-Solving methodologies."
+       },
+       {
+        "posting": "Kimberly-Clark::887156",
+        "employer": "Kimberly-Clark",
+        "text": "The incumbent would typically have Six Sigma Black Belt Certification or be progressing towards a Six Sigma Black Belt Certification."
+       },
+       {
+        "posting": "C.H. Robinson Worldwide::R49688",
+        "employer": "C.H. Robinson Worldwide",
+        "text": "Minimum 3 years of experience using a continuous improvement framework within business operations such as Lean, Six Sigma or similar"
+       },
+       {
+        "posting": "Paccar::1435974633",
+        "employer": "Paccar",
+        "text": "This individual manages the Six Sigma program and acts as a primary point of contact for systems project management within the Materials Department."
+       },
+       {
+        "posting": "DuPont::249695W",
+        "employer": "DuPont",
+        "text": "Working knowledge of Lean, Six Sigma, Agile, Daily Management, Kaizen, Value Stream Mapping, SMED, and structured problem solving."
+       }
+      ],
+      "target_employers": 34,
+      "template": "learn_outline_whole",
+      "slots": {}
+     }
+    ],
+    "entry_postings": 4,
+    "entry_employers": 4
+   }
+  }
+ },
+ "product_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 18,
+     "postings": 23,
+     "of_postings": 89
+    },
+    {
+     "target": "deg_marketing",
+     "label": "degree in marketing",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 14,
+     "postings": 17,
+     "of_postings": 89
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 89,
+    "entry_employers": 59
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 9,
+     "postings": 53,
+     "of_postings": 202
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 7,
+    "entry_employers": 5
+   }
+  }
+ },
+ "tech_strategy": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 5,
+     "postings": 8,
+     "of_postings": 30
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 3,
+    "entry_employers": 3
+   }
+  }
+ },
+ "business_analytics": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 16,
+     "postings": 19,
+     "of_postings": 74
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 6,
+     "postings": 7,
+     "of_postings": 74
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 11,
+    "entry_employers": 9
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 8,
+     "postings": 14,
+     "of_postings": 26
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 5,
+    "entry_employers": 2
+   }
+  }
+ },
+ "business_intelligence": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 6,
+     "postings": 6,
+     "of_postings": 21
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 21,
+    "entry_employers": 20
+   }
+  }
+ },
+ "marketing_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_marketing",
+     "label": "degree in marketing",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 28,
+     "postings": 46,
+     "of_postings": 113
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 8,
+     "of_postings": 113
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 113,
+    "entry_employers": 69
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_marketing",
+     "label": "degree in marketing",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 7,
+     "postings": 11,
+     "of_postings": 27
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 2,
+    "entry_employers": 1
+   }
+  }
+ },
+ "brand_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 18,
+     "postings": 29,
+     "of_postings": 51
+    },
+    {
+     "target": "deg_marketing",
+     "label": "degree in marketing",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 12,
+     "postings": 14,
+     "of_postings": 51
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 51,
+    "entry_employers": 33
+   }
+  }
+ },
+ "pmm": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_marketing",
+     "label": "degree in marketing",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 7,
+     "of_postings": 21
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 16,
+     "postings": 25,
+     "of_postings": 241
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 21,
+    "entry_employers": 19
+   }
+  }
+ },
+ "growth_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_marketing",
+     "label": "degree in marketing",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 11,
+     "postings": 12,
+     "of_postings": 79
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 20,
+    "entry_employers": 18
+   }
+  }
+ },
+ "sales_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_marketing",
+     "label": "degree in marketing",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 37,
+     "postings": 115,
+     "of_postings": 854
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 3,
+    "entry_employers": 2
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "series_7",
+     "label": "FINRA Series 7",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 5,
+     "postings": 8,
+     "of_postings": 61
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 0,
+    "entry_employers": 0
+   }
+  }
+ },
+ "bizdev": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_marketing",
+     "label": "degree in marketing",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 9,
+     "postings": 13,
+     "of_postings": 72
+    },
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 8,
+     "postings": 8,
+     "of_postings": 72
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 72,
+    "entry_employers": 46
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "series_7",
+     "label": "FINRA Series 7",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 10,
+     "postings": 20,
+     "of_postings": 78
+    },
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 10,
+     "postings": 13,
+     "of_postings": 78
+    },
+    {
+     "target": "series_63",
+     "label": "NASAA Series 63",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 7,
+     "postings": 12,
+     "of_postings": 78
+    }
+   ],
+   "build": [
+    {
+     "kind": "prove",
+     "text": "Pass the Series 63 exam from NASAA. A person with no firm can enrol for the Series 63 exam through FINRA's TESS system.",
+     "target": "series_63",
+     "target_label": "NASAA Series 63",
+     "scope": "role",
+     "level": "mid",
+     "source": "nasaa_s63",
+     "source_title": "Exam FAQs (Series 63)",
+     "url": "https://www.nasaa.org/exams/exam-faqs/",
+     "grounding": "title and facts",
+     "demand": "7 employers name it in 12 of 78 US associate-level postings for this role."
+    }
+   ],
+   "provenance": {
+    "build": [
+     {
+      "postings": [
+       "Cullen/Frost::R261040",
+       "Goldman Sachs Group::175104",
+       "Morgan Stanley::JR039682",
+       "PIMCO::R106309"
+      ],
+      "employers": [
+       "Cullen/Frost",
+       "Goldman Sachs Group",
+       "Morgan Stanley",
+       "PIMCO"
+      ],
+      "sentences": [
+       {
+        "posting": "Goldman Sachs Group::175104",
+        "employer": "Goldman Sachs Group",
+        "text": "SIE, Series 3, 7 and 63 (must be obtained within three months of employment)"
+       },
+       {
+        "posting": "Cullen/Frost::R261040",
+        "employer": "Cullen/Frost",
+        "text": "FINRA Series 7 & 63 licenses, or the ability to obtain within 90 days"
+       },
+       {
+        "posting": "Morgan Stanley::JR039682",
+        "employer": "Morgan Stanley",
+        "text": "Active Series 7 (GS), and Series 66 (AG/RA) or Series 63 (AG) and Series 65 (RA) required"
+       },
+       {
+        "posting": "PIMCO::R106309",
+        "employer": "PIMCO",
+        "text": "Completion of Series 7 and 63 within the first six (6) months of employment."
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "Goldman Sachs Group::175104",
+        "employer": "Goldman Sachs Group",
+        "text": "SIE, Series 3, 7 and 63 (must be obtained within three months of employment)"
+       },
+       {
+        "posting": "Cullen/Frost::R261040",
+        "employer": "Cullen/Frost",
+        "text": "FINRA Series 7 & 63 licenses, or the ability to obtain within 90 days"
+       },
+       {
+        "posting": "Morgan Stanley::JR039682",
+        "employer": "Morgan Stanley",
+        "text": "Active Series 7 (GS), and Series 66 (AG/RA) or Series 63 (AG) and Series 65 (RA) required"
+       },
+       {
+        "posting": "PIMCO::R106309",
+        "employer": "PIMCO",
+        "text": "Completion of Series 7 and 63 within the first six (6) months of employment."
+       },
+       {
+        "posting": "Charles Schwab::127742",
+        "employer": "Charles Schwab",
+        "text": "A valid and active FINRA Series 63 license or equivalent"
+       },
+       {
+        "posting": "Wellington Management::R94742",
+        "employer": "Wellington Management",
+        "text": "Series 7 and Series 63 licenses."
+       },
+       {
+        "posting": "State Street::R-797386",
+        "employer": "State Street",
+        "text": "FINRA Series 7 and 63 Preferred"
+       }
+      ],
+      "target_employers": 7,
+      "template": "prove_exam",
+      "slots": {
+       "fact": "f1"
+      }
+     }
+    ],
+    "entry_postings": 5,
+    "entry_employers": 3
+   }
+  }
+ },
+ "supply_chain": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_supply_chain",
+     "label": "degree in supply chain",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 13,
+     "postings": 18,
+     "of_postings": 44
+    },
+    {
+     "target": "six_sigma",
+     "label": "Six Sigma belt",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 8,
+     "of_postings": 44,
+     "note": "The ASQ Green Belt needs three years of full-time paid work in the body of knowledge."
+    }
+   ],
+   "build": [
+    {
+     "kind": "learn",
+     "text": "Study the Six Sigma Green Belt Body of Knowledge from ASQ.",
+     "target": "six_sigma",
+     "target_label": "Six Sigma belt",
+     "scope": "role",
+     "level": "associate",
+     "source": "asq_ssgb",
+     "source_title": "Six Sigma Green Belt Certification (CSSGB)",
+     "url": "https://www.asq.org/cert/six-sigma-green-belt",
+     "grounding": "title and facts",
+     "demand": "7 employers name it in 8 of 44 US analyst or associate-level postings for this role."
+    }
+   ],
+   "provenance": {
+    "build": [
+     {
+      "postings": [
+       "Amazon::10537529",
+       "Owens Corning::1434978600",
+       "Solventum::R01134533",
+       "United Airlines Holdings::IAH00005671"
+      ],
+      "employers": [
+       "Amazon",
+       "Owens Corning",
+       "Solventum",
+       "United Airlines Holdings"
+      ],
+      "sentences": [
+       {
+        "posting": "Owens Corning::1434978600",
+        "employer": "Owens Corning",
+        "text": "Lean, Six Sigma, Agile, project-management, analytics, or change-management training or certification."
+       },
+       {
+        "posting": "Solventum::R01134533",
+        "employer": "Solventum",
+        "text": "Lean Six Sigma and Process Improvement Projects: Lead and participate in Lean Six Sigma projects to continuously improve supply chain planning and production scheduling processes."
+       },
+       {
+        "posting": "Amazon::10537529",
+        "employer": "Amazon",
+        "text": "Experience with process improvement techniques such as Kaizen, Lean Manufacturing or Six Sigma"
+       },
+       {
+        "posting": "United Airlines Holdings::IAH00005671",
+        "employer": "United Airlines Holdings",
+        "text": "Strong understanding of Continuous Improvement, Lean and Six Sigma principles"
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "Owens Corning::1434978600",
+        "employer": "Owens Corning",
+        "text": "Lean, Six Sigma, Agile, project-management, analytics, or change-management training or certification."
+       },
+       {
+        "posting": "Solventum::R01134533",
+        "employer": "Solventum",
+        "text": "Lean Six Sigma and Process Improvement Projects: Lead and participate in Lean Six Sigma projects to continuously improve supply chain planning and production scheduling processes."
+       },
+       {
+        "posting": "Amazon::10537529",
+        "employer": "Amazon",
+        "text": "Experience with process improvement techniques such as Kaizen, Lean Manufacturing or Six Sigma"
+       },
+       {
+        "posting": "United Airlines Holdings::IAH00005671",
+        "employer": "United Airlines Holdings",
+        "text": "Strong understanding of Continuous Improvement, Lean and Six Sigma principles"
+       },
+       {
+        "posting": "Analog Devices::R263754",
+        "employer": "Analog Devices",
+        "text": "Lean Manufacturing or Six Sigma knowledge is a plus"
+       },
+       {
+        "posting": "L3Harris Technologies::101356263840",
+        "employer": "L3Harris Technologies",
+        "text": "    Six Sigma Green Belt or other Lean Experience"
+       },
+       {
+        "posting": "KLA::2638578",
+        "employer": "KLA",
+        "text": "Lean, Six Sigma, or process improvement methods"
+       }
+      ],
+      "target_employers": 7,
+      "template": "learn_outline_whole",
+      "slots": {}
+     }
+    ],
+    "entry_postings": 44,
+    "entry_employers": 30
+   }
+  }
+ },
+ "procurement": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_supply_chain",
+     "label": "degree in supply chain",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 18,
+     "postings": 23,
+     "of_postings": 63
+    },
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 6,
+     "of_postings": 63
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 63,
+    "entry_employers": 35
+   }
+  }
+ },
+ "strategic_sourcing": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_supply_chain",
+     "label": "degree in supply chain",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 13,
+     "postings": 15,
+     "of_postings": 39
+    },
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 8,
+     "of_postings": 39
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 39,
+    "entry_employers": 29
+   }
+  }
+ },
+ "category_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 7,
+     "of_postings": 28
+    },
+    {
+     "target": "deg_supply_chain",
+     "label": "degree in supply chain",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 7,
+     "of_postings": 28
+    },
+    {
+     "target": "deg_marketing",
+     "label": "degree in marketing",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 7,
+     "of_postings": 28
+    },
+    {
+     "target": "cpsm",
+     "label": "CPSM",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 14,
+     "postings": 19,
+     "of_postings": 119
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 14,
+     "postings": 19,
+     "of_postings": 119
+    },
+    {
+     "target": "ascm_cert",
+     "label": "CSCP or CPIM",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 6,
+     "postings": 8,
+     "of_postings": 119
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 28,
+    "entry_employers": 19
+   }
+  }
+ },
+ "hr_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_hr",
+     "label": "degree in human resources",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 26,
+     "postings": 36,
+     "of_postings": 86
+    },
+    {
+     "target": "employment_law",
+     "label": "employment law knowledge",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 21,
+     "postings": 36,
+     "of_postings": 86
+    },
+    {
+     "target": "hrci_phr",
+     "label": "PHR or SPHR",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 9,
+     "postings": 14,
+     "of_postings": 86,
+     "note": "The PHR needs professional HR experience: one year with a master's degree, two with a bachelor's degree, or four."
+    },
+    {
+     "target": "shrm_cert",
+     "label": "SHRM-CP or SHRM-SCP",
+     "kind": "certification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 7,
+     "of_postings": 86
+    }
+   ],
+   "build": [
+    {
+     "kind": "learn",
+     "text": "Study the PHR exam content outline from HRCI.",
+     "target": "hrci_phr",
+     "target_label": "PHR or SPHR",
+     "scope": "role",
+     "level": "associate",
+     "source": "hrci_phr",
+     "source_title": "PHR Certification - Requirements & Exam Info",
+     "url": "https://www.hrci.org/certifications/individual-certifications/phr",
+     "grounding": "title and facts",
+     "demand": "9 employers name it in 14 of 86 US analyst or associate-level postings for this role."
+    },
+    {
+     "kind": "learn",
+     "text": "Study the SHRM Body of Applied Skills and Knowledge from SHRM.",
+     "target": "shrm_cert",
+     "target_label": "SHRM-CP or SHRM-SCP",
+     "scope": "role",
+     "level": "associate",
+     "source": "shrm_cp",
+     "source_title": "SHRM Certified Professional (SHRM-CP)",
+     "url": "https://www.shrm.org/credentials/certification/shrm-cp",
+     "grounding": "title and facts",
+     "demand": "5 employers name it in 7 of 86 US analyst or associate-level postings for this role."
+    }
+   ],
+   "provenance": {
+    "build": [
+     {
+      "postings": [
+       "Booz Allen Hamilton Holding::R0245935",
+       "Mosaic::64941",
+       "NeueHealth::6174271004",
+       "Quartermaster::e785ff07-87b6-47b7-8eac-8b42a673d1f4"
+      ],
+      "employers": [
+       "Booz Allen Hamilton Holding",
+       "Mosaic",
+       "NeueHealth",
+       "Quartermaster"
+      ],
+      "sentences": [
+       {
+        "posting": "Booz Allen Hamilton Holding::R0245935",
+        "employer": "Booz Allen Hamilton Holding",
+        "text": "Senior Professional in Human Resources (SPHR) certification, government and federal HR certifications, and Leadership and Organizational Development certifications"
+       },
+       {
+        "posting": "Quartermaster::e785ff07-87b6-47b7-8eac-8b42a673d1f4",
+        "employer": "Quartermaster",
+        "text": "Bonus: HR certification (SHRM-CP or PHR) or prior experience supporting distributed/hybrid engineering teams."
+       },
+       {
+        "posting": "Mosaic::64941",
+        "employer": "Mosaic",
+        "text": "Senior Professional in Human Resources (SPHR) - Human Resource Certification Institute preferred."
+       },
+       {
+        "posting": "NeueHealth::6174271004",
+        "employer": "NeueHealth",
+        "text": "PHR, SHRM-CP, or progress toward certification is preferred."
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "Booz Allen Hamilton Holding::R0245935",
+        "employer": "Booz Allen Hamilton Holding",
+        "text": "Senior Professional in Human Resources (SPHR) certification, government and federal HR certifications, and Leadership and Organizational Development certifications"
+       },
+       {
+        "posting": "Quartermaster::e785ff07-87b6-47b7-8eac-8b42a673d1f4",
+        "employer": "Quartermaster",
+        "text": "Bonus: HR certification (SHRM-CP or PHR) or prior experience supporting distributed/hybrid engineering teams."
+       },
+       {
+        "posting": "Mosaic::64941",
+        "employer": "Mosaic",
+        "text": "Senior Professional in Human Resources (SPHR) - Human Resource Certification Institute preferred."
+       },
+       {
+        "posting": "NeueHealth::6174271004",
+        "employer": "NeueHealth",
+        "text": "PHR, SHRM-CP, or progress toward certification is preferred."
+       },
+       {
+        "posting": "Marsh & McLennan::R_365693",
+        "employer": "Marsh & McLennan",
+        "text": "HR certification (e.g., SHRM-SCP, SPHR) is a plus"
+       },
+       {
+        "posting": "Kroger::237157",
+        "employer": "Kroger",
+        "text": "PHR, SPHR, SHRM-CP or SHRM-SCP certification"
+       },
+       {
+        "posting": "United Natural Foods::174598",
+        "employer": "United Natural Foods",
+        "text": "PHR/SPHR/CHRL/CPHR Certification preferred"
+       },
+       {
+        "posting": "Aramark::664804",
+        "employer": "Aramark",
+        "text": "HR/SPHR certification preferred."
+       }
+      ],
+      "target_employers": 9,
+      "template": "learn_outline_whole",
+      "slots": {}
+     },
+     {
+      "postings": [
+       "Marsh & McLennan::R_365693",
+       "NeueHealth::6174271004",
+       "Quartermaster::e785ff07-87b6-47b7-8eac-8b42a673d1f4",
+       "Westlake::R33444"
+      ],
+      "employers": [
+       "Marsh & McLennan",
+       "NeueHealth",
+       "Quartermaster",
+       "Westlake"
+      ],
+      "sentences": [
+       {
+        "posting": "Quartermaster::e785ff07-87b6-47b7-8eac-8b42a673d1f4",
+        "employer": "Quartermaster",
+        "text": "Bonus: HR certification (SHRM-CP or PHR) or prior experience supporting distributed/hybrid engineering teams."
+       },
+       {
+        "posting": "NeueHealth::6174271004",
+        "employer": "NeueHealth",
+        "text": "PHR, SHRM-CP, or progress toward certification is preferred."
+       },
+       {
+        "posting": "Marsh & McLennan::R_365693",
+        "employer": "Marsh & McLennan",
+        "text": "HR certification (e.g., SHRM-SCP, SPHR) is a plus"
+       },
+       {
+        "posting": "Westlake::R33444",
+        "employer": "Westlake",
+        "text": "SHRM or HRCI certified professional preferred."
+       }
+      ],
+      "target_sentences": [
+       {
+        "posting": "Quartermaster::e785ff07-87b6-47b7-8eac-8b42a673d1f4",
+        "employer": "Quartermaster",
+        "text": "Bonus: HR certification (SHRM-CP or PHR) or prior experience supporting distributed/hybrid engineering teams."
+       },
+       {
+        "posting": "NeueHealth::6174271004",
+        "employer": "NeueHealth",
+        "text": "PHR, SHRM-CP, or progress toward certification is preferred."
+       },
+       {
+        "posting": "Marsh & McLennan::R_365693",
+        "employer": "Marsh & McLennan",
+        "text": "HR certification (e.g., SHRM-SCP, SPHR) is a plus"
+       },
+       {
+        "posting": "Westlake::R33444",
+        "employer": "Westlake",
+        "text": "SHRM or HRCI certified professional preferred."
+       },
+       {
+        "posting": "Kroger::237157",
+        "employer": "Kroger",
+        "text": "PHR, SPHR, SHRM-CP or SHRM-SCP certification"
+       }
+      ],
+      "target_employers": 5,
+      "template": "learn_outline_whole",
+      "slots": {}
+     }
+    ],
+    "entry_postings": 86,
+    "entry_employers": 55
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_hr",
+     "label": "degree in human resources",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 6,
+     "postings": 6,
+     "of_postings": 23
+    },
+    {
+     "target": "employment_law",
+     "label": "employment law knowledge",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 5,
+     "postings": 5,
+     "of_postings": 23
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 2,
+    "entry_employers": 2
+   }
+  }
+ },
+ "org_dev": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_hr",
+     "label": "degree in human resources",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 5,
+     "of_postings": 27
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 27,
+    "entry_employers": 24
+   }
+  }
+ },
+ "comp_benefits": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_hr",
+     "label": "degree in human resources",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 7,
+     "of_postings": 32
+    },
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 5,
+     "of_postings": 32
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 32,
+    "entry_employers": 28
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 6,
+     "postings": 9,
+     "of_postings": 21
+    },
+    {
+     "target": "deg_hr",
+     "label": "degree in human resources",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 5,
+     "postings": 6,
+     "of_postings": 21
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 7,
+    "entry_employers": 7
+   }
+  }
+ },
+ "enterprise_risk": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 8,
+     "postings": 8,
+     "of_postings": 38
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 38,
+    "entry_employers": 29
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 8,
+     "postings": 13,
+     "of_postings": 23
+    },
+    {
+     "target": "cfa",
+     "label": "CFA charter",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 7,
+     "postings": 9,
+     "of_postings": 118
+    },
+    {
+     "target": "frm",
+     "label": "FRM",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 7,
+     "postings": 10,
+     "of_postings": 118
+    },
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 7,
+     "postings": 9,
+     "of_postings": 118
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 23,
+    "entry_employers": 15
+   }
+  }
+ },
+ "compliance": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 8,
+     "postings": 8,
+     "of_postings": 119
+    },
+    {
+     "target": "employment_law",
+     "label": "employment law knowledge",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 6,
+     "postings": 12,
+     "of_postings": 119
+    },
+    {
+     "target": "deg_supply_chain",
+     "label": "degree in supply chain",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 5,
+     "postings": 8,
+     "of_postings": 119
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 119,
+    "entry_employers": 81
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "mid",
+     "employers": 9,
+     "postings": 9,
+     "of_postings": 45
+    },
+    {
+     "target": "series_7",
+     "label": "FINRA Series 7",
+     "kind": "certification",
+     "level": "mid",
+     "employers": 5,
+     "postings": 5,
+     "of_postings": 45
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 18,
+    "entry_employers": 12
+   }
+  }
+ },
+ "re_asset_manager": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 7,
+     "postings": 12,
+     "of_postings": 16
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 16,
+    "entry_employers": 11
+   }
+  }
+ },
+ "ldp": {
+  "corporate": {
+   "asks": [
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 52,
+     "postings": 98,
+     "of_postings": 234
+    },
+    {
+     "target": "deg_finance",
+     "label": "degree in finance, accounting or economics",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 23,
+     "postings": 40,
+     "of_postings": 234
+    },
+    {
+     "target": "deg_supply_chain",
+     "label": "degree in supply chain",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 10,
+     "postings": 13,
+     "of_postings": 234
+    },
+    {
+     "target": "deg_marketing",
+     "label": "degree in marketing",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 9,
+     "postings": 14,
+     "of_postings": 234
+    },
+    {
+     "target": "deg_hr",
+     "label": "degree in human resources",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 8,
+     "postings": 12,
+     "of_postings": 234
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 234,
+    "entry_employers": 96
+   }
+  },
+  "bank": {
+   "asks": [
+    {
+     "target": "mba",
+     "label": "MBA enrolment",
+     "kind": "qualification",
+     "level": "associate",
+     "employers": 8,
+     "postings": 13,
+     "of_postings": 39
+    }
+   ],
+   "build": [],
+   "provenance": {
+    "build": [],
+    "entry_postings": 39,
+    "entry_employers": 12
+   }
+  }
+ }
+}

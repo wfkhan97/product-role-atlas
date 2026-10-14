@@ -1,6 +1,6 @@
 # Extraction baseline: the MBA role set
 
-Produced by `pipeline/experiments/role_coverage.py` on 2026-10-13 from `data/processed/jobs_mba.json` (26,887 postings, United States; 278 skills, 180 of them specific to this role set). Shares are the fraction of a role's postings whose title or cleaned description matches a skill's patterns, with each employer held to 5% of a role. "Defines the role" lists skills on at least 80% of the role's postings and at least 2.5 times as common as in other roles: the role's own field. Roles marked * have fewer than 60 postings. Regenerate after any taxonomy change.
+Produced by `pipeline/experiments/role_coverage.py` on 2026-10-14 from `data/processed/jobs_mba.json` (26,887 postings, United States; 278 skills, 180 of them specific to this role set). Shares are the fraction of a role's postings whose title or cleaned description matches a skill's patterns, with each employer held to 5% of a role. "Defines the role" lists skills on at least 80% of the role's postings and at least 2.5 times as common as in other roles: the role's own field. Roles marked * have fewer than 60 postings. Regenerate after any taxonomy change.
 
 ## Per role
 

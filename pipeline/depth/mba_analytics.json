@@ -1,14 +1,2283 @@
 {
  "dashboards_dataviz": {
-  "what": "Building dashboards and charts that let others see and explore the numbers."
+  "what": "Building dashboards and charts that let others see and explore the numbers.",
+  "subskills": [
+   {
+    "id": "dashboards_dataviz_analytics_and_visualization_tool",
+    "name": "Analytics and visualization tools",
+    "patterns": [
+     "\\bTableau\\b|\\bPower\\sBI\\b|\\bPowerBI\\b",
+     "\\bAlteryx\\b|\\bSQL\\b|\\bPython\\b",
+     "\\bD3js\\b|\\bD3\\b|\\bSpotfire\\b"
+    ],
+    "example": "You use Tableau, Power BI, Alteryx, SQL, Python, D3.js, or Spotfire for analytics and visualization."
+   },
+   {
+    "id": "dashboards_dataviz_interactive_and_real_time_dashbo",
+    "name": "Interactive and real-time dashboards",
+    "patterns": [
+     "\\binteractive\\b",
+     "\\breal\\s time\\b",
+     "\\bself"
+    ],
+    "example": "You build interactive dashboards that make analytics accessible to business users."
+   },
+   {
+    "id": "dashboards_dataviz_dashboard_development",
+    "name": "Dashboard development",
+    "patterns": [
+     "\\bbuild dashboards\\b",
+     "\\bbuild and maintain\\b",
+     "\\bdashboard development\\b"
+    ],
+    "example": "You build and maintain dashboards that show business performance."
+   },
+   {
+    "id": "dashboards_dataviz_performance_measurement",
+    "name": "Performance measurement",
+    "patterns": [
+     "\\bKPI dashboards\\b",
+     "\\bperformance dashboards\\b",
+     "\\bperformance metrics\\b",
+     "\\bKPI measurement\\b"
+    ],
+    "example": "You create dashboards and metrics to measure business performance."
+   },
+   {
+    "id": "dashboards_dataviz_reporting_automation",
+    "name": "Reporting automation",
+    "patterns": [
+     "\\bautomated reporting\\b",
+     "\\bautomated dashboards\\b",
+     "\\bautomate\\b",
+     "\\bautomated\\b"
+    ],
+    "example": "You automate reporting and dashboards to improve efficiency."
+   },
+   {
+    "id": "dashboards_dataviz_reporting_standards",
+    "name": "Reporting standards",
+    "patterns": [
+     "\\bstandards\\b",
+     "\\bgovernance\\b",
+     "\\bsemantic\\smodels?\\b",
+     "\\bpeer\\sreviews?\\b"
+    ],
+    "example": "You apply reporting standards to keep dashboards consistent, accurate, and usable."
+   },
+   {
+    "id": "dashboards_dataviz_visual_communication_and_storyte",
+    "name": "Visual communication and storytelling",
+    "patterns": [
+     "\\bcharts?\\b|\\bgraphs?\\b",
+     "\\bstorytelling\\b",
+     "\\bclear\\snarratives?\\b"
+    ],
+    "example": "You use charts and visualizations to communicate analytical insights."
+   },
+   {
+    "id": "dashboards_dataviz_kpi_dashboard_reporting",
+    "name": "KPI dashboard reporting",
+    "patterns": [
+     "\\bKPI dashboards?\\b",
+     "\\bKPIs\\b",
+     "\\bperformance reporting\\b"
+    ],
+    "example": "You build dashboards with defined KPIs to track business performance."
+   },
+   {
+    "id": "dashboards_dataviz_kpi_and_performance_dashboards",
+    "name": "KPI and performance dashboards",
+    "patterns": [
+     "\\bperformance\\sdashboards?\\b",
+     "\\bkpi\\sdashboards?\\b",
+     "\\bkey\\sperformance\\sindicators?\\b"
+    ],
+    "example": "You maintain dashboards to track KPIs and show performance."
+   }
+  ],
+  "ladder": {
+   "consulting": {
+    "associate": "You create dashboards and reports to communicate findings.",
+    "mid": "You develop executive-ready dashboards to support decisions.",
+    "senior": "You define KPIs and build dashboards to report client performance."
+   },
+   "bank": {
+    "mid": "You build dashboards and reporting solutions using Power BI or Tableau.",
+    "lead": "You create dashboards and risk reporting for senior leadership."
+   }
+  },
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You develop dashboards that show sourcing performance.",
+        "quote": "provide visibility into sourcing performance",
+        "postings": [
+         "Nubank::62c98c6a-e253-4802-9a8e-6076ef4e0d08",
+         "Oracle::343591"
+        ],
+        "employers": [
+         "Nubank",
+         "Oracle"
+        ],
+        "sentences": [
+         {
+          "posting": "Oracle::343591",
+          "employer": "Oracle",
+          "text": "Develop dashboards and analyses that provide visibility into sourcing performance, supplier trends, cost opportunities, supply constraints, and business risks."
+         },
+         {
+          "posting": "Nubank::62c98c6a-e253-4802-9a8e-6076ef4e0d08",
+          "employer": "Nubank",
+          "text": "Building and maintaining dashboards and visual management mechanisms that provide clear visibility into financial impact, risks, deadlines, pipeline status, and sourcing performance."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Nubank::62c98c6a-e253-4802-9a8e-6076ef4e0d08",
+       "Oracle::343591"
+      ],
+      "employers": [
+       "Nubank",
+       "Oracle"
+      ],
+      "not_shown": "the ladder has 1 rung, fewer than 2"
+     },
+     "mid": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     },
+     "senior": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the mid level"
+     },
+     "lead": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     }
+    },
+    "consulting": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You create dashboards and reports to communicate findings.",
+        "quote": "Create dashboards, reports, and presentations that communicate key findings",
+        "postings": [
+         "Guidehouse::40875",
+         "ZS::67445"
+        ],
+        "employers": [
+         "Guidehouse",
+         "ZS"
+        ],
+        "sentences": [
+         {
+          "posting": "ZS::67445",
+          "employer": "ZS",
+          "text": "Create dashboards, reports, and presentations that communicate key findings and support brand strategy development."
+         },
+         {
+          "posting": "Guidehouse::40875",
+          "employer": "Guidehouse",
+          "text": "Develop reports, dashboards, and data visualizations to communicate findings and recommendations."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Guidehouse::40875",
+       "ZS::67445"
+      ],
+      "employers": [
+       "Guidehouse",
+       "ZS"
+      ]
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You develop executive-ready dashboards to support decisions.",
+        "quote": "Develop executive-ready analyses, dashboards, and visualizations that enable informed decision-making",
+        "postings": [
+         "Capgemini::1426739033",
+         "ZS::32651"
+        ],
+        "employers": [
+         "Capgemini",
+         "ZS"
+        ],
+        "sentences": [
+         {
+          "posting": "ZS::32651",
+          "employer": "ZS",
+          "text": "Develop executive-ready analyses, dashboards, and visualizations that enable informed decision-making."
+         },
+         {
+          "posting": "Capgemini::1426739033",
+          "employer": "Capgemini",
+          "text": "Produce executive-level dashboards, status reports, and Steering Committee materials that drive leadership decision-making."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Capgemini::1426739033",
+       "ZS::32651"
+      ],
+      "employers": [
+       "Capgemini",
+       "ZS"
+      ]
+     },
+     "senior": {
+      "statements": [
+       {
+        "text": "You define KPIs and build dashboards to report client performance.",
+        "quote": "define KPIs at the outset of each engagement",
+        "postings": [
+         "FTI Consulting::JR260875",
+         "Stout::r1993"
+        ],
+        "employers": [
+         "FTI Consulting",
+         "Stout"
+        ],
+        "sentences": [
+         {
+          "posting": "Stout::r1993",
+          "employer": "Stout",
+          "text": "Develop and deliver performance visibility solutions for clients, including KPI/metric selection, management reporting design, and dashboard-based visualization tools."
+         },
+         {
+          "posting": "FTI Consulting::JR260875",
+          "employer": "FTI Consulting",
+          "text": "Own program measurement: define KPIs at the outset of each engagement, build reporting dashboards, and deliver regular performance reports to client stakeholders and internal account teams."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "FTI Consulting::JR260875",
+       "Stout::r1993"
+      ],
+      "employers": [
+       "FTI Consulting",
+       "Stout"
+      ]
+     },
+     "lead": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     }
+    },
+    "bank": {
+     "associate": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the mid level"
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You build dashboards and reporting solutions using Power BI or Tableau.",
+        "quote": "building dashboards and reporting solutions using business intelligence tools",
+        "postings": [
+         "Cambridge Associates::JR0000394",
+         "Capital One Financial::R1002491",
+         "Wells Fargo::R-570282"
+        ],
+        "employers": [
+         "Cambridge Associates",
+         "Capital One Financial",
+         "Wells Fargo"
+        ],
+        "sentences": [
+         {
+          "posting": "Capital One Financial::R1002491",
+          "employer": "Capital One Financial",
+          "text": "3+ years of experience building dashboards and reporting solutions using business intelligence tools (e.g., Power BI, Tableau)"
+         },
+         {
+          "posting": "Cambridge Associates::JR0000394",
+          "employer": "Cambridge Associates",
+          "text": "Hands-on experience building dashboards and reports in business intelligence tools (e.g., Power BI, Tableau) and AI platforms."
+         },
+         {
+          "posting": "Wells Fargo::R-570282",
+          "employer": "Wells Fargo",
+          "text": "2+ years of experience developing dashboards, reporting solutions, or data visualizations using Power BI, Tableau, or similar tools."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Cambridge Associates::JR0000394",
+       "Capital One Financial::R1002491",
+       "Wells Fargo::R-570282"
+      ],
+      "employers": [
+       "Cambridge Associates",
+       "Capital One Financial",
+       "Wells Fargo"
+      ]
+     },
+     "senior": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the mid level"
+     },
+     "lead": {
+      "statements": [
+       {
+        "text": "You create dashboards and risk reporting for senior leadership.",
+        "quote": "build dashboards and reports that make development risk visible to senior management",
+        "postings": [
+         "JPMorgan Chase::210783717",
+         "TD::R_1511085"
+        ],
+        "employers": [
+         "JPMorgan Chase",
+         "TD"
+        ],
+        "sentences": [
+         {
+          "posting": "JPMorgan Chase::210783717",
+          "employer": "JPMorgan Chase",
+          "text": "Utilize Python and SQL to analyze large engineering data sets, and build dashboards and reports that make development risk visible to senior management."
+         },
+         {
+          "posting": "TD::R_1511085",
+          "employer": "TD",
+          "text": "Develop executive-ready reporting for senior Compliance leadership, including dashboards, milestone updates, risk and issue summaries, budget impacts, dependency tracking, and forward-looking delivery views."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "JPMorgan Chase::210783717",
+       "TD::R_1511085"
+      ],
+      "employers": [
+       "JPMorgan Chase",
+       "TD"
+      ]
+     }
+    }
+   },
+   "subskills": {
+    "dashboards_dataviz_analytics_and_visualization_tool": {
+     "text": "You use Tableau, Power BI, Alteryx, SQL, Python, D3.js, or Spotfire for analytics and visualization.",
+     "quote": "SQL, Tableau, Power BI, Python, R",
+     "postings": [
+      "Accenture::R00353382",
+      "AlixPartners::7809994003",
+      "EY::1430454133",
+      "Riveron::11396e79-ee40-4600-8b8a-4f8bd9753633"
+     ],
+     "employers": [
+      "Accenture",
+      "AlixPartners",
+      "EY",
+      "Riveron"
+     ],
+     "sentences": [
+      {
+       "posting": "AlixPartners::7809994003",
+       "employer": "AlixPartners",
+       "text": "Experience using data tools beyond Excel, such as SQL, Tableau, Power BI, Python, R, or similar analytics and visualization tools, to analyze data and present insights."
+      },
+      {
+       "posting": "Accenture::R00353382",
+       "employer": "Accenture",
+       "text": "Proficiency in data-driven decision making — including process simulation, capacity modeling, time studies, and KPI dashboard development (Python, SQL, Tableau, Power BI, Alteryx, or equivalent)."
+      },
+      {
+       "posting": "Riveron::11396e79-ee40-4600-8b8a-4f8bd9753633",
+       "employer": "Riveron",
+       "text": "Data Visualization Tools: Experience with D3.js http://D3.js, Tableau, PowerBI, Spotfire, or similar platforms."
+      },
+      {
+       "posting": "EY::1430454133",
+       "employer": "EY",
+       "text": "Data visualization: D3js, Tableau, PowerBI, Spotfire, and/or related;"
+      }
+     ],
+     "ladders": [
+      "bank",
+      "consulting"
+     ],
+     "share": 0.459
+    },
+    "dashboards_dataviz_interactive_and_real_time_dashbo": {
+     "text": "You build interactive dashboards that make analytics accessible to business users.",
+     "quote": "a user-interactive Python-based dashboard",
+     "postings": [
+      "GMO::69fd389b-eb62-4d1c-a392-28a89c36b2cf",
+      "Harris Williams::R235660",
+      "JPMorgan Chase::210790876",
+      "Neuberger Berman::R0012411"
+     ],
+     "employers": [
+      "GMO",
+      "Harris Williams",
+      "JPMorgan Chase",
+      "Neuberger Berman"
+     ],
+     "sentences": [
+      {
+       "posting": "Harris Williams::R235660",
+       "employer": "Harris Williams",
+       "text": "Continuously improve Power BI or Tableau dashboards to provide real time visibility into firm performance."
+      },
+      {
+       "posting": "GMO::69fd389b-eb62-4d1c-a392-28a89c36b2cf",
+       "employer": "GMO",
+       "text": "Migrate portfolio analytics tool across fund strategies to a user-interactive Python-based dashboard, improving the accessibility of key analytics for multiple functions within the investment teams;"
+      },
+      {
+       "posting": "Neuberger Berman::R0012411",
+       "employer": "Neuberger Berman",
+       "text": "Deliver business metrics and insights through reports, and interactive dashboards to develop and execute on client coverage strategic priorities."
+      },
+      {
+       "posting": "JPMorgan Chase::210790876",
+       "employer": "JPMorgan Chase",
+       "text": "Experience with self-serve business intelligence tools for dashboarding and automated reporting"
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.239
+    },
+    "dashboards_dataviz_dashboard_development": {
+     "text": "You build and maintain dashboards that show business performance.",
+     "quote": "Build and maintain reporting and dashboards",
+     "postings": [
+      "Coupa::3da65933-3927-436b-b1cd-31773a1dc673",
+      "Nubank::62c98c6a-e253-4802-9a8e-6076ef4e0d08",
+      "Robinhood::8192367"
+     ],
+     "employers": [
+      "Coupa",
+      "Nubank",
+      "Robinhood"
+     ],
+     "sentences": [
+      {
+       "posting": "Robinhood::8192367",
+       "employer": "Robinhood",
+       "text": "Build and maintain performance dashboards/reports to track campaign results and communicate findings to the broader marketing team"
+      },
+      {
+       "posting": "Nubank::62c98c6a-e253-4802-9a8e-6076ef4e0d08",
+       "employer": "Nubank",
+       "text": "Building and maintaining dashboards and visual management mechanisms that provide clear visibility into financial impact, risks, deadlines, pipeline status, and sourcing performance."
+      },
+      {
+       "posting": "Coupa::3da65933-3927-436b-b1cd-31773a1dc673",
+       "employer": "Coupa",
+       "text": "Build and maintain reporting and dashboards that give internal teams (Product, Growth, Leadership) clear visibility into product adoption, usage, and customer health."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.136
+    },
+    "dashboards_dataviz_performance_measurement": {
+     "text": "You create dashboards and metrics to measure business performance.",
+     "quote": "performance dashboards, and KPI measurement systems",
+     "postings": [
+      "Abbott Laboratories::31155972",
+      "Array::6003611004",
+      "Humana::R-426965"
+     ],
+     "employers": [
+      "Abbott Laboratories",
+      "Array",
+      "Humana"
+     ],
+     "sentences": [
+      {
+       "posting": "Array::6003611004",
+       "employer": "Array",
+       "text": "Build KPI dashboards, sensitivity analysis, and operational reporting to improve visibility into revenue, margins, and operating profit."
+      },
+      {
+       "posting": "Abbott Laboratories::31155972",
+       "employer": "Abbott Laboratories",
+       "text": "         Lead development of analytics frameworks, performance dashboards, and KPI measurement systems to evaluate business health across channels, customers, and product segments."
+      },
+      {
+       "posting": "Humana::R-426965",
+       "employer": "Humana",
+       "text": "Establish KPI dashboards and performance metrics to track initiative progress and business impact."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.128
+    },
+    "dashboards_dataviz_reporting_automation": {
+     "text": "You automate reporting and dashboards to improve efficiency.",
+     "quote": "automated reporting, dashboards, and AI-enabled solutions to improve efficiency",
+     "postings": [
+      "Alphabet::105523379577987782",
+      "Oracle::345230",
+      "Waymo::8238145"
+     ],
+     "employers": [
+      "Alphabet",
+      "Oracle",
+      "Waymo"
+     ],
+     "sentences": [
+      {
+       "posting": "Alphabet::105523379577987782",
+       "employer": "Alphabet",
+       "text": "Build and scale new investigative capabilities through automated reporting, dashboards, and AI-enabled solutions to improve efficiency of the Cloud Marketing Finance team."
+      },
+      {
+       "posting": "Waymo::8238145",
+       "employer": "Waymo",
+       "text": "Proficiency in SQL and dashboarding (e.g., PLX/Looker), with the ability to navigate complex database schemas to inform decisions and drive automated reporting."
+      },
+      {
+       "posting": "Oracle::345230",
+       "employer": "Oracle",
+       "text": "Enhance, automate, and scale reporting, dashboards, and analytical tools across the Compute portfolio."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.207
+    },
+    "dashboards_dataviz_reporting_standards": {
+     "text": "You apply reporting standards to keep dashboards consistent, accurate, and usable.",
+     "quote": "Establish and enforce data visualization and reporting standards",
+     "postings": [
+      "Chewy::R31111",
+      "Medline::R2618073",
+      "Northrop Grumman::R10247717"
+     ],
+     "employers": [
+      "Chewy",
+      "Medline",
+      "Northrop Grumman"
+     ],
+     "sentences": [
+      {
+       "posting": "Northrop Grumman::R10247717",
+       "employer": "Northrop Grumman",
+       "text": "Establish and enforce data visualization and reporting standards to ensure consistency, accuracy and usability across the program"
+      },
+      {
+       "posting": "Medline::R2618073",
+       "employer": "Medline",
+       "text": "Working knowledge of business intelligence and visualization platforms such as Power BI, including semantic model and workspace governance."
+      },
+      {
+       "posting": "Chewy::R31111",
+       "employer": "Chewy",
+       "text": "Document queries, dashboards, definitions, and analytical methods; participate in peer reviews and apply feedback to strengthen accuracy, clarity, and maintainability."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.454
+    },
+    "dashboards_dataviz_visual_communication_and_storyte": {
+     "text": "You use charts and visualizations to communicate analytical insights.",
+     "quote": "charts and visualizations to support equity analysis",
+     "postings": [
+      "BMO::R260025535",
+      "Capital Group::JR6916",
+      "KeyCorp::R-42089"
+     ],
+     "employers": [
+      "BMO",
+      "Capital Group",
+      "KeyCorp"
+     ],
+     "sentences": [
+      {
+       "posting": "KeyCorp::R-42089",
+       "employer": "KeyCorp",
+       "text": "Creating clear and effective visual representations of data—such as charts, graphs, and dashboards—to communicate insights and support storytelling."
+      },
+      {
+       "posting": "Capital Group::JR6916",
+       "employer": "Capital Group",
+       "text": "You have a proven ability to develop and maintain comprehensive charts and visualizations to support equity analysis and communicate investment insights effectively."
+      },
+      {
+       "posting": "BMO::R260025535",
+       "employer": "BMO",
+       "text": "Skilled in conveying complex analytical findings to senior stakeholders through clear narratives, visualizations, and recommendations."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.107
+    },
+    "dashboards_dataviz_kpi_dashboard_reporting": {
+     "text": "You build dashboards with defined KPIs to track business performance.",
+     "quote": "operational dashboards with defined KPIs",
+     "postings": [
+      "Berkeley Research Group::JR101137",
+      "FTI Consulting::JR260875",
+      "FTI Consulting::JR261256"
+     ],
+     "employers": [
+      "Berkeley Research Group",
+      "FTI Consulting"
+     ],
+     "sentences": [
+      {
+       "posting": "Berkeley Research Group::JR101137",
+       "employer": "Berkeley Research Group",
+       "text": "Build dashboards, key performance indicators, management reports, and monitoring frameworks to track financial, operational, quality, and compliance results."
+      },
+      {
+       "posting": "FTI Consulting::JR261256",
+       "employer": "FTI Consulting",
+       "text": "Developing a suite of operational dashboards with defined KPIs to allow the executive teams of healthcare and life sciences clients better track and manage the business"
+      },
+      {
+       "posting": "FTI Consulting::JR260875",
+       "employer": "FTI Consulting",
+       "text": "Own program measurement: define KPIs at the outset of each engagement, build reporting dashboards, and deliver regular performance reports to client stakeholders and internal account teams."
+      }
+     ],
+     "ladders": [
+      "consulting"
+     ],
+     "share": 0.213
+    },
+    "dashboards_dataviz_kpi_and_performance_dashboards": {
+     "text": "You maintain dashboards to track KPIs and show performance.",
+     "quote": "maintain dashboards to track key performance indicators",
+     "postings": [
+      "Citigroup::97083870976",
+      "Citigroup::99532143504",
+      "PNC Financial Services Group::R234820"
+     ],
+     "employers": [
+      "Citigroup",
+      "PNC Financial Services Group"
+     ],
+     "sentences": [
+      {
+       "posting": "PNC Financial Services Group::R234820",
+       "employer": "PNC Financial Services Group",
+       "text": "Create and maintain performance dashboards, campaign reporting frameworks, and data definitions to support informed business decisions."
+      },
+      {
+       "posting": "Citigroup::99532143504",
+       "employer": "Citigroup",
+       "text": "Build and maintain business analytics dashboards that translate KPIs into clear, actionable insights for managers and research analysts."
+      },
+      {
+       "posting": "Citigroup::97083870976",
+       "employer": "Citigroup",
+       "text": "Develop and maintain dashboards to track key performance indicators (KPIs) and provide actionable insights to stakeholders."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.093
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 356,
+       "employers": 190
+      },
+      "mid": {
+       "n": 1125,
+       "employers": 458
+      },
+      "senior": {
+       "n": 482,
+       "employers": 220
+      },
+      "lead": {
+       "n": 630,
+       "employers": 335
+      }
+     }
+    },
+    "consulting": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 20,
+       "employers": 10
+      },
+      "mid": {
+       "n": 69,
+       "employers": 15
+      },
+      "senior": {
+       "n": 98,
+       "employers": 18
+      },
+      "lead": {
+       "n": 30,
+       "employers": 14
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 78,
+       "employers": 39
+      },
+      "mid": {
+       "n": 140,
+       "employers": 58
+      },
+      "senior": {
+       "n": 126,
+       "employers": 38
+      },
+      "lead": {
+       "n": 28,
+       "employers": 17
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  },
  "reporting_adhoc_analysis": {
-  "what": "Building and automating the reports a business runs on, and answering one-off data questions."
+  "what": "Building and automating the reports a business runs on, and answering one-off data questions.",
+  "subskills": [
+   {
+    "id": "reporting_adhoc_analysis_ad_hoc_request_management",
+    "name": "Ad hoc request management",
+    "patterns": [
+     "\\brequests\\b",
+     "\\bworkload\\b",
+     "\\bturnaround\\b",
+     "\\bad\\shoc\\b"
+    ],
+    "example": "You manage ad hoc financial reporting requests and complete high-priority requests with speed and precision."
+   },
+   {
+    "id": "reporting_adhoc_analysis_reporting_governance_and_complia",
+    "name": "Reporting governance and compliance",
+    "patterns": [
+     "\\bregulatory\\b",
+     "\\bcontrols\\b",
+     "\\bdata\\slineage\\b",
+     "\\baccuracy\\b"
+    ],
+    "example": "You document data lineage and establish reporting controls to support accurate reports for auditors and regulators."
+   },
+   {
+    "id": "reporting_adhoc_analysis_dashboard_development",
+    "name": "Dashboard development",
+    "patterns": [
+     "\\bdashboards?\\b",
+     "\\bdashboard\\sdevelopment\\b"
+    ],
+    "example": "You build and maintain dashboards that show business performance."
+   },
+   {
+    "id": "reporting_adhoc_analysis_reporting_automation",
+    "name": "Reporting automation",
+    "patterns": [
+     "\\bautomated\\sreporting\\b",
+     "\\bautomated\\sreports?\\b",
+     "\\bautomate\\sreporting\\b",
+     "\\breporting\\sautomation\\b"
+    ],
+    "example": "You automate reports to reduce recurring manual work."
+   },
+   {
+    "id": "reporting_adhoc_analysis_reporting_frameworks",
+    "name": "Reporting frameworks",
+    "patterns": [
+     "\\breporting\\sframeworks?\\b"
+    ],
+    "example": "You build and improve reporting frameworks to support business decisions."
+   },
+   {
+    "id": "reporting_adhoc_analysis_ad_hoc_analysis",
+    "name": "Ad hoc analysis",
+    "patterns": [
+     "\\bad hoc analysis\\b",
+     "\\bad hoc analyses\\b",
+     "\\bad hoc reporting\\b",
+     "\\bad hoc requests\\b"
+    ],
+    "example": "You prepare ad hoc analyses to answer leadership questions."
+   },
+   {
+    "id": "reporting_adhoc_analysis_financial_reporting_systems",
+    "name": "Financial reporting systems",
+    "patterns": [
+     "\\bfinancial reporting systems\\b",
+     "\\bHyperion\\b",
+     "\\bEssbase\\b",
+     "\\breporting platforms\\b"
+    ],
+    "example": "You work with Hyperion and Essbase financial reporting systems."
+   }
+  ],
+  "ladder": {
+   "bank": {
+    "associate": "You prepare client reports. You work with Hyperion and Essbase financial reporting systems.",
+    "mid": "You use Tableau and Alteryx to automate reporting processes.",
+    "senior": "You prepare ad hoc analyses for senior stakeholders."
+   }
+  },
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You build and maintain recurring reports and dashboards.",
+        "quote": "Build and maintain recurring reports and dashboards",
+        "postings": [
+         "Qualcomm::3096429",
+         "Zipline::7982302003"
+        ],
+        "employers": [
+         "Qualcomm",
+         "Zipline"
+        ],
+        "sentences": [
+         {
+          "posting": "Zipline::7982302003",
+          "employer": "Zipline",
+          "text": "Build and maintain recurring reports and dashboards, partnering with Analytics as needed to improve visibility into site, cohort, and metro performance."
+         },
+         {
+          "posting": "Qualcomm::3096429",
+          "employer": "Qualcomm",
+          "text": "Support building and maintaining automated reporting pack (dashboards + weekly status narratives) related to capacity, resource usage, and operational status."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Qualcomm::3096429",
+       "Zipline::7982302003"
+      ],
+      "employers": [
+       "Qualcomm",
+       "Zipline"
+      ],
+      "not_shown": "the ladder has 1 rung, fewer than 2"
+     },
+     "mid": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     },
+     "senior": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     },
+     "lead": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as another skill (Self-service BI enablement)"
+     }
+    },
+    "consulting": {
+     "associate": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You use dashboards to support decision-making.",
+        "quote": "to support strategic decision-making",
+        "postings": [
+         "Deloitte::368546",
+         "Huron::JR-0015320"
+        ],
+        "employers": [
+         "Deloitte",
+         "Huron"
+        ],
+        "sentences": [
+         {
+          "posting": "Deloitte::368546",
+          "employer": "Deloitte",
+          "text": "Experience with data analysis, dashboarding, or reporting tools used to support operational decision-making"
+         },
+         {
+          "posting": "Huron::JR-0015320",
+          "employer": "Huron",
+          "text": "Develop reports and dashboards for clients using Kyriba’s Business Analytics features to support strategic decision-making."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Deloitte::368546",
+       "Huron::JR-0015320"
+      ],
+      "employers": [
+       "Deloitte",
+       "Huron"
+      ],
+      "not_shown": "the ladder has 1 rung, fewer than 2"
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the senior level"
+     }
+    },
+    "bank": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You prepare client reports.",
+        "quote": "Prepare internal reports, client reports",
+        "postings": [
+         "Brown Advisory::JR1735",
+         "StepStone Group::8031349"
+        ],
+        "employers": [
+         "Brown Advisory",
+         "StepStone Group"
+        ],
+        "sentences": [
+         {
+          "posting": "StepStone Group::8031349",
+          "employer": "StepStone Group",
+          "text": "Reporting: Prepare internal reports, client reports, quarterly valuations and ad-hoc requests"
+         },
+         {
+          "posting": "Brown Advisory::JR1735",
+          "employer": "Brown Advisory",
+          "text": "Generates monthly, quarterly, and ad-hoc reports for our private client and institutional relationships"
+         }
+        ]
+       },
+       {
+        "text": "You work with Hyperion and Essbase financial reporting systems.",
+        "quote": "financial reporting systems such as Essbase, Hyperion",
+        "postings": [
+         "JPMorgan Chase::210789863",
+         "U.S. Bancorp::2026-0019858"
+        ],
+        "employers": [
+         "JPMorgan Chase",
+         "U.S. Bancorp"
+        ],
+        "sentences": [
+         {
+          "posting": "U.S. Bancorp::2026-0019858",
+          "employer": "U.S. Bancorp",
+          "text": "Experience working with financial reporting systems such as Essbase, Hyperion, Power BI, Tableau, or similar reporting tools."
+         },
+         {
+          "posting": "JPMorgan Chase::210789863",
+          "employer": "JPMorgan Chase",
+          "text": "Operate proficiently in financial systems and tools such as SAP, Hyperion, Essbase, or similar GL and reporting platforms"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Brown Advisory::JR1735",
+       "JPMorgan Chase::210789863",
+       "StepStone Group::8031349",
+       "U.S. Bancorp::2026-0019858"
+      ],
+      "employers": [
+       "Brown Advisory",
+       "JPMorgan Chase",
+       "StepStone Group",
+       "U.S. Bancorp"
+      ]
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You use Tableau and Alteryx to automate reporting processes.",
+        "quote": "Tableau and Alteryx and employ them to automate reporting processes",
+        "postings": [
+         "JPMorgan Chase::210761341",
+         "State Street::R-795955"
+        ],
+        "employers": [
+         "JPMorgan Chase",
+         "State Street"
+        ],
+        "sentences": [
+         {
+          "posting": "JPMorgan Chase::210761341",
+          "employer": "JPMorgan Chase",
+          "text": "Develop skills in intelligent solutions such as Tableau and Alteryx and employ them to automate reporting processes"
+         },
+         {
+          "posting": "State Street::R-795955",
+          "employer": "State Street",
+          "text": "Leverage platforms such as Tableau / Alteryx / Power BI to automate reporting processes, and IBM Planning & Analytics to build and consolidate business plans"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "JPMorgan Chase::210761341",
+       "State Street::R-795955"
+      ],
+      "employers": [
+       "JPMorgan Chase",
+       "State Street"
+      ]
+     },
+     "senior": {
+      "statements": [
+       {
+        "text": "You prepare ad hoc analyses for senior stakeholders.",
+        "quote": "ad hoc analyses for senior stakeholders",
+        "postings": [
+         "Ares Management::R8351",
+         "MUFG::10077680-WD"
+        ],
+        "employers": [
+         "Ares Management",
+         "MUFG"
+        ],
+        "sentences": [
+         {
+          "posting": "MUFG::10077680-WD",
+          "employer": "MUFG",
+          "text": "Prepare portfolio reporting, management presentations, and ad hoc analyses for senior stakeholders."
+         },
+         {
+          "posting": "Ares Management::R8351",
+          "employer": "Ares Management",
+          "text": "Preparing and assisting with various scenario and/or sensitivity analyses and ad hoc business requests before presentation of this data to senior management to assist in corporate strategy"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Ares Management::R8351",
+       "MUFG::10077680-WD"
+      ],
+      "employers": [
+       "Ares Management",
+       "MUFG"
+      ]
+     },
+     "lead": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as another skill (Analytics requirements & business partnering)"
+     }
+    }
+   },
+   "subskills": {
+    "reporting_adhoc_analysis_ad_hoc_request_management": {
+     "text": "You manage ad hoc financial reporting requests and complete high-priority requests with speed and precision.",
+     "quote": "complex, high-priority ad-hoc requests with speed and precision",
+     "postings": [
+      "Audax Group::4728197005",
+      "Bain Capital::REQ_108423",
+      "Capital One Financial::R244681",
+      "Northern Trust::R153863"
+     ],
+     "employers": [
+      "Audax Group",
+      "Bain Capital",
+      "Capital One Financial",
+      "Northern Trust"
+     ],
+     "sentences": [
+      {
+       "posting": "Capital One Financial::R244681",
+       "employer": "Capital One Financial",
+       "text": "Independently manage and prioritize workload, including ad-hoc requests or special projects"
+      },
+      {
+       "posting": "Northern Trust::R153863",
+       "employer": "Northern Trust",
+       "text": "Allocate analyst capacity across recurring reporting, planning cycles, initiative support, ad hoc analysis and executive requests."
+      },
+      {
+       "posting": "Audax Group::4728197005",
+       "employer": "Audax Group",
+       "text": "Respond to and manage ad hoc financial reporting requests as they arise"
+      },
+      {
+       "posting": "Bain Capital::REQ_108423",
+       "employer": "Bain Capital",
+       "text": "Navigate and execute complex, high-priority ad-hoc requests with speed and precision"
+      }
+     ],
+     "ladders": [
+      "bank",
+      "corporate"
+     ],
+     "share": 0.38
+    },
+    "reporting_adhoc_analysis_reporting_governance_and_complia": {
+     "text": "You document data lineage and establish reporting controls to support accurate reports for auditors and regulators.",
+     "quote": "data sourcing, calculations, controls, documentation, and submission timelines",
+     "postings": [
+      "BMO::R260025535",
+      "Guggenheim Securities::14927",
+      "PNC Financial Services Group::R236274",
+      "SMBC::1429784300"
+     ],
+     "employers": [
+      "BMO",
+      "Guggenheim Securities",
+      "PNC Financial Services Group",
+      "SMBC"
+     ],
+     "sentences": [
+      {
+       "posting": "Guggenheim Securities::14927",
+       "employer": "Guggenheim Securities",
+       "text": "Contribute to recurring and ad-hoc reporting for internal stakeholders, auditors, and regulators, ensuring accuracy, completeness, and timely delivery."
+      },
+      {
+       "posting": "PNC Financial Services Group::R236274",
+       "employer": "PNC Financial Services Group",
+       "text": "Trace data lineage from source systems through business processes and reporting solutions to document data usage and dependencies"
+      },
+      {
+       "posting": "BMO::R260025535",
+       "employer": "BMO",
+       "text": "Supports the execution of accurate and efficient reporting solutions for risk, regulatory and management information to internal and external stakeholders including regulatory bodies."
+      },
+      {
+       "posting": "SMBC::1429784300",
+       "employer": "SMBC",
+       "text": "Establish and maintain a comprehensive reporting framework covering data sourcing, calculations, controls, documentation, and submission timelines."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.493
+    },
+    "reporting_adhoc_analysis_dashboard_development": {
+     "text": "You build and maintain dashboards that show business performance.",
+     "quote": "Build and maintain recurring reports and dashboards",
+     "postings": [
+      "Intercom::8196135",
+      "Mattel::744000154728047",
+      "Zipline::7982302003"
+     ],
+     "employers": [
+      "Intercom",
+      "Mattel",
+      "Zipline"
+     ],
+     "sentences": [
+      {
+       "posting": "Zipline::7982302003",
+       "employer": "Zipline",
+       "text": "Build and maintain recurring reports and dashboards, partnering with Analytics as needed to improve visibility into site, cohort, and metro performance."
+      },
+      {
+       "posting": "Mattel::744000154728047",
+       "employer": "Mattel",
+       "text": "Design and build scalable dashboards and reporting solutions that enable stakeholders to monitor key DTC performance metrics and identify opportunities for growth"
+      },
+      {
+       "posting": "Intercom::8196135",
+       "employer": "Intercom",
+       "text": "Develop clear, trusted reporting and dashboards that give leaders visibility into funnel health, productivity, conversion, win rates, capacity, and revenue performance."
+      }
+     ],
+     "ladders": [
+      "bank",
+      "consulting",
+      "corporate"
+     ],
+     "share": 0.385
+    },
+    "reporting_adhoc_analysis_reporting_automation": {
+     "text": "You automate reports to reduce recurring manual work.",
+     "quote": "built automated reporting systems that replaced manual processes",
+     "postings": [
+      "Gusto::8174849",
+      "McKesson::JR0153334",
+      "Stripe::8224620"
+     ],
+     "employers": [
+      "Gusto",
+      "McKesson",
+      "Stripe"
+     ],
+     "sentences": [
+      {
+       "posting": "Stripe::8224620",
+       "employer": "Stripe",
+       "text": "Develop scalable, automated reports and dashboards that meet key business and leadership reporting requirement, and reduce manual effort and operational overhead"
+      },
+      {
+       "posting": "Gusto::8174849",
+       "employer": "Gusto",
+       "text": "Systems-first orientation: experience building durable workflows, automating reports, or designing operating mechanisms that reduce recurring manual work."
+      },
+      {
+       "posting": "McKesson::JR0153334",
+       "employer": "McKesson",
+       "text": "You have developed and monitored KPIs that drive business decisions, and you have built automated reporting systems that replaced manual processes."
+      }
+     ],
+     "ladders": [
+      "consulting",
+      "corporate"
+     ],
+     "share": 0.078
+    },
+    "reporting_adhoc_analysis_reporting_frameworks": {
+     "text": "You build and improve reporting frameworks to support business decisions.",
+     "quote": "Build scalable processes, reporting frameworks, and dashboards",
+     "postings": [
+      "Airbnb::8259920",
+      "Amazon::10564022",
+      "Armada::5208262008"
+     ],
+     "employers": [
+      "Airbnb",
+      "Amazon",
+      "Armada"
+     ],
+     "sentences": [
+      {
+       "posting": "Amazon::10564022",
+       "employer": "Amazon",
+       "text": "The associate will contribute to idea generation, help maintain and improve reporting frameworks, and support ongoing process improvements that strengthen the team's operational foundation."
+      },
+      {
+       "posting": "Armada::5208262008",
+       "employer": "Armada",
+       "text": "Build scalable processes, reporting frameworks, and dashboards to support financial visibility and decision-making"
+      },
+      {
+       "posting": "Airbnb::8259920",
+       "employer": "Airbnb",
+       "text": "Build scalable reporting frameworks that connect early signals to revenue and long term value"
+      }
+     ],
+     "ladders": [
+      "bank",
+      "corporate"
+     ],
+     "share": 0.053
+    },
+    "reporting_adhoc_analysis_ad_hoc_analysis": {
+     "text": "You prepare ad hoc analyses to answer leadership questions.",
+     "quote": "Lead ad hoc analyses to answer strategic questions",
+     "postings": [
+      "Cambridge Associates::JR0000403",
+      "MUFG::10077680-WD",
+      "PNC Financial Services Group::R232457"
+     ],
+     "employers": [
+      "Cambridge Associates",
+      "MUFG",
+      "PNC Financial Services Group"
+     ],
+     "sentences": [
+      {
+       "posting": "Cambridge Associates::JR0000403",
+       "employer": "Cambridge Associates",
+       "text": "Support ad hoc analyses for leadership, including cost-benefit analysis, scenario planning, and resource allocation decisions"
+      },
+      {
+       "posting": "MUFG::10077680-WD",
+       "employer": "MUFG",
+       "text": "Prepare portfolio reporting, management presentations, and ad hoc analyses for senior stakeholders."
+      },
+      {
+       "posting": "PNC Financial Services Group::R232457",
+       "employer": "PNC Financial Services Group",
+       "text": "Lead ad hoc analyses to answer strategic questions and inform decisions on priorities, resource allocation, and growth opportunities"
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.164
+    },
+    "reporting_adhoc_analysis_financial_reporting_systems": {
+     "text": "You work with Hyperion and Essbase financial reporting systems.",
+     "quote": "financial reporting systems such as Essbase, Hyperion",
+     "postings": [
+      "JPMorgan Chase::210789863",
+      "U.S. Bancorp::2026-0019858"
+     ],
+     "employers": [
+      "JPMorgan Chase",
+      "U.S. Bancorp"
+     ],
+     "sentences": [
+      {
+       "posting": "U.S. Bancorp::2026-0019858",
+       "employer": "U.S. Bancorp",
+       "text": "Experience working with financial reporting systems such as Essbase, Hyperion, Power BI, Tableau, or similar reporting tools."
+      },
+      {
+       "posting": "JPMorgan Chase::210789863",
+       "employer": "JPMorgan Chase",
+       "text": "Operate proficiently in financial systems and tools such as SAP, Hyperion, Essbase, or similar GL and reporting platforms"
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.226
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 245,
+       "employers": 156
+      },
+      "mid": {
+       "n": 930,
+       "employers": 318
+      },
+      "senior": {
+       "n": 240,
+       "employers": 133
+      },
+      "lead": {
+       "n": 295,
+       "employers": 178
+      }
+     }
+    },
+    "consulting": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "mid": {
+       "n": 14,
+       "employers": 7
+      },
+      "senior": {
+       "n": 24,
+       "employers": 10
+      },
+      "lead": {
+       "n": 9,
+       "employers": 7
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 86,
+       "employers": 41
+      },
+      "mid": {
+       "n": 124,
+       "employers": 54
+      },
+      "senior": {
+       "n": 77,
+       "employers": 32
+      },
+      "lead": {
+       "n": 25,
+       "employers": 14
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  },
  "self_service_bi": {
-  "what": "Setting up governed data sets, tools and training so business teams can answer their own questions."
+  "what": "Setting up governed data sets, tools and training so business teams can answer their own questions.",
+  "subskills": [
+   {
+    "id": "self_service_bi_self_service_dashboards",
+    "name": "Self-service dashboards",
+    "patterns": [
+     "\\bdashboards\\b",
+     "\\bdashboard\\sdevelopment\\b",
+     "\\bdashboarding\\b"
+    ],
+    "example": "You design, develop, and maintain self-service dashboards using Tableau."
+   },
+   {
+    "id": "self_service_bi_self_service_data_infrastructure",
+    "name": "Self-service data infrastructure",
+    "patterns": [
+     "\\bdata marts\\b",
+     "\\bdata warehouses\\b",
+     "\\bdata architecture\\b",
+     "\\bpipelines\\b"
+    ],
+    "example": "You maintain analytic data marts and design data warehouses for self-service analytics."
+   },
+   {
+    "id": "self_service_bi_semantic_model_design",
+    "name": "Semantic model design",
+    "patterns": [
+     "\\bsemantic\\b",
+     "\\bdimensional\\smodeling\\b",
+     "\\bmetrics\\slayer\\b"
+    ],
+    "example": "You build semantic models that organize business entities, measures, definitions, and relationships."
+   },
+   {
+    "id": "self_service_bi_user_adoption_and_training",
+    "name": "User adoption and training",
+    "patterns": [
+     "\\buser\\s adoption\\b",
+     "\\btraining\\b",
+     "\\bdata\\s literacy\\b",
+     "\\banalytics\\s adoption\\b"
+    ],
+    "example": "You support user training and promote adoption of self-service analytics."
+   },
+   {
+    "id": "self_service_bi_governed_data_assets",
+    "name": "Governed data assets",
+    "patterns": [
+     "\\bcertified\\sdata\\sassets\\b",
+     "\\btrusted\\sdata\\sassets\\b",
+     "\\bdata\\sintegrity\\b"
+    ],
+    "example": "You establish standards for certified data assets."
+   }
+  ],
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You turn recurring reporting questions into self-service dashboards.",
+        "quote": "so recurring questions stop being asked manually",
+        "postings": [
+         "Brightwheel::4f857e3b-e95b-4dee-be0f-58f778a1f9da",
+         "Owner::4c107bd8-6fee-42e3-bb96-da267a7719b8"
+        ],
+        "employers": [
+         "Brightwheel",
+         "Owner"
+        ],
+        "sentences": [
+         {
+          "posting": "Brightwheel::4f857e3b-e95b-4dee-be0f-58f778a1f9da",
+          "employer": "Brightwheel",
+          "text": "Build and maintain self-serve dashboards for both areas so recurring questions stop being asked manually."
+         },
+         {
+          "posting": "Owner::4c107bd8-6fee-42e3-bb96-da267a7719b8",
+          "employer": "Owner",
+          "text": "Automate manual reporting with AI and modern tooling, turning recurring asks into self-serve dashboards and systems that run independently"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Brightwheel::4f857e3b-e95b-4dee-be0f-58f778a1f9da",
+       "Owner::4c107bd8-6fee-42e3-bb96-da267a7719b8"
+      ],
+      "employers": [
+       "Brightwheel",
+       "Owner"
+      ],
+      "not_shown": "the ladder has 1 rung, fewer than 2"
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the mid level"
+     }
+    },
+    "bank": {
+     "associate": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     },
+     "mid": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     }
+    }
+   },
+   "subskills": {
+    "self_service_bi_self_service_dashboards": {
+     "text": "You design, develop, and maintain self-service dashboards using Tableau.",
+     "quote": "Design, develop, and maintain intuitive self-service dashboards using Tableau",
+     "postings": [
+      "Citigroup::100084277648",
+      "JPMorgan Chase::210790876",
+      "KKR::6173467004",
+      "Neuberger Berman::R0012411"
+     ],
+     "employers": [
+      "Citigroup",
+      "JPMorgan Chase",
+      "KKR",
+      "Neuberger Berman"
+     ],
+     "sentences": [
+      {
+       "posting": "KKR::6173467004",
+       "employer": "KKR",
+       "text": "Design, develop, and maintain intuitive self-service dashboards using Tableau or comparable enterprise BI platforms."
+      },
+      {
+       "posting": "Neuberger Berman::R0012411",
+       "employer": "Neuberger Berman",
+       "text": "Own recurring and ad hoc management reporting for client coverage, including standard channel reporting, dynamic self-service dashboards, and firmwide reporting inputs."
+      },
+      {
+       "posting": "JPMorgan Chase::210790876",
+       "employer": "JPMorgan Chase",
+       "text": "Experience with self-serve business intelligence tools for dashboarding and automated reporting"
+      },
+      {
+       "posting": "Citigroup::100084277648",
+       "employer": "Citigroup",
+       "text": "Hands-on experience building self-serve analytics capabilities, including dashboard development and automation of manual reporting processes."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.484
+    },
+    "self_service_bi_self_service_data_infrastructure": {
+     "text": "You maintain analytic data marts and design data warehouses for self-service analytics.",
+     "quote": "maintains and optimizes analytic data marts",
+     "postings": [
+      "Carlyle::R-00190",
+      "Goldman Sachs Group::167674",
+      "KeyCorp::R-42089",
+      "PNC Financial Services Group::R229722"
+     ],
+     "employers": [
+      "Carlyle",
+      "Goldman Sachs Group",
+      "KeyCorp",
+      "PNC Financial Services Group"
+     ],
+     "sentences": [
+      {
+       "posting": "PNC Financial Services Group::R229722",
+       "employer": "PNC Financial Services Group",
+       "text": "Consulting on using business intelligence data for predictive analytics and facilitating implementation of new tools and data marts."
+      },
+      {
+       "posting": "KeyCorp::R-42089",
+       "employer": "KeyCorp",
+       "text": "This role is responsible for managing a high-performance team that maintains and optimizes analytic data marts, ensuring data integrity, and supporting the development of trusted data assets."
+      },
+      {
+       "posting": "Carlyle::R-00190",
+       "employer": "Carlyle",
+       "text": "Experience designing enterprise reporting platforms, data warehouses, semantic models, and self-service analytics solutions."
+      },
+      {
+       "posting": "Goldman Sachs Group::167674",
+       "employer": "Goldman Sachs Group",
+       "text": "Strong foundational knowledge of data architecture concepts , including data structures, relational and non-relational data stores, data modeling, data warehousing architectures, ETL/ELT pipelines, and business objects/semantic layers."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.363
+    },
+    "self_service_bi_semantic_model_design": {
+     "text": "You build semantic models that organize business entities, measures, definitions, and relationships.",
+     "quote": "organizing business entities, measures, relationships, definitions, and access rules",
+     "postings": [
+      "American Financial Group::R9559",
+      "Attentive::4402183009",
+      "EY::1437604433"
+     ],
+     "employers": [
+      "American Financial Group",
+      "Attentive",
+      "EY"
+     ],
+     "sentences": [
+      {
+       "posting": "EY::1437604433",
+       "employer": "EY",
+       "text": "Semantic architecture: Ability to design governed semantic layers that harmonize definitions, hierarchies, measures, lineage, and context for analytics, digital twins, AI applications, and cross-site reuse."
+      },
+      {
+       "posting": "American Financial Group::R9559",
+       "employer": "American Financial Group",
+       "text": "Designs, develops, tests, and maintains reusable semantic models as core components of analytic products, organizing business entities, measures, relationships, definitions, and access rules for reporting, self-service analytics, and agent-assisted use cases."
+      },
+      {
+       "posting": "Attentive::4402183009",
+       "employer": "Attentive",
+       "text": "Build the semantic layer that tells marketers and agents what their data means, and decide what data gets promoted to native object entities"
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.382
+    },
+    "self_service_bi_user_adoption_and_training": {
+     "text": "You support user training and promote adoption of self-service analytics.",
+     "quote": "Support user adoption and training to promote self-service analytics",
+     "postings": [
+      "DXC Technology::51580879",
+      "PVH::R60048"
+     ],
+     "employers": [
+      "DXC Technology",
+      "PVH"
+     ],
+     "sentences": [
+      {
+       "posting": "PVH::R60048",
+       "employer": "PVH",
+       "text": "Support user adoption and training to promote self-service analytics and data-driven decision-making."
+      },
+      {
+       "posting": "DXC Technology::51580879",
+       "employer": "DXC Technology",
+       "text": "Champion enterprise data literacy and self‑service analytics adoption."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.236
+    },
+    "self_service_bi_governed_data_assets": {
+     "text": "You establish standards for certified data assets.",
+     "quote": "Establish standards for certified data assets",
+     "postings": [
+      "KeyCorp::R-42089",
+      "LPL Financial Holdings::R-050438"
+     ],
+     "employers": [
+      "KeyCorp",
+      "LPL Financial Holdings"
+     ],
+     "sentences": [
+      {
+       "posting": "LPL Financial Holdings::R-050438",
+       "employer": "LPL Financial Holdings",
+       "text": "Establish standards for certified data assets, reporting consistency, and governed self-service analytics"
+      },
+      {
+       "posting": "KeyCorp::R-42089",
+       "employer": "KeyCorp",
+       "text": "This role is responsible for managing a high-performance team that maintains and optimizes analytic data marts, ensuring data integrity, and supporting the development of trusted data assets."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.127
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "mid": {
+       "n": 39,
+       "employers": 34
+      },
+      "senior": {
+       "n": 34,
+       "employers": 25
+      },
+      "lead": {
+       "n": 43,
+       "employers": 33
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "mid": {
+       "n": 13,
+       "employers": 9
+      },
+      "senior": {
+       "n": 10,
+       "employers": 4
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  },
  "analytics_requirements": {
-  "what": "Turning a stakeholder's business question into a clear analytics or reporting requirement, then into a delivered answer."
+  "what": "Turning a stakeholder's business question into a clear analytics or reporting requirement, then into a delivered answer.",
+  "subskills": [
+   {
+    "id": "analytics_requirements_analytics_business_partnering",
+    "name": "Analytics business partnering",
+    "patterns": [
+     "\\banalytics partner\\b",
+     "\\balign on metrics and reporting needs\\b",
+     "\\bprimary interface with business\\b"
+    ],
+    "example": "You partner with business teams to align analytics with business priorities."
+   },
+   {
+    "id": "analytics_requirements_delivery_specifications",
+    "name": "Delivery specifications",
+    "patterns": [
+     "\\buser\\sstories\\b",
+     "\\bacceptance\\scriteria\\b",
+     "\\bdata\\srequirements\\b"
+    ],
+    "example": "You document data requirements and acceptance criteria for solution delivery."
+   },
+   {
+    "id": "analytics_requirements_findings_and_recommendations",
+    "name": "Findings and recommendations",
+    "patterns": [
+     "\\bpresent\\sclear\\b",
+     "\\bcommunicating\\sinsights\\sand\\srecommendations\\b",
+     "\\bactionable\\sfindings\\b",
+     "\\bactionable\\sinsights\\b"
+    ],
+    "example": "You communicate analytical findings and recommendations to stakeholders."
+   },
+   {
+    "id": "analytics_requirements_business_needs_translation",
+    "name": "Business needs translation",
+    "patterns": [
+     "\\btranslate business needs\\b",
+     "\\btranslate business requirements\\b",
+     "\\btransition business requirements\\b"
+    ],
+    "example": "You translate business needs into data, analytics, or reporting requirements."
+   },
+   {
+    "id": "analytics_requirements_measurement_requirements",
+    "name": "Measurement requirements",
+    "patterns": [
+     "\\bmeasurement frameworks\\b",
+     "\\bperformance frameworks\\b",
+     "\\bsuccess metrics\\b"
+    ],
+    "example": "You translate business questions and priorities into measurement frameworks and success metrics."
+   },
+   {
+    "id": "analytics_requirements_business_question_translation",
+    "name": "Business question translation",
+    "patterns": [
+     "\\btranslate\\sbusiness\\squestions\\b",
+     "\\btranslating\\sbusiness\\sneeds\\b",
+     "\\btranslate\\sbusiness\\srequirements\\b",
+     "\\banalytical\\sframeworks\\b"
+    ],
+    "example": "You turn business questions into analytical frameworks."
+   }
+  ],
+  "ladder": {
+   "corporate": {
+    "associate": "You support financial Contract Data Requirements for programs.",
+    "mid": "You write user stories, data requirements, and acceptance criteria.",
+    "senior": "You work with data engineering teams to turn requirements into data prepared for analytics."
+   }
+  },
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You support financial Contract Data Requirements for programs.",
+        "quote": "Prepares financial Contract Data Requirements",
+        "postings": [
+         "Amentum Holdings::R0169578",
+         "RTX::01873974"
+        ],
+        "employers": [
+         "Amentum Holdings",
+         "RTX"
+        ],
+        "sentences": [
+         {
+          "posting": "Amentum Holdings::R0169578",
+          "employer": "Amentum Holdings",
+          "text": "Prepares financial Contract Data Requirements (CDRL) for programs such as weekly and monthly contract status reports (MCSRs)."
+         },
+         {
+          "posting": "RTX::01873974",
+          "employer": "RTX",
+          "text": "You will be responsible for supporting Contract Data Requirements list (CDRLs) including IPMDAR, CFSR and provide analysis to assist leadership in making sound decisions for the financial execution of the programs being supported."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Amentum Holdings::R0169578",
+       "RTX::01873974"
+      ],
+      "employers": [
+       "Amentum Holdings",
+       "RTX"
+      ]
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You write user stories, data requirements, and acceptance criteria.",
+        "quote": "Write the user stories, acceptance criteria, data requirements",
+        "postings": [
+         "EY::1437604433",
+         "NextEra Energy::1432962500"
+        ],
+        "employers": [
+         "EY",
+         "NextEra Energy"
+        ],
+        "sentences": [
+         {
+          "posting": "EY::1437604433",
+          "employer": "EY",
+          "text": "Translate manufacturing priorities into process designs, functional requirements, user stories, data requirements, integration requirements, acceptance criteria, deployment roadmaps, and measurable outcomes."
+         },
+         {
+          "posting": "NextEra Energy::1432962500",
+          "employer": "NextEra Energy",
+          "text": "Write the user stories, acceptance criteria, data requirements and definitions of done that data scientists and engineers build against, and own the product backlog and its prioritization by business value."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "EY::1437604433",
+       "NextEra Energy::1432962500"
+      ],
+      "employers": [
+       "EY",
+       "NextEra Energy"
+      ]
+     },
+     "senior": {
+      "statements": [
+       {
+        "text": "You work with data engineering teams to turn requirements into data prepared for analytics.",
+        "quote": "translate analytics requirements into curated, analytics‑ready datasets",
+        "postings": [
+         "McKesson::JR0154323",
+         "Rockwell Automation::R26-1914"
+        ],
+        "employers": [
+         "McKesson",
+         "Rockwell Automation"
+        ],
+        "sentences": [
+         {
+          "posting": "Rockwell Automation::R26-1914",
+          "employer": "Rockwell Automation",
+          "text": "Partner on modern data platforms: Work closely with IT and data engineering teams to translate analytics requirements into curated, analytics‑ready datasets using modern data platforms (e.g., Databricks)."
+         },
+         {
+          "posting": "McKesson::JR0154323",
+          "employer": "McKesson",
+          "text": "Partners closely with Data Engineering, Data Architecture, Data Science, and Data Analytics teams to translate business requirements into data models, pipelines, and reportable outputs"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "McKesson::JR0154323",
+       "Rockwell Automation::R26-1914"
+      ],
+      "employers": [
+       "McKesson",
+       "Rockwell Automation"
+      ]
+     },
+     "lead": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     }
+    },
+    "bank": {
+     "associate": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "mid": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     }
+    },
+    "consulting": {
+     "associate": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     },
+     "mid": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "senior": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the mid level"
+     },
+     "lead": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     }
+    }
+   },
+   "subskills": {
+    "analytics_requirements_analytics_business_partnering": {
+     "text": "You partner with business teams to align analytics with business priorities.",
+     "quote": "strategic recommendations aligned to business priorities",
+     "postings": [
+      "Citigroup::100084277648",
+      "KKR::6144123004",
+      "TD::R_1507120",
+      "U.S. Bancorp::2026-0029147"
+     ],
+     "employers": [
+      "Citigroup",
+      "KKR",
+      "TD",
+      "U.S. Bancorp"
+     ],
+     "sentences": [
+      {
+       "posting": "TD::R_1507120",
+       "employer": "TD",
+       "text": "Acts as the primary interface with business to bridge and translate business requirements to analytics and reporting needs for a given domain/business"
+      },
+      {
+       "posting": "U.S. Bancorp::2026-0029147",
+       "employer": "U.S. Bancorp",
+       "text": "We're seeking an Insights & Analytics Lead Consultant to serve as a strategic analytics partner to senior leaders across Product, Marketing, Growth, Operations, Risk, Technology, and Consumer Banking."
+      },
+      {
+       "posting": "Citigroup::100084277648",
+       "employer": "Citigroup",
+       "text": "Effective at working across cross-functional teams including finance, client coverage, and data functions to align on metrics and reporting needs."
+      },
+      {
+       "posting": "KKR::6144123004",
+       "employer": "KKR",
+       "text": "Serve as the primary analytics partner to Content Marketing and Product Marketing teams, defining performance frameworks, KPIs and strategic recommendations aligned to business priorities"
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.086
+    },
+    "analytics_requirements_delivery_specifications": {
+     "text": "You document data requirements and acceptance criteria for solution delivery.",
+     "quote": "Write the user stories, acceptance criteria, data requirements",
+     "postings": [
+      "McKesson::JR0154323",
+      "NextEra Energy::1432962500",
+      "Nvidia::JR2021872"
+     ],
+     "employers": [
+      "McKesson",
+      "NextEra Energy",
+      "Nvidia"
+     ],
+     "sentences": [
+      {
+       "posting": "NextEra Energy::1432962500",
+       "employer": "NextEra Energy",
+       "text": "Write the user stories, acceptance criteria, data requirements and definitions of done that data scientists and engineers build against, and own the product backlog and its prioritization by business value."
+      },
+      {
+       "posting": "McKesson::JR0154323",
+       "employer": "McKesson",
+       "text": "Documents business and data requirements into clear, engineering-ready specifications (epics, features, user stories, acceptance criteria) for engineering teams to build against"
+      },
+      {
+       "posting": "Nvidia::JR2021872",
+       "employer": "Nvidia",
+       "text": "Translate business needs into process maps, solution blueprints, business and data requirements, rules, acceptance criteria/success measures; drive programs through UAT, deployment, cutover, training, organizational change, and hyper care."
+      }
+     ],
+     "ladders": [
+      "consulting",
+      "corporate"
+     ],
+     "share": 0.382
+    },
+    "analytics_requirements_findings_and_recommendations": {
+     "text": "You communicate analytical findings and recommendations to stakeholders.",
+     "quote": "communicating insights and recommendations that support decision-making",
+     "postings": [
+      "Abbott Laboratories::31162729",
+      "Intuit::101410847360",
+      "TJX::REQ148956"
+     ],
+     "employers": [
+      "Abbott Laboratories",
+      "Intuit",
+      "TJX"
+     ],
+     "sentences": [
+      {
+       "posting": "Intuit::101410847360",
+       "employer": "Intuit",
+       "text": "Collaborate & Present: Work closely with cross-functional partners to understand data requirements, validate findings, and present clear, data-driven recommendations to key stakeholders."
+      },
+      {
+       "posting": "TJX::REQ148956",
+       "employer": "TJX",
+       "text": "Partner with stakeholders to define analytical requirements and develop data-driven recommendations, translating complex data into actionable insights through effective storytelling and visualization."
+      },
+      {
+       "posting": "Abbott Laboratories::31162729",
+       "employer": "Abbott Laboratories",
+       "text": "Serve as a key analytics partner to stakeholders, communicating insights and recommendations that support decision-making."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.169
+    },
+    "analytics_requirements_business_needs_translation": {
+     "text": "You translate business needs into data, analytics, or reporting requirements.",
+     "quote": "translate business needs into clear data requirements",
+     "postings": [
+      "JPMorgan Chase::210774477",
+      "M&T Bank::R90383",
+      "TD::R_1507120"
+     ],
+     "employers": [
+      "JPMorgan Chase",
+      "M&T Bank",
+      "TD"
+     ],
+     "sentences": [
+      {
+       "posting": "M&T Bank::R90383",
+       "employer": "M&T Bank",
+       "text": "Collaborate with senior product owners and cross-functional teams to understand business needs and translate them into digital workflows, business and data requirements."
+      },
+      {
+       "posting": "TD::R_1507120",
+       "employer": "TD",
+       "text": "Acts as the primary interface with business to bridge and translate business requirements to analytics and reporting needs for a given domain/business"
+      },
+      {
+       "posting": "TD::R_1507120",
+       "employer": "TD",
+       "text": "Works with business functions and analytics teams to transition business requirements to analytics requirements"
+      },
+      {
+       "posting": "JPMorgan Chase::210774477",
+       "employer": "JPMorgan Chase",
+       "text": "Ability to translate business needs into clear data requirements and partner with technology teams on implementation."
+      }
+     ],
+     "ladders": [
+      "bank",
+      "consulting"
+     ],
+     "share": 0.183
+    },
+    "analytics_requirements_measurement_requirements": {
+     "text": "You translate business questions and priorities into measurement frameworks and success metrics.",
+     "quote": "translating business questions into measurement frameworks",
+     "postings": [
+      "KKR::6144123004",
+      "Morgan Stanley::PT-JR041459",
+      "U.S. Bancorp::2026-0024859"
+     ],
+     "employers": [
+      "KKR",
+      "Morgan Stanley",
+      "U.S. Bancorp"
+     ],
+     "sentences": [
+      {
+       "posting": "U.S. Bancorp::2026-0024859",
+       "employer": "U.S. Bancorp",
+       "text": "       Experience translating business questions into measurement frameworks and actionable insights."
+      },
+      {
+       "posting": "KKR::6144123004",
+       "employer": "KKR",
+       "text": "Serve as the primary analytics partner to Content Marketing and Product Marketing teams, defining performance frameworks, KPIs and strategic recommendations aligned to business priorities"
+      },
+      {
+       "posting": "Morgan Stanley::PT-JR041459",
+       "employer": "Morgan Stanley",
+       "text": "Define product requirements, user stories, acceptance criteria, reporting needs, and success metrics for new and enhanced digital trading and investing products; partner with agile delivery teams to drive implementation from discovery through launch."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.091
+    },
+    "analytics_requirements_business_question_translation": {
+     "text": "You turn business questions into analytical frameworks.",
+     "quote": "Translate business questions into analytical frameworks",
+     "postings": [
+      "Apple::200671821",
+      "IQVIA Holdings::R1526346"
+     ],
+     "employers": [
+      "Apple",
+      "IQVIA Holdings"
+     ],
+     "sentences": [
+      {
+       "posting": "Apple::200671821",
+       "employer": "Apple",
+       "text": "Translate business questions into analytical frameworks, and analytical results into actionable decisions"
+      },
+      {
+       "posting": "IQVIA Holdings::R1526346",
+       "employer": "IQVIA Holdings",
+       "text": "Translate client business questions into analytic frameworks and connect IQVIA offerings, networks, and capabilities to guide solution design and project direction."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.15
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 32,
+       "employers": 26
+      },
+      "mid": {
+       "n": 104,
+       "employers": 70
+      },
+      "senior": {
+       "n": 50,
+       "employers": 35
+      },
+      "lead": {
+       "n": 67,
+       "employers": 52
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 18,
+       "employers": 10
+      },
+      "mid": {
+       "n": 29,
+       "employers": 18
+      },
+      "senior": {
+       "n": 31,
+       "employers": 11
+      }
+     }
+    },
+    "consulting": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "mid": {
+       "n": 9,
+       "employers": 4
+      },
+      "senior": {
+       "n": 12,
+       "employers": 5
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  }
 }

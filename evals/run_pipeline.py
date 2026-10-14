@@ -30,7 +30,7 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
-from pipeline import balance, extract, geo, roles_mba, tax  # noqa: E402
+from pipeline import balance, extract, geo, processed, roles_mba, tax  # noqa: E402
 from pipeline.scrape import load_registry  # noqa: E402
 
 ROLES = "mba"
@@ -197,7 +197,7 @@ def integrity():
     check("integrity", not shared, f"registry entries share a job board: {list(shared.values())[:5]}")
     names = collections.Counter(r["company"].lower() for r in reg)
     check("integrity", max(names.values()) == 1, f"a company is in the registry twice: {[k for k, v in names.items() if v > 1][:5]}")
-    jobs = json.load(open(os.path.join(ROOT, "data", "processed", f"jobs_{ROLES}.json")))
+    jobs = processed.load(ROLES)
     urls = collections.Counter(j["url"] for j in jobs if j["url"])
     check("integrity", max(urls.values()) == 1, f"{sum(1 for v in urls.values() if v > 1)} URLs appear more than once in the processed file")
     ids = collections.Counter(j["id"] for j in jobs)

@@ -18,6 +18,7 @@ with their steps (decision 1 of the build-steps pilot).
 
 Checks done here, beyond the runs' own (counted in the publish report):
 - a sub-skill pattern is cleaned of inline flags (JavaScript has none) and must compile;
+- a sub-skill's patterns must match at least one of its own cited sentences;
 - a sub-skill must be a part of the skill, not the whole of it (its patterns match at most half of the skill's
   US postings) and not another skill of the taxonomy (same name, or the same postings as another skill);
 - the same sub-skill drafted on two ladders is published once (same name, or the same postings).
@@ -123,6 +124,10 @@ def publish_skill(skill, results, jobs, corpus, ids, T, report):
             report["subs_dropped"]["pattern does not compile"] += 1
             continue
         hit = hits_of(pats, postings)
+        rx = re.compile("|".join(f"(?:{p})" for p in pats), re.I)
+        if not any(rx.search(by_id[e]["text"]) for e in c["evidence"] if e in by_id):
+            report["subs_dropped"]["patterns match none of its own cited sentences"] += 1
+            continue
         if len(hit) > SUB_MAX_SHARE * len(postings):
             report["subs_dropped"]["matches more than half of the skill's postings"] += 1
             continue
@@ -170,10 +175,11 @@ def build_of(skill, runs, ids, report):
                 continue
             t = targets[(skill, r["ladder"])][c["target"]]
             ev = [e for e in t["evidence"] if e["id"] in c["evidence"]]
-            steps.append({"kind": c["kind"], "text": c["text"], "target": c["target"], "target_label": t["label"], "scope": c["scope"], "source": c["source"],
+            steps.append({"kind": c["kind"], "text": c["text"], "target": c["target"], "target_label": t["label"], "scope": c["scope"], "level": c["level"], "source": c["source"],
                           "source_title": c["source_title"], "url": c["source_url"], "grounding": c["grounding"], "demand": c["demand_line"]})
             sp.append({"postings": sorted({e.get("id_posting") or ids.get(e["url"], e["url"]) for e in ev}), "employers": sorted({e["company"] for e in ev}),
                        "sentences": [{"posting": e.get("id_posting") or ids.get(e["url"], e["url"]), "employer": e["company"], "text": e["text"]} for e in ev],
+                       "target_sentences": [{"posting": e.get("id_posting") or ids.get(e["url"], e["url"]), "employer": e["company"], "text": e["text"]} for e in t["evidence"]],
                        "target_employers": t["employers"], "item": c.get("item") or "", "quote": c.get("quote") or "", "template": c["template"], "slots": c.get("slots") or {}})
         if steps:
             build[r["ladder"]], prov[r["ladder"]] = steps, sp
@@ -190,10 +196,11 @@ def roles_file(runs, ids):
                 continue
             t = next(x for x in rt["targets"] if x["id"] == c["target"])
             ev = [e for e in t["evidence"] if e["id"] in c["evidence"]]
-            steps.append({"kind": c["kind"], "text": c["text"], "target": c["target"], "target_label": t["label"], "source": c["source"], "source_title": c["source_title"],
-                          "url": c["source_url"], "grounding": c["grounding"], "demand": c["demand_line"]})
+            steps.append({"kind": c["kind"], "text": c["text"], "target": c["target"], "target_label": t["label"], "scope": "role", "level": t["level"], "source": c["source"],
+                          "source_title": c["source_title"], "url": c["source_url"], "grounding": c["grounding"], "demand": c["demand_line"]})
             sp.append({"postings": sorted({e.get("id_posting") or ids.get(e["url"], e["url"]) for e in ev}), "employers": sorted({e["company"] for e in ev}),
                        "sentences": [{"posting": e.get("id_posting") or ids.get(e["url"], e["url"]), "employer": e["company"], "text": e["text"]} for e in ev],
+                       "target_sentences": [{"posting": e.get("id_posting") or ids.get(e["url"], e["url"]), "employer": e["company"], "text": e["text"]} for e in t["evidence"]],
                        "target_employers": t["employers"], "template": c["template"], "slots": c.get("slots") or {}})
         asks = [{"target": t["id"], "label": t["label"], "kind": t["kind"], "level": t["level"], "employers": t["employers"], "postings": t["postings"], "of_postings": t["of_postings"],
                  **({"note": t["access_note"]} if t.get("access_note") else {})} for t in rt["targets"]]

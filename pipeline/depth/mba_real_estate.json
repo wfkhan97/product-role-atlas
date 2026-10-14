@@ -1,20 +1,3677 @@
 {
  "re_underwriting": {
-  "what": "Model a property's income, costs and returns, grounded in local rents and sales, to decide what it is worth."
+  "what": "Model a property's income, costs and returns, grounded in local rents and sales, to decide what it is worth.",
+  "subskills": [
+   {
+    "id": "re_underwriting_pro_forma_analysis",
+    "name": "Pro forma analysis",
+    "patterns": [
+     "\\bforma\\sfinancial\\smodels\\b",
+     "\\boperating\\spro\\sformas\\b",
+     "\\bforma\\sscenario\\smodels\\b",
+     "\\bforma\\sfinancial\\sinformation\\b"
+    ],
+    "example": "You analyze pro forma financial models and operating pro formas."
+   },
+   {
+    "id": "re_underwriting_development_pro_formas",
+    "name": "Development pro formas",
+    "patterns": [
+     "\\bpro\\s?formas?\\b",
+     "\\bdevelopment underwriting\\b",
+     "\\bdevelopment budgets\\b"
+    ],
+    "example": "You build pro formas to analyze development opportunities."
+   },
+   {
+    "id": "re_underwriting_property_valuation_models",
+    "name": "Property valuation models",
+    "patterns": [
+     "\\bDCF\\b",
+     "\\bdiscounted cash flow\\b",
+     "\\bproperty valuations?\\b",
+     "\\bvaluation models?\\b"
+    ],
+    "example": "You use discounted cash flow analyses to determine property values."
+   },
+   {
+    "id": "re_underwriting_property_valuation",
+    "name": "Property valuation",
+    "patterns": [
+     "\\bproperty\\svaluation",
+     "\\breal\\sestate\\svaluation",
+     "\\bDCF\\sanalysis"
+    ],
+    "example": "You prepare property valuations for real estate investments."
+   },
+   {
+    "id": "re_underwriting_real_estate_credit_metrics",
+    "name": "Real estate credit metrics",
+    "patterns": [
+     "\\bNOI\\b|\\bFFO\\b|\\bAFFO\\b|\\bNAV\\b",
+     "\\bLTV\\b|\\bDSCR\\b",
+     "\\bcash\\sflow\\b",
+     "\\bleverage\\b|\\bcapitalization\\srates\\b"
+    ],
+    "example": "You analyze NOI, capitalization rates, LTV, and DSCR."
+   },
+   {
+    "id": "re_underwriting_real_estate_underwriting",
+    "name": "Real estate underwriting",
+    "patterns": [
+     "\\bunderwriting\\b",
+     "\\bunderwrite\\b"
+    ],
+    "example": "You underwrite commercial real estate loans and investments."
+   },
+   {
+    "id": "re_underwriting_property_valuation_and_capitaliz",
+    "name": "Property valuation and capitalization rates",
+    "patterns": [
+     "\\bvaluation\\b",
+     "\\bcapitalization\\srates\\b"
+    ],
+    "example": "You assess asset values using valuation approaches, valuation modeling, and capitalization rates."
+   },
+   {
+    "id": "re_underwriting_sensitivity_testing",
+    "name": "Sensitivity testing",
+    "patterns": [
+     "\\bsensitivity\\b",
+     "\\bsensitivities\\b",
+     "\\bscenarios?\\b"
+    ],
+    "example": "You test property cash flows and returns with sensitivity analyses."
+   },
+   {
+    "id": "re_underwriting_property_cash_flow_modeling",
+    "name": "Property cash flow modeling",
+    "patterns": [
+     "\\bcash\\sflow\\smodel",
+     "\\bcash\\sflow\\sprojections"
+    ],
+    "example": "You build cash flow models for real estate properties."
+   },
+   {
+    "id": "re_underwriting_returns_and_waterfall_analysis",
+    "name": "Returns and waterfall analysis",
+    "patterns": [
+     "\\bwaterfalls?\\b",
+     "\\breturns\\sanalysis\\b"
+    ],
+    "example": "You prepare fund-level waterfall models and returns analysis for prospective buyers."
+   },
+   {
+    "id": "re_underwriting_debt_and_loan_underwriting",
+    "name": "Debt and loan underwriting",
+    "patterns": [
+     "\\bdebt\\b",
+     "\\bloans?\\b"
+    ],
+    "example": "You underwrite commercial real estate debt and loans."
+   }
+  ],
+  "ladder": {
+   "corporate": {
+    "associate": "You prepare pro forma financial analyses for development opportunities.",
+    "mid": "You review development pro formas."
+   },
+   "bank": {
+    "associate": "You provide property cash flow modeling and valuation analysis for real estate investments.",
+    "mid": "You build financial models to underwrite real estate investments."
+   }
+  },
+  "provenance": {
+   "ladder": {
+    "consulting": {
+     "associate": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     },
+     "mid": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     }
+    },
+    "corporate": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You prepare pro forma financial analyses for development opportunities.",
+        "quote": "Manage pro forma financial analyses for ground-up developments",
+        "postings": [
+         "Federal Realty::1917",
+         "Greystar::R0197523"
+        ],
+        "employers": [
+         "Federal Realty",
+         "Greystar"
+        ],
+        "sentences": [
+         {
+          "posting": "Greystar::R0197523",
+          "employer": "Greystar",
+          "text": "Conducts financial analysis of development opportunities, including the creation of detailed pro-forma and financial models."
+         },
+         {
+          "posting": "Federal Realty::1917",
+          "employer": "Federal Realty",
+          "text": "Manage pro forma financial analyses for ground-up developments and redevelopments"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Federal Realty::1917",
+       "Greystar::R0197523"
+      ],
+      "employers": [
+       "Federal Realty",
+       "Greystar"
+      ]
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You review development pro formas.",
+        "quote": "acquisition underwriting and development proforma review",
+        "postings": [
+         "Lincoln Property Company::5179114007",
+         "Public Storage::744000152535199"
+        ],
+        "employers": [
+         "Lincoln Property Company",
+         "Public Storage"
+        ],
+        "sentences": [
+         {
+          "posting": "Public Storage::744000152535199",
+          "employer": "Public Storage",
+          "text": "Assist with acquisition underwriting and development proforma review; reconcile deal-model assumptions to the operating plan post-close."
+         },
+         {
+          "posting": "Lincoln Property Company::5179114007",
+          "employer": "Lincoln Property Company",
+          "text": "Comfort working in or reviewing pro formas and development budgets prepared by acquisitions/finance teams."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Lincoln Property Company::5179114007",
+       "Public Storage::744000152535199"
+      ],
+      "employers": [
+       "Lincoln Property Company",
+       "Public Storage"
+      ]
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     }
+    },
+    "bank": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You provide property cash flow modeling and valuation analysis for real estate investments.",
+        "quote": "cash flow modeling, property valuation",
+        "postings": [
+         "Ares Management::R8140",
+         "PGIM::R-124969"
+        ],
+        "employers": [
+         "Ares Management",
+         "PGIM"
+        ],
+        "sentences": [
+         {
+          "posting": "Ares Management::R8140",
+          "employer": "Ares Management",
+          "text": "Advanced financial analysis, valuation, and modeling capabilities, including property-level cash flow modeling, DCF analysis, NAV analysis, portfolio valuations, and fund waterfall structures."
+         },
+         {
+          "posting": "PGIM::R-124969",
+          "employer": "PGIM",
+          "text": "Provide analytical support including market research, due diligence tracking and review, cash flow modeling, property valuation, borrower credit review and preparation of loan submissions for transactions spanning various multifamily property types."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Ares Management::R8140",
+       "PGIM::R-124969"
+      ],
+      "employers": [
+       "Ares Management",
+       "PGIM"
+      ]
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You build financial models to underwrite real estate investments.",
+        "quote": "Create detailed and complex financial underwriting models",
+        "postings": [
+         "Ares Management::R8072",
+         "Blackstone::42672"
+        ],
+        "employers": [
+         "Ares Management",
+         "Blackstone"
+        ],
+        "sentences": [
+         {
+          "posting": "Ares Management::R8072",
+          "employer": "Ares Management",
+          "text": "Create detailed and complex financial underwriting models for the acquisition and development of real estate investments across the risk spectrum"
+         },
+         {
+          "posting": "Blackstone::42672",
+          "employer": "Blackstone",
+          "text": "Demonstrated financial modeling expertise, including experience underwriting real estate investments from the ground up and evaluating sponsor models"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Ares Management::R8072",
+       "Blackstone::42672"
+      ],
+      "employers": [
+       "Ares Management",
+       "Blackstone"
+      ]
+     },
+     "senior": {
+      "empty": "critic",
+      "why": "the critic finds it unsupported, or in one employer's sentences only: the critic finds it in 1 employer's sentences"
+     },
+     "lead": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     }
+    }
+   },
+   "subskills": {
+    "re_underwriting_pro_forma_analysis": {
+     "text": "You analyze pro forma financial models and operating pro formas.",
+     "quote": "Analyzing business plans and pro-forma financial models",
+     "postings": [
+      "Berkeley Research Group::JR100510",
+      "EY::1445261033",
+      "FTI Consulting::JR260NU-TEE",
+      "Guidehouse::44113"
+     ],
+     "employers": [
+      "Berkeley Research Group",
+      "EY",
+      "FTI Consulting",
+      "Guidehouse"
+     ],
+     "sentences": [
+      {
+       "posting": "Berkeley Research Group::JR100510",
+       "employer": "Berkeley Research Group",
+       "text": "Utilize business, finance, accounting, and analytical skills to perform tasks including: 13-week cash flow models, 3-statement models, and pro-forma scenario models"
+      },
+      {
+       "posting": "EY::1445261033",
+       "employer": "EY",
+       "text": "Analyzing business plans and pro-forma financial models to help identify key assumptions and drivers."
+      },
+      {
+       "posting": "Guidehouse::44113",
+       "employer": "Guidehouse",
+       "text": "Experience developing and analyzing affordable housing development budgets, sources and uses statements, operating pro formas, cash flow projections, and debt sizing analyses"
+      },
+      {
+       "posting": "FTI Consulting::JR260NU-TEE",
+       "employer": "FTI Consulting",
+       "text": "Prepare, review, and evaluate historical and pro forma financial information to assess trends and fluctuations that may impact cash flow and deal valuation"
+      }
+     ],
+     "ladders": [
+      "consulting"
+     ],
+     "share": 0.053
+    },
+    "re_underwriting_development_pro_formas": {
+     "text": "You build pro formas to analyze development opportunities.",
+     "quote": "creation of detailed pro-forma and financial models",
+     "postings": [
+      "Federal Realty::1917",
+      "Greystar::R0197523",
+      "Lincoln Property Company::5046046007",
+      "Lincoln Property Company::5179114007"
+     ],
+     "employers": [
+      "Federal Realty",
+      "Greystar",
+      "Lincoln Property Company"
+     ],
+     "sentences": [
+      {
+       "posting": "Greystar::R0197523",
+       "employer": "Greystar",
+       "text": "Conducts financial analysis of development opportunities, including the creation of detailed pro-forma and financial models."
+      },
+      {
+       "posting": "Federal Realty::1917",
+       "employer": "Federal Realty",
+       "text": "Manage pro forma financial analyses for ground-up developments and redevelopments"
+      },
+      {
+       "posting": "Lincoln Property Company::5179114007",
+       "employer": "Lincoln Property Company",
+       "text": "Comfort working in or reviewing pro formas and development budgets prepared by acquisitions/finance teams."
+      },
+      {
+       "posting": "Lincoln Property Company::5046046007",
+       "employer": "Lincoln Property Company",
+       "text": "Develop feasibility modeling, including capital costs budgeting, pro forma return measurements and valuation methodologies."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.251
+    },
+    "re_underwriting_property_valuation_models": {
+     "text": "You use discounted cash flow analyses to determine property values.",
+     "quote": "rent roll evaluations to determine valuation",
+     "postings": [
+      "Brookfield Properties::R2053149",
+      "Cushman & Wakefield::R312153",
+      "Hines::14511"
+     ],
+     "employers": [
+      "Brookfield Properties",
+      "Cushman & Wakefield",
+      "Hines"
+     ],
+     "sentences": [
+      {
+       "posting": "Brookfield Properties::R2053149",
+       "employer": "Brookfield Properties",
+       "text": "Perform financial analyses, including Argus valuation models and Excel-based underwriting of pro-formas, cash flow projections and sensitivity analyses"
+      },
+      {
+       "posting": "Hines::14511",
+       "employer": "Hines",
+       "text": "Create and review financial models for investment underwriting, property valuations, and hold/sell analyses."
+      },
+      {
+       "posting": "Cushman & Wakefield::R312153",
+       "employer": "Cushman & Wakefield",
+       "text": "Prepare discounted cash flow analyses, pro forma statements, and rent roll evaluations to determine valuation"
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.171
+    },
+    "re_underwriting_property_valuation": {
+     "text": "You prepare property valuations for real estate investments.",
+     "quote": "Prepare cash flow models, property valuations",
+     "postings": [
+      "Ares Management::R8140",
+      "PGIM::R-124934",
+      "PGIM::R-124969",
+      "Wells Fargo::R-578948"
+     ],
+     "employers": [
+      "Ares Management",
+      "PGIM",
+      "Wells Fargo"
+     ],
+     "sentences": [
+      {
+       "posting": "Ares Management::R8140",
+       "employer": "Ares Management",
+       "text": "Advanced financial analysis, valuation, and modeling capabilities, including property-level cash flow modeling, DCF analysis, NAV analysis, portfolio valuations, and fund waterfall structures."
+      },
+      {
+       "posting": "PGIM::R-124969",
+       "employer": "PGIM",
+       "text": "Provide analytical support including market research, due diligence tracking and review, cash flow modeling, property valuation, borrower credit review and preparation of loan submissions for transactions spanning various multifamily property types."
+      },
+      {
+       "posting": "Wells Fargo::R-578948",
+       "employer": "Wells Fargo",
+       "text": "Strong knowledge of real estate valuation methodologies, market analysis, and property financial performance"
+      },
+      {
+       "posting": "PGIM::R-124934",
+       "employer": "PGIM",
+       "text": "Prepare cash flow models, property valuations, borrower credit analyses, market research, sensitivity analyses, and investment memoranda."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.075
+    },
+    "re_underwriting_real_estate_credit_metrics": {
+     "text": "You analyze NOI, capitalization rates, LTV, and DSCR.",
+     "quote": "Analyze real estate-specific metrics, including Net Operating Income",
+     "postings": [
+      "Blue Owl::R-102327",
+      "Citigroup::99038688112",
+      "U.S. Bancorp::2026-0023491"
+     ],
+     "employers": [
+      "Blue Owl",
+      "Citigroup",
+      "U.S. Bancorp"
+     ],
+     "sentences": [
+      {
+       "posting": "Citigroup::99038688112",
+       "employer": "Citigroup",
+       "text": "Metrics Mastery:  Analyze real estate-specific metrics, including Net Operating Income (NOI), Capitalization Rates, Loan-to-Value (LTV), Debt Service Coverage Ratio (DSCR), and Funds From Operations (FFO/AFFO)."
+      },
+      {
+       "posting": "U.S. Bancorp::2026-0023491",
+       "employer": "U.S. Bancorp",
+       "text": "Strong foundation in CRE underwriting across multiple property types (cash flow, valuation, sponsor analysis, structure, and covenants)."
+      },
+      {
+       "posting": "Blue Owl::R-102327",
+       "employer": "Blue Owl",
+       "text": "Deep understanding of REIT and real estate performance metrics, including NOI, FFO, AFFO, NAV, leverage, and capital structure analysis."
+      },
+      {
+       "posting": "Blue Owl::R-102327",
+       "employer": "Blue Owl",
+       "text": "Produce and analyze key REIT metrics, including NOI, FFO, AFFO, leverage, liquidity, and capital structure performance."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.48
+    },
+    "re_underwriting_real_estate_underwriting": {
+     "text": "You underwrite commercial real estate loans and investments.",
+     "quote": "Support the underwriting and evaluation of real estate investment opportunities",
+     "postings": [
+      "Ares Management::R7796",
+      "Ares Management::R8072",
+      "Blackstone::42672",
+      "East West Bank::13524"
+     ],
+     "employers": [
+      "Ares Management",
+      "Blackstone",
+      "East West Bank"
+     ],
+     "sentences": [
+      {
+       "posting": "Ares Management::R7796",
+       "employer": "Ares Management",
+       "text": "Assist with financial underwriting models for self storage acquisitions and development deals"
+      },
+      {
+       "posting": "East West Bank::13524",
+       "employer": "East West Bank",
+       "text": "Assist Relationship Managers (RMs) and Portfolio Managers (PMs) with underwriting and managing non-owner-occupied commercial real estate loans in accordance with the Bank’s established guidelines and policies."
+      },
+      {
+       "posting": "Ares Management::R8072",
+       "employer": "Ares Management",
+       "text": "Create detailed and complex financial underwriting models for the acquisition and development of real estate investments across the risk spectrum"
+      },
+      {
+       "posting": "Blackstone::42672",
+       "employer": "Blackstone",
+       "text": "Support the underwriting and evaluation of real estate investment opportunities, including direct assets, joint ventures, co-investments, and funds"
+      }
+     ],
+     "ladders": [
+      "bank",
+      "consulting"
+     ],
+     "share": 0.413
+    },
+    "re_underwriting_property_valuation_and_capitaliz": {
+     "text": "You assess asset values using valuation approaches, valuation modeling, and capitalization rates.",
+     "quote": "the construction of capitalization rates",
+     "postings": [
+      "RSM US::JR121478",
+      "Stout::r2210"
+     ],
+     "employers": [
+      "RSM US",
+      "Stout"
+     ],
+     "sentences": [
+      {
+       "posting": "RSM US::JR121478",
+       "employer": "RSM US",
+       "text": "       Perform local, national and international real estate market analysis on a wide range of public and private entities using all accepted and relevant valuation approaches"
+      },
+      {
+       "posting": "RSM US::JR121478",
+       "employer": "RSM US",
+       "text": "       Technical knowledge of real estate property as an investment class, along with knowledge of discounted cash flow models and the construction of capitalization rates."
+      },
+      {
+       "posting": "Stout::r2210",
+       "employer": "Stout",
+       "text": "The role combines on-site inspections, asset and market research, data analysis, valuation modeling, and report preparation."
+      }
+     ],
+     "ladders": [
+      "consulting"
+     ],
+     "share": 0.312
+    },
+    "re_underwriting_sensitivity_testing": {
+     "text": "You test property cash flows and returns with sensitivity analyses.",
+     "quote": "cash flow projections and sensitivity analyses",
+     "postings": [
+      "Brookfield Properties::R2052532",
+      "Brookfield Properties::R2053149",
+      "LaSalle Investment Management::REQ534789"
+     ],
+     "employers": [
+      "Brookfield Properties",
+      "LaSalle Investment Management"
+     ],
+     "sentences": [
+      {
+       "posting": "Brookfield Properties::R2053149",
+       "employer": "Brookfield Properties",
+       "text": "Perform financial analyses, including Argus valuation models and Excel-based underwriting of pro-formas, cash flow projections and sensitivity analyses"
+      },
+      {
+       "posting": "LaSalle Investment Management::REQ534789",
+       "employer": "LaSalle Investment Management",
+       "text": "Perform complex financial analyses, including Argus valuation models and Excel-based underwriting proformas, cash flow projections and sensitivity analyses"
+      },
+      {
+       "posting": "Brookfield Properties::R2052532",
+       "employer": "Brookfield Properties",
+       "text": "Engage with our investment analysis team to develop, maintain, and present financial models and underwriting for prospective development opportunities, including DCF projections, return sensitivities, and comparable market analysis"
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.181
+    },
+    "re_underwriting_property_cash_flow_modeling": {
+     "text": "You build cash flow models for real estate properties.",
+     "quote": "cash flow modeling, property valuation",
+     "postings": [
+      "Ares Management::R8140",
+      "PGIM::R-124934",
+      "PGIM::R-124969"
+     ],
+     "employers": [
+      "Ares Management",
+      "PGIM"
+     ],
+     "sentences": [
+      {
+       "posting": "Ares Management::R8140",
+       "employer": "Ares Management",
+       "text": "Advanced financial analysis, valuation, and modeling capabilities, including property-level cash flow modeling, DCF analysis, NAV analysis, portfolio valuations, and fund waterfall structures."
+      },
+      {
+       "posting": "PGIM::R-124969",
+       "employer": "PGIM",
+       "text": "Provide analytical support including market research, due diligence tracking and review, cash flow modeling, property valuation, borrower credit review and preparation of loan submissions for transactions spanning various multifamily property types."
+      },
+      {
+       "posting": "PGIM::R-124934",
+       "employer": "PGIM",
+       "text": "Prepare cash flow models, property valuations, borrower credit analyses, market research, sensitivity analyses, and investment memoranda."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.149
+    },
+    "re_underwriting_returns_and_waterfall_analysis": {
+     "text": "You prepare fund-level waterfall models and returns analysis for prospective buyers.",
+     "quote": "fund-level waterfall models, returns analysis for prospective buyers",
+     "postings": [
+      "Ares Management::R8140",
+      "Lazard::6029",
+      "Lazard::6587"
+     ],
+     "employers": [
+      "Ares Management",
+      "Lazard"
+     ],
+     "sentences": [
+      {
+       "posting": "Ares Management::R8140",
+       "employer": "Ares Management",
+       "text": "Advanced financial analysis, valuation, and modeling capabilities, including property-level cash flow modeling, DCF analysis, NAV analysis, portfolio valuations, and fund waterfall structures."
+      },
+      {
+       "posting": "Lazard::6029",
+       "employer": "Lazard",
+       "text": "Assist in the preparation of financial models, including secondary-specific models such as cash flow projections, fund-level waterfall models, returns analysis for prospective buyers and detailed valuation analysis"
+      },
+      {
+       "posting": "Lazard::6587",
+       "employer": "Lazard",
+       "text": "Own the construction and review of secondary-specific financial models, including cash flow projections, fund-level waterfall models, returns analysis for prospective buyers and detailed valuation analysis"
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.08
+    },
+    "re_underwriting_debt_and_loan_underwriting": {
+     "text": "You underwrite commercial real estate debt and loans.",
+     "quote": "qualitative and quantitative loan underwriting",
+     "postings": [
+      "Newmark::250124",
+      "Newmark::250125",
+      "Newmark::250128"
+     ],
+     "employers": [
+      "Newmark"
+     ],
+     "sentences": [
+      {
+       "posting": "Newmark::250128",
+       "employer": "Newmark",
+       "text": "Provide commercial real estate analysis and debt underwriting across all markets and property types"
+      },
+      {
+       "posting": "Newmark::250124",
+       "employer": "Newmark",
+       "text": "The Vice President will be tasked with providing asset management support and qualitative and quantitative loan underwriting for a growing portfolio of commercial real estate loans."
+      },
+      {
+       "posting": "Newmark::250125",
+       "employer": "Newmark",
+       "text": "Provide commercial real estate analysis and debt underwriting across all markets and property types"
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.283
+    }
+   },
+   "runs": {
+    "consulting": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "mid": {
+       "n": 15,
+       "employers": 6
+      },
+      "senior": {
+       "n": 9,
+       "employers": 6
+      }
+     }
+    },
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 69,
+       "employers": 36
+      },
+      "mid": {
+       "n": 88,
+       "employers": 54
+      },
+      "senior": {
+       "n": 18,
+       "employers": 13
+      },
+      "lead": {
+       "n": 52,
+       "employers": 39
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 30,
+       "employers": 23
+      },
+      "mid": {
+       "n": 54,
+       "employers": 31
+      },
+      "senior": {
+       "n": 27,
+       "employers": 14
+      },
+      "lead": {
+       "n": 9,
+       "employers": 7
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  },
  "re_acquisitions_dispositions": {
-  "what": "Find, bid on and close purchases and sales of land and buildings."
+  "what": "Find, bid on and close purchases and sales of land and buildings.",
+  "subskills": [
+   {
+    "id": "re_acquisitions_dispositions_property_investment_analysis",
+    "name": "Property investment analysis",
+    "patterns": [
+     "\\bfinancial models\\b",
+     "\\binvestment analysis\\b",
+     "\\bunderwriting of land acquisitions\\b",
+     "\\bproperty evaluations\\b"
+    ],
+    "example": "You analyze properties and land acquisitions using financial models and investment analysis."
+   },
+   {
+    "id": "re_acquisitions_dispositions_property_dispositions",
+    "name": "Property dispositions",
+    "patterns": [
+     "\\bdispositions?\\b",
+     "\\basset\\s sales\\b",
+     "\\bsale\\s and\\s closing\\b"
+    ],
+    "example": "You coordinate property sales and the related due diligence."
+   },
+   {
+    "id": "re_acquisitions_dispositions_transaction_closing",
+    "name": "Transaction closing",
+    "patterns": [
+     "\\bclosing\\b",
+     "\\bfunds\\s flow\\b"
+    ],
+    "example": "You coordinate transaction closings and prepare closing documents."
+   },
+   {
+    "id": "re_acquisitions_dispositions_valuation_and_disposition_analys",
+    "name": "Valuation and disposition analysis",
+    "patterns": [
+     "\\bvaluation\\smodels\\b",
+     "\\bvaluations\\b",
+     "\\bdisposition\\sstrategies\\b"
+    ],
+    "example": "You review valuation models and support disposition strategies."
+   },
+   {
+    "id": "re_acquisitions_dispositions_property_inspections",
+    "name": "Property inspections",
+    "patterns": [
+     "\\bproperty\\sinspection\\b",
+     "\\bproperty\\sinspections\\b"
+    ],
+    "example": "You conduct or review property inspections."
+   },
+   {
+    "id": "re_acquisitions_dispositions_transaction_due_diligence",
+    "name": "Transaction due diligence",
+    "patterns": [
+     "\\bdue\\sdiligence\\b",
+     "\\bdiligence\\smaterials\\b"
+    ],
+    "example": "You organize due diligence materials for property transactions."
+   },
+   {
+    "id": "re_acquisitions_dispositions_closing_document_review",
+    "name": "Closing document review",
+    "patterns": [
+     "\\bclosing\\sdocuments\\b",
+     "\\bclosing\\schecklists\\b"
+    ],
+    "example": "You review closing documents and checklists."
+   }
+  ],
+  "ladder": {
+   "corporate": {
+    "associate": "You support property due diligence with third-party reports.",
+    "lead": "You develop relationships with brokers and landowners to secure off-market acquisition opportunities."
+   },
+   "bank": {
+    "associate": "You help organize due diligence information for investment transactions.",
+    "mid": "You apply knowledge of appraisals and environmental reports to real estate loan due diligence."
+   }
+  },
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You support property due diligence with third-party reports.",
+        "quote": "reviewing budgets, schedules, and third-party reports",
+        "postings": [
+         "Greystar::R0199671",
+         "Homebound::9f236243-6ae4-4489-aeb0-c212aabbd829"
+        ],
+        "employers": [
+         "Greystar",
+         "Homebound"
+        ],
+        "sentences": [
+         {
+          "posting": "Homebound::9f236243-6ae4-4489-aeb0-c212aabbd829",
+          "employer": "Homebound",
+          "text": "Support due diligence: order and track third-party reports (title, survey, environmental, geotechnical), compile findings, and monitor critical contract dates and deadlines."
+         },
+         {
+          "posting": "Greystar::R0199671",
+          "employer": "Greystar",
+          "text": "Support due diligence efforts including reviewing budgets, schedules, and third-party reports"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Greystar::R0199671",
+       "Homebound::9f236243-6ae4-4489-aeb0-c212aabbd829"
+      ],
+      "employers": [
+       "Greystar",
+       "Homebound"
+      ]
+     },
+     "mid": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     },
+     "senior": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the lead level"
+     },
+     "lead": {
+      "statements": [
+       {
+        "text": "You develop relationships with brokers and landowners to secure off-market acquisition opportunities.",
+        "quote": "to secure off-market and long-range opportunities",
+        "postings": [
+         "Brookfield Properties::R2052532",
+         "PulteGroup::JR9503"
+        ],
+        "employers": [
+         "Brookfield Properties",
+         "PulteGroup"
+        ],
+        "sentences": [
+         {
+          "posting": "Brookfield Properties::R2052532",
+          "employer": "Brookfield Properties",
+          "text": "Build and manage a robust pipeline of off-market and marketed development acquisition opportunities through relationships with brokers, landowners, municipalities, and capital partners"
+         },
+         {
+          "posting": "PulteGroup::JR9503",
+          "employer": "PulteGroup",
+          "text": "Develop and maintain high-level relationships with landowners, developers, brokers, municipalities, and strategic partners to secure off-market and long-range opportunities."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Brookfield Properties::R2052532",
+       "PulteGroup::JR9503"
+      ],
+      "employers": [
+       "Brookfield Properties",
+       "PulteGroup"
+      ]
+     }
+    },
+    "bank": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You help organize due diligence information for investment transactions.",
+        "quote": "overseeing the flow of due diligence information",
+        "postings": [
+         "Ares Management::R7796",
+         "Invesco::R-15149"
+        ],
+        "employers": [
+         "Ares Management",
+         "Invesco"
+        ],
+        "sentences": [
+         {
+          "posting": "Ares Management::R7796",
+          "employer": "Ares Management",
+          "text": "Provide general transaction and project support, including coordinating third-party reports, organizing diligence materials, and assisting the broader deal team as needed"
+         },
+         {
+          "posting": "Invesco::R-15149",
+          "employer": "Invesco",
+          "text": "Assist in the review of valuation models (Argus and Excel) and take part in the acquisition and disposition process, overseeing the flow of due diligence information for select investments as needed."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Ares Management::R7796",
+       "Invesco::R-15149"
+      ],
+      "employers": [
+       "Ares Management",
+       "Invesco"
+      ]
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You apply knowledge of appraisals and environmental reports to real estate loan due diligence.",
+        "quote": "property appraisals, environmental reports, engineering reports, and insurance reviews",
+        "postings": [
+         "Franklin Resources::869872",
+         "Regions Financial::R105838"
+        ],
+        "employers": [
+         "Franklin Resources",
+         "Regions Financial"
+        ],
+        "sentences": [
+         {
+          "posting": "Franklin Resources::869872",
+          "employer": "Franklin Resources",
+          "text": "Familiarity with loan due diligence to include property appraisals, environmental reports, engineering reports, and insurance reviews"
+         },
+         {
+          "posting": "Regions Financial::R105838",
+          "employer": "Regions Financial",
+          "text": "Knowledge of real estate loan due diligence requirements, including but not limited to appraisal, flood, survey, title, environmental, purchase agreements, tenant leases, estoppels, SNDA, insurance, property conditions assessments, zoning"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Franklin Resources::869872",
+       "Regions Financial::R105838"
+      ],
+      "employers": [
+       "Franklin Resources",
+       "Regions Financial"
+      ]
+     },
+     "senior": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     },
+     "lead": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     }
+    }
+   },
+   "subskills": {
+    "re_acquisitions_dispositions_property_investment_analysis": {
+     "text": "You analyze properties and land acquisitions using financial models and investment analysis.",
+     "quote": "Building financial models in Excel",
+     "postings": [
+      "Cushman & Wakefield::R334804",
+      "Link Logistics::JR101874",
+      "Newmark::249846",
+      "Outpost::0f5878e0-d6dc-44a2-80bd-037636ad4219"
+     ],
+     "employers": [
+      "Cushman & Wakefield",
+      "Link Logistics",
+      "Newmark",
+      "Outpost"
+     ],
+     "sentences": [
+      {
+       "posting": "Cushman & Wakefield::R334804",
+       "employer": "Cushman & Wakefield",
+       "text": "The Analyst may also prepare investment analysis in relation to asset acquisitions and dispositions."
+      },
+      {
+       "posting": "Outpost::0f5878e0-d6dc-44a2-80bd-037636ad4219",
+       "employer": "Outpost",
+       "text": "Building financial models in Excel for developments, individual property acquisitions, or multi-property portfolios."
+      },
+      {
+       "posting": "Newmark::249846",
+       "employer": "Newmark",
+       "text": "Conduct in-depth property evaluations through analysis of lease documents, CAM reconciliations, third-party reports, and operating statements."
+      },
+      {
+       "posting": "Link Logistics::JR101874",
+       "employer": "Link Logistics",
+       "text": "The Analyst will also work directly with the development team to assist in the underwriting of land acquisitions for ground-up development and update national statistics for investor and quarterly board meetings."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.178
+    },
+    "re_acquisitions_dispositions_property_dispositions": {
+     "text": "You coordinate property sales and the related due diligence.",
+     "quote": "broker coordination and due diligence of assets under contract",
+     "postings": [
+      "Cisco Systems::2023213",
+      "Clarion Partners::867633",
+      "Greystar::R0198308",
+      "Link Logistics::JR101874"
+     ],
+     "employers": [
+      "Cisco Systems",
+      "Clarion Partners",
+      "Greystar",
+      "Link Logistics"
+     ],
+     "sentences": [
+      {
+       "posting": "Link Logistics::JR101874",
+       "employer": "Link Logistics",
+       "text": "Support the disposition team through all aspects of the transaction process to include preparing investment materials, coordinating each sale and closing"
+      },
+      {
+       "posting": "Greystar::R0198308",
+       "employer": "Greystar",
+       "text": "Participates in the disposition process including broker coordination and due diligence of assets under contract."
+      },
+      {
+       "posting": "Clarion Partners::867633",
+       "employer": "Clarion Partners",
+       "text": "Manage refinancing, recapitalization, and disposition processes, including coordination of diligence materials and lender/buyer requests."
+      },
+      {
+       "posting": "Cisco Systems::2023213",
+       "employer": "Cisco Systems",
+       "text": "Lead acquisition and disposition due diligence for property and land, including zoning, entitlement feasibility, title, survey, infrastructure, appraisals, market analysis, development risk and support environmental and energy engagements."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.225
+    },
+    "re_acquisitions_dispositions_transaction_closing": {
+     "text": "You coordinate transaction closings and prepare closing documents.",
+     "quote": "purchase agreement schedules, working capital, funds flow, and closing checklists",
+     "postings": [
+      "Amazon::10411264",
+      "Gyde::4422663009",
+      "Link Logistics::JR101874",
+      "Tractor Supply::1414788000"
+     ],
+     "employers": [
+      "Amazon",
+      "Gyde",
+      "Link Logistics",
+      "Tractor Supply"
+     ],
+     "sentences": [
+      {
+       "posting": "Gyde::4422663009",
+       "employer": "Gyde",
+       "text": "Support signing and closing: purchase agreement schedules, working capital, funds flow, and closing checklists"
+      },
+      {
+       "posting": "Link Logistics::JR101874",
+       "employer": "Link Logistics",
+       "text": "Support the disposition team through all aspects of the transaction process to include preparing investment materials, coordinating each sale and closing"
+      },
+      {
+       "posting": "Tractor Supply::1414788000",
+       "employer": "Tractor Supply",
+       "text": "Demonstrated understanding of commercial real estate transaction execution, including closing processes and familiarity with title reports, ALTA surveys, environmental due diligence, zoning reports, and related transaction documentation."
+      },
+      {
+       "posting": "Amazon::10411264",
+       "employer": "Amazon",
+       "text": "Lead deal engagement, negotiation and closing of real estate sites; this includes build to suit negotiations and land acquisition."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.331
+    },
+    "re_acquisitions_dispositions_valuation_and_disposition_analys": {
+     "text": "You review valuation models and support disposition strategies.",
+     "quote": "Assist in the review of valuation models",
+     "postings": [
+      "Ares Management::R7691",
+      "Invesco::R-15149",
+      "PIMCO::R106332"
+     ],
+     "employers": [
+      "Ares Management",
+      "Invesco",
+      "PIMCO"
+     ],
+     "sentences": [
+      {
+       "posting": "Invesco::R-15149",
+       "employer": "Invesco",
+       "text": "Assist in the review of valuation models (Argus and Excel) and take part in the acquisition and disposition process, overseeing the flow of due diligence information for select investments as needed."
+      },
+      {
+       "posting": "PIMCO::R106332",
+       "employer": "PIMCO",
+       "text": "Participate in financing, refinancing, recapitalization, hold/sell analyses, and disposition strategies."
+      },
+      {
+       "posting": "Ares Management::R7691",
+       "employer": "Ares Management",
+       "text": "Work closely with the disposition team on the sale of any of the assets, including valuations of the assets, due diligence materials and collection of any documents pertinent to the sale (i.e."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.071
+    },
+    "re_acquisitions_dispositions_property_inspections": {
+     "text": "You conduct or review property inspections.",
+     "quote": "Conduct regular property inspections",
+     "postings": [
+      "Ares Management::R8337",
+      "KeyCorp::R-41742",
+      "Truist Financial::R0119245"
+     ],
+     "employers": [
+      "Ares Management",
+      "KeyCorp",
+      "Truist Financial"
+     ],
+     "sentences": [
+      {
+       "posting": "KeyCorp::R-41742",
+       "employer": "KeyCorp",
+       "text": "Manage the annual property inspection process, including ordering, tracking, uploading, and reviewing inspections."
+      },
+      {
+       "posting": "Truist Financial::R0119245",
+       "employer": "Truist Financial",
+       "text": "Perform (or review third-party) property inspections to verify sufficient maintenance of collateral, identify and report life safety issues, and other items of deferred maintenance."
+      },
+      {
+       "posting": "Ares Management::R8337",
+       "employer": "Ares Management",
+       "text": "Conduct regular property inspections to ensure assets are maintained to company standards, risks are minimized, and capital and operational projects are completed on schedule and within budget."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.112
+    },
+    "re_acquisitions_dispositions_transaction_due_diligence": {
+     "text": "You organize due diligence materials for property transactions.",
+     "quote": "organizing diligence materials, and assisting the broader deal team",
+     "postings": [
+      "Ares Management::R7691",
+      "Ares Management::R7796",
+      "Invesco::R-15149"
+     ],
+     "employers": [
+      "Ares Management",
+      "Invesco"
+     ],
+     "sentences": [
+      {
+       "posting": "Ares Management::R7796",
+       "employer": "Ares Management",
+       "text": "Provide general transaction and project support, including coordinating third-party reports, organizing diligence materials, and assisting the broader deal team as needed"
+      },
+      {
+       "posting": "Invesco::R-15149",
+       "employer": "Invesco",
+       "text": "Assist in the review of valuation models (Argus and Excel) and take part in the acquisition and disposition process, overseeing the flow of due diligence information for select investments as needed."
+      },
+      {
+       "posting": "Ares Management::R7691",
+       "employer": "Ares Management",
+       "text": "Work closely with the disposition team on the sale of any of the assets, including valuations of the assets, due diligence materials and collection of any documents pertinent to the sale (i.e."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.485
+    },
+    "re_acquisitions_dispositions_closing_document_review": {
+     "text": "You review closing documents and checklists.",
+     "quote": "review of credit agreements and closing checklists",
+     "postings": [
+      "First Horizon::1257",
+      "First Horizon::956",
+      "SMBC::1432522200"
+     ],
+     "employers": [
+      "First Horizon",
+      "SMBC"
+     ],
+     "sentences": [
+      {
+       "posting": "SMBC::1432522200",
+       "employer": "SMBC",
+       "text": "Assist with documentation and loan closing processes, including review of credit agreements and closing checklists"
+      },
+      {
+       "posting": "First Horizon::1257",
+       "employer": "First Horizon",
+       "text": "Responsible for reviewing closing documents, communicating with clients and identifying portfolio weaknesses and trends and alerting management (Group Manager, Market President, Senior Credit Officer) to deteriorating portfolio conditions"
+      },
+      {
+       "posting": "First Horizon::956",
+       "employer": "First Horizon",
+       "text": "Responsible for reviewing closing documents, communicating with clients and identifying portfolio weaknesses and trends and alerting management (Group Manager, Market President, Senior Credit Officer) to deteriorating portfolio conditions"
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.083
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 29,
+       "employers": 17
+      },
+      "mid": {
+       "n": 45,
+       "employers": 26
+      },
+      "senior": {
+       "n": 14,
+       "employers": 7
+      },
+      "lead": {
+       "n": 38,
+       "employers": 22
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 11,
+       "employers": 8
+      },
+      "mid": {
+       "n": 18,
+       "employers": 14
+      },
+      "senior": {
+       "n": 12,
+       "employers": 7
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  },
  "re_development_entitlements": {
-  "what": "Take a site from raw land through approvals and construction to a finished project."
+  "what": "Take a site from raw land through approvals and construction to a finished project.",
+  "subskills": [
+   {
+    "id": "re_development_entitlements_construction_contracting",
+    "name": "Construction contracting",
+    "patterns": [
+     "\\bconstruction\\scontracts\\b",
+     "\\bcontract\\snegotiations\\b",
+     "\\bconstruction\\scontract\\sdocuments\\b",
+     "\\bEPC\\b|\\bturnkey\\b"
+    ],
+    "example": "You negotiate construction contracts with general contractors and trade partners."
+   },
+   {
+    "id": "re_development_entitlements_land_acquisition_and_sourcing",
+    "name": "Land acquisition and sourcing",
+    "patterns": [
+     "\\bland\\sacquisition\\b",
+     "\\bsites\\b",
+     "\\bacquisition\\b"
+    ],
+    "example": "You identify land acquisition opportunities by monitoring zoning changes and regulatory shifts."
+   },
+   {
+    "id": "re_development_entitlements_construction_loan_requirements",
+    "name": "Construction loan requirements",
+    "patterns": [
+     "\\bconstruction\\sloans?\\b",
+     "\\bpermits?\\b",
+     "\\bdraw\\b",
+     "\\bbudgets?\\b"
+    ],
+    "example": "You check construction loan requirements for plans, permits, and initial draw documentation."
+   },
+   {
+    "id": "re_development_entitlements_construction_progress_monitoring",
+    "name": "Construction progress monitoring",
+    "patterns": [
+     "\\bconstruction\\sprogress\\b",
+     "\\bconstruction\\sschedules\\b",
+     "\\binspection\\sreports\\b",
+     "\\bcompletion\\b"
+    ],
+    "example": "You monitor construction progress against completion milestones."
+   },
+   {
+    "id": "re_development_entitlements_construction_manager_oversight",
+    "name": "Construction manager oversight",
+    "patterns": [
+     "\\bconstruction\\smanagers\\b",
+     "\\bvendors?\\b",
+     "\\bchange\\sorders\\b",
+     "\\bconstruction\\sadministration\\b"
+    ],
+    "example": "You oversee construction managers and coordinate with third-party vendors."
+   },
+   {
+    "id": "re_development_entitlements_zoning_and_entitlements",
+    "name": "Zoning and entitlements",
+    "patterns": [
+     "\\bentitlement\\sprocesses\\b",
+     "\\bentitlements\\b",
+     "\\bzoning\\b",
+     "\\bsite\\splan\\sapprovals\\b"
+    ],
+    "example": "You manage zoning and site plan approvals with municipal staff and planners."
+   },
+   {
+    "id": "re_development_entitlements_environmental_permitting",
+    "name": "Environmental permitting",
+    "patterns": [
+     "\\bpermitting\\b",
+     "\\benvironmental\\b"
+    ],
+    "example": "You support environmental permitting for new facilities and facility modifications."
+   },
+   {
+    "id": "re_development_entitlements_construction_loan_underwriting",
+    "name": "Construction loan underwriting",
+    "patterns": [
+     "\\bunderwriting\\b",
+     "\\bconstruction\\sloans?\\b"
+    ],
+    "example": "You help underwrite construction loans."
+   },
+   {
+    "id": "re_development_entitlements_construction_cost_accounting",
+    "name": "Construction cost accounting",
+    "patterns": [
+     "\\bcost\\b",
+     "\\baccounting\\b",
+     "\\bjob\\scosting\\b",
+     "\\bdraw\\b"
+    ],
+    "example": "You track construction costs through job costing and draw package submissions."
+   }
+  ],
+  "ladder": {
+   "bank": {
+    "associate": "You support the underwriting of construction loans.",
+    "mid": "You process construction draws."
+   }
+  },
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "mid": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     },
+     "senior": {
+      "empty": "critic",
+      "why": "the critic finds it unsupported, or in one employer's sentences only: partly: during pre-construction site development"
+     },
+     "lead": {
+      "statements": [
+       {
+        "text": "You manage construction teams to deliver projects on schedule.",
+        "quote": "Schedules and directs the construction activities of subcontractor and in-house construction crews",
+        "postings": [
+         "Greystar::R0194011",
+         "Optimum Communications::1429769700"
+        ],
+        "employers": [
+         "Greystar",
+         "Optimum Communications"
+        ],
+        "sentences": [
+         {
+          "posting": "Optimum Communications::1429769700",
+          "employer": "Optimum Communications",
+          "text": "Schedules and directs the construction activities of subcontractor and in-house construction crews to include overseeing MDU and plant projects."
+         },
+         {
+          "posting": "Greystar::R0194011",
+          "employer": "Greystar",
+          "text": "Manages relationships with the construction team to ensure construction projects are completed in a timely manner, designed according to plan and within budgetary guidelines."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Greystar::R0194011",
+       "Optimum Communications::1429769700"
+      ],
+      "employers": [
+       "Greystar",
+       "Optimum Communications"
+      ],
+      "not_shown": "the ladder has 1 rung, fewer than 2"
+     }
+    },
+    "consulting": {
+     "associate": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You perform detailed schedule analysis of construction project delays.",
+        "quote": "Perform detailed schedule analysis",
+        "postings": [
+         "Ankura::R104966",
+         "Berkeley Research Group::JR101041"
+        ],
+        "employers": [
+         "Ankura",
+         "Berkeley Research Group"
+        ],
+        "sentences": [
+         {
+          "posting": "Ankura::R104966",
+          "employer": "Ankura",
+          "text": "Performs detailed analyses of project schedule delays, project cost records, productivity, change orders and other issues related to design and construction."
+         },
+         {
+          "posting": "Berkeley Research Group::JR101041",
+          "employer": "Berkeley Research Group",
+          "text": "Perform detailed schedule analysis to determine the source, magnitude, and cause of critical path delays as well as non-critical impacts on construction projects."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Ankura::R104966",
+       "Berkeley Research Group::JR101041"
+      ],
+      "employers": [
+       "Ankura",
+       "Berkeley Research Group"
+      ],
+      "not_shown": "the ladder has 1 rung, fewer than 2"
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     }
+    },
+    "bank": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You support the underwriting of construction loans.",
+        "quote": "assist in the underwriting",
+        "postings": [
+         "Citigroup::99038688112",
+         "East West Bank::13524"
+        ],
+        "employers": [
+         "Citigroup",
+         "East West Bank"
+        ],
+        "sentences": [
+         {
+          "posting": "East West Bank::13524",
+          "employer": "East West Bank",
+          "text": "This individual will assist in the underwriting, credit monitoring, and portfolio management of acquisition, value-add/bridge, and construction loans across all asset classes."
+         },
+         {
+          "posting": "Citigroup::99038688112",
+          "employer": "Citigroup",
+          "text": "Deal Execution:  Actively participate in the structuring, underwriting, and execution of syndicated and bilateral credit facilities, bridge loans, and construction loans."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Citigroup::99038688112",
+       "East West Bank::13524"
+      ],
+      "employers": [
+       "Citigroup",
+       "East West Bank"
+      ]
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You process construction draws.",
+        "quote": "draw review and processing for construction deals",
+        "postings": [
+         "Franklin Resources::869872",
+         "Sixth Street::JR00041"
+        ],
+        "employers": [
+         "Franklin Resources",
+         "Sixth Street"
+        ],
+        "sentences": [
+         {
+          "posting": "Franklin Resources::869872",
+          "employer": "Franklin Resources",
+          "text": "Assist in the administration of on-going loan proceeds disbursements to include construction draws, leasing costs, and release of loan reserves"
+         },
+         {
+          "posting": "Sixth Street::JR00041",
+          "employer": "Sixth Street",
+          "text": "Drive and coordinate internal operations processes (cash management, recommending and processing distributions and contributions, draw review and processing for construction deals, coordinate document review/negotiation/execution)"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Franklin Resources::869872",
+       "Sixth Street::JR00041"
+      ],
+      "employers": [
+       "Franklin Resources",
+       "Sixth Street"
+      ]
+     },
+     "senior": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     },
+     "lead": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     }
+    }
+   },
+   "subskills": {
+    "re_development_entitlements_construction_contracting": {
+     "text": "You negotiate construction contracts with general contractors and trade partners.",
+     "quote": "leading complex contract negotiations with tier-1 general contractors",
+     "postings": [
+      "Cushman & Wakefield::R338862",
+      "Form Energy::d6875bb1-eaeb-461a-9d99-40d92da21d20",
+      "Micron Technology::JR111130",
+      "Xcel Energy::JR115243"
+     ],
+     "employers": [
+      "Cushman & Wakefield",
+      "Form Energy",
+      "Micron Technology",
+      "Xcel Energy"
+     ],
+     "sentences": [
+      {
+       "posting": "Micron Technology::JR111130",
+       "employer": "Micron Technology",
+       "text": "Working knowledge of construction contracts, claims management, project schedules, construction documents, OSHA construction standards, and AI tools such as Copilot or equivalent technologies"
+      },
+      {
+       "posting": "Cushman & Wakefield::R338862",
+       "employer": "Cushman & Wakefield",
+       "text": "Coordinate construction projects with Construction Manager and Property Manager and approve construction contract documents and final invoices."
+      },
+      {
+       "posting": "Form Energy::d6875bb1-eaeb-461a-9d99-40d92da21d20",
+       "employer": "Form Energy",
+       "text": "Proven track record of leading complex contract negotiations with tier-1 general contractors, MEP (Mechanical, Electrical, Plumbing) trade partners, and facilities service providers."
+      },
+      {
+       "posting": "Xcel Energy::JR115243",
+       "employer": "Xcel Energy",
+       "text": "Utilize construction project contract expertise to procure construction EPC/turnkey contracts."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.093
+    },
+    "re_development_entitlements_land_acquisition_and_sourcing": {
+     "text": "You identify land acquisition opportunities by monitoring zoning changes and regulatory shifts.",
+     "quote": "proactively identify new growth corridors",
+     "postings": [
+      "Microsoft::200045056",
+      "Microsoft::200045682",
+      "PulteGroup::JR9503",
+      "Together AI::5152193007"
+     ],
+     "employers": [
+      "Microsoft",
+      "PulteGroup",
+      "Together AI"
+     ],
+     "sentences": [
+      {
+       "posting": "PulteGroup::JR9503",
+       "employer": "PulteGroup",
+       "text": "Monitor and interpret market trends, zoning changes, and regulatory shifts to proactively identify new growth corridors and mitigate acquisition risks."
+      },
+      {
+       "posting": "Together AI::5152193007",
+       "employer": "Together AI",
+       "text": "Research and evaluate data center sites and energy sourcing options, comparing power availability, connectivity, permitting timelines, deployment readiness, and reliability."
+      },
+      {
+       "posting": "Microsoft::200045056",
+       "employer": "Microsoft",
+       "text": "Demonstrated understanding of land use, zoning, permitting, and entitlement processes in US markets."
+      },
+      {
+       "posting": "Microsoft::200045682",
+       "employer": "Microsoft",
+       "text": "Deep understanding of land use, zoning, permitting, and entitlement processes in US markets."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.29
+    },
+    "re_development_entitlements_construction_loan_requirements": {
+     "text": "You check construction loan requirements for plans, permits, and initial draw documentation.",
+     "quote": "plans, permits, plan and cost review",
+     "postings": [
+      "East West Bank::12874",
+      "MUFG::10079429-WD",
+      "Regions Financial::R105838"
+     ],
+     "employers": [
+      "East West Bank",
+      "MUFG",
+      "Regions Financial"
+     ],
+     "sentences": [
+      {
+       "posting": "Regions Financial::R105838",
+       "employer": "Regions Financial",
+       "text": "Knowledge of construction loan requirements, including but not limited to plans, permits, plan and cost review, along with initial draw documentation"
+      },
+      {
+       "posting": "MUFG::10079429-WD",
+       "employer": "MUFG",
+       "text": "Administer construction loan draw requests in accordance with loan agreements, approved budgets, funding conditions, and disbursement requirements."
+      },
+      {
+       "posting": "East West Bank::12874",
+       "employer": "East West Bank",
+       "text": "Hands-on experience with loan documentation & funding, construction draw administration, budget control, lien waivers, title updates/endorsements, and vendor management."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.443
+    },
+    "re_development_entitlements_construction_progress_monitoring": {
+     "text": "You monitor construction progress against completion milestones.",
+     "quote": "Monitor construction progress, mechanical completion milestones",
+     "postings": [
+      "East West Bank::13461",
+      "MUFG::10079429-WD",
+      "U.S. Bancorp::2026-0023491"
+     ],
+     "employers": [
+      "East West Bank",
+      "MUFG",
+      "U.S. Bancorp"
+     ],
+     "sentences": [
+      {
+       "posting": "U.S. Bancorp::2026-0023491",
+       "employer": "U.S. Bancorp",
+       "text": "Support both existing property transactions (including refinancings) and ground‑up construction projects, including budget monitoring and monthly construction draw reviews through project completion"
+      },
+      {
+       "posting": "East West Bank::13461",
+       "employer": "East West Bank",
+       "text": "Monitor construction progress, mechanical completion milestones, placed-in-service dates, tax credit qualification requirements, and project performance relative to underwriting assumptions."
+      },
+      {
+       "posting": "East West Bank::13461",
+       "employer": "East West Bank",
+       "text": "Perform detailed sensitivity analyses and stress testing across key variables including energy production, construction schedules, tax credit delivery, recapture risk, operating performance, and changes in tax law."
+      },
+      {
+       "posting": "MUFG::10079429-WD",
+       "employer": "MUFG",
+       "text": "Experience reviewing construction budgets, draw requests, inspection reports, or syndicated and participated loan structures."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.157
+    },
+    "re_development_entitlements_construction_manager_oversight": {
+     "text": "You oversee construction managers and coordinate with third-party vendors.",
+     "quote": "oversight of, and guidance to, internal and third-party construction managers",
+     "postings": [
+      "Ares Management::R7691",
+      "East West Bank::12874",
+      "TD::R_1513207"
+     ],
+     "employers": [
+      "Ares Management",
+      "East West Bank",
+      "TD"
+     ],
+     "sentences": [
+      {
+       "posting": "Ares Management::R7691",
+       "employer": "Ares Management",
+       "text": "Review and approval of capital expenditures within the portfolio, including oversight of, and guidance to, internal and third-party construction managers."
+      },
+      {
+       "posting": "East West Bank::12874",
+       "employer": "East West Bank",
+       "text": "Serve as the operational liaison for Credit, Legal, Construction Administration, Relationship Managers, Treasury Operations, and third-party vendors."
+      },
+      {
+       "posting": "East West Bank::12874",
+       "employer": "East West Bank",
+       "text": "Hands-on experience with loan documentation & funding, construction draw administration, budget control, lien waivers, title updates/endorsements, and vendor management."
+      },
+      {
+       "posting": "TD::R_1513207",
+       "employer": "TD",
+       "text": "Knowledge of Code, Design, Change Orders, Construction Administration, Procurement, etc."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.302
+    },
+    "re_development_entitlements_zoning_and_entitlements": {
+     "text": "You manage zoning and site plan approvals with municipal staff and planners.",
+     "quote": "coordinating with municipal staff, planners, and elected officials",
+     "postings": [
+      "Alphabet::142927601218790086",
+      "Lincoln Property Company::5179114007"
+     ],
+     "employers": [
+      "Alphabet",
+      "Lincoln Property Company"
+     ],
+     "sentences": [
+      {
+       "posting": "Lincoln Property Company::5179114007",
+       "employer": "Lincoln Property Company",
+       "text": "Manage the entitlement process: rezonings, planned unit developments, conditional use permits, site plan approvals, plats, variances, and coordinating with municipal staff, planners, and elected officials."
+      },
+      {
+       "posting": "Alphabet::142927601218790086",
+       "employer": "Alphabet",
+       "text": "Coordinate zoning, entitlements, easement actions, environmental mitigations, permitting (air, discharge), and grid or traffic impact studies."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.073
+    },
+    "re_development_entitlements_environmental_permitting": {
+     "text": "You support environmental permitting for new facilities and facility modifications.",
+     "quote": "new facility permitting, facility modifications",
+     "postings": [
+      "Alphabet::142927601218790086",
+      "Plains GP Holdings::R0014866"
+     ],
+     "employers": [
+      "Alphabet",
+      "Plains GP Holdings"
+     ],
+     "sentences": [
+      {
+       "posting": "Plains GP Holdings::R0014866",
+       "employer": "Plains GP Holdings",
+       "text": "Experience supporting new facility permitting, facility modifications, operational changes, and project-related air permitting evaluations."
+      },
+      {
+       "posting": "Alphabet::142927601218790086",
+       "employer": "Alphabet",
+       "text": "Coordinate zoning, entitlements, easement actions, environmental mitigations, permitting (air, discharge), and grid or traffic impact studies."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.255
+    },
+    "re_development_entitlements_construction_loan_underwriting": {
+     "text": "You help underwrite construction loans.",
+     "quote": "underwriting, and execution of syndicated and bilateral credit facilities",
+     "postings": [
+      "Citigroup::99038688112",
+      "Citigroup::99123061104",
+      "East West Bank::13524"
+     ],
+     "employers": [
+      "Citigroup",
+      "East West Bank"
+     ],
+     "sentences": [
+      {
+       "posting": "East West Bank::13524",
+       "employer": "East West Bank",
+       "text": "This individual will assist in the underwriting, credit monitoring, and portfolio management of acquisition, value-add/bridge, and construction loans across all asset classes."
+      },
+      {
+       "posting": "Citigroup::99038688112",
+       "employer": "Citigroup",
+       "text": "Deal Execution:  Actively participate in the structuring, underwriting, and execution of syndicated and bilateral credit facilities, bridge loans, and construction loans."
+      },
+      {
+       "posting": "Citigroup::99123061104",
+       "employer": "Citigroup",
+       "text": "Deal Execution:  Actively participate in the structuring, underwriting, and execution of syndicated and bilateral credit facilities, bridge loans, and construction loans."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.082
+    },
+    "re_development_entitlements_construction_cost_accounting": {
+     "text": "You track construction costs through job costing and draw package submissions.",
+     "quote": "including job costing and draw package submissions",
+     "postings": [
+      "RSM US::JR121143",
+      "RSM US::JR121211"
+     ],
+     "employers": [
+      "RSM US"
+     ],
+     "sentences": [
+      {
+       "posting": "RSM US::JR121211",
+       "employer": "RSM US",
+       "text": "Experience in real estate development projects and construction accounting processes and best practices, including job costing and draw package submissions"
+      },
+      {
+       "posting": "RSM US::JR121143",
+       "employer": "RSM US",
+       "text": "Experience in real estate development projects and construction accounting processes and best practices, including job costing and draw package submissions"
+      }
+     ],
+     "ladders": [
+      "consulting"
+     ],
+     "share": 0.481
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 86,
+       "employers": 54
+      },
+      "mid": {
+       "n": 333,
+       "employers": 125
+      },
+      "senior": {
+       "n": 109,
+       "employers": 51
+      },
+      "lead": {
+       "n": 172,
+       "employers": 91
+      }
+     }
+    },
+    "consulting": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "mid": {
+       "n": 15,
+       "employers": 8
+      },
+      "senior": {
+       "n": 15,
+       "employers": 10
+      },
+      "lead": {
+       "n": 8,
+       "employers": 6
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 10,
+       "employers": 10
+      },
+      "mid": {
+       "n": 33,
+       "employers": 22
+      },
+      "senior": {
+       "n": 14,
+       "employers": 8
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  },
  "re_leasing": {
-  "what": "Negotiate leases and keep buildings occupied with paying tenants."
+  "what": "Negotiate leases and keep buildings occupied with paying tenants.",
+  "subskills": [
+   {
+    "id": "re_leasing_lease_administration",
+    "name": "Lease administration",
+    "patterns": [
+     "\\blease\\sadministration\\b",
+     "\\blease\\sdocuments\\b",
+     "\\bproperty\\slease\\sterms\\b",
+     "\\bobligation\\stracking\\b"
+    ],
+    "example": "You maintain lease documents and check compliance with property lease terms."
+   },
+   {
+    "id": "re_leasing_lease_financial_analysis",
+    "name": "Lease financial analysis",
+    "patterns": [
+     "\\blease\\sanalysis\\b|\\blease\\sanalyses\\b",
+     "\\banalyze\\spotential\\sleases\\b",
+     "\\brent\\srolls?\\b"
+    ],
+    "example": "You analyze leases and rent rolls to assess property finances."
+   },
+   {
+    "id": "re_leasing_lease_negotiation",
+    "name": "Lease negotiation",
+    "patterns": [
+     "\\blease\\snegotiations\\b",
+     "\\bnegotiate\\slease\\sterms\\b",
+     "\\bnegotiate\\snew\\sleasing\\sdeals\\b"
+    ],
+    "example": "You negotiate lease terms with support from leasing teams."
+   },
+   {
+    "id": "re_leasing_leasing_sales_and_marketing",
+    "name": "Leasing sales and marketing",
+    "patterns": [
+     "\\bleads\\b|\\blead\\sgeneration\\b",
+     "\\bprospect\\smanagement\\b",
+     "\\bsales\\sgoals\\b|\\bsales\\sperformance\\b",
+     "\\bmarketing\\b"
+    ],
+    "example": "You manage leasing leads and prospects to achieve sales goals."
+   },
+   {
+    "id": "re_leasing_renewals_and_occupancy_planning",
+    "name": "Renewals and occupancy planning",
+    "patterns": [
+     "\\blease\\srenewal\\b|\\blease\\srenewals\\b",
+     "\\btenant\\sexpirations\\b",
+     "\\blease\\sup\\b",
+     "\\boccupancy\\b"
+    ],
+    "example": "You plan leasing activity around lease renewals, tenant expirations, and occupancy goals."
+   },
+   {
+    "id": "re_leasing_leasing_counterparty_coordinatio",
+    "name": "Leasing counterparty coordination",
+    "patterns": [
+     "\\bleasing\\steams\\b",
+     "\\bleasing\\spersonnel\\b",
+     "\\blandlords?\\b",
+     "\\bbrokers?\\b"
+    ],
+    "example": "You communicate with property managers, leasing teams, landlords, and brokers."
+   },
+   {
+    "id": "re_leasing_tenant_relationship_management",
+    "name": "Tenant relationship management",
+    "patterns": [
+     "\\btenant\\srelations\\b",
+     "\\bmeeting\\swith\\stenants\\b",
+     "\\blandlord\\b"
+    ],
+    "example": "You meet with tenants regularly to maintain positive relations."
+   },
+   {
+    "id": "re_leasing_tenant_request_handling",
+    "name": "Tenant request handling",
+    "patterns": [
+     "\\btenants?\\b",
+     "\\bsubleases?\\b",
+     "\\bassignments?\\b",
+     "\\bestoppels?\\b"
+    ],
+    "example": "You respond to tenant requests."
+   }
+  ],
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You analyze the financial impact of potential leasing opportunities.",
+        "quote": "Evaluate the financial impact of potential leasing",
+        "postings": [
+         "Brookfield Properties::R2053275",
+         "Federal Realty::1917"
+        ],
+        "employers": [
+         "Brookfield Properties",
+         "Federal Realty"
+        ],
+        "sentences": [
+         {
+          "posting": "Brookfield Properties::R2053275",
+          "employer": "Brookfield Properties",
+          "text": "Participate in the leasing process and analyze potential leases and the resulting financial impact on an investment"
+         },
+         {
+          "posting": "Federal Realty::1917",
+          "employer": "Federal Realty",
+          "text": "Evaluate the financial impact of potential leasing, development, and redevelopment opportunities proactively identifying value-add and revenue growth opportunities"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Brookfield Properties::R2053275",
+       "Federal Realty::1917"
+      ],
+      "employers": [
+       "Brookfield Properties",
+       "Federal Realty"
+      ],
+      "not_shown": "the ladder has 1 rung, fewer than 2"
+     },
+     "mid": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     }
+    },
+    "bank": {
+     "associate": {
+      "empty": "critic",
+      "why": "the critic finds it unsupported, or in one employer's sentences only: the critic finds it in 0 employer's sentences"
+     },
+     "mid": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as another skill (Real estate underwriting, pro formas & market comps)"
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     }
+    }
+   },
+   "subskills": {
+    "re_leasing_lease_administration": {
+     "text": "You maintain lease documents and check compliance with property lease terms.",
+     "quote": "ensure all lease documents are complete, compliant, and consistently organized",
+     "postings": [
+      "Aramark::669365",
+      "Fannie Mae::JR2910",
+      "Greystar::R0198936",
+      "Perplexity::c5dcc0db-7fdc-4e09-86c7-b6618400df16"
+     ],
+     "employers": [
+      "Aramark",
+      "Fannie Mae",
+      "Greystar",
+      "Perplexity"
+     ],
+     "sentences": [
+      {
+       "posting": "Greystar::R0198936",
+       "employer": "Greystar",
+       "text": "    For California Only: Community Managers working in California are responsible for managing the lease process by utilizing the California specific Lease File Checklist to ensure all lease documents are complete, compliant, and consistently organized."
+      },
+      {
+       "posting": "Perplexity::c5dcc0db-7fdc-4e09-86c7-b6618400df16",
+       "employer": "Perplexity",
+       "text": "Own portfolio controls and insight: Establish dependable lease administration, obligation tracking, space and occupancy information, and portfolio reporting."
+      },
+      {
+       "posting": "Fannie Mae::JR2910",
+       "employer": "Fannie Mae",
+       "text": "Oversee lease administration processes, ensuring accuracy, compliance, and risk mitigation."
+      },
+      {
+       "posting": "Aramark::669365",
+       "employer": "Aramark",
+       "text": "o Ensures compliance with client contract and client's property lease terms"
+      }
+     ],
+     "ladders": [
+      "bank",
+      "corporate"
+     ],
+     "share": 0.178
+    },
+    "re_leasing_lease_financial_analysis": {
+     "text": "You analyze leases and rent rolls to assess property finances.",
+     "quote": "analyze potential leases and the resulting financial impact",
+     "postings": [
+      "Brookfield Properties::R2053275",
+      "Colliers::JR18417",
+      "New York Life Insurance::1431253500"
+     ],
+     "employers": [
+      "Brookfield Properties",
+      "Colliers",
+      "New York Life Insurance"
+     ],
+     "sentences": [
+      {
+       "posting": "Brookfield Properties::R2053275",
+       "employer": "Brookfield Properties",
+       "text": "Participate in the leasing process and analyze potential leases and the resulting financial impact on an investment"
+      },
+      {
+       "posting": "Colliers::JR18417",
+       "employer": "Colliers",
+       "text": "Analyze rent rolls, leases, historical operating statements, budgets, expense recoveries, capital expenditures, and other property-level information to develop and support underwriting assumptions."
+      },
+      {
+       "posting": "New York Life Insurance::1431253500",
+       "employer": "New York Life Insurance",
+       "text": "This person will support the asset managers with analytic support including lease analysis, hold/sell models, JV waterfall calculations, quarterly valuations etc."
+      }
+     ],
+     "ladders": [
+      "bank",
+      "corporate"
+     ],
+     "share": 0.135
+    },
+    "re_leasing_lease_negotiation": {
+     "text": "You negotiate lease terms with support from leasing teams.",
+     "quote": "analyze and negotiate new leasing deals",
+     "postings": [
+      "Anduril Industries::4951316007",
+      "Brookfield Properties::R2052910",
+      "Tishman Speyer::R009079"
+     ],
+     "employers": [
+      "Anduril Industries",
+      "Brookfield Properties",
+      "Tishman Speyer"
+     ],
+     "sentences": [
+      {
+       "posting": "Anduril Industries::4951316007",
+       "employer": "Anduril Industries",
+       "text": "You can shape Anduril's approach to a new market and also negotiate lease terms or source a local supplier."
+      },
+      {
+       "posting": "Tishman Speyer::R009079",
+       "employer": "Tishman Speyer",
+       "text": "Work with 3rd party leasing team to analyze and negotiate new leasing deals"
+      },
+      {
+       "posting": "Brookfield Properties::R2052910",
+       "employer": "Brookfield Properties",
+       "text": "Support lease negotiations and coordinate with legal, property management, and capital projects teams."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.055
+    },
+    "re_leasing_leasing_sales_and_marketing": {
+     "text": "You manage leasing leads and prospects to achieve sales goals.",
+     "quote": "local tenant leasing process from lead generation to tenant opening",
+     "postings": [
+      "Camden Property Trust::260603",
+      "Greystar::R0198936",
+      "Greystar::R0202090",
+      "Simon Property Group::R14055"
+     ],
+     "employers": [
+      "Camden Property Trust",
+      "Greystar",
+      "Simon Property Group"
+     ],
+     "sentences": [
+      {
+       "posting": "Camden Property Trust::260603",
+       "employer": "Camden Property Trust",
+       "text": "Motivates leasing team to capture all leads with a customer focused mindset and sets accountability for achieving sales goals."
+      },
+      {
+       "posting": "Simon Property Group::R14055",
+       "employer": "Simon Property Group",
+       "text": "Maximize permanent local leasing results (LLT) through the development and oversight of the local tenant leasing process from lead generation to tenant opening"
+      },
+      {
+       "posting": "Greystar::R0202090",
+       "employer": "Greystar",
+       "text": "This role oversees onsite sales performance, prospect management, CRM utilization, outreach initiatives, lease renewals, and customer experience."
+      },
+      {
+       "posting": "Greystar::R0198936",
+       "employer": "Greystar",
+       "text": "    Gathers, analyzes, and interprets current market and economic trends that may impact the property and implements short- and long-range marketing and leasing strategies to achieve the property’s occupancy and revenue goals."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.378
+    },
+    "re_leasing_renewals_and_occupancy_planning": {
+     "text": "You plan leasing activity around lease renewals, tenant expirations, and occupancy goals.",
+     "quote": "leasing strategies to achieve the property’s occupancy and revenue goals",
+     "postings": [
+      "Brookfield Properties::R2052470",
+      "Greystar::R0198936",
+      "Greystar::R0199619",
+      "Public Storage::744000152535199"
+     ],
+     "employers": [
+      "Brookfield Properties",
+      "Greystar",
+      "Public Storage"
+     ],
+     "sentences": [
+      {
+       "posting": "Greystar::R0199619",
+       "employer": "Greystar",
+       "text": "    Oversees the lease renewal program, including sponsoring various resident lease renewal functions, managing the communication and notification process, and assisting with resident move-outs as necessary."
+      },
+      {
+       "posting": "Brookfield Properties::R2052470",
+       "employer": "Brookfield Properties",
+       "text": "Oversee the preparation and review of quarterly leasing forecast, which includes updates of actual leasing activity, forecasted leasing assumptions, and early tenant expirations"
+      },
+      {
+       "posting": "Public Storage::744000152535199",
+       "employer": "Public Storage",
+       "text": "Stabilizing Properties — forecast revenue, expense, and NOI for newly acquired and development properties, including timing of lease-up, expense ramp up, and stabilization."
+      },
+      {
+       "posting": "Greystar::R0198936",
+       "employer": "Greystar",
+       "text": "    Gathers, analyzes, and interprets current market and economic trends that may impact the property and implements short- and long-range marketing and leasing strategies to achieve the property’s occupancy and revenue goals."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.142
+    },
+    "re_leasing_leasing_counterparty_coordinatio": {
+     "text": "You communicate with property managers, leasing teams, landlords, and brokers.",
+     "quote": "Communicate with third party property management and leasing personnel",
+     "postings": [
+      "Ares Management::R7857",
+      "Citigroup::96962289728",
+      "Invesco::R-15149"
+     ],
+     "employers": [
+      "Ares Management",
+      "Citigroup",
+      "Invesco"
+     ],
+     "sentences": [
+      {
+       "posting": "Invesco::R-15149",
+       "employer": "Invesco",
+       "text": "Communicate with third party property management and leasing personnel as well as insurance and real estate tax consultants and other third-party providers as needed."
+      },
+      {
+       "posting": "Ares Management::R7857",
+       "employer": "Ares Management",
+       "text": "Direct involvement and responsibilities for new and ongoing lease negotiations within the portfolio including communicating with third-party leasing teams, in-house counsel, and third-party legal teams."
+      },
+      {
+       "posting": "Citigroup::96962289728",
+       "employer": "Citigroup",
+       "text": "Proven leadership skills and ability to collaborate with business clients, internal CRS partners, other Citi service providers, landlords, brokers, and other third-party service providers"
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.28
+    },
+    "re_leasing_tenant_relationship_management": {
+     "text": "You meet with tenants regularly to maintain positive relations.",
+     "quote": "maintain positive retail tenant relations by meeting with tenants",
+     "postings": [
+      "Federal Realty::1900",
+      "Federal Realty::1909",
+      "Newmark::249719"
+     ],
+     "employers": [
+      "Federal Realty",
+      "Newmark"
+     ],
+     "sentences": [
+      {
+       "posting": "Federal Realty::1909",
+       "employer": "Federal Realty",
+       "text": "Develop and maintain positive retail tenant relations by meeting with tenants at both properties on a regular basis; obtain tenant intel on sales and market comps."
+      },
+      {
+       "posting": "Federal Realty::1900",
+       "employer": "Federal Realty",
+       "text": "Develop and maintain positive retail tenant relations by meeting with tenants on a regular basis."
+      },
+      {
+       "posting": "Newmark::249719",
+       "employer": "Newmark",
+       "text": "This role requires a detail-oriented professional who can manage financial reporting, tenant relations, lease administration, and day-to-day operations across the portfolio."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.055
+    },
+    "re_leasing_tenant_request_handling": {
+     "text": "You respond to tenant requests.",
+     "quote": "responding promptly and thoroughly to tenant requests",
+     "postings": [
+      "Ares Management::R8337",
+      "Ares Management::R8618"
+     ],
+     "employers": [
+      "Ares Management"
+     ],
+     "sentences": [
+      {
+       "posting": "Ares Management::R8618",
+       "employer": "Ares Management",
+       "text": "Review lease provisions and assist with processing tenant requests related to subleases, assignments, landlord waivers, estoppels, and other lease-related matters."
+      },
+      {
+       "posting": "Ares Management::R8337",
+       "employer": "Ares Management",
+       "text": "Deliver a high level of customer service by responding promptly and thoroughly to tenant requests and maintaining regular communication with tenants."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.291
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 42,
+       "employers": 18
+      },
+      "mid": {
+       "n": 100,
+       "employers": 37
+      },
+      "senior": {
+       "n": 13,
+       "employers": 8
+      },
+      "lead": {
+       "n": 55,
+       "employers": 25
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 14,
+       "employers": 9
+      },
+      "mid": {
+       "n": 29,
+       "employers": 17
+      },
+      "senior": {
+       "n": 15,
+       "employers": 8
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  },
  "re_asset_mgmt": {
-  "what": "Run a property or portfolio so it hits its business plan and budget."
+  "what": "Run a property or portfolio so it hits its business plan and budget.",
+  "subskills": [
+   {
+    "id": "re_asset_mgmt_property_operations_oversight",
+    "name": "Property operations oversight",
+    "patterns": [
+     "\\bproperty\\soperations\\b",
+     "\\bproperty\\smanagement\\steams?\\b",
+     "\\bportfolio\\soperations\\b"
+    ],
+    "example": "You oversee property operations and property management teams."
+   },
+   {
+    "id": "re_asset_mgmt_leasing_and_capital_projects",
+    "name": "Leasing and capital projects",
+    "patterns": [
+     "\\blease\\b|\\bleases\\b|\\bleasing\\b",
+     "\\bcapital\\sprojects\\b",
+     "\\bcapital\\sexpenditures\\b",
+     "\\bcapital\\simprovement\\sprojects\\b"
+    ],
+    "example": "You analyze leases and track ongoing capital projects."
+   },
+   {
+    "id": "re_asset_mgmt_portfolio_performance_reporting",
+    "name": "Portfolio performance reporting",
+    "patterns": [
+     "\\bportfolio performance\\b",
+     "\\bproperty performance\\b",
+     "\\breporting\\b"
+    ],
+    "example": "You report on real estate portfolio performance and communicate property performance findings."
+   },
+   {
+    "id": "re_asset_mgmt_property_financial_analysis",
+    "name": "Property financial analysis",
+    "patterns": [
+     "\\bunderwriting\\b",
+     "\\bpro\\sforma\\b",
+     "\\bproperty\\svaluations?\\b",
+     "\\bhold\\b"
+    ],
+    "example": "You analyze property financial information to support underwriting and valuations."
+   },
+   {
+    "id": "re_asset_mgmt_property_management_systems",
+    "name": "Property management systems",
+    "patterns": [
+     "\\bproperty\\smanagement\\ssoftware\\b",
+     "\\bproperty\\smanagement\\ssystems?\\b",
+     "\\bYardi\\b|\\bEntrata\\b|\\bOneSite\\b",
+     "\\bOpera\\b|\\bInfor\\b|\\bREX\\b|\\bLMS\\b"
+    ],
+    "example": "You use property management software such as Yardi."
+   },
+   {
+    "id": "re_asset_mgmt_property_performance_monitoring",
+    "name": "Property performance monitoring",
+    "patterns": [
+     "\\bproperty\\sperformance\\b",
+     "\\bmonitor\\sloan\\sperformance\\b",
+     "\\bperformance\\supdates\\b"
+    ],
+    "example": "You monitor property performance to identify emerging loan risks."
+   },
+   {
+    "id": "re_asset_mgmt_property_manager_coordination",
+    "name": "Property manager coordination",
+    "patterns": [
+     "\\bproperty\\smanagers\\b",
+     "\\bproperty\\smanagement\\b"
+    ],
+    "example": "You communicate with property managers and third-party providers."
+   },
+   {
+    "id": "re_asset_mgmt_real_estate_financial_modeling",
+    "name": "Real estate financial modeling",
+    "patterns": [
+     "\\bcash\\sflow\\smodeling\\b",
+     "\\bcash\\sflow\\smodels\\b",
+     "\\bDCF\\sanalysis\\b",
+     "\\bfinancial\\sunderwriting\\smodels\\b"
+    ],
+    "example": "You build cash flow and underwriting models for real estate investments."
+   },
+   {
+    "id": "re_asset_mgmt_business_plans_and_budgets",
+    "name": "Business plans and budgets",
+    "patterns": [
+     "\\bbusiness\\splans?\\b",
+     "\\boperating\\sbudgets?\\b",
+     "\\bproperty\\sbudgets?\\b"
+    ],
+    "example": "You help prepare annual asset-level business plans, including reviews of operating budgets."
+   },
+   {
+    "id": "re_asset_mgmt_budget_and_plan_review",
+    "name": "Budget and plan review",
+    "patterns": [
+     "\\bbudgets?\\b",
+     "\\bbusiness plans?\\b",
+     "\\breforecasts?\\b"
+    ],
+    "example": "You support the review of property budgets, business plans, and quarterly reforecasts."
+   }
+  ],
+  "ladder": {
+   "bank": {
+    "associate": "You communicate with property managers and third-party providers.",
+    "mid": "You build financial underwriting models for real estate investments."
+   }
+  },
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You analyze historical property financial information to support property-level underwriting.",
+        "quote": "property-level underwriting and pro forma analyses reflecting historical performance",
+        "postings": [
+         "Colliers::JR18417",
+         "Cushman & Wakefield::R337183"
+        ],
+        "employers": [
+         "Colliers",
+         "Cushman & Wakefield"
+        ],
+        "sentences": [
+         {
+          "posting": "Colliers::JR18417",
+          "employer": "Colliers",
+          "text": "Analyze rent rolls, leases, historical operating statements, budgets, expense recoveries, capital expenditures, and other property-level information to develop and support underwriting assumptions."
+         },
+         {
+          "posting": "Cushman & Wakefield::R337183",
+          "employer": "Cushman & Wakefield",
+          "text": "Develop property-level underwriting and pro forma analyses reflecting historical performance and projected market conditions."
+         }
+        ]
+       },
+       {
+        "text": "You support quarterly property valuations and hold/sell analyses.",
+        "quote": "quarterly and annual internal property valuations, hold/sell analysis",
+        "postings": [
+         "New York Life Insurance::1431253500",
+         "Tishman Speyer::R009079"
+        ],
+        "employers": [
+         "New York Life Insurance",
+         "Tishman Speyer"
+        ],
+        "sentences": [
+         {
+          "posting": "Tishman Speyer::R009079",
+          "employer": "Tishman Speyer",
+          "text": "Provide analytical support to assist with the asset management function of existing properties, including quarterly valuations, cash management, hold/sell analyses, and other ad hoc sensitivity analyses"
+         },
+         {
+          "posting": "New York Life Insurance::1431253500",
+          "employer": "New York Life Insurance",
+          "text": "Assist asset managers with various valuation projects including quarterly and annual internal property valuations, hold/sell analysis, and lease analyses."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Colliers::JR18417",
+       "Cushman & Wakefield::R337183",
+       "New York Life Insurance::1431253500",
+       "Tishman Speyer::R009079"
+      ],
+      "employers": [
+       "Colliers",
+       "Cushman & Wakefield",
+       "New York Life Insurance",
+       "Tishman Speyer"
+      ],
+      "not_shown": "the ladder has 1 rung, fewer than 2"
+     },
+     "mid": {
+      "empty": "specificity",
+      "why": "its terms come from one employer, or it names too few terms of its evidence: names 2 terms of its evidence (management, property)"
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the mid level"
+     }
+    },
+    "bank": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You communicate with property managers and third-party providers.",
+        "quote": "interacting with property managers, third party vendors",
+        "postings": [
+         "Goldman Sachs Group::183138",
+         "Invesco::R-15149"
+        ],
+        "employers": [
+         "Goldman Sachs Group",
+         "Invesco"
+        ],
+        "sentences": [
+         {
+          "posting": "Invesco::R-15149",
+          "employer": "Invesco",
+          "text": "Communicate with third party property management and leasing personnel as well as insurance and real estate tax consultants and other third-party providers as needed."
+         },
+         {
+          "posting": "Goldman Sachs Group::183138",
+          "employer": "Goldman Sachs Group",
+          "text": "Great interpersonal skills, interacting with property managers, third party vendors, credit risk managers, borrowers, and attorneys"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Goldman Sachs Group::183138",
+       "Invesco::R-15149"
+      ],
+      "employers": [
+       "Goldman Sachs Group",
+       "Invesco"
+      ]
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You build financial underwriting models for real estate investments.",
+        "quote": "Create detailed and complex financial underwriting models",
+        "postings": [
+         "Ares Management::R8072",
+         "Blackstone::42672"
+        ],
+        "employers": [
+         "Ares Management",
+         "Blackstone"
+        ],
+        "sentences": [
+         {
+          "posting": "Ares Management::R8072",
+          "employer": "Ares Management",
+          "text": "Create detailed and complex financial underwriting models for the acquisition and development of real estate investments across the risk spectrum"
+         },
+         {
+          "posting": "Blackstone::42672",
+          "employer": "Blackstone",
+          "text": "Demonstrated financial modeling expertise, including experience underwriting real estate investments from the ground up and evaluating sponsor models"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Ares Management::R8072",
+       "Blackstone::42672"
+      ],
+      "employers": [
+       "Ares Management",
+       "Blackstone"
+      ]
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     }
+    }
+   },
+   "subskills": {
+    "re_asset_mgmt_property_operations_oversight": {
+     "text": "You oversee property operations and property management teams.",
+     "quote": "oversee all aspects of property operations",
+     "postings": [
+      "AutoZone::155267",
+      "Cushman & Wakefield::R335919",
+      "Simon Property Group::R13794",
+      "Tishman Speyer::R009303"
+     ],
+     "employers": [
+      "AutoZone",
+      "Cushman & Wakefield",
+      "Simon Property Group",
+      "Tishman Speyer"
+     ],
+     "sentences": [
+      {
+       "posting": "Cushman & Wakefield::R335919",
+       "employer": "Cushman & Wakefield",
+       "text": "The Area Property Manager will have some direct property oversight in addition to assisting and directing Property Managers in the portfolio."
+      },
+      {
+       "posting": "AutoZone::155267",
+       "employer": "AutoZone",
+       "text": "This role involves property visits, tenant interactions, and oversight of property management teams."
+      },
+      {
+       "posting": "Simon Property Group::R13794",
+       "employer": "Simon Property Group",
+       "text": "Simon is seeking an experienced Director of Operations to oversee all aspects of property operations for one of our premier retail destinations."
+      },
+      {
+       "posting": "Tishman Speyer::R009303",
+       "employer": "Tishman Speyer",
+       "text": "Lead the Property Management (PM) team to provide a best in class, customer focused environment across the Rockefeller Center portfolio."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.17
+    },
+    "re_asset_mgmt_leasing_and_capital_projects": {
+     "text": "You analyze leases and track ongoing capital projects.",
+     "quote": "ongoing capital projects in coordination with",
+     "postings": [
+      "Colliers::JR18417",
+      "New York Life Insurance::1431253500",
+      "Newmark::250126",
+      "Tishman Speyer::R009079"
+     ],
+     "employers": [
+      "Colliers",
+      "New York Life Insurance",
+      "Newmark",
+      "Tishman Speyer"
+     ],
+     "sentences": [
+      {
+       "posting": "Newmark::250126",
+       "employer": "Newmark",
+       "text": "Monitoring performance of transitional/value-add operating properties including performing lease analysis, TI/LC and Renovation draw reviews, and loan covenant testing"
+      },
+      {
+       "posting": "Tishman Speyer::R009079",
+       "employer": "Tishman Speyer",
+       "text": "Analyze and manage tracking of various ongoing capital projects in coordination with design & construction teams and property management."
+      },
+      {
+       "posting": "Colliers::JR18417",
+       "employer": "Colliers",
+       "text": "Analyze rent rolls, leases, historical operating statements, budgets, expense recoveries, capital expenditures, and other property-level information to develop and support underwriting assumptions."
+      },
+      {
+       "posting": "New York Life Insurance::1431253500",
+       "employer": "New York Life Insurance",
+       "text": "Assist asset managers with various valuation projects including quarterly and annual internal property valuations, hold/sell analysis, and lease analyses."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.415
+    },
+    "re_asset_mgmt_portfolio_performance_reporting": {
+     "text": "You report on real estate portfolio performance and communicate property performance findings.",
+     "quote": "communicate findings with borrowers, sub servicers, rating agencies, investors",
+     "postings": [
+      "KeyCorp::R-41742",
+      "PNC Financial Services Group::R235001",
+      "Sixth Street::JR00041",
+      "StepStone Group::8031349"
+     ],
+     "employers": [
+      "KeyCorp",
+      "PNC Financial Services Group",
+      "Sixth Street",
+      "StepStone Group"
+     ],
+     "sentences": [
+      {
+       "posting": "StepStone Group::8031349",
+       "employer": "StepStone Group",
+       "text": "The Asset Management Analyst will be based in San Francisco, Chicago or New York and will play a critical role in managing, monitoring, and reporting on StepStone’s real estate investments."
+      },
+      {
+       "posting": "PNC Financial Services Group::R235001",
+       "employer": "PNC Financial Services Group",
+       "text": "While the analyst will focus largely on property level research for individual deals, macro-level industry data analysis is also routinely required for review and reporting of PNC portfolio performance or for macroeconomic reviews."
+      },
+      {
+       "posting": "Sixth Street::JR00041",
+       "employer": "Sixth Street",
+       "text": "Real Estate portfolio through hands on asset management and to provide detailed, accurate and actionable reporting, thereby providing leverage to the overall platform."
+      },
+      {
+       "posting": "KeyCorp::R-41742",
+       "employer": "KeyCorp",
+       "text": "Research property performance inquiries and communicate findings with borrowers, sub servicers, rating agencies, investors, special servicers, and loan originators."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.489
+    },
+    "re_asset_mgmt_property_financial_analysis": {
+     "text": "You analyze property financial information to support underwriting and valuations.",
+     "quote": "develop and support underwriting assumptions",
+     "postings": [
+      "Colliers::JR18006",
+      "Colliers::JR18417",
+      "Cushman & Wakefield::R337183",
+      "New York Life Insurance::1431253500"
+     ],
+     "employers": [
+      "Colliers",
+      "Cushman & Wakefield",
+      "New York Life Insurance"
+     ],
+     "sentences": [
+      {
+       "posting": "Colliers::JR18417",
+       "employer": "Colliers",
+       "text": "Analyze rent rolls, leases, historical operating statements, budgets, expense recoveries, capital expenditures, and other property-level information to develop and support underwriting assumptions."
+      },
+      {
+       "posting": "Cushman & Wakefield::R337183",
+       "employer": "Cushman & Wakefield",
+       "text": "Develop property-level underwriting and pro forma analyses reflecting historical performance and projected market conditions."
+      },
+      {
+       "posting": "New York Life Insurance::1431253500",
+       "employer": "New York Life Insurance",
+       "text": "Assist asset managers with various valuation projects including quarterly and annual internal property valuations, hold/sell analysis, and lease analyses."
+      },
+      {
+       "posting": "Colliers::JR18006",
+       "employer": "Colliers",
+       "text": "Conduct property valuations and support transactions with detailed financial modeling and data analysis"
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.269
+    },
+    "re_asset_mgmt_property_management_systems": {
+     "text": "You use property management software such as Yardi.",
+     "quote": "Experience utilizing Yardi or similar property management software",
+     "postings": [
+      "Caesars Entertainment::89234",
+      "Greystar::R0198936",
+      "Greystar::R0203505",
+      "Invitation Homes::R5966"
+     ],
+     "employers": [
+      "Caesars Entertainment",
+      "Greystar",
+      "Invitation Homes"
+     ],
+     "sentences": [
+      {
+       "posting": "Caesars Entertainment::89234",
+       "employer": "Caesars Entertainment",
+       "text": "Previous experience working with property management systems such as Opera, Infor, REX, and/or LMS."
+      },
+      {
+       "posting": "Invitation Homes::R5966",
+       "employer": "Invitation Homes",
+       "text": "Experience utilizing Yardi or similar property management software"
+      },
+      {
+       "posting": "Greystar::R0203505",
+       "employer": "Greystar",
+       "text": "    Strong proficiency in using property management software (preferably Entrata, Yardi, and/or OneSite)."
+      },
+      {
+       "posting": "Greystar::R0198936",
+       "employer": "Greystar",
+       "text": "    Strong proficiency in using property management software (preferably Entrata, Yardi, and/or OneSite)."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.115
+    },
+    "re_asset_mgmt_property_performance_monitoring": {
+     "text": "You monitor property performance to identify emerging loan risks.",
+     "quote": "Monitor loan performance and identify emerging risks",
+     "postings": [
+      "JPMorgan Chase::210792463",
+      "KeyCorp::R-41742",
+      "RBC::R-0000189781"
+     ],
+     "employers": [
+      "JPMorgan Chase",
+      "KeyCorp",
+      "RBC"
+     ],
+     "sentences": [
+      {
+       "posting": "JPMorgan Chase::210792463",
+       "employer": "JPMorgan Chase",
+       "text": "Monitor loan performance and identify emerging risks through borrower communications, property performance, and servicing activity review"
+      },
+      {
+       "posting": "KeyCorp::R-41742",
+       "employer": "KeyCorp",
+       "text": "Research property performance inquiries and communicate findings with borrowers, sub servicers, rating agencies, investors, special servicers, and loan originators."
+      },
+      {
+       "posting": "RBC::R-0000189781",
+       "employer": "RBC",
+       "text": "Interact with borrowers to get regular, detailed performance updates on the real estate assets collateralizing the portfolio"
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.069
+    },
+    "re_asset_mgmt_property_manager_coordination": {
+     "text": "You communicate with property managers and third-party providers.",
+     "quote": "Communicate with third party property management and leasing personnel",
+     "postings": [
+      "Ares Management::R7691",
+      "Goldman Sachs Group::183138",
+      "Invesco::R-15149"
+     ],
+     "employers": [
+      "Ares Management",
+      "Goldman Sachs Group",
+      "Invesco"
+     ],
+     "sentences": [
+      {
+       "posting": "Invesco::R-15149",
+       "employer": "Invesco",
+       "text": "Communicate with third party property management and leasing personnel as well as insurance and real estate tax consultants and other third-party providers as needed."
+      },
+      {
+       "posting": "Goldman Sachs Group::183138",
+       "employer": "Goldman Sachs Group",
+       "text": "Great interpersonal skills, interacting with property managers, third party vendors, credit risk managers, borrowers, and attorneys"
+      },
+      {
+       "posting": "Ares Management::R7691",
+       "employer": "Ares Management",
+       "text": "Foster strong relationships with third party property management, as well as, internal and external teams, to ensure alignment with organizational goals."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.448
+    },
+    "re_asset_mgmt_real_estate_financial_modeling": {
+     "text": "You build cash flow and underwriting models for real estate investments.",
+     "quote": "property-level cash flow modeling, DCF analysis",
+     "postings": [
+      "Ares Management::R8072",
+      "Ares Management::R8141",
+      "PGIM::R-124934",
+      "PGIM::R-124969"
+     ],
+     "employers": [
+      "Ares Management",
+      "PGIM"
+     ],
+     "sentences": [
+      {
+       "posting": "Ares Management::R8072",
+       "employer": "Ares Management",
+       "text": "Create detailed and complex financial underwriting models for the acquisition and development of real estate investments across the risk spectrum"
+      },
+      {
+       "posting": "Ares Management::R8141",
+       "employer": "Ares Management",
+       "text": "Advanced financial analysis, valuation, and modeling capabilities, including property-level cash flow modeling, DCF analysis, NAV analysis, portfolio valuations, and fund waterfall structures."
+      },
+      {
+       "posting": "PGIM::R-124934",
+       "employer": "PGIM",
+       "text": "Prepare cash flow models, property valuations, borrower credit analyses, market research, sensitivity analyses, and investment memoranda."
+      },
+      {
+       "posting": "PGIM::R-124969",
+       "employer": "PGIM",
+       "text": "Provide analytical support including market research, due diligence tracking and review, cash flow modeling, property valuation, borrower credit review and preparation of loan submissions for transactions spanning various multifamily property types."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.063
+    },
+    "re_asset_mgmt_business_plans_and_budgets": {
+     "text": "You help prepare annual asset-level business plans, including reviews of operating budgets.",
+     "quote": "annual asset level business plans",
+     "postings": [
+      "Greystar::R0198308",
+      "Greystar::R0202487"
+     ],
+     "employers": [
+      "Greystar"
+     ],
+     "sentences": [
+      {
+       "posting": "Greystar::R0202487",
+       "employer": "Greystar",
+       "text": "Assists with the preparation of annual asset level business plans including review of operating budgets, market analysis, real estate tax forecast and disposition strategy."
+      },
+      {
+       "posting": "Greystar::R0198308",
+       "employer": "Greystar",
+       "text": "Participates in the preparation of annual asset level business plans, including operating budgets, market analysis, real estate tax forecasts, and disposition strategy."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.22
+    },
+    "re_asset_mgmt_budget_and_plan_review": {
+     "text": "You support the review of property budgets, business plans, and quarterly reforecasts.",
+     "quote": "review of property budgets, business plans & quarterly reforecasts",
+     "postings": [
+      "Franklin Resources::869872"
+     ],
+     "employers": [
+      "Franklin Resources"
+     ],
+     "sentences": [
+      {
+       "posting": "Franklin Resources::869872",
+       "employer": "Franklin Resources",
+       "text": "Provide support in the review of property budgets, business plans & quarterly reforecasts"
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.451
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 32,
+       "employers": 21
+      },
+      "mid": {
+       "n": 124,
+       "employers": 50
+      },
+      "senior": {
+       "n": 27,
+       "employers": 14
+      },
+      "lead": {
+       "n": 67,
+       "employers": 27
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 23,
+       "employers": 13
+      },
+      "mid": {
+       "n": 41,
+       "employers": 21
+      },
+      "senior": {
+       "n": 26,
+       "employers": 16
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  },
  "re_property_types": {
-  "what": "Know how a given property type is bought, built, leased and run."
+  "what": "Know how a given property type is bought, built, leased and run.",
+  "subskills": [
+   {
+    "id": "re_property_types_leasing_across_property_types",
+    "name": "Leasing across property types",
+    "patterns": [
+     "\\bleasing\\b",
+     "\\blease\\b",
+     "\\blease\\sadministration\\b",
+     "\\blease\\sup\\b"
+    ],
+    "example": "You handle leasing or lease administration for commercial real estate properties."
+   },
+   {
+    "id": "re_property_types_property_operations_and_manageme",
+    "name": "Property operations and management",
+    "patterns": [
+     "\\bproperty\\smanagement\\b",
+     "\\bproperty\\soperations\\b",
+     "\\bmultifamily\\soperations\\b"
+    ],
+    "example": "You manage property operations for multifamily, industrial, office, or retail properties."
+   },
+   {
+    "id": "re_property_types_property_market_research",
+    "name": "Property market research",
+    "patterns": [
+     "\\bmarket\\sresearch\\b",
+     "\\bresearch\\sacross\\sproperty\\stypes\\b",
+     "\\bresearch\\son\\scertain\\sgeographic\\smarkets\\b"
+    ],
+    "example": "You research markets across real estate property types."
+   },
+   {
+    "id": "re_property_types_construction_financing_and_disbu",
+    "name": "Construction financing and disbursements",
+    "patterns": [
+     "\\bconstruction\\b",
+     "\\bdisbursement\\b"
+    ],
+    "example": "You manage construction loan disbursements."
+   },
+   {
+    "id": "re_property_types_property_debt_underwriting",
+    "name": "Property debt underwriting",
+    "patterns": [
+     "\\bunderwriting\\b",
+     "\\blending\\b"
+    ],
+    "example": "You underwrite commercial real estate loans across property types."
+   },
+   {
+    "id": "re_property_types_property_acquisition_and_sourcin",
+    "name": "Property acquisition and sourcing",
+    "patterns": [
+     "\\bacquisition\\b",
+     "\\bacquisitions\\b",
+     "\\bsource\\b",
+     "\\binvesting\\b"
+    ],
+    "example": "You source and evaluate acquisition opportunities across real estate asset classes."
+   },
+   {
+    "id": "re_property_types_multifamily_investment_analysis",
+    "name": "Multifamily investment analysis",
+    "patterns": [
+     "\\bmultifamily\\b",
+     "\\bapartment\\sinvestments\\b"
+    ],
+    "example": "You perform valuation, market, and risk analyses of multifamily assets."
+   },
+   {
+    "id": "re_property_types_office_asset_management",
+    "name": "Office asset management",
+    "patterns": [
+     "\\boffice\\sportfolio\\b",
+     "\\boffice\\sproperties\\b",
+     "\\boffice\\sassets\\b"
+    ],
+    "example": "You build financial models and develop business plans for an office portfolio."
+   }
+  ],
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "mid": {
+      "empty": "critic",
+      "why": "the critic finds it unsupported, or in one employer's sentences only: the critic finds it in 1 employer's sentences"
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as another skill (Property acquisitions & dispositions)"
+     }
+    },
+    "bank": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You build cash flow models to value multifamily, industrial, office, and retail properties.",
+        "quote": "cash flow models and valuation frameworks for diverse real estate asset classes",
+        "postings": [
+         "Citigroup::99038688112",
+         "Goldman Sachs Group::183138"
+        ],
+        "employers": [
+         "Citigroup",
+         "Goldman Sachs Group"
+        ],
+        "sentences": [
+         {
+          "posting": "Citigroup::99038688112",
+          "employer": "Citigroup",
+          "text": "Advanced Modeling:  Develop, maintain, and stress-test complex cash flow models and valuation frameworks for diverse real estate asset classes (multifamily, industrial, office, retail, and lodging)."
+         },
+         {
+          "posting": "Goldman Sachs Group::183138",
+          "employer": "Goldman Sachs Group",
+          "text": "Excel cash flow modeling/forecasting in conjunction with the use of market sale and rent comps to determine real estate values across a variety of property types: multifamily, hospitality, retail, industrial, office, self-storage, senior living, etc."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Citigroup::99038688112",
+       "Goldman Sachs Group::183138"
+      ],
+      "employers": [
+       "Citigroup",
+       "Goldman Sachs Group"
+      ],
+      "not_shown": "the ladder has 1 rung, fewer than 2"
+     },
+     "mid": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "senior": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "lead": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     }
+    }
+   },
+   "subskills": {
+    "re_property_types_leasing_across_property_types": {
+     "text": "You handle leasing or lease administration for commercial real estate properties.",
+     "quote": "commercial real estate, transaction management, portfolio management, or lease administration",
+     "postings": [
+      "Alphabet::118792221477479110",
+      "LKQ::R72908",
+      "Link Logistics::JR101880",
+      "Realty Income::R-100293"
+     ],
+     "employers": [
+      "Alphabet",
+      "LKQ",
+      "Link Logistics",
+      "Realty Income"
+     ],
+     "sentences": [
+      {
+       "posting": "Realty Income::R-100293",
+       "employer": "Realty Income",
+       "text": "Realty Income is seeking a Senior Analyst, Retail Asset Management and Leasing to support portfolio strategy and transaction execution across our retail properties and client relationships."
+      },
+      {
+       "posting": "Alphabet::118792221477479110",
+       "employer": "Alphabet",
+       "text": "Familiarity with commercial real estate agreement structures, land acquisition due diligence, colocation/wholesale leasing, zoning, environmental reviews, and utility interconnection timelines."
+      },
+      {
+       "posting": "LKQ::R72908",
+       "employer": "LKQ",
+       "text": "5+ years of experience in commercial real estate, transaction management, portfolio management, or lease administration."
+      },
+      {
+       "posting": "Link Logistics::JR101880",
+       "employer": "Link Logistics",
+       "text": "Assist the regional Assistant Vice President in managing multiple industrial developments through land acquisition, entitlements, vertical construction, and lease up across the East Coast."
+      }
+     ],
+     "ladders": [
+      "bank",
+      "corporate"
+     ],
+     "share": 0.27
+    },
+    "re_property_types_property_operations_and_manageme": {
+     "text": "You manage property operations for multifamily, industrial, office, or retail properties.",
+     "quote": "commercial office, retail, and/or industrial property management experience required",
+     "postings": [
+      "Camden Property Trust::260586",
+      "Expeditors Intl. of Washington::744000147955309",
+      "Lincoln Property Company::5244395007",
+      "Simon Property Group::R13794"
+     ],
+     "employers": [
+      "Camden Property Trust",
+      "Expeditors Intl. of Washington",
+      "Lincoln Property Company",
+      "Simon Property Group"
+     ],
+     "sentences": [
+      {
+       "posting": "Camden Property Trust::260586",
+       "employer": "Camden Property Trust",
+       "text": "Basic knowledge and understanding of multifamily operations, including ability to define issues of concern and to effectively solve problems."
+      },
+      {
+       "posting": "Lincoln Property Company::5244395007",
+       "employer": "Lincoln Property Company",
+       "text": "Bachelor's Degree (BA/BS) preferred with 5 - 8 years of relevant experience or a combination of education and experience; commercial office, retail, and/or industrial property management experience required"
+      },
+      {
+       "posting": "Expeditors Intl. of Washington::744000147955309",
+       "employer": "Expeditors Intl. of Washington",
+       "text": "Experience in supervising all operational and financial property management activities for a diverse geographic industrial portfolio"
+      },
+      {
+       "posting": "Simon Property Group::R13794",
+       "employer": "Simon Property Group",
+       "text": "5 years of experience in property operations, facilities management, commercial real estate, retail, hospitality, or a related industry."
+      }
+     ],
+     "ladders": [
+      "bank",
+      "corporate"
+     ],
+     "share": 0.158
+    },
+    "re_property_types_property_market_research": {
+     "text": "You research markets across real estate property types.",
+     "quote": "Conduct market research using public sources and proprietary databases",
+     "postings": [
+      "Cantor Fitzgerald::250094",
+      "Carlyle::R-00131",
+      "StepStone Group::8097993"
+     ],
+     "employers": [
+      "Cantor Fitzgerald",
+      "Carlyle",
+      "StepStone Group"
+     ],
+     "sentences": [
+      {
+       "posting": "Cantor Fitzgerald::250094",
+       "employer": "Cantor Fitzgerald",
+       "text": "Conduct industry, company, and market research across office, industrial, multifamily, retail, hospitality, data‑center, and alternative asset sectors."
+      },
+      {
+       "posting": "StepStone Group::8097993",
+       "employer": "StepStone Group",
+       "text": "Conduct market research using public sources and proprietary databases to analyze macroeconomic trends across property types"
+      },
+      {
+       "posting": "Carlyle::R-00131",
+       "employer": "Carlyle",
+       "text": "Develop and maintain research on certain geographic markets, property types and/or sectors;"
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.1
+    },
+    "re_property_types_construction_financing_and_disbu": {
+     "text": "You manage construction loan disbursements.",
+     "quote": "construction loan disbursement management",
+     "postings": [
+      "East West Bank::12874",
+      "PNC Financial Services Group::R230886",
+      "TD::R_1509280"
+     ],
+     "employers": [
+      "East West Bank",
+      "PNC Financial Services Group",
+      "TD"
+     ],
+     "sentences": [
+      {
+       "posting": "TD::R_1509280",
+       "employer": "TD",
+       "text": "These financial solutions include but are not limited to construction lending, term loans, letters of credit, treasury and depository services and equity investment through the purchase of low-income housing tax credits for affordable housing."
+      },
+      {
+       "posting": "PNC Financial Services Group::R230886",
+       "employer": "PNC Financial Services Group",
+       "text": "Our capabilities include acquisition, construction and permanent financing for all property types   financed with federal or state LIHTC,   NMTC and   HTC s ."
+      },
+      {
+       "posting": "East West Bank::12874",
+       "employer": "East West Bank",
+       "text": "Extensive expertise in commercial real estate loan documentation, title and survey due diligence, funding operations, servicing, and construction loan disbursement management.."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.281
+    },
+    "re_property_types_property_debt_underwriting": {
+     "text": "You underwrite commercial real estate loans across property types.",
+     "quote": "underwriting prospective lending opportunities across various property types",
+     "postings": [
+      "East West Bank::13524",
+      "JPMorgan Chase::210723576"
+     ],
+     "employers": [
+      "East West Bank",
+      "JPMorgan Chase"
+     ],
+     "sentences": [
+      {
+       "posting": "East West Bank::13524",
+       "employer": "East West Bank",
+       "text": "Assist Relationship Managers (RMs) and Portfolio Managers (PMs) with underwriting and managing non-owner-occupied commercial real estate loans in accordance with the Bank’s established guidelines and policies."
+      },
+      {
+       "posting": "JPMorgan Chase::210723576",
+       "employer": "JPMorgan Chase",
+       "text": "As an Associate in the Real Estate Americas Debt Investment Team, you will play an integral role in identifying and underwriting prospective lending opportunities across various property types."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.349
+    },
+    "re_property_types_property_acquisition_and_sourcin": {
+     "text": "You source and evaluate acquisition opportunities across real estate asset classes.",
+     "quote": "Identify, source, and evaluate high-potential acquisition opportunities",
+     "postings": [
+      "Ares Management::R7796",
+      "StepStone Group::7917701"
+     ],
+     "employers": [
+      "Ares Management",
+      "StepStone Group"
+     ],
+     "sentences": [
+      {
+       "posting": "Ares Management::R7796",
+       "employer": "Ares Management",
+       "text": "Ares is seeking an Acquisitions Analyst with a strong interest in real estate investing to support the firm’s Self Storage Real Estate Group."
+      },
+      {
+       "posting": "StepStone Group::7917701",
+       "employer": "StepStone Group",
+       "text": "Identify, source, and evaluate high-potential acquisition opportunities across various real estate asset classes (residential, commercial, industrial, mixed-use, etc.), geographies, and risk-spectrums"
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.345
+    },
+    "re_property_types_multifamily_investment_analysis": {
+     "text": "You perform valuation, market, and risk analyses of multifamily assets.",
+     "quote": "perform valuation, market and risk analyses of office, multifamily",
+     "postings": [
+      "Tishman Speyer::R009331"
+     ],
+     "employers": [
+      "Tishman Speyer"
+     ],
+     "sentences": [
+      {
+       "posting": "Tishman Speyer::R009331",
+       "employer": "Tishman Speyer",
+       "text": "Conduct commercial, legal and financial due diligence; perform valuation, market and risk analyses of office, multifamily, industrial and life sciences assets"
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.158
+    },
+    "re_property_types_office_asset_management": {
+     "text": "You build financial models and develop business plans for an office portfolio.",
+     "quote": "quantitative financial modeling, asset performance analysis, developing business plans",
+     "postings": [
+      "Tishman Speyer::R009079"
+     ],
+     "employers": [
+      "Tishman Speyer"
+     ],
+     "sentences": [
+      {
+       "posting": "Tishman Speyer::R009079",
+       "employer": "Tishman Speyer",
+       "text": "The Associate will be involved with quantitative financial modeling, asset performance analysis, developing business plans, and reporting for the Los Angeles office portfolio."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.054
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 50,
+       "employers": 23
+      },
+      "mid": {
+       "n": 149,
+       "employers": 61
+      },
+      "senior": {
+       "n": 46,
+       "employers": 20
+      },
+      "lead": {
+       "n": 99,
+       "employers": 40
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 34,
+       "employers": 22
+      },
+      "mid": {
+       "n": 88,
+       "employers": 22
+      },
+      "senior": {
+       "n": 35,
+       "employers": 17
+      },
+      "lead": {
+       "n": 13,
+       "employers": 8
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  }
 }

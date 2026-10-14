@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline.roles import FAMILY_LABELS, LEVEL_LABELS, LEVEL_ORDER
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-from pipeline import tax
+from pipeline import processed, tax
 TAX = tax.for_roles("product")  # the product map shows the product role set's part of the taxonomy
 DEPTH = {}
 for _p in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
@@ -240,7 +240,7 @@ def build_roleset(roleset):
     role_depth = json.load(open(rp)) if os.path.exists(rp) else {}
     proc = os.path.join(ROOT, "data", "processed")
     country = COUNTRY[roleset]
-    jobs = [j for j in json.load(open(os.path.join(proc, f"jobs_{roleset}.json"))) if j["country"] == country]
+    jobs = [j for j in processed.load(roleset) if j["country"] == country]
     evidence = json.load(open(os.path.join(proc, f"evidence_{roleset}.json")))
     reg = {}
     from pipeline.scrape import load_registry

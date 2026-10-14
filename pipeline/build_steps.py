@@ -41,7 +41,7 @@ import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
-from pipeline import extract, roles_mba, tax  # noqa: E402
+from pipeline import extract, processed, roles_mba, tax  # noqa: E402
 
 OUT = os.path.join(ROOT, "data", "experiments", "depth")
 LEXICON = os.path.join(ROOT, "pipeline", "build_lexicon.json")
@@ -83,7 +83,7 @@ def all_sentences(text):
 
 
 def load(roleset):
-    jobs = {j["url"]: j for j in json.load(open(os.path.join(ROOT, "data", "processed", f"jobs_{roleset}.json"))) if j["country"] == "United States"}
+    jobs = {j["url"]: j for j in processed.load(roleset) if j["country"] == "United States"}
     corpus = {}
     with open(os.path.join(ROOT, "data", "experiments", f"corpus_{roleset}.jsonl")) as f:
         for line in f:
