@@ -1108,3 +1108,36 @@ does not return and the journeys need will be listed here as each step is built.
 **Known.** The product set has no defining skills (`defining` is computed for the MBA roles only; the product families
 ask for the same things), so no ◆ appears on product roles. The product set is one 8.9 MB file, fetched when the
 Product field or a product role is opened; the Explore screen shows its count once the file arrives.
+
+## The interface around journeys, step 2: the questions and the fit (2026-10-13)
+
+Branch `feat/ui-fit` on top of `feat/ui-journeys`. `web/match.js` untouched.
+
+**How the fit is made.** `Atlas.matcher(R)` creates the matcher per role the way `evals/calibrate.mjs` does: the MBA
+set with `bands_mba.json` `scoring.distinct` plus a `baseline` of the mean share of each skill over the 50 roles
+(computed from `by_family` in the index, so no role file beyond the one opened is loaded); the product set with the
+whole product graph and `scoring.distinct` null. The target is the postings in the current view (level and employer
+chips); `familyJobs` is the whole role. The band is `Matcher.bandOf(overall, bands, group)` with the group from
+`bands_mba.json` `group_of`.
+
+**The rough read on Explore** (`Atlas.roughFit`) is not the matcher's score: it is the share of a role's main asks
+(share at least 0.5, plus the defining skills) the resume shows at strength 2 or more, from the index alone, plus the
+roles the title reader says the person held. It ranks; it never shows a band. A role with a rough read of 0.6 or more
+gets "your resume reads close to it" on the field screen. Not evaluated; it should get an eval when the fields it
+picks can be compared with the full matcher's bands across the 50 roles (cost: 29 MB of role files per resume).
+
+**What the journeys need that the matcher does not return (for the matcher thread).**
+- The `__domain` and `__ai` slots come back with the names "Industry fit" and "AI literacy"; the fit screen writes
+  its own plain words for them (which industries, which AI skills). A `members` list on the row would make that
+  generic.
+- Presumed skills have no sub-skill reading, so the skill card cannot tick their sub-skills.
+- No per-course read: step 3 (check a course) will call `tag()` on the syllabus text and compare the skills found
+  with the role's grid; what is missing is a reading of a syllabus as a course (a course line is a mention for an
+  experienced person, see the 2026-10-13 entry above), so the course check will read the text as a student's.
+- The level option is one of four ladder keys; the fit screen maps the four level steps onto them, so an MBA
+  student who picks "Analyst / associate" on a bank ladder is scored at the associate bar. The entry mark
+  (`entry: "mba"`) is not used by the matcher.
+
+**Checked in the browser.** The questions, a dropped PDF (262 words read) and a dropped DOCX, the Explore chip
+"Fields that fit you", the field marks, the fit screen for an MBA role (in range), a group without bands (compliance:
+the notice, no verdict), a product role (different field so far), the painted grid, light and dark.
