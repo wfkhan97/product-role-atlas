@@ -1084,3 +1084,27 @@ source says what to learn. A request to FINRA and the certification bodies for l
 topics is drafted in `data/experiments/depth/permission_request.md` for the owner to send. Consulting stays
 empty until a source is agreed. Six drafting requests of the pilot got no answer (no credit); rerun
 `python -m pipeline.build_steps run` when credit is there.
+
+## The interface around journeys, step 1 (2026-10-13)
+
+Branch `feat/ui-journeys`. The web app is rewritten as pages (`web/atlas.js`, `web/app.js`, `web/index.html`,
+`web/style.css`); `web/match.js` is untouched. Decisions by the owner: a first-visit choice, three questions plus an
+optional resume, Explore as fields sized by open postings with Product opening the product role set, the skill grid
+(rows by share tier, two columns by level growth), the fit as a band scale, level and employer filters in the chip row
+with the rest behind "More", a side panel on desktop, and no phone layout at all.
+
+**Measured, and it shaped the grid.** Over the whole role, the share of a skill barely moves with level for most
+skills. Skills asked at least 1.5 times as often in leadership postings (and in at least 15% of them) as in entry
+postings: FP&A 31 of 67 skills over 10%, management consultant 22 of 64, investment banking associate 18 of 53,
+marketing manager 31 of 77, supply chain 24 of 81, product manager 27 of 66. Skills asked more at entry than in
+leadership: 1 to 11 per role (Office suite, pitch books, data-driven decision making). So level is a two-way split and
+a filter, not an axis: a seniority axis spread the dots over nothing.
+
+**Not built yet, for the next steps.** The three questions and the resume reader (step 2); the band of fit shown as
+a four-step scale, with plain words for a group that has no bands (`bands_mba.json` `no_bands`); the course check and
+the event screens (step 3); industry, employer and location filters behind "More filters" (step 4). What the matcher
+does not return and the journeys need will be listed here as each step is built.
+
+**Known.** The product set has no defining skills (`defining` is computed for the MBA roles only; the product families
+ask for the same things), so no ◆ appears on product roles. The product set is one 8.9 MB file, fetched when the
+Product field or a product role is opened; the Explore screen shows its count once the file arrives.

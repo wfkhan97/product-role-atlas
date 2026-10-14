@@ -3,166 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Product role atlas · GradBuddy</title>
+<title>Role atlas · GradBuddy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="tokens/styles.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="top">
-  <div class="brand">
-    <span class="mark" aria-hidden="true"></span><span class="wordmark">GradBuddy</span>
-    <span class="sep" aria-hidden="true">/</span><h1 class="crumb">Product role atlas</h1>
-  </div>
+  <a class="brand" href="#/"><span class="mark" aria-hidden="true"></span><span class="wordmark">GradBuddy</span></a>
+  <nav class="crumbs" id="crumbs" aria-label="Where you are"></nav>
   <div class="top-actions">
-    <label class="theme">Theme <select id="theme" class="mini"><option value="system">System</option><option value="dark">Dark</option><option value="light">Light</option></select></label>
-    <a class="link" href="#" id="btn-about">About the data</a>
-    <button id="btn-match" class="primary">Match my resume or courses</button>
+    <a class="toplink" href="#/explore">Explore</a>
+    <a class="toplink" href="#/you">About you</a>
+    <button id="theme" class="icon" type="button" title="Theme follows your device. Click to change.">◐</button>
   </div>
 </header>
-
-<main class="layout">
-  <aside class="rail left" aria-label="Filters">
-    <section id="active-filters" hidden>
-      <h3>Filters on</h3>
-      <div class="chips" id="active-chips"></div>
-      <button id="clear-filters" class="text-btn">Reset all filters</button>
-    </section>
-    <section>
-      <h3>Role family</h3>
-      <div class="chips" id="family-chips"></div>
-    </section>
-    <section>
-      <h3>Level</h3>
-      <div class="chips" id="level-chips"></div>
-    </section>
-    <details class="disc" id="more-filters">
-      <summary>More filters</summary>
-      <div class="disc-body">
-        <section>
-          <h3>Companies</h3>
-          <div class="chips" id="group-chips"></div>
-        </section>
-        <section>
-          <h3>Industry</h3>
-          <div class="chips" id="sector-chips"></div>
-        </section>
-        <section>
-          <h3>Investor</h3>
-          <input id="fund-search" type="search" placeholder="Find a fund" aria-label="Find a fund" autocomplete="off">
-          <div class="chips" id="fund-chips"></div>
-        </section>
-        <section>
-          <h3>Funding stage</h3>
-          <div class="chips" id="stage-chips"></div>
-        </section>
-        <section>
-          <h3>Company</h3>
-          <input id="company-search" type="search" placeholder="Company name" aria-label="Company name" autocomplete="off">
-          <div class="chips" id="company-chips"></div>
-          <div class="dropdown" id="company-options" hidden></div>
-        </section>
-        <section>
-          <h3>Location</h3>
-          <div class="chips" id="country-chips"></div>
-        </section>
-        <section>
-          <h3>Years asked for</h3>
-          <div class="chips" id="yoe-chips"></div>
-        </section>
-        <section>
-          <h3>Specialisation</h3>
-          <div class="chips" id="spec-chips"></div>
-        </section>
-        <section>
-          <h3>Degree asked for</h3>
-          <div class="chips" id="degree-chips"></div>
-        </section>
-      </div>
-    </details>
-    <section>
-      <h3>Skill areas</h3>
-      <div class="legend" id="cluster-legend"></div>
-    </section>
-    <section>
-      <h3>Postings</h3>
-      <input id="job-search" type="search" placeholder="Company or title" aria-label="Search postings" autocomplete="off">
-      <div class="joblist" id="job-list"></div>
-    </section>
-  </aside>
-
-  <section class="canvas-wrap">
-    <div class="canvas-hud">
-      <span id="hud-count" class="mono" aria-live="polite"></span>
-      <span class="axis-toggle" id="axis-toggle" role="group" aria-label="View">
-        <span class="hud-label">View</span>
-        <button class="chip on" data-axis="career" title="Columns are skill areas; higher rows are asked for at more senior levels">Career map</button>
-        <button class="chip" data-axis="3d" title="Three axes: drag to rotate, scroll to zoom">3D map</button>
-        <button class="chip" data-axis="common" title="Right = asked for in most postings; up = at more senior levels">Table stakes vs. rare</button>
-        <button class="chip" data-axis="ic_mgmt" title="Left = staff/principal path; right = director/VP path">Which path</button>
-        <button class="chip" data-axis="tech_comm" title="Left = marketing/growth roles; right = technical/platform roles">Kind of role</button>
-        <button class="chip" data-axis="free" title="Cluster layout by co-occurrence">Free</button>
-      </span>
-      <span class="axis-toggle" id="axes3d">
-        <span class="hud-label">Across</span><select id="ax-x" class="mini" aria-label="Across axis"></select>
-        <span class="hud-label">Depth</span><select id="ax-z" class="mini" aria-label="Depth axis"></select>
-        <button class="chip" id="reset-view" title="Reset rotation and zoom">Reset</button>
-        <button class="chip" id="spin-view" title="Slowly rotate">Spin</button>
-      </span>
-      <span class="axis-toggle" role="group" aria-label="Sub-skills">
-        <span class="hud-label">Sub-skills</span>
-        <button class="chip on" data-subs="selected" title="Show a skill's sub-skills when you click it">On click</button>
-        <button class="chip" data-subs="all" title="Show every sub-skill as a small satellite dot">All</button>
-        <button class="chip" data-subs="none">Off</button>
-      </span>
-      <span class="hint" id="axis-hint"></span>
-    </div>
-    <svg id="graph" role="group" aria-label="Skill map"></svg>
-  </section>
-
-  <aside class="rail right" id="detail" aria-label="Details" aria-live="polite"></aside>
-</main>
-
-<div class="modal" id="match-modal" hidden>
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="match-title" tabindex="-1">
-    <button class="close" id="match-close" aria-label="Close">×</button>
-    <h2 id="match-title">How well do you match?</h2>
-    <p class="muted">Drop a resume (PDF, DOCX or TXT) or paste course names and descriptions. Everything runs in your browser; nothing is uploaded.</p>
-    <div class="match-grid">
-      <div>
-        <div class="drop" id="drop">
-          <p><strong>Drop a file here</strong> or <label class="link" for="file">choose one</label></p>
-          <input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden>
-          <p class="muted small" id="file-status"></p>
-        </div>
-        <textarea id="paste" rows="8" aria-label="Resume text or course list" placeholder="…or paste resume text / a list of courses, e.g.
-CS 101 Intro to Programming — Python, data structures
-MKTG 340 Product Management — roadmaps, user research, PRDs, A/B testing"></textarea>
-      </div>
-      <div>
-        <label class="field">Compare against
-          <select id="match-target"></select>
-        </label>
-        <button id="run-match" class="primary wide">Score my match</button>
-        <details class="disc"><summary>How scoring works</summary><div class="disc-body"><p class="small">Each line of your text is read against the same taxonomy used to tag the postings. A skill counts when a work, project or course line shows it, not just when a word appears. The result is a map of what to evidence next, not a verdict.</p><p class="small">If you held the role you compare against, at that level or above, for a year or more, we presume the skills that most postings at your level ask for. A presumed skill earns part credit. A line that shows the skill earns full credit. We do not presume the industry or AI skills: show those.</p></div></details>
-      </div>
-    </div>
-    <div id="match-results" hidden></div>
-  </div>
+<div class="shell" id="shell">
+  <main id="main" class="main"></main>
+  <aside id="aside" class="aside" aria-label="Details" hidden></aside>
 </div>
-
-<div class="modal" id="about-modal" hidden>
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="about-title" tabindex="-1">
-    <button class="close" id="about-close" aria-label="Close">×</button>
-    <h2 id="about-title">About the data</h2>
-    <div id="about-body"></div>
-  </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-<script src="match.js"></script>
+<footer class="foot"><span>Built from live job postings, refreshed weekly.</span> <a href="#/about">About the data</a></footer>
+<script src="atlas.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
