@@ -1175,3 +1175,13 @@ pipeline. What is missing, for the next thread:
   publishes (see "Skill depth for the MBA skills" in PLAN.md). The screen says so per skill.
 - The product field uses the product graph for employers; its families have no defining skills, so "ask about"
   falls back to the most asked non-generic skills for every product family.
+
+## The interface around journeys, step 4: the filters (2026-10-13)
+
+Branch `feat/ui-filters` on top of `feat/ui-events`. Industry, employer and location moved behind "More filters" on
+the role screen (owner's choice 7A); investor, funding stage, years asked for, specialisation and degree are gone
+(the audit: analyst cuts, or what the skills already show). Counts on every chip reflect the other filters, as in the
+old rail; the fit and the course screens score against the same view, and the fit label names the extra filters.
+Not built: a filter on the entry mark (postings for MBA graduates or interns only); the list already sorts them
+first, and the mark's precision is in the entry-mark entry above. The product set's "Startup (unclassified)" sector
+is left out of the industry chips.

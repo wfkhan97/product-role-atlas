@@ -183,8 +183,13 @@ pages for the journeys a student has. Audit and pattern picks are in the session
   resume shows with the line that shows it, and two they may ask about. Hackathon or case: the skills most roles of
   the field ask for that the resume does not show, with the build step where one is written. No event data exists:
   "who is in the room" means the field's roles, not a guest list.
-- **Next step.** (4) the remaining filters (industry, employer, location) behind "More filters" and the clean-up of
-  what the audit dropped.
+- **Filters (step 4).** One pattern everywhere: a chip row with counts. On the role screen: Level and Employers in the
+  row; Industry, Employer (search) and Location (countries and remote for the product set; US only and remote for
+  the MBA set) behind "More filters", a sheet under the row with the same chips. Filters set in the sheet show in
+  the row as removable chips when it is closed. Every count reflects the other filters. The fit and course screens
+  read the same view. Dropped for good, per the audit: investor, funding stage, years asked for, specialisation and
+  degree filters; the five map views and the 3D controls; the sub-skills toggle; the area colour legend; the
+  percentage ring and meters.
 
 ## Skill depth for the MBA skills (proposed, not built)
 
