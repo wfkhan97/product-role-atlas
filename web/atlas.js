@@ -141,8 +141,22 @@ window.Atlas = (function () {
     const scores = {};
     const score = asks => { const core = asks.filter(a => a.share >= TIER.core && ix.skillById[a.id] && ix.skillById[a.id].cluster !== "credentials"); return core.length ? core.filter(a => shown.has(a.id)).length / core.length : 0; };
     for (const [id, r] of Object.entries(ix.roles)) scores[id] = score(r.set === "mba" ? [...r.definingList, ...r.asks] : r.asks);
-    return { held, scores, shown, years: parsed.totalYears, isStudent: parsed.isStudent };
+    return { held, scores, shown, ev, years: parsed.totalYears, isStudent: parsed.isStudent };
+  }
+  // the skills a text names, read as a student's course list: a mention counts (a syllabus describes topics)
+  async function readCourse(text) {
+    await roughFit("");   // builds the reader
+    const parsed = roughM.parseResume(text); const ev = roughM.tag(parsed);
+    return { found: new Set(Object.keys(ev)), ev, lines: parsed.lines.length };
+  }
+  // every posting of a field: the role files of its roles (for the employers hiring now)
+  async function fieldJobs(groupId) {
+    const ix = await index(); const g = ix.groups.find(x => x.id === groupId);
+    if (!g) return [];
+    if (g.set === "product") { const P = await product(); return P.G.jobs; }
+    const files = await Promise.all(g.roles.map(r => fetchJson("data/" + ix.roles[r].file)));
+    return files.flatMap(f => decode(ix.M, f.jobs));
   }
 
-  return { index, product, role, shares, subShares, grid, stepOf, employerType, matcher, roughFit, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
+  return { index, product, role, shares, subShares, grid, stepOf, employerType, matcher, roughFit, readCourse, fieldJobs, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
 })();
