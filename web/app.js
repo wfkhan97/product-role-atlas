@@ -27,7 +27,7 @@
   function fail(e) { console.error(e); page(`<h1>Something did not load</h1><p class="lead">${esc(e.message)}. Reload the page; if it happens again, the data files may be missing.</p>`, true); showAside(null); }
 
   // ---------- router ----------
-  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "" };
+  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "", grads: false };
   // what the person told us and the resume they dropped stay in this browser only (nothing is uploaded)
   const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
   state.you = store.get("you"); state.resume = store.get("resume");
@@ -190,7 +190,7 @@
 
   // ---------- 4. a role: the skill grid, the side panel, the postings ----------
   async function loadRole(id) {
-    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = 40; state.evTab = null; state.match = null; state.sector = new Set(); state.company = new Set(); state.country = new Set(); state.remote = false; state.more = false; state.companyQuery = ""; }
+    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = 40; state.evTab = null; state.match = null; state.sector = new Set(); state.company = new Set(); state.country = new Set(); state.remote = false; state.more = false; state.companyQuery = ""; state.grads = false; }
     const ix = await Atlas.index(); return ix.groups.find(x => x.id === state.R.role.group);
   }
   // a student looks at the entry grade first; everyone else at every level
@@ -202,6 +202,7 @@
   }
   const DIMS = {
     level: j => state.level === "all" || Atlas.stepOf(j) === state.level,
+    grads: j => !state.grads || !!(j.entry || j.intern),
     employer: j => state.employer === "all" || Atlas.employerType(j) === state.employer,
     sector: j => state.sector.size === 0 || state.sector.has(j.sector),
     company: j => state.company.size === 0 || state.company.has(j.company),
@@ -267,7 +268,7 @@
         <a class="action" href="#/role/${esc(role.id)}/course"><span class="t">Check a course</span><span class="d">Drop a syllabus. See which of these skills it teaches.</span></a>
         <a class="action" href="#/field/${esc(role.group)}/event"><span class="t">Prepare for an event</span><span class="d">Networking, employer roundtable or hackathon.</span></a>
       </div>
-      <div class="chips"><span class="lbl">Level</span>${chip(state.level === "all", "All levels", levelAll, 'data-level="all"')}${Atlas.STEPS.map(s => chip(state.level === s, R.stepLabels[s], levelCounts[s] || 0, `data-level="${s}"`)).join("")}
+      <div class="chips"><span class="lbl">Level</span>${chip(state.level === "all", "All levels", levelAll, 'data-level="all"')}${Atlas.STEPS.map(s => chip(state.level === s, R.stepLabels[s], levelCounts[s] || 0, `data-level="${s}"`)).join("")}${R.set === "mba" ? chip(state.grads, "Graduates and interns", jobsExcept("grads").filter(j => j.entry || j.intern).length, 'id="grads"') : ""}
         <span class="gap"></span><span class="lbl">Employers</span>${chip(state.employer === "all", "All", empAll, 'data-emp="all"')}${R.employerTypes.map(([id, label]) => chip(state.employer === id, label, empCounts[id] || 0, `data-emp="${id}"`)).join("")}
         <span class="gap"></span>${chip(state.more, "More filters" + (state.more ? " ▴" : " ▾"), extraCount() || null, 'id="more-filters"')}${!state.more ? activeExtra() : ""}</div>${state.more ? moreSheet(R, countBy) : ""}
       ${stats.n ? grid : '<p class="notice">No postings match these filters.</p>'}
@@ -276,6 +277,7 @@
     main.querySelectorAll("[data-level]").forEach(b => b.onclick = () => { state.level = b.dataset.level; state.shown = 40; renderRole(); });
     main.querySelectorAll("[data-emp]").forEach(b => b.onclick = () => { state.employer = b.dataset.emp; state.shown = 40; renderRole(); });
     $("#more-filters").onclick = () => { state.more = !state.more; keepScroll(renderRole); };
+    const gr = $("#grads"); if (gr) gr.onclick = () => { state.grads = !state.grads; state.shown = 40; keepScroll(renderRole); };
     main.querySelectorAll("[data-sector]").forEach(b => b.onclick = () => { b.dataset.sector === "__all" ? state.sector.clear() : toggle(state.sector, b.dataset.sector); keepScroll(renderRole); });
     main.querySelectorAll("[data-country]").forEach(b => b.onclick = () => { b.dataset.country === "__all" ? state.country.clear() : toggle(state.country, b.dataset.country); keepScroll(renderRole); });
     main.querySelectorAll("[data-company]").forEach(b => b.onclick = () => { toggle(state.company, b.dataset.company); state.companyQuery = ""; keepScroll(renderRole); });
@@ -405,7 +407,7 @@
     const level = state.fitLevel || state.level;
     const slice = sliceOf(level);
     const { M, bands, group } = await Atlas.matcher(R);
-    const extra = [state.employer !== "all" ? (R.employerTypes.find(e => e[0] === state.employer) || [])[1] : null, ...state.sector, ...state.company, ...state.country, state.remote ? "remote" : null].filter(Boolean);
+    const extra = [state.grads ? "graduates and interns" : null, state.employer !== "all" ? (R.employerTypes.find(e => e[0] === state.employer) || [])[1] : null, ...state.sector, ...state.company, ...state.country, state.remote ? "remote" : null].filter(Boolean);
     const label = `${role.label}${level === "all" ? "" : " · " + R.stepLabels[level]}${extra.length ? " · " + extra.join(", ") : ""}`;
     const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label }, { level: LEVEL_OPT[level] });
     const rows = r.rows, by = st => rows.filter(x => x.status === st).sort((a, b) => (a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : b.tier === "core" ? 1 : a.tier === "common" ? -1 : 1));
@@ -461,6 +463,7 @@
   async function courseScreen(id) {
     const g = await loadRole(id); const R = state.R, role = R.role;
     crumbs([["Explore", "#/explore"], [g.label, "#/field/" + g.id], [role.label, "#/role/" + role.id], ["Check a course", null]]);
+    if (!state.course) { const saved = store.get("course"); if (saved) state.course = { ...saved, found: new Set(saved.found) }; }
     const c = state.course && state.course.roleId === role.id ? state.course : null;
     const form = `<div class="drop" id="drop"><p><b>Drop a syllabus (PDF, DOCX or TXT)</b> or <label class="link" for="file">choose a file</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status">${c ? `Read: ${esc(c.name)}.` : ""}</p></div>
       <p class="small muted">Or paste the course description, the list of topics or the week-by-week plan:</p><textarea id="paste" rows="6" aria-label="Course text" placeholder="FIN 620 Corporate Financial Planning. Topics: budgeting cycles, rolling forecasts, variance analysis…">${c ? esc(c.text) : ""}</textarea>
@@ -472,7 +475,7 @@
       const taught = inGrid.filter(x => c.found.has(x.id)), core = rows[0].flat(), coreTaught = core.filter(x => c.found.has(x.id)), notTaught = core.filter(x => !c.found.has(x.id));
       const m = state.match && state.match.roleId === role.id ? state.match : null;
       const gapsCovered = m ? taught.filter(x => m.required.has(x.id) && !m.matched.has(x.id)) : [];
-      state.paint = { roleId: role.id, matched: new Set(taught.map(x => x.id)), required: new Set(core.map(x => x.id)), presumed: new Set(), subs: new Set(Object.values(c.ev).flatMap(e => [...e.subs])) };
+      state.paint = { roleId: role.id, matched: new Set(taught.map(x => x.id)), required: new Set(core.map(x => x.id)), presumed: new Set(), subs: new Set(Object.values(c.ev || {}).flatMap(e => [...(e.subs || [])])) };
       const tagOf = x => `<button type="button" class="tag good" data-skill="${esc(x.id)}">${esc(x.name)}${x.defining ? " ◆" : ""} <span class="subtle">${pct(x.share)}</span></button>`;
       result = taught.length ? `<h2>This course teaches</h2><div class="tags">${taught.map(tagOf).join("")}</div>
         <p class="small muted">${coreTaught.length} of the ${core.length} skills that most ${esc(role.label)} postings ask for.${gapsCovered.length ? ` It covers ${gapsCovered.length === 1 ? "one" : gapsCovered.length} of your gaps: ${gapsCovered.map(x => esc(x.name)).join(", ")}.` : m ? " It covers none of your gaps for this role." : ` <a href="#/role/${esc(role.id)}/fit">Check your fit</a> to see which of your gaps it covers.`} The share is how many postings ask for the skill.</p>
@@ -480,7 +483,7 @@
         <h2>On the skill grid</h2><p class="small muted">Green border: the course names it. Amber dashed: most postings ask for it and the course does not name it.</p>${gridHtml(R, rows, state.paint)}` : `<div class="notice"><b>We found none of this role's skills in that text.</b> ${c.lines < 3 ? "The text is very short; paste the topics or the week-by-week plan." : "Paste the list of topics, or check that the text is a course description."}</div>`;
     }
     page(`<p class="eyebrow">Check a course · ${esc(role.label)}</p><h1>Check a course</h1><p class="lead">Drop a syllabus or paste the course description. We read it in your browser against the skills ${esc(role.label)} postings ask for.</p>${form}${result}<p class="small muted" style="margin-top:12px"><a href="#/role/${esc(role.id)}">← Back to ${esc(role.label)}</a></p>`);
-    wireFileDrop(async text => { const r = await Atlas.readCourse(text.text); state.course = { roleId: role.id, name: text.name, text: text.text, found: r.found, ev: r.ev, lines: r.lines }; courseScreen(id); });
+    wireFileDrop(async text => { const r = await Atlas.readCourse(text.text); state.course = { roleId: role.id, name: text.name, text: text.text, found: r.found, ev: r.ev, lines: r.lines }; store.set("course", { roleId: role.id, name: text.name, text: text.text, found: [...r.found], ev: {}, lines: r.lines }); courseScreen(id); });
     main.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }, true));
     renderAside();
   }
@@ -497,9 +500,9 @@
 
   // ---------- 7. prepare for an event: who is in the room, what to say, what to build ----------
   const EVENTS = [["networking", "Networking event", "Which roles will be in the room and what to ask them."], ["roundtable", "Employer roundtable", "Which of your experiences to bring up, role by role."], ["hackathon", "Hackathon or case competition", "What to build so it shows a skill these roles ask for."]];
-  const GENERIC = new Set([...Matcher.SOFT, "cross_functional", "execution", "program_mgmt", "process_improvement", "stakeholder_mgmt", "office_tools", "data_driven", "metrics_kpis", "people_management", "cross_functional"]);
   async function eventScreen(gid) {
     const ix = await Atlas.index(); const g = ix.groups.find(x => x.id === gid);
+    const GENERIC = await Atlas.genericSkills();
     if (!g) return explore();
     if (g.set === "product") await Atlas.product();
     const kind = (location.hash.split("?")[1] || "networking").split("&")[0];
@@ -515,12 +518,11 @@
     if (kind === "networking") {
       body = `<h2>Who will be in the room</h2><p class="small muted">The ${esc(g.label.toLowerCase())} roles by how many postings are open now, with the one or two skills that set each apart. Ask about those.</p>
         <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${fmt(r.nOpen)} open</span><span class="m">Ask about: ${marks(r).map(id => esc(nameOf(id).toLowerCase())).join(", ") || "what a week looks like"}</span></a>`).join("")}</div>
-        <h2>What to say about yourself</h2>${rg ? sayAboutYou(roles, rg, coreOf, nameOf) : `<p class="small muted"><a href="#/you">Add your resume</a> and we list the three skills you show that most of these roles ask for.</p>`}
+        <h2>What to say about yourself</h2>${rg ? sayAboutYou(roles, rg, coreOf, nameOf, GENERIC) : `<p class="small muted"><a href="#/you">Add your resume</a> and we list the three skills you show that most of these roles ask for.</p>`}
         <h2>Employers hiring for these roles now</h2><div id="employers"><p class="small muted">Loading the postings of this field…</p></div>`;
     } else if (kind === "roundtable") {
-      body = `<h2>Role by role: what to bring up</h2><p class="small muted">${rg ? "For each role, the skills most of its postings ask for that your resume shows, with the line that shows it, and one they may ask about that it does not." : `<a href="#/you">Add your resume</a> and we match your lines to each role. Without it, here is what most postings of each role ask for.`}</p>
-        ${roles.map(r => { const core = coreOf(r); const specific = core.filter(id => !GENERIC.has(id)); const have = rg ? [...specific.filter(id => rg.shown.has(id)), ...core.filter(id => GENERIC.has(id) && rg.shown.has(id))] : []; const miss = rg ? specific.filter(id => !rg.shown.has(id)) : specific; const line = id => { const e = rg && rg.ev[id]; const l = e && e.lines && e.lines.slice().sort((a, b) => b.strength - a.strength || b.text.length - a.text.length)[0]; return l ? `<span class="small muted">“${esc(l.text.length > 160 ? l.text.slice(0, 157) + "…" : l.text)}”</span>` : ""; };
-          return `<h3><a href="#/role/${esc(r.id)}">${esc(r.label)}</a> <span class="muted small">${fmt(r.nOpen)} open</span></h3>${have.length ? `<ul class="plain">${have.slice(0, 3).map(id => `<li><b>${esc(nameOf(id))}</b> ${line(id)}</li>`).join("")}</ul>` : ""}${miss.length ? `<p class="small muted">${rg ? "They may ask about: " : "Most postings ask for: "}${miss.slice(0, rg ? 2 : 4).map(id => esc(nameOf(id))).join(", ")}.</p>` : ""}`; }).join("")}`;
+      body = `<h2>Role by role: what to bring up</h2><p class="small muted">${rg ? "For each role, the skills most of its postings ask for that your resume shows (also the ones said in another field's words), with the line that shows it, and what they may ask about that it does not show." : `<a href="#/you">Add your resume</a> and we match your lines to each role. Without it, here is what most postings of each role ask for.`}</p>
+        <div id="roundtable">${roles.map(r => `<h3><a href="#/role/${esc(r.id)}">${esc(r.label)}</a> <span class="muted small">${fmt(r.nOpen)} open</span></h3>${rg ? '<p class="small muted">Reading your resume against this role…</p>' : `<p class="small muted">Most postings ask for: ${coreOf(r).filter(id => !GENERIC.has(id)).slice(0, 4).map(id => esc(nameOf(id))).join(", ")}.</p>`}`).join("")}</div>`;
     } else {
       // what to build: the skills most roles of the field ask for that the resume does not show, with the build step where one is written
       const count = {}; for (const r of roles) for (const id of coreOf(r)) count[id] = (count[id] || 0) + 1;
@@ -529,9 +531,19 @@
         <ol class="next">${cands.map(([id, n]) => { const sk = ix.skillById[id] || {}; return `<li><b>${esc(nameOf(id))}</b><span class="why">Asked by most postings of ${n === 1 ? "one role" : n + " roles"} here.${sk.build && sk.build[0] ? ` ${esc(sk.build.find(b => /^project/i.test(b)) || sk.build[0])}` : " No build step is written for this skill yet; open it on a role screen to see how postings say it."}</span></li>`; }).join("") || "<li>Nothing left: your resume shows what these roles ask for.</li>"}</ol>`;
     }
     page(`<h1>Prepare for an event</h1><p class="lead">${esc(g.label)} · which kind of event?</p>${chips}${body}`);
+    if (kind === "roundtable" && rg) Atlas.fieldMatches(g.id, state.resume.text).then(res => {
+      if (!location.hash.startsWith(`#/field/${g.id}/event`)) return;
+      const el = $("#roundtable"); if (!el) return;
+      el.innerHTML = roles.map(r => { const m = res[r.id]; const rows = m.rows.filter(x => x.tier !== "diff");
+        const have = rows.filter(x => (x.status === "evidenced" || x.status === "transferable") && !GENERIC.has(x.slot)).sort((a, b) => b.w - a.w).slice(0, 3);
+        const ask = rows.filter(x => (x.status === "gap" || x.status === "thin") && !GENERIC.has(x.slot)).sort((a, b) => b.w - a.w).slice(0, 2);
+        const askName = x => x.slot === "__domain" ? "the industry you know" : x.slot === "__ai" ? "AI in your work" : x.slotName;
+        const line = x => x.lines[0] ? `<span class="small muted">“${esc(x.lines[0].text.length > 160 ? x.lines[0].text.slice(0, 157) + "…" : x.lines[0].text)}”${x.status === "transferable" && x.signals[0] ? ` Say it like: <b>${esc(x.signals[0])}</b>` : ""}</span>` : "";
+        return `<h3><a href="#/role/${esc(r.id)}">${esc(r.label)}</a> <span class="muted small">${fmt(r.nOpen)} open</span></h3>${have.length ? `<ul class="plain">${have.map(x => `<li><b>${esc(x.name)}</b> <span class="subtle">${pct(x.w)}</span> ${line(x)}</li>`).join("")}</ul>` : '<p class="small muted">Your resume shows none of the skills most of these postings ask for.</p>'}${ask.length ? `<p class="small muted">They may ask about: ${ask.map(x => esc(askName(x))).join(", ")}.</p>` : ""}`; }).join("");
+    }).catch(e => { const el = $("#roundtable"); if (el) el.insertAdjacentHTML("afterbegin", '<p class="notice">Could not read your resume against these roles.</p>'); console.error(e); });
     if (kind === "networking") Atlas.fieldJobs(g.id).then(jobs => { if (!location.hash.startsWith(`#/field/${g.id}/event`)) return; const by = {}; for (const j of jobs) if (j.open) { const e = by[j.company] ||= { n: 0, roles: new Set() }; e.n++; e.roles.add(j.family); } const top = Object.entries(by).sort((a, b) => b[1].n - a[1].n).slice(0, 12); const el = $("#employers"); if (el) el.innerHTML = `<div class="list">${top.map(([c, e]) => `<div class="r"><span class="t">${esc(c)}</span><span class="n">${fmt(e.n)} open</span><span class="m">${[...e.roles].map(f => esc((ix.roles[f] || {}).label || f)).slice(0, 4).join(", ")}</span></div>`).join("")}</div>`; }).catch(e => { const el = $("#employers"); if (el) el.innerHTML = `<p class="small muted">Could not load the postings.</p>`; console.error(e); });
   }
-  function sayAboutYou(roles, rg, coreOf, nameOf) {
+  function sayAboutYou(roles, rg, coreOf, nameOf, GENERIC) {
     const count = {}; for (const r of roles) for (const id of coreOf(r)) if (rg.shown.has(id) && !GENERIC.has(id)) count[id] = (count[id] || 0) + 1;
     const top = Object.entries(count).sort((a, b) => b[1] - a[1]).slice(0, 3);
     return top.length ? `<p class="small muted">From your resume: the skills you show that most of these roles ask for. Lead with these.</p><div class="tags">${top.map(([id]) => `<span class="tag good">${esc(nameOf(id))}</span>`).join("")}</div>` : `<p class="small muted">Your resume does not yet show a skill that most of these roles ask for. Open a role and check your fit to see what to evidence.</p>`;

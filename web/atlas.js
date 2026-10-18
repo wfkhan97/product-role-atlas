@@ -1,10 +1,14 @@
 /* Atlas data layer: the two role sets (product, mba) behind one interface. Pure data, no DOM.
    Files: data/graph_mba.json (index) + data/graph_mba/<role>.json (one role's postings, on demand) + _evidence.json;
    data/graph.json (the product set, one file); data/subskills*.json; data/bands*.json. */
-window.Atlas = (function () {
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory;   // node: require("web/atlas.js")({ load, Matcher })
+  else root.Atlas = factory({ load: url => fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); }), Matcher: root.Matcher });
+})(typeof self !== "undefined" ? self : this, function (deps) {
   "use strict";
+  const { load, Matcher } = deps;
   const cache = {};
-  const fetchJson = url => cache[url] ||= fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); });
+  const fetchJson = url => cache[url] ||= Promise.resolve(load(url));
   const STEP_OF = { associate: "entry", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
   const STEPS = ["entry", "mid", "senior", "lead"];
   const EMPLOYER_TYPES = [["large", "Large companies", g => /^fortune/.test(g)], ["startup", "Startups", g => g === "startup"], ["firm", "Consulting, banks and funds", g => g === "mba_employer"]];
@@ -37,7 +41,10 @@ window.Atlas = (function () {
         }
       }
       groups.push({ ...PRODUCT_GROUP, roles: [], nOpen: null });
-      return { M, SUBS, roles, groups, skillById: Object.fromEntries(M.skills.map(s => [s.id, s])) };
+      // the mean share of each skill over the 50 roles: what "distinctive" is measured against, in both sets
+      const fams = Object.keys(M.families), baseline = {};
+      for (const s of M.skills) baseline[s.id] = fams.reduce((a, f) => a + ((s.by_family || {})[f] || 0), 0) / fams.length;
+      return { M, SUBS, roles, groups, baseline, skillById: Object.fromEntries(M.skills.map(s => [s.id, s])) };
     });
   }
 
@@ -51,10 +58,14 @@ window.Atlas = (function () {
       const pg = ix.groups.find(g => g.id === "product");
       pg.roles = Object.keys(G.families).filter(f => byFamily[f]);
       pg.nOpen = G.jobs.length;
+      // what defines a product family: the MBA build's rule (share at least defining_share, at least defining_lift
+      // times the mean share over the 50 MBA roles), so both sets carry the same mark
+      const rule = ix.M.meta.shares || {}, minShare = rule.defining_share || 0.8, minLift = rule.defining_lift || 2.5;
       for (const f of pg.roles) {
         const jobs = byFamily[f];
         const top = G.skills.filter(s => s.cluster !== "credentials").map(s => ({ id: s.id, share: s.by_family[f] || 0 })).sort((a, b) => b.share - a.share);
-        ix.roles[f] = { id: f, set: "product", group: "product", label: G.families[f], nOpen: jobs.length, n: jobs.length, nCompanies: new Set(jobs.map(j => j.company)).size, ladder: "product", defining: new Set(), definingList: [], asks: top, credentials: [], small: false, jobs };
+        const definingList = top.filter(a => a.share >= minShare && ix.baseline[a.id] > 0 && a.share >= minLift * ix.baseline[a.id]).map(a => ({ id: a.id, share: a.share, elsewhere: ix.baseline[a.id] }));
+        ix.roles[f] = { id: f, set: "product", group: "product", label: G.families[f], nOpen: jobs.length, n: jobs.length, nCompanies: new Set(jobs.map(j => j.company)).size, ladder: "product", defining: new Set(definingList.map(d => d.id)), definingList, asks: top.filter(a => !definingList.some(d => d.id === a.id)), credentials: [], small: false, jobs };
       }
       return { G, SUBS, skillById: Object.fromEntries(G.skills.map(s => [s.id, s])) };
     });
@@ -121,10 +132,7 @@ window.Atlas = (function () {
       return matchers[R.role.id] = { M, bands, group: R.role.group, familyJobs: R.jobs };
     }
     const [TAX, ROLES, bands] = await Promise.all([fetchJson("data/taxonomy_mba.json"), fetchJson("data/roles_mba.json"), fetchJson("data/bands_mba.json")]);
-    // the mean share of each skill across the 50 roles: what "distinctive for this role" is measured against
-    const fams = Object.keys(ix.M.families), baseline = {};
-    for (const s of ix.M.skills) baseline[s.id] = fams.reduce((a, f) => a + ((s.by_family || {})[f] || 0), 0) / fams.length;
-    const M = Matcher.createMatcher({ taxonomy: TAX, subskills: ix.SUBS, graph: { ...ix.M, jobs: R.jobs }, roles: ROLES, distinct: { ...((bands.scoring || {}).distinct || {}), baseline } });
+    const M = Matcher.createMatcher({ taxonomy: TAX, subskills: ix.SUBS, graph: { ...ix.M, jobs: R.jobs }, roles: ROLES, distinct: { ...((bands.scoring || {}).distinct || {}), baseline: ix.baseline } });
     return matchers[R.role.id] = { M, bands, group: (bands.group_of || {})[R.role.id] || R.role.group, familyJobs: R.jobs };
   }
 
@@ -138,8 +146,20 @@ window.Atlas = (function () {
     const parsed = roughM.readRoles(roughM.parseResume(text)); const ev = roughM.tag(parsed);
     const shown = new Set(Object.entries(ev).filter(([, e]) => e.strength >= 2).map(([id]) => id));
     const held = [...new Set(parsed.roles.map(r => r.roleFamily).filter(Boolean))];
+    // the shape of the full score, from the index alone: core asks count twice, common asks once, each weighed by
+    // its share and by how distinctive it is for the role; a mention earns half credit, a line of work full credit
+    const CREDIT = [0, 0.5, 1, 1], D = { floor: 0.2, full: 2 };
+    const lift = (id, w) => { const a = ix.baseline[id]; if (!a) return 1; return Math.max(D.floor, Math.min(1, D.floor + (1 - D.floor) * (w / a - 1) / (D.full - 1))); };
+    const score = asks => {
+      let num = 0, den = 0;
+      for (const a of asks) {
+        const s = ix.skillById[a.id]; if (!s || s.cluster === "credentials" || s.cluster === "domain" || a.share < TIER.common) continue;
+        const tier = a.share >= TIER.core ? 2 : 1, weight = tier * a.share * lift(a.id, a.share);
+        num += weight * CREDIT[Math.min(3, (ev[a.id] || {}).strength || 0)]; den += weight;
+      }
+      return den ? num / den : 0;
+    };
     const scores = {};
-    const score = asks => { const core = asks.filter(a => a.share >= TIER.core && ix.skillById[a.id] && ix.skillById[a.id].cluster !== "credentials"); return core.length ? core.filter(a => shown.has(a.id)).length / core.length : 0; };
     for (const [id, r] of Object.entries(ix.roles)) scores[id] = score(r.set === "mba" ? [...r.definingList, ...r.asks] : r.asks);
     return { held, scores, shown, ev, years: parsed.totalYears, isStudent: parsed.isStudent };
   }
@@ -147,7 +167,22 @@ window.Atlas = (function () {
   async function readCourse(text) {
     await roughFit("");   // builds the reader
     const parsed = roughM.parseResume(text); const ev = roughM.tag(parsed);
-    return { found: new Set(Object.keys(ev)), ev, lines: parsed.lines.length };
+    // a skill named in the text, or one of its sub-skills named (the matcher keeps a sub-skill-only hit as a hint)
+    const found = new Set(Object.entries(ev).filter(([, e]) => e.strength >= 1 || e.hintOnly || e.subs.size).map(([id]) => id));
+    return { found, ev, lines: parsed.lines.length };
+  }
+  // the skills generic to the role set: asked by most postings of at least half of the 50 roles (measured, not listed)
+  async function genericSkills() {
+    const ix = await index(); const count = {};
+    for (const r of Object.values(ix.roles)) if (r.set === "mba") for (const a of [...r.definingList, ...r.asks]) if (a.share >= TIER.core) count[a.id] = (count[a.id] || 0) + 1;
+    const n = Object.values(ix.roles).filter(r => r.set === "mba").length;
+    return new Set(Object.entries(count).filter(([, c]) => c >= n / 2).map(([id]) => id));
+  }
+  // the full matcher on every role of a field, for the roundtable: { role id: match result }
+  async function fieldMatches(groupId, text) {
+    const ix = await index(); const g = ix.groups.find(x => x.id === groupId); const out = {};
+    for (const id of g.roles) { const R = await role(id); const { M } = await matcher(R); out[id] = M.match(text, { jobs: R.jobs, familyJobs: R.jobs, label: R.role.label }); }
+    return out;
   }
   // every posting of a field: the role files of its roles (for the employers hiring now)
   async function fieldJobs(groupId) {
@@ -158,5 +193,5 @@ window.Atlas = (function () {
     return files.flatMap(f => decode(ix.M, f.jobs));
   }
 
-  return { index, product, role, shares, subShares, grid, stepOf, employerType, matcher, roughFit, readCourse, fieldJobs, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
-})();
+  return { index, product, role, shares, subShares, grid, stepOf, employerType, matcher, roughFit, readCourse, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
+});

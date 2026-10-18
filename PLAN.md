@@ -183,6 +183,11 @@ pages for the journeys a student has. Audit and pattern picks are in the session
   resume shows with the line that shows it, and two they may ask about. Hackathon or case: the skills most roles of
   the field ask for that the resume does not show, with the build step where one is written. No event data exists:
   "who is in the room" means the field's roles, not a guest list.
+- **Step 5.** Everything the first four steps left as a note is done or measured: the rough read on Explore has the
+  shape of the full score and an eval against it (`evals/rough_fit.mjs`); the product families get defining skills
+  by the MBA build's own rule; "generic" skills are measured (asked by most postings of at least half the roles);
+  the roundtable runs the full matcher on each role; the course reader counts sub-skill hits and keeps the last
+  course; a "Graduates and interns" chip filters on the entry mark.
 - **Filters (step 4).** One pattern everywhere: a chip row with counts. On the role screen: Level and Employers in the
   row; Industry, Employer (search) and Location (countries and remote for the product set; US only and remote for
   the MBA set) behind "More filters", a sheet under the row with the same chips. Filters set in the sheet show in
