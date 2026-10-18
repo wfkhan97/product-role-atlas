@@ -36,6 +36,7 @@
     const parts = location.hash.split("?")[0].replace(/^#\/?/, "").split("/").map(decodeURIComponent);
     const [a, b, c] = parts;
     const go = { "": start, you: you, explore: explore, field: () => c === "event" ? eventScreen(b) : field(b), role: () => c === "fit" ? fitScreen(b) : c === "course" ? courseScreen(b) : roleScreen(b), about: about }[a || ""];
+    SkillMap.leave();
     (go || start)().catch(fail);
   }
   window.addEventListener("hashchange", route);
@@ -141,6 +142,8 @@
   async function explore() {
     const ix = await Atlas.index();
     crumbs([["Explore", null]]); showAside(null);
+    const focus = new URLSearchParams(location.hash.split("?")[1] || "").get("field");
+    if (focus) SkillMap.setMode("map");
     const fit = (state.you || state.resume) ? await fitFields() : null;
     let onlyFit = !!(fit && fit.size);
     const render = () => {
@@ -148,10 +151,29 @@
       const groups = onlyFit ? all.filter(g => fit.has(g.id)) : all;
       const nRoles = all.reduce((a, g) => a + g.roles.length, 0);
       const chips = fit ? `<div class="chips"><span class="lbl">Showing</span><button type="button" class="chip${onlyFit ? " on" : ""}" id="c-fit">Fields that fit you<span class="n">${fit.size}</span></button><button type="button" class="chip${onlyFit ? "" : " on"}" id="c-all">All fields</button>${state.resume ? `<span class="small muted" style="margin-left:8px">From your answers and ${esc(state.resume.name)}.</span>` : fit.size ? '<span class="small muted" style="margin-left:8px">From your answers. <a href="#/you">Add a resume</a> to add the fields it points to.</span>' : '<span class="small muted" style="margin-left:8px">You picked no field yet. <a href="#/you">Tell us about you</a>.</span>'}</div>` : "";
+      const asMap = SkillMap.mode() === "map";
+      const view = `<div class="chips"><span class="lbl">View</span><button type="button" class="chip${asMap ? " on" : ""}" id="v-map">Skill map</button><button type="button" class="chip${asMap ? "" : " on"}" id="v-grid">Circles</button>${asMap ? '<span class="gap"></span><input class="sm-find" id="sm-find" type="search" placeholder="Find a skill" list="sm-names" aria-label="Find a skill"><datalist id="sm-names"></datalist>' : ""}</div>`;
+      const inner = g => `${esc(g.label)}<span class="n">${g.nOpen == null ? "loading…" : fmt(g.nOpen) + " open"}${g.roles.length ? " · " + plural(g.roles.length, "role", "roles") : ""}</span>`;
+      if (asMap) {
+        // the fields on the skill map: a field's own skills beside it, the skills every field asks for in the middle
+        page(`<h1>Explore the roles</h1>
+          <p class="lead">${all.length} fields, ${nRoles || 56} roles, and the skills their postings ask for. Each field's own skills sit beside it; skills every field asks for sit in the middle. Hover a field, click a skill, or open a field.</p>${chips}${view}
+          <div class="sm-stage" id="sm-stage"></div>
+          ${fit && fit.size ? '<p class="key">Green: the fields your answers and resume point to.</p>' : ""}`);
+        main.firstElementChild.classList.add("wide");
+        const SIZE = { s1: 0.66, s2: 0.76, s3: 0.88, s4: 1 };
+        SkillMap.stage($("#sm-stage"), { groups: all.map(g => ({ id: g.id, cls: sizeClass(g.nOpen || 0), you: !!(fit && fit.has(g.id)), inner: inner(g) })), sizeOf: g => SIZE[g.cls], fit, onlyFit, focus, aside, showAside });
+        SkillMap.names().then(ns => { const dl = $("#sm-names"); if (dl) dl.innerHTML = ns.map(n => `<option value="${esc(n)}">`).join(""); });
+        const f = $("#sm-find"); f.onchange = () => SkillMap.find(f.value);
+        $("#v-grid").onclick = () => { SkillMap.setMode("grid"); SkillMap.leave(); showAside(null); render(); };
+        const cf = $("#c-fit"), ca = $("#c-all"); if (cf) { cf.onclick = () => { onlyFit = true; render(); }; ca.onclick = () => { onlyFit = false; render(); }; }
+        return;
+      }
       page(`<h1>Explore the roles</h1>
-        <p class="lead">${all.length} fields, ${nRoles || 56} roles. The size of a field is how many postings are open now. Open one.</p>${chips}
+        <p class="lead">${all.length} fields, ${nRoles || 56} roles. The size of a field is how many postings are open now. Open one.</p>${chips}${view}
         <div class="bubbles">${groups.map(g => `<a class="bubble ${sizeClass(g.nOpen || 0)}${fit && fit.has(g.id) ? " you" : ""}" href="#/field/${esc(g.id)}">${esc(g.label)}<span class="n">${g.nOpen == null ? "loading…" : fmt(g.nOpen) + " open"}${g.roles.length ? " · " + plural(g.roles.length, "role", "roles") : ""}</span></a>`).join("")}</div>
         ${fit && fit.size && !onlyFit ? '<p class="key" style="text-align:center">Green: the fields your answers and resume point to.</p>' : ""}`);
+      $("#v-map").onclick = () => { SkillMap.setMode("map"); render(); };
       const cf = $("#c-fit"), ca = $("#c-all"); if (cf) { cf.onclick = () => { onlyFit = true; render(); }; ca.onclick = () => { onlyFit = false; render(); }; }
     };
     render();
@@ -175,7 +197,7 @@
     const mark = r => !rg ? "" : rg.held.includes(r.id) ? ' · <span style="color:var(--primary)">you held this role</span>' : rg.scores[r.id] >= 0.6 ? ' · <span style="color:var(--primary)">your resume reads close to it</span>' : "";
     const anyMark = rg && roles.some(r => mark(r));
     page(`<h1>${esc(g.label)}</h1>
-      <p class="lead">${plural(roles.length, "role", "roles")}, ${fmt(roles.reduce((a, r) => a + r.nOpen, 0))} open postings${where}. Roles are sorted by open postings.${anyMark ? " The green notes are a rough read of your resume; open a role for your band of fit." : ""}</p>
+      <p class="lead">${plural(roles.length, "role", "roles")}, ${fmt(roles.reduce((a, r) => a + r.nOpen, 0))} open postings${where}. Roles are sorted by open postings.${anyMark ? " The green notes are a rough read of your resume; open a role for your band of fit." : ""} <a href="#/explore?field=${esc(g.id)}" data-map>See ${esc(g.label)} on the skill map →</a></p>
       <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${fmt(r.nOpen)} open</span><span class="m">${esc(productLine(g, r, line))}${mark(r)}</span></a>`).join("")}</div>
       <h2>Going to a ${esc(g.label.toLowerCase())} event?</h2>
       <div class="actions">${EVENTS.map(([k, t, d]) => `<a class="action" href="#/field/${esc(g.id)}/event?${k}"><span class="t">${t}</span><span class="d">${d}</span></a>`).join("")}</div>`);
