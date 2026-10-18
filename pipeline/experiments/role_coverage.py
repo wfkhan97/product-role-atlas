@@ -19,7 +19,7 @@ import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, ROOT)
-from pipeline import roles_mba, tax
+from pipeline import processed, roles_mba, tax
 from pipeline.balance import CAP, SMALL, DEFINING_SHARE, DEFINING_LIFT, defining as defining_skills, role_shares
 
 LABELS = {"mba": roles_mba.FAMILY_LABELS}
@@ -36,7 +36,7 @@ def main():
     name = {s["id"]: s["name"] for s in t["skills"]}
     cluster = {s["id"]: s["cluster"] for s in t["skills"]}
     new = {s["id"] for s in t["skills"] if s.get("only")}
-    jobs = [j for j in json.load(open(os.path.join(ROOT, "data", "processed", f"jobs_{args.roles}.json")))
+    jobs = [j for j in processed.load(args.roles)
             if not args.country or j["country"] == args.country]
     labels = LABELS[args.roles]
     by_role = collections.defaultdict(list)

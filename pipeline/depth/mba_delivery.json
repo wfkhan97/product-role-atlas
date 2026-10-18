@@ -1,14 +1,2672 @@
 {
  "cost_schedule_control": {
-  "what": "Owning a programme's budget and schedule: tracking spend and progress against the baseline and correcting course."
+  "what": "Owning a programme's budget and schedule: tracking spend and progress against the baseline and correcting course.",
+  "subskills": [
+   {
+    "id": "cost_schedule_control_cost_and_schedule_correction",
+    "name": "Cost and schedule correction",
+    "patterns": [
+     "\\bcorrective actions\\b",
+     "\\bcost and schedule risks\\b",
+     "\\bcost and schedule impacts\\b",
+     "\\bmitigation planning\\b"
+    ],
+    "example": "You identify cost and schedule risks and take corrective actions."
+   },
+   {
+    "id": "cost_schedule_control_project_financial_tracking",
+    "name": "Project financial tracking",
+    "patterns": [
+     "\\bfinancials\\b",
+     "\\bforecasting\\b",
+     "\\bbudget tracking\\b"
+    ],
+    "example": "You manage project financials through forecasting and budget tracking."
+   },
+   {
+    "id": "cost_schedule_control_cost_estimation_and_forecasting",
+    "name": "Cost estimation and forecasting",
+    "patterns": [
+     "\\bestimate\\b",
+     "\\bforecasts?\\b",
+     "\\bproject\\scosts?\\b"
+    ],
+    "example": "You estimate costs and effort and maintain program budget forecasts."
+   },
+   {
+    "id": "cost_schedule_control_cost_and_schedule_tracking",
+    "name": "Cost and schedule tracking",
+    "patterns": [
+     "\\bcost performance\\b",
+     "\\bschedule performance\\b",
+     "\\bschedule adherence\\b",
+     "\\bcost and schedule performance\\b"
+    ],
+    "example": "You collect and report cost and schedule performance data."
+   },
+   {
+    "id": "cost_schedule_control_completion_cost_forecasts",
+    "name": "Completion cost forecasts",
+    "patterns": [
+     "\\bestimate at completion\\b",
+     "\\bestimates at completion\\b",
+     "\\bestimate at complete\\b",
+     "\\beacs?\\b"
+    ],
+    "example": "You prepare Estimate at Completion forecasts and reports."
+   },
+   {
+    "id": "cost_schedule_control_baseline_control",
+    "name": "Baseline control",
+    "patterns": [
+     "\\bbaselines?\\b",
+     "\\bchange\\scontrol\\b",
+     "\\bbaseline\\smanagement\\b"
+    ],
+    "example": "You maintain program baselines and control changes to keep delivery on time and on budget."
+   },
+   {
+    "id": "cost_schedule_control_budget_and_schedule_delivery",
+    "name": "Budget and schedule delivery",
+    "patterns": [
+     "\\bon\\stime\\b",
+     "\\bwithin\\sbudget\\b",
+     "\\bon\\sschedule\\b",
+     "\\bbudget\\sand\\stimelines\\b"
+    ],
+    "example": "You keep project delivery on time and within budget."
+   },
+   {
+    "id": "cost_schedule_control_vendor_cost_control",
+    "name": "Vendor cost control",
+    "patterns": [
+     "\\bvendors?\\b",
+     "\\bSOWs?\\b",
+     "\\bcommercials\\b"
+    ],
+    "example": "You manage vendor costs and SOWs."
+   },
+   {
+    "id": "cost_schedule_control_engagement_profitability",
+    "name": "Engagement profitability",
+    "patterns": [
+     "\\bprofitability\\b"
+    ],
+    "example": "You oversee engagement profitability."
+   },
+   {
+    "id": "cost_schedule_control_budget_and_financial_control",
+    "name": "Budget and financial control",
+    "patterns": [
+     "\\bbudget\\stracking\\b",
+     "\\bproject\\sfinancials\\b",
+     "\\bprogram\\sfinancials\\b",
+     "\\bproject\\sbudgets?\\b"
+    ],
+    "example": "You manage project financials through forecasting and budget tracking."
+   },
+   {
+    "id": "cost_schedule_control_budget_resource_allocation",
+    "name": "Budget resource allocation",
+    "patterns": [
+     "\\bresource\\sallocation\\b",
+     "\\bresource\\smanagement\\b"
+    ],
+    "example": "You manage project budgeting and resource allocation."
+   }
+  ],
+  "ladder": {
+   "corporate": {
+    "associate": "You report Estimate at Completion figures for programs.",
+    "senior": "You escalate program issues that threaten cost or schedule.",
+    "lead": "You take responsibility for delivering portfolios on time and within budget."
+   }
+  },
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You report Estimate at Completion figures for programs.",
+        "quote": "cost performance, Estimate at Completion (EAC)",
+        "postings": [
+         "L3Harris Technologies::100994318352",
+         "RTX::01870337"
+        ],
+        "employers": [
+         "L3Harris Technologies",
+         "RTX"
+        ],
+        "sentences": [
+         {
+          "posting": "RTX::01870337",
+          "employer": "RTX",
+          "text": "Our team is responsible for financial reporting and analysis, Estimate at Completions (EAC), Earned Value Management Systems (EVMS), and ad hoc finance support to the program."
+         },
+         {
+          "posting": "L3Harris Technologies::100994318352",
+          "employer": "L3Harris Technologies",
+          "text": "Track and report key program indicators, including schedule performance, cost performance, Estimate at Completion (EAC), sales, profit, and overall contract execution."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "L3Harris Technologies::100994318352",
+       "RTX::01870337"
+      ],
+      "employers": [
+       "L3Harris Technologies",
+       "RTX"
+      ]
+     },
+     "mid": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     },
+     "senior": {
+      "statements": [
+       {
+        "text": "You escalate program issues that threaten cost or schedule.",
+        "quote": "escalating and resolving issues that threaten cost, schedule, or performance",
+        "postings": [
+         "Leidos Holdings::R-00190558",
+         "Saronic::fcdd0ffe-2c33-4052-bd96-0ae3ed76136d"
+        ],
+        "employers": [
+         "Leidos Holdings",
+         "Saronic"
+        ],
+        "sentences": [
+         {
+          "posting": "Leidos Holdings::R-00190558",
+          "employer": "Leidos Holdings",
+          "text": "Own risk and opportunity management, including identification, mitigation planning, and escalation of issues that threaten cost, schedule, or mission outcomes."
+         },
+         {
+          "posting": "Saronic::fcdd0ffe-2c33-4052-bd96-0ae3ed76136d",
+          "employer": "Saronic",
+          "text": "Drive risk and opportunity management across the program, escalating and resolving issues that threaten cost, schedule, or performance."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Leidos Holdings::R-00190558",
+       "Saronic::fcdd0ffe-2c33-4052-bd96-0ae3ed76136d"
+      ],
+      "employers": [
+       "Leidos Holdings",
+       "Saronic"
+      ]
+     },
+     "lead": {
+      "statements": [
+       {
+        "text": "You take responsibility for delivering portfolios on time and within budget.",
+        "quote": "Owns portfolio and team outcomes, ensures quality, and delivers on time",
+        "postings": [
+         "Aramark::666612",
+         "Bristol-Myers Squibb::R1606339"
+        ],
+        "employers": [
+         "Aramark",
+         "Bristol-Myers Squibb"
+        ],
+        "sentences": [
+         {
+          "posting": "Bristol-Myers Squibb::R1606339",
+          "employer": "Bristol-Myers Squibb",
+          "text": "Accountability & Results Focus : Owns portfolio and team outcomes, ensures quality, and delivers on time and within budget through proactive oversight."
+         },
+         {
+          "posting": "Aramark::666612",
+          "employer": "Aramark",
+          "text": "Direct the planning, execution, and performance of complex capital programs and project portfolios, ensuring successful delivery of scope, schedule, budget, quality, and risk objectives."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Aramark::666612",
+       "Bristol-Myers Squibb::R1606339"
+      ],
+      "employers": [
+       "Aramark",
+       "Bristol-Myers Squibb"
+      ]
+     }
+    },
+    "consulting": {
+     "associate": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You manage project budgets and hour expectations.",
+        "quote": "Adhere to project budget and hours",
+        "postings": [
+         "Baker Tilly::JR108280",
+         "Berkeley Research Group::JR101136"
+        ],
+        "employers": [
+         "Baker Tilly",
+         "Berkeley Research Group"
+        ],
+        "sentences": [
+         {
+          "posting": "Baker Tilly::JR108280",
+          "employer": "Baker Tilly",
+          "text": "Effectively manage billable-hour expectations, project budgets, utilization goals, and timely, accurate time tracking."
+         },
+         {
+          "posting": "Berkeley Research Group::JR101136",
+          "employer": "Berkeley Research Group",
+          "text": "Adhere to project budget and hours by prioritizing assignments and responsibilities in order to meet goals and deadlines."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Baker Tilly::JR108280",
+       "Berkeley Research Group::JR101136"
+      ],
+      "employers": [
+       "Baker Tilly",
+       "Berkeley Research Group"
+      ],
+      "not_shown": "the ladder has 1 rung, fewer than 2"
+     },
+     "senior": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the lead level"
+     },
+     "lead": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     }
+    },
+    "bank": {
+     "associate": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     },
+     "mid": {
+      "empty": "specificity",
+      "why": "its terms come from one employer, or it names too few terms of its evidence: its terms come from one employer's sentence only"
+     },
+     "senior": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the mid level"
+     },
+     "lead": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     }
+    }
+   },
+   "subskills": {
+    "cost_schedule_control_cost_and_schedule_correction": {
+     "text": "You identify cost and schedule risks and take corrective actions.",
+     "quote": "identifying variances and implementing necessary corrective actions",
+     "postings": [
+      "Amentum Holdings::R0165779",
+      "Hewlett Packard Enterprise::1208530",
+      "Leidos Holdings::R-00190558",
+      "Northrop Grumman::R10245596"
+     ],
+     "employers": [
+      "Amentum Holdings",
+      "Hewlett Packard Enterprise",
+      "Leidos Holdings",
+      "Northrop Grumman"
+     ],
+     "sentences": [
+      {
+       "posting": "Hewlett Packard Enterprise::1208530",
+       "employer": "Hewlett Packard Enterprise",
+       "text": "Leading NPI project cost target, identifying and mitigating cost and schedule risks during development and ensuring a smooth transition towards volume manufacturing."
+      },
+      {
+       "posting": "Northrop Grumman::R10245596",
+       "employer": "Northrop Grumman",
+       "text": "Own the engineering control account, collect cost and schedule performance data, and drive corrective actions."
+      },
+      {
+       "posting": "Leidos Holdings::R-00190558",
+       "employer": "Leidos Holdings",
+       "text": "Own risk and opportunity management, including identification, mitigation planning, and escalation of issues that threaten cost, schedule, or mission outcomes."
+      },
+      {
+       "posting": "Amentum Holdings::R0165779",
+       "employer": "Amentum Holdings",
+       "text": "Performance Monitoring : Use program management best practices to monitor cost, schedule, and performance metrics, identifying variances and implementing necessary corrective actions."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.086
+    },
+    "cost_schedule_control_project_financial_tracking": {
+     "text": "You manage project financials through forecasting and budget tracking.",
+     "quote": "manage project financials, including forecasting and budget tracking",
+     "postings": [
+      "Capgemini::1426742933",
+      "Grant Thornton::115861",
+      "Guidehouse::45237",
+      "Mercer::R_361953"
+     ],
+     "employers": [
+      "Capgemini",
+      "Grant Thornton",
+      "Guidehouse",
+      "Mercer"
+     ],
+     "sentences": [
+      {
+       "posting": "Mercer::R_361953",
+       "employer": "Mercer",
+       "text": "Demonstrated ability to manage project financials, including forecasting and budget tracking."
+      },
+      {
+       "posting": "Capgemini::1426742933",
+       "employer": "Capgemini",
+       "text": "Experience managing program financials, delivery performance, and value realization efforts"
+      },
+      {
+       "posting": "Guidehouse::45237",
+       "employer": "Guidehouse",
+       "text": "Collaborate with vehicle managers and Guidehouse leadership on daily operations, resource planning, progress reporting, and project financials."
+      },
+      {
+       "posting": "Grant Thornton::115861",
+       "employer": "Grant Thornton",
+       "text": "Perform engagement management responsibilities, including performance reviews, task delegation, project scheduling, project financials, quality review and client management"
+      }
+     ],
+     "ladders": [
+      "consulting"
+     ],
+     "share": 0.237
+    },
+    "cost_schedule_control_cost_estimation_and_forecasting": {
+     "text": "You estimate costs and effort and maintain program budget forecasts.",
+     "quote": "Estimate and manage the effort and finances",
+     "postings": [
+      "Citigroup::100407690864",
+      "Golub Capital::R-12109",
+      "Raymond James Financial::R-0012888",
+      "SMBC::1428482500"
+     ],
+     "employers": [
+      "Citigroup",
+      "Golub Capital",
+      "Raymond James Financial",
+      "SMBC"
+     ],
+     "sentences": [
+      {
+       "posting": "Golub Capital::R-12109",
+       "employer": "Golub Capital",
+       "text": "Ability to estimate and establish cost baselines and financial monitoring (ROI / TCO) that quantify the expected business value of AI-enabled transformation initiatives"
+      },
+      {
+       "posting": "Raymond James Financial::R-0012888",
+       "employer": "Raymond James Financial",
+       "text": "Estimate and manage the effort and finances to complete the work within budget."
+      },
+      {
+       "posting": "Citigroup::100407690864",
+       "employer": "Citigroup",
+       "text": "Support program delivery by assessing requirements complexity, resource needs, project costs, and timeline impacts."
+      },
+      {
+       "posting": "SMBC::1428482500",
+       "employer": "SMBC",
+       "text": "Manage program budgets, forecasts, resource plans, vendor costs, and financial reporting."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.273
+    },
+    "cost_schedule_control_cost_and_schedule_tracking": {
+     "text": "You collect and report cost and schedule performance data.",
+     "quote": "collect cost and schedule performance data",
+     "postings": [
+      "Amentum Holdings::R0165779",
+      "L3Harris Technologies::100994318352",
+      "Northrop Grumman::R10245596"
+     ],
+     "employers": [
+      "Amentum Holdings",
+      "L3Harris Technologies",
+      "Northrop Grumman"
+     ],
+     "sentences": [
+      {
+       "posting": "L3Harris Technologies::100994318352",
+       "employer": "L3Harris Technologies",
+       "text": "Track and report key program indicators, including schedule performance, cost performance, Estimate at Completion (EAC), sales, profit, and overall contract execution."
+      },
+      {
+       "posting": "Northrop Grumman::R10245596",
+       "employer": "Northrop Grumman",
+       "text": "Own the engineering control account, collect cost and schedule performance data, and drive corrective actions."
+      },
+      {
+       "posting": "Amentum Holdings::R0165779",
+       "employer": "Amentum Holdings",
+       "text": "Performance Monitoring : Use program management best practices to monitor cost, schedule, and performance metrics, identifying variances and implementing necessary corrective actions."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.085
+    },
+    "cost_schedule_control_completion_cost_forecasts": {
+     "text": "You prepare Estimate at Completion forecasts and reports.",
+     "quote": "Support the creation of Estimate at Complete",
+     "postings": [
+      "L3Harris Technologies::100994318352",
+      "Lockheed Martin::2350",
+      "RTX::01870757"
+     ],
+     "employers": [
+      "L3Harris Technologies",
+      "Lockheed Martin",
+      "RTX"
+     ],
+     "sentences": [
+      {
+       "posting": "L3Harris Technologies::100994318352",
+       "employer": "L3Harris Technologies",
+       "text": "Track and report key program indicators, including schedule performance, cost performance, Estimate at Completion (EAC), sales, profit, and overall contract execution."
+      },
+      {
+       "posting": "RTX::01870757",
+       "employer": "RTX",
+       "text": "Support the creation of Estimate at Complete (EACs) on a quarterly basis including costs, risks and opportunities at the Program/Mission Area Level."
+      },
+      {
+       "posting": "Lockheed Martin::2350",
+       "employer": "Lockheed Martin",
+       "text": "External management involves earned value management, program budget baselines and program performance reporting including estimates at completion."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.142
+    },
+    "cost_schedule_control_baseline_control": {
+     "text": "You maintain program baselines and control changes to keep delivery on time and on budget.",
+     "quote": "Protect the baseline, manage change through a disciplined process",
+     "postings": [
+      "Boeing::JR2026526094",
+      "True Anomaly::5219639007",
+      "Western Digital::744000154182894"
+     ],
+     "employers": [
+      "Boeing",
+      "True Anomaly",
+      "Western Digital"
+     ],
+     "sentences": [
+      {
+       "posting": "Western Digital::744000154182894",
+       "employer": "Western Digital",
+       "text": "Protect the baseline, manage change through a disciplined process, and keep the program on time and on budget."
+      },
+      {
+       "posting": "True Anomaly::5219639007",
+       "employer": "True Anomaly",
+       "text": "Create, implement, and own the coordinated program baseline (cost, schedule, technical) with the chief engineer"
+      },
+      {
+       "posting": "Boeing::JR2026526094",
+       "employer": "Boeing",
+       "text": "Facilitates and ensures integration of project plans, schedules, change and baseline management, processes, techniques considered to be best practice across the industry"
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.147
+    },
+    "cost_schedule_control_budget_and_schedule_delivery": {
+     "text": "You keep project delivery on time and within budget.",
+     "quote": "delivered on time and within budget",
+     "postings": [
+      "Crowe::R-71010",
+      "KPMG::135460",
+      "Mercer::R_361953"
+     ],
+     "employers": [
+      "Crowe",
+      "KPMG",
+      "Mercer"
+     ],
+     "sentences": [
+      {
+       "posting": "Crowe::R-71010",
+       "employer": "Crowe",
+       "text": "Assist in the functional aspects of AI projects, including timelines, resource allocation, and deliverables, ensuring that projects are completed on time and within budget."
+      },
+      {
+       "posting": "Mercer::R_361953",
+       "employer": "Mercer",
+       "text": "Ensure all project deliverables meet quality standards and are delivered on time and within budget."
+      },
+      {
+       "posting": "KPMG::135460",
+       "employer": "KPMG",
+       "text": "Oversee the planning, execution, and delivery of engagements, ensuring projects are completed on time, within scope, and within budget, while implementing best practices in project management"
+      }
+     ],
+     "ladders": [
+      "bank",
+      "consulting"
+     ],
+     "share": 0.264
+    },
+    "cost_schedule_control_vendor_cost_control": {
+     "text": "You manage vendor costs and SOWs.",
+     "quote": "manage vendor SOWs and commercials",
+     "postings": [
+      "Capital One Financial::R1001326",
+      "Neuberger Berman::R0012590",
+      "SMBC::1428482500"
+     ],
+     "employers": [
+      "Capital One Financial",
+      "Neuberger Berman",
+      "SMBC"
+     ],
+     "sentences": [
+      {
+       "posting": "Capital One Financial::R1001326",
+       "employer": "Capital One Financial",
+       "text": "Operations & budget integrity: Manage program budgets, external vendor relationships, track learner data and distribution lists, and coordinate the complex virtual and in-person logistics required to scale the program smoothly across multiple locations."
+      },
+      {
+       "posting": "Neuberger Berman::R0012590",
+       "employer": "Neuberger Berman",
+       "text": "Build and manage program budgets (capex/opex), track spend against plan, and manage vendor SOWs and commercials"
+      },
+      {
+       "posting": "SMBC::1428482500",
+       "employer": "SMBC",
+       "text": "Manage program budgets, forecasts, resource plans, vendor costs, and financial reporting."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.252
+    },
+    "cost_schedule_control_engagement_profitability": {
+     "text": "You oversee engagement profitability.",
+     "quote": "issue resolution, and project profitability",
+     "postings": [
+      "RSM US::JR120989",
+      "West Monroe::5800734004",
+      "West Monroe::6148955004"
+     ],
+     "employers": [
+      "RSM US",
+      "West Monroe"
+     ],
+     "sentences": [
+      {
+       "posting": "West Monroe::5800734004",
+       "employer": "West Monroe",
+       "text": "Oversee engagement scope, budget, deliverables, profitability, work management and reporting, change management, vendor management, and team development."
+      },
+      {
+       "posting": "RSM US::JR120989",
+       "employer": "RSM US",
+       "text": "Oversee engagement quality, stakeholder communication, issue resolution, and project profitability."
+      },
+      {
+       "posting": "West Monroe::6148955004",
+       "employer": "West Monroe",
+       "text": "Proven success leading complex engagements and executive client relationships, including scope, budget, profitability, risk management, team leadership, and quality assurance."
+      },
+      {
+       "posting": "West Monroe::6148955004",
+       "employer": "West Monroe",
+       "text": "Own engagement delivery across scope, budget, profitability, staffing, risk, quality, and client satisfaction while serving as a trusted advisor to CFO, Controller, and private equity stakeholders."
+      }
+     ],
+     "ladders": [
+      "consulting"
+     ],
+     "share": 0.065
+    },
+    "cost_schedule_control_budget_and_financial_control": {
+     "text": "You manage project financials through forecasting and budget tracking.",
+     "quote": "manage project financials, including forecasting and budget tracking",
+     "postings": [
+      "Mercer::R_361953"
+     ],
+     "employers": [
+      "Mercer"
+     ],
+     "sentences": [
+      {
+       "posting": "Mercer::R_361953",
+       "employer": "Mercer",
+       "text": "Demonstrated ability to manage project financials, including forecasting and budget tracking."
+      }
+     ],
+     "ladders": [
+      "consulting"
+     ],
+     "share": 0.108
+    },
+    "cost_schedule_control_budget_resource_allocation": {
+     "text": "You manage project budgeting and resource allocation.",
+     "quote": "Managing project budgeting and resource allocation",
+     "postings": [
+      "PwC::752353WD",
+      "PwC::759811WD",
+      "PwC::761943WD"
+     ],
+     "employers": [
+      "PwC"
+     ],
+     "sentences": [
+      {
+       "posting": "PwC::759811WD",
+       "employer": "PwC",
+       "text": "Participating in project budgeting and management to optimize resource allocation"
+      },
+      {
+       "posting": "PwC::761943WD",
+       "employer": "PwC",
+       "text": "Collaborating with teams to manage project budgeting and resource allocation effectively"
+      },
+      {
+       "posting": "PwC::752353WD",
+       "employer": "PwC",
+       "text": "Managing project budgeting and resource allocation to achieve strategic objectives in client support"
+      }
+     ],
+     "ladders": [
+      "consulting"
+     ],
+     "share": 0.084
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 99,
+       "employers": 49
+      },
+      "mid": {
+       "n": 706,
+       "employers": 181
+      },
+      "senior": {
+       "n": 288,
+       "employers": 96
+      },
+      "lead": {
+       "n": 280,
+       "employers": 108
+      }
+     }
+    },
+    "consulting": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "mid": {
+       "n": 21,
+       "employers": 11
+      },
+      "senior": {
+       "n": 34,
+       "employers": 14
+      },
+      "lead": {
+       "n": 26,
+       "employers": 14
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "mid": {
+       "n": 42,
+       "employers": 19
+      },
+      "senior": {
+       "n": 24,
+       "employers": 14
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  },
  "earned_value_mgmt": {
-  "what": "Measuring programme progress with earned value (EVM/EVMS), control accounts and an integrated master schedule, as defence and government contracts require."
+  "what": "Measuring programme progress with earned value (EVM/EVMS), control accounts and an integrated master schedule, as defence and government contracts require.",
+  "subskills": [
+   {
+    "id": "earned_value_mgmt_completion_cost_estimates",
+    "name": "Completion cost estimates",
+    "patterns": [
+     "\\bEACs?\\b",
+     "\\bETC\\b",
+     "\\bestimates? at completions?\\b",
+     "\\bestimates? to complete\\b"
+    ],
+    "example": "You prepare estimates at completion and estimates to complete for program financial reporting."
+   },
+   {
+    "id": "earned_value_mgmt_evms_compliance",
+    "name": "EVMS compliance",
+    "patterns": [
+     "\\bEVMS\\b",
+     "\\bEarned\\sValue\\sManagement\\sSystems?\\b"
+    ],
+    "example": "You prepare earned value deliverables that meet reporting requirements."
+   },
+   {
+    "id": "earned_value_mgmt_integrated_master_scheduling",
+    "name": "Integrated master scheduling",
+    "patterns": [
+     "\\bintegrated\\smaster\\sschedules?\\b",
+     "\\bintegrated\\smanagement\\sschedule\\b"
+    ],
+    "example": "You maintain an integrated master schedule that tracks milestones and dependencies."
+   },
+   {
+    "id": "earned_value_mgmt_earned_value_performance_analysi",
+    "name": "Earned value performance analysis",
+    "patterns": [
+     "\\bEVM\\smetrics\\b",
+     "\\bvariance\\sanalysis\\b",
+     "\\bCV\\b|\\bSV\\b|\\bCPI\\b|\\bSPI\\b"
+    ],
+    "example": "You use EVM metrics to track program performance and identify corrective actions."
+   },
+   {
+    "id": "earned_value_mgmt_critical_path_and_dependencies",
+    "name": "Critical path and dependencies",
+    "patterns": [
+     "\\bcritical path\\b",
+     "\\bdependency\\b|\\bdependencies\\b"
+    ],
+    "example": "You identify critical path activities and dependencies in program schedules."
+   },
+   {
+    "id": "earned_value_mgmt_baseline_and_wbs_management",
+    "name": "Baseline and WBS management",
+    "patterns": [
+     "\\bbudget\\sbaselines?\\b",
+     "\\bcost\\sbaselines?\\b",
+     "\\bwork\\sbreakdown\\sstructures?\\b",
+     "\\bbaseline\\smanagement\\b"
+    ],
+    "example": "You maintain contract budget baselines and update work breakdown structures."
+   },
+   {
+    "id": "earned_value_mgmt_cost_account_management",
+    "name": "Cost account management",
+    "patterns": [
+     "\\bCost\\sAccount\\sManager\\b",
+     "\\bCAM\\b"
+    ],
+    "example": "You oversee CAM responsibilities for engineering budgets and earned value status."
+   }
+  ],
+  "ladder": {
+   "corporate": {
+    "associate": "You maintain integrated master schedules that track milestones and dependencies.",
+    "mid": "You maintain integrated master schedules and risk registers for program planning.",
+    "senior": "You bring at least five years of experience using Earned Value Management.",
+    "lead": "You bring prior Cost Account Manager experience."
+   }
+  },
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You maintain integrated master schedules that track milestones and dependencies.",
+        "quote": "track milestones, risks, issues, and dependencies",
+        "postings": [
+         "CACI International::332416",
+         "KBR::R2118587"
+        ],
+        "employers": [
+         "CACI International",
+         "KBR"
+        ],
+        "sentences": [
+         {
+          "posting": "KBR::R2118587",
+          "employer": "KBR",
+          "text": "Develop and maintain integrated master schedules (IMS) for T&E activities; track milestones, risks, issues, and dependencies impacting test events."
+         },
+         {
+          "posting": "CACI International::332416",
+          "employer": "CACI International",
+          "text": "            Master Schedule Management: Maintain the program’s integrated master schedule, mapping engineering milestones, system dependencies, payload integrations, and hardware deliveries."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "CACI International::332416",
+       "KBR::R2118587"
+      ],
+      "employers": [
+       "CACI International",
+       "KBR"
+      ]
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You maintain integrated master schedules and risk registers for program planning.",
+        "quote": "integrated master schedules (IMS), and risk registers",
+        "postings": [
+         "Advanced Micro Devices::92314",
+         "Hadrian::c4e52fcc-39b6-49fc-ba86-31ea75de2f67"
+        ],
+        "employers": [
+         "Advanced Micro Devices",
+         "Hadrian"
+        ],
+        "sentences": [
+         {
+          "posting": "Hadrian::c4e52fcc-39b6-49fc-ba86-31ea75de2f67",
+          "employer": "Hadrian",
+          "text": "Define and maintain program planning artifacts: WBS, integrated master schedules (IMS), risk registers, and EVM reporting."
+         },
+         {
+          "posting": "Advanced Micro Devices::92314",
+          "employer": "Advanced Micro Devices",
+          "text": "Develop and maintain detailed program plans, integrated master schedules (IMS), and risk registers; drive transparent status communication to leadership and the customer."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Advanced Micro Devices::92314",
+       "Hadrian::c4e52fcc-39b6-49fc-ba86-31ea75de2f67"
+      ],
+      "employers": [
+       "Advanced Micro Devices",
+       "Hadrian"
+      ]
+     },
+     "senior": {
+      "statements": [
+       {
+        "text": "You bring at least five years of experience using Earned Value Management.",
+        "quote": "5+ years of experience working with Earn Value Management",
+        "postings": [
+         "AT&T::R-123876",
+         "Boeing::JR2026526140"
+        ],
+        "employers": [
+         "AT&T",
+         "Boeing"
+        ],
+        "sentences": [
+         {
+          "posting": "AT&T::R-123876",
+          "employer": "AT&T",
+          "text": "Must have at least five (5) years of demonstrated experience in the management and control of funds and resources using complex reporting mechanisms such as Earned Value Management."
+         },
+         {
+          "posting": "Boeing::JR2026526140",
+          "employer": "Boeing",
+          "text": "5+ years of experience working with Earn Value Management (EVM)"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "AT&T::R-123876",
+       "Boeing::JR2026526140"
+      ],
+      "employers": [
+       "AT&T",
+       "Boeing"
+      ]
+     },
+     "lead": {
+      "statements": [
+       {
+        "text": "You bring prior Cost Account Manager experience.",
+        "quote": "prior CAM experience managing tracked projects",
+        "postings": [
+         "Lockheed Martin::7789",
+         "Northrop Grumman::R10244085"
+        ],
+        "employers": [
+         "Lockheed Martin",
+         "Northrop Grumman"
+        ],
+        "sentences": [
+         {
+          "posting": "Northrop Grumman::R10244085",
+          "employer": "Northrop Grumman",
+          "text": "Expert in EVMS and prior CAM experience managing tracked projects, Success in effective cost estimations"
+         },
+         {
+          "posting": "Lockheed Martin::7789",
+          "employer": "Lockheed Martin",
+          "text": "Prior experience as a Cost Account Manager (CAM) and/or Earned Value Management (EVM) experience,"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Lockheed Martin::7789",
+       "Northrop Grumman::R10244085"
+      ],
+      "employers": [
+       "Lockheed Martin",
+       "Northrop Grumman"
+      ]
+     }
+    }
+   },
+   "subskills": {
+    "earned_value_mgmt_completion_cost_estimates": {
+     "text": "You prepare estimates at completion and estimates to complete for program financial reporting.",
+     "quote": "program performance reporting including estimates at completion",
+     "postings": [
+      "Leidos Holdings::R-00179093",
+      "Lockheed Martin::2350",
+      "Northrop Grumman::R10250707",
+      "RTX::01870337"
+     ],
+     "employers": [
+      "Leidos Holdings",
+      "Lockheed Martin",
+      "Northrop Grumman",
+      "RTX"
+     ],
+     "sentences": [
+      {
+       "posting": "RTX::01870337",
+       "employer": "RTX",
+       "text": "Our team is responsible for financial reporting and analysis, Estimate at Completions (EAC), Earned Value Management Systems (EVMS), and ad hoc finance support to the program."
+      },
+      {
+       "posting": "Lockheed Martin::2350",
+       "employer": "Lockheed Martin",
+       "text": "External management involves earned value management, program budget baselines and program performance reporting including estimates at completion."
+      },
+      {
+       "posting": "Leidos Holdings::R-00179093",
+       "employer": "Leidos Holdings",
+       "text": "Oversee financial performance, including Earned Value Management (EVM), Estimates to Complete (ETC), funds and labor reporting, and review/approval of all required financial deliverables."
+      },
+      {
+       "posting": "Northrop Grumman::R10250707",
+       "employer": "Northrop Grumman",
+       "text": "Oversee CAM responsibilities for engineering scope, rolling wave planning, budget allocation, Integrated Master Schedule (IMS) maintenance, earned value status, and estimating total costs to complete efforts."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.46
+    },
+    "earned_value_mgmt_evms_compliance": {
+     "text": "You prepare earned value deliverables that meet reporting requirements.",
+     "quote": "Facilitate preparation of earned value deliverables ensuring compliance",
+     "postings": [
+      "Amentum Holdings::R0172077",
+      "Northrop Grumman::R10253928",
+      "RTX::01869251"
+     ],
+     "employers": [
+      "Amentum Holdings",
+      "Northrop Grumman",
+      "RTX"
+     ],
+     "sentences": [
+      {
+       "posting": "RTX::01869251",
+       "employer": "RTX",
+       "text": "Provide project management guidance to program team to ensure adherence to Earned Value Management System (EVMS) guidelines."
+      },
+      {
+       "posting": "Northrop Grumman::R10253928",
+       "employer": "Northrop Grumman",
+       "text": "Active participation in program Earned Value in compliance to CPR/IPMR data reporting requirements; Facilitate preparation of earned value deliverables ensuring compliance, timeliness and accuracy"
+      },
+      {
+       "posting": "Amentum Holdings::R0172077",
+       "employer": "Amentum Holdings",
+       "text": "Ensure compliance with government contracting standards, Earned Value Management System (EVMS), and audit requirements."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.398
+    },
+    "earned_value_mgmt_integrated_master_scheduling": {
+     "text": "You maintain an integrated master schedule that tracks milestones and dependencies.",
+     "quote": "track milestones, risks, issues, and dependencies",
+     "postings": [
+      "CACI International::332416",
+      "Caterpillar::R0000397837",
+      "KBR::R2118587"
+     ],
+     "employers": [
+      "CACI International",
+      "Caterpillar",
+      "KBR"
+     ],
+     "sentences": [
+      {
+       "posting": "KBR::R2118587",
+       "employer": "KBR",
+       "text": "Develop and maintain integrated master schedules (IMS) for T&E activities; track milestones, risks, issues, and dependencies impacting test events."
+      },
+      {
+       "posting": "CACI International::332416",
+       "employer": "CACI International",
+       "text": "            Master Schedule Management: Maintain the program’s integrated master schedule, mapping engineering milestones, system dependencies, payload integrations, and hardware deliveries."
+      },
+      {
+       "posting": "Caterpillar::R0000397837",
+       "employer": "Caterpillar",
+       "text": "Build and manage the integrated master schedule, identifying critical-path activities, cross-workstream dependencies, resource constraints, and mitigation plans."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.183
+    },
+    "earned_value_mgmt_earned_value_performance_analysi": {
+     "text": "You use EVM metrics to track program performance and identify corrective actions.",
+     "quote": "use EVM metrics to track program performance",
+     "postings": [
+      "Anduril Industries::5253505007",
+      "L3Harris Technologies::98748320640",
+      "Lockheed Martin::11103"
+     ],
+     "employers": [
+      "Anduril Industries",
+      "L3Harris Technologies",
+      "Lockheed Martin"
+     ],
+     "sentences": [
+      {
+       "posting": "Lockheed Martin::11103",
+       "employer": "Lockheed Martin",
+       "text": "Demonstrated experience with Earned Value Management (EVM) and the ability to use EVM metrics to track program performance, identify trends, and make corrective actions when necessary."
+      },
+      {
+       "posting": "Anduril Industries::5253505007",
+       "employer": "Anduril Industries",
+       "text": "Operate performance management (EVM where applicable): support baseline management and interpret key variances (CV/SV/CPI/SPI); prepare content for internal/external reviews and audits."
+      },
+      {
+       "posting": "L3Harris Technologies::98748320640",
+       "employer": "L3Harris Technologies",
+       "text": "Develop and maintain integrated master schedules (IMS), oversee Earned Value Management (EVMS), and provide accurate performance reporting, forecasting, and variance analysis."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.142
+    },
+    "earned_value_mgmt_critical_path_and_dependencies": {
+     "text": "You identify critical path activities and dependencies in program schedules.",
+     "quote": "identifying critical-path activities, cross-workstream dependencies",
+     "postings": [
+      "Caterpillar::R0000397837",
+      "Intuitive Surgical::744000151668868",
+      "KBR::R2118587"
+     ],
+     "employers": [
+      "Caterpillar",
+      "Intuitive Surgical",
+      "KBR"
+     ],
+     "sentences": [
+      {
+       "posting": "KBR::R2118587",
+       "employer": "KBR",
+       "text": "Develop and maintain integrated master schedules (IMS) for T&E activities; track milestones, risks, issues, and dependencies impacting test events."
+      },
+      {
+       "posting": "Intuitive Surgical::744000151668868",
+       "employer": "Intuitive Surgical",
+       "text": "Advanced program planning skills, including WBS, dependency management, critical path analysis, scope control, risk management, and governance reporting."
+      },
+      {
+       "posting": "Caterpillar::R0000397837",
+       "employer": "Caterpillar",
+       "text": "Build and manage the integrated master schedule, identifying critical-path activities, cross-workstream dependencies, resource constraints, and mitigation plans."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.086
+    },
+    "earned_value_mgmt_baseline_and_wbs_management": {
+     "text": "You maintain contract budget baselines and update work breakdown structures.",
+     "quote": "Assist with contract budget baseline maintenance",
+     "postings": [
+      "Anduril Industries::5213031007",
+      "Anduril Industries::5253505007",
+      "Northrop Grumman::R10249421"
+     ],
+     "employers": [
+      "Anduril Industries",
+      "Northrop Grumman"
+     ],
+     "sentences": [
+      {
+       "posting": "Anduril Industries::5213031007",
+       "employer": "Anduril Industries",
+       "text": "Assist with contract budget baseline maintenance, including updating work breakdown structures and tracking changes"
+      },
+      {
+       "posting": "Northrop Grumman::R10249421",
+       "employer": "Northrop Grumman",
+       "text": "Develop and adhere to budget baselines utilizing Earned Value Management (EVM) or similar cost & schedule control methodologies and tools"
+      },
+      {
+       "posting": "Anduril Industries::5253505007",
+       "employer": "Anduril Industries",
+       "text": "Operate performance management (EVM where applicable): support baseline management and interpret key variances (CV/SV/CPI/SPI); prepare content for internal/external reviews and audits."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.142
+    },
+    "earned_value_mgmt_cost_account_management": {
+     "text": "You oversee CAM responsibilities for engineering budgets and earned value status.",
+     "quote": "Oversee CAM responsibilities for engineering scope",
+     "postings": [
+      "Northrop Grumman::R10244085",
+      "Northrop Grumman::R10250707"
+     ],
+     "employers": [
+      "Northrop Grumman"
+     ],
+     "sentences": [
+      {
+       "posting": "Northrop Grumman::R10250707",
+       "employer": "Northrop Grumman",
+       "text": "Oversee CAM responsibilities for engineering scope, rolling wave planning, budget allocation, Integrated Master Schedule (IMS) maintenance, earned value status, and estimating total costs to complete efforts."
+      },
+      {
+       "posting": "Northrop Grumman::R10244085",
+       "employer": "Northrop Grumman",
+       "text": "Expert in EVMS and prior CAM experience managing tracked projects, Success in effective cost estimations"
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.215
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 36,
+       "employers": 9
+      },
+      "mid": {
+       "n": 262,
+       "employers": 31
+      },
+      "senior": {
+       "n": 63,
+       "employers": 17
+      },
+      "lead": {
+       "n": 98,
+       "employers": 16
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  },
  "program_governance_reviews": {
-  "what": "Setting up how programmes are run and reviewed: PMO standards, steering committees, stage gates and programme reviews with leadership or the customer."
+  "what": "Setting up how a company runs and reviews its programmes: PMO standards, steering committees, stage gates and programme reviews with leadership or the customer.",
+  "subskills": [
+   {
+    "id": "program_governance_reviews_programme_reviews_and_cadence",
+    "name": "Programme reviews and cadence",
+    "patterns": [
+     "\\bprogram\\sreviews?\\b",
+     "\\bbusiness\\sreviews?\\b",
+     "\\boperating\\scadence\\b|\\bbusiness\\srhythm\\b",
+     "\\bQBRs?\\b"
+    ],
+    "example": "You lead programme reviews with customers or government stakeholders."
+   },
+   {
+    "id": "program_governance_reviews_governance_forums_and_reviews",
+    "name": "Governance forums and reviews",
+    "patterns": [
+     "\\bgovernance\\sforums?\\b",
+     "\\bleadership\\sforums?\\b",
+     "\\boperating\\sreviews?\\b",
+     "\\bsteering\\scommittees?\\b|\\bSteerCos\\b"
+    ],
+    "example": "You support or run governance forums and executive reviews."
+   },
+   {
+    "id": "program_governance_reviews_escalation_and_decision_routines",
+    "name": "Escalation and decision routines",
+    "patterns": [
+     "\\bescalations?\\b",
+     "\\bdecision\\slogs\\b",
+     "\\bdecision\\sroutines\\b",
+     "\\bdecision\\sforums\\b"
+    ],
+    "example": "You establish escalation paths and decision routines for programme governance."
+   },
+   {
+    "id": "program_governance_reviews_stage_gate_processes",
+    "name": "Stage gate processes",
+    "patterns": [
+     "\\bgates?\\b",
+     "\\btollgate\\b"
+    ],
+    "example": "You define stage-gate criteria and check review readiness."
+   },
+   {
+    "id": "program_governance_reviews_pmo_governance_frameworks",
+    "name": "PMO governance frameworks",
+    "patterns": [
+     "\\bgovernance frameworks?\\b",
+     "\\bPMO frameworks?\\b",
+     "\\bPMO standards\\b"
+    ],
+    "example": "You develop governance frameworks and improve PMO processes."
+   },
+   {
+    "id": "program_governance_reviews_steering_committee_governance",
+    "name": "Steering committee governance",
+    "patterns": [
+     "\\bsteering committees?\\b",
+     "\\bSteerCos?\\b"
+    ],
+    "example": "You run steering committee meetings to discuss delivery progress."
+   },
+   {
+    "id": "program_governance_reviews_review_materials_and_actions",
+    "name": "Review materials and actions",
+    "patterns": [
+     "\\breview materials\\b",
+     "\\baction items?\\b",
+     "\\bdecision papers?\\b",
+     "\\bdecision records?\\b"
+    ],
+    "example": "You prepare review materials and follow up on open action items."
+   },
+   {
+    "id": "program_governance_reviews_governance_structures",
+    "name": "Governance structures",
+    "patterns": [
+     "\\bgovernance structures\\b",
+     "\\bprogram governance\\b",
+     "\\bdecision forums\\b",
+     "\\bescalation paths\\b"
+    ],
+    "example": "You establish governance structures with decision forums and escalation paths."
+   },
+   {
+    "id": "program_governance_reviews_steering_committee_reviews",
+    "name": "Steering committee reviews",
+    "patterns": [
+     "\\bsteering committees?\\b",
+     "\\bprogram reviews\\b",
+     "\\bperformance reviews\\b",
+     "\\bbusiness reviews\\b"
+    ],
+    "example": "You lead steering committees to review progress, risks, and strategic priorities."
+   },
+   {
+    "id": "program_governance_reviews_pmo_standards_and_methodology",
+    "name": "PMO standards and methodology",
+    "patterns": [
+     "\\bPMO\\b|\\bEPMO\\b",
+     "\\bdelivery\\sstandards\\b",
+     "\\bPMO\\sprocesses\\b",
+     "\\bPMO\\smethodology\\b"
+    ],
+    "example": "You develop PMO processes and delivery standards."
+   },
+   {
+    "id": "program_governance_reviews_governance_cadence",
+    "name": "Governance cadence",
+    "patterns": [
+     "\\bgovernance cadence\\b",
+     "\\boperating cadence\\b",
+     "\\breporting cadence\\b",
+     "\\boperating rhythm\\b"
+    ],
+    "example": "You coordinate governance meetings, prepare agendas, and track actions and follow-up."
+   },
+   {
+    "id": "program_governance_reviews_status_and_executive_reporting",
+    "name": "Status and executive reporting",
+    "patterns": [
+     "\\bstatus reporting\\b",
+     "\\bexecutive reporting\\b",
+     "\\bsteering committee updates\\b",
+     "\\bmanagement presentations\\b"
+    ],
+    "example": "You prepare status reports and steering committee updates for senior management."
+   },
+   {
+    "id": "program_governance_reviews_governance_performance_reporting",
+    "name": "Governance performance reporting",
+    "patterns": [
+     "\\bgovernance\\sand\\sperformance\\sreporting\\b",
+     "\\bexecutive\\sreporting\\b"
+    ],
+    "example": "You support PMO governance and performance reporting."
+   }
+  ],
+  "ladder": {
+   "corporate": {
+    "associate": "You coordinate gate-review sessions and document or follow up on action items.",
+    "lead": "You define portfolio governance structures."
+   },
+   "bank": {
+    "mid": "You prepare reporting and presentation materials for senior management and governance forums.",
+    "lead": "You lead executive-level governance forums."
+   }
+  },
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "statements": [
+       {
+        "text": "You coordinate gate-review sessions and document or follow up on action items.",
+        "quote": "Coordinate meetings, prepare agendas, and document action items",
+        "postings": [
+         "Astranis::4718946006",
+         "Marvell Technology::2604440"
+        ],
+        "employers": [
+         "Astranis",
+         "Marvell Technology"
+        ],
+        "sentences": [
+         {
+          "posting": "Astranis::4718946006",
+          "employer": "Astranis",
+          "text": "Logistical & Event Coordination: Coordinate meetings, prepare agendas, and document action items for capture strategy sessions and executive gate reviews."
+         },
+         {
+          "posting": "Marvell Technology::2604440",
+          "employer": "Marvell Technology",
+          "text": "Support stage-gate governance by preparing review materials, coordinating sessions, and following up on open action items"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Astranis::4718946006",
+       "Marvell Technology::2604440"
+      ],
+      "employers": [
+       "Astranis",
+       "Marvell Technology"
+      ]
+     },
+     "mid": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the associate level"
+     },
+     "senior": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the lead level"
+     },
+     "lead": {
+      "statements": [
+       {
+        "text": "You define portfolio governance structures.",
+        "quote": "Define and lead portfolio governance structures",
+        "postings": [
+         "Abbott Laboratories::31155543",
+         "Ford Motor::71817"
+        ],
+        "employers": [
+         "Abbott Laboratories",
+         "Ford Motor"
+        ],
+        "sentences": [
+         {
+          "posting": "Ford Motor::71817",
+          "employer": "Ford Motor",
+          "text": "Own the operating model and portfolio governance as a matrixed function, with the decision rights to set cadence, metrics standards, and tooling standards across squads, backed by a budget."
+         },
+         {
+          "posting": "Abbott Laboratories::31155543",
+          "employer": "Abbott Laboratories",
+          "text": "Define and lead portfolio governance structures (e.g., PMR, intake and prioritization processes)"
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Abbott Laboratories::31155543",
+       "Ford Motor::71817"
+      ],
+      "employers": [
+       "Abbott Laboratories",
+       "Ford Motor"
+      ]
+     }
+    },
+    "consulting": {
+     "associate": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You help run steering committee meetings.",
+        "quote": "Support executive operating reviews, steering committee meetings",
+        "postings": [
+         "CFGI::689ab445-8ddf-4fae-97fc-68845b84bfe0",
+         "Capgemini::1426742933"
+        ],
+        "employers": [
+         "CFGI",
+         "Capgemini"
+        ],
+        "sentences": [
+         {
+          "posting": "Capgemini::1426742933",
+          "employer": "Capgemini",
+          "text": "Establish and manage program governance structures, including executive Steering Committees, leadership forums, and decision-making processes."
+         },
+         {
+          "posting": "CFGI::689ab445-8ddf-4fae-97fc-68845b84bfe0",
+          "employer": "CFGI",
+          "text": "Support executive operating reviews, steering committee meetings, and leadership updates."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "CFGI::689ab445-8ddf-4fae-97fc-68845b84bfe0",
+       "Capgemini::1426742933"
+      ],
+      "employers": [
+       "CFGI",
+       "Capgemini"
+      ],
+      "not_shown": "the ladder has 1 rung, fewer than 2"
+     },
+     "senior": {
+      "empty": "specificity",
+      "why": "its terms come from one employer, or it names too few terms of its evidence: its terms come from one employer's sentence only"
+     },
+     "lead": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     }
+    },
+    "bank": {
+     "associate": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You prepare reporting and presentation materials for senior management and governance forums.",
+        "quote": "materials, reporting, and presentations for senior management and governance forums",
+        "postings": [
+         "MUFG::10076875-WD",
+         "Morgan Stanley::JR038660"
+        ],
+        "employers": [
+         "MUFG",
+         "Morgan Stanley"
+        ],
+        "sentences": [
+         {
+          "posting": "MUFG::10076875-WD",
+          "employer": "MUFG",
+          "text": "Support management presentations and governance forums through the preparation of risk reporting, analysis, and executive-level materials."
+         },
+         {
+          "posting": "Morgan Stanley::JR038660",
+          "employer": "Morgan Stanley",
+          "text": "Support preparation of materials, reporting, and presentations for senior management and governance forums."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "MUFG::10076875-WD",
+       "Morgan Stanley::JR038660"
+      ],
+      "employers": [
+       "MUFG",
+       "Morgan Stanley"
+      ]
+     },
+     "senior": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as the lead level"
+     },
+     "lead": {
+      "statements": [
+       {
+        "text": "You lead executive-level governance forums.",
+        "quote": "Lead executive-level governance forums",
+        "postings": [
+         "Citigroup::101328063312",
+         "HarbourVest::R2498"
+        ],
+        "employers": [
+         "Citigroup",
+         "HarbourVest"
+        ],
+        "sentences": [
+         {
+          "posting": "HarbourVest::R2498",
+          "employer": "HarbourVest",
+          "text": "Lead executive-level governance forums and performance reviews, ensuring accountability, clarity, and continuous improvement."
+         },
+         {
+          "posting": "Citigroup::101328063312",
+          "employer": "Citigroup",
+          "text": "Lead executive engagement routines and governance forums that facilitate transparent decision-making, strategic alignment, and resolution of competing priorities across the organization."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Citigroup::101328063312",
+       "HarbourVest::R2498"
+      ],
+      "employers": [
+       "Citigroup",
+       "HarbourVest"
+      ]
+     }
+    }
+   },
+   "subskills": {
+    "program_governance_reviews_programme_reviews_and_cadence": {
+     "text": "You lead programme reviews with customers or government stakeholders.",
+     "quote": "leading program review sessions with customer",
+     "postings": [
+      "Lockheed Martin::14484",
+      "Pure Storage::7938769",
+      "Saronic::e3eca1a8-5c97-4659-9d68-cbf8b6247501",
+      "ServiceNow::744000154734649"
+     ],
+     "employers": [
+      "Lockheed Martin",
+      "Pure Storage",
+      "Saronic",
+      "ServiceNow"
+     ],
+     "sentences": [
+      {
+       "posting": "Lockheed Martin::14484",
+       "employer": "Lockheed Martin",
+       "text": "Acts as primary customer contact for program activities, leading program review sessions with customer to discuss cost, schedule, and technical performance."
+      },
+      {
+       "posting": "Saronic::e3eca1a8-5c97-4659-9d68-cbf8b6247501",
+       "employer": "Saronic",
+       "text": "Lead program reviews, delivery events, and technical exchanges with government stakeholders, operators, and evaluators."
+      },
+      {
+       "posting": "Pure Storage::7938769",
+       "employer": "Pure Storage",
+       "text": "Drive the program operating cadence including planning cycles, program reviews, and cross-functional alignment forums"
+      },
+      {
+       "posting": "ServiceNow::744000154734649",
+       "employer": "ServiceNow",
+       "text": "Conduct quarterly and bi-annual business reviews, governance forums, and milestone tracking"
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.256
+    },
+    "program_governance_reviews_governance_forums_and_reviews": {
+     "text": "You support or run governance forums and executive reviews.",
+     "quote": "Support executive operating reviews, steering committee meetings, and leadership updates",
+     "postings": [
+      "Accenture::R00357581",
+      "CFGI::689ab445-8ddf-4fae-97fc-68845b84bfe0",
+      "Capgemini::1426742933",
+      "Deloitte::364589"
+     ],
+     "employers": [
+      "Accenture",
+      "CFGI",
+      "Capgemini",
+      "Deloitte"
+     ],
+     "sentences": [
+      {
+       "posting": "Capgemini::1426742933",
+       "employer": "Capgemini",
+       "text": "Establish and manage program governance structures, including executive Steering Committees, leadership forums, and decision-making processes."
+      },
+      {
+       "posting": "Deloitte::364589",
+       "employer": "Deloitte",
+       "text": "Developing program documentation, supporting governance forums, managing down-select planning, advising on qualification and testing, and participating in cross-functional stakeholder meetings"
+      },
+      {
+       "posting": "CFGI::689ab445-8ddf-4fae-97fc-68845b84bfe0",
+       "employer": "CFGI",
+       "text": "Support executive operating reviews, steering committee meetings, and leadership updates."
+      },
+      {
+       "posting": "Accenture::R00357581",
+       "employer": "Accenture",
+       "text": "Chair the portfolio governance forum and facilitate investment sequencing and prioritization across multiple transformation programs"
+      }
+     ],
+     "ladders": [
+      "consulting"
+     ],
+     "share": 0.278
+    },
+    "program_governance_reviews_escalation_and_decision_routines": {
+     "text": "You establish escalation paths and decision routines for programme governance.",
+     "quote": "Establish governance forums, decision routines, escalation paths",
+     "postings": [
+      "Charles Schwab::127853",
+      "Jefferies Financial Group::4794",
+      "Morgan Stanley::PT-JR044142",
+      "Neuberger Berman::R0012590"
+     ],
+     "employers": [
+      "Charles Schwab",
+      "Jefferies Financial Group",
+      "Morgan Stanley",
+      "Neuberger Berman"
+     ],
+     "sentences": [
+      {
+       "posting": "Charles Schwab::127853",
+       "employer": "Charles Schwab",
+       "text": "Establish governance forums, decision routines, escalation paths, and remediation practices that clarify accountability and move issues toward resolution."
+      },
+      {
+       "posting": "Neuberger Berman::R0012590",
+       "employer": "Neuberger Berman",
+       "text": "Establish governance structures (steering committees, working groups) and run cadence for status, decisions, and escalation"
+      },
+      {
+       "posting": "Jefferies Financial Group::4794",
+       "employer": "Jefferies Financial Group",
+       "text": "Establish and operate the Enterprise AI PMO, including program governance, reporting cadence, delivery standards, dependency tracking, escalation paths, and decision forums."
+      },
+      {
+       "posting": "Morgan Stanley::PT-JR044142",
+       "employer": "Morgan Stanley",
+       "text": "Maintain disciplined program governance, including status reporting, milestone tracking, issue escalation, decision logs, dependency management, and executive-ready performance updates."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.218
+    },
+    "program_governance_reviews_stage_gate_processes": {
+     "text": "You define stage-gate criteria and check review readiness.",
+     "quote": "with clear entry/exit criteria and readiness",
+     "postings": [
+      "Alphabet::75383053588800198",
+      "Leidos Holdings::R-00192930",
+      "Northrop Grumman::R10254641"
+     ],
+     "employers": [
+      "Alphabet",
+      "Leidos Holdings",
+      "Northrop Grumman"
+     ],
+     "sentences": [
+      {
+       "posting": "Leidos Holdings::R-00192930",
+       "employer": "Leidos Holdings",
+       "text": "Identify missing or incomplete stage-gate requirements, communicate findings to project teams, and track outstanding items through resolution."
+      },
+      {
+       "posting": "Alphabet::75383053588800198",
+       "employer": "Alphabet",
+       "text": "Define the overarching goal, execution roadmap, quantitative stage gates, and kill/pivot triggers, while maintaining clear project communications and executive alignment."
+      },
+      {
+       "posting": "Northrop Grumman::R10254641",
+       "employer": "Northrop Grumman",
+       "text": "Drive milestone reviews (e.g., SRR, PDR, CDR, TRR) with clear entry/exit criteria and readiness"
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.176
+    },
+    "program_governance_reviews_pmo_governance_frameworks": {
+     "text": "You develop governance frameworks and improve PMO processes.",
+     "quote": "PMO assets, governance frameworks, and delivery accelerators",
+     "postings": [
+      "Amazon::10524285",
+      "Juniper Square::28b19bb4-500a-4d59-b934-b258c71629ff",
+      "West Monroe::6105131004"
+     ],
+     "employers": [
+      "Amazon",
+      "Juniper Square",
+      "West Monroe"
+     ],
+     "sentences": [
+      {
+       "posting": "Amazon::10524285",
+       "employer": "Amazon",
+       "text": "Implement and help build new PMO frameworks, tools, and processes to drive accountability and visibility across PXT initiatives"
+      },
+      {
+       "posting": "West Monroe::6105131004",
+       "employer": "West Monroe",
+       "text": "Develop and enhance West Monroe's Data Program Management methodologies, PMO assets, governance frameworks, and delivery accelerators."
+      },
+      {
+       "posting": "Juniper Square::28b19bb4-500a-4d59-b934-b258c71629ff",
+       "employer": "Juniper Square",
+       "text": "Establish and evolve the execution framework (agile/scrum ceremonies, artifacts, governance cadence) for your programs, and contribute those improvements back into PMO-wide standards and processes."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.089
+    },
+    "program_governance_reviews_steering_committee_governance": {
+     "text": "You run steering committee meetings to discuss delivery progress.",
+     "quote": "steering committee meetings with strategic customers",
+     "postings": [
+      "Ford Motor::69745",
+      "Microsoft::200054196",
+      "Regeneron Pharmaceuticals::R48288"
+     ],
+     "employers": [
+      "Ford Motor",
+      "Microsoft",
+      "Regeneron Pharmaceuticals"
+     ],
+     "sentences": [
+      {
+       "posting": "Microsoft::200054196",
+       "employer": "Microsoft",
+       "text": "Leads or participates in steering committee meetings with strategic customers to discuss progress toward delivery success."
+      },
+      {
+       "posting": "Ford Motor::69745",
+       "employer": "Ford Motor",
+       "text": "Experience running cross-functional councils or steering committees, including keeping legal, HR, Finance, and technical stakeholders aligned on shared decisions"
+      },
+      {
+       "posting": "Regeneron Pharmaceuticals::R48288",
+       "employer": "Regeneron Pharmaceuticals",
+       "text": "Lead steering committee meetings, working groups, system change requests, issue management, and release management for upgrades to existing product."
+      }
+     ],
+     "ladders": [
+      "consulting",
+      "corporate"
+     ],
+     "share": 0.126
+    },
+    "program_governance_reviews_review_materials_and_actions": {
+     "text": "You prepare review materials and follow up on open action items.",
+     "quote": "preparing review materials, coordinating sessions, and following up",
+     "postings": [
+      "Hilton Worldwide Holdings::222042",
+      "Marvell Technology::2604440",
+      "Regeneron Pharmaceuticals::R49917"
+     ],
+     "employers": [
+      "Hilton Worldwide Holdings",
+      "Marvell Technology",
+      "Regeneron Pharmaceuticals"
+     ],
+     "sentences": [
+      {
+       "posting": "Marvell Technology::2604440",
+       "employer": "Marvell Technology",
+       "text": "Support stage-gate governance by preparing review materials, coordinating sessions, and following up on open action items"
+      },
+      {
+       "posting": "Hilton Worldwide Holdings::222042",
+       "employer": "Hilton Worldwide Holdings",
+       "text": "Weekly, monthly, and quarterly program updates, executive briefings, steering committee materials, and decision papers tailored to different levels of the organization."
+      },
+      {
+       "posting": "Regeneron Pharmaceuticals::R49917",
+       "employer": "Regeneron Pharmaceuticals",
+       "text": "Prepare decision records, impact assessments, recommendations, and escalation packages to support governance forums and operational decision-making."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.056
+    },
+    "program_governance_reviews_governance_structures": {
+     "text": "You establish governance structures with decision forums and escalation paths.",
+     "quote": "Establish governance structures",
+     "postings": [
+      "Charles Schwab::127853",
+      "Jefferies Financial Group::4794",
+      "Neuberger Berman::R0012590"
+     ],
+     "employers": [
+      "Charles Schwab",
+      "Jefferies Financial Group",
+      "Neuberger Berman"
+     ],
+     "sentences": [
+      {
+       "posting": "Charles Schwab::127853",
+       "employer": "Charles Schwab",
+       "text": "Establish governance forums, decision routines, escalation paths, and remediation practices that clarify accountability and move issues toward resolution."
+      },
+      {
+       "posting": "Neuberger Berman::R0012590",
+       "employer": "Neuberger Berman",
+       "text": "Establish governance structures (steering committees, working groups) and run cadence for status, decisions, and escalation"
+      },
+      {
+       "posting": "Jefferies Financial Group::4794",
+       "employer": "Jefferies Financial Group",
+       "text": "Establish and operate the Enterprise AI PMO, including program governance, reporting cadence, delivery standards, dependency tracking, escalation paths, and decision forums."
+      }
+     ],
+     "ladders": [
+      "bank",
+      "consulting"
+     ],
+     "share": 0.189
+    },
+    "program_governance_reviews_steering_committee_reviews": {
+     "text": "You lead steering committees to review progress, risks, and strategic priorities.",
+     "quote": "review progress, manage risks, and align strategic priorities",
+     "postings": [
+      "Fidelity Investments::2131617",
+      "HarbourVest::R2498",
+      "Morgan Stanley::PT-JR041841"
+     ],
+     "employers": [
+      "Fidelity Investments",
+      "HarbourVest",
+      "Morgan Stanley"
+     ],
+     "sentences": [
+      {
+       "posting": "Morgan Stanley::PT-JR041841",
+       "employer": "Morgan Stanley",
+       "text": "Lead portfolio governance forums, steering committees, and cross-functional leadership discussions to review progress, manage risks, and align strategic priorities."
+      },
+      {
+       "posting": "Fidelity Investments::2131617",
+       "employer": "Fidelity Investments",
+       "text": "Excellent written and verbal communication skills, including the ability to develop executive-level communications, facilitate steering committees, and present program status, risks, and recommendations to senior leadership."
+      },
+      {
+       "posting": "HarbourVest::R2498",
+       "employer": "HarbourVest",
+       "text": "Lead executive-level governance forums and performance reviews, ensuring accountability, clarity, and continuous improvement."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.289
+    },
+    "program_governance_reviews_pmo_standards_and_methodology": {
+     "text": "You develop PMO processes and delivery standards.",
+     "quote": "Use best practice PMO methodology",
+     "postings": [
+      "Citigroup::100430314352",
+      "Jefferies Financial Group::4794",
+      "PIMCO::R106544"
+     ],
+     "employers": [
+      "Citigroup",
+      "Jefferies Financial Group",
+      "PIMCO"
+     ],
+     "sentences": [
+      {
+       "posting": "PIMCO::R106544",
+       "employer": "PIMCO",
+       "text": "Develop and maintain project plans, status reporting, and PMO processes"
+      },
+      {
+       "posting": "Citigroup::100430314352",
+       "employer": "Citigroup",
+       "text": "Use best practice PMO methodology to create a project plan to fit the stakeholders/customers’ needs and deliver within budget on desired outcomes."
+      },
+      {
+       "posting": "Jefferies Financial Group::4794",
+       "employer": "Jefferies Financial Group",
+       "text": "Establish and operate the Enterprise AI PMO, including program governance, reporting cadence, delivery standards, dependency tracking, escalation paths, and decision forums."
+      }
+     ],
+     "ladders": [
+      "bank",
+      "consulting"
+     ],
+     "share": 0.264
+    },
+    "program_governance_reviews_governance_cadence": {
+     "text": "You coordinate governance meetings, prepare agendas, and track actions and follow-up.",
+     "quote": "including agendas, materials, action tracking, and follow-up",
+     "postings": [
+      "Invesco::R-15521",
+      "JPMorgan Chase::210799482"
+     ],
+     "employers": [
+      "Invesco",
+      "JPMorgan Chase"
+     ],
+     "sentences": [
+      {
+       "posting": "Invesco::R-15521",
+       "employer": "Invesco",
+       "text": "Coordinating governance forums, leadership meetings, and operating rhythm activities, including agendas, materials, action tracking, and follow-up."
+      },
+      {
+       "posting": "JPMorgan Chase::210799482",
+       "employer": "JPMorgan Chase",
+       "text": "Establish and run program governance, including operating cadence, forums, status reporting, and escalation pathways"
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.052
+    },
+    "program_governance_reviews_status_and_executive_reporting": {
+     "text": "You prepare status reports and steering committee updates for senior management.",
+     "quote": "steering committee updates, senior management briefings, milestone reporting",
+     "postings": [
+      "Morgan Stanley::JR038660",
+      "Morgan Stanley::PT-JR044142",
+      "TD::R_1514864"
+     ],
+     "employers": [
+      "Morgan Stanley",
+      "TD"
+     ],
+     "sentences": [
+      {
+       "posting": "Morgan Stanley::JR038660",
+       "employer": "Morgan Stanley",
+       "text": "Support preparation of materials, reporting, and presentations for senior management and governance forums."
+      },
+      {
+       "posting": "Morgan Stanley::PT-JR044142",
+       "employer": "Morgan Stanley",
+       "text": "Maintain disciplined program governance, including status reporting, milestone tracking, issue escalation, decision logs, dependency management, and executive-ready performance updates."
+      },
+      {
+       "posting": "TD::R_1514864",
+       "employer": "TD",
+       "text": "Experience developing or contributing to executive-ready materials, including portfolio dashboards, steering committee updates, senior management briefings, milestone reporting, risk and issue summaries, decision papers, and budget or investment narratives."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.123
+    },
+    "program_governance_reviews_governance_performance_reporting": {
+     "text": "You support PMO governance and performance reporting.",
+     "quote": "including governance and performance reporting",
+     "postings": [
+      "Capgemini::1403544433",
+      "Capgemini::1426727833"
+     ],
+     "employers": [
+      "Capgemini"
+     ],
+     "sentences": [
+      {
+       "posting": "Capgemini::1426727833",
+       "employer": "Capgemini",
+       "text": "Support Transformation Management Office (TMO) and PMO functions, including governance and performance reporting."
+      },
+      {
+       "posting": "Capgemini::1403544433",
+       "employer": "Capgemini",
+       "text": "Support Transformation Management Office (TMO) and PMO functions, including governance and performance reporting"
+      }
+     ],
+     "ladders": [
+      "consulting"
+     ],
+     "share": 0.063
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 62,
+       "employers": 32
+      },
+      "mid": {
+       "n": 473,
+       "employers": 166
+      },
+      "senior": {
+       "n": 234,
+       "employers": 113
+      },
+      "lead": {
+       "n": 329,
+       "employers": 150
+      }
+     }
+    },
+    "consulting": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "mid": {
+       "n": 29,
+       "employers": 8
+      },
+      "senior": {
+       "n": 29,
+       "employers": 8
+      },
+      "lead": {
+       "n": 10,
+       "employers": 5
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "mid": {
+       "n": 59,
+       "employers": 31
+      },
+      "senior": {
+       "n": 68,
+       "employers": 24
+      },
+      "lead": {
+       "n": 31,
+       "employers": 17
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  },
  "resource_planning": {
-  "what": "Working out the people and capacity a programme needs, when, and resolving conflicts across projects."
+  "what": "Working out the people and capacity a programme needs, when, and resolving conflicts across projects.",
+  "subskills": [
+   {
+    "id": "resource_planning_resource_conflicts_and_prioritie",
+    "name": "Resource conflicts and priorities",
+    "patterns": [
+     "\\bresource\\sconflicts\\b",
+     "\\bresource\\sconstraints\\b",
+     "\\bresource\\savailability\\b"
+    ],
+    "example": "You balance priorities against resource constraints and identify conflicts across initiatives."
+   },
+   {
+    "id": "resource_planning_staffing_forecasts_and_models",
+    "name": "Staffing forecasts and models",
+    "patterns": [
+     "\\bstaffing\\b",
+     "\\bheadcount\\b",
+     "\\bcapacity\\b",
+     "\\bmanpower\\b"
+    ],
+    "example": "You forecast staffing needs and build models to estimate resource capacity."
+   },
+   {
+    "id": "resource_planning_constraints_and_priorities",
+    "name": "Constraints and priorities",
+    "patterns": [
+     "\\bresource\\sconstraints\\b",
+     "\\bcompeting\\spriorities\\b",
+     "\\bresource\\scapacity\\b"
+    ],
+    "example": "You identify resource constraints and consider capacity and dependencies when setting program priorities."
+   },
+   {
+    "id": "resource_planning_resource_use_tracking",
+    "name": "Resource use tracking",
+    "patterns": [
+     "resource\\sutilization",
+     "resource\\suse"
+    ],
+    "example": "You track resource use across programs and projects."
+   },
+   {
+    "id": "resource_planning_dependencies_and_resource_constr",
+    "name": "Dependencies and resource constraints",
+    "patterns": [
+     "dependencies",
+     "dependency\\smanagement",
+     "resource\\sconstraints",
+     "competing\\spriorities"
+    ],
+    "example": "You manage dependencies and resource constraints across concurrent initiatives."
+   },
+   {
+    "id": "resource_planning_capacity_planning",
+    "name": "Capacity planning",
+    "patterns": [
+     "\\bcapacity\\splanning\\b",
+     "\\bcapacity\\sand\\sresource\\splanning\\b",
+     "\\bresource\\scapacity\\b",
+     "\\bcapacity\\sneed\\b"
+    ],
+    "example": "You plan long-term capacity to support current and future needs."
+   },
+   {
+    "id": "resource_planning_resource_requirements",
+    "name": "Resource requirements",
+    "patterns": [
+     "\\bresource\\srequirements\\b",
+     "\\bresourcing\\sneeds\\b",
+     "\\bresource\\sneeds\\b"
+    ],
+    "example": "You estimate resource requirements from the project scope."
+   }
+  ],
+  "ladder": {
+   "bank": {
+    "mid": "You develop project plans that cover resource requirements and budgets.",
+    "senior": "You maintain an integrated portfolio view of milestones, dependencies, risks, and resources."
+   }
+  },
+  "provenance": {
+   "ladder": {
+    "corporate": {
+     "associate": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as another skill (Budget, cost & schedule control)"
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You address resource constraints before they affect project timelines.",
+        "quote": "resource constraints before they impact project timelines",
+        "postings": [
+         "Apple::200671777",
+         "Home Depot::23746117"
+        ],
+        "employers": [
+         "Apple",
+         "Home Depot"
+        ],
+        "sentences": [
+         {
+          "posting": "Apple::200671777",
+          "employer": "Apple",
+          "text": "Proactively identify, track, and mitigate execution risks, technical blockers, and resource constraints before they impact project timelines."
+         },
+         {
+          "posting": "Home Depot::23746117",
+          "employer": "Home Depot",
+          "text": "Monitor project timelines and proactively address schedule impacts, resource constraints, and potential risks."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Apple::200671777",
+       "Home Depot::23746117"
+      ],
+      "employers": [
+       "Apple",
+       "Home Depot"
+      ],
+      "not_shown": "the ladder has 1 rung, fewer than 2"
+     },
+     "senior": {
+      "empty": "swap",
+      "why": "read as another level or another skill when shown alone: read as another skill (Budget, cost & schedule control)"
+     },
+     "lead": {
+      "empty": "drafter",
+      "why": "the drafter found nothing that two employers ask at this level: the drafter found nothing that two employers ask at this level"
+     }
+    },
+    "bank": {
+     "associate": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     },
+     "mid": {
+      "statements": [
+       {
+        "text": "You develop project plans that cover resource requirements and budgets.",
+        "quote": "integrated project plans, budgets, dependencies, schedules, risks, issues, and resource requirements",
+        "postings": [
+         "Fidelity Investments::2131617",
+         "M&T Bank::R90942"
+        ],
+        "employers": [
+         "Fidelity Investments",
+         "M&T Bank"
+        ],
+        "sentences": [
+         {
+          "posting": "M&T Bank::R90942",
+          "employer": "M&T Bank",
+          "text": "Ensure plans for assigned projects include work breakdown, project organization chart, cost/budget and communication, risk, quality and resource plans."
+         },
+         {
+          "posting": "Fidelity Investments::2131617",
+          "employer": "Fidelity Investments",
+          "text": "Proven ability to develop and manage program roadmaps, integrated project plans, budgets, dependencies, schedules, risks, issues, and resource requirements across multiple concurrent initiatives."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Fidelity Investments::2131617",
+       "M&T Bank::R90942"
+      ],
+      "employers": [
+       "Fidelity Investments",
+       "M&T Bank"
+      ]
+     },
+     "senior": {
+      "statements": [
+       {
+        "text": "You maintain an integrated portfolio view of milestones, dependencies, risks, and resources.",
+        "quote": "delivery capacity, milestones, dependencies, risks, and resource constraints",
+        "postings": [
+         "Charles Schwab::127850",
+         "Jefferies Financial Group::4930"
+        ],
+        "employers": [
+         "Charles Schwab",
+         "Jefferies Financial Group"
+        ],
+        "sentences": [
+         {
+          "posting": "Charles Schwab::127850",
+          "employer": "Charles Schwab",
+          "text": "Maintain an integrated view of AI initiatives, investments, delivery capacity, milestones, dependencies, risks, and resource constraints to support prioritization and tradeoff decisions."
+         },
+         {
+          "posting": "Jefferies Financial Group::4930",
+          "employer": "Jefferies Financial Group",
+          "text": "Own the integrated Information Security delivery portfolio, maintaining a unified, real-time view of all programs and projects including status, milestones, dependencies, risks, decisions, and resource utilization."
+         }
+        ]
+       }
+      ],
+      "postings": [
+       "Charles Schwab::127850",
+       "Jefferies Financial Group::4930"
+      ],
+      "employers": [
+       "Charles Schwab",
+       "Jefferies Financial Group"
+      ]
+     },
+     "lead": {
+      "empty": "no evidence",
+      "why": "fewer than 8 postings from 4 employers at this level"
+     }
+    }
+   },
+   "subskills": {
+    "resource_planning_resource_conflicts_and_prioritie": {
+     "text": "You balance priorities against resource constraints and identify conflicts across initiatives.",
+     "quote": "Identifies cross-initiative dependencies, shared milestones, resource conflicts",
+     "postings": [
+      "BDO USA::14345",
+      "Charter Communications::100830274816",
+      "RTX::01867292"
+     ],
+     "employers": [
+      "BDO USA",
+      "Charter Communications",
+      "RTX"
+     ],
+     "sentences": [
+      {
+       "posting": "RTX::01867292",
+       "employer": "RTX",
+       "text": "Manage multiple conflicting priorities by balancing business requirements, program commitments, resource constraints, and emerging risks to drive timely and effective decisions."
+      },
+      {
+       "posting": "Charter Communications::100830274816",
+       "employer": "Charter Communications",
+       "text": "Establish priorities across active opportunities and delivery workstreams based on client needs, strategic value, resource requirements, risk, and commercial considerations."
+      },
+      {
+       "posting": "BDO USA::14345",
+       "employer": "BDO USA",
+       "text": "Identifies cross-initiative dependencies, shared milestones, resource conflicts, decision constraints, and sequencing risks"
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.166
+    },
+    "resource_planning_staffing_forecasts_and_models": {
+     "text": "You forecast staffing needs and build models to estimate resource capacity.",
+     "quote": "Excel driven staffing models to determine appropriate resource capacity",
+     "postings": [
+      "Cushman & Wakefield::R333132",
+      "New York Life Insurance::1432180900",
+      "Peter Kiewit Sons’::1433526000"
+     ],
+     "employers": [
+      "Cushman & Wakefield",
+      "New York Life Insurance",
+      "Peter Kiewit Sons’"
+     ],
+     "sentences": [
+      {
+       "posting": "New York Life Insurance::1432180900",
+       "employer": "New York Life Insurance",
+       "text": "Assist with the development/enhancement of Excel driven staffing models to determine appropriate resource capacity"
+      },
+      {
+       "posting": "Peter Kiewit Sons’::1433526000",
+       "employer": "Peter Kiewit Sons’",
+       "text": "Conduct resource planning and staffing forecasts to support current and future project needs."
+      },
+      {
+       "posting": "Cushman & Wakefield::R333132",
+       "employer": "Cushman & Wakefield",
+       "text": "Leverage AI‑powered analytics to optimize team resource allocation, forecast workload demands, and improve capacity planning."
+      }
+     ],
+     "ladders": [
+      "corporate"
+     ],
+     "share": 0.428
+    },
+    "resource_planning_constraints_and_priorities": {
+     "text": "You identify resource constraints and consider capacity and dependencies when setting program priorities.",
+     "quote": "resource capacity, and dependencies",
+     "postings": [
+      "Regions Financial::R106590",
+      "SMBC::1428482500",
+      "TD::R_1514864"
+     ],
+     "employers": [
+      "Regions Financial",
+      "SMBC",
+      "TD"
+     ],
+     "sentences": [
+      {
+       "posting": "Regions Financial::R106590",
+       "employer": "Regions Financial",
+       "text": "Leads the identification, management, and resolution of cross-functional dependencies, resource constraints, competing priorities, and execution challenges that impact program success"
+      },
+      {
+       "posting": "TD::R_1514864",
+       "employer": "TD",
+       "text": "Assist in monitoring portfolio health and identify emerging risks, including delivery challenges, resource constraints, budget pressures, and control implications."
+      },
+      {
+       "posting": "SMBC::1428482500",
+       "employer": "SMBC",
+       "text": "Establish program priorities based on business value, risk, regulatory commitments, resource capacity, and dependencies."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.233
+    },
+    "resource_planning_resource_use_tracking": {
+     "text": "You track resource use across programs and projects.",
+     "quote": "resource utilization, for CSIS leadership review",
+     "postings": [
+      "Citigroup::101650059664",
+      "Jefferies Financial Group::4930",
+      "Northern Trust::R153863"
+     ],
+     "employers": [
+      "Citigroup",
+      "Jefferies Financial Group",
+      "Northern Trust"
+     ],
+     "sentences": [
+      {
+       "posting": "Citigroup::101650059664",
+       "employer": "Citigroup",
+       "text": "Track and report on event security program activity, including volume, risk distribution, and resource utilization, for CSIS leadership review"
+      },
+      {
+       "posting": "Northern Trust::R153863",
+       "employer": "Northern Trust",
+       "text": "This manager will create a single, reliable view of investment, resource utilization, delivery performance, adoption, client and field outcomes, and realized value."
+      },
+      {
+       "posting": "Jefferies Financial Group::4930",
+       "employer": "Jefferies Financial Group",
+       "text": "Own the integrated Information Security delivery portfolio, maintaining a unified, real-time view of all programs and projects including status, milestones, dependencies, risks, decisions, and resource utilization."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.089
+    },
+    "resource_planning_dependencies_and_resource_constr": {
+     "text": "You manage dependencies and resource constraints across concurrent initiatives.",
+     "quote": "resolution of cross-functional dependencies, resource constraints, competing priorities",
+     "postings": [
+      "Fidelity Investments::2131617",
+      "Regions Financial::R106590",
+      "State Street::R-798552"
+     ],
+     "employers": [
+      "Fidelity Investments",
+      "Regions Financial",
+      "State Street"
+     ],
+     "sentences": [
+      {
+       "posting": "Regions Financial::R106590",
+       "employer": "Regions Financial",
+       "text": "Leads the identification, management, and resolution of cross-functional dependencies, resource constraints, competing priorities, and execution challenges that impact program success"
+      },
+      {
+       "posting": "Fidelity Investments::2131617",
+       "employer": "Fidelity Investments",
+       "text": "Proven ability to develop and manage program roadmaps, integrated project plans, budgets, dependencies, schedules, risks, issues, and resource requirements across multiple concurrent initiatives."
+      },
+      {
+       "posting": "Regions Financial::R106590",
+       "employer": "Regions Financial",
+       "text": "Expertise in dependency management, resource planning, roadmap development, governance, and benefit realization"
+      },
+      {
+       "posting": "State Street::R-798552",
+       "employer": "State Street",
+       "text": "Identifies issues, dependencies and resource constraints that could affect successful execution of strategic priorities; escalates matters requiring COO attention and presents solutions to address root causes and maintain delivery momentum."
+      }
+     ],
+     "ladders": [
+      "bank"
+     ],
+     "share": 0.386
+    },
+    "resource_planning_capacity_planning": {
+     "text": "You plan long-term capacity to support current and future needs.",
+     "quote": "Develop long-term capacity, capability, and resource plans",
+     "postings": [
+      "Lockheed Martin::15057",
+      "Northrop Grumman::R10253899"
+     ],
+     "employers": [
+      "Lockheed Martin",
+      "Northrop Grumman"
+     ],
+     "sentences": [
+      {
+       "posting": "Northrop Grumman::R10253899",
+       "employer": "Northrop Grumman",
+       "text": "Participates in long-term capacity and resource planning to ensure proper scheduling of new product line phase-ins as well as existing product line phase-outs."
+      },
+      {
+       "posting": "Lockheed Martin::15057",
+       "employer": "Lockheed Martin",
+       "text": "Develop long-term capacity, capability, and resource plans to support current and future needs"
+      }
+     ],
+     "ladders": [
+      "bank",
+      "corporate"
+     ],
+     "share": 0.111
+    },
+    "resource_planning_resource_requirements": {
+     "text": "You estimate resource requirements from the project scope.",
+     "quote": "Estimates project levels of effort and resource requirements",
+     "postings": [
+      "Abbott Laboratories::31164345",
+      "Procter & Gamble::R000157500"
+     ],
+     "employers": [
+      "Abbott Laboratories",
+      "Procter & Gamble"
+     ],
+     "sentences": [
+      {
+       "posting": "Procter & Gamble::R000157500",
+       "employer": "Procter & Gamble",
+       "text": "Define project scope, budgets, and resource requirements while monitoring costs and providing regular status updates to stakeholders and project leadership."
+      },
+      {
+       "posting": "Abbott Laboratories::31164345",
+       "employer": "Abbott Laboratories",
+       "text": "Estimates project levels of effort and resource requirements by working with appropriate staff to understand scope of effort."
+      }
+     ],
+     "ladders": [
+      "bank",
+      "corporate"
+     ],
+     "share": 0.233
+    }
+   },
+   "runs": {
+    "corporate": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "associate": {
+       "n": 33,
+       "employers": 22
+      },
+      "mid": {
+       "n": 220,
+       "employers": 93
+      },
+      "senior": {
+       "n": 106,
+       "employers": 60
+      },
+      "lead": {
+       "n": 163,
+       "employers": 94
+      }
+     }
+    },
+    "bank": {
+     "drafter": "openai/gpt-6.1-sol",
+     "critic": "anthropic/claude-haiku-5.5",
+     "generated": "2026-10-14",
+     "postings_per_rung": {
+      "mid": {
+       "n": 28,
+       "employers": 15
+      },
+      "senior": {
+       "n": 22,
+       "employers": 16
+      }
+     }
+    }
+   },
+   "build": {}
+  }
  }
 }

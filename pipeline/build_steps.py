@@ -1,23 +1,35 @@
-"""Build steps ("how to build it") for a skill on a ladder. Pilot. Two keys, or no step:
+"""Build steps ("how to build it") for the MBA skills. Two keys, or no step:
 
-    key 1, demand   US postings choose the TARGET: a certification, tool, document or qualification that three
-                    employers name at entry level for the skill on that ladder (code, no model)
+    key 1, demand   US postings choose the TARGET: a document or a tool that employers name at entry level for the
+                    skill on that ladder, or a licence, exam or degree that employers name for a ROLE on a ladder
+                    (code, no model)
     key 2, content  a source on the allow-list says what the target contains (data/raw/build_sources.json)
 
-    .venv/bin/python -m pipeline.build_steps targets --pairs valuation:bank,...   # key 1 only, no model
-    .venv/bin/python -m pipeline.build_steps run --pairs ... [--dry-run]          # targets, draft, checks, critic
-    .venv/bin/python -m pipeline.build_steps check [--tag build_pilot]            # the code checks on a finished run
-    .venv/bin/python -m pipeline.build_steps report [--tag build_pilot]           # readable report
+    .venv/bin/python -m pipeline.build_steps targets --pairs valuation:bank,...|all   # key 1 for skills, no model
+    .venv/bin/python -m pipeline.build_steps roles                                    # key 1 and the steps for roles, no model
+    .venv/bin/python -m pipeline.build_steps needs --pairs all                         # targets with no source: what to collect by hand
+    .venv/bin/python -m pipeline.build_steps run --pairs ... [--dry-run] [--cap N]     # skill steps: draft, checks, critic
+    .venv/bin/python -m pipeline.build_steps check [--tag build_pilot] [--selftest]    # the code checks on a finished run
+    .venv/bin/python -m pipeline.build_steps report [--tag build_pilot]                # readable report
 
-A step fills one of three templates (learn, practise, prove). The model chooses a target, a passage of a source
-and the slot values; it does not write free prose. A skill gets fewer than three steps, or none, when the
-evidence gives fewer. Nothing is padded.
+Decided by the owner (2026-10-13, evals/NOTES.md "Build steps pilot"):
+1. A licence, an exam or a degree is a step of the ROLE, stored once per role and ladder (`roles`), not under
+   each skill. Those steps are written by code from the source record: no model.
+2. A tool is not a target unless a source says what to learn about it. There is no "Learn X" step.
+3. A ladder on hold in the registry (`ladders_on_hold`, consulting) gets no step until a source is agreed.
+4. Certification bodies and regulators are named and linked, never quoted: a `title_only` source gives its
+   title, the name of its outline and facts in our own words. Course vendors are never named.
+5. Fewer than three steps, or none, is a valid result. Nothing is padded.
 
-A target found in the skill's own sentences is "skill" level. A target found elsewhere in the posting (the
-qualifications block) is "role" level: it grounds "postings that ask for this skill also ask for X", not more.
+A step fills one of the templates below. For skill steps the model chooses a target, a passage and the slot
+values; it does not write prose. A step rests on a passage that says what the target contains ("content"), or
+on a passage that names a public input for it, and then it is labelled "input only". A target found in the
+skill's own sentences is "skill" scope and needs three employers; one found elsewhere in the posting is "role"
+scope and needs five.
 
-Output goes to data/experiments/depth/ (gitignored). Needs data/processed/jobs_<roles>.json, the corpus from
-pipeline.experiments.role_corpus and, for `run`, OPENROUTER_API_KEY in .env.
+Output goes to data/experiments/depth/ (gitignored); pipeline.depth_publish writes the checked steps into
+pipeline/depth/. Needs data/processed/jobs_<roles>.json, the corpus from pipeline.experiments.role_corpus and,
+for `run`, OPENROUTER_API_KEY in .env. Every answer is cached; the cap counts answered requests only.
 """
 import argparse
 import collections
@@ -29,20 +41,21 @@ import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
-from pipeline import extract, tax  # noqa: E402
+from pipeline import extract, processed, roles_mba, tax  # noqa: E402
 
 OUT = os.path.join(ROOT, "data", "experiments", "depth")
 LEXICON = os.path.join(ROOT, "pipeline", "build_lexicon.json")
 SOURCES = os.path.join(ROOT, "data", "raw", "build_sources.json")
 DRAFTER = "openai/gpt-6.1-sol"
 CRITIC = "anthropic/claude-haiku-5.5"
-MAX_REQUESTS = 250
+MAX_REQUESTS = 600                   # answered requests, over all runs; --cap raises it for a full run
 
 ENTRY, NEXT = "associate", "mid"
-MIN_EMPLOYERS = 3          # a target needs three employers
-THIN = (30, 8)             # fewer entry postings or employers than this: next-level postings may add targets
-ROLE_SHARE, ROLE_LIFT = 0.05, 1.5   # a role-level target: in 5% of the skill's postings and 1.5 times the ladder's rate
-PER_EMPLOYER, PER_TARGET = 1, 8     # evidence sentences kept per target
+MIN_EMPLOYERS = {"skill": 3, "role": 5}   # employers that must name a target: in the skill's sentences, or elsewhere in the posting
+THIN = (30, 8)                       # fewer entry postings or employers than this: next-level postings may add targets
+ROLE_SHARE, ROLE_LIFT = 0.05, 1.5    # a role-scope target: in 5% of the skill's postings and 1.5 times the ladder's rate
+PER_EMPLOYER, PER_TARGET = 1, 8      # evidence sentences kept per target
+CREDENTIAL_KINDS = ("certification", "qualification")   # steps of the role, not of a skill
 LEVEL_NAMES = {"bank": {"associate": "analyst", "mid": "associate"}, "consulting": {"associate": "analyst", "mid": "consultant"},
                "corporate": {"associate": "analyst or associate", "mid": "manager"}}
 
@@ -70,7 +83,7 @@ def all_sentences(text):
 
 
 def load(roleset):
-    jobs = {j["url"]: j for j in json.load(open(os.path.join(ROOT, "data", "processed", f"jobs_{roleset}.json"))) if j["country"] == "United States"}
+    jobs = {j["url"]: j for j in processed.load(roleset) if j["country"] == "United States"}
     corpus = {}
     with open(os.path.join(ROOT, "data", "experiments", f"corpus_{roleset}.jsonl")) as f:
         for line in f:
@@ -82,11 +95,12 @@ def load(roleset):
 
 # ---- (a) target finder: code only -------------------------------------------------------------------------------
 def scan(js, corpus, rx, lex):
-    """{target id: {"skill": [(job, sentence)], "role": [(job, sentence)]}} with negated sentences left out."""
+    """{target id: {"skill": [(job, sentence)], "role": [(job, sentence)]}} with negated sentences left out.
+    rx is the skill's pattern (None for a role: every sentence counts as "role")."""
     hits = collections.defaultdict(lambda: {"skill": [], "role": [], "negated": 0})
     for j in js:
         for s in all_sentences(corpus.get(j["url"], "")):
-            in_skill = bool(rx.search(s))
+            in_skill = bool(rx and rx.search(s))
             for t in lex:
                 if not t["re"].search(s):
                     continue
@@ -97,8 +111,40 @@ def scan(js, corpus, rx, lex):
     return hits
 
 
+def evidence_rows(rows, rx):
+    """One sentence per employer, those nearest 140 characters first, preferring ones that state a deadline."""
+    seen, ev = set(), []
+    for j, s in sorted(rows, key=lambda r: (not DEADLINE.search(r[1]), abs(len(r[1]) - 140))):
+        if j["company"] in seen:
+            continue
+        seen.add(j["company"])
+        ev.append({"text": s, "company": j["company"], "title": j["title"], "url": j["url"], "id_posting": j["id"], "level": j["level"],
+                   "in_skill_sentence": bool(rx and rx.search(s)), "preferred": bool(PREFERRED.search(s))})
+        if len(ev) >= PER_TARGET:
+            break
+    return ev
+
+
+def base_rate(jobs, corpus, lex, ladder, level, cache):
+    """How often each target is named in ALL postings of a ladder and level (for the lift of a role-scope target)."""
+    key = (ladder, level)
+    if key not in cache:
+        allj = [j for j in jobs.values() if j["ladder"] == ladder and j["level"] == level]
+        cnt = collections.Counter()
+        for j in allj:
+            text = corpus.get(j["url"], "")
+            for t in lex:
+                if t["re"].search(text):
+                    cnt[t["id"]] += 1
+        cache[key] = (len(allj), cnt)
+    return cache[key]
+
+
 def find_targets(jobs, corpus, skill, ladder, lex, base_cache):
+    """Targets of a skill on a ladder: documents and tools that employers name at entry level. Credentials are
+    left to the role (find_role_targets)."""
     rx = extract.SKILL_RX[skill]
+    lex = [t for t in lex if t["kind"] not in CREDENTIAL_KINDS]
     by_level = collections.defaultdict(list)
     for j in jobs.values():
         if j["ladder"] == ladder and skill in j["skills"]:
@@ -112,17 +158,7 @@ def find_targets(jobs, corpus, skill, ladder, lex, base_cache):
         js = by_level[level]
         if not js:
             continue
-        key = (ladder, level)
-        if key not in base_cache:   # how often each target is named in ALL postings of this ladder and level
-            allj = [j for j in jobs.values() if j["ladder"] == ladder and j["level"] == level]
-            cnt = collections.Counter()
-            for j in allj:
-                text = corpus.get(j["url"], "")
-                for t in lex:
-                    if t["re"].search(text):
-                        cnt[t["id"]] += 1
-            base_cache[key] = (len(allj), cnt)
-        n_all, base = base_cache[key]
+        n_all, base = base_rate(jobs, corpus, lex, ladder, level, base_cache)
         hits = scan(js, corpus, rx, lex)
         for t in lex:
             h = hits.get(t["id"])
@@ -130,7 +166,7 @@ def find_targets(jobs, corpus, skill, ladder, lex, base_cache):
                 continue
             for scope in ("skill", "role"):
                 rows = h[scope]
-                if scope == "role":   # a role-level target must not already stand at skill level
+                if scope == "role":   # a role-scope target must not already stand at skill scope
                     if any(x["id"] == t["id"] and x["level"] == level and x["scope"] == "skill" for x in res["targets"]):
                         continue
                     rows = h["skill"] + h["role"]
@@ -143,23 +179,14 @@ def find_targets(jobs, corpus, skill, ladder, lex, base_cache):
                 row = {"id": t["id"], "label": t["label"], "kind": t["kind"], "broad": bool(t.get("broad")), "activity": bool(t.get("activity")), "scope": scope, "level": level,
                        "employers": len(emps), "postings": len(posts), "of_postings": len(js), "share": round(share, 3), "lift": round(lift, 2),
                        "negated_sentences": h["negated"], "employer_names": emps}
-                ok = len(emps) >= MIN_EMPLOYERS and (scope == "skill" or (share >= ROLE_SHARE and lift >= ROLE_LIFT))
+                ok = len(emps) >= MIN_EMPLOYERS[scope] and (scope == "skill" or (share >= ROLE_SHARE and lift >= ROLE_LIFT))
                 if level == NEXT and any(x["id"] == t["id"] and x["level"] == ENTRY for x in res["targets"]):
                     continue   # entry level already has it
                 if not ok:
                     if len(emps) >= 2 and scope == "skill":
                         res["below_threshold"].append({k: row[k] for k in ("id", "scope", "level", "employers", "postings")})
                     continue
-                # evidence sentences: one per employer, those nearest 140 characters first, preferring ones that state a deadline
-                seen, ev = set(), []
-                for j, s in sorted(rows, key=lambda r: (not DEADLINE.search(r[1]), abs(len(r[1]) - 140))):
-                    if j["company"] in seen:
-                        continue
-                    seen.add(j["company"])
-                    ev.append({"text": s, "company": j["company"], "title": j["title"], "url": j["url"], "level": j["level"],
-                               "in_skill_sentence": bool(rx.search(s)), "preferred": bool(PREFERRED.search(s))})
-                    if len(ev) >= PER_TARGET:
-                        break
+                ev = evidence_rows(rows, rx)
                 for i, e in enumerate(ev):
                     e["id"] = f"{t['id']}.{level[:3]}.{scope[0]}{i + 1}"
                 row["deadline_employers"] = len({j["company"] for j, s in rows if DEADLINE.search(s)})
@@ -170,13 +197,70 @@ def find_targets(jobs, corpus, skill, ladder, lex, base_cache):
     return res
 
 
+def find_role_targets(jobs, corpus, family, ladder, lex):
+    """Licences, exams and degrees that employers name in entry-level postings of one role on one ladder (decision 1).
+    Five employers and 5% of the postings; the next level is read too when the entry level is thin."""
+    lex = [t for t in lex if t["kind"] in CREDENTIAL_KINDS]
+    by_level = collections.defaultdict(list)
+    for j in jobs.values():
+        if j["ladder"] == ladder and j["family"] == family:
+            by_level[j["level"]].append(j)
+    entry = by_level[ENTRY]
+    n_emp = len({j["company"] for j in entry})
+    thin = len(entry) < THIN[0] or n_emp < THIN[1]
+    res = {"family": family, "ladder": ladder, "entry_postings": len(entry), "entry_employers": n_emp, "thin": thin,
+           "next_postings": len(by_level[NEXT]), "next_employers": len({j["company"] for j in by_level[NEXT]}), "targets": []}
+    for level in ([ENTRY, NEXT] if thin else [ENTRY]):
+        js = by_level[level]
+        if not js:
+            continue
+        hits = scan(js, corpus, None, lex)
+        for t in lex:
+            h = hits.get(t["id"])
+            if not h:
+                continue
+            rows = h["role"]
+            emps = sorted({j["company"] for j, _ in rows})
+            posts = {j["url"] for j, _ in rows}
+            share = len(posts) / len(js)
+            if len(emps) < MIN_EMPLOYERS["role"] or share < ROLE_SHARE:
+                continue
+            if level == NEXT and any(x["id"] == t["id"] for x in res["targets"]):
+                continue
+            ev = evidence_rows(rows, None)
+            for i, e in enumerate(ev):
+                e["id"] = f"{t['id']}.{level[:3]}.r{i + 1}"
+            res["targets"].append({"id": t["id"], "label": t["label"], "kind": t["kind"], "scope": "role", "level": level, "employers": len(emps), "postings": len(posts),
+                                   "of_postings": len(js), "share": round(share, 3), "negated_sentences": h["negated"], "employer_names": emps,
+                                   "deadline_employers": len({j["company"] for j, s in rows if DEADLINE.search(s)}),
+                                   "preferred_share": round(sum(1 for _, s in rows if PREFERRED.search(s)) / len(rows), 2), "evidence": ev})
+    res["targets"].sort(key=lambda r: (r["level"] != ENTRY, -r["employers"]))
+    return res
+
+
+def all_pairs(jobs, roleset):
+    """Every (skill, ladder) of the role set's own skills with an entry cell (or a thin one plus the next level) of four employers."""
+    T = tax.for_roles(roleset)["skills"]
+    out = []
+    for s in T:
+        if not s.get("only") or s["cluster"] in ("credentials", "tools"):
+            continue
+        for ladder in roles_mba.LADDERS:
+            js = [j for j in jobs.values() if j["ladder"] == ladder and s["id"] in j["skills"] and j["level"] in (ENTRY, NEXT)]
+            if len({j["company"] for j in js}) >= THIN[1] and len(js) >= THIN[0]:
+                out.append(f"{s['id']}:{ladder}")
+    return out
+
+
+def pairs_of(args, jobs):
+    return all_pairs(jobs, args.roles) if args.pairs == "all" else args.pairs.split(",")
 
 
 def targets_of(args, write=True):
     jobs, corpus = load(args.roles)
     lex = lexicon()
     cache, out = {}, []
-    for pair in args.pairs.split(","):
+    for pair in pairs_of(args, jobs):
         skill, ladder = pair.split(":")
         out.append(find_targets(jobs, corpus, skill, ladder, lex, cache))
     doc = {"generated": time.strftime("%Y-%m-%d"), "min_employers": MIN_EMPLOYERS, "pairs": out}
@@ -204,6 +288,7 @@ def registry():
     d = json.load(open(SOURCES))
     d["by_id"] = {s["id"]: s for s in d["sources"]}
     d["vendor_rx"] = re.compile(r"\b(" + "|".join(re.escape(v) for v in d["blocked_vendors"]) + r")\b")
+    d.setdefault("ladders_on_hold", {})
     return d
 
 
@@ -211,36 +296,36 @@ def publisher_short(src):
     return {"us_government": "", "regulator": src["publisher"].split(" (")[0], "certification_body": src["publisher"].split(" (")[0]}[src["publisher_class"]]
 
 
-def content_for(target, pair, reg, lex_by_id):
-    """What the registry holds about a target, for one pair: [{source, item, kind, text}]. No model."""
-    rx = lex_by_id[target["id"]]["re"]
+def passage_use(p):
+    return p.get("use")
+
+
+def content_for(target, pair, reg):
+    """What the registry holds about a target, for one pair: [{source, item, use, text}]. A passage counts only
+    when its record says it is about the target (`about`); a passage that merely mentions the target does not.
+    Title-only sources serve roles (decision 1), not skills. No model."""
     out = []
     for s in reg["sources"]:
-        if pair not in s["pairs"]:
-            continue
-        if s["licence_class"] == "title_only":
-            if target["id"] in s.get("about", []):
-                out.append({"source": s["id"], "item": "", "use": "exam", "text": ""})
+        if pair not in s["pairs"] or s["licence_class"] == "title_only":
             continue
         for p in s["passages"]:
-            if target["id"] in p.get("about", []) or ("about" not in p and rx.search(p["text"])):
-                out.append({"source": s["id"], "item": p["id"], "use": "tool" if p["section"] == "Technology Skills" else p["use"], "text": p["text"]})
+            if target["id"] in p.get("about", []) and passage_use(p) in ("content", "input"):
+                out.append({"source": s["id"], "item": p["id"], "use": passage_use(p), "text": p["text"]})
     return out[:8]
 
 
-# ---- (c) templates: the model fills slots, the code writes the sentence --------------------------------------------
+# ---- (c) templates: the model (skills) or the code (roles) fills slots, the code writes the sentence ---------------
 SUBJECTS = ["a public company", "a company you choose", "a product you choose", "a purchase you choose", "a student club"]
 TEMPLATES = {
-    "learn_outline":  {"kind": "learn", "needs": "exam", "text": 'Study "{section}" in the {outline} from {publisher}.'},
     "learn_outline_whole": {"kind": "learn", "needs": "exam", "text": "Study the {outline} from {publisher}."},
     "learn_read":     {"kind": "learn", "needs": "content", "text": 'Read "{section}" in the {short_title}. Note {items}.'},
     "learn_course":   {"kind": "learn", "needs": "content", "text": "Take a course in {items}."},
-    "learn_tool":     {"kind": "learn", "needs": "tool", "text": "Learn {tool}. O*NET lists it under {category} for {occupation}."},
     "practise_make":  {"kind": "practise", "needs": "content", "text": "Make {artefact} for {subject}. Include {items}."},
     "practise_input": {"kind": "practise", "needs": "input", "text": "Make {artefact} for a public company. Use {items} from {section} of its Form 10-K."},
     "prove_exam":     {"kind": "prove", "needs": "exam", "text": "Pass the {exam} from {publisher}. {fact}"},
 }
-VERBS = {"Study", "Read", "Take", "Learn", "Make", "Pass"}
+VERBS = {"Study", "Read", "Take", "Make", "Pass"}
+GROUNDING = {"exam": "title and facts", "content": "content", "input": "input only"}
 
 
 def join_items(items):
@@ -263,15 +348,13 @@ def render(step, target, src):
     sl = step.get("slots") or {}
     p = {x["id"]: x for x in src["passages"]}.get(step.get("item") or "")
     v = {"publisher": publisher_short(src), "short_title": src["short_title"], "outline": src.get("outline_title") or "", "exam": src.get("exam") or "",
-         "artefact": artefact_name(target["label"]), "tool": target["label"], "items": join_items(sl.get("items") or []), "subject": sl.get("subject") or "",
-         "section": sl.get("section") or (p["section"] if p else ""), "fact": "", "category": "", "occupation": ""}
+         "artefact": artefact_name(target["label"]), "items": join_items(sl.get("items") or []), "subject": sl.get("subject") or "",
+         "section": sl.get("section") or (p["section"] if p else ""), "fact": ""}
     name = step["template"]
     if t["needs"] == "exam":
         if src["licence_class"] != "title_only":
             return None, "this template needs an exam source"
-        if name == "learn_outline" and v["section"] not in src.get("sections", []):
-            return None, "the section is not a section title of the source"
-        if name.startswith("learn") and not v["outline"]:
+        if name == "learn_outline_whole" and not v["outline"]:
             return None, "the source names no outline"
         if name == "prove_exam":
             f = {x["id"]: x["text"] for x in src.get("facts", [])}.get(sl.get("fact") or "")
@@ -283,23 +366,20 @@ def render(step, target, src):
             return None, "the passage is not in the source"
         if name in ("learn_read", "practise_input"):
             v["section"] = p["section"]
-        if name == "learn_tool":
-            if p["section"] != "Technology Skills" or " — " not in p["text"]:
-                return None, "not a Technology Skills line"
-            v["category"] = p["text"].split(" — ")[0].strip()
-            v["category"] = v["category"][0].lower() + v["category"][1:]
-            v["occupation"] = src["short_title"].replace("O*NET summary for ", "")
         if name == "practise_make" and v["subject"] not in SUBJECTS:
             return None, "the subject is not on the list"
-        if name != "learn_tool" and not v["items"]:
+        if not v["items"]:
             return None, "no items"
     return t["text"].format(**v), None
 
 
 def demand_line(t, ladder):
-    where = "in sentences about this skill" if t["scope"] == "skill" else "elsewhere in postings that ask for this skill"
-    s = f"{t['employers']} employers name it {where} ({t['postings']} of {t['of_postings']} US {LEVEL_NAMES[ladder][t['level']]}-level postings)."
-    if t.get("deadline_employers", 0) >= MIN_EMPLOYERS:
+    if t["scope"] == "role" and t["kind"] in CREDENTIAL_KINDS:
+        s = f"{t['employers']} employers name it in {t['postings']} of {t['of_postings']} US {LEVEL_NAMES[ladder][t['level']]}-level postings for this role."
+    else:
+        where = "in sentences about this skill" if t["scope"] == "skill" else "elsewhere in postings that ask for this skill"
+        s = f"{t['employers']} employers name it {where} ({t['postings']} of {t['of_postings']} US {LEVEL_NAMES[ladder][t['level']]}-level postings)."
+    if t.get("deadline_employers", 0) >= MIN_EMPLOYERS["skill"]:
         s += f" {t['deadline_employers']} of them set a deadline after hire."
     return s
 
@@ -339,35 +419,43 @@ def sentences_of(text):
 def source_text(src, item):
     """Everything of a source that a step may take words from."""
     p = {x["id"]: x for x in src["passages"]}.get(item or "")
-    parts = [src["title"], src["short_title"], src.get("outline_title") or "", src.get("exam") or "", " ".join(src.get("sections", [])),
+    parts = [src["title"], src["short_title"], src.get("outline_title") or "", src.get("exam") or "",
              " ".join(f["text"] for f in src.get("facts", [])), publisher_short(src)]
     if p:
         parts += [p["text"], p["section"]]
     return " ".join(parts)
 
 
-def check_step(step, pair, reg, lex_by_id):
-    """Every code check on one step. Returns {check: reason} for the checks it fails (empty: it passes all)."""
+def check_step(step, targets, reg, lex_by_id, ladder, held=()):
+    """Every code check on one step. Returns {check: reason} for the checks it fails (empty: it passes all).
+    targets: the target rows of the pair or the role; held: ladders on hold."""
     bad = {}
-    skill, ladder = pair["skill"], pair["ladder"]
-    target = next((t for t in pair["targets"] if t["id"] == step.get("target") and t["scope"] == step.get("scope") and t["level"] == step.get("level")), None) \
-        or next((t for t in pair["targets"] if t["id"] == step.get("target")), None)
+    target = next((t for t in targets if t["id"] == step.get("target") and t["scope"] == step.get("scope") and t["level"] == step.get("level")), None) \
+        or next((t for t in targets if t["id"] == step.get("target")), None)
     src = reg["by_id"].get(step.get("source") or "")
-    # 1 demand: three employers name the target in postings of this skill and ladder, in sentences with no negation
+    is_role = step.get("for") == "role"
+    # 1 demand: enough employers name the target in postings of this skill (or role) and ladder, in sentences with no negation
     if not target:
-        bad["demand"] = "the target is not among the targets that three employers name for this pair"
+        bad["demand"] = "the target is not among the targets that employers name for this pair"
     else:
         rx = lex_by_id[target["id"]]["re"]
         ev = {e["id"]: e for e in target["evidence"]}
         cited = [ev[i] for i in step.get("evidence") or [] if i in ev]
         named = {e["company"] for e in target["evidence"] if rx.search(e["text"]) and not NEGATION.search(e["text"])}
-        if target["employers"] < MIN_EMPLOYERS or len(named) < MIN_EMPLOYERS:
-            bad["demand"] = f"{len(named)} employers name the target in the stored sentences; a target needs {MIN_EMPLOYERS}"
+        need = MIN_EMPLOYERS[target["scope"]]
+        if target["employers"] < need or len(named) < min(need, PER_TARGET):
+            bad["demand"] = f"{len(named)} employers name the target in the stored sentences; a {target['scope']}-scope target needs {need}"
         elif len({e["company"] for e in cited}) < 2:
             bad["demand"] = "the step cites fewer than two posting sentences of different employers"
         elif step.get("scope") != target["scope"] or step.get("level") != target["level"]:
             bad["demand"] = "the step's scope or level label differs from the target's"
-    # 2 source: on the allow-list, right domain, reachable when read
+    # 1b credential: a licence, exam or degree is a step of the role, never of a skill (decision 1)
+    if target and (target["kind"] in CREDENTIAL_KINDS) != is_role:
+        bad["credential"] = "a credential target under a skill, or a document or tool under a role"
+    # 1c hold: a ladder with no agreed source gets no step (decision 3)
+    if ladder in held:
+        bad["hold"] = f"the {ladder} ladder is on hold: {held[ladder]}" if isinstance(held, dict) else f"the {ladder} ladder is on hold"
+    # 2 source: on the allow-list, right domain, reachable when read, with a hash of what was read
     if not src:
         bad["source"] = "the source is not in the registry"
         return bad
@@ -376,18 +464,26 @@ def check_step(step, pair, reg, lex_by_id):
         bad["source"] = f"{host} is not on the allow-list for {src['publisher_class']}"
     elif src.get("status_when_read") != 200 or not src.get("date_read") or not src.get("terms_note"):
         bad["source"] = "the source was not reachable when read, or has no date or terms note"
-    elif f"{skill}:{ladder}" not in src["pairs"]:
+    elif not src.get("record_sha256"):
+        bad["source"] = "the source record has no hash (run pipeline.build_sources verify)"
+    elif any(x.get("found") is False for x in src["passages"] if x["id"] == step.get("item")):
+        bad["source"] = "the stored passage was not found at the URL when the source was last verified"
+    elif not is_role and f"{step.get('skill')}:{ladder}" not in src["pairs"]:
         bad["source"] = "the source is not mapped to this skill and ladder"
     if not target:
         return bad
-    # 3 skill link: the cited part of the source is about the target
+    # 3 skill link and grounding: the cited part of the source is about the target; content, or labelled input only
     p = {x["id"]: x for x in src["passages"]}.get(step.get("item") or "")
-    rx = lex_by_id[target["id"]]["re"]
     if src["licence_class"] == "title_only":
         if target["id"] not in src.get("about", []):
             bad["skill_link"] = "the source is not about this target"
-    elif not p or not (target["id"] in p.get("about", []) or ("about" not in p and rx.search(p["text"]))):
-        bad["skill_link"] = "the passage is not about this target"
+    elif not p or target["id"] not in p.get("about", []):
+        bad["skill_link"] = "the passage record does not say it is about this target"
+    use = "exam" if src["licence_class"] == "title_only" else (passage_use(p) if p else None)
+    if use not in GROUNDING:
+        bad["grounding"] = f"a passage used as '{use}' grounds no step"
+    elif step.get("grounding") != GROUNDING[use]:
+        bad["grounding"] = f"the step is labelled '{step.get('grounding')}'; its passage grounds '{GROUNDING[use]}'"
     # 4 template: the text is what the template gives for the slots
     text, problem = render(step, target, src)
     if problem:
@@ -398,8 +494,7 @@ def check_step(step, pair, reg, lex_by_id):
     tpl = TEMPLATES[step["template"]]
     if step.get("kind") != tpl["kind"]:
         bad["template"] = "the kind does not match the template"
-    use = "exam" if src["licence_class"] == "title_only" else ("tool" if p["section"] == "Technology Skills" else p["use"])
-    if use != tpl["needs"]:
+    if use in GROUNDING and use != tpl["needs"]:
         bad["template"] = f"the template needs a source used as '{tpl['needs']}', this one is '{use}'"
     if tpl["kind"] == "practise" and (target["kind"] != "document" or target.get("activity")):
         bad["template"] = "the target is not a thing a student can make (a tool, a credential or an activity)"
@@ -409,7 +504,7 @@ def check_step(step, pair, reg, lex_by_id):
     body = norm(p["text"]) if p else ""
     items = (step.get("slots") or {}).get("items") or []
     if src["licence_class"] == "title_only":
-        if items or step.get("quote"):
+        if items or step.get("quote") or '"' in text:
             bad["licence"] = "a title-only source gives a title and a link, no quoted words"
     else:
         for it in items + ([step["quote"]] if step.get("quote") else []):
@@ -417,7 +512,7 @@ def check_step(step, pair, reg, lex_by_id):
                 bad["quote"] = f"\"{it}\" is not word for word in the stored passage"
             elif len(norm(it).split()) > MAX_QUOTE:
                 bad["quote"] = f"\"{it[:40]}...\" is longer than {MAX_QUOTE} words"
-        if tpl["needs"] in ("content", "input") and not items:
+        if not items:
             bad["quote"] = "no words of the source in the step"
     for q in re.findall(r'"([^"]+)"', text):
         if norm(q) not in norm(source_text(src, step.get("item"))):
@@ -438,7 +533,7 @@ def check_step(step, pair, reg, lex_by_id):
         bad["style"] = "does not start with a verb of the templates"
     elif m:
         bad["style"] = f"filler or passive voice: \"{m.group(0)}\""
-    # 9 not a job duty: a student can do it without holding the job (the code part; the critic asks again)
+    # 9 not a job duty: a student can do it without holding the job (the code part; the critic asks again for skill steps)
     m = DUTY.search(text)
     if m:
         bad["not_a_duty"] = f"reads as a job duty: \"{m.group(0)}\""
@@ -459,23 +554,135 @@ def check_step(step, pair, reg, lex_by_id):
     return bad
 
 
-CHECKS = ["demand", "source", "skill_link", "template", "quote", "licence", "vendor", "style", "not_a_duty", "access", "slots_only", "numbers", "different"]
+CHECKS = ["demand", "credential", "hold", "source", "skill_link", "grounding", "template", "quote", "licence", "vendor", "style", "not_a_duty", "access", "slots_only", "numbers", "different"]
 
 
-def different(steps):
-    """Final steps of a pair: one per kind, each on its own target. Returns ids that break the rule."""
-    seen_k, seen_t, out = set(), set(), []
+def different(steps, by_target=False):
+    """Final steps of a pair: one per kind, each on its own target (by_target: one per kind and target, for a role).
+    Returns ids that break the rule."""
+    seen, out = set(), []
     for s in steps:
-        if s["kind"] in seen_k or s["target"] in seen_t:
+        keys = [(s["kind"], s["target"])] if by_target else [("kind", s["kind"]), ("target", s["target"])]
+        if any(k in seen for k in keys):
             out.append(s["n"])
-        seen_k.add(s["kind"])
-        seen_t.add(s["target"])
+        seen.update(keys)
     return out
+
+
+def with_source(c, src, target, ladder):
+    c["demand_line"] = demand_line(target, ladder)
+    c["source_url"], c["source_title"], c["licence_class"] = src["url"], src["title"], src["licence_class"]
+    c["publisher"] = src["publisher"]
+    return c
+
+
+# ---- (e) role steps: licences, exams and degrees, written by code from the source record ---------------------------
+def role_steps(rt, reg, lex_by_id):
+    """Steps of one role on one ladder, from its credential targets and the title-only records (exam bodies, regulators)
+    about them. No model: the record says the outline's name, whether a person with no firm can sit the exam, and the
+    fact to show. A degree or coursework target is listed as an ask; no source on the list says what a degree contains."""
+    ladder = rt["ladder"]
+    out = []
+    for t in rt["targets"]:
+        for s in reg["sources"]:
+            if t["id"] not in s.get("about", []):
+                continue
+            ev = [e["id"] for e in t["evidence"][:4]]
+            base = {"for": "role", "family": rt["family"], "ladder": ladder, "target": t["id"], "scope": "role", "level": t["level"], "source": s["id"], "item": "",
+                    "slots": {}, "quote": "", "evidence": ev, "status": "ok", "why": "", "round": 0}
+            cands = []
+            if s["licence_class"] != "title_only":
+                continue   # a page about one occupation (BLS, O*NET) does not ground a step for every role that asks for the degree
+            if s.get("outline_title"):
+                cands.append({**base, "n": f"{t['id']}.learn", "template": "learn_outline_whole", "kind": "learn", "grounding": "title and facts"})
+            if s.get("student_can_take") is True and s.get("access_fact"):
+                cands.append({**base, "n": f"{t['id']}.prove", "template": "prove_exam", "kind": "prove", "grounding": "title and facts", "slots": {"fact": s["access_fact"]}})
+            for c in cands:
+                c["text"] = render(c, t, s)[0]
+                with_source(c, s, t, ladder)
+                c["code_checks"] = check_step(c, rt["targets"], reg, lex_by_id, ladder, reg["ladders_on_hold"])
+                if c["code_checks"]:
+                    k = next(iter(c["code_checks"]))
+                    c["status"], c["why"] = "code:" + k, c["code_checks"][k]
+                out.append(c)
+            note = next((f["text"] for f in s.get("facts", []) if f["id"] == s.get("access_fact")), "") if s.get("student_can_take") is False else ""
+            if note:
+                t["access_note"] = note
+    return out
+
+
+def roles_cmd(args):
+    """Every role on every ladder: credential targets (five employers), their steps, and what is asked with no source."""
+    jobs, corpus = load(args.roles)
+    reg, lex = registry(), lexicon()
+    lex_by_id = {t["id"]: t for t in lex}
+    results = []
+    for family in roles_mba.FAMILY_LABELS:
+        for ladder in roles_mba.LADDERS:
+            rt = find_role_targets(jobs, corpus, family, ladder, lex)
+            if not rt["targets"]:
+                continue
+            steps = role_steps(rt, reg, lex_by_id)
+            final = []
+            seen = set()
+            for c in sorted([c for c in steps if c["status"] == "ok"], key=lambda c: (c["kind"] != "learn", c["n"])):
+                if (c["kind"], c["target"]) in seen:
+                    continue
+                seen.add((c["kind"], c["target"]))
+                final.append(c["n"])
+            rt["steps"] = steps
+            rt["final"] = final
+            rt["asks_without_source"] = [t["id"] for t in rt["targets"] if not any(c["target"] == t["id"] for c in steps)]
+            results.append(rt)
+            print(f"{family}:{ladder}  targets {[t['id'] for t in rt['targets']]}  steps {len(final)}  no source: {rt['asks_without_source']}", flush=True)
+    doc = {"generated": time.strftime("%Y-%m-%d"), "min_employers": MIN_EMPLOYERS["role"], "share": ROLE_SHARE, "results": results}
+    os.makedirs(OUT, exist_ok=True)
+    path = os.path.join(OUT, "build_roles.json")
+    json.dump(doc, open(path, "w"), indent=1, ensure_ascii=False)
+    n = sum(len(r["final"]) for r in results)
+    print(f"\n{len(results)} role-and-ladder pairs with a credential target; {n} steps; wrote {path}")
+
+
+def needs_cmd(args):
+    """What a hand must collect: targets that pass the demand rule and have no source, by the pairs and roles they would serve."""
+    tdoc = targets_of(args, write=False)
+    reg = registry()
+    jobs, corpus = load(args.roles)
+    lex = lexicon()
+    need, served, no_target = collections.defaultdict(lambda: {"pairs": set(), "employers": 0}), collections.Counter(), []
+    for pair in tdoc["pairs"]:
+        key = f"{pair['skill']}:{pair['ladder']}"
+        if not pair["targets"]:
+            no_target.append(key)
+        for t in pair["targets"]:
+            if t["kind"] == "tool":
+                continue
+            if content_for(t, key, reg):
+                served[key] += 1
+            else:
+                need[t["id"]]["pairs"].add(key)
+                need[t["id"]]["employers"] = max(need[t["id"]]["employers"], t["employers"])
+    rneed = collections.defaultdict(set)
+    for family in roles_mba.FAMILY_LABELS:
+        for ladder in roles_mba.LADDERS:
+            rt = find_role_targets(jobs, corpus, family, ladder, lex)
+            for t in rt["targets"]:
+                if not any(t["id"] in s.get("about", []) for s in reg["sources"]):
+                    rneed[t["id"]].add(f"{family}:{ladder}")
+    print(f"{len(tdoc['pairs'])} pairs; {len(served)} have at least one document target with a source; {len(no_target)} have no target at all")
+    print("\nDocument targets with no source, by the pairs they would serve (hand effort: one source record each):")
+    for tid, v in sorted(need.items(), key=lambda x: -len(x[1]["pairs"])):
+        print(f"  {tid:24} {len(v['pairs']):3} pairs  (most employers in one pair: {v['employers']})")
+    print("\nCredential targets of roles with no source:")
+    for tid, v in sorted(rneed.items(), key=lambda x: -len(x[1])):
+        print(f"  {tid:24} {len(v):3} role-and-ladder pairs")
+    print("\nPairs with no target:", ", ".join(no_target) or "none")
 
 
 # ---- model calls: cached, counted, capped -------------------------------------------------------------------------
 class Models:
-    """As pipeline.depth_gen.Models, with its own cache file and a hard cap on requests sent (every attempt counts)."""
+    """As pipeline.depth_gen.Models, with its own cache file. The cap counts answered requests over all runs; a
+    request that fails or is refused is logged and not counted."""
     ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 
     def __init__(self, dry, env, cap=MAX_REQUESTS):
@@ -499,6 +706,9 @@ class Models:
         self.would_send = collections.Counter()
         self.refused = {}   # model -> message, once OpenRouter refuses it for lack of credit: nothing more is sent to it in this run
 
+    def answered(self):
+        return len(self.cache)
+
     def ask(self, model, prompt, kind):
         import hashlib
         key = hashlib.sha256(f"{model}\n{prompt}".encode()).hexdigest()
@@ -508,24 +718,22 @@ class Models:
         if self.dry:
             return None
         import requests
-        body = {"model": model, "messages": [{"role": "user", "content": prompt}], "response_format": {"type": "json_object"}, "max_tokens": 2000 if model == DRAFTER else 1400}   # a small reserve: the key is shared with another run
+        body = {"model": model, "messages": [{"role": "user", "content": prompt}], "response_format": {"type": "json_object"}, "max_tokens": 2000 if model == DRAFTER else 1400}
         answer, d = {"_error": "not sent"}, {}
         if model in self.refused:
             return {"_error": "not sent: " + self.refused[model]}
-        for attempt in range(1):   # no retry: every attempt counts against the cap; a rerun asks again, answers are cached
-            with self.lock:
-                if self.attempts >= self.cap:
-                    return {"_error": f"request cap of {self.cap} reached"}
-                self.attempts += 1
-                with open(self.log, "a") as f:
-                    f.write(json.dumps({"n": self.attempts, "model": model, "kind": kind, "time": time.strftime("%Y-%m-%dT%H:%M:%S")}) + "\n")
-            try:
-                r = requests.post(self.ENDPOINT, headers={"Authorization": f"Bearer {self.key}"}, json=body, timeout=180)
-                d = r.json()
-                answer = json.loads(re.search(r"\{.*\}", d["choices"][0]["message"]["content"], re.S).group(0))
-                break
-            except Exception as e:
-                answer = {"_error": type(e).__name__ + (": " + str(d.get("error"))[:120] if isinstance(d, dict) and d.get("error") else "")}
+        with self.lock:
+            if self.answered() >= self.cap:
+                return {"_error": f"cap of {self.cap} answered requests reached"}
+            self.attempts += 1
+            with open(self.log, "a") as f:
+                f.write(json.dumps({"n": self.attempts, "model": model, "kind": kind, "time": time.strftime("%Y-%m-%dT%H:%M:%S")}) + "\n")
+        try:
+            r = requests.post(self.ENDPOINT, headers={"Authorization": f"Bearer {self.key}"}, json=body, timeout=180)
+            d = r.json()
+            answer = json.loads(re.search(r"\{.*\}", d["choices"][0]["message"]["content"], re.S).group(0))
+        except Exception as e:
+            answer = {"_error": type(e).__name__ + (": " + str(d.get("error"))[:120] if isinstance(d, dict) and d.get("error") else "")}
         if "credits" in answer.get("_error", ""):
             self.refused[model] = "OpenRouter refused this model for lack of credit"
         u = (d.get("usage") or {}) if isinstance(d, dict) else {}
@@ -539,7 +747,7 @@ class Models:
 
     def many(self, model, prompts, kind):
         from concurrent.futures import ThreadPoolExecutor
-        with ThreadPoolExecutor(1) as pool:   # one at a time: OpenRouter refuses requests when in-flight ones reserve the credit
+        with ThreadPoolExecutor(2) as pool:   # few at a time: OpenRouter refuses requests when in-flight ones reserve the credit
             return list(pool.map(lambda p: self.ask(model, p, kind), prompts))
 
     def cost(self):
@@ -550,12 +758,12 @@ class Models:
 MAX_CANDIDATES = 4
 
 
-def menu(pair, reg, lex_by_id):
+def menu(pair, reg):
     """Per target: what the registry holds about it. Targets with nothing are listed as 'demand without content'."""
     key = f"{pair['skill']}:{pair['ladder']}"
     have, none = [], []
     for t in pair["targets"]:
-        c = content_for(t, key, reg, lex_by_id)
+        c = content_for(t, key, reg)
         (have if c else none).append((t, c))
     return have, none
 
@@ -567,68 +775,57 @@ def draft_prompt(pair, name, what, have, reg, tried=None, kept=(), missing=()):
         lines += [f"  posting [{e['id']}] ({e['company']}) {e['text']}" for e in t["evidence"][:4]]
         for s_id in dict.fromkeys(c["source"] for c in cont):
             s = reg["by_id"][s_id]
-            if s["licence_class"] == "title_only":
-                lines.append(f"  SOURCE {s_id} (title only) — {s['publisher']}: {s['title']}. Exam: {s.get('exam')}. Outline: {s.get('outline_title') or 'none named'}.")
-                if s.get("sections"):
-                    lines.append("    section titles: " + " | ".join(s["sections"]))
-                lines += [f"    fact [{f['id']}] {f['text']}" for f in s.get("facts", [])]
-                lines.append(f"    a person with no employer can take it: {'yes' if s.get('student_can_take') is True else 'no' if s.get('student_can_take') is False else 'not stated'}")
-            else:
-                lines.append(f"  SOURCE {s_id} — {s['publisher']}: {s['title']}")
-                lines += [f"    passage [{c['item']}] (use: {c['use']}) {c['text']}" for c in cont if c["source"] == s_id]
+            lines.append(f"  SOURCE {s_id} — {s['publisher']}: {s['title']}")
+            lines += [f"    passage [{c['item']}] (use: {c['use']}) {c['text']}" for c in cont if c["source"] == s_id]
         blocks.append("\n".join(lines))
-    tpl = "\n".join(f"- {k} ({v['kind']}; needs a source used as {v['needs']}): {v['text']}" for k, v in TEMPLATES.items())
+    tpl = "\n".join(f"- {k} ({v['kind']}; needs a passage used as {v['needs']}): {v['text']}" for k, v in TEMPLATES.items() if v["needs"] != "exam")
     again = ""
     if tried is not None:
         again = "\n\nA first draft was checked. Steps kept:\n" + ("\n".join(f"- ({s['kind']}) {s['text']}" for s in kept) or "- none") + \
                 "\nSteps dropped:\n" + ("\n".join(f"- {s['text'] or s.get('template')} — {s['why']}" for s in tried) or "- none") + \
                 f"\nKinds still missing: {', '.join(missing)}. Give at most 2 NEW steps, of the missing kinds only, on targets that the kept steps do not use. " \
                 "Fix the reason of a dropped step if you can. A role-scope target is acceptable here. If no source grounds a missing kind, give an empty list."
-    return f"""You choose "how to build it" steps for a skill, for MBA and graduate students. You do not write prose. You pick a target, a source and slot values; a program writes the sentence from a template.
+    return f"""You choose "how to build it" steps for a skill, for MBA and graduate students. You do not write prose. You pick a target, a source passage and slot values; a program writes the sentence from a template.
 
 Skill: {name} — {what}
 Employers: {pair['ladder']} ladder, US postings.
 
 Rules.
-- A step needs two keys: a TARGET that postings name (below), and a SOURCE record that says what the target contains, what public input to use, or who can take the exam.
-- Use only the targets, sources, passages, section titles and facts listed below. Do not use what you know about the field. If the sources do not ground a step, do not give it. Fewer steps, or none, is a correct answer.
+- A step needs two keys: a TARGET that postings name (below), and a SOURCE passage that says what the target contains (use: content) or names a public input for it (use: input).
+- Use only the targets, sources and passages listed below. Do not use what you know about the field. If the passages do not ground a step, do not give it. Fewer steps, or none, is a correct answer.
 - Choose targets that are specific to THIS skill. Prefer scope "skill" (named in the skill's own sentences) over scope "role" (named elsewhere in the posting).
 - A student must be able to do the step with no job: no employer's clients, deals, systems or sponsorship.
-- At most {MAX_CANDIDATES} steps, each on a different target. Aim for one learn, one practise and one prove step, and give a kind only when a source grounds it. At most 2 of one kind.
+- At most {MAX_CANDIDATES} steps, each on a different target. Aim for one learn and one practise step, and give a kind only when a passage grounds it. At most 2 of one kind.
 
 Templates (slots in braces):
 {tpl}
-Slot rules: "section" for learn_outline is one of the source's section titles, copied exactly. "items" is a list of 2 to 4 short phrases (1 to 5 words each) COPIED EXACTLY from the passage; only for sources that are not title-only. "subject" for practise_make is one of: {' | '.join(SUBJECTS)}. "fact" for prove_exam is a fact id. learn_tool needs a Technology Skills passage that names the tool; learn_course needs a passage about courses. Each sentence must stay within 20 words.
+Slot rules: "items" is a list of 2 to 4 short phrases (1 to 5 words each) COPIED EXACTLY from the passage. "subject" for practise_make is one of: {' | '.join(SUBJECTS)}. learn_course needs a passage about courses. Each sentence must stay within 20 words.
 
 Targets and what the sources hold:
 {chr(10).join(blocks)}{again}
 
-Answer in JSON: {{"steps": [{{"template": "...", "target": "target id", "source": "source id", "item": "passage id, or empty for a title-only source", "slots": {{"section": "", "items": [], "subject": "", "fact": ""}}, "quote": "3 to 12 consecutive words copied exactly from the passage (empty for a title-only source)", "evidence": ["2 to 4 posting ids of that target, from different employers"], "why_this_skill": "one short sentence"}}]}}"""
+Answer in JSON: {{"steps": [{{"template": "...", "target": "target id", "source": "source id", "item": "passage id", "slots": {{"items": [], "subject": ""}}, "quote": "3 to 12 consecutive words copied exactly from the passage", "evidence": ["2 to 4 posting ids of that target, from different employers"], "why_this_skill": "one short sentence"}}]}}"""
 
 
 def source_view(src, item):
-    if src["licence_class"] == "title_only":
-        return (f"{src['publisher']}: \"{src['title']}\" ({src['url']}). Only the title, section titles and facts in our own words are held.\n"
-                f"Section titles: {' | '.join(src.get('sections', [])) or 'none held'}\nOutline named: {src.get('outline_title') or 'none'}\n"
-                "Facts: " + " ".join(f["text"] for f in src.get("facts", [])))
     p = {x["id"]: x for x in src["passages"]}[item]
     return f"{src['publisher']}: \"{src['title']}\" ({src['url']}), section \"{p['section']}\":\n{p['text']}"
 
 
 def support_prompt(step, target, src):
-    return f"""A study step for students, the source record it rests on, and the job-posting sentences that name its target. Judge from these only, not from what you know.
+    return f"""A study step for students, the source passage it rests on, and the job-posting sentences that name its target. Judge from these only, not from what you know.
 
 Step: {step['text']}
 Target: {target['label']}
 
-Source record:
+Source passage:
 {source_view(src, step.get('item'))}
 
 Posting sentences:
 {chr(10).join('- (' + e['company'] + ') ' + e['text'] for e in target['evidence'] if e['id'] in step['evidence'])}
 
-Answer in JSON: {{"source_supports": "yes" | "partly" | "no", "unsupported_part": "the words of the step the source record does not support, or empty", "says_what_target_contains": "yes" | "no", "postings_name_target": "yes" | "no", "reason": "one sentence"}}
-"source_supports": does the source record support everything the step says about the source, the exam, the document or the tool? The subject of an exercise ("for a public company", "for a company you choose", "for a product you choose") is set by the program and is not a claim about the source: do not judge it. "says_what_target_contains": does the source record itself say what the target ({target['label']}) contains or covers, as opposed to only naming it or only naming an input for it?"""
+Answer in JSON: {{"source_supports": "yes" | "partly" | "no", "unsupported_part": "the words of the step the source passage does not support, or empty", "says_what_target_contains": "yes" | "no", "postings_name_target": "yes" | "no", "reason": "one sentence"}}
+"source_supports": does the passage support everything the step says about the document or the tool? The subject of an exercise ("for a public company", "for a company you choose", "for a product you choose") is set by the program and is not a claim about the source: do not judge it. "says_what_target_contains": does the passage itself say what the target ({target['label']}) contains or covers, as opposed to only naming it or only naming an input for it?"""
 
 
 def student_prompt(step, target, src):
@@ -636,8 +833,7 @@ def student_prompt(step, target, src):
 
 Step: {step['text']}
 
-What the source record says about access:
-{source_view(src, step.get('item')) if src['licence_class'] == 'title_only' else 'A public document: ' + src['title'] + ' (' + src['url'] + ')'}
+Source: a public document, {src['title']} ({src['url']}).
 
 Can a student do this step without holding the job: with no employer's clients, deals, internal systems, data or sponsorship? Is it an action with an end (something made, read or passed), not a job duty?
 Answer in JSON: {{"student_can_do": "yes" | "no", "is_job_duty": "yes" | "no", "needs": "what the student would lack, or empty", "reason": "one sentence"}}"""
@@ -660,19 +856,24 @@ def run_cmd(args):
     T = {s["id"]: s for s in tax.for_roles(args.roles)["skills"]}
     depth = {}
     for f in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
-        depth.update(json.load(open(f)))
+        if not f.endswith("_roles.json"):
+            depth.update(json.load(open(f)))
     reg, lex_by_id = registry(), {t["id"]: t for t in lexicon()}
     tdoc = targets_of(args)
-    M = Models(args.dry_run, args.env)
-    start = M.attempts
+    M = Models(args.dry_run, args.env, args.cap)
+    start, answered0 = M.attempts, M.answered()
     results = []
     for pair in tdoc["pairs"]:
         skill, ladder = pair["skill"], pair["ladder"]
         name, what = T[skill]["name"], depth.get(skill, {}).get("what", "")
-        have, none = menu(pair, reg, lex_by_id)
+        have, none = menu(pair, reg)
         res = {"skill": skill, "ladder": ladder, "name": name, "targets_total": len(pair["targets"]), "targets_with_content": [t["id"] for t, _ in have],
                "targets_without_content": [t["id"] for t, _ in none], "candidates": [], "final": []}
         results.append(res)
+        if ladder in reg["ladders_on_hold"]:
+            res["note"] = f"held: {reg['ladders_on_hold'][ladder]}"
+            print(f"{skill}:{ladder}  on hold, nothing drafted", flush=True)
+            continue
         if not have:
             res["note"] = "no target of this pair has a source: nothing drafted, no request sent"
             print(f"{skill}:{ladder}  no source for any target", flush=True)
@@ -686,19 +887,16 @@ def run_cmd(args):
                 if not isinstance(s, dict):
                     continue
                 t, src = tmap.get(s.get("target")), reg["by_id"].get(s.get("source") or "")
-                c = {"n": f"{rnd_no}.{len(cands) + 1}", "round": rnd_no, "template": s.get("template"), "kind": (TEMPLATES.get(s.get("template")) or {}).get("kind"),
+                c = {"n": f"{rnd_no}.{len(cands) + 1}", "round": rnd_no, "for": "skill", "skill": skill, "template": s.get("template"), "kind": (TEMPLATES.get(s.get("template")) or {}).get("kind"),
                      "target": s.get("target"), "scope": t["scope"] if t else None, "level": t["level"] if t else None, "source": s.get("source"), "item": s.get("item") or "",
                      "slots": {k: v for k, v in (s.get("slots") or {}).items() if v}, "quote": s.get("quote") or "", "evidence": s.get("evidence") or [],
-                     "why_this_skill": s.get("why_this_skill"), "text": None, "status": "ok", "why": ""}
+                     "why_this_skill": s.get("why_this_skill"), "text": None, "status": "ok", "why": "", "grounding": None}
                 if t and src:
-                    if src["licence_class"] == "title_only":
-                        c["quote"], c["item"] = "", ""
-                        c["slots"].pop("items", None)
                     c["text"] = render(c, t, src)[0]
-                    c["demand_line"] = demand_line(t, ladder)
-                    c["source_url"], c["source_title"], c["licence_class"] = src["url"], src["title"], src["licence_class"]
-                    c["grounding"] = {"exam": "title and facts", "content": "content", "input": "input only", "tool": "names the tool"}[TEMPLATES[c["template"]]["needs"]] if c["template"] in TEMPLATES else None
-                c["code_checks"] = check_step(c, pair, reg, lex_by_id)
+                    p = {x["id"]: x for x in src["passages"]}.get(c["item"])
+                    c["grounding"] = GROUNDING.get(passage_use(p)) if p else None
+                    with_source(c, src, t, ladder)
+                c["code_checks"] = check_step(c, pair["targets"], reg, lex_by_id, ladder, reg["ladders_on_hold"])
                 if c["code_checks"]:
                     k = next(iter(c["code_checks"]))
                     c["status"], c["why"] = "code:" + k, c["code_checks"][k]
@@ -723,15 +921,17 @@ def run_cmd(args):
                 i = "ABCD".find((w.get("answer") or "?")[:1])
                 c["skill_specific"] = 0 <= i < 4 and o[i] == name and not w.get("could_also_be")
                 c["picked"] = o[i] if 0 <= i < 4 else None
+                c["content_grounded"] = a.get("says_what_target_contains") == "yes"
                 if a.get("source_supports") != "yes":
                     c["status"], c["why"] = "critic:support", f"{a.get('source_supports')}: {a.get('unsupported_part') or a.get('reason')}"
                 elif a.get("postings_name_target") != "yes":
                     c["status"], c["why"] = "critic:support", "the critic does not find the target in the posting sentences"
+                elif c["grounding"] == "content" and not c["content_grounded"]:   # enforced: a content step's passage must say what the target contains
+                    c["status"], c["why"] = "critic:content", "the critic says the passage does not say what the target contains: " + (a.get("reason") or "")
                 elif b.get("student_can_do") != "yes" or b.get("is_job_duty") == "yes":
                     c["status"], c["why"] = "critic:student", b.get("needs") or b.get("reason") or "a job duty"
                 elif c["scope"] == "skill" and not (0 <= i < 4 and o[i] == name):
                     c["status"], c["why"] = "critic:specific", f"read as another skill ({c['picked']})"
-                c["content_grounded"] = a.get("says_what_target_contains") == "yes"
             return cands
 
         raw = M.ask(DRAFTER, draft_prompt(pair, name, what, have, reg), "draft")
@@ -743,16 +943,16 @@ def run_cmd(args):
         cands = judge(raw, 1)
         kinds_ok = {c["kind"] for c in cands if c["status"] == "ok"}
         dropped = [c for c in cands if c["status"] != "ok"]
-        if len(kinds_ok) < 3:   # one more try (also when the first request got no answer) for the kinds that are missing
+        if len(kinds_ok) < 2:   # one more try (also when the first request got no answer) for the kinds that are missing
             kept = [c for c in cands if c["status"] == "ok"]
-            raw2 = M.ask(DRAFTER, draft_prompt(pair, name, what, have, reg, tried=dropped, kept=kept, missing=[k for k in ("learn", "practise", "prove") if k not in kinds_ok]), "redraft")
+            raw2 = M.ask(DRAFTER, draft_prompt(pair, name, what, have, reg, tried=dropped, kept=kept, missing=[k for k in ("learn", "practise") if k not in kinds_ok]), "redraft")
             if raw2 and "_error" in raw2:
                 res.setdefault("errors", []).append("second drafting request: " + raw2["_error"])
             elif raw2 is not None and not raw2.get("steps"):
                 res["redraft_empty"] = True   # the drafter was asked for the missing kinds and gave none
             cands += judge(raw2, 2)
         res["candidates"] = cands
-        # final: one step per kind, each on its own target; skill-level targets first, then the order drafted
+        # final: one step per kind, each on its own target; skill-scope targets first, content before input only, then the order drafted
         seen_k, seen_t = set(), set()
         for c in sorted([c for c in cands if c["status"] == "ok"], key=lambda c: (c["scope"] != "skill", c["grounding"] == "input only", c["n"])):
             if c["kind"] in seen_k or c["target"] in seen_t:
@@ -763,7 +963,8 @@ def run_cmd(args):
             res["final"].append(c["n"])
         print(f"{skill}:{ladder}  drafted {len(cands)}  " + str(dict(collections.Counter(c['status'] for c in cands))) + f"  final {len(res['final'])}", flush=True)
     doc = {"generated": time.strftime("%Y-%m-%d"), "drafter": DRAFTER, "critic": CRITIC, "pairs": args.pairs, "results": results,
-           "requests": {"sent_this_run": M.attempts - start, "sent_in_all": M.attempts, "answered_in_all": len(M.cache), "cap": M.cap, "would_send_dry": dict(M.would_send), "cost_usd": round(M.cost(), 4)}}
+           "requests": {"sent_this_run": M.attempts - start, "answered_this_run": M.answered() - answered0, "sent_in_all": M.attempts, "answered_in_all": M.answered(), "cap": M.cap,
+                        "would_send_dry": dict(M.would_send), "cost_usd": round(M.cost(), 4)}}
     if not args.dry_run:
         json.dump(doc, open(os.path.join(OUT, f"{args.tag}.json"), "w"), indent=1, ensure_ascii=False)
         print("wrote", os.path.join(OUT, f"{args.tag}.json"))
@@ -771,38 +972,71 @@ def run_cmd(args):
 
 
 # ---- 3. the eval: all code checks on a finished run, no model ------------------------------------------------------
-def check_cmd(args):
-    """Exit 0 when every published (final) step passes every code check. Later: evals/, on the published files."""
-    reg, lex_by_id = registry(), {t["id"]: t for t in lexicon()}
-    run = json.load(open(os.path.join(OUT, f"{args.tag}.json")))
-    pairs = {(p["skill"], p["ladder"]): p for p in json.load(open(os.path.join(OUT, f"{args.tag}_targets.json")))["pairs"]}
-    fails, n, per = [], 0, collections.Counter()
-    for s in reg["sources"]:   # the registry itself
-        for k in ("id", "publisher", "publisher_class", "title", "url", "date_read", "read_with", "status_when_read", "licence_class", "terms_note", "may_quote"):
+def registry_faults(reg):
+    fails = []
+    for s in reg["sources"]:
+        for k in ("id", "publisher", "publisher_class", "title", "url", "date_read", "read_with", "status_when_read", "licence_class", "terms_note", "may_quote", "record_sha256"):
             if s.get(k) in (None, ""):
                 fails.append(("registry", s.get("id"), f"no {k}"))
         if s["licence_class"] == "title_only" and s["passages"]:
             fails.append(("registry", s["id"], "a title-only source holds text"))
+        if s["licence_class"] == "title_only" and s.get("student_can_take") is not None and not s.get("access_fact"):
+            fails.append(("registry", s["id"], "says who can take the exam but names no access fact"))
+        if s.get("access_fact") and s["access_fact"] not in {f["id"] for f in s.get("facts", [])}:
+            fails.append(("registry", s["id"], "the access fact is not among its facts"))
         if reg["vendor_rx"].search(s["publisher"] + " " + s["title"]):
             fails.append(("registry", s["id"], "a blocked vendor"))
+    return fails
+
+
+def check_run(run, pairs_by_key, reg, lex_by_id, roles_doc=None):
+    """(fails, n, per) for a finished skill run and, when given, the role steps."""
+    fails, n, per = registry_faults(reg), 0, collections.Counter()
     for r in run["results"]:
-        pair = pairs[(r["skill"], r["ladder"])]
+        pair = pairs_by_key[(r["skill"], r["ladder"])]
         final = [c for c in r["candidates"] if c["n"] in r["final"]]
         for c in final:
             n += 1
-            bad = check_step(c, pair, reg, lex_by_id)
+            bad = check_step(c, pair["targets"], reg, lex_by_id, r["ladder"], reg["ladders_on_hold"])
             for k in CHECKS[:-1]:
                 per[k] += k not in bad
             for k, why in bad.items():
                 fails.append((f"{r['skill']}:{r['ladder']}", c["n"], f"{k}: {why}"))
             if c.get("status") != "ok":
                 fails.append((f"{r['skill']}:{r['ladder']}", c["n"], "published with a status other than ok"))
+            if c.get("grounding") == "content" and not c.get("content_grounded"):
+                fails.append((f"{r['skill']}:{r['ladder']}", c["n"], "grounding: a content step the critic did not confirm"))
         d = different(final)
         per["different"] += len(final) - len(d)
         fails += [(f"{r['skill']}:{r['ladder']}", x, "different: same kind or same target as another step") for x in d]
         if len(final) > 3:
             fails.append((f"{r['skill']}:{r['ladder']}", "-", "more than three steps"))
-    print(f"build check: {n} published steps in {len(run['results'])} pairs, {len(reg['sources'])} sources")
+    for rt in (roles_doc or {}).get("results", []):
+        final = [c for c in rt["steps"] if c["n"] in rt["final"]]
+        for c in final:
+            n += 1
+            bad = check_step(c, rt["targets"], reg, lex_by_id, rt["ladder"], reg["ladders_on_hold"])
+            for k in CHECKS[:-1]:
+                per[k] += k not in bad
+            for k, why in bad.items():
+                fails.append((f"{rt['family']}:{rt['ladder']}", c["n"], f"{k}: {why}"))
+        d = different(final, by_target=True)   # a role may study for two exams: one step per kind and target
+        per["different"] += len(final) - len(d)
+        fails += [(f"{rt['family']}:{rt['ladder']}", x, "different: same kind and target as another step") for x in d]
+    return fails, n, per
+
+
+def check_cmd(args):
+    """Exit 0 when every final step passes every code check. evals/run_depth.py runs the same checks on the published files."""
+    reg, lex_by_id = registry(), {t["id"]: t for t in lexicon()}
+    if args.selftest:
+        return selftest(reg, lex_by_id)
+    run = json.load(open(os.path.join(OUT, f"{args.tag}.json")))
+    pairs = {(p["skill"], p["ladder"]): p for p in json.load(open(os.path.join(OUT, f"{args.tag}_targets.json")))["pairs"]}
+    rp = os.path.join(OUT, "build_roles.json")
+    roles_doc = json.load(open(rp)) if os.path.exists(rp) else None
+    fails, n, per = check_run(run, pairs, reg, lex_by_id, roles_doc)
+    print(f"build check: {n} final steps in {len(run['results'])} pairs" + (f" and {len(roles_doc['results'])} roles" if roles_doc else "") + f", {len(reg['sources'])} sources")
     for k in CHECKS:
         print(f"  {k:12} {per[k]}/{n}")
     for f in fails:
@@ -811,33 +1045,96 @@ def check_cmd(args):
     sys.exit(1 if fails else 0)
 
 
+def selftest(reg, lex_by_id):
+    """Plant one fault at a time in a good step and assert that the named check catches it."""
+    import copy
+    src = reg["by_id"]["occ_rcr"]
+    p = next(x for x in src["passages"] if x["id"] == "fsa")
+    target = {"id": "financial_statements", "label": "financial statement analysis", "kind": "document", "activity": False, "scope": "skill", "level": "associate", "employers": 8, "postings": 12, "of_postings": 147,
+              "evidence": [{"id": f"financial_statements.ass.s{i}", "company": c, "text": f"Analyze financial statements and credit metrics {i}", "preferred": False} for i, c in enumerate(["A", "B", "C", "D"], 1)]}
+    items = [w for w in ("balance sheet", "income statement") if norm(w) in norm(p["text"])]
+    good = {"n": "1.1", "for": "skill", "skill": "credit_analysis", "template": "learn_read", "kind": "learn", "target": "financial_statements", "scope": "skill", "level": "associate", "source": "occ_rcr", "item": "fsa",
+            "slots": {"items": items}, "quote": items[0], "evidence": ["financial_statements.ass.s1", "financial_statements.ass.s2"], "grounding": "content"}
+    good["text"] = render(good, target, src)[0]
+    base = check_step(good, [target], reg, lex_by_id, "bank", {})
+    assert not base, f"the good step fails: {base}"
+    # every check reads the text the template renders from the slots, so a fault is planted in the slots (or the records)
+    def retarget(s, t, tid, label, kind="document"):
+        t.update(id=tid, label=label, kind=kind)
+        s["target"] = tid
+        for e in t["evidence"]:
+            e["text"] = f"{label} skills {e['text']}"
+    faults = {
+        "demand": lambda s, t: s.update(evidence=["financial_statements.ass.s1"]),
+        "credential": lambda s, t: t.update(kind="certification"),
+        "hold": None,
+        "source": lambda s, t: s.update(source="nowhere"),
+        "skill_link": lambda s, t: retarget(s, t, "pitch_book", "pitch book"),
+        "grounding": lambda s, t: s.update(grounding="input only"),
+        "template": lambda s, t: s.update(text=s["text"] + " Then more."),
+        "quote": lambda s, t: s["slots"].update(items=["words not in the passage"]),
+        "licence": None,
+        "vendor": lambda s, t: s["slots"].update(items=["Coursera"]),
+        "style": lambda s, t: s["slots"].update(items=[" ".join(["word"] * 8), " ".join(["word"] * 8), " ".join(["word"] * 8)]),
+        "not_a_duty": lambda s, t: s["slots"].update(items=["figures with your manager"]),
+        "slots_only": lambda s, t: s["slots"].update(items=["quarterly"]),
+        "numbers": lambda s, t: s["slots"].update(items=["42 days"]),
+    }
+    caught = 0
+    for name, plant in faults.items():
+        s, t, held = copy.deepcopy(good), copy.deepcopy(target), {}
+        if name == "hold":
+            held = {"bank": "test"}
+        elif name == "licence":
+            retarget(s, t, "sie", "SIE exam", "certification")
+            s.update(source="finra_sie", item="", template="learn_outline_whole", grounding="title and facts", quote="x", slots={})
+            s["for"] = "role"
+        else:
+            plant(s, t)
+        if name != "template":
+            s["text"] = render(s, t, reg["by_id"].get(s["source"], src))[0] or s["text"]
+        bad = check_step(s, [t], reg, lex_by_id, "bank", held)
+        ok = name in bad
+        caught += ok
+        print(f"  {'caught' if ok else 'MISSED'} {name:12} -> {dict(bad) if not ok else bad[name][:70]}")
+    # different: two steps of one kind
+    d = different([dict(good, n="1.1"), dict(good, n="1.2")])
+    print(f"  {'caught' if d == ['1.2'] else 'MISSED'} different")
+    caught += d == ["1.2"]
+    print(f"selftest: {caught} of {len(faults) + 1} planted faults caught")
+    sys.exit(0 if caught == len(faults) + 1 else 1)
+
+
 # ---- readable report ----------------------------------------------------------------------------------------------
 def report_cmd(args):
     reg = registry()
     run = json.load(open(os.path.join(OUT, f"{args.tag}.json")))
     pairs = {(p["skill"], p["ladder"]): p for p in json.load(open(os.path.join(OUT, f"{args.tag}_targets.json")))["pairs"]}
-    L = [f"# Build steps pilot: {len(run['results'])} skill and ladder pairs", "",
-         f"Generated {run['generated']}. Drafter `{run['drafter']}`, critic `{run['critic']}`. Requests sent in all: {run['requests']['sent_in_all']} of a cap of {run['requests']['cap']} ({run['requests'].get('answered_in_all', '?')} answered; the others were refused and not billed); "
-         f"cost ${run['requests']['cost_usd']:.2f}. Everything here is measured by `pipeline/build_steps.py`; nothing is published.", ""]
+    rp = os.path.join(OUT, "build_roles.json")
+    roles_doc = json.load(open(rp)) if os.path.exists(rp) else None
+    L = [f"# Build steps: {len(run['results'])} skill and ladder pairs", "",
+         f"Generated {run['generated']}. Drafter `{run['drafter']}`, critic `{run['critic']}`. Requests answered in all: {run['requests'].get('answered_in_all', '?')} of a cap of {run['requests']['cap']} ({run['requests']['sent_in_all']} sent; failed ones are not billed and not counted); "
+         f"cost ${run['requests']['cost_usd']:.2f}. Everything here is measured by `pipeline/build_steps.py`.", ""]
     allc = [c for r in run["results"] for c in r["candidates"]]
     fin = [(r, c) for r in run["results"] for c in r["candidates"] if c["n"] in r["final"]]
     by_n = collections.Counter(len(r["final"]) for r in run["results"])
-    L += ["## Totals", "", f"- Targets that three employers name: {sum(r['targets_total'] for r in run['results'])}; with a source in the registry: {sum(len(r['targets_with_content']) for r in run['results'])}.",
-          f"- Steps drafted: {len(allc)}. By outcome: " + ", ".join(f"{k} {v}" for k, v in collections.Counter(c['status'] for c in allc).most_common()) + ".",
+    L += ["## Totals", "", f"- Targets (documents and tools) that employers name: {sum(r['targets_total'] for r in run['results'])}; with a source in the registry: {sum(len(r['targets_with_content']) for r in run['results'])}.",
+          f"- Steps drafted: {len(allc)}. By outcome: " + (", ".join(f"{k} {v}" for k, v in collections.Counter(c['status'] for c in allc).most_common()) or "none") + ".",
           f"- Final steps: {len(fin)}. By kind: " + ", ".join(f"{k} {v}" for k, v in collections.Counter(c['kind'] for _, c in fin).items()) + ". By grounding: "
           + ", ".join(f"{k} {v}" for k, v in collections.Counter(c['grounding'] for _, c in fin).items()) + ". By target scope: "
           + ", ".join(f"{k} {v}" for k, v in collections.Counter(c['scope'] for _, c in fin).items()) + ".",
-          "- Pairs by number of final steps: " + ", ".join(f"{k} steps: {by_n[k]}" for k in (3, 2, 1, 0)) + ".",
+          "- Pairs by number of final steps: " + ", ".join(f"{k} steps: {by_n[k]}" for k in (3, 2, 1, 0)) + "; on hold: " + str(sum(1 for r in run['results'] if str(r.get('note', '')).startswith('held'))) + ".",
           f"- Final steps the critic calls skill-specific (it picks this skill among four of the ladder, and no other fits): {sum(1 for _, c in fin if c.get('skill_specific'))} of {len(fin)}.",
-          f"- Final steps where the critic says the source itself says what the target contains: {sum(1 for _, c in fin if c.get('content_grounded'))} of {len(fin)}.", ""]
-    L += ["| Pair | Entry postings (employers) | Targets | With a source | Drafted | Pass code checks | Pass support | Pass student test | Pass specificity | Final |", "|---|---|---|---|---|---|---|---|---|---|"]
+          f"- Final content steps, each confirmed by the critic as saying what the target contains: {sum(1 for _, c in fin if c.get('grounding') == 'content')}; input-only steps: {sum(1 for _, c in fin if c.get('grounding') == 'input only')}.", ""]
+    L += ["| Pair | Entry postings (employers) | Targets | With a source | Drafted | Pass code checks | Pass support | Pass content | Pass student test | Pass specificity | Final |", "|---|---|---|---|---|---|---|---|---|---|---|"]
     for r in run["results"]:
         p, cs = pairs[(r["skill"], r["ladder"])], r["candidates"]
         code_ok = [c for c in cs if not c["code_checks"]]
-        sup = [c for c in code_ok if c["status"] != "critic:support" and c["status"] != "critic:error"]
-        stu = [c for c in sup if c["status"] != "critic:student"]
+        sup = [c for c in code_ok if c["status"] not in ("critic:support", "critic:error")]
+        con = [c for c in sup if c["status"] != "critic:content"]
+        stu = [c for c in con if c["status"] != "critic:student"]
         spe = [c for c in stu if c["status"] != "critic:specific"]
-        L.append(f"| {r['skill']}:{r['ladder']} | {p['entry_postings']} ({p['entry_employers']}) | {r['targets_total']} | {len(r['targets_with_content'])} | {len(cs)} | {len(code_ok)} | {len(sup)} | {len(stu)} | {len(spe)} | {len(r['final'])} |")
+        L.append(f"| {r['skill']}:{r['ladder']} | {p['entry_postings']} ({p['entry_employers']}) | {r['targets_total']} | {len(r['targets_with_content'])} | {len(cs)} | {len(code_ok)} | {len(sup)} | {len(con)} | {len(stu)} | {len(spe)} | {len(r['final'])} |")
     L.append("")
     for r in run["results"]:
         p = pairs[(r["skill"], r["ladder"])]
@@ -849,9 +1146,9 @@ def report_cmd(args):
         if not final:
             L += ["None. " + (r.get("note") or ("Nothing was drafted." if not r["candidates"] else "No drafted step passed every check.")), ""]
         for c in final:
-            L += [f"- **{c['kind']}** — {c['text']}", f"  - Demand ({c['scope']} level, target `{c['target']}`): {c['demand_line']}",
-                  f"  - Source: {c['source_title']} — {c['source_url']} ({c['licence_class']}; grounding: {c['grounding']}; critic: source says what the target contains = {'yes' if c.get('content_grounded') else 'no'}; skill-specific = {'yes' if c.get('skill_specific') else 'no'})"]
-        L += ["", "**Targets** (three employers or more)", "", "| Target | Kind | Scope | Level | Employers | Postings | Lift | Source in registry |", "|---|---|---|---|---|---|---|---|"]
+            L += [f"- **{c['kind']}** — {c['text']}", f"  - Demand ({c['scope']} scope, target `{c['target']}`): {c['demand_line']}",
+                  f"  - Source: {c['source_title']} — {c['source_url']} ({c['licence_class']}; grounding: {c['grounding']}; skill-specific = {'yes' if c.get('skill_specific') else 'no'})"]
+        L += ["", "**Targets** (documents and tools: three employers at skill scope, five at role scope)", "", "| Target | Kind | Scope | Level | Employers | Postings | Lift | Source in registry |", "|---|---|---|---|---|---|---|---|"]
         for t in p["targets"]:
             L.append(f"| {t['label']}{' (broad)' if t['broad'] else ''} | {t['kind']} | {t['scope']} | {t['level']} | {t['employers']} | {t['postings']}/{t['of_postings']} | {t['lift']} | {'yes' if t['id'] in r['targets_with_content'] else 'no'} |")
         L += ["", "**Drafted steps and what happened**", ""]
@@ -860,11 +1157,19 @@ def report_cmd(args):
         if not r["candidates"]:
             L.append("- nothing drafted")
         L.append("")
-    L += ["## Sources", "", "| Id | Publisher | Class | Licence | Read with | Terms note |", "|---|---|---|---|---|---|"]
-    used = {c["source"] for _, c in fin}
+    if roles_doc:
+        L += ["## Steps of the roles: licences, exams and degrees", "", f"Five employers and 5% of the entry-level postings of the role on the ladder; written by code from the source record, no model. {len(roles_doc['results'])} role-and-ladder pairs have such a target.", "",
+              "| Role | Ladder | Entry postings (employers) | Targets (employers) | Steps | Asked, no source |", "|---|---|---|---|---|---|"]
+        for rt in roles_doc["results"]:
+            final = [c for c in rt["steps"] if c["n"] in rt["final"]]
+            L.append(f"| {roles_mba.FAMILY_LABELS[rt['family']]} | {rt['ladder']} | {rt['entry_postings']} ({rt['entry_employers']}) | " + ", ".join(f"{t['label']} ({t['employers']})" for t in rt["targets"]) + " | " + "<br>".join(c["text"] for c in final) + " | " + ", ".join(rt["asks_without_source"]) + " |")
+        L.append("")
+    L += ["## Sources", "", "| Id | Publisher | Class | Licence | Read with | Hash | Terms note |", "|---|---|---|---|---|---|---|"]
+    used = {c["source"] for _, c in fin} | {c["source"] for rt in (roles_doc or {}).get("results", []) for c in rt["steps"] if c["n"] in rt["final"]}
     for s in reg["sources"]:
-        L.append(f"| {s['id']}{' (used in a final step)' if s['id'] in used else ''} | {s['publisher']} | {s['publisher_class']} | {s['licence_class']} | {s['read_with']} | {s['terms_note']} |")
+        L.append(f"| {s['id']}{' (used)' if s['id'] in used else ''} | {s['publisher']} | {s['publisher_class']} | {s['licence_class']} | {s['read_with']} | {(s.get('document_sha256') or s.get('record_sha256') or '')[:12]} | {s['terms_note']} |")
     L += ["", "Tried and not usable:", ""] + [f"- {x['id']} ({x['url']}): {x['why']}" for x in reg["tried_and_not_usable"]]
+    L += ["", "Ladders on hold: " + (", ".join(f"{k} ({v})" for k, v in reg["ladders_on_hold"].items()) or "none")]
     path = os.path.join(OUT, f"{args.tag}_report.md")
     open(path, "w").write("\n".join(L) + "\n")
     print("wrote", path)
@@ -872,14 +1177,16 @@ def report_cmd(args):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["targets", "run", "check", "report"])
+    ap.add_argument("cmd", choices=["targets", "roles", "needs", "run", "check", "report"])
     ap.add_argument("--roles", default="mba")
-    ap.add_argument("--pairs")
+    ap.add_argument("--pairs", help="skill:ladder,... or all")
     ap.add_argument("--tag", default="build_pilot")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--cap", type=int, default=MAX_REQUESTS, help="answered requests allowed over all runs")
+    ap.add_argument("--selftest", action="store_true", help="check: plant faults and see that each check catches its own")
     ap.add_argument("--env", default=os.path.join(ROOT, ".env"), help="file with OPENROUTER_API_KEY")
     args = ap.parse_args()
-    {"targets": targets_cmd, "run": run_cmd, "check": check_cmd, "report": report_cmd}[args.cmd](args)
+    {"targets": targets_cmd, "roles": roles_cmd, "needs": needs_cmd, "run": run_cmd, "check": check_cmd, "report": report_cmd}[args.cmd](args)
 
 
 if __name__ == "__main__":

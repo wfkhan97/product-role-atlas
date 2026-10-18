@@ -1151,3 +1151,142 @@ degree. The product set's "Startup (unclassified)" sector is left out of the ind
 **Checked in the browser.** Every screen, light and dark, a dropped PDF and a dropped DOCX, an MBA role in range, a
 group without bands (compliance: the notice, no verdict), a product role, a pasted syllabus, the three event screens
 with a stored resume, the filters narrowing to one posting.
+
+## Build steps: the decisions in code, the pilot rerun, what expansion needs (2026-10-14)
+
+Branch `feat/depth-publish`. The owner's decisions of 2026-10-13 are in `pipeline/build_steps.py` and the source
+registry; the pilot's open items are closed. Measured on the same 12 pairs as the pilot.
+
+**What changed.** (1) A licence, an exam or a degree is a step of the role: `build_steps roles` reads every role on
+every ladder, keeps a credential that five employers name in 5% of the entry-level postings, and writes the steps
+by code from the source record (no model): "Study the {outline} from {body}" when the record names an outline,
+"Pass the {exam} from {body}. {access fact}" when the record says a person with no firm can sit it. A degree or
+coursework is listed as an ask with its counts: no source on the list says what a degree contains. (2) A tool is
+not a target unless a passage says what to learn about it; the 356 O*NET "Technology Skills" lines were removed
+from the registry and the "Learn {tool}" template with them. (3) `ladders_on_hold` in the registry holds
+consulting: its pairs get targets but no draft. (4) A title-only source (regulator, certification body) gives its
+title, the outline's name, a link and facts in our own words; the template that quoted a section title is gone.
+(5) Fewer steps is a result. Also: a content step must rest on a passage whose record says it is about the target
+(`about`), and the critic must confirm that the passage says what the target contains, or the step is dropped
+(`critic:content`); a passage that names a public input gives a step labelled "input only". A role-scope target
+needs five employers. The request cap counts answered requests (`--cap`, default 600 over all runs).
+
+**Sources.** `pipeline.build_sources verify` hashes every record (`record_sha256`), fetches the sources a script
+may read (12 O*NET pages, two FAR sections, two PDFs with pypdf, the SBA page), stores the document hash and marks
+each passage found or not. Findings: the two hand-cleaned PDF extractions are replaced by pypdf text with the
+running page headers stripped; one OCC passage (`cashflow`) still spans a page break and is marked not found; sec.gov
+answers 403 to a script without a contact address in the user agent (`--ua`); the SBA guide text the three
+marketing passages came from is no longer at its URL (the page is a hub now), so those passages ground no step
+until the text is found again. The 13 hand-read sources (BLS, FINRA, NASAA, certification bodies) keep no document
+hash: the sites refuse scripts or their terms forbid them.
+
+**Pilot rerun (12 pairs, 60 requests, $0.19).** 98 document targets, 41 with a source. 19 steps drafted, 4 final:
+one DCF practise step (input only, SEC 10-K bulletin), one credit-risk learn step (content, OCC handbook), one pitch
+book practise step (input only) and the same OCC step again under client coverage. Dropped: 5 because the critic
+says the passage does not say what the target contains (the new rule), 4 unsupported, 3 on the SBA passages that
+are gone, 2 read as another skill. Four consulting pairs on hold; HR business partnering has no document target
+with a source now that SHRM and PHR are role steps. Role steps: 57 role-and-ladder pairs name a credential at
+five employers; 17 steps on 10 of them (SIE, Series 63 and 79 for investment and corporate banking; CPA blueprints
+for FP&A, treasury, financial manager and transformation; Six Sigma for operational excellence, supply chain and
+transformation; PHR and SHRM for HR). The other 47 list asks only: a degree in finance (38 pairs), an MBA (26),
+a marketing or supply-chain degree (11 each), CFA (6), PMP (4). `build_steps check` passes on all 21 steps; the
+self-test plants 15 faults and the named check catches each.
+
+**What expansion to every skill needs (measured by `build_steps needs --pairs all`).** 286 skill-and-ladder pairs
+have an entry cell of 30 postings and 8 employers; 28 have no target; only 7 have a document target with a source,
+because sources are mapped to the pilot pairs. 47 document targets pass the demand rule somewhere and have no
+source. The ones that would serve most pairs are broad (dashboard 89 pairs, financial model 83, due diligence 71,
+performance review cycle 58, business case 54). The pilot already found that no source on the allow-list says what
+a DCF, LBO or comps model contains. Expected: a source record takes 20 to 30 minutes by hand (find the page, read
+its terms, store the passages, mark `about`, verify); 20 to 30 records for the targets that a US government or
+regulator document can plausibly ground, about 10 hours, and many targets will stay without one. Model cost for a
+run over every pair with a source: under $5 at the pilot's rate (about $0.03 a pair). The role steps cost nothing
+and are done.
+
+## Depth: the full run, 365 pairs (2026-10-14)
+
+`pipeline.depth_gen --pairs all --tag full --workers 8`, drafter `openai/gpt-6.1-sol`, critic `anthropic/claude-haiku-5.5`.
+Cost of this stage $14.99 (253 drafts with their redrafts and critic calls; about $0.058 a pair). The partial run of
+2026-10-13 had drafted 209 pairs; 72 of those were drafted again because `jobs_mba.json` was re-extracted after it
+(the entry-mark change moved 41 postings between levels, and new postings came in), so their evidence packs had
+changed; 20 more were drafted again after seven definitions were rewritten in active voice during the run (the
+definition is part of the drafting prompt). The release report is `pipeline.depth_gen --report --tag full`
+(`data/experiments/depth/full_report.md`, gitignored).
+
+| ladder | pairs | rungs with evidence | kept | pairs with no rung | sub-skills kept of drafted |
+|---|---|---|---|---|---|
+| corporate | 151 | 597 of 604 cells | 338 (57%) | 3 | 943 of 1,204 |
+| bank | 129 | 441 of 516 | 190 (43%) | 26 | 804 of 1,054 |
+| consulting | 85 | 247 of 340 | 74 (30%) | 37 | 497 of 677 |
+
+The partial run's 50% was an upper bound, as expected: on the same corporate pairs the final rate is 57% because
+every rung has now been through the level test, and lower on the other ladders. Why rungs were dropped, all
+ladders: 334 read as another level or skill when shown alone (the swap test), 286 where the drafter found nothing
+that two employers ask at that level, 175 cells with fewer than 8 postings from 4 employers (75 on the bank ladder,
+93 on consulting: senior and lead cells of small skills), 40 by the critic, 18 for naming too few terms of their
+evidence, 3 for citing one employer or a quote not in the sentence, 2 for repeating the rung below. The swap test
+is the main filter on the corporate ladder (171 of 266 drops), the drafter's own "no two employers share this" on
+the consulting ladder (113 of 173). Sub-skills were dropped mostly because their patterns match too few postings at
+too few employers (568 of 691 drops).
+
+Pairs that ended with no rung: 3 corporate, 26 bank, 37 consulting; the consulting list is the strategy and
+people skills whose postings describe the firm's method rather than a level ("Hypothesis-driven analysis",
+"Corporate & growth strategy development", "Organization design"), and small cells. Those skills show the
+definition only on that ladder. Nothing was padded.
+
+What the examples show (the report has three per ladder, with every cited sentence): a rung is one or two
+sentences that name the document, counterparty or number two employers share at that level, in the words of the
+postings: "You analyze loan and bond capital structures" (analyst), "You model capital structures that include
+debt and equity" (associate), "You lead client discussions on capital structure options" (vice president), "You
+negotiate credit facility terms" (director). A rung says what postings at that level ask for, not how the work is
+done.
+
+## Depth published: pipeline/depth/mba_*.json, the chain and the content evals (2026-10-14)
+
+`pipeline.depth_publish --depth full --build build_pilot` writes the checked content in the shape the product
+skills use, with two differences the interface does not read yet: `ladder` is keyed by industry ladder first
+(`{"bank": {"associate": ..., "mid": ...}}`) and `build` by ladder too, each step an object with its source link,
+its grounding label ("content", "input only", "title and facts") and its demand line. `provenance` holds, for every
+statement, sub-skill and step, the posting ids, employers, quoted phrase and cited sentences, and the reason of every
+empty rung; `mba_roles.json` holds per role and ladder the credential asks and their steps.
+
+**What was published (measured).** 134 of the 180 skills show a ladder on at least one industry: corporate 116,
+bank 59, consulting 21 (196 ladders, 499 rungs). 103 ladders have one rung and are not shown (PLAN.md, step 8:
+fewer than two rungs shows the definition only); their rung and provenance are kept in the file under `not_shown`.
+Sub-skills: 1,265 published for 151 skills. The runs had kept 2,244; at publish 522 were dropped because their
+patterns match more than half of the skill's US postings (a bare everyday word: `\bquarterly\b`, `\bmodels\b`,
+`\bplanning\b`), 145 because they match too few postings on the current data, 7 because they match none of their
+own cited sentences, 8 because they are another skill of the taxonomy, and 297 were the same sub-skill drafted on
+two ladders, merged. Build steps: the 4 skill steps of the pilot (bank ladder) and 17 role steps on 11
+role-and-ladder pairs; the other 46 pairs with a credential ask list the ask with its counts.
+
+**The chain.** `extract --roles mba` tags the 1,265 sub-skills (none never matches), `build_graph --roles mba`
+(index 1.83 MB; the role's `depth` holds its asks and steps), `role_corpus`, `role_coverage` and `skill_audit
+--reuse` (both baselines change by their date only: sub-skills do not move skill tags), `run_pipeline.py --baseline`
+(2,597 checks pass), `node evals/run.mjs --baseline` (497 pass; the two "no longer a gap" titles were already so
+before this change) and `node evals/graph_mba.mjs` (50 roles). The product files (`graph.json`, `taxonomy.json`,
+`subskills.json`, `jobs.json`) are untouched. `evals/run_depth.py --baseline` writes `evals/depth_baseline_mba.md`.
+The processed MBA file grew from 95 MB to 121 MB with the sub-skill tags (31 a posting), over GitHub's 100 MB limit, so
+`pipeline/processed.py` now reads and writes the processed files and keeps one above 50 MB of JSON gzipped
+(`jobs_mba.json.gz`, 16 MB); every reader goes through it and the product file stays plain.
+
+**What the evals caught on the first pass, and the fix.** The step style check used the rung's filler list, whose
+`leverag\w+` hits the finance noun in "cash flow, liquidity and leverage": steps now use the build-step list, as the
+generator does. Seven sub-skills had patterns that matched none of their own cited sentences (the run checks the
+share of postings, not the sentences): the publisher drops them. The demand check of a published step recounts the
+employers that name its target from the stored sentences, so the provenance now keeps every sentence of the target
+(`target_sentences`), not only the cited ones. Each rule is the generator's own, shared where the code allows it
+(`depth_gen.specificity`), so the eval cannot be stricter than the run that made the content.
+
+**Interface and matcher changes this needs (listed, not made).**
+1. `web/match.js` `ladderFor(id, level)` reads `skill.ladder[level]`; for an MBA skill the first key is the ladder.
+   It must read `skill.ladder[targetLadder][level]`, with the target's ladder from the posting (`job.ladder`) or the
+   role's main ladder (`roles.<role>.ladder` in the index). Until then MBA skills give no ladder note (no error).
+2. `web/app.js` renders `s.ladder[k]` for the four product keys and `s.build` as a list of strings. For MBA skills it
+   must pick the ladder (a control, or the role's ladder), name the rungs with `ladders.<ladder>.levels` of the index,
+   say "not enough postings at this level" for a missing rung, and render a step with its source link and its
+   grounding label ("input only" shown as such).
+3. The role page: `roles.<role>.depth.<ladder>.asks` (what N employers ask for at entry level: a degree, an MBA, an
+   exam) and `.build` (the exam steps) are new and unrendered.
+4. `subskills_mba.json` now carries 1,265 sub-skills; the matcher reads them unchanged for partial credit. The MBA
+   score bands (`calibrate.mjs --roles mba`) were not rerun; sub-skill credit can move scores by a few points.

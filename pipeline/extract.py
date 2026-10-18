@@ -60,7 +60,8 @@ def _geo():
 
 DEPTH = {}
 for _p in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
-    DEPTH.update(json.load(open(_p)))
+    if not _p.endswith("_roles.json"):   # per-role credential steps, not a skill
+        DEPTH.update(json.load(open(_p)))
 # sub-skill id -> (parent skill, regex)
 SUB_RE = {}
 for sid, d in DEPTH.items():
@@ -351,8 +352,8 @@ def main():
             jobs.append(job)
     os.makedirs(os.path.join(ROOT, "data", "processed"), exist_ok=True)
     sfx = cfg["suffix"]
-    with open(os.path.join(ROOT, "data", "processed", f"jobs{sfx}.json"), "w") as f:
-        json.dump(jobs, f)
+    from pipeline import processed   # imported late: pipeline.processed is small, extract is imported by many
+    processed.dump(args.roles, jobs)
     with open(os.path.join(ROOT, "data", "processed", f"company_stage{sfx}.json"), "w") as f:
         json.dump(company_stage, f, indent=1)
     picked = {sid: {grp: pick_evidence(c) for grp, c in groups.items()} for sid, groups in evidence.items()}

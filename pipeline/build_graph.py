@@ -17,11 +17,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline.roles import FAMILY_LABELS, LEVEL_LABELS, LEVEL_ORDER
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-from pipeline import tax
+from pipeline import processed, tax
 TAX = tax.for_roles("product")  # the product map shows the product role set's part of the taxonomy
 DEPTH = {}
 for _p in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
-    DEPTH.update(json.load(open(_p)))
+    if not _p.endswith("_roles.json"):   # per-role credential steps, not a skill
+        DEPTH.update(json.load(open(_p)))
 DEPTH = {sid: d for sid, d in DEPTH.items() if sid in {s["id"] for s in TAX["skills"]}}
 
 IC_LEVELS = ("senior", "staff")
@@ -230,12 +231,16 @@ def build_roleset(roleset):
     T = tax.for_roles(roleset)
     depth = {}
     for p in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
-        depth.update(json.load(open(p)))
+        if not p.endswith("_roles.json"):
+            depth.update(json.load(open(p)))
     known = {s["id"] for s in T["skills"]}
     depth = {sid: d for sid, d in depth.items() if sid in known}
+    # per role and ladder: the licences, exams and degrees employers ask for, with their build steps (pipeline.depth_publish)
+    rp = os.path.join(ROOT, "pipeline", "depth", f"{roleset}_roles.json")
+    role_depth = json.load(open(rp)) if os.path.exists(rp) else {}
     proc = os.path.join(ROOT, "data", "processed")
     country = COUNTRY[roleset]
-    jobs = [j for j in json.load(open(os.path.join(proc, f"jobs_{roleset}.json"))) if j["country"] == country]
+    jobs = [j for j in processed.load(roleset) if j["country"] == country]
     evidence = json.load(open(os.path.join(proc, f"evidence_{roleset}.json")))
     reg = {}
     from pipeline.scrape import load_registry
@@ -384,6 +389,8 @@ def build_roleset(roleset):
             # where a new graduate enters this role: postings marked for MBA and for pre-MBA graduates, per ladder
             "entry": {l: entry_counts([j for j in js if j["ladder"] == l]) for l, _ in lad.most_common()},
             "covers": R.COVERS.get(f, []), "covered_by": covered_by.get(f, []),
+            # licences, exams and degrees that five employers name at entry level, per ladder, and the steps a source grounds
+            "depth": {l: {"asks": x["asks"], "build": x["build"]} for l, x in role_depth.get(f, {}).items()},
         }
     index = {
         "skill_ids": skill_ids, "sub_ids": sub_ids,
