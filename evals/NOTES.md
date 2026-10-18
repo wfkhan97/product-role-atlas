@@ -1141,3 +1141,37 @@ picks can be compared with the full matcher's bands across the 50 roles (cost: 2
 **Checked in the browser.** The questions, a dropped PDF (262 words read) and a dropped DOCX, the Explore chip
 "Fields that fit you", the field marks, the fit screen for an MBA role (in range), a group without bands (compliance:
 the notice, no verdict), a product role (different field so far), the painted grid, light and dark.
+
+## The interface around journeys, step 3: a course, an event (2026-10-13)
+
+Branch `feat/ui-events` on top of `feat/ui-fit`. Both screens run on data that exists; nothing new was built in the
+pipeline. What is missing, for the next thread:
+
+**Check a course.**
+- The reader is the resume reader (`parseResume` + `tag`) with every mention counted. A syllabus is not a resume: its
+  lines are topics, weeks and learning outcomes, and the course name, code and credits carry meaning the reader drops.
+  A course reader would read "Week 3: variance analysis" as a topic with weight, and a learning outcome ("students
+  will build a three-statement model") as evidence of depth. Not built.
+- A course that teaches a skill without naming it the way postings do is missed ("working capital" for cash and
+  liquidity management is caught; "the time value of money" for financial modelling is not). The taxonomy patterns
+  are tuned on postings, not on syllabi. A sample of real syllabi with labels would show the recall; none is in the
+  repository.
+- No course catalogue: a student cannot pick a course by name. The screen reads one text at a time and keeps the
+  last one in memory only (not in local storage).
+- Sub-skill shares in the course result come from the role's postings, not from the course text.
+
+**Prepare for an event.**
+- No event data. "Who will be in the room" is the field's roles sorted by open postings; "employers hiring now"
+  is counted from the field's postings (every role file of the field is loaded for it, 2 to 6 MB). A real guest list
+  or a list of attending employers would replace both.
+- "What sets a role apart" is the role's defining skills; 23 of 50 roles have none and fall back to the most asked
+  skills that are not generic to every role (a fixed list in `app.js`: the soft skills, cross-functional leadership,
+  execution, program management, process design, stakeholder management, office suite, data-driven decisions,
+  metrics, people management). That list is a judgment, not a measurement.
+- Roundtable lines come from the rough read (`Atlas.roughFit`), which keeps the evidence lines per skill; the full
+  matcher's reading (transferable skills, presumed skills, depth) is not used, so a skill said in another field's
+  words is a gap here and evidenced on the fit screen.
+- Hackathon build steps exist for 64 shared skills only; the MBA-only skills have none until the depth pipeline
+  publishes (see "Skill depth for the MBA skills" in PLAN.md). The screen says so per skill.
+- The product field uses the product graph for employers; its families have no defining skills, so "ask about"
+  falls back to the most asked non-generic skills for every product family.

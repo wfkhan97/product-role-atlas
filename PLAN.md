@@ -172,8 +172,19 @@ pages for the journeys a student has. Audit and pattern picks are in the session
   plain words), what the resume shows, presumed skills, gaps, named-not-shown, and disclosures for "say it in this
   field's words", credentials and industries, unread lines. The grid is painted: green shows it, amber dashed is a
   gap; presumed skills stay plain.
-- **Next steps, in order.** (3) check a course and prepare for an event; (4) the remaining filters (industry,
-  employer, location) behind "More filters" and the clean-up of what the audit dropped.
+- **Check a course (step 3).** A syllabus or course description, read as a student's course list: a mention counts.
+  The screen lists the role's skills the text names (with the share of postings that ask for each), the skills most
+  postings ask for that it does not name, which of the person's gaps it covers when a fit was read, and the grid
+  painted. It cannot tell a course that teaches a skill without naming it the way postings do.
+- **Prepare for an event (step 3).** One screen per field with three kinds. Networking: the roles by open postings
+  with the one or two skills that set each apart (the defining skills, else the most asked skills that are not
+  generic to every role), the three skills the resume shows that most of these roles ask for, and the employers
+  hiring now from the field's postings. Employer roundtable: role by role, the skills most postings ask for that the
+  resume shows with the line that shows it, and two they may ask about. Hackathon or case: the skills most roles of
+  the field ask for that the resume does not show, with the build step where one is written. No event data exists:
+  "who is in the room" means the field's roles, not a guest list.
+- **Next step.** (4) the remaining filters (industry, employer, location) behind "More filters" and the clean-up of
+  what the audit dropped.
 
 ## Skill depth for the MBA skills (proposed, not built)
 
