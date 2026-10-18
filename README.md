@@ -60,7 +60,7 @@ cd web && python3 -m http.server 8000   # then open http://localhost:8000
   postings ask for that it does not name), `#/field/<group>/event?networking|roundtable|hackathon` (who is in the
   room and what to ask, what to say about yourself, employers hiring now from the field's postings
   (`Atlas.fieldJobs`); role by role what to bring up with the resume line that shows it; what to build from the
-  skills most roles ask for that the resume does not show), `#/about`. The MBA set's "Product" group is not shown: the Product field
+  skills most roles ask for that the resume does not show), `#/about`. `skillmap.js` draws Explore as a skill map (the fields on a ring, every skill near the fields that ask for it, lines where postings ask for two together; a skill opens a short card of the roles and fields that ask for it), with a switch back to plain circles. The MBA set's "Product" group is not shown: the Product field
   opens the product role set, whose six families have the richer depth content. The skill grid has rows by how many
   postings ask for a skill (over half, a quarter to a half, one in ten to one in four) and two columns (asked at
   every level, or at least 1.5 times as often in leadership postings as in entry ones, measured over the whole

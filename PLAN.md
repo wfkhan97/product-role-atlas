@@ -196,6 +196,23 @@ pages for the journeys a student has. Audit and pattern picks are in the session
   degree filters; the five map views and the 3D controls; the sub-skills toggle; the area colour legend; the
   percentage ring and meters.
 
+## Explore as a skill map (v10, 2026-10-18)
+
+Owner's decisions (2026-10-18): one map for both role sets, MBA links as they are, every link drawn faint, on by
+default with a switch to plain circles. A map behind the page and a map in the side panel were tried and dropped:
+neither related to where the field circles were, so the map showed only around them and read as noise.
+
+- **One picture.** The 11 fields sit on a ring, ordered so neighbours ask for similar skills (cosine over the
+  mean share of each skill across a field's roles). Every skill's home is the fields' positions weighted by
+  (share / mean share)^3, pulled slightly inwards: a field's own skills land beside it, the skills every field
+  asks for land in the middle. Skills repel each other and are pushed out from under the circles.
+- **One vocabulary.** All 98 product skills are in the MBA index under the same ids (96 with the same patterns), so
+  the map uses `graph_mba.json` (278 skills, 1,272 links) and the product field's shares come from the product set.
+- **Hover a field:** its 25 most distinctive skills (share × share over the mean field's, capped at 4) turn blue
+  with spokes from the circle, and the five most distinctive are named. **Click a skill:** it and its six closest
+  links are named; the side panel shows where postings ask for it most, as links to roles and fields.
+- A field's page links to its place on the map (`#/explore?field=<group>`). The role screen keeps its grid.
+
 ## Skill depth for the MBA skills (built 2026-10-14; the plan below is what was built, with the changes noted)
 
 The 180 MBA skills had a one-line definition. Sub-skills and level ladders are now drafted from postings by

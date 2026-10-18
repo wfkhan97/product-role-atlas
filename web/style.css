@@ -181,3 +181,27 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .sheet { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px 14px; margin: 8px 0 4px; background: var(--card); display: grid; gap: 12px; }
 .fgroup .lbl { font-size: var(--text-sm); color: var(--subtle-foreground); }
 .sheet input[type="search"] { margin: 4px 0 0; }
+
+/* ---------- Explore as a skill map (web/skillmap.js): the fields on the map, their skills around them ---------- */
+.main > .page.wide { max-width: none; }
+.sm-stage { position: relative; height: calc(100vh - 290px); min-height: 520px; margin-top: 10px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--background); overflow: hidden; }
+.sm-svg { position: absolute; inset: 0; display: block; }
+.sm-e { fill: none; stroke: var(--foreground); stroke-opacity: 0.05; stroke-width: 0.6; }
+.sm-e.sel { stroke: var(--heading-foreground); stroke-opacity: 0.5; stroke-width: 1; }
+.sm-spoke { fill: none; stroke: var(--secondary); stroke-opacity: 0.22; stroke-width: 0.8; }
+.sm-n { fill: var(--subtle-foreground); opacity: 0.45; cursor: pointer; stroke: transparent; stroke-width: 8px; }
+.sm-n:hover { fill: var(--heading-foreground); opacity: 1 !important; }
+.sm-n.hl { fill: var(--secondary); }
+.sm-n.near { fill: var(--foreground); opacity: 0.9; }
+.sm-n.sel { fill: var(--heading-foreground); opacity: 1; stroke: var(--background); stroke-width: 2px; }
+.sm-name { font-size: 11px; fill: var(--foreground); paint-order: stroke; stroke: var(--background); stroke-width: 3px; pointer-events: none; }
+.sm-name.sel { fill: var(--heading-foreground); font-weight: var(--weight-medium); }
+.sm-field { position: absolute; z-index: 1; padding: 8px; }
+.sm-field.lit { border-color: var(--secondary); }
+.sm-field.you.lit { border-color: var(--primary); }
+.sm-field.dim { opacity: 0.45; }
+.sm-find { width: 240px; padding: 5px 10px; border-radius: var(--radius-sm); border: 1px solid var(--input); background: var(--background); color: var(--foreground); font: inherit; font-size: var(--text-sm); }
+.sm-tip { position: fixed; z-index: 4; pointer-events: none; padding: 3px 8px; border-radius: var(--radius-sm); background: var(--card); border: 1px solid var(--border); color: var(--heading-foreground); font-size: var(--text-sm); white-space: nowrap; }
+.sm-card { margin-top: 2px; }
+.sm-title { margin: 0 0 4px; font-size: var(--text-lg); color: var(--heading-foreground); }
+.sm-h { font-size: var(--text-sm); color: var(--subtle-foreground); margin: 14px 0 4px; }
