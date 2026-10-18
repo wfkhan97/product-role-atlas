@@ -366,13 +366,29 @@
     return `<div class="evtabs">${groups.map(([k, lab]) => `<button type="button" class="chip${tab === k ? " on" : ""}" data-ev="${k}">${lab}</button>`).join("")}</div>` +
       ev[tab].slice(0, 3).map(q => `<blockquote class="quote">“${esc(q.text.length > 260 ? q.text.slice(0, 257) + "…" : q.text)}”<span class="src">${esc(q.company)} · <a href="${esc(q.url)}" target="_blank" rel="noopener">${esc(q.title)}</a></span></blockquote>`).join("");
   }
+  // A skill's ladder is flat ({associate, mid, senior, lead}: product skills) or keyed by industry ladder
+  // ({corporate: {...}, bank: {...}}: MBA skills, rungs the postings do not support are absent). The card shows the
+  // role's own industry; when that one is not written, another industry's, named as such.
+  const LADDER_ORDER = ["corporate", "bank", "consulting"];
+  function ladderHtml(R, s, here) {
+    const L = s.ladder;
+    if (!L) return `<p class="small muted">The level ladder for this skill is not written yet.</p>`;
+    const flat = LADDER_KEYS.some(([k]) => typeof L[k] === "string");
+    const ind = flat ? null : L[R.role.ladder] ? R.role.ladder : LADDER_ORDER.find(k => L[k]) || Object.keys(L)[0];
+    const rungs = flat ? L : L[ind];
+    const lv = (ind && R.ladders && R.ladders[ind] && R.ladders[ind].levels) || {};
+    const rows = LADDER_KEYS.filter(([k]) => flat || rungs[k]).map(([k, lab]) => `<span class="lv${here === k ? " here" : ""}">${esc(lv[k] || lab)}</span><span>${esc(rungs[k] || "")}</span>`).join("");
+    const name = k => (((R.ladders || {})[k] || {}).label || k).toLowerCase();
+    const other = ind && ind !== R.role.ladder ? `<p class="small muted">Shown from the ${esc(name(ind))} ladder; this skill has none yet for ${esc(name(R.role.ladder))}.</p>` : "";
+    return other + `<div class="ladder">${rows}</div>`;
+  }
   function skillCard(R, s, slice) {
     const st = Atlas.shares(slice), ss = Atlas.subShares(slice, s.id);
     const subsMeta = s.subskills || (R.subs[s.id] || []).map(x => ({ id: x.id, name: x.name, example: "" }));
     const m = state.match && state.match.roleId === R.role.id ? state.match : null;
     const subs = subsMeta.map(sub => `<div class="sub${m ? (m.subs.has(sub.id) ? " have" : m.required.has(s.id) && !m.presumed.has(s.id) ? " miss" : "") : ""}"><span class="nm">${esc(sub.name)}</span><span class="pct" title="share of postings asking for ${esc(s.name)} that mention this">${pct(ss.share(sub.id))}</span>${sub.example ? `<span class="ex">${esc(sub.example)}</span>` : ""}</div>`).join("");
     const here = state.level === "all" ? null : { entry: "associate", mid: "mid", senior: "senior", lead: "lead" }[state.level];
-    const ladder = s.ladder ? `<div class="ladder">${LADDER_KEYS.map(([k, lab]) => `<span class="lv${here === k ? " here" : ""}">${lab}</span><span>${esc(s.ladder[k] || "")}</span>`).join("")}</div>` : `<p class="small muted">The level ladder for this skill is not written yet.</p>`;
+    const ladder = ladderHtml(R, s, here);
     const build = (s.build || []).length ? `<ul class="plain">${s.build.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : `<p class="small muted">Build steps for this skill are not written yet.</p>`;
     const signals = (s.signals || []).length ? `<p class="small muted" style="margin:10px 0 0">Resume lines that show it</p><ul class="plain">${s.signals.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
     const withSkill = slice.filter(j => j.open && j.skills.includes(s.id)).slice(0, 6);
