@@ -38,21 +38,9 @@ Companies:
 
 ## Web app (`web/`)
 
-Static site (D3 force graph, no build step), published as an artifact and runnable locally:
-- Left rail: role family, level, company group (Fortune 50 / a16z / Sequoia), skill-cluster toggles.
-- Centre: force-directed skill map; node size = share of postings that require it; edges =
-  co-occurrence; colour = cluster.
-- Right panel: skill detail (which companies/levels ask for it, what it co-occurs with) or job detail.
-- "Match me": drop a resume (PDF / DOCX / TXT) or paste courses. Parsed in the browser (pdf.js,
-  mammoth); nothing leaves the browser. `web/match.js` reads it line by line with section detection and
-  an evidence strength per hit (named / done / done with an outcome), then scores it against the
-  selected posting or family+level with requirements tiered into must-haves (asked in over half of the
-  slice), common asks and differentiators; one industry slot and one AI-literacy slot instead of every
-  domain as a separate requirement. The panel reads back a persona (experienced in role, pivoter, new to
-  role) and level, three meters (must-haves, common asks, depth), credentials from titles and degrees,
-  evidenced / transferable / named-not-shown / gaps with the line that earned each, rewrites for skills
-  shown in another field's vocabulary, build-next steps, ladder notes, unmapped lines and a what-if.
-  Evals in `evals/` guard it; design history in `evals/NOTES.md`.
+Static site, no build step, published as an artifact and runnable locally. The first interface (v1 to v4: a
+force graph with rails of filters and six views, the match flow in a modal) is described in the sections below for
+the record; v9 replaced it with pages around the student's journeys.
 
 ## Filters (v3)
 
@@ -150,6 +138,63 @@ BCG. So the levels stay as they are, and each posting gets a second fact.
   banking, the Big Four other than Deloitte, or brand management: the research has only secondary sources, or
   our postings contradict it (see `evals/NOTES.md`). The interface is not designed; label text is in
   `meta.entry` of the index.
+
+## The interface around journeys (v9, 2026-10-13)
+
+The one-screen analyst tool (rails, thirteen filter sections, six map views, eleven area colours) is replaced by
+pages for the journeys a student has. Audit and pattern picks are in the session notes (`data/experiments/ui_audit.md`,
+`ui_design.md`, gitignored); the decisions are the owner's (2026-10-13).
+
+- **First visit.** A choice: "Tell us about you" (three questions, an optional resume; the answers pick the fields)
+  or "Explore the roles". Desktop only; there is no phone layout.
+- **Explore.** The fields as circles sized by open postings (ten MBA groups plus Product), then the roles of a
+  field sorted by open postings with what defines each, then the role screen. Breadcrumbs carry the path. The MBA
+  set's own product group is not shown: the Product field opens the product role set.
+- **The role screen.** One layout for both role sets, no legend: rows by how many postings ask for a skill (over
+  half, a quarter to a half, one in ten to one in four), two columns (asked at every level; asked at least 1.5
+  times as often in leadership postings as in entry ones, measured over the whole role so a level filter re-ranks
+  without moving skills), skill areas as text labels inside a cell, ◆ for the skills that define the role, a blue
+  share bar on every skill. A level filter and an employer-type filter re-rank the grid. A skill opens in a side
+  panel: definition, sub-skills with their shares in the view, example sentences from postings by level group, the
+  level ladder, build steps, postings that ask for it, skills often asked together. A posting opens in the same
+  panel. Why not a map: within a role the level profile of most skills is flat (30 to 45% of a role's skills are
+  asked more at senior levels, the rest at every level), so a seniority axis spreads nothing; and three colours
+  with meaning (green = you, blue = the postings' numbers, amber = gaps) replace eleven colours without.
+- **Tell us about you (step 2).** Three questions (where you are, what you look for, which fields) and an optional
+  resume, read in the browser. The answers and the resume stay in local storage. A rough read of the resume
+  against the index alone (the share of each role's main asks it shows, and the roles it says the person held)
+  picks the fields on Explore and marks roles in a field; the band of fit needs the role's postings and comes on the
+  fit screen. A student sees the entry grade first.
+- **Your fit (step 2).** The matcher is created the way the bands were calibrated (the MBA set with the
+  distinctiveness weighting and a baseline of mean shares over the 50 roles; the product set without). The band is
+  the headline on a four-step scale; no percentage anywhere. A group without bands gets a sentence that says so
+  and the evidence without a verdict. Then: what to evidence next (three gaps, with the industry and AI slots in
+  plain words), what the resume shows, presumed skills, gaps, named-not-shown, and disclosures for "say it in this
+  field's words", credentials and industries, unread lines. The grid is painted: green shows it, amber dashed is a
+  gap; presumed skills stay plain.
+- **Check a course (step 3).** A syllabus or course description, read as a student's course list: a mention counts.
+  The screen lists the role's skills the text names (with the share of postings that ask for each), the skills most
+  postings ask for that it does not name, which of the person's gaps it covers when a fit was read, and the grid
+  painted. It cannot tell a course that teaches a skill without naming it the way postings do.
+- **Prepare for an event (step 3).** One screen per field with three kinds. Networking: the roles by open postings
+  with the one or two skills that set each apart (the defining skills, else the most asked skills that are not
+  generic to every role), the three skills the resume shows that most of these roles ask for, and the employers
+  hiring now from the field's postings. Employer roundtable: role by role, the skills most postings ask for that the
+  resume shows with the line that shows it, and two they may ask about. Hackathon or case: the skills most roles of
+  the field ask for that the resume does not show, with the build step where one is written. No event data exists:
+  "who is in the room" means the field's roles, not a guest list.
+- **Step 5.** Everything the first four steps left as a note is done or measured: the rough read on Explore has the
+  shape of the full score and an eval against it (`evals/rough_fit.mjs`); the product families get defining skills
+  by the MBA build's own rule; "generic" skills are measured (asked by most postings of at least half the roles);
+  the roundtable runs the full matcher on each role; the course reader counts sub-skill hits and keeps the last
+  course; a "Graduates and interns" chip filters on the entry mark.
+- **Filters (step 4).** One pattern everywhere: a chip row with counts. On the role screen: Level and Employers in the
+  row; Industry, Employer (search) and Location (countries and remote for the product set; US only and remote for
+  the MBA set) behind "More filters", a sheet under the row with the same chips. Filters set in the sheet show in
+  the row as removable chips when it is closed. Every count reflects the other filters. The fit and course screens
+  read the same view. Dropped for good, per the audit: investor, funding stage, years asked for, specialisation and
+  degree filters; the five map views and the 3D controls; the sub-skills toggle; the area colour legend; the
+  percentage ring and meters.
 
 ## Skill depth for the MBA skills (built 2026-10-14; the plan below is what was built, with the changes noted)
 
