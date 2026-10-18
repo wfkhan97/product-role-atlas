@@ -176,3 +176,8 @@ textarea { width: 100%; min-height: 110px; padding: 10px; border-radius: var(--r
 .verdict { font-size: var(--text-2xl); letter-spacing: var(--tracking-tighter); color: var(--heading-foreground); margin: 10px 0 4px; line-height: 1.2; }
 ol.next { margin: 6px 0 0 18px; padding: 0; } ol.next li { margin-bottom: 10px; }
 ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); display: block; }
+
+/* ---------- more filters: a sheet under the chip row, same chips ---------- */
+.sheet { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px 14px; margin: 8px 0 4px; background: var(--card); display: grid; gap: 12px; }
+.fgroup .lbl { font-size: var(--text-sm); color: var(--subtle-foreground); }
+.sheet input[type="search"] { margin: 4px 0 0; }

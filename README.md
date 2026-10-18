@@ -48,8 +48,9 @@ cd web && python3 -m http.server 8000   # then open http://localhost:8000
   roles, `Atlas.product()` the product set from `data/graph.json`, `Atlas.role(id)` one role's postings, skills,
   sub-skills and evidence, `Atlas.grid()` the skill grid). `app.js` is the screens on hash routes: `#/` the first
   visit (tell us about you, or explore), `#/explore` the fields as circles sized by open postings, `#/field/<group>`
-  the roles of a field, `#/role/<role>` the role screen (skill grid, level and employer chips, side panel with the
-  skill or posting card, open postings), `#/you` the three questions and the optional resume (answers and resume
+  the roles of a field, `#/role/<role>` the role screen (skill grid; level and employer-type chips, with industry,
+  employer and location behind "More filters", every count reflecting the other filters; side panel with the
+  skill or posting card; open postings), `#/you` the three questions and the optional resume (answers and resume
   stay in the browser's local storage; `Atlas.roughFit` ranks fields and roles from the index alone), `#/role/<role>/fit`
   the fit screen (the matcher built as the bands were calibrated, `Atlas.matcher`; the band from `bands.json` or
   `bands_mba.json` on a four-step scale, never a percentage; plain words for a group with no bands; what to evidence

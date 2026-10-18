@@ -27,7 +27,7 @@
   function fail(e) { console.error(e); page(`<h1>Something did not load</h1><p class="lead">${esc(e.message)}. Reload the page; if it happens again, the data files may be missing.</p>`, true); showAside(null); }
 
   // ---------- router ----------
-  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null };
+  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "" };
   // what the person told us and the resume they dropped stay in this browser only (nothing is uploaded)
   const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
   state.you = store.get("you"); state.resume = store.get("resume");
@@ -190,7 +190,7 @@
 
   // ---------- 4. a role: the skill grid, the side panel, the postings ----------
   async function loadRole(id) {
-    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = 40; state.evTab = null; state.match = null; }
+    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = 40; state.evTab = null; state.match = null; state.sector = new Set(); state.company = new Set(); state.country = new Set(); state.remote = false; state.more = false; state.companyQuery = ""; }
     const ix = await Atlas.index(); return ix.groups.find(x => x.id === state.R.role.group);
   }
   // a student looks at the entry grade first; everyone else at every level
@@ -200,14 +200,48 @@
     crumbs([["Explore", "#/explore"], [g.label, "#/field/" + g.id], [R.role.label, null]]);
     renderRole();
   }
-  const sliceOf = () => state.R.jobs.filter(j => (state.level === "all" || Atlas.stepOf(j) === state.level) && (state.employer === "all" || Atlas.employerType(j) === state.employer));
+  const DIMS = {
+    level: j => state.level === "all" || Atlas.stepOf(j) === state.level,
+    employer: j => state.employer === "all" || Atlas.employerType(j) === state.employer,
+    sector: j => state.sector.size === 0 || state.sector.has(j.sector),
+    company: j => state.company.size === 0 || state.company.has(j.company),
+    country: j => (state.country.size === 0 || state.country.has(j.country)) && (!state.remote || j.remote),
+  };
+  const jobsExcept = (dim, level) => state.R.jobs.filter(j => Object.entries(DIMS).every(([k, fn]) => k === dim || (k === "level" && level != null ? (level === "all" || Atlas.stepOf(j) === level) : fn(j))));
+  const sliceOf = level => jobsExcept(null, level);
+  const extraCount = () => state.sector.size + state.company.size + state.country.size + (state.remote ? 1 : 0);
+  const toggle = (set, v) => { set.has(v) ? set.delete(v) : set.add(v); state.shown = 40; };
+  const keepScroll = fn => { const y = window.scrollY; fn(); window.scrollTo(0, y); };
+  // the filters behind "More filters" show as removable chips in the row when the sheet is closed
+  function activeExtra() {
+    const items = [...state.sector].map(v => [v, "sector"]), co = [...state.company].map(v => [v, "company"]), cn = [...state.country].map(v => [v, "country"]);
+    const all = [...items, ...co, ...cn, ...(state.remote ? [["Remote", "remote"]] : [])];
+    return all.map(([v, k]) => `<button type="button" class="chip on" ${k === "remote" ? 'id="remote"' : `data-${k}="${esc(v)}"`} aria-label="Remove filter ${esc(v)}">${esc(v)} <span aria-hidden="true">×</span></button>`).join("");
+  }
+  // the sheet: industry, employer, location. Every count reflects the other filters (owner's choice 7A).
+  function moreSheet(R, countBy) {
+    const group = (label, items, set, attr, allLabel) => `<div class="fgroup"><span class="lbl">${label}</span><div class="chips" style="margin:4px 0 0">${allLabel ? `<button type="button" class="chip${set.size ? "" : " on"}" data-${attr}="__all">${allLabel}</button>` : ""}${items.map(([v, n]) => `<button type="button" class="chip${set.has(v) ? " on" : ""}" data-${attr}="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}</div></div>`;
+    const sec = Object.entries(countBy(jobsExcept("sector"), j => j.sector)).filter(([v]) => v && v !== "Startup (unclassified)").sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const cm = countBy(jobsExcept("company"), j => j.company); const q = state.companyQuery.trim().toLowerCase();
+    const picked = [...state.company].map(v => [v, cm[v] || 0]);
+    const options = q ? Object.entries(cm).filter(([c]) => c.toLowerCase().includes(q) && !state.company.has(c)).sort((a, b) => b[1] - a[1]).slice(0, 12) : [];
+    const cn = Object.entries(countBy(jobsExcept("country"), j => j.country)).filter(([v]) => v).sort((a, b) => b[1] - a[1]).slice(0, 8);
+    const remoteN = jobsExcept("country").filter(j => j.remote && (state.country.size === 0 || state.country.has(j.country))).length;
+    return `<div class="sheet">
+      ${group("Industry", sec, state.sector, "sector", "All industries")}
+      <div class="fgroup"><span class="lbl">Employer</span><input type="search" id="company-q" placeholder="Employer name" aria-label="Employer name" value="${esc(state.companyQuery)}" autocomplete="off"><div class="chips" style="margin:4px 0 0">${picked.map(([v, n]) => `<button type="button" class="chip on" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${options.map(([v, n]) => `<button type="button" class="chip" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${!picked.length && !q ? '<span class="small muted">Type a name to pick an employer.</span>' : ""}</div></div>
+      ${R.country ? `<div class="fgroup"><span class="lbl">Location</span><div class="chips" style="margin:4px 0 0"><span class="small muted">${esc(R.country)} only.</span><button type="button" class="chip${state.remote ? " on" : ""}" id="remote">Remote<span class="n">${fmt(remoteN)}</span></button></div></div>` : group("Location", cn, state.country, "country", "Anywhere") + `<div class="chips" style="margin:-4px 0 0"><button type="button" class="chip${state.remote ? " on" : ""}" id="remote">Remote<span class="n">${fmt(remoteN)}</span></button></div>`}
+      ${extraCount() ? '<p class="small" style="margin:10px 0 0"><button type="button" class="linkish link" id="clear-extra">Clear these filters</button></p>' : ""}
+    </div>`;
+  }
   function renderRole() {
     const R = state.R, role = R.role, slice = sliceOf();
     const { rows, stats } = Atlas.grid(R, slice);
     const open = slice.filter(j => j.open);
     const nClosed = R.jobs.length - R.jobs.filter(j => j.open).length;
-    const levelCounts = {}; for (const j of R.jobs.filter(j => state.employer === "all" || Atlas.employerType(j) === state.employer)) levelCounts[Atlas.stepOf(j)] = (levelCounts[Atlas.stepOf(j)] || 0) + 1;
-    const empCounts = {}; for (const j of R.jobs.filter(j => state.level === "all" || Atlas.stepOf(j) === state.level)) empCounts[Atlas.employerType(j)] = (empCounts[Atlas.employerType(j)] || 0) + 1;
+    const countBy = (jobs, fn) => { const m = {}; for (const j of jobs) { const k = fn(j); if (k != null) m[k] = (m[k] || 0) + 1; } return m; };
+    const levelCounts = countBy(jobsExcept("level"), Atlas.stepOf), levelAll = jobsExcept("level").length;
+    const empCounts = countBy(jobsExcept("employer"), Atlas.employerType), empAll = jobsExcept("employer").length;
     const chip = (on, label, n, attrs) => `<button type="button" class="chip${on ? " on" : ""}" aria-pressed="${on}" ${attrs}>${esc(label)}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`;
     const where = R.country ? ` · ${esc(R.country)}` : "";
     const facts = `${fmt(R.jobs.filter(j => j.open).length)} open postings${nClosed ? ` (${fmt(nClosed)} recently closed are counted too)` : ""} · ${plural(role.nCompanies, "employer", "employers")}${where}`;
@@ -233,13 +267,21 @@
         <a class="action" href="#/role/${esc(role.id)}/course"><span class="t">Check a course</span><span class="d">Drop a syllabus. See which of these skills it teaches.</span></a>
         <a class="action" href="#/field/${esc(role.group)}/event"><span class="t">Prepare for an event</span><span class="d">Networking, employer roundtable or hackathon.</span></a>
       </div>
-      <div class="chips"><span class="lbl">Level</span>${chip(state.level === "all", "All levels", R.jobs.length, 'data-level="all"')}${Atlas.STEPS.map(s => chip(state.level === s, R.stepLabels[s], levelCounts[s] || 0, `data-level="${s}"`)).join("")}
-        <span class="gap"></span><span class="lbl">Employers</span>${chip(state.employer === "all", "All", null, 'data-emp="all"')}${R.employerTypes.map(([id, label]) => chip(state.employer === id, label, empCounts[id] || 0, `data-emp="${id}"`)).join("")}</div>
+      <div class="chips"><span class="lbl">Level</span>${chip(state.level === "all", "All levels", levelAll, 'data-level="all"')}${Atlas.STEPS.map(s => chip(state.level === s, R.stepLabels[s], levelCounts[s] || 0, `data-level="${s}"`)).join("")}
+        <span class="gap"></span><span class="lbl">Employers</span>${chip(state.employer === "all", "All", empAll, 'data-emp="all"')}${R.employerTypes.map(([id, label]) => chip(state.employer === id, label, empCounts[id] || 0, `data-emp="${id}"`)).join("")}
+        <span class="gap"></span>${chip(state.more, "More filters" + (state.more ? " ▴" : " ▾"), extraCount() || null, 'id="more-filters"')}${!state.more ? activeExtra() : ""}</div>${state.more ? moreSheet(R, countBy) : ""}
       ${stats.n ? grid : '<p class="notice">No postings match these filters.</p>'}
       <p class="key">${plural(stats.n, "posting", "postings")} in this view. Open a skill to see what it means and how postings say it. The blue bar is the share of postings that ask for it.${state.match && state.match.roleId === role.id ? " Green border: your resume shows it. Amber dashed border: a gap." : ""}</p>
       ${also}${postings}`);
     main.querySelectorAll("[data-level]").forEach(b => b.onclick = () => { state.level = b.dataset.level; state.shown = 40; renderRole(); });
     main.querySelectorAll("[data-emp]").forEach(b => b.onclick = () => { state.employer = b.dataset.emp; state.shown = 40; renderRole(); });
+    $("#more-filters").onclick = () => { state.more = !state.more; keepScroll(renderRole); };
+    main.querySelectorAll("[data-sector]").forEach(b => b.onclick = () => { b.dataset.sector === "__all" ? state.sector.clear() : toggle(state.sector, b.dataset.sector); keepScroll(renderRole); });
+    main.querySelectorAll("[data-country]").forEach(b => b.onclick = () => { b.dataset.country === "__all" ? state.country.clear() : toggle(state.country, b.dataset.country); keepScroll(renderRole); });
+    main.querySelectorAll("[data-company]").forEach(b => b.onclick = () => { toggle(state.company, b.dataset.company); state.companyQuery = ""; keepScroll(renderRole); });
+    const rem = $("#remote"); if (rem) rem.onclick = () => { state.remote = !state.remote; keepScroll(renderRole); };
+    const clr = $("#clear-extra"); if (clr) clr.onclick = () => { state.sector.clear(); state.company.clear(); state.country.clear(); state.remote = false; state.companyQuery = ""; keepScroll(renderRole); };
+    const cq = $("#company-q"); if (cq) cq.oninput = () => { state.companyQuery = cq.value; keepScroll(renderRole); const el = $("#company-q"); el.focus(); el.setSelectionRange(el.value.length, el.value.length); };
     main.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }));
     main.querySelectorAll("[data-job]").forEach(b => b.onclick = () => select({ kind: "posting", id: Number(b.dataset.job) }));
     const qi = $("#q"); qi.oninput = () => { state.query = qi.value; state.shown = 40; const y = window.scrollY; renderRole(); window.scrollTo(0, y); $("#q").focus(); $("#q").setSelectionRange(qi.value.length, qi.value.length); };
@@ -361,9 +403,10 @@
       return;
     }
     const level = state.fitLevel || state.level;
-    const slice = R.jobs.filter(j => (level === "all" || Atlas.stepOf(j) === level) && (state.employer === "all" || Atlas.employerType(j) === state.employer));
+    const slice = sliceOf(level);
     const { M, bands, group } = await Atlas.matcher(R);
-    const label = `${role.label}${level === "all" ? "" : " · " + R.stepLabels[level]}`;
+    const extra = [state.employer !== "all" ? (R.employerTypes.find(e => e[0] === state.employer) || [])[1] : null, ...state.sector, ...state.company, ...state.country, state.remote ? "remote" : null].filter(Boolean);
+    const label = `${role.label}${level === "all" ? "" : " · " + R.stepLabels[level]}${extra.length ? " · " + extra.join(", ") : ""}`;
     const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label }, { level: LEVEL_OPT[level] });
     const rows = r.rows, by = st => rows.filter(x => x.status === st).sort((a, b) => (a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : b.tier === "core" ? 1 : a.tier === "common" ? -1 : 1));
     const evid = by("evidenced"), trans = by("transferable"), thin = by("thin"), presumed = by("presumed"), gaps = by("gap").filter(x => x.tier !== "diff");
