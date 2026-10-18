@@ -151,3 +151,28 @@ button.tag:hover { border-color: var(--input); }
 .linkish:hover { text-decoration: underline; text-underline-offset: 3px; }
 .aside .list .r { padding: 8px 0; } .aside .list .r .t { font-size: var(--text-base); }
 #about h3 { font-size: var(--text-sm); color: var(--subtle-foreground); text-transform: uppercase; letter-spacing: var(--tracking-label); font-family: var(--font-mono); margin: 18px 0 6px; }
+
+/* ---------- tell us about you: steps, options, the drop zone ---------- */
+.steps { display: flex; gap: 6px; margin: 0 0 20px; }
+.steps i { flex: 1; height: 4px; border-radius: 2px; background: var(--muted); }
+.steps i.done { background: var(--primary); }
+.opts { display: grid; gap: 8px; margin: 16px 0; }
+.opt { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 13px 16px; background: var(--card); font-size: var(--text-md); text-align: left; color: var(--foreground); }
+.opt:hover { border-color: var(--input); }
+.opt.on { border-color: var(--primary); background: var(--primary-tint); color: var(--primary); font-weight: var(--weight-medium); }
+.between { justify-content: space-between; }
+.drop { border: 1px dashed var(--input); border-radius: var(--radius-md); padding: 24px 20px; text-align: center; margin: 16px 0 10px; }
+.drop.over { border-color: var(--primary); background: var(--primary-tint); }
+.drop b { font-weight: var(--weight-medium); }
+textarea { width: 100%; min-height: 110px; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--input); background: var(--background); color: var(--foreground); font: inherit; font-size: var(--text-sm); }
+
+/* ---------- your fit: the band scale, what to evidence next ---------- */
+.band { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 12px 0 6px; }
+.band i { height: 10px; border-radius: 3px; background: var(--muted); display: block; }
+.band i.on { background: var(--primary); }
+.band i.past { background: var(--primary); opacity: 0.45; }
+.bandl { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; font-size: var(--text-sm); color: var(--subtle-foreground); }
+.bandl span.on { color: var(--primary); font-weight: var(--weight-medium); }
+.verdict { font-size: var(--text-2xl); letter-spacing: var(--tracking-tighter); color: var(--heading-foreground); margin: 10px 0 4px; line-height: 1.2; }
+ol.next { margin: 6px 0 0 18px; padding: 0; } ol.next li { margin-bottom: 10px; }
+ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); display: block; }

@@ -160,10 +160,20 @@ pages for the journeys a student has. Audit and pattern picks are in the session
   panel. Why not a map: within a role the level profile of most skills is flat (30 to 45% of a role's skills are
   asked more at senior levels, the rest at every level), so a seniority axis spreads nothing; and three colours
   with meaning (green = you, blue = the postings' numbers, amber = gaps) replace eleven colours without.
-- **Next steps, in order.** (2) Tell us about you and the fit result as a band from `bands.json` / `bands_mba.json`,
-  never a percentage, with plain words for a group without bands; (3) check a course and prepare for an event;
-  (4) the remaining filters (industry, employer, location) behind "More filters" and the clean-up of what the
-  audit dropped.
+- **Tell us about you (step 2).** Three questions (where you are, what you look for, which fields) and an optional
+  resume, read in the browser. The answers and the resume stay in local storage. A rough read of the resume
+  against the index alone (the share of each role's main asks it shows, and the roles it says the person held)
+  picks the fields on Explore and marks roles in a field; the band of fit needs the role's postings and comes on the
+  fit screen. A student sees the entry grade first.
+- **Your fit (step 2).** The matcher is created the way the bands were calibrated (the MBA set with the
+  distinctiveness weighting and a baseline of mean shares over the 50 roles; the product set without). The band is
+  the headline on a four-step scale; no percentage anywhere. A group without bands gets a sentence that says so
+  and the evidence without a verdict. Then: what to evidence next (three gaps, with the industry and AI slots in
+  plain words), what the resume shows, presumed skills, gaps, named-not-shown, and disclosures for "say it in this
+  field's words", credentials and industries, unread lines. The grid is painted: green shows it, amber dashed is a
+  gap; presumed skills stay plain.
+- **Next steps, in order.** (3) check a course and prepare for an event; (4) the remaining filters (industry,
+  employer, location) behind "More filters" and the clean-up of what the audit dropped.
 
 ## Skill depth for the MBA skills (proposed, not built)
 

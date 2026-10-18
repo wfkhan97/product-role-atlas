@@ -110,5 +110,39 @@ window.Atlas = (function () {
     return { rows, stats: st, all };
   }
 
-  return { index, product, role, shares, subShares, grid, stepOf, employerType, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
+  // ---------- the matcher (web/match.js, untouched) for one role, built the way the bands were calibrated ----------
+  const matchers = {};
+  async function matcher(R) {
+    if (matchers[R.role.id]) return matchers[R.role.id];
+    const ix = await index();
+    if (R.set === "product") {
+      const [P, TAX, bands] = await Promise.all([product(), fetchJson("data/taxonomy.json"), fetchJson("data/bands.json")]);
+      const M = Matcher.createMatcher({ taxonomy: TAX, subskills: P.SUBS, graph: P.G, distinct: (bands.scoring || {}).distinct || undefined });
+      return matchers[R.role.id] = { M, bands, group: R.role.group, familyJobs: R.jobs };
+    }
+    const [TAX, ROLES, bands] = await Promise.all([fetchJson("data/taxonomy_mba.json"), fetchJson("data/roles_mba.json"), fetchJson("data/bands_mba.json")]);
+    // the mean share of each skill across the 50 roles: what "distinctive for this role" is measured against
+    const fams = Object.keys(ix.M.families), baseline = {};
+    for (const s of ix.M.skills) baseline[s.id] = fams.reduce((a, f) => a + ((s.by_family || {})[f] || 0), 0) / fams.length;
+    const M = Matcher.createMatcher({ taxonomy: TAX, subskills: ix.SUBS, graph: { ...ix.M, jobs: R.jobs }, roles: ROLES, distinct: { ...((bands.scoring || {}).distinct || {}), baseline } });
+    return matchers[R.role.id] = { M, bands, group: (bands.group_of || {})[R.role.id] || R.role.group, familyJobs: R.jobs };
+  }
+
+  // ---------- a rough read of a resume against every role, from the index alone (no role files) ----------
+  // Returns { held: [role ids the person held], scores: { role id: share of the role's main asks the resume shows } }.
+  // It ranks fields and roles; the band of fit comes from the full matcher on the role screen.
+  let roughM = null;
+  async function roughFit(text) {
+    const ix = await index();
+    if (!roughM) { const [TAX, ROLES] = await Promise.all([fetchJson("data/taxonomy_mba.json"), fetchJson("data/roles_mba.json")]); roughM = Matcher.createMatcher({ taxonomy: TAX, subskills: ix.SUBS, graph: { ...ix.M, jobs: [] }, roles: ROLES }); }
+    const parsed = roughM.readRoles(roughM.parseResume(text)); const ev = roughM.tag(parsed);
+    const shown = new Set(Object.entries(ev).filter(([, e]) => e.strength >= 2).map(([id]) => id));
+    const held = [...new Set(parsed.roles.map(r => r.roleFamily).filter(Boolean))];
+    const scores = {};
+    const score = asks => { const core = asks.filter(a => a.share >= TIER.core && ix.skillById[a.id] && ix.skillById[a.id].cluster !== "credentials"); return core.length ? core.filter(a => shown.has(a.id)).length / core.length : 0; };
+    for (const [id, r] of Object.entries(ix.roles)) scores[id] = score(r.set === "mba" ? [...r.definingList, ...r.asks] : r.asks);
+    return { held, scores, shown, years: parsed.totalYears, isStudent: parsed.isStudent };
+  }
+
+  return { index, product, role, shares, subShares, grid, stepOf, employerType, matcher, roughFit, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
 })();
