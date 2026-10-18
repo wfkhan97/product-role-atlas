@@ -38,21 +38,9 @@ Companies:
 
 ## Web app (`web/`)
 
-Static site (D3 force graph, no build step), published as an artifact and runnable locally:
-- Left rail: role family, level, company group (Fortune 50 / a16z / Sequoia), skill-cluster toggles.
-- Centre: force-directed skill map; node size = share of postings that require it; edges =
-  co-occurrence; colour = cluster.
-- Right panel: skill detail (which companies/levels ask for it, what it co-occurs with) or job detail.
-- "Match me": drop a resume (PDF / DOCX / TXT) or paste courses. Parsed in the browser (pdf.js,
-  mammoth); nothing leaves the browser. `web/match.js` reads it line by line with section detection and
-  an evidence strength per hit (named / done / done with an outcome), then scores it against the
-  selected posting or family+level with requirements tiered into must-haves (asked in over half of the
-  slice), common asks and differentiators; one industry slot and one AI-literacy slot instead of every
-  domain as a separate requirement. The panel reads back a persona (experienced in role, pivoter, new to
-  role) and level, three meters (must-haves, common asks, depth), credentials from titles and degrees,
-  evidenced / transferable / named-not-shown / gaps with the line that earned each, rewrites for skills
-  shown in another field's vocabulary, build-next steps, ladder notes, unmapped lines and a what-if.
-  Evals in `evals/` guard it; design history in `evals/NOTES.md`.
+Static site, no build step, published as an artifact and runnable locally. The first interface (v1 to v4: a
+force graph with rails of filters and six views, the match flow in a modal) is described in the sections below for
+the record; v9 replaced it with pages around the student's journeys.
 
 ## Filters (v3)
 
@@ -150,6 +138,32 @@ BCG. So the levels stay as they are, and each posting gets a second fact.
   banking, the Big Four other than Deloitte, or brand management: the research has only secondary sources, or
   our postings contradict it (see `evals/NOTES.md`). The interface is not designed; label text is in
   `meta.entry` of the index.
+
+## The interface around journeys (v9, 2026-10-13)
+
+The one-screen analyst tool (rails, thirteen filter sections, six map views, eleven area colours) is replaced by
+pages for the journeys a student has. Audit and pattern picks are in the session notes (`data/experiments/ui_audit.md`,
+`ui_design.md`, gitignored); the decisions are the owner's (2026-10-13).
+
+- **First visit.** A choice: "Tell us about you" (three questions, an optional resume; the answers pick the fields)
+  or "Explore the roles". Desktop only; there is no phone layout.
+- **Explore.** The fields as circles sized by open postings (ten MBA groups plus Product), then the roles of a
+  field sorted by open postings with what defines each, then the role screen. Breadcrumbs carry the path. The MBA
+  set's own product group is not shown: the Product field opens the product role set.
+- **The role screen.** One layout for both role sets, no legend: rows by how many postings ask for a skill (over
+  half, a quarter to a half, one in ten to one in four), two columns (asked at every level; asked at least 1.5
+  times as often in leadership postings as in entry ones, measured over the whole role so a level filter re-ranks
+  without moving skills), skill areas as text labels inside a cell, ◆ for the skills that define the role, a blue
+  share bar on every skill. A level filter and an employer-type filter re-rank the grid. A skill opens in a side
+  panel: definition, sub-skills with their shares in the view, example sentences from postings by level group, the
+  level ladder, build steps, postings that ask for it, skills often asked together. A posting opens in the same
+  panel. Why not a map: within a role the level profile of most skills is flat (30 to 45% of a role's skills are
+  asked more at senior levels, the rest at every level), so a seniority axis spreads nothing; and three colours
+  with meaning (green = you, blue = the postings' numbers, amber = gaps) replace eleven colours without.
+- **Next steps, in order.** (2) Tell us about you and the fit result as a band from `bands.json` / `bands_mba.json`,
+  never a percentage, with plain words for a group without bands; (3) check a course and prepare for an event;
+  (4) the remaining filters (industry, employer, location) behind "More filters" and the clean-up of what the
+  audit dropped.
 
 ## Skill depth for the MBA skills (proposed, not built)
 
