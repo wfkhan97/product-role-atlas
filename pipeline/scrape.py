@@ -8,7 +8,9 @@ old name) is given. A refresh never drops a posting: one the board still shows g
 is added with "first_seen", and one the board no longer shows gets "closed" (the date we first missed it). A
 closed posting is no longer listed as open, and it still counts in shares and statistics (pipeline/extract.py
 sets how long). If a refresh returns far fewer postings than were open, nothing is closed: the board or a
-search probably failed.
+search probably failed. A posting is its requisition id (external_id), or its URL on a board that gives none:
+the URL alone is not stable (Bank of America puts a per-session token in every job URL; a retitled or moved
+requisition gets a new one). One that comes back takes the board's current title, URL and text.
 The MBA roles were scraped in batches; --batch N fetches only that batch's roles for companies already
 cached without it and adds them to the company's file (companies with no file get every role).
 """
@@ -79,27 +81,45 @@ def load_registry(roles_name="product"):
     return out
 
 
+def posting_key(j):
+    """What identifies a posting across refreshes: its requisition id, or its URL on a board that gives none.
+    The URL alone is not stable: Bank of America puts a per-session token in every job URL, and a board that
+    retitles or moves a requisition gives it a new URL. pipeline.extract reads postings by the same key."""
+    return j.get("external_id") or j.get("url")
+
+
 def merge(old, fetched, entry, today, full=True):
     """Add what a board shows today to a company's backlog. Returns (postings, note when nothing was closed).
 
     old: the company's file as read (None for a new company). fetched: the postings the adapter returned.
     full: every search was run, so a posting that did not come back is closed; with one batch of searches
     (full False) nothing is closed.
+    One row per posting_key. A posting that comes back takes the board's current title, URL and text (the row
+    seen last is the posting) and keeps its first_seen. Two rows of one requisition in the file (written before
+    the key was the id) fold into one the same way: the one seen last wins, the first keeps its place.
     """
-    uniq = list(old["jobs"]) if old else []
-    key = lambda j: j.get("url") or j.get("external_id")
     was = (old.get("scraped_at") or today)[:10] if old else today
-    for j in uniq:  # files from before the backlog: seen on the day they were scraped
-        j.setdefault("first_seen", was)
+    uniq, by_key = [], {}
+    for j in (old["jobs"] if old else []):
+        j.setdefault("first_seen", was)  # files from before the backlog: seen on the day they were scraped
         j.setdefault("last_seen", was)
-    by_key = {key(j): j for j in uniq}
+        o = by_key.get(posting_key(j))
+        if o is None:
+            by_key[posting_key(j)] = j
+            uniq.append(j)
+        elif j["last_seen"] >= o["last_seen"]:
+            first = min(o["first_seen"], j["first_seen"])
+            o.pop("closed", None)
+            o.update(j, first_seen=first)
+        else:
+            o["first_seen"] = min(o["first_seen"], j["first_seen"])
     open_before = [j for j in uniq if not j.get("closed")]
     cat = entry.get("category")
     for j in fetched:
-        k = key(j)
+        k = posting_key(j)
         if k in by_key:
             o = by_key[k]
-            o["last_seen"] = today
+            o.update(j, last_seen=today)  # the board's current title, URL and text
             o.pop("closed", None)  # a posting that comes back is open again
             if cat:
                 o["category"] = cat
@@ -189,7 +209,7 @@ def main():
                 cfg = cfg if cfg.get("keep_queries") else dict(cfg, queries=roles_mba.queries(cat, batch))
                 ok = lambda t: roles_mba.title_ok(t, cat, batch)
             jobs = ADAPTERS[entry["ats"]](name, cfg, ok)
-            key = lambda j: j.get("url") or j.get("external_id")
+            key = posting_key
             before = {key(j): bool(j.get("closed")) for j in (old or {}).get("jobs", [])}
             uniq, partial = merge(old, jobs, entry, today, full=batch is None)
             blob = {"company": name, "scraped_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "jobs": uniq}
@@ -204,11 +224,12 @@ def main():
             counts = {"fetched": len(jobs), "kept": len(uniq), "new": sum(1 for j in uniq if key(j) not in before),
                       "reopened": sum(1 for j in uniq if before.get(key(j)) and not j.get("closed")),
                       "closed": sum(1 for j in uniq if j.get("closed") == today and before.get(key(j)) is False),
-                      "open": sum(1 for j in uniq if not j.get("closed"))}
+                      "open": sum(1 for j in uniq if not j.get("closed")),
+                      "folded": len((old or {}).get("jobs", [])) - len(before)}  # rows of one requisition the file held twice
             with lock:
                 totals.update(counts)
-            logger.info("%s (%s): fetched %d, kept %d (%d open), new %d, reopened %d, closed %d, %s", name, entry["ats"], counts["fetched"],
-                        counts["kept"], counts["open"], counts["new"], counts["reopened"], counts["closed"], t)
+            logger.info("%s (%s): fetched %d, kept %d (%d open), new %d, reopened %d, closed %d, folded %d, %s", name, entry["ats"], counts["fetched"],
+                        counts["kept"], counts["open"], counts["new"], counts["reopened"], counts["closed"], counts["folded"], t)
             if partial:
                 logger.warning("%s: partial fetch, %s", name, partial)
             return (name, entry["ats"], f"{len(uniq)} jobs in {t.seconds:.0f}s" + (f"; PARTIAL: {partial}" if partial else ""))
@@ -222,9 +243,10 @@ def main():
         summary.extend(ex.map(run, todo))
     for s in summary:
         logger.debug("%s %s %s", s[0], s[1], s[2])
-    logger.info("scrape done in %s: %d employers fetched (%d failed), postings fetched %d, kept %d (%d open), new %d, reopened %d, closed %d; "
-                "%d requests, %d answered 429, %d retried after a network error", run_timer, len(todo), len(failed), totals["fetched"], totals["kept"],
-                totals["open"], totals["new"], totals["reopened"], totals["closed"], common.STATS["requests"], common.STATS["429"], common.STATS["retries"])
+    logger.info("scrape done in %s: %d employers fetched (%d failed), postings fetched %d, kept %d (%d open), new %d, reopened %d, closed %d, "
+                "folded %d; %d requests, %d answered 429, %d retried after a network error", run_timer, len(todo), len(failed), totals["fetched"],
+                totals["kept"], totals["open"], totals["new"], totals["reopened"], totals["closed"], totals["folded"], common.STATS["requests"],
+                common.STATS["429"], common.STATS["retries"])
     if failed:
         logger.error("failed employers: %s", ", ".join(sorted(failed)))
 

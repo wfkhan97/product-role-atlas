@@ -9,7 +9,7 @@ them. A row with "sure": false is one a reader could label either way: it is rep
 "known_miss" (titles: "known_miss_role", "known_miss_level") is a wrong answer we accept for now, with the reason; it fails only if it starts to pass (then
 remove the mark).
 
-0. backlog    pipeline.scrape.merge: a refresh adds new postings, closes missing ones, reopens returning ones, drops none
+0. backlog    pipeline.scrape.merge: a refresh adds new postings, closes missing ones, reopens returning ones, drops none; a posting is its requisition id
 1. titles     evals/titles_mba.json   the role each title must get (or none), and its level on its ladder
 1b. entry     evals/entry_mba.json    who enters at each posting: an MBA graduate, a pre-MBA graduate or neither; internship or not
 2. countries  evals/countries.json    the country each location must get
@@ -184,6 +184,20 @@ def backlog():
     check("backlog", note and not any(j.get("closed") for j in jobs), "a refresh that returned 2 of 20 open postings closed the rest; it must close nothing")
     jobs, _ = merge({"scraped_at": "2026-10-10T09:00:00", "jobs": [job("a"), job("b")]}, [job("z")], e, "2026-10-17", full=False)
     check("backlog", not any(j.get("closed") for j in jobs), "a refresh of one batch of searches closed postings")
+    # a posting is its requisition id: a new URL for the same id (Bank of America's per-session token) is the same row
+    req = lambda u, i, **more: dict(job(u), external_id=i, **more)
+    old = {"scraped_at": "2026-10-10T09:00:00", "jobs": [req("a-t1", "1", title="old"), req("b-t1", "2")]}
+    jobs, note = merge(old, [req("a-t2", "1", title="new")], e, "2026-10-17")
+    check("backlog", [j["external_id"] for j in jobs] == ["1", "2"], "a requisition under a new URL was added as a second row")
+    check("backlog", (jobs[0]["url"], jobs[0]["title"], jobs[0]["first_seen"], jobs[0]["last_seen"]) == ("a-t2", "new", "2026-10-10", "2026-10-17"),
+          "a posting that came back did not take the board's current URL and title, or lost its first_seen")
+    check("backlog", jobs[1].get("closed") == "2026-10-17" and note is None, "a requisition that did not come back under its id was not closed")
+    # two rows of one requisition from before the key was the id fold into the one seen last
+    old = {"scraped_at": "2026-10-13T09:00:00", "jobs": [req("a-old", "1", first_seen="2026-10-03", last_seen="2026-10-10", closed="2026-10-13"),
+                                                         req("a-new", "1", first_seen="2026-10-13", last_seen="2026-10-13")]}
+    jobs, _ = merge(old, [], e, "2026-10-17", full=False)
+    check("backlog", len(jobs) == 1 and (jobs[0]["url"], jobs[0]["first_seen"], jobs[0].get("closed")) == ("a-new", "2026-10-03", None),
+          "two rows of one requisition did not fold into the one seen last with the earliest first_seen")
     out(f"  {totals[('backlog', 'pass')]} pass, {totals[('backlog', 'fail')]} fail")
 
 
