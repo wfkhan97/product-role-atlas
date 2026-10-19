@@ -272,10 +272,12 @@
    "patterns": [
     "\\breal\\s+estate\\s+development\\b|\\bdevelopment\\s+(manager|director|associate|analyst)\\b.*\\b(real\\s+estate|multifamily|residential|industrial|mixed[- ]use)\\b|\\b(real\\s+estate|multifamily|residential|industrial|mixed[- ]use)\\b.*\\bdevelopment\\s+(manager|director|associate|analyst)\\b|\\bland\\s+development\\s+(manager|director)\\b"
    ],
-   "exclude": [],
+   "exclude": [
+    "\\b(hardware|software|firmware|product|business|learning|talent|organi[sz]ation\\w*|leadership|web|application|game|engineering|platform|robotics|career|sales|fund|donor|workforce|economic|professional|curriculum|content|market|client|customer|partner|channel|franchise|people|process|technology|systems?|drug|clinical|device|packaging|formulation|chip|silicon|asic|mechanical|electrical|training|design|r&d|employee|programme?|player|agency|pipeline|account|dealer|vendor|supplier|network|audience|revenue|skills?|staff|community|brand|category|concept|recipe|menu|food|beverage|material|test|tool|model|algorithm|ml|ai)\\s+development\\b"
+   ],
    "covers": [],
    "covered_by": [],
-   "n": 43
+   "n": 33
   },
   {
    "id": "re_asset_manager",
@@ -385,7 +387,7 @@
    ],
    "covered_by": [],
    "product_gate": "pm",
-   "n": 3657
+   "n": 3658
   },
   {
    "id": "bizops",
@@ -549,12 +551,12 @@
    "label": "Brand Manager",
    "group": "marketing",
    "patterns": [
-    "\\bbrand\\s+(senior\\s+)?(manage(r|ment)|director|lead)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?brand\\b|\\bassociate\\s+brand\\b"
+    "\\bbrand\\s+(senior\\s+)?(manage(r|ment)|director|lead)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?brand\\b(?!\\s+partnerships?\\b)|\\bassociate\\s+brand\\b"
    ],
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 227
+   "n": 224
   },
   {
    "id": "growth_manager",
@@ -608,7 +610,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 977
+   "n": 984
   },
   {
    "id": "business_analytics",
@@ -792,7 +794,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1499
+   "n": 1500
   },
   {
    "id": "marketing_manager",
@@ -899,7 +901,7 @@
  "consultant": "\\bconsult(ant|ing)\\b",
  "consultant_exclude": "\\b(sap|oracle|workday|salesforce|servicenow|implementation|software|technical|tech|technology|cyber\\w*|cloud|tax|audit\\w*|payroll|benefits|application|recruit\\w*|talent|engineer\\w*|developer|assistant|counsel|legal|epic|billing|data|marketing|communications|events?)\\b",
  "employer_exclude": "\\b(alumni|assistant|counsel|attorney|paralegal|recruit\\w*|talent|engineer\\w*|developer|accountant|tax|audit\\w*|payroll|receptionist|compliance|legal|marketing|events?|design\\w*|sap|oracle|workday|salesforce|servicenow|implementation|software|cyber\\w*|cloud|sales|data\\s+(governance|operations|management|engineer\\w*|analyst|scien\\w*)|operations|ops|onboarding|communications|procurement|client|investor\\s+(relations|services|communications)|product\\s+(specialist|management)|fund\\s+(admin\\w*|accounting)|accounting|financial\\s+(advisory|planning)|fp\\s*&\\s*a|IR|application|reporting|technical|technology|it|people|human|hr|treasury|controller|facilities|administrat\\w*|security|epic|billing)\\b",
- "real_estate_exclude": "\\b(business|software|learning|talent|fund|donor|web|application|product|organi[sz]ation\\w*|leadership|career|sales)\\s+(development|acquisitions?)\\b",
+ "real_estate_exclude": "\\b(business|software|hardware|firmware|learning|talent|fund|donor|web|application|product|organi[sz]ation\\w*|leadership|career|sales)\\s+(development|acquisitions?)\\b",
  "employer_rules": {
   "Strategy consulting": [
    {
@@ -1510,7 +1512,7 @@
    ]
   }
  },
- "generated": "2026-10-14",
+ "generated": "2026-10-19",
  "employers": {
   "Accenture": {
    "category": "Consulting and advisory"

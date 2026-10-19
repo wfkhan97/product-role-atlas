@@ -88,7 +88,7 @@ def entry_text(r):
     """The cleaned text and the years asked, as extraction hands them to roles_mba.entry (None when the row has no text)."""
     if not r.get("description"):
         return None, None
-    text = extract.clean(r["description"], r["company"], extract.ROLE_SETS[ROLES].get("split_long", False))
+    text = extract.norm(extract.clean(r["description"], r["company"], extract.ROLE_SETS[ROLES].get("split_long", False)))
     return text, extract.years_required(text)
 
 

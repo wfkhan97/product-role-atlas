@@ -135,6 +135,17 @@ SELF_VERB = r"(is (?!seeking|looking|hiring|searching|recruiting|currently|an eq
 ENTITY = r"(,? (group|inc\.?|llc|l\.?p\.?|& co\.?|and company|company|corporation|corp\.?|partners|capital|management|financial|holdings|bank|\([A-Z]+: ?[A-Z.]+\)))*"
 
 
+# Boards send the typographic apostrophe (’) as often as the straight one; the patterns spell the straight one
+# ("master'?s", "bank's products"). Text is normalised for matching only: the cleaned text, the evidence sentences
+# and the corpus keep the posting's own characters, so a quoted sentence still matches its posting word for word.
+APOSTROPHES = str.maketrans({"’": "'", "‘": "'", "ʼ": "'"})
+
+
+def norm(text):
+    """The text as the patterns read it: typographic apostrophes as straight ones (same length, so offsets hold)."""
+    return text.translate(APOSTROPHES)
+
+
 def clean(desc, company=None, split_long=False):
     """Drop boilerplate lines (EEO statements, benefits, legal, the employer's own description) so they don't inflate skill counts.
 
@@ -152,7 +163,8 @@ def clean(desc, company=None, split_long=False):
     if split_long:
         lines = [part for line in lines for part in (SENT_RE.split(line) if len(line) > LONG_LINE else [line])]
     for line in lines:
-        if len(line) > 40 and (BOILER_RE.search(line) or ABOUT_RE.search(line) or (about and about.search(line))):
+        test = norm(line)
+        if len(line) > 40 and (BOILER_RE.search(test) or ABOUT_RE.search(test) or (about and about.search(test))):
             continue
         out.append(line)
     return "\n".join(out)
@@ -275,7 +287,7 @@ def tag_posting(item):
     cfg = ROLE_SETS[roleset]
     title = j["title"]
     desc = j.get("description") or ""
-    text = title + "\n" + cleaned
+    text = norm(title + "\n" + cleaned)
     hits = tag(text, skills_for(roleset))
     # drop years-of-experience buckets that aren't consistent with the explicit ask, keep only the one matching
     yoe = years_required(cleaned)
@@ -294,7 +306,7 @@ def tag_posting(item):
         for sid in hits:
             if sid.startswith("yoe_"):
                 continue
-            m = SKILL_RX[sid].findall(sent)
+            m = SKILL_RX[sid].findall(norm(sent))
             if m:
                 found.append((sid, {"text": sent, "company": company, "title": title, "url": j.get("url"), "level": lvl, "_score": len(m)}))
     job = {
@@ -322,7 +334,7 @@ def tag_posting(item):
         "desc_chars": len(desc),
         **({"category": j["category"]} if j.get("category") else {}),
         **({"ladder": cfg["ladder"](title, company, ctx)} if "ladder" in cfg else {}),
-        **(dict(zip(("entry", "intern", "entry_src"), cfg["entry"](title, company, ctx, lvl, cleaned, yoe))) if "entry" in cfg else {}),
+        **(dict(zip(("entry", "intern", "entry_src"), cfg["entry"](title, company, ctx, lvl, norm(cleaned), yoe))) if "entry" in cfg else {}),
         **({"open": not j.get("closed"), "first_seen": j.get("first_seen"), "last_seen": j.get("last_seen")} if cfg.get("backlog") else {}),
     }
     return job, found, stage_mentions(desc)
