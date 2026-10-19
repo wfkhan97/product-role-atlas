@@ -150,6 +150,12 @@ button.tag:hover { border-color: var(--input); }
 .linkish { background: transparent; border: 0; padding: 0; color: var(--foreground); text-align: left; }
 .linkish:hover { text-decoration: underline; text-underline-offset: 3px; }
 .aside .list .r { padding: 8px 0; } .aside .list .r .t { font-size: var(--text-base); }
+.about-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0 8px; }
+.about-facts .fact { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); padding: 12px 14px; display: grid; gap: 2px; }
+.about-facts .fact b { font-size: var(--text-lg); font-weight: var(--weight-medium); color: var(--heading-foreground); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.about-facts .fact span { font-size: var(--text-sm); color: var(--muted-foreground); }
+@media (max-width: 640px) { .about-facts { grid-template-columns: 1fr 1fr; } }
+#about details.disc { margin: 4px 0 0; }
 #about h3 { font-size: var(--text-sm); color: var(--subtle-foreground); text-transform: uppercase; letter-spacing: var(--tracking-label); font-family: var(--font-mono); margin: 18px 0 6px; }
 
 /* ---------- tell us about you: steps, options, the drop zone ---------- */
