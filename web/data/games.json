@@ -1,0 +1,10 @@
+[
+  {"slug": "skill-path", "title": "Skill path", "tagline": "Hop from your field to a new role", "cover": "img/games/skill-path.png", "status": "live"},
+  {"slug": "guess-the-role", "title": "Guess the role", "tagline": "Name the job from its skills", "cover": "img/games/guess-the-role.png", "status": "live"},
+  {"slug": "build-the-hire", "title": "Build the hire", "tagline": "Draft a hire, then let postings judge", "cover": "img/games/build-the-hire.png", "status": "live"},
+  {"slug": "what-it-asks", "title": "What does it ask for", "tagline": "Tap the real asks, let filler pass", "cover": "img/games/what-it-asks.png", "status": "live"},
+  {"slug": "climb-the-ladder", "title": "Climb the ladder", "tagline": "What senior actually means", "cover": "img/games/climb-the-ladder.png", "status": "live"},
+  {"slug": "higher-or-lower", "title": "Higher or lower", "tagline": "Which skill do more postings want", "cover": "img/games/higher-or-lower.png", "status": "live"},
+  {"slug": "wheres-the-demand", "title": "Where's the demand", "tagline": "Guess where the open jobs are", "cover": "img/games/wheres-the-demand.png", "status": "live"},
+  {"slug": "spot-the-real-ask", "title": "Spot the real ask", "tagline": "Mark what a posting really asks for", "cover": "img/games/spot-the-real-ask.png", "status": "live"}
+]

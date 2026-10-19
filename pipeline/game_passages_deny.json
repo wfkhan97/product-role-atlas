@@ -1,0 +1,10 @@
+{
+  "RSM US::JR100528": "false positive in the key: 'an active Enrolled Agent (EA) license' is tagged Generative AI / LLMs & agents",
+  "CVS Health::R1025572": "false positive in the key: 'M&A, integration, separation' is tagged APIs & integrations (the apis pattern misses the comma form)",
+  "Huron::JR-0015665": "false positive in the key: 'IT integration efforts related to mergers, acquisitions' is tagged APIs & integrations",
+  "ServiceNow::744000152539609": "false positive in the key: 'integrations in global and product-led organizations' is tagged APIs & integrations",
+  "Galaxy Digital::5988497004": "false positive in the key: 'relationships with entrepreneurs, investors' is tagged Ownership & bias for action, so a correct skip would count as a miss",
+  "Density::4299516009": "a semiconductor product-engineering posting read as Product Operations; 'packaging yield' is tagged Pricing & packaging",
+  "ServiceNow::744000152539118": "false positive in the key: 'integrations in global and product-led organizations' is tagged APIs & integrations",
+  "Amazon::10497933": "not a real estate posting: 'Hardware Development Manager, Amazon Industrial Robotics' is read as Real Estate Development Manager by the title rule"
+}

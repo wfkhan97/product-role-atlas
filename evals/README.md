@@ -232,6 +232,27 @@ ask at that level, which may still be an odd pair. The critic's judgment (suppor
 pipeline and is not rerun here; `pipeline.depth_gen --rejudge` measures how much another critic agrees. The
 sub-skill shares are measured on the same postings the patterns were drafted from.
 
+## Game evals
+
+The games on the first-visit screen (`games/`, built in `web/games/`) draw their rounds from the atlas data with
+rules written in their design packages (`games/<slug>/README.md`). Each game keeps its data rules as pure functions
+apart from its screens, so node can run them over every role with no install. Each exits 1 on a rule violation.
+
+```bash
+node evals/skill_path.mjs             # Skill path: the board, the README's example rounds, the random pools, no dead end
+node evals/games_guess_the_role.mjs   # Guess the role: the pool, distractors and clues over all 48 roles
+node evals/game_passages.mjs          # Spot the real ask: the passages file web/data/game_passages.json
+```
+
+| eval | what it guards |
+|---|---|
+| `skill_path.mjs` | Loads `web/atlas.js`, the skill map's own board (`SkillMap.board()`) and the game's `logic`. The board has 240 skills and 936 links in one piece, each skill with 2 links or more. Product Manager's arrival skills, Marketing's start skill, par and shortest route, and the four choices at each hop of the README's Marketing → Product Manager round. Supply chain & procurement → Product Manager: start skill, par 4, and the biggest-blue-number route ends 3 hops short. The random pools (86 / 313 / 51 from a field, 447 / 1,373 / 222 from a role). All 53 pickable roles have three arrival skills. Four simulated players on every pairing at every difficulty: none is ever left with no choice and no step back, and the perfect player always arrives. |
+| `games_guess_the_role.mjs` | Every role has a playable posting. Every distractor set is three distinct roles, none above similarity 0.90, in a 2 + 2 or 1 + 1 + 1 + 1 field pattern. Every clue set of every playable posting is five distinct eligible skills, none generic, each asked by at least a quarter of the role's postings, in rising order of lift, with no red herring and the giveaway's disc above 0. It prints the counts the README states (22,483 open, 19,004 playable, 46 roles with 2 + 2) and warns, without failing, when a data refresh moves them. |
+| `game_passages.mjs` | Checks `web/data/game_passages.json`, written by `pipeline/game_passages.py`: valid chunk labels, every ask names a skill of its set's taxonomy, each block's chunks join back to its text, shares in [0, 1], no passage over 700 characters, at most 12 per role and one employer per role, the file under 1 MB, every role id in `graph_mba.json` or `graph.json`. |
+
+The expected numbers are today's data. After a data refresh `skill_path.mjs` prints the new values and fails, and
+`games_guess_the_role.mjs` warns; update the game's README and the eval together on a `data/` branch.
+
 ## Evals to build
 
 The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a

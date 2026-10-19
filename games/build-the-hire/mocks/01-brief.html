@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<title>Build the hire · brief · mock</title>
+<link rel="stylesheet" href="../../../web/tokens/styles.css">
+<link rel="stylesheet" href="../../../web/style.css">
+<link rel="stylesheet" href="bh.css">
+</head>
+<body>
+<!-- Role counts and posting numbers: web/data/graph_mba.json (groups, roles.n) and web/data/graph.json (product jobs), via Atlas.index()/Atlas.product().
+     "Your best" shows the real example draft (Product Manager, deal 130) as if it were saved; the other rows are empty. -->
+<div class="mock-frame">
+<header class="top">
+  <a class="brand" href="#/"><span class="mark" aria-hidden="true"></span><span class="wordmark">GradBuddy</span></a>
+  <nav class="crumbs" aria-label="Where you are"><a href="#/">Games</a><span class="sep">/</span><span class="here">Build the hire</span></nav>
+  <div class="top-actions"><a class="toplink" href="#/explore">Explore</a><a class="toplink" href="#/you">About you</a><button class="icon" type="button">●</button></div>
+</header>
+<main class="main">
+<div class="bh bh-brief">
+  <section>
+    <p class="eyebrow">Build the hire</p>
+    <h1>The last hire had every buzzword and none of the job. You're hiring the replacement.</h1>
+    <p class="lead" style="margin-top:10px">You are the hiring manager. You have 10 points and room for six skills. Draft a candidate from three cards at a time, then let real job postings judge your hire.</p>
+    <ol class="bh-rules">
+      <li><span class="n">01</span><span class="t">Pick the role you are hiring for</span><span class="d">53 roles across 11 fields, each read from its live postings.</span></li>
+      <li><span class="n">02</span><span class="t">Take one card from each hand, or skip it</span><span class="d">Up to eight hands. A card you pass on does not come back. The draft ends when the budget or the slots run out.</span></li>
+      <li><span class="n">03</span><span class="t">Read the verdict</span><span class="d">How many of the role's postings your hire matches, your best pick, where you overspent, and the card that got away.</span></li>
+    </ol>
+    <div class="bh-kinds">
+      <div class="bh-kind"><b>1 point</b>Asked for by most postings of almost every role.</div>
+      <div class="bh-kind"><b>2 to 4 points</b>Asked for far more often by one role than by the average role.</div>
+      <div class="bh-kind"><b>The catch</b>An expensive card may set this role apart, or a different one.</div>
+    </div>
+  </section>
+
+  <section class="bh-pick" aria-label="Choose a role">
+    <h2>Who are you hiring?</h2>
+    <p class="small muted" style="margin:0">Pick a field, then a role. The number is postings read.</p>
+    <div class="chips">
+      <button class="chip" type="button">Consulting &amp; strategy <span class="n">8</span></button>
+      <button class="chip" type="button">Finance <span class="n">6</span></button>
+      <button class="chip" type="button">Banking &amp; investing <span class="n">9</span></button>
+      <button class="chip" type="button">Operations <span class="n">5</span></button>
+      <button class="chip" type="button">Marketing <span class="n">3</span></button>
+      <button class="chip" type="button">Sales &amp; partnerships <span class="n">4</span></button>
+      <button class="chip" type="button">Supply chain <span class="n">4</span></button>
+      <button class="chip" type="button">People <span class="n">3</span></button>
+      <button class="chip" type="button">Risk &amp; compliance <span class="n">3</span></button>
+      <button class="chip" type="button">Analytics <span class="n">2</span></button>
+      <button class="chip on" type="button">Product <span class="n">6</span></button>
+    </div>
+    <div class="list">
+      <a class="r on" href="#"><span class="t">Product Manager</span><span class="n">5,635 postings</span><span class="m">Your best: <span class="best">32%</span> · Recruiting coordinator</span></a>
+      <a class="r" href="#"><span class="t">Technical Program Manager</span><span class="n">1,599 postings</span><span class="m">Not played yet</span></a>
+      <a class="r" href="#"><span class="t">Product Marketing Manager</span><span class="n">812 postings</span><span class="m">Not played yet</span></a>
+      <a class="r" href="#"><span class="t">Product Owner</span><span class="n">389 postings</span><span class="m">Not played yet</span></a>
+      <a class="r" href="#"><span class="t">Product Analyst</span><span class="n">170 postings</span><span class="m">Not played yet</span></a>
+      <a class="r" href="#"><span class="t">Product Operations</span><span class="n">160 postings</span><span class="m">Not played yet</span></a>
+    </div>
+    <div class="bh-go">
+      <span class="small subtle">Not timed. Your best per role stays in this browser.</span>
+      <a class="btn primary" style="white-space:nowrap" href="#/play/build-the-hire?role=pm">Start hiring →</a>
+    </div>
+  </section>
+</div>
+</main>
+<footer class="foot"><span>Built from live job postings, refreshed weekly.</span> <a href="#/about">About the data</a></footer>
+</div>
+</body>
+</html>

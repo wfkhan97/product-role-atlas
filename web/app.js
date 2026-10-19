@@ -1,4 +1,4 @@
-/* Role atlas — the screens. Routes (hash): #/ start · #/you (next step) · #/explore · #/field/<group> · #/role/<role> ·
+/* Role atlas — the screens. Routes (hash): #/ start (the games, then see what jobs ask for) · #/play/<game> · #/you (next step) · #/explore · #/field/<group> · #/role/<role> ·
    #/about. Data comes from atlas.js; the side panel (owner's choice 8B) shows a skill or a posting. */
 (function () {
   "use strict";
@@ -54,21 +54,57 @@
   function route() {
     const parts = location.hash.split("?")[0].replace(/^#\/?/, "").split("/").map(decodeURIComponent);
     const [a, b, c] = parts;
-    const go = { "": start, you: you, explore: explore, field: () => c === "event" ? eventScreen(b) : field(b), role: () => c === "fit" ? fitScreen(b) : c === "course" ? courseScreen(b) : roleScreen(b), about: about }[a || ""];
+    const go = { "": start, you: you, explore: explore, field: () => c === "event" ? eventScreen(b) : field(b), role: () => c === "fit" ? fitScreen(b) : c === "course" ? courseScreen(b) : roleScreen(b), play: () => play(b), about: about }[a || ""];
     SkillMap.leave();
     (go || start)().catch(fail);
   }
   window.addEventListener("hashchange", route);
 
   // ---------- 1. first visit ----------
+  // the top two thirds: the games, as a carousel of cards (the list is data: web/data/games.json);
+  // the bottom third: what the site does today, see what jobs ask for and how you fit
+  let gamesP = null;
+  const games = () => gamesP ||= Atlas.fetchJson("data/games.json").catch(() => []);
   async function start() {
     crumbs([]); showAside(null);
-    page(`<h1>See what jobs ask for, and how you fit</h1>
-      <p class="lead">Built from live job postings for 56 kinds of roles, from banking to product. Nothing you upload leaves your browser.</p>
-      <div class="choices">
-        <a class="choice rec" href="#/you"><div class="t">Tell us about you</div><div class="d">Three questions and an optional resume. We pick the roles that fit you and show how you compare.</div><span class="tag">About 2 minutes →</span></a>
-        <a class="choice" href="#/explore"><div class="t">Explore the roles</div><div class="d">Browse by field, open a role, and see what its postings ask for. You can check your fit later.</div><span class="tag">No sign-up →</span></a>
-      </div>`, true);
+    const list = await games();
+    const card = gm => `<a class="game" href="#/play/${esc(gm.slug)}"><span class="cover"><img src="${esc(gm.cover)}" alt="" loading="lazy" onerror="this.remove()"><span class="ph-t">${esc(gm.title)}</span></span>
+      <span class="gt">${esc(gm.title)}</span><span class="gd">${esc(gm.tagline)}</span>${gm.status === "soon" ? '<span class="tag soon">Coming soon</span>' : '<span class="tag">Play →</span>'}</a>`;
+    page(`<section class="start-games">
+        <p class="eyebrow">Play your way in</p>
+        <h1>What do MBAs go on to do after grad school?</h1>
+        <p class="lead">Short games built on live job postings for 54 roles in 11 fields. Every round ends in a real role you can open.</p>
+        <div class="carousel" aria-label="Games">
+          <button type="button" class="car-btn prev" aria-label="Previous games">‹</button>
+          <div class="car-track" id="car-track" tabindex="0">${list.map(card).join("")}</div>
+          <button type="button" class="car-btn next" aria-label="More games">›</button>
+        </div>
+      </section>
+      <section class="start-fit">
+        <h2>See what jobs ask for, and how you fit</h2>
+        <p class="lead">Nothing you upload leaves your browser.</p>
+        <div class="choices">
+          <a class="choice rec" href="#/you"><div class="t">Tell us about you</div><div class="d">Three questions and an optional resume. We pick the roles that fit you and show how you compare.</div><span class="tag">About 2 minutes →</span></a>
+          <a class="choice" href="#/explore"><div class="t">Explore the roles</div><div class="d">Browse by field, open a role, and see what its postings ask for. You can check your fit later.</div><span class="tag">No sign-up →</span></a>
+        </div>
+      </section>`);
+    main.firstElementChild.classList.add("wide", "start");
+    const track = $("#car-track"), by = dir => track.scrollBy({ left: dir * track.clientWidth * 0.9, behavior: "smooth" });
+    main.querySelector(".car-btn.prev").onclick = () => by(-1); main.querySelector(".car-btn.next").onclick = () => by(1);
+    track.onkeydown = e => { if (e.key === "ArrowRight") { by(1); e.preventDefault(); } if (e.key === "ArrowLeft") { by(-1); e.preventDefault(); } };
+  }
+  // a game: its own screen once built; until then, what it will be. A built game is web/games/<slug>.js, loaded
+  // by index.html, which registers window.Games[slug] = { mount(el, ctx) } (contract in games/README.md)
+  window.Games = window.Games || {};
+  async function play(slug) {
+    const gm = (await games()).find(g => g.slug === slug);
+    if (!gm) return start();
+    crumbs([["Games", "#/"], [gm.title, null]]); showAside(null);
+    const G = window.Games[slug];
+    if (gm.status === "live" && G && G.mount) { main.innerHTML = ""; window.scrollTo(0, 0); return G.mount(main, { Atlas, game: gm, showAside, crumbs, esc }); }
+    page(`<p class="eyebrow">Coming soon</p><h1>${esc(gm.title)}</h1><p class="lead">${esc(gm.tagline)}.</p>
+      <div class="cover big"><img src="${esc(gm.cover)}" alt="${esc(gm.title)}, an early design" onerror="this.remove()"><span class="ph-t">${esc(gm.title)}</span></div>
+      <div class="row" style="margin-top:16px"><a class="btn" href="#/">← All games</a><a class="btn quiet" href="#/explore">Explore the roles</a></div>`, true);
   }
   // ---------- 2. tell us about you: three questions and an optional resume ----------
   const Q = [
@@ -385,13 +421,29 @@
     return `<div class="evtabs">${groups.map(([k, lab]) => `<button type="button" class="chip${tab === k ? " on" : ""}" data-ev="${k}">${lab}</button>`).join("")}</div>` +
       ev[tab].slice(0, 3).map(q => `<blockquote class="quote">“${esc(q.text.length > 260 ? q.text.slice(0, 257) + "…" : q.text)}”<span class="src">${esc(q.company)} · <a href="${esc(q.url)}" target="_blank" rel="noopener">${esc(q.title)}</a></span></blockquote>`).join("");
   }
+  // A skill's ladder is flat ({associate, mid, senior, lead}: product skills) or keyed by industry ladder
+  // ({corporate: {...}, bank: {...}}: MBA skills, rungs the postings do not support are absent). The card shows the
+  // role's own industry; when that one is not written, another industry's, named as such.
+  const LADDER_ORDER = ["corporate", "bank", "consulting"];
+  function ladderHtml(R, s, here) {
+    const L = s.ladder;
+    if (!L) return `<p class="small muted">The level ladder for this skill is not written yet.</p>`;
+    const flat = LADDER_KEYS.some(([k]) => typeof L[k] === "string");
+    const ind = flat ? null : L[R.role.ladder] ? R.role.ladder : LADDER_ORDER.find(k => L[k]) || Object.keys(L)[0];
+    const rungs = flat ? L : L[ind];
+    const lv = (ind && R.ladders && R.ladders[ind] && R.ladders[ind].levels) || {};
+    const rows = LADDER_KEYS.filter(([k]) => flat || rungs[k]).map(([k, lab]) => `<span class="lv${here === k ? " here" : ""}">${esc(lv[k] || lab)}</span><span>${esc(rungs[k] || "")}</span>`).join("");
+    const name = k => (((R.ladders || {})[k] || {}).label || k).toLowerCase();
+    const other = ind && ind !== R.role.ladder ? `<p class="small muted">Shown from the ${esc(name(ind))} ladder; this skill has none yet for ${esc(name(R.role.ladder))}.</p>` : "";
+    return other + `<div class="ladder">${rows}</div>`;
+  }
   function skillCard(R, s, slice) {
     const st = Atlas.shares(slice), ss = Atlas.subShares(slice, s.id);
     const subsMeta = s.subskills || (R.subs[s.id] || []).map(x => ({ id: x.id, name: x.name, example: "" }));
     const m = state.match && state.match.roleId === R.role.id ? state.match : null;
     const subs = subsMeta.map(sub => `<div class="sub${m ? (m.subs.has(sub.id) ? " have" : m.required.has(s.id) && !m.presumed.has(s.id) ? " miss" : "") : ""}"><span class="nm">${esc(sub.name)}</span><span class="pct" title="share of postings asking for ${esc(s.name)} that mention this">${pct(ss.share(sub.id))}</span>${sub.example ? `<span class="ex">${esc(sub.example)}</span>` : ""}</div>`).join("");
     const here = state.level === "all" ? null : { entry: "associate", mid: "mid", senior: "senior", lead: "lead" }[state.level];
-    const ladder = s.ladder ? `<div class="ladder">${LADDER_KEYS.map(([k, lab]) => `<span class="lv${here === k ? " here" : ""}">${lab}</span><span>${esc(s.ladder[k] || "")}</span>`).join("")}</div>` : `<p class="small muted">The level ladder for this skill is not written yet.</p>`;
+    const ladder = ladderHtml(R, s, here);
     const bs = buildSteps(s, R.role.ladder, true), ladName = k => (((R.ladders || {})[k] || {}).label || k).toLowerCase();
     const build = bs.steps.length ? (bs.ind && bs.ind !== R.role.ladder ? `<p class="small muted">Shown from the ${esc(ladName(bs.ind))} ladder; this skill has none yet for ${esc(ladName(R.role.ladder))}.</p>` : "") + `<ul class="plain">${bs.steps.map(b => `<li>${stepHtml(b)}</li>`).join("")}</ul>` : `<p class="small muted">${R.role.ladder === "consulting" && s.build && !Array.isArray(s.build) ? "Build steps for consulting roles are on hold until a source is agreed." : "Build steps for this skill are not written yet."}</p>`;
     const signals = (s.signals || []).length ? `<p class="small muted" style="margin:10px 0 0">Resume lines that show it</p><ul class="plain">${s.signals.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
