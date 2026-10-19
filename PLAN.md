@@ -212,6 +212,14 @@ neither related to where the field circles were, so the map showed only around t
   with spokes from the circle, and the five most distinctive are named. **Click a skill:** it and its six closest
   links are named; the side panel shows where postings ask for it most, as links to roles and fields.
 - A field's page links to its place on the map (`#/explore?field=<group>`). The role screen keeps its grid.
+- **Fix (2026-10-18): two roles called `pmm`, and Product counted worldwide.** Both graphs have a `pmm`; once the
+  product set loaded, its family overwrote the MBA Product Marketing Manager in the index, so Marketing showed 812
+  worldwide postings and linked into the product set. Product families now sit in the index as `product.<family>`
+  (`#/role/product.pmm`; a bare product id such as `#/role/tpm` still opens the product role, a bare `pmm` the MBA
+  one). Owner's decision (2026-10-18): Product's counts are US postings like every other field (6,015 of 8,765,
+  graph.json of 2026-10-11 against graph_mba.json of 2026-10-14); role pages, the matcher and the skill shares still
+  read every product posting, and each count says its date. Refreshing the product graph to the MBA date is a
+  separate `data/` branch.
 
 ## Skill depth for the MBA skills (built 2026-10-14; the plan below is what was built, with the changes noted)
 

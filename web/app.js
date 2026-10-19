@@ -153,11 +153,13 @@
       const chips = fit ? `<div class="chips"><span class="lbl">Showing</span><button type="button" class="chip${onlyFit ? " on" : ""}" id="c-fit">Fields that fit you<span class="n">${fit.size}</span></button><button type="button" class="chip${onlyFit ? "" : " on"}" id="c-all">All fields</button>${state.resume ? `<span class="small muted" style="margin-left:8px">From your answers and ${esc(state.resume.name)}.</span>` : fit.size ? '<span class="small muted" style="margin-left:8px">From your answers. <a href="#/you">Add a resume</a> to add the fields it points to.</span>' : '<span class="small muted" style="margin-left:8px">You picked no field yet. <a href="#/you">Tell us about you</a>.</span>'}</div>` : "";
       const asMap = SkillMap.mode() === "map";
       const view = `<div class="chips"><span class="lbl">View</span><button type="button" class="chip${asMap ? " on" : ""}" id="v-map">Skill map</button><button type="button" class="chip${asMap ? "" : " on"}" id="v-grid">Circles</button>${asMap ? '<span class="gap"></span><input class="sm-find" id="sm-find" type="search" placeholder="Find a skill" list="sm-names" aria-label="Find a skill"><datalist id="sm-names"></datalist>' : ""}</div>`;
+      const pg = all.find(g => g.set === "product"), mg = all.find(g => g.set === "mba");
+      const dates = `<p class="small muted">Counts are open postings in the US: business fields refreshed ${esc(mg.generated)}${pg.generated ? `, Product scraped ${esc(pg.generated)} (${fmt(pg.nWorld)} worldwide)` : ""}.</p>`;
       const inner = g => `${esc(g.label)}<span class="n">${g.nOpen == null ? "loading…" : fmt(g.nOpen) + " open"}${g.roles.length ? " · " + plural(g.roles.length, "role", "roles") : ""}</span>`;
       if (asMap) {
         // the fields on the skill map: a field's own skills beside it, the skills every field asks for in the middle
         page(`<h1>Explore the roles</h1>
-          <p class="lead">${all.length} fields, ${nRoles || 56} roles, and the skills their postings ask for. Each field's own skills sit beside it; skills every field asks for sit in the middle. Hover a field, click a skill, or open a field.</p>${chips}${view}
+          <p class="lead">${all.length} fields, ${nRoles || 56} roles, and the skills their postings ask for. Each field's own skills sit beside it; skills every field asks for sit in the middle. Hover a field, click a skill, or open a field.</p>${dates}${chips}${view}
           <div class="sm-stage" id="sm-stage"></div>
           ${fit && fit.size ? '<p class="key">Green: the fields your answers and resume point to.</p>' : ""}`);
         main.firstElementChild.classList.add("wide");
@@ -170,7 +172,7 @@
         return;
       }
       page(`<h1>Explore the roles</h1>
-        <p class="lead">${all.length} fields, ${nRoles || 56} roles. The size of a field is how many postings are open now. Open one.</p>${chips}${view}
+        <p class="lead">${all.length} fields, ${nRoles || 56} roles. The size of a field is how many postings are open now. Open one.</p>${dates}${chips}${view}
         <div class="bubbles">${groups.map(g => `<a class="bubble ${sizeClass(g.nOpen || 0)}${fit && fit.has(g.id) ? " you" : ""}" href="#/field/${esc(g.id)}">${esc(g.label)}<span class="n">${g.nOpen == null ? "loading…" : fmt(g.nOpen) + " open"}${g.roles.length ? " · " + plural(g.roles.length, "role", "roles") : ""}</span></a>`).join("")}</div>
         ${fit && fit.size && !onlyFit ? '<p class="key" style="text-align:center">Green: the fields your answers and resume point to.</p>' : ""}`);
       $("#v-map").onclick = () => { SkillMap.setMode("map"); render(); };
@@ -192,7 +194,7 @@
       const names = (r.definingList.length ? r.definingList : r.asks).slice(0, 2).map(x => (ix.skillById[x.id] || (state.R && state.R.skillById[x.id]) || { name: x.id }).name.toLowerCase());
       return (r.definingList.length ? "Defined by " : "Asks most for ") + names.join(" and ");
     };
-    const where = g.set === "mba" ? " in the US" : "";
+    const where = ` in the US${g.generated ? ` (${g.set === "product" ? "scraped" : "refreshed"} ${esc(g.generated)}${g.set === "product" ? `; ${fmt(g.nWorld)} worldwide` : ""})` : ""}`;
     const rg = state.resume ? await rough() : null;
     const mark = r => !rg ? "" : rg.held.includes(r.id) ? ' · <span style="color:var(--primary)">you held this role</span>' : rg.scores[r.id] >= 0.6 ? ' · <span style="color:var(--primary)">your resume reads close to it</span>' : "";
     const anyMark = rg && roles.some(r => mark(r));
@@ -267,7 +269,7 @@
     const empCounts = countBy(jobsExcept("employer"), Atlas.employerType), empAll = jobsExcept("employer").length;
     const chip = (on, label, n, attrs) => `<button type="button" class="chip${on ? " on" : ""}" aria-pressed="${on}" ${attrs}>${esc(label)}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`;
     const where = R.country ? ` · ${esc(R.country)}` : "";
-    const facts = `${fmt(R.jobs.filter(j => j.open).length)} open postings${nClosed ? ` (${fmt(nClosed)} recently closed are counted too)` : ""} · ${plural(role.nCompanies, "employer", "employers")}${where}`;
+    const facts = R.set === "product" ? `${fmt(role.nOpen)} open postings in the US, ${fmt(role.nWorld)} worldwide (the skills below read all of them) · ${plural(role.nCompanies, "employer", "employers")}` : `${fmt(R.jobs.filter(j => j.open).length)} open postings${nClosed ? ` (${fmt(nClosed)} recently closed are counted too)` : ""} · ${plural(role.nCompanies, "employer", "employers")}${where}`;
     const defNote = role.definingList.length ? ` ◆ marks what sets this role apart from other roles.` : "";
     const grid = gridHtml(R, rows);
 
@@ -585,7 +587,7 @@
       <p class="small">Employers with most postings: ${top(M.meta.companies.slice(), 40)}</p>
       <h3>Product roles</h3>${productPart}</div>`);
     render();
-    Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${fmt(G.meta.n_jobs)} open postings for 6 product role families at ${fmt(G.meta.n_companies)} companies (the Fortune 500 and venture-backed startups), scraped ${esc(G.meta.generated)}.</p><p class="small">Companies with most postings: ${top(G.meta.companies.slice(), 40)}</p>`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
+    Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${fmt(G.meta.n_jobs)} open postings worldwide (${fmt(G.jobs.filter(j => j.country === M.meta.country).length)} in the US, the count Explore shows) for 6 product role families at ${fmt(G.meta.n_companies)} companies (the Fortune 500 and venture-backed startups), scraped ${esc(G.meta.generated)}.</p><p class="small">Companies with most postings: ${top(G.meta.companies.slice(), 40)}</p>`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
   }
 
   route();
