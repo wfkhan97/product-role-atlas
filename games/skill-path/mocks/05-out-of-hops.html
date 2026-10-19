@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>Out of hops · Skill path mock</title>
+<link rel="stylesheet" href="../../../web/tokens/styles.css">
+<link rel="stylesheet" href="../../../web/style.css">
+<style>
+/* mock frame: 1280 x 800, no page scroll */
+html, body { width: 1280px; height: 800px; overflow: hidden; }
+.aside { max-height: none; height: calc(800px - var(--topbar-height) - 45px); }
+/* ---------- Skill path (web/games/skill-path.js): the skill map as a board, a route of hops ---------- */
+.sp-main { padding-top: 20px; padding-bottom: 0; }
+.sp-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 10px; }
+.sp-head h1 { margin: 0; }
+.sp-budget { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.sp-pips { display: flex; gap: 4px; }
+.sp-pips i { width: 26px; height: 8px; border-radius: 3px; background: var(--muted); border: 1px solid var(--border); }
+.sp-pips i.used { background: var(--primary); border-color: transparent; }
+.sp-board { position: relative; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--background); overflow: hidden; }
+.sp-svg { display: block; }
+.sp-field { fill: var(--card); stroke: var(--border); stroke-width: 1; }
+.sp-field.on { stroke: var(--input); }
+.sp-flabel { font-size: 13px; fill: var(--subtle-foreground); font-weight: var(--weight-medium); }
+.sp-flabel.on { fill: var(--heading-foreground); }
+.sp-e { fill: none; stroke: var(--foreground); stroke-opacity: 0.06; stroke-width: 0.7; }
+.sp-look { fill: none; stroke: var(--heading-foreground); stroke-opacity: 0.35; stroke-width: 1; }
+.sp-n { fill: var(--subtle-foreground); opacity: 0.5; }
+.sp-gen { fill: none; stroke: var(--subtle-foreground); stroke-opacity: 0.6; stroke-dasharray: 2 2; }
+.sp-route { fill: none; stroke: var(--primary); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.sp-short { fill: none; stroke: var(--heading-foreground); stroke-opacity: 0.7; stroke-width: 1.5; stroke-dasharray: 5 4; }
+.sp-short-n { fill: var(--background); stroke: var(--heading-foreground); stroke-width: 1.5; }
+.sp-cand-e { fill: none; stroke: var(--heading-foreground); stroke-opacity: 0.55; stroke-width: 1.2; stroke-dasharray: 3 3; }
+.sp-cand { fill: var(--heading-foreground); }
+.sp-num { font-family: var(--font-mono); font-size: 10px; font-weight: var(--weight-semibold); fill: var(--background); }
+.sp-you { fill: var(--primary); stroke: var(--background); stroke-width: 2; }
+.sp-you.gap { fill: var(--background); stroke: var(--warning); stroke-width: 2.5; }
+.sp-here { fill: none; stroke: var(--primary); stroke-width: 1.5; stroke-opacity: 0.7; }
+.sp-zone { fill: var(--secondary-tint); stroke: var(--secondary); stroke-width: 1.5; }
+.sp-zone-dot { fill: var(--secondary); }
+.sp-name { font-size: 13px; fill: var(--foreground); paint-order: stroke; stroke: var(--background); stroke-width: 4px; stroke-linejoin: round; }
+.sp-name.you { fill: var(--primary); font-weight: var(--weight-medium); }
+.sp-name.zone { fill: var(--secondary); }
+.sp-name.cand { fill: var(--heading-foreground); font-weight: var(--weight-medium); }
+.sp-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 12px 0 0; }
+.sp-strip .tag { display: inline-flex; gap: 6px; align-items: baseline; }
+.sp-strip .sp-cur { outline: 2px solid var(--primary); outline-offset: 1px; }
+.sp-tagn { font-family: var(--font-mono); color: var(--subtle-foreground); }
+.sp-arrow { color: var(--subtle-foreground); }
+.sp-blue, .list .r .n.sp-blue { color: var(--secondary); font-family: var(--font-mono); }
+.sp-bluet { color: var(--secondary); font-weight: var(--weight-medium); }
+.sp-green { color: var(--primary); font-weight: var(--weight-medium); }
+.sp-amber { color: var(--warning); }
+.sp-aside .sp-h2 { margin: 2px 0 6px; font-size: var(--text-lg); }
+.sp-choices { display: grid; gap: 8px; margin-top: 12px; }
+.sp-choice { grid-template-columns: 22px 1fr auto; padding: 10px 10px 8px; gap: 4px 10px; }
+.sp-choice:hover, .sp-choice:focus-visible { border-color: var(--heading-foreground); }
+.sp-choice .sp-k { font-family: var(--font-mono); color: var(--background); background: var(--heading-foreground); border-radius: 50%; width: 20px; height: 20px; display: grid; place-items: center; font-size: 12px; font-weight: var(--weight-semibold); grid-row: 1; }
+.sp-choice .sp-cn { display: flex; flex-direction: column; gap: 1px; }
+.sp-choice .def { font-size: var(--text-base); font-weight: var(--weight-medium); }
+.sp-choice .sp-meta { font-size: var(--text-sm); color: var(--muted-foreground); }
+.sp-choice .pct { font-size: var(--text-base); align-self: start; }
+.sp-choice .bar { grid-column: 2 / -1; }
+.sp-q { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); padding: 14px; margin-top: 16px; }
+.sp-qt { font-size: var(--text-lg); color: var(--heading-foreground); font-weight: var(--weight-medium); margin-bottom: 4px; }
+.sp-ans { display: grid; gap: 8px; margin-top: 12px; }
+.sp-ans .btn { justify-content: space-between; }
+.sp-kbd { font-family: var(--font-mono); font-size: var(--text-sm); opacity: 0.75; border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; }
+/* start */
+.sp-cols { display: grid; grid-template-columns: minmax(0, 1fr) 394px; gap: 36px; }
+.sp-start h2 { margin: 16px 0 2px; font-size: var(--text-base); color: var(--muted-foreground); }
+.sp-start .chips { margin: 8px 0 4px; }
+.sp-rules { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0 4px; }
+.sp-rule { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); padding: 10px 12px; font-size: var(--text-sm); color: var(--muted-foreground); display: flex; flex-direction: column; gap: 2px; }
+.sp-rule b { color: var(--heading-foreground); font-weight: var(--weight-medium); font-size: var(--text-base); }
+.sp-search { margin: 6px 0; max-width: 300px; }
+.sp-mini { margin-top: 6px; }
+.sp-brief { margin-top: 12px; font-size: var(--text-base); }
+.sp-zone-list .r { padding: 7px 0; } .sp-zone-list .r .t { font-size: var(--text-base); }
+/* end */
+.sp-cols.e { grid-template-columns: 602px minmax(0, 1fr); gap: 28px; }
+.sp-rank { margin: 2px 0 4px; font-size: var(--text-3xl); }
+.sp-end .lead { margin-bottom: 10px; }
+.sp-endside h3 { margin: 4px 0 6px; font-size: var(--text-sm); color: var(--subtle-foreground); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: var(--tracking-label); }
+.sp-two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.sp-rl .r { padding: 6px 0; } .sp-rl .r .t { font-size: var(--text-base); grid-row: 1; }
+.sp-rl .r .n { grid-row: 1; }
+.sp-rl .r.sp-no .t { color: var(--warning); }
+.sp-rl .r.sp-yes .t::before { content: "✓ "; color: var(--primary); }
+.sp-build { border: 1px solid var(--warning); border-radius: var(--radius-md); padding: 12px 14px; margin-top: 14px; }
+.sp-bt { font-size: var(--text-lg); color: var(--heading-foreground); font-weight: var(--weight-medium); margin-bottom: 2px; }
+.sp-punch { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); font-size: var(--text-md); color: var(--heading-foreground); }
+.sp-name.short { fill: var(--heading-foreground); }
+
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#/"><span class="mark" aria-hidden="true"></span><span class="wordmark">GradBuddy</span></a>
+  <nav class="crumbs" aria-label="Where you are"><a href="#/play">Games</a><span class="sep">/</span><span class="here">Skill path</span></nav>
+  <div class="top-actions">
+    <a class="toplink" href="#/explore">Explore</a>
+    <a class="toplink" href="#/you">About you</a>
+    <button class="icon" type="button" title="Theme">●</button>
+  </div>
+</header>
+<div class="shell">
+  <main class="main sp-main"><div class="page wide sp-end">
+  <div class="sp-cols e">
+    <div>
+      <p class="eyebrow">Supply chain &amp; procurement → Product Manager · normal · out of hops</p>
+      <p class="verdict sp-rank">Still on the road</p>
+      <p class="lead">6 hops used, 3 short of Product Manager. Your route took the biggest blue numbers and drifted towards finance. The shortest goes through Quality, testing &amp; acceptance, which only 14% of Product Manager postings ask for.</p>
+      <div class="sp-board sp-endboard"><svg class="sp-svg" width="600" height="372" viewBox="0 0 600 372" role="img" aria-label="Skill map board">
+<circle class="sp-field" cx="413.4" cy="20.7" r="39.2"/>
+<text class="sp-flabel" x="413.4" y="17.2" text-anchor="middle">Banking</text>
+<text class="sp-flabel" x="413.4" y="32.2" text-anchor="middle">&amp; investing</text>
+<circle class="sp-field" cx="533.2" cy="351.1" r="39.2"/>
+<text class="sp-flabel" x="533.2" y="347.6" text-anchor="middle">Risk</text>
+<text class="sp-flabel" x="533.2" y="362.6" text-anchor="middle">&amp; compliance</text>
+<circle class="sp-field" cx="293.7" cy="351.1" r="39.2"/>
+<text class="sp-flabel" x="293.7" y="355.1" text-anchor="middle">Analytics</text>
+<circle class="sp-field on" cx="92.2" cy="299.7" r="39.2"/>
+<text class="sp-flabel on" x="92.2" y="303.7" text-anchor="middle">Product</text>
+<circle class="sp-field" cx="-7.2" cy="213.3" r="39.2"/>
+<text class="sp-flabel" x="-7.2" y="217.3" text-anchor="middle">Marketing</text>
+<circle class="sp-field" cx="26.8" cy="119.3" r="39.2"/>
+<text class="sp-flabel" x="26.8" y="115.8" text-anchor="middle">Sales</text>
+<text class="sp-flabel" x="26.8" y="130.8" text-anchor="middle">&amp; partnerships</text>
+<circle class="sp-field on" cx="183.7" cy="47.5" r="39.2"/>
+<text class="sp-flabel on" x="183.7" y="44.0" text-anchor="middle">Supply chain</text>
+<text class="sp-flabel on" x="183.7" y="59.0" text-anchor="middle">&amp; procurement</text>
+<path class="sp-e" d="M164.5 251.0L350.9 212.8M164.5 251.0L209.2 268.5M164.5 251.0L80.8 216.2M164.5 251.0L128.8 242.9M164.5 251.0L142.7 184.1M164.5 251.0L395.5 264.3M164.5 251.0L332.7 233.9M164.5 251.0L231.4 260.2M164.5 251.0L184.2 267.2M350.9 212.8L593.7 194.2M350.9 212.8L364.7 196.1M350.9 212.8L355.8 171.8M350.9 212.8L348.2 254.6M350.9 212.8L171.4 191.3M350.9 212.8L347.4 313.2M350.9 212.8L209.2 268.5M350.9 212.8L161.1 174.0M350.9 212.8L304.3 222.3M350.9 212.8L142.7 184.1M350.9 212.8L190.3 177.2M350.9 212.8L172.1 221.1M350.9 212.8L202.6 222.4M350.9 212.8L231.4 260.2M350.9 212.8L436.9 295.7M350.9 212.8L303.4 271.2M209.2 268.5L395.5 264.3M209.2 268.5L329.3 210.8M209.2 268.5L202.6 222.4M209.2 268.5L156.7 324.5M209.2 268.5L231.4 260.2M209.2 268.5L301.2 246.8M209.2 268.5L187.1 243.2M209.2 268.5L184.2 267.2M80.8 216.2L128.8 242.9M80.8 216.2L85.3 233.5M80.8 216.2L233.0 237.9M80.8 216.2L47.8 181.6M80.8 216.2L31.1 268.8M128.8 242.9L467.5 214.2M128.8 242.9L187.1 243.2M128.8 242.9L184.2 267.2M142.7 184.1L190.3 177.2M142.7 184.1L104.4 155.5M142.7 184.1L119.2 196.4M142.7 184.1L172.1 221.1M142.7 184.1L129.5 114.6M395.5 264.3L231.4 260.2M395.5 264.3L536.9 144.5M395.5 264.3L417.4 252.8M332.7 233.9L548.4 171.1M332.7 233.9L161.1 298.3M332.7 233.9L231.4 260.2M332.7 233.9L770.0 183.6M231.4 260.2L301.2 246.8M231.4 260.2L278.9 250.8M231.4 260.2L303.4 271.2M231.4 260.2L649.8 142.1M231.4 260.2L184.2 267.2M583.3 119.4L590.1 91.6M583.3 119.4L542.0 281.9M583.3 119.4L443.1 109.5M583.3 119.4L603.6 101.3M583.3 119.4L578.0 62.3M583.3 119.4L509.9 36.8M583.3 119.4L473.2 326.1M583.3 119.4L631.1 112.1M590.1 91.6L538.2 74.9M590.1 91.6L443.1 109.5M590.1 91.6L603.6 101.3M590.1 91.6L578.0 62.3M590.1 91.6L385.3 287.5M590.1 91.6L563.3 76.5M590.1 91.6L413.6 227.6M590.1 91.6L555.6 124.3M590.1 91.6L631.1 112.1M542.0 281.9L444.7 333.8M542.0 281.9L473.2 326.1M542.0 281.9L469.9 373.4M542.0 281.9L554.2 288.3M542.0 281.9L466.8 259.4M542.0 281.9L529.0 285.9M542.0 281.9L480.8 391.2M443.1 109.5L603.6 101.3M443.1 109.5L578.0 62.3M443.1 109.5L299.5 62.3M443.1 109.5L385.3 287.5M443.1 109.5L288.2 37.8M443.1 109.5L631.1 112.1M603.6 101.3L578.0 62.3M603.6 101.3L563.3 76.5M603.6 101.3L631.1 112.1M578.0 62.3L509.9 36.8M578.0 62.3L385.3 287.5M578.0 62.3L563.3 76.5M578.0 62.3L631.1 112.1M473.2 326.1L469.9 373.4M473.2 326.1L497.1 297.0M473.2 326.1L495.7 257.5M473.2 326.1L770.0 183.6M473.2 326.1L456.6 281.5M95.0 188.2L100.2 205.1M95.0 188.2L98.5 230.8M95.0 188.2L113.8 234.2M95.0 188.2L85.3 233.5M95.0 188.2L47.8 181.6M95.0 188.2L31.1 268.8M100.2 205.1L52.7 244.0M100.2 205.1L142.1 227.8M100.2 205.1L55.8 196.1M100.2 205.1L98.5 230.8M100.2 205.1L113.8 234.2M100.2 205.1L233.0 237.9M100.2 205.1L47.8 181.6M98.5 230.8L113.8 234.2M98.5 230.8L47.8 181.6M98.5 230.8L43.1 255.4M98.5 230.8L31.1 268.8M98.5 230.8L156.1 204.3M113.8 234.2L85.3 233.5M113.8 234.2L47.8 181.6M113.8 234.2L31.1 268.8M85.3 233.5L47.8 181.6M85.3 233.5L31.1 268.8M47.8 181.6L43.1 255.4M47.8 181.6L31.1 268.8M52.7 244.0L142.1 227.8M52.7 244.0L66.5 237.6M52.7 244.0L55.8 196.1M52.7 244.0L98.5 230.8M52.7 244.0L59.3 211.2M52.7 244.0L60.1 178.8M52.7 244.0L74.4 167.9M52.7 244.0L72.5 190.9M52.7 244.0L113.8 234.2M52.7 244.0L85.3 233.5M52.7 244.0L47.8 181.6M52.7 244.0L119.2 196.4M52.7 244.0L43.1 255.4M142.1 227.8L55.8 196.1M142.1 227.8L209.2 268.5M142.1 227.8L253.3 194.9M142.1 227.8L233.0 237.9M142.1 227.8L156.1 204.3M142.1 227.8L282.1 161.2M55.8 196.1L98.5 230.8M55.8 196.1L59.3 211.2M55.8 196.1L74.4 167.9M55.8 196.1L47.8 181.6M55.8 196.1L43.1 255.4M55.8 196.1L31.1 268.8M233.0 237.9L284.2 186.7M233.0 237.9L231.4 260.2M233.0 237.9L184.2 267.2M509.5 110.4L339.7 301.6M509.5 110.4L507.8 84.5M509.5 110.4L488.4 122.4M509.5 110.4L509.6 136.4M509.5 110.4L385.3 287.5M509.5 110.4L361.4 344.9M339.7 301.6L277.6 288.1M339.7 301.6L363.3 297.8M339.7 301.6L509.6 136.4M339.7 301.6L357.1 326.0M339.7 301.6L385.3 287.5M339.7 301.6L324.4 291.6M339.7 301.6L361.4 344.9M507.8 84.5L579.4 165.6M507.8 84.5L488.4 122.4M507.8 84.5L538.5 29.6M507.8 84.5L563.3 76.5M507.8 84.5L413.6 227.6M507.8 84.5L555.6 124.3M507.8 84.5L417.4 252.8M507.8 84.5L476.8 76.4M488.4 122.4L463.8 122.3M488.4 122.4L509.6 136.4M488.4 122.4L413.6 227.6M488.4 122.4L555.6 124.3M509.6 136.4L477.8 168.2M509.6 136.4L623.8 144.8M385.3 287.5L324.4 291.6M385.3 287.5L631.1 112.1M326.2 257.2L355.8 171.8M326.2 257.2L402.5 311.1M326.2 257.2L467.5 214.2M326.2 257.2L332.7 233.9M326.2 257.2L255.3 272.1M326.2 257.2L329.3 210.8M326.2 257.2L156.7 324.5M326.2 257.2L231.4 260.2M326.2 257.2L649.8 142.1M355.8 171.8L347.4 313.2M355.8 171.8L234.6 307.6M355.8 171.8L402.5 311.1M355.8 171.8L304.3 222.3M355.8 171.8L255.3 272.1M355.8 171.8L231.4 260.2M355.8 171.8L436.9 295.7M355.8 171.8L278.9 250.8M355.8 171.8L303.4 271.2M402.5 311.1L467.5 214.2M402.5 311.1L436.9 295.7M402.5 311.1L278.9 250.8M402.5 311.1L303.4 271.2M467.5 214.2L661.2 115.9M467.5 214.2L255.3 272.1M467.5 214.2L436.9 295.7M255.3 272.1L329.3 210.8M255.3 272.1L190.4 312.0M255.3 272.1L156.7 324.5M255.3 272.1L161.1 298.3M255.3 272.1L429.0 270.0M255.3 272.1L231.4 260.2M255.3 272.1L184.2 267.2M329.3 210.8L190.4 312.0M329.3 210.8L429.0 270.0M329.3 210.8L231.4 260.2M329.3 210.8L303.4 271.2M156.7 324.5L161.1 298.3M156.7 324.5L231.4 260.2M156.7 324.5L301.2 246.8M156.7 324.5L187.1 243.2M156.7 324.5L184.2 267.2M480.5 277.6L593.7 194.2M480.5 277.6L387.9 338.4M480.5 277.6L541.9 245.7M480.5 277.6L554.2 288.3M480.5 277.6L505.2 287.2M480.5 277.6L464.9 356.6M593.7 194.2L364.7 196.1M593.7 194.2L304.3 222.3M593.7 194.2L505.2 287.2M593.7 194.2L304.3 288.8M593.7 194.2L649.8 142.1M593.7 194.2L703.3 114.0M387.9 338.4L347.4 313.2M387.9 338.4L402.5 311.1M387.9 338.4L541.9 245.7M387.9 338.4L505.2 287.2M387.9 338.4L436.9 295.7M387.9 338.4L304.3 288.8M387.9 338.4L278.9 250.8M541.9 245.7L696.9 145.1M541.9 245.7L466.8 259.4M541.9 245.7L643.3 174.1M541.9 245.7L569.1 213.6M541.9 245.7L460.7 234.2M541.9 245.7L703.3 114.0M554.2 288.3L466.8 259.4M554.2 288.3L464.9 356.6M554.2 288.3L451.5 311.3M505.2 287.2L529.0 285.9M464.9 356.6L436.9 295.7M464.9 356.6L451.5 311.3M364.7 196.1L161.1 174.0M364.7 196.1L304.3 222.3M364.7 196.1L231.4 260.2M348.2 254.6L402.5 311.1M348.2 254.6L304.3 222.3M348.2 254.6L307.1 142.2M348.2 254.6L284.2 186.7M348.2 254.6L231.4 260.2M348.2 254.6L436.9 295.7M348.2 254.6L278.9 250.8M348.2 254.6L303.4 271.2M348.2 254.6L649.8 142.1M348.2 254.6L282.1 161.2M171.4 191.3L59.3 211.2M171.4 191.3L161.1 174.0M171.4 191.3L74.4 167.9M171.4 191.3L190.3 177.2M171.4 191.3L172.1 221.1M171.4 191.3L85.1 158.8M347.4 313.2L234.6 307.6M347.4 313.2L357.1 326.0M347.4 313.2L304.3 288.8M347.4 313.2L324.4 291.6M347.4 313.2L278.9 250.8M161.1 174.0L304.3 222.3M161.1 174.0L142.7 184.1M161.1 174.0L190.3 177.2M161.1 174.0L104.4 155.5M161.1 174.0L119.2 196.4M161.1 174.0L204.9 153.4M161.1 174.0L129.5 114.6M161.1 174.0L85.1 158.8M304.3 222.3L467.5 214.2M304.3 222.3L202.6 222.4M304.3 222.3L231.4 260.2M304.3 222.3L436.9 295.7M190.3 177.2L141.0 254.8M190.3 177.2L236.6 189.1M190.3 177.2L235.0 161.4M190.3 177.2L119.2 196.4M190.3 177.2L204.9 153.4M190.3 177.2L172.1 221.1M190.3 177.2L260.5 148.1M190.3 177.2L85.1 158.8M190.3 177.2L536.9 144.5M172.1 221.1L260.5 148.1M172.1 221.1L85.1 158.8M202.6 222.4L156.7 324.5M202.6 222.4L231.4 260.2M436.9 295.7L303.4 271.2M304.3 288.8L324.4 291.6M356.2 373.3L387.9 338.4M356.2 373.3L347.4 313.2M356.2 373.3L255.3 272.1M356.2 373.3L357.1 326.0M356.2 373.3L304.3 288.8M356.2 373.3L324.4 291.6M357.1 326.0L324.4 291.6M357.1 326.0L361.4 344.9M324.4 291.6L361.4 344.9M277.6 288.1L443.1 109.5M277.6 288.1L385.3 287.5M277.6 288.1L304.3 288.8M277.6 288.1L324.4 291.6M277.6 288.1L361.4 344.9M277.6 288.1L631.1 112.1M363.3 297.8L347.4 313.2M363.3 297.8L367.8 243.6M363.3 297.8L548.4 171.1M363.3 297.8L357.1 326.0M363.3 297.8L385.3 287.5M363.3 297.8L324.4 291.6M363.3 297.8L417.4 252.8M234.6 307.6L231.4 260.2M234.6 307.6L436.9 295.7M234.6 307.6L278.9 250.8M278.9 250.8L303.4 271.2M278.9 250.8L649.8 142.1M379.6 144.3L546.3 197.3M379.6 144.3L616.3 210.0M379.6 144.3L401.9 131.9M379.6 144.3L298.8 120.0M379.6 144.3L307.1 142.2M379.6 144.3L223.7 143.1M379.6 144.3L300.3 95.3M546.3 197.3L616.3 210.0M546.3 197.3L298.8 120.0M546.3 197.3L661.2 115.9M546.3 197.3L643.3 174.1M546.3 197.3L223.7 143.1M546.3 197.3L569.1 213.6M616.3 210.0L298.8 120.0M616.3 210.0L661.2 115.9M616.3 210.0L643.3 174.1M616.3 210.0L223.7 143.1M616.3 210.0L569.1 213.6M401.9 131.9L307.1 142.2M401.9 131.9L514.3 206.9M401.9 131.9L502.1 181.9M401.9 131.9L477.8 168.2M401.9 131.9L300.3 95.3M298.8 120.0L643.3 174.1M298.8 120.0L223.7 143.1M298.8 120.0L233.1 91.3M298.8 120.0L456.6 281.5M307.1 142.2L284.2 186.7M307.1 142.2L221.3 101.6M307.1 142.2L300.3 95.3M307.1 142.2L282.1 161.2M223.7 143.1L250.6 32.3M300.3 95.3L254.8 101.3M300.3 95.3L517.9 159.7M629.2 315.1L685.3 346.0M629.2 315.1L688.3 226.1M629.2 315.1L693.3 246.6M629.2 315.1L682.1 256.6M629.2 315.1L668.7 301.2M629.2 315.1L668.3 286.8M685.3 346.0L617.7 245.4M685.3 346.0L626.0 291.1M688.3 226.1L282.1 161.2M693.3 246.6L613.7 270.7M693.3 246.6L617.7 245.4M693.3 246.6L626.0 291.1M682.1 256.6L497.1 297.0M582.2 306.4L444.7 333.8M582.2 306.4L688.3 226.1M582.2 306.4L578.0 62.3M582.2 306.4L495.9 64.5M582.2 306.4L529.0 285.9M582.2 306.4L480.8 391.2M582.2 306.4L282.1 161.2M444.7 333.8L508.1 238.7M444.7 333.8L474.0 144.0M444.7 333.8L469.9 373.4M444.7 333.8L505.2 287.2M444.7 333.8L466.8 259.4M444.7 333.8L529.0 285.9M444.7 333.8L480.8 391.2M444.7 333.8L460.7 234.2M495.9 64.5L354.6 -5.4M495.9 64.5L476.8 76.4M529.0 285.9L480.8 391.2M57.7 227.1L52.7 244.0M57.7 227.1L66.5 237.6M57.7 227.1L114.3 182.2M57.7 227.1L98.5 230.8M57.7 227.1L113.8 234.2M57.7 227.1L47.8 181.6M57.7 227.1L43.1 255.4M57.7 227.1L191.9 115.3M57.7 227.1L156.1 204.3M66.5 237.6L114.3 182.2M66.5 237.6L98.5 230.8M66.5 237.6L191.9 115.3M66.5 237.6L156.1 204.3M114.3 182.2L98.5 230.8M114.3 182.2L253.3 194.9M114.3 182.2L191.9 115.3M114.3 182.2L156.1 204.3M191.9 115.3L235.0 3.7M191.9 115.3L156.1 204.3M538.2 74.9L349.0 108.9M538.2 74.9L578.0 62.3M538.2 74.9L368.8 74.6M538.2 74.9L563.3 76.5M538.2 74.9L631.1 112.1M563.3 76.5L631.1 112.1M413.6 227.6L555.6 124.3M555.6 124.3L536.9 144.5M555.6 124.3L417.4 252.8M579.4 165.6L733.8 147.3M579.4 165.6L172.1 221.1M579.4 165.6L623.8 144.8M579.4 165.6L417.4 252.8M579.4 165.6L703.3 114.0M538.5 29.6L396.4 101.5M538.5 29.6L354.6 -5.4M538.5 29.6L476.8 76.4M766.1 231.5L253.3 194.9M766.1 231.5L278.2 104.4M766.1 231.5L613.7 270.7M766.1 231.5L204.9 153.4M253.3 194.9L191.9 115.3M253.3 194.9L300.3 95.3M712.1 190.3L459.8 64.8M712.1 190.3L368.8 74.6M278.2 104.4L322.0 107.1M278.2 104.4L221.3 101.6M278.2 104.4L300.3 95.3M278.2 104.4L288.2 37.8M278.2 104.4L517.9 159.7M613.7 270.7L708.6 237.4M613.7 270.7L644.7 332.0M613.7 270.7L617.7 245.4M613.7 270.7L626.0 291.1M204.9 153.4L108.1 77.3M204.9 153.4L85.1 158.8M204.9 153.4L413.6 227.6M734.4 196.7L517.9 159.7M59.3 211.2L60.1 178.8M59.3 211.2L104.4 155.5M59.3 211.2L85.1 158.8M60.1 178.8L74.4 167.9M60.1 178.8L72.5 190.9M60.1 178.8L113.8 234.2M60.1 178.8L85.3 233.5M60.1 178.8L89.3 141.1M60.1 178.8L109.0 134.7M60.1 178.8L31.1 268.8M74.4 167.9L89.3 141.1M74.4 167.9L109.0 134.7M74.4 167.9L43.1 255.4M74.4 167.9L85.1 158.8M72.5 190.9L113.8 234.2M72.5 190.9L85.3 233.5M72.5 190.9L47.8 181.6M72.5 190.9L31.1 268.8M119.2 196.4L172.1 221.1M119.2 196.4L85.1 158.8M316.8 76.1L271.9 57.6M316.8 76.1L401.9 131.9M316.8 76.1L190.4 291.0M316.8 76.1L666.7 183.6M316.8 76.1L322.0 107.1M316.8 76.1L221.3 101.6M316.8 76.1L368.4 126.0M316.8 76.1L426.7 137.5M316.8 76.1L569.1 213.6M271.9 57.6L278.2 104.4M271.9 57.6L322.0 107.1M271.9 57.6L221.3 101.6M271.9 57.6L233.1 91.3M271.9 57.6L288.2 37.8M271.9 57.6L259.8 120.9M190.4 291.0L737.4 230.1M190.4 291.0L666.7 183.6M190.4 291.0L322.0 107.1M190.4 291.0L734.4 196.7M190.4 291.0L517.9 159.7M666.7 183.6L322.0 107.1M666.7 183.6L368.4 126.0M666.7 183.6L426.7 137.5M666.7 183.6L429.0 270.0M666.7 183.6L517.9 159.7M322.0 107.1L368.4 126.0M322.0 107.1L734.4 196.7M322.0 107.1L300.3 95.3M322.0 107.1L288.2 37.8M322.0 107.1L456.6 281.5M322.0 107.1L517.9 159.7M221.3 101.6L426.7 137.5M221.3 101.6L235.0 3.7M221.3 101.6L233.1 91.3M221.3 101.6L259.8 120.9M368.4 126.0L502.1 181.9M368.4 126.0L429.0 270.0M368.4 126.0L573.2 245.1M368.4 126.0L734.4 196.7M368.4 126.0L300.3 95.3M368.4 126.0L254.8 101.3M426.7 137.5L573.2 245.1M426.7 137.5L734.4 196.7M426.7 137.5L233.1 91.3M349.0 108.9L712.1 190.3M349.0 108.9L368.8 74.6M349.0 108.9L235.0 3.7M349.0 108.9L262.8 78.0M349.0 108.9L233.1 91.3M349.0 108.9L208.5 110.4M368.8 74.6L362.1 63.0M368.8 74.6L404.1 84.4M450.8 76.6L389.8 84.4M450.8 76.6L429.8 88.8M450.8 76.6L476.6 0.7M450.8 76.6L470.8 52.0M450.8 76.6L481.4 21.0M450.8 76.6L556.4 101.4M450.8 76.6L416.3 111.9M450.8 76.6L495.9 64.5M450.8 76.6L538.5 29.6M450.8 76.6L462.3 97.9M450.8 76.6L396.4 101.5M450.8 76.6L354.6 52.6M450.8 76.6L476.8 76.4M389.8 84.4L520.1 255.0M389.8 84.4L429.8 88.8M389.8 84.4L470.8 52.0M389.8 84.4L508.1 238.7M389.8 84.4L474.0 144.0M389.8 84.4L463.8 122.3M389.8 84.4L145.3 104.3M389.8 84.4L368.7 98.3M429.8 88.8L476.6 0.7M429.8 88.8L470.8 52.0M429.8 88.8L444.7 333.8M429.8 88.8L508.1 238.7M429.8 88.8L474.0 144.0M429.8 88.8L509.9 36.8M476.6 0.7L470.8 52.0M476.6 0.7L481.4 21.0M476.6 0.7L576.4 46.6M476.6 0.7L382.4 74.9M476.6 0.7L538.5 29.6M470.8 52.0L481.4 21.0M470.8 52.0L474.0 144.0M470.8 52.0L509.9 36.8M470.8 52.0L556.4 101.4M470.8 52.0L495.9 64.5M470.8 52.0L396.4 101.5M470.8 52.0L354.6 52.6M470.8 52.0L576.8 31.0M481.4 21.0L576.4 46.6M481.4 21.0L382.4 74.9M481.4 21.0L416.3 111.9M481.4 21.0L495.9 64.5M481.4 21.0L538.5 29.6M481.4 21.0L396.4 101.5M481.4 21.0L354.6 -5.4M481.4 21.0L476.8 76.4M556.4 101.4L416.3 111.9M556.4 101.4L462.3 97.9M556.4 101.4L576.8 31.0M416.3 111.9L495.9 64.5M416.3 111.9L538.5 29.6M416.3 111.9L462.3 97.9M416.3 111.9L354.6 52.6M416.3 111.9L476.8 76.4M416.3 111.9L368.7 98.3M462.3 97.9L396.4 101.5M396.4 101.5L476.8 76.4M354.6 52.6L368.7 98.3M235.0 3.7L262.8 78.0M235.0 3.7L250.6 48.3M235.0 3.7L233.1 91.3M235.0 3.7L248.9 64.8M235.0 3.7L259.8 120.9M235.0 3.7L208.5 110.4M235.0 3.7L254.8 101.3M262.8 78.0L250.6 48.3M262.8 78.0L233.1 91.3M262.8 78.0L248.9 64.8M262.8 78.0L208.5 110.4M233.1 91.3L248.9 64.8M233.1 91.3L259.8 120.9M233.1 91.3L208.5 110.4M233.1 91.3L254.8 101.3M583.6 13.9L389.8 84.4M583.6 13.9L429.8 88.8M583.6 13.9L470.8 52.0M583.6 13.9L509.9 36.8M583.6 13.9L556.4 101.4M583.6 13.9L576.8 31.0M583.6 13.9L368.7 98.3M641.0 221.3L541.9 245.7M641.0 221.3L613.7 270.7M641.0 221.3L617.7 245.4M641.0 221.3L502.1 181.9M649.2 290.8L613.7 270.7M649.2 290.8L617.7 245.4M649.2 290.8L626.0 291.1M644.7 332.0L617.7 245.4M644.7 332.0L626.0 291.1M617.7 245.4L734.4 196.7M617.7 245.4L626.0 291.1M617.7 245.4L517.9 159.7M502.1 181.9L429.0 270.0M502.1 181.9L573.2 245.1M502.1 181.9L300.3 95.3M502.1 181.9L703.3 114.0M123.8 161.6L74.4 167.9M123.8 161.6L89.3 141.1M123.8 161.6L108.1 77.3M123.8 161.6L85.1 158.8M123.8 161.6L81.7 77.3M89.3 141.1L235.0 161.4M89.3 141.1L109.0 134.7M89.3 141.1L85.1 158.8M108.1 77.3L94.9 109.0M108.1 77.3L168.1 143.7M108.1 77.3L81.7 77.3M85.1 158.8L94.9 109.0M85.1 158.8L168.1 143.7M520.1 255.0L429.8 88.8M520.1 255.0L444.7 333.8M520.1 255.0L508.1 238.7M520.1 255.0L529.0 285.9M508.1 238.7L529.0 285.9M508.1 238.7L576.8 31.0M474.0 144.0L556.4 101.4M474.0 144.0L505.2 287.2M474.0 144.0L354.6 52.6M463.8 122.3L495.7 257.5M145.3 104.3L108.1 77.3M145.3 104.3L368.7 98.3M603.5 148.9L481.4 21.0M603.5 148.9L129.5 91.0M603.5 148.9L690.2 166.9M603.5 148.9L538.5 29.6M603.5 148.9L696.9 145.1M603.5 148.9L703.3 114.0M129.5 91.0L145.3 104.3M129.5 91.0L108.1 77.3M129.5 91.0L129.5 114.6M129.5 91.0L81.7 77.3M690.2 166.9L357.1 326.0M690.2 166.9L361.4 344.9M690.2 166.9L476.8 76.4M284.2 186.7L278.9 250.8M284.2 186.7L282.1 161.2M636.7 268.5L688.3 226.1M636.7 268.5L693.3 246.6M636.7 268.5L682.1 256.6M636.7 268.5L668.3 286.8M636.7 268.5L646.0 247.3M636.7 268.5L666.8 314.9M467.1 341.4L478.8 314.2M467.1 341.4L520.1 255.0M467.1 341.4L473.2 326.1M467.1 341.4L469.9 373.4M467.1 341.4L529.0 285.9M467.1 341.4L480.8 391.2M467.1 341.4L456.6 281.5M478.8 314.2L508.1 238.7M478.8 314.2L484.9 303.5M478.8 314.2L473.2 326.1M478.8 314.2L469.9 373.4M478.8 314.2L497.1 297.0M478.8 314.2L529.0 285.9M478.8 314.2L480.8 391.2M478.8 314.2L464.9 356.6M478.8 314.2L456.6 281.5M469.9 373.4L554.2 288.3M469.9 373.4L466.8 259.4M469.9 373.4L529.0 285.9M469.9 373.4L480.8 391.2M469.9 373.4L573.2 245.1M484.9 303.5L469.9 373.4M484.9 303.5L554.2 288.3M484.9 303.5L464.9 356.6M484.9 303.5L451.5 311.3M497.1 297.0L495.7 257.5M497.1 297.0L529.0 285.9M497.1 297.0L480.8 391.2M90.1 93.1L109.0 134.7M90.1 93.1L145.3 104.3M90.1 93.1L108.1 77.3M90.1 93.1L94.9 109.0M90.1 93.1L168.1 143.7M90.1 93.1L81.7 77.3M109.0 134.7L204.9 153.4M109.0 134.7L145.3 104.3M109.0 134.7L108.1 77.3M109.0 134.7L85.1 158.8M109.0 134.7L94.9 109.0M109.0 134.7L168.1 143.7M109.0 134.7L81.7 77.3M94.9 109.0L168.1 143.7M168.1 143.7L81.7 77.3M466.8 259.4L259.8 120.9M466.8 259.4L451.5 311.3M661.2 115.9L569.1 213.6M643.3 174.1L569.1 213.6M151.7 155.6L161.1 174.0M151.7 155.6L142.7 184.1M151.7 155.6L190.3 177.2M151.7 155.6L109.0 134.7M151.7 155.6L145.3 104.3M151.7 155.6L168.1 143.7M130.4 138.0L146.2 129.3M130.4 138.0L430.7 162.9M130.4 138.0L104.4 155.5M130.4 138.0L548.4 171.1M130.4 138.0L129.5 114.6M130.4 138.0L81.7 77.3M146.2 129.3L161.1 174.0M146.2 129.3L129.5 91.0M146.2 129.3L104.4 155.5M146.2 129.3L129.5 114.6M146.2 129.3L85.1 158.8M430.7 162.9L579.4 165.6M430.7 162.9L541.9 245.7M430.7 162.9L548.4 171.1M430.7 162.9L502.1 181.9M430.7 162.9L623.8 144.8M430.7 162.9L555.6 124.3M104.4 155.5L129.5 114.6M104.4 155.5L85.1 158.8M548.4 171.1L502.1 181.9M548.4 171.1L555.6 124.3M127.6 209.9L59.3 211.2M127.6 209.9L74.4 167.9M127.6 209.9L128.8 242.9M127.6 209.9L141.0 254.8M127.6 209.9L104.4 155.5M127.6 209.9L85.1 158.8M141.0 254.8L172.1 221.1M141.0 254.8L190.4 312.0M141.0 254.8L156.7 324.5M141.0 254.8L231.4 260.2M141.0 254.8L301.2 246.8M222.5 211.7L146.2 129.3M222.5 211.7L209.2 268.5M222.5 211.7L231.4 260.2M222.5 211.7L301.2 246.8M367.8 243.6L548.4 171.1M367.8 243.6L368.4 126.0M367.8 243.6L502.1 181.9M367.8 243.6L429.0 270.0M367.8 243.6L413.6 227.6M389.2 240.4L413.6 227.6M389.2 240.4L417.4 252.8M176.8 115.5L476.6 0.7M176.8 115.5L190.3 177.2M176.8 115.5L109.0 134.7M176.8 115.5L235.0 3.7M176.8 115.5L250.6 48.3M250.6 48.3L233.1 91.3M250.6 48.3L248.9 64.8M250.6 48.3L259.8 120.9M250.6 48.3L208.5 110.4M250.6 48.3L254.8 101.3M478.8 38.3L476.6 0.7M478.8 38.3L470.8 52.0M478.8 38.3L481.4 21.0M478.8 38.3L576.4 46.6M478.8 38.3L382.4 74.9M478.8 38.3L538.5 29.6M478.8 38.3L354.6 -5.4M478.8 38.3L476.8 76.4M576.4 46.6L538.5 29.6M576.4 46.6L354.6 -5.4M576.4 46.6L476.8 76.4M382.4 74.9L416.3 111.9M382.4 74.9L354.6 -5.4M382.4 74.9L354.6 52.6M382.4 74.9L346.9 20.3M382.4 74.9L437.2 79.1M382.4 74.9L476.8 76.4M288.2 37.8L517.9 159.7M259.8 120.9L208.5 110.4M259.8 120.9L451.5 311.3M187.1 243.2L184.2 267.2M674.1 331.2L626.0 291.1M514.3 206.9L617.7 245.4M514.3 206.9L502.1 181.9M477.8 168.2L460.7 234.2M477.8 168.2L254.8 101.3M737.4 230.1L322.0 107.1M737.4 230.1L368.4 126.0M737.4 230.1L617.7 245.4M737.4 230.1L517.9 159.7M459.8 64.8L368.8 74.6M459.8 64.8L362.1 63.0M459.8 64.8L404.1 84.4M459.8 64.8L346.9 20.3M459.8 64.8L437.2 79.1M460.7 234.2L573.2 245.1M299.5 62.3L235.0 3.7M299.5 62.3L262.8 78.0M299.5 62.3L233.1 91.3M299.5 62.3L300.3 95.3M623.8 144.8L555.6 124.3M623.8 144.8L417.4 252.8M733.8 147.3L395.5 264.3M733.8 147.3L548.4 171.1M733.8 147.3L623.8 144.8M733.8 147.3L555.6 124.3M495.7 257.5L480.8 391.2M495.7 257.5L460.7 234.2M495.7 257.5L436.9 295.7M236.6 189.1L172.1 221.1M236.6 189.1L260.5 148.1M236.6 189.1L85.1 158.8M236.6 189.1L536.9 144.5M236.6 189.1L187.1 243.2M260.5 148.1L156.7 324.5M536.9 144.5L417.4 252.8M770.0 183.6L288.2 37.8M346.9 20.3L437.2 79.1M573.2 245.1L300.3 95.3M190.4 312.0L156.7 324.5M190.4 312.0L161.1 298.3M190.4 312.0L231.4 260.2M190.4 312.0L184.2 267.2M161.1 298.3L231.4 260.2M161.1 298.3L187.1 243.2M161.1 298.3L184.2 267.2M231.6 114.2L241.5 77.2M231.6 114.2L250.6 32.3M231.6 114.2L235.0 3.7M231.6 114.2L262.8 78.0M231.6 114.2L250.6 48.3M231.6 114.2L233.1 91.3M241.5 77.2L235.0 3.7M241.5 77.2L262.8 78.0M241.5 77.2L250.6 48.3M241.5 77.2L233.1 91.3M250.6 32.3L235.0 3.7M250.6 32.3L262.8 78.0M250.6 32.3L250.6 48.3M250.6 32.3L233.1 91.3M250.6 32.3L254.8 101.3M416.0 86.5L459.8 64.8M416.0 86.5L368.8 74.6M416.0 86.5L362.1 63.0M416.0 86.5L404.1 84.4M416.0 86.5L346.9 20.3M416.0 86.5L437.2 79.1M362.1 63.0L404.1 84.4M362.1 63.0L346.9 20.3M362.1 63.0L437.2 79.1M404.1 84.4L346.9 20.3M404.1 84.4L437.2 79.1M248.9 64.8L259.8 120.9M248.9 64.8L208.5 110.4"/>
+<path class="sp-short" d="M254.8 101.3L368.4 126.0L429.0 270.0L329.3 210.8L231.4 260.2"/>
+<path class="sp-route" d="M254.8 101.3L477.8 168.2L460.7 234.2L495.7 257.5L463.8 122.3L488.4 122.4L507.8 84.5"/>
+<circle class="sp-n" cx="161.1" cy="298.3" r="2.8"/>
+<circle class="sp-n" cx="255.3" cy="272.1" r="3.2"/>
+<circle class="sp-n" cx="190.4" cy="312.0" r="3.0"/>
+<circle class="sp-n" cx="141.0" cy="254.8" r="3.1"/>
+<circle class="sp-n" cx="190.4" cy="291.0" r="2.3"/>
+<circle class="sp-n" cx="222.5" cy="211.7" r="3.6"/>
+<circle class="sp-n" cx="202.6" cy="222.4" r="2.9"/>
+<circle class="sp-n" cx="184.2" cy="267.2" r="2.9"/>
+<circle class="sp-gen" cx="490.2" cy="210.0" r="4.3"/>
+<circle class="sp-n" cx="332.7" cy="233.9" r="2.4"/>
+<circle class="sp-n" cx="260.5" cy="148.1" r="3.2"/>
+<circle class="sp-n" cx="190.3" cy="177.2" r="3.8"/>
+<circle class="sp-n" cx="236.6" cy="189.1" r="3.4"/>
+<circle class="sp-n" cx="172.1" cy="221.1" r="3.5"/>
+<circle class="sp-n" cx="85.1" cy="158.8" r="3.2"/>
+<circle class="sp-n" cx="146.2" cy="129.3" r="3.1"/>
+<circle class="sp-n" cx="235.0" cy="161.4" r="3.6"/>
+<circle class="sp-n" cx="204.9" cy="153.4" r="3.1"/>
+<circle class="sp-n" cx="142.7" cy="184.1" r="3.4"/>
+<circle class="sp-n" cx="127.6" cy="209.9" r="2.3"/>
+<circle class="sp-n" cx="187.1" cy="243.2" r="2.6"/>
+<circle class="sp-n" cx="209.2" cy="268.5" r="3.1"/>
+<circle class="sp-n" cx="119.2" cy="196.4" r="2.9"/>
+<circle class="sp-n" cx="301.2" cy="246.8" r="2.8"/>
+<circle class="sp-n" cx="367.8" cy="243.6" r="4.0"/>
+<circle class="sp-n" cx="389.2" cy="240.4" r="4.0"/>
+<circle class="sp-n" cx="164.5" cy="251.0" r="2.8"/>
+<circle class="sp-n" cx="324.4" cy="291.6" r="2.8"/>
+<circle class="sp-n" cx="357.1" cy="326.0" r="2.6"/>
+<circle class="sp-n" cx="347.4" cy="313.2" r="3.0"/>
+<circle class="sp-n" cx="413.6" cy="227.6" r="3.5"/>
+<circle class="sp-n" cx="303.4" cy="271.2" r="3.4"/>
+<circle class="sp-n" cx="355.8" cy="171.8" r="3.4"/>
+<circle class="sp-n" cx="348.2" cy="254.6" r="3.2"/>
+<circle class="sp-n" cx="350.9" cy="212.8" r="4.2"/>
+<circle class="sp-n" cx="304.3" cy="222.3" r="3.5"/>
+<circle class="sp-n" cx="233.0" cy="237.9" r="2.5"/>
+<circle class="sp-n" cx="436.9" cy="295.7" r="3.0"/>
+<circle class="sp-n" cx="402.5" cy="311.1" r="2.7"/>
+<circle class="sp-n" cx="307.1" cy="142.2" r="3.2"/>
+<circle class="sp-n" cx="284.2" cy="186.7" r="2.6"/>
+<circle class="sp-n" cx="379.6" cy="144.3" r="2.8"/>
+<circle class="sp-n" cx="253.3" cy="194.9" r="3.3"/>
+<circle class="sp-n" cx="300.3" cy="95.3" r="3.8"/>
+<circle class="sp-n" cx="100.2" cy="205.1" r="2.9"/>
+<circle class="sp-n" cx="161.1" cy="174.0" r="3.5"/>
+<circle class="sp-n" cx="142.1" cy="227.8" r="2.9"/>
+<circle class="sp-n" cx="401.9" cy="131.9" r="3.5"/>
+<circle class="sp-n" cx="282.1" cy="161.2" r="2.4"/>
+<circle class="sp-n" cx="234.6" cy="307.6" r="2.6"/>
+<circle class="sp-gen" cx="330.2" cy="182.6" r="4.5"/>
+<circle class="sp-gen" cx="411.1" cy="205.8" r="4.7"/>
+<circle class="sp-gen" cx="332.7" cy="153.4" r="4.4"/>
+<circle class="sp-gen" cx="435.4" cy="194.0" r="5.1"/>
+<circle class="sp-n" cx="430.7" cy="162.9" r="3.7"/>
+<circle class="sp-n" cx="514.3" cy="206.9" r="3.9"/>
+<circle class="sp-gen" cx="376.5" cy="172.6" r="4.8"/>
+<circle class="sp-gen" cx="393.9" cy="193.1" r="4.9"/>
+<circle class="sp-n" cx="171.4" cy="191.3" r="3.2"/>
+<circle class="sp-n" cx="326.2" cy="257.2" r="3.0"/>
+<circle class="sp-gen" cx="402.4" cy="159.4" r="4.7"/>
+<circle class="sp-n" cx="502.1" cy="181.9" r="4.2"/>
+<circle class="sp-n" cx="467.5" cy="214.2" r="2.5"/>
+<circle class="sp-n" cx="128.8" cy="242.9" r="2.1"/>
+<circle class="sp-n" cx="339.7" cy="301.6" r="2.9"/>
+<circle class="sp-n" cx="80.8" cy="216.2" r="1.9"/>
+<circle class="sp-n" cx="509.6" cy="136.4" r="3.7"/>
+<circle class="sp-n" cx="151.7" cy="155.6" r="3.1"/>
+<circle class="sp-n" cx="364.7" cy="196.1" r="3.3"/>
+<circle class="sp-n" cx="555.6" cy="124.3" r="3.0"/>
+<circle class="sp-n" cx="536.9" cy="144.5" r="2.6"/>
+<circle class="sp-n" cx="395.5" cy="264.3" r="2.6"/>
+<circle class="sp-n" cx="417.4" cy="252.8" r="3.3"/>
+<circle class="sp-n" cx="579.4" cy="165.6" r="2.8"/>
+<circle class="sp-n" cx="603.5" cy="148.9" r="2.7"/>
+<circle class="sp-n" cx="299.5" cy="62.3" r="2.9"/>
+<circle class="sp-n" cx="548.4" cy="171.1" r="2.8"/>
+<circle class="sp-n" cx="623.8" cy="144.8" r="2.7"/>
+<circle class="sp-n" cx="593.7" cy="194.2" r="2.5"/>
+<circle class="sp-n" cx="590.1" cy="91.6" r="2.9"/>
+<circle class="sp-n" cx="631.1" cy="112.1" r="2.6"/>
+<circle class="sp-n" cx="563.3" cy="76.5" r="2.5"/>
+<circle class="sp-n" cx="583.3" cy="119.4" r="2.8"/>
+<circle class="sp-n" cx="578.0" cy="62.3" r="2.7"/>
+<circle class="sp-n" cx="509.9" cy="36.8" r="2.5"/>
+<circle class="sp-n" cx="583.6" cy="13.9" r="2.4"/>
+<circle class="sp-n" cx="470.8" cy="52.0" r="2.4"/>
+<circle class="sp-n" cx="556.4" cy="101.4" r="2.3"/>
+<circle class="sp-n" cx="538.2" cy="74.9" r="2.5"/>
+<circle class="sp-n" cx="495.9" cy="64.5" r="2.4"/>
+<circle class="sp-n" cx="603.6" cy="101.3" r="2.4"/>
+<circle class="sp-n" cx="476.8" cy="76.4" r="2.6"/>
+<circle class="sp-n" cx="538.5" cy="29.6" r="2.8"/>
+<circle class="sp-n" cx="481.4" cy="21.0" r="2.6"/>
+<circle class="sp-n" cx="576.4" cy="46.6" r="2.3"/>
+<circle class="sp-n" cx="478.8" cy="38.3" r="2.2"/>
+<circle class="sp-n" cx="396.4" cy="101.5" r="2.3"/>
+<circle class="sp-n" cx="429.8" cy="88.8" r="2.4"/>
+<circle class="sp-n" cx="450.8" cy="76.6" r="2.6"/>
+<circle class="sp-n" cx="389.8" cy="84.4" r="2.5"/>
+<circle class="sp-n" cx="354.6" cy="52.6" r="2.4"/>
+<circle class="sp-n" cx="354.6" cy="-5.4" r="2.2"/>
+<circle class="sp-n" cx="382.4" cy="74.9" r="2.3"/>
+<circle class="sp-n" cx="416.3" cy="111.9" r="2.6"/>
+<circle class="sp-n" cx="476.6" cy="0.7" r="2.5"/>
+<circle class="sp-n" cx="368.7" cy="98.3" r="2.3"/>
+<circle class="sp-n" cx="437.2" cy="79.1" r="2.2"/>
+<circle class="sp-n" cx="416.0" cy="86.5" r="2.1"/>
+<circle class="sp-n" cx="368.8" cy="74.6" r="2.4"/>
+<circle class="sp-n" cx="362.1" cy="63.0" r="2.1"/>
+<circle class="sp-n" cx="459.8" cy="64.8" r="2.2"/>
+<circle class="sp-n" cx="404.1" cy="84.4" r="2.3"/>
+<circle class="sp-n" cx="57.7" cy="227.1" r="2.4"/>
+<circle class="sp-n" cx="52.7" cy="244.0" r="2.8"/>
+<circle class="sp-n" cx="60.1" cy="178.8" r="2.5"/>
+<circle class="sp-n" cx="47.8" cy="181.6" r="2.4"/>
+<circle class="sp-n" cx="31.1" cy="268.8" r="2.3"/>
+<circle class="sp-n" cx="55.8" cy="196.1" r="2.6"/>
+<circle class="sp-n" cx="72.5" cy="190.9" r="2.3"/>
+<circle class="sp-n" cx="113.8" cy="234.2" r="2.4"/>
+<circle class="sp-n" cx="66.5" cy="237.6" r="2.2"/>
+<circle class="sp-n" cx="98.5" cy="230.8" r="2.4"/>
+<circle class="sp-n" cx="74.4" cy="167.9" r="2.6"/>
+<circle class="sp-n" cx="43.1" cy="255.4" r="2.4"/>
+<circle class="sp-n" cx="59.3" cy="211.2" r="2.4"/>
+<circle class="sp-n" cx="114.3" cy="182.2" r="2.3"/>
+<circle class="sp-n" cx="109.0" cy="134.7" r="2.8"/>
+<circle class="sp-n" cx="108.1" cy="77.3" r="2.7"/>
+<circle class="sp-n" cx="81.7" cy="77.3" r="2.7"/>
+<circle class="sp-n" cx="145.3" cy="104.3" r="2.7"/>
+<circle class="sp-n" cx="176.8" cy="115.5" r="2.6"/>
+<circle class="sp-n" cx="90.1" cy="93.1" r="2.6"/>
+<circle class="sp-n" cx="129.5" cy="91.0" r="3.0"/>
+<circle class="sp-n" cx="123.8" cy="161.6" r="2.6"/>
+<circle class="sp-n" cx="89.3" cy="141.1" r="2.6"/>
+<circle class="sp-n" cx="94.9" cy="109.0" r="2.4"/>
+<circle class="sp-n" cx="168.1" cy="143.7" r="2.8"/>
+<circle class="sp-n" cx="129.5" cy="114.6" r="2.7"/>
+<circle class="sp-n" cx="104.4" cy="155.5" r="2.7"/>
+<circle class="sp-n" cx="130.4" cy="138.0" r="2.5"/>
+<circle class="sp-n" cx="223.7" cy="143.1" r="2.5"/>
+<circle class="sp-n" cx="271.9" cy="57.6" r="2.4"/>
+<circle class="sp-n" cx="278.2" cy="104.4" r="2.5"/>
+<circle class="sp-n" cx="322.0" cy="107.1" r="2.6"/>
+<circle class="sp-n" cx="517.9" cy="159.7" r="2.4"/>
+<circle class="sp-n" cx="316.8" cy="76.1" r="2.6"/>
+<circle class="sp-n" cx="573.2" cy="245.1" r="2.8"/>
+<circle class="sp-n" cx="426.7" cy="137.5" r="2.5"/>
+<circle class="sp-n" cx="235.0" cy="3.7" r="2.6"/>
+<circle class="sp-n" cx="250.6" cy="32.3" r="2.6"/>
+<circle class="sp-n" cx="233.1" cy="91.3" r="2.6"/>
+<circle class="sp-n" cx="250.6" cy="48.3" r="2.6"/>
+<circle class="sp-n" cx="262.8" cy="78.0" r="2.6"/>
+<circle class="sp-n" cx="208.5" cy="110.4" r="2.4"/>
+<circle class="sp-n" cx="231.6" cy="114.2" r="2.5"/>
+<circle class="sp-n" cx="259.8" cy="120.9" r="2.5"/>
+<circle class="sp-n" cx="248.9" cy="64.8" r="2.3"/>
+<circle class="sp-n" cx="221.3" cy="101.6" r="2.5"/>
+<circle class="sp-n" cx="349.0" cy="108.9" r="2.4"/>
+<circle class="sp-n" cx="191.9" cy="115.3" r="2.3"/>
+<circle class="sp-n" cx="298.8" cy="120.0" r="2.4"/>
+<circle class="sp-n" cx="617.7" cy="245.4" r="3.0"/>
+<circle class="sp-n" cx="626.0" cy="291.1" r="2.7"/>
+<circle class="sp-n" cx="613.7" cy="270.7" r="2.7"/>
+<circle class="sp-n" cx="636.7" cy="268.5" r="2.5"/>
+<circle class="sp-n" cx="629.2" cy="315.1" r="2.3"/>
+<circle class="sp-n" cx="444.7" cy="333.8" r="2.6"/>
+<circle class="sp-n" cx="542.0" cy="281.9" r="2.6"/>
+<circle class="sp-n" cx="466.8" cy="259.4" r="2.5"/>
+<circle class="sp-n" cx="451.5" cy="311.3" r="2.2"/>
+<circle class="sp-n" cx="505.2" cy="287.2" r="2.1"/>
+<circle class="sp-n" cx="474.0" cy="144.0" r="2.3"/>
+<circle class="sp-n" cx="478.8" cy="314.2" r="2.4"/>
+<circle class="sp-n" cx="467.1" cy="341.4" r="2.2"/>
+<circle class="sp-n" cx="480.8" cy="391.2" r="2.5"/>
+<circle class="sp-n" cx="529.0" cy="285.9" r="2.4"/>
+<circle class="sp-n" cx="497.1" cy="297.0" r="2.5"/>
+<circle class="sp-n" cx="473.2" cy="326.1" r="2.6"/>
+<circle class="sp-n" cx="469.9" cy="373.4" r="2.5"/>
+<circle class="sp-n" cx="508.1" cy="238.7" r="2.3"/>
+<circle class="sp-n" cx="520.1" cy="255.0" r="2.2"/>
+<circle class="sp-n" cx="464.9" cy="356.6" r="2.3"/>
+<circle class="sp-n" cx="387.9" cy="338.4" r="2.5"/>
+<circle class="sp-n" cx="480.5" cy="277.6" r="2.4"/>
+<circle class="sp-n" cx="554.2" cy="288.3" r="2.3"/>
+<circle class="sp-n" cx="582.2" cy="306.4" r="2.3"/>
+<circle class="sp-n" cx="456.6" cy="281.5" r="2.1"/>
+<circle class="sp-n" cx="541.9" cy="245.7" r="2.8"/>
+<circle class="sp-n" cx="363.3" cy="297.8" r="3.1"/>
+<circle class="sp-n" cx="385.3" cy="287.5" r="2.8"/>
+<circle class="sp-n" cx="304.3" cy="288.8" r="2.1"/>
+<circle class="sp-n" cx="356.2" cy="373.3" r="2.2"/>
+<circle class="sp-n" cx="546.3" cy="197.3" r="2.7"/>
+<circle class="sp-n" cx="616.3" cy="210.0" r="2.3"/>
+<circle class="sp-n" cx="569.1" cy="213.6" r="2.3"/>
+<circle class="sp-n" cx="509.5" cy="110.4" r="2.8"/>
+<circle class="sp-n" cx="443.1" cy="109.5" r="3.0"/>
+<circle class="sp-n" cx="462.3" cy="97.9" r="2.1"/>
+<circle class="sp-n" cx="346.9" cy="20.3" r="2.0"/>
+<circle class="sp-n" cx="576.8" cy="31.0" r="2.0"/>
+<circle class="sp-n" cx="484.9" cy="303.5" r="2.1"/>
+<circle class="sp-n" cx="85.3" cy="233.5" r="2.2"/>
+<circle class="sp-n" cx="95.0" cy="188.2" r="2.1"/>
+<circle class="sp-n" cx="156.1" cy="204.3" r="2.1"/>
+<circle class="sp-n" cx="241.5" cy="77.2" r="2.3"/>
+<circle class="sp-n" cx="288.2" cy="37.8" r="2.2"/>
+<circle class="sp-n" cx="277.6" cy="288.1" r="2.3"/>
+<circle class="sp-n" cx="361.4" cy="344.9" r="2.2"/>
+<circle class="sp-zone" cx="231.4" cy="260.2" r="9"/><circle class="sp-zone-dot" cx="231.4" cy="260.2" r="4"/>
+<circle class="sp-zone" cx="156.7" cy="324.5" r="9"/><circle class="sp-zone-dot" cx="156.7" cy="324.5" r="4"/>
+<circle class="sp-zone" cx="278.9" cy="250.8" r="9"/><circle class="sp-zone-dot" cx="278.9" cy="250.8" r="4"/>
+<circle class="sp-short-n" cx="368.4" cy="126.0" r="4"/>
+<circle class="sp-short-n" cx="429.0" cy="270.0" r="4"/>
+<circle class="sp-short-n" cx="329.3" cy="210.8" r="4"/>
+<circle class="sp-you" cx="254.8" cy="101.3" r="6"/>
+<circle class="sp-you" cx="477.8" cy="168.2" r="6"/>
+<circle class="sp-you gap" cx="460.7" cy="234.2" r="6"/>
+<circle class="sp-you" cx="495.7" cy="257.5" r="6"/>
+<circle class="sp-you gap" cx="463.8" cy="122.3" r="6"/>
+<circle class="sp-you" cx="488.4" cy="122.4" r="6"/>
+<circle class="sp-you" cx="507.8" cy="84.5" r="6"/>
+<text class="sp-name you" x="265.8" y="105.3" text-anchor="start">Vendor, budget &amp; contract management</text>
+<text class="sp-name you" x="466.8" y="172.2" text-anchor="end">Program &amp; project management</text>
+<text class="sp-name you" x="449.7" y="238.2" text-anchor="end">Risk &amp; dependency management</text>
+<text class="sp-name you" x="484.7" y="261.5" text-anchor="end">Regulated industries &amp; compliance</text>
+<text class="sp-name you" x="452.8" y="126.3" text-anchor="end">Payments, fintech &amp; banking</text>
+<text class="sp-name you" x="488.4" y="142.4" text-anchor="middle">Financial modeling &amp; analysis</text>
+<text class="sp-name you" x="496.8" y="88.5" text-anchor="end">Business cases &amp; ROI</text>
+<text class="sp-name short" x="357.4" y="144.0" text-anchor="end">Productivity &amp; service-level performance</text>
+<text class="sp-name short" x="429.0" y="290.0" text-anchor="middle">Quality, testing &amp; acceptance</text>
+<text class="sp-name short" x="340.3" y="214.8" text-anchor="start">Prioritization &amp; trade-offs</text>
+<text class="sp-name zone" x="220.4" y="264.2" text-anchor="end">Roadmapping</text>
+</svg></div>
+      <p class="key"><span class="sp-green">Green</span>: your route, ✓ you can show it. <span class="sp-amber">Amber</span>: not yet. Dashed: the shortest route (4 hops). Blue rings: where the round ends.</p>
+    </div>
+    <div class="sp-endside">
+      <div class="sp-two">
+        <div><h3>Your route</h3><div class="list sp-rl"><div class="r"><span class="t">Vendor, budget &amp; contract management</span><span class="n">start</span></div><div class="r sp-yes"><span class="t">Program &amp; project management</span><span class="n"><span class=sp-blue>40%</span></span></div><div class="r sp-no"><span class="t">Risk &amp; dependency management</span><span class="n"><span class=sp-blue>34%</span></span></div><div class="r sp-yes"><span class="t">Regulated industries &amp; compliance</span><span class="n"><span class=sp-blue>20%</span></span></div><div class="r sp-no"><span class="t">Payments, fintech &amp; banking</span><span class="n"><span class=sp-blue>29%</span></span></div><div class="r sp-yes"><span class="t">Financial modeling &amp; analysis</span><span class="n"><span class=sp-blue>17%</span></span></div><div class="r sp-yes"><span class="t">Business cases &amp; ROI</span><span class="n"><span class=sp-blue>16%</span></span></div></div></div>
+        <div><h3>Shortest route</h3><div class="list sp-rl"><div class="r"><span class="t">Vendor, budget &amp; contract management</span><span class="n">start</span></div><div class="r"><span class="t">Productivity &amp; service-level performance</span><span class="n">not read</span></div><div class="r"><span class="t">Quality, testing &amp; acceptance</span><span class="n"><span class=sp-blue>14%</span></span></div><div class="r"><span class="t">Prioritization &amp; trade-offs</span><span class="n"><span class=sp-blue>64%</span></span></div><div class="r"><span class="t">Roadmapping</span><span class="n"><span class=sp-blue>74%</span></span></div></div></div>
+      </div>
+      <div class="sp-build">
+        <p class="eyebrow">Build next</p>
+        <p class="sp-bt">Risk &amp; dependency management <span class="sp-blue mono">34%</span></p>
+        <ul class="plain"><li>Practice: run a pre-mortem on any plan you make.</li><li>Course: risk management is a module in most PM certifications.</li><li>At work: keep the risk register for your project and review it in the weekly sync.</li></ul>
+      </div>
+      <div class="row" style="margin-top:14px"><button type="button" class="btn primary">Try this pairing again</button><a class="btn" href="#/role/pm">Open Product Manager →</a></div>
+      <p class="small muted" style="margin-top:10px"><a class="link" href="#/explore?field=supply_chain">Supply chain &amp; procurement on the skill map</a> · <a class="link" href="#/field/product">All Product roles</a></p>
+    </div>
+  </div>
+  <p class="sp-punch">Every career change is a route through skills. The atlas maps all 278. <span class="muted">The biggest number is not always the way there.</span></p>
+</div></main>
+  
+</div>
+<footer class="foot"><span>Built from live job postings, refreshed weekly.</span> <a href="#/about">About the data</a></footer>
+</body>
+</html>
