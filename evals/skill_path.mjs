@@ -24,7 +24,7 @@ require(path.join(web, "skillmap.js"));
 const { logic: L } = require(path.join(web, "games", "skill-path.js"));
 
 const EXPECT = {
-  board: { skills: 240, links: 936, pieces: 1, minLinks: 2 },
+  board: { skills: 240, links: 938, pieces: 1, minLinks: 2 },
   pmArrivals: ["Roadmapping", "Product strategy", "Systems & architecture"],
   marketing: {
     start: "Marketing campaigns", par: 3,
@@ -41,7 +41,7 @@ const EXPECT = {
     start: "Vendor, budget & contract management", par: 4, short: 3,
     biggest: ["Program & project management", "Risk & dependency management", "Regulated industries & compliance", "Payments, fintech & banking", "Financial modeling & analysis", "Business cases & ROI"],
   },
-  pools: { field: { easy: 86, normal: 313, hard: 51 }, role: { easy: 447, normal: 1373, hard: 222 } },
+  pools: { field: { easy: 86, normal: 314, hard: 50 }, role: { easy: 449, normal: 1379, hard: 214 } },
   roles: 53,
 };
 

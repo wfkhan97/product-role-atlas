@@ -16,7 +16,7 @@ import { createRequire } from "module";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(here, "..");
 const require = createRequire(import.meta.url);
-const README = { open: 22483, playable: 19004, twoTwo: 46, fewSkills: 1132, relaxed: 1400 };   // games/guess-the-role/README.md, data of 2026-10-14
+const README = { open: 22478, playable: 18999, twoTwo: 46, fewSkills: 1142, relaxed: 1403 };   // games/guess-the-role/README.md, data of 2026-10-19
 
 const Atlas = require(path.join(root, "web/atlas.js"))({ load: url => JSON.parse(fs.readFileSync(path.join(root, "web", url), "utf8")), Matcher: null });
 const { rules } = require(path.join(root, "web/games/guess-the-role.js"));

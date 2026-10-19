@@ -77,7 +77,7 @@ so far for the current skill, which by the fourth card is a small cross-field pr
 **Decision: a One role game stays in one role.** It does not hop between roles as the streak grows. Reasons: the
 end link goes to one role screen whose grid shows every card the player saw; the comparison "which skill does this
 job ask for more" is the question a student has about a target role; and a role's pool is deep enough (41 to 82
-skills at 10% or more; the shortest perfect-play deck is 26 pairs) that no player runs out. Cross-role comparison
+skills at 10% or more; the shortest perfect-play deck is 28 pairs) that no player runs out. Cross-role comparison
 is what Field hop is for, as its own mode, so a single run never mixes the two questions. Recommendation for the
 owner: ship One role first, Field hop in the same PR if time allows (it is about 80 more lines on the same engine);
 see "Open questions".
@@ -113,10 +113,10 @@ by 4 (never below 8), up to three times, then the maximum is lifted. If even tha
 **Not trivial, not a coin flip.** Measured by `deal.js --sim` and a Python copy of the same dealer, over the 48
 playable roles:
 
-- A perfect player never runs out early: the shortest deck was 26 pairs, the median 53 (960 runs, 20 per role).
+- A perfect player never runs out early: the shortest deck was 28 pairs, the median 53 (960 runs, 20 per role).
 - A player who knows nothing about roles and always guesses "toward the middle" (higher when the left card is below
   the role's median share, lower otherwise) gets 58% of pairs right in the first band, 65% in the second, 60% in
-  the third and 57% in the last, against 50% for a coin. Their median streak is 1, the 90th percentile 4, the best 18
+  the third and 57% in the last, against 50% for a coin. Their median streak is 1, the 90th percentile 4, the best 19
   (9,600 runs, 200 per role). So knowing nothing gets you "Cover letter skimmer"; "Sharp recruiter" (6 or more)
   takes knowledge of the role.
 
@@ -249,7 +249,7 @@ field opens the product set, as everywhere in the atlas), and the MBA role `pmm`
 - **Long skill names.** Some names run to 65 characters ("Market data platforms (Bloomberg, Capital IQ, FactSet,
   PitchBook)"). The card shows the part before the parenthesis at full size and the parenthesis on a second, smaller
   line; at most three lines, never truncated mid-word.
-- **The deck runs out.** It cannot in practice (shortest perfect-play deck: 26 pairs), but if `next()` returns null
+- **The deck runs out.** It cannot in practice (shortest perfect-play deck: 28 pairs), but if `next()` returns null
   the run ends as a win: "Every pair dealt. You know Product Manager postings better than most recruiters." The streak
   counts as normal.
 - **Product data fails to load.** The product roles show "Could not load" and stay unplayable; the MBA roles work.
