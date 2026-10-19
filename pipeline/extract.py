@@ -239,51 +239,59 @@ def postings(roleset):
     oldest = (datetime.date.today() - datetime.timedelta(days=KEEP_CLOSED_DAYS)).isoformat()
     seen = set()
     postings.dropped = postings.read = postings.files = 0
-    for folder in cfg["raw"]:
-        for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", folder, "*.json"))):
+    files = [(n, path) for n, folder in enumerate(cfg["raw"]) for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", folder, "*.json")))]
+    # An employer that retitles a requisition gives it a new URL: the backlog then holds it twice under one id, and
+    # when the employer is in both scrapes, the product file (read as it was scraped) can hold the old title of a
+    # requisition the backlog holds under the new one. The one seen last is the posting; on a tie, the row from the
+    # folder listed first (the backlog). (The product set has no backlog and is read as it is.)
+    latest = {}
+    if cfg.get("backlog"):
+        for n, path in files:
             blob = json.load(open(path))
-            company = blob["company"]
-            r = reg.get(company)
-            if r is None or r.get("ats") in (None, "unsupported"):
-                logger.debug("%s: skipped, not in the registry or no adapter", os.path.basename(path))
-                continue  # company dropped from the registry
-            postings.files += 1
-            postings.read += len(blob["jobs"])
-            # An employer that retitles a requisition gives it a new URL: the backlog then holds it twice under one
-            # id. The one seen last is the posting. (Product files have no backlog and are read as they are.)
-            rows = blob["jobs"]
-            if cfg.get("backlog"):
-                latest = {}
-                for j in rows:
-                    k = j.get("external_id") or j.get("url")
-                    if k not in latest or (j.get("last_seen") or "") >= (latest[k].get("last_seen") or ""):
-                        latest[k] = j
-                rows = [j for j in rows if latest[j.get("external_id") or j.get("url")] is j]
-            for j in rows:
-                if j.get("closed") and (not cfg.get("backlog") or (j.get("last_seen") or "") < oldest):
-                    continue
-                # the employer's category comes from the registry: postings scraped before it had one carry none
-                if r.get("category") and j.get("category") != r["category"]:
-                    j = dict(j, category=r["category"])
-                was = (blob.get("scraped_at") or "")[:10]  # a file not refreshed since the backlog began
-                j = dict(j, company=company, first_seen=j.get("first_seen") or was, last_seen=j.get("last_seen") or was)
-                fam = cfg["family"](j["title"], j)
-                if fam is None:
-                    continue
-                if roleset == "mba" and (folder == "jobs") != (fam in roles_mba.IN_PRODUCT_SCRAPE):
-                    continue
-                desc = j.get("description") or ""
-                if len(desc) < 300:
-                    continue
-                cleaned = clean(desc, company, cfg.get("split_long", False))
-                key = (company, j["title"].strip().lower(), hashlib.md5(cleaned.strip().encode()).hexdigest())
-                # the same URL under a second company name is the same posting (a board shared by two registry entries)
-                if key in seen or (j.get("url") and j["url"] in seen):
-                    postings.dropped += 1
-                    continue
-                seen.add(key)
-                seen.add(j.get("url"))
-                yield company, r, j, fam, cleaned
+            was = (blob.get("scraped_at") or "")[:10]
+            for i, j in enumerate(blob["jobs"]):
+                k = (blob["company"], j.get("external_id") or j.get("url"))
+                rank = (j.get("last_seen") or was, -n)
+                if k not in latest or rank >= latest[k][0]:
+                    latest[k] = (rank, path, i)
+    for n, path in files:
+        folder = cfg["raw"][n]
+        blob = json.load(open(path))
+        company = blob["company"]
+        r = reg.get(company)
+        if r is None or r.get("ats") in (None, "unsupported"):
+            logger.debug("%s: skipped, not in the registry or no adapter", os.path.basename(path))
+            continue  # company dropped from the registry
+        postings.files += 1
+        postings.read += len(blob["jobs"])
+        rows = blob["jobs"]
+        if cfg.get("backlog"):
+            rows = [j for i, j in enumerate(rows) if latest[(company, j.get("external_id") or j.get("url"))][1:] == (path, i)]
+        for j in rows:
+            if j.get("closed") and (not cfg.get("backlog") or (j.get("last_seen") or "") < oldest):
+                continue
+            # the employer's category comes from the registry: postings scraped before it had one carry none
+            if r.get("category") and j.get("category") != r["category"]:
+                j = dict(j, category=r["category"])
+            was = (blob.get("scraped_at") or "")[:10]  # a file not refreshed since the backlog began
+            j = dict(j, company=company, first_seen=j.get("first_seen") or was, last_seen=j.get("last_seen") or was)
+            fam = cfg["family"](j["title"], j)
+            if fam is None:
+                continue
+            if roleset == "mba" and (folder == "jobs") != (fam in roles_mba.IN_PRODUCT_SCRAPE):
+                continue
+            desc = j.get("description") or ""
+            if len(desc) < 300:
+                continue
+            cleaned = clean(desc, company, cfg.get("split_long", False))
+            key = (company, j["title"].strip().lower(), hashlib.md5(cleaned.strip().encode()).hexdigest())
+            # the same URL under a second company name is the same posting (a board shared by two registry entries)
+            if key in seen or (j.get("url") and j["url"] in seen):
+                postings.dropped += 1
+                continue
+            seen.add(key)
+            seen.add(j.get("url"))
+            yield company, r, j, fam, cleaned
 
 
 def tag_posting(item):
