@@ -1,11 +1,17 @@
+import collections
 import html
 import re
 import time
 import requests
 
+from pipeline import log
+
+logger = log.get(__name__)
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 SESSION = requests.Session()
 SESSION.headers.update({"User-Agent": UA, "Accept": "application/json, text/html;q=0.9, */*;q=0.8"})
+# what the retry loops below met: "429" answers waited on, "retries" after a network error, "requests" made
+STATS = collections.Counter()
 
 # Queries used by search-based ATSes (Workday, Eightfold, ...). Title filtering happens later.
 SEARCH_QUERIES = [
@@ -21,36 +27,35 @@ SEARCH_QUERIES = [
 ]
 
 
-def get(url, **kw):
+def _request(method, url, kw):
+    """Up to three tries: a 429 answer waits 5, 10 seconds; a network error waits 2 and is raised on the third.
+    Only the method and the URL are logged, never the headers or the body."""
     kw.setdefault("timeout", 30)
     for attempt in range(3):
+        STATS["requests"] += 1
         try:
-            r = SESSION.get(url, **kw)
-            if r.status_code == 429:
+            r = SESSION.request(method, url, **kw)
+            if r.status_code == 429 and attempt < 2:
+                STATS["429"] += 1
+                logger.warning("429 from %s %s; waiting %ds", method, url, 5 * (attempt + 1))
                 time.sleep(5 * (attempt + 1))
                 continue
             return r
-        except requests.RequestException:
+        except requests.RequestException as e:
             if attempt == 2:
                 raise
+            STATS["retries"] += 1
+            logger.warning("%s %s failed (%s: %s); retrying", method, url, type(e).__name__, str(e)[:120])
             time.sleep(2)
     return r
+
+
+def get(url, **kw):
+    return _request("GET", url, kw)
 
 
 def post(url, **kw):
-    kw.setdefault("timeout", 30)
-    for attempt in range(3):
-        try:
-            r = SESSION.post(url, **kw)
-            if r.status_code == 429:
-                time.sleep(5 * (attempt + 1))
-                continue
-            return r
-        except requests.RequestException:
-            if attempt == 2:
-                raise
-            time.sleep(2)
-    return r
+    return _request("POST", url, kw)
 
 
 TAG_RE = re.compile(r"<[^>]+>")

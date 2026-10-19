@@ -10,9 +10,10 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pipeline import roles, roles_mba
+from pipeline import log, roles, roles_mba
 from pipeline.roles import specializations
 
+logger = log.get(__name__)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 from pipeline import tax
 TAX = tax.load()
@@ -236,14 +237,17 @@ def postings(roleset):
     reg = {r["company"]: r for r in load_registry(roleset)}
     oldest = (datetime.date.today() - datetime.timedelta(days=KEEP_CLOSED_DAYS)).isoformat()
     seen = set()
-    postings.dropped = 0
+    postings.dropped = postings.read = postings.files = 0
     for folder in cfg["raw"]:
         for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", folder, "*.json"))):
             blob = json.load(open(path))
             company = blob["company"]
             r = reg.get(company)
             if r is None or r.get("ats") in (None, "unsupported"):
+                logger.debug("%s: skipped, not in the registry or no adapter", os.path.basename(path))
                 continue  # company dropped from the registry
+            postings.files += 1
+            postings.read += len(blob["jobs"])
             # An employer that retitles a requisition gives it a new URL: the backlog then holds it twice under one
             # id. The one seen last is the posting. (Product files have no backlog and are read as they are.)
             rows = blob["jobs"]
@@ -352,8 +356,11 @@ def main():
     jobs = []
     evidence = {}
     company_stage = {}
+    t = log.Timer()
+    logger.info("extract --roles %s: %d skills, %d workers", args.roles, len(skills), args.workers)
     items = ((args.roles, company, r, j, fam, cleaned) for company, r, j, fam, cleaned in postings(args.roles))
-    # results come back in posting order, so the output does not depend on the number of workers
+    # results come back in posting order, so the output does not depend on the number of workers. The workers do
+    # not log (pipeline/log.py): the parent counts what comes back.
     with multiprocessing.Pool(args.workers) as pool:
         for job, found, st in pool.imap(tag_posting, items, chunksize=40):
             if st:
@@ -362,28 +369,35 @@ def main():
             for sid, ev in found if job["country"] == cfg.get("evidence_country", job["country"]) else ():
                 evidence.setdefault(sid, {}).setdefault(LEVEL_GROUP[ev["level"]], []).append(ev)
             jobs.append(job)
+            if len(jobs) % 5000 == 0:
+                logger.info("%d postings tagged, %s", len(jobs), t)
     os.makedirs(os.path.join(ROOT, "data", "processed"), exist_ok=True)
     sfx = cfg["suffix"]
     from pipeline import processed   # imported late: pipeline.processed is small, extract is imported by many
-    processed.dump(args.roles, jobs)
+    out = processed.dump(args.roles, jobs)
     with open(os.path.join(ROOT, "data", "processed", f"company_stage{sfx}.json"), "w") as f:
         json.dump(company_stage, f, indent=1)
     picked = {sid: {grp: pick_evidence(c) for grp, c in groups.items()} for sid, groups in evidence.items()}
     with open(os.path.join(ROOT, "data", "processed", f"evidence{sfx}.json"), "w") as f:
         json.dump(picked, f)
-    import collections as _c
-    subcnt = _c.Counter(k for j in jobs for k in j["sub"])
-    print("subskills never matched:", [k for k in SUB_RE if subcnt[k] == 0])
     import collections
-    print(len(jobs), "postings tagged;", postings.dropped, "exact reposts (same company, title and text) dropped")
-    print("by family:", collections.Counter(j["family"] for j in jobs).most_common())
-    print("by level:", collections.Counter(j["level"] for j in jobs).most_common())
-    print("by group:", collections.Counter(j["group"] for j in jobs).most_common())
+    subcnt = collections.Counter(k for j in jobs for k in j["sub"])
     cnt = collections.Counter(k for j in jobs for k in j["skills"])
-    print("top skills:", [(k, round(v / len(jobs), 2)) for k, v in cnt.most_common(25)])
-    print("never matched:", [sid for sid, _ in skills if cnt[sid] == 0])
-    print("avg skills/job:", sum(len(j["skills"]) for j in jobs) / max(1, len(jobs)))
+    logger.info("extract --roles %s done in %s: %d postings read from %d files, %d tagged, %d exact reposts (same company, title and text) dropped -> %s",
+                args.roles, t, postings.read, postings.files, len(jobs), postings.dropped, os.path.relpath(out, ROOT))
+    logger.info("by family: %s", collections.Counter(j["family"] for j in jobs).most_common())
+    logger.info("by level: %s", collections.Counter(j["level"] for j in jobs).most_common())
+    logger.info("by group: %s", collections.Counter(j["group"] for j in jobs).most_common())
+    logger.info("top skills: %s", [(k, round(v / len(jobs), 2)) for k, v in cnt.most_common(25)])
+    logger.info("avg skills/job: %.2f", sum(len(j["skills"]) for j in jobs) / max(1, len(jobs)))
+    never = [sid for sid, _ in skills if cnt[sid] == 0]
+    if never:
+        logger.warning("skills never matched: %s", never)
+    never_sub = [k for k in SUB_RE if subcnt[k] == 0]
+    if never_sub:
+        logger.warning("sub-skills never matched: %s", never_sub)
 
 
 if __name__ == "__main__":
+    log.setup()
     main()

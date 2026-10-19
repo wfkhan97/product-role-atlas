@@ -36,8 +36,9 @@ from concurrent.futures import ThreadPoolExecutor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
-from pipeline import extract, processed, roles_mba, tax  # noqa: E402
+from pipeline import extract, log, processed, roles_mba, tax  # noqa: E402
 
+logger = log.get(__name__)
 OUT = os.path.join(ROOT, "data", "experiments", "depth")
 ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 DRAFTER = "openai/gpt-6.1-sol"
@@ -245,6 +246,7 @@ class Models:
             for line in open(env):
                 if line.startswith("OPENROUTER_API_KEY="):
                     self.key = line.split("=", 1)[1].strip().strip("\"'")
+        log.hide(self.key)  # the key never appears in a log line, whatever an exception text quotes
         if not dry and not self.key:
             sys.exit("OPENROUTER_API_KEY is not in .env; use --dry-run")
 
@@ -265,8 +267,9 @@ class Models:
                 m = re.search(r"\{.*\}", text, re.S)
                 answer = json.loads(m.group(0))
                 break
-            except Exception as e:  # a bad reply is retried, then recorded as no answer
-                answer = {"_error": str(e)[:200]}
+            except Exception as e:  # a failed request or a bad reply is retried, then recorded as no answer
+                answer = {"_error": f"{type(e).__name__}: {str(e)[:200]}"}
+                logger.warning("%s %s request failed (attempt %d of 4): %s: %s", model, kind, attempt + 1, type(e).__name__, str(e)[:200])
                 time.sleep(2 + 3 * attempt)
         u = (d.get("usage") or {}) if isinstance(d, dict) else {}
         rec = {"key": key, "model": model, "kind": kind, "answer": answer, "usage": {k: u.get(k) for k in ("prompt_tokens", "completion_tokens", "cost")}}
@@ -275,6 +278,8 @@ class Models:
                 self.cache[key] = rec
                 with open(self.path, "a") as f:
                     f.write(json.dumps(rec) + "\n")
+        else:  # not cached: a rerun sends the request again
+            logger.error("%s %s request gave no answer after 4 attempts: %s", model, kind, answer["_error"])
         return answer
 
     def many(self, model, prompts, kind):
@@ -676,9 +681,10 @@ def main():
         try:
             r = run_pair(M, jobs, corpus, T, depth, skill, ladder, others)
         except Exception as e:  # one pair must not stop the run
+            logger.error("%s:%s failed: %s: %s", skill, ladder, type(e).__name__, e, exc_info=True)
             r = {"skill": skill, "name": T[skill]["name"], "ladder": ladder, "pack": {}, "claims": [], "omitted": [], "skipped": f"error: {e}"}
         c = collections.Counter(x["status"] for x in r["claims"] if x["kind"] != "stmt")
-        print(f"{skill}:{ladder}  levels with evidence {list(r['pack'])}  {dict(c)}", flush=True)
+        logger.info("%s:%s  levels with evidence %s  %s", skill, ladder, list(r["pack"]), dict(c))
         return r
     with ThreadPoolExecutor(args.workers) as pool:
         results = list(pool.map(one, pairs))
@@ -692,4 +698,5 @@ def main():
 
 
 if __name__ == "__main__":
+    log.setup()
     main()
