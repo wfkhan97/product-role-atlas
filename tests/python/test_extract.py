@@ -106,9 +106,10 @@ def test_years_required_is_the_smallest_explicit_ask_between_1_and_25(text, year
     assert E.years_required(text) == years
 
 
-@pytest.mark.xfail(strict=True, reason="finding: YOE_WORD_RE reads the number word right before 'years' only, so 'three to five years' gives 5 where '3 to 5 years' gives 3")
 def test_years_required_reads_a_range_in_words_like_a_range_in_digits():
     assert E.years_required("three to five years") == 3
+    assert E.years_required("Two - four yrs") == 2
+    assert E.years_required("ten+ years") == 10
 
 
 # ---------- the tagger: the four context fixes of PR #49 ----------
