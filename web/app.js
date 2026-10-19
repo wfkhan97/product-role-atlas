@@ -108,7 +108,8 @@
   });
 
   // ---------- router ----------
-  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "", grads: false, areaOpen: null, areaMore: new Set() };
+  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "", grads: false, areaOpen: null, areaMore: new Set(), tab: "skills", fitTab: "show", paintOn: true, empOpen: new Set() };
+  const PAGE = 8;   // employers shown in the postings tab before "Show more"
   // what the person told us and the resume they dropped stay in this browser only (nothing is uploaded)
   const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
   state.you = store.get("you"); state.resume = store.get("resume");
@@ -330,13 +331,15 @@
 
   // ---------- 4. a role: the skill grid, the side panel, the postings ----------
   async function loadRole(id) {
-    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = 40; state.evTab = null; state.match = null; state.sector = new Set(); state.company = new Set(); state.country = new Set(); state.remote = false; state.more = false; state.companyQuery = ""; state.grads = false; state.areaOpen = null; state.areaMore = new Set(); }
+    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = PAGE; state.evTab = null; state.match = null; state.sector = new Set(); state.company = new Set(); state.country = new Set(); state.remote = false; state.more = false; state.companyQuery = ""; state.grads = false; state.areaOpen = null; state.areaMore = new Set(); state.tab = "skills"; state.empOpen = new Set(); }
     const ix = await Atlas.index(); return ix.groups.find(x => x.id === state.R.role.group);
   }
   // a student looks at the entry grade first; everyone else at every level
   const defaultLevel = () => (state.you && ["mba", "grad", "undergrad"].includes(state.you.where)) ? "entry" : "all";
   async function roleScreen(id) {
     const g = await loadRole(id); const R = state.R;
+    const { query } = Routes.parseRoute(location.hash);   // "#/role/fpa?tab=skills": the fit screen's link lands on the painted list
+    if (["skills", "postings", "also"].includes(query.tab)) state.tab = query.tab;
     crumbs([["Explore", "#/explore"], [g.label, "#/field/" + g.id], [R.role.label, null]]);
     renderRole();
   }
@@ -353,7 +356,7 @@
   const extraCount = () => state.sector.size + state.company.size + state.country.size + (state.remote ? 1 : 0);
   // every filter but the level: what the Filters button counts and the drawer holds
   const activeCount = () => (state.employer === "all" ? 0 : 1) + (state.grads ? 1 : 0) + extraCount();
-  const toggle = (set, v) => { set.has(v) ? set.delete(v) : set.add(v); state.shown = 40; };
+  const toggle = (set, v) => { set.has(v) ? set.delete(v) : set.add(v); state.shown = PAGE; };
   const keepScroll = fn => { const y = window.scrollY; fn(); window.scrollTo(0, y); };
   // the filters in the drawer show as removable chips beside the Filters button while the drawer is closed
   function activeChips(R) {
@@ -396,13 +399,15 @@
     const marks = (s.defining ? `<span class="mark" data-measure="◆ sets this role apart: postings of this role ask for it far more often than postings of other roles do.">◆</span>` : "") + (s.grows ? `<span class="mark" data-measure="↗ asked more as you move up: at least 1.5 times as often in leadership postings as in entry-level ones.">↗</span>` : "");
     return `<button type="button" class="srow${on ? " on" : ""}${paint}" data-skill="${esc(s.id)}"><span class="nm">${esc(s.name)}${marks}${s.area ? `<span class="m">${esc(s.area)}</span>` : ""}</span><span class="bar" data-measure="The bar is the share of postings that ask for this skill: ${pct(s.share)} of the ${fmt(n)} postings in this view ask for ${esc(s.name)}."><i style="width:${Math.round(s.share * 100)}%"></i></span></button>`;
   }
-  function areaPanel(R, a, n, m) {
-    const core = a.skills.filter(s => s.tier === 0), first = core.length ? core : a.skills, folded = core.length ? a.skills.filter(s => s.tier > 0) : [];
+  function areaPanel(R, a, n, m, flat) {
+    const core = a.skills.filter(s => s.tier === 0), first = core.length && !flat ? core : a.skills, folded = core.length && !flat ? a.skills.filter(s => s.tier > 0) : [];
     const more = state.areaMore.has(a.cluster);
     const rowsOf = (list, labelled) => { let last = -1, h = ""; for (const s of list) { if (labelled && s.tier !== last) { h += `<span class="tierlab">${TIER_LABEL[s.tier]}</span>`; last = s.tier; } h += skillRow(R, s, n, m); } return h; };
     const fold = folded.length ? (more ? rowsOf(folded, true) + `<button type="button" class="linkish link more" data-more="${esc(a.cluster)}">Show fewer</button>` : `<button type="button" class="linkish link more" data-more="${esc(a.cluster)}">Show ${folded.length} more, asked by fewer postings</button>`) : "";
-    return `<details class="areabox" data-area="${esc(a.cluster)}"${state.areaOpen.has(a.cluster) ? " open" : ""}><summary><span class="t">${esc(a.label)}</span><span class="n">${plural(a.skills.length, "skill", "skills")}${core.length ? ` · ${core.length} in most postings` : ""}</span></summary><div class="srows">${rowsOf(first, !core.length)}${fold}</div></details>`;
+    return `<details class="areabox" data-area="${esc(a.cluster)}"${flat || state.areaOpen.has(a.cluster) ? " open" : ""}><summary><span class="t">${esc(a.label)}</span><span class="n">${plural(a.skills.length, "skill", "skills")}${core.length ? ` · ${core.length} in most postings` : ""}</span></summary><div class="srows">${rowsOf(first, flat || !core.length)}${fold}</div></details>`;
   }
+  // the whole list laid out, painted: the course screen shows what a syllabus covers on it
+  function flatSkills(R, slice, m) { const { areas, stats } = Atlas.areas(R, slice); return areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m, true)).join("")}</div>` : '<p class="notice">No postings match these filters.</p>'; }
   const HELP_KEY = "help-role";
   // the lead says what the data says: what sets the role apart, what leads the asks, which tools (owner's choice X1)
   function roleLead(areas) {
@@ -424,13 +429,17 @@
     const where = R.country ? ` · ${esc(R.country)}` : "";
     const facts = R.set === "product" ? `<span data-measure="${fmt(role.nOpen)} open postings in the US; ${fmt(role.nWorld)} worldwide, and the skills below read all of them.">${fmt(role.nOpen)} open postings in the US</span> · ${plural(role.nCompanies, "employer", "employers")}` : `<span data-measure="${fmt(open.length)} open now${nClosed ? `; ${fmt(nClosed)} recently closed postings are counted in the shares too, so the skills reflect a year of hiring, not one week` : ""}.">${fmt(R.jobs.filter(j => j.open).length)} open postings</span> · ${plural(role.nCompanies, "employer", "employers")}${where}`;
     const lead = roleLead(areas);
-    const m = state.match && state.match.roleId === role.id ? state.match : null;
+    const fit = state.match && state.match.roleId === role.id ? state.match : null, m = fit && state.paintOn ? fit : null;
+    const topEmployers = Object.entries(countBy(open, j => j.company)).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([c]) => c);
+    const nEntry = open.filter(j => Atlas.stepOf(j) === "entry").length, nGrads = open.filter(j => j.entry || j.intern).length;
+    const glance = `${lead} Entry grade: ${R.stepLabels.entry}, ${fmt(nEntry)} open at that grade${R.set === "mba" && nGrads ? `, ${fmt(nGrads)} for graduates and interns` : ""}.${topEmployers.length ? ` Top employers now: ${join(topEmployers)}.` : ""}`;
     const nAct = activeCount();
     const seg = `<div class="seg" role="group" aria-label="Level"><button type="button" class="${state.level === "all" ? "on" : ""}" aria-pressed="${state.level === "all"}" data-level="all">All levels</button>${Atlas.STEPS.map(s => `<button type="button" class="${state.level === s ? "on" : ""}" aria-pressed="${state.level === s}" data-level="${s}">${esc(R.stepLabels[s])}</button>`).join("")}</div>`;
     const filters = `<div class="filters">${seg}<button type="button" class="btn filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">Filters${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
+    const paintToggle = fit ? `<label class="small muted paint"><input type="checkbox" id="paint-fit"${state.paintOn ? " checked" : ""}> Show my fit</label>` : "";
     const expanded = allExpanded(areas);
     const help = store.get(HELP_KEY) ? "" : `<div class="help" id="help-role"><span><b>How to read this.</b> Skills are grouped by area and ranked by how many postings in this view ask for them; the bar is that share. ◆ marks what sets this role apart; ↗ means asked more at senior levels. Open a skill for what it means and how postings say it.</span><button type="button" class="linkish link" id="help-close">Don't show again</button></div>`;
-    const listHead = `${help}<div class="listhead"><h2>What the postings ask for ${tip("Skills are grouped by area and ranked by how many of the postings in this view ask for them. Open a skill to see what it means, what it breaks down into and how postings say it.")}</h2><span class="small muted">${plural(stats.n, "posting", "postings")} in this view</span>${areas.length ? `<button type="button" class="linkish link" id="expand-all">${expanded ? "Collapse all" : "Expand all"}</button>` : ""}</div>`;
+    const listHead = `${help}<div class="listhead"><h2>What the postings ask for ${tip("Skills are grouped by area and ranked by how many of the postings in this view ask for them. Open a skill to see what it means, what it breaks down into and how postings say it.")}</h2><span class="small muted">${plural(stats.n, "posting", "postings")} in this view</span>${paintToggle}${areas.length ? `<button type="button" class="linkish link" id="expand-all">${expanded ? "Collapse all" : "Expand all"}</button>` : ""}</div>`;
     const skillList = areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m)).join("")}</div>
       <p class="key">${role.definingList.length ? "◆ sets this role apart from other roles · " : ""}↗ asked more as you move up${m ? " · green: your resume shows it · amber: a gap" : ""}</p>` : '<p class="notice">No postings match these filters.</p>';
 
@@ -440,23 +449,34 @@
     let summary = "";
     if (creds.length) { const w = inWords(creds[0].v), more = creds.slice(1, 3); summary = `${cap(w)} ${/posting$/.test(w) ? "asks" : "ask"} for ${low(esc(creds[0].s.name))}${more.length ? `; ${join(more.map(x => low(esc(x.s.name))))} also come up` : ""}.`; }
     if (doms.length) summary += ` Industries named most: ${join(doms.slice(0, 3).map(x => esc(x.s.name)))}. One is enough.`;
-    const also = (creds.length || doms.length) ? disc("also", "Degrees, credentials and industries", `<p class="small">${summary}</p>${creds.length ? `<p class="small muted" style="margin:10px 0 2px">Degrees and credentials</p><div class="tags">${creds.map(credChip).join("")}</div>` : ""}${doms.length ? `<p class="small muted" style="margin:10px 0 2px">Industries</p><div class="tags">${doms.map(credChip).join("")}</div>` : ""}`) : "";
-    // postings: open only; for new graduates and interns first (MBA set), then by employer
+    const also = (creds.length || doms.length) ? `<p class="lead" style="margin-top:14px">${summary}</p>${creds.length ? `<h3>Degrees and credentials</h3><div class="tags">${creds.map(credChip).join("")}</div>` : ""}${doms.length ? `<h3>Industries</h3><div class="tags">${doms.map(credChip).join("")}</div>` : ""}` : "";
+    // postings (owner's choice R6): open only, grouped by employer; employers hiring graduates and interns first
+    // (MBA set), then the employers with the most postings. One posting stands alone; several fold under the employer.
     const q = state.query.trim().toLowerCase();
     const rank = j => j.entry === "mba" ? 0 : j.intern ? 1 : j.entry === "pre_mba" ? 2 : 3;
-    const list = open.filter(j => !q || (j.company + " " + j.title + " " + (j.location || "")).toLowerCase().includes(q)).sort((a, b) => rank(a) - rank(b) || a.company.localeCompare(b.company));
-    const shown = list.slice(0, state.shown);
-    const postings = `<h2>Open postings</h2>
-      <input type="search" id="q" placeholder="Search by employer or title" aria-label="Search postings" value="${esc(state.query)}" autocomplete="off">
-      <div class="list" id="postings">${shown.map(j => `<button type="button" class="r${state.selected && state.selected.kind === "posting" && state.selected.id === j.id ? " on" : ""}" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${esc(j.company)}${j.location ? " · " + esc(j.location) : ""}${j.intern ? " · internship" : j.entry === "mba" ? " · for MBA graduates" : j.entry === "pre_mba" ? " · for new graduates" : ""}</span></button>`).join("") || '<p class="small muted" style="padding:10px 0">No open postings match.</p>'}</div>
-      <p class="small muted" style="margin-top:8px">Showing ${fmt(shown.length)} of ${fmt(list.length)}${R.set === "mba" ? ". Postings for graduates and interns first." : ""} ${list.length > shown.length ? '<button type="button" class="linkish link" id="more">Show more</button>' : ""}</p>`;
-    page(`<h1>${esc(role.label)}</h1><p class="facts">${facts}</p>
+    const list = open.filter(j => !q || (j.company + " " + j.title + " " + (j.location || "")).toLowerCase().includes(q)).sort((a, b) => rank(a) - rank(b) || a.title.localeCompare(b.title));
+    const byEmp = new Map(); for (const j of list) { const e = byEmp.get(j.company) || { company: j.company, jobs: [], rank: 9 }; e.jobs.push(j); e.rank = Math.min(e.rank, rank(j)); byEmp.set(j.company, e); }
+    const emps = [...byEmp.values()].sort((a, b) => a.rank - b.rank || b.jobs.length - a.jobs.length || a.company.localeCompare(b.company));
+    const shownEmps = emps.slice(0, state.shown);
+    const who = j => j.intern ? " · internship" : j.entry === "mba" ? " · for MBA graduates" : j.entry === "pre_mba" ? " · for new graduates" : "";
+    const jobRow = (j, withCompany) => `<button type="button" class="r${state.selected && state.selected.kind === "posting" && state.selected.id === j.id ? " on" : ""}" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${withCompany ? esc(j.company) + (j.location ? " · " : "") : ""}${j.location ? esc(j.location) : ""}${who(j)}</span></button>`;
+    const empBox = e => e.jobs.length === 1 ? jobRow(e.jobs[0], true) : `<details class="empbox" data-emp-open="${esc(e.company)}"${state.empOpen.has(e.company) ? " open" : ""}><summary><span class="t">${esc(e.company)}</span><span class="n">${plural(e.jobs.length, "posting", "postings")}</span><span class="m">${esc(e.jobs[0].title)}${e.jobs[0].location ? " · " + esc(e.jobs[0].location) : ""}${who(e.jobs[0])}${e.jobs.length > 1 ? " · …" : ""}</span></summary><div class="list">${e.jobs.map(j => jobRow(j, false)).join("")}</div></details>`;
+    const postings = `<input type="search" id="q" placeholder="Search by employer or title" aria-label="Search postings" value="${esc(state.query)}" autocomplete="off">
+      <div class="list" id="postings">${shownEmps.map(empBox).join("") || '<p class="small muted" style="padding:10px 0">No open postings match.</p>'}</div>
+      <p class="small muted" style="margin-top:8px">${plural(emps.length, "employer", "employers")}, ${plural(list.length, "open posting", "open postings")}${R.set === "mba" ? "; employers hiring graduates and interns first" : ""}. ${emps.length > shownEmps.length ? `<button type="button" class="linkish link" id="more">Show ${fmt(Math.min(20, emps.length - shownEmps.length))} more employers</button>` : ""}</p>`;
+    const TABS = [["skills", "Skills", null], ["postings", "Open postings", open.length], ...(also ? [["also", "Also asked for", null]] : [])];
+    if (!TABS.some(t => t[0] === state.tab)) state.tab = "skills";
+    const tabs = `<div class="tabs" role="tablist">${TABS.map(([k, l, n]) => `<button type="button" role="tab" class="${state.tab === k ? "on" : ""}" aria-selected="${state.tab === k}" data-tab="${k}">${l}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`).join("")}</div>`;
+    const body = state.tab === "postings" ? postings : state.tab === "also" ? also : listHead + skillList;
+    page(`<h1>${esc(role.label)} ${tip(glance)}</h1><p class="facts">${facts}</p>
       <p class="lead">${lead}</p>
       <div class="row acts"><a class="btn primary" href="#/role/${esc(role.id)}/fit">How do I fit?</a><a class="btn quiet" href="#/role/${esc(role.id)}/course">Check a course</a><a class="btn quiet" href="#/field/${esc(role.group)}/event">Prepare for an event</a></div>
-      ${filters}${listHead}${skillList}
-      ${also}${postings}`);
-    main.querySelectorAll("[data-level]").forEach(b => b.onclick = () => { state.level = b.dataset.level; state.shown = 40; keepScroll(renderRole); });
-    main.querySelectorAll("[data-emp]").forEach(b => b.onclick = () => { state.employer = b.dataset.emp; state.shown = 40; keepScroll(renderRole); });
+      ${filters}${tabs}${body}`);
+    main.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { state.tab = b.dataset.tab; keepScroll(renderRole); });
+    const pf = $("#paint-fit"); if (pf) pf.onchange = () => { state.paintOn = pf.checked; keepScroll(renderRole); };
+    main.querySelectorAll("details.empbox").forEach(d => d.ontoggle = () => { d.open ? state.empOpen.add(d.dataset.empOpen) : state.empOpen.delete(d.dataset.empOpen); });
+    main.querySelectorAll("[data-level]").forEach(b => b.onclick = () => { state.level = b.dataset.level; state.shown = PAGE; keepScroll(renderRole); });
+    main.querySelectorAll("[data-emp]").forEach(b => b.onclick = () => { state.employer = b.dataset.emp; state.shown = PAGE; keepScroll(renderRole); });
     $("#more-filters").onclick = () => { state.more = !state.more; keepScroll(renderRole); };
     const closeDrawer = () => { state.more = false; keepScroll(renderRole); };
     for (const id of ["#drawer-close", "#drawer-back", "#drawer-done"]) { const el = $(id); if (el) el.onclick = closeDrawer; }
@@ -465,7 +485,7 @@
     const hc = $("#help-close"); if (hc) hc.onclick = () => { store.set(HELP_KEY, true); keepScroll(renderRole); };
     main.querySelectorAll("details[data-k]").forEach(d => d.ontoggle = () => { d.open ? state.open.add(d.dataset.k) : state.open.delete(d.dataset.k); });
     const xa = $("#expand-all"); if (xa) xa.onclick = () => { const all = allExpanded(areas); state.areaOpen = new Set(all ? [] : areas.map(a => a.cluster)); state.areaMore = new Set(all ? [] : areas.map(a => a.cluster)); keepScroll(renderRole); };
-    const gr = $("#grads"); if (gr) gr.onclick = () => { state.grads = !state.grads; state.shown = 40; keepScroll(renderRole); };
+    const gr = $("#grads"); if (gr) gr.onclick = () => { state.grads = !state.grads; state.shown = PAGE; keepScroll(renderRole); };
     main.querySelectorAll("[data-sector]").forEach(b => b.onclick = () => { b.dataset.sector === "__all" ? state.sector.clear() : toggle(state.sector, b.dataset.sector); keepScroll(renderRole); });
     main.querySelectorAll("[data-country]").forEach(b => b.onclick = () => { b.dataset.country === "__all" ? state.country.clear() : toggle(state.country, b.dataset.country); keepScroll(renderRole); });
     main.querySelectorAll("[data-company]").forEach(b => b.onclick = () => { toggle(state.company, b.dataset.company); state.companyQuery = ""; keepScroll(renderRole); });
@@ -474,26 +494,9 @@
     const cq = $("#company-q"); if (cq) cq.oninput = () => { state.companyQuery = cq.value; keepScroll(renderRole); const el = $("#company-q"); el.focus(); el.setSelectionRange(el.value.length, el.value.length); };
     main.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }));
     main.querySelectorAll("[data-job]").forEach(b => b.onclick = () => select({ kind: "posting", id: Number(b.dataset.job) }));
-    const qi = $("#q"); qi.oninput = () => { state.query = qi.value; state.shown = 40; const y = window.scrollY; renderRole(); window.scrollTo(0, y); $("#q").focus(); $("#q").setSelectionRange(qi.value.length, qi.value.length); };
-    const more = $("#more"); if (more) more.onclick = () => { state.shown += 40; const y = window.scrollY; renderRole(); window.scrollTo(0, y); };
+    const qi = $("#q"); if (qi) qi.oninput = () => { state.query = qi.value; state.shown = PAGE; const y = window.scrollY; renderRole(); window.scrollTo(0, y); $("#q").focus(); $("#q").setSelectionRange(qi.value.length, qi.value.length); };
+    const more = $("#more"); if (more) more.onclick = () => { state.shown += 20; const y = window.scrollY; renderRole(); window.scrollTo(0, y); };
     renderAside();
-  }
-  const areaOrder = (R, c) => { const i = Atlas.AREA_ORDER.indexOf(c); return i < 0 ? 99 : i; };
-  const ROWS = [["Nearly every posting", "over half of the postings ask for it"], ["Many postings", "a quarter to a half"], ["Some postings", "one in ten to one in four"]];
-  const COLS = [["Asked at every level", "from the first grade up"], ["Asked more as you move up", "at least 1.5 times as often in leadership postings"]];
-  function gridHtml(R, rows, paintWith) {
-    const m = paintWith || (state.match && state.match.roleId === R.role.id ? state.match : null);
-    const cell = items => {
-      let last = null, h = "";
-      for (const s of [...items].sort((a, b) => (areaOrder(R, a.cluster) - areaOrder(R, b.cluster)) || b.share - a.share)) {
-        if (s.cluster !== last) { h += `<span class="area">${esc(R.clusters[s.cluster].label)}</span>`; last = s.cluster; }
-        const on = state.selected && state.selected.kind === "skill" && state.selected.id === s.id;
-        const paint = m ? (m.matched.has(s.id) ? " have" : m.presumed.has(s.id) ? "" : m.required.has(s.id) ? " gap" : "") : "";
-        h += `<button type="button" class="skill${on ? " on" : ""}${paint}" data-skill="${esc(s.id)}"><span>${esc(s.name)}${s.defining ? ' <span class="def" title="defines this role">◆</span>' : ""}</span><span class="pct">${pct(s.share)}</span><span class="bar"><i style="width:${Math.round(s.share * 100)}%"></i></span></button>`;
-      }
-      return `<div class="cell">${h || '<span class="subtle">—</span>'}</div>`;
-    };
-    return `<div class="grid"><div class="h"></div>${COLS.map(([t, d]) => `<div class="h"><b>${t}</b>${d}</div>`).join("")}${ROWS.map(([t, d], i) => `<div class="rh"><b>${t}</b>${d}</div>${cell(rows[i][0])}${cell(rows[i][1])}`).join("")}</div>`;
   }
   function levelLabel(R, j) { const lad = R.ladders && R.ladders[j.ladder]; return (lad && lad.levels[j.level]) || R.levelLabels[j.level] || j.level; }
 
@@ -642,19 +645,21 @@
     const thinNamed = evid.filter(x => !x.depth);
     const thinDisc = thinNamed.length ? disc("thin", `Shown, but without specifics (${thinNamed.length})`, `<p class="small muted">You show these, but not with the specifics or outcomes postings ask about.</p><ul class="plain">${thinNamed.slice(0, 5).map(x => `<li>${esc(x.name)}${(R.subs[x.id] || []).filter(s => !r.subs.has(s.id)).length ? ` — add: ${(R.subs[x.id] || []).filter(s => !r.subs.has(s.id)).slice(0, 3).map(s => esc(s.name)).join(" · ")}` : ""}</li>`).join("")}</ul>`) : "";
     const unmapped = r.unmapped.length ? disc("unmapped", `${r.unmapped.length} lines we could not read as a skill`, `<ul class="plain">${r.unmapped.map(t => `<li class="muted">${esc(t)}</li>`).join("")}</ul>`) : "";
-    const { rows: gridRows } = Atlas.grid(R, slice);
+    const showTab = `<div class="tags">${evid.map(x => tag(x, "good")).join("")}${trans.map(x => tag(x, "amber")).join("") || (evid.length ? "" : '<span class="small muted">Nothing yet.</span>')}</div>
+      ${presumed.length ? `<h3>Presumed from roles you held</h3><div class="tags">${presumed.map(x => tag(x, "thin")).join("")}</div><p class="small muted">People who hold this role do these. Your resume does not show them, so they earn part credit.</p>` : ""}`;
+    const gapTab = `${gaps.length ? `<div class="tags">${gaps.map(x => tag(x, "bad")).join("")}</div>` : '<p class="small muted">Nothing among the skills most postings ask for.</p>'}
+      ${thin.length ? `<h3>Named, not shown</h3><div class="tags">${thin.map(x => tag(x, "thin")).join("")}</div><p class="small muted">Listed as a word, but no work, project or course line shows it.</p>` : ""}`;
+    const detailTab = `${sayIt}${thinDisc}<h3>Credentials and industries</h3>${credLine + indLine || '<p class="small muted">None asked for in this view.</p>'}${unmapped}`;
+    const FTABS = [["show", "You show", evid.length + trans.length], ["gaps", "Still to show", gaps.length + thin.length], ["details", "Details", null]];
+    const fitTabs = `<div class="tabs" role="tablist">${FTABS.map(([k, l, n]) => `<button type="button" role="tab" class="${state.fitTab === k ? "on" : ""}" aria-selected="${state.fitTab === k}" data-ftab="${k}">${l}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`).join("")}</div>`;
+    const fitBody = state.fitTab === "gaps" ? gapTab : state.fitTab === "details" ? detailTab : showTab;
     const ctx = `<div class="row between fit-top"><p class="eyebrow">Your fit · ${esc(role.label)}${extra.length ? " · " + esc(extra.join(", ")) : ""}</p><span class="small muted ctx"><select id="fit-level" aria-label="Level">${["all", ...Atlas.STEPS].map(s => `<option value="${s}"${level === s ? " selected" : ""}>${s === "all" ? "All levels" : esc(R.stepLabels[s])}</option>`).join("")}</select> · ${esc(state.resume.name)} · <a href="#/role/${esc(role.id)}/fit" id="change">change</a></span></div>`;
     page(`${ctx}${unread}${placeholder}${scale}
       <p class="lead">${PERSONA[p.persona](p, field)} You show <b>${coreHave} of ${core.length}</b> skills that most ${esc(role.label)} postings ask for.</p>${standing}
       ${gaps.length ? `<h2>Evidence next</h2><ol class="next">${next}</ol>${whatIf}` : `<h2>Nothing important missing</h2><p class="small muted">You show every skill that most postings ask for.</p>`}
-      <h2>What you show</h2><div class="tags">${evid.map(x => tag(x, "good")).join("")}${trans.map(x => tag(x, "amber")).join("") || (evid.length ? "" : '<span class="small muted">Nothing yet.</span>')}</div>
-      ${presumed.length ? `<h3>Presumed from roles you held</h3><div class="tags">${presumed.map(x => tag(x, "thin")).join("")}</div><p class="small muted">People who hold this role do these. Your resume does not show them, so they earn part credit.</p>` : ""}
-      ${gaps.length ? `<h3>Gaps</h3><div class="tags">${gaps.map(x => tag(x, "bad")).join("")}</div>` : ""}
-      ${thin.length ? `<h3>Named, not shown</h3><div class="tags">${thin.map(x => tag(x, "thin")).join("")}</div><p class="small muted">Listed as a word, but no work, project or course line shows it.</p>` : ""}
-      ${sayIt}${thinDisc}${disc("creds", "Credentials and industries", credLine + indLine)}${unmapped}
-      <h2>On the skill grid</h2><p class="small muted">Green border: your resume shows it. Amber dashed: a gap among the skills most postings ask for.</p>
-      ${gridHtml(R, gridRows)}
-      <p class="small muted" style="margin-top:12px"><a href="#/role/${esc(role.id)}">← Back to ${esc(role.label)}</a></p>`);
+      ${fitTabs}${fitBody}
+      <a class="card-link" href="#/role/${esc(role.id)}?tab=skills"><span class="t">See it on the skills list →</span><span class="d">Opens ${esc(role.label)} with your fit marked on every skill.</span></a>`);
+    main.querySelectorAll("[data-ftab]").forEach(b => b.onclick = () => { state.fitTab = b.dataset.ftab; keepScroll(() => fitScreen(id)); });
     $("#fit-level").onchange = e => { state.fitLevel = e.target.value; state.level = e.target.value; fitScreen(id); };
     main.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }, true));
     main.querySelectorAll("details[data-k]").forEach(d => d.ontoggle = () => { d.open ? state.open.add(d.dataset.k) : state.open.delete(d.dataset.k); });
@@ -683,7 +688,7 @@
       result = taught.length ? `<h2>This course teaches</h2><div class="tags">${taught.map(tagOf).join("")}</div>
         <p class="small muted">${coreTaught.length} of the ${core.length} skills that most ${esc(role.label)} postings ask for.${gapsCovered.length ? ` It covers ${gapsCovered.length === 1 ? "one" : gapsCovered.length} of your gaps: ${gapsCovered.map(x => esc(x.name)).join(", ")}.` : m ? " It covers none of your gaps for this role." : ` <a href="#/role/${esc(role.id)}/fit">Check your fit</a> to see which of your gaps it covers.`} The share is how many postings ask for the skill.</p>
         ${notTaught.length ? `<h2>It does not cover</h2><div class="tags">${notTaught.map(x => `<button type="button" class="tag bad" data-skill="${esc(x.id)}">${esc(x.name)}${x.defining ? " ◆" : ""}</button>`).join("")}</div><p class="small muted">Skills most postings ask for that the text does not name. A course can teach a skill without naming it the way postings do; open a skill to see how postings say it.</p>` : ""}
-        <h2>On the skill grid</h2><p class="small muted">Green border: the course names it. Amber dashed: most postings ask for it and the course does not name it.</p>${gridHtml(R, rows, state.paint)}` : `<div class="notice"><b>We found none of this role's skills in that text.</b> ${c.lines < 3 ? "The text is very short; paste the topics or the week-by-week plan." : "Paste the list of topics, or check that the text is a course description."}</div>`;
+        <h2>On the skills list</h2><p class="small muted">Green: the course names it. Amber: most postings ask for it and the course does not name it.</p>${flatSkills(R, slice, state.paint)}` : `<div class="notice"><b>We found none of this role's skills in that text.</b> ${c.lines < 3 ? "The text is very short; paste the topics or the week-by-week plan." : "Paste the list of topics, or check that the text is a course description."}</div>`;
     }
     page(`<p class="eyebrow">Check a course · ${esc(role.label)}</p><h1>Check a course</h1><p class="lead">Drop a syllabus or paste the course description. We read it in your browser against the skills ${esc(role.label)} postings ask for.</p>${form}${result}<p class="small muted" style="margin-top:12px"><a href="#/role/${esc(role.id)}">← Back to ${esc(role.label)}</a></p>`);
     wireFileDrop(async text => { const r = await Atlas.readCourse(text.text); state.course = { roleId: role.id, name: text.name, text: text.text, found: r.found, ev: r.ev, lines: r.lines }; store.set("course", { roleId: role.id, name: text.name, text: text.text, found: [...r.found], ev: {}, lines: r.lines }); courseScreen(id); });

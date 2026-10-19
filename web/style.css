@@ -154,24 +154,27 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .list .r .n { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); grid-column: 2; grid-row: 1 / span 2; align-self: center; white-space: nowrap; }
 input[type="search"] { width: 100%; max-width: 360px; padding: 8px 10px; border-radius: var(--radius-sm); border: 1px solid var(--input); background: var(--background); color: var(--foreground); font: inherit; font-size: var(--text-sm); margin: 8px 0; }
 
-/* ---------- the skill grid: rows = how many postings ask, columns = at every level / more as you move up ---------- */
-.grid { display: grid; grid-template-columns: 124px 1.15fr 1fr; margin-top: 16px; border-top: 1px solid var(--border); }
-.grid .h { padding: 10px 10px 8px; font-size: var(--text-sm); color: var(--muted-foreground); border-bottom: 1px solid var(--border); }
-.grid .h b { display: block; color: var(--foreground); font-weight: var(--weight-medium); }
-.grid .rh { padding: 12px 10px 12px 0; font-size: var(--text-sm); color: var(--muted-foreground); border-bottom: 1px solid var(--border); }
-.grid .rh b { display: block; color: var(--foreground); font-weight: var(--weight-medium); }
-.grid .cell { padding: 10px; border-bottom: 1px solid var(--border); border-left: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; }
-.grid .area { font-size: var(--text-sm); color: var(--subtle-foreground); margin: 6px 0 -2px; }
-.grid .area:first-child { margin-top: 0; }
-.skill { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; align-items: center; padding: 6px 8px; border-radius: var(--radius-sm); background: var(--card); border: 1px solid var(--border); font-size: var(--text-sm); color: var(--foreground); text-align: left; width: 100%; }
-.skill:hover { border-color: var(--input); }
-.skill .bar { grid-column: 1 / -1; height: 3px; background: var(--muted); border-radius: 2px; overflow: hidden; }
-.skill .bar i { display: block; height: 100%; background: var(--secondary); }
-.skill .pct { font-family: var(--font-mono); color: var(--subtle-foreground); }
-.skill .def { color: var(--heading-foreground); }
-.skill.on { border-color: var(--heading-foreground); }
-.skill.have { border-color: var(--primary); } .skill.have .bar i { background: var(--primary); }
-.skill.gap { border-color: var(--warning); border-style: dashed; } .skill.gap .bar i { background: var(--warning); }
+/* ---------- tabs: the lower layers of the role and fit screens share one area (Module Tabs; owner's choices R1, R6, F1) ---------- */
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin: 18px 0 4px; }
+.tabs button { border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: transparent; color: var(--muted-foreground); padding: 8px 12px; font-size: var(--text-base); }
+.tabs button:hover { color: var(--foreground); }
+.tabs button.on { color: var(--heading-foreground); border-bottom-color: var(--primary); font-weight: var(--weight-medium); }
+.tabs button .n { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); margin-left: 6px; font-weight: var(--weight-regular); }
+.listhead .paint { display: inline-flex; align-items: center; gap: 6px; }
+.empbox { border-bottom: 1px solid var(--border); }
+.empbox > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 2px 14px; padding: 11px 0; }
+.empbox > summary::-webkit-details-marker { display: none; }
+.empbox > summary .t { font-size: var(--text-md); color: var(--heading-foreground); grid-column: 1; grid-row: 1; }
+.empbox > summary .t::before { content: "▸ "; color: var(--subtle-foreground); }
+.empbox[open] > summary .t::before { content: "▾ "; }
+.empbox > summary .m { font-size: var(--text-sm); color: var(--muted-foreground); grid-column: 1; grid-row: 2; }
+.empbox > summary .n { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); grid-column: 2; grid-row: 1 / span 2; align-self: center; white-space: nowrap; }
+.empbox > .list { border-top: 0; padding-left: 18px; margin-bottom: 6px; }
+.empbox > .list .r { padding: 8px 0; } .empbox > .list .r:last-child { border-bottom: 0; }
+.card-link { display: block; margin-top: 24px; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px; color: inherit; background: var(--card); }
+.card-link:hover { border-color: var(--input); }
+.card-link .t { display: block; font-weight: var(--weight-medium); color: var(--primary); }
+.card-link .d { display: block; font-size: var(--text-sm); color: var(--muted-foreground); }
 .key { font-size: var(--text-sm); color: var(--muted-foreground); margin: 10px 0 0; }
 
 /* ---------- the side panel: skill card, posting card ---------- */
