@@ -92,7 +92,7 @@ Prioritization & trade-offs (64%), Customer obsession (50%). The player takes Ro
 products & B2C → Product discovery & validation → Roadmapping), so the rank is **Navigator**. You can show 2 of 4 hops.
 Route fit (the mean blue number of your hops) 35%; the shortest route's 43%. Build next: **Roadmapping**, 74%, the
 skill on the route that Product Manager postings ask for most and that the player cannot show yet, with its three
-build steps from the data. "Open Product Manager" goes to `#/role/pm`.
+build steps from the data. "Open Product Manager" goes to `#/role/product.pm`.
 
 ![](mocks/04-end.png)
 
@@ -133,9 +133,9 @@ Two dials: how far apart start and target are (par), and the margin in the budge
 
 | Level | Par | Budget | Help | Random pairings from a field | from a role |
 |---|---|---|---|---|---|
-| Easy | 2 | par + 3 | the choice that moves closer is marked "towards the target" | 86 | 447 |
-| Normal | 3 or 4 | par + 2 | none | 313 | 1,373 |
-| Hard | 5 or 6 | par + 1 | none | 51 | 222 |
+| Easy | 2 | par + 3 | the choice that moves closer is marked "towards the target" | 90 | 474 |
+| Normal | 3 or 4 | par + 2 | none | 319 | 1,425 |
+| Hard | 5 or 6 | par + 1 | none | 51 | 226 |
 
 Pairings counted with every rule in this README; target roles marked `small` in the index (5 roles with few
 postings) are left out of random pairings but can be picked by hand. Pairings with par 0 (the start skill already is
@@ -206,10 +206,10 @@ of the layout code. The game draws its own SVG on that data and never calls `Ski
 
 - **Product and MBA role ids.** The 98 product skills share ids with the MBA index, so one board serves both sets.
   `Atlas.index()` hides the MBA "Product" group (`product_manager`, `product_strategy`), and `Atlas.product()` then
-  writes the six product families into `ix.roles`. The MBA Marketing group has a role `pmm` too, and the product
-  family `pmm` overwrites it once the product set has loaded. The game uses `ix.roles` after `await Atlas.product()`,
-  like the role screen, so `pmm` means the product PMM and `#/role/pmm` opens the same role. 53 roles are pickable
-  (47 MBA, 6 product); the atlas says "56 kinds of roles" counting the set definitions.
+  writes the six product families into `ix.roles` as `product.<family>` (the MBA Marketing group has its own `pmm`;
+  until 2026-10-18 the product family overwrote it). The game uses `ix.roles` after `await Atlas.product()`, like
+  the role screen, so `pmm` is the MBA PMM, `product.pmm` the product PMM, and each id opens its own `#/role/<id>`.
+  54 roles are pickable (48 MBA, 6 product); the atlas says "56 kinds of roles" counting the set definitions.
 - **"Not read".** Product postings were tagged against the 98 product skills only, so the 180 MBA-only skills have
   no share for a product role. On a product target, 167 of the 240 board skills show "not read" instead of 0%. They
   count as 0 when choosing the shortest of several equal routes, are left out of route fit, and are never "build

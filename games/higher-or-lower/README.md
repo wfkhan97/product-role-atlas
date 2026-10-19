@@ -242,7 +242,7 @@ field opens the product set, as everywhere in the atlas), and the MBA role `pmm`
 
 ## Edge cases
 
-- **Two roles with the id `pmm`.** The MBA Product Marketing Manager (Marketing) and the product family Product
+- **Two roles with the id `pmm`.** *(Fixed 2026-10-18: product families are now `product.<family>` in `ix.roles`, so `ix.roles.pmm` is always the MBA role; see PLAN.md v10.)* The MBA Product Marketing Manager (Marketing) and the product family Product
   Marketing Manager share the id. `Atlas.product()` writes the product family into `ix.roles.pmm`, so after it loads
   `#/role/pmm` opens the product family. The game reads MBA roles from `ix.M.roles`, keys every role as
   `<set>:<id>`, and leaves the MBA `pmm` out so every run ends in a role screen that matches its cards.

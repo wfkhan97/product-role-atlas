@@ -23,6 +23,10 @@
   const TIER = { core: 0.5, common: 0.25, some: 0.1 };
   const GROW = { ratio: 1.5, floor: 0.02, min: 0.15 };
   const PRODUCT_GROUP = { id: "product", label: "Product", set: "product" };
+  // product families live in ix.roles under their own namespace: graph.json and graph_mba.json both have a `pmm`
+  // (the product set's family and the MBA Product Marketing Manager), and the two are different roles
+  const PRODUCT_NS = "product.";
+  const productKey = f => PRODUCT_NS + f;
 
   function decode(G, jobs) {
     for (const j of jobs) {
@@ -41,13 +45,13 @@
       const roles = {}, groups = [];
       for (const g of M.groups) {
         if (g.id === "product") continue;   // the product field opens the product role set instead (owner's choice 3A)
-        groups.push({ id: g.id, label: g.label, set: "mba", roles: g.families, nOpen: g.families.reduce((a, f) => a + M.roles[f].n_open, 0) });
+        groups.push({ id: g.id, label: g.label, set: "mba", roles: g.families, nOpen: g.families.reduce((a, f) => a + M.roles[f].n_open, 0), country: M.meta.country, generated: M.meta.generated });
         for (const f of g.families) {
           const r = M.roles[f];
-          roles[f] = { id: f, set: "mba", group: g.id, label: r.label, nOpen: r.n_open, n: r.n, nCompanies: r.n_companies, ladder: r.ladder, defining: new Set(r.defining.map(d => d.id)), definingList: r.defining, asks: r.asks, credentials: r.credentials, small: r.small, file: r.file, entry: r.entry };
+          roles[f] = { id: f, family: f, set: "mba", group: g.id, label: r.label, nOpen: r.n_open, n: r.n, nCompanies: r.n_companies, ladder: r.ladder, defining: new Set(r.defining.map(d => d.id)), definingList: r.defining, asks: r.asks, credentials: r.credentials, small: r.small, file: r.file, entry: r.entry };
         }
       }
-      groups.push({ ...PRODUCT_GROUP, roles: [], nOpen: null });
+      groups.push({ ...PRODUCT_GROUP, roles: [], nOpen: null, country: M.meta.country, generated: null });
       // the mean share of each skill over the 50 roles: what "distinctive" is measured against, in both sets
       const fams = Object.keys(M.families), baseline = {};
       for (const s of M.skills) baseline[s.id] = fams.reduce((a, f) => a + ((s.by_family || {})[f] || 0), 0) / fams.length;
@@ -63,16 +67,22 @@
       const byFamily = {};
       for (const j of G.jobs) (byFamily[j.family] ||= []).push(j);
       const pg = ix.groups.find(g => g.id === "product");
-      pg.roles = Object.keys(G.families).filter(f => byFamily[f]);
-      pg.nOpen = G.jobs.length;
+      const fams = Object.keys(G.families).filter(f => byFamily[f]);
+      // counted the way the MBA fields are: postings in the MBA set's country (the product graph is worldwide);
+      // the role pages, the matcher and the skill shares still read every posting of the family
+      const inCountry = j => j.country === ix.M.meta.country;
+      pg.roles = fams.map(productKey);
+      pg.nOpen = G.jobs.filter(inCountry).length;
+      pg.nWorld = G.jobs.length;
+      pg.generated = G.meta.generated;
       // what defines a product family: the MBA build's rule (share at least defining_share, at least defining_lift
       // times the mean share over the 50 MBA roles), so both sets carry the same mark
       const rule = ix.M.meta.shares || {}, minShare = rule.defining_share || 0.8, minLift = rule.defining_lift || 2.5;
-      for (const f of pg.roles) {
+      for (const f of fams) {
         const jobs = byFamily[f];
         const top = G.skills.filter(s => s.cluster !== "credentials").map(s => ({ id: s.id, share: s.by_family[f] || 0 })).sort((a, b) => b.share - a.share);
         const definingList = top.filter(a => a.share >= minShare && ix.baseline[a.id] > 0 && a.share >= minLift * ix.baseline[a.id]).map(a => ({ id: a.id, share: a.share, elsewhere: ix.baseline[a.id] }));
-        ix.roles[f] = { id: f, set: "product", group: "product", label: G.families[f], nOpen: jobs.length, n: jobs.length, nCompanies: new Set(jobs.map(j => j.company)).size, ladder: "product", defining: new Set(definingList.map(d => d.id)), definingList, asks: top.filter(a => !definingList.some(d => d.id === a.id)), credentials: [], small: false, jobs };
+        ix.roles[productKey(f)] = { id: productKey(f), family: f, set: "product", group: "product", label: G.families[f], nOpen: jobs.filter(inCountry).length, nWorld: jobs.length, n: jobs.length, nCompanies: new Set(jobs.map(j => j.company)).size, ladder: "product", defining: new Set(definingList.map(d => d.id)), definingList, asks: top.filter(a => !definingList.some(d => d.id === a.id)), credentials: [], small: false, jobs };
       }
       return { G, SUBS, skillById: Object.fromEntries(G.skills.map(s => [s.id, s])) };
     }), () => { productP = null; });
@@ -82,7 +92,8 @@
   async function role(id) {
     const ix = await index();
     if (!ix.roles[id]) await product();
-    const r = ix.roles[id];
+    // an old link to a product family by its bare id (#/role/tpm); a bare id the MBA set also has (pmm) is the MBA role
+    const r = ix.roles[id] || ix.roles[productKey(id)];
     if (!r) throw new Error("unknown role " + id);
     if (r.set === "product") {
       const P = await product();
@@ -200,5 +211,5 @@
     return files.flatMap(f => decode(ix.M, f.jobs));
   }
 
-  return { index, product, role, shares, subShares, grid, stepOf, employerType, matcher, roughFit, readCourse, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
+  return { index, product, productKey, role, shares, subShares, grid, stepOf, employerType, matcher, roughFit, readCourse, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
 });

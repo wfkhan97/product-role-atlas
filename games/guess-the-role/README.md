@@ -284,7 +284,7 @@ taxonomy or any data file.
 
 ## Edge cases
 
-- **The `pmm` id is shared**: the MBA role Product Marketing Manager (Marketing field) and the product family
+- **The `pmm` id is shared**: *(Fixed 2026-10-18: product families are now `product.<family>` in `ix.roles`, so `ix.roles.pmm` is always the MBA role; see PLAN.md v10.)* the MBA role Product Marketing Manager (Marketing field) and the product family
   Product Marketing Manager both use `pmm`. When `Atlas.product()` has run (the Explore screen starts it in the
   background), `ix.roles.pmm` is overwritten by the product version. The game must read role metadata from
   `ix.M.roles` and postings via `ix.M.roles.pmm.file`, and must never call `Atlas.product()`. "Open this role →" for
