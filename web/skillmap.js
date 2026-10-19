@@ -182,5 +182,8 @@
   async function names() { await load(); return data.nodes.map(nd => nd.name).sort(); }
   function leave() { ui.el = null; ui.selected = null; ui.hover = null; ui.showAside = null; if (data) tip(null); }
   const mode = () => store.get(MODE_KEY, "map"), setMode = m => store.set(MODE_KEY, m);
-  window.SkillMap = { stage, find, names, leave, mode, setMode };
+  // read-only, for games that use the map as a board (web/games/skill-path.js): positions, links and field shares;
+  // FS gains the product field once the product set has loaded
+  async function board() { await load(); return { nodes: data.nodes, byId: data.byId, adj: data.adj, field: data.field, rField: R_FIELD, A, get FS() { return data.FS; } }; }
+  window.SkillMap = { stage, find, names, leave, mode, setMode, board };
 })();
