@@ -293,13 +293,13 @@
     if (falses.length) filler += (filler ? " " : "") + `${cap(list(falses.map(describeFiller)))} ${falses.length === 1 ? "is" : "are"} filler${skipped.length ? " too" : ""}.`;
     const counted = r.chunks.find(c => c.label === "f" && c.counted && c.countedShare != null);
     const countedHtml = counted ? `<div class="fact"><span class="num sm">${pct(counted.countedShare)}</span><span class="what">of ${esc(role.label)} postings use a phrase like “${esc(counted.phrase || counted.text)}”. The atlas counts them, as ${esc(skillName(S, p, counted.counted))}; they tell you little.</span></div>` : "";
-    S.showAside(`<p class="eyebrow">Your read</p>
+    S.showAside(`<div class="sra-aside"><p class="eyebrow">Your read</p>
       <div class="score">${esc(headline)}</div>
       <p class="tight">${esc(words)}</p>
       ${missedHtml}
       <h3>Filler</h3><p class="tight">${esc(filler)}</p>${countedHtml}
       <h3>The atlas</h3><p class="punch">The atlas reads <span class="n-blue">${fmt(S.nJobs)}</span> postings this way, so you don't have to.</p>
-      <div class="row next-row"><button type="button" class="btn primary" id="sra-next">${last ? "See your rank →" : "Next posting →"}</button><a class="btn" href="#/role/${esc(p.role)}">Open ${esc(role.label)} →</a></div>`);
+      <div class="row next-row"><button type="button" class="btn primary" id="sra-next">${last ? "See your rank →" : "Next posting →"}</button><a class="btn" href="#/role/${esc(p.role)}">Open ${esc(role.label)} →</a></div></div>`);
     el.querySelector("#sra-live").textContent = r.counted ? `${r.found} of ${r.asks} asks found; ${r.found} of ${r.counted} counted marks were asks` : `You did not mark any of the ${r.asks} asks`;
     const next = document.getElementById("sra-next");
     next.onclick = () => { if (S.dead) return; if (last) runEnd(S); else { S.run.i++; posting(S); } };
