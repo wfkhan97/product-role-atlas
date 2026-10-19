@@ -35,10 +35,10 @@
       }
     }
     if (P) for (const f of Object.keys(P.G.families)) {
-      const r = ix.roles[f]; if (!r || r.set !== "product" || r.n < small) continue;
+      const r = ix.roles[Atlas.productKey(f)]; if (!r || r.set !== "product" || r.n < small) continue;
       const shares = {};
       for (const s of P.G.skills) if (playableSkill(s) && s.by_family && s.by_family[f] != null) shares[s.id] = pct(s.by_family[f]);
-      out.push({ key: "product:" + f, set: "product", id: f, label: r.label, group: "product", groupLabel: "Product", n: r.n, shares });
+      out.push({ key: "product:" + f, set: "product", id: r.id, family: f, label: r.label, group: "product", groupLabel: "Product", n: r.n, shares });
     }
     return out;
   }
@@ -170,7 +170,7 @@
     // ---------- names and numbers, read from the index ----------
     const skillOf = (sid, set) => (set === "product" ? (S.P && S.P.skillById[sid]) || ix.skillById[sid] : ix.skillById[sid] || (S.P && S.P.skillById[sid])) || { name: sid };
     const areaOf = (sid, set) => { const c = skillOf(sid, set).cluster, own = set === "product" && S.P ? S.P.G.clusters : ix.M.clusters; return (own[c] || ix.M.clusters[c] || (S.P && S.P.G.clusters[c]) || {}).label || ""; };
-    const rawShare = (role, sid) => ((skillOf(sid, role.set).by_family || {})[role.id]);
+    const rawShare = (role, sid) => ((skillOf(sid, role.set).by_family || {})[role.family || role.id]);
     const bestOf = (save, run) => run.mode === "hop" ? save.best.hop : save.best.one[run.role.key];
 
     // ---------- start screen (01) ----------

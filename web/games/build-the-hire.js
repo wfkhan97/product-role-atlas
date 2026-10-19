@@ -32,7 +32,7 @@
   function load(Atlas) {
     if (dataP) return dataP;
     dataP = (async () => {
-      // the product set first, so ix.roles.pmm is the product PMM everywhere in the game (README, edge cases)
+      // the product set first, so the product families (product.<family>) are in ix.roles
       const [ix, P, bands] = await Promise.all([Atlas.index(), Atlas.product(), Atlas.fetchJson("data/bands_mba.json").catch(() => ({}))]);
       const d = (bands.scoring || {}).distinct || {};
       if (typeof d.floor === "number") CFG.distinct.floor = d.floor;
@@ -40,7 +40,7 @@
       const roles = Object.values(ix.roles);
       const skillsOf = r => r.set === "product" ? P.G.skills : ix.M.skills;
       const byId = r => r.set === "product" ? P.skillById : ix.skillById;
-      const shareOf = (r, id) => { const s = byId(r)[id]; return s ? ((s.by_family || {})[r.id] || 0) : 0; };
+      const shareOf = (r, id) => { const s = byId(r)[id]; return s ? ((s.by_family || {})[r.family] || 0) : 0; };
       const playable = s => s.cluster !== "credentials" && s.cluster !== "domain" && !s.id.startsWith("yoe_");
       const peak = {};
       for (const r of roles) {
@@ -268,7 +268,7 @@
       onKey = null;
       crumbs([["Games", "#/"], ["Build the hire", null]]);
       const saved = store.read();
-      let pick = (saved.lastRole && D.ix.roles[saved.lastRole] && D.fields.some(f => f.roles.some(x => x.id === saved.lastRole))) ? saved.lastRole : (D.ix.roles.pm ? "pm" : D.fields[0].roles[0].id);
+      let pick = (saved.lastRole && D.ix.roles[saved.lastRole] && D.fields.some(f => f.roles.some(x => x.id === saved.lastRole))) ? saved.lastRole : (D.ix.roles["product.pm"] ? "product.pm" : D.fields[0].roles[0].id);
       let field = D.fields.find(f => f.roles.some(x => x.id === pick)).id;
       const nRoles = D.fields.reduce((a, f) => a + f.roles.length, 0);
       const render = () => {

@@ -229,6 +229,9 @@ neither related to where the field circles were, so the map showed only around t
   graph.json of 2026-10-11 against graph_mba.json of 2026-10-14); role pages, the matcher and the skill shares still
   read every product posting, and each count says its date. Refreshing the product graph to the MBA date is a
   separate `data/` branch.
+  The games that read `ix.roles` (skill path, build the hire, climb the ladder, higher or lower, what it asks, spot
+  the real ask) read a role's shares by `family` and link product roles by their `product.<family>` id; skill path's
+  eval expects 54 pickable roles (53 while the MBA `pmm` was hidden).
 
 ## Skill depth for the MBA skills (built 2026-10-14; the plan below is what was built, with the changes noted)
 
