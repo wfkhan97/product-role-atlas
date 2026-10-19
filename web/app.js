@@ -608,21 +608,33 @@
   }
 
   // ---------- about the data ----------
+  const niceDate = d => { const [y, m, day] = String(d || "").split("-"); const names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; return m && day ? `${Number(day)} ${names[Number(m) - 1]} ${y}` : esc(d); };
+  // employers by where they come from: the Fortune 500 list, venture-backed startups, and the employers added for the MBA set
+  const origins = cs => { const n = { fortune: 0, startup: 0, mba: 0 }; for (const c of cs) n[c.group === "startup" ? "startup" : c.group === "mba_employer" ? "mba" : "fortune"]++; return n; };
   async function about() {
     const ix = await Atlas.index();
     crumbs([["About the data", null]]); showAside(null);
-    const M = ix.M;
-    const top = (cs, n) => cs.sort((a, b) => b.n - a.n).slice(0, n).map(c => `${esc(c.name)} <span class="muted">(${c.n})</span>`).join(" · ");
+    const M = ix.M, o = origins(M.meta.companies);
+    const top = (cs, n) => cs.slice().sort((a, b) => b.n - a.n).slice(0, n).map(c => `${esc(c.name)} <span class="muted">${fmt(c.n)}</span>`).join(" · ");
+    const fact = (n, l) => `<div class="fact"><b>${n}</b><span>${l}</span></div>`;
     let productPart = `<p class="small muted">Loading the product set…</p>`;
     const render = () => page(`<div id="about"><h1>About the data</h1>
-      <p class="lead">Postings are pulled from each employer's public careers site, filtered to the titles of each role, and read against one list of skills with keyword rules. A share is the fraction of postings in the current view that ask for a skill. Sub-skills, level ladders and build steps are editorial; quoted sentences come from the postings.</p>
-      <h3>Business roles (MBA set)</h3>
-      <p class="small">${fmt(M.meta.n_open)} open US postings for 50 roles at ${fmt(M.meta.n_companies)} employers, refreshed ${esc(M.meta.generated)}. Recently closed postings stay in the statistics for a year and are not listed. One employer counts for at most 5% of a role.</p>
-      <p class="small">Employers with most postings: ${top(M.meta.companies.slice(), 40)}</p>
-      <h3>Product roles</h3>${productPart}</div>`);
+      <p class="lead">Every number here comes from job postings on employers' own careers pages, refreshed every week. The business roles show postings in the United States.</p>
+      <div class="about-facts">${fact(fmt(M.meta.n_open), "open US postings")}${fact("50", "business roles")}${fact(fmt(M.meta.n_companies), "employers")}${fact(niceDate(M.meta.generated), "last refresh")}</div>
+      <h3>Where the postings come from</h3>
+      <p class="small">${fmt(o.fortune)} Fortune 500 companies, ${fmt(o.startup)} venture-backed startups, and ${fmt(o.mba)} employers that MBA students target: banks, consulting firms, investment funds, real-estate and consumer-goods companies.</p>
+      ${disc("about-top", "Employers with the most postings", `<p>${top(M.meta.companies, 15)}</p>`)}
+      <h3>How we read a posting</h3>
+      <p class="small">Keyword rules read each posting against one list of skills. A share is the fraction of postings in the current view that ask for a skill. One employer counts for at most 5% of a role. A posting the employer takes down is closed: it is no longer listed, and it stays in the shares for a year.</p>
+      <h3>What is ours</h3>
+      <p class="small">Sub-skills, level ladders and build steps are editorial. Every quoted sentence comes from a posting.</p>
+      <h3>Product roles</h3>${productPart}</div>`, true);
     render();
-    Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${fmt(G.meta.n_jobs)} open postings for 6 product role families at ${fmt(G.meta.n_companies)} companies (the Fortune 500 and venture-backed startups), scraped ${esc(G.meta.generated)}.</p><p class="small">Companies with most postings: ${top(G.meta.companies.slice(), 40)}</p>`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
+    Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${fmt(G.meta.n_jobs)} open postings for 6 product role families at ${fmt(G.meta.n_companies)} companies, all countries, refreshed ${niceDate(G.meta.generated)}.</p>${disc("about-top-product", "Companies with the most postings", `<p>${top(G.meta.companies, 15)}</p>`)}`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
   }
+
+  // the footer line: how many postings, and when they were last refreshed
+  Atlas.index().then(ix => { const f = document.getElementById("foot-note"); if (f) f.textContent = `Built from ${fmt(ix.M.meta.n_open)} live job postings, refreshed weekly. Last refresh ${niceDate(ix.M.meta.generated)}.`; }).catch(console.error);
 
   route();
 })();
