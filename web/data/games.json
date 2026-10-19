@@ -1,6 +1,6 @@
 [
   {"slug": "skill-path", "title": "Skill path", "tagline": "Hop from your field to a new role", "cover": "img/games/skill-path.png", "status": "live"},
-  {"slug": "guess-the-role", "title": "Guess the role", "tagline": "Name the job from its skills", "cover": "img/games/guess-the-role.png", "status": "soon"},
+  {"slug": "guess-the-role", "title": "Guess the role", "tagline": "Name the job from its skills", "cover": "img/games/guess-the-role.png", "status": "live"},
   {"slug": "build-the-hire", "title": "Build the hire", "tagline": "Draft a hire, then let postings judge", "cover": "img/games/build-the-hire.png", "status": "live"},
   {"slug": "what-it-asks", "title": "What does it ask for", "tagline": "Tap the real asks, let filler pass", "cover": "img/games/what-it-asks.png", "status": "live"},
   {"slug": "climb-the-ladder", "title": "Climb the ladder", "tagline": "What senior actually means", "cover": "img/games/climb-the-ladder.png", "status": "live"},

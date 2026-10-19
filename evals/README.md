@@ -234,6 +234,15 @@ sub-skill shares are measured on the same postings the patterns were drafted fro
 
 ## Game evals
 
+The games under `web/games/` draw rounds from the atlas data with rules written in their design packages (`games/<slug>/README.md`). Each game keeps its data rules as pure functions apart from its screens, so node can run them over every role without a browser.
+
+```bash
+node evals/games_guess_the_role.mjs   # Guess the role: the pool, distractors and clues over all 48 roles; exit 1 on a rule violation
+```
+
+| game | what it guards |
+|---|---|
+| Guess the role | Every role has a playable posting. Every distractor set is three distinct roles, none above similarity 0.90, in a 2 + 2 or 1 + 1 + 1 + 1 field pattern. Every clue set of every playable posting is five distinct eligible skills, none generic, each asked by at least a quarter of the role's postings, in rising order of lift, with no red herring and the giveaway's disc above 0. It prints the counts the README states (22,483 open, 19,004 playable, 46 roles with 2 + 2) and warns, without failing, when a data refresh moves them. |
 The games on the first-visit screen (`games/`, built in `web/games/`) carry their own numbers from the data, so each
 has a check in node with no install:
 
