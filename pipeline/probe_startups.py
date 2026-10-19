@@ -19,8 +19,10 @@ import threading
 LOCK = threading.Lock()
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from pipeline import log
 from pipeline.roles import title_ok
 
+logger = log.get(__name__)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW = os.path.join(ROOT, "data", "raw")
 CACHE = os.path.join(RAW, "startup_boards.json")
@@ -85,7 +87,8 @@ def fetch_board(ats, board):
             r = S.get(f"https://api.ashbyhq.com/posting-api/job-board/{board}", timeout=15)
             if r.status_code != 200: return None
             return [(j.get("title", ""), j.get("jobUrl", "")) for j in r.json().get("jobs", [])]
-    except Exception:
+    except Exception as e:  # no board under this slug (or a bad answer): the next slug is tried
+        logger.warning("%s board %r: %s: %s", ats, board, type(e).__name__, str(e)[:120])
         return None
     return None
 
@@ -98,7 +101,8 @@ def careers_scan(website):
     for url in (f"https://{host}/careers", f"https://{host}/jobs", f"https://{host}/careers/", f"https://{host}/join", f"https://{host}/company/careers", f"https://{host}"):
         try:
             r = S.get(url, timeout=15, allow_redirects=True)
-        except Exception:
+        except Exception as e:  # an unreachable careers URL is skipped
+            logger.warning("GET %s failed: %s: %s", url, type(e).__name__, str(e)[:120])
             continue
         if r.status_code >= 400:
             continue
@@ -160,14 +164,15 @@ def main():
             if not e["website"] and c.get("website"):
                 e["website"] = c["website"]
     todo = [k for k in companies if k not in cache]
-    print(f"{len(companies)} companies from {len(files)} funds; {len(todo)} to probe", flush=True)
+    t = log.Timer()
+    logger.info("probe_startups: %d companies from %d funds; %d to probe", len(companies), len(files), len(todo))
 
     def run(k):
         res = probe(companies[k]); res["checked"] = time.strftime("%Y-%m-%d")
         with LOCK:
             cache[k] = res
         if res.get("ats"):
-            print(f"[{'PM' if res['pm'] else '--'}] {companies[k]['name']:30s} {res['ats']:10s} {res['board']:28s} jobs={res['n_jobs']} pm={len(res['pm'])}", flush=True)
+            logger.info("[%s] %s %s %s jobs=%d pm=%d", "PM" if res["pm"] else "--", companies[k]["name"], res["ats"], res["board"], res["n_jobs"], len(res["pm"]))
         return k
     with ThreadPoolExecutor(max_workers=8) as ex:
         for i, _ in enumerate(ex.map(run, todo)):
@@ -175,7 +180,7 @@ def main():
                 with LOCK:
                     snap = dict(cache)
                 json.dump(snap, open(CACHE + ".tmp", "w")); os.replace(CACHE + ".tmp", CACHE)
-                print(f"... {i + 1}/{len(todo)} probed", flush=True)
+                logger.info("%d/%d probed, %s", i + 1, len(todo), t)
     json.dump(cache, open(CACHE + ".tmp", "w")); os.replace(CACHE + ".tmp", CACHE)
     reg = []
     for k, c in companies.items():
@@ -186,8 +191,10 @@ def main():
                         "stage_from_fund": max(c["stages"], key=lambda s: s or "") if c["stages"] else None, "description": (c["descriptions"] or [None])[0]})
     json.dump(reg, open(os.path.join(RAW, "registry_startups.json"), "w"), indent=1)
     import collections
-    print(f"{len(reg)} companies with product postings; by ATS {collections.Counter(r['ats'] for r in reg)}; by fund {collections.Counter(f for r in reg for f in r['funds']).most_common(60)}")
+    logger.info("probe_startups done in %s: %d companies with product postings; by ATS %s; by fund %s", t, len(reg),
+                collections.Counter(r["ats"] for r in reg), collections.Counter(f for r in reg for f in r["funds"]).most_common(60))
 
 
 if __name__ == "__main__":
+    log.setup()
     main()

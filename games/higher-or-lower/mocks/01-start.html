@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>Start · Higher or lower · Role atlas</title>
+<link rel="stylesheet" href="../../../web/tokens/styles.css">
+<link rel="stylesheet" href="../../../web/style.css">
+<link rel="stylesheet" href="game.css">
+<style>body{width:1280px;height:800px;overflow:hidden}</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#/"><span class="mark" aria-hidden="true"></span><span class="wordmark">GradBuddy</span></a>
+  <nav class="crumbs" aria-label="Where you are"><a href="#/">Games</a><span class="sep">/</span><span class="here">Higher or lower</span></nav>
+  <div class="top-actions">
+    <a class="toplink" href="#/explore">Explore</a>
+    <a class="toplink" href="#/you">About you</a>
+    <button class="icon" type="button" title="Theme follows your device. Click to change.">◐</button>
+  </div>
+</header>
+<div class="shell"><main class="main"><div class="hl">
+  <div class="hl-start">
+    <div>
+      <p class="eyebrow">Games · one rule, no timer</p>
+      <h1>Higher or lower</h1>
+      <p class="lead" style="max-width:600px">Two skills from one role. You see how many postings ask for the first. Do more postings ask for the second, or fewer? Keep guessing right and the streak grows.</p>
+
+      <h2 style="margin:22px 0 8px">How to play</h2>
+      <div class="hl-modes">
+        <button type="button" class="hl-mode on"><span class="t">One role</span><span class="d">Two skills, one role. Do more Product Manager postings ask for roadmapping, or for discovery?</span></button>
+        <button type="button" class="hl-mode"><span class="t">Field hop</span><span class="d">One skill, two roles from different fields. Do more Strategic Finance Manager or Management Consultant postings ask for SQL?</span></button>
+      </div>
+
+      <h2 style="margin:22px 0 4px">Pick a role</h2>
+      <div class="chips" style="margin-top:8px">
+        <span class="lbl">Field</span>
+        <button type="button" class="chip on">Product<span class="n">6</span></button>
+        <button type="button" class="chip">Consulting &amp; strategy<span class="n">7</span></button>
+        <button type="button" class="chip">Finance<span class="n">5</span></button>
+        <button type="button" class="chip">Banking &amp; investing<span class="n">6</span></button>
+        <button type="button" class="chip">Operations<span class="n">5</span></button>
+        <button type="button" class="chip">Marketing<span class="n">3</span></button>
+        <button type="button" class="chip">Sales<span class="n">4</span></button>
+        <button type="button" class="chip">More fields<span class="n">4</span></button>
+      </div>
+      <div class="hl-roles">
+        <span class="r on">Product Manager<span class="n">5,635 postings</span></span>
+        <span class="r">Technical Program Manager<span class="n">1,599 postings</span></span>
+        <span class="r">Product Marketing Manager<span class="n">812 postings</span></span>
+        <span class="r">Product Owner<span class="n">389 postings</span></span>
+        <span class="r">Product Analyst<span class="n">170 postings</span></span>
+        <span class="r">Product Operations<span class="n">160 postings</span></span>
+      </div>
+      <div class="row" style="margin-top:20px">
+        <button type="button" class="btn primary">Start with Product Manager <kbd style="background:transparent;color:inherit;border-color:currentColor">Enter</kbd></button>
+        <button type="button" class="btn">Surprise me <kbd>S</kbd></button>
+      </div>
+    </div>
+
+    <aside class="hl-side">
+      <h3>Rules</h3>
+      <ol class="hl-rules">
+        <li>Pick <b>Higher</b> or <b>Lower</b>: <kbd>H</kbd> or <kbd>↑</kbd>, <kbd>L</kbd> or <kbd>↓</kbd>.</li>
+        <li>Right: the hidden skill becomes the new left card.</li>
+        <li>Wrong once and the streak ends.</li>
+        <li>The gap between the two shares narrows as your streak grows.</li>
+      </ol>
+      <h3 style="margin-top:18px">Titles</h3>
+      <dl class="hl-ranks">
+        <dt>0–2</dt><dd>Cover letter skimmer</dd>
+        <dt>3–5</dt><dd>Job board regular</dd>
+        <dt>6–9</dt><dd class="you">Sharp recruiter · your best</dd>
+        <dt>10–14</dt><dd>Hiring committee</dd>
+        <dt>15–24</dt><dd>Head of talent</dd>
+        <dt>25+</dt><dd>Walking atlas</dd>
+      </dl>
+      <h3 style="margin-top:18px">Your best</h3>
+      <p class="small" style="margin:0"><span class="mono" style="color:var(--primary);font-size:var(--text-lg)">6</span> <span class="muted">Product Manager · kept in this browser</span></p>
+      <p class="hl-ill" style="margin-top:6px">Best streak shown is illustrative.</p>
+    </aside>
+  </div>
+</div></main></div>
+<footer class="foot"><span>Built from live job postings, refreshed weekly.</span> <a href="#/about">About the data</a></footer>
+</body>
+</html>

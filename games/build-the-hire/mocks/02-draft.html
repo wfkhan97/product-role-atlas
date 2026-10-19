@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<title>Build the hire · draft · mock</title>
+<link rel="stylesheet" href="../../../web/tokens/styles.css">
+<link rel="stylesheet" href="../../../web/style.css">
+<link rel="stylesheet" href="bh.css">
+</head>
+<body>
+<!-- Real draft: Product Manager, deal 130, hand 4 of 8. Every number from scripts/compute.js (see README "Data sources"). -->
+<div class="mock-frame">
+<header class="top">
+  <a class="brand" href="#/"><span class="mark" aria-hidden="true"></span><span class="wordmark">GradBuddy</span></a>
+  <nav class="crumbs" aria-label="Where you are"><a href="#/">Games</a><span class="sep">/</span><a href="#/play/build-the-hire">Build the hire</a><span class="sep">/</span><span class="here">Product Manager</span></nav>
+  <div class="top-actions"><a class="toplink" href="#/explore">Explore</a><a class="toplink" href="#/you">About you</a><button class="icon" type="button">●</button></div>
+</header>
+<main class="main">
+<div class="bh">
+  <div class="bh-head">
+    <div>
+      <p class="eyebrow">Hand 4 of 8 · Product Manager</p>
+      <h1>Pick one skill for your hire</h1>
+      <p class="lead" style="margin:4px 0 0">The two you pass on are gone for good.</p>
+    </div>
+    <div class="bh-meters" aria-label="Budget and slots">
+      <div class="bh-meter">
+        <div class="lbl"><span>Budget</span><span><b>3</b> of 10 points left</span></div>
+        <div class="bh-pips"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="next"></i><i class="next"></i><i class="next"></i></div>
+      </div>
+      <div class="bh-meter">
+        <div class="lbl"><span>Slots</span><span><b>3</b> of 6 filled</span></div>
+        <div class="bh-pips six"><i class="full"></i><i class="full"></i><i class="full"></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bh-hand" role="radiogroup" aria-label="Three skills on offer">
+    <button class="bh-card over" type="button" aria-disabled="true">
+      <span class="key">1</span>
+      <span class="area">Delivery &amp; process</span>
+      <span class="nm">Vendor, budget &amp; contract management</span>
+      <span class="what">Buying and managing what you don't build: vendor selection, contracts, SLAs, and budgets.</span>
+      <span class="price"><span class="coins"><i></i><i></i><i></i><i></i></span><span class="pts">4 points</span><span class="note">Over budget</span></span>
+    </button>
+    <button class="bh-card" type="button" role="radio" aria-checked="false">
+      <span class="key">2</span>
+      <span class="area">Delivery &amp; process</span>
+      <span class="nm">Execution &amp; delivery</span>
+      <span class="what">Getting things done reliably and well: driving to outcomes, holding quality, and keeping the details from slipping.</span>
+      <span class="price"><span class="coins"><i></i></span><span class="pts">1 point</span></span>
+    </button>
+    <button class="bh-card on" type="button" role="radio" aria-checked="true">
+      <span class="key">3</span>
+      <span class="area">Product craft</span>
+      <span class="nm">Customer obsession / user empathy</span>
+      <span class="what">Making decisions from the customer's point of view, backed by direct contact with them, rather than from internal convenience.</span>
+      <span class="price"><span class="coins"><i></i><i></i><i></i></span><span class="pts">3 points</span><span class="note">Uses your last 3</span></span>
+    </button>
+  </div>
+
+  <div class="bh-hire-h"><h2>Your hire</h2><span class="small subtle">Blue numbers: share of the 5,635 Product Manager postings that ask for the skill, and how that compares with the average role</span></div>
+  <div class="bh-slots">
+    <div class="bh-slot trap"><span class="nm">SQL</span><span class="pts">4 points</span><span class="rv"><b>9%</b> of postings ask · <b>0.9×</b> average <span class="flag">· prized by BI managers</span></span></div>
+    <div class="bh-slot"><span class="nm">Prioritization &amp; trade-offs</span><span class="pts">2 points</span><span class="rv"><b>64%</b> of postings ask · <b>2.2×</b> average</span></div>
+    <div class="bh-slot"><span class="nm">Cross-functional leadership</span><span class="pts">1 point</span><span class="rv"><b>80%</b> of postings ask · <b>1.4×</b> average</span></div>
+    <div class="bh-slot empty">Open slot</div>
+    <div class="bh-slot empty">Open slot</div>
+    <div class="bh-slot empty">Open slot</div>
+  </div>
+
+  <div class="bh-read" aria-live="polite">
+    <div class="t">So far your hire matches <b>22</b> of 5,635 Product Manager postings</div>
+    <div class="bar"><i style="width:0.4%"></i></div>
+    <div class="why">A posting counts as a match when your hire covers at least half of what it asks for most. One or two skills rarely do.</div>
+    <div class="act">
+      <span class="small subtle"><span class="kbd">1</span> <span class="kbd">2</span> <span class="kbd">3</span> choose · <span class="kbd">Enter</span> hire · <span class="kbd">S</span> skip</span>
+      <button class="btn quiet" type="button" style="padding-left:8px">Skip this hand</button>
+      <button class="btn primary" type="button">Hire customer obsession · 3 points</button>
+    </div>
+  </div>
+</div>
+</main>
+<footer class="foot"><span>Built from live job postings, refreshed weekly.</span> <a href="#/about">About the data</a></footer>
+</div>
+</body>
+</html>

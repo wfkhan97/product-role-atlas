@@ -15,7 +15,6 @@ import os
 import re
 import sys
 import time
-import traceback
 from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import urlparse
 
@@ -23,8 +22,9 @@ import requests
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline.adapters import ADAPTERS
-from pipeline import roles, roles_mba
+from pipeline import log, roles, roles_mba
 
+logger = log.get(__name__)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "data", "raw", "discovery")
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
@@ -72,7 +72,8 @@ def clearbit_domain(name):
             if h.get("name", "").lower() == name.lower():
                 return h["domain"].lower()
         return hits[0]["domain"].lower()
-    except Exception:
+    except Exception as e:  # no domain from this source; wiki_domain is tried next
+        logger.warning("%s: clearbit lookup failed: %s: %s", name, type(e).__name__, str(e)[:120])
         return None
 
 
@@ -100,7 +101,8 @@ def wiki_domain(name):
         wikitext = re.sub(r"<ref[^>]*>.*?</ref>|<ref[^>]*/>", "", wikitext, flags=re.S)
         m = re.search(r"\|\s*website\s*=\s*(?:\{\{URL\|)?\s*(?:https?://)?(?:www\.)?([a-z0-9.-]+\.[a-z]{2,})", wikitext, re.I)
         return m.group(1).lower() if m else None
-    except Exception:
+    except Exception as e:  # no domain from Wikipedia: the company is recorded as "no website found"
+        logger.warning("%s: wikipedia lookup failed: %s: %s", name, type(e).__name__, str(e)[:120])
         return None
 
 
@@ -108,7 +110,8 @@ def fetch(url, timeout=20):
     try:
         r = S.get(url, timeout=timeout, allow_redirects=True)
         return r
-    except requests.RequestException:
+    except requests.RequestException as e:  # an unreachable candidate URL is skipped
+        logger.warning("GET %s failed: %s: %s", url, type(e).__name__, str(e)[:120])
         return None
 
 
@@ -146,7 +149,8 @@ def workday_guess(domain):
         host = f"{root}.wd{n}.myworkdayjobs.com"
         try:
             r = S.get(f"https://{host}/", timeout=12, allow_redirects=True)
-        except requests.RequestException:
+        except requests.RequestException as e:  # not a tenant: most guesses do not resolve
+            logger.debug("workday guess %s: %s", host, type(e).__name__)
             continue
         m = re.search(r"https?://[^/]+/(?:[a-z]{2}-[A-Z]{2}/)?([A-Za-z0-9_\-]+)", r.url)
         if r.status_code == 200 and m and m.group(1).lower() not in ("wday", "login") and "myworkdayjobs" in r.url:
@@ -224,7 +228,8 @@ def reachable(ats, cfg):
             r = S.get(f"https://api.lever.co/v0/postings/{cfg['board']}?mode=json", timeout=20); return r.status_code == 200 and bool(r.json())
         if ats == "smartrecruiters":
             r = S.get(f"https://api.smartrecruiters.com/v1/companies/{cfg['company']}/postings?limit=5", timeout=20); return r.status_code == 200 and bool(r.json().get("content"))
-    except Exception:
+    except Exception as e:  # the board did not answer as one of its kind: not reachable
+        logger.warning("%s board %s not reachable: %s: %s", ats, cfg, type(e).__name__, str(e)[:120])
         return False
     return False
 
@@ -242,7 +247,8 @@ def verify(company, ats, cfg):
         if reachable(ats, cfg):
             return True, "(board reachable; no matching title on first pages)", 0
         return False, "0 matching postings", 0
-    except Exception as e:
+    except Exception as e:  # the adapter failed on this config: recorded on the candidate, the next one is tried
+        logger.warning("%s: %s adapter failed on %s: %s: %s", company, ats, cfg, type(e).__name__, str(e)[:120])
         return False, f"{type(e).__name__}: {str(e)[:80]}", 0
 
 
@@ -316,7 +322,7 @@ def discover(row, force=False, out=OUT):
             rec["ats"] = rec["candidates"][0]["ats"]; rec["config"] = rec["candidates"][0]["config"]
     rec["seconds"] = round(time.time() - t0)
     json.dump(rec, open(path, "w"), indent=1)
-    print(f"[{'ok' if rec['verified'] else '--'}] {rank or 0:3d} {name:32s} {rec['ats']:14s} {domain or '-':28s} {rec.get('sample_title') or rec['notes'][:70]}", flush=True)
+    logger.info("[%s] %3d %s %s %s %s in %ds", "ok" if rec["verified"] else "--", rank or 0, name, rec["ats"], domain or "-", rec.get("sample_title") or rec["notes"][:70], rec["seconds"])
     return rec
 
 
@@ -341,13 +347,15 @@ def main():
         rows = [dict(r, group=f"{args.roles}_employer") for r in json.load(open(args.list)) if not args.only or r["company"] in args.only]
     else:
         rows = [r for r in json.load(open(os.path.join(ROOT, "data", "raw", "fortune500_2026.json"))) if args.lo <= r["rank"] <= args.hi and (not args.only or r["company"] in args.only)]
+    t = log.Timer()
+    logger.info("discover: %d companies, %d workers -> %s", len(rows), args.workers, os.path.relpath(out, ROOT))
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
         results = list(ex.map(lambda r: discover(r, args.force, out), rows))
     ok = [r for r in results if r["verified"]]
-    print(f"\n{len(ok)}/{len(results)} verified")
     import collections
-    print(collections.Counter(r["ats"] for r in ok))
+    logger.info("discover done in %s: %d/%d verified; by ATS %s", t, len(ok), len(results), collections.Counter(r["ats"] for r in ok))
 
 
 if __name__ == "__main__":
+    log.setup()
     main()

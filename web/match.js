@@ -263,6 +263,8 @@
   function rx(list) { return list.length ? new RegExp(list.map(p => "(?:" + p + ")").join("|"), "i") : null; }
 
   function parseResume(text) {
+    // Word and most boards write the typographic apostrophe (’); the taxonomy's patterns spell the straight one
+    text = text.replace(/[‘’ʼ]/g, "'");
     // PDF text often spaces out hyphens ("purpose - built", "self - learning"); join them so words match again
     // and it often sets the ligatures fi, fl, ff apart from their word: "pro fi t", "work fl ow", "for   fi nance"
     // (one space on each side inside a word, a wide gap before it at the start of a word)
@@ -723,9 +725,16 @@
       return base ? base + (inEmployer ? PRESUMED.employer : 0) : 0;
     }
 
-    function ladderFor(id, level) { const s = gSkill[id]; const l = s && s.ladder; return l ? l[level] || null : null; }
+    // A ladder ({associate: "...", ...}) and build steps (["...", ...]) are flat for product skills and keyed by industry
+    // ladder for MBA skills ({bank: {...}}, {bank: [step, ...]}): keyed ones are read on the target role's ladder
+    // (opts.ladder), and a skill with none on it gets none.
+    function ladderFor(id, level, ladder) {
+      const s = gSkill[id]; let l = s && s.ladder; if (!l) return null;
+      if (!Object.values(l).some(v => typeof v === "string")) l = ladder ? l[ladder] : null;
+      return l ? l[level] || null : null;
+    }
     function signalsFor(id) { const s = gSkill[id]; return (s && s.signals) || []; }
-    function buildFor(id) { const s = gSkill[id]; return (s && s.build) || []; }
+    function buildFor(id, ladder) { const s = gSkill[id]; const b = s && s.build; return !b ? [] : Array.isArray(b) ? b : (ladder && b[ladder]) || []; }
     function nameOf(id) { if (id === "__ai") return "AI literacy"; if (id === "__domain") return "Industry fit"; return (byId[id] || {}).name || id; }
 
     function evidenceFor(ev, id, req) {
@@ -743,7 +752,7 @@
         const credit = Math.max(CREDIT[strength], pc);
         const status = strength >= 2 ? (e.transfer ? "transferable" : "evidenced") : pc ? "presumed" : strength === 1 ? "thin" : "gap";
         const depth = e ? (e.subs.size > 0 || strength === 3) : false;
-        rows.push({ id: e && e.id !== id ? e.id : id, slot: id, name: nameOf(e && e.id !== id ? e.id : id), slotName: nameOf(id), tier, w, strength, credit, status, depth, subs: e ? [...e.subs] : [], via: e ? [...e.via] : [], lines: e ? e.lines.sort((a, b) => b.strength - a.strength).slice(0, 2) : [], hintLines: e && e.subLines ? e.subLines.slice(0, 2) : [], ladder: ladderFor(e && e.id !== id ? e.id : id, targetLevel), signals: signalsFor(e && e.id !== id ? e.id : id), build: buildFor(e && e.id !== id ? e.id : id) });
+        rows.push({ id: e && e.id !== id ? e.id : id, slot: id, name: nameOf(e && e.id !== id ? e.id : id), slotName: nameOf(id), tier, w, strength, credit, status, depth, subs: e ? [...e.subs] : [], via: e ? [...e.via] : [], lines: e ? e.lines.sort((a, b) => b.strength - a.strength).slice(0, 2) : [], hintLines: e && e.subLines ? e.subLines.slice(0, 2) : [], ladder: ladderFor(e && e.id !== id ? e.id : id, targetLevel, opts.ladder), signals: signalsFor(e && e.id !== id ? e.id : id), build: buildFor(e && e.id !== id ? e.id : id, opts.ladder) });
         const weight = w * lift(id, w); rows[rows.length - 1].weight = weight; // w is the share of postings (shown to the user); weight is what the score counts
         tierSum[tier][0] += weight * credit; tierSum[tier][1] += weight;
       }

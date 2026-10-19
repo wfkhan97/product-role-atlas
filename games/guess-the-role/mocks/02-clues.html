@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head><meta charset="utf-8"><meta name="viewport" content="width=1280"><title>Guess the role · round 4</title>
+<link rel="stylesheet" href="../../../web/tokens/styles.css"><link rel="stylesheet" href="../../../web/style.css">
+<style>
+/* ---------- games: Guess the role (#/play/guess-the-role) ---------- */
+.gtr { padding: 24px 32px 28px; }
+.gtr kbd { font-family: var(--font-mono); font-size: var(--text-sm); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border); background: var(--muted); color: var(--muted-foreground); }
+.gtr kbd.on-primary { background: transparent; border-color: currentColor; color: inherit; opacity: 0.75; }
+.gtr .num { color: var(--secondary); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.gtr .you { color: var(--primary); }
+.gtr .gtr-start { max-width: 880px; margin: 0 auto; padding-top: 28px; }
+.gtr .gtr-title { font-size: 40px; letter-spacing: var(--tracking-tighter); color: var(--heading-foreground); margin-bottom: 10px; }
+.gtr .gtr-start .lead { max-width: 620px; }
+.gtr .gtr-rules { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 28px 0 22px; }
+.gtr .rule { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 4px; font-size: var(--text-sm); color: var(--muted-foreground); }
+.gtr .rule .k { color: var(--subtle-foreground); }
+.gtr .rule b { color: var(--heading-foreground); font-weight: var(--weight-medium); font-size: var(--text-base); }
+.gtr .rule .ex { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); color: var(--foreground); line-height: 1.6; }
+.gtr .gtr-pool { font-size: var(--text-md); color: var(--muted-foreground); }
+.gtr .gtr-go { margin-top: 18px; gap: 16px; }
+
+.gtr .gtr-play { max-width: 960px; margin: 0 auto; }
+.gtr .gtr-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.gtr .gtr-head .eyebrow { margin: 0; }
+.gtr .gtr-score { display: flex; align-items: center; gap: 16px; font-size: var(--text-sm); color: var(--muted-foreground); }
+.gtr .gtr-score b { color: var(--heading-foreground); font-weight: var(--weight-medium); font-size: var(--text-md); }
+.gtr .pips { display: flex; gap: 4px; }
+.gtr .pips i { width: 18px; height: 6px; border-radius: 2px; background: var(--muted); }
+.gtr .pips i.ok { background: var(--primary); } .pips i.miss { background: var(--warning); }
+.gtr .pips i.cur { background: transparent; outline: 1px solid var(--heading-foreground); }
+
+.gtr .gtr-board { display: grid; grid-template-columns: 1fr 200px; gap: 12px; }
+.gtr .clues, .gtr .pts { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: 16px 20px; }
+.gtr .clues > p, .gtr .pts > p { margin: 0 0 8px; }
+.gtr .cluelist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.gtr .cluelist li { display: grid; grid-template-columns: 28px 1fr; align-items: center; height: 44px; padding: 0 12px; border-radius: var(--radius-md); background: var(--background); border: 1px solid var(--border); }
+.gtr .cluelist .n { color: var(--subtle-foreground); }
+.gtr .cluelist .nm { font-size: var(--text-lg); color: var(--foreground); }
+.gtr .cluelist li.new { border-color: var(--heading-foreground); }
+.gtr .cluelist li.new .nm { color: var(--heading-foreground); font-weight: var(--weight-medium); }
+.gtr .cluelist li.hid { background: transparent; border-style: dashed; }
+.gtr .cluelist li.hid .nm { font-size: var(--text-sm); color: var(--subtle-foreground); }
+.gtr .now-pts { font-size: 40px; line-height: 1; color: var(--primary); margin: 0 0 14px !important; }
+.gtr .ladder-pts { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: var(--text-sm); }
+.gtr .ladder-pts li { display: grid; grid-template-columns: 40px 1fr; padding: 4px 8px; border-radius: var(--radius-sm); color: var(--muted-foreground); }
+.gtr .ladder-pts li.gone { color: var(--subtle-foreground); text-decoration: line-through; opacity: 0.6; }
+.gtr .ladder-pts li.now { background: var(--primary-tint); color: var(--primary); }
+.gtr .q { font-size: var(--text-lg); color: var(--heading-foreground); margin: 20px 0 10px; }
+.gtr .gtr-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.gtr .gtr-choices.small4 { grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 18px; }
+.gtr .gopt { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; align-items: center; text-align: left; padding: 12px 16px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--card); color: var(--foreground); }
+.gtr .gopt:hover { border-color: var(--input); }
+.gtr .gopt kbd { grid-row: 1 / span 2; }
+.gtr .gopt .t { font-size: var(--text-md); color: var(--heading-foreground); font-weight: var(--weight-medium); }
+.gtr .gopt .m { font-size: var(--text-sm); color: var(--muted-foreground); }
+.gtr .small4 .gopt { padding: 9px 12px; opacity: 0.55; }
+.gtr .small4 .gopt .t { font-size: var(--text-base); }
+.gtr .small4 .gopt.right { opacity: 1; border-color: var(--heading-foreground); }
+.gtr .small4 .gopt.right.you { border-color: var(--primary); background: var(--primary-tint); }
+.gtr .small4 .gopt.right.you .t, .gtr .small4 .gopt.right.you .m { color: var(--primary); }
+.gtr .small4 .gopt.wrong { opacity: 1; border-color: var(--warning); border-style: dashed; }
+.gtr .small4 .gopt.wrong .m { color: var(--warning); }
+.gtr .gtr-foot { margin-top: 16px; gap: 14px; }
+
+.gtr .gtr-reveal { display: grid; grid-template-columns: 1fr 360px; gap: 28px; }
+.gtr .rule .ex.nw { white-space: nowrap; word-spacing: 4px; }
+.gtr .small4 .gopt .t, .gtr .small4 .gopt .m { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gtr .small4 .gopt { grid-template-columns: auto minmax(0, 1fr); }
+.gtr .gtr-role { font-size: 32px; color: var(--heading-foreground); margin-bottom: 4px; }
+.gtr .gtr-reveal .src { margin: 2px 0 14px; }
+.gtr .fact-head { display: grid; grid-template-columns: 1fr 120px 42px 52px; white-space: nowrap; gap: 10px; padding: 0 0 6px; border-bottom: 1px solid var(--border); }
+.gtr .fact-head span:nth-child(2) { grid-column: 2 / span 2; }
+.gtr .factlist { list-style: none; margin: 0; padding: 0; }
+.gtr .factlist li { display: grid; grid-template-columns: 22px 1fr 120px 42px 52px; gap: 10px; align-items: center; padding: 5px 0; line-height: 1.3; border-bottom: 1px solid var(--border); font-size: var(--text-base); }
+.gtr .factlist .n { color: var(--subtle-foreground); font-size: var(--text-sm); }
+.gtr .factlist .nm { color: var(--subtle-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gtr .factlist li.seen .nm { color: var(--foreground); }
+.gtr .factlist .ar { display: block; font-size: var(--text-sm); color: var(--subtle-foreground); }
+.gtr .factlist .bar { position: relative; height: 6px; border-radius: 3px; background: var(--muted); }
+.gtr .factlist .bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; background: var(--secondary); }
+.gtr .factlist .bar u { position: absolute; top: -4px; width: 2px; height: 14px; background: var(--muted-foreground); }
+.gtr .factlist .v { color: var(--secondary); text-align: right; }
+.gtr .factlist .avg { color: var(--subtle-foreground); text-align: right; }
+.gtr .punch { margin-top: 12px; font-size: var(--text-md); color: var(--foreground); }
+.gtr .verdict-box { border-radius: var(--radius-md); padding: 12px 14px; display: flex; align-items: baseline; gap: 12px; font-size: var(--text-base); }
+.gtr .verdict-box .big { font-size: 28px; line-height: 1; }
+.gtr .verdict-box.ok { border: 1px solid var(--primary); background: var(--primary-tint); color: var(--primary); }
+.gtr .verdict-box.miss { border: 1px dashed var(--warning); background: var(--warning-tint); color: var(--warning); }
+.gtr .close { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+.gtr .close li { padding: 7px 0; line-height: 1.4; border-bottom: 1px solid var(--border); display: grid; gap: 1px; }
+.gtr .close .t { color: var(--heading-foreground); font-weight: var(--weight-medium); }
+.gtr .close .m { font-size: var(--text-sm); color: var(--muted-foreground); }
+.gtr .close .d { font-size: var(--text-sm); color: var(--muted-foreground); }
+.gtr .close li.picked .m { color: var(--warning); }
+.gtr .gtr-next { margin-top: 16px; gap: 10px; }
+
+.gtr .gtr-end { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 380px; gap: 36px; padding-top: 6px; }
+.gtr .gtr-rank { font-size: 40px; color: var(--primary); letter-spacing: var(--tracking-tighter); margin-bottom: 4px; }
+.gtr .rounds { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: var(--text-base); }
+.gtr .rounds th { text-align: left; font-weight: var(--weight-regular); font-size: var(--text-sm); color: var(--subtle-foreground); padding: 0 8px 6px 0; border-bottom: 1px solid var(--border); }
+.gtr .rounds td { padding: 4px 8px 4px 0; line-height: 1.35; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.gtr .rounds .r { text-align: right; }
+.gtr .rounds td a { color: var(--heading-foreground); }
+.gtr .rounds td .m { display: block; color: var(--subtle-foreground); font-size: var(--text-sm); line-height: 1.3; }
+.gtr .rounds .post { color: var(--muted-foreground); font-size: var(--text-sm); white-space: nowrap; }
+.gtr .rounds .rn { color: var(--subtle-foreground); font-size: var(--text-sm); width: 28px; }
+.gtr .rounds .rp { color: var(--primary); }
+.gtr .rounds tr.miss .rp { color: var(--warning); }
+.gtr .point { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: 18px 20px; font-size: var(--text-md); }
+.gtr .point p { margin: 0 0 8px; }
+.gtr .point .kick { font-size: var(--text-lg); color: var(--heading-foreground); margin: 12px 0 0; }
+.gtr .gtr-end .tags a.tag { color: var(--foreground); }
+.gtr .best { list-style: none; margin: 0; padding: 0; }
+.gtr .best li { display: grid; grid-template-columns: 64px 1fr auto; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: var(--text-base); color: var(--muted-foreground); }
+.gtr .best li.today { color: var(--primary); }
+
+</style></head>
+<body>
+<header class="top">
+  <a class="brand" href="#/"><span class="mark" aria-hidden="true"></span><span class="wordmark">GradBuddy</span></a>
+  <nav class="crumbs"><a href="#/games">Games</a><span class="sep">/</span><span class="here">Round 4 of 10</span></nav>
+  <div class="top-actions"><a class="toplink" href="#/explore">Explore</a><a class="toplink" href="#/you">About you</a><button class="icon" type="button">◐</button></div>
+</header>
+<div class="shell"><main class="main gtr">
+<div class="gtr-play">
+ <div class="gtr-head"><p class="eyebrow">Guess the role · round 4 of 10</p><div class="gtr-score"><div class="pips" aria-label="Round 4 of 10"><i class="ok"></i><i class="ok"></i><i class="ok"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div><span class="mono"><b>1,100</b> points</span></div></div>
+ <div class="gtr-board">
+  <section class="clues"><p class="small muted">One open posting asks for</p><ol class="cluelist"><li class=""><span class="n mono">1</span><span class="nm">Financial modeling &amp; analysis</span></li><li class=""><span class="n mono">2</span><span class="nm">Statistics &amp; forecasting</span></li><li class="new"><span class="n mono">3</span><span class="nm">Debt financing &amp; capital structure</span></li><li class="hid"><span class="n mono">4</span><span class="nm">Clue 4</span></li><li class="hid"><span class="n mono">5</span><span class="nm">Clue 5</span></li></ol></section>
+  <aside class="pts"><p class="small muted">Answer now for</p><p class="now-pts mono">300</p><ol class="ladder-pts"><li class="gone"><span class="mono">500</span><span>after 1 clue</span></li><li class="gone"><span class="mono">400</span><span>after 2 clues</span></li><li class="now"><span class="mono">300</span><span>after 3 clues</span></li><li class=""><span class="mono">200</span><span>after 4 clues</span></li><li class=""><span class="mono">100</span><span>after 5 clues</span></li></ol></aside>
+ </div>
+ <p class="q">Which role is it?</p>
+ <div class="gtr-choices"><button class="gopt" type="button"><kbd>1</kbd><span class="t">Corporate Banking Associate</span><span class="m">Banking &amp; investing</span></button><button class="gopt" type="button"><kbd>2</kbd><span class="t">Treasury Manager</span><span class="m">Finance</span></button><button class="gopt" type="button"><kbd>3</kbd><span class="t">Financial Manager</span><span class="m">Finance</span></button><button class="gopt" type="button"><kbd>4</kbd><span class="t">Investment Manager</span><span class="m">Banking &amp; investing</span></button></div>
+ <div class="row gtr-foot"><button class="btn" type="button">Next clue <kbd>Enter</kbd></button><span class="small muted">The next clue lowers this round to 200.</span></div>
+</div></main></div>
+<footer class="foot"><span>Built from live job postings, refreshed weekly.</span> <a href="#/about">About the data</a></footer>
+</body></html>

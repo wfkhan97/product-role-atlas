@@ -10,9 +10,10 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pipeline import roles, roles_mba
+from pipeline import log, roles, roles_mba
 from pipeline.roles import specializations
 
+logger = log.get(__name__)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 from pipeline import tax
 TAX = tax.load()
@@ -135,6 +136,17 @@ SELF_VERB = r"(is (?!seeking|looking|hiring|searching|recruiting|currently|an eq
 ENTITY = r"(,? (group|inc\.?|llc|l\.?p\.?|& co\.?|and company|company|corporation|corp\.?|partners|capital|management|financial|holdings|bank|\([A-Z]+: ?[A-Z.]+\)))*"
 
 
+# Boards send the typographic apostrophe (’) as often as the straight one; the patterns spell the straight one
+# ("master'?s", "bank's products"). Text is normalised for matching only: the cleaned text, the evidence sentences
+# and the corpus keep the posting's own characters, so a quoted sentence still matches its posting word for word.
+APOSTROPHES = str.maketrans({"’": "'", "‘": "'", "ʼ": "'"})
+
+
+def norm(text):
+    """The text as the patterns read it: typographic apostrophes as straight ones (same length, so offsets hold)."""
+    return text.translate(APOSTROPHES)
+
+
 def clean(desc, company=None, split_long=False):
     """Drop boilerplate lines (EEO statements, benefits, legal, the employer's own description) so they don't inflate skill counts.
 
@@ -148,11 +160,12 @@ def clean(desc, company=None, split_long=False):
         first = re.escape(company.split()[0])
         about = re.compile(rf"^\W*(about )?(the )?({re.escape(company)}|{first}){ENTITY},? {SELF_VERB}", re.I)
     out = []
-    lines = desc.split("\n")
+    lines = (desc or "").split("\n")
     if split_long:
         lines = [part for line in lines for part in (SENT_RE.split(line) if len(line) > LONG_LINE else [line])]
     for line in lines:
-        if len(line) > 40 and (BOILER_RE.search(line) or ABOUT_RE.search(line) or (about and about.search(line))):
+        test = norm(line)
+        if len(line) > 40 and (BOILER_RE.search(test) or ABOUT_RE.search(test) or (about and about.search(test))):
             continue
         out.append(line)
     return "\n".join(out)
@@ -224,49 +237,60 @@ def postings(roleset):
     reg = {r["company"]: r for r in load_registry(roleset)}
     oldest = (datetime.date.today() - datetime.timedelta(days=KEEP_CLOSED_DAYS)).isoformat()
     seen = set()
-    postings.dropped = 0
-    for folder in cfg["raw"]:
-        for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", folder, "*.json"))):
+    postings.dropped = postings.read = postings.files = 0
+    files = [(n, path) for n, folder in enumerate(cfg["raw"]) for path in sorted(glob.glob(os.path.join(ROOT, "data", "raw", folder, "*.json")))]
+    # An employer that retitles a requisition gives it a new URL: the backlog then holds it twice under one id, and
+    # when the employer is in both scrapes, the product file (read as it was scraped) can hold the old title of a
+    # requisition the backlog holds under the new one. The one seen last is the posting; on a tie, the row from the
+    # folder listed first (the backlog). (The product set has no backlog and is read as it is.)
+    latest = {}
+    if cfg.get("backlog"):
+        for n, path in files:
             blob = json.load(open(path))
-            company = blob["company"]
-            r = reg.get(company)
-            if r is None or r.get("ats") in (None, "unsupported"):
-                continue  # company dropped from the registry
-            # An employer that retitles a requisition gives it a new URL: the backlog then holds it twice under one
-            # id. The one seen last is the posting. (Product files have no backlog and are read as they are.)
-            rows = blob["jobs"]
-            if cfg.get("backlog"):
-                latest = {}
-                for j in rows:
-                    k = j.get("external_id") or j.get("url")
-                    if k not in latest or (j.get("last_seen") or "") >= (latest[k].get("last_seen") or ""):
-                        latest[k] = j
-                rows = [j for j in rows if latest[j.get("external_id") or j.get("url")] is j]
-            for j in rows:
-                if j.get("closed") and (not cfg.get("backlog") or (j.get("last_seen") or "") < oldest):
-                    continue
-                # the employer's category comes from the registry: postings scraped before it had one carry none
-                if r.get("category") and j.get("category") != r["category"]:
-                    j = dict(j, category=r["category"])
-                was = (blob.get("scraped_at") or "")[:10]  # a file not refreshed since the backlog began
-                j = dict(j, company=company, first_seen=j.get("first_seen") or was, last_seen=j.get("last_seen") or was)
-                fam = cfg["family"](j["title"], j)
-                if fam is None:
-                    continue
-                if roleset == "mba" and (folder == "jobs") != (fam in roles_mba.IN_PRODUCT_SCRAPE):
-                    continue
-                desc = j.get("description") or ""
-                if len(desc) < 300:
-                    continue
-                cleaned = clean(desc, company, cfg.get("split_long", False))
-                key = (company, j["title"].strip().lower(), hashlib.md5(cleaned.strip().encode()).hexdigest())
-                # the same URL under a second company name is the same posting (a board shared by two registry entries)
-                if key in seen or (j.get("url") and j["url"] in seen):
-                    postings.dropped += 1
-                    continue
-                seen.add(key)
-                seen.add(j.get("url"))
-                yield company, r, j, fam, cleaned
+            was = (blob.get("scraped_at") or "")[:10]
+            for i, j in enumerate(blob["jobs"]):
+                k = (blob["company"], j.get("external_id") or j.get("url"))
+                rank = (j.get("last_seen") or was, -n)
+                if k not in latest or rank >= latest[k][0]:
+                    latest[k] = (rank, path, i)
+    for n, path in files:
+        folder = cfg["raw"][n]
+        blob = json.load(open(path))
+        company = blob["company"]
+        r = reg.get(company)
+        if r is None or r.get("ats") in (None, "unsupported"):
+            logger.debug("%s: skipped, not in the registry or no adapter", os.path.basename(path))
+            continue  # company dropped from the registry
+        postings.files += 1
+        postings.read += len(blob["jobs"])
+        rows = blob["jobs"]
+        if cfg.get("backlog"):
+            rows = [j for i, j in enumerate(rows) if latest[(company, j.get("external_id") or j.get("url"))][1:] == (path, i)]
+        for j in rows:
+            if j.get("closed") and (not cfg.get("backlog") or (j.get("last_seen") or "") < oldest):
+                continue
+            # the employer's category comes from the registry: postings scraped before it had one carry none
+            if r.get("category") and j.get("category") != r["category"]:
+                j = dict(j, category=r["category"])
+            was = (blob.get("scraped_at") or "")[:10]  # a file not refreshed since the backlog began
+            j = dict(j, company=company, first_seen=j.get("first_seen") or was, last_seen=j.get("last_seen") or was)
+            fam = cfg["family"](j["title"], j)
+            if fam is None:
+                continue
+            if roleset == "mba" and (folder == "jobs") != (fam in roles_mba.IN_PRODUCT_SCRAPE):
+                continue
+            desc = j.get("description") or ""
+            if len(desc) < 300:
+                continue
+            cleaned = clean(desc, company, cfg.get("split_long", False))
+            key = (company, j["title"].strip().lower(), hashlib.md5(cleaned.strip().encode()).hexdigest())
+            # the same URL under a second company name is the same posting (a board shared by two registry entries)
+            if key in seen or (j.get("url") and j["url"] in seen):
+                postings.dropped += 1
+                continue
+            seen.add(key)
+            seen.add(j.get("url"))
+            yield company, r, j, fam, cleaned
 
 
 def tag_posting(item):
@@ -275,7 +299,7 @@ def tag_posting(item):
     cfg = ROLE_SETS[roleset]
     title = j["title"]
     desc = j.get("description") or ""
-    text = title + "\n" + cleaned
+    text = norm(title + "\n" + cleaned)
     hits = tag(text, skills_for(roleset))
     # drop years-of-experience buckets that aren't consistent with the explicit ask, keep only the one matching
     yoe = years_required(cleaned)
@@ -294,7 +318,7 @@ def tag_posting(item):
         for sid in hits:
             if sid.startswith("yoe_"):
                 continue
-            m = SKILL_RX[sid].findall(sent)
+            m = SKILL_RX[sid].findall(norm(sent))
             if m:
                 found.append((sid, {"text": sent, "company": company, "title": title, "url": j.get("url"), "level": lvl, "_score": len(m)}))
     job = {
@@ -322,7 +346,7 @@ def tag_posting(item):
         "desc_chars": len(desc),
         **({"category": j["category"]} if j.get("category") else {}),
         **({"ladder": cfg["ladder"](title, company, ctx)} if "ladder" in cfg else {}),
-        **(dict(zip(("entry", "intern", "entry_src"), cfg["entry"](title, company, ctx, lvl, cleaned, yoe))) if "entry" in cfg else {}),
+        **(dict(zip(("entry", "intern", "entry_src"), cfg["entry"](title, company, ctx, lvl, norm(cleaned), yoe))) if "entry" in cfg else {}),
         **({"open": not j.get("closed"), "first_seen": j.get("first_seen"), "last_seen": j.get("last_seen")} if cfg.get("backlog") else {}),
     }
     return job, found, stage_mentions(desc)
@@ -340,8 +364,11 @@ def main():
     jobs = []
     evidence = {}
     company_stage = {}
+    t = log.Timer()
+    logger.info("extract --roles %s: %d skills, %d workers", args.roles, len(skills), args.workers)
     items = ((args.roles, company, r, j, fam, cleaned) for company, r, j, fam, cleaned in postings(args.roles))
-    # results come back in posting order, so the output does not depend on the number of workers
+    # results come back in posting order, so the output does not depend on the number of workers. The workers do
+    # not log (pipeline/log.py): the parent counts what comes back.
     with multiprocessing.Pool(args.workers) as pool:
         for job, found, st in pool.imap(tag_posting, items, chunksize=40):
             if st:
@@ -350,28 +377,35 @@ def main():
             for sid, ev in found if job["country"] == cfg.get("evidence_country", job["country"]) else ():
                 evidence.setdefault(sid, {}).setdefault(LEVEL_GROUP[ev["level"]], []).append(ev)
             jobs.append(job)
+            if len(jobs) % 5000 == 0:
+                logger.info("%d postings tagged, %s", len(jobs), t)
     os.makedirs(os.path.join(ROOT, "data", "processed"), exist_ok=True)
     sfx = cfg["suffix"]
     from pipeline import processed   # imported late: pipeline.processed is small, extract is imported by many
-    processed.dump(args.roles, jobs)
+    out = processed.dump(args.roles, jobs)
     with open(os.path.join(ROOT, "data", "processed", f"company_stage{sfx}.json"), "w") as f:
         json.dump(company_stage, f, indent=1)
     picked = {sid: {grp: pick_evidence(c) for grp, c in groups.items()} for sid, groups in evidence.items()}
     with open(os.path.join(ROOT, "data", "processed", f"evidence{sfx}.json"), "w") as f:
         json.dump(picked, f)
-    import collections as _c
-    subcnt = _c.Counter(k for j in jobs for k in j["sub"])
-    print("subskills never matched:", [k for k in SUB_RE if subcnt[k] == 0])
     import collections
-    print(len(jobs), "postings tagged;", postings.dropped, "exact reposts (same company, title and text) dropped")
-    print("by family:", collections.Counter(j["family"] for j in jobs).most_common())
-    print("by level:", collections.Counter(j["level"] for j in jobs).most_common())
-    print("by group:", collections.Counter(j["group"] for j in jobs).most_common())
+    subcnt = collections.Counter(k for j in jobs for k in j["sub"])
     cnt = collections.Counter(k for j in jobs for k in j["skills"])
-    print("top skills:", [(k, round(v / len(jobs), 2)) for k, v in cnt.most_common(25)])
-    print("never matched:", [sid for sid, _ in skills if cnt[sid] == 0])
-    print("avg skills/job:", sum(len(j["skills"]) for j in jobs) / max(1, len(jobs)))
+    logger.info("extract --roles %s done in %s: %d postings read from %d files, %d tagged, %d exact reposts (same company, title and text) dropped -> %s",
+                args.roles, t, postings.read, postings.files, len(jobs), postings.dropped, os.path.relpath(out, ROOT))
+    logger.info("by family: %s", collections.Counter(j["family"] for j in jobs).most_common())
+    logger.info("by level: %s", collections.Counter(j["level"] for j in jobs).most_common())
+    logger.info("by group: %s", collections.Counter(j["group"] for j in jobs).most_common())
+    logger.info("top skills: %s", [(k, round(v / len(jobs), 2)) for k, v in cnt.most_common(25)])
+    logger.info("avg skills/job: %.2f", sum(len(j["skills"]) for j in jobs) / max(1, len(jobs)))
+    never = [sid for sid, _ in skills if cnt[sid] == 0]
+    if never:
+        logger.warning("skills never matched: %s", never)
+    never_sub = [k for k in SUB_RE if subcnt[k] == 0]
+    if never_sub:
+        logger.warning("sub-skills never matched: %s", never_sub)
 
 
 if __name__ == "__main__":
+    log.setup()
     main()

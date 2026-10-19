@@ -126,7 +126,7 @@
     const nd = data.byId[id]; if (!nd) return "";
     const s = data.ix.skillById[id] || {}, ix = data.ix, rows = [];
     for (const [rid, r] of Object.entries(ix.roles)) {
-      const share = r.set === "product" ? (P ? ((P.skillById[id] || {}).by_family || {})[rid] || 0 : 0) : (s.by_family || {})[rid] || 0;
+      const share = r.set === "product" ? (P ? ((P.skillById[id] || {}).by_family || {})[r.family] || 0 : 0) : (s.by_family || {})[r.family] || 0;
       if (share > 0) rows.push({ id: rid, label: r.label, group: r.group, share });
     }
     rows.sort((a, b) => b.share - a.share);
@@ -182,5 +182,8 @@
   async function names() { await load(); return data.nodes.map(nd => nd.name).sort(); }
   function leave() { ui.el = null; ui.selected = null; ui.hover = null; ui.showAside = null; if (data) tip(null); }
   const mode = () => store.get(MODE_KEY, "map"), setMode = m => store.set(MODE_KEY, m);
-  window.SkillMap = { stage, find, names, leave, mode, setMode };
+  // read-only, for games that use the map as a board (web/games/skill-path.js): positions, links and field shares;
+  // FS gains the product field once the product set has loaded
+  async function board() { await load(); return { nodes: data.nodes, byId: data.byId, adj: data.adj, field: data.field, rField: R_FIELD, A, get FS() { return data.FS; } }; }
+  window.SkillMap = { stage, find, names, leave, mode, setMode, board };
 })();
