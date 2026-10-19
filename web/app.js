@@ -11,6 +11,25 @@
   const EV_GROUPS = [["early", "Entry and mid-level"], ["senior", "Senior"], ["staff", "Lead / principal"], ["lead", "Director and up"]];
   const LADDER_KEYS = [["associate", "Entry"], ["mid", "Mid-level"], ["senior", "Senior"], ["lead", "Lead"]];
   const STEP_TO_EV = { entry: "early", mid: "early", senior: "senior", lead: "staff" };
+  // A skill's build steps are a flat list of strings (product skills) or keyed by industry ladder, each step with its
+  // source ({bank: [{kind, text, source_title, url, grounding, ...}]}: MBA skills). Keyed steps are read on the role's
+  // own ladder; with `other`, another industry's steps stand in, named as such. Consulting is on hold (no source agreed,
+  // data/raw/build_sources.json), so nothing stands in for it. Sources are named and linked, never quoted.
+  function buildSteps(s, ladder, other) {
+    const B = s && s.build;
+    if (!B) return { steps: [], ind: null };
+    if (Array.isArray(B)) return { steps: B, ind: null };
+    if ((B[ladder] || []).length) return { steps: B[ladder], ind: ladder };
+    const ind = other && ladder !== "consulting" ? ["corporate", "bank"].find(k => (B[k] || []).length) : null;
+    return { steps: ind ? B[ind] : [], ind };
+  }
+  const practise = steps => steps.find(b => typeof b === "string" ? /^project/i.test(b) : b.kind === "practise") || steps[0];
+  function stepHtml(b) {
+    if (typeof b === "string") return esc(b);
+    const title = b.source_title || b.source || "";
+    const src = b.url ? `<a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(title)}</a>` : esc(title);
+    return esc(b.text) + (title ? ` <span class="small muted">Source: ${src}${b.grounding === "input only" ? " (names the input, not the method)" : ""}.</span>` : "");
+  }
 
   // ---------- theme: the device decides unless the person overrides ----------
   const THEMES = ["system", "dark", "light"], GLYPH = { system: "◐", dark: "●", light: "○" };
@@ -425,7 +444,8 @@
     const subs = subsMeta.map(sub => `<div class="sub${m ? (m.subs.has(sub.id) ? " have" : m.required.has(s.id) && !m.presumed.has(s.id) ? " miss" : "") : ""}"><span class="nm">${esc(sub.name)}</span><span class="pct" title="share of postings asking for ${esc(s.name)} that mention this">${pct(ss.share(sub.id))}</span>${sub.example ? `<span class="ex">${esc(sub.example)}</span>` : ""}</div>`).join("");
     const here = state.level === "all" ? null : { entry: "associate", mid: "mid", senior: "senior", lead: "lead" }[state.level];
     const ladder = ladderHtml(R, s, here);
-    const build = (s.build || []).length ? `<ul class="plain">${s.build.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : `<p class="small muted">Build steps for this skill are not written yet.</p>`;
+    const bs = buildSteps(s, R.role.ladder, true), ladName = k => (((R.ladders || {})[k] || {}).label || k).toLowerCase();
+    const build = bs.steps.length ? (bs.ind && bs.ind !== R.role.ladder ? `<p class="small muted">Shown from the ${esc(ladName(bs.ind))} ladder; this skill has none yet for ${esc(ladName(R.role.ladder))}.</p>` : "") + `<ul class="plain">${bs.steps.map(b => `<li>${stepHtml(b)}</li>`).join("")}</ul>` : `<p class="small muted">${R.role.ladder === "consulting" && s.build && !Array.isArray(s.build) ? "Build steps for consulting roles are on hold until a source is agreed." : "Build steps for this skill are not written yet."}</p>`;
     const signals = (s.signals || []).length ? `<p class="small muted" style="margin:10px 0 0">Resume lines that show it</p><ul class="plain">${s.signals.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
     const withSkill = slice.filter(j => j.open && j.skills.includes(s.id)).slice(0, 6);
     const postings = withSkill.length ? `<div class="list">${withSkill.map(j => `<button type="button" class="r" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${esc(j.company)}</span></button>`).join("")}</div>` : `<p class="small muted">No open posting in this view asks for it.</p>`;
@@ -483,7 +503,7 @@
     const { M, bands, group } = await Atlas.matcher(R);
     const extra = [state.grads ? "graduates and interns" : null, state.employer !== "all" ? (R.employerTypes.find(e => e[0] === state.employer) || [])[1] : null, ...state.sector, ...state.company, ...state.country, state.remote ? "remote" : null].filter(Boolean);
     const label = `${role.label}${level === "all" ? "" : " · " + R.stepLabels[level]}${extra.length ? " · " + extra.join(", ") : ""}`;
-    const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label }, { level: LEVEL_OPT[level] });
+    const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label }, { level: LEVEL_OPT[level], ladder: R.role.ladder });
     const rows = r.rows, by = st => rows.filter(x => x.status === st).sort((a, b) => (a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : b.tier === "core" ? 1 : a.tier === "common" ? -1 : 1));
     const evid = by("evidenced"), trans = by("transferable"), thin = by("thin"), presumed = by("presumed"), gaps = by("gap").filter(x => x.tier !== "diff");
     const required = new Set(); for (const x of rows) { if (x.tier === "diff") continue; if (x.slot === "__ai") r.ai.forEach(k => required.add(k)); else if (x.slot !== "__domain") required.add(x.id); }
@@ -500,7 +520,7 @@
     const placeholder = r.parsed.placeholderDates && r.parsed.roles.some(x => x.placeholder) ? `<div class="notice"><b>Some dates in this text are placeholders ("20XX").</b> We read those jobs, but we cannot count their years.</div>` : "";
     // the two slots that stand for a group of skills get plain words: which industry, which kind of AI work
     const slotWhy = x => x.slot === "__domain" ? ` Name an industry you have worked in. These postings are in: ${r.industries.slice(0, 4).map(d => esc(d.name)).join(", ")}. One is enough.` : x.slot === "__ai" ? ` Show one line of AI work: ${r.ai.map(k => esc(R.skillById[k] ? R.skillById[k].name : k)).join(", ")}.` : "";
-    const next = gaps.slice(0, 3).map(x => `<li><b>${esc(x.slotName)}</b><span class="why">Asked in ${pct(x.w)} of postings${x.tier === "core" ? ", by most" : ""}.${slotWhy(x)}${x.signals && x.signals[0] ? ` A line that would show it: “${esc(x.signals[0])}”` : ""}${x.build && x.build[0] ? ` ${esc(x.build[0])}` : ""}</span></li>`).join("");
+    const next = gaps.slice(0, 3).map(x => `<li><b>${esc(x.slotName)}</b><span class="why">Asked in ${pct(x.w)} of postings${x.tier === "core" ? ", by most" : ""}.${slotWhy(x)}${x.signals && x.signals[0] ? ` A line that would show it: “${esc(x.signals[0])}”` : ""}${x.build && x.build[0] ? ` ${stepHtml(x.build[0])}` : ""}</span></li>`).join("");
     const whatIf = gaps.length && bandNext && bandNext !== band ? `<p class="small muted">Evidence ${gaps.slice(0, 3).length === 1 ? "that one" : `those ${gaps.slice(0, 3).length === 3 ? "three" : "two"}`} and your resume reads as “${bandName(bandNext)}”.</p>` : "";
     const tag = (x, cls) => R.skillById[x.id] ? `<button type="button" class="tag ${cls}" data-skill="${esc(x.id)}">${esc(x.slotName)}${cls === "amber" ? ' <span class="subtle">(said in other words)</span>' : ""}</button>` : `<span class="tag ${cls}">${esc(x.slotName)}</span>`;
     const yoeAsk = r.creds.filter(c => c.id.startsWith("yoe_")).sort((a, b) => b.w - a.w)[0];
@@ -602,7 +622,7 @@
       const count = {}; for (const r of roles) for (const id of coreOf(r)) count[id] = (count[id] || 0) + 1;
       const cands = Object.entries(count).filter(([id]) => !GENERIC.has(id) && (!rg || !rg.shown.has(id))).sort((a, b) => b[1] - a[1]).slice(0, 5);
       body = `<h2>What to build</h2><p class="small muted">${rg ? "Skills most of these roles ask for that your resume does not show yet. A project that shows one is worth a line on your resume." : `Skills most of these roles ask for. <a href="#/you">Add your resume</a> and we leave out the ones you already show.`}</p>
-        <ol class="next">${cands.map(([id, n]) => { const sk = ix.skillById[id] || {}; return `<li><b>${esc(nameOf(id))}</b><span class="why">Asked by most postings of ${n === 1 ? "one role" : n + " roles"} here.${sk.build && sk.build[0] ? ` ${esc(sk.build.find(b => /^project/i.test(b)) || sk.build[0])}` : " No build step is written for this skill yet; open it on a role screen to see how postings say it."}</span></li>`; }).join("") || "<li>Nothing left: your resume shows what these roles ask for.</li>"}</ol>`;
+        <ol class="next">${cands.map(([id, n]) => { const sk = ix.skillById[id] || {}; const steps = roles.filter(r => coreOf(r).includes(id)).map(r => buildSteps(sk, r.ladder).steps).find(x => x.length) || []; return `<li><b>${esc(nameOf(id))}</b><span class="why">Asked by most postings of ${n === 1 ? "one role" : n + " roles"} here.${steps.length ? ` ${stepHtml(practise(steps))}` : " No build step is written for this skill yet; open it on a role screen to see how postings say it."}</span></li>`; }).join("") || "<li>Nothing left: your resume shows what these roles ask for.</li>"}</ol>`;
     }
     page(`<h1>Prepare for an event</h1><p class="lead">${esc(g.label)} · which kind of event?</p>${chips}${body}`);
     if (kind === "roundtable" && rg) Atlas.fieldMatches(g.id, state.resume.text).then(res => {

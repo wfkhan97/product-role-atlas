@@ -181,7 +181,7 @@
   // the full matcher on every role of a field, for the roundtable: { role id: match result }
   async function fieldMatches(groupId, text) {
     const ix = await index(); const g = ix.groups.find(x => x.id === groupId); const out = {};
-    for (const id of g.roles) { const R = await role(id); const { M } = await matcher(R); out[id] = M.match(text, { jobs: R.jobs, familyJobs: R.jobs, label: R.role.label }); }
+    for (const id of g.roles) { const R = await role(id); const { M } = await matcher(R); out[id] = M.match(text, { jobs: R.jobs, familyJobs: R.jobs, label: R.role.label }, { ladder: R.role.ladder }); }
     return out;
   }
   // every posting of a field: the role files of its roles (for the employers hiring now)
