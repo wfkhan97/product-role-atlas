@@ -259,6 +259,7 @@ class Models:
             return None
         import requests
         body = {"model": model, "messages": [{"role": "user", "content": prompt}], "response_format": {"type": "json_object"}, "max_tokens": 6000}
+        d = None  # the last reply read, if any: the request itself may raise on every attempt
         for attempt in range(4):
             try:
                 r = requests.post(ENDPOINT, headers={"Authorization": f"Bearer {self.key}"}, json=body, timeout=180)

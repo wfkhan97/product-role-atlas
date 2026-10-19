@@ -59,17 +59,20 @@ def post(url, **kw):
 
 
 TAG_RE = re.compile(r"<[^>]+>")
+SCRIPT_RE = re.compile(r"(?is)<\s*(script|style)\b[^>]*>.*?<\s*/\s*\1\s*>")
 WS_RE = re.compile(r"[ \t\r\f\v]+")
 NL_RE = re.compile(r"\n{3,}")
 
 
 def strip_html(s):
-    """HTML -> plain text, keeping line breaks for block elements and list items."""
+    """HTML -> plain text, keeping line breaks for block elements and list items; script and style blocks are dropped
+    with their content."""
     if not s:
         return ""
     s = html.unescape(s)
     if "<" in s and "&lt;" in s and s.count("&lt;") > s.count("<"):
         s = html.unescape(s)
+    s = SCRIPT_RE.sub(" ", s)
     s = re.sub(r"(?i)<\s*br\s*/?>", "\n", s)
     s = re.sub(r"(?i)</\s*(p|div|li|h[1-6]|tr|ul|ol|section)\s*>", "\n", s)
     s = re.sub(r"(?i)<\s*li[^>]*>", "- ", s)

@@ -160,7 +160,7 @@ def clean(desc, company=None, split_long=False):
         first = re.escape(company.split()[0])
         about = re.compile(rf"^\W*(about )?(the )?({re.escape(company)}|{first}){ENTITY},? {SELF_VERB}", re.I)
     out = []
-    lines = desc.split("\n")
+    lines = (desc or "").split("\n")
     if split_long:
         lines = [part for line in lines for part in (SENT_RE.split(line) if len(line) > LONG_LINE else [line])]
     for line in lines:
