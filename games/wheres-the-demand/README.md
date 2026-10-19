@@ -244,7 +244,7 @@ is shown for it.
 `Atlas.EMPLOYER_TYPES` (for the labels), `Atlas.TIER.core`, `Atlas.genericSkills()`, and `Atlas.product()` if
 product questions are added. No new loader.
 
-**Read MBA role counts from `ix.M.roles`, not `ix.roles`.** The product set has a family with the id `pmm`
+**Read MBA role counts from `ix.M.roles`, not `ix.roles`.** *(Fixed 2026-10-18: product families are now `product.<family>` in `ix.roles`, so `ix.roles.pmm` is always the MBA role; see PLAN.md v10.)* The product set has a family with the id `pmm`
 (Product Marketing Manager), and so does the MBA Marketing field. `Atlas.product()` writes the product family into
 `ix.roles.pmm`, so once the product set is loaded `ix.roles.pmm.nOpen` is 812 (worldwide, product set) instead of
 the MBA role's 613 (US). `ix.M.roles.pmm.n_open` is always 613. Key every card by set and id.

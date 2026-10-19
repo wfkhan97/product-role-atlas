@@ -90,12 +90,12 @@
   // ---------- shares: a skill in a field (average over the field's roles), the roles that ask for it most ----------
   // D = { gById, mById, roles (Atlas.index().roles, both sets), groups (fields), generic (Atlas.genericSkills()) }
   const byFamily = (D, set, id) => (((set === "product" ? D.gById : D.mById)[id] || {}).by_family || {});
-  function fieldShare(e, g, D) { const b = byFamily(D, g.set, e.skillId), roles = g.roles || []; return roles.length ? roles.reduce((a, r) => a + (b[r] || 0), 0) / roles.length : 0; }
+  function fieldShare(e, g, D) { const b = byFamily(D, g.set, e.skillId), roles = g.roles || []; return roles.length ? roles.reduce((a, r) => a + (b[(D.roles[r] || {}).family || r] || 0), 0) / roles.length : 0; }
   function candidates(pool, g, D) { return pool.all.filter(e => !D.generic.has(e.skillId)).map(e => ({ e, share: fieldShare(e, g, D), field: g })).filter(c => c.share >= MIN_SHARE); }
   // "Any field": every field's candidates, each ladder once, with the field where its share is highest
   function anyCandidates(pool, D) { const best = {}; for (const g of D.groups) for (const c of candidates(pool, g, D)) if (!best[c.e.key] || c.share > best[c.e.key].share) best[c.e.key] = c; return Object.values(best); }
   function topRoles(skillId, D, n) {
-    return Object.values(D.roles).map(r => ({ id: r.id, label: r.label, nOpen: r.nOpen || 0, share: byFamily(D, r.set, skillId)[r.id] || 0 })).filter(r => r.share > 0).sort((a, b) => b.share - a.share || b.nOpen - a.nOpen).slice(0, n);
+    return Object.values(D.roles).map(r => ({ id: r.id, label: r.label, nOpen: r.nOpen || 0, share: byFamily(D, r.set, skillId)[r.family] || 0 })).filter(r => r.share > 0).sort((a, b) => b.share - a.share || b.nOpen - a.nOpen).slice(0, n);
   }
 
   // ---------- the draw: five ladders weighted by share, at most two from postings, never two of one skill; easiest first ----------

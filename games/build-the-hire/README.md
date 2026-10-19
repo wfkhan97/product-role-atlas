@@ -252,7 +252,7 @@ to 2.7 MB; the product set is one 9.4 MB file, which the atlas already loads for
   MBA roles the 278-skill set and company-balanced weights. Both measure lift against the same MBA baseline, as the
   atlas does for product defining skills. Product decks have fewer traps (8 to 13): their traps are product skills
   that an MBA role prizes (SQL and data modeling by BI managers, statistics by FP&A).
-- **The `pmm` id is shared.** The MBA marketing role "Product Marketing Manager" and the product family `pmm` have
+- **The `pmm` id is shared.** *(Fixed 2026-10-18: product families are now `product.<family>` in `ix.roles`, so `ix.roles.pmm` is always the MBA role; see PLAN.md v10.)* The MBA marketing role "Product Marketing Manager" and the product family `pmm` have
   the same id; once `Atlas.product()` has loaded, `ix.roles.pmm` is the product one. The game should load
   `Atlas.product()` before building the picker so it always shows the same PMM (product, 812 postings; the MBA one has 613), and list
   it once, under Product. 47 MBA roles + 6 product roles = 53 in the game. Not fixed here (atlas data layer).

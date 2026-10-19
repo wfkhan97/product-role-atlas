@@ -58,8 +58,8 @@
   function shareFn(ix, P, roleId) {
     const r = ix.roles[roleId];
     if (!r) return () => null;
-    if (r.set === "product") return sid => { const s = P && P.skillById[sid]; return s ? ((s.by_family || {})[roleId] || 0) : null; };
-    return sid => (((ix.skillById[sid] || {}).by_family || {})[roleId]) || 0;
+    if (r.set === "product") return sid => { const s = P && P.skillById[sid]; return s ? ((s.by_family || {})[r.family] || 0) : null; };
+    return sid => (((ix.skillById[sid] || {}).by_family || {})[r.family]) || 0;
   }
 
   // The three skills that most set a role apart: share x min(4, share / baseline), share >= 0.25, not domain.
@@ -272,7 +272,7 @@
     const saved = store.read();
     const S = {
       ix: null, P: null, B: null, SM: null, cx: null, ready: false, failed: null, pairs: null, pools: null,
-      from: "field", startField: "marketing", startRole: null, target: "pm", level: LEVELS.includes(saved.level) ? saved.level : "normal",
+      from: "field", startField: "marketing", startRole: null, target: "product.pm", level: LEVELS.includes(saved.level) ? saved.level : "normal",
       su: null, round: null, opts: null, screen: "start", view: null, hover: null, confirm: false, drawn: false, note: null, typed: {},
     };
 

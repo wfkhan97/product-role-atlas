@@ -126,7 +126,7 @@
     const nd = data.byId[id]; if (!nd) return "";
     const s = data.ix.skillById[id] || {}, ix = data.ix, rows = [];
     for (const [rid, r] of Object.entries(ix.roles)) {
-      const share = r.set === "product" ? (P ? ((P.skillById[id] || {}).by_family || {})[rid] || 0 : 0) : (s.by_family || {})[rid] || 0;
+      const share = r.set === "product" ? (P ? ((P.skillById[id] || {}).by_family || {})[r.family] || 0 : 0) : (s.by_family || {})[r.family] || 0;
       if (share > 0) rows.push({ id: rid, label: r.label, group: r.group, share });
     }
     rows.sort((a, b) => b.share - a.share);

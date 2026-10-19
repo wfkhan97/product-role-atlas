@@ -41,8 +41,8 @@ const EXPECT = {
     start: "Vendor, budget & contract management", par: 4, short: 3,
     biggest: ["Program & project management", "Risk & dependency management", "Regulated industries & compliance", "Payments, fintech & banking", "Financial modeling & analysis", "Business cases & ROI"],
   },
-  pools: { field: { easy: 86, normal: 314, hard: 50 }, role: { easy: 449, normal: 1379, hard: 214 } },
-  roles: 53,
+  pools: { field: { easy: 90, normal: 320, hard: 50 }, role: { easy: 476, normal: 1431, hard: 218 } },
+  roles: 54,
 };
 
 const ix = await Atlas.index();
@@ -66,7 +66,7 @@ function check(label, actual, expected) {
 check("board: skills, links, pieces, fewest links", { skills: B.ids.length, links: B.links, pieces: L.pieces(B), minLinks: Math.min(...B.ids.map(id => B.adj[id].length)) }, EXPECT.board);
 
 // ---------- Marketing -> Product Manager, normal (the README's round) ----------
-const mk = L.setup(ctx, "field", "marketing", "pm");
+const mk = L.setup(ctx, "field", "marketing", "product.pm");
 check("pm arrival skills", mk.arrivals.map(N), EXPECT.pmArrivals);
 check("Marketing start skill", N(mk.start), EXPECT.marketing.start);
 check("Marketing -> pm par", mk.par, EXPECT.marketing.par);
@@ -86,7 +86,7 @@ check("Marketing -> pm shortest route", mk.short.map(N), EXPECT.marketing.route)
 
 // ---------- Supply chain & procurement -> Product Manager: the biggest blue number runs out of hops ----------
 const biggest = (R, su) => { const op = L.options(R, B); const arr = op.list.find(c => su.arrivals.includes(c.id)); return arr || op.list.slice().sort((a, b) => (su.share(b.id) || 0) - (su.share(a.id) || 0))[0]; };
-const sc = L.setup(ctx, "field", "supply_chain", "pm");
+const sc = L.setup(ctx, "field", "supply_chain", "product.pm");
 check("Supply chain start skill, par", [N(sc.start), sc.par], [EXPECT.supply.start, EXPECT.supply.par]);
 {
   const R = L.newRound(sc, "normal");
