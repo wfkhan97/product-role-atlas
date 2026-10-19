@@ -200,7 +200,9 @@
     };
     const scores = {};
     for (const [id, r] of Object.entries(ix.roles)) scores[id] = score(r.set === "mba" ? [...r.definingList, ...r.asks] : r.asks);
-    return { held, scores, shown, ev, years: parsed.totalYears, isStudent: parsed.isStudent };
+    // the dated roles and the degrees, for the About you summary (title, first and last year, whether an internship)
+    const roles = parsed.roles.filter(r => r.title).map(r => ({ title: r.title, start: r.span ? Math.floor(r.span[0]) : null, end: r.span ? Math.round(r.span[1]) : null, years: r.years || 0, intern: !!r.isIntern, family: r.roleFamily || null }));
+    return { held, scores, shown, ev, years: parsed.totalYears, isStudent: parsed.isStudent, roles, degrees: [...(parsed.degrees || [])], lines: parsed.lines.length };
   }
   // the skills a text names, read as a student's course list: a mention counts (a syllabus describes topics)
   async function readCourse(text) {

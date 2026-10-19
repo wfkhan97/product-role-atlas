@@ -75,3 +75,8 @@ test("every screen parseRoute names has an entry in route()'s dispatch table", (
   const names = ["#/", "#/you", "#/explore", "#/about", "#/field/x", "#/field/x/event", "#/role/x", "#/role/x/fit", "#/role/x/course", "#/play/x"].map(h => parseRoute(h).name);
   for (const n of names) assert.ok(keys.has(n), `no dispatch for ${n}`);
 });
+
+test("a query on a screen's hash comes through: the wizard's step and the role screen's tab", () => {
+  const you = parseRoute("#/you?step=2"); assert.equal(you.name, "you"); assert.deepEqual(you.query, { step: "2" });
+  const role = parseRoute("#/role/fpa?tab=skills"); assert.equal(role.name, "role"); assert.deepEqual(role.query, { tab: "skills" });
+});

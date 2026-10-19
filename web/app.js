@@ -168,21 +168,27 @@
       <div class="cover big"><img src="${esc(gm.cover)}" alt="${esc(gm.title)}, an early design" onerror="this.remove()"><span class="ph-t">${esc(gm.title)}</span></div>
       <div class="row" style="margin-top:16px"><a class="btn" href="#/">← All games</a><a class="btn quiet" href="#/explore">Explore the roles</a></div>`, true);
   }
-  // ---------- 2. tell us about you: three questions and an optional resume ----------
+  // ---------- 2. tell us about you: two questions and an optional resume (owner's choice Y2: the "what are you
+  // looking for" question changed nothing on screen, so it is gone), then a summary of what we know (Y3) ----------
   const Q = [
     { key: "where", title: "Where are you right now?", options: [["mba", "In an MBA programme"], ["grad", "In another master's or PhD programme"], ["undergrad", "In undergrad"], ["working", "Working, thinking about a change"]] },
-    { key: "want", title: "What are you looking for?", options: [["job", "A full-time job after graduation"], ["intern", "An internship"], ["look", "Just a look around"]] },
     { key: "fields", title: "Which fields interest you?", multi: true, hint: "Pick as many as you like, or none. We add the fields your resume points to." },
   ];
+  const WHERE = Object.fromEntries(Q[0].options), WHERE_SHORT = { mba: "MBA", grad: "Master's or PhD", undergrad: "Undergrad", working: "Working" };
   let wiz = null;
+  // "#/you" is the summary once anything is known; "#/you?step=N" opens the wizard at one question to change it
   async function you() {
     const ix = await Atlas.index();
     crumbs([["About you", null]]); showAside(null);
-    if (!wiz) wiz = { step: 0, answers: { ...(state.you || {}), fields: new Set((state.you || {}).fields || []) } };
+    const { query } = Routes.parseRoute(location.hash);
+    const editing = query.step != null;
+    if (!editing && !wiz && (state.you || state.resume)) return youSummary(ix);
+    if (!wiz) wiz = { step: editing ? Math.max(0, Math.min(Q.length, Number(query.step) || 0)) : 0, back: editing, answers: { ...(state.you || {}), fields: new Set((state.you || {}).fields || []) } };
     const render = () => {
       const n = Q.length + 1, i = wiz.step;
       const steps = `<div class="steps">${Array.from({ length: n }, (_, k) => `<i class="${k <= i ? "done" : ""}"></i>`).join("")}</div>`;
-      const nav = (nextLabel, nextAction) => `<div class="row between" style="margin-top:16px"><button type="button" class="btn quiet" id="back">← Back</button><span class="row">${i === Q.length ? '<a class="btn" href="#/explore" id="skip">Skip for now</a>' : ""}<button type="button" class="btn primary" id="next">${nextLabel}</button></span></div>`;
+      const after = wiz.back ? "#/you" : "#/explore";
+      const nav = (nextLabel, nextAction) => `<div class="row between" style="margin-top:16px"><button type="button" class="btn quiet" id="back">← Back</button><span class="row">${i === Q.length ? `<a class="btn" href="${after}" id="skip">Skip for now</a>` : ""}<button type="button" class="btn primary" id="next">${nextLabel}</button></span></div>`;
       if (i < Q.length) {
         const q = Q[i];
         const opts = q.multi ? ix.groups.map(g => [g.id, g.label]) : q.options;
@@ -191,7 +197,7 @@
           <div class="opts">${opts.map(([id, label]) => `<button type="button" class="opt${on(id) ? " on" : ""}" data-opt="${esc(id)}" aria-pressed="${on(id)}">${esc(label)}</button>`).join("")}</div>${nav("Next →")}`, true);
         main.querySelectorAll("[data-opt]").forEach(b => b.onclick = () => { const id = b.dataset.opt; if (q.multi) { wiz.answers.fields.has(id) ? wiz.answers.fields.delete(id) : wiz.answers.fields.add(id); render(); } else { wiz.answers[q.key] = id; wiz.step++; render(); } });
         $("#next").onclick = () => { if (!q.multi && !wiz.answers[q.key]) return; wiz.step++; render(); };
-        $("#back").onclick = () => { if (i === 0) location.hash = "#/"; else { wiz.step--; render(); } };
+        $("#back").onclick = () => { if (i === 0) { const b = wiz.back; wiz = null; location.hash = b ? "#/you" : "#/"; } else { wiz.step--; render(); } };
         return;
       }
       page(`${steps}<p class="eyebrow">Last step, optional</p><h1>Add your resume</h1>
@@ -200,10 +206,37 @@
       wireResumeForm();
       $("#back").onclick = () => { wiz.step--; render(); };
       $("#skip").onclick = () => saveYou();
-      $("#next").onclick = async () => { await takeResume(); saveYou(); location.hash = "#/explore"; };
+      $("#next").onclick = async () => { await takeResume(); saveYou(); location.hash = after; if (location.hash === after) you(); };
     };
-    const saveYou = () => { state.you = { where: wiz.answers.where || null, want: wiz.answers.want || null, fields: [...wiz.answers.fields] }; store.set("you", state.you); wiz = null; };
+    const saveYou = () => { state.you = { where: wiz.answers.where || null, fields: [...wiz.answers.fields] }; store.set("you", state.you); wiz = null; };
     render();
+  }
+  // What the system knows (owner's choice Y3, B and A): the answers with an edit link each, what the resume gave,
+  // and the fields it all points to with the reason for each. "About you" in the top bar opens this, not question 1.
+  async function youSummary(ix) {
+    const y = state.you || {}, r = state.resume, rg = r ? await rough() : null;
+    const { fields, why } = await fitFields();
+    const row = (t, m, link) => `<div class="r"><span class="t">${t}</span>${link ? `<a class="n" href="${link[1]}">${link[0]}</a>` : ""}<span class="m">${m}</span></div>`;
+    const chosen = (y.fields || []).map(id => (ix.groups.find(g => g.id === id) || {}).label).filter(Boolean);
+    const answers = `<div class="list">${row("Where you are", y.where ? esc(WHERE[y.where]) : "Not answered", ["edit", "#/you?step=0"])}${row("Fields you picked", chosen.length ? esc(chosen.join(", ")) : "None yet; your resume decides", ["edit", "#/you?step=1"])}</div>`;
+    const span = x => x.start ? ` ${x.start}${x.end && x.end !== x.start ? "–" + String(x.end).slice(2) : ""}` : "";
+    const held = rg ? rg.roles.slice(0, 4).map(x => `${esc(x.title)}${span(x)}${x.intern ? " (internship)" : ""}`).join(" · ") : "";
+    const closest = rg ? Object.entries(rg.scores).filter(([id, v]) => v > 0 && ix.roles[id]).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => ix.roles[id].label) : [];
+    const resume = r ? `<div class="list">${row(esc(r.name), `${fmt(r.words)} words, read in your browser; nothing is uploaded`, ["replace", "#/you?step=2"])}${row("Roles with dates", held || "None found. Put each job title and its dates on one line.", null)}${row("Reads closest to", closest.length ? esc(closest.join(", ")) : "No role yet", null)}</div>` : `<p class="small muted" style="margin-top:8px">No resume yet. <a class="link" href="#/you?step=2">Add one</a> and we point you to the fields it fits.</p>`;
+    const fieldRows = [...fields].map(id => ix.groups.find(g => g.id === id)).filter(Boolean).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)).map(g => row(esc(g.label), esc(why.get(g.id)), ["open", "#/field/" + g.id]));
+    page(`<h1>About you</h1><p class="lead">What you told us and what your resume shows. Change any answer; the fields below follow.</p>
+      <div class="two"><div><h2>Your answers</h2>${answers}</div><div><h2>Your resume</h2>${resume}</div></div>
+      <h2>Fields that fit you, and why</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : '<p class="small muted">Pick a field or add a resume and they appear here.</p>'}
+      <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">Explore your fields →</a><button type="button" class="btn quiet" id="start-over">Start over</button></div>`);
+    $("#start-over").onclick = () => { state.you = null; state.resume = null; state.rough = null; state.match = null; store.set("you", null); store.set("resume", null); wiz = null; you(); };
+  }
+  // one line on Explore that says what we know and why each field is there (owner's choices Y3 A and E3)
+  function profileStrip(ix, why) {
+    const y = state.you || {}, label = id => (ix.groups.find(g => g.id === id) || {}).label || id;
+    const chosen = [...why].filter(([, w]) => w === "You picked it").map(([id]) => label(id));
+    const fromResume = [...why].filter(([, w]) => w !== "You picked it").map(([id]) => label(id));
+    const parts = [y.where ? esc(WHERE_SHORT[y.where] || WHERE[y.where]) : null, chosen.length ? `<b>${esc(join(chosen))}</b> chosen` : null, fromResume.length ? `<b>${esc(join(fromResume))}</b> from your resume` : state.resume ? "no field from your resume yet" : "no resume yet"].filter(Boolean);
+    return `<div class="strip"><span class="dotg"></span><span>${parts.join(" · ")}</span><a href="#/you">Edit</a></div>`;
   }
   // the resume: a drop zone, a paste box, what was read
   let pending = null;   // { text, name, words } read from a file but not yet taken
@@ -246,12 +279,17 @@
     return true;
   }
   async function rough() { if (state.resume && !state.rough) state.rough = await Atlas.roughFit(state.resume.text); return state.rough; }
-  // the fields that fit: the ones chosen, plus those of the roles held and of the five roles the resume reads closest to
+  // the fields that fit, each with its reason: the ones chosen, then those of the roles held and of the five roles
+  // the resume reads closest to
   async function fitFields() {
-    const ix = await Atlas.index(); const out = new Set((state.you || {}).fields || []);
+    const ix = await Atlas.index(); const why = new Map();
+    for (const id of (state.you || {}).fields || []) if (ix.groups.some(g => g.id === id)) why.set(id, "You picked it");
     const rg = await rough();
-    if (rg) { for (const h of rg.held) if (ix.roles[h]) out.add(ix.roles[h].group); for (const [id] of Object.entries(rg.scores).sort((a, b) => b[1] - a[1]).slice(0, 5)) if (ix.roles[id] && rg.scores[id] > 0) out.add(ix.roles[id].group); }
-    return out;
+    if (rg) {
+      for (const h of rg.held) if (ix.roles[h] && !why.has(ix.roles[h].group)) why.set(ix.roles[h].group, `You held ${ix.roles[h].label}`);
+      for (const [id] of Object.entries(rg.scores).sort((a, b) => b[1] - a[1]).slice(0, 5)) if (ix.roles[id] && rg.scores[id] > 0 && !why.has(ix.roles[id].group)) why.set(ix.roles[id].group, `Your resume reads close to ${ix.roles[id].label}`);
+    }
+    return { fields: new Set(why.keys()), why };
   }
 
   // ---------- 3. explore: fields as circles ----------
@@ -261,15 +299,16 @@
     crumbs([["Explore", null]]); showAside(null);
     const focus = new URLSearchParams(location.hash.split("?")[1] || "").get("field");
     if (focus) SkillMap.setMode("map");
-    const fit = (state.you || state.resume) ? await fitFields() : null;
+    const ff = (state.you || state.resume) ? await fitFields() : null, fit = ff ? ff.fields : null;
     let onlyFit = !!(fit && fit.size);
     const render = () => {
       const all = [...ix.groups].sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0));
       const groups = onlyFit ? all.filter(g => fit.has(g.id)) : all;
       const nRoles = all.reduce((a, g) => a + g.roles.length, 0);
-      const chips = fit ? `<div class="chips"><span class="lbl">Showing</span><button type="button" class="chip${onlyFit ? " on" : ""}" id="c-fit">Fields that fit you<span class="n">${fit.size}</span></button><button type="button" class="chip${onlyFit ? "" : " on"}" id="c-all">All fields</button>${state.resume ? `<span class="small muted" style="margin-left:8px">From your answers and ${esc(state.resume.name)}.</span>` : fit.size ? '<span class="small muted" style="margin-left:8px">From your answers. <a href="#/you">Add a resume</a> to add the fields it points to.</span>' : '<span class="small muted" style="margin-left:8px">You picked no field yet. <a href="#/you">Tell us about you</a>.</span>'}</div>` : "";
+      const chips = fit ? profileStrip(ix, ff.why) : "";
       const asMap = SkillMap.mode() === "map";
-      const view = `<div class="chips"><span class="lbl">View</span><button type="button" class="chip${asMap ? " on" : ""}" id="v-map">Skill map</button><button type="button" class="chip${asMap ? "" : " on"}" id="v-grid">Circles</button>${asMap ? '<span class="gap"></span><input class="sm-find" id="sm-find" type="search" placeholder="Find a skill" list="sm-names" aria-label="Find a skill"><datalist id="sm-names"></datalist>' : ""}</div>`;
+      const showing = fit ? `<div class="seg" role="group" aria-label="Showing"><button type="button" class="${onlyFit ? "on" : ""}" aria-pressed="${onlyFit}" id="c-fit">For you</button><button type="button" class="${onlyFit ? "" : "on"}" aria-pressed="${!onlyFit}" id="c-all">All fields</button></div>` : "";
+      const view = `<div class="filters explore-row">${showing}${asMap ? '<input class="sm-find" id="sm-find" type="search" placeholder="Find a skill" list="sm-names" aria-label="Find a skill"><datalist id="sm-names"></datalist>' : ""}<div class="seg views" role="group" aria-label="View"><button type="button" class="${asMap ? "" : "on"}" aria-pressed="${!asMap}" id="v-grid" title="Circles">◎</button><button type="button" class="${asMap ? "on" : ""}" aria-pressed="${asMap}" id="v-map" title="Skill map">⊞</button></div></div>`;
       const pg = all.find(g => g.set === "product"), mg = all.find(g => g.set === "mba");
       const dates = tip(`Counts are open postings in the US: business fields refreshed ${mg.generated}${pg.generated ? `, Product scraped ${pg.generated} (${fmt(pg.nWorld)} worldwide)` : ""}.`);
       const inner = g => `${esc(g.label)}<span class="n">${g.nOpen == null ? "loading…" : fmt(g.nOpen) + " open"}</span>`;
@@ -285,14 +324,17 @@
         SkillMap.names().then(ns => { const dl = $("#sm-names"); if (dl) dl.innerHTML = ns.map(n => `<option value="${esc(n)}">`).join(""); });
         const f = $("#sm-find"); f.onchange = () => SkillMap.find(f.value);
         $("#v-grid").onclick = () => { SkillMap.setMode("grid"); SkillMap.leave(); showAside(null); render(); };
+        $("#v-map").onclick = () => { };
         const cf = $("#c-fit"), ca = $("#c-all"); if (cf) { cf.onclick = () => { onlyFit = true; render(); }; ca.onclick = () => { onlyFit = false; render(); }; }
         return;
       }
       page(`<h1>Explore the roles</h1>
         <p class="lead">${all.length} fields, ${nRoles || 56} roles. Pick a field. ${dates}</p>${chips}${view}
         <div class="bubbles">${groups.map(g => `<a class="bubble ${sizeClass(g.nOpen || 0)}${fit && fit.has(g.id) ? " you" : ""}" href="#/field/${esc(g.id)}" data-measure="The size of a field is how many postings are open now: ${g.nOpen == null ? "loading" : fmt(g.nOpen)} in ${esc(g.label)}, ${plural(g.roles.length, "role", "roles")}.">${inner(g)}</a>`).join("")}</div>
+        ${onlyFit && !groups.length ? '<p class="small muted" style="text-align:center">No field yet. <a class="link" href="#/you">Tell us more</a>.</p>' : ""}
         ${fit && fit.size && !onlyFit ? '<p class="key" style="text-align:center">Green: the fields your answers and resume point to.</p>' : ""}`);
       $("#v-map").onclick = () => { SkillMap.setMode("map"); render(); };
+      $("#v-grid").onclick = () => { };
       const cf = $("#c-fit"), ca = $("#c-all"); if (cf) { cf.onclick = () => { onlyFit = true; render(); }; ca.onclick = () => { onlyFit = false; render(); }; }
     };
     render();
