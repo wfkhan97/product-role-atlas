@@ -98,28 +98,68 @@ Each chunk carries one label from the answer key: **ask**, **filler** or **other
 - **False alarms**: filler chunks you marked.
 - **Not on the list**: "other" chunks you marked. They are shown, never counted.
 
+- **Let pass**: filler chunks you did not mark.
+
+A posting's read weighs the two halves of the job equally:
+
+    read = ½ · (found / asks) + ½ · (filler let pass / filler)
+
+A read with no found asks is 0. Every passage has at least one ask and one filler chunk (`evals/game_passages.mjs`
+and `evals/game_spot_scoring.mjs` check it), so neither half divides by zero. "Other" chunks stay neutral: a mark
+on one is shown as "not on the atlas's list" and changes nothing.
+
 In plain words, as the screen says them:
 
-- *Recall*, "You caught 4 of the 5 things this posting asks for" = found / asks.
-- *Precision*, "4 of your 5 counted marks were real asks" = found / (found + false alarms).
+- the asks half: "You caught 4 of the 5 things this posting asks for";
+- the filler half: "You let 2 of the 3 filler lines pass", or "You let all 3 filler lines pass", or "You marked all
+  3 filler lines as asks" ("both" for two; with one filler chunk: "You let the one filler line pass" / "You marked
+  the one filler line as an ask").
 
-Marking everything catches every ask but collects every filler chunk as a false alarm, so it scores badly.
+What the rule gives (simulated over today's passages by `evals/game_spot_scoring.mjs`, 4,000 runs per reader):
+
+| Reader | Marks | Mean run read |
+|---|---|---|
+| Perfect | every ask, no filler | 1.00 |
+| Careful first read | each ask with p 0.85, each filler chunk with p 0.20 | 0.83 |
+| Keyword reader | each ask with p 0.60, each filler chunk with p 0.50 | 0.55 |
+| Mark everything | every chunk | 0.50 exactly |
+| Mark nothing | nothing | 0 |
+
+Marking everything catches every ask and lets no filler pass, so it reads 0.5 and lands on the lowest rank.
 Marking nothing scores zero.
 
-Under the hood a posting's read is the F1 of the two (2PR / (P + R); 0 when either is 0). The run's read is the
-mean over its three postings. The number is never shown. It picks the rank:
+The run's read is the mean over its three postings. The number is never shown. It picks the rank, with the
+thresholds in one place, `RANKS` in `web/games/spot-the-real-ask.js`:
 
 | Rank | Run read |
 |---|---|
-| Skimmer | below 0.45 |
-| Keyword spotter | 0.45 to below 0.60 |
-| Careful reader | 0.60 to below 0.75 |
-| Recruiter's eye | 0.75 to below 0.90 |
-| Reads like the atlas | 0.90 and up |
+| Skimmer | below 0.51 |
+| Keyword spotter | 0.51 to below 0.64 |
+| Careful reader | 0.64 to below 0.80 |
+| Recruiter's eye | 0.80 to below 0.98 |
+| Reads like the atlas | 0.98 and up |
 
-The thresholds are a first guess. The build thread should play 20 runs, check that a careful first-time player
-lands on Careful reader or Recruiter's eye, and tune them. The run-end mock is consistent with them: 12 of 15 and
-12 of 14 gives P 0.86, R 0.80, F1 0.83, Recruiter's eye. Those run numbers are illustrative.
+Where the simulated readers land:
+
+| Reader | Skimmer | Keyword spotter | Careful reader | Recruiter's eye | Reads like the atlas |
+|---|---|---|---|---|---|
+| Perfect | | | | | 100% |
+| Careful first read | 0.6% | 5.0% | 31.2% | 59.7% | 3.5% |
+| Keyword reader | 39.4% | 34.6% | 23.4% | 2.5% | |
+| Mark everything | 100% | | | | |
+| Mark nothing | 100% | | | | |
+
+Keyword spotter starts just above 0.5 so that marking everything stays on Skimmer. Two limits follow from the rule,
+not from the thresholds. A careful reader's worst runs read below 0.5: most easy passages have one filler chunk,
+so one false alarm there empties that posting's filler half. And a keyword reader reads 0.5 or less in about 4 runs
+of 10, so it lands on Skimmer that often. The eval checks the limits as they are (careful on Skimmer in at most 2% of
+runs, keyword on Keyword spotter or Careful reader in at least half) and fails when a data refresh moves a reader off
+its band; retune `RANKS` and this table together.
+
+The run-end mock is consistent with the thresholds. Its three postings: 4 of 5 asks found and 2 of 3 filler lines
+let pass (0.73, the reveal mock); 4 of 5 and 2 of 2 (0.90); 5 of 5 and 2 of 2 (1.00). The mean is 0.88, Recruiter's
+eye: "You caught 13 of 15 asks. You let 6 of the 7 filler lines pass." The second and third postings' numbers are
+illustrative.
 
 An ask chunk counts once, however many skills it matches. "Proficiency in Excel and PowerPoint" matches Office
 suite (twice) and Financial modeling & analysis ("Excel"), and it is one ask. Its **primary skill**, the one named
@@ -146,7 +186,8 @@ structured problem solving and stakeholder management (computed from `web/data/g
 
 - The rank title in green (it is the player's own result). The bar shows earlier ranks dimmed and the current
   rank lit.
-- The run in words: "You caught 12 of 15 asks, and 12 of your 14 counted marks were real asks."
+- The run in words, both halves summed over the three postings: "You caught 13 of 15 asks. You let 6 of the 7
+  filler lines pass."
 - A new best in this browser says so, with the previous best.
 - The punchline: "You read three postings. The atlas reads **26,887** this way, so you don't have to." The number
   is `meta.n_jobs` of `web/data/graph_mba.json` (US postings of the 50 MBA roles, generated 2026-10-14), read at
@@ -379,8 +420,9 @@ lines (30,302 of 38,556) carry at least one tag. The other 21% are where "not on
 
 ## Edge cases
 
-- **No counted marks** (only "other" chunks marked, or nothing): precision 0, read 0, and the reveal says "You did
-  not mark any of the asks" rather than showing 0%.
+- **No found asks** (nothing marked, or only filler and "other" chunks): read 0, and the reveal says "You did not
+  mark any of the asks" rather than showing 0%.
+- **Marking everything** reads 0.5 on every posting (all asks found, no filler let pass): Skimmer.
 - **An ask that is only generic skills** ("excellent communication skills") is still an ask: the atlas counts it.
   The reveal may say "Asked for nearly everywhere: it counts, but it will not set you apart."
 - **Work authorisation** ("must be authorized to work in the US without sponsorship") is not a skill and not
@@ -403,7 +445,7 @@ lines (30,302 of 38,556) carry at least one tag. The other 21% are where "not on
   or the button). **Escape** clears the focus ring. Arrow keys **Left / Right** also move one chunk, for people who
   prefer not to use Tab.
 - The passage is a `role="group"` with the label "Posting excerpt: mark the real asks". A live region announces
-  "5 marked" after each change, and at the check "4 of 5 asks found; 4 of 5 counted marks were asks".
+  "5 marked" after each change, and at the check "4 of 5 asks found; 2 of 3 filler lines let pass".
 - At the reveal each chunk's state is in its accessible name ("full-time MBA program, found: Master's / MBA";
   "Proficiency in Excel and PowerPoint, missed: Office suite"). The meaning is never colour alone: found has a
   solid underline, missed a dashed outline, a false alarm and skipped filler are struck through, "not on the list"
@@ -416,8 +458,11 @@ lines (30,302 of 38,556) carry at least one tag. The other 21% are where "not on
 
 ## Persistence
 
-- `localStorage` key `game:spot-the-real-ask`, holding `{ best: { rank, read, date }, runs: [last 5 { rank, read,
-  found, asks, marks, date, roles }], seen: [last 30 passage ids] }`.
+- `localStorage` key `game:spot-the-real-ask`, holding `{ rule: 2, best: { rank, read, date }, runs: [last 5 { rank,
+  read, found, asks, passed, filler, date, roles }], seen: [last 30 passage ids] }`. `rule` is the scoring rule the
+  best and the runs were ranked under. A record without `rule: 2` (saved under the first rule, the F1 of precision
+  and recall) keeps its `seen` list and drops its best and runs, which were on another scale; a shape the code does
+  not know is read as empty and never throws.
 - Every read and write is in `try/catch`, like `store` in `web/app.js`. With storage blocked the game plays the same
   and simply forgets.
 - Nothing is sent anywhere. No accounts, no global leaderboard.
