@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>Spot the real ask</title>
+<link rel="stylesheet" href="../../../web/tokens/styles.css">
+<link rel="stylesheet" href="../../../web/style.css">
+<style>
+/* mock frame: one 1280x800 desktop screen */
+html, body { width: 1280px; height: 800px; overflow: hidden; }
+/* ---------- games: spot the real ask (proposed section for web/style.css) ---------- */
+.sra .head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 16px; }
+.sra .timer { width: 220px; text-align: right; }
+.sra .timer .t { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: var(--text-lg); color: var(--heading-foreground); }
+.sra .timer .bar { height: 4px; border-radius: 2px; background: var(--muted); margin-top: 6px; overflow: hidden; }
+.sra .timer .bar i { display: block; height: 100%; background: var(--subtle-foreground); }
+.sra .timer .note { font-size: var(--text-sm); color: var(--subtle-foreground); margin-top: 4px; }
+.passage { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: 18px 24px 16px; font-size: var(--text-md); line-height: 2.05; color: var(--foreground); }
+.passage .sec { font-family: var(--font-mono); font-size: var(--text-sm); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--subtle-foreground); line-height: 1.5; margin-bottom: 4px; }
+.passage ul { list-style: none; margin: 0; padding: 0; }
+.passage li { position: relative; padding-left: 16px; }
+.passage li::before { content: "–"; position: absolute; left: 0; color: var(--subtle-foreground); }
+.passage .gap { font-family: var(--font-mono); color: var(--subtle-foreground); line-height: 1.6; margin: 2px 0; }
+.passage p { margin: 0; }
+.ch { border-radius: 4px; padding: 3px 2px; cursor: pointer; -webkit-box-decoration-break: clone; box-decoration-break: clone; border-bottom: 1px dotted var(--input); }
+.ch:hover { background: var(--muted); }
+.ch.on { background: var(--primary-tint); color: var(--primary); border-bottom: 2px solid var(--primary); }
+.ch.focus { outline: 2px solid var(--ring); outline-offset: 1px; }
+.passage.checked .ch { cursor: default; border-bottom-color: transparent; }
+.ch.found { background: var(--primary-tint); color: var(--primary); border-bottom: 2px solid var(--primary) !important; }
+.ch.missed { color: var(--warning); border: 1.5px dashed var(--warning) !important; padding: 2px 3px; }
+.ch.false { background: var(--warning-tint); color: var(--warning); text-decoration: line-through; text-decoration-thickness: 1px; }
+.ch.skipped { color: var(--subtle-foreground); text-decoration: line-through; text-decoration-color: var(--subtle-foreground); text-decoration-thickness: 1px; }
+.ch.unlisted { border-bottom: 2px dotted var(--muted-foreground) !important; }
+.k { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--muted-foreground); margin: 0 4px 0 3px; white-space: nowrap; }
+.k.good { color: var(--primary); } .k.warn { color: var(--warning); }
+.sra .bar-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 14px; }
+.keys { font-size: var(--text-sm); color: var(--muted-foreground); }
+.keys kbd { font-family: var(--font-mono); font-size: var(--text-sm); border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; margin: 0 2px; color: var(--foreground); background: var(--muted); }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: var(--text-sm); color: var(--muted-foreground); margin-top: 12px; }
+.legend .sw { display: inline-block; width: 26px; height: 14px; border-radius: 3px; vertical-align: -2px; margin-right: 6px; }
+.sw.found { background: var(--primary-tint); border-bottom: 2px solid var(--primary); }
+.sw.missed { border: 1.5px dashed var(--warning); }
+.sw.false { background: var(--warning-tint); }
+.sw.skipped { border-bottom: 1px solid var(--subtle-foreground); }
+.sw.unlisted { border-bottom: 2px dotted var(--muted-foreground); }
+.score { font-size: var(--text-2xl); letter-spacing: var(--tracking-tighter); color: var(--heading-foreground); line-height: 1.2; margin: 6px 0 4px; }
+.fact { display: grid; grid-template-columns: auto 1fr; gap: 0 12px; align-items: baseline; margin: 6px 0 2px; }
+.fact .num { font-family: var(--font-mono); font-size: var(--text-2xl); color: var(--secondary); font-variant-numeric: tabular-nums; }
+.fact .num.sm { font-size: var(--text-lg); }
+.fact .what { font-size: var(--text-sm); color: var(--foreground); line-height: 1.45; }
+.aside h3 { font-size: var(--text-sm); color: var(--subtle-foreground); font-weight: var(--weight-regular); margin: 14px 0 4px; padding-top: 12px; border-top: 1px solid var(--border); }
+.aside .tight { font-size: var(--text-sm); color: var(--muted-foreground); margin: 2px 0; line-height: 1.45; }
+.punch { font-size: var(--text-md); color: var(--heading-foreground); line-height: 1.45; margin: 0; }
+.rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 18px 0 4px; }
+.rule { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px; background: var(--card); }
+.rule .t { font-weight: var(--weight-medium); color: var(--heading-foreground); margin-bottom: 4px; font-size: var(--text-md); }
+.rule .d { font-size: var(--text-sm); color: var(--muted-foreground); line-height: 1.5; }
+.ranks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 10px 0 4px; }
+.ranks i { height: 8px; border-radius: 3px; background: var(--muted); display: block; }
+.ranks i.on { background: var(--primary); }
+.ranks i.past { background: var(--primary); opacity: 0.45; }
+.rankl { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; font-size: var(--text-sm); color: var(--subtle-foreground); }
+.rankl span.on { color: var(--primary); font-weight: var(--weight-medium); }
+.rank-title { font-size: 40px; letter-spacing: var(--tracking-tighter); color: var(--primary); line-height: 1.1; margin: 4px 0 8px; font-weight: var(--weight-medium); }
+.illus { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); border: 1px dashed var(--border); border-radius: 4px; padding: 1px 6px; margin-left: 6px; white-space: nowrap; }
+.n-blue { font-family: var(--font-mono); color: var(--secondary); }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#/"><span class="mark" aria-hidden="true"></span><span class="wordmark">GradBuddy</span></a>
+  <nav class="crumbs" aria-label="Where you are"><a href="#/">Games</a><span class="sep">/</span><span class="here">Spot the real ask</span></nav>
+  <div class="top-actions"><a class="toplink" href="#/explore">Explore</a><a class="toplink" href="#/you">About you</a><button class="icon" type="button">●</button></div>
+</header>
+<div class="shell"><main class="main"><div class="page sra" style="max-width:900px">
+  <div class="head">
+    <div><p class="eyebrow">Posting 1 of 3 · Brand Manager</p><h1>Mark what this job actually asks for</h1>
+      <p class="small muted" style="margin:0">The employer is shown when you check.</p></div>
+    <div class="timer"><div class="t">0:27</div><div class="bar"><i style="width:60%"></i></div><div class="note">A guide, not a cut-off</div></div>
+  </div>
+  <div class="passage">
+  <div class="sec">Requirements</div>
+  <ul>
+    <li><span class="ch " tabindex="0" role="checkbox" aria-checked="false">Currently enrolled in a two-year</span>, <span class="ch on" tabindex="0" role="checkbox" aria-checked="true">full-time MBA program</span>; <span class="ch " tabindex="0" role="checkbox" aria-checked="false">must be between your 1st and 2nd year</span> (<span class="ch " tabindex="0" role="checkbox" aria-checked="false">expected graduation the year following the internship</span>)</li>
+    <li><span class="ch on" tabindex="0" role="checkbox" aria-checked="true">3–6 years of full-time</span>, <span class="ch " tabindex="0" role="checkbox" aria-checked="false">post-undergraduate professional experience</span></li>
+    <li><span class="ch on" tabindex="0" role="checkbox" aria-checked="true">Strong analytical aptitude</span> — <span class="ch " tabindex="0" role="checkbox" aria-checked="false">able to work with data and</span> <span class="ch on" tabindex="0" role="checkbox" aria-checked="true">translate findings into stories and strategic action</span></li>
+    <li><span class="ch focus" tabindex="0" role="checkbox" aria-checked="false">Proficiency in Excel and PowerPoint</span></li>
+    <li><span class="ch " tabindex="0" role="checkbox" aria-checked="false">Ability to manage multiple priorities</span> <span class="ch " tabindex="0" role="checkbox" aria-checked="false">in a cross-functional</span>, <span class="ch " tabindex="0" role="checkbox" aria-checked="false">fast-paced environment</span></li>
+  </ul>
+  <div class="gap" aria-label="text left out">…</div>
+  <p><span class="ch " tabindex="0" role="checkbox" aria-checked="false">Our ideal intern brings a general manager and challenger mindset</span> <span class="ch on" tabindex="0" role="checkbox" aria-checked="true">with a passion for our brands and our consumers.</span></p>
+  <div class="gap" aria-label="text left out">…</div>
+  <p><span class="ch " tabindex="0" role="checkbox" aria-checked="false">We offer robust benefits to support your health and wellness as well as your personal and financial well-being.</span></p>
+</div>
+  <div class="bar-row">
+    <div class="keys"><span class="mono" style="color:var(--primary)">5 marked</span> &nbsp;·&nbsp; <kbd>Tab</kbd> next phrase &nbsp;<kbd>Shift</kbd><kbd>Tab</kbd> back &nbsp;<kbd>Space</kbd> mark &nbsp;<kbd>Enter</kbd> check</div>
+    <div class="row"><button class="btn quiet" type="button">Clear marks</button><button class="btn primary" type="button">Check my read</button></div>
+  </div>
+</div></main></div>
+<footer class="foot"><span>Built from live job postings, refreshed weekly.</span> <a href="#/about">About the data</a></footer>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>Start · Skill path mock</title>
+<link rel="stylesheet" href="../../../web/tokens/styles.css">
+<link rel="stylesheet" href="../../../web/style.css">
+<style>
+/* mock frame: 1280 x 800, no page scroll */
+html, body { width: 1280px; height: 800px; overflow: hidden; }
+.aside { max-height: none; height: calc(800px - var(--topbar-height) - 45px); }
+/* ---------- Skill path (web/games/skill-path.js): the skill map as a board, a route of hops ---------- */
+.sp-main { padding-top: 20px; padding-bottom: 0; }
+.sp-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 10px; }
+.sp-head h1 { margin: 0; }
+.sp-budget { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.sp-pips { display: flex; gap: 4px; }
+.sp-pips i { width: 26px; height: 8px; border-radius: 3px; background: var(--muted); border: 1px solid var(--border); }
+.sp-pips i.used { background: var(--primary); border-color: transparent; }
+.sp-board { position: relative; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--background); overflow: hidden; }
+.sp-svg { display: block; }
+.sp-field { fill: var(--card); stroke: var(--border); stroke-width: 1; }
+.sp-field.on { stroke: var(--input); }
+.sp-flabel { font-size: 13px; fill: var(--subtle-foreground); font-weight: var(--weight-medium); }
+.sp-flabel.on { fill: var(--heading-foreground); }
+.sp-e { fill: none; stroke: var(--foreground); stroke-opacity: 0.06; stroke-width: 0.7; }
+.sp-look { fill: none; stroke: var(--heading-foreground); stroke-opacity: 0.35; stroke-width: 1; }
+.sp-n { fill: var(--subtle-foreground); opacity: 0.5; }
+.sp-gen { fill: none; stroke: var(--subtle-foreground); stroke-opacity: 0.6; stroke-dasharray: 2 2; }
+.sp-route { fill: none; stroke: var(--primary); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.sp-short { fill: none; stroke: var(--heading-foreground); stroke-opacity: 0.7; stroke-width: 1.5; stroke-dasharray: 5 4; }
+.sp-short-n { fill: var(--background); stroke: var(--heading-foreground); stroke-width: 1.5; }
+.sp-cand-e { fill: none; stroke: var(--heading-foreground); stroke-opacity: 0.55; stroke-width: 1.2; stroke-dasharray: 3 3; }
+.sp-cand { fill: var(--heading-foreground); }
+.sp-num { font-family: var(--font-mono); font-size: 10px; font-weight: var(--weight-semibold); fill: var(--background); }
+.sp-you { fill: var(--primary); stroke: var(--background); stroke-width: 2; }
+.sp-you.gap { fill: var(--background); stroke: var(--warning); stroke-width: 2.5; }
+.sp-here { fill: none; stroke: var(--primary); stroke-width: 1.5; stroke-opacity: 0.7; }
+.sp-zone { fill: var(--secondary-tint); stroke: var(--secondary); stroke-width: 1.5; }
+.sp-zone-dot { fill: var(--secondary); }
+.sp-name { font-size: 13px; fill: var(--foreground); paint-order: stroke; stroke: var(--background); stroke-width: 4px; stroke-linejoin: round; }
+.sp-name.you { fill: var(--primary); font-weight: var(--weight-medium); }
+.sp-name.zone { fill: var(--secondary); }
+.sp-name.cand { fill: var(--heading-foreground); font-weight: var(--weight-medium); }
+.sp-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 12px 0 0; }
+.sp-strip .tag { display: inline-flex; gap: 6px; align-items: baseline; }
+.sp-strip .sp-cur { outline: 2px solid var(--primary); outline-offset: 1px; }
+.sp-tagn { font-family: var(--font-mono); color: var(--subtle-foreground); }
+.sp-arrow { color: var(--subtle-foreground); }
+.sp-blue, .list .r .n.sp-blue { color: var(--secondary); font-family: var(--font-mono); }
+.sp-bluet { color: var(--secondary); font-weight: var(--weight-medium); }
+.sp-green { color: var(--primary); font-weight: var(--weight-medium); }
+.sp-amber { color: var(--warning); }
+.sp-aside .sp-h2 { margin: 2px 0 6px; font-size: var(--text-lg); }
+.sp-choices { display: grid; gap: 8px; margin-top: 12px; }
+.sp-choice { grid-template-columns: 22px 1fr auto; padding: 10px 10px 8px; gap: 4px 10px; }
+.sp-choice:hover, .sp-choice:focus-visible { border-color: var(--heading-foreground); }
+.sp-choice .sp-k { font-family: var(--font-mono); color: var(--background); background: var(--heading-foreground); border-radius: 50%; width: 20px; height: 20px; display: grid; place-items: center; font-size: 12px; font-weight: var(--weight-semibold); grid-row: 1; }
+.sp-choice .sp-cn { display: flex; flex-direction: column; gap: 1px; }
+.sp-choice .def { font-size: var(--text-base); font-weight: var(--weight-medium); }
+.sp-choice .sp-meta { font-size: var(--text-sm); color: var(--muted-foreground); }
+.sp-choice .pct { font-size: var(--text-base); align-self: start; }
+.sp-choice .bar { grid-column: 2 / -1; }
+.sp-q { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); padding: 14px; margin-top: 16px; }
+.sp-qt { font-size: var(--text-lg); color: var(--heading-foreground); font-weight: var(--weight-medium); margin-bottom: 4px; }
+.sp-ans { display: grid; gap: 8px; margin-top: 12px; }
+.sp-ans .btn { justify-content: space-between; }
+.sp-kbd { font-family: var(--font-mono); font-size: var(--text-sm); opacity: 0.75; border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; }
+/* start */
+.sp-cols { display: grid; grid-template-columns: minmax(0, 1fr) 394px; gap: 36px; }
+.sp-start h2 { margin: 16px 0 2px; font-size: var(--text-base); color: var(--muted-foreground); }
+.sp-start .chips { margin: 8px 0 4px; }
+.sp-rules { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0 4px; }
+.sp-rule { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); padding: 10px 12px; font-size: var(--text-sm); color: var(--muted-foreground); display: flex; flex-direction: column; gap: 2px; }
+.sp-rule b { color: var(--heading-foreground); font-weight: var(--weight-medium); font-size: var(--text-base); }
+.sp-search { margin: 6px 0; max-width: 300px; }
+.sp-mini { margin-top: 6px; }
+.sp-brief { margin-top: 12px; font-size: var(--text-base); }
+.sp-zone-list .r { padding: 7px 0; } .sp-zone-list .r .t { font-size: var(--text-base); }
+/* end */
+.sp-cols.e { grid-template-columns: 602px minmax(0, 1fr); gap: 28px; }
+.sp-rank { margin: 2px 0 4px; font-size: var(--text-3xl); }
+.sp-end .lead { margin-bottom: 10px; }
+.sp-endside h3 { margin: 4px 0 6px; font-size: var(--text-sm); color: var(--subtle-foreground); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: var(--tracking-label); }
+.sp-two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.sp-rl .r { padding: 6px 0; } .sp-rl .r .t { font-size: var(--text-base); grid-row: 1; }
+.sp-rl .r .n { grid-row: 1; }
+.sp-rl .r.sp-no .t { color: var(--warning); }
+.sp-rl .r.sp-yes .t::before { content: "✓ "; color: var(--primary); }
+.sp-build { border: 1px solid var(--warning); border-radius: var(--radius-md); padding: 12px 14px; margin-top: 14px; }
+.sp-bt { font-size: var(--text-lg); color: var(--heading-foreground); font-weight: var(--weight-medium); margin-bottom: 2px; }
+.sp-punch { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); font-size: var(--text-md); color: var(--heading-foreground); }
+.sp-name.short { fill: var(--heading-foreground); }
+
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#/"><span class="mark" aria-hidden="true"></span><span class="wordmark">GradBuddy</span></a>
+  <nav class="crumbs" aria-label="Where you are"><a href="#/play">Games</a><span class="sep">/</span><span class="here">Skill path</span></nav>
+  <div class="top-actions">
+    <a class="toplink" href="#/explore">Explore</a>
+    <a class="toplink" href="#/you">About you</a>
+    <button class="icon" type="button" title="Theme">●</button>
+  </div>
+</header>
+<div class="shell">
+  <main class="main sp-main"><div class="page wide sp-start">
+<div class="sp-cols">
+<div>
+  <p class="eyebrow">Game · about 3 minutes</p>
+  <h1>Skill path</h1>
+  <p class="lead">Get from where you are to a role you want, one skill at a time. You can only hop along a line: two skills are linked when postings ask for both.</p>
+  <div class="sp-rules">
+    <div class="sp-rule"><b>1. Start</b><span>on the skill your field asks for most.</span></div>
+    <div class="sp-rule"><b>2. Hop</b><span>to a linked skill: one of up to 4.</span></div>
+    <div class="sp-rule"><b>3. Read the blue</b><span>how often the target's postings ask for it.</span></div>
+    <div class="sp-rule"><b>4. Be honest</b><span>can you show it on your resume yet?</span></div>
+  </div>
+  <h2>Where are you now?</h2>
+  <div class="chips sp-tabs"><button type="button" class="chip on" aria-pressed="true">A field</button><button type="button" class="chip" aria-pressed="false">A role I hold</button></div>
+  <div class="chips"><button type="button" class="chip" aria-pressed="false">Consulting &amp; strategy</button><button type="button" class="chip" aria-pressed="false">Finance</button><button type="button" class="chip" aria-pressed="false">Banking &amp; investing</button><button type="button" class="chip" aria-pressed="false">Operations &amp; general management</button><button type="button" class="chip" aria-pressed="false">Product</button><button type="button" class="chip on" aria-pressed="true">Marketing</button><button type="button" class="chip" aria-pressed="false">Sales &amp; partnerships</button><button type="button" class="chip" aria-pressed="false">Supply chain &amp; procurement</button><button type="button" class="chip" aria-pressed="false">People</button><button type="button" class="chip" aria-pressed="false">Risk &amp; compliance</button><button type="button" class="chip" aria-pressed="false">Analytics</button></div>
+  <h2>Where do you want to go?</h2>
+  <div class="row"><input type="search" value="Product Manager" aria-label="Target role" class="sp-search"><span class="small muted"><a class="link" href="#/field/product">Product</a> · 5,635 postings</span></div>
+  <div class="chips"><span class="lbl">Difficulty</span><button type="button" class="chip" aria-pressed="false">Easy<span class=n>86</span></button><button type="button" class="chip on" aria-pressed="true">Normal<span class=n>313</span></button><button type="button" class="chip" aria-pressed="false">Hard<span class=n>51</span></button><span class="small muted" style="margin-left:6px">pairings from a field</span></div>
+  <div class="row" style="margin-top:18px"><button type="button" class="btn primary">Start the route →</button><button type="button" class="btn">Random pairing</button></div>
+</div>
+<div>
+  <div class="sp-board sp-mini"><svg class="sp-svg" width="392" height="236" viewBox="0 0 392 236" role="img" aria-label="Skill map board">
+<circle class="sp-field" cx="358.4" cy="202.5" r="40.3"/>
+<text class="sp-flabel" x="358.4" y="206.5" text-anchor="middle">Analytics</text>
+<circle class="sp-field on" cx="151.2" cy="149.7" r="40.3"/>
+<text class="sp-flabel on" x="151.2" y="153.7" text-anchor="middle">Product</text>
+<circle class="sp-field on" cx="48.8" cy="60.8" r="40.3"/>
+<text class="sp-flabel on" x="48.8" y="64.8" text-anchor="middle">Marketing</text>
+<circle class="sp-field" cx="83.9" cy="-35.9" r="40.3"/>
+<text class="sp-flabel" x="83.9" y="-39.4" text-anchor="middle">Sales</text>
+<text class="sp-flabel" x="83.9" y="-24.4" text-anchor="middle">&amp; partnerships</text>
+<path class="sp-e" d="M225.5 99.6L417.2 60.3M225.5 99.6L271.5 117.6M225.5 99.6L139.4 63.8M225.5 99.6L188.7 91.3M225.5 99.6L203.1 30.8M225.5 99.6L463.1 113.3M225.5 99.6L398.5 81.9M225.5 99.6L294.3 109.1M225.5 99.6L245.7 116.3M417.2 60.3L666.9 41.2M417.2 60.3L431.4 43.1M417.2 60.3L422.2 18.2M417.2 60.3L414.4 103.2M417.2 60.3L232.6 38.1M417.2 60.3L413.6 163.6M417.2 60.3L271.5 117.6M417.2 60.3L222.0 20.4M417.2 60.3L369.2 70.1M417.2 60.3L203.1 30.8M417.2 60.3L252.1 23.7M417.2 60.3L233.3 68.8M417.2 60.3L264.7 70.1M417.2 60.3L294.3 109.1M417.2 60.3L505.7 145.6M417.2 60.3L368.3 120.3M271.5 117.6L463.1 113.3M271.5 117.6L395.0 58.3M271.5 117.6L264.7 70.1M271.5 117.6L217.4 175.2M271.5 117.6L294.3 109.1M271.5 117.6L366.1 95.2M271.5 117.6L248.7 91.6M271.5 117.6L245.7 116.3M139.4 63.8L188.7 91.3M139.4 63.8L144.0 81.6M139.4 63.8L295.9 86.1M139.4 63.8L105.4 28.2M139.4 63.8L88.3 117.8M188.7 91.3L537.1 61.8M188.7 91.3L248.7 91.6M188.7 91.3L245.7 116.3M203.1 30.8L252.1 23.7M203.1 30.8L163.7 1.3M203.1 30.8L178.9 43.4M203.1 30.8L233.3 68.8M203.1 30.8L189.5 -40.7M463.1 113.3L294.3 109.1M398.5 81.9L620.3 17.4M398.5 81.9L222.0 148.2M398.5 81.9L294.3 109.1M398.5 81.9L848.2 30.3M294.3 109.1L366.1 95.2M294.3 109.1L343.2 99.3M294.3 109.1L368.3 120.3M294.3 109.1L724.6 -12.5M294.3 109.1L245.7 116.3M154.0 35.0L159.4 52.4M154.0 35.0L157.6 78.8M154.0 35.0L173.3 82.3M154.0 35.0L144.0 81.6M154.0 35.0L105.4 28.2M154.0 35.0L88.3 117.8M159.4 52.4L110.5 92.4M159.4 52.4L202.5 75.7M159.4 52.4L113.7 43.2M159.4 52.4L157.6 78.8M159.4 52.4L173.3 82.3M159.4 52.4L295.9 86.1M159.4 52.4L105.4 28.2M157.6 78.8L173.3 82.3M157.6 78.8L105.4 28.2M157.6 78.8L100.6 104.1M157.6 78.8L88.3 117.8M157.6 78.8L216.9 51.6M173.3 82.3L144.0 81.6M173.3 82.3L105.4 28.2M173.3 82.3L88.3 117.8M144.0 81.6L105.4 28.2M144.0 81.6L88.3 117.8M105.4 28.2L100.6 104.1M105.4 28.2L88.3 117.8M110.5 92.4L202.5 75.7M110.5 92.4L124.7 85.8M110.5 92.4L113.7 43.2M110.5 92.4L157.6 78.8M110.5 92.4L117.3 58.6M110.5 92.4L118.1 25.3M110.5 92.4L132.8 14.1M110.5 92.4L130.9 37.7M110.5 92.4L173.3 82.3M110.5 92.4L144.0 81.6M110.5 92.4L105.4 28.2M110.5 92.4L178.9 43.4M110.5 92.4L100.6 104.1M202.5 75.7L113.7 43.2M202.5 75.7L271.5 117.6M202.5 75.7L316.8 41.9M202.5 75.7L295.9 86.1M202.5 75.7L216.9 51.6M202.5 75.7L346.5 7.2M113.7 43.2L157.6 78.8M113.7 43.2L117.3 58.6M113.7 43.2L132.8 14.1M113.7 43.2L105.4 28.2M113.7 43.2L100.6 104.1M113.7 43.2L88.3 117.8M295.9 86.1L348.6 33.4M295.9 86.1L294.3 109.1M295.9 86.1L245.7 116.3M580.3 -45.0L405.7 151.6M580.3 -45.0L427.9 196.2M405.7 151.6L341.8 137.7M405.7 151.6L429.9 147.7M405.7 151.6L580.4 -18.3M405.7 151.6L423.6 176.8M405.7 151.6L452.6 137.1M405.7 151.6L389.9 141.3M405.7 151.6L427.9 196.2M452.6 137.1L389.9 141.3M391.8 105.9L422.2 18.2M391.8 105.9L470.2 161.4M391.8 105.9L537.1 61.8M391.8 105.9L398.5 81.9M391.8 105.9L318.8 121.3M391.8 105.9L395.0 58.3M391.8 105.9L217.4 175.2M391.8 105.9L294.3 109.1M391.8 105.9L724.6 -12.5M422.2 18.2L413.6 163.6M422.2 18.2L297.5 157.8M422.2 18.2L470.2 161.4M422.2 18.2L369.2 70.1M422.2 18.2L318.8 121.3M422.2 18.2L294.3 109.1M422.2 18.2L505.7 145.6M422.2 18.2L343.2 99.3M422.2 18.2L368.3 120.3M470.2 161.4L343.2 99.3M470.2 161.4L368.3 120.3M537.1 61.8L318.8 121.3M318.8 121.3L395.0 58.3M318.8 121.3L252.2 162.3M318.8 121.3L217.4 175.2M318.8 121.3L222.0 148.2M318.8 121.3L497.5 119.2M318.8 121.3L294.3 109.1M318.8 121.3L245.7 116.3M395.0 58.3L252.2 162.3M395.0 58.3L497.5 119.2M395.0 58.3L294.3 109.1M395.0 58.3L368.3 120.3M217.4 175.2L222.0 148.2M217.4 175.2L294.3 109.1M217.4 175.2L366.1 95.2M217.4 175.2L248.7 91.6M217.4 175.2L245.7 116.3M666.9 41.2L431.4 43.1M666.9 41.2L369.2 70.1M666.9 41.2L369.2 138.5M455.2 189.5L413.6 163.6M455.2 189.5L369.2 138.5M455.2 189.5L343.2 99.3M431.4 43.1L222.0 20.4M431.4 43.1L369.2 70.1M431.4 43.1L294.3 109.1M414.4 103.2L470.2 161.4M414.4 103.2L369.2 70.1M414.4 103.2L372.2 -12.3M414.4 103.2L348.6 33.4M414.4 103.2L294.3 109.1M414.4 103.2L505.7 145.6M414.4 103.2L343.2 99.3M414.4 103.2L368.3 120.3M414.4 103.2L724.6 -12.5M414.4 103.2L346.5 7.2M232.6 38.1L117.3 58.6M232.6 38.1L222.0 20.4M232.6 38.1L132.8 14.1M232.6 38.1L252.1 23.7M232.6 38.1L233.3 68.8M232.6 38.1L143.8 4.7M413.6 163.6L297.5 157.8M413.6 163.6L423.6 176.8M413.6 163.6L369.2 138.5M413.6 163.6L389.9 141.3M413.6 163.6L343.2 99.3M222.0 20.4L369.2 70.1M222.0 20.4L203.1 30.8M222.0 20.4L252.1 23.7M222.0 20.4L163.7 1.3M222.0 20.4L178.9 43.4M222.0 20.4L267.0 -0.8M222.0 20.4L189.5 -40.7M222.0 20.4L143.8 4.7M369.2 70.1L537.1 61.8M369.2 70.1L264.7 70.1M369.2 70.1L294.3 109.1M369.2 70.1L505.7 145.6M252.1 23.7L201.3 103.5M252.1 23.7L299.6 35.9M252.1 23.7L298.0 7.5M252.1 23.7L178.9 43.4M252.1 23.7L267.0 -0.8M252.1 23.7L233.3 68.8M252.1 23.7L324.3 -6.2M252.1 23.7L143.8 4.7M252.1 23.7L608.5 -10.0M233.3 68.8L324.3 -6.2M233.3 68.8L143.8 4.7M264.7 70.1L217.4 175.2M264.7 70.1L294.3 109.1M505.7 145.6L368.3 120.3M369.2 138.5L389.9 141.3M422.7 225.4L455.2 189.5M422.7 225.4L413.6 163.6M422.7 225.4L318.8 121.3M422.7 225.4L423.6 176.8M422.7 225.4L369.2 138.5M422.7 225.4L389.9 141.3M423.6 176.8L389.9 141.3M423.6 176.8L427.9 196.2M389.9 141.3L427.9 196.2M341.8 137.7L512.0 -46.0M341.8 137.7L452.6 137.1M341.8 137.7L369.2 138.5M341.8 137.7L389.9 141.3M341.8 137.7L427.9 196.2M341.8 137.7L705.4 -43.2M429.9 147.7L413.6 163.6M429.9 147.7L434.5 92.0M429.9 147.7L620.3 17.4M429.9 147.7L423.6 176.8M429.9 147.7L452.6 137.1M429.9 147.7L389.9 141.3M429.9 147.7L485.6 101.4M297.5 157.8L294.3 109.1M297.5 157.8L505.7 145.6M297.5 157.8L343.2 99.3M343.2 99.3L368.3 120.3M343.2 99.3L724.6 -12.5M446.8 -10.1L363.6 -35.1M446.8 -10.1L372.2 -12.3M446.8 -10.1L286.4 -11.4M618.2 44.4L363.6 -35.1M618.2 44.4L286.4 -11.4M690.2 57.4L363.6 -35.1M690.2 57.4L286.4 -11.4M469.7 -22.9L372.2 -12.3M363.6 -35.1L718.0 20.5M363.6 -35.1L286.4 -11.4M363.6 -35.1L296.1 -64.7M363.6 -35.1L525.9 130.9M372.2 -12.3L348.6 33.4M372.2 -12.3L283.9 -54.0M372.2 -12.3L365.2 -60.5M372.2 -12.3L346.5 7.2M286.4 -11.4L314.0 -125.4M764.2 74.0L346.5 7.2M655.1 156.6L346.5 7.2M115.7 75.0L110.5 92.4M115.7 75.0L124.7 85.8M115.7 75.0L173.8 28.8M115.7 75.0L157.6 78.8M115.7 75.0L173.3 82.3M115.7 75.0L105.4 28.2M115.7 75.0L100.6 104.1M115.7 75.0L253.6 -40.0M115.7 75.0L216.9 51.6M124.7 85.8L173.8 28.8M124.7 85.8L157.6 78.8M124.7 85.8L253.6 -40.0M124.7 85.8L216.9 51.6M173.8 28.8L157.6 78.8M173.8 28.8L316.8 41.9M173.8 28.8L253.6 -40.0M173.8 28.8L216.9 51.6M253.6 -40.0L216.9 51.6M652.2 11.7L233.3 68.8M844.2 79.5L316.8 41.9M844.2 79.5L267.0 -0.8M316.8 41.9L253.6 -40.0M316.8 41.9L365.2 -60.5M267.0 -0.8L167.5 -79.1M267.0 -0.8L143.8 4.7M267.0 -0.8L481.7 75.5M117.3 58.6L118.1 25.3M117.3 58.6L163.7 1.3M117.3 58.6L143.8 4.7M118.1 25.3L132.8 14.1M118.1 25.3L130.9 37.7M118.1 25.3L173.3 82.3M118.1 25.3L144.0 81.6M118.1 25.3L148.2 -13.4M118.1 25.3L168.4 -20.0M118.1 25.3L88.3 117.8M132.8 14.1L148.2 -13.4M132.8 14.1L168.4 -20.0M132.8 14.1L100.6 104.1M132.8 14.1L143.8 4.7M130.9 37.7L173.3 82.3M130.9 37.7L144.0 81.6M130.9 37.7L105.4 28.2M130.9 37.7L88.3 117.8M178.9 43.4L233.3 68.8M178.9 43.4L143.8 4.7M382.1 -80.3L252.2 140.8M336.0 -99.4L323.5 -34.2M252.2 140.8L814.7 78.0M252.2 140.8L742.0 30.2M252.2 140.8L387.5 -48.5M252.2 140.8L811.6 43.7M252.2 140.8L588.9 5.7M283.9 -54.0L323.5 -34.2M298.0 -154.7L323.5 -34.2M296.1 -64.7L323.5 -34.2M183.6 7.7L132.8 14.1M183.6 7.7L148.2 -13.4M183.6 7.7L167.5 -79.1M183.6 7.7L143.8 4.7M183.6 7.7L140.3 -79.1M148.2 -13.4L298.0 7.5M148.2 -13.4L168.4 -20.0M148.2 -13.4L143.8 4.7M167.5 -79.1L229.2 -10.8M143.8 4.7L153.9 -46.5M143.8 4.7L229.2 -10.8M766.1 13.1L423.6 176.8M766.1 13.1L427.9 196.2M348.6 33.4L343.2 99.3M348.6 33.4L346.5 7.2M149.0 -62.9L168.4 -20.0M149.0 -62.9L229.2 -10.8M168.4 -20.0L267.0 -0.8M168.4 -20.0L205.8 -51.3M168.4 -20.0L167.5 -79.1M168.4 -20.0L143.8 4.7M168.4 -20.0L153.9 -46.5M168.4 -20.0L229.2 -10.8M168.4 -20.0L140.3 -79.1M153.9 -46.5L229.2 -10.8M229.2 -10.8L140.3 -79.1M536.4 108.2L323.5 -34.2M212.4 1.5L222.0 20.4M212.4 1.5L203.1 30.8M212.4 1.5L252.1 23.7M212.4 1.5L168.4 -20.0M212.4 1.5L205.8 -51.3M212.4 1.5L229.2 -10.8M190.4 -16.6L206.6 -25.6M190.4 -16.6L499.3 8.9M190.4 -16.6L163.7 1.3M190.4 -16.6L620.3 17.4M190.4 -16.6L189.5 -40.7M190.4 -16.6L140.3 -79.1M206.6 -25.6L222.0 20.4M206.6 -25.6L189.5 -65.0M206.6 -25.6L163.7 1.3M206.6 -25.6L189.5 -40.7M206.6 -25.6L143.8 4.7M163.7 1.3L189.5 -40.7M163.7 1.3L143.8 4.7M187.5 57.3L117.3 58.6M187.5 57.3L132.8 14.1M187.5 57.3L188.7 91.3M187.5 57.3L201.3 103.5M187.5 57.3L163.7 1.3M187.5 57.3L143.8 4.7M201.3 103.5L233.3 68.8M201.3 103.5L252.2 162.3M201.3 103.5L217.4 175.2M201.3 103.5L294.3 109.1M201.3 103.5L366.1 95.2M285.1 59.1L206.6 -25.6M285.1 59.1L271.5 117.6M285.1 59.1L294.3 109.1M285.1 59.1L366.1 95.2M238.1 -39.8L546.5 -157.9M238.1 -39.8L252.1 23.7M238.1 -39.8L168.4 -20.0M238.1 -39.8L298.0 -154.7M238.1 -39.8L314.0 -108.9M314.0 -108.9L323.5 -34.2M323.5 -34.2L270.8 -45.0M323.5 -34.2L520.7 161.6M248.7 91.6L245.7 116.3M299.6 35.9L233.3 68.8M299.6 35.9L324.3 -6.2M299.6 35.9L143.8 4.7M299.6 35.9L608.5 -10.0M299.6 35.9L248.7 91.6M324.3 -6.2L217.4 175.2M252.2 162.3L217.4 175.2M252.2 162.3L222.0 148.2M252.2 162.3L294.3 109.1M252.2 162.3L245.7 116.3M222.0 148.2L294.3 109.1M222.0 148.2L248.7 91.6M222.0 148.2L245.7 116.3M312.2 -91.9L323.5 -34.2"/>
+<circle class="sp-n" cx="222.0" cy="148.2" r="2.8"/>
+<circle class="sp-n" cx="395.0" cy="58.3" r="3.8"/>
+<circle class="sp-n" cx="318.8" cy="121.3" r="3.2"/>
+<circle class="sp-n" cx="252.2" cy="162.3" r="3.0"/>
+<circle class="sp-n" cx="201.3" cy="103.5" r="3.1"/>
+<circle class="sp-n" cx="252.2" cy="140.8" r="2.3"/>
+<circle class="sp-n" cx="285.1" cy="59.1" r="3.6"/>
+<circle class="sp-n" cx="264.7" cy="70.1" r="2.9"/>
+<circle class="sp-n" cx="245.7" cy="116.3" r="2.9"/>
+<circle class="sp-n" cx="398.5" cy="81.9" r="2.4"/>
+<circle class="sp-n" cx="324.3" cy="-6.2" r="3.2"/>
+<circle class="sp-n" cx="252.1" cy="23.7" r="3.8"/>
+<circle class="sp-n" cx="299.6" cy="35.9" r="3.4"/>
+<circle class="sp-n" cx="233.3" cy="68.8" r="3.5"/>
+<circle class="sp-n" cx="143.8" cy="4.7" r="3.2"/>
+<circle class="sp-n" cx="206.6" cy="-25.6" r="3.1"/>
+<circle class="sp-n" cx="298.0" cy="7.5" r="3.6"/>
+<circle class="sp-n" cx="267.0" cy="-0.8" r="3.1"/>
+<circle class="sp-n" cx="203.1" cy="30.8" r="3.4"/>
+<circle class="sp-n" cx="187.5" cy="57.3" r="2.3"/>
+<circle class="sp-n" cx="248.7" cy="91.6" r="2.6"/>
+<circle class="sp-n" cx="271.5" cy="117.6" r="3.1"/>
+<circle class="sp-n" cx="178.9" cy="43.4" r="2.9"/>
+<circle class="sp-n" cx="366.1" cy="95.2" r="2.8"/>
+<circle class="sp-n" cx="225.5" cy="99.6" r="2.8"/>
+<circle class="sp-n" cx="389.9" cy="141.3" r="2.8"/>
+<circle class="sp-n" cx="423.6" cy="176.8" r="2.6"/>
+<circle class="sp-n" cx="413.6" cy="163.6" r="3.0"/>
+<circle class="sp-n" cx="368.3" cy="120.3" r="3.4"/>
+<circle class="sp-n" cx="422.2" cy="18.2" r="3.4"/>
+<circle class="sp-n" cx="414.4" cy="103.2" r="3.2"/>
+<circle class="sp-n" cx="417.2" cy="60.3" r="4.2"/>
+<circle class="sp-n" cx="369.2" cy="70.1" r="3.5"/>
+<circle class="sp-n" cx="295.9" cy="86.1" r="2.5"/>
+<circle class="sp-n" cx="372.2" cy="-12.3" r="3.2"/>
+<circle class="sp-n" cx="348.6" cy="33.4" r="2.6"/>
+<circle class="sp-n" cx="316.8" cy="41.9" r="3.3"/>
+<circle class="sp-n" cx="159.4" cy="52.4" r="2.9"/>
+<circle class="sp-n" cx="222.0" cy="20.4" r="3.5"/>
+<circle class="sp-n" cx="202.5" cy="75.7" r="2.9"/>
+<circle class="sp-n" cx="346.5" cy="7.2" r="2.4"/>
+<circle class="sp-n" cx="297.5" cy="157.8" r="2.6"/>
+<circle class="sp-gen" cx="395.9" cy="29.2" r="4.5"/>
+<circle class="sp-gen" cx="398.4" cy="-0.8" r="4.4"/>
+<circle class="sp-n" cx="232.6" cy="38.1" r="3.2"/>
+<circle class="sp-n" cx="391.8" cy="105.9" r="3.0"/>
+<circle class="sp-n" cx="188.7" cy="91.3" r="2.1"/>
+<circle class="sp-n" cx="405.7" cy="151.6" r="2.9"/>
+<circle class="sp-n" cx="139.4" cy="63.8" r="1.9"/>
+<circle class="sp-n" cx="212.4" cy="1.5" r="3.1"/>
+<circle class="sp-n" cx="431.4" cy="43.1" r="3.3"/>
+<circle class="sp-n" cx="115.7" cy="75.0" r="2.4"/>
+<circle class="sp-n" cx="118.1" cy="25.3" r="2.5"/>
+<circle class="sp-n" cx="105.4" cy="28.2" r="2.4"/>
+<circle class="sp-n" cx="88.3" cy="117.8" r="2.3"/>
+<circle class="sp-n" cx="113.7" cy="43.2" r="2.6"/>
+<circle class="sp-n" cx="130.9" cy="37.7" r="2.3"/>
+<circle class="sp-n" cx="173.3" cy="82.3" r="2.4"/>
+<circle class="sp-n" cx="124.7" cy="85.8" r="2.2"/>
+<circle class="sp-n" cx="157.6" cy="78.8" r="2.4"/>
+<circle class="sp-n" cx="132.8" cy="14.1" r="2.6"/>
+<circle class="sp-n" cx="100.6" cy="104.1" r="2.4"/>
+<circle class="sp-n" cx="117.3" cy="58.6" r="2.4"/>
+<circle class="sp-n" cx="173.8" cy="28.8" r="2.3"/>
+<circle class="sp-n" cx="168.4" cy="-20.0" r="2.8"/>
+<circle class="sp-n" cx="238.1" cy="-39.8" r="2.6"/>
+<circle class="sp-n" cx="183.6" cy="7.7" r="2.6"/>
+<circle class="sp-n" cx="148.2" cy="-13.4" r="2.6"/>
+<circle class="sp-n" cx="229.2" cy="-10.8" r="2.8"/>
+<circle class="sp-n" cx="163.7" cy="1.3" r="2.7"/>
+<circle class="sp-n" cx="190.4" cy="-16.6" r="2.5"/>
+<circle class="sp-n" cx="286.4" cy="-11.4" r="2.5"/>
+<circle class="sp-n" cx="323.5" cy="-34.2" r="2.5"/>
+<circle class="sp-n" cx="363.6" cy="-35.1" r="2.4"/>
+<circle class="sp-n" cx="429.9" cy="147.7" r="3.1"/>
+<circle class="sp-n" cx="369.2" cy="138.5" r="2.1"/>
+<circle class="sp-n" cx="422.7" cy="225.4" r="2.2"/>
+<circle class="sp-n" cx="144.0" cy="81.6" r="2.2"/>
+<circle class="sp-n" cx="154.0" cy="35.0" r="2.1"/>
+<circle class="sp-n" cx="216.9" cy="51.6" r="2.1"/>
+<circle class="sp-n" cx="341.8" cy="137.7" r="2.3"/>
+<circle class="sp-n" cx="427.9" cy="196.2" r="2.2"/>
+<circle class="sp-zone" cx="294.3" cy="109.1" r="9"/><circle class="sp-zone-dot" cx="294.3" cy="109.1" r="4"/>
+<circle class="sp-zone" cx="217.4" cy="175.2" r="9"/><circle class="sp-zone-dot" cx="217.4" cy="175.2" r="4"/>
+<circle class="sp-zone" cx="343.2" cy="99.3" r="9"/><circle class="sp-zone-dot" cx="343.2" cy="99.3" r="4"/>
+<circle class="sp-you" cx="110.5" cy="92.4" r="6"/>
+<text class="sp-name you" x="121.5" y="96.4" text-anchor="start">Marketing campaigns</text>
+</svg></div>
+  <div class="sp-brief">
+    <p><b class="sp-green">You start at Marketing campaigns.</b> It sets Marketing apart most: 48% of postings across its 4 roles ask for it.</p>
+    <p><b class="sp-bluet">You arrive on any of three skills</b> that set Product Manager apart:</p>
+    <div class="list sp-zone-list"><div class="r"><span class="t">Roadmapping</span><span class="n sp-blue">74%</span><span class="m">Product craft</span></div><div class="r"><span class="t">Product strategy</span><span class="n sp-blue">62%</span><span class="m">Product craft</span></div><div class="r"><span class="t">Systems &amp; architecture</span><span class="n sp-blue">50%</span><span class="m">Technical fluency</span></div></div>
+    <p class="facts" style="margin-top:10px">Shortest route 3 hops · your budget 5</p>
+  </div>
+  <p class="small muted" style="margin-top:14px">Your best routes show here after a round. They stay in this browser.</p>
+</div>
+</div></div></main>
+  
+</div>
+<footer class="foot"><span>Built from live job postings, refreshed weekly.</span> <a href="#/about">About the data</a></footer>
+</body>
+</html>

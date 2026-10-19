@@ -205,3 +205,26 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .sm-card { margin-top: 2px; }
 .sm-title { margin: 0 0 4px; font-size: var(--text-lg); color: var(--heading-foreground); }
 .sm-h { font-size: var(--text-sm); color: var(--subtle-foreground); margin: 14px 0 4px; }
+
+/* ---------- first visit: the games on top (two thirds), what jobs ask for below (one third) ---------- */
+.page.start { display: grid; grid-template-rows: minmax(0, 2fr) minmax(0, 1fr); min-height: calc(100vh - var(--topbar-height) - 140px); gap: 24px; }
+.start-games { min-width: 0; }
+.start-games h1 { font-size: var(--text-3xl); }
+.carousel { position: relative; margin-top: 18px; }
+.car-track { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(260px, calc((100% - 48px) / 4)); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 2px 2px 6px; }
+.car-track::-webkit-scrollbar { display: none; }
+.car-btn { position: absolute; top: 34%; z-index: 1; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--foreground); font-size: 20px; line-height: 1; }
+.car-btn.prev { left: -14px; } .car-btn.next { right: -14px; }
+.game { scroll-snap-align: start; display: flex; flex-direction: column; gap: 4px; color: inherit; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: 10px 10px 14px; }
+.game:hover { border-color: var(--input); }
+.cover { position: relative; display: block; aspect-ratio: 16 / 10; border-radius: var(--radius-md); overflow: hidden; background: var(--muted); border: 1px solid var(--border); }
+.cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; z-index: 1; }
+.cover .ph-t { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.cover.big { max-width: 560px; margin-top: 16px; }
+.game .gt { margin-top: 8px; font-size: var(--text-lg); font-weight: var(--weight-medium); color: var(--heading-foreground); }
+.game .gd { color: var(--muted-foreground); font-size: var(--text-base); }
+.game .tag { align-self: flex-start; margin-top: 6px; font-size: var(--text-sm); color: var(--primary); }
+.game .tag.soon { color: var(--subtle-foreground); font-family: var(--font-mono); }
+.start-fit { border-top: 1px solid var(--border); padding-top: 20px; }
+.start-fit h2 { margin-top: 0; }
+.start-fit .choices { margin-top: 12px; max-width: 880px; }
