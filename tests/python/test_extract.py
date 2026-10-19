@@ -130,3 +130,27 @@ def test_genai_is_not_tagged_on_an_enrolled_agent():
 def test_ownership_is_not_tagged_on_entrepreneurs_as_people():
     assert "ownership" not in tags("relationships with entrepreneurs, investors")
     assert "ownership" in tags("entrepreneurial mindset")
+
+
+# ---------- postings: one requisition in two raw files ----------
+DESC = ("You will own the roadmap for the network switching product line and work with engineering, sales and "
+        "operations. You will build the business case for each release, present it to leadership and track the "
+        "results. Five years of program management experience in hardware, an MBA preferred, strong SQL and Excel.")
+
+
+def test_postings_keeps_the_row_seen_last_when_two_raw_files_hold_one_requisition(tmp_path, monkeypatch):
+    """Supermicro retitled requisition 1383975400. The product cache, scraped on 10-09 and read as it is, still says
+    Product Manager; the MBA backlog saw Sr. Program Manager on 10-18. One posting, the one seen last."""
+    import json
+    from pipeline import scrape
+    for folder, title, scraped, seen in (("jobs", "Product Manager", "2026-10-09T18:34:51", None),
+                                         ("jobs_mba", "Sr. Program Manager - Network Switching", "2026-10-18T22:00:09", "2026-10-18")):
+        d = tmp_path / "data" / "raw" / folder
+        d.mkdir(parents=True)
+        job = {"title": title, "url": f"https://jobs.example.com/job/{title.replace(' ', '-')}/1383975400/", "external_id": "1383975400",
+               "location": "San Jose, California", "description": DESC, "first_seen": seen, "last_seen": seen}
+        (d / "acme.json").write_text(json.dumps({"company": "Acme", "scraped_at": scraped, "jobs": [job]}))
+    monkeypatch.setattr(E, "ROOT", str(tmp_path))
+    monkeypatch.setattr(scrape, "load_registry", lambda roles_name="product": [{"company": "Acme", "ats": "successfactors", "group": "fortune250"}])
+    rows = list(E.postings("mba"))
+    assert [(j["title"], j.get("last_seen")) for _, _, j, _, _ in rows] == [("Sr. Program Manager - Network Switching", "2026-10-18")]
