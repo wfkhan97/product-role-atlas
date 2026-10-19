@@ -232,6 +232,10 @@ ask at that level, which may still be an odd pair. The critic's judgment (suppor
 pipeline and is not rerun here; `pipeline.depth_gen --rejudge` measures how much another critic agrees. The
 sub-skill shares are measured on the same postings the patterns were drafted from.
 
+## Game data
+
+- `node evals/game_passages.mjs` checks `web/data/game_passages.json`, the passages of the game Spot the real ask (`pipeline/game_passages.py`): valid chunk labels, every ask names a skill of its set's taxonomy, each block's chunks join back to its text, shares in [0, 1], no passage over 700 characters, at most 12 per role and one employer per role, the file under 1 MB, every role id in `graph_mba.json` or `graph.json`. Exit 1 when a check fails.
+
 ## Evals to build
 
 The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a
