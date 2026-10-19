@@ -9,10 +9,13 @@
   "use strict";
   const SCREENS = { "": "start", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about" };
   // "#/role/pm/fit?x=1" -> { name: "fit", params: { id: "pm" }, query: { x: "1" }, parts: ["role", "pm", "fit"], search: "x=1" }.
-  // An unknown first part shows the start screen. `search` is the text between the first and a second "?", as the screens read it.
+  // An unknown first part, or a part that cannot be decoded ("%E0"), shows the start screen. `search` is the text
+  // between the first and a second "?", as the screens read it.
   function parseRoute(hash) {
     const h = String(hash || "");
-    const parts = h.split("?")[0].replace(/^#\/?/, "").split("/").map(decodeURIComponent);
+    let parts;
+    try { parts = h.split("?")[0].replace(/^#\/?/, "").split("/").map(decodeURIComponent); }
+    catch { return { name: "start", params: {}, query: {}, parts: [], search: "" }; }
     const [a, b, c] = parts;
     const search = h.split("?")[1] || "";
     const query = Object.fromEntries(new URLSearchParams(search));

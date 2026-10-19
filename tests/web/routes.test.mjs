@@ -62,8 +62,9 @@ test("a screen name that is also an Object property (constructor, __proto__, toS
   for (const h of ["#/constructor", "#/__proto__", "#/toString", "#/hasOwnProperty"]) assert.equal(parseRoute(h).name, "start", h);
 });
 
-test("parseRoute todo: a malformed percent escape in the path shows the start screen instead of throwing", { todo: "finding: decodeURIComponent throws URIError on \"#/role/%E0\", so route() throws in the hashchange handler and the screen does not change; kept as it was (no behaviour change in this split)" }, () => {
-  assert.doesNotThrow(() => parseRoute("#/role/%E0"));
+test("a path part that cannot be decoded shows the start screen instead of throwing", () => {
+  // decodeURIComponent throws URIError on "%E0"; route() used to throw in the hashchange handler and leave the screen as it was
+  for (const h of ["#/role/%E0", "#/%", "#/play/x%ZZ?seed=1"]) assert.deepEqual(screen(h), ["start", {}], h);
 });
 
 test("every screen parseRoute names has an entry in route()'s dispatch table", () => {
