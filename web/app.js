@@ -1,7 +1,32 @@
 /* Role atlas — the screens. Routes (hash): #/ start (the games, then see what jobs ask for) · #/play/<game> · #/you (next step) · #/explore · #/field/<group> · #/role/<role> ·
    #/about. Data comes from atlas.js; the side panel (owner's choice 8B) shows a skill or a posting. */
+// The route: the hash read into the screen to show, its path parts and its query. Pure, no DOM; UMD like atlas.js,
+// so node loads it alone (tests/web/routes.test.mjs): require("web/app.js").parseRoute.
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory();
+  else root.Routes = factory();
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+  const SCREENS = { "": "start", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about" };
+  // "#/role/pm/fit?x=1" -> { name: "fit", params: { id: "pm" }, query: { x: "1" }, parts: ["role", "pm", "fit"], search: "x=1" }.
+  // An unknown first part shows the start screen. `search` is the text between the first and a second "?", as the screens read it.
+  function parseRoute(hash) {
+    const h = String(hash || "");
+    const parts = h.split("?")[0].replace(/^#\/?/, "").split("/").map(decodeURIComponent);
+    const [a, b, c] = parts;
+    const search = h.split("?")[1] || "";
+    const query = Object.fromEntries(new URLSearchParams(search));
+    let name = Object.hasOwn(SCREENS, a || "") ? SCREENS[a || ""] : "start";
+    if (name === "field" && c === "event") name = "event";
+    if (name === "role" && (c === "fit" || c === "course")) name = c;
+    const params = name === "play" ? { slug: b } : ["field", "event", "role", "fit", "course"].includes(name) ? { id: b } : {};
+    return { name, params, query, parts, search };
+  }
+  return { parseRoute };
+});
 (function () {
   "use strict";
+  if (typeof document === "undefined") return;   // node loads this file for parseRoute alone
   const $ = s => document.querySelector(s);
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const pct = v => Math.round(v * 100) + "%";
@@ -33,11 +58,10 @@
   state.you = store.get("you"); state.resume = store.get("resume");
   const LEVEL_OPT = { entry: "associate", mid: "mid", senior: "senior", lead: "lead" };
   function route() {
-    const parts = location.hash.split("?")[0].replace(/^#\/?/, "").split("/").map(decodeURIComponent);
-    const [a, b, c] = parts;
-    const go = { "": start, you: you, explore: explore, field: () => c === "event" ? eventScreen(b) : field(b), role: () => c === "fit" ? fitScreen(b) : c === "course" ? courseScreen(b) : roleScreen(b), play: () => play(b), about: about }[a || ""];
+    const { name, params: { id, slug } } = Routes.parseRoute(location.hash);
+    const go = { start, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about }[name];
     SkillMap.leave();
-    (go || start)().catch(fail);
+    go().catch(fail);
   }
   window.addEventListener("hashchange", route);
 
