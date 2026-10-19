@@ -28,7 +28,7 @@
   let poolsP = null;
   function pools(Atlas) {
     return poolsP ||= (async () => {
-      const ix = await Atlas.index(), P = await Atlas.product();   // product() first, so `pmm` is the product role, as on its page
+      const ix = await Atlas.index(), P = await Atlas.product();   // product() first, so the product families (product.<family>) are in ix.roles
       const generic = await Atlas.genericSkills();
       const M = ix.M, G = P.G;
       const skip = s => s.cluster === "credentials" || s.id.startsWith("yoe_");
@@ -36,8 +36,8 @@
       const out = {};
       for (const r of Object.values(ix.roles)) {
         const skills = (r.set === "mba" ? M.skills : G.skills).filter(s => !skip(s));
-        const share = s => (s.by_family || {})[r.id] || 0;
-        const elsewhere = s => r.set === "mba" ? mbaElsewhere(s.id, r.id) : [...Object.entries(s.by_family || {}).filter(([f]) => f !== r.id), ...mbaElsewhere(s.id, r.id)];
+        const share = s => (s.by_family || {})[r.family] || 0;
+        const elsewhere = s => r.set === "mba" ? mbaElsewhere(s.id, r.id) : [...Object.entries(s.by_family || {}).filter(([f]) => f !== r.family).map(([f, v]) => [Atlas.productKey(f), v]), ...mbaElsewhere(s.id, r.id)];
         const asks = skills.filter(s => share(s) >= RULE.ask).map(s => ({ id: s.id, name: s.name, share: share(s), generic: generic.has(s.id) })).sort((a, b) => b.share - a.share);
         const fillerAt = max => skills.filter(s => share(s) <= max).map(s => {
           const [top] = elsewhere(s).sort((a, b) => b[1] - a[1]); const base = ix.baseline[s.id] || 0;

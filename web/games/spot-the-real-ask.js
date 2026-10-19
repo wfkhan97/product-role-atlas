@@ -343,7 +343,7 @@
       ${missedHtml}
       <h3>Filler</h3><p class="tight">${esc(filler)}</p>${countedHtml}
       <h3>The atlas</h3><p class="punch">The atlas reads <span class="n-blue">${fmt(S.nJobs)}</span> postings this way, so you don't have to.</p>
-      <div class="row next-row"><button type="button" class="btn primary" id="sra-next">${last ? "See your rank →" : "Next posting →"}</button><a class="btn" href="#/role/${esc(p.role)}">Open ${esc(role.label)} →</a></div></div>`);
+      <div class="row next-row"><button type="button" class="btn primary" id="sra-next">${last ? "See your rank →" : "Next posting →"}</button><a class="btn" href="#/role/${esc(p.set === "product" ? Atlas.productKey(p.role) : p.role)}">Open ${esc(role.label)} →</a></div></div>`);
     el.querySelector("#sra-live").textContent = `${r.found ? `${r.found} of ${r.asks} asks found` : `You did not mark any of the ${r.asks} asks`}; ${r.skipped} of ${r.filler} filler ${r.filler === 1 ? "line" : "lines"} let pass`;
     const next = document.getElementById("sra-next");
     next.onclick = () => { if (S.dead) return; if (last) runEnd(S); else { S.run.i++; posting(S); } };
@@ -376,7 +376,7 @@
       <p class="punch end-punch">You read ${["one posting", "two postings", "three postings"][rs.length - 1] || rs.length + " postings"}. The atlas reads <span class="n-blue">${fmt(S.nJobs)}</span> this way, so you don't have to.</p>
       <h2>The roles you read</h2>
       <div class="list">${roles.map(({ p, m }) => { const role = roleOf(S, p); const miss = m ? `you missed ${m.name}${m.more ? ` and ${m.more} more` : ""}` : "you found every ask";
-        return `<a class="r" href="#/role/${esc(p.role)}"><span class="t">${esc(role.label)}</span><span class="m">${esc(p.company)} · ${esc(p.title)} · ${esc(miss)}</span><span class="n">${role.n_open != null ? `<span class="n-blue">${fmt(role.n_open)}</span> open · ` : ""}Open →</span></a>`; }).join("")}</div>
+        return `<a class="r" href="#/role/${esc(p.set === "product" ? Atlas.productKey(p.role) : p.role)}"><span class="t">${esc(role.label)}</span><span class="m">${esc(p.company)} · ${esc(p.title)} · ${esc(miss)}</span><span class="n">${role.n_open != null ? `<span class="n-blue">${fmt(role.n_open)}</span> open · ` : ""}Open →</span></a>`; }).join("")}</div>
       <div class="row end-row"><button type="button" class="btn primary" id="sra-again">Play again</button><a class="btn" href="#/">All games</a><a class="btn quiet" href="#/explore">Explore the roles</a></div>
     </div>`;
     window.scrollTo(0, 0);

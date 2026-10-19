@@ -172,6 +172,26 @@ if (!only) {
   }
   bad.length ? fail++ : pass++; out(`\n=== distinctive asks (weighting on, ${fams.length} roles): ${bad.length ? "FAIL — " + bad.slice(0, 6).join("; ") : "PASS — every weight between the floor and the full share, the floor and the full weight where the lift says so, industry slot whole, evidence never lowers a score"}`);
 }
+// Keyed depth: an MBA skill's ladder and build steps are keyed by industry ladder. The matcher reads them on the
+// target role's ladder (opts.ladder): a rung is a string, a step an object with its text and linked source, and a
+// ladder with none written (consulting is on hold) gets no step and no rung of another industry.
+if (!only) {
+  const { loadGraph } = await import("./graph_mba.mjs"); const GK = loadGraph(["ib_associate"]);
+  const J2 = f => JSON.parse(fs.readFileSync(path.join(root, f)));
+  const K = createMatcher({ taxonomy: J2("web/data/taxonomy_mba.json"), subskills: J2("web/data/subskills_mba.json"), graph: GK, roles: ROLES });
+  const keyed = GK.skills.filter(s => s.build && !Array.isArray(s.build)).map(s => s.id); const bad = [];
+  const tg = { jobs: GK.jobs, label: "ib_associate" }, text = "Analyst, Acme, 2021 – 2024\n- Built models.";
+  const rowsOn = ladder => Object.fromEntries(K.match(text, tg, { ladder }).rows.map(x => [x.id, x]));
+  const bank = rowsOn("bank"), cons = rowsOn("consulting"), none = rowsOn(undefined);
+  for (const id of keyed) {
+    const b = bank[id]; if (!b) { bad.push(`${id}: not asked by ib_associate`); continue; }
+    if (!b.build.length || b.build.some(x => !x.text || !x.url || !x.source_title)) bad.push(`${id}: bank steps missing or without text and linked source`);
+    if (b.ladder !== null && typeof b.ladder !== "string") bad.push(`${id}: bank rung is not a string`);
+    if (cons[id].build.length || cons[id].ladder) bad.push(`${id}: consulting got a step or rung`);
+    if (none[id].build.length || none[id].ladder) bad.push(`${id}: no ladder given, still got a step or rung`);
+  }
+  bad.length ? fail++ : pass++; out(`\n=== keyed depth on the role's ladder (${keyed.length} skills with keyed build steps): ${bad.length ? "FAIL — " + bad.join("; ") : "PASS — bank steps with linked sources, nothing for consulting or without a ladder"}`);
+}
 // Bands of fit: the cut points file must be in order, and bandOf must read it as documented.
 if (!only) {
   const B = JSON.parse(fs.readFileSync(path.join(root, "web/data/bands_mba.json")));

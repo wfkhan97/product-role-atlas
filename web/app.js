@@ -1,7 +1,35 @@
 /* Role atlas — the screens. Routes (hash): #/ start (the games, then see what jobs ask for) · #/play/<game> · #/you (next step) · #/explore · #/field/<group> · #/role/<role> ·
    #/about. Data comes from atlas.js; the side panel (owner's choice 8B) shows a skill or a posting. */
+// The route: the hash read into the screen to show, its path parts and its query. Pure, no DOM; UMD like atlas.js,
+// so node loads it alone (tests/web/routes.test.mjs): require("web/app.js").parseRoute.
+(function (root, factory) {
+  if (typeof module === "object" && module.exports) module.exports = factory();
+  else root.Routes = factory();
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+  const SCREENS = { "": "start", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about" };
+  // "#/role/pm/fit?x=1" -> { name: "fit", params: { id: "pm" }, query: { x: "1" }, parts: ["role", "pm", "fit"], search: "x=1" }.
+  // An unknown first part, or a part that cannot be decoded ("%E0"), shows the start screen. `search` is the text
+  // between the first and a second "?", as the screens read it.
+  function parseRoute(hash) {
+    const h = String(hash || "");
+    let parts;
+    try { parts = h.split("?")[0].replace(/^#\/?/, "").split("/").map(decodeURIComponent); }
+    catch { return { name: "start", params: {}, query: {}, parts: [], search: "" }; }
+    const [a, b, c] = parts;
+    const search = h.split("?")[1] || "";
+    const query = Object.fromEntries(new URLSearchParams(search));
+    let name = Object.hasOwn(SCREENS, a || "") ? SCREENS[a || ""] : "start";
+    if (name === "field" && c === "event") name = "event";
+    if (name === "role" && (c === "fit" || c === "course")) name = c;
+    const params = name === "play" ? { slug: b } : ["field", "event", "role", "fit", "course"].includes(name) ? { id: b } : {};
+    return { name, params, query, parts, search };
+  }
+  return { parseRoute };
+});
 (function () {
   "use strict";
+  if (typeof document === "undefined") return;   // node loads this file for parseRoute alone
   const $ = s => document.querySelector(s);
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const pct = v => Math.round(v * 100) + "%";
@@ -11,6 +39,25 @@
   const EV_GROUPS = [["early", "Entry and mid-level"], ["senior", "Senior"], ["staff", "Lead / principal"], ["lead", "Director and up"]];
   const LADDER_KEYS = [["associate", "Entry"], ["mid", "Mid-level"], ["senior", "Senior"], ["lead", "Lead"]];
   const STEP_TO_EV = { entry: "early", mid: "early", senior: "senior", lead: "staff" };
+  // A skill's build steps are a flat list of strings (product skills) or keyed by industry ladder, each step with its
+  // source ({bank: [{kind, text, source_title, url, grounding, ...}]}: MBA skills). Keyed steps are read on the role's
+  // own ladder; with `other`, another industry's steps stand in, named as such. Consulting is on hold (no source agreed,
+  // data/raw/build_sources.json), so nothing stands in for it. Sources are named and linked, never quoted.
+  function buildSteps(s, ladder, other) {
+    const B = s && s.build;
+    if (!B) return { steps: [], ind: null };
+    if (Array.isArray(B)) return { steps: B, ind: null };
+    if ((B[ladder] || []).length) return { steps: B[ladder], ind: ladder };
+    const ind = other && ladder !== "consulting" ? ["corporate", "bank"].find(k => (B[k] || []).length) : null;
+    return { steps: ind ? B[ind] : [], ind };
+  }
+  const practise = steps => steps.find(b => typeof b === "string" ? /^project/i.test(b) : b.kind === "practise") || steps[0];
+  function stepHtml(b) {
+    if (typeof b === "string") return esc(b);
+    const title = b.source_title || b.source || "";
+    const src = b.url ? `<a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(title)}</a>` : esc(title);
+    return esc(b.text) + (title ? ` <span class="small muted">Source: ${src}${b.grounding === "input only" ? " (names the input, not the method)" : ""}.</span>` : "");
+  }
 
   // ---------- theme: the device decides unless the person overrides ----------
   const THEMES = ["system", "dark", "light"], GLYPH = { system: "◐", dark: "●", light: "○" };
@@ -33,11 +80,10 @@
   state.you = store.get("you"); state.resume = store.get("resume");
   const LEVEL_OPT = { entry: "associate", mid: "mid", senior: "senior", lead: "lead" };
   function route() {
-    const parts = location.hash.split("?")[0].replace(/^#\/?/, "").split("/").map(decodeURIComponent);
-    const [a, b, c] = parts;
-    const go = { "": start, you: you, explore: explore, field: () => c === "event" ? eventScreen(b) : field(b), role: () => c === "fit" ? fitScreen(b) : c === "course" ? courseScreen(b) : roleScreen(b), play: () => play(b), about: about }[a || ""];
+    const { name, params: { id, slug } } = Routes.parseRoute(location.hash);
+    const go = { start, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about }[name];
     SkillMap.leave();
-    (go || start)().catch(fail);
+    go().catch(fail);
   }
   window.addEventListener("hashchange", route);
 
@@ -189,11 +235,13 @@
       const chips = fit ? `<div class="chips"><span class="lbl">Showing</span><button type="button" class="chip${onlyFit ? " on" : ""}" id="c-fit">Fields that fit you<span class="n">${fit.size}</span></button><button type="button" class="chip${onlyFit ? "" : " on"}" id="c-all">All fields</button>${state.resume ? `<span class="small muted" style="margin-left:8px">From your answers and ${esc(state.resume.name)}.</span>` : fit.size ? '<span class="small muted" style="margin-left:8px">From your answers. <a href="#/you">Add a resume</a> to add the fields it points to.</span>' : '<span class="small muted" style="margin-left:8px">You picked no field yet. <a href="#/you">Tell us about you</a>.</span>'}</div>` : "";
       const asMap = SkillMap.mode() === "map";
       const view = `<div class="chips"><span class="lbl">View</span><button type="button" class="chip${asMap ? " on" : ""}" id="v-map">Skill map</button><button type="button" class="chip${asMap ? "" : " on"}" id="v-grid">Circles</button>${asMap ? '<span class="gap"></span><input class="sm-find" id="sm-find" type="search" placeholder="Find a skill" list="sm-names" aria-label="Find a skill"><datalist id="sm-names"></datalist>' : ""}</div>`;
+      const pg = all.find(g => g.set === "product"), mg = all.find(g => g.set === "mba");
+      const dates = `<p class="small muted">Counts are open postings in the US: business fields refreshed ${esc(mg.generated)}${pg.generated ? `, Product scraped ${esc(pg.generated)} (${fmt(pg.nWorld)} worldwide)` : ""}.</p>`;
       const inner = g => `${esc(g.label)}<span class="n">${g.nOpen == null ? "loading…" : fmt(g.nOpen) + " open"}${g.roles.length ? " · " + plural(g.roles.length, "role", "roles") : ""}</span>`;
       if (asMap) {
         // the fields on the skill map: a field's own skills beside it, the skills every field asks for in the middle
         page(`<h1>Explore the roles</h1>
-          <p class="lead">${all.length} fields, ${nRoles || 56} roles, and the skills their postings ask for. Each field's own skills sit beside it; skills every field asks for sit in the middle. Hover a field, click a skill, or open a field.</p>${chips}${view}
+          <p class="lead">${all.length} fields, ${nRoles || 56} roles, and the skills their postings ask for. Each field's own skills sit beside it; skills every field asks for sit in the middle. Hover a field, click a skill, or open a field.</p>${dates}${chips}${view}
           <div class="sm-stage" id="sm-stage"></div>
           ${fit && fit.size ? '<p class="key">Green: the fields your answers and resume point to.</p>' : ""}`);
         main.firstElementChild.classList.add("wide");
@@ -206,7 +254,7 @@
         return;
       }
       page(`<h1>Explore the roles</h1>
-        <p class="lead">${all.length} fields, ${nRoles || 56} roles. The size of a field is how many postings are open now. Open one.</p>${chips}${view}
+        <p class="lead">${all.length} fields, ${nRoles || 56} roles. The size of a field is how many postings are open now. Open one.</p>${dates}${chips}${view}
         <div class="bubbles">${groups.map(g => `<a class="bubble ${sizeClass(g.nOpen || 0)}${fit && fit.has(g.id) ? " you" : ""}" href="#/field/${esc(g.id)}">${esc(g.label)}<span class="n">${g.nOpen == null ? "loading…" : fmt(g.nOpen) + " open"}${g.roles.length ? " · " + plural(g.roles.length, "role", "roles") : ""}</span></a>`).join("")}</div>
         ${fit && fit.size && !onlyFit ? '<p class="key" style="text-align:center">Green: the fields your answers and resume point to.</p>' : ""}`);
       $("#v-map").onclick = () => { SkillMap.setMode("map"); render(); };
@@ -228,7 +276,7 @@
       const names = (r.definingList.length ? r.definingList : r.asks).slice(0, 2).map(x => (ix.skillById[x.id] || (state.R && state.R.skillById[x.id]) || { name: x.id }).name.toLowerCase());
       return (r.definingList.length ? "Defined by " : "Asks most for ") + names.join(" and ");
     };
-    const where = g.set === "mba" ? " in the US" : "";
+    const where = ` in the US${g.generated ? ` (${g.set === "product" ? "scraped" : "refreshed"} ${esc(g.generated)}${g.set === "product" ? `; ${fmt(g.nWorld)} worldwide` : ""})` : ""}`;
     const rg = state.resume ? await rough() : null;
     const mark = r => !rg ? "" : rg.held.includes(r.id) ? ' · <span style="color:var(--primary)">you held this role</span>' : rg.scores[r.id] >= 0.6 ? ' · <span style="color:var(--primary)">your resume reads close to it</span>' : "";
     const anyMark = rg && roles.some(r => mark(r));
@@ -303,7 +351,7 @@
     const empCounts = countBy(jobsExcept("employer"), Atlas.employerType), empAll = jobsExcept("employer").length;
     const chip = (on, label, n, attrs) => `<button type="button" class="chip${on ? " on" : ""}" aria-pressed="${on}" ${attrs}>${esc(label)}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`;
     const where = R.country ? ` · ${esc(R.country)}` : "";
-    const facts = `${fmt(R.jobs.filter(j => j.open).length)} open postings${nClosed ? ` (${fmt(nClosed)} recently closed are counted too)` : ""} · ${plural(role.nCompanies, "employer", "employers")}${where}`;
+    const facts = R.set === "product" ? `${fmt(role.nOpen)} open postings in the US, ${fmt(role.nWorld)} worldwide (the skills below read all of them) · ${plural(role.nCompanies, "employer", "employers")}` : `${fmt(R.jobs.filter(j => j.open).length)} open postings${nClosed ? ` (${fmt(nClosed)} recently closed are counted too)` : ""} · ${plural(role.nCompanies, "employer", "employers")}${where}`;
     const defNote = role.definingList.length ? ` ◆ marks what sets this role apart from other roles.` : "";
     const grid = gridHtml(R, rows);
 
@@ -402,14 +450,31 @@
     return `<div class="evtabs">${groups.map(([k, lab]) => `<button type="button" class="chip${tab === k ? " on" : ""}" data-ev="${k}">${lab}</button>`).join("")}</div>` +
       ev[tab].slice(0, 3).map(q => `<blockquote class="quote">“${esc(q.text.length > 260 ? q.text.slice(0, 257) + "…" : q.text)}”<span class="src">${esc(q.company)} · <a href="${esc(q.url)}" target="_blank" rel="noopener">${esc(q.title)}</a></span></blockquote>`).join("");
   }
+  // A skill's ladder is flat ({associate, mid, senior, lead}: product skills) or keyed by industry ladder
+  // ({corporate: {...}, bank: {...}}: MBA skills, rungs the postings do not support are absent). The card shows the
+  // role's own industry; when that one is not written, another industry's, named as such.
+  const LADDER_ORDER = ["corporate", "bank", "consulting"];
+  function ladderHtml(R, s, here) {
+    const L = s.ladder;
+    if (!L) return `<p class="small muted">The level ladder for this skill is not written yet.</p>`;
+    const flat = LADDER_KEYS.some(([k]) => typeof L[k] === "string");
+    const ind = flat ? null : L[R.role.ladder] ? R.role.ladder : LADDER_ORDER.find(k => L[k]) || Object.keys(L)[0];
+    const rungs = flat ? L : L[ind];
+    const lv = (ind && R.ladders && R.ladders[ind] && R.ladders[ind].levels) || {};
+    const rows = LADDER_KEYS.filter(([k]) => flat || rungs[k]).map(([k, lab]) => `<span class="lv${here === k ? " here" : ""}">${esc(lv[k] || lab)}</span><span>${esc(rungs[k] || "")}</span>`).join("");
+    const name = k => (((R.ladders || {})[k] || {}).label || k).toLowerCase();
+    const other = ind && ind !== R.role.ladder ? `<p class="small muted">Shown from the ${esc(name(ind))} ladder; this skill has none yet for ${esc(name(R.role.ladder))}.</p>` : "";
+    return other + `<div class="ladder">${rows}</div>`;
+  }
   function skillCard(R, s, slice) {
     const st = Atlas.shares(slice), ss = Atlas.subShares(slice, s.id);
     const subsMeta = s.subskills || (R.subs[s.id] || []).map(x => ({ id: x.id, name: x.name, example: "" }));
     const m = state.match && state.match.roleId === R.role.id ? state.match : null;
     const subs = subsMeta.map(sub => `<div class="sub${m ? (m.subs.has(sub.id) ? " have" : m.required.has(s.id) && !m.presumed.has(s.id) ? " miss" : "") : ""}"><span class="nm">${esc(sub.name)}</span><span class="pct" title="share of postings asking for ${esc(s.name)} that mention this">${pct(ss.share(sub.id))}</span>${sub.example ? `<span class="ex">${esc(sub.example)}</span>` : ""}</div>`).join("");
     const here = state.level === "all" ? null : { entry: "associate", mid: "mid", senior: "senior", lead: "lead" }[state.level];
-    const ladder = s.ladder ? `<div class="ladder">${LADDER_KEYS.map(([k, lab]) => `<span class="lv${here === k ? " here" : ""}">${lab}</span><span>${esc(s.ladder[k] || "")}</span>`).join("")}</div>` : `<p class="small muted">The level ladder for this skill is not written yet.</p>`;
-    const build = (s.build || []).length ? `<ul class="plain">${s.build.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : `<p class="small muted">Build steps for this skill are not written yet.</p>`;
+    const ladder = ladderHtml(R, s, here);
+    const bs = buildSteps(s, R.role.ladder, true), ladName = k => (((R.ladders || {})[k] || {}).label || k).toLowerCase();
+    const build = bs.steps.length ? (bs.ind && bs.ind !== R.role.ladder ? `<p class="small muted">Shown from the ${esc(ladName(bs.ind))} ladder; this skill has none yet for ${esc(ladName(R.role.ladder))}.</p>` : "") + `<ul class="plain">${bs.steps.map(b => `<li>${stepHtml(b)}</li>`).join("")}</ul>` : `<p class="small muted">${R.role.ladder === "consulting" && s.build && !Array.isArray(s.build) ? "Build steps for consulting roles are on hold until a source is agreed." : "Build steps for this skill are not written yet."}</p>`;
     const signals = (s.signals || []).length ? `<p class="small muted" style="margin:10px 0 0">Resume lines that show it</p><ul class="plain">${s.signals.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
     const withSkill = slice.filter(j => j.open && j.skills.includes(s.id)).slice(0, 6);
     const postings = withSkill.length ? `<div class="list">${withSkill.map(j => `<button type="button" class="r" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${esc(j.company)}</span></button>`).join("")}</div>` : `<p class="small muted">No open posting in this view asks for it.</p>`;
@@ -467,7 +532,7 @@
     const { M, bands, group } = await Atlas.matcher(R);
     const extra = [state.grads ? "graduates and interns" : null, state.employer !== "all" ? (R.employerTypes.find(e => e[0] === state.employer) || [])[1] : null, ...state.sector, ...state.company, ...state.country, state.remote ? "remote" : null].filter(Boolean);
     const label = `${role.label}${level === "all" ? "" : " · " + R.stepLabels[level]}${extra.length ? " · " + extra.join(", ") : ""}`;
-    const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label }, { level: LEVEL_OPT[level] });
+    const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label }, { level: LEVEL_OPT[level], ladder: R.role.ladder });
     const rows = r.rows, by = st => rows.filter(x => x.status === st).sort((a, b) => (a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : b.tier === "core" ? 1 : a.tier === "common" ? -1 : 1));
     const evid = by("evidenced"), trans = by("transferable"), thin = by("thin"), presumed = by("presumed"), gaps = by("gap").filter(x => x.tier !== "diff");
     const required = new Set(); for (const x of rows) { if (x.tier === "diff") continue; if (x.slot === "__ai") r.ai.forEach(k => required.add(k)); else if (x.slot !== "__domain") required.add(x.id); }
@@ -484,7 +549,7 @@
     const placeholder = r.parsed.placeholderDates && r.parsed.roles.some(x => x.placeholder) ? `<div class="notice"><b>Some dates in this text are placeholders ("20XX").</b> We read those jobs, but we cannot count their years.</div>` : "";
     // the two slots that stand for a group of skills get plain words: which industry, which kind of AI work
     const slotWhy = x => x.slot === "__domain" ? ` Name an industry you have worked in. These postings are in: ${r.industries.slice(0, 4).map(d => esc(d.name)).join(", ")}. One is enough.` : x.slot === "__ai" ? ` Show one line of AI work: ${r.ai.map(k => esc(R.skillById[k] ? R.skillById[k].name : k)).join(", ")}.` : "";
-    const next = gaps.slice(0, 3).map(x => `<li><b>${esc(x.slotName)}</b><span class="why">Asked in ${pct(x.w)} of postings${x.tier === "core" ? ", by most" : ""}.${slotWhy(x)}${x.signals && x.signals[0] ? ` A line that would show it: “${esc(x.signals[0])}”` : ""}${x.build && x.build[0] ? ` ${esc(x.build[0])}` : ""}</span></li>`).join("");
+    const next = gaps.slice(0, 3).map(x => `<li><b>${esc(x.slotName)}</b><span class="why">Asked in ${pct(x.w)} of postings${x.tier === "core" ? ", by most" : ""}.${slotWhy(x)}${x.signals && x.signals[0] ? ` A line that would show it: “${esc(x.signals[0])}”` : ""}${x.build && x.build[0] ? ` ${stepHtml(x.build[0])}` : ""}</span></li>`).join("");
     const whatIf = gaps.length && bandNext && bandNext !== band ? `<p class="small muted">Evidence ${gaps.slice(0, 3).length === 1 ? "that one" : `those ${gaps.slice(0, 3).length === 3 ? "three" : "two"}`} and your resume reads as “${bandName(bandNext)}”.</p>` : "";
     const tag = (x, cls) => R.skillById[x.id] ? `<button type="button" class="tag ${cls}" data-skill="${esc(x.id)}">${esc(x.slotName)}${cls === "amber" ? ' <span class="subtle">(said in other words)</span>' : ""}</button>` : `<span class="tag ${cls}">${esc(x.slotName)}</span>`;
     const yoeAsk = r.creds.filter(c => c.id.startsWith("yoe_")).sort((a, b) => b.w - a.w)[0];
@@ -586,7 +651,7 @@
       const count = {}; for (const r of roles) for (const id of coreOf(r)) count[id] = (count[id] || 0) + 1;
       const cands = Object.entries(count).filter(([id]) => !GENERIC.has(id) && (!rg || !rg.shown.has(id))).sort((a, b) => b[1] - a[1]).slice(0, 5);
       body = `<h2>What to build</h2><p class="small muted">${rg ? "Skills most of these roles ask for that your resume does not show yet. A project that shows one is worth a line on your resume." : `Skills most of these roles ask for. <a href="#/you">Add your resume</a> and we leave out the ones you already show.`}</p>
-        <ol class="next">${cands.map(([id, n]) => { const sk = ix.skillById[id] || {}; return `<li><b>${esc(nameOf(id))}</b><span class="why">Asked by most postings of ${n === 1 ? "one role" : n + " roles"} here.${sk.build && sk.build[0] ? ` ${esc(sk.build.find(b => /^project/i.test(b)) || sk.build[0])}` : " No build step is written for this skill yet; open it on a role screen to see how postings say it."}</span></li>`; }).join("") || "<li>Nothing left: your resume shows what these roles ask for.</li>"}</ol>`;
+        <ol class="next">${cands.map(([id, n]) => { const sk = ix.skillById[id] || {}; const steps = roles.filter(r => coreOf(r).includes(id)).map(r => buildSteps(sk, r.ladder).steps).find(x => x.length) || []; return `<li><b>${esc(nameOf(id))}</b><span class="why">Asked by most postings of ${n === 1 ? "one role" : n + " roles"} here.${steps.length ? ` ${stepHtml(practise(steps))}` : " No build step is written for this skill yet; open it on a role screen to see how postings say it."}</span></li>`; }).join("") || "<li>Nothing left: your resume shows what these roles ask for.</li>"}</ol>`;
     }
     page(`<h1>Prepare for an event</h1><p class="lead">${esc(g.label)} · which kind of event?</p>${chips}${body}`);
     if (kind === "roundtable" && rg) Atlas.fieldMatches(g.id, state.resume.text).then(res => {
@@ -621,7 +686,7 @@
       <p class="small">Employers with most postings: ${top(M.meta.companies.slice(), 40)}</p>
       <h3>Product roles</h3>${productPart}</div>`);
     render();
-    Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${fmt(G.meta.n_jobs)} open postings for 6 product role families at ${fmt(G.meta.n_companies)} companies (the Fortune 500 and venture-backed startups), scraped ${esc(G.meta.generated)}.</p><p class="small">Companies with most postings: ${top(G.meta.companies.slice(), 40)}</p>`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
+    Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${fmt(G.meta.n_jobs)} open postings worldwide (${fmt(G.jobs.filter(j => j.country === M.meta.country).length)} in the US, the count Explore shows) for 6 product role families at ${fmt(G.meta.n_companies)} companies (the Fortune 500 and venture-backed startups), scraped ${esc(G.meta.generated)}.</p><p class="small">Companies with most postings: ${top(G.meta.companies.slice(), 40)}</p>`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
   }
 
   route();

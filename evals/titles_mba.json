@@ -8236,6 +8236,28 @@
    "ladder": "bank",
    "set": "entry-mark-2026-10-13",
    "note": "A real title. A programme for new MBA graduates: \"Director\" names the programme, not the grade. The MBA hire sits at the Associate grade of the bank ladder. Labelled by hand on 2026-10-13; the rule read it as director before."
+  },
+  {
+   "title": "Hardware Development Manager, Amazon Industrial Robotics",
+   "company": "Amazon",
+   "category": null,
+   "industry": "Internet Services and Retailing",
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "taxonomy-tags-2026-10-18",
+   "note": "A real title. An engineering manager for robot hardware: \"Industrial\" names the product line, not a property type, so this is none of the 50 roles. Labelled by hand on 2026-10-18; the rule read it as re_development before (\"Development Manager\" + \"Industrial\")."
+  },
+  {
+   "title": "Sales Manager, Brand Partnerships",
+   "company": "Substack",
+   "category": null,
+   "industry": null,
+   "role": "sales_manager",
+   "level": "mid",
+   "ladder": "corporate",
+   "set": "taxonomy-tags-2026-10-18",
+   "note": "A real title. A sales manager on the team that sells brand partnerships: the team name after the comma is not the role. Labelled by hand on 2026-10-18; the rule read it as brand_manager before (\"Manager, Brand\")."
   }
  ]
 }
