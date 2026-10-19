@@ -8,7 +8,12 @@ industry and sector from fortune500_2026.json. Startups: every verified a16z / S
 import glob
 import json
 import os
+import sys
 
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from pipeline import log
+
+logger = log.get(__name__)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW = os.path.join(ROOT, "data", "raw")
 SECTORS = json.load(open(os.path.join(ROOT, "pipeline", "sectors.json")))
@@ -25,8 +30,8 @@ def load(pattern):
         try:
             d = json.load(open(p))
             out.extend(d if isinstance(d, list) else [d])
-        except Exception as e:
-            print("skip", p, e)
+        except Exception as e:  # a file that does not parse is left out; the merge goes on with the others
+            logger.warning("skipped %s: %s: %s", os.path.relpath(p, ROOT), type(e).__name__, e)
     return out
 
 
@@ -125,7 +130,7 @@ def main():
                 startups[keep]["funds"] += [f for f in startups[k]["funds"] if f not in startups[keep]["funds"]]
                 startups[keep].setdefault("also_listed_as", []).append(startups[k]["company"])
                 del startups[k]; merged += 1
-    print("startup entries merged into another entry with the same job board:", merged)
+    logger.info("startup entries merged into another entry with the same job board: %d", merged)
     for e in startups.values():
         e["investor"] = ", ".join(funds[f]["name"] for f in e["funds"]) if e["funds"] else None
         e["investors"] = [funds[f]["name"] for f in e["funds"]]
@@ -133,11 +138,12 @@ def main():
     json.dump(reg, open(os.path.join(ROOT, "data", "registry.json"), "w"), indent=1)
     import collections
     f = [r for r in reg if r["group"].startswith("fortune")]
-    print("fortune:", collections.Counter((r["group"], r["ats"] != "unsupported") for r in f))
+    logger.info("registry.json: %d entries; fortune (tier, has adapter): %s", len(reg), collections.Counter((r["group"], r["ats"] != "unsupported") for r in f))
     st = [r for r in reg if r["group"] == "startup"]
-    print("startups:", len(st), "| by fund:", collections.Counter(f for r in st for f in r["funds"]).most_common(12))
-    print("ats mix:", collections.Counter(r["ats"] for r in reg).most_common())
+    logger.info("startups: %d; by fund: %s", len(st), collections.Counter(f for r in st for f in r["funds"]).most_common(12))
+    logger.info("ats mix: %s", collections.Counter(r["ats"] for r in reg).most_common())
 
 
 if __name__ == "__main__":
+    log.setup()
     main()

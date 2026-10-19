@@ -13,19 +13,21 @@ The MBA roles were scraped in batches; --batch N fetches only that batch's roles
 cached without it and adds them to the company's file (companies with no file get every role).
 """
 import argparse
+import collections
 import glob
 import json
 import os
 import re
 import sys
+import threading
 import time
-import traceback
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pipeline.adapters import ADAPTERS
-from pipeline import roles, roles_mba
+from pipeline.adapters import ADAPTERS, common
+from pipeline import log, roles, roles_mba
 
+logger = log.get(__name__)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # role set -> (title filter, cache dir)
 ROLE_SETS = {
@@ -168,12 +170,18 @@ def main():
                 continue
         todo.append((entry, path, old))
 
+    logger.info("scrape --roles %s: %d employers in the registry, %d to fetch, %d cached or skipped", args.roles, len(reg), len(todo), len(summary))
+    run_timer = log.Timer()
+    totals = collections.Counter()
+    failed = []
+    lock = threading.Lock()
+
     def run(item):
         entry, path, old = item
         batch = args.batch if old and not args.force else None  # add one batch to an existing file, or fetch everything
         today = time.strftime("%Y-%m-%d")
         name = entry["company"]
-        t0 = time.time()
+        t = log.Timer()
         try:
             cfg, ok, cat = entry.get("config", {}), title_ok, entry.get("category")
             if args.roles == "mba":  # some title rules and searches depend on the kind of employer
@@ -181,6 +189,8 @@ def main():
                 cfg = cfg if cfg.get("keep_queries") else dict(cfg, queries=roles_mba.queries(cat, batch))
                 ok = lambda t: roles_mba.title_ok(t, cat, batch)
             jobs = ADAPTERS[entry["ats"]](name, cfg, ok)
+            key = lambda j: j.get("url") or j.get("external_id")
+            before = {key(j): bool(j.get("closed")) for j in (old or {}).get("jobs", [])}
             uniq, partial = merge(old, jobs, entry, today, full=batch is None)
             blob = {"company": name, "scraped_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "jobs": uniq}
             if partial:
@@ -191,20 +201,34 @@ def main():
             with open(path + ".tmp", "w") as f:
                 json.dump(blob, f)
             os.replace(path + ".tmp", path)
-            n_open = sum(1 for j in uniq if not j.get("closed"))
-            print(f"[ok] {name:28s} {entry['ats']:14s} {n_open:4d} open {len(uniq) - n_open:4d} closed {time.time()-t0:5.0f}s" + (f"  PARTIAL: {partial}" if partial else ""), flush=True)
-            return (name, entry["ats"], f"{len(uniq)} jobs in {time.time()-t0:.0f}s")
+            counts = {"fetched": len(jobs), "kept": len(uniq), "new": sum(1 for j in uniq if key(j) not in before),
+                      "reopened": sum(1 for j in uniq if before.get(key(j)) and not j.get("closed")),
+                      "closed": sum(1 for j in uniq if j.get("closed") == today and before.get(key(j)) is False),
+                      "open": sum(1 for j in uniq if not j.get("closed"))}
+            with lock:
+                totals.update(counts)
+            logger.info("%s (%s): fetched %d, kept %d (%d open), new %d, reopened %d, closed %d, %s", name, entry["ats"], counts["fetched"],
+                        counts["kept"], counts["open"], counts["new"], counts["reopened"], counts["closed"], t)
+            if partial:
+                logger.warning("%s: partial fetch, %s", name, partial)
+            return (name, entry["ats"], f"{len(uniq)} jobs in {t.seconds:.0f}s" + (f"; PARTIAL: {partial}" if partial else ""))
         except Exception as e:
-            print(f"[err] {name:28s} {entry['ats']:14s} {type(e).__name__}: {e}", flush=True)
-            traceback.print_exc(limit=2)
+            logger.error("%s (%s) failed after %s: %s: %s", name, entry["ats"], t, type(e).__name__, e, exc_info=True)
+            with lock:
+                failed.append(name)
             return (name, entry["ats"], f"ERROR {type(e).__name__}: {e}")
 
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
         summary.extend(ex.map(run, todo))
-    print("\n== summary")
     for s in summary:
-        print(f"{s[0]:30s} {str(s[1]):14s} {s[2]}")
+        logger.debug("%s %s %s", s[0], s[1], s[2])
+    logger.info("scrape done in %s: %d employers fetched (%d failed), postings fetched %d, kept %d (%d open), new %d, reopened %d, closed %d; "
+                "%d requests, %d answered 429, %d retried after a network error", run_timer, len(todo), len(failed), totals["fetched"], totals["kept"],
+                totals["open"], totals["new"], totals["reopened"], totals["closed"], common.STATS["requests"], common.STATS["429"], common.STATS["retries"])
+    if failed:
+        logger.error("failed employers: %s", ", ".join(sorted(failed)))
 
 
 if __name__ == "__main__":
+    log.setup()
     main()

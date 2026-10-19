@@ -9,8 +9,8 @@ See [PLAN.md](PLAN.md) for the design.
 ## Run it
 
 ```bash
-python3 -m venv .venv && .venv/bin/pip install requests beautifulsoup4 pypdf
-./run_all.sh            # merge registry, scrape (cached per company), extract, build graph
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt   # requests, beautifulsoup4, pypdf
+./run_all.sh            # merge registry, scrape (cached per company), extract, build graph; log in logs/run_<date>.log
 ./run_all.sh --refresh  # fetch every board again and merge into the backlog (--force is the old name)
 .venv/bin/python -m pipeline.scrape --roles mba --refresh   # weekly: the MBA backlog (several hours; add --ats workday or --only "Name" to narrow)
 .venv/bin/python -m pipeline.discover --from 101 --to 250   # (re)discover careers sites for a rank range
@@ -22,6 +22,18 @@ python3 -m venv .venv && .venv/bin/pip install requests beautifulsoup4 pypdf
 .venv/bin/python evals/run_depth.py               # content evals for the published skill depth (style, specificity, evidence, build steps)
 cd web && python3 -m http.server 8000   # then open http://localhost:8000
 ```
+
+## Tests and logs
+
+`node --test 'tests/web/*.test.mjs'` checks the browser code and `.venv/bin/python -m pytest tests/python` the
+pipeline (`pip install -r requirements-dev.txt` once); both finish in about a second and never touch the network.
+`tests/README.md` says what a test is and what an eval is. Every stage logs through `pipeline/log.py`: INFO lines
+per stage with counts and elapsed seconds, WARNING for a skipped record or a partial fetch, ERROR with the traceback
+for a failed employer, all on stderr; stdout stays as it was. `./run_all.sh` also writes the log to
+`logs/run_<date>.log` (gitignored) and prints the path at the end; any stage does the same when `PIPELINE_LOG` names a
+file, and `PIPELINE_LOG_LEVEL=DEBUG` shows more. API keys never appear in a log line: the values in `.env` are masked.
+CI (`.github/workflows/ci.yml`) runs both test suites, `node evals/run.mjs` and `evals/run_pipeline.py` on every pull
+request and on `main`.
 
 ## Layout
 

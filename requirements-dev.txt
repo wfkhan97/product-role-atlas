@@ -1,0 +1,2 @@
+# The Python unit tests (tests/python/, see tests/README.md).
+pytest>=8.0

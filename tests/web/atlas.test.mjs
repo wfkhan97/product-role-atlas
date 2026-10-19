@@ -73,13 +73,16 @@ test("index() is built again after one of its files failed to load", async () =>
 });
 
 test("product() is built again after its file failed to load", async () => {
-  const files = { ...INDEX, "data/subskills.json": {}, "data/graph.json": { families: { pm: "Product manager" }, skills: [{ id: "roadmap", name: "Roadmapping", cluster: "strategy", by_family: { pm: 1 } }], jobs: [{ family: "pm", company: "Acme", skills: ["roadmap"], level: "mid" }] } };
+  // the real graph.json always carries meta (build_graph writes generated, n_jobs, n_companies, ...): the Product field shows its date
+  const files = { ...INDEX, "data/subskills.json": {}, "data/graph.json": { meta: { generated: "2026-10-18", n_jobs: 1, n_companies: 1 }, families: { pm: "Product manager" }, skills: [{ id: "roadmap", name: "Roadmapping", cluster: "strategy", by_family: { pm: 1 } }], jobs: [{ family: "pm", company: "Acme", skills: ["roadmap"], level: "mid" }] } };
   const { load } = loader(files, { "data/graph.json": 1 });
   const A = atlasFactory({ load, Matcher: null });
   await assert.rejects(A.product(), /503/);
   const P = await A.product();
   assert.deepEqual(P.G.jobs.map(j => j.family), ["pm"]);
-  assert.equal((await A.index()).roles.pm.set, "product");
+  const ix = await A.index();
+  assert.equal(ix.roles[A.productKey("pm")].set, "product", "product roles live under their own namespace (#34)");
+  assert.equal(ix.groups.find(g => g.id === "product").generated, "2026-10-18", "the Product field carries the product file's date");
 });
 
 // ---------- shares and subShares ----------

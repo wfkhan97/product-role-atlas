@@ -17,7 +17,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline.roles import FAMILY_LABELS, LEVEL_LABELS, LEVEL_ORDER
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-from pipeline import processed, tax
+from pipeline import log, processed, tax
+
+logger = log.get(__name__)
 TAX = tax.for_roles("product")  # the product map shows the product role set's part of the taxonomy
 DEPTH = {}
 for _p in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
@@ -53,6 +55,7 @@ def normalise(vals):
 
 
 def main():
+    t = log.Timer()
     jobs = json.load(open(os.path.join(ROOT, "data", "processed", "jobs.json")))
     evidence = json.load(open(os.path.join(ROOT, "data", "processed", "evidence.json")))
     reg = {r["company"]: r for r in json.load(open(os.path.join(ROOT, "data", "registry.json")))}
@@ -172,12 +175,13 @@ def main():
     depth_subs = {sid: [{"id": s["id"], "name": s["name"], "patterns": s["patterns"]} for s in d.get("subskills", [])] for sid, d in DEPTH.items()}
     with open(os.path.join(ROOT, "web", "data", "subskills.json"), "w") as f:
         json.dump(depth_subs, f)
-    print(f"graph: {n} jobs, {len(companies)} companies, {len(nodes)} skills, {len(edge_list)} edges")
+    logger.info("graph.json in %s: %d jobs, %d companies, %d skills, %d edges", t, n, len(companies), len(nodes), len(edge_list))
     top = sorted(nodes, key=lambda x: -x["axes"]["seniority"])[:6]; bot = sorted(nodes, key=lambda x: x["axes"]["seniority"])[:6]
-    print("most senior:", [(x["id"], round(x["axes"]["seniority"], 2)) for x in top]); print("most junior:", [(x["id"], round(x["axes"]["seniority"], 2)) for x in bot])
-    print("mgmt side:", [x["id"] for x in sorted(nodes, key=lambda x: -x["axes"]["ic_mgmt"])[:6]], "IC side:", [x["id"] for x in sorted(nodes, key=lambda x: x["axes"]["ic_mgmt"])[:6]])
-    print("tech side:", [x["id"] for x in sorted(nodes, key=lambda x: -x["axes"]["tech_comm"])[:6]], "commercial side:", [x["id"] for x in sorted(nodes, key=lambda x: x["axes"]["tech_comm"])[:6]])
-    print("seniority ticks:", {k: round(v, 2) for k, v in out["meta"]["seniority_ticks"].items()})
+    logger.info("most senior: %s", [(x["id"], round(x["axes"]["seniority"], 2)) for x in top])
+    logger.info("most junior: %s", [(x["id"], round(x["axes"]["seniority"], 2)) for x in bot])
+    logger.info("mgmt side: %s; IC side: %s", [x["id"] for x in sorted(nodes, key=lambda x: -x["axes"]["ic_mgmt"])[:6]], [x["id"] for x in sorted(nodes, key=lambda x: x["axes"]["ic_mgmt"])[:6]])
+    logger.info("tech side: %s; commercial side: %s", [x["id"] for x in sorted(nodes, key=lambda x: -x["axes"]["tech_comm"])[:6]], [x["id"] for x in sorted(nodes, key=lambda x: x["axes"]["tech_comm"])[:6]])
+    logger.info("seniority ticks: %s", {k: round(v, 2) for k, v in out["meta"]["seniority_ticks"].items()})
 
 
 # ---- A role set other than product -------------------------------------------------------------------------------
@@ -227,6 +231,7 @@ def build_roleset(roleset):
     import importlib
     import statistics
     from pipeline import balance
+    t = log.Timer()
     R = importlib.import_module(ROLE_MODULES[roleset])
     T = tax.for_roles(roleset)
     depth = {}
@@ -427,10 +432,13 @@ def build_roleset(roleset):
     with open(os.path.join(out_dir, f"roles_{roleset}.json"), "w") as fh:
         fh.write(json.dumps(rules, indent=1, ensure_ascii=False) + "\n")
     sizes = sorted(((r.get("bytes", 0), f) for f, r in roles_out.items()), reverse=True)
-    print(f"graph_{roleset}: {n} postings ({country}), {len(companies)} companies, {len(nodes)} skills, {len(edge_list)} edges")
-    print(f"index {os.path.getsize(os.path.join(out_dir, f'graph_{roleset}.json')) / 1e6:.2f} MB; role files {sum(b for b, _ in sizes) / 1e6:.1f} MB in {len(files)} files; largest:",
-          [(f, f"{b / 1e6:.2f} MB") for b, f in sizes[:4]])
-    print("ladders:", {k: v["n"] for k, v in index["ladders"].items()}, "| roles with no postings:", [f for f, r in roles_out.items() if not r["n"]])
+    logger.info("graph_%s in %s: %d postings (%s), %d companies, %d skills, %d edges", roleset, t, n, country, len(companies), len(nodes), len(edge_list))
+    logger.info("index %.2f MB; role files %.1f MB in %d files; largest: %s", os.path.getsize(os.path.join(out_dir, f"graph_{roleset}.json")) / 1e6,
+                sum(b for b, _ in sizes) / 1e6, len(files), [(f, f"{b / 1e6:.2f} MB") for b, f in sizes[:4]])
+    logger.info("ladders: %s", {k: v["n"] for k, v in index["ladders"].items()})
+    empty = [f for f, r in roles_out.items() if not r["n"]]
+    if empty:
+        logger.warning("roles with no postings: %s", empty)
 
 
 if __name__ == "__main__":
@@ -438,4 +446,5 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--roles", choices=["product"] + sorted(ROLE_MODULES), default="product")
     args = ap.parse_args()
+    log.setup()
     main() if args.roles == "product" else build_roleset(args.roles)
