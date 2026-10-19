@@ -228,3 +228,162 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .start-fit { border-top: 1px solid var(--border); padding-top: 20px; }
 .start-fit h2 { margin-top: 0; }
 .start-fit .choices { margin-top: 12px; max-width: 880px; }
+
+/* ---------- game: What does it ask for (#/play/what-it-asks) ----------
+   Tokens only, no new colours.
+   Green = you (correct taps, your rank, your lives), blue = the postings' numbers, amber = attention
+   (wrong taps, blown slots, missed asks, the last third of a timer). Skill areas are text. */
+
+.main.wia-main { padding: 20px 32px 20px; }
+
+/* shared bits */
+.wia-eyebrow { font-family: var(--font-mono); font-size: var(--text-sm); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--subtle-foreground); }
+.wia-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.wia-blue { color: var(--secondary); }
+.wia-green { color: var(--primary); }
+.wia-amber { color: var(--warning); }
+.wia-key { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); border: 1px solid var(--border); border-radius: 4px; padding: 0 5px; line-height: 18px; display: inline-block; min-width: 20px; text-align: center; }
+
+/* ---------- the tile ---------- */
+.wia-tile { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; padding: 10px 12px 10px; border-radius: var(--radius-md); background: var(--card); border: 1px solid var(--input); color: var(--heading-foreground); text-align: left; font-size: var(--text-base); font-weight: var(--weight-medium); line-height: var(--leading-snug); overflow: hidden; }
+.wia-tile .k { position: absolute; top: 8px; right: 8px; }
+.wia-tile .name { padding-right: 26px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.wia-tile .meta { font-size: var(--text-sm); font-weight: var(--weight-regular); color: var(--muted-foreground); line-height: var(--leading-tight); }
+.wia-tile .timer { height: 4px; border-radius: 2px; background: var(--muted); overflow: hidden; }
+.wia-tile .timer i { display: block; height: 100%; background: var(--muted-foreground); border-radius: 2px; }
+.wia-tile.late .timer i { background: var(--warning); }
+.wia-tile.empty { background: transparent; border: 1px dashed var(--border); }
+.wia-tile.empty .k { opacity: 0.7; }
+.wia-tile.hit { border-color: var(--primary); background: var(--primary-tint); }
+.wia-tile.hit .pts { color: var(--primary); font-family: var(--font-mono); font-size: var(--text-sm); }
+.wia-tile.blown { border: 1px dashed var(--warning); color: var(--warning); background: repeating-linear-gradient(135deg, var(--warning-tint) 0 8px, transparent 8px 16px); }
+.wia-tile.blown .name, .wia-tile .meta.wia-amber { color: var(--warning); }
+.wia-tile.blown.old { opacity: 0.75; }
+.wia-tile.missed { border: 1px solid var(--warning); background: var(--warning-tint); }
+.wia-tile.picked { border-color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); }
+.wia-tile.passed { opacity: 0.55; border-color: var(--border); }
+.wia-tile.gap { border: 1px dashed var(--warning); }
+.wia-tile.wrong { border: 1px solid var(--warning); background: var(--warning-tint); }
+
+/* ---------- the shift screen ---------- */
+.wia-shift { display: grid; grid-template-columns: 1fr 300px; gap: 28px; height: 100%; }
+.wia-hud { display: grid; grid-template-columns: 1fr auto auto auto; align-items: center; gap: 28px; padding-bottom: 12px; }
+.wia-hud .role { font-size: var(--text-lg); font-weight: var(--weight-medium); color: var(--heading-foreground); line-height: 1.2; }
+.wia-hud .sub { font-size: var(--text-sm); color: var(--subtle-foreground); }
+.wia-hud .stat { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.wia-hud .stat .l { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.wia-hud .stat .v { font-family: var(--font-mono); font-size: var(--text-2xl); color: var(--heading-foreground); line-height: 1; }
+.wia-mult { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--primary); border: 1px solid var(--primary); background: var(--primary-tint); border-radius: var(--radius-sm); padding: 1px 6px; margin-left: 8px; vertical-align: 4px; }
+.wia-lives { display: flex; gap: 6px; }
+.wia-life { width: 16px; height: 20px; border-radius: 3px; border: 1.5px solid var(--primary); background: var(--primary-tint); position: relative; }
+.wia-life::after { content: ""; position: absolute; left: 3px; right: 3px; top: 5px; height: 1.5px; background: var(--primary); box-shadow: 0 4px 0 var(--primary), 0 8px 0 var(--primary); opacity: 0.7; }
+.wia-life.lost { border-color: var(--warning); background: transparent; border-style: dashed; }
+.wia-life.lost::after { display: none; }
+.wia-clock { height: 3px; background: var(--muted); border-radius: 2px; overflow: hidden; margin-bottom: 14px; }
+.wia-clock i { display: block; height: 100%; background: var(--foreground); opacity: 0.55; }
+.wia-board { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 112px; gap: 10px; }
+.wia-feedback { margin-top: 14px; min-height: 44px; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--warning); background: var(--warning-tint); font-size: var(--text-base); color: var(--foreground); }
+.wia-feedback b { color: var(--warning); font-weight: var(--weight-medium); }
+.wia-side { border-left: 1px solid var(--border); padding-left: 24px; display: flex; flex-direction: column; min-height: 0; }
+.wia-side h3 { margin: 4px 0 10px; font-size: var(--text-base); color: var(--heading-foreground); }
+.wia-log { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+.wia-log .e { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: var(--text-sm); }
+.wia-log .e .t { color: var(--foreground); }
+.wia-log .e .v { font-family: var(--font-mono); grid-row: 1 / span 2; grid-column: 2; align-self: center; }
+.wia-log .e .m { color: var(--muted-foreground); }
+.wia-side .keys { margin-top: auto; font-size: var(--text-sm); color: var(--subtle-foreground); line-height: 1.7; }
+
+/* ---------- how it works ---------- */
+.wia-card { max-width: 940px; margin: 0 auto; }
+.wia-card h1 { font-size: var(--text-3xl); margin: 6px 0 6px; }
+.wia-examples { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0 6px; }
+.wia-ex { display: flex; flex-direction: column; gap: 8px; }
+.wia-ex .wia-tile { height: 104px; }
+.wia-ex .verdict { font-size: var(--text-sm); font-weight: var(--weight-medium); }
+.wia-ex .why { font-size: var(--text-sm); color: var(--muted-foreground); line-height: var(--leading-snug); }
+.wia-rules { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 32px; margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--border); font-size: var(--text-base); color: var(--foreground); }
+.wia-rules p { margin: 0; padding-left: 14px; position: relative; }
+.wia-rules p::before { content: ""; position: absolute; left: 0; top: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--subtle-foreground); }
+.wia-modes { display: grid; grid-template-columns: 1fr 1fr 220px; gap: 12px; margin-top: 20px; align-items: stretch; }
+.wia-mode { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--card); }
+.wia-mode.on { border-color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); }
+.wia-mode .t { font-weight: var(--weight-medium); color: var(--heading-foreground); display: flex; justify-content: space-between; }
+.wia-mode .d { font-size: var(--text-sm); color: var(--muted-foreground); margin-top: 2px; }
+.wia-start { display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+.wia-start .btn.primary { justify-content: center; padding: 12px 16px; font-size: var(--text-md); letter-spacing: var(--tracking-label); }
+.wia-foot { margin-top: 16px; font-size: var(--text-sm); color: var(--subtle-foreground); }
+
+/* ---------- shift over ---------- */
+.wia-over { display: grid; grid-template-columns: 1fr 340px; gap: 32px; }
+.wia-ladder { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin: 16px 0 18px; position: relative; }
+.wia-ladder .s { position: relative; padding: 26px 8px 0 0; font-size: var(--text-base); color: var(--subtle-foreground); }
+.wia-ladder .s::before { content: ""; position: absolute; top: 8px; left: 0; right: 0; height: 2px; background: var(--border); }
+.wia-ladder .s::after { content: ""; position: absolute; top: 3px; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--background); border: 2px solid var(--border); }
+.wia-ladder .s.done { color: var(--muted-foreground); }
+.wia-ladder .s.done::before, .wia-ladder .s.here::before { background: var(--primary); }
+.wia-ladder .s.done::after { border-color: var(--primary); background: var(--primary); }
+.wia-ladder .s.here { color: var(--primary); font-weight: var(--weight-medium); }
+.wia-ladder .s.here::before { right: 100%; }
+.wia-ladder .s.here::after { border-color: var(--primary); background: var(--primary); width: 16px; height: 16px; top: 1px; box-shadow: 0 0 0 4px var(--primary-tint); }
+.wia-ladder .s .c { display: block; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); font-weight: var(--weight-regular); }
+.wia-knew { font-size: var(--text-2xl); color: var(--heading-foreground); letter-spacing: var(--tracking-tighter); line-height: var(--leading-tight); }
+.wia-stats { display: flex; gap: 28px; margin: 14px 0 4px; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.wia-stats .l { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); text-transform: uppercase; letter-spacing: var(--tracking-label); display: block; }
+.wia-stats .v { font-family: var(--font-mono); font-size: var(--text-lg); color: var(--heading-foreground); }
+.wia-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 4px; }
+.wia-chip { display: inline-flex; gap: 8px; align-items: baseline; padding: 5px 10px; border-radius: var(--radius-sm); border: 1px dashed var(--warning); background: transparent; font-size: var(--text-sm); color: var(--foreground); }
+.wia-chip .p { font-family: var(--font-mono); color: var(--secondary); }
+.wia-chip.wrong { border-style: solid; background: var(--warning-tint); }
+.wia-punch { font-size: var(--text-lg); color: var(--heading-foreground); font-weight: var(--weight-medium); margin: 18px 0 4px; }
+.wia-aside { border-left: 1px solid var(--border); padding-left: 28px; }
+.wia-best { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--card); font-size: var(--text-sm); color: var(--muted-foreground); }
+.wia-best b { color: var(--primary); font-weight: var(--weight-medium); }
+
+/* ---------- pick a role ---------- */
+.wia-pick .list .r .t .k { margin-left: 8px; }
+.wia-pick .best { color: var(--primary); }
+.wia-pick .small-n { color: var(--subtle-foreground); }
+
+/* ---------- steady mode ---------- */
+.wia-steady { display: grid; grid-template-columns: 1fr 300px; gap: 28px; }
+.wia-steady .wia-board { grid-auto-rows: 118px; }
+.wia-check { position: absolute; top: 9px; right: 9px; width: 18px; height: 18px; border-radius: 4px; border: 1.5px solid var(--input); }
+.wia-tile.picked .wia-check { background: var(--primary); border-color: var(--primary); }
+.wia-tile.wrong .wia-check { background: var(--warning); border-color: var(--warning); }
+.wia-tile .rev { font-size: var(--text-sm); font-weight: var(--weight-regular); line-height: var(--leading-tight); color: var(--muted-foreground); }
+.wia-legend { display: grid; gap: 8px; font-size: var(--text-sm); color: var(--muted-foreground); margin: 12px 0; }
+.wia-legend span { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; margin-right: 8px; }
+
+@media (prefers-reduced-motion: reduce) { .wia-tile, .wia-tile .timer i { animation: none !important; transition: none !important; } }
+.wia-pick .list .r { padding: 8px 0; }
+
+/* built game: buttons as tiles, the live region, the pause and count-in, motion, the narrow layout */
+.wia-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.wia-fg { color: var(--foreground); }
+button.wia-tile { font-family: inherit; width: 100%; height: 100%; align-items: stretch; }
+button.wia-tile:disabled { cursor: default; }
+.wia-steady button.wia-tile[aria-disabled="true"] { cursor: default; }
+button.wia-mode { text-align: left; color: inherit; font: inherit; }
+.wia-stage { position: relative; }
+.wia-board.hidden-board { visibility: hidden; }
+.wia-over-board { position: absolute; inset: 0; display: grid; place-items: center; }
+.wia-pause { text-align: center; padding: 24px 32px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); }
+.wia-count { font-family: var(--font-mono); font-size: var(--text-3xl); color: var(--heading-foreground); width: 96px; height: 96px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--border); background: var(--card); }
+.wia-feedback b { flex: none; }
+.wia-feedback.calm { border-color: var(--border); background: transparent; color: var(--muted-foreground); }
+.wia-of { font-size: var(--text-lg); }
+.wia-wide { width: 100%; justify-content: center; margin-bottom: 10px; }
+.wia-legend .lg-pick { background: var(--primary-tint); border: 1px solid var(--primary); }
+.wia-legend .lg-gap { border: 1px dashed var(--warning); }
+.wia-legend .lg-wrong { background: var(--warning-tint); border: 1px solid var(--warning); }
+.wia-legend .lg-pass { border: 1px solid var(--border); opacity: 0.6; }
+.wia-debug { border-collapse: collapse; font-family: var(--font-mono); font-size: var(--text-sm); margin-top: 12px; }
+.wia-debug th, .wia-debug td { border-bottom: 1px solid var(--border); padding: 4px 10px; text-align: left; }
+@keyframes wia-pop { from { transform: scale(0.92); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes wia-shake { 0%, 100% { transform: none; } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+@keyframes wia-flash { from { box-shadow: 0 0 0 4px var(--primary-tint); } to { box-shadow: none; } }
+.wia-tile.pop { animation: wia-pop 160ms ease-out; }
+.wia-tile.shake { animation: wia-shake 240ms ease-in-out; }
+.wia-tile.flash { animation: wia-flash 400ms ease-out; }
+@media (prefers-reduced-motion: reduce) { .wia-tile.pop, .wia-tile.shake, .wia-tile.flash { animation: none !important; } }
+@media (max-width: 1024px) { .wia-shift, .wia-steady, .wia-over { grid-template-columns: 1fr; } .wia-side, .wia-aside { border-left: 0; padding-left: 0; } }
