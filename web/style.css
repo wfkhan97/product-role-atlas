@@ -39,11 +39,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ---------- shell: main column, optional side panel (owner's choice 8B) ---------- */
 .shell { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr); }
-.shell.with-aside { grid-template-columns: minmax(0, 1fr) var(--aside-width); }
 .main { padding: 28px 32px 56px; min-width: 0; }
 .main > .page { max-width: var(--page-max); }
 .main > .page.narrow { max-width: 560px; margin: 0 auto; padding-top: 40px; }
-.aside { border-left: 1px solid var(--border); background: var(--card); padding: 24px 24px 40px; position: sticky; top: 0; align-self: start; max-height: 100vh; overflow-y: auto; }
+/* the side panel slides in over the right edge once something is selected and the list keeps its width (owner's
+   choice R8, 2026-10-19); on a narrow window the page gives way, and the full-width map makes room for it */
+.aside { position: fixed; top: var(--topbar-height); right: 0; bottom: 0; width: var(--aside-width); z-index: 8; border-left: 1px solid var(--border); background: var(--card); padding: 24px 24px 40px; overflow-y: auto; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.08); }
+.shell.with-aside .main > .page { max-width: min(var(--page-max), calc(100vw - var(--aside-width) - 72px)); }
+.shell.with-aside .main > .page.wide { max-width: none; padding-right: var(--aside-width); }
 .aside .empty { color: var(--muted-foreground); font-size: var(--text-base); margin-top: 8px; }
 .aside .close { float: right; border: 0; background: transparent; color: var(--muted-foreground); font-size: 20px; line-height: 1; padding: 0 2px; }
 .foot { border-top: 1px solid var(--border); padding: 12px 32px; font-size: var(--text-sm); color: var(--subtle-foreground); }
@@ -75,6 +78,58 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .action .t { font-weight: var(--weight-medium); color: var(--heading-foreground); display: block; margin-bottom: 2px; }
 .action .d { font-size: var(--text-sm); color: var(--muted-foreground); }
 .notice { border: 1px solid var(--warning); border-radius: var(--radius-md); padding: 10px 12px; font-size: var(--text-sm); margin: 10px 0; }
+.acts { margin: 14px 0 4px; }
+
+/* ---------- tooltips: an ⓘ opens on click, a bar or a mark explains itself on hover (owner's choices X1, X2) ---------- */
+.tip { display: inline-grid; place-items: center; width: 16px; height: 16px; padding: 0; margin-left: 6px; border-radius: 50%; border: 1px solid var(--subtle-foreground); background: transparent; color: var(--subtle-foreground); font-family: var(--font-mono); font-size: 10px; line-height: 1; vertical-align: 2px; }
+.tip:hover, .tip[aria-expanded="true"] { color: var(--foreground); border-color: var(--foreground); }
+.tipbox { position: fixed; z-index: 20; max-width: 320px; padding: 8px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--popover); color: var(--popover-foreground); font-size: var(--text-sm); line-height: 1.45; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); }
+.mark { color: var(--heading-foreground); margin-left: 5px; cursor: help; }
+
+/* ---------- the role's filters: the level as a segmented control, everything else in a drawer (owner's choice R2) ---------- */
+.filters { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 14px 0 4px; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+.seg button { border: 0; border-right: 1px solid var(--border); background: var(--card); color: var(--muted-foreground); padding: 6px 11px; font-size: var(--text-sm); }
+.seg button:last-child { border-right: 0; }
+.seg button:hover { color: var(--foreground); }
+.seg button.on { color: var(--primary); background: var(--primary-tint); font-weight: var(--weight-medium); }
+.filters-btn { padding: 6px 11px; font-size: var(--text-sm); }
+.filters-btn.on { border-color: var(--primary); color: var(--primary); }
+.filters-btn .n { font-family: var(--font-mono); margin-left: 6px; }
+.drawer-back { position: fixed; inset: 0; z-index: 9; background: rgba(0, 0, 0, 0.18); }
+.drawer { position: fixed; top: var(--topbar-height); right: 0; bottom: 0; width: 400px; z-index: 10; background: var(--card); border-left: 1px solid var(--border); padding: 20px 24px 28px; overflow-y: auto; display: grid; gap: 14px; align-content: start; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.08); }
+.drawer-h { display: flex; justify-content: space-between; align-items: center; }
+.drawer-h h2 { margin: 0; }
+.drawer .close { border: 0; background: transparent; color: var(--muted-foreground); font-size: 20px; line-height: 1; padding: 0 2px; }
+.drawer-f { margin-top: 8px; }
+
+/* ---------- the skills by area: panels, hairline rows, a bar for the share (owner's choices R3, X3) ---------- */
+.listhead { display: flex; align-items: baseline; gap: 14px; margin-top: 24px; }
+.listhead h2 { margin: 0; flex: 1; }
+.listhead .link { font-size: var(--text-sm); color: var(--muted-foreground); }
+.areas { margin-top: 8px; border-top: 1px solid var(--border); }
+.areabox { border-bottom: 1px solid var(--border); }
+.areabox > summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: 10px; padding: 12px 0; }
+.areabox > summary::-webkit-details-marker { display: none; }
+.areabox > summary::before { content: "▸"; color: var(--subtle-foreground); width: 14px; flex: none; }
+.areabox[open] > summary::before { content: "▾"; }
+.areabox > summary .t { font-weight: var(--weight-medium); color: var(--heading-foreground); flex: 1; }
+.areabox > summary .n { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); white-space: nowrap; }
+.srows { padding: 0 0 12px 24px; display: flex; flex-direction: column; }
+.srow { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; padding: 7px 8px; border: 0; border-top: 1px solid var(--border); border-radius: 0; background: transparent; color: var(--foreground); text-align: left; font-size: var(--text-base); width: 100%; }
+.srows > .srow:first-child, .tierlab + .srow { border-top: 0; }
+.srow:hover { background: var(--muted); }
+.srow .nm { color: var(--heading-foreground); }
+.srow .m { display: block; font-size: var(--text-sm); color: var(--muted-foreground); }
+.srow .pct { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); }
+.srow .bar { grid-column: 1 / -1; height: 3px; background: var(--muted); border-radius: 2px; overflow: hidden; }
+.srow .bar i { display: block; height: 100%; background: var(--secondary); }
+.srow.on { box-shadow: inset 0 0 0 1px var(--heading-foreground); border-radius: var(--radius-sm); border-top-color: transparent; }
+.srow.on + .srow { border-top-color: transparent; }
+.srow.have .nm { color: var(--primary); } .srow.have .bar i { background: var(--primary); }
+.srow.gap .nm { color: var(--warning); } .srow.gap .bar i { background: var(--warning); }
+.tierlab { font-size: var(--text-sm); color: var(--subtle-foreground); margin: 12px 0 2px; }
+.more { margin: 10px 0 2px; font-size: var(--text-sm); color: var(--muted-foreground); align-self: flex-start; }
 
 /* ---------- Explore: fields as circles sized by open postings ---------- */
 .bubbles { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-top: 28px; }

@@ -73,8 +73,40 @@
   function page(html, narrow) { main.innerHTML = `<div class="page${narrow ? " narrow" : ""}">${html}</div>`; window.scrollTo(0, 0); }
   function fail(e) { console.error(e); page(`<h1>Something did not load</h1><p class="lead">${esc(e.message)}. Reload the page; if it happens again, the data files may be missing.</p>`, true); showAside(null); }
 
+  // ---------- tooltips (owner's choices X1 and X2, 2026-10-19) ----------
+  // One box for the whole app. An ⓘ (`tip(text)`, a button with data-tip) opens it on click and never on hover;
+  // Escape, a second click or a click elsewhere closes it. A visual measure (a bar, a mark: any element with
+  // data-measure) explains what it shows and what that means while the pointer is over it.
+  const tipBox = document.createElement("div"); tipBox.className = "tipbox"; tipBox.setAttribute("role", "tooltip"); tipBox.hidden = true; document.body.appendChild(tipBox);
+  let tipFor = null, tipPinned = false;
+  const tip = text => `<button type="button" class="tip" aria-label="What this means" aria-expanded="false" data-tip="${esc(text)}">i</button>`;
+  function showTip(el, text, pinned) {
+    if (tipPinned && !pinned) return;   // a clicked ⓘ stays while the pointer wanders over bars
+    if (tipFor && tipFor !== el && tipFor.hasAttribute("data-tip")) tipFor.setAttribute("aria-expanded", "false");
+    tipFor = el; tipPinned = !!pinned; tipBox.textContent = text; tipBox.hidden = false;
+    if (pinned) el.setAttribute("aria-expanded", "true");
+    const r = el.getBoundingClientRect(), w = tipBox.offsetWidth, h = tipBox.offsetHeight;
+    const left = Math.max(8, Math.min(window.innerWidth - w - 8, r.left)), top = r.bottom + 6 + h > window.innerHeight ? r.top - h - 6 : r.bottom + 6;
+    tipBox.style.left = left + "px"; tipBox.style.top = top + "px";
+  }
+  function hideTip() { if (tipFor && tipFor.hasAttribute("data-tip")) tipFor.setAttribute("aria-expanded", "false"); tipFor = null; tipPinned = false; tipBox.hidden = true; }
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-tip]");
+    if (b) { e.preventDefault(); e.stopPropagation(); if (tipFor === b && tipPinned) hideTip(); else showTip(b, b.dataset.tip, true); return; }
+    if (tipPinned && !e.target.closest(".tipbox")) hideTip();
+  });
+  document.addEventListener("mouseover", e => { const m = e.target.closest("[data-measure]"); if (m && m !== tipFor) showTip(m, m.dataset.measure, false); });
+  document.addEventListener("mouseout", e => { const m = e.target.closest("[data-measure]"); if (m && tipFor === m && !tipPinned && !m.contains(e.relatedTarget)) hideTip(); });
+  window.addEventListener("scroll", () => { if (tipFor && !tipPinned) hideTip(); }, { passive: true });
+  document.addEventListener("keydown", e => {
+    if (e.key !== "Escape") return;
+    if (tipFor) { hideTip(); return; }
+    if (state.more && $("#drawer")) { state.more = false; keepScroll(renderRole); return; }
+    if (state.selected && !aside.hidden) select(null, Routes.parseRoute(location.hash).name !== "role");
+  });
+
   // ---------- router ----------
-  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "", grads: false };
+  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "", grads: false, areaOpen: null, areaMore: new Set() };
   // what the person told us and the resume they dropped stay in this browser only (nothing is uploaded)
   const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
   state.you = store.get("you"); state.resume = store.get("resume");
@@ -296,7 +328,7 @@
 
   // ---------- 4. a role: the skill grid, the side panel, the postings ----------
   async function loadRole(id) {
-    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = 40; state.evTab = null; state.match = null; state.sector = new Set(); state.company = new Set(); state.country = new Set(); state.remote = false; state.more = false; state.companyQuery = ""; state.grads = false; }
+    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = 40; state.evTab = null; state.match = null; state.sector = new Set(); state.company = new Set(); state.country = new Set(); state.remote = false; state.more = false; state.companyQuery = ""; state.grads = false; state.areaOpen = null; state.areaMore = new Set(); }
     const ix = await Atlas.index(); return ix.groups.find(x => x.id === state.R.role.group);
   }
   // a student looks at the entry grade first; everyone else at every level
@@ -317,43 +349,76 @@
   const jobsExcept = (dim, level) => state.R.jobs.filter(j => Object.entries(DIMS).every(([k, fn]) => k === dim || (k === "level" && level != null ? (level === "all" || Atlas.stepOf(j) === level) : fn(j))));
   const sliceOf = level => jobsExcept(null, level);
   const extraCount = () => state.sector.size + state.company.size + state.country.size + (state.remote ? 1 : 0);
+  // every filter but the level: what the Filters button counts and the drawer holds
+  const activeCount = () => (state.employer === "all" ? 0 : 1) + (state.grads ? 1 : 0) + extraCount();
   const toggle = (set, v) => { set.has(v) ? set.delete(v) : set.add(v); state.shown = 40; };
   const keepScroll = fn => { const y = window.scrollY; fn(); window.scrollTo(0, y); };
-  // the filters behind "More filters" show as removable chips in the row when the sheet is closed
-  function activeExtra() {
-    const items = [...state.sector].map(v => [v, "sector"]), co = [...state.company].map(v => [v, "company"]), cn = [...state.country].map(v => [v, "country"]);
-    const all = [...items, ...co, ...cn, ...(state.remote ? [["Remote", "remote"]] : [])];
-    return all.map(([v, k]) => `<button type="button" class="chip on" ${k === "remote" ? 'id="remote"' : `data-${k}="${esc(v)}"`} aria-label="Remove filter ${esc(v)}">${esc(v)} <span aria-hidden="true">×</span></button>`).join("");
+  // the filters in the drawer show as removable chips beside the Filters button while the drawer is closed
+  function activeChips(R) {
+    const emp = state.employer === "all" ? [] : [[(R.employerTypes.find(e => e[0] === state.employer) || [])[1] || state.employer, 'data-emp="all"']];
+    const grads = state.grads ? [["Graduates and interns", 'id="grads"']] : [];
+    const extra = [...[...state.sector].map(v => [v, `data-sector="${esc(v)}"`]), ...[...state.company].map(v => [v, `data-company="${esc(v)}"`]), ...[...state.country].map(v => [v, `data-country="${esc(v)}"`]), ...(state.remote ? [["Remote", 'id="remote"']] : [])];
+    return [...emp, ...grads, ...extra].map(([v, attr]) => `<button type="button" class="chip on" ${attr} aria-label="Remove filter ${esc(v)}">${esc(v)} <span aria-hidden="true">×</span></button>`).join("");
   }
-  // the sheet: industry, employer, location. Every count reflects the other filters (owner's choice 7A).
-  function moreSheet(R, countBy) {
-    const group = (label, items, set, attr, allLabel) => `<div class="fgroup"><span class="lbl">${label}</span><div class="chips" style="margin:4px 0 0">${allLabel ? `<button type="button" class="chip${set.size ? "" : " on"}" data-${attr}="__all">${allLabel}</button>` : ""}${items.map(([v, n]) => `<button type="button" class="chip${set.has(v) ? " on" : ""}" data-${attr}="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}</div></div>`;
+  // The filters drawer (owner's choice R2, 2026-10-19): employers, who it is for, industry, employer name, location.
+  // The level stays on the page as a segmented control. Every count reflects the other filters (owner's choice 7A).
+  function drawerHtml(R, countBy) {
+    const group = (label, inner) => `<div class="fgroup"><span class="lbl">${label}</span><div class="chips" style="margin:4px 0 0">${inner}</div></div>`;
+    const chipsOf = (items, set, attr, allLabel) => `${allLabel ? `<button type="button" class="chip${set.size ? "" : " on"}" data-${attr}="__all">${allLabel}</button>` : ""}${items.map(([v, n]) => `<button type="button" class="chip${set.has(v) ? " on" : ""}" data-${attr}="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}`;
+    const empCounts = countBy(jobsExcept("employer"), Atlas.employerType), empAll = jobsExcept("employer").length;
+    const emp = `<button type="button" class="chip${state.employer === "all" ? " on" : ""}" data-emp="all">All<span class="n">${fmt(empAll)}</span></button>` + R.employerTypes.map(([id, label]) => `<button type="button" class="chip${state.employer === id ? " on" : ""}" data-emp="${id}">${esc(label)}<span class="n">${fmt(empCounts[id] || 0)}</span></button>`).join("");
+    const grads = R.set === "mba" ? group("Who it is for", `<button type="button" class="chip${state.grads ? " on" : ""}" id="grads">Graduates and interns<span class="n">${fmt(jobsExcept("grads").filter(j => j.entry || j.intern).length)}</span></button>`) : "";
     const sec = Object.entries(countBy(jobsExcept("sector"), j => j.sector)).filter(([v]) => v && v !== "Startup (unclassified)").sort((a, b) => b[1] - a[1]).slice(0, 10);
     const cm = countBy(jobsExcept("company"), j => j.company); const q = state.companyQuery.trim().toLowerCase();
     const picked = [...state.company].map(v => [v, cm[v] || 0]);
     const options = q ? Object.entries(cm).filter(([c]) => c.toLowerCase().includes(q) && !state.company.has(c)).sort((a, b) => b[1] - a[1]).slice(0, 12) : [];
     const cn = Object.entries(countBy(jobsExcept("country"), j => j.country)).filter(([v]) => v).sort((a, b) => b[1] - a[1]).slice(0, 8);
     const remoteN = jobsExcept("country").filter(j => j.remote && (state.country.size === 0 || state.country.has(j.country))).length;
-    return `<div class="sheet">
-      ${group("Industry", sec, state.sector, "sector", "All industries")}
+    const remote = `<button type="button" class="chip${state.remote ? " on" : ""}" id="remote">Remote<span class="n">${fmt(remoteN)}</span></button>`;
+    return `<div class="drawer-back" id="drawer-back"></div><div class="drawer" role="dialog" aria-label="Filters" id="drawer">
+      <div class="drawer-h"><h2>Filters</h2><button type="button" class="close" id="drawer-close" aria-label="Close">×</button></div>
+      ${group("Employers", emp)}${grads}
+      ${group("Industry", chipsOf(sec, state.sector, "sector", "All industries"))}
       <div class="fgroup"><span class="lbl">Employer</span><input type="search" id="company-q" placeholder="Employer name" aria-label="Employer name" value="${esc(state.companyQuery)}" autocomplete="off"><div class="chips" style="margin:4px 0 0">${picked.map(([v, n]) => `<button type="button" class="chip on" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${options.map(([v, n]) => `<button type="button" class="chip" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${!picked.length && !q ? '<span class="small muted">Type a name to pick an employer.</span>' : ""}</div></div>
-      ${R.country ? `<div class="fgroup"><span class="lbl">Location</span><div class="chips" style="margin:4px 0 0"><span class="small muted">${esc(R.country)} only.</span><button type="button" class="chip${state.remote ? " on" : ""}" id="remote">Remote<span class="n">${fmt(remoteN)}</span></button></div></div>` : group("Location", cn, state.country, "country", "Anywhere") + `<div class="chips" style="margin:-4px 0 0"><button type="button" class="chip${state.remote ? " on" : ""}" id="remote">Remote<span class="n">${fmt(remoteN)}</span></button></div>`}
-      ${extraCount() ? '<p class="small" style="margin:10px 0 0"><button type="button" class="linkish link" id="clear-extra">Clear these filters</button></p>' : ""}
+      ${R.country ? group("Location", `<span class="small muted">${esc(R.country)} only.</span>${remote}`) : group("Location", chipsOf(cn, state.country, "country", "Anywhere") + remote)}
+      <div class="row between drawer-f">${activeCount() ? '<button type="button" class="btn quiet" id="clear-extra">Clear all</button>' : "<span></span>"}<button type="button" class="btn primary" id="drawer-done">Done</button></div>
     </div>`;
   }
+  // The skills a role asks for, by area (owner's choice R3, 2026-10-19): one panel per skill area, the skills most
+  // postings ask for open in it, the rest behind "more"; the panel with the most of those is open at first. "Expand
+  // all" opens every panel and every fold, which lays the whole list out ranked; "Collapse all" takes it back.
+  const TIER_LABEL = ["Asked by most postings", "Asked by a quarter to a half of the postings", "Asked by one in ten to one in four postings"];
+  function skillRow(R, s, n, m) {
+    const on = state.selected && state.selected.kind === "skill" && state.selected.id === s.id;
+    const paint = m ? (m.matched.has(s.id) ? " have" : m.presumed.has(s.id) ? "" : m.required.has(s.id) ? " gap" : "") : "";
+    const marks = (s.defining ? `<span class="mark" data-measure="◆ sets this role apart: postings of this role ask for it far more often than postings of other roles do.">◆</span>` : "") + (s.grows ? `<span class="mark" data-measure="↗ asked more as you move up: at least 1.5 times as often in leadership postings as in entry-level ones.">↗</span>` : "");
+    return `<button type="button" class="srow${on ? " on" : ""}${paint}" data-skill="${esc(s.id)}"><span class="nm">${esc(s.name)}${marks}${s.area ? `<span class="m">${esc(s.area)}</span>` : ""}</span><span class="pct">${pct(s.share)}</span><span class="bar" data-measure="The bar is the share of postings that ask for this skill: ${pct(s.share)} of the ${fmt(n)} postings in this view ask for ${esc(s.name)}."><i style="width:${Math.round(s.share * 100)}%"></i></span></button>`;
+  }
+  function areaPanel(R, a, n, m) {
+    const core = a.skills.filter(s => s.tier === 0), first = core.length ? core : a.skills, folded = core.length ? a.skills.filter(s => s.tier > 0) : [];
+    const more = state.areaMore.has(a.cluster);
+    const rowsOf = (list, labelled) => { let last = -1, h = ""; for (const s of list) { if (labelled && s.tier !== last) { h += `<span class="tierlab">${TIER_LABEL[s.tier]}</span>`; last = s.tier; } h += skillRow(R, s, n, m); } return h; };
+    const fold = folded.length ? (more ? rowsOf(folded, true) + `<button type="button" class="linkish link more" data-more="${esc(a.cluster)}">Show fewer</button>` : `<button type="button" class="linkish link more" data-more="${esc(a.cluster)}">Show ${folded.length} more, asked by fewer postings</button>`) : "";
+    return `<details class="areabox" data-area="${esc(a.cluster)}"${state.areaOpen.has(a.cluster) ? " open" : ""}><summary><span class="t">${esc(a.label)}</span><span class="n">${plural(a.skills.length, "skill", "skills")}${core.length ? ` · ${core.length} in most postings` : ""}</span></summary><div class="srows">${rowsOf(first, !core.length)}${fold}</div></details>`;
+  }
+  const allExpanded = areas => areas.every(a => state.areaOpen.has(a.cluster) && (state.areaMore.has(a.cluster) || !a.skills.some(s => s.tier > 0) || !a.skills.some(s => s.tier === 0)));
   function renderRole() {
     const R = state.R, role = R.role, slice = sliceOf();
-    const { rows, stats } = Atlas.grid(R, slice);
+    const { areas, stats } = Atlas.areas(R, slice);
+    if (state.areaOpen == null) state.areaOpen = new Set(areas.length ? [areas[0].cluster] : []);
     const open = slice.filter(j => j.open);
     const nClosed = R.jobs.length - R.jobs.filter(j => j.open).length;
     const countBy = (jobs, fn) => { const m = {}; for (const j of jobs) { const k = fn(j); if (k != null) m[k] = (m[k] || 0) + 1; } return m; };
-    const levelCounts = countBy(jobsExcept("level"), Atlas.stepOf), levelAll = jobsExcept("level").length;
-    const empCounts = countBy(jobsExcept("employer"), Atlas.employerType), empAll = jobsExcept("employer").length;
-    const chip = (on, label, n, attrs) => `<button type="button" class="chip${on ? " on" : ""}" aria-pressed="${on}" ${attrs}>${esc(label)}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`;
     const where = R.country ? ` · ${esc(R.country)}` : "";
     const facts = R.set === "product" ? `${fmt(role.nOpen)} open postings in the US, ${fmt(role.nWorld)} worldwide (the skills below read all of them) · ${plural(role.nCompanies, "employer", "employers")}` : `${fmt(R.jobs.filter(j => j.open).length)} open postings${nClosed ? ` (${fmt(nClosed)} recently closed are counted too)` : ""} · ${plural(role.nCompanies, "employer", "employers")}${where}`;
-    const defNote = role.definingList.length ? ` ◆ marks what sets this role apart from other roles.` : "";
-    const grid = gridHtml(R, rows);
+    const m = state.match && state.match.roleId === role.id ? state.match : null;
+    const nAct = activeCount();
+    const seg = `<div class="seg" role="group" aria-label="Level"><button type="button" class="${state.level === "all" ? "on" : ""}" aria-pressed="${state.level === "all"}" data-level="all">All levels</button>${Atlas.STEPS.map(s => `<button type="button" class="${state.level === s ? "on" : ""}" aria-pressed="${state.level === s}" data-level="${s}">${esc(R.stepLabels[s])}</button>`).join("")}</div>`;
+    const filters = `<div class="filters">${seg}<button type="button" class="btn filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">Filters${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
+    const expanded = allExpanded(areas);
+    const listHead = `<div class="listhead"><h2>What the postings ask for ${tip("Skills are grouped by area and ranked by how many of the postings in this view ask for them. Open a skill to see what it means, what it breaks down into and how postings say it.")}</h2><span class="small muted">${plural(stats.n, "posting", "postings")} in this view</span>${areas.length ? `<button type="button" class="linkish link" id="expand-all">${expanded ? "Collapse all" : "Expand all"}</button>` : ""}</div>`;
+    const skillList = areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m)).join("")}</div>
+      <p class="key">${role.definingList.length ? "◆ sets this role apart from other roles · " : ""}↗ asked more as you move up${m ? " · green: your resume shows it · amber: a gap" : ""}</p>` : '<p class="notice">No postings match these filters.</p>';
 
     const creds = R.skills.filter(s => s.cluster === "credentials" && stats.share(s.id) >= 0.1).map(s => ({ s, v: stats.share(s.id) })).sort((a, b) => b.v - a.v).slice(0, 6);
     const doms = R.skills.filter(s => s.cluster === "domain" && stats.share(s.id) >= 0.1).map(s => ({ s, v: stats.share(s.id) })).sort((a, b) => b.v - a.v).slice(0, 6);
@@ -368,21 +433,18 @@
       <div class="list" id="postings">${shown.map(j => `<button type="button" class="r${state.selected && state.selected.kind === "posting" && state.selected.id === j.id ? " on" : ""}" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${esc(j.company)}${j.location ? " · " + esc(j.location) : ""}${j.intern ? " · internship" : j.entry === "mba" ? " · for MBA graduates" : j.entry === "pre_mba" ? " · for new graduates" : ""}</span></button>`).join("") || '<p class="small muted" style="padding:10px 0">No open postings match.</p>'}</div>
       <p class="small muted" style="margin-top:8px">Showing ${fmt(shown.length)} of ${fmt(list.length)}${R.set === "mba" ? ". Postings for graduates and interns first." : ""} ${list.length > shown.length ? '<button type="button" class="linkish link" id="more">Show more</button>' : ""}</p>`;
     page(`<h1>${esc(role.label)}</h1><p class="facts">${facts}</p>
-      <p class="lead">What the postings ask for. Rows: how many postings ask for a skill. Right column: skills asked for more as you move up.${defNote}</p>
-      <div class="actions">
-        <a class="action primary" href="#/role/${esc(role.id)}/fit"><span class="t">How do I fit?</span><span class="d">${state.resume ? `Using ${esc(state.resume.name)}. See your band of fit and what to evidence next.` : "Drop your resume. See your band of fit and what to evidence next."}</span></a>
-        <a class="action" href="#/role/${esc(role.id)}/course"><span class="t">Check a course</span><span class="d">Drop a syllabus. See which of these skills it teaches.</span></a>
-        <a class="action" href="#/field/${esc(role.group)}/event"><span class="t">Prepare for an event</span><span class="d">Networking, employer roundtable or hackathon.</span></a>
-      </div>
-      <div class="chips"><span class="lbl">Level</span>${chip(state.level === "all", "All levels", levelAll, 'data-level="all"')}${Atlas.STEPS.map(s => chip(state.level === s, R.stepLabels[s], levelCounts[s] || 0, `data-level="${s}"`)).join("")}${R.set === "mba" ? chip(state.grads, "Graduates and interns", jobsExcept("grads").filter(j => j.entry || j.intern).length, 'id="grads"') : ""}
-        <span class="gap"></span><span class="lbl">Employers</span>${chip(state.employer === "all", "All", empAll, 'data-emp="all"')}${R.employerTypes.map(([id, label]) => chip(state.employer === id, label, empCounts[id] || 0, `data-emp="${id}"`)).join("")}
-        <span class="gap"></span>${chip(state.more, "More filters" + (state.more ? " ▴" : " ▾"), extraCount() || null, 'id="more-filters"')}${!state.more ? activeExtra() : ""}</div>${state.more ? moreSheet(R, countBy) : ""}
-      ${stats.n ? grid : '<p class="notice">No postings match these filters.</p>'}
-      <p class="key">${plural(stats.n, "posting", "postings")} in this view. Open a skill to see what it means and how postings say it. The blue bar is the share of postings that ask for it.${state.match && state.match.roleId === role.id ? " Green border: your resume shows it. Amber dashed border: a gap." : ""}</p>
+      <p class="lead">What the postings ask for, grouped by skill area; the areas most postings ask for come first.</p>
+      <div class="row acts"><a class="btn primary" href="#/role/${esc(role.id)}/fit">How do I fit?</a><a class="btn quiet" href="#/role/${esc(role.id)}/course">Check a course</a><a class="btn quiet" href="#/field/${esc(role.group)}/event">Prepare for an event</a></div>
+      ${filters}${listHead}${skillList}
       ${also}${postings}`);
-    main.querySelectorAll("[data-level]").forEach(b => b.onclick = () => { state.level = b.dataset.level; state.shown = 40; renderRole(); });
-    main.querySelectorAll("[data-emp]").forEach(b => b.onclick = () => { state.employer = b.dataset.emp; state.shown = 40; renderRole(); });
+    main.querySelectorAll("[data-level]").forEach(b => b.onclick = () => { state.level = b.dataset.level; state.shown = 40; keepScroll(renderRole); });
+    main.querySelectorAll("[data-emp]").forEach(b => b.onclick = () => { state.employer = b.dataset.emp; state.shown = 40; keepScroll(renderRole); });
     $("#more-filters").onclick = () => { state.more = !state.more; keepScroll(renderRole); };
+    const closeDrawer = () => { state.more = false; keepScroll(renderRole); };
+    for (const id of ["#drawer-close", "#drawer-back", "#drawer-done"]) { const el = $(id); if (el) el.onclick = closeDrawer; }
+    main.querySelectorAll("details.areabox").forEach(d => d.ontoggle = () => { d.open ? state.areaOpen.add(d.dataset.area) : state.areaOpen.delete(d.dataset.area); const b = $("#expand-all"); if (b) b.textContent = allExpanded(areas) ? "Collapse all" : "Expand all"; });
+    main.querySelectorAll("[data-more]").forEach(b => b.onclick = () => { toggle(state.areaMore, b.dataset.more); keepScroll(renderRole); });
+    const xa = $("#expand-all"); if (xa) xa.onclick = () => { const all = allExpanded(areas); state.areaOpen = new Set(all ? [] : areas.map(a => a.cluster)); state.areaMore = new Set(all ? [] : areas.map(a => a.cluster)); keepScroll(renderRole); };
     const gr = $("#grads"); if (gr) gr.onclick = () => { state.grads = !state.grads; state.shown = 40; keepScroll(renderRole); };
     main.querySelectorAll("[data-sector]").forEach(b => b.onclick = () => { b.dataset.sector === "__all" ? state.sector.clear() : toggle(state.sector, b.dataset.sector); keepScroll(renderRole); });
     main.querySelectorAll("[data-country]").forEach(b => b.onclick = () => { b.dataset.country === "__all" ? state.country.clear() : toggle(state.country, b.dataset.country); keepScroll(renderRole); });
@@ -396,8 +458,7 @@
     const more = $("#more"); if (more) more.onclick = () => { state.shown += 40; const y = window.scrollY; renderRole(); window.scrollTo(0, y); };
     renderAside();
   }
-  const AREA_ORDER = ["finance", "deals", "real_estate", "strategy", "analytics", "craft", "discovery", "gtm", "marketing", "sales", "operations", "people", "risk", "leadership", "delivery", "technical", "tools", "domain"];
-  const areaOrder = (R, c) => { const i = AREA_ORDER.indexOf(c); return i < 0 ? 99 : i; };
+  const areaOrder = (R, c) => { const i = Atlas.AREA_ORDER.indexOf(c); return i < 0 ? 99 : i; };
   const ROWS = [["Nearly every posting", "over half of the postings ask for it"], ["Many postings", "a quarter to a half"], ["Some postings", "one in ten to one in four"]];
   const COLS = [["Asked at every level", "from the first grade up"], ["Asked more as you move up", "at least 1.5 times as often in leadership postings"]];
   function gridHtml(R, rows, paintWith) {
@@ -428,7 +489,7 @@
   // ---------- the side panel ----------
   function renderAside() {
     const R = state.R, sel = state.selected;
-    if (!sel) { showAside(`<p class="eyebrow">Details</p><p class="empty">Open a skill to see what it means, what it breaks down into and how postings say it. Open a posting to see everything it asks for.</p>`); return; }
+    if (!sel) { showAside(null); return; }   // nothing selected, no panel (owner's choice R8, 2026-10-19)
     if (sel.kind === "posting") { showAside(postingCard(R, R.jobs.find(j => j.id === sel.id))); wire(); return; }
     showAside(skillCard(R, R.skillById[sel.id], sliceOf())); wire();
     // evidence sentences come from a separate file for the MBA set: fill them in when they arrive
