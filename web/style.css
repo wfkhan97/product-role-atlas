@@ -145,6 +145,18 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bubble.s1 { width: 108px; height: 108px; font-size: var(--text-sm); } .bubble.s2 { width: 132px; height: 132px; } .bubble.s3 { width: 160px; height: 160px; font-size: var(--text-md); } .bubble.s4 { width: 188px; height: 188px; font-size: var(--text-lg); }
 .bubble.you { border-color: var(--primary); background: var(--primary-tint); }
 
+/* the fields as cards (owner's choice E2): one size, sorted by open postings, example roles, one number, a bar */
+.fcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+.fcard { display: grid; gap: 4px; align-content: start; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px 12px; background: var(--card); color: inherit; }
+.fcard:hover { border-color: var(--input); }
+.fcard.you { border-color: var(--primary); }
+.fcard .t { font-size: var(--text-md); font-weight: var(--weight-medium); color: var(--heading-foreground); }
+.fcard .m { font-size: var(--text-sm); color: var(--muted-foreground); min-height: 2.6em; }
+.fcard .bar { height: 3px; background: var(--muted); border-radius: 2px; overflow: hidden; margin-top: 6px; }
+.fcard .bar i { display: block; height: 100%; background: var(--secondary); }
+.fcard .n { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); }
+.fcard .why { color: var(--primary); font-family: var(--font-sans); }
+
 /* ---------- lists: one row pattern (title, meta line, count) ---------- */
 .list { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
 .list .r { display: grid; grid-template-columns: 1fr auto; gap: 2px 14px; padding: 11px 0; border-bottom: 1px solid var(--border); color: inherit; text-align: left; background: transparent; border-left: 0; border-right: 0; width: 100%; }

@@ -308,17 +308,25 @@
       const chips = fit ? profileStrip(ix, ff.why) : "";
       const asMap = SkillMap.mode() === "map";
       const showing = fit ? `<div class="seg" role="group" aria-label="Showing"><button type="button" class="${onlyFit ? "on" : ""}" aria-pressed="${onlyFit}" id="c-fit">For you</button><button type="button" class="${onlyFit ? "" : "on"}" aria-pressed="${!onlyFit}" id="c-all">All fields</button></div>` : "";
-      const view = `<div class="filters explore-row">${showing}${asMap ? '<input class="sm-find" id="sm-find" type="search" placeholder="Find a skill" list="sm-names" aria-label="Find a skill"><datalist id="sm-names"></datalist>' : ""}<div class="seg views" role="group" aria-label="View"><button type="button" class="${asMap ? "" : "on"}" aria-pressed="${!asMap}" id="v-grid" title="Circles">◎</button><button type="button" class="${asMap ? "on" : ""}" aria-pressed="${asMap}" id="v-map" title="Skill map">⊞</button></div></div>`;
+      const view = `<div class="filters explore-row">${showing}${asMap ? '<input class="sm-find" id="sm-find" type="search" placeholder="Find a skill" list="sm-names" aria-label="Find a skill"><datalist id="sm-names"></datalist>' : ""}<div class="seg views" role="group" aria-label="View"><button type="button" class="${asMap ? "" : "on"}" aria-pressed="${!asMap}" id="v-grid" title="Fields">▦</button><button type="button" class="${asMap ? "on" : ""}" aria-pressed="${asMap}" id="v-map" title="Skill map">⊞</button></div></div>`;
       const pg = all.find(g => g.set === "product"), mg = all.find(g => g.set === "mba");
       const dates = tip(`Counts are open postings in the US: business fields refreshed ${mg.generated}${pg.generated ? `, Product scraped ${pg.generated} (${fmt(pg.nWorld)} worldwide)` : ""}.`);
       const inner = g => `${esc(g.label)}<span class="n">${g.nOpen == null ? "loading…" : fmt(g.nOpen) + " open"}</span>`;
+      // a field card (owner's choice E2): the name, two or three of its roles marked as examples, one number and a
+      // bar that compares fields; the ones that fit carry their reason
+      const max = Math.max(1, ...all.map(g => g.nOpen || 0));
+      const card = g => {
+        const names = g.roles.map(r => (ix.roles[r] || {}).label).filter(Boolean), ex = names.slice(0, 3), more = names.length - ex.length, isFit = !!(fit && fit.has(g.id));
+        return `<a class="fcard${isFit ? " you" : ""}" href="#/field/${esc(g.id)}"><span class="t">${esc(g.label)}</span><span class="m">${names.length ? `e.g. ${esc(ex.join(" · "))}${more > 0 ? `, +${more} more ${more === 1 ? "role" : "roles"}` : ""}` : "loading…"}</span><span class="bar" data-measure="${g.nOpen == null ? "Loading" : fmt(g.nOpen)} open postings in ${esc(g.label)} now; the bar compares the fields."><i style="width:${Math.round(100 * (g.nOpen || 0) / max)}%"></i></span><span class="n">${g.nOpen == null ? "loading…" : fmt(g.nOpen) + " open"}${isFit ? ` · <span class="why">${esc(ff.why.get(g.id))}</span>` : ""}</span></a>`;
+      };
       if (asMap) {
         // the fields on the skill map: a field's own skills beside it, the skills every field asks for in the middle
         page(`<h1>Explore the roles</h1>
           <p class="lead">${all.length} fields, ${nRoles || 56} roles. Hover a field to light up the skills that set it apart; click a skill to see who asks for it. ${dates}</p>${chips}${view}
           <div class="sm-stage" id="sm-stage"></div>
-          ${fit && fit.size ? '<p class="key">Green: the fields your answers and resume point to.</p>' : ""}`);
+          <p class="key">${fit && fit.size ? "Green: the fields your answers and resume point to. " : ""}<button type="button" class="linkish link" id="sm-all">${SkillMap.allShown() ? "Show the fields alone" : "Show all skills"}</button></p>`);
         main.firstElementChild.classList.add("wide");
+        $("#sm-all").onclick = () => { SkillMap.showAll(!SkillMap.allShown()); $("#sm-all").textContent = SkillMap.allShown() ? "Show the fields alone" : "Show all skills"; };
         const SIZE = { s1: 0.66, s2: 0.76, s3: 0.88, s4: 1 };
         SkillMap.stage($("#sm-stage"), { groups: all.map(g => ({ id: g.id, cls: sizeClass(g.nOpen || 0), you: !!(fit && fit.has(g.id)), inner: inner(g) })), sizeOf: g => SIZE[g.cls], fit, onlyFit, focus, aside, showAside });
         SkillMap.names().then(ns => { const dl = $("#sm-names"); if (dl) dl.innerHTML = ns.map(n => `<option value="${esc(n)}">`).join(""); });
@@ -330,9 +338,8 @@
       }
       page(`<h1>Explore the roles</h1>
         <p class="lead">${all.length} fields, ${nRoles || 56} roles. Pick a field. ${dates}</p>${chips}${view}
-        <div class="bubbles">${groups.map(g => `<a class="bubble ${sizeClass(g.nOpen || 0)}${fit && fit.has(g.id) ? " you" : ""}" href="#/field/${esc(g.id)}" data-measure="The size of a field is how many postings are open now: ${g.nOpen == null ? "loading" : fmt(g.nOpen)} in ${esc(g.label)}, ${plural(g.roles.length, "role", "roles")}.">${inner(g)}</a>`).join("")}</div>
-        ${onlyFit && !groups.length ? '<p class="small muted" style="text-align:center">No field yet. <a class="link" href="#/you">Tell us more</a>.</p>' : ""}
-        ${fit && fit.size && !onlyFit ? '<p class="key" style="text-align:center">Green: the fields your answers and resume point to.</p>' : ""}`);
+        <div class="fcards">${groups.map(card).join("")}</div>
+        ${onlyFit && !groups.length ? '<p class="small muted">No field yet. <a class="link" href="#/you">Tell us more</a>.</p>' : ""}`);
       $("#v-map").onclick = () => { SkillMap.setMode("map"); render(); };
       $("#v-grid").onclick = () => { };
       const cf = $("#c-fit"), ca = $("#c-all"); if (cf) { cf.onclick = () => { onlyFit = true; render(); }; ca.onclick = () => { onlyFit = false; render(); }; }
@@ -350,8 +357,8 @@
     crumbs([["Explore", "#/explore"], [g.label, null]]); showAside(null);
     const roles = g.roles.map(r => ix.roles[r]).sort((a, b) => b.nOpen - a.nOpen);
     const line = r => {
-      const names = (r.definingList.length ? r.definingList : r.asks).slice(0, 2).map(x => (ix.skillById[x.id] || (state.R && state.R.skillById[x.id]) || { name: x.id }).name.toLowerCase());
-      return (r.definingList.length ? "Defined by " : "Asks most for ") + names.join(" and ");
+      const names = (r.definingList.length ? r.definingList : r.asks).slice(0, 2).map(x => (ix.skillById[x.id] || (state.R && state.R.skillById[x.id]) || { name: x.id }).name.replace(/\s*\(.*?\)/g, ""));
+      return (r.definingList.length ? "Stands out for " : "Asks most for ") + join(names);
     };
     const when = `Open postings in the US${g.generated ? `, ${g.set === "product" ? "scraped" : "refreshed"} ${esc(g.generated)}` : ""}${g.set === "product" ? `; ${fmt(g.nWorld)} worldwide` : ""}.`;
     const rg = state.resume ? await rough() : null;
@@ -361,11 +368,11 @@
       <p class="lead">${plural(roles.length, "role", "roles")} · <span data-measure="${when}">${fmt(roles.reduce((a, r) => a + r.nOpen, 0))} open postings</span>. The biggest first.${anyMark ? " Green: a rough read of your resume; open a role for your band of fit." : ""} <a href="#/explore?field=${esc(g.id)}" data-map>See ${esc(g.label)} on the skill map →</a></p>
       <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${fmt(r.nOpen)} open</span><span class="m">${esc(productLine(g, r, line))}${mark(r)}</span></a>`).join("")}</div>
       <h2>Going to a ${esc(g.label.toLowerCase())} event?</h2>
-      <div class="actions">${EVENTS.map(([k, t, d]) => `<a class="action" href="#/field/${esc(g.id)}/event?${k}"><span class="t">${t}</span><span class="d">${d}</span></a>`).join("")}</div>`);
+      <div class="row acts" style="margin-top:6px">${EVENTS.map(([k, t]) => `<a class="btn quiet" href="#/field/${esc(g.id)}/event?${k}">${t}</a>`).join("")}</div>`);
   }
   function productLine(g, r, line) {
     if (g.set !== "product") return line(r);
-    return "Asks most for " + r.asks.slice(0, 2).map(x => x.id).map(id => (state.R && state.R.skillById[id] ? state.R.skillById[id].name : nameFromProduct(id)).toLowerCase()).join(" and ");
+    return "Asks most for " + join(r.asks.slice(0, 2).map(x => x.id).map(id => (state.R && state.R.skillById[id] ? state.R.skillById[id].name : nameFromProduct(id)).replace(/\s*\(.*?\)/g, "")));
   }
   let productNames = null;
   function nameFromProduct(id) { return (productNames && productNames[id]) || id; }
