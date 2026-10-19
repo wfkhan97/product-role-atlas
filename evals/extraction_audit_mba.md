@@ -1,16 +1,16 @@
 # Extraction audit: the MBA role set, regex against model judgment
 
-Produced by `pipeline/experiments/skill_audit.py` on 2026-10-14. For each skill, a sample of postings the patterns tagged (accepted = the model agrees the posting asks for it) and a sample from the skill's three most common roles that the patterns did not tag (missed = the model says the posting asks for it). Model answers at probability 0.5 or more count as yes. The samples are small, so read each row as a flag, not a measurement. After a taxonomy change rerun with `--reuse` to recompute the regex side without new model calls.
+Produced by `pipeline/experiments/skill_audit.py` on 2026-10-19. For each skill, a sample of postings the patterns tagged (accepted = the model agrees the posting asks for it) and a sample from the skill's three most common roles that the patterns did not tag (missed = the model says the posting asks for it). Model answers at probability 0.5 or more count as yes. The samples are small, so read each row as a flag, not a measurement. After a taxonomy change rerun with `--reuse` to recompute the regex side without new model calls.
 
-Across 180 skills: the model accepts 1,356 of 1,673 tagged samples (81%) and finds the skill in 561 of 1,849 untagged samples from the same roles (30%).
+Across 180 skills: the model accepts 1,355 of 1,672 tagged samples (81%) and finds the skill in 561 of 1,846 untagged samples from the same roles (30%).
 
 | skill | cluster | tagged: accepted | untagged: missed |
 |---|---|---|---|
+| HRIS (Workday, SuccessFactors, ADP) | tools | 3/8 (38%) | 2/11 |
 | BI development tools (DAX, Power Query, SSRS, Qlik) | tools | 4/10 (40%) | 0/10 |
 | Development, entitlements & construction | real_estate | 4/10 (40%) | 1/9 |
 | Transformation programme leadership | strategy | 4/10 (40%) | 7/10 |
 | HR operations, onboarding & payroll | people | 5/12 (42%) | 2/8 |
-| HRIS (Workday, SuccessFactors, ADP) | tools | 4/9 (44%) | 2/11 |
 | Property types (multifamily, industrial, office, retail) | real_estate | 4/9 (44%) | 2/11 |
 | Board & committee governance | risk | 3/6 (50%) | 0/13 |
 | Procurement platforms (Ariba, Coupa) | tools | 5/10 (50%) | 0/10 |
@@ -86,9 +86,9 @@ Across 180 skills: the model accepts 1,356 of 1,673 tagged samples (81%) and fin
 | Employment law & HR compliance | people | 8/10 (80%) | 8/10 |
 | Investment research & asset classes | deals | 8/10 (80%) | 7/10 |
 | Logistics & transportation | operations | 8/10 (80%) | 3/10 |
-| Pitch books & deal marketing materials | deals | 8/10 (80%) | 5/10 |
+| Pitch books & deal marketing materials | deals | 8/10 (80%) | 5/9 |
 | Proposals, RFP responses & capture | sales | 8/10 (80%) | 2/10 |
-| Real estate underwriting, pro formas & market comps | real_estate | 4/5 (80%) | 2/14 |
+| Real estate underwriting, pro formas & market comps | real_estate | 4/5 (80%) | 2/13 |
 | RFx & competitive bidding | operations | 8/10 (80%) | 3/10 |
 | Workplace safety & EHS | operations | 8/10 (80%) | 2/10 |
 | Strategic planning cycles | strategy | 8/10 (80%) | 4/10 |
@@ -169,7 +169,7 @@ Across 180 skills: the model accepts 1,356 of 1,673 tagged samples (81%) and fin
 | Key account & client relationships | sales | 9/9 (100%) | 10/11 |
 | Learning programmes & instructional design | people | 5/5 (100%) | 3/14 |
 | Market data platforms (Bloomberg, Capital IQ, FactSet, PitchBook) | tools | 9/9 (100%) | 0/9 |
-| Marketing automation (Marketo, Braze, Pardot) | tools | 4/4 (100%) | 0/16 |
+| Marketing automation (Marketo, Braze, Pardot) | tools | 4/4 (100%) | 0/15 |
 | Operating cadence & business reviews | strategy | 9/9 (100%) | 8/10 |
 | People analytics & HR reporting | people | 10/10 (100%) | 5/10 |
 | Project & change certifications (PMP, Prosci) | credentials | 10/10 (100%) | 0/10 |
