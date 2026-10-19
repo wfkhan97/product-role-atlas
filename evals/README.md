@@ -242,6 +242,7 @@ apart from its screens, so node can run them over every role with no install. Ea
 node evals/skill_path.mjs             # Skill path: the board, the README's example rounds, the random pools, no dead end
 node evals/games_guess_the_role.mjs   # Guess the role: the pool, distractors and clues over all 48 roles
 node evals/game_passages.mjs          # Spot the real ask: the passages file web/data/game_passages.json
+node evals/game_spot_scoring.mjs      # Spot the real ask: the scoring rule and rank thresholds, five simulated readers
 ```
 
 | eval | what it guards |
@@ -249,9 +250,12 @@ node evals/game_passages.mjs          # Spot the real ask: the passages file web
 | `skill_path.mjs` | Loads `web/atlas.js`, the skill map's own board (`SkillMap.board()`) and the game's `logic`. The board has 240 skills and 936 links in one piece, each skill with 2 links or more. Product Manager's arrival skills, Marketing's start skill, par and shortest route, and the four choices at each hop of the README's Marketing → Product Manager round. Supply chain & procurement → Product Manager: start skill, par 4, and the biggest-blue-number route ends 3 hops short. The random pools (86 / 313 / 51 from a field, 447 / 1,373 / 222 from a role). All 53 pickable roles have three arrival skills. Four simulated players on every pairing at every difficulty: none is ever left with no choice and no step back, and the perfect player always arrives. |
 | `games_guess_the_role.mjs` | Every role has a playable posting. Every distractor set is three distinct roles, none above similarity 0.90, in a 2 + 2 or 1 + 1 + 1 + 1 field pattern. Every clue set of every playable posting is five distinct eligible skills, none generic, each asked by at least a quarter of the role's postings, in rising order of lift, with no red herring and the giveaway's disc above 0. It prints the counts the README states (22,483 open, 19,004 playable, 46 roles with 2 + 2) and warns, without failing, when a data refresh moves them. |
 | `game_passages.mjs` | Checks `web/data/game_passages.json`, written by `pipeline/game_passages.py`: valid chunk labels, every ask names a skill of its set's taxonomy, each block's chunks join back to its text, shares in [0, 1], no passage over 700 characters, at most 12 per role and one employer per role, the file under 1 MB, every role id in `graph_mba.json` or `graph.json`. |
+| `game_spot_scoring.mjs` | Loads `web/data/game_passages.json` and the game's `logic` (its deal, scoring and `RANKS`, so the thresholds stay in the game). Five simulated readers play 4,000 runs each of one easy, one medium and one hard passage, dealt as the game deals (seed 7): perfect, careful (each ask marked with p 0.85, each filler chunk with p 0.20), keyword (0.60 / 0.50), mark everything, mark nothing. Mark everything and mark nothing land on Skimmer in every run, the perfect reader on Reads like the atlas. The careful reader lands on Careful reader or Recruiter's eye in at least 85% of runs and on Skimmer in at most 2%. The keyword reader lands on Keyword spotter or Careful reader in at least half of runs and on Recruiter's eye or above in at most 5%, with a mean read at least 0.2 below the careful reader's. Every passage has an ask and a filler chunk, since the read divides by both. Prints the mean read and the rank distribution per reader. |
 
 The expected numbers are today's data. After a data refresh `skill_path.mjs` prints the new values and fails, and
-`games_guess_the_role.mjs` warns; update the game's README and the eval together on a `data/` branch.
+`games_guess_the_role.mjs` warns; update the game's README and the eval together on a `data/` branch. When a refresh of
+the passages moves a simulated reader off its band, `game_spot_scoring.mjs` fails: retune `RANKS` in
+`web/games/spot-the-real-ask.js` and the rank tables in `games/spot-the-real-ask/README.md` together.
 
 ## Evals to build
 

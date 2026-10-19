@@ -2,17 +2,25 @@
    pass, then see how the atlas read the same lines. Three postings (easy, medium, hard) make a run and a rank.
    Data: web/data/game_passages.json (pipeline/game_passages.py), the taxonomies for skill names, the index for
    field labels and meta.n_jobs. Nothing a player does leaves the browser: the best rank, the last five runs and the
-   passages seen stay in localStorage under game:spot-the-real-ask. Spec: games/spot-the-real-ask/README.md. */
-(function () {
+   passages seen stay in localStorage under game:spot-the-real-ask. Spec: games/spot-the-real-ask/README.md.
+   UMD like skill-path.js: `logic` (the deal, the scoring, the ranks; pure, no DOM) loads in node for
+   evals/game_spot_scoring.mjs; the screens follow it. Registers window.Games["spot-the-real-ask"] = { mount }. */
+(function (root, factory) {
+  const mod = factory();
+  if (typeof module === "object" && module.exports) module.exports = mod;   // node: require("web/games/spot-the-real-ask.js").logic
+  else { root.Games = root.Games || {}; root.Games["spot-the-real-ask"] = { mount: mod.mount }; }
+})(typeof self !== "undefined" ? self : this, function () {
   "use strict";
   const SLUG = "spot-the-real-ask", KEY = "game:" + SLUG, SECONDS = 45;
-  const RANKS = [["Skimmer", 0], ["Keyword spotter", 0.45], ["Careful reader", 0.6], ["Recruiter's eye", 0.8], ["Reads like the atlas", 0.93]];   // tuned, see the PR: the README's 0.75 and 0.9 put a careful first read on the top rank
+  // a run's read (0 to 1, never shown) picks the rank; tuned by evals/game_spot_scoring.mjs, which reads them from here
+  const RANKS = [["Skimmer", 0], ["Keyword spotter", 0.51], ["Careful reader", 0.64], ["Recruiter's eye", 0.8], ["Reads like the atlas", 0.98]];
+  const RULE = 2;   // the scoring rule saved runs were ranked under: 2 = half asks found, half filler let pass; records from the first rule (F1) carry none
   const DIFFICULTIES = ["easy", "medium", "hard"];
   const KEEP = { runs: 5, seen: 30 };
   const fmt = n => Number(n).toLocaleString();
   const pct = v => Math.round(v * 100) + "%";
   const clock = s => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
-  const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const shuffle = (a, rand = Math.random) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   const rankOf = read => { let r = RANKS[0][0]; for (const [name, min] of RANKS) if (read >= min) r = name; return r; };
   const rankIndex = name => Math.max(0, RANKS.findIndex(r => r[0] === name));
   // the player's record, in this browser only; with storage blocked the game plays the same and forgets
@@ -20,7 +28,58 @@
     get() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } },
     set(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch { } },
   };
+  // a record saved under another scoring rule (or in a shape this code does not know) keeps its seen passages only:
+  // its best and runs were ranked on another scale, so they are dropped rather than compared
+  function record(v) {
+    const ok = v && typeof v === "object" && !Array.isArray(v) ? v : {};
+    const seen = Array.isArray(ok.seen) ? ok.seen.filter(x => typeof x === "string") : [];
+    if (ok.rule !== RULE) return { rule: RULE, best: null, runs: [], seen };
+    const best = ok.best && typeof ok.best.rank === "string" && typeof ok.best.read === "number" ? ok.best : null;
+    return { rule: RULE, best, runs: Array.isArray(ok.runs) ? ok.runs : [], seen };
+  }
   const reduced = () => { try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; } };
+
+  // ---------- logic: pure, loads in node ----------
+  // one passage's phrases in reading order, separators left out: what the player marks and what is scored
+  function chunksOf(p) {
+    const out = [];
+    for (const b of p.blocks) if (b.kind !== "gap") for (const c of b.chunks) if (c[1]) out.push({ text: c[0], label: c[1], skills: c[1] === "a" ? c[2] : [], share: c[1] === "a" ? c[3] : null, kind: c[1] === "f" ? c[2] : null, phrase: c[1] === "f" ? c[3] : null, counted: c[1] === "f" ? c[4] : null, countedShare: c[1] === "f" ? c[5] : null });
+    return out;
+  }
+  // a run: easy, medium, hard; different roles and employers; from the pool given; passages not in `seen` first
+  function deal(pool, seen = new Set(), rand = Math.random) {
+    const fresh = pool.filter(p => !seen.has(p.id));
+    const used = { roles: new Set(), companies: new Set() }, run = [];
+    const take = (cands, d) => shuffle(cands.filter(c => (!d || c.difficulty === d) && !used.roles.has(c.role) && !used.companies.has(c.company)), rand)[0];
+    for (const d of DIFFICULTIES) {
+      const p = take(fresh, d) || take(pool, d) || take(fresh, null) || take(pool, null);
+      if (!p) break;
+      used.roles.add(p.role); used.companies.add(p.company); run.push(p);
+    }
+    return run;
+  }
+  // a posting's read weighs the two halves of the job equally: half the asks found, half the filler let pass.
+  // No ask found reads 0. "Other" chunks are neutral: shown as "not on the atlas's list", never counted.
+  function readOf(found, asks, passed, filler) {
+    if (!found || !asks) return 0;
+    return 0.5 * found / asks + 0.5 * (filler ? passed / filler : 1);
+  }
+  // scoring: found, missed, false alarm, skipped filler, not on the list; marks is a Set of chunk indexes
+  function scoreMarks(chunks, marks) {
+    const out = chunks.map((c, i) => {
+      const marked = marks.has(i);
+      const state = c.label === "a" ? (marked ? "found" : "missed") : c.label === "f" ? (marked ? "false" : "skipped") : (marked ? "unlisted" : "plain");
+      return { ...c, marked, state };
+    });
+    const n = s => out.filter(c => c.state === s).length;
+    const found = n("found"), missed = n("missed"), falses = n("false"), skipped = n("skipped");
+    const asks = found + missed, filler = falses + skipped;
+    return { chunks: out, found, missed, falses, skipped, asks, filler, unlisted: n("unlisted"), read: readOf(found, asks, skipped, filler) };
+  }
+  // the run's read is the mean over its postings
+  const runRead = results => results.length ? results.reduce((a, r) => a + r.read, 0) / results.length : 0;
+
+  const logic = { RANKS, DIFFICULTIES, chunksOf, deal, readOf, scoreMarks, runRead, rankOf, rankIndex, record };
 
   async function mount(el, ctx) {
     const { Atlas, game, esc } = ctx;
@@ -51,12 +110,6 @@
   const roleOf = (S, p) => S.data.roles[p.role] || { label: p.role, n_open: null };
   const skillName = (S, p, id) => ((S.names[p.set] || {})[id] || {}).name || id;
   const skillCluster = (S, p, id) => ((S.names[p.set] || {})[id] || {}).cluster || "";
-  // one passage's phrases in reading order, separators left out: what the player marks and what is scored
-  function chunksOf(p) {
-    const out = [];
-    for (const b of p.blocks) if (b.kind !== "gap") for (const c of b.chunks) if (c[1]) out.push({ text: c[0], label: c[1], skills: c[1] === "a" ? c[2] : [], share: c[1] === "a" ? c[3] : null, kind: c[1] === "f" ? c[2] : null, phrase: c[1] === "f" ? c[3] : null, counted: c[1] === "f" ? c[4] : null, countedShare: c[1] === "f" ? c[5] : null });
-    return out;
-  }
   function ranksHtml(current, dim) {
     const i = current == null ? -1 : rankIndex(current);
     return `<div class="ranks">${RANKS.map((_, k) => `<i class="${k < i ? "past" : k === i ? "on" : ""}"></i>`).join("")}</div>
@@ -67,8 +120,7 @@
   function howItWorks(S) {
     const { el, esc } = S;
     S.showAside(null);
-    const saved = store.get();
-    const best = saved.best && saved.best.rank;
+    const best = (record(store.get()).best || {}).rank;
     const cf = S.names.mba.cross_functional ? S.names.mba.cross_functional.name : "Cross-functional leadership";
     el.innerHTML = `<div class="page sra">
       <p class="eyebrow">Game · three postings · about 3 minutes</p>
@@ -102,17 +154,8 @@
 
   // ---------- a run: easy, medium, hard; different roles and employers; the chosen field; not seen lately ----------
   function pickRun(S) {
-    const seen = new Set(store.get().seen || []);
     const pool = S.data.passages.filter(p => S.field === "all" || p.group === S.field);
-    const fresh = pool.filter(p => !seen.has(p.id));
-    const used = { roles: new Set(), companies: new Set() }, run = [];
-    const take = (cands, d) => shuffle(cands.filter(c => (!d || c.difficulty === d) && !used.roles.has(c.role) && !used.companies.has(c.company)))[0];
-    for (const d of DIFFICULTIES) {
-      const p = take(fresh, d) || take(pool, d) || take(fresh, null) || take(pool, null);
-      if (!p) break;
-      used.roles.add(p.role); used.companies.add(p.company); run.push(p);
-    }
-    return run;
+    return deal(pool, new Set(record(store.get()).seen));
   }
   function startRun(S) {
     const passages = pickRun(S);
@@ -220,17 +263,9 @@
   }
   function stopTimer(S) { if (S.timer) { clearInterval(S.timer); S.timer = null; } }
 
-  // ---------- scoring: found, missed, false alarm, skipped filler, not on the list ----------
+  // ---------- scoring (logic.scoreMarks), plus the time the read took ----------
   function score(S) {
-    const chunks = S.chunks.map((c, i) => {
-      const marked = S.marks.has(i);
-      const state = c.label === "a" ? (marked ? "found" : "missed") : c.label === "f" ? (marked ? "false" : "skipped") : (marked ? "unlisted" : "plain");
-      return { ...c, marked, state };
-    });
-    const n = s => chunks.filter(c => c.state === s).length;
-    const found = n("found"), missed = n("missed"), falses = n("false"), asks = found + missed, counted = found + falses;
-    const P = counted ? found / counted : 0, R = asks ? found / asks : 0, F1 = P + R ? 2 * P * R / (P + R) : 0;
-    return { chunks, found, missed, falses, asks, counted, unlisted: n("unlisted"), skipped: n("skipped"), P, R, read: F1, seconds: Math.round((Date.now() - S.started) / 1000) };
+    return { ...scoreMarks(S.chunks, S.marks), seconds: Math.round((Date.now() - S.started) / 1000) };
   }
   function check(S) {
     if (S.dead || !S.run) return;
@@ -257,6 +292,15 @@
     if (c.kind === "about") return "the company line";
     return `“${c.text.length <= 48 ? c.text : c.phrase || c.text.slice(0, 40) + "…"}”`;
   }
+  // the two halves of the read in plain words: the asks caught, the filler let pass
+  const asksWords = (found, asks, short) => found ? `You caught ${found} of ${short ? "" : "the "}${asks} ${short ? "asks" : "things this posting asks for"}` : `You caught none of the ${asks} ${short ? "asks" : "things this posting asks for"}`;
+  function fillerWords(passed, filler) {
+    if (!filler) return "";
+    const all = filler === 2 ? "both" : `all ${filler}`;
+    if (passed === filler) return filler === 1 ? "You let the one filler line pass." : `You let ${all} filler lines pass.`;
+    if (!passed) return filler === 1 ? "You marked the one filler line as an ask." : `You marked ${all} filler lines as asks.`;
+    return `You let ${passed} of the ${filler} filler lines pass.`;
+  }
   const list = a => a.length <= 1 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
   const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -273,8 +317,8 @@
     </div>`;
     window.scrollTo(0, 0);
     // the score in words
-    const headline = r.counted ? `${r.found} of ${r.asks} asks found` : "You did not mark any of the asks";
-    let words = r.counted ? `You caught ${r.found} of the ${r.asks} things this posting asks for, and ${r.found} of your ${r.counted} counted marks were real asks.` : `You caught none of the ${r.asks} things this posting asks for.`;
+    const headline = r.found ? `${r.found} of ${r.asks} asks found` : "You did not mark any of the asks";
+    let words = `${asksWords(r.found, r.asks)}. ${fillerWords(r.skipped, r.filler)}`;
     if (r.unlisted) words += ` ${r.unlisted === 1 ? "One of your marks is" : `${r.unlisted} of your marks are`} not on the atlas's list; ${r.unlisted === 1 ? "it does" : "they do"} not count.`;
     // one fact about one missed ask
     const m = missedFact(S, p, r);
@@ -300,7 +344,7 @@
       <h3>Filler</h3><p class="tight">${esc(filler)}</p>${countedHtml}
       <h3>The atlas</h3><p class="punch">The atlas reads <span class="n-blue">${fmt(S.nJobs)}</span> postings this way, so you don't have to.</p>
       <div class="row next-row"><button type="button" class="btn primary" id="sra-next">${last ? "See your rank →" : "Next posting →"}</button><a class="btn" href="#/role/${esc(p.set === "product" ? Atlas.productKey(p.role) : p.role)}">Open ${esc(role.label)} →</a></div></div>`);
-    el.querySelector("#sra-live").textContent = r.counted ? `${r.found} of ${r.asks} asks found; ${r.found} of ${r.counted} counted marks were asks` : `You did not mark any of the ${r.asks} asks`;
+    el.querySelector("#sra-live").textContent = `${r.found ? `${r.found} of ${r.asks} asks found` : `You did not mark any of the ${r.asks} asks`}; ${r.skipped} of ${r.filler} filler ${r.filler === 1 ? "line" : "lines"} let pass`;
     const next = document.getElementById("sra-next");
     next.onclick = () => { if (S.dead) return; if (last) runEnd(S); else { S.run.i++; posting(S); } };
     next.focus({ preventScroll: true });
@@ -310,21 +354,23 @@
   function runEnd(S) {
     const { el, esc } = S, run = S.run, rs = run.results;
     S.showAside(null);
-    const read = rs.reduce((a, r) => a + r.read, 0) / rs.length;
+    const read = runRead(rs);
     const rank = rankOf(read);
-    const found = rs.reduce((a, r) => a + r.found, 0), asks = rs.reduce((a, r) => a + r.asks, 0), counted = rs.reduce((a, r) => a + r.counted, 0);
-    const saved = store.get(), prev = saved.best || null, isBest = !prev || read > prev.read;
+    const sum = k => rs.reduce((a, r) => a + r[k], 0);
+    const found = sum("found"), asks = sum("asks"), passed = sum("skipped"), filler = sum("filler");
+    const saved = record(store.get()), prev = saved.best, isBest = !prev || read > prev.read;
     const today = new Date().toISOString().slice(0, 10);
     const roles = run.passages.map((p, i) => ({ p, r: rs[i], m: missedFact(S, p, rs[i]) }));
     store.set({
+      rule: RULE,
       best: isBest ? { rank, read: Math.round(read * 1000) / 1000, date: today } : prev,
-      runs: [{ rank, read: Math.round(read * 1000) / 1000, found, asks, marks: counted, date: today, roles: run.passages.map(p => p.role) }, ...(saved.runs || [])].slice(0, KEEP.runs),
-      seen: [...run.passages.map(p => p.id), ...(saved.seen || [])].slice(0, KEEP.seen),
+      runs: [{ rank, read: Math.round(read * 1000) / 1000, found, asks, passed, filler, date: today, roles: run.passages.map(p => p.role) }, ...saved.runs].slice(0, KEEP.runs),
+      seen: [...run.passages.map(p => p.id), ...saved.seen].slice(0, KEEP.seen),
     });
     el.innerHTML = `<div class="page sra tight">
       <p class="eyebrow">${["One posting", "Two postings", "Three postings"][rs.length - 1] || rs.length + " postings"} read</p>
       <div class="rank-title" tabindex="-1" id="sra-rank">${esc(rank)}</div>
-      <p class="lead run-words">${counted ? `You caught ${found} of ${asks} asks, and ${found} of your ${counted} counted marks were real asks.` : `You caught none of the ${asks} asks.`}</p>
+      <p class="lead run-words">${esc(`${asksWords(found, asks, true)}. ${fillerWords(passed, filler)}`)}</p>
       ${isBest ? `<p class="small best-note">A new best in this browser.${prev ? ` Before: ${esc(prev.rank)}.` : ""}</p>` : prev ? `<p class="small muted">Your best in this browser: ${esc(prev.rank)}.</p>` : ""}
       <div class="rank-bar">${ranksHtml(rank)}</div>
       <p class="punch end-punch">You read ${["one posting", "two postings", "three postings"][rs.length - 1] || rs.length + " postings"}. The atlas reads <span class="n-blue">${fmt(S.nJobs)}</span> this way, so you don't have to.</p>
@@ -338,6 +384,5 @@
     el.querySelector("#sra-rank").focus({ preventScroll: true });
   }
 
-  window.Games = window.Games || {};
-  window.Games[SLUG] = { mount };
-})();
+  return { logic, mount };
+});

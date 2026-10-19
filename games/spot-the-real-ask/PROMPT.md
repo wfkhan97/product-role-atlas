@@ -90,8 +90,8 @@ the same lines. The design is finished. Your job is to build it as specified.
      (Tab, Shift+Tab, Left, Right, Space, Enter, Escape), with `role="checkbox"` / `aria-checked` on chunks and
      a polite live region;
    - the soft 45-second timer, which never ends a round;
-   - scoring exactly as the README says (found, missed, false alarm, "not on the atlas's list" is neutral; P, R,
-     F1; run mean; the rank thresholds);
+   - scoring exactly as the README says (found, missed, false alarm, "not on the atlas's list" is neutral; half asks
+     found, half filler let pass; run mean; the rank thresholds);
    - a run of three: easy, medium, hard, different roles and employers, filtered by field when one is chosen;
      avoid passages in `seen`;
    - the reveal side panel: score in words; one fact for one missed ask (primary skill name plus its share in blue);
