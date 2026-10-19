@@ -171,7 +171,7 @@ structured problem solving and stakeholder management (computed from `web/data/g
 | File | What it holds | Size | Text? |
 |---|---|---|---|
 | `data/raw/jobs/*.json`, `data/raw/jobs_mba/*.json` | raw postings per employer, with the full `description` | 3,423 files, 55,238 postings; 64 MB and 292 MB on disk | **Full text.** 55,212 descriptions of 300 characters or more, median 5,670 characters, 327 million characters in all |
-| `data/processed/jobs_mba.json.gz`, `data/processed/jobs.json` | tagged postings (skills, level, country, open) | 16 MB gz (46,567 postings, 26,887 US, 26,213 open US); 16 MB | a 400-character `snippet` only |
+| `data/processed/jobs_mba.json.gz`, `data/processed/jobs.json` | tagged postings (skills, level, country, open) | 16 MB gz (46,560 postings, 26,883 US, 26,209 open US); 16 MB | a 400-character `snippet` only |
 | `data/processed/evidence_mba.json` → `web/data/graph_mba/_evidence.json` | example sentences per skill and level group | 1.6 MB; 273 skills, 4,347 sentences | single sentences, 50 to 260 characters |
 | `web/data/graph_mba/<role>.json`, `web/data/graph.json` `jobs` | postings shown on the role screen | 31 MB folder; 9.4 MB | `snippet` cut to 180 characters |
 

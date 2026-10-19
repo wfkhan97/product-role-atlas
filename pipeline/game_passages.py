@@ -190,6 +190,7 @@ def grow(text, s, e):
 
 def spans_for(text, skills):
     """Ask spans [s, e, skill id, matched chars] and filler spans [s, e, phrase, counted skill, counted chars] in one text."""
+    text = extract.norm(text)   # as extraction reads it; same length, so the spans cut the original text
     asks = []
     for sid, rx in skills:
         if sid.startswith("yoe_"):
@@ -395,6 +396,7 @@ class Key:
 
 
 def boiler_kind(text, about_rx):
+    text = extract.norm(text)
     if about_rx is not None and about_rx.search(text) or extract.ABOUT_RE.search(text):
         return "about"
     hits = [m.group(0) for m in extract.BOILER_RE.finditer(text)]
@@ -508,7 +510,8 @@ def difficulty(blocks, units, key, duties):
     asks = [c for c in chunks if c[1] == "a"]
     fill = [c for c in chunks if c[1] == "f"]
     nongeneric = [c for c in asks if any(s not in key.generic for s in c[2])]
-    chars = sum(len(b["text"]) for b in blocks if b["kind"] != "gap")
+    # measured as the browser and evals/game_passages.mjs measure it (UTF-16 units: an emoji counts twice)
+    chars = sum(len(b["text"].encode("utf-16-le")) // 2 for b in blocks if b["kind"] != "gap")
     if len(asks) < 3 or len(nongeneric) < 2 or not fill or len(chunks) > MAX_CHUNKS["hard"] or chars > MAX_CHARS:
         return None
     prose = any(b["kind"] == "para" for b in blocks[:1])

@@ -1,8 +1,8 @@
 # Extraction audit: the MBA role set, regex against model judgment
 
-Produced by `pipeline/experiments/skill_audit.py` on 2026-10-14. For each skill, a sample of postings the patterns tagged (accepted = the model agrees the posting asks for it) and a sample from the skill's three most common roles that the patterns did not tag (missed = the model says the posting asks for it). Model answers at probability 0.5 or more count as yes. The samples are small, so read each row as a flag, not a measurement. After a taxonomy change rerun with `--reuse` to recompute the regex side without new model calls.
+Produced by `pipeline/experiments/skill_audit.py` on 2026-10-19. For each skill, a sample of postings the patterns tagged (accepted = the model agrees the posting asks for it) and a sample from the skill's three most common roles that the patterns did not tag (missed = the model says the posting asks for it). Model answers at probability 0.5 or more count as yes. The samples are small, so read each row as a flag, not a measurement. After a taxonomy change rerun with `--reuse` to recompute the regex side without new model calls.
 
-Across 180 skills: the model accepts 1,356 of 1,673 tagged samples (81%) and finds the skill in 561 of 1,849 untagged samples from the same roles (30%).
+Across 180 skills: the model accepts 1,356 of 1,673 tagged samples (81%) and finds the skill in 560 of 1,846 untagged samples from the same roles (30%).
 
 | skill | cluster | tagged: accepted | untagged: missed |
 |---|---|---|---|
@@ -110,7 +110,7 @@ Across 180 skills: the model accepts 1,356 of 1,673 tagged samples (81%) and fin
 | Deal structuring & negotiation | deals | 7/8 (88%) | 6/8 |
 | Regulatory analysis & change management | risk | 7/8 (88%) | 6/10 |
 | Scenario & sensitivity modelling | finance | 8/9 (89%) | 5/10 |
-| Marketing campaigns | marketing | 9/10 (90%) | 6/10 |
+| Marketing campaigns | marketing | 9/10 (90%) | 5/9 |
 | Capacity & production planning | operations | 9/10 (90%) | 5/10 |
 | Capital projects & equipment spend | operations | 9/10 (90%) | 1/10 |
 | Compensation programme design | people | 9/10 (90%) | 0/10 |
@@ -141,7 +141,7 @@ Across 180 skills: the model accepts 1,356 of 1,673 tagged samples (81%) and fin
 | Supply-chain & procurement certifications (CPSM, CPIM, CSCP) | credentials | 9/10 (90%) | 0/10 |
 | Supply-market intelligence & benchmarking | operations | 9/10 (90%) | 7/10 |
 | Supplier risk & supply continuity | operations | 9/10 (90%) | 5/10 |
-| Syndicated retail data (Nielsen, Circana) | tools | 9/10 (90%) | 0/10 |
+| Syndicated retail data (Nielsen, Circana) | tools | 9/10 (90%) | 0/9 |
 | Cost modelling (TCO, should-cost) | operations | 9/10 (90%) | 1/10 |
 | Deal negotiation & structuring | sales | 10/11 (91%) | 7/8 |
 | HR certification (SHRM, PHR/SPHR) | credentials | 10/11 (91%) | 0/9 |
@@ -173,7 +173,7 @@ Across 180 skills: the model accepts 1,356 of 1,673 tagged samples (81%) and fin
 | Operating cadence & business reviews | strategy | 9/9 (100%) | 8/10 |
 | People analytics & HR reporting | people | 10/10 (100%) | 5/10 |
 | Project & change certifications (PMP, Prosci) | credentials | 10/10 (100%) | 0/10 |
-| Scheduling tools (MS Project, Primavera, Smartsheet) | tools | 4/4 (100%) | 3/16 |
+| Scheduling tools (MS Project, Primavera, Smartsheet) | tools | 4/4 (100%) | 3/15 |
 | PMO governance & programme reviews | delivery | 10/10 (100%) | 5/10 |
 | Real estate software (Argus, CoStar, Yardi) | tools | 10/10 (100%) | 0/10 |
 | Regulator exams & relations | risk | 3/3 (100%) | 0/15 |

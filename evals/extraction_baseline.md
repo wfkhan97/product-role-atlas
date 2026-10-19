@@ -2,6 +2,22 @@
 
 Produced by `pipeline/experiments/decisions_audit.py` (lenient prompt, plus `--strict`) and `decisions_compare.py`. Model answers were recorded once on 2026-10-10; after a taxonomy change, rerun with `--reuse data/experiments/decisions_results.jsonl --tag after` to recompute only the regex side (no API calls) and regenerate this file. Raw answers live in `data/experiments/` (local, gitignored).
 
+## Change from the tagging-bugs pass (2026-10-19)
+
+Four patterns tightened after the review of real passages for the game Spot the real ask (PR #43) found false positives in the answer key. The product set has 8,765 postings; the MBA set 46,560.
+
+1. `apis` ("APIs & integrations"): the bare word "integration" needs a software, system or API context on one side ("system integration", "integration with Salesforce", "integration points"); the plural "integrations" keeps the product sense unless the merger words are next to it. "M&A, integration, separation", "IT integration efforts related to mergers" and the title "M&A Integration Manager" no longer match. Postings tagged: product 3,200 -> 2,855, MBA 7,676 -> 5,689; the lost matches read by eye were merger, hardware, process and "work-life integration" senses.
+2. `genai_llm`: "agent" needs an AI context ("AI agents", "agent frameworks", "building agents", "humans and agents"). "Enrolled Agent", insurance and real-estate agents, "change agent" and call-centre agents no longer match. Product 3,087 -> 2,968, MBA 8,917 -> 8,135.
+3. `ownership`: the noun "entrepreneur(s)" and "entrepreneurship" are gone; "entrepreneurial" stays as a trait and not before a company word ("entrepreneurial environment", "the entrepreneurial ecosystem"). Product 6,858 -> 6,833, MBA 31,737 -> 30,828 (634 of them one EY boilerplate line).
+4. Degrees: the text is normalised for matching so the typographic apostrophe (’) reads as ' (3,046 MBA and 617 product postings said only "Master’s"); `degree in X` does not count as a bachelor's after master's, MBA, graduate, advanced or PhD; "undergraduate degree" is not a graduate degree; "MS Office", "MS Excel" and the other Microsoft tools are not a master's. `bachelors` product 4,560 -> 4,530, MBA 27,109 -> 26,951; `masters_mba` product 1,913 -> 2,277, MBA 12,686 -> 12,939.
+
+On the 197 sampled postings, regex-only cases go from 431 to 424 and agreed cases from 4,090 to 4,086. The saved answers cover no credential skill, so the degree patterns do not appear here; `ownership` did not move on this sample. Skills whose regex share moved:
+
+| skill | cluster | regex before | regex after | model (lenient) | regex-only before | regex-only after |
+|---|---|---|---|---|---|---|
+| APIs & integrations | technical | 40% | 37% | 34% | 23 | 17 |
+| Generative AI / LLMs & agents | technical | 40% | 38% | 44% | 7 | 6 |
+
 ## Change from the role-set pass (2026-10-11)
 
 Three things changed for the product set.

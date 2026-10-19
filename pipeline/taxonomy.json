@@ -638,7 +638,14 @@
    "cluster": "technical",
    "patterns": [
     "\\bAPIs?\\b",
-    "(?<!merger )(?<!acquisition )(?<!acquisitions )(?<!m&a )(?<!post-merger )(?<!post-close )(?<!post-deal )(?<!business )(?<!company )integrations?\\b(?! (management office|planning|playbook|workstreams?|of (the )?(acquired|acquisitions?|compan)))",
+    "(?<!merger )(?<!acquisition )(?<!acquisitions )(?<!m&a )(?<!post-merger )(?<!post-close )(?<!post-deal )(?<!business )(?<!company )(?<!process )(?<!marketing )(?<!brand )(?<!touchpoint )(?<!cultural )(?<!organizational )(?<!operational )integrations\\b(?!,? (and|or|&|/) ?(separations?|divestitures?|carve[- ]outs?|spin[- ]offs?))",
+    "\\b(systems?|data|datalake|data lake|apis?|sdks?|platforms?|software|applications?|apps?|products?|technical|tech|ai|llm|agents?|models?|erp|crm|ehr|emr|cloud|saas|partner|third[- ]party|3rd[- ]party|vendor|tools?|hardware|devices?|sensors?|payments?|billing|accounting|identity|security|telemetry|source|sso|workflow|seamless|native|custom|backend|back-end|front-end|iot|mcp|ecosystem|network|web|mobile|e-?commerce|computer vision|cmdb|ado|salesforce|workday|sap|oracle|netsuite|hubspot|snowflake|aws|azure|gcp|stripe|slack|github|jira|servicenow)[- ]integration\\b",
+    "integration (with|into|between|across|to|of) (\\w+ ){0,3}(systems?|platforms?|apis?|sdks?|tools?|tooling|software|applications?|apps?|services|products?|data|data sources?|databases?|stacks?|infrastructure|environments?|ecosystems?|pipelines?|back[- ]?ends?|front[- ]?ends?|workflows?|technolog(y|ies)|models?|ai|llms?|agents?|erp|crm|ehr|emr|salesforce|workday|sap|oracle|netsuite|hubspot|snowflake|aws|azure|gcp|stripe|slack|github|jira|servicenow|third[- ]part(y|ies)|3rd[- ]part(y|ies)|vendors?|partners?|devices?|hardware|sensors?)\\b",
+    "integration (points?|layers?|patterns?|testing|tests?|partners?|engineers?|engineering|architecture|requirements|capabilities|platform|framework|middleware|apis?|specs?|specifications|sdk|endpoints?|connectors?|workflows?|tooling|use cases|concepts|standards|options|decisions|considerations|developers?|logic|code|scripts?|pipelines?|jobs?|flows?|mapping|schemas?)\\b",
+    "integrat(e|es|ed|ing) (seamlessly |directly |natively |easily |deeply |tightly )?(with|into) (\\w+ ){0,3}(systems?|platforms?|apis?|sdks?|tools?|tooling|software|applications?|apps?|databases?|stacks?|infrastructure|pipelines?|back[- ]?ends?|front[- ]?ends?|erp|crm|ehr|emr|salesforce|workday|sap|oracle|netsuite|hubspot|snowflake|aws|azure|gcp|stripe|slack|github|jira|servicenow|third[- ]part(y|ies)|3rd[- ]part(y|ies)|vendors?|devices?|hardware)\\b",
+    "integrat(e|es|ing) (?!(generative |gen)?ai\\b)(\\w+ ){0,2}(apis?|sdks?|data sources?|data feeds?|third[- ]party|3rd[- ]party|systems|platforms|tools|software|applications)\\b",
+    "\\biPaaS\\b",
+    "middleware",
     "\\bSDKs?\\b",
     "webhooks?",
     "\\bREST(ful)?\\b",
@@ -750,7 +757,14 @@
     "copilot",
     "agentic",
     "ai agents?",
-    "\\bagents?\\b",
+    "\\b(ai|llm|autonomous|intelligent|conversational|coding|virtual|voice|multi|generative|agentic|chat|gpt|software|custom|digital|research|workflow|browser|developer|excel|email|data|analytics|marketing|insight[- ]generating|specialized|domain[- ]specific|task[- ]specific|purpose[- ]built|background|embedded|personal|enterprise)[- ]?agents?\\b",
+    "\\bagents? (frameworks?|orchestration|workflows?|harness(es)?|runtimes?|personas?|architectures?|protocols?|sdks?|builders?|studio|reasoning|memory|tool[- ]use|evals?|evaluations?|behaviou?rs?|capabilit(y|ies)|infrastructure|telemetry|interactions)\\b",
+    "\\bagent[- ](based|native|first|powered|driven|ready|mediated) (systems?|interfaces?|workflows?|products?|experiences?|features?|ux|applications?|apps?|tools?|solutions?|automation|operations)\\b",
+    "\\b(build|building|built|ship|shipping|shipped|deploy|deploying|deployed|orchestrat(e|es|ed|ing)) (\\w+ ){0,2}agents?\\b",
+    "\\b(humans?|people|users?|developers?|copilots?|assistants?|models?|llms?|apps?|applications|tools|automations|workflows|prototypes|inference|bots|chatbots|teams) (and|or|&|,|and/or) (\\w+ )?agents\\b",
+    "\\bagents (and|or|&|,) (humans?|people|copilots?|assistants?|workflows?|models?|llms?|automations?|tools|mcps?|sandboxes|apps|bots|chatbots|prompts|skills)\\b",
+    "model context protocol",
+    "\\bMCP (servers?|integrations?|tools?|clients?)\\b",
     "openai",
     "anthropic",
     "\\bgpt\\b",
@@ -1232,7 +1246,7 @@
     "self[- ]starter",
     "self[- ]directed",
     "self[- ]motivated",
-    "entrepreneur",
+    "entrepreneurial(?![- ](environment|culture|team|company|companies|firm|organi[sz]ation\\w*|ecosystem|ventures?|finance|clients?|communit\\w*|founders?|network|activit\\w*|journey|business\\w*|growth|setting|atmosphere|workplace|roots|history|legacy|dna|opportunit\\w*|path|endeavou?rs?|pursuits?|management|studies|programs?|stage|lifecycle|landscape|world|success|families|owners))",
     "scrappy",
     "get things done",
     "\\bGSD\\b",
@@ -1639,10 +1653,11 @@
     "\\bB\\.?S\\.?\\b",
     "\\bB\\.?A\\.?\\b",
     "undergraduate degree",
+    "undergraduate (or|and|/) (post[- ]?)?graduate degree",
     "4[- ]year degree",
     "university degree",
     "college degree",
-    "degree in (computer science|engineering|business|economics|math)"
+    "(?<!master's )(?<!masters )(?<!mba )(?<!graduate )(?<!advanced )(?<!ph\\.d\\. )(?<!phd )(?<!doctoral )(?<!m\\.s\\. )(?<!ms )(?<!ma )degree in (computer science|engineering|business|economics|math)"
    ]
   },
   {
@@ -1652,8 +1667,8 @@
    "patterns": [
     "\\bMBA\\b",
     "master'?s",
-    "\\bM\\.?S\\.?\\b",
-    "graduate degree",
+    "\\bM\\.?S\\.?\\b(?![- ]?(office|excel|access|project\\b|word|powerpoint|teams|dynamics|visio|power|sql|outlook|sharepoint|suite|365|azure|windows|exchange|onenote|publisher|crm|d365|server|planner|copilot|forms|edge|defender|intune|fabric|graph|lync|skype|one ?drive|stack))",
+    "(?<!under)graduate degree",
     "advanced degree",
     "\\bMEng\\b",
     "\\bMPH\\b"
@@ -1956,7 +1971,7 @@
     "thought[- ]partner",
     "force multiplier|right[- ]hand|sounding board|trusted (advisor|partner|counsel) to the (CEO|COO|CFO|CTO|CIO|president|founders?|executive|chief|head|general manager|leadership)",
     "(on behalf of|proxy for|extension of|represent\\w*) the (CEO|COO|CFO|CTO|CIO|CRO|president|founders?|executive|chief \\w+ officer|head of|general manager|GM)\\b",
-    "(CEO|COO|CFO|CTO|president|founder|executive)(’s|'s) (time|priorities|calendar|office|agenda|communications)|office of the (CEO|COO|CFO|CTO|CIO|president|chief)"
+    "(CEO|COO|CFO|CTO|president|founder|executive)'s (time|priorities|calendar|office|agenda|communications)|office of the (CEO|COO|CFO|CTO|CIO|president|chief)"
    ],
    "only": [
     "mba"
@@ -3627,7 +3642,7 @@
    "name": "Talent acquisition & recruiting",
    "cluster": "people",
    "patterns": [
-    "(?<!member of our )(?<!contact our )(?<!contact )(?<!your )(?<!our )(?<!'s )(?<!’s )talent acquisition(?! (professional|representative|specialist|department|coordinator|team (will|at|member|for|to|can)|partner will|at\\b|process\\b|team\\.|and hiring teams?|role\\b))",
+    "(?<!member of our )(?<!contact our )(?<!contact )(?<!your )(?<!our )(?<!'s )talent acquisition(?! (professional|representative|specialist|department|coordinator|team (will|at|member|for|to|can)|partner will|at\\b|process\\b|team\\.|and hiring teams?|role\\b))",
     "full[- ]cycle recruit",
     "recruit(ing|ment) (strateg|pipeline|plans?|initiatives|needs|and (selection|retention|onboarding|staffing))",
     "\\b(lead|manage|support|drive|oversee|own|direct|coordinate)(s|ing)? (the |all |local |site |full[- ]cycle )?(recruiting|recruitment)\\b",
@@ -3767,8 +3782,8 @@
    "name": "Compensation programme design",
    "cluster": "people",
    "patterns": [
-    "(?<!competitive )(?<!workers )(?<!worker )(?<!workers' )(?<!workers’ )compensation (strateg|design\\b|analys[ie]s|cycles?|planning|governance|recommendations|analytics|projects|initiatives|consult|framework|guidelines|processes|administration|matters|issues)|(design|build|develop|maintain|review|manage)\\w* (\\w+ ){0,2}(compensation|salary|pay) structures?",
-    "\\b(design|develop|administer|manage|evaluate|lead|implement|review|maintain|deliver|oversee|support|build|own)(s|ed|ing)? (\\w+ ){0,3}(?<!worker )(?<!workers )(?<!workers' )(?<!workers’ )compensation (programs?|plans|philosophy|policies|practices)",
+    "(?<!competitive )(?<!workers )(?<!worker )(?<!workers' )compensation (strateg|design\\b|analys[ie]s|cycles?|planning|governance|recommendations|analytics|projects|initiatives|consult|framework|guidelines|processes|administration|matters|issues)|(design|build|develop|maintain|review|manage)\\w* (\\w+ ){0,2}(compensation|salary|pay) structures?",
+    "\\b(design|develop|administer|manage|evaluate|lead|implement|review|maintain|deliver|oversee|support|build|own)(s|ed|ing)? (\\w+ ){0,3}(?<!worker )(?<!workers )(?<!workers' )compensation (programs?|plans|philosophy|policies|practices)",
     "(broad[- ]based|global|sales|executive|variable) compensation (programs?|plans?|philosophy|policies|practices)",
     "total rewards (strateg|programs|function|leader|initiatives|framework|design\\b|portfolio|partner)",
     "salary (structures?|bands|planning|administration)",

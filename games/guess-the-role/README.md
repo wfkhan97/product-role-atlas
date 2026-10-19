@@ -30,7 +30,7 @@ It follows the pattern that makes infisical.com/403 work, translated to careers:
 | Permanent stakes (blown slots stay blown) | One guess per round. A wrong answer scores 0 and the round is over; its pip stays amber for the rest of the game |
 | A rank title, not a number | "Career fair tourist" up to "Walking job board" |
 | A personal leaderboard | Your best five games, in this browser only |
-| An ending that makes the product's point | "You read 27 skills from 10 postings. The atlas reads every skill of all 22,483 open postings… Nobody reads that by hand. That's the point." |
+| An ending that makes the product's point | "You read 27 skills from 10 postings. The atlas reads every skill of all 22,478 open postings… Nobody reads that by hand. That's the point." |
 
 What makes it more than trivia: every clue is a real posting's skill, and every reveal has a real number behind it.
 The "close calls" teach what actually separates neighbouring roles (Treasury Manager against Financial Manager is cash
@@ -90,9 +90,9 @@ are scratch work and not in the tree; the method below is complete enough to rep
 
 - **Roles**: the 48 MBA roles in `Atlas.index().groups`, 10 fields (the "Product" group is skipped by `index()`, as in
   the app). The 6 product roles in `graph.json` are out of the first version (open question 1).
-- **Postings**: open only (`job.open`), with at least 8 eligible skills. Of 22,483 open postings across the 48 roles,
-  1,132 have fewer than 8 eligible skills; the median open posting has 19.
-- **Playable postings**: those for which the clue rule below finds five clean clues. 19,004 of the 22,483 open
+- **Postings**: open only (`job.open`), with at least 8 eligible skills. Of 22,478 open postings across the 48 roles,
+  1,142 have fewer than 8 eligible skills; the median open posting has 19.
+- **Playable postings**: those for which the clue rule below finds five clean clues. 18,999 of the 22,478 open
   postings are playable (85%). Every role has some; the fewest is Venture Capital Associate with 14 playable of 19
   open.
 
@@ -146,11 +146,11 @@ For a posting of role r with distractors D, using the posting's eligible skills:
   by lift, lowest first, and take the first, the one at a third, the one at two thirds and the last. Clues therefore
   climb from "every option asks for this" to "this is nearly the answer".
 - If fewer than four skills qualify, retry with −ln(2). If that fails too, the posting is not playable; pick another.
-  The relaxed rule is needed for 1,400 of the 19,004 playable postings.
+  The relaxed rule is needed for 1,403 of the 18,999 playable postings.
 
 **Why least distinctive first.** The points reward guessing early, so early clues must be hard, or 500 points is
 free. We measured it with a model player that knows every share and picks the option with the highest sum of
-ln(share) over the clues seen (a ceiling on a well-informed human, not a forecast of one), over all 19,004 playable
+ln(share) over the clues seen (a ceiling on a well-informed human, not a forecast of one), over all 18,999 playable
 postings:
 
 | Clues seen | 1 | 2 | 3 | 4 | 5 |
@@ -227,10 +227,10 @@ Shown after every round (mocks 03 and 05):
 - **The punchline**, in the spirit of "Nobody keeps up by hand. That's the point.":
 
   > You read 27 skills from 10 postings.
-  > The atlas reads every skill of all 22,483 open postings for these 48 roles, from 1,360 employers, every week.
+  > The atlas reads every skill of all 22,478 open postings for these 48 roles, from 1,360 employers, every week.
   > **Nobody reads that by hand. That's the point.**
 
-  27 is the player's own count (the clues they saw, summed over the rounds). 22,483 is the open postings in the pool
+  27 is the player's own count (the clues they saw, summed over the rounds). 22,478 is the open postings in the pool
   (from the index). 1,360 is the distinct companies among them, computed here from the role files; how the game gets
   it is open question 4. "Every week" matches the
   site footer ("refreshed weekly").
@@ -244,7 +244,7 @@ are illustrative. Every posting (company and title), role, field, share and coun
 ![The start screen](mocks/01-start.png)
 
 The start screen teaches the game with four tiles, as infisical does with its four example secrets: one posting,
-four roles (1–4, Enter), fewer clues more points (500 400 300 200 100), one guess. Then the pool ("Drawn from 22,483
+four roles (1–4, Enter), fewer clues more points (500 400 300 200 100), one guess. Then the pool ("Drawn from 22,478
 open postings for 48 roles", computed), Start (Enter), the optional timer and your best score.
 
 ## How it sends people into the atlas
@@ -266,7 +266,7 @@ open postings for 48 roles", computed), Start (Enter), the optional timer and yo
 | Average across the 50 roles | computed from `skills[].by_family` over `families` | `ix.baseline[id]` |
 | Generic skills | computed | `await Atlas.genericSkills()` |
 | A role's postings | `graph_mba/<role>.json` → `jobs[]` (`id`, `company`, `title`, `location`, `level`, `open`, `skills` as indices into `skill_ids`, `w`) | `await Atlas.role(id)` → `R.jobs`, decoded (skills become ids) and cached by `fetchJson` |
-| Pool size on the start and end screens | `graph_mba.json` → `roles[id].n_open` | Sum over the 48 roles: 22,483 (the same count as the open postings in the role files). The employers figure in the end-screen mock (1,360 distinct companies among those postings) needs every role file to compute; see open question 4 |
+| Pool size on the start and end screens | `graph_mba.json` → `roles[id].n_open` | Sum over the 48 roles: 22,478 (the same count as the open postings in the role files). The employers figure in the end-screen mock (1,360 distinct companies among those postings) needs every role file to compute; see open question 4 |
 
 Do not compute anything from the product set: the first version uses no data from `web/data/graph.json`.
 
@@ -363,7 +363,7 @@ and to list "Roles you met for the first time"); `data` is `meta.generated`. Not
 **4. The employers number in the punchline**
 - A. Compute it once at build time from the role files and add it to the index (`meta.n_open_companies` or similar).
   Exact, but touches the graph build, which is outside this game.
-- B. Say only the open postings: "every skill of all 22,483 open postings for these 48 roles, every week". Exact and
+- B. Say only the open postings: "every skill of all 22,478 open postings for these 48 roles, every week". Exact and
   needs nothing new. *(Recommended for the first version)*
 - C. Count companies over the role files the player loaded. Exact but small and confusing ("from 10 employers").
 

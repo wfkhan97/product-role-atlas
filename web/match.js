@@ -263,6 +263,8 @@
   function rx(list) { return list.length ? new RegExp(list.map(p => "(?:" + p + ")").join("|"), "i") : null; }
 
   function parseResume(text) {
+    // Word and most boards write the typographic apostrophe (’); the taxonomy's patterns spell the straight one
+    text = text.replace(/[‘’ʼ]/g, "'");
     // PDF text often spaces out hyphens ("purpose - built", "self - learning"); join them so words match again
     // and it often sets the ligatures fi, fl, ff apart from their word: "pro fi t", "work fl ow", "for   fi nance"
     // (one space on each side inside a word, a wide gap before it at the start of a word)

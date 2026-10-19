@@ -133,9 +133,9 @@ Two dials: how far apart start and target are (par), and the margin in the budge
 
 | Level | Par | Budget | Help | Random pairings from a field | from a role |
 |---|---|---|---|---|---|
-| Easy | 2 | par + 3 | the choice that moves closer is marked "towards the target" | 90 | 474 |
-| Normal | 3 or 4 | par + 2 | none | 319 | 1,425 |
-| Hard | 5 or 6 | par + 1 | none | 51 | 226 |
+| Easy | 2 | par + 3 | the choice that moves closer is marked "towards the target" | 90 | 476 |
+| Normal | 3 or 4 | par + 2 | none | 320 | 1,431 |
+| Hard | 5 or 6 | par + 1 | none | 50 | 218 |
 
 Pairings counted with every rule in this README; target roles marked `small` in the index (5 roles with few
 postings) are left out of random pairings but can be picked by hand. Pairings with par 0 (the start skill already is
@@ -184,7 +184,7 @@ All files are read through `web/atlas.js` and `web/skillmap.js`; the game adds n
 | What | File and fields | How |
 |---|---|---|
 | The board: skills and positions | `graph_mba.json` `skills[]` (id, name, cluster, share, what) | Positions are the skill map's own layout (`computeLayout` in `skillmap.js`, the same seed and cache key), so the board is the Explore map. |
-| The links | `graph_mba.json` `edges[]` {source, target, jaccard} | 1,272 links. Links touching a `credentials` skill (28 skills, also `yoe_*`) are dropped, as the grid drops them; links touching a generic skill are dropped. That leaves **240 skills and 936 links** in one connected piece; every skill on it has at least 2 links (median 7, most 25). Two skills, Healthcare & life sciences and Adaptability & fast-paced environments, are linked only to generic skills and drop off the board. |
+| The links | `graph_mba.json` `edges[]` {source, target, jaccard} | 1,272 links. Links touching a `credentials` skill (28 skills, also `yoe_*`) are dropped, as the grid drops them; links touching a generic skill are dropped. That leaves **240 skills and 938 links** in one connected piece; every skill on it has at least 2 links (median 7, most 25). Two skills, Healthcare & life sciences and Adaptability & fast-paced environments, are linked only to generic skills and drop off the board. |
 | Generic skills (not hops) | `Atlas.genericSkills()` | Asked by most postings (share ≥ 0.5 in `defining` or `asks`) of at least half the MBA roles. Today 8: collaboration, communication, cross-functional leadership, execution, influence, ownership, problem solving, stakeholder management. Same set with 47 or 48 MBA roles counted (see pmm below). |
 | Fields | `graph_mba.json` `groups[]` (11, with `families`); `Atlas.index().groups` | Field share of a skill = mean share over the field's roles (`fieldShares` in `skillmap.js`); the Product field uses the six product families of `graph.json`, as `productShares` does. |
 | Start skill, from a field | field shares | The skill with the highest `w × min(4, w / mean over the 11 fields)`, with `w ≥ 0.05`, not generic, not `domain`, on the board. This is `topSkills` in `skillmap.js` minus the two exclusions. |

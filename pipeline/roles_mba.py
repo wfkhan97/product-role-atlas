@@ -46,7 +46,8 @@ FAMILY_PATTERNS = [
     ("general_manager", r"\bgeneral\s+manager\b"),
     ("program_manager", r"\bprogram(me)?\s+manage(r|ment)\b|\bprogram\s+(analyst|associate)\b"),
     ("pmm", r"\bproduct\s+marketing\b"),
-    ("brand_manager", rf"\bbrand\s+(senior\s+)?(manage(r|ment)|director|lead)\b|\b{MGR},?\s+(of\s+)?brand\b|\bassociate\s+brand\b"),
+    # "Sales Manager, Brand Partnerships" sells partnerships to brands: the team name after the comma is not the role
+    ("brand_manager", rf"\bbrand\s+(senior\s+)?(manage(r|ment)|director|lead)\b|\b{MGR},?\s+(of\s+)?brand\b(?!\s+partnerships?\b)|\bassociate\s+brand\b"),
     ("growth_manager", rf"\bgrowth\s+(associate|analyst)\b|\bgrowth\s+(marketing\s+|strategy\s+|operations\s+)?(manager|lead|director)\b|\b{MGR},?\s+(of\s+)?growth\b|\bgrowth\s+(marketing|strategy)\b"),
     ("customer_success", r"\bcustomer\s+success\b|\bclient\s+success\b"),
     ("partnerships", rf"\bpartnerships?\s+(associate|analyst)\b|\b(strategic\s+)?partnerships?\s+(senior\s+)?(manager|director|lead)\b|\b{MGR},?\s+(of\s+)?(strategic\s+|global\s+|business\s+)?partnerships\b|\bstrategic\s+(partnerships?|alliances?)\b|\balliances?\s+(manager|director|lead)\b|\bpartner\s+manager\b|^\W*(strategic\s+)?partnerships\b"),
@@ -106,6 +107,9 @@ EXCLUDE = {
     "growth_manager": r"\bengineer\w*\b",
     "governance": r"\b(engineer\w*|product\s+owner|developer)\b",
     "re_acquisitions": r"\b(talent|banking|counsel|attorney)\b",
+    # "Hardware Development Manager, Amazon Industrial Robotics": the thing developed is named before the word, and
+    # "industrial" is a product line, not a property type
+    "re_development": r"\b(hardware|software|firmware|product|business|learning|talent|organi[sz]ation\w*|leadership|web|application|game|engineering|platform|robotics|career|sales|fund|donor|workforce|economic|professional|curriculum|content|market|client|customer|partner|channel|franchise|people|process|technology|systems?|drug|clinical|device|packaging|formulation|chip|silicon|asic|mechanical|electrical|training|design|r&d|employee|programme?|player|agency|pipeline|account|dealer|vendor|supplier|network|audience|revenue|skills?|staff|community|brand|category|concept|recipe|menu|food|beverage|material|test|tool|model|algorithm|ml|ai)\s+development\b",
     "customer_success": r"\bengineer\w*\b",
     "corp_dev": r"\b(communications|counsel|attorney|paralegal|tax|accounting|accountant|legal|architect|engineer\w*)\b",
 }
@@ -165,7 +169,7 @@ EMPLOYER_QUERIES["Real estate"] = ["acquisitions", "development manager", "asset
 EMPLOYER_QUERIES["Consumer goods"] = ["associate brand manager", "brand", "MBA intern"]
 EMPLOYER_RE = {c: [(f, re.compile(p, re.I))] for c, (f, p, _) in EMPLOYER_RULES.items()}
 EMPLOYER_RE["Real estate"] = [(f, re.compile(p, re.I)) for f, p in REAL_ESTATE_RULES]
-REAL_ESTATE_EXCLUDE_RE = re.compile(r"\b(business|software|learning|talent|fund|donor|web|application|product|organi[sz]ation\w*|leadership|career|sales)\s+(development|acquisitions?)\b", re.I)
+REAL_ESTATE_EXCLUDE_RE = re.compile(r"\b(business|software|hardware|firmware|learning|talent|fund|donor|web|application|product|organi[sz]ation\w*|leadership|career|sales)\s+(development|acquisitions?)\b", re.I)
 EMPLOYER_EXCLUDE_RE = re.compile(r"\b(alumni|assistant|counsel|attorney|paralegal|recruit\w*|talent|engineer\w*|developer|accountant|tax|audit\w*|payroll|receptionist|compliance|legal|marketing|events?|design\w*|sap|oracle|workday|salesforce|servicenow|implementation|software|cyber\w*|cloud|sales|data\s+(governance|operations|management|engineer\w*|analyst|scien\w*)|operations|ops|onboarding|communications|procurement|client|investor\s+(relations|services|communications)|product\s+(specialist|management)|fund\s+(admin\w*|accounting)|accounting|financial\s+(advisory|planning)|fp\s*&\s*a|IR|application|reporting|technical|technology|it|people|human|hr|treasury|controller|facilities|administrat\w*|security|epic|billing)\b", re.I)
 JUNK_RE = re.compile(r"\bdo\s+not\s+apply\b|\btest\s+req", re.I)
 CONSULTING_CATEGORIES = {"Strategy consulting", "Consulting and advisory", "Big Four and accounting"}
