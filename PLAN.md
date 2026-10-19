@@ -196,6 +196,15 @@ pages for the journeys a student has. Audit and pattern picks are in the session
   degree filters; the five map views and the 3D controls; the sub-skills toggle; the area colour legend; the
   percentage ring and meters.
 
+## The first visit: games, then what jobs ask for (v11, 2026-10-18)
+
+Owner's decisions (2026-10-18): the first screen leads with games. The top two thirds are a header ("What do MBAs
+go on to do after grad school?") and a carousel of game cards; the bottom third keeps "See what jobs ask for, and
+how you fit" with its two choices (tell us about you, explore the roles). Each card opens `#/play/<slug>`, which
+says "Coming soon" until that game is built. The card list is data (`web/data/games.json`), so a game ships by
+adding its screen and setting its `status` to `live`. Eight games are designed in `games/`; a Wordle-style "Atlas
+daily" was considered and dropped.
+
 ## Explore as a skill map (v10, 2026-10-18)
 
 Owner's decisions (2026-10-18): one map for both role sets, MBA links as they are, every link drawn faint, on by

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>Where's the demand · results</title>
+<link rel="stylesheet" href="../../../web/tokens/styles.css">
+<link rel="stylesheet" href="../../../web/style.css">
+<style>
+.page.wd-page { max-width: 1040px; margin: 0 auto; }
+.wd-hud { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 18px; margin-bottom: 18px; }
+.wd-hud .q { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+.wd-dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+.wd-dots i { height: 6px; border-radius: 3px; background: var(--muted); }
+.wd-dots i.ok { background: var(--primary); } .wd-dots i.miss { background: var(--warning); }
+.wd-dots i.now { background: transparent; box-shadow: inset 0 0 0 1px var(--heading-foreground); }
+.wd-hud .score { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--muted-foreground); }
+.wd-hud .score b { color: var(--primary); font-weight: var(--weight-medium); font-size: var(--text-md); }
+.wd-prompt { text-align: center; margin: 22px 0 4px; font-size: var(--text-3xl); }
+.wd-sub { text-align: center; color: var(--muted-foreground); font-size: var(--text-base); margin-bottom: 22px; }
+.wd-timer { height: 4px; border-radius: 2px; background: var(--muted); overflow: hidden; max-width: 520px; margin: 0 auto 26px; }
+.wd-timer i { display: block; height: 100%; background: var(--muted-foreground); }
+.wd-timer.low i { background: var(--warning); }
+.wd-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.wd-card { position: relative; text-align: left; display: flex; flex-direction: column; justify-content: flex-start; gap: 6px; min-height: 290px; padding: 40px 32px 30px; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--card); color: inherit; font: inherit; }
+.wd-card.ask { justify-content: center; padding-top: 30px; }
+.wd-card:hover, .wd-card.focus { border-color: var(--input); }
+.wd-card .key { position: absolute; top: 16px; left: 18px; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1px 7px; }
+.wd-card.right-side .key { left: auto; right: 18px; }
+.wd-card .t { font-size: var(--text-2xl); font-weight: var(--weight-medium); color: var(--heading-foreground); letter-spacing: var(--tracking-tighter); line-height: var(--leading-tight); }
+.wd-card .f { font-size: var(--text-md); color: var(--muted-foreground); }
+.wd-card .n { margin-top: 18px; font-family: var(--font-mono); font-size: 44px; line-height: 1; color: var(--secondary); font-variant-numeric: tabular-nums; }
+.wd-card .n small { font-size: var(--text-md); color: var(--muted-foreground); margin-left: 8px; }
+.wd-card .bar { height: 6px; border-radius: 3px; background: var(--muted); overflow: hidden; margin-top: 12px; }
+.wd-card .bar i { display: block; height: 100%; background: var(--secondary); }
+.wd-card .meta { font-size: var(--text-sm); color: var(--muted-foreground); margin-top: 6px; }
+.wd-card .verdict { min-height: 26px; margin-bottom: 4px; display: flex; }
+.wd-card.right-side .verdict { justify-content: flex-start; }
+.wd-card.mine-ok { border-color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); }
+.wd-card.mine-miss { border-color: var(--warning); box-shadow: inset 0 0 0 1px var(--warning); }
+.wd-card.dim .t { color: var(--foreground); }
+.wd-or { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--background); border: 1px solid var(--border); font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); }
+.wd-stage { position: relative; }
+.wd-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; font-size: var(--text-sm); color: var(--subtle-foreground); }
+.wd-foot .mono { color: var(--subtle-foreground); }
+.wd-line { text-align: center; margin: 22px auto 0; max-width: 720px; font-size: var(--text-md); color: var(--foreground); }
+.wd-line .num { font-family: var(--font-mono); color: var(--secondary); }
+.wd-next { display: flex; justify-content: center; gap: 12px; align-items: center; margin-top: 16px; }
+kbd { font-family: var(--font-mono); font-size: var(--text-sm); border: 1px solid var(--border); border-radius: 4px; padding: 0 5px; color: var(--muted-foreground); }
+/* start */
+.wd-start { display: grid; grid-template-columns: 1.35fr 1fr; gap: 40px; padding-top: 18px; }
+.wd-start h1 { font-size: 40px; letter-spacing: var(--tracking-tighter); margin: 6px 0 10px; }
+.wd-steps { list-style: none; padding: 0; margin: 22px 0; display: grid; gap: 12px; counter-reset: s; }
+.wd-steps li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; font-size: var(--text-md); color: var(--foreground); }
+.wd-steps li::before { counter-increment: s; content: counter(s); font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); border: 1px solid var(--border); border-radius: 50%; width: 24px; height: 24px; display: grid; place-items: center; }
+.wd-steps li span { color: var(--muted-foreground); display: block; font-size: var(--text-base); }
+.wd-types { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 22px; }
+.wd-panel { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: 20px 22px; align-self: start; }
+.wd-panel h3 { margin: 0 0 4px; font-size: var(--text-lg); color: var(--heading-foreground); }
+.wd-best { display: flex; align-items: baseline; gap: 10px; margin: 10px 0 2px; }
+.wd-best .big { font-family: var(--font-mono); font-size: 36px; color: var(--primary); line-height: 1; }
+.wd-rounds { margin-top: 14px; }
+.wd-rounds .r { grid-template-columns: 1fr auto; padding: 8px 0; }
+.wd-rounds .r .t { font-size: var(--text-base); }
+/* results */
+.wd-res { display: grid; grid-template-columns: 1fr 1.05fr; gap: 36px; padding-top: 4px; }
+.wd-rank { font-size: 40px; letter-spacing: var(--tracking-tighter); margin: 4px 0 6px; color: var(--heading-foreground); }
+.wd-score { font-family: var(--font-mono); color: var(--muted-foreground); font-size: var(--text-md); }
+.wd-score b { color: var(--primary); font-weight: var(--weight-medium); }
+.wd-surprise { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: 16px 18px; margin: 20px 0 16px; }
+.wd-surprise .eyebrow { margin-bottom: 6px; }
+.wd-surprise .big { font-size: var(--text-lg); color: var(--heading-foreground); font-weight: var(--weight-medium); margin-bottom: 4px; }
+.wd-surprise .num { font-family: var(--font-mono); color: var(--secondary); }
+.wd-punch { font-size: var(--text-lg); color: var(--heading-foreground); margin: 18px 0 4px; }
+.wd-recap .r { grid-template-columns: 40px minmax(0, 1fr) auto; padding: 6px 0; gap: 0 10px; }
+.wd-recap .r .mk { grid-row: 1 / span 2; align-self: center; font-family: var(--font-mono); font-size: var(--text-sm); }
+.wd-recap .r .mk.ok { color: var(--primary); } .wd-recap .r .mk.miss { color: var(--warning); }
+.wd-recap .r .t { grid-column: 2; font-size: var(--text-base); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wd-recap .r .m { grid-column: 2; font-size: var(--text-sm); }
+.wd-recap .r .n { grid-column: 3; color: var(--secondary); }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#"><span class="mark" aria-hidden="true"></span><span class="wordmark">GradBuddy</span></a>
+  <nav class="crumbs" aria-label="Where you are"><a href="#">Games</a> <span class="sep">/</span> <span class="here">Where&rsquo;s the demand</span></nav>
+  <div class="top-actions"><a class="toplink" href="#">Explore</a><a class="toplink" href="#">About you</a><button class="icon" type="button">●</button></div>
+</header>
+<div class="shell"><main class="main"><div class="page wd-page">
+<div class="wd-res">
+<section>
+  <p class="eyebrow">Round over</p>
+  <h1 class="wd-rank">Market sense: sharp</h1>
+  <p class="wd-score"><b>7</b> of 10 right &middot; matches your best</p>
+  <div class="wd-surprise">
+    <p class="eyebrow">Biggest surprise</p>
+    <p class="big">Growth Manager: startups, not large companies</p>
+    <p class="small">Startups list <span class="num">177</span> open Growth Manager postings; large companies <span class="num">67</span>. You picked large companies.</p>
+  </div>
+  <p class="wd-punch">Nobody reads 26,213 postings by hand. That&rsquo;s the point.</p>
+  <p class="small muted">Counts refresh weekly from live postings. These are as of 14 Oct 2026.</p>
+  <div class="row" style="margin-top:18px"><a class="btn primary" href="#">Explore the fields &rarr;</a><button type="button" class="btn">Play again</button><a class="btn quiet" href="#">Open Growth Manager</a></div>
+</section>
+<section>
+  <h3 style="margin-top:6px">Your round</h3>
+  <p class="small muted" style="margin-bottom:8px">The winner first; blue is open postings.</p>
+  <div class="list wd-recap"><div class="r"><span class="mk ok">&#10003;</span><span class="t">Operations Manager <span class="subtle">over</span> Marketing Manager</span><span class="m">Role vs role</span><span class="n">2,422 &middot; 903</span></div><div class="r"><span class="mk miss">&times;</span><span class="t">Startups <span class="subtle">over</span> Large companies</span><span class="m">Growth Manager &middot; employer type</span><span class="n">177 &middot; 67</span></div><div class="r"><span class="mk ok">&#10003;</span><span class="t">Marketing <span class="subtle">over</span> Risk & compliance</span><span class="m">AI / machine learning &middot; roles asking</span><span class="n">3 &middot; 1 roles</span></div><div class="r"><span class="mk ok">&#10003;</span><span class="t">Corporate Development Manager <span class="subtle">over</span> Treasury Manager</span><span class="m">Role vs role</span><span class="n">207 &middot; 115</span></div><div class="r"><span class="mk ok">&#10003;</span><span class="t">Consulting & strategy <span class="subtle">over</span> Banking & investing</span><span class="m">Field vs field</span><span class="n">3,171 &middot; 1,930</span></div><div class="r"><span class="mk ok">&#10003;</span><span class="t">Customer Success Leader <span class="subtle">over</span> Strategic Partnerships Manager</span><span class="m">Role vs role</span><span class="n">573 &middot; 373</span></div><div class="r"><span class="mk ok">&#10003;</span><span class="t">Operations & general management <span class="subtle">over</span> Sales & partnerships</span><span class="m">Field vs field</span><span class="n">5,258 &middot; 3,341</span></div><div class="r"><span class="mk miss">&times;</span><span class="t">Commercial Banking Relationship Manager <span class="subtle">over</span> Compliance Manager</span><span class="m">Role vs role</span><span class="n">601 &middot; 436</span></div><div class="r"><span class="mk ok">&#10003;</span><span class="t">Supply Chain Manager <span class="subtle">over</span> Procurement Manager</span><span class="m">Role vs role</span><span class="n">575 &middot; 427</span></div><div class="r"><span class="mk miss">time</span><span class="t">Sales Manager <span class="subtle">over</span> Human Resources Manager</span><span class="m">Role vs role</span><span class="n">1,448 &middot; 1,083</span></div></div>
+</section>
+</div>
+</div></main></div>
+<footer class="foot"><span>Built from live job postings, refreshed weekly.</span> <a href="#">About the data</a></footer>
+</body>
+</html>
