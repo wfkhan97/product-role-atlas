@@ -108,7 +108,7 @@
   });
 
   // ---------- router ----------
-  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "", grads: false, areaOpen: null, areaMore: new Set(), tab: "skills", fitTab: "show", paintOn: true, empOpen: new Set() };
+  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "", grads: false, areaOpen: null, areaMore: new Set(), tab: "skills", fitTab: "show", paintOn: true, empOpen: new Set(), cardTab: null, cardMore: false };
   const PAGE = 8;   // employers shown in the postings tab before "Show more"
   // what the person told us and the resume they dropped stay in this browser only (nothing is uploaded)
   const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
@@ -502,7 +502,7 @@
 
   function select(sel, onFit) {
     const same = state.selected && sel && state.selected.kind === sel.kind && state.selected.id === sel.id;
-    state.selected = same ? null : sel;
+    state.selected = same ? null : sel; state.cardMore = false;
     const y = window.scrollY;
     if (onFit || location.hash.endsWith("/fit")) { main.querySelectorAll("[data-skill]").forEach(b => b.classList.toggle("on", !!(state.selected && b.dataset.skill === state.selected.id && b.classList.contains("skill")))); renderAside(); }
     else renderRole();
@@ -514,25 +514,36 @@
     const R = state.R, sel = state.selected;
     if (!sel) { showAside(null); return; }   // nothing selected, no panel (owner's choice R8, 2026-10-19)
     if (sel.kind === "posting") { showAside(postingCard(R, R.jobs.find(j => j.id === sel.id))); wire(); return; }
-    showAside(skillCard(R, R.skillById[sel.id], sliceOf())); wire();
-    // evidence sentences come from a separate file for the MBA set: fill them in when they arrive
-    R.evidence(sel.id).then(ev => { if (state.selected === sel) { const el = aside.querySelector("#evidence"); if (el) { el.innerHTML = evidenceHtml(ev); wire(); } } }).catch(console.error);
+    const ev = evCache[sel.id];
+    showAside(skillCard(R, R.skillById[sel.id], sliceOf(), ev)); wire();
+    // evidence sentences come from a separate file for the MBA set: draw the card again when they arrive
+    if (!ev) R.evidence(sel.id).then(e => { evCache[sel.id] = e || {}; if (state.selected === sel) { const y = aside.scrollTop; renderAside(); aside.scrollTop = y; } }).catch(console.error);
   }
+  const evCache = {};
+  const redrawCard = () => { const y = aside.scrollTop; renderAside(); aside.scrollTop = y; };
   function wire() {
     aside.querySelector(".close").onclick = () => select(null);
     aside.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }));
     aside.querySelectorAll("[data-job]").forEach(b => b.onclick = () => select({ kind: "posting", id: Number(b.dataset.job) }));
-    aside.querySelectorAll("[data-ev]").forEach(b => b.onclick = () => { state.evTab = b.dataset.ev; renderAside(); });
+    aside.querySelectorAll("[data-ev]").forEach(b => b.onclick = () => { state.evTab = b.dataset.ev; redrawCard(); });
+    aside.querySelectorAll("[data-ctab]").forEach(b => b.onclick = () => { state.cardTab = state.cardTab === b.dataset.ctab ? null : b.dataset.ctab; redrawCard(); });
+    const cm = aside.querySelector("#card-more"); if (cm) cm.onclick = () => { state.cardMore = !state.cardMore; redrawCard(); };
     aside.querySelectorAll("details[data-k]").forEach(d => d.ontoggle = () => { d.open ? state.open.add(d.dataset.k) : state.open.delete(d.dataset.k); });
   }
   const disc = (k, label, inner) => `<details class="disc" data-k="${k}"${state.open.has(k) ? " open" : ""}><summary>${label}</summary><div class="disc-body">${inner}</div></details>`;
+  const quoteHtml = q => `<blockquote class="quote">“${esc(q.text.length > 260 ? q.text.slice(0, 257) + "…" : q.text)}”<span class="src">${esc(q.company)} · <a href="${esc(q.url)}" target="_blank" rel="noopener">${esc(q.title)}</a></span></blockquote>`;
+  const evGroup = ev => { const groups = EV_GROUPS.filter(([k]) => (ev[k] || []).length); if (!groups.length) return null; const want = state.evTab || STEP_TO_EV[state.level] || "early"; return groups.some(([k]) => k === want) ? want : groups[0][0]; };
+  function firstQuote(ev) {
+    if (!ev) return `<p class="small muted">Loading an example sentence…</p>`;
+    const g = evGroup(ev); return g ? quoteHtml(ev[g][0]) : "";
+  }
   function evidenceHtml(ev) {
+    if (!ev) return `<p class="small muted">Loading example sentences…</p>`;
     const groups = EV_GROUPS.filter(([k]) => (ev[k] || []).length);
     if (!groups.length) return `<p class="small muted">No example sentences for this skill yet.</p>`;
-    const want = state.evTab || STEP_TO_EV[state.level] || "early";
-    const tab = groups.some(([k]) => k === want) ? want : groups[0][0];
+    const tab = evGroup(ev);
     return `<div class="evtabs">${groups.map(([k, lab]) => `<button type="button" class="chip${tab === k ? " on" : ""}" data-ev="${k}">${lab}</button>`).join("")}</div>` +
-      ev[tab].slice(0, 3).map(q => `<blockquote class="quote">“${esc(q.text.length > 260 ? q.text.slice(0, 257) + "…" : q.text)}”<span class="src">${esc(q.company)} · <a href="${esc(q.url)}" target="_blank" rel="noopener">${esc(q.title)}</a></span></blockquote>`).join("");
+      ev[tab].slice(0, 3).map(quoteHtml).join("");
   }
   // A skill's ladder is flat ({associate, mid, senior, lead}: product skills) or keyed by industry ladder
   // ({corporate: {...}, bank: {...}}: MBA skills, rungs the postings do not support are absent). The card shows the
@@ -550,11 +561,19 @@
     const other = ind && ind !== R.role.ladder ? `<p class="small muted">Shown from the ${esc(name(ind))} ladder; this skill has none yet for ${esc(name(R.role.ladder))}.</p>` : "";
     return other + `<div class="ladder">${rows}</div>`;
   }
-  function skillCard(R, s, slice) {
+  // The skill card (owner's choice R7, 2026-10-19): the first fold is the definition, one line of share in words,
+  // the three biggest sub-skills and one quote, under 100 words. The rest sits behind four tabs in the same order
+  // on every card: In postings · By level · Build it · Related. No tab is open until one is clicked.
+  const CTABS = [["postings", "In postings"], ["ladder", "By level"], ["build", "Build it"], ["related", "Related"]];
+  function skillCard(R, s, slice, ev) {
     const st = Atlas.shares(slice), ss = Atlas.subShares(slice, s.id);
-    const subsMeta = s.subskills || (R.subs[s.id] || []).map(x => ({ id: x.id, name: x.name, example: "" }));
+    const subsMeta = (s.subskills || (R.subs[s.id] || []).map(x => ({ id: x.id, name: x.name, example: "" }))).map(sub => ({ ...sub, v: ss.share(sub.id) })).sort((a, b) => b.v - a.v);
     const m = state.match && state.match.roleId === R.role.id ? state.match : null;
-    const subs = subsMeta.map(sub => `<div class="sub${m ? (m.subs.has(sub.id) ? " have" : m.required.has(s.id) && !m.presumed.has(s.id) ? " miss" : "") : ""}"><span class="nm">${esc(sub.name)}</span><span class="pct" title="share of postings asking for ${esc(s.name)} that mention this">${pct(ss.share(sub.id))}</span>${sub.example ? `<span class="ex">${esc(sub.example)}</span>` : ""}</div>`).join("");
+    const subRow = (sub, withEx) => `<div class="sub${m ? (m.subs.has(sub.id) ? " have" : m.required.has(s.id) && !m.presumed.has(s.id) ? " miss" : "") : ""}"><span class="nm">${esc(sub.name)}</span><span class="pct" data-measure="${pct(sub.v)} of the postings in this view that ask for ${esc(s.name)} mention this.">${pct(sub.v)}</span>${withEx && sub.example ? `<span class="ex">${esc(sub.example)}</span>` : ""}</div>`;
+    const rest = subsMeta.slice(3);
+    const subs = subsMeta.length ? `<h3>Mostly means</h3><div class="subs">${(state.cardMore ? subsMeta : subsMeta.slice(0, 3)).map(sub => subRow(sub, state.cardMore)).join("")}</div>${rest.length ? `<button type="button" class="linkish link more" id="card-more">${state.cardMore ? "Show fewer" : `Show ${rest.length} more`}</button>` : ""}` : "";
+    const w = inWords(st.share(s.id));
+    const share = `<p class="small">${cap(w)} in this view ${/posting$/.test(w) ? "asks" : "ask"} for it. ${tip(`${pct(st.share(s.id))} of the ${fmt(st.n)} postings in this view ask for ${s.name}; ${pct(s.share)} of postings across ${R.set === "mba" ? "all 50 roles" : "all product roles"} do.`)}</p>`;
     const here = state.level === "all" ? null : { entry: "associate", mid: "mid", senior: "senior", lead: "lead" }[state.level];
     const ladder = ladderHtml(R, s, here);
     const bs = buildSteps(s, R.role.ladder, true), ladName = k => (((R.ladders || {})[k] || {}).label || k).toLowerCase();
@@ -564,17 +583,20 @@
     const postings = withSkill.length ? `<div class="list">${withSkill.map(j => `<button type="button" class="r" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${esc(j.company)}</span></button>`).join("")}</div>` : `<p class="small muted">No open posting in this view asks for it.</p>`;
     const visible = new Set(Atlas.grid(R, slice).rows.flat(2).map(x => x.id));
     const related = R.edges.filter(e => (e.source === s.id || e.target === s.id)).map(e => ({ id: e.source === s.id ? e.target : e.source, w: e.jaccard })).filter(x => visible.has(x.id) && x.id !== s.id).sort((a, b) => b.w - a.w).slice(0, 6);
-    const def = R.role.defining.has(s.id) ? ` · <span title="asked for far more in this role than in other roles">defines this role ◆</span>` : "";
+    const def = R.role.defining.has(s.id) ? ` · <span class="mark" data-measure="◆ sets this role apart: postings of this role ask for it far more often than postings of other roles do.">defines this role ◆</span>` : "";
+    const bodies = {
+      postings: `<h3>How postings say it</h3>${evidenceHtml(ev)}<h3>Postings that ask for it</h3>${postings}`,
+      ladder: `<h3>At each level</h3>${ladder}`,
+      build: `<h3>How to build it</h3>${build}${signals}`,
+      related: `<h3>Often asked for together</h3>${related.length ? `<div class="tags">${related.map(r => `<button type="button" class="tag" data-skill="${esc(r.id)}">${esc(R.skillById[r.id].name)}</button>`).join("")}</div>` : '<p class="small muted">No skill is asked for together with it often enough to name.</p>'}`,
+    };
+    const tabs = `<div class="tabs card-tabs" role="tablist">${CTABS.map(([k, l]) => `<button type="button" role="tab" class="${state.cardTab === k ? "on" : ""}" aria-selected="${state.cardTab === k}" data-ctab="${k}">${l}</button>`).join("")}</div>`;
     return `<button type="button" class="close" aria-label="Close">×</button><div class="card">
       <p class="eyebrow">${esc(R.clusters[s.cluster].label)}${def}</p><h2>${esc(s.name)}</h2>
       ${s.what ? `<p class="what">${esc(s.what)}</p>` : ""}
-      <p class="facts">${inWords(st.share(s.id))} in this view ask for it (${pct(st.share(s.id))} of ${fmt(st.n)}) · ${pct(s.share)} across ${R.set === "mba" ? "all 50 roles" : "all product roles"}</p>
-      ${subs ? `<h3>What it breaks down into</h3><div class="subs">${subs}</div>` : ""}
-      <h3>How postings say it</h3><div id="evidence"><p class="small muted">Loading example sentences…</p></div>
-      ${disc("ladder", "At each level", ladder)}
-      ${disc("build", "How to build it", build + signals)}
-      ${disc("postings", "Postings that ask for it", postings)}
-      ${related.length ? `<h3>Often asked for together</h3><div class="tags">${related.map(r => `<button type="button" class="tag" data-skill="${esc(r.id)}">${esc(R.skillById[r.id].name)}</button>`).join("")}</div>` : ""}
+      ${share}${subs}
+      <div id="quote1">${firstQuote(ev)}</div>
+      ${tabs}${state.cardTab ? `<div class="card-body">${bodies[state.cardTab]}</div>` : ""}
     </div>`;
   }
   function postingCard(R, j) {
