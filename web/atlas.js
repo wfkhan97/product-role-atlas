@@ -7,8 +7,15 @@
 })(typeof self !== "undefined" ? self : this, function (deps) {
   "use strict";
   const { load, Matcher } = deps;
+  // One load per file. A load that fails leaves the cache, so the next call tries again (a network blip must not
+  // need a page reload); the same holds for index() and product(), which are built from these files.
   const cache = {};
-  const fetchJson = url => cache[url] ||= Promise.resolve(load(url));
+  function fetchJson(url) {
+    if (cache[url]) return cache[url];
+    const p = cache[url] = Promise.resolve(load(url)).catch(e => { if (cache[url] === p) delete cache[url]; throw e; });
+    return p;
+  }
+  const retrying = (get, clear) => get().catch(e => { clear(); throw e; });
   const STEP_OF = { associate: "entry", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
   const STEPS = ["entry", "mid", "senior", "lead"];
   const EMPLOYER_TYPES = [["large", "Large companies", g => /^fortune/.test(g)], ["startup", "Startups", g => g === "startup"], ["firm", "Consulting, banks and funds", g => g === "mba_employer"]];
@@ -30,7 +37,7 @@
   // ---------- the index: groups and roles of both sets ----------
   let indexP = null;
   function index() {
-    return indexP ||= Promise.all([fetchJson("data/graph_mba.json"), fetchJson("data/subskills_mba.json")]).then(([M, SUBS]) => {
+    return indexP ||= retrying(() => Promise.all([fetchJson("data/graph_mba.json"), fetchJson("data/subskills_mba.json")]).then(([M, SUBS]) => {
       const roles = {}, groups = [];
       for (const g of M.groups) {
         if (g.id === "product") continue;   // the product field opens the product role set instead (owner's choice 3A)
@@ -45,13 +52,13 @@
       const fams = Object.keys(M.families), baseline = {};
       for (const s of M.skills) baseline[s.id] = fams.reduce((a, f) => a + ((s.by_family || {})[f] || 0), 0) / fams.length;
       return { M, SUBS, roles, groups, baseline, skillById: Object.fromEntries(M.skills.map(s => [s.id, s])) };
-    });
+    }), () => { indexP = null; });
   }
 
   // ---------- the product set: one file, loaded when the Product field or a product role is opened ----------
   let productP = null;
   function product() {
-    return productP ||= Promise.all([fetchJson("data/graph.json"), fetchJson("data/subskills.json"), index()]).then(([G, SUBS, ix]) => {
+    return productP ||= retrying(() => Promise.all([fetchJson("data/graph.json"), fetchJson("data/subskills.json"), index()]).then(([G, SUBS, ix]) => {
       decode(G, G.jobs);
       const byFamily = {};
       for (const j of G.jobs) (byFamily[j.family] ||= []).push(j);
@@ -68,7 +75,7 @@
         ix.roles[f] = { id: f, set: "product", group: "product", label: G.families[f], nOpen: jobs.length, n: jobs.length, nCompanies: new Set(jobs.map(j => j.company)).size, ladder: "product", defining: new Set(definingList.map(d => d.id)), definingList, asks: top.filter(a => !definingList.some(d => d.id === a.id)), credentials: [], small: false, jobs };
       }
       return { G, SUBS, skillById: Object.fromEntries(G.skills.map(s => [s.id, s])) };
-    });
+    }), () => { productP = null; });
   }
 
   // ---------- one role: its postings, skills, sub-skills, evidence ----------
