@@ -6,5 +6,5 @@
   {"slug": "climb-the-ladder", "title": "Climb the ladder", "tagline": "What senior actually means", "cover": "img/games/climb-the-ladder.png", "status": "soon"},
   {"slug": "higher-or-lower", "title": "Higher or lower", "tagline": "Which skill do more postings want", "cover": "img/games/higher-or-lower.png", "status": "soon"},
   {"slug": "wheres-the-demand", "title": "Where's the demand", "tagline": "Guess where the open jobs are", "cover": "img/games/wheres-the-demand.png", "status": "soon"},
-  {"slug": "spot-the-real-ask", "title": "Spot the real ask", "tagline": "Mark what a posting really asks for", "cover": "img/games/spot-the-real-ask.png", "status": "soon"}
+  {"slug": "spot-the-real-ask", "title": "Spot the real ask", "tagline": "Mark what a posting really asks for", "cover": "img/games/spot-the-real-ask.png", "status": "live"}
 ]
