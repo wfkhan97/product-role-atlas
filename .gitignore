@@ -16,3 +16,7 @@ evals/resumes/private/
 # eval runner libraries and fetched sample resumes
 evals/node_modules/
 evals/resumes/external/
+
+# the raw postings backlog lives in the Supabase project (pipeline/backlog.py pull); history before 2026-10-19 still holds the files
+data/raw/jobs/
+data/raw/jobs_mba/

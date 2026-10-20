@@ -71,7 +71,9 @@ def role_sets(arg):
 
 
 def key_of(j):
-    return j.get("url") or j.get("external_id")
+    """The same key as pipeline.scrape.posting_key: the requisition id, else the URL (a URL can change between
+    refreshes; Bank of America puts a session token in it). scrape imports this module, so it is spelled out here."""
+    return j.get("external_id") or j.get("url")
 
 
 def date_or_none(v):
