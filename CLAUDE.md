@@ -30,6 +30,9 @@
   with its `date_read` and `terms_note` updated.
 - The raw posting files are a backlog. Never replace one with a fresh scrape and never delete postings from it:
   `pipeline.scrape --refresh` merges. A change to `pipeline.scrape.merge` needs `evals/run_pipeline.py --only backlog`.
+  The files stay in git; the Supabase backlog (`pipeline/backlog.py`) is a copy of them. Never delete rows from
+  `backlog_files` or `postings`, run `verify` after a change to push or pull, and never run a scrape with a
+  `data/raw/jobs*/` that is behind the database (`pull` first).
 - Every eval that exists for the product roles gets its counterpart for a new role set before that role set is
   shown in the interface. New kinds of evals are listed in `evals/README.md` under "Evals to build".
 - Permanent documentation lives in `README.md`, `PLAN.md`, `evals/README.md` and `evals/NOTES.md`. Interim

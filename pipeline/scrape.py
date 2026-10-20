@@ -11,6 +11,8 @@ sets how long). If a refresh returns far fewer postings than were open, nothing 
 search probably failed. A posting is its requisition id (external_id), or its URL on a board that gives none:
 the URL alone is not stable (Bank of America puts a per-session token in every job URL; a retitled or moved
 requisition gets a new one). One that comes back takes the board's current title, URL and text.
+When SUPABASE_DB_URL is set (.env) each file is also pushed to the Supabase backlog as it is written and a full
+run ends with a storage snapshot (pipeline/backlog.py; --no-db to leave the database alone).
 The MBA roles were scraped in batches; --batch N fetches only that batch's roles for companies already
 cached without it and adds them to the company's file (companies with no file get every role).
 """
@@ -27,7 +29,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline.adapters import ADAPTERS, common
-from pipeline import log, roles, roles_mba
+from pipeline import backlog, log, roles, roles_mba
 
 logger = log.get(__name__)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -159,7 +161,11 @@ def main():
     ap.add_argument("--rank-to", type=int)
     ap.add_argument("--roles", choices=sorted(ROLE_SETS), default="product")
     ap.add_argument("--batch", type=int, choices=sorted(roles_mba.BATCH_QUERIES))
+    ap.add_argument("--no-db", action="store_true", help="do not push the files to the Supabase backlog")
     args = ap.parse_args()
+    db = not args.no_db and backlog.configured()
+    if not db:
+        logger.info("SUPABASE_DB_URL not set or --no-db: the files stay local only")
     all_batches = sorted(roles_mba.BATCH_QUERIES)
     title_ok, cache = ROLE_SETS[args.roles]
     RAW = os.path.join(ROOT, "data", "raw", cache)
@@ -235,6 +241,8 @@ def main():
                         counts["kept"], counts["open"], counts["new"], counts["reopened"], counts["closed"], counts["folded"], t)
             if partial:
                 logger.warning("%s: partial fetch, %s", name, partial)
+            if db:
+                logger.info("%s", backlog.push_file_safely(path, args.roles))
             return (name, entry["ats"], f"{len(uniq)} jobs in {t.seconds:.0f}s" + (f"; PARTIAL: {partial}" if partial else ""))
         except Exception as e:
             logger.error("%s (%s) failed after %s: %s: %s", name, entry["ats"], t, type(e).__name__, e, exc_info=True)
@@ -252,6 +260,11 @@ def main():
                 common.STATS["429"], common.STATS["retries"])
     if failed:
         logger.error("failed employers: %s", ", ".join(sorted(failed)))
+    if db and todo and not args.only and not args.batch:  # a full run: keep a dated copy of the files
+        try:
+            backlog.snapshot(args.roles)
+        except Exception as e:
+            logger.error("snapshot failed: %s: %s", type(e).__name__, e)
 
 
 if __name__ == "__main__":

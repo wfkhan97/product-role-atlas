@@ -29,6 +29,7 @@ sys.path.insert(0, ROOT)
 from pipeline import processed, tax
 from pipeline.experiments import role_corpus
 from pipeline.experiments.decisions_audit import ENDPOINT, MODEL
+from pipeline.env import load_env
 
 DEPTH = {}
 for _f in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
@@ -42,15 +43,6 @@ def question(s):
         f"{' (' + what + ')' if what else ''}? Count it only when it is part of the role's responsibilities "
         "or qualifications. Do not count mentions in the company description, mission statement, benefits, "
         "equal-opportunity or legal boilerplate, or lists of other teams.")}
-
-
-def load_env():
-    path = os.path.join(ROOT, ".env")
-    if os.path.exists(path):
-        for line in open(path):
-            if "=" in line and not line.lstrip().startswith("#"):
-                k, v = line.strip().split("=", 1)
-                os.environ.setdefault(k, v.strip().strip('"').strip("'"))
 
 
 def paths(roleset):
