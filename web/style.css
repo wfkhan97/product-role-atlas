@@ -1240,3 +1240,26 @@ button.wia-mode { text-align: left; color: inherit; font: inherit; }
 .sra .end-row { margin-top: 16px; }
 .sra .n-blue, .sra-aside .n-blue { font-family: var(--font-mono); color: var(--secondary); }
 .sra .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* ---------- Spring 2027 classes (classes.js): one card per class, two relevance columns ---------- */
+.choices.one { grid-template-columns: 1fr; margin-top: 12px; }
+.cls-filters { margin: 14px 0 4px; gap: 16px; }
+.cls-filters input[type="search"] { margin: 0; max-width: 240px; }
+.cls-select, .cls-email { font: inherit; font-size: var(--text-sm); color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 8px; max-width: 280px; }
+.cls-email { min-width: 260px; }
+.cls-list { border-top: 1px solid var(--border); margin-top: 6px; }
+.cls-card { display: grid; grid-template-columns: minmax(0, 1fr) 200px 180px; gap: 4px 20px; padding: 14px 0; border-bottom: 1px solid var(--border); align-items: start; }
+.cls-card.on { background: var(--primary-tint); box-shadow: 0 0 0 10px var(--primary-tint); }
+.cls-card .cls-open { font: inherit; display: block; width: 100%; }
+.cls-card .cls-codes { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); margin-right: 6px; }
+.cls-card .cls-title { font-size: var(--text-md); color: var(--heading-foreground); }
+.cls-card .cls-open:hover .cls-title, .cls-card.on .cls-title { color: var(--primary); }
+.cls-card .cls-main p { margin: 2px 0; }
+.cls-card .cls-grading { margin-top: 6px; }
+.cls-rel .eyebrow { margin-bottom: 0; }
+.cls-rel > .small.muted { margin: 0 0 6px; }
+.cls-own { margin: 6px 0 0; }
+.cls-own .chip { padding: 3px 8px; }
+.cls-why { margin-top: 6px; }
+.cls-why > summary { font-size: var(--text-sm); color: var(--muted-foreground); cursor: pointer; }
+.cls-why .tags { margin-top: 4px; }
