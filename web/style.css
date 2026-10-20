@@ -145,6 +145,18 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bubble.s1 { width: 108px; height: 108px; font-size: var(--text-sm); } .bubble.s2 { width: 132px; height: 132px; } .bubble.s3 { width: 160px; height: 160px; font-size: var(--text-md); } .bubble.s4 { width: 188px; height: 188px; font-size: var(--text-lg); }
 .bubble.you { border-color: var(--primary); background: var(--primary-tint); }
 
+/* the fields as cards (owner's choice E2): one size, sorted by open postings, example roles, one number, a bar */
+.fcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+.fcard { display: grid; gap: 4px; align-content: start; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px 12px; background: var(--card); color: inherit; }
+.fcard:hover { border-color: var(--input); }
+.fcard.you { border-color: var(--primary); }
+.fcard .t { font-size: var(--text-md); font-weight: var(--weight-medium); color: var(--heading-foreground); }
+.fcard .m { font-size: var(--text-sm); color: var(--muted-foreground); min-height: 2.6em; }
+.fcard .bar { height: 3px; background: var(--muted); border-radius: 2px; overflow: hidden; margin-top: 6px; }
+.fcard .bar i { display: block; height: 100%; background: var(--secondary); }
+.fcard .n { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--subtle-foreground); }
+.fcard .why { color: var(--primary); font-family: var(--font-sans); }
+
 /* ---------- lists: one row pattern (title, meta line, count) ---------- */
 .list { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
 .list .r { display: grid; grid-template-columns: 1fr auto; gap: 2px 14px; padding: 11px 0; border-bottom: 1px solid var(--border); color: inherit; text-align: left; background: transparent; border-left: 0; border-right: 0; width: 100%; }
@@ -229,6 +241,17 @@ button.tag:hover { border-color: var(--input); }
 .steps { display: flex; gap: 6px; margin: 0 0 20px; }
 .steps i { flex: 1; height: 4px; border-radius: 2px; background: var(--muted); }
 .steps i.done { background: var(--primary); }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.two h2 { margin-top: 20px; }
+.list .r a.n { color: var(--primary); font-family: var(--font-sans); }
+/* the profile strip on Explore: what we know, and why each field is there */
+.strip { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 8px 12px; background: var(--card); font-size: var(--text-sm); color: var(--muted-foreground); margin: 14px 0 0; }
+.strip b { color: var(--foreground); font-weight: var(--weight-medium); }
+.strip .dotg { width: 10px; height: 10px; border-radius: 50%; background: var(--primary-tint); border: 1px solid var(--primary); flex: none; }
+.strip a { margin-left: auto; color: var(--primary); }
+.explore-row { margin: 10px 0 0; }
+.explore-row .views { margin-left: auto; } .explore-row .views button { padding: 5px 9px; font-size: var(--text-base); line-height: 1; }
+.explore-row .sm-find { margin-left: 6px; }
 .opts { display: grid; gap: 8px; margin: 16px 0; }
 .opt { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 13px 16px; background: var(--card); font-size: var(--text-md); text-align: left; color: var(--foreground); }
 .opt:hover { border-color: var(--input); }

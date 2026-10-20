@@ -11,9 +11,11 @@
   const pct = v => Math.round(v * 100) + "%";
   const LAYOUT_KEY = "skillmap-layout-v5", MODE_KEY = "explore-view", A = 2.1, TOP_N = 25, R_FIELD = 0.125;
   const store = { get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
+  // the view (fields or map) lasts a session: the map is never remembered as the default (owner's choice E1)
+  const session = { get(k, d) { try { const v = sessionStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch { } } };
 
   let data = null, P = null;
-  const ui = { el: null, groups: [], fit: null, onlyFit: false, focus: null, hover: null, selected: null, showAside: null, sizeOf: () => 1 };
+  const ui = { el: null, groups: [], fit: null, onlyFit: false, focus: null, hover: null, selected: null, showAside: null, sizeOf: () => 1, all: false };
 
   // ---------- what a field asks for: the mean share of a skill over the field's roles ----------
   function fieldShares(M) {
@@ -101,11 +103,14 @@
     const sel = ui.selected, near = new Set(sel ? (data.adj[sel] || []).slice(0, 6).map(a => a[0]) : []);
     const seg = list => list.map(([a, b]) => `M${a[0].toFixed(1)} ${a[1].toFixed(1)}L${b[0].toFixed(1)} ${b[1].toFixed(1)}`).join("");
     const edgeSeg = es => seg(es.map(e => [at(e.source), at(e.target)]));
+    // at rest the map is the fields alone (owner's choice E1): a lit field shows its skills, a picked skill its
+    // neighbours, and "Show all skills" brings every dot and the web of lines back
+    const all = ui.all || !!sel, shown = all ? data.nodes : hl ? data.nodes.filter(nd => hl.has(nd.id)) : [];
     let svg = `<svg class="sm-svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">`;
-    svg += `<path class="sm-e" d="${edgeSeg(data.edges)}"/>`;
+    if (ui.all) svg += `<path class="sm-e" d="${edgeSeg(data.edges)}"/>`;
     if (hl && !sel && data.field[lit]) { const f = px(data.field[lit]); svg += `<path class="sm-spoke" d="${seg([...hl.keys()].map(id => [f, at(id)]))}"/>`; }
     if (sel) svg += `<path class="sm-e sel" d="${edgeSeg(data.edges.filter(e => (e.source === sel && near.has(e.target)) || (e.target === sel && near.has(e.source))))}"/>`;
-    svg += data.nodes.map(nd => {
+    svg += shown.map(nd => {
       const wv = hl && hl.get(nd.id), cls = "sm-n" + (wv ? " hl" : "") + (nd.id === sel ? " sel" : near.has(nd.id) ? " near" : ""), [cx, cy] = at(nd.id);
       return `<circle class="${cls}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(2 + 4.5 * Math.sqrt(nd.share)).toFixed(1)}"${wv ? ` style="opacity:${(0.5 + 0.5 * wv / maxW).toFixed(2)}"` : ""} data-sk="${esc(nd.id)}"/>`;
     }).join("");
@@ -181,9 +186,10 @@
   }
   async function names() { await load(); return data.nodes.map(nd => nd.name).sort(); }
   function leave() { ui.el = null; ui.selected = null; ui.hover = null; ui.showAside = null; if (data) tip(null); }
-  const mode = () => store.get(MODE_KEY, "map"), setMode = m => store.set(MODE_KEY, m);
+  const mode = () => session.get(MODE_KEY, "grid"), setMode = m => session.set(MODE_KEY, m);
+  const showAll = v => { ui.all = !!v; draw(); }, allShown = () => ui.all;
   // read-only, for games that use the map as a board (web/games/skill-path.js): positions, links and field shares;
   // FS gains the product field once the product set has loaded
   async function board() { await load(); return { nodes: data.nodes, byId: data.byId, adj: data.adj, field: data.field, rField: R_FIELD, A, get FS() { return data.FS; } }; }
-  window.SkillMap = { stage, find, names, leave, mode, setMode, board };
+  window.SkillMap = { stage, find, names, leave, mode, setMode, showAll, allShown, board };
 })();
