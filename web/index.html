@@ -15,6 +15,8 @@
   <div class="top-actions">
     <a class="toplink" href="#/explore">Explore</a>
     <a class="toplink" href="#/you">About you</a>
+    <a class="toplink" id="nav-classes" href="#/classes" hidden>Classes</a>
+    <a class="toplink" id="nav-signin" href="#/signin" hidden>Sign in</a>
     <button id="theme" class="icon" type="button" title="Theme follows your device. Click to change.">◐</button>
   </div>
 </header>
@@ -23,11 +25,15 @@
   <aside id="aside" class="aside" aria-label="Details" hidden></aside>
 </div>
 <footer class="foot"><span id="foot-note">Built from live job postings, refreshed weekly.</span> <a href="#/about">About the data</a></footer>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.0/dist/umd/supabase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script src="match.js"></script>
 <script src="atlas.js"></script>
 <script src="skillmap.js"></script>
+<script src="catalog.js"></script>
+<script src="classes.js"></script>
 <script src="app.js"></script>
 <script src="games/build-the-hire.js"></script>
 <script src="games/higher-or-lower.js"></script>

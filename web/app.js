@@ -1,5 +1,5 @@
 /* Role atlas — the screens. Routes (hash): #/ start (the games, then see what jobs ask for) · #/play/<game> · #/you (next step) · #/explore · #/field/<group> · #/role/<role> ·
-   #/about. Data comes from atlas.js; the side panel (owner's choice 8B) shows a skill or a posting. */
+   #/about · #/classes, #/professor/<slug>, #/signin (classes.js). Data comes from atlas.js; the side panel (owner's choice 8B) shows a skill or a posting. */
 // The route: the hash read into the screen to show, its path parts and its query. Pure, no DOM; UMD like atlas.js,
 // so node loads it alone (tests/web/routes.test.mjs): require("web/app.js").parseRoute.
 (function (root, factory) {
@@ -7,7 +7,7 @@
   else root.Routes = factory();
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
-  const SCREENS = { "": "start", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about" };
+  const SCREENS = { "": "start", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about", classes: "classes", professor: "professor", signin: "signin" };
   // "#/role/pm/fit?x=1" -> { name: "fit", params: { id: "pm" }, query: { x: "1" }, parts: ["role", "pm", "fit"], search: "x=1" }.
   // An unknown first part, or a part that cannot be decoded ("%E0"), shows the start screen. `search` is the text
   // between the first and a second "?", as the screens read it.
@@ -22,7 +22,7 @@
     let name = Object.hasOwn(SCREENS, a || "") ? SCREENS[a || ""] : "start";
     if (name === "field" && c === "event") name = "event";
     if (name === "role" && (c === "fit" || c === "course")) name = c;
-    const params = name === "play" ? { slug: b } : ["field", "event", "role", "fit", "course"].includes(name) ? { id: b } : {};
+    const params = name === "play" || name === "professor" ? { slug: b } : ["field", "event", "role", "fit", "course"].includes(name) ? { id: b } : {};
     return { name, params, query, parts, search };
   }
   return { parseRoute };
@@ -114,9 +114,10 @@
   const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
   state.you = store.get("you"); state.resume = store.get("resume");
   const LEVEL_OPT = { entry: "associate", mid: "mid", senior: "senior", lead: "lead" };
+  const shellCtx = { crumbs, page, showAside };   // what the Spring 2027 screens (classes.js) draw with
   function route() {
     const { name, params: { id, slug } } = Routes.parseRoute(location.hash);
-    const go = { start, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about }[name];
+    const go = { start, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => ClassScreens.signin(shellCtx) }[name];
     SkillMap.leave();
     go().catch(fail);
   }
@@ -130,6 +131,7 @@
   async function start() {
     crumbs([]); showAside(null);
     const list = await games();
+    const classesCard = window.ClassScreens ? await ClassScreens.startCard().catch(() => "") : "";
     const card = gm => `<a class="game" href="#/play/${esc(gm.slug)}"><span class="cover"><img src="${esc(gm.cover)}" alt="" loading="lazy" onerror="this.remove()"><span class="ph-t">${esc(gm.title)}</span></span>
       <span class="gt">${esc(gm.title)}</span><span class="gd">${esc(gm.tagline)}</span>${gm.status === "soon" ? '<span class="tag soon">Coming soon</span>' : '<span class="tag">Play →</span>'}</a>`;
     page(`<section class="start-games">
@@ -148,7 +150,7 @@
         <div class="choices">
           <a class="choice rec" href="#/you"><div class="t">Tell us about you</div><div class="d">Three questions and an optional resume. We pick the roles that fit you and show how you compare.</div><span class="tag">About 2 minutes →</span></a>
           <a class="choice" href="#/explore"><div class="t">Explore the roles</div><div class="d">Browse by field, open a role, and see what its postings ask for. You can check your fit later.</div><span class="tag">No sign-up →</span></a>
-        </div>
+        </div>${classesCard ? `<div class="choices one">${classesCard}</div>` : ""}
       </section>`);
     main.firstElementChild.classList.add("wide", "start");
     const track = $("#car-track"), by = dir => track.scrollBy({ left: dir * track.clientWidth * 0.9, behavior: "smooth" });
