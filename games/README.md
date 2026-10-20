@@ -63,6 +63,14 @@ problem: nobody can read thousands of postings to learn what a role asks for, an
   play. No rank titles: the end screen leads with the measure in plain words and the change since last time. Games
   are untimed; a game that had a clock keeps it as a Speed round (the clock alone, no lives), on offer once
   `games[slug].clean` is set by a clean untimed round.
+- The Know-your-role record (PLAN.md v12, decision 4): `roles[<roleId>]` in the same key holds the asks met and
+  known, the ladders sorted, the postings read and the demand pairs seen. A game writes it at the end of a round
+  with `GameShell.record.saveRole(roleId, { label, met, known, ladders, postings, demand })` and reads it with
+  `record.knowledge(roleId, asks)`, where `asks` is `record.asksOf(ix, P, roleId)` (the skills at least 40% of the
+  role's postings name). `GameShell.knowLine(before, after, label)` is the first line of every end screen ("You know
+  9 of the 15 things PM postings ask for · up from 6"); `GameShell.knowCard(...)` is the card the role screen and
+  About you show, with "Practise what's missing". A reveal is one takeaway in words, one visual, one link, and the
+  evidence behind "Why" (`results`).
 - Card: an entry in `web/data/games.json`: `slug`, `title`, `tagline`, `cover` (the "Coming soon" page's image),
   `status` (`"live"` once the game ships; the card is otherwise dimmed and says "coming soon"), and the grid's fields
   (PLAN.md v12, decision 7): `group` (the fact the game teaches: `asks`, `read`, `senior`, `jobs`, `links`), `verb`

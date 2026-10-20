@@ -299,35 +299,34 @@
       round.points = round.right ? points(round.shown) : 0;
       game.score += round.points;
       if (!saved.seen.includes(round.role)) { saved.seen.push(round.role); GS.record.saveGame(SLUG, { seen: saved.seen }); }
+      GS.record.saveRole(round.role, { label: D.M.roles[round.role].label, met: round.clues.slice(0, round.shown), known: round.right ? round.clues.slice(0, round.shown) : [], postings: [String(round.job.id || round.job.url || round.job.company + "|" + round.job.title)] });
       renderReveal(round);
       game.phase = "reveal";
       say(round.right ? `Right. Plus ${round.points} points. The posting was for ${D.M.roles[round.role].label}.` : `Not this one. 0 points. The posting was for ${D.M.roles[round.role].label}.`);
-      focus(".gtr-role");
+      focus(".gm-measure");
     }
+    // the reveal (GTR2): the giveaway as the takeaway, one bar against the all-roles average, the posting as a link,
+    // "Why not <your answer>?" and the five clues behind a disclosure
     function renderReveal(round) {
       const r = round.role, meta = D.M.roles[r], label = meta.label, fieldId = D.fieldOf[r];
       const opts = round.options.map((o, k) => { const right = o === r, you = o === round.answer; const cls = `gopt${right ? " right" : ""}${you && right ? " you" : ""}${you && !right ? " wrong" : ""}`; const m = right ? "The answer" : you ? "Your answer" : D.fieldLabel[D.fieldOf[o]]; return `<div class="${cls}"><kbd>${k + 1}</kbd><span class="t">${esc(D.M.roles[o].label)}</span><span class="m">${esc(m)}</span></div>`; }).join("");
       const facts = round.clues.map((s, k) => { const sk = D.ix.skillById[s], sh = D.share(r, s), a = D.avg(s); return `<li class="${k < round.shown ? "seen" : ""}"><span class="n mono">${k + 1}</span><span class="nm">${esc(sk.name)}<span class="ar">${esc((D.M.clusters[sk.cluster] || {}).label || sk.cluster)}</span></span><span class="bar" aria-hidden="true"><i style="width:${Math.round(sh * 100)}%"></i><u style="left:${Math.round(a * 100)}%" title="average"></u></span><span class="v mono">${pct(sh)}</span><span class="avg mono">${pct(a)}</span></li>`; }).join("");
-      const give = D.ix.skillById[round.giveaway];
+      const give = D.ix.skillById[round.giveaway], gShare = D.share(r, round.giveaway), gAvg = D.avg(round.giveaway);
       const close = D.closeCalls(r, round).map(c => { const dm = D.M.roles[c.id], picked = c.id === round.answer; return `<li class="${picked ? "picked" : ""}"><a class="t" href="#/role/${esc(c.id)}">${esc(dm.label)}</a><span class="m">${esc(D.fieldLabel[D.fieldOf[c.id]])} · <span class="num">${fmt(dm.n_open)}</span> open${picked ? " · your answer" : ""}</span><span class="d">${esc(D.ix.skillById[c.skill].name)}: <span class="num">${pct(c.dShare)}</span> of its postings, <span class="num">${pct(c.rShare)}</span> of ${esc(label)} ones. ${esc(give.name)}: <span class="num">${pct(c.gShare)}</span>.</span></li>`; }).join("");
       const verdict = round.right ? `<div class="verdict-box ok"><span class="big mono">+${round.points}</span><span>Right, at clue ${round.shown}.</span></div>` : `<div class="verdict-box miss"><span class="big mono">0</span><span>You answered ${esc(D.M.roles[round.answer].label)} at clue ${round.shown}.</span></div>`;
+      const in100 = v => v < 0.005 ? "fewer than 1 in 100" : `${Math.round(v * 100)} in 100`;
       renderRoundShell(`<div class="gtr-choices small4">${opts}</div>
- <div class="gtr-reveal">
-  <section>
-   <p class="eyebrow">The posting was for</p>
-   <h1 class="gtr-role">${esc(label)}</h1>
-   <p class="facts"><a href="#/field/${esc(fieldId)}">${esc(D.fieldLabel[fieldId])}</a> · <span class="num">${fmt(meta.n_open)}</span> open postings at <span class="num">${fmt(meta.n_companies)}</span> employers</p>
-   ${meta.small ? `<p class="small muted">Based on ${fmt(meta.n)} postings</p>` : ""}
-   <p class="small muted src">This one: ${esc(decodeEntities(round.job.company))}, ${esc(decodeEntities(round.job.title))}</p>
+ ${verdict}
+ <div class="gm-result">
+  <p class="eyebrow">The posting was for <a href="#/role/${esc(r)}">${esc(label)}</a> · ${esc(D.fieldLabel[fieldId])}</p>
+  <p class="gm-measure">${esc(give.name)} gave it away</p>
+  <p class="gm-take">${in100(gShare)} ${esc(label)} postings ask for ${esc(lower(give.name))}. Across all ${D.nAll} roles: ${in100(gAvg)}.</p>
+  <div class="gm-visual gtr-give"><span class="bar" data-measure="${pct(gShare)} of ${esc(label)} postings ask for ${esc(give.name)}; the mark is the average over all ${D.nAll} roles, ${pct(gAvg)}."><i style="width:${Math.round(gShare * 100)}%"></i><u style="left:${Math.round(gAvg * 100)}%"></u></span><span class="gm-key">${esc(label)} <b class="num">${pct(gShare)}</b> · all roles <b class="num">${pct(gAvg)}</b></span></div>
+  <p class="gm-link"><a href="${esc(round.job.url || "#/role/" + r)}"${round.job.url ? ' target="_blank" rel="noopener"' : ""}>${esc(decodeEntities(round.job.company))}, ${esc(decodeEntities(round.job.title))}${round.job.url ? " ↗" : ""}</a></p>
+  <details class="disc gm-why"><summary>${round.right ? "Why" : `Why not ${esc(D.M.roles[round.answer].label)}?`}</summary><div class="disc-body">
+   <p class="sm-h">Close calls</p><ul class="close">${close}</ul>
    <div class="fact-head small muted"><span>The five clues</span><span>${esc(label)} postings</span><span style="text-align:right">All ${D.nAll}</span></div>
-   <ol class="factlist">${facts}</ol>
-   <p class="punch">${pct(D.share(r, round.giveaway))} of ${esc(label)} postings ask for ${esc(lower(give.name))}. On average, ${pct(D.avg(round.giveaway))} of postings across the ${D.nAll} roles do.</p>
-  </section>
-  <aside>
-   ${verdict}
-   <p class="sm-h">Close calls</p>
-   <ul class="close">${close}</ul>
-  </aside>
+   <ol class="factlist">${facts}</ol></div></details>
  </div>
  ${GS.foot({ primary: { id: "gtr-next-round", label: game.i + 1 < ROUNDS ? "Next round" : "See your result", key: "Enter" }, quiet: { href: `#/role/${esc(r)}`, label: "Open this role" } })}`);
       F.set({ marks: marks(), role: `${fmt(game.score)} points` });
@@ -354,7 +353,8 @@
       const rows = game.rounds.map((r, k) => `<tr class="${r.right ? "" : "miss"}"><td class="mono rn">${k + 1}</td><td><a href="#/role/${esc(r.role)}">${esc(D.M.roles[r.role].label)}</a><span class="m">${esc(D.fieldLabel[r.field])}</span></td><td class="post">${esc(decodeEntities(r.job.company))}</td><td class="r mono">${r.shown}</td><td class="r mono rp">${r.right ? "+" + r.points : "0"}</td></tr>`).join("");
       const first = game.rounds.map(r => r.role).filter(r => !game.seenBefore.has(r));
       const change = prevLast == null ? "Your first game." : game.score > prevLast ? `Up from ${fmt(prevLast)} last time.` : game.score < prevLast ? `Down from ${fmt(prevLast)} last time.` : "The same as last time.";
-      const rec = `${change}${isNewBest && prevBest != null ? " A new best." : prevBest != null ? ` Your best: <b>${fmt(prevBest)}</b>.` : ""}${game.timed ? " A Speed round." : unlockedNow ? " The Speed round is unlocked." : ""}`;
+      const known = game.rounds.filter(r => r.right).reduce((a, r) => a + r.shown, 0), readRoles = new Set(game.rounds.map(r => r.role)).size;
+      const rec = `You read ${readRoles} ${readRoles === 1 ? "role's" : "roles'"} postings and now know <b>${known}</b> more of the things their postings ask for. ${change}${isNewBest && prevBest != null ? " A new best." : prevBest != null ? ` Your best: <b>${fmt(prevBest)}</b>.` : ""}${game.timed ? " A Speed round." : unlockedNow ? " The Speed round is unlocked." : ""}`;
       screen.innerHTML = GS.results({
         eyebrow: "Ten rounds done",
         measure: `${right} of ${ROUNDS} right · ${fmt(game.score)} of ${fmt(MAX)} points`,

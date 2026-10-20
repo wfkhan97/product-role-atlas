@@ -310,6 +310,14 @@ next PR to main before a base branch is deleted):
    role (`PRACTISE` in `web/app.js`); "Practise your gaps" passes the gap skills as `&skills=`, which What does it
    ask for puts on its first board.
 4. `feat/games-2-4-record`: one takeaway per reveal and the Know-your-role record (G3, G4, GTR2, BTH3, CL2).
+   Built as (2026-10-20): the record lives under `roles` in the one `games` key (`GameShell.record.saveRole`), one
+   entry per role: the asks met (dealt in a game) and known (got right: picked on a board, called right in Higher or
+   lower, hired in Build the hire, a clue of a round answered right in Guess the role, found in Spot the real ask, a
+   ladder sorted right in Climb the ladder, a hop you can show in Skill path), the ladders sorted, the postings read
+   (Guess the role, Spot the real ask) and the demand pairs seen (Where's the demand, per role on a card). A role's
+   asks are the skills at least 40% of its postings name (What does it ask for's cut), so "9 of 15" means the same
+   on every screen. The card sits beside the role screen's action row with "Practise what's missing"; the ranked
+   list marks the asks known with ✓; About you lists the roles with a record.
 5. `feat/games-2-5-know-the-role`: Know the role from WIA Steady and HOL (WIA1, WIA2, HOL1, BTH1, BTH2); HOL, WIA
    and BTH retired.
 6. `feat/games-2-6-demand-guess-spot`: rank the fields (WID1, WID2), Guess the role shortened (GTR1), Spot the real

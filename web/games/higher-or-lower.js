@@ -295,6 +295,14 @@
       save.best.overall = Math.max(run.streak, save.best.overall || 0);
       GS.record.saveGame(SLUG, { played: true, best: save.best, lastStreak: run.streak });
       S.view = "end"; S.busy = false;
+      // the Know-your-role record: every skill dealt is met; the right calls are known (one role only)
+      let know = "";
+      if (!hop) {
+        const rid = run.role.set === "product" ? run.role.id : run.role.id, asks = GS.record.asksOf(ix, S.P, rid), before = GS.record.knowledge(rid, asks);
+        const met = [...new Set([...run.log.flatMap(p => [p.left.skill, p.right.skill]), run.left.skill, ...(win ? [] : [run.right.skill])])], known = [...new Set(run.log.map(p => p.right.skill))];
+        GS.record.saveRole(rid, { label: run.role.label, met, known });
+        know = GS.knowLine(before, GS.record.knowledge(rid, asks), run.role.label);
+      }
       const missRole = win ? roleOfCard(run.left) : roleOfCard(run.right);
       const nameOf = c => hop ? S.byKey[c.role].label : skillOf(c.skill, run.role.set).name;
       const areaOfCard = c => hop ? S.byKey[c.role].groupLabel : areaOf(c.skill, run.role.set);
@@ -322,7 +330,7 @@
         return `${head}<li>${side(p.left)}<span class="op">${p.right.share > p.left.share ? "&lt;" : "&gt;"}</span>${side(p.right, "b")}</li>`;
       }).join("")}</ol>` : '<p class="small muted">None this run.</p>';
       const change = prevLast == null ? "Your first run." : run.streak > prevLast ? `Up from ${prevLast} last time.` : run.streak < prevLast ? `Down from ${prevLast} last time.` : "The same as last time.";
-      const rec = `${change}${isBest && prev != null ? " A new best." : prev != null ? ` Your best here: <b>${prev}</b>.` : ""}`;
+      const rec = `${know ? know + " " : ""}${change}${isBest && prev != null ? " A new best." : prev != null ? ` Your best here: <b>${prev}</b>.` : ""}`;
       screen.innerHTML = GS.results({
         eyebrow: `${esc(hop ? "Field hop" : run.role.label)} · ${win ? "every pair dealt" : "streak over"}`,
         measure: `${run.streak} ${run.streak === 1 ? "pair" : "pairs"} right in a row`,

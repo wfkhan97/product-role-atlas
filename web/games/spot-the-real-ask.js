@@ -239,6 +239,9 @@
     stopTimer(S);
     const r = score(S);
     S.run.results[S.run.i] = r;
+    // the Know-your-role record: the posting read, its asks met, the ones found known
+    const p = S.run.passages[S.run.i], rid = p.set === "product" ? S.Atlas.productKey(p.role) : p.role;
+    S.GS.record.saveRole(rid, { label: roleOf(S, p).label, postings: [p.id], met: r.chunks.filter(c => c.label === "a").flatMap(c => c.skills), known: r.chunks.filter(c => c.state === "found").flatMap(c => c.skills) });
     reveal(S, r);
   }
 
@@ -340,7 +343,7 @@
     });
     const pr = v => `${Math.round(v * 100)}%`;
     const change = prevLast == null ? "Your first run." : read > prevLast + 0.0005 ? `Up from ${pr(prevLast)} last time.` : read < prevLast - 0.0005 ? `Down from ${pr(prevLast)} last time.` : "The same as last time.";
-    const rec = `${change}${isBest && prev ? " A new best." : prev ? ` Your best: <b>${pr(prev.read)}</b>.` : ""}${run.timed ? " A Speed round." : cleanNow ? " The Speed round is unlocked." : ""}`;
+    const rec = `You read ${rs.length} ${rs.length === 1 ? "posting" : "postings"} and found <b>${found}</b> real asks the atlas now counts as known for ${run.passages.map(p => roleOf(S, p).label).join(", ")}. ${change}${isBest && prev ? " A new best." : prev ? ` Your best: <b>${pr(prev.read)}</b>.` : ""}${run.timed ? " A Speed round." : cleanNow ? " The Speed round is unlocked." : ""}`;
     F.body.innerHTML = GS.results({
       eyebrow: `${["One posting", "Two postings", "Three postings"][rs.length - 1] || rs.length + " postings"} read`,
       measure: `${found} of ${asks} asks found · ${passed} of ${filler} filler lines let pass`,

@@ -219,7 +219,7 @@
     function startRound() {
       const c = S.game.entries[S.game.i];
       // the first skill of a game comes with its Entry sentence placed, as the example (CL1); the pile holds the other three
-      S.round = { c, e: c.e, order: shuffleOrder(4, rng), placed: S.game.i === 0 ? [0, -1, -1, -1] : [-1, -1, -1, -1], selected: null, checked: false, pts: null, revealed: false, given: S.game.i === 0 };
+      S.round = { c, e: c.e, order: shuffleOrder(4, rng), placed: S.game.i === 0 ? [0, -1, -1, -1] : [-1, -1, -1, -1], selected: null, checked: false, pts: null, given: S.game.i === 0 };
       focusSel = ".cl-pile .cl-line[data-id]";
       renderSort();
       if (S.game.i === 0) GS.coachOnce(SLUG, $(".cl-board"), "Drag each sentence onto its rung, or select it and press the rung's key. The Entry sentence is placed for you.", "beforebegin");
@@ -341,52 +341,41 @@
       renderChecked();
     }
     function next() { if (S.game.i === S.game.entries.length - 1) renderEnd(); else { S.game.i++; startRound(); } }
+    // the checked screen (CL2): the measure, the ladder in the right order with the misplacements marked, the verb
+    // chain as the takeaway, Next; build steps, roles and grade names behind More
     function renderChecked() {
       S.screen = "checked";
       const R = S.round, e = R.e, { pts, total: t } = R.pts, i = S.game.i, n = S.game.entries.length, last = i === n - 1;
-      const where = k => R.revealed ? k : R.placed.indexOf(k);   // which sentence sits on rung k: as placed, or after "Show the right order"
-      const lineChecked = (sIdx, k) => { const p = pts[sIdx], cls = p === 2 ? "right" : "wrong", placedOn = R.placed[sIdx];
-        const words = p === 2 ? "Right rung · +2" : R.revealed ? `You put it on ${LABELS[placedOn]}, ${Math.abs(sIdx - placedOn) === 1 ? "one rung" : Math.abs(sIdx - placedOn) === 2 ? "two rungs" : "three rungs"} ${placedOn > sIdx ? "up" : "down"} · +${p}` : placeWords(placedOn, sIdx);
-        const arrow = p === 2 ? "✓" : (R.revealed ? placedOn > sIdx : sIdx > placedOn) ? "↑" : "↓";
+      const right = pts.filter(p => p === 2).length;
+      const lineChecked = sIdx => { const p = pts[sIdx], cls = p === 2 ? "right" : "wrong", placedOn = R.placed[sIdx];
+        const words = p === 2 ? "Right rung · +2" : `You put it on ${LABELS[placedOn]}, ${Math.abs(sIdx - placedOn) === 1 ? "one rung" : Math.abs(sIdx - placedOn) === 2 ? "two rungs" : "three rungs"} ${placedOn > sIdx ? "up" : "down"} · +${p}`;
+        const arrow = p === 2 ? "✓" : placedOn > sIdx ? "↑" : "↓";
         return `<div class="cl-line ${cls}" data-id="${sIdx}"><span class="grip" aria-hidden="true">${arrow}</span><span>${markNew(e.rungs[sIdx], newKeys(e.rungs, sIdx), esc)}</span><span class="verdict-l">${words}</span></div>`; };
-      const rung = k => { const sIdx = where(k); return `<div class="cl-rung ${pts[sIdx] === 2 ? "here-right" : "here-wrong"}">${lv(e, k)}<div class="cl-slot filled" role="group" aria-label="${esc(rungAria(e, k, e.rungs[sIdx]))}">${lineChecked(sIdx, k)}</div></div>`; };
+      const rung = k => `<div class="cl-rung ${pts[k] === 2 ? "here-right" : "here-wrong"}">${lv(e, k)}<div class="cl-slot filled" role="group" aria-label="${esc(rungAria(e, k, e.rungs[k]))}">${lineChecked(k)}</div></div>`;
       const roles = topRoles(e.skillId, D, 3);
-      const buildLink = e.build.length ? `<button type="button" class="linkish link" id="cl-build" aria-expanded="false">How to build ${esc(lower1(e.name))} →</button>` : `<span class="small subtle">No build step is written for this skill yet.</span> ${roles[0] ? `<a class="link" href="#/role/${esc(roles[0].id)}">How postings say it →</a>` : ""}`;
       const grades = e.ladder ? KEYS.map(k => gradeOf(e, M, k)) : null;
-      const gradeNote = grades ? `<p class="small muted">This ladder uses ${esc(lower1(ladderLabel(e, M)))} grades: ${grades.map(esc).join(" → ")}.${grades[1].toLowerCase() === "associate" ? " At a bank, Associate is the second rung, not the first: analysts join below it." : ""}</p>` : "";
+      const more = `${grades ? `<p>This ladder uses ${esc(lower1(ladderLabel(e, M)))} grades: ${grades.map(esc).join(" → ")}.${grades[1].toLowerCase() === "associate" ? " At a bank, Associate is the second rung, not the first: analysts join below it." : ""}</p>` : ""}
+        ${e.ladder ? `<p>Every sentence here comes from ${esc((M.meta || {}).country || "US")} postings: each is asked for by at least two employers at that level.</p>` : "<p>This ladder was written by the atlas for a skill every field shares.</p>"}
+        ${e.build.length ? `<p style="margin:8px 0 0">How to build ${esc(lower1(e.name))}, as the atlas writes it:</p><ul class="plain">${e.build.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}
+        <p style="margin:8px 0 4px">Roles whose postings ask for it most</p>
+        <div class="tags">${roles.map(r => `<a class="tag" href="#/role/${esc(r.id)}">${esc(r.label)} <span class="cl-num">${pct(r.share)}</span></a>`).join("") || '<span class="small muted">No role in the atlas asks for it yet.</span>'}</div>`;
       page(`${head()}
         <div class="cl-board">
           <section>
-            <p class="verdict" id="cl-verdict" tabindex="-1" aria-live="polite" style="margin-top:0">${verdictWords(pts)}</p>
-            <p class="facts" style="margin:0 0 6px" aria-live="polite">${pts.map(p => "+" + p).join(" ")} · <b style="color:var(--heading-foreground)">${t} of 8</b></p>
-            <p class="small muted">${esc(verbNote(e.verbs, LABELS))}</p>${gradeNote}
+            <p class="gm-measure" id="cl-verdict" tabindex="-1" aria-live="polite" style="margin-top:0">${right} of 4 on the right rung</p>
+            <p class="facts" style="margin:0 0 6px" aria-live="polite">${pts.map(p => "+" + p).join(" ")} · ${t} of 8 points</p>
             <h3 style="margin-top:18px">What changes as you move up</h3>
             <div class="cl-verbs" aria-label="The first word of each rung, Entry to Lead">${e.verbs.map((v, k) => `${k ? '<i aria-hidden="true">→</i>' : ""}<span>${esc(v)}</span>`).join("")}</div>
-            <p class="small muted" style="margin-top:8px">The first word of each rung, Entry to Lead. On the ladder, the words in bold are new at that rung: they appear in no rung below it.</p>
-            ${e.climb ? `<p>${esc(e.climb)}</p>` : ""}
-            <h3 style="margin-top:18px">Where to go from here</h3>
-            <p style="margin:4px 0 8px">${buildLink}</p>
-            ${e.build.length ? `<div class="cl-drawer" id="cl-drawer" hidden><p class="small muted" style="margin:0">How to build it, as the atlas writes it</p><ul class="plain">${e.build.map(b => `<li>${esc(b)}</li>`).join("")}</ul></div>` : ""}
-            <p class="small muted" style="margin:0 0 4px">Roles whose postings ask for it most</p>
-            <div class="tags">${roles.map(r => `<a class="tag" href="#/role/${esc(r.id)}">${esc(r.label)} <span class="cl-num">${pct(r.share)}</span></a>`).join("") || '<span class="small muted">No role in the atlas asks for it yet.</span>'}</div>
+            <p class="gm-take">${esc(verbNote(e.verbs, LABELS))} The words in bold are new at that rung.${e.climb ? " " + esc(e.climb) : ""}</p>
+            <details class="disc gm-why"><summary>More</summary><div class="disc-body">${more}</div></details>
           </section>
           <section>
-            <p class="cl-col-h"><span>Your ladder, checked</span><span>Top is the most senior</span></p>
+            <p class="cl-col-h"><span>The ladder in the right order</span><span>Top is the most senior</span></p>
             <div class="cl-ladder" id="cl-ladder">${[3, 2, 1, 0].map(rung).join("")}</div>
           </section>
         </div>
-        ${GS.foot({ primary: { id: "cl-next", label: last ? "See your result" : "Next skill", key: "Enter" }, quiet: t === 8 || R.revealed ? null : { id: "cl-reveal", label: "Show the right order" } })}`, headState());
-      const b = $("#cl-build"); if (b) b.onclick = () => { const d = $("#cl-drawer"); d.hidden = !d.hidden; b.setAttribute("aria-expanded", String(!d.hidden)); };
-      const rv = $("#cl-reveal"); if (rv) rv.onclick = reveal;
+        ${GS.foot({ primary: { id: "cl-next", label: last ? "See your result" : "Next skill", key: "Enter" } })}`, headState());
       $("#cl-next").onclick = next;
-    }
-    // "Show the right order": the sentences move to their rungs; a short move animation unless motion is reduced
-    function reveal() {
-      const R = S.round; if (R.revealed) return;
-      const before = {}; $$("#cl-ladder .cl-line[data-id]").forEach(l => before[l.dataset.id] = l.getBoundingClientRect().top);
-      R.revealed = true; focusSel = "#cl-next"; const y = window.scrollY; renderChecked(); window.scrollTo(0, y);
-      if (reduced()) return;
-      $$("#cl-ladder .cl-line[data-id]").forEach(l => { const dy = (before[l.dataset.id] || 0) - l.getBoundingClientRect().top; if (!dy) return; l.style.transition = "none"; l.style.transform = `translateY(${dy}px)`; requestAnimationFrame(() => { l.style.transition = "transform .4s ease"; l.style.transform = ""; }); });
     }
 
     // ---------- 4. end: the measure in plain words, the change since last time, the five skills ----------
@@ -396,6 +385,10 @@
       const was = GS.record.game(SLUG), prevBest = was.best && typeof was.best.score === "number" ? was.best : null, prevLast = was.lastScore;
       const isBest = !prevBest || t > prevBest.score;
       GS.record.saveGame(SLUG, { played: true, lastScore: t, best: isBest ? { score: t, role: label, roleId: S.role, date: new Date().toISOString().slice(0, 10) } : prevBest, clean: true });
+      // the Know-your-role record: the ladders sorted right; a skill sorted right is an ask known, every skill met
+      const asks = GS.record.asksOf(ix, P, S.role), before = GS.record.knowledge(S.role, asks);
+      GS.record.saveRole(S.role, { label, met: S.game.results.map(r => r.e.skillId), known: S.game.results.filter(r => r.total === 8).map(r => r.e.skillId), ladders: S.game.results.filter(r => r.total === 8).map(r => r.e.skillId) });
+      const know = GS.knowLine(before, GS.record.knowledge(S.role, asks), label);
       const dots = r => `<span class="cl-dots" aria-label="${r.pts.map((p, k) => `${LABELS[k]} ${p === 2 ? "right" : p === 1 ? "one off" : "two or more off"}`).join(", ")}">${r.pts.map(p => `<i class="${p === 2 ? "d-r" : p === 1 ? "d-h" : "d-w"}"></i>`).join("")}</span>`;
       const row = (r, k) => { const roles = topRoles(r.e.skillId, D, 2);
         const src = r.e.ladder ? `From postings · ${esc(lower1(ladderLabel(r.e, M)))} ladder` : "Written by the atlas";
@@ -406,7 +399,7 @@
           ${r.e.build.length ? `<div class="cl-drawer" id="cl-drawer-${k}" hidden><ul class="plain">${r.e.build.map(b => `<li>${esc(b)}</li>`).join("")}</ul></div>` : ""}</div>`; };
       const right = S.game.results.reduce((a, r) => a + r.pts.filter(p => p === 2).length, 0);
       const change = prevLast == null ? "Your first game." : t > prevLast ? `Up from ${prevLast} last time.` : t < prevLast ? `Down from ${prevLast} last time.` : `The same as last time.`;
-      const rec = `${change}${isBest && prevBest ? " A new best." : prevBest ? ` Your best: <b>${prevBest.score}</b>.` : ""}`;
+      const rec = `${know ? know + " " : ""}${change}${isBest && prevBest ? " A new best." : prevBest ? ` Your best: <b>${prevBest.score}</b>.` : ""}`;
       page(GS.results({
         eyebrow: `${esc(label)} · five skills`,
         measure: `${t} of ${MAX_SCORE} · ${right} of 20 sentences on the right rung`,

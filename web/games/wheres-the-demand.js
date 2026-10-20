@@ -343,6 +343,8 @@ ${S.timed ? `<div class="wd-timer" aria-hidden="true"><i style="width:100%"></i>
       const q = S.round.questions[S.i], right = side === q.winner;
       S.picks[S.i] = { side, right }; if (right) S.score++;
       head();
+      // the Know-your-role record: a pair of open-posting counts seen, for each role on the cards
+      for (const c of [q.left, q.right]) { const id = c.kind === "role" ? c.id : c.kind === "employer" ? c.role : null; if (id) GS.record.saveRole(id, { label: c.kind === "role" ? c.label : c.roleLabel, demand: 1 }); }
       const picked = c => side === c, winner = c => q.winner === c;
       const verdict = sideName => picked(sideName) ? (winner(sideName) ? '<span class="tag good">Your pick &middot; right</span>' : '<span class="tag bad">Your pick</span>') : winner(sideName) ? `<span class="tag amber">${esc(moreTag(q))}</span>` : "";
       const cls = sideName => (sideName === "right" ? " right-side" : "") + (picked(sideName) ? (winner(sideName) ? " mine-ok" : " mine-miss") : " dim");
@@ -377,7 +379,8 @@ ${GS.foot({ primary: { id: "wd-next", label: S.i + 1 < S.round.questions.length 
       const isBest = !S.timed && (sv.best == null || R.score > sv.best), cleanNow = !S.timed && R.score * 2 >= R.n && !sv.clean;
       GS.record.saveGame(SLUG, { played: true, best: isBest ? R.score : sv.best, lastScore: R.score, rounds: [{ score: R.score, at, data: S.round.meta.generated, timed: S.timed }, ...sv.rounds].slice(0, KEEP_ROUNDS), clean: sv.clean || cleanNow });
       const change = sv.lastScore == null ? "Your first round." : R.score > sv.lastScore ? `Up from ${sv.lastScore} last time.` : R.score < sv.lastScore ? `Down from ${sv.lastScore} last time.` : "The same as last time.";
-      const rec = `${change}${isBest && sv.best != null ? " A new best." : sv.best != null ? ` Your best: <b>${esc(sv.best)}</b>.` : ""}${S.timed ? " A Speed round." : cleanNow ? " The Speed round is unlocked." : ""}`;
+      const nRoles = new Set(R.rows.flatMap(r => [r.q.left, r.q.right]).filter(c => c.kind === "role" || c.kind === "employer").map(c => c.kind === "role" ? c.id : c.role)).size;
+      const rec = `You saw where the open postings are for <b>${nRoles}</b> roles this round. ${change}${isBest && sv.best != null ? " A new best." : sv.best != null ? ` Your best: <b>${esc(sv.best)}</b>.` : ""}${S.timed ? " A Speed round." : cleanNow ? " The Speed round is unlocked." : ""}`;
       const mark = r => r.timedOut ? '<span class="mk miss">time</span>' : r.right ? '<span class="mk ok">&#10003;</span>' : '<span class="mk miss">&times;</span>';
       const row = r => `<div class="r">${mark(r)}<span class="t">${esc(r.q.w.label)} <span class="subtle">over</span> ${esc(r.q.l.label)}</span><span class="m">${esc(recapMeta(r.q))}</span><span class="n">${esc(recapCounts(r.q))}</span></div>`;
       const sp = R.surprise;
