@@ -1,5 +1,15 @@
 # Where's the demand
 
+> Rebuilt in v12 (2026-10-20, PLAN.md "The games, second pass", WID1 and WID2) as **rank the fields**: round one puts
+> five fields in order of open US postings (the player's field among them), round two five roles of the player's
+> field (topped up from other fields when it has fewer); click the cards in order or drag; "N of 5 in place" is the
+> measure; the reveal is the Explore field cards' bars with the player's order painted on, the gap line as the
+> takeaway and the employer count (roles) or role count (fields) as its why; no clock, no rank titles, no employer-type
+> or skill-across-fields questions. The record keeps a demand count per role seen. Logic in
+> `web/games/wheres-the-demand.js` (`entities`, `dealFields`, `dealRoles`, `scoreOrder`, `takeaway`), tested by
+> `tests/web/wheres-the-demand.test.mjs`. The sections below describe the first build (ten pairs, eight seconds each)
+> and its data; the counts and the entity rules (MBA fields, roles not marked small, never Product) still hold.
+
 ```json
 { "slug": "wheres-the-demand", "title": "Where's the demand", "tagline": "Guess where the open jobs are", "cover": "img/games/wheres-the-demand.png", "status": "soon" }
 ```

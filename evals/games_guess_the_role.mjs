@@ -5,7 +5,9 @@
 // Loads web/atlas.js in node with a file-system `load`, as the game loads it in the browser, and checks the rules in
 // games/guess-the-role/README.md: every role has a playable posting; every distractor set has three distinct roles,
 // none above similarity 0.90, in a 2 + 2 or 1 + 1 + 1 + 1 field pattern; every clue set has five distinct eligible
-// skills, none generic, each asked by at least a quarter of the role's postings, with the giveaway's disc > 0.
+// skills, none generic, each asked by at least a quarter of the role's postings, with the giveaway's disc > 0 (v12:
+// three clues, the first from the more distinctive half of the candidates, the second the most distinctive but the
+// giveaway).
 // A rule violation fails. The counts the README states (open, playable, roles with 2 + 2) are printed and a change
 // is a warning, not a failure: a weekly data refresh moves them.
 import fs from "fs";
@@ -16,7 +18,7 @@ import { createRequire } from "module";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(here, "..");
 const require = createRequire(import.meta.url);
-const README = { open: 22478, playable: 18999, twoTwo: 46, fewSkills: 1142, relaxed: 1403 };   // games/guess-the-role/README.md, data of 2026-10-19
+const README = { open: 22367, playable: 20313, twoTwo: 46, fewSkills: 1116, relaxed: 364 };   // games/guess-the-role/README.md, data of 2026-10-19, the v12 three-clue rule
 
 const Atlas = require(path.join(root, "web/atlas.js"))({ load: url => JSON.parse(fs.readFileSync(path.join(root, "web", url), "utf8")), Matcher: null });
 const { rules } = require(path.join(root, "web/games/guess-the-role.js"));
@@ -53,7 +55,7 @@ for (const r of D.roles) {
   for (const { job, picked } of P) {
     if (picked.relaxed) relaxed++;
     const c = picked.clues;
-    if (c.length !== rules.CLUES || new Set(c).size !== rules.CLUES) { fail(`${r} posting ${job.id}: clues are not five distinct skills`); continue; }
+    if (c.length !== rules.CLUES || new Set(c).size !== rules.CLUES) { fail(`${r} posting ${job.id}: clues are not ${rules.CLUES} distinct skills`); continue; }
     if (c[rules.CLUES - 1] !== picked.giveaway) fail(`${r} posting ${job.id}: the giveaway is not last`);
     const have = new Set(D.eligibleOf(job));
     for (const s of c) {
@@ -65,6 +67,10 @@ for (const r of D.roles) {
     if (!(D.disc(r, d.ids, picked.giveaway) > 0)) fail(`${r} posting ${job.id}: giveaway disc is ${D.disc(r, d.ids, picked.giveaway)}`);
     for (let k = 1; k < rules.CLUES - 1; k++) if (D.lift(r, c[k]) < D.lift(r, c[k - 1]) - 1e-9) fail(`${r} posting ${job.id}: clue ${k + 1} is less distinctive than clue ${k}`);
     for (let k = 0; k < rules.CLUES - 1; k++) if (D.disc(r, d.ids, c[k]) < rules.RED_HERRING[1] - 1e-9) fail(`${r} posting ${job.id}: clue ${k + 1} is a red herring (disc ${D.disc(r, d.ids, c[k]).toFixed(2)})`);
+    // the first clue is already distinctive: from the more distinctive half of the candidates; the second is their top
+    const t = D.typicalOf(r, job), rest = D.candidates(t.typical, t.give, picked.relaxed ? 1 : 0), n = rest.length;
+    if (rest.findIndex(x => x.id === c[0]) < Math.min(Math.floor(n / 2), n - 2)) fail(`${r} posting ${job.id}: clue 1 is from the less distinctive half`);
+    if (c[1] !== rest[n - 1].id) fail(`${r} posting ${job.id}: clue 2 is not the most distinctive candidate`);
   }
   const sims = d.ids.map(x => `${D.M.roles[x].label} (${D.similarity(r, x).toFixed(2)})`).join(", ");
   lines.push(`${(P.length ? "ok  " : "FAIL")} ${r.padEnd(24)} ${String(openJobs.length).padStart(5)} open ${String(P.length).padStart(5)} playable  ${d.pattern.padEnd(7)} ${sims}`);

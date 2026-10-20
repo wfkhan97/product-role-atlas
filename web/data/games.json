@@ -2,13 +2,13 @@
   {"slug": "know-the-role", "title": "Know the role", "tagline": "Pick the asks, see the real shares", "cover": "", "status": "live",
    "group": "asks", "verb": "Pick the real asks from twelve skills, then call eight over or under half.", "outcome": "Learn what {role} postings ask for.", "rounds": "3 rounds", "minutes": 2, "start": true},
   {"slug": "guess-the-role", "title": "Guess the role", "tagline": "Name the job from its skills", "cover": "img/games/guess-the-role.png", "status": "live",
-   "group": "asks", "verb": "Name a real posting's role from its skills, giveaway last.", "outcome": "Learn the skill that gives each role away.", "rounds": "10 rounds", "minutes": 4},
+   "group": "asks", "verb": "Name a real posting's role from three skills, giveaway last.", "outcome": "Learn the skill that gives each role away.", "rounds": "5 rounds", "minutes": 2},
   {"slug": "spot-the-real-ask", "title": "Spot the real ask", "tagline": "Mark what a posting really asks for", "cover": "img/games/spot-the-real-ask.png", "status": "live",
-   "group": "read", "verb": "Mark the real asks in a posting and let the filler pass.", "outcome": "Learn to read a posting past the filler.", "rounds": "3 postings", "minutes": 3},
+   "group": "read", "verb": "Call a posting's lines one at a time: real ask or filler.", "outcome": "Learn to read a posting past the filler.", "rounds": "3 postings", "minutes": 3},
   {"slug": "climb-the-ladder", "title": "Climb the ladder", "tagline": "What senior actually means", "cover": "img/games/climb-the-ladder.png", "status": "live",
    "group": "senior", "verb": "Sort four sentences about one skill onto Entry to Lead.", "outcome": "Learn what senior means for {role}.", "rounds": "5 skills", "minutes": 3},
   {"slug": "wheres-the-demand", "title": "Where's the demand", "tagline": "Guess where the open jobs are", "cover": "img/games/wheres-the-demand.png", "status": "live",
-   "group": "jobs", "verb": "Pick which of two roles has more open postings right now.", "outcome": "Learn where the open jobs are this week.", "rounds": "10 questions", "minutes": 2},
+   "group": "jobs", "verb": "Put five fields in order of open postings, then five roles of your field.", "outcome": "Learn where the open jobs are this week.", "rounds": "2 rounds", "minutes": 2},
   {"slug": "skill-path", "title": "Skill path", "tagline": "Hop from your field to a new role", "cover": "img/games/skill-path.png", "status": "live",
    "group": "links", "verb": "Hop along linked skills from your field to a role you want.", "outcome": "Learn which skills link your field to {role}.", "rounds": "one route", "minutes": 3}
 ]

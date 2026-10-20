@@ -147,7 +147,7 @@
     const pr = v => Math.round(v * 100) + "%";
     if (slug === "know-the-role") { const k = roleId ? window.GameShell.record.knowledge(roleId, []) : null; const r = b && b[roleId]; return k && k.known.length ? `${k.known.length} asks known` : r ? `best ${r.total} of ${r.of}` : null; }
     if (slug === "climb-the-ladder") return b && typeof b.score === "number" ? `best ${b.score} of 40` : null;
-    if (slug === "guess-the-role") return typeof b === "number" ? `best ${fmt(b)} of 5,000` : null;
+    if (slug === "guess-the-role") return typeof b === "number" ? `best ${fmt(b)} of 1,500` : null;
     if (slug === "wheres-the-demand") return typeof b === "number" ? `best ${b} of 10` : null;
     if (slug === "spot-the-real-ask") return b && typeof b.read === "number" ? `best ${pr(b.read)} read` : null;
     if (slug === "skill-path") { const rows = Object.values(b || {}), ok = rows.filter(r => r.arrived); return rows.length ? (ok.length ? `arrived ${ok.length} of ${rows.length}` : `${rows.length} ${rows.length === 1 ? "route" : "routes"} tried`) : null; }
