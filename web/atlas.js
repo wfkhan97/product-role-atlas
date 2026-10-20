@@ -138,6 +138,27 @@
     for (const row of rows) for (const cell of row) cell.sort((a, b) => b.share - a.share);
     return { rows, stats: st, all };
   }
+  // The same skills as the grid, grouped by skill area for the role screen's accordion (owner's choice R3, 2026-10-19).
+  // An area is its own panel when a skill in it is asked by most postings (tier 0) or when it holds three or more
+  // skills; the remaining areas fold into one "Other areas" panel, each skill keeping its area's name. Panels are
+  // ordered by how many of the role's defining skills they hold (what the role is about comes first), then by how
+  // many of their skills most postings ask for, then by size, then by the fixed area order; the skills in a panel by
+  // share. Each skill carries its tier (0 most postings, 1 many, 2 some) and whether it is asked more
+  // as you move up (the grid's right column).
+  const AREA_ORDER = ["finance", "deals", "real_estate", "strategy", "analytics", "craft", "discovery", "gtm", "marketing", "sales", "operations", "people", "risk", "leadership", "delivery", "technical", "tools", "domain"];
+  function areas(R, slice) {
+    const { rows, stats, all } = grid(R, slice);
+    const by = {};
+    rows.forEach((row, tier) => row.forEach((cell, col) => { for (const s of cell) (by[s.cluster] ||= []).push({ ...s, tier, grows: col === 1 }); }));
+    const order = c => { const i = AREA_ORDER.indexOf(c); return i < 0 ? 99 : i; };
+    const list = Object.entries(by).map(([cluster, skills]) => ({ cluster, label: ((R.clusters || {})[cluster] || {}).label || cluster, skills: skills.sort((a, b) => b.share - a.share), core: skills.filter(s => s.tier === 0).length, defining: skills.filter(s => s.defining).length, merged: false }));
+    const own = a => a.core > 0 || a.skills.length >= 3;
+    const main = list.filter(own).sort((a, b) => b.defining - a.defining || b.core - a.core || b.skills.length - a.skills.length || order(a.cluster) - order(b.cluster));
+    const rest = list.filter(a => !own(a)).sort((a, b) => order(a.cluster) - order(b.cluster));
+    if (rest.length === 1) main.push(rest[0]);
+    else if (rest.length) main.push({ cluster: "other", label: "Other areas", skills: rest.flatMap(a => a.skills.map(s => ({ ...s, area: a.label }))).sort((a, b) => b.share - a.share), core: 0, defining: 0, merged: true });
+    return { areas: main, stats, all };
+  }
 
   // ---------- the matcher (web/match.js, untouched) for one role, built the way the bands were calibrated ----------
   const matchers = {};
@@ -211,5 +232,5 @@
     return files.flatMap(f => decode(ix.M, f.jobs));
   }
 
-  return { index, product, productKey, role, shares, subShares, grid, stepOf, employerType, matcher, roughFit, readCourse, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
+  return { index, product, productKey, role, shares, subShares, grid, areas, AREA_ORDER, stepOf, employerType, matcher, roughFit, readCourse, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
 });

@@ -118,3 +118,37 @@ test("stepOf puts each level on one of the four steps, and an unknown level at m
   const A = atlasFactory({ load: () => ({}), Matcher: null });
   assert.deepEqual(["associate", "mid", "senior", "staff", "director", "cpo", undefined].map(level => A.stepOf({ level })), ["entry", "mid", "senior", "lead", "lead", "lead", "mid"]);
 });
+
+// ---------- the skills by area (the role screen's accordion) ----------
+// a role whose postings ask for six skills in four areas; every posting is at the same level, so nothing "grows"
+const AREA_R = (() => {
+  const skills = [["budget", "finance"], ["report", "finance"], ["close", "finance"], ["model", "analytics"], ["sql", "technical"], ["teams", "leadership"]];
+  const job = (id, asks) => ({ id, skills: asks, w: 1, level: "mid", open: true });
+  const jobs = [job(1, ["budget", "report", "model", "teams"]), job(2, ["budget", "model", "sql"]), job(3, ["budget", "report", "close", "model"]), job(4, ["budget", "model"])];
+  return { role: { defining: new Set(["budget"]) }, skills: skills.map(([id, cluster]) => ({ id, name: id, cluster })), jobs, clusters: { finance: { label: "Finance" }, analytics: { label: "Data" }, technical: { label: "Technical" }, leadership: { label: "Leadership" } } };
+})();
+test("areas: an area with a skill most postings ask for is its own panel; the area holding the role's defining skills leads", () => {
+  const A = atlasFactory({ load: () => Promise.reject(new Error("no files")), Matcher: null });
+  const { areas } = A.areas(AREA_R, AREA_R.jobs);
+  assert.deepEqual(areas.map(a => a.cluster), ["finance", "analytics", "other"], "finance (the defining skill, 2 core skills) before data (1), then the rest");
+  const R2 = { ...AREA_R, role: { defining: new Set(["model"]) } };
+  assert.deepEqual(A.areas(R2, R2.jobs).areas.map(a => a.cluster), ["analytics", "finance", "other"], "with modelling as the defining skill, data leads even with fewer core skills");
+  assert.deepEqual(areas[0].skills.map(s => s.id), ["budget", "report", "close"], "skills in a panel are ranked by share");
+  assert.deepEqual(areas[0].skills.map(s => s.tier), [0, 0, 1], "budget and report are asked by most postings, close by a quarter");
+  assert.equal(areas[0].core, 2);
+  assert.equal(areas[0].skills[0].defining, true, "the role's defining skill carries its mark");
+});
+test("areas: areas with no such skill and fewer than three skills fold into one panel, each skill keeping its area's name", () => {
+  const A = atlasFactory({ load: () => Promise.reject(new Error("no files")), Matcher: null });
+  const { areas } = A.areas(AREA_R, AREA_R.jobs);
+  const other = areas[2];
+  assert.equal(other.label, "Other areas"); assert.equal(other.merged, true);
+  assert.deepEqual(other.skills.map(s => [s.id, s.area]), [["teams", "Leadership"], ["sql", "Technical"]], "equal shares, so the fixed area order decides");
+});
+test("areas: a single leftover area keeps its own name instead of becoming 'Other areas'", () => {
+  const A = atlasFactory({ load: () => Promise.reject(new Error("no files")), Matcher: null });
+  const R = { ...AREA_R, jobs: AREA_R.jobs.map(j => ({ ...j, skills: j.skills.filter(k => k !== "teams") })) };
+  const { areas } = A.areas(R, R.jobs);
+  assert.deepEqual(areas.map(a => a.label), ["Finance", "Data", "Technical"]);
+  assert.equal(areas[2].merged, false);
+});
