@@ -1290,3 +1290,31 @@ employers that name its target from the stored sentences, so the provenance now 
    exam) and `.build` (the exam steps) are new and unrendered.
 4. `subskills_mba.json` now carries 1,265 sub-skills; the matcher reads them unchanged for partial credit. The MBA
    score bands (`calibrate.mjs --roles mba`) were not rerun; sub-skill credit can move scores by a few points.
+
+## Backlog keyed by requisition id (2026-10-19)
+
+Branch `fix/backlog-key-by-id`. `pipeline.scrape.merge` keyed a posting by its URL and fell back to the id. Bank of
+America puts a per-session token at the end of every job URL (`...-esomprank-a7rgemw7xp-18`), so no posting ever
+"came back": each refresh added every requisition again and, under the partial-fetch rule, closed nothing. After the
+refresh of 2026-10-18 the file held 463 rows for 182 requisitions (124 held three times, 33 twice).
+
+**The fix.** A posting is its requisition id (`external_id`), or its URL on a board that gives none
+(`pipeline.scrape.posting_key`, the key `pipeline.extract` already read by). A posting that comes back takes the
+board's current title, URL and text and keeps its `first_seen`, so a retitled requisition (Supermicro, 2026-10-19
+merge note of PR #51) is one row with the new title instead of two rows. Rows a file holds twice under one id fold
+into the one seen last, with the earliest `first_seen`; the scrape log counts them as `folded`. The partial-fetch rule
+now counts requisitions, not rows. The adapter was not changed: the token-less URL and the stored one both answer 200,
+and a second board with the same habit needs nothing.
+
+**Data.** Bank of America was folded through `merge` with nothing fetched: 463 rows -> 182 (281 folded), all open,
+`first_seen` 2026-10-10 for 144 of them. 27 of the 182 were not seen on 2026-10-18 and stay open until the next full
+refresh closes them (the rule applies again now that 155 of 182 come back). 64 other employers hold 135 requisitions
+twice (271 rows): a Workday requisition posted in two locations (Crowe, Huntington, Regeneron, ...) or one retitled or
+re-addressed between refreshes (Amazon, Aramark, Intuitive, MasTec, ...); in 131 of the 135 the older row is already
+closed. The same one-off folded them: 64 files, 136 rows (EY 15, Amazon 11, L3Harris 8, the rest one to seven). The
+product folder (`data/raw/jobs`) holds no requisition twice and was not written.
+
+**The chain.** `extract --roles mba` (59,480 postings read, 51,256 tagged: the same count as before, since the
+extractor already read a requisition once), `build_graph --roles mba` (29,370 US postings, unchanged; six role files
+differ by their evidence sentences only), `run_pipeline.py --baseline` 2,605 pass, 0 fail (the backlog part 7 -> 11
+checks). pytest: 121 pass, 1 xfail; the xfail on a rewritten description now passes as a test.
