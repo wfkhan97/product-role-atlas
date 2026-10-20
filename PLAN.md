@@ -205,6 +205,102 @@ says "Coming soon" until that game is built. The card list is data (`web/data/ga
 adding its screen and setting its `status` to `live`. Eight games are designed in `games/`; a Wordle-style "Atlas
 daily" was considered and dropped.
 
+## The games, second pass (v12, 2026-10-20)
+
+An audit of the eight games on 2026-10-20 (artifact https://claude.ai/artifact/BagFBr66e2UZHRfuSj7iNP; local copy and
+screenshots in `data/experiments/games_audit_2026-10-20/`, gitignored) found four causes behind "hard to start, not
+fun, gimmicky, nothing learned": a rulebook and a setup form before the first move (141 to 294 words, up to 22
+controls and 3 decisions); eight different shells, key sets, end screens and rank ladders (43 invented titles, the
+lowest one on 7 of 8 first visits); reveals that show every number instead of one takeaway (Guess the role about
+150 words and 20 numbers, What does it ask for Steady 48 numbers on one board); and a first round that is the
+hardest one (Shift mode out of lives at 0:12, Where's the demand opening on an employer-type pair of 20 against 24,
+a Skill path route that follows the biggest number failing by design). Four games taught the same fact (the share
+of a role's postings that ask for a skill) through four mechanics.
+
+Owner's decisions (2026-10-20), all the audit's recommendations:
+
+1. **Five games and one tool, not eight.** Keep Spot the real ask, Climb the ladder, Guess the role. Merge Higher
+   or lower, What does it ask for and Build the hire into one game, **Know the role**: pick or call the asks of one
+   role, end on the role's own ranked list with the player's calls painted on it. Where's the demand becomes
+   **rank the fields** (five fields in order of open postings, then five roles of the player's field). Skill path
+   becomes a card game without the map (the map drawn once, on the end screen) plus an unscored **route planner**
+   on the Explore map (from, to, shortest route, the player's skills ticked). The retired games' code, evals,
+   `games.json` entries and covers go; their design packages in `games/` stay as history with a note at the top.
+2. **Untimed by default, no lives.** A Speed round of the same game unlocks after one clean untimed round and is
+   marked as the challenge it is; the clock alone, no lives, no blown slots, no multiplier.
+3. **No rank titles.** The end screen leads with the measure in plain words ("You know 9 of 15 · up from 6").
+4. **A Know-your-role record** per role in the browser (asks met and known, ladders sorted, postings read, demand
+   pairs seen), written by every game, shown as a card on the role screen beside the action row, on About you,
+   and as the first line of every end screen; "Practise what's missing" starts a round from it. Nothing leaves
+   the browser.
+5. **Entry points.** A quiet "Practise" link in the role screen's action row opens a round on that role;
+   "Practise your gaps" on the fit page builds a Know-the-role round from the gap skills. The hub stays as the
+   overview, as a grid (see 7).
+6. **Skill path**: card game (1A) plus the route planner tool (1C).
+7. **The first screen** keeps the games on top, as a grid of all cards grouped by the fact they teach (what a role
+   asks for · how postings read · what senior means · where the jobs are), one card marked "Start here", each card
+   with a line drawing of its mechanic, a verb line, an outcome line naming the role it will open on, and a meta
+   line (rounds · minutes · the player's state). The carousel goes. Section B (tell us about you / explore) keeps
+   its place below.
+
+Conventions for every game after this pass (the audit's G1 to G10):
+
+- **One shell.** Header: game · role, round pips ("2 of 5"), one ⓘ (rules, keys, provenance, the storage note), one
+  Quit. Body: the game. Footer: at most one primary and one quiet action. Keys: 1 to 4 choose, Enter confirms,
+  Esc quits; everything else is a click; a key shows as `kbd` on its control and nowhere else.
+- **One results template.** The measure, one takeaway in words with one visual (a bar against the role's ranked
+  list, or the phrase coloured in place), one link, the evidence behind a "Why" disclosure.
+- **Play first.** One sentence under the title and Play on a default role (the profile's first field, else the
+  role the player came from, else Product Manager); one coachmark on the first move; "Change role" and ⓘ after
+  that. Where a picker is still needed it is one shared component: the Explore field cards, then the field's
+  roles with the player's record as the secondary line.
+- **Round one is winnable.** From the player's own field, the easy band, untimed, with a second try at half
+  credit; the ramp happens inside the session and is announced; no round ends on the first mistake.
+- **One storage record** for all games (`localStorage`, every access in try/catch), replacing the eight keys.
+
+Per-game shapes (the audit's options chosen):
+
+- **Know the role** (merges HOL, WIA, BTH): one board of twelve skills, "Pick the five that most <role> postings
+  ask for" (WIA2-A / BTH1-A), or eight over-or-under calls against the role's top ask as the anchor (HOL1-A); the
+  reveal and the end screen are the role's ranked list with the twelve (or eight) placed and the calls marked, one
+  line per miss ("Learning programmes: 6% of MC postings ask for it; 73% of Org Development Manager postings do").
+  Decoys are the skills other roles prize (the WIA filler pool). Field hop is a second round type offered after the
+  first round, not a mode.
+- **Guess the role**: five rounds, three clues, the first clue already distinctive, a second guess for half the
+  points, the player's fields first (GTR1-A); the reveal leads with the giveaway as the takeaway, one bar against
+  the all-roles average, the posting as a link, "Why not <your answer>?" behind a disclosure (GTR2-A).
+- **Climb the ladder**: starts on the target role's top skill with the ladder on screen and the first sentence
+  pre-placed on Entry as the example (CL1-A); the checked screen is the measure, the ladder in the right order with
+  misplacements marked, the verb chain as the takeaway, Next; build steps, roles and grade names behind More (CL2-A).
+- **Where's the demand**: rank the fields, reveal as the Explore cards' bars with the gap line and employer count as
+  the why; no clock (WID1-B, WID2-A). The employer-type and skill-across-fields question kinds go.
+- **Spot the real ask**: one line at a time, Real ask / Filler, the verdict in place with the skill and its share,
+  "3 of 7 found" as the meter; the whole posting coloured is the end of the round (SRA1-A); after a found ask, the
+  resume line the fit page would write (SRA1-C). No clock.
+- **Skill path**: from the profile's field to the fit page's target with one line ("From Marketing to Product
+  Manager in 3 hops"), no difficulty (budget is par plus two) (SP1-A); the round is a row of four cards with the
+  target's share on each and a strip of hops, the map on the end screen (SP2-A); "Can you already show it?" asked
+  once at the end on the route, pre-ticked from the resume (SP3-A); a hop is good when the target asks for it and
+  the round ends on a top-three skill, no hidden par (SP4-A). The route planner on Explore is SP2-C.
+
+Build order, one branch and one PR each, each branch cut from the one before (cascading, no worktrees; retarget the
+next PR to main before a base branch is deleted):
+
+1. `feat/games-2-1-shell`: the shared shell, results template, key convention, storage record, untimed default,
+   rank titles removed, keys and notes off the body copy (G2, G6, G7, G8). Logic and evals untouched.
+2. `feat/games-2-2-start`: play-first start on a default role, coachmark, ⓘ, the shared picker (G1, G9, SP1, BTH1
+   start, HOL2, CL1, WIA2 start).
+3. `feat/games-2-3-hub`: the hub grid, Practise on the role screen, Practise your gaps on the fit page (H1, H2, G10).
+4. `feat/games-2-4-record`: one takeaway per reveal and the Know-your-role record (G3, G4, GTR2, BTH3, CL2).
+5. `feat/games-2-5-know-the-role`: Know the role from WIA Steady and HOL (WIA1, WIA2, HOL1, BTH1, BTH2); HOL, WIA
+   and BTH retired.
+6. `feat/games-2-6-demand-guess-spot`: rank the fields (WID1, WID2), Guess the role shortened (GTR1), Spot the real
+   ask line by line (SRA1).
+7. `feat/games-2-7-skill-path`: the card game and the route planner (SP1 to SP4).
+
+The game evals test data rules, not screens; steps 1 to 4 leave them intact. Steps 5 to 7 change the rules of five
+games and re-point or replace their evals and baselines in the same PR (`evals/README.md`, "Game evals").
+
 ## Explore as a skill map (v10, 2026-10-18)
 
 Owner's decisions (2026-10-18): one map for both role sets, MBA links as they are, every link drawn faint, on by
