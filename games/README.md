@@ -1,7 +1,7 @@
 # Games
 
-Short games built on the atlas's data, shown as a carousel on the first-visit screen (`#/`). Each folder is a
-design package for one game, written to be built in its own thread:
+Short games built on the atlas's data, shown as a grid of cards on the first-visit screen (`#/`), grouped by the fact
+they teach, one marked "Start here". Each folder is a design package for one game, written to be built in its own thread:
 
 - `README.md` — how the game works: rules, a round step by step, scoring, the end screen, where its data comes
   from, edge cases, open questions.
@@ -63,8 +63,15 @@ problem: nobody can read thousands of postings to learn what a role asks for, an
   play. No rank titles: the end screen leads with the measure in plain words and the change since last time. Games
   are untimed; a game that had a clock keeps it as a Speed round (the clock alone, no lives), on offer once
   `games[slug].clean` is set by a clean untimed round.
-- Card: an entry in `web/data/games.json` (`slug`, `title`, `tagline`, `cover`, `status`). Set `status` to `"live"`
-  when the game ships; the card then says "Play →".
+- Card: an entry in `web/data/games.json`: `slug`, `title`, `tagline`, `cover` (the "Coming soon" page's image),
+  `status` (`"live"` once the game ships; the card is otherwise dimmed and says "coming soon"), and the grid's fields
+  (PLAN.md v12, decision 7): `group` (the fact the game teaches: `asks`, `read`, `senior`, `jobs`, `links`), `verb`
+  (what you do), `outcome` (what you learn; `{role}` is the role the card opens on, the hub's default role), `rounds`,
+  `minutes`, and `start: true` on the one card marked "Start here". The card's line drawing is `DRAW[slug]` in
+  `web/app.js`; its meta line ends with the player's state from the games record (`gameState` in `web/app.js`).
+- Entry points: the hub's cards open on the player's default role (`?role=`); the role screen's quiet "Practise"
+  link opens a round on that role; the fit page's "Practise your gaps" opens a round with `&skills=<ids>`, the gap
+  skills a game can put first. Both links point at `PRACTISE` in `web/app.js`.
 - Nothing a player does leaves the browser; the record lives in `localStorage` only.
 
 Atlas daily (a Wordle-style daily role) was considered and dropped by the owner (2026-10-18).

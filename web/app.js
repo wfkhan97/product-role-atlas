@@ -1,4 +1,4 @@
-/* Role atlas — the screens. Routes (hash): #/ start (the games, then see what jobs ask for) · #/play/<game> · #/you (next step) · #/explore · #/field/<group> · #/role/<role> ·
+/* Role atlas — the screens. Routes (hash): #/ start (the games as a grid, then see what jobs ask for) · #/play/<game> · #/you (next step) · #/explore · #/field/<group> · #/role/<role> ·
    #/about · #/classes, #/professor/<slug>, #/signin (classes.js). Data comes from atlas.js; the side panel (owner's choice 8B) shows a skill or a posting. */
 // The route: the hash read into the screen to show, its path parts and its query. Pure, no DOM; UMD like atlas.js,
 // so node loads it alone (tests/web/routes.test.mjs): require("web/app.js").parseRoute.
@@ -124,25 +124,60 @@
   window.addEventListener("hashchange", route);
 
   // ---------- 1. first visit ----------
-  // the top two thirds: the games, as a carousel of cards (the list is data: web/data/games.json);
-  // the bottom third: what the site does today, see what jobs ask for and how you fit
+  // the top: the games as a grid of cards grouped by the fact they teach (PLAN.md v12, decision 7; the list is data:
+  // web/data/games.json), one card marked "Start here", each with a line drawing of its mechanic, a verb line, an
+  // outcome line naming the role it opens on, and a meta line (rounds · minutes · the player's state);
+  // the bottom: what the site does today, see what jobs ask for and how you fit
   let gamesP = null;
   const games = () => gamesP ||= Atlas.fetchJson("data/games.json").catch(() => []);
+  const GROUPS = [["asks", "What a role asks for"], ["read", "How postings read"], ["senior", "What senior means"], ["jobs", "Where the jobs are"], ["links", "How skills link"]];
+  // the line drawings: one stroke drawing of each game's mechanic, in the text colour
+  const DRAW = {
+    "what-it-asks": '<rect x="6" y="6" width="14" height="12" rx="2"/><rect x="25" y="6" width="14" height="12" rx="2" class="f"/><rect x="44" y="6" width="14" height="12" rx="2"/><rect x="6" y="23" width="14" height="12" rx="2" class="f"/><rect x="25" y="23" width="14" height="12" rx="2"/><rect x="44" y="23" width="14" height="12" rx="2" class="f"/>',
+    "higher-or-lower": '<rect x="6" y="8" width="20" height="26" rx="2"/><rect x="38" y="8" width="20" height="26" rx="2"/><path d="M12 28V16M12 16l-3 3M12 16l3 3"/><path d="M44 16v12M44 28l-3-3M44 28l3-3"/>',
+    "build-the-hire": '<rect x="4" y="12" width="16" height="22" rx="2"/><rect x="24" y="8" width="16" height="22" rx="2" class="f"/><rect x="44" y="12" width="16" height="22" rx="2"/>',
+    "guess-the-role": '<path d="M8 10h30M8 20h22M8 30h26"/><circle cx="52" cy="22" r="8"/><path d="M52 18v5M52 26v1"/>',
+    "spot-the-real-ask": '<path d="M8 9h48M8 18h20M8 27h40M8 36h28"/><rect x="30" y="14" width="22" height="8" rx="2" class="f"/>',
+    "climb-the-ladder": '<path d="M14 36V6M50 36V6M14 12h36M14 21h36M14 30h36"/><rect x="20" y="24" width="24" height="5" rx="1" class="f"/>',
+    "wheres-the-demand": '<rect x="10" y="20" width="14" height="16" rx="1" class="f"/><rect x="40" y="10" width="14" height="26" rx="1" class="f"/><path d="M4 36h56"/>',
+    "skill-path": '<circle cx="8" cy="32" r="3" class="f"/><circle cx="24" cy="18" r="3"/><circle cx="40" cy="26" r="3"/><circle cx="56" cy="10" r="4"/><path d="M11 30l10-9M27 20l10 5M43 24l10-11"/>',
+  };
+  const drawing = slug => `<svg class="gdraw" viewBox="0 0 64 42" aria-hidden="true">${DRAW[slug] || '<rect x="8" y="8" width="48" height="26" rx="3"/>'}</svg>`;
+  // the player's state on a card, from the games record (web/gameshell.js): the best in plain words, or "not played"
+  function gameState(slug, roleId) {
+    const g = window.GameShell ? window.GameShell.record.game(slug) : {}, b = g.best;
+    const pr = v => Math.round(v * 100) + "%";
+    if (slug === "what-it-asks") { const r = b && b[roleId] && b[roleId].steady; return r ? `${r.knew} of ${r.total} known` : null; }
+    if (slug === "build-the-hire") { const r = b && b[roleId]; return r ? `best ${r.pct >= 0.01 ? pr(r.pct) : "under 1%"} matched` : null; }
+    if (slug === "higher-or-lower") return b && b.overall ? `best ${b.overall} in a row` : null;
+    if (slug === "climb-the-ladder") return b && typeof b.score === "number" ? `best ${b.score} of 40` : null;
+    if (slug === "guess-the-role") return typeof b === "number" ? `best ${fmt(b)} of 5,000` : null;
+    if (slug === "wheres-the-demand") return typeof b === "number" ? `best ${b} of 10` : null;
+    if (slug === "spot-the-real-ask") return b && typeof b.read === "number" ? `best ${pr(b.read)} read` : null;
+    if (slug === "skill-path") { const rows = Object.values(b || {}), ok = rows.filter(r => r.arrived); return rows.length ? (ok.length ? `arrived ${ok.length} of ${rows.length}` : `${rows.length} ${rows.length === 1 ? "route" : "routes"} tried`) : null; }
+    return g.plays ? `played ${g.plays}` : null;
+  }
   async function start() {
     crumbs([]); showAside(null);
-    const list = await games();
+    const [list, ix] = await Promise.all([games(), Atlas.index()]);
+    await Atlas.product().catch(() => { });
     const classesCard = window.ClassScreens ? await ClassScreens.startCard().catch(() => "") : "";
-    const card = gm => `<a class="game" href="#/play/${esc(gm.slug)}"><span class="cover"><img src="${esc(gm.cover)}" alt="" loading="lazy" onerror="this.remove()"><span class="ph-t">${esc(gm.title)}</span></span>
-      <span class="gt">${esc(gm.title)}</span><span class="gd">${esc(gm.tagline)}</span>${gm.status === "soon" ? '<span class="tag soon">Coming soon</span>' : '<span class="tag">Play →</span>'}</a>`;
+    const roleId = window.GameShell ? window.GameShell.pickDefault(ix, state.you, null) : null, role = roleId && ix.roles[roleId] ? ix.roles[roleId] : null;
+    const nRoles = Object.keys(ix.roles).length, nFields = ix.groups.length;
+    const card = gm => {
+      const live = gm.status === "live", st = live ? gameState(gm.slug, roleId) : null;
+      const meta = [gm.rounds, gm.minutes ? `${gm.minutes} min` : null, live ? (st || "not played") : "coming soon"].filter(Boolean);
+      return `<a class="gcard${gm.start ? " rec" : ""}${live ? "" : " soon"}" href="#/play/${esc(gm.slug)}${role && live ? `?role=${encodeURIComponent(roleId)}` : ""}">${gm.start ? '<span class="tag">Start here</span>' : ""}${drawing(gm.slug)}
+        <span class="gt">${esc(gm.title)}</span><span class="gv">${esc(gm.verb || gm.tagline)}</span><span class="go">${esc((gm.outcome || "").replace("{role}", role ? role.label : "your role"))}</span><span class="gm">${meta.map(esc).join(" · ")}</span></a>`;
+    };
+    const groups = GROUPS.map(([id, label]) => ({ id, label, cards: list.filter(g => g.group === id) })).filter(g => g.cards.length);
+    const rest = list.filter(g => !GROUPS.some(([id]) => id === g.group));
     page(`<section class="start-games">
-        <p class="eyebrow">Play your way in</p>
-        <h1>What do MBAs go on to do after grad school?</h1>
-        <p class="lead">Short games built on live job postings for 54 roles in 11 fields. Every round ends in a real role you can open.</p>
-        <div class="carousel" aria-label="Games">
-          <button type="button" class="car-btn prev" aria-label="Previous games">‹</button>
-          <div class="car-track" id="car-track" tabindex="0">${list.map(card).join("")}</div>
-          <button type="button" class="car-btn next" aria-label="More games">›</button>
-        </div>
+        <p class="eyebrow">Practise on live postings</p>
+        <h1>Learn what your target roles ask for</h1>
+        <p class="lead">Short games built on live job postings for ${nRoles} roles in ${nFields} fields. Every round ends in a real role you can open${role ? `; today's cards open on ${esc(role.label)}` : ""}.</p>
+        ${groups.map(g => `<h2 class="ggroup">${esc(g.label)}</h2><div class="gcards">${g.cards.map(card).join("")}</div>`).join("")}
+        ${rest.length ? `<div class="gcards">${rest.map(card).join("")}</div>` : ""}
       </section>
       <section class="start-fit">
         <h2>See what jobs ask for, and how you fit</h2>
@@ -153,9 +188,6 @@
         </div>${classesCard ? `<div class="choices one">${classesCard}</div>` : ""}
       </section>`);
     main.firstElementChild.classList.add("wide", "start");
-    const track = $("#car-track"), by = dir => track.scrollBy({ left: dir * track.clientWidth * 0.9, behavior: "smooth" });
-    main.querySelector(".car-btn.prev").onclick = () => by(-1); main.querySelector(".car-btn.next").onclick = () => by(1);
-    track.onkeydown = e => { if (e.key === "ArrowRight") { by(1); e.preventDefault(); } if (e.key === "ArrowLeft") { by(-1); e.preventDefault(); } };
   }
   // a game: its own screen once built; until then, what it will be. A built game is web/games/<slug>.js, loaded
   // by index.html, which registers window.Games[slug] = { mount(el, ctx) } (contract in games/README.md)
@@ -465,6 +497,9 @@
   // the whole list laid out, painted: the course screen shows what a syllabus covers on it
   function flatSkills(R, slice, m) { const { areas, stats } = Atlas.areas(R, slice); return areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m, true)).join("")}</div>` : '<p class="notice">No postings match these filters.</p>'; }
   const HELP_KEY = "help-role";
+  // the game a role's "Practise" opens (PLAN.md v12, entry points): the Know-the-role game once built (step 5); until
+  // then What does it ask for, the closest of the eight
+  const PRACTISE = "what-it-asks";
   // the lead says what the data says: what sets the role apart, what leads the asks, which tools (owner's choice X1)
   function roleLead(areas) {
     const core = areas.flatMap(a => a.skills).filter(s => s.tier === 0).sort((a, b) => b.share - a.share);
@@ -526,7 +561,7 @@
     const body = state.tab === "postings" ? postings : state.tab === "also" ? also : listHead + skillList;
     page(`<h1>${esc(role.label)} ${tip(glance)}</h1><p class="facts">${facts}</p>
       <p class="lead">${lead}</p>
-      <div class="row acts"><a class="btn primary" href="#/role/${esc(role.id)}/fit">How do I fit?</a><a class="btn quiet" href="#/role/${esc(role.id)}/course">Check a course</a><a class="btn quiet" href="#/field/${esc(role.group)}/event">Prepare for an event</a></div>
+      <div class="row acts"><a class="btn primary" href="#/role/${esc(role.id)}/fit">How do I fit?</a><a class="btn quiet" href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}">Practise</a><a class="btn quiet" href="#/role/${esc(role.id)}/course">Check a course</a><a class="btn quiet" href="#/field/${esc(role.group)}/event">Prepare for an event</a></div>
       ${filters}${tabs}${body}`);
     main.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { state.tab = b.dataset.tab; keepScroll(renderRole); });
     const pf = $("#paint-fit"); if (pf) pf.onchange = () => { state.paintOn = pf.checked; keepScroll(renderRole); };
@@ -742,7 +777,7 @@
     const ctx = `<div class="row between fit-top"><p class="eyebrow">Your fit · ${esc(role.label)}${extra.length ? " · " + esc(extra.join(", ")) : ""}</p><span class="small muted ctx"><select id="fit-level" aria-label="Level">${["all", ...Atlas.STEPS].map(s => `<option value="${s}"${level === s ? " selected" : ""}>${s === "all" ? "All levels" : esc(R.stepLabels[s])}</option>`).join("")}</select> · ${esc(state.resume.name)} · <a href="#/role/${esc(role.id)}/fit" id="change">change</a></span></div>`;
     page(`${ctx}${unread}${placeholder}${scale}
       <p class="lead">${PERSONA[p.persona](p, field)} You show <b>${coreHave} of ${core.length}</b> skills that most ${esc(role.label)} postings ask for.</p>${standing}
-      ${gaps.length ? `<h2>Evidence next</h2><ol class="next">${next}</ol>${whatIf}` : `<h2>Nothing important missing</h2><p class="small muted">You show every skill that most postings ask for.</p>`}
+      ${gaps.length ? `<h2>Evidence next</h2><ol class="next">${next}</ol>${whatIf}<div class="row acts"><a class="btn primary" href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(gaps.slice(0, 8).map(x => x.id).filter(k => R.skillById[k]).join(","))}">Practise your gaps · 2 min</a><span class="small muted">A round built from these and the skills you already show.</span></div>` : `<h2>Nothing important missing</h2><p class="small muted">You show every skill that most postings ask for.</p>`}
       ${fitTabs}${fitBody}
       <a class="card-link" href="#/role/${esc(role.id)}?tab=skills"><span class="t">See it on the skills list →</span><span class="d">Opens ${esc(role.label)} with your fit marked on every skill.</span></a>`);
     main.querySelectorAll("[data-ftab]").forEach(b => b.onclick = () => { state.fitTab = b.dataset.ftab; keepScroll(() => fitScreen(id)); });

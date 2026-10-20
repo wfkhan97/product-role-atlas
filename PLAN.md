@@ -305,6 +305,10 @@ next PR to main before a base branch is deleted):
    at par plus two and keeps its from/to form behind "Change route"; Higher or lower offers Field hop as the quiet
    action of its end screen.
 3. `feat/games-2-3-hub`: the hub grid, Practise on the role screen, Practise your gaps on the fit page (H1, H2, G10).
+   Built as (2026-10-20): a fifth group, "How skills link", holds Skill path (the four groups in decision 7 have no
+   place for it). "Start here" and both Practise links point at What does it ask for until step 5 builds Know the
+   role (`PRACTISE` in `web/app.js`); "Practise your gaps" passes the gap skills as `&skills=`, which What does it
+   ask for puts on its first board.
 4. `feat/games-2-4-record`: one takeaway per reveal and the Know-your-role record (G3, G4, GTR2, BTH3, CL2).
 5. `feat/games-2-5-know-the-role`: Know the role from WIA Steady and HOL (WIA1, WIA2, HOL1, BTH1, BTH2); HOL, WIA
    and BTH retired.

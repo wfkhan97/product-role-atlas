@@ -1,10 +1,18 @@
 [
-  {"slug": "skill-path", "title": "Skill path", "tagline": "Hop from your field to a new role", "cover": "img/games/skill-path.png", "status": "live"},
-  {"slug": "guess-the-role", "title": "Guess the role", "tagline": "Name the job from its skills", "cover": "img/games/guess-the-role.png", "status": "live"},
-  {"slug": "build-the-hire", "title": "Build the hire", "tagline": "Draft a hire, then let postings judge", "cover": "img/games/build-the-hire.png", "status": "live"},
-  {"slug": "what-it-asks", "title": "What does it ask for", "tagline": "Tap the real asks, let filler pass", "cover": "img/games/what-it-asks.png", "status": "live"},
-  {"slug": "climb-the-ladder", "title": "Climb the ladder", "tagline": "What senior actually means", "cover": "img/games/climb-the-ladder.png", "status": "live"},
-  {"slug": "higher-or-lower", "title": "Higher or lower", "tagline": "Which skill do more postings want", "cover": "img/games/higher-or-lower.png", "status": "live"},
-  {"slug": "wheres-the-demand", "title": "Where's the demand", "tagline": "Guess where the open jobs are", "cover": "img/games/wheres-the-demand.png", "status": "live"},
-  {"slug": "spot-the-real-ask", "title": "Spot the real ask", "tagline": "Mark what a posting really asks for", "cover": "img/games/spot-the-real-ask.png", "status": "live"}
+  {"slug": "what-it-asks", "title": "What does it ask for", "tagline": "Pick the real asks, let filler pass", "cover": "img/games/what-it-asks.png", "status": "live",
+   "group": "asks", "verb": "Pick the skills a role's postings ask for from sixteen on a board.", "outcome": "Learn what {role} postings ask for.", "rounds": "3 boards", "minutes": 2, "start": true},
+  {"slug": "higher-or-lower", "title": "Higher or lower", "tagline": "Which skill do more postings want", "cover": "img/games/higher-or-lower.png", "status": "live",
+   "group": "asks", "verb": "Say whether more or fewer postings ask for the next skill.", "outcome": "Learn which skills {role} postings ask for most.", "rounds": "one streak", "minutes": 2},
+  {"slug": "build-the-hire", "title": "Build the hire", "tagline": "Draft a hire, then let postings judge", "cover": "img/games/build-the-hire.png", "status": "live",
+   "group": "asks", "verb": "Draft a candidate from three cards at a time on a budget.", "outcome": "Learn which skills set {role} apart.", "rounds": "8 hands", "minutes": 3},
+  {"slug": "guess-the-role", "title": "Guess the role", "tagline": "Name the job from its skills", "cover": "img/games/guess-the-role.png", "status": "live",
+   "group": "asks", "verb": "Name a real posting's role from its skills, giveaway last.", "outcome": "Learn the skill that gives each role away.", "rounds": "10 rounds", "minutes": 4},
+  {"slug": "spot-the-real-ask", "title": "Spot the real ask", "tagline": "Mark what a posting really asks for", "cover": "img/games/spot-the-real-ask.png", "status": "live",
+   "group": "read", "verb": "Mark the real asks in a posting and let the filler pass.", "outcome": "Learn to read a posting past the filler.", "rounds": "3 postings", "minutes": 3},
+  {"slug": "climb-the-ladder", "title": "Climb the ladder", "tagline": "What senior actually means", "cover": "img/games/climb-the-ladder.png", "status": "live",
+   "group": "senior", "verb": "Sort four sentences about one skill onto Entry to Lead.", "outcome": "Learn what senior means for {role}.", "rounds": "5 skills", "minutes": 3},
+  {"slug": "wheres-the-demand", "title": "Where's the demand", "tagline": "Guess where the open jobs are", "cover": "img/games/wheres-the-demand.png", "status": "live",
+   "group": "jobs", "verb": "Pick which of two roles has more open postings right now.", "outcome": "Learn where the open jobs are this week.", "rounds": "10 questions", "minutes": 2},
+  {"slug": "skill-path", "title": "Skill path", "tagline": "Hop from your field to a new role", "cover": "img/games/skill-path.png", "status": "live",
+   "group": "links", "verb": "Hop along linked skills from your field to a role you want.", "outcome": "Learn which skills link your field to {role}.", "rounds": "one route", "minutes": 3}
 ]
