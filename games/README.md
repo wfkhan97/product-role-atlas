@@ -26,7 +26,7 @@ problem: nobody can read thousands of postings to learn what a role asks for, an
 ## How a game plugs into the site
 
 - Route: `#/play/<slug>`, handled by `play()` in `web/app.js`. Until a game is built it shows a "Coming soon" page.
-- Code: `web/games/<slug>.js`, a plain script added to `web/index.html` after `app.js`. It registers itself:
+- Code: `web/games/<slug>.js`, a plain script added to `web/index.html` after `app.js` and `gameshell.js`. It registers itself:
 
   ```js
   window.Games = window.Games || {};
@@ -40,9 +40,26 @@ problem: nobody can read thousands of postings to learn what a role asks for, an
 
   `play()` calls `mount` when the entry's `status` is `"live"` and the script has registered. A game cleans up its
   own timers and listeners on `hashchange`. Styles go at the end of `web/style.css` under a section header named
-  after the game; look changes only through the tokens.
+  after the game, under the game's own root class; look changes only through the tokens.
+- The shell: every game draws inside `window.GameShell` (`web/gameshell.js`; PLAN.md, "The games, second pass (v12)").
+  `frame(el, { game, role, round, rounds, marks, info, quit, cls })` draws the one header (game · role, the round
+  pips, one ⓘ with the rules, the keys, the source and the storage note, one Quit) and returns `{ body, set, live,
+  focusMeasure }`; the game renders into `body` and calls `set({ round, role, marks })` as it goes. `foot({ primary,
+  quiet })` is the one action row (one primary button or link, one quiet action); `results({ measure, record,
+  takeaway, visual, link, why, foot })` is the one end-screen template: the measure in plain words, the change since
+  last time, one takeaway, one visual, one link, the evidence behind "Why". `ranked(rows, label)` paints a role's
+  ranked list with the player's calls. `keys({ choose, confirm, quit, other })` is the one key convention: 1 to 4
+  choose, Enter confirms, Esc quits; everything else is a click; a key shows as `kbd` on its control and nowhere
+  else. `info({ rules, keys, source })` writes the ⓘ text. Shared styles live under `.gm-` in one section of
+  `web/style.css`.
+- The record: one `localStorage` key (`games`) for every game, read and written through `GameShell.record`
+  (`game(slug)`, `saveGame(slug, patch)`, every access in try/catch; the game plays the same with storage blocked).
+  A game keeps its best, its last result and what it needs under `games[slug]`; `played: true` in a patch counts a
+  play. No rank titles: the end screen leads with the measure in plain words and the change since last time. Games
+  are untimed; a game that had a clock keeps it as a Speed round (the clock alone, no lives), on offer once
+  `games[slug].clean` is set by a clean untimed round.
 - Card: an entry in `web/data/games.json` (`slug`, `title`, `tagline`, `cover`, `status`). Set `status` to `"live"`
   when the game ships; the card then says "Play →".
-- Nothing a player does leaves the browser; personal bests live in `localStorage` only.
+- Nothing a player does leaves the browser; the record lives in `localStorage` only.
 
 Atlas daily (a Wordle-style daily role) was considered and dropped by the owner (2026-10-18).

@@ -1,9 +1,10 @@
 /* Where's the demand: a market-sense quick-fire on the MBA set's open US postings (spec: games/wheres-the-demand/README.md).
-   Two cards, one question: which has more open postings right now? Ten questions, eight seconds each.
+   Two cards, one question: which has more open postings right now? Ten questions, untimed; a Speed round of eight
+   seconds a question unlocks after a clean round (web/gameshell.js: one header, 1 or 2 choose, Enter goes on, Esc quits).
    Pure pair-building (buildRound) first, so node can test it; the DOM part registers window.Games["wheres-the-demand"]. */
 (function (root) {
   "use strict";
-  const SLUG = "wheres-the-demand", STORE_KEY = "game." + SLUG;
+  const SLUG = "wheres-the-demand", TITLE = "Where's the demand";
   const N = 10, SECONDS = 8, LOW_AT = 3, KEEP_ROUNDS = 5, STALE_DAYS = 10;
   const MIN_EMPLOYER = 10, FILE_MAX = 1.5e6, FILE_TRIES = 3, FILE_WAIT = 6000;
   const MIN_RATIO = 1.1, BAND_FLOOR = 1.2, BAND_CEIL = 3;
@@ -241,44 +242,29 @@
     return { ...round, prompt, gapLine, result: picks => result(round.questions, picks) };
   }
 
-  // ---------- persistence: best plus the last five rounds, in this browser only ----------
-  const store = {
-    get() { try { const v = JSON.parse(localStorage.getItem(STORE_KEY)); return v && typeof v === "object" ? v : {}; } catch { return {}; } },
-    set(v) { try { localStorage.setItem(STORE_KEY, JSON.stringify(v)); } catch { } },
-  };
-  function saveRound(score, rank, untimed, dataDate) {
-    const s = store.get(), at = today();
-    const rounds = [{ score, rank, at, data: dataDate, untimed: !!untimed }, ...(Array.isArray(s.rounds) ? s.rounds : [])].slice(0, KEEP_ROUNDS);
-    const next = { ...s, untimed: !!untimed, rounds };
-    let status = "none";
-    if (!untimed) { if (s.best == null || score > s.best) { next.best = score; next.bestAt = at; status = "new"; } else status = score === s.best ? "match" : "below"; }
-    store.set(next);
-    return { status, best: next.best, prev: s.best };
-  }
-
   // ---------- the screens ----------
   if (!root.document) { if (typeof module === "object" && module.exports) module.exports = { buildRound, miniRound, result, rankTitle, surprise, entities, employerCounts, employerPairs, seeded, prompt, gapLine, BANDS }; return; }
   let live = null;   // the mounted game, so a second mount (hash change) can stop the first
 
   async function mount(el, ctx) {
     if (live) live.destroy();
-    const A = ctx.Atlas, esc = ctx.esc;
+    const A = ctx.Atlas, esc = ctx.esc, GS = root.GameShell;
     const reduced = root.matchMedia && root.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const seedParam = (() => { const q = location.hash.split("?")[1]; if (!q) return null; const v = new URLSearchParams(q).get("seed"); return v == null || v === "" ? null : Number(v); })();
-    const S = { phase: "start", round: null, prep: null, i: 0, picks: [], score: 0, timer: null, untimed: !!store.get().untimed, starting: false };
+    const saved = () => Object.assign({ best: null, rounds: [], lastScore: null, speed: false, clean: false }, GS.record.game(SLUG));
+    const S = { phase: "start", round: null, prep: null, i: 0, picks: [], score: 0, timer: null, timed: false, starting: false };
     const newRng = () => seedParam == null || Number.isNaN(seedParam) ? Math.random : seeded(seedParam);
     const prep = () => { S.prep = prepare(A, newRng(), N); S.prep.catch(() => { }); return S.prep; };
+    const INFO = GS.info({ rules: `Two cards, one question: which has more open US postings right now? Pick a side; the real counts show after every pick. Ten questions: most are role against role, some are fields, employer types, or a skill across two fields. The pairs get closer as you go.`, keys: "Keys: 1 picks the left card, 2 the right; Enter goes on; Esc quits.", source: "Counts are open postings, refreshed weekly; a skill question counts roles where most postings ask for it." });
+    const F = GS.frame(el, { game: TITLE, cls: "wd-page", info: INFO });
 
     // --- helpers on the DOM ---
     const $ = s => el.querySelector(s);
     const html = parts => parts.map(([k, v]) => k === "n" ? `<span class="num">${esc(v)}</span>` : esc(v)).join("");
-    el.innerHTML = `<div class="page wd-page" id="wd-root"></div><div class="wd-sr" aria-live="polite" id="wd-live"></div>`;
-    const pageEl = $("#wd-root"), liveEl = $("#wd-live");
-    const render = inner => { pageEl.innerHTML = inner; root.scrollTo(0, 0); };
-    const announce = text => { liveEl.textContent = ""; setTimeout(() => { if (!me.destroyed) liveEl.textContent = text; }, 30); };
+    const render = inner => { F.body.innerHTML = inner; root.scrollTo(0, 0); };
+    const announce = text => F.live(text);
     const stopTimer = () => { if (S.timer) { cancelAnimationFrame(S.timer.raf); clearTimeout(S.timer.step); S.timer = null; } };
     const dateOf = () => fmtDate(S.round ? S.round.meta.generated : "");
-    const whenLabel = iso => iso === today() ? "today" : fmtDate(iso).replace(/ \d{4}$/, "");
 
     // --- start screen ---
     async function showStart() {
@@ -287,41 +273,25 @@
       let ix = null;
       try { ix = await A.index(); } catch (e) { return showError(e); }
       if (S.phase !== "start" || me.destroyed) return;
-      const meta = ix.M.meta || {}, ents = entities(ix), saved = store.get(), rounds = Array.isArray(saved.rounds) ? saved.rounds : [];
-      const stale = daysSince(meta.generated), date = fmtDate(meta.generated);
-      const best = saved.best != null ? `<div class="wd-best"><span class="big">${esc(saved.best)}</span><span class="muted">of 10 &middot; your best</span></div><p class="small" style="color:var(--primary)">${esc(rankTitle(saved.best).title)}</p>` : `<p class="small muted">No rounds yet. Your best and your last five rounds show here.</p>`;
-      const list = rounds.length ? `<div class="list wd-rounds">${rounds.map(r => `<div class="r"><span class="t">${esc(r.score)} of 10 &middot; ${esc(rankTitle(r.score).title.toLowerCase())}${r.untimed ? " &middot; no timer" : ""}</span><span class="n">${esc(whenLabel(r.at))}</span></div>`).join("")}</div>` : "";
+      const meta = ix.M.meta || {}, sv = saved();
+      const stale = daysSince(meta.generated);
+      F.set({ round: null, rounds: 0, role: "" });
       render(`<div class="wd-start">
-<section>
-  <p class="eyebrow">Market sense quick-fire</p>
   <h1>Where&rsquo;s the demand?</h1>
-  <p class="lead">Two roles, one question: which has more open postings right now? Ten questions, eight seconds each. Tap a side, or press <kbd>&larr;</kbd> or <kbd>&rarr;</kbd>.</p>
-  <ol class="wd-steps">
-    <li><div>Pick the side with more open postings.<span>Most questions are role against role; some are fields, employer types, or a skill across two fields.</span></div></li>
-    <li><div>The real counts show after every pick.<span>Blue numbers are the postings; your right picks turn green, misses amber.</span></div></li>
-    <li><div>It gets closer as you go.<span>The first three pairs differ by two to three times; the last three by less than one and a half.</span></div></li>
-  </ol>
-  <div class="row"><button type="button" class="btn primary" id="wd-start">Start round <kbd>Enter</kbd></button><a class="btn quiet" href="#/explore">Explore the fields first</a></div>
-  <label class="wd-switch"><input type="checkbox" id="wd-untimed"${S.untimed ? " checked" : ""}> No timer <span class="muted">Eight seconds per question when the timer is on. Off, you take your time; the rank title is the same.</span></label>
-  <p class="facts" style="margin-top:22px">${esc(fmt(meta.n_open))} open US postings &middot; ${esc(ents.allRoles.length)} roles &middot; ${esc(ents.fields.length)} fields &middot; as of ${esc(date)}${stale > STALE_DAYS ? ` &middot; <span class="wd-stale">last refreshed ${esc(stale)} days ago</span>` : ""}</p>
-</section>
-<div class="wd-side"><aside class="wd-panel">
-  <h3>Your rounds</h3>
-  <p class="small muted">Kept in this browser only.</p>
-  ${best}${list}
-</aside><aside class="wd-panel"><h3>Four kinds of question</h3><div class="list wd-rounds">
-<div class="r"><span class="t">Role against role</span><span class="n">most of the round</span></div>
-<div class="r"><span class="t">Field against field</span><span class="n">two a round</span></div>
-<div class="r"><span class="t">Large companies, startups or firms, for one role</span><span class="n">one</span></div>
-<div class="r"><span class="t">Which field has more roles asking for a skill</span><span class="n">one</span></div></div></aside></div>
+  <p class="lead">Two roles, one question: which has more open postings right now? Ten questions.</p>
+  ${sv.clean ? `<div class="chips" role="group" aria-label="Round"><button class="chip${sv.speed ? "" : " on"}" type="button" id="wd-untimed" aria-pressed="${!sv.speed}">Untimed</button><button class="chip${sv.speed ? " on" : ""}" type="button" id="wd-speed" aria-pressed="${sv.speed}">Speed round<span class="n">${SECONDS} s a question</span></button></div>` : `<p class="small muted">Untimed. A Speed round, ${SECONDS} seconds a question, unlocks after a round with at least half right.</p>`}
+  ${sv.best != null ? `<p class="gm-best">Your best: <b>${esc(sv.best)}</b> of ${N}</p>` : ""}
+  ${stale > STALE_DAYS ? `<p class="small wd-stale">The counts were last refreshed ${esc(stale)} days ago.</p>` : ""}
+  ${GS.foot({ primary: { id: "wd-start", label: "Start round", key: "Enter" }, quiet: { href: "#/explore", label: "Explore the fields first" } })}
 </div>`);
       $("#wd-start").onclick = startRound;
-      $("#wd-untimed").onchange = e => { S.untimed = e.target.checked; store.set({ ...store.get(), untimed: S.untimed }); };
+      const sp = $("#wd-speed"), un = $("#wd-untimed");
+      if (sp) { sp.onclick = () => { GS.record.saveGame(SLUG, { speed: true }); showStart(); }; un.onclick = () => { GS.record.saveGame(SLUG, { speed: false }); showStart(); }; }
       $("#wd-start").focus();
     }
     function showError(e) {
       console.error(e);
-      render(`<div class="narrow"><h1>Something did not load</h1><p class="lead">${esc(e && e.message || e)}. Reload the page; if it happens again, the data files may be missing.</p><div class="row" style="margin-top:16px"><a class="btn" href="#/">&larr; All games</a></div></div>`);
+      render(`<div class="narrow"><h1>Something did not load</h1><p class="lead">${esc(e && e.message || e)}. Reload the page; if it happens again, the data files may be missing.</p>${GS.foot({ primary: { href: "#/", label: "All games" } })}</div>`);
     }
 
     // --- a round ---
@@ -332,27 +302,26 @@
       let round;
       try { round = await (S.prep || prep()); } catch (e) { S.starting = false; return showError(e); }
       if (me.destroyed) return;
-      S.round = round; S.i = 0; S.picks = []; S.score = 0; S.starting = false;
+      const sv = saved();
+      S.round = round; S.i = 0; S.picks = []; S.score = 0; S.starting = false; S.timed = !!(sv.clean && sv.speed);
       if (round.fallbacks.length) console.info("wheres-the-demand: fallbacks", round.fallbacks);
       showQuestion();
     }
-    const dots = () => `<div class="wd-dots" aria-label="Progress">${S.round.questions.map((q, k) => `<i class="${k < S.i ? (S.picks[k] && S.picks[k].right ? "ok" : "miss") : k === S.i ? "now" : ""}"></i>`).join("")}</div>`;
-    const hud = () => `<div class="wd-hud"><span class="q">Question ${S.i + 1} of ${S.round.questions.length}</span>${dots()}<span class="score">Score <b>${S.score}</b></span></div>`;
+    const marks = () => S.picks.map(p => p && p.right ? "ok" : "miss");
+    const head = () => F.set({ round: S.i, rounds: S.round.questions.length, marks: marks(), role: `Score ${S.score}` });
     const cardName = c => c.kind === "role" ? `${c.label}, ${c.field}` : c.kind === "employer" ? `${c.label}, ${c.roleLabel}` : c.kind === "skillfield" ? `${c.label}, of ${c.of} roles` : `${c.label}, ${c.roles} roles`;
 
     function showQuestion() {
-      S.phase = "question";
+      S.phase = "question"; head();
       const q = S.round.questions[S.i];
-      const card = (c, side) => `<button type="button" class="wd-card ask${side === "right" ? " right-side" : ""}" data-side="${side}" aria-label="${esc(cardName(c))}"><span class="key" aria-hidden="true">${side === "left" ? "&larr;" : "&rarr;"}</span><span class="t">${esc(c.label)}</span><span class="f">${esc(c.sub)}</span></button>`;
-      render(`${hud()}
-<h1 class="wd-prompt">${esc(prompt(q))}</h1>
+      const card = (c, side) => `<button type="button" class="wd-card ask${side === "right" ? " right-side" : ""}" data-side="${side}" aria-label="${esc(cardName(c))}"><kbd aria-hidden="true">${side === "left" ? "1" : "2"}</kbd><span class="t">${esc(c.label)}</span><span class="f">${esc(c.sub)}</span></button>`;
+      render(`<h1 class="wd-prompt">${esc(prompt(q))}</h1>
 <p class="wd-sub">${esc(subLine(q, dateOf()))}</p>
-<div class="wd-timer${S.untimed ? " off" : ""}" aria-hidden="true"><i style="width:100%"></i></div>
+${S.timed ? `<div class="wd-timer" aria-hidden="true"><i style="width:100%"></i></div>` : ""}
 <div class="wd-stage"><div class="wd-cards">${card(q.left, "left")}${card(q.right, "right")}</div><span class="wd-or" aria-hidden="true">or</span></div>
-<div class="wd-foot"><span>Press <kbd>&larr;</kbd> or <kbd>&rarr;</kbd>, or click a card.${S.untimed ? " No timer." : ""}</span><span class="mono">${esc(footNote(q))}</span></div>`);
+<p class="gm-key">${esc(footNote(q))}</p>`);
       for (const b of el.querySelectorAll(".wd-card")) b.onclick = () => answer(b.dataset.side);
-      const first = $(".wd-card"); if (first) first.focus();
-      if (!S.untimed) startTimer();
+      if (S.timed) startTimer();
     }
     function startTimer() {
       stopTimer();
@@ -379,18 +348,17 @@
       stopTimer(); S.phase = "answer";
       const q = S.round.questions[S.i], right = side === q.winner;
       S.picks[S.i] = { side, right }; if (right) S.score++;
+      head();
       const picked = c => side === c, winner = c => q.winner === c;
       const verdict = sideName => picked(sideName) ? (winner(sideName) ? '<span class="tag good">Your pick &middot; right</span>' : '<span class="tag bad">Your pick</span>') : winner(sideName) ? `<span class="tag amber">${esc(moreTag(q))}</span>` : "";
       const cls = sideName => (sideName === "right" ? " right-side" : "") + (picked(sideName) ? (winner(sideName) ? " mine-ok" : " mine-miss") : " dim");
       const card = (c, sideName) => `<div class="wd-card${cls(sideName)}"><span class="verdict">${verdict(sideName)}</span><span class="t">${esc(c.label)}</span><span class="f">${esc(c.sub)}</span>
 <span class="n" data-n="${c.n}">${reduced ? esc(fmt(c.n)) : "0"}<small>${esc(c.unit)}</small></span><span class="bar"><i data-w="${Math.round(c.n / q.w.n * 100)}" style="width:${reduced ? Math.round(c.n / q.w.n * 100) : 0}%"></i></span>${c.meta ? `<span class="meta">${esc(c.meta)}</span>` : ""}</div>`;
-      render(`${hud()}
-<h1 class="wd-prompt">${esc(prompt(q))}</h1>
+      render(`<h1 class="wd-prompt">${esc(prompt(q))}</h1>
 <p class="wd-sub">${esc(subLine(q, dateOf()))}</p>
-<div class="wd-timer${S.untimed ? " off" : ""}" aria-hidden="true"><i style="width:0"></i></div>
 <div class="wd-stage"><div class="wd-cards">${card(q.left, "left")}${card(q.right, "right")}</div></div>
 <p class="wd-line">${side == null ? '<span class="subtle">Out of time. </span>' : ""}${html(gapLine(q))}</p>
-<div class="wd-next"><button type="button" class="btn primary" id="wd-next">${S.i + 1 < S.round.questions.length ? "Next question &rarr;" : "See your result &rarr;"}</button><span class="small subtle">or press <kbd>Space</kbd></span></div>`);
+${GS.foot({ primary: { id: "wd-next", label: S.i + 1 < S.round.questions.length ? "Next question" : "See your result", key: "Enter" } })}`);
       $("#wd-next").onclick = next;
       $("#wd-next").focus();
       if (!reduced) {
@@ -408,66 +376,47 @@
       if (S.i < S.round.questions.length) showQuestion(); else showResults();
     }
 
-    // --- results ---
+    // --- results: the measure in plain words, the change since last time, the biggest surprise as the takeaway ---
     function showResults() {
       S.phase = "results";
-      const R = result(S.round.questions, S.picks), saved = saveRound(R.score, R.rank.key, S.untimed, S.round.meta.generated);
-      const bestLine = S.untimed ? `no timer${saved.best != null ? ` &middot; best: ${esc(saved.best)}` : ""}` : saved.status === "new" ? "new best" : saved.status === "match" ? "matches your best" : `best: ${esc(saved.best)}`;
+      const R = result(S.round.questions, S.picks), sv = saved(), at = today();
+      const isBest = !S.timed && (sv.best == null || R.score > sv.best), cleanNow = !S.timed && R.score * 2 >= R.n && !sv.clean;
+      GS.record.saveGame(SLUG, { played: true, best: isBest ? R.score : sv.best, lastScore: R.score, rounds: [{ score: R.score, at, data: S.round.meta.generated, timed: S.timed }, ...sv.rounds].slice(0, KEEP_ROUNDS), clean: sv.clean || cleanNow });
+      const change = sv.lastScore == null ? "Your first round." : R.score > sv.lastScore ? `Up from ${sv.lastScore} last time.` : R.score < sv.lastScore ? `Down from ${sv.lastScore} last time.` : "The same as last time.";
+      const rec = `${change}${isBest && sv.best != null ? " A new best." : sv.best != null ? ` Your best: <b>${esc(sv.best)}</b>.` : ""}${S.timed ? " A Speed round." : cleanNow ? " The Speed round is unlocked." : ""}`;
       const mark = r => r.timedOut ? '<span class="mk miss">time</span>' : r.right ? '<span class="mk ok">&#10003;</span>' : '<span class="mk miss">&times;</span>';
       const row = r => `<div class="r">${mark(r)}<span class="t">${esc(r.q.w.label)} <span class="subtle">over</span> ${esc(r.q.l.label)}</span><span class="m">${esc(recapMeta(r.q))}</span><span class="n">${esc(recapCounts(r.q))}</span></div>`;
       const sp = R.surprise;
-      render(`<div class="wd-res">
-<section>
-  <p class="eyebrow">Round over</p>
-  <h1 class="wd-rank" tabindex="-1" id="wd-rank">${esc(R.rank.title)}</h1>
-  <p class="wd-score"><b>${R.score}</b> of ${R.n} right &middot; ${bestLine}</p>
-  <div class="wd-surprise">
-    <p class="eyebrow">Biggest surprise</p>
-    <p class="big">${esc(sp.title)}</p>
-    <p class="small">${html(sp.parts)}</p>
-  </div>
-  <p class="wd-punch">Nobody reads ${esc(fmt(S.round.meta.nOpen))} postings by hand. That&rsquo;s the point.</p>
-  <p class="small muted">Counts refresh weekly from live postings. These are as of ${esc(dateOf())}.</p>
-  <div class="row" style="margin-top:18px"><a class="btn primary" href="#/explore">Explore the fields &rarr;</a><button type="button" class="btn" id="wd-again">Play again</button><a class="btn quiet" href="${esc(sp.open.href)}">${esc(sp.open.label)}</a></div>
-</section>
-<section>
-  <h3 style="margin-top:6px">Your round</h3>
-  <p class="small muted" style="margin-bottom:8px">The winner first; blue is open postings.</p>
-  <div class="list wd-recap">${R.rows.map(row).join("")}</div>
-</section>
-</div>`);
+      F.set({ round: R.n, rounds: R.n, marks: marks(), role: `Score ${S.score}` });
+      render(GS.results({
+        eyebrow: "Round over",
+        measure: `${R.score} of ${R.n} right`,
+        record: rec,
+        takeaway: `<b class="wd-surprise-t">${esc(sp.title)}.</b> ${html(sp.parts)}`,
+        visual: `<h3>Your round</h3><p class="gm-key">The winner first; blue is open postings, as of ${esc(dateOf())}.</p><div class="list wd-recap">${R.rows.map(row).join("")}</div>`,
+        link: { href: sp.open.href, label: sp.open.label },
+        foot: GS.foot({ primary: { id: "wd-again", label: "Play again", key: "Enter" }, quiet: { href: "#/explore", label: "Explore the fields" } }),
+      }));
       $("#wd-again").onclick = () => { prep(); startRound(); };
-      $("#wd-rank").focus();
-      announce(`${R.rank.title}. ${R.score} of ${R.n} right.`);
+      F.focusMeasure();
+      announce(`${R.score} of ${R.n} right.`);
     }
 
     // --- keys, visibility, cleanup ---
-    const onKey = e => {
-      if (e.altKey || e.ctrlKey || e.metaKey) return;
-      const tag = (e.target && e.target.tagName || "").toLowerCase();
-      if (S.phase === "question") {
-        if (e.key === "ArrowLeft") { e.preventDefault(); answer("left"); }
-        else if (e.key === "ArrowRight") { e.preventDefault(); answer("right"); }
-        else if (e.key === "Escape") { e.preventDefault(); showStart(); }
-      } else if (S.phase === "answer") {
-        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") { e.preventDefault(); next(); }
-        else if (e.key === "Escape") { e.preventDefault(); showStart(); }
-      } else if (S.phase === "start") {
-        if (e.key === "Enter" && tag !== "a" && tag !== "input") { e.preventDefault(); startRound(); }
-      } else if (S.phase === "results") {
-        if (e.key === "Escape") { e.preventDefault(); showStart(); }
-      }
-    };
+    const offKeys = GS.keys({
+      choose(n) { if (S.phase !== "question" || n > 2) return false; answer(n === 1 ? "left" : "right"); return true; },
+      confirm() { if (S.phase === "answer") next(); else if (S.phase === "start" || S.phase === "results") startRound(); },
+    });
     const onVisibility = () => { if (S.timer) { S.timer.paused = document.hidden; S.timer.last = performance.now(); } };
     const onHash = () => destroy();
     function destroy() {
       if (me.destroyed) return;
       stopTimer(); S.phase = "gone"; me.destroyed = true;
-      document.removeEventListener("keydown", onKey); document.removeEventListener("visibilitychange", onVisibility); root.removeEventListener("hashchange", onHash);
+      offKeys(); document.removeEventListener("visibilitychange", onVisibility); root.removeEventListener("hashchange", onHash);
       if (live === me) live = null;
     }
     const me = { destroy, destroyed: false };
-    document.addEventListener("keydown", onKey); document.addEventListener("visibilitychange", onVisibility); root.addEventListener("hashchange", onHash);
+    document.addEventListener("visibilitychange", onVisibility); root.addEventListener("hashchange", onHash);
     live = me;
     await showStart();
   }

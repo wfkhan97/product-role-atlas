@@ -1,5 +1,6 @@
 /* Climb the ladder (design: games/climb-the-ladder/README.md). One skill, four sentences that describe it at Entry, Mid,
    Senior and Lead, shuffled; put each on its rung, check, see what changes as you move up. Five skills a game.
+   Drawn in the shared shell (web/gameshell.js): one header, 1 to 4 place, Enter checks, Esc quits, one record.
    Registers window.Games["climb-the-ladder"] = { mount } (the contract in games/README.md). Data comes through
    ctx.Atlas: index(), product() and genericSkills(); no postings are loaded. The pure parts (pool, filter, draw,
    shuffle, scoring, verb chain, new words) touch no DOM and are exported under module.exports for node tests. */
@@ -10,7 +11,7 @@
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
   const SLUG = "climb-the-ladder";
-  const STORE_BEST = `game.${SLUG}.best`, STORE_FIELD = `game.${SLUG}.last-field`;
+  const TITLE = "Climb the ladder", MAX_SCORE = 40;
   // the four rungs, Entry to Lead: Atlas.STEPS names them, these are the keys in skills[].ladder (LADDER_KEYS in app.js)
   const STEP_KEY = { entry: "associate", mid: "mid", senior: "senior", lead: "lead" };
   const STEP_LABEL = { entry: "Entry", mid: "Mid", senior: "Senior", lead: "Lead" };
@@ -21,7 +22,6 @@
   const MIN_SHARE = 0.10;     // a skill counts for a field when its postings ask for it this often, averaged over the field's roles
   const PER_GAME = 5, MAX_POSTINGS = 2;
   const README_COUNTS = { atlas: 64, postings: 16, corporate: 11, bank: 4, consulting: 1 };   // games/climb-the-ladder/README.md, data of 2026-10-11 / 2026-10-14
-  const TITLES = [[0, 19, "Summer intern"], [20, 27, "Analyst"], [28, 33, "Manager"], [34, 37, "Senior manager"], [38, 39, "Director"], [40, 40, "Head of the ladder"]];
   // Grade names of the four rungs per industry ladder: RUNG_NAMES in pipeline/depth_gen.py, the names the depth pipeline
   // wrote the postings ladders for. web/data has no copy, so it is copied here; graph_mba.json ladders[].levels is used where it names the rung.
   const RUNG_NAMES = {
@@ -131,7 +131,6 @@
   const pointsFor = (placed, correct) => { const d = Math.abs(placed - correct); return d === 0 ? 2 : d === 1 ? 1 : 0; };
   // placed[i] = the rung index sentence i (whose right rung is i) was put on
   function score(placed) { const pts = placed.map((p, i) => pointsFor(p, i)); return { pts, total: pts.reduce((a, b) => a + b, 0) }; }
-  const rankOf = total => (TITLES.find(([lo, hi]) => total >= lo && total <= hi) || TITLES[0])[2];
   const NUM = ["None", "One", "Two", "Three", "All four"];
   function verdictWords(pts) {
     const r = pts.filter(p => p === 2).length, h = pts.filter(p => p === 1).length, w = pts.filter(p => p === 0).length;
@@ -149,15 +148,15 @@
   const lower1 = s => /^[A-Z][a-z]/.test(s || "") ? s[0].toLowerCase() + s.slice(1) : s;   // "Vendor…" → "vendor…"; "PRDs", "M&A" keep their case
 
   // ---------- the screens ----------
-  const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
   const pct = v => Math.round(v * 100) + "%";
   const isDev = () => typeof location !== "undefined" && (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.protocol === "file:");
   let printed = false;
 
   async function mount(el, ctx) {
-    const { Atlas, esc, showAside } = ctx;
+    const { Atlas, esc, showAside } = ctx, GS = window.GameShell;
     showAside(null);
-    el.innerHTML = `<div class="page cl"><p class="eyebrow">Game · not timed</p><h1>Climb the ladder</h1><p class="lead">Loading the ladders…</p></div>`;
+    const F = GS.frame(el, { game: TITLE, cls: "cl", info: GS.info({ rules: "Four sentences describe one skill at four levels, Entry to Lead. Put each sentence on its rung, then check. The right rung earns 2 points, one rung off earns 1; five skills make 40.", keys: "Keys: select a sentence, then 1 to 4 put it on Entry, Mid, Senior or Lead; Enter checks; Esc quits.", source: `The sentences are ladders written by the atlas for skills every field shares, and ladders drawn from postings for one industry each; a round says which.` }) });
+    F.body.innerHTML = `<p class="lead">Loading the ladders…</p>`;
     const [ix, P, generic] = await Promise.all([Atlas.index(), Atlas.product(), Atlas.genericSkills()]);
     const M = ix.M, G = P.G;
     const D = { gById: P.skillById, mById: ix.skillById, roles: ix.roles, groups: M.groups.map(g => ix.groups.find(x => x.id === g.id)).filter(Boolean), generic };
@@ -172,44 +171,28 @@
     const reduced = () => typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // state: which screen, the field, the game (five entries, scores) and the round (pile order, placements)
-    const S = { screen: "pick", field: store.get(STORE_FIELD), game: null, round: null };
+    const saved = GS.record.game(SLUG);
+    const S = { screen: "pick", field: saved.lastField || null, game: null, round: null };
     let alive = true, focusSel = null, drag = null;
     const fieldLabel = () => S.field === "any" ? "Any field" : (D.groups.find(g => g.id === S.field) || {}).label || "";
     const fieldOf = id => D.groups.find(g => g.id === id);
-    const page = html => { el.innerHTML = `<div class="page cl">${html}</div>`; window.scrollTo(0, 0); if (focusSel) { const f = el.querySelector(focusSel); if (f) f.focus(); focusSel = null; } };
+    const page = (html, head) => { F.set(head || {}); F.body.innerHTML = html; window.scrollTo(0, 0); if (focusSel) { const f = el.querySelector(focusSel); if (f) f.focus(); focusSel = null; } };
     const $ = s => el.querySelector(s), $$ = s => [...el.querySelectorAll(s)];
-    const live = msg => { const r = $("#cl-live"); if (r) { r.textContent = ""; setTimeout(() => { if (alive) r.textContent = msg; }, 30); } };
+    const live = msg => F.live(msg);
 
     // ---------- 1. pick a field ----------
     function renderPick() {
       S.screen = "pick"; S.game = null; S.round = null;
-      const best = store.get(STORE_BEST);
+      const best = GS.record.game(SLUG).best;
       const tile = g => `<button type="button" class="cl-field${S.field === g.id ? " on" : ""}" data-field="${esc(g.id)}" aria-pressed="${S.field === g.id}">${esc(g.label)}<span class="n">${byField[g.id].length} ladders</span></button>`;
       const picked = S.field === "any" || fieldOf(S.field);
-      const c = pool.counts;
-      page(`<p class="eyebrow">Game · not timed</p><h1>Climb the ladder</h1>
-        <p class="lead" style="max-width:720px">Four sentences describe one skill at four levels: Entry, Mid, Senior and Lead. Put each sentence on its rung. Five skills a game. It is the clearest way we know to see what senior actually means.</p>
-        <div class="cl-pick">
-          <section>
-            <h2 style="margin-top:18px">Pick a field</h2>
-            <p class="small muted">We pick five skills its postings ask for. The number is how many of its skills have all four rungs written.</p>
-            <div class="cl-fields" role="group" aria-label="Fields">${D.groups.map(tile).join("")}<button type="button" class="cl-field any${S.field === "any" ? " on" : ""}" data-field="any" aria-pressed="${S.field === "any"}">Any field<span class="n">Five at random</span></button></div>
-            <div class="row" style="margin-top:20px"><button type="button" class="btn primary" id="cl-start"${picked ? "" : " disabled"}>${picked ? `Start: ${esc(fieldLabel())} →` : "Start · pick a field first"}</button><span class="small muted">Your answers stay in this browser.</span></div>
-          </section>
-          <aside class="cl-rules" style="margin-top:18px" aria-label="How a round works">
-            <h3 style="margin-top:0">How a round works</h3>
-            <ol>
-              <li>You get one skill and four sentences about it, shuffled.</li>
-              <li>Drag each sentence onto its rung. Or select it and press <span class="cl-keys"><kbd>1</kbd>–<kbd>4</kbd></span>.</li>
-              <li>Check. The right rung earns 2 points, one rung off earns 1.</li>
-              <li>See what changes as you move up, then the next skill.</li>
-            </ol>
-            <p class="small muted">Five skills, up to 40 points. Your score becomes a title, from Summer intern to Head of the ladder.</p>
-            <p class="small muted">Where the sentences come from: ${c.atlas} ladders written by the atlas for skills every field shares, and ${c.postings} drawn from postings, each for one industry (${c.corporate} corporate, ${c.bank} bank, ${c.consulting} consulting). Each round says which.</p>
-            <div class="cl-best"><span>Your best</span><b>${best ? `${esc(String(best.score))} of 40 · ${esc(best.rank)} · ${esc(best.field)}` : "No game yet"}</b></div>
-          </aside>
-        </div>`);
-      $$("[data-field]").forEach(b => b.onclick = () => { S.field = b.dataset.field; store.set(STORE_FIELD, S.field); focusSel = `[data-field="${S.field}"]`; renderPick(); });
+      page(`<h1>Climb the ladder</h1>
+        <p class="lead">Four sentences describe one skill at four levels. Put each on its rung and see what senior means. Five skills a game.</p>
+        <h2 style="margin-top:18px">Pick a field</h2>
+        <div class="cl-fields" role="group" aria-label="Fields">${D.groups.map(tile).join("")}<button type="button" class="cl-field any${S.field === "any" ? " on" : ""}" data-field="any" aria-pressed="${S.field === "any"}">Any field<span class="n">Five at random</span></button></div>
+        ${best ? `<p class="gm-best">Your best: <b>${esc(String(best.score))}</b> of ${MAX_SCORE} · ${esc(best.field)}</p>` : ""}
+        ${GS.foot({ primary: { id: "cl-start", label: picked ? `Start: ${esc(fieldLabel())}` : "Pick a field first", key: "Enter", disabled: !picked } })}`, { round: null, rounds: 0, role: "" });
+      $$("[data-field]").forEach(b => b.onclick = () => { S.field = b.dataset.field; GS.record.saveGame(SLUG, { lastField: S.field }); focusSel = `[data-field="${S.field}"]`; renderPick(); });
       $("#cl-start").onclick = startGame;
     }
 
@@ -218,7 +201,7 @@
       if (!(S.field === "any" || fieldOf(S.field))) return;
       const cands = S.field === "any" ? anyC : byField[S.field];
       const { chosen, fromOther } = draw(cands, rng, anyC);
-      if (!chosen.length) { page(`<h1>Climb the ladder</h1><p class="lead">No ladder qualifies for this field yet.</p><div class="row"><button type="button" class="btn" id="cl-back">← Pick another field</button></div>`); $("#cl-back").onclick = renderPick; return; }
+      if (!chosen.length) { page(`<h1>Climb the ladder</h1><p class="lead">No ladder qualifies for this field yet.</p>${GS.foot({ primary: { id: "cl-back", label: "Pick another field" } })}`); $("#cl-back").onclick = renderPick; return; }
       S.game = { entries: chosen, fromOther, i: 0, results: [] };
       startRound();
     }
@@ -229,19 +212,19 @@
       renderSort();
     }
     const total = () => S.game.results.reduce((a, r) => a + r.total, 0);
-    const progress = (i, done) => `<div class="cl-progress" aria-label="${done ? "Five of five done" : `Skill ${i + 1} of ${S.game.entries.length}`}">${S.game.entries.map((_, k) => `<i class="${done || k < i ? "done" : k === i ? "now" : ""}"></i>`).join("")}</div>`;
+    const marks = () => S.game.results.map(r => r.total >= 6 ? "ok" : r.total >= 3 ? "done" : "miss");
     function head() {
-      const { c, e } = S.round, g = c.field, n = S.game.entries.length, i = S.game.i;
+      const { c, e } = S.round, g = c.field, i = S.game.i;
       const cluster = (M.clusters[e.cluster] || G.clusters[e.cluster] || { label: e.cluster }).label;
-      const src = e.ladder ? `from postings, ${esc(lower1(ladderLabel(e, M)))} ladder` : "ladder written by the atlas";
-      const where = S.field === "any" ? `${esc(g.label)} postings (its strongest field, average over its ${g.roles.length} roles)` : `${esc(g.label)} postings (average over its ${g.roles.length} roles)`;
-      const other = S.game.fromOther ? ` · ${NUM[S.game.fromOther] || S.game.fromOther} ${S.game.fromOther === 1 ? "skill" : "skills"} from other fields` : "";
-      return `<div class="cl-head"><div>${progress(i)}<p class="eyebrow">Skill ${i + 1} of ${n} · ${esc(cluster)}</p><h1>${esc(e.name)}</h1>
-        <p class="facts">Asked by <span class="cl-num">${pct(c.share)}</span> of ${where} · ${src}${other}</p></div>
-        <div class="cl-score">Score<b>${total() + (S.round.pts ? S.round.pts.total : 0)}</b>of ${n * 8}</div></div>`;
+      const src = e.ladder ? `from postings, ${esc(lower1(ladderLabel(e, M)))} ladder` : "written by the atlas";
+      const where = S.field === "any" ? `${esc(g.label)} postings` : `${esc(g.label)} postings`;
+      return `<div class="cl-head"><div><p class="eyebrow">${esc(cluster)}</p><h1>${esc(e.name)}</h1>
+        <p class="facts"><span class="cl-num">${pct(c.share)}</span> of ${where} ask for it · ${src}</p></div>
+        <div class="cl-score">Score<b>${total() + (S.round.pts ? S.round.pts.total : 0)}</b>of ${MAX_SCORE}</div></div>`;
     }
-    const lv = (e, k) => { const grade = gradeOf(e, M, KEYS[k]); return `<div class="lv"><span class="key" aria-hidden="true">${k + 1}</span>${LABELS[k]}${grade ? `<span class="grade">${esc(grade)}</span>` : ""}</div>`; };
+    const lv = (e, k) => { const grade = gradeOf(e, M, KEYS[k]); return `<div class="lv"><kbd aria-hidden="true">${k + 1}</kbd>${LABELS[k]}${grade ? `<span class="grade">${esc(grade)}</span>` : ""}</div>`; };
     const rungAria = (e, k, text) => `Rung ${k + 1}, ${LABELS[k]}${gradeOf(e, M, KEYS[k]) ? ", " + gradeOf(e, M, KEYS[k]) : ""}, ${text ? "holds: " + text : "empty"}`;
+    const headState = () => ({ round: S.game.i, rounds: S.game.entries.length, marks: marks(), role: fieldLabel() });
 
     // ---------- 2. sort ----------
     function renderSort() {
@@ -257,18 +240,14 @@
           <section>
             <p class="cl-col-h"><span>Four sentences, shuffled</span><span>${left === 0 ? "All placed" : `${left} left`}</span></p>
             <div class="cl-pile">${pile}</div>
-            <p class="cl-keys" style="margin-top:16px">Drag a sentence onto a rung, or select it and press <kbd>1</kbd> Entry, <kbd>2</kbd> Mid, <kbd>3</kbd> Senior, <kbd>4</kbd> Lead. <kbd>Backspace</kbd> takes it back. <kbd>Esc</kbd> clears the selection.</p>
-            <p class="cl-sr" id="cl-live" aria-live="polite"></p>
+            <p class="gm-key">Drag a sentence onto a rung, or select it and press its rung's key.</p>
           </section>
           <section>
             <p class="cl-col-h"><span>The ladder</span><span>Top is the most senior</span></p>
             <div class="cl-ladder">${[3, 2, 1, 0].map(k => `<div class="cl-rung">${lv(e, k)}${slot(k)}</div>`).join("")}</div>
-            <div class="row between" style="margin-top:18px">
-              <span class="small muted">${e.ladder ? `Grade names: the ${esc(lower1(ladderLabel(e, M)))} ladder the depth pipeline wrote these rungs for.` : "Not timed. Change your mind as often as you like."}</span>
-              <button type="button" class="btn${full ? " primary" : ""}" id="cl-check"${full ? "" : " disabled"}>${full ? "Check" : "Check · place all four first"}</button>
-            </div>
           </section>
-        </div>`);
+        </div>
+        ${GS.foot({ primary: { id: "cl-check", label: full ? "Check" : "Check · place all four first", key: "Enter", disabled: !full } })}`, headState());
       $$(".cl-line[data-id]").forEach(b => { b.onclick = () => { if (drag && drag.moved) { drag = null; return; } select(Number(b.dataset.id)); }; b.onpointerdown = ev => dragStart(ev, Number(b.dataset.id)); });
       $$(".cl-slot").forEach(s => { s.onclick = () => { if (R.selected != null) place(R.selected, Number(s.dataset.slot)); }; s.onpointerenter = () => { if (R.selected != null && !s.classList.contains("filled")) s.classList.add("over"); }; s.onpointerleave = () => s.classList.remove("over"); });
       $("#cl-check").onclick = check;
@@ -283,7 +262,7 @@
       focusSel = next != null ? `.cl-pile .cl-line[data-id="${next}"]` : "#cl-check";
       renderSort();
       const left = R.placed.filter(p => p < 0).length;
-      live(`On ${LABELS[k]}${other >= 0 && other !== i ? (from >= 0 ? `, swapped with the sentence on ${LABELS[from]}` : ", the sentence there went back to the pile") : ""}. ${left ? `${left} left.` : "All four placed. Press Enter on Check."}`);
+      live(`On ${LABELS[k]}${other >= 0 && other !== i ? (from >= 0 ? `, swapped with the sentence on ${LABELS[from]}` : ", the sentence there went back to the pile") : ""}. ${left ? `${left} left.` : "All four placed. Press Enter to check."}`);
     }
     function unplace(i) {
       const R = S.round; if (R.checked || R.placed[i] < 0) return;
@@ -315,21 +294,30 @@
       document.addEventListener("pointermove", move); document.addEventListener("pointerup", up); document.addEventListener("pointercancel", up);
     }
 
-    // keys: 1–4 place (the selected sentence, else the first in the pile), Backspace returns, Escape clears, arrows move
-    function onKey(ev) {
-      if (!alive || S.screen !== "sort" || ev.metaKey || ev.ctrlKey || ev.altKey) return;
-      const t = ev.target, inField = t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName); if (inField) return;
-      const R = S.round;
-      if (R.checked) return;
-      if (/^[1-4]$/.test(ev.key)) { const i = R.selected != null ? R.selected : R.order.find(j => R.placed[j] < 0); if (i != null) { ev.preventDefault(); place(i, Number(ev.key) - 1); } return; }
-      if (ev.key === "Backspace" || ev.key === "Delete") { const i = R.selected != null ? R.selected : (t && t.dataset && t.dataset.id != null ? Number(t.dataset.id) : null); if (i != null && R.placed[i] >= 0) { ev.preventDefault(); unplace(i); } return; }
-      if (ev.key === "Escape") { if (R.selected != null) { R.selected = null; focusSel = document.activeElement && document.activeElement.dataset && document.activeElement.dataset.id != null ? `.cl-line[data-id="${document.activeElement.dataset.id}"]` : null; renderSort(); live("Selection cleared."); } return; }
-      if (/^Arrow(Up|Down|Left|Right)$/.test(ev.key) && t && t.classList && t.classList.contains("cl-line")) {
-        const lines = $$(".cl-line[data-id]"), at = lines.indexOf(t); if (at < 0) return;
-        ev.preventDefault(); const dir = /Down|Right/.test(ev.key) ? 1 : -1; lines[(at + dir + lines.length) % lines.length].focus();
-      }
-    }
-    document.addEventListener("keydown", onKey);
+    // keys (the shell's convention): 1 to 4 place the selected sentence, else the first in the pile; Enter checks or
+    // goes on; arrows move between sentences
+    const offKeys = GS.keys({
+      choose(n) {
+        if (!alive || S.screen !== "sort" || S.round.checked) return false;
+        const R = S.round, i = R.selected != null ? R.selected : R.order.find(j => R.placed[j] < 0);
+        if (i == null) return false;
+        place(i, n - 1); return true;
+      },
+      confirm() {
+        if (!alive) return;
+        if (S.screen === "sort") check();
+        else if (S.screen === "checked") next();
+        else if (S.screen === "end") startGame();
+        else if (S.screen === "pick") startGame();
+      },
+      other(ev) {
+        const t = ev.target;
+        if (S.screen === "sort" && /^Arrow(Up|Down|Left|Right)$/.test(ev.key) && t && t.classList && t.classList.contains("cl-line")) {
+          const lines = $$(".cl-line[data-id]"), at = lines.indexOf(t); if (at < 0) return;
+          ev.preventDefault(); const dir = /Down|Right/.test(ev.key) ? 1 : -1; lines[(at + dir + lines.length) % lines.length].focus();
+        }
+      },
+    });
 
     // ---------- 3. checked ----------
     function check() {
@@ -339,6 +327,7 @@
       focusSel = "#cl-verdict";
       renderChecked();
     }
+    function next() { if (S.game.i === S.game.entries.length - 1) renderEnd(); else { S.game.i++; startRound(); } }
     function renderChecked() {
       S.screen = "checked";
       const R = S.round, e = R.e, { pts, total: t } = R.pts, i = S.game.i, n = S.game.entries.length, last = i === n - 1;
@@ -352,7 +341,6 @@
       const buildLink = e.build.length ? `<button type="button" class="linkish link" id="cl-build" aria-expanded="false">How to build ${esc(lower1(e.name))} →</button>` : `<span class="small subtle">No build step is written for this skill yet.</span> ${roles[0] ? `<a class="link" href="#/role/${esc(roles[0].id)}">How postings say it →</a>` : ""}`;
       const grades = e.ladder ? KEYS.map(k => gradeOf(e, M, k)) : null;
       const gradeNote = grades ? `<p class="small muted">This ladder uses ${esc(lower1(ladderLabel(e, M)))} grades: ${grades.map(esc).join(" → ")}.${grades[1].toLowerCase() === "associate" ? " At a bank, Associate is the second rung, not the first: analysts join below it." : ""}</p>` : "";
-      const country = (M.meta || {}).country || "US";
       page(`${head()}
         <div class="cl-board">
           <section>
@@ -363,7 +351,6 @@
             <div class="cl-verbs" aria-label="The first word of each rung, Entry to Lead">${e.verbs.map((v, k) => `${k ? '<i aria-hidden="true">→</i>' : ""}<span>${esc(v)}</span>`).join("")}</div>
             <p class="small muted" style="margin-top:8px">The first word of each rung, Entry to Lead. On the ladder, the words in bold are new at that rung: they appear in no rung below it.</p>
             ${e.climb ? `<p>${esc(e.climb)}</p>` : ""}
-            ${e.ladder ? `<p class="small muted">Every sentence here comes from ${esc(country)} postings: each is asked for by at least two employers at that level.</p>` : ""}
             <h3 style="margin-top:18px">Where to go from here</h3>
             <p style="margin:4px 0 8px">${buildLink}</p>
             ${e.build.length ? `<div class="cl-drawer" id="cl-drawer" hidden><p class="small muted" style="margin:0">How to build it, as the atlas writes it</p><ul class="plain">${e.build.map(b => `<li>${esc(b)}</li>`).join("")}</ul></div>` : ""}
@@ -373,15 +360,12 @@
           <section>
             <p class="cl-col-h"><span>Your ladder, checked</span><span>Top is the most senior</span></p>
             <div class="cl-ladder" id="cl-ladder">${[3, 2, 1, 0].map(rung).join("")}</div>
-            <div class="row between" style="margin-top:18px">
-              ${t === 8 || R.revealed ? `<span class="small muted">${t === 8 ? (e.ladder ? `Grade names: the ${esc(lower1(ladderLabel(e, M)))} ladder the depth pipeline wrote these rungs for.` : "That is the right order.") : "Shown in the right order."}</span>` : `<button type="button" class="btn quiet" id="cl-reveal">Show the right order</button>`}
-              <button type="button" class="btn primary" id="cl-next">${last ? "See your title →" : `Next skill · ${i + 2} of ${n} →`}</button>
-            </div>
           </section>
-        </div>`);
+        </div>
+        ${GS.foot({ primary: { id: "cl-next", label: last ? "See your result" : "Next skill", key: "Enter" }, quiet: t === 8 || R.revealed ? null : { id: "cl-reveal", label: "Show the right order" } })}`, headState());
       const b = $("#cl-build"); if (b) b.onclick = () => { const d = $("#cl-drawer"); d.hidden = !d.hidden; b.setAttribute("aria-expanded", String(!d.hidden)); };
       const rv = $("#cl-reveal"); if (rv) rv.onclick = reveal;
-      $("#cl-next").onclick = () => { if (last) renderEnd(); else { S.game.i++; startRound(); } };
+      $("#cl-next").onclick = next;
     }
     // "Show the right order": the sentences move to their rungs; a short move animation unless motion is reduced
     function reveal() {
@@ -392,12 +376,13 @@
       $$("#cl-ladder .cl-line[data-id]").forEach(l => { const dy = (before[l.dataset.id] || 0) - l.getBoundingClientRect().top; if (!dy) return; l.style.transition = "none"; l.style.transform = `translateY(${dy}px)`; requestAnimationFrame(() => { l.style.transition = "transform .4s ease"; l.style.transform = ""; }); });
     }
 
-    // ---------- 4. end ----------
+    // ---------- 4. end: the measure in plain words, the change since last time, the five skills ----------
     function renderEnd() {
       S.screen = "end";
-      const t = total(), n = S.game.entries.length, rank = rankOf(t), label = fieldLabel();
-      let best = store.get(STORE_BEST), isBest = false;
-      if (!best || typeof best.score !== "number" || t > best.score) { best = { score: t, rank, field: label, date: new Date().toISOString().slice(0, 10) }; store.set(STORE_BEST, best); isBest = true; }
+      const t = total(), n = S.game.entries.length, label = fieldLabel();
+      const was = GS.record.game(SLUG), prevBest = was.best && typeof was.best.score === "number" ? was.best : null, prevLast = was.lastScore;
+      const isBest = !prevBest || t > prevBest.score;
+      GS.record.saveGame(SLUG, { played: true, lastScore: t, best: isBest ? { score: t, field: label, date: new Date().toISOString().slice(0, 10) } : prevBest, clean: true });
       const dots = r => `<span class="cl-dots" aria-label="${r.pts.map((p, k) => `${LABELS[k]} ${p === 2 ? "right" : p === 1 ? "one off" : "two or more off"}`).join(", ")}">${r.pts.map(p => `<i class="${p === 2 ? "d-r" : p === 1 ? "d-h" : "d-w"}"></i>`).join("")}</span>`;
       const row = (r, k) => { const roles = topRoles(r.e.skillId, D, 2);
         const src = r.e.ladder ? `From postings · ${esc(lower1(ladderLabel(r.e, M)))} ladder` : "Written by the atlas";
@@ -407,34 +392,30 @@
           <span class="ln">${how}<span class="roles">${roles.map(x => `<a href="#/role/${esc(x.id)}">${esc(x.label)}</a> <span class="cl-num">${pct(x.share)}</span>`).join(", ")}</span></span>
           ${r.e.build.length ? `<div class="cl-drawer" id="cl-drawer-${k}" hidden><ul class="plain">${r.e.build.map(b => `<li>${esc(b)}</li>`).join("")}</ul></div>` : ""}</div>`; };
       const g = S.field !== "any" ? fieldOf(S.field) : null;
-      page(`${progress(n, true)}
-        <div class="cl-end">
-          <section>
-            <p class="eyebrow">${esc(label)} · ${t} of ${n * 8}</p>
-            <p class="cl-rank" id="cl-rank" tabindex="-1">${esc(rank)}</p>
-            <p class="small muted">Your best: <b style="color:var(--heading-foreground);font-weight:500">${best.score}</b>${isBest ? ", this game." : ` (${esc(best.rank)}), ${esc(best.field)}, ${esc(best.date)}.`}</p>
-            <p class="cl-punch">Same skill, four different jobs. A title tells you the rung, not the job.</p>
-            <p class="small muted">Every role in the atlas shows what its postings ask for at each level. Open one and pick a level.</p>
-            <div class="cl-ranks" aria-label="Titles by score">${TITLES.map(([lo, hi, name]) => `<span class="${name === rank ? "on" : ""}">${lo === hi ? lo : `${lo}–${hi}`}</span><span class="${name === rank ? "on" : ""}">${name}${name === rank ? ' <span class="cl-sr">(yours)</span>' : ""}</span>`).join("")}</div>
-            <div class="row" style="margin-top:20px"><button type="button" class="btn primary" id="cl-again">Play again</button><button type="button" class="btn" id="cl-other">Another field</button>${g ? `<a class="btn quiet" href="#/field/${esc(g.id)}">Open ${esc(g.label)} →</a>` : `<a class="btn quiet" href="#/explore">Explore the roles →</a>`}</div>
-          </section>
-          <section>
-            <p class="cl-col-h"><span>Your five skills</span><span>Entry to Lead · points</span></p>
-            <div class="list cl-results">${S.game.results.map(row).join("")}</div>
-            <p class="small muted" style="margin-top:10px">Each square is one sentence, Entry to Lead: green on the right rung, faded green one rung off, amber two or more off. The roles are the two whose postings ask for the skill most.</p>
-          </section>
-        </div>`);
-      $("#cl-rank").focus();
+      const right = S.game.results.reduce((a, r) => a + r.pts.filter(p => p === 2).length, 0);
+      const change = prevLast == null ? "Your first game." : t > prevLast ? `Up from ${prevLast} last time.` : t < prevLast ? `Down from ${prevLast} last time.` : `The same as last time.`;
+      const rec = `${change}${isBest && prevBest ? " A new best." : prevBest ? ` Your best: <b>${prevBest.score}</b>.` : ""}`;
+      page(GS.results({
+        eyebrow: `${esc(label)} · five skills`,
+        measure: `${t} of ${MAX_SCORE} · ${right} of 20 sentences on the right rung`,
+        record: rec,
+        takeaway: "Same skill, four different jobs. A title tells you the rung, not the job. Every role in the atlas shows what its postings ask for at each level: open one and pick a level.",
+        visual: `<p class="cl-col-h"><span>Your five skills</span><span>Entry to Lead · points</span></p><div class="list cl-results">${S.game.results.map(row).join("")}</div>
+          <p class="gm-key">Each square is one sentence, Entry to Lead: green on the right rung, faded green one rung off, amber two or more off. The roles are the two whose postings ask for the skill most.</p>`,
+        link: g ? { href: `#/field/${esc(g.id)}`, label: `Open ${g.label}` } : { href: "#/explore", label: "Explore the roles" },
+        foot: GS.foot({ primary: { id: "cl-again", label: "Play again", key: "Enter" }, quiet: { id: "cl-other", label: "Another field" } }),
+      }), { round: n, rounds: n, marks: marks(), role: label });
+      F.focusMeasure();
       $("#cl-again").onclick = startGame;
       $("#cl-other").onclick = () => { focusSel = "#cl-start"; renderPick(); };
       $$("[data-build]").forEach(b => b.onclick = () => { const d = $(`#cl-drawer-${b.dataset.build}`); d.hidden = !d.hidden; b.setAttribute("aria-expanded", String(!d.hidden)); });
     }
 
     // leaving the route: the game is lost (no resume in v1); listeners go with it
-    const leave = () => { alive = false; document.removeEventListener("keydown", onKey); if (drag && drag.ghost) drag.ghost.remove(); drag = null; window.removeEventListener("hashchange", leave); };
+    const leave = () => { alive = false; offKeys(); if (drag && drag.ghost) drag.ghost.remove(); drag = null; window.removeEventListener("hashchange", leave); };
     window.addEventListener("hashchange", leave);
     renderPick();
   }
 
-  return { mount, buildPool, candidates, anyCandidates, fieldShare, topRoles, draw, shuffleOrder, score, pointsFor, rankOf, verdictWords, placeWords, verbChain, verbNote, newWords, markNew, tokens, jaccard, firstWord, buildSteps, RUNG_NAMES, TITLES, KEYS, LABELS, MAX_OVERLAP, MIN_SHARE };
+  return { mount, buildPool, candidates, anyCandidates, fieldShare, topRoles, draw, shuffleOrder, score, pointsFor, verdictWords, placeWords, verbChain, verbNote, newWords, markNew, tokens, jaccard, firstWord, buildSteps, RUNG_NAMES, KEYS, LABELS, MAX_OVERLAP, MIN_SHARE, MAX_SCORE };
 });

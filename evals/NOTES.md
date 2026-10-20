@@ -1318,3 +1318,12 @@ product folder (`data/raw/jobs`) holds no requisition twice and was not written.
 extractor already read a requisition once), `build_graph --roles mba` (29,370 US postings, unchanged; six role files
 differ by their evidence sentences only), `run_pipeline.py --baseline` 2,605 pass, 0 fail (the backlog part 7 -> 11
 checks). pytest: 121 pass, 1 xfail; the xfail on a rewritten description now passes as a test.
+
+## The games, second pass: the shell (2026-10-20)
+
+- `evals/skill_path.mjs` is behind the 2026-10-19 data on the base of this work: the random pools are now 89 / 318 /
+  47 from a field and 451 / 1,445 / 217 from a role (the eval expects 90 / 320 / 50 and 476 / 1,431 / 218), and the
+  biggest-blue-number route from Supply chain to Product Manager ends 2 hops short, not 3. The board itself (240
+  skills, 938 links, one piece) still matches. Step 7 of the v12 build replaces this eval with the card game's.
+- The one games record (`localStorage` key `games`) after one play of each game is about 2 KB; Skill path's best
+  rows (one per pairing, 20 rounds kept) and Spot the real ask's seen list (30 ids) are the parts that grow.

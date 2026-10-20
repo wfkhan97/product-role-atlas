@@ -1,4 +1,4 @@
-// web/games/guess-the-role.js `rules`: the seeded dealer (fields, roles, postings), the points and ranks, and the
+// web/games/guess-the-role.js `rules`: the seeded dealer (fields, roles, postings), the points, and the
 // clue rules on the real web/data/ files. The screens are not tested.
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -50,12 +50,6 @@ test("pickPosting never deals a company twice in a game, nor the same company an
 test("points: 500 for a guess after one clue, 100 less per clue after, 0 below", () => {
   assert.deepEqual([1, 2, 3, 4, 5, 6, 7].map(R.points), [500, 400, 300, 200, 100, 0, 0]);
   assert.equal(R.MAX, R.ROUNDS * R.points(1), "the best game is every round on the first clue");
-});
-
-test("rank: each rank starts at its threshold; nextRank names the one above", () => {
-  for (const [min, name] of R.RANKS) { assert.equal(R.rank(min), name); if (min > 0) assert.notEqual(R.rank(min - 1), name); }
-  assert.equal(R.nextRank(0)[1], R.RANKS[1][1]);
-  assert.equal(R.nextRank(R.MAX), null);
 });
 
 test("decodeEntities turns the HTML entities of posting titles into text", () => {

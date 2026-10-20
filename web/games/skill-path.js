@@ -3,8 +3,8 @@
    shortest one. Two parts in one file, UMD like atlas.js:
    - logic: pure, no DOM, loads in node (evals/skill_path.mjs). The board, arrival and start skills, the shortest
      route, the choice rule, a round as a small state machine, rank, route fit, build next, the random pairings.
-   - ui: the start, play and end screens, the keyboard, the live region and storage. Registers
-     window.Games["skill-path"] = { mount } for play() in app.js.
+   - ui: the start, play and end screens in the shared shell (web/gameshell.js: one header, 1 to 4 choose, Enter goes
+     on, Esc quits, one record). Registers window.Games["skill-path"] = { mount } for play() in app.js.
    Colours keep their meaning: green = you (route, Yes, chosen), blue = the postings' numbers and the arrival skills,
    amber = Not yet and build next. Skill areas are text. Desktop only, like the rest. */
 (function (root, factory) {
@@ -249,37 +249,33 @@
   // =====================================================================================================
   // ui
   // =====================================================================================================
-  const KEY = "game-skill-path", KEEP_ROUNDS = 20, SHOW_BEST = 5;
+  const SLUG = "skill-path", TITLE = "Skill path", KEEP_ROUNDS = 20, SHOW_BEST = 5;
   const FIELD_SIZE = 0.66;   // the fields drawn at the skill map's smallest bubble size, as in the mocks, so skills stay visible
   const NUM = ["no", "one", "two", "three", "four"];
-  // storage: one key, every access in try/catch; the game works with storage blocked. Answers are never stored.
-  const store = {
-    read() { try { const v = JSON.parse(localStorage.getItem(KEY)); return v && typeof v === "object" ? v : {}; } catch { return {}; } },
-    write(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch { } },
-    clear() { try { localStorage.removeItem(KEY); } catch { } },
-  };
   const pairKey = (from, start, target) => `${from}:${start}>${target}`;
 
   async function mount(el, ctx) {
-    const { Atlas, esc, showAside } = ctx;
+    const { Atlas, esc, showAside } = ctx, GS = window.GameShell;
     const doc = document, aside = doc.getElementById("aside"), SkillMap = window.SkillMap;
     const pct = v => v == null ? "not read" : Math.round(v * 100) + "%";
     const fmt = n => Number(n).toLocaleString("en-US");
     const plural = (n, one, many) => `${fmt(n)} ${n === 1 ? one : many}`;
     const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
     let alive = true, rz = 0;
+    // storage: the games record, every access in try/catch; the game works with storage blocked. Answers are never stored.
+    const store = { read: () => GS.record.game(SLUG), write: v => GS.record.saveGame(SLUG, v) };
 
     const saved = store.read();
     const S = {
       ix: null, P: null, B: null, SM: null, cx: null, ready: false, failed: null, pairs: null, pools: null,
       from: "field", startField: "marketing", startRole: null, target: "product.pm", level: LEVELS.includes(saved.level) ? saved.level : "normal",
-      su: null, round: null, opts: null, screen: "start", view: null, hover: null, confirm: false, drawn: false, note: null, typed: {},
+      su: null, round: null, opts: null, screen: "start", view: null, hover: null, drawn: false, note: null, typed: {},
     };
+    const INFO = GS.info({ rules: "Get from where you are to a role you want, one skill at a time. You can only hop along a line: two skills are linked when postings ask for both. Start on the skill your field asks for most; hop to a linked skill, one of up to four; the blue number is how often the target's postings ask for it; arrive on any of the three skills that set the target apart, inside your hop budget. Easy marks the hop that goes towards the target.", keys: "Keys: 1 to 4 pick a hop, 1 says you can show the skill and 2 not yet, Enter starts or plays again, Esc quits.", source: "“Asked together” is the share of postings asking for either skill that ask for both; “not read” means the product postings were read for the product skills only." });
+    const F = GS.frame(el, { game: TITLE, cls: "sp", info: INFO });
+    const say = text => F.live(text);
 
-    // ---------- shell: the live region, the listeners, cleanup when the route changes ----------
-    const live = doc.createElement("div"); live.className = "sp-live"; live.setAttribute("aria-live", "polite"); live.setAttribute("role", "status"); doc.body.appendChild(live);
-    const say = text => { live.textContent = ""; setTimeout(() => { if (alive) live.textContent = text; }, 30); };
-    el.classList.add("sp-main");
+    // ---------- shell: the listeners, cleanup when the route changes ----------
     const onClick = e => { const t = e.target.closest("[data-act]"); if (t && !t.disabled) act(t.dataset.act, t.dataset.v, e); };
     const onInput = e => { const t = e.target; if (t.id === "sp-target" || t.id === "sp-from-role") typed(t, e.type === "change"); };
     const onOver = e => { const t = e.target.closest('[data-act="pick"]'); setHover(t ? t.dataset.v : null); };
@@ -289,14 +285,23 @@
     el.addEventListener("click", onClick); el.addEventListener("input", onInput); el.addEventListener("change", onInput);
     el.addEventListener("mouseover", onOver); el.addEventListener("mouseleave", onLeave);
     aside.addEventListener("click", onClick); aside.addEventListener("mouseover", onOver); aside.addEventListener("mouseleave", onLeave); aside.addEventListener("focusin", onFocus);
-    doc.addEventListener("keydown", onKey); window.addEventListener("resize", onResize);
+    window.addEventListener("resize", onResize);
+    const offKeys = GS.keys({
+      choose(n) {
+        if (!alive || S.screen !== "play") return false;
+        const R = S.round;
+        if (R.phase === "choose") { const c = S.opts.list[n - 1]; if (c) { doHop(c.id); return true; } return false; }
+        if (R.phase === "check" && n <= 2) { doAnswer(n === 1); return true; }
+        return false;
+      },
+      confirm() { if (!alive) return; if (S.screen === "end") act("again"); else if (S.screen === "start") act("go"); },
+    });
     function cleanup() {
       alive = false; clearTimeout(rz);
       el.removeEventListener("click", onClick); el.removeEventListener("input", onInput); el.removeEventListener("change", onInput);
       el.removeEventListener("mouseover", onOver); el.removeEventListener("mouseleave", onLeave);
       aside.removeEventListener("click", onClick); aside.removeEventListener("mouseover", onOver); aside.removeEventListener("mouseleave", onLeave); aside.removeEventListener("focusin", onFocus);
-      doc.removeEventListener("keydown", onKey); window.removeEventListener("resize", onResize);
-      live.remove(); el.classList.remove("sp-main");
+      offKeys(); window.removeEventListener("resize", onResize);
     }
     window.addEventListener("hashchange", cleanup, { once: true });
 
@@ -346,7 +351,7 @@
 
     // ---------- start screen ----------
     function renderStart() {
-      S.screen = "start"; showAside(null);
+      S.screen = "start"; showAside(null); F.set({ round: null, rounds: 0, role: "" });
       const ready = S.ready, su = currentSetup(), t = role(S.target), from = S.from;
       const refuse = su ? refusal(ix, from, startId(), S.target, su) : null;
       const pl = ready ? getPools()[from] : null;
@@ -366,17 +371,10 @@
       else if (refuse === "none") problem = "This pairing cannot be played on the board.";
       const canGo = ready && su && !refuse && !problem && (from === "field" || S.startRole);
       const diffChips = LEVELS.map(lv => `<button type="button" class="chip${S.level === lv ? " on" : ""}" aria-pressed="${S.level === lv}" data-act="level" data-v="${lv}">${DIFFICULTY[lv].label}${pl ? `<span class="n">${fmt(pl[lv].length)}</span>` : ""}</button>`).join("");
-      const html = `<div class="page wide sp-start"><div class="sp-cols">
+      const html = `<div class="sp-start"><div class="sp-cols">
         <div>
-          <p class="eyebrow">Game · about 3 minutes</p>
           <h1>Skill path</h1>
-          <p class="lead">Get from where you are to a role you want, one skill at a time. You can only hop along a line: two skills are linked when postings ask for both.</p>
-          <div class="sp-rules">
-            <div class="sp-rule"><b>1. Start</b><span>on the skill your field asks for most.</span></div>
-            <div class="sp-rule"><b>2. Hop</b><span>to a linked skill: one of up to 4.</span></div>
-            <div class="sp-rule"><b>3. Read the blue</b><span>how often the target's postings ask for it.</span></div>
-            <div class="sp-rule"><b>4. Be honest</b><span>can you show it on your resume yet?</span></div>
-          </div>
+          <p class="lead">Get from where you are to a role you want, one skill at a time, along the links between skills.</p>
           <h2>Where are you now?</h2>
           <div class="chips sp-tabs"><button type="button" class="chip${from === "field" ? " on" : ""}" aria-pressed="${from === "field"}" data-act="from" data-v="field">A field</button><button type="button" class="chip${from === "role" ? " on" : ""}" aria-pressed="${from === "role"}" data-act="from" data-v="role">A role I hold</button></div>
           ${from === "field" ? `<div class="chips" role="group" aria-label="Your field">${fieldChips}</div>`
@@ -386,9 +384,9 @@
           <datalist id="sp-roles">${roleOptions()}</datalist>
           ${problem ? `<p class="notice sp-problem">${problem}</p>` : ""}
           ${t && t.small && !problem ? `<p class="small muted">${esc(t.label)} has few postings (${fmt(t.n)}), so its numbers rest on a small sample. It is never dealt at random.</p>` : ""}
-          <div class="chips"><span class="lbl">Difficulty</span>${diffChips}<span class="small muted" style="margin-left:6px">${pl ? `pairings from a ${from === "field" ? "field" : "role"}` : ""}</span></div>
-          <div class="row" style="margin-top:18px"><button type="button" class="btn primary" data-act="go" id="sp-go"${canGo ? "" : " disabled"}>Start the route →</button><button type="button" class="btn" data-act="random"${ready ? "" : " disabled"}>Random pairing</button></div>
+          <div class="chips"><span class="lbl">Difficulty</span>${diffChips}</div>
           ${S.failed ? `<p class="notice">Something did not load: ${esc(S.failed)}. Reload the page.</p>` : ""}
+          ${GS.foot({ primary: { id: "sp-go", label: "Start the route", key: "Enter", disabled: !canGo, attrs: 'data-act="go"' }, quiet: { label: "Random pairing", disabled: !ready, attrs: 'data-act="random"' } })}
         </div>
         <div>
           <div class="sp-board sp-mini" id="sp-mini" data-kind="mini"></div>
@@ -396,7 +394,7 @@
           ${bestList()}
         </div>
       </div></div>`;
-      el.innerHTML = html;
+      F.body.innerHTML = html;
       drawBoards();
     }
     function brief(su, refuse) {
@@ -414,16 +412,15 @@
     }
     function bestList() {
       const st = store.read(), best = Object.values(st.best || {}).sort(compare).slice(0, SHOW_BEST);
-      if (!best.length) return `<p class="small muted" style="margin-top:14px">Your best routes show here after a round. They stay in this browser.</p>`;
+      if (!best.length) return "";
       const gen = M.meta.generated || "";
-      return `<h3 class="sp-besth">Your best routes</h3><div class="list sp-best">${best.map(b => `<button type="button" class="r${b.gen !== gen ? " sp-old" : ""}" data-act="best" data-v="${esc(b.key)}"><span class="t">${esc(b.rank)}</span><span class="n">${b.fit == null ? "" : "fit " + pct(b.fit)}</span><span class="m">${esc(b.startLabel)} → ${esc(b.targetLabel)} · ${plural(b.hops, "hop", "hops")}, shortest ${b.par}${b.gen !== gen ? " · on older data" : ""}</span></button>`).join("")}</div>
-        <p class="small muted" style="margin-top:8px">They stay in this browser. <button type="button" class="linkish link" data-act="forget">Forget my routes</button></p>`;
+      return `<h3 class="sp-besth">Your best routes</h3><div class="list sp-best">${best.map(b => `<button type="button" class="r${b.gen !== gen ? " sp-old" : ""}" data-act="best" data-v="${esc(b.key)}"><span class="t">${b.arrived ? `Arrived in ${plural(b.hops, "hop", "hops")}` : `${plural(b.short ?? 0, "hop", "hops")} short`}</span><span class="n">${b.fit == null ? "" : "fit " + pct(b.fit)}</span><span class="m">${esc(b.startLabel)} → ${esc(b.targetLabel)} · shortest ${b.par}${b.gen !== gen ? " · on older data" : ""}</span></button>`).join("")}</div>`;
     }
 
     // ---------- play ----------
     function startRound(su, level) {
-      S.round = newRound(su, level); S.screen = "play"; S.view = null; S.hover = null; S.confirm = false; S.drawn = false;
-      const st = store.read(); st.level = level; store.write(st);
+      S.round = newRound(su, level); S.screen = "play"; S.view = null; S.hover = null; S.drawn = false;
+      store.write({ level });
       renderPlay();
       say(`${startLabel(su.from, su.startId)} to ${role(su.targetId).label}. You start at ${name(su.start)}. Shortest route ${plural(su.par, "hop", "hops")}, your budget ${S.round.budget}.`);
       focusFirst();
@@ -431,9 +428,8 @@
     function renderPlay() {
       const R = S.round, su = R.su, t = role(su.targetId);
       S.opts = optionsOn(R, S.B);
-      const left = R.budget - R.used;
+      F.set({ round: Math.min(R.used, R.budget - 1), rounds: R.budget, role: `${startLabel(su.from, su.startId)} → ${t.label}` });
       const title = R.phase === "check" ? `Hop ${R.used} of ${R.budget}: ${esc(name(R.cur))}` : `Hop ${Math.min(R.used + 1, R.budget)} of ${R.budget}`;
-      const pips = Array.from({ length: R.budget }, (_, i) => `<i class="${i < R.used ? "used" : ""}"></i>`).join("");
       const strip = [`<span class="tag good">${esc(name(su.start))} <span class="sp-tagn">start</span></span>`].concat(R.hops.map((h, i) => {
         const last = i === R.hops.length - 1, curCls = last ? " sp-cur" : "";
         if (h.kind === "back") return `<span class="tag${curCls}">Back to ${esc(name(h.id))} <span class="sp-tagn">back</span></span>`;
@@ -444,22 +440,18 @@
       if (R.phase === "check") {
         const open = S.B.adj[R.cur].filter(([id]) => !R.visited.has(id)), ends = open.filter(([id]) => su.arrivals.includes(id)).length;
         key = `The faint lines are where you can go from here.${ends ? ` ${cap(NUM[ends])} of them ${ends === 1 ? "ends" : "end"} the round.` : ""}`;
-      } else key = "Green: your route; ✓ you can show it. Blue rings: the three skills that end the round. Hollow dots: skills most roles ask for; they go everywhere with you, so they are not a hop.";
-      el.innerHTML = `<div class="page wide sp-play">
-        <div class="sp-head">
-          <div><p class="eyebrow">${esc(startLabel(su.from, su.startId))} → ${esc(t.label)} · ${R.level}</p><h1>${title}</h1></div>
-          <div class="sp-budget"><span class="sp-pips" role="img" aria-label="${R.used} of ${R.budget} hops used">${pips}</span><span class="facts">${plural(left, "hop", "hops")} left · shortest route ${su.par}</span></div>
-        </div>
+      } else key = "Green: your route; ✓ you can show it. Blue rings: the three skills that end the round. Hollow dots: skills most roles ask for, so they are not a hop.";
+      F.body.innerHTML = `<div class="sp-play">
+        <div class="sp-head"><h1>${title}</h1><span class="facts">${plural(R.budget - R.used, "hop", "hops")} left · shortest route ${su.par}</span></div>
         <div class="sp-board" id="sp-board" data-kind="play"></div>
         <div class="sp-strip">${strip}</div>
-        <p class="key">${key}</p>
+        <p class="gm-key">${key}</p>
       </div>`;
       drawBoards();
       renderPlayAside();
     }
     function renderPlayAside() {
       const R = S.round, su = R.su, t = role(su.targetId), op = S.opts;
-      const confirm = S.confirm ? `<div class="notice sp-confirm" role="alertdialog" aria-label="End the round"><p>End the round here? It counts as out of hops.</p><div class="row"><button type="button" class="btn" data-act="end-yes" id="sp-end-yes">End the round <span class="sp-kbd">Esc</span></button><button type="button" class="btn quiet" data-act="end-no">Keep going</button></div></div>` : "";
       let html;
       if (R.phase === "check") {
         const s = ix.skillById[R.cur] || {}, sh = su.share(R.cur), arrived = su.arrivals.includes(R.cur);
@@ -471,28 +463,25 @@
           <p class="facts">${sh == null ? `${esc(t.label)} postings were not read for this skill` : `<span class="sp-blue">${pct(sh)}</span> of ${esc(t.label)} postings ask for it`}</p>
           <div class="sp-q">
             <p class="sp-qt" id="sp-qt" tabindex="-1">Can you already show it?</p>
-            <p class="small muted">A line of work, a project or a course you could point to. No upload; this is your own read, and it picks the skill to build next.</p>
-            <div class="sp-ans"><button type="button" class="btn primary" data-act="yes">Yes, on my resume <span class="sp-kbd">Y</span></button><button type="button" class="btn" data-act="no">Not yet <span class="sp-kbd">N</span></button></div>
+            <p class="small muted">A line of work, a project or a course you could point to. Your own read; it picks the skill to build next.</p>
+            <div class="sp-ans"><button type="button" class="btn primary" data-act="yes">Yes, on my resume <kbd>1</kbd></button><button type="button" class="btn" data-act="no">Not yet <kbd>2</kbd></button></div>
           </div>
           <p class="small muted" style="margin-top:16px">${next}</p>`;
       } else {
         const help = DIFFICULTY[R.level].help;
-        const anyNotRead = op.list.some(c => su.share(c.id) == null);
         const items = op.list.map((c, i) => {
           const sh = su.share(c.id);
           return `<button type="button" class="skill sp-choice" data-act="pick" data-v="${esc(c.id)}" data-key="${i + 1}"><span class="sp-k" aria-hidden="true">${i + 1}</span><span class="sp-cn"><span class="def">${esc(name(c.id))}</span><span class="sp-meta">${esc(area(c.id))} · asked together ${pct(c.j)}${help && c.closer ? ' · <span class="sp-towards">towards the target</span>' : ""}${c.revisit ? " · visited" : ""}</span></span><span class="pct${sh == null ? "" : " sp-blue"}">${pct(sh)}</span><span class="bar"><i style="width:${Math.round((sh || 0) * 100)}%"></i></span></button>`;
         }).join("");
-        const back = op.back ? `<p class="small">No linked skill is left that you have not visited.</p><div class="sp-ans"><button type="button" class="btn" data-act="back">Step back to ${esc(name(op.back))} <span class="sp-kbd">B</span></button></div><p class="small muted" style="margin-top:8px">Stepping back costs a hop.</p>` : "";
+        const back = op.back ? `<p class="small">No linked skill is left that you have not visited.</p><div class="sp-ans"><button type="button" class="btn" data-act="back">Step back to ${esc(name(op.back))}</button></div><p class="small muted" style="margin-top:8px">Stepping back costs a hop.</p>` : "";
         const revisit = op.list.length && op.list[0].revisit ? `<p class="small muted" style="margin-top:10px">Every skill linked to this one is visited. Hop back onto one of them; it costs a hop.</p>` : "";
         html = `<p class="eyebrow">Your next hop</p>
           <h2 class="sp-h2">From ${esc(name(R.cur))}</h2>
-          <p class="small muted">${op.back ? "" : `Linked skills you have not visited. The blue number: how often ${esc(t.label)} postings ask for it.`}</p>
           ${items ? `<div class="sp-choices">${items}</div>` : back}${revisit}
-          ${items ? `<p class="small muted" style="margin-top:10px">“Asked together”: of the postings that ask for either skill, the share that ask for both. A bigger number is a thicker line.</p>` : ""}
-          ${anyNotRead ? `<p class="small muted">“Not read”: ${esc(group("product").label)} postings were read for the ${S.P.G.skills.length} product skills only, so this one has no number for ${esc(t.label)}.</p>` : ""}
-          <p class="facts" style="margin-top:14px">${items ? `Keys 1 to ${op.list.length} pick a hop` : "B steps back"} · Esc ends the round</p>`;
+          ${items ? `<p class="gm-key">The blue number: % of ${esc(t.label)} postings that ask for it.</p>` : ""}
+          <p class="small" style="margin-top:14px"><button type="button" class="linkish link" data-act="end-yes">End the round here</button></p>`;
       }
-      showAside(`<div class="sp-aside">${confirm}${html}</div>`);
+      showAside(`<div class="sp-aside">${html}</div>`);
     }
     function focusFirst() {
       const R = S.round; if (!R) return;
@@ -500,7 +489,7 @@
       if (t) t.focus({ preventScroll: true });
     }
     function doHop(id) {
-      const R = S.round; S.confirm = false; S.hover = null;
+      const R = S.round; S.hover = null;
       if (!hop(R, S.B, id)) return;
       const h = R.hops[R.hops.length - 1];
       if (h.kind === "revisit") { afterSettle(); return; }
@@ -509,8 +498,8 @@
       say(`Hop ${R.used} of ${R.budget}: ${name(id)}. ${sh == null ? `${t} postings were not read for it.` : `${pct(sh)} of ${t} postings ask for it.`} Can you already show it?`);
       focusFirst();
     }
-    function doAnswer(yes) { const R = S.round; S.confirm = false; if (!answer(R, yes)) return; afterSettle(); }
-    function doBack() { const R = S.round; S.confirm = false; if (!stepBack(R, S.B)) return; afterSettle(true); }
+    function doAnswer(yes) { const R = S.round; if (!answer(R, yes)) return; afterSettle(); }
+    function doBack() { const R = S.round; if (!stepBack(R, S.B)) return; afterSettle(true); }
     function afterSettle(back) {
       const R = S.round;
       if (R.phase === "arrived" || R.phase === "out") return endRound();
@@ -519,42 +508,42 @@
       say(`${back ? `Stepped back to ${name(R.cur)}. ` : ""}Hop ${R.used + 1} of ${R.budget}. ${n ? `${cap(NUM[n] || String(n))} ${n === 1 ? "choice" : "choices"} from ${name(R.cur)}.` : "No new skill is linked; you can step back."}`);
       focusFirst();
     }
-    function askEnd() { S.confirm = true; renderPlayAside(); say("End the round here? Press Escape again to end it."); const b = aside.querySelector("#sp-end-yes"); if (b) b.focus({ preventScroll: true }); }
     function endRound() {
-      const R = S.round; S.confirm = false;
+      const R = S.round;
       if (R.phase !== "arrived" && R.phase !== "out") stop(R);
       S.result = result(R); S.build = buildNext(R, S.B); S.screen = "end"; S.drawn = false; S.view = null;
-      record(R, S.result);
-      renderEnd();
+      const was = record(R, S.result);
+      renderEnd(was);
       const t = role(R.su.targetId).label;
-      say(S.result.arrived ? `Arrived at ${name(R.cur)}. ${S.result.rank}: ${plural(R.used, "hop", "hops")}, the shortest route takes ${R.su.par}.` : `${S.result.rank}. ${plural(S.result.short, "hop", "hops")} short of ${t}.`);
-      const h = el.querySelector("#sp-rank"); if (h) h.focus({ preventScroll: true });
+      say(S.result.arrived ? `Arrived at ${name(R.cur)} in ${plural(R.used, "hop", "hops")}; the shortest route takes ${R.su.par}.` : `${plural(S.result.short, "hop", "hops")} short of ${t}.`);
+      F.focusMeasure();
     }
+    // the record: the last 20 rounds and the best round per pairing (arrived first, then fewer hops over par, then fit)
     function record(R, res) {
       const su = R.su, st = store.read(), now = new Date();
-      const row = { key: pairKey(su.from, su.startId, su.targetId), from: su.from, start: su.startId, target: su.targetId, startLabel: startLabel(su.from, su.startId), targetLabel: role(su.targetId).label, level: R.level, rank: res.rank, arrived: res.arrived, hops: res.used, par: su.par, short: res.short, fit: res.fit, at: now.toISOString(), day: now.toLocaleDateString("en-CA"), gen: M.meta.generated || "" };
-      st.rounds = [row, ...(Array.isArray(st.rounds) ? st.rounds : [])].slice(0, KEEP_ROUNDS);
-      st.best = st.best && typeof st.best === "object" ? st.best : {};
-      const old = st.best[row.key];
-      if (!old || old.gen !== row.gen || compare(row, old) < 0) st.best[row.key] = row;
-      st.level = R.level;
-      store.write(st);
+      const row = { key: pairKey(su.from, su.startId, su.targetId), from: su.from, start: su.startId, target: su.targetId, startLabel: startLabel(su.from, su.startId), targetLabel: role(su.targetId).label, level: R.level, arrived: res.arrived, hops: res.used, par: su.par, short: res.short, fit: res.fit, at: now.toISOString(), day: now.toLocaleDateString("en-CA"), gen: M.meta.generated || "" };
+      const rounds = [row, ...(Array.isArray(st.rounds) ? st.rounds : [])].slice(0, KEEP_ROUNDS);
+      const best = st.best && typeof st.best === "object" ? { ...st.best } : {};
+      const old = best[row.key], lastSame = (Array.isArray(st.rounds) ? st.rounds : []).find(x => x.key === row.key) || null;
+      const isBest = !old || old.gen !== row.gen || compare(row, old) < 0;
+      if (isBest) best[row.key] = row;
+      store.write({ played: true, rounds, best, level: R.level });
+      return { old: old && old.gen === row.gen ? old : null, isBest, lastSame };
     }
 
-    // ---------- end screen ----------
-    function renderEnd() {
+    // ---------- end screen: the measure in plain words, the change since last time, the two routes, build next ----------
+    function renderEnd(was) {
       showAside(null);
       const R = S.round, su = R.su, res = S.result, t = role(su.targetId), tg = group(t.group), sg = startGroup(su.from, su.startId);
-      const link = id => `#/role/${encodeURIComponent(su.targetId)}`;
+      const link = () => `#/role/${encodeURIComponent(su.targetId)}`;
       const row = (id, n, cls) => `<a class="r${cls || ""}" href="${link(id)}"><span class="t">${esc(name(id))}</span><span class="n">${n}</span></a>`;
       const blue = id => su.share(id) == null ? "not read" : `<span class="sp-blue">${pct(su.share(id))}</span>`;
       const mine = [row(su.start, "start")].concat(R.hops.map(h => h.kind === "back" ? row(h.id, "back") : row(h.id, blue(h.id), h.kind === "revisit" ? "" : h.yes ? " sp-yes" : h.yes === false ? " sp-no" : ""))).join("");
       const short = su.short.map((id, i) => row(id, i ? blue(id) : "start")).join("");
-      const eyebrow = `${esc(startLabel(su.from, su.startId))} → ${esc(t.label)} · ${R.level} · ${res.arrived ? "arrived" : "out of hops"}`;
       let lead;
-      if (res.arrived) lead = `${plural(res.used, "hop", "hops")}. The shortest route takes ${su.par}. You can show ${res.yes} of your ${plural(res.checked, "hop", "hops")}.`;
+      if (res.arrived) lead = `The shortest route takes ${su.par}. You can show ${res.yes} of your ${plural(res.checked, "hop", "hops")}.`;
       else {
-        lead = res.stopped ? `You ended the round after ${plural(res.used, "hop", "hops")}, ${res.short} short of ${esc(t.label)}.` : `${plural(res.used, "hop", "hops")} used, ${res.short} short of ${esc(t.label)}.`;
+        lead = res.stopped ? `You ended the round after ${plural(res.used, "hop", "hops")}.` : `${plural(res.used, "hop", "hops")} used.`;
         const hopped = R.hops.filter(h => h.kind === "hop");
         if (hopped.length >= 2 && hopped.every(h => h.biggest)) {
           const FS = S.cx.FS, gs = S.cx.fields, nearF = gs.slice().sort((a, b) => ((FS[b] || {})[R.cur] || 0) - ((FS[a] || {})[R.cur] || 0))[0];
@@ -567,50 +556,50 @@
       const b = S.build, bs = ix.skillById[b.id] || {};
       const steps = Array.isArray(bs.build) && bs.build.length ? bs.build : bs.build && typeof bs.build === "object" && Array.isArray(bs.build[t.ladder]) ? bs.build[t.ladder].map(x => typeof x === "string" ? x : x.text) : null;
       const why = b.why === "not-yet" ? `The skill on your route that ${esc(t.label)} postings ask for most and that you cannot show yet.` : b.why === "reached" ? `You can show every hop. This is the skill that ended the round, and ${esc(t.label)} postings ask for it most of your route.` : `You can show every hop. This is the skill that ends the round nearest to where you stopped.`;
-      el.innerHTML = `<div class="page wide sp-end"><div class="sp-cols e">
-        <div>
-          <p class="eyebrow">${eyebrow}</p>
-          <p class="verdict sp-rank" id="sp-rank" tabindex="-1">${esc(res.rank)}</p>
-          <p class="lead">${lead}</p>
-          <div class="sp-board sp-endboard" id="sp-endboard" data-kind="end"></div>
-          <p class="key"><span class="sp-green">Green</span>: your route, ✓ you can show it. <span class="sp-amber">Amber</span>: not yet. Dashed: the shortest route${res.arrived ? "" : ` (${plural(su.par, "hop", "hops")})`}. Blue rings: where the round ends.</p>
-        </div>
-        <div class="sp-endside">
-          <div class="sp-two">
-            <div><h3>Your route</h3><div class="list sp-rl">${mine}</div>${res.arrived ? fitLine(res.fit) : ""}</div>
-            <div><h3>Shortest route</h3><div class="list sp-rl">${short}</div>${res.arrived ? fitLine(su.shortFit) : ""}</div>
-          </div>
-          <div class="sp-build">
-            <p class="eyebrow">Build next</p>
-            <p class="sp-bt"><a href="${link(b.id)}">${esc(name(b.id))}</a> <span class="sp-blue mono">${pct(su.share(b.id))}</span></p>
-            <p class="small muted">${why}</p>
-            ${steps ? `<ul class="plain">${steps.map(s => `<li>${esc(s)}</li>`).join("")}</ul>` : `<p class="small muted">Build steps for this skill are not written yet.</p>`}
-            <p class="small muted" style="margin:8px 0 0">See how ${esc(t.label)} postings word it: open the skill on <a class="link" href="${link(b.id)}">the ${esc(t.label)} screen</a>.</p>
-          </div>
-          <div class="row" style="margin-top:14px">${res.arrived
-            ? `<a class="btn primary" href="${link()}">Open ${esc(t.label)} →</a><button type="button" class="btn" data-act="again">Play again</button>`
-            : `<button type="button" class="btn primary" data-act="again">Try this pairing again</button><a class="btn" href="${link()}">Open ${esc(t.label)} →</a>`}<button type="button" class="btn quiet" data-act="random-end">Random pairing</button></div>
-          <p class="small muted" style="margin-top:10px"><a class="link" href="#/explore?field=${encodeURIComponent(sg)}">${esc(group(sg).label)} on the skill map</a> · <a class="link" href="#/field/${encodeURIComponent(tg.id)}">All ${esc(tg.label)} roles</a></p>
-        </div>
-      </div>
-      <p class="sp-punch">Every career change is a route through skills. The atlas maps all ${fmt(M.skills.length)}. <span class="muted">${res.arrived ? `This one read ${fmt(t.nOpen)} ${esc(t.label)} postings so you did not have to.` : "The biggest number is not always the way there."}</span></p></div>`;
+      const last = was.lastSame;
+      const change = !last ? "Your first round on this pairing." : (res.arrived && !last.arrived) ? "Last time you did not arrive." : (!res.arrived && last.arrived) ? `Last time you arrived in ${plural(last.hops, "hop", "hops")}.` : res.arrived ? (res.used < last.hops ? `Fewer hops than last time (${last.hops}).` : res.used > last.hops ? `More hops than last time (${last.hops}).` : "The same as last time.") : (res.short < (last.short ?? 99) ? `Closer than last time (${last.short} short).` : "No closer than last time.");
+      const rec = `${change}${was.isBest && was.old ? " A new best for this pairing." : was.old ? ` Your best: ${was.old.arrived ? `arrived in ${plural(was.old.hops, "hop", "hops")}` : `${plural(was.old.short ?? 0, "hop", "hops")} short`}.` : ""}`;
+      F.set({ round: R.budget, rounds: R.budget, role: `${startLabel(su.from, su.startId)} → ${t.label}` });
+      F.body.innerHTML = GS.results({
+        cls: "sp-end",
+        eyebrow: `${esc(startLabel(su.from, su.startId))} → ${esc(t.label)} · ${R.level}`,
+        measure: res.arrived ? `Arrived in ${plural(res.used, "hop", "hops")} · shortest ${su.par}` : `${plural(res.short, "hop", "hops")} short of ${esc(t.label)}`,
+        record: rec,
+        takeaway: lead,
+        visual: `<div class="sp-cols e">
+          <div><div class="sp-board sp-endboard" id="sp-endboard" data-kind="end"></div>
+            <p class="gm-key"><span class="sp-green">Green</span>: your route, ✓ you can show it. <span class="sp-amber">Amber</span>: not yet. Dashed: the shortest route${res.arrived ? "" : ` (${plural(su.par, "hop", "hops")})`}. Blue rings: where the round ends.</p></div>
+          <div class="sp-endside">
+            <div class="sp-two">
+              <div><h3>Your route</h3><div class="list sp-rl">${mine}</div>${res.arrived ? fitLine(res.fit) : ""}</div>
+              <div><h3>Shortest route</h3><div class="list sp-rl">${short}</div>${res.arrived ? fitLine(su.shortFit) : ""}</div>
+            </div>
+            <div class="sp-build">
+              <p class="eyebrow">Build next</p>
+              <p class="sp-bt"><a href="${link(b.id)}">${esc(name(b.id))}</a> <span class="sp-blue mono">${pct(su.share(b.id))}</span></p>
+              <p class="small muted">${why}</p>
+              ${steps ? `<ul class="plain">${steps.map(s => `<li>${esc(s)}</li>`).join("")}</ul>` : `<p class="small muted">Build steps for this skill are not written yet.</p>`}
+            </div>
+            <p class="small muted" style="margin-top:10px"><a class="link" href="#/explore?field=${encodeURIComponent(sg)}">${esc(group(sg).label)} on the skill map</a> · <a class="link" href="#/field/${encodeURIComponent(tg.id)}">All ${esc(tg.label)} roles</a></p>
+          </div></div>`,
+        link: { href: link(), label: `Open ${t.label}` },
+        foot: GS.foot({ primary: { label: res.arrived ? "Play again" : "Try this pairing again", key: "Enter", attrs: 'data-act="again"' }, quiet: { label: "Random pairing", attrs: 'data-act="random-end"' } }),
+      });
       drawBoards();
     }
 
-    // ---------- actions and keys ----------
+    // ---------- actions ----------
     function act(a, v) {
       if (a === "from") { S.from = v; S.typed = {}; renderStart(); return; }
       if (a === "field") { S.startField = v; renderStart(); return; }
-      if (a === "level") { S.level = v; const st = store.read(); st.level = v; store.write(st); keepFocus(renderStart); return; }
+      if (a === "level") { S.level = v; store.write({ level: v }); keepFocus(renderStart); return; }
       if (a === "go") { const su = currentSetup(); if (su && !refusal(ix, S.from, startId(), S.target, su)) startRound(su, S.level); return; }
       if (a === "random" || a === "random-end") { dealRandom(); return; }
-      if (a === "forget") { store.clear(); const st = { level: S.level }; store.write(st); renderStart(); say("Your routes are forgotten."); return; }
       if (a === "best") { const b = (store.read().best || {})[v]; if (b) { setPairing(b.from, b.start, b.target); renderStart(); focusGo(); } return; }
       if (a === "pick") { if (S.screen === "play" && S.round.phase === "choose") doHop(v); return; }
       if (a === "yes" || a === "no") { doAnswer(a === "yes"); return; }
       if (a === "back") { doBack(); return; }
       if (a === "end-yes") { endRound(); return; }
-      if (a === "end-no") { S.confirm = false; renderPlayAside(); focusFirst(); return; }
       if (a === "again") { const su = S.round.su; startRound(su, S.round.level); return; }
     }
     function setPairing(from, start, target) {
@@ -633,23 +622,6 @@
       fn();
       let n = id ? doc.getElementById(id) : act2 ? el.querySelector(`[data-act="${act2}"]${v ? `[data-v="${CSS.escape(v)}"]` : ""}`) : null;
       if (n) { n.focus({ preventScroll: true }); if (sel && n.setSelectionRange) try { n.setSelectionRange(sel[0], sel[1]); } catch { } }
-    }
-    function onKey(e) {
-      if (!alive || e.ctrlKey || e.metaKey || e.altKey) return;
-      const t = e.target, tag = t && t.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable)) return;
-      const k = e.key;
-      if (S.screen === "play") {
-        const R = S.round;
-        if (k === "Escape") { e.preventDefault(); if (S.confirm) endRound(); else askEnd(); return; }
-        if (R.phase === "choose" && /^[1-4]$/.test(k)) { const c = S.opts.list[+k - 1]; if (c) { e.preventDefault(); doHop(c.id); } return; }
-        if (R.phase === "choose" && (k === "b" || k === "B") && S.opts.back) { e.preventDefault(); doBack(); return; }
-        if (R.phase === "check" && (k === "y" || k === "Y")) { e.preventDefault(); doAnswer(true); return; }
-        if (R.phase === "check" && (k === "n" || k === "N")) { e.preventDefault(); doAnswer(false); return; }
-      } else if (S.screen === "end" && k === "Enter") {
-        if (tag === "A" || tag === "BUTTON") return;
-        e.preventDefault(); act("again");
-      }
     }
 
     // ---------- the board: the skill map's own positions, drawn as one SVG ----------

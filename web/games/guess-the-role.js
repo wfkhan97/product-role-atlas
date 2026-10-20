@@ -1,17 +1,17 @@
 /* Guess the role (#/play/guess-the-role): skills from one real, open posting, one at a time; name the role.
    Spec: games/guess-the-role/README.md. Data: the MBA index (Atlas.index()) and one role file per round, loaded lazily.
-   The data rules (pool, sampling, distractors, clues, scoring, ranks) are pure functions in `rules`, loaded in node by
+   The data rules (pool, sampling, distractors, clues, scoring) are pure functions in `rules`, loaded in node by
    evals/games_guess_the_role.mjs with the same UMD pattern as atlas.js; the screens follow below them.
-   Colours keep their meaning: green = you (right, chosen, your rank), blue = the postings' numbers, amber = attention
-   or wrong; skill areas are text. Desktop only. */
+   Drawn in the shared shell (web/gameshell.js): one header, 1 to 4 answer, Enter goes on, Esc quits, one record.
+   Colours keep their meaning: green = you (right, chosen), blue = the postings' numbers, amber = attention or wrong;
+   skill areas are text. Desktop only. */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();   // node: require("web/games/guess-the-role.js")
   else { root.Games = root.Games || {}; root.Games["guess-the-role"] = { mount: factory().mount }; }
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
-  const SLUG = "guess-the-role", KEY = "game." + SLUG, ROUNDS = 10, CLUES = 5, MAX = ROUNDS * 500;
+  const SLUG = "guess-the-role", TITLE = "Guess the role", ROUNDS = 10, CLUES = 5, MAX = ROUNDS * 500;
   const CAP = 0.90, FLOOR = 0.005, LIFT_FLOOR = 0.01, MIN_SKILLS = 8, RED_HERRING = [-Math.log(1.5), -Math.log(2)], CLOSE_LIFT = 1.5;
-  const RANKS = [[0, "Career fair tourist"], [1000, "Info session regular"], [2000, "Coffee chat pro"], [2900, "Recruiter's favourite"], [3800, "Walking job board"]];
   const TIMER_S = 20;
 
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -108,8 +108,6 @@
   }
 
   const points = shown => Math.max(0, (CLUES + 1 - shown) * 100);   // 500 after 1 clue … 100 after 5
-  const rank = score => RANKS.filter(([min]) => score >= min).pop()[1];
-  const nextRank = score => RANKS.find(([min]) => score < min) || null;
 
   // one role per field, in a random order; unseen roles of a field first; `used` holds the ids already taken this game
   function pickRole(field, seen, used, rnd) {
@@ -125,23 +123,25 @@
     return ok.length ? pick(ok, rnd) : null;
   }
 
-  const rules = { prepare, points, rank, nextRank, pickRole, pickPosting, rng, shuffle, decodeEntities, CAP, FLOOR, MIN_SKILLS, RED_HERRING, RANKS, ROUNDS, CLUES, MAX };
+  const rules = { prepare, points, pickRole, pickPosting, rng, shuffle, decodeEntities, CAP, FLOOR, MIN_SKILLS, RED_HERRING, ROUNDS, CLUES, MAX };
 
   // ---------- the screens ----------
   async function mount(el, ctx) {
-    const { Atlas, crumbs } = ctx;
-    const store = { get() { try { return JSON.parse(localStorage.getItem(KEY)); } catch { return null; } }, set(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch { } } };
-    const saved = Object.assign({ v: 1, best: [], seen: [], timer: false, plays: 0 }, store.get() || {});
+    const { Atlas } = ctx, GS = window.GameShell;
+    const saved = Object.assign({ best: null, seen: [], speed: false, lastScore: null, plays: 0 }, GS.record.game(SLUG));
     let alive = true, timer = null, game = null, lastGame = new Set();   // lastGame: company + title of the previous game's postings
-    el.classList.add("gtr");
-    el.innerHTML = `<div class="sr-only" aria-live="polite" id="gtr-live"></div><div id="gtr-screen"></div>`;
-    const screen = el.querySelector("#gtr-screen"), live = el.querySelector("#gtr-live");
-    const say = text => { live.textContent = ""; setTimeout(() => { if (alive) live.textContent = text; }, 30); };
+    const INFO = GS.info({ rules: "Skills from one real, open job posting appear one at a time, the giveaway last. Name the role it is for from four. The fewer clues you take, the more points the round keeps: 500 after one clue, 100 less per clue. A wrong answer scores 0 and the round is over. Ten rounds, one from each field.", keys: "Keys: 1 to 4 answer, Enter shows the next clue or goes on, Esc quits.", source: "Drawn from the open postings of 48 roles; the shares are the fraction of a role's postings that ask for a skill." });
+    const F = GS.frame(el, { game: TITLE, cls: "gtr", info: INFO });
+    const screen = F.body;
+    const say = text => F.live(text);
     const focus = sel => { const n = screen.querySelector(sel); if (n) { n.setAttribute("tabindex", "-1"); n.focus({ preventScroll: true }); } };
     const stopTimer = () => { if (timer) { clearInterval(timer.id); timer = null; } };
-    const leave = () => { alive = false; stopTimer(); document.removeEventListener("keydown", onKey); window.removeEventListener("hashchange", leave); el.classList.remove("gtr"); };
+    const leave = () => { alive = false; stopTimer(); offKeys(); window.removeEventListener("hashchange", leave); };
     window.addEventListener("hashchange", leave);
-    document.addEventListener("keydown", onKey);
+    const offKeys = GS.keys({
+      choose(n) { if (game && game.phase === "clue") { answer(n - 1); return true; } return false; },
+      confirm() { enter(); },
+    });
 
     let D = null;
     try {
@@ -151,50 +151,30 @@
     if (!alive) return;
     renderStart();
 
-    function onKey(e) {
-      if (!alive || e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
-      const t = e.target;
-      if (t && t.matches && t.matches("input, textarea, select, [contenteditable]")) return;   // never while typing
-      if (e.key === "Enter") {
-        if (t && t.closest && t.closest("button, a, summary")) return;   // the element's own activation handles Enter
-        e.preventDefault(); enter();
-      } else if (/^[1-4]$/.test(e.key) && game && game.phase === "clue") { e.preventDefault(); answer(Number(e.key) - 1); }
-    }
     function enter() {
       const phase = game ? game.phase : "start";
       if (phase === "start" || phase === "end") startGame();
       else if (phase === "clue") nextClue();
       else if (phase === "reveal") nextRound();
     }
+    const marks = () => game.rounds.map(r => r.answer == null ? "" : r.right ? "ok" : "miss");
 
     // ----- start -----
     function renderStart() {
-      crumbs([["Games", "#/"], ["Guess the role", null]]);
-      const best = saved.best[0];
+      if (game) game.phase = "start";
+      F.set({ round: null, rounds: 0, role: "" });
+      const unlocked = !!saved.clean;
       screen.innerHTML = `<div class="gtr-start">
- <p class="eyebrow">Game · about 5 minutes</p>
  <h1 class="gtr-title">Guess the role</h1>
- <p class="lead">Skills from one real, open job posting appear one at a time. Name the role it is for. The fewer clues you need, the more points you keep.</p>
- <div class="gtr-rules">
-  <div class="rule"><span class="k mono">1</span><b>One posting</b><span>Its skills arrive one by one, the giveaway last.</span><span class="ex">${exampleClues()}</span></div>
-  <div class="rule"><span class="k mono">2</span><b>Four roles</b><span>Press 1 to 4 to answer, or Enter for the next clue.</span><span class="ex"><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <kbd>4</kbd> &nbsp; <kbd>Enter</kbd></span></div>
-  <div class="rule"><span class="k mono">3</span><b>Fewer clues, more points</b><span>Each clue you take lowers the round.</span><span class="ex mono nw">${Array.from({ length: CLUES }, (_, i) => points(i + 1)).join(" ")}</span></div>
-  <div class="rule"><span class="k mono">4</span><b>One guess</b><span>A wrong answer scores 0 and the round is over.</span><span class="ex">Then you see who really asks for it.</span></div>
- </div>
- <p class="gtr-pool">Ten rounds, one from each field. Drawn from <span class="num">${fmt(D.nOpen)}</span> open postings for <span class="num">${D.nRoles}</span> roles.</p>
- <div class="row gtr-go"><button class="btn primary" type="button" id="gtr-start">Start <kbd class="on-primary">Enter</kbd></button>
-  <button class="chip${saved.timer ? " on" : ""}" type="button" id="gtr-timer" aria-pressed="${saved.timer}">Gentle timer: ${saved.timer ? "on" : "off"}</button>
-  ${best ? `<span class="small muted">Your best: <b class="you mono">${fmt(best.score)}</b> · ${esc(best.rank)}</span>` : ""}</div>
+ <p class="lead">Name a real posting's role from its skills, giveaway last. Ten rounds, one from each field.</p>
+ ${unlocked ? `<div class="chips" role="group" aria-label="Round"><button class="chip${saved.speed ? "" : " on"}" type="button" id="gtr-untimed" aria-pressed="${!saved.speed}">Untimed</button><button class="chip${saved.speed ? " on" : ""}" type="button" id="gtr-speed" aria-pressed="${saved.speed}">Speed round<span class="n">${TIMER_S} s a clue</span></button></div>` : `<p class="small muted">Untimed. A Speed round, ${TIMER_S} seconds a clue, unlocks after a game with at least half the rounds right.</p>`}
+ ${saved.best != null ? `<p class="gm-best">Your best: <b>${fmt(saved.best)}</b> of ${fmt(MAX)} points</p>` : ""}
+ ${GS.foot({ primary: { id: "gtr-start", label: "Start", key: "Enter" } })}
 </div>`;
       window.scrollTo(0, 0);
       screen.querySelector("#gtr-start").onclick = startGame;
-      screen.querySelector("#gtr-timer").onclick = () => { saved.timer = !saved.timer; store.set(saved); renderStart(); say(saved.timer ? `Gentle timer on: ${TIMER_S} seconds a clue, then the next clue appears.` : "Gentle timer off."); };
-    }
-    // the example tile: the two least distinctive clues of a typical posting would need a role file, so the tile shows
-    // the two most common eligible skills across the 50 roles, which is what early clues look like
-    function exampleClues() {
-      const top = [...D.eligible].map(s => ({ s, a: D.avg(s) })).sort((a, b) => b.a - a.a).slice(0, 2);
-      return top.map(t => esc(D.ix.skillById[t.s].name)).join("<br>") + "<br>…";
+      const sp = screen.querySelector("#gtr-speed"), un = screen.querySelector("#gtr-untimed");
+      if (sp) { sp.onclick = () => { saved.speed = true; GS.record.saveGame(SLUG, { speed: true }); renderStart(); say(`Speed round: ${TIMER_S} seconds a clue, then the next clue appears.`); }; un.onclick = () => { saved.speed = false; GS.record.saveGame(SLUG, { speed: false }); renderStart(); say("Untimed."); }; }
     }
 
     // ----- a game -----
@@ -204,7 +184,7 @@
       const seen = new Set(saved.seen), used = new Set();
       const fields = shuffle(D.fields, rnd);
       const plan = fields.map(f => { const r = pickRole(f, seen, used, rnd); used.add(r); return r; });
-      game = { seed, rnd, fields, plan, used, seenBefore: seen, rounds: [], i: -1, score: 0, companies: new Set(), fails: 0, phase: "loading" };
+      game = { seed, rnd, fields, plan, used, seenBefore: seen, rounds: [], i: -1, score: 0, companies: new Set(), fails: 0, phase: "loading", timed: !!(saved.clean && saved.speed) };
       nextRound();
     }
     const loadRole = id => Atlas.fetchJson("data/" + D.M.roles[id].file);   // via M.roles, never ix.roles (pmm is shared with the product set)
@@ -253,40 +233,33 @@
       startTimer(round);
     }
 
-    function pipsHtml() {
-      return `<div class="pips" aria-label="Round ${game.i + 1} of ${ROUNDS}">${Array.from({ length: ROUNDS }, (_, k) => { const r = game.rounds[k]; const c = k === game.i && game.phase !== "reveal" ? "cur" : r && r.answer != null ? (r.right ? "ok" : "miss") : ""; return `<i class="${c}"></i>`; }).join("")}</div>`;
-    }
-    function headHtml() {
-      return `<div class="gtr-head"><p class="eyebrow">Guess the role · round ${game.i + 1} of ${ROUNDS}</p><div class="gtr-score">${pipsHtml()}<span class="mono"><b>${fmt(game.score)}</b> points</span></div></div>`;
-    }
     function renderRoundShell(inner) {
-      crumbs([["Games", "#/"], [`Round ${game.i + 1} of ${ROUNDS}`, null]]);
-      screen.innerHTML = `<div class="gtr-play">${headHtml()}${inner}</div>`;
+      F.set({ round: game.i, rounds: ROUNDS, marks: marks(), role: `${fmt(game.score)} points` });
+      screen.innerHTML = `<div class="gtr-play">${inner}</div>`;
       window.scrollTo(0, 0);
     }
     function boardHtml(round) {
       const n = round.shown;
       const list = round.clues.map((s, k) => k < n ? `<li class="${k === n - 1 ? "new" : ""}"><span class="n mono">${k + 1}</span><span class="nm">${esc(D.ix.skillById[s].name)}</span></li>` : `<li class="hid"><span class="n mono">${k + 1}</span><span class="nm">Clue ${k + 1}</span></li>`).join("");
       const ladder = Array.from({ length: CLUES }, (_, k) => `<li class="${k + 1 < n ? "gone" : k + 1 === n ? "now" : ""}"><span class="mono">${points(k + 1)}</span><span>after ${k + 1} clue${k ? "s" : ""}</span></li>`).join("");
-      const tm = timer ? `<p class="small muted gtr-timer">Next clue in <b class="mono" id="gtr-count">${timer.left}</b> s · <button type="button" class="linkish small" id="gtr-timer-off">turn the timer off</button></p>` : "";
+      const tm = timer ? `<p class="small muted gtr-timer">Next clue in <b class="mono" id="gtr-count">${timer.left}</b> s</p>` : "";
       return `<section class="clues" aria-label="The clues"><p class="small muted">One open posting asks for</p><ol class="cluelist">${list}</ol></section>
   <aside class="pts" aria-label="Points"><p class="small muted">Answer now for</p><p class="now-pts mono">${points(n)}</p><ol class="ladder-pts">${ladder}</ol>${tm}</aside>`;
     }
     function footHtml(round) {
       const n = round.shown;
-      return n < CLUES ? `<button class="btn" type="button" id="gtr-next-clue">Next clue <kbd>Enter</kbd></button><span class="small muted">The next clue lowers this round to ${points(n + 1)}.</span>` : `<span class="small muted">That was the last clue. Press 1 to 4 to answer.</span>`;
+      return n < CLUES ? GS.foot({ primary: { id: "gtr-next-clue", label: "Next clue", key: "Enter" } }) : `<p class="gm-key">That was the last clue. Answer with 1 to 4.</p>`;
     }
     function renderRound(round) {
       renderRoundShell(`<div class="gtr-board">${boardHtml(round)}</div>
  <p class="q" id="gtr-q">Which role is it?</p>
  <div class="gtr-choices" role="group" aria-labelledby="gtr-q">${round.options.map((r, k) => `<button class="gopt" type="button" data-opt="${k}" aria-keyshortcuts="${k + 1}"><kbd>${k + 1}</kbd><span class="t">${esc(D.M.roles[r].label)}</span><span class="m">${esc(D.fieldLabel[D.fieldOf[r]])}</span></button>`).join("")}</div>
- <div class="row gtr-foot">${footHtml(round)}</div>`);
+ <div class="gtr-foot">${footHtml(round)}</div>`);
       wireRound(round);
     }
     function wireRound(round) {
       screen.querySelectorAll("[data-opt]").forEach(b => b.onclick = () => answer(Number(b.dataset.opt)));
       const nx = screen.querySelector("#gtr-next-clue"); if (nx) nx.onclick = nextClue;
-      const off = screen.querySelector("#gtr-timer-off"); if (off) off.onclick = () => { saved.timer = false; store.set(saved); stopTimer(); updateBoard(round); say("Gentle timer off."); };
     }
     function updateBoard(round) {
       const board = screen.querySelector(".gtr-board"), foot = screen.querySelector(".gtr-foot");
@@ -307,10 +280,10 @@
       announceClue(round, timedOut === true);
       startTimer(round);
     }
-    // the optional gentle timer: when it runs out it shows the next clue, as if Enter were pressed; at clue 5 it stops
+    // the Speed round's clock (G7): when it runs out it shows the next clue, as if Enter were pressed; at clue 5 it stops
     function startTimer(round) {
       stopTimer();
-      if (!saved.timer || round.shown >= CLUES) { const t = screen.querySelector(".gtr-timer"); if (t) t.remove(); return; }
+      if (!game.timed || round.shown >= CLUES) { const t = screen.querySelector(".gtr-timer"); if (t) t.remove(); return; }
       timer = { left: TIMER_S, id: setInterval(() => {
         if (!alive || !game || game.phase !== "clue") return stopTimer();
         timer.left--;
@@ -318,7 +291,7 @@
         if (timer.left <= 0) { stopTimer(); nextClue(true); }
       }, 1000) };
       const aside = screen.querySelector(".pts");
-      if (aside && !aside.querySelector(".gtr-timer")) { aside.insertAdjacentHTML("beforeend", `<p class="small muted gtr-timer">Next clue in <b class="mono" id="gtr-count">${timer.left}</b> s · <button type="button" class="linkish small" id="gtr-timer-off">turn the timer off</button></p>`); wireRound(round); }
+      if (aside && !aside.querySelector(".gtr-timer")) aside.insertAdjacentHTML("beforeend", `<p class="small muted gtr-timer">Next clue in <b class="mono" id="gtr-count">${timer.left}</b> s</p>`);
     }
 
     // ----- the answer and the reveal -----
@@ -331,7 +304,7 @@
       round.right = round.answer === round.role;
       round.points = round.right ? points(round.shown) : 0;
       game.score += round.points;
-      if (!saved.seen.includes(round.role)) { saved.seen.push(round.role); store.set(saved); }
+      if (!saved.seen.includes(round.role)) { saved.seen.push(round.role); GS.record.saveGame(SLUG, { seen: saved.seen }); }
       renderReveal(round);
       game.phase = "reveal";
       say(round.right ? `Right. Plus ${round.points} points. The posting was for ${D.M.roles[round.role].label}.` : `Not this one. 0 points. The posting was for ${D.M.roles[round.role].label}.`);
@@ -360,54 +333,45 @@
    ${verdict}
    <p class="sm-h">Close calls</p>
    <ul class="close">${close}</ul>
-   <div class="row gtr-next"><a class="btn" href="#/role/${esc(r)}">Open this role →</a><button class="btn primary" type="button" id="gtr-next-round">${game.i + 1 < ROUNDS ? "Next round" : "See your result"} <kbd class="on-primary">Enter</kbd></button></div>
   </aside>
- </div>`);
+ </div>
+ ${GS.foot({ primary: { id: "gtr-next-round", label: game.i + 1 < ROUNDS ? "Next round" : "See your result", key: "Enter" }, quiet: { href: `#/role/${esc(r)}`, label: "Open this role" } })}`);
+      F.set({ marks: marks(), role: `${fmt(game.score)} points` });
       screen.querySelector("#gtr-next-round").onclick = nextRound;
     }
 
-    // ----- the end -----
+    // ----- the end: the measure in plain words, the change since last time, the rounds -----
     function endGame() {
       game.phase = "end";
-      const today = new Date(), date = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-      const prevBest = saved.best.length ? Math.max(...saved.best.map(b => b.score)) : null;
-      const entry = { score: game.score, rank: rank(game.score), date, data: D.M.meta.generated };
-      saved.best = [...saved.best, entry].sort((a, b) => b.score - a.score || (a === entry ? -1 : 1)).slice(0, 5);
-      saved.plays = (saved.plays || 0) + 1;
+      const right = game.rounds.filter(r => r.right).length, prevBest = saved.best, prevLast = saved.lastScore, wasClean = !!saved.clean;
+      const isNewBest = prevBest == null || game.score > prevBest;
       for (const r of game.rounds) if (!saved.seen.includes(r.role)) saved.seen.push(r.role);
-      store.set(saved);
-      renderEnd(entry, prevBest != null && game.score > prevBest);
-      say(`Ten rounds done. ${entry.rank}: ${fmt(game.score)} of ${fmt(MAX)} points.`);
-      focus(".gtr-rank");
+      saved.best = isNewBest ? game.score : prevBest;
+      if (!game.timed && right * 2 >= ROUNDS) saved.clean = true;   // a clean untimed game unlocks the Speed round
+      saved.plays = (saved.plays || 0) + 1;
+      GS.record.saveGame(SLUG, { played: true, best: saved.best, seen: saved.seen, lastScore: game.score, clean: !!saved.clean });
+      saved.lastScore = game.score;
+      renderEnd(right, prevBest, prevLast, isNewBest, !wasClean && saved.clean);
+      say(`Ten rounds done. ${right} of ${ROUNDS} right, ${fmt(game.score)} of ${fmt(MAX)} points.`);
+      F.focusMeasure();
     }
-    function renderEnd(entry, isNewBest) {
-      crumbs([["Games", "#/"], ["Result", null]]);
-      const nx = nextRank(game.score);
+    function renderEnd(right, prevBest, prevLast, isNewBest, unlockedNow) {
       const read = game.rounds.reduce((a, r) => a + r.shown, 0);
       const rows = game.rounds.map((r, k) => `<tr class="${r.right ? "" : "miss"}"><td class="mono rn">${k + 1}</td><td><a href="#/role/${esc(r.role)}">${esc(D.M.roles[r.role].label)}</a><span class="m">${esc(D.fieldLabel[r.field])}</span></td><td class="post">${esc(decodeEntities(r.job.company))}</td><td class="r mono">${r.shown}</td><td class="r mono rp">${r.right ? "+" + r.points : "0"}</td></tr>`).join("");
       const first = game.rounds.map(r => r.role).filter(r => !game.seenBefore.has(r));
-      const fmtDate = d => d === entry.date ? "Today" : new Date(d + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
-      const best = saved.best.map(b => `<li class="${b === entry ? "today" : ""}"><span class="mono">${fmt(b.score)}</span><span>${esc(b.rank)}</span><span class="subtle">${esc(fmtDate(b.date))}</span></li>`).join("");
-      screen.innerHTML = `<div class="gtr-end">
- <section>
-  <p class="eyebrow">Ten rounds done</p>
-  <h1 class="gtr-rank">${esc(entry.rank)}</h1>
-  <p class="facts"><b class="you">${fmt(game.score)}</b> of ${fmt(MAX)} points${isNewBest ? " · new personal best" : ""}${nx ? ` · ${esc(nx[1])} starts at ${fmt(nx[0])}` : " · the top title"}</p>
-  <table class="rounds"><thead><tr><th><span class="sr-only">Round</span></th><th>Role</th><th>Posting</th><th class="r">Clues</th><th class="r">Points</th></tr></thead><tbody>${rows}</tbody></table>
- </section>
- <aside>
-  <div class="point">
-   <p>You read <b class="you mono">${read}</b> skills from ${ROUNDS} postings.</p>
-   <p>The atlas reads every skill of all <span class="num">${fmt(D.nOpen)}</span> open postings for these ${D.nRoles} roles, every week.</p>
-   <p class="kick">Nobody reads that by hand. That's the point.</p>
-  </div>
-  <p class="sm-h">Roles you met for the first time</p>
-  ${first.length ? `<div class="tags">${first.map(r => `<a class="tag" href="#/role/${esc(r)}">${esc(D.M.roles[r].label)} <span class="num mono">${fmt(D.M.roles[r].n_open)}</span></a>`).join("")}</div>` : `<p class="small muted">None this time. You had met all ten before.</p>`}
-  <p class="sm-h">Your best games</p>
-  <ol class="best">${best}</ol>
-  <div class="row gtr-next"><button class="btn primary" type="button" id="gtr-again">Play again <kbd class="on-primary">Enter</kbd></button><a class="btn" href="#/explore">Explore the fields</a></div>
- </aside>
-</div>`;
+      const change = prevLast == null ? "Your first game." : game.score > prevLast ? `Up from ${fmt(prevLast)} last time.` : game.score < prevLast ? `Down from ${fmt(prevLast)} last time.` : "The same as last time.";
+      const rec = `${change}${isNewBest && prevBest != null ? " A new best." : prevBest != null ? ` Your best: <b>${fmt(prevBest)}</b>.` : ""}${game.timed ? " A Speed round." : unlockedNow ? " The Speed round is unlocked." : ""}`;
+      screen.innerHTML = GS.results({
+        eyebrow: "Ten rounds done",
+        measure: `${right} of ${ROUNDS} right · ${fmt(game.score)} of ${fmt(MAX)} points`,
+        record: rec,
+        takeaway: `You read <b>${read}</b> skills from ${ROUNDS} postings. The atlas reads every skill of all <b>${fmt(D.nOpen)}</b> open postings for these ${D.nRoles} roles, every week. Nobody reads that by hand.`,
+        visual: `<table class="rounds"><thead><tr><th><span class="sr-only">Round</span></th><th>Role</th><th>Posting</th><th class="r">Clues</th><th class="r">Points</th></tr></thead><tbody>${rows}</tbody></table>
+  ${first.length ? `<p class="sm-h">Roles you met for the first time</p><div class="tags">${first.map(r => `<a class="tag" href="#/role/${esc(r)}">${esc(D.M.roles[r].label)} <span class="num mono">${fmt(D.M.roles[r].n_open)}</span></a>`).join("")}</div>` : ""}`,
+        link: { href: "#/explore", label: "Explore the fields" },
+        foot: GS.foot({ primary: { id: "gtr-again", label: "Play again", key: "Enter" } }),
+      });
+      F.set({ round: ROUNDS, rounds: ROUNDS, marks: marks(), role: `${fmt(game.score)} points` });
       window.scrollTo(0, 0);
       screen.querySelector("#gtr-again").onclick = startGame;
     }
@@ -417,8 +381,7 @@
       console.error(e);
       if (!alive) return;
       stopTimer(); if (game) game.phase = "failed";
-      crumbs([["Games", "#/"], ["Guess the role", null]]);
-      screen.innerHTML = `<div class="gtr-fail"><h1>Something did not load</h1><p class="lead">${esc(e && e.message || e)}. Reload the page; if it happens again, the data files may be missing.</p><div class="row" style="margin-top:16px"><a class="btn" href="#/">← All games</a></div></div>`;
+      screen.innerHTML = `<div class="gtr-fail"><h1>Something did not load</h1><p class="lead">${esc(e && e.message || e)}. Reload the page; if it happens again, the data files may be missing.</p>${GS.foot({ primary: { href: "#/", label: "All games" } })}</div>`;
     }
 
     return leave;

@@ -1,10 +1,11 @@
 /* Game: Build the hire (#/play/build-the-hire?role=<id>&deal=<n>, &view=score for the scorecard). The spec is
    games/build-the-hire/README.md; the model is a port of games/build-the-hire/scripts/compute.js and gives the same
-   numbers for the same role, deal and choices. Four screens: brief and role picker, draft, verdict, scorecard.
+   numbers for the same role, deal and choices. Four screens: brief and role picker, draft, verdict, scorecard, drawn
+   in the shared shell (web/gameshell.js: one header, 1 to 3 choose, Enter hires, Esc quits, one record).
    Registers window.Games["build-the-hire"] = { mount } (contract in games/README.md). Nothing leaves the browser. */
 (function () {
   "use strict";
-  const SLUG = "build-the-hire", KEY = "game:" + SLUG, BASE = "#/play/" + SLUG;
+  const SLUG = "build-the-hire", TITLE = "Build the hire", BASE = "#/play/" + SLUG;
 
   // ---------- the rules (same values as scripts/compute.js; distinct is read from bands_mba.json at load) ----------
   const CFG = {
@@ -17,14 +18,11 @@
     mustHave: { share: 0.4, lift: 1.5 },
     trap: { here: 0.2, there: 0.5, lift: 2 },
     topK: 5, matchCut: 0.5, minBuildable: 0.01,
-    ranks: [[0.95, "Head of talent"], [0.8, "Talent partner"], [0.5, "Hiring manager"], [0.25, "Recruiting coordinator"], [0, "Resume skimmer"]],
   };
-  const LADDER = CFG.ranks.map(r => r[1]).reverse();   // lowest first, as the verdict shows it
   const factor = l => Math.max(CFG.distinct.floor, Math.min(1, CFG.distinct.floor + (1 - CFG.distinct.floor) * (l - 1) / (CFG.distinct.full - 1)));
   const tier = l => 1 + CFG.priceCuts.filter(c => l >= c).length;
   // xorshift32: the deal number is the seed, so a deal can be replayed and shared
   function rng(seed) { let s = seed >>> 0 || 1; return () => { s ^= s << 13; s >>>= 0; s ^= s >> 17; s ^= s << 5; s >>>= 0; return s / 4294967296; }; }
-  const rankOf = rel => CFG.ranks.find(([cut]) => rel >= cut)[1];
   const cost = h => h.reduce((a, c) => a + c.price, 0);
 
   // ---------- data: both role sets, the average role, and which role prizes each skill most ----------
@@ -166,26 +164,22 @@
     let swap = null;
     if (missed && over) { const sw = ids.map(x => x === over.id ? missed.id : x); if (cost(sw.map(x => K.byId[x])) <= CFG.budget) swap = S.run(sw); }
     const ex = extras(M);
-    return { share: mine.share, n: mine.n, offered, handOf, best: top, buildable, rel, rank: buildable ? rankOf(rel) : null, bestPick, without, over, missed, swap, mustHave: ex.mustHave, ceiling: ex.ceiling };
+    return { share: mine.share, n: mine.n, offered, handOf, best: top, buildable, rel, bestPick, without, over, missed, swap, mustHave: ex.mustHave, ceiling: ex.ceiling };
   }
 
-  // ---------- the personal best (localStorage only; every access may throw) ----------
-  const store = {
-    read() { try { const v = JSON.parse(localStorage.getItem(KEY)); return v && typeof v === "object" ? v : {}; } catch { return {}; } },
-    write(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); return true; } catch { return false; } },
-  };
-  const bestOf = id => { const b = (store.read().best || {})[id]; return b && typeof b.rel === "number" ? b : null; };
-  function saveLastRole(id) { const s = store.read(); s.lastRole = id; store.write(s); }
+  // ---------- the personal best, in the games record (every access in try/catch) ----------
+  const rec = () => window.GameShell.record.game(SLUG);
+  const bestOf = id => { const b = (rec().best || {})[id]; return b && typeof b.rel === "number" ? b : null; };
+  function saveLastRole(id) { window.GameShell.record.saveGame(SLUG, { lastRole: id }); }
   function saveBest(M, g) {
     const v = g.verdict;
-    if (!v.rank) return { kind: "none" };
-    const s = store.read(), all = s.best && typeof s.best === "object" ? s.best : {}, prev = all[M.id];
-    if (prev && typeof prev.rel === "number" && prev.rel >= v.rel) return { kind: "kept", rec: prev };
-    const rec = { pct: Math.round(v.share * 1000) / 1000, rel: Math.round(v.rel * 1000) / 1000, rank: v.rank, deal: g.deal, at: today() };
-    s.best = { ...all, [M.id]: rec };
-    if (!store.write(s)) return { kind: "failed" };
+    if (!v.buildable) return { kind: "none" };
+    const s = rec(), all = s.best && typeof s.best === "object" ? s.best : {}, prev = all[M.id];
+    const row = { pct: Math.round(v.share * 1000) / 1000, rel: Math.round(v.rel * 1000) / 1000, deal: g.deal, at: today() };
+    if (prev && typeof prev.rel === "number" && prev.rel >= v.rel) { window.GameShell.record.saveGame(SLUG, { played: true, last: { ...all.last, [M.id]: row } }); return { kind: "kept", rec: prev }; }
+    if (!window.GameShell.record.saveGame(SLUG, { played: true, best: { ...all, [M.id]: row } })) return { kind: "failed" };
     const back = bestOf(M.id);
-    return back && back.deal === g.deal ? { kind: "new", rec } : { kind: "failed" };
+    return back && back.deal === g.deal ? { kind: "new", rec: row } : { kind: "failed" };
   }
 
   // ---------- words ----------
@@ -209,23 +203,23 @@
   // ---------- the hook ----------
   let mounts = 0;
   async function mount(el, ctx) {
-    const { Atlas, crumbs } = ctx, esc = ctx.esc;
+    const { Atlas } = ctx, esc = ctx.esc, GS = window.GameShell;
     const token = ++mounts;
-    el.innerHTML = `<div class="bh-root"></div><p class="bh-sr" aria-live="polite"></p>`;
-    const root = el.querySelector(".bh-root"), live = el.querySelector(".bh-sr");
+    const INFO = GS.info({ rules: `You are the hiring manager, with ${CFG.budget} points and room for ${NUM[CFG.slots]} skills. Take one card from each hand of three, or skip it; a card you pass on does not come back. A skill asked for by most postings of almost every role costs 1 point; one asked for far more often by one role than by the average role costs 2 to 4. An expensive card may set this role apart, or a different one. Real postings then judge your hire.`, keys: "Keys: 1 to 3 choose a card, Enter hires it, Esc quits.", source: "A posting counts as a match when your hire covers at least half of what it asks for most." });
+    const F = GS.frame(el, { game: TITLE, cls: "bh", info: INFO });
+    const root = F.body;
     const alive = () => token === mounts && root.isConnected;
-    const say = t => { live.textContent = ""; setTimeout(() => { if (alive()) live.textContent = t; }, 60); };
+    const say = t => F.live(t);
     let onKey = null;
-    const keydown = e => { if (alive() && onKey) onKey(e); };
-    document.addEventListener("keydown", keydown);
-    const off = () => { document.removeEventListener("keydown", keydown); window.removeEventListener("hashchange", off); };
+    const offKeys = GS.keys({ choose(n, e) { if (alive() && onKey) return onKey("choose", n, e); return false; }, confirm(e) { if (alive() && onKey) onKey("confirm", null, e); }, other(e) { if (alive() && onKey) onKey("other", null, e); } });
+    const off = () => { offKeys(); window.removeEventListener("hashchange", off); };
     window.addEventListener("hashchange", off);
 
     const q = new URLSearchParams(location.hash.split("?")[1] || "");
-    const wait = msg => { root.innerHTML = `<div class="bh"><p class="eyebrow">Build the hire</p><p class="lead">${esc(msg)}</p></div>`; };
-    const failed = e => { console.error(e); root.innerHTML = `<div class="bh"><p class="eyebrow">Build the hire</p><h1>Something did not load</h1><p class="lead">${esc(e.message)}. Reload the page; if it happens again, the data files may be missing.</p><div class="row"><a class="btn" href="#/">← All games</a></div></div>`; };
+    const wait = msg => { root.innerHTML = `<p class="lead">${esc(msg)}</p>`; };
+    const failed = e => { console.error(e); root.innerHTML = `<h1>Something did not load</h1><p class="lead">${esc(e.message)}. Reload the page; if it happens again, the data files may be missing.</p>${GS.foot({ primary: { href: "#/", label: "All games" } })}`; };
 
-    crumbs([["Games", "#/"], ["Build the hire", null]]);
+    const marks = g => g.hands.map((h, i) => i < g.hands.length - 1 || g.done ? (h.pick ? "ok" : "done") : "");
     wait("Reading the postings of every role…");
     let D;
     try { D = await load(Atlas); } catch (e) { if (alive()) failed(e); return; }
@@ -265,56 +259,36 @@
 
     // ---------- 01 brief and role picker ----------
     function brief() {
-      onKey = null;
-      crumbs([["Games", "#/"], ["Build the hire", null]]);
-      const saved = store.read();
+      onKey = null; F.set({ round: null, rounds: 0, role: "" });
+      const saved = rec();
       let pick = (saved.lastRole && D.ix.roles[saved.lastRole] && D.fields.some(f => f.roles.some(x => x.id === saved.lastRole))) ? saved.lastRole : (D.ix.roles["product.pm"] ? "product.pm" : D.fields[0].roles[0].id);
       let field = D.fields.find(f => f.roles.some(x => x.id === pick)).id;
-      const nRoles = D.fields.reduce((a, f) => a + f.roles.length, 0);
       const render = () => {
-        const f = D.fields.find(x => x.id === field), sel = D.ix.roles[pick], allBest = (store.read().best) || {};
-        const row = x => { const b = allBest[x.id]; return `<button type="button" class="r${x.id === pick ? " on" : ""}" data-role="${esc(x.id)}" aria-pressed="${x.id === pick}"><span class="t">${esc(x.label)}</span><span class="n">${plural(x.n, "posting", "postings")}</span><span class="m">${b && typeof b.pct === "number" ? `Your best: <span class="best">${b.pct >= 0.01 ? pct(b.pct) : "under 1%"}</span> · ${esc(b.rank)}` : "Not played yet"}</span></button>`; };
-        root.innerHTML = `<div class="bh bh-brief">
-          <section>
-            <p class="eyebrow">Build the hire</p>
-            <h1>The last hire had every buzzword and none of the job. You're hiring the replacement.</h1>
-            <p class="lead" style="margin-top:10px">You are the hiring manager. You have ${CFG.budget} points and room for ${NUM[CFG.slots]} skills. Draft a candidate from three cards at a time, then let real job postings judge your hire.</p>
-            <ol class="bh-rules">
-              <li><span class="n">01</span><span class="t">Pick the role you are hiring for</span><span class="d">${nRoles} roles across ${D.fields.length} fields, each read from its live postings.</span></li>
-              <li><span class="n">02</span><span class="t">Take one card from each hand, or skip it</span><span class="d">Up to ${NUM[CFG.hands]} hands. A card you pass on does not come back. The draft ends when the budget or the slots run out.</span></li>
-              <li><span class="n">03</span><span class="t">Read the verdict</span><span class="d">How many of the role's postings your hire matches, your best pick, where you overspent, and the card that got away.</span></li>
-            </ol>
-            <div class="bh-kinds">
-              <div class="bh-kind"><b>1 point</b>Asked for by most postings of almost every role.</div>
-              <div class="bh-kind"><b>2 to 4 points</b>Asked for far more often by one role than by the average role.</div>
-              <div class="bh-kind"><b>The catch</b>An expensive card may set this role apart, or a different one.</div>
-            </div>
-            <p class="bh-small"><a class="link" href="#/explore">Explore the roles</a> first if you want to see what each one asks for.</p>
-          </section>
+        const f = D.fields.find(x => x.id === field), sel = D.ix.roles[pick], allBest = rec().best || {};
+        const row = x => { const b = allBest[x.id]; return `<button type="button" class="r${x.id === pick ? " on" : ""}" data-role="${esc(x.id)}" aria-pressed="${x.id === pick}"><span class="t">${esc(x.label)}</span><span class="n">${plural(x.n, "posting", "postings")}</span><span class="m">${b && typeof b.pct === "number" ? `Your best: <span class="best">${b.pct >= 0.01 ? pct(b.pct) : "under 1%"}</span> of postings matched` : "Not played yet"}</span></button>`; };
+        root.innerHTML = `<div class="bh-brief">
+          <h1>Build the hire</h1>
+          <p class="lead">You are the hiring manager. Draft a candidate from three cards at a time, then let real job postings judge your hire.</p>
           <section class="bh-pick" aria-label="Choose a role">
             <h2>Who are you hiring?</h2>
-            <p class="small muted" style="margin:0">Pick a field, then a role. The number is postings read.</p>
             <div class="chips" role="group" aria-label="Fields">${D.fields.map(x => `<button class="chip${x.id === field ? " on" : ""}" type="button" data-field="${esc(x.id)}" aria-pressed="${x.id === field}">${esc(x.label)} <span class="n">${x.roles.length}</span></button>`).join("")}</div>
             <div class="list" role="group" aria-label="Roles in ${esc(f.label)}">${f.roles.map(row).join("")}</div>
             ${sel.small ? `<p class="bh-small">${esc(smallNote(sel))}</p>` : ""}
-            <div class="bh-go">
-              <span class="small subtle">Not timed. Your best per role stays in this browser.</span>
-              <a class="btn primary" style="white-space:nowrap" id="bh-start" href="${href(pick, randomDeal())}">Start hiring →</a>
-            </div>
           </section>
+          ${GS.foot({ primary: { id: "bh-start", href: href(pick, randomDeal()), label: `Start hiring for ${esc(sel.label)}` } })}
         </div>`;
         root.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { field = b.dataset.field; const fx = D.fields.find(x => x.id === field); if (!fx.roles.some(x => x.id === pick)) pick = fx.roles[0].id; render(); const c = root.querySelector(`[data-field="${CSS.escape(field)}"]`); if (c) c.focus(); });
         root.querySelectorAll("[data-role]").forEach(b => b.onclick = () => { pick = b.dataset.role; render(); const c = root.querySelector(`[data-role="${CSS.escape(pick)}"]`); if (c) c.focus(); });
         root.querySelector("#bh-start").addEventListener("click", () => saveLastRole(pick));
       };
       render();
+      onKey = kind => { if (kind === "confirm") { saveLastRole(pick); location.hash = href(pick, randomDeal()); } };
     }
 
     // ---------- 02 draft ----------
     function draft(focusCard) {
-      
       const g = game, h = current(g), n = h.cards.length;
-      crumbs([["Games", "#/"], ["Build the hire", BASE], [r.label, null]]);
+      F.set({ round: g.hands.length - 1, rounds: CFG.hands, marks: marks(g), role: r.label });
       const sel = g.sel != null ? h.cards[g.sel] : null;
       const so = M.S.run(g.hire.map(c => c.id));
       const pips = [];
@@ -328,7 +302,7 @@
         const note = over ? "Over budget" : on ? (c.price === g.budget ? `Uses your last ${c.price}` : `Leaves ${g.budget - c.price}`) : "";
         const tab = (g.sel == null ? i === 0 : on) ? 0 : -1;
         return `<button class="bh-card${on ? " on" : ""}${over ? " over" : ""}" type="button" role="radio" aria-checked="${on}"${over ? ' aria-disabled="true"' : ""} tabindex="${tab}" data-i="${i}">
-          <span class="key" aria-hidden="true">${i + 1}</span>
+          <kbd class="key" aria-hidden="true">${i + 1}</kbd>
           <span class="area">${esc((R.clusters[c.cluster] || {}).label || "")}</span>
           <span class="nm">${esc(c.name)}</span>
           <span class="what">${esc((R.skillById[c.id] || {}).what || "")}</span>
@@ -341,10 +315,8 @@
       };
       const slots = g.hire.map(slot).join("") + '<div class="bh-slot empty">Open slot</div>'.repeat(CFG.slots - g.hire.length);
       const nothing = h.cards.every(c => c.price > g.budget);
-      root.innerHTML = `<div class="bh">
-        <div class="bh-head">
+      root.innerHTML = `<div class="bh-head">
           <div>
-            <p class="eyebrow">Hand ${g.hands.length} of ${CFG.hands} · ${esc(r.label)}</p>
             <h1>Pick one skill for your hire</h1>
             <p class="lead" style="margin:4px 0 0">${nothing ? "None of these fits your budget. Skip the hand." : n === 3 ? "The two you pass on are gone for good." : n === 2 ? "The one you pass on is gone for good." : "If you pass on it, it is gone for good."}</p>
           </div>
@@ -360,31 +332,25 @@
           </div>
         </div>
         <div class="bh-hand" role="radiogroup" aria-label="${n === 3 ? "Three" : cap(NUM[n])} ${n === 1 ? "skill" : "skills"} on offer">${h.cards.map(card).join("")}</div>
-        <div class="bh-hire-h"><h2>Your hire</h2><span class="small subtle">Blue numbers: share of the ${fmt(M.total)} ${esc(r.label)} postings that ask for the skill, and how that compares with the average role</span></div>
+        <div class="bh-hire-h"><h2>Your hire</h2><span class="gm-key">Blue numbers: the share of the ${fmt(M.total)} ${esc(r.label)} postings that ask for the skill, and how that compares with the average role.</span></div>
         <div class="bh-slots">${slots}</div>
         <div class="bh-read">
           <div class="t">So far your hire matches <b>${fmt(so.n)}</b> of ${fmt(M.total)} ${esc(r.label)} postings</div>
           <div class="bar" aria-hidden="true"><i style="width:${Math.min(100, so.share * 100).toFixed(1)}%"></i></div>
-          <div class="why">A posting counts as a match when your hire covers at least half of what it asks for most. One or two skills rarely do.</div>
-          <div class="act">
-            <span class="small subtle"><span class="kbd">1</span> <span class="kbd">2</span> <span class="kbd">3</span> choose · <span class="kbd">Enter</span> hire · <span class="kbd">S</span> skip</span>
-            <button class="btn quiet" type="button" id="bh-skip" style="padding-left:8px" aria-keyshortcuts="S">Skip this hand</button>
-            <button class="btn primary" type="button" id="bh-hire" aria-keyshortcuts="Enter"${sel ? "" : " disabled"}>${sel ? `Hire ${esc(lc(shortName(sel.name)))} · ${pts(sel.price)}` : "Choose a card to hire"}</button>
-          </div>
         </div>
-      </div>`;
+        ${GS.foot({ primary: { id: "bh-hire", label: sel ? `Hire ${esc(lc(shortName(sel.name)))} · ${pts(sel.price)}` : "Choose a card to hire", key: "Enter", disabled: !sel }, quiet: { id: "bh-skip", label: "Skip this hand" } })}`;
       const cards = [...root.querySelectorAll(".bh-card")];
       cards.forEach(b => b.onclick = () => choose(+b.dataset.i));
+      root.querySelector(".bh-hand").onkeydown = e => { if (e.key !== "Enter") return; const i = +e.target.closest(".bh-card").dataset.i; e.preventDefault(); if (g.sel === i) hire(); else choose(i); };   // Enter on the chosen card hires it
       root.querySelector("#bh-skip").onclick = skip;
       root.querySelector("#bh-hire").onclick = hire;
       if (focusCard != null && cards[focusCard]) cards[focusCard].focus();
-      onKey = e => {
-        if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
-        const t = e.target;
-        if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      onKey = (kind, num, e) => {
+        if (kind === "choose") { if (num <= n) { choose(num - 1); return true; } return false; }
+        const t = e && e.target;
         const onCard = t && t.classList && t.classList.contains("bh-card"), onPage = !t || t === document.body || t === document.documentElement;
-        if (/^[1-9]$/.test(e.key) && +e.key <= n) { e.preventDefault(); choose(+e.key - 1); }
-        else if (["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"].includes(e.key) && (onCard || onPage)) {
+        if (kind === "confirm") { if (onCard || onPage) { if (onCard && g.sel !== +t.dataset.i) choose(+t.dataset.i); else hire(); } return; }
+        if (kind === "other" && ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"].includes(e.key) && (onCard || onPage)) {
           e.preventDefault();
           const ok = h.cards.map((c, i) => c.price <= g.budget ? i : -1).filter(i => i >= 0);
           if (!ok.length) return;
@@ -392,11 +358,6 @@
           let k = ok.indexOf(from); k = k < 0 ? (dir > 0 ? 0 : ok.length - 1) : (k + dir + ok.length) % ok.length;
           choose(ok[k]);
         }
-        else if (e.key === "Enter" && (onCard || onPage)) {
-          e.preventDefault();
-          if (onCard && g.sel !== +t.dataset.i) choose(+t.dataset.i); else hire();
-        }
-        else if ((e.key === "s" || e.key === "S") && !(t && t.closest && t.closest("a"))) { e.preventDefault(); skip(); }
       };
     }
     function choose(i) {
@@ -422,25 +383,17 @@
       else { say(`Hand skipped. Hand ${g.hands.length} of ${CFG.hands}.`); draft(0); }
     }
 
-    // ---------- 03 verdict ----------
+    // ---------- 03 verdict: the measure in plain words, the notes, the hire, the model behind Why ----------
     function verdict(focus) {
-      
       const g = game, v = g.verdict;
       if (!g.saved) g.saved = saveBest(M, g);
-      crumbs([["Games", "#/"], ["Build the hire", BASE], ["Verdict", null]]);
+      F.set({ round: CFG.hands, rounds: CFG.hands, marks: marks(g), role: r.label });
       const label = esc(r.label), num = s => `<span class="num">${s}</span>`;
       const matchWords = (share, n) => share >= 0.01 ? pct(share) : plural(n, "posting", "postings");
-      const head = v.share >= 0.01
-        ? `Your hire matches <span class="you">${pct(v.share)}</span> of ${label} postings`
-        : `Your hire matches <span class="you">${fmt(v.n)}</span> of the ${fmt(M.total)} ${label} postings`;
+      const head = v.share >= 0.01 ? `Your hire matches ${pct(v.share)} of ${label} postings` : `Your hire matches ${fmt(v.n)} of the ${fmt(M.total)} ${label} postings`;
       const under = v.buildable
         ? `${fmt(v.n)} of ${plural(M.total, "posting", "postings")}. From the cards you were dealt, the best hire matches ${matchWords(v.best.score, v.best.n)}: you got ${pct(v.rel)} of the way there.`
-        : `${fmt(v.n)} of ${plural(M.total, "posting", "postings")}.`;
-      const ri = v.rank ? LADDER.indexOf(v.rank) : -1;
-      const ladder = v.rank
-        ? `<div class="bh-ranks" aria-hidden="true">${LADDER.map((_, i) => `<i${i < ri ? ' class="past"' : i === ri ? ' class="on"' : ""}></i>`).join("")}</div>
-           <div class="bh-rankl">${LADDER.map((t, i) => i === ri ? `<span class="on"><span class="bh-sr">Your rank: </span>${esc(t)}</span>` : `<span>${esc(t)}</span>`).join("")}</div>`
-        : `<p class="notice">These hands could not build a match. Deal again.</p>`;
+        : `${fmt(v.n)} of ${plural(M.total, "posting", "postings")}. These hands could not build a match. Deal again.`;
       const notes = [];
       if (v.bestPick) {
         const c = v.bestPick;
@@ -458,43 +411,26 @@
       notes.push(`<div class="bh-note"><span class="k">Must-haves alone</span><span class="v">The best hire made only of 1-point cards matches ${num(matchWords(v.mustHave.score, v.mustHave.n))} of ${label} postings.${generalist ? `<span class="sub">Here the skills every role asks for carry most of the weight; this role is set apart by fewer skills.</span>` : ""}</span></div>`);
       const ends = { budget: `the budget ran out in hand ${g.end.hand}`, slots: `the slots filled up in hand ${g.end.hand}`, hands: `all ${NUM[CFG.hands]} hands were played`, deck: `the deck ran out in hand ${g.end.hand + 1}` };
       const filled = `${cap(NUM[g.hire.length])} of ${NUM[CFG.slots]} slots filled; ${ends[g.end.why]}.`;
-      const sv = g.saved, savedLine = sv.kind === "new" || sv.kind === "kept"
-        ? `Best for ${label}: ${sv.rec.pct >= 0.01 ? pct(sv.rec.pct) : "under 1%"}, ${esc(sv.rec.rank)}${sv.kind === "kept" && sv.rec.deal !== g.deal ? ` (deal ${fmt(sv.rec.deal)})` : ""}. Kept in this browser only.`
-        : sv.kind === "failed" ? "This browser does not let the page keep data, so your best is not saved." : "Nothing saved: these hands could not build a match.";
-      root.innerHTML = `<div class="bh bh-verdict">
-        <section>
-          <p class="eyebrow">Verdict · ${label}</p>
-          <p class="bh-big" tabindex="-1" id="bh-head">${head}</p>
-          <p class="muted" style="margin:0">${under}</p>
-          ${ladder}
-          ${r.small ? `<p class="bh-small">${esc(smallNote(r))}</p>` : ""}
-          <div class="bh-notes">${notes.join("")}</div>
-          <p class="bh-punch">Hiring managers pay for the skills that set a role apart.</p>
-          <div class="row">
-            <a class="btn primary" href="#/role/${esc(roleId)}">See what ${label} postings ask for →</a>
-            <button class="btn" type="button" id="bh-again" aria-keyshortcuts="P">Play again</button>
-            <button class="btn" type="button" id="bh-same" aria-keyshortcuts="R">Same deal again</button>
-          </div>
-        </section>
-        <aside class="bh-side" aria-label="Your hire">
-          <h2>Your hire</h2>
+      const sv = g.saved, savedLine = sv.kind === "new" ? "A new best for this role." : sv.kind === "kept" ? `Your best for ${label}: <b>${sv.rec.pct >= 0.01 ? pct(sv.rec.pct) : "under 1%"}</b>${sv.rec.deal !== g.deal ? ` (deal ${fmt(sv.rec.deal)})` : ""}.` : sv.kind === "failed" ? "This browser does not let the page keep data, so your best is not saved." : "";
+      root.innerHTML = GS.results({
+        eyebrow: `Verdict · ${label} · deal ${fmt(g.deal)}`,
+        measure: head,
+        record: savedLine || undefined,
+        takeaway: `${under} Hiring managers pay for the skills that set a role apart.`,
+        visual: `<div class="gm-cols"><div class="bh-notes">${notes.join("")}</div>
+          <aside class="bh-side" aria-label="Your hire"><h2>Your hire</h2>
           <div class="bh-mini">${g.hire.map(c => `<div class="row2"><span class="nm${pricedElsewhere(c) ? " trap" : ""}">${skillLink(c)}</span><span class="num">${pct(c.share)}</span><span class="pts">${c.price} ${c.price === 1 ? "pt" : "pts"}</span></div>`).join("") || '<p class="small muted">No one hired.</p>'}</div>
-          <p class="small subtle" style="margin-top:8px">${filled} The blue number is the share of ${label} postings that ask for the skill.</p>
-          <p class="small" style="margin-top:12px"><a class="link" href="${href(roleId, g.deal, "score")}">How the postings scored it →</a></p>
-          <p class="bh-saved">${savedLine}</p>
-          <div class="bh-rule"><b>How the match works.</b> Each posting has five asks that count most: skills it names that most ${label} postings name and that set the role apart. Your hire matches a posting when it covers at least half of their weight.</div>
-        </aside>
-      </div>`;
+          <p class="gm-key">${filled} The blue number is the share of ${label} postings that ask for the skill.</p>
+          <p class="small" style="margin-top:12px"><a class="link" href="${href(roleId, g.deal, "score")}">How the postings scored it →</a></p></aside></div>`,
+        link: { href: `#/role/${esc(roleId)}`, label: `See what ${r.label} postings ask for` },
+        why: `Each posting has five asks that count most: skills it names that most ${label} postings name and that set the role apart. Your hire matches a posting when it covers at least half of their weight.`,
+        foot: GS.foot({ primary: { id: "bh-again", label: "Play again", key: "Enter" }, quiet: { id: "bh-same", label: "Same deal again" } }),
+      });
       wireLinks();
       root.querySelector("#bh-again").onclick = playAgain;
       root.querySelector("#bh-same").onclick = sameDeal;
-      if (focus) root.querySelector("#bh-head").focus();
-      onKey = e => {
-        if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
-        const t = e.target; if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
-        if (e.key === "p" || e.key === "P") { e.preventDefault(); playAgain(); }
-        else if (e.key === "r" || e.key === "R") { e.preventDefault(); sameDeal(); }
-      };
+      if (focus) F.focusMeasure();
+      onKey = kind => { if (kind === "confirm") playAgain(); };
     }
     function playAgain() { saveLastRole(roleId); location.hash = href(roleId, randomDeal()); }
     function sameDeal() { game = newGame(M, deal); say(`Deal ${fmt(deal)} again. Hand 1 of ${CFG.hands}.`); window.scrollTo(0, 0); draft(0); }
@@ -503,7 +439,7 @@
     function scorecard() {
       onKey = null;
       const g = game, v = g.verdict, K = M.K, label = esc(r.label);
-      crumbs([["Games", "#/"], ["Build the hire", BASE], ["Verdict", href(roleId, g.deal)], ["How the postings scored it", null]]);
+      F.set({ round: CFG.hands, rounds: CFG.hands, marks: marks(g), role: r.label });
       const hired = new Set(g.hire.map(c => c.id));
       const rows = g.hands.flatMap((h, hi) => h.cards.map(c => {
         const pk = pricedElsewhere(c) ? c.peak : null, isHired = hired.has(c.id) && h.pick === c.id;
@@ -537,8 +473,7 @@
           <div class="cov">${cov}</div>
         </div>`;
       };
-      root.innerHTML = `<div class="bh">
-        <p class="eyebrow">Scorecard · ${label} · deal ${fmt(g.deal)}</p>
+      root.innerHTML = `<p class="eyebrow">Scorecard · ${label} · deal ${fmt(g.deal)}</p>
         <h1>How the postings scored your hire</h1>
         <div style="display:grid;grid-template-columns:1fr 380px;gap:32px;margin-top:14px">
           <section>
@@ -547,22 +482,20 @@
               <tbody>${rows}</tbody>
             </table>
             <div class="bh-rule"><b>Price.</b> How many times more often this role asks for the skill than the average role: under 1.5× is 1 point, 1.5× to 2.5× is 2, 2.5× to 4× is 3, 4× and up is 4. A skill that fewer than 1 in 5 of these postings ask for is priced by the role that prizes it most. <b>Weight.</b> The share of postings that ask, times how much it sets the role apart: ${CFG.distinct.floor} for a skill the average role asks for as often, rising to 1 at ${CFG.distinct.full === 2 ? "twice" : CFG.distinct.full + " times"} as often.</div>
-            <div class="row" style="margin-top:16px"><a class="btn" href="${href(roleId, g.deal)}">← Back to the verdict</a><a class="btn primary" href="#/role/${esc(roleId)}">See what ${label} postings ask for →</a></div>
           </section>
           <aside>
             <h2 style="margin:0 0 8px;font-size:var(--text-base);color:var(--foreground)">${yes && no ? "Two real postings" : "A real posting"}</h2>
             ${yes ? posting(yes) : `<p class="small muted">No open posting counts your hire as a match.</p>`}
             ${no ? posting(no) : ""}
-            <p class="small subtle" style="margin:0">Green: in your hire. A posting is a match when the weight of your skills it names reaches half the weight of its five heaviest asks.</p>
+            <p class="gm-key">Green: in your hire. A posting is a match when the weight of your skills it names reaches half the weight of its five heaviest asks.</p>
           </aside>
         </div>
-      </div>`;
+        ${GS.foot({ primary: { href: `#/role/${esc(roleId)}`, label: `See what ${label} postings ask for` }, quiet: { href: href(roleId, g.deal), label: "Back to the verdict" } })}`;
       wireLinks();
     }
     function notPlayed() {
-      onKey = null;
-      crumbs([["Games", "#/"], ["Build the hire", BASE], ["How the postings scored it", null]]);
-      root.innerHTML = `<div class="bh"><p class="eyebrow">Scorecard · ${esc(r.label)} · deal ${fmt(deal)}</p><h1>Play this deal first</h1><p class="lead">The scorecard shows the cards you were dealt and what you did with each. Only your best score is kept, not the draft, so play the deal to see its scorecard.</p><div class="row"><a class="btn primary" href="${href(roleId, deal)}">Play deal ${fmt(deal)} →</a><a class="btn" href="${BASE}">Pick another role</a></div></div>`;
+      onKey = null; F.set({ round: null, rounds: 0, role: r.label });
+      root.innerHTML = `<p class="eyebrow">Scorecard · ${esc(r.label)} · deal ${fmt(deal)}</p><h1>Play this deal first</h1><p class="lead">The scorecard shows the cards you were dealt and what you did with each. Only your best score is kept, not the draft, so play the deal to see its scorecard.</p>${GS.foot({ primary: { href: href(roleId, deal), label: `Play deal ${fmt(deal)}` }, quiet: { href: BASE, label: "Pick another role" } })}`;
     }
   }
 
