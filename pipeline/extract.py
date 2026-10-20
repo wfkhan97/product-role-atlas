@@ -108,7 +108,8 @@ def sentences(text):
 
 YOE_RE = re.compile(r"\b(\d{1,2})\s*(?:\+|or more|plus)?\s*(?:-|–|to)?\s*(\d{1,2})?\s*\+?\s*(?:years|yrs)\b", re.I)
 WORD_NUM = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10, "twelve": 12, "fifteen": 15}
-YOE_WORD_RE = re.compile(r"\b(" + "|".join(WORD_NUM) + r")\s*(?:\+|or more|plus)?\s*(?:years|yrs)\b", re.I)
+# a range in words gives its first number, like a range in digits: "three to five years" is 3
+YOE_WORD_RE = re.compile(r"\b(" + "|".join(WORD_NUM) + r")\s*(?:\+|or more|plus)?\s*(?:(?:-|–|to)\s*(?:" + "|".join(WORD_NUM) + r")\s*)?\+?\s*(?:years|yrs)\b", re.I)
 BOILER_RE = re.compile(
     r"equal (opportunity|employment)|\bEEO\b|discriminat|accommodation|veteran status|sexual orientation|gender identity|"
     r"national origin|protected (characteristic|class|veteran)|background check|e-?verify|drug[- ]free|affirmative action|"

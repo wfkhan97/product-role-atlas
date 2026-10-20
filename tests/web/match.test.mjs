@@ -1,6 +1,6 @@
 // web/match.js: the resume reader, the score and the bands of fit. Inline fixtures; the real taxonomy is not needed
-// to state these rules. match.js is not changed here (CLAUDE.md: a matcher change carries the eval baseline), so a
-// rule it breaks is a `todo` test with the finding.
+// to state these rules. match.js changes only with its eval baseline (CLAUDE.md), so a rule it breaks that is not
+// fixed in the same change is a `todo` test with the finding.
 import test from "node:test";
 import assert from "node:assert/strict";
 import { Matcher } from "./_load.mjs";
@@ -70,7 +70,7 @@ test("parseResume brings the placeholder years of a template (20XX) back as writ
   assert.ok(p.roles[0].text.includes("20XX"));
 });
 
-test("parseResume todo: a range written with another dash (figure dash, minus, non-breaking hyphen) is read as a range", { todo: "finding: DATE and the range rules in match.js accept only -, – and —; \"Jan 2019 ‒ Dec 2020\" (U+2012), \"−\" (U+2212), \"‐\" (U+2010), \"‑\" (U+2011) and \"―\" (U+2015) give no job at all" }, () => {
+test("parseResume reads a range written with another dash (hyphen U+2010, non-breaking hyphen, figure dash, horizontal bar, minus) as a range", () => {
   for (const dash of ["‐", "‑", "‒", "―", "−"]) assert.equal(rolesOf(`EXPERIENCE\nAnalyst, Acme Corp, Jan 2019 ${dash} Dec 2020\n- Built models`).length, 1, `U+${dash.codePointAt(0).toString(16)}`);
 });
 
@@ -94,7 +94,7 @@ test("yearsBetween gives a season a quarter of a year and a lone year half a yea
   near(yearsOf("(2021)"), 0.5, "a year with no range");
 });
 
-test("yearsBetween todo: a reversed range (a typing slip, says the code) reads as the range meant", { todo: "finding: the swap in yearsBetween swaps the two ends after each was read as a start or an end, so \"12/2020 - 01/2019\" reads 1.83 years where \"01/2019 - 12/2020\" reads 2" }, () => {
+test("yearsBetween reads a reversed range (a typing slip) as the range meant", () => {
   near(yearsOf("12/2020 - 01/2019"), yearsOf("01/2019 - 12/2020"), "reversed");
 });
 
@@ -104,9 +104,10 @@ test("yearsBetween keeps every role between a quarter of a year and 40 years", (
   near(yearsOf("1960 - 2020"), 40, "the cap");
 });
 
-test("yearsBetween todo: a range that ends in a season ends in that season, not in January", { todo: "finding: yearsBetween maps a season to a month for the first date only; \"Fall 2021 – Spring 2023\" reads 1.33 years (Sept 2021 to Jan 2023) where \"Sep 2021 – May 2023\" reads 1.75, and \"Summer 2021 – Summer 2022\" reads 0.58 years" }, () => {
-  assert.ok(Math.abs(yearsOf("Fall 2021 – Spring 2023") - yearsOf("Sep 2021 – May 2023")) < 0.2);
-  assert.ok(yearsOf("Summer 2021 – Summer 2022") >= 1);
+test("yearsBetween reads a range that ends in a season to the end of that season: Fall 2021 to Spring 2023 is Sep 2021 to May 2023", () => {
+  near(yearsOf("Fall 2021 – Spring 2023"), yearsOf("Sep 2021 – May 2023"), "Fall to Spring");
+  near(yearsOf("Summer 2021 – Summer 2022"), yearsOf("Jun 2021 – Aug 2022"), "Summer to Summer");
+  near(yearsOf("Spring 2022 – Present"), yearsOf("Mar 2022 – Present"), "a season start with an open end");
 });
 
 // ---------- score: a small graph whose shares are chosen to land in each tier ----------

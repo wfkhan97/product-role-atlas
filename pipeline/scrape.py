@@ -101,6 +101,8 @@ def merge(old, fetched, entry, today, full=True):
             o = by_key[k]
             o["last_seen"] = today
             o.pop("closed", None)  # a posting that comes back is open again
+            if j.get("description") and j["description"] != o.get("description"):
+                o["description"] = j["description"]  # a board that rewrote the posting under the same URL is read again
             if cat:
                 o["category"] = cat
             continue

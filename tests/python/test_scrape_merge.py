@@ -1,6 +1,5 @@
 """pipeline.scrape.merge: a raw posting file is a backlog (CLAUDE.md): a refresh never replaces it and never deletes
 from it. evals/run_pipeline.py --only backlog runs the same rules on the same function; these state them one at a time."""
-import pytest
 
 from pipeline.scrape import merge
 
@@ -88,8 +87,15 @@ def test_the_old_file_is_not_changed_in_place_beyond_its_postings():
     assert old["partial"] == "x" and old["scraped_at"] == "2026-10-10T09:00:00"
 
 
-@pytest.mark.xfail(strict=True, reason="finding: merge keeps the description of a posting it already holds; a board that rewrites a posting under the same URL is not re-read until the posting closes and reopens with a new id")
-def test_a_changed_description_updates():
+def test_a_changed_description_updates_and_nothing_else_about_the_posting_moves():
+    old = {"scraped_at": "2026-10-10T09:00:00", "jobs": [job("a", description="old text", title="Old title", first_seen="2026-10-01")]}
+    jobs, _ = merge(old, [job("a", description="new text", title="New title")], ENTRY, "2026-10-17")
+    a = by_url(jobs)["a"]
+    assert a["description"] == "new text"
+    assert (a["title"], a["first_seen"], a["last_seen"]) == ("Old title", "2026-10-01", "2026-10-17")
+
+
+def test_an_empty_fetched_description_does_not_blank_the_stored_one():
     old = {"scraped_at": "2026-10-10T09:00:00", "jobs": [job("a", description="old text")]}
-    jobs, _ = merge(old, [job("a", description="new text")], ENTRY, "2026-10-17")
-    assert by_url(jobs)["a"]["description"] == "new text"
+    jobs, _ = merge(old, [job("a", description="")], ENTRY, "2026-10-17")
+    assert by_url(jobs)["a"]["description"] == "old text"
