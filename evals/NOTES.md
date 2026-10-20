@@ -1327,3 +1327,11 @@ checks). pytest: 121 pass, 1 xfail; the xfail on a rewritten description now pas
   skills, 938 links, one piece) still matches. Step 7 of the v12 build replaces this eval with the card game's.
 - The one games record (`localStorage` key `games`) after one play of each game is about 2 KB; Skill path's best
   rows (one per pairing, 20 rounds kept) and Spot the real ask's seen list (30 ids) are the parts that grow.
+
+## Know the role: the pools on the 2026-10-19 data (2026-10-20)
+
+- `logic.pools` on all 54 roles (both sets): every role is playable. Real asks (at least 40% of the role's postings)
+  run from 10 to 27 a role, median 19; decoys (at most 10% here, prized at 40% or more elsewhere, twice the average
+  role; the 15% cut when fewer than 14 qualify) from 12 to 99, median 84; calls (at least 10%) from 42 to 80, median
+  64. No role is short of five asks or seven decoys, so every board is twelve tiles. The field hop reaches roles of
+  either set, since the MBA index carries the product skills under the same ids.

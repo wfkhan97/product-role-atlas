@@ -133,9 +133,7 @@
   const GROUPS = [["asks", "What a role asks for"], ["read", "How postings read"], ["senior", "What senior means"], ["jobs", "Where the jobs are"], ["links", "How skills link"]];
   // the line drawings: one stroke drawing of each game's mechanic, in the text colour
   const DRAW = {
-    "what-it-asks": '<rect x="6" y="6" width="14" height="12" rx="2"/><rect x="25" y="6" width="14" height="12" rx="2" class="f"/><rect x="44" y="6" width="14" height="12" rx="2"/><rect x="6" y="23" width="14" height="12" rx="2" class="f"/><rect x="25" y="23" width="14" height="12" rx="2"/><rect x="44" y="23" width="14" height="12" rx="2" class="f"/>',
-    "higher-or-lower": '<rect x="6" y="8" width="20" height="26" rx="2"/><rect x="38" y="8" width="20" height="26" rx="2"/><path d="M12 28V16M12 16l-3 3M12 16l3 3"/><path d="M44 16v12M44 28l-3-3M44 28l3-3"/>',
-    "build-the-hire": '<rect x="4" y="12" width="16" height="22" rx="2"/><rect x="24" y="8" width="16" height="22" rx="2" class="f"/><rect x="44" y="12" width="16" height="22" rx="2"/>',
+    "know-the-role": '<rect x="6" y="6" width="14" height="12" rx="2"/><rect x="25" y="6" width="14" height="12" rx="2" class="f"/><rect x="44" y="6" width="14" height="12" rx="2"/><rect x="6" y="23" width="14" height="12" rx="2" class="f"/><rect x="25" y="23" width="14" height="12" rx="2"/><rect x="44" y="23" width="14" height="12" rx="2" class="f"/>',
     "guess-the-role": '<path d="M8 10h30M8 20h22M8 30h26"/><circle cx="52" cy="22" r="8"/><path d="M52 18v5M52 26v1"/>',
     "spot-the-real-ask": '<path d="M8 9h48M8 18h20M8 27h40M8 36h28"/><rect x="30" y="14" width="22" height="8" rx="2" class="f"/>',
     "climb-the-ladder": '<path d="M14 36V6M50 36V6M14 12h36M14 21h36M14 30h36"/><rect x="20" y="24" width="24" height="5" rx="1" class="f"/>',
@@ -147,9 +145,7 @@
   function gameState(slug, roleId) {
     const g = window.GameShell ? window.GameShell.record.game(slug) : {}, b = g.best;
     const pr = v => Math.round(v * 100) + "%";
-    if (slug === "what-it-asks") { const r = b && b[roleId] && b[roleId].steady; return r ? `${r.knew} of ${r.total} known` : null; }
-    if (slug === "build-the-hire") { const r = b && b[roleId]; return r ? `best ${r.pct >= 0.01 ? pr(r.pct) : "under 1%"} matched` : null; }
-    if (slug === "higher-or-lower") return b && b.overall ? `best ${b.overall} in a row` : null;
+    if (slug === "know-the-role") { const k = roleId ? window.GameShell.record.knowledge(roleId, []) : null; const r = b && b[roleId]; return k && k.known.length ? `${k.known.length} asks known` : r ? `best ${r.total} of ${r.of}` : null; }
     if (slug === "climb-the-ladder") return b && typeof b.score === "number" ? `best ${b.score} of 40` : null;
     if (slug === "guess-the-role") return typeof b === "number" ? `best ${fmt(b)} of 5,000` : null;
     if (slug === "wheres-the-demand") return typeof b === "number" ? `best ${b} of 10` : null;
@@ -503,9 +499,8 @@
   // the whole list laid out, painted: the course screen shows what a syllabus covers on it
   function flatSkills(R, slice, m) { const { areas, stats } = Atlas.areas(R, slice); return areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m, true)).join("")}</div>` : '<p class="notice">No postings match these filters.</p>'; }
   const HELP_KEY = "help-role";
-  // the game a role's "Practise" opens (PLAN.md v12, entry points): the Know-the-role game once built (step 5); until
-  // then What does it ask for, the closest of the eight
-  const PRACTISE = "what-it-asks";
+  // the game a role's "Practise" opens (PLAN.md v12, entry points): Know the role
+  const PRACTISE = "know-the-role";
   // the lead says what the data says: what sets the role apart, what leads the asks, which tools (owner's choice X1)
   function roleLead(areas) {
     const core = areas.flatMap(a => a.skills).filter(s => s.tier === 0).sort((a, b) => b.share - a.share);

@@ -11,17 +11,21 @@ they teach, one marked "Start here". Each folder is a design package for one gam
 
 Like the inspiration (infisical.com/403, a game about Infisical's own problem), each game is about the atlas's
 problem: nobody can read thousands of postings to learn what a role asks for, and every round ends in a real role.
+Five games since v12 (PLAN.md, "The games, second pass"); a route planner on Explore (`web/skillmap.js`) is the tool
+beside them.
 
 | Game | Folder | One line |
 |---|---|---|
+| Know the role | [`know-the-role/`](know-the-role/) | Pick a role's real asks from twelve skills, call eight over or under half; built in v12 from the three below |
 | Skill path | [`skill-path/`](skill-path/) | Hop between linked skills from your field to a new role |
 | Guess the role | [`guess-the-role/`](guess-the-role/) | Name the role from a real posting's skills |
-| Build the hire | [`build-the-hire/`](build-the-hire/) | Be the hiring manager: draft a candidate on a budget |
-| What does it ask for | [`what-it-asks/`](what-it-asks/) | The 403 format: tap the real asks, let filler pass |
 | Climb the ladder | [`climb-the-ladder/`](climb-the-ladder/) | Sort a skill's statements onto Entry, Mid, Senior, Lead |
-| Higher or lower | [`higher-or-lower/`](higher-or-lower/) | Which skill do more of a role's postings ask for |
 | Where's the demand | [`wheres-the-demand/`](wheres-the-demand/) | Which role or field has more open postings |
 | Spot the real ask | [`spot-the-real-ask/`](spot-the-real-ask/) | Highlight the requirements in a posting, skip the boilerplate |
+
+Retired in v12 (2026-10-20), merged into Know the role; their packages stay as history: Build the hire
+([`build-the-hire/`](build-the-hire/)), What does it ask for ([`what-it-asks/`](what-it-asks/)), Higher or lower
+([`higher-or-lower/`](higher-or-lower/)).
 
 ## How a game plugs into the site
 
