@@ -242,14 +242,18 @@
   function yearsBetween(text) {
     const d = datesOf(text); if (!d.length) return null;
     const now = new Date(); const open = /present|current|now|today/i.test(text);
-    const season = text.match(/\b(summer|fall|autumn|spring|winter)\s+(?:19|20)\d{2}/i);
-    if (season && d.length === 1 && !open) return 0.25;
-    if (season && d[0].m == null) d[0].m = { spring: 1, summer: 6, fall: 9, autumn: 9, winter: 1 }[season[1].toLowerCase()]; // "Fall 2021 - present"
+    const seasons = [...text.matchAll(/\b(summer|fall|autumn|spring|winter)\s+(?:19|20)\d{2}/gi)].map(m => m[1].toLowerCase());
+    if (seasons.length && d.length === 1 && !open) return 0.25;
+    // a season names its months: a start is its first month, an end its last ("Fall 2021 – Spring 2023" is Sep 2021 to May 2023)
+    const SEASON_START = { spring: 3, summer: 6, fall: 9, autumn: 9, winter: 1 }, SEASON_END = { spring: 5, summer: 8, fall: 11, autumn: 11, winter: 2 };
+    if (seasons.length && d[0].m == null) d[0].m = SEASON_START[seasons[0]]; // "Fall 2021 - present"
+    if (seasons.length > 1 && d.length > 1 && d[d.length - 1].m == null) d[d.length - 1].m = SEASON_END[seasons[seasons.length - 1]];
     if (d.length === 1 && !open) return 0.5;
     const frac = (x, end) => x.y + (x.m ? (x.m - (end ? 0 : 1)) / 12 : 0);
-    let a = frac(d[0], false), z = open && d.length === 1 ? now.getFullYear() + now.getMonth() / 12 : open ? Math.max(now.getFullYear() + now.getMonth() / 12, frac(d[d.length - 1], true)) : frac(d[d.length - 1], true);
-    if (open && d.length > 1) z = now.getFullYear() + now.getMonth() / 12;
-    if (z < a) [a, z] = [z, a]; // a reversed range ("09/2021 - 05/2021") is a typing slip
+    let first = d[0], last = d[d.length - 1];
+    if (!open && d.length > 1 && last.y + (last.m || 0) / 12 < first.y + (first.m || 0) / 12) [first, last] = [last, first]; // a reversed range ("12/2020 - 01/2019") is a typing slip: the later date is the end
+    let a = frac(first, false), z = open ? now.getFullYear() + now.getMonth() / 12 : frac(last, true);
+    if (z < a) [a, z] = [z, a];
     return Math.max(0.25, Math.min(40, z - a));
   }
 
@@ -265,6 +269,8 @@
   function parseResume(text) {
     // Word and most boards write the typographic apostrophe (’); the taxonomy's patterns spell the straight one
     text = text.replace(/[‘’ʼ]/g, "'");
+    // the other dashes a resume may carry (hyphen U+2010, non-breaking hyphen, figure dash, horizontal bar, minus) read as a hyphen, so a date range written with one is a range
+    text = text.replace(/[\u2010\u2011\u2012\u2015\u2212]/g, "-");
     // PDF text often spaces out hyphens ("purpose - built", "self - learning"); join them so words match again
     // and it often sets the ligatures fi, fl, ff apart from their word: "pro fi t", "work fl ow", "for   fi nance"
     // (one space on each side inside a word, a wide gap before it at the start of a word)

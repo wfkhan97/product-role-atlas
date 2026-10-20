@@ -95,6 +95,12 @@ def test_a_posting_that_comes_back_takes_the_boards_current_title_and_text_and_k
     assert (jobs[0]["first_seen"], jobs[0]["last_seen"], jobs[0]["group"]) == ("2026-10-03", "2026-10-17", "g"), "the dates and the entry's fields are the backlog's"
 
 
+def test_an_empty_fetched_description_does_not_blank_the_stored_one():
+    old = {"scraped_at": "2026-10-10T09:00:00", "jobs": [job("a", description="old text")]}
+    jobs, _ = merge(old, [job("a", description="")], ENTRY, "2026-10-17")
+    assert by_url(jobs)["a"]["description"] == "old text"
+
+
 def req(url, eid, **more):
     return job(url, external_id=eid, **more)
 

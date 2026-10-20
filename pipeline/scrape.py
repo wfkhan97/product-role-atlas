@@ -119,7 +119,10 @@ def merge(old, fetched, entry, today, full=True):
         k = posting_key(j)
         if k in by_key:
             o = by_key[k]
+            text = o.get("description")
             o.update(j, last_seen=today)  # the board's current title, URL and text
+            if text and not j.get("description"):
+                o["description"] = text  # a fetch that lost the text keeps the stored one
             o.pop("closed", None)  # a posting that comes back is open again
             if cat:
                 o["category"] = cat
