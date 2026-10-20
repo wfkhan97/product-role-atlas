@@ -11,8 +11,9 @@ sets how long). If a refresh returns far fewer postings than were open, nothing 
 search probably failed. A posting is its requisition id (external_id), or its URL on a board that gives none:
 the URL alone is not stable (Bank of America puts a per-session token in every job URL; a retitled or moved
 requisition gets a new one). One that comes back takes the board's current title, URL and text.
-When SUPABASE_DB_URL is set (.env) each file is also pushed to the Supabase backlog as it is written and a full
-run ends with a storage snapshot (pipeline/backlog.py; --no-db to leave the database alone).
+The files are not in git: the Supabase backlog is the store. When SUPABASE_DB_URL is set (.env) each file is pushed
+as it is written and a full run ends with a storage snapshot (pipeline/backlog.py; --no-db to leave the database
+alone). Run pipeline.backlog pull before a scrape on a checkout whose files are behind the database.
 The MBA roles were scraped in batches; --batch N fetches only that batch's roles for companies already
 cached without it and adds them to the company's file (companies with no file get every role).
 """
