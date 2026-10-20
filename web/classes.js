@@ -26,7 +26,13 @@
     const i = $("#nav-signin"); if (i) { i.hidden = !on || !!s; }
   }
   navSync();
-  Catalog.onAuth(s => { navSync(s); if (location.hash.startsWith("#/signin") && current.signin) current.signin(); });
+  // a fresh sign-in that lands on the start page (the redirect lost its hash) goes to the picker, once
+  let routedOnce = false;
+  Catalog.onAuth((s, ev) => {
+    navSync(s);
+    if (s && ev === "SIGNED_IN" && !routedOnce && ["", "#", "#/"].includes(location.hash)) { routedOnce = true; location.hash = "#/classes"; return; }
+    if (location.hash.startsWith("#/signin") && current.signin) current.signin();
+  });
   const current = {};
 
   // the one-line card on the start screen
@@ -139,13 +145,15 @@
   function detailHtml(card, cm) {
     const p = card.primary;
     const per = (label, pick) => { const vals = card.classes.map(c => [c.code, (pick(c) || "").trim()]).filter(x => x[1]); if (!vals.length) return ""; const uniq = [...new Set(vals.map(v => v[1]))]; return `<h3>${label}</h3>` + (uniq.length === 1 ? `<p class="small">${esc(uniq[0])}</p>` : vals.map(v => `<p class="small"><span class="muted">${esc(v[0])}</span> ${esc(v[1])}</p>`).join("")); };
+    // roster learning outcomes, one per line
+    const outcomes = cd => { const lines = [...new Set(cd.classes.flatMap(c => String(c.outcomes || "").split(/\r?\n/).map(l => l.trim()).filter(Boolean)))]; return lines.length ? `<h3>Outcomes</h3><ul class="plain">${lines.map(l => `<li>${esc(l)}</li>`).join("")}</ul>` : ""; };
     const secs = card.sections.map(s => `<li><b>${esc([s.component, s.section].filter(Boolean).join(" "))}</b> · ${esc(s.class_nbr)}${s.open_status ? ` · ${esc(s.open_status)}` : ""}${s.instruction_mode ? ` · ${esc(s.instruction_mode)}` : ""}${s.topic ? ` · ${esc(s.topic)}` : ""}${(s.meetings || []).map(m => `<br><span class="muted">${esc([m.pattern, m.time_start && m.time_end ? `${m.time_start}–${m.time_end}` : m.time_start || "", m.facility].filter(Boolean).join(" · ") || "time to be announced")}</span>`).join("")}${(s.notes || []).length ? `<br><span class="muted">${esc(s.notes.join(" "))}</span>` : ""}</li>`).join("");
     const priors = card.priors.slice().sort((a, b) => a.term.localeCompare(b.term)).map(pr => `<li>Taught ${esc(pr.term)} by ${esc((pr.instructors || []).join(", ") || "an instructor the roster does not name")}</li>`).join("");
     const chip = Catalog.gradingChip(p);
     return `<button type="button" class="close" aria-label="Close">×</button><div class="card">
       <p class="eyebrow">${esc(card.codes.concat(card.otherCodes || []).join(" / "))}</p><h2>${esc(card.title)}</h2>
       <p class="facts">${esc(p.credits ? p.credits + " credits" : "credits not listed")}${p.grading_basis ? " · " + esc(p.grading_basis) : ""}${p.career ? " · " + esc(p.career) : ""}</p>
-      ${per("Description", c => c.description)}${per("Outcomes", c => c.outcomes)}${per("Prerequisites", c => c.prereq)}
+      ${per("Description", c => c.description)}${outcomes(card)}${per("Prerequisites", c => c.prereq)}
       ${per("Enrollment limited to", c => c.enrollment_limited_to)}
       <p class="small"><span class="tag thin">${esc([...new Set(card.classes.map(c => Catalog.eligibilityLabel(c.eligibility_category, cm)))].join(" · "))}</span></p>
       <h3>Sections</h3>${secs ? `<ul class="plain">${secs}</ul>` : `<p class="small muted">No section on the roster yet.</p>`}
@@ -222,7 +230,7 @@
       e.preventDefault();
       if (!Catalog.isCornell(email.value)) { msg("Use an address that ends in @cornell.edu."); return; }
       send.disabled = true; msg("Sending…");
-      try { await Catalog.signInEmail(email.value); msg(`Sent. Open the link in the email on this device; it signs you in here.`); }
+      try { await Catalog.signInEmail(email.value); msg(`Sent. Open the link in the email in this browser; it signs you in and opens the classes.`); }
       catch (err) { console.error(err); msg(`The link could not be sent: ${err.message}.`); send.disabled = false; }
     };
     $("#si-google").onclick = async () => { msg("Opening Google…"); try { await Catalog.signInGoogle(); } catch (err) { console.error(err); msg(`Google sign-in did not start: ${err.message}.`); } };

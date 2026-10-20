@@ -138,6 +138,8 @@ test("roster_syllabus_md is matcher input and never appears in the card html; th
   }
   assert.match(C.cardText(card), /variance analysis/);
   assert.match(C.cardText(card), /Budgeting and forecasting/);
+  const withOutcomes = C.collapse({ classes: [cls("TEST 1010", { outcomes: "Build a rolling forecast\nPresent to stakeholders" })] })[0];
+  assert.match(C.cardText(withOutcomes), /rolling forecast\nPresent to stakeholders/, "roster outcomes are matcher input");
 });
 
 // ---------- the markdown reader ----------

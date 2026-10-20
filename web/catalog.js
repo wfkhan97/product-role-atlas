@@ -14,7 +14,7 @@
   const isCornell = email => CORNELL.test(String(email || "").trim());
   const BANDS = ["low", "medium", "high"];
   // the columns the picker reads; research_note_md is never selected, roster_syllabus_md only as matcher input
-  const CLASS_COLS = "code,subject,catalog_nbr,title,career,description,prereq,credits,grading_basis,location_scope,eligibility_category,enrollment_limited_to,also_in_ithaca,roster_url,roster_syllabus_read,sp27_instructor_matches_syllabus,grading_summary,roster_syllabus_md,last_scraped";
+  const CLASS_COLS = "code,subject,catalog_nbr,title,career,description,outcomes,prereq,credits,grading_basis,location_scope,eligibility_category,enrollment_limited_to,also_in_ithaca,roster_url,roster_syllabus_read,sp27_instructor_matches_syllabus,grading_summary,roster_syllabus_md,last_scraped";
   const PROF_COLS = "slug,name,identity,title,affiliation,expertise,official_profile_url,personal_site_url,scholar_url,linkedin_url,profile_md";
 
   // ---------- the client and the session ----------
@@ -47,7 +47,8 @@
     if (c && !onAuth.wired) { onAuth.wired = true; c.auth.onAuthStateChange(async (ev, s) => { const ok = await enforceCornell(s); authListeners.forEach(f => { try { f(ok, ev); } catch (e) { console.error(e); } }); }); }
     return () => authListeners.delete(fn);
   }
-  const redirectTo = () => (typeof location !== "undefined" ? location.origin + location.pathname : undefined);
+  // any sign-in lands on the picker
+  const redirectTo = () => (typeof location !== "undefined" ? location.origin + location.pathname + "#/classes" : undefined);
   async function signInGoogle() {
     const c = sb(); if (!c) throw new Error("Sign in is not configured on this page");
     const { error } = await c.auth.signInWithOAuth({ provider: "google", options: { queryParams: { hd: "cornell.edu" }, redirectTo: redirectTo() } });
