@@ -1311,8 +1311,8 @@ and a second board with the same habit needs nothing.
 refresh closes them (the rule applies again now that 155 of 182 come back). 64 other employers hold 135 requisitions
 twice (271 rows): a Workday requisition posted in two locations (Crowe, Huntington, Regeneron, ...) or one retitled or
 re-addressed between refreshes (Amazon, Aramark, Intuitive, MasTec, ...); in 131 of the 135 the older row is already
-closed. They fold at their next refresh (the extractor already read them as one posting); folding them all now is one
-run of the same one-off over every file.
+closed. The same one-off folded them: 64 files, 136 rows (EY 15, Amazon 11, L3Harris 8, the rest one to seven). The
+product folder (`data/raw/jobs`) holds no requisition twice and was not written.
 
 **The chain.** `extract --roles mba` (59,480 postings read, 51,256 tagged: the same count as before, since the
 extractor already read a requisition once), `build_graph --roles mba` (29,370 US postings, unchanged; six role files
