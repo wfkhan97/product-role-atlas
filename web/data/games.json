@@ -10,5 +10,5 @@
   {"slug": "wheres-the-demand", "title": "Where's the demand", "tagline": "Guess where the open jobs are", "cover": "img/games/wheres-the-demand.png", "status": "live",
    "group": "jobs", "verb": "Put five fields in order of open postings, then five roles of your field.", "outcome": "Learn where the open jobs are this week.", "rounds": "2 rounds", "minutes": 2},
   {"slug": "skill-path", "title": "Skill path", "tagline": "Hop from your field to a new role", "cover": "img/games/skill-path.png", "status": "live",
-   "group": "links", "verb": "Hop along linked skills from your field to a role you want.", "outcome": "Learn which skills link your field to {role}.", "rounds": "one route", "minutes": 3}
+   "group": "links", "verb": "Hop along linked skills from your field to a role you want, four cards at a time.", "outcome": "Learn which skills link your field to {role}.", "rounds": "one route", "minutes": 2}
 ]

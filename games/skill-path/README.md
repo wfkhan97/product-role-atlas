@@ -1,5 +1,16 @@
 # Skill path
 
+> Rebuilt in v12 (2026-10-20, PLAN.md "The games, second pass", SP1 to SP4) as a **card game**: one line and Go from
+> the profile's field to the role the player came from; the round is a row of four cards with the target's share on
+> each (★ on a skill that ends the round) and a strip of hops, no map in play; a hop is **good** when 25% or more of
+> the target's postings ask for it, and the measure is "Arrived in 4 hops · 2 of 4 good"; the budget is the shortest
+> route plus two, no difficulty, no rank titles; "Tick the hops you can already show" is asked once at the end, on the
+> route, pre-ticked from the resume on file; the map is drawn once, on the end screen. The **route planner** on
+> Explore's map view (`SkillMap.planner` in `web/skillmap.js`) shows the shortest route from a field to a role with
+> the skills your resume shows ticked, unscored. The sections below describe the first build (the map as the board,
+> a question after every hop, difficulty levels, rank titles) and its data, which still hold for the board, the start
+> and arrival skills and the shortest route; `evals/skill_path.mjs` checks the rules as built.
+
 ```json
 { "slug": "skill-path", "title": "Skill path", "tagline": "Hop from your field to a new role", "cover": "img/games/skill-path.png", "status": "soon" }
 ```
@@ -34,15 +45,25 @@ Design package only. Nothing here is built. `PROMPT.md` is the build prompt; `mo
 
 ## Rules
 
-1. Pick where you are (a **field**, or **a role you hold**) and a **target role**, or take a random pairing.
+As built in v12:
+
+1. The route is set for you: from your profile's field (else Marketing) to the role you came from (else Product
+   Manager). "Change route" opens the form: a **field** or **a role you hold**, a **target role**, or a random pairing.
 2. You start on one skill: the start's most distinctive skill (see Data). The round ends when you land on any of the
-   target's **three arrival skills**: the three skills that most set the target role apart.
-3. Each turn the game shows **up to 4 linked skills** you have not visited. Pick one. That is a hop.
-4. After each hop, say **"Yes, on my resume"** or **"Not yet"**. Nothing is uploaded; it is your own read.
-5. You have a **hop budget**: the shortest route plus a margin set by the difficulty. When it runs out, the round ends
-   where you stand.
-6. Skills that most roles ask for (communication, ownership and six more; measured, see Data) are drawn on the board
+   target's **three arrival skills**: the three skills that most set the target role apart. A card that ends the
+   round carries a ★.
+3. Each turn shows **up to 4 linked skills** you have not visited, as cards with the share of the target's postings
+   that ask for each. Pick one. That is a hop. A hop is **good** when that share is 25% or more.
+4. You have a **hop budget**: the shortest route plus two. When it runs out, the round ends where you stand.
+5. At the end: "Arrived in N hops · M of N good" (or "K hops short"), the map with your route, the shortest route and
+   the arrival skills, your route as a list to **tick the hops you can already show** (pre-ticked from your resume
+   when one is on file, through the fit page's own reading), the shortest route beside it, and **Build next**: the
+   skill on your route the target asks for most that you cannot show yet.
+6. Skills that most roles ask for (communication, ownership and six more; measured, see Data) are drawn on the map
    as hollow dots but are **not hops**: they go everywhere with you, so they cannot move you anywhere.
+
+The first build's rules (a question after every hop, difficulty, rank titles) are what the mocks and the sections
+below describe.
 
 ## A round, step by step (real data: Marketing → Product Manager, normal)
 

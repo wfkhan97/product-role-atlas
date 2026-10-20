@@ -48,53 +48,76 @@ test("shortestRoute takes par hops, and of equal routes the one with the higher 
   assert.equal(L.shortestRoute(Q, {}, "s", share), null, "no route from a skill the target cannot be reached from");
 });
 
-test("choices offer at most four unvisited neighbours, with one that moves closer", () => {
+test("choices offer at most four unvisited neighbours, one that moves closer, and mark the ones that end the round", () => {
   const dist = L.distances(B, ["d"]);
   const c = L.choices(B, dist, "b", new Set(["b"]), () => 0);
   assert.deepEqual(c.map(x => x.id).sort(), ["a", "c", "e"]);
   assert.deepEqual(c.filter(x => x.closer).map(x => x.id), ["c"]);
+  assert.deepEqual(c.filter(x => x.end).map(x => x.id), []);
+  assert.deepEqual(L.choices(B, dist, "c", new Set(["b", "c"]), () => 0).filter(x => x.end).map(x => x.id), ["d"], "d is an arrival skill");
   assert.deepEqual(L.choices(B, dist, "b", new Set(["a", "b", "c", "e"]), () => 0), []);
 });
 
-// a round on the line board: start a, arrive at d (par 3)
-const su = { start: "a", arrivals: ["d"], dist: L.distances(B, ["d"]), par: 3, share: () => 0.5, shortFit: 0.5 };
-test("a round: a hop asks Yes / Not yet, reaching an arrival skill ends the round as arrived", () => {
-  const R = L.newRound(su, "hard");
-  assert.equal(R.budget, 4, "hard: par + 1");
-  for (const id of ["b", "c", "d"]) { assert.ok(L.hop(R, B, id), `hop to ${id}`); if (R.phase === "check") L.answer(R, true); }
+// a round on the line board: start a, arrive at d (par 3); the target asks for c and d, not b or e
+const share = id => ({ c: 0.5, d: 0.7, b: 0.1, e: 0.2 }[id] || 0);
+const su = { start: "a", arrivals: ["d"], dist: L.distances(B, ["d"]), par: 3, share, shortGood: 2 };
+test("a round: the budget is the shortest route plus two; reaching an arrival skill ends the round as arrived; a hop is good at 25% or more", () => {
+  const R = L.newRound(su);
+  assert.equal(R.budget, 5, "par + 2");
+  assert.equal(L.MARGIN, 2);
+  for (const id of ["b", "c", "d"]) assert.ok(L.hop(R, B, id), `hop to ${id}`);
   assert.equal(R.phase, "arrived");
-  assert.deepEqual(L.result(R).rank, "Cartographer", "arrived in par hops with the shortest route's fit");
+  assert.deepEqual(R.hops.map(h => h.good), [false, true, true]);
+  const res = L.result(R);
+  assert.deepEqual([res.arrived, res.used, res.hops, res.good, res.short, res.ticked], [true, 3, 3, 2, 0, 0]);
 });
 
 test("a round: a hop to a skill that is not offered is refused and changes nothing", () => {
-  const R = L.newRound(su, "normal");
+  const R = L.newRound(su);
   assert.equal(L.hop(R, B, "d"), false);
   assert.deepEqual([R.cur, R.used, R.phase], ["a", 0, "choose"]);
 });
 
-test("a round: the round ends 'out' when the hop budget is spent", () => {
-  const R = L.newRound(su, "hard");
-  for (const id of ["b", "e"]) { L.hop(R, B, id); L.answer(R, false); }
+test("a round: the round ends 'out' when the hop budget is spent; stepping back costs a hop", () => {
+  const R = L.newRound({ ...su, par: 2 });
+  assert.equal(R.budget, 4);
+  for (const id of ["b", "e"]) L.hop(R, B, id);
   assert.ok(L.stepBack(R, B), "at e every neighbour is visited: step back to b");
-  L.hop(R, B, "c"); L.answer(R, true);
+  L.hop(R, B, "c");
   assert.equal(R.used, 4);
   assert.equal(R.phase, "out");
-  assert.equal(L.result(R).rank, "Still on the road");
+  const res = L.result(R);
+  assert.deepEqual([res.arrived, res.short, res.hops, res.good], [false, 1, 3, 1]);
 });
 
-test("rank: hops over par set the rank of a round that arrived", () => {
-  assert.equal(L.rank(true, 3, 3, 0.4, 0.5), "Pathfinder");
-  assert.equal(L.rank(true, 4, 3, 1, 0.5), "Navigator");
-  assert.equal(L.rank(true, 5, 3, 1, 0.5), "Commuter");
-  assert.equal(L.rank(true, 9, 3, 1, 0.5), "Scenic route");
+test("ticks: only a skill on the route can be ticked; build next is the unticked skill the target asks for most, else the arrival reached", () => {
+  const R = L.newRound(su);
+  for (const id of ["b", "c", "d"]) L.hop(R, B, id);
+  assert.equal(L.buildNext(R, B).id, "d", "nothing ticked: the skill with the highest share");
+  assert.equal(L.tick(R, "d", true), true);
+  assert.equal(L.tick(R, "zzz", true), false);
+  assert.deepEqual(L.buildNext(R, B), { id: "c", why: "not-yet" });
+  for (const id of ["a", "b", "c"]) L.tick(R, id, true);
+  assert.deepEqual(L.buildNext(R, B), { id: "d", why: "reached" });
+  assert.equal(L.result(R).ticked, 4);
+  L.tick(R, "d", false);
+  assert.equal(L.result(R).ticked, 3);
+  assert.deepEqual(L.routeSkills(R), ["a", "b", "c", "d"]);
 });
 
-test("pools: a difficulty deals pairings whose par is in its range, never a small role and never one with no route", () => {
+test("compare: arrived first, then fewer hops, then more good hops; two rounds that did not arrive compare on hops short", () => {
+  const r = (arrived, hops, good, short, at) => ({ arrived, hops, good, short, at });
+  assert.ok(L.compare(r(true, 5, 1, 0, "1"), r(false, 3, 3, 1, "2")) < 0);
+  assert.ok(L.compare(r(true, 4, 1, 0, "1"), r(true, 5, 3, 0, "2")) < 0);
+  assert.ok(L.compare(r(true, 4, 3, 0, "1"), r(true, 4, 1, 0, "2")) < 0);
+  assert.ok(L.compare(r(false, 2, 0, 1, "1"), r(false, 5, 0, 3, "2")) < 0);
+});
+
+test("pool: a random pairing has a shortest route of 2 to 6 hops, never a small role and never one with no route", () => {
   const p = (par, small = false) => ({ from: "field", start: "f", target: "t" + par + small, par, small });
-  const pools = L.pools({ field: [p(2), p(3), p(4), p(5), p(2, true), p(null), p(0), p(7)], role: [] });
-  assert.deepEqual(pools.field.easy.map(x => x.par), [2]);
-  assert.deepEqual(pools.field.normal.map(x => x.par), [3, 4]);
-  assert.deepEqual(pools.field.hard.map(x => x.par), [5]);
+  const pool = L.pool({ field: [p(1), p(2), p(3), p(6), p(2, true), p(null), p(0), p(7)], role: [p(4)] });
+  assert.deepEqual(pool.field.map(x => x.par), [2, 3, 6]);
+  assert.deepEqual(pool.role.map(x => x.par), [4]);
 });
 
 test("rng: the same seed gives the same numbers, in [0, 1); another seed gives others", () => {

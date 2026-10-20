@@ -363,12 +363,15 @@
         // the fields on the skill map: a field's own skills beside it, the skills every field asks for in the middle
         page(`<h1>Explore the roles</h1>
           <p class="lead">${all.length} fields, ${nRoles || 56} roles. Hover a field to light up the skills that set it apart; click a skill to see who asks for it. ${dates}</p>${chips}${view}
+          <div id="sm-plan"></div>
           <div class="sm-stage" id="sm-stage"></div>
           <p class="key">${fit && fit.size ? "Green: the fields your answers and resume point to. " : ""}<button type="button" class="linkish link" id="sm-all">${SkillMap.allShown() ? "Show the fields alone" : "Show all skills"}</button></p>`);
         main.firstElementChild.classList.add("wide");
         $("#sm-all").onclick = () => { SkillMap.showAll(!SkillMap.allShown()); $("#sm-all").textContent = SkillMap.allShown() ? "Show the fields alone" : "Show all skills"; };
         const SIZE = { s1: 0.66, s2: 0.76, s3: 0.88, s4: 1 };
         SkillMap.stage($("#sm-stage"), { groups: all.map(g => ({ id: g.id, cls: sizeClass(g.nOpen || 0), you: !!(fit && fit.has(g.id)), inner: inner(g) })), sizeOf: g => SIZE[g.cls], fit, onlyFit, focus, aside, showAside });
+        // the route planner (PLAN.md v12, SP2-C) lives in skillmap.js; the role in the hash (?role=) is its target
+        SkillMap.planner($("#sm-plan"), { role: new URLSearchParams(location.hash.split("?")[1] || "").get("role") }).catch(console.error);
         SkillMap.names().then(ns => { const dl = $("#sm-names"); if (dl) dl.innerHTML = ns.map(n => `<option value="${esc(n)}">`).join(""); });
         const f = $("#sm-find"); f.onchange = () => SkillMap.find(f.value);
         $("#v-grid").onclick = () => { SkillMap.setMode("grid"); SkillMap.leave(); showAside(null); render(); };
