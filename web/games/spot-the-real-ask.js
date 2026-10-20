@@ -85,6 +85,9 @@
     const S = { el, F, GS, esc, showAside: ctx.showAside, data, names, generic, nJobs: (ix.M && ix.M.meta && ix.M.meta.n_jobs) || data.n_jobs, field: "all", run: null, timer: null, drag: null, Atlas };
     const have = new Set(data.passages.map(p => p.group));
     S.fields = ix.groups.filter(g => have.has(g.id)).map(g => [g.id, g.label]);
+    // the default field: the profile's first field that has passages, else all fields
+    let you = null; try { you = JSON.parse(localStorage.getItem("you")); } catch { }
+    const mine = ((you && you.fields) || []).find(f => have.has(f)); if (mine) S.field = mine;
     S.offKeys = GS.keys({ confirm() { if (S.dead) return; if (S.phase === "start") startRun(S); else if (S.phase === "posting") check(S); else if (S.phase === "reveal") nextFromReveal(S); else if (S.phase === "end") startRun(S); } });
     window.addEventListener("hashchange", () => { stopTimer(S); S.dead = true; S.offKeys(); }, { once: true });
     howItWorks(S);
@@ -102,23 +105,20 @@
   const skillCluster = (S, p, id) => ((S.names[p.set] || {})[id] || {}).cluster || "";
   const saved = S => Object.assign({ best: null, runs: [], seen: [], lastRead: null, speed: false, clean: false }, S.GS.record.game(SLUG));
 
-  // ---------- 01: the start ----------
+  // ---------- 01: the start: one sentence, Play on the profile's field, the field chips behind it ----------
   function howItWorks(S) {
     const { F, GS, esc } = S;
-    S.phase = "start"; S.showAside(null); F.set({ round: null, rounds: 0, role: "" });
+    S.phase = "start"; S.showAside(null);
     const sv = saved(S), best = sv.best;
-    F.body.innerHTML = `<h1>Spot the real ask</h1>
-      <p class="lead">Every posting mixes what the job needs with filler. Mark the real asks, let the filler pass, then see how the atlas read the same lines. Three postings a run.</p>
-      <div class="chips fields" role="group" aria-label="Postings from"><span class="lbl">Postings from</span>
+    const label = S.field === "all" ? "all fields" : (S.fields.find(([id]) => id === S.field) || [])[1] || S.field;
+    const extra = `<div class="chips fields" role="group" aria-label="Postings from"><span class="lbl">Postings from</span>
         <button type="button" class="chip${S.field === "all" ? " on" : ""}" data-field="all" aria-pressed="${S.field === "all"}">All fields</button>
-        ${S.fields.map(([id, label]) => `<button type="button" class="chip${S.field === id ? " on" : ""}" data-field="${esc(id)}" aria-pressed="${S.field === id}">${esc(label)}</button>`).join("")}
+        ${S.fields.map(([id, l]) => `<button type="button" class="chip${S.field === id ? " on" : ""}" data-field="${esc(id)}" aria-pressed="${S.field === id}">${esc(l)}</button>`).join("")}
       </div>
-      ${sv.clean ? `<div class="chips" role="group" aria-label="Round"><button class="chip${sv.speed ? "" : " on"}" type="button" id="sra-untimed" aria-pressed="${!sv.speed}">Untimed</button><button class="chip${sv.speed ? " on" : ""}" type="button" id="sra-speed" aria-pressed="${sv.speed}">Speed round<span class="n">${SECONDS} s a posting</span></button></div>` : `<p class="small muted" style="margin-top:12px">Untimed. A Speed round, a ${SECONDS}-second clock a posting, unlocks after a run that finds half the asks.</p>`}
-      ${best ? `<p class="gm-best">Your best: <b>${Math.round(best.read * 100)}%</b> of the asks and filler read right</p>` : ""}
-      ${GS.foot({ primary: { id: "sra-start", label: "Start reading", key: "Enter" } })}`;
-    window.scrollTo(0, 0);
-    F.body.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { S.field = b.dataset.field; F.body.querySelectorAll("[data-field]").forEach(x => { const on = x.dataset.field === S.field; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on); }); });
-    F.body.querySelector("#sra-start").onclick = () => startRun(S);
+      ${sv.clean ? `<div class="chips" role="group" aria-label="Round"><button class="chip${sv.speed ? "" : " on"}" type="button" id="sra-untimed" aria-pressed="${!sv.speed}">Untimed</button><button class="chip${sv.speed ? " on" : ""}" type="button" id="sra-speed" aria-pressed="${sv.speed}">Speed round<span class="n">${SECONDS} s a posting</span></button></div>` : ""}
+      ${best ? `<p class="gm-best">Your best: <b>${Math.round(best.read * 100)}%</b> of the asks and filler read right</p>` : ""}`;
+    GS.start(F, { title: "Spot the real ask", lead: "Every posting mixes what the job needs with filler. Mark the real asks, let the filler pass, then see how the atlas read the same lines. Three postings a run.", playLabel: `Play · ${esc(label)}`, play: () => startRun(S), extra });
+    F.body.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { S.field = b.dataset.field; howItWorks(S); });
     const sp = F.body.querySelector("#sra-speed"), un = F.body.querySelector("#sra-untimed");
     if (sp) { sp.onclick = () => { GS.record.saveGame(SLUG, { speed: true }); howItWorks(S); }; un.onclick = () => { GS.record.saveGame(SLUG, { speed: false }); howItWorks(S); }; }
   }
@@ -209,6 +209,7 @@
     F.body.querySelector("#sra-clear").onclick = () => { for (const i of [...S.marks]) set(i, false); announce(); };
     F.body.querySelector("#sra-check").onclick = () => check(S);
     if (chunkEls[0]) chunkEls[0].focus({ preventScroll: true });
+    if (run.i === 0) GS.coachOnce(SLUG, passage, "Click the phrases that are real asks and let the filler pass, then check your read.");
     if (run.timed) startTimer(S, F.body.querySelector("#sra-t"), F.body.querySelector("#sra-bar"), F.body.querySelector("#sra-note"));
   }
 

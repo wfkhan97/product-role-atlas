@@ -2,7 +2,10 @@
    Header: game · role, round pips, one ⓘ (rules, keys, source, the storage note), one Quit. Body: the game.
    Footer: at most one primary and one quiet action. Keys: 1 to 4 choose, Enter confirms, Esc quits. One results
    template: the measure, one takeaway, one visual, one link, the evidence behind "Why". One record in localStorage
-   for every game (every access in try/catch; a game works with storage blocked).
+   for every game (every access in try/catch; a game works with storage blocked). Play first (G1, G9): one start
+   screen (`start`), one default role (`defaultRole`: the role the player came from, else the profile's first
+   field's largest role, else Product Manager), one coachmark on the first move (`coachOnce`), one picker
+   (`picker`: the Explore field cards, then the field's roles with the player's record as the secondary line).
    UMD like atlas.js: the record's pure parts (`record.normalize`, `record.noteGame`) load in node for
    tests/web/gameshell.test.mjs; the DOM parts register window.GameShell. */
 (function (root, factory) {
@@ -88,7 +91,26 @@
     return `<div class="gm-ranked">${rows.map(r => `<div class="gm-rr${r.cls ? " " + r.cls : ""}"><span class="nm">${esc(r.name)}${r.note ? `<span class="m">${esc(r.note)}</span>` : ""}</span><span class="v">${r.shareText || (r.share == null ? "" : Math.round(r.share * 100) + "%")}</span><span class="bar"${label ? ` data-measure="${esc(label.replace("{n}", Math.round((r.share || 0) * 100) + "%"))}"` : ""}><i style="width:${Math.round(100 * (r.share || 0) / max)}%"></i></span></div>`).join("")}</div>`;
   }
 
-  if (!document) return { record, info, pips, foot, results, ranked, kbd, tip, KEYS_NOTE, STORAGE_NOTE };
+  // ---------- the default role (PLAN.md v12, "Play first"): the role the player came from (?role= in the hash), else
+  // the profile's first field's largest role (store "you", fields[]), else Product Manager. Pure: ix is Atlas.index()
+  // with the product set loaded; roles = the ids a game can play (a Set or a predicate), or null for any.
+  function pickDefault(ix, you, roleParam, roles) {
+    const ok = id => !!ix.roles[id] && (!roles || (typeof roles === "function" ? roles(id) : roles.has(id)));
+    if (roleParam && ok(roleParam)) return roleParam;
+    if (roleParam && ok("product." + roleParam)) return "product." + roleParam;
+    const fields = you && Array.isArray(you.fields) ? you.fields : [];
+    for (const f of fields) {
+      const g = ix.groups.find(x => x.id === f); if (!g) continue;
+      const best = (g.roles || []).filter(ok).sort((a, b) => (ix.roles[b].nOpen || 0) - (ix.roles[a].nOpen || 0))[0];
+      if (best) return best;
+    }
+    if (ok("product.pm")) return "product.pm";
+    return Object.keys(ix.roles).filter(ok).sort((a, b) => (ix.roles[b].nOpen || 0) - (ix.roles[a].nOpen || 0))[0] || null;
+  }
+  // the coachmark: one pointer on the first move of a game's first round (Coachmarks pattern), dismissed by any move
+  const coach = text => `<div class="gm-coach" role="note" id="gm-coach">${esc(text)}<button type="button" class="linkish link" id="gm-coach-ok">Got it</button></div>`;
+
+  if (!document) return { record, info, pips, foot, results, ranked, kbd, tip, pickDefault, coach, KEYS_NOTE, STORAGE_NOTE };
 
   // ---------- the frame: header, body, live region ----------
   // frame(el, { game, role, round, rounds, marks, info, quit, cls }) -> { body, set(...), live(msg) }
@@ -132,5 +154,59 @@
     return () => document.removeEventListener("keydown", on, true);
   }
 
-  return { record, info, pips, foot, results, ranked, kbd, tip, frame, keys, KEYS_NOTE, STORAGE_NOTE };
+  // the default role for a game, from the atlas and the profile; `roles` limits it to the roles a game can play
+  async function defaultRole(Atlas, roles) {
+    const ix = await Atlas.index(); await Atlas.product().catch(() => { });
+    let you = null; try { you = JSON.parse(localStorage.getItem("you")); } catch { }
+    const q = new URLSearchParams((location.hash.split("?")[1] || "")).get("role");
+    return pickDefault(ix, you, q, roles);
+  }
+  // the one start screen (G1): the title, one sentence, Play on the default role, "Change role" and ⓘ after that
+  function start(F, { title, lead, role, play, change, extra, playLabel }) {
+    F.set({ round: null, rounds: 0, role: "" });
+    F.body.innerHTML = `<div class="gm-start"><h1>${esc(title)}</h1><p class="lead">${esc(lead)}</p>${extra || ""}
+      ${foot({ primary: { id: "gm-play", label: playLabel || (role ? `Play · ${esc(role)}` : "Play"), key: "Enter" }, quiet: change ? { id: "gm-change", label: typeof change === "string" ? change : "Change role" } : null })}</div>`;
+    const p = F.body.querySelector("#gm-play"), c = F.body.querySelector("#gm-change");
+    p.onclick = play; if (c && typeof change === "function") c.onclick = change;
+    p.focus({ preventScroll: true });
+    return { play: p, change: c };
+  }
+  // the one picker (G9): the Explore field cards, then the field's roles with the player's record as the secondary
+  // line. picker(F, { Atlas, roles, field, secondary, onRole, back, title }) draws into the frame's body.
+  async function picker(F, o) {
+    const Atlas = o.Atlas, ix = await Atlas.index(); await Atlas.product().catch(() => { });
+    const ok = id => !!ix.roles[id] && (!o.roles || (typeof o.roles === "function" ? o.roles(id) : o.roles.has(id)));
+    const fmt = n => Number(n).toLocaleString("en-US");
+    const groups = ix.groups.map(g => ({ g, roles: (g.roles || []).filter(ok).map(id => ix.roles[id]).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)) })).filter(x => x.roles.length);
+    let field = o.field && groups.some(x => x.g.id === o.field) ? o.field : groups[0].g.id;
+    const max = Math.max(1, ...groups.map(x => x.g.nOpen || 0));
+    const draw = () => {
+      const cur = groups.find(x => x.g.id === field);
+      const card = ({ g, roles }) => { const ex = roles.slice(0, 3).map(r => r.label), more = roles.length - ex.length;
+        return `<button type="button" class="fcard${g.id === field ? " on" : ""}" data-field="${esc(g.id)}" aria-pressed="${g.id === field}"><span class="t">${esc(g.label)}</span><span class="m">e.g. ${esc(ex.join(" · "))}${more > 0 ? `, +${more} more` : ""}</span><span class="bar" data-measure="${fmt(g.nOpen || 0)} open postings in ${esc(g.label)} now; the bar compares the fields."><i style="width:${Math.round(100 * (g.nOpen || 0) / max)}%"></i></span><span class="n">${fmt(g.nOpen || 0)} open</span></button>`; };
+      const row = r => `<button type="button" class="r" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${fmt(r.nOpen || 0)} open</span><span class="m">${esc(o.secondary ? o.secondary(r.id) : "")}</span></button>`;
+      F.set({ round: null, rounds: 0, role: "" });
+      F.body.innerHTML = `<div class="gm-picker"><h1>${esc(o.title || "Change role")}</h1><p class="lead">${esc(o.lead || "Pick a field, then a role.")}</p>
+        <div class="fcards">${groups.map(card).join("")}</div>
+        <h2>${esc(cur.g.label)}</h2><div class="list">${cur.roles.map(row).join("")}</div>
+        ${o.back ? foot({ quiet: { id: "gm-back", label: o.back === true ? "Back" : o.back } }) : ""}</div>`;
+      F.body.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { field = b.dataset.field; draw(); const c = F.body.querySelector(`[data-field="${CSS.escape(field)}"]`); if (c) c.focus(); });
+      F.body.querySelectorAll("[data-role]").forEach(b => b.onclick = () => o.onRole(b.dataset.role, field));
+      const bk = F.body.querySelector("#gm-back"); if (bk) bk.onclick = () => o.onBack && o.onBack();
+      window.scrollTo(0, 0);
+    };
+    draw();
+  }
+  // show the coachmark once per game, at `where` relative to `host` (default: as its first child; "beforebegin"
+  // keeps a grid host intact); any click or key on the page dismisses it
+  function coachOnce(slug, host, text, where = "afterbegin") {
+    const g = record.game(slug); if (g.coached || !host) return () => { };
+    host.insertAdjacentHTML(where, coach(text));
+    const done = () => { const c = document.getElementById("gm-coach"); if (c) c.remove(); record.saveGame(slug, { coached: true }); document.removeEventListener("keydown", done, true); document.removeEventListener("click", done, true); };
+    const ok = document.getElementById("gm-coach-ok"); if (ok) ok.onclick = done;
+    setTimeout(() => { document.addEventListener("keydown", done, true); document.addEventListener("click", done, true); }, 0);
+    return done;
+  }
+
+  return { record, info, pips, foot, results, ranked, kbd, tip, frame, keys, pickDefault, defaultRole, start, picker, coach, coachOnce, KEYS_NOTE, STORAGE_NOTE };
 });

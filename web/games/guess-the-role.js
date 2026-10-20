@@ -159,20 +159,13 @@
     }
     const marks = () => game.rounds.map(r => r.answer == null ? "" : r.right ? "ok" : "miss");
 
-    // ----- start -----
+    // ----- start: one sentence and Play; the Speed round on offer once unlocked -----
     function renderStart() {
       if (game) game.phase = "start";
-      F.set({ round: null, rounds: 0, role: "" });
       const unlocked = !!saved.clean;
-      screen.innerHTML = `<div class="gtr-start">
- <h1 class="gtr-title">Guess the role</h1>
- <p class="lead">Name a real posting's role from its skills, giveaway last. Ten rounds, one from each field.</p>
- ${unlocked ? `<div class="chips" role="group" aria-label="Round"><button class="chip${saved.speed ? "" : " on"}" type="button" id="gtr-untimed" aria-pressed="${!saved.speed}">Untimed</button><button class="chip${saved.speed ? " on" : ""}" type="button" id="gtr-speed" aria-pressed="${saved.speed}">Speed round<span class="n">${TIMER_S} s a clue</span></button></div>` : `<p class="small muted">Untimed. A Speed round, ${TIMER_S} seconds a clue, unlocks after a game with at least half the rounds right.</p>`}
- ${saved.best != null ? `<p class="gm-best">Your best: <b>${fmt(saved.best)}</b> of ${fmt(MAX)} points</p>` : ""}
- ${GS.foot({ primary: { id: "gtr-start", label: "Start", key: "Enter" } })}
-</div>`;
-      window.scrollTo(0, 0);
-      screen.querySelector("#gtr-start").onclick = startGame;
+      const extra = `${unlocked ? `<div class="chips" role="group" aria-label="Round"><button class="chip${saved.speed ? "" : " on"}" type="button" id="gtr-untimed" aria-pressed="${!saved.speed}">Untimed</button><button class="chip${saved.speed ? " on" : ""}" type="button" id="gtr-speed" aria-pressed="${saved.speed}">Speed round<span class="n">${TIMER_S} s a clue</span></button></div>` : ""}
+ ${saved.best != null ? `<p class="gm-best">Your best: <b>${fmt(saved.best)}</b> of ${fmt(MAX)} points</p>` : ""}`;
+      GS.start(F, { title: "Guess the role", lead: "Name a real posting's role from its skills, giveaway last. Ten rounds, one from each field.", play: startGame, extra });
       const sp = screen.querySelector("#gtr-speed"), un = screen.querySelector("#gtr-untimed");
       if (sp) { sp.onclick = () => { saved.speed = true; GS.record.saveGame(SLUG, { speed: true }); renderStart(); say(`Speed round: ${TIMER_S} seconds a clue, then the next clue appears.`); }; un.onclick = () => { saved.speed = false; GS.record.saveGame(SLUG, { speed: false }); renderStart(); say("Untimed."); }; }
     }
@@ -227,6 +220,7 @@
       game.phase = "clue";
       prefetch(game.plan[game.i + 1]);
       renderRound(round);
+      if (game.i === 0) GS.coachOnce(SLUG, screen.querySelector(".gtr-play"), "One posting's skills, one at a time. Each clue you take lowers the round by 100 points. Press 1 to 4 to name the role.");
       if (shownLoading) say(`Round ${game.i + 1} of ${ROUNDS}.`);
       announceClue(round);
       focus(".clues");

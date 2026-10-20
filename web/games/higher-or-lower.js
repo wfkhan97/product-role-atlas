@@ -3,7 +3,8 @@
    higher or lower. Spec: games/higher-or-lower/README.md. The dealer is games/higher-or-lower/deal.js, copied as it
    is, so a seed (?seed=7) deals the same pairs here as there. Every number is a share from Atlas.index() /
    Atlas.product() or a posting count; nothing leaves the browser (the games record, web/gameshell.js). Drawn in the
-   shared shell: one header, 1 = higher, 2 = lower, Enter goes on, Esc quits. */
+   shared shell: one header, 1 = higher, 2 = lower, Enter goes on, Esc quits. Play first (HOL2): one sentence and
+   Play on the default role, the shared picker behind "Change role", Field hop offered after a round. */
 (function () {
   "use strict";
 
@@ -117,20 +118,23 @@
   const splitName = name => { const m = /^(.*?)\s*(\([^()]*\))$/.exec(name); return m && m[1] ? [m[1], m[2]] : [name, ""]; };
   const inline = name => { const s = splitName(name)[0]; return /^[A-Z][a-z]/.test(s) ? s[0].toLowerCase() + s.slice(1) : s; };
   const SLUG = "higher-or-lower", TITLE = "Higher or lower";
-  const you = () => { try { return JSON.parse(localStorage.getItem("you")); } catch { return null; } };
   function loadSave(GS) {
     const v = GS.record.game(SLUG), b = (v && v.best) || {};
     return { best: { one: b.one && typeof b.one === "object" ? b.one : {}, hop: Number.isInteger(b.hop) ? b.hop : null, overall: Number.isInteger(b.overall) ? b.overall : null }, lastStreak: Number.isInteger(v.lastStreak) ? v.lastStreak : null, mode: v.mode || null, role: v.role || null };
   }
 
+  const keyOf = id => id.startsWith("product.") ? "product:" + id.slice(8) : "mba:" + id;
+  const idOf = key => key.startsWith("product:") ? "product." + key.slice(8) : key.slice(4);
+
   async function mount(el, ctx) {
     const { Atlas, esc } = ctx, GS = window.GameShell;
     const ix = await Atlas.index();
+    let P0 = null; try { P0 = await Atlas.product(); } catch (e) { console.error(e); }
     const INFO = GS.info({ rules: "Two skills from one role. You see how many of the role's postings ask for the first; say whether more or fewer ask for the second. Right: the hidden skill becomes the new left card and the streak grows. Wrong once and the streak ends. The gap between the two shares narrows as your streak grows. Field hop: one skill, two roles from different fields.", keys: "Keys: 1 says higher, 2 says lower; Enter goes on to the next pair; Esc quits.", source: "Every number is the share of a role's postings that ask for the skill." });
     const F = GS.frame(el, { game: TITLE, cls: "hl", info: INFO });
     const screen = F.body;
 
-    const S = { P: null, pState: "loading", roles: [], byKey: {}, mode: "one", sel: null, field: null, touched: false, view: "start", run: null, busy: false, dead: false, seedUsed: false };
+    const S = { P: P0, pState: P0 ? "ok" : "fail", roles: [], byKey: {}, mode: "one", sel: null, field: null, touched: false, view: "start", run: null, busy: false, dead: false, seedUsed: false };
     const timers = new Set(), frames = new Set();
     const later = (fn, ms) => { const t = setTimeout(() => { timers.delete(t); if (!S.dead) fn(); }, ms); timers.add(t); return t; };
     const clearTimers = () => { timers.forEach(clearTimeout); timers.clear(); frames.forEach(cancelAnimationFrame); frames.clear(); };
@@ -138,28 +142,22 @@
     window.addEventListener("hashchange", cleanup);
     const say = msg => F.live(msg);
 
-    // the query: role=<set>:<id>, mode=one|hop, seed=<integer>
+    // the query: role=<id> (the shared convention; <set>:<id> still works), mode=hop, seed=<integer>
     const q = new URLSearchParams(location.hash.split("?")[1] || "");
     const seedQ = /^-?\d+$/.test(q.get("seed") || "") ? parseInt(q.get("seed"), 10) : null;
     const last = loadSave(GS);
-    S.mode = q.get("mode") === "hop" || (!q.get("mode") && last.mode === "hop") ? "hop" : "one";
-    const youFields = (() => { const y = you(); return y && Array.isArray(y.fields) ? y.fields : []; })();
+    S.mode = q.get("mode") === "hop" ? "hop" : "one";
 
     function setRoles() {
       S.roles = playableRoles(ix, S.P).filter(r => !(r.set === "mba" && COLLIDING_MBA_IDS.includes(r.id)));
       S.byKey = Object.fromEntries(S.roles.map(r => [r.key, r]));
     }
     setRoles();
-    const rolesOf = g => S.roles.filter(r => r.group === g).sort((a, b) => b.n - a.n);
-    const fieldOrder = () => { const ids = ["product", ...ix.groups.map(g => g.id).filter(id => id !== "product")]; return [...youFields.filter(f => ids.includes(f)), ...ids.filter(f => !youFields.includes(f))]; };
-    const groupLabel = id => (ix.groups.find(g => g.id === id) || {}).label || id;
-    function defaultKey() {
-      if (last.role && S.byKey[last.role]) return last.role;
-      for (const f of youFields) { const rs = rolesOf(f); if (rs.length) return rs[0].key; }
-      if (S.byKey["product:pm"]) return "product:pm";
-      return S.byKey["mba:management_consultant"] ? "mba:management_consultant" : S.roles[0].key;
-    }
-    S.sel = defaultKey(); S.field = S.byKey[S.sel].group;
+    const playable = id => !!S.byKey[keyOf(id)];
+    if (q.get("role") && q.get("role").includes(":") && S.byKey[q.get("role")]) q.set("role", idOf(q.get("role")));
+    const def = await GS.defaultRole(Atlas, playable);
+    if (S.dead) return;
+    S.sel = def ? keyOf(def) : (last.role && S.byKey[last.role] ? last.role : S.roles[0].key); S.field = S.byKey[S.sel].group;
 
     // ---------- names and numbers, read from the index ----------
     const skillOf = (sid, set) => (set === "product" ? (S.P && S.P.skillById[sid]) || ix.skillById[sid] : ix.skillById[sid] || (S.P && S.P.skillById[sid])) || { name: sid };
@@ -167,31 +165,16 @@
     const rawShare = (role, sid) => ((skillOf(sid, role.set).by_family || {})[role.family || role.id]);
     const bestOf = (save, run) => run.mode === "hop" ? save.best.hop : save.best.one[run.role.key];
 
-    // ---------- start screen (01) ----------
+    // ---------- start (01): one sentence and Play on the default role; "Change role" is the shared picker ----------
     function renderStart() {
       S.view = "start"; S.busy = false; clearTimers();
-      F.set({ round: null, rounds: 0, role: "" });
-      const save = loadSave(GS);
-      const role = S.byKey[S.sel], one = S.mode === "one";
-      const best = one ? save.best.one[S.sel] : save.best.hop;
-      const chips = fieldOrder().map(f => { const n = rolesOf(f).length; if (!n && f !== "product") return ""; return `<button type="button" class="chip${S.field === f ? " on" : ""}" data-field="${esc(f)}" aria-pressed="${S.field === f}">${esc(groupLabel(f))}${n ? `<span class="n">${n}</span>` : ""}</button>`; }).join("");
-      const list = S.field === "product" && S.pState !== "ok"
-        ? `<span class="r">${S.pState === "fail" ? "Could not load the product roles" : "Loading the product roles…"}</span>`
-        : rolesOf(S.field).map(r => `<button type="button" class="r${r.key === S.sel ? " on" : ""}" data-role="${esc(r.key)}" aria-pressed="${r.key === S.sel}">${esc(r.label)}<span class="n">${fmt(r.n)} postings</span></button>`).join("");
-      const hopWait = !one && S.pState === "loading";
-      screen.innerHTML = `<div class="hl-start">
-        <h1>Higher or lower</h1>
-        <p class="lead">Two skills from one role. You see how many postings ask for the first. Do more postings ask for the second, or fewer?</p>
-        <div class="chips" role="group" aria-label="Mode"><span class="lbl">Mode</span><button type="button" class="chip${one ? " on" : ""}" data-mode="one" aria-pressed="${one}">One role</button><button type="button" class="chip${one ? "" : " on"}" data-mode="hop" aria-pressed="${!one}">Field hop</button></div>
-        ${one ? `<h2>Pick a role</h2><div class="chips"><span class="lbl">Field</span>${chips}</div><div class="hl-roles">${list}</div>` : `<p class="small muted">One skill, two roles from different fields: do more Strategic Finance Manager or Management Consultant postings ask for SQL?</p>`}
-        ${best != null ? `<p class="gm-best">Your best: <b>${best}</b> in a row · ${esc(one ? role.label : "Field hop")}</p>` : ""}
-        ${GS.foot({ primary: { label: one ? `Start with ${esc(role.label)}` : hopWait ? "Loading the product roles…" : "Start field hop", key: "Enter", id: "hl-go", disabled: hopWait }, quiet: one ? { label: "Surprise me", id: "hl-surprise" } : null })}</div>`;
+      const save = loadSave(GS), role = S.byKey[S.sel], best = save.best.one[S.sel];
+      GS.start(F, { title: "Higher or lower", lead: `Two skills from one role. You see how many ${role.label} postings ask for the first. Do more postings ask for the second, or fewer?`, role: role.label, play: go, change: renderPick, extra: best != null ? `<p class="gm-best">Your best: <b>${best}</b> in a row · ${esc(role.label)}</p>` : "" });
     }
-    function surprise() {
-      const pool = S.roles.filter(r => r.key !== S.sel), r = pool[Math.floor(Math.random() * pool.length)] || S.byKey[S.sel];
-      S.sel = r.key; S.field = r.group; S.touched = true; startRun("one", r);
+    function renderPick() {
+      S.view = "pick"; clearTimers();
+      GS.picker(F, { Atlas, roles: playable, field: S.byKey[S.sel].group, secondary: id => { const b = loadSave(GS).best.one[keyOf(id)]; return b != null ? `Your best: ${b} in a row` : "Not played yet"; }, back: true, onBack: renderStart, onRole: id => { S.sel = keyOf(id); S.field = S.byKey[S.sel].group; S.touched = true; startRun("one", S.byKey[S.sel]); } });
     }
-
     // ---------- a run ----------
     function startRun(mode, role) {
       clearTimers();
@@ -255,6 +238,7 @@
       const note = run.mode === "one" ? `<span>${gapLine()}</span>` : `<span class="seen">${seenLine()}</span>`;
       screen.innerHTML = `${headHtml()}<div class="hl-stage">${cardHtml(run.left, { side: "left" })}<div class="hl-vs" aria-hidden="true">vs</div>${cardHtml(run.right, { side: "right", hidden: true })}</div>
         <p class="hl-note">${note}</p>`;
+      if (run.streak === 0 && !run.log.length) GS.coachOnce(SLUG, screen.querySelector(".hl-stage"), `Do more or fewer ${run.mode === "one" ? run.role.label : ""} postings ask for the right-hand skill than for the left one? 1 says more, 2 says fewer. Right, and the hidden card becomes the new left card.`.replace("  ", " "), "beforebegin");
       if (focusDir) { const b = screen.querySelector(`[data-pick="${focusDir}"]`); if (b) b.focus(); }
     }
     function choose(dir) {
@@ -346,29 +330,21 @@
         takeaway: `${reveal} ${punch}`,
         visual: `${mini}<div class="gm-cols" style="margin-top:16px"><div><h3>The pairs you got right</h3>${log}</div></div>`,
         link: { href: link(missRole), label: `See what ${missRole.label} postings ask for` },
-        foot: GS.foot({ primary: { id: "hl-again", label: "Play again", key: "Enter" }, quiet: { id: "hl-back", label: hop ? "Back to the start" : "Another role" } }),
+        foot: GS.foot({ primary: { id: "hl-again", label: "Play again", key: "Enter" }, quiet: { id: "hl-back", label: hop ? "Back to one role" : "Try the same skill across fields" } }),
       });
       screen.querySelector("#hl-again").onclick = () => startRun(S.run.mode, S.run.role);
-      screen.querySelector("#hl-back").onclick = toStart;
+      screen.querySelector("#hl-back").onclick = () => { if (hop) toStart(); else if (S.pState === "ok") startRun("hop", null); else toStart(); };
       say(win ? `Every pair dealt. Streak ${run.streak}.` : `Wrong. ${nameOf(run.right).replace(/&/g, "and")}, ${run.right.share}%, not ${dir}. Streak over at ${run.streak}.`);
       F.focusMeasure();
     }
 
     // ---------- input ----------
-    function toStart() { clearTimers(); S.run = null; renderStart(); const b = screen.querySelector("#hl-go"); if (b) b.focus(); }
-    function go() {
-      if (S.mode === "hop") { if (S.pState !== "loading") startRun("hop", null); return; }
-      startRun("one", S.byKey[S.sel]);
-    }
+    function toStart() { clearTimers(); S.run = null; renderStart(); }
+    function go() { startRun("one", S.byKey[S.sel]); }
     screen.addEventListener("click", e => {
       const t = e.target.closest("button"); if (!t || !screen.contains(t) || t.disabled) return;
       const d = t.dataset;
-      if (d.mode) { S.mode = d.mode; renderStart(); screen.querySelector(`[data-mode="${d.mode}"]`).focus(); }
-      else if (d.field) { S.field = d.field; S.touched = true; const rs = rolesOf(d.field); if (rs.length && !rs.some(r => r.key === S.sel)) S.sel = rs[0].key; renderStart(); const c = screen.querySelector(`[data-field="${d.field}"]`); if (c) c.focus(); }
-      else if (d.role) { S.sel = d.role; S.touched = true; renderStart(); const c = screen.querySelector(`[data-role="${d.role}"]`); if (c) c.focus(); }
-      else if (d.pick) choose(d.pick);
-      else if (t.id === "hl-go") go();
-      else if (t.id === "hl-surprise") surprise();
+      if (d.pick) choose(d.pick);
     });
     const offKeys = GS.keys({
       choose(n) { if (S.dead || S.busy || S.view !== "pick" || n > 2) return false; choose(n === 1 ? "higher" : "lower"); return true; },
@@ -380,24 +356,10 @@
       },
     });
 
-    // ---------- the product set: loads in the background; its six roles show "loading" until then ----------
-    const qRole = q.get("role"), qHop = q.get("mode") === "hop";
-    const pending = qHop || (qRole && qRole.startsWith("product:"));
-    const tryQuery = () => {
-      if (qHop) { S.mode = "hop"; startRun("hop", null); return true; }
-      if (qRole && S.byKey[qRole]) { S.mode = "one"; S.sel = qRole; S.field = S.byKey[qRole].group; startRun("one", S.byKey[qRole]); return true; }
-      return false;
-    };
-    Atlas.product().then(P => { S.P = P; S.pState = "ok"; }, err => { console.error(err); S.pState = "fail"; }).then(() => {
-      if (S.dead) return;
-      setRoles();
-      if (!S.byKey[S.sel] || !S.touched) { S.sel = defaultKey(); S.field = S.byKey[S.sel].group; }
-      if (pending && !S.run && S.view === "start" && tryQuery()) return;
-      if (S.view === "start") { const f = document.activeElement, sel = f && screen.contains(f) && (f.dataset.field ? `[data-field="${f.dataset.field}"]` : f.dataset.mode ? `[data-mode="${f.dataset.mode}"]` : f.id ? `#${f.id}` : null); renderStart(); if (sel) { const n = screen.querySelector(sel); if (n) n.focus(); } }
-    });
-    renderStart();
-    if (!pending) tryQuery();
-    else if (S.pState === "loading") { const b = screen.querySelector("#hl-go"); if (b) { b.disabled = true; b.textContent = "Loading the product roles…"; } }
+    // a round asked for in the hash: ?mode=hop, or ?role=<id>
+    if (q.get("mode") === "hop" && S.pState === "ok") startRun("hop", null);
+    else if (q.get("role") && playable(q.get("role"))) startRun("one", S.byKey[keyOf(q.get("role"))]);
+    else renderStart();
   }
 
   window.Games = window.Games || {};

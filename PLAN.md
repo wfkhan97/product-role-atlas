@@ -298,6 +298,12 @@ next PR to main before a base branch is deleted):
    `RANKS` in Spot the real ask's until steps 6 and 7 re-point their evals.
 2. `feat/games-2-2-start`: play-first start on a default role, coachmark, ⓘ, the shared picker (G1, G9, SP1, BTH1
    start, HOL2, CL1, WIA2 start).
+   Built as (2026-10-20): `GameShell.start`, `defaultRole`, `coachOnce` and `picker`. The default role is the role
+   in the hash (`?role=`, the role the player came from) first, then the profile's first field's largest role, then
+   Product Manager: a "Practise" link that names a role must land on it, so the hash outranks the profile. Climb
+   the ladder draws by role now (the role's top skill first, its Entry sentence placed); Skill path fixes the budget
+   at par plus two and keeps its from/to form behind "Change route"; Higher or lower offers Field hop as the quiet
+   action of its end screen.
 3. `feat/games-2-3-hub`: the hub grid, Practise on the role screen, Practise your gaps on the fit page (H1, H2, G10).
 4. `feat/games-2-4-record`: one takeaway per reveal and the Know-your-role record (G3, G4, GTR2, BTH3, CL2).
 5. `feat/games-2-5-know-the-role`: Know the role from WIA Steady and HOL (WIA1, WIA2, HOL1, BTH1, BTH2); HOL, WIA

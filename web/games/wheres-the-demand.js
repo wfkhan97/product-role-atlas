@@ -275,19 +275,12 @@
       if (S.phase !== "start" || me.destroyed) return;
       const meta = ix.M.meta || {}, sv = saved();
       const stale = daysSince(meta.generated);
-      F.set({ round: null, rounds: 0, role: "" });
-      render(`<div class="wd-start">
-  <h1>Where&rsquo;s the demand?</h1>
-  <p class="lead">Two roles, one question: which has more open postings right now? Ten questions.</p>
-  ${sv.clean ? `<div class="chips" role="group" aria-label="Round"><button class="chip${sv.speed ? "" : " on"}" type="button" id="wd-untimed" aria-pressed="${!sv.speed}">Untimed</button><button class="chip${sv.speed ? " on" : ""}" type="button" id="wd-speed" aria-pressed="${sv.speed}">Speed round<span class="n">${SECONDS} s a question</span></button></div>` : `<p class="small muted">Untimed. A Speed round, ${SECONDS} seconds a question, unlocks after a round with at least half right.</p>`}
+      const extra = `${sv.clean ? `<div class="chips" role="group" aria-label="Round"><button class="chip${sv.speed ? "" : " on"}" type="button" id="wd-untimed" aria-pressed="${!sv.speed}">Untimed</button><button class="chip${sv.speed ? " on" : ""}" type="button" id="wd-speed" aria-pressed="${sv.speed}">Speed round<span class="n">${SECONDS} s a question</span></button></div>` : ""}
   ${sv.best != null ? `<p class="gm-best">Your best: <b>${esc(sv.best)}</b> of ${N}</p>` : ""}
-  ${stale > STALE_DAYS ? `<p class="small wd-stale">The counts were last refreshed ${esc(stale)} days ago.</p>` : ""}
-  ${GS.foot({ primary: { id: "wd-start", label: "Start round", key: "Enter" }, quiet: { href: "#/explore", label: "Explore the fields first" } })}
-</div>`);
-      $("#wd-start").onclick = startRound;
+  ${stale > STALE_DAYS ? `<p class="small wd-stale">The counts were last refreshed ${esc(stale)} days ago.</p>` : ""}`;
+      GS.start(F, { title: "Where's the demand?", lead: "Two roles, one question: which has more open postings right now? Ten questions.", play: startRound, extra });
       const sp = $("#wd-speed"), un = $("#wd-untimed");
       if (sp) { sp.onclick = () => { GS.record.saveGame(SLUG, { speed: true }); showStart(); }; un.onclick = () => { GS.record.saveGame(SLUG, { speed: false }); showStart(); }; }
-      $("#wd-start").focus();
     }
     function showError(e) {
       console.error(e);
@@ -298,7 +291,7 @@
     async function startRound() {
       if (S.starting || (S.phase !== "start" && S.phase !== "results")) return;
       S.starting = true;
-      const b = $("#wd-start") || $("#wd-again"); if (b) { b.disabled = true; b.textContent = "Starting…"; }
+      const b = $("#gm-play") || $("#wd-again"); if (b) { b.disabled = true; b.textContent = "Starting…"; }
       let round;
       try { round = await (S.prep || prep()); } catch (e) { S.starting = false; return showError(e); }
       if (me.destroyed) return;
@@ -321,6 +314,7 @@ ${S.timed ? `<div class="wd-timer" aria-hidden="true"><i style="width:100%"></i>
 <div class="wd-stage"><div class="wd-cards">${card(q.left, "left")}${card(q.right, "right")}</div><span class="wd-or" aria-hidden="true">or</span></div>
 <p class="gm-key">${esc(footNote(q))}</p>`);
       for (const b of el.querySelectorAll(".wd-card")) b.onclick = () => answer(b.dataset.side);
+      if (S.i === 0) GS.coachOnce(SLUG, $(".wd-stage"), "Pick the side with more open postings: 1 for the left card, 2 for the right. The real counts show after every pick, and the pairs get closer as you go.", "beforebegin");
       if (S.timed) startTimer();
     }
     function startTimer() {

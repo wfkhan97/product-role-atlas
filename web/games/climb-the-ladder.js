@@ -1,6 +1,8 @@
 /* Climb the ladder (design: games/climb-the-ladder/README.md). One skill, four sentences that describe it at Entry, Mid,
    Senior and Lead, shuffled; put each on its rung, check, see what changes as you move up. Five skills a game.
-   Drawn in the shared shell (web/gameshell.js): one header, 1 to 4 place, Enter checks, Esc quits, one record.
+   Drawn in the shared shell (web/gameshell.js): one header, 1 to 4 place, Enter checks, Esc quits, one record. Play
+   first (CL1): the default role's top skill with its Entry sentence placed as the example; "Change role" is the
+   shared picker.
    Registers window.Games["climb-the-ladder"] = { mount } (the contract in games/README.md). Data comes through
    ctx.Atlas: index(), product() and genericSkills(); no postings are loaded. The pure parts (pool, filter, draw,
    shuffle, scoring, verb chain, new words) touch no DOM and are exported under module.exports for node tests. */
@@ -92,6 +94,11 @@
   const byFamily = (D, set, id) => (((set === "product" ? D.gById : D.mById)[id] || {}).by_family || {});
   function fieldShare(e, g, D) { const b = byFamily(D, g.set, e.skillId), roles = g.roles || []; return roles.length ? roles.reduce((a, r) => a + (b[(D.roles[r] || {}).family || r] || 0), 0) / roles.length : 0; }
   function candidates(pool, g, D) { return pool.all.filter(e => !D.generic.has(e.skillId)).map(e => ({ e, share: fieldShare(e, g, D), field: g })).filter(c => c.share >= MIN_SHARE); }
+  // a role's candidates: the ladders of the skills its postings ask for (share of the role's postings), most asked first
+  function roleCandidates(pool, r, D) {
+    const g = D.groups.find(x => x.id === r.group) || { id: r.group, label: r.group, roles: [] };
+    return pool.all.filter(e => !D.generic.has(e.skillId)).map(e => ({ e, share: byFamily(D, r.set, e.skillId)[r.family || r.id] || 0, field: g, role: r })).filter(c => c.share >= MIN_SHARE).sort((a, b) => b.share - a.share);
+  }
   // "Any field": every field's candidates, each ladder once, with the field where its share is highest
   function anyCandidates(pool, D) { const best = {}; for (const g of D.groups) for (const c of candidates(pool, g, D)) if (!best[c.e.key] || c.share > best[c.e.key].share) best[c.e.key] = c; return Object.values(best); }
   function topRoles(skillId, D, n) {
@@ -99,11 +106,11 @@
   }
 
   // ---------- the draw: five ladders weighted by share, at most two from postings, never two of one skill; easiest first ----------
-  function draw(cands, rng, others) {
+  function draw(cands, rng, others, n = PER_GAME) {
     const chosen = [], skills = new Set(); let postings = 0;
     const take = list => {
       const pool = list.slice();
-      while (chosen.length < PER_GAME && pool.length) {
+      while (chosen.length < n && pool.length) {
         let r = rng() * pool.reduce((a, c) => a + c.share, 0), i = 0;
         while (i < pool.length - 1 && (r -= pool[i].share) > 0) i++;
         const [c] = pool.splice(i, 1);
@@ -112,9 +119,15 @@
       }
     };
     take(cands); const own = chosen.length;
-    if (chosen.length < PER_GAME && others) take(others.filter(o => !cands.some(c => c.e.key === o.e.key)));
+    if (chosen.length < n && others) take(others.filter(o => !cands.some(c => c.e.key === o.e.key)));
     chosen.sort((a, b) => a.e.overlap - b.e.overlap);
     return { chosen, fromOther: chosen.length - own };
+  }
+  // a game on a role (CL1): the role's top skill first, then four more drawn by share, easiest first
+  function drawForRole(cands, rng, others) {
+    if (!cands.length) return { chosen: [], fromOther: 0 };
+    const top = cands[0], rest = draw(cands.slice(1), rng, others ? others.filter(o => o.e.key !== top.e.key) : null, PER_GAME - 1);
+    return { chosen: [top, ...rest.chosen], fromOther: rest.fromOther };
   }
   // the pile order: never the right order top to bottom, and not the ladder's order (Lead first) either
   function shuffleOrder(n, rng) {
@@ -165,66 +178,66 @@
       printed = true; const c = pool.counts, ok = Object.keys(README_COUNTS).every(k => c[k] === README_COUNTS[k]);
       (ok ? console.info : console.warn)(`${SLUG}: pool ${c.atlas} atlas-written, ${c.postings} postings ladders (${c.corporate} corporate, ${c.bank} bank, ${c.consulting} consulting); excluded ${pool.excluded.map(e => e.key).join(", ") || "none"}. ${ok ? "Matches" : "Does not match"} the README (${README_COUNTS.atlas} / ${README_COUNTS.postings}: ${README_COUNTS.corporate}, ${README_COUNTS.bank}, ${README_COUNTS.consulting}).`);
     }
-    const byField = Object.fromEntries(D.groups.map(g => [g.id, candidates(pool, g, D)]));
+    const cache = {};
+    const candsOf = id => cache[id] || (cache[id] = roleCandidates(pool, ix.roles[id], D));
+    const playable = id => ix.roles[id] && !ix.roles[id].small && candsOf(id).length >= 1;
     const anyC = anyCandidates(pool, D);
     const rng = Math.random;
     const reduced = () => typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // state: which screen, the field, the game (five entries, scores) and the round (pile order, placements)
+    // state: which screen, the role, the game (five entries, scores) and the round (pile order, placements)
     const saved = GS.record.game(SLUG);
-    const S = { screen: "pick", field: saved.lastField || null, game: null, round: null };
+    const S = { screen: "start", role: null, game: null, round: null };
     let alive = true, focusSel = null, drag = null;
-    const fieldLabel = () => S.field === "any" ? "Any field" : (D.groups.find(g => g.id === S.field) || {}).label || "";
-    const fieldOf = id => D.groups.find(g => g.id === id);
+    const roleLabel = () => (ix.roles[S.role] || {}).label || "";
     const page = (html, head) => { F.set(head || {}); F.body.innerHTML = html; window.scrollTo(0, 0); if (focusSel) { const f = el.querySelector(focusSel); if (f) f.focus(); focusSel = null; } };
     const $ = s => el.querySelector(s), $$ = s => [...el.querySelectorAll(s)];
     const live = msg => F.live(msg);
+    S.role = await GS.defaultRole(Atlas, playable) || (saved.lastRole && playable(saved.lastRole) ? saved.lastRole : null);
+    if (!alive) return;
 
-    // ---------- 1. pick a field ----------
-    function renderPick() {
-      S.screen = "pick"; S.game = null; S.round = null;
+    // ---------- 1. the start: one sentence, Play on the default role, Change role ----------
+    function renderStart() {
+      S.screen = "start"; S.game = null; S.round = null;
       const best = GS.record.game(SLUG).best;
-      const tile = g => `<button type="button" class="cl-field${S.field === g.id ? " on" : ""}" data-field="${esc(g.id)}" aria-pressed="${S.field === g.id}">${esc(g.label)}<span class="n">${byField[g.id].length} ladders</span></button>`;
-      const picked = S.field === "any" || fieldOf(S.field);
-      page(`<h1>Climb the ladder</h1>
-        <p class="lead">Four sentences describe one skill at four levels. Put each on its rung and see what senior means. Five skills a game.</p>
-        <h2 style="margin-top:18px">Pick a field</h2>
-        <div class="cl-fields" role="group" aria-label="Fields">${D.groups.map(tile).join("")}<button type="button" class="cl-field any${S.field === "any" ? " on" : ""}" data-field="any" aria-pressed="${S.field === "any"}">Any field<span class="n">Five at random</span></button></div>
-        ${best ? `<p class="gm-best">Your best: <b>${esc(String(best.score))}</b> of ${MAX_SCORE} · ${esc(best.field)}</p>` : ""}
-        ${GS.foot({ primary: { id: "cl-start", label: picked ? `Start: ${esc(fieldLabel())}` : "Pick a field first", key: "Enter", disabled: !picked } })}`, { round: null, rounds: 0, role: "" });
-      $$("[data-field]").forEach(b => b.onclick = () => { S.field = b.dataset.field; GS.record.saveGame(SLUG, { lastField: S.field }); focusSel = `[data-field="${S.field}"]`; renderPick(); });
-      $("#cl-start").onclick = startGame;
+      GS.start(F, { title: "Climb the ladder", lead: `Four sentences describe one skill at four levels. Put each on its rung and see what senior means for ${roleLabel()}. Five skills a game.`, role: roleLabel(), play: startGame, change: renderPick, extra: best ? `<p class="gm-best">Your best: <b>${esc(String(best.score))}</b> of ${MAX_SCORE} · ${esc(best.role || best.field || "")}</p>` : "" });
+    }
+    function renderPick() {
+      S.screen = "pick";
+      GS.picker(F, { Atlas, roles: playable, field: (ix.roles[S.role] || {}).group, secondary: id => { const b = GS.record.game(SLUG).best; return b && b.roleId === id ? `Your best: ${b.score} of ${MAX_SCORE}` : "Not played yet"; }, back: true, onBack: renderStart, onRole: id => { S.role = id; GS.record.saveGame(SLUG, { lastRole: id }); startGame(); } });
     }
 
     // ---------- the game: five rounds ----------
     function startGame() {
-      if (!(S.field === "any" || fieldOf(S.field))) return;
-      const cands = S.field === "any" ? anyC : byField[S.field];
-      const { chosen, fromOther } = draw(cands, rng, anyC);
-      if (!chosen.length) { page(`<h1>Climb the ladder</h1><p class="lead">No ladder qualifies for this field yet.</p>${GS.foot({ primary: { id: "cl-back", label: "Pick another field" } })}`); $("#cl-back").onclick = renderPick; return; }
+      if (!S.role || !playable(S.role)) { renderPick(); return; }
+      GS.record.saveGame(SLUG, { lastRole: S.role });
+      const { chosen, fromOther } = drawForRole(candsOf(S.role), rng, anyC);
+      if (!chosen.length) { page(`<h1>Climb the ladder</h1><p class="lead">No ladder qualifies for ${esc(roleLabel())} yet.</p>${GS.foot({ primary: { id: "cl-back", label: "Pick another role" } })}`); $("#cl-back").onclick = renderPick; return; }
       S.game = { entries: chosen, fromOther, i: 0, results: [] };
       startRound();
     }
     function startRound() {
       const c = S.game.entries[S.game.i];
-      S.round = { c, e: c.e, order: shuffleOrder(4, rng), placed: [-1, -1, -1, -1], selected: null, checked: false, pts: null, revealed: false };
+      // the first skill of a game comes with its Entry sentence placed, as the example (CL1); the pile holds the other three
+      S.round = { c, e: c.e, order: shuffleOrder(4, rng), placed: S.game.i === 0 ? [0, -1, -1, -1] : [-1, -1, -1, -1], selected: null, checked: false, pts: null, revealed: false, given: S.game.i === 0 };
       focusSel = ".cl-pile .cl-line[data-id]";
       renderSort();
+      if (S.game.i === 0) GS.coachOnce(SLUG, $(".cl-board"), "Drag each sentence onto its rung, or select it and press the rung's key. The Entry sentence is placed for you.", "beforebegin");
     }
     const total = () => S.game.results.reduce((a, r) => a + r.total, 0);
     const marks = () => S.game.results.map(r => r.total >= 6 ? "ok" : r.total >= 3 ? "done" : "miss");
     function head() {
-      const { c, e } = S.round, g = c.field, i = S.game.i;
+      const { c, e } = S.round;
       const cluster = (M.clusters[e.cluster] || G.clusters[e.cluster] || { label: e.cluster }).label;
       const src = e.ladder ? `from postings, ${esc(lower1(ladderLabel(e, M)))} ladder` : "written by the atlas";
-      const where = S.field === "any" ? `${esc(g.label)} postings` : `${esc(g.label)} postings`;
+      const where = c.role ? `${esc(c.role.label)} postings` : `${esc(c.field.label)} postings`;
       return `<div class="cl-head"><div><p class="eyebrow">${esc(cluster)}</p><h1>${esc(e.name)}</h1>
         <p class="facts"><span class="cl-num">${pct(c.share)}</span> of ${where} ask for it · ${src}</p></div>
         <div class="cl-score">Score<b>${total() + (S.round.pts ? S.round.pts.total : 0)}</b>of ${MAX_SCORE}</div></div>`;
     }
     const lv = (e, k) => { const grade = gradeOf(e, M, KEYS[k]); return `<div class="lv"><kbd aria-hidden="true">${k + 1}</kbd>${LABELS[k]}${grade ? `<span class="grade">${esc(grade)}</span>` : ""}</div>`; };
     const rungAria = (e, k, text) => `Rung ${k + 1}, ${LABELS[k]}${gradeOf(e, M, KEYS[k]) ? ", " + gradeOf(e, M, KEYS[k]) : ""}, ${text ? "holds: " + text : "empty"}`;
-    const headState = () => ({ round: S.game.i, rounds: S.game.entries.length, marks: marks(), role: fieldLabel() });
+    const headState = () => ({ round: S.game.i, rounds: S.game.entries.length, marks: marks(), role: roleLabel() });
 
     // ---------- 2. sort ----------
     function renderSort() {
@@ -232,13 +245,13 @@
       const R = S.round, e = R.e, sel = R.selected;
       const left = R.placed.filter(p => p < 0).length;
       const line = i => `<button type="button" class="cl-line${sel === i ? " sel" : ""}" data-id="${i}" aria-pressed="${sel === i}" aria-label="${esc(e.rungs[i])}${R.placed[i] >= 0 ? `, on ${LABELS[R.placed[i]]}` : ""}. ${sel === i ? "Selected: press 1 to 4 to place it" : "Press Enter to select"}"><span class="grip" aria-hidden="true">⋮⋮</span><span>${esc(e.rungs[i])}</span></button>`;
-      const pile = R.order.map(i => R.placed[i] < 0 ? line(i) : `<div class="cl-line ghost" aria-hidden="true"><span class="grip"></span><span>On ${LABELS[R.placed[i]]}</span></div>`).join("");
+      const pile = R.order.map(i => R.placed[i] < 0 ? line(i) : `<div class="cl-line ghost" aria-hidden="true"><span class="grip"></span><span>${R.given && i === 0 && R.placed[0] === 0 ? "Placed for you, on Entry" : `On ${LABELS[R.placed[i]]}`}</span></div>`).join("");
       const slot = k => { const i = R.placed.indexOf(k); return i >= 0 ? `<div class="cl-slot filled" data-slot="${k}" role="group" aria-label="${esc(rungAria(e, k, e.rungs[i]))}">${line(i)}</div>` : `<div class="cl-slot" data-slot="${k}" role="group" aria-label="${esc(rungAria(e, k, null))}">${sel != null ? `Press ${k + 1} to put the selected sentence here` : "Empty"}</div>`; };
       const full = left === 0;
       page(`${head()}
         <div class="cl-board">
           <section>
-            <p class="cl-col-h"><span>Four sentences, shuffled</span><span>${left === 0 ? "All placed" : `${left} left`}</span></p>
+            <p class="cl-col-h"><span>${R.given ? "Three sentences, shuffled" : "Four sentences, shuffled"}</span><span>${left === 0 ? "All placed" : `${left} left`}</span></p>
             <div class="cl-pile">${pile}</div>
             <p class="gm-key">Drag a sentence onto a rung, or select it and press its rung's key.</p>
           </section>
@@ -308,7 +321,7 @@
         if (S.screen === "sort") check();
         else if (S.screen === "checked") next();
         else if (S.screen === "end") startGame();
-        else if (S.screen === "pick") startGame();
+        else if (S.screen === "start") startGame();
       },
       other(ev) {
         const t = ev.target;
@@ -379,10 +392,10 @@
     // ---------- 4. end: the measure in plain words, the change since last time, the five skills ----------
     function renderEnd() {
       S.screen = "end";
-      const t = total(), n = S.game.entries.length, label = fieldLabel();
+      const t = total(), n = S.game.entries.length, label = roleLabel();
       const was = GS.record.game(SLUG), prevBest = was.best && typeof was.best.score === "number" ? was.best : null, prevLast = was.lastScore;
       const isBest = !prevBest || t > prevBest.score;
-      GS.record.saveGame(SLUG, { played: true, lastScore: t, best: isBest ? { score: t, field: label, date: new Date().toISOString().slice(0, 10) } : prevBest, clean: true });
+      GS.record.saveGame(SLUG, { played: true, lastScore: t, best: isBest ? { score: t, role: label, roleId: S.role, date: new Date().toISOString().slice(0, 10) } : prevBest, clean: true });
       const dots = r => `<span class="cl-dots" aria-label="${r.pts.map((p, k) => `${LABELS[k]} ${p === 2 ? "right" : p === 1 ? "one off" : "two or more off"}`).join(", ")}">${r.pts.map(p => `<i class="${p === 2 ? "d-r" : p === 1 ? "d-h" : "d-w"}"></i>`).join("")}</span>`;
       const row = (r, k) => { const roles = topRoles(r.e.skillId, D, 2);
         const src = r.e.ladder ? `From postings · ${esc(lower1(ladderLabel(r.e, M)))} ladder` : "Written by the atlas";
@@ -391,7 +404,6 @@
           <span class="m">${src} · ${r.e.verbs.map(esc).join(" → ")}</span>
           <span class="ln">${how}<span class="roles">${roles.map(x => `<a href="#/role/${esc(x.id)}">${esc(x.label)}</a> <span class="cl-num">${pct(x.share)}</span>`).join(", ")}</span></span>
           ${r.e.build.length ? `<div class="cl-drawer" id="cl-drawer-${k}" hidden><ul class="plain">${r.e.build.map(b => `<li>${esc(b)}</li>`).join("")}</ul></div>` : ""}</div>`; };
-      const g = S.field !== "any" ? fieldOf(S.field) : null;
       const right = S.game.results.reduce((a, r) => a + r.pts.filter(p => p === 2).length, 0);
       const change = prevLast == null ? "Your first game." : t > prevLast ? `Up from ${prevLast} last time.` : t < prevLast ? `Down from ${prevLast} last time.` : `The same as last time.`;
       const rec = `${change}${isBest && prevBest ? " A new best." : prevBest ? ` Your best: <b>${prevBest.score}</b>.` : ""}`;
@@ -402,20 +414,20 @@
         takeaway: "Same skill, four different jobs. A title tells you the rung, not the job. Every role in the atlas shows what its postings ask for at each level: open one and pick a level.",
         visual: `<p class="cl-col-h"><span>Your five skills</span><span>Entry to Lead · points</span></p><div class="list cl-results">${S.game.results.map(row).join("")}</div>
           <p class="gm-key">Each square is one sentence, Entry to Lead: green on the right rung, faded green one rung off, amber two or more off. The roles are the two whose postings ask for the skill most.</p>`,
-        link: g ? { href: `#/field/${esc(g.id)}`, label: `Open ${g.label}` } : { href: "#/explore", label: "Explore the roles" },
-        foot: GS.foot({ primary: { id: "cl-again", label: "Play again", key: "Enter" }, quiet: { id: "cl-other", label: "Another field" } }),
+        link: { href: `#/role/${esc(S.role)}`, label: `Open ${label}` },
+        foot: GS.foot({ primary: { id: "cl-again", label: "Play again", key: "Enter" }, quiet: { id: "cl-other", label: "Change role" } }),
       }), { round: n, rounds: n, marks: marks(), role: label });
       F.focusMeasure();
       $("#cl-again").onclick = startGame;
-      $("#cl-other").onclick = () => { focusSel = "#cl-start"; renderPick(); };
+      $("#cl-other").onclick = renderPick;
       $$("[data-build]").forEach(b => b.onclick = () => { const d = $(`#cl-drawer-${b.dataset.build}`); d.hidden = !d.hidden; b.setAttribute("aria-expanded", String(!d.hidden)); });
     }
 
     // leaving the route: the game is lost (no resume in v1); listeners go with it
     const leave = () => { alive = false; offKeys(); if (drag && drag.ghost) drag.ghost.remove(); drag = null; window.removeEventListener("hashchange", leave); };
     window.addEventListener("hashchange", leave);
-    renderPick();
+    renderStart();
   }
 
-  return { mount, buildPool, candidates, anyCandidates, fieldShare, topRoles, draw, shuffleOrder, score, pointsFor, verdictWords, placeWords, verbChain, verbNote, newWords, markNew, tokens, jaccard, firstWord, buildSteps, RUNG_NAMES, KEYS, LABELS, MAX_OVERLAP, MIN_SHARE, MAX_SCORE };
+  return { mount, buildPool, candidates, roleCandidates, anyCandidates, fieldShare, topRoles, draw, drawForRole, shuffleOrder, score, pointsFor, verdictWords, placeWords, verbChain, verbNote, newWords, markNew, tokens, jaccard, firstWord, buildSteps, RUNG_NAMES, KEYS, LABELS, MAX_OVERLAP, MIN_SHARE, MAX_SCORE };
 });

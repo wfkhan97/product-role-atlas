@@ -2,8 +2,9 @@
    let the filler pass, hand in. Spec: games/what-it-asks/README.md. Pools mirror games/what-it-asks/pools.js through
    web/atlas.js. The Shift (skills pop up with a timer each) is the Speed round: the clock alone, no lives, no blown
    slots, no multiplier; it unlocks after a clean untimed round (web/gameshell.js: one header, Enter hands in, Esc
-   quits, one record). Registers window.Games["what-it-asks"] = { mount }; play() in app.js calls it. Params after "?"
-   in the hash: role=<id> (skip the picker), seed=<integer> (a fixed deal), debug=pools (the pool counts). */
+   quits, one record). Play first (WIA2): one sentence and Play on the default role; the shared picker behind "Change
+   role". Registers window.Games["what-it-asks"] = { mount }; play() in app.js calls it. Params after "?" in the hash:
+   role=<id>, seed=<integer> (a fixed deal), debug=pools (the pool counts). */
 (function () {
   "use strict";
   const SLUG = "what-it-asks", TITLE = "What does it ask for", HOME = "#/play/" + SLUG;
@@ -129,7 +130,7 @@
     // ---------- keys (the shell's convention), pause on blur ----------
     const offKeys = GS.keys({
       choose(n) { if (phase === "shift") { tap(n - 1); return true; } return false; },
-      confirm() { if (phase === "intro") begin(); else if (phase === "over") begin(); else if (phase === "steady") { SD.shown ? nextBoard() : handIn(); } },
+      confirm() { if (phase === "intro") begin(); else if (phase === "over") intro(); else if (phase === "steady") { SD.shown ? nextBoard() : handIn(); } },
       other(e) {
         if (phase !== "shift" || e.repeat) return;
         const i = KEYS.indexOf(e.code); if (i >= 4) { e.preventDefault(); tap(i); }
@@ -140,66 +141,36 @@
     on(window, "focus", () => pause(false));
 
     const ix = await Atlas.index(); if (!S.alive) return;
-    const productP = pools(Atlas);   // starts the product file now; the picker shows the MBA fields meanwhile
-    productP.catch(() => { });
+    const productP = pools(Atlas);
+    productP.then(p => { pools._cache = p; }, () => { });
 
     if (params.get("debug") === "pools") return debugPools(await productP);
-    const roleId = params.get("role");
-    if (!roleId) return picker();
-    if (!ix.roles[roleId] && !(await productP.then(p => p[roleId], () => null))) { if (S.alive) picker(`There is no role called “${roleId}”. Pick one below.`); return; }
     view.innerHTML = `<p class="subtle">Loading the role…</p>`;
     const P = await productP; if (!S.alive) return;
+    const playable = id => !!P[id] && !P[id].small && P[id].asks.length > 0;
+    // play first (WIA2): the default role unless the hash names one; "Change role" is the shared picker
+    const roleId = await GS.defaultRole(Atlas, playable); if (!S.alive) return;
+    if (!roleId) return picker("No role can be played yet.");
     pool = P[roleId];
-    if (!pool) return picker(`There is no role called “${roleId}”. Pick one below.`);
     return intro();
 
-    // ---------- 04 pick a role ----------
+    // ---------- 04 change role: the shared picker ----------
     function picker(notice) {
-      phase = "pick"; F.set({ round: null, rounds: 0, role: "" });
-      const you = youStore(), mine = ((you && you.fields) || []).find(f => ix.groups.some(g => g.id === f));
-      let field = mine || ix.groups[0].id, P = null;
-      const draw = () => {
-        const b = saved().best, g = ix.groups.find(x => x.id === field), loading = !P;
-        const ids = (g.roles || []).filter(id => ix.roles[id]).sort((a, c) => ix.roles[c].nOpen - ix.roles[a].nOpen);
-        const row = id => {
-          const r = ix.roles[id], p = P && P[id], best = b[id] && (b[id].steady || b[id].shift);
-          const m = r.small ? `<span class="small-n">A small sample: ${fmt(r.n)} postings in all. The shares can move a lot week to week.</span>` : best ? `<span class="best">Your best: ${esc(bestLine(best))}</span>` : "Not played yet";
-          return `<a class="r" href="${HOME}?role=${encodeURIComponent(id)}"><span class="t">${esc(r.label)}</span><span class="n">${p ? `${p.asks.length} skills to know · ` : ""}${fmt(r.nOpen)} open</span><span class="m">${m}</span></a>`;
-        };
-        view.innerHTML = `<section class="wia-card wia-pick">
-          <h1>What does it ask for</h1>
-          <p class="lead">Pick a role. Each board mixes the skills its postings ask for with filler from other roles.</p>
-          ${notice ? `<p class="small wia-amber">${esc(notice)}</p>` : ""}
-          <div class="chips" style="margin-top:18px" role="group" aria-label="Field"><span class="lbl">Field</span>${ix.groups.map(x => `<button class="chip${x.id === field ? " on" : ""}" type="button" data-field="${esc(x.id)}" aria-pressed="${x.id === field}">${esc(x.label)}<span class="n">${x.id === "product" && loading ? "…" : (x.roles || []).length}</span></button>`).join("")}</div>
-          ${loading ? `<p class="small subtle" style="margin:0">Loading product roles</p>` : ""}
-          <div class="list" style="margin-top:14px">${ids.map(row).join("") || `<p class="small subtle" style="padding:11px 0;margin:0">${loading ? "Loading product roles" : "No roles here yet."}</p>`}</div>
-          ${GS.foot({ quiet: { id: "wia-surprise", label: "Surprise me" } })}</section>`;
-        el.querySelectorAll("[data-field]").forEach(bt => bt.onclick = () => { field = bt.dataset.field; draw(); el.querySelector(`[data-field="${CSS.escape(field)}"]`).focus(); });
-        el.querySelector("#wia-surprise").onclick = () => {
-          const ids = Object.values(ix.roles).filter(r => !r.small && (P ? P[r.id] : r.set === "mba")).map(r => r.id);
-          location.hash = `${HOME}?role=${encodeURIComponent(ids[Math.floor(Math.random() * ids.length)])}`;
-        };
-      };
-      draw();
-      productP.then(p => { if (S.alive && phase === "pick") { P = p; const f = document.activeElement && document.activeElement.dataset && document.activeElement.dataset.field; draw(); if (f) el.querySelector(`[data-field="${CSS.escape(f)}"]`).focus(); } }, () => { });
+      phase = "pick";
+      GS.picker(F, { Atlas, roles: id => { const p = pools._cache && pools._cache[id]; return p ? !p.small && p.asks.length > 0 : !!ix.roles[id]; }, field: pool ? pool.group : undefined, lead: notice || "Pick a field, then a role.", secondary: id => { const b = (saved().best[id] || {}).steady; return b ? `Your best: ${bestLine(b)} known` : "Not played yet"; }, back: !!pool, onBack: () => intro(), onRole: id => { location.hash = `${HOME}?role=${encodeURIComponent(id)}`; } });
     }
 
-    // ---------- 01 the start: one sentence, Start, the Speed round once unlocked ----------
+    // ---------- 01 the start: one sentence and Play, the Speed round once unlocked, Change role ----------
     function intro() {
-      phase = "intro"; F.set({ round: null, rounds: 0, role: pool.label });
+      phase = "intro";
       const sv = saved(), b = (sv.best[pool.id] || {}).steady, few = pool.asks.length <= 12;
       mode = sv.clean && sv.speed ? "shift" : "steady";
-      view.innerHTML = `<section class="wia-card">
-        <h1>Pick what ${esc(pool.label)} postings ask for</h1>
-        <p class="lead">Three boards of sixteen skills. Some are what ${esc(pool.label)} postings really ask for; the rest is filler from other roles. Pick the real asks, hand in, see.</p>
-        ${few ? `<p class="small wia-amber" style="margin:0">${esc(pool.label)} postings agree on few skills: ${pool.asks.length} reach 40%. Expect to see them twice.</p>` : ""}
-        ${pool.small ? `<p class="small subtle" style="margin:0">A small sample: ${fmt(pool.n)} postings in all. The shares can move a lot week to week.</p>` : ""}
-        ${sv.clean ? `<div class="chips" role="group" aria-label="Round"><button class="chip${mode === "steady" ? " on" : ""}" type="button" data-mode="steady" aria-pressed="${mode === "steady"}">Untimed</button><button class="chip${mode === "shift" ? " on" : ""}" type="button" data-mode="shift" aria-pressed="${mode === "shift"}">Speed round<span class="n">50 s, the skills pop up one by one</span></button></div>` : `<p class="small muted">Untimed. A Speed round, 50 seconds with the skills popping up one by one, unlocks after a round that knows half the asks.</p>`}
-        ${b ? `<p class="gm-best">Your best for ${esc(pool.label)}: <b>${esc(bestLine(b))}</b> skills known</p>` : ""}
-        ${GS.foot({ primary: { id: "wia-go", label: mode === "shift" ? "Start the Speed round" : "Start", key: "Enter" }, quiet: { href: HOME, label: "Change role" } })}
-      </section>`;
+      const extra = `${few ? `<p class="small wia-amber" style="margin:0 0 8px">${esc(pool.label)} postings agree on few skills: ${pool.asks.length} reach 40%. Expect to see them twice.</p>` : ""}
+        ${pool.small ? `<p class="small subtle" style="margin:0 0 8px">A small sample: ${fmt(pool.n)} postings in all. The shares can move a lot week to week.</p>` : ""}
+        ${sv.clean ? `<div class="chips" role="group" aria-label="Round"><button class="chip${mode === "steady" ? " on" : ""}" type="button" data-mode="steady" aria-pressed="${mode === "steady"}">Untimed</button><button class="chip${mode === "shift" ? " on" : ""}" type="button" data-mode="shift" aria-pressed="${mode === "shift"}">Speed round<span class="n">50 s, the skills pop up one by one</span></button></div>` : ""}
+        ${b ? `<p class="gm-best">Your best for ${esc(pool.label)}: <b>${esc(bestLine(b))}</b> skills known</p>` : ""}`;
+      GS.start(F, { title: "What does it ask for", lead: `Three boards of sixteen skills. Some are what ${pool.label} postings really ask for; the rest is filler from other roles. Pick the real asks, hand in, see.`, role: pool.label, playLabel: mode === "shift" ? `Speed round · ${esc(pool.label)}` : `Play · ${esc(pool.label)}`, play: begin, change: () => picker(), extra });
       el.querySelectorAll("[data-mode]").forEach(bt => bt.onclick = () => { GS.record.saveGame(SLUG, { speed: bt.dataset.mode === "shift" }); intro(); el.querySelector(`[data-mode="${bt.dataset.mode}"]`).focus(); });
-      el.querySelector("#wia-go").onclick = begin;
     }
     function begin() { rnd = mulberry32(seed0 + plays++); return mode === "shift" ? shift() : steady(); }
 
@@ -323,6 +294,7 @@
       phase = "steady"; F.set({ round: 0, rounds: 3, role: pool.label });
       SD = { boards: steadyBoards(pool, rnd), b: 0, picked: new Set(), shown: false, knew: new Set(), blown: 0, seen: 0, tapped: [], focus: 0, marks: [] };
       drawSteady(); el.querySelector('#wia-board [data-i="0"]').focus();
+      GS.coachOnce(SLUG, el.querySelector(".wia-steady"), `Pick every skill that at least 40% of ${pool.label} postings ask for and leave the filler, then hand in. Arrow keys move, Space picks.`, "beforebegin");
     }
     function drawSteady() {
       const tiles = SD.boards[SD.b], n = SD.b + 1, shown = SD.shown;
@@ -394,9 +366,10 @@
         visual: `${chips ? `<h3>The ones you missed</h3><div class="wia-chips">${chips}</div><p class="gm-key">${esc(R.missedLine)} Percentages are the share of ${esc(pool.label)} postings that ask.</p>` : `<h3>You missed none</h3>`}
           ${wrong ? `<h3 style="margin-top:14px">Filler you ${R.mode === "shift" ? "tapped" : "picked"}</h3><div class="wia-chips">${wrong}</div>` : ""}`,
         link: { href: `#/role/${encodeURIComponent(pool.id)}`, label: `Open ${pool.label}` },
-        foot: GS.foot({ primary: { id: "wia-again", label: "Play again", key: "Enter" }, quiet: { href: HOME, label: "Another role" } }),
+        foot: GS.foot({ primary: { id: "wia-again", label: "Play again", key: "Enter" }, quiet: { id: "wia-change", label: "Change role" } }),
       });
       el.querySelector("#wia-again").onclick = () => intro();
+      el.querySelector("#wia-change").onclick = () => picker();
       F.focusMeasure();
     }
 
