@@ -38,10 +38,10 @@ const EXPECT = {
     rank: "Navigator",
   },
   supply: {
-    start: "Vendor, budget & contract management", par: 4, short: 3,
-    biggest: ["Program & project management", "Risk & dependency management", "Regulated industries & compliance", "Payments, fintech & banking", "Financial modeling & analysis", "Business cases & ROI"],
+    start: "Vendor, budget & contract management", par: 4, short: 2,
+    biggest: ["Risk & dependency management", "Program & project management", "Energy, industrial & manufacturing", "Process design & operational rigor", "Metrics & KPIs", "Customer obsession / user empathy"],
   },
-  pools: { field: { easy: 90, normal: 320, hard: 50 }, role: { easy: 476, normal: 1431, hard: 218 } },
+  pools: { field: { easy: 89, normal: 318, hard: 47 }, role: { easy: 451, normal: 1445, hard: 217 } },
   roles: 54,
 };
 
