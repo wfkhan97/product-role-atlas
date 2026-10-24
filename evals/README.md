@@ -257,6 +257,28 @@ The expected numbers are today's data. After a data refresh `skill_path.mjs` pri
 the passages moves a simulated reader off its band, `game_spot_scoring.mjs` fails: retune `RANKS` in
 `web/games/spot-the-real-ask.js` and the rank tables in `games/spot-the-real-ask/README.md` together.
 
+## Taxonomy evals
+
+The stratified taxonomy (`PLAN.md`, "A stratified taxonomy") adds a `kind` to every skill, an evidence entry per skill
+(`pipeline/evidence.json`) and a field entry per skill and field for the skills most fields ask for
+(`pipeline/fields.json`). The files are hand-written; the eval checks them against the postings.
+
+```bash
+.venv/bin/python evals/run_taxonomy.py              # all parts; exit 1 when a check fails
+.venv/bin/python evals/run_taxonomy.py --baseline   # also rewrite taxonomy_baseline.md (commit it with the change)
+```
+
+| part | what it guards |
+|---|---|
+| shape | `pipeline.tax.validate`: every skill has a kind from `KINDS`; every skill has an evidence entry with a known form, list fields and carriers that are skills of a carrier kind (method, practice, technical, knowledge), not itself; a behaviour names three or more carriers; a tool or credential is `named`; every field entry names one of the 11 fields, two to six carriers, a reading under 25 words and a resume line under 30 words with a number. |
+| coverage | A skill that at least four fields ask for (mean share over the field's roles at least 25%) has an entry for every field that asks for it; no entry exists for a field that asks for the skill in under 10% of its postings; tools and credentials have none. |
+| grounding | Each carrier a field entry names is asked for together with the skill in at least 15% of the field's US postings that ask for the skill, company-balanced. The baseline prints, beside each entry's carriers, the five carriers the postings rank highest (share times log-lift), so a reader can see where the hand and the data differ. |
+| carriers | Each carrier a behaviour's evidence names is asked for with the behaviour in at least 10% of some field's postings that ask for it. A carrier is field-specific (pitch books carry communication in banking), so this is the maximum over fields. |
+
+**What these evals do not show.** The carriers are checked against postings, which say what employers ask for together,
+not what a resume reader accepts as evidence. The readings and resume lines are editorial; no reader has judged them.
+The thresholds were set once on the data of 2026-10-24.
+
 ## Evals to build
 
 The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a

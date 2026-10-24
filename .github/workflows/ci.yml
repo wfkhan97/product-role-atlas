@@ -35,3 +35,5 @@ jobs:
         run: node evals/run.mjs
       - name: Pipeline evals
         run: python evals/run_pipeline.py
+      - name: Taxonomy evals
+        run: python evals/run_taxonomy.py

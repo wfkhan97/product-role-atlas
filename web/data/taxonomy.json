@@ -46,6 +46,7 @@
    "id": "roadmap",
    "name": "Roadmapping",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "roadmap"
    ]
@@ -54,6 +55,7 @@
    "id": "product_strategy",
    "name": "Product strategy",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "product strateg",
     "strategic (direction|vision|plan)",
@@ -69,6 +71,7 @@
    "id": "product_vision",
    "name": "Product vision",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "product vision",
     "\\bvision\\b.{0,30}\\bproduct\\b",
@@ -84,6 +87,7 @@
    "id": "prioritization",
    "name": "Prioritization & trade-offs",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "prioriti[sz]",
     "trade-?offs?",
@@ -95,6 +99,7 @@
    "id": "prd",
    "name": "PRDs & requirements writing",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "\\bPRDs?\\b",
     "product requirements? doc",
@@ -113,6 +118,7 @@
    "id": "product_lifecycle",
    "name": "End-to-end product lifecycle",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "product (development )?life-?cycle",
     "end[- ]to[- ]end (ownership|product|delivery|experience|process)",
@@ -128,6 +134,7 @@
    "id": "launch",
    "name": "Product launches",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "product launch",
     "launch(ed|ing)? (new )?(products|features|programs|capabilities|services)",
@@ -150,6 +157,7 @@
    "id": "feature_definition",
    "name": "Feature definition & scoping",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "defin(e|ing) (features|scope|requirements)",
     "scop(e|ing) (features|work|projects)",
@@ -162,6 +170,7 @@
    "id": "customer_obsession",
    "name": "Customer obsession / user empathy",
    "cluster": "craft",
+   "kind": "behaviour",
    "patterns": [
     "customer[- ]obsess",
     "customer[- ]centric",
@@ -182,6 +191,7 @@
    "id": "product_sense",
    "name": "Product sense & judgment",
    "cluster": "craft",
+   "kind": "behaviour",
    "patterns": [
     "product sense",
     "product (intuition|taste|judg[e]?ment|instinct)",
@@ -194,6 +204,7 @@
    "id": "ux_design_collab",
    "name": "UX & design collaboration",
    "cluster": "craft",
+   "kind": "practice",
    "patterns": [
     "\\bUX\\b",
     "user experience",
@@ -211,6 +222,7 @@
    "id": "problem_solving",
    "name": "Structured problem solving",
    "cluster": "craft",
+   "kind": "behaviour",
    "patterns": [
     "problem[- ]solv",
     "first[- ]principles",
@@ -228,6 +240,7 @@
    "id": "okrs",
    "name": "OKRs & goal setting",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "\\bOKRs?\\b",
     "objectives and key results",
@@ -240,6 +253,7 @@
    "id": "pricing_packaging",
    "name": "Pricing & packaging",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "pricing",
     "packaging",
@@ -252,6 +266,7 @@
    "id": "gtm",
    "name": "Go-to-market strategy",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "go[- ]to[- ]market",
     "\\bGTM\\b",
@@ -264,6 +279,7 @@
    "id": "market_research",
    "name": "Market & competitive analysis",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "market (research|analysis|sizing|trends|landscape|opportunit)",
     "competitive (analysis|landscape|intelligence|research|positioning)",
@@ -277,6 +293,7 @@
    "id": "positioning_messaging",
    "name": "Positioning & messaging",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "positioning",
     "messaging",
@@ -289,6 +306,7 @@
    "id": "sales_enablement",
    "name": "Sales enablement & field partnership",
    "cluster": "gtm",
+   "kind": "practice",
    "patterns": [
     "sales (enablement|team|partner|org)",
     "enable(ment)? (the )?(sales|field)",
@@ -303,6 +321,7 @@
    "id": "customer_success",
    "name": "Customer success & support partnership",
    "cluster": "gtm",
+   "kind": "practice",
    "patterns": [
     "customer success",
     "customer support",
@@ -315,6 +334,7 @@
    "id": "partnerships",
    "name": "Partnerships & ecosystem",
    "cluster": "gtm",
+   "kind": "practice",
    "patterns": [
     "partnerships\\b|(?<!in )(?<!in close )(?<!close )(?<!business )partnership\\b(?! with\\b)",
     "partner ecosystem",
@@ -330,6 +350,7 @@
    "id": "business_case",
    "name": "Business cases & ROI",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "business case",
     "\\bROI\\b",
@@ -344,6 +365,7 @@
    "id": "pnl",
    "name": "P&L / revenue ownership",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "\\bP&L\\b",
     "profit and loss",
@@ -359,6 +381,7 @@
    "id": "growth_loops",
    "name": "Growth, funnels & retention",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "growth (strategy|loop|lever|initiative|team|product)",
     "\\bfunnel\\b",
@@ -377,6 +400,7 @@
    "id": "customer_interviews",
    "name": "Customer interviews",
    "cluster": "discovery",
+   "kind": "method",
    "patterns": [
     "customer interview",
     "user interview",
@@ -390,6 +414,7 @@
    "id": "user_research",
    "name": "User research",
    "cluster": "discovery",
+   "kind": "method",
    "patterns": [
     "user research",
     "customer research",
@@ -410,6 +435,7 @@
    "id": "discovery",
    "name": "Product discovery & validation",
    "cluster": "discovery",
+   "kind": "method",
    "patterns": [
     "product discovery",
     "\\bdiscovery\\b",
@@ -427,6 +453,7 @@
    "id": "personas_jtbd",
    "name": "Personas & segmentation",
    "cluster": "discovery",
+   "kind": "method",
    "patterns": [
     "\\bpersonas?\\b",
     "segment(ation|s)",
@@ -439,6 +466,7 @@
    "id": "surveys_feedback",
    "name": "Surveys & feedback loops",
    "cluster": "discovery",
+   "kind": "method",
    "patterns": [
     "(?<!salary )(?<!compensation )(?<!pay )(?<!market )survey",
     "\\bNPS\\b",
@@ -455,6 +483,7 @@
    "id": "metrics_kpis",
    "name": "Metrics & KPIs",
    "cluster": "analytics",
+   "kind": "method",
    "patterns": [
     "\\bKPIs?\\b",
     "key performance",
@@ -471,6 +500,7 @@
    "id": "data_driven",
    "name": "Data-driven decision making",
    "cluster": "analytics",
+   "kind": "behaviour",
    "patterns": [
     "data[- ]driven",
     "data[- ]informed",
@@ -487,6 +517,7 @@
    "id": "ab_testing",
    "name": "A/B testing & experimentation",
    "cluster": "analytics",
+   "kind": "method",
    "patterns": [
     "a/b test",
     "\\bab test",
@@ -503,6 +534,7 @@
    "id": "sql",
    "name": "SQL",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bSQL\\b",
     "query(ing)? data",
@@ -513,6 +545,7 @@
    "id": "python_r",
    "name": "Python / R / scripting",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bpython\\b",
     "\\bR\\b(?= |,|/)",
@@ -526,6 +559,7 @@
    "id": "data_modeling",
    "name": "Data modeling & pipelines",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "data (model|pipeline|warehouse|lake|platform|infrastructure|architecture|engineering)",
     "\\bETL\\b",
@@ -544,6 +578,7 @@
    "id": "statistics",
    "name": "Statistics & forecasting",
    "cluster": "analytics",
+   "kind": "method",
    "patterns": [
     "statistic(s|al)\\b",
     "(?<!budget and )(?<!budget & )(?<!plan and )(?<!budget )(?<!budgets and )(?<!budgeting and )(?<!budgeting, )(?<!budgeting & )(?<!financial )(?<!revenue )(?<!sales )(?<!cash )(?<!expense )(?<!cost )(?<!headcount )(?<!quarterly )(?<!annual )(?<!rolling )forecast(?!s? (vs\\.?|versus|to actuals?|and budget|accuracy and budget))",
@@ -559,6 +594,7 @@
    "id": "financial_analysis",
    "name": "Financial modeling & analysis",
    "cluster": "analytics",
+   "kind": "method",
    "patterns": [
     "financial model",
     "financial analysis",
@@ -573,6 +609,7 @@
    "id": "technical_fluency",
    "name": "Technical fluency",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "technical (background|depth|acumen|fluency|understanding|knowledge|aptitude|proficiency|expertise|skills|foundation)",
     "technically (fluent|savvy|proficient|strong)",
@@ -590,6 +627,7 @@
    "id": "apis",
    "name": "APIs & integrations",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bAPIs?\\b",
     "(?<!merger )(?<!acquisition )(?<!acquisitions )(?<!m&a )(?<!post-merger )(?<!post-close )(?<!post-deal )(?<!business )(?<!company )(?<!process )(?<!marketing )(?<!brand )(?<!touchpoint )(?<!cultural )(?<!organizational )(?<!operational )integrations\\b(?!,? (and|or|&|/) ?(separations?|divestitures?|carve[- ]outs?|spin[- ]offs?))",
@@ -613,6 +651,7 @@
    "id": "system_architecture",
    "name": "Systems & architecture",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "architecture",
     "system design",
@@ -637,6 +676,7 @@
    "id": "cloud",
    "name": "Cloud platforms",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bcloud\\b",
     "\\bAWS\\b",
@@ -660,6 +700,7 @@
    "id": "ai_ml",
    "name": "AI / machine learning",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "machine learning",
     "\\bML\\b",
@@ -678,6 +719,7 @@
    "id": "genai_llm",
    "name": "Generative AI / LLMs & agents",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bLLMs?\\b",
     "large language model",
@@ -714,6 +756,7 @@
    "id": "mobile",
    "name": "Mobile platforms",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bmobile\\b",
     "\\biOS\\b",
@@ -727,6 +770,7 @@
    "id": "security_privacy",
    "name": "Security & privacy",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "cyber ?security",
     "(application|cloud|product|platform|network|data|information|enterprise) security",
@@ -754,6 +798,7 @@
    "id": "devops_sdlc",
    "name": "SDLC, DevOps & CI/CD",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bSDLC\\b",
     "software development life",
@@ -773,6 +818,7 @@
    "id": "hardware",
    "name": "Hardware, devices & embedded",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "hardware",
     "firmware",
@@ -800,6 +846,7 @@
    "id": "networking",
    "name": "Networking & connectivity",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "network (infrastructure|protocols|equipment|engineering|security|operations|products|services|hardware)|networking (products|hardware|stack|protocols|equipment)|\\bSD-?WAN\\b|wi-?fi",
     "\\b5G\\b",
@@ -818,6 +865,7 @@
    "id": "automotive_autonomy",
    "name": "Automotive, autonomy & robotics",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "self[- ]driving",
     "\\bADAS\\b",
@@ -838,6 +886,7 @@
    "id": "fintech",
    "name": "Payments, fintech & banking",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "payments?\\b",
     "fintech",
@@ -873,6 +922,7 @@
    "id": "healthcare",
    "name": "Healthcare & life sciences",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "health ?care",
     "clinical",
@@ -901,6 +951,7 @@
    "id": "ecommerce_retail",
    "name": "E-commerce, retail & marketplaces",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "e-?commerce",
     "retail",
@@ -921,6 +972,7 @@
    "id": "supply_chain",
    "name": "Supply chain, logistics & operations",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "supply chain",
     "logistics",
@@ -941,6 +993,7 @@
    "id": "ads_media",
    "name": "Advertising & media",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "advertis",
     "\\bads\\b",
@@ -963,6 +1016,7 @@
    "id": "enterprise_saas",
    "name": "Enterprise SaaS & B2B",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "\\bB2B\\b",
     "enterprise (software|customers|SaaS|product|sales|grade|scale)",
@@ -979,6 +1033,7 @@
    "id": "consumer",
    "name": "Consumer products & B2C",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "\\bB2C\\b",
     "consumer (product|app|experience|facing|internet|tech|brand|hardware)",
@@ -996,6 +1051,7 @@
    "id": "energy_industrial",
    "name": "Energy, industrial & manufacturing",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "energy (industry|sector|markets?|systems|storage|grid|management|utilities|companies|transition|products)|renewable energy|oil (and|&) gas|utilities (industry|sector|customers)",
     "oil and gas",
@@ -1015,6 +1071,7 @@
    "id": "telecom",
    "name": "Telecommunications",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "telecom",
     "wireless carrier",
@@ -1028,6 +1085,7 @@
    "id": "developer_tools",
    "name": "Developer tools & infrastructure products",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "developer (tools|experience|platform|productivity|ecosystem)",
     "\\bdevtools?\\b",
@@ -1042,6 +1100,7 @@
    "id": "public_sector",
    "name": "Regulated industries & compliance",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "public[- ]sector",
     "government (agencies|customers|contracts|clients|entities|programs|services|partners)",
@@ -1060,6 +1119,7 @@
    "id": "cross_functional",
    "name": "Cross-functional leadership",
    "cluster": "leadership",
+   "kind": "practice",
    "patterns": [
     "cross[- ]functional",
     "cross[- ]team",
@@ -1075,6 +1135,7 @@
    "id": "stakeholder_mgmt",
    "name": "Stakeholder management",
    "cluster": "leadership",
+   "kind": "practice",
    "patterns": [
     "stakeholder",
     "manag(e|ing) (up|expectations)",
@@ -1091,6 +1152,7 @@
    "id": "influence",
    "name": "Influence without authority",
    "cluster": "leadership",
+   "kind": "behaviour",
    "patterns": [
     "influenc",
     "without (direct )?authority",
@@ -1106,6 +1168,7 @@
    "id": "communication",
    "name": "Written & verbal communication",
    "cluster": "leadership",
+   "kind": "behaviour",
    "patterns": [
     "communicat",
     "written and verbal",
@@ -1129,6 +1192,7 @@
    "id": "exec_communication",
    "name": "Executive communication & reviews",
    "cluster": "leadership",
+   "kind": "practice",
    "patterns": [
     "executive (communication|presentation|presence|review|summar|update|audience|briefing)",
     "board (meeting|presentation|level|of directors)",
@@ -1146,6 +1210,7 @@
    "id": "people_management",
    "name": "People management & coaching",
    "cluster": "leadership",
+   "kind": "practice",
    "patterns": [
     "manag(e|ing) (a team|teams|PMs|product managers|people|direct reports)",
     "people manage",
@@ -1173,6 +1238,7 @@
    "id": "ownership",
    "name": "Ownership & bias for action",
    "cluster": "leadership",
+   "kind": "behaviour",
    "patterns": [
     "ownership",
     "\\bown (the|a|an|our|your|and|end-to-end|product|roadmap|strategy|outcomes|results|delivery|key|critical|all)\\b",
@@ -1196,6 +1262,7 @@
    "id": "adaptability",
    "name": "Adaptability & fast-paced environments",
    "cluster": "leadership",
+   "kind": "behaviour",
    "patterns": [
     "fast[- ]paced",
     "fast[- ]moving",
@@ -1218,6 +1285,7 @@
    "id": "collaboration",
    "name": "Collaboration & teamwork",
    "cluster": "leadership",
+   "kind": "behaviour",
    "patterns": [
     "collaborat",
     "team ?player",
@@ -1236,6 +1304,7 @@
    "id": "customer_facing_exec",
    "name": "Customer & executive-facing engagement",
    "cluster": "leadership",
+   "kind": "practice",
    "patterns": [
     "customer[- ]facing",
     "meet(ing)? with customers",
@@ -1255,6 +1324,7 @@
    "id": "agile_scrum",
    "name": "Agile / Scrum",
    "cluster": "delivery",
+   "kind": "method",
    "patterns": [
     "\\bagile\\b",
     "\\bscrum\\b",
@@ -1277,6 +1347,7 @@
    "id": "program_mgmt",
    "name": "Program & project management",
    "cluster": "delivery",
+   "kind": "practice",
    "patterns": [
     "program management",
     "project management",
@@ -1302,6 +1373,7 @@
    "id": "risk_mgmt",
    "name": "Risk & dependency management",
    "cluster": "delivery",
+   "kind": "practice",
    "patterns": [
     "risk (management|mitigation|assessment|identification|register|analysis)",
     "mitigat",
@@ -1319,6 +1391,7 @@
    "id": "execution",
    "name": "Execution & delivery",
    "cluster": "delivery",
+   "kind": "behaviour",
    "patterns": [
     "execution",
     "execut(e|ing) (on|against)",
@@ -1340,6 +1413,7 @@
    "id": "process_improvement",
    "name": "Process design & operational rigor",
    "cluster": "delivery",
+   "kind": "method",
    "patterns": [
     "process (improvement|design|optimization|definition|documentation|standardi[sz]ation|excellence|re-?engineering)",
     "operating (model|cadence|rhythm|mechanisms)",
@@ -1362,6 +1436,7 @@
    "id": "quality_testing",
    "name": "Quality, testing & acceptance",
    "cluster": "delivery",
+   "kind": "method",
    "patterns": [
     "\\bQA\\b",
     "quality assurance",
@@ -1380,6 +1455,7 @@
    "id": "vendor_mgmt",
    "name": "Vendor, budget & contract management",
    "cluster": "delivery",
+   "kind": "practice",
    "patterns": [
     "vendor (management|selection|relationships?|contracts?|evaluation|negotiations?|partners)|vendors and partners|third[- ]party vendors?",
     "supplier",
@@ -1397,6 +1473,7 @@
    "id": "jira",
    "name": "Jira / Confluence / Asana / Linear",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bjira\\b",
     "confluence",
@@ -1417,6 +1494,7 @@
    "id": "figma",
    "name": "Figma / design tools",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bfigma\\b",
     "\\bsketch\\b",
@@ -1432,6 +1510,7 @@
    "id": "analytics_tools",
    "name": "Analytics tools (Amplitude, Mixpanel, GA, Looker, Tableau)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "amplitude",
     "mixpanel",
@@ -1457,6 +1536,7 @@
    "id": "experimentation_tools",
    "name": "Experimentation & feature-flag tools",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "optimizely",
     "launchdarkly",
@@ -1472,6 +1552,7 @@
    "id": "office_tools",
    "name": "Office suite (Excel, PowerPoint, Google Workspace)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bexcel\\b",
     "powerpoint",
@@ -1488,6 +1569,7 @@
    "id": "crm_tools",
    "name": "CRM & GTM tools (Salesforce, HubSpot, Gong)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "(with|using|in|of) Salesforce|Salesforce (CRM|admin|platform|experience)",
     "hubspot",
@@ -1505,6 +1587,7 @@
    "id": "ai_tools",
    "name": "AI tooling in daily work",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bAI tools?\\b",
     "AI-?powered (tools|workflow|development)",
@@ -1526,6 +1609,7 @@
    "id": "yoe_2",
    "name": "2+ years experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\b(2|two|1-2|1 ?- ?3|2-3|2 ?- ?4|2\\+?)\\+? ?(years|yrs)"
    ]
@@ -1534,6 +1618,7 @@
    "id": "yoe_3",
    "name": "3+ years experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\b(3|three|3-5|3 ?- ?6|3\\+?)\\+? ?(years|yrs)"
    ]
@@ -1542,6 +1627,7 @@
    "id": "yoe_5",
    "name": "5+ years experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\b(5|five|4|four|5-7|5 ?- ?8|4-6|5\\+?|6|six|4\\+?)\\+? ?(years|yrs)"
    ]
@@ -1550,6 +1636,7 @@
    "id": "yoe_8",
    "name": "8+ years experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\b(7|seven|8|eight|7\\+?|8\\+?|8-10|7-10|9|nine)\\+? ?(years|yrs)"
    ]
@@ -1558,6 +1645,7 @@
    "id": "yoe_10",
    "name": "10+ years experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\b(10|ten|12|twelve|15|fifteen|10\\+?|12\\+?|15\\+?|10-15)\\+? ?(years|yrs)"
    ]
@@ -1566,6 +1654,7 @@
    "id": "pm_experience",
    "name": "Prior product management experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "experience (in|as a|with) (a )?(technical )?product manage",
     "product management experience",
@@ -1580,6 +1669,7 @@
    "id": "bachelors",
    "name": "Bachelor's degree",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "bachelor",
     "\\bBA/BS\\b",
@@ -1598,6 +1688,7 @@
    "id": "masters_mba",
    "name": "Master's / MBA",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bMBA\\b",
     "master'?s",
@@ -1612,6 +1703,7 @@
    "id": "phd",
    "name": "PhD / research background",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bPh\\.?D\\b",
     "doctorate",
@@ -1623,6 +1715,7 @@
    "id": "cs_engineering_degree",
    "name": "CS / engineering degree or background",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "computer science",
     "\\bCS\\b",
@@ -1641,6 +1734,7 @@
    "id": "startup_experience",
    "name": "Startup / scale-up experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "start-?up (experience|environment|background)",
     "early[- ]stage",
@@ -1657,6 +1751,7 @@
    "id": "big_tech_experience",
    "name": "Large-scale / big-tech experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "large[- ]scale (systems|products|platforms|organizations|programs)",
     "global scale",
@@ -1673,6 +1768,7 @@
    "id": "consulting_banking",
    "name": "Consulting / banking / finance background",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "consulting",
     "\\bMBB\\b",
@@ -1692,6 +1788,7 @@
    "id": "security_clearance",
    "name": "Security clearance / citizenship",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "clearance",
     "\\bITAR\\b",
@@ -1705,6 +1802,7 @@
    "id": "domain_expertise",
    "name": "Deep domain expertise required",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "domain (expertise|knowledge|experience|expert)",
     "subject[- ]matter expert",
