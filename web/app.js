@@ -174,13 +174,20 @@
       <div class="cover big"><img src="${esc(gm.cover)}" alt="${esc(gm.title)}, an early design" onerror="this.remove()"><span class="ph-t">${esc(gm.title)}</span></div>
       <div class="row" style="margin-top:16px"><a class="btn" href="#/">← All games</a><a class="btn quiet" href="#/explore">Explore the roles</a></div>`, true);
   }
-  // ---------- 2. tell us about you: two questions and an optional resume (owner's choice Y2: the "what are you
-  // looking for" question changed nothing on screen, so it is gone), then a summary of what we know (Y3) ----------
+  // ---------- 2. tell us about you: three questions and an optional resume, then a summary of what we know (Y3) ----------
+  // Owner's decisions (2026-10-24): the program options are the ones Cornell Tech and IE New York offer, folded to the
+  // five groups the postings can say something about (the beachhead: no law, PhD or undergrad for now, no "working");
+  // the second question is the person's stage in the search, which decides what the role page's rail leads with
+  // (the earlier "what are you looking for" question, owner's choice Y2, changed nothing on screen; this one does).
   const Q = [
-    { key: "where", title: "Where are you right now?", options: [["mba", "In an MBA programme"], ["grad", "In another master's or PhD programme"], ["undergrad", "In undergrad"], ["working", "Working, thinking about a change"]] },
-    { key: "fields", title: "Which fields interest you?", multi: true, hint: "Pick as many as you like, or none. We add the fields your resume points to." },
+    { key: "where", title: "What are you studying?", options: [["business", "Business, management or finance", "MBA, Tech MBA, Master in Management, Master in Finance"], ["analytics", "Analytics or data science", "MSBA, Business Analytics & AI, Data Science & Decision Analytics, ORIE"], ["cs", "Computer science or software", "MEng CS, software engineering"], ["ece", "Electrical, hardware or systems", "MEng ECE, robotics, embedded"], ["infosci", "Information science, design or health/urban tech", "Connective Media, Health Tech, Urban Tech, MS Design Technology"]] },
+    { key: "stage", title: "Where are you in your search?", options: [["looking", "I'm open to roles that fit me", "Show me what I have a shot at"], ["targeting", "I know the role I want", "Show me which of its skills I have and how to fill the gaps"], ["curious", "I just want to explore the jobs and skills data", "No resume needed"]] },
+    { key: "fields", title: "Which fields interest you?", multi: true, hint: "Pick as many as you like, or none." },
   ];
-  const WHERE = Object.fromEntries(Q[0].options), WHERE_SHORT = { mba: "MBA", grad: "Master's or PhD", undergrad: "Undergrad", working: "Working" };
+  const WHERE = Object.fromEntries(Q[0].options.map(o => [o[0], o[1]])), WHERE_SHORT = { business: "Business", analytics: "Analytics", cs: "CS", ece: "ECE", infosci: "Info science" };
+  const STAGE = Object.fromEntries(Q[1].options.map(o => [o[0], o[1]])), STAGE_SHORT = { looking: "open to roles that fit", targeting: "knows the role", curious: "exploring the data" };
+  // the programs an engineering student is in open the technical area first on a role screen
+  const TECHNICAL_PROGRAMS = ["cs", "ece", "infosci"];
   let wiz = null;
   // "#/you" is the summary once anything is known; "#/you?step=N" opens the wizard at one question to change it
   async function you() {
@@ -201,7 +208,7 @@
         // the fields carry two example roles each (owner's choice Y1), so a name like "Operations & general
         // management" says what is inside; all eleven sit above the fold in two columns
         const examples = g => { const names = g.roles.map(r => (ix.roles[r] || {}).label).filter(Boolean).slice(0, 2); return names.length ? names.join(" · ") : g.id === "product" ? "Product manager · Product marketing" : ""; };
-        const opts = q.multi ? ix.groups.map(g => [g.id, g.label, examples(g)]) : q.options;
+        const opts = q.multi ? ix.groups.map(g => [g.id, g.label, examples(g)]) : q.options.map(([id, label, ex]) => [id, label, ex || ""]);
         const on = id => q.multi ? wiz.answers.fields.has(id) : wiz.answers[q.key] === id;
         page(`${steps}<p class="eyebrow">Question ${i + 1} of ${Q.length}</p><h1>${esc(q.title)}</h1>${q.hint ? `<p class="lead">${esc(q.hint)}</p>` : ""}
           <div class="opts${q.multi ? " two" : ""}">${opts.map(([id, label, ex]) => `<button type="button" class="opt${on(id) ? " on" : ""}" data-opt="${esc(id)}" aria-pressed="${on(id)}">${esc(label)}${ex ? `<small>${esc(ex)}</small>` : ""}</button>`).join("")}</div>${nav("Next →")}`, true);
@@ -219,7 +226,7 @@
       $("#skip").onclick = () => saveYou();
       $("#next").onclick = async () => { await takeResume(); saveYou(); location.hash = after; if (location.hash === after) you(); };
     };
-    const saveYou = () => { state.you = { where: wiz.answers.where || null, fields: [...wiz.answers.fields] }; store.set("you", state.you); wiz = null; };
+    const saveYou = () => { state.you = { where: wiz.answers.where || null, stage: wiz.answers.stage || null, fields: [...wiz.answers.fields] }; store.set("you", state.you); wiz = null; };
     render();
   }
   // What the system knows (owner's choice Y3, B and A): the answers with an edit link each, what the resume gave,
@@ -227,14 +234,13 @@
   async function youSummary(ix) {
     const y = state.you || {}, r = state.resume, rg = r ? await rough() : null;
     const { fields, why } = await fitFields();
-    const row = (t, m, link) => `<div class="r"><span class="t">${t}</span>${link ? `<a class="n" href="${link[1]}">${link[0]}</a>` : ""}<span class="m">${m}</span></div>`;
+    // a row is one link: clicking anywhere on it opens the page (owner's choice 2026-10-24); the label at the right says where
+    const row = (t, m, link) => link ? `<a class="r" href="${link[1]}"><span class="t">${t}</span><span class="n">${link[0]}</span><span class="m">${m}</span></a>` : `<div class="r"><span class="t">${t}</span><span class="m">${m}</span></div>`;
     const chosen = (y.fields || []).map(id => (ix.groups.find(g => g.id === id) || {}).label).filter(Boolean);
-    const answers = `<div class="list">${row("Where you are", y.where ? esc(WHERE[y.where]) : "Not answered", ["edit", "#/you?step=0"])}${row("Fields you picked", chosen.length ? esc(chosen.join(", ")) : "None yet; your resume decides", ["edit", "#/you?step=1"])}</div>`;
-    const span = x => x.start ? ` ${x.start}${x.end && x.end !== x.start ? "–" + String(x.end).slice(2) : ""}` : "";
-    const held = rg ? rg.roles.slice(0, 4).map(x => `${esc(x.title)}${span(x)}${x.intern ? " (internship)" : ""}`).join(" · ") : "";
-    const closest = rg ? Object.entries(rg.scores).filter(([id, v]) => v > 0 && ix.roles[id]).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => ix.roles[id].label) : [];
-    const resume = r ? `<div class="list">${row(esc(r.name), `${fmt(r.words)} words, read in your browser; nothing is uploaded`, ["replace", "#/you?step=2"])}${row("Roles with dates", held || "None found. Put each job title and its dates on one line.", null)}${row("Reads closest to", closest.length ? esc(closest.join(", ")) : "No role yet", null)}</div>` : `<p class="small muted" style="margin-top:8px">No resume yet. <a class="link" href="#/you?step=2">Add one</a> and we point you to the fields it fits.</p>`;
-    const fieldRows = [...fields].map(id => ix.groups.find(g => g.id === id)).filter(Boolean).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)).map(g => row(esc(g.label), esc(why.get(g.id)), ["open", "#/field/" + g.id]));
+    const answers = `<div class="list">${row("What you study", y.where ? esc(WHERE[y.where]) : "Not answered", ["edit", "#/you?step=0"])}${row("Where you are in your search", y.stage ? esc(STAGE[y.stage]) : "Not answered", ["edit", "#/you?step=1"])}${row("Fields you picked", chosen.length ? esc(chosen.join(", ")) : "None yet; your resume decides", ["edit", "#/you?step=2"])}</div>`;
+    const closest = rg ? Object.entries(rg.scores).filter(([id, v]) => v > 0 && ix.roles[id]).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => `<a href="#/role/${esc(id)}">${esc(ix.roles[id].label)}</a>`) : [];
+    const resume = r ? `<div class="list">${row(esc(r.name), `${fmt(r.words)} words, read in your browser; nothing is uploaded`, ["replace", "#/you?step=3"])}${row("Your closest matches", closest.length ? closest.join(" · ") : "No role yet", null)}</div>` : `<p class="small muted" style="margin-top:8px">No resume yet. <a class="link" href="#/you?step=3">Add one</a> and we point you to the fields it fits.</p>`;
+    const fieldRows = [...fields].map(id => ix.groups.find(g => g.id === id)).filter(Boolean).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)).map(g => row(esc(g.label), esc(why.get(g.id)), ["open →", "#/field/" + g.id]));
     page(`<h1>About you</h1><p class="lead">What you told us and what your resume shows. Change any answer; the fields below follow.</p>
       <div class="two"><div><h2>Your answers</h2>${answers}</div><div><h2>Your resume</h2>${resume}</div></div>
       <h2>Fields that fit you, and why</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : '<p class="small muted">Pick a field or add a resume and they appear here.</p>'}
@@ -246,7 +252,7 @@
     const y = state.you || {}, label = id => (ix.groups.find(g => g.id === id) || {}).label || id;
     const chosen = [...why].filter(([, w]) => w === "You picked it").map(([id]) => label(id));
     const fromResume = [...why].filter(([, w]) => w !== "You picked it").map(([id]) => label(id));
-    const parts = [y.where ? esc(WHERE_SHORT[y.where] || WHERE[y.where]) : null, chosen.length ? `<b>${esc(join(chosen))}</b> chosen` : null, fromResume.length ? `<b>${esc(join(fromResume))}</b> from your resume` : state.resume ? "no field from your resume yet" : "no resume yet"].filter(Boolean);
+    const parts = [y.where ? esc(WHERE_SHORT[y.where] || WHERE[y.where]) : null, y.stage ? esc(STAGE_SHORT[y.stage] || STAGE[y.stage]) : null, chosen.length ? `<b>${esc(join(chosen))}</b> chosen` : null, fromResume.length ? `<b>${esc(join(fromResume))}</b> from your resume` : state.resume ? "no field from your resume yet" : "no resume yet"].filter(Boolean);
     return `<div class="strip"><span class="dotg"></span><span>${parts.join(" · ")}</span><a href="#/you">Edit</a></div>`;
   }
   // the resume: a drop zone, a paste box, what was read
@@ -395,7 +401,7 @@
     const ix = await Atlas.index(); return ix.groups.find(x => x.id === state.R.role.group);
   }
   // a student looks at the entry grade first; everyone else at every level
-  const defaultLevel = () => (state.you && ["mba", "grad", "undergrad"].includes(state.you.where)) ? "entry" : "all";
+  const defaultLevel = () => (state.you && WHERE[state.you.where]) ? "entry" : "all";
   async function roleScreen(id) {
     const g = await loadRole(id); const R = state.R;
     const { query } = Routes.parseRoute(location.hash);   // "#/role/fpa?tab=skills": the fit screen's link lands on the painted list
@@ -482,7 +488,8 @@
   function renderRole() {
     const R = state.R, role = R.role, slice = sliceOf();
     const { areas, stats } = Atlas.areas(R, slice);
-    if (state.areaOpen == null) state.areaOpen = new Set(areas.length ? [areas[0].cluster] : []);
+    // the first area opens by itself; an engineering student sees the technical area first when the role has one
+    if (state.areaOpen == null) { const tech = state.you && TECHNICAL_PROGRAMS.includes(state.you.where) && areas.find(a => a.cluster === "technical"); state.areaOpen = new Set(areas.length ? [(tech || areas[0]).cluster] : []); }
     const open = slice.filter(j => j.open);
     const nClosed = R.jobs.length - R.jobs.filter(j => j.open).length;
     const countBy = (jobs, fn) => { const m = {}; for (const j of jobs) { const k = fn(j); if (k != null) m[k] = (m[k] || 0) + 1; } return m; };
