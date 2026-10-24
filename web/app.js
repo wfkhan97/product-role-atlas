@@ -328,15 +328,23 @@
     const focus = new URLSearchParams(location.hash.split("?")[1] || "").get("field");
     if (focus) SkillMap.setMode("map");
     const ff = (state.you || state.resume) ? await fitFields() : null, fit = ff ? ff.fields : null;
-    let onlyFit = !!(fit && fit.size);
+    // the map's colours (owner's decision 2026-10-24): the skills the roles of the fields that fit ask for, green when
+    // the rough read of the resume shows them, blue when not; nothing without a resume
+    const rg = state.resume ? await rough() : null;
+    let overlay = null;
+    if (rg && fit && fit.size) {
+      const asked = new Set();
+      for (const gid of fit) for (const rid of ((ix.groups.find(g => g.id === gid) || {}).roles || [])) { const r = ix.roles[rid]; if (!r) continue; for (const a of [...r.definingList, ...r.asks]) if (a.share >= Atlas.TIER.common && ix.skillById[a.id] && !["credentials", "domain"].includes(ix.skillById[a.id].cluster)) asked.add(a.id); }
+      overlay = { have: new Set([...asked].filter(id => rg.shown.has(id))), todo: new Set([...asked].filter(id => !rg.shown.has(id))) };
+    }
     const render = () => {
-      const all = [...ix.groups].sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0));
-      const groups = onlyFit ? all.filter(g => fit.has(g.id)) : all;
+      // every field, the ones that fit first (owner's decision 2026-10-24: no "For you" filter)
+      const all = [...ix.groups].sort((a, b) => ((fit && fit.has(b.id)) - (fit && fit.has(a.id))) || (b.nOpen || 0) - (a.nOpen || 0));
+      const groups = all;
       const nRoles = all.reduce((a, g) => a + g.roles.length, 0);
       const chips = fit ? profileStrip(ix, ff.why) : "";
       const asMap = SkillMap.mode() === "map";
-      const showing = fit ? `<div class="seg" role="group" aria-label="Showing"><button type="button" class="${onlyFit ? "on" : ""}" aria-pressed="${onlyFit}" id="c-fit">For you</button><button type="button" class="${onlyFit ? "" : "on"}" aria-pressed="${!onlyFit}" id="c-all">All fields</button></div>` : "";
-      const view = `<div class="filters explore-row">${showing}${asMap ? '<input class="sm-find" id="sm-find" type="search" placeholder="Find a skill" list="sm-names" aria-label="Find a skill"><datalist id="sm-names"></datalist>' : ""}<div class="seg views" role="group" aria-label="View"><button type="button" class="${asMap ? "" : "on"}" aria-pressed="${!asMap}" id="v-grid" title="Fields">▦</button><button type="button" class="${asMap ? "on" : ""}" aria-pressed="${asMap}" id="v-map" title="Skill map">⊞</button></div></div>`;
+      const view = `<div class="filters explore-row">${asMap ? '<input class="sm-find" id="sm-find" type="search" placeholder="Find a skill" list="sm-names" aria-label="Find a skill"><datalist id="sm-names"></datalist>' : ""}<div class="seg views" role="group" aria-label="View"><button type="button" class="${asMap ? "" : "on"}" aria-pressed="${!asMap}" id="v-grid" title="Fields">▦</button><button type="button" class="${asMap ? "on" : ""}" aria-pressed="${asMap}" id="v-map" title="Skill map">⊞</button></div></div>`;
       const pg = all.find(g => g.set === "product"), mg = all.find(g => g.set === "mba");
       const dates = tip(`Counts are open postings in the US: business fields refreshed ${mg.generated}${pg.generated ? `, Product scraped ${pg.generated} (${fmt(pg.nWorld)} worldwide)` : ""}.`);
       const inner = g => `${esc(g.label)}<span class="n">${g.nOpen == null ? "loading…" : fmt(g.nOpen) + " open"}</span>`;
@@ -349,28 +357,26 @@
       };
       if (asMap) {
         // the fields on the skill map: a field's own skills beside it, the skills every field asks for in the middle
+        const key = overlay ? `<span><i class="sw have"></i> Already on your resume</span><span><i class="sw todo"></i> Gaps these roles require</span><span><i class="sw quiet"></i> Other skills: hover for the name</span>` : `<span><i class="sw top"></i> The 35 skills most postings ask for</span><span><i class="sw quiet"></i> The rest: hover for the name</span>${fit && fit.size ? '<span><i class="sw you"></i> Fields your answers and resume point to</span>' : ""}`;
         page(`<h1>Explore the roles</h1>
           <p class="lead">${all.length} fields, ${nRoles || 56} roles. Hover a field to light up the skills that set it apart; click a skill to see who asks for it. ${dates}</p>${chips}${view}
           <div class="sm-stage" id="sm-stage"></div>
-          <p class="key">${fit && fit.size ? "Green: the fields your answers and resume point to. " : ""}<button type="button" class="linkish link" id="sm-all">${SkillMap.allShown() ? "Show the fields alone" : "Show all skills"}</button></p>`);
+          <p class="key swkey">${key}<button type="button" class="linkish link" id="sm-all">${SkillMap.allShown() ? "Show the fields alone" : "Show all skills"}</button></p>`);
         main.firstElementChild.classList.add("wide");
         $("#sm-all").onclick = () => { SkillMap.showAll(!SkillMap.allShown()); $("#sm-all").textContent = SkillMap.allShown() ? "Show the fields alone" : "Show all skills"; };
         const SIZE = { s1: 0.66, s2: 0.76, s3: 0.88, s4: 1 };
-        SkillMap.stage($("#sm-stage"), { groups: all.map(g => ({ id: g.id, cls: sizeClass(g.nOpen || 0), you: !!(fit && fit.has(g.id)), inner: inner(g) })), sizeOf: g => SIZE[g.cls], fit, onlyFit, focus, aside, showAside });
+        SkillMap.stage($("#sm-stage"), { groups: all.map(g => ({ id: g.id, cls: sizeClass(g.nOpen || 0), you: !!(fit && fit.has(g.id)), inner: inner(g) })), sizeOf: g => SIZE[g.cls], fit, onlyFit: false, focus, aside, showAside, overlay });
         SkillMap.names().then(ns => { const dl = $("#sm-names"); if (dl) dl.innerHTML = ns.map(n => `<option value="${esc(n)}">`).join(""); });
         const f = $("#sm-find"); f.onchange = () => SkillMap.find(f.value);
         $("#v-grid").onclick = () => { SkillMap.setMode("grid"); SkillMap.leave(); showAside(null); render(); };
         $("#v-map").onclick = () => { };
-        const cf = $("#c-fit"), ca = $("#c-all"); if (cf) { cf.onclick = () => { onlyFit = true; render(); }; ca.onclick = () => { onlyFit = false; render(); }; }
         return;
       }
       page(`<h1>Explore the roles</h1>
-        <p class="lead">${all.length} fields, ${nRoles || 56} roles. Pick a field. ${dates}</p>${chips}${view}
-        <div class="fcards">${groups.map(card).join("")}</div>
-        ${onlyFit && !groups.length ? '<p class="small muted">No field yet. <a class="link" href="#/you">Tell us more</a>.</p>' : ""}`);
+        <p class="lead">${all.length} fields, ${nRoles || 56} roles. Pick a field.${fit && fit.size ? " The ones that fit you come first." : ""} ${dates}</p>${chips}${view}
+        <div class="fcards">${groups.map(card).join("")}</div>`);
       $("#v-map").onclick = () => { SkillMap.setMode("map"); render(); };
       $("#v-grid").onclick = () => { };
-      const cf = $("#c-fit"), ca = $("#c-all"); if (cf) { cf.onclick = () => { onlyFit = true; render(); }; ca.onclick = () => { onlyFit = false; render(); }; }
     };
     render();
     if (ix.groups.find(g => g.id === "product").nOpen == null) Atlas.product().then(() => { if (location.hash.startsWith("#/explore")) render(); }).catch(console.error);
@@ -392,9 +398,21 @@
     const rg = state.resume ? await rough() : null;
     const mark = r => !rg ? "" : rg.held.includes(r.id) ? ' · <span style="color:var(--primary)">you held this role</span>' : rg.scores[r.id] >= 0.6 ? ' · <span style="color:var(--primary)">your resume reads close to it</span>' : "";
     const anyMark = rg && roles.some(r => mark(r));
-    page(`<h1>${esc(g.label)}</h1>
+    // half and half (owner's decision 2026-10-24): the roles on the left, the field's skills on lanes on the right;
+    // hovering a role lights its skills; a dot opens the skill card
+    const closed = g.set === "mba" ? "recent postings, open and closed over the last year" : "open postings";
+    page(`<div class="field-split"><div>
+      <h1>${esc(g.label)}</h1>
       <p class="lead">${plural(roles.length, "role", "roles")} · <span data-measure="${when}">${fmt(roles.reduce((a, r) => a + r.nOpen, 0))} open postings</span>. The biggest first.${anyMark ? " Green: a rough read of your resume; open a role for your band of fit." : ""} <a href="#/explore?field=${esc(g.id)}" data-map>See ${esc(g.label)} on the skill map →</a></p>
-      <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${fmt(r.nOpen)} open</span><span class="m">${r.blurb ? esc(r.blurb) + " " : ""}${esc(productLine(g, r, line))}${mark(r)}</span></a>`).join("")}</div>`);
+      <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${fmt(r.nOpen)} open</span><span class="m">${r.blurb ? esc(r.blurb) + " " : ""}${esc(productLine(g, r, line))}${mark(r)}</span></a>`).join("")}</div>
+      <p class="small muted" style="margin-top:12px">Hover a role to light its skills on the right. Click a skill for what it means.</p>
+      </div><div>
+      <div class="chart-stage" id="chart"></div>
+      <p class="small muted chart-x">% of ${esc(g.label)} postings that ask for the skill <span class="mark" data-measure="The share of ${esc(closed)} in ${esc(g.label)} that ask for the skill, averaged over the field's roles.">ⓘ</span>${rg ? ' · <span class="sw have"></span> already on your resume · <span class="sw todo"></span> gaps these roles require' : ""}</p>
+      </div></div>`);
+    main.firstElementChild.classList.add("wide");
+    SkillMap.chart($("#chart"), { field: g.id, label: g.label, roles, shown: rg ? rg.shown : null, aside, showAside });
+    main.querySelectorAll("[data-role]").forEach(a => { a.onmouseenter = () => SkillMap.chartLight(a.dataset.role); a.onmouseleave = () => SkillMap.chartLight(null); });
   }
   function productLine(g, r, line) {
     if (g.set !== "product") return line(r);
