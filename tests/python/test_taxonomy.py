@@ -59,3 +59,14 @@ def test_validate_reports_each_broken_rule():
     problems = "\n".join(tax.validate(tax=tax_bad, evidence=ev, fields=fields, groups=GROUPS))
     for needle in ("kind 'nope'", "b: no entry", "names itself", "names zzz", "names t, a tool", "a tool is shown by naming", "mars is not a field", "line has no number", "two to six", "t is a tool"):
         assert needle in problems, needle
+
+
+def test_the_stratification_files_do_not_shadow_the_depth_entries():
+    """Every loader of pipeline/depth/*.json merges the folder by skill id. evidence.json and fields.json are keyed the
+    same way, so they must live outside it: the first build put them inside and 70 product definitions went blank."""
+    import os
+    from pipeline import build_graph
+    assert os.path.dirname(tax.EVIDENCE_PATH) == os.path.dirname(tax.PATH)
+    assert os.path.dirname(tax.FIELDS_PATH) == os.path.dirname(tax.PATH)
+    blank = [sid for sid, d in build_graph.DEPTH.items() if not d.get("what")]
+    assert blank == [], blank
