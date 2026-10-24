@@ -2,6 +2,8 @@
 
 Fast checks of single functions: stated inputs, stated outputs. No server, no network, no new dependencies.
 
+Scratch tests written while debugging go under `data/experiments/scratch/<topic>/`, not here; a test that stays is one a future change could break.
+
 ```sh
 node --test 'tests/web/*.test.mjs'         # the browser side (web/*.js), node's built-in runner
 .venv/bin/python -m pytest tests/python    # the pipeline (pipeline/*.py); pytest comes from requirements-dev.txt

@@ -36,6 +36,13 @@ file, and `PIPELINE_LOG_LEVEL=DEBUG` shows more. API keys never appear in a log 
 CI (`.github/workflows/ci.yml`) runs both test suites, `node evals/run.mjs` and `evals/run_pipeline.py` on every pull
 request and on `main`.
 
+## Scratch versus documentation
+
+Interim work (plans under review, mockups, audits) lives under `data/experiments/scratch/<topic>/` (gitignored) or the
+session scratchpad, never in the tree; `./sweep_scratch.sh --go` moves it to `data/experiments/_trash/<date>/` at the
+end of a thread. What lasts goes here (what exists, how to run it) and in `PLAN.md` (the decisions and why). The rule is
+in `CLAUDE.md`.
+
 ## Layout
 
 - `pipeline/adapters/` — one module per ATS (Greenhouse, Lever, Ashby, Workday, Eightfold, Phenom, Oracle HCM, SmartRecruiters, Amazon, Apple, Google). Two adapters read boards that only the MBA employers use. `talnet.py` reads tal.net (Oleeo) boards from their public Atom feed (`…/candidate/jobboard/vacancy/<n>/feed/structured`, the whole board in one answer). A firm has several boards (experienced hires, students, regions), so the config names them: `{"host": "lek.tal.net", "boards": [{"name": "Americas", "path": "appcentre-2/brand-2", "vacancy": 3}, …]}`. When the firm puts the description in the feed (CohnReznick) it is taken from there; otherwise each vacancy page is read (L.E.K.). Some tal.net sites put their vacancy pages behind a captcha (Evercore): the adapter does not pass it, says so on stderr and returns nothing for those postings. `yello.py` reads Yello (recsolu.com) boards (Kearney): the board page names its search URL, the search answers 25 cards a page, the whole board is listed and filtered by title, then each job page is read; the list shows an age or a day without a year, so `posted` is approximate. Configs for both are in `data/raw/registry_mba_employers_talnet_yello.json`.
