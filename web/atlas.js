@@ -41,21 +41,22 @@
   // ---------- the index: groups and roles of both sets ----------
   let indexP = null;
   function index() {
-    return indexP ||= retrying(() => Promise.all([fetchJson("data/graph_mba.json"), fetchJson("data/subskills_mba.json")]).then(([M, SUBS]) => {
+    // one sentence per role on what the job is (web/data/role_blurbs.json), optional: an index without it still loads
+    return indexP ||= retrying(() => Promise.all([fetchJson("data/graph_mba.json"), fetchJson("data/subskills_mba.json"), fetchJson("data/role_blurbs.json").catch(() => ({}))]).then(([M, SUBS, BLURBS]) => {
       const roles = {}, groups = [];
       for (const g of M.groups) {
         if (g.id === "product") continue;   // the product field opens the product role set instead (owner's choice 3A)
         groups.push({ id: g.id, label: g.label, set: "mba", roles: g.families, nOpen: g.families.reduce((a, f) => a + M.roles[f].n_open, 0), country: M.meta.country, generated: M.meta.generated });
         for (const f of g.families) {
           const r = M.roles[f];
-          roles[f] = { id: f, family: f, set: "mba", group: g.id, label: r.label, nOpen: r.n_open, n: r.n, nCompanies: r.n_companies, ladder: r.ladder, defining: new Set(r.defining.map(d => d.id)), definingList: r.defining, asks: r.asks, credentials: r.credentials, small: r.small, file: r.file, entry: r.entry };
+          roles[f] = { id: f, family: f, set: "mba", group: g.id, label: r.label, blurb: BLURBS[f] || "", nOpen: r.n_open, n: r.n, nCompanies: r.n_companies, ladder: r.ladder, defining: new Set(r.defining.map(d => d.id)), definingList: r.defining, asks: r.asks, credentials: r.credentials, small: r.small, file: r.file, entry: r.entry };
         }
       }
       groups.push({ ...PRODUCT_GROUP, roles: [], nOpen: null, country: M.meta.country, generated: null });
       // the mean share of each skill over the 50 roles: what "distinctive" is measured against, in both sets
       const fams = Object.keys(M.families), baseline = {};
       for (const s of M.skills) baseline[s.id] = fams.reduce((a, f) => a + ((s.by_family || {})[f] || 0), 0) / fams.length;
-      return { M, SUBS, roles, groups, baseline, skillById: Object.fromEntries(M.skills.map(s => [s.id, s])) };
+      return { M, SUBS, BLURBS, roles, groups, baseline, skillById: Object.fromEntries(M.skills.map(s => [s.id, s])) };
     }), () => { indexP = null; });
   }
 
@@ -82,7 +83,7 @@
         const jobs = byFamily[f];
         const top = G.skills.filter(s => s.cluster !== "credentials").map(s => ({ id: s.id, share: s.by_family[f] || 0 })).sort((a, b) => b.share - a.share);
         const definingList = top.filter(a => a.share >= minShare && ix.baseline[a.id] > 0 && a.share >= minLift * ix.baseline[a.id]).map(a => ({ id: a.id, share: a.share, elsewhere: ix.baseline[a.id] }));
-        ix.roles[productKey(f)] = { id: productKey(f), family: f, set: "product", group: "product", label: G.families[f], nOpen: jobs.filter(inCountry).length, nWorld: jobs.length, n: jobs.length, nCompanies: new Set(jobs.map(j => j.company)).size, ladder: "product", defining: new Set(definingList.map(d => d.id)), definingList, asks: top.filter(a => !definingList.some(d => d.id === a.id)), credentials: [], small: false, jobs };
+        ix.roles[productKey(f)] = { id: productKey(f), family: f, set: "product", group: "product", label: G.families[f], blurb: (ix.BLURBS || {})[productKey(f)] || "", nOpen: jobs.filter(inCountry).length, nWorld: jobs.length, n: jobs.length, nCompanies: new Set(jobs.map(j => j.company)).size, ladder: "product", defining: new Set(definingList.map(d => d.id)), definingList, asks: top.filter(a => !definingList.some(d => d.id === a.id)), credentials: [], small: false, jobs };
       }
       return { G, SUBS, skillById: Object.fromEntries(G.skills.map(s => [s.id, s])) };
     }), () => { productP = null; });
