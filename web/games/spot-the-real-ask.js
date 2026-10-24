@@ -310,8 +310,9 @@
     el.innerHTML = `<div class="page sra tight">
       <p class="eyebrow">Posting ${run.i + 1} of ${run.passages.length} · ${esc(role.label)} · checked in ${clock(r.seconds)}</p>
       <h1 class="h-reveal">How the atlas read it</h1>
+      <!-- the source is named, not linked: the interface stays high level for now (owner's choice 2026-10-23; POSTINGS in app.js) -->
       ${passageHtml(S, p, r)}
-      <blockquote class="quote src-line"><span class="src">${esc(p.company)} · <a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a></span></blockquote>
+      <blockquote class="quote src-line"><span class="src">${esc(p.company)} · ${esc(p.title)}</span></blockquote>
       <div class="legend"><span><i class="sw found"></i>You found it</span><span><i class="sw missed"></i>You missed it</span><span><i class="sw false"></i>False alarm</span><span><i class="sw skipped"></i>Filler you skipped</span><span><i class="sw unlisted"></i>Not on the atlas's list: does not count</span></div>
       <div class="sr-only" aria-live="polite" id="sra-live"></div>
     </div>`;

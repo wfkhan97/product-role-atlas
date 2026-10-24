@@ -314,7 +314,7 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .sm-h { font-size: var(--text-sm); color: var(--subtle-foreground); margin: 14px 0 4px; }
 
 /* ---------- first visit: the games on top (two thirds), what jobs ask for below (one third) ---------- */
-.page.start { display: grid; grid-template-rows: minmax(0, 2fr) minmax(0, 1fr); min-height: calc(100vh - var(--topbar-height) - 140px); gap: 24px; }
+.page.start { display: grid; grid-template-rows: auto auto; gap: 32px; }   /* the two sections follow each other; no stretch to the viewport */
 .start-games { min-width: 0; }
 .start-games h1 { font-size: var(--text-3xl); }
 .carousel { position: relative; margin-top: 18px; }
