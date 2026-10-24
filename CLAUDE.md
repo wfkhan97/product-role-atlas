@@ -11,6 +11,13 @@
   change also means re-extracting (`.venv/bin/python -m pipeline.extract && .venv/bin/python -m pipeline.build_graph`)
   and regenerating `evals/extraction_baseline.md` with the reuse mode described in `evals/README.md`.
   Expectation files in `evals/resumes/*.json` are the spec; change them only with a reason in the commit.
+- Every skill in `pipeline/taxonomy.json` has a `kind` (`pipeline/tax.py`, `KINDS`), an entry in
+  `pipeline/evidence.json` and, when four or more fields ask for it, an entry per asking field in
+  `pipeline/fields.json`. Adding or renaming a skill, or touching either file, means `.venv/bin/python -m pytest
+  tests/python/test_taxonomy.py`, `.venv/bin/python evals/run_taxonomy.py --baseline` and committing `evals/taxonomy_baseline.md`;
+  a carrier a field entry names must co-occur with the skill in the field's postings, so when the eval fails, change the
+  carrier, not the threshold. The kind says nothing to extraction: a change to kinds, evidence or fields alone needs no
+  re-extraction, only `pipeline.build_graph` for both role sets.
 - The taxonomy serves every role set (`product`, `mba`). A change to a shared skill, to an MBA skill, to the
   cleaner in `pipeline/extract.py` or to the title rules in `pipeline/roles_mba.py` also means
   `.venv/bin/python -m pipeline.extract --roles mba`, then `pipeline.experiments.role_corpus --roles mba` and

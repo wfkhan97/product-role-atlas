@@ -380,6 +380,54 @@ What this does not give: a judgment that a rung is true of the job where posting
 employers ask for, not how the work is done. The content will say "postings at this level ask for", not "at
 this level you do".
 
+## A stratified taxonomy (v13, 2026-10-24)
+
+The problem (owner, 2026-10-24): every posting of every role asks for communication, leadership and collaboration, so
+the taxonomy's flat list of 278 skills tells a student little about what the asks mean in their field or how to show
+them. A product manager does not write "I have written PRDs"; they write "took a payments feature from 0 to 1 with
+engineering and marketing, defining the requirements". Leadership in investment banking and leadership in product are
+both asked for in the same words and shown by different work. Measured on the US postings of the MBA set, communication
+is asked for in 79% to 88% of postings in all 11 fields, but what travels with it differs completely: pitch books and
+valuation in banking, PRDs and roadmaps in product, synthesis and decks in consulting; influence in supply chain is
+supplier negotiation in 84% of the postings that ask for it; cross-functional work in finance is business partnering in
+97%. The differentiation is in the data; the taxonomy did not carry it.
+
+Three layers, all data, no screens (the interface work runs on another branch and reads these):
+
+1. **Kind** (`pipeline/taxonomy.json`, `kind` on every skill; `pipeline/tax.py`, `KINDS`). Seven kinds, each with a
+   default form of evidence and one rule a student can act on: `method` (145: a craft with a procedure and an artefact),
+   `practice` (39: work through people and structures, shown by scope), `behaviour` (10: asked by every field, shown
+   through other work, never a line of its own; the matcher's SOFT set plus data-driven decision making), `technical`
+   (14), `knowledge` (18: industries and rule sets), `tool` (23), `credential` (29). Patterns, clusters and ids do not
+   change; extraction does not read the kind, so nothing was re-extracted and no posting is retagged.
+2. **Evidence** (`pipeline/evidence.json`, one entry per skill, hand-written). The `form` (through, scope,
+   artefact, outcome, built, context, named), the `artefacts`, `counterparts`, `measures` and `verbs` a resume line that
+   shows the skill carries, and `shown_by`: for a behaviour or a practice, the concrete skills whose evidence counts for
+   it. Tools and credentials are `named`: the rule is the kind's.
+3. **Field** (`pipeline/fields.json`). For the 24 skills that four or more of the 11 fields ask for (mean share over
+   the field's roles at least 25%; tools excluded, since Excel means the same everywhere), one entry per field that asks:
+   `reads_as` (one sentence in the field's words), `shown_by` (two to six of the field's own skills that carry it) and
+   `line` (one resume line with a number). 225 entries. The carriers were drafted from the co-occurrence of the field's
+   postings and then checked against them: each must be asked for together with the skill in at least 15% of the
+   field's postings that ask for it; 66 of the first drafts failed that check and were rewritten from the postings'
+   own ranking (`evals/taxonomy_baseline.md` prints both side by side).
+
+The graph build publishes all three: `kind`, `how_shown` and `fields` on every skill node of both indexes, the field
+entries with the postings' side beside them (`share` of the field, `with`: the six carriers the field's postings rank
+highest, `subs`: the sub-skill mix within the field), and the kinds and forms tables in `meta`. `tax.validate` is the
+shape check (`tests/python/test_taxonomy.py`); `evals/run_taxonomy.py` checks coverage, grounding and the behaviour
+carriers against the postings and is in CI.
+
+What this is not: a judgment about resumes. The carriers are grounded in postings (what employers ask for together);
+the readings and lines are editorial, written on that evidence, and no resume reader has judged them yet.
+
+Next (a separate plan once this lands): making the layers adaptive to each role. The matcher credits a behaviour through
+its carriers instead of hiding it; the fit page's "a line that would show it" comes from the field entry, not the
+product-only `signals`; the gap text follows the kind (name the artefact; say who and how many; name the industry); the
+skill card shows "in this field it means" and the sub-skill mix; the role grid groups rows by kind so the asks every
+role makes stop crowding out the craft; the course reader says which kinds a course can evidence (methods, technical,
+knowledge) and which it cannot (behaviours, practices).
+
 ## Later
 
 - LLM-based extraction (Claude) for higher-recall skill tagging and requirement vs nice-to-have split.
