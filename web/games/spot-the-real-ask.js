@@ -285,7 +285,7 @@
       : top ? `You found every ask. The one most postings want: <b>${esc(skillName(S, p, top.skills[0]))}</b>, <span class="num">${pct(top.share)}</span> of ${esc(role.label)} postings.` : "You found every ask in this posting.";
     const fillerWords = r.filler ? ` · ${r.skipped} of ${r.filler} filler ${r.filler === 1 ? "line" : "lines"} let pass` : "";
     F.body.innerHTML = GS.results({
-      eyebrow: `Posting ${run.i + 1} of ${run.passages.length} · ${esc(p.company)} · <a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)} ↗</a>`,
+      eyebrow: `Posting ${run.i + 1} of ${run.passages.length} · ${esc(p.company)} · ${esc(p.title)}`,   // named, not linked: no outbound posting links for now (POSTINGS in app.js)
       measure: `${r.found} of ${r.asks} asks found${fillerWords}`,
       takeaway: take,
       visual: `${passageHtml(S, p, r)}

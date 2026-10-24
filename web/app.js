@@ -110,6 +110,10 @@
   // ---------- router ----------
   const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "", grads: false, areaOpen: null, areaMore: new Set(), tab: "skills", fitTab: "show", paintOn: true, empOpen: new Set(), cardTab: null, cardMore: false, fitMore: new Set() };
   const PAGE = 8;   // employers shown in the postings tab before "Show more"
+  // Owner's choice 2026-10-23: the postings stay in the data and behind every number, but the interface stays high
+  // level for now: no postings tab, no link out to a posting, no list of postings on a skill card, no filter by
+  // employer name. Flip this to bring them back.
+  const POSTINGS = false;
   // what the person told us and the resume they dropped stay in this browser only (nothing is uploaded)
   const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
   state.you = store.get("you"); state.resume = store.get("resume");
@@ -476,7 +480,7 @@
       <div class="drawer-h"><h2>Filters</h2><button type="button" class="close" id="drawer-close" aria-label="Close">×</button></div>
       ${group("Employers", emp)}${grads}
       ${group("Industry", chipsOf(sec, state.sector, "sector", "All industries"))}
-      <div class="fgroup"><span class="lbl">Employer</span><input type="search" id="company-q" placeholder="Employer name" aria-label="Employer name" value="${esc(state.companyQuery)}" autocomplete="off"><div class="chips" style="margin:4px 0 0">${picked.map(([v, n]) => `<button type="button" class="chip on" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${options.map(([v, n]) => `<button type="button" class="chip" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${!picked.length && !q ? '<span class="small muted">Type a name to pick an employer.</span>' : ""}</div></div>
+      ${POSTINGS ? `<div class="fgroup"><span class="lbl">Employer</span><input type="search" id="company-q" placeholder="Employer name" aria-label="Employer name" value="${esc(state.companyQuery)}" autocomplete="off"><div class="chips" style="margin:4px 0 0">${picked.map(([v, n]) => `<button type="button" class="chip on" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${options.map(([v, n]) => `<button type="button" class="chip" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${!picked.length && !q ? '<span class="small muted">Type a name to pick an employer.</span>' : ""}</div></div>` : ""}
       ${R.country ? group("Location", `<span class="small muted">${esc(R.country)} only.</span>${remote}`) : group("Location", chipsOf(cn, state.country, "country", "Anywhere") + remote)}
       <div class="row between drawer-f">${activeCount() ? '<button type="button" class="btn quiet" id="clear-extra">Clear all</button>' : "<span></span>"}<button type="button" class="btn primary" id="drawer-done">Done</button></div>
     </div>`;
@@ -564,7 +568,7 @@
     const postings = `<input type="search" id="q" placeholder="Search by employer or title" aria-label="Search postings" value="${esc(state.query)}" autocomplete="off">
       <div class="list" id="postings">${shownEmps.map(empBox).join("") || '<p class="small muted" style="padding:10px 0">No open postings match.</p>'}</div>
       <p class="small muted" style="margin-top:8px">${plural(emps.length, "employer", "employers")}, ${plural(list.length, "open posting", "open postings")}${R.set === "mba" ? "; employers hiring graduates and interns first" : ""}. ${emps.length > shownEmps.length ? `<button type="button" class="linkish link" id="more">Show ${fmt(Math.min(20, emps.length - shownEmps.length))} more employers</button>` : ""}</p>`;
-    const TABS = [["skills", "Skills", null], ["postings", "Open postings", open.length], ...(also ? [["also", "Also asked for", null]] : [])];
+    const TABS = [["skills", "Skills", null], ...(POSTINGS ? [["postings", "Open postings", open.length]] : []), ...(also ? [["also", "Also asked for", null]] : [])];
     if (!TABS.some(t => t[0] === state.tab)) state.tab = "skills";
     const tabs = `<div class="tabs" role="tablist">${TABS.map(([k, l, n]) => `<button type="button" role="tab" class="${state.tab === k ? "on" : ""}" aria-selected="${state.tab === k}" data-tab="${k}">${l}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`).join("")}</div>`;
     const body = state.tab === "postings" ? postings : state.tab === "also" ? also : listHead + skillList;
@@ -631,7 +635,7 @@
     aside.querySelectorAll("details[data-k]").forEach(d => d.ontoggle = () => { d.open ? state.open.add(d.dataset.k) : state.open.delete(d.dataset.k); });
   }
   const disc = (k, label, inner) => `<details class="disc" data-k="${k}"${state.open.has(k) ? " open" : ""}><summary>${label}</summary><div class="disc-body">${inner}</div></details>`;
-  const quoteHtml = q => `<blockquote class="quote">“${esc(q.text.length > 260 ? q.text.slice(0, 257) + "…" : q.text)}”<span class="src">${esc(q.company)} · <a href="${esc(q.url)}" target="_blank" rel="noopener">${esc(q.title)}</a></span></blockquote>`;
+  const quoteHtml = q => `<blockquote class="quote">“${esc(q.text.length > 260 ? q.text.slice(0, 257) + "…" : q.text)}”<span class="src">${esc(q.company)} · ${POSTINGS ? `<a href="${esc(q.url)}" target="_blank" rel="noopener">${esc(q.title)}</a>` : esc(q.title)}</span></blockquote>`;
   const evGroup = ev => { const groups = EV_GROUPS.filter(([k]) => (ev[k] || []).length); if (!groups.length) return null; const want = state.evTab || STEP_TO_EV[state.level] || "early"; return groups.some(([k]) => k === want) ? want : groups[0][0]; };
   function firstQuote(ev) {
     if (!ev) return `<p class="small muted">Loading an example sentence…</p>`;
@@ -685,7 +689,7 @@
     const related = R.edges.filter(e => (e.source === s.id || e.target === s.id)).map(e => ({ id: e.source === s.id ? e.target : e.source, w: e.jaccard })).filter(x => visible.has(x.id) && x.id !== s.id).sort((a, b) => b.w - a.w).slice(0, 6);
     const def = R.role.defining.has(s.id) ? ` · <span class="mark" data-measure="◆ sets this role apart: postings of this role ask for it far more often than postings of other roles do.">defines this role ◆</span>` : "";
     const bodies = {
-      postings: `<h3>How postings say it</h3>${evidenceHtml(ev)}<h3>Postings that ask for it</h3>${postings}`,
+      postings: `<h3>How postings say it</h3>${evidenceHtml(ev)}${POSTINGS ? `<h3>Postings that ask for it</h3>${postings}` : ""}`,
       ladder: `<h3>At each level</h3>${ladder}`,
       build: `<h3>How to build it</h3>${build}${signals}`,
       related: `<h3>Often asked for together</h3>${related.length ? `<div class="tags">${related.map(r => `<button type="button" class="tag" data-skill="${esc(r.id)}">${esc(R.skillById[r.id].name)}</button>`).join("")}</div>` : '<p class="small muted">No skill is asked for together with it often enough to name.</p>'}`,
@@ -709,7 +713,7 @@
       <p class="facts">${esc(levelLabel(R, j))}${j.location ? " · " + esc(j.location) : ""}${j.remote ? " · remote" : ""}${j.yoe ? ` · asks for ${j.yoe}+ years` : ""}${j.industry ? " · " + esc(j.industry) : ""}</p>
       ${who ? `<p class="small" style="color:var(--primary)">${who}${j.entry_src === "firm" || j.entry_src === "category" ? " at this employer's grade; the posting may also take experienced hires" : ""}.</p>` : ""}
       ${j.snippet ? `<p class="small muted">${esc(j.snippet)}…</p>` : ""}
-      <p><a class="link" href="${esc(j.url)}" target="_blank" rel="noopener">Open the posting ↗</a></p>
+      ${POSTINGS ? `<p><a class="link" href="${esc(j.url)}" target="_blank" rel="noopener">Open the posting ↗</a></p>` : ""}
       <h3>${plural(j.skills.filter(k => R.skillById[k] && R.skillById[k].cluster !== "credentials").length, "skill asked for", "skills asked for")}</h3>
       ${Object.entries(byArea).sort((a, b) => b[1].length - a[1].length).map(([c, ss]) => `<p class="small muted" style="margin:8px 0 2px">${esc(R.clusters[c].label)}</p><div class="tags">${ss.map(s => `<button type="button" class="tag" data-skill="${esc(s.id)}">${esc(s.name)}</button>`).join("")}</div>`).join("")}
       ${subNames.length ? `<h3>Specific asks in this posting</h3><div class="tags">${subNames.map(x => `<button type="button" class="tag" data-skill="${esc(x.sid)}">${esc(x.name)}</button>`).join("")}</div>` : ""}
