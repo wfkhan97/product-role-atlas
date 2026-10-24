@@ -274,6 +274,7 @@ The stratified taxonomy (`PLAN.md`, "A stratified taxonomy") adds a `kind` to ev
 | coverage | A skill that at least four fields ask for (mean share over the field's roles at least 25%) has an entry for every field that asks for it; no entry exists for a field that asks for the skill in under 10% of its postings; tools and credentials have none. |
 | grounding | Each carrier a field entry names is asked for together with the skill in at least 15% of the field's US postings that ask for the skill, company-balanced. The baseline prints, beside each entry's carriers, the five carriers the postings rank highest (share times log-lift), so a reader can see where the hand and the data differ. |
 | carriers | Each carrier a behaviour's evidence names is asked for with the behaviour in at least 10% of some field's postings that ask for it. A carrier is field-specific (pitch books carry communication in banking), so this is the maximum over fields. |
+| published | `web/data/graph.json`, `graph_mba.json` and `taxonomy*.json` carry what the source files say: every skill node has the taxonomy's kind and its evidence entry under `how_shown`, the field entries appear as `fields` with the postings' side (`n`, `with`, `subs`) beside the text, and `meta.kinds` is the current table. A build older than the files fails here. |
 
 **What these evals do not show.** The carriers are checked against postings, which say what employers ask for together,
 not what a resume reader accepts as evidence. The readings and resume lines are editorial; no reader has judged them.
