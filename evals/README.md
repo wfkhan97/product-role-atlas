@@ -296,3 +296,21 @@ this order:
    with a new seed, to measure how many supported claims the first pass let through wrongly (PLAN.md, "Skill depth").
 4. **A fresh sample for titles, entry marks and countries**, labelled and run once without fixing rules on it. For the entry mark also: a second reader, and a sample of marked postings judged with their full text (the precision in `NOTES.md` was read by the author of the rules).
 5. **A second reader for the golden postings**, to measure agreement between labellers.
+6. **Adaptive taxonomy evals**, one part per step of `PLAN.md`, "The taxonomy adapted to each role":
+   `node evals/adaptive.mjs` with `--only text` (every fit-page sentence for every role and row kind is built from the
+   data, under 40 words, with no empty slot, and a behaviour's gap sentence names a carrier the role asks for),
+   `--only carriers` (the carriers a role shows or credits for a behaviour or practice pass the 15% co-occurrence rule on
+   the role's own postings or fall back to the field entry, with the fallback count printed), `--only grid` (no
+   behaviour in an area panel; the first panel holds a method or a defining skill) and `--only course` (the course
+   reader never shows a behaviour or a practice as taught). Beside it: `must_show_through` (behaviour: carrier) in the
+   sample expectations of `evals/resumes/`, and the matcher tests that a behaviour row earns its best carrier's credit, a
+   named-only behaviour earns none, and the score still never falls when evidence is added. Each step's PR adds its
+   part; the runner joins CI from step 2.
+7. **A recalibration gate.** `calibrate.mjs` run with the behaviours in the score, set beside the current report: the two
+   rank statistics (a same-role score above an other-field score, above an adjacent-role score) and the groups without
+   bands. The behaviours enter the score only when neither falls; otherwise they are shown with no weight. The bands
+   files record the setting under `scoring`, as they record `distinct`.
+8. **A reader's judgment of the generated lines.** 50 fit-page sentences per release (field lines, templates from the
+   evidence entries, gap sentences), judged by a model reader that did not write them: names an artefact or a
+   counterpart, carries a number where the kind asks for one, in the field's words. The field lines of
+   `pipeline/fields.json` have never been judged; this is the first eval that reads them as a student would.
