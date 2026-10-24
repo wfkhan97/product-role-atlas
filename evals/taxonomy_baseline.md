@@ -281,9 +281,15 @@ Each skill a behaviour's evidence names as showing it is asked for together with
 - **Collaboration & teamwork**: Cross-functional leadership 86% (product), UX & design collaboration 40% (product), Client engagement delivery 29% (consulting_strategy), Finance business partnering 25% (finance), HR business partnering 68% (people), Partner co-selling & joint go-to-market 16% (sales), Sales enablement & field partnership 43% (marketing), Supplier relationship & performance management 63% (supply_chain)
 - **Execution & delivery**: Product launches 41% (product), Program & project management 72% (operations), Quota & revenue target attainment 37% (sales), Process design & operational rigor 69% (supply_chain), End-to-end product lifecycle 45% (product), Productivity & service-level performance 31% (supply_chain), Marketing campaigns 58% (marketing), Accounting: close, GAAP & controls 45% (finance), M&A execution 57% (banking_investing)
 
+## Published
+The indexes the interface reads carry the kinds, the evidence and the field entries of the source files.
+- graph.json: 98 skills with kind and how_shown; 23 with field entries; taxonomy.json carries the kind
+- graph_mba.json: 278 skills with kind and how_shown; 24 with field entries; taxonomy_mba.json carries the kind
+
 ## Totals
 - shape: 1 pass, 0 fail
 - coverage: 301 pass, 0 fail
 - grounding: 900 pass, 0 fail
 - carriers: 86 pass, 0 fail
-- 58s
+- published: 880 pass, 0 fail
+- 19s

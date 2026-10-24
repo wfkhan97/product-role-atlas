@@ -14,6 +14,10 @@ coverage   A skill that at least four fields ask for (mean share over the field'
 grounding  Each carrier named in a field entry is asked for together with the skill in at least 15% of the field's US
            postings that ask for the skill (company-balanced weights). The entry says what carries the skill in that
            field; the postings must agree.
+published  web/data/graph.json and web/data/graph_mba.json carry what the source files say: every skill node has the
+           taxonomy's kind and the evidence entry under how_shown, the field entries of fields.json appear as `fields`
+           with the postings' side beside them (product: the product entry only), meta.kinds is the KINDS table, and
+           web/data/taxonomy*.json carry the kind. A build that is older than the files fails here.
 carriers   Each skill a behaviour's evidence names as showing it is asked for together with the behaviour in at least 10%
            of some field's postings that ask for the behaviour: a carrier is field-specific (pitch books carry
            communication in banking), so the check is the maximum over fields, not the pooled share.
@@ -163,8 +167,34 @@ def main():
         out(f"- **{name[sid]}**: " + ", ".join(parts))
 
     out()
+    out("## Published")
+    out("The indexes the interface reads carry the kinds, the evidence and the field entries of the source files.")
+    import json as _json
+    for fn, which in (("graph.json", "product"), ("graph_mba.json", "mba")):
+        path = os.path.join(ROOT, "web", "data", fn)
+        G = _json.load(open(path))
+        check("published", G["meta"].get("kinds") == tax.KINDS and G["meta"].get("forms") == tax.FORMS, f"{fn}: meta.kinds or meta.forms is not the current table")
+        bad_kind = [s["id"] for s in G["skills"] if s.get("kind") != kind.get(s["id"])]
+        check("published", not bad_kind, f"{fn}: kind differs from the taxonomy on {bad_kind[:5]}")
+        bad_ev = [s["id"] for s in G["skills"] if s.get("how_shown") != evidence.get(s["id"])]
+        check("published", not bad_ev, f"{fn}: how_shown differs from evidence.json on {bad_ev[:5]}")
+        for s in G["skills"]:
+            want = fields.get(s["id"], {})
+            want = {g: e for g, e in want.items() if g == "product"} if which == "product" else want
+            have = s.get("fields") or {}
+            check("published", set(have) == set(want), f"{fn}: {s['id']} fields {sorted(have)} vs source {sorted(want)}")
+            for g, e in want.items():
+                h = have.get(g) or {}
+                check("published", all(h.get(k) == v for k, v in e.items()), f"{fn}: {s['id']}.{g} text differs from fields.json")
+                check("published", isinstance(h.get("with"), list) and isinstance(h.get("subs"), list) and "n" in h, f"{fn}: {s['id']}.{g} lacks the postings' side")
+        tpath = os.path.join(ROOT, "web", "data", "taxonomy.json" if which == "product" else "taxonomy_mba.json")
+        TW = _json.load(open(tpath))
+        check("published", all(s.get("kind") == kind.get(s["id"]) for s in TW["skills"]), f"{os.path.basename(tpath)}: a skill lacks its kind")
+        out(f"- {fn}: {len(G['skills'])} skills with kind and how_shown; {sum(1 for s in G['skills'] if s.get('fields'))} with field entries; {os.path.basename(tpath)} carries the kind")
+
+    out()
     out("## Totals")
-    for part in ("shape", "coverage", "grounding", "carriers"):
+    for part in ("shape", "coverage", "grounding", "carriers", "published"):
         out(f"- {part}: {totals[(part, 'pass')]} pass, {totals[(part, 'fail')]} fail")
     out(f"- {time.time() - t0:.0f}s")
     if args.baseline:
