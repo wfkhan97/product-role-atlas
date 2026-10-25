@@ -1349,3 +1349,14 @@ checks). pytest: 121 pass, 1 xfail; the xfail on a rewritten description now pas
   "other" chunks are shown plain and never asked about. Simulated readers answering line by line (seed 7, 4,000
   runs): perfect 1.000, careful 0.825 (85% of asks found, 80% of filler let pass), keyword 0.547, all-ask 0.500,
   all-filler 0.
+
+## Skill path as a card game (2026-10-20)
+
+- The random pool, now one pool (a shortest route of 2 to 6 hops, no small role): 454 pairings from a field and
+  2,113 from a role on the 2026-10-19 data (the three difficulty pools held 89 / 318 / 47 and 451 / 1,445 / 217).
+- On every pairing with a route (3,334), at a budget of the shortest route plus two: the random player arrives in
+  28% of rounds, the biggest-blue-number player in 56%, the map-nearest player in 55%, the perfect player always.
+  Good hops (the target asks for the skill in 25% or more of its postings) per hop: random 0.17, biggest 0.56, map
+  0.31, perfect 0.50. The biggest number is now the goal, so following it is a fair strategy, not a trap.
+- Marketing → Product Manager: the shortest route (Consumer products & B2C → Product discovery & validation →
+  Roadmapping) has 2 good hops of 3; the README's played route arrives in 4 with 2 good.

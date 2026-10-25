@@ -19,7 +19,7 @@
   const session = { get(k, d) { try { const v = sessionStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch { } } };
 
   let data = null, P = null;
-  const ui = { el: null, groups: [], fit: null, onlyFit: false, focus: null, hover: null, selected: null, showAside: null, sizeOf: () => 1, all: true, overlay: null, tf: null, labelled: new Set(), lens: [], chart: null };
+  const ui = { el: null, groups: [], fit: null, onlyFit: false, focus: null, hover: null, selected: null, showAside: null, sizeOf: () => 1, all: true, overlay: null, tf: null, labelled: new Set(), lens: [], chart: null, route: null };
 
   // ---------- what a field asks for: the mean share of a skill over the field's roles ----------
   function fieldShares(M) {
@@ -125,17 +125,23 @@
     const ov = ui.overlay;
     // every skill at rest (owner's decision 2026-10-24); "Show the fields alone" takes them away, a lit field or a
     // picked skill brings its own back
-    const all = ui.all || !!sel, shown = all ? data.nodes : hl ? data.nodes.filter(nd => hl.has(nd.id)) : [];
+    // the planned route (PLAN.md v12, SP2-C): its skills and arrivals are shown whatever else is
+    const rt = ui.route, onRoute = new Set(rt ? rt.path : []), arrive = new Set(rt ? rt.arrivals : []);
+    const all = ui.all || !!sel, base = all ? data.nodes : hl ? data.nodes.filter(nd => hl.has(nd.id)) : [];
+    const shown = rt ? [...base, ...data.nodes.filter(nd => (onRoute.has(nd.id) || arrive.has(nd.id)) && !base.includes(nd))] : base;
     const radius = nd => 3 + 6 * Math.sqrt(nd.share);
     let svg = `<svg class="sm-svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">`;
     if (ui.all) svg += `<path class="sm-e" d="${edgeSeg(data.edges)}"/>`;
     if (hl && !sel && data.field[lit]) { const f = px(data.field[lit]); svg += `<path class="sm-spoke" d="${seg([...hl.keys()].map(id => [f, at(id)]))}"/>`; }
     if (sel) svg += `<path class="sm-e sel" d="${edgeSeg(data.edges.filter(e => (e.source === sel && near.has(e.target)) || (e.target === sel && near.has(e.source))))}"/>`;
+    // the planned route: a green line along it, drawn under the dots
+    if (rt && rt.path.length > 1) svg += `<path class="sm-route" d="${rt.path.map((id, i) => { const [a, b] = at(id); return (i ? "L" : "M") + a.toFixed(1) + " " + b.toFixed(1); }).join("")}"/>`;
     svg += shown.map(nd => {
       const wv = hl && hl.get(nd.id);
       const state = ov ? (ov.have.has(nd.id) ? "have" : ov.todo.has(nd.id) ? "todo" : "quiet") : (data.named.has(nd.id) ? "top" : "quiet");
-      const cls = "sm-n " + state + (wv && !ov ? " hl" : "") + (nd.id === sel ? " sel" : near.has(nd.id) ? " near" : ""), [cx, cy] = at(nd.id);
-      return `<circle class="${cls}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${radius(nd).toFixed(1)}"${wv && !ov ? ` style="opacity:${(0.5 + 0.5 * wv / maxW).toFixed(2)}"` : ""} data-sk="${esc(nd.id)}"/>`;
+      const onR = onRoute.has(nd.id), onA = !onR && arrive.has(nd.id);
+      const cls = "sm-n " + state + (wv && !ov ? " hl" : "") + (nd.id === sel ? " sel" : near.has(nd.id) ? " near" : "") + (onR ? (rt.ticks && rt.ticks.has(nd.id) ? " route" : " route gap") : onA ? " arrive" : ""), [cx, cy] = at(nd.id);
+      return `<circle class="${cls}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(onR || onA ? 5 : radius(nd)).toFixed(1)}"${wv && !ov && !onR ? ` style="opacity:${(0.5 + 0.5 * wv / maxW).toFixed(2)}"` : ""} data-sk="${esc(nd.id)}"/>`;
     }).join("");
     // names: the picked skill and its neighbours first, then a lit field's five, then the coloured dots, then the
     // 35 most-asked (faint); the field circles are blocked so nothing is written over them
@@ -143,11 +149,13 @@
     const place = labeller(blocked, [0, 0, w, h]), named = [], seen = new Set();
     const want = (id, cls) => { if (seen.has(id) || !data.byId[id] || !shown.includes(data.byId[id])) return; seen.add(id); named.push([id, cls]); };
     if (sel) { want(sel, "sel"); near.forEach(id => want(id, "")); }
+    // the route's skills are always named, a ✓ on the ones the resume shows
+    if (rt) { rt.path.forEach(id => want(id, "route")); rt.arrivals.forEach(id => want(id, "arrive")); }
     if (hl) [...hl.keys()].slice(0, 5).forEach(id => want(id, ""));
     if (ov) { ov.have.forEach(id => want(id, "have")); ov.todo.forEach(id => want(id, "todo")); }
     else data.named.forEach(id => want(id, "quiet"));
     ui.labelled = new Set();
-    svg += named.map(([id, cls]) => { const [a, b] = at(id), nd = data.byId[id], pos = place(a, b, nd.name, 11); if (!pos) return ""; ui.labelled.add(id); return `<text class="sm-name${cls ? " " + cls : ""}" x="${pos.x.toFixed(1)}" y="${(b + 4).toFixed(1)}" text-anchor="${pos.anchor}">${esc(nd.name)}</text>`; }).join("");
+    svg += named.map(([id, cls]) => { const [a, b] = at(id), nd = data.byId[id], pos = place(a, b, nd.name, 11); if (!pos) return ""; ui.labelled.add(id); return `<text class="sm-name${cls ? " " + cls : ""}" x="${pos.x.toFixed(1)}" y="${(b + 4).toFixed(1)}" text-anchor="${pos.anchor}">${cls === "route" && rt.ticks && rt.ticks.has(id) ? "✓ " : ""}${esc(nd.name)}</text>`; }).join("");
     // the skill areas as faint words at the centre of their dots, instead of colours (owner's choice, v9)
     if (ui.all) {
       const byArea = {}; for (const nd of data.nodes) (byArea[nd.cluster] ||= []).push(at(nd.id));
@@ -235,7 +243,7 @@
     if (nd) select(nd.id); return !!nd;
   }
   async function names() { await load(); return data.nodes.map(nd => nd.name).sort(); }
-  function leave() { ui.el = null; ui.selected = null; ui.hover = null; ui.showAside = null; ui.overlay = null; ui.chart = null; if (data) tip(null); }
+  function leave() { ui.el = null; ui.selected = null; ui.hover = null; ui.showAside = null; ui.overlay = null; ui.chart = null; ui.route = null; if (data) tip(null); }
 
   // ---------- the field chart: one field's skills on lanes (owner's decisions 2026-10-24) ----------
   // Across: the share of the field's postings that ask for the skill. Up: lanes in words. Without a resume the lanes
@@ -300,10 +308,65 @@
     C.el.innerHTML = svg;
   }
 
+  // ---------- the route planner (PLAN.md v12, SP2-C): from a field to a role, the shortest route on the map, the
+  // skills your resume shows ticked, build next; a tool, not a score. Uses the game's logic (window.SkillPath). ----------
+  const plan = { from: null, to: null, su: null, ticks: null };
+  async function planner(host, opts = {}) {
+    await load();
+    const SP = window.SkillPath; if (!host || !SP) return;
+    const L = SP.logic, ix = data.ix, M = data.M;
+    const fields = M.groups.map(g => g.id).filter(id => ix.groups.some(g => g.id === id));
+    const roleLabel = id => (ix.roles[id] || {}).label || id, groupOf = id => (ix.roles[id] || {}).group;
+    let you = null; try { you = JSON.parse(localStorage.getItem("you")); } catch { }
+    if (!plan.from || !fields.includes(plan.from)) plan.from = ((you && you.fields) || []).find(f => fields.includes(f)) || (fields.includes("marketing") ? "marketing" : fields[0]);
+    const want = opts.role && (ix.roles[opts.role] ? opts.role : ix.roles["product." + opts.role] ? "product." + opts.role : null);
+    if (want) plan.to = want; else if (!plan.to || !ix.roles[plan.to]) plan.to = ix.roles["product.pm"] ? "product.pm" : Object.keys(ix.roles)[0];
+    const render = () => {
+      const fieldOpts = fields.map(g => `<option value="${esc(g)}"${g === plan.from ? " selected" : ""}>${esc(groupLabel(g))}</option>`).join("");
+      const roleOpts = fields.map(g => { const rs = (ix.groups.find(x => x.id === g) || { roles: [] }).roles.filter(r => ix.roles[r]); return rs.length ? `<optgroup label="${esc(groupLabel(g))}">${rs.map(r => `<option value="${esc(r)}"${r === plan.to ? " selected" : ""}>${esc(roleLabel(r))}</option>`).join("")}</optgroup>` : ""; }).join("");
+      host.innerHTML = `<div class="sm-plan" role="group" aria-label="Route planner"><span>Plan a route</span>
+        <label>from <select id="sm-from" aria-label="From field">${fieldOpts}</select></label>
+        <label>to <select id="sm-to" aria-label="To role">${roleOpts}</select></label>
+        <button type="button" class="btn primary" id="sm-show">Show route</button>
+        ${ui.route ? `<button type="button" class="linkish link" id="sm-clear">Clear</button>` : ""}
+        <span class="sm-plan-out" id="sm-plan-out" aria-live="polite"></span></div>`;
+      host.querySelector("#sm-from").onchange = e => { plan.from = e.target.value; };
+      host.querySelector("#sm-to").onchange = e => { plan.to = e.target.value; };
+      host.querySelector("#sm-show").onclick = show;
+      const c = host.querySelector("#sm-clear"); if (c) c.onclick = () => { ui.route = null; plan.su = null; render(); draw(); };
+    };
+    const out = html => { const o = host.querySelector("#sm-plan-out"); if (o) o.innerHTML = html; };
+    const line = () => {
+      const su = plan.su, name = id => (data.byId[id] || {}).name || id, pct = v => v == null ? "not read" : Math.round(v * 100) + "%";
+      const ticks = plan.ticks || new Set(), path = su.short;
+      const route = path.map((id, i) => `${ticks.has(id) ? "<span class=\"you\">✓ </span>" : ""}${esc(name(id))}${i ? ` <span class="num">${pct(su.share(id))}</span>` : ""}`).join(" → ");
+      const next = path.filter(id => !ticks.has(id) && su.share(id) != null && su.share(id) > 0 && !L.isDomain(data.M.skills.find(s => s.id === id))).sort((a, b) => su.share(b) - su.share(a))[0];
+      const shown = ticks.size ? ` <span class="you">✓</span> ${ticks.size === 1 ? "a skill" : `${ticks.size} skills`} your resume shows.` : plan.ticks ? " Your resume shows none of them yet." : "";
+      return `Shortest route from ${esc(groupLabel(plan.from))} to ${esc(roleLabel(plan.to))}: <b>${su.par} ${su.par === 1 ? "hop" : "hops"}</b>. ${route}. The blue number is the share of ${esc(roleLabel(plan.to))} postings that ask for it.${shown}${next ? ` Build next: <b>${esc(name(next))}</b> (<span class="num">${pct(su.share(next))}</span> of ${esc(roleLabel(plan.to))} postings).` : ""}`;
+    };
+    async function show() {
+      out("Finding the route…");
+      try {
+        const [Pr, generic] = await Promise.all([Atlas.product(), Atlas.genericSkills()]);
+        const B = L.buildBoard(M, generic), fs = Object.keys(data.FS).filter(g => g in data.field);
+        const su = L.setup({ ix, P: Pr, B, FS: data.FS, fields: fs }, "field", plan.from, plan.to);
+        const refuse = L.refusal(ix, "field", plan.from, plan.to, su);
+        if (refuse) { ui.route = null; plan.su = null; draw(); render(); out(`<span class="warn">${refuse === "same-field" ? `${esc(roleLabel(plan.to))} is a ${esc(groupLabel(plan.from))} role: pick a role in another field.` : refuse === "par0" ? `${esc(groupLabel(plan.from))} already starts on one of the skills that set ${esc(roleLabel(plan.to))} apart: ${esc((data.byId[su.start] || {}).name || "")}.` : "No route on the board for this pairing."}</span>`); return; }
+        plan.su = su; plan.ticks = null;
+        ui.route = { path: su.short, arrivals: su.arrivals, ticks: new Set() };
+        ui.focus = null;
+        render(); draw(); out(line());
+        const ev = await SP.tools.evidence(Atlas, plan.to).catch(() => null);
+        if (ev && plan.su === su) { plan.ticks = new Set(su.short.filter(id => ev.has(id))); ui.route.ticks = plan.ticks; draw(); out(line()); }
+      } catch (e) { console.error(e); out(`<span class="warn">Could not plan the route: ${esc(e && e.message || e)}.</span>`); }
+    }
+    render();
+    if (plan.su && ui.route) out(line());
+  }
   const mode = () => session.get(MODE_KEY, "grid"), setMode = m => session.set(MODE_KEY, m);
   const showAll = v => { ui.all = !!v; draw(); }, allShown = () => ui.all;
   // read-only, for games that use the map as a board (web/games/skill-path.js): positions, links and field shares;
   // FS gains the product field once the product set has loaded
   async function board() { await load(); return { nodes: data.nodes, byId: data.byId, adj: data.adj, field: data.field, rField: R_FIELD, A, get FS() { return data.FS; } }; }
-  window.SkillMap = { stage, find, names, leave, mode, setMode, showAll, allShown, board, chart, chartLight };
+  window.SkillMap = { stage, find, names, leave, mode, setMode, showAll, allShown, board, chart, chartLight, planner };
 })();

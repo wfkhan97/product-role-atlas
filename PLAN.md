@@ -304,6 +304,18 @@ Per-game shapes (the audit's options chosen):
   target's share on each and a strip of hops, the map on the end screen (SP2-A); "Can you already show it?" asked
   once at the end on the route, pre-ticked from the resume (SP3-A); a hop is good when the target asks for it and
   the round ends on a top-three skill, no hidden par (SP4-A). The route planner on Explore is SP2-C.
+  Built as (2026-10-20, step 7): the round is a row of four cards (name, area, the target's share and a bar, ★ on a
+  skill that ends the round) under a strip of hops; no map and no side panel in play. A hop is good when the target's
+  share is 25% or more (the arrival skills' own floor); the measure is "Arrived in 4 hops · 2 of 4 good" or "2 hops
+  short · 1 of 3 good". The budget is still the shortest route plus two, shown as "hops left · shortest route N"; the
+  shortest route is a comparison on the end screen, not a score, and the rank titles are gone. "Tick the hops you
+  can already show" is a checkbox per skill of the route on the end screen; the ticks come pre-filled from the
+  resume on file through the fit page's own matcher (`SkillPath.tools.evidence`, the evidenced and transferable
+  skills), feed Build next and the Know-your-role record (route met, ticked known), and are saved as they change.
+  The map is drawn once, on the end screen, with the route, the shortest route and the arrival skills. The route
+  planner is `SkillMap.planner` on the Explore map view: a field and a role, Show route, the shortest route drawn in
+  green on the map with ✓ on the skills the resume shows, the hop count, the shares and Build next in one line; the
+  role in the hash (`?role=`) is its target. The random pairing pool is one pool (a shortest route of 2 to 6 hops).
 
 Build order, one branch and one PR each, each branch cut from the one before (cascading, no worktrees; retarget the
 next PR to main before a base branch is deleted):
@@ -351,6 +363,10 @@ next PR to main before a base branch is deleted):
    a line-by-line scorer eval (five simulated readers answering every line); Where's the demand had no eval and gets
    `tests/web/wheres-the-demand.test.mjs`; `tests/web/spot-the-real-ask.test.mjs` is new.
 7. `feat/games-2-7-skill-path`: the card game and the route planner (SP1 to SP4).
+   Built as (2026-10-20): `evals/skill_path.mjs` replaced by the card game's checks (the board, the README's round
+   under the new rules with the ★ marks, build next with and without ticks, the biggest-blue-number route from Supply
+   chain, the one random pool of 454 from a field and 2,113 from a role, four simulated players on every pairing);
+   `tests/web/skill-path.test.mjs` re-pointed (no ranks, no difficulty, the ticks, the order of a pairing's best).
 
 The game evals test data rules, not screens; steps 1 to 4 leave them intact. Steps 5 to 7 change the rules of five
 games and re-point or replace their evals and baselines in the same PR (`evals/README.md`, "Game evals").

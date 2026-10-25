@@ -366,6 +366,21 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .sm-field.dim { opacity: 0.45; }
 .sm-find { width: 240px; padding: 5px 10px; border-radius: var(--radius-sm); border: 1px solid var(--input); background: var(--background); color: var(--foreground); font: inherit; font-size: var(--text-sm); }
 .sm-tip { position: fixed; z-index: 4; pointer-events: none; padding: 3px 8px; border-radius: var(--radius-sm); background: var(--card); border: 1px solid var(--border); color: var(--heading-foreground); font-size: var(--text-sm); white-space: nowrap; }
+/* the route planner (PLAN.md v12, SP2-C): from a field to a role, the shortest route drawn on the map, your skills ticked */
+.sm-plan { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 10px 0 0; font-size: var(--text-sm); color: var(--muted-foreground); }
+.sm-plan label { display: inline-flex; align-items: center; gap: 6px; }
+.sm-plan select { font: inherit; font-size: var(--text-sm); color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 8px; max-width: 260px; }
+.sm-plan .btn { padding: 4px 10px; }
+.sm-plan-out { flex-basis: 100%; color: var(--foreground); }
+.sm-plan-out .num { font-family: var(--font-mono); color: var(--secondary); }
+.sm-plan-out .you { color: var(--primary); }
+.sm-plan-out .warn { color: var(--warning); }
+.sm-route { fill: none; stroke: var(--primary); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.sm-n.route { fill: var(--primary); opacity: 1; stroke: var(--background); stroke-width: 2px; }
+.sm-n.route.gap { fill: var(--background); stroke: var(--warning); stroke-width: 2.5px; }
+.sm-n.arrive { fill: var(--secondary); opacity: 1; }
+.sm-name.route { fill: var(--primary); font-weight: var(--weight-medium); }
+.sm-name.arrive { fill: var(--secondary); }
 .sm-card { margin-top: 2px; }
 .sm-title { margin: 0 0 4px; font-size: var(--text-lg); color: var(--heading-foreground); }
 .sm-h { font-size: var(--text-sm); color: var(--subtle-foreground); margin: 14px 0 4px; }
@@ -588,37 +603,24 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .cl-dots i { width: 10px; height: 10px; border-radius: 2px; background: var(--muted); display: inline-block; }
 .cl-dots i.d-r { background: var(--primary); } .cl-dots i.d-h { background: var(--primary); opacity: 0.45; } .cl-dots i.d-w { background: var(--warning); }
 
-/* ---------- Skill path (web/games/skill-path.js): the skill map as a board, a route of hops ---------- */
-.main > .page.sp { max-width: none; }
-.sp-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 10px; }
+/* ---------- Skill path (web/games/skill-path.js): a row of four cards, a strip of hops, the map once at the end ---------- */
+/* Green: the route, a ticked hop, a good hop. Blue: the target's shares and the arrival skills. Amber: not yet. */
+.main > .page.sp { max-width: 1040px; }
+.sp-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin: 14px 0 10px; }
 .sp-head h1 { margin: 0; }
-.sp-qt:focus { outline: none; }
-.sp-board { position: relative; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--background); overflow: hidden; }
-.sp-svg { display: block; }
-.sp-field { fill: var(--card); stroke: var(--border); stroke-width: 1; }
-.sp-field.on { stroke: var(--input); }
-.sp-flabel { font-size: 13px; fill: var(--subtle-foreground); font-weight: var(--weight-medium); }
-.sp-flabel.on { fill: var(--heading-foreground); }
-.sp-e { fill: none; stroke: var(--foreground); stroke-opacity: 0.06; stroke-width: 0.7; }
-.sp-look { fill: none; stroke: var(--heading-foreground); stroke-opacity: 0.35; stroke-width: 1; }
-.sp-n { fill: var(--subtle-foreground); opacity: 0.5; }
-.sp-gen { fill: none; stroke: var(--subtle-foreground); stroke-opacity: 0.6; stroke-dasharray: 2 2; }
-.sp-route { fill: none; stroke: var(--primary); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
-.sp-short { fill: none; stroke: var(--heading-foreground); stroke-opacity: 0.7; stroke-width: 1.5; stroke-dasharray: 5 4; }
-.sp-short-n { fill: var(--background); stroke: var(--heading-foreground); stroke-width: 1.5; }
-.sp-cand-e { fill: none; stroke: var(--heading-foreground); stroke-opacity: 0.55; stroke-width: 1.2; stroke-dasharray: 3 3; }
-.sp-cand { fill: var(--heading-foreground); }
-.sp-num { font-family: var(--font-mono); font-size: 10px; font-weight: var(--weight-semibold); fill: var(--background); }
-.sp-you { fill: var(--primary); stroke: var(--background); stroke-width: 2; }
-.sp-you.gap { fill: var(--background); stroke: var(--warning); stroke-width: 2.5; }
-.sp-here { fill: none; stroke: var(--primary); stroke-width: 1.5; stroke-opacity: 0.7; }
-.sp-zone { fill: var(--secondary-tint); stroke: var(--secondary); stroke-width: 1.5; }
-.sp-zone-dot { fill: var(--secondary); }
-.sp-name { font-size: 13px; fill: var(--foreground); paint-order: stroke; stroke: var(--background); stroke-width: 4px; stroke-linejoin: round; }
-.sp-name.you { fill: var(--primary); font-weight: var(--weight-medium); }
-.sp-name.zone { fill: var(--secondary); }
-.sp-name.cand { fill: var(--heading-foreground); font-weight: var(--weight-medium); }
-.sp-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 12px 0 0; }
+.sp-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.sp-card { position: relative; display: grid; gap: 4px; align-content: start; text-align: left; padding: 14px 16px 12px 16px; min-height: 150px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--card); color: var(--foreground); cursor: pointer; }
+.sp-card:hover, .sp-card:focus-visible { border-color: var(--input); }
+.sp-card kbd { position: absolute; top: 12px; right: 12px; }
+.sp-card .t { font-size: var(--text-md); font-weight: var(--weight-medium); color: var(--heading-foreground); padding-right: 30px; }
+.sp-card .m { font-size: var(--text-sm); color: var(--muted-foreground); }
+.sp-card .n { margin-top: 6px; font-family: var(--font-mono); font-size: var(--text-2xl); line-height: 1; color: var(--secondary); font-variant-numeric: tabular-nums; }
+.sp-card .n.nr { font-size: var(--text-sm); color: var(--subtle-foreground); }
+.sp-card .bar { height: 3px; border-radius: 2px; background: var(--muted); overflow: hidden; }
+.sp-card .bar i { display: block; height: 100%; background: var(--secondary); }
+.sp-card.end { border-color: var(--secondary); }
+.sp-card .sp-end-tag { font-size: var(--text-sm); color: var(--secondary); }
+.sp-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 4px 0 0; }
 .sp-strip .tag { display: inline-flex; gap: 6px; align-items: baseline; }
 .sp-strip .sp-cur { outline: 2px solid var(--primary); outline-offset: 1px; }
 .sp-tagn { font-family: var(--font-mono); color: var(--subtle-foreground); }
@@ -627,55 +629,57 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .sp-bluet { color: var(--secondary); font-weight: var(--weight-medium); }
 .sp-green { color: var(--primary); font-weight: var(--weight-medium); }
 .sp-amber { color: var(--warning); }
-.sp-aside .sp-h2 { margin: 2px 0 6px; font-size: var(--text-lg); }
-.sp-choices { display: grid; gap: 8px; margin-top: 12px; }
-.sp-choice { grid-template-columns: 22px 1fr auto; padding: 10px 10px 8px; gap: 4px 10px; }
-.sp-choice:hover, .sp-choice:focus-visible { border-color: var(--heading-foreground); }
-.sp-choice .sp-k { font-family: var(--font-mono); color: var(--background); background: var(--heading-foreground); border-radius: 50%; width: 20px; height: 20px; display: grid; place-items: center; font-size: 12px; font-weight: var(--weight-semibold); grid-row: 1; }
-.sp-choice .sp-cn { display: flex; flex-direction: column; gap: 1px; }
-.sp-choice .def { font-size: var(--text-base); font-weight: var(--weight-medium); }
-.sp-choice .sp-meta { font-size: var(--text-sm); color: var(--muted-foreground); }
-.sp-choice .pct { font-size: var(--text-base); align-self: start; }
-.sp-choice .bar { grid-column: 2 / -1; }
-.sp-q { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); padding: 14px; margin-top: 16px; }
-.sp-qt { font-size: var(--text-lg); color: var(--heading-foreground); font-weight: var(--weight-medium); margin-bottom: 4px; }
-.sp-ans { display: grid; gap: 8px; margin-top: 12px; }
-.sp-ans .btn { justify-content: space-between; }
-/* start */
-.sp-cols { display: grid; grid-template-columns: minmax(0, 1fr) 394px; gap: 36px; }
+/* the route form */
+.sp-start { max-width: 720px; }
 .sp-start h2 { margin: 16px 0 2px; font-size: var(--text-base); color: var(--muted-foreground); }
 .sp-start .chips { margin: 8px 0 4px; }
 .sp-search { margin: 6px 0; max-width: 300px; }
-.sp-mini { margin-top: 6px; }
 .sp-brief { margin-top: 12px; font-size: var(--text-base); }
-.sp-zone-list .r { padding: 7px 0; } .sp-zone-list .r .t { font-size: var(--text-base); }
-/* end */
-.sp-cols.e { grid-template-columns: 602px minmax(0, 1fr); gap: 28px; }
-.sp-end .lead { margin-bottom: 10px; }
-.sp-endside h3 { margin: 4px 0 6px; font-size: var(--text-sm); color: var(--subtle-foreground); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: var(--tracking-label); }
-.sp-two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.sp-rl .r { padding: 6px 0; } .sp-rl .r .t { font-size: var(--text-base); grid-row: 1; }
-.sp-rl .r .n { grid-row: 1; }
-.sp-rl .r.sp-no .t { color: var(--warning); }
-.sp-rl .r.sp-yes .t::before { content: "✓ "; color: var(--primary); }
-.sp-build { border: 1px solid var(--warning); border-radius: var(--radius-md); padding: 12px 14px; margin-top: 14px; }
-.sp-bt { font-size: var(--text-lg); color: var(--heading-foreground); font-weight: var(--weight-medium); margin-bottom: 2px; }
-.sp-name.short { fill: var(--heading-foreground); }
-/* the game's own additions to the mocks' styles */
-.sp-board .sp-pick { cursor: pointer; }
-.sp-board .sp-pick:hover .sp-cand { fill: var(--primary); }
-.sp-choice .sp-towards { color: var(--primary); }
-.sp-choice .bar { height: 3px; }
 .sp-problem { max-width: 560px; }
+.sp-zone-list .r { padding: 7px 0; } .sp-zone-list .r .t { font-size: var(--text-base); }
 .sp-besth { margin: 16px 0 2px; font-size: var(--text-sm); color: var(--subtle-foreground); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: var(--tracking-label); }
 .sp-best .r { padding: 7px 0; border-top: 0; } .sp-best .r .t { font-size: var(--text-base); }
 .sp-best .r.sp-old { opacity: 0.55; }
-.sp-rl a.r .t { color: var(--heading-foreground); } .sp-rl a.r:hover .t { color: var(--primary); }
-.sp-rl a.r.sp-no .t { color: var(--warning); }
-.sp-bt a { color: inherit; } .sp-bt a:hover { color: var(--primary); }
+/* the end: the map once, the route to tick, the shortest route, build next */
+.sp-end .sp-strip { margin-bottom: 12px; }
+.sp-cols.e { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 28px; align-items: start; }
+.sp-board { position: relative; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--background); overflow: hidden; }
+.sp-svg { display: block; }
+.sp-field { fill: var(--card); stroke: var(--border); stroke-width: 1; }
+.sp-field.on { stroke: var(--input); }
+.sp-flabel { font-size: 13px; fill: var(--subtle-foreground); font-weight: var(--weight-medium); }
+.sp-flabel.on { fill: var(--heading-foreground); }
+.sp-e { fill: none; stroke: var(--foreground); stroke-opacity: 0.06; stroke-width: 0.7; }
+.sp-n { fill: var(--subtle-foreground); opacity: 0.5; }
+.sp-gen { fill: none; stroke: var(--subtle-foreground); stroke-opacity: 0.6; stroke-dasharray: 2 2; }
+.sp-route { fill: none; stroke: var(--primary); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.sp-short { fill: none; stroke: var(--heading-foreground); stroke-opacity: 0.7; stroke-width: 1.5; stroke-dasharray: 5 4; }
+.sp-short-n { fill: var(--background); stroke: var(--heading-foreground); stroke-width: 1.5; }
+.sp-you { fill: var(--primary); stroke: var(--background); stroke-width: 2; }
+.sp-you.gap { fill: var(--background); stroke: var(--warning); stroke-width: 2.5; }
+.sp-zone { fill: var(--secondary-tint); stroke: var(--secondary); stroke-width: 1.5; }
+.sp-zone-dot { fill: var(--secondary); }
+.sp-name { font-size: 13px; fill: var(--foreground); paint-order: stroke; stroke: var(--background); stroke-width: 4px; stroke-linejoin: round; }
+.sp-name.you { fill: var(--primary); font-weight: var(--weight-medium); }
+.sp-name.zone { fill: var(--secondary); }
+.sp-name.short { fill: var(--heading-foreground); }
 .sp-route.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: sp-draw 1.1s ease-out forwards; }
 @keyframes sp-draw { to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .sp-route.draw { animation: none; stroke-dasharray: none; stroke-dashoffset: 0; } }
+.sp-endside h3 { margin: 4px 0 6px; font-size: var(--text-sm); color: var(--subtle-foreground); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: var(--tracking-label); }
+.sp-two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.sp-tickhelp { margin: 0 0 4px; }
+.sp-rl .r { padding: 6px 0; } .sp-rl .r .t { font-size: var(--text-base); grid-row: 1; }
+.sp-rl .r .n { grid-row: 1; }
+.sp-rl label.r { grid-template-columns: auto 1fr auto; cursor: pointer; align-items: center; }
+.sp-rl label.r input { margin: 0; accent-color: var(--primary); }
+.sp-rl label.r .t { grid-column: 2; }
+.sp-rl label.r .n { grid-column: 3; }
+.sp-rl .r.sp-yes .t { color: var(--primary); }
+.sp-rl a.r .t { color: var(--heading-foreground); } .sp-rl a.r:hover .t { color: var(--primary); }
+.sp-build { border: 1px solid var(--warning); border-radius: var(--radius-md); padding: 12px 14px; margin-top: 14px; }
+.sp-bt { font-size: var(--text-lg); color: var(--heading-foreground); font-weight: var(--weight-medium); margin-bottom: 2px; }
+.sp-bt a { color: inherit; } .sp-bt a:hover { color: var(--primary); }
 
 /* ---------- games: Guess the role (#/play/guess-the-role) ---------- */
 /* ported from games/guess-the-role/mocks; green = you (right, chosen), blue = the postings' numbers, amber = wrong */

@@ -19,7 +19,7 @@ beside them.
 | Game | Folder | One line |
 |---|---|---|
 | Know the role | [`know-the-role/`](know-the-role/) | Pick a role's real asks from twelve skills, call eight over or under half; built in v12 from the three below |
-| Skill path | [`skill-path/`](skill-path/) | Hop between linked skills from your field to a new role |
+| Skill path | [`skill-path/`](skill-path/) | Hop between linked skills from your field to a new role, four cards at a time; a card game with the map at the end since v12, plus the route planner on Explore |
 | Guess the role | [`guess-the-role/`](guess-the-role/) | Name the role from three of a real posting's skills, giveaway last; five rounds since v12 |
 | Climb the ladder | [`climb-the-ladder/`](climb-the-ladder/) | Sort a skill's statements onto Entry, Mid, Senior, Lead |
 | Where's the demand | [`wheres-the-demand/`](wheres-the-demand/) | Put five fields, then five roles, in order of open postings; rank the fields since v12 |
