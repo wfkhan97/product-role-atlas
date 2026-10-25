@@ -1,7 +1,8 @@
 /* Game: Build the hire (#/play/build-the-hire?role=<id>&deal=<n>, &view=score for the scorecard). The spec is
    games/build-the-hire/README.md; the model is a port of games/build-the-hire/scripts/compute.js and gives the same
-   numbers for the same role, deal and choices. Four screens: brief and role picker, draft, verdict, scorecard, drawn
-   in the shared shell (web/gameshell.js: one header, 1 to 3 choose, Enter hires, Esc quits, one record).
+   numbers for the same role, deal and choices. Four screens: the start (one sentence and Play on the default role,
+   the shared picker behind "Change role"), draft, verdict, scorecard, drawn in the shared shell (web/gameshell.js:
+   one header, 1 to 3 choose, Enter hires, Esc quits, one record).
    Registers window.Games["build-the-hire"] = { mount } (contract in games/README.md). Nothing leaves the browser. */
 (function () {
   "use strict";
@@ -225,8 +226,9 @@
     try { D = await load(Atlas); } catch (e) { if (alive()) failed(e); return; }
     if (!alive()) return;
 
+    const pickable = id => D.fields.some(f => f.roles.some(x => x.id === id));
     const roleId = q.get("role");
-    if (!roleId || !D.ix.roles[roleId]) return brief();
+    if (!roleId || !pickable(roleId)) return brief();
     const deal = parseInt(q.get("deal"), 10);
     if (!(deal > 0)) { location.replace(href(roleId, randomDeal())); return; }
     const r = D.ix.roles[roleId];
@@ -257,32 +259,17 @@
     }
     function pricedElsewhere(c) { return c.share < CFG.askedShare && !!c.peak && c.peak.role !== roleId; }
 
-    // ---------- 01 brief and role picker ----------
-    function brief() {
-      onKey = null; F.set({ round: null, rounds: 0, role: "" });
-      const saved = rec();
-      let pick = (saved.lastRole && D.ix.roles[saved.lastRole] && D.fields.some(f => f.roles.some(x => x.id === saved.lastRole))) ? saved.lastRole : (D.ix.roles["product.pm"] ? "product.pm" : D.fields[0].roles[0].id);
-      let field = D.fields.find(f => f.roles.some(x => x.id === pick)).id;
-      const render = () => {
-        const f = D.fields.find(x => x.id === field), sel = D.ix.roles[pick], allBest = rec().best || {};
-        const row = x => { const b = allBest[x.id]; return `<button type="button" class="r${x.id === pick ? " on" : ""}" data-role="${esc(x.id)}" aria-pressed="${x.id === pick}"><span class="t">${esc(x.label)}</span><span class="n">${plural(x.n, "posting", "postings")}</span><span class="m">${b && typeof b.pct === "number" ? `Your best: <span class="best">${b.pct >= 0.01 ? pct(b.pct) : "under 1%"}</span> of postings matched` : "Not played yet"}</span></button>`; };
-        root.innerHTML = `<div class="bh-brief">
-          <h1>Build the hire</h1>
-          <p class="lead">You are the hiring manager. Draft a candidate from three cards at a time, then let real job postings judge your hire.</p>
-          <section class="bh-pick" aria-label="Choose a role">
-            <h2>Who are you hiring?</h2>
-            <div class="chips" role="group" aria-label="Fields">${D.fields.map(x => `<button class="chip${x.id === field ? " on" : ""}" type="button" data-field="${esc(x.id)}" aria-pressed="${x.id === field}">${esc(x.label)} <span class="n">${x.roles.length}</span></button>`).join("")}</div>
-            <div class="list" role="group" aria-label="Roles in ${esc(f.label)}">${f.roles.map(row).join("")}</div>
-            ${sel.small ? `<p class="bh-small">${esc(smallNote(sel))}</p>` : ""}
-          </section>
-          ${GS.foot({ primary: { id: "bh-start", href: href(pick, randomDeal()), label: `Start hiring for ${esc(sel.label)}` } })}
-        </div>`;
-        root.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { field = b.dataset.field; const fx = D.fields.find(x => x.id === field); if (!fx.roles.some(x => x.id === pick)) pick = fx.roles[0].id; render(); const c = root.querySelector(`[data-field="${CSS.escape(field)}"]`); if (c) c.focus(); });
-        root.querySelectorAll("[data-role]").forEach(b => b.onclick = () => { pick = b.dataset.role; render(); const c = root.querySelector(`[data-role="${CSS.escape(pick)}"]`); if (c) c.focus(); });
-        root.querySelector("#bh-start").addEventListener("click", () => saveLastRole(pick));
-      };
-      render();
+    // ---------- 01 the start: one sentence and Play on the default role; "Change role" is the shared picker ----------
+    async function brief() {
+      onKey = null;
+      const pick = await GS.defaultRole(Atlas, pickable); if (!alive()) return;
+      const sel = D.ix.roles[pick], b = bestOf(pick);
+      GS.start(F, { title: "Build the hire", lead: `You are the hiring manager. Draft a candidate for ${sel.label} from three cards at a time, then let real job postings judge your hire.`, role: sel.label, play: () => { saveLastRole(pick); location.hash = href(pick, randomDeal()); }, change: picker, extra: `${sel.small ? `<p class="bh-small">${esc(smallNote(sel))}</p>` : ""}${b ? `<p class="gm-best">Your best for ${esc(sel.label)}: <b>${b.pct >= 0.01 ? pct(b.pct) : "under 1%"}</b> of postings matched</p>` : ""}` });
       onKey = kind => { if (kind === "confirm") { saveLastRole(pick); location.hash = href(pick, randomDeal()); } };
+    }
+    function picker() {
+      onKey = null;
+      GS.picker(F, { Atlas, roles: pickable, field: roleId ? D.ix.roles[roleId].group : undefined, secondary: id => { const b = bestOf(id); return b ? `Your best: ${b.pct >= 0.01 ? pct(b.pct) : "under 1%"} of postings matched` : "Not played yet"; }, back: true, onBack: brief, onRole: id => { saveLastRole(id); location.hash = href(id, randomDeal()); } });
     }
 
     // ---------- 02 draft ----------
@@ -345,6 +332,7 @@
       root.querySelector("#bh-skip").onclick = skip;
       root.querySelector("#bh-hire").onclick = hire;
       if (focusCard != null && cards[focusCard]) cards[focusCard].focus();
+      if (g.hands.length === 1 && g.sel == null) GS.coachOnce(SLUG, root.querySelector(".bh-hand"), "Take one card for your hire, or skip the hand; a card you pass on does not come back. 1 to 3 choose, Enter hires.", "beforebegin");
       onKey = (kind, num, e) => {
         if (kind === "choose") { if (num <= n) { choose(num - 1); return true; } return false; }
         const t = e && e.target;

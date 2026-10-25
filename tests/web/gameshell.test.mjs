@@ -50,3 +50,20 @@ test("foot and results draw one primary, one quiet and the template's parts, esc
   for (const part of ['class="gm-measure"', "3 of 4", "up from 2", "Open &lt;a&gt; →", "<summary>Why</summary>"]) assert.ok(r.includes(part), part);
   assert.ok(!results({ measure: "x" }).includes("gm-why"));
 });
+
+test("pickDefault: the role in the hash first, else the profile's first field's largest role, else Product Manager, else the largest role", () => {
+  const { pickDefault } = require(path.join(web, "gameshell.js"));
+  const ix = { roles: { a: { nOpen: 10 }, b: { nOpen: 50 }, c: { nOpen: 5 }, "product.pm": { nOpen: 999 }, "product.tpm": { nOpen: 20 } }, groups: [{ id: "f1", roles: ["a", "b"] }, { id: "f2", roles: ["c"] }, { id: "product", roles: ["product.pm", "product.tpm"] }] };
+  assert.equal(pickDefault(ix, null, "c"), "c", "the hash wins");
+  assert.equal(pickDefault(ix, { fields: ["f1"] }, "c"), "c", "the hash wins over the profile");
+  assert.equal(pickDefault(ix, null, "tpm"), "product.tpm", "a bare product family id finds the product role");
+  assert.equal(pickDefault(ix, { fields: ["f1"] }, null), "b", "the first field's largest role");
+  assert.equal(pickDefault(ix, { fields: ["nope", "f2"] }, null), "c", "an unknown field is skipped");
+  assert.equal(pickDefault(ix, { fields: [] }, null), "product.pm");
+  assert.equal(pickDefault(ix, null, "zzz"), "product.pm", "an unknown role in the hash is ignored");
+  const can = new Set(["a", "c"]);
+  assert.equal(pickDefault(ix, { fields: ["f1"] }, null, can), "a", "only the roles a game can play count");
+  assert.equal(pickDefault(ix, null, "b", can), "a", "a hash role the game cannot play falls through to the largest playable one");
+  assert.equal(pickDefault(ix, null, null, id => id === "c"), "c");
+  assert.equal(pickDefault(ix, null, null, new Set()), null);
+});

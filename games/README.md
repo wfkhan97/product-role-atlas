@@ -53,7 +53,12 @@ problem: nobody can read thousands of postings to learn what a role asks for, an
   ranked list with the player's calls. `keys({ choose, confirm, quit, other })` is the one key convention: 1 to 4
   choose, Enter confirms, Esc quits; everything else is a click; a key shows as `kbd` on its control and nowhere
   else. `info({ rules, keys, source })` writes the ⓘ text. Shared styles live under `.gm-` in one section of
-  `web/style.css`.
+  `web/style.css`. Play first (G1, G9): `start(F, { title, lead, role, play, change, extra })` is the one start
+  screen (one sentence, Play on the default role, "Change role" and ⓘ after that); `defaultRole(Atlas, roles)` is
+  the one default (the role in the hash, else the profile's first field's largest role, else Product Manager, among
+  the roles the game can play); `coachOnce(slug, host, text)` shows the one coachmark on a game's first move;
+  `picker(F, { Atlas, roles, field, secondary, onRole })` is the one picker: the Explore field cards, then the
+  field's roles with the player's record as the secondary line.
 - The record: one `localStorage` key (`games`) for every game, read and written through `GameShell.record`
   (`game(slug)`, `saveGame(slug, patch)`, every access in try/catch; the game plays the same with storage blocked).
   A game keeps its best, its last result and what it needs under `games[slug]`; `played: true` in a patch counts a

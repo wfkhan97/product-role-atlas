@@ -4,7 +4,9 @@
    - logic: pure, no DOM, loads in node (evals/skill_path.mjs). The board, arrival and start skills, the shortest
      route, the choice rule, a round as a small state machine, rank, route fit, build next, the random pairings.
    - ui: the start, play and end screens in the shared shell (web/gameshell.js: one header, 1 to 4 choose, Enter goes
-     on, Esc quits, one record). Registers window.Games["skill-path"] = { mount } for play() in app.js.
+     on, Esc quits, one record). Play first (SP1): one line from the profile's field to the role the player came from
+     (else Product Manager) and Go; no difficulty, the budget is par plus two; "Change route" behind it. Registers
+     window.Games["skill-path"] = { mount } for play() in app.js.
    Colours keep their meaning: green = you (route, Yes, chosen), blue = the postings' numbers and the arrival skills,
    amber = Not yet and build next. Skill areas are text. Desktop only, like the rest. */
 (function (root, factory) {
@@ -265,13 +267,12 @@
     // storage: the games record, every access in try/catch; the game works with storage blocked. Answers are never stored.
     const store = { read: () => GS.record.game(SLUG), write: v => GS.record.saveGame(SLUG, v) };
 
-    const saved = store.read();
     const S = {
       ix: null, P: null, B: null, SM: null, cx: null, ready: false, failed: null, pairs: null, pools: null,
-      from: "field", startField: "marketing", startRole: null, target: "product.pm", level: LEVELS.includes(saved.level) ? saved.level : "normal",
+      from: "field", startField: "marketing", startRole: null, target: "product.pm", level: "normal",   // the budget is par plus two (SP1): no difficulty is asked
       su: null, round: null, opts: null, screen: "start", view: null, hover: null, drawn: false, note: null, typed: {},
     };
-    const INFO = GS.info({ rules: "Get from where you are to a role you want, one skill at a time. You can only hop along a line: two skills are linked when postings ask for both. Start on the skill your field asks for most; hop to a linked skill, one of up to four; the blue number is how often the target's postings ask for it; arrive on any of the three skills that set the target apart, inside your hop budget. Easy marks the hop that goes towards the target.", keys: "Keys: 1 to 4 pick a hop, 1 says you can show the skill and 2 not yet, Enter starts or plays again, Esc quits.", source: "“Asked together” is the share of postings asking for either skill that ask for both; “not read” means the product postings were read for the product skills only." });
+    const INFO = GS.info({ rules: "Get from where you are to a role you want, one skill at a time. You can only hop along a line: two skills are linked when postings ask for both. Start on the skill your field asks for most; hop to a linked skill, one of up to four; the blue number is how often the target's postings ask for it; arrive on any of the three skills that set the target apart, . Your budget is the shortest route plus two hops.", keys: "Keys: 1 to 4 pick a hop, 1 says you can show the skill and 2 not yet, Enter starts or plays again, Esc quits.", source: "“Asked together” is the share of postings asking for either skill that ask for both; “not read” means the product postings were read for the product skills only." });
     const F = GS.frame(el, { game: TITLE, cls: "sp", info: INFO });
     const say = text => F.live(text);
 
@@ -294,7 +295,7 @@
         if (R.phase === "check" && n <= 2) { doAnswer(n === 1); return true; }
         return false;
       },
-      confirm() { if (!alive) return; if (S.screen === "end") act("again"); else if (S.screen === "start") act("go"); },
+      confirm() { if (!alive) return; if (S.screen === "end") act("again"); else if (S.screen === "start" || S.screen === "route") act("go"); },
     });
     function cleanup() {
       alive = false; clearTimeout(rz);
@@ -322,10 +323,21 @@
       S.SM = SM; S.P = P; S.B = buildBoard(M, generic);
       const fields = Object.keys(SM.FS).filter(g => g in SM.field);
       S.cx = { ix, P, B: S.B, FS: SM.FS, fields, fieldIds: fieldOrder };
-      if (!role(S.target)) S.target = Object.keys(ix.roles)[0];
       S.ready = true;
+      defaultPairing();
     } catch (e) { console.error(e); S.failed = e.message || String(e); }
     if (alive && S.screen === "start") renderStart();
+
+    // the default pairing (SP1): from the profile's first field (else Marketing), to the role the player came from
+    // (?role=), else Product Manager; a pairing that cannot be played falls back to the largest role of another field
+    function defaultPairing() {
+      let you = null; try { you = JSON.parse(localStorage.getItem("you")); } catch { }
+      const mine = ((you && you.fields) || []).find(f => fieldOrder.includes(f));
+      S.from = "field"; S.startField = mine || (fieldOrder.includes("marketing") ? "marketing" : fieldOrder[0]);
+      const q = new URLSearchParams(location.hash.split("?")[1] || "").get("role");
+      const cands = [q, q && "product." + q, "product.pm", ...fieldOrder.filter(g => g !== S.startField).flatMap(g => group(g).roles.slice().sort((a, b) => ((role(b) || {}).nOpen || 0) - ((role(a) || {}).nOpen || 0)))].filter(id => id && role(id));
+      for (const t of cands) { S.target = t; S.su = null; const su = currentSetup(); if (su && !refusal(ix, S.from, S.startField, t, su)) return; }
+    }
 
     // ---------- the pairing on the start screen ----------
     function startId() { return S.from === "field" ? S.startField : S.startRole; }
@@ -346,15 +358,23 @@
       const id = findRole(input.value);
       S.typed[input.id] = input.value;
       if (id) { if (input.id === "sp-target") S.target = id; else S.startRole = id; S.typed[input.id] = null; }
-      if (id || committed) keepFocus(renderStart);
+      if (id || committed) keepFocus(renderRoute);
     }
 
-    // ---------- start screen ----------
+    // ---------- start: one line and Go (SP1); "Change route" opens the route screen ----------
     function renderStart() {
-      S.screen = "start"; showAside(null); F.set({ round: null, rounds: 0, role: "" });
+      S.screen = "start"; showAside(null);
+      const su = currentSetup(), t = role(S.target), refuse = su ? refusal(ix, S.from, startId(), S.target, su) : null;
+      const ok = S.ready && su && !refuse;
+      const lead = !S.ready ? (S.failed ? `Something did not load: ${S.failed}. Reload the page.` : "Loading the skill map…") : ok ? `From ${startLabel()} to ${t.label} in ${su.par} ${su.par === 1 ? "hop" : "hops"}. You start on ${name(su.start)}, the skill ${startLabel()} postings ask for most, and arrive on any of the three skills that set ${t.label} apart.` : "Pick a route to play.";
+      GS.start(F, { title: "Skill path", lead, playLabel: ok ? "Go" : "Loading…", play: () => act("go"), change: "Change route", extra: "" });
+      const p = F.body.querySelector("#gm-play"); if (p) { p.disabled = !ok; p.setAttribute("data-act", "go"); }
+      const c = F.body.querySelector("#gm-change"); if (c) { c.disabled = !S.ready; c.onclick = renderRoute; }
+    }
+    function renderRoute() {
+      S.screen = "route"; showAside(null); F.set({ round: null, rounds: 0, role: "" });
       const ready = S.ready, su = currentSetup(), t = role(S.target), from = S.from;
       const refuse = su ? refusal(ix, from, startId(), S.target, su) : null;
-      const pl = ready ? getPools()[from] : null;
       const fieldChips = fieldOrder.map(g => `<button type="button" class="chip${S.startField === g ? " on" : ""}" aria-pressed="${S.startField === g}" data-act="field" data-v="${esc(g)}">${esc(group(g).label)}</button>`).join("");
       const roleVal = S.typed["sp-from-role"] != null ? S.typed["sp-from-role"] : (role(S.startRole) || {}).label || "";
       const targetVal = S.typed["sp-target"] != null ? S.typed["sp-target"] : t ? t.label : "";
@@ -370,11 +390,10 @@
       else if (refuse === "par0") problem = `You already stand on one of the skills that end the round: ${esc(name(su.start))}. Pick another pairing.`;
       else if (refuse === "none") problem = "This pairing cannot be played on the board.";
       const canGo = ready && su && !refuse && !problem && (from === "field" || S.startRole);
-      const diffChips = LEVELS.map(lv => `<button type="button" class="chip${S.level === lv ? " on" : ""}" aria-pressed="${S.level === lv}" data-act="level" data-v="${lv}">${DIFFICULTY[lv].label}${pl ? `<span class="n">${fmt(pl[lv].length)}</span>` : ""}</button>`).join("");
       const html = `<div class="sp-start"><div class="sp-cols">
         <div>
-          <h1>Skill path</h1>
-          <p class="lead">Get from where you are to a role you want, one skill at a time, along the links between skills.</p>
+          <h1>Change route</h1>
+          <p class="lead">Where you are and the role you want. The shortest route and your budget follow.</p>
           <h2>Where are you now?</h2>
           <div class="chips sp-tabs"><button type="button" class="chip${from === "field" ? " on" : ""}" aria-pressed="${from === "field"}" data-act="from" data-v="field">A field</button><button type="button" class="chip${from === "role" ? " on" : ""}" aria-pressed="${from === "role"}" data-act="from" data-v="role">A role I hold</button></div>
           ${from === "field" ? `<div class="chips" role="group" aria-label="Your field">${fieldChips}</div>`
@@ -384,7 +403,6 @@
           <datalist id="sp-roles">${roleOptions()}</datalist>
           ${problem ? `<p class="notice sp-problem">${problem}</p>` : ""}
           ${t && t.small && !problem ? `<p class="small muted">${esc(t.label)} has few postings (${fmt(t.n)}), so its numbers rest on a small sample. It is never dealt at random.</p>` : ""}
-          <div class="chips"><span class="lbl">Difficulty</span>${diffChips}</div>
           ${S.failed ? `<p class="notice">Something did not load: ${esc(S.failed)}. Reload the page.</p>` : ""}
           ${GS.foot({ primary: { id: "sp-go", label: "Start the route", key: "Enter", disabled: !canGo, attrs: 'data-act="go"' }, quiet: { label: "Random pairing", disabled: !ready, attrs: 'data-act="random"' } })}
         </div>
@@ -420,7 +438,6 @@
     // ---------- play ----------
     function startRound(su, level) {
       S.round = newRound(su, level); S.screen = "play"; S.view = null; S.hover = null; S.drawn = false;
-      store.write({ level });
       renderPlay();
       say(`${startLabel(su.from, su.startId)} to ${role(su.targetId).label}. You start at ${name(su.start)}. Shortest route ${plural(su.par, "hop", "hops")}, your budget ${S.round.budget}.`);
       focusFirst();
@@ -482,6 +499,7 @@
           <p class="small" style="margin-top:14px"><button type="button" class="linkish link" data-act="end-yes">End the round here</button></p>`;
       }
       showAside(`<div class="sp-aside">${html}</div>`);
+      if (R.phase === "choose" && R.used === 0) GS.coachOnce(SLUG, aside.querySelector(".sp-aside"), `Pick a linked skill, 1 to 4. The blue number is the share of ${t.label} postings that ask for it. The round ends when you reach one of the three skills that set ${t.label} apart.`);
     }
     function focusFirst() {
       const R = S.round; if (!R) return;
@@ -527,7 +545,7 @@
       const old = best[row.key], lastSame = (Array.isArray(st.rounds) ? st.rounds : []).find(x => x.key === row.key) || null;
       const isBest = !old || old.gen !== row.gen || compare(row, old) < 0;
       if (isBest) best[row.key] = row;
-      store.write({ played: true, rounds, best, level: R.level });
+      store.write({ played: true, rounds, best });
       return { old: old && old.gen === row.gen ? old : null, isBest, lastSame };
     }
 
@@ -583,19 +601,19 @@
             <p class="small muted" style="margin-top:10px"><a class="link" href="#/explore?field=${encodeURIComponent(sg)}">${esc(group(sg).label)} on the skill map</a> · <a class="link" href="#/field/${encodeURIComponent(tg.id)}">All ${esc(tg.label)} roles</a></p>
           </div></div>`,
         link: { href: link(), label: `Open ${t.label}` },
-        foot: GS.foot({ primary: { label: res.arrived ? "Play again" : "Try this pairing again", key: "Enter", attrs: 'data-act="again"' }, quiet: { label: "Random pairing", attrs: 'data-act="random-end"' } }),
+        foot: GS.foot({ primary: { label: res.arrived ? "Play again" : "Try this pairing again", key: "Enter", attrs: 'data-act="again"' }, quiet: { label: "Change route", attrs: 'data-act="route"' } }),
       });
       drawBoards();
     }
 
     // ---------- actions ----------
     function act(a, v) {
-      if (a === "from") { S.from = v; S.typed = {}; renderStart(); return; }
-      if (a === "field") { S.startField = v; renderStart(); return; }
-      if (a === "level") { S.level = v; store.write({ level: v }); keepFocus(renderStart); return; }
+      if (a === "from") { S.from = v; S.typed = {}; renderRoute(); return; }
+      if (a === "field") { S.startField = v; renderRoute(); return; }
       if (a === "go") { const su = currentSetup(); if (su && !refusal(ix, S.from, startId(), S.target, su)) startRound(su, S.level); return; }
       if (a === "random" || a === "random-end") { dealRandom(); return; }
-      if (a === "best") { const b = (store.read().best || {})[v]; if (b) { setPairing(b.from, b.start, b.target); renderStart(); focusGo(); } return; }
+      if (a === "best") { const b = (store.read().best || {})[v]; if (b) { setPairing(b.from, b.start, b.target); renderRoute(); focusGo(); } return; }
+      if (a === "route") { renderRoute(); return; }
       if (a === "pick") { if (S.screen === "play" && S.round.phase === "choose") doHop(v); return; }
       if (a === "yes" || a === "no") { doAnswer(a === "yes"); return; }
       if (a === "back") { doBack(); return; }
@@ -611,7 +629,7 @@
       const pool = getPools()[S.from][S.level];
       const p = randomPairing(pool, (Date.now() ^ Math.floor(Math.random() * 1e9)) | 0, { start: startId(), target: S.target });
       if (!p) return;
-      setPairing(p.from, p.start, p.target); renderStart();
+      setPairing(p.from, p.start, p.target); renderRoute();
       say(`Random pairing: ${startLabel()} to ${role(S.target).label}, shortest route ${plural(p.par, "hop", "hops")}.`);
       focusGo();
     }
