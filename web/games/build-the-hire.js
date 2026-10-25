@@ -124,7 +124,7 @@
   // ---------- a game: one role, one deal ----------
   let game = null;   // kept across re-mounts so the scorecard and "back to the verdict" find the finished draft
   function newGame(M, deal) {
-    const g = { roleId: M.id, deal, rand: rng(deal), seen: new Set(), hands: [], hire: [], budget: CFG.budget, sel: null, done: false, end: null, verdict: null, saved: null };
+    const g = { roleId: M.id, deal, rand: rng(deal), seen: new Set(), hands: [], hire: [], budget: CFG.budget, sel: null, done: false, end: null, verdict: null, saved: null, noted: false };
     nextHand(M, g);
     return g;
   }
@@ -371,7 +371,8 @@
       else { say(`Hand skipped. Hand ${g.hands.length} of ${CFG.hands}.`); draft(0); }
     }
 
-    // ---------- 03 verdict: the measure in plain words, the notes, the hire, the model behind Why ----------
+    // ---------- 03 verdict (BTH3): one headline, the cards painted with their shares and your picks marked, one
+    // line on the one that got away, one action; the model and the notes behind Why ----------
     function verdict(focus) {
       const g = game, v = g.verdict;
       if (!g.saved) g.saved = saveBest(M, g);
@@ -379,39 +380,31 @@
       const label = esc(r.label), num = s => `<span class="num">${s}</span>`;
       const matchWords = (share, n) => share >= 0.01 ? pct(share) : plural(n, "posting", "postings");
       const head = v.share >= 0.01 ? `Your hire matches ${pct(v.share)} of ${label} postings` : `Your hire matches ${fmt(v.n)} of the ${fmt(M.total)} ${label} postings`;
-      const under = v.buildable
-        ? `${fmt(v.n)} of ${plural(M.total, "posting", "postings")}. From the cards you were dealt, the best hire matches ${matchWords(v.best.score, v.best.n)}: you got ${pct(v.rel)} of the way there.`
-        : `${fmt(v.n)} of ${plural(M.total, "posting", "postings")}. These hands could not build a match. Deal again.`;
+      const hired = new Set(g.hire.map(c => c.id));
+      // the record: every card offered is an ask met when the role asks for it; a hired ask is known
+      const asks = GS.record.asksOf(D.ix, D.P, roleId), before = GS.record.knowledge(roleId, asks);
+      if (!g.noted) { g.noted = true; GS.record.saveRole(roleId, { label: r.label, met: v.offered.map(c => c.id), known: g.hire.map(c => c.id) }); }
+      const know = GS.knowLine(before, GS.record.knowledge(roleId, asks), r.label);
+      const take = v.missed ? `The one that got away: ${esc(v.missed.name)}, hand ${v.handOf(v.missed.id)}. ${num(pct(v.missed.share))} of ${label} postings ask for it, ${num(times(v.missed.lift))} the average role.` : v.bestPick ? `Your best pick: ${esc(v.bestPick.name)}. ${num(pct(v.bestPick.share))} of ${label} postings ask for it, ${num(times(v.bestPick.lift))} the average role.` : "You skipped every hand, so there is no hire to judge.";
+      // the cards you were dealt, painted: green a hired skill the role asks for, amber a hired skill it rarely does, the rest with their share
+      const cardCls = c => hired.has(c.id) ? (c.share >= CFG.strong.share ? " on" : " bad") : v.missed && v.missed.id === c.id ? " miss" : "";
+      const board = v.offered.slice().sort((a, b) => b.share - a.share).map(c => `<span class="bh-cell${cardCls(c)}">${skillLink(c)}<i>${pct(c.share)}</i></span>`).join("");
       const notes = [];
-      if (v.bestPick) {
-        const c = v.bestPick;
-        notes.push(`<div class="bh-note good"><span class="k">Best pick</span><span class="v"><span class="nm">${skillLink(c)}</span>, ${pts(c.price)}. ${num(pct(c.share))} of postings ask for it, ${num(times(c.lift))} the average role. Without it, your hire matches ${plural(v.without.n, "posting", "postings")}.</span></div>`);
-      } else notes.push(`<div class="bh-note"><span class="k">Best pick</span><span class="v">You skipped every hand, so there is no hire to judge.</span></div>`);
-      if (v.over) {
-        const c = v.over, pk = c.peak && c.peak.role !== roleId ? c.peak : null;
-        notes.push(`<div class="bh-note warn"><span class="k">Where you overspent</span><span class="v"><span class="nm">${skillLink(c)}</span>, ${pts(c.price)}. ${c.share < 0.005 ? `Almost no ${label} postings ask for it (${num("under 1%")}).` : `Only ${num(pct(c.share))} of ${label} postings ask for it.`}${pk ? ` ${roleLink(pk.role)} postings do: ${num(pct(pk.share))}.` : ""}</span></div>`);
-      } else if (g.hire.length) notes.push(`<div class="bh-note"><span class="k">Where you overspent</span><span class="v">You didn't overspend.</span></div>`);
-      if (v.missed) {
-        const c = v.missed;
-        notes.push(`<div class="bh-note"><span class="k">The one that got away</span><span class="v"><span class="nm">${skillLink(c)}</span>, hand ${v.handOf(c.id)}, ${pts(c.price)}. ${num(pct(c.share))} of postings ask, ${num(times(c.lift))} the average role.${v.swap ? ` In place of ${esc(v.over.name)}, your hire would match ${num(matchWords(v.swap.share, v.swap.n))}.` : ""}</span></div>`);
-      } else notes.push(`<div class="bh-note"><span class="k">The one that got away</span><span class="v">None. You took every strong card you were offered.</span></div>`);
-      const generalist = v.ceiling.score > 0 && v.mustHave.score >= 0.8 * v.ceiling.score;
-      notes.push(`<div class="bh-note"><span class="k">Must-haves alone</span><span class="v">The best hire made only of 1-point cards matches ${num(matchWords(v.mustHave.score, v.mustHave.n))} of ${label} postings.${generalist ? `<span class="sub">Here the skills every role asks for carry most of the weight; this role is set apart by fewer skills.</span>` : ""}</span></div>`);
+      if (v.bestPick) notes.push(`<p><b>Best pick.</b> ${esc(v.bestPick.name)}, ${pts(v.bestPick.price)}: ${pct(v.bestPick.share)} of postings ask for it, ${times(v.bestPick.lift)} the average role. Without it, your hire matches ${plural(v.without.n, "posting", "postings")}.</p>`);
+      if (v.over) { const pk = v.over.peak && v.over.peak.role !== roleId ? v.over.peak : null; notes.push(`<p><b>Where you overspent.</b> ${esc(v.over.name)}, ${pts(v.over.price)}: ${v.over.share < 0.005 ? "almost no" : "only " + pct(v.over.share) + " of"} ${label} postings ask for it.${pk ? ` ${esc(D.ix.roles[pk.role].label)} postings do: ${pct(pk.share)}.` : ""}</p>`); }
+      if (v.swap) notes.push(`<p>In place of ${esc(v.over.name)}, ${esc(v.missed.name)} would have made your hire match ${matchWords(v.swap.share, v.swap.n)}.</p>`);
+      notes.push(`<p><b>Must-haves alone.</b> The best hire made only of 1-point cards matches ${matchWords(v.mustHave.score, v.mustHave.n)} of ${label} postings.${v.ceiling.score > 0 && v.mustHave.score >= 0.8 * v.ceiling.score ? " Here the skills every role asks for carry most of the weight; this role is set apart by fewer skills." : ""}</p>`);
       const ends = { budget: `the budget ran out in hand ${g.end.hand}`, slots: `the slots filled up in hand ${g.end.hand}`, hands: `all ${NUM[CFG.hands]} hands were played`, deck: `the deck ran out in hand ${g.end.hand + 1}` };
-      const filled = `${cap(NUM[g.hire.length])} of ${NUM[CFG.slots]} slots filled; ${ends[g.end.why]}.`;
-      const sv = g.saved, savedLine = sv.kind === "new" ? "A new best for this role." : sv.kind === "kept" ? `Your best for ${label}: <b>${sv.rec.pct >= 0.01 ? pct(sv.rec.pct) : "under 1%"}</b>${sv.rec.deal !== g.deal ? ` (deal ${fmt(sv.rec.deal)})` : ""}.` : sv.kind === "failed" ? "This browser does not let the page keep data, so your best is not saved." : "";
+      notes.push(`<p>${cap(NUM[g.hire.length])} of ${NUM[CFG.slots]} slots filled; ${ends[g.end.why]}. Each posting has five asks that count most: skills it names that most ${label} postings name and that set the role apart. Your hire matches a posting when it covers at least half of their weight. <a class="link" href="${href(roleId, g.deal, "score")}">How the postings scored it →</a></p>`);
+      const sv = g.saved, savedLine = sv.kind === "new" ? "A new best for this role." : sv.kind === "kept" ? `Your best for ${label}: <b>${sv.rec.pct >= 0.01 ? pct(sv.rec.pct) : "under 1%"}</b>.` : sv.kind === "failed" ? "This browser does not let the page keep data, so your best is not saved." : "";
       root.innerHTML = GS.results({
         eyebrow: `Verdict · ${label} · deal ${fmt(g.deal)}`,
         measure: head,
-        record: savedLine || undefined,
-        takeaway: `${under} Hiring managers pay for the skills that set a role apart.`,
-        visual: `<div class="gm-cols"><div class="bh-notes">${notes.join("")}</div>
-          <aside class="bh-side" aria-label="Your hire"><h2>Your hire</h2>
-          <div class="bh-mini">${g.hire.map(c => `<div class="row2"><span class="nm${pricedElsewhere(c) ? " trap" : ""}">${skillLink(c)}</span><span class="num">${pct(c.share)}</span><span class="pts">${c.price} ${c.price === 1 ? "pt" : "pts"}</span></div>`).join("") || '<p class="small muted">No one hired.</p>'}</div>
-          <p class="gm-key">${filled} The blue number is the share of ${label} postings that ask for the skill.</p>
-          <p class="small" style="margin-top:12px"><a class="link" href="${href(roleId, g.deal, "score")}">How the postings scored it →</a></p></aside></div>`,
+        record: `${know ? know + " " : ""}${v.buildable ? `From the cards you were dealt, the best hire matches ${matchWords(v.best.score, v.best.n)}: you got ${pct(v.rel)} of the way there.` : "These hands could not build a match. Deal again."} ${savedLine}`,
+        takeaway: take,
+        visual: `<div class="bh-board">${board}</div><p class="gm-key">The cards you were dealt, most asked first: % of ${label} postings that ask for the skill. Green: hired, an ask; amber: hired, rarely asked for here; dashed: the one that got away.</p>`,
         link: { href: `#/role/${esc(roleId)}`, label: `See what ${r.label} postings ask for` },
-        why: `Each posting has five asks that count most: skills it names that most ${label} postings name and that set the role apart. Your hire matches a posting when it covers at least half of their weight.`,
+        why: notes.join(""),
         foot: GS.foot({ primary: { id: "bh-again", label: "Play again", key: "Enter" }, quiet: { id: "bh-same", label: "Same deal again" } }),
       });
       wireLinks();

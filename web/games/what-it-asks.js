@@ -143,6 +143,7 @@
     on(window, "focus", () => pause(false));
 
     const ix = await Atlas.index(); if (!S.alive) return;
+    let PRODUCT = null; Atlas.product().then(p => { PRODUCT = p; }, () => { });
     const productP = pools(Atlas);
     productP.then(p => { pools._cache = p; }, () => { });
 
@@ -287,7 +288,7 @@
       const missed = pool.asks.filter(a => !G.knew.has(a.id)), ranOut = missed.filter(a => G.ranOut.has(a.id)).length;
       const atBell = missed.filter(a => !G.ranOut.has(a.id) && G.dealt.has(a.id)).length, after = missed.length - ranOut - atBell;
       const parts = [ranOut && `${words(ranOut)} ran out on the board`, atBell && `${words(atBell)} ${atBell === 1 ? "was" : "were"} still on the board at the end`, after && `${words(after)} never came up`].filter(Boolean);
-      results({ mode: "shift", knew: G.knew.size, blown: G.blown, tapped: G.tapped, missed, eyebrow: "Speed round over", missedLine: parts.length ? cap1(parts.join("; ")) + "." : "" });
+      results({ mode: "shift", knew: G.knew.size, blown: G.blown, tapped: G.tapped, missed, dealt: G.dealt, eyebrow: "Speed round over", missedLine: parts.length ? cap1(parts.join("; ")) + "." : "" });
       say(`Round over. You knew ${G.knew.size} of ${pool.asks.length}.`);
     }
 
@@ -344,7 +345,7 @@
       if (SD.b < 2) { SD.b++; SD.picked = new Set(); SD.shown = false; SD.focus = 0; drawSteady(); el.querySelector('#wia-board [data-i="0"]').focus(); return; }
       phase = "over";
       const missed = pool.asks.filter(a => !SD.knew.has(a.id));
-      results({ mode: "steady", knew: SD.knew.size, blown: SD.blown, tapped: SD.tapped, missed, eyebrow: "Three boards handed in", missedLine: missed.length ? `${cap1(words(missed.length))} ${missed.length === 1 ? "was" : "were"} left on the boards.` : "" });
+      results({ mode: "steady", knew: SD.knew.size, blown: SD.blown, tapped: SD.tapped, missed, dealt: new Set(pool.asks.map(a => a.id)), eyebrow: "Three boards handed in", missedLine: missed.length ? `${cap1(words(missed.length))} ${missed.length === 1 ? "was" : "were"} left on the boards.` : "" });
     }
 
     // ---------- 03 the result: the measure in plain words, the change since last time, the ones you missed ----------
@@ -355,10 +356,14 @@
       const cleanNow = R.mode === "steady" && R.knew * 2 >= total && R.blown <= 2 && !sv.clean;
       all[pool.id] = { ...(all[pool.id] || {}), lastKnew: R.knew, ...(isNew ? { [R.mode]: rec } : {}) };
       GS.record.saveGame(SLUG, { played: true, best: all, clean: sv.clean || cleanNow });
+      // the Know-your-role record: every real ask dealt is met, the ones picked are known
+      const asks = GS.record.asksOf(ix, PRODUCT, pool.id), before = GS.record.knowledge(pool.id, asks);
+      GS.record.saveRole(pool.id, { label: pool.label, met: pool.asks.filter(a => !R.missed.some(m => m.id === a.id) || R.dealt.has(a.id)).map(a => a.id), known: pool.asks.filter(a => !R.missed.some(m => m.id === a.id)).map(a => a.id) });
+      const know = GS.knowLine(before, GS.record.knowledge(pool.id, asks), pool.label);
       const chips = R.missed.map(a => `<span class="wia-chip">${esc(a.name)} <span class="p">${pct(a.share)}</span></span>`).join("");
       const wrong = R.tapped.filter((f, i, a) => a.findIndex(x => x.id === f.id) === i).map(f => `<span class="wia-chip wrong">${esc(f.name)} <span class="p">${pct(f.share)}</span> <span class="muted">· ${esc(f.whereLabel)} ${blue(f.whereShare)}</span></span>`).join("");
       const change = prevLast == null ? "Your first round on this role." : R.knew > prevLast ? `Up from ${prevLast} last time.` : R.knew < prevLast ? `Down from ${prevLast} last time.` : "The same as last time.";
-      const line = `${change}${isNew && prev ? " A new best." : prev ? ` Your best: <b>${esc(bestLine(prev))}</b>.` : ""}${R.mode === "shift" ? " A Speed round." : cleanNow ? " The Speed round is unlocked." : ""}`;
+      const line = `${know ? know + " " : ""}${change}${isNew && prev ? " A new best." : prev ? ` Your best: <b>${esc(bestLine(prev))}</b>.` : ""}${R.mode === "shift" ? " A Speed round." : cleanNow ? " The Speed round is unlocked." : ""}`;
       F.set({ round: R.mode === "steady" ? 3 : 1, rounds: R.mode === "steady" ? 3 : 1, marks: R.mode === "steady" ? SD.marks : [R.knew * 2 >= total ? "ok" : "miss"] });
       view.innerHTML = GS.results({
         eyebrow: `${esc(R.eyebrow)} · ${esc(pool.label)}`,

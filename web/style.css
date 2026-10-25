@@ -458,6 +458,18 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .gm-picker .fcard.on .t { color: var(--primary); }
 .gm-picker .list .r { cursor: pointer; }
 .gm-picker .list .r .m { color: var(--primary); }
+/* the Know-your-role card (G4): a small ledger beside the role screen's action row and on About you */
+.gm-know { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); padding: 12px 14px; margin: 14px 0 4px; max-width: 420px; font-size: var(--text-sm); }
+.gm-know .eyebrow { margin-bottom: 6px; }
+.gm-know-r { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; color: var(--muted-foreground); }
+.gm-know-r b { color: var(--foreground); font-weight: var(--weight-medium); text-align: right; }
+.gm-know-bar { height: 4px; border-radius: 2px; background: var(--muted); overflow: hidden; margin: 4px 0 6px; }
+.gm-know-bar i { display: block; height: 100%; background: var(--primary); }
+.gm-know-p { margin: 8px 0 0; } .gm-know-p a { color: var(--primary); }
+.acts-row { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+.acts-row .acts { margin-top: 14px; }
+.srow .known { color: var(--primary); margin-left: 6px; font-size: var(--text-sm); }
+.you-know .list .r .m { color: var(--muted-foreground); }
 
 /* ---------- game: Build the hire (#/play/build-the-hire) ----------
    From games/build-the-hire/mocks/bh.css. Tokens only. Green = the player's picks, blue = the postings' numbers,
@@ -510,7 +522,6 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 
 /* the live reading against postings */
 .bh-read { margin-top: 18px; display: grid; gap: 6px; border-top: 1px solid var(--border); padding-top: 14px; }
-.bh-notes { margin-top: 0; }
 .bh-read .t { font-size: var(--text-md); color: var(--foreground); }
 .bh-read .t b { font-family: var(--font-mono); color: var(--secondary); font-weight: var(--weight-medium); }
 .bh-read .bar { height: 6px; border-radius: 3px; background: var(--muted); overflow: hidden; }
@@ -519,22 +530,14 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 /* brief */
 
 /* verdict */
-.bh-notes { display: grid; gap: 10px; margin-top: 20px; }
-.bh-note { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px; background: var(--card); display: grid; grid-template-columns: 132px 1fr; gap: 2px 14px; }
-.bh-note .k { font-size: var(--text-sm); color: var(--subtle-foreground); padding-top: 2px; }
-.bh-note .v { color: var(--foreground); line-height: var(--leading-normal); }
-.bh-note .v .nm { font-weight: var(--weight-medium); color: var(--heading-foreground); }
-.bh-note .num { font-family: var(--font-mono); color: var(--secondary); }
-.bh-note.good { border-color: var(--primary); } .bh-note.good .k { color: var(--primary); }
-.bh-note.warn { border-color: var(--warning); } .bh-note.warn .k { color: var(--warning); }
-.bh-side h2 { margin: 0 0 8px; font-size: var(--text-base); color: var(--foreground); }
-.bh-mini { display: grid; gap: 6px; }
-.bh-mini .row2 { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: var(--text-sm); }
-.bh-mini .row2 .nm { color: var(--primary); font-weight: var(--weight-medium); font-size: var(--text-base); }
-.bh-mini .row2 .nm.trap { color: var(--warning); }
-.bh-mini .row2 .num { font-family: var(--font-mono); color: var(--secondary); }
-.bh-mini .row2 .pts { font-family: var(--font-mono); color: var(--subtle-foreground); }
 
+/* the verdict's board: the cards dealt, painted */
+.bh-board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; max-width: 760px; }
+.bh-cell { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 9px; font-size: var(--text-sm); background: var(--card); color: var(--foreground); }
+.bh-cell i { font-style: normal; font-family: var(--font-mono); color: var(--secondary); white-space: nowrap; }
+.bh-cell.on { border-color: var(--primary); background: var(--primary-tint); } .bh-cell.on a { color: var(--primary); }
+.bh-cell.bad { border-color: var(--warning); background: var(--warning-tint); } .bh-cell.bad a { color: var(--warning); }
+.bh-cell.miss { border-style: dashed; border-color: var(--warning); }
 /* scorecard */
 .bh-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
 .bh-table th { text-align: left; font-weight: var(--weight-regular); color: var(--subtle-foreground); padding: 6px 10px 6px 0; border-bottom: 1px solid var(--border); white-space: nowrap; }
@@ -561,7 +564,6 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 
 /* links, focus and the screen-reader line */
 .bh a.sk { color: inherit; } .bh a.sk:hover { text-decoration: underline; text-underline-offset: 3px; }
-.bh-note .v .sub { display: block; margin-top: 4px; font-size: var(--text-sm); color: var(--muted-foreground); }
 .bh-small { margin-top: 10px; font-size: var(--text-sm); color: var(--muted-foreground); }
 .bh-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
@@ -676,6 +678,8 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .main > .page.cl { max-width: 1160px; }
 .cl-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
 .cl-head .facts b { color: var(--secondary); font-weight: var(--weight-medium); }
+.cl-board .gm-measure { font-size: var(--text-2xl); }
+.cl-board .gm-take { font-size: var(--text-base); }
 .cl-num { color: var(--secondary); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 .cl-score { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--muted-foreground); text-align: right; }
 .cl-score b { display: block; font-size: var(--text-2xl); color: var(--heading-foreground); font-weight: var(--weight-medium); letter-spacing: var(--tracking-tighter); }
@@ -939,7 +943,7 @@ button.wia-tile:disabled { cursor: default; }
 
 .gtr .gtr-board { display: grid; grid-template-columns: 1fr 200px; gap: 12px; }
 .gtr .clues, .gtr .pts { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: 16px 20px; }
-.gtr .clues:focus, .gtr .gtr-role:focus { outline: none; }   /* focus targets for assistive tech, not controls */
+.gtr .clues:focus { outline: none; }   /* focus targets for assistive tech, not controls */
 .gtr .clues > p, .gtr .pts > p { margin: 0 0 8px; }
 .gtr .cluelist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .gtr .cluelist li { display: grid; grid-template-columns: 28px 1fr; align-items: center; height: 44px; padding: 0 12px; border-radius: var(--radius-md); background: var(--background); border: 1px solid var(--border); }
@@ -975,10 +979,12 @@ button.wia-tile:disabled { cursor: default; }
 .gtr .small4 .gopt.wrong .m { color: var(--warning); }
 .gtr .gtr-foot { margin-top: 16px; gap: 14px; }
 
-.gtr .gtr-reveal { display: grid; grid-template-columns: 1fr 360px; gap: 28px; }
-.gtr .gtr-role { font-size: 32px; color: var(--heading-foreground); margin-bottom: 4px; }
-.gtr .gtr-reveal .facts a { color: inherit; } .gtr .gtr-reveal .facts a:hover { text-decoration: underline; text-underline-offset: 3px; }
-.gtr .gtr-reveal .src { margin: 2px 0 14px; }
+.gtr .gm-result { margin-top: 16px; }
+.gtr .gm-result .eyebrow a { color: inherit; }
+.gtr .gtr-give .bar { position: relative; display: block; height: 10px; border-radius: 5px; background: var(--muted); max-width: 480px; }
+.gtr .gtr-give .bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; background: var(--secondary); }
+.gtr .gtr-give .bar u { position: absolute; top: -4px; width: 2px; height: 18px; background: var(--heading-foreground); }
+.gtr .verdict-box { margin-top: 14px; max-width: 360px; }
 .gtr .fact-head { display: grid; grid-template-columns: 1fr minmax(172px, max-content) 52px; white-space: nowrap; gap: 10px; padding: 0 0 6px; border-bottom: 1px solid var(--border); }   /* the middle column grows for a long role name */
 .gtr .factlist { list-style: none; margin: 0; padding: 0; }
 .gtr .factlist li { display: grid; grid-template-columns: 22px 1fr 120px 42px 52px; gap: 10px; align-items: center; padding: 5px 0; line-height: 1.3; border-bottom: 1px solid var(--border); font-size: var(--text-base); }

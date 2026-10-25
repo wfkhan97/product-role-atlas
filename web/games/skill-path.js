@@ -531,9 +531,13 @@
       if (R.phase !== "arrived" && R.phase !== "out") stop(R);
       S.result = result(R); S.build = buildNext(R, S.B); S.screen = "end"; S.drawn = false; S.view = null;
       const was = record(R, S.result);
+      // the Know-your-role record for the target: every skill on the route is met, the hops you can show are known
+      const t = R.su.targetId, asks = GS.record.asksOf(ix, S.P, t), before = GS.record.knowledge(t, asks);
+      GS.record.saveRole(t, { label: role(t).label, met: R.path.slice(), known: R.hops.filter(h => h.kind === "hop" && h.yes).map(h => h.id) });
+      was.know = GS.knowLine(before, GS.record.knowledge(t, asks), role(t).label);
       renderEnd(was);
-      const t = role(R.su.targetId).label;
-      say(S.result.arrived ? `Arrived at ${name(R.cur)} in ${plural(R.used, "hop", "hops")}; the shortest route takes ${R.su.par}.` : `${plural(S.result.short, "hop", "hops")} short of ${t}.`);
+      const tl = role(R.su.targetId).label;
+      say(S.result.arrived ? `Arrived at ${name(R.cur)} in ${plural(R.used, "hop", "hops")}; the shortest route takes ${R.su.par}.` : `${plural(S.result.short, "hop", "hops")} short of ${tl}.`);
       F.focusMeasure();
     }
     // the record: the last 20 rounds and the best round per pairing (arrived first, then fewer hops over par, then fit)
@@ -576,7 +580,7 @@
       const why = b.why === "not-yet" ? `The skill on your route that ${esc(t.label)} postings ask for most and that you cannot show yet.` : b.why === "reached" ? `You can show every hop. This is the skill that ended the round, and ${esc(t.label)} postings ask for it most of your route.` : `You can show every hop. This is the skill that ends the round nearest to where you stopped.`;
       const last = was.lastSame;
       const change = !last ? "Your first round on this pairing." : (res.arrived && !last.arrived) ? "Last time you did not arrive." : (!res.arrived && last.arrived) ? `Last time you arrived in ${plural(last.hops, "hop", "hops")}.` : res.arrived ? (res.used < last.hops ? `Fewer hops than last time (${last.hops}).` : res.used > last.hops ? `More hops than last time (${last.hops}).` : "The same as last time.") : (res.short < (last.short ?? 99) ? `Closer than last time (${last.short} short).` : "No closer than last time.");
-      const rec = `${change}${was.isBest && was.old ? " A new best for this pairing." : was.old ? ` Your best: ${was.old.arrived ? `arrived in ${plural(was.old.hops, "hop", "hops")}` : `${plural(was.old.short ?? 0, "hop", "hops")} short`}.` : ""}`;
+      const rec = `${was.know ? was.know + " " : ""}${change}${was.isBest && was.old ? " A new best for this pairing." : was.old ? ` Your best: ${was.old.arrived ? `arrived in ${plural(was.old.hops, "hop", "hops")}` : `${plural(was.old.short ?? 0, "hop", "hops")} short`}.` : ""}`;
       F.set({ round: R.budget, rounds: R.budget, role: `${startLabel(su.from, su.startId)} → ${t.label}` });
       F.body.innerHTML = GS.results({
         cls: "sp-end",

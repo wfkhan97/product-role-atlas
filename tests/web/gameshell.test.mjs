@@ -67,3 +67,34 @@ test("pickDefault: the role in the hash first, else the profile's first field's 
   assert.equal(pickDefault(ix, null, null, id => id === "c"), "c");
   assert.equal(pickDefault(ix, null, null, new Set()), null);
 });
+
+test("the Know-your-role record: noteRole merges sets, counts demand and never changes its input; summary reads it against the role's asks", () => {
+  const empty = R.empty();
+  let rec = R.noteRole(empty, "pm", { label: "PM", met: ["a", "b"], known: ["a"], postings: ["p1"] }, "2026-10-20");
+  assert.deepEqual(empty.roles, {});
+  rec = R.noteRole(rec, "pm", { known: ["c"], ladders: ["b"], demand: 2, postings: ["p1", "p2"] }, "2026-10-21");
+  rec = R.noteRole(rec, "pm", { demand: 1 }, "2026-10-21");
+  assert.deepEqual(rec.roles.pm, { met: ["a", "b", "c"], known: ["a", "c"], ladders: ["b"], postings: ["p1", "p2"], demand: 3, label: "PM", updated: "2026-10-21" });
+  const k = R.summary(rec, "pm", ["a", "b", "d", "c"]);
+  assert.deepEqual([k.known, k.met, k.missing, k.total, k.postings, k.demand, k.any], [["a", "c"], ["a", "b", "c"], ["b", "d"], 4, 2, 3, true]);
+  assert.equal(R.summary(rec, "none", ["a"]).any, false);
+  assert.deepEqual(R.noteRole(rec, "pm", { known: [3, null, "x"] }).roles.pm.known, ["a", "c", "x"], "only strings are kept");
+});
+
+test("asksOf: a role's asks are the skills at least the cut of its postings name, most asked first; product roles read the product set", () => {
+  const ix = { roles: { pm: { set: "mba", family: "pm" }, "product.tpm": { set: "product", family: "tpm" } }, M: { skills: [{ id: "a", cluster: "craft", by_family: { pm: 0.9 } }, { id: "b", cluster: "craft", by_family: { pm: 0.41 } }, { id: "c", cluster: "craft", by_family: { pm: 0.39 } }, { id: "bachelors", cluster: "credentials", by_family: { pm: 0.8 } }, { id: "yoe_3", cluster: "craft", by_family: { pm: 0.8 } }] } };
+  assert.deepEqual(R.asksOf(ix, null, "pm"), ["a", "b"]);
+  assert.deepEqual(R.asksOf(ix, null, "pm", 0.3), ["a", "b", "c"]);
+  assert.deepEqual(R.asksOf(ix, null, "product.tpm"), [], "no product set loaded");
+  assert.deepEqual(R.asksOf(ix, { G: { skills: [{ id: "z", cluster: "craft", by_family: { tpm: 0.5 } }] } }, "product.tpm"), ["z"]);
+  assert.deepEqual(R.asksOf(ix, null, "nope"), []);
+});
+
+test("knowLine: the first line of an end screen is the record and the change since last time", () => {
+  const { knowLine } = require(path.join(web, "gameshell.js"));
+  const before = { known: ["a"], total: 3 }, after = { known: ["a", "b"], total: 3 };
+  assert.equal(knowLine(before, after, "PM"), "You know <b>2 of the 3</b> things PM postings ask for · up from 1.");
+  assert.equal(knowLine(null, after, "PM"), "You know <b>2 of the 3</b> things PM postings ask for.");
+  assert.equal(knowLine(after, before, "P<M"), "You know <b>1 of the 3</b> things P&lt;M postings ask for · down from 2.");
+  assert.equal(knowLine(null, { known: [], total: 0 }, "PM"), "");
+});

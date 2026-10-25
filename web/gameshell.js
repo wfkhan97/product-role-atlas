@@ -5,7 +5,9 @@
    for every game (every access in try/catch; a game works with storage blocked). Play first (G1, G9): one start
    screen (`start`), one default role (`defaultRole`: the role the player came from, else the profile's first
    field's largest role, else Product Manager), one coachmark on the first move (`coachOnce`), one picker
-   (`picker`: the Explore field cards, then the field's roles with the player's record as the secondary line).
+   (`picker`: the Explore field cards, then the field's roles with the player's record as the secondary line). The
+   Know-your-role record (G4): `record.saveRole` / `record.knowledge`, `knowLine` for the first line of an end screen,
+   `knowCard` for the role screen and About you.
    UMD like atlas.js: the record's pure parts (`record.normalize`, `record.noteGame`) load in node for
    tests/web/gameshell.test.mjs; the DOM parts register window.GameShell. */
 (function (root, factory) {
@@ -40,6 +42,37 @@
   }
   const gameOf = (rec, slug) => (normalize(rec).games[slug]) || {};
 
+  // ---------- the Know-your-role record (G4): one entry per role, written by every game ----------
+  // roles[id] = { label, met: [skill ids seen in a game], known: [skill ids the player got right], ladders: [skill ids
+  // sorted right], postings: [posting ids read], demand: n (pairs of open-posting counts seen), updated }
+  const ASK_CUT = 0.4;   // a role's asks: the skills at least this share of its postings name (the What does it ask for cut)
+  const uniq = (a, b) => [...new Set([...(Array.isArray(a) ? a : []), ...(Array.isArray(b) ? b : [])].filter(x => typeof x === "string"))];
+  function noteRole(rec, roleId, patch, today) {
+    const out = normalize(rec), r = { met: [], known: [], ladders: [], postings: [], demand: 0, ...(out.roles[roleId] || {}) }, p = patch || {};
+    if (p.label) r.label = p.label;
+    r.met = uniq(r.met, [...(p.met || []), ...(p.known || [])]);
+    r.known = uniq(r.known, p.known);
+    r.ladders = uniq(r.ladders, p.ladders);
+    r.postings = uniq(r.postings, p.postings);
+    r.demand = (Number.isInteger(r.demand) ? r.demand : 0) + (Number.isInteger(p.demand) ? p.demand : 0);
+    r.updated = today || new Date().toISOString().slice(0, 10);
+    out.roles[roleId] = r;
+    return out;
+  }
+  // a role's asks: ids of the skills at least ASK_CUT of its postings name, most asked first. ix = Atlas.index(),
+  // P = Atlas.product() or null (needed for a product role)
+  function asksOf(ix, P, roleId, cut = ASK_CUT) {
+    const r = ix.roles[roleId]; if (!r) return [];
+    const skills = r.set === "product" ? (P ? P.G.skills : []) : ix.M.skills;
+    return skills.filter(s => s.cluster !== "credentials" && !String(s.id).startsWith("yoe_")).map(s => ({ id: s.id, share: (s.by_family || {})[r.family] || 0 })).filter(x => x.share >= cut).sort((a, b) => b.share - a.share).map(x => x.id);
+  }
+  // what the player knows about a role: the asks known of the role's asks, what is missing, the rest of the ledger
+  function summary(rec, roleId, asks) {
+    const r = normalize(rec).roles[roleId] || { met: [], known: [], ladders: [], postings: [], demand: 0 };
+    const known = new Set(r.known), met = new Set(r.met);
+    return { known: asks.filter(id => known.has(id)), met: asks.filter(id => met.has(id)), missing: asks.filter(id => !known.has(id)), total: asks.length, ladders: r.ladders, postings: r.postings.length, demand: r.demand, any: !!(r.known.length || r.met.length || r.ladders.length || r.postings.length || r.demand) };
+  }
+
   // storage: every access in try/catch; with storage blocked the game plays the same and forgets
   const storage = {
     read() { try { return normalize(JSON.parse(localStorage.getItem(KEY))); } catch { return empty(); } },
@@ -54,7 +87,19 @@
     saveGame(slug, patch) { const rec = noteGame(storage.read(), slug, patch); storage.write(rec); return rec.games[slug]; },
     // a Speed round is on offer once the game has been played clean untimed (G7)
     speedUnlocked: slug => !!gameOf(storage.read(), slug).clean,
+    // the Know-your-role record: note what a round showed and what the player got right; read it back as a summary
+    noteRole, asksOf, summary, ASK_CUT,
+    role: roleId => storage.read().roles[roleId] || null,
+    saveRole(roleId, patch) { const rec = noteRole(storage.read(), roleId, patch); storage.write(rec); return rec.roles[roleId]; },
+    knowledge: (roleId, asks) => summary(storage.read(), roleId, asks),
   };
+  // the record's first line on an end screen (G4, G6): "You know 9 of the 15 things PM postings ask for · up from 6"
+  function knowLine(before, after, label) {
+    if (!after.total) return "";
+    const n = after.known.length, was = before ? before.known.length : null;
+    const change = was == null || was === n ? "" : n > was ? ` · up from ${was}` : ` · down from ${was}`;
+    return `You know <b>${n} of the ${after.total}</b> things ${esc(label)} postings ask for${change}.`;
+  }
 
   // ---------- small pieces of markup ----------
   const kbd = k => `<kbd>${esc(k)}</kbd>`;
@@ -110,7 +155,7 @@
   // the coachmark: one pointer on the first move of a game's first round (Coachmarks pattern), dismissed by any move
   const coach = text => `<div class="gm-coach" role="note" id="gm-coach">${esc(text)}<button type="button" class="linkish link" id="gm-coach-ok">Got it</button></div>`;
 
-  if (!document) return { record, info, pips, foot, results, ranked, kbd, tip, pickDefault, coach, KEYS_NOTE, STORAGE_NOTE };
+  if (!document) return { record, info, pips, foot, results, ranked, kbd, tip, pickDefault, coach, knowLine, KEYS_NOTE, STORAGE_NOTE };
 
   // ---------- the frame: header, body, live region ----------
   // frame(el, { game, role, round, rounds, marks, info, quit, cls }) -> { body, set(...), live(msg) }
@@ -208,5 +253,20 @@
     return done;
   }
 
-  return { record, info, pips, foot, results, ranked, kbd, tip, frame, keys, pickDefault, defaultRole, start, picker, coach, coachOnce, KEYS_NOTE, STORAGE_NOTE };
+  // the Know-your-role card (G4): the ledger shown beside a role screen's action row and on About you
+  // knowCard({ roleId, label, asks, nameOf, practise }) -> html, or "" when nothing is known yet
+  function knowCard(o) {
+    const k = summary(storage.read(), o.roleId, o.asks); if (!k.any) return "";
+    const names = ids => ids.map(id => esc(o.nameOf(id))).join(", ");
+    const missing = k.missing.slice(0, 3);
+    return `<div class="gm-know"><p class="eyebrow">What you know about this role</p>
+      <div class="gm-know-r"><span>Asks you know</span><b>${k.known.length} of ${k.total}</b></div>
+      <div class="gm-know-bar" data-measure="${k.known.length} of the ${k.total} skills at least ${Math.round(ASK_CUT * 100)}% of ${esc(o.label)} postings ask for, got right in a game."><i style="width:${k.total ? Math.round(100 * k.known.length / k.total) : 0}%"></i></div>
+      ${k.ladders.length ? `<div class="gm-know-r"><span>Levels sorted</span><b>${names(k.ladders.slice(0, 3))}${k.ladders.length > 3 ? ` +${k.ladders.length - 3}` : ""}</b></div>` : ""}
+      ${k.postings ? `<div class="gm-know-r"><span>Postings read</span><b>${k.postings}</b></div>` : ""}
+      ${k.demand ? `<div class="gm-know-r"><span>Demand pairs seen</span><b>${k.demand}</b></div>` : ""}
+      ${missing.length && o.practise ? `<p class="gm-know-p"><a href="${esc(o.practise(k.missing))}">Practise what's missing →</a> <span class="muted">${names(missing)}${k.missing.length > 3 ? ", …" : ""}</span></p>` : ""}</div>`;
+  }
+
+  return { record, info, pips, foot, results, ranked, kbd, tip, frame, keys, pickDefault, defaultRole, start, picker, coach, coachOnce, knowLine, knowCard, KEYS_NOTE, STORAGE_NOTE };
 });

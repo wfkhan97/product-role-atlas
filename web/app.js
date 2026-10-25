@@ -284,9 +284,14 @@
     const closest = rg ? Object.entries(rg.scores).filter(([id, v]) => v > 0 && ix.roles[id]).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => `<a href="#/role/${esc(id)}">${esc(ix.roles[id].label)}</a>`) : [];
     const resume = r ? `<div class="list">${row(esc(r.name), `${fmt(r.words)} words, read in your browser; nothing is uploaded`, ["replace", "#/you?step=3"])}${row("Your closest matches", closest.length ? closest.join(" · ") : "No role yet", null)}</div>` : `<p class="small muted" style="margin-top:8px">No resume yet. <a class="link" href="#/you?step=3">Add one</a> and we point you to the fields it fits.</p>`;
     const fieldRows = [...fields].map(id => ix.groups.find(g => g.id === id)).filter(Boolean).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)).map(g => row(esc(g.label), esc(why.get(g.id)), ["open →", "#/field/" + g.id]));
+    // what the games recorded, role by role (PLAN.md v12, decision 4)
+    const GS = window.GameShell, roles = GS ? Object.entries(GS.record.read().roles) : [];
+    let P = null; if (roles.some(([id]) => (ix.roles[id] || {}).set === "product" || id.startsWith("product."))) P = await Atlas.product().catch(() => null);
+    const knowRows = roles.filter(([id]) => ix.roles[id]).map(([id, r]) => { const k = GS.record.summary(GS.record.read(), id, GS.record.asksOf(ix, P, id)); const parts = [k.total ? `${k.known.length} of ${k.total} asks known` : null, k.ladders.length ? `${k.ladders.length} ${k.ladders.length === 1 ? "level ladder" : "level ladders"} sorted` : null, k.postings ? `${k.postings} ${k.postings === 1 ? "posting" : "postings"} read` : null, k.demand ? `${k.demand} demand ${k.demand === 1 ? "pair" : "pairs"} seen` : null].filter(Boolean); return { id, label: ix.roles[id].label, n: k.known.length, line: parts.join(" · ") || "played", updated: r.updated || "" }; }).sort((a, b) => b.n - a.n || a.label.localeCompare(b.label)).map(x => row(esc(x.label), esc(x.line), ["open", "#/role/" + x.id]));
     page(`<h1>About you</h1><p class="lead">What you told us and what your resume shows. Change any answer; the fields below follow.</p>
       <div class="two"><div><h2>Your answers</h2>${answers}</div><div><h2>Your resume</h2>${resume}</div></div>
       <h2>Fields that fit you, and why</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : '<p class="small muted">Pick a field or add a resume and they appear here.</p>'}
+      ${knowRows.length ? `<h2>What you know, from the games</h2><p class="small muted">What the games recorded in this browser, role by role: the asks you got right, the level ladders you sorted, the postings you read, the demand pairs you saw.</p><div class="list you-know">${knowRows.join("")}</div>` : ""}
       <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">Explore your fields →</a><button type="button" class="btn quiet" id="start-over">Start over</button></div>`);
     $("#start-over").onclick = () => { state.you = null; state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("you", null); store.set("resume", null); wiz = null; you(); };
   }
@@ -524,7 +529,8 @@
     const on = state.selected && state.selected.kind === "skill" && state.selected.id === s.id;
     const paint = m ? (m.matched.has(s.id) ? " have" : m.presumed.has(s.id) ? "" : m.required.has(s.id) ? " gap" : "") : "";
     const marks = (s.defining ? `<span class="mark" data-measure="◆ sets this role apart: postings of this role ask for it far more often than postings of other roles do.">◆</span>` : "") + (s.grows ? `<span class="mark" data-measure="↗ asked more as you move up: at least 1.5 times as often in leadership postings as in entry-level ones.">↗</span>` : "");
-    return `<button type="button" class="srow${on ? " on" : ""}${paint}" data-skill="${esc(s.id)}"><span class="nm">${esc(s.name)}${marks}${s.area ? `<span class="m">${esc(s.area)}</span>` : ""}</span><span class="bar" data-measure="The bar is the share of postings that ask for this skill: ${pct(s.share)} of the ${fmt(n)} postings in this view ask for ${esc(s.name)}."><i style="width:${Math.round(s.share * 100)}%"></i></span></button>`;
+    const known = state.known && state.known.has(s.id) ? `<span class="known" data-measure="✓ you know this one: you got it right in a game.">✓</span>` : "";
+    return `<button type="button" class="srow${on ? " on" : ""}${paint}" data-skill="${esc(s.id)}"><span class="nm">${esc(s.name)}${marks}${known}${s.area ? `<span class="m">${esc(s.area)}</span>` : ""}</span><span class="bar" data-measure="The bar is the share of postings that ask for this skill: ${pct(s.share)} of the ${fmt(n)} postings in this view ask for ${esc(s.name)}."><i style="width:${Math.round(s.share * 100)}%"></i></span></button>`;
   }
   function areaPanel(R, a, n, m, flat) {
     const core = a.skills.filter(s => s.tier === 0), first = core.length && !flat ? core : a.skills, folded = core.length && !flat ? a.skills.filter(s => s.tier > 0) : [];
@@ -559,6 +565,11 @@
     const where = R.country ? ` · ${esc(R.country)}` : "";
     const facts = R.set === "product" ? `<span data-measure="${fmt(role.nOpen)} open postings in the US; ${fmt(role.nWorld)} worldwide, and the skills below read all of them.">${fmt(role.nOpen)} open postings in the US</span> · ${plural(role.nCompanies, "employer", "employers")}` : `<span data-measure="${fmt(open.length)} open now${nClosed ? `; ${fmt(nClosed)} recently closed postings are counted in the shares too, so the skills reflect a year of hiring, not one week` : ""}.">${fmt(R.jobs.filter(j => j.open).length)} open postings</span> · ${plural(role.nCompanies, "employer", "employers")}${where}`;
     const lead = roleLead(areas);
+    // the Know-your-role record (PLAN.md v12, decision 4): the asks the player got right in a game, as ✓ on the list
+    // and as a card beside the action row
+    const GS = window.GameShell, asks = GS ? GS.record.asksOf({ roles: { [role.id]: role }, M: { skills: R.skills } }, { G: { skills: R.skills } }, role.id) : [];
+    state.known = new Set(GS ? GS.record.knowledge(role.id, asks).known : []);
+    const know = GS ? GS.knowCard({ roleId: role.id, label: role.label, asks, nameOf: id => (R.skillById[id] || { name: id }).name, practise: ids => `#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(ids.slice(0, 8).join(","))}` }) : "";
     // the fit paints the list whenever one is read for this view (no toggle: owner's decision 2026-10-24)
     const fit = fitFor(), m = fit ? state.match : null;
     const topEmployers = Object.entries(countBy(open, j => j.company)).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([c]) => c);
@@ -598,7 +609,7 @@
     const body = state.tab === "postings" ? postings : state.tab === "also" ? also : listHead + skillList;
     // the title, one sentence on what the job is (web/data/role_blurbs.json), the facts, the data's lead sentence
     page(`<h1>${esc(role.label)}</h1><p class="facts">${facts} · entry grade: ${esc(R.stepLabels.entry)}, ${fmt(nEntry)} open</p>
-      <p class="lead">${role.blurb ? esc(role.blurb) + " " : ""}${lead}</p>
+      <p class="lead">${role.blurb ? esc(role.blurb) + " " : ""}${lead}</p>${know}
       ${filters}${tabs}${body}`);
     main.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { state.tab = b.dataset.tab; keepScroll(renderRole); });
     main.querySelectorAll("details.empbox").forEach(d => d.ontoggle = () => { d.open ? state.empOpen.add(d.dataset.empOpen) : state.empOpen.delete(d.dataset.empOpen); });
@@ -780,14 +791,14 @@
   // ---------- the rail: the legend, the person and this role, what to do with it ----------
   // one legend everywhere, rows left out when they do not apply (owner's decision 2026-10-24)
   function legendHtml(rows) {
-    const all = { share: ['<i class="b"></i>', "% of postings that ask for the skill"], defining: ["◆", "sets this role apart from other roles"], grows: ["↗", "asked more at senior levels"], have: ['<i class="b g"></i>', "already on your resume"], gap: ['<i class="b a"></i>', "a gap this role requires"], presumed: ["◌", "presumed from a role you held, not shown on your resume"], other: ["⟲", "on your resume in other words; postings say it differently"] };
+    const all = { share: ['<i class="b"></i>', "% of postings that ask for the skill"], defining: ["◆", "sets this role apart from other roles"], grows: ["↗", "asked more at senior levels"], have: ['<i class="b g"></i>', "already on your resume"], gap: ['<i class="b a"></i>', "a gap this role requires"], presumed: ["◌", "presumed from a role you held, not shown on your resume"], known: ["✓", "you got it right in a game"], other: ["⟲", "on your resume in other words; postings say it differently"] };
     return `<section class="rs"><h3 class="rh">How to read this</h3><div class="legend">${rows.map(k => `<span class="k">${all[k][0]}</span><span>${all[k][1]}</span>`).join("")}</div></section>`;
   }
   const waitHtml = what => state.wait === what ? `<div class="wait"><b>Coming soon</b>${esc({ show: "Tips to show a skill on your resume, written for this role.", build: "A plan to build the skills this role asks for.", ways: "Ways to show your skills: projects, courses, events." }[what])}<input type="email" placeholder="you@cornell.edu" disabled><a class="btn primary" href="#/" data-wait-close>Join the GradBuddy waitlist</a></div>` : "";
   function railHtml(R, g, fit, stats, open) {
     const role = R.role, y = state.you || {}, stage = y.stage;
     const painted = !!fit && state.match && state.match.roleId === role.id;
-    const legend = legendHtml(["share", ...(role.definingList.length ? ["defining"] : []), "grows", ...(painted ? ["have", "gap", ...(fit.presumed.length ? ["presumed"] : []), ...(fit.trans.length ? ["other"] : [])] : [])]);
+    const legend = legendHtml(["share", ...(role.definingList.length ? ["defining"] : []), "grows", ...(state.known && state.known.size ? ["known"] : []), ...(painted ? ["have", "gap", ...(fit.presumed.length ? ["presumed"] : []), ...(fit.trans.length ? ["other"] : [])] : [])]);
     const acts = (extra = "") => `<section class="rs"><h3 class="rh">${fit ? "Then" : "Do something with this"}</h3><div class="acts">${extra}<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}">Practise this role <span>· 2 min</span></a><a href="#/role/${esc(role.id)}/course">Check a course against this role <span>→</span></a><span class="act">Going to a ${esc(g.label.toLowerCase())} event? <span>${EVENTS.map(([k, t]) => `<a href="#/field/${esc(role.group)}/event?${k}">${esc(t.toLowerCase().replace(" or case competition", ""))}</a>`).join(" · ")}</span></span>${window.ClassScreens ? `<a href="#/classes">${esc((window.ClassScreens.termLabel && ClassScreens.termLabel()) || "Spring 2027")} classes that fit this role <span>→</span></a>` : ""}</div></section>`;
     const drop = `<div class="drop" id="drop"><p><b>Drop a PDF, DOCX or TXT</b> or <label class="link" for="file">choose a file</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status"></p></div><textarea id="paste" rows="3" aria-label="Resume text" placeholder="Or paste the text of your resume"></textarea><p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">Read my fit →</button></p>`;
     if (!state.resume) {
