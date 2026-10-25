@@ -1,7 +1,7 @@
 # Games
 
-Short games built on the atlas's data, shown as a grid of cards on the first-visit screen (`#/`), grouped by the fact
-they teach, one marked "Start here". Each folder is a design package for one game, written to be built in its own thread:
+Short games built on the atlas's data, shown as one carousel row of cards on the first-visit screen (`#/`), in the
+order of the facts they teach, each card naming its fact, one marked "Start here". Each folder is a design package for one game, written to be built in its own thread:
 
 Mockups and notes made while building a game are scratch (`data/experiments/scratch/<topic>/`, swept by `./sweep_scratch.sh`); the design package in the game's folder and `web/data/games.json` are what lasts.
 
