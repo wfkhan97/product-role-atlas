@@ -1,3 +1,5 @@
+Retired in v12 (2026-10-20): merged into Know the role; see PLAN.md.
+
 # What does it ask for
 
 Proposed entry for `web/data/games.json` (the shape the landing carousel reads; the current working tree already carries this line):

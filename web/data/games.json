@@ -1,10 +1,6 @@
 [
-  {"slug": "what-it-asks", "title": "What does it ask for", "tagline": "Pick the real asks, let filler pass", "cover": "img/games/what-it-asks.png", "status": "live",
-   "group": "asks", "verb": "Pick the skills a role's postings ask for from sixteen on a board.", "outcome": "Learn what {role} postings ask for.", "rounds": "3 boards", "minutes": 2, "start": true},
-  {"slug": "higher-or-lower", "title": "Higher or lower", "tagline": "Which skill do more postings want", "cover": "img/games/higher-or-lower.png", "status": "live",
-   "group": "asks", "verb": "Say whether more or fewer postings ask for the next skill.", "outcome": "Learn which skills {role} postings ask for most.", "rounds": "one streak", "minutes": 2},
-  {"slug": "build-the-hire", "title": "Build the hire", "tagline": "Draft a hire, then let postings judge", "cover": "img/games/build-the-hire.png", "status": "live",
-   "group": "asks", "verb": "Draft a candidate from three cards at a time on a budget.", "outcome": "Learn which skills set {role} apart.", "rounds": "8 hands", "minutes": 3},
+  {"slug": "know-the-role", "title": "Know the role", "tagline": "Pick the asks, see the real shares", "cover": "", "status": "live",
+   "group": "asks", "verb": "Pick the real asks from twelve skills, then call eight over or under half.", "outcome": "Learn what {role} postings ask for.", "rounds": "3 rounds", "minutes": 2, "start": true},
   {"slug": "guess-the-role", "title": "Guess the role", "tagline": "Name the job from its skills", "cover": "img/games/guess-the-role.png", "status": "live",
    "group": "asks", "verb": "Name a real posting's role from its skills, giveaway last.", "outcome": "Learn the skill that gives each role away.", "rounds": "10 rounds", "minutes": 4},
   {"slug": "spot-the-real-ask", "title": "Spot the real ask", "tagline": "Mark what a posting really asks for", "cover": "img/games/spot-the-real-ask.png", "status": "live",

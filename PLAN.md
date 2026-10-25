@@ -320,6 +320,12 @@ next PR to main before a base branch is deleted):
    list marks the asks known with ✓; About you lists the roles with a record.
 5. `feat/games-2-5-know-the-role`: Know the role from WIA Steady and HOL (WIA1, WIA2, HOL1, BTH1, BTH2); HOL, WIA
    and BTH retired.
+   Built as (2026-10-20): `web/games/know-the-role.js` with `games/know-the-role/README.md`, three rounds on one role
+   (a board of twelve, eight calls against the anchor, a second board; "Try the same skill across fields" swaps the
+   second round for the field hop: the role's top ask over eight roles of other fields). The pools are What does it
+   ask for's (asks at 40%, decoys other roles prize); the ramp is inside the game (the first board's decoys from
+   another world, the first calls 20 points from half). The three retired games had no eval, so nothing was re-pointed;
+   `evals/game_know_the_role.mjs` is new. "Start here" and both Practise links now open Know the role.
 6. `feat/games-2-6-demand-guess-spot`: rank the fields (WID1, WID2), Guess the role shortened (GTR1), Spot the real
    ask line by line (SRA1).
 7. `feat/games-2-7-skill-path`: the card game and the route planner (SP1 to SP4).

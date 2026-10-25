@@ -1,3 +1,5 @@
+Retired in v12 (2026-10-20): merged into Know the role; see PLAN.md.
+
 # Higher or lower
 
 ```json

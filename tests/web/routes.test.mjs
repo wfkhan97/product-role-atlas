@@ -31,14 +31,14 @@ test("#/field/<id> opens the field; /event opens its event screen", () => {
 });
 
 test("#/play/<slug> opens the game, and its query is read as key = value pairs", () => {
-  const r = parseRoute("#/play/higher-or-lower?seed=7&mode=hop");
-  assert.deepEqual([r.name, r.params], ["play", { slug: "higher-or-lower" }]);
+  const r = parseRoute("#/play/know-the-role?seed=7&mode=hop");
+  assert.deepEqual([r.name, r.params], ["play", { slug: "know-the-role" }]);
   assert.deepEqual(r.query, { seed: "7", mode: "hop" });
   assert.equal(r.search, "seed=7&mode=hop");
 });
 
 test("a value that holds = keeps everything after the first =", () => {
-  assert.deepEqual(parseRoute("#/play/build-the-hire?deal=a=b&seed=3").query, { deal: "a=b", seed: "3" });
+  assert.deepEqual(parseRoute("#/play/skill-path?deal=a=b&seed=3").query, { deal: "a=b", seed: "3" });
 });
 
 test("the query of the explore screen and the bare key of the event screen are read as those screens read them", () => {
@@ -50,7 +50,7 @@ test("the query of the explore screen and the bare key of the event screen are r
 
 test("a path part is URI-decoded; a query value is decoded by URLSearchParams", () => {
   assert.deepEqual(screen("#/role/fp%26a"), ["role", { id: "fp&a" }]);
-  assert.equal(parseRoute("#/what-it-asks?role=fp%26a+x").query.role, "fp&a x");
+  assert.equal(parseRoute("#/know-the-role?role=fp%26a+x").query.role, "fp&a x");
 });
 
 test("an unknown screen shows the start screen", () => {
