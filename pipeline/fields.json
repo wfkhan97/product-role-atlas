@@ -751,10 +751,10 @@
   "consulting_strategy": {
    "reads_as": "Advising clients on where AI creates value and how to adopt it.",
    "shown_by": [
-    "ai_strategy",
-    "technology_strategy",
     "transformation_programs",
-    "business_case"
+    "business_case",
+    "synthesis_recommendations",
+    "client_engagement"
    ],
    "line": "Built the AI use-case portfolio for a client: 25 cases sized, 5 piloted, 2 scaled with $8M of annual value."
   },
