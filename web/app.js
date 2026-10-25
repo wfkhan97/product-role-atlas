@@ -539,14 +539,16 @@
     const paint = m ? (m.matched.has(s.id) ? " have" : m.presumed.has(s.id) ? "" : m.required.has(s.id) ? " gap" : "") : "";
     const marks = (s.defining ? `<span class="mark" data-measure="◆ sets this role apart: postings of this role ask for it far more often than postings of other roles do.">◆</span>` : "") + (s.grows ? `<span class="mark" data-measure="↗ asked more as you move up: at least 1.5 times as often in leadership postings as in entry-level ones.">↗</span>` : "");
     const known = state.known && state.known.has(s.id) ? `<span class="known" data-measure="✓ you know this one: you got it right in a game.">✓</span>` : "";
-    return `<button type="button" class="srow${on ? " on" : ""}${paint}" data-skill="${esc(s.id)}"><span class="nm">${esc(s.name)}${marks}${known}${s.area ? `<span class="m">${esc(s.area)}</span>` : ""}</span><span class="bar" data-measure="The bar is the share of postings that ask for this skill: ${pct(s.share)} of the ${fmt(n)} postings in this view ask for ${esc(s.name)}."><i style="width:${Math.round(s.share * 100)}%"></i></span></button>`;
+    const through = s.carriers && s.carriers.length ? `<span class="m">through ${esc(s.carriers.slice(0, 2).map(k => (R.skillById[k] || { name: k }).name).join(", "))}${s.carriersFallback ? " (in this field)" : ""}</span>` : "";
+    return `<button type="button" class="srow${on ? " on" : ""}${paint}" data-skill="${esc(s.id)}"><span class="nm">${esc(s.name)}${marks}${known}${s.area ? `<span class="m">${esc(s.area)}</span>` : through}</span><span class="bar" data-measure="The bar is the share of postings that ask for this skill: ${pct(s.share)} of the ${fmt(n)} postings in this view ask for ${esc(s.name)}."><i style="width:${Math.round(s.share * 100)}%"></i></span></button>`;
   }
   function areaPanel(R, a, n, m, flat) {
     const core = a.skills.filter(s => s.tier === 0), first = core.length && !flat ? core : a.skills, folded = core.length && !flat ? a.skills.filter(s => s.tier > 0) : [];
     const more = state.areaMore.has(a.cluster);
     const rowsOf = (list, labelled) => { let last = -1, h = ""; for (const s of list) { if (labelled && s.tier !== last) { h += `<span class="tierlab">${TIER_LABEL[s.tier]}</span>`; last = s.tier; } h += skillRow(R, s, n, m); } return h; };
     const fold = folded.length ? (more ? rowsOf(folded, true) + `<button type="button" class="linkish link more" data-more="${esc(a.cluster)}">Show fewer</button>` : `<button type="button" class="linkish link more" data-more="${esc(a.cluster)}">Show ${folded.length} more, asked by fewer postings</button>`) : "";
-    return `<details class="areabox" data-area="${esc(a.cluster)}"${flat || state.areaOpen.has(a.cluster) ? " open" : ""}><summary><span class="t">${esc(a.label)}</span><span class="n">${plural(a.skills.length, "skill", "skills")}${core.length ? ` · ${core.length} in most postings` : ""}</span></summary><div class="srows">${rowsOf(first, flat || !core.length)}${fold}</div></details>`;
+    const n2 = a.behaviours ? `<span class="n">${esc(a.summary)}</span>` : `<span class="n">${plural(a.skills.length, "skill", "skills")}${core.length ? ` · ${core.length} in most postings` : ""}</span>`;
+    return `<details class="areabox${a.behaviours ? " behaviours" : ""}" data-area="${esc(a.cluster)}"${flat || state.areaOpen.has(a.cluster) ? " open" : ""}><summary><span class="t">${esc(a.label)}</span>${n2}</summary><div class="srows">${rowsOf(first, flat || !core.length)}${fold}</div></details>`;
   }
   // the whole list laid out, painted: the course screen shows what a syllabus covers on it
   function flatSkills(R, slice, m) { const { areas, stats } = Atlas.areas(R, slice); return areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m, true)).join("")}</div>` : '<p class="notice">No postings match these filters.</p>'; }
@@ -556,7 +558,7 @@
   function roleLead(areas) {
     const core = areas.flatMap(a => a.skills).filter(s => s.tier === 0).sort((a, b) => b.share - a.share);
     if (!core.length) return "Few postings match this view; widen the filters to see what the role asks for.";
-    const def = core.filter(s => s.defining).slice(0, 2), top = core.filter(s => !s.defining && s.cluster !== "tools" && s.cluster !== "domain").slice(0, 3), tools = core.filter(s => s.cluster === "tools").slice(0, 2);
+    const def = core.filter(s => s.defining).slice(0, 2), top = core.filter(s => !s.defining && s.kind !== "behaviour" && s.cluster !== "tools" && s.cluster !== "domain").slice(0, 3), tools = core.filter(s => s.cluster === "tools").slice(0, 2);
     const names = xs => xs.map(s => s.name.replace(/\s*\(.*?\)/g, ""));   // "Office suite (Excel, …)" reads as "Office suite" here
     const parts = [def.length ? `${join(names(def))} set${def.length === 1 ? "s" : ""} this role apart` : "", top.length ? `${join(names(top))} lead the asks` : "", tools.length ? `${join(names(tools))} ${tools.length === 1 ? "is the tool" : "are the tools"}` : ""].filter(Boolean);
     return cap(parts.join("; ")) + ".";
@@ -566,7 +568,7 @@
     const R = state.R, role = R.role, slice = sliceOf();
     const { areas, stats } = Atlas.areas(R, slice);
     // the first area opens by itself; an engineering student sees the technical area first when the role has one
-    if (state.areaOpen == null) { const tech = state.you && TECHNICAL_PROGRAMS.includes(state.you.where) && areas.find(a => a.cluster === "technical"); state.areaOpen = new Set(areas.length ? [(tech || areas[0]).cluster] : []); }
+    if (state.areaOpen == null) { const tech = state.you && TECHNICAL_PROGRAMS.includes(state.you.where) && areas.find(a => a.cluster === "technical"); const firstArea = areas.find(a => !a.behaviours) || areas[0]; state.areaOpen = new Set(areas.length ? [(tech || firstArea).cluster] : []); }
     const open = slice.filter(j => j.open);
     const nClosed = R.jobs.length - R.jobs.filter(j => j.open).length;
     const countBy = (jobs, fn) => { const m = {}; for (const j of jobs) { const k = fn(j); if (k != null) m[k] = (m[k] || 0) + 1; } return m; };
@@ -925,25 +927,31 @@
     crumbs([["Explore", "#/explore"], [g.label, "#/field/" + g.id], [role.label, "#/role/" + role.id], ["Check a course", null]]);
     if (!state.course) { const saved = store.get("course"); if (saved) state.course = { ...saved, found: new Set(saved.found) }; }
     const c = state.course && state.course.roleId === role.id ? state.course : null;
+    // what a course can show, by kind (PLAN.md v14, decision 5); a course saved before the split is split here
+    const split = c ? (c.teaches ? { teaches: c.teaches, named: c.named } : Atlas.courseSplit(c.found, R.skillById)) : null;
     const form = `<div class="drop" id="drop"><p><b>Drop a syllabus (PDF, DOCX or TXT)</b> or <label class="link" for="file">choose a file</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status">${c ? `Read: ${esc(c.name)}.` : ""}</p></div>
       <p class="small muted">Or paste the course description, the list of topics or the week-by-week plan:</p><textarea id="paste" rows="6" aria-label="Course text" placeholder="FIN 620 Corporate Financial Planning. Topics: budgeting cycles, rolling forecasts, variance analysis…">${c ? esc(c.text) : ""}</textarea>
       <div class="row" style="margin:12px 0 4px"><button type="button" class="btn primary" id="go">Read the course →</button><span class="small muted">Nothing is uploaded.</span></div>`;
     let result = "";
     if (c) {
       const slice = sliceOf(); const { rows } = Atlas.grid(R, slice);
-      const inGrid = rows.flat(2);
-      const taught = inGrid.filter(x => c.found.has(x.id)), core = rows[0].flat(), coreTaught = core.filter(x => c.found.has(x.id)), notTaught = core.filter(x => !c.found.has(x.id));
+      const inGrid = rows.flat(2); const showable = x => Atlas.COURSE_KINDS.has((R.skillById[x.id] || {}).kind);
+      // taught: skills of the four kinds a course can show; named: behaviours and practices the text mentions, listed apart,
+      // not painted, not counted; "does not cover" is the craft among the most-asked skills that the text does not name
+      const taught = inGrid.filter(x => split.teaches.has(x.id)), named = inGrid.filter(x => split.named.has(x.id)), core = rows[0].flat(), coreTaught = core.filter(x => split.teaches.has(x.id)), notTaught = core.filter(x => showable(x) && !split.teaches.has(x.id));
       const m = state.match && state.match.roleId === role.id ? state.match : null;
       const gapsCovered = m ? taught.filter(x => m.required.has(x.id) && !m.matched.has(x.id)) : [];
-      state.paint = { roleId: role.id, matched: new Set(taught.map(x => x.id)), required: new Set(core.map(x => x.id)), presumed: new Set(), subs: new Set(Object.values(c.ev || {}).flatMap(e => [...(e.subs || [])])) };
+      state.paint = { roleId: role.id, matched: new Set(taught.map(x => x.id)), required: new Set(core.filter(showable).map(x => x.id)), presumed: new Set(), subs: new Set(Object.values(c.ev || {}).flatMap(e => [...(e.subs || [])])) };
       const tagOf = x => `<button type="button" class="tag good" data-skill="${esc(x.id)}">${esc(x.name)}${x.defining ? " ◆" : ""} <span class="subtle">${pct(x.share)}</span></button>`;
-      result = taught.length ? `<h2>This course teaches</h2><div class="tags">${taught.map(tagOf).join("")}</div>
-        <p class="small muted">${coreTaught.length} of the ${core.length} skills that most ${esc(role.label)} postings ask for.${gapsCovered.length ? ` It covers ${gapsCovered.length === 1 ? "one" : gapsCovered.length} of your gaps: ${gapsCovered.map(x => esc(x.name)).join(", ")}.` : m ? " It covers none of your gaps for this role." : ` <a href="#/role/${esc(role.id)}/fit">Check your fit</a> to see which of your gaps it covers.`} The share is how many postings ask for the skill.</p>
-        ${notTaught.length ? `<h2>It does not cover</h2><div class="tags">${notTaught.map(x => `<button type="button" class="tag bad" data-skill="${esc(x.id)}">${esc(x.name)}${x.defining ? " ◆" : ""}</button>`).join("")}</div><p class="small muted">Skills most postings ask for that the text does not name. A course can teach a skill without naming it the way postings do; open a skill to see how postings say it.</p>` : ""}
-        <h2>On the skills list</h2><p class="small muted">Green: the course names it. Amber: most postings ask for it and the course does not name it.</p>${flatSkills(R, slice, state.paint)}` : `<div class="notice"><b>We found none of this role's skills in that text.</b> ${c.lines < 3 ? "The text is very short; paste the topics or the week-by-week plan." : "Paste the list of topics, or check that the text is a course description."}</div>`;
+      const T5 = textOf(R.kinds);
+      const namedHtml = named.length ? `<h2>Named, but a course cannot show these</h2><div class="tags">${named.map(x => `<button type="button" class="tag" data-skill="${esc(x.id)}">${esc(x.name)} <span class="subtle">${pct(x.share)}</span></button>`).join("")}</div><p class="small muted">${esc(T5.how("behaviour"))} A course shows craft; how you work is shown through work, on <a href="#/role/${esc(role.id)}/fit">your fit</a>.</p>` : "";
+      result = taught.length || named.length ? `${taught.length ? `<h2>This course teaches</h2><div class="tags">${taught.map(tagOf).join("")}</div>
+        <p class="small muted">${coreTaught.length} of the ${core.filter(showable).length} skills that most ${esc(role.label)} postings ask for and a course can show.${gapsCovered.length ? ` It covers ${gapsCovered.length === 1 ? "one" : gapsCovered.length} of your gaps: ${gapsCovered.map(x => esc(x.name)).join(", ")}.` : m ? " It covers none of your gaps for this role." : ` <a href="#/role/${esc(role.id)}/fit">Check your fit</a> to see which of your gaps it covers.`} The share is how many postings ask for the skill.</p>` : `<p class="notice">The text names no skill a course can show for this role.</p>`}${namedHtml}
+        ${notTaught.length ? `<h2>It does not cover</h2><div class="tags">${notTaught.map(x => `<button type="button" class="tag bad" data-skill="${esc(x.id)}">${esc(x.name)}${x.defining ? " ◆" : ""}</button>`).join("")}</div><p class="small muted">Craft most postings ask for that the text does not name. A course can teach a skill without naming it the way postings do; open a skill to see how postings say it.</p>` : ""}
+        <h2>On the skills list</h2><p class="small muted">Green: the course names it. Amber: most postings ask for it and the course does not name it. Ways of working are not painted: a course cannot show them.</p>${flatSkills(R, slice, state.paint)}` : `<div class="notice"><b>We found none of this role's skills in that text.</b> ${c.lines < 3 ? "The text is very short; paste the topics or the week-by-week plan." : "Paste the list of topics, or check that the text is a course description."}</div>`;
     }
     page(`<p class="eyebrow">Check a course · ${esc(role.label)}</p><h1>Check a course</h1><p class="lead">Drop a syllabus or paste the course description. We read it in your browser against the skills ${esc(role.label)} postings ask for.</p>${form}${result}<p class="small muted" style="margin-top:12px"><a href="#/role/${esc(role.id)}">← Back to ${esc(role.label)}</a></p>`);
-    wireFileDrop(async text => { const r = await Atlas.readCourse(text.text); state.course = { roleId: role.id, name: text.name, text: text.text, found: r.found, ev: r.ev, lines: r.lines }; store.set("course", { roleId: role.id, name: text.name, text: text.text, found: [...r.found], ev: {}, lines: r.lines }); courseScreen(id); });
+    wireFileDrop(async text => { const r = await Atlas.readCourse(text.text); state.course = { roleId: role.id, name: text.name, text: text.text, found: r.found, teaches: r.teaches, named: r.named, ev: r.ev, lines: r.lines }; store.set("course", { roleId: role.id, name: text.name, text: text.text, found: [...r.found], ev: {}, lines: r.lines }); courseScreen(id); });
     main.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }, true));
     renderAside();
   }

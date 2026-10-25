@@ -662,6 +662,32 @@ carriers` over 54 roles and 1,127 behaviour or practice rows: 754 picked on the 
 41 the two most asked under the floor, 311 with no carrier (practices whose evidence entry names none); no top-row
 behaviour without one. Open decision 4 (role overrides) left as proposed: none yet.
 
+Built (step 4, `feat/adaptive-4-grid`, 2026-10-25). `areas()` moves every behaviour row out of its area into one last
+panel, "How you work", collapsed by default (the first area to open is never it), whose summary line is built from the
+view's shares ("Ways of working, shown through the work above: written & verbal communication 84%, collaboration &
+teamwork 72%, ownership & bias for action 68%, …"); each row names the carriers the role's postings pick ("through
+Business cases & ROI, Financial & management reporting"). Practices stay in their areas; the area accordion stays as
+chosen (open decision 3 taken as proposed). `roleLead` names no behaviour among "lead the asks". The course screen's
+flat list inherits the panel. Measured on the 2026-10-25 data: all 54 roles with postings have the panel (485 rows); the
+first panel leads with a craft or defining skill in every role, read as a skill of a carrier kind (an analyst's first
+panel is Technical fluency, a business developer's is Leadership & communication with its practices). The generic
+skills are 9: 6 behaviours, 2 practices and 1 method (process design clears the bar after the refresh), so the eval
+checks that behaviours and practices are the majority and prints the composition instead of asserting the 6 + 2 of
+2026-10-14.
+
+Built (step 5, `feat/adaptive-5-course`, 2026-10-25). `readCourse` returns the found set split by kind
+(`Atlas.courseSplit`): `teaches` (method, technical, knowledge, tool), `named` (behaviour, practice), `other`
+(credential). The course screen paints and counts only what a course can show, lists the behaviours and practices the
+text names apart under "Named, but a course cannot show these" with the kind's rule and one sentence (a course shows
+craft; how you work is shown through work, on the fit page), and "It does not cover" lists only the craft among the
+most-asked skills. A course saved before the split is split on read. Open decision 5 taken as proposed: a practice is
+not shown by a course. `evals/adaptive.mjs --only course`: the course sample names 57 skills, 48 a course can show, 9
+behaviours and practices listed apart, 0 credentials; over 54 roles 914 taught rows and 213 named rows, none both.
+
+Steps 1 to 5 are built; step 6 (retiring `signals`) waits on open decision 6. Every step kept `node --test`,
+`evals/run.mjs`, `run_pipeline.py --only matcher` and `--only js`, `run_taxonomy.py` and the five game evals green;
+`evals/adaptive.mjs` runs all four parts in CI.
+
 Open decisions for the owner:
 
 1. **Behaviours in the score.** `score` (through carriers, damped by lift) or `show` (rows and status, weight 0),

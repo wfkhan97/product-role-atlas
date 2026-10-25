@@ -174,3 +174,48 @@ test("carriers: picked on the postings of the view at the 15% floor, by share, f
   assert.deepEqual(A.carriers(R, [], "comm").ids, ["report", "case"]);
   assert.deepEqual(A.carriers(R, R.jobs, "nope"), { ids: [], shares: {}, fallback: false, field: [], source: "none", kind: null });
 });
+
+// ---------- areas: the behaviours leave their areas for one last panel, "How you work" (PLAN.md v14, decision 4) ----------
+const KIND_R = (() => {
+  const S = { ...AREA_R, skills: AREA_R.skills.map(s => ({ ...s, kind: s.id === "teams" ? "behaviour" : s.id === "sql" ? "technical" : "method", how_shown: s.id === "teams" ? { shown_by: ["report", "budget"] } : {} })) };
+  S.skillById = Object.fromEntries(S.skills.map(s => [s.id, s])); S.role = { ...S.role, group: "finance" };
+  return S;
+})();
+test("areas: a behaviour leaves its area for the last panel, which says what it holds and carries each row's carriers", () => {
+  const A = atlasFactory({ load: () => Promise.reject(new Error("no files")), Matcher });
+  const { areas } = A.areas(KIND_R, KIND_R.jobs);
+  assert.deepEqual(areas.map(a => a.cluster), ["finance", "analytics", "technical", A.BEHAVIOURS_PANEL], "teams left Leadership, which then has no skill and no panel");
+  const panel = areas[3];
+  assert.equal(panel.label, "How you work"); assert.equal(panel.behaviours, true);
+  assert.deepEqual(panel.skills.map(s => s.id), ["teams"]);
+  assert.equal(panel.summary, "Ways of working, shown through the work above: teams 25%");
+  assert.deepEqual(panel.skills[0].carriers, ["budget", "report"], "the carriers the role's postings pick, by share");
+  assert.ok(areas.slice(0, 3).every(a => a.skills.every(s => s.kind !== "behaviour")), "no behaviour in an area panel");
+});
+test("areas: no behaviour in the grid, no How you work panel", () => {
+  const A = atlasFactory({ load: () => Promise.reject(new Error("no files")), Matcher });
+  const R = { ...KIND_R, jobs: KIND_R.jobs.map(j => ({ ...j, skills: j.skills.filter(k => k !== "teams") })) };
+  const { areas } = A.areas(R, R.jobs);
+  assert.ok(!areas.some(a => a.behaviours));
+  assert.deepEqual(areas.map(a => a.label), ["Finance", "Data", "Technical"]);
+});
+test("areas: the panel is last whatever the behaviour's share, and the area that lost it keeps its place", () => {
+  const A = atlasFactory({ load: () => Promise.reject(new Error("no files")), Matcher });
+  const R = { ...KIND_R, jobs: KIND_R.jobs.map(j => ({ ...j, skills: [...new Set([...j.skills, "teams"])] })) };
+  const { areas } = A.areas(R, R.jobs);
+  assert.equal(areas[areas.length - 1].cluster, A.BEHAVIOURS_PANEL);
+  assert.equal(areas[areas.length - 1].skills[0].tier, 0, "asked by every posting, still in the last panel");
+  assert.equal(areas[areas.length - 1].core, 1);
+  assert.deepEqual(areas.map(a => a.cluster).slice(0, 2), ["finance", "analytics"]);
+});
+
+// ---------- courseSplit: what a course can show, by kind (PLAN.md v14, decision 5) ----------
+test("courseSplit: methods, technical, knowledge and tools are taught; behaviours and practices are only named; credentials are neither", () => {
+  const A = atlasFactory({ load: () => Promise.reject(new Error("no files")), Matcher });
+  const byId = { prd: { kind: "method" }, sql: { kind: "technical" }, fintech: { kind: "knowledge" }, excel: { kind: "tool" }, comm: { kind: "behaviour" }, stakeholders: { kind: "practice" }, cpa: { kind: "credential" }, unknown: {} };
+  const s = A.courseSplit(new Set(Object.keys(byId)), byId);
+  assert.deepEqual([...s.teaches].sort(), ["excel", "fintech", "prd", "sql"]);
+  assert.deepEqual([...s.named].sort(), ["comm", "stakeholders"]);
+  assert.deepEqual([...s.other].sort(), ["cpa", "unknown"], "a credential, or a skill with no kind, is neither taught nor named");
+  assert.equal(s.teaches.size + s.named.size + s.other.size, 8, "the split sums to the found set");
+});

@@ -134,7 +134,7 @@
       const sh = st.share(s.id);
       const tier = sh >= TIER.core ? 0 : sh >= TIER.common ? 1 : sh >= TIER.some ? 2 : null;
       if (tier === null) continue;
-      rows[tier][grows(s.id) ? 1 : 0].push({ id: s.id, name: s.name, cluster: s.cluster, share: sh, defining: R.role.defining.has(s.id) });
+      rows[tier][grows(s.id) ? 1 : 0].push({ id: s.id, name: s.name, cluster: s.cluster, kind: s.kind || null, share: sh, defining: R.role.defining.has(s.id) });
     }
     for (const row of rows) for (const cell of row) cell.sort((a, b) => b.share - a.share);
     return { rows, stats: st, all };
@@ -146,11 +146,15 @@
   // many of their skills most postings ask for, then by size, then by the fixed area order; the skills in a panel by
   // share. Each skill carries its tier (0 most postings, 1 many, 2 some) and whether it is asked more
   // as you move up (the grid's right column).
+  // The behaviours (kind) leave their areas for one last panel, "How you work" (PLAN.md v14, decision 4): its summary
+  // names them with their shares in the view, and each row carries the carriers the role's postings pick (carriers()),
+  // so the areas hold the craft and who you work with. Practices stay in their areas.
   const AREA_ORDER = ["finance", "deals", "real_estate", "strategy", "analytics", "craft", "discovery", "gtm", "marketing", "sales", "operations", "people", "risk", "leadership", "delivery", "technical", "tools", "domain"];
+  const BEHAVIOURS_PANEL = "behaviours";
   function areas(R, slice) {
     const { rows, stats, all } = grid(R, slice);
-    const by = {};
-    rows.forEach((row, tier) => row.forEach((cell, col) => { for (const s of cell) (by[s.cluster] ||= []).push({ ...s, tier, grows: col === 1 }); }));
+    const by = {}; const behaviours = [];
+    rows.forEach((row, tier) => row.forEach((cell, col) => { for (const s of cell) { const x = { ...s, tier, grows: col === 1 }; if (s.kind === "behaviour") behaviours.push(x); else (by[s.cluster] ||= []).push(x); } }));
     const order = c => { const i = AREA_ORDER.indexOf(c); return i < 0 ? 99 : i; };
     const list = Object.entries(by).map(([cluster, skills]) => ({ cluster, label: ((R.clusters || {})[cluster] || {}).label || cluster, skills: skills.sort((a, b) => b.share - a.share), core: skills.filter(s => s.tier === 0).length, defining: skills.filter(s => s.defining).length, merged: false }));
     const own = a => a.core > 0 || a.skills.length >= 3;
@@ -158,6 +162,13 @@
     const rest = list.filter(a => !own(a)).sort((a, b) => order(a.cluster) - order(b.cluster));
     if (rest.length === 1) main.push(rest[0]);
     else if (rest.length) main.push({ cluster: "other", label: "Other areas", skills: rest.flatMap(a => a.skills.map(s => ({ ...s, area: a.label }))).sort((a, b) => b.share - a.share), core: 0, defining: 0, merged: true });
+    if (behaviours.length) {
+      behaviours.sort((a, b) => b.share - a.share);
+      for (const s of behaviours) { const c = carriers(R, slice, s.id); s.carriers = c.ids; s.carriersFallback = c.fallback; }
+      const pct = v => `${Math.round(100 * v)}%`;
+      const summary = `Ways of working, shown through the work above: ${behaviours.slice(0, 3).map(s => `${s.name.toLowerCase()} ${pct(s.share)}`).join(", ")}${behaviours.length > 3 ? ", …" : ""}`;
+      main.push({ cluster: BEHAVIOURS_PANEL, label: "How you work", skills: behaviours, core: behaviours.filter(s => s.tier === 0).length, defining: 0, merged: false, behaviours: true, summary });
+    }
     return { areas: main, stats, all };
   }
 
@@ -215,13 +226,22 @@
     const roles = parsed.roles.filter(r => r.title).map(r => ({ title: r.title, start: r.span ? Math.floor(r.span[0]) : null, end: r.span ? Math.round(r.span[1]) : null, years: r.years || 0, intern: !!r.isIntern, family: r.roleFamily || null }));
     return { held, scores, shown, ev, years: parsed.totalYears, isStudent: parsed.isStudent, roles, degrees: [...(parsed.degrees || [])], lines: parsed.lines.length };
   }
-  // the skills a text names, read as a student's course list: a mention counts (a syllabus describes topics)
+  // The skills a text names, read as a student's course list: a mention counts (a syllabus describes topics), and the
+  // kind says what a course can show (PLAN.md v14, decision 5): a method, technical, knowledge or tool skill it
+  // `teaches`; a behaviour or a practice it only `names` (how you work is shown through work, on the fit page); a
+  // credential is neither. `found` is every skill named, for readers of the old shape.
+  const COURSE_KINDS = new Set(["method", "technical", "knowledge", "tool"]);
+  function courseSplit(found, skillById) {
+    const teaches = new Set(), named = new Set(), other = new Set();
+    for (const id of found) { const k = (skillById[id] || {}).kind; (COURSE_KINDS.has(k) ? teaches : k === "behaviour" || k === "practice" ? named : other).add(id); }
+    return { teaches, named, other };
+  }
   async function readCourse(text) {
-    await roughFit("");   // builds the reader
+    const ix = await index(); await roughFit("");   // builds the reader
     const parsed = roughM.parseResume(text); const ev = roughM.tag(parsed);
     // a skill named in the text, or one of its sub-skills named (the matcher keeps a sub-skill-only hit as a hint)
     const found = new Set(Object.entries(ev).filter(([, e]) => e.strength >= 1 || e.hintOnly || e.subs.size).map(([id]) => id));
-    return { found, ev, lines: parsed.lines.length };
+    return { found, ...courseSplit(found, ix.skillById), ev, lines: parsed.lines.length };
   }
   // the skills generic to the role set: asked by most postings of at least half of the 50 roles (measured, not listed)
   async function genericSkills() {
@@ -245,5 +265,5 @@
     return files.flatMap(f => decode(ix.M, f.jobs));
   }
 
-  return { index, product, productKey, role, shares, subShares, grid, areas, carriers, AREA_ORDER, stepOf, employerType, matcher, roughFit, readCourse, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
+  return { index, product, productKey, role, shares, subShares, grid, areas, carriers, AREA_ORDER, BEHAVIOURS_PANEL, stepOf, employerType, matcher, roughFit, readCourse, courseSplit, COURSE_KINDS, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
 });
