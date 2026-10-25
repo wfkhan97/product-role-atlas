@@ -3,6 +3,8 @@
 Sample inputs plus human-written expectations for the "Match my resume" feature, so every change to
 the matcher can be checked against the same cases and compared with [baseline.md](baseline.md).
 
+Scratch from a thread (a draft baseline, a one-off report) goes under `data/experiments/scratch/<topic>/`, never here; `./sweep_scratch.sh` clears it at the end of the thread. Only baselines, expectation files and these notes stay.
+
 ```bash
 node evals/run.mjs               # score every sample, check expectations, print a report
 node evals/run.mjs --baseline    # same, and rewrite baseline.md (commit it with the matcher change)
