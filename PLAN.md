@@ -701,6 +701,70 @@ leads with. The matcher, the bands and the taxonomy did not change.
   skill card read `web/evidence_text.js`; the field page's lanes still read the measured fallback until they are moved
   onto `kind` (Later).
 
+## The demand-gen pass (v16, 2026-10-25)
+
+The frame (owner, 2026-10-24, not to be reopened): the atlas is demand generation for GradBuddy and, later, its jobs
+back end. Its users are graduate students at Cornell Tech and at IE New York, of the three kinds v15 stores as
+`you.stage`: **looking** (open on the role, will drop a resume), **targeting** (know the role, want its skills sorted
+into shown, shown in other words, to evidence better, to build, and how) and **curious** (not searching). The dividing
+line: **the atlas states facts and matches; GradBuddy synthesizes and acts.** The atlas runs no model at runtime, never
+sends a resume or a syllabus anywhere, and generates no per-person prose beyond sentences built from data (v14). Project
+briefs, outreach drafts and people to contact are GradBuddy's; every "coming soon" in the atlas is a hand-off to
+GradBuddy, never a promise the atlas keeps itself.
+
+The owner's decisions of 2026-10-25, all settled: (1) games are merged and frozen, the `curious` path, below the fold;
+(2) behaviours stay `show`, not `score`, until the full 304-resume calibration is rerun and both rank statistics hold;
+(3) no hand-written line per skill: `signals` stay as the fallback for the 98 product skills and v14 step 6
+(`chore/adaptive-6-signals`) is dropped for good, because a reader-judged line per skill is GradBuddy's synthesis, not
+an atlas fact; (4) the first screen leads with the stage question; (5) capture is wired now: the waitlist placeholders
+become real and anonymous funnel counts leave the browser, nothing a person types or drops ever does; (6) the precision
+pass has a cutoff (an MBA skill's patterns change only under 60% tagged-sample precision in the top two rows of a role's
+grid); (7) the next student-facing build is the class picker reading the person's gaps, on `main` by 2026-11-07 for
+Cornell Tech's Spring 2027 pre-enrollment on 2026-11-10; (8) posting links stay hidden on role screens and skill cards
+(`POSTINGS = false`) and become visible on the fit screen and in the rail's gap rows for a person with a resume on file;
+(9) v14's open decisions 2, 3 and 5 stand as the steps took them, and decision 4 is taken: the four measured roles whose
+field reading does not fit them (M&A integration, Corporate development, Treasury, Commercial banking RM) get role
+overrides in `fields.json`; (10) a model reader judges the generated fit-page lines before any generated line is shown.
+
+Ten steps, one branch and one PR each: capture, the first screen by stage, the class picker reading the gaps, campuses
+as data, American spelling on screen, the v14 follow-ups, the MBA precision pass, visa sponsorship as a posting fact,
+a pasted posting on the fit screen, and the GradBuddy contract page. What each built is below as it lands.
+
+### Step 1 — capture: the waitlist and the funnel counts (`feat/capture-1-waitlist`, 2026-10-25)
+
+Two tables in the `gradbuddy-catalog` Supabase project (`pipeline/sql/2026-10-25_capture.sql`, applied by the owner):
+`waitlist` (email, source: `show` · `build` · `ways` · `fit` · `start`, the role on screen, stage, program group, the
+fields picked) and `events` (a name from a closed list of eighteen, a session id, stage, program group, a role or field
+id). Row-level security, anonymous insert only, no select for anyone but the service role. The unique index the brief
+asked for on `(lower(email), source)` is a generated column `email_key` plus a unique index on `(email_key, source)`,
+because PostgREST's `on_conflict` names columns, not expressions; the browser inserts with `resolution=ignore-duplicates`,
+so a second click is not a second row.
+
+`web/capture.js` (a classic script, node-testable with its dependencies passed in) exposes `Capture.event` and
+`Capture.waitlist`: both post to the REST endpoint with the publishable key, swallow every error, and are no-ops when
+`CONFIG.CAPTURE_ENABLED` is false. The session id is 24 hex characters made once per browser session (`sessionStorage`
+in try/catch, else one for the life of the page), written nowhere else and never joined to an email. `app.js` fires
+`start`, `explore`, `field`, `role`, `event_prep`, `classes` and `play` (the slug in `role_id`) from the router,
+`you_done` when the questions are saved, `resume_read` when a resume is taken, `fit` once per role per visit, `course_read`
+when a syllabus is read, `posting_link` on a click, and `waitlist_<source>` from `Capture.waitlist`. The three rail
+placeholders are real boxes now (an email, "Join the GradBuddy waitlist", "You're on the list" in place; the sources
+joined are kept in localStorage, never the email), the fit screen has the same box at its foot with `source: "fit"`, the
+start screen's privacy line says what the waitlist keeps, and `#/about` says what is counted and that no content is.
+
+Decision 8 landed here, because the `posting_link` event needed something to click: with a resume on file, each gap row
+of the rail (when opened) and of the fit screen's "Needs more evidence" column names up to three open postings of the
+view that ask for the skill, as links out. `POSTINGS` stays false everywhere else.
+
+`pipeline/funnel.py` prints the funnel for a date range: sessions, the share that reached each event, by stage and by
+program group, and the waitlist rows by source. It reads `CAPTURE_DB_URL` (the catalog project's pooler string; the
+backlog's `SUPABASE_DB_URL` points at another project) and falls back to `SUPABASE_DB_URL`. Nothing is written to the
+tree. Tests: `tests/web/capture.test.mjs` (no-op when disabled, the payload's exact keys, a throwing or failing fetch
+never throws, the session id stable within a session, the names the script accepts equal the migration's).
+
+What this is not: no event carries a skill id, a text or a file name, by construction (the script's whitelist and the
+table's check constraints). The counts begin when the owner applies the migration; until then every post is a 404 the
+page swallows.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
@@ -708,17 +772,16 @@ leads with. The matcher, the bands and the taxonomy did not change.
 - The field chart's lanes with a resume read as two skew lines (the share orders both); a better second axis now that
   every skill has a kind and the shared skills a field reading (v13, v14); the lanes without a resume can read `kind`
   instead of the measured fallback.
-- v14 step 6, `chore/adaptive-6-signals`: a hand-written line per skill in `pipeline/evidence.json` (278 lines, to be
-  judged by a reader as the field lines have not been) so the product `signals` can leave the build and the graph
-  files; today 1,102 of 3,138 fit-page lines still come from `signals`. Open decision 6 of v14.
+- ~~v14 step 6, `chore/adaptive-6-signals`~~: dropped for good on 2026-10-25 (v16, decision 3). `signals` stay as the
+  fallback for the 98 product skills; a reader-judged line per skill is GradBuddy's synthesis, not an atlas fact.
 - Behaviours in the score: rerun `BEHAVIOURS=score node evals/calibrate.mjs --roles mba` (and the product set) on the
   full 304-resume calibration set; switch both bands files to `"score"` only if neither rank statistic falls and no
   group loses its bands, moving the six samples' `score_band` in the same commit. Measured on 48 files on 2026-10-25:
   no fall (v14).
 - `evals/run_depth.py` has 28 failures on `main` since the 2026-10-25 refresh (sub-skill shares outside the 5% to 50%
   band on the new postings): a `pipeline.depth_publish` rerun on a `data/` branch, with the baseline.
-- Wire the waitlist placeholders ("Help me show this", "Build these skills", "Ways to show your skills") to the real
-  journeys and a sign-up.
+- The waitlist boxes ("Help me show this", "Build these skills", "Ways to show your skills", the fit screen) are a
+  sign-up since v16 step 1; the journeys behind them are GradBuddy's.
 - American spelling in the data: a display-time map in `atlas.js` now, or an American rule in `depth_gen` and the
   taxonomy names plus a regeneration (`run_depth.py`, `extraction_baseline_mba.md`).
 - The stage answer (`you.stage`) has no eval yet; listed under "Evals to build".

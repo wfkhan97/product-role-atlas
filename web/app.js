@@ -138,12 +138,20 @@
   // what the person told us and the resume they dropped stay in this browser only (nothing is uploaded)
   const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
   state.you = store.get("you"); state.resume = store.get("resume");
+  // Funnel counts (web/capture.js): an event name, the session id, the stage and the program group, a role or field id.
+  // Never text, a skill id or a file name. Everything is a no-op when CONFIG.CAPTURE_ENABLED is off.
+  const track = (name, ctx) => { if (window.Capture) Capture.event(name, { stage: (state.you || {}).stage, program: (state.you || {}).where, ...(ctx || {}) }); };
+  const waitCtx = () => ({ role_id: state.roleId, stage: (state.you || {}).stage, program: (state.you || {}).where, fields: (state.you || {}).fields || [] });
+  // a posting link (decision 8 of the pass: visible on the fit screen and the rail's gap rows for a person with a resume)
+  document.addEventListener("click", e => { const a = e.target.closest("[data-posting]"); if (a) track("posting_link", { role_id: a.dataset.posting }); });
   const LEVEL_OPT = { entry: "associate", mid: "mid", senior: "senior", lead: "lead" };
   const shellCtx = { crumbs, page, showAside };   // what the Spring 2027 screens (classes.js) draw with
   function route() {
     const { name, params: { id, slug } } = Routes.parseRoute(location.hash);
     const go = { start, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => ClassScreens.signin(shellCtx) }[name];
     SkillMap.leave(); leaveRail();
+    const ev = { start: ["start"], explore: ["explore"], field: ["field", { field_id: id }], event: ["event_prep", { field_id: id }], role: ["role", { role_id: id }], classes: ["classes"], play: ["play", { role_id: slug }] }[name];
+    if (ev) track(ev[0], ev[1]);
     go().catch(fail);
   }
   window.addEventListener("hashchange", route);
@@ -204,7 +212,7 @@
       </section>
       <section class="start-fit">
         <h2>See what jobs ask for, and how you fit</h2>
-        <p class="lead">Nothing you upload leaves your browser.</p>
+        <p class="lead">Nothing you upload leaves your browser. If you join the waitlist we keep your email and the role you were looking at, nothing else.</p>
         <div class="choices">
           <a class="choice rec" href="#/you"><div class="t">Tell us about you</div><div class="d">Three questions and an optional resume. We pick the roles that fit you and show how you compare.</div><span class="tag">About 2 minutes →</span></a>
           <a class="choice" href="#/explore"><div class="t">Explore the roles</div><div class="d">Browse by field, open a role, and see what its postings ask for. You can check your fit later.</div><span class="tag">No sign-up →</span></a>
@@ -277,7 +285,7 @@
       $("#skip").onclick = () => saveYou();
       $("#next").onclick = async () => { await takeResume(); saveYou(); location.hash = after; if (location.hash === after) you(); };
     };
-    const saveYou = () => { state.you = { where: wiz.answers.where || null, stage: wiz.answers.stage || null, fields: [...wiz.answers.fields] }; store.set("you", state.you); wiz = null; };
+    const saveYou = () => { state.you = { where: wiz.answers.where || null, stage: wiz.answers.stage || null, fields: [...wiz.answers.fields] }; store.set("you", state.you); wiz = null; track("you_done"); };
     render();
   }
   // What the system knows (owner's choice Y3, B and A): the answers with an edit link each, what the resume gave,
@@ -348,6 +356,7 @@
     const r = pasted.trim().length >= 40 ? { text: pasted, name: "pasted text", words: pasted.trim().split(/\s+/).length } : pending && pending.words >= 40 ? pending : null;
     if (!r) return false;
     state.resume = r; store.set("resume", r); pending = null; state.match = null; state.rough = null; state.fit = null;
+    track("resume_read");
     await rough();
     return true;
   }
@@ -816,7 +825,34 @@
     const all = { share: ['<i class="b"></i>', "% of postings that ask for the skill"], defining: ["◆", "sets this role apart from other roles"], grows: ["↗", "asked more at senior levels"], have: ['<i class="b g"></i>', "already on your resume"], gap: ['<i class="b a"></i>', "a gap this role requires"], presumed: ["◌", "presumed from a role you held, not shown on your resume"], known: ["✓", "you got it right in a game"], other: ["⟲", "on your resume in other words; postings say it differently"], through: ["⤷", "a way of working, shown through a skill on your resume"] };
     return `<section class="rs"><h3 class="rh">How to read this</h3><div class="legend">${rows.map(k => `<span class="k">${all[k][0]}</span><span>${all[k][1]}</span>`).join("")}</div></section>`;
   }
-  const waitHtml = what => state.wait === what ? `<div class="wait"><b>Coming soon</b>${esc({ show: "Tips to show a skill on your resume, written for this role.", build: "A plan to build the skills this role asks for.", ways: "Ways to show your skills: projects, courses, events." }[what])}<input type="email" placeholder="you@cornell.edu" disabled><a class="btn primary" href="#/" data-wait-close>Join the GradBuddy waitlist</a></div>` : "";
+  // The waitlist (step 1 of the demand-gen pass): a real box. The email, where the click was and the role on screen go to
+  // the waitlist table through web/capture.js, with the stage, the program group and the fields picked; "You're on the
+  // list" stays in this browser (the sources joined are kept in localStorage, never the email). Every "coming soon"
+  // here is a hand-off to GradBuddy, not a promise the atlas keeps itself.
+  const WAIT_COPY = { show: "Tips to show a skill on your resume, written for this role.", build: "A plan to build the skills this role asks for.", ways: "Ways to show your skills: projects, courses, events.", fit: "GradBuddy takes it from here: a plan to show what you have, build what you lack and meet the people who hire for it.", start: "GradBuddy takes it from here: a plan around the roles that fit you." };
+  const joined = () => store.get("waitlist") || {};
+  function waitBox(what, always) {
+    if (!always && state.wait !== what) return "";
+    const done = !!joined()[what];
+    const form = done ? `<p class="small" style="margin:6px 0 0">You're on the list. We keep your email and the role you were looking at, nothing else.</p>` : `<form class="wait-form" data-wait-form="${what}"><input type="email" required placeholder="you@cornell.edu" aria-label="Your email" autocomplete="email"><button type="submit" class="btn primary">Join the GradBuddy waitlist</button></form><p class="small muted" style="margin:4px 0 0">We keep your email and the role you were looking at, nothing else.${always ? "" : ' <a href="#/" data-wait-close>Not now</a>'}</p>`;
+    return `<div class="wait"><b>${done ? "You're on the list" : "Coming soon"}</b>${esc(WAIT_COPY[what])}${form}</div>`;
+  }
+  const waitHtml = what => waitBox(what, false);
+  // the forms inside `el`: on submit the email goes out once, the box says so, and `redraw` draws the screen again
+  function wireWait(el, redraw) {
+    el.querySelectorAll("[data-wait-form]").forEach(f => f.onsubmit = async e => {
+      e.preventDefault(); const what = f.dataset.waitForm, input = f.querySelector("input"), btn = f.querySelector("button");
+      if (!input.value.trim()) return; btn.disabled = true; btn.textContent = "Joining…";
+      const ok = window.Capture ? await Capture.waitlist(input.value, what, waitCtx()) : false;
+      if (ok) { store.set("waitlist", { ...joined(), [what]: new Date().toISOString().slice(0, 10) }); redraw(); }   // the box stays, now saying "You're on the list"
+      else { btn.disabled = false; btn.textContent = "Join the GradBuddy waitlist"; input.setCustomValidity("That did not go through. Check the address and try again."); input.reportValidity(); input.oninput = () => input.setCustomValidity(""); }
+    });
+  }
+  // the open postings of this view that ask for a skill, as links (decision 8 of the pass: shown to a person with a resume)
+  function postingLinks(R, slice, id, n) {
+    const open = slice.filter(j => j.open && j.url && j.skills.includes(id)).slice(0, n || 3);
+    return open.length ? `<span class="plinks">Postings asking for it: ${open.map(j => `<a href="${esc(j.url)}" target="_blank" rel="noopener" data-posting="${esc(R.role.id)}" title="${esc(j.title)}">${esc(j.company)} ↗</a>`).join(" · ")}</span>` : "";
+  }
   function railHtml(R, g, fit, stats, open) {
     const role = R.role, y = state.you || {}, stage = y.stage;
     const painted = !!fit && state.match && state.match.roleId === role.id;
@@ -842,7 +878,7 @@
     const scale = band ? `<div class="band">${BANDS.map(([k], i) => `<i class="${k === band ? "on" : i < BANDS.findIndex(b => b[0] === band) ? "past" : ""}"></i>`).join("")}</div><div class="bandl">${BANDS.map(([k, l]) => `<span class="${k === band ? "on" : ""}">${l}</span>`).join("")}</div>` : `<p class="small muted">${esc((bands.no_bands || {})[group] ? "Our sample of resumes for this group of roles is too small to set a band of fit." : "This group of roles has no band of fit yet.")}</p>`;
     const line = core.length ? `<p class="lead-rail">You show <b class="g">${coreHave.length}</b> of the ${core.length} skills most postings ask for${coreGaps.length ? `; <b class="a">${coreGaps.length}</b> ${coreGaps.length === 1 ? "is a gap" : "are gaps"}` : ""}.</p>` : `<p class="small muted">Few postings match this view; widen the filters.</p>`;
     const slotWhy = x => x.slot === "__domain" ? `Name an industry you have worked in; these postings are in ${fit.r.industries.slice(0, 3).map(d => esc(d.name)).join(", ")}.` : x.slot === "__ai" ? `Show one line of AI work: ${fit.r.ai.map(k => esc(R.skillById[k] ? R.skillById[k].name : k)).join(", ")}.` : "";
-    const gapRow = x => { const openRow = state.gapOpen === x.slot; const gt = gapText(R, x, fit); const ex = slotWhy(x) || (gt ? `${esc(gt.gap)}${x.kind !== "behaviour" ? ` A line that shows it: <em>“${esc(gt.line.text)}”</em>` : ""}` : (x.build && x.build[0] ? stepHtml(x.build[0]) : "Open the skill for how postings say it.")); return `<li class="${openRow ? "open" : ""}"><button type="button" class="t" data-gap="${esc(x.slot)}"><span>${esc(x.slotName)}</span><span class="n">${pct(x.w)}</span></button>${openRow ? `<div class="ex">${ex}<br><button type="button" class="linkish link" data-wait="show">Help me show this →</button>${R.skillById[x.id] ? ` · <button type="button" class="linkish link" data-skill="${esc(x.id)}">Open the skill</button>` : ""}</div>` : ""}</li>`; };
+    const gapRow = x => { const openRow = state.gapOpen === x.slot; const gt = gapText(R, x, fit); const ex = slotWhy(x) || (gt ? `${esc(gt.gap)}${x.kind !== "behaviour" ? ` A line that shows it: <em>“${esc(gt.line.text)}”</em>` : ""}` : (x.build && x.build[0] ? stepHtml(x.build[0]) : "Open the skill for how postings say it.")); return `<li class="${openRow ? "open" : ""}"><button type="button" class="t" data-gap="${esc(x.slot)}"><span>${esc(x.slotName)}</span><span class="n">${pct(x.w)}</span></button>${openRow ? `<div class="ex">${ex}${R.skillById[x.id] ? `<br>${postingLinks(R, fit.slice, x.id, 3)}` : ""}<br><button type="button" class="linkish link" data-wait="show">Help me show this →</button>${R.skillById[x.id] ? ` · <button type="button" class="linkish link" data-skill="${esc(x.id)}">Open the skill</button>` : ""}</div>` : ""}</li>`; };
     const gapsHtml = coreGaps.length ? `<h3 class="rh" style="margin-top:14px">Needs more evidence</h3><ul class="gaps">${coreGaps.map(gapRow).join("")}</ul>${waitHtml("show")}${bandNext && bandNext !== band ? `<p class="small muted" style="margin-top:8px">Evidence ${coreGaps.length === 1 ? "that one" : "the top three"} and your resume reads as “${bandName(bandNext)}”.</p>` : ""}` : `<p class="small muted" style="margin-top:10px">Nothing important missing: you show every skill most postings ask for.</p>`;
     const n = fit.evid.length + fit.trans.length;
     const you = `<section class="rs"><h3 class="rh">Your fit · ${esc(state.resume.name)} · <a href="#/you?step=3">change</a></h3>${scale}${line}${gapsHtml}<p style="margin-top:12px"><a href="#/role/${esc(role.id)}/fit">See all ${n} ${n === 1 ? "skill" : "skills"} on your resume, matched to this role →</a></p></section>`;
@@ -853,6 +889,7 @@
     aside.querySelectorAll("[data-gap]").forEach(b => b.onclick = () => { state.gapOpen = state.gapOpen === b.dataset.gap ? null : b.dataset.gap; showAside(null); });
     aside.querySelectorAll("[data-wait]").forEach(b => b.onclick = e => { e.preventDefault(); state.wait = state.wait === b.dataset.wait ? null : b.dataset.wait; showAside(null); });
     aside.querySelectorAll("[data-wait-close]").forEach(b => b.onclick = e => { e.preventDefault(); state.wait = null; showAside(null); });
+    wireWait(aside, () => showAside(null));
     aside.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }));
   }
   const PERSONA = {
@@ -872,6 +909,7 @@
     }
     const level = state.fitLevel || state.level;
     const f = fitFor(level) || (state.fit = await computeFit(R, level));
+    if (fitScreen.tracked !== role.id) { fitScreen.tracked = role.id; track("fit", { role_id: role.id }); }   // once per role per visit
     const { r, band, evid, trans, thin, presumed, gaps, core, extra } = f, through = f.through || [], coreHave = f.coreHave.length;
     const field = g.label.toLowerCase();
     const p = r.profile;
@@ -898,7 +936,8 @@
       const k = x.status === "evidenced" ? "have" : x.status === "transferable" ? "have" : x.status === "through" ? "have" : x.status === "presumed" ? "thin" : x.status === "thin" ? "thin" : "gap";
       const mark = x.status === "through" ? `<span class="mark" data-measure="⤷ shown through ${esc(x.throughName || "")}: a way of working is never a line of its own; the line on your resume about ${esc(x.throughName || "that skill")} shows it.">⤷</span>` : x.status === "transferable" ? `<span class="mark" data-measure="⟲ said in other words: your resume shows this in another field's words. Postings here say it differently; see Details for how.">⟲</span>` : x.status === "presumed" ? `<span class="mark" data-measure="◌ presumed: people who hold the role you held do this, so it earns part credit; your resume does not show it.">◌</span>` : x.status === "thin" ? `<span class="mark" data-measure="○ named, not shown: listed as a word, but no work, project or course line shows it.">○</span>` : "";
       const inner = `<span class="nm">${esc(x.slotName)}${mark}</span><span class="bar" data-measure="${pct(x.w)} of the postings in this view ask for ${esc(x.slotName)}${x.tier === "core" ? ", most of them" : ""}."><i style="width:${Math.round(x.w * 100)}%"></i></span>`;
-      return R.skillById[x.id] ? `<button type="button" class="srow ${k}" data-skill="${esc(x.id)}">${inner}</button>` : `<div class="srow ${k}">${inner}</div>`;
+      const links = k === "gap" && R.skillById[x.id] ? postingLinks(R, f.slice, x.id, 2) : "";
+      return (R.skillById[x.id] ? `<button type="button" class="srow ${k}" data-skill="${esc(x.id)}">${inner}</button>` : `<div class="srow ${k}">${inner}</div>`) + (links ? `<p class="small muted plinks-row">${links}</p>` : "");
     };
     const col = (key, title, items, empty, foot) => { const more = state.fitMore.has(key), shown = more ? items : items.slice(0, 5); return `<div><h3>${title} <span class="n">${items.length}</span></h3>${items.length ? `<div class="srows">${shown.map(fitRow).join("")}</div>${items.length > 5 ? `<button type="button" class="linkish link more" data-fitmore="${key}">${more ? "Show fewer" : `+${items.length - 5} more`}</button>` : ""}` : `<p class="small muted">${empty}</p>`}${foot || ""}</div>`; };
     const showItems = [...evid, ...trans, ...through].sort((a, b) => b.w - a.w).concat(presumed), stillItems = [...gaps, ...thin].map(x => x).sort((a, b) => b.w - a.w);
@@ -912,7 +951,9 @@
     page(`${ctx}${unread}${placeholder}${verdict}
       <p class="lead">${PERSONA[p.persona](p, field)} You show <b>${coreHave} of ${core.length}</b> skills that most ${esc(role.label)} postings ask for.</p>${standing}
       ${fitTabs}${fitBody}
+      <div class="fit-wait">${waitBox("fit", true)}</div>
       <p class="small muted" style="margin-top:20px"><a href="#/role/${esc(role.id)}">← Back to ${esc(role.label)}</a>, with your fit marked on every skill.</p>`);
+    wireWait(main, () => keepScroll(() => fitScreen(id)));
     main.querySelectorAll("[data-ftab]").forEach(b => b.onclick = () => { state.fitTab = b.dataset.ftab; keepScroll(() => fitScreen(id)); });
     main.querySelectorAll("[data-fitmore]").forEach(b => b.onclick = () => { toggle(state.fitMore, b.dataset.fitmore); keepScroll(() => fitScreen(id)); });
     const si = $("#say-it"); if (si) si.onclick = () => { state.fitTab = "details"; state.open.add("sayit"); fitScreen(id); };
@@ -953,7 +994,7 @@
         <h2>On the skills list</h2><p class="small muted">Green: the course names it. Amber: most postings ask for it and the course does not name it. Ways of working are not painted: a course cannot show them.</p>${flatSkills(R, slice, state.paint)}` : `<div class="notice"><b>We found none of this role's skills in that text.</b> ${c.lines < 3 ? "The text is very short; paste the topics or the week-by-week plan." : "Paste the list of topics, or check that the text is a course description."}</div>`;
     }
     page(`<p class="eyebrow">Check a course · ${esc(role.label)}</p><h1>Check a course</h1><p class="lead">Drop a syllabus or paste the course description. We read it in your browser against the skills ${esc(role.label)} postings ask for.</p>${form}${result}<p class="small muted" style="margin-top:12px"><a href="#/role/${esc(role.id)}">← Back to ${esc(role.label)}</a></p>`);
-    wireFileDrop(async text => { const r = await Atlas.readCourse(text.text); state.course = { roleId: role.id, name: text.name, text: text.text, found: r.found, teaches: r.teaches, named: r.named, ev: r.ev, lines: r.lines }; store.set("course", { roleId: role.id, name: text.name, text: text.text, found: [...r.found], ev: {}, lines: r.lines }); courseScreen(id); });
+    wireFileDrop(async text => { const r = await Atlas.readCourse(text.text); track("course_read", { role_id: role.id }); state.course = { roleId: role.id, name: text.name, text: text.text, found: r.found, teaches: r.teaches, named: r.named, ev: r.ev, lines: r.lines }; store.set("course", { roleId: role.id, name: text.name, text: text.text, found: [...r.found], ev: {}, lines: r.lines }); courseScreen(id); });
     main.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }, true));
     renderAside();
   }
@@ -1048,6 +1089,8 @@
       <p class="small">Keyword rules read each posting against one list of skills. A share is the fraction of postings in the current view that ask for a skill. One employer counts for at most 5% of a role. A posting the employer takes down is closed: it is no longer listed, and it stays in the shares for a year.</p>
       <h3>What is ours</h3>
       <p class="small">Sub-skills, level ladders and build steps are editorial. Every quoted sentence comes from a posting.</p>
+      <h3>What we count</h3>
+      <p class="small">We count which screens a visit reaches (the start, a field, a role, a fit, a course, the classes, a game) under a random id for that browser session, and the emails that join the waitlist with the role on screen. No resume, syllabus, pasted posting, skill list or file name is ever sent.</p>
       <h3>Product roles</h3>${productPart}</div>`, true);
     render();
     Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${fmt(G.meta.n_jobs)} open postings worldwide (${fmt(G.jobs.filter(j => j.country === M.meta.country).length)} in the US, the count Explore shows) for 6 product role families at ${fmt(G.meta.n_companies)} companies, refreshed ${niceDate(G.meta.generated)}.</p>${disc("about-top-product", "Companies with the most postings", `<p>${top(G.meta.companies, 15)}</p>`)}`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
