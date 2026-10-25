@@ -3,6 +3,8 @@
 Short games built on the atlas's data, shown as a grid of cards on the first-visit screen (`#/`), grouped by the fact
 they teach, one marked "Start here". Each folder is a design package for one game, written to be built in its own thread:
 
+Mockups and notes made while building a game are scratch (`data/experiments/scratch/<topic>/`, swept by `./sweep_scratch.sh`); the design package in the game's folder and `web/data/games.json` are what lasts.
+
 - `README.md` — how the game works: rules, a round step by step, scoring, the end screen, where its data comes
   from, edge cases, open questions.
 - `PROMPT.md` — the prompt to paste into a fresh Claude Code thread to build it.
