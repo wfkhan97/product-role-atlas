@@ -71,7 +71,8 @@ in `CLAUDE.md`.
   panel, a footer). `atlas.js` is the data layer: both role sets behind one interface (`Atlas.index()` the fields and
   roles, `Atlas.product()` the product set from `data/graph.json`, `Atlas.role(id)` one role's postings, skills,
   sub-skills and evidence, `Atlas.grid()` the skill grid). `app.js` is the screens on hash routes: `#/` the first
-  visit (tell us about you, or explore), `#/explore` the fields as cards (the ones that fit first) or as the skill map, `#/field/<group>`
+  visit (the stage question first, then tell us about you or explore, then the games; the pure table `Stage` says what
+  each stage leads with and `evals/stage.mjs` checks it), `#/explore` the fields as cards (the ones that fit first) or as the skill map, `#/field/<group>`
   the roles of a field on the left and the field's skills on lanes on the right (`SkillMap.chart`), `#/role/<role>`
   the role screen (one sentence on the job from `web/data/role_blurbs.json`; the skills by area; level and employer-type
   chips, with industry, employer and location behind "Filters", every count reflecting the other filters; the rail

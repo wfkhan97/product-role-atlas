@@ -765,6 +765,29 @@ What this is not: no event carries a skill id, a text or a file name, by constru
 table's check constraints). The counts begin when the owner applies the migration; until then every post is a 404 the
 page swallows.
 
+### Step 2 — the first screen routes by stage (`feat/start-stage-first`, 2026-10-25)
+
+`start()` leads with one question, "Where are you in your search?", as three cards with the v15 wording and sublines.
+A click stores `you.stage` (the key the About you flow writes), fires `start_stage`, and routes by stage: `looking` and
+`targeting` to About you at the program question (`#/you?step=0&from=start`; the wizard skips the stage question it
+already has), `curious` to Explore. A returning visitor with a stage on file sees one line ("You said you're set on
+the role you want · change") instead of the question. Below: "See what jobs ask for, and how you fit" as before, the
+Spring 2027 classes card, then the games under "Or play your way in", unchanged inside. The H1 is "What do the jobs you
+want actually ask for?"; the games' eyebrow and the old H1 left the top.
+
+For `targeting`, the About you summary leads with "Open the role you want": a search box over every role label
+(`Atlas.index()`, 54 roles; a label two sets share is suffixed with its field), Enter or the datalist opens the role,
+and the three roles closest to the resume sit under it once one is read.
+
+The ordering is a pure table, `Stage` in `web/app.js` (exported beside `parseRoute`): `startRoute`, `youLead`,
+`railBlocks` (the rail's blocks in order, with and without a resume) and `firstAction`. The screens read it: the stage
+cards link to `Stage.startRoute`, the summary reads `Stage.youLead`, the rail's "For you" section orders its blocks by
+`Stage.railBlocks`. `evals/stage.mjs` (in CI) checks, for each stage, that the first action each screen offers is the one
+the stage asks for (looking: a resume drop or the fields; targeting: the role search or the gaps; curious: explore or a
+game), and that the screens read the table. The first eval of the stage answer, listed as missing in `evals/README.md`.
+
+What this is not: a measure of whether each kind of student gets what they came for; that is the funnel of step 1.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
@@ -784,7 +807,6 @@ page swallows.
   sign-up since v16 step 1; the journeys behind them are GradBuddy's.
 - American spelling in the data: a display-time map in `atlas.js` now, or an American rule in `depth_gen` and the
   taxonomy names plus a regeneration (`run_depth.py`, `extraction_baseline_mba.md`).
-- The stage answer (`you.stage`) has no eval yet; listed under "Evals to build".
 - LLM-based extraction (Claude) for higher-recall skill tagging and requirement vs nice-to-have split.
 - Nightly refresh via a scheduled job; history of postings over time.
 - More families (design, engineering) and more companies (full Fortune 500).

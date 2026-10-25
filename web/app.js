@@ -4,7 +4,7 @@
 // so node loads it alone (tests/web/routes.test.mjs): require("web/app.js").parseRoute.
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();
-  else root.Routes = factory();
+  else { root.Routes = factory(); root.Stage = root.Routes.Stage; }
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
   const SCREENS = { "": "start", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about", classes: "classes", professor: "professor", signin: "signin" };
@@ -25,7 +25,33 @@
     const params = name === "play" || name === "professor" ? { slug: b } : ["field", "event", "role", "fit", "course"].includes(name) ? { id: b } : {};
     return { name, params, query, parts, search };
   }
-  return { parseRoute };
+  // The stage answer (v15: you.stage) decides what the first screen, About you and the role rail lead with (v16 step 2).
+  // Pure, so evals/stage.mjs can check that for each stage the first action offered is the one the stage asks for:
+  // looking, a resume drop or the fields; targeting, the role search or the gaps; curious, explore or a game.
+  const STAGES = ["looking", "targeting", "curious"];
+  const Stage = {
+    STAGES,
+    // where a click on the start screen's stage card goes: the program question (the stage is already answered, so the
+    // wizard skips it), or straight to Explore
+    startRoute: stage => stage === "curious" ? "#/explore" : "#/you?step=0&from=start",
+    // what the About you summary leads with
+    youLead: stage => stage === "targeting" ? "role-search" : "answers",
+    // the rail's blocks in order, for a person with answers (and, when `resume`, a resume read): sentences and actions;
+    // ACTIONS says which keys are something to do. "drop" is the resume drop zone; "gaps-drop" the same drop offered to
+    // see the gaps; "gaps" the gap rows; "practise" a game; the rest the rail's standing links
+    railBlocks: (stage, resume) => resume ? ["band", "line", "gaps", "fit-link", "practise", "course", "event", "classes"]
+      : stage === "curious" ? ["facts", "practise", "course", "event", "classes"]
+      : stage === "targeting" ? ["ask", "gaps-drop", "facts", "practise", "course", "event", "classes"]
+      : ["facts", "ask", "drop", "practise", "course", "event", "classes"],
+    ACTIONS: new Set(["drop", "gaps-drop", "gaps", "fit-link", "practise", "course", "event", "classes", "role-search", "explore", "fields"]),
+    // the first action a screen offers for a stage
+    firstAction(stage, screen, resume) {
+      if (screen === "start") return stage === "curious" ? "explore" : "program-question";
+      if (screen === "you") return this.youLead(stage) === "role-search" ? "role-search" : resume || stage === "curious" ? "fields" : "drop";   // curious: the fields and Explore, no resume asked
+      return this.railBlocks(stage, resume).find(k => this.ACTIONS.has(k)) || null;
+    },
+  };
+  return { parseRoute, Stage };
 });
 (function () {
   "use strict";
@@ -204,11 +230,16 @@
     // one row, in the order of the facts they teach; a game outside the known groups goes last
     const order = gm => { const i = GROUPS.findIndex(([id]) => id === gm.group); return i < 0 ? GROUPS.length : i; };
     const ordered = list.slice().sort((a, b) => order(a) - order(b));
-    page(`<section class="start-games">
-        <p class="eyebrow">Practise on live postings</p>
-        <h1>Learn what your target roles ask for</h1>
-        <p class="lead">Short games built on live job postings for ${nRoles} roles in ${nFields} fields. Every round ends in a real role you can open${role ? `; today's cards open on ${esc(role.label)}` : ""}.</p>
-        <div class="gcards carousel" role="list" aria-label="Games">${ordered.map(card).join("")}</div>
+    // the question first (owner's decision 4, 2026-10-25): the three kinds of student as cards with the v15 wording; a
+    // click stores you.stage, fires start_stage and routes by stage (Stage.startRoute). A returning visitor with a stage
+    // on file sees one line instead. Then what the site does, the classes card, and the games under their own heading.
+    const stage = (state.you || {}).stage;
+    const STAGE_SAID = { looking: "open to roles that fit you", targeting: "set on the role you want", curious: "here to explore the jobs and skills data" };
+    const ask = stage && STAGE_SAID[stage] ? `<div class="strip"><span class="dotg"></span><span>You said you're ${esc(STAGE_SAID[stage])}</span><a href="#/you?step=1">change</a></div>`
+      : `<p class="lead">Where are you in your search?</p><div class="choices three stage-cards">${Q[1].options.map(([id, label, sub]) => `<a class="choice" href="${esc(Stage.startRoute(id))}" data-stage="${esc(id)}"><div class="t">${esc(label)}</div><div class="d">${esc(sub)}</div></a>`).join("")}</div>`;
+    page(`<section class="start-ask">
+        <h1>What do the jobs you want actually ask for?</h1>
+        ${ask}
       </section>
       <section class="start-fit">
         <h2>See what jobs ask for, and how you fit</h2>
@@ -217,8 +248,14 @@
           <a class="choice rec" href="#/you"><div class="t">Tell us about you</div><div class="d">Three questions and an optional resume. We pick the roles that fit you and show how you compare.</div><span class="tag">About 2 minutes →</span></a>
           <a class="choice" href="#/explore"><div class="t">Explore the roles</div><div class="d">Browse by field, open a role, and see what its postings ask for. You can check your fit later.</div><span class="tag">No sign-up →</span></a>
         </div>${classesCard ? `<div class="choices one">${classesCard}</div>` : ""}
+      </section>
+      <section class="start-games">
+        <h2>Or play your way in</h2>
+        <p class="lead">Short games built on live job postings for ${nRoles} roles in ${nFields} fields. Every round ends in a real role you can open${role ? `; today's cards open on ${esc(role.label)}` : ""}.</p>
+        <div class="gcards carousel" role="list" aria-label="Games">${ordered.map(card).join("")}</div>
       </section>`);
     main.firstElementChild.classList.add("wide", "start");
+    main.querySelectorAll("[data-stage]").forEach(a => a.onclick = () => { const st = a.dataset.stage; state.you = { where: null, fields: [], ...(state.you || {}), stage: st }; store.set("you", state.you); wiz = null; track("start_stage", { stage: st }); });
   }
   // a game: its own screen once built; until then, what it will be. A built game is web/games/<slug>.js, loaded
   // by index.html, which registers window.Games[slug] = { mount(el, ctx) } (contract in games/README.md)
@@ -256,7 +293,9 @@
     const { query } = Routes.parseRoute(location.hash);
     const editing = query.step != null;
     if (!editing && !wiz && (state.you || state.resume)) return youSummary(ix);
-    if (!wiz) wiz = { step: editing ? Math.max(0, Math.min(Q.length, Number(query.step) || 0)) : 0, back: editing, answers: { ...(state.you || {}), fields: new Set((state.you || {}).fields || []) } };
+    // from the start screen's stage card (?from=start) the stage is answered already, so the wizard skips that question
+    if (!wiz) wiz = { step: editing ? Math.max(0, Math.min(Q.length, Number(query.step) || 0)) : 0, back: editing, skipStage: query.from === "start" && !!(state.you || {}).stage, answers: { ...(state.you || {}), fields: new Set((state.you || {}).fields || []) } };
+    const forward = () => { wiz.step++; if (wiz.step === 1 && wiz.skipStage) wiz.step++; }, backward = () => { wiz.step--; if (wiz.step === 1 && wiz.skipStage) wiz.step--; };
     const render = () => {
       const n = Q.length + 1, i = wiz.step;
       const steps = `<div class="steps">${Array.from({ length: n }, (_, k) => `<i class="${k <= i ? "done" : ""}"></i>`).join("")}</div>`;
@@ -272,16 +311,16 @@
         page(`${steps}<p class="eyebrow">Question ${i + 1} of ${Q.length}</p><h1>${esc(q.title)}</h1>${q.hint ? `<p class="lead">${esc(q.hint)}</p>` : ""}
           <div class="opts${q.multi ? " two" : ""}">${opts.map(([id, label, ex]) => `<button type="button" class="opt${on(id) ? " on" : ""}" data-opt="${esc(id)}" aria-pressed="${on(id)}">${esc(label)}${ex ? `<small>${esc(ex)}</small>` : ""}</button>`).join("")}</div>${nav("Next →")}`, true);
         if (q.multi) main.firstElementChild.classList.add("roomy");   // two columns of cards need more than the narrow column
-        main.querySelectorAll("[data-opt]").forEach(b => b.onclick = () => { const id = b.dataset.opt; if (q.multi) { wiz.answers.fields.has(id) ? wiz.answers.fields.delete(id) : wiz.answers.fields.add(id); render(); } else { wiz.answers[q.key] = id; wiz.step++; render(); } });
-        $("#next").onclick = () => { if (!q.multi && !wiz.answers[q.key]) return; wiz.step++; render(); };
-        $("#back").onclick = () => { if (i === 0) { const b = wiz.back; wiz = null; location.hash = b ? "#/you" : "#/"; } else { wiz.step--; render(); } };
+        main.querySelectorAll("[data-opt]").forEach(b => b.onclick = () => { const id = b.dataset.opt; if (q.multi) { wiz.answers.fields.has(id) ? wiz.answers.fields.delete(id) : wiz.answers.fields.add(id); render(); } else { wiz.answers[q.key] = id; forward(); render(); } });
+        $("#next").onclick = () => { if (!q.multi && !wiz.answers[q.key]) return; forward(); render(); };
+        $("#back").onclick = () => { if (i === 0) { const b = wiz.back; wiz = null; location.hash = b ? "#/you" : "#/"; } else { backward(); render(); } };
         return;
       }
       page(`${steps}<p class="eyebrow">Last step, optional</p><h1>Add your resume</h1>
         <p class="lead">We read it in your browser to find the roles that fit what you have done. Nothing is uploaded.</p>
         ${resumeForm()}${nav("Show my roles →")}`, true);
       wireResumeForm();
-      $("#back").onclick = () => { wiz.step--; render(); };
+      $("#back").onclick = () => { backward(); render(); };
       $("#skip").onclick = () => saveYou();
       $("#next").onclick = async () => { await takeResume(); saveYou(); location.hash = after; if (location.hash === after) you(); };
     };
@@ -300,16 +339,31 @@
     const closest = rg ? Object.entries(rg.scores).filter(([id, v]) => v > 0 && ix.roles[id]).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => `<a href="#/role/${esc(id)}">${esc(ix.roles[id].label)}</a>`) : [];
     const resume = r ? `<div class="list">${row(esc(r.name), `${fmt(r.words)} words, read in your browser; nothing is uploaded`, ["replace", "#/you?step=3"])}${row("Your closest matches", closest.length ? closest.join(" · ") : "No role yet", null)}</div>` : `<p class="small muted" style="margin-top:8px">No resume yet. <a class="link" href="#/you?step=3">Add one</a> and we point you to the fields it fits.</p>`;
     const fieldRows = [...fields].map(id => ix.groups.find(g => g.id === id)).filter(Boolean).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)).map(g => row(esc(g.label), esc(why.get(g.id)), ["open →", "#/field/" + g.id]));
+    // a person who knows the role (stage targeting) gets the role first (v16 step 2): a search over every role's label,
+    // and the three roles closest to the resume once one is read
+    const lead = Stage.youLead(y.stage);
+    const roleOpts = Object.values(ix.roles).map(r => ({ id: r.id, label: r.label, group: (ix.groups.find(g => g.id === r.group) || {}).label || r.group }));
+    const dup = new Set(roleOpts.map(r => r.label).filter((l, i, a) => a.indexOf(l) !== i));
+    for (const r of roleOpts) r.name = dup.has(r.label) ? `${r.label} · ${r.group}` : r.label;
+    const roleSearch = lead === "role-search" ? `<h2>Open the role you want</h2><div class="role-search"><input type="search" id="role-q" list="role-names" placeholder="Type a role: FP&A, product manager, consultant…" aria-label="Find a role" autocomplete="off"><datalist id="role-names">${roleOpts.map(r => `<option value="${esc(r.name)}">`).join("")}</datalist><button type="button" class="btn primary" id="role-go">Open →</button></div><p class="small muted" id="role-hint">${closest.length ? `Closest to your resume: ${closest.join(" · ")}` : `${roleOpts.length} roles in ${ix.groups.length} fields. Add a resume and the three closest appear here.`}</p>` : "";
     // what the games recorded, role by role (PLAN.md v12, decision 4)
     const GS = window.GameShell, roles = GS ? Object.entries(GS.record.read().roles) : [];
     let P = null; if (roles.some(([id]) => (ix.roles[id] || {}).set === "product" || id.startsWith("product."))) P = await Atlas.product().catch(() => null);
     const knowRows = roles.filter(([id]) => ix.roles[id]).map(([id, r]) => { const k = GS.record.summary(GS.record.read(), id, GS.record.asksOf(ix, P, id)); const parts = [k.total ? `${k.known.length} of ${k.total} asks known` : null, k.ladders.length ? `${k.ladders.length} ${k.ladders.length === 1 ? "level ladder" : "level ladders"} sorted` : null, k.postings ? `${k.postings} ${k.postings === 1 ? "posting" : "postings"} read` : null, k.demand ? `${k.demand} demand ${k.demand === 1 ? "pair" : "pairs"} seen` : null].filter(Boolean); return { id, label: ix.roles[id].label, n: k.known.length, line: parts.join(" · ") || "played", updated: r.updated || "" }; }).sort((a, b) => b.n - a.n || a.label.localeCompare(b.label)).map(x => row(esc(x.label), esc(x.line), ["open", "#/role/" + x.id]));
-    page(`<h1>About you</h1><p class="lead">What you told us and what your resume shows. Change any answer; the fields below follow.</p>
+    page(`<h1>About you</h1><p class="lead">What you told us and what your resume shows. Change any answer; the fields below follow.</p>${roleSearch}
       <div class="two"><div><h2>Your answers</h2>${answers}</div><div><h2>Your resume</h2>${resume}</div></div>
       <h2>Fields that fit you, and why</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : '<p class="small muted">Pick a field or add a resume and they appear here.</p>'}
       ${knowRows.length ? `<h2>What you know, from the games</h2><p class="small muted">What the games recorded in this browser, role by role: the asks you got right, the level ladders you sorted, the postings you read, the demand pairs you saw.</p><div class="list you-know">${knowRows.join("")}</div>` : ""}
       <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">Explore your fields →</a><button type="button" class="btn quiet" id="start-over">Start over</button></div>`);
     $("#start-over").onclick = () => { state.you = null; state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("you", null); store.set("resume", null); wiz = null; you(); };
+    const rq = $("#role-q");
+    if (rq) {
+      const find = v => { const t = v.trim().toLowerCase(); if (!t) return null; return roleOpts.find(r => r.name.toLowerCase() === t) || roleOpts.find(r => r.label.toLowerCase() === t) || roleOpts.filter(r => r.name.toLowerCase().includes(t)).sort((a, b) => a.name.length - b.name.length)[0] || null; };
+      const go = () => { const r = find(rq.value); if (r) location.hash = "#/role/" + r.id; else $("#role-hint").textContent = "No role by that name. Try a word of it, or pick from the list."; };
+      rq.onchange = () => { if (roleOpts.some(r => r.name === rq.value)) go(); };
+      rq.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); go(); } };
+      $("#role-go").onclick = go;
+    }
   }
   // one line on Explore that says what we know and why each field is there (owner's choices Y3 A and E3)
   function profileStrip(ix, why) {
@@ -869,7 +923,8 @@
       const facts = `${picked}You are looking at the entry grade: <b>${fmt(nEntry.length)} open ${nEntry.length === 1 ? "posting" : "postings"}</b>${nIntern ? `, ${nIntern} of them internships` : ""}.${entryEmps.length ? ` Entry-grade employers now: ${esc(join(entryEmps))}.` : ""}${topEmps.length ? ` Across all levels ${esc(join(topEmps))} hire the most.` : ""}`;
       const ask = stage === "targeting" ? "Add your resume to see the gaps between it and this role." : "Add your resume to see which of these skills you already show and which are gaps.";
       const strip = `<div class="strip"><span class="dotg"></span><span>${[y.where ? esc(WHERE_SHORT[y.where]) : null, stage ? esc(STAGE_SHORT[stage]) : null, (y.fields || []).length ? `<b>${esc(join((y.fields || []).map(id => ((state.ixGroups || []).find(x => x.id === id) || { label: id }).label)))}</b>` : null].filter(Boolean).join(" · ")}</span><a href="#/you">Edit</a></div>`;
-      const body = stage === "curious" ? `<p>${facts}</p>` : stage === "targeting" ? `<p>${ask}</p>${drop}<p>${facts}</p>` : `<p>${facts}</p><p>${ask}</p>${drop}`;
+      const blocks = { facts: `<p>${facts}</p>`, ask: `<p>${ask}</p>`, drop, "gaps-drop": drop };
+      const body = Stage.railBlocks(stage, false).filter(k => blocks[k]).map(k => blocks[k]).join("");
       return legend + `<section class="rs"><h3 class="rh">For you</h3>${strip}${body}</section>` + acts();
     }
     if (!fit) return legend + `<section class="rs"><h3 class="rh">Your fit · ${esc(state.resume.name)}</h3><p class="small muted">Reading your resume against these postings…</p></section>` + acts();
