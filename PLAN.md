@@ -817,6 +817,27 @@ composes with the others; the three sorts and the rail's three. Every Cornell-Te
 What this is not: a judgment that a course teaches a skill it does not name; the reader counts mentions, as the course
 screen does, and the card says so.
 
+### Step 4 — campuses as data, IE New York as a second campus (`feat/campus-list`, 2026-10-25)
+
+`web/data/sp27_campus.json` is a list under `campuses`. Each entry: `id`, `label`, `term`, `term_label`,
+`pre_enrollment`, `roster_updates_until`, `start_card`, `closed_notice`, `rail_closed_line`, `privacy_line`,
+`eligibility`, `programs` (each program with its categories and the v15 program group it belongs to), `relevance`,
+`signin_domains` and `catalog`. Entry one is Cornell Tech exactly as before, with `signin_domains: ["cornell.edu"]` and
+`catalog: true`. Entry two is IE New York (`ienyc`, Spring 2027, the four IE programs the v15 question folds, each with
+its group, `signin_domains: []`, `catalog: false`, a start card that says the roster is not loaded yet). The rule, in
+the file's `_note` and in `README.md`: a new campus is a new entry, never a code change.
+
+The person's campus (`Catalog.campusFor`, pure): the one stored (`classes.campus`), else the campus of the picker program
+chosen, else the one campus whose programs include the v15 group answered (`cs`, `ece` and `infosci` are Cornell Tech's
+alone; `business` and `analytics` belong to both), else none, and the classes screen then asks once, as two cards, with
+"change campus" in its eyebrow afterwards. The start screen shows the person's campus card, or, with no campus known,
+"Spring 2027 classes · Cornell Tech and IE New York". A campus with `catalog: false` shows its closed notice and stops;
+the rail's "Classes that cover your gaps" says the same in one line. Sign-in accepts an email whose domain is in the
+campus's `signin_domains` (`Catalog.allowedEmail`; a subdomain counts), Google sign-in passes that domain as `hd`, a
+signed-in account no campus accepts is signed out, and a campus with an empty list shows "Sign-in for IE New York is
+not open yet" instead of the form. `isCornell` is gone. Tests: the file's shape and the two entries, the inference
+order, the domain check.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its

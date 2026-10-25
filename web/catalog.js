@@ -1,8 +1,9 @@
 /* The Spring 2027 catalog: the Supabase client, the reads, and the pure functions behind the class cards (cross-list
    collapsing, the grading chip, the eligibility filter, the relevance band, a minimal markdown reader). Pure parts
    take no DOM and load in node (tests/web/classes.test.mjs): require("web/catalog.js")({}) gives the functions.
-   What never leaves the browser: the program, the student's own ratings, the role chosen. What never reaches the
-   screen: classes.roster_syllabus_md (matcher input only) and classes.research_note_md (never read). */
+   What never leaves the browser: the program, the student's own ratings, the role chosen, the campus. What never
+   reaches the screen: classes.roster_syllabus_md (matcher input only) and classes.research_note_md (never read).
+   Campuses are data (data/sp27_campus.json, `campuses`): a new campus is a new entry, never a code change. */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory;   // node: require("web/catalog.js")({ ...deps })
   else root.Catalog = factory({ supabase: () => root.supabase, config: () => root.CONFIG || {}, load: url => fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); }), storage: () => root.localStorage });
@@ -10,8 +11,6 @@
   "use strict";
   deps = deps || {};
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const CORNELL = /@cornell\.edu$/i;
-  const isCornell = email => CORNELL.test(String(email || "").trim());
   const BANDS = ["low", "medium", "high"];
   // the columns the picker reads; research_note_md is never selected, roster_syllabus_md only as matcher input
   const CLASS_COLS = "code,subject,catalog_nbr,title,career,description,outcomes,prereq,credits,grading_basis,location_scope,eligibility_category,enrollment_limited_to,also_in_ithaca,roster_url,roster_syllabus_read,sp27_instructor_matches_syllabus,grading_summary,roster_syllabus_md,last_scraped";
@@ -31,12 +30,14 @@
     const c = sb(); if (!c) return null;
     try { const { data } = await c.auth.getSession(); return data && data.session || null; } catch { return null; }
   }
-  // a signed-in account that is not cornell.edu is signed out again; the reason is kept for the sign-in screen
+  // a signed-in account whose domain no campus accepts is signed out again; the reason is kept for the sign-in screen
   let authNote = null;
-  async function enforceCornell(s) {
+  async function enforceDomain(s) {
     if (!s || !s.user) return s;
-    if (isCornell(s.user.email)) return s;
-    authNote = `${s.user.email || "That account"} is not a cornell.edu address, so it was signed out. Use your Cornell email.`;
+    const list = await campuses().catch(() => []);
+    if (list.some(c => allowedEmail(s.user.email, c))) return s;
+    const domains = [...new Set(list.flatMap(c => c.signin_domains || []))];
+    authNote = `${s.user.email || "That account"} is not ${domains.length ? "a " + domains.join(" or ") + " address" : "an address a campus accepts"}, so it was signed out. Use your school email.`;
     try { await sb().auth.signOut(); } catch { }
     return null;
   }
@@ -44,19 +45,22 @@
   function onAuth(fn) {
     authListeners.add(fn);
     const c = sb();
-    if (c && !onAuth.wired) { onAuth.wired = true; c.auth.onAuthStateChange(async (ev, s) => { const ok = await enforceCornell(s); authListeners.forEach(f => { try { f(ok, ev); } catch (e) { console.error(e); } }); }); }
+    if (c && !onAuth.wired) { onAuth.wired = true; c.auth.onAuthStateChange(async (ev, s) => { const ok = await enforceDomain(s); authListeners.forEach(f => { try { f(ok, ev); } catch (e) { console.error(e); } }); }); }
     return () => authListeners.delete(fn);
   }
   // any sign-in lands on the picker
   const redirectTo = () => (typeof location !== "undefined" ? location.origin + location.pathname + "#/classes" : undefined);
-  async function signInGoogle() {
+  // the campus says which Google domain (hd) and which email domains sign-in takes
+  async function signInGoogle(campus) {
     const c = sb(); if (!c) throw new Error("Sign in is not configured on this page");
-    const { error } = await c.auth.signInWithOAuth({ provider: "google", options: { queryParams: { hd: "cornell.edu" }, redirectTo: redirectTo() } });
+    const hd = campus && (campus.signin_domains || [])[0];
+    if (!hd) throw new Error(`Sign-in for ${campus ? campus.label : "this campus"} is not open yet`);
+    const { error } = await c.auth.signInWithOAuth({ provider: "google", options: { queryParams: { hd }, redirectTo: redirectTo() } });
     if (error) throw error;
   }
-  async function signInEmail(email) {
+  async function signInEmail(email, campus) {
     const c = sb(); if (!c) throw new Error("Sign in is not configured on this page");
-    if (!isCornell(email)) throw new Error("Use an address that ends in @cornell.edu");
+    if (!allowedEmail(email, campus)) throw new Error(`Use an address that ends in ${domainWords(campus)}`);
     const { error } = await c.auth.signInWithOtp({ email: String(email).trim(), options: { emailRedirectTo: redirectTo() } });
     if (error) throw error;
   }
@@ -104,8 +108,31 @@
       } catch (e) { delete profP[slug]; throw e; }
     })();
   }
+  // ---------- campuses: data/sp27_campus.json, a list under `campuses` ----------
   let campusP = null;
-  const campus = () => campusP ||= Promise.resolve(deps.load ? deps.load("data/sp27_campus.json") : null).catch(e => { campusP = null; throw e; });
+  const campusFile = () => campusP ||= Promise.resolve(deps.load ? deps.load("data/sp27_campus.json") : null).catch(e => { campusP = null; throw e; });
+  // the list; a file in the old flat shape (one campus at the top level) reads as a list of one
+  const campuses = async () => { const f = await campusFile(); return !f ? [] : Array.isArray(f.campuses) ? f.campuses : [f]; };
+  // The person's campus from what we know, pure: the one stored (classes.campus), else the campus of the picker program
+  // chosen (classes.program), else the one campus whose programs include the v15 program group answered (you.where);
+  // null when the group belongs to two campuses, which the picker then asks once.
+  function campusFor(list, { stored = null, programId = null, where = null } = {}) {
+    list = list || [];
+    if (stored) { const c = list.find(x => x.id === stored); if (c) return c; }
+    if (programId) { const c = list.find(x => (x.programs || []).some(p => p.id === programId)); if (c) return c; }
+    if (where) { const cs = list.filter(x => (x.programs || []).some(p => p.group === where)); if (cs.length === 1) return cs[0]; }
+    return list.length === 1 ? list[0] : null;
+  }
+  // an email whose domain is one the campus accepts (or a subdomain of it); a campus with no domains accepts none
+  function allowedEmail(email, campus) {
+    const e = String(email || "").trim().toLowerCase(), at = e.lastIndexOf("@");
+    if (at < 1 || at === e.length - 1) return false;
+    const dom = e.slice(at + 1);
+    return ((campus && campus.signin_domains) || []).some(d => { d = String(d).toLowerCase(); return dom === d || dom.endsWith("." + d); });
+  }
+  const domainWords = campus => ((campus && campus.signin_domains) || []).map(d => "@" + d).join(" or ") || "an address the campus accepts";
+  // the one-line words for the start card when no campus is known: "Spring 2027 classes · Cornell Tech and IE New York"
+  const neutralCardTitle = list => `${(list[0] || {}).term_label || "Classes"} classes · ${list.map(c => c.label).join(" and ")}`;
 
   // ---------- cards: cross-listed classes collapse into one, keyed by the first code alphabetically ----------
   function collapse(data) {
@@ -282,5 +309,5 @@
     return blocks.join("");
   }
 
-  return { esc, isCornell, BANDS, sb, session, onAuth, signInGoogle, signInEmail, signOut, takeAuthNote, loadCatalog, loadProfessor, campus, collapse, gradingChip, eligibilityLabel, openTo, filterCards, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, gapsCovered, coverLine, sortCards, topCovering, cardHtml, mdSections, mdHtml };
+  return { esc, BANDS, sb, session, onAuth, signInGoogle, signInEmail, signOut, takeAuthNote, loadCatalog, loadProfessor, campuses, campusFor, allowedEmail, domainWords, neutralCardTitle, collapse, gradingChip, eligibilityLabel, openTo, filterCards, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, gapsCovered, coverLine, sortCards, topCovering, cardHtml, mdSections, mdHtml };
 });
