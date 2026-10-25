@@ -219,3 +219,55 @@ test("courseSplit: methods, technical, knowledge and tools are taught; behaviour
   assert.deepEqual([...s.other].sort(), ["cpa", "unknown"], "a credential, or a skill with no kind, is neither taught nor named");
   assert.equal(s.teaches.size + s.named.size + s.other.size, 8, "the split sums to the found set");
 });
+
+// ---------- American spelling on screen (PLAN.md v16, step 5): Atlas.us over web/data/spelling_us.json ----------
+import fs from "fs";
+import path from "path";
+import { web } from "./_load.mjs";
+const SPELLING = JSON.parse(fs.readFileSync(path.join(web, "data", "spelling_us.json"), "utf8"));
+const usAtlas = () => { const A = atlasFactory({ load: () => Promise.reject(new Error("no files")), Matcher }); A.useSpelling(SPELLING); return A; };
+
+test("us: the named families from the brief map to American spelling, keeping case", () => {
+  const A = usAtlas();
+  const cases = [["programme", "program"], ["programmes", "programs"], ["labour", "labor"], ["organisation", "organization"], ["optimise", "optimize"], ["analyse", "analyze"], ["behaviour", "behavior"], ["centre", "center"], ["licence", "license"],
+    ["Programme management", "Program management"], ["OPTIMISE", "OPTIMIZE"], ["Analysed", "Analyzed"], ["artefacts", "artifacts"], ["behavioural", "behavioral"], ["colours", "colors"], ["centred", "centered"], ["kilometres", "kilometers"],
+    ["prioritised", "prioritized"], ["standardising", "standardizing"], ["visualisation", "visualization"], ["modelled", "modeled"], ["modelling", "modeling"], ["levelling", "leveling"], ["labelled", "labeled"], ["counsellor", "counselor"],
+    ["fulfilment", "fulfillment"], ["enrolment", "enrollment"], ["defence", "defense"], ["catalogue", "catalog"], ["practise", "practice"], ["advisers", "advisors"], ["unfavourable", "unfavorable"]];
+  for (const [from, to] of cases) assert.equal(A.us(from), to, from);
+  assert.equal(A.us("You analyse the labour cost centre."), "You analyze the labor cost center.");
+});
+
+test("us: words that only look British are left alone (the exceptions are data), and so are nouns both spellings share", () => {
+  const A = usAtlas();
+  for (const w of ["enterprise", "exercise", "advise", "expertise", "surprises", "otherwise", "noise", "premise", "promise", "compromise", "raise", "merchandising", "supervised", "unsupervised", "precise", "revised", "franchise", "fundraising", "analyses", "parameter", "controlled", "genre", "acre", "four", "hour", "our", "improvisation", "expenditure", "structure", "prepare", "culture"]) assert.equal(A.us(w), w, w);
+  assert.equal(A.us(""), ""); assert.equal(A.us(null), null); assert.equal(A.us(42), 42);
+  // before the word list is loaded the text passes through
+  const B = atlasFactory({ load: () => Promise.reject(new Error("no files")), Matcher }); assert.equal(B.us("programme"), "programme");
+});
+
+test("us is applied to the names, definitions, ladders, build steps, sub-skills and field lines of the index, never to posting evidence", async () => {
+  const files = {
+    "data/graph_mba.json": { meta: { evidence: "graph_mba/_evidence.json" }, families: { fpa: "FP&A" }, groups: [{ id: "finance", label: "Finance", families: ["fpa"] }], ladders: { corporate: { label: "Corporate", levels: { associate: "Analyst", mid: "Manager", senior: "Senior" } } }, level_labels: {}, edges: [],
+      roles: { fpa: { label: "FP&A", n_open: 1, n: 1, n_companies: 1, ladder: "corporate", defining: [], asks: [], credentials: [], small: false, file: "graph_mba/fpa.json" } },
+      skills: [{ id: "prog", name: "Programme management", what: "You organise the programme.", cluster: "delivery", by_family: { fpa: 0.5 }, ladder: { corporate: { mid: "You prioritise artefacts." } }, build: { corporate: [{ kind: "read", text: "Read the organisation's licence." }] }, subskills: [{ id: "s1", name: "Labour planning", example: "Modelled the labour cost" }], how_shown: { artefacts: ["programme plan"] }, fields: { finance: { reads_as: "the behaviours a centre asks for", line: "Optimised 3 programmes" } }, signals: ["Analysed the catalogue"] }],
+      clusters: { delivery: { label: "Delivery & organisation" } } },
+    "data/subskills_mba.json": { prog: [{ id: "s1", name: "Labour planning", example: "Modelled the labour cost" }] },
+    "data/spelling_us.json": SPELLING,
+    "data/graph_mba/fpa.json": { jobs: [{ id: 1, company: "Acme", title: "Programme Manager", skills: ["prog"], sub: [], level: "mid", open: true, snippet: "We optimise the programme" }] },
+    "data/graph_mba/_evidence.json": { prog: { early: [{ text: "You will organise the programme office", company: "Acme", title: "Programme Manager" }] } },
+  };
+  const A = atlasFactory({ load: url => url in files ? Promise.resolve(structuredClone(files[url])) : Promise.reject(new Error(url + ": 404")), Matcher });
+  const ix = await A.index(); const s = ix.skillById.prog;
+  assert.equal(s.name, "Program management"); assert.equal(s.what, "You organize the program.");
+  assert.equal(s.ladder.corporate.mid, "You prioritize artifacts."); assert.equal(s.build.corporate[0].text, "Read the organization's license.");
+  assert.deepEqual(s.subskills[0], { id: "s1", name: "Labor planning", example: "Modeled the labor cost" });
+  assert.deepEqual(s.how_shown.artefacts, ["program plan"]);
+  assert.equal(s.fields.finance.reads_as, "the behaviors a center asks for"); assert.equal(s.fields.finance.line, "Optimized 3 programs");
+  assert.deepEqual(s.signals, ["Analyzed the catalog"]);
+  assert.equal(ix.M.clusters.delivery.label, "Delivery & organization");
+  assert.equal(ix.SUBS.prog[0].name, "Labor planning");
+  const R = await A.role("fpa");
+  assert.equal(R.jobs[0].title, "Programme Manager", "a posting's title is the employer's"); assert.equal(R.jobs[0].snippet, "We optimise the programme");
+  const ev = await R.evidence("prog");
+  assert.equal(ev.early[0].text, "You will organise the programme office", "a quoted posting sentence is left as written");
+});

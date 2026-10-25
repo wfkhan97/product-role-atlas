@@ -838,6 +838,30 @@ signed-in account no campus accepts is signed out, and a campus with an empty li
 not open yet" instead of the form. `isCornell` is gone. Tests: the file's shape and the two entries, the inference
 order, the domain check.
 
+### Step 5 — American spelling on screen (`data/spelling-us`, 2026-10-25)
+
+The data files carry British spellings from the model-written depth and the taxonomy (artefact 168 times, programme
+119, modelled and modelling 71, analysed 23, fulfilment 16, prioritised 12, and 15 skill names: "Transformation
+programme leadership", "Scenario & sensitivity modelling", "Warehouse & fulfilment operations", "FINRA licences",
+…). The copy on screen is American since v15, so the two met on the same page. `Atlas.us(text)` in `web/atlas.js` is
+a display-time map applied once at load to every skill name, definition, ladder rung, build step, sub-skill name and
+example, evidence-file string, field reading and line, product `signals` and cluster label of both indexes (517 of
+28,831 strings on the 2026-10-25 data). Quoted posting sentences, posting titles and snippets, and a sub-skill's
+regular-expression `patterns` are never touched. The data files are not regenerated; the matcher reads the taxonomy
+patterns, not the names, so nothing it does moves.
+
+The word list is data, `web/data/spelling_us.json`: whole words (programme, licence, artefact, fulfilment, practise,
+catalogue, adviser, …), the -ise/-isation → -ize family with an exception list of stems it must keep (enterprise,
+exercise, advise, expertise, surprise, premise, promise, compromise, raise, fundraise, merchandise, supervise, the
+-wise words, …), -yse → -yze, the -our → -or stems (behaviour, labour, colour, favour, …), the -re → -er stems (centre,
+metre, fibre, theatre, calibre, …) with the words they keep (parameter, genre, acre, …), and the British double l
+(modelled, levelling, counsellor, …). Case is kept. An exception is a line in a list, not a code change.
+`tests/web/atlas.test.mjs` gains three cases: the families from the brief, the words that only look British, and the
+index's fields mapped against a posting's text left alone.
+
+What this is not: a regeneration. `depth_gen` still drafts in British English, and the `data/` branch that regenerates
+with an American rule (and reruns `run_depth.py` and the extraction baselines) stays under Later.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
@@ -855,8 +879,9 @@ order, the domain check.
   band on the new postings): a `pipeline.depth_publish` rerun on a `data/` branch, with the baseline.
 - The waitlist boxes ("Help me show this", "Build these skills", "Ways to show your skills", the fit screen) are a
   sign-up since v16 step 1; the journeys behind them are GradBuddy's.
-- American spelling in the data: a display-time map in `atlas.js` now, or an American rule in `depth_gen` and the
-  taxonomy names plus a regeneration (`run_depth.py`, `extraction_baseline_mba.md`).
+- American spelling in the data: the display-time map (`Atlas.us`, v16 step 5) is on; the regeneration with an
+  American rule in `depth_gen` and the taxonomy names (`run_depth.py`, `extraction_baseline_mba.md`) is still a
+  `data/` branch.
 - LLM-based extraction (Claude) for higher-recall skill tagging and requirement vs nice-to-have split.
 - Nightly refresh via a scheduled job; history of postings over time.
 - More families (design, engineering) and more companies (full Fortune 500).

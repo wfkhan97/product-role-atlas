@@ -28,6 +28,49 @@
   const PRODUCT_NS = "product.";
   const productKey = f => PRODUCT_NS + f;
 
+  // ---------- American spelling on screen (PLAN.md v16, step 5): a display-time map, the word list is data ----------
+  // data/spelling_us.json: whole words, stems with their suffix families, and the words each rule keeps. Applied by
+  // us(text) to every skill name, sub-skill name, ladder rung, build step, reading and line that comes from the
+  // model-written depth files and the taxonomy; never to a quoted posting sentence or a posting's own text.
+  let SPELL = null, rules = null;
+  const keepCase = (from, to) => from === from.toUpperCase() && from.length > 1 ? to.toUpperCase() : from[0] === from[0].toUpperCase() ? to[0].toUpperCase() + to.slice(1) : to;
+  function useSpelling(json) {
+    SPELL = json || null; rules = null;
+    if (!SPELL) return;
+    const alt = xs => (xs || []).map(x => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+    const words = Object.keys(SPELL.words || {}).sort((a, b) => b.length - a.length);
+    const ise = SPELL.ise_to_ize || {}, our = SPELL.our_to_or || {}, re = SPELL.re_to_er || {}, ll = SPELL.ll_to_l || {};
+    rules = {
+      words: words.length ? new RegExp(`\\b(${alt(words)})(s?)\\b`, "gi") : null,
+      iseKeep: new Set((ise.keep || []).map(k => k.toLowerCase())),
+      ise: /\b([a-z]{2,})is(e|es|ed|ing|er|ers|ation|ations|able)\b/gi,
+      yse: /\b([a-z]*(?:anal|catal|paral|hydrol|electrol|dial|breathal))ys(e|ed|ing|er|ers)\b/gi,
+      our: our.stems && our.stems.length ? new RegExp(`\\b(${alt(our.stems)})our([a-z]*)\\b`, "gi") : null,
+      re: re.stems && re.stems.length ? new RegExp(`\\b([a-z]*)(${alt(re.stems)})re(s|d)?\\b`, "gi") : null,
+      reKeep: new Set((re.keep || []).map(k => k.toLowerCase())),
+      ll: ll.stems && ll.stems.length ? new RegExp(`\\b(${alt(ll.stems)})l(ed|ing|er|ers|or|ors)\\b`, "gi") : null,
+    };
+  }
+  function us(text) {
+    if (!rules || typeof text !== "string" || !text) return text;
+    let t = text;
+    if (rules.words) t = t.replace(rules.words, (m, w, s) => keepCase(w, SPELL.words[w.toLowerCase()]) + s);
+    t = t.replace(rules.ise, (m, stem, suf) => { const k = (stem + "is").toLowerCase(); if (rules.iseKeep.has(k) || /w$/i.test(stem)) return m; return stem + keepCase(m.slice(stem.length, stem.length + 2), "iz") + suf; });
+    t = t.replace(rules.yse, (m, stem, suf) => stem + keepCase(m.slice(stem.length, stem.length + 2), "yz") + suf);
+    if (rules.our) t = t.replace(rules.our, (m, stem, rest) => stem + keepCase(m.slice(stem.length, stem.length + 3), "or") + rest);
+    if (rules.re) t = t.replace(rules.re, (m, pre, stem, suf) => rules.reKeep.has(m.toLowerCase()) || rules.reKeep.has((pre + stem + "re").toLowerCase()) ? m : pre + stem + keepCase(m.slice((pre + stem).length, (pre + stem).length + 2), "er") + (suf === "d" || suf === "D" ? "ed" : suf || ""));
+    if (rules.ll) t = t.replace(rules.ll, (m, stem, suf) => stem + suf);
+    return t;
+  }
+  // the strings of a skill node the screens show, mapped in place; a sub-skill's `patterns` (regular expressions the
+  // matcher runs) and posting evidence are never touched
+  const usDeep = v => typeof v === "string" ? us(v) : Array.isArray(v) ? v.map(usDeep) : v && typeof v === "object" ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, k === "patterns" || k === "pattern" ? x : usDeep(x)])) : v;
+  function americanize(skill) {
+    for (const k of ["name", "what", "ladder", "build", "subskills", "how_shown", "fields", "signals"]) if (skill[k] != null) skill[k] = usDeep(skill[k]);
+    return skill;
+  }
+  const spellingP = () => fetchJson("data/spelling_us.json").catch(() => null).then(j => { if (!rules) useSpelling(j); return j; });
+
   function decode(G, jobs) {
     for (const j of jobs) {
       if (j.skills.length && typeof j.skills[0] === "number") j.skills = j.skills.map(i => G.skill_ids[i]);
@@ -42,7 +85,8 @@
   let indexP = null;
   function index() {
     // one sentence per role on what the job is (web/data/role_blurbs.json), optional: an index without it still loads
-    return indexP ||= retrying(() => Promise.all([fetchJson("data/graph_mba.json"), fetchJson("data/subskills_mba.json"), fetchJson("data/role_blurbs.json").catch(() => ({}))]).then(([M, SUBS, BLURBS]) => {
+    return indexP ||= retrying(() => Promise.all([fetchJson("data/graph_mba.json"), fetchJson("data/subskills_mba.json"), fetchJson("data/role_blurbs.json").catch(() => ({})), spellingP()]).then(([M, SUBS, BLURBS]) => {
+      if (!M.us) { M.us = true; for (const s of M.skills) americanize(s); for (const c of Object.values(M.clusters || {})) if (c && c.label) c.label = us(c.label); for (const list of Object.values(SUBS)) for (const x of list) { if (x.name) x.name = us(x.name); if (x.example) x.example = us(x.example); } }
       const roles = {}, groups = [];
       for (const g of M.groups) {
         if (g.id === "product") continue;   // the product field opens the product role set instead (owner's choice 3A)
@@ -65,6 +109,7 @@
   function product() {
     return productP ||= retrying(() => Promise.all([fetchJson("data/graph.json"), fetchJson("data/subskills.json"), index()]).then(([G, SUBS, ix]) => {
       decode(G, G.jobs);
+      if (!G.us) { G.us = true; for (const s of G.skills) americanize(s); for (const c of Object.values(G.clusters || {})) if (c && c.label) c.label = us(c.label); for (const list of Object.values(SUBS)) for (const x of list) { if (x.name) x.name = us(x.name); if (x.example) x.example = us(x.example); } }
       const byFamily = {};
       for (const j of G.jobs) (byFamily[j.family] ||= []).push(j);
       const pg = ix.groups.find(g => g.id === "product");
@@ -265,5 +310,5 @@
     return files.flatMap(f => decode(ix.M, f.jobs));
   }
 
-  return { index, product, productKey, role, shares, subShares, grid, areas, carriers, AREA_ORDER, BEHAVIOURS_PANEL, stepOf, employerType, matcher, roughFit, readCourse, courseSplit, COURSE_KINDS, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
+  return { index, product, productKey, role, shares, subShares, grid, areas, carriers, AREA_ORDER, BEHAVIOURS_PANEL, stepOf, employerType, matcher, roughFit, readCourse, courseSplit, COURSE_KINDS, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson, us, useSpelling };
 });
