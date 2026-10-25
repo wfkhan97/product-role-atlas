@@ -208,3 +208,14 @@ test("areas: the panel is last whatever the behaviour's share, and the area that
   assert.equal(areas[areas.length - 1].core, 1);
   assert.deepEqual(areas.map(a => a.cluster).slice(0, 2), ["finance", "analytics"]);
 });
+
+// ---------- courseSplit: what a course can show, by kind (PLAN.md v14, decision 5) ----------
+test("courseSplit: methods, technical, knowledge and tools are taught; behaviours and practices are only named; credentials are neither", () => {
+  const A = atlasFactory({ load: () => Promise.reject(new Error("no files")), Matcher });
+  const byId = { prd: { kind: "method" }, sql: { kind: "technical" }, fintech: { kind: "knowledge" }, excel: { kind: "tool" }, comm: { kind: "behaviour" }, stakeholders: { kind: "practice" }, cpa: { kind: "credential" }, unknown: {} };
+  const s = A.courseSplit(new Set(Object.keys(byId)), byId);
+  assert.deepEqual([...s.teaches].sort(), ["excel", "fintech", "prd", "sql"]);
+  assert.deepEqual([...s.named].sort(), ["comm", "stakeholders"]);
+  assert.deepEqual([...s.other].sort(), ["cpa", "unknown"], "a credential, or a skill with no kind, is neither taught nor named");
+  assert.equal(s.teaches.size + s.named.size + s.other.size, 8, "the split sums to the found set");
+});

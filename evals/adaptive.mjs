@@ -16,7 +16,7 @@ const { createMatcher } = require(path.join(root, "web/match.js"));
 const EvidenceText = require(path.join(root, "web/evidence_text.js"));
 const J = f => JSON.parse(fs.readFileSync(path.join(root, f)));
 const only = process.argv.includes("--only") ? process.argv[process.argv.indexOf("--only") + 1] : null;
-const PARTS = ["text", "carriers", "grid"];
+const PARTS = ["text", "carriers", "grid", "course"];
 if (only && !PARTS.includes(only)) { console.error(`--only takes one of ${PARTS.join(", ")}`); process.exit(2); }
 let pass = 0, fail = 0; const bad = [];
 const check = (ok, msg) => { ok ? pass++ : (fail++, bad.push(msg)); };
@@ -134,6 +134,33 @@ if (!only || only === "grid") {
   check(soft * 2 >= generic.size, `the generic skills are mostly not behaviours or practices: ${JSON.stringify(gk)}`);
   for (const k of generic) check(!["tool", "credential"].includes((ix.skillById[k] || {}).kind), `generic skill ${k} is a ${(ix.skillById[k] || {}).kind}`);
   console.log(`grid: ${counts.roles} roles, ${counts.withPanel} with a How you work panel holding ${counts.behaviourRows} rows; the first panel leads with a carrier-kind or defining skill in ${counts.leadsWithMethod}; ${generic.size} generic skills: ${Object.entries(gk).map(([k, v]) => `${k} ${v.length}${k === "behaviour" || k === "practice" ? "" : " (" + v.join(", ") + ")"}`).join(", ")}`);
+}
+
+if (!only || only === "course") {
+  // The course_list sample read by Atlas.readCourse: the split by kind sums to the found set; teaches holds only the
+  // four kinds a course can show; named holds only behaviours and practices; against every role's grid, no behaviour
+  // or practice is among the taught skills and every behaviour or practice the text names is listed apart.
+  const { Matcher: MM, atlasFactory } = await import("../tests/web/_load.mjs");
+  const A = atlasFactory({ load: url => JSON.parse(fs.readFileSync(path.join(root, "web", url), "utf8")), Matcher: MM });
+  const ix = await A.index(); await A.product();
+  const text = fs.readFileSync(path.join(here, "resumes/course_list.txt"), "utf8");
+  const r = await A.readCourse(text);
+  const all = new Set([...r.teaches, ...r.named, ...r.other]);
+  check(all.size === r.found.size && [...r.found].every(k => all.has(k)), `course: the split (${all.size}) does not sum to found (${r.found.size})`);
+  check([...r.teaches].every(k => A.COURSE_KINDS.has((ix.skillById[k] || {}).kind)), `course: teaches holds a kind a course cannot show: ${[...r.teaches].filter(k => !A.COURSE_KINDS.has((ix.skillById[k] || {}).kind)).join(", ")}`);
+  check([...r.named].every(k => ["behaviour", "practice"].includes((ix.skillById[k] || {}).kind)), `course: named holds a skill that is not a behaviour or a practice`);
+  check([...r.other].every(k => (ix.skillById[k] || {}).kind === "credential"), `course: other holds a skill that is not a credential: ${[...r.other].join(", ")}`);
+  let roles = 0, taughtRows = 0, namedRows = 0;
+  for (const id of Object.keys(ix.roles)) {
+    const R = await A.role(id); if (!R.jobs.length) continue; roles++;
+    const inGrid = A.grid(R, R.jobs).rows.flat(2); const split = A.courseSplit(r.found, R.skillById);
+    const taught = inGrid.filter(x => split.teaches.has(x.id)), named = inGrid.filter(x => split.named.has(x.id));
+    taughtRows += taught.length; namedRows += named.length;
+    check(taught.every(x => A.COURSE_KINDS.has((R.skillById[x.id] || {}).kind)), `${id}: a behaviour or practice is shown as taught`);
+    check(inGrid.filter(x => r.found.has(x.id) && ["behaviour", "practice"].includes((R.skillById[x.id] || {}).kind)).every(x => named.some(n => n.id === x.id)), `${id}: a named behaviour or practice is missing from the list apart`);
+    check(!taught.some(x => named.some(n => n.id === x.id)), `${id}: a skill is both taught and named`);
+  }
+  console.log(`course: the sample names ${r.found.size} skills: teaches ${r.teaches.size}, named (behaviours and practices) ${r.named.size}, credentials ${r.other.size}; over ${roles} roles ${taughtRows} taught rows and ${namedRows} named rows`);
 }
 
 for (const b of bad.slice(0, 40)) console.log("  FAIL " + b);

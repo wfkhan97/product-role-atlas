@@ -226,13 +226,22 @@
     const roles = parsed.roles.filter(r => r.title).map(r => ({ title: r.title, start: r.span ? Math.floor(r.span[0]) : null, end: r.span ? Math.round(r.span[1]) : null, years: r.years || 0, intern: !!r.isIntern, family: r.roleFamily || null }));
     return { held, scores, shown, ev, years: parsed.totalYears, isStudent: parsed.isStudent, roles, degrees: [...(parsed.degrees || [])], lines: parsed.lines.length };
   }
-  // the skills a text names, read as a student's course list: a mention counts (a syllabus describes topics)
+  // The skills a text names, read as a student's course list: a mention counts (a syllabus describes topics), and the
+  // kind says what a course can show (PLAN.md v14, decision 5): a method, technical, knowledge or tool skill it
+  // `teaches`; a behaviour or a practice it only `names` (how you work is shown through work, on the fit page); a
+  // credential is neither. `found` is every skill named, for readers of the old shape.
+  const COURSE_KINDS = new Set(["method", "technical", "knowledge", "tool"]);
+  function courseSplit(found, skillById) {
+    const teaches = new Set(), named = new Set(), other = new Set();
+    for (const id of found) { const k = (skillById[id] || {}).kind; (COURSE_KINDS.has(k) ? teaches : k === "behaviour" || k === "practice" ? named : other).add(id); }
+    return { teaches, named, other };
+  }
   async function readCourse(text) {
-    await roughFit("");   // builds the reader
+    const ix = await index(); await roughFit("");   // builds the reader
     const parsed = roughM.parseResume(text); const ev = roughM.tag(parsed);
     // a skill named in the text, or one of its sub-skills named (the matcher keeps a sub-skill-only hit as a hint)
     const found = new Set(Object.entries(ev).filter(([, e]) => e.strength >= 1 || e.hintOnly || e.subs.size).map(([id]) => id));
-    return { found, ev, lines: parsed.lines.length };
+    return { found, ...courseSplit(found, ix.skillById), ev, lines: parsed.lines.length };
   }
   // the skills generic to the role set: asked by most postings of at least half of the 50 roles (measured, not listed)
   async function genericSkills() {
@@ -256,5 +265,5 @@
     return files.flatMap(f => decode(ix.M, f.jobs));
   }
 
-  return { index, product, productKey, role, shares, subShares, grid, areas, carriers, AREA_ORDER, BEHAVIOURS_PANEL, stepOf, employerType, matcher, roughFit, readCourse, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
+  return { index, product, productKey, role, shares, subShares, grid, areas, carriers, AREA_ORDER, BEHAVIOURS_PANEL, stepOf, employerType, matcher, roughFit, readCourse, courseSplit, COURSE_KINDS, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
 });

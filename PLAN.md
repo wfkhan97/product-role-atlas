@@ -675,6 +675,19 @@ skills are 9: 6 behaviours, 2 practices and 1 method (process design clears the 
 checks that behaviours and practices are the majority and prints the composition instead of asserting the 6 + 2 of
 2026-10-14.
 
+Built (step 5, `feat/adaptive-5-course`, 2026-10-25). `readCourse` returns the found set split by kind
+(`Atlas.courseSplit`): `teaches` (method, technical, knowledge, tool), `named` (behaviour, practice), `other`
+(credential). The course screen paints and counts only what a course can show, lists the behaviours and practices the
+text names apart under "Named, but a course cannot show these" with the kind's rule and one sentence (a course shows
+craft; how you work is shown through work, on the fit page), and "It does not cover" lists only the craft among the
+most-asked skills. A course saved before the split is split on read. Open decision 5 taken as proposed: a practice is
+not shown by a course. `evals/adaptive.mjs --only course`: the course sample names 57 skills, 48 a course can show, 9
+behaviours and practices listed apart, 0 credentials; over 54 roles 914 taught rows and 213 named rows, none both.
+
+Steps 1 to 5 are built; step 6 (retiring `signals`) waits on open decision 6. Every step kept `node --test`,
+`evals/run.mjs`, `run_pipeline.py --only matcher` and `--only js`, `run_taxonomy.py` and the five game evals green;
+`evals/adaptive.mjs` runs all four parts in CI.
+
 Open decisions for the owner:
 
 1. **Behaviours in the score.** `score` (through carriers, damped by lift) or `show` (rows and status, weight 0),
