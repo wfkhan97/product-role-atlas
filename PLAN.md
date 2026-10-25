@@ -637,6 +637,18 @@ calibration's, so the setting stays `show` until the full set is rerun (`BEHAVIO
 --roles mba`). Open decision 2 taken as proposed: a named behaviour earns nothing. The product calibration cannot be
 measured here (one same-role file).
 
+Built (step 2, `feat/adaptive-2-fit-text`, 2026-10-25). `web/evidence_text.js` builds every sentence about a skill
+from the data: `line` (the field entry's line, else the product `signals`, else a template from `how_shown` by the
+kind's form, slots named, no number invented), `reads`, `gap` (by kind: a method names its artefact and what changed;
+a practice who, how many and what you were trusted with; a behaviour "never a line of its own" and the two carriers the
+role asks for that the resume does not show, or the one line that already shows it; technical what you built; knowledge
+the industry in a line of work; a tool inside a line of work), `thin` (the measures to add) and `sayIt`. The rail's gap
+rows, the fit page's "Say it in this field's words" and "Shown, but without specifics" and the event screen's "say it
+like" read it; the skill card keeps `signals` until step 3. The carrier pick gained a last fallback: with no field entry
+and fewer than two carriers above the floor, the two carriers the role's postings ask for most, so a behaviour always
+names something (one role and behaviour has none at all: VC associate, product sense). `evals/adaptive.mjs --only text`
+over 56 roles and 3,138 rows: 1,046 lines from a field entry, 1,102 from `signals`, 990 from a template; in CI.
+
 Open decisions for the owner:
 
 1. **Behaviours in the score.** `score` (through carriers, damped by lift) or `show` (rows and status, weight 0),

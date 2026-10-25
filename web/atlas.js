@@ -99,12 +99,12 @@
     if (r.set === "product") {
       const P = await product();
       const G = P.G;
-      return { role: r, set: "product", jobs: r.jobs, skills: G.skills, skillById: P.skillById, clusters: G.clusters, subs: P.SUBS, edges: G.edges, levelLabels: G.level_labels, stepLabels: { entry: "Entry", mid: "Product Manager", senior: "Senior", lead: "Lead and up" }, evidence: async sid => (P.skillById[sid] || {}).evidence || {}, employerTypes: EMPLOYER_TYPES.slice(0, 2), country: null };
+      return { role: r, set: "product", jobs: r.jobs, skills: G.skills, skillById: P.skillById, clusters: G.clusters, subs: P.SUBS, edges: G.edges, levelLabels: G.level_labels, stepLabels: { entry: "Entry", mid: "Product Manager", senior: "Senior", lead: "Lead and up" }, evidence: async sid => (P.skillById[sid] || {}).evidence || {}, employerTypes: EMPLOYER_TYPES.slice(0, 2), country: null, kinds: G.meta.kinds || ix.M.meta.kinds || {} };
     }
     const file = await fetchJson("data/" + r.file);
     const jobs = decode(ix.M, file.jobs);
     const lv = ix.M.ladders[r.ladder].levels;
-    return { role: r, set: "mba", jobs, skills: ix.M.skills, skillById: ix.skillById, clusters: ix.M.clusters, subs: ix.SUBS, edges: ix.M.edges, levelLabels: ix.M.level_labels, stepLabels: { entry: lv.associate || "Entry", mid: lv.mid || "Manager", senior: lv.senior || "Senior", lead: "Leadership" }, evidence: async sid => ((await fetchJson("data/" + ix.M.meta.evidence))[sid]) || {}, employerTypes: EMPLOYER_TYPES, country: ix.M.meta.country, ladders: ix.M.ladders };
+    return { role: r, set: "mba", jobs, skills: ix.M.skills, skillById: ix.skillById, clusters: ix.M.clusters, subs: ix.SUBS, edges: ix.M.edges, levelLabels: ix.M.level_labels, stepLabels: { entry: lv.associate || "Entry", mid: lv.mid || "Manager", senior: lv.senior || "Senior", lead: "Leadership" }, evidence: async sid => ((await fetchJson("data/" + ix.M.meta.evidence))[sid]) || {}, employerTypes: EMPLOYER_TYPES, country: ix.M.meta.country, ladders: ix.M.ladders, kinds: ix.M.meta.kinds || {} };
   }
 
   // ---------- statistics on a set of postings ----------

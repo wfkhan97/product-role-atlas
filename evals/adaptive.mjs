@@ -1,0 +1,81 @@
+// Evals for the taxonomy adapted to each role (PLAN.md v14): the sentences the screens build about a skill, the
+// carriers picked per role, the grid's panels and the course reader's split. Data rules over every role of both sets,
+// in pure functions the app runs, with no DOM. Exits 1 on a rule violation.
+//
+//   node evals/adaptive.mjs                 # every part
+//   node evals/adaptive.mjs --only text     # one part: text (step 2), carriers (3), grid (4), course (5)
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { createRequire } from "module";
+import { loadGraph } from "./graph_mba.mjs";
+
+const here = path.dirname(fileURLToPath(import.meta.url)), root = path.join(here, "..");
+const require = createRequire(import.meta.url);
+const { createMatcher } = require(path.join(root, "web/match.js"));
+const EvidenceText = require(path.join(root, "web/evidence_text.js"));
+const J = f => JSON.parse(fs.readFileSync(path.join(root, f)));
+const only = process.argv.includes("--only") ? process.argv[process.argv.indexOf("--only") + 1] : null;
+const PARTS = ["text"];
+if (only && !PARTS.includes(only)) { console.error(`--only takes one of ${PARTS.join(", ")}`); process.exit(2); }
+let pass = 0, fail = 0; const bad = [];
+const check = (ok, msg) => { ok ? pass++ : (fail++, bad.push(msg)); };
+const words = t => t.trim().split(/\s+/).length;
+const EMPTY = /undefined|null|\[|\]|\s;|\.\.|,\s*[.;]|\(\)|  /;
+
+// Both role sets as the app sees them: the MBA index with every role file, and the product graph; the role's field is
+// its group (product roles read the "product" entry). Skill nodes carry kind, how_shown, fields, signals.
+const MBA = loadGraph(), ROLES = J("web/data/roles_mba.json"), PROD = J("web/data/graph.json");
+const groupOf = Object.fromEntries(ROLES.groups.flatMap(g => g.families.map(f => [f, g.id])));
+const roleSets = [
+  { set: "mba", G: MBA, tax: J("web/data/taxonomy_mba.json"), subs: J("web/data/subskills_mba.json"), roles: ROLES, fams: Object.keys(MBA.families).filter(f => MBA.jobs.some(j => j.family === f)), group: f => groupOf[f], kinds: MBA.meta.kinds },
+  { set: "product", G: PROD, tax: J("web/data/taxonomy.json"), subs: J("web/data/subskills.json"), roles: null, fams: Object.keys(PROD.families), group: () => "product", kinds: PROD.meta.kinds },
+];
+
+if (!only || only === "text") {
+  // For every role of both sets and every ask of the role (a tenth of its postings or more), the builder returns a
+  // line and a gap sentence under 40 words with no empty slot; the line is the field's where the field has an entry
+  // (the product entry for a product role); a behaviour's gap sentence names a carrier the role's postings ask for.
+  const counts = { field: 0, signals: 0, template: 0, roles: 0, rows: 0, noCarrier: 0 };
+  for (const S of roleSets) {
+    const M = createMatcher({ taxonomy: S.tax, subskills: S.subs, graph: S.G, roles: S.roles || undefined });
+    const T = EvidenceText.create({ kinds: S.kinds }); const byId = Object.fromEntries(S.G.skills.map(s => [s.id, s]));
+    const nameOf = id => (byId[id] || {}).name || id;
+    for (const fam of S.fams) {
+      const jobs = S.G.jobs.filter(j => j.family === fam); if (!jobs.length) continue; counts.roles++;
+      const field = S.group(fam); const req = M.requirements({ jobs, label: fam });
+      const rows = M.score({}, req, { level: "mid" }).rows.filter(x => !x.slot.startsWith("__"));
+      for (const x of rows) {
+        const s = byId[x.id]; if (!s) { check(false, `${S.set}/${fam}: row ${x.id} has no skill node`); continue; }
+        counts.rows++;
+        const l = T.line(s, field), g = T.gap(x, s, { shown: new Set(), nameOf }), th = T.thin(s);
+        for (const [what, t] of [["line", l.text], ["gap", g], ["thin", th]]) {
+          check(typeof t === "string" && t.length > 0 && words(t) < 40, `${S.set}/${fam}/${x.id}: ${what} is empty or 40 words or more: "${t}"`);
+          check(!EMPTY.test(t), `${S.set}/${fam}/${x.id}: ${what} has an empty slot: "${t}"`);
+        }
+        if (l.source === "template") { // a digit may come from the data's own names ("5 whys", "SOC 2"), never from the template
+          let t = l.text; for (const w of [].concat(...["artefacts", "counterparts", "measures", "verbs"].map(k => (s.how_shown || {})[k] || []))) t = t.split(w).join("");
+          check(!/\d/.test(t), `${S.set}/${fam}/${x.id}: a template line invented a number: "${l.text}"`);
+        }
+        counts[l.source]++;
+        const e = s.fields && s.fields[field];
+        if (e) check(l.source === "field" && l.text === e.line, `${S.set}/${fam}/${x.id}: the field entry exists but the line is from ${l.source}`);
+        if (S.set === "product" && s.fields && Object.keys(s.fields).length) check(l.source === "field" && l.field === "product", `product/${fam}/${x.id}: a product role must read the product entry`);
+        if (x.kind === "behaviour") {
+          // the sentence names a carrier whenever one was picked; a picked carrier is on the role's postings unless it is
+          // the field entry's list standing in ("in this field"); a role whose postings carry none of the behaviour's
+          // carriers at all gets the kind's rule with the artefacts, and is counted
+          const named = (x.carriers || []).filter(k => g.includes(nameOf(k)));
+          if (!(x.carriers || []).length) { counts.noCarrier++; check(/carries it\.$/.test(g), `${S.set}/${fam}/${x.id}: no carrier picked and no artefact named: "${g}"`); }
+          else { check(named.length > 0, `${S.set}/${fam}/${x.id}: the behaviour's gap sentence names none of its carriers (${x.carriers.join(", ")}): "${g}"`);
+            if (!x.carriersFallback) for (const k of named) check(req.share(k) > 0, `${S.set}/${fam}/${x.id}: carrier ${k} is on none of the role's postings`); }
+        }
+      }
+    }
+  }
+  console.log(`text: ${counts.roles} roles, ${counts.rows} rows; lines from the field entry ${counts.field}, from signals ${counts.signals}, from a template ${counts.template}; behaviour rows with no carrier on the role's postings ${counts.noCarrier}`);
+}
+
+for (const b of bad.slice(0, 40)) console.log("  FAIL " + b);
+console.log(`adaptive: ${pass} pass, ${fail} fail`);
+process.exit(fail ? 1 : 0);

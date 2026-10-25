@@ -21,7 +21,8 @@
   // A behaviour is credited through its carriers (PLAN.md v14, decision 1): the skills of a carrier kind whose evidence
   // counts for it. Among the union of the skill's `how_shown.shown_by` and the role's field entry's `shown_by`, those
   // asked for together with the behaviour in at least CARRIER_MIN of the role's postings that ask for it, by that share,
-  // CARRIER_MAX at most; with fewer than two, the field entry's list as written (`fallback: true`).
+  // CARRIER_MAX at most; with fewer than two, the field entry's list as written, or without one the two carriers the
+  // postings ask for most (`fallback: true`).
   const CARRIER_MIN = 0.15, CARRIER_MAX = 4;
   const CARRIER_KINDS = new Set(["method", "practice", "technical", "knowledge"]);
   const AI_GROUP = ["ai_ml", "genai_llm", "ai_tools"];
@@ -664,7 +665,11 @@
       for (const k of union) co[k] = st.share(k);
       const kept = union.filter(k => co[k] >= CARRIER_MIN).sort((a, b) => co[b] - co[a] || a.localeCompare(b)).slice(0, CARRIER_MAX);
       if (kept.length >= 2) return { ids: kept, shares: co, fallback: false, field };
-      const fb = field.filter(k => byId[k]); return { ids: fb.length ? fb : kept, shares: co, fallback: fb.length > 0, field };
+      // fewer than two above the floor: the field entry's list as written; with no field entry, the two carriers of
+      // the union the role's postings ask for most (above zero), so a behaviour always names something to show it through
+      const fb = field.filter(k => byId[k]); if (fb.length) return { ids: fb, shares: co, fallback: true, field };
+      const any = union.filter(k => co[k] > 0).sort((a, b) => co[b] - co[a] || a.localeCompare(b)).slice(0, 2);
+      return { ids: any.length > kept.length ? any : kept, shares: co, fallback: any.length > 0, field };
     }
 
     // target: { jobs, job?, familyJobs?, label }
