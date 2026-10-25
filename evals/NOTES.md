@@ -1335,3 +1335,17 @@ checks). pytest: 121 pass, 1 xfail; the xfail on a rewritten description now pas
   role; the 15% cut when fewer than 14 qualify) from 12 to 99, median 84; calls (at least 10%) from 42 to 80, median
   64. No role is short of five asks or seven decoys, so every board is twelve tiles. The field hop reaches roles of
   either set, since the MBA index carries the product skills under the same ids.
+
+## The games, second pass: rank the fields, three clues, line by line (2026-10-20)
+
+- Where's the demand's boards on the 2026-10-19 data: 10 MBA fields with open postings (304 to 5,199; Banking and
+  Marketing tie at 1,928, so a board never holds both) and 43 roles not marked small. Fields with five or more roles
+  on a board: Consulting (7), Banking (6), Finance and Operations (5); the other six are topped up with the largest
+  roles of other fields (Operations Manager 2,362, Program Manager 2,273, Management Consultant 1,567 first).
+- Guess the role under the three-clue rule: 22,367 open postings, 20,313 playable (90.8%, up from 18,999 under the
+  five-clue rule, since a posting now needs two candidates, not four), 1,116 with fewer than 8 eligible skills, the
+  relaxed red-herring pass needed for 364 (was 1,403). 46 of 48 roles keep a 2 + 2 distractor pattern.
+- Spot the real ask's lines: 3,661 over 456 passages (2,818 asks, 843 filler), 4 to 17 a passage, median 8; 2,350
+  "other" chunks are shown plain and never asked about. Simulated readers answering line by line (seed 7, 4,000
+  runs): perfect 1.000, careful 0.825 (85% of asks found, 80% of filler let pass), keyword 0.547, all-ask 0.500,
+  all-filler 0.

@@ -273,14 +273,32 @@ Per-game shapes (the audit's options chosen):
 - **Guess the role**: five rounds, three clues, the first clue already distinctive, a second guess for half the
   points, the player's fields first (GTR1-A); the reveal leads with the giveaway as the takeaway, one bar against
   the all-roles average, the posting as a link, "Why not <your answer>?" behind a disclosure (GTR2-A).
+  Built as (2026-10-20, step 6): 300 / 200 / 100 points by the clue, half on the second guess, 1,500 a game; the
+  first clue is the first of the more distinctive half of the candidates (never the skill every role asks for), the
+  second the most distinctive but the giveaway; the fields are the profile's, in its order, then the rest shuffled.
+  The Speed round (20 s a clue) stays. "Why not X or Y?" names both wrong guesses.
 - **Climb the ladder**: starts on the target role's top skill with the ladder on screen and the first sentence
   pre-placed on Entry as the example (CL1-A); the checked screen is the measure, the ladder in the right order with
   misplacements marked, the verb chain as the takeaway, Next; build steps, roles and grade names behind More (CL2-A).
 - **Where's the demand**: rank the fields, reveal as the Explore cards' bars with the gap line and employer count as
   the why; no clock (WID1-B, WID2-A). The employer-type and skill-across-fields question kinds go.
+  Built as (2026-10-20, step 6): two rounds, "N of 5 in place"; click the cards in order (1 to 5), or drag a placed
+  card; no two cards with the same count on a board (Banking and Marketing tie at 1,928, so never together). The
+  player's field is the profile's first MBA field, else the one chosen last time, else the largest; round two is its
+  roles, topped up with the largest roles of other fields when it has fewer than five. The takeaway is the card the
+  player put furthest from its place against the card that sits where they put it; fields give the role count as
+  the why (a field's employer count would double-count), roles the employer count. Without a clock there is no Speed
+  round for this game any more; the record keeps best and last "in place" out of 10.
 - **Spot the real ask**: one line at a time, Real ask / Filler, the verdict in place with the skill and its share,
   "3 of 7 found" as the meter; the whole posting coloured is the end of the round (SRA1-A); after a found ask, the
   resume line the fit page would write (SRA1-C). No clock.
+  Built as (2026-10-20, step 6): a line is an ask or filler chunk shown inside its bullet, the phrase in question
+  underlined; "other" chunks (no atlas rule) are never asked about and show plain. The scorer is unchanged (half the
+  asks found, half the filler let pass), fed by the line calls. The rank titles (`RANKS`) are gone. The reveal is the
+  results template: the whole posting coloured (four states, no inline tags), one fact about the top missed ask,
+  and "Say it on your resume": for up to three found asks, one evidence sentence from how postings say it (the same
+  sentences the skill card and fit page quote; there is no resume-line generator to borrow). No clock, so no Speed
+  round for this game any more.
 - **Skill path**: from the profile's field to the fit page's target with one line ("From Marketing to Product
   Manager in 3 hops"), no difficulty (budget is par plus two) (SP1-A); the round is a row of four cards with the
   target's share on each and a strip of hops, the map on the end screen (SP2-A); "Can you already show it?" asked
@@ -328,6 +346,10 @@ next PR to main before a base branch is deleted):
    `evals/game_know_the_role.mjs` is new. "Start here" and both Practise links now open Know the role.
 6. `feat/games-2-6-demand-guess-spot`: rank the fields (WID1, WID2), Guess the role shortened (GTR1), Spot the real
    ask line by line (SRA1).
+   Built as (2026-10-20): `evals/games_guess_the_role.mjs` re-pointed to the three-clue rule (its README counts
+   updated: 20,313 playable of 22,367 open, the relaxed rule needed for 364); `evals/game_spot_scoring.mjs` replaced by
+   a line-by-line scorer eval (five simulated readers answering every line); Where's the demand had no eval and gets
+   `tests/web/wheres-the-demand.test.mjs`; `tests/web/spot-the-real-ask.test.mjs` is new.
 7. `feat/games-2-7-skill-path`: the card game and the route planner (SP1 to SP4).
 
 The game evals test data rules, not screens; steps 1 to 4 leave them intact. Steps 5 to 7 change the rules of five

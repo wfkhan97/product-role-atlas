@@ -1,5 +1,11 @@
 # Guess the role
 
+> Rebuilt in v12 (2026-10-20, PLAN.md "The games, second pass", GTR1 and GTR2): five rounds from five fields, the
+> player's own first; three clues, the first already distinctive, the giveaway last; 300 / 200 / 100 points by the
+> clue, a second guess for half, 1,500 a game; no rank titles. The reveal leads with the giveaway. The sections below
+> describe the first build (ten rounds, five clues, one guess) and still hold for the pool, the distractors and the
+> giveaway; the clue rule as built is under "The three clues" and the counts are the eval's (`evals/games_guess_the_role.mjs`).
+
 ```json
 { "slug": "guess-the-role", "title": "Guess the role", "tagline": "Name the job from its skills", "cover": "img/games/guess-the-role.png", "status": "soon" }
 ```
@@ -38,13 +44,28 @@ The "close calls" teach what actually separates neighbouring roles (Treasury Man
 
 ## Rules
 
-1. A game is 10 rounds, one from each of the 10 fields.
-2. Each round shows skills from one open posting, one at a time, up to five.
+As built in v12:
+
+1. A game is 5 rounds, one from each of five fields: the profile's fields first, in its order, then the rest shuffled.
+2. Each round shows skills from one open posting, one at a time, up to three.
 3. Four roles to choose from. Press 1–4 (or click) to answer; press Enter (or click "Next clue") to see another skill.
-4. Answer after 1 clue: 500 points. After 2: 400. After 3: 300. After 4: 200. After 5: 100.
-5. One guess per round. A wrong answer scores 0 and shows the answer.
+4. Answer after 1 clue: 300 points. After 2: 200. After 3: 100.
+5. Two guesses per round. A wrong first guess strikes that role and leaves one more guess for half the points; a
+   second wrong guess scores 0 and shows the answer.
 6. After every round, the reveal. Enter goes to the next round.
-7. At the end: your score out of 5,000, your rank title, your best games, and the roles you met.
+7. At the end: your score out of 1,500, the change since last time, and the roles you met.
+
+The first build's rules (ten rounds, five clues, one guess, 500 to 100 points, 5,000 a game, rank titles) are what
+the mocks and the sections below describe.
+
+### The three clues (v12)
+
+The candidates are the posting's typical skills (share at least 25%) but the giveaway, those not red herrings
+(`RED_HERRING`, relaxed on a second pass), sorted by lift. Clue 1 is the first of the more distinctive half of that
+list (`rest[min(floor(n / 2), n - 2)]`), so it is never the skill every role asks for; clue 2 is the last (the most
+distinctive but the giveaway); clue 3 is the giveaway. A posting needs two candidates to be playable. On the data of
+2026-10-19: 22,367 open postings, 20,313 playable (90.8%), 1,116 with fewer than 8 eligible skills, the relaxed rule
+needed for 364.
 
 ## A round, step by step
 

@@ -1,5 +1,15 @@
 # Spot the real ask
 
+> Rebuilt in v12 (2026-10-20, PLAN.md "The games, second pass", SRA1): one line at a time. A line is an ask or
+> filler chunk shown inside its bullet with the phrase underlined; two buttons, Real ask (1) and Filler (2); the
+> verdict in place with the skill and the share of the role's postings that ask for it, or the filler and what the
+> atlas makes of it; "3 of 7 asks found so far" as the meter. The whole posting, coloured (found, called filler,
+> called an ask, let pass; "other" chunks are never asked about), ends the posting, with one fact about the top
+> missed ask and "Say it on your resume": for up to three found asks, one evidence sentence from how postings say
+> it. No clock, no rank titles. The scorer below is unchanged (half the asks found, half the filler let pass);
+> `evals/game_spot_scoring.mjs` now simulates readers answering every line. The sections below describe the first
+> build (marking phrases, a 45-second guide clock, ranks) and the data, which still hold.
+
 ```json
 { "slug": "spot-the-real-ask", "title": "Spot the real ask", "tagline": "Mark what a posting really asks for", "cover": "img/games/spot-the-real-ask.png", "status": "soon" }
 ```
@@ -58,10 +68,10 @@ part of the fun, and it is cheap trust.
 3. Leave the filler: talk about the company or its culture, benefits and pay lines, legal lines, and stock phrases
    that describe a temperament rather than something you can show ("fast-paced", "self-starter", "team player",
    "a passion for").
-4. Press "Check my read" (or Enter) when you are done. The 45-second clock is a guide. When it runs out the bar
-   turns amber and says "Over time. Finish when you are ready." It never ends the round and never changes the
-   score.
-5. Each posting's reveal shows how the atlas read it. After three postings you get a rank.
+4. (First build) Press "Check my read" (or Enter) when you are done. The 45-second clock was a guide. Since v12
+   there is no clock and no check: every line is answered as it comes.
+5. Each posting's reveal shows how the atlas read it. After three postings you get your read in plain words (the
+   rank titles went in v12).
 
 ## A round, step by step
 
