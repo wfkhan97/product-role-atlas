@@ -37,3 +37,5 @@ jobs:
         run: python evals/run_pipeline.py
       - name: Taxonomy evals
         run: python evals/run_taxonomy.py
+      - name: Adaptive evals
+        run: node evals/adaptive.mjs

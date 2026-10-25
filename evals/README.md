@@ -290,6 +290,22 @@ The stratified taxonomy (`PLAN.md`, "A stratified taxonomy") adds a `kind` to ev
 not what a resume reader accepts as evidence. The readings and resume lines are editorial; no reader has judged them.
 The thresholds were set once on the data of 2026-10-24.
 
+## Adaptive evals
+
+The taxonomy adapted to each role (PLAN.md v14) puts its logic in pure functions the app runs (`web/evidence_text.js`;
+`carriers()`, `areas()` and `readCourse()` in `web/atlas.js`), so one runner checks them over every role of both sets
+with no DOM. Exits 1 on a rule violation; in CI from step 2.
+
+```bash
+node evals/adaptive.mjs                 # every part
+node evals/adaptive.mjs --only text     # one part
+```
+
+| part | what it guards |
+|---|---|
+| carriers | For every role of both sets and every behaviour or practice in its grid, `Atlas.carriers` picks carriers of a carrier kind, four at most; picked on the postings they all pass the 15% floor; the field fallback is the role's own field's list; a behaviour most postings ask for always has a carrier. Prints how many were picked on the postings, by the field's list, by the two most asked under the floor, and none. |
+| text | For every role of both sets and every ask of the role, `EvidenceText` returns a line, a gap sentence and a "add a number" sentence under 40 words with no empty slot; a template line (no field entry, no product `signals`) invents no number; where the role's field has an entry the line is that entry's (a product role reads the product entry); a behaviour's gap sentence names a carrier the role's postings ask for. Prints how many lines come from a field entry, from `signals` and from a template. |
+
 ## Evals to build
 
 - The stage answer of About you (`you.stage`: looking, targeting, curious) decides what the role page's rail leads with; nothing checks that the three readings get what they came for. A sample of resumes per kind with the expected first action would.
