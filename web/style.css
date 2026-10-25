@@ -857,3 +857,6 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .cls-why { margin-top: 6px; }
 .cls-why > summary { font-size: var(--text-sm); color: var(--muted-foreground); cursor: pointer; }
 .cls-why .tags { margin-top: 4px; }
+.cls-gaps { margin: 6px 0 0; color: var(--primary); } .cls-gaps.muted { color: var(--muted-foreground); }
+.gaps.classes li a.t { grid-template-columns: 1fr auto; color: var(--foreground); text-decoration: none; } .gaps.classes li a.t::before { content: none; } .gaps.classes li a.t:hover span:first-child { color: var(--primary); }
+.gaps.classes li .ex { margin-left: 0; }

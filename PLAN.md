@@ -788,6 +788,35 @@ game), and that the screens read the table. The first eval of the stage answer, 
 
 What this is not: a measure of whether each kind of student gets what they came for; that is the funnel of step 1.
 
+### Step 3 — the class picker reads the person's gaps (`feat/classes-gaps`, 2026-10-25)
+
+The join both ways between the fit and the Spring 2027 roster, live before Cornell Tech's pre-enrollment (decision 7).
+
+- **In the picker**, with a fit on file for the chosen role (`#/classes?role=<id>`, or the role picked on the screen),
+  every card says which of the person's gaps the course covers ("Covers 2 of your 17 gaps: Budgeting & forecasting,
+  SQL", or "Covers none"), a chip "Covers a gap" filters, and a Sort control gains "Gaps covered" beside Code and
+  Relevance. The count reads the course text by kind (v14, decision 5): only a method, technical, knowledge or tool
+  skill the text names is a covered gap; a behaviour or a practice it names is not. The gaps are the fit's core and
+  common asks the resume does not show (status `gap` or `thin`), without the industry and AI slots: `gapsFor(roleId)`
+  in `app.js`, handed to `classes.js` through the shell context, is the fit on screen when it is this role's, else the
+  matcher at the default level, cached per role and resume. The relevance band still reads every skill the text names,
+  as its thresholds were set; the gaps column is the one by kind.
+- **In the rail**, with a fit on file, "Classes that cover your gaps" lists the three courses that cover the most core
+  gaps (`Catalog.topCovering`), each a link into the picker with that course open and the role carried along; each
+  opened gap row also names up to three classes that cover it. When the roster cannot be read here (sign-in on and no
+  session, an empty roster for an anonymous reader, no client) the block is one line from the campus file
+  (`rail_closed_line`: "The Spring 2027 roster opens here for sign-in on Nov 10.") and the picker's link.
+- **On the fit screen**, the "Needs more evidence" rows name the same classes above the posting links.
+
+The reads are one per card per page (`readCard` in `classes.js`, shared by the relevance column and the gaps) and
+yield every eight cards. Pure functions in `catalog.js`: `gapsCovered(teaches, gaps)`, `coverLine`, `sortCards(cards,
+mode, info)`, `topCovering`, and `filterCards` with `coversGap`. `tests/web/classes.test.mjs` grows four cases on
+synthetic rows: a course naming a behaviour and a practice covers neither; covered gaps come core first; the chip filter
+composes with the others; the three sorts and the rail's three. Every Cornell-Tech string stays in `sp27_campus.json`.
+
+What this is not: a judgment that a course teaches a skill it does not name; the reader counts mentions, as the course
+screen does, and the card says so.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
