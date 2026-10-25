@@ -41,6 +41,11 @@ const DATA = path.join(root, "web/data"); // the bands are data of the interface
 // Groups the owner holds back whatever the numbers say (decided 2026-10-12, to be lifted when the samples improve).
 const HOLD = { risk: "held back by the owner until the group has more samples of people who hold the role (most are law-school resumes of students and career changers)" };
 const TRY = process.env.DISTINCT ? JSON.parse(process.env.DISTINCT) : null;
+// Behaviours (PLAN.md v14, decision 1) are rows credited through their carriers. "show" (the setting in use) gives them
+// weight 0, so every score is what it was before the rows existed and the cut points hold; "score" weighs them like
+// every ask. BEHAVIOURS=score in the environment tries the other setting: the report is printed and nothing is written.
+const BEHAVIOURS = process.env.BEHAVIOURS || "show";
+const TRYING = !!(TRY || PRODUCT_ON || process.env.BEHAVIOURS);
 const MBA = process.argv.includes("--roles") && process.argv[process.argv.indexOf("--roles") + 1] === "mba";
 
 // A role set: its matcher, its role families, the group of each family, and how a sample's role maps onto them.
@@ -50,7 +55,7 @@ function productSet() {
   DISTINCT_PRODUCT.baseline = mbaBaseline(TAXP.skills.map(s => s.id));
   const fams = ["pm", "product_owner", "tpm", "pmm", "product_analyst", "product_ops"];
   const OWN = { pm: "pm", product_owner: "product_owner", tpm: "tpm", pmm: "pmm", product_analyst: "product_analyst", product_ops: "product_ops", product_strategy: "pm" };
-  return { G, fams, M: createMatcher({ taxonomy: TAXP, subskills: J("web/data/subskills.json"), graph: G, distinct: TRY || (PRODUCT_ON ? DISTINCT_PRODUCT : false) }),
+  return { G, fams, M: createMatcher({ taxonomy: TAXP, subskills: J("web/data/subskills.json"), graph: G, distinct: TRY || (PRODUCT_ON ? DISTINCT_PRODUCT : false), behaviours: BEHAVIOURS }),
     groupOf: () => "product", groups: [{ id: "product", label: "Product", families: fams }], own: r => OWN[r] || null, groupOfSample: r => OWN[r] ? "product" : null };
 }
 function mbaSet() {
@@ -61,7 +66,7 @@ function mbaSet() {
   // the program manager's group)
   const OWN = { pm: "product_manager" }, BESIDE = { product_owner: "product", product_analyst: "product", product_ops: "product", tpm: "operations" };
   const own = r => OWN[r] || (fams.includes(r) ? r : null);
-  return { G, fams, M: createMatcher({ taxonomy: J("web/data/taxonomy_mba.json"), subskills: J("web/data/subskills_mba.json"), graph: G, roles: R, distinct: TRY || DISTINCT_MBA }),
+  return { G, fams, M: createMatcher({ taxonomy: J("web/data/taxonomy_mba.json"), subskills: J("web/data/subskills_mba.json"), graph: G, roles: R, distinct: TRY || DISTINCT_MBA, behaviours: BEHAVIOURS }),
     groupOf: f => groupOf[f], groups: R.groups, own, groupOfSample: r => own(r) ? groupOf[own(r)] : BESIDE[r] || null };
 }
 const S = MBA ? mbaSet() : productSet();
@@ -119,9 +124,9 @@ const bandTable = () => [
   `| A different field so far | below ${pct(c.low)} | | | ${share(g.same, 0)} | ${share(g.adjacent, 0)} | ${share(g.other, 0)} |`];
 
 let out;
-if (!MBA && !TRY && !PRODUCT_ON) fs.writeFileSync(path.join(DATA, "bands.json"), JSON.stringify({
-  about: "Bands of fit for the product roles, written by node evals/calibrate.mjs (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above 'related' it is a related background; below that, a different field so far. The cut points hold only for scores made with createMatcher({ ..., distinct: scoring.distinct }) (null: every ask counts by its share); web/app.js creates its matcher that way.",
-  generated: new Date().toISOString().slice(0, 10), resumes: files.length, scoring: { distinct: null },
+if (!MBA && !TRYING) fs.writeFileSync(path.join(DATA, "bands.json"), JSON.stringify({
+  about: "Bands of fit for the product roles, written by node evals/calibrate.mjs (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above 'related' it is a related background; below that, a different field so far. The cut points hold only for scores made with createMatcher({ ..., distinct: scoring.distinct, behaviours: scoring.behaviours }) (distinct null: every ask counts by its share; behaviours 'show': a behaviour is a row with weight 0, credited through its carriers for display only); web/app.js creates its matcher that way.",
+  generated: new Date().toISOString().slice(0, 10), resumes: files.length, scoring: { distinct: null, behaviours: BEHAVIOURS },
   related: Math.round(c.low * 100) / 100, in_range: Math.round(c.high * 100) / 100, strong: Math.round(c.strong * 100) / 100,
 }, null, 1) + "\n");
 if (!MBA) out = [
@@ -158,9 +163,9 @@ else {
     return { gr, gg, cc, cii, why, sh };
   });
   const r2 = x => Math.round(x * 100) / 100;
-  if (!TRY) fs.writeFileSync(path.join(DATA, "bands_mba.json"), JSON.stringify({
-    about: "Bands of fit for the MBA role set, written by node evals/calibrate.mjs --roles mba (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above the 'related' line of the role's group it is a related background; below that, a different field so far. A group under 'no_bands' gets no band: show no verdict for its roles. web/match.js reads this with Matcher.bandOf(score, bands, group). The cut points hold only for scores made with createMatcher({ ..., distinct: scoring.distinct }).",
-    scoring: { distinct: DISTINCT_MBA },
+  if (!TRYING) fs.writeFileSync(path.join(DATA, "bands_mba.json"), JSON.stringify({
+    about: "Bands of fit for the MBA role set, written by node evals/calibrate.mjs --roles mba (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above the 'related' line of the role's group it is a related background; below that, a different field so far. A group under 'no_bands' gets no band: show no verdict for its roles. web/match.js reads this with Matcher.bandOf(score, bands, group). The cut points hold only for scores made with createMatcher({ ..., distinct: scoring.distinct, behaviours: scoring.behaviours }) (behaviours 'show': a behaviour is a row with weight 0, credited through its carriers for display only).",
+    scoring: { distinct: DISTINCT_MBA, behaviours: BEHAVIOURS },
     generated: new Date().toISOString().slice(0, 10), resumes: files.length,
     in_range: r2(c.high), strong: r2(c.strong),
     related: Object.fromEntries(use.filter(u => !u.why).map(u => [u.gr.id, r2(u.cc.low)])),

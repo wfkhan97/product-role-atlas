@@ -44,5 +44,9 @@
     "prd",
     "user_research"
   ],
-  "expect_employer": "Stripe"
+  "expect_employer": "Stripe",
+  "must_show_through": {
+    "execution": "launch",
+    "influence": "product_strategy"
+  }
 }

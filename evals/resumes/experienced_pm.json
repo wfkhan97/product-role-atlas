@@ -1,6 +1,6 @@
 {
   "persona": "experienced_in_role",
-  "notes": "Five-year PM, B2B SaaS then consumer mobile, MBA + BS CS. Written the way real resumes are: outcomes and verbs, not posting nouns. 'user research' appears only in the skills list, so it reads as thin, not evidenced.",
+  "notes": "Five-year PM, B2B SaaS then consumer mobile, MBA + BS CS. Written the way real resumes are: outcomes and verbs, not posting nouns. 'user research' appears only in the skills list, so it reads as thin, not evidenced. data_driven moved from must_evidence to must_show_through on 2026-10-25: it is a behaviour (PLAN.md v13), shown through its carriers.",
   "targets": [
     "pm:senior",
     "pm:mid",
@@ -39,7 +39,6 @@
     "exec_communication",
     "market_research",
     "ux_design_collab",
-    "data_driven",
     "security_privacy",
     "apis",
     "technical_fluency",
@@ -73,5 +72,11 @@
     "product_vision",
     "partnerships",
     "vendor_mgmt"
-  ]
+  ],
+  "must_show_through": {
+    "communication": "roadmap",
+    "collaboration": "cross_functional",
+    "influence": "stakeholder_mgmt",
+    "data_driven": "metrics_kpis"
+  }
 }

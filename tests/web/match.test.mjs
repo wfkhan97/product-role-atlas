@@ -211,3 +211,75 @@ test("bandOf gives no band for a group without bands, a group it does not know, 
   assert.equal(bandOf(0.9, B, "unknown"), null);
   assert.equal(bandOf(0.9, null), null);
 });
+
+// ---------- behaviours: rows credited through their carriers (PLAN.md v14, decision 1) ----------
+// A taxonomy with kinds: communication is a behaviour; the roadmap and the PRD are methods that carry it. The graph
+// nodes carry how_shown (the evidence file) and a field entry for the role's group; the role's postings decide which
+// carriers count (co-occurrence of at least CARRIER_MIN among the postings that ask for the behaviour).
+const TAXK = { clusters: {}, skills: [
+  { id: "comm", name: "Communication", cluster: "leadership", kind: "behaviour", patterns: ["communicat"] },
+  { id: "roadmap", name: "Roadmapping", cluster: "craft", kind: "method", patterns: ["roadmap"] },
+  { id: "prd", name: "PRDs", cluster: "craft", kind: "method", patterns: ["\\bPRDs?\\b"] },
+  { id: "rare", name: "Rare craft", cluster: "craft", kind: "method", patterns: ["rare craft"] },
+  { id: "excel", name: "Excel", cluster: "tools", kind: "tool", patterns: ["excel"] },
+] };
+const JOBSK = Array.from({ length: 10 }, (_, i) => ({ id: i, family: "pm", level: "mid", company: "Co" + i, skills: ["comm", "roadmap", ...(i < 4 ? ["prd"] : []), ...(i < 1 ? ["rare"] : []), ...(i < 6 ? ["excel"] : [])] }));
+const GK = { jobs: JOBSK, groups: [{ id: "product", families: ["pm"] }], skills: [
+  { id: "comm", how_shown: { form: "through", shown_by: ["prd", "rare", "excel"] }, fields: { product: { shown_by: ["roadmap", "prd"], reads_as: "PRDs and roadmaps.", line: "Wrote 3 PRDs." } } },
+] };
+const MK = createMatcher({ taxonomy: TAXK, subskills: {}, graph: GK, behaviours: "score" });
+const TK = { jobs: JOBSK, label: "pm" };
+const evK = strengths => Object.fromEntries(Object.entries(strengths).map(([id, s]) => [id, { strength: s, lines: [{ i: 0, text: id + " line", strength: s, via: null, kind: "bullet", role: 0 }], subs: new Set(), via: new Set() }]));
+
+test("behaviours: the carriers of a behaviour are picked on the role's postings, never a tool, never below the co-occurrence floor", () => {
+  const c = MK.carriersFor("comm", JOBSK, "product");
+  assert.deepEqual(c.ids, ["roadmap", "prd"], "roadmap (100%) and prd (40%) pass the floor; rare (10%) does not; excel is a tool");
+  assert.equal(c.fallback, false);
+  assert.deepEqual(MK.requirements(TK).carriers.comm.ids, c.ids, "requirements carry the same pick");
+});
+
+test("behaviours: a behaviour row earns its best carrier's credit and reads as shown through that carrier", () => {
+  const req = MK.requirements(TK);
+  const row = MK.score(evK({ roadmap: 2, prd: 3 }), req, { level: "mid" }).rows.find(r => r.id === "comm");
+  assert.equal(row.kind, "behaviour"); assert.equal(row.status, "through"); assert.equal(row.through, "prd", "the PRD line has an outcome, so it is the best carrier");
+  assert.equal(row.credit, 1); assert.equal(row.tier, "core");
+  const weak = MK.score(evK({ roadmap: 2 }), req, { level: "mid" }).rows.find(r => r.id === "comm");
+  assert.equal(weak.through, "roadmap"); assert.equal(weak.credit, 1);
+});
+
+test("behaviours: naming the behaviour itself earns nothing; with no carrier shown the row is thin, not evidenced", () => {
+  const req = MK.requirements(TK);
+  const row = MK.score(evK({ comm: 2 }), req, { level: "mid" }).rows.find(r => r.id === "comm");
+  assert.equal(row.status, "thin"); assert.equal(row.credit, 0);
+  assert.equal(MK.score(evK({ comm: 2 }), req, { level: "mid" }).overall, 0, "a resume that only says 'communication' scores nothing");
+  const none = MK.score({}, req, { level: "mid" }).rows.find(r => r.id === "comm");
+  assert.equal(none.status, "gap");
+});
+
+test("behaviours: never a gap while a carrier is evidenced, and the score never falls when evidence is added (200 random resumes)", () => {
+  const req = MK.requirements(TK); const ids = ["comm", "roadmap", "prd", "rare", "excel"]; const rnd = rng(11);
+  for (let k = 0; k < 200; k++) {
+    const s = Object.fromEntries(ids.map(id => [id, Math.floor(rnd() * 4)]));
+    const r = MK.score(evK(s), req, { level: "mid" }); const row = r.rows.find(x => x.id === "comm");
+    if (s.roadmap >= 2 || s.prd >= 2) assert.equal(row.status, "through", `a carrier is shown (${JSON.stringify(s)})`);
+    const id = ids[Math.floor(rnd() * ids.length)]; if (s[id] === 3) continue;
+    const after = MK.score(evK({ ...s, [id]: s[id] + 1 }), req, { level: "mid" }).overall;
+    assert.ok(after >= r.overall - 1e-12, `raising ${id} lowered ${r.overall} to ${after}`);
+  }
+});
+
+test("behaviours: under \"show\" the rows and statuses are there and the score is what it was without them", () => {
+  const MS = createMatcher({ taxonomy: TAXK, subskills: {}, graph: GK, behaviours: "show" });
+  const req = MS.requirements(TK), ev = evK({ roadmap: 2 });
+  const r = MS.score(ev, req, { level: "mid" }), row = r.rows.find(x => x.id === "comm");
+  assert.equal(row.status, "through"); assert.equal(row.weight, 0);
+  const MW = createMatcher({ taxonomy: { ...TAXK, skills: TAXK.skills.filter(s => s.id !== "comm") }, subskills: {}, graph: GK });
+  const without = MW.score(ev, MW.requirements(TK), { level: "mid" }).overall;
+  near(r.overall, without, "weight 0 leaves the score untouched");
+  assert.throws(() => createMatcher({ taxonomy: TAXK, subskills: {}, graph: GK, behaviours: "maybe" }));
+});
+
+test("behaviours: a taxonomy without kinds falls back to the old SOFT set", () => {
+  assert.equal(M.isBehaviour("t_roadmap"), false);
+  assert.equal(createMatcher({ taxonomy: { clusters: {}, skills: [{ id: "communication", name: "C", cluster: "leadership", patterns: ["x"] }] }, subskills: {}, graph: { jobs: [], skills: [] } }).isBehaviour("communication"), true);
+});
