@@ -98,9 +98,9 @@ build steps from the data. "Open Product Manager" goes to `#/role/product.pm`.
 
 **A second real round, out of hops** ([05-out-of-hops](mocks/05-out-of-hops.png)). Supply chain & procurement →
 Product Manager. Start skill Vendor, budget & contract management; shortest route 4 hops, budget 6. A player who
-always takes the biggest blue number goes Program & project management (40%) → Risk & dependency management (34%) →
-Regulated industries & compliance (20%) → Payments, fintech & banking (29%) → Financial modeling & analysis (17%) →
-Business cases & ROI (16%) and stops 3 hops short. The shortest route goes Productivity & service-level performance
+always takes the biggest blue number goes Risk & dependency management (38%) → Program & project management (40%) →
+Energy, industrial & manufacturing (12%) → Process design & operational rigor (36%) → Metrics & KPIs (51%) →
+Customer obsession / user empathy (52%) and stops 2 hops short (numbers of the 2026-10-19 refresh). The shortest route goes Productivity & service-level performance
 (not read) → Quality, testing & acceptance (14%) → Prioritization & trade-offs (64%) → Roadmapping (74%). This is the
 lesson of the game in one picture: the biggest number is not always the way there.
 
@@ -133,9 +133,9 @@ Two dials: how far apart start and target are (par), and the margin in the budge
 
 | Level | Par | Budget | Help | Random pairings from a field | from a role |
 |---|---|---|---|---|---|
-| Easy | 2 | par + 3 | the choice that moves closer is marked "towards the target" | 90 | 476 |
-| Normal | 3 or 4 | par + 2 | none | 320 | 1,431 |
-| Hard | 5 or 6 | par + 1 | none | 50 | 218 |
+| Easy | 2 | par + 3 | the choice that moves closer is marked "towards the target" | 89 | 451 |
+| Normal | 3 or 4 | par + 2 | none | 318 | 1,445 |
+| Hard | 5 or 6 | par + 1 | none | 47 | 217 |
 
 Pairings counted with every rule in this README; target roles marked `small` in the index (5 roles with few
 postings) are left out of random pairings but can be picked by hand. Pairings with par 0 (the start skill already is
