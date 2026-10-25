@@ -228,6 +228,10 @@ Owner's decisions (2026-10-20), all the audit's recommendations:
    `games.json` entries and covers go; their design packages in `games/` stay as history with a note at the top.
 2. **Untimed by default, no lives.** A Speed round of the same game unlocks after one clean untimed round and is
    marked as the challenge it is; the clock alone, no lives, no blown slots, no multiplier.
+   Built as (2026-10-20, step 1): "clean" is a finished untimed game with at least half the measure (Guess the role
+   half the rounds right, Where's the demand 5 of 10, Spot the real ask half the asks found, What does it ask for
+   half the asks known with at most two filler picks); the games that never had a clock set no Speed round. What
+   does it ask for keeps its Shift only as the Speed round (the clock alone), with Steady as the game.
 3. **No rank titles.** The end screen leads with the measure in plain words ("You know 9 of 15 · up from 6").
 4. **A Know-your-role record** per role in the browser (asks met and known, ladders sorted, postings read, demand
    pairs seen), written by every game, shown as a card on the role screen beside the action row, on About you,
@@ -288,6 +292,10 @@ next PR to main before a base branch is deleted):
 
 1. `feat/games-2-1-shell`: the shared shell, results template, key convention, storage record, untimed default,
    rank titles removed, keys and notes off the body copy (G2, G6, G7, G8). Logic and evals untouched.
+   Built as (2026-10-20): cut from `main` (PR #67 had merged by then) as `web/gameshell.js` plus one `.gm-` section
+   in `web/style.css`; the record key is `games`. The rank functions left the two rules objects tests cover (Guess
+   the role's `rules`, Climb the ladder's exports) with their tests; `rank` stays in Skill path's `logic` and
+   `RANKS` in Spot the real ask's until steps 6 and 7 re-point their evals.
 2. `feat/games-2-2-start`: play-first start on a default role, coachmark, ⓘ, the shared picker (G1, G9, SP1, BTH1
    start, HOL2, CL1, WIA2 start).
 3. `feat/games-2-3-hub`: the hub grid, Practise on the role screen, Practise your gaps on the fit page (H1, H2, G10).

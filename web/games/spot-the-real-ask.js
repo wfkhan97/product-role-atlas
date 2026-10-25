@@ -1,8 +1,9 @@
 /* Spot the real ask: a short excerpt from a real posting, cut into phrases. Mark the real asks, let the filler
    pass, then see how the atlas read the same lines. Three postings (easy, medium, hard) make a run and a rank.
    Data: web/data/game_passages.json (pipeline/game_passages.py), the taxonomies for skill names, the index for
-   field labels and meta.n_jobs. Nothing a player does leaves the browser: the best rank, the last five runs and the
-   passages seen stay in localStorage under game:spot-the-real-ask. Spec: games/spot-the-real-ask/README.md.
+   field labels and meta.n_jobs. Nothing a player does leaves the browser: the best read, the last five runs and the
+   passages seen stay in the games record (web/gameshell.js). Drawn in the shared shell: one header, Enter checks,
+   Esc quits. Spec: games/spot-the-real-ask/README.md.
    UMD like skill-path.js: `logic` (the deal, the scoring, the ranks; pure, no DOM) loads in node for
    evals/game_spot_scoring.mjs; the screens follow it. Registers window.Games["spot-the-real-ask"] = { mount }. */
 (function (root, factory) {
@@ -11,7 +12,7 @@
   else { root.Games = root.Games || {}; root.Games["spot-the-real-ask"] = { mount: mod.mount }; }
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
-  const SLUG = "spot-the-real-ask", KEY = "game:" + SLUG, SECONDS = 45;
+  const SLUG = "spot-the-real-ask", TITLE = "Spot the real ask", SECONDS = 45;
   // a run's read (0 to 1, never shown) picks the rank; tuned by evals/game_spot_scoring.mjs, which reads them from here
   const RANKS = [["Skimmer", 0], ["Keyword spotter", 0.51], ["Careful reader", 0.64], ["Recruiter's eye", 0.8], ["Reads like the atlas", 0.98]];
   const RULE = 2;   // the scoring rule saved runs were ranked under: 2 = half asks found, half filler let pass; records from the first rule (F1) carry none
@@ -23,20 +24,6 @@
   const shuffle = (a, rand = Math.random) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   const rankOf = read => { let r = RANKS[0][0]; for (const [name, min] of RANKS) if (read >= min) r = name; return r; };
   const rankIndex = name => Math.max(0, RANKS.findIndex(r => r[0] === name));
-  // the player's record, in this browser only; with storage blocked the game plays the same and forgets
-  const store = {
-    get() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } },
-    set(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch { } },
-  };
-  // a record saved under another scoring rule (or in a shape this code does not know) keeps its seen passages only:
-  // its best and runs were ranked on another scale, so they are dropped rather than compared
-  function record(v) {
-    const ok = v && typeof v === "object" && !Array.isArray(v) ? v : {};
-    const seen = Array.isArray(ok.seen) ? ok.seen.filter(x => typeof x === "string") : [];
-    if (ok.rule !== RULE) return { rule: RULE, best: null, runs: [], seen };
-    const best = ok.best && typeof ok.best.rank === "string" && typeof ok.best.read === "number" ? ok.best : null;
-    return { rule: RULE, best, runs: Array.isArray(ok.runs) ? ok.runs : [], seen };
-  }
   const reduced = () => { try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch { return false; } };
 
   // ---------- logic: pure, loads in node ----------
@@ -79,10 +66,10 @@
   // the run's read is the mean over its postings
   const runRead = results => results.length ? results.reduce((a, r) => a + r.read, 0) / results.length : 0;
 
-  const logic = { RANKS, DIFFICULTIES, chunksOf, deal, readOf, scoreMarks, runRead, rankOf, rankIndex, record };
+  const logic = { RANKS, DIFFICULTIES, chunksOf, deal, readOf, scoreMarks, runRead, rankOf, rankIndex };
 
   async function mount(el, ctx) {
-    const { Atlas, game, esc } = ctx;
+    const { Atlas, game, esc } = ctx, GS = window.GameShell;
     let data, ix, generic, names;
     try {
       const [D, TM, TP, IX, GEN] = await Promise.all([Atlas.fetchJson("data/game_passages.json"), Atlas.fetchJson("data/taxonomy_mba.json"), Atlas.fetchJson("data/taxonomy.json"), Atlas.index(), Atlas.genericSkills()]);
@@ -93,10 +80,13 @@
       console.error(e);
       return comingSoon(el, game, esc);   // the data file did not load: the page play() shows for a game not built yet
     }
-    const S = { el, esc, showAside: ctx.showAside, data, names, generic, nJobs: (ix.M && ix.M.meta && ix.M.meta.n_jobs) || data.n_jobs, field: "all", run: null, timer: null, drag: null };
+    const INFO = GS.info({ rules: "A short excerpt from a real posting, cut into phrases. Mark the phrases that are real asks and let the filler pass, then see how the atlas read the same lines. Three postings make a run: easy, medium, hard.", keys: "Keys: click or drag across phrases to mark them (Tab and Space work too); Enter checks; Esc quits.", source: "The asks and their shares come from the atlas's reading of the role's postings." });
+    const F = GS.frame(el, { game: TITLE, cls: "sra", info: INFO });
+    const S = { el, F, GS, esc, showAside: ctx.showAside, data, names, generic, nJobs: (ix.M && ix.M.meta && ix.M.meta.n_jobs) || data.n_jobs, field: "all", run: null, timer: null, drag: null, Atlas };
     const have = new Set(data.passages.map(p => p.group));
     S.fields = ix.groups.filter(g => have.has(g.id)).map(g => [g.id, g.label]);
-    window.addEventListener("hashchange", () => { stopTimer(S); S.dead = true; }, { once: true });
+    S.offKeys = GS.keys({ confirm() { if (S.dead) return; if (S.phase === "start") startRun(S); else if (S.phase === "posting") check(S); else if (S.phase === "reveal") nextFromReveal(S); else if (S.phase === "end") startRun(S); } });
+    window.addEventListener("hashchange", () => { stopTimer(S); S.dead = true; S.offKeys(); }, { once: true });
     howItWorks(S);
   }
 
@@ -110,57 +100,39 @@
   const roleOf = (S, p) => S.data.roles[p.role] || { label: p.role, n_open: null };
   const skillName = (S, p, id) => ((S.names[p.set] || {})[id] || {}).name || id;
   const skillCluster = (S, p, id) => ((S.names[p.set] || {})[id] || {}).cluster || "";
-  function ranksHtml(current, dim) {
-    const i = current == null ? -1 : rankIndex(current);
-    return `<div class="ranks">${RANKS.map((_, k) => `<i class="${k < i ? "past" : k === i ? "on" : ""}"></i>`).join("")}</div>
-      <div class="rankl">${RANKS.map((r, k) => `<span class="${k === i && !dim ? "on" : ""}">${r[0]}</span>`).join("")}</div>`;
-  }
+  const saved = S => Object.assign({ best: null, runs: [], seen: [], lastRead: null, speed: false, clean: false }, S.GS.record.game(SLUG));
 
-  // ---------- 01: how it works ----------
+  // ---------- 01: the start ----------
   function howItWorks(S) {
-    const { el, esc } = S;
-    S.showAside(null);
-    const best = (record(store.get()).best || {}).rank;
-    const cf = S.names.mba.cross_functional ? S.names.mba.cross_functional.name : "Cross-functional leadership";
-    el.innerHTML = `<div class="page sra">
-      <p class="eyebrow">Game · three postings · about 3 minutes</p>
-      <h1>Spot the real ask</h1>
-      <p class="lead">Every posting mixes what the job needs with filler. Mark the real asks, let the filler pass, then see how the atlas read the same lines.</p>
-      <div class="passage checked example" aria-label="Worked example">
-        <p><span class="ch">Ability to manage multiple priorities</span> <span class="ch found">in a cross-functional</span><span class="k good">${esc(cf)}</span>, <span class="ch skipped">fast-paced environment</span><span class="k">filler</span></p>
-      </div>
-      <p class="small muted example-note">One line from a Keurig Dr Pepper brand management internship posting. “Cross-functional” is something you can show; “fast-paced” turns up in more than 1 in 5 postings.</p>
-      <div class="rules">
-        <div class="rule"><div class="t">Mark</div><div class="d">Click a phrase, or drag across several. <kbd>Tab</kbd> and <kbd>Space</kbd> work too.</div></div>
-        <div class="rule"><div class="t">Skip</div><div class="d">Culture talk, benefits, legal lines and stock phrases like “self-starter” or “a passion for”.</div></div>
-        <div class="rule"><div class="t">Check</div><div class="d">About 45 seconds a posting. The clock is a guide: it never cuts you off.</div></div>
-      </div>
+    const { F, GS, esc } = S;
+    S.phase = "start"; S.showAside(null); F.set({ round: null, rounds: 0, role: "" });
+    const sv = saved(S), best = sv.best;
+    F.body.innerHTML = `<h1>Spot the real ask</h1>
+      <p class="lead">Every posting mixes what the job needs with filler. Mark the real asks, let the filler pass, then see how the atlas read the same lines. Three postings a run.</p>
       <div class="chips fields" role="group" aria-label="Postings from"><span class="lbl">Postings from</span>
         <button type="button" class="chip${S.field === "all" ? " on" : ""}" data-field="all" aria-pressed="${S.field === "all"}">All fields</button>
         ${S.fields.map(([id, label]) => `<button type="button" class="chip${S.field === id ? " on" : ""}" data-field="${esc(id)}" aria-pressed="${S.field === id}">${esc(label)}</button>`).join("")}
       </div>
-      <div class="row between start-row">
-        <div class="best">
-          <div class="small muted">${best ? `Five ranks. Your best in this browser: <b class="best-rank">${esc(best)}</b>` : "Five ranks. Your best in this browser appears here after a run."}</div>
-          ${ranksHtml(best || null)}
-        </div>
-        <div class="row"><a class="btn quiet" href="#/">← All games</a><button type="button" class="btn primary" id="sra-start">Start reading →</button></div>
-      </div>
-    </div>`;
+      ${sv.clean ? `<div class="chips" role="group" aria-label="Round"><button class="chip${sv.speed ? "" : " on"}" type="button" id="sra-untimed" aria-pressed="${!sv.speed}">Untimed</button><button class="chip${sv.speed ? " on" : ""}" type="button" id="sra-speed" aria-pressed="${sv.speed}">Speed round<span class="n">${SECONDS} s a posting</span></button></div>` : `<p class="small muted" style="margin-top:12px">Untimed. A Speed round, a ${SECONDS}-second clock a posting, unlocks after a run that finds half the asks.</p>`}
+      ${best ? `<p class="gm-best">Your best: <b>${Math.round(best.read * 100)}%</b> of the asks and filler read right</p>` : ""}
+      ${GS.foot({ primary: { id: "sra-start", label: "Start reading", key: "Enter" } })}`;
     window.scrollTo(0, 0);
-    el.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { S.field = b.dataset.field; el.querySelectorAll("[data-field]").forEach(x => { const on = x.dataset.field === S.field; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on); }); });
-    el.querySelector("#sra-start").onclick = () => startRun(S);
+    F.body.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { S.field = b.dataset.field; F.body.querySelectorAll("[data-field]").forEach(x => { const on = x.dataset.field === S.field; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on); }); });
+    F.body.querySelector("#sra-start").onclick = () => startRun(S);
+    const sp = F.body.querySelector("#sra-speed"), un = F.body.querySelector("#sra-untimed");
+    if (sp) { sp.onclick = () => { GS.record.saveGame(SLUG, { speed: true }); howItWorks(S); }; un.onclick = () => { GS.record.saveGame(SLUG, { speed: false }); howItWorks(S); }; }
   }
 
   // ---------- a run: easy, medium, hard; different roles and employers; the chosen field; not seen lately ----------
   function pickRun(S) {
     const pool = S.data.passages.filter(p => S.field === "all" || p.group === S.field);
-    return deal(pool, new Set(record(store.get()).seen));
+    return deal(pool, new Set(saved(S).seen));
   }
   function startRun(S) {
     const passages = pickRun(S);
     if (!passages.length) return howItWorks(S);
-    S.run = { passages, i: 0, results: [] };
+    const sv = saved(S);
+    S.run = { passages, i: 0, results: [], timed: !!(sv.clean && sv.speed) };
     posting(S);
   }
 
@@ -192,25 +164,21 @@
 
   // ---------- 02: the posting ----------
   function posting(S) {
-    const { el, esc } = S, run = S.run, p = run.passages[run.i], role = roleOf(S, p);
-    S.showAside(null);
+    const { F, GS, esc } = S, run = S.run, p = run.passages[run.i], role = roleOf(S, p);
+    S.phase = "posting"; S.showAside(null);
     S.chunks = chunksOf(p); S.marks = new Set(); S.started = Date.now();
-    el.innerHTML = `<div class="page sra play">
-      <div class="head">
-        <div><p class="eyebrow">Posting ${run.i + 1} of ${run.passages.length} · ${esc(role.label)}</p><h1>Mark what this job actually asks for</h1><p class="small muted tight0">The employer is shown when you check.</p></div>
-        <div class="timer"><div class="t" id="sra-t">${clock(SECONDS)}</div><div class="bar" aria-hidden="true"><i id="sra-bar" style="width:100%"></i></div><div class="note" id="sra-note">A guide, not a cut-off</div></div>
+    F.set({ round: run.i, rounds: run.passages.length, marks: run.results.map(r => r.read >= 0.5 ? "ok" : "miss"), role: role.label });
+    F.body.innerHTML = `<div class="head">
+        <div><h1>Mark what this job actually asks for</h1><p class="small muted tight0">The employer is shown when you check.</p></div>
+        ${run.timed ? `<div class="timer"><div class="t" id="sra-t">${clock(SECONDS)}</div><div class="bar" aria-hidden="true"><i id="sra-bar" style="width:100%"></i></div><div class="note" id="sra-note">A guide, not a cut-off</div></div>` : ""}
       </div>
       ${passageHtml(S, p, null)}
-      <div class="bar-row">
-        <div class="keys"><span class="mono count" id="sra-count">0 marked</span> &nbsp;·&nbsp; <kbd>Tab</kbd> next phrase &nbsp;<kbd>Shift</kbd><kbd>Tab</kbd> back &nbsp;<kbd>Space</kbd> mark &nbsp;<kbd>Enter</kbd> check</div>
-        <div class="row"><button class="btn quiet" type="button" id="sra-clear">Clear marks</button><button class="btn primary" type="button" id="sra-check">Check my read</button></div>
-      </div>
-      <div class="sr-only" aria-live="polite" id="sra-live"></div>
-    </div>`;
+      <p class="gm-key"><span class="mono count" id="sra-count">0 marked</span> · Click a phrase, or drag across several.</p>
+      ${GS.foot({ primary: { id: "sra-check", label: "Check my read", key: "Enter" }, quiet: { id: "sra-clear", label: "Clear marks" } })}`;
     window.scrollTo(0, 0);
-    const passage = el.querySelector("#sra-passage"), live = el.querySelector("#sra-live"), count = el.querySelector("#sra-count");
+    const passage = F.body.querySelector("#sra-passage"), count = F.body.querySelector("#sra-count");
     const chunkEls = [...passage.querySelectorAll(".ch")];
-    const announce = () => { const n = S.marks.size; count.textContent = `${n} marked`; live.textContent = `${n} marked`; };
+    const announce = () => { const n = S.marks.size; count.textContent = `${n} marked`; F.live(`${n} marked`); };
     const set = (i, on) => { i = Number(i); if (on) S.marks.add(i); else S.marks.delete(i); chunkEls[i].classList.toggle("on", on); chunkEls[i].setAttribute("aria-checked", on); };
     // mouse and touch: click toggles; a drag marks every phrase it crosses, or unmarks when it starts on a marked one
     passage.addEventListener("pointerdown", e => {
@@ -231,23 +199,21 @@
     });
     const endDrag = () => { S.drag = null; };
     passage.addEventListener("pointerup", endDrag); passage.addEventListener("pointercancel", endDrag);
-    // keyboard: Tab and Shift+Tab move (native), Left and Right too; Space marks; Enter checks; Escape drops the focus ring
+    // keyboard: Tab and Shift+Tab move (native), Left and Right too; Space marks; Enter checks (the shell)
     passage.addEventListener("keydown", e => {
       const t = e.target.closest(".ch"); if (!t) return;
       const i = Number(t.dataset.i);
       if (e.key === " " || e.key === "Spacebar") { e.preventDefault(); set(i, !S.marks.has(i)); announce(); }
-      else if (e.key === "Enter") { e.preventDefault(); check(S); }
       else if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); const j = i + (e.key === "ArrowRight" ? 1 : -1); if (chunkEls[j]) chunkEls[j].focus(); }
-      else if (e.key === "Escape") { e.preventDefault(); t.blur(); }
     });
-    el.querySelector("#sra-clear").onclick = () => { for (const i of [...S.marks]) set(i, false); announce(); };
-    el.querySelector("#sra-check").onclick = () => check(S);
+    F.body.querySelector("#sra-clear").onclick = () => { for (const i of [...S.marks]) set(i, false); announce(); };
+    F.body.querySelector("#sra-check").onclick = () => check(S);
     if (chunkEls[0]) chunkEls[0].focus({ preventScroll: true });
-    startTimer(S, el.querySelector("#sra-t"), el.querySelector("#sra-bar"), el.querySelector("#sra-note"), live);
+    if (run.timed) startTimer(S, F.body.querySelector("#sra-t"), F.body.querySelector("#sra-bar"), F.body.querySelector("#sra-note"));
   }
 
-  // the soft clock: a guide that never ends a round and never changes the score
-  function startTimer(S, t, bar, note, live) {
+  // the Speed round's soft clock: a guide that never ends a round and never changes the score
+  function startTimer(S, t, bar, note) {
     stopTimer(S);
     const start = Date.now(), still = reduced();
     let over = false, shown = -1;
@@ -256,7 +222,7 @@
       if (s !== shown) { shown = s; t.textContent = clock(s); }
       // reduced motion: the bar steps every five seconds instead of sliding
       if (!still || s % 5 === 0) bar.style.width = (left / SECONDS * 100) + "%";
-      if (left <= 0 && !over) { over = true; bar.parentElement.classList.add("over"); note.textContent = "Over time. Finish when you are ready."; live.textContent = "Over time. Finish when you are ready."; stopTimer(S); }
+      if (left <= 0 && !over) { over = true; bar.parentElement.classList.add("over"); note.textContent = "Over time. Finish when you are ready."; S.F.live("Over time. Finish when you are ready."); stopTimer(S); }
     };
     tick();
     S.timer = setInterval(tick, 200);
@@ -268,7 +234,7 @@
     return { ...scoreMarks(S.chunks, S.marks), seconds: Math.round((Date.now() - S.started) / 1000) };
   }
   function check(S) {
-    if (S.dead || !S.run) return;
+    if (S.dead || !S.run || S.phase !== "posting") return;
     stopTimer(S);
     const r = score(S);
     S.run.results[S.run.i] = r;
@@ -303,19 +269,18 @@
   }
   const list = a => a.length <= 1 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
   const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+  const roleHref = (S, p) => `#/role/${S.esc(p.set === "product" ? S.Atlas.productKey(p.role) : p.role)}`;
 
   // ---------- 03: the reveal ----------
   function reveal(S, r) {
-    const { el, esc } = S, run = S.run, p = run.passages[run.i], role = roleOf(S, p), last = run.i === run.passages.length - 1;
-    el.innerHTML = `<div class="page sra tight">
-      <p class="eyebrow">Posting ${run.i + 1} of ${run.passages.length} · ${esc(role.label)} · checked in ${clock(r.seconds)}</p>
-      <h1 class="h-reveal">How the atlas read it</h1>
-      <!-- the source is named, not linked: the interface stays high level for now (owner's choice 2026-10-23; POSTINGS in app.js) -->
+    const { F, GS, esc } = S, run = S.run, p = run.passages[run.i], role = roleOf(S, p), last = run.i === run.passages.length - 1;
+    S.phase = "reveal";
+    F.set({ marks: run.results.map(x => x.read >= 0.5 ? "ok" : "miss") });
+    // the source is named, not linked: the interface stays high level (owner's choice 2026-10-23; POSTINGS in app.js)
+    F.body.innerHTML = `<h1 class="h-reveal">How the atlas read it</h1>
       ${passageHtml(S, p, r)}
       <blockquote class="quote src-line"><span class="src">${esc(p.company)} · ${esc(p.title)}</span></blockquote>
-      <div class="legend"><span><i class="sw found"></i>You found it</span><span><i class="sw missed"></i>You missed it</span><span><i class="sw false"></i>False alarm</span><span><i class="sw skipped"></i>Filler you skipped</span><span><i class="sw unlisted"></i>Not on the atlas's list: does not count</span></div>
-      <div class="sr-only" aria-live="polite" id="sra-live"></div>
-    </div>`;
+      <div class="legend"><span><i class="sw found"></i>You found it</span><span><i class="sw missed"></i>You missed it</span><span><i class="sw false"></i>False alarm</span><span><i class="sw skipped"></i>Filler you skipped</span><span><i class="sw unlisted"></i>Not on the atlas's list: does not count</span></div>`;
     window.scrollTo(0, 0);
     // the score in words
     const headline = r.found ? `${r.found} of ${r.asks} asks found` : "You did not mark any of the asks";
@@ -343,46 +308,53 @@
       <p class="tight">${esc(words)}</p>
       ${missedHtml}
       <h3>Filler</h3><p class="tight">${esc(filler)}</p>${countedHtml}
-      <h3>The atlas</h3><p class="punch">The atlas reads <span class="n-blue">${fmt(S.nJobs)}</span> postings this way, so you don't have to.</p>
-      <div class="row next-row"><button type="button" class="btn primary" id="sra-next">${last ? "See your rank →" : "Next posting →"}</button><a class="btn" href="#/role/${esc(p.set === "product" ? Atlas.productKey(p.role) : p.role)}">Open ${esc(role.label)} →</a></div></div>`);
-    el.querySelector("#sra-live").textContent = `${r.found ? `${r.found} of ${r.asks} asks found` : `You did not mark any of the ${r.asks} asks`}; ${r.skipped} of ${r.filler} filler ${r.filler === 1 ? "line" : "lines"} let pass`;
+      ${GS.foot({ primary: { id: "sra-next", label: last ? "See your result" : "Next posting", key: "Enter" }, quiet: { href: roleHref(S, p), label: `Open ${esc(role.label)}` } })}</div>`);
+    F.live(`${r.found ? `${r.found} of ${r.asks} asks found` : `You did not mark any of the ${r.asks} asks`}; ${r.skipped} of ${r.filler} filler ${r.filler === 1 ? "line" : "lines"} let pass`);
     const next = document.getElementById("sra-next");
-    next.onclick = () => { if (S.dead) return; if (last) runEnd(S); else { S.run.i++; posting(S); } };
+    next.onclick = () => nextFromReveal(S);
     next.focus({ preventScroll: true });
   }
+  function nextFromReveal(S) {
+    if (S.dead || S.phase !== "reveal") return;
+    if (S.run.i === S.run.passages.length - 1) runEnd(S); else { S.run.i++; posting(S); }
+  }
 
-  // ---------- 04: the run end ----------
+  // ---------- 04: the run end: the measure in plain words, the change since last time, the roles read ----------
   function runEnd(S) {
-    const { el, esc } = S, run = S.run, rs = run.results;
-    S.showAside(null);
+    const { F, GS, esc } = S, run = S.run, rs = run.results;
+    S.phase = "end"; S.showAside(null);
     const read = runRead(rs);
-    const rank = rankOf(read);
     const sum = k => rs.reduce((a, r) => a + r[k], 0);
     const found = sum("found"), asks = sum("asks"), passed = sum("skipped"), filler = sum("filler");
-    const saved = record(store.get()), prev = saved.best, isBest = !prev || read > prev.read;
+    const sv = saved(S), prev = sv.best, isBest = !prev || read > prev.read, prevLast = sv.lastRead;
     const today = new Date().toISOString().slice(0, 10);
     const roles = run.passages.map((p, i) => ({ p, r: rs[i], m: missedFact(S, p, rs[i]) }));
-    store.set({
-      rule: RULE,
-      best: isBest ? { rank, read: Math.round(read * 1000) / 1000, date: today } : prev,
-      runs: [{ rank, read: Math.round(read * 1000) / 1000, found, asks, passed, filler, date: today, roles: run.passages.map(p => p.role) }, ...saved.runs].slice(0, KEEP.runs),
-      seen: [...run.passages.map(p => p.id), ...saved.seen].slice(0, KEEP.seen),
+    const cleanNow = !run.timed && found * 2 >= asks && !sv.clean;
+    GS.record.saveGame(SLUG, {
+      played: true,
+      best: isBest ? { read: Math.round(read * 1000) / 1000, date: today } : prev,
+      lastRead: Math.round(read * 1000) / 1000,
+      runs: [{ read: Math.round(read * 1000) / 1000, found, asks, passed, filler, date: today, roles: run.passages.map(p => p.role) }, ...sv.runs].slice(0, KEEP.runs),
+      seen: [...run.passages.map(p => p.id), ...sv.seen].slice(0, KEEP.seen),
+      clean: sv.clean || cleanNow,
     });
-    el.innerHTML = `<div class="page sra tight">
-      <p class="eyebrow">${["One posting", "Two postings", "Three postings"][rs.length - 1] || rs.length + " postings"} read</p>
-      <div class="rank-title" tabindex="-1" id="sra-rank">${esc(rank)}</div>
-      <p class="lead run-words">${esc(`${asksWords(found, asks, true)}. ${fillerWords(passed, filler)}`)}</p>
-      ${isBest ? `<p class="small best-note">A new best in this browser.${prev ? ` Before: ${esc(prev.rank)}.` : ""}</p>` : prev ? `<p class="small muted">Your best in this browser: ${esc(prev.rank)}.</p>` : ""}
-      <div class="rank-bar">${ranksHtml(rank)}</div>
-      <p class="punch end-punch">You read ${["one posting", "two postings", "three postings"][rs.length - 1] || rs.length + " postings"}. The atlas reads <span class="n-blue">${fmt(S.nJobs)}</span> this way, so you don't have to.</p>
-      <h2>The roles you read</h2>
-      <div class="list">${roles.map(({ p, m }) => { const role = roleOf(S, p); const miss = m ? `you missed ${m.name}${m.more ? ` and ${m.more} more` : ""}` : "you found every ask";
-        return `<a class="r" href="#/role/${esc(p.set === "product" ? Atlas.productKey(p.role) : p.role)}"><span class="t">${esc(role.label)}</span><span class="m">${esc(p.company)} · ${esc(p.title)} · ${esc(miss)}</span><span class="n">${role.n_open != null ? `<span class="n-blue">${fmt(role.n_open)}</span> open · ` : ""}Open →</span></a>`; }).join("")}</div>
-      <div class="row end-row"><button type="button" class="btn primary" id="sra-again">Play again</button><a class="btn" href="#/">All games</a><a class="btn quiet" href="#/explore">Explore the roles</a></div>
-    </div>`;
+    const pr = v => `${Math.round(v * 100)}%`;
+    const change = prevLast == null ? "Your first run." : read > prevLast + 0.0005 ? `Up from ${pr(prevLast)} last time.` : read < prevLast - 0.0005 ? `Down from ${pr(prevLast)} last time.` : "The same as last time.";
+    const rec = `${change}${isBest && prev ? " A new best." : prev ? ` Your best: <b>${pr(prev.read)}</b>.` : ""}${run.timed ? " A Speed round." : cleanNow ? " The Speed round is unlocked." : ""}`;
+    F.body.innerHTML = GS.results({
+      eyebrow: `${["One posting", "Two postings", "Three postings"][rs.length - 1] || rs.length + " postings"} read`,
+      measure: `${found} of ${asks} asks found · ${passed} of ${filler} filler lines let pass`,
+      record: rec,
+      takeaway: `Your read: <b>${pr(read)}</b>, half for the asks you caught and half for the filler you let pass. You read ${["one posting", "two postings", "three postings"][rs.length - 1] || rs.length + " postings"}. The atlas reads <b>${fmt(S.nJobs)}</b> this way, so you don't have to.`,
+      visual: `<h3>The roles you read</h3><div class="list">${roles.map(({ p, m }) => { const role = roleOf(S, p); const miss = m ? `you missed ${m.name}${m.more ? ` and ${m.more} more` : ""}` : "you found every ask";
+        return `<a class="r" href="${roleHref(S, p)}"><span class="t">${esc(role.label)}</span><span class="m">${esc(p.company)} · ${esc(p.title)} · ${esc(miss)}</span><span class="n">${role.n_open != null ? `<span class="n-blue">${fmt(role.n_open)}</span> open · ` : ""}Open →</span></a>`; }).join("")}</div>`,
+      link: { href: "#/explore", label: "Explore the roles" },
+      foot: GS.foot({ primary: { id: "sra-again", label: "Play again", key: "Enter" } }),
+    });
+    F.set({ round: rs.length, rounds: rs.length, marks: rs.map(x => x.read >= 0.5 ? "ok" : "miss"), role: "" });
     window.scrollTo(0, 0);
-    el.querySelector("#sra-again").onclick = () => startRun(S);
-    el.querySelector("#sra-rank").focus({ preventScroll: true });
+    F.body.querySelector("#sra-again").onclick = () => startRun(S);
+    F.focusMeasure();
   }
 
   return { logic, mount };
