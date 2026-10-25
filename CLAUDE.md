@@ -11,6 +11,13 @@
   change also means re-extracting (`.venv/bin/python -m pipeline.extract && .venv/bin/python -m pipeline.build_graph`)
   and regenerating `evals/extraction_baseline.md` with the reuse mode described in `evals/README.md`.
   Expectation files in `evals/resumes/*.json` are the spec; change them only with a reason in the commit.
+- Every skill in `pipeline/taxonomy.json` has a `kind` (`pipeline/tax.py`, `KINDS`), an entry in
+  `pipeline/evidence.json` and, when four or more fields ask for it, an entry per asking field in
+  `pipeline/fields.json`. Adding or renaming a skill, or touching either file, means `.venv/bin/python -m pytest
+  tests/python/test_taxonomy.py`, `.venv/bin/python evals/run_taxonomy.py --baseline` and committing `evals/taxonomy_baseline.md`;
+  a carrier a field entry names must co-occur with the skill in the field's postings, so when the eval fails, change the
+  carrier, not the threshold. The kind says nothing to extraction: a change to kinds, evidence or fields alone needs no
+  re-extraction, only `pipeline.build_graph` for both role sets.
 - The taxonomy serves every role set (`product`, `mba`). A change to a shared skill, to an MBA skill, to the
   cleaner in `pipeline/extract.py` or to the title rules in `pipeline/roles_mba.py` also means
   `.venv/bin/python -m pipeline.extract --roles mba`, then `pipeline.experiments.role_corpus --roles mba` and
@@ -36,7 +43,16 @@
   `data/raw/jobs*/` that is behind the database (`pull` first).
 - Every eval that exists for the product roles gets its counterpart for a new role set before that role set is
   shown in the interface. New kinds of evals are listed in `evals/README.md` under "Evals to build".
-- Permanent documentation lives in `README.md`, `PLAN.md`, `evals/README.md` and `evals/NOTES.md`. Interim
-  planning or scratch files are welcome while working, but they go in the session scratchpad or under
-  `data/experiments/` (gitignored), not in the tree. Delete what is no longer needed before opening the PR.
+- Two kinds of writing, kept apart. **Lasting documentation** is what a future session needs to understand the
+  project: `README.md` (what exists and how to run it), `PLAN.md` (the decisions and why, one dated section per
+  change), `evals/README.md`, `evals/NOTES.md`, `tests/README.md`, `games/README.md`. **Interim artifacts** are what one
+  thread needs while it works: plans under review, mockups, audits, scratch scripts, notes to self. They never go in
+  the tree: put them in the session scratchpad or under `data/experiments/scratch/<topic>/` (gitignored), and name
+  them so another session can tell what they were for.
+- When a thread ends (the PR is open, or the work is dropped): move what lasts into the documentation above (a PLAN.md
+  section for the decisions, README lines for anything new to run or a layout change, a backlog line under "Later" in
+  PLAN.md for what was deferred), then run `./sweep_scratch.sh` to move the thread's scratch folder to
+  `data/experiments/_trash/<date>/` (deleted by the next sweep). Nothing interim survives in the tree, the scratchpad
+  or `data/experiments/scratch/` after the thread. Pipeline caches under `data/experiments/` (model answers, corpora)
+  are not scratch and are never swept.
 - Secrets go in `.env` (gitignored), never in code, docs or chat.

@@ -1,0 +1,6476 @@
+{
+ "roadmap": {
+  "form": "artefact",
+  "artefacts": [
+   "roadmap",
+   "quarterly plan",
+   "now/next/later plan"
+  ],
+  "counterparts": [
+   "engineering",
+   "design",
+   "leadership"
+  ],
+  "measures": [
+   "initiatives shipped against plan",
+   "quarters planned"
+  ],
+  "verbs": [
+   "owned",
+   "built",
+   "sequenced",
+   "re-planned"
+  ],
+  "shown_by": []
+ },
+ "product_strategy": {
+  "form": "artefact",
+  "artefacts": [
+   "product strategy",
+   "strategy memo",
+   "strategic plan",
+   "investment thesis"
+  ],
+  "counterparts": [
+   "leadership",
+   "founders",
+   "the board"
+  ],
+  "measures": [
+   "revenue or users the strategy reached",
+   "bets funded"
+  ],
+  "verbs": [
+   "set",
+   "defined",
+   "shaped",
+   "wrote"
+  ],
+  "shown_by": []
+ },
+ "product_vision": {
+  "form": "artefact",
+  "artefacts": [
+   "vision document",
+   "vision deck",
+   "north star"
+  ],
+  "counterparts": [
+   "leadership",
+   "the team"
+  ],
+  "measures": [
+   "teams aligned behind it",
+   "years it held"
+  ],
+  "verbs": [
+   "set",
+   "articulated",
+   "crafted"
+  ],
+  "shown_by": []
+ },
+ "prioritization": {
+  "form": "artefact",
+  "artefacts": [
+   "prioritised backlog",
+   "scoring model (RICE, ICE)",
+   "cut list"
+  ],
+  "counterparts": [
+   "engineering",
+   "stakeholders"
+  ],
+  "measures": [
+   "scope cut",
+   "features deferred",
+   "cycle time"
+  ],
+  "verbs": [
+   "prioritised",
+   "cut",
+   "deferred",
+   "sequenced",
+   "said no to"
+  ],
+  "shown_by": []
+ },
+ "prd": {
+  "form": "artefact",
+  "artefacts": [
+   "PRD",
+   "requirements document",
+   "user stories",
+   "acceptance criteria",
+   "functional spec"
+  ],
+  "counterparts": [
+   "engineering",
+   "design",
+   "QA"
+  ],
+  "measures": [
+   "features shipped without a requirements change",
+   "rework avoided"
+  ],
+  "verbs": [
+   "wrote",
+   "defined",
+   "scoped",
+   "authored",
+   "gathered"
+  ],
+  "shown_by": []
+ },
+ "product_lifecycle": {
+  "form": "artefact",
+  "artefacts": [
+   "a product taken 0 to 1",
+   "a feature taken from discovery to launch",
+   "a sunset"
+  ],
+  "counterparts": [
+   "engineering",
+   "design",
+   "marketing",
+   "sales"
+  ],
+  "measures": [
+   "users or revenue at launch",
+   "time from concept to launch"
+  ],
+  "verbs": [
+   "took from idea to launch",
+   "owned end to end",
+   "shipped",
+   "scaled"
+  ],
+  "shown_by": []
+ },
+ "launch": {
+  "form": "artefact",
+  "artefacts": [
+   "launch plan",
+   "release notes",
+   "launch readiness checklist",
+   "rollout plan"
+  ],
+  "counterparts": [
+   "marketing",
+   "sales",
+   "support",
+   "engineering"
+  ],
+  "measures": [
+   "users reached at launch",
+   "adoption in the first weeks",
+   "incidents at rollout"
+  ],
+  "verbs": [
+   "launched",
+   "shipped",
+   "rolled out",
+   "released"
+  ],
+  "shown_by": []
+ },
+ "feature_definition": {
+  "form": "artefact",
+  "artefacts": [
+   "feature spec",
+   "MVP scope",
+   "user flow",
+   "scoping document"
+  ],
+  "counterparts": [
+   "engineering",
+   "design"
+  ],
+  "measures": [
+   "scope size",
+   "time to first release"
+  ],
+  "verbs": [
+   "defined",
+   "scoped",
+   "specced",
+   "designed"
+  ],
+  "shown_by": []
+ },
+ "customer_obsession": {
+  "form": "through",
+  "artefacts": [
+   "customer interview notes",
+   "voice-of-customer digest"
+  ],
+  "counterparts": [
+   "customers",
+   "users",
+   "support"
+  ],
+  "measures": [
+   "customers spoken to",
+   "roadmap items from customer input"
+  ],
+  "verbs": [
+   "interviewed",
+   "shadowed",
+   "visited",
+   "brought the customer into"
+  ],
+  "shown_by": [
+   "user_research",
+   "discovery",
+   "surveys_feedback",
+   "customer_facing_exec",
+   "customer_success",
+   "key_account_mgmt"
+  ]
+ },
+ "product_sense": {
+  "form": "through",
+  "artefacts": [
+   "redesign",
+   "teardown",
+   "simplified flow"
+  ],
+  "counterparts": [
+   "design",
+   "users"
+  ],
+  "measures": [
+   "conversion or completion change",
+   "steps removed"
+  ],
+  "verbs": [
+   "redesigned",
+   "simplified",
+   "spotted",
+   "cut"
+  ],
+  "shown_by": [
+   "ux_design_collab",
+   "discovery",
+   "growth_loops",
+   "prd",
+   "launch"
+  ]
+ },
+ "ux_design_collab": {
+  "form": "scope",
+  "artefacts": [
+   "wireframes",
+   "prototypes",
+   "design reviews",
+   "design system work"
+  ],
+  "counterparts": [
+   "designers",
+   "UX research",
+   "engineering"
+  ],
+  "measures": [
+   "usability results",
+   "designers partnered with"
+  ],
+  "verbs": [
+   "partnered with design",
+   "prototyped",
+   "ran design reviews",
+   "tested"
+  ],
+  "shown_by": []
+ },
+ "problem_solving": {
+  "form": "through",
+  "artefacts": [
+   "root-cause analysis",
+   "problem statement",
+   "hypothesis tree",
+   "decision memo"
+  ],
+  "counterparts": [
+   "the team",
+   "leadership"
+  ],
+  "measures": [
+   "time to diagnosis",
+   "the number that moved once fixed"
+  ],
+  "verbs": [
+   "diagnosed",
+   "structured",
+   "broke down",
+   "decided"
+  ],
+  "shown_by": [
+   "hypothesis_driven",
+   "root_cause_corrective_action",
+   "discovery",
+   "synthesis_recommendations",
+   "business_case",
+   "variance_analysis",
+   "due_diligence",
+   "issue_remediation"
+  ]
+ },
+ "okrs": {
+  "form": "artefact",
+  "artefacts": [
+   "OKRs",
+   "goal tree",
+   "quarterly goals"
+  ],
+  "counterparts": [
+   "leadership",
+   "the team"
+  ],
+  "measures": [
+   "key results hit",
+   "quarters run"
+  ],
+  "verbs": [
+   "set",
+   "owned",
+   "ran",
+   "scored"
+  ],
+  "shown_by": []
+ },
+ "pricing_packaging": {
+  "form": "artefact",
+  "artefacts": [
+   "pricing model",
+   "packaging tiers",
+   "price test",
+   "monetisation plan"
+  ],
+  "counterparts": [
+   "finance",
+   "sales",
+   "marketing"
+  ],
+  "measures": [
+   "revenue or ARPU change",
+   "conversion by tier"
+  ],
+  "verbs": [
+   "priced",
+   "repackaged",
+   "tested",
+   "launched a tier"
+  ],
+  "shown_by": []
+ },
+ "gtm": {
+  "form": "artefact",
+  "artefacts": [
+   "go-to-market plan",
+   "launch strategy",
+   "channel plan",
+   "segment strategy"
+  ],
+  "counterparts": [
+   "marketing",
+   "sales",
+   "partners"
+  ],
+  "measures": [
+   "pipeline or revenue from the launch",
+   "time to first customers"
+  ],
+  "verbs": [
+   "planned",
+   "led",
+   "launched",
+   "took to market"
+  ],
+  "shown_by": []
+ },
+ "market_research": {
+  "form": "artefact",
+  "artefacts": [
+   "market sizing (TAM/SAM)",
+   "competitive analysis",
+   "industry landscape",
+   "win/loss analysis"
+  ],
+  "counterparts": [
+   "leadership",
+   "strategy",
+   "marketing"
+  ],
+  "measures": [
+   "market size estimated",
+   "decisions the analysis changed"
+  ],
+  "verbs": [
+   "sized",
+   "analysed",
+   "benchmarked",
+   "mapped"
+  ],
+  "shown_by": []
+ },
+ "positioning_messaging": {
+  "form": "artefact",
+  "artefacts": [
+   "positioning statement",
+   "messaging hierarchy",
+   "value proposition",
+   "narrative"
+  ],
+  "counterparts": [
+   "marketing",
+   "sales",
+   "design"
+  ],
+  "measures": [
+   "conversion or win-rate change",
+   "launches messaged"
+  ],
+  "verbs": [
+   "positioned",
+   "wrote the messaging for",
+   "repositioned",
+   "named"
+  ],
+  "shown_by": []
+ },
+ "sales_enablement": {
+  "form": "scope",
+  "artefacts": [
+   "sales playbook",
+   "battlecards",
+   "demo script",
+   "training sessions"
+  ],
+  "counterparts": [
+   "sales",
+   "solutions engineers",
+   "customer success"
+  ],
+  "measures": [
+   "reps trained",
+   "win rate or deal cycle change"
+  ],
+  "verbs": [
+   "enabled",
+   "trained",
+   "equipped",
+   "partnered with sales"
+  ],
+  "shown_by": []
+ },
+ "customer_success": {
+  "form": "scope",
+  "artefacts": [
+   "onboarding plan",
+   "health score",
+   "success plan",
+   "escalation process"
+  ],
+  "counterparts": [
+   "customers",
+   "support",
+   "account management"
+  ],
+  "measures": [
+   "retention or churn",
+   "NPS or CSAT",
+   "time to value"
+  ],
+  "verbs": [
+   "onboarded",
+   "retained",
+   "partnered with CS",
+   "resolved"
+  ],
+  "shown_by": []
+ },
+ "partnerships": {
+  "form": "scope",
+  "artefacts": [
+   "partnership agreement",
+   "partner programme",
+   "integration partnership",
+   "co-marketing deal"
+  ],
+  "counterparts": [
+   "partners",
+   "legal",
+   "business development"
+  ],
+  "measures": [
+   "partners signed",
+   "revenue or users through partners"
+  ],
+  "verbs": [
+   "signed",
+   "negotiated",
+   "launched",
+   "managed"
+  ],
+  "shown_by": []
+ },
+ "business_case": {
+  "form": "artefact",
+  "artefacts": [
+   "business case",
+   "ROI model",
+   "investment memo",
+   "options analysis"
+  ],
+  "counterparts": [
+   "finance",
+   "leadership"
+  ],
+  "measures": [
+   "budget approved",
+   "ROI or payback",
+   "value delivered against the case"
+  ],
+  "verbs": [
+   "built the case for",
+   "modelled",
+   "secured funding for",
+   "recommended"
+  ],
+  "shown_by": []
+ },
+ "pnl": {
+  "form": "outcome",
+  "artefacts": [
+   "P&L",
+   "revenue plan",
+   "budget"
+  ],
+  "counterparts": [
+   "finance",
+   "leadership"
+  ],
+  "measures": [
+   "revenue",
+   "margin",
+   "cost against budget"
+  ],
+  "verbs": [
+   "owned",
+   "grew",
+   "managed",
+   "delivered"
+  ],
+  "shown_by": []
+ },
+ "growth_loops": {
+  "form": "artefact",
+  "artefacts": [
+   "funnel analysis",
+   "growth experiments",
+   "onboarding flow",
+   "retention plan"
+  ],
+  "counterparts": [
+   "marketing",
+   "data",
+   "engineering"
+  ],
+  "measures": [
+   "conversion",
+   "activation",
+   "retention",
+   "MAU or DAU"
+  ],
+  "verbs": [
+   "grew",
+   "lifted",
+   "ran experiments on",
+   "optimised"
+  ],
+  "shown_by": []
+ },
+ "customer_interviews": {
+  "form": "artefact",
+  "artefacts": [
+   "interview guide",
+   "interview notes",
+   "synthesis"
+  ],
+  "counterparts": [
+   "customers",
+   "users",
+   "prospects"
+  ],
+  "measures": [
+   "interviews run",
+   "themes found",
+   "decisions changed"
+  ],
+  "verbs": [
+   "interviewed",
+   "ran",
+   "synthesised"
+  ],
+  "shown_by": []
+ },
+ "user_research": {
+  "form": "artefact",
+  "artefacts": [
+   "research plan",
+   "usability study",
+   "findings readout",
+   "research repository"
+  ],
+  "counterparts": [
+   "UX research",
+   "design",
+   "participants"
+  ],
+  "measures": [
+   "participants",
+   "studies run",
+   "issues found and fixed"
+  ],
+  "verbs": [
+   "ran",
+   "designed",
+   "moderated",
+   "synthesised"
+  ],
+  "shown_by": []
+ },
+ "discovery": {
+  "form": "artefact",
+  "artefacts": [
+   "opportunity assessment",
+   "problem statement",
+   "validated hypothesis",
+   "prototype test"
+  ],
+  "counterparts": [
+   "customers",
+   "design",
+   "engineering"
+  ],
+  "measures": [
+   "hypotheses tested",
+   "ideas killed before build",
+   "problems validated"
+  ],
+  "verbs": [
+   "discovered",
+   "validated",
+   "tested",
+   "killed"
+  ],
+  "shown_by": []
+ },
+ "personas_jtbd": {
+  "form": "artefact",
+  "artefacts": [
+   "personas",
+   "segmentation",
+   "jobs-to-be-done map"
+  ],
+  "counterparts": [
+   "marketing",
+   "design",
+   "research"
+  ],
+  "measures": [
+   "segments defined",
+   "features targeted by segment"
+  ],
+  "verbs": [
+   "defined",
+   "segmented",
+   "mapped"
+  ],
+  "shown_by": []
+ },
+ "surveys_feedback": {
+  "form": "artefact",
+  "artefacts": [
+   "survey",
+   "NPS programme",
+   "feedback loop",
+   "in-app feedback"
+  ],
+  "counterparts": [
+   "customers",
+   "support",
+   "data"
+  ],
+  "measures": [
+   "responses",
+   "NPS or CSAT",
+   "changes shipped from feedback"
+  ],
+  "verbs": [
+   "surveyed",
+   "built the feedback loop",
+   "triaged"
+  ],
+  "shown_by": []
+ },
+ "metrics_kpis": {
+  "form": "artefact",
+  "artefacts": [
+   "KPI definitions",
+   "dashboard",
+   "metric tree",
+   "tracking plan"
+  ],
+  "counterparts": [
+   "data",
+   "engineering",
+   "leadership"
+  ],
+  "measures": [
+   "the metric and how far it moved",
+   "metrics defined"
+  ],
+  "verbs": [
+   "defined",
+   "tracked",
+   "instrumented",
+   "moved"
+  ],
+  "shown_by": []
+ },
+ "data_driven": {
+  "form": "through",
+  "artefacts": [
+   "analysis",
+   "dashboard",
+   "experiment readout",
+   "model"
+  ],
+  "counterparts": [
+   "data",
+   "analysts",
+   "leadership"
+  ],
+  "measures": [
+   "the number that decided it",
+   "decisions made on the analysis"
+  ],
+  "verbs": [
+   "analysed",
+   "measured",
+   "decided on the data",
+   "quantified"
+  ],
+  "shown_by": [
+   "sql",
+   "ab_testing",
+   "metrics_kpis",
+   "statistics",
+   "financial_analysis",
+   "dashboards_dataviz",
+   "reporting_adhoc_analysis",
+   "marketing_analytics",
+   "people_analytics",
+   "synthesis_recommendations",
+   "variance_analysis",
+   "spend_cost_savings"
+  ]
+ },
+ "ab_testing": {
+  "form": "artefact",
+  "artefacts": [
+   "A/B test",
+   "experiment plan",
+   "test readout",
+   "experimentation programme"
+  ],
+  "counterparts": [
+   "data",
+   "engineering",
+   "marketing"
+  ],
+  "measures": [
+   "tests run",
+   "lift and significance",
+   "win rate"
+  ],
+  "verbs": [
+   "tested",
+   "ran",
+   "designed",
+   "read out"
+  ],
+  "shown_by": []
+ },
+ "sql": {
+  "form": "built",
+  "artefacts": [
+   "queries",
+   "data pulls",
+   "a dashboard's SQL"
+  ],
+  "counterparts": [
+   "data",
+   "analysts"
+  ],
+  "measures": [
+   "tables or rows queried",
+   "analyses self-served"
+  ],
+  "verbs": [
+   "wrote",
+   "queried",
+   "pulled",
+   "joined"
+  ],
+  "shown_by": []
+ },
+ "python_r": {
+  "form": "built",
+  "artefacts": [
+   "scripts",
+   "notebooks",
+   "models",
+   "automation"
+  ],
+  "counterparts": [
+   "data science",
+   "engineering"
+  ],
+  "measures": [
+   "hours automated",
+   "models built"
+  ],
+  "verbs": [
+   "wrote",
+   "scripted",
+   "automated",
+   "modelled in"
+  ],
+  "shown_by": []
+ },
+ "data_modeling": {
+  "form": "built",
+  "artefacts": [
+   "data model",
+   "schema",
+   "pipeline",
+   "warehouse tables"
+  ],
+  "counterparts": [
+   "data engineering",
+   "analytics"
+  ],
+  "measures": [
+   "tables or sources modelled",
+   "pipeline latency or reliability"
+  ],
+  "verbs": [
+   "modelled",
+   "designed",
+   "built the pipeline",
+   "defined the schema"
+  ],
+  "shown_by": []
+ },
+ "statistics": {
+  "form": "artefact",
+  "artefacts": [
+   "forecast",
+   "regression",
+   "statistical model",
+   "confidence intervals"
+  ],
+  "counterparts": [
+   "data scientists",
+   "finance",
+   "analysts"
+  ],
+  "measures": [
+   "forecast accuracy",
+   "sample sizes",
+   "significance"
+  ],
+  "verbs": [
+   "forecast",
+   "modelled",
+   "tested",
+   "estimated"
+  ],
+  "shown_by": []
+ },
+ "financial_analysis": {
+  "form": "artefact",
+  "artefacts": [
+   "financial model",
+   "budget",
+   "unit economics",
+   "forecast",
+   "P&L analysis"
+  ],
+  "counterparts": [
+   "finance",
+   "leadership"
+  ],
+  "measures": [
+   "budget size",
+   "variance to plan",
+   "savings or revenue found"
+  ],
+  "verbs": [
+   "modelled",
+   "forecast",
+   "budgeted",
+   "analysed"
+  ],
+  "shown_by": []
+ },
+ "technical_fluency": {
+  "form": "built",
+  "artefacts": [
+   "technical design discussions",
+   "architecture trade-offs",
+   "technical specs"
+  ],
+  "counterparts": [
+   "engineers",
+   "architects",
+   "data scientists"
+  ],
+  "measures": [
+   "engineers partnered with",
+   "technical decisions owned"
+  ],
+  "verbs": [
+   "partnered with engineering on",
+   "weighed",
+   "decided",
+   "debugged"
+  ],
+  "shown_by": []
+ },
+ "apis": {
+  "form": "built",
+  "artefacts": [
+   "API",
+   "integration",
+   "SDK",
+   "webhook",
+   "developer docs"
+  ],
+  "counterparts": [
+   "engineering",
+   "partners",
+   "developers"
+  ],
+  "measures": [
+   "integrations shipped",
+   "API calls or developers"
+  ],
+  "verbs": [
+   "shipped",
+   "designed",
+   "integrated",
+   "documented"
+  ],
+  "shown_by": []
+ },
+ "system_architecture": {
+  "form": "built",
+  "artefacts": [
+   "system design",
+   "architecture decision",
+   "platform",
+   "migration"
+  ],
+  "counterparts": [
+   "engineering",
+   "architects"
+  ],
+  "measures": [
+   "scale (requests, users)",
+   "reliability",
+   "services"
+  ],
+  "verbs": [
+   "designed",
+   "architected",
+   "migrated",
+   "decided"
+  ],
+  "shown_by": []
+ },
+ "cloud": {
+  "form": "built",
+  "artefacts": [
+   "cloud migration",
+   "cloud platform work (AWS, GCP, Azure)",
+   "infrastructure plan"
+  ],
+  "counterparts": [
+   "engineering",
+   "infrastructure",
+   "security"
+  ],
+  "measures": [
+   "workloads migrated",
+   "cloud cost",
+   "uptime"
+  ],
+  "verbs": [
+   "migrated",
+   "ran on",
+   "built on",
+   "cut cloud cost"
+  ],
+  "shown_by": []
+ },
+ "ai_ml": {
+  "form": "built",
+  "artefacts": [
+   "ML model",
+   "recommendation or ranking system",
+   "prediction",
+   "model evaluation"
+  ],
+  "counterparts": [
+   "data science",
+   "ML engineering"
+  ],
+  "measures": [
+   "model accuracy or lift",
+   "predictions served",
+   "business metric moved"
+  ],
+  "verbs": [
+   "built",
+   "trained",
+   "shipped",
+   "evaluated"
+  ],
+  "shown_by": []
+ },
+ "genai_llm": {
+  "form": "built",
+  "artefacts": [
+   "LLM feature",
+   "prompt",
+   "RAG pipeline",
+   "agent",
+   "evaluation set"
+  ],
+  "counterparts": [
+   "ML engineering",
+   "data science",
+   "design"
+  ],
+  "measures": [
+   "users of the feature",
+   "quality or cost of the model",
+   "evals passed"
+  ],
+  "verbs": [
+   "shipped",
+   "prompted",
+   "evaluated",
+   "built on"
+  ],
+  "shown_by": []
+ },
+ "mobile": {
+  "form": "built",
+  "artefacts": [
+   "iOS or Android app",
+   "mobile release",
+   "app store listing"
+  ],
+  "counterparts": [
+   "mobile engineering",
+   "design"
+  ],
+  "measures": [
+   "downloads or MAU",
+   "app rating",
+   "releases shipped"
+  ],
+  "verbs": [
+   "shipped",
+   "released",
+   "launched on"
+  ],
+  "shown_by": []
+ },
+ "security_privacy": {
+  "form": "built",
+  "artefacts": [
+   "privacy review",
+   "security requirements",
+   "threat model",
+   "GDPR or HIPAA compliance work"
+  ],
+  "counterparts": [
+   "security",
+   "legal",
+   "privacy"
+  ],
+  "measures": [
+   "reviews passed",
+   "incidents",
+   "data protected"
+  ],
+  "verbs": [
+   "secured",
+   "reviewed",
+   "complied with",
+   "designed for privacy"
+  ],
+  "shown_by": []
+ },
+ "devops_sdlc": {
+  "form": "built",
+  "artefacts": [
+   "release process",
+   "CI/CD pipeline",
+   "feature flags",
+   "deployment"
+  ],
+  "counterparts": [
+   "engineering",
+   "QA",
+   "release management"
+  ],
+  "measures": [
+   "release cadence",
+   "deploy frequency",
+   "incidents per release"
+  ],
+  "verbs": [
+   "shipped",
+   "deployed",
+   "set the release cadence",
+   "flagged"
+  ],
+  "shown_by": []
+ },
+ "hardware": {
+  "form": "built",
+  "artefacts": [
+   "device",
+   "firmware",
+   "embedded system",
+   "hardware spec"
+  ],
+  "counterparts": [
+   "hardware engineering",
+   "manufacturing",
+   "suppliers"
+  ],
+  "measures": [
+   "units shipped",
+   "defect rate",
+   "cost per unit"
+  ],
+  "verbs": [
+   "shipped",
+   "specified",
+   "brought to production"
+  ],
+  "shown_by": []
+ },
+ "networking": {
+  "form": "built",
+  "artefacts": [
+   "network design",
+   "connectivity product",
+   "protocol work"
+  ],
+  "counterparts": [
+   "network engineering",
+   "carriers"
+  ],
+  "measures": [
+   "sites or devices connected",
+   "latency or uptime"
+  ],
+  "verbs": [
+   "designed",
+   "deployed",
+   "connected"
+  ],
+  "shown_by": []
+ },
+ "automotive_autonomy": {
+  "form": "context",
+  "artefacts": [
+   "vehicle or robotics programme",
+   "autonomy stack",
+   "safety case"
+  ],
+  "counterparts": [
+   "OEMs",
+   "safety engineering"
+  ],
+  "measures": [
+   "vehicles or units",
+   "miles or hours"
+  ],
+  "verbs": [
+   "worked on",
+   "shipped",
+   "launched"
+  ],
+  "shown_by": []
+ },
+ "fintech": {
+  "form": "context",
+  "artefacts": [
+   "payments product",
+   "lending or credit product",
+   "banking product",
+   "KYC flow"
+  ],
+  "counterparts": [
+   "risk",
+   "compliance",
+   "banks",
+   "regulators"
+  ],
+  "measures": [
+   "transaction volume",
+   "loss or fraud rate",
+   "accounts"
+  ],
+  "verbs": [
+   "launched",
+   "worked on",
+   "underwrote",
+   "complied with"
+  ],
+  "shown_by": []
+ },
+ "healthcare": {
+  "form": "context",
+  "artefacts": [
+   "clinical or health product",
+   "HIPAA work",
+   "provider or payer workflow"
+  ],
+  "counterparts": [
+   "clinicians",
+   "payers",
+   "regulators"
+  ],
+  "measures": [
+   "patients or providers",
+   "outcomes",
+   "claims"
+  ],
+  "verbs": [
+   "worked on",
+   "launched",
+   "complied with"
+  ],
+  "shown_by": []
+ },
+ "ecommerce_retail": {
+  "form": "context",
+  "artefacts": [
+   "marketplace",
+   "checkout",
+   "catalog",
+   "store operations"
+  ],
+  "counterparts": [
+   "sellers",
+   "buyers",
+   "merchandising"
+  ],
+  "measures": [
+   "GMV",
+   "conversion",
+   "SKUs or stores"
+  ],
+  "verbs": [
+   "grew",
+   "launched",
+   "ran"
+  ],
+  "shown_by": []
+ },
+ "supply_chain": {
+  "form": "context",
+  "artefacts": [
+   "supply chain programme",
+   "logistics operation",
+   "inventory system"
+  ],
+  "counterparts": [
+   "suppliers",
+   "operations",
+   "logistics"
+  ],
+  "measures": [
+   "units or orders",
+   "cost per unit",
+   "on-time rate"
+  ],
+  "verbs": [
+   "ran",
+   "planned",
+   "optimised"
+  ],
+  "shown_by": []
+ },
+ "ads_media": {
+  "form": "context",
+  "artefacts": [
+   "ad product",
+   "media or content product",
+   "attribution",
+   "campaigns"
+  ],
+  "counterparts": [
+   "advertisers",
+   "publishers",
+   "creators"
+  ],
+  "measures": [
+   "ad revenue",
+   "impressions or reach",
+   "ROAS"
+  ],
+  "verbs": [
+   "grew",
+   "launched",
+   "monetised"
+  ],
+  "shown_by": []
+ },
+ "enterprise_saas": {
+  "form": "context",
+  "artefacts": [
+   "B2B product",
+   "enterprise feature (SSO, admin, permissions)",
+   "customer deployments"
+  ],
+  "counterparts": [
+   "enterprise customers",
+   "sales",
+   "customer success"
+  ],
+  "measures": [
+   "ARR",
+   "enterprise accounts",
+   "seats"
+  ],
+  "verbs": [
+   "sold into",
+   "shipped for",
+   "deployed at"
+  ],
+  "shown_by": []
+ },
+ "consumer": {
+  "form": "context",
+  "artefacts": [
+   "consumer app or product",
+   "community",
+   "engagement feature"
+  ],
+  "counterparts": [
+   "users",
+   "community",
+   "creators"
+  ],
+  "measures": [
+   "MAU or DAU",
+   "retention",
+   "downloads"
+  ],
+  "verbs": [
+   "grew",
+   "launched",
+   "ran"
+  ],
+  "shown_by": []
+ },
+ "energy_industrial": {
+  "form": "context",
+  "artefacts": [
+   "plant or grid work",
+   "industrial product",
+   "sustainability programme"
+  ],
+  "counterparts": [
+   "operations",
+   "utilities",
+   "engineering"
+  ],
+  "measures": [
+   "capacity or output",
+   "emissions or cost",
+   "sites"
+  ],
+  "verbs": [
+   "ran",
+   "worked on",
+   "delivered"
+  ],
+  "shown_by": []
+ },
+ "telecom": {
+  "form": "context",
+  "artefacts": [
+   "network or subscriber product",
+   "carrier programme"
+  ],
+  "counterparts": [
+   "carriers",
+   "network engineering"
+  ],
+  "measures": [
+   "subscribers",
+   "sites",
+   "churn"
+  ],
+  "verbs": [
+   "launched",
+   "ran",
+   "worked on"
+  ],
+  "shown_by": []
+ },
+ "developer_tools": {
+  "form": "context",
+  "artefacts": [
+   "developer product",
+   "API or SDK",
+   "infrastructure product",
+   "open-source project"
+  ],
+  "counterparts": [
+   "developers",
+   "engineering"
+  ],
+  "measures": [
+   "developers or API calls",
+   "adoption",
+   "stars or installs"
+  ],
+  "verbs": [
+   "built for developers",
+   "launched",
+   "grew"
+  ],
+  "shown_by": []
+ },
+ "public_sector": {
+  "form": "context",
+  "artefacts": [
+   "regulated product",
+   "compliance programme",
+   "government or public-sector work",
+   "audit"
+  ],
+  "counterparts": [
+   "regulators",
+   "legal",
+   "compliance",
+   "auditors"
+  ],
+  "measures": [
+   "audits passed",
+   "regulations met",
+   "agencies served"
+  ],
+  "verbs": [
+   "complied with",
+   "passed",
+   "worked with regulators on"
+  ],
+  "shown_by": []
+ },
+ "cross_functional": {
+  "form": "scope",
+  "artefacts": [
+   "cross-functional project",
+   "launch across teams",
+   "decision log",
+   "RACI"
+  ],
+  "counterparts": [
+   "engineering",
+   "design",
+   "marketing",
+   "sales",
+   "legal",
+   "finance",
+   "operations"
+  ],
+  "measures": [
+   "teams or functions involved",
+   "people coordinated",
+   "what shipped together"
+  ],
+  "verbs": [
+   "led",
+   "coordinated",
+   "aligned",
+   "brought together"
+  ],
+  "shown_by": [
+   "launch",
+   "program_mgmt",
+   "product_lifecycle",
+   "finance_partnering",
+   "hr_business_partnering",
+   "npi_manufacturing_ramp",
+   "integration_planning",
+   "transformation_programs"
+  ]
+ },
+ "stakeholder_mgmt": {
+  "form": "scope",
+  "artefacts": [
+   "stakeholder map",
+   "steering committee",
+   "status updates",
+   "executive update"
+  ],
+  "counterparts": [
+   "executives",
+   "partner teams",
+   "clients",
+   "the board"
+  ],
+  "measures": [
+   "stakeholders managed",
+   "escalations avoided",
+   "decisions landed"
+  ],
+  "verbs": [
+   "managed",
+   "aligned",
+   "briefed",
+   "brought on side"
+  ],
+  "shown_by": [
+   "exec_communication",
+   "client_engagement",
+   "program_mgmt",
+   "finance_partnering",
+   "hr_business_partnering",
+   "key_account_mgmt",
+   "operating_cadence",
+   "board_governance"
+  ]
+ },
+ "influence": {
+  "form": "through",
+  "artefacts": [
+   "recommendation that was adopted",
+   "negotiation",
+   "coalition",
+   "evidence-based argument"
+  ],
+  "counterparts": [
+   "leadership",
+   "peers in other functions",
+   "clients",
+   "suppliers"
+  ],
+  "measures": [
+   "decisions changed",
+   "money saved or won in negotiation",
+   "teams that adopted the proposal"
+  ],
+  "verbs": [
+   "persuaded",
+   "negotiated",
+   "won support for",
+   "changed the decision"
+  ],
+  "shown_by": [
+   "business_case",
+   "exec_decks",
+   "deal_negotiation",
+   "supplier_contract_negotiation",
+   "deal_structuring",
+   "synthesis_recommendations",
+   "change_management",
+   "stakeholder_mgmt",
+   "prioritization",
+   "hr_business_partnering",
+   "consultative_selling",
+   "exec_communication"
+  ]
+ },
+ "communication": {
+  "form": "through",
+  "artefacts": [
+   "memo",
+   "deck",
+   "PRD",
+   "pitch book",
+   "report",
+   "presentation",
+   "written update"
+  ],
+  "counterparts": [
+   "executives",
+   "clients",
+   "the team",
+   "customers",
+   "the board"
+  ],
+  "measures": [
+   "readers or audience size",
+   "decisions the document carried",
+   "money or approval it secured"
+  ],
+  "verbs": [
+   "wrote",
+   "presented",
+   "briefed",
+   "published"
+  ],
+  "shown_by": [
+   "exec_communication",
+   "exec_decks",
+   "prd",
+   "pitch_materials",
+   "synthesis_recommendations",
+   "financial_reporting",
+   "pr_communications",
+   "investment_committee",
+   "customer_facing_exec",
+   "business_case",
+   "dashboards_dataviz"
+  ]
+ },
+ "exec_communication": {
+  "form": "scope",
+  "artefacts": [
+   "executive update",
+   "business review (QBR/MBR)",
+   "board paper",
+   "executive briefing"
+  ],
+  "counterparts": [
+   "C-suite",
+   "VPs",
+   "the board",
+   "investors"
+  ],
+  "measures": [
+   "executives briefed",
+   "reviews run",
+   "decisions taken in the review"
+  ],
+  "verbs": [
+   "presented to",
+   "ran the review",
+   "briefed",
+   "reported to"
+  ],
+  "shown_by": [
+   "exec_decks",
+   "operating_cadence",
+   "board_governance",
+   "investor_relations",
+   "financial_reporting",
+   "customer_health"
+  ]
+ },
+ "people_management": {
+  "form": "scope",
+  "artefacts": [
+   "team",
+   "hiring plan",
+   "performance reviews",
+   "levelling framework",
+   "coaching"
+  ],
+  "counterparts": [
+   "direct reports",
+   "managers",
+   "recruiting"
+  ],
+  "measures": [
+   "direct reports",
+   "people hired",
+   "people promoted",
+   "attrition"
+  ],
+  "verbs": [
+   "managed",
+   "hired",
+   "coached",
+   "promoted",
+   "built the team"
+  ],
+  "shown_by": [
+   "talent_acquisition",
+   "performance_mgmt",
+   "sales_leadership",
+   "leadership_dev_coaching",
+   "org_design",
+   "labor_shift_mgmt"
+  ]
+ },
+ "ownership": {
+  "form": "through",
+  "artefacts": [
+   "an outcome owned end to end",
+   "a stalled project turned around",
+   "a number owned"
+  ],
+  "counterparts": [
+   "leadership",
+   "the team"
+  ],
+  "measures": [
+   "the number owned and how it moved",
+   "time to deliver"
+  ],
+  "verbs": [
+   "owned",
+   "took over",
+   "turned around",
+   "delivered",
+   "drove to done"
+  ],
+  "shown_by": [
+   "pnl",
+   "product_lifecycle",
+   "launch",
+   "quota_attainment",
+   "program_mgmt",
+   "special_projects",
+   "ops_performance_mgmt",
+   "transformation_programs",
+   "performance_improvement"
+  ]
+ },
+ "adaptability": {
+  "form": "through",
+  "artefacts": [
+   "a pivot",
+   "a new market, product or role taken on",
+   "a fast ramp"
+  ],
+  "counterparts": [
+   "founders",
+   "a new team"
+  ],
+  "measures": [
+   "time to ramp",
+   "scope taken on",
+   "changes absorbed"
+  ],
+  "verbs": [
+   "pivoted",
+   "ramped",
+   "took on",
+   "re-planned",
+   "learned"
+  ],
+  "shown_by": [
+   "product_lifecycle",
+   "special_projects",
+   "transformation_programs",
+   "change_management",
+   "npi_manufacturing_ramp",
+   "launch"
+  ]
+ },
+ "collaboration": {
+  "form": "through",
+  "artefacts": [
+   "joint work with another team",
+   "feedback loop between teams",
+   "shared goals"
+  ],
+  "counterparts": [
+   "peers",
+   "partner teams",
+   "clients"
+  ],
+  "measures": [
+   "teams worked with",
+   "a result both teams credit"
+  ],
+  "verbs": [
+   "partnered",
+   "co-owned",
+   "built with",
+   "worked across"
+  ],
+  "shown_by": [
+   "cross_functional",
+   "ux_design_collab",
+   "client_engagement",
+   "finance_partnering",
+   "hr_business_partnering",
+   "partner_gtm",
+   "sales_enablement",
+   "supplier_relationship_mgmt"
+  ]
+ },
+ "customer_facing_exec": {
+  "form": "scope",
+  "artefacts": [
+   "customer meetings",
+   "executive briefings",
+   "advisory board",
+   "conference talk",
+   "demos"
+  ],
+  "counterparts": [
+   "customers",
+   "prospects",
+   "customer executives"
+  ],
+  "measures": [
+   "customers met",
+   "deals supported",
+   "audience size"
+  ],
+  "verbs": [
+   "met",
+   "presented to",
+   "ran the briefing",
+   "demoed"
+  ],
+  "shown_by": []
+ },
+ "agile_scrum": {
+  "form": "artefact",
+  "artefacts": [
+   "sprints",
+   "backlog",
+   "ceremonies",
+   "scaled agile programme"
+  ],
+  "counterparts": [
+   "engineering",
+   "scrum master",
+   "product owner"
+  ],
+  "measures": [
+   "sprints run",
+   "velocity or predictability",
+   "teams coached"
+  ],
+  "verbs": [
+   "ran",
+   "groomed",
+   "coached",
+   "adopted"
+  ],
+  "shown_by": []
+ },
+ "program_mgmt": {
+  "form": "scope",
+  "artefacts": [
+   "programme plan",
+   "milestones",
+   "RAID log",
+   "status report",
+   "workstreams"
+  ],
+  "counterparts": [
+   "workstream leads",
+   "engineering",
+   "vendors",
+   "sponsors"
+  ],
+  "measures": [
+   "budget",
+   "people or teams",
+   "delivered on time or early",
+   "milestones hit"
+  ],
+  "verbs": [
+   "ran",
+   "delivered",
+   "planned",
+   "tracked",
+   "coordinated"
+  ],
+  "shown_by": []
+ },
+ "risk_mgmt": {
+  "form": "scope",
+  "artefacts": [
+   "risk register",
+   "mitigation plan",
+   "contingency",
+   "escalation"
+  ],
+  "counterparts": [
+   "sponsors",
+   "workstream leads",
+   "leadership"
+  ],
+  "measures": [
+   "risks mitigated",
+   "escalations resolved",
+   "slips avoided"
+  ],
+  "verbs": [
+   "mitigated",
+   "escalated",
+   "unblocked",
+   "identified"
+  ],
+  "shown_by": []
+ },
+ "execution": {
+  "form": "through",
+  "artefacts": [
+   "delivered project",
+   "shipped product",
+   "hit target"
+  ],
+  "counterparts": [
+   "the team",
+   "leadership"
+  ],
+  "measures": [
+   "delivered on time",
+   "target hit",
+   "volume delivered"
+  ],
+  "verbs": [
+   "delivered",
+   "shipped",
+   "hit",
+   "completed"
+  ],
+  "shown_by": [
+   "launch",
+   "program_mgmt",
+   "quota_attainment",
+   "process_improvement",
+   "product_lifecycle",
+   "ops_performance_mgmt",
+   "campaign_management",
+   "accounting_close_controls",
+   "ma_execution"
+  ]
+ },
+ "process_improvement": {
+  "form": "artefact",
+  "artefacts": [
+   "process redesign",
+   "SOP",
+   "workflow automation",
+   "lean or Six Sigma project",
+   "playbook"
+  ],
+  "counterparts": [
+   "operations",
+   "the team",
+   "IT"
+  ],
+  "measures": [
+   "cycle time",
+   "hours saved",
+   "errors or cost cut"
+  ],
+  "verbs": [
+   "redesigned",
+   "streamlined",
+   "automated",
+   "standardised",
+   "cut"
+  ],
+  "shown_by": []
+ },
+ "quality_testing": {
+  "form": "artefact",
+  "artefacts": [
+   "test plan",
+   "UAT",
+   "acceptance criteria",
+   "bug triage"
+  ],
+  "counterparts": [
+   "QA",
+   "engineering",
+   "users"
+  ],
+  "measures": [
+   "defects found or escaped",
+   "test coverage",
+   "releases accepted"
+  ],
+  "verbs": [
+   "tested",
+   "ran UAT",
+   "triaged",
+   "accepted"
+  ],
+  "shown_by": []
+ },
+ "vendor_mgmt": {
+  "form": "scope",
+  "artefacts": [
+   "vendor contract",
+   "SOW",
+   "RFP",
+   "budget",
+   "SLA"
+  ],
+  "counterparts": [
+   "vendors",
+   "procurement",
+   "legal",
+   "finance"
+  ],
+  "measures": [
+   "budget or contract value",
+   "vendors managed",
+   "savings or SLA met"
+  ],
+  "verbs": [
+   "managed",
+   "negotiated",
+   "selected",
+   "held to SLA"
+  ],
+  "shown_by": []
+ },
+ "jira": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "figma": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "analytics_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "experimentation_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "office_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "crm_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "ai_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "yoe_2": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "yoe_3": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "yoe_5": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "yoe_8": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "yoe_10": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "pm_experience": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "bachelors": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "masters_mba": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "phd": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "cs_engineering_degree": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "startup_experience": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "big_tech_experience": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "consulting_banking": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "security_clearance": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "domain_expertise": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "strategic_planning": {
+  "form": "artefact",
+  "artefacts": [
+   "annual or long-range plan",
+   "planning calendar",
+   "strategic priorities"
+  ],
+  "counterparts": [
+   "leadership",
+   "finance",
+   "business units"
+  ],
+  "measures": [
+   "plan size (budget, units)",
+   "cycles run",
+   "priorities funded"
+  ],
+  "verbs": [
+   "ran the planning cycle",
+   "built the plan",
+   "set priorities"
+  ],
+  "shown_by": []
+ },
+ "strategy_development": {
+  "form": "artefact",
+  "artefacts": [
+   "corporate strategy",
+   "growth strategy",
+   "market-entry plan",
+   "strategy deck"
+  ],
+  "counterparts": [
+   "executives",
+   "the board",
+   "business units"
+  ],
+  "measures": [
+   "revenue or market targeted",
+   "options evaluated",
+   "bets approved"
+  ],
+  "verbs": [
+   "developed",
+   "defined",
+   "recommended",
+   "evaluated"
+  ],
+  "shown_by": []
+ },
+ "hypothesis_driven": {
+  "form": "artefact",
+  "artefacts": [
+   "hypothesis tree",
+   "issue tree",
+   "problem statement",
+   "analysis plan"
+  ],
+  "counterparts": [
+   "engagement team",
+   "clients"
+  ],
+  "measures": [
+   "hypotheses tested",
+   "weeks to answer",
+   "the answer's effect"
+  ],
+  "verbs": [
+   "framed",
+   "structured",
+   "tested",
+   "disproved"
+  ],
+  "shown_by": []
+ },
+ "synthesis_recommendations": {
+  "form": "artefact",
+  "artefacts": [
+   "recommendation",
+   "findings memo",
+   "synthesis",
+   "final report"
+  ],
+  "counterparts": [
+   "clients",
+   "executives",
+   "steering committee"
+  ],
+  "measures": [
+   "decisions taken on the recommendation",
+   "value identified"
+  ],
+  "verbs": [
+   "synthesised",
+   "recommended",
+   "distilled",
+   "presented"
+  ],
+  "shown_by": []
+ },
+ "exec_decks": {
+  "form": "artefact",
+  "artefacts": [
+   "executive deck",
+   "board materials",
+   "storyline",
+   "one-pager"
+  ],
+  "counterparts": [
+   "C-suite",
+   "the board",
+   "clients"
+  ],
+  "measures": [
+   "decisions the deck carried",
+   "audiences briefed",
+   "approval secured"
+  ],
+  "verbs": [
+   "built",
+   "storylined",
+   "wrote",
+   "presented"
+  ],
+  "shown_by": []
+ },
+ "client_engagement": {
+  "form": "scope",
+  "artefacts": [
+   "engagement",
+   "workstream",
+   "client deliverables",
+   "steering committee"
+  ],
+  "counterparts": [
+   "client executives",
+   "client teams",
+   "partners"
+  ],
+  "measures": [
+   "engagements or clients",
+   "team size led",
+   "fees or value delivered"
+  ],
+  "verbs": [
+   "led the engagement",
+   "ran the workstream",
+   "delivered to",
+   "managed the client"
+  ],
+  "shown_by": []
+ },
+ "operating_model_design": {
+  "form": "artefact",
+  "artefacts": [
+   "operating model",
+   "org and process design",
+   "governance model",
+   "service model"
+  ],
+  "counterparts": [
+   "executives",
+   "HR",
+   "business units"
+  ],
+  "measures": [
+   "functions redesigned",
+   "cost or headcount effect",
+   "cycle time"
+  ],
+  "verbs": [
+   "designed",
+   "redesigned",
+   "defined",
+   "stood up"
+  ],
+  "shown_by": []
+ },
+ "change_management": {
+  "form": "scope",
+  "artefacts": [
+   "change plan",
+   "stakeholder and communications plan",
+   "training and adoption plan"
+  ],
+  "counterparts": [
+   "employees",
+   "sponsors",
+   "HR",
+   "communications"
+  ],
+  "measures": [
+   "people or sites changed over",
+   "adoption rate",
+   "time to adopt"
+  ],
+  "verbs": [
+   "led the change",
+   "drove adoption",
+   "rolled out to",
+   "trained"
+  ],
+  "shown_by": []
+ },
+ "transformation_programs": {
+  "form": "scope",
+  "artefacts": [
+   "transformation programme",
+   "PMO",
+   "value tracking",
+   "roadmap of initiatives"
+  ],
+  "counterparts": [
+   "executive sponsors",
+   "workstream leads",
+   "finance"
+  ],
+  "measures": [
+   "value delivered or targeted",
+   "initiatives or workstreams",
+   "people affected"
+  ],
+  "verbs": [
+   "led",
+   "ran the PMO for",
+   "delivered",
+   "tracked value"
+  ],
+  "shown_by": []
+ },
+ "performance_improvement": {
+  "form": "artefact",
+  "artefacts": [
+   "cost baseline",
+   "savings plan",
+   "productivity initiative",
+   "benchmark"
+  ],
+  "counterparts": [
+   "finance",
+   "operations",
+   "business units"
+  ],
+  "measures": [
+   "cost taken out",
+   "margin or productivity change",
+   "run-rate savings"
+  ],
+  "verbs": [
+   "cut",
+   "improved",
+   "found savings of",
+   "benchmarked"
+  ],
+  "shown_by": []
+ },
+ "operating_cadence": {
+  "form": "scope",
+  "artefacts": [
+   "business review (MBR/QBR)",
+   "operating calendar",
+   "scorecard",
+   "staff meeting agenda"
+  ],
+  "counterparts": [
+   "executives",
+   "function heads"
+  ],
+  "measures": [
+   "reviews run",
+   "metrics on the scorecard",
+   "actions closed"
+  ],
+  "verbs": [
+   "ran",
+   "set up",
+   "chaired",
+   "owned the cadence"
+  ],
+  "shown_by": []
+ },
+ "special_projects": {
+  "form": "scope",
+  "artefacts": [
+   "strategic initiative",
+   "special project",
+   "task force",
+   "pilot"
+  ],
+  "counterparts": [
+   "executives",
+   "cross-functional teams"
+  ],
+  "measures": [
+   "initiatives delivered",
+   "value or scope",
+   "time to deliver"
+  ],
+  "verbs": [
+   "led",
+   "delivered",
+   "stood up",
+   "scoped"
+  ],
+  "shown_by": []
+ },
+ "exec_partnership": {
+  "form": "scope",
+  "artefacts": [
+   "executive agenda",
+   "decision memos",
+   "prep materials",
+   "follow-through on decisions"
+  ],
+  "counterparts": [
+   "CEO",
+   "C-suite",
+   "leadership team"
+  ],
+  "measures": [
+   "executives supported",
+   "decisions prepared",
+   "initiatives driven for them"
+  ],
+  "verbs": [
+   "partnered with",
+   "prepared",
+   "drove on behalf of",
+   "advised"
+  ],
+  "shown_by": []
+ },
+ "technology_strategy": {
+  "form": "artefact",
+  "artefacts": [
+   "technology roadmap",
+   "digital strategy",
+   "build-buy-partner analysis",
+   "architecture principles"
+  ],
+  "counterparts": [
+   "CIO or CTO",
+   "engineering",
+   "business units"
+  ],
+  "measures": [
+   "systems or platforms covered",
+   "budget",
+   "decisions taken"
+  ],
+  "verbs": [
+   "set",
+   "defined",
+   "recommended",
+   "assessed"
+  ],
+  "shown_by": []
+ },
+ "ai_strategy": {
+  "form": "artefact",
+  "artefacts": [
+   "AI strategy",
+   "use-case portfolio",
+   "AI adoption plan",
+   "AI governance principles"
+  ],
+  "counterparts": [
+   "executives",
+   "data science",
+   "business units"
+  ],
+  "measures": [
+   "use cases prioritised or launched",
+   "value targeted",
+   "adoption"
+  ],
+  "verbs": [
+   "defined",
+   "prioritised",
+   "piloted",
+   "scaled"
+  ],
+  "shown_by": []
+ },
+ "litigation_consulting": {
+  "form": "artefact",
+  "artefacts": [
+   "expert report",
+   "damages model",
+   "economic analysis",
+   "deposition support"
+  ],
+  "counterparts": [
+   "counsel",
+   "expert witnesses",
+   "courts"
+  ],
+  "measures": [
+   "matters worked",
+   "damages modelled",
+   "reports filed"
+  ],
+  "verbs": [
+   "analysed",
+   "modelled",
+   "supported",
+   "drafted"
+  ],
+  "shown_by": []
+ },
+ "business_unit_leadership": {
+  "form": "scope",
+  "artefacts": [
+   "business unit or site",
+   "P&L",
+   "operating plan",
+   "leadership team"
+  ],
+  "counterparts": [
+   "direct reports",
+   "corporate leadership",
+   "customers"
+  ],
+  "measures": [
+   "revenue or P&L",
+   "headcount",
+   "sites"
+  ],
+  "verbs": [
+   "ran",
+   "led",
+   "owned the P&L of",
+   "grew"
+  ],
+  "shown_by": []
+ },
+ "budgeting_forecasting": {
+  "form": "artefact",
+  "artefacts": [
+   "annual budget",
+   "rolling forecast",
+   "long-range plan",
+   "driver-based model"
+  ],
+  "counterparts": [
+   "business partners",
+   "FP&A",
+   "leadership"
+  ],
+  "measures": [
+   "budget size",
+   "forecast accuracy",
+   "cycles run"
+  ],
+  "verbs": [
+   "built",
+   "owned",
+   "forecast",
+   "consolidated"
+  ],
+  "shown_by": []
+ },
+ "variance_analysis": {
+  "form": "artefact",
+  "artefacts": [
+   "variance report",
+   "budget-vs-actual analysis",
+   "flash report",
+   "bridge"
+  ],
+  "counterparts": [
+   "business leaders",
+   "controllers"
+  ],
+  "measures": [
+   "variances explained",
+   "spend size",
+   "corrections made"
+  ],
+  "verbs": [
+   "analysed",
+   "explained",
+   "bridged",
+   "reported"
+  ],
+  "shown_by": []
+ },
+ "scenario_modeling": {
+  "form": "artefact",
+  "artefacts": [
+   "scenario model",
+   "sensitivity analysis",
+   "stress test",
+   "what-if model"
+  ],
+  "counterparts": [
+   "leadership",
+   "treasury",
+   "strategy"
+  ],
+  "measures": [
+   "scenarios modelled",
+   "decision size",
+   "range of outcomes"
+  ],
+  "verbs": [
+   "modelled",
+   "stress-tested",
+   "ran scenarios on",
+   "quantified"
+  ],
+  "shown_by": []
+ },
+ "accounting_close_controls": {
+  "form": "artefact",
+  "artefacts": [
+   "month-end close",
+   "journal entries",
+   "reconciliations",
+   "GAAP memos",
+   "control documentation"
+  ],
+  "counterparts": [
+   "controllers",
+   "auditors",
+   "shared services"
+  ],
+  "measures": [
+   "close days",
+   "entities or ledgers",
+   "audit findings"
+  ],
+  "verbs": [
+   "closed",
+   "reconciled",
+   "documented",
+   "shortened the close"
+  ],
+  "shown_by": []
+ },
+ "financial_reporting": {
+  "form": "artefact",
+  "artefacts": [
+   "management reports",
+   "board or investor package",
+   "10-K/10-Q sections",
+   "KPI pack"
+  ],
+  "counterparts": [
+   "executives",
+   "the board",
+   "auditors",
+   "investors"
+  ],
+  "measures": [
+   "reports or packages produced",
+   "entities covered",
+   "days to report"
+  ],
+  "verbs": [
+   "produced",
+   "prepared",
+   "reported",
+   "consolidated"
+  ],
+  "shown_by": []
+ },
+ "financial_statements": {
+  "form": "artefact",
+  "artefacts": [
+   "P&L",
+   "balance sheet",
+   "cash flow statement",
+   "three-statement model"
+  ],
+  "counterparts": [
+   "controllers",
+   "auditors",
+   "lenders"
+  ],
+  "measures": [
+   "revenue or assets covered",
+   "statements prepared"
+  ],
+  "verbs": [
+   "prepared",
+   "analysed",
+   "built",
+   "reviewed"
+  ],
+  "shown_by": []
+ },
+ "cash_liquidity": {
+  "form": "artefact",
+  "artefacts": [
+   "cash forecast",
+   "liquidity plan",
+   "working-capital initiative",
+   "cash pooling"
+  ],
+  "counterparts": [
+   "treasury",
+   "banks",
+   "business units"
+  ],
+  "measures": [
+   "cash or credit lines managed",
+   "forecast accuracy",
+   "working capital freed"
+  ],
+  "verbs": [
+   "forecast",
+   "managed",
+   "freed",
+   "optimised"
+  ],
+  "shown_by": []
+ },
+ "debt_capital_structure": {
+  "form": "artefact",
+  "artefacts": [
+   "debt raise",
+   "credit agreement",
+   "refinancing",
+   "capital structure analysis",
+   "covenant model"
+  ],
+  "counterparts": [
+   "lenders",
+   "rating agencies",
+   "legal",
+   "the board"
+  ],
+  "measures": [
+   "debt raised or refinanced",
+   "rate or covenant terms",
+   "interest saved"
+  ],
+  "verbs": [
+   "raised",
+   "refinanced",
+   "negotiated",
+   "structured"
+  ],
+  "shown_by": []
+ },
+ "fx_hedging": {
+  "form": "artefact",
+  "artefacts": [
+   "hedging programme",
+   "FX exposure analysis",
+   "swaps or forwards",
+   "hedge accounting"
+  ],
+  "counterparts": [
+   "treasury",
+   "banks",
+   "accounting"
+  ],
+  "measures": [
+   "exposure hedged",
+   "P&L volatility reduced",
+   "instruments used"
+  ],
+  "verbs": [
+   "hedged",
+   "executed",
+   "designed the programme",
+   "measured exposure"
+  ],
+  "shown_by": []
+ },
+ "capital_allocation": {
+  "form": "artefact",
+  "artefacts": [
+   "capex plan",
+   "investment case",
+   "hurdle-rate analysis",
+   "portfolio review"
+  ],
+  "counterparts": [
+   "executives",
+   "business units",
+   "the board"
+  ],
+  "measures": [
+   "capital allocated",
+   "projects approved or killed",
+   "return achieved"
+  ],
+  "verbs": [
+   "allocated",
+   "approved",
+   "evaluated",
+   "prioritised"
+  ],
+  "shown_by": []
+ },
+ "investor_relations": {
+  "form": "artefact",
+  "artefacts": [
+   "earnings materials",
+   "investor deck",
+   "fundraising round",
+   "shareholder communications"
+  ],
+  "counterparts": [
+   "investors",
+   "analysts",
+   "the board",
+   "the CEO and CFO"
+  ],
+  "measures": [
+   "capital raised",
+   "investors met",
+   "earnings cycles run"
+  ],
+  "verbs": [
+   "raised",
+   "presented to investors",
+   "prepared",
+   "ran the process"
+  ],
+  "shown_by": []
+ },
+ "finance_partnering": {
+  "form": "scope",
+  "artefacts": [
+   "business reviews",
+   "investment cases",
+   "forecasts for a business unit",
+   "trade-off analyses"
+  ],
+  "counterparts": [
+   "business unit leaders",
+   "sales or operations",
+   "executives"
+  ],
+  "measures": [
+   "budget of the business supported",
+   "leaders partnered with",
+   "decisions influenced"
+  ],
+  "verbs": [
+   "partnered with",
+   "advised",
+   "supported",
+   "challenged"
+  ],
+  "shown_by": []
+ },
+ "valuation": {
+  "form": "artefact",
+  "artefacts": [
+   "DCF",
+   "comparables analysis",
+   "LBO model",
+   "valuation memo",
+   "football field"
+  ],
+  "counterparts": [
+   "deal teams",
+   "clients",
+   "investment committee"
+  ],
+  "measures": [
+   "deal or asset value",
+   "models built",
+   "transactions valued"
+  ],
+  "verbs": [
+   "valued",
+   "modelled",
+   "built",
+   "ran"
+  ],
+  "shown_by": []
+ },
+ "ma_execution": {
+  "form": "artefact",
+  "artefacts": [
+   "sell-side or buy-side process",
+   "deal timeline",
+   "data room",
+   "negotiation of terms",
+   "closing"
+  ],
+  "counterparts": [
+   "clients",
+   "counsel",
+   "counterparties",
+   "diligence advisers"
+  ],
+  "measures": [
+   "deal value",
+   "deals closed",
+   "process length"
+  ],
+  "verbs": [
+   "executed",
+   "closed",
+   "ran the process",
+   "advised on"
+  ],
+  "shown_by": []
+ },
+ "due_diligence": {
+  "form": "artefact",
+  "artefacts": [
+   "diligence report",
+   "data-room review",
+   "quality-of-earnings review",
+   "findings memo"
+  ],
+  "counterparts": [
+   "deal teams",
+   "advisers",
+   "management teams"
+  ],
+  "measures": [
+   "deals diligenced",
+   "issues found",
+   "value adjusted"
+  ],
+  "verbs": [
+   "diligenced",
+   "reviewed",
+   "found",
+   "assessed"
+  ],
+  "shown_by": []
+ },
+ "integration_planning": {
+  "form": "artefact",
+  "artefacts": [
+   "integration plan",
+   "day-one readiness",
+   "synergy tracker",
+   "integration management office"
+  ],
+  "counterparts": [
+   "functional leads",
+   "acquired management",
+   "executives"
+  ],
+  "measures": [
+   "synergies targeted or captured",
+   "workstreams",
+   "time to integrate"
+  ],
+  "verbs": [
+   "planned",
+   "integrated",
+   "captured synergies of",
+   "led the IMO"
+  ],
+  "shown_by": []
+ },
+ "deal_sourcing": {
+  "form": "scope",
+  "artefacts": [
+   "deal pipeline",
+   "sourcing outreach",
+   "intermediary network",
+   "screening criteria"
+  ],
+  "counterparts": [
+   "founders",
+   "bankers",
+   "intermediaries",
+   "partners"
+  ],
+  "measures": [
+   "deals sourced or screened",
+   "pipeline size",
+   "deals closed from sourcing"
+  ],
+  "verbs": [
+   "sourced",
+   "screened",
+   "originated",
+   "built the pipeline"
+  ],
+  "shown_by": []
+ },
+ "pitch_materials": {
+  "form": "artefact",
+  "artefacts": [
+   "pitch book",
+   "CIM",
+   "teaser",
+   "management presentation",
+   "marketing materials"
+  ],
+  "counterparts": [
+   "clients",
+   "buyers",
+   "investors",
+   "senior bankers"
+  ],
+  "measures": [
+   "pitches or books produced",
+   "mandates won",
+   "buyers reached"
+  ],
+  "verbs": [
+   "prepared",
+   "drafted",
+   "built",
+   "presented"
+  ],
+  "shown_by": []
+ },
+ "credit_analysis": {
+  "form": "artefact",
+  "artefacts": [
+   "credit memo",
+   "underwriting model",
+   "covenant analysis",
+   "risk rating"
+  ],
+  "counterparts": [
+   "credit committee",
+   "borrowers",
+   "portfolio management"
+  ],
+  "measures": [
+   "exposure underwritten",
+   "loans or facilities",
+   "loss rate"
+  ],
+  "verbs": [
+   "underwrote",
+   "analysed",
+   "rated",
+   "structured"
+  ],
+  "shown_by": []
+ },
+ "capital_markets": {
+  "form": "artefact",
+  "artefacts": [
+   "equity or debt offering",
+   "IPO",
+   "bond issuance",
+   "syndication",
+   "term sheet"
+  ],
+  "counterparts": [
+   "issuers",
+   "investors",
+   "syndicate desks",
+   "counsel"
+  ],
+  "measures": [
+   "capital raised",
+   "transactions executed",
+   "pricing achieved"
+  ],
+  "verbs": [
+   "executed",
+   "priced",
+   "raised",
+   "syndicated"
+  ],
+  "shown_by": []
+ },
+ "client_coverage": {
+  "form": "scope",
+  "artefacts": [
+   "client relationship plan",
+   "account plan",
+   "cross-sell pipeline",
+   "client reviews"
+  ],
+  "counterparts": [
+   "corporate clients",
+   "treasurers and CFOs",
+   "product partners"
+  ],
+  "measures": [
+   "clients or relationships covered",
+   "revenue or wallet share",
+   "products cross-sold"
+  ],
+  "verbs": [
+   "covered",
+   "grew",
+   "cross-sold",
+   "managed the relationship"
+  ],
+  "shown_by": []
+ },
+ "portfolio_management": {
+  "form": "artefact",
+  "artefacts": [
+   "portfolio",
+   "asset allocation",
+   "investment policy",
+   "performance attribution"
+  ],
+  "counterparts": [
+   "investment committee",
+   "clients",
+   "research"
+  ],
+  "measures": [
+   "assets under management",
+   "return or alpha",
+   "positions"
+  ],
+  "verbs": [
+   "managed",
+   "allocated",
+   "rebalanced",
+   "outperformed"
+  ],
+  "shown_by": []
+ },
+ "portfolio_company": {
+  "form": "scope",
+  "artefacts": [
+   "value-creation plan",
+   "100-day plan",
+   "board materials",
+   "operating KPIs"
+  ],
+  "counterparts": [
+   "portfolio company management",
+   "deal partners",
+   "operating partners"
+  ],
+  "measures": [
+   "companies supported",
+   "EBITDA or revenue change",
+   "initiatives delivered"
+  ],
+  "verbs": [
+   "supported",
+   "drove",
+   "sat on the board of",
+   "built the plan for"
+  ],
+  "shown_by": []
+ },
+ "investment_committee": {
+  "form": "artefact",
+  "artefacts": [
+   "investment memo",
+   "IC presentation",
+   "recommendation",
+   "deal approval"
+  ],
+  "counterparts": [
+   "investment committee",
+   "partners",
+   "deal team"
+  ],
+  "measures": [
+   "memos written",
+   "deals approved",
+   "capital committed"
+  ],
+  "verbs": [
+   "wrote",
+   "presented to IC",
+   "recommended",
+   "secured approval for"
+  ],
+  "shown_by": []
+ },
+ "investment_research": {
+  "form": "artefact",
+  "artefacts": [
+   "research report",
+   "investment thesis",
+   "company or sector model",
+   "coverage"
+  ],
+  "counterparts": [
+   "portfolio managers",
+   "clients",
+   "management teams"
+  ],
+  "measures": [
+   "companies or sectors covered",
+   "recommendations and their returns",
+   "reports published"
+  ],
+  "verbs": [
+   "researched",
+   "covered",
+   "modelled",
+   "recommended"
+  ],
+  "shown_by": []
+ },
+ "deal_structuring": {
+  "form": "artefact",
+  "artefacts": [
+   "term sheet",
+   "deal structure",
+   "purchase agreement terms",
+   "earn-out or financing structure"
+  ],
+  "counterparts": [
+   "counterparties",
+   "counsel",
+   "lenders"
+  ],
+  "measures": [
+   "deals structured",
+   "value or terms negotiated",
+   "closed deals"
+  ],
+  "verbs": [
+   "structured",
+   "negotiated",
+   "closed",
+   "drafted terms"
+  ],
+  "shown_by": []
+ },
+ "wealth_advisory": {
+  "form": "scope",
+  "artefacts": [
+   "financial plan",
+   "client book",
+   "portfolio proposal",
+   "client reviews"
+  ],
+  "counterparts": [
+   "private clients",
+   "families",
+   "specialists"
+  ],
+  "measures": [
+   "assets under advice",
+   "clients or households",
+   "assets gathered"
+  ],
+  "verbs": [
+   "advised",
+   "grew the book",
+   "planned for",
+   "managed"
+  ],
+  "shown_by": []
+ },
+ "re_underwriting": {
+  "form": "artefact",
+  "artefacts": [
+   "pro forma",
+   "underwriting model",
+   "rent and sales comps",
+   "investment memo"
+  ],
+  "counterparts": [
+   "acquisitions team",
+   "investment committee",
+   "lenders"
+  ],
+  "measures": [
+   "deals or square feet underwritten",
+   "asset value",
+   "returns (IRR, yield)"
+  ],
+  "verbs": [
+   "underwrote",
+   "modelled",
+   "ran comps on",
+   "valued"
+  ],
+  "shown_by": []
+ },
+ "re_acquisitions_dispositions": {
+  "form": "artefact",
+  "artefacts": [
+   "LOI",
+   "purchase and sale agreement",
+   "closing",
+   "disposition process",
+   "broker process"
+  ],
+  "counterparts": [
+   "brokers",
+   "sellers or buyers",
+   "lenders",
+   "counsel"
+  ],
+  "measures": [
+   "deal value",
+   "properties acquired or sold",
+   "deals closed"
+  ],
+  "verbs": [
+   "acquired",
+   "sold",
+   "closed",
+   "negotiated"
+  ],
+  "shown_by": []
+ },
+ "re_development_entitlements": {
+  "form": "artefact",
+  "artefacts": [
+   "development budget",
+   "entitlement approvals",
+   "construction schedule",
+   "GC contract"
+  ],
+  "counterparts": [
+   "municipalities",
+   "architects",
+   "general contractors",
+   "lenders"
+  ],
+  "measures": [
+   "project cost or square feet",
+   "units delivered",
+   "schedule and budget variance"
+  ],
+  "verbs": [
+   "developed",
+   "entitled",
+   "delivered",
+   "managed construction of"
+  ],
+  "shown_by": []
+ },
+ "re_leasing": {
+  "form": "scope",
+  "artefacts": [
+   "lease",
+   "leasing plan",
+   "tenant pipeline",
+   "renewal"
+  ],
+  "counterparts": [
+   "tenants",
+   "brokers",
+   "property management"
+  ],
+  "measures": [
+   "square feet leased",
+   "occupancy",
+   "rent achieved"
+  ],
+  "verbs": [
+   "leased",
+   "negotiated",
+   "renewed",
+   "raised occupancy to"
+  ],
+  "shown_by": []
+ },
+ "re_asset_mgmt": {
+  "form": "artefact",
+  "artefacts": [
+   "asset business plan",
+   "budget and reforecast",
+   "capital plan",
+   "property reporting"
+  ],
+  "counterparts": [
+   "property managers",
+   "investors",
+   "lenders"
+  ],
+  "measures": [
+   "assets or square feet managed",
+   "NOI change",
+   "occupancy"
+  ],
+  "verbs": [
+   "managed",
+   "grew NOI of",
+   "executed the plan for",
+   "reported on"
+  ],
+  "shown_by": []
+ },
+ "re_property_types": {
+  "form": "context",
+  "artefacts": [
+   "multifamily, industrial, office or retail assets"
+  ],
+  "counterparts": [
+   "tenants",
+   "brokers",
+   "investors"
+  ],
+  "measures": [
+   "units or square feet",
+   "assets by type"
+  ],
+  "verbs": [
+   "worked on",
+   "acquired",
+   "managed"
+  ],
+  "shown_by": []
+ },
+ "brand_strategy": {
+  "form": "artefact",
+  "artefacts": [
+   "brand strategy",
+   "brand positioning",
+   "brand architecture",
+   "brand tracker"
+  ],
+  "counterparts": [
+   "agencies",
+   "creative",
+   "leadership"
+  ],
+  "measures": [
+   "brand awareness or equity change",
+   "markets or brands",
+   "budget"
+  ],
+  "verbs": [
+   "set",
+   "repositioned",
+   "built",
+   "grew"
+  ],
+  "shown_by": []
+ },
+ "campaign_management": {
+  "form": "artefact",
+  "artefacts": [
+   "integrated campaign",
+   "campaign brief",
+   "media plan",
+   "campaign readout"
+  ],
+  "counterparts": [
+   "agencies",
+   "creative",
+   "media",
+   "sales"
+  ],
+  "measures": [
+   "budget",
+   "reach or leads",
+   "ROI or lift"
+  ],
+  "verbs": [
+   "ran",
+   "launched",
+   "planned",
+   "delivered"
+  ],
+  "shown_by": []
+ },
+ "demand_generation": {
+  "form": "artefact",
+  "artefacts": [
+   "demand-gen programme",
+   "ABM plan",
+   "lead funnel",
+   "nurture tracks"
+  ],
+  "counterparts": [
+   "sales",
+   "marketing operations",
+   "agencies"
+  ],
+  "measures": [
+   "pipeline or leads generated",
+   "MQL to SQL conversion",
+   "CAC"
+  ],
+  "verbs": [
+   "generated",
+   "built",
+   "drove",
+   "ran"
+  ],
+  "shown_by": []
+ },
+ "performance_marketing": {
+  "form": "artefact",
+  "artefacts": [
+   "paid campaigns",
+   "bidding and budget plan",
+   "creative tests",
+   "channel mix"
+  ],
+  "counterparts": [
+   "ad platforms",
+   "agencies",
+   "analytics"
+  ],
+  "measures": [
+   "spend",
+   "ROAS or CAC",
+   "conversions"
+  ],
+  "verbs": [
+   "ran",
+   "optimised",
+   "scaled",
+   "cut CAC by"
+  ],
+  "shown_by": []
+ },
+ "seo_web_conversion": {
+  "form": "artefact",
+  "artefacts": [
+   "SEO programme",
+   "website redesign",
+   "landing-page tests",
+   "conversion funnel"
+  ],
+  "counterparts": [
+   "web developers",
+   "content",
+   "design"
+  ],
+  "measures": [
+   "organic traffic",
+   "rankings",
+   "conversion rate"
+  ],
+  "verbs": [
+   "grew",
+   "optimised",
+   "redesigned",
+   "lifted conversion"
+  ],
+  "shown_by": []
+ },
+ "content_social": {
+  "form": "artefact",
+  "artefacts": [
+   "content calendar",
+   "social programme",
+   "thought-leadership pieces",
+   "community"
+  ],
+  "counterparts": [
+   "creators",
+   "agencies",
+   "design"
+  ],
+  "measures": [
+   "followers or engagement",
+   "pieces published",
+   "traffic or leads from content"
+  ],
+  "verbs": [
+   "grew",
+   "published",
+   "ran",
+   "built the programme"
+  ],
+  "shown_by": []
+ },
+ "lifecycle_marketing": {
+  "form": "artefact",
+  "artefacts": [
+   "email or CRM programme",
+   "lifecycle journeys",
+   "segmentation",
+   "retention campaigns"
+  ],
+  "counterparts": [
+   "CRM team",
+   "data",
+   "product"
+  ],
+  "measures": [
+   "open or click rates",
+   "retention or repeat rate",
+   "revenue per send"
+  ],
+  "verbs": [
+   "built",
+   "automated",
+   "segmented",
+   "lifted retention"
+  ],
+  "shown_by": []
+ },
+ "marketing_analytics": {
+  "form": "artefact",
+  "artefacts": [
+   "attribution model",
+   "marketing dashboard",
+   "mix model",
+   "test readout"
+  ],
+  "counterparts": [
+   "finance",
+   "channel owners",
+   "data"
+  ],
+  "measures": [
+   "spend measured",
+   "ROI by channel",
+   "budget reallocated"
+  ],
+  "verbs": [
+   "measured",
+   "attributed",
+   "modelled",
+   "reallocated"
+  ],
+  "shown_by": []
+ },
+ "consumer_insights": {
+  "form": "artefact",
+  "artefacts": [
+   "consumer research",
+   "segmentation study",
+   "concept test",
+   "insight brief"
+  ],
+  "counterparts": [
+   "research agencies",
+   "brand teams",
+   "product"
+  ],
+  "measures": [
+   "studies run",
+   "consumers or respondents",
+   "launches informed"
+  ],
+  "verbs": [
+   "researched",
+   "uncovered",
+   "tested",
+   "briefed"
+  ],
+  "shown_by": []
+ },
+ "creative_agency": {
+  "form": "scope",
+  "artefacts": [
+   "creative brief",
+   "agency relationship",
+   "creative review",
+   "production"
+  ],
+  "counterparts": [
+   "agencies",
+   "creative directors",
+   "production"
+  ],
+  "measures": [
+   "agencies or budget managed",
+   "campaigns produced",
+   "awards or results"
+  ],
+  "verbs": [
+   "briefed",
+   "managed the agency",
+   "reviewed",
+   "produced"
+  ],
+  "shown_by": []
+ },
+ "events_field_marketing": {
+  "form": "artefact",
+  "artefacts": [
+   "event",
+   "conference presence",
+   "field programme",
+   "webinar series"
+  ],
+  "counterparts": [
+   "sales",
+   "vendors",
+   "partners"
+  ],
+  "measures": [
+   "attendees",
+   "leads or pipeline from events",
+   "events run"
+  ],
+  "verbs": [
+   "ran",
+   "produced",
+   "hosted",
+   "drove pipeline from"
+  ],
+  "shown_by": []
+ },
+ "pr_communications": {
+  "form": "artefact",
+  "artefacts": [
+   "press release",
+   "media plan",
+   "messaging",
+   "executive communications",
+   "crisis plan"
+  ],
+  "counterparts": [
+   "journalists",
+   "agencies",
+   "executives"
+  ],
+  "measures": [
+   "coverage (placements, reach)",
+   "announcements",
+   "share of voice"
+  ],
+  "verbs": [
+   "secured coverage",
+   "wrote",
+   "launched",
+   "managed"
+  ],
+  "shown_by": []
+ },
+ "customer_proof": {
+  "form": "artefact",
+  "artefacts": [
+   "case study",
+   "customer story",
+   "reference programme",
+   "testimonials"
+  ],
+  "counterparts": [
+   "customers",
+   "sales",
+   "customer success"
+  ],
+  "measures": [
+   "case studies published",
+   "references",
+   "deals influenced"
+  ],
+  "verbs": [
+   "published",
+   "built the programme",
+   "secured",
+   "wrote"
+  ],
+  "shown_by": []
+ },
+ "cpg_innovation": {
+  "form": "artefact",
+  "artefacts": [
+   "product launch",
+   "innovation pipeline",
+   "shopper or trade plan",
+   "retailer sell-in"
+  ],
+  "counterparts": [
+   "retailers",
+   "R&D",
+   "sales",
+   "agencies"
+  ],
+  "measures": [
+   "retail sales or share",
+   "distribution points",
+   "launches"
+  ],
+  "verbs": [
+   "launched",
+   "grew share",
+   "sold in",
+   "led innovation of"
+  ],
+  "shown_by": []
+ },
+ "pipeline_forecasting": {
+  "form": "artefact",
+  "artefacts": [
+   "pipeline review",
+   "forecast",
+   "CRM hygiene",
+   "deal stages"
+  ],
+  "counterparts": [
+   "sales leadership",
+   "reps",
+   "finance"
+  ],
+  "measures": [
+   "pipeline size",
+   "forecast accuracy",
+   "coverage ratio"
+  ],
+  "verbs": [
+   "forecast",
+   "managed the pipeline",
+   "reviewed",
+   "called the number"
+  ],
+  "shown_by": []
+ },
+ "quota_attainment": {
+  "form": "outcome",
+  "artefacts": [
+   "quota",
+   "bookings",
+   "revenue target"
+  ],
+  "counterparts": [
+   "sales leadership",
+   "customers"
+  ],
+  "measures": [
+   "percent of quota",
+   "bookings or ARR",
+   "ranking among reps"
+  ],
+  "verbs": [
+   "hit",
+   "exceeded",
+   "closed",
+   "delivered"
+  ],
+  "shown_by": []
+ },
+ "territory_account_planning": {
+  "form": "artefact",
+  "artefacts": [
+   "territory plan",
+   "account plan",
+   "segmentation",
+   "coverage model"
+  ],
+  "counterparts": [
+   "sales leadership",
+   "marketing",
+   "SDRs"
+  ],
+  "measures": [
+   "accounts or territory size",
+   "penetration",
+   "pipeline built"
+  ],
+  "verbs": [
+   "planned",
+   "mapped",
+   "prioritised",
+   "built"
+  ],
+  "shown_by": []
+ },
+ "prospecting": {
+  "form": "artefact",
+  "artefacts": [
+   "outbound sequences",
+   "lead lists",
+   "discovery calls",
+   "meetings booked"
+  ],
+  "counterparts": [
+   "SDRs",
+   "marketing",
+   "prospects"
+  ],
+  "measures": [
+   "meetings or opportunities created",
+   "response rate",
+   "pipeline sourced"
+  ],
+  "verbs": [
+   "prospected",
+   "booked",
+   "sourced",
+   "generated"
+  ],
+  "shown_by": []
+ },
+ "deal_negotiation": {
+  "form": "artefact",
+  "artefacts": [
+   "negotiated contract",
+   "pricing and terms",
+   "MSA",
+   "renewal terms"
+  ],
+  "counterparts": [
+   "buyers",
+   "procurement",
+   "legal"
+  ],
+  "measures": [
+   "deal value",
+   "discount held",
+   "deals closed"
+  ],
+  "verbs": [
+   "negotiated",
+   "closed",
+   "structured",
+   "held price on"
+  ],
+  "shown_by": []
+ },
+ "consultative_selling": {
+  "form": "artefact",
+  "artefacts": [
+   "discovery",
+   "solution proposal",
+   "business value case",
+   "executive presentation"
+  ],
+  "counterparts": [
+   "buyers",
+   "executives",
+   "solutions engineers"
+  ],
+  "measures": [
+   "deal size",
+   "win rate",
+   "cycle length"
+  ],
+  "verbs": [
+   "sold",
+   "diagnosed",
+   "proposed",
+   "won"
+  ],
+  "shown_by": []
+ },
+ "key_account_mgmt": {
+  "form": "scope",
+  "artefacts": [
+   "account plan",
+   "executive relationships",
+   "QBRs",
+   "account team"
+  ],
+  "counterparts": [
+   "key accounts",
+   "customer executives",
+   "account team"
+  ],
+  "measures": [
+   "account revenue",
+   "accounts managed",
+   "growth or retention"
+  ],
+  "verbs": [
+   "managed",
+   "grew",
+   "retained",
+   "expanded"
+  ],
+  "shown_by": []
+ },
+ "channel_sales": {
+  "form": "artefact",
+  "artefacts": [
+   "channel programme",
+   "reseller or distributor agreements",
+   "partner enablement",
+   "channel targets"
+  ],
+  "counterparts": [
+   "resellers",
+   "distributors",
+   "channel partners"
+  ],
+  "measures": [
+   "channel revenue",
+   "partners recruited",
+   "sell-through"
+  ],
+  "verbs": [
+   "recruited",
+   "grew channel revenue",
+   "enabled",
+   "managed"
+  ],
+  "shown_by": []
+ },
+ "partner_gtm": {
+  "form": "scope",
+  "artefacts": [
+   "joint go-to-market plan",
+   "co-sell motion",
+   "partner marketing",
+   "marketplace listing"
+  ],
+  "counterparts": [
+   "partners",
+   "partner sales",
+   "alliances"
+  ],
+  "measures": [
+   "co-sold revenue or pipeline",
+   "partners activated",
+   "joint deals"
+  ],
+  "verbs": [
+   "co-sold",
+   "launched with",
+   "built the joint plan",
+   "activated"
+  ],
+  "shown_by": []
+ },
+ "sales_leadership": {
+  "form": "scope",
+  "artefacts": [
+   "sales team",
+   "coaching",
+   "hiring plan",
+   "comp plan",
+   "forecast calls"
+  ],
+  "counterparts": [
+   "reps",
+   "sales managers",
+   "revenue leadership"
+  ],
+  "measures": [
+   "team size",
+   "team attainment",
+   "reps hired or promoted"
+  ],
+  "verbs": [
+   "led",
+   "coached",
+   "hired",
+   "grew the team"
+  ],
+  "shown_by": []
+ },
+ "sales_process": {
+  "form": "artefact",
+  "artefacts": [
+   "sales process",
+   "stage definitions",
+   "playbook",
+   "CRM configuration",
+   "sales ops reporting"
+  ],
+  "counterparts": [
+   "sales ops",
+   "reps",
+   "revenue leadership"
+  ],
+  "measures": [
+   "cycle length",
+   "conversion by stage",
+   "reps using it"
+  ],
+  "verbs": [
+   "designed",
+   "rolled out",
+   "standardised",
+   "improved"
+  ],
+  "shown_by": []
+ },
+ "renewals_expansion": {
+  "form": "outcome",
+  "artefacts": [
+   "renewal",
+   "upsell or cross-sell",
+   "expansion plan",
+   "net revenue retention"
+  ],
+  "counterparts": [
+   "customers",
+   "account managers",
+   "customer success"
+  ],
+  "measures": [
+   "renewal rate",
+   "net revenue retention",
+   "expansion revenue"
+  ],
+  "verbs": [
+   "renewed",
+   "expanded",
+   "upsold",
+   "retained"
+  ],
+  "shown_by": []
+ },
+ "onboarding_adoption": {
+  "form": "artefact",
+  "artefacts": [
+   "onboarding plan",
+   "implementation",
+   "adoption programme",
+   "training"
+  ],
+  "counterparts": [
+   "customers",
+   "implementation team",
+   "product"
+  ],
+  "measures": [
+   "time to value",
+   "adoption or activation rate",
+   "customers onboarded"
+  ],
+  "verbs": [
+   "onboarded",
+   "implemented",
+   "drove adoption",
+   "trained"
+  ],
+  "shown_by": []
+ },
+ "customer_health": {
+  "form": "scope",
+  "artefacts": [
+   "health score",
+   "business reviews (EBR/QBR)",
+   "success plan",
+   "risk list"
+  ],
+  "counterparts": [
+   "customer executives",
+   "account team",
+   "support"
+  ],
+  "measures": [
+   "accounts covered",
+   "churn saved",
+   "NPS or health change"
+  ],
+  "verbs": [
+   "ran reviews with",
+   "monitored",
+   "saved",
+   "escalated"
+  ],
+  "shown_by": []
+ },
+ "proposals_capture": {
+  "form": "artefact",
+  "artefacts": [
+   "proposal",
+   "RFP response",
+   "capture plan",
+   "bid"
+  ],
+  "counterparts": [
+   "procurement",
+   "government or enterprise buyers",
+   "bid team"
+  ],
+  "measures": [
+   "win rate",
+   "contract value won",
+   "bids submitted"
+  ],
+  "verbs": [
+   "wrote",
+   "won",
+   "led the capture of",
+   "responded to"
+  ],
+  "shown_by": []
+ },
+ "demand_supply_planning": {
+  "form": "artefact",
+  "artefacts": [
+   "S&OP cycle",
+   "demand forecast",
+   "supply plan",
+   "consensus forecast"
+  ],
+  "counterparts": [
+   "sales",
+   "finance",
+   "manufacturing",
+   "suppliers"
+  ],
+  "measures": [
+   "forecast accuracy",
+   "service level",
+   "inventory days"
+  ],
+  "verbs": [
+   "ran S&OP",
+   "forecast",
+   "planned",
+   "balanced"
+  ],
+  "shown_by": []
+ },
+ "inventory_mgmt": {
+  "form": "artefact",
+  "artefacts": [
+   "inventory policy",
+   "safety-stock model",
+   "cycle counts",
+   "inventory reduction plan"
+  ],
+  "counterparts": [
+   "warehouses",
+   "planners",
+   "finance"
+  ],
+  "measures": [
+   "inventory value or days",
+   "stock-outs",
+   "turns"
+  ],
+  "verbs": [
+   "cut inventory by",
+   "set policy for",
+   "managed",
+   "improved turns"
+  ],
+  "shown_by": []
+ },
+ "logistics_transportation": {
+  "form": "artefact",
+  "artefacts": [
+   "carrier contracts",
+   "route plan",
+   "freight RFP",
+   "network design"
+  ],
+  "counterparts": [
+   "carriers",
+   "3PLs",
+   "warehouses"
+  ],
+  "measures": [
+   "freight spend",
+   "on-time delivery",
+   "cost per shipment"
+  ],
+  "verbs": [
+   "managed",
+   "cut freight cost",
+   "redesigned the network",
+   "negotiated with carriers"
+  ],
+  "shown_by": []
+ },
+ "warehouse_fulfillment": {
+  "form": "artefact",
+  "artefacts": [
+   "warehouse operation",
+   "fulfilment process",
+   "pick-pack-ship flow",
+   "labour plan"
+  ],
+  "counterparts": [
+   "warehouse associates",
+   "3PLs",
+   "transport"
+  ],
+  "measures": [
+   "orders or units per day",
+   "cost per order",
+   "accuracy or on-time rate"
+  ],
+  "verbs": [
+   "ran",
+   "shipped",
+   "improved throughput of",
+   "launched the site"
+  ],
+  "shown_by": []
+ },
+ "capacity_production_planning": {
+  "form": "artefact",
+  "artefacts": [
+   "production schedule",
+   "capacity model",
+   "master production schedule",
+   "line balancing"
+  ],
+  "counterparts": [
+   "manufacturing",
+   "planners",
+   "suppliers"
+  ],
+  "measures": [
+   "output or OEE",
+   "schedule adherence",
+   "capacity added"
+  ],
+  "verbs": [
+   "scheduled",
+   "planned",
+   "balanced",
+   "raised output by"
+  ],
+  "shown_by": []
+ },
+ "lean_six_sigma": {
+  "form": "artefact",
+  "artefacts": [
+   "kaizen event",
+   "value-stream map",
+   "DMAIC project",
+   "5S or standard work"
+  ],
+  "counterparts": [
+   "operators",
+   "line leaders",
+   "quality"
+  ],
+  "measures": [
+   "cycle time or waste removed",
+   "defects reduced",
+   "savings"
+  ],
+  "verbs": [
+   "led kaizen",
+   "mapped",
+   "ran DMAIC on",
+   "removed waste"
+  ],
+  "shown_by": []
+ },
+ "root_cause_corrective_action": {
+  "form": "artefact",
+  "artefacts": [
+   "root-cause analysis (5 whys, fishbone)",
+   "corrective action plan",
+   "CAPA",
+   "8D report"
+  ],
+  "counterparts": [
+   "quality",
+   "operations",
+   "suppliers"
+  ],
+  "measures": [
+   "recurrence rate",
+   "issues closed",
+   "defects prevented"
+  ],
+  "verbs": [
+   "diagnosed",
+   "corrected",
+   "closed",
+   "prevented recurrence of"
+  ],
+  "shown_by": []
+ },
+ "quality_systems": {
+  "form": "artefact",
+  "artefacts": [
+   "quality management system",
+   "ISO audit",
+   "quality plan",
+   "control plan"
+  ],
+  "counterparts": [
+   "auditors",
+   "quality engineers",
+   "regulators"
+  ],
+  "measures": [
+   "audit results",
+   "defect or scrap rate",
+   "certifications held"
+  ],
+  "verbs": [
+   "ran",
+   "passed",
+   "built the QMS",
+   "improved first-pass yield"
+  ],
+  "shown_by": []
+ },
+ "safety_ehs": {
+  "form": "artefact",
+  "artefacts": [
+   "safety programme",
+   "incident investigation",
+   "EHS audit",
+   "safety training"
+  ],
+  "counterparts": [
+   "site leadership",
+   "EHS",
+   "regulators"
+  ],
+  "measures": [
+   "recordable incidents or TRIR",
+   "days without incident",
+   "audit findings"
+  ],
+  "verbs": [
+   "ran the programme",
+   "cut incidents",
+   "investigated",
+   "trained"
+  ],
+  "shown_by": []
+ },
+ "labor_shift_mgmt": {
+  "form": "scope",
+  "artefacts": [
+   "shift schedule",
+   "staffing plan",
+   "hourly team",
+   "attendance and performance"
+  ],
+  "counterparts": [
+   "hourly associates",
+   "shift leads",
+   "HR"
+  ],
+  "measures": [
+   "associates or shifts led",
+   "productivity",
+   "attrition or overtime"
+  ],
+  "verbs": [
+   "led a shift of",
+   "staffed",
+   "scheduled",
+   "managed"
+  ],
+  "shown_by": []
+ },
+ "ops_performance_mgmt": {
+  "form": "outcome",
+  "artefacts": [
+   "KPI scorecard",
+   "service levels",
+   "productivity targets",
+   "daily management"
+  ],
+  "counterparts": [
+   "site leadership",
+   "the team"
+  ],
+  "measures": [
+   "productivity change",
+   "service level or SLA",
+   "cost per unit"
+  ],
+  "verbs": [
+   "hit",
+   "raised",
+   "ran daily management on",
+   "owned the scorecard"
+  ],
+  "shown_by": []
+ },
+ "equipment_maintenance": {
+  "form": "artefact",
+  "artefacts": [
+   "maintenance plan",
+   "facility or equipment project",
+   "preventive maintenance programme",
+   "uptime plan"
+  ],
+  "counterparts": [
+   "maintenance",
+   "vendors",
+   "engineering"
+  ],
+  "measures": [
+   "uptime or downtime",
+   "maintenance cost",
+   "assets maintained"
+  ],
+  "verbs": [
+   "raised uptime",
+   "ran",
+   "planned",
+   "maintained"
+  ],
+  "shown_by": []
+ },
+ "sourcing_category_strategy": {
+  "form": "artefact",
+  "artefacts": [
+   "category strategy",
+   "sourcing strategy",
+   "supplier segmentation",
+   "sourcing wave plan"
+  ],
+  "counterparts": [
+   "suppliers",
+   "business stakeholders",
+   "finance"
+  ],
+  "measures": [
+   "category spend",
+   "savings",
+   "suppliers consolidated"
+  ],
+  "verbs": [
+   "set the strategy for",
+   "sourced",
+   "consolidated",
+   "saved"
+  ],
+  "shown_by": []
+ },
+ "rfx_bid_mgmt": {
+  "form": "artefact",
+  "artefacts": [
+   "RFP or RFQ",
+   "bid evaluation",
+   "award recommendation",
+   "e-auction"
+  ],
+  "counterparts": [
+   "suppliers",
+   "legal",
+   "stakeholders"
+  ],
+  "measures": [
+   "spend put to bid",
+   "savings from the event",
+   "bidders"
+  ],
+  "verbs": [
+   "ran the RFP",
+   "evaluated",
+   "awarded",
+   "saved"
+  ],
+  "shown_by": []
+ },
+ "supplier_relationship_mgmt": {
+  "form": "scope",
+  "artefacts": [
+   "supplier scorecard",
+   "supplier reviews",
+   "supplier development plan",
+   "escalations"
+  ],
+  "counterparts": [
+   "suppliers",
+   "quality",
+   "operations"
+  ],
+  "measures": [
+   "suppliers managed",
+   "spend covered",
+   "on-time or quality improvement"
+  ],
+  "verbs": [
+   "managed",
+   "reviewed",
+   "developed",
+   "held to the scorecard"
+  ],
+  "shown_by": []
+ },
+ "supplier_contract_negotiation": {
+  "form": "artefact",
+  "artefacts": [
+   "MSA",
+   "SOW",
+   "pricing agreement",
+   "negotiated terms"
+  ],
+  "counterparts": [
+   "suppliers",
+   "legal",
+   "finance"
+  ],
+  "measures": [
+   "contract value",
+   "savings or price change",
+   "terms won"
+  ],
+  "verbs": [
+   "negotiated",
+   "contracted",
+   "renegotiated",
+   "saved"
+  ],
+  "shown_by": []
+ },
+ "spend_cost_savings": {
+  "form": "artefact",
+  "artefacts": [
+   "spend analysis",
+   "savings pipeline",
+   "cost baseline",
+   "savings tracker"
+  ],
+  "counterparts": [
+   "finance",
+   "category managers",
+   "stakeholders"
+  ],
+  "measures": [
+   "spend analysed",
+   "savings delivered",
+   "percent of baseline"
+  ],
+  "verbs": [
+   "analysed",
+   "found",
+   "delivered savings of",
+   "tracked"
+  ],
+  "shown_by": []
+ },
+ "tco_should_cost": {
+  "form": "artefact",
+  "artefacts": [
+   "should-cost model",
+   "TCO analysis",
+   "cost breakdown",
+   "make-vs-buy analysis"
+  ],
+  "counterparts": [
+   "suppliers",
+   "engineering",
+   "finance"
+  ],
+  "measures": [
+   "cost modelled",
+   "savings identified",
+   "price gap closed"
+  ],
+  "verbs": [
+   "modelled",
+   "built the should-cost for",
+   "analysed",
+   "negotiated from"
+  ],
+  "shown_by": []
+ },
+ "procure_to_pay": {
+  "form": "artefact",
+  "artefacts": [
+   "purchase orders",
+   "P2P process",
+   "approval workflow",
+   "invoice matching"
+  ],
+  "counterparts": [
+   "requisitioners",
+   "accounts payable",
+   "suppliers"
+  ],
+  "measures": [
+   "POs or spend processed",
+   "cycle time",
+   "compliance rate"
+  ],
+  "verbs": [
+   "processed",
+   "ran",
+   "streamlined",
+   "raised compliance to"
+  ],
+  "shown_by": []
+ },
+ "supply_risk_continuity": {
+  "form": "artefact",
+  "artefacts": [
+   "risk assessment",
+   "dual-source plan",
+   "business-continuity plan",
+   "supplier risk monitoring"
+  ],
+  "counterparts": [
+   "suppliers",
+   "operations",
+   "risk"
+  ],
+  "measures": [
+   "suppliers assessed",
+   "single sources removed",
+   "disruptions avoided or recovered"
+  ],
+  "verbs": [
+   "assessed",
+   "dual-sourced",
+   "mitigated",
+   "recovered from"
+  ],
+  "shown_by": []
+ },
+ "supply_market_intel": {
+  "form": "artefact",
+  "artefacts": [
+   "market analysis",
+   "benchmark",
+   "price index tracking",
+   "supplier landscape"
+  ],
+  "counterparts": [
+   "category managers",
+   "finance",
+   "suppliers"
+  ],
+  "measures": [
+   "categories analysed",
+   "price movements anticipated",
+   "benchmarks used in negotiation"
+  ],
+  "verbs": [
+   "analysed",
+   "benchmarked",
+   "tracked",
+   "briefed"
+  ],
+  "shown_by": []
+ },
+ "npi_manufacturing_ramp": {
+  "form": "artefact",
+  "artefacts": [
+   "NPI plan",
+   "ramp plan",
+   "pilot build",
+   "design-for-manufacturing review"
+  ],
+  "counterparts": [
+   "engineering",
+   "manufacturing",
+   "suppliers"
+  ],
+  "measures": [
+   "products launched",
+   "time to volume",
+   "yield at ramp"
+  ],
+  "verbs": [
+   "launched",
+   "ramped",
+   "took to production",
+   "led NPI for"
+  ],
+  "shown_by": []
+ },
+ "capital_projects": {
+  "form": "artefact",
+  "artefacts": [
+   "capital project",
+   "equipment purchase",
+   "capex request",
+   "project schedule"
+  ],
+  "counterparts": [
+   "engineering",
+   "contractors",
+   "finance"
+  ],
+  "measures": [
+   "project budget",
+   "schedule and budget variance",
+   "capacity added"
+  ],
+  "verbs": [
+   "delivered",
+   "managed",
+   "justified",
+   "commissioned"
+  ],
+  "shown_by": []
+ },
+ "retail_category_assortment": {
+  "form": "artefact",
+  "artefacts": [
+   "assortment plan",
+   "category plan",
+   "planogram",
+   "buy plan"
+  ],
+  "counterparts": [
+   "vendors",
+   "merchandising",
+   "stores"
+  ],
+  "measures": [
+   "category sales or margin",
+   "SKUs",
+   "sell-through"
+  ],
+  "verbs": [
+   "planned",
+   "bought",
+   "grew the category",
+   "rationalised"
+  ],
+  "shown_by": []
+ },
+ "gov_contracts_far": {
+  "form": "context",
+  "artefacts": [
+   "government contract",
+   "FAR/DFARS compliance",
+   "subcontract",
+   "contract modification"
+  ],
+  "counterparts": [
+   "contracting officers",
+   "primes or subcontractors",
+   "compliance"
+  ],
+  "measures": [
+   "contract value",
+   "contracts administered",
+   "audit findings"
+  ],
+  "verbs": [
+   "administered",
+   "complied with",
+   "negotiated",
+   "managed"
+  ],
+  "shown_by": []
+ },
+ "employee_relations": {
+  "form": "scope",
+  "artefacts": [
+   "investigation",
+   "ER case",
+   "disciplinary process",
+   "grievance resolution"
+  ],
+  "counterparts": [
+   "employees",
+   "managers",
+   "legal"
+  ],
+  "measures": [
+   "cases handled",
+   "resolution time",
+   "escalations or claims avoided"
+  ],
+  "verbs": [
+   "investigated",
+   "resolved",
+   "advised managers on",
+   "handled"
+  ],
+  "shown_by": []
+ },
+ "hr_business_partnering": {
+  "form": "scope",
+  "artefacts": [
+   "people plan for a business unit",
+   "talent reviews",
+   "org changes",
+   "manager coaching"
+  ],
+  "counterparts": [
+   "business leaders",
+   "managers",
+   "centres of excellence"
+  ],
+  "measures": [
+   "headcount or population supported",
+   "leaders partnered with",
+   "attrition or engagement change"
+  ],
+  "verbs": [
+   "partnered with",
+   "advised",
+   "supported",
+   "coached"
+  ],
+  "shown_by": []
+ },
+ "talent_acquisition": {
+  "form": "artefact",
+  "artefacts": [
+   "hiring plan",
+   "sourcing strategy",
+   "interview process",
+   "offers"
+  ],
+  "counterparts": [
+   "hiring managers",
+   "recruiters",
+   "candidates"
+  ],
+  "measures": [
+   "hires made",
+   "time to fill",
+   "offer acceptance rate"
+  ],
+  "verbs": [
+   "hired",
+   "recruited",
+   "filled",
+   "built the process"
+  ],
+  "shown_by": []
+ },
+ "performance_mgmt": {
+  "form": "artefact",
+  "artefacts": [
+   "performance cycle",
+   "calibration",
+   "talent review",
+   "rating framework"
+  ],
+  "counterparts": [
+   "managers",
+   "leadership",
+   "HR"
+  ],
+  "measures": [
+   "employees covered",
+   "cycles run",
+   "calibration outcomes"
+  ],
+  "verbs": [
+   "ran",
+   "calibrated",
+   "designed",
+   "rolled out"
+  ],
+  "shown_by": []
+ },
+ "succession_workforce_planning": {
+  "form": "artefact",
+  "artefacts": [
+   "succession plan",
+   "workforce plan",
+   "critical-role map",
+   "talent pipeline"
+  ],
+  "counterparts": [
+   "executives",
+   "finance",
+   "business leaders"
+  ],
+  "measures": [
+   "roles covered",
+   "ready-now successors",
+   "headcount planned"
+  ],
+  "verbs": [
+   "planned",
+   "mapped",
+   "built the pipeline for",
+   "forecast"
+  ],
+  "shown_by": []
+ },
+ "learning_design": {
+  "form": "artefact",
+  "artefacts": [
+   "curriculum",
+   "course or programme",
+   "learning path",
+   "training materials"
+  ],
+  "counterparts": [
+   "subject experts",
+   "learners",
+   "managers"
+  ],
+  "measures": [
+   "learners trained",
+   "completion or assessment results",
+   "programmes built"
+  ],
+  "verbs": [
+   "designed",
+   "built",
+   "delivered",
+   "launched"
+  ],
+  "shown_by": []
+ },
+ "leadership_dev_coaching": {
+  "form": "scope",
+  "artefacts": [
+   "leadership programme",
+   "coaching engagements",
+   "360 feedback",
+   "development plans"
+  ],
+  "counterparts": [
+   "leaders",
+   "high potentials",
+   "executives"
+  ],
+  "measures": [
+   "leaders developed",
+   "cohorts run",
+   "promotion or retention of participants"
+  ],
+  "verbs": [
+   "coached",
+   "developed",
+   "ran the programme",
+   "facilitated"
+  ],
+  "shown_by": []
+ },
+ "org_design": {
+  "form": "artefact",
+  "artefacts": [
+   "org design",
+   "spans and layers analysis",
+   "role definitions",
+   "restructuring plan"
+  ],
+  "counterparts": [
+   "executives",
+   "finance",
+   "HR"
+  ],
+  "measures": [
+   "people or functions redesigned",
+   "layers or cost removed",
+   "roles defined"
+  ],
+  "verbs": [
+   "designed",
+   "restructured",
+   "defined",
+   "reduced layers"
+  ],
+  "shown_by": []
+ },
+ "engagement_culture": {
+  "form": "artefact",
+  "artefacts": [
+   "engagement survey",
+   "action plan",
+   "culture programme",
+   "recognition programme"
+  ],
+  "counterparts": [
+   "employees",
+   "leaders",
+   "communications"
+  ],
+  "measures": [
+   "engagement score change",
+   "participation",
+   "attrition"
+  ],
+  "verbs": [
+   "ran",
+   "raised engagement by",
+   "launched",
+   "built"
+  ],
+  "shown_by": []
+ },
+ "comp_design": {
+  "form": "artefact",
+  "artefacts": [
+   "compensation structure",
+   "incentive plan",
+   "merit cycle",
+   "pay policy"
+  ],
+  "counterparts": [
+   "leadership",
+   "finance",
+   "managers"
+  ],
+  "measures": [
+   "employees covered",
+   "budget",
+   "cycles run"
+  ],
+  "verbs": [
+   "designed",
+   "ran the cycle",
+   "modelled",
+   "rolled out"
+  ],
+  "shown_by": []
+ },
+ "market_pricing_job_arch": {
+  "form": "artefact",
+  "artefacts": [
+   "job architecture",
+   "salary bands",
+   "market pricing",
+   "levelling"
+  ],
+  "counterparts": [
+   "managers",
+   "survey providers",
+   "HR"
+  ],
+  "measures": [
+   "jobs levelled or priced",
+   "bands built",
+   "employees mapped"
+  ],
+  "verbs": [
+   "benchmarked",
+   "levelled",
+   "built bands for",
+   "priced"
+  ],
+  "shown_by": []
+ },
+ "exec_equity_comp": {
+  "form": "artefact",
+  "artefacts": [
+   "executive comp plan",
+   "equity programme",
+   "compensation committee materials",
+   "proxy disclosure"
+  ],
+  "counterparts": [
+   "compensation committee",
+   "executives",
+   "legal"
+  ],
+  "measures": [
+   "executives or grants covered",
+   "plan size",
+   "committee cycles"
+  ],
+  "verbs": [
+   "designed",
+   "administered",
+   "prepared committee materials for",
+   "modelled"
+  ],
+  "shown_by": []
+ },
+ "benefits_admin": {
+  "form": "artefact",
+  "artefacts": [
+   "benefits plan",
+   "open enrolment",
+   "vendor renewals",
+   "benefits communications"
+  ],
+  "counterparts": [
+   "carriers and vendors",
+   "employees",
+   "finance"
+  ],
+  "measures": [
+   "employees covered",
+   "benefits spend",
+   "enrolment results or savings"
+  ],
+  "verbs": [
+   "administered",
+   "ran open enrolment",
+   "renewed",
+   "redesigned"
+  ],
+  "shown_by": []
+ },
+ "hr_compliance": {
+  "form": "context",
+  "artefacts": [
+   "policy",
+   "compliance audit",
+   "FMLA or ADA handling",
+   "wage-and-hour review"
+  ],
+  "counterparts": [
+   "legal",
+   "regulators",
+   "managers"
+  ],
+  "measures": [
+   "jurisdictions covered",
+   "audits or claims",
+   "policies written"
+  ],
+  "verbs": [
+   "complied with",
+   "audited",
+   "advised on",
+   "wrote policy for"
+  ],
+  "shown_by": []
+ },
+ "hr_operations": {
+  "form": "artefact",
+  "artefacts": [
+   "onboarding process",
+   "payroll cycle",
+   "HRIS workflow",
+   "HR service desk"
+  ],
+  "counterparts": [
+   "employees",
+   "payroll",
+   "IT"
+  ],
+  "measures": [
+   "employees served",
+   "cycle time",
+   "error rate"
+  ],
+  "verbs": [
+   "ran",
+   "processed",
+   "streamlined",
+   "onboarded"
+  ],
+  "shown_by": []
+ },
+ "people_analytics": {
+  "form": "artefact",
+  "artefacts": [
+   "people dashboard",
+   "attrition analysis",
+   "headcount report",
+   "survey analysis"
+  ],
+  "counterparts": [
+   "HR leaders",
+   "finance",
+   "executives"
+  ],
+  "measures": [
+   "population analysed",
+   "insights that changed a decision",
+   "reports automated"
+  ],
+  "verbs": [
+   "analysed",
+   "built the dashboard",
+   "reported",
+   "modelled attrition"
+  ],
+  "shown_by": []
+ },
+ "rotational_program": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "erm_framework": {
+  "form": "artefact",
+  "artefacts": [
+   "risk framework",
+   "risk appetite statement",
+   "risk register",
+   "board risk report"
+  ],
+  "counterparts": [
+   "risk committee",
+   "the board",
+   "business lines"
+  ],
+  "measures": [
+   "risks tracked",
+   "reports delivered",
+   "framework adoption"
+  ],
+  "verbs": [
+   "built",
+   "reported",
+   "assessed",
+   "maintained"
+  ],
+  "shown_by": []
+ },
+ "controls_testing": {
+  "form": "artefact",
+  "artefacts": [
+   "control design",
+   "test plan",
+   "test results",
+   "control matrix"
+  ],
+  "counterparts": [
+   "control owners",
+   "auditors",
+   "SOX team"
+  ],
+  "measures": [
+   "controls tested",
+   "deficiencies found or closed",
+   "cycles run"
+  ],
+  "verbs": [
+   "tested",
+   "designed",
+   "documented",
+   "remediated"
+  ],
+  "shown_by": []
+ },
+ "operational_risk": {
+  "form": "artefact",
+  "artefacts": [
+   "risk and control self-assessment",
+   "loss event analysis",
+   "scenario analysis",
+   "resilience plan"
+  ],
+  "counterparts": [
+   "business lines",
+   "risk committee",
+   "regulators"
+  ],
+  "measures": [
+   "business units covered",
+   "loss events analysed",
+   "issues closed"
+  ],
+  "verbs": [
+   "assessed",
+   "analysed",
+   "reported",
+   "strengthened"
+  ],
+  "shown_by": []
+ },
+ "third_party_risk": {
+  "form": "artefact",
+  "artefacts": [
+   "vendor risk assessment",
+   "due-diligence questionnaire",
+   "third-party inventory",
+   "ongoing monitoring"
+  ],
+  "counterparts": [
+   "vendors",
+   "procurement",
+   "security"
+  ],
+  "measures": [
+   "vendors assessed",
+   "high-risk vendors remediated",
+   "cycle time"
+  ],
+  "verbs": [
+   "assessed",
+   "onboarded",
+   "monitored",
+   "remediated"
+  ],
+  "shown_by": []
+ },
+ "model_risk": {
+  "form": "artefact",
+  "artefacts": [
+   "model validation",
+   "model inventory",
+   "validation report",
+   "model governance"
+  ],
+  "counterparts": [
+   "model developers",
+   "regulators",
+   "risk committee"
+  ],
+  "measures": [
+   "models validated",
+   "findings raised or closed",
+   "inventory size"
+  ],
+  "verbs": [
+   "validated",
+   "reviewed",
+   "governed",
+   "challenged"
+  ],
+  "shown_by": []
+ },
+ "financial_risk": {
+  "form": "artefact",
+  "artefacts": [
+   "credit, market or liquidity risk analysis",
+   "limits",
+   "stress test",
+   "risk report"
+  ],
+  "counterparts": [
+   "trading or lending desks",
+   "ALCO",
+   "regulators"
+  ],
+  "measures": [
+   "exposure covered",
+   "limits set",
+   "stress results"
+  ],
+  "verbs": [
+   "measured",
+   "set limits for",
+   "stress-tested",
+   "reported"
+  ],
+  "shown_by": []
+ },
+ "compliance_program": {
+  "form": "artefact",
+  "artefacts": [
+   "compliance programme",
+   "risk assessment",
+   "training",
+   "annual plan"
+  ],
+  "counterparts": [
+   "business lines",
+   "regulators",
+   "legal"
+  ],
+  "measures": [
+   "population covered",
+   "training completion",
+   "findings"
+  ],
+  "verbs": [
+   "ran",
+   "built",
+   "assessed",
+   "trained"
+  ],
+  "shown_by": []
+ },
+ "compliance_monitoring": {
+  "form": "artefact",
+  "artefacts": [
+   "monitoring plan",
+   "testing results",
+   "surveillance",
+   "findings report"
+  ],
+  "counterparts": [
+   "business lines",
+   "audit",
+   "regulators"
+  ],
+  "measures": [
+   "reviews completed",
+   "findings raised",
+   "coverage"
+  ],
+  "verbs": [
+   "monitored",
+   "tested",
+   "reviewed",
+   "reported"
+  ],
+  "shown_by": []
+ },
+ "regulatory_change": {
+  "form": "artefact",
+  "artefacts": [
+   "regulatory inventory",
+   "impact assessment",
+   "implementation plan",
+   "regulatory horizon scan"
+  ],
+  "counterparts": [
+   "legal",
+   "business lines",
+   "regulators"
+  ],
+  "measures": [
+   "rules tracked",
+   "changes implemented",
+   "deadlines met"
+  ],
+  "verbs": [
+   "assessed",
+   "implemented",
+   "tracked",
+   "advised on"
+  ],
+  "shown_by": []
+ },
+ "regulator_exams": {
+  "form": "scope",
+  "artefacts": [
+   "exam preparation",
+   "regulator requests",
+   "exam responses",
+   "remediation of findings"
+  ],
+  "counterparts": [
+   "regulators or examiners",
+   "senior management",
+   "legal"
+  ],
+  "measures": [
+   "exams supported",
+   "findings and their closure",
+   "requests answered"
+  ],
+  "verbs": [
+   "managed the exam",
+   "responded to",
+   "coordinated",
+   "closed findings"
+  ],
+  "shown_by": []
+ },
+ "policy_management": {
+  "form": "artefact",
+  "artefacts": [
+   "policy",
+   "standard or procedure",
+   "policy framework",
+   "attestation process"
+  ],
+  "counterparts": [
+   "policy owners",
+   "legal",
+   "the board"
+  ],
+  "measures": [
+   "policies written or reviewed",
+   "attestation rate",
+   "review cycle"
+  ],
+  "verbs": [
+   "wrote",
+   "reviewed",
+   "governed",
+   "rolled out"
+  ],
+  "shown_by": []
+ },
+ "internal_audit_sox": {
+  "form": "artefact",
+  "artefacts": [
+   "audit plan",
+   "audit report",
+   "SOX testing",
+   "walkthroughs"
+  ],
+  "counterparts": [
+   "auditees",
+   "audit committee",
+   "external auditors"
+  ],
+  "measures": [
+   "audits completed",
+   "findings raised or closed",
+   "controls tested"
+  ],
+  "verbs": [
+   "audited",
+   "tested",
+   "reported",
+   "closed"
+  ],
+  "shown_by": []
+ },
+ "issue_remediation": {
+  "form": "artefact",
+  "artefacts": [
+   "issue log",
+   "remediation plan",
+   "root-cause analysis",
+   "validation of closure"
+  ],
+  "counterparts": [
+   "issue owners",
+   "audit",
+   "regulators"
+  ],
+  "measures": [
+   "issues tracked or closed",
+   "time to close",
+   "overdue items"
+  ],
+  "verbs": [
+   "remediated",
+   "tracked",
+   "closed",
+   "validated"
+  ],
+  "shown_by": []
+ },
+ "financial_crime": {
+  "form": "artefact",
+  "artefacts": [
+   "KYC or CDD review",
+   "transaction monitoring",
+   "SAR",
+   "sanctions screening"
+  ],
+  "counterparts": [
+   "compliance",
+   "law enforcement or FIU",
+   "business lines"
+  ],
+  "measures": [
+   "cases or alerts reviewed",
+   "SARs filed",
+   "backlog cleared"
+  ],
+  "verbs": [
+   "investigated",
+   "reviewed",
+   "filed",
+   "screened"
+  ],
+  "shown_by": []
+ },
+ "consumer_compliance": {
+  "form": "context",
+  "artefacts": [
+   "UDAAP review",
+   "fair-lending analysis",
+   "disclosure review",
+   "complaint analysis"
+  ],
+  "counterparts": [
+   "legal",
+   "regulators (CFPB, OCC)",
+   "product"
+  ],
+  "measures": [
+   "products reviewed",
+   "complaints analysed",
+   "findings"
+  ],
+  "verbs": [
+   "reviewed",
+   "advised on",
+   "tested",
+   "complied with"
+  ],
+  "shown_by": []
+ },
+ "security_frameworks": {
+  "form": "context",
+  "artefacts": [
+   "SOC 2 or ISO 27001 programme",
+   "NIST mapping",
+   "control evidence",
+   "audit readiness"
+  ],
+  "counterparts": [
+   "auditors",
+   "security",
+   "customers"
+  ],
+  "measures": [
+   "certifications achieved",
+   "controls mapped",
+   "audit findings"
+  ],
+  "verbs": [
+   "achieved",
+   "mapped",
+   "prepared for",
+   "maintained"
+  ],
+  "shown_by": []
+ },
+ "data_governance": {
+  "form": "artefact",
+  "artefacts": [
+   "data governance framework",
+   "data catalogue",
+   "data quality rules",
+   "stewardship model"
+  ],
+  "counterparts": [
+   "data owners",
+   "IT",
+   "privacy"
+  ],
+  "measures": [
+   "data domains governed",
+   "data quality improvement",
+   "stewards onboarded"
+  ],
+  "verbs": [
+   "governed",
+   "catalogued",
+   "set rules for",
+   "improved quality of"
+  ],
+  "shown_by": []
+ },
+ "ai_governance": {
+  "form": "artefact",
+  "artefacts": [
+   "AI policy",
+   "model review process",
+   "AI risk assessment",
+   "responsible-AI framework"
+  ],
+  "counterparts": [
+   "data science",
+   "legal",
+   "risk committee"
+  ],
+  "measures": [
+   "models or use cases reviewed",
+   "policies set",
+   "issues found"
+  ],
+  "verbs": [
+   "reviewed",
+   "set policy for",
+   "assessed",
+   "governed"
+  ],
+  "shown_by": []
+ },
+ "it_risk": {
+  "form": "artefact",
+  "artefacts": [
+   "IT risk assessment",
+   "cyber risk report",
+   "control review",
+   "incident analysis"
+  ],
+  "counterparts": [
+   "IT",
+   "security",
+   "audit"
+  ],
+  "measures": [
+   "systems assessed",
+   "findings closed",
+   "incidents analysed"
+  ],
+  "verbs": [
+   "assessed",
+   "reviewed",
+   "reported",
+   "remediated"
+  ],
+  "shown_by": []
+ },
+ "board_governance": {
+  "form": "scope",
+  "artefacts": [
+   "board or committee materials",
+   "charters",
+   "minutes",
+   "governance calendar"
+  ],
+  "counterparts": [
+   "the board",
+   "committees",
+   "general counsel"
+  ],
+  "measures": [
+   "meetings supported",
+   "committees served",
+   "resolutions"
+  ],
+  "verbs": [
+   "prepared",
+   "supported",
+   "coordinated",
+   "advised"
+  ],
+  "shown_by": []
+ },
+ "trade_compliance": {
+  "form": "context",
+  "artefacts": [
+   "export classification",
+   "licence applications",
+   "sanctions screening",
+   "customs compliance"
+  ],
+  "counterparts": [
+   "customs",
+   "regulators (BIS, OFAC)",
+   "logistics"
+  ],
+  "measures": [
+   "shipments or licences",
+   "classifications",
+   "audit findings"
+  ],
+  "verbs": [
+   "classified",
+   "licensed",
+   "screened",
+   "complied with"
+  ],
+  "shown_by": []
+ },
+ "governance_design": {
+  "form": "artefact",
+  "artefacts": [
+   "governance framework",
+   "decision rights",
+   "committee structure",
+   "forum charter"
+  ],
+  "counterparts": [
+   "executives",
+   "committees",
+   "business lines"
+  ],
+  "measures": [
+   "forums designed",
+   "decisions routed",
+   "cycle time of decisions"
+  ],
+  "verbs": [
+   "designed",
+   "set up",
+   "defined",
+   "chaired"
+  ],
+  "shown_by": []
+ },
+ "dashboards_dataviz": {
+  "form": "artefact",
+  "artefacts": [
+   "dashboard",
+   "report",
+   "visualisation",
+   "KPI view"
+  ],
+  "counterparts": [
+   "business users",
+   "leadership",
+   "data engineering"
+  ],
+  "measures": [
+   "users or viewers",
+   "dashboards built",
+   "hours of reporting saved"
+  ],
+  "verbs": [
+   "built",
+   "designed",
+   "automated",
+   "published"
+  ],
+  "shown_by": []
+ },
+ "reporting_adhoc_analysis": {
+  "form": "artefact",
+  "artefacts": [
+   "automated report",
+   "ad hoc analysis",
+   "data pull",
+   "analysis memo"
+  ],
+  "counterparts": [
+   "business partners",
+   "finance",
+   "leadership"
+  ],
+  "measures": [
+   "reports automated",
+   "hours saved",
+   "questions answered"
+  ],
+  "verbs": [
+   "automated",
+   "analysed",
+   "answered",
+   "built"
+  ],
+  "shown_by": []
+ },
+ "self_service_bi": {
+  "form": "artefact",
+  "artefacts": [
+   "semantic layer",
+   "certified datasets",
+   "BI training",
+   "self-service model"
+  ],
+  "counterparts": [
+   "business users",
+   "data engineering",
+   "analysts"
+  ],
+  "measures": [
+   "users enabled",
+   "requests deflected",
+   "datasets certified"
+  ],
+  "verbs": [
+   "enabled",
+   "built",
+   "trained",
+   "certified"
+  ],
+  "shown_by": []
+ },
+ "analytics_requirements": {
+  "form": "scope",
+  "artefacts": [
+   "requirements",
+   "metric definitions",
+   "analytics roadmap",
+   "stakeholder intake"
+  ],
+  "counterparts": [
+   "business stakeholders",
+   "data engineering",
+   "product"
+  ],
+  "measures": [
+   "stakeholders or teams served",
+   "requirements delivered",
+   "metrics defined"
+  ],
+  "verbs": [
+   "gathered",
+   "translated",
+   "partnered with",
+   "defined"
+  ],
+  "shown_by": []
+ },
+ "cost_schedule_control": {
+  "form": "artefact",
+  "artefacts": [
+   "budget and schedule baseline",
+   "cost report",
+   "change control",
+   "forecast at completion"
+  ],
+  "counterparts": [
+   "sponsors",
+   "finance",
+   "contractors"
+  ],
+  "measures": [
+   "budget controlled",
+   "variance to baseline",
+   "changes managed"
+  ],
+  "verbs": [
+   "controlled",
+   "forecast",
+   "tracked",
+   "held to budget"
+  ],
+  "shown_by": []
+ },
+ "earned_value_mgmt": {
+  "form": "artefact",
+  "artefacts": [
+   "integrated master schedule",
+   "EVM metrics (CPI, SPI)",
+   "baseline",
+   "performance reports"
+  ],
+  "counterparts": [
+   "programme office",
+   "customers (often government)",
+   "control account managers"
+  ],
+  "measures": [
+   "contract value",
+   "CPI and SPI",
+   "milestones"
+  ],
+  "verbs": [
+   "managed",
+   "baselined",
+   "reported",
+   "recovered schedule"
+  ],
+  "shown_by": []
+ },
+ "program_governance_reviews": {
+  "form": "scope",
+  "artefacts": [
+   "gate reviews",
+   "PMO standards",
+   "programme board",
+   "portfolio reporting"
+  ],
+  "counterparts": [
+   "programme board",
+   "sponsors",
+   "project managers"
+  ],
+  "measures": [
+   "programmes governed",
+   "reviews held",
+   "portfolio size"
+  ],
+  "verbs": [
+   "governed",
+   "chaired",
+   "set standards for",
+   "reviewed"
+  ],
+  "shown_by": []
+ },
+ "resource_planning": {
+  "form": "artefact",
+  "artefacts": [
+   "resource plan",
+   "capacity model",
+   "staffing forecast",
+   "allocation"
+  ],
+  "counterparts": [
+   "project managers",
+   "functional leads",
+   "finance"
+  ],
+  "measures": [
+   "people or hours planned",
+   "utilisation",
+   "projects staffed"
+  ],
+  "verbs": [
+   "planned",
+   "allocated",
+   "forecast",
+   "staffed"
+  ],
+  "shown_by": []
+ },
+ "advanced_excel": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "erp_finance_systems": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "market_data_terminals": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "re_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "treasury_systems": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "grc_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "marketing_automation_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "ad_platforms": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "syndicated_data": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "hris_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "learning_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "procurement_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "supply_chain_systems": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "pm_scheduling_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "bi_dev_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "stats_analytics_packages": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "used",
+   "built in",
+   "modelled in",
+   "ran in"
+  ],
+  "shown_by": []
+ },
+ "cpa": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "cfa": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "finra_licenses": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "ctp": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "finance_degree": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "risk_compliance_certs": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "law_degree": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "pm_change_certs": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "hr_certification": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "rewards_certification": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "sales_track_record": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "lean_six_sigma_belt": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "supply_chain_certs": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ }
+}
