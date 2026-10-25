@@ -82,6 +82,7 @@
    "id": "roadmap",
    "name": "Roadmapping",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "roadmap"
    ]
@@ -90,6 +91,7 @@
    "id": "product_strategy",
    "name": "Product strategy",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "product strateg",
     "strategic (direction|vision|plan)",
@@ -115,6 +117,7 @@
    "id": "product_vision",
    "name": "Product vision",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "product vision",
     "\\bvision\\b.{0,30}\\bproduct\\b",
@@ -130,6 +133,7 @@
    "id": "prioritization",
    "name": "Prioritization & trade-offs",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "prioriti[sz]",
     "trade-?offs?",
@@ -141,6 +145,7 @@
    "id": "prd",
    "name": "PRDs & requirements writing",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "\\bPRDs?\\b",
     "product requirements? doc",
@@ -159,6 +164,7 @@
    "id": "product_lifecycle",
    "name": "End-to-end product lifecycle",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "product (development )?life-?cycle",
     "end[- ]to[- ]end (ownership|product|delivery|experience|process)",
@@ -174,6 +180,7 @@
    "id": "launch",
    "name": "Product launches",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "product launch",
     "launch(ed|ing)? (new )?(products|features|programs|capabilities|services)",
@@ -196,6 +203,7 @@
    "id": "feature_definition",
    "name": "Feature definition & scoping",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "defin(e|ing) (features|scope|requirements)",
     "scop(e|ing) (features|work|projects)",
@@ -208,6 +216,7 @@
    "id": "customer_obsession",
    "name": "Customer obsession / user empathy",
    "cluster": "craft",
+   "kind": "behaviour",
    "patterns": [
     "customer[- ]obsess",
     "customer[- ]centric",
@@ -228,6 +237,7 @@
    "id": "product_sense",
    "name": "Product sense & judgment",
    "cluster": "craft",
+   "kind": "behaviour",
    "patterns": [
     "product sense",
     "product (intuition|taste|judg[e]?ment|instinct)",
@@ -240,6 +250,7 @@
    "id": "ux_design_collab",
    "name": "UX & design collaboration",
    "cluster": "craft",
+   "kind": "practice",
    "patterns": [
     "\\bUX\\b",
     "user experience",
@@ -257,6 +268,7 @@
    "id": "problem_solving",
    "name": "Structured problem solving",
    "cluster": "craft",
+   "kind": "behaviour",
    "patterns": [
     "problem[- ]solv",
     "first[- ]principles",
@@ -274,6 +286,7 @@
    "id": "okrs",
    "name": "OKRs & goal setting",
    "cluster": "craft",
+   "kind": "method",
    "patterns": [
     "\\bOKRs?\\b",
     "objectives and key results",
@@ -286,6 +299,7 @@
    "id": "pricing_packaging",
    "name": "Pricing & packaging",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "pricing",
     "packaging",
@@ -298,6 +312,7 @@
    "id": "gtm",
    "name": "Go-to-market strategy",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "go[- ]to[- ]market",
     "\\bGTM\\b",
@@ -310,6 +325,7 @@
    "id": "market_research",
    "name": "Market & competitive analysis",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "market (research|analysis|sizing|trends|landscape|opportunit)",
     "competitive (analysis|landscape|intelligence|research|positioning)",
@@ -323,6 +339,7 @@
    "id": "positioning_messaging",
    "name": "Positioning & messaging",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "positioning",
     "messaging",
@@ -335,6 +352,7 @@
    "id": "sales_enablement",
    "name": "Sales enablement & field partnership",
    "cluster": "gtm",
+   "kind": "practice",
    "patterns": [
     "sales (enablement|team|partner|org)",
     "enable(ment)? (the )?(sales|field)",
@@ -349,6 +367,7 @@
    "id": "customer_success",
    "name": "Customer success & support partnership",
    "cluster": "gtm",
+   "kind": "practice",
    "patterns": [
     "customer success",
     "customer support",
@@ -361,6 +380,7 @@
    "id": "partnerships",
    "name": "Partnerships & ecosystem",
    "cluster": "gtm",
+   "kind": "practice",
    "patterns": [
     "partnerships\\b|(?<!in )(?<!in close )(?<!close )(?<!business )partnership\\b(?! with\\b)",
     "partner ecosystem",
@@ -376,6 +396,7 @@
    "id": "business_case",
    "name": "Business cases & ROI",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "business case",
     "\\bROI\\b",
@@ -390,6 +411,7 @@
    "id": "pnl",
    "name": "P&L / revenue ownership",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "\\bP&L\\b",
     "profit and loss",
@@ -405,6 +427,7 @@
    "id": "growth_loops",
    "name": "Growth, funnels & retention",
    "cluster": "gtm",
+   "kind": "method",
    "patterns": [
     "growth (strategy|loop|lever|initiative|team|product)",
     "\\bfunnel\\b",
@@ -423,6 +446,7 @@
    "id": "customer_interviews",
    "name": "Customer interviews",
    "cluster": "discovery",
+   "kind": "method",
    "patterns": [
     "customer interview",
     "user interview",
@@ -436,6 +460,7 @@
    "id": "user_research",
    "name": "User research",
    "cluster": "discovery",
+   "kind": "method",
    "patterns": [
     "user research",
     "customer research",
@@ -456,6 +481,7 @@
    "id": "discovery",
    "name": "Product discovery & validation",
    "cluster": "discovery",
+   "kind": "method",
    "patterns": [
     "product discovery",
     "\\bdiscovery\\b",
@@ -473,6 +499,7 @@
    "id": "personas_jtbd",
    "name": "Personas & segmentation",
    "cluster": "discovery",
+   "kind": "method",
    "patterns": [
     "\\bpersonas?\\b",
     "segment(ation|s)",
@@ -485,6 +512,7 @@
    "id": "surveys_feedback",
    "name": "Surveys & feedback loops",
    "cluster": "discovery",
+   "kind": "method",
    "patterns": [
     "(?<!salary )(?<!compensation )(?<!pay )(?<!market )survey",
     "\\bNPS\\b",
@@ -501,6 +529,7 @@
    "id": "metrics_kpis",
    "name": "Metrics & KPIs",
    "cluster": "analytics",
+   "kind": "method",
    "patterns": [
     "\\bKPIs?\\b",
     "key performance",
@@ -517,6 +546,7 @@
    "id": "data_driven",
    "name": "Data-driven decision making",
    "cluster": "analytics",
+   "kind": "behaviour",
    "patterns": [
     "data[- ]driven",
     "data[- ]informed",
@@ -533,6 +563,7 @@
    "id": "ab_testing",
    "name": "A/B testing & experimentation",
    "cluster": "analytics",
+   "kind": "method",
    "patterns": [
     "a/b test",
     "\\bab test",
@@ -549,6 +580,7 @@
    "id": "sql",
    "name": "SQL",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bSQL\\b",
     "query(ing)? data",
@@ -559,6 +591,7 @@
    "id": "python_r",
    "name": "Python / R / scripting",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bpython\\b",
     "\\bR\\b(?= |,|/)",
@@ -572,6 +605,7 @@
    "id": "data_modeling",
    "name": "Data modeling & pipelines",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "data (model|pipeline|warehouse|lake|platform|infrastructure|architecture|engineering)",
     "\\bETL\\b",
@@ -590,6 +624,7 @@
    "id": "statistics",
    "name": "Statistics & forecasting",
    "cluster": "analytics",
+   "kind": "method",
    "patterns": [
     "statistic(s|al)\\b",
     "(?<!budget and )(?<!budget & )(?<!plan and )(?<!budget )(?<!budgets and )(?<!budgeting and )(?<!budgeting, )(?<!budgeting & )(?<!financial )(?<!revenue )(?<!sales )(?<!cash )(?<!expense )(?<!cost )(?<!headcount )(?<!quarterly )(?<!annual )(?<!rolling )forecast(?!s? (vs\\.?|versus|to actuals?|and budget|accuracy and budget))",
@@ -605,6 +640,7 @@
    "id": "financial_analysis",
    "name": "Financial modeling & analysis",
    "cluster": "analytics",
+   "kind": "method",
    "patterns": [
     "financial model",
     "financial analysis",
@@ -619,6 +655,7 @@
    "id": "technical_fluency",
    "name": "Technical fluency",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "technical (background|depth|acumen|fluency|understanding|knowledge|aptitude|proficiency|expertise|skills|foundation)",
     "technically (fluent|savvy|proficient|strong)",
@@ -636,6 +673,7 @@
    "id": "apis",
    "name": "APIs & integrations",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bAPIs?\\b",
     "(?<!merger )(?<!acquisition )(?<!acquisitions )(?<!m&a )(?<!post-merger )(?<!post-close )(?<!post-deal )(?<!business )(?<!company )(?<!process )(?<!marketing )(?<!brand )(?<!touchpoint )(?<!cultural )(?<!organizational )(?<!operational )integrations\\b(?!,? (and|or|&|/) ?(separations?|divestitures?|carve[- ]outs?|spin[- ]offs?))",
@@ -659,6 +697,7 @@
    "id": "system_architecture",
    "name": "Systems & architecture",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "architecture",
     "system design",
@@ -703,6 +742,7 @@
    "id": "cloud",
    "name": "Cloud platforms",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bcloud\\b",
     "\\bAWS\\b",
@@ -726,6 +766,7 @@
    "id": "ai_ml",
    "name": "AI / machine learning",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "machine learning",
     "\\bML\\b",
@@ -744,6 +785,7 @@
    "id": "genai_llm",
    "name": "Generative AI / LLMs & agents",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bLLMs?\\b",
     "large language model",
@@ -780,6 +822,7 @@
    "id": "mobile",
    "name": "Mobile platforms",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bmobile\\b",
     "\\biOS\\b",
@@ -793,6 +836,7 @@
    "id": "security_privacy",
    "name": "Security & privacy",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "cyber ?security",
     "(application|cloud|product|platform|network|data|information|enterprise) security",
@@ -820,6 +864,7 @@
    "id": "devops_sdlc",
    "name": "SDLC, DevOps & CI/CD",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "\\bSDLC\\b",
     "software development life",
@@ -839,6 +884,7 @@
    "id": "hardware",
    "name": "Hardware, devices & embedded",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "hardware",
     "firmware",
@@ -866,6 +912,7 @@
    "id": "networking",
    "name": "Networking & connectivity",
    "cluster": "technical",
+   "kind": "technical",
    "patterns": [
     "network (infrastructure|protocols|equipment|engineering|security|operations|products|services|hardware)|networking (products|hardware|stack|protocols|equipment)|\\bSD-?WAN\\b|wi-?fi",
     "\\b5G\\b",
@@ -884,6 +931,7 @@
    "id": "automotive_autonomy",
    "name": "Automotive, autonomy & robotics",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "self[- ]driving",
     "\\bADAS\\b",
@@ -904,6 +952,7 @@
    "id": "fintech",
    "name": "Payments, fintech & banking",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "payments?\\b",
     "fintech",
@@ -939,6 +988,7 @@
    "id": "healthcare",
    "name": "Healthcare & life sciences",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "health ?care",
     "clinical",
@@ -967,6 +1017,7 @@
    "id": "ecommerce_retail",
    "name": "E-commerce, retail & marketplaces",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "e-?commerce",
     "retail",
@@ -987,6 +1038,7 @@
    "id": "supply_chain",
    "name": "Supply chain, logistics & operations",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "supply chain",
     "logistics",
@@ -1007,6 +1059,7 @@
    "id": "ads_media",
    "name": "Advertising & media",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "advertis",
     "\\bads\\b",
@@ -1029,6 +1082,7 @@
    "id": "enterprise_saas",
    "name": "Enterprise SaaS & B2B",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "\\bB2B\\b",
     "enterprise (software|customers|SaaS|product|sales|grade|scale)",
@@ -1045,6 +1099,7 @@
    "id": "consumer",
    "name": "Consumer products & B2C",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "\\bB2C\\b",
     "consumer (product|app|experience|facing|internet|tech|brand|hardware)",
@@ -1062,6 +1117,7 @@
    "id": "energy_industrial",
    "name": "Energy, industrial & manufacturing",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "energy (industry|sector|markets?|systems|storage|grid|management|utilities|companies|transition|products)|renewable energy|oil (and|&) gas|utilities (industry|sector|customers)",
     "oil and gas",
@@ -1081,6 +1137,7 @@
    "id": "telecom",
    "name": "Telecommunications",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "telecom",
     "wireless carrier",
@@ -1094,6 +1151,7 @@
    "id": "developer_tools",
    "name": "Developer tools & infrastructure products",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "developer (tools|experience|platform|productivity|ecosystem)",
     "\\bdevtools?\\b",
@@ -1108,6 +1166,7 @@
    "id": "public_sector",
    "name": "Regulated industries & compliance",
    "cluster": "domain",
+   "kind": "knowledge",
    "patterns": [
     "public[- ]sector",
     "government (agencies|customers|contracts|clients|entities|programs|services|partners)",
@@ -1126,6 +1185,7 @@
    "id": "cross_functional",
    "name": "Cross-functional leadership",
    "cluster": "leadership",
+   "kind": "practice",
    "patterns": [
     "cross[- ]functional",
     "cross[- ]team",
@@ -1141,6 +1201,7 @@
    "id": "stakeholder_mgmt",
    "name": "Stakeholder management",
    "cluster": "leadership",
+   "kind": "practice",
    "patterns": [
     "stakeholder",
     "manag(e|ing) (up|expectations)",
@@ -1157,6 +1218,7 @@
    "id": "influence",
    "name": "Influence without authority",
    "cluster": "leadership",
+   "kind": "behaviour",
    "patterns": [
     "influenc",
     "without (direct )?authority",
@@ -1172,6 +1234,7 @@
    "id": "communication",
    "name": "Written & verbal communication",
    "cluster": "leadership",
+   "kind": "behaviour",
    "patterns": [
     "communicat",
     "written and verbal",
@@ -1195,6 +1258,7 @@
    "id": "exec_communication",
    "name": "Executive communication & reviews",
    "cluster": "leadership",
+   "kind": "practice",
    "patterns": [
     "executive (communication|presentation|presence|review|summar|update|audience|briefing)",
     "board (meeting|presentation|level|of directors)",
@@ -1212,6 +1276,7 @@
    "id": "people_management",
    "name": "People management & coaching",
    "cluster": "leadership",
+   "kind": "practice",
    "patterns": [
     "manag(e|ing) (a team|teams|PMs|product managers|people|direct reports)",
     "people manage",
@@ -1239,6 +1304,7 @@
    "id": "ownership",
    "name": "Ownership & bias for action",
    "cluster": "leadership",
+   "kind": "behaviour",
    "patterns": [
     "ownership",
     "\\bown (the|a|an|our|your|and|end-to-end|product|roadmap|strategy|outcomes|results|delivery|key|critical|all)\\b",
@@ -1262,6 +1328,7 @@
    "id": "adaptability",
    "name": "Adaptability & fast-paced environments",
    "cluster": "leadership",
+   "kind": "behaviour",
    "patterns": [
     "fast[- ]paced",
     "fast[- ]moving",
@@ -1284,6 +1351,7 @@
    "id": "collaboration",
    "name": "Collaboration & teamwork",
    "cluster": "leadership",
+   "kind": "behaviour",
    "patterns": [
     "collaborat",
     "team ?player",
@@ -1302,6 +1370,7 @@
    "id": "customer_facing_exec",
    "name": "Customer & executive-facing engagement",
    "cluster": "leadership",
+   "kind": "practice",
    "patterns": [
     "customer[- ]facing",
     "meet(ing)? with customers",
@@ -1321,6 +1390,7 @@
    "id": "agile_scrum",
    "name": "Agile / Scrum",
    "cluster": "delivery",
+   "kind": "method",
    "patterns": [
     "\\bagile\\b",
     "\\bscrum\\b",
@@ -1343,6 +1413,7 @@
    "id": "program_mgmt",
    "name": "Program & project management",
    "cluster": "delivery",
+   "kind": "practice",
    "patterns": [
     "program management",
     "project management",
@@ -1368,6 +1439,7 @@
    "id": "risk_mgmt",
    "name": "Risk & dependency management",
    "cluster": "delivery",
+   "kind": "practice",
    "patterns": [
     "risk (management|mitigation|assessment|identification|register|analysis)",
     "mitigat",
@@ -1385,6 +1457,7 @@
    "id": "execution",
    "name": "Execution & delivery",
    "cluster": "delivery",
+   "kind": "behaviour",
    "patterns": [
     "execution",
     "execut(e|ing) (on|against)",
@@ -1406,6 +1479,7 @@
    "id": "process_improvement",
    "name": "Process design & operational rigor",
    "cluster": "delivery",
+   "kind": "method",
    "patterns": [
     "process (improvement|design|optimization|definition|documentation|standardi[sz]ation|excellence|re-?engineering)",
     "operating (model|cadence|rhythm|mechanisms)",
@@ -1428,6 +1502,7 @@
    "id": "quality_testing",
    "name": "Quality, testing & acceptance",
    "cluster": "delivery",
+   "kind": "method",
    "patterns": [
     "\\bQA\\b",
     "quality assurance",
@@ -1446,6 +1521,7 @@
    "id": "vendor_mgmt",
    "name": "Vendor, budget & contract management",
    "cluster": "delivery",
+   "kind": "practice",
    "patterns": [
     "vendor (management|selection|relationships?|contracts?|evaluation|negotiations?|partners)|vendors and partners|third[- ]party vendors?",
     "supplier",
@@ -1463,6 +1539,7 @@
    "id": "jira",
    "name": "Jira / Confluence / Asana / Linear",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bjira\\b",
     "confluence",
@@ -1483,6 +1560,7 @@
    "id": "figma",
    "name": "Figma / design tools",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bfigma\\b",
     "\\bsketch\\b",
@@ -1498,6 +1576,7 @@
    "id": "analytics_tools",
    "name": "Analytics tools (Amplitude, Mixpanel, GA, Looker, Tableau)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "amplitude",
     "mixpanel",
@@ -1523,6 +1602,7 @@
    "id": "experimentation_tools",
    "name": "Experimentation & feature-flag tools",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "optimizely",
     "launchdarkly",
@@ -1538,6 +1618,7 @@
    "id": "office_tools",
    "name": "Office suite (Excel, PowerPoint, Google Workspace)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bexcel\\b",
     "powerpoint",
@@ -1554,6 +1635,7 @@
    "id": "crm_tools",
    "name": "CRM & GTM tools (Salesforce, HubSpot, Gong)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "(with|using|in|of) Salesforce|Salesforce (CRM|admin|platform|experience)",
     "hubspot",
@@ -1571,6 +1653,7 @@
    "id": "ai_tools",
    "name": "AI tooling in daily work",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bAI tools?\\b",
     "AI-?powered (tools|workflow|development)",
@@ -1592,6 +1675,7 @@
    "id": "yoe_2",
    "name": "2+ years experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\b(2|two|1-2|1 ?- ?3|2-3|2 ?- ?4|2\\+?)\\+? ?(years|yrs)"
    ]
@@ -1600,6 +1684,7 @@
    "id": "yoe_3",
    "name": "3+ years experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\b(3|three|3-5|3 ?- ?6|3\\+?)\\+? ?(years|yrs)"
    ]
@@ -1608,6 +1693,7 @@
    "id": "yoe_5",
    "name": "5+ years experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\b(5|five|4|four|5-7|5 ?- ?8|4-6|5\\+?|6|six|4\\+?)\\+? ?(years|yrs)"
    ]
@@ -1616,6 +1702,7 @@
    "id": "yoe_8",
    "name": "8+ years experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\b(7|seven|8|eight|7\\+?|8\\+?|8-10|7-10|9|nine)\\+? ?(years|yrs)"
    ]
@@ -1624,6 +1711,7 @@
    "id": "yoe_10",
    "name": "10+ years experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\b(10|ten|12|twelve|15|fifteen|10\\+?|12\\+?|15\\+?|10-15)\\+? ?(years|yrs)"
    ]
@@ -1632,6 +1720,7 @@
    "id": "pm_experience",
    "name": "Prior product management experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "experience (in|as a|with) (a )?(technical )?product manage",
     "product management experience",
@@ -1646,6 +1735,7 @@
    "id": "bachelors",
    "name": "Bachelor's degree",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "bachelor",
     "\\bBA/BS\\b",
@@ -1664,6 +1754,7 @@
    "id": "masters_mba",
    "name": "Master's / MBA",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bMBA\\b",
     "master'?s",
@@ -1678,6 +1769,7 @@
    "id": "phd",
    "name": "PhD / research background",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bPh\\.?D\\b",
     "doctorate",
@@ -1689,6 +1781,7 @@
    "id": "cs_engineering_degree",
    "name": "CS / engineering degree or background",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "computer science",
     "\\bCS\\b",
@@ -1707,6 +1800,7 @@
    "id": "startup_experience",
    "name": "Startup / scale-up experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "start-?up (experience|environment|background)",
     "early[- ]stage",
@@ -1723,6 +1817,7 @@
    "id": "big_tech_experience",
    "name": "Large-scale / big-tech experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "large[- ]scale (systems|products|platforms|organizations|programs)",
     "global scale",
@@ -1739,6 +1834,7 @@
    "id": "consulting_banking",
    "name": "Consulting / banking / finance background",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "consulting",
     "\\bMBB\\b",
@@ -1758,6 +1854,7 @@
    "id": "security_clearance",
    "name": "Security clearance / citizenship",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "clearance",
     "\\bITAR\\b",
@@ -1771,6 +1868,7 @@
    "id": "domain_expertise",
    "name": "Deep domain expertise required",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "domain (expertise|knowledge|experience|expert)",
     "subject[- ]matter expert",
@@ -1783,6 +1881,7 @@
    "id": "strategic_planning",
    "name": "Strategic planning cycles",
    "cluster": "strategy",
+   "kind": "method",
    "patterns": [
     "strategic plan(s|ning)\\b",
     "(annual|long[- ]range|multi[- ]year|quarterly|corporate|enterprise) (strategic |operating |business )?planning\\b",
@@ -1798,6 +1897,7 @@
    "id": "strategy_development",
    "name": "Corporate & growth strategy development",
    "cluster": "strategy",
+   "kind": "method",
    "patterns": [
     "strategy (development|formulation)",
     "(develop|formulat|defin|shap|craft|refin|inform|set)\\w* (the |our |a |its |their )?(corporate|enterprise|business|company|growth|long[- ]term|overall|commercial|market|client'?s?) strateg(y|ies)",
@@ -1813,6 +1913,7 @@
    "id": "hypothesis_driven",
    "name": "Hypothesis-driven analysis & problem framing",
    "cluster": "strategy",
+   "kind": "method",
    "patterns": [
     "hypothesis[- ](driven|based|led)",
     "(develop|form|generat|test|build|fram|refin|validat)\\w* (and \\w+ )?(clear |key |initial |working |business |strategic )*hypothes[ie]s",
@@ -1830,6 +1931,7 @@
    "id": "synthesis_recommendations",
    "name": "Insights, synthesis & recommendations",
    "cluster": "strategy",
+   "kind": "method",
    "patterns": [
     "(actionable|strategic|clear|data[- ]driven|concrete|practical|fact[- ]based|well[- ]reasoned|sound) recommendations",
     "(insights|findings|conclusions|analysis|analyses) (and|into|to|&) (actionable |clear |strategic )?recommendations",
@@ -1847,6 +1949,7 @@
    "id": "exec_decks",
    "name": "Executive decks & storylining",
    "cluster": "strategy",
+   "kind": "method",
    "patterns": [
     "storyboard|storylin",
     "executive[- ]ready|board[- ]ready|executive[- ]level (presentations?|materials|decks|deliverables|documents|content)|C-?(suite|level)[- ]ready",
@@ -1863,6 +1966,7 @@
    "id": "client_engagement",
    "name": "Client engagement delivery",
    "cluster": "strategy",
+   "kind": "practice",
    "patterns": [
     "client engagements\\b|client engagement (teams?|delivery|leads?|managers?)",
     "engagement (teams?|managers?|delivery|leads?|economics)",
@@ -1879,6 +1983,7 @@
    "id": "operating_model_design",
    "name": "Operating model design",
    "cluster": "strategy",
+   "kind": "method",
    "patterns": [
     "target operating model|\\bTOM\\b design|operating[- ]model (design|redesign|transformation|development|changes?|definition|assessment|strategy)",
     "(design|defin|develop|redesign|build|evolv|refin|implement)\\w* (the |a |new |future[- ]state |our |target |and \\w+ )*operating models?",
@@ -1892,6 +1997,7 @@
    "id": "change_management",
    "name": "Change management",
    "cluster": "strategy",
+   "kind": "practice",
    "patterns": [
     "(?<!engineering )(?<!IT )(?<!software )(?<!agentic )change management",
     "organi[sz]ational change",
@@ -1907,6 +2013,7 @@
    "id": "transformation_programs",
    "name": "Transformation programme leadership",
    "cluster": "strategy",
+   "kind": "practice",
    "patterns": [
     "transformation (programs?|programmes?|initiatives?|roadmaps?|office|portfolio|strategy|strategies|efforts?|agenda|journey|plans?|projects?|priorities|goals|objectives|work)",
     "(business|enterprise|finance|digital|large[- ]scale|operational|operations|organi[sz]ational|technology|IT|process|strategic|functional|workforce|supply chain|HR|commercial|cost|ERP|enterprise[- ]wide) transformations?\\b",
@@ -1924,6 +2031,7 @@
    "id": "performance_improvement",
    "name": "Performance improvement & cost reduction",
    "cluster": "strategy",
+   "kind": "method",
    "patterns": [
     "performance improvement",
     "cost (take-?out|transformation|optimi[sz]ation|containment)|cost[- ]reduction (program|initiative|strateg|opportunit|target|plan)\\w*",
@@ -1939,6 +2047,7 @@
    "id": "operating_cadence",
    "name": "Operating cadence & business reviews",
    "cluster": "strategy",
+   "kind": "practice",
    "patterns": [
     "operating (cadence|rhythm)s?|rhythm of (the )?business|business rhythms?|(management|leadership|planning|governance|business|team) (cadence|rhythm)s?",
     "(weekly|monthly|quarterly) (business|operating|operations|performance|leadership) reviews?|\\bMBRs?\\b|\\bWBRs?\\b|operating reviews?|business performance reviews?",
@@ -1953,6 +2062,7 @@
    "id": "special_projects",
    "name": "Strategic initiatives & special projects",
    "cluster": "strategy",
+   "kind": "practice",
    "patterns": [
     "special projects(?! (as|when) (assigned|needed|directed|required|requested))",
     "(lead|driv|own|manag|execut|support|deliver|run|advanc)\\w* (and \\w+ )?(\\w+ )?(key |critical |cross[- ]functional |high[- ]impact |high[- ]priority |enterprise |company[- ]wide |complex |our |the |multiple )*strategic (initiatives|projects)",
@@ -1967,6 +2077,7 @@
    "id": "exec_partnership",
    "name": "Executive thought partnership",
    "cluster": "strategy",
+   "kind": "practice",
    "patterns": [
     "thought[- ]partner",
     "force multiplier|right[- ]hand|sounding board|trusted (advisor|partner|counsel) to the (CEO|COO|CFO|CTO|CIO|president|founders?|executive|chief|head|general manager|leadership)",
@@ -1981,6 +2092,7 @@
    "id": "technology_strategy",
    "name": "Technology & digital strategy",
    "cluster": "strategy",
+   "kind": "method",
    "patterns": [
     "\\b(IT|technology|digital|cloud|tech|data (and|&) (AI|analytics)) strateg(y|ies)\\b",
     "(technology|IT|digital|AI|data|capability|modernization) roadmaps?",
@@ -1996,6 +2108,7 @@
    "id": "ai_strategy",
    "name": "AI strategy & adoption",
    "cluster": "strategy",
+   "kind": "method",
    "patterns": [
     "\\b(AI|GenAI|generative AI|agentic AI) (transformation (strategy|roadmap|program|initiatives|lead|office|efforts)|adoption|strategy|strategies|strategist|roadmaps?|enablement|opportunit\\w+|maturity|readiness|operating model)",
     "\\b(AI|GenAI|generative AI|agentic) use[- ]cases?",
@@ -2010,6 +2123,7 @@
    "id": "litigation_consulting",
    "name": "Litigation & economic consulting",
    "cluster": "strategy",
+   "kind": "method",
    "patterns": [
     "expert (witness|testimony|reports?|testifying)|testifying experts?",
     "litigation (support|consulting|matters|engagements|cases)|economic (consulting|damages)|(commercial|complex) litigation|complex (commercial )?disputes|disputes? (and|&) investigations|dispute (consulting|advisory)",
@@ -2023,6 +2137,7 @@
    "id": "business_unit_leadership",
    "name": "Business unit / site leadership",
    "cluster": "strategy",
+   "kind": "practice",
    "patterns": [
     "(full|overall|total|complete) (P&L|profit and loss) (responsibilit\\w+|ownership|accountabilit\\w+|management|leadership|owner)|P&L (responsibility|ownership|accountability|leadership)|profit and loss (responsibility|accountability|management)",
     "(manag|overse|direct|lead|run|responsible for|accountable for)\\w* (all |the |overall |daily |day[- ]to[- ]day |aspects of )*(store|site|property|plant|branch|facility|hotel|restaurant|club|unit|location|center|dealership|multi[- ]unit|multi[- ]site) (operations|performance|profitability|P&L|financials)",
@@ -2038,6 +2153,7 @@
    "id": "budgeting_forecasting",
    "name": "Budgeting & forecasting",
    "cluster": "finance",
+   "kind": "method",
    "patterns": [
     "budget(ing)?,? (and|&|/) ?(re-?)?forecast",
     "forecast(ing)?,? (and|&|/) ?budget",
@@ -2064,6 +2180,7 @@
    "id": "variance_analysis",
    "name": "Variance analysis",
    "cluster": "finance",
+   "kind": "method",
    "patterns": [
     "variance analys[ie]s",
     "\\bvariances?\\b",
@@ -2079,6 +2196,7 @@
    "id": "scenario_modeling",
    "name": "Scenario & sensitivity modelling",
    "cluster": "finance",
+   "kind": "method",
    "patterns": [
     "scenario (model|analys|planning|plan\\b)",
     "sensitivity (analys|tables?|model)",
@@ -2096,6 +2214,7 @@
    "id": "accounting_close_controls",
    "name": "Accounting: close, GAAP & controls",
    "cluster": "finance",
+   "kind": "method",
    "patterns": [
     "month[- ]end",
     "quarter[- ]end (close|closing|reporting|process)",
@@ -2128,6 +2247,7 @@
    "id": "financial_reporting",
    "name": "Financial & management reporting",
    "cluster": "finance",
+   "kind": "method",
    "patterns": [
     "financial report(s|ing)?\\b",
     "management report(s|ing)?\\b",
@@ -2147,6 +2267,7 @@
    "id": "financial_statements",
    "name": "Financial statements (P&L, balance sheet, cash flow)",
    "cluster": "finance",
+   "kind": "method",
    "patterns": [
     "financial statements?",
     "balance sheets?",
@@ -2163,6 +2284,7 @@
    "id": "cash_liquidity",
    "name": "Cash & liquidity management",
    "cluster": "finance",
+   "kind": "method",
    "patterns": [
     "cash (management|forecast|position|flow forecast|flow management|planning|operations|concentration|pooling)",
     "liquidity (management|planning|forecast|position|needs|analysis)",
@@ -2182,6 +2304,7 @@
    "id": "debt_capital_structure",
    "name": "Debt financing & capital structure",
    "cluster": "finance",
+   "kind": "method",
    "patterns": [
     "capital structures?\\b",
     "debt (financing|issuance|portfolio|management|compliance|covenants?|facilit|offerings?|instruments|service|capacity)",
@@ -2215,6 +2338,7 @@
    "id": "fx_hedging",
    "name": "FX & interest-rate hedging",
    "cluster": "finance",
+   "kind": "method",
    "patterns": [
     "foreign exchange (risks?|exposures?|hedg\\w+|management|transactions|trades|contracts|forwards|derivatives|rates?|operations|strategy|activity|\\(FX\\))|(hedg|manag)\\w+ (of )?(\\w+ )?foreign exchange|(investments?|debt|liquidity|cash|interest rates?|commodit\\w+),? (and )?foreign exchange|foreign exchange,? (and )?(interest rate|commodit|hedging|derivatives)",
     "\\bFX\\b",
@@ -2233,6 +2357,7 @@
    "id": "capital_allocation",
    "name": "Capital allocation & capex",
    "cluster": "finance",
+   "kind": "method",
    "patterns": [
     "capital (allocation|planning|deployment|budgeting|expenditures?|investments?|plan\\b|requests?|approval)",
     "\\bcap-?ex\\b",
@@ -2250,6 +2375,7 @@
    "id": "investor_relations",
    "name": "Investor relations & fundraising",
    "cluster": "finance",
+   "kind": "method",
    "patterns": [
     "investor relations",
     "earnings (calls?|releases?|scripts?|materials|process|preparation|guidance)",
@@ -2275,6 +2401,7 @@
    "id": "finance_partnering",
    "name": "Finance business partnering",
    "cluster": "finance",
+   "kind": "practice",
    "patterns": [
     "finance (business )?partner",
     "financ(e|ial) business partner",
@@ -2293,6 +2420,7 @@
    "id": "valuation",
    "name": "Valuation (DCF, comps, LBO)",
    "cluster": "deals",
+   "kind": "method",
    "patterns": [
     "(?<!billion )(?<!million )\\bvaluations?\\b",
     "\\bDCF\\b",
@@ -2314,6 +2442,7 @@
    "id": "ma_execution",
    "name": "M&A execution",
    "cluster": "deals",
+   "kind": "method",
    "patterns": [
     "\\bM&A\\b",
     "mergers? (and|&|,) acquisitions?",
@@ -2336,6 +2465,7 @@
    "id": "due_diligence",
    "name": "Due diligence",
    "cluster": "deals",
+   "kind": "method",
    "patterns": [
     "(?<!customer )(?<!vendor )(?<!supplier )(?<!party )(?<!enhanced )(?<!client )due diligence(?! screening)",
     "(financial|commercial|legal|operational|business|transaction|confirmatory|M&A|investment|acquisition|deal|buy-side|sell-side) diligence",
@@ -2350,6 +2480,7 @@
    "id": "integration_planning",
    "name": "Post-merger integration",
    "cluster": "deals",
+   "kind": "method",
    "patterns": [
     "integration (planning|management office|playbooks?|workstreams?)",
     "(M&A|merger|acquisition|post-\\w+|deal) integrations?\\b",
@@ -2373,6 +2504,7 @@
    "id": "deal_sourcing",
    "name": "Deal sourcing & pipeline",
    "cluster": "deals",
+   "kind": "practice",
    "patterns": [
     "(?<!client )(?<!customer )(?<!talent )(?<!user )\\b(deal|investment|acquisition) (sourc|flow|origination|pipeline|screening)|transaction (sourc|origination|pipeline|screening)",
     "sourc(e|es|ing) (and (evaluat|screen|execut|underwrit|diligenc)\\w+ )?(new )?(deals|investments?|investment opportunities|acquisitions?|transactions|targets)",
@@ -2392,6 +2524,7 @@
    "id": "pitch_materials",
    "name": "Pitch books & deal marketing materials",
    "cluster": "deals",
+   "kind": "method",
    "patterns": [
     "pitch ?books?\\b",
     "pitch(es)? (materials|presentations)",
@@ -2413,6 +2546,7 @@
    "id": "credit_analysis",
    "name": "Credit analysis & underwriting",
    "cluster": "deals",
+   "kind": "method",
    "patterns": [
     "credit (analys|underwrit|approval|memo|risk|quality|structur|review|decision|worthiness|polic|request|administration|write-?ups?|exposure)",
     "creditworth",
@@ -2435,6 +2569,7 @@
    "id": "capital_markets",
    "name": "Capital markets & financing transactions",
    "cluster": "deals",
+   "kind": "method",
    "patterns": [
     "capital markets?",
     "\\b(ECM|DCM)\\b",
@@ -2459,6 +2594,7 @@
    "id": "client_coverage",
    "name": "Banking relationships & product cross-sell",
    "cluster": "deals",
+   "kind": "practice",
    "patterns": [
     "(client|sector|industry|corporate|sponsor) coverage",
     "coverage (bankers?|teams?|groups?|officers?)",
@@ -2493,6 +2629,7 @@
    "id": "portfolio_management",
    "name": "Investment portfolio management",
    "cluster": "deals",
+   "kind": "method",
    "patterns": [
     "(investment|fund|securities|fixed income|(?<!private )equity|multi-asset|model|real estate (investment|debt|equity)) portfolios?\\b",
     "portfolio (construction|rebalanc|allocation|managers?\\b|monitoring|positioning|attribution)",
@@ -2509,6 +2646,7 @@
    "id": "portfolio_company",
    "name": "Portfolio-company value creation",
    "cluster": "deals",
+   "kind": "practice",
    "patterns": [
     "portfolio compan",
     "value[- ]creation plans?",
@@ -2523,6 +2661,7 @@
    "id": "investment_committee",
    "name": "Investment memos & committee approval",
    "cluster": "deals",
+   "kind": "method",
    "patterns": [
     "investment (memo|committee|recommendation|thes[ie]s)",
     "(committee|approval|deal|credit|board) (memo|memorand)",
@@ -2537,6 +2676,7 @@
    "id": "investment_research",
    "name": "Investment research & asset classes",
    "cluster": "deals",
+   "kind": "method",
    "patterns": [
     "investment (research|analysis|ideas|themes)",
     "equity research",
@@ -2559,6 +2699,7 @@
    "id": "deal_structuring",
    "name": "Deal structuring & negotiation",
    "cluster": "deals",
+   "kind": "method",
    "patterns": [
     "(deal|transaction|loan|financing|investment) structur",
     "structur(e|es|ing) (and (negotiat|execut|clos)\\w+ )?(deals|transactions|loans|financings|investments|credit)",
@@ -2577,6 +2718,7 @@
    "id": "wealth_advisory",
    "name": "Wealth planning & private clients",
    "cluster": "deals",
+   "kind": "practice",
    "patterns": [
     "high[- ]net[- ]worth",
     "\\bU?HNW\\b",
@@ -2595,6 +2737,7 @@
    "id": "re_underwriting",
    "name": "Real estate underwriting, pro formas & market comps",
    "cluster": "real_estate",
+   "kind": "method",
    "patterns": [
     "pro[- ]?formas?\\b",
     "cap(itali[sz]ation)? rates?\\b",
@@ -2623,6 +2766,7 @@
    "id": "re_acquisitions_dispositions",
    "name": "Property acquisitions & dispositions",
    "cluster": "real_estate",
+   "kind": "method",
    "patterns": [
     "(land|property|site|real estate) acquisitions?",
     "(acquisitions?|property|asset|real estate|land) (and|&|,|/|or) dispositions?",
@@ -2648,6 +2792,7 @@
    "id": "re_development_entitlements",
    "name": "Development, entitlements & construction",
    "cluster": "real_estate",
+   "kind": "method",
    "patterns": [
     "(land|zoning|development|project|site|secur\\w+|obtain\\w+) entitlements?|entitlements? (process|and (permit|zoning|approval|design)|,? (permit|zoning|approval))",
     "\\b(re)?zoning\\b",
@@ -2680,6 +2825,7 @@
    "id": "re_leasing",
    "name": "Leasing & tenant relations",
    "cluster": "real_estate",
+   "kind": "practice",
    "patterns": [
     "\\bleasing\\b",
     "\\blease (negotiat|analys|administration|terms|agreements?|renewals?|proposals|documents|abstract|review|transactions|expirations|up\\b)",
@@ -2698,6 +2844,7 @@
    "id": "re_asset_mgmt",
    "name": "Property & asset management",
    "cluster": "real_estate",
+   "kind": "method",
    "patterns": [
     "asset management (plan|strateg|team|function|experience|activities|responsibilities)",
     "property (management|managers?|operations|performance|budgets?|tax(es)?)\\b",
@@ -2717,6 +2864,7 @@
    "id": "re_property_types",
    "name": "Property types (multifamily, industrial, office, retail)",
    "cluster": "real_estate",
+   "kind": "knowledge",
    "patterns": [
     "multi-?family",
     "industrial (real estate|propert|assets|portfolio|development|buildings)",
@@ -2738,6 +2886,7 @@
    "id": "brand_strategy",
    "name": "Brand strategy & equity",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "brand (strateg|equity|health|building|identity|architecture|guidelines|voice|vision|plans?\\b|governance|consistency|stewardship|positioning|awareness|management|narrative|storytelling|purpose)",
     "build(ing)? (the |our |a |strong |iconic )?brands?\\b",
@@ -2751,6 +2900,7 @@
    "id": "campaign_management",
    "name": "Marketing campaigns",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "(marketing|integrated|brand|multi-?channel|omni-?channel|digital|advertising|demand|email|awareness|acquisition|global|regional|paid|360) campaigns?\\b",
     "campaign (planning|execution|strateg|management|performance|development|optimi[sz]ation|results|briefs?|calendar)",
@@ -2765,6 +2915,7 @@
    "id": "demand_generation",
    "name": "Demand generation & ABM",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "demand[- ]gen(eration)?\\b",
     "account[- ]based (marketing|programs|strateg|campaigns)",
@@ -2785,6 +2936,7 @@
    "id": "performance_marketing",
    "name": "Digital & performance marketing",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "performance marketing",
     "digital marketing",
@@ -2805,6 +2957,7 @@
    "id": "seo_web_conversion",
    "name": "SEO, website & conversion optimisation",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "\\bSEO\\b",
     "\\bAEO\\b",
@@ -2824,6 +2977,7 @@
    "id": "content_social",
    "name": "Content & social media marketing",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "content (marketing|strategy|calendar|creation|creators?)",
     "social media",
@@ -2843,6 +2997,7 @@
    "id": "lifecycle_marketing",
    "name": "Lifecycle, CRM & email marketing",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "(?<!product )(?<!asset )(?<!contract )(?<!employee )(?<!development )lifecycle (marketing|programs|campaigns|communications|strategy|journeys)",
     "email (marketing|campaigns|programs|nurtur)",
@@ -2862,6 +3017,7 @@
    "id": "marketing_analytics",
    "name": "Marketing measurement & attribution",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "(marketing|multi-?touch|campaign|channel|revenue|pipeline|media|funnel|conversion|ad|first[- ]touch|last[- ]touch|measurement and|measurement,) attribution|attribution (model|modeling|models|reporting|methodolog|framework|tools|platforms|systems|and (measurement|incrementality|reporting))|attribution,? (and )?(incrementality|measurement|ROI|ROAS|event ROI|MMM|media mix)",
     "marketing (analytics|measurement|performance|mix|effectiveness|metrics|ROI|reporting|data)",
@@ -2881,6 +3037,7 @@
    "id": "consumer_insights",
    "name": "Consumer insights",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "consumer (insights?|behavio|understanding|research|trends|learnings)",
     "(audience|shopper|human|cultural|brand) insights",
@@ -2895,6 +3052,7 @@
    "id": "creative_agency",
    "name": "Creative development & agency management",
    "cluster": "marketing",
+   "kind": "practice",
    "patterns": [
     "creative (briefs?|development|direction|strategy|execution|agenc|excellence|assets|process|production|partners|teams?|reviews?)",
     "(creative|media|advertising|marketing|PR|external|brand|digital) (and \\w+ )?(agency|agencies) (partners?|management|relationships?|teams?)|agency partners",
@@ -2911,6 +3069,7 @@
    "id": "events_field_marketing",
    "name": "Events & field marketing",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "field marketing",
     "\\bevent (marketing|strategy|planning|programs?|execution|logistics|portfolio|sponsorships?)|(?<!risk )(?<!incident )(?<!and )(?<!security )event management",
@@ -2930,6 +3089,7 @@
    "id": "pr_communications",
    "name": "PR & communications",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "public relations",
     "\\bPR\\b(?!/| ?-? ?FAQ)",
@@ -2949,6 +3109,7 @@
    "id": "customer_proof",
    "name": "Customer stories & advocacy",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "case studies|customer case stud",
     "customer (stories|story|proof|references?|testimonials|advocacy|advocates)",
@@ -2965,6 +3126,7 @@
    "id": "cpg_innovation",
    "name": "Consumer-goods brand work (CPG innovation, shopper & trade)",
    "cluster": "marketing",
+   "kind": "method",
    "patterns": [
     "(?<!technical )(?<!technology )(?<!supplier )innovation (pipeline|and renovation|funnel|launches)",
     "innovation (and|&|,|/) ?renovation",
@@ -2984,6 +3146,7 @@
    "id": "pipeline_forecasting",
    "name": "Pipeline management & sales forecasting",
    "cluster": "sales",
+   "kind": "method",
    "patterns": [
     "(?<!data )(?<!talent )(?<!candidate )(?<!ETL )(?<!project )(?<!product )(?<!clinical )(?<!drug )(?<!acquisition )(?<!investment )pipeline (management|reviews?|health|generation|development|coverage|growth|creation|hygiene|inspection|goals|targets|building|velocity|progression)",
     "sales (pipeline|forecast|funnel)",
@@ -3002,6 +3165,7 @@
    "id": "quota_attainment",
    "name": "Quota & revenue target attainment",
    "cluster": "sales",
+   "kind": "method",
    "patterns": [
     "(?<!and )(?<!resource )(?<!usage )(?<!rate )(?<!api )(?<!non-)(?<!% of )\\bquotas?\\b(?! (limits|management system|enforcement|service|setting|design|planning|allocation|and non-quota))(?!/incentive)(?!-based (incentive|sales roles))(?!;)",
     "(?<!such as strategic )(sales|revenue|booking|bookings|new business) (targets?|goals|objectives|plan attainment)\\b(?! incentive compensation)",
@@ -3018,6 +3182,7 @@
    "id": "territory_account_planning",
    "name": "Territory & account planning",
    "cluster": "sales",
+   "kind": "method",
    "patterns": [
     "territory (plan|management|strategy|coverage|design|development|growth|business plan)",
     "(assigned|defined|sales|geographic) territor(y|ies)",
@@ -3034,6 +3199,7 @@
    "id": "prospecting",
    "name": "Prospecting & lead generation",
    "cluster": "sales",
+   "kind": "method",
    "patterns": [
     "prospecting",
     "lead[- ]generation",
@@ -3053,6 +3219,7 @@
    "id": "deal_negotiation",
    "name": "Deal negotiation & structuring",
    "cluster": "sales",
+   "kind": "method",
    "patterns": [
     "deal (structur|negotiat)\\w*",
     "negotiat\\w+ (and \\w+ )?(\\w+ )?(deals|partnerships?|commercial (terms|agreements)|partner agreements|partnership agreements)",
@@ -3071,6 +3238,7 @@
    "id": "consultative_selling",
    "name": "Consultative & solution selling",
    "cluster": "sales",
+   "kind": "method",
    "patterns": [
     "consultative(ly)? (sell|sales|approach|selling|manner|skills|relationship|engagement|conversations|mindset|partner)",
     "(solution|value|value-based|insight|enterprise|complex|technical|SaaS|software|B2B|relationship|outcome-based) selling",
@@ -3092,6 +3260,7 @@
    "id": "key_account_mgmt",
    "name": "Key account & client relationships",
    "cluster": "sales",
+   "kind": "practice",
    "patterns": [
     "(key|strategic|major|national|enterprise|named|existing) accounts?\\b",
     "key customers",
@@ -3109,6 +3278,7 @@
    "id": "channel_sales",
    "name": "Channel, reseller & distributor sales",
    "cluster": "sales",
+   "kind": "method",
    "patterns": [
     "distributors?\\b",
     "(?<!broker-)(?<!broker )(?<!broker/)\\bdealers?(ships?)?\\b",
@@ -3128,6 +3298,7 @@
    "id": "partner_gtm",
    "name": "Partner co-selling & joint go-to-market",
    "cluster": "sales",
+   "kind": "practice",
    "patterns": [
     "co-?sell",
     "co-?marketing",
@@ -3144,6 +3315,7 @@
    "id": "sales_leadership",
    "name": "Sales team leadership & coaching",
    "cluster": "sales",
+   "kind": "practice",
    "patterns": [
     "\\b(coach|mentor|develop|lead|manage|recruit|hire|train|build|motivate|inspire|scale)(s|d|ing)? (and \\w+ |, \\w+,? and \\w+ )?(a |an |the |your |our )?(\\w+ |high-performing )?(sales (team|reps|representatives|professionals|talent|managers|organization|force|associates|people|leaders)|account (executives|managers)|AEs\\b|sellers\\b(?! to)|reps\\b|BDRs\\b|SDRs\\b)",
     "sales (coaching|talent)|(deliver|lead|conduct|design|develop|build|provide|facilitate|own)\\w* (\\w+ ){0,2}sales training|sales training (programs?|curricul\\w+) for",
@@ -3162,6 +3334,7 @@
    "id": "sales_process",
    "name": "Sales process & operations",
    "cluster": "sales",
+   "kind": "method",
    "patterns": [
     "sales (process(es)?|operations|ops|playbooks?|motions?|plays|cadence|effectiveness|productivity|excellence|methodolog\\w+)\\b",
     "revenue operations",
@@ -3177,6 +3350,7 @@
    "id": "renewals_expansion",
    "name": "Renewals, upsell & expansion",
    "cluster": "sales",
+   "kind": "method",
    "patterns": [
     "(customer|client|account|subscription|contract|license|on-time|drive|driving|manage|managing|own|owning|secure|securing|upcoming|annual|and|for|of) renewals?\\b",
     "renewals? (rates?|process|forecast|strategy|motion|cycle|management|and (expansion|upsell|growth|retention)|pipeline|conversations|negotiations|risk|targets|quota|opportunities)",
@@ -3202,6 +3376,7 @@
    "id": "onboarding_adoption",
    "name": "Customer onboarding & adoption",
    "cluster": "sales",
+   "kind": "method",
    "patterns": [
     "(customer|client|new customer|merchant) onboarding",
     "onboard(ing)? (new |of )?(customers|clients|accounts|merchants)",
@@ -3222,6 +3397,7 @@
    "id": "customer_health",
    "name": "Customer health & business reviews",
    "cluster": "sales",
+   "kind": "practice",
    "patterns": [
     "(customer|account|client) health",
     "health (scor\\w+|checks?)",
@@ -3244,6 +3420,7 @@
    "id": "proposals_capture",
    "name": "Proposals, RFP responses & capture",
    "cluster": "sales",
+   "kind": "method",
    "patterns": [
     "proposal (development|writing|management|preparation|responses?|teams?|efforts|strategy|submissions?|content)",
     "(RFP|RFI|RFQ|RFx)s? (responses?|submissions?|completion)",
@@ -3264,6 +3441,7 @@
    "id": "demand_supply_planning",
    "name": "Demand & supply planning (S&OP)",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "\\bS&OP\\b|\\bSIOP\\b|sales (and|&) operations planning|integrated business planning|\\bIBP\\b",
     "demand (planning|plans?\\b|forecast\\w*|signals?)",
@@ -3278,6 +3456,7 @@
    "id": "inventory_mgmt",
    "name": "Inventory management",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "inventory (management|control(?! society)|levels?|optimi[sz]ation|accuracy|turns?|planning|targets|polic(y|ies)|health|position\\w*|strateg\\w+|reduction|analysis|performance)",
     "(optimi[sz]|reduc|balanc)\\w+ inventor(y|ies)",
@@ -3291,6 +3470,7 @@
    "id": "logistics_transportation",
    "name": "Logistics & transportation",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "logistics (operations|network|providers?|management|strateg\\w+|costs?|team|optimi[sz]ation|planning|partners|services|processes|performance)",
     "(inbound|outbound|global|international|reverse|transportation|distribution|warehousing) (and |& )?logistics|logistics (and|&|,) (transportation|distribution|warehous\\w+|fulfil+ment)",
@@ -3308,6 +3488,7 @@
    "id": "warehouse_fulfillment",
    "name": "Warehouse & fulfilment operations",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "(?<!data )warehouse (operations|management|team|associates|environment|processes|layout|staff|activities|managers?|space|capacity|network)|(?<!data )warehousing (operations|and|&|,)",
     "fulfil+ment (centers?|operations|network|sites?)|delivery stations?|sort(ation)? centers?",
@@ -3322,6 +3503,7 @@
    "id": "capacity_production_planning",
    "name": "Capacity & production planning",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "capacity (planning|plans?\\b|management|analysis|constraints?|model\\w*|requirements|utili[sz]ation|expansion)",
     "production (planning|plans?\\b|schedul\\w+|control|targets|goals|output|rates?|ramp|capacity|requirements)",
@@ -3335,6 +3517,7 @@
    "id": "lean_six_sigma",
    "name": "Lean & Six Sigma methods",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "lean (manufactur\\w+|principles|methodolog\\w+|tools|practices|six|techniques|thinking|management|enterprise|concepts|transformation|philosophy|production|process\\w*|culture|events|sigma|deployment|daily|systems?|certif\\w+)",
     "(of|in|with|using|apply\\w*|implement\\w*|leading|and|or) lean\\b(?! (product|portfolio|startup|agile|budget|on|into|in|team|toward|forward|heavily|organization|and (agile|nimble|mean|efficient)))",
@@ -3350,6 +3533,7 @@
    "id": "root_cause_corrective_action",
    "name": "Root-cause analysis & corrective action",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "root[- ]cause",
     "corrective (and preventive |and preventative |& preventive )?actions?|\\bCAPAs?\\b",
@@ -3363,6 +3547,7 @@
    "id": "quality_systems",
    "name": "Quality systems & standards",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "quality (management )?systems?\\b|\\bQMS\\b",
     "\\bISO[ -]?(9001|9000|13485|14001|45001)|\\bAS ?9100|\\bIATF|\\bc?GMPs?\\b|good manufacturing practice",
@@ -3377,6 +3562,7 @@
    "id": "safety_ehs",
    "name": "Workplace safety & EHS",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "\\bEHS\\b|\\bEH&S\\b|\\bOSHA\\b|environmental,? health,? (and|&) safety",
     "safety (culture|programs?|performance|initiatives|audits?|metrics|incidents|standards|compliance|regulations|training)",
@@ -3391,6 +3577,7 @@
    "id": "labor_shift_mgmt",
    "name": "Shift & labour management",
    "cluster": "operations",
+   "kind": "practice",
    "patterns": [
     "labor (planning|plans?\\b|management|scheduling|costs?|hours|budgets?|productivity|utili[sz]ation|efficiency|model\\w*|forecast\\w*|allocation)",
     "staffing (levels?|plans?\\b|needs|models?|requirements)|(workforce|staff|crew|employee|labor) schedul\\w+|schedul\\w+ (of )?(staff|employees|associates|shifts|labor|crews)",
@@ -3406,6 +3593,7 @@
    "id": "ops_performance_mgmt",
    "name": "Productivity & service-level performance",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "productivity (targets?|goals|metrics|plans?|standards|rates?|requirements|measures|objectives)|(labor|plant|site|warehouse|operational|workforce) productivity|(determining|execute) productivity",
     "throughput|cycle[- ]times?\\b|\\bOEE\\b|equipment effectiveness|(equipment|unplanned|reduce|minimi[sz]e) downtime",
@@ -3421,6 +3609,7 @@
    "id": "equipment_maintenance",
    "name": "Equipment, facilities & maintenance",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "(preventive|preventative|predictive|equipment|facilit(y|ies)|building|plant|fleet|vehicle|planned|routine) maintenance",
     "maintenance (programs?|teams?|plans?\\b|technicians|operations|schedules?|department|activities|costs|staff|managers?|procedures|planning|and (repair|reliability|engineering|facilities))",
@@ -3434,6 +3623,7 @@
    "id": "sourcing_category_strategy",
    "name": "Strategic sourcing & category strategy",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "(?<!deal )(?<!talent )(?<!candidate )sourcing (strateg\\w+|process\\w*|events?|initiatives|projects|plans?\\b|methodolog\\w+|best practices|roadmap)",
     "category (strateg\\w+|plans?\\b|planning|management (strateg\\w+|process|methodolog\\w+|principles|experience|best practices))|commodity (strateg\\w+|management|plans?\\b|teams?)",
@@ -3448,6 +3638,7 @@
    "id": "rfx_bid_mgmt",
    "name": "RFx & competitive bidding",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "\\bRF[PQIX]s?\\b|\\bRFx\\b|RFI/RFQ|requests? for (proposals?|quot\\w+)",
     "competitive (bid\\w*|sourcing|tender\\w*)|bid (analysis|evaluation|process|packages?|management|comparison|events?|leveling|tabs?)|bidding (process|events?)|\\btenders?\\b|e-?auctions?|reverse auctions?|quote (analysis|submissions|comparison)|source selection"
@@ -3460,6 +3651,7 @@
    "id": "supplier_relationship_mgmt",
    "name": "Supplier relationship & performance management",
    "cluster": "operations",
+   "kind": "practice",
    "patterns": [
     "supplier (relationship\\w*|performance|management|scorecards?|development|base|evaluations?|qualification|audits?|reviews?|engagement|partnerships?|collaboration|metrics|capabilit\\w+|onboarding|issues|innovation)|\\bSRM\\b",
     "(manag\\w+|develop\\w+|build\\w*|maintain\\w*|cultivat\\w+|own\\w*) (strong |strategic |key |and maintain )?(relationships with )?(key |strategic |critical |external |our |new )?suppliers?( relationships| partnerships| performance)?\\b",
@@ -3473,6 +3665,7 @@
    "id": "supplier_contract_negotiation",
    "name": "Supplier negotiation & contracts (MSAs, SOWs)",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "negotiat\\w+ (\\w+ ){0,4}(suppliers?|vendors?|MSAs?|SOWs?|supply agreements?|subcontracts?)\\b",
     "(supplier|vendor|supply|sourcing|procurement|price|cost) negotiations?|negotiation (strateg\\w+|planning|tactics)",
@@ -3487,6 +3680,7 @@
    "id": "spend_cost_savings",
    "name": "Spend analysis & cost savings",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "spend (analysis|analytics|analyses|data|categor\\w+|under management|visibility|profile|cube|reports?|patterns|trends|base|optimi[sz]ation)|(addressable|indirect|direct|category|managed|third[- ]party|supplier|vendor) spend\\b",
     "cost[- ](savings?|reductions?|avoidance|take-?out|down)\\b|savings (targets?|goals|opportunit\\w+|pipeline|initiatives|tracking|commitments|results)|(deliver\\w*|achiev\\w+|driv\\w+|generat\\w+|identify\\w*|realiz\\w+|track\\w*) (cost )?savings\\b(?! plan)",
@@ -3500,6 +3694,7 @@
    "id": "tco_should_cost",
    "name": "Cost modelling (TCO, should-cost)",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "total cost of ownership|\\bTCO\\b",
     "should[- ]cost|clean[- ]sheet|cost (models?|modell?ing|breakdowns?|build-?ups?|transparency)|landed costs?"
@@ -3512,6 +3707,7 @@
    "id": "procure_to_pay",
    "name": "Purchasing & procure-to-pay",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "procure[- ]to[- ]pay|source[- ]to[- ]pay|\\bS2P\\b|purchase[- ]to[- ]pay|source[- ]to[- ]contract|\\bS2C\\b|\\bP2P\\b (process\\w*|systems?|cycle|operations|tools?|platforms?|workflows?|polic\\w+|compliance|transformation)",
     "purchase orders?|purchase requisitions?|requisitions? (and|to|/) (purchase|PO)|requisition (process\\w*|approvals?)|\\bPO\\b (process\\w*|creation|management|issuance|placement|approval)",
@@ -3525,6 +3721,7 @@
    "id": "supply_risk_continuity",
    "name": "Supplier risk & supply continuity",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "(supplier|supply|supply[- ]chain|third[- ]party|vendor|sourcing) risks?\\b|\\bTPRM\\b",
     "supply (continuity|assurance|resilien\\w+|disruptions?|shortages?|constraints|security)|continuity of supply|assurance of supply|supply[- ]chain (resilien\\w+|disruptions?)",
@@ -3539,6 +3736,7 @@
    "id": "supply_market_intel",
    "name": "Supply-market intelligence & benchmarking",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "supply[- ]markets?\\b|supplier markets?|(supply|supplier|commodity|category|procurement|sourcing) (market )?intelligence|commodity (markets?|trends|pricing|prices|indices|expertise|knowledge)",
     "(supplier|price|pricing|cost|rate) benchmark\\w*|benchmark\\w* (suppliers?|pricing|prices|costs?|rates)",
@@ -3552,6 +3750,7 @@
    "id": "npi_manufacturing_ramp",
    "name": "New product introduction & manufacturing ramp",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "\\bNPI\\b|new product introductions?",
     "contract manufactur\\w+|\\bEMS\\b (providers?|partners?)|\\bODMs?\\b|\\bJDMs?\\b",
@@ -3566,6 +3765,7 @@
    "id": "capital_projects",
    "name": "Capital projects & equipment spend",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "capital (projects?|expenditures?|equipment|improvements?|appropriation\\w*|requests?|purchases|spend\\w*)|\\bcap-?ex\\b"
    ],
@@ -3577,6 +3777,7 @@
    "id": "retail_category_assortment",
    "name": "Retail category & assortment planning",
    "cluster": "operations",
+   "kind": "method",
    "patterns": [
     "assortments?\\b|planograms?|shelf (space|sets?|placement|strateg\\w+)|on[- ]shelf|\\bSKU (rationali[sz]ation|mix|productivity|optimi[sz]ation)",
     "category (growth|performance|insights?|reviews?|captain\\w*|development|advis\\w+|analysis|vision|roles?|P&L|sales|profitability)|(joint business plan\\w*|\\bJBPs?\\b)(?=[^\\n]{0,150}(retail|categor|shopper|merchan|grocer|store|trade (spend|promotion|funds)|walmart|kroger|costco|buyers\\b|wholesal))|(retail|categor|shopper|merchan|grocer|store|trade (spend|promotion|funds)|walmart|kroger|costco|buyers\\b|wholesal)[^\\n]{0,150}(joint business plan|\\bJBPs?\\b)|\\bline reviews?",
@@ -3590,6 +3791,7 @@
    "id": "gov_contracts_far",
    "name": "Government contracts & subcontracts (FAR/DFARS)",
    "cluster": "operations",
+   "kind": "knowledge",
    "patterns": [
     "\\bDFARS?\\b|federal acquisition reg\\w+|\\bFAR\\b( part| clause| \\d| compliance| regulations| flow|\\W{1,5}(and |or |& )?DFARS?)",
     "subcontract (management|administrat\\w+|agreements?|negotiations?|awards?|managers?|performance)|subcontracts\\b|manag\\w+ (of )?subcontractors|prime contract\\w*",
@@ -3604,6 +3806,7 @@
    "id": "employee_relations",
    "name": "Employee relations & investigations",
    "cluster": "people",
+   "kind": "practice",
    "patterns": [
     "employee relations",
     "\\bER\\b (issues|cases|matters|investigations|team|specialist|partner|trends)",
@@ -3624,6 +3827,7 @@
    "id": "hr_business_partnering",
    "name": "HR business partnering",
    "cluster": "people",
+   "kind": "practice",
    "patterns": [
     "\\bHRBPs?\\b",
     "(HR|human resources?|people) business partner",
@@ -3641,6 +3845,7 @@
    "id": "talent_acquisition",
    "name": "Talent acquisition & recruiting",
    "cluster": "people",
+   "kind": "method",
    "patterns": [
     "(?<!member of our )(?<!contact our )(?<!contact )(?<!your )(?<!our )(?<!'s )talent acquisition(?! (professional|representative|specialist|department|coordinator|team (will|at|member|for|to|can)|partner will|at\\b|process\\b|team\\.|and hiring teams?|role\\b))",
     "full[- ]cycle recruit",
@@ -3660,6 +3865,7 @@
    "id": "performance_mgmt",
    "name": "Performance management & talent reviews",
    "cluster": "people",
+   "kind": "method",
    "patterns": [
     "(?<!supplier )(?<!vendor )(?<!business )(?<!financial )(?<!portfolio )(?<!enterprise )(?<!project )(?<!program )(?<!contract )(?<!risk )(?<!category )(?<!carrier )(?<!partner )(?<!sales )(?<!KPI and )(?<!operational )(?<!corporate )(?<!cost )(?<!network )(?<!application )(?<!investment )(?<!fund )(?<!asset )(?<!improvement, )performance management",
     "(?<!product )(?<!business )(?<!financial )(?<!portfolio )(?<!supplier )(?<!vendor )(?<!recurring )(?<!system )(?<!model )(?<!investment )(?<!fund )(?<!campaign )(?<!operational )(?<!program )(?<!project )performance (reviews?|appraisals?|evaluations?|calibration|ratings)",
@@ -3676,6 +3882,7 @@
    "id": "succession_workforce_planning",
    "name": "Succession & workforce planning",
    "cluster": "people",
+   "kind": "method",
    "patterns": [
     "succession (plan|management|strateg|pipeline|process)",
     "workforce (plan|forecast|needs|modeling|readiness)",
@@ -3695,6 +3902,7 @@
    "id": "learning_design",
    "name": "Learning programmes & instructional design",
    "cluster": "people",
+   "kind": "method",
    "patterns": [
     "(?<!organizational development, )instructional (design|systems|materials|strateg|content)(?! or related)",
     "\\bL&D\\b",
@@ -3721,6 +3929,7 @@
    "id": "leadership_dev_coaching",
    "name": "Leadership development & coaching",
    "cluster": "people",
+   "kind": "practice",
    "patterns": [
     "leadership development (strateg|solutions|initiatives|curricul|content|offerings|experiences|efforts|needs|programming|portfolio|framework|activities|courses|workshops|team|function|and (succession|talent|coaching|learning|organi|executive|team|manager|change|performance))",
     "\\b(design|deliver|facilitate|build|lead|manage|create|develop|implement|own|execute|support|evaluate|scale|drive)(s|d|ing)? (and \\w+ |, \\w+,? and \\w+ )?(\\w+ |\\w+ \\w+ )?(leadership|leader|executive) development",
@@ -3745,6 +3954,7 @@
    "id": "org_design",
    "name": "Organization design & effectiveness",
    "cluster": "people",
+   "kind": "method",
    "patterns": [
     "organi[sz]ation(al)? (design\\b|effectiveness|assessments?|diagnos|health|capabilit|dynamics|psychology|behavior|redesign)",
     "organi[sz]ation(al)? development(?!, instructional design)",
@@ -3762,6 +3972,7 @@
    "id": "engagement_culture",
    "name": "Employee engagement & culture",
    "cluster": "people",
+   "kind": "method",
    "patterns": [
     "employee (engagement|experience|retention|morale|satisfaction|recognition|listening|value proposition|sentiment|surveys?)",
     "engagement (surveys?|action plan)|(employee|team|associate|talent|staff|workforce) engagement and retention",
@@ -3781,6 +3992,7 @@
    "id": "comp_design",
    "name": "Compensation programme design",
    "cluster": "people",
+   "kind": "method",
    "patterns": [
     "(?<!competitive )(?<!workers )(?<!worker )(?<!workers' )compensation (strateg|design\\b|analys[ie]s|cycles?|planning|governance|recommendations|analytics|projects|initiatives|consult|framework|guidelines|processes|administration|matters|issues)|(design|build|develop|maintain|review|manage)\\w* (\\w+ ){0,2}(compensation|salary|pay) structures?",
     "\\b(design|develop|administer|manage|evaluate|lead|implement|review|maintain|deliver|oversee|support|build|own)(s|ed|ing)? (\\w+ ){0,3}(?<!worker )(?<!workers )(?<!workers' )compensation (programs?|plans|philosophy|policies|practices)",
@@ -3805,6 +4017,7 @@
    "id": "market_pricing_job_arch",
    "name": "Pay benchmarking & job architecture",
    "cluster": "people",
+   "kind": "method",
    "patterns": [
     "(?<!correct )(?<!product )(?<!and )(?<!to )market pricing(?! (is|are|was|strateg|for (all|our|key|products)))",
     "(compensation|salary|pay) (benchmark\\w*|competitiveness)",
@@ -3825,6 +4038,7 @@
    "id": "exec_equity_comp",
    "name": "Executive & equity compensation",
    "cluster": "people",
+   "kind": "method",
    "patterns": [
     "executive (compensation|pay)\\b",
     "compensation committee",
@@ -3849,6 +4063,7 @@
    "id": "benefits_admin",
    "name": "Benefits design & administration",
    "cluster": "people",
+   "kind": "method",
    "patterns": [
     "benefits? (administration|plan design|strategy|strategies|enrollment|vendors?|brokers?|carriers?|compliance|renewals?|operations|analyst|specialist|consult\\w*|portfolio|function)",
     "benefits? design\\b",
@@ -3878,6 +4093,7 @@
    "id": "hr_compliance",
    "name": "Employment law & HR compliance",
    "cluster": "people",
+   "kind": "knowledge",
    "patterns": [
     "(?<!pursuant to federal )employment (law|laws|legislation|regulations|litigation|counsel|compliance)",
     "(labor|labour) (law|laws|legislation|regulations|compliance|code)",
@@ -3902,6 +4118,7 @@
    "id": "hr_operations",
    "name": "HR operations, onboarding & payroll",
    "cluster": "people",
+   "kind": "method",
    "patterns": [
     "(HR|human resources|people) (operations|ops\\b|processes|process (improvement|excellence|design|optimi)|services|service delivery|shared services|administration|transactions|records|service center)",
     "(employee|new hire|new[- ]hire|associate|staff|team member) (onboarding|orientation|offboarding|life-?cycle|transactions|self[- ]service)",
@@ -3921,6 +4138,7 @@
    "id": "people_analytics",
    "name": "People analytics & HR reporting",
    "cluster": "people",
+   "kind": "method",
    "patterns": [
     "people (analytics|metrics|insights|reporting|dashboards)",
     "(HR|human resources|workforce|talent|HRIS|headcount|turnover|attrition) (analytics|metrics|data|reporting|reports|dashboards|insights|trends|KPIs)|(compensation|benefits|total rewards) (analytics|metrics|reporting|dashboards)",
@@ -3937,6 +4155,7 @@
    "id": "rotational_program",
    "name": "Rotational programme assignments",
    "cluster": "people",
+   "kind": "credential",
    "patterns": [
     "rotational (program|assignments?|experiences?|roles?|opportunit|positions?|development|leadership|associate|analyst|track)",
     "\\brotations\\b",
@@ -3953,6 +4172,7 @@
    "id": "erm_framework",
    "name": "Enterprise risk frameworks & reporting",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "enterprise risk|\\bERM\\b",
     "risk (frameworks?|taxonomy|taxonomies|governance|oversight|culture|profiles?|tolerances?|identification process)|risk appetite (framework|statements?|metrics|limits|and)",
@@ -3970,6 +4190,7 @@
    "id": "controls_testing",
    "name": "Controls design & testing",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "\\bRCSAs?\\b|risk (and|&) control self|risks? (and|&) controls?\\b",
     "controls? (testing|design|environment|frameworks?|effectiveness|monitoring|mapping|owners?|gaps|deficienc\\w+|assessments?|library|inventory|objectives|assurance|weaknesses|evaluation|enhancements?|failures)",
@@ -3984,6 +4205,7 @@
    "id": "operational_risk",
    "name": "Operational risk & resilience",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "operational risk|non-?financial risk|\\bop(s)? risk\\b",
     "business continuity|operational resilience|disaster recovery|crisis management|\\bBCP\\b|business resilience|resiliency (planning|program|testing)",
@@ -3997,6 +4219,7 @@
    "id": "third_party_risk",
    "name": "Third-party & vendor risk",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "third[- ]party risk|vendor risk|\\bTPRM\\b|outsourcing risk|supplier risk (management|assessments?|program)",
     "(vendor|third[- ]party) (due diligence|oversight|risk|security (reviews?|assessments?))|(vendor|third[- ]party) (risk )?assessments?",
@@ -4010,6 +4233,7 @@
    "id": "model_risk",
    "name": "Model risk & validation",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "model risk|model validation|SR ?11-7|model governance|model (inventory|performance monitoring|oversight|development and validation)",
     "\\bMRM\\b"
@@ -4022,6 +4246,7 @@
    "id": "financial_risk",
    "name": "Credit, market & liquidity risk",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "credit risk|market risk|liquidity risk|counterparty (risk|credit|exposure)|interest rate risk|investment risk",
     "stress test(s|ing)?|\\bCCAR\\b|\\bVaR\\b|value[- ]at[- ]risk|\\bDFAST\\b|\\bCECL\\b|\\bBasel\\b|capital adequacy|risk[- ]weighted",
@@ -4035,6 +4260,7 @@
    "id": "compliance_program",
    "name": "Compliance programme management",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "(?<!all risk and )compliance (programs?|programmes?|frameworks?|function|oversight|management systems?|strategy|governance|initiatives|plans?|roadmap|infrastructure)",
     "ethics (and|&) compliance|culture of compliance|compliance culture",
@@ -4049,6 +4275,7 @@
    "id": "compliance_monitoring",
    "name": "Compliance monitoring & testing",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "compliance (monitoring|testing|reviews?|audits?|risk assessments?|assessments?|surveillance|exceptions)",
     "monitoring (and|&|,|/) ?testing|testing (and|&) monitoring",
@@ -4062,6 +4289,7 @@
    "id": "regulatory_change",
    "name": "Regulatory analysis & change management",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "regulatory (change|developments|guidance|expectations|updates|interpretation|analysis|horizon|obligations)s?",
     "(monitor|track|interpret|analy[sz]|research)\\w* (and \\w+ )?(new |emerging |proposed |changes (in|to) |applicable |evolving |relevant |the impact of |\\w+ )?(laws|regulations|regulatory|legislation|rules|statutes)\\b",
@@ -4076,6 +4304,7 @@
    "id": "regulator_exams",
    "name": "Regulator exams & relations",
    "cluster": "risk",
+   "kind": "practice",
    "patterns": [
     "regulatory (exam|examination|inquir|audit|review|request|finding|engagement|relations|relationships|interactions|remediation|scrutiny)\\w*",
     "(with|to|from|by|before) ((the|our|its|their|federal|state|banking|bank|financial|prudential|global|local|US|U\\.S\\.|key|various|external|primary|applicable|relevant|appropriate|government|governmental|industry|and) )*(regulators\\b|regulatory (agencies|bodies|authorities))(?! such as the Department of Transportation)|(regulators|regulatory (agencies|bodies|authorities))(,| and| or|, and|, or) (auditors|examiners|supervisors|law enforcement|exchanges|rating agencies)|(auditors|examiners)(,| and| or|, and|, or) (\\w+ )?regulators\\b|examiners\\b|supervisory (exams?|examinations?|expectations|findings|letters|guidance)",
@@ -4089,6 +4318,7 @@
    "id": "policy_management",
    "name": "Policy development & management",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "policy (management|development|governance|frameworks?|lifecycle|library|exceptions?|drafting|writing)",
     "\\b(develop|draft|writ|maintain|updat|creat|author|design|revis)\\w*[^.;:\\n]{0,40}(?<!public )(?<!development )(?<!development, )\\bpolic(y|ies)\\b",
@@ -4102,6 +4332,7 @@
    "id": "internal_audit_sox",
    "name": "Audit & SOX",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "internal audit|\\bSOX\\b|sarbanes|\\bICFR\\b|\\bPCAOB\\b",
     "audit (findings|plans?|committee|evidence|issues|engagements?|readiness|reports?|program|methodology|observations|universe|work ?papers|testing|procedures)|(internal|external|regulatory|independent|third[- ]party|customer|IT|compliance) audits\\b"
@@ -4114,6 +4345,7 @@
    "id": "issue_remediation",
    "name": "Issue management & remediation",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "issue (management|remediation|closure|validation)|issues management|issues and (findings|remediation)",
     "remediation (plans?|efforts|activities|actions?|tracking|programs?|strategies|work|projects?|initiatives|progress)|remediat(e|es|ing) (issues|findings|gaps|deficienc\\w+|control|compliance|identified|audit|weaknesses)",
@@ -4127,6 +4359,7 @@
    "id": "financial_crime",
    "name": "AML, KYC & sanctions",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "\\bAML\\b|anti[- ]money[- ]laundering|\\bBSA\\b|bank secrecy|\\bKYC\\b|know your (customer|client|business)|\\bKYB\\b",
     "\\bOFAC\\b|sanctions (screening|compliance|program|risk|regulations|laws|requirements|controls|monitoring|evasion)|economic sanctions|financial crimes?|customer due diligence|enhanced due diligence|\\bCDD\\b|\\bEDD\\b",
@@ -4140,6 +4373,7 @@
    "id": "consumer_compliance",
    "name": "Consumer-finance regulations (UDAAP, fair lending)",
    "cluster": "risk",
+   "kind": "knowledge",
    "patterns": [
     "\\bUDAAP\\b|\\bUDAP\\b|\\bFCRA\\b|fair lending|\\bECOA\\b|\\bTILA\\b|\\bFDCPA\\b|\\bRESPA\\b|\\bSCRA\\b|\\bHMDA\\b|\\bEFTA\\b|\\bTCPA\\b",
     "Reg(ulation)? ?(B|E|Z|DD|CC|X|O|W|BI)\\b|truth in (lending|savings)|equal credit|fair credit (reporting|billing)|consumer protection (laws?|regulations?|rules|requirements|statutes|compliance|act\\b)|consumer (compliance|financial (protection|laws|regulations))|consumer (lending|banking|finance) (laws|regulations|compliance)",
@@ -4153,6 +4387,7 @@
    "id": "security_frameworks",
    "name": "Security compliance frameworks (SOC 2, ISO 27001, NIST)",
    "cluster": "risk",
+   "kind": "knowledge",
    "patterns": [
     "\\bSOC ?[12]\\b|\\bSOC (Type|reports?)|ISO[ /]?(IEC )?27001|ISO ?2700\\d|\\bNIST\\b(?![- ]traceab)|PCI[- ]DSS|\\bPCI\\b|\\bHITRUST\\b|FedRAMP|\\bCMMC\\b|\\bCSA STAR\\b|\\bCIS (controls|benchmarks)|\\bSSAE ?1[68]\\b|ISO ?42001",
     "control mapping|continuous controls? monitoring|trust center|evidence (collection|gathering|requests)|audit evidence|compliance (automation|as code)|security (attestations?|frameworks)|common controls? framework"
@@ -4165,6 +4400,7 @@
    "id": "data_governance",
    "name": "Data governance & stewardship",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "data (governance|stewardship|stewards?|lineage|catalogu?e?s?|classification|retention|ownership|owners|quality (rules|standards|controls|monitoring|issues|management|framework|metrics)|management (framework|standards|policies|office|strategy))",
     "\\bmetadata\\b|business glossary|data dictionar(y|ies)|master data|\\bMDM\\b|\\bDAMA\\b|\\bDCAM\\b|\\bCDMP\\b|\\bBCBS ?239\\b|\\bcollibra\\b|\\balation\\b|microsoft purview|\\binformatica\\b"
@@ -4177,6 +4413,7 @@
    "id": "ai_governance",
    "name": "AI governance & responsible AI",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "\\bAI governance|responsible (AI|use of AI)|\\bAI (risks?|ethics|compliance|regulations?|controls|assurance|oversight|guardrails|risk management)\\b|AI polic(y|ies) (and|development|frameworks?|standards)",
     "EU AI Act|ISO ?42001|NIST AI|AI RMF|algorithmic (bias|fairness|accountability|impact)|model (fairness|bias|explainability)|AI (use[- ]case|model) (reviews?|inventory|intake|approvals?)"
@@ -4189,6 +4426,7 @@
    "id": "it_risk",
    "name": "Technology & cyber risk",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "\\bIT (risks?|governance|controls?|audits?|general controls|compliance)\\b|\\bITGCs?\\b|technology risks?|tech risk|cyber ?(security)? risks?|information (security )?risks?|\\bCOBIT\\b|technology (controls|governance|compliance|audit)",
     "(security|cyber|information security|infosec|cybersecurity) (governance|GRC|compliance|risk (management|assessments?)|assurance|audits?)|\\bGRC\\b|governance,? risk,? (and|&) compliance|risk exceptions?|risk acceptances?"
@@ -4201,6 +4439,7 @@
    "id": "board_governance",
    "name": "Board & committee governance",
    "cluster": "risk",
+   "kind": "practice",
    "patterns": [
     "board (and|&|or|/) (board )?committees?|(?<!steering )\\b(board|committee) (reporting|materials|charters?|papers|minutes|packages|books|secretariat|calendar|agendas?|resolutions)|board of directors (meetings|materials|reporting)",
     "(risk|audit|governance|compliance|disclosure|nominating|compensation) committees?\\b",
@@ -4214,6 +4453,7 @@
    "id": "trade_compliance",
    "name": "Trade compliance & export controls",
    "cluster": "risk",
+   "kind": "knowledge",
    "patterns": [
     "trade compliance|(import|export|customs) compliance|export controls? (compliance(?! *(\\n|$))|program|officer|classification|laws|regulations and)|import/export (compliance|regulations|laws|controls)|(global|international) trade (regulations|laws|operations|team)",
     "customs (broker\\w*|regulations|clearance|entries|entry|valuation|laws|duties)|\\bECCN\\b|\\bHTS (classification|codes?)|harmoni[sz]ed tariff|\\bC-?TPAT\\b|tariff classification|denied part(y|ies)|country of origin|\\b(EAR|ITAR) (compliance|regulations|classification)|\\bEAR\\b (and|/|,) ?\\bITAR\\b|\\bITAR\\b (and|/|,) ?\\bEAR\\b"
@@ -4226,6 +4466,7 @@
    "id": "governance_design",
    "name": "Governance frameworks & decision forums",
    "cluster": "risk",
+   "kind": "method",
    "patterns": [
     "governance (frameworks?|structures?|forums?|models?|bodies|routines|councils?|boards?|cadence|mechanisms|operating model|charters?|committees?)",
     "(establish|design|build|defin|implement|stand up|strengthen|run|lead)\\w* (and \\w+ )?(the |a |an |our |new |clear |effective |robust |enterprise |program |portfolio |data |AI |\\w+ )?governance\\b",
@@ -4239,6 +4480,7 @@
    "id": "dashboards_dataviz",
    "name": "Dashboards & data visualisation",
    "cluster": "analytics",
+   "kind": "method",
    "patterns": [
     "dashboards?\\b|dashboarding",
     "data visuali[sz]ations?|visuali[sz]ations?\\b|visuali[sz]e data|visual analytics"
@@ -4251,6 +4493,7 @@
    "id": "reporting_adhoc_analysis",
    "name": "Reporting automation & ad hoc analysis",
    "cluster": "analytics",
+   "kind": "method",
    "patterns": [
     "report(s|ing)? (automation|solutions|tools|capabilit\\w+|suite|infrastructure|platforms?|framework|layers?)|automat\\w+ (of |the |recurring |manual |standard |routine )?report\\w*|automated report\\w*",
     "ad[- ]?hoc (financial |business |data )?(analys[ie]s|analytics|report\\w*|requests?|quer\\w+)|(BI|MIS|business intelligence) reporting|report(s|ing) (and|&) dashboards|dashboards (and|&|,) report(s|ing)\\b"
@@ -4263,6 +4506,7 @@
    "id": "self_service_bi",
    "name": "Self-service BI enablement",
    "cluster": "analytics",
+   "kind": "method",
    "patterns": [
     "self[- ]serv(ice|e) (BI|analytics?|reporting|data|dashboards?|business intelligence|insights|visuali[sz]ation)",
     "data democrati[sz]ation|democrati[sz]\\w+ (access to )?data|(BI|analytics|dashboard|tableau|power ?bi) (training|adoption|user community|center of excellence|CoE)|semantic layers?|certified (datasets?|data sources?)|data marts?"
@@ -4275,6 +4519,7 @@
    "id": "analytics_requirements",
    "name": "Analytics requirements & business partnering",
    "cluster": "analytics",
+   "kind": "practice",
    "patterns": [
     "(data|analytics?|analytical|BI|dashboard|measurement) requirements\\b|reporting needs\\b|(business|stakeholder|user) reporting requirements",
     "translat\\w+ (business|stakeholder|customer|client|user) (\\w+ )?(needs|questions|requirements|problems|objectives|goals|asks|requests) into (\\w+ ){0,2}(analytic\\w*|data|report\\w*|dashboard\\w*|metrics|BI|quantitative|measur\\w+)",
@@ -4288,6 +4533,7 @@
    "id": "cost_schedule_control",
    "name": "Budget, cost & schedule control",
    "cluster": "delivery",
+   "kind": "method",
    "patterns": [
     "cost,? (and |& )?schedule|schedule,? (and |& )?(cost|budget)|cost/schedule|budget,? (and |& )?schedule|scope,? (schedule|cost|budget)|schedule,? (scope|quality|budget|technical)",
     "(program|project|programme) (budgets?|financials\\b|costs?|funding|profitability)|budgets? (and|&) (schedules?|timelines?)|on time (and )?(within|on|under) budget|within budget",
@@ -4301,6 +4547,7 @@
    "id": "earned_value_mgmt",
    "name": "Earned value management & integrated master schedule",
    "cluster": "delivery",
+   "kind": "method",
    "patterns": [
     "earned[- ]value|\\bEVMS?\\b",
     "integrated master (schedules?|plans?)|\\(IMS\\)|\\bIMP/IMS\\b",
@@ -4314,6 +4561,7 @@
    "id": "program_governance_reviews",
    "name": "PMO governance & programme reviews",
    "cluster": "delivery",
+   "kind": "practice",
    "patterns": [
     "\\bPMO\\b|(project|program|programme|portfolio) management office",
     "(program|project|programme|portfolio) governance|governance (forums?|cadence|boards?)",
@@ -4327,6 +4575,7 @@
    "id": "resource_planning",
    "name": "Resource planning for programmes",
    "cluster": "delivery",
+   "kind": "method",
    "patterns": [
     "(?<!enterprise )resource (planning|plans?\\b|loading|forecast\\w*|requirements|constraints|capacity|utili[sz]ation|levell?ing|conflicts|availability)",
     "(project|program|engineering|team|staff|personnel|manpower) resource (allocation|management|needs)|resource (allocation|management) (across|for|of) (projects|programs|the program|the project|teams)|resourcing (plans?|models?|needs|requirements|strateg\\w+)|manpower (planning|plans?|requirements)"
@@ -4339,6 +4588,7 @@
    "id": "advanced_excel",
    "name": "Advanced Excel modelling",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "advanced (proficiency (in|with) )?(microsoft |ms )?excel",
     "excel (model|macros?|expert|power user|proficien|skills)",
@@ -4360,6 +4610,7 @@
    "id": "erp_finance_systems",
    "name": "ERP & finance systems (SAP, Oracle, NetSuite, Anaplan, Hyperion)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bSAP\\b",
     "Oracle (ERP|EBS|Fusion|Financials|Cloud ERP|E-?Business|GL|General Ledger|NetSuite)",
@@ -4401,6 +4652,7 @@
    "id": "market_data_terminals",
    "name": "Market data platforms (Bloomberg, Capital IQ, FactSet, PitchBook)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "bloomberg (terminals?|professional|data|tools?|AIM|PORT|functions?|experience|proficiency|knowledge|skills)\\b",
     "bloomberg[,/ ]+(and |or |and/or )?(factset|capital ?iq|cap ?iq|refinitiv|reuters|pitchbook|morningstar|excel|aladdin|S&P|intex|trepp|dealogic|fxall|kyriba|clearwater|tradeweb|markit)",
@@ -4424,6 +4676,7 @@
    "id": "re_tools",
    "name": "Real estate software (Argus, CoStar, Yardi)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bargus\\b",
     "co-?star\\b",
@@ -4440,6 +4693,7 @@
    "id": "treasury_systems",
    "name": "Treasury workstations & bank portals",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "kyriba",
     "treasury (management )?(systems?|workstations?|technology|platforms?)\\b",
@@ -4456,6 +4710,7 @@
    "id": "grc_tools",
    "name": "GRC platforms (Archer, ServiceNow GRC, OneTrust, Vanta)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bRSA Archer\\b|\\bArcher\\b (GRC|IRM|platform|tool)|\\bArcher\\b(?=,? (process ?unity|servicenow|onetrust|metricstream|or other))|experience (with|in|using) Archer\\b|servicenow (GRC|IRM)|\\bonetrust\\b|\\bmetricstream\\b|\\blogicgate\\b|\\bauditboard\\b|\\bworkiva\\b|\\bvanta\\b(?=,? ?(or |and |/)? ?(drata|secureframe|similar|equivalent))|(drata|secureframe)[ ,/]+(or |and )?vanta\\b|\\(vanta\\b|(like|as) vanta\\b|\\bdrata\\b|\\bsecureframe\\b|\\bhyperproof\\b|\\bprocessunity\\b|\\briskonnect\\b|\\bnavex\\b|\\bSAI360\\b|\\bopenpages\\b|\\bLogicManager\\b|\\btrustarc\\b|\\bbigid\\b",
     "\\bGRC (platforms?|tools?|tooling|systems?|solutions?|software|technology|technologies|automation|applications?)"
@@ -4468,6 +4723,7 @@
    "id": "marketing_automation_tools",
    "name": "Marketing automation (Marketo, Braze, Pardot)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "marketing automation",
     "\\bmarketo\\b",
@@ -4490,6 +4746,7 @@
    "id": "ad_platforms",
    "name": "Ad platforms (Google Ads, Meta, LinkedIn)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "google ads?\\b",
     "(?<![=\\w])adwords\\b",
@@ -4512,6 +4769,7 @@
    "id": "syndicated_data",
    "name": "Syndicated retail data (Nielsen, Circana)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bnielsen(IQ)?\\b",
     "\\bNIQ\\b",
@@ -4534,6 +4792,7 @@
    "id": "hris_tools",
    "name": "HRIS (Workday, SuccessFactors, ADP)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bHRIS\\b",
     "\\bHCM\\b (systems?|platforms?|software|suite|tools?|modules?|implementation)",
@@ -4561,6 +4820,7 @@
    "id": "learning_tools",
    "name": "Learning platforms & authoring tools (LMS, Articulate)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "(?<!\\()\\bLMS\\b(?!\\'s?\\b| business)",
     "learning management systems?",
@@ -4584,6 +4844,7 @@
    "id": "procurement_tools",
    "name": "Procurement platforms (Ariba, Coupa)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bariba\\b|\\bcoupa\\b|jaggaer|ivalua|zycus|\\bGEP smart|scout ?rfp|icertis|sirion\\w*|oracle procurement|workday strategic sourcing|sievo|spendhq",
     "\\be[- ]?sourcing\\b|\\be[- ]?procurement\\b|(procurement|e-?sourcing|P2P|S2P|contract management|spend) (systems?|tools|platforms?|software|technolog\\w+)\\b"
@@ -4596,6 +4857,7 @@
    "id": "supply_chain_systems",
    "name": "Supply-chain planning & execution systems (WMS, TMS, Kinaxis)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bWMS\\b|\\bYMS\\b|(warehouse|transportation|labor|yard) management systems?|\\bTMS\\b.{0,40}(WMS|freight|carriers?|logistics|transportation|fleet|routing)|(WMS|freight|carriers?|logistics|transportation|ERP)\\W{1,3}(and |or )?TMS\\b",
     "kinaxis|blue ?yonder|\\bJDA\\b|manhattan (associates|active|WMS|scale)|\\bo9\\b|\\bSAP (IBP|APO|EWM|TM)\\b|e2open|llamasoft|logility|demantra|supply chain (planning )?(systems|software|platforms)\\b|(demand|supply) planning (systems?|tools?|software)|advanced planning (systems?|and scheduling)"
@@ -4608,6 +4870,7 @@
    "id": "pm_scheduling_tools",
    "name": "Scheduling tools (MS Project, Primavera, Smartsheet)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bMS[- ]project\\b|microsoft project|primavera|\\bP6\\b|smartsheets?|deltek|planview|\\bPPM\\b (tools?|software|systems?|platforms?)|project (scheduling|portfolio) (software|tools|systems|applications)|(?<!calendar and )(?<!interview )\\b(project )?scheduling (software|tools)"
    ],
@@ -4619,6 +4882,7 @@
    "id": "bi_dev_tools",
    "name": "BI development tools (DAX, Power Query, SSRS, Qlik)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bDAX\\b|power ?query|power (apps|automate|platform|pivot)|\\bpowerpivot\\b|semantic model\\w*|microsoft fabric|\\bLookML\\b|tableau (prep|server|desktop|cloud)",
     "qlik\\w*|microstrategy|cognos|\\bSSRS\\b|\\bSSIS\\b|\\bSSAS\\b|business ?objects|\\bOBIEE\\b|thoughtspot|\\bdomo\\b|sisense|spotfire|oracle analytics|sap analytics cloud|\\bSAP BW\\b"
@@ -4631,6 +4895,7 @@
    "id": "stats_analytics_packages",
    "name": "Analytics packages (SAS, Alteryx, Minitab)",
    "cluster": "tools",
+   "kind": "tool",
    "patterns": [
     "\\bSAS\\b(?! (zero|\\d))|\\bSPSS\\b|\\bstata\\b|alteryx|\\bminitab\\b|\\bJMP\\b|\\bmatlab\\b|\\bknime\\b"
    ],
@@ -4642,6 +4907,7 @@
    "id": "cpa",
    "name": "CPA / CMA",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bCPA\\b",
     "certified public accountant",
@@ -4656,6 +4922,7 @@
    "id": "cfa",
    "name": "CFA / CAIA",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bCFA\\b",
     "chartered financial analyst",
@@ -4669,6 +4936,7 @@
    "id": "finra_licenses",
    "name": "FINRA licences (SIE, Series 7, 63, 79)",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "series[- ]?(7|63|65|66|79|24|3|6|9|10|82)\\b",
     "\\bSIE\\b",
@@ -4683,6 +4951,7 @@
    "id": "ctp",
    "name": "CTP (Certified Treasury Professional)",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bCTP\\b",
     "certified treasury professional"
@@ -4695,6 +4964,7 @@
    "id": "finance_degree",
    "name": "Finance, accounting or economics degree",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "degree[^.\\n]{0,40}\\b(finance|accounting|economics)\\b",
     "(bachelor|master|\\bB\\.?[AS]\\.?|undergraduate)[^.\\n]{0,60}\\b(finance|accounting|economics)\\b",
@@ -4709,6 +4979,7 @@
    "id": "risk_compliance_certs",
    "name": "Risk, audit & compliance certifications (CISA, CRISC, CIA, FRM, CAMS, CRCM, CIPP)",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bCISA\\b|\\bCRISC\\b|\\bCISM\\b|\\bCISSP\\b|\\bCRMA\\b|(?<!Management \\()\\bFRM\\b|\\bCGEIT\\b|\\bCERA\\b|certified (internal auditor|fraud examiner|information systems auditor|information security manager|in risk)|financial risk manager|ISO ?27001 lead (auditor|implementer)|\\bCIA\\b(?= ?[,/]| or| certif| designation| preferred| required)|\\bCRCMP\\b|\\bCBCP\\b",
     "(?<!Managers \\()\\bCAMS\\b|\\bACAMS\\b|\\bCRCM\\b|\\bCCEP\\b|\\bCIPP(/\\w+)?\\b|\\bCIPM\\b|\\bCIPT\\b|\\bCHPC\\b|\\bCFCS\\b|\\bCGSS\\b|certified (anti[- ]money laundering|regulatory compliance|compliance (and|&) ethics|in healthcare compliance|information privacy)|licensed customs broker|customs broker('?s)? licen[sc]e"
@@ -4721,6 +4992,7 @@
    "id": "law_degree",
    "name": "JD / law degree",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bJ\\.?D\\.?\\b(?! ?(edwards|power|sports|vance|\\.com))|juris doctor|law degree|degree in law|\\bLL\\.[MB]\\b|\\bLLB\\b|\\bLLM (degree|in)\\b|(licensed|practicing|admitted) (attorney|to practice)|bar (admission|membership|license)|member of the .{0,30}\\bbar\\b|state bar|law firm experience|experience at a (top |major |leading )?law firm|paralegal certificate"
    ],
@@ -4732,6 +5004,7 @@
    "id": "pm_change_certs",
    "name": "Project & change certifications (PMP, Prosci)",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bPMP\\b|project management professional|\\bPgMP\\b|\\bPMI\\b[- ](ACP|certif\\w+)|\\bPRINCE ?2\\b|prosci (certif\\w+|trained|methodology)|\\bCCMP\\b|certified (scrum|change management|project manag)\\w*|\\bCAPM\\b|\\bCSM\\b certif|SAFe (certif\\w+|agilist)|\\bITIL\\b|\\bTOGAF\\b"
    ],
@@ -4743,6 +5016,7 @@
    "id": "hr_certification",
    "name": "HR certification (SHRM, PHR/SPHR)",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bSHRM[- ]?(CP|SCP)\\b",
     "\\bSHRM\\b",
@@ -4760,6 +5034,7 @@
    "id": "rewards_certification",
    "name": "Rewards certification (CCP, CEBS)",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bCCP\\b(?! (monitoring|verification))",
     "certified compensation professional",
@@ -4778,6 +5053,7 @@
    "id": "sales_track_record",
    "name": "Quota-carrying sales experience",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "quota[- ]carrying",
     "(years?|experience|background|track record|history|success) (of |in |with )?(\\w+ )?(B2B|enterprise|SaaS|software|technology|direct|field|outside|inside|consultative|solution|technical|complex|medical|pharmaceutical|industrial|commercial|channel) sales\\b",
@@ -4796,6 +5072,7 @@
    "id": "lean_six_sigma_belt",
    "name": "Lean Six Sigma belt",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "(green|black|yellow)[- ]belt|\\bLSSBB\\b|\\bLSSGB\\b|\\bCSSBB\\b|\\bCSSGB\\b|(six sigma|lean|LSS) (\\w+ )?(certifi(ed|cation)|trained|training)"
    ],
@@ -4807,6 +5084,7 @@
    "id": "supply_chain_certs",
    "name": "Supply-chain & procurement certifications (CPSM, CPIM, CSCP)",
    "cluster": "credentials",
+   "kind": "credential",
    "patterns": [
     "\\bAPICS\\b|\\bCPIM\\b|\\bCSCP\\b|\\bASCM\\b|\\bCLTD\\b|\\bCPSM\\b|\\bC\\.P\\.M\\.|\\bCIPS\\b|\\bMCIPS\\b|\\bISM\\b (certif\\w+|CPSM)|institute (for|of) supply management|\\bCPSD\\b|\\bCPCM\\b|\\bCFCM\\b|\\bNCMA\\b|certified (professional in supply|supply chain|purchasing)|(CPSM|CPIM|ISM|CIPS)\\W{1,3}CPM\\b|\\bCPM\\W{1,3}(CPSM|CPIM|ISM|CIPS)"
    ],

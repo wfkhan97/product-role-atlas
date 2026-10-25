@@ -406,8 +406,253 @@ What this does not give: a judgment that a rung is true of the job where posting
 employers ask for, not how the work is done. The content will say "postings at this level ask for", not "at
 this level you do".
 
+## A stratified taxonomy (v13, 2026-10-24)
+
+The problem (owner, 2026-10-24): every posting of every role asks for communication, leadership and collaboration, so
+the taxonomy's flat list of 278 skills tells a student little about what the asks mean in their field or how to show
+them. A product manager does not write "I have written PRDs"; they write "took a payments feature from 0 to 1 with
+engineering and marketing, defining the requirements". Leadership in investment banking and leadership in product are
+both asked for in the same words and shown by different work. Measured on the US postings of the MBA set, communication
+is asked for in 79% to 88% of postings in all 11 fields, but what travels with it differs completely: pitch books and
+valuation in banking, PRDs and roadmaps in product, synthesis and decks in consulting; influence in supply chain is
+supplier negotiation in 84% of the postings that ask for it; cross-functional work in finance is business partnering in
+97%. The differentiation is in the data; the taxonomy did not carry it.
+
+Three layers, all data, no screens (the interface work runs on another branch and reads these):
+
+1. **Kind** (`pipeline/taxonomy.json`, `kind` on every skill; `pipeline/tax.py`, `KINDS`). Seven kinds, each with a
+   default form of evidence and one rule a student can act on: `method` (145: a craft with a procedure and an artefact),
+   `practice` (39: work through people and structures, shown by scope), `behaviour` (10: asked by every field, shown
+   through other work, never a line of its own; the matcher's SOFT set plus data-driven decision making), `technical`
+   (14), `knowledge` (18: industries and rule sets), `tool` (23), `credential` (29). Patterns, clusters and ids do not
+   change; extraction does not read the kind, so nothing was re-extracted and no posting is retagged.
+2. **Evidence** (`pipeline/evidence.json`, one entry per skill, hand-written). The `form` (through, scope,
+   artefact, outcome, built, context, named), the `artefacts`, `counterparts`, `measures` and `verbs` a resume line that
+   shows the skill carries, and `shown_by`: for a behaviour or a practice, the concrete skills whose evidence counts for
+   it. Tools and credentials are `named`: the rule is the kind's.
+3. **Field** (`pipeline/fields.json`). For the 24 skills that four or more of the 11 fields ask for (mean share over
+   the field's roles at least 25%; tools excluded, since Excel means the same everywhere), one entry per field that asks:
+   `reads_as` (one sentence in the field's words), `shown_by` (two to six of the field's own skills that carry it) and
+   `line` (one resume line with a number). 225 entries. The carriers were drafted from the co-occurrence of the field's
+   postings and then checked against them: each must be asked for together with the skill in at least 15% of the
+   field's postings that ask for it; 66 of the first drafts failed that check and were rewritten from the postings'
+   own ranking (`evals/taxonomy_baseline.md` prints both side by side).
+
+The graph build publishes all three: `kind`, `how_shown` and `fields` on every skill node of both indexes, the field
+entries with the postings' side beside them (`share` of the field, `with`: the six carriers the field's postings rank
+highest, `subs`: the sub-skill mix within the field), and the kinds and forms tables in `meta`. `tax.validate` is the
+shape check (`tests/python/test_taxonomy.py`); `evals/run_taxonomy.py` checks coverage, grounding and the behaviour
+carriers against the postings and is in CI.
+
+What this is not: a judgment about resumes. The carriers are grounded in postings (what employers ask for together);
+the readings and lines are editorial, written on that evidence, and no resume reader has judged them yet.
+
+Next, planned in "The taxonomy adapted to each role (v14)" below: making the layers adaptive to each role. The matcher
+credits a behaviour through its carriers instead of hiding it; the fit page's "a line that would show it" comes from the
+field entry, not the product-only `signals`; the gap text follows the kind (name the artefact; say who and how many; name
+the industry); the skill card shows "in this field it means" and the sub-skill mix; the role grid groups rows by kind so
+the asks every role makes stop crowding out the craft; the course reader says which kinds a course can evidence
+(methods, technical, knowledge) and which it cannot (behaviours, practices).
+
+## The taxonomy adapted to each role (v14, 2026-10-24)
+
+The stratified taxonomy (v13) is data no screen reads yet. What the screens and the matcher do today, measured on the
+role files of 2026-10-14 (MBA) and 2026-10-11 (product):
+
+- **The matcher drops the behaviours.** `requirements()` in `web/match.js` skips the nine skills of its `SOFT` set, and
+  the `soft` list it returns is read by no screen. Those nine are 45% of a role's top row on average (the skills asked
+  for by over half of the role's postings; from 28% up to five of Sales Manager's six), so the fit page scores a student
+  on about half of what the role asks for most and says nothing about the rest. Data-driven decision making, the tenth
+  behaviour, is not in the set and is scored like a method.
+- **The resume lines are product lines.** "A line that would show it" on the fit page, "Postings say it like" under "Say
+  it in this field's words" and "Resume lines that show it" on the skill card all read `signals`: two hand-written lines
+  on each of the 98 product skills and on none of the 180 MBA-only skills. A Treasury analyst's gap in communication gets
+  "Wrote the 6-pager that secured funding for the new product line", or nothing.
+- **The grid is the asks every role makes.** Rows are ordered by share, so a role's top row holds on average 5.7
+  behaviours and 3.0 practices against 3.4 methods; in 47 of the 50 MBA roles behaviours and practices outnumber the
+  craft there, and Product Manager in the product set reads 7 behaviours, 2 practices, 4 methods, 2 technical.
+  `genericSkills` in `web/atlas.js` (asked by most postings of at least half the roles) is 8 skills, 6 behaviours and 2
+  practices, and only the event screen reads it.
+- **The course reader counts a mention of anything.** A syllabus that says "teamwork and communication" paints both
+  green and counts them among the gaps it covers.
+- **The field entry's carriers are a field's, and roles differ inside a field.** Communication in finance is business
+  cases and reporting: of the FP&A postings that ask for communication, 79% ask for a business case and 62% for
+  financial reporting, but the field's four carriers reach 27% at most in Treasury and 19% in M&A integration. Problem
+  solving in consulting is transformation programmes in 93% of Transformation postings and in 22% of Strategy Manager
+  ones. 25% of the postings that ask for a behaviour carry none of the field entry's carriers (Commercial banking RM,
+  ownership: 90%); with the evidence file's carriers added, 11%; every one of them carries at least one skill of a
+  carrier kind.
+
+Decisions (proposed 2026-10-24; the owner confirms each, and the ones still open are listed at the end):
+
+1. **The matcher credits a behaviour through its carriers.** A behaviour ask stays a row, in the tier its share sets,
+   with the `kind` on the row. Its credit is its best carrier's: the carriers are the union of the skill's
+   `how_shown.shown_by` and the role's field entry `fields[g].shown_by`, re-ranked by the role's own postings (decision
+   6); a carrier counts when the resume shows it with a line of work (strength 2 or more), and the row's status is
+   `through`, naming that carrier, never `evidenced`. A resume that names the behaviour itself ("strong communicator")
+   earns nothing for it: the kind's rule is that naming is not evidence, so the row reads "named, not shown", with the
+   carriers to show it through. Sub-skill hits (presenting, writing documents) count as depth, as today. The weight is
+   the row's share times its lift, as for every ask: in the MBA set a behaviour has a lift of about 1 everywhere, so it
+   enters at the floor (0.2 of its share) and the craft keeps the score; in the product set `distinct` is off and seven
+   behaviours would weigh as much as the fifteen other top-row asks, so there the weighting comes on first or the
+   behaviours stay out of the sum (open decision 1). **The bands do not move by accident.** `createMatcher` takes
+   `behaviours: "score" | "show"`; `bands.json` and `bands_mba.json` record it under `scoring` beside `distinct`; the
+   interface creates the matcher as the bands file says. The step lands with `show` (rows, status and carriers shown,
+   weight 0, bands unchanged) and reruns `evals/calibrate.mjs` with `score`; `score` lands only when the rank statistics
+   do not fall (today a same-role score is above an other-field score 89% of the time and above an adjacent-role score
+   77%) and no group loses its bands, and the six samples' `score_band` move in that commit with the reason.
+2. **The fit page's lines and gap text come from the field entry and the kind.** One pure module,
+   `web/evidence_text.js` (a classic script like `match.js`, required by node), builds every sentence from data, in this
+   order: the role's field entry (`fields[g].line` and `reads_as`; 24 skills, 11 fields, 225 entries; a product role
+   reads `fields.product`), else the product skill's `signals` (98 skills, until open decision 6 retires them), else a
+   template from `how_shown` by the kind's form with its slots named, never a number invented ("Built the [roadmap] with
+   [engineering, design]; [initiatives shipped against plan]"). The gap sentence follows the kind's `how`: a method,
+   name the artefact and what changed; a practice, who, how many and what you were trusted with, with the role's
+   counterparts; a behaviour, "never a line of its own", then the two carriers the role asks for most that the resume
+   does not yet show, or, when one is shown, that its line already shows it; technical, what you built or queried;
+   knowledge, the industry in the lines of work (the `__domain` slot's text today); a tool, the tool inside a line of
+   work. "Say it in this field's words" quotes `reads_as` and the field's line instead of `signals[0]`; "Shown, but
+   without specifics" adds the kind's `measures` ("add a number: decisions the document carried").
+3. **The skill card says what the skill means here.** In the first fold, after the definition and when the role's field
+   has an entry: "In finance: <reads_as>" and "Shown through" the carriers as skill tags (decision 6 picks them); the
+   eyebrow carries the kind's label beside the area ("Craft · Finance"). "Mostly means" keeps the sub-skill shares of
+   the view, which are the role's own mix. The Build it tab opens with the kind's `how` rule and the line decision 2
+   builds; `signals` leave the card. A skill with no field entry (254 of 278) shows the kind's rule and its `how_shown`
+   artefacts, counterparts and measures in one sentence.
+4. **The role grid lifts the behaviours out of the craft.** The area accordion stays as chosen (R3, 2026-10-19). Every
+   behaviour row leaves its area for one last panel, "How you work", collapsed by default, whose summary line says what
+   it holds ("Asked by nearly every role: communication 84%, …; shown through the work above"); inside, each row
+   carries its carriers from decision 6. Practices stay in their areas: who you work with is part of a field's craft.
+   `roleLead` no longer names a behaviour among "lead the asks" (today it leaves out only tools and domain). The course
+   screen's flat list inherits the panel. `genericSkills` stays measured for the event screen and gains the check that
+   it lies within the behaviours and practices (today 6 + 2).
+5. **The course reader says which kinds a course can show.** A mention counts for a method, technical, knowledge or tool
+   skill, as today. A behaviour or a practice the syllabus names is listed apart ("Named, but a course cannot show
+   these"), is not painted green and is not counted among the gaps it covers; "It does not cover" lists only skills of
+   the four kinds, so the amber is craft the course misses. One sentence says why: a course shows craft; how you work is
+   shown through work, on the fit page.
+6. **Per-role flavour needs no new hand-written content.** The reading and the line stay the field's. The carriers
+   shown (card, grid, fit page) and credited (matcher) are picked per role in the browser from `R.jobs`: among the union
+   of the field entry's and the evidence file's carriers, those asked for together with the skill in at least 15% of the
+   role's postings that ask for it (the grounding rule of `evals/run_taxonomy.py`, applied per role), ordered by that
+   share, four at most; with fewer than two, the field entry's list as written, marked "in this field". The edges and
+   the ladders already differ per role and per industry ladder and are not touched. Roles whose field reading does not
+   fit them (M&A integration and Corporate development read finance's "monthly reporting packages"; Treasury and
+   Commercial banking RM are the other two measured) are the case for a role override in `fields.json` (open decision
+   4), a data change with the same checks.
+
+Conventions: every sentence a screen shows about a skill is built from `taxonomy.json`, `evidence.json`, `fields.json`
+and the postings; no screen holds a hand-written line about a skill. The logic sits in pure functions
+(`web/evidence_text.js`; `carriers()`, `areas()` and `readCourse()` in `web/atlas.js`), so the node tests and the eval
+run the code the app runs. One eval runner, `node evals/adaptive.mjs [--only text|carriers|grid|course]`, exits 1 on a
+rule violation and is in CI from step 2; each step adds its part (`evals/README.md`, "Evals to build").
+
+Build order, one branch and one PR each, each cut from the one before (as the games' second pass), the first from the
+taxonomy branch (PR #76) until that lands. Each step keeps `node --test 'tests/web/*.test.mjs'`, `node evals/run.mjs`,
+`evals/run_pipeline.py --only matcher,js` and `evals/run_taxonomy.py` green, and adds what its line says:
+
+1. `feat/adaptive-1-matcher` (decision 1): behaviour rows, carrier credit, the `behaviours` option, `scoring` in both
+   bands files, `evals/calibrate.mjs` rerun for both sets. Adds to `tests/web/match.test.mjs`: a behaviour row earns its
+   best carrier's credit; a named-only behaviour earns 0; the 200-resume monotonicity run with the behaviours in; a
+   behaviour is never a `gap` while a carrier is evidenced. `evals/run.mjs --baseline` with `must_show_through`
+   (behaviour: carrier) in the six expectation files; `evals/calibration*.md` and `web/data/bands*.json` regenerated.
+2. `feat/adaptive-2-fit-text` (decision 2): `web/evidence_text.js`, read by the fit page. Adds `evals/adaptive.mjs --only
+   text`: for every role of both sets and every row kind the builder returns a sentence under 40 words with no empty
+   slot, the field's line where an entry exists, the product entry for a product role, and a behaviour's gap sentence
+   names a carrier the role's postings ask for; the builder's own tests in `tests/web/`.
+3. `feat/adaptive-3-carriers-card` (decisions 3 and 6): `Atlas.carriers(R, slice, id)`, the card's first fold and Build
+   it tab. Adds `--only carriers`: for every role and every behaviour or practice in its grid the carriers pass the 15%
+   rule or fall back, the fallback count is printed, and a top-row behaviour with no carrier at all fails (never, by
+   today's measurement); the field entry read is the role's group's.
+4. `feat/adaptive-4-grid` (decision 4): `areas()`, `roleLead`, the course screen's flat list. Adds `--only grid`: over
+   all 56 roles no behaviour sits in an area panel, the last panel exists exactly when a behaviour is in the grid, and
+   the first panel holds a method or a defining skill; `tests/web/atlas.test.mjs` gains the three `areas` cases.
+5. `feat/adaptive-5-course` (decision 5): `readCourse` returns `found` by kind. Adds `--only course`: the `course_list`
+   sample against every role shows no behaviour or practice as taught, and the split sums to the found set.
+6. `chore/adaptive-6-signals`: `signals` leave the build and the graph files once a line per skill exists in
+   `evidence.json` (open decision 6), not before.
+
+The UX worktree (`about-you-explore-roles-ux`) owns the start screen, About you, Explore and the field page. Steps 2 to 5
+touch `fitScreen`, `skillCard`, `areaPanel`, `roleLead` and `courseScreen` in `web/app.js` and `areas` and `readCourse`
+in `web/atlas.js`, and none of the UX branch's screens; the UX branch lands first, or each step rebases on it before its
+PR opens. The game evals are untouched: the games read shares, not kinds.
+
+Open decisions for the owner:
+
+1. **Behaviours in the score.** `score` (through carriers, damped by lift) or `show` (rows and status, weight 0),
+   decided on the calibration of step 1. For the product set `score` needs `distinct` on, which `calibrate.mjs` measures
+   and leaves off (`PRODUCT_ON`): with it on, the grad-student sample falls just below "in range" at entry level.
+2. **A behaviour named in a skills list.** No credit (proposed: the kind's rule), or the present half credit as "thin".
+3. **The grid.** Behaviours pulled into one last panel with the area accordion kept (proposed), or panels by kind with
+   the area as the label inside the row, which reverses R3.
+4. **Role overrides in `fields.json`** for the four measured roles, or the field's reading above the role's own carriers.
+5. **Practices in the course reader.** Not shown by a course (proposed): a capstone with a client is a practice, but a
+   syllabus cannot be told from a lecture course by its text.
+6. **A hand-written line per skill in `evidence.json`** (278 lines, editorial, to be judged by a reader as the field
+   lines have not been), so `signals` can go; or `signals` kept as the fallback for the 75 product skills without a
+   field entry.
+
+What this is not: the readings and the lines are still editorial and no reader has judged them, and the carriers are
+grounded in postings, not in resumes. The eval that would close that gap is listed in `evals/README.md`, "Evals to
+build".
+
+## About you, Explore and the role page around three kinds of student (v15, 2026-10-24)
+
+Owner's review of 2026-10-24 (three rounds of mockups in a scratch folder, since swept): the site was trying to do too
+much for everyone at once. The users are Cornell Tech and IE New York graduate students of three kinds: **looking**
+(want a good job, open on the role, will drop a resume to see what they have a shot at), **targeting** (know the role
+or have interviews, want to know which of its skills they have and how to fill the gaps) and **curious** (not
+searching, want to understand the roles). One page serves all three; what the person has told us decides what it
+leads with. The matcher, the bands and the taxonomy did not change.
+
+- **About you.** Three questions. *What are you studying?* lists the programs Cornell Tech and IE New York offer,
+  folded to the five groups the postings can speak to (business, management or finance; analytics or data science;
+  computer science or software; electrical, hardware or systems; information science, design or health/urban tech).
+  No law, PhD, undergrad or "working": the beachhead. *Where are you in your search?* is the three kinds above,
+  stored as `you.stage`. *Which fields interest you?* is unchanged. The summary names the three closest roles as
+  links; every row is one link. American spelling in the copy. (The data files still carry British spellings from
+  the model-written depth; a display-time map or a regeneration is a `data/` branch, under Later.)
+- **The role page and its rail.** The side column on a role screen is the rail: always there, 380 px, sticky, an edge
+  tab and an overlay under 1180 px. It holds the legend (one component, rows left out when they do not apply), then
+  one of three blocks by what we know (nothing: drop a resume or answer the questions; answers: the program and stage,
+  the entry-grade count and the employers hiring at it, the drop zone, ordered by the stage; a resume: the band, one
+  sentence "you show N of the M skills most postings ask for; K are gaps", every core gap as a row that opens to the
+  line that would show it and a waitlist placeholder, a link to the full fit), then what to do with the role (a
+  course, the three event kinds, the classes; with a fit also "Build these skills" and "Ways to show your skills",
+  placeholders until those journeys exist). A skill or posting card draws over the rail with "← Back". The main
+  column lost the three-button row, the help box, the fit toggle and the key: the list is painted whenever a fit is
+  read, and the painted core skills are exactly the greens and ambers the sentence counts. Each role has one
+  hand-written sentence on what the job is (`web/data/role_blurbs.json`). The fit is computed once per view
+  (`computeFit`) for the rail and the fit screen; the fit screen keeps its two columns and details. Bands read New to
+  the field / Relevant foundation / Qualified for the role / Strong match. The event prompt left the field page.
+- **Explore.** No "For you" filter: every field, the ones that fit first. The skill map shows every skill at rest; the
+  35 most-asked are solid (fainter than the fields) and named with a collision pass, the rest a faint fill named by a
+  lens around the pointer; skill areas are faint words at their centre, not colours. With a resume and fields that
+  fit, the skills those roles ask for (a quarter or more of a role's postings) are green when the rough read shows
+  them and blue when not; nothing else is coloured. No sub-skills on the map.
+- **The field page.** Half and half: the roles with their sentence on the left, the field's skills on lanes on the
+  right. Across is the share of the field's postings asking (the MBA set counts a year of postings, open and closed;
+  the product set open only). Without a resume the lanes are the kind of skill: the field's craft, working with
+  people, asked in every field (the taxonomy's `kind` once the taxonomy branch lands; until then measured: the skills
+  most postings of half the roles ask for, then the leadership, delivery and people areas). With a resume: the gaps
+  these roles require, already on your resume. A lane is as tall as its share of the dots. Hovering a role lights its
+  skills; a dot opens the skill card. The multiplier ("how much more this field asks than others") and the quadrant
+  names of the first mockups were dropped as confusing.
+- **What this reads from the stratified taxonomy (v13 and v14, landed the same day; wiring them is the next step):** `kind` on every skill (the lanes), `fields[<field>].reads_as`
+  and `line` (the "in marketing, this means" column and the gap rows' example lines, instead of the product-only
+  `signals`), `how_shown` (the gap text by kind).
+
 ## Later
 
+- An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
+  closed postings the way the MBA graph does (a `data/` branch).
+- The field chart's lanes with a resume read as two skew lines (the share orders both); a better second axis once the
+  taxonomy branch gives every skill a kind and a field reading.
+- Wire the waitlist placeholders ("Help me show this", "Build these skills", "Ways to show your skills") to the real
+  journeys and a sign-up.
+- American spelling in the data: a display-time map in `atlas.js` now, or an American rule in `depth_gen` and the
+  taxonomy names plus a regeneration (`run_depth.py`, `extraction_baseline_mba.md`).
+- The stage answer (`you.stage`) has no eval yet; listed under "Evals to build".
 - LLM-based extraction (Claude) for higher-recall skill tagging and requirement vs nice-to-have split.
 - Nightly refresh via a scheduled job; history of postings over time.
 - More families (design, engineering) and more companies (full Fortune 500).

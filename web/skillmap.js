@@ -3,19 +3,23 @@
    fields that ask for it most, so a field's own skills gather beside it and the skills every field asks for gather in
    the middle. Lines join skills that postings ask for together (graph_mba.json edges, Jaccard). Hover a field to light
    up its skills; click a skill for a short card whose roles and fields are links.
-   Colours keep their meaning: blue = how often the postings of the field in view ask for a skill; green = you; skill
-   areas are text. Desktop only, like the rest. */
+   Colours keep their meaning: blue = the postings' numbers (a lit field's skills; with a resume, the gaps your roles
+   require); green = you (already on your resume); skill areas are text. Desktop only, like the rest.
+   Owner's decisions (2026-10-24): every skill is on the map by default; the 35 most-asked skills are solid and
+   named, a little fainter than the fields; the rest are a faint fill, named on hover (a lens names every dot near
+   the pointer); with a resume and chosen fields the skills those roles ask for turn green (on the resume) or blue
+   (not yet); no sub-skills on the map. `chart()` draws one field's skills on lanes for the field page. */
 (function () {
   "use strict";
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const pct = v => Math.round(v * 100) + "%";
-  const LAYOUT_KEY = "skillmap-layout-v5", MODE_KEY = "explore-view", A = 2.1, TOP_N = 25, R_FIELD = 0.125;
+  const LAYOUT_KEY = "skillmap-layout-v5", MODE_KEY = "explore-view", A = 2.1, TOP_N = 25, R_FIELD = 0.125, NAMED = 35, LENS = 60;
   const store = { get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
   // the view (fields or map) lasts a session: the map is never remembered as the default (owner's choice E1)
   const session = { get(k, d) { try { const v = sessionStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch { } } };
 
   let data = null, P = null;
-  const ui = { el: null, groups: [], fit: null, onlyFit: false, focus: null, hover: null, selected: null, showAside: null, sizeOf: () => 1, all: false };
+  const ui = { el: null, groups: [], fit: null, onlyFit: false, focus: null, hover: null, selected: null, showAside: null, sizeOf: () => 1, all: true, overlay: null, tf: null, labelled: new Set(), lens: [], chart: null };
 
   // ---------- what a field asks for: the mean share of a skill over the field's roles ----------
   function fieldShares(M) {
@@ -79,8 +83,9 @@
     const edges = M.edges.filter(e => byId[e.source] && byId[e.target]);
     for (const e of edges) { (adj[e.source] ||= []).push([e.target, e.jaccard]); (adj[e.target] ||= []).push([e.source, e.jaccard]); }
     for (const k in adj) adj[k].sort((a, b) => b[1] - a[1]);
-    data = { nodes, byId, edges, adj, field: L.field, FS, M, ix, top: {} };
-    Atlas.product().then(p => { P = p; data.FS = { ...data.FS, product: productShares() }; data.top = {}; draw(); }).catch(() => { });
+    const named = new Set(nodes.slice().sort((a, b) => b.share - a.share).slice(0, NAMED).map(nd => nd.id));   // solid and named at rest
+    data = { nodes, byId, edges, adj, field: L.field, FS, M, ix, top: {}, named };
+    Atlas.product().then(p => { P = p; data.FS = { ...data.FS, product: productShares() }; data.top = {}; draw(); drawChart(); }).catch(() => { });
     return data;
   }
   function topSkills(gid) {
@@ -94,36 +99,78 @@
   const groupLabel = gid => (data.ix.groups.find(g => g.id === gid) || data.M.groups.find(g => g.id === gid) || {}).label || gid;
 
   // ---------- drawing: the lines and dots as one SVG, the fields as the page's own circles on top ----------
+  // names are placed greedily: a box per name, right of the dot, else left of it, never over a field or another name
+  function labeller(blocked, bounds) {
+    const placed = blocked.slice();
+    const free = b => (!bounds || (b[0] >= bounds[0] && b[2] <= bounds[2])) && !placed.some(q => !(b[2] < q[0] || b[0] > q[2] || b[3] < q[1] || b[1] > q[3]));
+    return (x, y, name, size) => {
+      const w = name.length * (size || 11) * 0.56 + 4, h = (size || 11) + 4;
+      const right = [x + 7, y - h / 2, x + 7 + w, y + h / 2], left = [x - 7 - w, y - h / 2, x - 7, y + h / 2];
+      if (free(right)) { placed.push(right); return { x: x + 7, anchor: "start" }; }
+      if (free(left)) { placed.push(left); return { x: x - 7, anchor: "end" }; }
+      return null;
+    };
+  }
+  const AREA_MIN = 5;   // an area label needs this many dots to have a centre worth naming
   function draw() {
     if (!data || !ui.el || !document.body.contains(ui.el)) return;
     const stage = ui.el, w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return;
     const sc = Math.min(w / A, h), ox = (w - A * sc) / 2, oy = (h - sc) / 2;
+    ui.tf = { sc, ox, oy };
     const px = p => [ox + p[0] * sc, oy + p[1] * sc], at = id => px([data.byId[id].x, data.byId[id].y]);
     const lit = ui.hover || ui.focus, hl = topSkills(lit), maxW = hl ? Math.max(...hl.values()) : 1;
     const sel = ui.selected, near = new Set(sel ? (data.adj[sel] || []).slice(0, 6).map(a => a[0]) : []);
     const seg = list => list.map(([a, b]) => `M${a[0].toFixed(1)} ${a[1].toFixed(1)}L${b[0].toFixed(1)} ${b[1].toFixed(1)}`).join("");
     const edgeSeg = es => seg(es.map(e => [at(e.source), at(e.target)]));
-    // at rest the map is the fields alone (owner's choice E1): a lit field shows its skills, a picked skill its
-    // neighbours, and "Show all skills" brings every dot and the web of lines back
+    const ov = ui.overlay;
+    // every skill at rest (owner's decision 2026-10-24); "Show the fields alone" takes them away, a lit field or a
+    // picked skill brings its own back
     const all = ui.all || !!sel, shown = all ? data.nodes : hl ? data.nodes.filter(nd => hl.has(nd.id)) : [];
+    const radius = nd => 3 + 6 * Math.sqrt(nd.share);
     let svg = `<svg class="sm-svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">`;
     if (ui.all) svg += `<path class="sm-e" d="${edgeSeg(data.edges)}"/>`;
     if (hl && !sel && data.field[lit]) { const f = px(data.field[lit]); svg += `<path class="sm-spoke" d="${seg([...hl.keys()].map(id => [f, at(id)]))}"/>`; }
     if (sel) svg += `<path class="sm-e sel" d="${edgeSeg(data.edges.filter(e => (e.source === sel && near.has(e.target)) || (e.target === sel && near.has(e.source))))}"/>`;
     svg += shown.map(nd => {
-      const wv = hl && hl.get(nd.id), cls = "sm-n" + (wv ? " hl" : "") + (nd.id === sel ? " sel" : near.has(nd.id) ? " near" : ""), [cx, cy] = at(nd.id);
-      return `<circle class="${cls}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(2 + 4.5 * Math.sqrt(nd.share)).toFixed(1)}"${wv ? ` style="opacity:${(0.5 + 0.5 * wv / maxW).toFixed(2)}"` : ""} data-sk="${esc(nd.id)}"/>`;
+      const wv = hl && hl.get(nd.id);
+      const state = ov ? (ov.have.has(nd.id) ? "have" : ov.todo.has(nd.id) ? "todo" : "quiet") : (data.named.has(nd.id) ? "top" : "quiet");
+      const cls = "sm-n " + state + (wv && !ov ? " hl" : "") + (nd.id === sel ? " sel" : near.has(nd.id) ? " near" : ""), [cx, cy] = at(nd.id);
+      return `<circle class="${cls}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${radius(nd).toFixed(1)}"${wv && !ov ? ` style="opacity:${(0.5 + 0.5 * wv / maxW).toFixed(2)}"` : ""} data-sk="${esc(nd.id)}"/>`;
     }).join("");
-    // names: the picked skill and its neighbours, or the five skills that most set a lit field apart
-    const named = sel ? [sel, ...near] : hl ? [...hl.keys()].slice(0, 5) : [];
-    svg += named.map(id => { const [a, b] = at(id); return `<text class="sm-name${id === sel ? " sel" : ""}" x="${(a + 7).toFixed(1)}" y="${(b + 4).toFixed(1)}">${esc(data.byId[id].name)}</text>`; }).join("");
-    svg += "</svg>";
+    // names: the picked skill and its neighbours first, then a lit field's five, then the coloured dots, then the
+    // 35 most-asked (faint); the field circles are blocked so nothing is written over them
+    const blocked = ui.groups.map(g => { const f = data.field[g.id]; if (!f) return null; const [cx, cy] = px(f), d = sc * 2 * R_FIELD * ui.sizeOf(g); return [cx - d / 2, cy - d / 2, cx + d / 2, cy + d / 2]; }).filter(Boolean);
+    const place = labeller(blocked, [0, 0, w, h]), named = [], seen = new Set();
+    const want = (id, cls) => { if (seen.has(id) || !data.byId[id] || !shown.includes(data.byId[id])) return; seen.add(id); named.push([id, cls]); };
+    if (sel) { want(sel, "sel"); near.forEach(id => want(id, "")); }
+    if (hl) [...hl.keys()].slice(0, 5).forEach(id => want(id, ""));
+    if (ov) { ov.have.forEach(id => want(id, "have")); ov.todo.forEach(id => want(id, "todo")); }
+    else data.named.forEach(id => want(id, "quiet"));
+    ui.labelled = new Set();
+    svg += named.map(([id, cls]) => { const [a, b] = at(id), nd = data.byId[id], pos = place(a, b, nd.name, 11); if (!pos) return ""; ui.labelled.add(id); return `<text class="sm-name${cls ? " " + cls : ""}" x="${pos.x.toFixed(1)}" y="${(b + 4).toFixed(1)}" text-anchor="${pos.anchor}">${esc(nd.name)}</text>`; }).join("");
+    // the skill areas as faint words at the centre of their dots, instead of colours (owner's choice, v9)
+    if (ui.all) {
+      const byArea = {}; for (const nd of data.nodes) (byArea[nd.cluster] ||= []).push(at(nd.id));
+      svg += Object.entries(byArea).filter(([, pts]) => pts.length >= AREA_MIN).map(([c, pts]) => { const cx = pts.reduce((a, p) => a + p[0], 0) / pts.length, cy = pts.reduce((a, p) => a + p[1], 0) / pts.length, label = ((data.M.clusters[c] || {}).label || c).toUpperCase(); const pos = place(cx - label.length * 3.4, cy, label, 10); return pos ? `<text class="sm-area" x="${pos.x.toFixed(1)}" y="${(cy + 3).toFixed(1)}" text-anchor="${pos.anchor}">${esc(label)}</text>` : ""; }).join("");
+    }
+    svg += `<g class="sm-lens"></g></svg>`;
     const bubbles = ui.groups.map(g => {
       const f = data.field[g.id]; if (!f) return "";
       const [cx, cy] = px(f), d = Math.round(sc * 2 * R_FIELD * ui.sizeOf(g)), dim = ui.onlyFit && ui.fit && !ui.fit.has(g.id);
       return `<a class="bubble sm-field ${g.cls}${g.you ? " you" : ""}${dim ? " dim" : ""}${g.id === lit ? " lit" : ""}" href="#/field/${esc(g.id)}" data-g="${esc(g.id)}" style="left:${(cx - d / 2).toFixed(0)}px;top:${(cy - d / 2).toFixed(0)}px;width:${d}px;height:${d}px">${g.inner}</a>`;
     }).join("");
     stage.innerHTML = svg + bubbles;
+  }
+  // the lens: every dot within LENS px of the pointer gets its name, drawn in its own group so nothing else moves
+  function lens(mx, my) {
+    if (!ui.el || !ui.tf) return;
+    const g = ui.el.querySelector(".sm-lens"); if (!g) return;
+    const { sc, ox, oy } = ui.tf, at = nd => [ox + nd.x * sc, oy + nd.y * sc];
+    if (mx == null) { g.innerHTML = ""; return; }
+    const shown = ui.all || ui.selected ? data.nodes : [];
+    const hits = shown.filter(nd => !ui.labelled.has(nd.id)).map(nd => { const [x, y] = at(nd); const d = Math.hypot(x - mx, y - my); return d <= LENS ? [nd, x, y, d] : null; }).filter(Boolean).sort((a, b) => a[3] - b[3]).slice(0, 8);
+    const place = labeller([]);
+    g.innerHTML = hits.map(([nd, x, y]) => { const pos = place(x, y, nd.name, 11); return pos ? `<text class="sm-name lens" x="${pos.x.toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="${pos.anchor}">${esc(nd.name)}</text>` : ""; }).join("");
   }
 
   // ---------- the short card for a skill: who asks for it, as links ----------
@@ -163,15 +210,18 @@
       const b = e.target.closest("a[data-g]"), g = b ? b.dataset.g : null;
       if (g !== ui.hover) { ui.hover = g; if (!ui.selected) draw(); }
     });
-    stage.addEventListener("mouseleave", () => { tip(null); if (ui.hover) { ui.hover = null; if (!ui.selected) draw(); } });
+    stage.addEventListener("mouseleave", () => { tip(null); lens(null); if (ui.hover) { ui.hover = null; if (!ui.selected) draw(); } });
+    let raf = 0;
+    stage.addEventListener("mousemove", e => { const r = stage.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top; cancelAnimationFrame(raf); raf = requestAnimationFrame(() => lens(e.target.closest("a[data-g]") ? null : x, y)); });
   }
-  let rz = 0; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(draw, 120); });
+  let rz = 0; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { draw(); drawChart(); }, 120); });
 
   // ---------- what app.js calls ----------
-  // stage(el, { groups: [{ id, cls, you, inner }], sizeOf, fit, onlyFit, focus, aside, showAside })
+  // stage(el, { groups: [{ id, cls, you, inner }], sizeOf, fit, onlyFit, focus, aside, showAside, overlay })
+  // overlay: { have: Set, todo: Set } — the skills the person's roles ask for, split by whether the resume shows them
   async function stage(el, opts) {
     await load();
-    Object.assign(ui, { el, groups: opts.groups, sizeOf: opts.sizeOf || (() => 1), fit: opts.fit || null, onlyFit: !!opts.onlyFit, focus: opts.focus || null, showAside: opts.showAside, hover: null });
+    Object.assign(ui, { el, groups: opts.groups, sizeOf: opts.sizeOf || (() => 1), fit: opts.fit || null, onlyFit: !!opts.onlyFit, focus: opts.focus || null, showAside: opts.showAside, hover: null, overlay: opts.overlay || null });
     if (opts.aside && !opts.aside.dataset.smWired) {
       opts.aside.addEventListener("click", e => { const t = e.target.closest("[data-sk],[data-sk-clear]"); if (!t || !ui.el) return; select(t.hasAttribute("data-sk-clear") ? null : t.dataset.sk); });
       opts.aside.dataset.smWired = "1";
@@ -185,11 +235,75 @@
     if (nd) select(nd.id); return !!nd;
   }
   async function names() { await load(); return data.nodes.map(nd => nd.name).sort(); }
-  function leave() { ui.el = null; ui.selected = null; ui.hover = null; ui.showAside = null; if (data) tip(null); }
+  function leave() { ui.el = null; ui.selected = null; ui.hover = null; ui.showAside = null; ui.overlay = null; ui.chart = null; if (data) tip(null); }
+
+  // ---------- the field chart: one field's skills on lanes (owner's decisions 2026-10-24) ----------
+  // Across: the share of the field's postings that ask for the skill. Up: lanes in words. Without a resume the lanes
+  // are the kind of skill (the taxonomy's `kind` when the skill carries one; until then: the skills every field asks
+  // for, measured, then the areas about working with people, then the field's craft). With a resume: the gaps the
+  // field's roles require, and what is already on the resume (the rough read's `shown`).
+  // chart(el, { field, label, roles: [ix roles], shown: Set|null, aside, showAside })
+  const PEOPLE_AREAS = ["leadership", "delivery", "people"];
+  async function chart(el, opts) {
+    await load();
+    const generic = await Atlas.genericSkills();
+    ui.chart = { el, field: opts.field, label: opts.label, roles: opts.roles || [], shown: opts.shown || null, generic, lit: null };
+    ui.showAside = opts.showAside;
+    if (opts.aside && !opts.aside.dataset.smWired) {
+      opts.aside.addEventListener("click", e => { const t = e.target.closest("[data-sk],[data-sk-clear]"); if (!t) return; selectChart(t.hasAttribute("data-sk-clear") ? null : t.dataset.sk); });
+      opts.aside.dataset.smWired = "1";
+    }
+    if (window.ResizeObserver && !el.dataset.smWired) { new ResizeObserver(() => drawChart()).observe(el); el.dataset.smWired = "1"; }
+    el.onclick = e => { const c = e.target.closest("circle[data-sk]"); selectChart(c ? (c.dataset.sk === ui.selected ? null : c.dataset.sk) : null); };
+    el.onmouseover = e => tip(e.target.closest("circle[data-sk]"));
+    el.onmouseleave = () => tip(null);
+    drawChart();
+  }
+  function selectChart(id) { ui.selected = id && data.byId[id] ? id : null; tip(null); drawChart(); if (ui.showAside) ui.showAside(ui.selected ? card(ui.selected) : null); }
+  // a role on the field page lights its skills (the ones a quarter or more of its postings ask for)
+  function chartLight(roleId) { if (!ui.chart) return; const r = roleId && ui.chart.roles.find(x => x.id === roleId); ui.chart.lit = r ? new Set([...r.definingList, ...r.asks].filter(a => a.share >= Atlas.TIER.common).map(a => a.id)) : null; drawChart(); }
+  function laneOfSkill(id) {
+    const C = ui.chart, s = data.ix.skillById[id] || {}, nd = data.byId[id];
+    if (C.shown) return C.shown.has(id) ? "have" : "todo";
+    if (s.kind) return s.kind === "behaviour" ? "every" : s.kind === "practice" ? "people" : "craft";
+    return C.generic.has(id) ? "every" : PEOPLE_AREAS.includes(nd.cluster) ? "people" : "craft";
+  }
+  function drawChart() {
+    const C = ui.chart; if (!C || !data || !document.body.contains(C.el)) return;
+    const FS = data.FS[C.field]; const w = C.el.clientWidth, h = C.el.clientHeight; if (!w || !h) return;
+    if (!FS) { C.el.innerHTML = '<p class="small muted" style="padding:16px">Loading this field…</p>'; return; }
+    const items = Object.entries(FS).filter(([id, v]) => v >= 0.1 && data.byId[id] && data.byId[id].cluster !== "credentials").map(([id, v]) => ({ id, name: data.byId[id].name, share: v, lane: laneOfSkill(id) })).sort((a, b) => b.share - a.share);
+    const lanes = C.shown ? [["Gaps these roles require", "todo"], ["Already on your resume", "have"]] : [[`${C.label} craft`, "craft"], ["Working with people", "people"], ["Asked in every field", "every"]];
+    const L = 16, R = 16, T = 12, B = 34, cw = w - L - R, ch = h - T - B;
+    const X = v => L + v * cw;
+    // a lane is as tall as its share of the dots, never under 64px, so a crowded lane gets the room
+    const count = {}, idx = {}; for (const it of items) count[it.lane] = (count[it.lane] || 0) + 1;
+    const MIN = 64, total = Math.max(1, items.length), raw = lanes.map(([, k]) => Math.max(MIN, ch * (count[k] || 0) / total)), sum = raw.reduce((a, b) => a + b, 0);
+    const heights = raw.map(v => v * ch / sum), tops = heights.map((_, i) => T + heights.slice(0, i).reduce((a, b) => a + b, 0));
+    let svg = `<svg class="sm-svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">`;
+    lanes.forEach(([name], i) => { svg += `<rect class="ch-lane${i % 2 ? " alt" : ""}" x="${L}" y="${tops[i].toFixed(1)}" width="${cw}" height="${heights[i].toFixed(1)}"/><text class="sm-area ch-lane-name" x="${L + 8}" y="${(tops[i] + 15).toFixed(1)}">${esc(name.toUpperCase())}</text>`; });
+    [0, .25, .5, .75, 1].forEach(v => { svg += `<line class="ch-grid" x1="${X(v)}" x2="${X(v)}" y1="${T}" y2="${T + ch + 4}"/><text class="ch-tick" x="${X(v)}" y="${T + ch + 18}" text-anchor="${v === 1 ? "end" : v === 0 ? "start" : "middle"}">${Math.round(v * 100)}%</text>`; });
+    const blocked = lanes.map((_, i) => [L, tops[i], L + 170, tops[i] + 22]);
+    const place = labeller(blocked, [L, T, L + cw, T + ch]);
+    // inside a lane the height says nothing: dots are spread down it in name order so the lane reads as a scatter,
+    // not a staircase, and the names collide less
+    const dots = [], names = [];
+    for (const it of items.slice().sort((a, b) => a.name.localeCompare(b.name))) {
+      const li = lanes.findIndex(([, k]) => k === it.lane); if (li < 0) continue;
+      const n = count[it.lane], k = idx[it.lane] = (idx[it.lane] || 0) + 1;
+      const x = X(it.share), y = tops[li] + 26 + ((k - 1) / Math.max(1, n - 1)) * (heights[li] - 40);
+      const state = C.shown ? it.lane : "top", litCls = C.lit ? (C.lit.has(it.id) ? " lit" : " dim") : "", sel = it.id === ui.selected ? " sel" : "";
+      dots.push(`<circle class="sm-n ${state}${litCls}${sel}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(3 + 5 * Math.sqrt(it.share)).toFixed(1)}" data-sk="${esc(it.id)}"/>`);
+      const pos = place(x, y, it.name, 11); if (pos) names.push(`<text class="sm-name${C.shown ? " " + it.lane : ""}${litCls}${sel}" x="${pos.x.toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="${pos.anchor}">${esc(it.name)}</text>`);
+    }
+    svg += dots.join("") + names.join("") + "</svg>";
+    C.el.innerHTML = svg;
+  }
+
   const mode = () => session.get(MODE_KEY, "grid"), setMode = m => session.set(MODE_KEY, m);
   const showAll = v => { ui.all = !!v; draw(); }, allShown = () => ui.all;
   // read-only, for games that use the map as a board (web/games/skill-path.js): positions, links and field shares;
   // FS gains the product field once the product set has loaded
   async function board() { await load(); return { nodes: data.nodes, byId: data.byId, adj: data.adj, field: data.field, rField: R_FIELD, A, get FS() { return data.FS; } }; }
-  window.SkillMap = { stage, find, names, leave, mode, setMode, showAll, allShown, board };
+  window.SkillMap = { stage, find, names, leave, mode, setMode, showAll, allShown, board, chart, chartLight };
 })();
