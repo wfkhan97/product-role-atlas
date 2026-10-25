@@ -16,7 +16,7 @@ const { createMatcher } = require(path.join(root, "web/match.js"));
 const EvidenceText = require(path.join(root, "web/evidence_text.js"));
 const J = f => JSON.parse(fs.readFileSync(path.join(root, f)));
 const only = process.argv.includes("--only") ? process.argv[process.argv.indexOf("--only") + 1] : null;
-const PARTS = ["text", "carriers"];
+const PARTS = ["text", "carriers", "grid"];
 if (only && !PARTS.includes(only)) { console.error(`--only takes one of ${PARTS.join(", ")}`); process.exit(2); }
 let pass = 0, fail = 0; const bad = [];
 const check = (ok, msg) => { ok ? pass++ : (fail++, bad.push(msg)); };
@@ -100,6 +100,40 @@ if (!only || only === "carriers") {
     } }));
   }
   console.log(`carriers: ${counts.roles} roles, ${counts.rows} behaviour or practice rows; picked on the role's postings ${counts.role}, the field's list standing in ${counts.field}, the two most asked under the floor ${counts.any}, none ${counts.none}`);
+}
+
+if (!only || only === "grid") {
+  // Over every role of both sets: no behaviour sits in an area panel; the last panel is "How you work" exactly when a
+  // behaviour is in the grid, holds every behaviour of the grid, and every row of it carries its carriers (or none
+  // exist); the first panel holds a method or a defining skill; the generic skills lie within behaviours and practices.
+  const { Matcher: MM, atlasFactory } = await import("../tests/web/_load.mjs");
+  const A = atlasFactory({ load: url => JSON.parse(fs.readFileSync(path.join(root, "web", url), "utf8")), Matcher: MM });
+  const ix = await A.index(); await A.product();
+  const counts = { roles: 0, withPanel: 0, behaviourRows: 0, leadsWithMethod: 0 };
+  for (const id of Object.keys(ix.roles)) {
+    const R = await A.role(id); const slice = R.jobs; if (!slice.length) continue; counts.roles++;
+    const { areas } = A.areas(R, slice); const { rows } = A.grid(R, slice);
+    const inGrid = rows.flat(2); const behaviours = inGrid.filter(x => (R.skillById[x.id] || {}).kind === "behaviour");
+    const panel = areas.find(a => a.behaviours); const others = areas.filter(a => !a.behaviours);
+    for (const a of others) for (const x of a.skills) check((R.skillById[x.id] || {}).kind !== "behaviour", `${id}: behaviour ${x.id} sits in the ${a.label} panel`);
+    check(!!panel === behaviours.length > 0, `${id}: the How you work panel ${panel ? "exists" : "is missing"} with ${behaviours.length} behaviours in the grid`);
+    if (panel) {
+      counts.withPanel++; counts.behaviourRows += panel.skills.length;
+      check(areas[areas.length - 1] === panel, `${id}: the How you work panel is not last`);
+      check(new Set(panel.skills.map(x => x.id)).size === behaviours.length && behaviours.every(b => panel.skills.some(x => x.id === b.id)), `${id}: the panel holds ${panel.skills.length} rows for ${behaviours.length} behaviours`);
+      check(typeof panel.summary === "string" && panel.summary.length > 0 && !/undefined|NaN/.test(panel.summary), `${id}: the panel's summary is empty or broken: "${panel.summary}"`);
+      for (const x of panel.skills) { const c = A.carriers(R, slice, x.id); check(JSON.stringify(x.carriers) === JSON.stringify(c.ids), `${id}/${x.id}: the row's carriers differ from carriers()`); }
+    }
+    // the first panel is the craft: a skill of a carrier kind (method, practice, technical, knowledge) or a defining one, never tools or behaviours alone
+    if (others.length) { const first = others[0]; const ok = first.skills.some(x => x.defining || MM.CARRIER_KINDS.has((R.skillById[x.id] || {}).kind)); if (ok) counts.leadsWithMethod++; check(ok, `${id}: the first panel (${first.label}) holds neither a carrier-kind skill nor a defining skill`); }
+  }
+  // the generic skills (asked by most postings of half the roles) are measured, not listed: they must be behaviours and
+  // practices in the main, never a tool or a credential; the composition is printed, since a data refresh moves it
+  const generic = await A.genericSkills(); const gk = {}; for (const k of generic) { const kd = (ix.skillById[k] || {}).kind || "?"; (gk[kd] ||= []).push(k); }
+  const soft = (gk.behaviour || []).length + (gk.practice || []).length;
+  check(soft * 2 >= generic.size, `the generic skills are mostly not behaviours or practices: ${JSON.stringify(gk)}`);
+  for (const k of generic) check(!["tool", "credential"].includes((ix.skillById[k] || {}).kind), `generic skill ${k} is a ${(ix.skillById[k] || {}).kind}`);
+  console.log(`grid: ${counts.roles} roles, ${counts.withPanel} with a How you work panel holding ${counts.behaviourRows} rows; the first panel leads with a carrier-kind or defining skill in ${counts.leadsWithMethod}; ${generic.size} generic skills: ${Object.entries(gk).map(([k, v]) => `${k} ${v.length}${k === "behaviour" || k === "practice" ? "" : " (" + v.join(", ") + ")"}`).join(", ")}`);
 }
 
 for (const b of bad.slice(0, 40)) console.log("  FAIL " + b);

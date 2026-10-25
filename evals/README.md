@@ -304,6 +304,7 @@ node evals/adaptive.mjs --only text     # one part
 | part | what it guards |
 |---|---|
 | carriers | For every role of both sets and every behaviour or practice in its grid, `Atlas.carriers` picks carriers of a carrier kind, four at most; picked on the postings they all pass the 15% floor; the field fallback is the role's own field's list; a behaviour most postings ask for always has a carrier. Prints how many were picked on the postings, by the field's list, by the two most asked under the floor, and none. |
+| grid | Over every role of both sets: no behaviour sits in an area panel; the last panel is "How you work" exactly when a behaviour is in the grid, holds every one of them with its carriers and a summary built from the shares; the first panel holds a carrier-kind skill or a defining one (never tools or behaviours alone); the generic skills (`Atlas.genericSkills`, measured) are mostly behaviours and practices and never a tool or a credential, composition printed. |
 | text | For every role of both sets and every ask of the role, `EvidenceText` returns a line, a gap sentence and a "add a number" sentence under 40 words with no empty slot; a template line (no field entry, no product `signals`) invents no number; where the role's field has an entry the line is that entry's (a product role reads the product entry); a behaviour's gap sentence names a carrier the role's postings ask for. Prints how many lines come from a field entry, from `signals` and from a template. |
 
 ## Evals to build
