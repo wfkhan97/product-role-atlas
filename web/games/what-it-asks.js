@@ -4,7 +4,7 @@
    slots, no multiplier; it unlocks after a clean untimed round (web/gameshell.js: one header, Enter hands in, Esc
    quits, one record). Play first (WIA2): one sentence and Play on the default role; the shared picker behind "Change
    role". Registers window.Games["what-it-asks"] = { mount }; play() in app.js calls it. Params after "?" in the hash:
-   role=<id>, seed=<integer> (a fixed deal), debug=pools (the pool counts). */
+   role=<id>, skills=<id,id> (the fit page's gaps: on the first board), seed=<integer> (a fixed deal), debug=pools. */
 (function () {
   "use strict";
   const SLUG = "what-it-asks", TITLE = "What does it ask for", HOME = "#/play/" + SLUG;
@@ -90,8 +90,10 @@
     const reals = passes(pool.asks, R, rnd), draw = drawer(pool.filler, rnd);
     return SCHEDULE.map((t, i) => realAt.has(i) || !pool.filler.length ? { ...reals.shift() || pool.asks[i % pool.asks.length], real: true } : { ...draw(stageAt(t)), real: false });
   }
-  function steadyBoards(pool, rnd) {
-    const asks = shuffle(pool.asks.slice(), rnd), draw = drawer(pool.filler, rnd), sizes = [0, 1, 2].map(b => Math.floor(asks.length / 3) + (b < asks.length % 3 ? 1 : 0));
+  // `first`: skill ids to put on the first board (the fit page's gaps, "Practise your gaps"); the rest is shuffled
+  function steadyBoards(pool, rnd, first) {
+    const want = new Set(first || []);
+    const asks = [...pool.asks.filter(a => want.has(a.id)), ...shuffle(pool.asks.filter(a => !want.has(a.id)), rnd)], draw = drawer(pool.filler, rnd), sizes = [0, 1, 2].map(b => Math.floor(asks.length / 3) + (b < asks.length % 3 ? 1 : 0));
     let k = 0;
     return sizes.map((n, b) => {
       const tiles = asks.slice(k, k += n).map(a => ({ ...a, real: true })), on = new Set(tiles.map(t => t.id));
@@ -292,7 +294,7 @@
     // ---------- 05 the boards (untimed) ----------
     function steady() {
       phase = "steady"; F.set({ round: 0, rounds: 3, role: pool.label });
-      SD = { boards: steadyBoards(pool, rnd), b: 0, picked: new Set(), shown: false, knew: new Set(), blown: 0, seen: 0, tapped: [], focus: 0, marks: [] };
+      SD = { boards: steadyBoards(pool, rnd, (params.get("skills") || "").split(",").filter(Boolean)), b: 0, picked: new Set(), shown: false, knew: new Set(), blown: 0, seen: 0, tapped: [], focus: 0, marks: [] };
       drawSteady(); el.querySelector('#wia-board [data-i="0"]').focus();
       GS.coachOnce(SLUG, el.querySelector(".wia-steady"), `Pick every skill that at least 40% of ${pool.label} postings ask for and leave the filler, then hand in. Arrow keys move, Space picks.`, "beforebegin");
     }
