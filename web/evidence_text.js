@@ -92,6 +92,14 @@
       return `Name the ${first(h.artefacts) || "thing"} you produced and what changed${h.measures && h.measures.length ? `: ${list(h.measures, 2)}` : ""}.`;
     }
 
+    // One sentence for a skill with no field entry: how it is shown, from the evidence file's slots.
+    function summary(skill) {
+      const h = (skill && skill.how_shown) || {}; const kind = (skill && skill.kind) || "method";
+      if (kind === "behaviour") return `${how("behaviour")}${h.artefacts && h.artefacts.length ? ` A line about ${list(h.artefacts, 3)} carries it.` : ""}`;
+      if (kind === "tool" || kind === "credential" || formOf(skill) === "named") return how(kind);
+      const parts = [h.artefacts && h.artefacts.length ? `Shown by ${list(h.artefacts, 3)}` : null, h.counterparts && h.counterparts.length ? `with ${list(h.counterparts, 3)}` : null, h.measures && h.measures.length ? `; measured by ${list(h.measures, 2)}` : null];
+      return parts.some(Boolean) ? sentence(parts) : how(kind);
+    }
     function thin(skill) {
       const m = (skill && skill.how_shown && skill.how_shown.measures) || [];
       return m.length ? `Add a number: ${list(m, 3)}.` : "Add a number: how much, how many, or what changed.";
@@ -100,7 +108,7 @@
       const r = reads(skill, field), l = line(skill, field);
       return { reads: r, line: l.text, source: l.source };
     }
-    return { line, reads, gap, thin, sayIt, how, template, kinds: K };
+    return { line, reads, gap, thin, sayIt, summary, how, template, kinds: K };
   }
 
   return { create, KINDS };

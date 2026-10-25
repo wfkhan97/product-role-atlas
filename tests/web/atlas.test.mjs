@@ -2,7 +2,7 @@
 // Inline fixtures: a loader that counts its calls and can fail on demand stands in for fetch.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { atlasFactory } from "./_load.mjs";
+import { atlasFactory, Matcher } from "./_load.mjs";
 
 const near = (a, b, msg) => assert.ok(Math.abs(a - b) < 1e-9, `${msg}: ${a} is not ${b}`);
 // a loader over in-memory files; `failures[url]` = how many of the next loads of url fail
@@ -151,4 +151,26 @@ test("areas: a single leftover area keeps its own name instead of becoming 'Othe
   const { areas } = A.areas(R, R.jobs);
   assert.deepEqual(areas.map(a => a.label), ["Finance", "Data", "Technical"]);
   assert.equal(areas[2].merged, false);
+});
+
+// ---------- carriers: the skills a behaviour or a practice is shown through, picked on the role's postings ----------
+test("carriers: picked on the postings of the view at the 15% floor, by share, four at most, carrier kinds only; the field's list stands in", async () => {
+  const skills = [
+    { id: "comm", name: "Communication", cluster: "leadership", kind: "behaviour", by_family: { fpa: 0.9 }, how_shown: { shown_by: ["prd", "excel", "rare"] }, fields: { finance: { shown_by: ["report", "case"], reads_as: "x", line: "1" } } },
+    { id: "report", name: "Reporting", cluster: "finance", kind: "method", by_family: { fpa: 0.5 } }, { id: "case", name: "Business case", cluster: "gtm", kind: "method", by_family: { fpa: 0.5 } },
+    { id: "prd", name: "PRDs", cluster: "craft", kind: "method", by_family: { fpa: 0.1 } }, { id: "rare", name: "Rare", cluster: "craft", kind: "method", by_family: { fpa: 0.1 } }, { id: "excel", name: "Excel", cluster: "tools", kind: "tool", by_family: { fpa: 0.5 } },
+  ];
+  const mk = n => Array.from({ length: n }, (_, i) => ({ id: i, company: "Co" + i, level: "mid", ladder: "corporate", w: 1, open: true, skills: ["comm", ...(i < 10 ? ["report"] : []), ...(i < 4 ? ["case"] : []), ...(i < 1 ? ["prd"] : []), ...(i < 10 ? ["excel"] : [])], sub: [] }));
+  const files = { "data/graph_mba.json": { ...INDEX["data/graph_mba.json"], skill_ids: skills.map(s => s.id), sub_ids: [], skills, meta: { kinds: {} }, ladders: { corporate: { levels: {} } } }, "data/subskills_mba.json": {}, "data/graph_mba/fpa.json": { jobs: mk(10).map(j => ({ ...j, skills: j.skills.map(k => skills.findIndex(s => s.id === k)) })) } };
+  const { load } = loader(files); const A = atlasFactory({ load, Matcher });
+  const R = await A.role("fpa");
+  const c = A.carriers(R, R.jobs, "comm");
+  assert.deepEqual(c.ids, ["report", "case"], "report (100%) and case (40%) pass; prd (10%) does not; excel is a tool");
+  assert.equal(c.fallback, false); assert.equal(c.source, "role"); assert.equal(c.kind, "behaviour");
+  // a view where only one carrier passes the floor: the field entry's list stands in, marked
+  const one = A.carriers(R, R.jobs.slice(4), "comm");
+  assert.deepEqual(one.ids, ["report", "case"]); assert.equal(one.source, "field"); assert.equal(one.fallback, true);
+  // no postings in the view: the role's postings decide
+  assert.deepEqual(A.carriers(R, [], "comm").ids, ["report", "case"]);
+  assert.deepEqual(A.carriers(R, R.jobs, "nope"), { ids: [], shares: {}, fallback: false, field: [], source: "none", kind: null });
 });

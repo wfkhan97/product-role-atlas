@@ -16,7 +16,7 @@ const { createMatcher } = require(path.join(root, "web/match.js"));
 const EvidenceText = require(path.join(root, "web/evidence_text.js"));
 const J = f => JSON.parse(fs.readFileSync(path.join(root, f)));
 const only = process.argv.includes("--only") ? process.argv[process.argv.indexOf("--only") + 1] : null;
-const PARTS = ["text"];
+const PARTS = ["text", "carriers"];
 if (only && !PARTS.includes(only)) { console.error(`--only takes one of ${PARTS.join(", ")}`); process.exit(2); }
 let pass = 0, fail = 0; const bad = [];
 const check = (ok, msg) => { ok ? pass++ : (fail++, bad.push(msg)); };
@@ -74,6 +74,32 @@ if (!only || only === "text") {
     }
   }
   console.log(`text: ${counts.roles} roles, ${counts.rows} rows; lines from the field entry ${counts.field}, from signals ${counts.signals}, from a template ${counts.template}; behaviour rows with no carrier on the role's postings ${counts.noCarrier}`);
+}
+
+if (!only || only === "carriers") {
+  // For every role of both sets and every behaviour or practice in its grid (asked by a tenth of the view's postings
+  // or more), the carriers Atlas.carriers picks pass the 15% rule on the role's postings or fall back (the field
+  // entry's list, or the two most asked); the fallbacks are counted; a top-row behaviour (asked by most postings) with
+  // no carrier at all fails; the field entry read is the role's group's.
+  const { Matcher: MM, atlasFactory } = await import("../tests/web/_load.mjs");
+  const A = atlasFactory({ load: url => JSON.parse(fs.readFileSync(path.join(root, "web", url), "utf8")), Matcher: MM });
+  const ix = await A.index(); await A.product();
+  const counts = { roles: 0, rows: 0, role: 0, field: 0, any: 0, none: 0 };
+  for (const id of Object.keys(ix.roles)) {
+    const R = await A.role(id); const slice = R.jobs; if (!slice.length) continue; counts.roles++;
+    const { rows } = A.grid(R, slice);
+    rows.forEach((row, tier) => row.forEach(cell => { for (const x of cell) {
+      const s = R.skillById[x.id]; if (!s || !(s.kind === "behaviour" || s.kind === "practice")) continue; counts.rows++;
+      const c = A.carriers(R, slice, x.id); counts[c.source]++;
+      check(c.ids.every(k => R.skillById[k] && MM.CARRIER_KINDS.has(R.skillById[k].kind)), `${id}/${x.id}: a carrier is not of a carrier kind: ${c.ids.join(", ")}`);
+      check(c.ids.length <= MM.CARRIER_MAX, `${id}/${x.id}: ${c.ids.length} carriers, more than ${MM.CARRIER_MAX}`);
+      if (c.source === "role") check(c.ids.length >= 2 && c.ids.every(k => c.shares[k] >= MM.CARRIER_MIN - 1e-9), `${id}/${x.id}: picked on the postings but a carrier is under the floor: ${c.ids.map(k => k + " " + (100 * c.shares[k]).toFixed(0) + "%").join(", ")}`);
+      else if (c.source === "field") check(JSON.stringify(c.ids) === JSON.stringify(((s.fields || {})[R.role.group] || {}).shown_by.filter(k => R.skillById[k] && MM.CARRIER_KINDS.has(R.skillById[k].kind))), `${id}/${x.id}: the field fallback is not the role's field's list`);
+      if (tier === 0 && s.kind === "behaviour") check(c.ids.length > 0, `${id}/${x.id}: a behaviour most postings ask for has no carrier at all`);
+      check(c.field.length === 0 || !s.fields || !s.fields[R.role.group] || c.field.every(k => s.fields[R.role.group].shown_by.includes(k)), `${id}/${x.id}: the field entry read is not the role's group's`);
+    } }));
+  }
+  console.log(`carriers: ${counts.roles} roles, ${counts.rows} behaviour or practice rows; picked on the role's postings ${counts.role}, the field's list standing in ${counts.field}, the two most asked under the floor ${counts.any}, none ${counts.none}`);
 }
 
 for (const b of bad.slice(0, 40)) console.log("  FAIL " + b);

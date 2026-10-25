@@ -161,6 +161,16 @@
     return { areas: main, stats, all };
   }
 
+  // The carriers of a behaviour or a practice for this role (PLAN.md v14, decision 6): the matcher's one rule
+  // (Matcher.pickCarriers) on the postings of the view, so a level filter re-picks them with the asks; with no
+  // postings in the view, the role's. Returns { ids, shares, fallback, field, source } plus `kind` of the skill.
+  function carriers(R, slice, id) {
+    const s = R.skillById[id]; if (!s) return { ids: [], shares: {}, fallback: false, field: [], source: "none", kind: null };
+    const isCarrier = k => { const t = R.skillById[k]; return !!t && Matcher.CARRIER_KINDS.has(t.kind); };
+    const jobs = slice && slice.length ? slice : R.jobs;
+    return { ...Matcher.pickCarriers(s, jobs, R.role.group, isCarrier), kind: s.kind || null };
+  }
+
   // ---------- the matcher (web/match.js, untouched) for one role, built the way the bands were calibrated ----------
   const matchers = {};
   async function matcher(R) {
@@ -235,5 +245,5 @@
     return files.flatMap(f => decode(ix.M, f.jobs));
   }
 
-  return { index, product, productKey, role, shares, subShares, grid, areas, AREA_ORDER, stepOf, employerType, matcher, roughFit, readCourse, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
+  return { index, product, productKey, role, shares, subShares, grid, areas, carriers, AREA_ORDER, stepOf, employerType, matcher, roughFit, readCourse, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson };
 });

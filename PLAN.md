@@ -649,6 +649,19 @@ and fewer than two carriers above the floor, the two carriers the role's posting
 names something (one role and behaviour has none at all: VC associate, product sense). `evals/adaptive.mjs --only text`
 over 56 roles and 3,138 rows: 1,046 lines from a field entry, 1,102 from `signals`, 990 from a template; in CI.
 
+Built (step 3, `feat/adaptive-3-carriers-card`, 2026-10-25). One carrier rule, `Matcher.pickCarriers`, serves the
+matcher and `Atlas.carriers(R, slice, id)`: picked on the postings of the view (so a level filter re-picks them), the
+field entry's list standing in, else the two most asked under the floor, and a lone carrier marked as a fallback. The
+skill card's eyebrow carries the kind's label beside the area ("How you work · Leadership & communication"); the first
+fold says what the skill means here ("In finance: monthly reporting packages, variance commentary and business cases
+that leaders read to decide on spend") or, with no field entry, one sentence from the evidence file ("Shown by annual
+budget, rolling forecast, long-range plan with business partners, FP&A, leadership; measured by budget size, forecast
+accuracy"), and for a behaviour or a practice names the carriers as skill tags; the Build it tab opens with "How to
+show it" (the kind's rule and the line) before the build steps; `signals` left the card. `evals/adaptive.mjs --only
+carriers` over 54 roles and 1,127 behaviour or practice rows: 754 picked on the role's postings, 21 the field's list,
+41 the two most asked under the floor, 311 with no carrier (practices whose evidence entry names none); no top-row
+behaviour without one. Open decision 4 (role overrides) left as proposed: none yet.
+
 Open decisions for the owner:
 
 1. **Behaviours in the score.** `score` (through carriers, damped by lift) or `show` (rows and status, weight 0),

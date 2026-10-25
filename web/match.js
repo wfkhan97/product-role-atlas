@@ -25,6 +25,25 @@
   // postings ask for most (`fallback: true`).
   const CARRIER_MIN = 0.15, CARRIER_MAX = 4;
   const CARRIER_KINDS = new Set(["method", "practice", "technical", "knowledge"]);
+  // The one rule (PLAN.md v14, decision 6), for the matcher and for the screens (Atlas.carriers). `skill` is a graph
+  // node (how_shown, fields), `jobs` the role's postings (skills as ids, weight w), `group` the role's field,
+  // `isCarrier(id)` whether an id is a skill of a carrier kind. Returns { ids, shares, fallback, field, source }:
+  // source "role" (the postings picked them), "field" (the field entry stands in), "any" (the two most asked, under
+  // the floor), "none".
+  function pickCarriers(skill, jobs, group, isCarrier) {
+    const s = skill || {}; const field = (((s.fields || {})[group] || {}).shown_by || []).filter(isCarrier); const own = ((s.how_shown || {}).shown_by || []).filter(isCarrier);
+    const union = [...new Set([...field, ...own])];
+    const withIt = jobs.filter(j => j.skills.includes(s.id)); let n = 0; const cnt = {};
+    for (const j of withIt) { const w = j.w == null ? 1 : j.w; n += w; for (const k of j.skills) if (union.includes(k)) cnt[k] = (cnt[k] || 0) + w; }
+    const co = {}; for (const k of union) co[k] = n ? (cnt[k] || 0) / n : 0;
+    const byShare = (a, b) => co[b] - co[a] || a.localeCompare(b);
+    const kept = union.filter(k => co[k] >= CARRIER_MIN).sort(byShare).slice(0, CARRIER_MAX);
+    if (kept.length >= 2) return { ids: kept, shares: co, fallback: false, field, source: "role" };
+    if (field.length) return { ids: field, shares: co, fallback: true, field, source: "field" };
+    const any = union.filter(k => co[k] > 0).sort(byShare).slice(0, 2);
+    if (any.length > kept.length) return { ids: any, shares: co, fallback: true, field, source: "any" };
+    return { ids: kept, shares: co, fallback: kept.length > 0, field, source: kept.length ? "any" : "none" }; // one carrier only: under the two the rule wants, marked
+  }
   const AI_GROUP = ["ai_ml", "genai_llm", "ai_tools"];
   const TIER = { core: 0.5, common: 0.25, diff: 0.1 };
   const CREDIT = [0, 0.5, 1, 1]; // by evidence strength: none / mentioned / done / done with an outcome
@@ -658,19 +677,7 @@
 
     // The carriers of a behaviour (or a practice) for one role: see CARRIER_MIN above. `jobs` are the role's postings;
     // `group` its field. Returns { ids, shares: { id: co-share }, fallback, field: the field entry's list }.
-    function carriersFor(id, jobs, group) {
-      const s = gSkill[id] || {}; const field = (((s.fields || {})[group] || {}).shown_by) || []; const own = ((s.how_shown || {}).shown_by) || [];
-      const union = [...new Set([...field, ...own])].filter(k => byId[k] && isCarrier(k));
-      const withIt = jobs.filter(j => j.skills.includes(id)); const st = shares(withIt); const co = {};
-      for (const k of union) co[k] = st.share(k);
-      const kept = union.filter(k => co[k] >= CARRIER_MIN).sort((a, b) => co[b] - co[a] || a.localeCompare(b)).slice(0, CARRIER_MAX);
-      if (kept.length >= 2) return { ids: kept, shares: co, fallback: false, field };
-      // fewer than two above the floor: the field entry's list as written; with no field entry, the two carriers of
-      // the union the role's postings ask for most (above zero), so a behaviour always names something to show it through
-      const fb = field.filter(k => byId[k]); if (fb.length) return { ids: fb, shares: co, fallback: true, field };
-      const any = union.filter(k => co[k] > 0).sort((a, b) => co[b] - co[a] || a.localeCompare(b)).slice(0, 2);
-      return { ids: any.length > kept.length ? any : kept, shares: co, fallback: any.length > 0, field };
-    }
+    function carriersFor(id, jobs, group) { return pickCarriers({ id, ...(gSkill[id] || {}) }, jobs, group, k => !!byId[k] && isCarrier(k)); }
 
     // target: { jobs, job?, familyJobs?, label }
     function requirements(target) {
@@ -865,5 +872,5 @@
     return score >= bands.strong ? "strong" : score >= bands.in_range ? "in_range" : score >= low ? "related" : "different";
   }
 
-  return { createMatcher, bandOf, parseResume, RESUME_PATTERNS, RESUME_DROP, SOFT, CARRIER_MIN, CARRIER_MAX, AI_GROUP, TIER, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
+  return { createMatcher, bandOf, parseResume, pickCarriers, RESUME_PATTERNS, RESUME_DROP, SOFT, CARRIER_MIN, CARRIER_MAX, CARRIER_KINDS, AI_GROUP, TIER, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
 });

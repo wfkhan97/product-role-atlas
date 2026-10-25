@@ -727,7 +727,16 @@
     const ladder = ladderHtml(R, s, here);
     const bs = buildSteps(s, R.role.ladder, true), ladName = k => (((R.ladders || {})[k] || {}).label || k).toLowerCase();
     const build = bs.steps.length ? (bs.ind && bs.ind !== R.role.ladder ? `<p class="small muted">Shown from the ${esc(ladName(bs.ind))} ladder; this skill has none yet for ${esc(ladName(R.role.ladder))}.</p>` : "") + `<ul class="plain">${bs.steps.map(b => `<li>${stepHtml(b)}</li>`).join("")}</ul>` : `<p class="small muted">${R.role.ladder === "consulting" && s.build && !Array.isArray(s.build) ? "Build steps for consulting roles are on hold until a source is agreed." : "Build steps for this skill are not written yet."}</p>`;
-    const signals = (s.signals || []).length ? `<p class="small muted" style="margin:10px 0 0">Resume lines that show it</p><ul class="plain">${s.signals.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
+    // What the skill means here and how it is shown (PLAN.md v14, decisions 3 and 6): the field entry's reading when the
+    // role's field has one, else one sentence from the evidence file; a behaviour or a practice names the carriers the
+    // role's postings pick. Every sentence comes from the data through web/evidence_text.js; `signals` left the card.
+    const T = textOf(R.kinds), field = R.role.group, fieldLabel = (g => (g && g.label) || field)((state.ixGroups || []).find(x => x.id === field));
+    const reads = T.reads(s, field), kindLabel = ((R.kinds || {})[s.kind] || {}).label || "";
+    const cs = s.kind === "behaviour" || s.kind === "practice" ? Atlas.carriers(R, slice, s.id) : null;
+    const carrierTags = cs && cs.ids.length ? `<p class="small" style="margin:8px 0 0">Shown through${cs.fallback ? ` <span class="subtle">(in ${esc(fieldLabel.toLowerCase())})</span>` : ""}: <span class="tags inline">${cs.ids.map(k => `<button type="button" class="tag" data-skill="${esc(k)}">${esc(R.skillById[k].name)}</button>`).join("")}</span></p>` : "";
+    const means = `${reads ? `<p class="small reads"><b>In ${esc(fieldLabel.toLowerCase())}:</b> ${esc(reads)}</p>` : `<p class="small muted">${esc(T.summary(s))}</p>`}${carrierTags}`;
+    const lineHere = T.line(s, field);
+    const showIt = `<p class="small" style="margin:10px 0 0"><b>${esc(T.how(s.kind || "method"))}</b></p>${s.kind !== "behaviour" ? `<p class="small">A line that shows it${lineHere.source === "field" ? ` in ${esc(fieldLabel.toLowerCase())}` : ""}: <em>“${esc(lineHere.text)}”</em></p>` : cs && cs.ids.length ? `<p class="small">A line about ${esc(R.skillById[cs.ids[0]].name)}${cs.ids[1] ? ` or ${esc(R.skillById[cs.ids[1]].name)}` : ""} carries it: <em>“${esc(lineHere.text)}”</em></p>` : ""}`;
     const withSkill = slice.filter(j => j.open && j.skills.includes(s.id)).slice(0, 6);
     const postings = withSkill.length ? `<div class="list">${withSkill.map(j => `<button type="button" class="r" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${esc(j.company)}</span></button>`).join("")}</div>` : `<p class="small muted">No open posting in this view asks for it.</p>`;
     const visible = new Set(Atlas.grid(R, slice).rows.flat(2).map(x => x.id));
@@ -736,14 +745,14 @@
     const bodies = {
       postings: `<h3>How postings say it</h3>${evidenceHtml(ev)}${POSTINGS ? `<h3>Postings that ask for it</h3>${postings}` : ""}`,
       ladder: `<h3>At each level</h3>${ladder}`,
-      build: `<h3>How to build it</h3>${build}${signals}`,
+      build: `<h3>How to show it</h3>${showIt}<h3>How to build it</h3>${build}`,
       related: `<h3>Often asked for together</h3>${related.length ? `<div class="tags">${related.map(r => `<button type="button" class="tag" data-skill="${esc(r.id)}">${esc(R.skillById[r.id].name)}</button>`).join("")}</div>` : '<p class="small muted">No skill is asked for together with it often enough to name.</p>'}`,
     };
     const tabs = `<div class="tabs card-tabs" role="tablist">${CTABS.map(([k, l]) => `<button type="button" role="tab" class="${state.cardTab === k ? "on" : ""}" aria-selected="${state.cardTab === k}" data-ctab="${k}">${l}</button>`).join("")}</div>`;
     return `<button type="button" class="close" aria-label="Close">×</button><div class="card">
-      <p class="eyebrow">${esc(R.clusters[s.cluster].label)}${def}</p><h2>${esc(s.name)}</h2>
+      <p class="eyebrow">${kindLabel ? esc(kindLabel) + " · " : ""}${esc(R.clusters[s.cluster].label)}${def}</p><h2>${esc(s.name)}</h2>
       ${s.what ? `<p class="what">${esc(s.what)}</p>` : ""}
-      ${share}${subs}
+      ${share}${means}${subs}
       <div id="quote1">${firstQuote(ev)}</div>
       ${tabs}${state.cardTab ? `<div class="card-body">${bodies[state.cardTab]}</div>` : ""}
     </div>`;
