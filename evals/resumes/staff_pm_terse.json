@@ -44,5 +44,9 @@
     "ai_ml",
     "user_research",
     "prd"
-  ]
+  ],
+  "must_show_through": {
+    "communication": "roadmap",
+    "influence": "stakeholder_mgmt"
+  }
 }

@@ -1,17 +1,63 @@
 {
   "persona": "new_to_role",
-  "notes": "MBA student with one PM internship, three years in marketing, a capstone and a hackathon. The core grad-student case.",
-  "targets": ["pm:associate", "pm:mid", "pm:__all"],
-  "score_band": { "pm:associate": [0.45, 0.7] },
+  "notes": "MBA student with one PM internship, three years in marketing, a capstone and a hackathon. The core grad-student case. Band lowered from 0.45 on 2026-10-25: data-driven decision making became a behaviour (PLAN.md v13), so the resume's own analysis line no longer scores it; the row now reads as shown through a carrier. Two points, measured, not a reading change.",
+  "targets": [
+    "pm:associate",
+    "pm:mid",
+    "pm:__all"
+  ],
+  "score_band": {
+    "pm:associate": [
+      0.42,
+      0.7
+    ]
+  },
   "expected_level": "associate",
   "must_evidence": [
-    "customer_interviews", "prd", "data_driven", "analytics_tools", "roadmap", "gtm", "product_strategy",
-    "surveys_feedback", "figma", "jira", "sql", "cross_functional", "exec_communication", "ux_design_collab",
-    "masters_mba", "bachelors", "startup_experience", "pm_experience"
+    "customer_interviews",
+    "prd",
+    "analytics_tools",
+    "roadmap",
+    "gtm",
+    "product_strategy",
+    "surveys_feedback",
+    "figma",
+    "jira",
+    "sql",
+    "cross_functional",
+    "exec_communication",
+    "ux_design_collab",
+    "masters_mba",
+    "bachelors",
+    "startup_experience",
+    "pm_experience"
   ],
   "must_not_tag": [
-    "supply_chain", "telecom", "hardware", "networking", "ai_ml", "ai_tools", "system_architecture",
-    "ecommerce_retail", "vendor_mgmt", "customer_facing_exec"
+    "supply_chain",
+    "telecom",
+    "hardware",
+    "networking",
+    "ai_ml",
+    "ai_tools",
+    "system_architecture",
+    "ecommerce_retail",
+    "vendor_mgmt",
+    "customer_facing_exec"
   ],
-  "real_gaps": ["stakeholder_mgmt", "prioritization", "agile_scrum", "technical_fluency", "apis", "ab_testing", "okrs", "program_mgmt"]
+  "real_gaps": [
+    "stakeholder_mgmt",
+    "prioritization",
+    "agile_scrum",
+    "technical_fluency",
+    "apis",
+    "ab_testing",
+    "okrs",
+    "program_mgmt"
+  ],
+  "must_show_through": {
+    "communication": "roadmap",
+    "collaboration": "ux_design_collab",
+    "execution": "prd",
+    "data_driven": "*"
+  }
 }

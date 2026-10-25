@@ -99,6 +99,15 @@ for (const sample of samples) {
   const missed = check("must_evidence", spec.must_evidence, true);
   const fp = check("must_not_tag ", spec.must_not_tag, false);
   const gapsWrong = check("real_gaps    ", spec.real_gaps, false);
+  // behaviours are shown through carriers (PLAN.md v14): { behaviour: carrier } says which skill of the resume must
+  // carry it on the first target; the carrier may be any of the row's carriers when the value is "*"
+  if (spec.must_show_through) {
+    const bad = [];
+    for (const [b, c] of Object.entries(spec.must_show_through)) { const row = r.rows.find(x => x.slot === b); if (!row || row.status !== "through" || (c !== "*" && row.through !== c)) bad.push(`${b} (${row ? row.status + (row.through ? " via " + row.through : "") : "no row"})`); }
+    pass += Object.keys(spec.must_show_through).length - bad.length; fail += bad.length;
+    out(`  show_through : ${Object.keys(spec.must_show_through).length - bad.length}/${Object.keys(spec.must_show_through).length}${bad.length ? "  WRONG: " + bad.join(", ") : ""}`);
+  }
+  out(`  through      : ${r.rows.filter(x => x.status === "through").map(x => x.slot + " via " + x.through).join(", ") || "none"}`);
   // role families the person held as jobs (not internships), read from their titles
   if (spec.held) { const got = new Set(mba.parsed.roles.filter(x => !x.isIntern && x.section !== "projects").map(x => x.roleFamily).filter(Boolean)); const bad = spec.held.filter(k => !got.has(k)); bad.length ? fail++ : pass++; out(`  roles held   : ${bad.length ? "FAIL (not read: " + bad.join(", ") + "; read: " + ([...got].join(", ") || "none") + ")" : "PASS"}`); }
   if (spec.persona) { const ok = r.profile.persona === spec.persona; ok ? pass++ : fail++; out(`  persona      : ${ok ? "PASS" : "FAIL (" + r.profile.persona + ")"}`); }
@@ -164,6 +173,8 @@ if (!only) {
   for (const f of fams) {
     const tg = { jobs: GM.jobs.filter(j => j.family === f), label: f }; const r = D.match(text, tg);
     for (const x of r.rows) {
+      // a behaviour row under behaviours: "show" has weight 0 by design (PLAN.md v14, decision 1)
+      if (x.kind === "behaviour" && D.behaviours === "show") { if (x.weight !== 0) bad.push(`${f}/${x.slot}: a behaviour under "show" must weigh 0`); continue; }
       if (!(x.weight <= x.w + 1e-9 && x.weight >= cfg.floor * x.w - 1e-9)) bad.push(`${f}/${x.slot}: weight ${x.weight.toFixed(3)} outside ${cfg.floor} to 1 of ${x.w.toFixed(3)}`);
       if (x.slot === "__domain" && Math.abs(x.weight - x.w) > 1e-9) bad.push(`${f}: the industry slot lost weight`);
       if (!x.slot.startsWith("__")) { const mean = fams.reduce((a, g) => a + share[g](x.slot), 0) / fams.length; if (x.w <= mean && Math.abs(x.weight - cfg.floor * x.w) > 1e-9) bad.push(`${f}/${x.slot}: asked no more than elsewhere but not at the floor`); if (x.w >= cfg.full * mean && Math.abs(x.weight - x.w) > 1e-9) bad.push(`${f}/${x.slot}: asked ${cfg.full} times more than elsewhere but not at full weight`); }

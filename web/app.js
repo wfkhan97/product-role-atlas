@@ -770,13 +770,14 @@
     const label = `${role.label}${level === "all" ? "" : " · " + R.stepLabels[level]}${extra.length ? " · " + extra.join(", ") : ""}`;
     const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label }, { level: LEVEL_OPT[level], ladder: R.role.ladder });
     const rows = r.rows, by = st => rows.filter(x => x.status === st).sort((a, b) => (a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : b.tier === "core" ? 1 : a.tier === "common" ? -1 : 1));
-    const evid = by("evidenced"), trans = by("transferable"), thin = by("thin"), presumed = by("presumed"), gaps = by("gap").filter(x => x.tier !== "diff");
+    // `through`: a behaviour shown through a carrier skill the resume evidences (PLAN.md v14, decision 1)
+    const evid = by("evidenced"), trans = by("transferable"), through = by("through"), thin = by("thin"), presumed = by("presumed"), gaps = by("gap").filter(x => x.tier !== "diff");
     const required = new Set(); for (const x of rows) { if (x.tier === "diff") continue; if (x.slot === "__ai") r.ai.forEach(k => required.add(k)); else if (x.slot !== "__domain") required.add(x.id); }
-    state.match = { roleId: role.id, matched: new Set([...evid, ...trans].map(x => x.id).filter(k => R.skillById[k])), required, presumed: new Set(presumed.map(x => x.id)), subs: r.subs };
+    state.match = { roleId: role.id, matched: new Set([...evid, ...trans, ...through].map(x => x.id).filter(k => R.skillById[k])), required, presumed: new Set(presumed.map(x => x.id)), subs: r.subs };
     const band = Matcher.bandOf(r.overall, bands, group), bandNext = Matcher.bandOf(r.whatIf, bands, group);
-    const core = rows.filter(x => x.tier === "core"), coreHave = core.filter(x => x.status === "evidenced" || x.status === "transferable");
+    const core = rows.filter(x => x.tier === "core"), coreHave = core.filter(x => x.status === "evidenced" || x.status === "transferable" || x.status === "through");
     const coreGaps = core.filter(x => x.status === "gap" || x.status === "thin").sort((a, b) => b.w - a.w);
-    return { key: fitKey(level), resume: state.resume.text, roleId: role.id, level, r, slice, bands, group, band, bandNext, evid, trans, thin, presumed, gaps, core, coreHave, coreGaps, extra, label };
+    return { key: fitKey(level), resume: state.resume.text, roleId: role.id, level, r, slice, bands, group, band, bandNext, evid, trans, through, thin, presumed, gaps, core, coreHave, coreGaps, extra, label };
   }
   // the rail reads the fit for the current view when the resume is there; the list is drawn again once it is read
   let fitting = null;
@@ -789,14 +790,14 @@
   // ---------- the rail: the legend, the person and this role, what to do with it ----------
   // one legend everywhere, rows left out when they do not apply (owner's decision 2026-10-24)
   function legendHtml(rows) {
-    const all = { share: ['<i class="b"></i>', "% of postings that ask for the skill"], defining: ["◆", "sets this role apart from other roles"], grows: ["↗", "asked more at senior levels"], have: ['<i class="b g"></i>', "already on your resume"], gap: ['<i class="b a"></i>', "a gap this role requires"], presumed: ["◌", "presumed from a role you held, not shown on your resume"], known: ["✓", "you got it right in a game"], other: ["⟲", "on your resume in other words; postings say it differently"] };
+    const all = { share: ['<i class="b"></i>', "% of postings that ask for the skill"], defining: ["◆", "sets this role apart from other roles"], grows: ["↗", "asked more at senior levels"], have: ['<i class="b g"></i>', "already on your resume"], gap: ['<i class="b a"></i>', "a gap this role requires"], presumed: ["◌", "presumed from a role you held, not shown on your resume"], known: ["✓", "you got it right in a game"], other: ["⟲", "on your resume in other words; postings say it differently"], through: ["⤷", "a way of working, shown through a skill on your resume"] };
     return `<section class="rs"><h3 class="rh">How to read this</h3><div class="legend">${rows.map(k => `<span class="k">${all[k][0]}</span><span>${all[k][1]}</span>`).join("")}</div></section>`;
   }
   const waitHtml = what => state.wait === what ? `<div class="wait"><b>Coming soon</b>${esc({ show: "Tips to show a skill on your resume, written for this role.", build: "A plan to build the skills this role asks for.", ways: "Ways to show your skills: projects, courses, events." }[what])}<input type="email" placeholder="you@cornell.edu" disabled><a class="btn primary" href="#/" data-wait-close>Join the GradBuddy waitlist</a></div>` : "";
   function railHtml(R, g, fit, stats, open) {
     const role = R.role, y = state.you || {}, stage = y.stage;
     const painted = !!fit && state.match && state.match.roleId === role.id;
-    const legend = legendHtml(["share", ...(role.definingList.length ? ["defining"] : []), "grows", ...(state.known && state.known.size ? ["known"] : []), ...(painted ? ["have", "gap", ...(fit.presumed.length ? ["presumed"] : []), ...(fit.trans.length ? ["other"] : [])] : [])]);
+    const legend = legendHtml(["share", ...(role.definingList.length ? ["defining"] : []), "grows", ...(state.known && state.known.size ? ["known"] : []), ...(painted ? ["have", "gap", ...(fit.presumed.length ? ["presumed"] : []), ...(fit.trans.length ? ["other"] : []), ...(fit.through && fit.through.length ? ["through"] : [])] : [])]);
     const acts = (extra = "") => `<section class="rs"><h3 class="rh">${fit ? "Then" : "Do something with this"}</h3><div class="acts">${extra}<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}">Practise this role <span>· 2 min</span></a><a href="#/role/${esc(role.id)}/course">Check a course against this role <span>→</span></a><span class="act">Going to a ${esc(g.label.toLowerCase())} event? <span>${EVENTS.map(([k, t]) => `<a href="#/field/${esc(role.group)}/event?${k}">${esc(t.toLowerCase().replace(" or case competition", ""))}</a>`).join(" · ")}</span></span>${window.ClassScreens ? `<a href="#/classes">${esc((window.ClassScreens.termLabel && ClassScreens.termLabel()) || "Spring 2027")} classes that fit this role <span>→</span></a>` : ""}</div></section>`;
     const drop = `<div class="drop" id="drop"><p><b>Drop a PDF, DOCX or TXT</b> or <label class="link" for="file">choose a file</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status"></p></div><textarea id="paste" rows="3" aria-label="Resume text" placeholder="Or paste the text of your resume"></textarea><p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">Read my fit →</button></p>`;
     if (!state.resume) {
@@ -848,7 +849,7 @@
     }
     const level = state.fitLevel || state.level;
     const f = fitFor(level) || (state.fit = await computeFit(R, level));
-    const { r, band, evid, trans, thin, presumed, gaps, core, extra } = f, coreHave = f.coreHave.length;
+    const { r, band, evid, trans, thin, presumed, gaps, core, extra } = f, through = f.through || [], coreHave = f.coreHave.length;
     const field = g.label.toLowerCase();
     const p = r.profile;
     const verdict = band ? `<p class="small">${bandName(band)} ${tip("Bands come from how 300 sample resumes of people in and outside the role score. There is no pass mark; a band says how your resume reads next to theirs.")}</p>` : "";
@@ -871,13 +872,13 @@
     // two ranked columns (owner's choice F2): what you show and what is still to show, five each at rest, ranked by
     // how many postings ask, the bar for weight; a mark says "said in other words" or "presumed from a role you held"
     const fitRow = x => {
-      const k = x.status === "evidenced" ? "have" : x.status === "transferable" ? "have" : x.status === "presumed" ? "thin" : x.status === "thin" ? "thin" : "gap";
-      const mark = x.status === "transferable" ? `<span class="mark" data-measure="⟲ said in other words: your resume shows this in another field's words. Postings here say it differently; see Details for how.">⟲</span>` : x.status === "presumed" ? `<span class="mark" data-measure="◌ presumed: people who hold the role you held do this, so it earns part credit; your resume does not show it.">◌</span>` : x.status === "thin" ? `<span class="mark" data-measure="○ named, not shown: listed as a word, but no work, project or course line shows it.">○</span>` : "";
+      const k = x.status === "evidenced" ? "have" : x.status === "transferable" ? "have" : x.status === "through" ? "have" : x.status === "presumed" ? "thin" : x.status === "thin" ? "thin" : "gap";
+      const mark = x.status === "through" ? `<span class="mark" data-measure="⤷ shown through ${esc(x.throughName || "")}: a way of working is never a line of its own; the line on your resume about ${esc(x.throughName || "that skill")} shows it.">⤷</span>` : x.status === "transferable" ? `<span class="mark" data-measure="⟲ said in other words: your resume shows this in another field's words. Postings here say it differently; see Details for how.">⟲</span>` : x.status === "presumed" ? `<span class="mark" data-measure="◌ presumed: people who hold the role you held do this, so it earns part credit; your resume does not show it.">◌</span>` : x.status === "thin" ? `<span class="mark" data-measure="○ named, not shown: listed as a word, but no work, project or course line shows it.">○</span>` : "";
       const inner = `<span class="nm">${esc(x.slotName)}${mark}</span><span class="bar" data-measure="${pct(x.w)} of the postings in this view ask for ${esc(x.slotName)}${x.tier === "core" ? ", most of them" : ""}."><i style="width:${Math.round(x.w * 100)}%"></i></span>`;
       return R.skillById[x.id] ? `<button type="button" class="srow ${k}" data-skill="${esc(x.id)}">${inner}</button>` : `<div class="srow ${k}">${inner}</div>`;
     };
     const col = (key, title, items, empty, foot) => { const more = state.fitMore.has(key), shown = more ? items : items.slice(0, 5); return `<div><h3>${title} <span class="n">${items.length}</span></h3>${items.length ? `<div class="srows">${shown.map(fitRow).join("")}</div>${items.length > 5 ? `<button type="button" class="linkish link more" data-fitmore="${key}">${more ? "Show fewer" : `+${items.length - 5} more`}</button>` : ""}` : `<p class="small muted">${empty}</p>`}${foot || ""}</div>`; };
-    const showItems = [...evid, ...trans].sort((a, b) => b.w - a.w).concat(presumed), stillItems = [...gaps, ...thin].map(x => x).sort((a, b) => b.w - a.w);
+    const showItems = [...evid, ...trans, ...through].sort((a, b) => b.w - a.w).concat(presumed), stillItems = [...gaps, ...thin].map(x => x).sort((a, b) => b.w - a.w);
     const sayLink = trans.length ? `<p class="small" style="margin-top:8px"><button type="button" class="linkish link" id="say-it">Say it in ${esc(field)} words</button></p>` : "";
     const showTab = `<div class="fitcols">${col("show", "Already on your resume", showItems, "Nothing yet.", sayLink)}${col("gaps", "Needs more evidence", stillItems, "Nothing among the skills most postings ask for.")}</div>`;
     const detailTab = `${sayIt}${thinDisc}<h3>Credentials and industries</h3>${credLine + indLine || '<p class="small muted">None asked for in this view.</p>'}${unmapped}`;

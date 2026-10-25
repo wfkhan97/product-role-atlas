@@ -4,7 +4,8 @@
 
    Pipeline: parseResume(text) -> lines with section / role context
              tag(parsed)        -> per-skill evidence {strength, lines, subs, via}
-             requirements(...)  -> core / common / differentiator tiers, one industry slot, one AI slot
+             requirements(...)  -> core / common / differentiator tiers, one industry slot, one AI slot; a behaviour
+                                   (kind) is a row credited through its carriers, picked on the role's postings
              readRoles(...)     -> the role family of each job title, from data (the product families are built in)
              standing(...)      -> skills presumed from a role the person held at or above the target level
              score(...)         -> coverage, depth, breadth, level read, persona, what-if */
@@ -14,7 +15,15 @@
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
 
+  // The behaviours before the taxonomy carried a kind (PLAN.md v13): a taxonomy without `kind` on its skills falls back
+  // to this set. With kinds, a behaviour is `kind: "behaviour"` (the ten of pipeline/tax.py, data-driven included).
   const SOFT = new Set(["ownership", "adaptability", "collaboration", "communication", "influence", "problem_solving", "customer_obsession", "product_sense", "execution"]);
+  // A behaviour is credited through its carriers (PLAN.md v14, decision 1): the skills of a carrier kind whose evidence
+  // counts for it. Among the union of the skill's `how_shown.shown_by` and the role's field entry's `shown_by`, those
+  // asked for together with the behaviour in at least CARRIER_MIN of the role's postings that ask for it, by that share,
+  // CARRIER_MAX at most; with fewer than two, the field entry's list as written (`fallback: true`).
+  const CARRIER_MIN = 0.15, CARRIER_MAX = 4;
+  const CARRIER_KINDS = new Set(["method", "practice", "technical", "knowledge"]);
   const AI_GROUP = ["ai_ml", "genai_llm", "ai_tools"];
   const TIER = { core: 0.5, common: 0.25, diff: 0.1 };
   const CREDIT = [0, 0.5, 1, 1]; // by evidence strength: none / mentioned / done / done with an outcome
@@ -504,7 +513,8 @@
   // the same job under the name resumes give it
   const RESUME_TITLE = [["growth_manager", /\bgrowth marketer\b/i], ["org_dev", /\bchange manager\b/i]];
 
-  function createMatcher({ taxonomy, subskills, graph, roles, distinct }) {
+  function createMatcher({ taxonomy, subskills, graph, roles, distinct, behaviours = "show" }) {
+    if (behaviours !== "show" && behaviours !== "score") throw new Error(`behaviours must be "show" or "score", not ${JSON.stringify(behaviours)}`);
     const RR = compileRoles(roles); const FAMS = RR.fams;
     // the employer of a job, from the text beside its title: one we hold, or the kind its name gives away
     function employerOfLine(text) {
@@ -536,6 +546,13 @@
     const heldIn = (r, counts) => counts.includes(r.family) || counts.includes(r.roleFamily);
     const skills = taxonomy.skills; const byId = Object.fromEntries(skills.map(s => [s.id, s]));
     const G = graph;
+    const kindOf = id => (byId[id] || {}).kind || null;
+    const isBehaviour = id => kindOf(id) ? kindOf(id) === "behaviour" : SOFT.has(id);
+    const BEHAVIOUR = new Set(skills.filter(s => isBehaviour(s.id)).map(s => s.id));
+    // a carrier is a skill of a carrier kind (pipeline/tax.py, CARRIER_KINDS); without kinds, anything but a behaviour or a credential
+    const isCarrier = id => kindOf(id) ? CARRIER_KINDS.has(kindOf(id)) : !BEHAVIOUR.has(id) && !CRED.has(id);
+    // the field (group) of a role family: the MBA index lists its groups; the product set is one field, "product"
+    const groupOf = (() => { const m = {}; for (const g of G.groups || []) for (const f of g.families || []) m[f] = g.id; return f => m[f] || (G.groups ? null : "product"); })();
     if (G.jobs.length && typeof G.jobs[0].skills[0] === "number") for (const j of G.jobs) { j.skills = j.skills.map(i => G.skill_ids[i]); j.sub = (j.sub || []).map(i => G.sub_ids[i]); }
     const gSkill = Object.fromEntries((G.skills || []).map(s => [s.id, s]));
     const CRED = new Set(skills.filter(s => s.cluster === "credentials").map(s => s.id));
@@ -638,14 +655,34 @@
     // set part of a role). Shares are of weight, as on the map; `n` stays the number of postings.
     function shares(jobs) { let n = 0; const cnt = {}; for (const j of jobs) { const w = j.w == null ? 1 : j.w; n += w; for (const k of j.skills) cnt[k] = (cnt[k] || 0) + w; } return { n: jobs.length, share: id => (cnt[id] || 0) / (n || 1) }; }
 
+    // The carriers of a behaviour (or a practice) for one role: see CARRIER_MIN above. `jobs` are the role's postings;
+    // `group` its field. Returns { ids, shares: { id: co-share }, fallback, field: the field entry's list }.
+    function carriersFor(id, jobs, group) {
+      const s = gSkill[id] || {}; const field = (((s.fields || {})[group] || {}).shown_by) || []; const own = ((s.how_shown || {}).shown_by) || [];
+      const union = [...new Set([...field, ...own])].filter(k => byId[k] && isCarrier(k));
+      const withIt = jobs.filter(j => j.skills.includes(id)); const st = shares(withIt); const co = {};
+      for (const k of union) co[k] = st.share(k);
+      const kept = union.filter(k => co[k] >= CARRIER_MIN).sort((a, b) => co[b] - co[a] || a.localeCompare(b)).slice(0, CARRIER_MAX);
+      if (kept.length >= 2) return { ids: kept, shares: co, fallback: false, field };
+      const fb = field.filter(k => byId[k]); return { ids: fb.length ? fb : kept, shares: co, fallback: fb.length > 0, field };
+    }
+
     // target: { jobs, job?, familyJobs?, label }
     function requirements(target) {
       const st = shares(target.job ? (target.familyJobs || target.jobs) : target.jobs);
       const inJob = target.job ? new Set(target.job.skills) : null;
       const tiers = { core: new Map(), common: new Map(), diff: new Map() }; const domains = new Map(); const ai = { ids: [], w: 0 }; const creds = new Map();
+      const family = target.job ? target.job.family : (target.jobs[0] || {}).family; const group = groupOf(family);
+      const carriers = {};
       for (const s of skills) {
-        if (SOFT.has(s.id)) continue;
         const w = st.share(s.id); if (inJob && !inJob.has(s.id)) continue;
+        if (BEHAVIOUR.has(s.id)) {
+          // a behaviour is a row in the tier its share sets, credited through its carriers (decision 1); the carriers
+          // are picked on the postings the shares come from, so a level filter re-picks them with the asks
+          const tier = inJob ? (w >= TIER.core ? "core" : "common") : w >= TIER.core ? "core" : w >= TIER.common ? "common" : w >= TIER.diff ? "diff" : null;
+          if (tier) { tiers[tier].set(s.id, w); carriers[s.id] = carriersFor(s.id, target.job ? (target.familyJobs || target.jobs) : target.jobs, group); }
+          continue;
+        }
         if (CRED.has(s.id)) { if (w >= 0.15 || inJob) creds.set(s.id, w); continue; }
         if (DOMAIN.has(s.id)) { if (w >= TIER.diff || inJob) domains.set(s.id, w); continue; }
         if (AI_GROUP.includes(s.id)) { if (w >= TIER.diff || inJob) { ai.ids.push(s.id); ai.w = Math.max(ai.w, w); } continue; }
@@ -655,8 +692,8 @@
       if (ai.ids.length) (ai.w >= TIER.core ? tiers.core : ai.w >= TIER.common ? tiers.common : tiers.diff).set("__ai", ai.w);
       const topDomain = Math.max(0, ...domains.values());
       if (domains.size) (topDomain >= TIER.core ? tiers.core : topDomain >= TIER.common ? tiers.common : tiers.diff).set("__domain", topDomain);
-      const soft = skills.filter(s => SOFT.has(s.id) && st.share(s.id) >= 0.3 && (!inJob || inJob.has(s.id))).map(s => s.id);
-      return { tiers, domains, ai, creds, soft, n: st.n, label: target.label, share: st.share };
+      const soft = skills.filter(s => BEHAVIOUR.has(s.id) && st.share(s.id) >= 0.3 && (!inJob || inJob.has(s.id))).map(s => s.id);
+      return { tiers, domains, ai, creds, soft, carriers, group, n: st.n, label: target.label, share: st.share };
     }
 
     // Level from years and titles. Years alone reach senior: lead needs a title that says so (staff, principal,
@@ -699,7 +736,7 @@
       const hit = companyRx.filter(c => c.rx.test(rest) || c.any.test(above)).sort((a, b) => b.name.length - a.name.length)[0];
       return hit ? hit.name : null;
     }
-    function askedBy(jobs, min) { const st = shares(jobs); return new Set(skills.filter(s => !SOFT.has(s.id) && !CRED.has(s.id) && st.share(s.id) >= min).map(s => s.id)); }
+    function askedBy(jobs, min) { const st = shares(jobs); return new Set(skills.filter(s => !BEHAVIOUR.has(s.id) && !CRED.has(s.id) && st.share(s.id) >= min).map(s => s.id)); }
     const coreOf = jobs => askedBy(jobs, TIER.core);
 
     // What a person is presumed to do because they held the target role. Null when they did not hold it,
@@ -753,19 +790,39 @@
       const targetLevel = opts.level || profile.level;
       const rows = []; const tierSum = { core: [0, 0], common: [0, 0], diff: [0, 0] };
       for (const tier of ["core", "common", "diff"]) for (const [id, w] of req.tiers[tier]) {
-        const e = evidenceFor(ev, id, req); const strength = e ? e.strength : 0;
+        const e = evidenceFor(ev, id, req);
+        if (BEHAVIOUR.has(id)) {
+          // Credited through its carriers: the best carrier the resume shows with a line of work (strength 2 or more)
+          // gives its credit and the status `through`. Naming the behaviour itself ("strong communicator") is not
+          // evidence (the kind's rule): with no carrier shown the row is `thin` when named, `presumed` when the role
+          // was held, else `gap`. Sub-skill hits are depth, as for every row. Weight 0 under behaviours: "show".
+          const c = req.carriers[id] || { ids: [], shares: {}, fallback: false, field: [] };
+          let best = null; for (const k of c.ids) { const ce = ev[k]; if (ce && ce.strength >= 2 && (!best || ce.strength > best.strength)) best = { id: k, strength: ce.strength, line: ce.lines.slice().sort((a, b) => b.strength - a.strength)[0] || null }; }
+          const named = !!(e && e.strength >= 1);
+          const pc = !best ? presumedCredit(opts.standing, id, tier) : 0;
+          const credit = best ? CREDIT[best.strength] : pc;
+          const status = best ? "through" : pc ? "presumed" : named ? "thin" : "gap";
+          const depth = e ? e.subs.size > 0 : false;
+          const weight = behaviours === "score" ? w * lift(id, w) : 0;
+          rows.push({ id, slot: id, name: nameOf(id), slotName: nameOf(id), kind: "behaviour", tier, w, strength: best ? best.strength : (named ? 1 : 0), credit, status, depth, subs: e ? [...e.subs] : [], via: [], lines: best && best.line ? [best.line] : (e ? e.lines.sort((a, b) => b.strength - a.strength).slice(0, 2) : []), hintLines: e && e.subLines ? e.subLines.slice(0, 2) : [],
+            through: best ? best.id : null, throughName: best ? nameOf(best.id) : null, carriers: c.ids, carriersFallback: c.fallback, carrierShares: c.shares,
+            ladder: ladderFor(id, targetLevel, opts.ladder), signals: signalsFor(id), build: buildFor(id, opts.ladder), weight });
+          tierSum[tier][0] += weight * credit; tierSum[tier][1] += weight;
+          continue;
+        }
+        const strength = e ? e.strength : 0;
         const pc = strength < 2 ? presumedCredit(opts.standing, id, tier) : 0;
         const credit = Math.max(CREDIT[strength], pc);
         const status = strength >= 2 ? (e.transfer ? "transferable" : "evidenced") : pc ? "presumed" : strength === 1 ? "thin" : "gap";
         const depth = e ? (e.subs.size > 0 || strength === 3) : false;
-        rows.push({ id: e && e.id !== id ? e.id : id, slot: id, name: nameOf(e && e.id !== id ? e.id : id), slotName: nameOf(id), tier, w, strength, credit, status, depth, subs: e ? [...e.subs] : [], via: e ? [...e.via] : [], lines: e ? e.lines.sort((a, b) => b.strength - a.strength).slice(0, 2) : [], hintLines: e && e.subLines ? e.subLines.slice(0, 2) : [], ladder: ladderFor(e && e.id !== id ? e.id : id, targetLevel, opts.ladder), signals: signalsFor(e && e.id !== id ? e.id : id), build: buildFor(e && e.id !== id ? e.id : id, opts.ladder) });
+        rows.push({ id: e && e.id !== id ? e.id : id, slot: id, name: nameOf(e && e.id !== id ? e.id : id), slotName: nameOf(id), kind: kindOf(id), tier, w, strength, credit, status, depth, subs: e ? [...e.subs] : [], via: e ? [...e.via] : [], lines: e ? e.lines.sort((a, b) => b.strength - a.strength).slice(0, 2) : [], hintLines: e && e.subLines ? e.subLines.slice(0, 2) : [], ladder: ladderFor(e && e.id !== id ? e.id : id, targetLevel, opts.ladder), signals: signalsFor(e && e.id !== id ? e.id : id), build: buildFor(e && e.id !== id ? e.id : id, opts.ladder) });
         const weight = w * lift(id, w); rows[rows.length - 1].weight = weight; // w is the share of postings (shown to the user); weight is what the score counts
         tierSum[tier][0] += weight * credit; tierSum[tier][1] += weight;
       }
       const cov = t => tierSum[t][1] ? tierSum[t][0] / tierSum[t][1] : null;
       const core = cov("core"), common = cov("common"), diff = cov("diff");
       const overall = (2 * tierSum.core[0] + tierSum.common[0]) / ((2 * tierSum.core[1] + tierSum.common[1]) || 1);
-      const evidencedRows = rows.filter(r => r.status === "evidenced" || r.status === "transferable");
+      const evidencedRows = rows.filter(r => r.status === "evidenced" || r.status === "transferable" || r.status === "through");
       const depth = evidencedRows.length ? evidencedRows.filter(r => r.depth).length / evidencedRows.length : 0;
       const breadth = diff;
       // what-if: credit the top three core/common gaps
@@ -774,7 +831,7 @@
       const whatIf = (2 * tierSum.core[0] + tierSum.common[0] + bonus) / ((2 * tierSum.core[1] + tierSum.common[1]) || 1);
       const creds = [...req.creds].map(([id, w]) => ({ id, name: nameOf(id), w, have: !!(ev[id] && ev[id].strength >= 2), detail: ev[id] && ev[id].lines[0] ? ((ev[id].lines.find(l => l.i === -1) || ev[id].lines.slice().sort((a, b) => a.text.length - b.text.length)[0]).text.slice(0, 80)) : null }));
       const industries = [...req.domains].sort((a, b) => b[1] - a[1]).map(([id, w]) => ({ id, name: nameOf(id), w, have: !!(ev[id] && ev[id].strength >= 2), hint: !!(ev[id] && (ev[id].capped || ev[id].strength === 1)) }));
-      return { overall, core, common, breadth, depth, rows, gaps, whatIf, whatIfSkills: top3.map(r => r.slotName), creds, industries, soft: req.soft.map(id => ({ id, name: nameOf(id), have: !!ev[id] })), targetLevel };
+      return { overall, core, common, breadth, depth, rows, gaps, whatIf, whatIfSkills: top3.map(r => r.slotName), creds, industries, soft: req.soft.map(id => ({ id, name: nameOf(id), have: rows.some(r => r.id === id && r.status === "through") })), behaviours, targetLevel };
     }
 
     function match(text, target, opts = {}) {
@@ -784,13 +841,13 @@
       const res = score(ev, req, profile, { ...opts, standing: st });
       res.standing = st ? { family: st.family, level: st.level, years: st.years, above: st.above, employers: st.employers, presumed: res.rows.filter(r => r.status === "presumed").length } : null;
       const unmapped = parsed.lines.filter((l, i) => l.kind === "bullet" && l.text.length > 30 && !Object.values(ev).some(e => e.nLines.has(i) || (e.subLines || []).some(s => s.i === i))).map(l => l.text).slice(0, 8);
-      const extras = Object.entries(ev).filter(([id, e]) => e.strength >= 2 && !CRED.has(id) && !SOFT.has(id) && !res.rows.some(r => r.id === id)).map(([id]) => ({ id, name: nameOf(id) }));
-      const covered = new Set(Object.entries(ev).filter(([id, e]) => e.strength >= 2 && !SOFT.has(id) && !id.startsWith("yoe_")).map(([id]) => id));
+      const extras = Object.entries(ev).filter(([id, e]) => e.strength >= 2 && !CRED.has(id) && !BEHAVIOUR.has(id) && !res.rows.some(r => r.id === id)).map(([id]) => ({ id, name: nameOf(id) }));
+      const covered = new Set(Object.entries(ev).filter(([id, e]) => e.strength >= 2 && !BEHAVIOUR.has(id) && !id.startsWith("yoe_")).map(([id]) => id));
       const subs = new Set(); for (const e of Object.values(ev)) if (e.strength >= 2) for (const s of e.subs) subs.add(s);
       return { ...res, profile, parsed: { roles: parsed.roles, degrees: [...parsed.degrees], lines: parsed.lines.length, hasSections: parsed.hasSections, placeholderDates: parsed.placeholderDates }, unmapped, extras, covered, subs, evidence: ev, ai: req.ai.ids, req: { n: req.n, label: req.label, core: [...req.tiers.core.keys()], common: [...req.tiers.common.keys()], diff: [...req.tiers.diff.keys()] } };
     }
 
-    return { match, parseResume, readRoles, roleFamilyOf, roleOf, tag, requirements, profileOf, score, nameOf, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
+    return { match, parseResume, readRoles, roleFamilyOf, roleOf, tag, requirements, profileOf, score, nameOf, carriersFor, isBehaviour, groupOf, behaviours, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
   }
 
   // The band of fit a score falls in, from the cut points that evals/calibrate.mjs derives (bands.strong and
@@ -803,5 +860,5 @@
     return score >= bands.strong ? "strong" : score >= bands.in_range ? "in_range" : score >= low ? "related" : "different";
   }
 
-  return { createMatcher, bandOf, parseResume, RESUME_PATTERNS, RESUME_DROP, SOFT, AI_GROUP, TIER, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
+  return { createMatcher, bandOf, parseResume, RESUME_PATTERNS, RESUME_DROP, SOFT, CARRIER_MIN, CARRIER_MAX, AI_GROUP, TIER, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
 });

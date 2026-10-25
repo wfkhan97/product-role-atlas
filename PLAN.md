@@ -621,6 +621,22 @@ touch `fitScreen`, `skillCard`, `areaPanel`, `roleLead` and `courseScreen` in `w
 in `web/atlas.js`, and none of the UX branch's screens; the UX branch lands first, or each step rebases on it before its
 PR opens. The game evals are untouched: the games read shares, not kinds.
 
+Built (step 1, `feat/adaptive-1-matcher`, 2026-10-25). A behaviour is a row in the tier its share sets, with `kind`
+on the row; its carriers are picked by `carriersFor` in `web/match.js` (the union of `how_shown.shown_by` and the
+role's field entry, re-ranked on the role's postings at the 15% floor, four at most, the field's list as fallback)
+and its status is `through` with the best carrier's credit, `thin` when only named, `presumed` or `gap`. The
+behaviours' weight is `createMatcher({ behaviours })`: `"show"` (weight 0) is what both bands files record and the
+interface creates. One deviation from "every score is what it was": data-driven decision making was scored as a method
+before v13 made it a behaviour, so a resume whose own analysis lines scored it loses that credit (the grad-student
+sample: 45% to 43% at entry level; its band moved to 0.42 with the reason in its file). The fit page and the rail show
+a `through` row as shown, marked ⤷ with its carrier. Open decision 1 measured: the 304-resume set the bands were
+calibrated on is not on the build machine (48 of its files are), so `evals/calibrate.mjs` ran in try mode on those 48
+for both settings and wrote nothing: MBA same-role above other-field 78% with `show`, 80% with `score`; above
+adjacent-role 64% and 65%; own role on top 13 and 11 of 48. `score` does not fall but the sample is a sixth of the
+calibration's, so the setting stays `show` until the full set is rerun (`BEHAVIOURS=score node evals/calibrate.mjs
+--roles mba`). Open decision 2 taken as proposed: a named behaviour earns nothing. The product calibration cannot be
+measured here (one same-role file).
+
 Open decisions for the owner:
 
 1. **Behaviours in the score.** `score` (through carriers, damped by lift) or `show` (rows and status, weight 0),

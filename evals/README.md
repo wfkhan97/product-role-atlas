@@ -51,6 +51,10 @@ reported and not counted.
 `node evals/parse_health.mjs` reads every external file and flags the ones the parser reads badly (no jobs, a job
 with no title, implausible years), with no expectations needed.
 
+The bands files also record `scoring.behaviours` (`"show"`: a behaviour is a row with weight 0, credited through its
+carriers for display; `"score"`: weighed like every ask). `BEHAVIOURS=score node evals/calibrate.mjs --roles mba` tries
+the other setting and writes nothing.
+
 `node evals/calibrate.mjs` writes [calibration.md](calibration.md): how same-role, adjacent-role and other-field
 resumes score against the product roles, how well the score separates them, and the cut points for bands of fit
 that those distributions give, with bootstrap intervals. `node evals/calibrate.mjs --roles mba` does the same for
@@ -86,6 +90,7 @@ it holds the expectations:
 | `must_evidence` | skills a human reader says are clearly shown. Each one not tagged is a miss. |
 | `must_not_tag` | skills that are not on the page. Each one tagged is a false positive. The hard constraint: false positives cost user trust faster than misses. |
 | `real_gaps` | skills genuinely absent that the result should surface as gaps. Tagged means a false positive. |
+| `must_show_through` | `{ behaviour: carrier }`: on the first target, the behaviour's row must read `through` that carrier (`"*"`: any carrier). A behaviour is never evidenced by its own words (PLAN.md v14, decision 1). |
 
 The runner also lists skills it tagged that no expectation covers, so each sample's expectations can be
 completed over time. Expectations are the spec. When a check fails because the expectation was wrong,
