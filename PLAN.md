@@ -570,8 +570,63 @@ What this is not: the readings and the lines are still editorial and no reader h
 grounded in postings, not in resumes. The eval that would close that gap is listed in `evals/README.md`, "Evals to
 build".
 
+## About you, Explore and the role page around three kinds of student (v15, 2026-10-24)
+
+Owner's review of 2026-10-24 (three rounds of mockups in a scratch folder, since swept): the site was trying to do too
+much for everyone at once. The users are Cornell Tech and IE New York graduate students of three kinds: **looking**
+(want a good job, open on the role, will drop a resume to see what they have a shot at), **targeting** (know the role
+or have interviews, want to know which of its skills they have and how to fill the gaps) and **curious** (not
+searching, want to understand the roles). One page serves all three; what the person has told us decides what it
+leads with. The matcher, the bands and the taxonomy did not change.
+
+- **About you.** Three questions. *What are you studying?* lists the programs Cornell Tech and IE New York offer,
+  folded to the five groups the postings can speak to (business, management or finance; analytics or data science;
+  computer science or software; electrical, hardware or systems; information science, design or health/urban tech).
+  No law, PhD, undergrad or "working": the beachhead. *Where are you in your search?* is the three kinds above,
+  stored as `you.stage`. *Which fields interest you?* is unchanged. The summary names the three closest roles as
+  links; every row is one link. American spelling in the copy. (The data files still carry British spellings from
+  the model-written depth; a display-time map or a regeneration is a `data/` branch, under Later.)
+- **The role page and its rail.** The side column on a role screen is the rail: always there, 380 px, sticky, an edge
+  tab and an overlay under 1180 px. It holds the legend (one component, rows left out when they do not apply), then
+  one of three blocks by what we know (nothing: drop a resume or answer the questions; answers: the program and stage,
+  the entry-grade count and the employers hiring at it, the drop zone, ordered by the stage; a resume: the band, one
+  sentence "you show N of the M skills most postings ask for; K are gaps", every core gap as a row that opens to the
+  line that would show it and a waitlist placeholder, a link to the full fit), then what to do with the role (a
+  course, the three event kinds, the classes; with a fit also "Build these skills" and "Ways to show your skills",
+  placeholders until those journeys exist). A skill or posting card draws over the rail with "← Back". The main
+  column lost the three-button row, the help box, the fit toggle and the key: the list is painted whenever a fit is
+  read, and the painted core skills are exactly the greens and ambers the sentence counts. Each role has one
+  hand-written sentence on what the job is (`web/data/role_blurbs.json`). The fit is computed once per view
+  (`computeFit`) for the rail and the fit screen; the fit screen keeps its two columns and details. Bands read New to
+  the field / Relevant foundation / Qualified for the role / Strong match. The event prompt left the field page.
+- **Explore.** No "For you" filter: every field, the ones that fit first. The skill map shows every skill at rest; the
+  35 most-asked are solid (fainter than the fields) and named with a collision pass, the rest a faint fill named by a
+  lens around the pointer; skill areas are faint words at their centre, not colours. With a resume and fields that
+  fit, the skills those roles ask for (a quarter or more of a role's postings) are green when the rough read shows
+  them and blue when not; nothing else is coloured. No sub-skills on the map.
+- **The field page.** Half and half: the roles with their sentence on the left, the field's skills on lanes on the
+  right. Across is the share of the field's postings asking (the MBA set counts a year of postings, open and closed;
+  the product set open only). Without a resume the lanes are the kind of skill: the field's craft, working with
+  people, asked in every field (the taxonomy's `kind` once the taxonomy branch lands; until then measured: the skills
+  most postings of half the roles ask for, then the leadership, delivery and people areas). With a resume: the gaps
+  these roles require, already on your resume. A lane is as tall as its share of the dots. Hovering a role lights its
+  skills; a dot opens the skill card. The multiplier ("how much more this field asks than others") and the quadrant
+  names of the first mockups were dropped as confusing.
+- **What this reads from the stratified taxonomy (v13 and v14, landed the same day; wiring them is the next step):** `kind` on every skill (the lanes), `fields[<field>].reads_as`
+  and `line` (the "in marketing, this means" column and the gap rows' example lines, instead of the product-only
+  `signals`), `how_shown` (the gap text by kind).
+
 ## Later
 
+- An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
+  closed postings the way the MBA graph does (a `data/` branch).
+- The field chart's lanes with a resume read as two skew lines (the share orders both); a better second axis once the
+  taxonomy branch gives every skill a kind and a field reading.
+- Wire the waitlist placeholders ("Help me show this", "Build these skills", "Ways to show your skills") to the real
+  journeys and a sign-up.
+- American spelling in the data: a display-time map in `atlas.js` now, or an American rule in `depth_gen` and the
+  taxonomy names plus a regeneration (`run_depth.py`, `extraction_baseline_mba.md`).
+- The stage answer (`you.stage`) has no eval yet; listed under "Evals to build".
 - LLM-based extraction (Claude) for higher-recall skill tagging and requirement vs nice-to-have split.
 - Nightly refresh via a scheduled job; history of postings over time.
 - More families (design, engineering) and more companies (full Fortune 500).

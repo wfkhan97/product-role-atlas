@@ -284,6 +284,8 @@ The thresholds were set once on the data of 2026-10-24.
 
 ## Evals to build
 
+- The stage answer of About you (`you.stage`: looking, targeting, curious) decides what the role page's rail leads with; nothing checks that the three readings get what they came for. A sample of resumes per kind with the expected first action would.
+
 The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a
 model audit, the pipeline evals and the content evals above (items 1 to 6 of the first list). Still to build, in
 this order:

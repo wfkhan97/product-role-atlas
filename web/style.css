@@ -331,11 +331,35 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .sm-spoke { fill: none; stroke: var(--secondary); stroke-opacity: 0.22; stroke-width: 0.8; }
 .sm-n { fill: var(--subtle-foreground); opacity: 0.45; cursor: pointer; stroke: transparent; stroke-width: 8px; }
 .sm-n:hover { fill: var(--heading-foreground); opacity: 1 !important; }
+/* dots by state (owner's decisions 2026-10-24): the 35 most asked solid but fainter than the fields; the rest a faint
+   fill; green already on the resume; blue a gap the person's roles require */
+.sm-n.top { fill: var(--muted-foreground); opacity: 0.6; }
+.sm-n.quiet { opacity: 0.16; }
+.sm-n.have { fill: var(--primary); opacity: 1; }
+.sm-n.todo { fill: var(--secondary); opacity: 1; }
 .sm-n.hl { fill: var(--secondary); }
 .sm-n.near { fill: var(--foreground); opacity: 0.9; }
 .sm-n.sel { fill: var(--heading-foreground); opacity: 1; stroke: var(--background); stroke-width: 2px; }
+.sm-n.dim { opacity: 0.12; } .sm-n.lit { fill: var(--secondary); opacity: 1; }
 .sm-name { font-size: 11px; fill: var(--foreground); paint-order: stroke; stroke: var(--background); stroke-width: 3px; pointer-events: none; }
 .sm-name.sel { fill: var(--heading-foreground); font-weight: var(--weight-medium); }
+.sm-name.quiet { fill: var(--muted-foreground); opacity: 0.7; }
+.sm-name.have { fill: var(--primary); } .sm-name.todo { fill: var(--secondary); }
+.sm-name.dim { opacity: 0.2; } .sm-name.lens { fill: var(--heading-foreground); }
+.sm-area { font-size: 10px; fill: var(--subtle-foreground); letter-spacing: 0.08em; opacity: 0.55; pointer-events: none; }
+.swkey { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; }
+.swkey span, .chart-x { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; background: var(--subtle-foreground); }
+.sw.top { background: var(--muted-foreground); opacity: 0.7; } .sw.quiet { opacity: 0.25; } .sw.have { background: var(--primary); } .sw.todo { background: var(--secondary); } .sw.you { background: var(--primary-tint); border: 1px solid var(--primary); }
+/* the field page: roles left, the field's skills on lanes right */
+.field-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.chart-stage { position: relative; height: calc(100vh - 250px); min-height: 460px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--background); overflow: hidden; }
+.chart-stage .sm-n { opacity: 0.75; fill: var(--muted-foreground); } .chart-stage .sm-n.have { fill: var(--primary); opacity: 1; } .chart-stage .sm-n.todo { fill: var(--secondary); opacity: 1; } .chart-stage .sm-n.dim { opacity: 0.12; } .chart-stage .sm-n.lit { fill: var(--secondary); opacity: 1; } .chart-stage .sm-n.sel { fill: var(--heading-foreground); }
+.ch-lane { fill: none; } .ch-lane.alt { fill: var(--card); }
+.ch-grid { stroke: var(--border); stroke-dasharray: 3 3; }
+.ch-tick { font-family: var(--font-mono); font-size: 11px; fill: var(--subtle-foreground); }
+.chart-x { margin-top: 8px; flex-wrap: wrap; } .chart-x .mark { cursor: help; }
+@media (max-width: 1180px) { .field-split { grid-template-columns: 1fr; } .chart-stage { height: 520px; } }
 .sm-field { position: absolute; z-index: 1; padding: 8px; }
 .sm-field.lit { border-color: var(--secondary); }
 .sm-field.you.lit { border-color: var(--primary); }

@@ -70,19 +70,22 @@ in `CLAUDE.md`.
   panel, a footer). `atlas.js` is the data layer: both role sets behind one interface (`Atlas.index()` the fields and
   roles, `Atlas.product()` the product set from `data/graph.json`, `Atlas.role(id)` one role's postings, skills,
   sub-skills and evidence, `Atlas.grid()` the skill grid). `app.js` is the screens on hash routes: `#/` the first
-  visit (tell us about you, or explore), `#/explore` the fields as circles sized by open postings, `#/field/<group>`
-  the roles of a field, `#/role/<role>` the role screen (skill grid; level and employer-type chips, with industry,
-  employer and location behind "More filters", every count reflecting the other filters; side panel with the
-  skill or posting card; open postings), `#/you` the three questions and the optional resume (answers and resume
-  stay in the browser's local storage; `Atlas.roughFit` ranks fields and roles from the index alone), `#/role/<role>/fit`
-  the fit screen (the matcher built as the bands were calibrated, `Atlas.matcher`; the band from `bands.json` or
-  `bands_mba.json` on a four-step scale, never a percentage; plain words for a group with no bands; what to evidence
-  next; the grid painted green for what the resume shows and amber for gaps), `#/role/<role>/course` (drop or paste
+  visit (tell us about you, or explore), `#/explore` the fields as cards (the ones that fit first) or as the skill map, `#/field/<group>`
+  the roles of a field on the left and the field's skills on lanes on the right (`SkillMap.chart`), `#/role/<role>`
+  the role screen (one sentence on the job from `web/data/role_blurbs.json`; the skills by area; level and employer-type
+  chips, with industry, employer and location behind "Filters", every count reflecting the other filters; the rail
+  on the right with the legend, the person's fit or the resume drop zone, and what to do with the role; a skill or
+  posting card draws over the rail; under 1180 px the rail is an edge tab and an overlay), `#/you` the three questions (what you study, where you are in your search, which fields) and the optional
+  resume (answers and resume stay in the browser's local storage; `Atlas.roughFit` ranks fields and roles from the
+  index alone), `#/role/<role>/fit` the fit screen (the matcher built as the bands were calibrated, `Atlas.matcher`,
+  read once per view by `computeFit` for the rail and this screen; the band from `bands.json` or `bands_mba.json` on
+  a four-step scale, never a percentage; plain words for a group with no bands; the two columns of what the resume
+  shows and what needs more evidence), `#/role/<role>/course` (drop or paste
   a syllabus; `Atlas.readCourse` names the skills it mentions; the grid shows what the course teaches and what most
   postings ask for that it does not name), `#/field/<group>/event?networking|roundtable|hackathon` (who is in the
   room and what to ask, what to say about yourself, employers hiring now from the field's postings
   (`Atlas.fieldJobs`); role by role what to bring up with the resume line that shows it; what to build from the
-  skills most roles ask for that the resume does not show), `#/about`. `skillmap.js` draws Explore as a skill map (the fields on a ring, every skill near the fields that ask for it, lines where postings ask for two together; a skill opens a short card of the roles and fields that ask for it), with a switch back to plain circles. The MBA set's "Product" group is not shown: the Product field
+  skills most roles ask for that the resume does not show), `#/about`. `skillmap.js` draws Explore as a skill map (the fields on a ring, every skill near the fields that ask for it, lines where postings ask for two together; the 35 most-asked skills solid and named, the rest faint and named by a lens around the pointer; with a resume, green for the skills the person's roles ask for that the resume shows and blue for the gaps; a skill opens a short card of the roles and fields that ask for it), with a switch back to plain cards, and `SkillMap.chart` draws one field's skills on lanes for the field page. The MBA set's "Product" group is not shown: the Product field
   opens the product role set, whose six families have the richer depth content. The skill grid has rows by how many
   postings ask for a skill (over half, a quarter to a half, one in ten to one in four) and two columns (asked at
   every level, or at least 1.5 times as often in leadership postings as in entry ones, measured over the whole
