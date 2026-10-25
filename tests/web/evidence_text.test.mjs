@@ -17,7 +17,7 @@ const NAMES = { prd: "PRDs", exec_communication: "Executive communication", fina
 const nameOf = id => NAMES[id] || id;
 
 test("line: the field entry's line comes first, then the product signals, then a template from how_shown", () => {
-  assert.deepEqual(T.line(ROADMAP, "product"), { text: ROADMAP.fields.product.line, source: "field", field: "product" });
+  assert.deepEqual(T.line(ROADMAP, "product"), { text: ROADMAP.fields.product.line, source: "field", field: "product", role: false });
   assert.deepEqual(T.line(ROADMAP, "finance"), { text: ROADMAP.signals[0], source: "signals" });
   const t = T.line({ ...ROADMAP, signals: [] }, "finance");
   assert.equal(t.source, "template");
@@ -67,4 +67,14 @@ test("thin names the measures to add; how gives the kind's rule; the index's kin
   const own = create({ kinds: { method: { label: "Craft", form: "artefact", how: "Own rule." } } });
   assert.equal(own.how("method"), "Own rule.");
   assert.equal(own.how("behaviour"), KINDS.behaviour.how, "a kind the table lacks falls back to the behaviour's rule");
+});
+
+// ---------- role overrides (PLAN.md v16, step 6): a list of keys, the role's own entry first ----------
+test("line and reads take a list of keys and read the role's override before its field's entry", () => {
+  const skill = { ...ROADMAP, fields: { ...ROADMAP.fields, "role:corp_dev": { reads_as: "The deal roadmap.", shown_by: ["prd"], line: "Sequenced 4 deals over 2 years." } } };
+  assert.deepEqual(T.line(skill, ["role:corp_dev", "product"]), { text: "Sequenced 4 deals over 2 years.", source: "field", field: "role:corp_dev", role: true });
+  assert.equal(T.reads(skill, ["role:corp_dev", "product"]), "The deal roadmap.");
+  assert.deepEqual(T.line(skill, ["role:treasury", "product"]), { text: ROADMAP.fields.product.line, source: "field", field: "product", role: false }, "no override for this role: the field's entry");
+  assert.equal(T.line(skill, ["role:treasury", "finance"]).source, "signals", "neither key present: the next source");
+  assert.equal(T.reads(skill, []), null);
 });

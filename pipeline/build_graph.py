@@ -308,6 +308,8 @@ def build_roleset(roleset):
     mgmt = [p for p in pairs if p[0]["level"] in MGMT_LEVELS]
     level_weights = {l: i for i, l in enumerate(levels)}
     by_group_pairs = {g: [p for p in pairs if R.GROUP_OF.get(p[0]["family"]) == g] for g in R.GROUPS}
+    by_role_pairs = {f: [p for p in pairs if p[0]["family"] == f] for f in by_role}
+    pairs_of = lambda key: by_role_pairs.get(key[len(tax.ROLE_KEY):]) if key.startswith(tax.ROLE_KEY) else by_group_pairs.get(key)
 
     nodes, sen_raw, ic_raw = [], [], []
     for s in T["skills"]:
@@ -332,9 +334,11 @@ def build_roleset(roleset):
                       "kind": KIND.get(sid), "how_shown": EVIDENCE.get(sid),
                       # what the skill means in each field that asks for it: the hand-written reading, carriers and resume line,
                       # with the postings' own carriers and sub-skill mix in that field beside them
-                      "fields": {g: {**entry, "share": R4(wshare(by_group_pairs[g], sid)),
-                                     **field_flavour(sid, [p for p in by_group_pairs[g] if sid in p[0]["skills"]], with_skill, [x["id"] for x in d.get("subskills", [])])}
-                                 for g, entry in FIELDS.get(sid, {}).items() if g in by_group_pairs}})
+                      # a role override ("role:<id>", PLAN.md v16 step 6) is published beside the field entries, with the
+                      # role's own postings beside it
+                      "fields": {g: {**entry, "share": R4(wshare(pairs_of(g), sid)),
+                                     **field_flavour(sid, [p for p in pairs_of(g) if sid in p[0]["skills"]], with_skill, [x["id"] for x in d.get("subskills", [])])}
+                                 for g, entry in FIELDS.get(sid, {}).items() if pairs_of(g) is not None}})
     K = 40
     mean_sen = sum(sen_raw) / len(sen_raw)
     sen_raw = [(nd["n"] * v + K * mean_sen) / (nd["n"] + K) for nd, v in zip(nodes, sen_raw)]

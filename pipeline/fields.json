@@ -79,6 +79,16 @@
     "dashboards_dataviz"
    ],
    "line": "Introduced an intake and scoring process for 100 requests a quarter; 30% deflected to self-service."
+  },
+  "role:ma_integration": {
+   "reads_as": "Choosing which integration workstreams and synergies come first in the first 100 days, and what waits.",
+   "shown_by": [
+    "integration_planning",
+    "ma_execution",
+    "program_mgmt",
+    "cross_functional"
+   ],
+   "line": "Sequenced 14 integration workstreams into a 100-day plan; the 3 synergy workstreams worth $12M landed first."
   }
  },
  "problem_solving": {
@@ -191,6 +201,36 @@
     "analytics_requirements"
    ],
    "line": "Reframed a 'why is churn up' question into a cohort analysis; found one segment driving 70% of churn."
+  },
+  "role:ma_integration": {
+   "reads_as": "Finding why an integration milestone or synergy slipped and fixing it before the next steering committee.",
+   "shown_by": [
+    "integration_planning",
+    "program_mgmt",
+    "process_improvement",
+    "risk_mgmt"
+   ],
+   "line": "Traced a 6-week slip in the systems migration to 2 vendor dependencies; re-planned and recovered the date for 3 of 4 sites."
+  },
+  "role:corp_dev": {
+   "reads_as": "Breaking a deal question into the analyses that answer it: is this target worth it, at what price, with what risks.",
+   "shown_by": [
+    "ma_execution",
+    "financial_analysis",
+    "due_diligence",
+    "business_case"
+   ],
+   "line": "Structured the diligence on a $150M target into 6 questions; 2 findings cut the price by 15% before signing."
+  },
+  "role:treasury": {
+   "reads_as": "Finding why cash, a bank balance or a hedge moved against the forecast, and fixing it before it costs money.",
+   "shown_by": [
+    "cash_liquidity",
+    "financial_analysis",
+    "risk_mgmt",
+    "process_improvement"
+   ],
+   "line": "Traced a $6M cash forecast miss to 2 collection accounts in a week; the fix held forecast error under 3% for the year."
   }
  },
  "gtm": {
@@ -253,6 +293,16 @@
     "supplier_relationship_mgmt"
    ],
    "line": "Took a new category strategy to 12 business units with a buying guide and preferred suppliers; 85% compliance in a year."
+  },
+  "role:ma_integration": {
+   "reads_as": "Keeping customers, pricing and the sales teams of both companies working through the integration.",
+   "shown_by": [
+    "integration_planning",
+    "ma_execution",
+    "cross_functional",
+    "stakeholder_mgmt"
+   ],
+   "line": "Ran the commercial integration for 2 sales teams and 400 accounts; retained 96% of acquired revenue in year one."
   }
  },
  "market_research": {
@@ -305,6 +355,16 @@
     "supplier_relationship_mgmt"
    ],
    "line": "Produced supply-market analyses for 6 categories; two timed renegotiations saved $3M on commodity price swings."
+  },
+  "role:commercial_banking_rm": {
+   "reads_as": "Knowing the clients' industries and the local market: who is growing, who is borrowing and which prospects to call.",
+   "shown_by": [
+    "client_coverage",
+    "prospecting",
+    "credit_analysis",
+    "key_account_mgmt"
+   ],
+   "line": "Mapped 120 mid-market companies in 3 industries for the region's calling plan; 15 became clients with $40M of loans in a year."
   }
  },
  "positioning_messaging": {
@@ -419,6 +479,16 @@
     "hr_business_partnering"
    ],
    "line": "Built recruiting partnerships with 6 universities; 40% of early-career hires came through them in a year."
+  },
+  "role:corp_dev": {
+   "reads_as": "Strategic partnerships, minority investments and joint ventures: the targets, the terms and the relationships after signing.",
+   "shown_by": [
+    "ma_execution",
+    "stakeholder_mgmt",
+    "financial_analysis",
+    "business_case"
+   ],
+   "line": "Sourced and structured 3 strategic partnerships and 1 minority investment of $20M; 2 became acquisitions within 2 years."
   }
  },
  "metrics_kpis": {
@@ -521,6 +591,16 @@
     "analytics_requirements"
    ],
    "line": "Defined 40 certified metrics in a semantic layer and built the 10 dashboards 300 people use weekly."
+  },
+  "role:ma_integration": {
+   "reads_as": "Synergy and integration KPIs: milestones hit, costs taken out, revenue retained, reported to the steering committee.",
+   "shown_by": [
+    "integration_planning",
+    "program_mgmt",
+    "process_improvement",
+    "governance_design"
+   ],
+   "line": "Defined 12 integration KPIs and reported them monthly to the steering committee; $18M of synergies tracked to plan."
   }
  },
  "data_driven": {
@@ -633,6 +713,16 @@
     "dashboards_dataviz"
    ],
    "line": "Ran 50 analyses in SQL and Python in a year, including the cohort model leadership used to set retention targets."
+  },
+  "role:corp_dev": {
+   "reads_as": "Deal decisions made on the model, the diligence findings and the comparables rather than the sponsor's enthusiasm.",
+   "shown_by": [
+    "financial_analysis",
+    "due_diligence",
+    "valuation",
+    "ma_execution"
+   ],
+   "line": "Built the valuation and diligence pack for 8 targets; the committee passed on 5 on the numbers and closed 2 at plan."
   }
  },
  "financial_analysis": {
@@ -745,6 +835,16 @@
     "sql"
    ],
    "line": "Built the margin analysis by product and customer used in the annual plan for a $200M business."
+  },
+  "role:ma_integration": {
+   "reads_as": "Synergy models and integration budgets: what the deal case promised and what the integration delivers.",
+   "shown_by": [
+    "ma_execution",
+    "integration_planning",
+    "program_mgmt",
+    "due_diligence"
+   ],
+   "line": "Built the synergy model for a $400M acquisition; tracked $25M of cost synergies against the deal case within 1%."
   }
  },
  "ai_ml": {
@@ -847,6 +947,26 @@
     "sql"
    ],
    "line": "Built a churn model in Python with 0.82 AUC; its scores feed the retention team's weekly call list."
+  },
+  "role:ma_integration": {
+   "reads_as": "Where AI and automation fit in the integration: migrating systems, reconciling data and automating reporting.",
+   "shown_by": [
+    "integration_planning",
+    "program_mgmt",
+    "cross_functional",
+    "process_improvement"
+   ],
+   "line": "Used an ML matching tool to reconcile 80,000 customer records across 2 systems in 3 weeks instead of 3 months."
+  },
+  "role:corp_dev": {
+   "reads_as": "AI targets, and AI in the deal work: screening targets, reading data rooms and modelling faster.",
+   "shown_by": [
+    "ma_execution",
+    "financial_analysis",
+    "due_diligence",
+    "program_mgmt"
+   ],
+   "line": "Screened 300 targets with an ML scoring model and 2 analysts; the shortlist of 15 produced 2 acquisitions."
   }
  },
  "fintech": {
@@ -919,6 +1039,26 @@
     "statistics"
    ],
    "line": "Built the transaction analytics for a payments business processing 50M transactions a month."
+  },
+  "role:ma_integration": {
+   "reads_as": "The banking, payments and treasury systems of the two companies, and bringing them onto one platform.",
+   "shown_by": [
+    "integration_planning",
+    "program_mgmt",
+    "due_diligence",
+    "risk_mgmt"
+   ],
+   "line": "Migrated the acquired company's payments and banking onto the group platform across 6 banks in 4 months."
+  },
+  "role:corp_dev": {
+   "reads_as": "Fintech and banking targets, and the payments, lending or banking business a deal adds.",
+   "shown_by": [
+    "ma_execution",
+    "financial_analysis",
+    "due_diligence",
+    "valuation"
+   ],
+   "line": "Led diligence and valuation on 2 payments acquisitions worth $300M; both closed within 3% of the committee's price."
   }
  },
  "cross_functional": {
@@ -1031,6 +1171,26 @@
     "data_modeling"
    ],
    "line": "Partnered with product, finance and operations on a shared customer dataset; 4 teams retired their own versions."
+  },
+  "role:ma_integration": {
+   "reads_as": "Leading integration workstreams across finance, HR, IT, sales and operations of two companies at once.",
+   "shown_by": [
+    "integration_planning",
+    "ma_execution",
+    "program_mgmt",
+    "stakeholder_mgmt"
+   ],
+   "line": "Led 9 cross-functional workstreams across both companies, 60 people in all; every day-one milestone met."
+  },
+  "role:corp_dev": {
+   "reads_as": "Running deal teams across finance, legal, product and operations from screening to the integration handover.",
+   "shown_by": [
+    "ma_execution",
+    "stakeholder_mgmt",
+    "program_mgmt",
+    "due_diligence"
+   ],
+   "line": "Led a 20-person deal team across 5 functions on a $250M acquisition; signed in 10 weeks and handed over to integration."
   }
  },
  "stakeholder_mgmt": {
@@ -1143,6 +1303,26 @@
     "data_modeling"
    ],
    "line": "Managed requirements from 6 business teams for a metrics platform; shipped 20 certified metrics on the agreed dates."
+  },
+  "role:ma_integration": {
+   "reads_as": "Keeping two leadership teams, the deal sponsor and the acquired company's managers aligned through the integration.",
+   "shown_by": [
+    "integration_planning",
+    "ma_execution",
+    "program_mgmt",
+    "exec_communication"
+   ],
+   "line": "Managed 2 leadership teams and 15 workstream leads through a 12-month integration; 1 escalation to the sponsor."
+  },
+  "role:corp_dev": {
+   "reads_as": "Keeping the CEO, the board, business sponsors and the target's owners aligned through a live deal.",
+   "shown_by": [
+    "ma_execution",
+    "financial_analysis",
+    "due_diligence",
+    "exec_communication"
+   ],
+   "line": "Managed the CEO, 3 business sponsors and the target's founders through a 6-month $200M deal; 0 surprises at the board."
   }
  },
  "influence": {
@@ -1255,6 +1435,26 @@
     "metrics_kpis"
    ],
    "line": "Recommended ending a $1M channel on attribution evidence; leadership reallocated the budget within the quarter."
+  },
+  "role:ma_integration": {
+   "reads_as": "Changing an integration decision across two companies with a plan and a synergy case, without line authority.",
+   "shown_by": [
+    "integration_planning",
+    "ma_execution",
+    "stakeholder_mgmt",
+    "program_mgmt"
+   ],
+   "line": "Persuaded both leadership teams to consolidate 3 warehouses instead of 1; $4M more synergy on the same timeline."
+  },
+  "role:corp_dev": {
+   "reads_as": "Changing a deal decision with a model, a diligence finding or a walk-away case, without owning the budget.",
+   "shown_by": [
+    "ma_execution",
+    "stakeholder_mgmt",
+    "financial_analysis",
+    "business_case"
+   ],
+   "line": "Recommended walking away from a $120M target on diligence findings; the board agreed and the capital went to a $90M deal that hit plan."
   }
  },
  "communication": {
@@ -1367,6 +1567,36 @@
     "reporting_adhoc_analysis"
    ],
    "line": "Presented monthly insight readouts to 3 VPs; 5 of 12 recommendations became funded initiatives within the quarter."
+  },
+  "role:ma_integration": {
+   "reads_as": "Integration plans, steering-committee updates and day-one messages that two companies' leaders act on.",
+   "shown_by": [
+    "integration_planning",
+    "ma_execution",
+    "program_mgmt",
+    "stakeholder_mgmt"
+   ],
+   "line": "Wrote the 100-day plan and 12 monthly steering updates for a $400M acquisition; the committee decided in every session."
+  },
+  "role:corp_dev": {
+   "reads_as": "Investment memos, board papers and term-sheet summaries that a committee reads to approve a deal.",
+   "shown_by": [
+    "ma_execution",
+    "stakeholder_mgmt",
+    "financial_analysis",
+    "due_diligence"
+   ],
+   "line": "Wrote 12 investment memos and 4 board papers in a year; every deal that reached the board was approved on the paper."
+  },
+  "role:commercial_banking_rm": {
+   "reads_as": "Credit memos, client proposals and calls: the case for a loan, to the credit committee and to the client.",
+   "shown_by": [
+    "credit_analysis",
+    "client_coverage",
+    "key_account_mgmt",
+    "risk_mgmt"
+   ],
+   "line": "Wrote 25 credit memos a year for a $200M portfolio; 23 approved as submitted, and every renewal explained to the client in person."
   }
  },
  "exec_communication": {
@@ -1439,6 +1669,26 @@
     "analytics_requirements"
    ],
    "line": "Presented monthly to the executive team for a year; 6 recommendations funded, including a $3M pricing change."
+  },
+  "role:ma_integration": {
+   "reads_as": "Steering-committee and sponsor reviews: integration status, synergy delivery and the decisions needed.",
+   "shown_by": [
+    "integration_planning",
+    "stakeholder_mgmt",
+    "program_mgmt",
+    "ma_execution"
+   ],
+   "line": "Presented integration status to the steering committee 12 times; 8 decisions taken on the day with a 2-page update."
+  },
+  "role:corp_dev": {
+   "reads_as": "Investment committee and board reviews: the deal in one page, the risks and the ask.",
+   "shown_by": [
+    "stakeholder_mgmt",
+    "ma_execution",
+    "financial_analysis",
+    "business_case"
+   ],
+   "line": "Presented 6 deals to the investment committee; approvals in every session with a 3-page paper and a 10-minute summary."
   }
  },
  "people_management": {
@@ -1531,6 +1781,16 @@
     "performance_mgmt"
    ],
    "line": "Managed 5 analysts; introduced analysis reviews and 2 analysts moved into senior roles within 18 months."
+  },
+  "role:ma_integration": {
+   "reads_as": "Leading the integration office and the workstream leads, many of them from the acquired company.",
+   "shown_by": [
+    "integration_planning",
+    "program_mgmt",
+    "process_improvement",
+    "stakeholder_mgmt"
+   ],
+   "line": "Led an integration office of 6 and 12 workstream leads; retained 90% of the acquired leadership team through year one."
   }
  },
  "ownership": {
@@ -1643,6 +1903,46 @@
     "analytics_requirements"
    ],
    "line": "Owned the revenue reporting model used by 200 people; cut reconciliation errors to zero over 6 months."
+  },
+  "role:ma_integration": {
+   "reads_as": "Owning the integration plan, its synergy target and day one, and what happens when a milestone slips.",
+   "shown_by": [
+    "integration_planning",
+    "ma_execution",
+    "program_mgmt",
+    "cross_functional"
+   ],
+   "line": "Owned the integration of a $400M acquisition end to end: 120 milestones, $25M synergy target hit in 14 months."
+  },
+  "role:corp_dev": {
+   "reads_as": "Owning a deal from screening to signing: the model, the diligence, the timeline and the price.",
+   "shown_by": [
+    "ma_execution",
+    "stakeholder_mgmt",
+    "financial_analysis",
+    "program_mgmt"
+   ],
+   "line": "Owned a $180M acquisition end to end over 7 months: model, diligence, negotiation and signing within 2% of the committee's price."
+  },
+  "role:treasury": {
+   "reads_as": "Owning the cash position, the debt covenants and the bank relationships, and what happens when liquidity is short.",
+   "shown_by": [
+    "cash_liquidity",
+    "fintech",
+    "risk_mgmt",
+    "financial_analysis"
+   ],
+   "line": "Owned the daily cash position and a $300M revolver for a $2B company; covenants met every quarter and 0 overdrafts in 3 years."
+  },
+  "role:commercial_banking_rm": {
+   "reads_as": "Owning a portfolio of clients and their loans: growth, credit quality and the relationship when a loan goes wrong.",
+   "shown_by": [
+    "client_coverage",
+    "credit_analysis",
+    "risk_mgmt",
+    "key_account_mgmt"
+   ],
+   "line": "Owned a $150M portfolio of 40 business clients; grew it 12% in a year with 0 charge-offs and 1 watch-list credit worked out."
   }
  },
  "adaptability": {
@@ -1755,6 +2055,36 @@
     "reporting_adhoc_analysis"
    ],
    "line": "Moved the team's reporting from Excel to a cloud warehouse and a BI tool in 4 months while keeping every monthly report on time."
+  },
+  "role:ma_integration": {
+   "reads_as": "Re-planning the integration as diligence findings, retention and systems surprises change what day one needs.",
+   "shown_by": [
+    "integration_planning",
+    "program_mgmt",
+    "risk_mgmt",
+    "cross_functional"
+   ],
+   "line": "Re-planned the integration twice after diligence findings; day one still landed on the original date in 3 countries."
+  },
+  "role:corp_dev": {
+   "reads_as": "Re-cutting the deal case as diligence, financing and the target's numbers change week to week.",
+   "shown_by": [
+    "ma_execution",
+    "stakeholder_mgmt",
+    "due_diligence",
+    "financial_analysis"
+   ],
+   "line": "Re-cut the deal model 5 times in 3 weeks as diligence findings landed; the final price was 12% below the first bid."
+  },
+  "role:treasury": {
+   "reads_as": "Re-forecasting cash and re-hedging as rates, FX and the business change, while payments still go out on time.",
+   "shown_by": [
+    "cash_liquidity",
+    "fintech",
+    "financial_analysis",
+    "risk_mgmt"
+   ],
+   "line": "Re-forecast 13-week cash 4 times in a downturn and re-hedged $80M of FX exposure; every payroll and debt payment made on time."
   }
  },
  "collaboration": {
@@ -1867,6 +2197,36 @@
     "synthesis_recommendations"
    ],
    "line": "Partnered with 2 data engineers and 4 business teams on a shared metrics layer; 15 dashboards moved onto one definition set."
+  },
+  "role:ma_integration": {
+   "reads_as": "Working as one team with the acquired company's people, from diligence through day one and beyond.",
+   "shown_by": [
+    "integration_planning",
+    "program_mgmt",
+    "cross_functional",
+    "due_diligence"
+   ],
+   "line": "Paired every workstream lead with a counterpart from the acquired company; 9 joint plans delivered, 0 duplicated work."
+  },
+  "role:corp_dev": {
+   "reads_as": "Working with the business sponsor, legal, finance and the target's team as one deal team.",
+   "shown_by": [
+    "ma_execution",
+    "stakeholder_mgmt",
+    "financial_analysis",
+    "due_diligence"
+   ],
+   "line": "Ran the data room and diligence with 4 workstreams and 25 people from both sides; 600 questions answered in 5 weeks."
+  },
+  "role:commercial_banking_rm": {
+   "reads_as": "Working with credit, treasury, product partners and branch teams to bring the whole bank to a client.",
+   "shown_by": [
+    "client_coverage",
+    "credit_analysis",
+    "key_account_mgmt",
+    "risk_mgmt"
+   ],
+   "line": "Partnered with credit, treasury and wealth partners on 30 clients; cross-sold 18 treasury and 6 wealth relationships in a year."
   }
  },
  "program_mgmt": {
@@ -1979,6 +2339,26 @@
     "reporting_adhoc_analysis"
    ],
    "line": "Managed a 9-month data warehouse migration with 3 engineers; 40 reports moved with zero reporting outages."
+  },
+  "role:ma_integration": {
+   "reads_as": "Running the integration programme: workstreams, day-one readiness, synergy tracking and the steering cadence.",
+   "shown_by": [
+    "integration_planning",
+    "ma_execution",
+    "cross_functional",
+    "risk_mgmt"
+   ],
+   "line": "Ran a 12-month integration programme of 9 workstreams and 120 milestones; day one on time and synergies at 104% of plan."
+  },
+  "role:corp_dev": {
+   "reads_as": "Running the deal process: diligence workstreams, the timeline to signing and the handover to integration.",
+   "shown_by": [
+    "ma_execution",
+    "stakeholder_mgmt",
+    "due_diligence",
+    "financial_analysis"
+   ],
+   "line": "Managed 5 diligence workstreams and a 12-week timeline to signing on a $250M deal; 40 integration actions handed over on day one."
   }
  },
  "risk_mgmt": {
@@ -2081,6 +2461,26 @@
     "analytics_requirements"
    ],
    "line": "Built data-quality checks on 30 critical tables; reporting incidents fell from 6 a month to under 1."
+  },
+  "role:ma_integration": {
+   "reads_as": "Integration risks: customer and staff attrition, systems cutover and synergy shortfalls, with mitigations ready.",
+   "shown_by": [
+    "integration_planning",
+    "program_mgmt",
+    "due_diligence",
+    "governance_design"
+   ],
+   "line": "Kept the integration risk register for 9 workstreams; 4 of 5 top risks mitigated before cutover and 0 customers lost to it."
+  },
+  "role:corp_dev": {
+   "reads_as": "Deal risks: diligence findings, financing, regulatory approvals and integration, priced or mitigated before signing.",
+   "shown_by": [
+    "ma_execution",
+    "due_diligence",
+    "stakeholder_mgmt",
+    "program_mgmt"
+   ],
+   "line": "Tracked 20 deal risks on a $300M acquisition; 6 priced into the offer and 3 covered by warranties before signing."
   }
  },
  "execution": {
@@ -2193,6 +2593,36 @@
     "sql"
    ],
    "line": "Delivered 40 ad hoc analyses and 12 dashboards in a year, with a median turnaround of 2 days."
+  },
+  "role:ma_integration": {
+   "reads_as": "Delivering day one, the systems cutovers and the synergy milestones on the dates the deal case set.",
+   "shown_by": [
+    "integration_planning",
+    "ma_execution",
+    "program_mgmt",
+    "process_improvement"
+   ],
+   "line": "Delivered day one for 1,200 employees and 3 systems cutovers on the planned dates; synergies at 100% of plan by month 12."
+  },
+  "role:corp_dev": {
+   "reads_as": "Getting the deal signed and closed: diligence done, approvals in hand, documents final, on the date.",
+   "shown_by": [
+    "ma_execution",
+    "stakeholder_mgmt",
+    "financial_analysis",
+    "due_diligence"
+   ],
+   "line": "Closed 4 acquisitions worth $500M in 2 years, each within a week of the planned signing date."
+  },
+  "role:commercial_banking_rm": {
+   "reads_as": "Getting loans approved, documented and funded on the client's timeline, with every condition met.",
+   "shown_by": [
+    "credit_analysis",
+    "client_coverage",
+    "risk_mgmt",
+    "key_account_mgmt"
+   ],
+   "line": "Closed 22 commercial loans worth $90M in a year; every one funded within 45 days of the term sheet with all conditions met."
   }
  },
  "process_improvement": {
@@ -2295,6 +2725,26 @@
     "data_modeling"
    ],
    "line": "Automated 25 recurring reports and launched self-service for 150 users; ad hoc requests fell 60%."
+  },
+  "role:ma_integration": {
+   "reads_as": "Harmonising the two companies' processes and controls into one, without losing what worked.",
+   "shown_by": [
+    "integration_planning",
+    "ma_execution",
+    "program_mgmt",
+    "cross_functional"
+   ],
+   "line": "Harmonised 40 finance and HR processes across the two companies into 1 set; close shortened by 3 days after integration."
+  },
+  "role:corp_dev": {
+   "reads_as": "A repeatable deal process: screening criteria, diligence checklists and a pipeline review that runs every month.",
+   "shown_by": [
+    "ma_execution",
+    "stakeholder_mgmt",
+    "program_mgmt",
+    "integration_planning"
+   ],
+   "line": "Built the screening criteria and diligence checklist used on 30 targets; first look to a committee decision fell from 10 weeks to 6."
   }
  }
 }

@@ -280,7 +280,13 @@
    "ran design reviews",
    "tested"
   ],
-  "shown_by": []
+  "shown_by": [
+   "discovery",
+   "user_research",
+   "prd",
+   "prioritization",
+   "ab_testing"
+  ]
  },
  "problem_solving": {
   "form": "through",
@@ -461,7 +467,13 @@
    "equipped",
    "partnered with sales"
   ],
-  "shown_by": []
+  "shown_by": [
+   "positioning_messaging",
+   "gtm",
+   "sales_process",
+   "pipeline_forecasting",
+   "launch"
+  ]
  },
  "customer_success": {
   "form": "scope",
@@ -487,7 +499,13 @@
    "partnered with CS",
    "resolved"
   ],
-  "shown_by": []
+  "shown_by": [
+   "onboarding_adoption",
+   "renewals_expansion",
+   "customer_health",
+   "key_account_mgmt",
+   "process_improvement"
+  ]
  },
  "partnerships": {
   "form": "scope",
@@ -512,7 +530,13 @@
    "launched",
    "managed"
   ],
-  "shown_by": []
+  "shown_by": [
+   "partner_gtm",
+   "gtm",
+   "stakeholder_mgmt",
+   "channel_sales",
+   "campaign_management"
+  ]
  },
  "business_case": {
   "form": "artefact",
@@ -1526,7 +1550,6 @@
    "finance_partnering",
    "hr_business_partnering",
    "npi_manufacturing_ramp",
-   "integration_planning",
    "transformation_programs"
   ]
  },
@@ -1843,7 +1866,13 @@
    "ran the briefing",
    "demoed"
   ],
-  "shown_by": []
+  "shown_by": [
+   "exec_communication",
+   "stakeholder_mgmt",
+   "customer_success",
+   "positioning_messaging",
+   "sales_enablement"
+  ]
  },
  "agile_scrum": {
   "form": "artefact",
@@ -1899,7 +1928,13 @@
    "tracked",
    "coordinated"
   ],
-  "shown_by": []
+  "shown_by": [
+   "stakeholder_mgmt",
+   "cross_functional",
+   "risk_mgmt",
+   "cost_schedule_control",
+   "prd"
+  ]
  },
  "risk_mgmt": {
   "form": "scope",
@@ -1925,7 +1960,13 @@
    "unblocked",
    "identified"
   ],
-  "shown_by": []
+  "shown_by": [
+   "program_mgmt",
+   "stakeholder_mgmt",
+   "process_improvement",
+   "cross_functional",
+   "program_governance_reviews"
+  ]
  },
  "execution": {
   "form": "through",
@@ -2041,7 +2082,13 @@
    "selected",
    "held to SLA"
   ],
-  "shown_by": []
+  "shown_by": [
+   "supplier_relationship_mgmt",
+   "supplier_contract_negotiation",
+   "cost_schedule_control",
+   "rfx_bid_mgmt",
+   "program_mgmt"
+  ]
  },
  "jira": {
   "form": "named",
@@ -2397,7 +2444,13 @@
    "delivered to",
    "managed the client"
   ],
-  "shown_by": []
+  "shown_by": [
+   "program_mgmt",
+   "key_account_mgmt",
+   "customer_facing_exec",
+   "people_management",
+   "ma_execution"
+  ]
  },
  "operating_model_design": {
   "form": "artefact",
@@ -2449,7 +2502,13 @@
    "rolled out to",
    "trained"
   ],
-  "shown_by": []
+  "shown_by": [
+   "org_design",
+   "process_improvement",
+   "transformation_programs",
+   "stakeholder_mgmt",
+   "performance_mgmt"
+  ]
  },
  "transformation_programs": {
   "form": "scope",
@@ -2475,7 +2534,13 @@
    "delivered",
    "tracked value"
   ],
-  "shown_by": []
+  "shown_by": [
+   "change_management",
+   "process_improvement",
+   "operating_model_design",
+   "roadmap",
+   "governance_design"
+  ]
  },
  "performance_improvement": {
   "form": "artefact",
@@ -2526,7 +2591,13 @@
    "chaired",
    "owned the cadence"
   ],
-  "shown_by": []
+  "shown_by": [
+   "exec_communication",
+   "metrics_kpis",
+   "process_improvement",
+   "dashboards_dataviz",
+   "strategic_planning"
+  ]
  },
  "special_projects": {
   "form": "scope",
@@ -2551,7 +2622,13 @@
    "stood up",
    "scoped"
   ],
-  "shown_by": []
+  "shown_by": [
+   "strategic_planning",
+   "exec_communication",
+   "synthesis_recommendations",
+   "business_case",
+   "program_mgmt"
+  ]
  },
  "exec_partnership": {
   "form": "scope",
@@ -2577,7 +2654,13 @@
    "drove on behalf of",
    "advised"
   ],
-  "shown_by": []
+  "shown_by": [
+   "exec_communication",
+   "strategic_planning",
+   "operating_cadence",
+   "exec_decks",
+   "org_design"
+  ]
  },
  "technology_strategy": {
   "form": "artefact",
@@ -2681,7 +2764,13 @@
    "owned the P&L of",
    "grew"
   ],
-  "shown_by": []
+  "shown_by": [
+   "pnl",
+   "financial_analysis",
+   "budgeting_forecasting",
+   "people_management",
+   "sales_leadership"
+  ]
  },
  "budgeting_forecasting": {
   "form": "artefact",
@@ -2996,7 +3085,13 @@
    "supported",
    "challenged"
   ],
-  "shown_by": []
+  "shown_by": [
+   "budgeting_forecasting",
+   "business_case",
+   "variance_analysis",
+   "synthesis_recommendations",
+   "strategic_planning"
+  ]
  },
  "valuation": {
   "form": "artefact",
@@ -3130,7 +3225,13 @@
    "originated",
    "built the pipeline"
   ],
-  "shown_by": []
+  "shown_by": [
+   "ma_execution",
+   "due_diligence",
+   "valuation",
+   "investment_committee",
+   "investment_research"
+  ]
  },
  "pitch_materials": {
   "form": "artefact",
@@ -3238,7 +3339,13 @@
    "cross-sold",
    "managed the relationship"
   ],
-  "shown_by": []
+  "shown_by": [
+   "credit_analysis",
+   "key_account_mgmt",
+   "prospecting",
+   "renewals_expansion",
+   "risk_mgmt"
+  ]
  },
  "portfolio_management": {
   "form": "artefact",
@@ -3290,7 +3397,13 @@
    "sat on the board of",
    "built the plan for"
   ],
-  "shown_by": []
+  "shown_by": [
+   "due_diligence",
+   "performance_improvement",
+   "investment_committee",
+   "valuation",
+   "ma_execution"
+  ]
  },
  "investment_committee": {
   "form": "artefact",
@@ -3394,7 +3507,13 @@
    "planned for",
    "managed"
   ],
-  "shown_by": []
+  "shown_by": [
+   "client_coverage",
+   "prospecting",
+   "portfolio_management",
+   "investment_research",
+   "customer_facing_exec"
+  ]
  },
  "re_underwriting": {
   "form": "artefact",
@@ -3501,7 +3620,13 @@
    "renewed",
    "raised occupancy to"
   ],
-  "shown_by": []
+  "shown_by": [
+   "re_asset_mgmt",
+   "re_property_types",
+   "re_underwriting",
+   "re_development_entitlements",
+   "re_acquisitions_dispositions"
+  ]
  },
  "re_asset_mgmt": {
   "form": "artefact",
@@ -3809,7 +3934,13 @@
    "reviewed",
    "produced"
   ],
-  "shown_by": []
+  "shown_by": [
+   "ads_media",
+   "brand_strategy",
+   "campaign_management",
+   "performance_marketing",
+   "marketing_analytics"
+  ]
  },
  "events_field_marketing": {
   "form": "artefact",
@@ -4095,7 +4226,13 @@
    "retained",
    "expanded"
   ],
-  "shown_by": []
+  "shown_by": [
+   "territory_account_planning",
+   "customer_success",
+   "renewals_expansion",
+   "client_coverage",
+   "consultative_selling"
+  ]
  },
  "channel_sales": {
   "form": "artefact",
@@ -4147,7 +4284,13 @@
    "built the joint plan",
    "activated"
   ],
-  "shown_by": []
+  "shown_by": [
+   "partnerships",
+   "gtm",
+   "channel_sales",
+   "demand_generation",
+   "events_field_marketing"
+  ]
  },
  "sales_leadership": {
   "form": "scope",
@@ -4174,7 +4317,13 @@
    "hired",
    "grew the team"
   ],
-  "shown_by": []
+  "shown_by": [
+   "people_management",
+   "sales_enablement",
+   "quota_attainment",
+   "pipeline_forecasting",
+   "sales_process"
+  ]
  },
  "sales_process": {
   "form": "artefact",
@@ -4279,7 +4428,13 @@
    "saved",
    "escalated"
   ],
-  "shown_by": []
+  "shown_by": [
+   "renewals_expansion",
+   "onboarding_adoption",
+   "exec_communication",
+   "metrics_kpis",
+   "operating_cadence"
+  ]
  },
  "proposals_capture": {
   "form": "artefact",
@@ -4566,7 +4721,13 @@
    "scheduled",
    "managed"
   ],
-  "shown_by": []
+  "shown_by": [
+   "people_management",
+   "safety_ehs",
+   "performance_mgmt",
+   "ops_performance_mgmt",
+   "hr_compliance"
+  ]
  },
  "ops_performance_mgmt": {
   "form": "outcome",
@@ -4695,7 +4856,13 @@
    "developed",
    "held to the scorecard"
   ],
-  "shown_by": []
+  "shown_by": [
+   "sourcing_category_strategy",
+   "supplier_contract_negotiation",
+   "spend_cost_savings",
+   "supply_risk_continuity",
+   "rfx_bid_mgmt"
+  ]
  },
  "supplier_contract_negotiation": {
   "form": "artefact",
@@ -4981,7 +5148,13 @@
    "advised managers on",
    "handled"
   ],
-  "shown_by": []
+  "shown_by": [
+   "hr_compliance",
+   "performance_mgmt",
+   "hr_business_partnering",
+   "people_management",
+   "engagement_culture"
+  ]
  },
  "hr_business_partnering": {
   "form": "scope",
@@ -5007,7 +5180,13 @@
    "supported",
    "coached"
   ],
-  "shown_by": []
+  "shown_by": [
+   "performance_mgmt",
+   "employee_relations",
+   "org_design",
+   "succession_workforce_planning",
+   "change_management"
+  ]
  },
  "talent_acquisition": {
   "form": "artefact",
@@ -5137,7 +5316,13 @@
    "ran the programme",
    "facilitated"
   ],
-  "shown_by": []
+  "shown_by": [
+   "performance_mgmt",
+   "org_design",
+   "succession_workforce_planning",
+   "people_management",
+   "learning_design"
+  ]
  },
  "org_design": {
   "form": "artefact",
@@ -5639,7 +5824,13 @@
    "coordinated",
    "closed findings"
   ],
-  "shown_by": []
+  "shown_by": [
+   "regulatory_change",
+   "compliance_program",
+   "compliance_monitoring",
+   "public_sector",
+   "controls_testing"
+  ]
  },
  "policy_management": {
   "form": "artefact",
@@ -5899,7 +6090,13 @@
    "coordinated",
    "advised"
   ],
-  "shown_by": []
+  "shown_by": [
+   "governance_design",
+   "erm_framework",
+   "exec_communication",
+   "financial_reporting",
+   "exec_decks"
+  ]
  },
  "trade_compliance": {
   "form": "context",
@@ -6055,7 +6252,13 @@
    "partnered with",
    "defined"
   ],
-  "shown_by": []
+  "shown_by": [
+   "prd",
+   "metrics_kpis",
+   "reporting_adhoc_analysis",
+   "sql",
+   "dashboards_dataviz"
+  ]
  },
  "cost_schedule_control": {
   "form": "artefact",
@@ -6133,7 +6336,13 @@
    "set standards for",
    "reviewed"
   ],
-  "shown_by": []
+  "shown_by": [
+   "program_mgmt",
+   "governance_design",
+   "cost_schedule_control",
+   "risk_mgmt",
+   "exec_communication"
+  ]
  },
  "resource_planning": {
   "form": "artefact",

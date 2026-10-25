@@ -88,7 +88,7 @@
   function gapText(R, x, fit) {
     const T = textOf(R.kinds), s = nodeOf(R, x.id); if (!s) return null;
     const shown = fit && fit.r ? fit.r.covered : new Set(); const nameOf = id => (R.skillById[id] || {}).name || id;
-    return { line: T.line(s, R.role.group), gap: T.gap(x, s, { shown, nameOf }), reads: T.reads(s, R.role.group), thin: T.thin(s) };
+    return { line: T.line(s, Atlas.fieldKeys(R)), gap: T.gap(x, s, { shown, nameOf }), reads: T.reads(s, Atlas.fieldKeys(R)), thin: T.thin(s) };
   }
   function stepHtml(b) {
     if (typeof b === "string") return esc(b);
@@ -800,12 +800,13 @@
     // role's field has one, else one sentence from the evidence file; a behaviour or a practice names the carriers the
     // role's postings pick. Every sentence comes from the data through web/evidence_text.js; `signals` left the card.
     const T = textOf(R.kinds), field = R.role.group, fieldLabel = (g => (g && g.label) || field)((state.ixGroups || []).find(x => x.id === field));
-    const reads = T.reads(s, field), kindLabel = ((R.kinds || {})[s.kind] || {}).label || "";
+    const keys = Atlas.fieldKeys(R), hasOverride = !!(s.fields && s.fields[keys[0]]);   // the role's own reading, when its field's does not fit it
+    const reads = T.reads(s, keys), kindLabel = ((R.kinds || {})[s.kind] || {}).label || "";
     const cs = s.kind === "behaviour" || s.kind === "practice" ? Atlas.carriers(R, slice, s.id) : null;
     const carrierTags = cs && cs.ids.length ? `<p class="small" style="margin:8px 0 0">Shown through${cs.fallback ? ` <span class="subtle">(in ${esc(fieldLabel.toLowerCase())})</span>` : ""}: <span class="tags inline">${cs.ids.map(k => `<button type="button" class="tag" data-skill="${esc(k)}">${esc(R.skillById[k].name)}</button>`).join("")}</span></p>` : "";
-    const means = `${reads ? `<p class="small reads"><b>In ${esc(fieldLabel.toLowerCase())}:</b> ${esc(reads)}</p>` : `<p class="small muted">${esc(T.summary(s))}</p>`}${carrierTags}`;
-    const lineHere = T.line(s, field);
-    const showIt = `<p class="small" style="margin:10px 0 0"><b>${esc(T.how(s.kind || "method"))}</b></p>${s.kind !== "behaviour" ? `<p class="small">A line that shows it${lineHere.source === "field" ? ` in ${esc(fieldLabel.toLowerCase())}` : ""}: <em>“${esc(lineHere.text)}”</em></p>` : cs && cs.ids.length ? `<p class="small">A line about ${esc(R.skillById[cs.ids[0]].name)}${cs.ids[1] ? ` or ${esc(R.skillById[cs.ids[1]].name)}` : ""} carries it: <em>“${esc(lineHere.text)}”</em></p>` : ""}`;
+    const means = `${reads ? `<p class="small reads"><b>${hasOverride ? `For ${esc(R.role.label)}` : `In ${esc(fieldLabel.toLowerCase())}`}:</b> ${esc(reads)}</p>` : `<p class="small muted">${esc(T.summary(s))}</p>`}${carrierTags}`;
+    const lineHere = T.line(s, keys);
+    const showIt = `<p class="small" style="margin:10px 0 0"><b>${esc(T.how(s.kind || "method"))}</b></p>${s.kind !== "behaviour" ? `<p class="small">A line that shows it${lineHere.source === "field" ? (lineHere.role ? ` for ${esc(R.role.label)}` : ` in ${esc(fieldLabel.toLowerCase())}`) : ""}: <em>“${esc(lineHere.text)}”</em></p>` : cs && cs.ids.length ? `<p class="small">A line about ${esc(R.skillById[cs.ids[0]].name)}${cs.ids[1] ? ` or ${esc(R.skillById[cs.ids[1]].name)}` : ""} carries it: <em>“${esc(lineHere.text)}”</em></p>` : ""}`;
     const withSkill = slice.filter(j => j.open && j.skills.includes(s.id)).slice(0, 6);
     const postings = withSkill.length ? `<div class="list">${withSkill.map(j => `<button type="button" class="r" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${esc(j.company)}</span></button>`).join("")}</div>` : `<p class="small muted">No open posting in this view asks for it.</p>`;
     const visible = new Set(Atlas.grid(R, slice).rows.flat(2).map(x => x.id));
@@ -1150,7 +1151,7 @@
         return { r, have: rows.filter(x => (x.status === "evidenced" || x.status === "transferable") && !GENERIC.has(x.slot)).sort((a, b) => b.w - a.w).slice(0, 3), ask: rows.filter(x => (x.status === "gap" || x.status === "thin") && !GENERIC.has(x.slot)).sort((a, b) => b.w - a.w).slice(0, 2) }; });
       // the lines: each resume line that shows a skill, once, with how many of the roles it fits
       const lines = new Map();
-      for (const { have } of per) for (const x of have) if (x.lines[0]) { const t = x.lines[0].text, e = lines.get(t) || { text: t, skills: new Set(), roles: 0, say: null }; e.skills.add(x.name); e.roles++; if (x.status === "transferable") { const s = ix.skillById[x.id]; if (s) e.say = textOf(ix.M.meta.kinds).line(s, r.group).text; } lines.set(t, e); }
+      for (const { have } of per) for (const x of have) if (x.lines[0]) { const t = x.lines[0].text, e = lines.get(t) || { text: t, skills: new Set(), roles: 0, say: null }; e.skills.add(x.name); e.roles++; if (x.status === "transferable") { const s = ix.skillById[x.id]; if (s) e.say = textOf(ix.M.meta.kinds).line(s, [`role:${r.family}`, r.group]).text; } lines.set(t, e); }
       const top = [...lines.values()].sort((a, b) => b.roles - a.roles).slice(0, 3);
       const yl = $("#yourlines"); if (yl) yl.innerHTML = top.length ? `<ol class="next">${top.map(e => `<li><b>${esc([...e.skills].slice(0, 2).join(", "))}</b>: “${esc(e.text.length > 160 ? e.text.slice(0, 157) + "…" : e.text)}”<span class="why">Fits ${e.roles} of ${roles.length} roles.${e.say ? ` Say it like: <b>${esc(e.say)}</b>` : ""}</span></li>`).join("")}</ol>` : '<p class="small muted">Your resume shows none of the skills most of these roles ask for yet. Open a role and check your fit to see what to evidence.</p>';
       el.innerHTML = per.map(({ r, have, ask }, i) => {

@@ -862,6 +862,49 @@ index's fields mapped against a posting's text left alone.
 What this is not: a regeneration. `depth_gen` still drafts in British English, and the `data/` branch that regenerates
 with an American rule (and reruns `run_depth.py` and the extraction baselines) stays under Later.
 
+### Step 6 — what the v14 cascade left open (`feat/adaptive-6-followups`, 2026-10-25)
+
+Four things, one PR.
+
+- **Eval 8, the reader's judgment of generated lines.** `evals/lines_judged.mjs` draws 50 sentences per release from
+  `web/evidence_text.js` over both role sets (a pool of 897 distinct sentences on the 2026-10-25 data: 499 gap sentences,
+  249 field lines, 149 templates), a third per type, one from each kind-by-field cell in a seeded order, and asks a
+  model reader of a different family from the depth's drafter (`anthropic/claude-haiku-5.5` through OpenRouter) three
+  yes/no questions: names an artefact or a counterpart; carries a number where its kind asks for one; in the field's
+  words. Answers are cached under `data/experiments/lines_judged/`, `--dry-run` states the cost (about 19,000 tokens), the
+  report is `evals/lines_judged.md` with failures by skill and field, and the runner exits 1 while a sentence fails.
+  **Not run live here**: the build machine has no `.env`, so the committed report says so and the first live run
+  overwrites it; the fix-and-rerun loop on `fields.json` is the owner's first step with the key. The gate stands
+  (decision 10): no later PR changes a sentence template before it runs.
+- **Role overrides in `fields.json`** (v14 open decision 4, taken). Measured on the roles' own postings, the finance
+  entry's carriers fail the 15% rule on 20 of M&A integration's asks, 17 of Corporate development's and 3 of Treasury's,
+  and banking's on 5 of Commercial banking RM's: 45 (skill, role) pairs where fewer than two carriers of the field entry
+  co-occur with the skill. Each got an override, a key `role:<id>` beside the field keys with the same `reads_as` /
+  `shown_by` / `line` shape, written from the role's own carriers (integration planning, M&A execution and programme
+  management for the integrator; M&A execution, diligence, the model and the sponsors for corporate development; cash,
+  banks and hedges for treasury; credit, coverage and the portfolio for the banker). `tax.validate` checks the role is
+  one of the 50, `run_taxonomy.py` grounds each override on the role's postings (1,080 grounding checks pass, 45 of them
+  overrides), `build_graph` publishes them on the MBA nodes with the role's postings beside them, and the readers try the
+  override before the field: `EvidenceText.line` and `reads` and `Matcher.pickCarriers` take a list of keys
+  (`tax.field_keys`, `Atlas.fieldKeys`: `["role:<id>", group]`), so the card says "For M&A Integration Manager:" where an
+  override exists and "In finance:" elsewhere. 34 behaviour-or-practice rows across the four roles now read their own
+  entry.
+- **Carriers for the practices that had none.** 35 of the 39 practices named no `shown_by`, so 311 of 1,127
+  behaviour-or-practice rows in the grids had no carrier. Each got three to five, drafted from the co-occurrence of the
+  practice's postings in its three largest fields (share times log-lift within the field) and chosen by hand from that
+  list (UX & design collaboration through discovery, user research, PRDs; client coverage through credit analysis, key
+  accounts, prospecting; board governance through governance design, risk frameworks, executive reviews). The
+  `carriers` check of `run_taxonomy.py` now holds every practice's carriers to the 10% rule a behaviour's met (288
+  checks); one existing carrier under it (post-merger integration for cross-functional leadership, at 10%) left. Rows
+  with no carrier: 311 → 8 (`evals/adaptive.mjs --only carriers`).
+- **The full calibration for `score`.** The 304-resume calibration set (`evals/resumes/private/`) is not on this
+  machine, in either checkout, so nothing was rerun and `score` stays unmeasured beyond the 48-file try of v14. The
+  command and the bar are unchanged (`evals/README.md`, "Evals to build", item 6).
+
+What this is not: the overrides and the practice carriers are editorial, grounded in what postings ask for together, not
+in what a resume reader accepts; the reader's judgment that would read them as a student would is built and waiting on
+the key.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its

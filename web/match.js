@@ -30,8 +30,11 @@
   // `isCarrier(id)` whether an id is a skill of a carrier kind. Returns { ids, shares, fallback, field, source }:
   // source "role" (the postings picked them), "field" (the field entry stands in), "any" (the two most asked, under
   // the floor), "none".
+  // `group` is the role's field, or a list of keys of the skill's `fields` tried in order (the role's own override
+  // "role:<id>" first, then its field: PLAN.md v16 step 6)
+  const fieldEntry = (s, group) => { for (const k of Array.isArray(group) ? group : [group]) if (k && s.fields && s.fields[k]) return s.fields[k]; return {}; };
   function pickCarriers(skill, jobs, group, isCarrier) {
-    const s = skill || {}; const field = (((s.fields || {})[group] || {}).shown_by || []).filter(isCarrier); const own = ((s.how_shown || {}).shown_by || []).filter(isCarrier);
+    const s = skill || {}; const field = (fieldEntry(s, group).shown_by || []).filter(isCarrier); const own = ((s.how_shown || {}).shown_by || []).filter(isCarrier);
     const union = [...new Set([...field, ...own])];
     const withIt = jobs.filter(j => j.skills.includes(s.id)); let n = 0; const cnt = {};
     for (const j of withIt) { const w = j.w == null ? 1 : j.w; n += w; for (const k of j.skills) if (union.includes(k)) cnt[k] = (cnt[k] || 0) + w; }
@@ -684,7 +687,7 @@
       const st = shares(target.job ? (target.familyJobs || target.jobs) : target.jobs);
       const inJob = target.job ? new Set(target.job.skills) : null;
       const tiers = { core: new Map(), common: new Map(), diff: new Map() }; const domains = new Map(); const ai = { ids: [], w: 0 }; const creds = new Map();
-      const family = target.job ? target.job.family : (target.jobs[0] || {}).family; const group = groupOf(family);
+      const family = target.job ? target.job.family : (target.jobs[0] || {}).family; const group = [`role:${family}`, groupOf(family)];
       const carriers = {};
       for (const s of skills) {
         const w = st.share(s.id); if (inJob && !inJob.has(s.id)) continue;

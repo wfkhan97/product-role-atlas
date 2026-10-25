@@ -56,6 +56,13 @@ FORMS = {
 
 # Kinds whose skills can carry a behaviour or a practice: a resume line about one of them is the evidence.
 CARRIER_KINDS = {"method", "practice", "technical", "knowledge"}
+# A role override in fields.json: the key "role:<role id>" beside a skill's field keys.
+ROLE_KEY = "role:"
+
+
+def field_keys(role_id, group):
+    """The keys of a skill's `fields` to try for a role, in order: its own override, then its field's entry."""
+    return [ROLE_KEY + role_id, group]
 
 
 def load():
@@ -95,10 +102,12 @@ def dump(tax, path=PATH):
         f.write(json.dumps(tax, indent=1, ensure_ascii=False) + "\n")
 
 
-def validate(tax=None, evidence=None, fields=None, groups=None):
+def validate(tax=None, evidence=None, fields=None, groups=None, roles=None):
     """Every rule the three files must keep. Returns a list of problems; empty when all hold.
 
-    groups: the field ids the fields file may name (the MBA index's groups, which include "product")."""
+    groups: the field ids the fields file may name (the MBA index's groups, which include "product").
+    roles: the role ids a role override may name (a key "role:<id>" beside the field keys of a skill's entry: the
+    same reading, carriers and line, for a role whose field reading does not fit it; PLAN.md v16, step 6)."""
     tax = tax or load()
     evidence = load_evidence() if evidence is None else evidence
     fields = load_fields() if fields is None else fields
@@ -140,7 +149,10 @@ def validate(tax=None, evidence=None, fields=None, groups=None):
         if kind.get(sid) in ("tool", "credential"):
             out.append(f"fields.json: {sid} is a {kind[sid]}; it means the same in every field")
         for g, entry in per.items():
-            if groups is not None and g not in groups:
+            if g.startswith(ROLE_KEY):
+                if roles is not None and g[len(ROLE_KEY):] not in roles:
+                    out.append(f"fields.json: {sid}.{g} is not a role")
+            elif groups is not None and g not in groups:
                 out.append(f"fields.json: {sid}.{g} is not a field")
             words = lambda t: len((t or "").split())
             if not entry.get("reads_as") or words(entry["reads_as"]) > 25:

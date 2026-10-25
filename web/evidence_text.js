@@ -6,7 +6,8 @@
 
    EvidenceText.create({ kinds }) -> {
      line(skill, field)        the example resume line: the field entry's line, else signals[0], else a template from
-                               how_shown by the kind's form with its slots named and no number invented
+                               how_shown by the kind's form with its slots named and no number invented. `field` is a
+                               key of `fields` or a list of keys tried in order (a role override "role:<id>" first)
      reads(skill, field)       what the skill means in the field (fields[field].reads_as), or null
      gap(row, skill, ctx)      what to do about a gap, by kind; a behaviour names the carriers to show it through
      thin(skill)               "add a number": the measures of how_shown
@@ -46,7 +47,9 @@
     const K = kinds && Object.keys(kinds).length ? kinds : KINDS;
     const how = kind => ((K[kind] || {}).how) || KINDS.behaviour.how;
     const formOf = skill => (skill.how_shown && skill.how_shown.form) || ((K[skill.kind] || {}).form) || "artefact";
-    const entry = (skill, field) => (skill && skill.fields && field && skill.fields[field]) || null;
+    // `field` is a key of the skill's `fields`, or a list of keys tried in order: the role's own override
+    // ("role:<id>", PLAN.md v16 step 6) first, then the role's field
+    const entry = (skill, field) => { if (!skill || !skill.fields || !field) return null; for (const k of Array.isArray(field) ? field : [field]) if (k && skill.fields[k]) return { key: k, ...skill.fields[k] }; return null; };
 
     // A template from how_shown by the form. Slots are named from the lists; no number is invented: the measure is
     // named as the thing to measure ("initiatives shipped against plan"), and the student supplies the figure.
@@ -65,7 +68,7 @@
 
     // The example line, in this order: the field entry, the product skill's signals, the template.
     function line(skill, field) {
-      const e = entry(skill, field); if (e && e.line) return { text: e.line, source: "field", field };
+      const e = entry(skill, field); if (e && e.line) return { text: e.line, source: "field", field: e.key, role: e.key.startsWith("role:") };
       const sig = first(skill.signals); if (sig) return { text: sig, source: "signals" };
       return { text: template(skill), source: "template" };
     }

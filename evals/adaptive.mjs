@@ -43,7 +43,9 @@ if (!only || only === "text") {
     const nameOf = id => (byId[id] || {}).name || id;
     for (const fam of S.fams) {
       const jobs = S.G.jobs.filter(j => j.family === fam); if (!jobs.length) continue; counts.roles++;
-      const field = S.group(fam); const req = M.requirements({ jobs, label: fam });
+      // the keys a role reads: its own override ("role:<id>", v16 step 6) first, then its field
+      const field = [`role:${fam}`, S.group(fam)]; const req = M.requirements({ jobs, label: fam });
+      const entryOf = s => { for (const k of field) if (s.fields && s.fields[k]) return s.fields[k]; return null; };
       const rows = M.score({}, req, { level: "mid" }).rows.filter(x => !x.slot.startsWith("__"));
       for (const x of rows) {
         const s = byId[x.id]; if (!s) { check(false, `${S.set}/${fam}: row ${x.id} has no skill node`); continue; }
@@ -58,7 +60,7 @@ if (!only || only === "text") {
           check(!/\d/.test(t), `${S.set}/${fam}/${x.id}: a template line invented a number: "${l.text}"`);
         }
         counts[l.source]++;
-        const e = s.fields && s.fields[field];
+        const e = entryOf(s);
         if (e) check(l.source === "field" && l.text === e.line, `${S.set}/${fam}/${x.id}: the field entry exists but the line is from ${l.source}`);
         if (S.set === "product" && s.fields && Object.keys(s.fields).length) check(l.source === "field" && l.field === "product", `product/${fam}/${x.id}: a product role must read the product entry`);
         if (x.kind === "behaviour") {
@@ -84,22 +86,24 @@ if (!only || only === "carriers") {
   const { Matcher: MM, atlasFactory } = await import("../tests/web/_load.mjs");
   const A = atlasFactory({ load: url => JSON.parse(fs.readFileSync(path.join(root, "web", url), "utf8")), Matcher: MM });
   const ix = await A.index(); await A.product();
-  const counts = { roles: 0, rows: 0, role: 0, field: 0, any: 0, none: 0 };
+  const counts = { roles: 0, rows: 0, role: 0, field: 0, any: 0, none: 0, override: 0 };
   for (const id of Object.keys(ix.roles)) {
     const R = await A.role(id); const slice = R.jobs; if (!slice.length) continue; counts.roles++;
     const { rows } = A.grid(R, slice);
+    const entryOf = s => { for (const k of A.fieldKeys(R)) if (s.fields && s.fields[k]) return s.fields[k]; return null; };
     rows.forEach((row, tier) => row.forEach(cell => { for (const x of cell) {
       const s = R.skillById[x.id]; if (!s || !(s.kind === "behaviour" || s.kind === "practice")) continue; counts.rows++;
       const c = A.carriers(R, slice, x.id); counts[c.source]++;
       check(c.ids.every(k => R.skillById[k] && MM.CARRIER_KINDS.has(R.skillById[k].kind)), `${id}/${x.id}: a carrier is not of a carrier kind: ${c.ids.join(", ")}`);
       check(c.ids.length <= MM.CARRIER_MAX, `${id}/${x.id}: ${c.ids.length} carriers, more than ${MM.CARRIER_MAX}`);
       if (c.source === "role") check(c.ids.length >= 2 && c.ids.every(k => c.shares[k] >= MM.CARRIER_MIN - 1e-9), `${id}/${x.id}: picked on the postings but a carrier is under the floor: ${c.ids.map(k => k + " " + (100 * c.shares[k]).toFixed(0) + "%").join(", ")}`);
-      else if (c.source === "field") check(JSON.stringify(c.ids) === JSON.stringify(((s.fields || {})[R.role.group] || {}).shown_by.filter(k => R.skillById[k] && MM.CARRIER_KINDS.has(R.skillById[k].kind))), `${id}/${x.id}: the field fallback is not the role's field's list`);
+      else if (c.source === "field") check(JSON.stringify(c.ids) === JSON.stringify((entryOf(s) || {}).shown_by.filter(k => R.skillById[k] && MM.CARRIER_KINDS.has(R.skillById[k].kind))), `${id}/${x.id}: the field fallback is not the role's entry's list`);
       if (tier === 0 && s.kind === "behaviour") check(c.ids.length > 0, `${id}/${x.id}: a behaviour most postings ask for has no carrier at all`);
-      check(c.field.length === 0 || !s.fields || !s.fields[R.role.group] || c.field.every(k => s.fields[R.role.group].shown_by.includes(k)), `${id}/${x.id}: the field entry read is not the role's group's`);
+      check(c.field.length === 0 || !entryOf(s) || c.field.every(k => entryOf(s).shown_by.includes(k)), `${id}/${x.id}: the field entry read is not the role's entry's`);
+      if (s.fields && s.fields[`role:${R.role.family}`]) counts.override++;
     } }));
   }
-  console.log(`carriers: ${counts.roles} roles, ${counts.rows} behaviour or practice rows; picked on the role's postings ${counts.role}, the field's list standing in ${counts.field}, the two most asked under the floor ${counts.any}, none ${counts.none}`);
+  console.log(`carriers: ${counts.roles} roles, ${counts.rows} behaviour or practice rows; picked on the role's postings ${counts.role}, the field's list standing in ${counts.field}, the two most asked under the floor ${counts.any}, none ${counts.none}; rows with a role override ${counts.override}`);
 }
 
 if (!only || only === "grid") {

@@ -280,10 +280,10 @@ The stratified taxonomy (`PLAN.md`, "A stratified taxonomy") adds a `kind` to ev
 
 | part | what it guards |
 |---|---|
-| shape | `pipeline.tax.validate`: every skill has a kind from `KINDS`; every skill has an evidence entry with a known form, list fields and carriers that are skills of a carrier kind (method, practice, technical, knowledge), not itself; a behaviour names three or more carriers; a tool or credential is `named`; every field entry names one of the 11 fields, two to six carriers, a reading under 25 words and a resume line under 30 words with a number. |
+| shape | `pipeline.tax.validate`: every skill has a kind from `KINDS`; every skill has an evidence entry with a known form, list fields and carriers that are skills of a carrier kind (method, practice, technical, knowledge), not itself; a behaviour names three or more carriers; a tool or credential is `named`; every field entry names one of the 11 fields or a role (`role:<id>`, a role override: PLAN.md v16 step 6), two to six carriers, a reading under 25 words and a resume line under 30 words with a number. |
 | coverage | A skill that at least four fields ask for (mean share over the field's roles at least 25%) has an entry for every field that asks for it; no entry exists for a field that asks for the skill in under 10% of its postings; tools and credentials have none. |
-| grounding | Each carrier a field entry names is asked for together with the skill in at least 15% of the field's US postings that ask for the skill, company-balanced. The baseline prints, beside each entry's carriers, the five carriers the postings rank highest (share times log-lift), so a reader can see where the hand and the data differ. |
-| carriers | Each carrier a behaviour's evidence names is asked for with the behaviour in at least 10% of some field's postings that ask for it. A carrier is field-specific (pitch books carry communication in banking), so this is the maximum over fields. |
+| grounding | Each carrier a field entry names is asked for together with the skill in at least 15% of the field's US postings that ask for the skill, company-balanced; a role override is checked the same way on the role's own postings. The baseline prints, beside each entry's carriers, the five carriers the postings rank highest (share times log-lift), so a reader can see where the hand and the data differ. |
+| carriers | Each carrier a behaviour's or a practice's evidence names is asked for with it in at least 10% of some field's postings that ask for it. A carrier is field-specific (pitch books carry communication in banking), so this is the maximum over fields. |
 | published | `web/data/graph.json`, `graph_mba.json` and `taxonomy*.json` carry what the source files say: every skill node has the taxonomy's kind and its evidence entry under `how_shown`, the field entries appear as `fields` with the postings' side (`n`, `with`, `subs`) beside the text, and `meta.kinds` is the current table. A build older than the files fails here. |
 
 **What these evals do not show.** The carriers are checked against postings, which say what employers ask for together,
@@ -317,6 +317,25 @@ explore or a game), reading the pure table `Stage` in `web/app.js` that the scre
 read it. In CI. What it does not show: whether a student of each kind gets what they came for; that needs sessions
 (`pipeline/funnel.py`) or resumes per kind.
 
+## Lines judged
+
+The sentences the screens show about a skill are built from the data by `web/evidence_text.js` (PLAN.md v14, decision
+2); no reader had judged them. `node evals/lines_judged.mjs` draws 50 sentences per release over both role sets, a
+third each of field lines (`pipeline/fields.json`), templates (`pipeline/evidence.json`) and gap sentences, one from each
+kind-by-field cell in a seeded order, and asks a model reader of a different family from the depth's drafter
+(`anthropic/claude-haiku-5.5` through OpenRouter; `openai/gpt-6.1-sol` drafted the depth) three yes/no questions per
+sentence: names an artefact or a counterpart; carries a number where its kind asks for one ("na" when the sentence names
+the measure or points to other work); in the field's words rather than another field's. Answers are cached under
+`data/experiments/lines_judged/` (a rerun sends only what is missing); `--dry-run` states the sample and the cost and
+sends nothing; `--n`, `--seed` and `--model` change the sample and the reader. The report is
+[lines_judged.md](lines_judged.md), failures listed by skill and field so `fields.json` or `evidence.json` can be fixed;
+the runner exits 1 while a judged sentence fails. The gate (PLAN.md v16, decision 10): it runs before any later PR
+changes a sentence template or shows a new generated line. Needs `OPENROUTER_API_KEY` in `.env`; not in CI.
+
+**What it does not show.** One reader, once, on 50 sentences; whether a student reads a line as the reader does is not
+measured, and a sentence the reader accepts can still be an odd line for a role whose field reading does not fit it
+(the role overrides of v16 step 6 are the remedy the grounding check points to).
+
 ## Evals to build
 
 The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a
@@ -339,7 +358,4 @@ this order:
    without bands. The behaviours enter the score only when neither falls; otherwise they stay shown with no weight. The
    bands files already record the setting under `scoring.behaviours`; the 48 files on the build machine gave no fall
    (PLAN.md v14, "Decisions settled on the way").
-7. **A reader's judgment of the generated lines.** 50 fit-page sentences per release (field lines, templates from the
-   evidence entries, gap sentences), judged by a model reader that did not write them: names an artefact or a
-   counterpart, carries a number where the kind asks for one, in the field's words. The field lines of
-   `pipeline/fields.json` have never been judged; this is the first eval that reads them as a student would.
+7. ~~A reader's judgment of the generated lines~~: built as `evals/lines_judged.mjs` (v16 step 6, "Lines judged" above).
