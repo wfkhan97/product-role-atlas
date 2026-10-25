@@ -259,6 +259,29 @@ The expected numbers are today's data. After a data refresh `skill_path.mjs` pri
 the passages moves a simulated reader off its band, `game_spot_scoring.mjs` fails: retune `RANKS` in
 `web/games/spot-the-real-ask.js` and the rank tables in `games/spot-the-real-ask/README.md` together.
 
+## Taxonomy evals
+
+The stratified taxonomy (`PLAN.md`, "A stratified taxonomy") adds a `kind` to every skill, an evidence entry per skill
+(`pipeline/evidence.json`) and a field entry per skill and field for the skills most fields ask for
+(`pipeline/fields.json`). The files are hand-written; the eval checks them against the postings.
+
+```bash
+.venv/bin/python evals/run_taxonomy.py              # all parts; exit 1 when a check fails
+.venv/bin/python evals/run_taxonomy.py --baseline   # also rewrite taxonomy_baseline.md (commit it with the change)
+```
+
+| part | what it guards |
+|---|---|
+| shape | `pipeline.tax.validate`: every skill has a kind from `KINDS`; every skill has an evidence entry with a known form, list fields and carriers that are skills of a carrier kind (method, practice, technical, knowledge), not itself; a behaviour names three or more carriers; a tool or credential is `named`; every field entry names one of the 11 fields, two to six carriers, a reading under 25 words and a resume line under 30 words with a number. |
+| coverage | A skill that at least four fields ask for (mean share over the field's roles at least 25%) has an entry for every field that asks for it; no entry exists for a field that asks for the skill in under 10% of its postings; tools and credentials have none. |
+| grounding | Each carrier a field entry names is asked for together with the skill in at least 15% of the field's US postings that ask for the skill, company-balanced. The baseline prints, beside each entry's carriers, the five carriers the postings rank highest (share times log-lift), so a reader can see where the hand and the data differ. |
+| carriers | Each carrier a behaviour's evidence names is asked for with the behaviour in at least 10% of some field's postings that ask for it. A carrier is field-specific (pitch books carry communication in banking), so this is the maximum over fields. |
+| published | `web/data/graph.json`, `graph_mba.json` and `taxonomy*.json` carry what the source files say: every skill node has the taxonomy's kind and its evidence entry under `how_shown`, the field entries appear as `fields` with the postings' side (`n`, `with`, `subs`) beside the text, and `meta.kinds` is the current table. A build older than the files fails here. |
+
+**What these evals do not show.** The carriers are checked against postings, which say what employers ask for together,
+not what a resume reader accepts as evidence. The readings and resume lines are editorial; no reader has judged them.
+The thresholds were set once on the data of 2026-10-24.
+
 ## Evals to build
 
 - The stage answer of About you (`you.stage`: looking, targeting, curious) decides what the role page's rail leads with; nothing checks that the three readings get what they came for. A sample of resumes per kind with the expected first action would.
@@ -278,3 +301,21 @@ this order:
    with a new seed, to measure how many supported claims the first pass let through wrongly (PLAN.md, "Skill depth").
 4. **A fresh sample for titles, entry marks and countries**, labelled and run once without fixing rules on it. For the entry mark also: a second reader, and a sample of marked postings judged with their full text (the precision in `NOTES.md` was read by the author of the rules).
 5. **A second reader for the golden postings**, to measure agreement between labellers.
+6. **Adaptive taxonomy evals**, one part per step of `PLAN.md`, "The taxonomy adapted to each role":
+   `node evals/adaptive.mjs` with `--only text` (every fit-page sentence for every role and row kind is built from the
+   data, under 40 words, with no empty slot, and a behaviour's gap sentence names a carrier the role asks for),
+   `--only carriers` (the carriers a role shows or credits for a behaviour or practice pass the 15% co-occurrence rule on
+   the role's own postings or fall back to the field entry, with the fallback count printed), `--only grid` (no
+   behaviour in an area panel; the first panel holds a method or a defining skill) and `--only course` (the course
+   reader never shows a behaviour or a practice as taught). Beside it: `must_show_through` (behaviour: carrier) in the
+   sample expectations of `evals/resumes/`, and the matcher tests that a behaviour row earns its best carrier's credit, a
+   named-only behaviour earns none, and the score still never falls when evidence is added. Each step's PR adds its
+   part; the runner joins CI from step 2.
+7. **A recalibration gate.** `calibrate.mjs` run with the behaviours in the score, set beside the current report: the two
+   rank statistics (a same-role score above an other-field score, above an adjacent-role score) and the groups without
+   bands. The behaviours enter the score only when neither falls; otherwise they are shown with no weight. The bands
+   files record the setting under `scoring`, as they record `distinct`.
+8. **A reader's judgment of the generated lines.** 50 fit-page sentences per release (field lines, templates from the
+   evidence entries, gap sentences), judged by a model reader that did not write them: names an artefact or a
+   counterpart, carries a number where the kind asks for one, in the field's words. The field lines of
+   `pipeline/fields.json` have never been judged; this is the first eval that reads them as a student would.
