@@ -25,24 +25,24 @@ require(path.join(web, "skillmap.js"));
 const { logic: L } = require(path.join(web, "games", "skill-path.js"));
 
 const EXPECT = {
-  board: { skills: 240, links: 938, pieces: 1, minLinks: 2 },
+  board: { skills: 239, links: 927, pieces: 1, minLinks: 2 },
   pmArrivals: ["Roadmapping", "Product strategy", "Systems & architecture"],
   marketing: {
     start: "Marketing campaigns", par: 3, budget: 5, shortGood: 2,
     route: ["Marketing campaigns", "Consumer products & B2C", "Product discovery & validation", "Roadmapping"],
     played: [
       ["Advertising & media", ["Advertising & media", "Marketing measurement & attribution", "Creative development & agency management", "Consumer products & B2C"]],
-      ["Consumer products & B2C", ["Marketing measurement & attribution", "Digital & performance marketing", "Consumer products & B2C", "Mobile platforms"]],
-      ["Product discovery & validation", ["Content & social media marketing", "E-commerce, retail & marketplaces", "Product discovery & validation", "Mobile platforms"]],
+      ["Consumer products & B2C", ["Marketing measurement & attribution", "Digital & performance marketing", "Creative development & agency management", "Consumer products & B2C"]],
+      ["Product discovery & validation", ["Content & social media marketing", "E-commerce, retail & marketplaces", "Product discovery & validation", "Growth, funnels & retention"]],
       ["Roadmapping", ["Roadmapping ★", "Product strategy ★", "Prioritization & trade-offs", "Customer obsession / user empathy"]],
     ],
     result: { arrived: true, used: 4, hops: 4, good: 2 },
   },
   supply: {
-    start: "Vendor, budget & contract management", par: 4, short: 2, good: 5,
-    biggest: ["Risk & dependency management", "Program & project management", "Energy, industrial & manufacturing", "Process design & operational rigor", "Metrics & KPIs", "Customer obsession / user empathy"],
+    start: "Vendor, budget & contract management", par: 4, short: 2, good: 3,
+    biggest: ["Risk & dependency management", "Program & project management", "Financial modeling & analysis", "Payments, fintech & banking", "Regulated industries & compliance", "Security & privacy"],
   },
-  pool: { field: 454, role: 2113 },
+  pool: { field: 465, role: 2208 },
   roles: 54,
 };
 
