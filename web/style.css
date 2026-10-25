@@ -385,12 +385,16 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .sm-title { margin: 0 0 4px; font-size: var(--text-lg); color: var(--heading-foreground); }
 .sm-h { font-size: var(--text-sm); color: var(--subtle-foreground); margin: 14px 0 4px; }
 
-/* ---------- first visit: the games on top as a grid by the fact they teach, what jobs ask for below ---------- */
+/* ---------- first visit: the games on top as one carousel row, what jobs ask for below ---------- */
 .page.start { display: grid; gap: 28px; }
 .start-games { min-width: 0; }
 .start-games h1 { font-size: var(--text-3xl); }
 .ggroup { font-size: var(--text-sm); color: var(--subtle-foreground); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: var(--tracking-label); font-weight: var(--weight-regular); margin: 22px 0 8px; }
 .gcards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.gcards.carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin-top: 16px; padding: 2px 2px 10px; scrollbar-width: thin; }
+.gcards.carousel .gcard { flex: 0 0 292px; scroll-snap-align: start; }
+.gcard .gg { font-size: var(--text-sm); color: var(--subtle-foreground); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: var(--tracking-label); margin-bottom: 8px; }
+.gcard.rec .gg { padding-right: 84px; }
 .gcard { position: relative; display: flex; flex-direction: column; gap: 3px; color: inherit; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: 14px 16px 14px; min-height: 184px; }
 .gcard:hover { border-color: var(--input); }
 .gcard.rec { border-color: var(--primary); }

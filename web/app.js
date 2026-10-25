@@ -149,10 +149,11 @@
   window.addEventListener("hashchange", route);
 
   // ---------- 1. first visit ----------
-  // the top: the games as a grid of cards grouped by the fact they teach (PLAN.md v12, decision 7; the list is data:
-  // web/data/games.json), one card marked "Start here", each with a line drawing of its mechanic, a verb line, an
-  // outcome line naming the role it opens on, and a meta line (rounds · minutes · the player's state);
-  // the bottom: what the site does today, see what jobs ask for and how you fit
+  // the top: the games as one carousel row of cards (owner's decision 2026-10-25: the grid by group stacked six
+  // cards into a page-long list and pushed "See what jobs ask for" below the fold), in the order of the facts they
+  // teach, each card naming its fact (the list is data: web/data/games.json), one card marked "Start here", each with a
+  // line drawing of its mechanic, a verb line, an outcome line naming the role it opens on, and a meta line (rounds ·
+  // minutes · the player's state); the bottom: what the site does today, see what jobs ask for and how you fit
   let gamesP = null;
   const games = () => gamesP ||= Atlas.fetchJson("data/games.json").catch(() => []);
   const GROUPS = [["asks", "What a role asks for"], ["read", "How postings read"], ["senior", "What senior means"], ["jobs", "Where the jobs are"], ["links", "How skills link"]];
@@ -185,20 +186,21 @@
     const classesCard = window.ClassScreens ? await ClassScreens.startCard().catch(() => "") : "";
     const roleId = window.GameShell ? window.GameShell.pickDefault(ix, state.you, null) : null, role = roleId && ix.roles[roleId] ? ix.roles[roleId] : null;
     const nRoles = Object.keys(ix.roles).length, nFields = ix.groups.length;
+    const groupLabel = Object.fromEntries(GROUPS);
     const card = gm => {
       const live = gm.status === "live", st = live ? gameState(gm.slug, roleId) : null;
       const meta = [gm.rounds, gm.minutes ? `${gm.minutes} min` : null, live ? (st || "not played") : "coming soon"].filter(Boolean);
-      return `<a class="gcard${gm.start ? " rec" : ""}${live ? "" : " soon"}" href="#/play/${esc(gm.slug)}${role && live ? `?role=${encodeURIComponent(roleId)}` : ""}">${gm.start ? '<span class="tag">Start here</span>' : ""}${drawing(gm.slug)}
+      return `<a class="gcard${gm.start ? " rec" : ""}${live ? "" : " soon"}" href="#/play/${esc(gm.slug)}${role && live ? `?role=${encodeURIComponent(roleId)}` : ""}">${gm.start ? '<span class="tag">Start here</span>' : ""}<span class="gg">${esc(groupLabel[gm.group] || "")}</span>${drawing(gm.slug)}
         <span class="gt">${esc(gm.title)}</span><span class="gv">${esc(gm.verb || gm.tagline)}</span><span class="go">${esc((gm.outcome || "").replace("{role}", role ? role.label : "your role"))}</span><span class="gm">${meta.map(esc).join(" · ")}</span></a>`;
     };
-    const groups = GROUPS.map(([id, label]) => ({ id, label, cards: list.filter(g => g.group === id) })).filter(g => g.cards.length);
-    const rest = list.filter(g => !GROUPS.some(([id]) => id === g.group));
+    // one row, in the order of the facts they teach; a game outside the known groups goes last
+    const order = gm => { const i = GROUPS.findIndex(([id]) => id === gm.group); return i < 0 ? GROUPS.length : i; };
+    const ordered = list.slice().sort((a, b) => order(a) - order(b));
     page(`<section class="start-games">
         <p class="eyebrow">Practise on live postings</p>
         <h1>Learn what your target roles ask for</h1>
         <p class="lead">Short games built on live job postings for ${nRoles} roles in ${nFields} fields. Every round ends in a real role you can open${role ? `; today's cards open on ${esc(role.label)}` : ""}.</p>
-        ${groups.map(g => `<h2 class="ggroup">${esc(g.label)}</h2><div class="gcards">${g.cards.map(card).join("")}</div>`).join("")}
-        ${rest.length ? `<div class="gcards">${rest.map(card).join("")}</div>` : ""}
+        <div class="gcards carousel" role="list" aria-label="Games">${ordered.map(card).join("")}</div>
       </section>
       <section class="start-fit">
         <h2>See what jobs ask for, and how you fit</h2>
