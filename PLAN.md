@@ -239,13 +239,17 @@ Owner's decisions (2026-10-20), all the audit's recommendations:
    the browser.
 5. **Entry points.** A quiet "Practise" link in the role screen's action row opens a round on that role;
    "Practise your gaps" on the fit page builds a Know-the-role round from the gap skills. The hub stays as the
-   overview, as a grid (see 7).
+   overview (see 7).
 6. **Skill path**: card game (1A) plus the route planner tool (1C).
 7. **The first screen** keeps the games on top, as a grid of all cards grouped by the fact they teach (what a role
    asks for · how postings read · what senior means · where the jobs are), one card marked "Start here", each card
    with a line drawing of its mechanic, a verb line, an outcome line naming the role it will open on, and a meta
    line (rounds · minutes · the player's state). The carousel goes. Section B (tell us about you / explore) keeps
    its place below.
+   *Revised 2026-10-25 (owner, #89): the grid by group laid one or two cards per row under five headings, so six cards
+   ran the length of the page and pushed "See what jobs ask for" below the fold. The cards are one horizontally
+   scrolling carousel row, in the order of the facts they teach, each card naming its fact as an eyebrow; nothing
+   else on a card changed.*
 
 Conventions for every game after this pass (the audit's G1 to G10):
 
@@ -591,117 +595,59 @@ and the postings; no screen holds a hand-written line about a skill. The logic s
 run the code the app runs. One eval runner, `node evals/adaptive.mjs [--only text|carriers|grid|course]`, exits 1 on a
 rule violation and is in CI from step 2; each step adds its part (`evals/README.md`, "Evals to build").
 
-Build order, one branch and one PR each, each cut from the one before (as the games' second pass), the first from the
-taxonomy branch (PR #76) until that lands. Each step keeps `node --test 'tests/web/*.test.mjs'`, `node evals/run.mjs`,
-`evals/run_pipeline.py --only matcher,js` and `evals/run_taxonomy.py` green, and adds what its line says:
+Built (2026-10-25, PRs #84 to #88, one branch per step, each cut from the one before; step 6 not started). What
+landed, against the decisions above:
 
-1. `feat/adaptive-1-matcher` (decision 1): behaviour rows, carrier credit, the `behaviours` option, `scoring` in both
-   bands files, `evals/calibrate.mjs` rerun for both sets. Adds to `tests/web/match.test.mjs`: a behaviour row earns its
-   best carrier's credit; a named-only behaviour earns 0; the 200-resume monotonicity run with the behaviours in; a
-   behaviour is never a `gap` while a carrier is evidenced. `evals/run.mjs --baseline` with `must_show_through`
-   (behaviour: carrier) in the six expectation files; `evals/calibration*.md` and `web/data/bands*.json` regenerated.
-2. `feat/adaptive-2-fit-text` (decision 2): `web/evidence_text.js`, read by the fit page. Adds `evals/adaptive.mjs --only
-   text`: for every role of both sets and every row kind the builder returns a sentence under 40 words with no empty
-   slot, the field's line where an entry exists, the product entry for a product role, and a behaviour's gap sentence
-   names a carrier the role's postings ask for; the builder's own tests in `tests/web/`.
-3. `feat/adaptive-3-carriers-card` (decisions 3 and 6): `Atlas.carriers(R, slice, id)`, the card's first fold and Build
-   it tab. Adds `--only carriers`: for every role and every behaviour or practice in its grid the carriers pass the 15%
-   rule or fall back, the fallback count is printed, and a top-row behaviour with no carrier at all fails (never, by
-   today's measurement); the field entry read is the role's group's.
-4. `feat/adaptive-4-grid` (decision 4): `areas()`, `roleLead`, the course screen's flat list. Adds `--only grid`: over
-   all 56 roles no behaviour sits in an area panel, the last panel exists exactly when a behaviour is in the grid, and
-   the first panel holds a method or a defining skill; `tests/web/atlas.test.mjs` gains the three `areas` cases.
-5. `feat/adaptive-5-course` (decision 5): `readCourse` returns `found` by kind. Adds `--only course`: the `course_list`
-   sample against every role shows no behaviour or practice as taught, and the split sums to the found set.
-6. `chore/adaptive-6-signals`: `signals` leave the build and the graph files once a line per skill exists in
-   `evidence.json` (open decision 6), not before.
+1. **Matcher** (decision 1, #84). A behaviour is a row in the tier its share sets, with `kind` on the row; its carriers
+   come from `Matcher.pickCarriers` (the union of `how_shown.shown_by` and the role's field entry, kept at the 15% floor
+   on the postings in hand, four at most; with fewer than two, the field's list; with no entry, the two most asked;
+   a lone carrier marked as a fallback) and its status is `through` with the best carrier's credit, `thin` when only
+   named (no credit: decision 2 as proposed), `presumed` or `gap`. `createMatcher({ behaviours: "show" | "score" })`;
+   both bands files record `"show"` (weight 0) under `scoring` and the interface creates the matcher as they say. One
+   deviation from "every score is what it was": data-driven decision making scored as a method before v13 made it a
+   behaviour, so a resume whose own analysis lines scored it loses that credit (the grad-student sample: 45% to 43% at
+   entry level; its band moved to 0.42 with the reason in its file). The fit page and the rail show a `through` row as
+   shown, marked ⤷ with its carrier.
+2. **Fit text** (decision 2, #85). `web/evidence_text.js` builds every sentence about a skill from the data: `line`
+   (the field entry's line, else the product `signals`, else a template from `how_shown` by the kind's form, slots
+   named, no number invented), `reads`, `gap` by kind, `thin` (the measures to add), `summary` (one sentence for a skill
+   with no field entry) and `sayIt`. The rail's gap rows, "Say it in this field's words", "Shown, but without
+   specifics" and the event screen's "say it like" read it. Over 56 roles and 3,138 rows: 1,046 lines from a field
+   entry, 1,102 from `signals`, 990 from a template. One role and behaviour has no carrier on any posting (VC
+   associate, product sense) and gets the kind's rule with the skill's artefacts.
+3. **Card and carriers** (decisions 3 and 6, #86). `Atlas.carriers(R, slice, id)` is the matcher's rule on the view's
+   postings, so a level filter re-picks them with the asks. The card's eyebrow carries the kind's label beside the
+   area ("How you work · Leadership & communication"); the first fold says what the skill means in the role's field
+   ("In finance: monthly reporting packages, variance commentary and business cases that leaders read to decide on
+   spend") or one sentence from the evidence file, and names a behaviour's or practice's carriers as skill tags; Build
+   it opens with "How to show it". `signals` left the card. Over 54 roles and 1,127 behaviour or practice rows: 754
+   picked on the role's postings, 21 the field's list, 41 the two most asked under the floor, 311 with no carrier
+   (practices whose evidence entry names none); no top-row behaviour without one. No role override written (decision
+   4 as proposed).
+4. **Grid** (decision 4, #87; open decision 3 as proposed). `areas()` moves every behaviour row into one last panel,
+   "How you work", collapsed by default, whose summary is built from the view's shares and whose rows name their
+   carriers; practices stay in their areas; `roleLead` names no behaviour; the course screen's flat list inherits it.
+   All 54 roles with postings have the panel (485 rows); the first panel leads with a skill of a carrier kind or a
+   defining one in every role (an analyst's is Technical fluency, a business developer's is Leadership &
+   communication with its practices). The generic skills are 9 on the 2026-10-25 data: 6 behaviours, 2 practices and
+   process design, so the eval asserts the majority and prints the composition, not the 6 + 2 of 2026-10-14.
+5. **Course reader** (decision 5 as proposed, #88). `readCourse` returns the found set split by kind
+   (`Atlas.courseSplit`: `teaches`, `named`, `other`); the screen paints and counts only what a course can show, lists
+   the behaviours and practices the text names apart under "Named, but a course cannot show these", and "It does not
+   cover" lists only the craft. The course sample names 57 skills: 48 a course can show, 9 named apart.
 
-The UX worktree (`about-you-explore-roles-ux`) owns the start screen, About you, Explore and the field page. Steps 2 to 5
-touch `fitScreen`, `skillCard`, `areaPanel`, `roleLead` and `courseScreen` in `web/app.js` and `areas` and `readCourse`
-in `web/atlas.js`, and none of the UX branch's screens; the UX branch lands first, or each step rebases on it before its
-PR opens. The game evals are untouched: the games read shares, not kinds.
+Evals: `node evals/adaptive.mjs` (parts `text`, `carriers`, `grid`, `course`) in CI; `must_show_through` in seven
+expectation files; six behaviour cases in `tests/web/match.test.mjs`, four `areas` and `courseSplit` cases in
+`tests/web/atlas.test.mjs`, the builder's own tests. Every step kept the web tests, the matcher evals and their
+baseline, `run_pipeline.py --only matcher` and `--only js`, `run_taxonomy.py` and the five game evals green.
 
-Built (step 1, `feat/adaptive-1-matcher`, 2026-10-25). A behaviour is a row in the tier its share sets, with `kind`
-on the row; its carriers are picked by `carriersFor` in `web/match.js` (the union of `how_shown.shown_by` and the
-role's field entry, re-ranked on the role's postings at the 15% floor, four at most, the field's list as fallback)
-and its status is `through` with the best carrier's credit, `thin` when only named, `presumed` or `gap`. The
-behaviours' weight is `createMatcher({ behaviours })`: `"show"` (weight 0) is what both bands files record and the
-interface creates. One deviation from "every score is what it was": data-driven decision making was scored as a method
-before v13 made it a behaviour, so a resume whose own analysis lines scored it loses that credit (the grad-student
-sample: 45% to 43% at entry level; its band moved to 0.42 with the reason in its file). The fit page and the rail show
-a `through` row as shown, marked ⤷ with its carrier. Open decision 1 measured: the 304-resume set the bands were
-calibrated on is not on the build machine (48 of its files are), so `evals/calibrate.mjs` ran in try mode on those 48
-for both settings and wrote nothing: MBA same-role above other-field 78% with `show`, 80% with `score`; above
-adjacent-role 64% and 65%; own role on top 13 and 11 of 48. `score` does not fall but the sample is a sixth of the
-calibration's, so the setting stays `show` until the full set is rerun (`BEHAVIOURS=score node evals/calibrate.mjs
---roles mba`). Open decision 2 taken as proposed: a named behaviour earns nothing. The product calibration cannot be
-measured here (one same-role file).
-
-Built (step 2, `feat/adaptive-2-fit-text`, 2026-10-25). `web/evidence_text.js` builds every sentence about a skill
-from the data: `line` (the field entry's line, else the product `signals`, else a template from `how_shown` by the
-kind's form, slots named, no number invented), `reads`, `gap` (by kind: a method names its artefact and what changed;
-a practice who, how many and what you were trusted with; a behaviour "never a line of its own" and the two carriers the
-role asks for that the resume does not show, or the one line that already shows it; technical what you built; knowledge
-the industry in a line of work; a tool inside a line of work), `thin` (the measures to add) and `sayIt`. The rail's gap
-rows, the fit page's "Say it in this field's words" and "Shown, but without specifics" and the event screen's "say it
-like" read it; the skill card keeps `signals` until step 3. The carrier pick gained a last fallback: with no field entry
-and fewer than two carriers above the floor, the two carriers the role's postings ask for most, so a behaviour always
-names something (one role and behaviour has none at all: VC associate, product sense). `evals/adaptive.mjs --only text`
-over 56 roles and 3,138 rows: 1,046 lines from a field entry, 1,102 from `signals`, 990 from a template; in CI.
-
-Built (step 3, `feat/adaptive-3-carriers-card`, 2026-10-25). One carrier rule, `Matcher.pickCarriers`, serves the
-matcher and `Atlas.carriers(R, slice, id)`: picked on the postings of the view (so a level filter re-picks them), the
-field entry's list standing in, else the two most asked under the floor, and a lone carrier marked as a fallback. The
-skill card's eyebrow carries the kind's label beside the area ("How you work · Leadership & communication"); the first
-fold says what the skill means here ("In finance: monthly reporting packages, variance commentary and business cases
-that leaders read to decide on spend") or, with no field entry, one sentence from the evidence file ("Shown by annual
-budget, rolling forecast, long-range plan with business partners, FP&A, leadership; measured by budget size, forecast
-accuracy"), and for a behaviour or a practice names the carriers as skill tags; the Build it tab opens with "How to
-show it" (the kind's rule and the line) before the build steps; `signals` left the card. `evals/adaptive.mjs --only
-carriers` over 54 roles and 1,127 behaviour or practice rows: 754 picked on the role's postings, 21 the field's list,
-41 the two most asked under the floor, 311 with no carrier (practices whose evidence entry names none); no top-row
-behaviour without one. Open decision 4 (role overrides) left as proposed: none yet.
-
-Built (step 4, `feat/adaptive-4-grid`, 2026-10-25). `areas()` moves every behaviour row out of its area into one last
-panel, "How you work", collapsed by default (the first area to open is never it), whose summary line is built from the
-view's shares ("Ways of working, shown through the work above: written & verbal communication 84%, collaboration &
-teamwork 72%, ownership & bias for action 68%, …"); each row names the carriers the role's postings pick ("through
-Business cases & ROI, Financial & management reporting"). Practices stay in their areas; the area accordion stays as
-chosen (open decision 3 taken as proposed). `roleLead` names no behaviour among "lead the asks". The course screen's
-flat list inherits the panel. Measured on the 2026-10-25 data: all 54 roles with postings have the panel (485 rows); the
-first panel leads with a craft or defining skill in every role, read as a skill of a carrier kind (an analyst's first
-panel is Technical fluency, a business developer's is Leadership & communication with its practices). The generic
-skills are 9: 6 behaviours, 2 practices and 1 method (process design clears the bar after the refresh), so the eval
-checks that behaviours and practices are the majority and prints the composition instead of asserting the 6 + 2 of
-2026-10-14.
-
-Built (step 5, `feat/adaptive-5-course`, 2026-10-25). `readCourse` returns the found set split by kind
-(`Atlas.courseSplit`): `teaches` (method, technical, knowledge, tool), `named` (behaviour, practice), `other`
-(credential). The course screen paints and counts only what a course can show, lists the behaviours and practices the
-text names apart under "Named, but a course cannot show these" with the kind's rule and one sentence (a course shows
-craft; how you work is shown through work, on the fit page), and "It does not cover" lists only the craft among the
-most-asked skills. A course saved before the split is split on read. Open decision 5 taken as proposed: a practice is
-not shown by a course. `evals/adaptive.mjs --only course`: the course sample names 57 skills, 48 a course can show, 9
-behaviours and practices listed apart, 0 credentials; over 54 roles 914 taught rows and 213 named rows, none both.
-
-Steps 1 to 5 are built; step 6 (retiring `signals`) waits on open decision 6. Every step kept `node --test`,
-`evals/run.mjs`, `run_pipeline.py --only matcher` and `--only js`, `run_taxonomy.py` and the five game evals green;
-`evals/adaptive.mjs` runs all four parts in CI.
-
-Open decisions for the owner:
-
-1. **Behaviours in the score.** `score` (through carriers, damped by lift) or `show` (rows and status, weight 0),
-   decided on the calibration of step 1. For the product set `score` needs `distinct` on, which `calibrate.mjs` measures
-   and leaves off (`PRODUCT_ON`): with it on, the grad-student sample falls just below "in range" at entry level.
-2. **A behaviour named in a skills list.** No credit (proposed: the kind's rule), or the present half credit as "thin".
-3. **The grid.** Behaviours pulled into one last panel with the area accordion kept (proposed), or panels by kind with
-   the area as the label inside the row, which reverses R3.
-4. **Role overrides in `fields.json`** for the four measured roles, or the field's reading above the role's own carriers.
-5. **Practices in the course reader.** Not shown by a course (proposed): a capstone with a client is a practice, but a
-   syllabus cannot be told from a lecture course by its text.
-6. **A hand-written line per skill in `evidence.json`** (278 lines, editorial, to be judged by a reader as the field
-   lines have not been), so `signals` can go; or `signals` kept as the fallback for the 75 product skills without a
-   field entry.
+Decisions settled on the way: open decision 1 (behaviours in the score) measured, not switched. The 304-resume set the
+bands were calibrated on is not on the build machine (48 of its files are), so `evals/calibrate.mjs` ran in try mode
+on those 48 for both settings and wrote nothing: MBA same-role above other-field 78% with `show`, 80% with `score`;
+above adjacent-role 64% and 65%; own role on top 13 and 11 of 48. `score` does not fall, but the sample is a sixth of
+the calibration's, so the setting stays `show` until the full set is rerun (`BEHAVIOURS=score node evals/calibrate.mjs
+--roles mba`); the product set cannot be measured here (one same-role file). Decisions 2 to 5 taken as proposed. Still
+open, under Later: decision 6 (a hand-written line per skill so `signals` can retire; step 6) and the `score` switch.
 
 What this is not: the readings and the lines are still editorial and no reader has judged them, and the carriers are
 grounded in postings, not in resumes. The eval that would close that gap is listed in `evals/README.md`, "Evals to
@@ -749,16 +695,28 @@ leads with. The matcher, the bands and the taxonomy did not change.
   these roles require, already on your resume. A lane is as tall as its share of the dots. Hovering a role lights its
   skills; a dot opens the skill card. The multiplier ("how much more this field asks than others") and the quadrant
   names of the first mockups were dropped as confusing.
-- **What this reads from the stratified taxonomy (v13 and v14, landed the same day; wiring them is the next step):** `kind` on every skill (the lanes), `fields[<field>].reads_as`
+- **What this reads from the stratified taxonomy (v13 and v14):** `kind` on every skill (the lanes), `fields[<field>].reads_as`
   and `line` (the "in marketing, this means" column and the gap rows' example lines, instead of the product-only
-  `signals`), `how_shown` (the gap text by kind).
+  `signals`), `how_shown` (the gap text by kind). Wired on 2026-10-25 by v14's steps 2 to 4: the rail's gap rows and the
+  skill card read `web/evidence_text.js`; the field page's lanes still read the measured fallback until they are moved
+  onto `kind` (Later).
 
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
   closed postings the way the MBA graph does (a `data/` branch).
-- The field chart's lanes with a resume read as two skew lines (the share orders both); a better second axis once the
-  taxonomy branch gives every skill a kind and a field reading.
+- The field chart's lanes with a resume read as two skew lines (the share orders both); a better second axis now that
+  every skill has a kind and the shared skills a field reading (v13, v14); the lanes without a resume can read `kind`
+  instead of the measured fallback.
+- v14 step 6, `chore/adaptive-6-signals`: a hand-written line per skill in `pipeline/evidence.json` (278 lines, to be
+  judged by a reader as the field lines have not been) so the product `signals` can leave the build and the graph
+  files; today 1,102 of 3,138 fit-page lines still come from `signals`. Open decision 6 of v14.
+- Behaviours in the score: rerun `BEHAVIOURS=score node evals/calibrate.mjs --roles mba` (and the product set) on the
+  full 304-resume calibration set; switch both bands files to `"score"` only if neither rank statistic falls and no
+  group loses its bands, moving the six samples' `score_band` in the same commit. Measured on 48 files on 2026-10-25:
+  no fall (v14).
+- `evals/run_depth.py` has 28 failures on `main` since the 2026-10-25 refresh (sub-skill shares outside the 5% to 50%
+  band on the new postings): a `pipeline.depth_publish` rerun on a `data/` branch, with the baseline.
 - Wire the waitlist placeholders ("Help me show this", "Build these skills", "Ways to show your skills") to the real
   journeys and a sign-up.
 - American spelling in the data: a display-time map in `atlas.js` now, or an American rule in `depth_gen` and the
