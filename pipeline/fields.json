@@ -1,0 +1,2300 @@
+{
+ "prioritization": {
+  "consulting_strategy": {
+   "reads_as": "Choosing which analyses and workstreams matter for the answer, and cutting the rest.",
+   "shown_by": [
+    "client_engagement",
+    "synthesis_recommendations",
+    "special_projects",
+    "exec_decks"
+   ],
+   "line": "Cut a 20-analysis workplan to the 6 that decided the answer; delivered a week early with the same recommendation."
+  },
+  "finance": {
+   "reads_as": "Trading off requests against capacity and the calendar: what the team analyses this month.",
+   "shown_by": [
+    "finance_partnering",
+    "capital_allocation",
+    "budgeting_forecasting",
+    "business_case"
+   ],
+   "line": "Ranked 40 capex requests against 3 criteria into a $25M plan approved by the leadership team in one review."
+  },
+  "operations": {
+   "reads_as": "Deciding which improvements, orders and issues the site works first.",
+   "shown_by": [
+    "ops_performance_mgmt",
+    "process_improvement",
+    "program_mgmt",
+    "root_cause_corrective_action"
+   ],
+   "line": "Prioritised 60 improvement ideas into a 12-project plan by impact and effort; 10 delivered in the year."
+  },
+  "product": {
+   "reads_as": "The core trade-off: what the team builds next and what it will not, with reasons.",
+   "shown_by": [
+    "roadmap",
+    "prd",
+    "product_strategy",
+    "discovery"
+   ],
+   "line": "Prioritised a backlog of 200 requests into 4 quarterly themes with a scoring model; said no to 150 with written reasons."
+  },
+  "marketing": {
+   "reads_as": "Choosing channels, campaigns and segments for a fixed budget.",
+   "shown_by": [
+    "gtm",
+    "campaign_management",
+    "performance_marketing",
+    "marketing_analytics"
+   ],
+   "line": "Prioritised 3 of 8 proposed campaigns for a $2M budget on expected pipeline; delivered 120% of target."
+  },
+  "sales": {
+   "reads_as": "Choosing which accounts and deals get the time this quarter.",
+   "shown_by": [
+    "territory_account_planning",
+    "pipeline_forecasting",
+    "key_account_mgmt",
+    "prospecting"
+   ],
+   "line": "Tiered 300 accounts into 3 segments and focused on 40; those 40 produced 70% of bookings."
+  },
+  "risk": {
+   "reads_as": "Risk-based prioritisation: which risks, controls and findings get attention first.",
+   "shown_by": [
+    "erm_framework",
+    "compliance_monitoring",
+    "issue_remediation",
+    "controls_testing"
+   ],
+   "line": "Built a risk-based testing plan covering 150 controls; high-risk controls tested twice a year, low-risk once."
+  },
+  "analytics": {
+   "reads_as": "Triaging requests against impact so the team answers the questions that matter.",
+   "shown_by": [
+    "analytics_requirements",
+    "reporting_adhoc_analysis",
+    "self_service_bi",
+    "dashboards_dataviz"
+   ],
+   "line": "Introduced an intake and scoring process for 100 requests a quarter; 30% deflected to self-service."
+  }
+ },
+ "problem_solving": {
+  "consulting_strategy": {
+   "reads_as": "Hypothesis-driven: framing the question, structuring the analysis and getting to an answer in weeks.",
+   "shown_by": [
+    "hypothesis_driven",
+    "synthesis_recommendations",
+    "client_engagement",
+    "transformation_programs"
+   ],
+   "line": "Structured a margin problem into 4 hypotheses, tested each in 3 weeks and found $12M of addressable cost."
+  },
+  "finance": {
+   "reads_as": "Finding why the numbers moved and what to do about it.",
+   "shown_by": [
+    "variance_analysis",
+    "scenario_modeling",
+    "business_case",
+    "budgeting_forecasting"
+   ],
+   "line": "Traced a $4M unfavourable variance to 2 contract terms within a week and proposed the fix that recovered it."
+  },
+  "banking_investing": {
+   "reads_as": "Getting the deal structure, the model and the diligence questions right under time pressure.",
+   "shown_by": [
+    "valuation",
+    "due_diligence",
+    "deal_structuring",
+    "credit_analysis"
+   ],
+   "line": "Resolved a valuation gap of 15% between buyer and seller with an earn-out structure that closed the deal."
+  },
+  "operations": {
+   "reads_as": "Root cause on the floor: finding why a line, a site or a process misses and fixing it for good.",
+   "shown_by": [
+    "root_cause_corrective_action",
+    "lean_six_sigma",
+    "process_improvement",
+    "ops_performance_mgmt"
+   ],
+   "line": "Led a root-cause analysis on a 6% defect rate; 2 fixes took it to 1.5% within a quarter."
+  },
+  "product": {
+   "reads_as": "Working through an ambiguous problem to the real user need and a testable plan.",
+   "shown_by": [
+    "discovery",
+    "prioritization",
+    "metrics_kpis",
+    "product_strategy"
+   ],
+   "line": "Turned a vague retention mandate into 3 hypotheses, tested each, and moved day-30 retention from 28% to 36%."
+  },
+  "marketing": {
+   "reads_as": "Diagnosing why a funnel, campaign or message underperforms and what to change.",
+   "shown_by": [
+    "marketing_analytics",
+    "growth_loops",
+    "campaign_management",
+    "personas_jtbd"
+   ],
+   "line": "Diagnosed a 20% drop in paid conversion to a landing-page change within 2 days and recovered it the same week."
+  },
+  "sales": {
+   "reads_as": "Diagnosing a buyer's problem and a stalled deal, and finding the path to close.",
+   "shown_by": [
+    "consultative_selling",
+    "pipeline_forecasting",
+    "key_account_mgmt",
+    "territory_account_planning"
+   ],
+   "line": "Revived 6 stalled deals worth $900K by re-scoping to the buyer's budget cycle; 4 closed in the quarter."
+  },
+  "supply_chain": {
+   "reads_as": "Solving supply, cost and quality problems with data and suppliers at the table.",
+   "shown_by": [
+    "root_cause_corrective_action",
+    "supply_risk_continuity",
+    "tco_should_cost",
+    "spend_cost_savings"
+   ],
+   "line": "Resolved a 3-month component shortage by qualifying a second source in 6 weeks; no line stoppage."
+  },
+  "people": {
+   "reads_as": "Working an ambiguous people or org problem to a decision managers can act on.",
+   "shown_by": [
+    "employee_relations",
+    "org_design",
+    "people_analytics",
+    "hr_business_partnering"
+   ],
+   "line": "Analysed attrition in a 500-person unit, found 2 manager spans driving 60% of exits, and fixed the structure in a quarter."
+  },
+  "risk": {
+   "reads_as": "Structuring a risk or finding to its root cause and a control that holds.",
+   "shown_by": [
+    "issue_remediation",
+    "controls_testing",
+    "operational_risk",
+    "erm_framework"
+   ],
+   "line": "Traced 12 repeat findings to one upstream control gap and closed all 12 with a single redesign."
+  },
+  "analytics": {
+   "reads_as": "Turning a vague business question into the right analysis and a decision.",
+   "shown_by": [
+    "synthesis_recommendations",
+    "sql",
+    "statistics",
+    "analytics_requirements"
+   ],
+   "line": "Reframed a 'why is churn up' question into a cohort analysis; found one segment driving 70% of churn."
+  }
+ },
+ "gtm": {
+  "consulting_strategy": {
+   "reads_as": "Market-entry and commercial strategy for clients: where to play and how to win.",
+   "shown_by": [
+    "strategy_development",
+    "market_research",
+    "synthesis_recommendations",
+    "business_case"
+   ],
+   "line": "Built the market-entry strategy for a client into 3 new countries; $50M revenue plan approved by the board."
+  },
+  "finance": {
+   "reads_as": "The revenue plan behind a launch: pricing, volumes and the business case.",
+   "shown_by": [
+    "business_case",
+    "budgeting_forecasting",
+    "finance_partnering",
+    "scenario_modeling"
+   ],
+   "line": "Built the revenue and margin plan for 4 product launches; 3 exceeded year-one plan."
+  },
+  "product": {
+   "reads_as": "Launch strategy: segments, channels, pricing and readiness with marketing and sales.",
+   "shown_by": [
+    "launch",
+    "pricing_packaging",
+    "positioning_messaging",
+    "sales_enablement"
+   ],
+   "line": "Led go-to-market for a new tier across 3 segments; 2,000 paying accounts in the first quarter."
+  },
+  "marketing": {
+   "reads_as": "The core: segment, message, channel and launch plan for every product and campaign.",
+   "shown_by": [
+    "positioning_messaging",
+    "campaign_management",
+    "sales_enablement",
+    "demand_generation"
+   ],
+   "line": "Owned go-to-market for 6 launches in 2 years; the biggest delivered $10M of first-year pipeline."
+  },
+  "sales": {
+   "reads_as": "Territory and segment strategy: which customers, through which channel, with which offer.",
+   "shown_by": [
+    "territory_account_planning",
+    "channel_sales",
+    "partner_gtm",
+    "pipeline_forecasting"
+   ],
+   "line": "Designed the go-to-market for a new mid-market segment: 2 channels, 20 accounts, $3M closed in the first year."
+  },
+  "supply_chain": {
+   "reads_as": "Commercial terms and supplier go-to-market: how a category reaches the business.",
+   "shown_by": [
+    "sourcing_category_strategy",
+    "supplier_contract_negotiation",
+    "supply_market_intel",
+    "supplier_relationship_mgmt"
+   ],
+   "line": "Took a new category strategy to 12 business units with a buying guide and preferred suppliers; 85% compliance in a year."
+  }
+ },
+ "market_research": {
+  "banking_investing": {
+   "reads_as": "Sector and comparables research behind pitches, valuations and investment theses.",
+   "shown_by": [
+    "investment_research",
+    "valuation",
+    "pitch_materials",
+    "due_diligence"
+   ],
+   "line": "Built sector landscapes and comparables for 10 pitches a year; one became a $150M mandate."
+  },
+  "product": {
+   "reads_as": "Competitive and market analysis that shapes the roadmap and positioning.",
+   "shown_by": [
+    "product_strategy",
+    "discovery",
+    "positioning_messaging",
+    "roadmap"
+   ],
+   "line": "Ran competitive teardowns of 8 products and a market sizing; 3 roadmap bets came directly from them."
+  },
+  "marketing": {
+   "reads_as": "Market, competitor and customer research behind segmentation and positioning.",
+   "shown_by": [
+    "positioning_messaging",
+    "brand_strategy",
+    "gtm",
+    "personas_jtbd"
+   ],
+   "line": "Led segmentation research with 2,000 respondents; 3 target segments defined and used in the annual plan."
+  },
+  "sales": {
+   "reads_as": "Territory, account and competitor intelligence that shapes the plan and the pitch.",
+   "shown_by": [
+    "territory_account_planning",
+    "prospecting",
+    "consultative_selling",
+    "key_account_mgmt"
+   ],
+   "line": "Mapped 500 target accounts with competitor and buying-intent research; pipeline doubled in 2 quarters."
+  },
+  "supply_chain": {
+   "reads_as": "Supply-market intelligence: supplier landscapes, cost drivers and price indices.",
+   "shown_by": [
+    "supply_market_intel",
+    "sourcing_category_strategy",
+    "tco_should_cost",
+    "supplier_relationship_mgmt"
+   ],
+   "line": "Produced supply-market analyses for 6 categories; two timed renegotiations saved $3M on commodity price swings."
+  }
+ },
+ "positioning_messaging": {
+  "consulting_strategy": {
+   "reads_as": "The storyline: framing a recommendation so leadership sees the choice the way the team does.",
+   "shown_by": [
+    "exec_decks",
+    "synthesis_recommendations",
+    "strategy_development",
+    "client_engagement"
+   ],
+   "line": "Reframed a cost programme as a growth-funding story for the client's board; approved with a 20% larger budget."
+  },
+  "product": {
+   "reads_as": "How the product is described: the value proposition and the narrative marketing and sales repeat.",
+   "shown_by": [
+    "gtm",
+    "launch",
+    "product_vision",
+    "market_research"
+   ],
+   "line": "Wrote the value proposition and narrative for a relaunch used in 4 channels; demo-to-trial conversion rose 15%."
+  },
+  "marketing": {
+   "reads_as": "The core craft: positioning statements, messaging hierarchies and the words of the brand.",
+   "shown_by": [
+    "brand_strategy",
+    "gtm",
+    "campaign_management",
+    "sales_enablement"
+   ],
+   "line": "Repositioned the brand for a new segment with a messaging hierarchy adopted across 10 campaigns; aided awareness up 12 points."
+  },
+  "sales": {
+   "reads_as": "The pitch: the value story a buyer repeats internally.",
+   "shown_by": [
+    "consultative_selling",
+    "sales_enablement",
+    "key_account_mgmt",
+    "deal_negotiation"
+   ],
+   "line": "Rewrote the pitch narrative for 3 verticals; win rate rose from 20% to 28% over 2 quarters."
+  },
+  "analytics": {
+   "reads_as": "Telling the story in the data: the narrative that carries an insight to a decision.",
+   "shown_by": [
+    "synthesis_recommendations",
+    "dashboards_dataviz",
+    "reporting_adhoc_analysis",
+    "metrics_kpis"
+   ],
+   "line": "Turned a 30-page analysis into a 3-slide narrative; leadership approved the pricing change in one meeting."
+  }
+ },
+ "partnerships": {
+  "finance": {
+   "reads_as": "Banking, investor and strategic partner relationships and their deal terms.",
+   "shown_by": [
+    "investor_relations",
+    "business_case",
+    "capital_allocation",
+    "finance_partnering"
+   ],
+   "line": "Negotiated financing partnerships with 3 banks for a $200M facility and managed the relationships through 2 amendments."
+  },
+  "product": {
+   "reads_as": "Integration and platform partners: the agreements and the shared roadmap.",
+   "shown_by": [
+    "apis",
+    "gtm",
+    "launch",
+    "product_strategy"
+   ],
+   "line": "Signed and launched 5 integration partnerships; partner-sourced sign-ups reached 20% of new users."
+  },
+  "marketing": {
+   "reads_as": "Co-marketing and agency partnerships that extend reach.",
+   "shown_by": [
+    "creative_agency",
+    "campaign_management",
+    "events_field_marketing",
+    "content_social"
+   ],
+   "line": "Ran co-marketing with 8 partners in a year; partner campaigns delivered 30% of event pipeline."
+  },
+  "sales": {
+   "reads_as": "Channel, reseller and alliance partners that source and co-sell deals.",
+   "shown_by": [
+    "partner_gtm",
+    "channel_sales",
+    "deal_negotiation",
+    "key_account_mgmt"
+   ],
+   "line": "Built a partner programme of 15 resellers; partner-sourced bookings grew from 5% to 25% of the region."
+  },
+  "supply_chain": {
+   "reads_as": "Strategic supplier partnerships: joint development, shared savings and long-term agreements.",
+   "shown_by": [
+    "supplier_relationship_mgmt",
+    "supplier_contract_negotiation",
+    "sourcing_category_strategy",
+    "npi_manufacturing_ramp"
+   ],
+   "line": "Set up strategic partnerships with 3 key suppliers with shared-savings terms; $4M of joint cost reduction in 2 years."
+  },
+  "people": {
+   "reads_as": "Partnerships with universities, vendors and communities for talent and programmes.",
+   "shown_by": [
+    "talent_acquisition",
+    "learning_design",
+    "engagement_culture",
+    "hr_business_partnering"
+   ],
+   "line": "Built recruiting partnerships with 6 universities; 40% of early-career hires came through them in a year."
+  }
+ },
+ "metrics_kpis": {
+  "consulting_strategy": {
+   "reads_as": "The scorecard a transformation is tracked on: baseline, targets and the value delivered.",
+   "shown_by": [
+    "transformation_programs",
+    "operating_cadence",
+    "dashboards_dataviz",
+    "strategic_planning"
+   ],
+   "line": "Defined the 15-metric scorecard for a client transformation and tracked $25M of value against it."
+  },
+  "finance": {
+   "reads_as": "Management reporting KPIs: the numbers in the monthly package and how they are defined.",
+   "shown_by": [
+    "financial_reporting",
+    "budgeting_forecasting",
+    "variance_analysis",
+    "dashboards_dataviz"
+   ],
+   "line": "Defined and reported 20 KPIs in the monthly package for the executive team; adopted as the standard across 5 divisions."
+  },
+  "operations": {
+   "reads_as": "Daily and weekly operating metrics: output, service, cost, safety.",
+   "shown_by": [
+    "ops_performance_mgmt",
+    "process_improvement",
+    "safety_ehs",
+    "lean_six_sigma"
+   ],
+   "line": "Set the site scorecard of 12 metrics and ran it daily; on-time delivery up 6 points and cost per unit down 8%."
+  },
+  "product": {
+   "reads_as": "Defining the product's success metrics, instrumenting them and moving them.",
+   "shown_by": [
+    "ab_testing",
+    "growth_loops",
+    "roadmap",
+    "discovery"
+   ],
+   "line": "Defined the north-star metric and 6 input metrics for the product; weekly active users grew 35% in 2 quarters."
+  },
+  "marketing": {
+   "reads_as": "Funnel and campaign metrics: reach, conversion, pipeline and ROI by channel.",
+   "shown_by": [
+    "marketing_analytics",
+    "growth_loops",
+    "campaign_management",
+    "performance_marketing"
+   ],
+   "line": "Built the funnel dashboard from impression to closed-won for 8 channels; used in every weekly marketing review."
+  },
+  "sales": {
+   "reads_as": "Pipeline, conversion, quota and customer health metrics that run the sales team.",
+   "shown_by": [
+    "pipeline_forecasting",
+    "customer_health",
+    "quota_attainment",
+    "sales_process"
+   ],
+   "line": "Built the sales KPI dashboard for 50 reps; stage conversion and forecast accuracy reviewed weekly."
+  },
+  "supply_chain": {
+   "reads_as": "Supplier and supply-chain KPIs: on-time, quality, cost, inventory.",
+   "shown_by": [
+    "supplier_relationship_mgmt",
+    "ops_performance_mgmt",
+    "inventory_mgmt",
+    "spend_cost_savings"
+   ],
+   "line": "Built the supplier scorecard for 40 suppliers; on-time delivery rose from 88% to 96% in a year."
+  },
+  "people": {
+   "reads_as": "People metrics: attrition, time to fill, engagement, diversity, reported to leaders.",
+   "shown_by": [
+    "people_analytics",
+    "talent_acquisition",
+    "engagement_culture",
+    "hr_operations"
+   ],
+   "line": "Built the monthly people dashboard of 12 metrics for 3,000 employees; used in every leadership review."
+  },
+  "risk": {
+   "reads_as": "Key risk indicators and compliance metrics with thresholds and escalation.",
+   "shown_by": [
+    "erm_framework",
+    "compliance_monitoring",
+    "controls_testing",
+    "dashboards_dataviz"
+   ],
+   "line": "Defined 30 key risk indicators with thresholds; 5 breaches escalated to committee with action plans in a year."
+  },
+  "analytics": {
+   "reads_as": "Defining metrics once and building the dashboards everyone reads them from.",
+   "shown_by": [
+    "dashboards_dataviz",
+    "data_modeling",
+    "self_service_bi",
+    "analytics_requirements"
+   ],
+   "line": "Defined 40 certified metrics in a semantic layer and built the 10 dashboards 300 people use weekly."
+  }
+ },
+ "data_driven": {
+  "consulting_strategy": {
+   "reads_as": "Analysis before opinion: every recommendation rests on a fact base the client accepts.",
+   "shown_by": [
+    "synthesis_recommendations",
+    "financial_analysis",
+    "performance_improvement",
+    "strategic_planning"
+   ],
+   "line": "Built the fact base of 15 analyses behind a growth strategy; the client's board approved it on the evidence in one session."
+  },
+  "finance": {
+   "reads_as": "Decisions grounded in the model, the variance and the forecast rather than the loudest voice.",
+   "shown_by": [
+    "budgeting_forecasting",
+    "variance_analysis",
+    "scenario_modeling",
+    "business_case"
+   ],
+   "line": "Replaced judgment-based accruals with a data-driven model; forecast variance halved over 2 quarters."
+  },
+  "banking_investing": {
+   "reads_as": "Research, models and comparables behind every view on a deal or an asset.",
+   "shown_by": [
+    "investment_research",
+    "valuation",
+    "due_diligence",
+    "credit_analysis"
+   ],
+   "line": "Built a comparables database of 120 transactions used across the group's valuation work."
+  },
+  "operations": {
+   "reads_as": "Running the floor on numbers: daily metrics, root causes and measured results.",
+   "shown_by": [
+    "ops_performance_mgmt",
+    "metrics_kpis",
+    "root_cause_corrective_action",
+    "lean_six_sigma"
+   ],
+   "line": "Introduced daily metrics boards at 3 sites; the team closed 80 improvement actions in a year, each measured."
+  },
+  "product": {
+   "reads_as": "Deciding what to build and whether it worked from usage data and experiments.",
+   "shown_by": [
+    "metrics_kpis",
+    "ab_testing",
+    "discovery",
+    "product_strategy"
+   ],
+   "line": "Ran 20 A/B tests in a year and killed 8 features on the data; the surviving 12 lifted conversion 14% together."
+  },
+  "marketing": {
+   "reads_as": "Measuring every channel and campaign and moving the budget on the results.",
+   "shown_by": [
+    "marketing_analytics",
+    "performance_marketing",
+    "growth_loops",
+    "ab_testing"
+   ],
+   "line": "Built the attribution model for 6 channels and reallocated 25% of a $4M budget; CAC fell 18%."
+  },
+  "sales": {
+   "reads_as": "Working the pipeline and the territory on the numbers: conversion, coverage and forecast.",
+   "shown_by": [
+    "pipeline_forecasting",
+    "territory_account_planning",
+    "sales_process",
+    "quota_attainment"
+   ],
+   "line": "Used stage-conversion data to re-prioritise 200 accounts; win rate up from 22% to 30% in 2 quarters."
+  },
+  "supply_chain": {
+   "reads_as": "Spend, service and supplier data behind every sourcing and planning decision.",
+   "shown_by": [
+    "spend_cost_savings",
+    "demand_supply_planning",
+    "supply_market_intel",
+    "ops_performance_mgmt"
+   ],
+   "line": "Built the spend cube for $150M of indirect spend; it found 15 consolidation opportunities worth $6M."
+  },
+  "people": {
+   "reads_as": "People analytics behind talent, pay and engagement decisions.",
+   "shown_by": [
+    "people_analytics",
+    "performance_mgmt",
+    "comp_design",
+    "engagement_culture"
+   ],
+   "line": "Built the attrition and engagement dashboards for 3,000 employees; 4 retention actions taken on the findings."
+  },
+  "risk": {
+   "reads_as": "Risk measured with data: indicators, testing results and loss events, not anecdotes.",
+   "shown_by": [
+    "erm_framework",
+    "controls_testing",
+    "financial_risk",
+    "issue_remediation"
+   ],
+   "line": "Built a risk indicator dashboard with 40 metrics across 8 units; 3 emerging risks escalated early on the data."
+  },
+  "analytics": {
+   "reads_as": "The core of the job: hands-on analysis with SQL, statistics and clean data.",
+   "shown_by": [
+    "sql",
+    "statistics",
+    "data_modeling",
+    "dashboards_dataviz"
+   ],
+   "line": "Ran 50 analyses in SQL and Python in a year, including the cohort model leadership used to set retention targets."
+  }
+ },
+ "financial_analysis": {
+  "consulting_strategy": {
+   "reads_as": "Sizing the prize: models and business cases that show a client what a recommendation is worth.",
+   "shown_by": [
+    "performance_improvement",
+    "business_case",
+    "synthesis_recommendations",
+    "client_engagement"
+   ],
+   "line": "Built the value model for a $30M cost programme; baseline, scenarios and tracking adopted by the client's finance team."
+  },
+  "finance": {
+   "reads_as": "The core craft: models, budgets, forecasts and the analysis behind every decision.",
+   "shown_by": [
+    "budgeting_forecasting",
+    "variance_analysis",
+    "scenario_modeling",
+    "financial_statements"
+   ],
+   "line": "Built the driver-based forecast model for a $300M business; forecast error under 3% for the year."
+  },
+  "banking_investing": {
+   "reads_as": "Operating models, valuation and returns analysis for live transactions.",
+   "shown_by": [
+    "valuation",
+    "credit_analysis",
+    "due_diligence",
+    "capital_markets"
+   ],
+   "line": "Built the three-statement and LBO models for 6 transactions, including a $1B take-private."
+  },
+  "operations": {
+   "reads_as": "Budgets, cost per unit and the business case for a site or programme change.",
+   "shown_by": [
+    "ops_performance_mgmt",
+    "cost_schedule_control",
+    "program_mgmt",
+    "process_improvement"
+   ],
+   "line": "Managed a $40M site budget and built the business case for a $5M automation project with an 18-month payback."
+  },
+  "product": {
+   "reads_as": "Unit economics, pricing and the business case for a product bet.",
+   "shown_by": [
+    "business_case",
+    "pricing_packaging",
+    "pnl",
+    "metrics_kpis"
+   ],
+   "line": "Built the unit-economics model for a new tier; informed pricing that raised ARPU 12% without a churn increase."
+  },
+  "marketing": {
+   "reads_as": "Budgets, ROI and marketing mix: what each dollar returns.",
+   "shown_by": [
+    "marketing_analytics",
+    "performance_marketing",
+    "campaign_management",
+    "business_case"
+   ],
+   "line": "Managed a $5M marketing budget with a channel ROI model; reallocated 20% of spend and lifted pipeline 15%."
+  },
+  "sales": {
+   "reads_as": "Deal economics, pricing and the ROI case a buyer's CFO signs.",
+   "shown_by": [
+    "consultative_selling",
+    "deal_negotiation",
+    "pipeline_forecasting",
+    "business_case"
+   ],
+   "line": "Built ROI cases for 10 enterprise deals, each with a payback under 12 months; 7 closed."
+  },
+  "supply_chain": {
+   "reads_as": "Should-cost, TCO and savings models that drive sourcing decisions.",
+   "shown_by": [
+    "tco_should_cost",
+    "spend_cost_savings",
+    "sourcing_category_strategy",
+    "supplier_contract_negotiation"
+   ],
+   "line": "Built TCO models for a $20M category; identified and delivered $2.5M of savings."
+  },
+  "people": {
+   "reads_as": "Headcount, compensation and benefits modelling and the budget behind people programmes.",
+   "shown_by": [
+    "comp_design",
+    "succession_workforce_planning",
+    "benefits_admin",
+    "people_analytics"
+   ],
+   "line": "Modelled the $60M merit and bonus budget across 2,000 employees; landed within 1% of plan."
+  },
+  "risk": {
+   "reads_as": "Quantifying exposure, loss and the cost of controls.",
+   "shown_by": [
+    "financial_risk",
+    "erm_framework",
+    "internal_audit_sox",
+    "regulatory_change"
+   ],
+   "line": "Quantified operational loss exposure across 8 business units with a scenario model used in the capital plan."
+  },
+  "analytics": {
+   "reads_as": "Revenue, cost and margin analyses that finance and the business both trust.",
+   "shown_by": [
+    "dashboards_dataviz",
+    "statistics",
+    "synthesis_recommendations",
+    "sql"
+   ],
+   "line": "Built the margin analysis by product and customer used in the annual plan for a $200M business."
+  }
+ },
+ "ai_ml": {
+  "consulting_strategy": {
+   "reads_as": "Advising clients on where AI creates value and how to adopt it.",
+   "shown_by": [
+    "transformation_programs",
+    "business_case",
+    "synthesis_recommendations",
+    "client_engagement"
+   ],
+   "line": "Built the AI use-case portfolio for a client: 25 cases sized, 5 piloted, 2 scaled with $8M of annual value."
+  },
+  "finance": {
+   "reads_as": "Forecasting and anomaly models in planning and close, and the business case for AI spend.",
+   "shown_by": [
+    "budgeting_forecasting",
+    "scenario_modeling",
+    "business_case",
+    "reporting_adhoc_analysis"
+   ],
+   "line": "Piloted an ML forecast for 30 cost centres; error fell 25% against the manual forecast."
+  },
+  "operations": {
+   "reads_as": "Forecasting, scheduling and quality models in planning and on the floor.",
+   "shown_by": [
+    "ops_performance_mgmt",
+    "process_improvement",
+    "dashboards_dataviz",
+    "vendor_mgmt"
+   ],
+   "line": "Deployed an ML demand forecast across 500 SKUs; forecast accuracy up 12 points and stock-outs down 20%."
+  },
+  "product": {
+   "reads_as": "Shipping AI features: the model, the evaluation, the user experience and the metric.",
+   "shown_by": [
+    "genai_llm",
+    "roadmap",
+    "prd",
+    "ab_testing"
+   ],
+   "line": "Shipped an AI assistant to 1M users; built the eval set of 500 cases and lifted task completion 20%."
+  },
+  "marketing": {
+   "reads_as": "Personalisation, targeting and content models that lift campaign performance.",
+   "shown_by": [
+    "performance_marketing",
+    "lifecycle_marketing",
+    "marketing_analytics",
+    "campaign_management"
+   ],
+   "line": "Launched ML-driven audience targeting across paid channels; conversion up 15% at the same spend."
+  },
+  "sales": {
+   "reads_as": "AI in the sales motion: lead scoring, forecasting and the tools reps use.",
+   "shown_by": [
+    "pipeline_forecasting",
+    "prospecting",
+    "sales_process",
+    "quota_attainment"
+   ],
+   "line": "Rolled out lead scoring to 80 reps; qualified-lead conversion rose from 12% to 18%."
+  },
+  "supply_chain": {
+   "reads_as": "Forecasting, risk and spend models in planning and sourcing.",
+   "shown_by": [
+    "demand_supply_planning",
+    "supply_risk_continuity",
+    "spend_cost_savings",
+    "supply_market_intel"
+   ],
+   "line": "Introduced ML-based supplier risk scoring over 1,000 suppliers; 6 disruptions flagged weeks ahead."
+  },
+  "people": {
+   "reads_as": "AI in talent and people analytics, with fairness and policy in view.",
+   "shown_by": [
+    "people_analytics",
+    "talent_acquisition",
+    "hr_operations",
+    "hr_business_partnering"
+   ],
+   "line": "Piloted AI screening for 10,000 applications with a bias review; time to shortlist fell 40%."
+  },
+  "risk": {
+   "reads_as": "Model risk, AI governance and AI in monitoring and surveillance.",
+   "shown_by": [
+    "ai_governance",
+    "compliance_monitoring",
+    "it_risk",
+    "controls_testing"
+   ],
+   "line": "Validated 12 ML models and wrote the firm's AI model-risk standard adopted across 3 business lines."
+  },
+  "analytics": {
+   "reads_as": "Building and evaluating models alongside the dashboards: forecasting, scoring, segmentation.",
+   "shown_by": [
+    "python_r",
+    "statistics",
+    "data_modeling",
+    "sql"
+   ],
+   "line": "Built a churn model in Python with 0.82 AUC; its scores feed the retention team's weekly call list."
+  }
+ },
+ "fintech": {
+  "consulting_strategy": {
+   "reads_as": "Financial-services clients: banking, payments and insurance work with regulation in every answer.",
+   "shown_by": [
+    "client_engagement",
+    "transformation_programs",
+    "synthesis_recommendations",
+    "process_improvement"
+   ],
+   "line": "Served 4 banking and payments clients over 2 years, including a core-banking transformation at a top-20 US bank."
+  },
+  "finance": {
+   "reads_as": "Treasury, banking relationships and payments inside the finance function.",
+   "shown_by": [
+    "cash_liquidity",
+    "financial_reporting",
+    "budgeting_forecasting",
+    "business_case"
+   ],
+   "line": "Managed banking relationships and payment operations across 12 banks and $500M of annual flows."
+  },
+  "banking_investing": {
+   "reads_as": "The industry itself: capital markets, lending, deals and the rules that govern them.",
+   "shown_by": [
+    "capital_markets",
+    "credit_analysis",
+    "ma_execution",
+    "client_coverage"
+   ],
+   "line": "Covered 15 financial-institution clients in capital markets and M&A over 3 years."
+  },
+  "product": {
+   "reads_as": "Payments, lending and banking products: rails, KYC, fraud and compliance built into the product.",
+   "shown_by": [
+    "prd",
+    "launch",
+    "security_privacy",
+    "discovery"
+   ],
+   "line": "Shipped a payments product processing $2B a year, including KYC onboarding and a dispute flow."
+  },
+  "sales": {
+   "reads_as": "Selling to or within banks, payments and insurance: long cycles and compliance buyers.",
+   "shown_by": [
+    "key_account_mgmt",
+    "consultative_selling",
+    "enterprise_saas",
+    "prospecting"
+   ],
+   "line": "Sold into 10 banks and insurers; closed $4M including 2 deals through full vendor-risk reviews."
+  },
+  "risk": {
+   "reads_as": "Banking regulation, AML and consumer finance rules as the daily subject of the work.",
+   "shown_by": [
+    "financial_crime",
+    "regulatory_change",
+    "regulator_exams",
+    "erm_framework"
+   ],
+   "line": "Ran AML and consumer-compliance programmes at a regional bank with $20B in assets through 3 regulator exams."
+  },
+  "analytics": {
+   "reads_as": "Transaction, risk and customer data in banking and payments.",
+   "shown_by": [
+    "sql",
+    "data_modeling",
+    "dashboards_dataviz",
+    "statistics"
+   ],
+   "line": "Built the transaction analytics for a payments business processing 50M transactions a month."
+  }
+ },
+ "cross_functional": {
+  "consulting_strategy": {
+   "reads_as": "Leading a workstream with client staff from several functions, none of whom report to you.",
+   "shown_by": [
+    "transformation_programs",
+    "change_management",
+    "program_mgmt",
+    "exec_communication"
+   ],
+   "line": "Led a working team of 10 client staff from finance, operations and IT to redesign order-to-cash; cycle time down 30%."
+  },
+  "finance": {
+   "reads_as": "Partnering with sales, operations and product so the plan and the numbers reflect the business.",
+   "shown_by": [
+    "finance_partnering",
+    "business_case",
+    "budgeting_forecasting",
+    "capital_allocation"
+   ],
+   "line": "Partnered with sales, operations and product leads on 12 investment cases; 9 approved and tracked to plan."
+  },
+  "banking_investing": {
+   "reads_as": "Coordinating product groups, counsel and the client's teams on a transaction.",
+   "shown_by": [
+    "ma_execution",
+    "capital_markets",
+    "client_coverage",
+    "business_case"
+   ],
+   "line": "Coordinated M&A, financing and counsel for a $400M carve-out, with weekly working sessions across 4 groups."
+  },
+  "operations": {
+   "reads_as": "Leading programmes across plants, engineering, finance and suppliers to a go-live or a target.",
+   "shown_by": [
+    "program_mgmt",
+    "process_improvement",
+    "risk_mgmt",
+    "vendor_mgmt"
+   ],
+   "line": "Led a 25-person cross-functional team across 4 functions to launch a new line; first shipment on the planned date."
+  },
+  "product": {
+   "reads_as": "Leading engineering, design, data, marketing and sales toward one launch without managing any of them.",
+   "shown_by": [
+    "launch",
+    "product_lifecycle",
+    "ux_design_collab",
+    "program_mgmt"
+   ],
+   "line": "Led a 20-person cross-functional launch across engineering, design, marketing and support in 3 time zones; shipped to 2M users."
+  },
+  "marketing": {
+   "reads_as": "Working with product, sales and agencies so a launch or campaign is one coordinated effort.",
+   "shown_by": [
+    "gtm",
+    "campaign_management",
+    "sales_enablement",
+    "creative_agency"
+   ],
+   "line": "Led the go-to-market for a product launch across product, sales and 2 agencies; 50 pieces of collateral shipped on one plan."
+  },
+  "sales": {
+   "reads_as": "Bringing solutions engineering, customer success, product and partners into an account or deal.",
+   "shown_by": [
+    "key_account_mgmt",
+    "partner_gtm",
+    "customer_success",
+    "sales_enablement"
+   ],
+   "line": "Brought product, solutions engineering and a partner into a $2M pursuit; closed in 2 quarters against the incumbent."
+  },
+  "supply_chain": {
+   "reads_as": "Working with engineering, quality, finance and operations so supplier decisions hold end to end.",
+   "shown_by": [
+    "supplier_relationship_mgmt",
+    "sourcing_category_strategy",
+    "npi_manufacturing_ramp",
+    "supply_risk_continuity"
+   ],
+   "line": "Led a cross-functional team of engineering, quality and finance to qualify 3 new suppliers in 6 months."
+  },
+  "people": {
+   "reads_as": "Partnering with business leaders, finance and legal on people programmes and org changes.",
+   "shown_by": [
+    "hr_business_partnering",
+    "org_design",
+    "succession_workforce_planning",
+    "change_management"
+   ],
+   "line": "Led a workforce-planning programme with finance and 6 business leaders; 200 roles planned for the next 2 years."
+  },
+  "risk": {
+   "reads_as": "Working across business lines, IT, legal and audit so a control or a remediation is built once and used everywhere.",
+   "shown_by": [
+    "compliance_program",
+    "issue_remediation",
+    "regulatory_change",
+    "controls_testing"
+   ],
+   "line": "Led a cross-functional team of 8 across business, IT and legal to implement a new regulation ahead of the deadline at 5 entities."
+  },
+  "analytics": {
+   "reads_as": "Working with product, finance and operations teams so one analysis serves several decisions.",
+   "shown_by": [
+    "analytics_requirements",
+    "dashboards_dataviz",
+    "synthesis_recommendations",
+    "data_modeling"
+   ],
+   "line": "Partnered with product, finance and operations on a shared customer dataset; 4 teams retired their own versions."
+  }
+ },
+ "stakeholder_mgmt": {
+  "consulting_strategy": {
+   "reads_as": "Managing the client's sponsors and steering committee so the recommendation lands and no one is surprised.",
+   "shown_by": [
+    "client_engagement",
+    "exec_communication",
+    "transformation_programs",
+    "change_management"
+   ],
+   "line": "Managed a steering committee of 6 client executives through a 5-month transformation; every decision landed on the first review."
+  },
+  "finance": {
+   "reads_as": "Keeping business leaders, controllers and auditors aligned on the numbers and the plan.",
+   "shown_by": [
+    "finance_partnering",
+    "budgeting_forecasting",
+    "business_case",
+    "financial_reporting"
+   ],
+   "line": "Aligned 8 department heads on a $50M budget with 3 rounds of reviews; no appeals to the CFO."
+  },
+  "banking_investing": {
+   "reads_as": "Managing clients, counterparties and senior bankers through a process with competing interests.",
+   "shown_by": [
+    "client_coverage",
+    "ma_execution",
+    "capital_markets",
+    "due_diligence"
+   ],
+   "line": "Managed the client's CFO, 4 bidders and counsel through a 6-month sale process to a signed agreement."
+  },
+  "operations": {
+   "reads_as": "Keeping sponsors, site leaders and functions aligned on a programme's scope, risks and dates.",
+   "shown_by": [
+    "program_mgmt",
+    "risk_mgmt",
+    "process_improvement",
+    "cost_schedule_control"
+   ],
+   "line": "Managed 12 stakeholders across 3 plants and corporate on a systems rollout; go-live on the planned date at all sites."
+  },
+  "product": {
+   "reads_as": "Keeping leadership, partner teams and customers informed and on side through roadmap trade-offs.",
+   "shown_by": [
+    "roadmap",
+    "product_strategy",
+    "exec_communication",
+    "prioritization"
+   ],
+   "line": "Managed 9 stakeholders across sales, legal and finance through a pricing change; shipped on time with no escalations."
+  },
+  "marketing": {
+   "reads_as": "Aligning sales, product and leadership behind one message and one launch plan.",
+   "shown_by": [
+    "gtm",
+    "positioning_messaging",
+    "campaign_management",
+    "sales_enablement"
+   ],
+   "line": "Aligned sales leadership and 3 product teams on the launch messaging in 2 reviews; launch shipped on the planned date."
+  },
+  "sales": {
+   "reads_as": "Mapping and working a buying committee and the internal teams behind the deal.",
+   "shown_by": [
+    "key_account_mgmt",
+    "customer_health",
+    "consultative_selling",
+    "customer_success"
+   ],
+   "line": "Mapped and worked a 7-person buying committee at a Fortune 500 account to a $1.1M close."
+  },
+  "supply_chain": {
+   "reads_as": "Aligning engineering, operations, finance and suppliers on sourcing decisions and supplier changes.",
+   "shown_by": [
+    "supplier_relationship_mgmt",
+    "sourcing_category_strategy",
+    "supplier_contract_negotiation",
+    "supply_risk_continuity"
+   ],
+   "line": "Aligned 5 internal functions and 2 incumbent suppliers on a dual-source strategy; approved in one steering review."
+  },
+  "people": {
+   "reads_as": "Managing leaders, managers and employees through people decisions that affect them.",
+   "shown_by": [
+    "hr_business_partnering",
+    "org_design",
+    "performance_mgmt",
+    "change_management"
+   ],
+   "line": "Managed 15 leaders through an org redesign of 300 roles; all consultations and announcements held on schedule."
+  },
+  "risk": {
+   "reads_as": "Working first-line leaders, audit and regulators so findings are accepted and fixed.",
+   "shown_by": [
+    "erm_framework",
+    "regulator_exams",
+    "issue_remediation",
+    "compliance_program"
+   ],
+   "line": "Managed 10 business owners and the examiner team through a 12-week exam; 8 findings agreed and closed in 6 months."
+  },
+  "analytics": {
+   "reads_as": "Keeping business stakeholders and data engineering agreed on what to measure and when it ships.",
+   "shown_by": [
+    "analytics_requirements",
+    "dashboards_dataviz",
+    "synthesis_recommendations",
+    "data_modeling"
+   ],
+   "line": "Managed requirements from 6 business teams for a metrics platform; shipped 20 certified metrics on the agreed dates."
+  }
+ },
+ "influence": {
+  "consulting_strategy": {
+   "reads_as": "Getting a client to act on a recommendation they did not ask for, with evidence and the right sponsor.",
+   "shown_by": [
+    "synthesis_recommendations",
+    "exec_decks",
+    "client_engagement",
+    "change_management"
+   ],
+   "line": "Persuaded a client COO to close 2 of 7 sites against the initial brief; the recommendation was approved and executed within a year."
+  },
+  "finance": {
+   "reads_as": "Changing a spending decision with a model and a business case, from outside the chain of command.",
+   "shown_by": [
+    "business_case",
+    "finance_partnering",
+    "capital_allocation",
+    "scenario_modeling"
+   ],
+   "line": "Challenged a $15M capex request with a scenario model; leadership re-scoped it to $9M with the same output."
+  },
+  "banking_investing": {
+   "reads_as": "Negotiating terms and winning a client's mandate against competing banks.",
+   "shown_by": [
+    "deal_structuring",
+    "client_coverage",
+    "ma_execution",
+    "capital_markets"
+   ],
+   "line": "Negotiated 3 term-sheet points on a $250M financing that saved the client 40 basis points."
+  },
+  "operations": {
+   "reads_as": "Getting plants, shifts and functions to adopt a change they did not design.",
+   "shown_by": [
+    "process_improvement",
+    "change_management",
+    "program_mgmt",
+    "cost_schedule_control"
+   ],
+   "line": "Won adoption of a standard work process across 5 plants and 3 shifts within 2 quarters, with no mandate."
+  },
+  "product": {
+   "reads_as": "Winning roadmap and resource decisions with evidence, trade-offs and a clear case.",
+   "shown_by": [
+    "prioritization",
+    "business_case",
+    "product_strategy",
+    "exec_communication"
+   ],
+   "line": "Won engineering capacity for a platform rebuild over 4 feature requests with a trade-off case; adopted by the VP in one review."
+  },
+  "marketing": {
+   "reads_as": "Getting sales, product and leadership to carry one positioning and fund the plan.",
+   "shown_by": [
+    "positioning_messaging",
+    "gtm",
+    "sales_enablement",
+    "campaign_management"
+   ],
+   "line": "Secured a 30% budget increase for demand generation with a pipeline model; sales leadership co-sponsored the plan."
+  },
+  "sales": {
+   "reads_as": "Persuading buyers and procurement, and negotiating to a close on your terms.",
+   "shown_by": [
+    "deal_negotiation",
+    "consultative_selling",
+    "key_account_mgmt",
+    "quota_attainment"
+   ],
+   "line": "Negotiated 18 enterprise deals in a year holding an average discount of 8% against a 15% norm."
+  },
+  "supply_chain": {
+   "reads_as": "Negotiating with suppliers and bringing internal stakeholders to a sourcing decision.",
+   "shown_by": [
+    "supplier_contract_negotiation",
+    "supplier_relationship_mgmt",
+    "sourcing_category_strategy",
+    "tco_should_cost"
+   ],
+   "line": "Negotiated a 3-year MSA with a sole-source supplier using a should-cost model; 12% price reduction and 60-day terms."
+  },
+  "people": {
+   "reads_as": "Coaching and challenging managers and leaders to a better people decision.",
+   "shown_by": [
+    "hr_business_partnering",
+    "performance_mgmt",
+    "org_design",
+    "leadership_dev_coaching"
+   ],
+   "line": "Coached 20 managers through calibration; moved 15% of ratings on evidence and no decision was appealed."
+  },
+  "risk": {
+   "reads_as": "Getting business owners to accept a finding, a limit or a control they did not want.",
+   "shown_by": [
+    "erm_framework",
+    "controls_testing",
+    "issue_remediation",
+    "regulatory_change"
+   ],
+   "line": "Secured agreement from 6 business heads on new risk limits in 2 committee cycles, with no escalation to the CRO."
+  },
+  "analytics": {
+   "reads_as": "Getting a leader to act on an analysis with a clear recommendation and the right chart.",
+   "shown_by": [
+    "synthesis_recommendations",
+    "dashboards_dataviz",
+    "analytics_requirements",
+    "metrics_kpis"
+   ],
+   "line": "Recommended ending a $1M channel on attribution evidence; leadership reallocated the budget within the quarter."
+  }
+ },
+ "communication": {
+  "consulting_strategy": {
+   "reads_as": "Storylined decks and synthesis memos that carry a recommendation to a client's leadership.",
+   "shown_by": [
+    "exec_decks",
+    "synthesis_recommendations",
+    "client_engagement",
+    "exec_communication"
+   ],
+   "line": "Wrote the 30-page final deck and 2-page synthesis that the client's CEO used to approve a $40M cost programme."
+  },
+  "finance": {
+   "reads_as": "Monthly reporting packages, variance commentary and business cases that leaders read to decide on spend.",
+   "shown_by": [
+    "financial_reporting",
+    "variance_analysis",
+    "business_case",
+    "finance_partnering"
+   ],
+   "line": "Wrote the monthly variance commentary for a $120M cost base; the CFO's review moved from 90 to 30 minutes."
+  },
+  "banking_investing": {
+   "reads_as": "Pitch books, CIMs and client calls: precise, formatted and checked, under a managing director's name.",
+   "shown_by": [
+    "pitch_materials",
+    "ma_execution",
+    "client_coverage",
+    "valuation"
+   ],
+   "line": "Drafted 14 pitch books and 3 CIMs in a year; two mandates won on materials I owned end to end."
+  },
+  "operations": {
+   "reads_as": "Status reports, operating reviews and plant or programme updates that keep sites and leaders moving together.",
+   "shown_by": [
+    "program_mgmt",
+    "process_improvement",
+    "exec_communication",
+    "ops_performance_mgmt"
+   ],
+   "line": "Ran the weekly programme review for 6 sites and 40 people; one written update replaced three status meetings."
+  },
+  "product": {
+   "reads_as": "PRDs, roadmaps and launch notes that engineering, design and leadership act on without a follow-up meeting.",
+   "shown_by": [
+    "prd",
+    "roadmap",
+    "launch",
+    "exec_communication"
+   ],
+   "line": "Wrote the PRD and launch note for a 0 to 1 payments feature; 3 engineering teams built from the document with no scope change."
+  },
+  "marketing": {
+   "reads_as": "Positioning, messaging and campaign briefs: the words the market and the sales team repeat.",
+   "shown_by": [
+    "positioning_messaging",
+    "campaign_management",
+    "gtm",
+    "pr_communications"
+   ],
+   "line": "Wrote the positioning and messaging hierarchy for a relaunch across 4 channels; message pull-through in sales decks rose to 80%."
+  },
+  "sales": {
+   "reads_as": "Discovery calls, proposals and executive presentations that move a buyer to a decision.",
+   "shown_by": [
+    "consultative_selling",
+    "key_account_mgmt",
+    "sales_enablement",
+    "customer_success"
+   ],
+   "line": "Presented the business case to 12 customer executive teams in a quarter; 7 moved to a signed proposal."
+  },
+  "supply_chain": {
+   "reads_as": "Supplier reviews, negotiation positions and business cases for sourcing decisions, written for finance and operations.",
+   "shown_by": [
+    "supplier_relationship_mgmt",
+    "sourcing_category_strategy",
+    "supplier_contract_negotiation",
+    "business_case"
+   ],
+   "line": "Wrote the category strategy and sourcing recommendation for $25M of spend; approved by the CPO and CFO in one review."
+  },
+  "people": {
+   "reads_as": "Manager guidance, policy communications and difficult conversations, written and spoken for every level of employee.",
+   "shown_by": [
+    "hr_business_partnering",
+    "employee_relations",
+    "engagement_culture",
+    "change_management"
+   ],
+   "line": "Wrote the manager guide and all-hands communications for a reorganisation of 600 people; 95% of managers held their conversations on time."
+  },
+  "risk": {
+   "reads_as": "Risk reports, policies and findings written so a board committee and a regulator read the same thing.",
+   "shown_by": [
+    "erm_framework",
+    "policy_management",
+    "regulator_exams",
+    "issue_remediation"
+   ],
+   "line": "Wrote the quarterly risk report for the board risk committee and 12 policies; zero examiner comments on clarity in 2 exams."
+  },
+  "analytics": {
+   "reads_as": "Dashboards and insight readouts that turn a query into a decision a business leader takes.",
+   "shown_by": [
+    "dashboards_dataviz",
+    "synthesis_recommendations",
+    "analytics_requirements",
+    "reporting_adhoc_analysis"
+   ],
+   "line": "Presented monthly insight readouts to 3 VPs; 5 of 12 recommendations became funded initiatives within the quarter."
+  }
+ },
+ "exec_communication": {
+  "consulting_strategy": {
+   "reads_as": "Steering committees and partner reviews: the recommendation to the client's C-suite.",
+   "shown_by": [
+    "exec_decks",
+    "client_engagement",
+    "synthesis_recommendations",
+    "transformation_programs"
+   ],
+   "line": "Presented to 6 client steering committees in a year, including a $100M investment decision the CEO approved in the room."
+  },
+  "finance": {
+   "reads_as": "Board and CFO reviews: the financial story in one page and a clear ask.",
+   "shown_by": [
+    "financial_reporting",
+    "investor_relations",
+    "budgeting_forecasting",
+    "variance_analysis"
+   ],
+   "line": "Prepared and presented the quarterly financial review to the board 8 times; the package shortened from 60 to 25 pages."
+  },
+  "product": {
+   "reads_as": "Product reviews with executives: the decision, the data and the trade-off on one page.",
+   "shown_by": [
+    "product_strategy",
+    "roadmap",
+    "business_case",
+    "metrics_kpis"
+   ],
+   "line": "Ran the monthly product review with the C-suite for a year; 10 roadmap decisions taken in the review, none reopened."
+  },
+  "marketing": {
+   "reads_as": "Marketing reviews with leadership: results, the plan and the budget ask.",
+   "shown_by": [
+    "gtm",
+    "marketing_analytics",
+    "campaign_management",
+    "brand_strategy"
+   ],
+   "line": "Presented the quarterly marketing review to the executive team 8 times; secured a 25% budget increase on the results."
+  },
+  "sales": {
+   "reads_as": "Executive briefings with customers and forecast calls with revenue leadership.",
+   "shown_by": [
+    "key_account_mgmt",
+    "customer_health",
+    "pipeline_forecasting",
+    "consultative_selling"
+   ],
+   "line": "Ran executive business reviews with 10 customer C-suites a year and the weekly forecast call for a $20M region."
+  },
+  "supply_chain": {
+   "reads_as": "Supplier executive reviews and sourcing decisions presented to the CPO and CFO.",
+   "shown_by": [
+    "supplier_relationship_mgmt",
+    "sourcing_category_strategy",
+    "spend_cost_savings",
+    "supply_risk_continuity"
+   ],
+   "line": "Presented 6 category strategies to the CPO and CFO; all approved, covering $150M of spend."
+  },
+  "analytics": {
+   "reads_as": "Insight readouts to executives: the chart, the finding and the recommended action.",
+   "shown_by": [
+    "dashboards_dataviz",
+    "synthesis_recommendations",
+    "metrics_kpis",
+    "analytics_requirements"
+   ],
+   "line": "Presented monthly to the executive team for a year; 6 recommendations funded, including a $3M pricing change."
+  }
+ },
+ "people_management": {
+  "consulting_strategy": {
+   "reads_as": "Leading a case team: staffing, coaching and reviewing the work of analysts and consultants.",
+   "shown_by": [
+    "client_engagement",
+    "transformation_programs",
+    "program_mgmt",
+    "customer_facing_exec"
+   ],
+   "line": "Led case teams of 3 to 5 consultants on 6 engagements; 4 team members promoted on my reviews."
+  },
+  "finance": {
+   "reads_as": "Leading a finance team through the close, planning and reporting calendar.",
+   "shown_by": [
+    "accounting_close_controls",
+    "budgeting_forecasting",
+    "financial_reporting",
+    "finance_partnering"
+   ],
+   "line": "Managed a team of 8 analysts and accountants; close shortened 2 days and 2 analysts promoted in a year."
+  },
+  "operations": {
+   "reads_as": "Leading frontline teams and supervisors: shifts, safety, performance and development.",
+   "shown_by": [
+    "labor_shift_mgmt",
+    "ops_performance_mgmt",
+    "safety_ehs",
+    "performance_mgmt"
+   ],
+   "line": "Managed 4 supervisors and 120 hourly associates; attrition down from 45% to 30% and zero recordable incidents."
+  },
+  "marketing": {
+   "reads_as": "Leading marketers and agencies: hiring, development and the quality of the work.",
+   "shown_by": [
+    "campaign_management",
+    "creative_agency",
+    "brand_strategy",
+    "marketing_analytics"
+   ],
+   "line": "Built and led a team of 6 marketers and 2 agencies; 3 hires in a year and 1 promotion."
+  },
+  "sales": {
+   "reads_as": "Leading reps: hiring, coaching, pipeline reviews and the team's number.",
+   "shown_by": [
+    "sales_leadership",
+    "quota_attainment",
+    "pipeline_forecasting",
+    "sales_enablement"
+   ],
+   "line": "Led a team of 9 account executives to 108% of team quota; hired 4 and promoted 2."
+  },
+  "supply_chain": {
+   "reads_as": "Leading buyers, planners and category managers against savings and service targets.",
+   "shown_by": [
+    "sourcing_category_strategy",
+    "supplier_relationship_mgmt",
+    "performance_mgmt",
+    "demand_supply_planning"
+   ],
+   "line": "Managed a team of 7 category managers covering $200M of spend; team delivered $12M of savings."
+  },
+  "people": {
+   "reads_as": "Leading HR teams and, through managers, the people practices of the business.",
+   "shown_by": [
+    "hr_business_partnering",
+    "performance_mgmt",
+    "talent_acquisition",
+    "leadership_dev_coaching"
+   ],
+   "line": "Led a team of 5 HR business partners supporting 2,000 employees; engagement in the HR team up 10 points."
+  },
+  "risk": {
+   "reads_as": "Leading risk and compliance analysts through testing, exams and remediation cycles.",
+   "shown_by": [
+    "compliance_program",
+    "controls_testing",
+    "regulator_exams",
+    "performance_mgmt"
+   ],
+   "line": "Managed a team of 6 compliance analysts through 2 regulatory exams; all deliverables on time, 1 analyst promoted."
+  },
+  "analytics": {
+   "reads_as": "Leading analysts: hiring, code and analysis reviews, and growing their judgment.",
+   "shown_by": [
+    "analytics_requirements",
+    "dashboards_dataviz",
+    "sql",
+    "performance_mgmt"
+   ],
+   "line": "Managed 5 analysts; introduced analysis reviews and 2 analysts moved into senior roles within 18 months."
+  }
+ },
+ "ownership": {
+  "consulting_strategy": {
+   "reads_as": "Owning a workstream's answer and its deadline, and the client's problem beyond the scope letter.",
+   "shown_by": [
+    "client_engagement",
+    "transformation_programs",
+    "synthesis_recommendations",
+    "exec_communication"
+   ],
+   "line": "Owned the pricing workstream of a 4-month engagement; delivered the recommendation a week early and the client adopted it in full."
+  },
+  "finance": {
+   "reads_as": "Owning a number: a budget, a forecast or a close, and what happens when it is wrong.",
+   "shown_by": [
+    "budgeting_forecasting",
+    "accounting_close_controls",
+    "variance_analysis",
+    "finance_partnering"
+   ],
+   "line": "Owned the $80M operating budget and monthly forecast for a division; forecast error under 2% for 10 of 12 months."
+  },
+  "banking_investing": {
+   "reads_as": "Owning the model, the book and the deadline on a live deal, at any hour.",
+   "shown_by": [
+    "valuation",
+    "pitch_materials",
+    "ma_execution",
+    "due_diligence"
+   ],
+   "line": "Owned the operating model and CIM on a $200M sell-side process; managed 3 rounds of buyer questions to signing."
+  },
+  "operations": {
+   "reads_as": "Owning a site, a line or a programme's results: output, cost, safety and the people on it.",
+   "shown_by": [
+    "ops_performance_mgmt",
+    "program_mgmt",
+    "process_improvement",
+    "root_cause_corrective_action"
+   ],
+   "line": "Owned output and cost for a 120-person fulfilment operation; units per hour up 18% and cost per unit down 9% in a year."
+  },
+  "product": {
+   "reads_as": "Owning a product area's outcomes from discovery to the number after launch.",
+   "shown_by": [
+    "product_lifecycle",
+    "launch",
+    "roadmap",
+    "prioritization"
+   ],
+   "line": "Owned onboarding end to end; took activation from 31% to 44% over 3 quarters with 9 shipped experiments."
+  },
+  "marketing": {
+   "reads_as": "Owning a campaign or channel budget and the pipeline or revenue it must return.",
+   "shown_by": [
+    "campaign_management",
+    "demand_generation",
+    "performance_marketing",
+    "gtm"
+   ],
+   "line": "Owned a $2M paid budget and its pipeline target; delivered 115% of pipeline at 20% lower CAC."
+  },
+  "sales": {
+   "reads_as": "Owning a quota, a territory or a book of accounts and the number at quarter end.",
+   "shown_by": [
+    "quota_attainment",
+    "key_account_mgmt",
+    "territory_account_planning",
+    "renewals_expansion"
+   ],
+   "line": "Owned a $3.5M territory; closed 112% of quota and renewed 96% of the book."
+  },
+  "supply_chain": {
+   "reads_as": "Owning a category's spend, suppliers and continuity, and the savings target against it.",
+   "shown_by": [
+    "sourcing_category_strategy",
+    "spend_cost_savings",
+    "supplier_relationship_mgmt",
+    "supply_risk_continuity"
+   ],
+   "line": "Owned $60M of packaging spend across 30 suppliers; delivered $4.2M of savings against a $3M target."
+  },
+  "people": {
+   "reads_as": "Owning a population's people outcomes: hiring, retention, engagement and the manager issues in it.",
+   "shown_by": [
+    "hr_business_partnering",
+    "talent_acquisition",
+    "engagement_culture",
+    "employee_relations"
+   ],
+   "line": "Owned HR for a 400-person engineering organisation; attrition fell from 18% to 11% in 18 months."
+  },
+  "risk": {
+   "reads_as": "Owning a risk area or a programme's findings until each one is closed and evidenced.",
+   "shown_by": [
+    "issue_remediation",
+    "compliance_program",
+    "controls_testing",
+    "erm_framework"
+   ],
+   "line": "Owned remediation of 45 audit and regulatory findings; all closed on or before the committed dates."
+  },
+  "analytics": {
+   "reads_as": "Owning a dataset, a metric or a dashboard and its correctness when a leader relies on it.",
+   "shown_by": [
+    "dashboards_dataviz",
+    "data_modeling",
+    "metrics_kpis",
+    "analytics_requirements"
+   ],
+   "line": "Owned the revenue reporting model used by 200 people; cut reconciliation errors to zero over 6 months."
+  }
+ },
+ "adaptability": {
+  "consulting_strategy": {
+   "reads_as": "New industry, new client, new problem every few months, with a steep learning curve each time.",
+   "shown_by": [
+    "client_engagement",
+    "hypothesis_driven",
+    "special_projects",
+    "transformation_programs"
+   ],
+   "line": "Worked 7 engagements across 5 industries in 2 years, ramping to a credible client-facing role within the first 2 weeks of each."
+  },
+  "finance": {
+   "reads_as": "Re-forecasting and re-planning as the business changes, while the calendar does not move.",
+   "shown_by": [
+    "budgeting_forecasting",
+    "scenario_modeling",
+    "finance_partnering",
+    "reporting_adhoc_analysis"
+   ],
+   "line": "Re-forecast the year 3 times in a downturn, each within 5 days, and built the liquidity scenarios leadership ran on."
+  },
+  "banking_investing": {
+   "reads_as": "Deadlines, deal changes and long hours: switching priorities at short notice without losing precision.",
+   "shown_by": [
+    "ma_execution",
+    "capital_markets",
+    "pitch_materials",
+    "due_diligence"
+   ],
+   "line": "Worked 3 live deals at once through a 9-month period, re-cutting the model and book overnight when terms moved."
+  },
+  "operations": {
+   "reads_as": "Peak seasons, breakdowns and new sites: keeping output when the plan changes under you.",
+   "shown_by": [
+    "ops_performance_mgmt",
+    "program_mgmt",
+    "process_improvement",
+    "vendor_mgmt"
+   ],
+   "line": "Stood up a 200-person temporary site in 6 weeks for peak; shipped 1.2M units with 98% on-time delivery."
+  },
+  "product": {
+   "reads_as": "Pivots, ambiguity and fast iteration: changing the plan when the evidence changes.",
+   "shown_by": [
+    "discovery",
+    "product_lifecycle",
+    "launch",
+    "ab_testing"
+   ],
+   "line": "Pivoted a 0 to 1 product after 6 weeks of discovery disproved the core assumption; relaunched to 50K users in a quarter."
+  },
+  "marketing": {
+   "reads_as": "Fast-moving channels and campaigns: learning and switching tactics as results come in.",
+   "shown_by": [
+    "performance_marketing",
+    "campaign_management",
+    "growth_loops",
+    "content_social"
+   ],
+   "line": "Shifted 40% of paid budget across channels mid-quarter on weekly results; hit the pipeline target at 15% lower CAC."
+  },
+  "sales": {
+   "reads_as": "New territories, products and quotas: ramping and re-planning while the number stays.",
+   "shown_by": [
+    "territory_account_planning",
+    "quota_attainment",
+    "consultative_selling",
+    "prospecting"
+   ],
+   "line": "Took over a new territory mid-year after a reorganisation and hit 105% of the full-year quota."
+  },
+  "supply_chain": {
+   "reads_as": "Disruptions, shortages and price swings: re-planning supply and keeping the lines running.",
+   "shown_by": [
+    "supply_risk_continuity",
+    "demand_supply_planning",
+    "supplier_relationship_mgmt",
+    "logistics_transportation"
+   ],
+   "line": "Re-routed $20M of supply across 3 regions in 8 weeks during a port disruption with no customer shortages."
+  },
+  "people": {
+   "reads_as": "Reorganisations, growth and new programmes: wearing several hats while the business changes.",
+   "shown_by": [
+    "hr_business_partnering",
+    "change_management",
+    "org_design",
+    "talent_acquisition"
+   ],
+   "line": "Supported the company through 2 reorganisations and 150% headcount growth in 18 months, covering 3 HR roles for 6 of them."
+  },
+  "risk": {
+   "reads_as": "New regulations, new products and exam cycles: absorbing change into the control environment.",
+   "shown_by": [
+    "regulatory_change",
+    "compliance_program",
+    "issue_remediation",
+    "regulator_exams"
+   ],
+   "line": "Implemented 4 new regulations in 2 years, each before its effective date, while running the annual exam cycle."
+  },
+  "analytics": {
+   "reads_as": "New tools, new data and new questions every quarter, with answers still due this week.",
+   "shown_by": [
+    "sql",
+    "dashboards_dataviz",
+    "data_modeling",
+    "reporting_adhoc_analysis"
+   ],
+   "line": "Moved the team's reporting from Excel to a cloud warehouse and a BI tool in 4 months while keeping every monthly report on time."
+  }
+ },
+ "collaboration": {
+  "consulting_strategy": {
+   "reads_as": "Working inside a case team and alongside client staff so the work lands and the client owns it.",
+   "shown_by": [
+    "client_engagement",
+    "synthesis_recommendations",
+    "program_mgmt",
+    "change_management"
+   ],
+   "line": "Co-led a 6-person client working team for 12 weeks; the client team ran the new process alone from week 13."
+  },
+  "finance": {
+   "reads_as": "Partnering with business leaders and controllers so the numbers and the operating plan agree.",
+   "shown_by": [
+    "finance_partnering",
+    "budgeting_forecasting",
+    "financial_reporting",
+    "accounting_close_controls"
+   ],
+   "line": "Partnered with 5 business unit leaders on the annual plan; closed the plan 2 weeks earlier than the prior year."
+  },
+  "banking_investing": {
+   "reads_as": "Deal teams across products, offices and counsel, under deadline, with no dropped detail.",
+   "shown_by": [
+    "ma_execution",
+    "capital_markets",
+    "client_coverage",
+    "due_diligence"
+   ],
+   "line": "Coordinated a 9-person deal team across M&A, leveraged finance and counsel to close a $350M acquisition in 4 months."
+  },
+  "operations": {
+   "reads_as": "Working across plants, functions and shifts so a change holds on the floor.",
+   "shown_by": [
+    "program_mgmt",
+    "process_improvement",
+    "lean_six_sigma",
+    "safety_ehs"
+   ],
+   "line": "Worked with 3 shifts and the maintenance team on a changeover redesign; changeover time fell 35% across 4 lines."
+  },
+  "product": {
+   "reads_as": "The product triad and the partner teams: engineering, design, data, marketing and sales building one thing.",
+   "shown_by": [
+    "ux_design_collab",
+    "cross_functional",
+    "launch",
+    "prd"
+   ],
+   "line": "Partnered with 2 designers and 8 engineers through discovery to launch; shipped 6 releases in 9 months with one shared backlog."
+  },
+  "marketing": {
+   "reads_as": "Working with sales, product, agencies and creative so one campaign carries one message.",
+   "shown_by": [
+    "campaign_management",
+    "creative_agency",
+    "sales_enablement",
+    "gtm"
+   ],
+   "line": "Ran a launch campaign with product, sales and 2 agencies; 12 assets shipped on one calendar and sales adopted all of them."
+  },
+  "sales": {
+   "reads_as": "Account teams with solutions engineers, customer success and partners working one account plan.",
+   "shown_by": [
+    "key_account_mgmt",
+    "sales_enablement",
+    "customer_success",
+    "partner_gtm"
+   ],
+   "line": "Worked 20 accounts with 2 solutions engineers and a CSM on shared account plans; expansion revenue grew 40%."
+  },
+  "supply_chain": {
+   "reads_as": "Suppliers, engineering, operations and finance agreeing on one sourcing decision.",
+   "shown_by": [
+    "supplier_relationship_mgmt",
+    "sourcing_category_strategy",
+    "supplier_contract_negotiation",
+    "demand_supply_planning"
+   ],
+   "line": "Led joint cost workshops with 4 suppliers and our engineering team; 11 design changes saved $3M a year."
+  },
+  "people": {
+   "reads_as": "Working with managers, centres of excellence and employees so people decisions are made together.",
+   "shown_by": [
+    "hr_business_partnering",
+    "performance_mgmt",
+    "talent_acquisition",
+    "engagement_culture"
+   ],
+   "line": "Partnered with 25 people managers and the recruiting team on hiring and reviews; filled 40 roles and ran 2 review cycles on time."
+  },
+  "risk": {
+   "reads_as": "Working with first-line businesses, audit and legal so controls are owned where the risk sits.",
+   "shown_by": [
+    "erm_framework",
+    "compliance_program",
+    "controls_testing",
+    "issue_remediation"
+   ],
+   "line": "Worked with 6 business units and internal audit on a control redesign; 30 open issues closed within 2 quarters."
+  },
+  "analytics": {
+   "reads_as": "Working with data engineering and business stakeholders from the question to the dashboard.",
+   "shown_by": [
+    "analytics_requirements",
+    "dashboards_dataviz",
+    "data_modeling",
+    "synthesis_recommendations"
+   ],
+   "line": "Partnered with 2 data engineers and 4 business teams on a shared metrics layer; 15 dashboards moved onto one definition set."
+  }
+ },
+ "program_mgmt": {
+  "consulting_strategy": {
+   "reads_as": "Running the engagement workplan: workstreams, milestones, the client's PMO and the steering cadence.",
+   "shown_by": [
+    "client_engagement",
+    "transformation_programs",
+    "change_management",
+    "business_case"
+   ],
+   "line": "Ran the PMO for a 10-workstream transformation with 40 client staff; 90% of milestones hit on the original dates."
+  },
+  "finance": {
+   "reads_as": "Running finance projects: system implementations, planning cycles and close improvements to a date.",
+   "shown_by": [
+    "accounting_close_controls",
+    "budgeting_forecasting",
+    "process_improvement",
+    "financial_reporting"
+   ],
+   "line": "Managed the ERP consolidation project for 12 entities; delivered on time and under a $2M budget."
+  },
+  "banking_investing": {
+   "reads_as": "Running the transaction timeline: workstreams, data room, approvals and the closing checklist.",
+   "shown_by": [
+    "ma_execution",
+    "capital_markets",
+    "due_diligence",
+    "valuation"
+   ],
+   "line": "Ran the timeline and closing checklist for a $600M acquisition across 5 advisers; signed on the planned date."
+  },
+  "operations": {
+   "reads_as": "Delivering site, systems and improvement programmes with milestones, risks and budgets.",
+   "shown_by": [
+    "process_improvement",
+    "risk_mgmt",
+    "cost_schedule_control",
+    "vendor_mgmt"
+   ],
+   "line": "Delivered a $15M automation programme across 3 sites, 4 weeks early and 6% under budget."
+  },
+  "product": {
+   "reads_as": "Keeping a multi-team release on track: dependencies, milestones and the launch date.",
+   "shown_by": [
+    "launch",
+    "roadmap",
+    "risk_mgmt",
+    "agile_scrum"
+   ],
+   "line": "Managed dependencies across 4 teams for a platform migration; launched in 2 phases on the committed dates."
+  },
+  "marketing": {
+   "reads_as": "Running campaigns and launches on a calendar with agencies, creative and sales.",
+   "shown_by": [
+    "campaign_management",
+    "gtm",
+    "creative_agency",
+    "events_field_marketing"
+   ],
+   "line": "Ran the launch programme across 6 workstreams and 2 agencies; 40 deliverables shipped on the launch date."
+  },
+  "sales": {
+   "reads_as": "Running customer implementations and account programmes to the dates in the contract.",
+   "shown_by": [
+    "onboarding_adoption",
+    "customer_success",
+    "key_account_mgmt",
+    "partner_gtm"
+   ],
+   "line": "Managed 15 enterprise onboardings in a year; median time to go-live fell from 90 to 55 days."
+  },
+  "supply_chain": {
+   "reads_as": "Running supplier transitions, sourcing waves and systems rollouts without breaking supply.",
+   "shown_by": [
+    "supplier_relationship_mgmt",
+    "sourcing_category_strategy",
+    "supply_risk_continuity",
+    "procure_to_pay"
+   ],
+   "line": "Managed a 3-wave sourcing programme over 18 months covering $90M of spend; every wave on schedule."
+  },
+  "people": {
+   "reads_as": "Running people programmes and system rollouts across an organisation to a date.",
+   "shown_by": [
+    "hr_operations",
+    "talent_acquisition",
+    "change_management",
+    "learning_design"
+   ],
+   "line": "Managed the HRIS rollout to 4,000 employees in 3 countries; live on the planned date with 97% adoption in a month."
+  },
+  "risk": {
+   "reads_as": "Running regulatory implementations, remediation programmes and exam cycles to committed dates.",
+   "shown_by": [
+    "regulatory_change",
+    "issue_remediation",
+    "compliance_program",
+    "internal_audit_sox"
+   ],
+   "line": "Ran a regulatory implementation programme across 6 workstreams; compliant 2 months before the effective date."
+  },
+  "analytics": {
+   "reads_as": "Running analytics and data projects from requirements to adopted dashboards.",
+   "shown_by": [
+    "analytics_requirements",
+    "dashboards_dataviz",
+    "data_modeling",
+    "reporting_adhoc_analysis"
+   ],
+   "line": "Managed a 9-month data warehouse migration with 3 engineers; 40 reports moved with zero reporting outages."
+  }
+ },
+ "risk_mgmt": {
+  "consulting_strategy": {
+   "reads_as": "Keeping the engagement's risks, dependencies and escalations visible to the partner and the client.",
+   "shown_by": [
+    "client_engagement",
+    "transformation_programs",
+    "program_mgmt",
+    "stakeholder_mgmt"
+   ],
+   "line": "Kept a RAID log across 8 workstreams and escalated 5 risks early; no milestone slipped on the engagement."
+  },
+  "finance": {
+   "reads_as": "Risks to the plan, the close and the cash position, with contingencies ready.",
+   "shown_by": [
+    "budgeting_forecasting",
+    "scenario_modeling",
+    "accounting_close_controls",
+    "financial_reporting"
+   ],
+   "line": "Built the risks-and-opportunities tracker for a $200M plan; 3 downside risks mitigated before they hit the forecast."
+  },
+  "banking_investing": {
+   "reads_as": "Transaction and credit risk: what can break the deal or the loan, and how it is covered.",
+   "shown_by": [
+    "credit_analysis",
+    "due_diligence",
+    "deal_structuring",
+    "financial_risk"
+   ],
+   "line": "Identified 4 diligence red flags on a $300M deal; 2 became purchase-price adjustments worth $15M."
+  },
+  "operations": {
+   "reads_as": "Programme and operational risks: dependencies, contingencies and escalations that keep the date.",
+   "shown_by": [
+    "program_mgmt",
+    "process_improvement",
+    "vendor_mgmt",
+    "cost_schedule_control"
+   ],
+   "line": "Maintained the risk register for a 3-site rollout; 12 of 14 risks mitigated and the go-live held."
+  },
+  "product": {
+   "reads_as": "Launch and dependency risk: knowing what could stop the release and having a plan.",
+   "shown_by": [
+    "launch",
+    "program_mgmt",
+    "prd",
+    "quality_testing"
+   ],
+   "line": "Ran launch risk reviews for 6 releases; 2 rollbacks avoided through staged rollouts planned in advance."
+  },
+  "sales": {
+   "reads_as": "Deal and account risk: forecast slippage, churn signals and escalations handled early.",
+   "shown_by": [
+    "customer_health",
+    "pipeline_forecasting",
+    "renewals_expansion",
+    "key_account_mgmt"
+   ],
+   "line": "Flagged 10 at-risk renewals worth $1.5M a quarter early and saved 8."
+  },
+  "supply_chain": {
+   "reads_as": "Supply risk: single sources, supplier health and continuity plans.",
+   "shown_by": [
+    "supply_risk_continuity",
+    "supplier_relationship_mgmt",
+    "demand_supply_planning",
+    "logistics_transportation"
+   ],
+   "line": "Assessed 80 critical suppliers and removed 12 single-source dependencies in a year."
+  },
+  "people": {
+   "reads_as": "Employment, programme and change risks escalated before they become claims or failures.",
+   "shown_by": [
+    "employee_relations",
+    "hr_compliance",
+    "change_management",
+    "hr_business_partnering"
+   ],
+   "line": "Escalated and resolved 20 employment-risk cases a year with legal; zero claims filed."
+  },
+  "risk": {
+   "reads_as": "The job itself: identifying, assessing, mitigating and reporting risk across the enterprise.",
+   "shown_by": [
+    "erm_framework",
+    "operational_risk",
+    "controls_testing",
+    "issue_remediation"
+   ],
+   "line": "Ran the risk assessment for 10 business units and tracked 60 mitigations; 90% closed on the committed date."
+  },
+  "analytics": {
+   "reads_as": "Data quality, model and delivery risks in the analytics that decisions rest on.",
+   "shown_by": [
+    "data_modeling",
+    "data_governance",
+    "dashboards_dataviz",
+    "analytics_requirements"
+   ],
+   "line": "Built data-quality checks on 30 critical tables; reporting incidents fell from 6 a month to under 1."
+  }
+ },
+ "execution": {
+  "consulting_strategy": {
+   "reads_as": "Delivering the engagement's workplan on time with the quality a partner signs.",
+   "shown_by": [
+    "client_engagement",
+    "program_mgmt",
+    "transformation_programs",
+    "synthesis_recommendations"
+   ],
+   "line": "Delivered 5 engagements in 14 months, each on the original timeline, with 2 follow-on engagements sold."
+  },
+  "finance": {
+   "reads_as": "Hitting the close, the reporting calendar and the planning cycle, every period, with controls intact.",
+   "shown_by": [
+    "accounting_close_controls",
+    "financial_reporting",
+    "budgeting_forecasting",
+    "variance_analysis"
+   ],
+   "line": "Ran the month-end close for 12 entities; cut close from 8 days to 5 with no audit adjustments."
+  },
+  "banking_investing": {
+   "reads_as": "Getting the deal, the book or the issuance done with every detail right on the deadline.",
+   "shown_by": [
+    "ma_execution",
+    "capital_markets",
+    "pitch_materials",
+    "due_diligence"
+   ],
+   "line": "Executed 4 transactions worth $1.2B in 18 months, including a $500M bond issuance priced inside guidance."
+  },
+  "operations": {
+   "reads_as": "Delivering output, service levels and projects on the floor against a plan, every day.",
+   "shown_by": [
+    "ops_performance_mgmt",
+    "program_mgmt",
+    "process_improvement",
+    "cost_schedule_control"
+   ],
+   "line": "Delivered 99.2% on-time shipments across 2 sites through peak season while cutting overtime 15%."
+  },
+  "product": {
+   "reads_as": "Shipping: taking features from backlog to production and seeing the metric move.",
+   "shown_by": [
+    "launch",
+    "product_lifecycle",
+    "prd",
+    "agile_scrum"
+   ],
+   "line": "Shipped 14 features in a year across 3 squads; 11 hit their launch metric within 60 days."
+  },
+  "marketing": {
+   "reads_as": "Launching campaigns on the calendar and delivering the pipeline or revenue they promised.",
+   "shown_by": [
+    "campaign_management",
+    "gtm",
+    "demand_generation",
+    "events_field_marketing"
+   ],
+   "line": "Launched 8 campaigns on schedule in a year and delivered 110% of the pipeline target."
+  },
+  "sales": {
+   "reads_as": "Closing: moving deals through the stages and hitting the number each quarter.",
+   "shown_by": [
+    "quota_attainment",
+    "pipeline_forecasting",
+    "consultative_selling",
+    "deal_negotiation"
+   ],
+   "line": "Closed 32 deals for $2.8M, 118% of quota, with forecast accuracy within 5% every quarter."
+  },
+  "supply_chain": {
+   "reads_as": "Delivering sourcing events, savings and supplier changes on the plan without breaking supply.",
+   "shown_by": [
+    "spend_cost_savings",
+    "rfx_bid_mgmt",
+    "supplier_contract_negotiation",
+    "supply_risk_continuity"
+   ],
+   "line": "Ran 9 sourcing events in a year, delivered $5M of savings and transitioned 3 suppliers with zero line stoppages."
+  },
+  "people": {
+   "reads_as": "Running the people cycles and programmes on time: hiring, reviews, enrolment, changes.",
+   "shown_by": [
+    "hr_operations",
+    "talent_acquisition",
+    "performance_mgmt",
+    "engagement_culture"
+   ],
+   "line": "Ran open enrolment for 3,000 employees and the annual review cycle on schedule, with a 99% completion rate."
+  },
+  "risk": {
+   "reads_as": "Completing the testing plan, the exam responses and the remediation on the committed dates.",
+   "shown_by": [
+    "controls_testing",
+    "compliance_monitoring",
+    "issue_remediation",
+    "regulator_exams"
+   ],
+   "line": "Completed 100% of the annual testing plan (140 controls) and answered 60 examiner requests within deadline."
+  },
+  "analytics": {
+   "reads_as": "Delivering analyses and dashboards when the decision needs them, correct the first time.",
+   "shown_by": [
+    "dashboards_dataviz",
+    "reporting_adhoc_analysis",
+    "data_modeling",
+    "sql"
+   ],
+   "line": "Delivered 40 ad hoc analyses and 12 dashboards in a year, with a median turnaround of 2 days."
+  }
+ },
+ "process_improvement": {
+  "consulting_strategy": {
+   "reads_as": "Redesigning a client's process end to end and leaving a playbook the client runs.",
+   "shown_by": [
+    "operating_model_design",
+    "performance_improvement",
+    "transformation_programs",
+    "change_management"
+   ],
+   "line": "Redesigned a client's procure-to-pay process across 3 regions; cycle time down 40% and 2 FTE redeployed."
+  },
+  "finance": {
+   "reads_as": "Shortening the close, automating reporting and tightening controls.",
+   "shown_by": [
+    "accounting_close_controls",
+    "financial_reporting",
+    "variance_analysis",
+    "reporting_adhoc_analysis"
+   ],
+   "line": "Automated 30 manual journal entries and 6 reports; close shortened by 2 days with no new control gaps."
+  },
+  "operations": {
+   "reads_as": "Lean: removing waste from the floor and standardising the work so it holds.",
+   "shown_by": [
+    "lean_six_sigma",
+    "root_cause_corrective_action",
+    "ops_performance_mgmt",
+    "safety_ehs"
+   ],
+   "line": "Led 6 kaizen events in a year; throughput up 22% and scrap down 30% on the main line."
+  },
+  "product": {
+   "reads_as": "Fixing how the team works: rituals, templates and operating cadence that speed up shipping.",
+   "shown_by": [
+    "agile_scrum",
+    "roadmap",
+    "prioritization",
+    "launch"
+   ],
+   "line": "Redesigned the planning and release process for 3 squads; cycle time from idea to production fell from 9 to 5 weeks."
+  },
+  "marketing": {
+   "reads_as": "Building the playbooks and marketing-ops processes that make campaigns repeatable.",
+   "shown_by": [
+    "demand_generation",
+    "campaign_management",
+    "marketing_analytics",
+    "lifecycle_marketing"
+   ],
+   "line": "Built the campaign launch playbook and automation templates; time to launch a campaign fell from 4 weeks to 10 days."
+  },
+  "sales": {
+   "reads_as": "Tightening the sales process and operations so reps spend time selling.",
+   "shown_by": [
+    "sales_process",
+    "pipeline_forecasting",
+    "sales_enablement",
+    "onboarding_adoption"
+   ],
+   "line": "Redesigned the stage definitions and CRM workflow for 60 reps; forecast accuracy improved from 70% to 90%."
+  },
+  "supply_chain": {
+   "reads_as": "Standardising sourcing, P2P and planning processes and taking cost and time out of them.",
+   "shown_by": [
+    "procure_to_pay",
+    "demand_supply_planning",
+    "lean_six_sigma",
+    "spend_cost_savings"
+   ],
+   "line": "Standardised the P2P process across 5 sites; PO cycle time down 50% and compliance up to 95%."
+  },
+  "people": {
+   "reads_as": "Streamlining HR operations and the people cycles so managers spend less time on admin.",
+   "shown_by": [
+    "hr_operations",
+    "performance_mgmt",
+    "talent_acquisition",
+    "engagement_culture"
+   ],
+   "line": "Automated onboarding for 1,500 hires a year; manager time per hire fell from 6 hours to 2."
+  },
+  "risk": {
+   "reads_as": "Simplifying controls, testing and reporting so compliance costs less and catches more.",
+   "shown_by": [
+    "controls_testing",
+    "compliance_monitoring",
+    "issue_remediation",
+    "policy_management"
+   ],
+   "line": "Rationalised 300 controls to 180 and moved testing onto a GRC platform; testing effort down 35%."
+  },
+  "analytics": {
+   "reads_as": "Automating reporting and building self-service so analysts stop pulling the same numbers.",
+   "shown_by": [
+    "reporting_adhoc_analysis",
+    "self_service_bi",
+    "dashboards_dataviz",
+    "data_modeling"
+   ],
+   "line": "Automated 25 recurring reports and launched self-service for 150 users; ad hoc requests fell 60%."
+  }
+ }
+}

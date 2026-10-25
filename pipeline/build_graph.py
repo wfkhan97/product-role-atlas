@@ -26,11 +26,34 @@ for _p in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
     if not _p.endswith("_roles.json"):   # per-role credential steps, not a skill
         DEPTH.update(json.load(open(_p)))
 DEPTH = {sid: d for sid, d in DEPTH.items() if sid in {s["id"] for s in TAX["skills"]}}
+# the stratification: how a resume shows each skill, and what the skills most fields ask for mean in each field
+EVIDENCE = tax.load_evidence()
+FIELDS = tax.load_fields()
+KIND = {s["id"]: s.get("kind") for s in tax.load()["skills"]}
 
 IC_LEVELS = ("senior", "staff")
 MGMT_LEVELS = ("group", "director", "vp", "cpo")
 TECH_SPECS = {"platform", "ai_ml", "data", "hardware_devices", "security_identity"}
 COMM_SPECS = {"growth", "ads_marketing", "commerce", "enterprise_b2b", "payments_fintech"}
+
+
+def field_flavour(sid, with_skill, base, sub_ids, wkey=None):
+    """The postings' side of a field entry for one skill: the carrier skills asked for together with it in this field,
+    ranked by share times log-lift against the skill's postings everywhere (share at least 30%), and the sub-skill mix.
+    `with_skill` and `base` are lists of (posting, weight) pairs; `wkey` names the field for the record."""
+    def ws(pairs, key, k):
+        tot = sum(w for _, w in pairs)
+        return sum(w for j, w in pairs if k in j[key]) / tot if tot else 0.0
+    rows = []
+    for k, kind in KIND.items():
+        if k == sid or kind not in tax.CARRIER_KINDS:
+            continue
+        a = ws(with_skill, "skills", k)
+        if a >= 0.3:
+            rows.append((a * math.log((a + 0.02) / (ws(base, "skills", k) + 0.02)), a, k))
+    rows.sort(reverse=True)
+    subs = sorted(((ws(with_skill, "sub", k), k) for k in sub_ids), reverse=True)
+    return {"n": len(with_skill), "with": [{"id": k, "share": R4(a)} for _, a, k in rows[:6]], "subs": [{"id": k, "share": R4(v)} for v, k in subs if v > 0]}
 
 
 def share(jobs, key, sid):
@@ -103,7 +126,10 @@ def main():
                       "by_group": {g: share([j for j in jobs if j["group"] == g], "skills", sid) for g in ("fortune50", "fortune100", "fortune250", "fortune500", "startup")},
                       "by_sector": {g: share([j for j in jobs if j.get("sector") == g], "skills", sid) for g in sorted({j.get("sector") for j in jobs if j.get("sector")})},
                       "what": d.get("what", ""), "subskills": subs, "ladder": d.get("ladder"), "build": d.get("build", []),
-                      "signals": d.get("signals", []), "evidence": evidence.get(sid, {})})
+                      "signals": d.get("signals", []), "evidence": evidence.get(sid, {}),
+                      "kind": KIND.get(sid), "how_shown": EVIDENCE.get(sid),
+                      "fields": {"product": {**FIELDS[sid]["product"], **field_flavour(sid, [(j, 1.0) for j in jobs if sid in j["skills"]], [(j, 1.0) for j in jobs], [x["id"] for x in d.get("subskills", [])])}}
+                      if sid in FIELDS and "product" in FIELDS[sid] else {}})
     # shrink rare skills toward the centre so a handful of postings can't fling them to an extreme
     K = 40
     mean_sen = sum(seniority_raw) / len(seniority_raw)
@@ -156,7 +182,7 @@ def main():
     fund_by_name = {f["name"]: f["id"] for f in funds.values()}
     out = {
         "skill_ids": [s["id"] for s in skills], "sub_ids": sub_ids,
-        "meta": {"generated": time.strftime("%Y-%m-%d"), "n_jobs": n, "n_companies": len(companies), "companies": list(companies.values()),
+        "meta": {"generated": time.strftime("%Y-%m-%d"), "n_jobs": n, "n_companies": len(companies), "companies": list(companies.values()), "kinds": tax.KINDS, "forms": tax.FORMS,
                  "seniority_ticks": {l: cdf(level_weights[l]) for l in LEVEL_ORDER},
                  "seniority_range": [lo, hi]},
         "sectors": sorted({j.get("sector") for j in jobs if j.get("sector")}),
@@ -281,6 +307,7 @@ def build_roleset(roleset):
     ic = [p for p in pairs if p[0]["level"] in IC_LEVELS]
     mgmt = [p for p in pairs if p[0]["level"] in MGMT_LEVELS]
     level_weights = {l: i for i, l in enumerate(levels)}
+    by_group_pairs = {g: [p for p in pairs if R.GROUP_OF.get(p[0]["family"]) == g] for g in R.GROUPS}
 
     nodes, sen_raw, ic_raw = [], [], []
     for s in T["skills"]:
@@ -301,7 +328,13 @@ def build_roleset(roleset):
                       "by_group": {g: R4(wshare([p for p in pairs if p[0]["group"] == g], sid)) for g in groups},
                       "by_sector": {g: R4(wshare([p for p in pairs if p[0].get("sector") == g], sid)) for g in sectors},
                       "what": d.get("what", ""), "subskills": subs, "ladder": d.get("ladder"), "build": d.get("build", []),
-                      "signals": d.get("signals", [])})
+                      "signals": d.get("signals", []),
+                      "kind": KIND.get(sid), "how_shown": EVIDENCE.get(sid),
+                      # what the skill means in each field that asks for it: the hand-written reading, carriers and resume line,
+                      # with the postings' own carriers and sub-skill mix in that field beside them
+                      "fields": {g: {**entry, "share": R4(wshare(by_group_pairs[g], sid)),
+                                     **field_flavour(sid, [p for p in by_group_pairs[g] if sid in p[0]["skills"]], with_skill, [x["id"] for x in d.get("subskills", [])])}
+                                 for g, entry in FIELDS.get(sid, {}).items() if g in by_group_pairs}})
     K = 40
     mean_sen = sum(sen_raw) / len(sen_raw)
     sen_raw = [(nd["n"] * v + K * mean_sen) / (nd["n"] + K) for nd, v in zip(nodes, sen_raw)]
@@ -407,6 +440,7 @@ def build_roleset(roleset):
                  "shares": {"balanced": True, "cap": balance.CAP, "small": balance.SMALL, "defining_share": balance.DEFINING_SHARE, "defining_lift": balance.DEFINING_LIFT,
                             "note": "Every share is company-balanced: a posting carries weight w, so that one employer counts for at most cap of a role."},
                  "entry": ENTRY_META,
+                 "kinds": tax.KINDS, "forms": tax.FORMS,
                  "files": files, "evidence": f"graph_{roleset}/_evidence.json"},
         "sectors": sectors,
         "funds": [{"id": f["id"], "name": f["name"], "type": f["type"], "parent": f.get("parent")} for f in funds.values()],
