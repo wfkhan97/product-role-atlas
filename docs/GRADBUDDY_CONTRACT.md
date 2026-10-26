@@ -128,6 +128,26 @@ text names), `signin_domains`, `catalog`. The picker's pure functions (`Catalog.
 `gapsCovered`, `sortCards`, `topCovering`) load in node with `require("web/catalog.js")({})`. The roster itself is in
 the `gradbuddy-catalog` Supabase project behind row-level security.
 
+## Consumers
+
+The first consumer is the apprentice map generator in `gradbuddy/` (PLAN.md v18; its brief is
+`../GradBuddy Project/discovery&research/handoffs/2026-10-26_apprentice_map_generator_brief.md`): an atlas-grounded
+"shadow apprentice map", a five-level project ladder for one student and one role. It reads these files by path:
+
+- `web/data/roles_mba.json`: the 50 roles with their labels, groups, title rules and ladders, to name the role and
+  its grades.
+- `web/data/taxonomy_mba.json`: the skills the postings are tagged with (id, name, area, kind, patterns), the
+  vocabulary every level of the ladder is written in.
+- `web/data/graph_mba/<role>.json`: one role's postings with their skills, levels and employers, the evidence of what
+  the role asks for at each grade.
+- `web/data/subskills_mba.json`: the sub-skills per skill, so a project can be aimed at the specific part postings
+  name.
+- `web/data/sp27_campus.json`: the campuses, their programs and pre-enrollment dates, so a ladder can point at the
+  term's classes.
+
+A consumer reads ids and statuses as keys and numbers and sentences as today's values ("Stable and not" above), and
+inherits the privacy rule below.
+
 ## The privacy rule
 
 What never leaves a browser: the resume, the syllabus, the pasted posting, every skill list, every file name, the
