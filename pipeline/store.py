@@ -68,8 +68,9 @@ class Bucket:
 
     def _request(self, method, path, data=None, content_type=None):
         req = urllib.request.Request(f"{self.base}/object/{self.bucket}/{path}", data=data, method=method)
-        req.add_header("Authorization", f"Bearer {self.key}")
         req.add_header("apikey", self.key)
+        if not self.key.startswith("sb_secret_"):  # a legacy service_role JWT goes in both headers; the new keys are not JWTs
+            req.add_header("Authorization", f"Bearer {self.key}")
         if data is not None:
             req.add_header("Content-Type", content_type or "application/octet-stream")
             req.add_header("x-upsert", "true")
