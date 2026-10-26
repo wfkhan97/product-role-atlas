@@ -171,7 +171,7 @@ are whole.
 
 ```bash
 .venv/bin/python evals/run_pipeline.py               # all parts; exit 1 when a check fails
-.venv/bin/python evals/run_pipeline.py --only titles # one part: backlog, titles, entry, countries, golden, integrity, graph, js, matcher
+.venv/bin/python evals/run_pipeline.py --only titles # one part: backlog, titles, entry, countries, golden, sponsorship, integrity, graph, js, matcher
 .venv/bin/python evals/run_pipeline.py --baseline    # also rewrite pipeline_baseline_mba.md (commit it with the change)
 ```
 
@@ -185,6 +185,7 @@ No API key is needed. The `js` and `matcher` parts need `node`.
 | entry | `entry_mba.json` | 231 postings with the entry mark each must get: `mba`, `pre_mba` or none, and internship or not. 210 are real US postings drawn by seed from 20 strata; 21 are titles written to probe the firm table. 32 are read with their posting text. The part also checks that every row of the firm table has a source. |
 | countries | `countries.json` | 280 location strings with the country each must get. A wrong country hides a US posting or shows a foreign one. |
 | golden | `golden_mba.json` | 99 postings, two per role, each with the skills it must get and must not get. The posting text is in the file, so the eval does not move when the scrape is refreshed. |
+| sponsorship | `sponsorship.json` | Visa sponsorship as a posting fact (PLAN.md v16, step 8): postings labelled by reading them (yes: the employer says it sponsors; no: it says it does not; null: it says nothing, eight of them naming a project sponsor or a sponsored event), with the deciding sentence in `note`. `pipeline.sponsorship.read` must equal every label; the part also prints the values in the processed file. 22 rows on 2026-10-25 (1 yes, 11 no, 10 silent, all from the golden postings); the brief's 15 yes and 15 no need the backlog, as the file's `about` says. |
 | integrity | – | No two registry entries share a job board. No URL or id repeats in the processed file. Every skill id exists. Every role has US postings. Every posting has an entry mark from the allowed values, and a source exactly when it has a mark. |
 | graph | – | The role files add up to the index. Every posting is a US posting of its role. The entry marks in the files equal the processed file, and the entry counts in the index (per role and ladder, per ladder) add up to the files. Shares in the index equal the weighted shares of the files. No employer weighs more than the cap. The product files are untouched. |
 | js | `roles_mba.mjs` | The JavaScript reader of `web/data/roles_mba.json` gives the same role, level, ladder and entry mark as `pipeline/roles_mba.py` on every title we hold, and the same entry mark on the labelled postings that carry a text. |

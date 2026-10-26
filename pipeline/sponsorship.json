@@ -1,0 +1,24 @@
+{
+  "_note": "Visa sponsorship as a posting fact (PLAN.md v16, step 8), not a skill. pipeline/sponsorship.py reads a posting's text: when a `no` pattern matches the posting says it does not sponsor (\"no\"); else when a `yes` pattern matches it says it does (\"yes\"); else null, which is most postings. Patterns are case-insensitive regular expressions anchored on visa, immigration, work-authorization or H-1B words, so a project sponsor, a company-sponsored event or a sponsored clearance never counts. Labelled examples: evals/sponsorship.json, checked by evals/run_pipeline.py --only sponsorship.",
+  "no": [
+    "(not|unable|cannot|can ?not|can't|won't|will not|does not|do not|no longer|never)( be able| able| willing| in a position)?( to)?( currently| presently| at this time)?( provide| offer| consider| support| pursue| petition for)?( visa| immigration| employment[- ]based| work[- ]authori[sz]ation| H-?1B| new| any)?( visa| immigration| employment)? sponsor(ship)?\\b",
+    "sponsor(ship)? (is |will be |are |may be )?(not |un)(available|offered|provided|possible|supported|considered|eligible)",
+    "not (eligible|available|open|approved|authori[sz]ed) for (visa |employment[- ]based |immigration |H-?1B |work[- ]authori[sz]ation |any )?(visa |immigration )?sponsorship",
+    "without (the need for |requiring |need of |any )?(visa |employment[- ]based |immigration |company |employer |H-?1B |work[- ]authori[sz]ation |current or future )?(visa |immigration )?sponsorship",
+    "(must not|do not|does not|cannot|can ?not|should not|will not|may not|won't)\\b[^.;]{0,45}?\\b(require|need|seek)\\b[^.;]{0,40}?\\bsponsorship",
+    "\\bno (visa |immigration |employment[- ]based |H-?1B |work )?(visa )?sponsorship\\b",
+    "sponsorship (will not|won't|cannot|can ?not) be (provided|offered|considered|available|granted)",
+    "not a (position|role|job) (for which|where|in which) (visa |immigration )?sponsorship",
+    "(visa|immigration|H-?1B) sponsorship is not (an option|something we|part of)",
+    "ineligible for (visa |immigration )?sponsorship"
+  ],
+  "yes": [
+    "(visa|immigration|H-?1B|work[- ]authori[sz]ation|employment[- ]based) sponsorship (is |may be |will be |can be |could be )?(available|offered|provided|possible|supported|considered|an option)",
+    "\\b(will|can|may|able to|willing to|open to|happy to|prepared to|offers? to|offers?|provides?|provide) (consider |provide |offer )?(visa |immigration |H-?1B |work |employment |green card )?sponsor(ship)? ?(for|to|the|a|an|new|qualified|eligible|exceptional|the right|candidates|applicants|employees|work|H-?1B|visas?|employment|green)",
+    "(we|employer|company|firm) (sponsors?|will sponsor|does sponsor|can sponsor|is able to sponsor) (work |employment |H-?1B |visas?|immigration|green card|candidates|applicants|the right)",
+    "(?<!require )(?<!need )(?<!requiring )(?<!needing )(?<!seek )sponsor(ship)? (of |for )?(H-?1B|work visas?|employment visas?|green cards?|TN visas?|O-?1|OPT|STEM OPT)( visas?| petitions?| transfers?)?\\b(?![^.\\n]{0,40}\\b(not|unable|cannot|no)\\b)",
+    "H-?1B (transfers?|petitions?) (are |is )?(welcome|accepted|supported|available|considered)",
+    "(limited|some|case[- ]by[- ]case) (immigration |visa |employment[- ]based )?sponsorship (may be |is |could be )?(available|possible|considered)",
+    "sponsorship (is |will be |may be )?(available|offered|provided|possible|considered) (for|to) (this|the|qualified|exceptional|the right|eligible)"
+  ]
+}

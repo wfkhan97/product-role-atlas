@@ -155,7 +155,7 @@
   });
 
   // ---------- router ----------
-  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "", grads: false, areaOpen: null, areaMore: new Set(), tab: "skills", fitTab: "show", empOpen: new Set(), cardTab: null, cardMore: false, fitMore: new Set(), group: null, fit: null, gapOpen: null, wait: null };
+  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "", grads: false, areaOpen: null, areaMore: new Set(), tab: "skills", fitTab: "show", empOpen: new Set(), cardTab: null, cardMore: false, fitMore: new Set(), group: null, fit: null, gapOpen: null, wait: null, sponsor: false };
   const PAGE = 8;   // employers shown in the postings tab before "Show more"
   // Owner's choice 2026-10-23: the postings stay in the data and behind every number, but the interface stays high
   // level for now: no postings tab, no link out to a posting, no list of postings on a skill card, no filter by
@@ -538,7 +538,7 @@
   // ---------- 4. a role: the skill grid, the side panel, the postings ----------
   async function loadRole(id) {
     if (!state.ixGroups) state.ixGroups = (await Atlas.index()).groups;
-    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = PAGE; state.evTab = null; state.match = null; state.sector = new Set(); state.company = new Set(); state.country = new Set(); state.remote = false; state.more = false; state.companyQuery = ""; state.grads = false; state.areaOpen = null; state.areaMore = new Set(); state.tab = "skills"; state.empOpen = new Set(); state.fit = null; state.gapOpen = null; state.wait = null; state.gapClasses = null; }
+    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = PAGE; state.evTab = null; state.match = null; state.sector = new Set(); state.company = new Set(); state.country = new Set(); state.remote = false; state.more = false; state.companyQuery = ""; state.grads = false; state.areaOpen = null; state.areaMore = new Set(); state.tab = "skills"; state.empOpen = new Set(); state.fit = null; state.gapOpen = null; state.wait = null; state.gapClasses = null; state.sponsor = false; }
     const ix = await Atlas.index(); return ix.groups.find(x => x.id === state.R.role.group);
   }
   // a student looks at the entry grade first; everyone else at every level
@@ -553,6 +553,8 @@
   }
   const DIMS = {
     level: j => state.level === "all" || Atlas.stepOf(j) === state.level,
+    // visa sponsorship as the posting states it (PLAN.md v16, step 8): the chip keeps the postings that say they sponsor
+    sponsor: j => !state.sponsor || j.sponsorship === "yes",
     grads: j => !state.grads || !!(j.entry || j.intern),
     employer: j => state.employer === "all" || Atlas.employerType(j) === state.employer,
     sector: j => state.sector.size === 0 || state.sector.has(j.sector),
@@ -563,7 +565,7 @@
   const sliceOf = level => jobsExcept(null, level);
   const extraCount = () => state.sector.size + state.company.size + state.country.size + (state.remote ? 1 : 0);
   // every filter but the level: what the Filters button counts and the drawer holds
-  const activeCount = () => (state.employer === "all" ? 0 : 1) + (state.grads ? 1 : 0) + extraCount();
+  const activeCount = () => (state.employer === "all" ? 0 : 1) + (state.grads ? 1 : 0) + (state.sponsor ? 1 : 0) + extraCount();
   const toggle = (set, v) => { set.has(v) ? set.delete(v) : set.add(v); state.shown = PAGE; };
   const keepScroll = fn => { const y = window.scrollY; fn(); window.scrollTo(0, y); };
   // the filters in the drawer show as removable chips beside the Filters button while the drawer is closed
@@ -654,7 +656,11 @@
     const glance = `${lead} Entry grade: ${R.stepLabels.entry}, ${fmt(nEntry)} open at that grade${R.set === "mba" && nGrads ? `, ${fmt(nGrads)} for graduates and interns` : ""}.${topEmployers.length ? ` Top employers now: ${join(topEmployers)}.` : ""}`;
     const nAct = activeCount();
     const seg = `<div class="seg" role="group" aria-label="Level"><button type="button" class="${state.level === "all" ? "on" : ""}" aria-pressed="${state.level === "all"}" data-level="all">All levels</button>${Atlas.STEPS.map(s => `<button type="button" class="${state.level === s ? "on" : ""}" aria-pressed="${state.level === s}" data-level="${s}">${esc(R.stepLabels[s])}</button>`).join("")}</div>`;
-    const filters = `<div class="filters">${seg}<button type="button" class="btn filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">Filters${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
+    // "Says it sponsors" (PLAN.md v16, step 8): postings that say they sponsor a visa; shown once the data carries the fact
+    const hasSponsorship = R.jobs.some(j => j.sponsorship != null);
+    const nSponsor = hasSponsorship ? jobsExcept("sponsor").filter(j => j.sponsorship === "yes").length : 0;
+    const sponsorChip = hasSponsorship ? `<button type="button" class="chip${state.sponsor ? " on" : ""}" id="sponsor-chip" aria-pressed="${state.sponsor}" data-measure="Postings that say they sponsor a visa; most postings say nothing either way. ${fmt(nSponsor)} of the ${fmt(jobsExcept("sponsor").length)} in this view say so${R.jobs.some(j => j.sponsorship === "no") ? `; ${fmt(jobsExcept("sponsor").filter(j => j.sponsorship === "no").length)} say they do not` : ""}.">Says it sponsors<span class="n">${fmt(nSponsor)}</span></button>` : "";
+    const filters = `<div class="filters">${seg}${sponsorChip}<button type="button" class="btn filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">Filters${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
     const expanded = allExpanded(areas);
     const listHead = `<div class="listhead"><h2>What the postings ask for ${tip("Skills are grouped by area and ranked by how many of the postings in this view ask for them. Open a skill to see what it means, what it breaks down into and how postings say it.")}</h2><span class="small muted">${plural(stats.n, "posting", "postings")} in this view</span>${areas.length ? `<button type="button" class="linkish link" id="expand-all">${expanded ? "Collapse all" : "Expand all"}</button>` : ""}</div>`;
     const skillList = areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m)).join("")}</div>` : '<p class="notice">No postings match these filters.</p>';
@@ -700,6 +706,7 @@
     main.querySelectorAll("details[data-k]").forEach(d => d.ontoggle = () => { d.open ? state.open.add(d.dataset.k) : state.open.delete(d.dataset.k); });
     const xa = $("#expand-all"); if (xa) xa.onclick = () => { const all = allExpanded(areas); state.areaOpen = new Set(all ? [] : areas.map(a => a.cluster)); state.areaMore = new Set(all ? [] : areas.map(a => a.cluster)); keepScroll(renderRole); };
     const gr = $("#grads"); if (gr) gr.onclick = () => { state.grads = !state.grads; state.shown = PAGE; keepScroll(renderRole); };
+    const sp = $("#sponsor-chip"); if (sp) sp.onclick = () => { state.sponsor = !state.sponsor; state.shown = PAGE; keepScroll(renderRole); };
     main.querySelectorAll("[data-sector]").forEach(b => b.onclick = () => { b.dataset.sector === "__all" ? state.sector.clear() : toggle(state.sector, b.dataset.sector); keepScroll(renderRole); });
     main.querySelectorAll("[data-country]").forEach(b => b.onclick = () => { b.dataset.country === "__all" ? state.country.clear() : toggle(state.country, b.dataset.country); keepScroll(renderRole); });
     main.querySelectorAll("[data-company]").forEach(b => b.onclick = () => { toggle(state.company, b.dataset.company); state.companyQuery = ""; keepScroll(renderRole); });
@@ -848,14 +855,14 @@
   const BANDS = [["different", "New to the field"], ["related", "Relevant foundation"], ["in_range", "Qualified for the role"], ["strong", "Strong match"]];
   const bandName = k => (BANDS.find(b => b[0] === k) || [])[1];
   // the view the fit is read on: the role, the level and every other filter
-  const fitKey = level => [state.roleId, level, state.employer, state.grads, [...state.sector].join(), [...state.company].join(), [...state.country].join(), state.remote].join("|");
+  const fitKey = level => [state.roleId, level, state.employer, state.grads, state.sponsor, [...state.sector].join(), [...state.company].join(), [...state.country].join(), state.remote].join("|");
   const fitFor = level => state.fit && state.fit.key === fitKey(level == null ? state.level : level) && state.resume && state.fit.resume === state.resume.text ? state.fit : null;
   // The matcher on the current view (the way the bands were calibrated: Atlas.matcher). Returns the rows by status,
   // the band now and the band if the top gaps were evidenced, and sets state.match (what the skills list paints).
   async function computeFit(R, level) {
     const role = R.role, slice = sliceOf(level);
     const { M, bands, group } = await Atlas.matcher(R);
-    const extra = [state.grads ? "graduates and interns" : null, state.employer !== "all" ? (R.employerTypes.find(e => e[0] === state.employer) || [])[1] : null, ...state.sector, ...state.company, ...state.country, state.remote ? "remote" : null].filter(Boolean);
+    const extra = [state.grads ? "graduates and interns" : null, state.sponsor ? "says it sponsors" : null, state.employer !== "all" ? (R.employerTypes.find(e => e[0] === state.employer) || [])[1] : null, ...state.sector, ...state.company, ...state.country, state.remote ? "remote" : null].filter(Boolean);
     const label = `${role.label}${level === "all" ? "" : " · " + R.stepLabels[level]}${extra.length ? " · " + extra.join(", ") : ""}`;
     const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label }, { level: LEVEL_OPT[level], ladder: R.role.ladder });
     const rows = r.rows, by = st => rows.filter(x => x.status === st).sort((a, b) => (a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : b.tier === "core" ? 1 : a.tier === "common" ? -1 : 1));

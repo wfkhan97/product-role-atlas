@@ -941,6 +941,34 @@ so the chain `CLAUDE.md` names for a taxonomy change (`pipeline.extract --roles 
 draft until it runs; the processed file, the graphs and `extraction_audit_mba.md` still carry the old tags. Skills
 outside the rule: 167 of 180 untouched.
 
+### Step 8 — visa sponsorship as a posting fact (`data/sponsorship`, 2026-10-25; draft until re-extracted)
+
+Not a skill. `pipeline/sponsorship.py` reads a posting's raw description with the patterns in
+`pipeline/sponsorship.json`: `"yes"` when the employer says it sponsors ("visa sponsorship is available", "will
+sponsor H-1B", "limited immigration sponsorship may be available"), `"no"` when it says it does not ("not eligible for
+visa sponsorship", "unable to sponsor", "must not now or in the future require sponsorship", "without the need for
+employment-based sponsorship"), else `null`, which is most postings. Every pattern is anchored on visa, immigration,
+work-authorization or H-1B words, so a project sponsor, a company-sponsored event or a sponsored security clearance
+never counts; a no wins over a yes in the same posting. `extract` writes the field on every posting of both sets;
+`build_graph` carries it into the role files and the product graph's postings and the three counts per role (yes, no,
+silent) into the MBA index; `Atlas.index()` and `Atlas.product()` expose `role.sponsorship`.
+
+On screen: a chip "Says it sponsors" in the role screen's Level row, both sets alike, with the count of postings in
+the view that say so; on hover, "Postings that say they sponsor a visa; most postings say nothing either way", with the
+count that say they do not when any does. The chip is a filter like the others (every count reflects it, the fit is
+read on it) and appears only once the data carries the fact. The rail says nothing special for an international-heavy
+program: the chip is enough (the brief).
+
+Labelled examples: `evals/sponsorship.json`, each row a real posting with the sentence that decided it in `note`,
+checked by `evals/run_pipeline.py --only sponsorship`. The brief asks for 40 postings (15 yes, 15 no, 10 silent); the
+build machine had only the 99 golden postings to read, which gave 22 rows (1 yes, 11 no, 10 silent, eight of the silent
+naming a sponsor of another kind). The 14 yes and 4 no rows still to add come from the backlog, as the file says.
+Unit tests in `tests/python/test_sponsorship.py`.
+
+Not done here: the re-extraction that writes the field (`pipeline.extract` for both sets), the rebuild and the
+baselines. Until then the processed files have no `sponsorship` (the eval part says so), the chip stays hidden, and the
+PR is a draft.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its

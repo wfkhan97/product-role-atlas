@@ -10,7 +10,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pipeline import log, roles, roles_mba
+from pipeline import log, roles, roles_mba, sponsorship
 from pipeline.roles import specializations
 
 logger = log.get(__name__)
@@ -341,6 +341,8 @@ def tag_posting(item):
         "url": j.get("url"),
         "posted": j.get("posted"),
         "yoe": yoe,
+        # visa sponsorship as a posting fact (PLAN.md v16, step 8): "yes", "no" or None, read from the raw description
+        "sponsorship": sponsorship.read(desc),
         "skills": hits,
         "sub": subs,
         "snippet": re.sub(r"\s+", " ", desc)[:400],

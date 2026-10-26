@@ -93,7 +93,7 @@
         groups.push({ id: g.id, label: g.label, set: "mba", roles: g.families, nOpen: g.families.reduce((a, f) => a + M.roles[f].n_open, 0), country: M.meta.country, generated: M.meta.generated });
         for (const f of g.families) {
           const r = M.roles[f];
-          roles[f] = { id: f, family: f, set: "mba", group: g.id, label: r.label, blurb: BLURBS[f] || "", nOpen: r.n_open, n: r.n, nCompanies: r.n_companies, ladder: r.ladder, defining: new Set(r.defining.map(d => d.id)), definingList: r.defining, asks: r.asks, credentials: r.credentials, small: r.small, file: r.file, entry: r.entry };
+          roles[f] = { id: f, family: f, set: "mba", group: g.id, label: r.label, blurb: BLURBS[f] || "", nOpen: r.n_open, n: r.n, nCompanies: r.n_companies, ladder: r.ladder, defining: new Set(r.defining.map(d => d.id)), definingList: r.defining, asks: r.asks, credentials: r.credentials, small: r.small, file: r.file, entry: r.entry, sponsorship: r.sponsorship || null };
         }
       }
       groups.push({ ...PRODUCT_GROUP, roles: [], nOpen: null, country: M.meta.country, generated: null });
@@ -128,7 +128,9 @@
         const jobs = byFamily[f];
         const top = G.skills.filter(s => s.cluster !== "credentials").map(s => ({ id: s.id, share: s.by_family[f] || 0 })).sort((a, b) => b.share - a.share);
         const definingList = top.filter(a => a.share >= minShare && ix.baseline[a.id] > 0 && a.share >= minLift * ix.baseline[a.id]).map(a => ({ id: a.id, share: a.share, elsewhere: ix.baseline[a.id] }));
-        ix.roles[productKey(f)] = { id: productKey(f), family: f, set: "product", group: "product", label: G.families[f], blurb: (ix.BLURBS || {})[productKey(f)] || "", nOpen: jobs.filter(inCountry).length, nWorld: jobs.length, n: jobs.length, nCompanies: new Set(jobs.map(j => j.company)).size, ladder: "product", defining: new Set(definingList.map(d => d.id)), definingList, asks: top.filter(a => !definingList.some(d => d.id === a.id)), credentials: [], small: false, jobs };
+        // visa sponsorship as the postings state it (v16 step 8), counted here for the product set
+        const sponsorship = jobs.some(j => j.sponsorship != null) ? jobs.reduce((c, j) => { c[j.sponsorship === "yes" ? "yes" : j.sponsorship === "no" ? "no" : "silent"]++; return c; }, { yes: 0, no: 0, silent: 0 }) : null;
+        ix.roles[productKey(f)] = { id: productKey(f), family: f, set: "product", group: "product", label: G.families[f], blurb: (ix.BLURBS || {})[productKey(f)] || "", nOpen: jobs.filter(inCountry).length, nWorld: jobs.length, n: jobs.length, nCompanies: new Set(jobs.map(j => j.company)).size, ladder: "product", defining: new Set(definingList.map(d => d.id)), definingList, asks: top.filter(a => !definingList.some(d => d.id === a.id)), credentials: [], small: false, jobs, sponsorship };
       }
       return { G, SUBS, skillById: Object.fromEntries(G.skills.map(s => [s.id, s])) };
     }), () => { productP = null; });

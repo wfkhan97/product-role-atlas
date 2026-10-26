@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline.roles import FAMILY_LABELS, LEVEL_LABELS, LEVEL_ORDER
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-from pipeline import log, processed, tax
+from pipeline import log, processed, tax, sponsorship
 
 logger = log.get(__name__)
 TAX = tax.for_roles("product")  # the product map shows the product role set's part of the taxonomy
@@ -192,7 +192,7 @@ def main():
         "jobs": [{"id": i, "company": j["company"], "group": j["group"], "title": j["title"],
                   "family": j["family"], "level": j["level"], "specs": j["specs"], "location": j["location"], "url": j["url"], "sector": j.get("sector"), "industry": j.get("industry"), "country": j.get("country"), "remote": j.get("remote"), "rank": j.get("rank"), "stage": j.get("stage"),
                   "investors": [fund_by_name.get(n, n) for n in (j.get("investors") or [])],
-                  "yoe": j["yoe"], "skills": sorted(skill_index[k] for k in j["skills"]), "sub": sorted(sub_index[k] for k in j.get("sub", [])), "snippet": j["snippet"][:180]} for i, j in enumerate(jobs)],
+                  "yoe": j["yoe"], "sponsorship": j.get("sponsorship"), "skills": sorted(skill_index[k] for k in j["skills"]), "sub": sorted(sub_index[k] for k in j.get("sub", [])), "snippet": j["snippet"][:180]} for i, j in enumerate(jobs)],
     }
     os.makedirs(os.path.join(ROOT, "web", "data"), exist_ok=True)
     with open(os.path.join(ROOT, "web", "data", "graph.json"), "w") as f:
@@ -404,7 +404,7 @@ def build_roleset(roleset):
                          "category": j.get("category"), "country": j.get("country"), "remote": j.get("remote"), "rank": j.get("rank"), "stage": j.get("stage"),
                          "investors": [fund_by_name.get(x, x) for x in (j.get("investors") or [])], "yoe": j["yoe"],
                          "skills": sorted(skill_index[k] for k in j["skills"] if k in skill_index), "sub": sorted(sub_index[k] for k in j.get("sub", [])),
-                         "snippet": j["snippet"][:180]})
+                         "snippet": j["snippet"][:180], "sponsorship": j.get("sponsorship")})
             jid += 1
         rel = f"graph_{roleset}/{f}.json"
         with open(os.path.join(out_dir, rel), "w") as fh:
@@ -431,6 +431,8 @@ def build_roleset(roleset):
             # where a new graduate enters this role: postings marked for MBA and for pre-MBA graduates, per ladder
             "entry": {l: entry_counts([j for j in js if j["ladder"] == l]) for l, _ in lad.most_common()},
             "covers": R.COVERS.get(f, []), "covered_by": covered_by.get(f, []),
+            # visa sponsorship as the postings state it (PLAN.md v16, step 8): says yes, says no, says nothing
+            "sponsorship": sponsorship.counts(js),
             # licences, exams and degrees that five employers name at entry level, per ladder, and the steps a source grounds
             "depth": {l: {"asks": x["asks"], "build": x["build"]} for l, x in role_depth.get(f, {}).items()},
         }
