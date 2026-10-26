@@ -905,6 +905,42 @@ What this is not: the overrides and the practice carriers are editorial, grounde
 in what a resume reader accepts; the reader's judgment that would read them as a student would is built and waiting on
 the key.
 
+### Step 7 — the precision pass with the cutoff (`data/precision-mba`, 2026-10-25; draft until re-extracted)
+
+Decision 6 of the pass: an MBA skill's patterns change only when its tagged-sample precision in
+`evals/extraction_audit_mba.md` is under 60% and the skill sits in the top two rows of some role's grid. The audit of
+2026-10-25 has 15 skills under 60%; `Atlas.grid` over the 50 roles puts 13 of them in a top-two row (Board & committee
+governance and the risk certifications are outside the rule and untouched): transformation programme leadership (six
+roles, including 90% of Transformation Manager's postings), investor relations (PE associate, VC associate, strategic
+finance), audit & SOX (treasury, risk, compliance, governance), banking relationships (commercial and corporate banking,
+IB associate), credit analysis, portfolio-company value creation, the three real-estate skills (development &
+entitlements, property types, leasing), procurement platforms, HR operations, HRIS tools and BI development tools.
+
+What changed, pattern by pattern (the rule in `README.md`: anchored phrases, no bare everyday words): a bare "digital
+transformation" or "transformation work" no longer counts, a transformation programme, office or portfolio or a verb
+on a transformation does; fund administration, co-investment and "general partners" leave investor relations; external,
+regulatory and customer audits leave audit & SOX, which keeps the internal audit, the audit universe and the SOX
+controls; a line of credit, merchant services, treasury services and "financial solutions" named in passing leave
+banking relationships; credit risk and credit policy leave credit analysis for the risk domain, and "commercial
+lending" alone counts only with an underwriting verb; an exit counts for portfolio-company work only beside an
+investment, a sponsor or a fund; feasibility studies, renovations, capital and tenant improvements leave development
+(they are asset management) and construction counts when it is managed, budgeted or financed; a bare "CRE" and "property
+types" leave the property-types knowledge; "leasing" counts as leasing activity, a leasing team or retail, office,
+industrial or tenant leasing, not equipment or lease accounting, and a landlord only in relations or representation;
+contract-management and spend systems leave procurement platforms; onboarding counts for HR operations as a process, not
+a manager's duty, and global mobility leaves it; applicant-tracking systems and "HR technology" in passing leave HRIS;
+Power Apps, Power Automate and Tableau desktop leave BI development tools. 37 pattern lines removed or narrowed, 21
+written.
+
+Measured here, on the 99 golden postings (`evals/run_pipeline.py --only golden`): must-found stays at the 85% floor,
+must-not-tagged falls from 15.1% to 15.1% with one false positive fixed (leasing on a real-estate project manager) and
+one true tag recovered with a narrower phrase (tenant interactions). Not measured here: the tagged-sample precision
+itself. The build machine has no `.env`, no `data/raw/jobs_mba/` and no saved model answers under `data/experiments/`,
+so the chain `CLAUDE.md` names for a taxonomy change (`pipeline.extract --roles mba`, `role_corpus`, `role_coverage`,
+`skill_audit --reuse`, `build_graph --roles mba`, the extraction and pipeline baselines) is pending and the PR is a
+draft until it runs; the processed file, the graphs and `extraction_audit_mba.md` still carry the old tags. Skills
+outside the rule: 167 of 180 untouched.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its

@@ -2015,9 +2015,8 @@
    "cluster": "strategy",
    "kind": "practice",
    "patterns": [
-    "transformation (programs?|programmes?|initiatives?|roadmaps?|office|portfolio|strategy|strategies|efforts?|agenda|journey|plans?|projects?|priorities|goals|objectives|work)",
-    "(business|enterprise|finance|digital|large[- ]scale|operational|operations|organi[sz]ational|technology|IT|process|strategic|functional|workforce|supply chain|HR|commercial|cost|ERP|enterprise[- ]wide) transformations?\\b",
-    "(lead|driv|deliver|manag|execut|support)\\w* (complex |large |major |multi[- ]year |cross[- ]functional |end[- ]to[- ]end )*transformations?\\b",
+    "transformation (programs?|programmes?|initiatives?|roadmaps?|office|portfolio|workstreams?|governance)",
+    "(lead|driv|deliver|manag|execut|run|own)\\w* (the |a |our |multiple |several )?(complex |large |large[- ]scale |major |multi[- ]year |cross[- ]functional |end[- ]to[- ]end |enterprise[- ]wide |business |digital |finance |operational |technology )*transformations?\\b",
     "transformation (management )?office",
     "benefits? (reali[sz]ation|tracking|capture|delivery)|value capture|(savings|value) (tracking|reali[sz]ation plans?)|value reali[sz]ation (office|framework|tracking|plans?)",
     "(track|measur|quantif|report)\\w* (and \\w+ )?(the )?(benefits|savings|value delivered|financial impact|initiative progress) (of|from|across|against|for) ",
@@ -2388,10 +2387,9 @@
     "limited partners?",
     "\\bLPs\\b",
     "investor (reporting|updates|letters|requests|due diligence)",
-    "fund (performance|administration|accounting|operations|reporting|structur|formation|terms)",
     "capital calls?",
-    "co-?invest(ments?|ors?|ing)?\\b(?! (budget|and co-development))",
-    "general partners?\\b"
+    "fund (performance )?reporting to (investors|LPs|limited partners)",
+    "\\bIR\\b (team|function|materials|program|strategy|calendar)"
    ],
    "only": [
     "mba"
@@ -2548,14 +2546,14 @@
    "cluster": "deals",
    "kind": "method",
    "patterns": [
-    "credit (analys|underwrit|approval|memo|risk|quality|structur|review|decision|worthiness|polic|request|administration|write-?ups?|exposure)",
+    "credit (analys|underwrit|approval|memos?|quality|structur|review|decision|worthiness|requests?|administration|write-?ups?|packages?|presentations?)",
     "creditworth",
     "underwrit(e|es|ing) (and |of )?(new |commercial |complex )?(loans?|credit|transactions|deals|facilit)",
     "loan (underwriting|structur|approval|origination|documentation|portfolio|review|request)",
     "financial (statement )?spread",
     "analy[sz](e|es|ing) financial (conditions|statements)",
-    "commercial (lending|loans?|credit)",
-    "\\bC&I\\b",
+    "(underwrit|analy[sz]|structur|approv|review|evaluat)\\w* [^.\\n]{0,40}commercial (loans?|credits?|lending)|commercial (loan|credit) (underwriting|analysis|structuring|requests?|portfolio)",
+    "\\bC&I\\b (lend|loans?|credit|underwrit|portfolio|borrowers?)",
     "(asset|cash[- ]flow)[- ]based lending",
     "portfolio (monitoring|management)[^.\\n]{0,40}(credit|loan)",
     "credit train",
@@ -2608,18 +2606,13 @@
     "middle[- ]market (clients|companies|customers|prospects|businesses)",
     "prospect(s|ing)\\b[^.\\n]{0,60}(bank|lending|loan|credit)",
     "(banking|commercial|business|corporate) relationship manag(er|ement)",
-    "treasury (services|solutions|products)",
     "treasury management (services|solutions|products|sales|officers?|specialists?|needs|capabilities)",
     "(credit|lending|deposits?|merchant services),? (and |& )?treasury management|treasury management,? (and |& )?(credit|merchant|deposit|card)",
-    "cash management (products|services|solutions)",
     "cross[- ]sell\\w*[^.\\n]{0,60}(bank|treasury|credit|deposit|loan|wealth)",
     "deposits? (products|growth|accounts|relationships|balances|and (loan|credit|treasury))|(loans?|lending|credit) (and|,|&) deposits?",
     "bank's products|bank(ing)? (products|solutions) (and|&|,) services|full (suite|range|array) of (bank|banking|financial) (products|services|solutions)",
     "(sell|deliver|present|offer|introduc|recommend)\\w* [^.\\n]{0,30}(bank|banking|lending|deposit|treasury) (products|solutions|services)",
-    "(banking|lending|deposit|credit) (products|solutions) (and services )?(to|for) (clients|customers|businesses|prospects|companies)",
-    "lines? of credit",
-    "merchant services",
-    "financial solutions"
+    "(banking|lending|deposit|credit) (products|solutions) (and services )?(to|for) (clients|customers|businesses|prospects|companies)"
    ],
    "only": [
     "mba"
@@ -2651,7 +2644,7 @@
     "portfolio compan",
     "value[- ]creation plans?",
     "\\boperating partners?\\b",
-    "exit (strateg|opportunit)|(investment|portfolio|sponsor|successful) exits?\\b|(?<!TSA strategy, execution, and )(?<!surveys, and )exit (planning|process)(?=[^.\\n]{0,80}(invest|portfolio|sponsor|fund|sale))"
+    "(investment|portfolio|sponsor|successful|company) exits?\\b|exit (strateg|opportunit|planning|process)(?=[^.\\n]{0,80}(invest|portfolio|sponsor|fund|acqui))|(invest|portfolio|sponsor|fund)\\w*[^.\\n]{0,80}exit (strateg|opportunit|planning|process)"
    ],
    "only": [
     "mba"
@@ -2797,23 +2790,17 @@
     "(land|zoning|development|project|site|secur\\w+|obtain\\w+) entitlements?|entitlements? (process|and (permit|zoning|approval|design)|,? (permit|zoning|approval))",
     "\\b(re)?zoning\\b",
     "ground[- ]up (development|construction|projects?)",
-    "site plans?\\b",
     "\\bpermitting\\b|building permits?",
     "pre-?development",
     "land (use|development|planning)",
     "(real estate|property|multifamily|residential|housing|mixed[- ]use|industrial|site|community) development",
-    "feasibility (stud|analys)",
     "municipal (approvals|agencies|officials|planning|codes?)",
     "redevelopment",
     "development (pro[- ]?formas?|feasibility)",
-    "construction (management|oversight|budget|schedul|draw|loan|costs?|administration|process|team|manager|progress|documents|contracts?|projects?|consultants|activities|phase)",
+    "construction (management|oversight|budgets?|schedul|draws?|loans?|administration|documents|contracts?|lending)|site plan (approval|review|submittal)",
     "general contractors?",
     "architects?,? (and |& )?(engineers|contractors|consultants|general)",
     "draw (requests?|reviews?|process)",
-    "capital improvements?",
-    "tenant improvements?",
-    "\\bTI/?LC\\b",
-    "\\brenovations?\\b",
     "change orders?(?=[^\\n]{0,150}(construction|contractor|architect|building))|(construction|contractor|architect|building)[^\\n]{0,150}change orders?",
     "design (and|&) construction"
    ],
@@ -2827,14 +2814,15 @@
    "cluster": "real_estate",
    "kind": "practice",
    "patterns": [
-    "\\bleasing\\b",
+    "\\bleasing (activit|strateg|teams?|agents?|brokers?|velocity|pipeline|plans?|efforts|goals|process|status|reports?|commissions?|tours?|assumptions)|(retail|office|industrial|multifamily|commercial|residential|tenant|space|new|renewal|pre-?) ?leasing\\b",
     "\\blease (negotiat|analys|administration|terms|agreements?|renewals?|proposals|documents|abstract|review|transactions|expirations|up\\b)",
     "\\bleases\\b[^.\\n]{0,40}(tenant|propert|real estate|space|landlord|retail|office)",
-    "\\btenants? (relations|improvement|retention|mix|satisfaction|negotiat|credit|requests|leases?)",
+    "\\btenants? (relations|improvement|retention|mix|satisfaction|negotiat|credit|requests|leases?|interactions?|communications?|meetings|inquiries|concerns|complaints)",
     "(prospective|existing|commercial|retail|office|anchor|potential) tenants\\b",
     "rent rolls?",
     "lease-?up\\b",
-    "landlords?\\b"
+    "landlord[s']* (relations|representation|and tenant|/ ?tenant|obligations|consents?)|(tenant|landlord) (representation|relations)",
+    "(decisions?|negotiat\\w+|strateg\\w+) (on|about|related to|regarding) (property |space |tenant )?leasing"
    ],
    "only": [
     "mba"
@@ -2874,9 +2862,9 @@
     "((?<!safe, )affordable|student|senior|workforce|single[- ]family|build[- ]to[- ]rent) (housing|living|rental)",
     "self[- ]storage",
     "commercial real estate",
-    "\\bCRE\\b",
+    "\\bCRE\\b (lend|loans?|invest|portfolio|assets?|markets?|propert|debt|equity|transactions?)",
     "home ?build",
-    "property types?"
+    "(across|all|various|multiple|different|other|several) (asset|property|product) (types|classes)"
    ],
    "only": [
     "mba"
@@ -4121,14 +4109,13 @@
    "kind": "method",
    "patterns": [
     "(HR|human resources|people) (operations|ops\\b|processes|process (improvement|excellence|design|optimi)|services|service delivery|shared services|administration|transactions|records|service center)",
-    "(employee|new hire|new[- ]hire|associate|staff|team member) (onboarding|orientation|offboarding|life-?cycle|transactions|self[- ]service)",
+    "(employee|new[- ]hire|associate|staff|team member) (onboarding|offboarding) (process|programs?|experience|workflows?|paperwork|checklists?|documentation|activities)|(employee|new[- ]hire) (life-?cycle|transactions|self[- ]service)",
     "onboarding (and|&|/) (offboarding|orientation)",
     "off-?boarding",
-    "payroll (processing|administration|operations|team|accuracy|compliance|vendors?|systems?|and benefits|tax|audits?|function|department|specialist|manager|support|issues|changes|data|reporting|cycles?|inquiries)|\\b(process|processing|manage|oversee|administer)(s|ing)? (\\w+ ){0,2}payroll|(HR|benefits|compensation|HRIS|timekeeping)(,| and|, and| &|/) ?payroll",
+    "payroll (processing|administration|operations|team|accuracy|compliance|vendors?|systems?|and benefits|tax|audits?|function|department|specialist|manager|cycles?|inquiries)|(process|processing|run|running|administer)(s|ing)? (bi-?weekly |semi-?monthly |monthly |multi-?state |global |US )?payroll|(HR|benefits|compensation|HRIS|timekeeping)(,| and|, and| &|/) ?payroll",
     "timekeeping (systems?|records|accuracy|process(es)?|and payroll|compliance|audits?)|time (and|&) attendance",
     "personnel (files|records|actions)",
-    "hire[- ]to[- ]retire",
-    "global mobility"
+    "hire[- ]to[- ]retire"
    ],
    "only": [
     "mba"
@@ -4335,7 +4322,7 @@
    "kind": "method",
    "patterns": [
     "internal audit|\\bSOX\\b|sarbanes|\\bICFR\\b|\\bPCAOB\\b",
-    "audit (findings|plans?|committee|evidence|issues|engagements?|readiness|reports?|program|methodology|observations|universe|work ?papers|testing|procedures)|(internal|external|regulatory|independent|third[- ]party|customer|IT|compliance) audits\\b"
+    "audit (committee|universe|work ?papers|program|methodology|plans?|engagements?)|(internal|IT) audits\\b|(SOX|ICFR|key|internal) controls? (testing|compliance|framework|documentation|environment|deficienc)|control (deficienc|owners?|narratives?|matri)"
    ],
    "only": [
     "mba"
@@ -4808,9 +4795,7 @@
     "\\bSAP\\b (HCM|HR|SF)",
     "\\bdayforce\\b|\\bceridian\\b",
     "\\bpaycom\\b|\\bpaylocity\\b|\\bpaychex\\b|\\bbamboo ?HR\\b|\\brippling\\b",
-    "(HR|human resources|people) (information )?(systems|technology|tech stack)",
-    "applicant tracking",
-    "\\bicims\\b|\\btaleo\\b|smartrecruiters"
+    "(HR|human resources|people) information systems?|\\bHRIS/HCM\\b|HR (systems? (administration|configuration|implementation|of record)|technology (stack|implementation|roadmap))"
    ],
    "only": [
     "mba"
@@ -4847,7 +4832,7 @@
    "kind": "tool",
    "patterns": [
     "\\bariba\\b|\\bcoupa\\b|jaggaer|ivalua|zycus|\\bGEP smart|scout ?rfp|icertis|sirion\\w*|oracle procurement|workday strategic sourcing|sievo|spendhq",
-    "\\be[- ]?sourcing\\b|\\be[- ]?procurement\\b|(procurement|e-?sourcing|P2P|S2P|contract management|spend) (systems?|tools|platforms?|software|technolog\\w+)\\b"
+    "\\be[- ]?sourcing\\b|\\be[- ]?procurement\\b|(procurement|e-?sourcing|P2P|S2P|source[- ]to[- ]pay|procure[- ]to[- ]pay) (systems?|tools|platforms?|software|suites?)\\b"
    ],
    "only": [
     "mba"
@@ -4884,7 +4869,7 @@
    "cluster": "tools",
    "kind": "tool",
    "patterns": [
-    "\\bDAX\\b|power ?query|power (apps|automate|platform|pivot)|\\bpowerpivot\\b|semantic model\\w*|microsoft fabric|\\bLookML\\b|tableau (prep|server|desktop|cloud)",
+    "\\bDAX\\b|power ?query|power ?pivot|\\bM language\\b|semantic (models?|layers?)|microsoft fabric|\\bLookML\\b|tableau (prep|server administration|extracts?)",
     "qlik\\w*|microstrategy|cognos|\\bSSRS\\b|\\bSSIS\\b|\\bSSAS\\b|business ?objects|\\bOBIEE\\b|thoughtspot|\\bdomo\\b|sisense|spotfire|oracle analytics|sap analytics cloud|\\bSAP BW\\b"
    ],
    "only": [
