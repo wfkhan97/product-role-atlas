@@ -22,7 +22,8 @@ regression tests against the real `pipeline/taxonomy.json`), `test_geo.py` (both
 rules of `CLAUDE.md`), `test_adapters_common.py` (`strip_html`, the retry loop with a fake session), `test_processed.py`
 (the gzip switch, with the threshold monkeypatched), `test_build_graph.py` (share arithmetic), `test_depth_gen.py`
 (the model call with `requests.post` replaced), `test_log.py`, `test_backlog.py` (the round trip of a raw file) and
-`test_store.py` (the `atlas-store` rules on a dict bucket: hash skip, no delete, a newer local file kept, bootstrap order).
+`test_store.py` (the `atlas-store` rules on a dict bucket: hash skip, no delete, a newer local file kept, bootstrap order) and
+`test_runs.py` (the run recorder: the summary line's counts, the tallies, a failed insert as one masked stderr line).
 
 The logging test (`test_depth_gen.py::test_the_api_key_never_reaches_a_log_line`, `test_log.py`): the API key is set
 to a sentinel, `requests.post` raises an exception that quotes the request headers, and the captured log must not
