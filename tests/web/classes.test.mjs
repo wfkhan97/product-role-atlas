@@ -213,7 +213,11 @@ test("the campus file is a list; every campus has the keys the screens read, and
   const ie = FILE.campuses.find(c => c.id === "ienyc");
   assert.equal(ie.label, "IE New York"); assert.equal(ie.term, "SP27"); assert.deepEqual(ie.signin_domains, []); assert.equal(ie.catalog, false);
   assert.match(ie.start_card.title, /Spring 2027 classes at IE New York/); assert.match(ie.start_card.tag, /not loaded yet/i);
-  assert.deepEqual(ie.programs.map(p => p.group), ["business", "business", "analytics", "analytics"]);
+  // the five programs of IENYC's College Catalog 2026-2027 (v18, step 3; "Data Science & Decision Analytics" was Cornell Tech's name, not IE's)
+  assert.deepEqual(ie.programs.map(p => p.id), ["ie_mim", "ie_mif", "ie_bai", "ie_gbs", "ie_mkt"]);
+  assert.deepEqual(ie.programs.map(p => p.group), ["business", "business", "analytics", "business", "business"]);
+  for (const p of ie.programs) { assert.ok(!p.unverified, `${p.id} is verified against the catalog`); assert.ok(p.categories.includes(p.id) && p.categories.includes("ienyc_shared"), `${p.id} sees its own courses and the shared ones`); assert.ok(ie.eligibility[p.id], `words for ${p.id}`); }
+  assert.equal(ie.pre_enrollment.closes, "2026-12-17", "the spring specialization course selection deadline");
   assert.ok(new Set(FILE.campuses.flatMap(c => c.programs.map(p => p.id))).size === FILE.campuses.flatMap(c => c.programs).length, "program ids are unique across campuses");
 });
 
