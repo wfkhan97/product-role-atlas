@@ -13,7 +13,7 @@ the URL alone is not stable (Bank of America puts a per-session token in every j
 requisition gets a new one). One that comes back takes the board's current title, URL and text.
 The files are not in git: the Supabase backlog is the store. When SUPABASE_DB_URL is set (.env) each file is pushed
 as it is written and a full run ends with a storage snapshot (pipeline/backlog.py; --no-db to leave the database
-alone). Run pipeline.backlog pull before a scrape on a checkout whose files are behind the database.
+alone, --no-snapshot to push the files without the dated copy). Run pipeline.backlog pull before a scrape on a checkout whose files are behind the database.
 The MBA roles were scraped in batches; --batch N fetches only that batch's roles for companies already
 cached without it and adds them to the company's file (companies with no file get every role).
 """
@@ -163,6 +163,7 @@ def main():
     ap.add_argument("--roles", choices=sorted(ROLE_SETS), default="product")
     ap.add_argument("--batch", type=int, choices=sorted(roles_mba.BATCH_QUERIES))
     ap.add_argument("--no-db", action="store_true", help="do not push the files to the Supabase backlog")
+    ap.add_argument("--no-snapshot", action="store_true", help="push the files but skip the dated storage snapshot (a job that runs one ATS family at a time snapshots once at the end)")
     args = ap.parse_args()
     db = not args.no_db and backlog.configured()
     if not db:
@@ -261,7 +262,7 @@ def main():
                 common.STATS["429"], common.STATS["retries"])
     if failed:
         logger.error("failed employers: %s", ", ".join(sorted(failed)))
-    if db and todo and not args.only and not args.batch:  # a full run: keep a dated copy of the files
+    if db and todo and not args.only and not args.batch and not args.no_snapshot:  # a full run: keep a dated copy of the files
         try:
             backlog.snapshot(args.roles)
         except Exception as e:

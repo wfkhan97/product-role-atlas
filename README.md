@@ -24,6 +24,8 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt   # requests,
 .venv/bin/python -m pipeline.funnel --from 2026-10-31 --to 2026-11-07   # the capture funnel: sessions, the share reaching each screen, waitlist rows (CAPTURE_DB_URL in .env)
 node evals/lines_judged.mjs --dry-run             # a model reader judges 50 generated fit-page lines (OPENROUTER_API_KEY in .env for the live run); report in evals/lines_judged.md
 .venv/bin/python -m pipeline.runs --last 20       # the last recorded runs of every stage, on any machine or runner (SUPABASE_DB_URL in .env)
+gh workflow run refresh-mba.yml                   # the weekly MBA refresh, by hand (also: -f ats=workday, -f only="Accenture", -f trial=true, -f dry_run=true)
+gh workflow run refresh-product.yml               # the monthly product refresh, by hand
 cd web && python3 -m http.server 8000   # then open http://localhost:8000
 ```
 
@@ -71,6 +73,20 @@ a row is content. `PIPELINE_RUNS=off` turns it off (the tests set it). `.venv/bi
 [--job NAME]` prints the rows as a table.
 CI (`.github/workflows/ci.yml`) runs both test suites, `node evals/run.mjs` and `evals/run_pipeline.py` on every pull
 request and on `main`.
+
+## Scheduled jobs
+
+Nothing that runs on a schedule depends on a Mac being awake. `.github/workflows/refresh-mba.yml` runs the MBA
+refresh every Sunday at 03:17 New York on GitHub-hosted runners, one scrape job per ATS family (each pulls the
+backlog, scrapes its family with `--refresh --ats <family>`, pushes each file to the backlog as it is written and its
+log to the `logs` store), then one job that pulls the backlog back, re-extracts, rebuilds the graph, runs the checks
+CI would run and opens a pull request from `data/mba-<date>` with the changed `data/processed/` and `web/data/`
+files; the owner merges. `refresh-product.yml` does the same for the product set on the first Sunday of the month.
+No job pushes to `main`. The scheduled runs go ahead only when the repository variables `REFRESH_MBA_SCHEDULE` and
+`REFRESH_PRODUCT_SCHEDULE` are `on`, set after the runner trial (`evals/runner_trial_2026-10-26.md`, filled by
+`evals/runner_trial.py` from the logs); a family a hosted runner cannot reach runs on a self-hosted runner on the
+Mac mini (`docs/SELF_HOSTED_RUNNER.md`). Secrets come from the repository's Actions secrets ("Where secrets live").
+`python -m pipeline.runs` shows every run's row.
 
 ## Scratch versus documentation
 
