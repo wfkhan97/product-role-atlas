@@ -1045,7 +1045,8 @@ What the thread found and decided on its own, recorded in the pull requests:
   project it already uses; the `runs` table is in the GradBuddy project for both (the research repository gets a
   `SUPABASE_DB_URL` secret for it). Consolidating is a migration for later, not a condition of anything here.
 - The demand-gen thread's first pull request (#91) had not merged when this thread started; the branches were cut
-  from `main` as it was, stacked on one another, and touch none of that thread's files.
+  from `main` as it was, stacked on one another, and touch none of that thread's files. The whole v16 stack merged
+  while this thread ran, and the branches were rebased onto it (two doc conflicts, both sections kept).
 - A pull request opened with the workflow's own token gets no CI run (GitHub's rule), so the build jobs run CI's
   commands themselves and report them; an optional `ACTIONS_PAT` secret opens the pull request as the owner instead.
 - `pipeline.scrape` gained `--no-snapshot` so 25 family jobs do not each upload the whole role set; the build job

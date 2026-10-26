@@ -51,7 +51,7 @@ the repository's Actions secrets; a job fails at its first step with one clear l
 
 ## Where secrets live
 
-`SUPABASE_DB_URL`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `OPENROUTER_API_KEY`, `OPENAI_API_KEY`
-(`.env.example` says which command needs each): in the owner's password manager, copied by hand into `.env` on a
+`SUPABASE_DB_URL`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `CAPTURE_DB_URL` (the catalog project's pooler
+string, for `pipeline.funnel`), `OPENROUTER_API_KEY`, `OPENAI_API_KEY` (`.env.example` says which command needs each): in the owner's password manager, copied by hand into `.env` on a
 Mac; in each repository's GitHub Actions secrets for the jobs; nowhere else. Never in Supabase, a repository, a
 log (`pipeline/log.py` masks the `.env` values), a job summary or a chat.
