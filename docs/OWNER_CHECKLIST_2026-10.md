@@ -26,7 +26,7 @@ one before, so merge them in order.
   no CI run).
 - [ ] **The password manager.** The same values there, one entry per project; then delete every copy in notes,
   chats and scratch files. `.env` on each Mac is filled from it (`.env.example` in each repository names the keys).
-- [ ] **Apply `pipeline/sql/002_runs.sql`** in the GradBuddy project's SQL editor (after #102 is merged, or from
+- [ ] **Apply `pipeline/sql/002_runs.sql`** in the GradBuddy project's SQL editor (after #107 is merged, or from
   the branch). Row-level security on, no policies: service role only.
 - [ ] **Create the three buckets**, private, no policies: `atlas-store` in the GradBuddy project;
   `catalog-snapshots` and `research-private` in gradbuddy-catalog. (The `backlog` and `syllabi` buckets exist.)
@@ -44,7 +44,7 @@ one before, so merge them in order.
 
 ## The trial, then the schedules
 
-- [ ] Merge #101, #102, #103 (in order). Dispatch the trial: `gh workflow run refresh-mba.yml -f trial=true`, and
+- [ ] Merge #101, #107, #103 (in order). Dispatch the trial: `gh workflow run refresh-mba.yml -f trial=true`, and
   read `evals/runner_trial_2026-10-26.md` for how to read it. After the run, on a Mac with `.env`:
   `pipeline.store pull logs`, then `evals/runner_trial.py --date <the run's UTC date> --minutes <from the run's
   page> --write`, and commit the report. The decision rule is on that page: 90% of the postings reached and
