@@ -23,6 +23,7 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt   # requests,
 .venv/bin/python evals/run_depth.py               # content evals for the published skill depth (style, specificity, evidence, build steps)
 .venv/bin/python -m pipeline.funnel --from 2026-10-31 --to 2026-11-07   # the capture funnel: sessions, the share reaching each screen, waitlist rows (CAPTURE_DB_URL in .env)
 node evals/lines_judged.mjs --dry-run             # a model reader judges 50 generated fit-page lines (OPENROUTER_API_KEY in .env for the live run); report in evals/lines_judged.md
+.venv/bin/python -m pipeline.runs --last 20       # the last recorded runs of every stage, on any machine or runner (SUPABASE_DB_URL in .env)
 cd web && python3 -m http.server 8000   # then open http://localhost:8000
 ```
 
@@ -62,6 +63,12 @@ per stage with counts and elapsed seconds, WARNING for a skipped record or a par
 for a failed employer, all on stderr; stdout stays as it was. `./run_all.sh` also writes the log to
 `logs/run_<date>.log` (gitignored) and prints the path at the end; any stage does the same when `PIPELINE_LOG` names a
 file, and `PIPELINE_LOG_LEVEL=DEBUG` shows more. API keys never appear in a log line: the values in `.env` are masked.
+Every run also writes one row: when `SUPABASE_DB_URL` is set, `log.setup` installs a recorder that, as the stage's
+process ends, inserts into the `runs` table (`pipeline/sql/002_runs.sql`, applied once by the owner) the repo, job
+(`PIPELINE_JOB`, else the stage), stage, host, start and end, whether it was ok (no ERROR line, no uncaught
+exception), the counts of the stage's summary line, the WARNING and ERROR tallies and the log file's path; nothing in
+a row is content. `PIPELINE_RUNS=off` turns it off (the tests set it). `.venv/bin/python -m pipeline.runs [--last 20]
+[--job NAME]` prints the rows as a table.
 CI (`.github/workflows/ci.yml`) runs both test suites, `node evals/run.mjs` and `evals/run_pipeline.py` on every pull
 request and on `main`.
 
