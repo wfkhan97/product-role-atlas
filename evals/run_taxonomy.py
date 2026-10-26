@@ -13,13 +13,14 @@ coverage   A skill that at least four fields ask for (mean share over the field'
            for the skill in under 10% of its postings.
 grounding  Each carrier named in a field entry is asked for together with the skill in at least 15% of the field's US
            postings that ask for the skill (company-balanced weights). The entry says what carries the skill in that
-           field; the postings must agree.
+           field; the postings must agree. A role override ("role:<id>" beside the field keys, PLAN.md v16 step 6) is
+           checked the same way on the role's own postings.
 published  web/data/graph.json and web/data/graph_mba.json carry what the source files say: every skill node has the
            taxonomy's kind and the evidence entry under how_shown, the field entries of fields.json appear as `fields`
            with the postings' side beside them (product: the product entry only), meta.kinds is the KINDS table, and
            web/data/taxonomy*.json carry the kind. A build that is older than the files fails here.
-carriers   Each skill a behaviour's evidence names as showing it is asked for together with the behaviour in at least 10%
-           of some field's postings that ask for the behaviour: a carrier is field-specific (pitch books carry
+carriers   Each skill a behaviour's or a practice's evidence names as showing it is asked for together with it in at
+           least 10% of some field's postings that ask for it: a carrier is field-specific (pitch books carry
            communication in banking), so the check is the maximum over fields, not the pooled share.
 
 The fields and the shares come from data/processed/jobs_mba.json.gz, the same file the graph is built from, so the eval
@@ -95,14 +96,14 @@ def main():
         "checked against the US postings of the MBA set (`evals/run_taxonomy.py`).")
     out()
     out("## Shape")
-    problems = tax.validate(tax=T, evidence=evidence, fields=fields, groups=set(groups))
+    problems = tax.validate(tax=T, evidence=evidence, fields=fields, groups=set(groups), roles=set(roles_mba.FAMILY_LABELS))
     check("shape", not problems, f"{len(problems)} problems")
     for p in problems:
         out(f"  - {p}")
     counts = collections.Counter(kind.values())
     out("  kinds: " + ", ".join(f"{k} {counts[k]}" for k in tax.KINDS))
     out(f"  evidence entries: {len(evidence)}; with carriers: {sum(1 for e in evidence.values() if e['shown_by'])}")
-    out(f"  field entries: {sum(len(v) for v in fields.values())} on {len(fields)} skills")
+    out(f"  field entries: {sum(1 for v in fields.values() for k in v if not k.startswith(tax.ROLE_KEY))} on {len(fields)} skills; role overrides: {sum(1 for v in fields.values() for k in v if k.startswith(tax.ROLE_KEY))}")
 
     jobs, by_role, by_group, fam2grp = load_jobs()
     role_share = {f: {sid: wshare(js, sid) for sid in kind} for f, js in by_role.items()}
@@ -118,7 +119,7 @@ def main():
         if kind[sid] in ("tool", "credential"):
             check("coverage", sid not in fields, f"{sid} is a {kind[sid]} and has field entries")
             continue
-        has = set(fields.get(sid, {}))
+        has = {g for g in fields.get(sid, {}) if not g.startswith(tax.ROLE_KEY)}
         if len(asking) >= MIN_FIELDS:
             missing = [g for g in asking if g not in has]
             check("coverage", not missing, f"{sid}: asked for by {len(asking)} fields, no entry for {missing}")
@@ -133,7 +134,7 @@ def main():
 
     out()
     out("## Grounding")
-    out(f"Each carrier an entry names is asked for together with the skill in at least {CO_SHARE:.0%} of the field's postings that ask for the skill.")
+    out(f"Each carrier an entry names is asked for together with the skill in at least {CO_SHARE:.0%} of the field's postings that ask for the skill; a role override (role:<id>) is checked on the role's own postings.")
     out()
     out("| skill | field | asks | carriers (co-share) | top co-occurring skills in the postings |")
     out("|---|---|---|---|---|")
@@ -141,7 +142,8 @@ def main():
     for sid, per in fields.items():
         base = [j for j in jobs if sid in j["skills"]]
         for g, entry in per.items():
-            withT = [j for j in by_group[g] if sid in j["skills"]]
+            pool = by_role[g[len(tax.ROLE_KEY):]] if g.startswith(tax.ROLE_KEY) else by_group[g]
+            withT = [j for j in pool if sid in j["skills"]]
             co = {c: wshare(withT, c) for c in entry["shown_by"]}
             for c, v in co.items():
                 check("grounding", v >= CO_SHARE, f"{sid}.{g}: carrier {c} co-occurs in {v:.0%} of the field's postings that ask for {sid}")
@@ -150,13 +152,14 @@ def main():
                 base_with[sid] = {c: wshare(base, c) for c in kind}
             top = sorted(((wshare(withT, c) * math.log((wshare(withT, c) + 0.02) / (base_with[sid][c] + 0.02)), c) for c in kind
                           if c != sid and kind[c] in tax.CARRIER_KINDS and wshare(withT, c) >= 0.3), reverse=True)[:5]
-            out(f"| {name[sid]} | {g} | {field_share[g][sid]:.0%} | " + ", ".join(f"{name[c]} {v:.0%}" for c, v in co.items()) + " | " + ", ".join(name[c] for _, c in top) + " |")
+            asks = role_share[g[len(tax.ROLE_KEY):]][sid] if g.startswith(tax.ROLE_KEY) else field_share[g][sid]
+            out(f"| {name[sid]} | {g} | {asks:.0%} | " + ", ".join(f"{name[c]} {v:.0%}" for c, v in co.items()) + " | " + ", ".join(name[c] for _, c in top) + " |")
 
     out()
-    out("## Behaviour carriers")
-    out(f"Each skill a behaviour's evidence names as showing it is asked for together with the behaviour in at least {BEHAVIOUR_CO:.0%} of some field's postings that ask for the behaviour (the field in brackets).")
+    out("## Behaviour and practice carriers")
+    out(f"Each skill a behaviour's or a practice's evidence names as showing it is asked for together with it in at least {BEHAVIOUR_CO:.0%} of some field's postings that ask for it (the field in brackets).")
     for sid in kind:
-        if kind[sid] != "behaviour":
+        if kind[sid] not in ("behaviour", "practice") or not evidence[sid]["shown_by"]:
             continue
         withB = {g: [j for j in js if sid in j["skills"]] for g, js in by_group.items()}
         parts = []

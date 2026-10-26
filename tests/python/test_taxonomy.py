@@ -2,7 +2,7 @@
 skill has a kind, every skill says how a resume shows it, and the field entries name real fields and real carriers."""
 import pytest
 
-from pipeline import tax
+from pipeline import roles_mba, tax
 
 T = tax.load()
 E = tax.load_evidence()
@@ -40,9 +40,22 @@ def test_tools_and_credentials_are_named_and_mean_the_same_everywhere():
 def test_a_field_entry_carries_a_measurable_resume_line():
     for sid, per in F.items():
         for g, entry in per.items():
-            assert g in GROUPS
+            # a key is a field, or a role override "role:<id>" for one of the 50 roles (PLAN.md v16, step 6)
+            assert g in GROUPS or (g.startswith(tax.ROLE_KEY) and g[len(tax.ROLE_KEY):] in roles_mba.FAMILY_LABELS), (sid, g)
             assert any(ch.isdigit() for ch in entry["line"]), (sid, g)
             assert 2 <= len(entry["shown_by"]) <= 6
+
+
+def test_a_role_override_sits_beside_a_field_entry_and_is_read_first():
+    overrides = [(sid, g) for sid, per in F.items() for g in per if g.startswith(tax.ROLE_KEY)]
+    assert overrides, "the four measured roles have overrides"
+    for sid, g in overrides:
+        role = g[len(tax.ROLE_KEY):]
+        assert role in roles_mba.FAMILY_LABELS
+        assert roles_mba.GROUP_OF[role] in F[sid], (sid, g, "an override stands in for the role's field entry, which must exist")
+    assert tax.field_keys("ma_integration", "finance") == ["role:ma_integration", "finance"]
+    assert tax.validate(groups=set(GROUPS) | {"product"}, roles=set(roles_mba.FAMILY_LABELS)) == []
+    assert any("is not a role" in p for p in tax.validate(groups=set(GROUPS) | {"product"}, roles={"fpa"})), "an unknown role is a problem"
 
 
 def test_the_role_set_view_keeps_the_kind():

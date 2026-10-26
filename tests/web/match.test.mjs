@@ -283,3 +283,15 @@ test("behaviours: a taxonomy without kinds falls back to the old SOFT set", () =
   assert.equal(M.isBehaviour("t_roadmap"), false);
   assert.equal(createMatcher({ taxonomy: { clusters: {}, skills: [{ id: "communication", name: "C", cluster: "leadership", patterns: ["x"] }] }, subskills: {}, graph: { jobs: [], skills: [] } }).isBehaviour("communication"), true);
 });
+
+// ---------- role overrides (PLAN.md v16, step 6): pickCarriers reads the role's own entry before its field's ----------
+test("pickCarriers takes a list of keys and reads the role's override before the field's entry", () => {
+  const skill = { id: "communication", kind: "behaviour", how_shown: { shown_by: ["prd"] }, fields: { finance: { shown_by: ["financial_reporting", "business_case"] }, "role:ma_integration": { shown_by: ["integration_planning", "program_mgmt"] } } };
+  const jobs = [{ skills: ["communication", "integration_planning", "program_mgmt"], w: 1 }, { skills: ["communication", "integration_planning"], w: 1 }, { skills: ["communication", "program_mgmt", "prd"], w: 1 }];
+  const isCarrier = () => true;
+  const override = Matcher.pickCarriers(skill, jobs, ["role:ma_integration", "finance"], isCarrier);
+  assert.deepEqual(override.ids, ["integration_planning", "program_mgmt", "prd"], "the override's carriers and the evidence file's, by share on the postings"); assert.deepEqual(override.field, ["integration_planning", "program_mgmt"]); assert.equal(override.source, "role");
+  const field = Matcher.pickCarriers(skill, jobs, ["role:treasury", "finance"], isCarrier);
+  assert.deepEqual(field.field, ["financial_reporting", "business_case"], "no override for this role: the field's list");
+  assert.deepEqual(Matcher.pickCarriers(skill, jobs, "finance", isCarrier).field, ["financial_reporting", "business_case"], "a bare key still works");
+});

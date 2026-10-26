@@ -862,6 +862,85 @@ index's fields mapped against a posting's text left alone.
 What this is not: a regeneration. `depth_gen` still drafts in British English, and the `data/` branch that regenerates
 with an American rule (and reruns `run_depth.py` and the extraction baselines) stays under Later.
 
+### Step 6 — what the v14 cascade left open (`feat/adaptive-6-followups`, 2026-10-25)
+
+Four things, one PR.
+
+- **Eval 8, the reader's judgment of generated lines.** `evals/lines_judged.mjs` draws 50 sentences per release from
+  `web/evidence_text.js` over both role sets (a pool of 897 distinct sentences on the 2026-10-25 data: 499 gap sentences,
+  249 field lines, 149 templates), a third per type, one from each kind-by-field cell in a seeded order, and asks a
+  model reader of a different family from the depth's drafter (`anthropic/claude-haiku-5.5` through OpenRouter) three
+  yes/no questions: names an artefact or a counterpart; carries a number where its kind asks for one; in the field's
+  words. Answers are cached under `data/experiments/lines_judged/`, `--dry-run` states the cost (about 19,000 tokens), the
+  report is `evals/lines_judged.md` with failures by skill and field, and the runner exits 1 while a sentence fails.
+  **Not run live here**: the build machine has no `.env`, so the committed report says so and the first live run
+  overwrites it; the fix-and-rerun loop on `fields.json` is the owner's first step with the key. The gate stands
+  (decision 10): no later PR changes a sentence template before it runs.
+- **Role overrides in `fields.json`** (v14 open decision 4, taken). Measured on the roles' own postings, the finance
+  entry's carriers fail the 15% rule on 20 of M&A integration's asks, 17 of Corporate development's and 3 of Treasury's,
+  and banking's on 5 of Commercial banking RM's: 45 (skill, role) pairs where fewer than two carriers of the field entry
+  co-occur with the skill. Each got an override, a key `role:<id>` beside the field keys with the same `reads_as` /
+  `shown_by` / `line` shape, written from the role's own carriers (integration planning, M&A execution and programme
+  management for the integrator; M&A execution, diligence, the model and the sponsors for corporate development; cash,
+  banks and hedges for treasury; credit, coverage and the portfolio for the banker). `tax.validate` checks the role is
+  one of the 50, `run_taxonomy.py` grounds each override on the role's postings (1,080 grounding checks pass, 45 of them
+  overrides), `build_graph` publishes them on the MBA nodes with the role's postings beside them, and the readers try the
+  override before the field: `EvidenceText.line` and `reads` and `Matcher.pickCarriers` take a list of keys
+  (`tax.field_keys`, `Atlas.fieldKeys`: `["role:<id>", group]`), so the card says "For M&A Integration Manager:" where an
+  override exists and "In finance:" elsewhere. 34 behaviour-or-practice rows across the four roles now read their own
+  entry.
+- **Carriers for the practices that had none.** 35 of the 39 practices named no `shown_by`, so 311 of 1,127
+  behaviour-or-practice rows in the grids had no carrier. Each got three to five, drafted from the co-occurrence of the
+  practice's postings in its three largest fields (share times log-lift within the field) and chosen by hand from that
+  list (UX & design collaboration through discovery, user research, PRDs; client coverage through credit analysis, key
+  accounts, prospecting; board governance through governance design, risk frameworks, executive reviews). The
+  `carriers` check of `run_taxonomy.py` now holds every practice's carriers to the 10% rule a behaviour's met (288
+  checks); one existing carrier under it (post-merger integration for cross-functional leadership, at 10%) left. Rows
+  with no carrier: 311 → 8 (`evals/adaptive.mjs --only carriers`).
+- **The full calibration for `score`.** The 304-resume calibration set (`evals/resumes/private/`) is not on this
+  machine, in either checkout, so nothing was rerun and `score` stays unmeasured beyond the 48-file try of v14. The
+  command and the bar are unchanged (`evals/README.md`, "Evals to build", item 6).
+
+What this is not: the overrides and the practice carriers are editorial, grounded in what postings ask for together, not
+in what a resume reader accepts; the reader's judgment that would read them as a student would is built and waiting on
+the key.
+
+### Step 7 — the precision pass with the cutoff (`data/precision-mba`, 2026-10-25; draft until re-extracted)
+
+Decision 6 of the pass: an MBA skill's patterns change only when its tagged-sample precision in
+`evals/extraction_audit_mba.md` is under 60% and the skill sits in the top two rows of some role's grid. The audit of
+2026-10-25 has 15 skills under 60%; `Atlas.grid` over the 50 roles puts 13 of them in a top-two row (Board & committee
+governance and the risk certifications are outside the rule and untouched): transformation programme leadership (six
+roles, including 90% of Transformation Manager's postings), investor relations (PE associate, VC associate, strategic
+finance), audit & SOX (treasury, risk, compliance, governance), banking relationships (commercial and corporate banking,
+IB associate), credit analysis, portfolio-company value creation, the three real-estate skills (development &
+entitlements, property types, leasing), procurement platforms, HR operations, HRIS tools and BI development tools.
+
+What changed, pattern by pattern (the rule in `README.md`: anchored phrases, no bare everyday words): a bare "digital
+transformation" or "transformation work" no longer counts, a transformation programme, office or portfolio or a verb
+on a transformation does; fund administration, co-investment and "general partners" leave investor relations; external,
+regulatory and customer audits leave audit & SOX, which keeps the internal audit, the audit universe and the SOX
+controls; a line of credit, merchant services, treasury services and "financial solutions" named in passing leave
+banking relationships; credit risk and credit policy leave credit analysis for the risk domain, and "commercial
+lending" alone counts only with an underwriting verb; an exit counts for portfolio-company work only beside an
+investment, a sponsor or a fund; feasibility studies, renovations, capital and tenant improvements leave development
+(they are asset management) and construction counts when it is managed, budgeted or financed; a bare "CRE" and "property
+types" leave the property-types knowledge; "leasing" counts as leasing activity, a leasing team or retail, office,
+industrial or tenant leasing, not equipment or lease accounting, and a landlord only in relations or representation;
+contract-management and spend systems leave procurement platforms; onboarding counts for HR operations as a process, not
+a manager's duty, and global mobility leaves it; applicant-tracking systems and "HR technology" in passing leave HRIS;
+Power Apps, Power Automate and Tableau desktop leave BI development tools. 37 pattern lines removed or narrowed, 21
+written.
+
+Measured here, on the 99 golden postings (`evals/run_pipeline.py --only golden`): must-found stays at the 85% floor,
+must-not-tagged stays at 15.1% with one false positive fixed (leasing on a real-estate project manager) and one
+true tag recovered with a narrower phrase (tenant interactions). Not measured here: the tagged-sample precision
+itself. The build machine has no `.env`, no `data/raw/jobs_mba/` and no saved model answers under `data/experiments/`,
+so the chain `CLAUDE.md` names for a taxonomy change (`pipeline.extract --roles mba`, `role_corpus`, `role_coverage`,
+`skill_audit --reuse`, `build_graph --roles mba`, the extraction and pipeline baselines) is pending and the PR is a
+draft until it runs; the processed file, the graphs and `extraction_audit_mba.md` still carry the old tags. Skills
+outside the rule: 167 of 180 untouched.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
