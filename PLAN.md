@@ -969,6 +969,30 @@ Not done here: the re-extraction that writes the field (`pipeline.extract` for b
 baselines. Until then the processed files have no `sponsorship` (the eval part says so), the chip stays hidden, and the
 PR is a draft.
 
+### Step 9 — the fit screen reads a pasted posting (`feat/paste-posting`, 2026-10-25)
+
+Under the resume on the fit screen, "Have a posting? Paste it.": a drop-or-paste box read in the browser by
+`Atlas.readPosting` and kept in `localStorage` under `posting`, like `course`, per role. With a posting on file the two
+columns re-rank: the skills the posting names come first, each marked "this posting asks for it", their status from
+the resume unchanged; the band stays the role's (one document; the band is calibrated on the role). The rail says "N of
+the M skills this posting asks for are on your resume" above the role sentence, and the fit screen says the same with
+"Paste another" and "Forget it". The posting never leaves the browser.
+
+The reader is the pipeline's, not the resume matcher's. The first draft reused the course reader (`readCourse`): against
+the pipeline's tags on the 99 golden postings it showed 99% of them and 8,057 skills the pipeline does not tag, because
+a resume is read with resume-language extras, sub-skill hints and transfer vocabulary that a posting must not get.
+`Matcher.tagPosting` runs the taxonomy's own patterns over the whole text, after a port of the pipeline's cleaner
+(`BOILER_RE`, `ABOUT_RE`, long lines split into sentences, apostrophes straightened, a letter outside ASCII read as a
+word character the way Python's `\b` reads it) plus the one thing the pipeline is given and a pasted posting is not,
+the employer's name: it is inferred as the capitalised phrase that opens two or more lines, and its self-description
+lines are dropped anywhere; a single such line only at the top or under an "About" heading. `evals/posting.mjs` (in CI)
+pastes the 99 golden postings and holds the browser to the pipeline: at least 80% of each posting's tags shown, never a
+skill it does not tag; today 2,318 of 2,321 shown and 0 extras. `web/data/taxonomy_mba.json` was regenerated so the
+browser reads the step 7 patterns the pipeline reads (the graphs were not; they wait for the re-extraction).
+
+What this is not: a posting-specific band or score. The posting changes the order and the marks; the verdict stays
+the role's, by design.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its

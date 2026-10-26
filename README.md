@@ -84,7 +84,7 @@ in `CLAUDE.md`.
   index alone), `#/role/<role>/fit` the fit screen (the matcher built as the bands were calibrated, `Atlas.matcher`,
   read once per view by `computeFit` for the rail and this screen; the band from `bands.json` or `bands_mba.json` on
   a four-step scale, never a percentage; plain words for a group with no bands; the two columns of what the resume
-  shows and what needs more evidence), `#/role/<role>/course` (drop or paste
+  shows and what needs more evidence), `#/role/<role>/fit` also takes a pasted posting ("Have a posting? Paste it.": `Atlas.readPosting`, the pipeline's tagging in the browser, kept in `localStorage` under `posting`; the skills it names come first in the two columns, marked, with the resume's status for each; the band stays the role's; the rail says how many of the skills the posting asks for are on the resume; `evals/posting.mjs` holds it to the pipeline's tags), `#/role/<role>/course` (drop or paste
   a syllabus; `Atlas.readCourse` names the skills it mentions; the grid shows what the course teaches and what most
   postings ask for that it does not name), `#/field/<group>/event?networking|roundtable|hackathon` (who is in the
   room and what to ask, what to say about yourself, employers hiring now from the field's postings

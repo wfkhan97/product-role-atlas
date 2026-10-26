@@ -606,6 +606,60 @@
       return OUTCOME.test(l.text) ? 3 : 2;
     }
 
+    // A posting, read as the pipeline reads one (PLAN.md v16, step 9): the taxonomy's own patterns only (none of the
+    // resume-language extras above, none of the drops), over the whole text with the boilerplate lines cut
+    // (pipeline/extract.py: clean, BOILER_RE, ABOUT_RE) and apostrophes straightened. Returns { found: {id: hits},
+    // subs: Set of sub-skill ids, lines }. A posting is one document: no strengths, no structure.
+    const BOILER = new RegExp(["equal (opportunity|employment)", "\\bEEO\\b", "discriminat", "accommodation", "veteran status", "sexual orientation", "gender identity",
+      "national origin", "protected (characteristic|class|veteran)", "background check", "e-?verify", "drug[- ]free", "affirmative action",
+      "visa sponsorship", "work authorization", "\\b401\\(?k\\)?", "dental", "vision (insurance|coverage|plan)", "paid time off", "\\bPTO\\b", "parental leave",
+      "\\bstock (options|units|purchase)", "\\bRSUs?\\b", "base (salary|pay) range", "salary range", "pay range", "compensation (range|package|and benefits)",
+      "total rewards", "wellness", "tuition", "commuter", "life insurance", "disability (insurance|benefits)", "employee assistance",
+      "\\bbenefits? (package|program|include|offered)", "we offer (a )?competitive", "bonus (program|eligib)", "relocation",
+      "\\bapply (now|today)", "privacy (notice|policy|statement)", "recruitment (agency|agencies|fraud)", "scam",
+      "about (amazon|google|microsoft|the company|us\\b)", "our (mission|values|culture) is", "join (us|our team) (and|to)",
+      "reasonable accommodation", "criminal (histor|record|background)", "fair chance", "ordinance", "\\bADA\\b", "pregnancy",
+      "inclusive (culture|environment|workplace)", "diversity,? (equity|and inclusion)", "\\bDEI\\b", "underrepresented",
+      "ninety[- ]day", "probation", "export control", "\\bITAR\\b", "clearance"].join("|"), "i");
+    const ABOUT = /^\W*(we are|we're|as) (a|an|the|one of the) (\w+ )?(leading|global|premier|world'?s?|largest|top|fastest|trusted|independent)\b|^\W*(founded|established|headquartered) in\b|^\W*with (over|more than|approximately) [\d$,.]+ ?\w* (in assets|employees|offices|clients|customers)/i;
+    // the employer describing itself ("Deloitte is a leading global firm that provides…"): the pipeline knows the
+    // employer's name; a pasted posting does not, so a line that opens with a capitalised name and a self-verb stands in
+    const SELF = /^\W*(about )?(?!(the|this|our|you|we|it|your|each|all|a|an|in|as|if|for|with|from|at|on|to)\b)([A-Z][\w&'.-]*( (of|and|&|de|for)? ?[A-Z][\w&'.-]*){0,4})(,? (group|inc\.?|llc|l\.?p\.?|& co\.?|and company|company|corporation|corp\.?|partners|capital|management|financial|holdings|bank))*,? (is (?!seeking|looking|hiring|searching|recruiting|currently|an equal|committed|proud|responsible|accountable|expected|required)|was founded|has been|provides|offers|serves|operates|delivers|helps|manages|advises)\b/;
+    const LONG_LINE = 600, SENT = /(?<=[.!?])\s+|\n+/;
+    // apostrophes straightened before the boilerplate test, as the pipeline's norm() does; a letter outside ASCII becomes
+    // a placeholder word character, so \b reads a word the way Python's Unicode \b does ("l'évaluation" and
+    // "hypothèses" are whole words there and match no English pattern)
+    const normPosting = text => String(text || "").replace(/[\u2019\u2018\u02bc]/g, "'").replace(/[^\x00-\x7f]/gu, c => /\p{L}/u.test(c) ? "x" : c);
+    function cleanPosting(text) {
+      const lines = normPosting(text).split("\n").flatMap(l => l.length > LONG_LINE ? l.split(SENT) : [l]);
+      // The employer's name, which the pipeline is given and a pasted posting is not: the capitalised phrase that opens
+      // two or more lines of the posting ("Oracle is making…", "Oracle is proud to be…"). Its self-description lines are
+      // dropped anywhere; a single such line only at the top of the posting or under an "About …" heading, which ends at
+      // the next short heading.
+      const lead = l => { const mm = l.match(/^\W*(?:about )?([A-Z][\w&'.-]*(?: (?:of|and|&|de|for)? ?[A-Z][\w&'.-]*){0,3})/); return mm ? mm[1].toLowerCase() : null; };
+      const starts = {}; for (const l of lines) { const n = lead(l); if (n && !/^(the|this|our|you|we|it|your|each|all|a|an|in|as|if|for|with|from|at|on|to)$/.test(n)) starts[n] = (starts[n] || 0) + 1; }
+      const employer = n => n && starts[n] >= 2;
+      let seen = 0, about = false; const out = [];
+      for (const l of lines) {
+        if (!l.trim()) { out.push(l); continue; }
+        const heading = l.trim().length < 60 && !/[.!?]\s*$/.test(l.trim()) && !/[.;]/.test(l);
+        if (/^\W*about\b/i.test(l) && heading) about = true; else if (heading) about = false;
+        const self = SELF.test(l) && (seen < 3 || about || employer(lead(l)));
+        seen++;
+        if (l.length > 40 && (BOILER.test(l) || ABOUT.test(l) || self)) continue;
+        out.push(l);
+      }
+      return out.join("\n");
+    }
+    const postingRx = skills.map(s => ({ id: s.id, rx: rx(s.patterns) }));
+    function tagPosting(text) {
+      const t = cleanPosting(text);
+      const found = {};
+      for (const c of postingRx) { if (!c.rx) continue; const m = t.match(new RegExp(c.rx.source, "gi")); if (m) found[c.id] = m.length; }
+      const subs = new Set(); for (const s of subRx) if (s.rx && found[s.parent] && s.rx.test(t)) subs.add(s.id);
+      return { found, subs, lines: t.split("\n").filter(l => l.trim()).length };
+    }
+
     // not a current student, and three or more years of work: set by tag() for the resume in hand
     let seasoned = false; const SEASONED_YEARS = 3;
     function tag(parsed) {
@@ -862,7 +916,7 @@
       return { ...res, profile, parsed: { roles: parsed.roles, degrees: [...parsed.degrees], lines: parsed.lines.length, hasSections: parsed.hasSections, placeholderDates: parsed.placeholderDates }, unmapped, extras, covered, subs, evidence: ev, ai: req.ai.ids, req: { n: req.n, label: req.label, core: [...req.tiers.core.keys()], common: [...req.tiers.common.keys()], diff: [...req.tiers.diff.keys()] } };
     }
 
-    return { match, parseResume, readRoles, roleFamilyOf, roleOf, tag, requirements, profileOf, score, nameOf, carriersFor, isBehaviour, groupOf, behaviours, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
+    return { match, parseResume, readRoles, roleFamilyOf, roleOf, tag, tagPosting, cleanPosting, requirements, profileOf, score, nameOf, carriersFor, isBehaviour, groupOf, behaviours, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
   }
 
   // The band of fit a score falls in, from the cut points that evals/calibrate.mjs derives (bands.strong and

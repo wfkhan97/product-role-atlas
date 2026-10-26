@@ -292,6 +292,16 @@
     const found = new Set(Object.entries(ev).filter(([, e]) => e.strength >= 1 || e.hintOnly || e.subs.size).map(([id]) => id));
     return { found, ...courseSplit(found, ix.skillById), ev, lines: parsed.lines.length };
   }
+  // A pasted posting (PLAN.md v16, step 9), read as the pipeline reads one (Matcher.tagPosting: the taxonomy's patterns
+  // only, over the text with the boilerplate cut), split by kind like a syllabus (courseSplit), with the sub-skills it
+  // names. Returns { found, teaches, named, other, subs, hits, lines }. The posting never leaves the browser; it is one
+  // document, so the band stays the role's.
+  async function readPosting(text) {
+    const ix = await index(); await roughFit("");   // builds the reader
+    const r = roughM.tagPosting(text);
+    const found = new Set(Object.keys(r.found));
+    return { found, ...courseSplit(found, ix.skillById), subs: r.subs, hits: r.found, lines: r.lines };
+  }
   // the skills generic to the role set: asked by most postings of at least half of the 50 roles (measured, not listed)
   async function genericSkills() {
     const ix = await index(); const count = {};
@@ -314,5 +324,5 @@
     return files.flatMap(f => decode(ix.M, f.jobs));
   }
 
-  return { index, product, productKey, role, shares, subShares, grid, areas, carriers, AREA_ORDER, BEHAVIOURS_PANEL, stepOf, employerType, matcher, roughFit, readCourse, courseSplit, COURSE_KINDS, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson, us, useSpelling, fieldKeys };
+  return { index, product, productKey, role, shares, subShares, grid, areas, carriers, AREA_ORDER, BEHAVIOURS_PANEL, stepOf, employerType, matcher, roughFit, readCourse, readPosting, courseSplit, COURSE_KINDS, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson, us, useSpelling, fieldKeys };
 });

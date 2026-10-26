@@ -318,6 +318,18 @@ explore or a game), reading the pure table `Stage` in `web/app.js` that the scre
 read it. In CI. What it does not show: whether a student of each kind gets what they came for; that needs sessions
 (`pipeline/funnel.py`) or resumes per kind.
 
+## The pasted posting
+
+The fit screen reads a pasted posting in the browser (PLAN.md v16, step 9): `Atlas.readPosting` runs
+`Matcher.tagPosting`, the taxonomy's own patterns over the text with the boilerplate cut the way `pipeline/extract.py`
+cuts it (EEO, benefits, legal, the employer describing itself; the employer's name is inferred from the line openings
+it repeats, since a pasted posting carries none), none of the matcher's resume-language extras. `node evals/posting.mjs`
+pastes the 99 golden MBA postings one by one and compares with the tags the pipeline gives the same text (a short
+python run, no network): each posting must show at least 80% of its pipeline-tagged skills and never a skill the
+pipeline does not tag. On 2026-10-25: 2,318 of 2,321 tags shown (99.9%), 0 extras, the lowest posting at 12 of 14. In
+CI. What it does not show: whether the skills a posting names are the ones it weighs; a pasted posting is read as one
+document, so the band stays the role's.
+
 ## Lines judged
 
 The sentences the screens show about a skill are built from the data by `web/evidence_text.js` (PLAN.md v14, decision
