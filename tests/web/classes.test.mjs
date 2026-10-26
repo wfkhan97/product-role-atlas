@@ -244,3 +244,50 @@ test("sign-in accepts an email whose domain is in the campus's list; a campus wi
   assert.equal(C.domainWords(cornell), "@cornell.edu");
   assert.equal(C.neutralCardTitle(FILE.campuses), "Spring 2027 classes · Cornell Tech and IE New York");
 });
+
+// ---------- the picker's facets (PLAN.md v18, step 2) ----------
+test("the instructor list: one entry per person from the rows, alphabetical by surname, the slug kept when any row has it", () => {
+  const data = { ...DATA, classes: [...DATA.classes, cls("TEST 4040"), cls("TEST 5050")], instructors: [...DATA.instructors, { class_code: "TEST 4040", instructor_name: "Zed, Amy", professor_slug: null }, { class_code: "TEST 5050", instructor_name: "pat example", professor_slug: null }, { class_code: "TEST 5050", instructor_name: "Bo Adams", professor_slug: "bo-adams" }] };
+  const list = C.instructorList(C.collapse(data));
+  assert.deepEqual(list.map(i => i.name), ["Bo Adams", "Pat Example", "Sam Roster", "Zed, Amy"], "Adams, Example, Roster, Zed: by surname, a comma name by the part before it");
+  const pat = list.find(i => i.name === "Pat Example");
+  assert.equal(pat.slug, "pat-example"); assert.equal(pat.n, 2, "TEST 1020 (one card for two codes) and TEST 5050; the lower-case row is the same person");
+  assert.equal(list.find(i => i.name === "Sam Roster").slug, null);
+  assert.deepEqual(C.instructorList([]), []);
+  const cards = C.collapse(data);
+  assert.deepEqual(C.filterCards(cards, { showAll: true, instructor: pat }).map(c => c.key), ["TEST 1020", "TEST 5050"], "by slug when both sides have one");
+  assert.deepEqual(C.filterCards(cards, { showAll: true, instructor: "sam roster" }).map(c => c.key), ["TEST 1010"], "by name, case-insensitively");
+  assert.deepEqual(C.filterCards(cards, { showAll: true, instructor: pat, subject: "ZZZ" }), [], "composes with the other filters");
+  assert.deepEqual(C.instructorCards(cards, { name: "Zed, Amy" }).map(c => c.key), ["TEST 4040"]);
+  assert.equal(C.instructorCards(cards, null).length, cards.length);
+});
+
+test("the content search reads the code, the title, the description and the outcomes, never the syllabus digest or the research note; the card labels a match the person cannot see", () => {
+  const card = C.collapse({ classes: [cls("TEST 1010", { description: "Budgeting and forecasting for managers.", outcomes: "Build a rolling forecast\nQuery a warehouse with SQL", roster_syllabus_md: "SECRET-DIGEST pricing", research_note_md: "SECRET-NOTE tableau" })] })[0];
+  assert.equal(C.matchField(card, "1010"), "code");
+  assert.equal(C.matchField(card, "title of"), "title");
+  assert.equal(C.matchField(card, "forecasting"), "description", "the description before the outcomes");
+  assert.equal(C.matchField(card, "warehouse"), "outcomes");
+  assert.equal(C.matchField(card, "SQL "), "outcomes", "trimmed, case-insensitive");
+  assert.equal(C.matchField(card, "pricing"), null, "roster_syllabus_md is never searched");
+  assert.equal(C.matchField(card, "tableau"), null, "research_note_md is never searched");
+  assert.equal(C.matchField(card, ""), null);
+  assert.deepEqual(C.filterCards([card], { showAll: true, q: "warehouse" }).map(c => c.key), ["TEST 1010"]);
+  assert.deepEqual(C.filterCards([card], { showAll: true, q: "pricing" }), []);
+  assert.match(C.cardHtml(card, { campus, matched: "outcomes" }), /<span class="tag thin cls-match">in outcomes<\/span>/);
+  assert.match(C.cardHtml(card, { campus, matched: "description" }), /in description/);
+  assert.doesNotMatch(C.cardHtml(card, { campus, matched: "title" }), /cls-match/, "a match on the title or the code is visible; no label");
+  assert.doesNotMatch(C.cardHtml(card, { campus }), /cls-match/);
+});
+
+test("the gaps-by-instructor join: the union of the gaps the instructor's cards cover, each with the codes that cover it, core first", () => {
+  const data = { ...DATA, classes: [...DATA.classes, cls("TEST 5050")], instructors: [...DATA.instructors, { class_code: "TEST 5050", instructor_name: "Pat Example", professor_slug: "pat-example" }] };
+  const cards = C.collapse(data);
+  const covered = { "TEST 1020": [GAPS[3], GAPS[2]], "TEST 5050": [GAPS[0], GAPS[3]], "TEST 1010": [GAPS[1]] };
+  const mine = C.instructorCards(cards, { slug: "pat-example", name: "Pat Example" });
+  assert.deepEqual(mine.map(c => c.key), ["TEST 1020", "TEST 5050"]);
+  const gaps = C.instructorGaps(mine, covered);
+  assert.deepEqual(gaps.map(g => [g.id, g.codes]), [["budgeting_forecasting", ["TEST 5050"]], ["stakeholder_mgmt", ["TEST 1020"]], ["sql", ["TEST 1020", "TEST 5050"]]], "core first, then by share; SQL once with both codes; Sam Roster's card (communication) is not Pat's");
+  assert.deepEqual(C.instructorGaps(mine, {}), []);
+  assert.deepEqual(C.instructorGaps([], covered), []);
+});

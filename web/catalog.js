@@ -186,12 +186,34 @@
     const cats = new Set([...(program.categories || []), "no_enrollment_restriction_listed"]);
     return card.classes.some(c => cats.has(c.eligibility_category));
   }
-  function filterCards(cards, { program = null, showAll = false, subject = null, q = "", coversGap = false, covered = null } = {}) {
+  // The content search (v18, step 2) reads the code, the title, the description and the roster outcomes, in that order;
+  // never roster_syllabus_md (matcher input only) and never research_note_md (never read): the rule at the top stands.
+  // matchField says which field matched first, so the card can label a match the person cannot see on it.
+  const SEARCH_FIELDS = [["code", c => c.codes.join("\n")], ["title", c => c.title || ""], ["description", c => c.classes.map(x => x.description || "").join("\n")], ["outcomes", c => c.classes.map(x => x.outcomes || "").join("\n")]];
+  function matchField(card, q) {
+    const needle = String(q || "").trim().toLowerCase();
+    if (!needle) return null;
+    const hit = SEARCH_FIELDS.find(([, text]) => text(card).toLowerCase().includes(needle));
+    return hit ? hit[0] : null;
+  }
+  // the instructor facet: the instructors of every card, one entry per person, alphabetical by surname (the last
+  // word of the name, or the part before a comma), with the slug when the roster has a profile and the card count
+  const surname = name => { const n = String(name || "").trim(); const comma = n.indexOf(","); return (comma > 0 ? n.slice(0, comma) : n.split(/\s+/).pop() || n).toLowerCase(); };
+  function instructorList(cards) {
+    const by = {};
+    for (const c of cards || []) for (const i of c.instructors || []) { const k = String(i.name || "").trim().toLowerCase(); if (!k) continue; const e = by[k] ||= { name: String(i.name).trim(), slug: i.slug || null, n: 0 }; e.n++; if (!e.slug && i.slug) e.slug = i.slug; }
+    return Object.values(by).sort((a, b) => surname(a.name).localeCompare(surname(b.name)) || a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+  }
+  // the cards an instructor teaches: by slug when both sides have one, else by name, case-insensitively
+  const teaches = (card, who) => (card.instructors || []).some(i => (who.slug && i.slug) ? i.slug === who.slug : String(i.name || "").trim().toLowerCase() === String(who.name || "").trim().toLowerCase());
+  const instructorCards = (cards, who) => !who || !(who.slug || who.name) ? (cards || []).slice() : (cards || []).filter(c => teaches(c, who));
+  function filterCards(cards, { program = null, showAll = false, subject = null, q = "", coversGap = false, covered = null, instructor = null } = {}) {
     const needle = String(q || "").trim().toLowerCase();
     return cards.filter(c => (showAll || openTo(c, program))
       && (!coversGap || ((covered || {})[c.key] || []).length)
       && (!subject || c.subjects.includes(subject))
-      && (!needle || c.codes.some(k => k.toLowerCase().includes(needle)) || c.title.toLowerCase().includes(needle)));
+      && (!instructor || teaches(c, typeof instructor === "string" ? { name: instructor } : instructor))
+      && (!needle || !!matchField(c, needle)));
   }
   // meeting lines: "MW 10:10–11:25 · Bloomberg 061" per section, DIS/LAB marked
   const timeOf = (a, b) => a && b ? `${a}–${b}` : a || b || "";
@@ -249,10 +271,20 @@
   }
   // the n courses that cover the most core gaps (then the most gaps), for the rail; a course covering nothing is never one
   const topCovering = (cards, info, n) => sortCards(cards, "gaps", info).filter(c => ((info[c.key] || {}).covered || []).length).slice(0, n || 3);
+  // The gaps one instructor's classes cover (v18, step 2), for the professor card: the union of the gaps covered by the
+  // cards given (the picker's per-card reads, covered[key] = [gap rows]), each gap with the codes that cover it, core
+  // first and then by share, the same order as a card's line. Pure: the screen picks the cards with instructorCards.
+  function instructorGaps(cards, covered) {
+    const by = {};
+    for (const c of cards || []) for (const g of (covered || {})[c.key] || []) { const e = by[g.id] ||= { ...g, codes: [] }; if (!e.codes.includes(c.codes[0])) e.codes.push(c.codes[0]); }
+    return Object.values(by).map(g => ({ ...g, codes: g.codes.slice().sort() })).sort((a, b) => a.tier === b.tier ? (b.w || 0) - (a.w || 0) : a.tier === "core" ? -1 : 1);
+  }
 
   // ---------- the card's html (pure: the screen wires the handlers) ----------
   const RELS = { low: "thin", medium: "amber", high: "good" };
   const bandTag = (b, extra) => `<span class="tag ${RELS[b] || "thin"}${extra ? " " + extra : ""}">${esc(b)}</span>`;
+  // o.matched (v18, step 2): the field the search matched (matchField); a match in the description or the outcomes,
+  // which the card does not show, gets a small label so the person knows why the card is here
   function cardHtml(card, o) {
     o = o || {};
     const cm = o.campus || {};
@@ -270,7 +302,7 @@
     const ownCtl = `<div class="chips cls-own" role="group" aria-label="Your rating">${BANDS.map(b => `<button type="button" class="chip${own === b ? " on" : ""}" data-own="${esc(card.key)}" data-val="${b}">${b}</button>`).join("")}</div>`;
     return `<article class="cls-card${o.selected ? " on" : ""}" data-card="${esc(card.key)}">
       <div class="cls-main">
-        <button type="button" class="cls-open linkish" data-open="${esc(card.key)}"><span class="cls-codes">${esc(codes)}</span> <span class="cls-title">${esc(card.title)}</span></button>
+        <button type="button" class="cls-open linkish" data-open="${esc(card.key)}"><span class="cls-codes">${esc(codes)}</span> <span class="cls-title">${esc(card.title)}</span></button>${o.matched === "description" || o.matched === "outcomes" ? ` <span class="tag thin cls-match">in ${esc(o.matched)}</span>` : ""}
         <p class="facts">${esc(card.credits ? card.credits + " credits" : "credits not listed")}${meetingLines(card.sections).map(l => " · " + esc(l)).join("")}</p>
         <p class="small">${who}</p>
         <p class="small"><span class="tag thin">${esc(elig)}</span></p>
@@ -309,5 +341,5 @@
     return blocks.join("");
   }
 
-  return { esc, BANDS, sb, session, onAuth, signInGoogle, signInEmail, signOut, takeAuthNote, loadCatalog, loadProfessor, campuses, campusFor, allowedEmail, domainWords, neutralCardTitle, collapse, gradingChip, eligibilityLabel, openTo, filterCards, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, gapsCovered, coverLine, sortCards, topCovering, cardHtml, mdSections, mdHtml };
+  return { esc, BANDS, sb, session, onAuth, signInGoogle, signInEmail, signOut, takeAuthNote, loadCatalog, loadProfessor, campuses, campusFor, allowedEmail, domainWords, neutralCardTitle, collapse, gradingChip, eligibilityLabel, openTo, filterCards, matchField, instructorList, instructorCards, instructorGaps, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, gapsCovered, coverLine, sortCards, topCovering, cardHtml, mdSections, mdHtml };
 });

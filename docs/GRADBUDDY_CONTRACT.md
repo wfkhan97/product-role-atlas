@@ -125,7 +125,8 @@ screen; `web/data/spelling_us.json`), `Atlas.fieldKeys(R)`. In node: `require("w
 `sp27_campus.json` is a list under `campuses`; each campus has `id`, `label`, `term`, `term_label`, `programs` (each
 with its v15 group), `relevance` (the thresholds: `high`, `medium`, the share of a role's core and common asks a course
 text names), `signin_domains`, `catalog`. The picker's pure functions (`Catalog.relevanceScore`, `relevanceBand`,
-`gapsCovered`, `sortCards`, `topCovering`) load in node with `require("web/catalog.js")({})`. The roster itself is in
+`gapsCovered`, `sortCards`, `topCovering`, `instructorList`, `matchField`, `instructorGaps`) load in node with
+`require("web/catalog.js")({})`. The roster itself is in
 the `gradbuddy-catalog` Supabase project behind row-level security.
 
 ## Consumers

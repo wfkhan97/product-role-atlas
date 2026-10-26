@@ -1108,6 +1108,21 @@ stage, that the first call to action on the start screen and on the rail is the 
 "Cohort 1") and that the screens draw it from `Apply`. Tests: the note sent, left out when empty, cut at 200; the
 script's names and sources equal the latest migration's. The price is nowhere on screen; "paid" is.
 
+**Built, step 2** (`feat/picker-facets`): what already existed in the picker: the text search (`S.q`, over the codes
+and the title only), the subject chips, the "Covers a gap" chip and the professor card. Added, in the brief's order:
+(1) an **instructor facet**, a select over every instructor of a section this term (`Catalog.instructorList`, from the
+cards' instructor fields as `catalog.js` reads them, one entry per person, alphabetical by surname, the slug kept);
+choosing one filters the cards (`filterCards` gains `instructor`, by slug when both sides have one, else by name) and
+shows "About <name> →" to the professor card, or one line saying the roster has no profile; (2) the **content search
+covers the description and the outcomes** (`matchField`: code, title, description, outcomes in that order; never
+`roster_syllabus_md`, never `research_note_md`, the rule in `catalog.js` stands), and a card whose match the person
+cannot see on it carries a small label, "in outcomes" or "in description"; (3) the **professor card reads the person's
+gaps**: with a role chosen in the picker and a fit on file, "Your gaps" lists which of the person's gaps this
+instructor's classes this term cover, each with the codes that cover it (`instructorCards` picks the cards,
+`instructorGaps` joins the picker's own per-card reads, `readCard`, core first), or one line saying none; the public
+facts stay as they were, and nothing is a rating or a review. Tests on synthetic rows: the instructor list, the match
+field and its label, the join. No change to relevance bands or thresholds; desktop only.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
