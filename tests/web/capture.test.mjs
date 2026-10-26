@@ -62,16 +62,26 @@ test("without sessionStorage (private mode, a throwing accessor) the id still ex
   assert.match(throwing.session(), /^[0-9a-f]{24}$/);
 });
 
-test("a waitlist click posts the email, the source and the context, ignoring a duplicate, then fires waitlist_<source>", async () => {
+test("a waitlist click posts the email, the source and the context as a plain insert, then fires waitlist_<source>", async () => {
   const { C, calls } = make({ storage: memStorage() });
   assert.equal(await C.waitlist("  Someone@Cornell.edu ", "show", { role_id: "fpa", stage: "looking", program: "business", fields: ["finance", "consulting"], resume: "SECRET" }), true);
   assert.equal(calls.length, 2);
-  assert.equal(calls[0].url, "https://x.supabase.co/rest/v1/waitlist?on_conflict=email_key,source");
-  assert.match(calls[0].init.headers.Prefer, /resolution=ignore-duplicates/);
+  assert.equal(calls[0].url, "https://x.supabase.co/rest/v1/waitlist", "no on_conflict: the duplicate-ignoring upsert needs select, which anon does not have");
+  assert.equal(calls[0].init.headers.Prefer, "return=minimal");
   assert.deepEqual(calls[0].body, { email: "Someone@Cornell.edu", source: "show", role_id: "fpa", stage: "looking", program: "business", fields: ["finance", "consulting"] });
   assert.equal(calls[1].body.name, "waitlist_show");
   assert.equal(calls[1].body.role_id, "fpa");
   assert.equal(calls[1].url, "https://x.supabase.co/rest/v1/events");
+});
+
+test("a second click with the same email and source is answered 409 by the unique index and still reads as joined", async () => {
+  const dup = make({ fetch: async url => ({ ok: false, status: url.includes("/waitlist") ? 409 : 201 }), storage: memStorage() });
+  assert.equal(await dup.C.waitlist("a@b.co", "fit"), true);
+  const refused = make({ fetch: async () => ({ ok: false, status: 401 }), storage: memStorage() });
+  assert.equal(await refused.C.waitlist("a@b.co", "fit"), false, "any other refusal is not joined");
+  assert.equal(await refused.C.event("start"), false, "an event never treats a 409 as done");
+  const ev409 = make({ fetch: async () => ({ ok: false, status: 409 }), storage: memStorage() });
+  assert.equal(await ev409.C.event("start"), false);
 });
 
 test("a waitlist call with a bad email or an unknown source sends nothing", async () => {

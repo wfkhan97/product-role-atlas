@@ -33,11 +33,14 @@
   }
   const str = v => (v == null || v === "") ? null : String(v).slice(0, 80);
   const stageOf = v => STAGES.has(v) ? v : null;
-  function post(table, row, query) {
+  // A plain insert. PostgREST's duplicate-ignoring upsert (on_conflict + resolution=ignore-duplicates) needs select on
+  // the table, which the policy withholds on purpose, so a second waitlist click is answered 409 by the unique index
+  // instead and `okStatus` says that counts as done.
+  function post(table, row, okStatus) {
     const c = cfg();
-    const url = `${String(c.SUPABASE_URL).replace(/\/$/, "")}/rest/v1/${table}${query ? "?" + query : ""}`;
-    return Promise.resolve().then(() => deps.fetch(url, { method: "POST", headers: { "Content-Type": "application/json", apikey: c.SUPABASE_PUBLISHABLE_KEY, Authorization: "Bearer " + c.SUPABASE_PUBLISHABLE_KEY, Prefer: "return=minimal" + (query ? ",resolution=ignore-duplicates" : "") }, body: JSON.stringify(row), keepalive: true }))
-      .then(r => !!(r && r.ok)).catch(() => false);
+    const url = `${String(c.SUPABASE_URL).replace(/\/$/, "")}/rest/v1/${table}`;
+    return Promise.resolve().then(() => deps.fetch(url, { method: "POST", headers: { "Content-Type": "application/json", apikey: c.SUPABASE_PUBLISHABLE_KEY, Authorization: "Bearer " + c.SUPABASE_PUBLISHABLE_KEY, Prefer: "return=minimal" }, body: JSON.stringify(row), keepalive: true }))
+      .then(r => !!(r && (r.ok || (okStatus && r.status === okStatus)))).catch(() => false);
   }
   // one funnel event; resolves true when the row was accepted, false otherwise, never rejects
   function event(name, ctx) {
@@ -46,14 +49,14 @@
     return post("events", { name, session: session(), stage: stageOf(ctx.stage), program: str(ctx.program), role_id: str(ctx.role_id), field_id: str(ctx.field_id) });
   }
   // one waitlist row, then the matching event (waitlist_<source>); a second click with the same email and source is
-  // not a second row (the unique index on lower(email), source; the insert ignores the duplicate)
+  // not a second row: the unique index on lower(email), source refuses it with a 409, which reads as "on the list"
   function waitlist(email, source, ctx) {
     const e = String(email || "").trim();
     if (!enabled() || !SOURCES.includes(source) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e) || e.length > 320) return Promise.resolve(false);
     ctx = ctx || {};
     const fields = Array.isArray(ctx.fields) ? ctx.fields.map(str).filter(Boolean).slice(0, 12) : null;
     const row = { email: e, source, role_id: str(ctx.role_id), stage: stageOf(ctx.stage), program: str(ctx.program), fields };
-    return post("waitlist", row, "on_conflict=email_key,source").then(ok => { event("waitlist_" + source, ctx); return ok; });
+    return post("waitlist", row, 409).then(ok => { event("waitlist_" + source, ctx); return ok; });
   }
   return { event, waitlist, session, EVENTS, SOURCES };
 });

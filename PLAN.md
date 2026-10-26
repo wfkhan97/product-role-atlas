@@ -737,8 +737,10 @@ Two tables in the `gradbuddy-catalog` Supabase project (`pipeline/sql/2026-10-25
 fields picked) and `events` (a name from a closed list of eighteen, a session id, stage, program group, a role or field
 id). Row-level security, anonymous insert only, no select for anyone but the service role. The unique index the brief
 asked for on `(lower(email), source)` is a generated column `email_key` plus a unique index on `(email_key, source)`,
-because PostgREST's `on_conflict` names columns, not expressions; the browser inserts with `resolution=ignore-duplicates`,
-so a second click is not a second row.
+because PostgREST's `on_conflict` names columns, not expressions. *Corrected 2026-10-26, on applying the migration:* the
+duplicate-ignoring upsert PostgREST runs for `on_conflict` needs `select` on the table, which the policy withholds on
+purpose (a 401 for every click), so the browser inserts plainly and reads the unique index's 409 on a second click as
+"on the list". The index still does its job; the script just stops asking PostgREST to.
 
 `web/capture.js` (a classic script, node-testable with its dependencies passed in) exposes `Capture.event` and
 `Capture.waitlist`: both post to the REST endpoint with the publishable key, swallow every error, and are no-ops when
