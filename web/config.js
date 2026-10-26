@@ -6,4 +6,6 @@ window.CONFIG = {
   SUPABASE_PUBLISHABLE_KEY: "sb_publishable_3wfHOcJvv4MxXeEzd-wsNA_tLKjpqzc",
   AUTH_ENABLED: false,
   CATALOG_TERM: "SP27",
+  // the waitlist and the funnel counts (web/capture.js): off, nothing leaves the browser at all
+  CAPTURE_ENABLED: true,
 };
