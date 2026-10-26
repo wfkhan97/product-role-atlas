@@ -1,7 +1,7 @@
 # The owner's checklist, October 2026: what only the owner can do
 
 Everything the scheduled-jobs thread (2026-10-26) could not do, in order. The pull requests it opened: atlas #101
-(the store), #102 (the runs table), #103 (the refresh workflows and the trial), the docs PR with this page; research
+(the store), #107 (the runs table; #102 was closed by GitHub when #101's branch was deleted), #103 (the refresh workflows and the trial), the docs PR with this page; research
 repository #2 (the roster re-scrape), #3 (the transcripts bucket), and its docs PR. Each atlas PR is stacked on the
 one before, so merge them in order.
 

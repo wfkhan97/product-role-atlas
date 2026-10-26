@@ -1022,7 +1022,7 @@ raw transcripts move to a private, service-role-only bucket; the GradBuddy stude
   (`evals`: the sample and private resumes; `caches`: `data/experiments/` except `scratch/` and `_trash/`; `logs`).
   Push never deletes; pull never overwrites a newer local file; `bootstrap` is the fresh-machine command. The same
   shape in the research repository as `tools/private_store.py` over `research-private` (step 5).
-- **One row per run** (step 2, #102): `public.runs` (`pipeline/sql/002_runs.sql`, service role only) and a
+- **One row per run** (step 2, #107): `public.runs` (`pipeline/sql/002_runs.sql`, service role only) and a
   `RunRecorder` in `pipeline/log.py` that writes the row when the stage's process ends: the summary line's counts,
   the WARNING and ERROR tallies, the host, the log path. `python -m pipeline.runs` reads it. Nothing in a row is
   content.
