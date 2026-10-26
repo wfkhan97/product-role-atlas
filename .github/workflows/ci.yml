@@ -39,3 +39,5 @@ jobs:
         run: python evals/run_taxonomy.py
       - name: Adaptive evals
         run: node evals/adaptive.mjs
+      - name: Stage eval
+        run: node evals/stage.mjs

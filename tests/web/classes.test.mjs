@@ -156,3 +156,50 @@ test("only cornell.edu addresses pass the sign-in check", () => {
   assert.ok(C.isCornell("abc123@cornell.edu")); assert.ok(C.isCornell(" ABC@Cornell.EDU "));
   assert.ok(!C.isCornell("abc@cornell.edu.evil.com")); assert.ok(!C.isCornell("abc@gmail.com")); assert.ok(!C.isCornell(""));
 });
+
+// ---------- the person's gaps (PLAN.md v16, step 3) ----------
+import { realAtlas } from "./_load.mjs";
+const GAPS = [{ id: "budgeting_forecasting", name: "Budgeting & forecasting", tier: "core", w: 0.6 }, { id: "communication", name: "Written & verbal communication", tier: "core", w: 0.8 }, { id: "stakeholder_mgmt", name: "Stakeholder management", tier: "common", w: 0.4 }, { id: "sql", name: "SQL", tier: "common", w: 0.3 }];
+
+test("a course that names a behaviour or a practice covers no gap: only what a course can show counts, by kind", async () => {
+  const A = realAtlas(); const ix = await A.index();
+  for (const g of GAPS) assert.ok(ix.skillById[g.id], `${g.id} is a skill of the index`);
+  assert.equal(ix.skillById.communication.kind, "behaviour"); assert.equal(ix.skillById.stakeholder_mgmt.kind, "practice");
+  // the text names all four; the split by kind keeps the method and the technical skill as taught
+  const split = A.courseSplit(new Set(GAPS.map(g => g.id)), ix.skillById);
+  const covered = C.gapsCovered(split.teaches, GAPS);
+  assert.deepEqual(covered.map(g => g.id), ["budgeting_forecasting", "sql"], "communication (a behaviour) and stakeholder management (a practice) are named, not covered");
+  assert.equal(C.coverLine(covered, GAPS.length), "Covers 2 of your 4 gaps: Budgeting & forecasting, SQL");
+  assert.equal(C.coverLine([], GAPS.length), "Covers none of your 4 gaps");
+  assert.equal(C.coverLine([], 0), "", "no fit on file, no line");
+  assert.deepEqual(C.gapsCovered(null, GAPS), []);
+});
+
+test("covered gaps come core first, then by share", () => {
+  const covered = C.gapsCovered(new Set(["sql", "budgeting_forecasting", "stakeholder_mgmt"]), GAPS);
+  assert.deepEqual(covered.map(g => g.id), ["budgeting_forecasting", "stakeholder_mgmt", "sql"]);
+});
+
+test("the card carries the covered line; the chip filter keeps only the cards that cover a gap", () => {
+  const cards = C.collapse(DATA);
+  const html = C.cardHtml(cards[0], { campus, roleId: "fpa", rel: { band: "low", matched: [] }, gaps: { covered: [GAPS[0]], total: 3 } });
+  assert.match(html, /Covers 1 of your 3 gaps: Budgeting &amp; forecasting/);
+  assert.match(C.cardHtml(cards[0], { campus, roleId: "fpa", rel: { band: "low", matched: [] }, gaps: { covered: [], total: 3 } }), /cls-gaps muted">Covers none of your 3 gaps/);
+  assert.doesNotMatch(C.cardHtml(cards[0], { campus, roleId: "fpa", rel: { band: "low", matched: [] }, gaps: null }), /Covers/);
+  const covered = { "TEST 1020": [GAPS[0]], "ZZZ 9000": [GAPS[3]] };
+  assert.deepEqual(C.filterCards(cards, { showAll: true, coversGap: true, covered }).map(c => c.key), ["TEST 1020", "ZZZ 9000"]);
+  assert.equal(C.filterCards(cards, { showAll: true, coversGap: false, covered }).length, 4, "the chip off: everything");
+  assert.deepEqual(C.filterCards(cards, { showAll: true, coversGap: true, covered, subject: "ZZZ" }).map(c => c.key), ["ZZZ 9000"], "the chip composes with the other filters");
+});
+
+test("the sort: by code, by relevance band, or by gaps covered (core gaps first, then every gap, then code)", () => {
+  const cards = C.collapse(DATA);   // TEST 1010, TEST 1020, TEST 3030, ZZZ 9000
+  const info = { "TEST 1010": { band: "low", covered: [GAPS[3]] }, "TEST 1020": { band: "high", covered: [] }, "TEST 3030": { band: "medium", covered: [GAPS[0], GAPS[3]] }, "ZZZ 9000": { band: "high", covered: [GAPS[0]] } };
+  assert.deepEqual(C.sortCards(cards, "code", info).map(c => c.key), ["TEST 1010", "TEST 1020", "TEST 3030", "ZZZ 9000"]);
+  assert.deepEqual(C.sortCards(cards, "relevance", info).map(c => c.key), ["TEST 1020", "ZZZ 9000", "TEST 3030", "TEST 1010"]);
+  assert.deepEqual(C.sortCards(cards, "gaps", info).map(c => c.key), ["TEST 3030", "ZZZ 9000", "TEST 1010", "TEST 1020"], "3030 and 9000 cover a core gap, 3030 covers more; 1010 covers a common one; 1020 none");
+  assert.deepEqual(C.topCovering(cards, info, 3).map(c => c.key), ["TEST 3030", "ZZZ 9000", "TEST 1010"], "the rail's three: never a course that covers nothing");
+  assert.deepEqual(C.topCovering(cards, { "TEST 1010": { covered: [GAPS[1]] } }, 3).map(c => c.key), ["TEST 1010"]);
+  assert.notEqual(C.sortCards(cards, "gaps", info), cards, "a sort returns a new list");
+  assert.deepEqual(cards.map(c => c.key), ["TEST 1010", "TEST 1020", "TEST 3030", "ZZZ 9000"]);
+});

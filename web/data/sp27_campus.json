@@ -7,6 +7,7 @@
   "roster_updates_until": "Nov 16",
   "start_card": { "title": "Spring 2027 classes at Cornell Tech", "detail": "The roster, who teaches what, and how each class reads against the role you want.", "tag": "Coming for pre-enrollment →" },
   "closed_notice": "The Spring 2027 roster opens here for pre-enrollment (Nov 10–12). Sign in is not open yet.",
+  "rail_closed_line": "The Spring 2027 roster opens here for sign-in on Nov 10.",
   "privacy_line": "Signing in sends your Cornell email to Supabase. Your program, your ratings and anything you paste stay in this browser.",
   "eligibility": {
     "cornell_tech_students": "Cornell Tech students",

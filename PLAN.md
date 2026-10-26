@@ -765,6 +765,58 @@ What this is not: no event carries a skill id, a text or a file name, by constru
 table's check constraints). The counts begin when the owner applies the migration; until then every post is a 404 the
 page swallows.
 
+### Step 2 — the first screen routes by stage (`feat/start-stage-first`, 2026-10-25)
+
+`start()` leads with one question, "Where are you in your search?", as three cards with the v15 wording and sublines.
+A click stores `you.stage` (the key the About you flow writes), fires `start_stage`, and routes by stage: `looking` and
+`targeting` to About you at the program question (`#/you?step=0&from=start`; the wizard skips the stage question it
+already has), `curious` to Explore. A returning visitor with a stage on file sees one line ("You said you're set on
+the role you want · change") instead of the question. Below: "See what jobs ask for, and how you fit" as before, the
+Spring 2027 classes card, then the games under "Or play your way in", unchanged inside. The H1 is "What do the jobs you
+want actually ask for?"; the games' eyebrow and the old H1 left the top.
+
+For `targeting`, the About you summary leads with "Open the role you want": a search box over every role label
+(`Atlas.index()`, 54 roles; a label two sets share is suffixed with its field), Enter or the datalist opens the role,
+and the three roles closest to the resume sit under it once one is read.
+
+The ordering is a pure table, `Stage` in `web/app.js` (exported beside `parseRoute`): `startRoute`, `youLead`,
+`railBlocks` (the rail's blocks in order, with and without a resume) and `firstAction`. The screens read it: the stage
+cards link to `Stage.startRoute`, the summary reads `Stage.youLead`, the rail's "For you" section orders its blocks by
+`Stage.railBlocks`. `evals/stage.mjs` (in CI) checks, for each stage, that the first action each screen offers is the one
+the stage asks for (looking: a resume drop or the fields; targeting: the role search or the gaps; curious: explore or a
+game), and that the screens read the table. The first eval of the stage answer, listed as missing in `evals/README.md`.
+
+What this is not: a measure of whether each kind of student gets what they came for; that is the funnel of step 1.
+
+### Step 3 — the class picker reads the person's gaps (`feat/classes-gaps`, 2026-10-25)
+
+The join both ways between the fit and the Spring 2027 roster, live before Cornell Tech's pre-enrollment (decision 7).
+
+- **In the picker**, with a fit on file for the chosen role (`#/classes?role=<id>`, or the role picked on the screen),
+  every card says which of the person's gaps the course covers ("Covers 2 of your 17 gaps: Budgeting & forecasting,
+  SQL", or "Covers none"), a chip "Covers a gap" filters, and a Sort control gains "Gaps covered" beside Code and
+  Relevance. The count reads the course text by kind (v14, decision 5): only a method, technical, knowledge or tool
+  skill the text names is a covered gap; a behaviour or a practice it names is not. The gaps are the fit's core and
+  common asks the resume does not show (status `gap` or `thin`), without the industry and AI slots: `gapsFor(roleId)`
+  in `app.js`, handed to `classes.js` through the shell context, is the fit on screen when it is this role's, else the
+  matcher at the default level, cached per role and resume. The relevance band still reads every skill the text names,
+  as its thresholds were set; the gaps column is the one by kind.
+- **In the rail**, with a fit on file, "Classes that cover your gaps" lists the three courses that cover the most core
+  gaps (`Catalog.topCovering`), each a link into the picker with that course open and the role carried along; each
+  opened gap row also names up to three classes that cover it. When the roster cannot be read here (sign-in on and no
+  session, an empty roster for an anonymous reader, no client) the block is one line from the campus file
+  (`rail_closed_line`: "The Spring 2027 roster opens here for sign-in on Nov 10.") and the picker's link.
+- **On the fit screen**, the "Needs more evidence" rows name the same classes above the posting links.
+
+The reads are one per card per page (`readCard` in `classes.js`, shared by the relevance column and the gaps) and
+yield every eight cards. Pure functions in `catalog.js`: `gapsCovered(teaches, gaps)`, `coverLine`, `sortCards(cards,
+mode, info)`, `topCovering`, and `filterCards` with `coversGap`. `tests/web/classes.test.mjs` grows four cases on
+synthetic rows: a course naming a behaviour and a practice covers neither; covered gaps come core first; the chip filter
+composes with the others; the three sorts and the rail's three. Every Cornell-Tech string stays in `sp27_campus.json`.
+
+What this is not: a judgment that a course teaches a skill it does not name; the reader counts mentions, as the course
+screen does, and the card says so.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
@@ -784,7 +836,6 @@ page swallows.
   sign-up since v16 step 1; the journeys behind them are GradBuddy's.
 - American spelling in the data: a display-time map in `atlas.js` now, or an American rule in `depth_gen` and the
   taxonomy names plus a regeneration (`run_depth.py`, `extraction_baseline_mba.md`).
-- The stage answer (`you.stage`) has no eval yet; listed under "Evals to build".
 - LLM-based extraction (Claude) for higher-recall skill tagging and requirement vs nice-to-have split.
 - Nightly refresh via a scheduled job; history of postings over time.
 - More families (design, engineering) and more companies (full Fortune 500).

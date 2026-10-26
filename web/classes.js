@@ -9,10 +9,22 @@
   const CFG = () => window.CONFIG || {};
   const esc = Catalog.esc;
   const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
-  const S = { program: store.get("classes.program"), role: store.get("classes.role"), own: store.get("classes.own") || {}, showAll: false, subject: null, q: "", selected: null, why: new Set(), token: 0 };
+  const S = { program: store.get("classes.program"), role: store.get("classes.role"), own: store.get("classes.own") || {}, showAll: false, subject: null, q: "", selected: null, why: new Set(), token: 0, coversGap: false, sort: "code" };
   const scores = {};   // roleId -> { cardKey -> { band, matched } }, in memory for the page's life
   const inFlight = new Set();   // "roleId|cardKey" being read now, so two renders do not read the same card twice
   const rowsP = {};    // roleId -> Promise of the role's core and common rows
+  // the course reader's answer per card (cardKey -> Promise of { found, teaches }): it does not depend on the role, so
+  // the picker's relevance column and the gaps (PLAN.md v16, step 3) share one read per card per page
+  const reads = {};
+  const readCard = card => reads[card.key] ||= Atlas.readCourse(Catalog.cardText(card)).then(r => ({ found: r.found, teaches: r.teaches })).catch(e => { delete reads[card.key]; throw e; });
+  // every card read, a few at a time so the page stays responsive; a card that fails to read covers nothing
+  async function readAll(cards) {
+    const out = {}; let i = 0;
+    for (const c of cards) { try { out[c.key] = await readCard(c); } catch (e) { console.error(e); out[c.key] = { found: new Set(), teaches: new Set() }; } if (++i % 8 === 0) await new Promise(r => setTimeout(r, 0)); }
+    return out;
+  }
+  // which of the person's gaps each card covers: { cardKey: [gap rows] }, by kind (a named behaviour is not covered)
+  const coverage = (cards, readsByKey, gaps) => Object.fromEntries(cards.map(c => [c.key, Catalog.gapsCovered((readsByKey[c.key] || {}).teaches, gaps)]));
   let cardsCache = null, dataCache = null;
   const safe = (p, fallback) => Promise.resolve(p).catch(e => { console.error(e); return fallback; });
   const campusData = () => safe(Catalog.campus(), {});
@@ -69,12 +81,26 @@
     const ix = await Atlas.index(); await safe(Atlas.product(), null);
     const { query } = Routes.parseRoute(location.hash);
     if (query.open) { const c = cards.find(x => x.codes.includes(query.open)); if (c) S.selected = c.key; }
+    // "#/classes?role=fpa": the rail's link brings the role along
+    if (query.role && ix.roles[query.role]) { S.role = query.role; store.set("classes.role", S.role); }
+    // the person's gaps for the chosen role, when a resume is on file (app.js reads the fit): the cards say which of
+    // them each course covers, "Covers a gap" filters, and "Gaps covered" sorts
+    const G = ctx.gapsFor && S.role ? await safe(ctx.gapsFor(S.role), null) : null;
+    let covered = {};
+    if (G && G.gaps.length) { const readsByKey = await readAll(cards); if (token !== S.token) return; covered = coverage(cards, readsByKey, G.gaps); }
+    else S.coversGap = false;
     const programs = cm.programs || [], program = programs.find(p => p.id === S.program) || null;
     const subjects = [...new Set(cards.flatMap(c => c.subjects))].sort();
     const roleOpts = ix.groups.map(g => { const rs = g.roles.map(id => ix.roles[id]).filter(Boolean); return rs.length ? `<optgroup label="${esc(g.label)}">${rs.map(r => `<option value="${esc(r.id)}"${S.role === r.id ? " selected" : ""}>${esc(r.label)}</option>`).join("")}</optgroup>` : ""; }).join("");
     const render = () => {
-      const shown = Catalog.filterCards(cards, { program, showAll: S.showAll, subject: S.subject, q: S.q });
       const rel = S.role ? (scores[S.role] || {}) : {};
+      const info = Object.fromEntries(cards.map(c => [c.key, { band: (rel[c.key] || {}).band, covered: covered[c.key] || [] }]));
+      if (S.sort === "gaps" && !(G && G.gaps.length)) S.sort = "code";
+      const shown = Catalog.sortCards(Catalog.filterCards(cards, { program, showAll: S.showAll, subject: S.subject, q: S.q, coversGap: S.coversGap, covered }), S.sort, info);
+      const gapsOf = c => G && G.gaps.length ? { covered: covered[c.key] || [], total: G.gaps.length } : null;
+      const gapChip = G && G.gaps.length ? `<button type="button" class="chip${S.coversGap ? " on" : ""}" id="cls-gap">Covers a gap<span class="n">${cards.filter(c => (covered[c.key] || []).length).length}</span></button>` : "";
+      const sortCtl = `<label class="small muted">Sort <select id="cls-sort" class="cls-select"><option value="code"${S.sort === "code" ? " selected" : ""}>Code</option><option value="relevance"${S.sort === "relevance" ? " selected" : ""}>Relevance</option>${G && G.gaps.length ? `<option value="gaps"${S.sort === "gaps" ? " selected" : ""}>Gaps covered</option>` : ""}</select></label>`;
+      const gapLine = G ? (G.gaps.length ? `<p class="small">Your fit for ${esc(G.label)} leaves ${G.gaps.length} ${G.gaps.length === 1 ? "gap" : "gaps"}; each card says which it covers, read from the course text by kind (a course can show craft, not how you work). <a href="#/role/${esc(G.roleId)}/fit">Your fit →</a></p>` : `<p class="small muted">Your resume shows every skill most ${esc(G.label)} postings ask for; nothing to cover.</p>`) : S.role && ctx.gapsFor ? `<p class="small muted">Add your resume on the role screen and each card says which of your gaps it covers. <a href="#/role/${esc(S.role)}">Open the role →</a></p>` : "";
       const html = `${head}
         <p class="lead">${cm.roster_updates_until ? `Roster as of ${esc(niceDate(data.rosterDate))}; updated weekly until ${esc(cm.roster_updates_until)}.` : `Roster as of ${esc(niceDate(data.rosterDate))}.`} Two columns rate each class: ours reads the roster text against the role you pick; yours is your own call and stays in this browser.</p>
         <div class="row cls-filters">
@@ -82,11 +108,12 @@
           <label class="small muted">Rate for <select id="cls-role" class="cls-select"><option value="">pick a role</option>${roleOpts}</select></label>
           <label class="small muted"><input type="checkbox" id="cls-all"${S.showAll ? " checked" : ""}> Show all ${cards.length === data.classes.length ? cards.length : `${data.classes.length} classes`}</label>
           <input type="search" id="cls-q" placeholder="Code or title" aria-label="Search by code or title" value="${esc(S.q)}">
-        </div>
+          ${sortCtl}
+        </div>${gapLine}
         ${program && program.unverified ? `<p class="small muted">Which classes a ${esc(program.label)} student may take is a first pass, not confirmed with Student Affairs; use Show all if a class you expect is missing.</p>` : ""}
-        <div class="chips"><span class="lbl">Subject</span><button type="button" class="chip${!S.subject ? " on" : ""}" data-subject="">All</button>${subjects.map(s => `<button type="button" class="chip${S.subject === s ? " on" : ""}" data-subject="${esc(s)}">${esc(s)}</button>`).join("")}</div>
+        <div class="chips">${gapChip ? gapChip + '<span class="lbl">·</span>' : ""}<span class="lbl">Subject</span><button type="button" class="chip${!S.subject ? " on" : ""}" data-subject="">All</button>${subjects.map(s => `<button type="button" class="chip${S.subject === s ? " on" : ""}" data-subject="${esc(s)}">${esc(s)}</button>`).join("")}</div>
         <p class="small muted" id="cls-count">${shown.length} ${shown.length === 1 ? "class" : "classes"} shown${program && !S.showAll ? ` for ${esc(program.label)}` : ""}; cross-listed classes share a card.</p>
-        <div class="cls-list" id="cls-list">${shown.map(c => Catalog.cardHtml(c, { campus: cm, roleId: S.role, rel: rel[c.key] || "pending", own: S.own[c.key] || null, selected: S.selected === c.key, whyOpen: S.why.has(c.key) })).join("") || `<p class="small muted">No class matches. Clear the search, or show all.</p>`}</div>
+        <div class="cls-list" id="cls-list">${shown.map(c => Catalog.cardHtml(c, { campus: cm, roleId: S.role, rel: rel[c.key] || "pending", own: S.own[c.key] || null, selected: S.selected === c.key, whyOpen: S.why.has(c.key), gaps: gapsOf(c) })).join("") || `<p class="small muted">No class matches. Clear the search, or show all.</p>`}</div>
         ${privacy}`;
       page(html); $("#main").firstElementChild.classList.add("wide");
       wire(shown);
@@ -98,6 +125,8 @@
       const rs = $("#cls-role"); rs.value = S.role || ""; if (rs.value !== (S.role || "")) rs.value = "";   // a remembered role the index no longer has
       rs.onchange = e => { S.role = e.target.value || null; store.set("classes.role", S.role); render(); };
       $("#cls-all").onchange = e => { S.showAll = e.target.checked; render(); };
+      $("#cls-sort").onchange = e => { S.sort = e.target.value; render(); };
+      const gc = $("#cls-gap"); if (gc) gc.onclick = () => { S.coversGap = !S.coversGap; render(); };
       const q = $("#cls-q"); let t = null; q.oninput = () => { S.q = q.value; clearTimeout(t); t = setTimeout(() => { const y = window.scrollY; render(); window.scrollTo(0, y); const q2 = $("#cls-q"); q2.focus(); q2.setSelectionRange(q2.value.length, q2.value.length); }, 160); };
       document.querySelectorAll("[data-subject]").forEach(b => b.onclick = () => { S.subject = b.dataset.subject || null; render(); });
       document.querySelectorAll(".cls-card").forEach(wireCard);
@@ -110,7 +139,7 @@
     const redrawCard = (key, cm2) => {
       const el = document.querySelector(`.cls-card[data-card="${CSS.escape(key)}"]`); if (!el) return;
       const card = cards.find(c => c.key === key);
-      const tmp = document.createElement("div"); tmp.innerHTML = Catalog.cardHtml(card, { campus: cm2, roleId: S.role, rel: (scores[S.role] || {})[key] || "pending", own: S.own[key] || null, selected: S.selected === key, whyOpen: S.why.has(key) });
+      const tmp = document.createElement("div"); tmp.innerHTML = Catalog.cardHtml(card, { campus: cm2, roleId: S.role, rel: (scores[S.role] || {})[key] || "pending", own: S.own[key] || null, selected: S.selected === key, whyOpen: S.why.has(key), gaps: G && G.gaps.length ? { covered: covered[key] || [], total: G.gaps.length } : null });
       el.replaceWith(tmp.firstElementChild); wireCard(document.querySelector(`.cls-card[data-card="${CSS.escape(key)}"]`));
     };
     // the product's column, computed lazily per role and kept in memory; the reader is async, so cards fill in one by one
@@ -125,7 +154,7 @@
         const fk = roleId + "|" + card.key;
         if (!bag[card.key] && !inFlight.has(fk)) {
           inFlight.add(fk);
-          try { const { found } = await Atlas.readCourse(Catalog.cardText(card)); const r = Catalog.relevanceScore(found, rows); bag[card.key] = { band: Catalog.relevanceBand(r.score, th), matched: r.matched.map(m => ({ name: m.name, tier: m.tier })) }; }
+          try { const { found } = await readCard(card); const r = Catalog.relevanceScore(found, rows); bag[card.key] = { band: Catalog.relevanceBand(r.score, th), matched: r.matched.map(m => ({ name: m.name, tier: m.tier })) }; }
           catch (e) { console.error(e); bag[card.key] = { band: "low", matched: [] }; }
           finally { inFlight.delete(fk); }
           if (tok !== S.token || S.role !== roleId) return;
@@ -236,5 +265,28 @@
     $("#si-google").onclick = async () => { msg("Opening Google…"); try { await Catalog.signInGoogle(); } catch (err) { console.error(err); msg(`Google sign-in did not start: ${err.message}.`); } };
   }
 
-  window.ClassScreens = { classes, professor, signin, startCard, navSync };
+  // For the rail and the fit screen (PLAN.md v16, step 3): the courses that cover the person's gaps. Returns
+  // { closed: <line> } when the roster cannot be read here (sign-in on and no session, no client, an empty roster), else
+  // { top: [{ key, codes, title, covered }], byGap: { gapId: [{ key, code }] } } over every card. gaps: [{ id, name, tier, w }].
+  async function coverGaps(gaps) {
+    const cm = await campusData();
+    const closed = { closed: cm.rail_closed_line || "The roster is not open here yet." };
+    if (!Catalog.sb()) return closed;
+    const sess = await Catalog.session();
+    if (CFG().AUTH_ENABLED && !sess) return closed;
+    let data; try { data = await Catalog.loadCatalog(); } catch (e) { console.error(e); return closed; }
+    if (!data.classes.length) return closed;
+    if (dataCache !== data) { dataCache = data; cardsCache = Catalog.collapse(data); }
+    const cards = cardsCache;
+    const readsByKey = await readAll(cards);
+    const covered = coverage(cards, readsByKey, gaps);
+    const info = Object.fromEntries(cards.map(c => [c.key, { covered: covered[c.key] }]));
+    const top = Catalog.topCovering(cards, info, 3).map(c => ({ key: c.key, codes: c.codes, title: c.title, covered: covered[c.key] }));
+    const byGap = {};
+    for (const c of Catalog.sortCards(cards, "gaps", info)) for (const g of covered[c.key] || []) (byGap[g.id] ||= []).push({ key: c.key, code: c.codes[0] });
+    return { top, byGap, total: cards.length };
+  }
+  const termLabel = () => CFG().CATALOG_TERM === "SP27" ? "Spring 2027" : CFG().CATALOG_TERM || "";
+
+  window.ClassScreens = { classes, professor, signin, startCard, navSync, coverGaps, termLabel };
 })();

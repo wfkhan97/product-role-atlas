@@ -308,9 +308,16 @@ node evals/adaptive.mjs --only text     # one part
 | grid | Over every role of both sets: no behaviour sits in an area panel; the last panel is "How you work" exactly when a behaviour is in the grid, holds every one of them with its carriers and a summary built from the shares; the first panel holds a carrier-kind skill or a defining one (never tools or behaviours alone); the generic skills (`Atlas.genericSkills`, measured) are mostly behaviours and practices and never a tool or a credential, composition printed. |
 | text | For every role of both sets and every ask of the role, `EvidenceText` returns a line, a gap sentence and a "add a number" sentence under 40 words with no empty slot; a template line (no field entry, no product `signals`) invents no number; where the role's field has an entry the line is that entry's (a product role reads the product entry); a behaviour's gap sentence names a carrier the role's postings ask for. Prints how many lines come from a field entry, from `signals` and from a template. |
 
-## Evals to build
+## The stage eval
 
-- The stage answer of About you (`you.stage`: looking, targeting, curious) decides what the role page's rail leads with; nothing checks that the three readings get what they came for. A sample of resumes per kind with the expected first action would.
+The stage answer (`you.stage`: looking, targeting, curious) decides what the start screen, About you and the role rail
+lead with (PLAN.md v16, step 2). `node evals/stage.mjs` checks, for each stage, that the first action each screen offers
+is the one the stage asks for (looking: a resume drop or the fields; targeting: the role search or the gaps; curious:
+explore or a game), reading the pure table `Stage` in `web/app.js` that the screens draw from, and that the screens do
+read it. In CI. What it does not show: whether a student of each kind gets what they came for; that needs sessions
+(`pipeline/funnel.py`) or resumes per kind.
+
+## Evals to build
 
 The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a
 model audit, the pipeline evals and the content evals above (items 1 to 6 of the first list). Still to build, in

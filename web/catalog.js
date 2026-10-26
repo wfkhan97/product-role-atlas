@@ -159,9 +159,10 @@
     const cats = new Set([...(program.categories || []), "no_enrollment_restriction_listed"]);
     return card.classes.some(c => cats.has(c.eligibility_category));
   }
-  function filterCards(cards, { program = null, showAll = false, subject = null, q = "" } = {}) {
+  function filterCards(cards, { program = null, showAll = false, subject = null, q = "", coversGap = false, covered = null } = {}) {
     const needle = String(q || "").trim().toLowerCase();
     return cards.filter(c => (showAll || openTo(c, program))
+      && (!coversGap || ((covered || {})[c.key] || []).length)
       && (!subject || c.subjects.includes(subject))
       && (!needle || c.codes.some(k => k.toLowerCase().includes(needle)) || c.title.toLowerCase().includes(needle)));
   }
@@ -200,6 +201,28 @@
   // the grid rows of a role as the scorer reads them: core (rows[0]) and common (rows[1]), weighted by share
   const rowsOf = grid => [...grid.rows[0].flat().map(x => ({ id: x.id, name: x.name, tier: "core", w: x.share })), ...grid.rows[1].flat().map(x => ({ id: x.id, name: x.name, tier: "common", w: x.share }))];
 
+  // ---------- the person's gaps (PLAN.md v16, step 3): which of them a course covers ----------
+  // gaps: the fit's gap rows for the role, [{ id, name, tier, w }]; teaches: the Set of skill ids a course can show
+  // (Atlas.readCourse's `teaches`, by kind: a behaviour or a practice the text names is never a covered gap)
+  function gapsCovered(teaches, gaps) {
+    if (!teaches || !gaps) return [];
+    return gaps.filter(g => teaches.has(g.id)).sort((a, b) => a.tier === b.tier ? (b.w || 0) - (a.w || 0) : a.tier === "core" ? -1 : 1);
+  }
+  const coverLine = (covered, total) => !total ? "" : covered.length ? `Covers ${covered.length} of your ${total} gaps: ${covered.map(g => g.name).join(", ")}` : `Covers none of your ${total} gaps`;
+  // sorts: code (the roster's order), relevance (the band, high first), gaps (core gaps covered, then every gap covered);
+  // info[key] = { band, covered } as the screen holds them
+  const BAND_RANK = { high: 0, medium: 1, low: 2 };
+  function sortCards(cards, mode, info) {
+    const inf = k => (info && info[k]) || {};
+    const byCode = (a, b) => a.key.localeCompare(b.key);
+    const core = c => (inf(c.key).covered || []).filter(g => g.tier === "core").length, all = c => (inf(c.key).covered || []).length;
+    if (mode === "relevance") return cards.slice().sort((a, b) => ((BAND_RANK[inf(a.key).band] ?? 3) - (BAND_RANK[inf(b.key).band] ?? 3)) || byCode(a, b));
+    if (mode === "gaps") return cards.slice().sort((a, b) => (core(b) - core(a)) || (all(b) - all(a)) || byCode(a, b));
+    return cards.slice().sort(byCode);
+  }
+  // the n courses that cover the most core gaps (then the most gaps), for the rail; a course covering nothing is never one
+  const topCovering = (cards, info, n) => sortCards(cards, "gaps", info).filter(c => ((info[c.key] || {}).covered || []).length).slice(0, n || 3);
+
   // ---------- the card's html (pure: the screen wires the handlers) ----------
   const RELS = { low: "thin", medium: "amber", high: "good" };
   const bandTag = (b, extra) => `<span class="tag ${RELS[b] || "thin"}${extra ? " " + extra : ""}">${esc(b)}</span>`;
@@ -214,6 +237,8 @@
     const rel = o.rel;   // { band, matched: [{name, tier}] } | "pending" | null
     const product = !o.roleId ? `<span class="small muted">pick a role to rate</span>` : rel === "pending" || !rel ? `<span class="small muted">reading…</span>` : bandTag(rel.band) +
       (rel.matched.length ? `<details class="disc small cls-why" data-why="${esc(card.key)}"${o.whyOpen ? " open" : ""}><summary>Why</summary><div class="disc-body"><div class="tags">${rel.matched.map(m => `<span class="tag${m.tier === "core" ? " good" : ""}">${esc(m.name)}</span>`).join("")}</div><p class="small muted">Read from the roster text; a course can teach a skill without naming it.</p></div></details>` : `<p class="small muted">None of the role's main asks named.</p>`);
+    // the person's gaps this course covers (o.gaps: { covered: [{ name, tier }], total }), read by kind
+    const gaps = o.gaps && o.gaps.total ? `<p class="small cls-gaps${o.gaps.covered.length ? "" : " muted"}">${esc(coverLine(o.gaps.covered, o.gaps.total))}</p>` : "";
     const own = o.own || null;
     const ownCtl = `<div class="chips cls-own" role="group" aria-label="Your rating">${BANDS.map(b => `<button type="button" class="chip${own === b ? " on" : ""}" data-own="${esc(card.key)}" data-val="${b}">${b}</button>`).join("")}</div>`;
     return `<article class="cls-card${o.selected ? " on" : ""}" data-card="${esc(card.key)}">
@@ -224,7 +249,7 @@
         <p class="small"><span class="tag thin">${esc(elig)}</span></p>
         ${grading}
       </div>
-      <div class="cls-rel"><p class="eyebrow">GradBuddy</p><p class="small muted">from the course description</p>${product}</div>
+      <div class="cls-rel"><p class="eyebrow">GradBuddy</p><p class="small muted">from the course description</p>${product}${gaps}</div>
       <div class="cls-rel"><p class="eyebrow">You</p>${ownCtl}</div>
     </article>`;
   }
@@ -257,5 +282,5 @@
     return blocks.join("");
   }
 
-  return { esc, isCornell, BANDS, sb, session, onAuth, signInGoogle, signInEmail, signOut, takeAuthNote, loadCatalog, loadProfessor, campus, collapse, gradingChip, eligibilityLabel, openTo, filterCards, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, cardHtml, mdSections, mdHtml };
+  return { esc, isCornell, BANDS, sb, session, onAuth, signInGoogle, signInEmail, signOut, takeAuthNote, loadCatalog, loadProfessor, campus, collapse, gradingChip, eligibilityLabel, openTo, filterCards, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, gapsCovered, coverLine, sortCards, topCovering, cardHtml, mdSections, mdHtml };
 });
