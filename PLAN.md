@@ -993,6 +993,18 @@ browser reads the step 7 patterns the pipeline reads (the graphs were not; they 
 What this is not: a posting-specific band or score. The posting changes the order and the marks; the verdict stays
 the role's, by design.
 
+### Step 10 — what GradBuddy reads from the atlas (`docs/gradbuddy-contract`, 2026-10-25)
+
+`docs/GRADBUDDY_CONTRACT.md`, one page, no new code: the files and functions another program reads, with their shapes
+and ids. The MBA index and the role files (roles with `defining`, `asks`, `entry`, `sponsorship`; skills with `kind`,
+`how_shown`, `fields` including the `role:<id>` overrides, shares), the product graph, the taxonomy and sub-skill
+files, `web/match.js` in node (`createMatcher`, `match`, the row statuses `evidenced` · `transferable` · `presumed` ·
+`thin` · `through` · `gap`, the tiers, `tagPosting`, `pickCarriers`, `bandOf` and the bands files), `web/evidence_text.js`,
+the browser readers in `web/atlas.js` (`readCourse` and `readPosting` by kind, `grid`, `areas`, `carriers`, `us`), the
+relevance thresholds and the campus file, and the privacy rule (what never leaves a browser, and the two things that
+do). It says what is stable (ids, statuses, tier and band names, paths, signatures) and what is not (shares, counts,
+dates, the editorial lines, the patterns, the cut points).
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its

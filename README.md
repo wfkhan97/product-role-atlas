@@ -4,7 +4,7 @@ An interactive map of what product roles actually ask for, built from live job p
 Fortune 50 and at a16z- and Sequoia-backed startups. Pick a role family and level, click around the
 skill graph, or drop in a resume / course list to see how well you match a specific posting.
 
-See [PLAN.md](PLAN.md) for the design.
+See [PLAN.md](PLAN.md) for the design and [docs/GRADBUDDY_CONTRACT.md](docs/GRADBUDDY_CONTRACT.md) for what another program (GradBuddy) reads from the atlas: the files, the functions, their shapes and ids, what is stable and what is not, and the privacy rule.
 
 ## Run it
 
