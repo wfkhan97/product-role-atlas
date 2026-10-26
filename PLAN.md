@@ -933,8 +933,8 @@ Power Apps, Power Automate and Tableau desktop leave BI development tools. 37 pa
 written.
 
 Measured here, on the 99 golden postings (`evals/run_pipeline.py --only golden`): must-found stays at the 85% floor,
-must-not-tagged falls from 15.1% to 15.1% with one false positive fixed (leasing on a real-estate project manager) and
-one true tag recovered with a narrower phrase (tenant interactions). Not measured here: the tagged-sample precision
+must-not-tagged stays at 15.1% with one false positive fixed (leasing on a real-estate project manager) and one
+true tag recovered with a narrower phrase (tenant interactions). Not measured here: the tagged-sample precision
 itself. The build machine has no `.env`, no `data/raw/jobs_mba/` and no saved model answers under `data/experiments/`,
 so the chain `CLAUDE.md` names for a taxonomy change (`pipeline.extract --roles mba`, `role_corpus`, `role_coverage`,
 `skill_audit --reuse`, `build_graph --roles mba`, the extraction and pipeline baselines) is pending and the PR is a
