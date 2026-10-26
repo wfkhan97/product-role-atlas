@@ -1,41 +1,55 @@
 {
-  "_note": "Every Cornell-Tech-specific string the class picker shows lives here, never in code. A program row marked unverified is a first pass the owner has not confirmed with Student Affairs.",
-  "term": "SP27",
-  "term_label": "Spring 2027",
-  "campus": "Cornell Tech",
-  "pre_enrollment": { "label": "Nov 10–12", "opens": "2026-11-10", "closes": "2026-11-12" },
-  "roster_updates_until": "Nov 16",
-  "start_card": { "title": "Spring 2027 classes at Cornell Tech", "detail": "The roster, who teaches what, and how each class reads against the role you want.", "tag": "Coming for pre-enrollment →" },
-  "closed_notice": "The Spring 2027 roster opens here for pre-enrollment (Nov 10–12). Sign in is not open yet.",
-  "rail_closed_line": "The Spring 2027 roster opens here for sign-in on Nov 10.",
-  "privacy_line": "Signing in sends your Cornell email to Supabase. Your program, your ratings and anything you paste stay in this browser.",
-  "eligibility": {
-    "cornell_tech_students": "Cornell Tech students",
-    "no_enrollment_restriction_listed": "no restriction listed · check with Student Affairs",
-    "jacobs_non_first_year": "Jacobs students past the first year",
-    "cornell_tech_phd": "Cornell Tech PhD students",
-    "msba_nyc": "MSBA students (NYC)",
-    "law_llm_jd": "LLM and JD students",
-    "johnson_cornell_tech_mba": "Johnson Cornell Tech MBA students",
-    "ms_design_technology": "MS Design Technology students",
-    "continuing_from_fall_2026": "students continuing from Fall 2026",
-    "cornell_tech_phd_plus_masters": "PhD students, and master's students with permission",
-    "health_tech": "Health Tech students",
-    "urban_tech": "Urban Tech students",
-    "jacobs_first_year": "Jacobs first-year students",
-    "null": "eligibility not verified"
-  },
-  "programs": [
-    { "id": "mba", "label": "Johnson Cornell Tech MBA", "categories": ["cornell_tech_students", "johnson_cornell_tech_mba", "no_enrollment_restriction_listed"], "unverified": true },
-    { "id": "jacobs_2", "label": "Jacobs dual-degree MS, second year", "categories": ["cornell_tech_students", "jacobs_non_first_year", "no_enrollment_restriction_listed"], "unverified": true },
-    { "id": "jacobs_1", "label": "Jacobs dual-degree MS, first year", "categories": ["cornell_tech_students", "jacobs_first_year", "no_enrollment_restriction_listed"], "unverified": true },
-    { "id": "ms_dt", "label": "MS Design Technology", "categories": ["cornell_tech_students", "ms_design_technology", "no_enrollment_restriction_listed"], "unverified": true },
-    { "id": "msba", "label": "MSBA (NYC)", "categories": ["msba_nyc", "no_enrollment_restriction_listed"], "unverified": true },
-    { "id": "law", "label": "LLM / JD", "categories": ["law_llm_jd", "cornell_tech_students", "no_enrollment_restriction_listed"], "unverified": true },
-    { "id": "health", "label": "Health Tech MS", "categories": ["cornell_tech_students", "health_tech", "no_enrollment_restriction_listed"], "unverified": true },
-    { "id": "urban", "label": "Urban Tech MS", "categories": ["cornell_tech_students", "urban_tech", "no_enrollment_restriction_listed"], "unverified": true },
-    { "id": "ms_cs", "label": "CS, ECE, ORIE or IS master's", "categories": ["cornell_tech_students", "no_enrollment_restriction_listed"], "unverified": true },
-    { "id": "phd", "label": "PhD", "categories": ["cornell_tech_phd", "cornell_tech_phd_plus_masters", "cornell_tech_students", "no_enrollment_restriction_listed"], "unverified": true }
-  ],
-  "relevance": { "high": 0.35, "medium": 0.12 }
+  "_note": "Every campus-specific string the class picker, the sign-in and the rail show lives here, never in code. `campuses` is a list: a new campus is a new entry, never a code change. Per campus: id, label, term and term_label, pre_enrollment and roster_updates_until (null when unknown), start_card (the start screen's card), closed_notice (the picker with no roster), rail_closed_line (the rail with no roster), privacy_line, eligibility (category id to words), programs (each with its categories and the v15 program group it belongs to: business, analytics, cs, ece, infosci, or null), relevance (the band thresholds), signin_domains (email domains sign-in accepts; empty: sign-in not open for this campus) and catalog (true when a roster is loaded for it). A program row marked unverified is a first pass the owner has not confirmed.",
+  "campuses": [
+    {
+      "id": "cornell_tech",
+      "label": "Cornell Tech",
+      "term": "SP27",
+      "term_label": "Spring 2027",
+      "pre_enrollment": { "label": "Nov 10–12", "opens": "2026-11-10", "closes": "2026-11-12" },
+      "roster_updates_until": "Nov 16",
+      "start_card": { "title": "Spring 2027 classes at Cornell Tech", "detail": "The roster, who teaches what, and how each class reads against the role you want.", "tag": "Coming for pre-enrollment →" },
+      "closed_notice": "The Spring 2027 roster opens here for pre-enrollment (Nov 10–12). Sign in is not open yet.",
+      "rail_closed_line": "The Spring 2027 roster opens here for sign-in on Nov 10.",
+      "privacy_line": "Signing in sends your Cornell email to Supabase. Your program, your ratings and anything you paste stay in this browser.",
+      "eligibility": { "cornell_tech_students": "Cornell Tech students", "no_enrollment_restriction_listed": "no restriction listed · check with Student Affairs", "jacobs_non_first_year": "Jacobs students past the first year", "cornell_tech_phd": "Cornell Tech PhD students", "msba_nyc": "MSBA students (NYC)", "law_llm_jd": "LLM and JD students", "johnson_cornell_tech_mba": "Johnson Cornell Tech MBA students", "ms_design_technology": "MS Design Technology students", "continuing_from_fall_2026": "students continuing from Fall 2026", "cornell_tech_phd_plus_masters": "PhD students, and master's students with permission", "health_tech": "Health Tech students", "urban_tech": "Urban Tech students", "jacobs_first_year": "Jacobs first-year students", "null": "eligibility not verified" },
+      "programs": [
+        { "id": "mba", "label": "Johnson Cornell Tech MBA", "categories": ["cornell_tech_students", "johnson_cornell_tech_mba", "no_enrollment_restriction_listed"], "unverified": true, "group": "business" },
+        { "id": "jacobs_2", "label": "Jacobs dual-degree MS, second year", "categories": ["cornell_tech_students", "jacobs_non_first_year", "no_enrollment_restriction_listed"], "unverified": true, "group": "cs" },
+        { "id": "jacobs_1", "label": "Jacobs dual-degree MS, first year", "categories": ["cornell_tech_students", "jacobs_first_year", "no_enrollment_restriction_listed"], "unverified": true, "group": "cs" },
+        { "id": "ms_dt", "label": "MS Design Technology", "categories": ["cornell_tech_students", "ms_design_technology", "no_enrollment_restriction_listed"], "unverified": true, "group": "infosci" },
+        { "id": "msba", "label": "MSBA (NYC)", "categories": ["msba_nyc", "no_enrollment_restriction_listed"], "unverified": true, "group": "analytics" },
+        { "id": "law", "label": "LLM / JD", "categories": ["law_llm_jd", "cornell_tech_students", "no_enrollment_restriction_listed"], "unverified": true, "group": null },
+        { "id": "health", "label": "Health Tech MS", "categories": ["cornell_tech_students", "health_tech", "no_enrollment_restriction_listed"], "unverified": true, "group": "infosci" },
+        { "id": "urban", "label": "Urban Tech MS", "categories": ["cornell_tech_students", "urban_tech", "no_enrollment_restriction_listed"], "unverified": true, "group": "infosci" },
+        { "id": "ms_cs", "label": "CS, ECE, ORIE or IS master's", "categories": ["cornell_tech_students", "no_enrollment_restriction_listed"], "unverified": true, "group": "cs" },
+        { "id": "phd", "label": "PhD", "categories": ["cornell_tech_phd", "cornell_tech_phd_plus_masters", "cornell_tech_students", "no_enrollment_restriction_listed"], "unverified": true, "group": null }
+      ],
+      "relevance": { "high": 0.35, "medium": 0.12 },
+      "signin_domains": ["cornell.edu"],
+      "catalog": true
+    },
+    {
+      "id": "ienyc",
+      "label": "IE New York",
+      "term": "SP27",
+      "term_label": "Spring 2027",
+      "pre_enrollment": null,
+      "roster_updates_until": null,
+      "start_card": { "title": "Spring 2027 classes at IE New York", "detail": "The roster is not loaded yet. When it is, each class reads against the role you want.", "tag": "Roster not loaded yet" },
+      "closed_notice": "The IE New York roster is not loaded yet.",
+      "rail_closed_line": "The IE New York roster is not loaded yet.",
+      "privacy_line": "Your program, your ratings and anything you paste stay in this browser.",
+      "eligibility": { "null": "eligibility not verified" },
+      "programs": [
+        { "id": "ie_mim", "label": "Master in Management", "categories": [], "group": "business", "unverified": true },
+        { "id": "ie_mif", "label": "Master in Finance", "categories": [], "group": "business", "unverified": true },
+        { "id": "ie_bai", "label": "Business Analytics & AI", "categories": [], "group": "analytics", "unverified": true },
+        { "id": "ie_dsda", "label": "Data Science & Decision Analytics", "categories": [], "group": "analytics", "unverified": true }
+      ],
+      "relevance": { "high": 0.35, "medium": 0.12 },
+      "signin_domains": [],
+      "catalog": false
+    }
+  ]
 }

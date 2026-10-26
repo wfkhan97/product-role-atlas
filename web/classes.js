@@ -1,7 +1,9 @@
 /* The Spring 2027 screens: #/classes (the class picker), #/professor/<slug> (a professor card) and #/signin (Supabase
-   Auth, cornell.edu only). app.js dispatches here with its shell helpers; the data and the pure functions are in
-   catalog.js; every campus-specific string is in data/sp27_campus.json. Three localStorage keys: classes.program,
-   classes.role, classes.own; the product never writes classes.own except on the student's own click. */
+   Auth, the campus's email domains). app.js dispatches here with its shell helpers; the data and the pure functions are
+   in catalog.js; every campus-specific string is in data/sp27_campus.json, one entry per campus. Four localStorage
+   keys: classes.campus, classes.program, classes.role, classes.own; the product never writes classes.own except on the
+   student's own click. The person's campus is inferred from the program they picked when it belongs to one campus,
+   else asked once on the classes screen. */
 (function () {
   "use strict";
   if (typeof document === "undefined") return;
@@ -9,7 +11,7 @@
   const CFG = () => window.CONFIG || {};
   const esc = Catalog.esc;
   const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
-  const S = { program: store.get("classes.program"), role: store.get("classes.role"), own: store.get("classes.own") || {}, showAll: false, subject: null, q: "", selected: null, why: new Set(), token: 0, coversGap: false, sort: "code" };
+  const S = { campus: store.get("classes.campus"), program: store.get("classes.program"), role: store.get("classes.role"), own: store.get("classes.own") || {}, showAll: false, subject: null, q: "", selected: null, why: new Set(), token: 0, coversGap: false, sort: "code" };
   const scores = {};   // roleId -> { cardKey -> { band, matched } }, in memory for the page's life
   const inFlight = new Set();   // "roleId|cardKey" being read now, so two renders do not read the same card twice
   const rowsP = {};    // roleId -> Promise of the role's core and common rows
@@ -27,7 +29,16 @@
   const coverage = (cards, readsByKey, gaps) => Object.fromEntries(cards.map(c => [c.key, Catalog.gapsCovered((readsByKey[c.key] || {}).teaches, gaps)]));
   let cardsCache = null, dataCache = null;
   const safe = (p, fallback) => Promise.resolve(p).catch(e => { console.error(e); return fallback; });
-  const campusData = () => safe(Catalog.campus(), {});
+  // the campuses and the person's: stored, else the picker program's, else the v15 program group's when one campus has it
+  let lastCampus = null;
+  async function campusCtx() {
+    const list = await safe(Catalog.campuses(), []);
+    const you = store.get("you") || {};
+    const cm = Catalog.campusFor(list, { stored: S.campus, programId: S.program, where: you.where });
+    if (cm) lastCampus = cm;
+    return { list, cm };
+  }
+  const setCampus = id => { S.campus = id; store.set("classes.campus", id); };
   const niceDate = d => { const [y, m, day] = String(d || "").split("-"); const names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; return m && day ? `${Number(day)} ${names[Number(m) - 1]} ${y}` : String(d || ""); };
 
   // ---------- the top bar: "Classes" once sign in is on or a session exists; "Sign in" only while it is on ----------
@@ -47,10 +58,12 @@
   });
   const current = {};
 
-  // the one-line card on the start screen
+  // the one-line card on the start screen: the person's campus's, or, with no campus known, a neutral one over all
   async function startCard() {
-    const cm = await campusData(); const sc = cm.start_card; if (!sc) return "";
-    return `<a class="choice" href="#/classes"><div class="t">${esc(sc.title)}</div><div class="d">${esc(sc.detail)}</div><span class="tag">${esc(sc.tag)}</span></a>`;
+    const { list, cm } = await campusCtx();
+    if (cm && cm.start_card) { const sc = cm.start_card; return `<a class="choice" href="#/classes"><div class="t">${esc(sc.title)}</div><div class="d">${esc(sc.detail)}</div><span class="tag">${esc(sc.tag)}</span></a>`; }
+    if (!list.length) return "";
+    return `<a class="choice" href="#/classes"><div class="t">${esc(Catalog.neutralCardTitle(list))}</div><div class="d">The roster, who teaches what, and how each class reads against the role you want.</div><span class="tag">Pick your campus →</span></a>`;
   }
 
   // ---------- 1. the class picker ----------
@@ -58,23 +71,34 @@
     const { crumbs, page, showAside } = ctx;
     const token = ++S.token;
     crumbs([["Classes", null]]); showAside(null);
-    const cm = await campusData();
-    const termLabel = cm.term_label || CFG().CATALOG_TERM || "";
-    const head = `<p class="eyebrow">${esc(termLabel)} · ${esc(cm.campus || "")}</p><h1>Pick your classes</h1>`;
-    const privacy = cm.privacy_line ? `<p class="small muted">${esc(cm.privacy_line)}</p>` : "";
-    const sess = await Catalog.session();
-    if (CFG().AUTH_ENABLED && !sess) {
-      page(`${head}<p class="lead">The roster is for Cornell students. Sign in with your Cornell email to open it.</p><p><a class="btn primary" href="#/signin">Sign in →</a></p>${privacy}`, true);
+    const { list, cm } = await campusCtx();
+    // no campus known and more than one to choose from: ask once, as two cards, and keep the answer in this browser
+    if (!cm) {
+      if (!list.length) { page(`<h1>Pick your classes</h1><div class="notice">No campus is configured on this page.</div>`, true); return; }
+      page(`<h1>Pick your classes</h1><p class="lead">Which campus are you at?</p><div class="choices">${list.map(c => `<a class="choice" href="#/classes" data-campus="${esc(c.id)}"><div class="t">${esc(c.label)}</div><div class="d">${esc((c.start_card || {}).detail || "")}</div><span class="tag">${esc(c.catalog ? (c.term_label || "") + " roster →" : "Roster not loaded yet")}</span></a>`).join("")}</div><p class="small muted">Your campus stays in this browser; change it any time from the classes screen.</p>`, true);
+      document.querySelectorAll("[data-campus]").forEach(a => a.onclick = e => { e.preventDefault(); setCampus(a.dataset.campus); classes(ctx); });
       return;
     }
-    if (!Catalog.sb()) { page(`${head}<div class="notice">The catalog client did not load, so the roster cannot be read on this page. Reload the page.</div>${privacy}`, true); return; }
+    const termLabel = cm.term_label || CFG().CATALOG_TERM || "";
+    const change = list.length > 1 ? ` · <button type="button" class="linkish link" id="cls-campus">change campus</button>` : "";
+    const head = `<p class="eyebrow">${esc(termLabel)} · ${esc(cm.label || "")}${change}</p><h1>Pick your classes</h1>`;
+    const privacy = cm.privacy_line ? `<p class="small muted">${esc(cm.privacy_line)}</p>` : "";
+    const wireCampus = () => { const b = $("#cls-campus"); if (b) b.onclick = () => { setCampus(null); classes(ctx); }; };
+    // a campus with no roster loaded says so and stops
+    if (!cm.catalog) { page(`${head}<p class="lead">${esc(cm.closed_notice || "The roster is not loaded yet.")}</p>${privacy}`, true); wireCampus(); return; }
+    const sess = await Catalog.session();
+    if (CFG().AUTH_ENABLED && !sess) {
+      page(`${head}<p class="lead">The roster is for ${esc(cm.label)} students. Sign in with your ${esc(Catalog.domainWords(cm))} email to open it.</p><p><a class="btn primary" href="#/signin">Sign in →</a></p>${privacy}`, true);
+      wireCampus(); return;
+    }
+    if (!Catalog.sb()) { page(`${head}<div class="notice">The catalog client did not load, so the roster cannot be read on this page. Reload the page.</div>${privacy}`, true); wireCampus(); return; }
     let data;
     try { data = await Catalog.loadCatalog(); }
-    catch (e) { console.error(e); page(`${head}<div class="notice">The roster could not be read: ${esc(e.message)}.</div>${privacy}`, true); return; }
+    catch (e) { console.error(e); page(`${head}<div class="notice">The roster could not be read: ${esc(e.message)}.</div>${privacy}`, true); wireCampus(); return; }
     if (token !== S.token) return;
     if (!data.classes.length) {
       page(`${head}${!sess ? `<p class="lead">${esc(cm.closed_notice || "Sign in is not open yet.")}</p><p class="small muted"><a class="btn quiet" href="#/signin">Sign in (development)</a></p>` : `<p class="lead">The roster is empty right now. Check back after the next refresh.</p>`}${privacy}`, true);
-      return;
+      wireCampus(); return;
     }
     if (dataCache !== data) { dataCache = data; cardsCache = Catalog.collapse(data); }
     const cards = cardsCache;
@@ -121,6 +145,7 @@
       if (S.role) scoreCards(shown, S.role, token, cm);
     };
     const wire = shown => {
+      wireCampus();
       $("#cls-program").onchange = e => { S.program = e.target.value || null; store.set("classes.program", S.program); classes(ctx); };
       const rs = $("#cls-role"); rs.value = S.role || ""; if (rs.value !== (S.role || "")) rs.value = "";   // a remembered role the index no longer has
       rs.onchange = e => { S.role = e.target.value || null; store.set("classes.role", S.role); render(); };
@@ -228,13 +253,15 @@
       <p class="small muted" style="margin-top:20px">Public professional information only. There are no ratings or reviews here.</p>`, true);
   }
 
-  // ---------- 3. sign in: Google (cornell.edu) or a magic link to a cornell.edu address ----------
+  // ---------- 3. sign in: Google or a magic link, to an address in the campus's domains (data) ----------
   async function signin(ctx) {
     const { crumbs, page, showAside } = ctx;
     current.signin = () => signin(ctx);
     crumbs([["Sign in", null]]); showAside(null);
-    const cm = await campusData();
-    const privacy = `<p class="small muted">${esc(cm.privacy_line || "Signing in sends your Cornell email to Supabase. Your program, your ratings and anything you paste stay in this browser.")}</p>`;
+    const { list, cm: known } = await campusCtx();
+    // with no campus known, sign in as the first campus that has sign-in; the picker asks the campus afterwards
+    const cm = known || list.find(c => (c.signin_domains || []).length) || list[0] || {};
+    const privacy = `<p class="small muted">${esc(cm.privacy_line || "Your program, your ratings and anything you paste stay in this browser.")}</p>`;
     const note = Catalog.takeAuthNote();
     if (!Catalog.sb()) { page(`<h1>Sign in</h1><div class="notice">The sign-in client did not load. Reload the page.</div>${privacy}`, true); return; }
     const sess = await Catalog.session();
@@ -244,34 +271,40 @@
       $("#si-out").onclick = async () => { try { await Catalog.signOut(); } catch (e) { console.error(e); } signin(ctx); };
       return;
     }
-    page(`<h1>Sign in</h1><p class="lead">For Cornell students: the roster, the professors and the ratings open with a cornell.edu account.</p>
+    const domains = cm.signin_domains || [], words = Catalog.domainWords(cm);
+    if (!domains.length) {
+      page(`<h1>Sign in</h1><p class="lead">Sign-in for ${esc(cm.label || "this campus")} is not open yet.</p><p class="small muted">The roster, the professors and the ratings open with a school account once it is.</p>${privacy}`, true);
+      return;
+    }
+    page(`<h1>Sign in</h1><p class="lead">For ${esc(cm.label)} students: the roster, the professors and the ratings open with ${esc(words)} account.</p>
       ${note ? `<div class="notice">${esc(note)}</div>` : ""}
-      <div class="row" style="margin-top:12px"><button type="button" class="btn primary" id="si-google">Continue with Google (cornell.edu)</button></div>
+      <div class="row" style="margin-top:12px"><button type="button" class="btn primary" id="si-google">Continue with Google (${esc(domains[0])})</button></div>
       <h3 style="margin-top:22px">Or get a sign-in link by email</h3>
-      <form id="si-form" class="row"><input type="email" id="si-email" class="cls-email" placeholder="netid@cornell.edu" autocomplete="email" aria-label="Cornell email"><button type="submit" class="btn" id="si-send" disabled>Send the link</button></form>
-      <p class="small muted" id="si-msg">Only addresses ending in @cornell.edu are accepted.</p>
+      <form id="si-form" class="row"><input type="email" id="si-email" class="cls-email" placeholder="you@${esc(domains[0])}" autocomplete="email" aria-label="School email"><button type="submit" class="btn" id="si-send" disabled>Send the link</button></form>
+      <p class="small muted" id="si-msg">Only addresses ending in ${esc(words)} are accepted.</p>
       ${privacy}
       ${CFG().AUTH_ENABLED ? "" : `<p class="small muted">Sign in is not open to students yet; this page is reachable for development.</p>`}`, true);
     const msg = t => { $("#si-msg").textContent = t; };
     const email = $("#si-email"), send = $("#si-send");
-    email.oninput = () => { send.disabled = !Catalog.isCornell(email.value); };
+    email.oninput = () => { send.disabled = !Catalog.allowedEmail(email.value, cm); };
     $("#si-form").onsubmit = async e => {
       e.preventDefault();
-      if (!Catalog.isCornell(email.value)) { msg("Use an address that ends in @cornell.edu."); return; }
+      if (!Catalog.allowedEmail(email.value, cm)) { msg(`Use an address that ends in ${words}.`); return; }
       send.disabled = true; msg("Sending…");
-      try { await Catalog.signInEmail(email.value); msg(`Sent. Open the link in the email in this browser; it signs you in and opens the classes.`); }
+      try { await Catalog.signInEmail(email.value, cm); msg(`Sent. Open the link in the email in this browser; it signs you in and opens the classes.`); }
       catch (err) { console.error(err); msg(`The link could not be sent: ${err.message}.`); send.disabled = false; }
     };
-    $("#si-google").onclick = async () => { msg("Opening Google…"); try { await Catalog.signInGoogle(); } catch (err) { console.error(err); msg(`Google sign-in did not start: ${err.message}.`); } };
+    $("#si-google").onclick = async () => { msg("Opening Google…"); try { await Catalog.signInGoogle(cm); } catch (err) { console.error(err); msg(`Google sign-in did not start: ${err.message}.`); } };
   }
 
   // For the rail and the fit screen (PLAN.md v16, step 3): the courses that cover the person's gaps. Returns
   // { closed: <line> } when the roster cannot be read here (sign-in on and no session, no client, an empty roster), else
   // { top: [{ key, codes, title, covered }], byGap: { gapId: [{ key, code }] } } over every card. gaps: [{ id, name, tier, w }].
   async function coverGaps(gaps) {
-    const cm = await campusData();
+    const { list, cm: known } = await campusCtx();
+    const cm = known || list[0] || {};
     const closed = { closed: cm.rail_closed_line || "The roster is not open here yet." };
-    if (!Catalog.sb()) return closed;
+    if (!cm.catalog || !Catalog.sb()) return closed;
     const sess = await Catalog.session();
     if (CFG().AUTH_ENABLED && !sess) return closed;
     let data; try { data = await Catalog.loadCatalog(); } catch (e) { console.error(e); return closed; }
@@ -286,7 +319,8 @@
     for (const c of Catalog.sortCards(cards, "gaps", info)) for (const g of covered[c.key] || []) (byGap[g.id] ||= []).push({ key: c.key, code: c.codes[0] });
     return { top, byGap, total: cards.length };
   }
-  const termLabel = () => CFG().CATALOG_TERM === "SP27" ? "Spring 2027" : CFG().CATALOG_TERM || "";
+  const termLabel = () => (lastCampus && lastCampus.term_label) || (CFG().CATALOG_TERM === "SP27" ? "Spring 2027" : CFG().CATALOG_TERM || "");
+  campusCtx();   // so termLabel has the campus's words once the file is read
 
   window.ClassScreens = { classes, professor, signin, startCard, navSync, coverGaps, termLabel };
 })();

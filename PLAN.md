@@ -817,6 +817,51 @@ composes with the others; the three sorts and the rail's three. Every Cornell-Te
 What this is not: a judgment that a course teaches a skill it does not name; the reader counts mentions, as the course
 screen does, and the card says so.
 
+### Step 4 — campuses as data, IE New York as a second campus (`feat/campus-list`, 2026-10-25)
+
+`web/data/sp27_campus.json` is a list under `campuses`. Each entry: `id`, `label`, `term`, `term_label`,
+`pre_enrollment`, `roster_updates_until`, `start_card`, `closed_notice`, `rail_closed_line`, `privacy_line`,
+`eligibility`, `programs` (each program with its categories and the v15 program group it belongs to), `relevance`,
+`signin_domains` and `catalog`. Entry one is Cornell Tech exactly as before, with `signin_domains: ["cornell.edu"]` and
+`catalog: true`. Entry two is IE New York (`ienyc`, Spring 2027, the four IE programs the v15 question folds, each with
+its group, `signin_domains: []`, `catalog: false`, a start card that says the roster is not loaded yet). The rule, in
+the file's `_note` and in `README.md`: a new campus is a new entry, never a code change.
+
+The person's campus (`Catalog.campusFor`, pure): the one stored (`classes.campus`), else the campus of the picker program
+chosen, else the one campus whose programs include the v15 group answered (`cs`, `ece` and `infosci` are Cornell Tech's
+alone; `business` and `analytics` belong to both), else none, and the classes screen then asks once, as two cards, with
+"change campus" in its eyebrow afterwards. The start screen shows the person's campus card, or, with no campus known,
+"Spring 2027 classes · Cornell Tech and IE New York". A campus with `catalog: false` shows its closed notice and stops;
+the rail's "Classes that cover your gaps" says the same in one line. Sign-in accepts an email whose domain is in the
+campus's `signin_domains` (`Catalog.allowedEmail`; a subdomain counts), Google sign-in passes that domain as `hd`, a
+signed-in account no campus accepts is signed out, and a campus with an empty list shows "Sign-in for IE New York is
+not open yet" instead of the form. `isCornell` is gone. Tests: the file's shape and the two entries, the inference
+order, the domain check.
+
+### Step 5 — American spelling on screen (`data/spelling-us`, 2026-10-25)
+
+The data files carry British spellings from the model-written depth and the taxonomy (artefact 168 times, programme
+119, modelled and modelling 71, analysed 23, fulfilment 16, prioritised 12, and 15 skill names: "Transformation
+programme leadership", "Scenario & sensitivity modelling", "Warehouse & fulfilment operations", "FINRA licences",
+…). The copy on screen is American since v15, so the two met on the same page. `Atlas.us(text)` in `web/atlas.js` is
+a display-time map applied once at load to every skill name, definition, ladder rung, build step, sub-skill name and
+example, evidence-file string, field reading and line, product `signals` and cluster label of both indexes (517 of
+28,831 strings on the 2026-10-25 data). Quoted posting sentences, posting titles and snippets, and a sub-skill's
+regular-expression `patterns` are never touched. The data files are not regenerated; the matcher reads the taxonomy
+patterns, not the names, so nothing it does moves.
+
+The word list is data, `web/data/spelling_us.json`: whole words (programme, licence, artefact, fulfilment, practise,
+catalogue, adviser, …), the -ise/-isation → -ize family with an exception list of stems it must keep (enterprise,
+exercise, advise, expertise, surprise, premise, promise, compromise, raise, fundraise, merchandise, supervise, the
+-wise words, …), -yse → -yze, the -our → -or stems (behaviour, labour, colour, favour, …), the -re → -er stems (centre,
+metre, fibre, theatre, calibre, …) with the words they keep (parameter, genre, acre, …), and the British double l
+(modelled, levelling, counsellor, …). Case is kept. An exception is a line in a list, not a code change.
+`tests/web/atlas.test.mjs` gains three cases: the families from the brief, the words that only look British, and the
+index's fields mapped against a posting's text left alone.
+
+What this is not: a regeneration. `depth_gen` still drafts in British English, and the `data/` branch that regenerates
+with an American rule (and reruns `run_depth.py` and the extraction baselines) stays under Later.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
@@ -834,8 +879,9 @@ screen does, and the card says so.
   band on the new postings): a `pipeline.depth_publish` rerun on a `data/` branch, with the baseline.
 - The waitlist boxes ("Help me show this", "Build these skills", "Ways to show your skills", the fit screen) are a
   sign-up since v16 step 1; the journeys behind them are GradBuddy's.
-- American spelling in the data: a display-time map in `atlas.js` now, or an American rule in `depth_gen` and the
-  taxonomy names plus a regeneration (`run_depth.py`, `extraction_baseline_mba.md`).
+- American spelling in the data: the display-time map (`Atlas.us`, v16 step 5) is on; the regeneration with an
+  American rule in `depth_gen` and the taxonomy names (`run_depth.py`, `extraction_baseline_mba.md`) is still a
+  `data/` branch.
 - LLM-based extraction (Claude) for higher-recall skill tagging and requirement vs nice-to-have split.
 - Nightly refresh via a scheduled job; history of postings over time.
 - More families (design, engineering) and more companies (full Fortune 500).

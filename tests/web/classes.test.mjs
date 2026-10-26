@@ -6,7 +6,7 @@ import path from "path";
 import { require, web, readJson } from "./_load.mjs";
 
 const C = require(path.join(web, "catalog.js"))({});
-const campus = readJson("sp27_campus.json");
+const FILE = readJson("sp27_campus.json"), campus = FILE.campuses[0];
 
 const cls = (code, extra = {}) => ({ code, subject: code.split(" ")[0], catalog_nbr: code.split(" ")[1], title: "Title of " + code, credits: "3", location_scope: "cornell_tech", eligibility_category: "cornell_tech_students", description: "Budgeting and forecasting for managers.", roster_syllabus_read: null, sp27_instructor_matches_syllabus: null, grading_summary: null, roster_syllabus_md: null, ...extra });
 const DATA = {
@@ -152,9 +152,9 @@ test("mdSections splits a profile on ## headings and mdHtml renders paragraphs, 
   assert.match(C.mdHtml(s.Bio), /&lt;script&gt;/);
 });
 
-test("only cornell.edu addresses pass the sign-in check", () => {
-  assert.ok(C.isCornell("abc123@cornell.edu")); assert.ok(C.isCornell(" ABC@Cornell.EDU "));
-  assert.ok(!C.isCornell("abc@cornell.edu.evil.com")); assert.ok(!C.isCornell("abc@gmail.com")); assert.ok(!C.isCornell(""));
+test("only addresses in the campus's domains pass the sign-in check (Cornell Tech: cornell.edu)", () => {
+  assert.ok(C.allowedEmail("abc123@cornell.edu", campus)); assert.ok(C.allowedEmail(" ABC@Cornell.EDU ", campus));
+  assert.ok(!C.allowedEmail("abc@cornell.edu.evil.com", campus)); assert.ok(!C.allowedEmail("abc@gmail.com", campus)); assert.ok(!C.allowedEmail("", campus));
 });
 
 // ---------- the person's gaps (PLAN.md v16, step 3) ----------
@@ -202,4 +202,45 @@ test("the sort: by code, by relevance band, or by gaps covered (core gaps first,
   assert.deepEqual(C.topCovering(cards, { "TEST 1010": { covered: [GAPS[1]] } }, 3).map(c => c.key), ["TEST 1010"]);
   assert.notEqual(C.sortCards(cards, "gaps", info), cards, "a sort returns a new list");
   assert.deepEqual(cards.map(c => c.key), ["TEST 1010", "TEST 1020", "TEST 3030", "ZZZ 9000"]);
+});
+
+// ---------- campuses as data (PLAN.md v16, step 4) ----------
+test("the campus file is a list; every campus has the keys the screens read, and Cornell Tech is first, unchanged", () => {
+  const KEYS = ["id", "label", "term", "term_label", "pre_enrollment", "roster_updates_until", "start_card", "closed_notice", "rail_closed_line", "privacy_line", "eligibility", "programs", "relevance", "signin_domains", "catalog"];
+  assert.ok(Array.isArray(FILE.campuses) && FILE.campuses.length >= 2);
+  for (const c of FILE.campuses) { for (const k of KEYS) assert.ok(k in c, `${c.id} lacks ${k}`); assert.ok(Array.isArray(c.signin_domains)); assert.equal(typeof c.catalog, "boolean"); for (const p of c.programs) assert.ok("group" in p, `${c.id} program ${p.id} has no v15 group`); }
+  assert.equal(FILE.campuses[0].id, "cornell_tech"); assert.deepEqual(FILE.campuses[0].signin_domains, ["cornell.edu"]); assert.equal(FILE.campuses[0].catalog, true);
+  const ie = FILE.campuses.find(c => c.id === "ienyc");
+  assert.equal(ie.label, "IE New York"); assert.equal(ie.term, "SP27"); assert.deepEqual(ie.signin_domains, []); assert.equal(ie.catalog, false);
+  assert.match(ie.start_card.title, /Spring 2027 classes at IE New York/); assert.match(ie.start_card.tag, /not loaded yet/i);
+  assert.deepEqual(ie.programs.map(p => p.group), ["business", "business", "analytics", "analytics"]);
+  assert.ok(new Set(FILE.campuses.flatMap(c => c.programs.map(p => p.id))).size === FILE.campuses.flatMap(c => c.programs).length, "program ids are unique across campuses");
+});
+
+test("the person's campus: stored first, else the picker program's, else the one campus that has the v15 group, else none", () => {
+  const list = FILE.campuses;
+  assert.equal(C.campusFor(list, { stored: "ienyc" }).id, "ienyc");
+  assert.equal(C.campusFor(list, { stored: "nowhere", programId: "ie_mif" }).id, "ienyc", "an unknown stored id falls through");
+  assert.equal(C.campusFor(list, { programId: "mba" }).id, "cornell_tech");
+  assert.equal(C.campusFor(list, { where: "cs" }).id, "cornell_tech", "only Cornell Tech has a CS program");
+  assert.equal(C.campusFor(list, { where: "infosci" }).id, "cornell_tech");
+  assert.equal(C.campusFor(list, { where: "business" }), null, "business belongs to both campuses: ask");
+  assert.equal(C.campusFor(list, { where: "analytics" }), null);
+  assert.equal(C.campusFor(list, {}), null);
+  assert.equal(C.campusFor([list[0]], {}).id, "cornell_tech", "one campus in the file: no question");
+  assert.equal(C.campusFor([], { stored: "x" }), null);
+});
+
+test("sign-in accepts an email whose domain is in the campus's list; a campus with no domains accepts none", () => {
+  const [cornell, ie] = FILE.campuses;
+  assert.equal(C.allowedEmail("netid@cornell.edu", cornell), true);
+  assert.equal(C.allowedEmail(" NetID@Cornell.EDU ", cornell), true);
+  assert.equal(C.allowedEmail("x@tech.cornell.edu", cornell), true, "a subdomain counts");
+  assert.equal(C.allowedEmail("x@notcornell.edu", cornell), false);
+  assert.equal(C.allowedEmail("x@cornell.edu.evil.com", cornell), false);
+  assert.equal(C.allowedEmail("@cornell.edu", cornell), false);
+  assert.equal(C.allowedEmail("x@ie.edu", ie), false, "IE has no sign-in yet");
+  assert.equal(C.allowedEmail("x@cornell.edu", null), false);
+  assert.equal(C.domainWords(cornell), "@cornell.edu");
+  assert.equal(C.neutralCardTitle(FILE.campuses), "Spring 2027 classes · Cornell Tech and IE New York");
 });
