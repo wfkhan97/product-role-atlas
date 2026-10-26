@@ -1090,6 +1090,24 @@ What each built is below as it lands.
 "Frozen with the fit flow"; `README.md` opens with what the atlas is now; the contract names its first consumer and
 the files it reads. No code.
 
+**Built, step 1** (`feat/cohort-application`): the waitlist box is the cohort application box, one component
+(`applyBox` in `web/app.js`, its copy the pure table `Apply` beside `Stage`) everywhere the waitlist was: the rail's
+three placeholders (sources `show`, `build`, `ways`, still opened by their links, now labelled "· Cohort 1"), the fit
+screen's foot (`fit`), the start screen in its own section under the stage question (`start`, new: the start screen had
+only a privacy line before) and, new, the class picker's result view at its foot (`classes`), introduced by one
+data-built line ("These are your gaps for <role>. Cohort 1 closes gaps like these with real projects.") when a role is
+chosen and the fit leaves gaps, else the box alone; the picker records its chosen role as the role on screen. The box
+has two fields, the email and "The role you want, in your words" (optional, 200 characters, single line); the button
+says Apply; a 2xx or a 409 reads "Applied. Wally replies within two days."; the privacy line says what is kept. The
+sentence is the one free-text field in the whole capture: `Capture.waitlist` sends `note`, trimmed and cut at 200,
+only when typed; events carry no text, by construction. `pipeline/sql/2026-10-26_cohort.sql` (applied by the owner,
+never by a thread) adds the column with its check, extends the `source` check with `classes` and the event names with
+`waitlist_classes`. `pipeline.funnel` counts applications by source and prints the sentences only under `--notes`,
+with the email to reply to. `#/about` says the sentence is kept if you apply. `evals/stage.mjs` checks, for every
+stage, that the first call to action on the start screen and on the rail is the application box (`Stage.cta` begins
+"Cohort 1") and that the screens draw it from `Apply`. Tests: the note sent, left out when empty, cut at 200; the
+script's names and sources equal the latest migration's. The price is nowhere on screen; "paid" is.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
@@ -1098,8 +1116,9 @@ the files it reads. No code.
   fallback for the 98 product skills; a reader-judged line per skill is GradBuddy's synthesis, not an atlas fact.
 - `evals/run_depth.py` has 28 failures on `main` since the 2026-10-25 refresh (sub-skill shares outside the 5% to 50%
   band on the new postings): a `pipeline.depth_publish` rerun on a `data/` branch, with the baseline.
-- The waitlist boxes ("Help me show this", "Build these skills", "Ways to show your skills", the fit screen) are a
-  sign-up since v16 step 1; the journeys behind them are GradBuddy's.
+- The application boxes ("Help me show this", "Build these skills", "Ways to show your skills", the fit screen, the
+  start screen, the picker) are the cohort application since v18 step 1 (a waitlist sign-up from v16 step 1 until
+  then); the journeys behind them are GradBuddy's. The price is not on the box: the owner states it in his reply.
 - American spelling in the data: the display-time map (`Atlas.us`, v16 step 5) is on; the regeneration with an
   American rule in `depth_gen` and the taxonomy names (`run_depth.py`, `extraction_baseline_mba.md`) is still a
   `data/` branch.

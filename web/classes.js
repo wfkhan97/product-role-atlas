@@ -124,6 +124,9 @@
       const gapsOf = c => G && G.gaps.length ? { covered: covered[c.key] || [], total: G.gaps.length } : null;
       const gapChip = G && G.gaps.length ? `<button type="button" class="chip${S.coversGap ? " on" : ""}" id="cls-gap">Covers a gap<span class="n">${cards.filter(c => (covered[c.key] || []).length).length}</span></button>` : "";
       const sortCtl = `<label class="small muted">Sort <select id="cls-sort" class="cls-select"><option value="code"${S.sort === "code" ? " selected" : ""}>Code</option><option value="relevance"${S.sort === "relevance" ? " selected" : ""}>Relevance</option>${G && G.gaps.length ? `<option value="gaps"${S.sort === "gaps" ? " selected" : ""}>Gaps covered</option>` : ""}</select></label>`;
+      // the cohort application box at the foot (v18, step 1), from app.js, with the picker's role recorded as the role on
+      // screen; over it, when a role is chosen and the fit leaves gaps, the one data-built line naming them
+      const applyFoot = ctx.applyBox ? `<div class="fit-wait">${G && G.gaps.length && ctx.applyLine ? `<p class="small">${esc(ctx.applyLine(G.label))}</p>` : ""}${ctx.applyBox("classes", { always: true, role_id: S.role || null })}</div>` : "";
       const gapLine = G ? (G.gaps.length ? `<p class="small">Your fit for ${esc(G.label)} leaves ${G.gaps.length} ${G.gaps.length === 1 ? "gap" : "gaps"}; each card says which it covers, read from the course text by kind (a course can show craft, not how you work). <a href="#/role/${esc(G.roleId)}/fit">Your fit →</a></p>` : `<p class="small muted">Your resume shows every skill most ${esc(G.label)} postings ask for; nothing to cover.</p>`) : S.role && ctx.gapsFor ? `<p class="small muted">Add your resume on the role screen and each card says which of your gaps it covers. <a href="#/role/${esc(S.role)}">Open the role →</a></p>` : "";
       const html = `${head}
         <p class="lead">${cm.roster_updates_until ? `Roster as of ${esc(niceDate(data.rosterDate))}; updated weekly until ${esc(cm.roster_updates_until)}.` : `Roster as of ${esc(niceDate(data.rosterDate))}.`} Two columns rate each class: ours reads the roster text against the role you pick; yours is your own call and stays in this browser.</p>
@@ -138,6 +141,7 @@
         <div class="chips">${gapChip ? gapChip + '<span class="lbl">·</span>' : ""}<span class="lbl">Subject</span><button type="button" class="chip${!S.subject ? " on" : ""}" data-subject="">All</button>${subjects.map(s => `<button type="button" class="chip${S.subject === s ? " on" : ""}" data-subject="${esc(s)}">${esc(s)}</button>`).join("")}</div>
         <p class="small muted" id="cls-count">${shown.length} ${shown.length === 1 ? "class" : "classes"} shown${program && !S.showAll ? ` for ${esc(program.label)}` : ""}; cross-listed classes share a card.</p>
         <div class="cls-list" id="cls-list">${shown.map(c => Catalog.cardHtml(c, { campus: cm, roleId: S.role, rel: rel[c.key] || "pending", own: S.own[c.key] || null, selected: S.selected === c.key, whyOpen: S.why.has(c.key), gaps: gapsOf(c) })).join("") || `<p class="small muted">No class matches. Clear the search, or show all.</p>`}</div>
+        ${applyFoot}
         ${privacy}`;
       page(html); $("#main").firstElementChild.classList.add("wide");
       wire(shown);
@@ -146,6 +150,7 @@
     };
     const wire = shown => {
       wireCampus();
+      if (ctx.wireApply) ctx.wireApply($("#main"), () => { const y = window.scrollY; render(); window.scrollTo(0, y); });
       $("#cls-program").onchange = e => { S.program = e.target.value || null; store.set("classes.program", S.program); classes(ctx); };
       const rs = $("#cls-role"); rs.value = S.role || ""; if (rs.value !== (S.role || "")) rs.value = "";   // a remembered role the index no longer has
       rs.onchange = e => { S.role = e.target.value || null; store.set("classes.role", S.role); render(); };
