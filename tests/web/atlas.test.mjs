@@ -225,6 +225,7 @@ import fs from "fs";
 import path from "path";
 import { web } from "./_load.mjs";
 const SPELLING = JSON.parse(fs.readFileSync(path.join(web, "data", "spelling_us.json"), "utf8"));
+const realAtlasFor = () => atlasFactory({ load: url => Promise.resolve(JSON.parse(fs.readFileSync(path.join(web, url), "utf8"))), Matcher });
 const usAtlas = () => { const A = atlasFactory({ load: () => Promise.reject(new Error("no files")), Matcher }); A.useSpelling(SPELLING); return A; };
 
 test("us: the named families from the brief map to American spelling, keeping case", () => {
@@ -270,4 +271,21 @@ test("us is applied to the names, definitions, ladders, build steps, sub-skills 
   assert.equal(R.jobs[0].title, "Programme Manager", "a posting's title is the employer's"); assert.equal(R.jobs[0].snippet, "We optimise the programme");
   const ev = await R.evidence("prog");
   assert.equal(ev.early[0].text, "You will organise the programme office", "a quoted posting sentence is left as written");
+});
+
+// ---------- a pasted posting (PLAN.md v16, step 9): read like a syllabus, with the sub-skills it names ----------
+test("readPosting reads a posting the way readCourse reads a syllabus and adds the sub-skills it names", async () => {
+  const A = realAtlasFor(); 
+  const text = "Senior Financial Analyst, FP&A. Own the monthly forecast and the annual budget; build driver-based models; present variance analysis to the CFO; SQL and Tableau a plus. Strong communication and teamwork.";
+  const r = await A.readPosting(text);
+  assert.ok(r.found instanceof Set && r.found.size > 0);
+  assert.ok(r.teaches instanceof Set && r.named instanceof Set && r.subs instanceof Set);
+  assert.ok(r.found.has("budgeting_forecasting") || r.found.has("variance_analysis"), [...r.found].join(","));
+  assert.ok(r.named.has("communication") || r.named.has("collaboration"), "a behaviour the posting names is named, not taught: " + [...r.named].join(","));
+  for (const k of r.teaches) assert.ok(!r.named.has(k));
+  assert.equal(r.found.size, r.teaches.size + r.named.size + r.other.size);
+  // the posting reader runs the taxonomy's own patterns only: a resume-language extra of the matcher never fires on it
+  const loose = await A.readPosting("We serve customers across segments and geographies. Equal opportunity employer; we do not discriminate on the basis of national origin.");
+  assert.ok(!loose.found.has("personas_jtbd"), "a bare 'segments' is a resume-mode extra, not the taxonomy's pattern");
+  assert.ok(!loose.found.has("public_sector") && !loose.found.has("hr_compliance"), "the EEO line is boilerplate and is cut: " + [...loose.found].join(","));
 });

@@ -41,3 +41,5 @@ jobs:
         run: node evals/adaptive.mjs
       - name: Stage eval
         run: node evals/stage.mjs
+      - name: Posting eval
+        run: node evals/posting.mjs

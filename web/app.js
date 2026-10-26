@@ -155,7 +155,7 @@
   });
 
   // ---------- router ----------
-  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "", grads: false, areaOpen: null, areaMore: new Set(), tab: "skills", fitTab: "show", empOpen: new Set(), cardTab: null, cardMore: false, fitMore: new Set(), group: null, fit: null, gapOpen: null, wait: null };
+  const state = { roleId: null, R: null, level: "all", employer: "all", selected: null, query: "", shown: 40, evTab: null, open: new Set(), you: null, resume: null, rough: null, match: null, fitLevel: null, course: null, paint: null, sector: new Set(), company: new Set(), country: new Set(), remote: false, more: false, companyQuery: "", grads: false, areaOpen: null, areaMore: new Set(), tab: "skills", fitTab: "show", empOpen: new Set(), cardTab: null, cardMore: false, fitMore: new Set(), group: null, fit: null, gapOpen: null, wait: null, sponsor: false, posting: null, postingOpen: false };
   const PAGE = 8;   // employers shown in the postings tab before "Show more"
   // Owner's choice 2026-10-23: the postings stay in the data and behind every number, but the interface stays high
   // level for now: no postings tab, no link out to a posting, no list of postings on a skill card, no filter by
@@ -538,7 +538,7 @@
   // ---------- 4. a role: the skill grid, the side panel, the postings ----------
   async function loadRole(id) {
     if (!state.ixGroups) state.ixGroups = (await Atlas.index()).groups;
-    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = PAGE; state.evTab = null; state.match = null; state.sector = new Set(); state.company = new Set(); state.country = new Set(); state.remote = false; state.more = false; state.companyQuery = ""; state.grads = false; state.areaOpen = null; state.areaMore = new Set(); state.tab = "skills"; state.empOpen = new Set(); state.fit = null; state.gapOpen = null; state.wait = null; state.gapClasses = null; }
+    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = PAGE; state.evTab = null; state.match = null; state.sector = new Set(); state.company = new Set(); state.country = new Set(); state.remote = false; state.more = false; state.companyQuery = ""; state.grads = false; state.areaOpen = null; state.areaMore = new Set(); state.tab = "skills"; state.empOpen = new Set(); state.fit = null; state.gapOpen = null; state.wait = null; state.gapClasses = null; state.sponsor = false; state.postingOpen = false; }
     const ix = await Atlas.index(); return ix.groups.find(x => x.id === state.R.role.group);
   }
   // a student looks at the entry grade first; everyone else at every level
@@ -553,6 +553,8 @@
   }
   const DIMS = {
     level: j => state.level === "all" || Atlas.stepOf(j) === state.level,
+    // visa sponsorship as the posting states it (PLAN.md v16, step 8): the chip keeps the postings that say they sponsor
+    sponsor: j => !state.sponsor || j.sponsorship === "yes",
     grads: j => !state.grads || !!(j.entry || j.intern),
     employer: j => state.employer === "all" || Atlas.employerType(j) === state.employer,
     sector: j => state.sector.size === 0 || state.sector.has(j.sector),
@@ -563,7 +565,7 @@
   const sliceOf = level => jobsExcept(null, level);
   const extraCount = () => state.sector.size + state.company.size + state.country.size + (state.remote ? 1 : 0);
   // every filter but the level: what the Filters button counts and the drawer holds
-  const activeCount = () => (state.employer === "all" ? 0 : 1) + (state.grads ? 1 : 0) + extraCount();
+  const activeCount = () => (state.employer === "all" ? 0 : 1) + (state.grads ? 1 : 0) + (state.sponsor ? 1 : 0) + extraCount();
   const toggle = (set, v) => { set.has(v) ? set.delete(v) : set.add(v); state.shown = PAGE; };
   const keepScroll = fn => { const y = window.scrollY; fn(); window.scrollTo(0, y); };
   // the filters in the drawer show as removable chips beside the Filters button while the drawer is closed
@@ -654,7 +656,11 @@
     const glance = `${lead} Entry grade: ${R.stepLabels.entry}, ${fmt(nEntry)} open at that grade${R.set === "mba" && nGrads ? `, ${fmt(nGrads)} for graduates and interns` : ""}.${topEmployers.length ? ` Top employers now: ${join(topEmployers)}.` : ""}`;
     const nAct = activeCount();
     const seg = `<div class="seg" role="group" aria-label="Level"><button type="button" class="${state.level === "all" ? "on" : ""}" aria-pressed="${state.level === "all"}" data-level="all">All levels</button>${Atlas.STEPS.map(s => `<button type="button" class="${state.level === s ? "on" : ""}" aria-pressed="${state.level === s}" data-level="${s}">${esc(R.stepLabels[s])}</button>`).join("")}</div>`;
-    const filters = `<div class="filters">${seg}<button type="button" class="btn filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">Filters${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
+    // "Says it sponsors" (PLAN.md v16, step 8): postings that say they sponsor a visa; shown once the data carries the fact
+    const hasSponsorship = R.jobs.some(j => j.sponsorship != null);
+    const nSponsor = hasSponsorship ? jobsExcept("sponsor").filter(j => j.sponsorship === "yes").length : 0;
+    const sponsorChip = hasSponsorship ? `<button type="button" class="chip${state.sponsor ? " on" : ""}" id="sponsor-chip" aria-pressed="${state.sponsor}" data-measure="Postings that say they sponsor a visa; most postings say nothing either way. ${fmt(nSponsor)} of the ${fmt(jobsExcept("sponsor").length)} in this view say so${R.jobs.some(j => j.sponsorship === "no") ? `; ${fmt(jobsExcept("sponsor").filter(j => j.sponsorship === "no").length)} say they do not` : ""}.">Says it sponsors<span class="n">${fmt(nSponsor)}</span></button>` : "";
+    const filters = `<div class="filters">${seg}${sponsorChip}<button type="button" class="btn filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">Filters${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
     const expanded = allExpanded(areas);
     const listHead = `<div class="listhead"><h2>What the postings ask for ${tip("Skills are grouped by area and ranked by how many of the postings in this view ask for them. Open a skill to see what it means, what it breaks down into and how postings say it.")}</h2><span class="small muted">${plural(stats.n, "posting", "postings")} in this view</span>${areas.length ? `<button type="button" class="linkish link" id="expand-all">${expanded ? "Collapse all" : "Expand all"}</button>` : ""}</div>`;
     const skillList = areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m)).join("")}</div>` : '<p class="notice">No postings match these filters.</p>';
@@ -700,6 +706,7 @@
     main.querySelectorAll("details[data-k]").forEach(d => d.ontoggle = () => { d.open ? state.open.add(d.dataset.k) : state.open.delete(d.dataset.k); });
     const xa = $("#expand-all"); if (xa) xa.onclick = () => { const all = allExpanded(areas); state.areaOpen = new Set(all ? [] : areas.map(a => a.cluster)); state.areaMore = new Set(all ? [] : areas.map(a => a.cluster)); keepScroll(renderRole); };
     const gr = $("#grads"); if (gr) gr.onclick = () => { state.grads = !state.grads; state.shown = PAGE; keepScroll(renderRole); };
+    const sp = $("#sponsor-chip"); if (sp) sp.onclick = () => { state.sponsor = !state.sponsor; state.shown = PAGE; keepScroll(renderRole); };
     main.querySelectorAll("[data-sector]").forEach(b => b.onclick = () => { b.dataset.sector === "__all" ? state.sector.clear() : toggle(state.sector, b.dataset.sector); keepScroll(renderRole); });
     main.querySelectorAll("[data-country]").forEach(b => b.onclick = () => { b.dataset.country === "__all" ? state.country.clear() : toggle(state.country, b.dataset.country); keepScroll(renderRole); });
     main.querySelectorAll("[data-company]").forEach(b => b.onclick = () => { toggle(state.company, b.dataset.company); state.companyQuery = ""; keepScroll(renderRole); });
@@ -848,14 +855,14 @@
   const BANDS = [["different", "New to the field"], ["related", "Relevant foundation"], ["in_range", "Qualified for the role"], ["strong", "Strong match"]];
   const bandName = k => (BANDS.find(b => b[0] === k) || [])[1];
   // the view the fit is read on: the role, the level and every other filter
-  const fitKey = level => [state.roleId, level, state.employer, state.grads, [...state.sector].join(), [...state.company].join(), [...state.country].join(), state.remote].join("|");
+  const fitKey = level => [state.roleId, level, state.employer, state.grads, state.sponsor, [...state.sector].join(), [...state.company].join(), [...state.country].join(), state.remote].join("|");
   const fitFor = level => state.fit && state.fit.key === fitKey(level == null ? state.level : level) && state.resume && state.fit.resume === state.resume.text ? state.fit : null;
   // The matcher on the current view (the way the bands were calibrated: Atlas.matcher). Returns the rows by status,
   // the band now and the band if the top gaps were evidenced, and sets state.match (what the skills list paints).
   async function computeFit(R, level) {
     const role = R.role, slice = sliceOf(level);
     const { M, bands, group } = await Atlas.matcher(R);
-    const extra = [state.grads ? "graduates and interns" : null, state.employer !== "all" ? (R.employerTypes.find(e => e[0] === state.employer) || [])[1] : null, ...state.sector, ...state.company, ...state.country, state.remote ? "remote" : null].filter(Boolean);
+    const extra = [state.grads ? "graduates and interns" : null, state.sponsor ? "says it sponsors" : null, state.employer !== "all" ? (R.employerTypes.find(e => e[0] === state.employer) || [])[1] : null, ...state.sector, ...state.company, ...state.country, state.remote ? "remote" : null].filter(Boolean);
     const label = `${role.label}${level === "all" ? "" : " · " + R.stepLabels[level]}${extra.length ? " · " + extra.join(", ") : ""}`;
     const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label }, { level: LEVEL_OPT[level], ladder: R.role.ladder });
     const rows = r.rows, by = st => rows.filter(x => x.status === st).sort((a, b) => (a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : b.tier === "core" ? 1 : a.tier === "common" ? -1 : 1));
@@ -963,7 +970,9 @@
     // the resume is read: the band, one sentence, every gap among the skills most postings ask for
     const { band, bandNext, core, coreHave, coreGaps, bands, group } = fit;
     const scale = band ? `<div class="band">${BANDS.map(([k], i) => `<i class="${k === band ? "on" : i < BANDS.findIndex(b => b[0] === band) ? "past" : ""}"></i>`).join("")}</div><div class="bandl">${BANDS.map(([k, l]) => `<span class="${k === band ? "on" : ""}">${l}</span>`).join("")}</div>` : `<p class="small muted">${esc((bands.no_bands || {})[group] ? "Our sample of resumes for this group of roles is too small to set a band of fit." : "This group of roles has no band of fit yet.")}</p>`;
-    const line = core.length ? `<p class="lead-rail">You show <b class="g">${coreHave.length}</b> of the ${core.length} skills most postings ask for${coreGaps.length ? `; <b class="a">${coreGaps.length}</b> ${coreGaps.length === 1 ? "is a gap" : "are gaps"}` : ""}.</p>` : `<p class="small muted">Few postings match this view; widen the filters.</p>`;
+    const P = postingFor(role.id), pAsks = P ? new Set([...P.found].filter(k => R.skillById[k] && R.skillById[k].cluster !== "credentials")) : null, pSum = pAsks ? postingSummary(pAsks, fit) : null;
+    const postingLine = pSum ? `<p class="lead-rail posting"><b class="g">${pSum.n}</b> of the ${pSum.m} skills <a href="#/role/${esc(role.id)}/fit">this posting</a> asks for are on your resume.</p>` : "";
+    const line = (core.length ? `<p class="lead-rail">You show <b class="g">${coreHave.length}</b> of the ${core.length} skills most postings ask for${coreGaps.length ? `; <b class="a">${coreGaps.length}</b> ${coreGaps.length === 1 ? "is a gap" : "are gaps"}` : ""}.</p>` : `<p class="small muted">Few postings match this view; widen the filters.</p>`);
     const slotWhy = x => x.slot === "__domain" ? `Name an industry you have worked in; these postings are in ${fit.r.industries.slice(0, 3).map(d => esc(d.name)).join(", ")}.` : x.slot === "__ai" ? `Show one line of AI work: ${fit.r.ai.map(k => esc(R.skillById[k] ? R.skillById[k].name : k)).join(", ")}.` : "";
     const gc = gapClassesFor(fit, R, () => showAside(null));
     const classLinks = id => { const cs = gc && gc.byGap && gc.byGap[id]; return cs && cs.length ? `<span class="plinks">Classes that cover it: ${cs.slice(0, 3).map(c => `<a href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.code)}">${esc(c.code)}</a>`).join(" · ")}</span><br>` : ""; };
@@ -977,7 +986,7 @@
       : gc.failed ? "" : `<h3 class="rh" style="margin-top:14px">Classes that cover your gaps</h3><p class="small muted">No ${termName} class names one of your gaps in its description. <a href="#/classes?role=${encodeURIComponent(role.id)}">See the roster →</a></p>`;
     const gapsHtml = coreGaps.length ? `<h3 class="rh" style="margin-top:14px">Needs more evidence</h3><ul class="gaps">${coreGaps.map(gapRow).join("")}</ul>${waitHtml("show")}${bandNext && bandNext !== band ? `<p class="small muted" style="margin-top:8px">Evidence ${coreGaps.length === 1 ? "that one" : "the top three"} and your resume reads as “${bandName(bandNext)}”.</p>` : ""}${classesBlock}` : `<p class="small muted" style="margin-top:10px">Nothing important missing: you show every skill most postings ask for.</p>`;
     const n = fit.evid.length + fit.trans.length;
-    const you = `<section class="rs"><h3 class="rh">Your fit · ${esc(state.resume.name)} · <a href="#/you?step=3">change</a></h3>${scale}${line}${gapsHtml}<p style="margin-top:12px"><a href="#/role/${esc(role.id)}/fit">See all ${n} ${n === 1 ? "skill" : "skills"} on your resume, matched to this role →</a></p></section>`;
+    const you = `<section class="rs"><h3 class="rh">Your fit · ${esc(state.resume.name)} · <a href="#/you?step=3">change</a></h3>${scale}${postingLine}${line}${gapsHtml}<p style="margin-top:12px"><a href="#/role/${esc(role.id)}/fit">See all ${n} ${n === 1 ? "skill" : "skills"} on your resume, matched to this role →</a></p></section>`;
     return legend + you + acts(`${coreGaps.length ? `<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(coreGaps.slice(0, 8).map(x => x.id).filter(k => R.skillById[k]).join(","))}">Practise your gaps <span>· 2 min</span></a>` : ""}<a href="#/" data-wait="build">Build these skills <span>· waitlist</span></a><a href="#/" data-wait="ways">Ways to show your skills <span>· waitlist</span></a>${waitHtml("build")}${waitHtml("ways")}`);
   }
   function wireRail() {
@@ -1006,6 +1015,9 @@
     const level = state.fitLevel || state.level;
     const f = fitFor(level) || (state.fit = await computeFit(R, level));
     if (fitScreen.tracked !== role.id) { fitScreen.tracked = role.id; track("fit", { role_id: role.id }); }   // once per role per visit
+    // a pasted posting on file for this role (PLAN.md v16, step 9): the skills it names come first, marked; the band
+    // stays the role's (one document, a band calibrated on the role)
+    const P = postingFor(role.id), asks = P ? new Set([...P.found].filter(k => R.skillById[k] && R.skillById[k].cluster !== "credentials")) : null;
     const { r, band, evid, trans, thin, presumed, gaps, core, extra } = f, through = f.through || [], coreHave = f.coreHave.length;
     const field = g.label.toLowerCase();
     const p = r.profile;
@@ -1032,14 +1044,16 @@
     const fitRow = x => {
       const k = x.status === "evidenced" ? "have" : x.status === "transferable" ? "have" : x.status === "through" ? "have" : x.status === "presumed" ? "thin" : x.status === "thin" ? "thin" : "gap";
       const mark = x.status === "through" ? `<span class="mark" data-measure="⤷ shown through ${esc(x.throughName || "")}: a way of working is never a line of its own; the line on your resume about ${esc(x.throughName || "that skill")} shows it.">⤷</span>` : x.status === "transferable" ? `<span class="mark" data-measure="⟲ said in other words: your resume shows this in another field's words. Postings here say it differently; see Details for how.">⟲</span>` : x.status === "presumed" ? `<span class="mark" data-measure="◌ presumed: people who hold the role you held do this, so it earns part credit; your resume does not show it.">◌</span>` : x.status === "thin" ? `<span class="mark" data-measure="○ named, not shown: listed as a word, but no work, project or course line shows it.">○</span>` : "";
-      const inner = `<span class="nm">${esc(x.slotName)}${mark}</span><span class="bar" data-measure="${pct(x.w)} of the postings in this view ask for ${esc(x.slotName)}${x.tier === "core" ? ", most of them" : ""}."><i style="width:${Math.round(x.w * 100)}%"></i></span>`;
+      const pmark = asks && asks.has(x.id) ? `<span class="ptag" data-measure="This posting asks for it: the text you pasted names ${esc(x.slotName)}.">this posting asks for it</span>` : "";
+      const inner = `<span class="nm">${esc(x.slotName)}${mark}${pmark}</span><span class="bar" data-measure="${pct(x.w)} of the postings in this view ask for ${esc(x.slotName)}${x.tier === "core" ? ", most of them" : ""}."><i style="width:${Math.round(x.w * 100)}%"></i></span>`;
       const cs = k === "gap" && gcF && gcF.byGap && gcF.byGap[x.id];
       const classes = cs && cs.length ? `<span class="plinks">Classes that cover it: ${cs.slice(0, 3).map(c => `<a href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.code)}">${esc(c.code)}</a>`).join(" · ")}</span>` : "";
       const links = [classes, k === "gap" && R.skillById[x.id] ? postingLinks(R, f.slice, x.id, 2) : ""].filter(Boolean).join("<br>");
       return (R.skillById[x.id] ? `<button type="button" class="srow ${k}" data-skill="${esc(x.id)}">${inner}</button>` : `<div class="srow ${k}">${inner}</div>`) + (links ? `<p class="small muted plinks-row">${links}</p>` : "");
     };
     const col = (key, title, items, empty, foot) => { const more = state.fitMore.has(key), shown = more ? items : items.slice(0, 5); return `<div><h3>${title} <span class="n">${items.length}</span></h3>${items.length ? `<div class="srows">${shown.map(fitRow).join("")}</div>${items.length > 5 ? `<button type="button" class="linkish link more" data-fitmore="${key}">${more ? "Show fewer" : `+${items.length - 5} more`}</button>` : ""}` : `<p class="small muted">${empty}</p>`}${foot || ""}</div>`; };
-    const showItems = [...evid, ...trans, ...through].sort((a, b) => b.w - a.w).concat(presumed), stillItems = [...gaps, ...thin].map(x => x).sort((a, b) => b.w - a.w);
+    const byPosting = (a, b) => (asks ? (asks.has(b.id) - asks.has(a.id)) : 0) || b.w - a.w;
+    const showItems = [...evid, ...trans, ...through].sort(byPosting).concat(presumed), stillItems = [...gaps, ...thin].map(x => x).sort(byPosting);
     const sayLink = trans.length ? `<p class="small" style="margin-top:8px"><button type="button" class="linkish link" id="say-it">Say it in ${esc(field)} words</button></p>` : "";
     const showTab = `<div class="fitcols">${col("show", "Already on your resume", showItems, "Nothing yet.", sayLink)}${col("gaps", "Needs more evidence", stillItems, "Nothing among the skills most postings ask for.")}</div>`;
     const detailTab = `${sayIt}${thinDisc}<h3>Credentials and industries</h3>${credLine + indLine || '<p class="small muted">None asked for in this view.</p>'}${unmapped}`;
@@ -1047,8 +1061,11 @@
     const fitTabs = `<div class="tabs" role="tablist">${FTABS.map(([k, l, n]) => `<button type="button" role="tab" class="${state.fitTab === k ? "on" : ""}" aria-selected="${state.fitTab === k}" data-ftab="${k}">${l}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`).join("")}</div>`;
     const fitBody = state.fitTab === "details" ? detailTab : showTab;
     const ctx = `<div class="row between fit-top"><p class="eyebrow">Your fit · ${esc(role.label)}${extra.length ? " · " + esc(extra.join(", ")) : ""}</p><span class="small muted ctx"><select id="fit-level" aria-label="Level">${["all", ...Atlas.STEPS].map(s => `<option value="${s}"${level === s ? " selected" : ""}>${s === "all" ? "All levels" : esc(R.stepLabels[s])}</option>`).join("")}</select> · ${esc(state.resume.name)} · <a href="#/role/${esc(role.id)}/fit" id="change">change</a></span></div>`;
+    // "Have a posting? Paste it." under the resume: a drop-or-paste box; with one on file, what it asks for and the count
+    const pSum = asks ? postingSummary(asks, f) : null;
+    const postingBox = `<div class="posting-box">${P ? `<p class="small"><b>${esc(P.name)}</b>: this posting asks for ${pSum.m} ${pSum.m === 1 ? "skill" : "skills"} of this role; <b>${pSum.n}</b> ${pSum.n === 1 ? "is" : "are"} on your resume. Those come first below, marked. <button type="button" class="linkish link" id="posting-change">Paste another</button> · <button type="button" class="linkish link" id="posting-forget">Forget it</button></p>` : `<details class="disc" id="posting-disc"${state.postingOpen ? " open" : ""}><summary>Have a posting? Paste it.</summary><div class="disc-body"><p class="small muted">We read it in your browser, like a syllabus: the skills it names come first in the lists below, with your resume's status for each. The band stays the role's. Nothing is uploaded.</p>${postingForm()}<div class="row" style="margin:10px 0 4px"><button type="button" class="btn primary" id="go">Read the posting →</button></div></div></details>`}</div>`;
     page(`${ctx}${unread}${placeholder}${verdict}
-      <p class="lead">${PERSONA[p.persona](p, field)} You show <b>${coreHave} of ${core.length}</b> skills that most ${esc(role.label)} postings ask for.</p>${standing}
+      <p class="lead">${PERSONA[p.persona](p, field)} You show <b>${coreHave} of ${core.length}</b> skills that most ${esc(role.label)} postings ask for.</p>${standing}${postingBox}
       ${fitTabs}${fitBody}
       <div class="fit-wait">${waitBox("fit", true)}</div>
       <p class="small muted" style="margin-top:20px"><a href="#/role/${esc(role.id)}">← Back to ${esc(role.label)}</a>, with your fit marked on every skill.</p>`);
@@ -1060,7 +1077,32 @@
     main.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }, true));
     main.querySelectorAll("details[data-k]").forEach(d => d.ontoggle = () => { d.open ? state.open.add(d.dataset.k) : state.open.delete(d.dataset.k); });
     $("#change").onclick = e => { e.preventDefault(); state.resume = null; state.fit = null; fitScreen(id); };
+    const pd = $("#posting-disc"); if (pd) { pd.ontoggle = () => { state.postingOpen = pd.open; }; if (pd.open) wireFileDrop(async t => { await takePosting(role.id, t); fitScreen(id); }); else pd.addEventListener("toggle", () => { if (pd.open) wireFileDrop(async t => { await takePosting(role.id, t); fitScreen(id); }); }, { once: true }); }
+    const pc = $("#posting-change"); if (pc) pc.onclick = () => { state.posting = null; store.set("posting", null); state.postingOpen = true; fitScreen(id); };
+    const pf = $("#posting-forget"); if (pf) pf.onclick = () => { state.posting = null; store.set("posting", null); state.postingOpen = false; fitScreen(id); };
     renderAside();
+  }
+  // the posting on file (PLAN.md v16, step 9): kept in localStorage under `posting` like `course`, per role
+  function postingFor(roleId) {
+    if (!state.posting) { const saved = store.get("posting"); if (saved) state.posting = { ...saved, found: new Set(saved.found), subs: new Set(saved.subs || []) }; }
+    return state.posting && state.posting.roleId === roleId ? state.posting : null;
+  }
+  async function takePosting(roleId, t) {
+    const r = await Atlas.readPosting(t.text);
+    state.posting = { roleId, name: t.name, text: t.text, found: r.found, subs: r.subs, lines: r.lines };
+    store.set("posting", { roleId, name: t.name, text: t.text, found: [...r.found], subs: [...r.subs], lines: r.lines });
+    state.postingOpen = false;
+  }
+  function postingForm() {
+    return `<div class="drop" id="drop"><p><b>Drop the posting (PDF, DOCX or TXT)</b> or <label class="link" for="file">choose a file</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status"></p></div>
+      <p class="small muted">Or paste the posting's text:</p><textarea id="paste" rows="6" aria-label="Posting text" placeholder="Senior Financial Analyst, FP&amp;A. You will own the monthly forecast, build driver-based models…"></textarea>`;
+  }
+  // "N of the M skills this posting asks for are on your resume": M is the posting's skills that are this role's
+  // (credentials left out), N those the fit shows (evidenced, in other words, or through a carrier)
+  function postingSummary(asks, f) {
+    const shown = new Set([...f.evid, ...f.trans, ...(f.through || [])].map(x => x.id));
+    const m = asks.size, n = [...asks].filter(k => shown.has(k)).length;
+    return { m, n };
   }
 
   // ---------- 6. check a course: which of the role's skills a syllabus teaches ----------

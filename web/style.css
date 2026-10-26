@@ -76,6 +76,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .fit-wait { max-width: 560px; margin-top: 20px; }
 .plinks { color: var(--muted-foreground); font-size: var(--text-sm); } .plinks a { color: var(--primary); }
 .plinks-row { margin: -4px 0 6px 12px; }
+.ptag { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: var(--radius-sm); font-size: var(--text-xs); background: var(--primary-tint); color: var(--primary); vertical-align: middle; }
+.posting-box { margin: 10px 0 4px; max-width: 720px; } .posting-box .disc > summary { font-size: var(--text-sm); color: var(--primary); cursor: pointer; }
+.lead-rail.posting { margin-bottom: 4px; }
 .rail-tab { display: none; position: fixed; right: 0; top: 50%; z-index: 9; transform: rotate(-90deg) translate(50%, 0); transform-origin: right bottom; border: 1px solid var(--border); border-bottom: 0; border-radius: var(--radius-sm) var(--radius-sm) 0 0; background: var(--card); color: var(--foreground); padding: 6px 14px; font-size: var(--text-sm); }
 @media (max-width: 1180px) {
   .shell.with-rail { grid-template-columns: minmax(0, 1fr); }

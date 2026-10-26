@@ -941,6 +941,58 @@ so the chain `CLAUDE.md` names for a taxonomy change (`pipeline.extract --roles 
 draft until it runs; the processed file, the graphs and `extraction_audit_mba.md` still carry the old tags. Skills
 outside the rule: 167 of 180 untouched.
 
+### Step 8 — visa sponsorship as a posting fact (`data/sponsorship`, 2026-10-25; draft until re-extracted)
+
+Not a skill. `pipeline/sponsorship.py` reads a posting's raw description with the patterns in
+`pipeline/sponsorship.json`: `"yes"` when the employer says it sponsors ("visa sponsorship is available", "will
+sponsor H-1B", "limited immigration sponsorship may be available"), `"no"` when it says it does not ("not eligible for
+visa sponsorship", "unable to sponsor", "must not now or in the future require sponsorship", "without the need for
+employment-based sponsorship"), else `null`, which is most postings. Every pattern is anchored on visa, immigration,
+work-authorization or H-1B words, so a project sponsor, a company-sponsored event or a sponsored security clearance
+never counts; a no wins over a yes in the same posting. `extract` writes the field on every posting of both sets;
+`build_graph` carries it into the role files and the product graph's postings and the three counts per role (yes, no,
+silent) into the MBA index; `Atlas.index()` and `Atlas.product()` expose `role.sponsorship`.
+
+On screen: a chip "Says it sponsors" in the role screen's Level row, both sets alike, with the count of postings in
+the view that say so; on hover, "Postings that say they sponsor a visa; most postings say nothing either way", with the
+count that say they do not when any does. The chip is a filter like the others (every count reflects it, the fit is
+read on it) and appears only once the data carries the fact. The rail says nothing special for an international-heavy
+program: the chip is enough (the brief).
+
+Labelled examples: `evals/sponsorship.json`, each row a real posting with the sentence that decided it in `note`,
+checked by `evals/run_pipeline.py --only sponsorship`. The brief asks for 40 postings (15 yes, 15 no, 10 silent); the
+build machine had only the 99 golden postings to read, which gave 22 rows (1 yes, 11 no, 10 silent, eight of the silent
+naming a sponsor of another kind). The 14 yes and 4 no rows still to add come from the backlog, as the file says.
+Unit tests in `tests/python/test_sponsorship.py`.
+
+Not done here: the re-extraction that writes the field (`pipeline.extract` for both sets), the rebuild and the
+baselines. Until then the processed files have no `sponsorship` (the eval part says so), the chip stays hidden, and the
+PR is a draft.
+
+### Step 9 — the fit screen reads a pasted posting (`feat/paste-posting`, 2026-10-25)
+
+Under the resume on the fit screen, "Have a posting? Paste it.": a drop-or-paste box read in the browser by
+`Atlas.readPosting` and kept in `localStorage` under `posting`, like `course`, per role. With a posting on file the two
+columns re-rank: the skills the posting names come first, each marked "this posting asks for it", their status from
+the resume unchanged; the band stays the role's (one document; the band is calibrated on the role). The rail says "N of
+the M skills this posting asks for are on your resume" above the role sentence, and the fit screen says the same with
+"Paste another" and "Forget it". The posting never leaves the browser.
+
+The reader is the pipeline's, not the resume matcher's. The first draft reused the course reader (`readCourse`): against
+the pipeline's tags on the 99 golden postings it showed 99% of them and 8,057 skills the pipeline does not tag, because
+a resume is read with resume-language extras, sub-skill hints and transfer vocabulary that a posting must not get.
+`Matcher.tagPosting` runs the taxonomy's own patterns over the whole text, after a port of the pipeline's cleaner
+(`BOILER_RE`, `ABOUT_RE`, long lines split into sentences, apostrophes straightened, a letter outside ASCII read as a
+word character the way Python's `\b` reads it) plus the one thing the pipeline is given and a pasted posting is not,
+the employer's name: it is inferred as the capitalised phrase that opens two or more lines, and its self-description
+lines are dropped anywhere; a single such line only at the top or under an "About" heading. `evals/posting.mjs` (in CI)
+pastes the 99 golden postings and holds the browser to the pipeline: at least 80% of each posting's tags shown, never a
+skill it does not tag; today 2,318 of 2,321 shown and 0 extras. `web/data/taxonomy_mba.json` was regenerated so the
+browser reads the step 7 patterns the pipeline reads (the graphs were not; they wait for the re-extraction).
+
+What this is not: a posting-specific band or score. The posting changes the order and the marks; the verdict stays
+the role's, by design.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its

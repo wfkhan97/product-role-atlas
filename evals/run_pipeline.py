@@ -2,7 +2,7 @@
 
     .venv/bin/python evals/run_pipeline.py               # report; exit 1 when a check fails
     .venv/bin/python evals/run_pipeline.py --baseline    # also rewrite evals/pipeline_baseline_mba.md
-    .venv/bin/python evals/run_pipeline.py --only titles # one part: backlog, titles, entry, countries, golden, integrity, graph, js, matcher
+    .venv/bin/python evals/run_pipeline.py --only titles # one part: backlog, titles, entry, countries, golden, sponsorship, integrity, graph, js, matcher
 
 Labels are the spec. They were written by reading titles, locations and postings before the code was run on
 them. A row with "sure": false is one a reader could label either way: it is reported, not counted. A row with
@@ -161,6 +161,26 @@ def golden():
     out("  missed most (* = shared with the product map): " + ", ".join(f"{mark(k)} {v}" for k, v in miss.most_common(15)))
     out("  wrongly tagged most: " + ", ".join(f"{mark(k)} {v}" for k, v in false.most_common(15)))
     return per
+
+
+def sponsorship_part():
+    """Visa sponsorship as a posting fact (PLAN.md v16, step 8): the reader against the labelled postings."""
+    from pipeline import sponsorship
+    d = load("sponsorship.json")
+    rows = d["rows"]
+    got = collections.Counter()
+    for r in rows:
+        v = sponsorship.read(r["text"])
+        got[v or "silent"] += 1
+        check("sponsorship", v == r["label"], f"{r['title']!r} ({r['company']}): want {r['label']}, got {v}: {r['note']}")
+    want = collections.Counter((r["label"] or "silent") for r in rows)
+    out(f"\n== sponsorship ({len(rows)} labelled postings: yes {want['yes']}, no {want['no']}, silent {want['silent']})")
+    out(f"  read as yes {got['yes']}, no {got['no']}, silent {got['silent']}")
+    # the processed file: every value in the allowed set when the field is there (a file older than the field has none)
+    jobs = processed.load(ROLES)
+    vals = collections.Counter(j.get("sponsorship", "absent") for j in jobs)
+    check("sponsorship", all(k in ("yes", "no", None, "absent") for k in vals), f"unknown sponsorship values in the processed file: {dict(vals)}")
+    out(f"  processed file: " + ", ".join(f"{k} {v}" for k, v in vals.most_common()) + ("  (the field is not in this file yet: re-extract)" if vals.get("absent") else ""))
 
 
 def backlog():
@@ -379,6 +399,8 @@ def main():
         countries()
     if want("golden"):
         per = golden()
+    if want("sponsorship"):
+        sponsorship_part()
     jobs = integrity() if any(want(p) for p in ("integrity", "graph", "js")) else None
     if want("graph"):
         graph(jobs)
