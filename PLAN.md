@@ -1004,6 +1004,54 @@ the browser readers in `web/atlas.js` (`readCourse` and `readPosting` by kind, `
 relevance thresholds and the campus file, and the privacy rule (what never leaves a browser, and the two things that
 do). It says what is stable (ids, statuses, tier and band names, paths, signatures) and what is not (shares, counts,
 dates, the editorial lines, the patterns, the cut points).
+## Scheduled jobs off the Macs, and one store for what git ignores (v17, 2026-10-26)
+
+Two things kept failing for one reason: jobs scheduled on the owner's two Macs failed when the machine was asleep,
+away, or missing a file the other machine had (the 2026-10-25 roster re-scrape: classes.cornell.edu down, `db/.env`
+on the other Mac), and a thread landing on either machine found half the working data missing (the taxonomy thread
+could not run the calibration: 264 of the 304 sample resumes were on the other Mac). The rule this change builds
+toward: a fresh machine, or a fresh cloud session, gets everything it needs with one command, and nothing that runs
+on a schedule depends on a laptop being awake. Three kinds of work, three homes: Claude work stays in Claude's cloud
+scheduled tasks; deterministic compute (scrape, extract, build, calibrate) runs on GitHub Actions on a cron with
+Supabase as the only state; nothing in the two repositories needs a Mac any more. The owner's decisions of
+2026-10-26: the scrapes run on GitHub-hosted runners after one trial run; a blocked family gets a self-hosted runner
+on the Mac mini; secrets live in each repository's Actions secrets and in the password manager, nowhere else; the
+raw transcripts move to a private, service-role-only bucket; the GradBuddy student workspace is out of scope.
+
+- **One store** (`pipeline/store.py`, step 1, #101): the private `atlas-store` bucket, one manifest per store
+  (`evals`: the sample and private resumes; `caches`: `data/experiments/` except `scratch/` and `_trash/`; `logs`).
+  Push never deletes; pull never overwrites a newer local file; `bootstrap` is the fresh-machine command. The same
+  shape in the research repository as `tools/private_store.py` over `research-private` (step 5).
+- **One row per run** (step 2, #102): `public.runs` (`pipeline/sql/002_runs.sql`, service role only) and a
+  `RunRecorder` in `pipeline/log.py` that writes the row when the stage's process ends: the summary line's counts,
+  the WARNING and ERROR tallies, the host, the log path. `python -m pipeline.runs` reads it. Nothing in a row is
+  content.
+- **The jobs** (step 3, #103; step 4 in the research repository): `refresh-mba.yml` weekly, one scrape job per
+  ATS family (25) and a build job that opens the data pull request; `refresh-product.yml` monthly; `rescrape-sp27.yml`
+  weekly with three attempts ten minutes apart and a pull request only when the roster changed; `load-catalog.yml`
+  on every push to `main` that touches the curated JSON. No job pushes to `main`. The scheduled runs are gated on a
+  repository variable, set after the runner trial (`evals/runner_trial_2026-10-26.md`); the trial could not run
+  from the thread (the workflow must be on `main`, the secrets and the bucket did not exist), so the report holds
+  the shares, the command, the comparison method and the decision rule, and `evals/runner_trial.py` fills in the
+  results from the logs.
+- **The pages**: `docs/WHERE_THINGS_LIVE.md` (every path git ignores, where its contents live, the jobs table),
+  `docs/OWNER_CHECKLIST_2026-10.md` (what only the owner can do, in order), `docs/SELF_HOSTED_RUNNER.md`.
+
+What the thread found and decided on its own, recorded in the pull requests:
+
+- The brief's premise of one Supabase project does not hold: the backlog is in the project named GradBuddy
+  (`joanndudsiqrfoemwogm`, the default URL of `pipeline/backlog.py`), the catalog in gradbuddy-catalog
+  (`qqkzbzwmpkrmlicoxijy`); both in one organisation, so the Pro plan covers both. Each repository stays on the
+  project it already uses; the `runs` table is in the GradBuddy project for both (the research repository gets a
+  `SUPABASE_DB_URL` secret for it). Consolidating is a migration for later, not a condition of anything here.
+- The demand-gen thread's first pull request (#91) had not merged when this thread started; the branches were cut
+  from `main` as it was, stacked on one another, and touch none of that thread's files.
+- A pull request opened with the workflow's own token gets no CI run (GitHub's rule), so the build jobs run CI's
+  commands themselves and report them; an optional `ACTIONS_PAT` secret opens the pull request as the owner instead.
+- `pipeline.scrape` gained `--no-snapshot` so 25 family jobs do not each upload the whole role set; the build job
+  snapshots once. `rescrape_sp27.py` exits 1 on a failed subject so the job's retry loop retries.
+- A stage that ends with `sys.exit("message")` after no ERROR line records `ok = true`: Python gives an `atexit`
+  handler no exit code. The stages log an ERROR before they fail.
 
 ## Later
 
@@ -1026,5 +1074,10 @@ dates, the editorial lines, the patterns, the cut points).
   American rule in `depth_gen` and the taxonomy names (`run_depth.py`, `extraction_baseline_mba.md`) is still a
   `data/` branch.
 - LLM-based extraction (Claude) for higher-recall skill tagging and requirement vs nice-to-have split.
-- Nightly refresh via a scheduled job; history of postings over time.
+- History of postings over time (the backlog's dated snapshots are the raw material).
+- One Supabase project for both repositories: move the backlog, `atlas-store` and `runs` into gradbuddy-catalog, or the
+  catalog the other way, and drop the second `SUPABASE_DB_URL` secret (v17 found two projects where the brief assumed one).
+- `pipeline/log.py`: record the exit code of a stage that ends with `sys.exit(message)` after no ERROR line (v17).
+- The runner trial's results (`evals/runner_trial_2026-10-26.md`, "Results"): the owner dispatches it; then the schedule
+  variables, and the self-hosted runner only if a family is blocked.
 - More families (design, engineering) and more companies (full Fortune 500).
