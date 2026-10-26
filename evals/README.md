@@ -48,6 +48,9 @@ reported and not counted.
 
 `node evals/run.mjs --external` also scores the files in `evals/resumes/external/`.
 
+`evals/runner_trial.py` writes the table of the GitHub-runner trial of the MBA refresh (`runner_trial_2026-10-26.md`,
+`runner_trial.json`) from the logs the jobs push to the `logs` store.
+
 `node evals/parse_health.mjs` reads every external file and flags the ones the parser reads badly (no jobs, a job
 with no title, implausible years), with no expectations needed.
 
