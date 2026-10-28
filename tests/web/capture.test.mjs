@@ -74,6 +74,21 @@ test("a waitlist click posts the email, the source and the context as a plain in
   assert.equal(calls[1].url, "https://x.supabase.co/rest/v1/events");
 });
 
+test("the sentence the person typed goes out as `note`, trimmed and cut at 200 characters; an empty one leaves the key out", async () => {
+  const { C, calls } = make({ storage: memStorage() });
+  await C.waitlist("a@b.co", "classes", { role_id: "fpa", note: "  Product manager at a climate startup  " });
+  assert.equal(calls[0].body.note, "Product manager at a climate startup");
+  assert.equal(calls[0].body.source, "classes", "the class picker's foot is a source");
+  assert.equal(calls[1].body.name, "waitlist_classes");
+  assert.equal("note" in calls[1].body, false, "the event carries no text");
+  await C.waitlist("a@b.co", "start", { note: "   " });
+  assert.equal("note" in calls[2].body, false, "an empty sentence is not a key");
+  await C.waitlist("a@b.co", "fit", {});
+  assert.equal("note" in calls[4].body, false, "no sentence, no key");
+  await C.waitlist("a@b.co", "show", { note: "x".repeat(250) });
+  assert.equal(calls[6].body.note.length, 200, "cut at 200 characters, the column's check");
+});
+
 test("a second click with the same email and source is answered 409 by the unique index and still reads as joined", async () => {
   const dup = make({ fetch: async url => ({ ok: false, status: url.includes("/waitlist") ? 409 : 201 }), storage: memStorage() });
   assert.equal(await dup.C.waitlist("a@b.co", "fit"), true);
@@ -102,10 +117,16 @@ test("an error from fetch, or a response that is not ok, never throws: the promi
   assert.equal(await notOk.C.event("start"), false);
 });
 
-test("the names the script accepts are the names the migration allows", async () => {
+test("the names and the sources the script accepts are the ones the migrations allow (the latest definition wins)", async () => {
   const fs = await import("fs");
-  const sql = fs.readFileSync(path.join(web, "..", "pipeline", "sql", "2026-10-25_capture.sql"), "utf8");
-  const allowed = new Set([...sql.match(/name in \(([^)]*)\)/)[1].matchAll(/'([a-z_]+)'/g)].map(m => m[1]));
+  const dir = path.join(web, "..", "pipeline", "sql");
+  const files = fs.readdirSync(dir).filter(f => /^\d{4}-\d{2}-\d{2}_(capture|cohort)\.sql$/.test(f)).sort();
+  assert.deepEqual(files, ["2026-10-25_capture.sql", "2026-10-26_cohort.sql"]);
+  const list = (sql, col) => { const m = [...sql.matchAll(new RegExp(col + " in \\(([^)]*)\\)", "g"))]; return m.length ? [...m[m.length - 1][1].matchAll(/'([a-z_]+)'/g)].map(x => x[1]) : null; };
+  let names = null, sources = null;
+  for (const f of files) { const sql = fs.readFileSync(path.join(dir, f), "utf8"); names = list(sql, "name") || names; sources = list(sql, "source") || sources; }
   const { C } = make({ storage: memStorage() });
-  assert.deepEqual([...C.EVENTS].sort(), [...allowed].sort());
+  assert.deepEqual([...C.EVENTS].sort(), [...names].sort());
+  assert.deepEqual([...C.SOURCES].sort(), [...sources].sort());
+  assert.ok(C.SOURCES.includes("classes") && C.EVENTS.has("waitlist_classes"));
 });

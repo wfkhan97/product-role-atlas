@@ -12,7 +12,7 @@ import { createRequire } from "module";
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
 const src = fs.readFileSync(path.join(root, "web", "app.js"), "utf8");
-const { Stage } = require(path.join(root, "web", "app.js"));
+const { Stage, Apply } = require(path.join(root, "web", "app.js"));
 
 let fails = 0, passes = 0;
 const check = (ok, msg) => { if (ok) passes++; else { fails++; console.log("FAIL " + msg); } };
@@ -40,6 +40,14 @@ for (const stage of Stage.STAGES) {
   for (const resume of [false, true]) { const blocks = Stage.railBlocks(stage, resume); check(blocks.includes("practise") && blocks.includes("course") && blocks.includes("classes"), `${stage}: the rail keeps its standing links (resume ${resume})`); check(new Set(blocks).size === blocks.length, `${stage}: no rail block twice (resume ${resume})`); }
   console.log(`${stage.padEnd(10)} start → ${route.padEnd(24)} About you leads with ${you.padEnd(12)} rail leads with ${rail.padEnd(10)} with a resume ${railR}`);
 }
+// the first call to action on the start screen and on the rail is the cohort application box, for every stage (v18,
+// step 1): its heading begins "Cohort 1", and the screens draw the box from the same table
+for (const stage of Stage.STAGES) for (const screen of ["start", "rail"]) check(/^Cohort 1/.test(Stage.cta(stage, screen) || ""), `${stage}: the first call to action on the ${screen} is the application box (got "${Stage.cta(stage, screen)}")`);
+check(Apply && /^Cohort 1/.test(Apply.heading) && Apply.button === "Apply" && /^Applied\./.test(Apply.done), "the application box's copy is the owner's: heading, button, done line");
+check(/<section class="start-apply">\$\{applyBox\("start", \{ always: true \}\)\}<\/section>/.test(src), "the start screen draws the application box, source start");
+check(/\$\{waitHtml\("show"\)\}/.test(src) && /\$\{waitHtml\("build"\)\}\$\{waitHtml\("ways"\)\}/.test(src), "the rail draws the application box at its three placeholders, sources show, build, ways");
+check(/applyBox\("fit", \{ always: true \}\)/.test(src), "the fit screen draws the application box, source fit");
+check(/esc\(Apply\.heading\)/.test(src) && !/Join the GradBuddy waitlist/.test(src), "the box is drawn from Apply; the waitlist wording is gone");
 // the screens read the table, so it cannot drift from what is drawn
 check(/Stage\.startRoute\(id\)/.test(src), "the start screen's stage cards link to Stage.startRoute");
 check(/Stage\.youLead\(y\.stage\)/.test(src), "About you reads Stage.youLead");

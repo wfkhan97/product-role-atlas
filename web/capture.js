@@ -2,7 +2,9 @@
    A classic script like match.js, loaded before app.js; node requires it for tests/web/capture.test.mjs with its
    dependencies passed in. Two calls, both fire-and-forget, both no-ops when CONFIG.CAPTURE_ENABLED is false:
      Capture.event(name, ctx)             one funnel event: { stage, program, role_id, field_id } and a session id
-     Capture.waitlist(email, source, ctx) one waitlist row: the email, where the click was, { role_id, stage, program, fields }
+     Capture.waitlist(email, source, ctx) one application row: the email, where the click was, { role_id, stage, program, fields,
+                                          note } (note: the one free-text field, "the role you want, in your words", typed
+                                          knowingly into the box, cut at 200 characters; the key is left out when empty)
    What leaves the browser is exactly these columns. The resume, the syllabus, a pasted posting, a skill list, a file
    name or anything typed never does; an event carries no text and no skill id (a game's slug rides in role_id for
    `play`). The session id is a random string made once per browser session (sessionStorage, in try/catch), never
@@ -15,8 +17,9 @@
   deps = deps || {};
   const cfg = () => { try { return (deps.config && deps.config()) || {}; } catch { return {}; } };
   const enabled = () => { const c = cfg(); return !!(c.CAPTURE_ENABLED && c.SUPABASE_URL && c.SUPABASE_PUBLISHABLE_KEY); };
-  // the closed list of event names (the same check constraint is in pipeline/sql/2026-10-25_capture.sql)
-  const SOURCES = ["show", "build", "ways", "fit", "start"];
+  // the closed list of event names (the same check constraints are in pipeline/sql/2026-10-25_capture.sql, extended by
+  // 2026-10-26_cohort.sql: the sixth source, `classes`, is the class picker's foot)
+  const SOURCES = ["show", "build", "ways", "fit", "start", "classes"];
   const EVENTS = new Set(["start", "start_stage", "you_done", "resume_read", "explore", "field", "role", "fit", "course_read", "event_prep", "classes", "posting_link", "play", ...SOURCES.map(s => "waitlist_" + s)]);
   const STAGES = new Set(["looking", "targeting", "curious"]);
   const SESSION_KEY = "capture.session";
@@ -48,14 +51,17 @@
     ctx = ctx || {};
     return post("events", { name, session: session(), stage: stageOf(ctx.stage), program: str(ctx.program), role_id: str(ctx.role_id), field_id: str(ctx.field_id) });
   }
-  // one waitlist row, then the matching event (waitlist_<source>); a second click with the same email and source is
-  // not a second row: the unique index on lower(email), source refuses it with a 409, which reads as "on the list"
+  // one application row, then the matching event (waitlist_<source>); a second click with the same email and source is
+  // not a second row: the unique index on lower(email), source refuses it with a 409, which reads as "applied".
+  // The note is the one piece of content that leaves the browser, and only because the person typed it into the box.
   function waitlist(email, source, ctx) {
     const e = String(email || "").trim();
     if (!enabled() || !SOURCES.includes(source) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e) || e.length > 320) return Promise.resolve(false);
     ctx = ctx || {};
     const fields = Array.isArray(ctx.fields) ? ctx.fields.map(str).filter(Boolean).slice(0, 12) : null;
     const row = { email: e, source, role_id: str(ctx.role_id), stage: stageOf(ctx.stage), program: str(ctx.program), fields };
+    const note = ctx.note == null ? "" : String(ctx.note).trim().slice(0, 200);
+    if (note) row.note = note;
     return post("waitlist", row, 409).then(ok => { event("waitlist_" + source, ctx); return ok; });
   }
   return { event, waitlist, session, EVENTS, SOURCES };

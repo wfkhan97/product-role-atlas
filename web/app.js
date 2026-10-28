@@ -4,7 +4,7 @@
 // so node loads it alone (tests/web/routes.test.mjs): require("web/app.js").parseRoute.
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();
-  else { root.Routes = factory(); root.Stage = root.Routes.Stage; }
+  else { root.Routes = factory(); root.Stage = root.Routes.Stage; root.Apply = root.Routes.Apply; }
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
   const SCREENS = { "": "start", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about", classes: "classes", professor: "professor", signin: "signin" };
@@ -50,8 +50,27 @@
       if (screen === "you") return this.youLead(stage) === "role-search" ? "role-search" : resume || stage === "curious" ? "fields" : "drop";   // curious: the fields and Explore, no resume asked
       return this.railBlocks(stage, resume).find(k => this.ACTIONS.has(k)) || null;
     },
+    // the first call to action a screen ends in, for a stage: the cohort application box, the same for every stage and
+    // every screen by the owner's decision of 2026-10-26 (v18, step 1); its heading, so the eval can read what it says
+    cta: (stage, screen) => Apply.heading,
   };
-  return { parseRoute, Stage };
+  // The cohort application box (v18, step 1): the one call to action the start screen, the rail, the fit screen and the
+  // class picker end in, in place of the waitlist. The copy is the owner's, exactly; the price is never here. Pure, so
+  // evals/stage.mjs can check that what every stage sees begins "Cohort 1".
+  const Apply = {
+    heading: "Cohort 1: ship two projects aimed at the role you want",
+    line: "Five Cornell Tech and IE New York students. Six weeks, a session a week, paid. You leave with two or three shipped projects pointed at your target role and the people who should see them. Applications close Nov 14.",
+    noteLabel: "The role you want, in your words",
+    button: "Apply",
+    done: "Applied. Wally replies within two days.",
+    privacy: "Nothing you upload leaves your browser. If you apply we keep your email, the sentence you typed and the role you were looking at, nothing else.",
+    // the one data-built line over the picker's box, when a role is chosen and the person's fit leaves gaps
+    gapsLine: label => `These are your gaps for ${label}. Cohort 1 closes gaps like these with real projects.`,
+    // where a click can come from (the same list as web/capture.js SOURCES): the rail's three placeholders, the fit
+    // screen's foot, the start screen, the class picker's foot
+    SOURCES: ["show", "build", "ways", "fit", "start", "classes"],
+  };
+  return { parseRoute, Stage, Apply };
 });
 (function () {
   "use strict";
@@ -172,8 +191,9 @@
   document.addEventListener("click", e => { const a = e.target.closest("[data-posting]"); if (a) track("posting_link", { role_id: a.dataset.posting }); });
   const LEVEL_OPT = { entry: "associate", mid: "mid", senior: "senior", lead: "lead" };
   // what the Spring 2027 screens (classes.js) draw with; gapsFor hands them the person's gaps for a role (step 3 of the
-  // demand-gen pass): the fit on screen when it is this role's, else the matcher at the default level, cached per role
-  const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId) };
+  // demand-gen pass): the fit on screen when it is this role's, else the matcher at the default level, cached per role;
+  // applyBox, applyLine and wireApply draw the cohort application box at the picker's foot (v18, step 1)
+  const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Apply.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw) };
   function route() {
     const { name, params: { id, slug } } = Routes.parseRoute(location.hash);
     const go = { start, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => ClassScreens.signin(shellCtx) }[name];
@@ -234,7 +254,8 @@
     const ordered = list.slice().sort((a, b) => order(a) - order(b));
     // the question first (owner's decision 4, 2026-10-25): the three kinds of student as cards with the v15 wording; a
     // click stores you.stage, fires start_stage and routes by stage (Stage.startRoute). A returning visitor with a stage
-    // on file sees one line instead. Then what the site does, the classes card, and the games under their own heading.
+    // on file sees one line instead. Then the cohort application box (v18, step 1), what the site does, the classes card,
+    // and the games under their own heading.
     const stage = (state.you || {}).stage;
     const STAGE_SAID = { looking: "open to roles that fit you", targeting: "set on the role you want", curious: "here to explore the jobs and skills data" };
     const ask = stage && STAGE_SAID[stage] ? `<div class="strip"><span class="dotg"></span><span>You said you're ${esc(STAGE_SAID[stage])}</span><a href="#/you?step=1">change</a></div>`
@@ -243,9 +264,10 @@
         <h1>What do the jobs you want actually ask for?</h1>
         ${ask}
       </section>
+      <section class="start-apply">${applyBox("start", { always: true })}</section>
       <section class="start-fit">
         <h2>See what jobs ask for, and how you fit</h2>
-        <p class="lead">Nothing you upload leaves your browser. If you join the waitlist we keep your email and the role you were looking at, nothing else.</p>
+        <p class="lead">Nothing you upload leaves your browser.</p>
         <div class="choices">
           <a class="choice rec" href="#/you"><div class="t">Tell us about you</div><div class="d">Three questions and an optional resume. We pick the roles that fit you and show how you compare.</div><span class="tag">About 2 minutes →</span></a>
           <a class="choice" href="#/explore"><div class="t">Explore the roles</div><div class="d">Browse by field, open a role, and see what its postings ask for. You can check your fit later.</div><span class="tag">No sign-up →</span></a>
@@ -257,6 +279,7 @@
         <div class="gcards carousel" role="list" aria-label="Games">${ordered.map(card).join("")}</div>
       </section>`);
     main.firstElementChild.classList.add("wide", "start");
+    wireWait(main, () => keepScroll(start));
     main.querySelectorAll("[data-stage]").forEach(a => a.onclick = () => { const st = a.dataset.stage; state.you = { where: null, fields: [], ...(state.you || {}), stage: st }; store.set("you", state.you); wiz = null; track("start_stage", { stage: st }); });
   }
   // a game: its own screen once built; until then, what it will be. A built game is web/games/<slug>.js, loaded
@@ -918,27 +941,32 @@
     const all = { share: ['<i class="b"></i>', "% of postings that ask for the skill"], defining: ["◆", "sets this role apart from other roles"], grows: ["↗", "asked more at senior levels"], have: ['<i class="b g"></i>', "already on your resume"], gap: ['<i class="b a"></i>', "a gap this role requires"], presumed: ["◌", "presumed from a role you held, not shown on your resume"], known: ["✓", "you got it right in a game"], other: ["⟲", "on your resume in other words; postings say it differently"], through: ["⤷", "a way of working, shown through a skill on your resume"] };
     return `<section class="rs"><h3 class="rh">How to read this</h3><div class="legend">${rows.map(k => `<span class="k">${all[k][0]}</span><span>${all[k][1]}</span>`).join("")}</div></section>`;
   }
-  // The waitlist (step 1 of the demand-gen pass): a real box. The email, where the click was and the role on screen go to
-  // the waitlist table through web/capture.js, with the stage, the program group and the fields picked; "You're on the
-  // list" stays in this browser (the sources joined are kept in localStorage, never the email). Every "coming soon"
-  // here is a hand-off to GradBuddy, not a promise the atlas keeps itself.
-  const WAIT_COPY = { show: "Tips to show a skill on your resume, written for this role.", build: "A plan to build the skills this role asks for.", ways: "Ways to show your skills: projects, courses, events.", fit: "GradBuddy takes it from here: a plan to show what you have, build what you lack and meet the people who hire for it.", start: "GradBuddy takes it from here: a plan around the roles that fit you." };
+  // The cohort application (v18, step 1): one box everywhere the waitlist was (the rail's three placeholders, the fit
+  // screen's foot, the start screen, the class picker's foot), its copy the pure table Apply beside Stage. The email,
+  // the optional sentence, where the click was and the role on screen go to the waitlist table through web/capture.js,
+  // with the stage, the program group and the fields picked; "Applied" stays in this browser (the sources applied from
+  // are kept in localStorage, never the email or the sentence). The atlas promises nothing it does not do itself.
   const joined = () => store.get("waitlist") || {};
-  function waitBox(what, always) {
-    if (!always && state.wait !== what) return "";
+  // opts.always: drawn whether or not state.wait names it (the fit screen, the start screen, the picker); opts.role_id:
+  // the role to record instead of the role screen's (the picker's chosen role)
+  function applyBox(what, opts) {
+    opts = opts || {};
+    if (!opts.always && state.wait !== what) return "";
     const done = !!joined()[what];
-    const form = done ? `<p class="small" style="margin:6px 0 0">You're on the list. We keep your email and the role you were looking at, nothing else.</p>` : `<form class="wait-form" data-wait-form="${what}"><input type="email" required placeholder="you@cornell.edu" aria-label="Your email" autocomplete="email"><button type="submit" class="btn primary">Join the GradBuddy waitlist</button></form><p class="small muted" style="margin:4px 0 0">We keep your email and the role you were looking at, nothing else.${always ? "" : ' <a href="#/" data-wait-close>Not now</a>'}</p>`;
-    return `<div class="wait"><b>${done ? "You're on the list" : "Coming soon"}</b>${esc(WAIT_COPY[what])}${form}</div>`;
+    const form = done ? `<p class="small" style="margin:6px 0 0"><b>${esc(Apply.done)}</b></p>` : `<form class="apply-form" data-wait-form="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}><input type="email" required placeholder="you@cornell.edu" aria-label="Your email" autocomplete="email"><input type="text" maxlength="200" placeholder="${esc(Apply.noteLabel)}" aria-label="${esc(Apply.noteLabel)} (optional, 200 characters)" autocomplete="off"><button type="submit" class="btn primary">${esc(Apply.button)}</button></form>`;
+    return `<div class="wait apply"><b>${esc(Apply.heading)}</b><p class="small">${esc(Apply.line)}</p>${form}<p class="small muted" style="margin:6px 0 0">${esc(Apply.privacy)}${opts.always || done ? "" : ' <a href="#/" data-wait-close>Not now</a>'}</p></div>`;
   }
-  const waitHtml = what => waitBox(what, false);
-  // the forms inside `el`: on submit the email goes out once, the box says so, and `redraw` draws the screen again
+  const waitHtml = what => applyBox(what);
+  // the forms inside `el`: on submit the email and the sentence go out once, the box says so, and `redraw` draws the
+  // screen again
   function wireWait(el, redraw) {
     el.querySelectorAll("[data-wait-form]").forEach(f => f.onsubmit = async e => {
-      e.preventDefault(); const what = f.dataset.waitForm, input = f.querySelector("input"), btn = f.querySelector("button");
-      if (!input.value.trim()) return; btn.disabled = true; btn.textContent = "Joining…";
-      const ok = window.Capture ? await Capture.waitlist(input.value, what, waitCtx()) : false;
-      if (ok) { store.set("waitlist", { ...joined(), [what]: new Date().toISOString().slice(0, 10) }); redraw(); }   // the box stays, now saying "You're on the list"
-      else { btn.disabled = false; btn.textContent = "Join the GradBuddy waitlist"; input.setCustomValidity("That did not go through. Check the address and try again."); input.reportValidity(); input.oninput = () => input.setCustomValidity(""); }
+      e.preventDefault(); const what = f.dataset.waitForm, input = f.querySelector("input[type=email]"), note = f.querySelector("input[type=text]"), btn = f.querySelector("button");
+      if (!input.value.trim()) return; btn.disabled = true; btn.textContent = "Applying…";
+      const ctx = { ...waitCtx(), ...(f.dataset.waitRole ? { role_id: f.dataset.waitRole } : {}), note: note ? note.value : "" };
+      const ok = window.Capture ? await Capture.waitlist(input.value, what, ctx) : false;
+      if (ok) { store.set("waitlist", { ...joined(), [what]: new Date().toISOString().slice(0, 10) }); redraw(); }   // the box stays, now saying "Applied"
+      else { btn.disabled = false; btn.textContent = Apply.button; input.setCustomValidity("That did not go through. Check the address and try again."); input.reportValidity(); input.oninput = () => input.setCustomValidity(""); }
     });
   }
   // the open postings of this view that ask for a skill, as links (decision 8 of the pass: shown to a person with a resume)
@@ -987,7 +1015,7 @@
     const gapsHtml = coreGaps.length ? `<h3 class="rh" style="margin-top:14px">Needs more evidence</h3><ul class="gaps">${coreGaps.map(gapRow).join("")}</ul>${waitHtml("show")}${bandNext && bandNext !== band ? `<p class="small muted" style="margin-top:8px">Evidence ${coreGaps.length === 1 ? "that one" : "the top three"} and your resume reads as “${bandName(bandNext)}”.</p>` : ""}${classesBlock}` : `<p class="small muted" style="margin-top:10px">Nothing important missing: you show every skill most postings ask for.</p>`;
     const n = fit.evid.length + fit.trans.length;
     const you = `<section class="rs"><h3 class="rh">Your fit · ${esc(state.resume.name)} · <a href="#/you?step=3">change</a></h3>${scale}${postingLine}${line}${gapsHtml}<p style="margin-top:12px"><a href="#/role/${esc(role.id)}/fit">See all ${n} ${n === 1 ? "skill" : "skills"} on your resume, matched to this role →</a></p></section>`;
-    return legend + you + acts(`${coreGaps.length ? `<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(coreGaps.slice(0, 8).map(x => x.id).filter(k => R.skillById[k]).join(","))}">Practise your gaps <span>· 2 min</span></a>` : ""}<a href="#/" data-wait="build">Build these skills <span>· waitlist</span></a><a href="#/" data-wait="ways">Ways to show your skills <span>· waitlist</span></a>${waitHtml("build")}${waitHtml("ways")}`);
+    return legend + you + acts(`${coreGaps.length ? `<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(coreGaps.slice(0, 8).map(x => x.id).filter(k => R.skillById[k]).join(","))}">Practise your gaps <span>· 2 min</span></a>` : ""}<a href="#/" data-wait="build">Build these skills <span>· Cohort 1</span></a><a href="#/" data-wait="ways">Ways to show your skills <span>· Cohort 1</span></a>${waitHtml("build")}${waitHtml("ways")}`);
   }
   function wireRail() {
     if ($("#drop")) { wireResumeForm(); const b = $("#rail-read"); if (b) b.onclick = async () => { if (await takeResume()) { state.fit = null; keepScroll(renderRole); } else $("#file-status").textContent = "Add a file or paste some text first."; }; }
@@ -1067,7 +1095,7 @@
     page(`${ctx}${unread}${placeholder}${verdict}
       <p class="lead">${PERSONA[p.persona](p, field)} You show <b>${coreHave} of ${core.length}</b> skills that most ${esc(role.label)} postings ask for.</p>${standing}${postingBox}
       ${fitTabs}${fitBody}
-      <div class="fit-wait">${waitBox("fit", true)}</div>
+      <div class="fit-wait">${applyBox("fit", { always: true })}</div>
       <p class="small muted" style="margin-top:20px"><a href="#/role/${esc(role.id)}">← Back to ${esc(role.label)}</a>, with your fit marked on every skill.</p>`);
     wireWait(main, () => keepScroll(() => fitScreen(id)));
     main.querySelectorAll("[data-ftab]").forEach(b => b.onclick = () => { state.fitTab = b.dataset.ftab; keepScroll(() => fitScreen(id)); });
@@ -1231,7 +1259,7 @@
       <h3>What is ours</h3>
       <p class="small">Sub-skills, level ladders and build steps are editorial. Every quoted sentence comes from a posting.</p>
       <h3>What we count</h3>
-      <p class="small">We count which screens a visit reaches (the start, a field, a role, a fit, a course, the classes, a game) under a random id for that browser session, and the emails that join the waitlist with the role on screen. No resume, syllabus, pasted posting, skill list or file name is ever sent.</p>
+      <p class="small">We count which screens a visit reaches (the start, a field, a role, a fit, a course, the classes, a game) under a random id for that browser session, and the emails that apply for the cohort with the role on screen and, if you apply, the sentence you type. No resume, syllabus, pasted posting, skill list or file name is ever sent.</p>
       <h3>Product roles</h3>${productPart}</div>`, true);
     render();
     Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${fmt(G.meta.n_jobs)} open postings worldwide (${fmt(G.jobs.filter(j => j.country === M.meta.country).length)} in the US, the count Explore shows) for 6 product role families at ${fmt(G.meta.n_companies)} companies, refreshed ${niceDate(G.meta.generated)}.</p>${disc("about-top-product", "Companies with the most postings", `<p>${top(G.meta.companies, 15)}</p>`)}`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);

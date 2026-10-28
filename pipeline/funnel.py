@@ -1,8 +1,10 @@
 """The funnel from the capture tables (pipeline/sql/2026-10-25_capture.sql): sessions, the share of them that reached
-each event, by stage and by program group, and the waitlist rows by source. Plain text on stdout; nothing is written
-to the tree.
+each event, by stage and by program group, and the cohort applications (the waitlist rows) by source. Plain text on
+stdout; nothing is written to the tree. The applications' sentences ("the role you want, in your words", the one
+piece of content the capture holds; pipeline/sql/2026-10-26_cohort.sql) are printed only under --notes, with the
+email to reply to, never in the default output.
 
-usage: python -m pipeline.funnel [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--by stage|program|both|none]
+usage: python -m pipeline.funnel [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--by stage|program|both|none] [--notes]
        (default: the last 30 days, by both)
 
 .env: CAPTURE_DB_URL, the session-pooler connection string of the gradbuddy-catalog project (the project web/config.js
@@ -20,7 +22,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline.env import load_env
 
 FUNNEL = ["start", "start_stage", "you_done", "resume_read", "explore", "field", "role", "fit", "course_read", "event_prep",
-          "classes", "posting_link", "play", "waitlist_start", "waitlist_show", "waitlist_build", "waitlist_ways", "waitlist_fit"]
+          "classes", "posting_link", "play", "waitlist_start", "waitlist_show", "waitlist_build", "waitlist_ways", "waitlist_fit",
+          "waitlist_classes"]
 STAGES = ["looking", "targeting", "curious", "(none)"]
 
 
@@ -54,6 +57,13 @@ def waitlist(cur, start, end):
     return cur.fetchall()
 
 
+def notes(cur, start, end):
+    """The applications that carry a sentence: (created_at, source, role_id, email, note). Only under --notes."""
+    cur.execute("""select created_at, source, role_id, email, note from public.waitlist
+                   where note is not null and created_at >= %s and created_at < %s order by created_at""", (start, end))
+    return cur.fetchall()
+
+
 def table(title, groups, by):
     """groups: [(label, [session dicts])]. One column per group: sessions, then the share that reached each event."""
     print(f"\n== {title}")
@@ -73,6 +83,7 @@ def main():
     ap.add_argument("--from", dest="start", help="first day, YYYY-MM-DD (default: 30 days ago)")
     ap.add_argument("--to", dest="end", help="last day, inclusive, YYYY-MM-DD (default: today)")
     ap.add_argument("--by", choices=["stage", "program", "both", "none"], default="both")
+    ap.add_argument("--notes", action="store_true", help="also print each application's sentence, with the email to reply to (the one piece of content)")
     a = ap.parse_args()
     today = datetime.date.today()
     start = datetime.date.fromisoformat(a.start) if a.start else today - datetime.timedelta(days=30)
@@ -80,6 +91,7 @@ def main():
     with connect() as conn, conn.cursor() as cur:
         ss = sessions(cur, start, end)
         wl = waitlist(cur, start, end)
+        nt = notes(cur, start, end) if a.notes else []
     allS = list(ss.values())
     print(f"capture funnel · {start} to {end - datetime.timedelta(days=1)} · {len(allS)} sessions with an event")
     table("all sessions", [("all", allS)], None)
@@ -88,11 +100,17 @@ def main():
     if a.by in ("program", "both"):
         programs = sorted({s["program"] or "(none)" for s in allS}, key=lambda p: (p == "(none)", p))
         table("by program group", [(p, [s for s in allS if (s["program"] or "(none)") == p]) for p in programs], "program")
-    print("\n== waitlist rows by source (rows, distinct emails)")
+    print("\n== applications by source (rows, distinct emails)")
     if not wl:
         print("  none in the range")
     for source, n, emails in wl:
         print(f"  {source:<8}{n:>6}{emails:>8}")
+    if a.notes:
+        print("\n== applications with a sentence (--notes: the one piece of content; for the owner's reply only)")
+        if not nt:
+            print("  none in the range")
+        for created, source, role_id, email, note in nt:
+            print(f"  {created:%Y-%m-%d}  {source:<8}{(role_id or '-'):<24}{email}\n      {note}")
 
 
 if __name__ == "__main__":

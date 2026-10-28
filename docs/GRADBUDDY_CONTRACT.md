@@ -151,8 +151,9 @@ inherits the privacy rule below.
 ## The privacy rule
 
 What never leaves a browser: the resume, the syllabus, the pasted posting, every skill list, every file name, the
-person's ratings. What leaves it: an email a person types into a waitlist box, with the source, the role on screen, the
-stage, the program group and the fields picked (`pipeline/sql/2026-10-25_capture.sql`, `waitlist`); and anonymous
-funnel events, a name from a closed list of eighteen with a per-browser-session random id, the stage, the program
-group and a role or field id (`events`). A program that reads the atlas inherits the rule: nothing it builds on these
+person's ratings. What leaves it: an email a person types into the cohort application box, with the one sentence they may type
+beside it ("the role you want, in your words", at most 200 characters, the only free text in the capture), the source,
+the role on screen, the stage, the program group and the fields picked (`pipeline/sql/2026-10-25_capture.sql` and
+`2026-10-26_cohort.sql`, `waitlist`); and anonymous funnel events, a name from a closed list of nineteen with a
+per-browser-session random id, the stage, the program group and a role or field id (`events`). A program that reads the atlas inherits the rule: nothing it builds on these
 files may send a person's text anywhere the atlas does not.
