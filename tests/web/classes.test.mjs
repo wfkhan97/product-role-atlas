@@ -295,3 +295,23 @@ test("the gaps-by-instructor join: the union of the gaps the instructor's cards 
   assert.deepEqual(C.instructorGaps(mine, {}), []);
   assert.deepEqual(C.instructorGaps([], covered), []);
 });
+
+// ---------- the test switch: a database that returns nothing falls back to the local copy, only with CATALOG_OPEN on ----------
+test("loadCatalog with CATALOG_OPEN on reads data/local/catalog.json when the database returns no rows, and marks the result local; off, the empty read stands", async () => {
+  const empty = () => { const q = { order: () => q, then: (res) => res({ data: [], error: null }) }; return q; };
+  const lib = { createClient: () => ({ auth: { getSession: async () => ({ data: { session: null } }) }, from: () => ({ select: () => ({ range: () => empty(), eq: () => ({ limit: async () => ({ data: [], error: null }) }) }) }) }) };
+  const LOCAL = { classes: [cls("TEST 1010")], crosslists: [], sections: [], meetings: [], instructors: [{ class_code: "TEST 1010", instructor_name: "Pat Example", professor_slug: "pat-example", term: "SP27" }], priors: [], rosterDate: "2026-10-27", professors: [{ slug: "pat-example", name: "Pat Example", identity: "confirmed" }] };
+  const loads = [];
+  const mk = open => require(path.join(web, "catalog.js"))({ supabase: () => lib, config: () => ({ SUPABASE_URL: "https://x.supabase.co", SUPABASE_PUBLISHABLE_KEY: "pk", CATALOG_OPEN: open }), load: url => { loads.push(url); return url.endsWith("data/local/catalog.json") ? structuredClone(LOCAL) : Promise.reject(new Error(url + ": 404")); } });
+  const on = mk(true);
+  const d = await on.loadCatalog();
+  assert.equal(d.local, true); assert.equal(d.classes.length, 1); assert.equal(d.rosterDate, "2026-10-27");
+  const p = await on.loadProfessor("pat-example");
+  assert.equal(p.local, true); assert.equal(p.professor.name, "Pat Example"); assert.deepEqual(p.classes.map(c => c.code), ["TEST 1010"]);
+  assert.ok(loads.some(u => u.endsWith("data/local/catalog.json")), "the local copy was read");
+  const off = mk(false);
+  const e = await off.loadCatalog();
+  assert.equal(e.local, undefined); assert.equal(e.classes.length, 0, "with the switch off the empty read is what the page gets");
+  const q = await off.loadProfessor("pat-example");
+  assert.equal(q.professor, null);
+});

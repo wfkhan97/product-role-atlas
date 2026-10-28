@@ -20,3 +20,6 @@ evals/resumes/external/
 # the raw postings backlog lives in the Supabase project (pipeline/backlog.py pull); history before 2026-10-19 still holds the files
 data/raw/jobs/
 data/raw/jobs_mba/
+
+# A local copy of the catalog database for the test switch (tools/local_catalog.py); this machine only
+web/data/local/

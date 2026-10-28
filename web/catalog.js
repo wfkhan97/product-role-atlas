@@ -80,30 +80,58 @@
       if (!data || data.length < step) return out;
     }
   }
+  // The test switch (CONFIG.CATALOG_OPEN, 2026-10-28): when the database returns nothing (no session and the anon-read
+  // policy not applied), no client loaded, or the read fails, the catalog is read from a local copy at
+  // data/local/catalog.json, written on the owner's machine by pipeline/local_catalog.py (gitignored, never uploaded).
+  // The copy carries the same rows the database holds, plus `professors`. Off, or without the file, nothing changes.
+  const openSwitch = () => { try { return !!(deps.config && deps.config().CATALOG_OPEN); } catch { return false; } };
+  let localP = null;
+  const localCopy = () => localP ||= Promise.resolve(deps.load ? deps.load("data/local/catalog.json") : null).catch(e => { localP = null; throw e; });
+  async function fromLocal(why) {
+    const L = await localCopy();
+    if (!L || !Array.isArray(L.classes) || !L.classes.length) throw new Error(why);
+    return { classes: L.classes, crosslists: L.crosslists || [], sections: L.sections || [], meetings: L.meetings || [], instructors: L.instructors || [], priors: L.priors || [], rosterDate: L.rosterDate || null, local: true };
+  }
   let catalogP = null;
   function loadCatalog() {
     return catalogP ||= (async () => {
       try {
-        const [classes, crosslists, sections, meetings, instructors, priors, log] = await Promise.all([
-          all("classes", CLASS_COLS, "code"), all("class_crosslists", "code,other_code"), all("sections", "class_nbr,class_code,component,section,location,instruction_mode,topic,open_status,start_dt,end_dt,session,credits,notes", "class_nbr"),
-          all("meetings", "id,class_nbr,pattern,time_start,time_end,facility", "id"), all("class_instructors", "class_code,instructor_name,professor_slug,term"), all("prior_offerings", "class_code,term,title,instructors,locations,sections"), all("rescrape_log", "scraped_on", "scraped_on"),
-        ]);
-        const rosterDate = log.map(r => r.scraped_on).sort().pop() || null;
-        return { classes, crosslists, sections, meetings, instructors, priors, rosterDate };
+        if (!sb()) { if (openSwitch()) return await fromLocal("The catalog client did not load"); throw new Error("The catalog client did not load"); }
+        let read;
+        try {
+          const [classes, crosslists, sections, meetings, instructors, priors, log] = await Promise.all([
+            all("classes", CLASS_COLS, "code"), all("class_crosslists", "code,other_code"), all("sections", "class_nbr,class_code,component,section,location,instruction_mode,topic,open_status,start_dt,end_dt,session,credits,notes", "class_nbr"),
+            all("meetings", "id,class_nbr,pattern,time_start,time_end,facility", "id"), all("class_instructors", "class_code,instructor_name,professor_slug,term"), all("prior_offerings", "class_code,term,title,instructors,locations,sections"), all("rescrape_log", "scraped_on", "scraped_on"),
+          ]);
+          const rosterDate = log.map(r => r.scraped_on).sort().pop() || null;
+          read = { classes, crosslists, sections, meetings, instructors, priors, rosterDate };
+        } catch (e) { if (!openSwitch()) throw e; read = null; }
+        if (read && read.classes.length) return read;
+        if (openSwitch()) { try { return await fromLocal("no local copy"); } catch { } }
+        return read || { classes: [], crosslists: [], sections: [], meetings: [], instructors: [], priors: [], rosterDate: null };
       } catch (e) { catalogP = null; throw e; }
     })();
   }
   const profP = {};
+  // the professor from the local copy (the test switch), by slug, with the classes the copy's instructor rows name
+  async function professorFromLocal(slug) {
+    const L = await localCopy().catch(() => null);
+    const P = L && Array.isArray(L.professors) ? L.professors.find(p => p.slug === slug) || null : null;
+    const titles = Object.fromEntries((L && L.classes || []).map(c => [c.code, c.title]));
+    const classes = (L && L.instructors || []).filter(t => t.professor_slug === slug).map(t => ({ code: t.class_code, term: t.term, title: titles[t.class_code] || "" })).sort((a, b) => a.code.localeCompare(b.code));
+    return { professor: P, classes, local: true };
+  }
   function loadProfessor(slug) {
     return profP[slug] ||= (async () => {
       try {
-        const c = sb(); if (!c) throw new Error("The catalog client did not load");
+        const c = sb(); if (!c) { if (openSwitch()) return await professorFromLocal(slug); throw new Error("The catalog client did not load"); }
         const [{ data: profs, error: e1 }, { data: taught, error: e2 }] = await Promise.all([
           c.from("professors").select(PROF_COLS).eq("slug", slug).limit(1),
           c.from("class_instructors").select("class_code,term,classes(code,title)").eq("professor_slug", slug),
         ]);
         if (e1) throw new Error(`professors: ${e1.message}`);
         if (e2) throw new Error(`class_instructors: ${e2.message}`);
+        if (!(profs || []).length && openSwitch()) { const L = await professorFromLocal(slug); if (L.professor) return L; }
         return { professor: (profs || [])[0] || null, classes: (taught || []).map(t => ({ code: t.class_code, term: t.term, title: t.classes && t.classes.title || "" })).sort((a, b) => a.code.localeCompare(b.code)) };
       } catch (e) { delete profP[slug]; throw e; }
     })();

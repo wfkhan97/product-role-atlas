@@ -86,6 +86,8 @@
     const change = list.length > 1 ? ` · <button type="button" class="linkish link" id="cls-campus">change campus</button>` : "";
     const head = `<p class="eyebrow">${esc(termLabel)} · ${esc(cm.label || "")}${change}</p><h1>Pick your classes</h1>`;
     const privacy = cm.privacy_line ? `<p class="small muted">${esc(cm.privacy_line)}</p>` : "";
+    // the test switch read the roster from this machine's copy (pipeline/local_catalog.py), not from the database
+    const localLine = data => data && data.local ? `<p class="small muted">Roster read from a local copy on this machine (data/local/catalog.json; CATALOG_OPEN is on and the database returned nothing).</p>` : "";
     const wireCampus = () => { const b = $("#cls-campus"); if (b) b.onclick = () => { setCampus(null); classes(ctx); }; };
     // a campus with no roster loaded says so and stops
     if (!cm.catalog) { page(`${head}<p class="lead">${esc(cm.closed_notice || "The roster is not loaded yet.")}</p>${privacy}`, true); wireCampus(); return; }
@@ -94,14 +96,14 @@
       page(`${head}<p class="lead">The roster is for ${esc(cm.label)} students. Sign in with your ${esc(Catalog.domainWords(cm))} email to open it.</p><p><a class="btn primary" href="#/signin">Sign in →</a></p>${privacy}`, true);
       wireCampus(); return;
     }
-    if (!Catalog.sb()) { page(`${head}<div class="notice">The catalog client did not load, so the roster cannot be read on this page. Reload the page.</div>${privacy}`, true); wireCampus(); return; }
+    if (!Catalog.sb() && !OPEN()) { page(`${head}<div class="notice">The catalog client did not load, so the roster cannot be read on this page. Reload the page.</div>${privacy}`, true); wireCampus(); return; }
     let data;
     try { data = await Catalog.loadCatalog(); }
     catch (e) { console.error(e); page(`${head}<div class="notice">The roster could not be read: ${esc(e.message)}.</div>${privacy}`, true); wireCampus(); return; }
     if (token !== S.token) return;
     if (!data.classes.length) {
       // with the gates paused and no session, an empty read means the anon-read policy is not on the catalog project
-      page(`${head}${!sess && OPEN() ? `<div class="notice">The roster read nothing without a sign-in. CATALOG_OPEN is on, so the anon-read policy (pipeline/sql/2026-10-28_open_read.sql) is not applied on the catalog project.</div>` : !sess ? `<p class="lead">${esc(cm.closed_notice || "Sign in is not open yet.")}</p><p class="small muted"><a class="btn quiet" href="#/signin">Sign in (development)</a></p>` : `<p class="lead">The roster is empty right now. Check back after the next refresh.</p>`}${privacy}`, true);
+      page(`${head}${!sess && OPEN() ? `<div class="notice">The roster read nothing without a sign-in, and there is no local copy. CATALOG_OPEN is on: either apply the anon-read policy (pipeline/sql/2026-10-28_open_read.sql) on the catalog project, or write the local copy with <code>python3 pipeline/local_catalog.py</code> and reload.</div>` : !sess ? `<p class="lead">${esc(cm.closed_notice || "Sign in is not open yet.")}</p><p class="small muted"><a class="btn quiet" href="#/signin">Sign in (development)</a></p>` : `<p class="lead">The roster is empty right now. Check back after the next refresh.</p>`}${privacy}`, true);
       wireCampus(); return;
     }
     if (dataCache !== data) { dataCache = data; cardsCache = Catalog.collapse(data); }
@@ -155,7 +157,7 @@
         <p class="small muted" id="cls-count">${shown.length} ${shown.length === 1 ? "class" : "classes"} shown${program && !S.showAll ? ` for ${esc(program.label)}` : ""}; cross-listed classes share a card.</p>
         <div class="cls-list" id="cls-list">${shown.map(c => Catalog.cardHtml(c, { campus: cm, roleId: S.role, rel: rel[c.key] || "pending", own: S.own[c.key] || null, selected: S.selected === c.key, whyOpen: S.why.has(c.key), gaps: gapsOf(c), matched: matchedOf(c) })).join("") || `<p class="small muted">No class matches. Clear the search, or show all.</p>`}</div>
         ${applyFoot}
-        ${privacy}`;
+        ${localLine(data)}${privacy}`;
       page(html); $("#main").firstElementChild.classList.add("wide");
       wire(shown);
       renderAside();
@@ -350,7 +352,7 @@
     const { list, cm: known } = await campusCtx();
     const cm = known || list[0] || {};
     const closed = { closed: cm.rail_closed_line || "The roster is not open here yet." };
-    if (!cm.catalog || !Catalog.sb()) return closed;
+    if (!cm.catalog || (!Catalog.sb() && !OPEN())) return closed;
     const sess = await Catalog.session();
     if (CFG().AUTH_ENABLED && !sess && !OPEN()) return closed;
     let data; try { data = await Catalog.loadCatalog(); } catch (e) { console.error(e); return closed; }

@@ -1161,7 +1161,14 @@ roster →" while the gates are paused. The database side is `pipeline/sql/2026-
 `open read`, for `anon`, select only, on the eight catalog tables (`syllabi` untouched). **The owner applies it** in the
 catalog project's SQL editor: the thread's attempt through the Supabase MCP was refused by the auto-mode classifier as a
 security weakening, which is the right refusal for a thread. The file carries the eight `drop policy` lines to close it
-again. Until it is applied, the picker with the flag on shows one notice naming the missing policy instead of the roster.
+again. Until it is applied, the picker with the flag on reads a **local copy** instead: `pipeline/local_catalog.py` runs the
+course catalog's own loader (`db/load_to_supabase.py`) in its dry-run mode and writes the rows it would upsert, in the
+columns the page selects plus `professors`, to `web/data/local/catalog.json` (gitignored; the owner's machine only, never
+uploaded). `Catalog.loadCatalog` and `loadProfessor` fall back to it only with the flag on, only when the database
+returned nothing, failed or had no client, and the picker says "Roster read from a local copy on this machine". Without
+the file the picker shows one notice naming both ways out. The same switch makes the application box retry a row the
+unmigrated `waitlist` refuses (no `note` column, no source `classes` before `2026-10-26_cohort.sql`) in the older shape,
+and show the database's refusal instead of "check the address".
 `AUTH_ENABLED` is unchanged, so turning `CATALOG_OPEN` off and dropping the policy restores the previous state exactly.
 
 **What it exposes while on.** Anyone holding the publishable key (it is in `web/config.js`) can read the roster, the
