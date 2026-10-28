@@ -39,11 +39,19 @@
   // A plain insert. PostgREST's duplicate-ignoring upsert (on_conflict + resolution=ignore-duplicates) needs select on
   // the table, which the policy withholds on purpose, so a second waitlist click is answered 409 by the unique index
   // instead and `okStatus` says that counts as done.
+  // the last refusal, for the test switch only (CATALOG_OPEN shows it in the application box): { table, status, message }
+  let lastError = null, lastFallback = null;
   function post(table, row, okStatus) {
     const c = cfg();
     const url = `${String(c.SUPABASE_URL).replace(/\/$/, "")}/rest/v1/${table}`;
     return Promise.resolve().then(() => deps.fetch(url, { method: "POST", headers: { "Content-Type": "application/json", apikey: c.SUPABASE_PUBLISHABLE_KEY, Authorization: "Bearer " + c.SUPABASE_PUBLISHABLE_KEY, Prefer: "return=minimal" }, body: JSON.stringify(row), keepalive: true }))
-      .then(r => !!(r && (r.ok || (okStatus && r.status === okStatus)))).catch(() => false);
+      .then(async r => {
+        const ok = !!(r && (r.ok || (okStatus && r.status === okStatus)));
+        if (ok) { lastError = null; return true; }
+        let m = ""; try { const j = await r.json(); m = (j && (j.message || j.hint || j.details)) || ""; } catch { }
+        lastError = { table, status: r ? r.status : 0, message: String(m).slice(0, 200) };
+        return false;
+      }).catch(e => { lastError = { table, status: 0, message: String((e && e.message) || e || "").slice(0, 200) }; return false; });
   }
   // one funnel event; resolves true when the row was accepted, false otherwise, never rejects
   function event(name, ctx) {
@@ -62,7 +70,19 @@
     const row = { email: e, source, role_id: str(ctx.role_id), stage: stageOf(ctx.stage), program: str(ctx.program), fields };
     const note = ctx.note == null ? "" : String(ctx.note).trim().slice(0, 200);
     if (note) row.note = note;
-    return post("waitlist", row, 409).then(ok => { event("waitlist_" + source, ctx); return ok; });
+    lastFallback = null;
+    return post("waitlist", row, 409).then(async ok => {
+      // CATALOG_OPEN (web/config.js, the test switch): while pipeline/sql/2026-10-26_cohort.sql is not applied, the table
+      // has no `note` column and refuses source `classes`, so such a row is answered 400. With the switch on the row is
+      // sent again in the 2026-10-25 shape (no note; `classes` sent as `start`) so the application still lands, and
+      // lastFallback says what was dropped. With the switch off nothing is retried and the box says it did not go through.
+      if (!ok && cfg().CATALOG_OPEN && lastError && lastError.status === 400 && (row.note || source === "classes")) {
+        const fb = { ...row, source: source === "classes" ? "start" : source }; delete fb.note;
+        ok = await post("waitlist", fb, 409);
+        if (ok) lastFallback = { dropped: [row.note ? "the sentence" : null, source === "classes" ? "source classes (sent as start)" : null].filter(Boolean) };
+      }
+      event("waitlist_" + source, ctx); return ok;
+    });
   }
-  return { event, waitlist, session, EVENTS, SOURCES };
+  return { event, waitlist, session, EVENTS, SOURCES, lastError: () => lastError, lastFallback: () => lastFallback };
 });

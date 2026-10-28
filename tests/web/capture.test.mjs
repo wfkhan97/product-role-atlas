@@ -130,3 +130,27 @@ test("the names and the sources the script accepts are the ones the migrations a
   assert.deepEqual([...C.SOURCES].sort(), [...sources].sort());
   assert.ok(C.SOURCES.includes("classes") && C.EVENTS.has("waitlist_classes"));
 });
+
+// ---------- the test switch: a 400 on a row the unmigrated table refuses is retried in the older shape ----------
+test("with CATALOG_OPEN on, a waitlist row refused with a 400 is sent again without the note and with classes as start, and lastFallback says what was dropped", async () => {
+  const calls = [];
+  const fetch = async (url, init) => { const body = JSON.parse(init.body); calls.push({ url, body }); if (url.endsWith("/waitlist") && (body.note || body.source === "classes")) return { ok: false, status: 400, json: async () => ({ message: "Could not find the 'note' column of 'waitlist' in the schema cache" }) }; return { ok: true }; };
+  const { C } = make({ fetch, config: { ...CFG, CATALOG_OPEN: true }, storage: memStorage() });
+  assert.equal(await C.waitlist("a@b.co", "classes", { note: "operations manager", role_id: "pmm" }), true);
+  const w = calls.filter(c => c.url.endsWith("/waitlist"));
+  assert.equal(w.length, 2, "one refused post, one retry");
+  assert.equal(w[0].body.note, "operations manager"); assert.equal(w[0].body.source, "classes");
+  assert.equal(w[1].body.note, undefined); assert.equal(w[1].body.source, "start"); assert.equal(w[1].body.role_id, "pmm");
+  assert.deepEqual(C.lastFallback(), { dropped: ["the sentence", "source classes (sent as start)"] });
+  assert.equal(C.lastError(), null, "the retry succeeded");
+});
+
+test("with CATALOG_OPEN off, the same 400 is not retried, the call resolves false and lastError carries the status and message", async () => {
+  const calls = [];
+  const fetch = async (url, init) => { calls.push(url); if (url.endsWith("/waitlist")) return { ok: false, status: 400, json: async () => ({ message: "no such column" }) }; return { ok: true }; };
+  const { C } = make({ fetch, config: { ...CFG, CATALOG_OPEN: false }, storage: memStorage() });
+  assert.equal(await C.waitlist("a@b.co", "fit", { note: "x" }), false);
+  assert.equal(calls.filter(u => u.endsWith("/waitlist")).length, 1);
+  assert.deepEqual(C.lastError(), { table: "waitlist", status: 400, message: "no such column" });
+  assert.equal(C.lastFallback(), null);
+});

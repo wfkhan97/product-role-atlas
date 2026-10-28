@@ -966,7 +966,13 @@
       const ctx = { ...waitCtx(), ...(f.dataset.waitRole ? { role_id: f.dataset.waitRole } : {}), note: note ? note.value : "" };
       const ok = window.Capture ? await Capture.waitlist(input.value, what, ctx) : false;
       if (ok) { store.set("waitlist", { ...joined(), [what]: new Date().toISOString().slice(0, 10) }); redraw(); }   // the box stays, now saying "Applied"
-      else { btn.disabled = false; btn.textContent = Apply.button; input.setCustomValidity("That did not go through. Check the address and try again."); input.reportValidity(); input.oninput = () => input.setCustomValidity(""); }
+      else {
+        btn.disabled = false; btn.textContent = Apply.button;
+        // with the test switch on (CATALOG_OPEN), the box says why: the status and PostgREST's message
+        const err = window.CONFIG && window.CONFIG.CATALOG_OPEN && window.Capture && Capture.lastError ? Capture.lastError() : null;
+        input.setCustomValidity(err ? `That did not go through: ${err.status || "no response"}${err.message ? " · " + err.message : ""} (${err.table}; shown because CATALOG_OPEN is on).` : "That did not go through. Check the address and try again.");
+        input.reportValidity(); input.oninput = () => input.setCustomValidity("");
+      }
     });
   }
   // the open postings of this view that ask for a skill, as links (decision 8 of the pass: shown to a person with a resume)
