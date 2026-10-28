@@ -59,7 +59,8 @@
   // evals/stage.mjs can check that what every stage sees begins "Cohort 1".
   const Apply = {
     heading: "Cohort 1: ship two projects aimed at the role you want",
-    line: "Five Cornell Tech and IE New York students. Six weeks, a session a week, paid. You leave with two or three shipped projects pointed at your target role and the people who should see them. Applications close Nov 14.",
+    // the campuses named follow the IE switch (web/config.js IENYC_ENABLED): off, Cornell Tech only
+    line: `Five ${typeof self !== "undefined" && self.CONFIG && self.CONFIG.IENYC_ENABLED ? "Cornell Tech and IE New York" : "Cornell Tech"} students. Six weeks, a session a week, paid. You leave with two or three shipped projects pointed at your target role and the people who should see them. Applications close Nov 14.`,
     noteLabel: "The role you want, in your words",
     button: "Apply",
     done: "Applied. Wally replies within two days.",
@@ -301,7 +302,7 @@
   // the second question is the person's stage in the search, which decides what the role page's rail leads with
   // (the earlier "what are you looking for" question, owner's choice Y2, changed nothing on screen; this one does).
   const Q = [
-    { key: "where", title: "What are you studying?", options: [["business", "Business, management or finance", "MBA, Tech MBA, Master in Management, Master in Finance"], ["analytics", "Analytics or data science", "MSBA, Business Analytics & AI, Data Science & Decision Analytics, ORIE"], ["cs", "Computer science or software", "MEng CS, software engineering"], ["ece", "Electrical, hardware or systems", "MEng ECE, robotics, embedded"], ["infosci", "Information science, design or health/urban tech", "Connective Media, Health Tech, Urban Tech, MS Design Technology"]] },
+    { key: "where", title: "What are you studying?", options: [["business", "Business, management or finance", "MBA, Tech MBA" + (window.CONFIG && window.CONFIG.IENYC_ENABLED ? ", Master in Management, Master in Finance" : "")], ["analytics", "Analytics or data science", "MSBA, Business Analytics & AI, Data Science & Decision Analytics, ORIE"], ["cs", "Computer science or software", "MEng CS, software engineering"], ["ece", "Electrical, hardware or systems", "MEng ECE, robotics, embedded"], ["infosci", "Information science, design or health/urban tech", "Connective Media, Health Tech, Urban Tech, MS Design Technology"]] },
     { key: "stage", title: "Where are you in your search?", options: [["looking", "I'm open to roles that fit me", "Show me what I have a shot at"], ["targeting", "I know the role I want", "Show me which of its skills I have and how to fill the gaps"], ["curious", "I just want to explore the jobs and skills data", "No resume needed"]] },
     { key: "fields", title: "Which fields interest you?", multi: true, hint: "Pick as many as you like, or none." },
   ];

@@ -1169,6 +1169,13 @@ returned nothing, failed or had no client, and the picker says "Roster read from
 the file the picker shows one notice naming both ways out. The same switch makes the application box retry a row the
 unmigrated `waitlist` refuses (no `note` column, no source `classes` before `2026-10-26_cohort.sql`) in the older shape,
 and show the database's refusal instead of "check the address".
+
+**IE New York behind its own switch (same day).** `CONFIG.IENYC_ENABLED`, off. The campus entry carries `enabled_by:
+"IENYC_ENABLED"` (campus facts in data), and `Catalog.campuses()` returns a campus only while its switch is on, so every
+surface that reads the list (the chooser on `#/classes`, the start card, the sign-in campus, `campusFor`) is Cornell Tech
+only; a stored `classes.campus` or IE program id resolves to Cornell Tech. The application copy reads "Five Cornell Tech
+students" and the About-you hint drops IE's program names while it is off. The IE data (the campus entry, its five
+programs, the loader and the dataset in the research folder) is untouched; flipping the switch brings it all back.
 `AUTH_ENABLED` is unchanged, so turning `CATALOG_OPEN` off and dropping the policy restores the previous state exactly.
 
 **What it exposes while on.** Anyone holding the publishable key (it is in `web/config.js`) can read the roster, the

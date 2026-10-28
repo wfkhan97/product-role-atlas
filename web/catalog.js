@@ -139,8 +139,11 @@
   // ---------- campuses: data/sp27_campus.json, a list under `campuses` ----------
   let campusP = null;
   const campusFile = () => campusP ||= Promise.resolve(deps.load ? deps.load("data/sp27_campus.json") : null).catch(e => { campusP = null; throw e; });
-  // the list; a file in the old flat shape (one campus at the top level) reads as a list of one
-  const campuses = async () => { const f = await campusFile(); return !f ? [] : Array.isArray(f.campuses) ? f.campuses : [f]; };
+  // the list; a file in the old flat shape (one campus at the top level) reads as a list of one. A campus whose entry
+  // names a switch (`enabled_by`, e.g. IENYC_ENABLED) is in the list only while that switch is on in CONFIG, so the
+  // chooser, the start card, the sign-in campus and campusFor all follow one line of data.
+  const switchOn = name => { try { return !!(deps.config && deps.config()[name]); } catch { return false; } };
+  const campuses = async () => { const f = await campusFile(); const list = !f ? [] : Array.isArray(f.campuses) ? f.campuses : [f]; return list.filter(c => !c.enabled_by || switchOn(c.enabled_by)); };
   // The person's campus from what we know, pure: the one stored (classes.campus), else the campus of the picker program
   // chosen (classes.program), else the one campus whose programs include the v15 program group answered (you.where);
   // null when the group belongs to two campuses, which the picker then asks once.

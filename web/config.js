@@ -10,6 +10,11 @@ window.CONFIG = {
   SUPABASE_PUBLISHABLE_KEY: "sb_publishable_3wfHOcJvv4MxXeEzd-wsNA_tLKjpqzc",
   AUTH_ENABLED: false,
   CATALOG_OPEN: true,
+  // IE New York in the interface: the second campus (the chooser on #/classes, its start card, its programs, the
+  // application copy). A campus entry in data/sp27_campus.json names the switch that shows it (`enabled_by`); off,
+  // the site is Cornell Tech only and an IE choice kept in a browser falls back to Cornell Tech. Flip it when the IE
+  // courses are loaded and the IE sign-in domain is known (PLAN.md, Later).
+  IENYC_ENABLED: false,
   CATALOG_TERM: "SP27",
   // the waitlist and the funnel counts (web/capture.js): off, nothing leaves the browser at all
   CAPTURE_ENABLED: true,

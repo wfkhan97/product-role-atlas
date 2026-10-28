@@ -315,3 +315,15 @@ test("loadCatalog with CATALOG_OPEN on reads data/local/catalog.json when the da
   const q = await off.loadProfessor("pat-example");
   assert.equal(q.professor, null);
 });
+
+// ---------- a campus behind a switch (IENYC_ENABLED, 2026-10-28) ----------
+test("campuses() lists a campus whose entry names a switch only while that switch is on in the config; the file itself keeps the entry", async () => {
+  const mk = cfg => require(path.join(web, "catalog.js"))({ config: () => cfg, load: () => structuredClone(FILE) });
+  assert.ok(FILE.campuses.find(c => c.id === "ienyc").enabled_by === "IENYC_ENABLED", "the IE entry names its switch");
+  assert.deepEqual((await mk({}).campuses()).map(c => c.id), ["cornell_tech"], "no config: the switch is off");
+  assert.deepEqual((await mk({ IENYC_ENABLED: false }).campuses()).map(c => c.id), ["cornell_tech"]);
+  assert.deepEqual((await mk({ IENYC_ENABLED: true }).campuses()).map(c => c.id), ["cornell_tech", "ienyc"]);
+  const only = await mk({}).campuses();
+  assert.equal(C.campusFor(only, { stored: "ienyc" }).id, "cornell_tech", "an IE choice kept in a browser falls back to the one campus listed");
+  assert.equal(C.campusFor(only, { programId: "ie_mif" }).id, "cornell_tech");
+});

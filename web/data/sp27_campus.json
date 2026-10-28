@@ -32,6 +32,7 @@
     {
       "id": "ienyc",
       "label": "IE New York",
+      "enabled_by": "IENYC_ENABLED",
       "term": "SP27",
       "term_label": "Spring 2027",
       "pre_enrollment": { "label": "by Dec 17", "opens": null, "closes": "2026-12-17", "note": "IENYC's specialization course selection deadline for the spring semester (academic calendar 2026/2027); the spring semester runs Jan 19 to May 10, 2027" },
