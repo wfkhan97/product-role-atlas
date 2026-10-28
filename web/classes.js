@@ -41,12 +41,15 @@
   const setCampus = id => { S.campus = id; store.set("classes.campus", id); };
   const niceDate = d => { const [y, m, day] = String(d || "").split("-"); const names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; return m && day ? `${Number(day)} ${names[Number(m) - 1]} ${y}` : String(d || ""); };
 
-  // ---------- the top bar: "Classes" once sign in is on or a session exists; "Sign in" only while it is on ----------
+  // CATALOG_OPEN (web/config.js): the test switch that pauses every sign-in gate below; the roster then reads with no
+  // session, which the anon-read policy of pipeline/sql/2026-10-28_open_read.sql allows
+  const OPEN = () => !!CFG().CATALOG_OPEN;
+  // ---------- the top bar: "Classes" once sign in is on, a session exists or the gates are paused; "Sign in" only while sign in is on and not paused ----------
   async function navSync(sess) {
     const s = sess === undefined ? await Catalog.session() : sess;
     const on = !!CFG().AUTH_ENABLED;
-    const c = $("#nav-classes"); if (c) c.hidden = !(on || s);
-    const i = $("#nav-signin"); if (i) { i.hidden = !on || !!s; }
+    const c = $("#nav-classes"); if (c) c.hidden = !(on || s || OPEN());
+    const i = $("#nav-signin"); if (i) { i.hidden = !on || !!s || OPEN(); }
   }
   navSync();
   // a fresh sign-in that lands on the start page (the redirect lost its hash) goes to the picker, once
@@ -61,7 +64,7 @@
   // the one-line card on the start screen: the person's campus's, or, with no campus known, a neutral one over all
   async function startCard() {
     const { list, cm } = await campusCtx();
-    if (cm && cm.start_card) { const sc = cm.start_card; return `<a class="choice" href="#/classes"><div class="t">${esc(sc.title)}</div><div class="d">${esc(sc.detail)}</div><span class="tag">${esc(sc.tag)}</span></a>`; }
+    if (cm && cm.start_card) { const sc = cm.start_card; return `<a class="choice" href="#/classes"><div class="t">${esc(sc.title)}</div><div class="d">${esc(sc.detail)}</div><span class="tag">${esc(OPEN() && cm.catalog ? (cm.term_label || "") + " roster →" : sc.tag)}</span></a>`; }
     if (!list.length) return "";
     return `<a class="choice" href="#/classes"><div class="t">${esc(Catalog.neutralCardTitle(list))}</div><div class="d">The roster, who teaches what, and how each class reads against the role you want.</div><span class="tag">Pick your campus →</span></a>`;
   }
@@ -87,7 +90,7 @@
     // a campus with no roster loaded says so and stops
     if (!cm.catalog) { page(`${head}<p class="lead">${esc(cm.closed_notice || "The roster is not loaded yet.")}</p>${privacy}`, true); wireCampus(); return; }
     const sess = await Catalog.session();
-    if (CFG().AUTH_ENABLED && !sess) {
+    if (CFG().AUTH_ENABLED && !sess && !OPEN()) {
       page(`${head}<p class="lead">The roster is for ${esc(cm.label)} students. Sign in with your ${esc(Catalog.domainWords(cm))} email to open it.</p><p><a class="btn primary" href="#/signin">Sign in →</a></p>${privacy}`, true);
       wireCampus(); return;
     }
@@ -97,7 +100,8 @@
     catch (e) { console.error(e); page(`${head}<div class="notice">The roster could not be read: ${esc(e.message)}.</div>${privacy}`, true); wireCampus(); return; }
     if (token !== S.token) return;
     if (!data.classes.length) {
-      page(`${head}${!sess ? `<p class="lead">${esc(cm.closed_notice || "Sign in is not open yet.")}</p><p class="small muted"><a class="btn quiet" href="#/signin">Sign in (development)</a></p>` : `<p class="lead">The roster is empty right now. Check back after the next refresh.</p>`}${privacy}`, true);
+      // with the gates paused and no session, an empty read means the anon-read policy is not on the catalog project
+      page(`${head}${!sess && OPEN() ? `<div class="notice">The roster read nothing without a sign-in. CATALOG_OPEN is on, so the anon-read policy (pipeline/sql/2026-10-28_open_read.sql) is not applied on the catalog project.</div>` : !sess ? `<p class="lead">${esc(cm.closed_notice || "Sign in is not open yet.")}</p><p class="small muted"><a class="btn quiet" href="#/signin">Sign in (development)</a></p>` : `<p class="lead">The roster is empty right now. Check back after the next refresh.</p>`}${privacy}`, true);
       wireCampus(); return;
     }
     if (dataCache !== data) { dataCache = data; cardsCache = Catalog.collapse(data); }
@@ -245,7 +249,7 @@
     catch (e) { console.error(e); page(`<h1>Professor</h1><div class="notice">The profile could not be read: ${esc(e.message)}.</div>`, true); return; }
     const sess = await Catalog.session();
     if (!r.professor) {
-      page(`<h1>Professor</h1><p class="lead">${sess ? "No profile under that name on the roster." : "Profiles open with a Cornell sign-in."} <a href="#/classes">Back to the classes.</a>${sess ? "" : ` <a href="#/signin">Sign in.</a>`}</p>`, true);
+      page(`<h1>Professor</h1><p class="lead">${sess || OPEN() ? "No profile under that name on the roster." : "Profiles open with a Cornell sign-in."} <a href="#/classes">Back to the classes.</a>${sess || OPEN() ? "" : ` <a href="#/signin">Sign in.</a>`}</p>`, true);
       return;
     }
     const P = r.professor;
@@ -318,6 +322,7 @@
       return;
     }
     page(`<h1>Sign in</h1><p class="lead">For ${esc(cm.label)} students: the roster, the professors and the ratings open with ${esc(words)} account.</p>
+      ${OPEN() ? `<div class="notice">Sign-in is paused on this build (CATALOG_OPEN in config.js): the roster, the professors and the role rail open without it. This page stays reachable for development.</div>` : ""}
       ${note ? `<div class="notice">${esc(note)}</div>` : ""}
       <div class="row" style="margin-top:12px"><button type="button" class="btn primary" id="si-google">Continue with Google (${esc(domains[0])})</button></div>
       <h3 style="margin-top:22px">Or get a sign-in link by email</h3>
@@ -347,7 +352,7 @@
     const closed = { closed: cm.rail_closed_line || "The roster is not open here yet." };
     if (!cm.catalog || !Catalog.sb()) return closed;
     const sess = await Catalog.session();
-    if (CFG().AUTH_ENABLED && !sess) return closed;
+    if (CFG().AUTH_ENABLED && !sess && !OPEN()) return closed;
     let data; try { data = await Catalog.loadCatalog(); } catch (e) { console.error(e); return closed; }
     if (!data.classes.length) return closed;
     if (dataCache !== data) { dataCache = data; cardsCache = Catalog.collapse(data); }

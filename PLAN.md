@@ -1143,6 +1143,36 @@ the Dec 17 deadline, the start card and the closed notice saying the courses are
 still empty and `catalog` still false. Three things wait for the owner: apply `db/schema_ienyc.sql`, run the loader,
 and confirm the student email domain; and one code line waits before `catalog: true`, under Later.
 
+## Sign-in paused behind a flag (2026-10-28)
+
+The owner's ask of 2026-10-28: pause every sign-in gate so the whole flow (start screen → classes → a professor card →
+the role rail's "classes that cover your gaps") can be tested end to end, behind a flag so it can be turned back on.
+
+**The gates were two.** On the page, `AUTH_ENABLED` (off since launch planning) only hid the "Sign in" link and let
+`#/classes` try to read; the read itself was the gate, because the eight catalog tables' only row-level policy
+(`catalog read`) is for `authenticated`, so a reader with no session got no rows and the picker showed the campus's
+`closed_notice`. The professor card said "Profiles open with a Cornell sign-in" and the rail its `rail_closed_line`.
+
+**Decision.** One new switch, `CONFIG.CATALOG_OPEN` (`web/config.js`, on), read in `web/classes.js` only: the top bar
+shows "Classes" and no "Sign in"; the picker skips the session gate and, when it reads nothing with no session, says
+that the anon-read policy is missing rather than showing the closed notice; the professor card and the rail skip the
+gate the same way; `#/signin` stays reachable and says sign-in is paused; the start card's tag reads "Spring 2027
+roster →" while the gates are paused. The database side is `pipeline/sql/2026-10-28_open_read.sql`: a second policy,
+`open read`, for `anon`, select only, on the eight catalog tables (`syllabi` untouched). **The owner applies it** in the
+catalog project's SQL editor: the thread's attempt through the Supabase MCP was refused by the auto-mode classifier as a
+security weakening, which is the right refusal for a thread. The file carries the eight `drop policy` lines to close it
+again. Until it is applied, the picker with the flag on shows one notice naming the missing policy instead of the roster.
+`AUTH_ENABLED` is unchanged, so turning `CATALOG_OPEN` off and dropping the policy restores the previous state exactly.
+
+**What it exposes while on.** Anyone holding the publishable key (it is in `web/config.js`) can read the roster, the
+professor profiles, the grading summaries and the syllabus digests with no session. The site is not deployed, so today
+that is whoever has the repository. Before launch: `CATALOG_OPEN: false` and the drop block, in one change.
+
+**Verified.** The web tests pass unchanged (no test reads the flag; `classes.js` is DOM-only). In the preview on port
+8765 with no session and the policy not yet applied: the top bar shows "Classes", the start card's tag reads "Spring
+2027 roster →", and the picker shows the one notice that names the missing policy. Once the owner applies the policy,
+the same page shows the live roster, the professor cards and the rail.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
