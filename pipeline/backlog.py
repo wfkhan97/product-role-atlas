@@ -53,13 +53,30 @@ def configured():
     return bool(os.environ.get("SUPABASE_DB_URL"))
 
 
-def connect():
+POOL_FULL = ("EMAXCONNSESSION", "max clients reached")
+POOL_WAIT = 20 * 60  # seconds a connection waits for a free pooler slot before it gives up
+
+
+def connect(wait=POOL_WAIT):
+    """A connection over the session pooler. The pooler takes 15 clients; the refresh workflows start one job per
+    ATS family at once, so a refused connection waits for a slot (jittered backoff, up to `wait` seconds) instead of
+    failing: a scrape job's files exist only on its runner until they are pushed."""
     load_env()
     url = os.environ.get("SUPABASE_DB_URL")
     if not url:
         sys.exit("SUPABASE_DB_URL is not set: put the project's session-pooler connection string in .env")
+    import random
     import psycopg  # installed with: .venv/bin/pip install "psycopg[binary]"
-    return psycopg.connect(url, connect_timeout=30)
+    deadline, delay = time.time() + wait, 5.0
+    while True:
+        try:
+            return psycopg.connect(url, connect_timeout=30)
+        except psycopg.OperationalError as e:
+            if not any(k in str(e) for k in POOL_FULL) or time.time() + delay > deadline:
+                raise
+            print(f"[db] the pooler is full; trying again in {delay:.0f}s", file=sys.stderr, flush=True)
+            time.sleep(delay)
+            delay = min(delay * 1.6, 90.0) * random.uniform(0.8, 1.2)
 
 
 def raw_dir(role_set):
@@ -149,13 +166,15 @@ def push_file(path, role_set, conn=None):
 
 
 def push_file_safely(path, role_set):
-    """For pipeline.scrape: one file, one connection, serialised, never raising."""
+    """For pipeline.scrape: one file, one connection, serialised, never raising. Returns (saved, message). On a Mac
+    the file on disk is the backlog and the next push catches up; on a hosted runner the disk goes with the job, so
+    the scrape logs a file that was not saved as an error."""
     with _lock:
         try:
             slug, n, _ = push_file(path, role_set)
-            return f"[db] {slug}: {n} postings saved"
-        except Exception as e:  # the file on disk is the backlog; the database catches up on the next push
-            return f"[db] {os.path.basename(path)}: not saved ({type(e).__name__}: {e})"
+            return True, f"[db] {slug}: {n} postings saved"
+        except Exception as e:
+            return False, f"[db] {os.path.basename(path)}: not saved ({type(e).__name__}: {e})"
 
 
 def push(role_set, slugs=None, workers=4):
@@ -194,6 +213,9 @@ def pull(role_set, out_dir=None, slugs=None, force=False):
     os.makedirs(out_dir, exist_ok=True)
     written, skipped = 0, []
     with connect() as conn:
+        import psycopg
+        # one snapshot for the whole pull: a refresh job may push a file between the header query and its postings
+        conn.isolation_level = psycopg.IsolationLevel.REPEATABLE_READ
         cur = conn.cursor()
         cur.execute("select slug, meta::text, jobs_pos, n_jobs from public.backlog_files where role_set = %s order by slug", (role_set,))
         files = cur.fetchall()
@@ -334,6 +356,8 @@ def main():
     ap.add_argument("command", choices=["push", "pull", "verify", "snapshot", "status"])
     ap.add_argument("--roles", choices=["product", "mba", "all"], default="all")
     ap.add_argument("--only", nargs="*", help="file names without .json")
+    ap.add_argument("--ats", help="pull: only the files of the registry's employers on this kind of board (a refresh job "
+                                  "scrapes one family and needs only its files)")
     ap.add_argument("--out", help="pull: write here instead of data/raw/<dir>")
     ap.add_argument("--force", action="store_true", help="pull: overwrite local files even when they hold postings the database lacks")
     ap.add_argument("--workers", type=int, default=4)
@@ -341,13 +365,21 @@ def main():
     a = ap.parse_args()
     ok = True
     for rs in role_sets(a.roles):
+        only = a.only
+        if a.ats:
+            from pipeline import scrape  # scrape imports this module; the registry and the file names are its own
+            only = sorted({scrape.slug(e["company"]) for e in scrape.load_registry(rs) if e.get("ats") == a.ats}
+                          | set(a.only or []))
+            if not only:  # an empty list would mean every file to pull()
+                sys.exit(f"--ats {a.ats}: no {rs} employer in the registry is on that kind of board")
+            print(f"--ats {a.ats}: {len(only)} {rs} employers", flush=True)
         if a.command == "push":
             refused = push(rs, a.only, a.workers)
             ok = ok and not refused
             if not a.no_snapshot and not a.only:
                 snapshot(rs)
         elif a.command == "pull":
-            pull(rs, a.out, a.only, a.force)
+            pull(rs, a.out, only, a.force)
         elif a.command == "verify":
             ok = verify(rs) and ok
         elif a.command == "snapshot":

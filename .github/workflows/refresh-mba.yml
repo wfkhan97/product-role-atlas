@@ -158,8 +158,8 @@ jobs:
         run: |
           mkdir -p logs
           echo "PIPELINE_LOG=logs/refresh-mba_$(date -u +%Y-%m-%d)_${FAMILY}.log" >> "$GITHUB_ENV"
-      - name: Pull the MBA backlog
-        run: python -m pipeline.backlog pull --roles mba
+      - name: Pull this family's part of the MBA backlog
+        run: python -m pipeline.backlog pull --roles mba --ats "$FAMILY"
       - name: Scrape ${{ matrix.family }}
         env:
           ONLY: ${{ inputs.only }}

@@ -143,8 +143,8 @@ jobs:
           echo "PIPELINE_LOG=logs/refresh-product_$(date -u +%Y-%m-%d)_${FAMILY}.log" >> "$GITHUB_ENV"
       - name: Merge the registry (what run_all.sh does first; from tracked files)
         run: python -m pipeline.merge_registry
-      - name: Pull the product backlog
-        run: python -m pipeline.backlog pull --roles product
+      - name: Pull this family's part of the product backlog
+        run: python -m pipeline.backlog pull --roles product --ats "$FAMILY"
       - name: Scrape ${{ matrix.family }}
         env:
           ONLY: ${{ inputs.only }}
