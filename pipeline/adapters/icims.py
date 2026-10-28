@@ -2,7 +2,7 @@
 import re
 import time
 from urllib.parse import quote_plus
-from .common import get, strip_html, job, SEARCH_QUERIES
+from .common import get, strip_html, job, listing_failed, SEARCH_QUERIES
 from .jsonld import job_posting, location
 
 LINK_RE = re.compile(r'href="(https?://[^"]+/jobs/(\d+)/([^/"?]+)/job[^"]*)"')
@@ -14,7 +14,7 @@ def fetch(company, cfg, title_ok, max_pages=6):
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
         for page in range(1, max_pages + 1):
-            r = get(f"https://{host}/jobs/search?ss=1&searchKeyword={quote_plus(q)}&in_iframe=1&pr={page-1}")
+            r = get(f"https://{host}/jobs/search?ss=1&searchKeyword={quote_plus(q)}&in_iframe=1&pr={page-1}", listing=True)
             if r.status_code != 200:
                 break
             found = 0
@@ -24,8 +24,14 @@ def fetch(company, cfg, title_ok, max_pages=6):
                     seen[jid] = url.split("?")[0] + "?in_iframe=1"
                     found += 1
             if found == 0:
+                # a page past the last one is still an iCIMS page, only without job links; a page with no iCIMS
+                # markup at all is a block or error page
+                if "iCIMS_" not in r.text:
+                    listing_failed(f"icims: search page without iCIMS markup for {q!r} page {page}")
                 break
             time.sleep(0.4)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"icims: stopped at the page cap for {q!r}")
     out = []
     for jid, url in seen.items():
         r = get(url)

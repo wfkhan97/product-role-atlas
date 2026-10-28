@@ -2,7 +2,7 @@
 import re
 import time
 from urllib.parse import quote_plus
-from .common import get, strip_html, job, SEARCH_QUERIES
+from .common import get, listing_failed, strip_html, job, SEARCH_QUERIES
 from .jsonld import job_posting, location
 
 LINK_RE = re.compile(r'<a[^>]+href="((?:/[a-z]{2}(?:-[a-z]{2})?)?/job/[^"]+)"[^>]*>(.*?)</a>', re.S)
@@ -17,12 +17,13 @@ def fetch(company, cfg, title_ok, max_pages=10):
             url = (f"https://{host}{path}?ActiveFacetID=0&CurrentPage={page}&RecordsPerPage=100&Keywords={quote_plus(q)}"
                    f"&SearchResultsModuleName=Search+Results&SearchFiltersModuleName=Search+Filters&ShowRadius=False&IsPagination=False"
                    f"&SearchType=5&Distance=50&RadiusUnitType=0&SortCriteria=0&SortDirection=0&ResultsType=0")
-            r = get(url, headers={"Accept": "application/json", "X-Requested-With": "XMLHttpRequest"})
+            r = get(url, headers={"Accept": "application/json", "X-Requested-With": "XMLHttpRequest"}, listing=True)
             if r.status_code != 200:
                 break
             try:
                 html = r.json().get("results", "")
             except ValueError:
+                listing_failed(f"radancy: unreadable results page for {q!r} page {page}")
                 break
             found = 0
             for m in LINK_RE.finditer(html):
@@ -34,6 +35,8 @@ def fetch(company, cfg, title_ok, max_pages=10):
             if found == 0:
                 break
             time.sleep(0.4)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"radancy: stopped at the page cap for {q!r}")
     out = []
     for href, title in seen.items():
         if title and not title_ok(title):

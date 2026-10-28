@@ -8,7 +8,7 @@ def fetch(company, cfg, title_ok):
     for q in cfg.get("queries", ["product"]):
         offset = 0
         while True:
-            r = get(f"https://api.smartrecruiters.com/v1/companies/{c}/postings", params={"q": q, "limit": 100, "offset": offset})
+            r = get(f"https://api.smartrecruiters.com/v1/companies/{c}/postings", listing=True, params={"q": q, "limit": 100, "offset": offset})
             if r.status_code != 200:
                 break
             data = r.json()

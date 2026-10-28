@@ -2,7 +2,7 @@
 import copy
 import time
 import uuid
-from .common import post, strip_html, job, SEARCH_QUERIES
+from .common import post, strip_html, job, SEARCH_QUERIES, listing_failed
 
 
 def fetch(company, cfg, title_ok, max_pages=10):
@@ -14,7 +14,7 @@ def fetch(company, cfg, title_ok, max_pages=10):
             v = copy.deepcopy(cfg["search_variables"])
             v["searchQueryInput"]["searchTerm"] = q
             v["searchQueryInput"]["page"] = {"pageNumber": page, "pageSize": 20}
-            r = post(url, json={"query": cfg["search_query"], "variables": v}, headers=hdr)
+            r = post(url, listing=True, json={"query": cfg["search_query"], "variables": v}, headers=hdr)
             if r.status_code != 200:
                 break
             rs = r.json().get("data", {}).get("roleSearch", {})
@@ -25,6 +25,8 @@ def fetch(company, cfg, title_ok, max_pages=10):
             if not items or page * 20 >= rs.get("totalCount", 0):
                 break
             time.sleep(0.3)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"gs_graphql: stopped at the page cap for {q!r}")
     out = []
     for sid, it in seen.items():
         r = post(url, json={"query": cfg["detail_query"], "variables": {"id": sid}}, headers=hdr)

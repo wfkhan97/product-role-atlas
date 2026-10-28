@@ -1,6 +1,6 @@
 import time
 from urllib.parse import quote_plus
-from .common import get, strip_html, job
+from .common import get, strip_html, job, listing_failed
 
 
 def fetch(company, cfg, title_ok, max_offset=2000):
@@ -9,10 +9,14 @@ def fetch(company, cfg, title_ok, max_offset=2000):
         offset = 0
         while offset < max_offset:
             r = get(f"https://www.amazon.jobs/en/search.json?base_query={quote_plus(q)}&result_limit=100&offset={offset}&sort=recent"
-                    + ("&country=USA" if cfg.get("usa_only") else ""))
+                    + ("&country=USA" if cfg.get("usa_only") else ""), listing=True)
             if r.status_code != 200:
                 break
-            data = r.json()
+            try:
+                data = r.json()
+            except ValueError:
+                listing_failed(f"amazon: unreadable JSON for {q!r} offset {offset}")
+                break
             jobs = data.get("jobs", [])
             for j in jobs:
                 if title_ok(j.get("title", "")):
@@ -21,6 +25,8 @@ def fetch(company, cfg, title_ok, max_offset=2000):
             if not jobs or offset >= data.get("hits", 0):
                 break
             time.sleep(0.4)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"amazon: stopped at the page cap for {q!r}")
     out = []
     for key, j in seen.items():
         desc = "\n".join([strip_html(j.get("description", "")), "Basic qualifications:", strip_html(j.get("basic_qualifications", "")),

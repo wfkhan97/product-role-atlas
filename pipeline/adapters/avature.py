@@ -2,7 +2,7 @@ import html
 import re
 import time
 from urllib.parse import quote
-from .common import get, strip_html, job
+from .common import get, strip_html, job, listing_failed
 from . import jsonld
 
 CHROME_RE = re.compile(r"(?is)<(script|style|header|footer|nav|form)\b.*?</\1>")
@@ -20,7 +20,7 @@ def fetch(company, cfg, title_ok, max_pages=10):
     seen = {}
     for q in cfg.get("queries", ["consultant"]):
         for page in range(cfg.get("max_pages", max_pages)):
-            r = get(f"https://{host}{search}/{quote(q)}", params={f"{prefix}RecordsPerPage": size, f"{prefix}Offset": page * size})
+            r = get(f"https://{host}{search}/{quote(q)}", params={f"{prefix}RecordsPerPage": size, f"{prefix}Offset": page * size}, listing=True)
             if r.status_code != 200:
                 break
             links = {}
@@ -32,6 +32,8 @@ def fetch(company, cfg, title_ok, max_pages=10):
             if len(links) < size:
                 break
             time.sleep(0.4)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"avature: stopped at the page cap for {q!r}")
     out = []
     for jid, (url, title) in seen.items():
         r = get(url)

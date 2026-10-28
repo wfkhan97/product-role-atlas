@@ -1,7 +1,7 @@
 """iCIMS Jibe/Attract sites (e.g. pepsicojobs.com): /api/jobs returns full descriptions."""
 import time
 from urllib.parse import quote
-from .common import get, strip_html, job, SEARCH_QUERIES
+from .common import get, strip_html, job, listing_failed, SEARCH_QUERIES
 
 
 def fetch(company, cfg, title_ok, max_pages=15):
@@ -9,12 +9,13 @@ def fetch(company, cfg, title_ok, max_pages=15):
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
         for page in range(1, max_pages + 1):
-            r = get(f"https://{host}/api/jobs?keywords={quote(q)}&page={page}&limit=50", headers={"Accept": "application/json"})
+            r = get(f"https://{host}/api/jobs?keywords={quote(q)}&page={page}&limit=50", headers={"Accept": "application/json"}, listing=True)
             if r.status_code != 200:
                 break
             try:
                 rows = r.json().get("jobs", [])
             except ValueError:
+                listing_failed(f"jibe: unreadable JSON for {q!r} page {page}")
                 break
             for row in rows:
                 d = row.get("data", row)
@@ -23,6 +24,8 @@ def fetch(company, cfg, title_ok, max_pages=15):
             if len(rows) < 50:
                 break
             time.sleep(0.3)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"jibe: stopped at the page cap for {q!r}")
     out = []
     for key, d in seen.items():
         desc = strip_html(d.get("description", ""))

@@ -1,6 +1,6 @@
 import time
 from urllib.parse import quote
-from .common import get, strip_html, job, SEARCH_QUERIES
+from .common import get, strip_html, job, SEARCH_QUERIES, listing_failed
 
 
 def fetch(company, cfg, title_ok, max_pages=10):
@@ -14,7 +14,7 @@ def fetch(company, cfg, title_ok, max_pages=10):
                 url = f"https://{host}/api/pcsx/search?domain={domain}&query={quote(q)}&location=&start={start}&sort_by=relevance"
             else:
                 url = f"https://{host}/api/apply/v2/jobs?domain={domain}&query={quote(q)}&start={start}&num=20"
-            r = get(url)
+            r = get(url, listing=True)
             if r.status_code != 200:
                 break
             data = r.json()
@@ -25,6 +25,8 @@ def fetch(company, cfg, title_ok, max_pages=10):
             if not posts or len(posts) < (10 if api == "pcsx" else 20):
                 break
             time.sleep(0.3)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"eightfold: stopped at the page cap for {q!r}")
     out = []
     for pid, p in seen.items():
         if api == "pcsx":

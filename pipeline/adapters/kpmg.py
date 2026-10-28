@@ -1,6 +1,6 @@
 import re
 import time
-from .common import get, strip_html, job
+from .common import get, strip_html, job, listing_failed
 from . import jsonld
 
 BASE = "https://www.kpmguscareers.com"
@@ -13,7 +13,7 @@ def fetch(company, cfg, title_ok, max_pages=25):
     for q in cfg.get("queries", ["strategy"]):
         for page in range(1, max_pages + 1):
             r = get(f"{BASE}/wp-content/themes/understrap-child-main/page-templates/google/get-jobs.php",
-                    params={"ajax": 1, "page_type": "", "keyword": q, "spage": page})
+                    params={"ajax": 1, "page_type": "", "keyword": q, "spage": page}, listing=True)
             if r.status_code != 200:
                 break
             found = set(CARD_RE.findall((r.json().get("postings") or {}).get("jobs") or ""))
@@ -21,6 +21,8 @@ def fetch(company, cfg, title_ok, max_pages=25):
                 break
             ids |= found
             time.sleep(0.3)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"kpmg: stopped at the page cap for {q!r}")
     out = []
     for jid in sorted(ids):
         url = f"{BASE}/jobdetail/?jobId={jid}"

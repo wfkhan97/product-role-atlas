@@ -3,7 +3,7 @@ import json
 import re
 import time
 from urllib.parse import quote
-from .common import get, strip_html, job, SEARCH_QUERIES
+from .common import get, strip_html, job, SEARCH_QUERIES, listing_failed
 
 LINK_RE = re.compile(r'href="((?:/[^"]*?)?/job/([^"?]+?))/?"')
 LD_RE = re.compile(r'<script[^>]+application/ld\+json[^>]*>(.*?)</script>', re.S)
@@ -20,7 +20,7 @@ def fetch(company, cfg, title_ok, max_pages=10):
                 url = f"https://{host}{base}?{qp}={quote(q)}&{pp}={page}"
             else:
                 url = f"https://{host}{base}?{qp}={quote(q)}" if page == 1 else f"https://{host}{base}/page/{page}?{qp}={quote(q)}"
-            r = get(url)
+            r = get(url, listing=True)
             if r.status_code != 200:
                 break
             links = list(dict.fromkeys(m.group(1) for m in LINK_RE.finditer(r.text)))
@@ -29,6 +29,8 @@ def fetch(company, cfg, title_ok, max_pages=10):
             for path in links:
                 seen.setdefault(path, None)
             time.sleep(0.4)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"paradox: stopped at the page cap for {q!r}")
     out = []
     for path in seen:
         r = get(f"https://{host}{path}")
