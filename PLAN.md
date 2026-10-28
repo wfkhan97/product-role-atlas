@@ -1123,6 +1123,26 @@ instructor's classes this term cover, each with the codes that cover it (`instru
 facts stay as they were, and nothing is a rating or a review. Tests on synthetic rows: the instructor list, the match
 field and its label, the join. No change to relevance bands or thresholds; desktop only.
 
+**Built, step 3** (`data/ienyc-roster`): discovery first, from public pages only, filed as
+`../GradBuddy Project/discovery&research/course_catalog/SP27_ienyc/README.md` in the shape of the Cornell Tech one.
+What IE New York College publishes: no roster (no sections, times, instructors or syllabi), but a College Catalog
+2026-2027 with every course's code, credits, prerequisites and description, and one study-plan page per program
+placing each course in a term. Five master's programs, not four, and not the four the campus file named: "Data
+Science & Decision Analytics" was a Cornell Tech program name; the real fifth and fourth are Global Business &
+Sustainability and Strategic & Creative Marketing. Three terms (an August term of four weeks, a fall and a spring
+semester of 15 weeks; the spring runs Jan 19 to May 10, 2027), a real selection window (the specialization course
+selection deadline, Dec 17, 2026), no instructors named anywhere, and a student email domain the public pages do not
+show (every staff address is `@ienyc.edu`; the catalog says students get an "IENYC email address"). The gate passed
+(all five programs have a public course list with descriptions), so the build followed: `fetch_catalog.py`,
+`build_dataset.py` producing `sp27_ienyc_classes.json` (68 courses in the Cornell Tech record shape, nulls where IE
+publishes nothing, `eligibilityCategory` the program id or `ienyc_shared`, the study plan's term per program with
+the spring-2027 reading and its basis on every record) and a `db/` loader with a `campus` column migration, written
+and not run. In the atlas, data only: the `ienyc` campus entry has the five programs with their catalog names and
+groups (verified, `unverified` dropped), each seeing its own courses and the shared ones, `pre_enrollment` set to
+the Dec 17 deadline, the start card and the closed notice saying the courses are being loaded, `signin_domains`
+still empty and `catalog` still false. Three things wait for the owner: apply `db/schema_ienyc.sql`, run the loader,
+and confirm the student email domain; and one code line waits before `catalog: true`, under Later.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
@@ -1145,6 +1165,14 @@ field and its label, the join. No change to relevance bands or thresholds; deskt
 - The runner trial's results (`evals/runner_trial_2026-10-26.md`, "Results"): the owner dispatches it; then the schedule
   variables, and the self-hosted runner only if a family is blocked.
 - More families (design, engineering) and more companies (full Fortune 500).
+- IE New York in the picker (v18, step 3): before `catalog: true` for `ienyc`, `Catalog.loadCatalog` must read
+  `classes` filtered on the new `campus` column (one line; the campus id is in the campus file), or both campuses'
+  rows show in one picker. Then the owner applies `db/schema_ienyc.sql`, runs the loader and flips the flag.
+- IE New York sign-in: the student email domain is not on any public page (staff are `@ienyc.edu`; the catalog says
+  students get an "IENYC email address" on Microsoft 365); confirm with IT@ienyc.edu or one student, then set
+  `signin_domains`. Until then IE students see "Sign-in for IE New York is not open yet".
+- The price on the cohort application box: never shown (v18); the owner states it in his reply. Revisit only if the
+  owner decides otherwise.
 - Frozen with the fit flow (2026-10-26): the fit screen, the role rail, Explore, About you and the games get no new
   work (v18); these stay listed so the reasoning is not lost, not as work to pick up.
   - The field chart's lanes with a resume read as two skew lines (the share orders both); a better second axis now that
