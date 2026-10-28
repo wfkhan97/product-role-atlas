@@ -1056,19 +1056,46 @@ What the thread found and decided on its own, recorded in the pull requests:
 - A stage that ends with `sys.exit("message")` after no ERROR line records `ok = true`: Python gives an `atexit`
   handler no exit code. The stages log an ERROR before they fail.
 
+## The cohort hook (v18, 2026-10-26)
+
+The frame (owner, 2026-10-26, not to be reopened). On 2026-10-25 the fellowship's mentors judged the atlas's
+résumé-and-fit flow undifferentiated: a motivated student gets most of it from Claude in one prompt, and the flow reads
+as another applicant-tracking-system tool. The owner agrees. The atlas is therefore no longer GradBuddy's front door.
+
+The atlas is two things now. **GradBuddy's grounding layer**: the postings, the taxonomy, the graphs, the course
+registry; `docs/GRADBUDDY_CONTRACT.md` stays the contract, and the first consumer is built in a separate thread in
+`gradbuddy/` (an atlas-grounded "shadow apprentice map": a five-level project ladder for one student and one role,
+reading `web/data/` files by path). None of that is built here: the atlas still runs no model at runtime and generates
+no per-person prose beyond data-built sentences. **One public surface: the Spring 2027 class picker** (`#/classes`,
+`web/classes.js`, `web/catalog.js`, `web/data/sp27_campus.json`), because every Cornell Tech student must pick classes
+before pre-enrollment (Nov 10–12) and "which classes move me toward the role I want" is a question nobody else can
+answer. The picker is the hook that recruits for the owner's first paid cohort: a hand-delivered, paid, six-week
+program for five graduate students at Cornell Tech and IE New York pivoting into tech, each with a named target role,
+each shipping two or three projects aimed at it by Dec 19, with a weekly session. Applications open Oct 31; the atlas
+captures them and promises nothing it does not do itself. The price is never shown (the owner states it in his
+reply); the word "paid" is.
+
+What gets no new work, here or in later threads: the fit screen, the role rail, Explore, About you and the games
+stay as they are. Not removed, not promoted. The one change they get is the cohort application replacing the waitlist
+wording (step 1). The privacy posture is unchanged: the résumé, the syllabus, a pasted posting and every skill list
+never leave the browser; a waitlist row carries an email, where the click was, the role, the stage, the program and
+the fields, and, new in step 1, one optional short sentence the person types knowingly; events carry no text, ever.
+
+Four steps, one branch and one PR each: the reframe in the documentation (`docs/atlas-is-grounding`), the waitlist
+becoming the cohort application (`feat/cohort-application`), the picker's instructor and content facets
+(`feat/picker-facets`), and the IE New York roster, discovery first and gated on what IE publishes (`data/ienyc-roster`).
+What each built is below as it lands.
+
+**Built, step 0** (`docs/atlas-is-grounding`): this section; the "Later" items that invest in the fit flow moved under
+"Frozen with the fit flow"; `README.md` opens with what the atlas is now; the contract names its first consumer and
+the files it reads. No code.
+
 ## Later
 
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
   closed postings the way the MBA graph does (a `data/` branch).
-- The field chart's lanes with a resume read as two skew lines (the share orders both); a better second axis now that
-  every skill has a kind and the shared skills a field reading (v13, v14); the lanes without a resume can read `kind`
-  instead of the measured fallback.
 - ~~v14 step 6, `chore/adaptive-6-signals`~~: dropped for good on 2026-10-25 (v16, decision 3). `signals` stay as the
   fallback for the 98 product skills; a reader-judged line per skill is GradBuddy's synthesis, not an atlas fact.
-- Behaviours in the score: rerun `BEHAVIOURS=score node evals/calibrate.mjs --roles mba` (and the product set) on the
-  full 304-resume calibration set; switch both bands files to `"score"` only if neither rank statistic falls and no
-  group loses its bands, moving the six samples' `score_band` in the same commit. Measured on 48 files on 2026-10-25:
-  no fall (v14).
 - `evals/run_depth.py` has 28 failures on `main` since the 2026-10-25 refresh (sub-skill shares outside the 5% to 50%
   band on the new postings): a `pipeline.depth_publish` rerun on a `data/` branch, with the baseline.
 - The waitlist boxes ("Help me show this", "Build these skills", "Ways to show your skills", the fit screen) are a
@@ -1084,3 +1111,12 @@ What the thread found and decided on its own, recorded in the pull requests:
 - The runner trial's results (`evals/runner_trial_2026-10-26.md`, "Results"): the owner dispatches it; then the schedule
   variables, and the self-hosted runner only if a family is blocked.
 - More families (design, engineering) and more companies (full Fortune 500).
+- Frozen with the fit flow (2026-10-26): the fit screen, the role rail, Explore, About you and the games get no new
+  work (v18); these stay listed so the reasoning is not lost, not as work to pick up.
+  - The field chart's lanes with a resume read as two skew lines (the share orders both); a better second axis now that
+    every skill has a kind and the shared skills a field reading (v13, v14); the lanes without a resume can read `kind`
+    instead of the measured fallback.
+  - Behaviours in the score: rerun `BEHAVIOURS=score node evals/calibrate.mjs --roles mba` (and the product set) on the
+    full 304-resume calibration set; switch both bands files to `"score"` only if neither rank statistic falls and no
+    group loses its bands, moving the six samples' `score_band` in the same commit. Measured on 48 files on 2026-10-25:
+    no fall (v14).

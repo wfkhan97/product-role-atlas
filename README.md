@@ -1,8 +1,12 @@
 # Product Job Map
 
-An interactive map of what product roles actually ask for, built from live job postings at the
-Fortune 50 and at a16z- and Sequoia-backed startups. Pick a role family and level, click around the
-skill graph, or drop in a resume / course list to see how well you match a specific posting.
+The job atlas is GradBuddy's grounding layer: live job postings from the Fortune 500, venture-backed startups and the
+employers MBA students target, read against one skill taxonomy into role graphs, plus the Spring 2027 course registry.
+Its one public surface is the Spring 2027 class picker (`#/classes`): every Cornell Tech student picks classes before
+pre-enrollment, and the picker reads each class against the role the student wants and the gaps their resume leaves.
+The rest of the site (the fit screen, the role rail, Explore, About you, the games) stays as it is and gets no new work
+(PLAN.md, "The cohort hook (v18)"). The atlas states facts and matches; it runs no model at runtime, and nothing a
+person uploads leaves their browser.
 
 See [PLAN.md](PLAN.md) for the design and [docs/GRADBUDDY_CONTRACT.md](docs/GRADBUDDY_CONTRACT.md) for what another program (GradBuddy) reads from the atlas: the files, the functions, their shapes and ids, what is stable and what is not, and the privacy rule.
 
