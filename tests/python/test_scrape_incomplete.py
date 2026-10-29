@@ -87,3 +87,29 @@ def test_nothing_is_checked_when_nothing_came_back(tmp_path, monkeypatch):
     monkeypatch.setitem(scrape.CHECKS, "fake", lambda c, cfg, p: False)
     blob = _run(tmp_path, monkeypatch, lambda name, cfg, ok: [])
     assert not any(j.get("closed") for j in blob["jobs"]) and "no open posting came back to test the check on" in blob["partial"]
+
+
+def test_recheck_closed_reopens_what_the_board_still_shows(tmp_path, monkeypatch):
+    (tmp_path / "data" / "raw" / "jobs").mkdir(parents=True)
+    old = [{"company": "Acme", "title": f"Product Manager {k}", "url": f"https://x/{k}", "external_id": k, "description": "",
+            "first_seen": "2026-10-01", "last_seen": "2026-10-20"} for k in "abcdefgh"]
+    old += [{"company": "Acme", "title": "Product Manager y", "url": "https://x/y", "external_id": "y", "description": "",
+             "first_seen": "2026-10-01", "last_seen": "2026-10-10", "closed": "2026-10-18"},
+            {"company": "Acme", "title": "Product Manager z", "url": "https://x/z", "external_id": "z", "description": "",
+             "first_seen": "2026-09-01", "last_seen": "2026-09-10", "closed": "2026-09-12"}]
+    (tmp_path / "data" / "raw" / "jobs" / "acme.json").write_text(json.dumps({"company": "Acme", "scraped_at": "2026-10-20T00:00:00", "jobs": old}))
+
+    def adapter(name, cfg, ok):
+        common.listing_failed("fake: stopped at the page cap")
+        return _jobs("abcdefgh")
+    monkeypatch.setitem(scrape.CHECKS, "fake", lambda c, cfg, p: True)
+    monkeypatch.setattr(scrape.time, "sleep", lambda s: None)
+    monkeypatch.setattr(sys, "argv", ["scrape", "--refresh", "--no-db", "--only", "Acme", "--workers", "1", "--recheck-closed", "2026-10-01"])
+    (tmp_path / "data" / "registry.json").write_text(json.dumps([{"company": "Acme", "ats": "fake", "config": {}}]))
+    monkeypatch.setattr(scrape, "ROOT", str(tmp_path))
+    monkeypatch.setitem(scrape.ADAPTERS, "fake", adapter)
+    scrape.main()
+    by = {j["external_id"]: j for j in json.loads((tmp_path / "data" / "raw" / "jobs" / "acme.json").read_text())["jobs"]}
+    assert "closed" not in by["y"], "closed since the date and still shown: reopened"
+    assert by["z"]["closed"] == "2026-09-12", "closed before the date: not asked"
+    assert len(by) == 10

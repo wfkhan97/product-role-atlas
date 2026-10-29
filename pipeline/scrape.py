@@ -111,7 +111,7 @@ def merge(old, fetched, entry, today, full=True, checked=None):
     full: every search was run, so a posting that did not come back is closed; with one batch of searches
     (full False) nothing is closed. checked: with full False, posting_key -> what the board said about an open
     posting that did not come back, asked one by one (check_missing): True keeps it open and seen today, False
-    closes it; a key that is absent or None stays as it was.
+    closes an open one (a closed one keeps its date); a key that is absent or None stays as it was.
     One row per posting_key. A posting that comes back takes the board's current title, URL and text (the row
     seen last is the posting) and keeps its first_seen. Two rows of one requisition in the file (written before
     the key was the id) fold into one the same way: the one seen last wins, the first keeps its place.
@@ -164,13 +164,14 @@ def merge(old, fetched, entry, today, full=True, checked=None):
                 if j["last_seen"] != today:
                     j["closed"] = today
     elif old and checked:
-        for j in open_before:
+        for j in uniq:
             said = checked.get(posting_key(j))
             if j["last_seen"] == today or said is None:
                 continue
             if said:
                 j["last_seen"] = today
-            else:
+                j.pop("closed", None)  # a posting closed before that the board still shows is open again
+            elif not j.get("closed"):
                 j["closed"] = today
     return uniq, partial
 
@@ -178,10 +179,13 @@ def merge(old, fetched, entry, today, full=True, checked=None):
 CONTROLS = 3  # postings that did come back, asked the same way first: a check that calls one of them gone is not trusted
 
 
-def check_missing(still_open, company, cfg, old, fetched):
-    """Ask the board about each open posting of `old` that the incomplete fetch did not return. Returns (checked,
-    note): checked as merge takes it, empty when the controls fail. still_open(company, cfg, posting) answers True
-    (on the board), False (the board says it is gone) or None (cannot tell); an exception counts as None."""
+def check_missing(still_open, company, cfg, old, fetched, closed_since=None):
+    """Ask the board about each open posting of `old` that the incomplete fetch did not return, and with
+    closed_since also each posting closed on or after that date that it did not return (--recheck-closed: closures
+    before 2026-10-29 treated a capped search as complete). Returns (checked, note): checked as merge takes it, empty
+    when the controls fail. still_open(company, cfg, posting) answers True (on the board), False (the board says it is
+    gone) or None (cannot tell); an exception counts as None. The controls are postings this fetch returned, so they
+    are open now: a check that calls one of them gone is not trusted."""
     def ask(j):
         try:
             return still_open(company, cfg, j)
@@ -193,7 +197,8 @@ def check_missing(still_open, company, cfg, old, fetched):
     missing, keys = [], set()
     for j in old.get("jobs", []):
         k = posting_key(j)
-        if not j.get("closed") and k not in back and k not in keys:
+        asked = not j.get("closed") or (closed_since and j["closed"] >= closed_since)
+        if asked and k not in back and k not in keys:
             keys.add(k)
             missing.append(j)
     if not missing:
@@ -209,8 +214,9 @@ def check_missing(still_open, company, cfg, old, fetched):
         checked[posting_key(j)] = ask(j)
         time.sleep(0.3)  # one request a posting, at the pace of the adapters' own detail requests
     said = collections.Counter(checked.values())
-    return checked, (f"{len(missing)} missing postings checked one by one: {said[True]} still open, {said[False]} gone, "
-                     f"{said[None]} unknown")
+    note = f"{len(missing)} missing postings checked one by one: {said[True]} still open, {said[False]} gone, {said[None]} unknown"
+    reopened = sum(1 for j in missing if j.get("closed") and checked[posting_key(j)])
+    return checked, note + (f" ({reopened} of them closed before and reopened)" if closed_since else "")
 
 
 def main():
@@ -225,6 +231,8 @@ def main():
     ap.add_argument("--roles", choices=sorted(ROLE_SETS), default="product")
     ap.add_argument("--batch", type=int, choices=sorted(roles_mba.BATCH_QUERIES))
     ap.add_argument("--no-db", action="store_true", help="do not push the files to the Supabase backlog")
+    ap.add_argument("--recheck-closed", metavar="DATE", help="on an incomplete fetch, also ask about postings closed on "
+                    "or after DATE and reopen the ones the board still shows (repairs closures made before 2026-10-29)")
     ap.add_argument("--no-snapshot", action="store_true", help="push the files but skip the dated storage snapshot (a job that runs one ATS family at a time snapshots once at the end)")
     args = ap.parse_args()
     db = not args.no_db and backlog.configured()
@@ -294,7 +302,7 @@ def main():
                 # and leave them open with no end, so they are asked one by one as for a capped search
                 unread = [f"{len(jobs)} postings came back of {sum(1 for j in old['jobs'] if not j.get('closed'))} open"]
             if unread and old and batch is None and entry["ats"] in CHECKS:
-                checked, how = check_missing(CHECKS[entry["ats"]], name, cfg, old, jobs)
+                checked, how = check_missing(CHECKS[entry["ats"]], name, cfg, old, jobs, args.recheck_closed)
                 with lock:
                     totals["checked"] += len(checked)
             uniq, partial = merge(old, jobs, entry, today, full=batch is None and not unread, checked=checked)
