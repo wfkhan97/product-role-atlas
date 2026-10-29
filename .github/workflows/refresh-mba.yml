@@ -254,8 +254,14 @@ jobs:
       - name: Dated snapshot of the backlog (once per run, not once per family)
         if: github.event_name == 'schedule' || (inputs.ats == 'all' && inputs.only == '' && inputs.trial != true)
         run: python -m pipeline.backlog snapshot --roles mba
+      - name: The text cache of the last extract
+        # data/experiments/extract_cache_mba.json.gz (pipeline.extract.TextCache): a two-core runner tags only the
+        # texts that changed since the last run; without it a full extract outlasts the job
+        run: python -m pipeline.store pull caches --only data/experiments/extract_cache_mba.json.gz
       - name: Extract
         run: python -m pipeline.extract --roles mba
+      - name: Keep the text cache for the next run
+        run: python -m pipeline.store push caches --only data/experiments/extract_cache_mba.json.gz
       - name: Build the graph
         run: python -m pipeline.build_graph --roles mba
       - name: Pipeline evals

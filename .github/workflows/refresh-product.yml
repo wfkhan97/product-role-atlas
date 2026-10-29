@@ -233,8 +233,14 @@ jobs:
       - name: Dated snapshot of the backlog (once per run)
         if: github.event_name == 'schedule' || (inputs.ats == 'all' && inputs.only == '')
         run: python -m pipeline.backlog snapshot --roles product
+      - name: The text cache of the last extract
+        # data/experiments/extract_cache_product.json.gz (pipeline.extract.TextCache): a two-core runner tags only the
+        # texts that changed since the last run; without it a full extract outlasts the job
+        run: python -m pipeline.store pull caches --only data/experiments/extract_cache_product.json.gz
       - name: Extract
         run: python -m pipeline.extract
+      - name: Keep the text cache for the next run
+        run: python -m pipeline.store push caches --only data/experiments/extract_cache_product.json.gz
       - name: Build the graph
         run: python -m pipeline.build_graph
       - name: Pipeline evals
