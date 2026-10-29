@@ -154,7 +154,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 786
+   "n": 794
   },
   {
    "id": "ma_integration",
@@ -180,7 +180,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 256
+   "n": 261
   },
   {
    "id": "strategic_finance",
@@ -209,7 +209,7 @@
     "strategic_finance",
     "financial_manager"
    ],
-   "n": 572
+   "n": 578
   },
   {
    "id": "treasury",
@@ -223,7 +223,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 145
+   "n": 146
   },
   {
    "id": "commercial_banking_rm",
@@ -235,7 +235,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 762
+   "n": 772
   },
   {
    "id": "corporate_banking",
@@ -249,7 +249,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 124
+   "n": 128
   },
   {
    "id": "re_acquisitions",
@@ -277,7 +277,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 42
+   "n": 43
   },
   {
    "id": "re_asset_manager",
@@ -289,7 +289,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 72
+   "n": 75
   },
   {
    "id": "pe_associate",
@@ -303,7 +303,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 234
+   "n": 235
   },
   {
    "id": "vc_associate",
@@ -331,7 +331,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 349
+   "n": 355
   },
   {
    "id": "chief_of_staff",
@@ -343,7 +343,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 140
+   "n": 141
   },
   {
    "id": "tech_strategy",
@@ -357,7 +357,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 141
+   "n": 146
   },
   {
    "id": "product_strategy",
@@ -372,7 +372,7 @@
     "product_manager"
    ],
    "product_gate": "pm",
-   "n": 72
+   "n": 0
   },
   {
    "id": "product_manager",
@@ -387,7 +387,7 @@
    ],
    "covered_by": [],
    "product_gate": "pm",
-   "n": 3645
+   "n": 0
   },
   {
    "id": "bizops",
@@ -399,7 +399,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 811
+   "n": 818
   },
   {
    "id": "corp_strategy_analyst",
@@ -413,7 +413,7 @@
    "covered_by": [
     "strategy_manager"
    ],
-   "n": 112
+   "n": 114
   },
   {
    "id": "strategy_manager",
@@ -429,7 +429,7 @@
     "corp_strategy_analyst"
    ],
    "covered_by": [],
-   "n": 595
+   "n": 609
   },
   {
    "id": "digital_transformation",
@@ -457,7 +457,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 168
+   "n": 171
   },
   {
    "id": "transformation",
@@ -473,7 +473,7 @@
     "digital_transformation"
    ],
    "covered_by": [],
-   "n": 249
+   "n": 264
   },
   {
    "id": "management_consultant",
@@ -487,7 +487,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1845
+   "n": 1991
   },
   {
    "id": "financial_manager",
@@ -503,7 +503,7 @@
     "fpa"
    ],
    "covered_by": [],
-   "n": 1727
+   "n": 1762
   },
   {
    "id": "general_manager",
@@ -517,7 +517,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 244
+   "n": 245
   },
   {
    "id": "program_manager",
@@ -531,7 +531,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 3039
+   "n": 3111
   },
   {
    "id": "pmm",
@@ -544,7 +544,7 @@
    "covers": [],
    "covered_by": [],
    "product_gate": "pmm",
-   "n": 609
+   "n": 0
   },
   {
    "id": "brand_manager",
@@ -584,7 +584,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 726
+   "n": 728
   },
   {
    "id": "partnerships",
@@ -596,7 +596,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 456
+   "n": 462
   },
   {
    "id": "bizdev",
@@ -610,7 +610,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1198
+   "n": 1212
   },
   {
    "id": "business_analytics",
@@ -626,7 +626,7 @@
     "business_intelligence"
    ],
    "covered_by": [],
-   "n": 310
+   "n": 320
   },
   {
    "id": "business_intelligence",
@@ -658,7 +658,7 @@
    "covered_by": [
     "procurement"
    ],
-   "n": 432
+   "n": 435
   },
   {
    "id": "category_manager",
@@ -670,7 +670,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 300
+   "n": 304
   },
   {
    "id": "procurement",
@@ -684,7 +684,7 @@
     "strategic_sourcing"
    ],
    "covered_by": [],
-   "n": 551
+   "n": 558
   },
   {
    "id": "supply_chain",
@@ -698,7 +698,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 752
+   "n": 770
   },
   {
    "id": "comp_benefits",
@@ -712,7 +712,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 387
+   "n": 392
   },
   {
    "id": "org_dev",
@@ -726,7 +726,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 176
+   "n": 177
   },
   {
    "id": "hr_manager",
@@ -740,7 +740,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1440
+   "n": 1470
   },
   {
    "id": "enterprise_risk",
@@ -754,7 +754,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 641
+   "n": 656
   },
   {
    "id": "compliance",
@@ -766,7 +766,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 572
+   "n": 578
   },
   {
    "id": "governance",
@@ -780,7 +780,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 224
+   "n": 230
   },
   {
    "id": "sales_manager",
@@ -794,7 +794,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1887
+   "n": 1895
   },
   {
    "id": "marketing_manager",
@@ -806,7 +806,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 1153
+   "n": 1166
   },
   {
    "id": "operations_manager",
@@ -820,7 +820,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 3147
+   "n": 3331
   }
  ],
  "covers_status": "confirmed",
@@ -1512,7 +1512,7 @@
    ]
   }
  },
- "generated": "2026-10-25",
+ "generated": "2026-10-29",
  "employers": {
   "Accenture": {
    "category": "Consulting and advisory"
@@ -2184,10 +2184,6 @@
   "Related Companies": {
    "category": "Real estate"
   },
-  "Constellation Brands": {
-   "category": "Consumer goods",
-   "industry": "Beverages"
-  },
   "Equity Residential": {
    "category": "Real estate"
   },
@@ -2202,6 +2198,10 @@
   },
   "Howard Hughes": {
    "category": "Real estate"
+  },
+  "Constellation Brands": {
+   "category": "Consumer goods",
+   "industry": "Beverages"
   },
   "Cornerstone Research": {
    "category": "Strategy consulting"
