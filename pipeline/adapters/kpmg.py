@@ -34,3 +34,17 @@ def fetch(company, cfg, title_ok, max_pages=25):
                        posted=p.get("datePosted"), external_id=jid))
         time.sleep(0.2)
     return out
+
+
+def still_open(company, cfg, posting):
+    """True: the job page answers 200 with its JSON-LD JobPosting. False: the job page redirects to
+    /job-posting-not-found (the site's answer for a job it no longer shows) or answers 404/410. None: anything else."""
+    jid = posting.get("external_id")
+    if not jid:
+        return None
+    r = get(f"{BASE}/jobdetail/?jobId={jid}")
+    if (r.history and "/job-posting-not-found" in r.url) or r.status_code in (404, 410):
+        return False
+    if r.status_code == 200 and jsonld.job_posting(r.text):
+        return True
+    return None

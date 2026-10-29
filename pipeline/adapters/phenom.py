@@ -154,3 +154,36 @@ def fetch(company, cfg, title_ok, max_pages=25):
                        external_id=p.get("jobId") or key, extra={"category": p.get("category")}))
         time.sleep(0.2)
     return out
+
+
+def still_open(company, cfg, posting):
+    """Read the posting's Phenom job page: the stored URL when it is on the Phenom host, else /us/en/job/<jobId> (CVS,
+    Regions, ITW store a Workday apply link; a page in the wrong locale redirects to the right one, asked once). True: the page's
+    jobDetail holds this job. False: the page answers 404 or 410, how Phenom pages answer a job that is gone (BCG,
+    CVS, PMI, United, Synovus, Zimmer). None: anything else, including a record marked "Deleted" on a page that still
+    answers 200 (Newmont keeps those pages; the job is out of the search, but the mark is one board's field)."""
+    host, jid, url = cfg.get("host"), str(posting.get("external_id") or ""), posting.get("url") or ""
+    if not host:
+        return None
+    if not (url.startswith(f"https://{host}/") and "/job/" in url):
+        if not jid:
+            return None
+        url = f"https://{host}/us/en/job/{jid}"
+    r = get(url, allow_redirects=False)
+    if 300 <= r.status_code < 400 and jid:
+        # a page asked in the wrong locale redirects to the right one: to its job page (BCG) or to its home, /global/en
+        # (Labcorp); ask that locale's job page once
+        m = re.match(r"(?:https://[^/]+)?/([a-z]{2,6})/([a-z]{2})(?:/job/[^/?#]+)?/?$", r.headers.get("Location") or "")
+        retry = f"https://{host}/{m.group(1)}/{m.group(2)}/job/{jid}" if m else None
+        if retry and retry != url:
+            r = get(retry, allow_redirects=False)
+    if r.status_code in (404, 410):
+        return False
+    if r.status_code != 200:
+        return None
+    jd = (((_ddo(r.text) or {}).get("jobDetail") or {}).get("data") or {}).get("job") or {}
+    if not jd or (jid and str(jd.get("jobId") or "") != jid):
+        return None
+    if str(jd.get("jobStatusVal") or "").lower() == "deleted":
+        return None
+    return True

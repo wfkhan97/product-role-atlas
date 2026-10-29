@@ -122,3 +122,20 @@ def fetch(company, cfg, title_ok, max_pages=None):
     if blocked:
         print(f"[talnet] {company}: {blocked} of {len(found)} vacancy pages are behind the site's check; not read", file=sys.stderr, flush=True)
     return out
+
+
+def still_open(company, cfg, posting):
+    """True: the vacancy page answers 200 with its vacancy fields (id="vac_desc"). False: the vacancy page answers 404
+    or 410 (tal.net serves its "Page Not Found (404)" page for a vacancy it no longer shows). None: anything else,
+    and every page behind the site's "Quick Check" (a captcha) whatever its status."""
+    url = posting.get("url") or ""
+    if not url.startswith("https://"):
+        return None
+    r = get(url, headers={"Accept": "text/html"})
+    if challenged(r.text):
+        return None
+    if r.status_code in (404, 410):
+        return False
+    if r.status_code == 200 and 'id="vac_desc"' in r.text:
+        return True
+    return None

@@ -57,3 +57,28 @@ def fetch(company, cfg, title_ok, max_pages=8):
         out.append(job(company, title, url, desc, external_id=href.rstrip("/").rsplit("/", 1)[-1]))
         time.sleep(0.3)
     return out
+
+
+# a SuccessFactors job page that has lost its job keeps the layout and puts one sentence where the job was, worded by
+# each site: "The Job is no longer available.", "Sorry, this position has been filled.", "Thank you for your interest.
+# This job is currently unposted."
+GONE_RE = re.compile(r'(?is)<div class="job">\s*<p>\s*<strong>([^<]{0,200}?(?:no longer available|has been filled|'
+                     r'currently unposted|is no longer posted|not available|expired)[^<]{0,100})</strong>\s*</p>\s*</div>')
+
+
+def still_open(company, cfg, posting):
+    """True: the job page answers 200 with its description (span.jobdescription or JSON-LD). False: the job page
+    answers 404/410, or 200 with no description and the site's own sentence in place of the job (GONE_RE). None:
+    anything else, including the redirect to /errorpage/ that the site gives for any failure."""
+    url = posting.get("url") or ""
+    if not url.startswith("https://"):
+        return None
+    r = get(url, allow_redirects=False)
+    if r.status_code in (404, 410):
+        return False
+    if r.status_code != 200:
+        return None
+    from .jsonld import job_posting
+    if DESC_RE.search(r.text) or job_posting(r.text):
+        return True
+    return False if GONE_RE.search(r.text) else None

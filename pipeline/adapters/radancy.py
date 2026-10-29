@@ -54,3 +54,17 @@ def fetch(company, cfg, title_ok, max_pages=10):
                        posted=p.get("datePosted"), external_id=href.rstrip("/").rsplit("/", 1)[-1]))
         time.sleep(0.3)
     return out
+
+
+def still_open(company, cfg, posting):
+    """True: the job page answers 200 with its JSON-LD JobPosting. False: the job page answers 404 or 410 (Radancy
+    serves its "Job Not Found" page with a 404 for a job it no longer shows). None: anything else."""
+    url = posting.get("url") or ""
+    if not url.startswith("https://"):
+        return None
+    r = get(url)
+    if r.status_code in (404, 410):
+        return False
+    if r.status_code == 200 and job_posting(r.text):
+        return True
+    return None

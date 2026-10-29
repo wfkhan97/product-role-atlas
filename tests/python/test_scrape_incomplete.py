@@ -39,3 +39,51 @@ def test_a_complete_fetch_closes_what_did_not_come_back(tmp_path, monkeypatch):
     blob = _run(tmp_path, monkeypatch, lambda name, cfg, ok: _jobs("abcdefgh"))
     assert sorted(j["external_id"] for j in blob["jobs"] if j.get("closed")) == list("ijkl")
     assert "partial" not in blob
+
+
+def test_an_incomplete_fetch_closes_what_the_board_says_is_gone(tmp_path, monkeypatch):
+    def adapter(name, cfg, ok):
+        common.listing_failed("fake: stopped at the page cap")
+        return _jobs("abcdefgh")
+    asked = []
+
+    def still_open(company, cfg, posting):
+        asked.append(posting["external_id"])
+        return {"i": False, "j": True, "k": None}.get(posting["external_id"], True)  # l raises below
+    monkeypatch.setitem(scrape.CHECKS, "fake", lambda c, cfg, p: (_ for _ in ()).throw(RuntimeError("x")) if p["external_id"] == "l" else still_open(c, cfg, p))
+    monkeypatch.setattr(scrape.time, "sleep", lambda s: None)
+    blob = _run(tmp_path, monkeypatch, adapter)
+    closed = sorted(j["external_id"] for j in blob["jobs"] if j.get("closed"))
+    assert closed == ["i"]
+    assert asked[:3] == ["a", "b", "c"], "three postings that came back are asked first, as controls"
+    assert "4 missing postings checked one by one: 1 still open, 1 gone, 2 unknown" in blob["partial"]
+
+
+def test_a_check_that_calls_a_returned_posting_gone_is_not_trusted(tmp_path, monkeypatch):
+    def adapter(name, cfg, ok):
+        common.listing_failed("fake: stopped at the page cap")
+        return _jobs("abcdefgh")
+    monkeypatch.setitem(scrape.CHECKS, "fake", lambda c, cfg, p: False)  # a blocked check: everything looks gone
+    monkeypatch.setattr(scrape.time, "sleep", lambda s: None)
+    blob = _run(tmp_path, monkeypatch, adapter)
+    assert not any(j.get("closed") for j in blob["jobs"])
+    assert "the check called a posting that came back gone" in blob["partial"]
+
+
+def test_a_board_that_returned_few_is_asked_one_by_one(tmp_path, monkeypatch):
+    monkeypatch.setitem(scrape.CHECKS, "fake", lambda c, cfg, p: p["external_id"] != "l")  # l is gone
+    monkeypatch.setattr(scrape.time, "sleep", lambda s: None)
+    blob = _run(tmp_path, monkeypatch, lambda name, cfg, ok: _jobs("ab"))  # 2 of 12 back: under 30%
+    assert sorted(j["external_id"] for j in blob["jobs"] if j.get("closed")) == ["l"]
+    assert "2 postings came back of 12 open" in blob["partial"] and "1 gone" in blob["partial"]
+
+
+def test_a_board_that_returned_few_without_a_check_still_closes_nothing(tmp_path, monkeypatch):
+    blob = _run(tmp_path, monkeypatch, lambda name, cfg, ok: _jobs("ab"))
+    assert not any(j.get("closed") for j in blob["jobs"]) and "came back; nothing was closed" in blob["partial"]
+
+
+def test_nothing_is_checked_when_nothing_came_back(tmp_path, monkeypatch):
+    monkeypatch.setitem(scrape.CHECKS, "fake", lambda c, cfg, p: False)
+    blob = _run(tmp_path, monkeypatch, lambda name, cfg, ok: [])
+    assert not any(j.get("closed") for j in blob["jobs"]) and "no open posting came back to test the check on" in blob["partial"]
