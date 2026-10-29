@@ -246,7 +246,9 @@ jobs:
       - name: Pipeline evals
         id: evals
         continue-on-error: true
-        run: python evals/run_pipeline.py 2>&1 | tee summary/evals.txt
+        run: |
+          set -o pipefail  # without it the step takes tee's exit status and a failing eval reads as a pass
+          python evals/run_pipeline.py 2>&1 | tee summary/evals.txt
       - name: The checks CI runs
         id: checks
         continue-on-error: true
@@ -292,4 +294,9 @@ jobs:
           git add data/registry.json data/processed web/data
           git commit -q -m "Product refresh of $DATE (refresh-product run ${{ github.run_number }})"
           git push -u origin "$branch"
-          gh pr create --base main --head "$branch" --title "Product refresh of $DATE" --body-file summary/body.md
+          # a refresh whose evals or checks failed opens as a draft that says so: never mistaken for a clean one
+          if [ "$EVALS_OK" = success ] && [ "$CHECKS_OK" = success ]; then
+            gh pr create --base main --head "$branch" --title "Product refresh of $DATE" --body-file summary/body.md
+          else
+            gh pr create --draft --base main --head "$branch" --title "Product refresh of $DATE (evals failed: do not merge)" --body-file summary/body.md
+          fi

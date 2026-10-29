@@ -254,8 +254,8 @@ jobs:
           pattern: summary-*
           path: summary/
           merge-multiple: true
-      - name: Pull the MBA backlog
-        run: python -m pipeline.backlog pull --roles mba
+      - name: Pull the backlog, both role sets (the MBA extract also reads the product files, where three of its roles live)
+        run: python -m pipeline.backlog pull --roles all
       - name: Dated snapshot of the backlog (once per run, not once per family)
         if: github.event_name == 'schedule' || (inputs.ats == 'all' && inputs.only == '' && inputs.trial != true)
         run: python -m pipeline.backlog snapshot --roles mba
@@ -272,7 +272,9 @@ jobs:
       - name: Pipeline evals
         id: evals
         continue-on-error: true
-        run: python evals/run_pipeline.py 2>&1 | tee summary/evals.txt
+        run: |
+          set -o pipefail  # without it the step takes tee's exit status and a failing eval reads as a pass
+          python evals/run_pipeline.py 2>&1 | tee summary/evals.txt
       - name: The checks CI runs (a pull request opened by the workflow's own token gets no CI run)
         id: checks
         continue-on-error: true
@@ -320,4 +322,9 @@ jobs:
           git add data/processed web/data
           git commit -q -m "MBA refresh of $DATE (refresh-mba run ${{ github.run_number }})"
           git push -u origin "$branch"
-          gh pr create --base main --head "$branch" --title "MBA refresh of $DATE" --body-file summary/body.md
+          # a refresh whose evals or checks failed opens as a draft that says so: never mistaken for a clean one
+          if [ "$EVALS_OK" = success ] && [ "$CHECKS_OK" = success ]; then
+            gh pr create --base main --head "$branch" --title "MBA refresh of $DATE" --body-file summary/body.md
+          else
+            gh pr create --draft --base main --head "$branch" --title "MBA refresh of $DATE (evals failed: do not merge)" --body-file summary/body.md
+          fi
