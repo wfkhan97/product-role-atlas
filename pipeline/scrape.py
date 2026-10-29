@@ -104,6 +104,15 @@ def few_came_back(old, fetched):
     return len(was_open) >= 10 and len(was_open & back) < FEW * len(was_open)
 
 
+def shard(entries, spec):
+    """The Kth of N parts of `entries` ("K/N"): every Nth entry from the (K-1)th, so the largest employers, which the
+    registry lists near each other, spread over the parts."""
+    k, n = (int(x) for x in spec.split("/"))
+    if not 1 <= k <= n:
+        raise ValueError(f"--shard {spec}: K must be between 1 and N")
+    return entries[k - 1::n]
+
+
 def merge(old, fetched, entry, today, full=True, checked=None):
     """Add what a board shows today to a company's backlog. Returns (postings, note when nothing was closed).
 
@@ -231,6 +240,8 @@ def main():
     ap.add_argument("--roles", choices=sorted(ROLE_SETS), default="product")
     ap.add_argument("--batch", type=int, choices=sorted(roles_mba.BATCH_QUERIES))
     ap.add_argument("--no-db", action="store_true", help="do not push the files to the Supabase backlog")
+    ap.add_argument("--shard", metavar="K/N", help="the Kth of N equal parts of the selected employers, in registry order "
+                    "(a refresh job too long for one runner: pipeline.backlog pull --ats takes the same --shard)")
     ap.add_argument("--recheck-closed", metavar="DATE", help="on an incomplete fetch, also ask about postings closed on "
                     "or after DATE and reopen the ones the board still shows (repairs closures made before 2026-10-29)")
     ap.add_argument("--no-snapshot", action="store_true", help="push the files but skip the dated storage snapshot (a job that runs one ATS family at a time snapshots once at the end)")
@@ -245,8 +256,14 @@ def main():
     reg = load_registry(args.roles)
     summary = []
     todo = []
+    picked = None
+    if args.shard:
+        picked = {e["company"] for e in shard(
+            [e for e in reg if not args.ats or e.get("ats") == args.ats], args.shard)}
     for entry in reg:
         name = entry["company"]
+        if picked is not None and name not in picked:
+            continue
         if args.only and name not in args.only:
             continue
         if args.group and not entry.get("group", "").startswith(args.group):

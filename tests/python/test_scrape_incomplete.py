@@ -113,3 +113,13 @@ def test_recheck_closed_reopens_what_the_board_still_shows(tmp_path, monkeypatch
     assert "closed" not in by["y"], "closed since the date and still shown: reopened"
     assert by["z"]["closed"] == "2026-09-12", "closed before the date: not asked"
     assert len(by) == 10
+
+
+def test_shards_split_a_family_into_disjoint_parts_that_cover_it():
+    entries = [{"company": c} for c in "abcdefg"]
+    parts = [scrape.shard(entries, f"{k}/3") for k in (1, 2, 3)]
+    assert [e["company"] for p in parts for e in p] and sorted(e["company"] for p in parts for e in p) == list("abcdefg")
+    assert [e["company"] for e in parts[0]] == ["a", "d", "g"]
+    import pytest
+    with pytest.raises(ValueError):
+        scrape.shard(entries, "4/3")
