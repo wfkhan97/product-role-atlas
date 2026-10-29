@@ -36,6 +36,9 @@ on:
         description: "fetch, but write nothing to the backlog and open no pull request"
         type: boolean
         default: false
+      recheck_closed:
+        description: "a date (YYYY-MM-DD): on an incomplete fetch also ask about postings closed since then and reopen the ones still shown (pipeline.scrape --recheck-closed)"
+        default: ""
 
 concurrency:
   group: refresh-mba
@@ -165,8 +168,10 @@ jobs:
           ONLY: ${{ inputs.only }}
           TRIAL: ${{ inputs.trial }}
           DRY_RUN: ${{ inputs.dry_run }}
+          RECHECK_CLOSED: ${{ inputs.recheck_closed }}
         run: |
           args=(--roles mba --refresh --ats "$FAMILY" --no-snapshot)
+          [ -n "$RECHECK_CLOSED" ] && args+=(--recheck-closed "$RECHECK_CLOSED")
           if [ "$TRIAL" = "true" ]; then
             ONLY=$(python -c 'import json, sys; print(json.load(open("evals/runner_trial.json"))["families"].get(sys.argv[1], {}).get("trial", ""))' "$FAMILY")
             echo "trial: $FAMILY -> ${ONLY:-no trial employer for this family}"
