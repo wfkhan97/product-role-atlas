@@ -1,5 +1,5 @@
 {
- "about": "Job titles with the role and the level each must get (role null: the title is none of the 50 roles). Labelled by reading, before the rules were run on them (2026-10-12): 470 titles drawn from the scraped postings by plain keyword and at random, 159 written to probe the edges. Rows with sure=false are reported, not counted. Checked by evals/run_pipeline.py. Rows with set \"entry-2026-10-13\" (148) were added when campus titles, sector bankers and the entry-level grades of manager roles were brought in; they were labelled from the rules of that decision, before the patterns were written. \"category_before\" marks a row whose employer got a category after it was labelled (Fortune banks and investors). Set entry-mark-2026-10-13: 6 real titles that show two level rules were wrong (\"Sr.\" not read as \"Senior\" on the bank and consulting ladders; a grade word inside the name of an MBA programme).",
+ "about": "Job titles with the role and the level each must get (role null: the title is none of the 50 roles). Labelled by reading, before the rules were run on them (2026-10-12): 470 titles drawn from the scraped postings by plain keyword and at random, 159 written to probe the edges. Rows with sure=false are reported, not counted. Checked by evals/run_pipeline.py. Rows with set \"entry-2026-10-13\" (148) were added when campus titles, sector bankers and the entry-level grades of manager roles were brought in; they were labelled from the rules of that decision, before the patterns were written. \"category_before\" marks a row whose employer got a category after it was labelled (Fortune banks and investors). Set entry-mark-2026-10-13: 6 real titles that show two level rules were wrong (\"Sr.\" not read as \"Senior\" on the bank and consulting ladders; a grade word inside the name of an MBA programme). Set ai-transformation-2026-10-30 (16): the AI transformation role, added on 2026-10-30 from titles the backlog holds and 2026 postings found by search (Head of AI Transformation, AI Enablement Lead); the written rows pin its edges (engineers and research labs are not the role, AI strategy stays tech_strategy, a consultant at a consulting firm stays management_consultant).",
  "rows": [
   {
    "title": "Manufacturing Strategy Associate",
@@ -3912,11 +3912,11 @@
    "company": "Huntington Bancshares",
    "category": "Commercial and corporate banking",
    "industry": "Commercial Banks",
-   "role": "transformation",
+   "role": "ai_transformation",
    "level": "senior",
    "ladder": "bank",
-   "sure": false,
-   "note": "AI & product transformation, not plainly business or digital transformation; 'Sr ... Manager' has no bank grade"
+   "sure": true,
+   "note": "AI & product transformation is the AI transformation role since 2026-10-30 (read as transformation, unsure, before); 'Sr ... Manager' has no bank grade"
   },
   {
    "title": "HR Manager",
@@ -5602,7 +5602,7 @@
    "level": "mid",
    "ladder": "corporate",
    "sure": false,
-   "note": "customer-facing AI specialist; mentions transformation and customer success"
+   "note": "customer-facing AI specialist for one product (Amazon Quick), not the company's AI programme; the rules read it as ai_transformation since 2026-10-30, left unsure"
   },
   {
    "title": "Director, Real Estate Development",
@@ -8258,6 +8258,192 @@
    "ladder": "corporate",
    "set": "taxonomy-tags-2026-10-18",
    "note": "A real title. A sales manager on the team that sells brand partnerships: the team name after the comma is not the role. Labelled by hand on 2026-10-18; the rule read it as brand_manager before (\"Manager, Brand\")."
+  },
+  {
+   "title": "AI Transformation Lead",
+   "company": "Pfizer",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": "ai_transformation",
+   "level": "staff",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "the title the backlog holds most often; was transformation"
+  },
+  {
+   "title": "Senior AI Transformation Lead",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "ai_transformation",
+   "level": "staff",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "at a consulting firm a lead is not a consultant grade, so the general rule holds"
+  },
+  {
+   "title": "AI Transformation Manager",
+   "company": "Sanofi",
+   "category": null,
+   "industry": "Pharmaceuticals",
+   "role": "ai_transformation",
+   "level": "mid",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30"
+  },
+  {
+   "title": "Gen AI Transformation Manager",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "ai_transformation",
+   "level": "mid",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "GenAI spelt as two words"
+  },
+  {
+   "title": "Head of AI Transformation & Enablement",
+   "company": "LifeStance Health",
+   "category": null,
+   "industry": null,
+   "role": "ai_transformation",
+   "level": "vp",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "a 2026 title at a health-care company"
+  },
+  {
+   "title": "Head of AI and Data Transformation - Global Product Solutions",
+   "company": "BlackRock",
+   "category": "Asset management",
+   "industry": "Securities",
+   "role": "ai_transformation",
+   "level": "mid",
+   "ladder": "bank",
+   "set": "ai-transformation-2026-10-30",
+   "note": "Head of has no bank-ladder grade (the Citi Head of Product Strategy row is read the same way), so the bank ladder gives mid"
+  },
+  {
+   "title": "AI Enablement Lead",
+   "company": "Siemens Energy",
+   "category": null,
+   "industry": null,
+   "role": "ai_transformation",
+   "level": "staff",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "enablement: getting non-engineering teams to use AI"
+  },
+  {
+   "title": "AI Adoption Manager",
+   "company": "Acme",
+   "category": null,
+   "industry": null,
+   "role": "ai_transformation",
+   "level": "mid",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "written"
+  },
+  {
+   "title": "Director, AI Center of Excellence",
+   "company": "Acme",
+   "category": null,
+   "industry": null,
+   "role": "ai_transformation",
+   "level": "director",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "written"
+  },
+  {
+   "title": "Chief AI Officer",
+   "company": "Acme",
+   "category": null,
+   "industry": null,
+   "role": "ai_transformation",
+   "level": "cpo",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "written; the C-suite seat that owns the AI programme"
+  },
+  {
+   "title": "Head of AI",
+   "company": "Acme",
+   "category": null,
+   "industry": null,
+   "role": "ai_transformation",
+   "level": "vp",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "written; at a software company this may be the model team's lead, left sure for the enterprise reading"
+  },
+  {
+   "title": "Digital & AI Transformation Director",
+   "company": "Acme",
+   "category": null,
+   "industry": null,
+   "role": "ai_transformation",
+   "level": "director",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "written; AI named in a digital transformation title is the AI role"
+  },
+  {
+   "title": "AI Transformation Analyst",
+   "company": "Acme",
+   "category": null,
+   "industry": null,
+   "role": "ai_transformation",
+   "level": "associate",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "written; the analyst grade is the role's entry level"
+  },
+  {
+   "title": "AI Transformation Engineer",
+   "company": "Acme",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "written; an engineer builds, the exclude list says so"
+  },
+  {
+   "title": "Head of AI Research",
+   "company": "Acme",
+   "category": null,
+   "industry": null,
+   "role": null,
+   "level": null,
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "written; a lab, not a programme"
+  },
+  {
+   "title": "AI Transformation & Strategy Consultant",
+   "company": "Accenture",
+   "category": "Consulting and advisory",
+   "industry": null,
+   "role": "management_consultant",
+   "level": "mid",
+   "ladder": "consulting",
+   "set": "ai-transformation-2026-10-30",
+   "note": "at a consulting firm a consultant is the consultant role, whatever the practice"
+  },
+  {
+   "title": "Head of AI Governance",
+   "company": "Acme",
+   "category": null,
+   "industry": null,
+   "role": "governance",
+   "level": "vp",
+   "ladder": "corporate",
+   "set": "ai-transformation-2026-10-30",
+   "note": "written; AI governance is the governance role, the ai_transformation exclude list says so"
   }
  ]
 }

@@ -17,8 +17,9 @@ from any directory; `pip install -r requirements-dev.txt` once into the venv. Bo
 ## What the Python tests cover
 
 One file per module: `test_extract.py` (the cleaner, `norm`, `years_required`, the four context fixes of PR #49 as
-regression tests against the real `pipeline/taxonomy.json`), `test_geo.py` (both country readers), `test_roles_mba.py`
-(a handful of pointed titles; the labelled set is `evals/titles_mba.json`), `test_scrape_merge.py` (the backlog
+regression tests against the real `pipeline/taxonomy.json`), `test_geo.py` (both country readers), `test_roles.py` (the
+product title rules: the `product_engineer` family against hardware product engineers, the AI product titles pinned to
+`pm`), `test_roles_mba.py` (a handful of pointed titles, the AI transformation role; the labelled set is `evals/titles_mba.json`), `test_scrape_merge.py` (the backlog
 rules of `CLAUDE.md`), `test_adapters_common.py` (`strip_html`, the retry loop with a fake session), `test_processed.py`
 (the gzip switch, with the threshold monkeypatched), `test_build_graph.py` (share arithmetic), `test_depth_gen.py`
 (the model call with `requests.post` replaced), `test_log.py`, `test_backlog.py` (the round trip of a raw file) and

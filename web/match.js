@@ -62,8 +62,8 @@
   const COVERS = { product_owner: ["pm"] };
   const LEVEL_GROUP = { associate: "associate", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
   // which product family a job title belongs to (first match wins; a plain product title is "pm")
-  const TITLE_FAMILY = [["tpm", /technical program|\bTPM\b/i], ["pmm", /product marketing/i], ["product_owner", /product owner/i], ["product_analyst", /product (data )?(analyst|analytics|scientist)/i], ["product_ops", /product (operations|ops)/i]];
-  const PRODUCT_FAMILIES = new Set(["pm", "product_owner", "tpm", "pmm", "product_analyst", "product_ops"]);
+  const TITLE_FAMILY = [["product_engineer", /product engineer|forward[- ]deployed/i], ["tpm", /technical program|\bTPM\b/i], ["pmm", /product marketing/i], ["product_owner", /product owner/i], ["product_analyst", /product (data )?(analyst|analytics|scientist)/i], ["product_ops", /product (operations|ops)/i]];
+  const PRODUCT_FAMILIES = new Set(["pm", "product_owner", "tpm", "pmm", "product_analyst", "product_ops", "product_engineer"]);
   // A title that is only a grade. At a bank, a fund or a consulting firm the employer says what the job is
   // ("Associate" under "Harris Williams, Investment Banking"), so the whole job line is read, not the title alone.
   const BARE_RANK = /^(summer |senior |sr\.? |junior |jr\.? )?(analyst|associate|vice president|vp|principal|consultant|manager|director|managing director|partner|intern)( intern)?$/i;
@@ -261,7 +261,7 @@
   const headWords = s => s.replace(/\(cont(inued|\.|'d)?\)/i, "").replace(/[()]/g, " ").split(/[\s,\/&:\-–]+/).filter(Boolean);
   // "Health Law Experience", "ATHLETIC COACHING EXPERIENCE": any few capitalised words that end with the word
   const headingWords = s => { const w = headWords(s); return w.length > 0 && (w.every(x => HEAD_WORD.test(x)) || (/\b(experience|employment|internships?)$/i.test(s) && w.length <= 4 && w.every(x => /^[A-Z]/.test(x) || /^(and|of)$/.test(x)))); };
-  const PM_TITLE = /\b(product (manager|management|owner|lead|director|marketing manager|(data )?analyst|operations|ops|strategist)|\bAPM\b|\bTPM\b|technical program manager|\bPM\b|head of product|chief product|\bCPO\b|\bVP,? product)/i;
+  const PM_TITLE = /\b(product (manager|management|owner|lead|director|marketing manager|(data )?analyst|operations|ops|strategist|engineer)|forward[- ]deployed (software |ai |product )?engineer|\bAPM\b|\bTPM\b|technical program manager|\bPM\b|head of product|chief product|\bCPO\b|\bVP,? product)/i;
   const INTERN = /\bintern(ship)?\b|\bco-?op\b|\bfellow(ship)?\b/i;
   const TITLE_LEVEL = [[/\b(chief|cpo|vp|vice president|head of|director|group product|principal|staff|lead)\b/i, "lead"], [/\b(senior|sr\.?)\b/i, "senior"], [/\b(associate|junior|jr\.?|apm|intern|assistant)\b/i, "associate"]];
   const DEGREE = [[/\b(ph\.?d|doctor(ate|al))\b/i, "phd"], [/\b(mba|m\.b\.a\.?|m\.?s\.?c?|m\.?eng|m\.?a\.?|master'?s?|ms in|m\.?phil|ll\.?m)\b|\bm\.b\.a\./i, "masters_mba"], [/\b(b\.?s\.?c?|b\.?a\.?|b\.?eng|bachelor'?s?|bsc|ba in|bs in|b\.?b\.?a|b\.?com|b\.?tech|b\.?pharm|b\.?f\.?a)\b/i, "bachelors"]];

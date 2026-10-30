@@ -36,7 +36,8 @@ def skills_for(roleset):
 # role set -> where its postings are cached, how a title is classified, and where the output goes
 ROLE_SETS = {
     "product": {"raw": ["jobs"], "suffix": "", "geo": lambda j, title: geo(j.get("location", ""), title) + (j.get("location", ""),),
-                "family": lambda title, j: roles.family(title) if roles.title_ok(title) else None,
+                # a product_engineer title is settled by its text: a manufacturing "Product Engineer" is dropped (roles.software_build)
+                "family": lambda title, j: roles.family(title, j.get("description")) if roles.title_ok(title) else None,
                 "level": lambda title, company, j: roles.level(title, company)},
     # the three product roles of the MBA list live in the product cache; every other family in jobs_mba
     # Only US postings of this set are shown, so its country reader is the stricter one (pipeline/geo.py) and its

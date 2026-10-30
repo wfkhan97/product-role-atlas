@@ -24,6 +24,8 @@ SEARCH_QUERIES = [
     "product analyst",
     "head of product",
     "director product",
+    "product engineer",          # the product_engineer family (2026-10-30)
+    "forward deployed engineer",
 ]
 
 
