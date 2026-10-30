@@ -314,14 +314,16 @@ node evals/adaptive.mjs --only text     # one part
 
 ## The stage eval
 
-The stage answer (`you.stage`: looking, targeting, curious) decides what the start screen, About you and the role rail
-lead with (PLAN.md v16, step 2). `node evals/stage.mjs` checks, for each stage, that the first action each screen offers
-is the one the stage asks for (looking: a resume drop or the fields; targeting: the role search or the gaps; curious:
-explore or a game), reading the pure table `Stage` in `web/app.js` that the screens draw from, and that the screens do
-read it. Since v18 step 1 it also checks, for every stage, that the first call to action on the start screen and on
-the rail is the cohort application box (`Stage.cta` begins "Cohort 1", the copy in the pure table `Apply`) and that the
-start screen, the rail's three placeholders and the fit screen draw that box. In CI. What it does not show: whether a
-student of each kind gets what they came for; that needs sessions (`pipeline/funnel.py`) or resumes per kind.
+The stage answer (`you.stage`: looking, targeting, curious), asked in About you, step 2, decides what About you and
+the role rail lead with (PLAN.md v16, step 2). `node evals/stage.mjs` checks, for each stage, that the first action
+each screen offers is the one the stage asks for (looking: a resume drop or the fields; targeting: the role search or
+the gaps; curious: explore or a game), reading the pure table `Stage` in `web/app.js` that the screens draw from, and
+that the screens do read it. Since v18 step 1 it also checks, for every stage, that the first call to action on the
+rail and the fit screen is the cohort application box (`Stage.cta` begins "Cohort 1", the copy in the pure table
+`Apply`) and that the rail's three placeholders and the fit screen draw that box. Since v19 B2 there is no start
+screen to check: the door and home never ask the stage, and the eval checks that too (the reason is at its top). In
+CI. What it does not show: whether a student of each kind gets what they came for; that needs sessions
+(`pipeline/funnel.py`) or resumes per kind.
 
 ## The pasted posting
 
