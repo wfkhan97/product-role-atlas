@@ -1449,8 +1449,45 @@ programs, the loader and dataset in the research folder) is untouched; flipping 
 About-you hint in `web/copy.js` still reads "MBA, Tech MBA, Master in Management, Master in Finance": degree names, not
 a campus, and `Copy` is a pure table the copy evals check, so it stays as it is.
 
+## Transferable on the MBA roles: the vocabulary reaches the pivoter (`fix/transfer-reach`, 2026-10-31)
+
+The ask: on the eight test résumés `transferable` seemed never to fire against an MBA role. Measured first
+(`measure.mjs` of the map kit, and a per-hit diagnosis): it does fire, on 148 of the 384 résumé × role pairs (eight résumés, the 48 MBA roles),
+from four résumés (course_list, experienced_pm, grad_student_new, pivot_phd_hci); the kit's table adds it to the
+"shows" count, so it never shows as its own column. Where it does not fire, three reasons, counted over every via hit:
+the skill also has a direct hit (326), the role does not ask for the skill (312), or there is no via vocabulary at all
+for the skill (every MBA-only skill: the 21 skills with via patterns were all product skills). The example pivoter
+(pmm-nyc, sales to product marketing) had no transferable node on any role.
+
+Two changes in `web/match.js`, each measured:
+
+1. A direct hit that is only a mention (strength 1: a skills list, a degree line) no longer masks the via lines of
+   work: a skill is transferable when every line of work that shows it is a via line. Status only, credit unchanged.
+2. Via vocabulary for the MBA asks a pivoter's lines carry: `research` → consumer insights (semi-structured
+   interviews, thematic analysis, focus groups); `sales` → market research (win/loss, objections and lost deals),
+   positioning and messaging (objection sheets, talk tracks, discovery-call guides), customer-facing engagement (trade
+   shows, industry events); `community` → content (a weekly brief, a newsletter, an audience grown to N members). Two
+   new `VIA_LABEL`s. On 40 published sample résumés the new patterns fire on two lines, both fair reads.
+
+The procurement pivoter (experienced_with_coursework) still reads no transferable node: its lines name the MBA skills
+in their own words (vendors, suppliers, quarterly business reviews), which is direct evidence. A transferable row keeps
+full credit, so the example pivoter's Product Marketing Manager score rises from 25% to 55%, "Qualified for the role";
+the bands were not recalibrated (the 304-résumé calibration set is not on this machine), which is the next step before
+the screens show it.
+
+**Measured and not taken: a craft skill named by its artefact** (`feat/craft-artefact-named`, draft). A line that
+names one of a method skill's `how_shown.artefacts` would count as naming the skill (strength 1). On the eight résumés
+and the example no tree node changes: the taxonomy patterns already catch the artefacts these résumés write. On the 40
+published samples the multi-word artefacts name 28 skills the patterns miss, about 16 of them wrongly ("annual plan" as
+a compliance program, "test plans" as controls testing, a dissertation "case study" as customer proof); with single
+words too, 184, and "Community Credit Union" reads as content. The artefact lists tell a student what to name; they
+are not patterns, and a reader of them would need curated patterns per skill first.
+
 ## Later
 
+- Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach` (2026-10-31; `calibrate.mjs` here
+  finds 48 files and would rewrite the bands from them); decide whether a transferable row should earn less than an
+  evidenced one.
 - The next thread after the four verbs (v19, 2026-10-31): the apprentice maps behind a real sign-in (the one place a
   session is worth its cost); the IE New York switch (its catalog file and `catalog: true`); an events feed for
   Networking (the intake promises it); the graphs rebuilt for both sets so `first_seen` fills `jobs_open.json` and
