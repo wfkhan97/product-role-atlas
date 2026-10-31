@@ -1193,7 +1193,6 @@ Built: README "Hosting" (a Vercel project `gradbuddy-atlas`, root `web`, framewo
 it); `tests/web/assets.test.mjs`, which fails when `web/index.html` names a local script or stylesheet that is not on
 disk, when a path is absolute, when a token import is missing, or when a remote script pins no version. Nothing in
 `web/` changed.
-
 ### B2 — the door and home (`feat/door-home`, 2026-10-29)
 
 Built: the door at `#/` (an empty hash too): "Welcome to GradBuddy.", three short paragraphs on what GradBuddy is,
@@ -1287,6 +1286,82 @@ rebuild moves every baseline), so every row's `first_seen` is null until the own
 for both sets and then `jobs_open`; there is no Newest sort until then, as the spec says. No posting carries pay, so
 the screen says nothing about pay.
 
+## AI-forward roles in the scrape (2026-10-30)
+
+The ask (2026-10-29): add AI transformation roles to the jobs scrape, and the new AI product roles ("Associate Product
+Engineer" at Book of the Month), with the index and the search logic. Built on `feat/ai-forward-roles`.
+
+**What the research found.** Three kinds of title, read against what the rules already caught:
+
+1. *AI product titles the pm family already reads*: AI Product Manager, Agent Product Manager (Decagon's standalone
+   title), Forward Deployed Product Manager, AI Product Lead, AI Product Owner, TPM for AI infrastructure. The product
+   graph held 15 "AI Product Manager" and 9 "Forward Deployed Product Manager" postings on 2026-10-29. Nothing to add
+   but the pin (`tests/python/test_roles.py`) and the 2026 words in the `ai_ml` specialisation (applied AI, GenAI,
+   agents, foundation models, forward deployed).
+2. *The builder role between product and engineering*: "Associate Product Engineer" (Book of the Month, New York, under
+   the VP of Product: front-end components, back-end automations, agent workflows, owns a feature from spec to measurement,
+   ships with Claude Code; candidates from CS, front-end, product management or UX), "Product Engineer" (PostHog's and
+   Linear's word for an engineer who owns the product, not the code), "AI Product Engineer" and "Applied AI Product
+   Engineer" (builds product features on models that exist, as against the ML engineer who trains them), "Forward
+   Deployed Engineer" (the 2026 title with the fastest growth in every recruiter count: OpenAI's board listed 26 on
+   2026-10-25, Anthropic's 6; variants Forward Deployed Software/AI Engineer). None was in the scrape: the exclude list
+   dropped "product engineer" as a manufacturing job.
+3. *AI transformation*: "AI Transformation Lead/Leader/Manager" (the backlog held 37 of them under `transformation`, at
+   Writer, Databricks, Santander, eBay, Accenture, Guardian), "Head of AI Transformation & Enablement" (LifeStance, Voice
+   Systems Engineering), "Head of AI Transformation" (SimplePractice), "Head of AI and Data Transformation" (BlackRock),
+   "AI Enablement Lead" (Experis, Siemens Energy; the most-posted of the enablement titles), "AI Adoption", "AI Center of
+   Excellence", "Chief AI Officer". The labelled set split them three ways (transformation, tech_strategy,
+   program_manager), so the user's question could not be answered from the graph.
+
+**Not added, with the reason.** AI Engineer, Applied AI Engineer, ML Engineer, Evals Engineer (engineering: thousands of
+postings at the Fortune 500 would flood a scrape whose adapters list whole boards; neither a product nor an MBA role);
+Prompt Engineer (the 2026 roundups say the title folded into other roles); AI Governance (already the `governance` role,
+which names `ai governance`); AI Program Manager (labelled `program_manager`); AI Strategy Lead (labelled
+`tech_strategy`); AI Solutions Engineer and Deployment Strategist (sales engineering).
+
+**Decisions.**
+
+1. **`product_engineer`, the seventh product family** (`pipeline/roles.py`): the pattern reads before `pm`, or
+   "Associate Product Engineer" is an associate PM. The same words name a manufacturing job, so `HARDWARE_RE` drops the
+   titles that say so ("Product Test Engineer", "Mechanical Product Engineer", "Product Engineer - Wafer Fab",
+   "Product Engineer (Systems)") and `software_build(text)` settles a bare "Product Engineer" at extraction: software
+   words (a stack, a repository, deploys, an AI coding tool) against hardware words (CAD, tolerances, BOM, the plant);
+   hardware words that outnumber software words drop the posting, a text with neither keeps the title's reading.
+   `roles.family(title, text)` takes the text; `extract` passes the raw description. The scrape searches for "product
+   engineer" and "forward deployed engineer" (`SEARCH_QUERIES`); the list-whole-board adapters need no query. The
+   resume reader (`web/match.js`) knows the family: `PM_TITLE`, `TITLE_FAMILY`, `PRODUCT_FAMILIES`. "Product
+   Applications Engineer" is excluded (two postings of hardware noise read as `pm`); "Product Marketing Engineer" stays
+   `pmm` (ClickHouse, Snowflake and Temporal post technical PMMs under it; Texas Instruments' eleven are semiconductor
+   marketing, Later).
+2. **`ai_transformation`, a 51st MBA role** (`pipeline/roles_mba.py`): outside the 50 of the source list, so batch 2;
+   group `consulting_strategy`, covered by `transformation` as `digital_transformation` is. The pattern takes "AI
+   Transformation" with the words companies put between (AI & Product, AI and Data, Digital & AI, Gen AI, AI Process,
+   AI SDLC), "AI Enablement", "AI Adoption", "AI Center of Excellence", "Head of AI", "Chief AI Officer". The exclude
+   list keeps out the people who build (engineer, developer, architect, scientist, research, labs, infrastructure,
+   MLOps) and the fields that are their own role (governance, ethics, safety, policy, security, compliance), so "Head
+   of AI Governance" stays `governance` and "Head of AI Research" is none. "AI Strategy Lead" stays `tech_strategy`
+   and "AI Program Manager" `program_manager`, as labelled. At a consulting firm a consultant stays
+   `management_consultant`, whatever the practice (the employer rule runs first there). Three searches ("AI
+   transformation", "AI enablement", "AI adoption"). 17 labelled rows (set `ai-transformation-2026-10-30`), two rows
+   relabelled with the reason in their note. The rules move 86 stored postings, listed by the integrity eval: 37 from
+   transformation, 8 from digital_transformation, 4 each from program_manager, hr_manager and supply_chain (function-scoped
+   AI enablement leads in HR and marketing are the role: "Vice President, HR AI Enablement").
+3. **A role with no postings yet.** The scrape and the extraction did not run here (this checkout has no `.env` and no
+   backlog), so the role exists in the rules and holds nothing. `build_graph` writes it to `roles` with `n` 0, gives it
+   an empty file and lists it in no group: the interface reads the groups, so it shows nothing until the postings come;
+   `Atlas` leaves it out of the distinctiveness baseline. The integrity eval reports the stale postings (stored role
+   against the current rules) and a role those postings would fill as waiting for `pipeline.extract --roles mba`,
+   instead of failing on "a role with no US postings"; the graph eval expects the empty role in no group; the matcher
+   eval asks no bands of it. `evals/pipeline_baseline_mba.md` and `evals/baseline.md` are rewritten from this state.
+4. **What the next refresh does.** `refresh-mba` (weekly) re-extracts with the new rules, so the 86 postings move and
+   the role appears, and its scrape runs the three new searches; `refresh-product` (monthly) runs the two product
+   searches and the list-whole-board adapters start keeping product engineer titles, then extraction reads their texts.
+   Nothing in this change needs the owner's hand beyond the merge.
+
+**Later** (also under Later): sample resumes with a product engineer line for `evals/run.mjs` once the family has
+postings to score against; the `rough_fit` and `calibrate` reruns that give `ai_transformation` bands; Texas
+Instruments' "Product Marketing Engineer" noise in `pmm`.
+
 ## Later
 
 - The class matching's next lever (2026-10-31): five known failures in `evals/classes/` share one shape, one small gap carrying a class the role does not need. Try a per-line score or a cap on how much a single small gap counts; a floor on the relevance band sank a right answer and is not it.
@@ -1309,7 +1384,10 @@ the screen says nothing about pay.
 - `pipeline/log.py`: record the exit code of a stage that ends with `sys.exit(message)` after no ERROR line (v17).
 - The runner trial's results (`evals/runner_trial_2026-10-26.md`, "Results"): the owner dispatches it; then the schedule
   variables, and the self-hosted runner only if a family is blocked.
-- More families (design, engineering) and more companies (full Fortune 500).
+- More families (design, engineering) and more companies (full Fortune 500). The product engineer and AI transformation
+  roles landed on 2026-10-30; once they hold postings: a sample resume with a product engineer line in `evals/resumes/`,
+  `calibrate.mjs --roles mba` for `ai_transformation`'s bands, and Texas Instruments' eleven "Product Marketing
+  Engineer" postings (semiconductor marketing, kept as `pmm` because software firms post technical PMMs under the title).
 - IE New York in the picker (v18, step 3): before `catalog: true` for `ienyc`, `Catalog.loadCatalog` must read
   `classes` filtered on the new `campus` column (one line; the campus id is in the campus file), or both campuses'
   rows show in one picker. Then the owner applies `db/schema_ienyc.sql`, runs the loader and flips the flag.

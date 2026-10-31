@@ -97,8 +97,9 @@
         }
       }
       groups.push({ ...PRODUCT_GROUP, roles: [], nOpen: null, country: M.meta.country, generated: null });
-      // the mean share of each skill over the 50 roles: what "distinctive" is measured against, in both sets
-      const fams = Object.keys(M.families), baseline = {};
+      // the mean share of each skill over the MBA roles with postings: what "distinctive" is measured against, in both
+      // sets (a role added since the last extraction has none yet and is not counted)
+      const fams = Object.keys(M.families).filter(f => M.roles[f] && M.roles[f].n), baseline = {};
       for (const s of M.skills) baseline[s.id] = fams.reduce((a, f) => a + ((s.by_family || {})[f] || 0), 0) / fams.length;
       return { M, SUBS, BLURBS, roles, groups, baseline, skillById: Object.fromEntries(M.skills.map(s => [s.id, s])) };
     }), () => { indexP = null; });
