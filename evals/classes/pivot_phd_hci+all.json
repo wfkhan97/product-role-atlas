@@ -1,0 +1,26 @@
+{
+  "resume": "pivot_phd_hci",
+  "roles": [
+    "product.pm",
+    "program_manager",
+    "business_intelligence"
+  ],
+  "note": "All three roles: the PM class, Data Science in the Wild and the agentic-systems class fill the top 3, as in the study. The memory-technologies class sits fifth on the Program Manager hardware gap; a careful reader does not want it in the top 5, so that expectation fails until the hardware gap stops carrying it.",
+  "must_top": {
+    "n": 3,
+    "codes": [
+      "TECH 5200",
+      "CS 5304",
+      "TECHIE 5356"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748"
+    ]
+  },
+  "known_failures": {
+    "must_not_top ECE 5748": "The Program Manager hardware gap carries Memory Technologies to fifth. One small gap carries the list."
+  }
+}

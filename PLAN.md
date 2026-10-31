@@ -1143,49 +1143,212 @@ the Dec 17 deadline, the start card and the closed notice saying the courses are
 still empty and `catalog` still false. Three things wait for the owner: apply `db/schema_ienyc.sql`, run the loader,
 and confirm the student email domain; and one code line waits before `catalog: true`, under Later.
 
-## Sign-in paused behind a flag (2026-10-28)
+## The four verbs behind a door (v19, 2026-10-29)
 
-The owner's ask of 2026-10-28: pause every sign-in gate so the whole flow (start screen → classes → a professor card →
-the role rail's "classes that cover your gaps") can be tested end to end, behind a flag so it can be turned back on.
+The frame (owner, 2026-10-29). One site. A **door** (`#/`): a welcome screen that says what GradBuddy is and asks for an
+email and "What are you studying?"; everyone can skip it. The email is capture and routing, never a credential: nothing
+behind the door is private, and no screen says "sign in". **Home** (`#/home`): four verbs, which are also the top bar.
+**Find jobs** (`#/jobs`): one search over every open US posting of both role sets, with filters; with a résumé on file,
+each card says how many of the skills the posting asks for are on it. **Explore roles & build skills** (`#/skills`): a
+launcher (roles by field, a résumé drop) into the fit screen and the role rail as they are, ending in a coming-soon door.
+**Find classes** (`#/classes`): the Spring 2027 picker on a public catalog file, no sign-in anywhere. **Networking**
+(`#/network`): who to meet for the roles a person wants, and the faculty on campus; ends in a coming-soon door. The doors
+are Tally forms with a native fallback; the cohort application box, the sentence field and the word "paid" leave every
+screen; intake says coming soon and takes an email. The site still runs no model at runtime, writes no per-person prose
+beyond data-built sentences, and nothing uploaded leaves the browser. The Oct 31 demo shows the owner's current checkout;
+the Classes path is previewable by Nov 5 and merged by Nov 7; pre-enrollment is Nov 10–12.
 
-**The gates were two.** On the page, `AUTH_ENABLED` (off since launch planning) only hid the "Sign in" link and let
-`#/classes` try to read; the read itself was the gate, because the eight catalog tables' only row-level policy
-(`catalog read`) is for `authenticated`, so a reader with no session got no rows and the picker showed the campus's
-`closed_notice`. The professor card said "Profiles open with a Cornell sign-in" and the rail its `rail_closed_line`.
+Phase A (nothing in the tree) built a mock kit, a flow map and clickable mocks per surface on real data in
+`data/experiments/scratch/surfaces/` (gitignored; swept at the end of the thread). The owner's round-1 review decided:
 
-**Decision.** One new switch, `CONFIG.CATALOG_OPEN` (`web/config.js`, on), read in `web/classes.js` only: the top bar
-shows "Classes" and no "Sign in"; the picker skips the session gate and, when it reads nothing with no session, says
-that the anon-read policy is missing rather than showing the closed notice; the professor card and the rail skip the
-gate the same way; `#/signin` stays reachable and says sign-in is paused; the start card's tag reads "Spring 2027
-roster →" while the gates are paused. The database side is `pipeline/sql/2026-10-28_open_read.sql`: a second policy,
-`open read`, for `anon`, select only, on the eight catalog tables (`syllabi` untouched). **The owner applies it** in the
-catalog project's SQL editor: the thread's attempt through the Supabase MCP was refused by the auto-mode classifier as a
-security weakening, which is the right refusal for a thread. The file carries the eight `drop policy` lines to close it
-again. Until it is applied, the picker with the flag on reads a **local copy** instead: `pipeline/local_catalog.py` runs the
-course catalog's own loader (`db/load_to_supabase.py`) in its dry-run mode and writes the rows it would upsert, in the
-columns the page selects plus `professors`, to `web/data/local/catalog.json` (gitignored; the owner's machine only, never
-uploaded). `Catalog.loadCatalog` and `loadProfessor` fall back to it only with the flag on, only when the database
-returned nothing, failed or had no client, and the picker says "Roster read from a local copy on this machine". Without
-the file the picker shows one notice naming both ways out. The same switch makes the application box retry a row the
-unmigrated `waitlist` refuses (no `note` column, no source `classes` before `2026-10-26_cohort.sql`) in the older shape,
-and show the database's refusal instead of "check the address".
+1. **No A/B arm on the door.** Everyone sees "Skip for now". The door is a welcome screen, not a gate: what GradBuddy
+   is, that a few offerings are ready to share, what is inside, then the email, a line that some parts are for students,
+   then the skip. "Enter your email to get in" was too harsh. The placeholder is `user@school.edu`.
+2. **The Cornell gate is the NetID shape**, not the domain: two or three letters then one to four digits at
+   `cornell.edu` (`wk332`, `ub47`, `khg9`). A matching address opens Find classes. Every other address is still kept,
+   and the Find classes card stays on home for everyone, grayed, with a line that says it is gated for now.
+3. **Home is a 2×2 grid**, one data-built line per card: Find jobs counts the postings open at the last scrape and the
+   companies ("over 25 thousand jobs … from over 1,500 companies", never typed); "Explore roles & build skills" counts
+   the roles; Find classes names the term, the campus and the class count; Networking says "faculty on campus" and no
+   more, since students outside Cornell have none.
+4. **Find jobs keeps the filter rail** (J1) and gets a real clean-up of its search after an audit of the popular job
+   aggregators (round 2).
+5. **The launcher is roles two thirds, résumé one third** (S3): browse by field, click a field then a role, or search;
+   a role in several fields shows under each (none is today); after a résumé, the match details show lightly.
+6. **The class picker drops the program picker**; "Rate for" becomes "Match to roles", a multi-select; the matching is
+   tuned on the test résumés first and the tuned cases become evals (round 2).
+7. **Networking is not event prep.** It is navigating who to meet: hiring managers, people in the role, faculty, alumni.
+   Round 2 plans it afresh.
+8. **The stage question** ("Where are you in your search?", v16 step 2) stays in About you, step 2 (the owner's
+   pick on 2026-10-29, after the round-2 explanation). Nothing on the door, nothing on the launcher.
 
-**IE New York behind its own switch (same day).** `CONFIG.IENYC_ENABLED`, off. The campus entry carries `enabled_by:
-"IENYC_ENABLED"` (campus facts in data), and `Catalog.campuses()` returns a campus only while its switch is on, so every
-surface that reads the list (the chooser on `#/classes`, the start card, the sign-in campus, `campusFor`) is Cornell Tech
-only; a stored `classes.campus` or IE program id resolves to Cornell Tech. The application copy reads "Five Cornell Tech
-students" and the About-you hint drops IE's program names while it is off. The IE data (the campus entry, its five
-programs, the loader and the dataset in the research folder) is untouched; flipping the switch brings it all back.
-`AUTH_ENABLED` is unchanged, so turning `CATALOG_OPEN` off and dropping the policy restores the previous state exactly.
+Phase B, one branch and pull request per step, each on the one before: B1 `chore/hosting` (this section opens with
+it), B2 `feat/door-home`, B3 `data/catalog-public` (the owner tests in a preview before anything after it), B4
+`feat/find-jobs`, B5 `feat/skills-network`, B6 `feat/plain-copy`, B7 `feat/doors-tally`, B8 `docs/four-verbs`. Every
+suite stays green at every step. What each step built is noted under it below as it lands.
 
-**What it exposes while on.** Anyone holding the publishable key (it is in `web/config.js`) can read the roster, the
-professor profiles, the grading summaries and the syllabus digests with no session. The site is not deployed, so today
-that is whoever has the repository. Before launch: `CATALOG_OPEN: false` and the drop block, in one change.
+### B1 — hosting (`chore/hosting`, 2026-10-29)
 
-**Verified.** The web tests pass unchanged (no test reads the flag; `classes.js` is DOM-only). In the preview on port
-8765 with no session and the policy not yet applied: the top bar shows "Classes", the start card's tag reads "Spring
-2027 roster →", and the picker shows the one notice that names the missing policy. Once the owner applies the policy,
-the same page shows the live roster, the professor cards and the rail.
+Built: README "Hosting" (a Vercel project `gradbuddy-atlas`, root `web`, framework Other, no build; the owner creates
+it); `tests/web/assets.test.mjs`, which fails when `web/index.html` names a local script or stylesheet that is not on
+disk, when a path is absolute, when a token import is missing, or when a remote script pins no version. Nothing in
+`web/` changed.
+### B2 — the door and home (`feat/door-home`, 2026-10-29)
+
+Built: the door at `#/` (an empty hash too): "Welcome to GradBuddy.", three short paragraphs on what GradBuddy is,
+that a few pieces are ready to share and what is inside (the role count from the index, rounded down to a multiple
+of 10), then a native form: the email (placeholder `user@school.edu`, not required), "What are you studying?" (the
+five groups of About you's first question), the line that some parts are for Cornell students, Continue and "Skip for
+now". Both buttons keep what was typed in this browser (`door.email`, `door.where`, `door.seen`), a program answer
+fills About you's first question, and the person lands on the deep link they arrived on, else `#/home`. The email
+never goes in the URL and nothing is sent anywhere (B7 adds the Tally form and the events). The pure table `Door`
+beside `Stage` and `Apply` holds every string (`COPY`), the gate (`opens`: a Cornell NetID, two or three letters then
+one to four digits at `cornell.edu`, decision 2), `next`, `bounce` and `verbs`; `tests/web/door.test.mjs` checks them
+and that no string says "sign in", "cohort", "paid" or "apply", uses one of the five banned words, or runs a sentence
+over 20 words. Home at `#/home`: "What do you want to do?" and the four verbs as a 2×2 grid (one column under 640 px),
+each with one line built from the data: Find jobs counts the open US postings of both role sets and the employers
+behind them ("over 25 thousand … from over 1,500 companies", rounded down, the product set added once its file
+arrives), Explore roles & build skills counts the roles, Find classes names Spring 2027 at Cornell Tech and is grayed
+(no link, `aria-disabled`, "For Cornell students for now. Enter a Cornell address to open it.") until the email on
+file opens it, Networking says "faculty on campus" and no more (decision 3). Under the grid, "More about you" to
+`#/you`. The four verbs are the top bar after the brand (Find classes only when the address opens it; the bar says
+"Explore roles" for the second), the current one marked, the brand to home; the breadcrumbs and the theme switch stay.
+A deep link bounces to the door once: any route but the door while `door.seen` is unset draws the door over it, and
+Continue or Skip lands on it. The stage question is nowhere on the door or home: it stays in About you, step 2
+(decision 8). `#/jobs`, `#/skills` and `#/network` exist now so the hrefs never change; until B4 and B5 land, `#/jobs`
+and `#/skills` draw Explore (the fields, then a field's roles: the closest thing to "pick a role" today) and
+`#/network` draws the event screen of the field the person's answers and resume point to, else the biggest field.
+The start screen is gone: its stage cards, the games carousel and its application box; `#/play/<slug>` and the games
+stay reachable from the role pages as before (a game's "Quit" in `gameshell.js` now goes to `#/home`, since `#/` is
+the door). `Stage.startRoute` and the start case of `Stage.firstAction` went with the
+screen, and `evals/stage.mjs` no longer checks a start screen: the reason is at its top, and it keeps every case for
+About you, the rail and the application box on the rail and the fit screen. The door copy's "Inside" sentence is
+the owner's, cut to 19 words. Home's job and company counts come from the MBA index's meta alone: the product set's
+postings sit in a 9 MB file home does not load, and a number that changes once a file arrives reads as broken; B4's
+`jobs_open.json` carries the count of both role sets, and home reads it then. An unknown route now shows home, not the
+first screen.
+
+### B3 — the picker on a public file (`data/catalog-public`, 2026-10-31)
+
+Built: `pipeline.catalog_export` runs the course catalog's own loader in its dry-run mode (the JSON in the research
+folder is the source of truth; no network, no `.env`) and writes `web/data/catalog/cornell_tech.json`, the rows the
+picker reads (125 classes, 116 professors with `profile_md`, sections, meetings, cross-lists, prior offerings, the
+roster date), and `web/data/local/catalog_full.json` (gitignored), the same rows plus the prior-term syllabus digest.
+The public file never holds the digest or the research note: the export asserts it and `tests/web/catalog_files.test.mjs`
+checks it. `node pipeline/catalog_tags.mjs` reads the local copy once, runs `Atlas.readCourse` over description,
+outcomes and digest per class code, and writes `cornell_tech_tags.json`: the skills each class names outright
+(strength one or more: a sub-skill hint alone no longer counts, the first of the tuning changes), with the sha256
+of both taxonomy files, so a stale tags file fails the tests and a taxonomy change means a rerun (CLAUDE.md).
+`web/catalog.js` reads the two files the campus entry names (`catalog_file`, `tags_file`; `CONFIG.CATALOG_SOURCE`
+is `"files"`) and opens no database client; the supabase-js script tag, the sign-in form, the session gates and
+`navSync` are gone, `#/signin` says sign-in is off and goes home, and the Supabase URL and key in `config.js` serve
+`capture.js` alone. With one roster loaded the picker asks no campus question. The owner's decisions landed: no
+program picker and no "Show all" (the eligibility label stays on every card); "Rate for" is "Match to roles", a
+multi-select of chips, and several roles combine their asks and gaps through `Catalog.combineRoles` (a skill is a gap
+when any role leaves it open, weighted by the sum of their shares over the number of roles, core when core for any);
+with no résumé on file the filter row holds the shell's résumé drop (C1), and "Read my fit" reads it in the browser.
+The matching is the tuned run of the round-2 study plus the field tie-break: generic skills count half in the
+relevance score and are left out of the gaps covered; the Gaps sort orders by the share of the gaps covered, then the
+relevance score, then `Catalog.inField` (a class whose subject belongs to the chosen roles' fields, `field_subjects`
+in the campus file, data not code), then code; when no class covers any gap the list says so once and orders by
+relevance. The thresholds were re-cut to 0.270 high and 0.083 medium (from 0.35 and 0.12) so the band shares stay what the old reader gave (about one card in
+forty high, one in two medium or high). `evals/run_classes.mjs` runs the eight test résumés over 32 cases (two or
+three roles each, and all at once) against the public files, exactly as the picker scores them, and checks
+`evals/classes/*.json` (`must_top`, `must_not_top`, `must_cover`, `no_cover`; each file says why); the baseline is
+`evals/classes_baseline.md`. Five checks are known failures (named in their spec files with the reason), all of one shape: one small gap such as the Office suite carries a class the role does not need; the run stays green on them and goes red if one starts to pass unnoticed. Deviations from the brief: the picker reads tags, never the digest, so the "live read"
+of the brief's third test is the tags command itself, checked against `Atlas.readCourse` on twelve codes when the
+local copy exists; the thresholds moved because the strict rule halves what a class names.
+
+### B4 — Find jobs (`feat/find-jobs`, 2026-10-31)
+
+Built: `pipeline.jobs_open` reads the committed graphs of both role sets (`web/data/graph.json`, the product set's
+US slice; `web/data/graph_mba/<role>.json`, the open rows) and writes `web/data/jobs_open.json`, every open US
+posting of either set (31,965 at the Oct 25 graphs: 6,015 product, 25,950 MBA; 1,508 companies; 56 roles) in a
+column-oriented shape (tables of companies, locations, roles, titles, skill ids; one compact row per posting with the
+flags as bits and the URL after the company's common prefix), 7.4 MB raw and 1.8 MB gzipped, loaded only on `#/jobs`;
+and `web/data/jobs_meta.json`, the counts alone, which home reads for its Find jobs line ("over 31 thousand … from
+over 1,500 companies"). `Jobs.rowsOf` expands the file once; the pure parts in `web/jobs.js` (`searchJobs`,
+`filterJobs`, `facetCounts`, `fitOf`, `fitLine`, `sortJobs`, `dedupe`, `pageOf`, `parseState`, `stateQuery`, the
+level words) follow `search_logic.md` from the round-2 audit and have their tests. The screen is the owner's J4: one
+search box over title, company, role name, skill names and location (every word must match; a whole word beats a
+prefix; title 3, company 2, role 2, skill 1, location 1), Location beside it, a rail of counted facets (Field, Role,
+Level as four words, Entry, Employer type, Company with the top twenty then all, Remote, Says it sponsors a visa; a
+facet that would leave nothing is drawn plain), fifty cards a page, the posting open in the side panel with every
+tagged skill by kind and "Open the posting at <company>" (the existing `posting_link` event; a `jobs` route event
+waits for B7's migration), the empty state with each active filter as a chip an × removes, and the hash as the
+state. With a résumé on file every card and the panel say "N of the M skills this posting asks for are on your
+résumé" (the résumé's skills first and green; never a percentage), Fit is the default sort, and the role filter
+defaults to the role chosen on the role, fit or classes screen. Deviations from the brief: `jobs_open.json` is
+written by its own stage after `build_graph` (`run_all.sh` and both refresh workflows), not by `build_graph`, so it
+can be rebuilt from the committed graphs on any checkout; `first_seen` is carried by `build_graph` into the MBA role
+rows from this change on, but the graphs were not rebuilt in this thread (the Oct 26 processed files are here, and a
+rebuild moves every baseline), so every row's `first_seen` is null until the owner's data thread runs `build_graph`
+for both sets and then `jobs_open`; there is no Newest sort until then, as the spec says. No posting carries pay, so
+the screen says nothing about pay.
+
+### B5 — Explore roles & build skills, and Networking (`feat/skills-network`, 2026-10-31)
+
+Built: `#/skills` is the owner's S5 (round 3): a search over every role of both sets (each typed word a prefix of a
+word in the label, so "prod man" finds Product Manager), the field tiles with their role and open counts (four a row
+from 1280 px, three from 900, two below), a field's roles under the tiles with "Most postings ask for" the three
+skills most of its postings name, each a link to the role page; and the right third of the screen for the résumé,
+sticky: the shell's drop with none on file, else the band line, "N of the M skills most <role> postings ask for are
+on your résumé" for the role chosen, the link to the fit, and the three closest roles as "N of M" (the rough fit's
+top three, then the core count per role through the matcher). The pure parts are `web/launcher.js`. `#/network` is
+the owner's N6 (round 3): a role (the one chosen on the site, else the top role of the field the person's program
+points to), the people types as tabs (a hiring manager, someone in the role now, a recruiter, an alum in the role, a
+classmate; faculty on campus sixth when the door's address is a Cornell NetID, read from the public catalog with the
+gaps each professor's classes cover), the left two thirds "Who to look for" (titles by level from the role's postings,
+the five employers with the most open postings) and "Where to find them" (searches built from the data, each with
+what it opens; the professor cards), the right third sticky with the prep card (the company, the opener, three
+questions, what to listen for, the draft the person edits and copies, "Add to my list") and the list kept in the
+browser. No draft names a school: the opener is "I am a grad student." everywhere (the owner's note on round 2). The
+pure parts are `web/network.js`. The `Apply` table is `Intake`: "GradBuddy is coming soon.", one line per surface,
+the email pre-filled from the door, "Notify me", "Got it. We will be in touch.", the privacy line; no screen says
+cohort, paid, Nov 14 or apply. The rail's three placeholders, the fit screen's foot and the picker's foot open it
+with the sources `capture.js` already accepts; the network box keeps its email in the browser until B7's migration
+adds its source. `#/about` says what the site is and what it counts, with no cohort. `evals/stage.mjs` checks the
+intake heading in place of the cohort heading, with the reason at its top. `tests/web/intake.test.mjs`,
+`launcher.test.mjs` and `network.test.mjs` cover the strings and the joins. Left for the editorial pass: the
+"Who to look for" level lines run long for roles with many senior titles.
+
+### B6 — plain copy (`feat/plain-copy`, 2026-10-31)
+
+Built: `web/copy.js`, one pure table of every string a screen owns (913 strings in 14 groups: common, door, home,
+intake, you, explore, role, fit, jobs, skills, network, classes, about, games), loaded first; `Door.COPY`, `Intake`,
+`Launcher.COPY` and `Network.COPY` are views over it, and the screens fill templates with `Copy.fill`. The sentences
+`web/evidence_text.js` builds about a skill and the lines built from the data stay where they were. Each string was
+rewritten to "How to write" as it moved (the door and home copy, the owner's, untouched): passive lines active
+("Nothing is uploaded." → "Nothing leaves your browser.", "Your résumé is read" → "We read your résumé"), "Practise" →
+"Practice", the tier headings active, long notes split, "score" gone from the bands tip. `evals/copy.mjs` reads the
+table and the two data files the screens show (`sp27_campus.json`, `games.json`) and reports every sentence over 20
+words, every passive construction and every stoplist word; for those three the count is zero and
+`tests/web/copy.test.mjs` fails on the first offender. For the editorial data files it reports counts into
+`evals/copy_baseline.md` and does not gate: `graph_mba.json` 65 long, 46 passive, 17 stoplist of 13,148 strings;
+`role_blurbs.json` 2, 5, 0; the evidence quotes 1,886 long (posting text, quoted as it is); the sub-skill files three
+and one stoplist words. That editorial pass is a "Later" line.
+
+### B7 — the doors as Tally forms (`feat/doors-tally`, 2026-10-31)
+
+Built: `web/config.js` gains `TALLY: { door: null, intake: null }`; the owner fills the two form ids, and until an id
+is set the native form renders, so the site never shows a blank box. `web/doors.js` holds the embed (Tally's script
+added at mount time, never in `index.html`; the iframe transparent, left-aligned, dynamic height; hidden fields
+`surface`, `source`, `role` and, on the intake, the `email` from the door), the loaded check (only Tally's own
+message or a resize counts as loaded: the iframe's load event fires on Tally's error page too, which left a blank
+box in the first cut), the three-second fallback to the native form with a "Loading the form…" line meanwhile, the
+return handling (`#/home?email=…&where=…` read once, stored as the door stores it, the query cleared with
+`replaceState`), and `nativeSubmit`, which posts the native form to `waitlist` with the source `door` or
+`intake_<surface>`. The door screen sends `door` when shown (in place of the old `start`) and `door_passed` on
+Continue, Skip or the Tally submit; home's cards send `home_jobs`, `home_skills`, `home_classes` (open cards only)
+and `home_network`; the intake boxes send `intake_skills`, `intake_classes` and `intake_network`, and the network
+box now posts like the others. `pipeline/sql/2026-10-31_doors.sql` (written, never applied by a thread) extends the
+two check constraints with these names and adds `surface text` to both tables; no `variant`, since the A/B arm was
+dropped (decision 1). `pipeline.funnel` prints the door funnel (shown → passed → each verb) and the intakes by
+surface, and guards the `surface` column so it runs before the migration. `tests/web/doors.test.mjs` checks the
+names against `capture.js` and the migration text, the fallback clock, the return query and the sources. **Until the
+migration is applied, the database rejects the new names: the events are dropped silently and a native Notify me
+says it did not go through. Apply the migration before merging this step.**
+
 ## AI-forward roles in the scrape (2026-10-30)
 
 The ask (2026-10-29): add AI transformation roles to the jobs scrape, and the new AI product roles ("Associate Product
@@ -1262,8 +1425,29 @@ which names `ai governance`); AI Program Manager (labelled `program_manager`); A
 postings to score against; the `rough_fit` and `calibrate` reruns that give `ai_transformation` bands; Texas
 Instruments' "Product Marketing Engineer" noise in `pmm`.
 
+## IE New York behind a switch; the sign-in flag that v19 made moot (2026-10-28 to 2026-10-31)
+
+The owner's asks of 2026-10-28, on `feat/open-read-flag` (PR #112): pause every sign-in gate behind a flag so the whole
+flow can be tested, and put everything IE New York behind a second flag. The first was built as `CONFIG.CATALOG_OPEN`
+(the picker, the professor card and the rail reading the roster with no session, a local copy of the catalog when the
+database refused, and the application box retrying a row the unmigrated `waitlist` refused). On 2026-10-31 v19 (B3)
+landed on `main` first: the picker reads public files (`catalog_file`, `tags_file`), no screen opens a database client
+or asks for a session, and `#/signin` is one line then home. Every gate that flag paused is gone, so the merge dropped
+the flag, the local-copy script and the anon-read policy file (`pipeline/sql/2026-10-28_open_read.sql`, never
+applied) rather than carry dead switches; nothing on `main` needs them.
+
+**What stays: `CONFIG.IENYC_ENABLED`, off.** The `ienyc` campus entry carries `enabled_by: "IENYC_ENABLED"` (campus
+facts in data), and `Catalog.campuses()` returns a campus only while its switch is on, so every surface that reads
+the list (the chooser on `#/classes`, the start card and its neutral title, `campusFor`) is Cornell Tech only; a
+stored `classes.campus` of `ienyc` or an IE program id resolves to Cornell Tech. The IE data (the entry, its five
+programs, the loader and dataset in the research folder) is untouched; flipping the switch brings it back. The
+About-you hint in `web/copy.js` still reads "MBA, Tech MBA, Master in Management, Master in Finance": degree names, not
+a campus, and `Copy` is a pure table the copy evals check, so it stays as it is.
+
 ## Later
 
+- The editorial pass over the data strings (`evals/copy_baseline.md` lists them): role and skill names with abbreviations (PRDs, OKRs, P&L), long blurbs, passive lines.
+- The class matching's next lever (2026-10-31): five known failures in `evals/classes/` share one shape, one small gap carrying a class the role does not need. Try a per-line score or a cap on how much a single small gap counts; a floor on the relevance band sank a right answer and is not it.
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
   closed postings the way the MBA graph does (a `data/` branch).
 - ~~v14 step 6, `chore/adaptive-6-signals`~~: dropped for good on 2026-10-25 (v16, decision 3). `signals` stay as the

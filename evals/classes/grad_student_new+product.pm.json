@@ -1,0 +1,30 @@
+{
+  "resume": "grad_student_new",
+  "roles": [
+    "product.pm"
+  ],
+  "note": "A new graduate against Product Manager: the agentic-systems class and the PM class lead, as in the study. The memory-technologies class that led the default run stays out, as does the operating-systems class.",
+  "must_top": {
+    "n": 2,
+    "codes": [
+      "TECHIE 5356",
+      "TECH 5200"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748",
+      "CS 6412",
+      "CEE 6800"
+    ]
+  },
+  "must_cover": {
+    "prioritization": [
+      "TECH 5200"
+    ],
+    "system_architecture": [
+      "TECHIE 5356"
+    ]
+  }
+}

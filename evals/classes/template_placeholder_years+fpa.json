@@ -1,0 +1,32 @@
+{
+  "resume": "template_placeholder_years",
+  "roles": [
+    "fpa"
+  ],
+  "note": "FP&A Manager: Financial Statement Analysis and Introduction to Finance Analytics cover reporting, accounting, budgeting and business cases and lead, as in the study. Health Law and Policy, second in the default run, stays out.",
+  "must_top": {
+    "n": 2,
+    "codes": [
+      "BANA 5065",
+      "NBAY 5060"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "LAW 6198",
+      "TECH 5132"
+    ]
+  },
+  "must_cover": {
+    "budgeting_forecasting": [
+      "NBAY 5060"
+    ],
+    "financial_reporting": [
+      "BANA 5065"
+    ],
+    "accounting_close_controls": [
+      "BANA 5065"
+    ]
+  }
+}

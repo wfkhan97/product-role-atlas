@@ -1,21 +1,23 @@
-/* Site configuration, loaded before every other script. The Supabase publishable key is safe for browsers: row-level
-   security lets a signed-in cornell.edu account read the catalog tables and nothing else. AUTH_ENABLED is the launch
-   switch: off, the top bar shows no "Sign in" and #/classes does not demand a session before it tries to read.
-   CATALOG_OPEN is the test switch (PLAN.md, "Sign-in paused behind a flag", 2026-10-28): on, every sign-in gate on
-   the page is paused (the picker, the professor card and the role rail read the roster with no session and show no
-   sign-in words), which only works while the anon-read policy of pipeline/sql/2026-10-28_open_read.sql is applied on
-   the catalog project; off, the gates are back exactly as before. Set it false before the site is launched. */
+/* Site configuration, loaded before every other script. CATALOG_SOURCE "files" is the only source the site ships: the
+   class picker reads the public files each campus entry names in data/sp27_campus.json (catalog_file, tags_file), and
+   no screen opens a database client or asks for a session. The Supabase URL and publishable key stay for
+   web/capture.js, which posts funnel events with them; the key is safe for browsers (row-level security: anonymous
+   insert only). AUTH_ENABLED stays off: nothing behind the picker is private. */
 window.CONFIG = {
   SUPABASE_URL: "https://qqkzbzwmpkrmlicoxijy.supabase.co",
   SUPABASE_PUBLISHABLE_KEY: "sb_publishable_3wfHOcJvv4MxXeEzd-wsNA_tLKjpqzc",
+  CATALOG_SOURCE: "files",
   AUTH_ENABLED: false,
-  CATALOG_OPEN: true,
-  // IE New York in the interface: the second campus (the chooser on #/classes, its start card, its programs, the
-  // application copy). A campus entry in data/sp27_campus.json names the switch that shows it (`enabled_by`); off,
-  // the site is Cornell Tech only and an IE choice kept in a browser falls back to Cornell Tech. Flip it when the IE
-  // courses are loaded and the IE sign-in domain is known (PLAN.md, Later).
+  // IE New York in the interface (2026-10-31): the second campus's entry in data/sp27_campus.json names this switch
+  // (`enabled_by`), and Catalog.campuses() lists a campus only while its switch is on. Off, the site is Cornell Tech
+  // only (the chooser on #/classes, the start card, campusFor); an IE choice kept in a browser falls back to Cornell
+  // Tech. Flip it when the IE courses are loaded (PLAN.md, Later).
   IENYC_ENABLED: false,
   CATALOG_TERM: "SP27",
   // the waitlist and the funnel counts (web/capture.js): off, nothing leaves the browser at all
   CAPTURE_ENABLED: true,
+  // The two Tally forms (web/doors.js, v19 B7): `door` is the form at #/, `intake` the box at each verb's foot. The
+  // owner fills the two ids (the part after tally.so/r/). Until an id is set the native form renders in its place;
+  // the site never shows a blank box.
+  TALLY: { door: null, intake: null },
 };

@@ -1,0 +1,26 @@
+{
+  "resume": "grad_student_new",
+  "roles": [
+    "marketing_manager"
+  ],
+  "note": "Marketing Manager leaves one gap, Brand strategy, and two classes name it: the branding class and Customer Analytics. The study had NBA 6340 first; the digest lifts TECH 5240, the one brand class, which reads better.",
+  "must_top": {
+    "n": 2,
+    "codes": [
+      "TECH 5240",
+      "NBA 6340"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748"
+    ]
+  },
+  "must_cover": {
+    "brand_strategy": [
+      "TECH 5240",
+      "NBA 6340"
+    ]
+  }
+}

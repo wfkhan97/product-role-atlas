@@ -1,0 +1,31 @@
+{
+  "resume": "course_list",
+  "roles": [
+    "product.pm"
+  ],
+  "note": "A new-to-role résumé against Product Manager: the PM class and the agentic-systems class lead. The study wanted TECH 5200 first; with the syllabus digest it sits second behind TECHIE 5356, which names more mid-share gaps. The hardware, smart-cities and operating-systems classes stay out of the top 5.",
+  "must_top": {
+    "n": 2,
+    "codes": [
+      "TECH 5200",
+      "TECHIE 5356"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748",
+      "CEE 6800",
+      "CS 6412"
+    ]
+  },
+  "must_cover": {
+    "product_vision": [
+      "TECH 5200",
+      "TECHIE 5356"
+    ],
+    "agile_scrum": [
+      "TECH 5200"
+    ]
+  }
+}

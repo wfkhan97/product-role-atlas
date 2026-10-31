@@ -1,0 +1,28 @@
+{
+  "resume": "experienced_pm",
+  "roles": [
+    "strategy_manager"
+  ],
+  "note": "Strategy Manager leaves seven gaps and only the Office suite is one a class names, so the order falls to the score. Business Models belongs in the top 3; Health Law and Policy does not belong in the top 5. The study had NBAY 5400 first; it is now seventh. The LAW 6198 expectation fails until the score curbs one small gap carrying a list.",
+  "must_top": {
+    "n": 3,
+    "codes": [
+      "NBAY 6570"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "LAW 6198",
+      "CEE 6800"
+    ]
+  },
+  "must_cover": {
+    "office_tools": [
+      "NBAY 6570"
+    ]
+  },
+  "known_failures": {
+    "must_not_top LAW 6198": "Only the Office suite gap is coverable, ten classes tie on it and the score orders them; Health Law and Policy lands fourth. One small gap carries the list."
+  }
+}

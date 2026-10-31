@@ -1,0 +1,22 @@
+{
+  "resume": "senior_pm_pdf_layout",
+  "roles": [
+    "product.pm"
+  ],
+  "note": "A senior PM has two gaps for Product Manager and no class names either, so the noCover line shows and the PM class leads on score. The default run showed the capstone and the analytics conversations first, in code order.",
+  "must_top": {
+    "n": 1,
+    "codes": [
+      "TECH 5200"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "BANA 5065",
+      "BANA 5160",
+      "BANA 5165"
+    ]
+  },
+  "no_cover": true
+}

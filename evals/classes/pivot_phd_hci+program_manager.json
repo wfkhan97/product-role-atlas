@@ -1,0 +1,28 @@
+{
+  "resume": "pivot_phd_hci",
+  "roles": [
+    "program_manager"
+  ],
+  "note": "The study rated this case worse: process design, the real ask, is a generic skill and never a covered gap, so the hardware gap of the Program Manager postings carries the chip and memory classes. A lenient spec: the two real covers, financial modeling and prioritization, sit in the top 10, and the memory class is not first or second.",
+  "must_top": {
+    "n": 10,
+    "codes": [
+      "NBAY 5060",
+      "ECE 5765"
+    ]
+  },
+  "must_not_top": {
+    "n": 2,
+    "codes": [
+      "ECE 5748"
+    ]
+  },
+  "must_cover": {
+    "financial_analysis": [
+      "NBAY 5060"
+    ],
+    "prioritization": [
+      "ECE 5765"
+    ]
+  }
+}

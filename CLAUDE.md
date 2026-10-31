@@ -55,4 +55,7 @@
   `data/experiments/_trash/<date>/` (deleted by the next sweep). Nothing interim survives in the tree, the scratchpad
   or `data/experiments/scratch/` after the thread. Pipeline caches under `data/experiments/` (model answers, corpora)
   are not scratch and are never swept.
+- The catalog rows in `web/data/catalog/cornell_tech.json` change only by rerunning `.venv/bin/python -m pipeline.catalog_export`
+  from the research folder, never by hand. A change to either taxonomy file (`web/data/taxonomy.json`, `web/data/taxonomy_mba.json`)
+  also means `node pipeline/catalog_tags.mjs` and committing `web/data/catalog/cornell_tech_tags.json`.
 - Secrets go in `.env` (gitignored), never in code, docs or chat.

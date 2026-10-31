@@ -1,0 +1,16 @@
+{
+ "generated": "2026-10-31",
+ "n_open": 31965,
+ "n_companies": 1508,
+ "by_set": {
+  "product": {
+   "n_open": 6015,
+   "n_companies": 1044
+  },
+  "mba": {
+   "n_open": 25950,
+   "n_companies": 1485
+  }
+ },
+ "n_roles": 56
+}

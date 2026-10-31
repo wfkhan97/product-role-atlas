@@ -1,0 +1,23 @@
+{
+  "resume": "experienced_with_coursework",
+  "roles": [
+    "product.pm",
+    "procurement",
+    "strategic_sourcing"
+  ],
+  "note": "All three roles: only the PM gaps are ones a class names, so the PM list stands with the shares divided by three. Same as the study.",
+  "must_top": {
+    "n": 2,
+    "codes": [
+      "TECH 5200",
+      "TECHIE 5356"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748",
+      "CEE 6800"
+    ]
+  }
+}

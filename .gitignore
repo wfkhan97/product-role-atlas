@@ -21,5 +21,5 @@ evals/resumes/external/
 data/raw/jobs/
 data/raw/jobs_mba/
 
-# A local copy of the catalog database for the test switch (tools/local_catalog.py); this machine only
+# the catalog with the prior-term syllabus digest (pipeline.catalog_export); this machine only, never the public file
 web/data/local/

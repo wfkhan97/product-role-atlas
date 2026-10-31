@@ -1,0 +1,33 @@
+{
+  "resume": "template_placeholder_years",
+  "roles": [
+    "corporate_banking"
+  ],
+  "note": "Corporate Banking Associate: BigCo Studio names M&A execution and the venture seminar names due diligence, so they lead. The ML capstone that led the default run stays out. The study had Introduction to Finance Analytics second; it names only business cases here and sits ninth.",
+  "must_top": {
+    "n": 3,
+    "codes": [
+      "TECH 5920",
+      "TECH 5020"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "NBAY 6920",
+      "CEE 6800"
+    ]
+  },
+  "must_cover": {
+    "due_diligence": [
+      "TECH 5020"
+    ],
+    "ma_execution": [
+      "TECH 5920",
+      "LAW 7591"
+    ],
+    "financial_statements": [
+      "NBAY 5400"
+    ]
+  }
+}

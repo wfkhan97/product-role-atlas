@@ -9,6 +9,7 @@ Scratch from a thread (a draft baseline, a one-off report) goes under `data/expe
 node evals/run.mjs               # score every sample, check expectations, print a report
 node evals/run.mjs --baseline    # same, and rewrite baseline.md (commit it with the matcher change)
 node evals/run.mjs --only grad   # one sample
+node evals/copy.mjs              # the strings the screens own against the writing rule (gated; --baseline rewrites copy_baseline.md)
 ```
 
 No install needed; it reads `web/data/taxonomy.json` (the product part of `pipeline/taxonomy.json`, written by `build_graph`), `web/data/subskills.json` and `web/data/graph.json`.
@@ -314,14 +315,17 @@ node evals/adaptive.mjs --only text     # one part
 
 ## The stage eval
 
-The stage answer (`you.stage`: looking, targeting, curious) decides what the start screen, About you and the role rail
-lead with (PLAN.md v16, step 2). `node evals/stage.mjs` checks, for each stage, that the first action each screen offers
-is the one the stage asks for (looking: a resume drop or the fields; targeting: the role search or the gaps; curious:
-explore or a game), reading the pure table `Stage` in `web/app.js` that the screens draw from, and that the screens do
-read it. Since v18 step 1 it also checks, for every stage, that the first call to action on the start screen and on
-the rail is the cohort application box (`Stage.cta` begins "Cohort 1", the copy in the pure table `Apply`) and that the
-start screen, the rail's three placeholders and the fit screen draw that box. In CI. What it does not show: whether a
-student of each kind gets what they came for; that needs sessions (`pipeline/funnel.py`) or resumes per kind.
+The stage answer (`you.stage`: looking, targeting, curious), asked in About you, step 2, decides what About you and
+the role rail lead with (PLAN.md v16, step 2). `node evals/stage.mjs` checks, for each stage, that the first action
+each screen offers is the one the stage asks for (looking: a resume drop or the fields; targeting: the role search or
+the gaps; curious: explore or a game), reading the pure table `Stage` in `web/app.js` that the screens draw from, and
+that the screens do read it. Since v18 step 1 it also checks, for every stage, that the first call to action on the
+rail and the fit screen is the one box (since v19 B5 the intake box: `Stage.cta` is "GradBuddy is coming soon.", the
+copy in the pure table `Intake`, which names no cohort, price or date) and that the rail's three placeholders and the
+fit screen draw that box. Since v19 B2 there is no start
+screen to check: the door and home never ask the stage, and the eval checks that too (the reason is at its top). In
+CI. What it does not show: whether a student of each kind gets what they came for; that needs sessions
+(`pipeline/funnel.py`) or resumes per kind.
 
 ## The pasted posting
 
@@ -353,6 +357,82 @@ changes a sentence template or shows a new generated line. Needs `OPENROUTER_API
 **What it does not show.** One reader, once, on 50 sentences; whether a student reads a line as the reader does is not
 measured, and a sentence the reader accepts can still be an odd line for a role whose field reading does not fit it
 (the role overrides of v16 step 6 are the remedy the grounding check points to).
+
+## The class picker's matching
+
+The Spring 2027 class picker (`web/classes.js`) rates every class against the roles chosen and says which of the
+person's gaps it covers. `evals/run_classes.mjs` runs that matching the way the picker runs it and checks it
+against hand-written expectations.
+
+```bash
+node evals/run_classes.mjs               # every case; exit 1 when a check fails
+node evals/run_classes.mjs --baseline    # also rewrite classes_baseline.md (commit it with the change)
+node evals/run_classes.mjs --cut         # print the thresholds that keep the band shares
+node evals/run_classes.mjs --only pivot  # the cases whose id contains the text
+```
+
+A case is one test résumé from `evals/resumes/*.txt` and one role, or a résumé and all its roles together
+(`+all`, through `Catalog.combineRoles`). The roles per résumé are a fixed table at the top of the runner: Product
+Manager for every résumé, then the two MBA roles the rough fit ranked highest on 2026-10-29. Eight résumés give 32
+cases. For each, the runner reads the fit at level "all" (`app.js gapsFor`), scores every card with the tags file
+(`web/data/catalog/cornell_tech_tags.json`) through `Catalog.relevanceScore`, `relevanceBand` and `gapsCovered`,
+and orders the cards with `sortCards("gaps")` and the campus field tie-break. It records the top 10 with score,
+band, the gaps covered and their share sum.
+
+The expectation files are `evals/classes/<resume>+<roleId>.json` and `<resume>+all.json`, the spec:
+
+```json
+{ "resume": "grad_student_new", "roles": ["marketing_manager"],
+  "note": "why these expectations, one or two sentences",
+  "must_top": { "n": 2, "codes": ["TECH 5240", "NBA 6340"] },
+  "must_not_top": { "n": 5, "codes": ["ECE 5748"] },
+  "must_cover": { "brand_strategy": ["TECH 5240", "NBA 6340"] },
+  "no_cover": false,
+  "known_failures": { "must_not_top ECE 5748": "why it still fails, and what would fix it" } }
+```
+
+A check named under `known_failures` is a failure the spec keeps on purpose: the reader's expectation stands, the
+matching does not meet it yet, and the reason says why. The runner reports it as KNOWN, counts it apart from the
+failures, and stays green on it; a known failure that starts to pass fails the run until its line is dropped. Five
+cases carry one today (2026-10-31), all of one shape: one small gap, such as the Office suite, carries a class the
+role does not need (Health Law and Policy fourth for a Strategy Manager). The next lever is a per-line score or a cap
+on small gaps; a floor on the relevance band was tried and sank a right answer (Customer Analytics to 52nd), so it is
+not the fix.
+
+`must_top`: each code sits in the top n. `must_not_top`: none of the codes does. `must_cover`: each listed code
+covers that gap of the case (optional). `no_cover`: whether the case must be one no class covers (optional). A
+code matches any code of a cross-listed card. The `note` gives the reason, as a careful reader of the catalog would
+want it; an expectation the picker fails stays when the output reads worse, and the baseline lists the failure.
+A case with no file, and a file with no case, both fail.
+
+`--cut` pools every card score over all cases and prints the two thresholds that keep the share of "high" at about
+2.3% and of "medium or high" at about 54% of card reads (the tuning study's shares, 2026-10-29). The numbers go in
+`web/data/sp27_campus.json`, `cornell_tech.relevance`.
+
+Rerun after any change to the scoring in `web/catalog.js`, to the tags file, to the thresholds or to
+`evals/resumes/`, and commit `classes_baseline.md`. The matcher evals above cover `evals/resumes/` too: run both.
+
+## The copy eval
+
+The brief's rule for every string a screen owns ("How to write", v19 B6): sentences of at most 20 words, active
+voice, simple words (never utilize, leverage, facilitate, via, in order to), American spelling, no bare codes, and
+never a percentage or a score in what a person reads about a fit (bands and "N of M"). `node evals/copy.mjs` reads
+`web/copy.js` (every string in the table, recursively; functions skipped), `web/data/sp27_campus.json` and
+`web/data/games.json` (every string value) and reports, per file, every sentence over 20 words (split on `.`, `?`,
+`!`; a `{slot}` counts as one word; code spans and URLs are taken out first), every passive construction (a form of
+"be": is, are, was, were, be, been, being, followed within two words by a word ending in "ed" or an irregular past
+participle from the short list in `evals/copy_lib.mjs`) and every stoplist word. For those three files the count must
+be zero: `tests/web/copy.test.mjs` imports the same checker and fails on the first offender, so fix the sentence or
+tighten the rule in `copy_lib.mjs` with a comment, never skip a file. The editorial data files are reported, not
+gated: `web/data/graph_mba.json` (role, field and cluster labels, the kinds, and per skill the name, definition,
+`how_shown` words, ladder, build steps, field readings and sub-skills), `web/data/role_blurbs.json`,
+`web/data/graph_mba/_evidence.json` (quoted posting sentences, a posting's own words) and the published sub-skill files
+`web/data/subskills_mba.json` and `web/data/subskills.json` (the depth files `pipeline/depth/*.json` as `web/` serves
+them; `pipeline.build_graph` writes the rest of the MBA depth into `graph_mba.json`). `--baseline` writes the counts
+and the first 20 offenders per file and rule to [copy_baseline.md](copy_baseline.md), the list the editorial pass
+works from (PLAN.md, "Later"). A false positive of the passive rule on a data-built line ("is based") is fine to list
+there. Rerun after any change to `web/copy.js`, `web/data/sp27_campus.json` or `web/data/games.json`, and commit the
+baseline; the product graph `web/data/graph.json` is not read. In CI through the test.
 
 ## Evals to build
 
