@@ -2,11 +2,16 @@
 
 The job atlas is GradBuddy's grounding layer: live job postings from the Fortune 500, venture-backed startups and the
 employers MBA students target, read against one skill taxonomy into role graphs, plus the Spring 2027 course registry.
-Its one public surface is the Spring 2027 class picker (`#/classes`): every Cornell Tech student picks classes before
-pre-enrollment, and the picker reads each class against the role the student wants and the gaps their resume leaves.
-The rest of the site (the fit screen, the role rail, Explore, About you, the games) stays as it is and gets no new work
-(PLAN.md, "The cohort hook (v18)"). The atlas states facts and matches; it runs no model at runtime, and nothing a
-person uploads leaves their browser.
+The site is four verbs behind a door (PLAN.md, "The four verbs behind a door (v19)"). The door (`#/`) is a welcome
+screen that takes an email and what the person studies; everyone can skip it, and a Cornell NetID address opens Find
+classes. Home (`#/home`) is the four verbs, which are also the top bar. **Find jobs** (`#/jobs`) is one search over
+every open US posting of both role sets, with counted facets and, with a résumé on file, "N of the M skills this
+posting asks for are on your résumé". **Explore roles & build skills** (`#/skills`) is a launcher by field or search
+into the role pages and the fit screen, with the résumé's match on the side. **Find classes** (`#/classes`) is the
+Spring 2027 picker on two public files, no sign-in anywhere, matching each class to the roles chosen. **Networking**
+(`#/network`) says who to meet for a role, where to find them and what to say, with a prep card per chat. Every path
+that promises more ends in a coming-soon box that takes an email. The atlas states facts and matches; it runs no model
+at runtime, and nothing a person uploads leaves their browser.
 
 See [PLAN.md](PLAN.md) for the design and [docs/GRADBUDDY_CONTRACT.md](docs/GRADBUDDY_CONTRACT.md) for what another program (GradBuddy) reads from the atlas: the files, the functions, their shapes and ids, what is stable and what is not, and the privacy rule.
 
