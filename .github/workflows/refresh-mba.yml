@@ -8,7 +8,7 @@
 # after the runner trial of evals/runner_trial_2026-10-26.md. workflow_dispatch always runs: `ats` picks one family,
 # `only` one or more employers, `trial` the one-employer-per-family trial of evals/runner_trial.json, `dry_run` a
 # fetch that writes nothing. A family a hosted runner cannot reach (bot check, captcha, 403) gets
-# `runner: [self-hosted, macOS]` in the matrix below and nothing else changes (docs/SELF_HOSTED_RUNNER.md).
+# `"runner": ["self-hosted", "macOS"]` on its line of FAMILIES in the gate job and nothing else changes (docs/SELF_HOSTED_RUNNER.md).
 #
 # Secrets (the repository's Actions secrets, never in this file): SUPABASE_DB_URL (the backlog and the runs table),
 # SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY (the backlog snapshot and the logs store). The first job fails with one
@@ -36,6 +36,9 @@ on:
         description: "fetch, but write nothing to the backlog and open no pull request"
         type: boolean
         default: false
+      recheck_closed:
+        description: "a date (YYYY-MM-DD): on an incomplete fetch also ask about postings closed since then and reopen the ones still shown (pipeline.scrape --recheck-closed)"
+        default: ""
 
 concurrency:
   group: refresh-mba
@@ -55,6 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       go: ${{ steps.go.outputs.go }}
+      families: ${{ steps.families.outputs.families }}
     steps:
       - name: Every secret the jobs read is set
         env:
@@ -81,46 +85,70 @@ jobs:
           else
             echo "go=true" >> "$GITHUB_OUTPUT"
           fi
+      - name: The families this run scrapes
+        id: families
+        env:
+          ATS: ${{ inputs.ats || 'all' }}
+          # Every family of pipeline/adapters/ that the MBA registry uses; share of the MBA postings on 2026-10-26 in
+          # evals/runner_trial.json. One line per family; a family a hosted runner cannot reach gets
+          # "runner": ["self-hosted", "macOS"]. The list is built here, not in the scrape job's matrix, because a
+          # job-level `if` cannot read `matrix` (GitHub rejects the whole file, and the schedule never fires).
+          FAMILIES: |
+            {"family": "workday", "shard": 1, "shards": 2, "runner": "ubuntu-latest"}
+            {"family": "workday", "shard": 2, "shards": 2, "runner": "ubuntu-latest"}
+            {"family": "greenhouse", "runner": "ubuntu-latest"}
+            {"family": "oracle_hcm", "runner": "ubuntu-latest"}
+            {"family": "amazon", "runner": "ubuntu-latest"}
+            {"family": "ashby", "runner": "ubuntu-latest"}
+            {"family": "successfactors", "runner": "ubuntu-latest"}
+            {"family": "eightfold", "runner": "ubuntu-latest"}
+            {"family": "radancy", "runner": "ubuntu-latest"}
+            {"family": "jibe", "runner": "ubuntu-latest"}
+            {"family": "phenom", "runner": "ubuntu-latest"}
+            {"family": "smartrecruiters", "runner": "ubuntu-latest"}
+            {"family": "google", "runner": "ubuntu-latest"}
+            {"family": "lever", "runner": "ubuntu-latest"}
+            {"family": "apple", "runner": "ubuntu-latest"}
+            {"family": "paradox", "runner": "ubuntu-latest"}
+            {"family": "avature", "runner": "ubuntu-latest"}
+            {"family": "icims", "runner": "ubuntu-latest"}
+            {"family": "mcloud", "runner": "ubuntu-latest"}
+            {"family": "meta", "runner": "ubuntu-latest"}
+            {"family": "bofa_servlet", "runner": "ubuntu-latest"}
+            {"family": "mckinsey", "runner": "ubuntu-latest"}
+            {"family": "kpmg", "runner": "ubuntu-latest"}
+            {"family": "gs_graphql", "runner": "ubuntu-latest"}
+            {"family": "talnet", "runner": "ubuntu-latest"}
+            {"family": "yello", "runner": "ubuntu-latest"}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          rows = [json.loads(line) for line in os.environ["FAMILIES"].splitlines() if line.strip()]
+          ats = os.environ["ATS"]
+          if ats != "all":
+              rows = [r for r in rows if r["family"] == ats]
+              if not rows:
+                  raise SystemExit(f"::error::no family {ats!r} in this workflow")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write("families=" + json.dumps(rows) + "\n")
+          print(", ".join(r["family"] for r in rows))
+          PY
 
   scrape:
-    name: scrape ${{ matrix.family }}
+    name: scrape ${{ matrix.family }}${{ matrix.shards && format(' {0} of {1}', matrix.shard, matrix.shards) || '' }}
     needs: gate
-    if: needs.gate.outputs.go == 'true' && (github.event_name == 'schedule' || inputs.ats == 'all' || inputs.ats == matrix.family)
+    if: needs.gate.outputs.go == 'true'
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 340
     strategy:
       fail-fast: false
-      # Every family of pipeline/adapters/ that the MBA registry uses; share of the MBA postings on 2026-10-26 in
-      # evals/runner_trial.json. A blocked family: runner: [self-hosted, macOS].
       matrix:
-        include:
-          - { family: workday, runner: ubuntu-latest }
-          - { family: greenhouse, runner: ubuntu-latest }
-          - { family: oracle_hcm, runner: ubuntu-latest }
-          - { family: amazon, runner: ubuntu-latest }
-          - { family: ashby, runner: ubuntu-latest }
-          - { family: successfactors, runner: ubuntu-latest }
-          - { family: eightfold, runner: ubuntu-latest }
-          - { family: radancy, runner: ubuntu-latest }
-          - { family: jibe, runner: ubuntu-latest }
-          - { family: phenom, runner: ubuntu-latest }
-          - { family: smartrecruiters, runner: ubuntu-latest }
-          - { family: google, runner: ubuntu-latest }
-          - { family: lever, runner: ubuntu-latest }
-          - { family: apple, runner: ubuntu-latest }
-          - { family: paradox, runner: ubuntu-latest }
-          - { family: avature, runner: ubuntu-latest }
-          - { family: icims, runner: ubuntu-latest }
-          - { family: mcloud, runner: ubuntu-latest }
-          - { family: meta, runner: ubuntu-latest }
-          - { family: bofa_servlet, runner: ubuntu-latest }
-          - { family: mckinsey, runner: ubuntu-latest }
-          - { family: kpmg, runner: ubuntu-latest }
-          - { family: gs_graphql, runner: ubuntu-latest }
-          - { family: talnet, runner: ubuntu-latest }
-          - { family: yello, runner: ubuntu-latest }
+        include: ${{ fromJSON(needs.gate.outputs.families) }}
     env:
       FAMILY: ${{ matrix.family }}
+      # a family too long for one runner is split (pipeline.scrape --shard); TAG names its logs and summaries
+      SHARD: ${{ matrix.shards && format('{0}/{1}', matrix.shard, matrix.shards) || '' }}
+      TAG: ${{ matrix.family }}${{ matrix.shards && format('_{0}of{1}', matrix.shard, matrix.shards) || '' }}
       SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -136,16 +164,19 @@ jobs:
       - name: Name the log
         run: |
           mkdir -p logs
-          echo "PIPELINE_LOG=logs/refresh-mba_$(date -u +%Y-%m-%d)_${FAMILY}.log" >> "$GITHUB_ENV"
-      - name: Pull the MBA backlog
-        run: python -m pipeline.backlog pull --roles mba
+          echo "PIPELINE_LOG=logs/refresh-mba_$(date -u +%Y-%m-%d)_${TAG}.log" >> "$GITHUB_ENV"
+      - name: Pull this family's part of the MBA backlog
+        run: python -m pipeline.backlog pull --roles mba --ats "$FAMILY" ${SHARD:+--shard "$SHARD"}
       - name: Scrape ${{ matrix.family }}
         env:
           ONLY: ${{ inputs.only }}
           TRIAL: ${{ inputs.trial }}
           DRY_RUN: ${{ inputs.dry_run }}
+          RECHECK_CLOSED: ${{ inputs.recheck_closed }}
         run: |
           args=(--roles mba --refresh --ats "$FAMILY" --no-snapshot)
+          [ -n "$SHARD" ] && args+=(--shard "$SHARD")
+          [ -n "$RECHECK_CLOSED" ] && args+=(--recheck-closed "$RECHECK_CLOSED")
           if [ "$TRIAL" = "true" ]; then
             ONLY=$(python -c 'import json, sys; print(json.load(open("evals/runner_trial.json"))["families"].get(sys.argv[1], {}).get("trial", ""))' "$FAMILY")
             echo "trial: $FAMILY -> ${ONLY:-no trial employer for this family}"
@@ -161,11 +192,11 @@ jobs:
         if: always()
         run: |
           mkdir -p summary
-          python - "$FAMILY" "$PIPELINE_LOG" <<'PY'
+          python - "$FAMILY" "$PIPELINE_LOG" "$TAG" <<'PY'
           import json, os, re, sys
           from pipeline import log
-          family, path = sys.argv[1], sys.argv[2]
-          out = {"family": family, "counts": {}, "warnings": 0, "errors": 0, "partial": [], "failed": [], "employers": []}
+          family, path, tag = sys.argv[1], sys.argv[2], sys.argv[3]
+          out = {"family": tag, "counts": {}, "warnings": 0, "errors": 0, "partial": [], "failed": [], "employers": []}
           if os.path.exists(path):
               for line in open(path, encoding="utf-8", errors="replace"):
                   if " WARNING " in line:
@@ -181,13 +212,13 @@ jobs:
                   elif " INFO " in line and ": fetched " in line:
                       m = re.search(r"pipeline\.scrape: (.+?) \((\w+)\): fetched (\d+), kept (\d+) \((\d+) open\), new (\d+), reopened (\d+), closed (\d+)", line)
                       if m: out["employers"].append({"name": m.group(1), "fetched": int(m.group(3)), "kept": int(m.group(4)), "open": int(m.group(5)), "new": int(m.group(6)), "closed": int(m.group(8))})
-          json.dump(out, open(f"summary/{family}.json", "w"), indent=1)
+          json.dump(out, open(f"summary/{tag}.json", "w"), indent=1)
           print(json.dumps(out["counts"]))
           PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: summary-${{ matrix.family }}
+          name: summary-${{ matrix.family }}-${{ matrix.shard || 1 }}
           path: summary/
           retention-days: 30
       - name: Push the log to the logs store
@@ -228,13 +259,19 @@ jobs:
           pattern: summary-*
           path: summary/
           merge-multiple: true
-      - name: Pull the MBA backlog
-        run: python -m pipeline.backlog pull --roles mba
+      - name: Pull the backlog, both role sets (the MBA extract also reads the product files, where three of its roles live)
+        run: python -m pipeline.backlog pull --roles all
       - name: Dated snapshot of the backlog (once per run, not once per family)
         if: github.event_name == 'schedule' || (inputs.ats == 'all' && inputs.only == '' && inputs.trial != true)
         run: python -m pipeline.backlog snapshot --roles mba
+      - name: The text cache of the last extract
+        # data/experiments/extract_cache_mba.json.gz (pipeline.extract.TextCache): a two-core runner tags only the
+        # texts that changed since the last run; without it a full extract outlasts the job
+        run: python -m pipeline.store pull caches --only data/experiments/extract_cache_mba.json.gz
       - name: Extract
         run: python -m pipeline.extract --roles mba
+      - name: Keep the text cache for the next run
+        run: python -m pipeline.store push caches --only data/experiments/extract_cache_mba.json.gz
       - name: Build the graph
         run: python -m pipeline.build_graph --roles mba
       - name: The open postings of both role sets, for Find jobs (web/data/jobs_open.json and jobs_meta.json)
@@ -242,7 +279,9 @@ jobs:
       - name: Pipeline evals
         id: evals
         continue-on-error: true
-        run: python evals/run_pipeline.py 2>&1 | tee summary/evals.txt
+        run: |
+          set -o pipefail  # without it the step takes tee's exit status and a failing eval reads as a pass
+          python evals/run_pipeline.py 2>&1 | tee summary/evals.txt
       - name: The checks CI runs (a pull request opened by the workflow's own token gets no CI run)
         id: checks
         continue-on-error: true
@@ -290,4 +329,9 @@ jobs:
           git add data/processed web/data
           git commit -q -m "MBA refresh of $DATE (refresh-mba run ${{ github.run_number }})"
           git push -u origin "$branch"
-          gh pr create --base main --head "$branch" --title "MBA refresh of $DATE" --body-file summary/body.md
+          # a refresh whose evals or checks failed opens as a draft that says so: never mistaken for a clean one
+          if [ "$EVALS_OK" = success ] && [ "$CHECKS_OK" = success ]; then
+            gh pr create --base main --head "$branch" --title "MBA refresh of $DATE" --body-file summary/body.md
+          else
+            gh pr create --draft --base main --head "$branch" --title "MBA refresh of $DATE (evals failed: do not merge)" --body-file summary/body.md
+          fi

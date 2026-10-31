@@ -1257,7 +1257,7 @@
     const rest = subsMeta.slice(3);
     const subs = subsMeta.length ? `<h3>Mostly means</h3><div class="subs">${(state.cardMore ? subsMeta : subsMeta.slice(0, 3)).map(sub => subRow(sub, state.cardMore)).join("")}</div>${rest.length ? `<button type="button" class="linkish link more" id="card-more">${state.cardMore ? "Show fewer" : `Show ${rest.length} more`}</button>` : ""}` : "";
     const w = inWords(st.share(s.id));
-    const share = `<p class="small">${cap(w)} in this view ${/posting$/.test(w) ? "asks" : "ask"} for it. ${tip(`${pct(st.share(s.id))} of the ${fmt(st.n)} postings in this view ask for ${s.name}; ${pct(s.share)} of postings across ${R.set === "mba" ? "all 50 roles" : "all product roles"} do.`)}</p>`;
+    const share = `<p class="small">${cap(w)} in this view ${/posting$/.test(w) ? "asks" : "ask"} for it. ${tip(`${pct(st.share(s.id))} of the ${fmt(st.n)} postings in this view ask for ${s.name}; ${pct(s.share)} of postings across ${R.set === "mba" ? "all MBA roles" : "all product roles"} do.`)}</p>`;
     const here = state.level === "all" ? null : { entry: "associate", mid: "mid", senior: "senior", lead: "lead" }[state.level];
     const ladder = ladderHtml(R, s, here);
     const bs = buildSteps(s, R.role.ladder, true), ladName = k => (((R.ladders || {})[k] || {}).label || k).toLowerCase();
@@ -1715,7 +1715,7 @@
       <p class="small">An email typed into a door or a box is kept to send you what we build, with the role on screen. Nothing else is kept with it. Nothing you upload leaves your browser: no résumé, syllabus or pasted posting.</p>
       <h3>Product roles</h3>${productPart}</div>`, true);
     render();
-    Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${fmt(G.meta.n_jobs)} open postings worldwide (${fmt(G.jobs.filter(j => j.country === M.meta.country).length)} in the US, the count Explore shows) for 6 product role families at ${fmt(G.meta.n_companies)} companies, refreshed ${niceDate(G.meta.generated)}.</p>${disc("about-top-product", "Companies with the most postings", `<p>${top(G.meta.companies, 15)}</p>`)}`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
+    Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${fmt(G.meta.n_jobs)} open postings worldwide (${fmt(G.jobs.filter(j => j.country === M.meta.country).length)} in the US, the count Explore shows) for ${Object.keys(G.families).filter(f => G.jobs.some(j => j.family === f)).length} product role families at ${fmt(G.meta.n_companies)} companies, refreshed ${niceDate(G.meta.generated)}.</p>${disc("about-top-product", "Companies with the most postings", `<p>${top(G.meta.companies, 15)}</p>`)}`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
     if (window.Catalog) Catalog.loadCatalog().then(d => { nClasses = d.classes.length; if (location.hash.startsWith("#/about")) render(); }).catch(() => { });
   }
 

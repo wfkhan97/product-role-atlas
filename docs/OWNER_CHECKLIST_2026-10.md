@@ -49,7 +49,7 @@ one before, so merge them in order.
   `pipeline.store pull logs`, then `evals/runner_trial.py --date <the run's UTC date> --minutes <from the run's
   page> --write`, and commit the report. The decision rule is on that page: 90% of the postings reached and
   complete means the schedule goes on as it stands.
-- [ ] If a family is blocked: `runner: [self-hosted, macOS]` on that family's line of the matrix in
+- [ ] If a family is blocked: `"runner": ["self-hosted", "macOS"]` on that family's line of FAMILIES (the gate job) in
   `.github/workflows/refresh-mba.yml`, and the runner on the Mac mini from `docs/SELF_HOSTED_RUNNER.md`.
 - [ ] Set the repository variables (Settings > Secrets and variables > Actions > Variables):
   `REFRESH_MBA_SCHEDULE=on`, and `REFRESH_PRODUCT_SCHEDULE=on` when the product refresh should run monthly. The

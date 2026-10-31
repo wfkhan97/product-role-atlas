@@ -3,7 +3,7 @@ from .common import get, strip_html, job
 
 def fetch(company, cfg, title_ok):
     board = cfg["board"]
-    r = get(f"https://boards-api.greenhouse.io/v1/boards/{board}/jobs?content=true")
+    r = get(f"https://boards-api.greenhouse.io/v1/boards/{board}/jobs?content=true", listing=True)
     r.raise_for_status()
     out = []
     for j in r.json().get("jobs", []):

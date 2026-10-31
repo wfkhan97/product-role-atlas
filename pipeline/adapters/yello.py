@@ -2,7 +2,7 @@ import datetime
 import html
 import re
 import time
-from .common import get, strip_html, job
+from .common import get, strip_html, job, listing_failed
 
 XHR = {"X-Requested-With": "XMLHttpRequest", "Accept": "application/json"}
 SEARCH_URL_RE = re.compile(r'data-search-url="([^"]+)"')
@@ -50,7 +50,7 @@ def fetch(company, cfg, title_ok, max_pages=40):
     search = html.unescape(m.group(1))
     seen, listed = {}, set()
     for page in range(1, cfg.get("max_pages", max_pages) + 1):
-        r = get(search, params={"query": "", "page_number": page}, headers=XHR)
+        r = get(search, params={"query": "", "page_number": page}, headers=XHR, listing=True)
         if r.status_code != 200:
             break
         data = r.json()
@@ -70,6 +70,8 @@ def fetch(company, cfg, title_ok, max_pages=40):
         if not data.get("more_requisitions") or not new:
             break
         time.sleep(0.4)
+    else:  # the page cap ended the search, not the results: what lies past it may be open
+        listing_failed("yello: stopped at the page cap")
     out = []
     for jid, (url, title, spans, posted) in seen.items():
         r = get(url, headers={"Accept": "text/html"})
@@ -83,3 +85,43 @@ def fetch(company, cfg, title_ok, max_pages=40):
         out.append(job(company, title, url, desc, location=cities or region, posted=posted, external_id=jid,
                        extra={"type": kind, "region": region}))
     return out
+
+
+def still_open(company, cfg, posting, max_pages=4):
+    """A Yello job page keeps showing a job after it has left the board, so the page alone never says True.
+
+    True: the board's own search for the posting's title lists its id. False: the job page redirects to the job board,
+    which is how Yello answers for a job it no longer has. None: anything else (the job page still renders but the
+    search does not list it, a block, a server error).
+    """
+    host, board, jid = cfg.get("host"), cfg.get("board", 1), posting.get("external_id")
+    url, title = posting.get("url") or "", (posting.get("title") or "").strip()
+    if not host or not jid or not url.startswith("https://"):
+        return None
+    r = get(url, headers={"Accept": "text/html"}, allow_redirects=False)
+    if r.status_code in (404, 410) or (r.status_code in (301, 302, 303)
+                                       and "/job_boards/" in (r.headers.get("Location") or "")):
+        return False
+    if r.status_code != 200 or not title:
+        return None
+    r = get(f"https://{host}/job_boards/{board}", headers={"Accept": "text/html"})
+    m = SEARCH_URL_RE.search(r.text) if r.status_code == 200 else None
+    if not m:
+        return None
+    search = html.unescape(m.group(1))
+    for page in range(1, max_pages + 1):
+        time.sleep(0.4)
+        r = get(search, params={"query": title, "page_number": page}, headers=XHR)
+        if r.status_code != 200:
+            return None
+        try:
+            data = r.json()
+        except ValueError:
+            return None
+        for card in ITEM_RE.findall(data.get("html") or ""):
+            m = LINK_RE.search(card)
+            if m and m.group(2) == jid:
+                return True
+        if not data.get("more_requisitions"):
+            return None
+    return None
