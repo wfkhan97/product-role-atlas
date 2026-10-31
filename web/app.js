@@ -508,24 +508,8 @@
       out.innerHTML = r.ok ? `<div class="wait"><b>${esc(S.sent)}</b><p class="small muted">${esc(fill(S.sentTo, { email }))}</p></div>` : `<p class="si-no">${esc(r.message || S.failed)}</p>`;
     };
   }
-  // the map as plain text until B3's web/map.js draws it: the title, the role at the company, the band in words, the
-  // worlds with their missions (the levels, for a map file without worlds)
-  function mapText(m, others, out) {
-    const MC = Copy.map, st = m.student || {}, role = (m.role || {}).label || "", company = (m.company || {}).name || "", rd = m.read || {};
-    const band = rd.band_label || CM.bands[rd.band] || "";
-    const cards = m.cards || [], byId = Object.fromEntries(cards.map(c => [c.id, c]));
-    const head = n => n === "reach" ? MC.reach : fill(MC.level, { n });
-    const groups = Array.isArray(m.worlds) && m.worlds.length
-      ? m.worlds.map(w => ({ head: w.n === "reach" ? w.label || MC.reach : fill(MC.world, { n: w.n, label: w.label || "" }), cards: (w.missions || []).map(id => byId[id]).filter(Boolean) }))
-      : [...new Set(cards.map(c => c.level))].map(l => ({ head: head(l), cards: cards.filter(c => c.level === l) }));
-    return `<div class="map-head"><h1>${esc(st.name_on_page ? fill(MC.title, { name: st.name_on_page }) : MC.heading)}</h1><p class="map-top">${others}</p></div>
-      ${role ? `<p class="lead">${esc(company ? fill(MC.roleAt, { role, company }) : role + ".")}</p>` : ""}
-      ${band && role ? `<p class="map-band">${fill(esc(MC.band), { band: `<b>${esc(band)}</b>`, role: esc(role) })}</p>` : ""}
-      ${groups.map(g => `<section class="map-world"><h2>${esc(g.head)}</h2>${g.cards.length ? `<ul>${g.cards.map(c => `<li>${esc(c.title)}</li>`).join("")}</ul>` : `<p class="small muted">${esc(MC.noMissions)}</p>`}</section>`).join("")}
-      <p class="small muted">${esc(MC.only)} ${out}</p>`;
-  }
-  // #/map: with a session and a map, the map; with a session and no map file, the waiting line and the launcher link;
-  // without a session, the sign-in; with MAPS_ENABLED off, the launcher
+  // #/map: with a session and a map, the map (B3, below); with a session and no map file, the waiting line and the
+  // launcher link; without a session, the sign-in; with MAPS_ENABLED off, the launcher
   async function mapScreen() {
     const MC = Copy.map;
     crumbs([[CM.home, "#/home"], [MC.crumb, null]]); showAside(null);
@@ -535,10 +519,380 @@
     if (Routes.parseRoute(location.hash).name !== "map") return;
     if (g.gate === "signin") { toHash("#/signin"); return; }
     const others = `<a href="#/skills?all=1">${esc(MC.others)}</a>`, out = `<button type="button" class="linkish link" id="map-out">${esc(MC.signOut)}</button>`;
-    if (g.gate === "map") page(mapText(g.map, others, out), true);
-    else page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(g.gate === "failed" ? MC.failed : MC.waiting)}</p><p>${others}</p><p class="small muted">${out}</p>`, true);
-    main.firstElementChild.classList.add("roomy");
-    $("#map-out").onclick = async () => { mapHeld = null; await Auth.signOut(); location.hash = "#/skills"; };
+    if (g.gate === "map") {
+      const ix = await Atlas.index().catch(e => { console.error(e); return null; });   // what a skill is, its area, the co-asked pairs
+      if (Routes.parseRoute(location.hash).name !== "map") return;
+      drawMap(g.map, ix, others, out);
+    } else {
+      page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(g.gate === "failed" ? MC.failed : MC.waiting)}</p><p>${others}</p><p class="small muted">${out}</p>`, true);
+      main.firstElementChild.classList.add("roomy");
+    }
+    $("#map-out").onclick = async () => { mapHeld = null; mapUi = null; await Auth.signOut(); location.hash = "#/skills"; };
+  }
+
+  // ---------- 1b''. The map screen (the build plan's B3; the pure parts are web/map.js) ----------
+  // D1 the read at the top; the legend bar; two tabs, "Your quests" (Q1 on <svg>) first and "Your skill tree" (T4 on
+  // <svg>); the "How you work" line and the more skills under the tree; a stop or a mission title opens the card (K1)
+  // in the side panel with the feedback control (F1) at its foot; a node opens the node panel with its "asked together
+  // with" lines drawn on the tree while it is open; a shipped mission's skills take the fifth look (P1); Print draws
+  // the one-page sheet (@media print). The map file is the truth: the screen never rewrites it, and the person's own
+  // answers (read once per card, Auth.readFeedback) only mark a stop until the owner republishes.
+  let mapUi = null;   // { map, M (the index as map.js reads it), tab, mine, asked, panel, catalog }
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const stCls = s => ({ "shows": "st-shows", "shows in other words": "st-other", "must evidence better": "st-half", "must build": "st-build" })[s] || "st-build";
+  const lookCls = n => n.shipped ? "st-built" : stCls(n.state);
+  const lookWords = n => n.shipped ? n.shipped.label : Copy.map.states[n.state] || n.state;
+  const sdot = n => `<span class="sdot ${lookCls(n)}" aria-hidden="true"></span>`;
+  const msMark = (st, extra) => `<span class="mk ms-${st}${extra ? " " + extra : ""}" aria-hidden="true"></span>`;
+  const diamond = `<svg class="mk-p" width="9" height="9" viewBox="0 0 8 8" aria-hidden="true"><path d="M4 0 8 4 4 8 0 4Z"/></svg>`;
+  const chevron = `<svg class="mk-s" width="11" height="8" viewBox="0 0 11 8" aria-hidden="true"><path d="M1.5 6.5 5.5 2.5 9.5 6.5"/></svg>`;
+  const hostOf = url => { try { return new URL(url).host.replace(/^www\./, ""); } catch { return String(url || ""); } };
+  const researchWords = f => String(f || "").replace(/\.md$/, "").replace(/[_-]+/g, " ");
+  const todayIso = () => { const d = new Date(), p = n => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; };
+  const safeUrl = u => /^https?:\/\//i.test(String(u || "")) ? String(u) : "#";
+  function svgEl(tag, attrs, parent, text) {
+    const e = document.createElementNS(SVG_NS, tag);
+    for (const k in attrs) if (attrs[k] != null) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  // a name on at most two lines, cut at the space nearest the middle
+  function wrap2(s) {
+    if (s.length <= 24) return [s];
+    let best = -1;
+    for (let i = 0; i < s.length; i++) if (s[i] === " " && (best < 0 || Math.abs(i - s.length / 2) < Math.abs(best - s.length / 2))) best = i;
+    return best < 0 ? [s] : [s.slice(0, best), s.slice(best + 1)];
+  }
+  const onMap = () => Routes.parseRoute(location.hash).name === "map" && mapUi && $("#map-body");
+  const mapWorlds = () => MapModel.worlds(mapUi.map, mapUi.mine);
+  const roleLabel = id => ((mapUi.tree.roles.find(r => r.id === id) || {}).label) || id;
+  const trackLabel = id => { const t = (mapUi.map.tracks || []).find(x => x.id === id); return t ? t.label : ""; };
+
+  function drawMap(map, ix, others, out) {
+    const MC = Copy.map, st = map.student || {}, role = (map.role || {}).label || "", company = (map.company || {}).name || "";
+    const M = ix ? { skillById: ix.skillById, edges: ix.M.edges, clusters: ix.M.clusters, reads: (s, keys) => textOf(ix.M.meta.kinds).reads(s, keys) } : {};
+    const q = Routes.parseRoute(location.hash).query;
+    mapUi = { map, M, tree: MapModel.classTree(map), tab: q.tab === "tree" ? "tree" : "quests", mine: {}, asked: new Set(), panel: null, catalog: null };
+    const R = MapModel.readLines(map, M);
+    const groups = R.groups.map(g => `<div class="rd-group">${g.line ? `<q class="rd-line" title="${esc(g.line)}">${esc(g.line)}</q>` : ""}<ul class="rd-skills">${g.skills.map(s => `<li><button type="button" class="linkish" data-node="${esc(s.id)}">${sdot(s)}${esc(s.name)}${s.state === "shows in other words" ? ` <span class="muted rd-st">${esc(MC.inOtherWords)}</span>` : ""}</button></li>`).join("")}</ul></div>`).join("");
+    const gaps = R.gaps.map(g => `<li class="rd-gap"><p class="rd-gname"><button type="button" class="linkish" data-node="${esc(g.id)}">${sdot(g)}${esc(g.name)}</button> <span class="muted rd-st">${esc((MC.states[g.state] || "").toLowerCase())}</span></p>
+      ${g.sentence ? `<p class="rd-gsent">${esc(g.sentence)}</p>` : ""}<p class="rd-gm">${g.mission ? `<span class="rd-world">${esc(g.world)}</span><button type="button" class="rd-mission" data-card="${esc(g.mission.id)}">${esc(g.mission.title)}</button>` : `<span class="muted">${esc(g.none)}</span>`}</p></li>`).join("");
+    page(`<div class="map-head"><h1>${esc(st.name_on_page ? fill(MC.title, { name: st.name_on_page }) : MC.heading)}</h1><p class="map-top">${others}<button type="button" class="btn map-print-btn" id="map-print">${esc(MC.print)}</button></p></div>
+      ${role ? `<p class="lead map-lead">${esc(company ? fill(MC.roleAt, { role, company }) : role + ".")}</p>` : ""}
+      <section class="rd">
+        ${R.headline ? `<p class="rd-band">${fill(esc(MC.band), { band: `<b>${esc(R.band)}</b>`, role: esc(role) })}</p>` : ""}
+        ${role ? `<p class="small muted rd-sub">${esc(fill(MC.readSub, { role }))}</p>` : ""}
+        <div class="rd-cols">
+          <div><h2>${esc(MC.brings)}</h2><p class="small muted rd-hint">${esc(MC.bringsHint)}</p>${groups}</div>
+          <div><h2>${esc(MC.gaps)}</h2><p class="small muted rd-hint">${esc(MC.gapsHint)}</p><ul class="rd-gaps">${gaps}</ul></div>
+        </div>
+        <p class="rd-quiet">${esc(MC.quiet)}</p>
+      </section>
+      <div class="legend-bar" id="map-legend" role="note"></div>
+      <div class="map-tabs" role="tablist" aria-label="${esc(MC.tabsAria)}">${["quests", "tree"].map(t => `<button type="button" role="tab" class="map-tab" data-tab="${t}">${esc(MC.tabs[t])}</button>`).join("")}</div>
+      <div id="map-body" role="tabpanel"></div>
+      <p class="small muted map-only">${esc(MC.only)} ${out}</p>
+      ${printSheet()}`);
+    main.firstElementChild.classList.add("wide", "map-page");
+    main.querySelectorAll(".map-tab").forEach(b => b.onclick = () => { mapUi.tab = b.dataset.tab; const p = new URLSearchParams(Routes.parseRoute(location.hash).search); if (mapUi.tab === "tree") p.set("tab", "tree"); else p.delete("tab"); history.replaceState(null, "", location.pathname + location.search + "#/map" + (p.toString() ? "?" + p : "")); closePanel(); drawTab(); });
+    main.querySelectorAll(".rd [data-card]").forEach(b => b.onclick = () => openCard(b.dataset.card));
+    main.querySelectorAll(".rd [data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node));
+    $("#map-print").onclick = () => window.print();
+    drawTab();
+  }
+
+  function drawTab() {
+    const MC = Copy.map, tab = mapUi.tab;
+    main.querySelectorAll(".map-tab").forEach(b => { const on = b.dataset.tab === tab; b.classList.toggle("on", on); b.setAttribute("aria-selected", String(on)); });
+    // the legend bar, one line: the mission marks on the quests, the skill states and the two marks on the tree
+    $("#map-legend").innerHTML = tab === "quests"
+      ? `<span class="lb">${esc(MC.missionsLabel)}</span>` + MapModel.MISSION_STATES.map(s => `<span>${msMark(s)}${esc(MC.missionStates[s])}</span>`).join("")
+      : MapModel.STATES.map(s => `<span class="${stCls(s)}"><span class="sdot"></span>${esc(MC.states[s])}</span>`).join("") + `<span class="st-built"><span class="sdot"></span>${esc(MC.shippedLegend)}</span><span>${diamond} ${esc(MC.postingNames)}</span><span>${chevron} ${esc(MC.senior)}</span>`;
+    if (tab === "quests") drawQuests(); else drawTree();
+  }
+
+  // ---------- Q1, the quests: the worlds left to right on one road ----------
+  function drawQuests() {
+    const MC = Copy.map, W = mapWorlds(), L = MapModel.questLayout(W), body = $("#map-body");
+    const sel = mapUi.panel && mapUi.panel.kind === "card" ? mapUi.panel.id : null;
+    let h = `<p class="q-how">${esc(MC.walk)}</p><div class="ow-scroll"><div class="ow" style="width:${L.width}px;height:${L.height}px">`;
+    W.worlds.forEach((w, i) => {
+      const c = L.columns[i];
+      const pips = w.optional || !w.clear ? "" : `<span class="pips" aria-hidden="true">${Array.from({ length: w.clear }, (_, k) => `<span class="pip${k < w.shipped ? " on" : ""}"></span>`).join("")}</span>`;
+      h += `<div class="cl${w.cleared ? " cleared" : ""}${w.optional ? " optional" : ""}" style="left:${c.x}px;width:${c.width}px">
+        <div class="ch"><div class="eyebrow">${esc((w.optional ? MC.optional : w.head) + (w.release ? " · " + w.release : ""))}</div><b>${esc(w.label)}</b><p class="who">${esc(w.who)}</p></div>
+        <div class="cf"><p class="clr">${esc(w.clearLine)}</p>${w.optional ? `<p class="prog">${esc(w.progress)}</p>` : `<p class="prog">${w.cleared ? `<span class="cleared-tag">${esc(w.progress)}</span>` : pips + esc(w.progress)}</p>`}</div></div>`;
+    });
+    h += `</div></div><div class="ow-cap" id="ow-cap" aria-live="polite"></div><p class="ow-note">${esc(MC.stopHint)}</p>`;
+    body.innerHTML = h;
+    const svg = svgEl("svg", { class: "ow-path", width: L.width, height: L.svgHeight, viewBox: `0 0 ${L.width} ${L.svgHeight}`, role: "group", "aria-label": MC.questAria, style: `top:${L.top}px` }, body.querySelector(".ow"));
+    svgEl("path", { class: "road", d: L.road }, svg);
+    if (L.reach) svgEl("path", { class: "road reach", d: L.reach }, svg);
+    for (const f of L.flags) {
+      const w = W.worlds[f.world], g = svgEl("g", { class: "flag" + (w.cleared ? " up" : "") }, svg);
+      svgEl("title", {}, g, fill(w.cleared ? MC.flagUp : MC.flagDown, { world: w.head }));
+      svgEl("line", { class: "pole", x1: f.x, y1: f.y + 12, x2: f.x, y2: f.y - 34 }, g);
+      svgEl("path", { class: "cloth", d: `M${f.x},${f.y - 34} L${f.x + 20},${f.y - 27} L${f.x},${f.y - 20} Z` }, g);
+    }
+    let hover = null;
+    const cap = () => {
+      const id = hover || W.here, el = $("#ow-cap"); if (!el) return;
+      const hit = id && MapModel.missionOf(W, id);
+      if (!hit) { el.innerHTML = `<span class="st">${esc(MC.allClear)}</span>`; return; }
+      const { world: w, mission: m } = hit, lead = hover && hover !== W.here ? `${w.head} · ${m.i}` : MC.here;
+      el.innerHTML = `<span class="k">${esc(lead)}</span><button type="button" class="ow-title" data-card="${esc(m.id)}">${esc(m.card.title)}</button><span class="st">${esc(MC.missionStates[m.state])} · ${esc(m.card.window || "")} · ${esc(fill(MC.card.hoursValue, { hours: m.card.hours }))}</span><button type="button" class="ow-open" data-card="${esc(m.id)}">${esc(MC.openIt)}</button>`;
+      el.querySelectorAll("[data-card]").forEach(b => b.onclick = () => openCard(b.dataset.card));
+    };
+    for (const s of L.stops) {
+      const m = MapModel.missionOf(W, s.id).mission;
+      const g = svgEl("g", { class: `stop ms-${m.state}${sel === m.id ? " sel" : ""}`, tabindex: "0", role: "button", "data-card": m.id, "aria-label": `${m.card.title}. ${MC.missionStates[m.state]}.` }, svg);
+      svgEl("title", {}, g, `${m.card.title} · ${MC.missionStates[m.state]}`);
+      svgEl("circle", { class: "halo", cx: s.x, cy: s.y, r: s.r + 5 }, g);
+      svgEl("circle", { class: "base", cx: s.x, cy: s.y, r: s.r }, g);
+      svgEl("circle", { class: "disc", cx: s.x, cy: s.y, r: s.r }, g);
+      if (m.state === "chosen") svgEl("circle", { class: "inner", cx: s.x, cy: s.y, r: s.r - 4.5 }, g);
+      svgEl("text", { x: s.x, y: s.y + 1 }, g, String(s.i));
+      if (m.state === "changed") svgEl("circle", { class: "corner", cx: s.x + s.r * 0.72, cy: s.y - s.r * 0.72, r: 5.5 }, g);
+      if (m.state === "declined") svgEl("line", { class: "cross", x1: s.x - s.r - 3, y1: s.y + s.r + 3, x2: s.x + s.r + 3, y2: s.y - s.r - 3 }, g);
+      // the person's own answer, sent from this page or read back: a small mark under the stop until the republish
+      if (m.sent) { const k = svgEl("circle", { class: "sent", cx: s.x, cy: s.y + s.r + 10, r: 3.5 }, g); svgEl("title", {}, k, fill(MC.sentMark, { choice: MC.feedback.choices[m.sent.choice] || m.sent.choice })); }
+      g.addEventListener("click", () => openCard(m.id));
+      g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openCard(m.id); } });
+      g.addEventListener("mouseenter", () => { hover = m.id; cap(); });
+      g.addEventListener("mouseleave", () => { hover = null; cap(); });
+      g.addEventListener("focus", () => { hover = m.id; cap(); });
+      g.addEventListener("blur", () => { hover = null; cap(); });
+    }
+    const here = L.stops.find(s => s.id === W.here);
+    if (here) {
+      const top = here.y - here.r - 30, g = svgEl("g", { class: "you" }, svg);
+      svgEl("line", { x1: here.x, y1: here.y - here.r - 4, x2: here.x, y2: top + 6 }, g);
+      svgEl("circle", { cx: here.x, cy: top, r: 6 }, g);
+      svgEl("text", { x: Math.max(here.x, 48), y: top - 12 }, g, MC.here);
+    }
+    cap();
+    if (sel) { const s = L.stops.find(x => x.id === sel), sc = body.querySelector(".ow-scroll"); if (s && sc && (s.x < sc.scrollLeft + 40 || s.x > sc.scrollLeft + sc.clientWidth - 40)) sc.scrollLeft = Math.max(0, s.x - sc.clientWidth / 2); }
+  }
+
+  // ---------- T4, the tree: the trunk and its branches ----------
+  function drawTree() {
+    const MC = Copy.map, T = mapUi.tree, L = MapModel.treeLayout(T, 816), body = $("#map-body");
+    const how = T.behaviours.slice().sort((a, b) => MapModel.rankOf(a.state) - MapModel.rankOf(b.state));
+    body.innerHTML = `<div class="t4-scroll"><div class="t4-host"></div></div><p class="t2-cap">${esc(MC.treeCap)}</p>
+      <div class="t2-how"><span class="lbl">${esc(MC.how)}</span>${how.map(n => `<button class="t2n ${lookCls(n)}" type="button" data-node="${esc(n.id)}" title="${esc(n.name + ". " + lookWords(n) + ".")}"><span class="nd" aria-hidden="true"></span><span class="nm">${esc(n.name)}</span></button>`).join("")}</div>
+      <div class="t2-links"><button type="button" id="map-more">${esc(MC.more)}</button></div>`;
+    const svg = svgEl("svg", { class: "t4", width: L.width, height: L.height, viewBox: `0 0 ${L.width} ${L.height}`, role: "group", "aria-label": fill(MC.treeAria, { label: T.label.toLowerCase() || "" }) }, body.querySelector(".t4-host"));
+    svgEl("line", { class: "ground", x1: L.ground.x1, y1: L.ground.y, x2: L.ground.x2, y2: L.ground.y }, svg);
+    for (const b of L.branches) {
+      const cls = "branch" + (b.first ? " first" : "");
+      svgEl("path", { class: cls, d: b.sweep }, svg);
+      svgEl("line", { class: cls, x1: b.stem.x, y1: b.stem.y1, x2: b.stem.x, y2: b.stem.y2 }, svg);
+      svgEl("text", { class: "role" + (b.first ? " first" : ""), x: b.text.x, y: b.text.y }, svg, b.label);
+    }
+    svgEl("rect", { class: "trunk", x: L.trunk.x, y: L.trunk.y, width: L.trunk.width, height: L.trunk.height, rx: 6 }, svg);
+    for (const n of L.nodes) if (n.tick) svgEl("line", { class: "tick" + (n.tick.first ? " first" : ""), x1: n.tick.x1, y1: n.tick.y1, x2: n.tick.x2, y2: n.tick.y2 }, svg);
+    svgEl("g", { class: "co-lines", id: "map-co" }, svg);   // "asked together with", drawn only while a node is open
+    const byId = Object.fromEntries(T.nodes.map(n => [n.id, n]));
+    for (const p of L.nodes) {
+      const n = byId[p.id], r = p.r;
+      const g = svgEl("g", { class: `node ${lookCls(n)}`, transform: `translate(${p.x},${p.y})`, tabindex: "0", role: "button", "data-node": n.id, "aria-label": `${n.name}. ${lookWords(n)}.` }, svg);
+      svgEl("title", {}, g, `${n.name}. ${lookWords(n)}.`);
+      svgEl("circle", { class: "halo", r: r + 4 }, g);
+      if (n.shipped) svgEl("circle", { class: "ring", r: r + 3 }, g);
+      svgEl("circle", { class: "disc", r }, g);
+      if (!n.shipped && n.state === "must evidence better") svgEl("path", { class: "half", d: `M0,${-r} A${r},${r} 0 0 0 0,${r} Z` }, g);
+      if (n.shipped) svgEl("path", { class: "check", d: `M${-r * 0.45},0 L${-r * 0.1},${r * 0.35} L${r * 0.5},${-r * 0.35}` }, g);
+      const left = p.side === "l", tx = left ? -(r + 8) : r + 8, lines = wrap2(n.name), y0 = lines.length === 2 ? -3 : 5;
+      const t = svgEl("text", { class: "nm", x: tx, y: y0, "text-anchor": left ? "end" : "start" }, g);
+      let last = null; lines.forEach((ln, i) => { last = svgEl("tspan", { x: tx, dy: i ? 16 : 0 }, t, ln); });
+      // the two marks after the name's last line: the posting names it (a diamond), senior roles ask more (a chevron)
+      if (n.posting_names || n.grows) {
+        let len = 0; try { len = last.getComputedTextLength(); } catch { len = lines[lines.length - 1].length * 7.5; }
+        if (!len) len = lines[lines.length - 1].length * 7.5;
+        const ly = y0 + (lines.length - 1) * 16 - 5, step = left ? -14 : 14;
+        let mx = left ? tx - len - 8 : tx + len + 8;
+        if (n.posting_names) { svgEl("path", { class: "mk-p", d: `M${mx},${ly - 4} l4,4 l-4,4 l-4,-4 Z` }, g); mx += step; }
+        if (n.grows) svgEl("path", { class: "mk-s", d: `M${mx - 4},${ly + 2} L${mx},${ly - 2} L${mx + 4},${ly + 2}` }, g);
+      }
+      g.addEventListener("click", () => openNode(n.id));
+      g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openNode(n.id); } });
+    }
+    body.querySelectorAll(".t2-how [data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node));
+    $("#map-more").onclick = openMore;
+    markTree();
+  }
+  // the open node, its co-asked nodes and the lines between them: on the tree only while the node panel is open
+  function markTree() {
+    const svg = main.querySelector("svg.t4"); if (!svg) return;
+    const co = $("#map-co"); co.innerHTML = "";
+    main.querySelectorAll(".t4 .node, .t2-how .t2n").forEach(x => x.classList.remove("sel", "co"));
+    const id = mapUi.panel && mapUi.panel.kind === "node" ? mapUi.panel.id : null; if (!id) return;
+    const L = MapModel.treeLayout(mapUi.tree, 816), at = Object.fromEntries(L.nodes.map(n => [n.id, n]));
+    const self = main.querySelector(`.t4 [data-node="${CSS.escape(id)}"], .t2-how [data-node="${CSS.escape(id)}"]`); if (self) self.classList.add("sel");
+    for (const o of MapModel.coAsked(mapUi.map, mapUi.M, id)) {
+      const el = main.querySelector(`.t4 [data-node="${CSS.escape(o)}"]`); if (el) el.classList.add("co");
+      const a = at[id], b = at[o]; if (!a || !b) continue;
+      // a gentle bow, so a line between two neighbors never hides under the tree's own strokes
+      const dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy) || 1, k = Math.max(30, Math.min(60, len * 0.3));
+      let px = -dy / len, py = dx / len; if (px < 0 || (px === 0 && py < 0)) { px = -px; py = -py; }
+      svgEl("path", { d: `M${a.x},${a.y} Q${(a.x + b.x) / 2 + px * k},${(a.y + b.y) / 2 + py * k} ${b.x},${b.y}` }, co);
+    }
+  }
+
+  // ---------- the side panel ----------
+  function panel(html, p) {
+    mapUi.panel = p;
+    showAside(`<button type="button" class="close" aria-label="${esc(CM.close)}">×</button>${html}`);
+    aside.querySelector(".close").onclick = closePanel;
+    if (mapUi.tab === "tree") markTree(); else drawQuests();
+  }
+  function closePanel() {
+    if (!mapUi) return;
+    const had = mapUi.panel; mapUi.panel = null; showAside(null);
+    if (had && $("#map-body")) { if (mapUi.tab === "tree") markTree(); else drawQuests(); }
+  }
+  // the node panel: name, state in words, the line that showed it, what it is, the roles that ask, "asked together
+  // with" (three, drawn on the tree while open), the missions that build it
+  function openNode(id, fromMore) {
+    if (!mapUi) return;
+    const MC = Copy.map, N = MC.node, s = MapModel.skillInfo(mapUi.map, mapUi.M, id), company = (mapUi.map.company || {}).name || "";
+    const co = MapModel.coAsked(mapUi.map, mapUi.M, id), cards = MapModel.questsOf(mapUi.map, id), W = mapWorlds();
+    const lineHead = s.state === "must evidence better" ? N.lineHalf : s.state === "shows in other words" ? N.lineOther : N.lineShows;
+    const mk = [s.posting_names && company ? `<span>${diamond} ${esc(fill(N.postingNames, { company }))}</span>` : "", s.grows ? `<span>${chevron} ${esc(N.senior)}</span>` : ""].join("");
+    const roles = s.roles.map(roleLabel);
+    const row = c => { const hit = MapModel.missionOf(W, c.id); return `<button type="button" class="r" data-card="${esc(c.id)}"><span class="t">${esc(c.title)}</span><span class="m">${esc(hit ? (hit.world.optional ? MC.reachHead : fill(MC.world, { n: hit.world.num, label: hit.world.label })) : "")}</span>${hit ? `<span class="n">${msMark(hit.mission.state)}</span>` : ""}</button>`; };
+    panel((fromMore ? `<button type="button" class="backlink" data-back="more">${esc(MC.moreBack)}</button>` : "") +
+      (s.area_label ? `<p class="eyebrow">${esc(s.area_label)}</p>` : "") +
+      `<h2 class="t2p">${esc(s.name)}</h2><p class="t2-state ${lookCls(s)}"><span class="nd" aria-hidden="true"></span>${esc(lookWords(s))}</p>` +
+      (mk ? `<div class="t2-mk">${mk}</div>` : "") +
+      (s.shipped ? `<p class="t2-since">${esc(fill(N.since, { date: s.shipped.words, title: s.shipped.title }))}</p>` : "") +
+      (s.line ? `<div class="rs"><h3 class="rh">${esc(lineHead)}</h3><q>${esc(s.line)}</q>${s.through ? `<p class="small muted">${esc(fill(N.through, { name: s.through }))}</p>` : ""}</div>` : "") +
+      (s.what ? `<div class="rs"><h3 class="rh">${esc(N.what)}</h3><p class="what">${esc(s.what)}</p></div>` : "") +
+      (roles.length ? `<div class="rs"><h3 class="rh">${esc(N.roles)}</h3><div class="chips">${roles.map(r => `<span class="chip">${esc(r)}</span>`).join("")}</div></div>` : "") +
+      (co.length ? `<div class="rs"><h3 class="rh">${esc(N.together)}</h3><div class="co-l">${co.map(c => `<button type="button" data-node="${esc(c)}"><span class="ln" aria-hidden="true"></span>${esc(MapModel.skillInfo(mapUi.map, mapUi.M, c).name)}</button>`).join("")}</div></div>` : "") +
+      `<div class="rs"><h3 class="rh">${esc(N.missions)}</h3>${cards.length ? `<div class="list">${cards.map(row).join("")}</div>` : `<p>${esc(MC.noMission)}</p>`}</div>`,
+      { kind: "node", id });
+    aside.querySelectorAll("[data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node));
+    aside.querySelectorAll("[data-card]").forEach(b => b.onclick = () => openCard(b.dataset.card, id));
+    const back = aside.querySelector("[data-back]"); if (back) back.onclick = openMore;
+  }
+  function openMore() {
+    const MC = Copy.map, list = mapUi.tree.more.map(m => MapModel.skillInfo(mapUi.map, mapUi.M, m.id)).sort((a, b) => MapModel.rankOf(a.state) - MapModel.rankOf(b.state));
+    const first = mapUi.tree.roles[0];
+    panel(`<h2 class="t2p">${esc(MC.more)}</h2>${first ? `<p class="empty">${esc(fill(MC.moreLead, { role: first.label }))}</p>` : ""}
+      <div class="list more-l">${list.map(n => `<button class="r" type="button" data-node="${esc(n.id)}"><span class="t">${sdot(n)}${esc(n.name)}</span><span class="m">${esc(lookWords(n))}</span></button>`).join("")}</div>`, { kind: "more" });
+    aside.querySelectorAll("[data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node, true));
+  }
+
+  // ---------- K1, the card, with F1 at its foot ----------
+  function openCard(cardId, fromNode) {
+    if (!mapUi) return;
+    const MC = Copy.map, K = MC.card, map = mapUi.map, c = MapModel.cardsById(map)[cardId]; if (!c) return;
+    const W = mapWorlds(), hit = MapModel.missionOf(W, cardId), w = hit ? hit.world : null, m = hit ? hit.mission : { state: MapModel.missionState(c, mapUi.mine[cardId]), sent: mapUi.mine[cardId] || null };
+    const posting = map.posting || {}, company = (map.company || {}).name || "";
+    const stateLine = m.state === "shipped" ? fill(K.state.shipped, { date: MapModel.dateWords(c.shipped) })
+      : m.state === "declined" ? (c.declined ? K.state.declined : K.state.declinedSent)
+      : m.state === "changed" ? (c.changed ? fill(K.state.changed, { date: MapModel.dateWords(c.changed) }) : K.state.changedSent)
+      : K.state[m.state];
+    const head = w ? (w.optional ? `${MC.reachHead} · ${MC.optional}` : `${fill(MC.world, { n: w.num, label: w.label })}${w.release ? " · " + w.release : ""}`) : "";
+    const skills = (c.atlas_skills || []).map(id => MapModel.skillInfo(map, mapUi.M, id));
+    const back = fromNode ? fill(K.backTo, { name: MapModel.skillInfo(map, mapUi.M, fromNode).name }) : K.back;
+    panel(`<button type="button" class="backlink" data-back>${esc(back)}</button>
+      <div class="q-mstate ms-${m.state}">${msMark(m.state)}<span>${esc(stateLine)}</span></div>
+      <div class="qcard" data-card="${esc(c.id)}">
+        ${head ? `<div class="eyebrow">${esc(head)}</div>` : ""}${w && w.who ? `<p class="who">${esc(w.who)}</p>` : ""}
+        <h2>${esc(c.title)}</h2>
+        <dl><dt>${esc(K.window)}</dt><dd>${esc(c.window || "")}</dd><dt>${esc(K.hours)}</dt><dd>${esc(fill(K.hoursValue, { hours: c.hours }))}</dd></dl>
+        <h3>${esc(K.ships)}</h3><p class="ship">${esc(c.ship || "")}</p>
+        ${c.why_role ? `<section class="why"><h3>${esc(K.whyRole)}</h3><p>${esc(c.why_role.text)}</p>${c.why_role.posting_quote ? `<q>“${esc(c.why_role.posting_quote)}”</q>` : ""}<p class="from">${esc(K.fromPosting)} <a href="${esc(safeUrl(posting.url))}" target="_blank" rel="noopener">${esc(posting.title || "")}</a>${company ? ", " + esc(company) : ""}</p></section>` : ""}
+        ${c.why_company ? `<section class="why"><h3>${esc(K.whyCompany)}</h3><p>${esc(c.why_company.text)}</p><p class="from">${esc(fill(K.fromResearch, { topic: researchWords(c.why_company.research_file) }))}${c.why_company.url ? ` · <a href="${esc(safeUrl(c.why_company.url))}" target="_blank" rel="noopener">${esc(hostOf(c.why_company.url))}</a>` : ""}</p></section>` : ""}
+        ${c.why_person ? `<section class="why"><h3>${esc(K.whyYou)}</h3><p>${esc(c.why_person.text)}</p>${c.why_person.profile_quote ? `<q>“${esc(c.why_person.profile_quote)}”</q>` : ""}<p class="from">${esc(K.fromProfile)}</p></section>` : ""}
+        <h3>${esc(K.skills)}</h3><div class="chipset">${skills.map(s => `<button type="button" class="chip" data-node="${esc(s.id)}" title="${esc(lookWords(s))}">${sdot(s)}${esc(s.name)}</button>`).join("")}</div>
+        <h3>${esc(K.classes)}</h3><div id="map-classes">${classList(c)}</div>
+        ${c.users ? `<h3>${esc(K.users)}</h3><p class="users">${esc(c.users)}</p>` : ""}
+        <h3>${esc(K.sources)}</h3><ul class="src">${(c.sources || []).map(s => `<li><a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.read ? ` <span class="rd">· ${esc(fill(K.read, { date: MapModel.dateWords(s.read) }))}</span>` : ""}</li>`).join("")}</ul>
+        <div class="fb" id="map-fb"></div>
+      </div>`, { kind: "card", id: c.id, from: fromNode || null });
+    aside.querySelector("[data-back]").onclick = () => fromNode ? openNode(fromNode) : closePanel();
+    aside.querySelectorAll(".qcard [data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node));
+    // the class titles from the class roster (Catalog), once per page; the codes stand until they load
+    if ((c.classes || []).length && window.Catalog && !mapUi.catalog) {
+      mapUi.catalog = Catalog.loadCatalog().then(d => Object.fromEntries(d.classes.map(k => [k.code, k.title || ""]))).catch(e => { console.error(e); return {}; });
+    }
+    if (mapUi.catalog) mapUi.catalog.then(t => { mapUi.titles = t; const el = $("#map-classes"); if (el && mapUi.panel && mapUi.panel.id === c.id) el.innerHTML = classList(c); });
+    drawFeedback(c.id, { choice: null, note: "" });
+    // the person's last answer on this card, read once per page from the private folder
+    if (!mapUi.asked.has(c.id)) {
+      mapUi.asked.add(c.id);
+      const fb = $("#map-fb"); if (fb) fb.innerHTML = `<h3>${esc(MC.feedback.heading)}</h3><p class="small muted">${esc(MC.feedback.reading)}</p>`;
+      (async () => { const s = await Auth.session(); return s ? Auth.readFeedback(s, c.id) : null; })()
+        .then(obj => { if (obj && obj.choice && mapUi) mapUi.mine[c.id] = obj; })
+        .catch(e => console.error(e))
+        .then(() => { if (!mapUi || !mapUi.panel || mapUi.panel.id !== c.id) return; if (mapUi.mine[c.id]) openCard(c.id, fromNode); else drawFeedback(c.id, { choice: null, note: "" }); });
+    }
+  }
+  function classList(c) {
+    const K = Copy.map.card, codes = c.classes || [], t = mapUi.titles || {};
+    if (!codes.length) return `<p class="none small muted">${esc(K.noClass)}</p>`;
+    return `<ul class="k-classes">${codes.map(code => `<li><code>${esc(code)}</code>${esc(t[code] || "")}</li>`).join("")}</ul>`;
+  }
+  // F1: "I'll build this" · "Not this one" · "Change it", a note, Send; the sent state with the choice and the date;
+  // the owner's reply from the map when the republish carries one
+  function drawFeedback(cardId, draft, err) {
+    const box = $("#map-fb"); if (!box) return;
+    const MC = Copy.map, F = MC.feedback, c = MapModel.cardsById(mapUi.map)[cardId], mine = mapUi.mine[cardId], editing = draft.editing;
+    let h = `<h3>${esc(F.heading)}</h3>`;
+    if (c.shipped) h += `<div class="sent"><b>${esc(MC.missionStates.shipped)}</b> <span class="when">· ${esc(MapModel.dateWords(c.shipped))}</span><p class="small ok">${esc(F.shipped)}</p></div>`;
+    else if (mine && !editing) {
+      h += `<div class="sent"><b>${esc(fill(F.sentChoice, { choice: F.choices[mine.choice] || mine.choice }))}</b> <span class="when">· ${esc(MapModel.dateWords(mine.date))}</span>${mine.note ? `<p>${esc(mine.note)}</p>` : `<p class="muted">${esc(F.noNote)}</p>`}<p class="small ok">${esc(F.sent)}</p></div>`;
+      h += `<div class="again"><button type="button" class="linkish link" data-again>${esc(F.again)}</button></div>`;
+    } else {
+      h += `<div class="row">${Object.entries(F.choices).map(([k, v]) => `<button class="btn choice${draft.choice === k ? " on" : ""}" type="button" data-choice="${k}" aria-pressed="${draft.choice === k}">${esc(v)}</button>`).join("")}</div>
+        <textarea id="map-note" maxlength="500" aria-label="${esc(F.noteAria)}" placeholder="${esc(F.note)}">${esc(draft.note)}</textarea>
+        <div class="send"><button class="btn primary" type="button" data-send${draft.choice && !draft.busy ? "" : " disabled"}>${esc(draft.busy ? F.sending : F.send)}</button><span class="small muted">${esc(F.saved)}</span></div>
+        ${err ? `<p class="small fb-err">${esc(F.failed)}</p>` : ""}`;
+    }
+    if (c.reply && c.reply.text) h += `<div class="reply"><b>${esc(F.reply)}</b>${c.reply.date ? ` <span class="from">· ${esc(MapModel.dateWords(c.reply.date))}</span>` : ""}<p>${esc(c.reply.text)}</p><p class="from">${esc(F.replyFrom)}</p></div>`;
+    h += `<p class="up">${esc(F.up)}</p>`;
+    box.innerHTML = h;
+    const ta = $("#map-note"); if (ta) ta.oninput = () => { draft.note = ta.value; };
+    box.querySelectorAll("[data-choice]").forEach(b => b.onclick = () => { draft.choice = b.dataset.choice; drawFeedback(cardId, draft); });
+    const again = box.querySelector("[data-again]"); if (again) again.onclick = () => drawFeedback(cardId, { choice: mine.choice, note: mine.note || "", editing: true });
+    const send = box.querySelector("[data-send]");
+    if (send) send.onclick = async () => {
+      if (!draft.choice || draft.busy) return;
+      draft.busy = true; drawFeedback(cardId, draft);
+      try {
+        const s = await Auth.session(); if (!s) throw new Error("No session");
+        const obj = Auth.feedbackObject(cardId, draft.choice, draft.note, todayIso());
+        await Auth.writeFeedback(s, cardId, obj);
+        mapUi.mine[cardId] = obj;
+        if (mapUi.panel && mapUi.panel.id === cardId) openCard(cardId, mapUi.panel.from);   // the state line, the stop's mark
+      } catch (e) {
+        console.error(e); draft.busy = false;
+        if (mapUi.panel && mapUi.panel.id === cardId) drawFeedback(cardId, draft, true);
+      }
+    };
+  }
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && mapUi && mapUi.panel && Routes.parseRoute(location.hash).name === "map" && !aside.hidden) closePanel(); });
+
+  // ---------- the print page: one landscape sheet (@media print in style.css) ----------
+  // The four worlds as columns, each mission's title, track, window, hours and three lines of what ships; the tree's
+  // states as a row of dots. On screen it stays hidden; it carries the light tokens so any printer reads it.
+  function printSheet() {
+    const MC = Copy.map, P = MC.printPage, map = mapUi.map, st = map.student || {}, role = (map.role || {}).label || "", company = (map.company || {}).name || "";
+    const R = MapModel.readLines(map, mapUi.M), W = mapWorlds(), T = mapUi.tree;
+    const cols = W.worlds.map(w => `<section><h2>${esc(w.optional ? MC.reachHead : fill(MC.world, { n: w.num, label: w.label }))}${w.release ? ` <span>· ${esc(w.release)}</span>` : ""}</h2><p class="who">${esc(w.clearLine)}</p>
+      ${w.missions.map(m => `<div class="pr-card ms-${m.state}"><span class="t">${esc(m.card.title)}</span><span class="m">${esc([trackLabel(m.card.track), m.card.window, fill(MC.card.hoursValue, { hours: m.card.hours }), m.state === "open" ? "" : MC.missionStates[m.state]].filter(Boolean).join(" · "))}</span><span class="ship">${esc(m.card.ship || "")}</span></div>`).join("")}</section>`).join("");
+    const dots = (label, nodes) => nodes.length ? `<div class="pr-grp"><h3>${esc(label)}</h3>${nodes.map(n => `<span class="pr-node">${sdot(n)}${esc(n.name)}</span>`).join("")}</div>` : "";
+    const tree = dots(P.trunk, T.trunk) + dots(P.shared, T.shared) + T.branches.map(b => dots(b.role.label, b.own)).join("") + dots(MC.how, T.behaviours);
+    return `<section class="map-print light" aria-hidden="true">
+      <header><h1>${esc(st.name_on_page || MC.heading)}</h1><p>${esc(fill(P.role, { role, company }))}${R.band ? " · " + esc(fill(P.band, { band: R.band })) : ""}</p>${map.gap_sentence ? `<p class="pr-gap">${esc(map.gap_sentence)}</p>` : ""}</header>
+      <div class="pr-cols">${cols}</div>
+      <div class="pr-tree"><h2>${esc(P.tree)}</h2><div class="pr-row">${tree}</div>
+      <p class="pr-note">${MapModel.STATES.map(s => `<span class="sdot ${stCls(s)}"></span>${esc(MC.states[s])}`).join(" ")} <span class="sdot st-built"></span>${esc(MC.shippedLegend)}. ${esc(P.note)} ${esc(fill(P.printed, { date: MapModel.dateWords(todayIso()) }))}</p></div>
+    </section>`;
   }
 
   // ---------- 1c. Networking (v19 B5, owner's pick N6): who to meet for one role ----------
