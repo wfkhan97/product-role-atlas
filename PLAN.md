@@ -1143,6 +1143,56 @@ the Dec 17 deadline, the start card and the closed notice saying the courses are
 still empty and `catalog` still false. Three things wait for the owner: apply `db/schema_ienyc.sql`, run the loader,
 and confirm the student email domain; and one code line waits before `catalog: true`, under Later.
 
+## The four verbs behind a door (v19, 2026-10-29)
+
+The frame (owner, 2026-10-29). One site. A **door** (`#/`): a welcome screen that says what GradBuddy is and asks for an
+email and "What are you studying?"; everyone can skip it. The email is capture and routing, never a credential: nothing
+behind the door is private, and no screen says "sign in". **Home** (`#/home`): four verbs, which are also the top bar.
+**Find jobs** (`#/jobs`): one search over every open US posting of both role sets, with filters; with a résumé on file,
+each card says how many of the skills the posting asks for are on it. **Explore roles & build skills** (`#/skills`): a
+launcher (roles by field, a résumé drop) into the fit screen and the role rail as they are, ending in a coming-soon door.
+**Find classes** (`#/classes`): the Spring 2027 picker on a public catalog file, no sign-in anywhere. **Networking**
+(`#/network`): who to meet for the roles a person wants, and the faculty on campus; ends in a coming-soon door. The doors
+are Tally forms with a native fallback; the cohort application box, the sentence field and the word "paid" leave every
+screen; intake says coming soon and takes an email. The site still runs no model at runtime, writes no per-person prose
+beyond data-built sentences, and nothing uploaded leaves the browser. The Oct 31 demo shows the owner's current checkout;
+the Classes path is previewable by Nov 5 and merged by Nov 7; pre-enrollment is Nov 10–12.
+
+Phase A (nothing in the tree) built a mock kit, a flow map and clickable mocks per surface on real data in
+`data/experiments/scratch/surfaces/` (gitignored; swept at the end of the thread). The owner's round-1 review decided:
+
+1. **No A/B arm on the door.** Everyone sees "Skip for now". The door is a welcome screen, not a gate: what GradBuddy
+   is, that a few offerings are ready to share, what is inside, then the email, a line that some parts are for students,
+   then the skip. "Enter your email to get in" was too harsh. The placeholder is `user@school.edu`.
+2. **The Cornell gate is the NetID shape**, not the domain: two or three letters then one to four digits at
+   `cornell.edu` (`wk332`, `ub47`, `khg9`). A matching address opens Find classes. Every other address is still kept,
+   and the Find classes card stays on home for everyone, grayed, with a line that says it is gated for now.
+3. **Home is a 2×2 grid**, one data-built line per card: Find jobs counts the postings open at the last scrape and the
+   companies ("over 25 thousand jobs … from over 1,500 companies", never typed); "Explore roles & build skills" counts
+   the roles; Find classes names the term, the campus and the class count; Networking says "faculty on campus" and no
+   more, since students outside Cornell have none.
+4. **Find jobs keeps the filter rail** (J1) and gets a real clean-up of its search after an audit of the popular job
+   aggregators (round 2).
+5. **The launcher is roles two thirds, résumé one third** (S3): browse by field, click a field then a role, or search;
+   a role in several fields shows under each (none is today); after a résumé, the match details show lightly.
+6. **The class picker drops the program picker**; "Rate for" becomes "Match to roles", a multi-select; the matching is
+   tuned on the test résumés first and the tuned cases become evals (round 2).
+7. **Networking is not event prep.** It is navigating who to meet: hiring managers, people in the role, faculty, alumni.
+   Round 2 plans it afresh.
+8. **The stage question** ("Where are you in your search?", v16 step 2) stays in About you, step 2, until the owner
+   picks a place for it.
+
+Phase B, one branch and pull request per step, each on the one before: B1 `chore/hosting` (this section opens with
+it), B2 `feat/door-home`, B3 `data/catalog-public` (the owner tests in a preview before anything after it), B4
+`feat/find-jobs`, B5 `feat/skills-network`, B6 `feat/plain-copy`, B7 `feat/doors-tally`, B8 `docs/four-verbs`. Every
+suite stays green at every step. What each step built is noted under it below as it lands.
+
+### B1 — hosting (`chore/hosting`, 2026-10-29)
+
+Built: README "Hosting" (a Vercel project `gradbuddy-atlas`, root `web`, framework Other, no build; the owner creates
+it); `tests/web/assets.test.mjs`, which fails when `web/index.html` names a local script or stylesheet that is not on
+disk, when a path is absolute, when a token import is missing, or when a remote script pins no version. Nothing in
+`web/` changed.
 ## AI-forward roles in the scrape (2026-10-30)
 
 The ask (2026-10-29): add AI transformation roles to the jobs scrape, and the new AI product roles ("Associate Product
