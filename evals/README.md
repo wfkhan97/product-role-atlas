@@ -319,8 +319,9 @@ the role rail lead with (PLAN.md v16, step 2). `node evals/stage.mjs` checks, fo
 each screen offers is the one the stage asks for (looking: a resume drop or the fields; targeting: the role search or
 the gaps; curious: explore or a game), reading the pure table `Stage` in `web/app.js` that the screens draw from, and
 that the screens do read it. Since v18 step 1 it also checks, for every stage, that the first call to action on the
-rail and the fit screen is the cohort application box (`Stage.cta` begins "Cohort 1", the copy in the pure table
-`Apply`) and that the rail's three placeholders and the fit screen draw that box. Since v19 B2 there is no start
+rail and the fit screen is the one box (since v19 B5 the intake box: `Stage.cta` is "GradBuddy is coming soon.", the
+copy in the pure table `Intake`, which names no cohort, price or date) and that the rail's three placeholders and the
+fit screen draw that box. Since v19 B2 there is no start
 screen to check: the door and home never ask the stage, and the eval checks that too (the reason is at its top). In
 CI. What it does not show: whether a student of each kind gets what they came for; that needs sessions
 (`pipeline/funnel.py`) or resumes per kind.
