@@ -9,5 +9,6 @@ export PIPELINE_LOG="logs/run_$(date +%Y-%m-%d_%H%M%S).log"
 .venv/bin/python -m pipeline.scrape "$@"
 .venv/bin/python -m pipeline.extract
 .venv/bin/python -m pipeline.build_graph
+.venv/bin/python -m pipeline.jobs_open
 .venv/bin/python -m pipeline.build_artifact
 echo "log: $PIPELINE_LOG"
