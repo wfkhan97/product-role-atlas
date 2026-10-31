@@ -1,8 +1,8 @@
 import html
 import re
 import time
-from urllib.parse import quote
-from .common import get, strip_html, job
+from urllib.parse import quote, urlparse
+from .common import get, strip_html, job, listing_failed
 from . import jsonld
 
 CHROME_RE = re.compile(r"(?is)<(script|style|header|footer|nav|form)\b.*?</\1>")
@@ -20,7 +20,7 @@ def fetch(company, cfg, title_ok, max_pages=10):
     seen = {}
     for q in cfg.get("queries", ["consultant"]):
         for page in range(cfg.get("max_pages", max_pages)):
-            r = get(f"https://{host}{search}/{quote(q)}", params={f"{prefix}RecordsPerPage": size, f"{prefix}Offset": page * size})
+            r = get(f"https://{host}{search}/{quote(q)}", params={f"{prefix}RecordsPerPage": size, f"{prefix}Offset": page * size}, listing=True)
             if r.status_code != 200:
                 break
             links = {}
@@ -32,6 +32,8 @@ def fetch(company, cfg, title_ok, max_pages=10):
             if len(links) < size:
                 break
             time.sleep(0.4)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"avature: stopped at the page cap for {q!r}")
     out = []
     for jid, (url, title) in seen.items():
         r = get(url)
@@ -47,3 +49,23 @@ def fetch(company, cfg, title_ok, max_pages=10):
         out.append(job(company, title, url, desc, location=loc, posted=p.get("datePosted"), external_id=jid))
         time.sleep(0.3)
     return out
+
+
+def still_open(company, cfg, posting):
+    """True: the job page answers 200 with the posting (its JSON-LD JobPosting, or its title in the page). False: the
+    job page redirects to the portal's /Error page ("Page not found"), which is how Avature answers for a job it no
+    longer shows, or answers 404/410. None: anything else (a block, a server error, another redirect)."""
+    url = posting.get("url") or ""
+    if not url.startswith("https://"):
+        return None
+    r = get(url, allow_redirects=False)
+    if r.status_code in (404, 410):
+        return False
+    if r.status_code in (301, 302, 303, 307, 308):
+        return False if urlparse(r.headers.get("Location") or "").path.endswith("/Error") else None
+    if r.status_code != 200:
+        return None
+    title = (posting.get("title") or "").strip()
+    if jsonld.job_posting(r.text) or (title and title in html.unescape(html.unescape(r.text))):
+        return True
+    return None

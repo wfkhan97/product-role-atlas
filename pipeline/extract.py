@@ -36,7 +36,8 @@ def skills_for(roleset):
 # role set -> where its postings are cached, how a title is classified, and where the output goes
 ROLE_SETS = {
     "product": {"raw": ["jobs"], "suffix": "", "geo": lambda j, title: geo(j.get("location", ""), title) + (j.get("location", ""),),
-                "family": lambda title, j: roles.family(title) if roles.title_ok(title) else None,
+                # a product_engineer title is settled by its text: a manufacturing "Product Engineer" is dropped (roles.software_build)
+                "family": lambda title, j: roles.family(title, j.get("description")) if roles.title_ok(title) else None,
                 "level": lambda title, company, j: roles.level(title, company)},
     # the three product roles of the MBA list live in the product cache; every other family in jobs_mba
     # Only US postings of this set are shown, so its country reader is the stricter one (pipeline/geo.py) and its
@@ -294,12 +295,10 @@ def postings(roleset):
             yield company, r, j, fam, cleaned
 
 
-def tag_posting(item):
-    """One posting -> (job row, evidence sentences, funding stage it mentions). Runs in worker processes."""
-    roleset, company, r, j, fam, cleaned = item
-    cfg = ROLE_SETS[roleset]
-    title = j["title"]
-    desc = j.get("description") or ""
+def text_tags(roleset, title, cleaned):
+    """What a posting's title and cleaned text say, the costly part of tagging (the skill patterns): the skill hits in
+    order, the years asked, the sub-skills, and (sentence index, skill, matches) for each evidence sentence. It
+    depends on nothing else, so pipeline.extract keeps it in a cache keyed by the text (TextCache)."""
     text = norm(title + "\n" + cleaned)
     hits = tag(text, skills_for(roleset))
     # drop years-of-experience buckets that aren't consistent with the explicit ask, keep only the one matching
@@ -311,17 +310,73 @@ def tag_posting(item):
         bucket = "yoe_2" if yoe <= 2 else "yoe_3" if yoe <= 4 else "yoe_5" if yoe <= 6 else "yoe_8" if yoe <= 9 else "yoe_10"
         hits[bucket] = 1
     subs = sorted(sub for sub, (parent, rx) in SUB_RE.items() if parent in hits and rx.search(text))
-    ctx = dict(j, company=company, industry=r.get("industry"), family=fam)
-    lvl = cfg["level"](title, company, ctx)
-    country, remote, location = cfg["geo"](j, title)
-    found = []
-    for sent in sentences(cleaned):
+    marks = []
+    for i, sent in enumerate(sentences(cleaned)):
         for sid in hits:
             if sid.startswith("yoe_"):
                 continue
             m = SKILL_RX[sid].findall(norm(sent))
             if m:
-                found.append((sid, {"text": sent, "company": company, "title": title, "url": j.get("url"), "level": lvl, "_score": len(m)}))
+                marks.append([i, sid, len(m)])
+    return {"hits": [[k, v] for k, v in hits.items()], "yoe": yoe, "subs": subs, "marks": marks}
+
+
+class TextCache:
+    """text_tags results kept between runs in data/experiments/ (the caches store: pipeline.store push caches), keyed
+    by a hash of the role set, the title and the cleaned text. The file carries a fingerprint of everything text_tags
+    reads (this module, pipeline/tax.py, the taxonomy and the depth files with the sub-skills); a different fingerprint
+    starts it empty, so a stale entry is never used. A weekly refresh changes a few thousand texts of ~60,000, so a
+    hosted runner (two cores) tags in minutes what takes hours without it."""
+
+    def __init__(self, roleset, path=None):
+        self.path = path or os.path.join(ROOT, "data", "experiments", f"extract_cache_{roleset}.json.gz")
+        h = hashlib.sha256(roleset.encode())
+        files = [__file__, tax.__file__, tax.PATH] + sorted(glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")))
+        for f in files:
+            h.update(os.path.basename(f).encode())
+            with open(f, "rb") as fh:
+                h.update(fh.read())
+        self.fingerprint = h.hexdigest()
+        self.entries, self.hits, self.misses = {}, 0, 0
+        try:
+            import gzip
+            with gzip.open(self.path, "rt") as f:
+                blob = json.load(f)
+            if blob.get("fingerprint") == self.fingerprint:
+                self.entries = blob["entries"]
+        except (OSError, ValueError, KeyError):
+            pass
+
+    @staticmethod
+    def key(roleset, title, cleaned):
+        return hashlib.sha256(f"{roleset}\0{title}\0{cleaned}".encode()).hexdigest()[:32]
+
+    def save(self, used):
+        """Write the entries this run used (an entry no posting asked for is dropped, so the file does not grow)."""
+        import gzip
+        keep = {k: self.entries[k] for k in used if k in self.entries}
+        os.makedirs(os.path.dirname(self.path), exist_ok=True)
+        with gzip.open(self.path + ".tmp", "wt") as f:
+            json.dump({"fingerprint": self.fingerprint, "entries": keep}, f, separators=(",", ":"))
+        os.replace(self.path + ".tmp", self.path)
+
+
+def tag_posting(item):
+    """One posting -> (job row, evidence sentences, funding stage it mentions, text_tags result). Runs in worker
+    processes; `cached` is the posting's text_tags result from the cache, or None."""
+    roleset, company, r, j, fam, cleaned, cached = item
+    cfg = ROLE_SETS[roleset]
+    title = j["title"]
+    desc = j.get("description") or ""
+    part = cached or text_tags(roleset, title, cleaned)
+    hits, yoe, subs = dict(part["hits"]), part["yoe"], part["subs"]
+    ctx = dict(j, company=company, industry=r.get("industry"), family=fam)
+    lvl = cfg["level"](title, company, ctx)
+    country, remote, location = cfg["geo"](j, title)
+    found = []
+    sents = list(sentences(cleaned)) if part["marks"] else []
+    for i, sid, n in part["marks"]:
+        found.append((sid, {"text": sents[i], "company": company, "title": title, "url": j.get("url"), "level": lvl, "_score": n}))
     job = {
         "id": f"{company}::{j.get('external_id') or j.get('url')}",
         "company": company,
@@ -352,7 +407,7 @@ def tag_posting(item):
         **(dict(zip(("entry", "intern", "entry_src"), cfg["entry"](title, company, ctx, lvl, norm(cleaned), yoe))) if "entry" in cfg else {}),
         **({"open": not j.get("closed"), "first_seen": j.get("first_seen"), "last_seen": j.get("last_seen")} if cfg.get("backlog") else {}),
     }
-    return job, found, stage_mentions(desc)
+    return job, found, stage_mentions(desc), (None if cached else part)
 
 
 def main():
@@ -361,6 +416,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--roles", choices=sorted(ROLE_SETS), default="product")
     ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) - 1))
+    ap.add_argument("--no-cache", action="store_true", help="tag every text again and leave the text cache as it is")
     args = ap.parse_args()
     cfg = ROLE_SETS[args.roles]
     skills = skills_for(args.roles)
@@ -369,11 +425,28 @@ def main():
     company_stage = {}
     t = log.Timer()
     logger.info("extract --roles %s: %d skills, %d workers", args.roles, len(skills), args.workers)
-    items = ((args.roles, company, r, j, fam, cleaned) for company, r, j, fam, cleaned in postings(args.roles))
-    # results come back in posting order, so the output does not depend on the number of workers. The workers do
-    # not log (pipeline/log.py): the parent counts what comes back.
+    cache = None if args.no_cache else TextCache(args.roles)
+    keys = []
+
+    def items():
+        for company, r, j, fam, cleaned in postings(args.roles):
+            cached = None
+            if cache is not None:
+                k = TextCache.key(args.roles, j["title"], cleaned)
+                keys.append(k)
+                cached = cache.entries.get(k)
+            yield args.roles, company, r, j, fam, cleaned, cached
+
+    # results come back in posting order, so the output does not depend on the number of workers or on the cache. The
+    # workers do not log (pipeline/log.py): the parent counts what comes back.
     with multiprocessing.Pool(args.workers) as pool:
-        for job, found, st in pool.imap(tag_posting, items, chunksize=40):
+        for n, (job, found, st, part) in enumerate(pool.imap(tag_posting, items(), chunksize=40)):
+            if cache is not None:
+                if part is None:
+                    cache.hits += 1
+                else:
+                    cache.misses += 1
+                    cache.entries[keys[n]] = part
             if st:
                 cur = company_stage.get(job["company"])
                 company_stage[job["company"]] = max(cur, st) if cur else st
@@ -382,6 +455,9 @@ def main():
             jobs.append(job)
             if len(jobs) % 5000 == 0:
                 logger.info("%d postings tagged, %s", len(jobs), t)
+    if cache is not None:
+        cache.save(keys)
+        logger.info("text cache: %d reused, %d tagged -> %s", cache.hits, cache.misses, os.path.relpath(cache.path, ROOT))
     os.makedirs(os.path.join(ROOT, "data", "processed"), exist_ok=True)
     sfx = cfg["suffix"]
     from pipeline import processed   # imported late: pipeline.processed is small, extract is imported by many

@@ -3,7 +3,7 @@ from .common import get, strip_html, job
 
 def fetch(company, cfg, title_ok):
     board = cfg["board"]
-    r = get(f"https://api.ashbyhq.com/posting-api/job-board/{board}?includeCompensation=true")
+    r = get(f"https://api.ashbyhq.com/posting-api/job-board/{board}?includeCompensation=true", listing=True)
     r.raise_for_status()
     out = []
     for j in r.json().get("jobs", []):
