@@ -2,7 +2,7 @@
 import copy
 import time
 import uuid
-from .common import post, strip_html, job, SEARCH_QUERIES
+from .common import post, strip_html, job, SEARCH_QUERIES, listing_failed
 
 
 def fetch(company, cfg, title_ok, max_pages=10):
@@ -14,7 +14,7 @@ def fetch(company, cfg, title_ok, max_pages=10):
             v = copy.deepcopy(cfg["search_variables"])
             v["searchQueryInput"]["searchTerm"] = q
             v["searchQueryInput"]["page"] = {"pageNumber": page, "pageSize": 20}
-            r = post(url, json={"query": cfg["search_query"], "variables": v}, headers=hdr)
+            r = post(url, listing=True, json={"query": cfg["search_query"], "variables": v}, headers=hdr)
             if r.status_code != 200:
                 break
             rs = r.json().get("data", {}).get("roleSearch", {})
@@ -25,6 +25,8 @@ def fetch(company, cfg, title_ok, max_pages=10):
             if not items or page * 20 >= rs.get("totalCount", 0):
                 break
             time.sleep(0.3)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"gs_graphql: stopped at the page cap for {q!r}")
     out = []
     for sid, it in seen.items():
         r = post(url, json={"query": cfg["detail_query"], "variables": {"id": sid}}, headers=hdr)
@@ -40,3 +42,24 @@ def fetch(company, cfg, title_ok, max_pages=10):
                        external_id=sid, extra={"division": it.get("division"), "corporateTitle": it.get("corporateTitle")}))
         time.sleep(0.2)
     return out
+
+
+def still_open(company, cfg, posting):
+    """Ask the role detail query the fetch uses. True: it answers with this role. None otherwise: a removed role gets
+    the same GraphQL INTERNAL_ERROR ("an exception occurred when making a request to an external service", role null)
+    as an id that never existed, and that answer cannot be told from the gateway failing, so this check never answers
+    False."""
+    sid = str(posting.get("external_id") or "")
+    if not sid or not cfg.get("host") or not cfg.get("detail_query"):
+        return None
+    url = f"https://{cfg['host']}{cfg.get('graphql_path', '/gateway/api/v1/graphql')}"
+    hdr = {"Content-Type": "application/json", "Origin": "https://higher.gs.com", "x-higher-request-id": str(uuid.uuid4())}
+    r = post(url, json={"query": cfg["detail_query"], "variables": {"id": sid}}, headers=hdr)
+    if r.status_code != 200:
+        return None
+    try:
+        d = (r.json().get("data") or {}).get("role") or {}
+    except (ValueError, AttributeError):
+        return None
+    rid = str(d.get("roleId") or "")
+    return True if (rid == sid or rid.startswith(sid + "_")) and d.get("jobTitle") else None

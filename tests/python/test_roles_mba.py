@@ -76,3 +76,22 @@ def test_title_ok_leaves_the_product_families_to_the_product_scrape_and_knows_it
     assert R.title_ok("Strategy Manager") is True
     assert R.title_ok("Brand Manager", batch=1) is False and R.title_ok("Brand Manager", batch=2) is True
     assert R.title_ok("Do not apply - test req") is False
+
+
+# ---------- the AI transformation role (2026-10-30) ----------
+def test_ai_transformation_is_its_own_role_and_transformation_covers_it():
+    assert read("AI Transformation Lead", None, "Pfizer") == ("ai_transformation", "staff", "corporate")
+    assert read("Head of AI Transformation & Enablement", None, "LifeStance Health") == ("ai_transformation", "vp", "corporate")
+    assert R.family("AI Enablement Lead", None, "Siemens Energy") == "ai_transformation"
+    assert R.family("Digital & AI Transformation Director", None, "Acme") == "ai_transformation", "AI named in a digital title is the AI role"
+    assert R.family("Digital Transformation Lead", None, "Thermo Fisher Scientific") == "digital_transformation", "a digital title without AI does not move"
+    assert R.family("Business Transformation Director", None, "Kraft Heinz") == "transformation"
+    assert "ai_transformation" in R.COVERS["transformation"] and R.GROUP_OF["ai_transformation"] == "consulting_strategy"
+
+
+def test_ai_engineers_strategists_and_consultants_are_not_the_ai_transformation_role():
+    assert R.family("AI Transformation Engineer", None, "Acme") is None, "an engineer builds"
+    assert R.family("Head of AI Research", None, "Acme") is None, "a lab, not a programme"
+    assert R.family("AI Strategy Lead", "Consulting and advisory", "IBM") == "tech_strategy", "the labelled set keeps AI strategy with technology strategy"
+    assert R.family("AI Transformation & Strategy Consultant", "Consulting and advisory", "Accenture") == "management_consultant", "at a consulting firm a consultant is the consultant role"
+    assert R.title_ok("AI Transformation Lead", None, batch=2) and not R.title_ok("AI Transformation Lead", None, batch=1), "outside the first 25 roles: batch 2"

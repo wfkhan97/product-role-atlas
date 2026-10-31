@@ -1,6 +1,7 @@
+import re
 import time
 from urllib.parse import quote
-from .common import get, strip_html, job, SEARCH_QUERIES
+from .common import get, strip_html, job, SEARCH_QUERIES, listing_failed
 
 
 def fetch(company, cfg, title_ok, max_pages=10):
@@ -14,7 +15,7 @@ def fetch(company, cfg, title_ok, max_pages=10):
                 url = f"https://{host}/api/pcsx/search?domain={domain}&query={quote(q)}&location=&start={start}&sort_by=relevance"
             else:
                 url = f"https://{host}/api/apply/v2/jobs?domain={domain}&query={quote(q)}&start={start}&num=20"
-            r = get(url)
+            r = get(url, listing=True)
             if r.status_code != 200:
                 break
             data = r.json()
@@ -25,6 +26,8 @@ def fetch(company, cfg, title_ok, max_pages=10):
             if not posts or len(posts) < (10 if api == "pcsx" else 20):
                 break
             time.sleep(0.3)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"eightfold: stopped at the page cap for {q!r}")
     out = []
     for pid, p in seen.items():
         if api == "pcsx":
@@ -43,3 +46,33 @@ def fetch(company, cfg, title_ok, max_pages=10):
                        extra={"department": d.get("department") or p.get("department")}))
         time.sleep(0.2)
     return out
+
+
+def still_open(company, cfg, posting):
+    """Ask the detail API the fetch uses about the position id in the posting's URL (/careers/job/<id>; external_id is
+    the display id). pcsx boards: True when position_details answers with the position, False on its JSON 404
+    "Position not found". The older apply API answers 200 with the full record for positions that left the search, so
+    there a 200 is None and only its JSON 404 ("Job with ID ... not found") is False. None: anything else (a wrong
+    domain gives an HTML 404)."""
+    m = re.search(r"/careers/job/(\d+)", posting.get("url") or "")
+    if not m or not cfg.get("host") or not cfg.get("domain"):
+        return None
+    pid, host, domain = m.group(1), cfg["host"], cfg["domain"]
+    pcsx = cfg.get("api", "pcsx") == "pcsx"
+    if pcsx:
+        r = get(f"https://{host}/api/pcsx/position_details?position_id={pid}&domain={domain}&hl=en")
+    else:
+        r = get(f"https://{host}/api/apply/v2/jobs/{pid}?domain={domain}")
+    try:
+        body = r.json()
+    except ValueError:
+        return None
+    if not isinstance(body, dict):
+        return None
+    if r.status_code == 404:
+        msg = (body.get("error") or {}).get("message") if pcsx else body.get("message")
+        return False if isinstance(msg, str) and "not found" in msg.lower() else None
+    if pcsx and r.status_code == 200:
+        d = body.get("data") or {}
+        return True if isinstance(d, dict) and str(d.get("id")) == pid else None
+    return None

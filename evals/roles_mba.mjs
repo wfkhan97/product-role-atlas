@@ -17,9 +17,10 @@ export function createRoles(rules) {
   const any = list => list.length ? rx(list.map(p => `(?:${p})`).join("|")) : null;
   const fams = rules.families.map(f => ({ ...f, rx: any(f.patterns), ex: any(f.exclude) }));
   const P = rules.product, pFams = P.families.map(f => ({ id: f.id, rx: rx(f.pattern) }));
-  const pRx = { exclude: rx(P.exclude), keep: rx(P.keep), nonproduct: rx(P.nonproduct), food: rx(P.food), manage: rx(P.product_manage) };
+  const pRx = { exclude: rx(P.exclude), keep: rx(P.keep), nonproduct: rx(P.nonproduct), food: rx(P.food), manage: rx(P.product_manage), hardware: P.hardware ? rx(P.hardware) : null };
+  const pHardware = new Set(P.hardware_families || []);
   const productFamily = t => (pFams.find(f => f.rx.test(t)) || {}).id || null;
-  const productOk = t => !!productFamily(t) && !pRx.food.test(t) && !(pRx.exclude.test(t) && !pRx.keep.test(t)) && !(pRx.nonproduct.test(t) && !pRx.manage.test(t));
+  const productOk = t => !!productFamily(t) && !(pRx.hardware && pHardware.has(productFamily(t)) && pRx.hardware.test(t)) && !pRx.food.test(t) && !(pRx.exclude.test(t) && !pRx.keep.test(t)) && !(pRx.nonproduct.test(t) && !pRx.manage.test(t));
   const junk = rx(rules.junk), consultant = rx(rules.consultant), consultantEx = rx(rules.consultant_exclude);
   const employerEx = rx(rules.employer_exclude), realEstateEx = rx(rules.real_estate_exclude), corpDevNamed = rx(rules.corp_dev_named);
   const employerRules = Object.fromEntries(Object.entries(rules.employer_rules).map(([c, list]) => [c, list.map(r => ({ family: r.family, rx: rx(r.pattern) }))]));
