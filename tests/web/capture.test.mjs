@@ -120,8 +120,8 @@ test("an error from fetch, or a response that is not ok, never throws: the promi
 test("the names and the sources the script accepts are the ones the migrations allow (the latest definition wins)", async () => {
   const fs = await import("fs");
   const dir = path.join(web, "..", "pipeline", "sql");
-  const files = fs.readdirSync(dir).filter(f => /^\d{4}-\d{2}-\d{2}_(capture|cohort)\.sql$/.test(f)).sort();
-  assert.deepEqual(files, ["2026-10-25_capture.sql", "2026-10-26_cohort.sql"]);
+  const files = fs.readdirSync(dir).filter(f => /^\d{4}-\d{2}-\d{2}_(capture|cohort|doors)\.sql$/.test(f)).sort();
+  assert.deepEqual(files, ["2026-10-25_capture.sql", "2026-10-26_cohort.sql", "2026-10-31_doors.sql"]);
   const list = (sql, col) => { const m = [...sql.matchAll(new RegExp(col + " in \\(([^)]*)\\)", "g"))]; return m.length ? [...m[m.length - 1][1].matchAll(/'([a-z_]+)'/g)].map(x => x[1]) : null; };
   let names = null, sources = null;
   for (const f of files) { const sql = fs.readFileSync(path.join(dir, f), "utf8"); names = list(sql, "name") || names; sources = list(sql, "source") || sources; }
@@ -129,4 +129,32 @@ test("the names and the sources the script accepts are the ones the migrations a
   assert.deepEqual([...C.EVENTS].sort(), [...names].sort());
   assert.deepEqual([...C.SOURCES].sort(), [...sources].sort());
   assert.ok(C.SOURCES.includes("classes") && C.EVENTS.has("waitlist_classes"));
+  assert.ok(C.SOURCES.includes("door") && C.SOURCES.includes("intake_network") && C.EVENTS.has("door_passed") && C.EVENTS.has("home_jobs"));
+});
+
+test("surface leaves the browser only when the screen gives one of the five, on events and on waitlist rows alike", async () => {
+  const { C, calls } = make({ storage: memStorage() });
+  await C.event("home_jobs", { surface: "jobs" });
+  assert.equal(calls[0].body.surface, "jobs");
+  await C.event("explore", {});
+  assert.equal("surface" in calls[1].body, false, "no surface, no key: the rows of before 2026-10-31_doors.sql are unchanged");
+  await C.event("explore", { surface: "footer" });
+  assert.equal("surface" in calls[2].body, false, "a surface outside the five is not sent");
+  await C.waitlist("a@b.co", "intake_skills", { surface: "skills", role_id: "pm" });
+  assert.equal(calls[3].body.surface, "skills");
+  assert.equal(calls[3].body.source, "intake_skills");
+});
+
+test("the event after a waitlist row: waitlist_<source> for the six of v18, intake_<surface> for an intake box, none for the door", async () => {
+  const { C, calls } = make({ storage: memStorage() });
+  assert.equal(C.afterEvent("fit"), "waitlist_fit");
+  assert.equal(C.afterEvent("intake_classes"), "intake_classes");
+  assert.equal(C.afterEvent("door"), null);
+  await C.waitlist("a@b.co", "intake_classes", { surface: "classes" });
+  assert.equal(calls.length, 2);
+  assert.equal(calls[1].body.name, "intake_classes");
+  assert.equal(calls[1].body.surface, "classes");
+  await C.waitlist("a@b.co", "door", { surface: "door", program: "cs" });
+  assert.equal(calls.length, 3, "the door row fires no event: the door screen fires door_passed itself");
+  assert.equal(calls[2].body.source, "door");
 });

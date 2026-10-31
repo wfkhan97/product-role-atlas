@@ -1328,6 +1328,27 @@ words, every passive construction and every stoplist word; for those three the c
 `role_blurbs.json` 2, 5, 0; the evidence quotes 1,886 long (posting text, quoted as it is); the sub-skill files three
 and one stoplist words. That editorial pass is a "Later" line.
 
+### B7 — the doors as Tally forms (`feat/doors-tally`, 2026-10-31)
+
+Built: `web/config.js` gains `TALLY: { door: null, intake: null }`; the owner fills the two form ids, and until an id
+is set the native form renders, so the site never shows a blank box. `web/doors.js` holds the embed (Tally's script
+added at mount time, never in `index.html`; the iframe transparent, left-aligned, dynamic height; hidden fields
+`surface`, `source`, `role` and, on the intake, the `email` from the door), the loaded check (only Tally's own
+message or a resize counts as loaded: the iframe's load event fires on Tally's error page too, which left a blank
+box in the first cut), the three-second fallback to the native form with a "Loading the form…" line meanwhile, the
+return handling (`#/home?email=…&where=…` read once, stored as the door stores it, the query cleared with
+`replaceState`), and `nativeSubmit`, which posts the native form to `waitlist` with the source `door` or
+`intake_<surface>`. The door screen sends `door` when shown (in place of the old `start`) and `door_passed` on
+Continue, Skip or the Tally submit; home's cards send `home_jobs`, `home_skills`, `home_classes` (open cards only)
+and `home_network`; the intake boxes send `intake_skills`, `intake_classes` and `intake_network`, and the network
+box now posts like the others. `pipeline/sql/2026-10-31_doors.sql` (written, never applied by a thread) extends the
+two check constraints with these names and adds `surface text` to both tables; no `variant`, since the A/B arm was
+dropped (decision 1). `pipeline.funnel` prints the door funnel (shown → passed → each verb) and the intakes by
+surface, and guards the `surface` column so it runs before the migration. `tests/web/doors.test.mjs` checks the
+names against `capture.js` and the migration text, the fallback clock, the return query and the sources. **Until the
+migration is applied, the database rejects the new names: the events are dropped silently and a native Notify me
+says it did not go through. Apply the migration before merging this step.**
+
 ## AI-forward roles in the scrape (2026-10-30)
 
 The ask (2026-10-29): add AI transformation roles to the jobs scrape, and the new AI product roles ("Associate Product

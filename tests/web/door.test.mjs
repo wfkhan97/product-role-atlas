@@ -6,7 +6,8 @@ import assert from "node:assert/strict";
 import path from "path";
 import { require, web } from "./_load.mjs";
 
-const { Door } = require(path.join(web, "app.js"));
+const { Door, parseRoute } = require(path.join(web, "app.js"));
+const Doors = require(path.join(web, "doors.js"))({ config: () => ({ TALLY: { door: "wDoor1", intake: null } }) });
 
 test("Door.opens: a Cornell NetID address and nothing else", () => {
   for (const e of ["wk332@cornell.edu", "ub47@cornell.edu", "khg9@cornell.edu", "WK332@Cornell.EDU", "  ab1@cornell.edu  ", "abc1234@cornell.edu"]) assert.equal(Door.opens(e), true, e);
@@ -76,4 +77,22 @@ test("the copy holds every string the two screens draw", () => {
   assert.equal(C.skip, "Skip for now");
   assert.equal(C.intro.length, 2);
   assert.deepEqual(Object.keys(C.bar), ["jobs", "skills", "classes", "network"]);
+});
+
+test("the Tally return: #/home?email=…&where=… is home, reads once as the door keeps it, and the hash ends clean", () => {
+  // what home() does: returnQuery for the two answers, then history.replaceState with clearQuery
+  const hash = "#/home?email=x%40y.edu&where=business";
+  assert.equal(parseRoute(hash).name, "home");
+  assert.deepEqual(parseRoute(hash).query, { email: "x@y.edu", where: "business" }, "the route carries the query, as every route does");
+  const ret = Doors.returnQuery(hash);
+  assert.deepEqual(ret, { email: "x@y.edu", where: "business" });
+  assert.equal(Doors.clearQuery(hash), "#/home", "nothing of the return stays in the hash");
+  assert.equal(parseRoute(Doors.clearQuery(hash)).name, "home");
+  assert.deepEqual(Doors.returnQuery(Doors.clearQuery(hash)), { email: "", where: "" }, "a second read finds nothing: it was read once");
+  // the return with the email alone (the person skipped the program question), and the other routes untouched
+  assert.deepEqual(Doors.returnQuery("#/home?email=x%40y.edu"), { email: "x@y.edu", where: "" });
+  assert.equal(Doors.clearQuery("#/role/pm/fit?x=1"), "#/role/pm/fit?x=1");
+  assert.equal(Door.next("#/home?email=x%40y.edu"), "#/home?email=x%40y.edu", "the door never rewrites a return");
+  // the return passes the door: a Cornell address in it opens Find classes on the first draw
+  assert.equal(Door.opens(Doors.returnQuery("#/home?email=ab12%40cornell.edu").email), true);
 });
