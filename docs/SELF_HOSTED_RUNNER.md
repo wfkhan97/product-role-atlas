@@ -1,8 +1,8 @@
 # A self-hosted runner on the Mac mini, for the families a hosted runner cannot reach
 
 Needed only when the runner trial (`evals/runner_trial_2026-10-26.md`) finds a family blocked from GitHub's runners.
-That family's matrix entry in `.github/workflows/refresh-mba.yml` (or `refresh-product.yml`) becomes
-`runner: [self-hosted, macOS]`; everything else in the workflow stays. The runner is GitHub's own agent, installed
+That family's line of FAMILIES in the gate job of `.github/workflows/refresh-mba.yml` (or `refresh-product.yml`) gets
+`"runner": ["self-hosted", "macOS"]`; everything else in the workflow stays. The runner is GitHub's own agent, installed
 as a launchd service so it survives a reboot and a login; the job it runs is the same checkout, the same `pip
 install`, the same commands as on a hosted runner, so nothing on the Mac is used except its network address and
 its CPU.
