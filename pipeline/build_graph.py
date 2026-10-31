@@ -404,7 +404,7 @@ def build_roleset(roleset):
                          "category": j.get("category"), "country": j.get("country"), "remote": j.get("remote"), "rank": j.get("rank"), "stage": j.get("stage"),
                          "investors": [fund_by_name.get(x, x) for x in (j.get("investors") or [])], "yoe": j["yoe"],
                          "skills": sorted(skill_index[k] for k in j["skills"] if k in skill_index), "sub": sorted(sub_index[k] for k in j.get("sub", [])),
-                         "snippet": j["snippet"][:180], "sponsorship": j.get("sponsorship")})
+                         "snippet": j["snippet"][:180], "sponsorship": j.get("sponsorship"), "first_seen": j.get("first_seen")})
             jid += 1
         rel = f"graph_{roleset}/{f}.json"
         with open(os.path.join(out_dir, rel), "w") as fh:

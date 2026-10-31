@@ -896,3 +896,55 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .cls-roles .chip .x { background: none; border: 0; padding: 0 0 0 6px; margin: 0; color: inherit; font: inherit; line-height: 1; cursor: pointer; }
 .cls-resume { max-width: 620px; margin: 12px 0 4px; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); }
 .cls-resume .drop { padding: 14px; margin: 8px 0; } .cls-resume textarea { min-height: 70px; } .cls-resume .row { margin-top: 8px; }
+
+/* ---------- Find jobs (v19 B4): the search bar, the facet rail, the cards, the pager and the panel ---------- */
+.main > .page.jobs-page { max-width: 1040px; }
+.shell.with-aside .main > .page.jobs-page { max-width: min(1040px, calc(100vw - var(--aside-width) - 72px)); }
+.jsearch { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) auto; gap: 10px; margin-top: 14px; }
+.jsearch input { font: inherit; font-size: var(--text-md); color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 12px; margin: 0; max-width: none; width: 100%; box-sizing: border-box; }
+.jobs-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 28px; margin-top: 16px; align-items: start; }
+.jrail { position: sticky; top: 16px; }
+.jnote { margin: 10px 0 0; }
+.facets { display: grid; gap: 0; align-content: start; }
+.facets details { border-top: 1px solid var(--border); padding: 6px 0; }
+.facets details:first-child { border-top: 0; }
+.facets summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--heading-foreground); padding: 4px 2px; }
+.facets summary::-webkit-details-marker { display: none; }
+.facets summary::after { content: "+"; color: var(--subtle-foreground); font-family: var(--font-mono); }
+.facets details[open] summary::after { content: "–"; }
+.frow { display: flex; justify-content: space-between; align-items: baseline; width: 100%; gap: 8px; background: transparent; border: 0; padding: 4px 2px; font: inherit; font-size: var(--text-sm); color: var(--foreground); text-align: left; border-radius: var(--radius-sm); cursor: pointer; }
+.frow:hover { background: var(--muted); }
+.frow.on { color: var(--primary); font-weight: var(--weight-medium); }
+.frow .n { font-family: var(--font-mono); color: var(--subtle-foreground); }
+.frow.on .n { color: var(--primary); }
+.frow.dead { color: var(--subtle-foreground); cursor: default; } .frow.dead:hover { background: transparent; }
+.frow.more { color: var(--muted-foreground); }
+.jhead { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 4px; }
+.jhead .jcount { margin: 0; font-size: var(--text-sm); color: var(--muted-foreground); }
+.jsort { display: inline-flex; gap: 8px; align-items: center; font-size: var(--text-sm); color: var(--muted-foreground); white-space: nowrap; }
+.jsort select { font: inherit; font-size: var(--text-sm); color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 8px; margin: 0; max-width: none; }
+.jlist { display: grid; gap: 12px; margin-top: 12px; }
+.jcard { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); padding: 14px 16px; cursor: pointer; }
+.jcard:hover { border-color: var(--input); } .jcard.on { border-color: var(--primary); }
+.jcard .jtop { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.jcard .eyebrow { margin-bottom: 2px; }
+.jcard .jt { margin: 0 0 4px; font-size: var(--text-md); font-weight: var(--weight-medium); }
+.jcard .jt .linkish { color: var(--heading-foreground); font: inherit; cursor: pointer; }
+.jcard .jt .linkish:hover { color: var(--primary); text-decoration: none; }
+.jcard .lvl { white-space: nowrap; }
+.jcard .facts { margin: 0 0 4px; }
+.jwho { color: var(--primary); margin: 2px 0; }
+.jfit { margin: 2px 0; }
+.jtags { margin-top: 6px; }
+.pager { display: flex; gap: 10px; align-items: center; margin-top: 14px; font-size: var(--text-sm); color: var(--muted-foreground); }
+.pager .btn[disabled] { opacity: 0.5; cursor: default; }
+.jempty { border: 1px dashed var(--border); border-radius: var(--radius-md); padding: 16px; margin-top: 12px; }
+.jempty p { margin: 0 0 4px; }
+.jempty .chip { cursor: pointer; }
+.jdetail .kind { margin: 12px 0 2px; }
+.jdetail .jacts { margin: 12px 0 0; }
+@media (max-width: 900px) {
+  .jobs-grid { grid-template-columns: 1fr; gap: 16px; }
+  .jrail { position: static; }
+  .jsearch { grid-template-columns: 1fr; }
+}

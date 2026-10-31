@@ -1,5 +1,5 @@
 /* Role atlas — the screens. Routes (hash): #/ the door (welcome, an email, what you study; everyone can skip) · #/home (the four verbs) ·
-   #/jobs, #/skills, #/network (the verbs; until v19 B4 and B5 land they draw the closest screen that exists: see route()) · #/play/<game> ·
+   #/jobs (Find jobs: one search over every open posting, v19 B4) · #/skills, #/network (the verbs; until v19 B5 lands they draw the closest screen that exists: see route()) · #/play/<game> ·
    #/you · #/explore · #/field/<group> · #/role/<role> · #/about · #/classes, #/professor/<slug>, #/signin (classes.js).
    Data comes from atlas.js; the side panel (owner's choice 8B) shows a skill or a posting. */
 // The route: the hash read into the screen to show, its path parts and its query. Pure, no DOM; UMD like atlas.js,
@@ -261,10 +261,10 @@
     // a deep link bounces to the door once (v19 B2): the hash stays, the door draws over it, and Continue or Skip
     // (Door.next) lands on the hash
     const name = Door.bounce(location.hash, doorKept().seen) ? "door" : parsed.name, { id, slug } = parsed.params;
-    // #/jobs, #/skills and #/network exist so the hrefs never change; until B4 and B5 land, #/jobs and #/skills draw
-    // Explore (the fields, then a field's roles: the closest thing to "pick a role" today) and #/network the event
-    // screen of the field that fits the person best, else the biggest field
-    const go = { door, home, jobs: explore, skills: explore, network, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => ClassScreens.signin(shellCtx) }[name];
+    // #/jobs, #/skills and #/network exist so the hrefs never change; #/jobs is Find jobs (B4); until B5 lands,
+    // #/skills draws Explore (the fields, then a field's roles: the closest thing to "pick a role" today) and
+    // #/network the event screen of the field that fits the person best, else the biggest field
+    const go = { door, home, jobs: jobsScreen, skills: explore, network, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => ClassScreens.signin(shellCtx) }[name];
     SkillMap.leave(); leaveRail(); topBar(name);
     const ev = { door: ["start"], explore: ["explore"], field: ["field", { field_id: id }], event: ["event_prep", { field_id: id }], role: ["role", { role_id: id }], classes: ["classes"], play: ["play", { role_id: slug }] }[name];
     if (ev) track(ev[0], ev[1]);
@@ -280,12 +280,14 @@
   // loaded; until then the index's own families table (which counts the two product-group families the product set
   // stands in for) is the floor, so the number never dips while the file loads
   const roleCount = ix => Math.max(Object.keys(ix.roles).length, Object.keys(ix.M.families || {}).length);
-  // the home counts: the open US postings and the employers of the MBA index, read from its meta, and the roles. The
-  // product set's postings are in a 9 MB file home does not load, and a number that changes after the file arrives
-  // reads as broken; B4's jobs_open.json carries the count of both role sets, and home reads it then. "Over" keeps
-  // the sentence true meanwhile.
-  function homeCounts(ix) {
-    return { nOpen: ix.M.meta.n_open, nCompanies: ix.M.meta.n_companies, nRoles: roleCount(ix) };
+  // the home counts: the open US postings of both role sets and the employers behind them, from data/jobs_meta.json
+  // (the counts pipeline.jobs_open writes beside the Find jobs file, 224 bytes; B4), else the MBA index's own meta
+  // when that file is missing; and the roles. "Over" keeps the sentence true between refreshes.
+  let jobsMetaP = null;
+  const jobsMeta = () => jobsMetaP ||= Atlas.fetchJson("data/jobs_meta.json").catch(() => null);
+  function homeCounts(ix, jm) {
+    const ok = jm && jm.n_open > 0 && jm.n_companies > 0;
+    return { nOpen: ok ? jm.n_open : ix.M.meta.n_open, nCompanies: ok ? jm.n_companies : ix.M.meta.n_companies, nRoles: roleCount(ix) };
   }
   // The door: what GradBuddy is, what is inside, an email and the program question, Continue, Skip for now. Both
   // buttons keep what was typed in this browser (door.email, door.where, door.seen) and go where the person was headed
@@ -320,10 +322,10 @@
   // it. The stage question is not here (v19, decision 8: About you, step 2).
   async function home() {
     crumbs([]); showAside(null);
-    const ix = await Atlas.index();
+    const [ix, jm] = await Promise.all([Atlas.index(), jobsMeta()]);
     const C = Door.COPY;
     const render = () => {
-      const cards = Door.verbs(doorKept().email, homeCounts(ix)).map(v => v.open
+      const cards = Door.verbs(doorKept().email, homeCounts(ix, jm)).map(v => v.open
         ? `<a class="verb" href="${esc(v.href)}" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span></a>`
         : `<div class="verb closed" aria-disabled="true" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span><span class="gate">${esc(C.closed)} <a href="#/">${esc(C.closedLink)}</a> ${esc(C.closedAfter)}</span></div>`);
       page(`<h1>${esc(C.home)}</h1><div class="verbs">${cards.join("")}</div><p class="home-more"><a href="#/you">${esc(C.more)} →</a></p>`);
@@ -507,6 +509,192 @@
       for (const [id] of Object.entries(rg.scores).sort((a, b) => b[1] - a[1]).slice(0, 5)) if (ix.roles[id] && rg.scores[id] > 0 && !why.has(ix.roles[id].group)) why.set(ix.roles[id].group, `Your resume reads close to ${ix.roles[id].label}`);
     }
     return { fields: new Set(why.keys()), why };
+  }
+
+  // ---------- 2b. Find jobs (v19 B4): one search over every open US posting of both role sets ----------
+  // The rows are web/data/jobs_open.json (pipeline.jobs_open; column-oriented, loaded once per page and expanded by
+  // Jobs.rowsOf); the logic is web/jobs.js (the owner's search_logic.md); the layout is the J4 mock. The hash is
+  // the state (#/jobs?q=…&field=…&open=…), written with replaceState so Back is one step per screen, not per click.
+  // With a résumé on file the rough read's skills (rough().shown) give each posting "N of the M skills this posting
+  // asks for", never a percentage, and Fit is the default sort. The only event sent is posting_link, through the
+  // document-level [data-posting] handler above, the way the role screen sends it.
+  let jobsP = null;
+  const jobsData = () => jobsP ||= Promise.all([Atlas.fetchJson("data/jobs_open.json"), Atlas.index()]).then(([D, ix]) => {
+    const rows = Jobs.rowsOf(D), byId = new Map(rows.map(r => [r.id, r]));
+    const roleLabel = id => Atlas.us((D.role_labels || {})[id] || (ix.roles[id] || {}).label || id);
+    const fieldOf = id => (ix.roles[id] || {}).group || Jobs.fieldOfRole(id);
+    const skillName = i => { const sk = ix.skillById[D.skill_ids[i]]; return sk ? sk.name : D.skill_ids[i]; };
+    const ctx = { roleName: r => roleLabel(r.role), skillNames: r => r.skills.map(skillName), fieldOf };
+    const fields = ix.groups.map(g => [g.id, Atlas.us(g.label)]);
+    return { D, ix, rows, byId, ctx, roleLabel, fieldOf, skillName, fields };
+  }).catch(e => { jobsP = null; throw e; });
+  const groupLabel = g => g === "startup" ? "Startup" : g === "mba_employer" ? "MBA employer" : /^fortune(\d+)$/.test(String(g || "")) ? "Fortune " + RegExp.$1 : String(g || "");
+  const KIND_ORDER = ["method", "technical", "knowledge", "tool", "practice", "behaviour", "credential"];
+  const jobWho = r => r.intern ? "An internship" : r.entry === "mba" ? "A job for MBA graduates" : r.entry === "pre_mba" ? "A job for new graduates" : null;
+  const labelIn = (pairs, id) => (pairs.find(([v]) => v === id) || [, id])[1];
+  // the role chosen elsewhere, for the role filter when a person arrives with none set: the role screen's (state.R),
+  // else the first the class picker keeps in this browser (classes.roles), the same id gapsFor is handed
+  const chosenRole = () => state.roleId || (store.get("classes.roles") || [])[0] || null;
+  async function jobsScreen() {
+    crumbs([["Home", "#/home"], ["Find jobs", null]]); showAside(null);
+    page(`<h1>Find jobs</h1><p class="lead">Loading postings…</p>`);
+    let J;
+    try { J = await jobsData(); } catch (e) { console.error(e); page(`<h1>Find jobs</h1><p class="lead">The postings did not load. Reload the page to try again.</p>`); return; }
+    const rg = state.resume ? await rough().catch(e => { console.error(e); return null; }) : null;
+    if (Routes.parseRoute(location.hash).name !== "jobs") return;   // the person moved on while the file loaded
+    const { D, ix, rows, byId, ctx, roleLabel, fieldOf, skillName, fields } = J;
+    const have = rg ? rg.shown : null;   // the skill ids the résumé shows, or null without one
+    const fieldLabel = id => labelIn(fields, id);
+    const kindLabel = k => ((ix.M.meta.kinds || {})[k] || {}).label || k;
+    const roleOk = id => !!id && D.roles.includes(id);
+    // the state: the hash, with the chosen role when the person arrives with nothing set, and Fit with a résumé
+    const s = Jobs.parseState(location.hash);
+    if (!location.hash.includes("?")) { let r = chosenRole(); if (r && !roleOk(r)) r = Atlas.productKey(r); if (roleOk(r)) s.role = r; }
+    if (s.role && !roleOk(s.role)) s.role = "";
+    if (s.field && !fields.some(([id]) => id === s.field)) s.field = "";
+    if (s.role && !s.field) s.field = fieldOf(s.role);
+    if (s.role && s.field && fieldOf(s.role) !== s.field) s.role = "";
+    if (have && !/[?&]sort=/.test(location.hash)) s.sort = "fit";
+    if (s.sort === "fit" && !have) s.sort = "best";
+    const writeHash = () => {
+      let q = Jobs.stateQuery(s); if (have && s.sort === "best") q += (q ? "&" : "") + "sort=best";   // with a résumé, Best match is a choice, so it stays in the link
+      const next = "#/jobs" + (q ? "?" + q : "");
+      if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next);
+    };
+    const note = have
+      ? `Each posting counts the skills it asks for that your résumé shows. Fit sorts by that count. Change your résumé in <a href="#/you">About you</a>.`
+      : `<a href="#/you">Add your résumé</a> and each posting says how many of its skills you show.`;
+    const sortOptions = () => [...(have ? [["fit", "Fit"]] : []), ["best", "Best match"], ["company", "Company A–Z"]].map(([v, l]) => `<option value="${v}"${s.sort === v ? " selected" : ""}>${l}</option>`).join("");
+    page(`<h1>Find jobs</h1>
+      <p class="lead">Search ${fmt(rows.length)} open US postings at ${fmt(D.companies.length)} companies.</p>
+      <form class="jsearch" id="jsearch" role="search"><input type="search" name="q" value="${esc(s.q)}" placeholder="Search a title, company or skill" aria-label="Search"><input type="search" name="loc" value="${esc(s.loc)}" placeholder="City, state or remote" aria-label="Location"><button type="submit" class="btn primary">Search</button></form>
+      <div class="jobs-grid">
+        <div class="jrail"><div class="facets" id="jrail"></div><p class="small muted jnote">${note}</p></div>
+        <section class="jmain" aria-label="Postings"><div class="jhead"><p class="jcount" id="jcount"></p><label class="jsort">Sort <select id="jsort" aria-label="Sort">${sortOptions()}</select></label></div><div class="jlist" id="jlist"></div><div class="pager" id="jpager"></div></section>
+      </div>`);
+    const pageEl = main.querySelector(".page"); pageEl.classList.add("jobs-page");
+    const form = $("#jsearch"), railEl = $("#jrail");
+    // ---- the fit, the cards and the panel ----
+    const fitOf = r => Jobs.fitOf(r, have, D.skill_ids);
+    const tagOf = i => `<span class="tag${have && have.has(D.skill_ids[i]) ? " good" : ""}">${esc(skillName(i))}</span>`;
+    const chips = r => {
+      const ids = r.skills, N = 6, sorted = have ? [...ids].sort((a, b) => (have.has(D.skill_ids[b]) ? 1 : 0) - (have.has(D.skill_ids[a]) ? 1 : 0)) : ids;
+      return `<div class="tags jtags">${sorted.slice(0, N).map(tagOf).join("")}${ids.length > N ? `<span class="tag thin">+${ids.length - N} more</span>` : ""}</div>`;
+    };
+    let fits = null, dupes = {}, lastSearched = [], moreCompanies = false;
+    // a posting that lists many cities keeps its whole location in the panel; the card cuts it at a break
+    const shortLoc = loc => loc.length > 64 ? loc.slice(0, 60).replace(/[\s;,]+[^\s;,]*$/, "") + "…" : loc;
+    const card = r => {
+      const w = jobWho(r), fit = fits && fits.get(r.id);
+      return `<article class="jcard${s.open === r.id ? " on" : ""}" data-id="${esc(r.id)}">
+        <div class="jtop"><div><p class="eyebrow">${esc(r.company)} · ${esc(groupLabel(r.group))}</p><h3 class="jt"><button type="button" class="linkish" data-open="${esc(r.id)}">${esc(r.title)}</button></h3></div><span class="tag thin lvl">${esc(Jobs.levelLabel(r))}</span></div>
+        <p class="facts">${[fieldLabel(fieldOf(r.role)), roleLabel(r.role), shortLoc(r.location)].filter(Boolean).map(esc).join(" · ")}</p>
+        ${w ? `<p class="small jwho">${esc(w)}.</p>` : ""}
+        ${fit ? `<p class="small jfit">${esc(Jobs.fitLine(fit))}</p>` : ""}
+        ${chips(r)}
+      </article>`;
+    };
+    const panel = r => {
+      const fit = have ? fitOf(r) : null, w = jobWho(r), n = dupes[r.id] || 0;
+      const facts = [roleLabel(r.role), Jobs.levelLabel(r), r.location, r.remote ? "remote" : null, r.sponsorship === "yes" ? "says it sponsors a visa" : null].filter(Boolean);
+      const byKind = {}; for (const i of r.skills) { const sk = ix.skillById[D.skill_ids[i]]; (byKind[sk && KIND_ORDER.includes(sk.kind) ? sk.kind : "other"] ||= []).push(i); }
+      const kinds = [...KIND_ORDER, "other"].filter(k => byKind[k]).map(k => `${k === "other" ? "" : `<p class="eyebrow kind">${esc(kindLabel(k))}</p>`}<div class="tags">${byKind[k].map(tagOf).join("")}</div>`).join("");
+      return `<button type="button" class="close" aria-label="Close">×</button><div class="card jdetail">
+        <p class="eyebrow">${esc(r.company)} · ${esc(groupLabel(r.group))}${r.sector ? " · " + esc(r.sector) : ""}</p><h2>${esc(r.title)}</h2>
+        <p class="facts">${facts.map(esc).join(" · ")}</p>
+        ${w ? `<p class="small jwho">${esc(w)}.</p>` : ""}
+        ${fit ? `<p class="small">${esc(Jobs.fitLine(fit))}</p>` : `<p class="small muted"><a href="#/you">Add your résumé</a> and this line counts the skills you show.</p>`}
+        <p class="jacts"><a class="btn primary" href="${esc(r.url)}" target="_blank" rel="noopener" data-posting="${esc(r.role)}">Open the posting at ${esc(r.company)} ↗</a></p>
+        <h3>${plural(r.skills.length, "skill this posting asks for", "skills this posting asks for")}</h3>${kinds}
+        ${n ? `<p class="small muted">${n === 1 ? "1 more posting" : `${fmt(n)} more postings`} with this title at ${esc(r.company)}${r.location ? ` in ${esc(r.location)}` : ""}. We show it once.</p>` : ""}
+      </div>`;
+    };
+    const mark = () => pageEl.querySelectorAll(".jcard").forEach(c => c.classList.toggle("on", c.dataset.id === s.open));
+    let panelFor = null;   // the posting the panel shows, so a filter change does not redraw it under the reader
+    const drawPanel = () => {
+      const r = s.open ? byId.get(s.open) : null;
+      if (!r) { s.open = ""; panelFor = null; showAside(null); return; }
+      if (panelFor === r.id && !aside.hidden) return;
+      panelFor = r.id; showAside(panel(r));
+      aside.querySelector(".close").onclick = () => { s.open = ""; panelFor = null; mark(); showAside(null); writeHash(); };
+    };
+    const openPosting = id => { s.open = id; mark(); drawPanel(); writeHash(); };
+    // ---- the rail: each facet with the count it would leave on; one that would leave none is plain ----
+    const opened = { field: true, role: true, level: true, entry: true, group: false, company: false, work: true };
+    railEl.addEventListener("toggle", e => { const d = e.target; if (d.dataset && d.dataset.group) opened[d.dataset.group] = d.open; }, true);
+    const facetRow = (key, val, label, n, on) => {
+      const dead = !on && !n;
+      return `<button type="button" class="frow${on ? " on" : ""}${dead ? " dead" : ""}"${dead ? ' title="No posting matches this with the other filters on" aria-disabled="true"' : ` data-key="${key}" data-val="${esc(String(val))}"`} aria-pressed="${on}">${esc(label)}<span class="n">${fmt(n)}</span></button>`;
+    };
+    const group = (key, label, pairs, counts, extra) => `<details data-group="${key}"${opened[key] ? " open" : ""}><summary>${esc(label)}</summary>${pairs.map(([v, l]) => facetRow(key, v, l, counts[v] || 0, key === "remote" || key === "sponsor" ? !!s[key] : s[key] === v)).join("")}${extra || ""}</details>`;
+    const rail = (searched, f) => {
+      const roleIds = s.field ? D.roles.filter(id => fieldOf(id) === s.field) : D.roles;
+      const roles = roleIds.map(id => [id, roleLabel(id)]).sort((a, b) => a[1].localeCompare(b[1]));
+      const levels = Jobs.LEVEL_WORDS.labels;
+      const count = (facet, pairs) => Jobs.facetCounts(searched, f, facet, pairs.map(([v]) => v), ctx);
+      // the companies in one pass over the rows the other filters keep: the twenty with the most postings, then all
+      const cm = {}; for (const r of Jobs.filterJobs(searched, Object.assign({}, f, { company: "" }), ctx)) cm[r.company] = (cm[r.company] || 0) + 1;
+      const all = Object.entries(cm).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+      const top = all.slice(0, 20); if (s.company && cm[s.company] && !top.some(([n]) => n === s.company)) top.push([s.company, cm[s.company]]);
+      const shown = moreCompanies ? all : top;
+      const more = all.length > shown.length ? `<button type="button" class="frow more" data-more-companies="1">more…<span class="n">${fmt(all.length)}</span></button>` : "";
+      const work = `<details data-group="work"${opened.work ? " open" : ""}><summary>Work</summary>${facetRow("remote", true, "Remote", count("remote", [[true]])[true], s.remote)}${facetRow("sponsor", true, "Says it sponsors a visa", count("sponsor", [[true]])[true], s.sponsor)}</details>`;
+      return group("field", "Field", fields, count("field", fields)) + group("role", "Role", roles, count("role", roles)) + group("level", "Level", levels, count("level", levels))
+        + group("entry", "Entry", Jobs.ENTRIES, count("entry", Jobs.ENTRIES)) + group("group", "Employer type", Jobs.EMPLOYERS, count("group", Jobs.EMPLOYERS))
+        + group("company", "Company", shown.map(([n]) => [n, n]), cm, more) + work;
+    };
+    // ---- the empty state: each filter that is on, as a chip an × removes ----
+    const activeChips = () => {
+      const out = [];
+      if (s.q.trim()) out.push(["q", `“${s.q.trim()}”`]); if (s.loc.trim()) out.push(["loc", `in ${s.loc.trim()}`]);
+      if (s.field) out.push(["field", fieldLabel(s.field)]); if (s.role) out.push(["role", roleLabel(s.role)]);
+      if (s.level) out.push(["level", labelIn(levelsOf(), s.level)]); if (s.entry) out.push(["entry", labelIn(Jobs.ENTRIES, s.entry)]);
+      if (s.group) out.push(["group", labelIn(Jobs.EMPLOYERS, s.group)]); if (s.company) out.push(["company", s.company]);
+      if (s.remote) out.push(["remote", "Remote"]); if (s.sponsor) out.push(["sponsor", "Says it sponsors a visa"]);
+      return out;
+    };
+    const levelsOf = () => Jobs.LEVEL_WORDS.labels;
+    const emptyState = () => `<div class="jempty"><p><b>No posting matches all of this.</b></p><p class="small muted">Remove one:</p><div class="chips">${activeChips().map(([k, l]) => `<button type="button" class="chip on" data-remove="${k}" aria-label="Remove ${esc(l)}">${esc(l)} <span class="n">×</span></button>`).join("")}</div></div>`;
+    // ---- the draw: search, filter, dedupe, sort, page ----
+    const draw = () => {
+      const f = Jobs.filterOf(s);
+      const searched = lastSearched = Jobs.searchJobs(rows, s.q, ctx);
+      const d = Jobs.dedupe(Jobs.filterJobs(searched, f, ctx)); dupes = d.dupes;
+      fits = have ? new Map(d.rows.map(r => [r.id, fitOf(r)])) : null;
+      const list = Jobs.sortJobs(d.rows, s.sort, fits), pg = Jobs.pageOf(list, s.page); s.page = pg.page;
+      const active = !!(s.q.trim() || s.loc.trim() || Jobs.isFiltered(f));
+      $("#jcount").innerHTML = (pg.total > Jobs.PAGE ? `Showing ${fmt(pg.from)}–${fmt(pg.to)} of ${fmt(pg.total)} postings` : plural(pg.total, "posting", "postings")) + (active ? ` · <button type="button" class="linkish link" data-clear="1">Clear filters</button>` : "");
+      $("#jlist").innerHTML = pg.rows.length ? pg.rows.map(card).join("") : emptyState();
+      $("#jpager").innerHTML = pg.pages > 1 ? `<button type="button" class="btn" data-page="-1"${pg.page === 1 ? " disabled" : ""}>Previous ${Jobs.PAGE}</button><span>Page ${fmt(pg.page)} of ${fmt(pg.pages)}</span><button type="button" class="btn" data-page="1"${pg.page === pg.pages ? " disabled" : ""}>Next ${Jobs.PAGE}</button>` : "";
+      railEl.innerHTML = rail(searched, f);
+      drawPanel(); writeHash();
+    };
+    const syncInputs = () => { form.q.value = s.q; form.loc.value = s.loc; $("#jsort").value = s.sort; };
+    const change = () => { s.page = 1; draw(); };
+    const toggleFacet = (key, val) => {
+      if (key === "remote" || key === "sponsor") s[key] = !s[key];
+      else if (key === "field") { s.field = s.field === val ? "" : val; if (s.role && s.field && fieldOf(s.role) !== s.field) s.role = ""; }
+      else if (key === "role") { s.role = s.role === val ? "" : val; if (s.role) s.field = fieldOf(s.role); }
+      else s[key] = s[key] === val ? "" : val;
+      change();
+    };
+    // ---- the wiring: one listener on the page, gone with it ----
+    let timer = null;
+    const readForm = () => { const q = form.q.value, loc = form.loc.value; if (q === s.q && loc === s.loc) return; s.q = q; s.loc = loc; change(); };
+    form.onsubmit = e => { e.preventDefault(); clearTimeout(timer); readForm(); };
+    form.addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(readForm, 300); });
+    $("#jsort").onchange = e => { s.sort = e.target.value; change(); };
+    pageEl.addEventListener("click", e => {
+      const t = e.target;
+      if (t.closest("[data-clear]")) { const b = Jobs.blankState(); for (const k of Jobs.KEYS) if (k !== "sort" && k !== "open") s[k] = b[k]; syncInputs(); draw(); return; }
+      const rm = t.closest("[data-remove]"); if (rm) { s[rm.dataset.remove] = Jobs.blankState()[rm.dataset.remove]; syncInputs(); change(); return; }
+      if (t.closest("[data-more-companies]")) { moreCompanies = true; opened.company = true; railEl.innerHTML = rail(lastSearched, Jobs.filterOf(s)); return; }
+      const fb = t.closest("[data-key]"); if (fb) { toggleFacet(fb.dataset.key, fb.dataset.val); return; }
+      const pb = t.closest("[data-page]"); if (pb) { if (pb.disabled) return; s.page += Number(pb.dataset.page); draw(); $("#jlist").scrollIntoView({ block: "start" }); return; }
+      const ob = t.closest("[data-open]"); if (ob) { openPosting(ob.dataset.open); return; }
+      const c = t.closest(".jcard"); if (c && !t.closest("a")) openPosting(c.dataset.id);
+    });
+    draw();
   }
 
   // ---------- 3. explore: fields as circles ----------

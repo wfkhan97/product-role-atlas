@@ -1259,6 +1259,33 @@ three roles each, and all at once) against the public files, exactly as the pick
 of the brief's third test is the tags command itself, checked against `Atlas.readCourse` on twelve codes when the
 local copy exists; the thresholds moved because the strict rule halves what a class names.
 
+### B4 — Find jobs (`feat/find-jobs`, 2026-10-31)
+
+Built: `pipeline.jobs_open` reads the committed graphs of both role sets (`web/data/graph.json`, the product set's
+US slice; `web/data/graph_mba/<role>.json`, the open rows) and writes `web/data/jobs_open.json`, every open US
+posting of either set (31,965 at the Oct 25 graphs: 6,015 product, 25,950 MBA; 1,508 companies; 56 roles) in a
+column-oriented shape (tables of companies, locations, roles, titles, skill ids; one compact row per posting with the
+flags as bits and the URL after the company's common prefix), 7.4 MB raw and 1.8 MB gzipped, loaded only on `#/jobs`;
+and `web/data/jobs_meta.json`, the counts alone, which home reads for its Find jobs line ("over 31 thousand … from
+over 1,500 companies"). `Jobs.rowsOf` expands the file once; the pure parts in `web/jobs.js` (`searchJobs`,
+`filterJobs`, `facetCounts`, `fitOf`, `fitLine`, `sortJobs`, `dedupe`, `pageOf`, `parseState`, `stateQuery`, the
+level words) follow `search_logic.md` from the round-2 audit and have their tests. The screen is the owner's J4: one
+search box over title, company, role name, skill names and location (every word must match; a whole word beats a
+prefix; title 3, company 2, role 2, skill 1, location 1), Location beside it, a rail of counted facets (Field, Role,
+Level as four words, Entry, Employer type, Company with the top twenty then all, Remote, Says it sponsors a visa; a
+facet that would leave nothing is drawn plain), fifty cards a page, the posting open in the side panel with every
+tagged skill by kind and "Open the posting at <company>" (the existing `posting_link` event; a `jobs` route event
+waits for B7's migration), the empty state with each active filter as a chip an × removes, and the hash as the
+state. With a résumé on file every card and the panel say "N of the M skills this posting asks for are on your
+résumé" (the résumé's skills first and green; never a percentage), Fit is the default sort, and the role filter
+defaults to the role chosen on the role, fit or classes screen. Deviations from the brief: `jobs_open.json` is
+written by its own stage after `build_graph` (`run_all.sh` and both refresh workflows), not by `build_graph`, so it
+can be rebuilt from the committed graphs on any checkout; `first_seen` is carried by `build_graph` into the MBA role
+rows from this change on, but the graphs were not rebuilt in this thread (the Oct 26 processed files are here, and a
+rebuild moves every baseline), so every row's `first_seen` is null until the owner's data thread runs `build_graph`
+for both sets and then `jobs_open`; there is no Newest sort until then, as the spec says. No posting carries pay, so
+the screen says nothing about pay.
+
 ## AI-forward roles in the scrape (2026-10-30)
 
 The ask (2026-10-29): add AI transformation roles to the jobs scrape, and the new AI product roles ("Associate Product
