@@ -1430,6 +1430,25 @@ which names `ai governance`); AI Program Manager (labelled `program_manager`); A
 postings to score against; the `rough_fit` and `calibrate` reruns that give `ai_transformation` bands; Texas
 Instruments' "Product Marketing Engineer" noise in `pmm`.
 
+## IE New York behind a switch; the sign-in flag that v19 made moot (2026-10-28 to 2026-10-31)
+
+The owner's asks of 2026-10-28, on `feat/open-read-flag` (PR #112): pause every sign-in gate behind a flag so the whole
+flow can be tested, and put everything IE New York behind a second flag. The first was built as `CONFIG.CATALOG_OPEN`
+(the picker, the professor card and the rail reading the roster with no session, a local copy of the catalog when the
+database refused, and the application box retrying a row the unmigrated `waitlist` refused). On 2026-10-31 v19 (B3)
+landed on `main` first: the picker reads public files (`catalog_file`, `tags_file`), no screen opens a database client
+or asks for a session, and `#/signin` is one line then home. Every gate that flag paused is gone, so the merge dropped
+the flag, the local-copy script and the anon-read policy file (`pipeline/sql/2026-10-28_open_read.sql`, never
+applied) rather than carry dead switches; nothing on `main` needs them.
+
+**What stays: `CONFIG.IENYC_ENABLED`, off.** The `ienyc` campus entry carries `enabled_by: "IENYC_ENABLED"` (campus
+facts in data), and `Catalog.campuses()` returns a campus only while its switch is on, so every surface that reads
+the list (the chooser on `#/classes`, the start card and its neutral title, `campusFor`) is Cornell Tech only; a
+stored `classes.campus` of `ienyc` or an IE program id resolves to Cornell Tech. The IE data (the entry, its five
+programs, the loader and dataset in the research folder) is untouched; flipping the switch brings it back. The
+About-you hint in `web/copy.js` still reads "MBA, Tech MBA, Master in Management, Master in Finance": degree names, not
+a campus, and `Copy` is a pure table the copy evals check, so it stays as it is.
+
 ## Later
 
 - The next thread after the four verbs (v19, 2026-10-31): the apprentice maps behind a real sign-in (the one place a

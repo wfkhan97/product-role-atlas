@@ -297,7 +297,7 @@ const FIXTURE = { campus: "cornell_tech", term: "SP27", generated: "2026-10-31",
 const TAGS = { taxonomy_sha256: "x", taxonomy_product_sha256: "y", rule: "named outright", tags: { "TEST 1010": { found: ["budgeting_forecasting", "communication"], teaches: ["budgeting_forecasting"] }, "TEST 2020": { found: ["sql"], teaches: ["sql"] }, "TEST 1020": { found: ["stakeholder_mgmt"], teaches: [] } } };
 test("files mode: loadCatalog and loadProfessor read the campus's files through deps.load and never touch deps.supabase", async () => {
   const seen = [];
-  const F = require(path.join(web, "catalog.js"))({ supabase: () => { throw new Error("files mode must never open a client"); }, config: () => ({ CATALOG_SOURCE: "files" }), load: url => { seen.push(url); if (url === "data/sp27_campus.json") return FILE; if (url === "data/catalog/cornell_tech.json") return FIXTURE; if (url === "data/catalog/cornell_tech_tags.json") return TAGS; throw new Error("no such file " + url); } });
+  const F = require(path.join(web, "catalog.js"))({ supabase: () => { throw new Error("files mode must never open a client"); }, config: () => ({ CATALOG_SOURCE: "files", IENYC_ENABLED: true }), load: url => { seen.push(url); if (url === "data/sp27_campus.json") return FILE; if (url === "data/catalog/cornell_tech.json") return FIXTURE; if (url === "data/catalog/cornell_tech_tags.json") return TAGS; throw new Error("no such file " + url); } });
   const data = await F.loadCatalog("cornell_tech");
   assert.deepEqual(seen.sort(), ["data/catalog/cornell_tech.json", "data/catalog/cornell_tech_tags.json", "data/sp27_campus.json"]);
   assert.equal(data.classes.length, 5); assert.equal(data.rosterDate, "2026-10-30"); assert.equal(data.professors.length, 1);
@@ -406,4 +406,17 @@ test("combineRoles: a gap when any role leaves it open, weight summed over the r
   assert.deepEqual(C.combineRoles([]), { gaps: null, rows: [], labels: [] });
   assert.equal(C.joinLabels(["Product Manager", "FP&A Manager"]), "Product Manager and FP&A Manager");
   assert.equal(C.joinLabels(["A", "B", "C"]), "A, B and C"); assert.equal(C.joinLabels(["A"]), "A"); assert.equal(C.joinLabels([]), "");
+});
+
+// ---------- a campus behind a switch (IENYC_ENABLED, 2026-10-31) ----------
+test("campuses() lists a campus whose entry names a switch only while that switch is on in the config; the file itself keeps the entry", async () => {
+  const mk = cfg => require(path.join(web, "catalog.js"))({ config: () => cfg, load: () => structuredClone(FILE) });
+  assert.equal(FILE.campuses.find(c => c.id === "ienyc").enabled_by, "IENYC_ENABLED", "the IE entry names its switch");
+  assert.deepEqual((await mk({}).campuses()).map(c => c.id), ["cornell_tech"], "no config: the switch is off");
+  assert.deepEqual((await mk({ IENYC_ENABLED: false }).campuses()).map(c => c.id), ["cornell_tech"]);
+  assert.deepEqual((await mk({ IENYC_ENABLED: true }).campuses()).map(c => c.id), ["cornell_tech", "ienyc"]);
+  const only = await mk({}).campuses();
+  assert.equal(C.campusFor(only, { stored: "ienyc" }).id, "cornell_tech", "an IE choice kept in a browser falls back to the one campus listed");
+  assert.equal(C.campusFor(only, { programId: "ie_mif" }).id, "cornell_tech");
+  assert.equal(C.neutralCardTitle(only), "Spring 2027 classes · Cornell Tech");
 });
