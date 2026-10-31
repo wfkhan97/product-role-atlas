@@ -242,8 +242,9 @@
   const LEVEL_OPT = { entry: "associate", mid: "mid", senior: "senior", lead: "lead" };
   // what the Spring 2027 screens (classes.js) draw with; gapsFor hands them the person's gaps for a role (step 3 of the
   // demand-gen pass): the fit on screen when it is this role's, else the matcher at the default level, cached per role;
-  // applyBox, applyLine and wireApply draw the cohort application box at the picker's foot (v18, step 1)
-  const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Apply.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw) };
+  // applyBox, applyLine and wireApply draw the application box at the picker's foot (v18, step 1); resumeForm, wireResume,
+  // takeResume and hasResume let the picker hold the shell's resume form when none is on file (v19 B3, C1)
+  const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Apply.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw), resumeForm: () => resumeForm(), wireResume: () => wireResumeForm(), takeResume: () => takeResume(), hasResume: () => !!state.resume };
   // what the door kept, in this browser only: the email, the program group, and that the door was seen once
   const doorKept = () => { try { return { email: localStorage.getItem("door.email") || "", where: localStorage.getItem("door.where") || "", seen: localStorage.getItem("door.seen") === "1" }; } catch { return { email: "", where: "", seen: false }; } };
   // The four verbs in the top bar (v19 B2), drawn on every route: the current one marked, Find classes only when the

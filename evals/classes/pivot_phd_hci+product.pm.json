@@ -1,0 +1,30 @@
+{
+  "resume": "pivot_phd_hci",
+  "roles": [
+    "product.pm"
+  ],
+  "note": "A PhD pivoting to Product Manager: the PM class covers six gaps and leads clearly. The hardware classes that led the default run stay out of the top 5.",
+  "must_top": {
+    "n": 1,
+    "codes": [
+      "TECH 5200"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748",
+      "ECE 5765",
+      "CS 6412"
+    ]
+  },
+  "must_cover": {
+    "roadmap": [
+      "TECH 5200"
+    ],
+    "gtm": [
+      "TECH 5200",
+      "NBAY 5640"
+    ]
+  }
+}

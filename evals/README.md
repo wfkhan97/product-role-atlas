@@ -356,6 +356,60 @@ changes a sentence template or shows a new generated line. Needs `OPENROUTER_API
 measured, and a sentence the reader accepts can still be an odd line for a role whose field reading does not fit it
 (the role overrides of v16 step 6 are the remedy the grounding check points to).
 
+## The class picker's matching
+
+The Spring 2027 class picker (`web/classes.js`) rates every class against the roles chosen and says which of the
+person's gaps it covers. `evals/run_classes.mjs` runs that matching the way the picker runs it and checks it
+against hand-written expectations.
+
+```bash
+node evals/run_classes.mjs               # every case; exit 1 when a check fails
+node evals/run_classes.mjs --baseline    # also rewrite classes_baseline.md (commit it with the change)
+node evals/run_classes.mjs --cut         # print the thresholds that keep the band shares
+node evals/run_classes.mjs --only pivot  # the cases whose id contains the text
+```
+
+A case is one test résumé from `evals/resumes/*.txt` and one role, or a résumé and all its roles together
+(`+all`, through `Catalog.combineRoles`). The roles per résumé are a fixed table at the top of the runner: Product
+Manager for every résumé, then the two MBA roles the rough fit ranked highest on 2026-10-29. Eight résumés give 32
+cases. For each, the runner reads the fit at level "all" (`app.js gapsFor`), scores every card with the tags file
+(`web/data/catalog/cornell_tech_tags.json`) through `Catalog.relevanceScore`, `relevanceBand` and `gapsCovered`,
+and orders the cards with `sortCards("gaps")` and the campus field tie-break. It records the top 10 with score,
+band, the gaps covered and their share sum.
+
+The expectation files are `evals/classes/<resume>+<roleId>.json` and `<resume>+all.json`, the spec:
+
+```json
+{ "resume": "grad_student_new", "roles": ["marketing_manager"],
+  "note": "why these expectations, one or two sentences",
+  "must_top": { "n": 2, "codes": ["TECH 5240", "NBA 6340"] },
+  "must_not_top": { "n": 5, "codes": ["ECE 5748"] },
+  "must_cover": { "brand_strategy": ["TECH 5240", "NBA 6340"] },
+  "no_cover": false,
+  "known_failures": { "must_not_top ECE 5748": "why it still fails, and what would fix it" } }
+```
+
+A check named under `known_failures` is a failure the spec keeps on purpose: the reader's expectation stands, the
+matching does not meet it yet, and the reason says why. The runner reports it as KNOWN, counts it apart from the
+failures, and stays green on it; a known failure that starts to pass fails the run until its line is dropped. Five
+cases carry one today (2026-10-31), all of one shape: one small gap, such as the Office suite, carries a class the
+role does not need (Health Law and Policy fourth for a Strategy Manager). The next lever is a per-line score or a cap
+on small gaps; a floor on the relevance band was tried and sank a right answer (Customer Analytics to 52nd), so it is
+not the fix.
+
+`must_top`: each code sits in the top n. `must_not_top`: none of the codes does. `must_cover`: each listed code
+covers that gap of the case (optional). `no_cover`: whether the case must be one no class covers (optional). A
+code matches any code of a cross-listed card. The `note` gives the reason, as a careful reader of the catalog would
+want it; an expectation the picker fails stays when the output reads worse, and the baseline lists the failure.
+A case with no file, and a file with no case, both fail.
+
+`--cut` pools every card score over all cases and prints the two thresholds that keep the share of "high" at about
+2.3% and of "medium or high" at about 54% of card reads (the tuning study's shares, 2026-10-29). The numbers go in
+`web/data/sp27_campus.json`, `cornell_tech.relevance`.
+
+Rerun after any change to the scoring in `web/catalog.js`, to the tags file, to the thresholds or to
+`evals/resumes/`, and commit `classes_baseline.md`. The matcher evals above cover `evals/resumes/` too: run both.
+
 ## Evals to build
 
 The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a

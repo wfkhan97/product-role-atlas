@@ -1,0 +1,31 @@
+{
+  "resume": "staff_pm_terse",
+  "roles": [
+    "general_manager"
+  ],
+  "note": "General Manager: Business Models and Financial Statement Analysis cover financial modeling and metrics and lead. The study had the smart-cities class third; it is now seventh, which reads better.",
+  "must_top": {
+    "n": 2,
+    "codes": [
+      "NBAY 6570",
+      "BANA 5065"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748",
+      "CEE 6800",
+      "BANA 6420"
+    ]
+  },
+  "must_cover": {
+    "financial_analysis": [
+      "BANA 5065",
+      "NBAY 6570"
+    ],
+    "metrics_kpis": [
+      "BANA 5065"
+    ]
+  }
+}

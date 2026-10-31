@@ -1,0 +1,31 @@
+{
+  "resume": "pivot_phd_hci",
+  "roles": [
+    "business_intelligence"
+  ],
+  "note": "Business Intelligence Manager: Data Science in the Wild leads on pipelines, dashboards and analytics tools. Advanced Topics in Operating Systems sits third on one gap (insights and synthesis) with a score of 0.03; a careful reader does not want it in the top 3. That expectation fails until the score curbs one small gap carrying a list.",
+  "must_top": {
+    "n": 1,
+    "codes": [
+      "CS 5304"
+    ]
+  },
+  "must_not_top": {
+    "n": 3,
+    "codes": [
+      "CS 6412"
+    ]
+  },
+  "must_cover": {
+    "dashboards_dataviz": [
+      "CS 5304"
+    ],
+    "data_modeling": [
+      "CS 5304",
+      "TECHIE 5356"
+    ]
+  },
+  "known_failures": {
+    "must_not_top CS 6412": "The operating-systems class covers one gap at a score of 0.03 and lands third: a covered gap outranks any score. One small gap carries the list."
+  }
+}

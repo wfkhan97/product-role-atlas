@@ -1,0 +1,27 @@
+{
+  "resume": "staff_pm_terse",
+  "roles": [
+    "product.pm"
+  ],
+  "note": "A terse staff PM résumé leaves five gaps and only Agile / Scrum is one a class names, so six classes tie and the score orders them. The PM class leads; the study's tuned run had the three studios first. The robots class and the finance classes of the default run stay out.",
+  "must_top": {
+    "n": 1,
+    "codes": [
+      "TECH 5200"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "CS 5755",
+      "BANA 5065",
+      "BANA 6075"
+    ]
+  },
+  "must_cover": {
+    "agile_scrum": [
+      "TECH 5200",
+      "TECH 5930"
+    ]
+  }
+}

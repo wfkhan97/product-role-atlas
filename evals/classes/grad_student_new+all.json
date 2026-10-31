@@ -1,0 +1,25 @@
+{
+  "resume": "grad_student_new",
+  "roles": [
+    "product.pm",
+    "marketing_manager",
+    "brand_manager"
+  ],
+  "note": "All three roles: the two PM classes and the branding class fill the top 3, as in the study (the order among them differs).",
+  "must_top": {
+    "n": 3,
+    "codes": [
+      "TECH 5200",
+      "TECH 5240",
+      "TECHIE 5356"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748",
+      "ECE 5765",
+      "CS 6412"
+    ]
+  }
+}

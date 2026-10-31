@@ -1,0 +1,23 @@
+{
+  "resume": "senior_pm_pdf_layout",
+  "roles": [
+    "product.pm",
+    "product.product_owner",
+    "pmm"
+  ],
+  "note": "All three roles: the PM class leads and Don't Sell Sand in the Desert follows, as in the study; the agentic-systems class slips to fourth behind Early Adopters.",
+  "must_top": {
+    "n": 3,
+    "codes": [
+      "TECH 5200",
+      "TECH 5111"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748",
+      "CEE 6800"
+    ]
+  }
+}

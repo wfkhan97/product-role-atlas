@@ -1,138 +1,82 @@
-/* The Spring 2027 catalog: the Supabase client, the reads, and the pure functions behind the class cards (cross-list
-   collapsing, the grading chip, the eligibility filter, the relevance band, a minimal markdown reader). Pure parts
-   take no DOM and load in node (tests/web/classes.test.mjs): require("web/catalog.js")({}) gives the functions.
-   What never leaves the browser: the program, the student's own ratings, the role chosen, the campus. What never
-   reaches the screen: classes.roster_syllabus_md (matcher input only) and classes.research_note_md (never read).
-   Campuses are data (data/sp27_campus.json, `campuses`): a new campus is a new entry, never a code change. */
+/* The Spring 2027 catalog: the reads from the public files, and the pure functions behind the class cards (cross-list
+   collapsing, the grading chip, the eligibility filter, the relevance band, the gaps a class covers, the sorts, a
+   minimal markdown reader). Pure parts take no DOM and load in node (tests/web/classes.test.mjs):
+   require("web/catalog.js")({ load }) gives the functions. What never leaves the browser: the student's own ratings,
+   the roles chosen, the campus. What never reaches the screen: a prior-term syllabus digest (it never enters the public
+   file) and research_note_md (never read). Campuses are data (data/sp27_campus.json, `campuses`): a new campus is a new
+   entry with its own catalog_file and tags_file, never a code change. Nothing here opens a network client: the files
+   are static, read with deps.load (fetch in the browser, the disk in node). */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory;   // node: require("web/catalog.js")({ ...deps })
-  else root.Catalog = factory({ supabase: () => root.supabase, config: () => root.CONFIG || {}, load: url => fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); }), storage: () => root.localStorage });
+  else root.Catalog = factory({ config: () => root.CONFIG || {}, load: url => fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); }) });
 })(typeof self !== "undefined" ? self : this, function (deps) {
   "use strict";
   deps = deps || {};
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const BANDS = ["low", "medium", "high"];
-  // the columns the picker reads; research_note_md is never selected, roster_syllabus_md only as matcher input
-  const CLASS_COLS = "code,subject,catalog_nbr,title,career,description,outcomes,prereq,credits,grading_basis,location_scope,eligibility_category,enrollment_limited_to,also_in_ithaca,roster_url,roster_syllabus_read,sp27_instructor_matches_syllabus,grading_summary,roster_syllabus_md,last_scraped";
+  // the columns the picker reads from a class row of the public file (the shape the export writes; a syllabus digest
+  // and research_note_md are never in it)
+  const CLASS_COLS = "code,subject,catalog_nbr,title,career,description,outcomes,prereq,credits,grading_basis,location_scope,eligibility_category,enrollment_limited_to,also_in_ithaca,roster_url,roster_syllabus_read,sp27_instructor_matches_syllabus,grading_summary,last_scraped";
   const PROF_COLS = "slug,name,identity,title,affiliation,expertise,official_profile_url,personal_site_url,scholar_url,linkedin_url,profile_md";
+  const load = url => { if (!deps.load) throw new Error("No loader on this page"); return Promise.resolve(deps.load(url)); };
 
-  // ---------- the client and the session ----------
-  let client = null;
-  function sb() {
-    if (client) return client;
-    const lib = deps.supabase && deps.supabase(), cfg = deps.config ? deps.config() : {};
-    if (!lib || !cfg.SUPABASE_URL || !cfg.SUPABASE_PUBLISHABLE_KEY) return null;
-    // PKCE keeps the sign-in code in the query string (?code=), away from the hash this site routes on
-    client = lib.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_PUBLISHABLE_KEY, { auth: { flowType: "pkce", detectSessionInUrl: true, persistSession: true, autoRefreshToken: true } });
-    return client;
-  }
-  async function session() {
-    const c = sb(); if (!c) return null;
-    try { const { data } = await c.auth.getSession(); return data && data.session || null; } catch { return null; }
-  }
-  // a signed-in account whose domain no campus accepts is signed out again; the reason is kept for the sign-in screen
-  let authNote = null;
-  async function enforceDomain(s) {
-    if (!s || !s.user) return s;
-    const list = await campuses().catch(() => []);
-    if (list.some(c => allowedEmail(s.user.email, c))) return s;
-    const domains = [...new Set(list.flatMap(c => c.signin_domains || []))];
-    authNote = `${s.user.email || "That account"} is not ${domains.length ? "a " + domains.join(" or ") + " address" : "an address a campus accepts"}, so it was signed out. Use your school email.`;
-    try { await sb().auth.signOut(); } catch { }
-    return null;
-  }
-  const authListeners = new Set();
-  function onAuth(fn) {
-    authListeners.add(fn);
-    const c = sb();
-    if (c && !onAuth.wired) { onAuth.wired = true; c.auth.onAuthStateChange(async (ev, s) => { const ok = await enforceDomain(s); authListeners.forEach(f => { try { f(ok, ev); } catch (e) { console.error(e); } }); }); }
-    return () => authListeners.delete(fn);
-  }
-  // any sign-in lands on the picker
-  const redirectTo = () => (typeof location !== "undefined" ? location.origin + location.pathname + "#/classes" : undefined);
-  // the campus says which Google domain (hd) and which email domains sign-in takes
-  async function signInGoogle(campus) {
-    const c = sb(); if (!c) throw new Error("Sign in is not configured on this page");
-    const hd = campus && (campus.signin_domains || [])[0];
-    if (!hd) throw new Error(`Sign-in for ${campus ? campus.label : "this campus"} is not open yet`);
-    const { error } = await c.auth.signInWithOAuth({ provider: "google", options: { queryParams: { hd }, redirectTo: redirectTo() } });
-    if (error) throw error;
-  }
-  async function signInEmail(email, campus) {
-    const c = sb(); if (!c) throw new Error("Sign in is not configured on this page");
-    if (!allowedEmail(email, campus)) throw new Error(`Use an address that ends in ${domainWords(campus)}`);
-    const { error } = await c.auth.signInWithOtp({ email: String(email).trim(), options: { emailRedirectTo: redirectTo() } });
-    if (error) throw error;
-  }
-  async function signOut() { const c = sb(); if (c) await c.auth.signOut(); }
-  const takeAuthNote = () => { const n = authNote; authNote = null; return n; };
-
-  // ---------- the reads: one load per page, kept until the page reloads ----------
-  async function all(table, cols, order) {
-    const c = sb(); if (!c) throw new Error("The catalog client did not load");
-    const out = []; const step = 1000;
-    for (let from = 0; ; from += step) {
-      let q = c.from(table).select(cols).range(from, from + step - 1);
-      if (order) q = q.order(order);
-      const { data, error } = await q;
-      if (error) throw new Error(`${table}: ${error.message}`);
-      out.push(...(data || []));
-      if (!data || data.length < step) return out;
-    }
-  }
-  let catalogP = null;
-  function loadCatalog() {
-    return catalogP ||= (async () => {
-      try {
-        const [classes, crosslists, sections, meetings, instructors, priors, log] = await Promise.all([
-          all("classes", CLASS_COLS, "code"), all("class_crosslists", "code,other_code"), all("sections", "class_nbr,class_code,component,section,location,instruction_mode,topic,open_status,start_dt,end_dt,session,credits,notes", "class_nbr"),
-          all("meetings", "id,class_nbr,pattern,time_start,time_end,facility", "id"), all("class_instructors", "class_code,instructor_name,professor_slug,term"), all("prior_offerings", "class_code,term,title,instructors,locations,sections"), all("rescrape_log", "scraped_on", "scraped_on"),
-        ]);
-        const rosterDate = log.map(r => r.scraped_on).sort().pop() || null;
-        return { classes, crosslists, sections, meetings, instructors, priors, rosterDate };
-      } catch (e) { catalogP = null; throw e; }
-    })();
-  }
-  const profP = {};
-  function loadProfessor(slug) {
-    return profP[slug] ||= (async () => {
-      try {
-        const c = sb(); if (!c) throw new Error("The catalog client did not load");
-        const [{ data: profs, error: e1 }, { data: taught, error: e2 }] = await Promise.all([
-          c.from("professors").select(PROF_COLS).eq("slug", slug).limit(1),
-          c.from("class_instructors").select("class_code,term,classes(code,title)").eq("professor_slug", slug),
-        ]);
-        if (e1) throw new Error(`professors: ${e1.message}`);
-        if (e2) throw new Error(`class_instructors: ${e2.message}`);
-        return { professor: (profs || [])[0] || null, classes: (taught || []).map(t => ({ code: t.class_code, term: t.term, title: t.classes && t.classes.title || "" })).sort((a, b) => a.code.localeCompare(b.code)) };
-      } catch (e) { delete profP[slug]; throw e; }
-    })();
-  }
   // ---------- campuses: data/sp27_campus.json, a list under `campuses` ----------
   let campusP = null;
-  const campusFile = () => campusP ||= Promise.resolve(deps.load ? deps.load("data/sp27_campus.json") : null).catch(e => { campusP = null; throw e; });
+  const campusFile = () => campusP ||= load("data/sp27_campus.json").catch(e => { campusP = null; throw e; });
   // the list; a file in the old flat shape (one campus at the top level) reads as a list of one
   const campuses = async () => { const f = await campusFile(); return !f ? [] : Array.isArray(f.campuses) ? f.campuses : [f]; };
   // The person's campus from what we know, pure: the one stored (classes.campus), else the campus of the picker program
-  // chosen (classes.program), else the one campus whose programs include the v15 program group answered (you.where);
-  // null when the group belongs to two campuses, which the picker then asks once.
+  // chosen, else the one campus whose programs include the v15 program group answered (you.where); null when the group
+  // belongs to two campuses, which the picker then asks once.
   function campusFor(list, { stored = null, programId = null, where = null } = {}) {
     list = list || [];
     if (stored) { const c = list.find(x => x.id === stored); if (c) return c; }
     if (programId) { const c = list.find(x => (x.programs || []).some(p => p.id === programId)); if (c) return c; }
     if (where) { const cs = list.filter(x => (x.programs || []).some(p => p.group === where)); if (cs.length === 1) return cs[0]; }
+    // one campus with a roster loaded: the question has one answer, so it is not asked (B3; the other campus's
+    // entry says "roster not loaded yet" on its card until its courses land)
+    const loaded = list.filter(x => x.catalog);
+    if (loaded.length === 1) return loaded[0];
     return list.length === 1 ? list[0] : null;
   }
-  // an email whose domain is one the campus accepts (or a subdomain of it); a campus with no domains accepts none
-  function allowedEmail(email, campus) {
-    const e = String(email || "").trim().toLowerCase(), at = e.lastIndexOf("@");
-    if (at < 1 || at === e.length - 1) return false;
-    const dom = e.slice(at + 1);
-    return ((campus && campus.signin_domains) || []).some(d => { d = String(d).toLowerCase(); return dom === d || dom.endsWith("." + d); });
-  }
-  const domainWords = campus => ((campus && campus.signin_domains) || []).map(d => "@" + d).join(" or ") || "an address the campus accepts";
   // the one-line words for the start card when no campus is known: "Spring 2027 classes · Cornell Tech and IE New York"
   const neutralCardTitle = list => `${(list[0] || {}).term_label || "Classes"} classes · ${list.map(c => c.label).join(" and ")}`;
+
+  // ---------- the reads: one load per file, kept until the page reloads ----------
+  // The campus entry names its files: catalog_file ({ campus, term, generated, rosterDate, classes, crosslists, sections,
+  // meetings, instructors, priors, professors }) and tags_file ({ tags: { code: { found: [ids], teaches: [ids] } } }, the
+  // skills each class names outright, read once by pipeline/catalog_tags.mjs). loadCatalog returns the catalog with
+  // `tags` as Sets per code; a tags file that fails to load leaves `tags` empty and the picker rates nothing.
+  const catalogP = {};
+  // the campus to read: the entry given (or its id), else the first campus with a catalog file
+  async function campusOf(campus) {
+    const list = await campuses();
+    if (campus && typeof campus === "object") return campus;
+    return (campus ? list.find(c => c.id === campus) : null) || list.find(c => c.catalog_file) || null;
+  }
+  const toSets = tags => Object.fromEntries(Object.entries(tags || {}).map(([code, t]) => [code, { found: new Set((t && t.found) || []), teaches: new Set((t && t.teaches) || []) }]));
+  // one read per campus, keyed by the campus id once it is resolved, so a call with no campus shares the first's read
+  const readCatalog = cm => catalogP[cm.id] ||= (async () => {
+    const [f, t] = await Promise.all([load(cm.catalog_file), cm.tags_file ? load(cm.tags_file).catch(e => { console.error(e); return null; }) : null]);
+    const pick = k => Array.isArray(f[k]) ? f[k] : [];
+    return { campus: f.campus || cm.id, term: f.term || cm.term || null, generated: f.generated || null, rosterDate: f.rosterDate || null,
+      classes: pick("classes"), crosslists: pick("crosslists"), sections: pick("sections"), meetings: pick("meetings"), instructors: pick("instructors"), priors: pick("priors"), professors: pick("professors"),
+      tags: toSets(t && t.tags), tagsMeta: t ? { taxonomy_sha256: t.taxonomy_sha256 || null, taxonomy_product_sha256: t.taxonomy_product_sha256 || null, rule: t.rule || null } : null };
+  })().catch(e => { delete catalogP[cm.id]; throw e; });
+  async function loadCatalog(campus) {
+    const cm = await campusOf(campus);
+    if (!cm || !cm.catalog_file) throw new Error(`No catalog file for ${cm ? cm.label : "this campus"}`);
+    return readCatalog(cm);
+  }
+  // a professor from the same file: the row, and the classes its instructor rows name, by code with titles
+  async function loadProfessor(slug, campus) {
+    const data = await loadCatalog(campus);
+    const professor = data.professors.find(p => p.slug === slug) || null;
+    const title = Object.fromEntries(data.classes.map(c => [c.code, c.title || ""]));
+    const seen = new Set();
+    const classes = data.instructors.filter(i => i.professor_slug === slug && !seen.has(i.class_code) && seen.add(i.class_code)).map(i => ({ code: i.class_code, term: i.term || data.term, title: title[i.class_code] || "" })).sort((a, b) => a.code.localeCompare(b.code));
+    return { professor, classes };
+  }
 
   // ---------- cards: cross-listed classes collapse into one, keyed by the first code alphabetically ----------
   function collapse(data) {
@@ -167,6 +111,13 @@
     });
     return cards.sort((a, b) => a.key.localeCompare(b.key));
   }
+  // the tags of a card: the union over its codes of what the tags file holds, as Sets ({ found, teaches }); a card
+  // with no row in the file names nothing
+  function cardTags(card, tags) {
+    const found = new Set(), teaches = new Set();
+    for (const code of card.codes) { const t = (tags || {})[code]; if (!t) continue; for (const id of t.found || []) found.add(id); for (const id of t.teaches || []) teaches.add(id); }
+    return { found, teaches };
+  }
 
   // ---------- what a card says ----------
   // the prior-term grading chip, three cases: a roster syllabus was read; a public breakdown without one; neither
@@ -180,14 +131,14 @@
     return { text: "No prior syllabus on the roster.", summary: "", caveat: "" };
   }
   const eligibilityLabel = (cat, campusData) => ((campusData && campusData.eligibility) || {})[cat == null ? "null" : cat] || (cat == null ? "eligibility not verified" : String(cat).replace(/_/g, " "));
-  // the default filter: classes a program may enroll in, plus the ones with no restriction listed; no program, everything
+  // the eligibility filter: classes a program may enroll in, plus the ones with no restriction listed; no program, everything
   function openTo(card, program) {
     if (!program) return true;
     const cats = new Set([...(program.categories || []), "no_enrollment_restriction_listed"]);
     return card.classes.some(c => cats.has(c.eligibility_category));
   }
   // The content search (v18, step 2) reads the code, the title, the description and the roster outcomes, in that order;
-  // never roster_syllabus_md (matcher input only) and never research_note_md (never read): the rule at the top stands.
+  // never a syllabus digest and never research_note_md (never read): the rule at the top stands.
   // matchField says which field matched first, so the card can label a match the person cannot see on it.
   const SEARCH_FIELDS = [["code", c => c.codes.join("\n")], ["title", c => c.title || ""], ["description", c => c.classes.map(x => x.description || "").join("\n")], ["outcomes", c => c.classes.map(x => x.outcomes || "").join("\n")]];
   function matchField(card, q) {
@@ -229,18 +180,20 @@
     }
     return [...new Set(out)];
   }
-  // the matcher's input for a class: the roster text plus the prior-term syllabus digest, which is never shown
+  // the text the tagger read for a class (pipeline/catalog_tags.mjs reads the same fields; the browser reads tags, not text)
   const matcherText = cls => [cls.description, cls.outcomes, cls.roster_syllabus_md].filter(Boolean).join("\n");
   const cardText = card => card.classes.map(matcherText).join("\n");
 
   // ---------- relevance: the share of a role's core and common asks the text names, read as a band ----------
-  // rows: [{ id, name, tier: "core" | "common" | other, w }]; found: a Set of skill ids the text names
-  function relevanceScore(found, rows) {
-    const use = (rows || []).filter(r => r.tier === "core" || r.tier === "common");
-    const total = use.reduce((a, r) => a + (r.w || 0), 0);
+  // rows: [{ id, name, tier: "core" | "common" | other, w }]; found: a Set of skill ids the text names; generic: a Set
+  // of the skills generic to the role set (Atlas.genericSkills), which count at half weight (tuning, 2026-10-29)
+  function relevanceScore(found, rows, generic) {
+    const gen = generic || new Set();
+    const use = (rows || []).filter(r => r.tier === "core" || r.tier === "common").map(r => ({ ...r, w: gen.has(r.id) ? (r.w || 0) / 2 : (r.w || 0) }));
+    const total = use.reduce((a, r) => a + r.w, 0);
     if (!total) return { score: 0, matched: [] };
     const matched = use.filter(r => found && found.has(r.id)).sort((a, b) => a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : 1);
-    return { score: matched.reduce((a, r) => a + (r.w || 0), 0) / total, matched };
+    return { score: matched.reduce((a, r) => a + r.w, 0) / total, matched };
   }
   function relevanceBand(score, thresholds) {
     const t = thresholds || {}; const hi = Number(t.high), md = Number(t.medium);
@@ -250,27 +203,65 @@
   // the grid rows of a role as the scorer reads them: core (rows[0]) and common (rows[1]), weighted by share
   const rowsOf = grid => [...grid.rows[0].flat().map(x => ({ id: x.id, name: x.name, tier: "core", w: x.share })), ...grid.rows[1].flat().map(x => ({ id: x.id, name: x.name, tier: "common", w: x.share }))];
 
+  // ---------- several roles at once: the "Match to roles" multi-select ----------
+  // fits: [{ roleId, label, gaps: [{ id, name, tier, w, ... }] | null, rows: [{ id, name, tier, w }] }]. A skill is a
+  // gap when any role leaves it open; its weight is the sum of those roles' shares divided by the number of roles, so
+  // a gap three roles ask for outranks a gap one asks for; its tier is core when core for any. The rows combine the
+  // same way (the union, share averaged over the roles, tier core when core anywhere). gaps is null when no fit
+  // carries gaps (no resume on file). Pure.
+  function combineRoles(fits) {
+    fits = fits || [];
+    const n = fits.length || 1;
+    const byTier = (a, b) => a.tier === b.tier ? (b.w || 0) - (a.w || 0) : a.tier === "core" ? -1 : 1;
+    const merge = (lists, extra) => {
+      const by = {};
+      for (const list of lists) for (const x of list || []) { const e = by[x.id] ||= { ...x, tier: "common", w: 0, roles: [] }; e.w += (x.w || 0) / n; if (x.tier === "core") e.tier = "core"; if (extra) extra(e, x); }
+      return Object.values(by).sort(byTier);
+    };
+    const anyGaps = fits.some(f => Array.isArray(f.gaps));
+    const gaps = anyGaps ? merge(fits.map(f => f.gaps && f.gaps.map(g => ({ ...g, roleId: f.roleId }))), (e, x) => { if (!e.roles.includes(x.roleId)) e.roles.push(x.roleId); delete e.roleId; }) : null;
+    const rows = merge(fits.map(f => f.rows)).map(({ roles, ...r }) => r);
+    return { gaps, rows, labels: fits.map(f => f.label).filter(Boolean) };
+  }
+  // the roles' names as one phrase: "Product Manager", "A and B", "A, B and C"
+  const joinLabels = labels => { const l = (labels || []).filter(Boolean); return l.length <= 1 ? l[0] || "" : l.length === 2 ? `${l[0]} and ${l[1]}` : `${l.slice(0, -1).join(", ")} and ${l[l.length - 1]}`; };
+
   // ---------- the person's gaps (PLAN.md v16, step 3): which of them a course covers ----------
   // gaps: the fit's gap rows for the role, [{ id, name, tier, w }]; teaches: the Set of skill ids a course can show
-  // (Atlas.readCourse's `teaches`, by kind: a behaviour or a practice the text names is never a covered gap)
-  function gapsCovered(teaches, gaps) {
+  // (the tags file's `teaches`, by kind: a behaviour or a practice the text names is never a covered gap); generic: the
+  // Set of generic skills, which are never a gap a class covers (tuning, 2026-10-29)
+  function gapsCovered(teaches, gaps, generic) {
     if (!teaches || !gaps) return [];
-    return gaps.filter(g => teaches.has(g.id)).sort((a, b) => a.tier === b.tier ? (b.w || 0) - (a.w || 0) : a.tier === "core" ? -1 : 1);
+    const gen = generic || new Set();
+    return gaps.filter(g => !gen.has(g.id) && teaches.has(g.id)).sort((a, b) => a.tier === b.tier ? (b.w || 0) - (a.w || 0) : a.tier === "core" ? -1 : 1);
   }
   const coverLine = (covered, total) => !total ? "" : covered.length ? `Covers ${covered.length} of your ${total} gaps: ${covered.map(g => g.name).join(", ")}` : `Covers none of your ${total} gaps`;
-  // sorts: code (the roster's order), relevance (the band, high first), gaps (core gaps covered, then every gap covered);
-  // info[key] = { band, covered } as the screen holds them
+  // the line over the list when no class covers any gap (noCover): said once, never per card
+  const NO_COVER_LINE = "No class names your gaps. These are the closest.";
+  // true when none of the cards covers a gap (info[key].covered empty everywhere)
+  const noCover = (cards, info) => !(cards || []).some(c => (((info || {})[c.key] || {}).covered || []).length);
+  // the field tie-break: a card whose subject is one the chosen roles' fields teach in (campus field_subjects)
+  const inField = (card, subjects) => { const s = new Set(subjects || []); return (card.subjects || []).some(x => s.has(x)); };
+  // the subjects of a list of field ids, from the campus entry's field_subjects map
+  const fieldSubjects = (campus, groupIds) => [...new Set((groupIds || []).flatMap(g => ((campus && campus.field_subjects) || {})[g] || []))];
+  // sorts: code (the roster's order); relevance (the band, then the score, then the field, then code); gaps (the sum of
+  // the shares of the gaps covered, then the score, then the field, then code; with no card covering anything, by
+  // score, then the field, then code). info[key] = { band, score, covered } as the screen holds them; subjects: the
+  // field tie-break's list (inField), optional
   const BAND_RANK = { high: 0, medium: 1, low: 2 };
-  function sortCards(cards, mode, info) {
+  function sortCards(cards, mode, info, subjects) {
     const inf = k => (info && info[k]) || {};
     const byCode = (a, b) => a.key.localeCompare(b.key);
-    const core = c => (inf(c.key).covered || []).filter(g => g.tier === "core").length, all = c => (inf(c.key).covered || []).length;
-    if (mode === "relevance") return cards.slice().sort((a, b) => ((BAND_RANK[inf(a.key).band] ?? 3) - (BAND_RANK[inf(b.key).band] ?? 3)) || byCode(a, b));
-    if (mode === "gaps") return cards.slice().sort((a, b) => (core(b) - core(a)) || (all(b) - all(a)) || byCode(a, b));
+    const field = subjects && subjects.length ? (a, b) => (inField(b, subjects) ? 1 : 0) - (inField(a, subjects) ? 1 : 0) : () => 0;
+    const score = c => Number(inf(c.key).score) || 0;
+    const w = c => (inf(c.key).covered || []).reduce((a, g) => a + (g.w || 0), 0);
+    const tail = (a, b) => (score(b) - score(a)) || field(a, b) || byCode(a, b);
+    if (mode === "relevance") return cards.slice().sort((a, b) => ((BAND_RANK[inf(a.key).band] ?? 3) - (BAND_RANK[inf(b.key).band] ?? 3)) || tail(a, b));
+    if (mode === "gaps") return noCover(cards, info) ? cards.slice().sort(tail) : cards.slice().sort((a, b) => (w(b) - w(a)) || tail(a, b));
     return cards.slice().sort(byCode);
   }
-  // the n courses that cover the most core gaps (then the most gaps), for the rail; a course covering nothing is never one
-  const topCovering = (cards, info, n) => sortCards(cards, "gaps", info).filter(c => ((info[c.key] || {}).covered || []).length).slice(0, n || 3);
+  // the n courses that cover the most gap weight, for the rail; a course covering nothing is never one
+  const topCovering = (cards, info, n, subjects) => sortCards(cards, "gaps", info, subjects).filter(c => ((info[c.key] || {}).covered || []).length).slice(0, n || 3);
   // The gaps one instructor's classes cover (v18, step 2), for the professor card: the union of the gaps covered by the
   // cards given (the picker's per-card reads, covered[key] = [gap rows]), each gap with the codes that cover it, core
   // first and then by share, the same order as a card's line. Pure: the screen picks the cards with instructorCards.
@@ -341,5 +332,5 @@
     return blocks.join("");
   }
 
-  return { esc, BANDS, sb, session, onAuth, signInGoogle, signInEmail, signOut, takeAuthNote, loadCatalog, loadProfessor, campuses, campusFor, allowedEmail, domainWords, neutralCardTitle, collapse, gradingChip, eligibilityLabel, openTo, filterCards, matchField, instructorList, instructorCards, instructorGaps, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, gapsCovered, coverLine, sortCards, topCovering, cardHtml, mdSections, mdHtml };
+  return { esc, BANDS, CLASS_COLS, PROF_COLS, loadCatalog, loadProfessor, campuses, campusFor, neutralCardTitle, collapse, cardTags, gradingChip, eligibilityLabel, openTo, filterCards, matchField, instructorList, instructorCards, instructorGaps, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, combineRoles, joinLabels, gapsCovered, coverLine, NO_COVER_LINE, noCover, inField, fieldSubjects, sortCards, topCovering, cardHtml, mdSections, mdHtml };
 });

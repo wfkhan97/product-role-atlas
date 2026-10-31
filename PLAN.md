@@ -1229,8 +1229,40 @@ postings sit in a 9 MB file home does not load, and a number that changes once a
 `jobs_open.json` carries the count of both role sets, and home reads it then. An unknown route now shows home, not the
 first screen.
 
+### B3 — the picker on a public file (`data/catalog-public`, 2026-10-31)
+
+Built: `pipeline.catalog_export` runs the course catalog's own loader in its dry-run mode (the JSON in the research
+folder is the source of truth; no network, no `.env`) and writes `web/data/catalog/cornell_tech.json`, the rows the
+picker reads (125 classes, 116 professors with `profile_md`, sections, meetings, cross-lists, prior offerings, the
+roster date), and `web/data/local/catalog_full.json` (gitignored), the same rows plus the prior-term syllabus digest.
+The public file never holds the digest or the research note: the export asserts it and `tests/web/catalog_files.test.mjs`
+checks it. `node pipeline/catalog_tags.mjs` reads the local copy once, runs `Atlas.readCourse` over description,
+outcomes and digest per class code, and writes `cornell_tech_tags.json`: the skills each class names outright
+(strength one or more: a sub-skill hint alone no longer counts, the first of the tuning changes), with the sha256
+of both taxonomy files, so a stale tags file fails the tests and a taxonomy change means a rerun (CLAUDE.md).
+`web/catalog.js` reads the two files the campus entry names (`catalog_file`, `tags_file`; `CONFIG.CATALOG_SOURCE`
+is `"files"`) and opens no database client; the supabase-js script tag, the sign-in form, the session gates and
+`navSync` are gone, `#/signin` says sign-in is off and goes home, and the Supabase URL and key in `config.js` serve
+`capture.js` alone. With one roster loaded the picker asks no campus question. The owner's decisions landed: no
+program picker and no "Show all" (the eligibility label stays on every card); "Rate for" is "Match to roles", a
+multi-select of chips, and several roles combine their asks and gaps through `Catalog.combineRoles` (a skill is a gap
+when any role leaves it open, weighted by the sum of their shares over the number of roles, core when core for any);
+with no résumé on file the filter row holds the shell's résumé drop (C1), and "Read my fit" reads it in the browser.
+The matching is the tuned run of the round-2 study plus the field tie-break: generic skills count half in the
+relevance score and are left out of the gaps covered; the Gaps sort orders by the share of the gaps covered, then the
+relevance score, then `Catalog.inField` (a class whose subject belongs to the chosen roles' fields, `field_subjects`
+in the campus file, data not code), then code; when no class covers any gap the list says so once and orders by
+relevance. The thresholds were re-cut to 0.270 high and 0.083 medium (from 0.35 and 0.12) so the band shares stay what the old reader gave (about one card in
+forty high, one in two medium or high). `evals/run_classes.mjs` runs the eight test résumés over 32 cases (two or
+three roles each, and all at once) against the public files, exactly as the picker scores them, and checks
+`evals/classes/*.json` (`must_top`, `must_not_top`, `must_cover`, `no_cover`; each file says why); the baseline is
+`evals/classes_baseline.md`. Five checks are known failures (named in their spec files with the reason), all of one shape: one small gap such as the Office suite carries a class the role does not need; the run stays green on them and goes red if one starts to pass unnoticed. Deviations from the brief: the picker reads tags, never the digest, so the "live read"
+of the brief's third test is the tags command itself, checked against `Atlas.readCourse` on twelve codes when the
+local copy exists; the thresholds moved because the strict rule halves what a class names.
+
 ## Later
 
+- The class matching's next lever (2026-10-31): five known failures in `evals/classes/` share one shape, one small gap carrying a class the role does not need. Try a per-line score or a cap on how much a single small gap counts; a floor on the relevance band sank a right answer and is not it.
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
   closed postings the way the MBA graph does (a `data/` branch).
 - ~~v14 step 6, `chore/adaptive-6-signals`~~: dropped for good on 2026-10-25 (v16, decision 3). `signals` stay as the

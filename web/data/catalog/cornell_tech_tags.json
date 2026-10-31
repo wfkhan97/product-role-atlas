@@ -1,0 +1,2353 @@
+{
+ "_note": "Skill tags per class code for the picker (pipeline/catalog_tags.mjs over the local catalog with the syllabus digest). Rerun after a taxonomy change.",
+ "campus": "cornell_tech",
+ "term": "SP27",
+ "generated": "2026-10-31",
+ "rule": "A skill is tagged when the class text names it (strength >= 1); a sub-skill hint alone does not count.",
+ "taxonomy_sha256": "96af7556b079b656f7a90a649050dfa77b18604ea65b060a491f290db2dbf0f9",
+ "taxonomy_product_sha256": "d4b2e73d213b38280042115d729e3f6db9a201be86b7a8fe5f9ed51e73c2af06",
+ "tags": {
+  "BANA 5065": {
+   "found": [
+    "accounting_close_controls",
+    "financial_analysis",
+    "financial_reporting",
+    "financial_statements",
+    "investment_research",
+    "metrics_kpis",
+    "statistics",
+    "valuation"
+   ],
+   "teaches": [
+    "accounting_close_controls",
+    "financial_analysis",
+    "financial_reporting",
+    "financial_statements",
+    "investment_research",
+    "metrics_kpis",
+    "statistics",
+    "valuation"
+   ]
+  },
+  "BANA 5160": {
+   "found": [
+    "business_case",
+    "marketing_analytics",
+    "program_mgmt",
+    "statistics"
+   ],
+   "teaches": [
+    "business_case",
+    "marketing_analytics",
+    "statistics"
+   ]
+  },
+  "BANA 5165": {
+   "found": [
+    "ai_ml"
+   ],
+   "teaches": [
+    "ai_ml"
+   ]
+  },
+  "BANA 5205": {
+   "found": [
+    "ab_testing",
+    "data_driven",
+    "process_improvement",
+    "statistics"
+   ],
+   "teaches": [
+    "ab_testing",
+    "process_improvement",
+    "statistics"
+   ]
+  },
+  "BANA 5210": {
+   "found": [
+    "ai_ml",
+    "data_driven",
+    "investment_research",
+    "portfolio_management",
+    "python_r",
+    "sql",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_ml",
+    "investment_research",
+    "portfolio_management",
+    "python_r",
+    "sql",
+    "technical_fluency"
+   ]
+  },
+  "BANA 6070": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "data_driven",
+    "market_research",
+    "quality_testing",
+    "statistics"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "market_research",
+    "quality_testing",
+    "statistics"
+   ]
+  },
+  "BANA 6075": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "devops_sdlc",
+    "genai_llm",
+    "model_risk"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "devops_sdlc",
+    "genai_llm",
+    "model_risk"
+   ]
+  },
+  "BANA 6260": {
+   "found": [
+    "consumer_insights",
+    "customer_obsession",
+    "data_driven",
+    "discovery",
+    "gtm"
+   ],
+   "teaches": [
+    "consumer_insights",
+    "discovery",
+    "gtm"
+   ]
+  },
+  "BANA 6340": {
+   "found": [
+    "customer_obsession",
+    "execution",
+    "ownership",
+    "strategy_development"
+   ],
+   "teaches": [
+    "strategy_development"
+   ]
+  },
+  "BANA 6390": {
+   "found": [
+    "marketing_analytics",
+    "pricing_packaging"
+   ],
+   "teaches": [
+    "marketing_analytics",
+    "pricing_packaging"
+   ]
+  },
+  "BANA 6420": {
+   "found": [
+    "demand_supply_planning",
+    "financial_analysis",
+    "inventory_mgmt",
+    "pricing_packaging",
+    "process_improvement",
+    "statistics",
+    "warehouse_fulfillment"
+   ],
+   "teaches": [
+    "demand_supply_planning",
+    "financial_analysis",
+    "inventory_mgmt",
+    "pricing_packaging",
+    "process_improvement",
+    "statistics",
+    "warehouse_fulfillment"
+   ]
+  },
+  "CEE 6800": {
+   "found": [
+    "adaptability",
+    "data_driven",
+    "demand_supply_planning",
+    "discovery",
+    "energy_industrial",
+    "financial_analysis",
+    "hardware",
+    "statistics"
+   ],
+   "teaches": [
+    "demand_supply_planning",
+    "discovery",
+    "energy_industrial",
+    "financial_analysis",
+    "hardware",
+    "statistics"
+   ]
+  },
+  "CRP 4590": {
+   "found": [
+    "re_acquisitions_dispositions"
+   ],
+   "teaches": [
+    "re_acquisitions_dispositions"
+   ]
+  },
+  "CRP 5370": {
+   "found": [],
+   "teaches": []
+  },
+  "CRP 5590": {
+   "found": [
+    "re_acquisitions_dispositions"
+   ],
+   "teaches": [
+    "re_acquisitions_dispositions"
+   ]
+  },
+  "CRP 6565": {
+   "found": [
+    "deal_negotiation",
+    "deal_structuring"
+   ],
+   "teaches": [
+    "deal_negotiation",
+    "deal_structuring"
+   ]
+  },
+  "CRP 6595": {
+   "found": [],
+   "teaches": []
+  },
+  "CS 5304": {
+   "found": [
+    "ab_testing",
+    "ai_ml",
+    "analytics_tools",
+    "apis",
+    "communication",
+    "dashboards_dataviz",
+    "data_driven",
+    "data_modeling",
+    "discovery",
+    "genai_llm",
+    "jira",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "office_tools",
+    "python_r",
+    "quality_testing",
+    "sql",
+    "statistics",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ab_testing",
+    "ai_ml",
+    "analytics_tools",
+    "apis",
+    "dashboards_dataviz",
+    "data_modeling",
+    "discovery",
+    "genai_llm",
+    "jira",
+    "market_data_terminals",
+    "office_tools",
+    "python_r",
+    "quality_testing",
+    "sql",
+    "statistics",
+    "technical_fluency"
+   ]
+  },
+  "CS 5382": {
+   "found": [
+    "ai_ml",
+    "business_case",
+    "customer_proof",
+    "discovery",
+    "financial_risk",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "product_lifecycle",
+    "program_mgmt",
+    "python_r",
+    "statistics",
+    "surveys_feedback",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_ml",
+    "business_case",
+    "customer_proof",
+    "discovery",
+    "financial_risk",
+    "genai_llm",
+    "market_data_terminals",
+    "product_lifecycle",
+    "python_r",
+    "statistics",
+    "surveys_feedback",
+    "technical_fluency"
+   ]
+  },
+  "CS 5433": {
+   "found": [
+    "ai_ml",
+    "fintech",
+    "hardware",
+    "influence",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "office_tools",
+    "program_mgmt",
+    "security_privacy"
+   ],
+   "teaches": [
+    "ai_ml",
+    "fintech",
+    "hardware",
+    "market_data_terminals",
+    "office_tools",
+    "security_privacy"
+   ]
+  },
+  "CS 5436": {
+   "found": [
+    "security_privacy",
+    "surveys_feedback"
+   ],
+   "teaches": [
+    "security_privacy",
+    "surveys_feedback"
+   ]
+  },
+  "CS 5670": {
+   "found": [
+    "ai_ml",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "ownership",
+    "product_vision",
+    "program_mgmt",
+    "python_r",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_ml",
+    "genai_llm",
+    "market_data_terminals",
+    "product_vision",
+    "python_r",
+    "technical_fluency"
+   ]
+  },
+  "CS 5726": {
+   "found": [
+    "ai_ml",
+    "python_r",
+    "statistics",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_ml",
+    "python_r",
+    "statistics",
+    "technical_fluency"
+   ]
+  },
+  "CS 5744": {
+   "found": [
+    "ai_ml",
+    "data_driven",
+    "devops_sdlc",
+    "genai_llm",
+    "ownership",
+    "process_improvement",
+    "quality_testing"
+   ],
+   "teaches": [
+    "ai_ml",
+    "devops_sdlc",
+    "genai_llm",
+    "process_improvement",
+    "quality_testing"
+   ]
+  },
+  "CS 5755": {
+   "found": [
+    "agile_scrum",
+    "devops_sdlc",
+    "hardware",
+    "mobile",
+    "process_improvement",
+    "surveys_feedback",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "agile_scrum",
+    "devops_sdlc",
+    "hardware",
+    "mobile",
+    "process_improvement",
+    "surveys_feedback"
+   ]
+  },
+  "CS 5775": {
+   "found": [
+    "ai_ml",
+    "cross_functional",
+    "devops_sdlc",
+    "hardware",
+    "labor_shift_mgmt",
+    "launch",
+    "metrics_kpis",
+    "office_tools",
+    "ownership",
+    "program_mgmt",
+    "python_r",
+    "root_cause_corrective_action",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_ml",
+    "devops_sdlc",
+    "hardware",
+    "launch",
+    "metrics_kpis",
+    "office_tools",
+    "python_r",
+    "root_cause_corrective_action",
+    "technical_fluency"
+   ]
+  },
+  "CS 5788": {
+   "found": [
+    "ai_ml",
+    "jira",
+    "labor_shift_mgmt",
+    "ownership",
+    "product_vision",
+    "python_r",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_ml",
+    "jira",
+    "product_vision",
+    "python_r",
+    "technical_fluency"
+   ]
+  },
+  "CS 6110": {
+   "found": [],
+   "teaches": []
+  },
+  "CS 6412": {
+   "found": [
+    "synthesis_recommendations",
+    "system_architecture"
+   ],
+   "teaches": [
+    "synthesis_recommendations",
+    "system_architecture"
+   ]
+  },
+  "CS 6674": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "product_vision",
+    "program_mgmt"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "genai_llm",
+    "market_data_terminals",
+    "product_vision"
+   ]
+  },
+  "CS 6787": {
+   "found": [
+    "ai_ml",
+    "hardware",
+    "variance_analysis"
+   ],
+   "teaches": [
+    "ai_ml",
+    "hardware",
+    "variance_analysis"
+   ]
+  },
+  "CS 6816": {
+   "found": [
+    "fintech",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "fintech",
+    "technical_fluency"
+   ]
+  },
+  "CS 6820": {
+   "found": [
+    "ab_testing",
+    "discovery"
+   ],
+   "teaches": [
+    "ab_testing",
+    "discovery"
+   ]
+  },
+  "CS 7794": {
+   "found": [
+    "ai_ml",
+    "exec_communication"
+   ],
+   "teaches": [
+    "ai_ml"
+   ]
+  },
+  "DESIGN 4197": {
+   "found": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "ownership",
+    "program_mgmt",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "technical_fluency"
+   ]
+  },
+  "DESIGN 5358": {
+   "found": [
+    "ai_ml",
+    "customer_proof",
+    "gtm",
+    "labor_shift_mgmt",
+    "program_mgmt",
+    "python_r",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "ai_ml",
+    "customer_proof",
+    "gtm",
+    "python_r"
+   ]
+  },
+  "DESIGN 6197": {
+   "found": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "ownership",
+    "program_mgmt",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "technical_fluency"
+   ]
+  },
+  "DESIGN 8935": {
+   "found": [
+    "ab_testing",
+    "collaboration",
+    "cross_functional",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "ab_testing"
+   ]
+  },
+  "ECE 5242": {
+   "found": [
+    "ai_ml",
+    "apis"
+   ],
+   "teaches": [
+    "ai_ml",
+    "apis"
+   ]
+  },
+  "ECE 5245": {
+   "found": [
+    "ai_ml",
+    "hardware",
+    "labor_shift_mgmt",
+    "npi_manufacturing_ramp",
+    "ownership",
+    "program_mgmt"
+   ],
+   "teaches": [
+    "ai_ml",
+    "hardware",
+    "npi_manufacturing_ramp"
+   ]
+  },
+  "ECE 5290": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "communication",
+    "cross_functional",
+    "devops_sdlc",
+    "genai_llm",
+    "hardware",
+    "influence",
+    "jira",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "networking",
+    "office_tools",
+    "ownership",
+    "program_mgmt",
+    "python_r",
+    "statistics",
+    "stats_analytics_packages",
+    "system_architecture",
+    "technical_fluency",
+    "variance_analysis"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "devops_sdlc",
+    "genai_llm",
+    "hardware",
+    "jira",
+    "market_data_terminals",
+    "networking",
+    "office_tools",
+    "python_r",
+    "statistics",
+    "stats_analytics_packages",
+    "system_architecture",
+    "technical_fluency",
+    "variance_analysis"
+   ]
+  },
+  "ECE 5545": {
+   "found": [
+    "ai_ml",
+    "cross_functional",
+    "devops_sdlc",
+    "hardware",
+    "labor_shift_mgmt",
+    "launch",
+    "metrics_kpis",
+    "office_tools",
+    "ownership",
+    "program_mgmt",
+    "python_r",
+    "root_cause_corrective_action",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_ml",
+    "devops_sdlc",
+    "hardware",
+    "launch",
+    "metrics_kpis",
+    "office_tools",
+    "python_r",
+    "root_cause_corrective_action",
+    "technical_fluency"
+   ]
+  },
+  "ECE 5748": {
+   "found": [
+    "ai_ml",
+    "hardware",
+    "prioritization"
+   ],
+   "teaches": [
+    "ai_ml",
+    "hardware",
+    "prioritization"
+   ]
+  },
+  "ECE 5765": {
+   "found": [
+    "adaptability",
+    "ai_ml",
+    "customer_proof",
+    "data_driven",
+    "devops_sdlc",
+    "energy_industrial",
+    "hardware",
+    "ownership",
+    "prioritization"
+   ],
+   "teaches": [
+    "ai_ml",
+    "customer_proof",
+    "devops_sdlc",
+    "energy_industrial",
+    "hardware",
+    "prioritization"
+   ]
+  },
+  "ECE 5780": {
+   "found": [
+    "adaptability",
+    "ai_ml",
+    "apis",
+    "data_driven",
+    "hardware",
+    "problem_solving",
+    "statistics"
+   ],
+   "teaches": [
+    "ai_ml",
+    "apis",
+    "hardware",
+    "statistics"
+   ]
+  },
+  "INFO 5213": {
+   "found": [
+    "ai_ml",
+    "customer_proof",
+    "data_driven",
+    "logistics_transportation"
+   ],
+   "teaches": [
+    "ai_ml",
+    "customer_proof",
+    "logistics_transportation"
+   ]
+  },
+  "INFO 5303": {
+   "found": [
+    "security_privacy",
+    "surveys_feedback"
+   ],
+   "teaches": [
+    "security_privacy",
+    "surveys_feedback"
+   ]
+  },
+  "INFO 5304": {
+   "found": [
+    "ab_testing",
+    "ai_ml",
+    "analytics_tools",
+    "apis",
+    "communication",
+    "dashboards_dataviz",
+    "data_driven",
+    "data_modeling",
+    "discovery",
+    "genai_llm",
+    "jira",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "office_tools",
+    "python_r",
+    "quality_testing",
+    "sql",
+    "statistics",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ab_testing",
+    "ai_ml",
+    "analytics_tools",
+    "apis",
+    "dashboards_dataviz",
+    "data_modeling",
+    "discovery",
+    "genai_llm",
+    "jira",
+    "market_data_terminals",
+    "office_tools",
+    "python_r",
+    "quality_testing",
+    "sql",
+    "statistics",
+    "technical_fluency"
+   ]
+  },
+  "INFO 5305": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "data_driven",
+    "discovery",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "ownership",
+    "program_mgmt",
+    "surveys_feedback",
+    "user_research",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "discovery",
+    "genai_llm",
+    "market_data_terminals",
+    "surveys_feedback",
+    "user_research"
+   ]
+  },
+  "INFO 5330": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "genai_llm",
+    "market_data_terminals"
+   ]
+  },
+  "INFO 5358": {
+   "found": [
+    "ai_ml",
+    "customer_proof",
+    "gtm",
+    "labor_shift_mgmt",
+    "program_mgmt",
+    "python_r",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "ai_ml",
+    "customer_proof",
+    "gtm",
+    "python_r"
+   ]
+  },
+  "INFO 5368": {
+   "found": [
+    "ai_ml",
+    "genai_llm",
+    "metrics_kpis",
+    "ownership",
+    "product_lifecycle",
+    "quality_testing",
+    "statistics"
+   ],
+   "teaches": [
+    "ai_ml",
+    "genai_llm",
+    "metrics_kpis",
+    "product_lifecycle",
+    "quality_testing",
+    "statistics"
+   ]
+  },
+  "INFO 5375": {
+   "found": [
+    "ai_governance",
+    "ai_ml",
+    "business_case",
+    "discovery",
+    "genai_llm",
+    "hardware",
+    "healthcare",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "ownership",
+    "python_r",
+    "stakeholder_mgmt",
+    "statistics",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_governance",
+    "ai_ml",
+    "business_case",
+    "discovery",
+    "genai_llm",
+    "hardware",
+    "healthcare",
+    "market_data_terminals",
+    "python_r",
+    "statistics",
+    "technical_fluency"
+   ]
+  },
+  "INFO 5380": {
+   "found": [
+    "ai_ml",
+    "hardware",
+    "labor_shift_mgmt",
+    "npi_manufacturing_ramp",
+    "ownership",
+    "program_mgmt"
+   ],
+   "teaches": [
+    "ai_ml",
+    "hardware",
+    "npi_manufacturing_ramp"
+   ]
+  },
+  "INFO 5390": {
+   "found": [
+    "ai_ml",
+    "business_case",
+    "customer_proof",
+    "discovery",
+    "financial_risk",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "product_lifecycle",
+    "program_mgmt",
+    "python_r",
+    "statistics",
+    "surveys_feedback",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_ml",
+    "business_case",
+    "customer_proof",
+    "discovery",
+    "financial_risk",
+    "genai_llm",
+    "market_data_terminals",
+    "product_lifecycle",
+    "python_r",
+    "statistics",
+    "surveys_feedback",
+    "technical_fluency"
+   ]
+  },
+  "INFO 5420": {
+   "found": [
+    "adaptability",
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "customer_proof",
+    "genai_llm",
+    "influence",
+    "labor_shift_mgmt",
+    "positioning_messaging",
+    "program_mgmt",
+    "python_r",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "customer_proof",
+    "genai_llm",
+    "positioning_messaging",
+    "python_r",
+    "technical_fluency"
+   ]
+  },
+  "INFO 5555": {
+   "found": [
+    "prd",
+    "surveys_feedback"
+   ],
+   "teaches": [
+    "prd",
+    "surveys_feedback"
+   ]
+  },
+  "INFO 5755": {
+   "found": [
+    "agile_scrum",
+    "devops_sdlc",
+    "hardware",
+    "mobile",
+    "process_improvement",
+    "surveys_feedback",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "agile_scrum",
+    "devops_sdlc",
+    "hardware",
+    "mobile",
+    "process_improvement",
+    "surveys_feedback"
+   ]
+  },
+  "INFO 5920": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "prd",
+    "proposals_capture",
+    "technical_fluency",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "market_data_terminals",
+    "prd",
+    "proposals_capture",
+    "technical_fluency"
+   ]
+  },
+  "INFO 6120": {
+   "found": [
+    "ai_ml",
+    "ownership"
+   ],
+   "teaches": [
+    "ai_ml"
+   ]
+  },
+  "INFO 6432": {
+   "found": [
+    "hardware",
+    "networking"
+   ],
+   "teaches": [
+    "hardware",
+    "networking"
+   ]
+  },
+  "INFO 6940": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "collaboration",
+    "communication",
+    "cross_functional",
+    "customer_obsession",
+    "execution",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "ownership",
+    "positioning_messaging",
+    "program_mgmt",
+    "safety_ehs",
+    "stakeholder_mgmt",
+    "surveys_feedback",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "genai_llm",
+    "positioning_messaging",
+    "safety_ehs",
+    "surveys_feedback"
+   ]
+  },
+  "LAW 6114": {
+   "found": [
+    "adaptability",
+    "deal_sourcing",
+    "discovery",
+    "due_diligence",
+    "financial_reporting",
+    "investment_committee",
+    "investor_relations",
+    "valuation"
+   ],
+   "teaches": [
+    "discovery",
+    "due_diligence",
+    "financial_reporting",
+    "investment_committee",
+    "investor_relations",
+    "valuation"
+   ]
+  },
+  "LAW 6146": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "hardware",
+    "healthcare",
+    "labor_shift_mgmt",
+    "launch",
+    "office_tools",
+    "process_improvement",
+    "public_sector",
+    "security_privacy",
+    "statistics"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "hardware",
+    "healthcare",
+    "launch",
+    "office_tools",
+    "process_improvement",
+    "public_sector",
+    "security_privacy",
+    "statistics"
+   ]
+  },
+  "LAW 6198": {
+   "found": [
+    "ai_ml",
+    "comp_design",
+    "cross_functional",
+    "data_driven",
+    "genai_llm",
+    "hardware",
+    "healthcare",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "office_tools",
+    "ownership",
+    "program_mgmt",
+    "security_privacy",
+    "statistics",
+    "valuation"
+   ],
+   "teaches": [
+    "ai_ml",
+    "comp_design",
+    "genai_llm",
+    "hardware",
+    "healthcare",
+    "market_data_terminals",
+    "office_tools",
+    "security_privacy",
+    "statistics",
+    "valuation"
+   ]
+  },
+  "LAW 6273": {
+   "found": [
+    "ai_ml",
+    "collaboration",
+    "compliance_program",
+    "data_driven",
+    "devops_sdlc",
+    "genai_llm",
+    "it_risk",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "personas_jtbd",
+    "public_sector",
+    "security_frameworks",
+    "security_privacy",
+    "supply_chain_certs",
+    "vendor_mgmt"
+   ],
+   "teaches": [
+    "ai_ml",
+    "compliance_program",
+    "devops_sdlc",
+    "genai_llm",
+    "it_risk",
+    "market_data_terminals",
+    "personas_jtbd",
+    "public_sector",
+    "security_frameworks",
+    "security_privacy"
+   ]
+  },
+  "LAW 6306": {
+   "found": [
+    "ai_ml",
+    "fintech",
+    "genai_llm",
+    "growth_loops",
+    "labor_shift_mgmt",
+    "ownership",
+    "personas_jtbd",
+    "product_lifecycle",
+    "program_mgmt",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_ml",
+    "fintech",
+    "genai_llm",
+    "growth_loops",
+    "personas_jtbd",
+    "product_lifecycle",
+    "technical_fluency"
+   ]
+  },
+  "LAW 6324": {
+   "found": [
+    "adaptability",
+    "ai_governance",
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "office_tools",
+    "prospecting"
+   ],
+   "teaches": [
+    "ai_governance",
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "office_tools",
+    "prospecting"
+   ]
+  },
+  "LAW 6332": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "comp_design",
+    "genai_llm",
+    "hr_compliance",
+    "labor_shift_mgmt",
+    "masters_mba",
+    "office_tools",
+    "security_privacy"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "comp_design",
+    "genai_llm",
+    "hr_compliance",
+    "office_tools",
+    "security_privacy"
+   ]
+  },
+  "LAW 6654": {
+   "found": [
+    "ai_ml",
+    "deal_structuring",
+    "influence",
+    "labor_shift_mgmt",
+    "program_mgmt",
+    "stakeholder_mgmt",
+    "supplier_contract_negotiation"
+   ],
+   "teaches": [
+    "ai_ml",
+    "deal_structuring",
+    "supplier_contract_negotiation"
+   ]
+  },
+  "LAW 6896": {
+   "found": [
+    "security_privacy"
+   ],
+   "teaches": [
+    "security_privacy"
+   ]
+  },
+  "LAW 7591": {
+   "found": [
+    "accounting_close_controls",
+    "ai_ml",
+    "communication",
+    "deal_structuring",
+    "financial_analysis",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "litigation_consulting",
+    "ma_execution",
+    "program_mgmt",
+    "re_acquisitions_dispositions",
+    "rfx_bid_mgmt",
+    "valuation"
+   ],
+   "teaches": [
+    "accounting_close_controls",
+    "ai_ml",
+    "deal_structuring",
+    "financial_analysis",
+    "genai_llm",
+    "litigation_consulting",
+    "ma_execution",
+    "re_acquisitions_dispositions",
+    "rfx_bid_mgmt",
+    "valuation"
+   ]
+  },
+  "NBA 5075": {
+   "found": [
+    "adaptability",
+    "deal_sourcing",
+    "discovery",
+    "due_diligence",
+    "financial_reporting",
+    "investment_committee",
+    "investor_relations",
+    "valuation"
+   ],
+   "teaches": [
+    "discovery",
+    "due_diligence",
+    "financial_reporting",
+    "investment_committee",
+    "investor_relations",
+    "valuation"
+   ]
+  },
+  "NBA 5645": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "exec_decks",
+    "execution",
+    "genai_llm",
+    "influence",
+    "labor_shift_mgmt",
+    "office_tools",
+    "prioritization",
+    "product_sense",
+    "program_mgmt",
+    "prospecting"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "exec_decks",
+    "genai_llm",
+    "office_tools",
+    "prioritization",
+    "prospecting"
+   ]
+  },
+  "NBA 6340": {
+   "found": [
+    "brand_strategy",
+    "customer_obsession",
+    "customer_proof",
+    "jira",
+    "market_research",
+    "ownership"
+   ],
+   "teaches": [
+    "brand_strategy",
+    "customer_proof",
+    "jira",
+    "market_research"
+   ]
+  },
+  "NBAY 5060": {
+   "found": [
+    "ai_ml",
+    "budgeting_forecasting",
+    "business_case",
+    "customer_proof",
+    "financial_analysis",
+    "genai_llm",
+    "ownership",
+    "risk_mgmt"
+   ],
+   "teaches": [
+    "ai_ml",
+    "budgeting_forecasting",
+    "business_case",
+    "customer_proof",
+    "financial_analysis",
+    "genai_llm"
+   ]
+  },
+  "NBAY 5180": {
+   "found": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "change_management",
+    "collaboration",
+    "customer_obsession",
+    "customer_proof",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "ownership",
+    "positioning_messaging",
+    "problem_solving",
+    "python_r",
+    "user_research",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "customer_proof",
+    "genai_llm",
+    "market_data_terminals",
+    "positioning_messaging",
+    "python_r",
+    "user_research"
+   ]
+  },
+  "NBAY 5400": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "customer_facing_exec",
+    "customer_proof",
+    "ecommerce_retail",
+    "financial_analysis",
+    "financial_statements",
+    "genai_llm",
+    "influence",
+    "labor_shift_mgmt",
+    "launch",
+    "office_tools",
+    "ownership",
+    "python_r"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "customer_proof",
+    "ecommerce_retail",
+    "financial_analysis",
+    "financial_statements",
+    "genai_llm",
+    "launch",
+    "office_tools",
+    "python_r"
+   ]
+  },
+  "NBAY 5600": {
+   "found": [
+    "fintech"
+   ],
+   "teaches": [
+    "fintech"
+   ]
+  },
+  "NBAY 5640": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "collaboration",
+    "execution",
+    "genai_llm",
+    "gtm",
+    "labor_shift_mgmt",
+    "personas_jtbd",
+    "product_strategy",
+    "prospecting",
+    "sales_enablement"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "genai_llm",
+    "gtm",
+    "personas_jtbd",
+    "product_strategy",
+    "prospecting"
+   ]
+  },
+  "NBAY 5710": {
+   "found": [
+    "ai_ml",
+    "fintech",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "office_tools",
+    "program_mgmt",
+    "security_privacy"
+   ],
+   "teaches": [
+    "ai_ml",
+    "fintech",
+    "market_data_terminals",
+    "office_tools",
+    "security_privacy"
+   ]
+  },
+  "NBAY 5725": {
+   "found": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "financial_analysis",
+    "fintech",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "security_privacy",
+    "system_architecture"
+   ],
+   "teaches": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "financial_analysis",
+    "fintech",
+    "genai_llm",
+    "security_privacy",
+    "system_architecture"
+   ]
+  },
+  "NBAY 6031": {
+   "found": [
+    "adaptability",
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "communication",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "launch",
+    "market_research",
+    "pr_communications",
+    "program_mgmt",
+    "reporting_adhoc_analysis",
+    "stakeholder_mgmt"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "genai_llm",
+    "launch",
+    "market_research",
+    "pr_communications",
+    "reporting_adhoc_analysis"
+   ]
+  },
+  "NBAY 6090": {
+   "found": [
+    "ad_platforms",
+    "ads_media",
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "content_social",
+    "customer_proof",
+    "genai_llm",
+    "influence",
+    "labor_shift_mgmt",
+    "performance_marketing",
+    "seo_web_conversion"
+   ],
+   "teaches": [
+    "ad_platforms",
+    "ads_media",
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "content_social",
+    "customer_proof",
+    "genai_llm",
+    "performance_marketing",
+    "seo_web_conversion"
+   ]
+  },
+  "NBAY 6320": {
+   "found": [
+    "adaptability",
+    "ai_ml",
+    "communication",
+    "financial_analysis",
+    "labor_shift_mgmt",
+    "product_vision",
+    "statistics"
+   ],
+   "teaches": [
+    "ai_ml",
+    "financial_analysis",
+    "product_vision",
+    "statistics"
+   ]
+  },
+  "NBAY 6570": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "communication",
+    "exec_decks",
+    "financial_analysis",
+    "genai_llm",
+    "gtm",
+    "labor_shift_mgmt",
+    "market_research",
+    "metrics_kpis",
+    "office_tools"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "business_case",
+    "exec_decks",
+    "financial_analysis",
+    "genai_llm",
+    "gtm",
+    "market_research",
+    "metrics_kpis",
+    "office_tools"
+   ]
+  },
+  "NBAY 6600": {
+   "found": [
+    "ai_ml",
+    "communication",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "product_sense",
+    "program_mgmt",
+    "risk_mgmt"
+   ],
+   "teaches": [
+    "ai_ml",
+    "genai_llm"
+   ]
+  },
+  "NBAY 6630": {
+   "found": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "customer_obsession",
+    "customer_proof",
+    "financial_analysis",
+    "genai_llm",
+    "influence",
+    "labor_shift_mgmt",
+    "office_tools",
+    "ownership",
+    "personas_jtbd",
+    "statistics"
+   ],
+   "teaches": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "customer_proof",
+    "financial_analysis",
+    "genai_llm",
+    "office_tools",
+    "personas_jtbd",
+    "statistics"
+   ]
+  },
+  "NBAY 6710": {
+   "found": [
+    "market_research",
+    "stakeholder_mgmt"
+   ],
+   "teaches": [
+    "market_research"
+   ]
+  },
+  "NBAY 6820": {
+   "found": [
+    "influence"
+   ],
+   "teaches": []
+  },
+  "NBAY 6920": {
+   "found": [
+    "ai_ml",
+    "business_case",
+    "customer_proof",
+    "governance_design",
+    "hardware"
+   ],
+   "teaches": [
+    "ai_ml",
+    "business_case",
+    "customer_proof",
+    "governance_design",
+    "hardware"
+   ]
+  },
+  "ORIE 5213": {
+   "found": [
+    "ai_ml",
+    "customer_proof",
+    "data_driven",
+    "logistics_transportation"
+   ],
+   "teaches": [
+    "ai_ml",
+    "customer_proof",
+    "logistics_transportation"
+   ]
+  },
+  "ORIE 5217": {
+   "found": [
+    "ab_testing",
+    "adaptability",
+    "ai_ml",
+    "ai_tools",
+    "communication",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "market_pricing_job_arch",
+    "office_tools",
+    "personas_jtbd",
+    "program_mgmt",
+    "quality_testing",
+    "security_privacy",
+    "statistics",
+    "surveys_feedback"
+   ],
+   "teaches": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "market_pricing_job_arch",
+    "office_tools",
+    "personas_jtbd",
+    "quality_testing",
+    "security_privacy",
+    "statistics",
+    "surveys_feedback"
+   ]
+  },
+  "ORIE 5290": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "communication",
+    "cross_functional",
+    "devops_sdlc",
+    "genai_llm",
+    "hardware",
+    "influence",
+    "jira",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "networking",
+    "office_tools",
+    "ownership",
+    "program_mgmt",
+    "python_r",
+    "statistics",
+    "stats_analytics_packages",
+    "system_architecture",
+    "technical_fluency",
+    "variance_analysis"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "devops_sdlc",
+    "genai_llm",
+    "hardware",
+    "jira",
+    "market_data_terminals",
+    "networking",
+    "office_tools",
+    "python_r",
+    "statistics",
+    "stats_analytics_packages",
+    "system_architecture",
+    "technical_fluency",
+    "variance_analysis"
+   ]
+  },
+  "ORIE 5570": {
+   "found": [
+    "ab_testing",
+    "agile_scrum",
+    "ai_ml",
+    "business_case",
+    "collaboration",
+    "data_driven",
+    "discovery",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "ownership",
+    "program_mgmt",
+    "python_r",
+    "statistics",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ab_testing",
+    "agile_scrum",
+    "ai_ml",
+    "business_case",
+    "discovery",
+    "genai_llm",
+    "python_r",
+    "statistics",
+    "technical_fluency"
+   ]
+  },
+  "ORIE 5751": {
+   "found": [
+    "ai_ml",
+    "python_r",
+    "statistics",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_ml",
+    "python_r",
+    "statistics",
+    "technical_fluency"
+   ]
+  },
+  "ORIE 6125": {
+   "found": [
+    "devops_sdlc"
+   ],
+   "teaches": [
+    "devops_sdlc"
+   ]
+  },
+  "ORIE 6215": {
+   "found": [
+    "ab_testing",
+    "ai_ml",
+    "communication",
+    "genai_llm",
+    "lean_six_sigma",
+    "process_improvement",
+    "user_research"
+   ],
+   "teaches": [
+    "ab_testing",
+    "ai_ml",
+    "genai_llm",
+    "lean_six_sigma",
+    "process_improvement",
+    "user_research"
+   ]
+  },
+  "ORIE 6731": {
+   "found": [
+    "ai_ml",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "program_mgmt"
+   ],
+   "teaches": [
+    "ai_ml",
+    "genai_llm"
+   ]
+  },
+  "ORIE 7391": {
+   "found": [],
+   "teaches": []
+  },
+  "ORIE 7590": {
+   "found": [
+    "ai_ml",
+    "labor_shift_mgmt",
+    "program_mgmt"
+   ],
+   "teaches": [
+    "ai_ml"
+   ]
+  },
+  "ORIE 7790": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "collaboration",
+    "communication",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "program_mgmt",
+    "quality_testing",
+    "statistics"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "market_data_terminals",
+    "quality_testing",
+    "statistics"
+   ]
+  },
+  "REAL 5370": {
+   "found": [],
+   "teaches": []
+  },
+  "REAL 5590": {
+   "found": [
+    "re_acquisitions_dispositions"
+   ],
+   "teaches": [
+    "re_acquisitions_dispositions"
+   ]
+  },
+  "REAL 6565": {
+   "found": [
+    "deal_negotiation",
+    "deal_structuring"
+   ],
+   "teaches": [
+    "deal_negotiation",
+    "deal_structuring"
+   ]
+  },
+  "REAL 6595": {
+   "found": [],
+   "teaches": []
+  },
+  "TECH 5020": {
+   "found": [
+    "agile_scrum",
+    "ai_ml",
+    "business_case",
+    "capital_allocation",
+    "collaboration",
+    "communication",
+    "customer_proof",
+    "due_diligence",
+    "investor_relations",
+    "labor_shift_mgmt",
+    "market_research"
+   ],
+   "teaches": [
+    "agile_scrum",
+    "ai_ml",
+    "business_case",
+    "capital_allocation",
+    "customer_proof",
+    "due_diligence",
+    "investor_relations",
+    "market_research"
+   ]
+  },
+  "TECH 5110": {
+   "found": [
+    "ai_ml",
+    "business_case",
+    "change_management",
+    "customer_proof",
+    "customer_success",
+    "genai_llm",
+    "growth_loops",
+    "gtm",
+    "labor_shift_mgmt",
+    "metrics_kpis",
+    "positioning_messaging",
+    "process_improvement"
+   ],
+   "teaches": [
+    "ai_ml",
+    "business_case",
+    "customer_proof",
+    "genai_llm",
+    "growth_loops",
+    "gtm",
+    "metrics_kpis",
+    "positioning_messaging",
+    "process_improvement"
+   ]
+  },
+  "TECH 5111": {
+   "found": [
+    "ai_ml",
+    "business_case",
+    "collaboration",
+    "communication",
+    "customer_proof",
+    "feature_definition",
+    "gtm",
+    "labor_shift_mgmt",
+    "office_tools",
+    "ownership",
+    "positioning_messaging",
+    "pricing_packaging",
+    "program_mgmt",
+    "re_underwriting"
+   ],
+   "teaches": [
+    "ai_ml",
+    "business_case",
+    "customer_proof",
+    "feature_definition",
+    "gtm",
+    "office_tools",
+    "positioning_messaging",
+    "pricing_packaging",
+    "re_underwriting"
+   ]
+  },
+  "TECH 5131": {
+   "found": [
+    "communication",
+    "product_vision",
+    "stakeholder_mgmt"
+   ],
+   "teaches": [
+    "product_vision"
+   ]
+  },
+  "TECH 5132": {
+   "found": [
+    "business_case",
+    "financial_analysis"
+   ],
+   "teaches": [
+    "business_case",
+    "financial_analysis"
+   ]
+  },
+  "TECH 5141": {
+   "found": [
+    "adaptability",
+    "ai_ml",
+    "cloud",
+    "cpg_innovation",
+    "customer_obsession",
+    "discovery",
+    "ecommerce_retail",
+    "labor_shift_mgmt",
+    "market_research",
+    "mobile",
+    "personas_jtbd"
+   ],
+   "teaches": [
+    "ai_ml",
+    "cloud",
+    "cpg_innovation",
+    "discovery",
+    "ecommerce_retail",
+    "market_research",
+    "mobile",
+    "personas_jtbd"
+   ]
+  },
+  "TECH 5142": {
+   "found": [],
+   "teaches": []
+  },
+  "TECH 5200": {
+   "found": [
+    "ab_testing",
+    "adaptability",
+    "agile_scrum",
+    "ai_ml",
+    "ai_tools",
+    "collaboration",
+    "communication",
+    "cross_functional",
+    "customer_interviews",
+    "customer_obsession",
+    "execution",
+    "genai_llm",
+    "gtm",
+    "influence",
+    "labor_shift_mgmt",
+    "launch",
+    "market_data_terminals",
+    "metrics_kpis",
+    "okrs",
+    "personas_jtbd",
+    "positioning_messaging",
+    "pr_communications",
+    "prd",
+    "prioritization",
+    "process_improvement",
+    "product_sense",
+    "product_vision",
+    "roadmap",
+    "stakeholder_mgmt",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "ab_testing",
+    "agile_scrum",
+    "ai_ml",
+    "ai_tools",
+    "customer_interviews",
+    "genai_llm",
+    "gtm",
+    "launch",
+    "market_data_terminals",
+    "metrics_kpis",
+    "okrs",
+    "personas_jtbd",
+    "positioning_messaging",
+    "pr_communications",
+    "prd",
+    "prioritization",
+    "process_improvement",
+    "product_vision",
+    "roadmap"
+   ]
+  },
+  "TECH 5240": {
+   "found": [
+    "ai_ml",
+    "brand_strategy",
+    "customer_success",
+    "figma",
+    "jira",
+    "labor_shift_mgmt",
+    "positioning_messaging",
+    "program_mgmt",
+    "surveys_feedback",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "ai_ml",
+    "brand_strategy",
+    "figma",
+    "jira",
+    "positioning_messaging",
+    "surveys_feedback"
+   ]
+  },
+  "TECH 5261": {
+   "found": [
+    "ai_ml",
+    "collaboration",
+    "communication",
+    "customer_interviews",
+    "influence",
+    "ownership",
+    "positioning_messaging",
+    "surveys_feedback"
+   ],
+   "teaches": [
+    "ai_ml",
+    "customer_interviews",
+    "positioning_messaging",
+    "surveys_feedback"
+   ]
+  },
+  "TECH 5262": {
+   "found": [],
+   "teaches": []
+  },
+  "TECH 5280": {
+   "found": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "communication",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "prd",
+    "process_improvement",
+    "product_lifecycle",
+    "program_mgmt",
+    "security_privacy",
+    "surveys_feedback",
+    "user_research",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "ab_testing",
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "prd",
+    "process_improvement",
+    "product_lifecycle",
+    "security_privacy",
+    "surveys_feedback",
+    "user_research"
+   ]
+  },
+  "TECH 5290": {
+   "found": [
+    "adaptability",
+    "ai_ml",
+    "ai_tools",
+    "communication",
+    "cross_functional",
+    "customer_proof",
+    "devops_sdlc",
+    "erm_framework",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "operational_risk",
+    "ownership",
+    "problem_solving",
+    "process_improvement",
+    "product_sense",
+    "risk_mgmt",
+    "root_cause_corrective_action",
+    "security_privacy",
+    "surveys_feedback"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "customer_proof",
+    "devops_sdlc",
+    "erm_framework",
+    "genai_llm",
+    "market_data_terminals",
+    "operational_risk",
+    "process_improvement",
+    "root_cause_corrective_action",
+    "security_privacy",
+    "surveys_feedback"
+   ]
+  },
+  "TECH 5910": {
+   "found": [
+    "business_case"
+   ],
+   "teaches": [
+    "business_case"
+   ]
+  },
+  "TECH 5920": {
+   "found": [
+    "agile_scrum",
+    "business_case",
+    "execution",
+    "ma_execution",
+    "market_research"
+   ],
+   "teaches": [
+    "agile_scrum",
+    "business_case",
+    "ma_execution",
+    "market_research"
+   ]
+  },
+  "TECH 5930": {
+   "found": [
+    "agile_scrum",
+    "ai_ml",
+    "business_case",
+    "customer_interviews",
+    "discovery",
+    "exec_decks",
+    "labor_shift_mgmt",
+    "personas_jtbd",
+    "public_sector",
+    "stakeholder_mgmt",
+    "ux_design_collab"
+   ],
+   "teaches": [
+    "agile_scrum",
+    "ai_ml",
+    "business_case",
+    "customer_interviews",
+    "discovery",
+    "exec_decks",
+    "personas_jtbd",
+    "public_sector"
+   ]
+  },
+  "TECH 5940": {
+   "found": [
+    "ab_testing",
+    "ai_ml",
+    "metrics_kpis",
+    "problem_solving",
+    "system_architecture"
+   ],
+   "teaches": [
+    "ab_testing",
+    "ai_ml",
+    "metrics_kpis",
+    "system_architecture"
+   ]
+  },
+  "TECHIE 5320": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "collaboration",
+    "communication",
+    "genai_llm",
+    "hr_compliance",
+    "influence",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "ownership",
+    "personas_jtbd",
+    "security_privacy"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "genai_llm",
+    "hr_compliance",
+    "market_data_terminals",
+    "personas_jtbd",
+    "security_privacy"
+   ]
+  },
+  "TECHIE 5356": {
+   "found": [
+    "ai_ml",
+    "ai_tools",
+    "apis",
+    "cloud",
+    "collaboration",
+    "data_modeling",
+    "genai_llm",
+    "labor_shift_mgmt",
+    "market_data_terminals",
+    "positioning_messaging",
+    "product_lifecycle",
+    "product_vision",
+    "system_architecture",
+    "technical_fluency"
+   ],
+   "teaches": [
+    "ai_ml",
+    "ai_tools",
+    "apis",
+    "cloud",
+    "data_modeling",
+    "genai_llm",
+    "market_data_terminals",
+    "positioning_messaging",
+    "product_lifecycle",
+    "product_vision",
+    "system_architecture",
+    "technical_fluency"
+   ]
+  }
+ }
+}

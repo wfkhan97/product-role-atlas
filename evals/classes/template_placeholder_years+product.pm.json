@@ -1,0 +1,22 @@
+{
+  "resume": "template_placeholder_years",
+  "roles": [
+    "product.pm"
+  ],
+  "note": "An empty template against Product Manager: every ask is a gap, and the PM class covers nine of them, the agentic-systems class six. Same as the study.",
+  "must_top": {
+    "n": 2,
+    "codes": [
+      "TECH 5200",
+      "TECHIE 5356"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748",
+      "CEE 6800",
+      "ECE 5765"
+    ]
+  }
+}

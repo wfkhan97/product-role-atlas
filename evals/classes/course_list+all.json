@@ -1,0 +1,23 @@
+{
+  "resume": "course_list",
+  "roles": [
+    "product.pm",
+    "pmm",
+    "strategic_finance"
+  ],
+  "note": "All three roles at once: the PM class covers the most shared gap weight and leads. The study's top 3 had TECH 5940 and INFO 5368; TECH 5200 first reads better.",
+  "must_top": {
+    "n": 3,
+    "codes": [
+      "TECH 5200"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "CS 6412",
+      "ECE 5748",
+      "CEE 6800"
+    ]
+  }
+}

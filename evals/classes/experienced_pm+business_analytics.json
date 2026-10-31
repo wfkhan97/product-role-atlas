@@ -1,0 +1,32 @@
+{
+  "resume": "experienced_pm",
+  "roles": [
+    "business_analytics"
+  ],
+  "note": "Business Analytics Manager: Data Science in the Wild names statistics, pipelines, Python and the office suite and leads clearly, as in the study.",
+  "must_top": {
+    "n": 1,
+    "codes": [
+      "CS 5304"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748",
+      "CEE 6800",
+      "LAW 6198"
+    ]
+  },
+  "must_cover": {
+    "statistics": [
+      "CS 5304"
+    ],
+    "data_modeling": [
+      "CS 5304"
+    ],
+    "python_r": [
+      "CS 5304"
+    ]
+  }
+}

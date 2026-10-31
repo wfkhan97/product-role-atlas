@@ -1,0 +1,30 @@
+{
+  "resume": "senior_pm_pdf_layout",
+  "roles": [
+    "pmm"
+  ],
+  "note": "Product Marketing Manager: the PM class and Don't Sell Sand in the Desert cover positioning, go-to-market and pricing, as in the study.",
+  "must_top": {
+    "n": 2,
+    "codes": [
+      "TECH 5200",
+      "TECH 5111"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748",
+      "CEE 6800"
+    ]
+  },
+  "must_cover": {
+    "positioning_messaging": [
+      "TECH 5200",
+      "TECH 5111"
+    ],
+    "pricing_packaging": [
+      "TECH 5111"
+    ]
+  }
+}

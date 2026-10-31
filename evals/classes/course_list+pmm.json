@@ -1,0 +1,30 @@
+{
+  "resume": "course_list",
+  "roles": [
+    "pmm"
+  ],
+  "note": "Product Marketing Manager: the SMARTech weekends and Early Adopters classes name launches, customer stories and growth. The study's second place (ECE 5765) was wrong; the digest brings TECH 5110 instead, which reads better.",
+  "must_top": {
+    "n": 3,
+    "codes": [
+      "NBAY 5400",
+      "TECH 5110"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5765",
+      "ECE 5748"
+    ]
+  },
+  "must_cover": {
+    "launch": [
+      "NBAY 5400",
+      "TECH 5200"
+    ],
+    "customer_proof": [
+      "TECH 5110"
+    ]
+  }
+}

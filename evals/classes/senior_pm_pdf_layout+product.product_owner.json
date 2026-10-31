@@ -1,0 +1,29 @@
+{
+  "resume": "senior_pm_pdf_layout",
+  "roles": [
+    "product.product_owner"
+  ],
+  "note": "Product Owner: Data Science in the Wild covers pipelines and discovery and leads, as in the study. The smart-cities class that led the default run stays out of the top 5.",
+  "must_top": {
+    "n": 3,
+    "codes": [
+      "CS 5304"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "CEE 6800",
+      "ECE 5748"
+    ]
+  },
+  "must_cover": {
+    "data_modeling": [
+      "CS 5304",
+      "TECHIE 5356"
+    ],
+    "discovery": [
+      "CS 5304"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "resume": "staff_pm_terse",
+  "roles": [
+    "product.pm",
+    "general_manager",
+    "tech_strategy"
+  ],
+  "note": "All three roles: Business Models and the PM class lead, as in the study (order swapped), with Financial Statement Analysis fourth.",
+  "must_top": {
+    "n": 2,
+    "codes": [
+      "TECH 5200",
+      "NBAY 6570"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748",
+      "ECE 5765",
+      "ORIE 6215"
+    ]
+  }
+}

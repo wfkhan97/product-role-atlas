@@ -1,0 +1,25 @@
+{
+  "resume": "experienced_pm",
+  "roles": [
+    "product.pm",
+    "strategy_manager",
+    "business_analytics"
+  ],
+  "note": "All three roles: Data Science in the Wild leads as in the study. Health Law and Policy sits third on statistics and the office suite alone; a careful reader does not want it in the top 5. That expectation fails until the score curbs one small gap carrying a list.",
+  "must_top": {
+    "n": 1,
+    "codes": [
+      "CS 5304"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "LAW 6198",
+      "ECE 5748"
+    ]
+  },
+  "known_failures": {
+    "must_not_top LAW 6198": "Health Law and Policy names statistics and the Office suite, two small gaps, and lands third. One small gap carries the list."
+  }
+}

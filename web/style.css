@@ -891,3 +891,8 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .cls-gaps { margin: 6px 0 0; color: var(--primary); } .cls-gaps.muted { color: var(--muted-foreground); }
 .gaps.classes li a.t { grid-template-columns: 1fr auto; color: var(--foreground); text-decoration: none; } .gaps.classes li a.t::before { content: none; } .gaps.classes li a.t:hover span:first-child { color: var(--primary); }
 .gaps.classes li .ex { margin-left: 0; }
+/* ---------- the picker's "Match to roles" chips and the resume row (v19 B3) ---------- */
+.cls-roles { margin: 10px 0 0; } .cls-roles .cls-select { max-width: 240px; }
+.cls-roles .chip .x { background: none; border: 0; padding: 0 0 0 6px; margin: 0; color: inherit; font: inherit; line-height: 1; cursor: pointer; }
+.cls-resume { max-width: 620px; margin: 12px 0 4px; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); }
+.cls-resume .drop { padding: 14px; margin: 8px 0; } .cls-resume textarea { min-height: 70px; } .cls-resume .row { margin-top: 8px; }

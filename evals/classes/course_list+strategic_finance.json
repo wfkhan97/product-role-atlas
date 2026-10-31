@@ -1,0 +1,28 @@
+{
+  "resume": "course_list",
+  "roles": [
+    "strategic_finance"
+  ],
+  "note": "Strategic Finance Manager: a careful reader wants Financial Statement Analysis in the top 3. The study had it first; with the digest the Office suite gap lifts Business Models, Data Science in the Wild and ML Hardware above it. The expectation stays and fails until the score curbs one small gap carrying a list.",
+  "must_top": {
+    "n": 3,
+    "codes": [
+      "BANA 5065"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "CS 6412",
+      "LAW 6198"
+    ]
+  },
+  "must_cover": {
+    "financial_reporting": [
+      "BANA 5065"
+    ]
+  },
+  "known_failures": {
+    "must_top BANA 5065": "Financial Statement Analysis sits fourth: Business Models, Data Science in the Wild and ML Hardware cover Metrics & KPIs and the Office suite, and the share sum lifts them. A per-line score or a cap on small gaps is the next lever."
+  }
+}

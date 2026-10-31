@@ -1,0 +1,22 @@
+{
+  "resume": "experienced_pm",
+  "roles": [
+    "product.pm"
+  ],
+  "note": "An experienced PM has no gaps for Product Manager, so the list is the relevance order and the noCover line shows. The PM class leads on score alone.",
+  "must_top": {
+    "n": 1,
+    "codes": [
+      "TECH 5200"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5748",
+      "CEE 6800",
+      "BANA 5160"
+    ]
+  },
+  "no_cover": true
+}
