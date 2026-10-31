@@ -26,6 +26,7 @@
   "product_strategy": "Sets a product portfolio's direction and bets, with the market and financial case behind them.",
   "tech_strategy": "Advises on where technology should take the business: architecture choices, AI, roadmaps, vendors.",
   "digital_transformation": "Moves a company's processes and customer experience onto digital tools and data.",
+  "ai_transformation": "Gets a company's teams working with AI: picks the uses, runs the pilots, trains people, measures what changed.",
   "business_analytics": "Turns business data into decisions: analyses, dashboards, experiments, recommendations.",
   "business_intelligence": "Builds the data models, pipelines and dashboards the business reports from.",
   "marketing_manager": "Plans and runs campaigns across channels and owns their results.",
@@ -55,5 +56,6 @@
   "product.pmm": "Decides how a product is described and sold: positioning, launches, what sales says.",
   "product.product_ops": "Runs the processes, tools and data that make a product team work.",
   "product.product_analyst": "Measures how a product is used and tells the team what to change.",
-  "product.product_owner": "Keeps the backlog and the sprint: writes the stories, sets priorities, accepts the work."
+  "product.product_owner": "Keeps the backlog and the sprint: writes the stories, sets priorities, accepts the work.",
+  "product.product_engineer": "Builds the feature end to end, spec to shipped code, with AI coding tools; owns what it does to the numbers."
 }

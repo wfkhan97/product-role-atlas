@@ -159,3 +159,13 @@ def test_a_second_requisition_with_its_own_id_is_its_own_row_whatever_its_url():
     old = {"scraped_at": "2026-10-10T09:00:00", "jobs": [req("a", "1")]}
     jobs, _ = merge(old, [req("a", "1"), req("a", "2")], ENTRY, "2026-10-17")
     assert [posting_key(j) for j in jobs] == ["1", "2"]
+
+
+def test_checked_postings_close_only_on_the_boards_word():
+    old = {"scraped_at": "2026-10-20T00:00:00", "jobs": [job(u, first_seen="2026-10-01", last_seen="2026-10-20") for u in "abcd"]}
+    checked = {posting_key(job("b")): True, posting_key(job("c")): False, posting_key(job("d")): None}
+    jobs, _ = merge(old, [job("a")], ENTRY, "2026-10-28", full=False, checked=checked)
+    j = by_url(jobs)
+    assert "closed" not in j["b"] and j["b"]["last_seen"] == "2026-10-28", "still on the board: open, seen today"
+    assert j["c"]["closed"] == "2026-10-28", "the board says gone: closed"
+    assert "closed" not in j["d"] and j["d"]["last_seen"] == "2026-10-20", "cannot tell: as it was"

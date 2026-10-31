@@ -30,6 +30,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const resume = fs.readFileSync(path.join(here, "resumes/experienced_pm.txt"), "utf8");
   let pass = 0, fail = 0; const out = [];
   for (const f of Object.keys(index.families)) {
+    if (!index.roles[f].n) { out.push(`skip ${f.padEnd(24)}     0 postings  (a role added since the last extraction; nothing to score against)`); continue; }
     try {
       const G = loadGraph([f]);
       const M = createMatcher({ taxonomy, subskills, graph: G });
