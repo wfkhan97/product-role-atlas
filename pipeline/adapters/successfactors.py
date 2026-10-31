@@ -2,7 +2,7 @@
 import re
 import time
 from urllib.parse import quote, quote_plus
-from .common import get, strip_html, job, SEARCH_QUERIES
+from .common import get, strip_html, job, SEARCH_QUERIES, listing_failed
 
 LINK_RE = re.compile(r'<a[^>]+class="jobTitle-link[^"]*"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', re.S)
 DESC_RE = re.compile(r'<span[^>]+class="jobdescription"[^>]*>(.*?)</span>\s*<(?:/div|div|p|section|/section)', re.S)
@@ -11,24 +11,29 @@ RSS_ITEM_RE = re.compile(r"<item>.*?<title>(.*?)</title>.*?<link>(.*?)</link>.*?
 
 def fetch(company, cfg, title_ok, max_pages=8):
     host = cfg["host"]
-    seen = {}
+    seen, listed = {}, set()
     for q in cfg.get("queries", SEARCH_QUERIES):
         for page in range(max_pages):
-            r = get(f"https://{host}/search/?q={quote_plus(q)}&locale=en_US&startrow={page*15}")
+            r = get(f"https://{host}/search/?q={quote_plus(q)}&locale=en_US&startrow={page*15}", listing=True)
             if r.status_code != 200:
                 break
-            found = 0
+            fresh = 0  # links this page adds, matching or not: a page of other titles is not the end of the results
             for m in LINK_RE.finditer(r.text):
                 href, title = m.group(1), strip_html(m.group(2)).strip()
-                if href not in seen and title_ok(title):
+                if href in listed:
+                    continue
+                listed.add(href)
+                fresh += 1
+                if title_ok(title):
                     seen[href] = title
-                    found += 1
-            if "jobTitle-link" not in r.text or found == 0 and page > 0:
+            if "jobTitle-link" not in r.text or fresh == 0 and page > 0:
                 break
             time.sleep(0.4)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"successfactors: stopped at the page cap for {q!r}")
         if not seen:
             # some SuccessFactors layouts render results client-side; the RSS feed still works
-            r = get(f"https://{host}/services/rss/job/?locale=en_US&keywords=({quote(q)})")
+            r = get(f"https://{host}/services/rss/job/?locale=en_US&keywords=({quote(q)})", listing=True)
             if r.status_code == 200:
                 for m in RSS_ITEM_RE.finditer(r.text):
                     title = strip_html(m.group(1)).strip(); href = m.group(2).strip()

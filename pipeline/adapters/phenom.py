@@ -1,7 +1,7 @@
 import json
 import re
 import time
-from .common import get, post, strip_html, job, SEARCH_QUERIES
+from .common import get, post, strip_html, job, listing_failed, SEARCH_QUERIES
 
 def _ddo(html):
     """Extract the phApp.ddo JSON object with balanced-brace scanning."""
@@ -79,14 +79,20 @@ def fetch(company, cfg, title_ok, max_pages=25):
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
         for page in range(max_pages):
-            r = post(f"https://{host}{path}", json=_body(q, page * PAGE_SIZE, PAGE_SIZE), headers={"Content-Type": "application/json"})
+            r = post(f"https://{host}{path}", listing=True, json=_body(q, page * PAGE_SIZE, PAGE_SIZE),
+                     headers={"Content-Type": "application/json"})
             if r.status_code != 200:
                 break
             try:
-                rs = r.json().get("refineSearch", {})
-                data = rs.get("data", {})
+                body = r.json()
             except ValueError:
+                listing_failed(f"phenom: search body not JSON for {q!r} page {page}")
                 break
+            if not isinstance(body, dict) or not isinstance(body.get("refineSearch"), dict):
+                listing_failed(f"phenom: no refineSearch in answer for {q!r} page {page}")
+                break
+            rs = body["refineSearch"]
+            data = rs.get("data") or {}
             posts = data.get("jobs", [])
             for p in posts:
                 if title_ok(p.get("title", "")):
@@ -96,6 +102,8 @@ def fetch(company, cfg, title_ok, max_pages=25):
             if not posts or (page + 1) * PAGE_SIZE >= total:
                 break
             time.sleep(0.3)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"phenom: stopped at the page cap for {q!r}")
     out = []
     for key, p in seen.items():
         desc = p.get("description") or ""

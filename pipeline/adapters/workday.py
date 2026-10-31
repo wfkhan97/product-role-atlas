@@ -1,5 +1,5 @@
 import time
-from .common import get, post, strip_html, job, SEARCH_QUERIES
+from .common import get, post, strip_html, job, SEARCH_QUERIES, listing_failed
 
 HDR = {"Accept": "application/json", "Content-Type": "application/json"}
 
@@ -12,7 +12,7 @@ def fetch(company, cfg, title_ok, max_pages=15):
         total = 0
         for page in range(max_pages):
             body = {"appliedFacets": cfg.get("facets", {}), "limit": 20, "offset": page * 20, "searchText": q}
-            r = post(f"{base}/jobs", json=body, headers=HDR)
+            r = post(f"{base}/jobs", listing=True, json=body, headers=HDR)
             if r.status_code != 200:
                 break
             data = r.json()
@@ -27,6 +27,8 @@ def fetch(company, cfg, title_ok, max_pages=15):
             if (page + 1) * 20 >= total or not posts:
                 break
             time.sleep(0.3)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"workday: stopped at the page cap for {q!r}")
     out = []
     for path, p in seen.items():
         r = get(f"{base}{path}", headers=HDR)

@@ -2,7 +2,7 @@ import datetime
 import html
 import re
 import time
-from .common import get, strip_html, job
+from .common import get, strip_html, job, listing_failed
 
 XHR = {"X-Requested-With": "XMLHttpRequest", "Accept": "application/json"}
 SEARCH_URL_RE = re.compile(r'data-search-url="([^"]+)"')
@@ -50,7 +50,7 @@ def fetch(company, cfg, title_ok, max_pages=40):
     search = html.unescape(m.group(1))
     seen, listed = {}, set()
     for page in range(1, cfg.get("max_pages", max_pages) + 1):
-        r = get(search, params={"query": "", "page_number": page}, headers=XHR)
+        r = get(search, params={"query": "", "page_number": page}, headers=XHR, listing=True)
         if r.status_code != 200:
             break
         data = r.json()
@@ -70,6 +70,8 @@ def fetch(company, cfg, title_ok, max_pages=40):
         if not data.get("more_requisitions") or not new:
             break
         time.sleep(0.4)
+    else:  # the page cap ended the search, not the results: what lies past it may be open
+        listing_failed("yello: stopped at the page cap")
     out = []
     for jid, (url, title, spans, posted) in seen.items():
         r = get(url, headers={"Accept": "text/html"})

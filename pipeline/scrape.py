@@ -219,10 +219,18 @@ def main():
                 # a board shared with a parent company is narrowed by its own search text (keep_queries)
                 cfg = cfg if cfg.get("keep_queries") else dict(cfg, queries=roles_mba.queries(cat, batch))
                 ok = lambda t: roles_mba.title_ok(t, cat, batch)
+            common.start_fetch()
             jobs = ADAPTERS[entry["ats"]](name, cfg, ok)
+            unread = common.listing_failures()
             key = posting_key
             before = {key(j): bool(j.get("closed")) for j in (old or {}).get("jobs", [])}
-            uniq, partial = merge(old, jobs, entry, today, full=batch is None)
+            # a listing page that could not be read makes the fetch incomplete: what did not come back may be open
+            uniq, partial = merge(old, jobs, entry, today, full=batch is None and not unread)
+            if unread and old:
+                partial = f"{len(unread)} listing page(s) not read ({unread[0]}); nothing was closed"
+            if unread:
+                with lock:
+                    totals["incomplete"] += 1
             blob = {"company": name, "scraped_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "jobs": uniq}
             if partial:
                 blob["partial"] = partial
@@ -258,9 +266,9 @@ def main():
     for s in summary:
         logger.debug("%s %s %s", s[0], s[1], s[2])
     logger.info("scrape done in %s: %d employers fetched (%d failed), postings fetched %d, kept %d (%d open), new %d, reopened %d, closed %d, "
-                "folded %d; %d requests, %d answered 429, %d retried after a network error", run_timer, len(todo), len(failed), totals["fetched"],
-                totals["kept"], totals["open"], totals["new"], totals["reopened"], totals["closed"], totals["folded"], common.STATS["requests"],
-                common.STATS["429"], common.STATS["retries"])
+                "folded %d, incomplete %d; %d requests, %d answered 429, %d answered a 5xx, %d retried after a network error", run_timer,
+                len(todo), len(failed), totals["fetched"], totals["kept"], totals["open"], totals["new"], totals["reopened"], totals["closed"],
+                totals["folded"], totals["incomplete"], common.STATS["requests"], common.STATS["429"], common.STATS["5xx"], common.STATS["retries"])
     if failed:
         logger.error("failed employers: %s", ", ".join(sorted(failed)))
     if db and todo and not args.only and not args.batch and not args.no_snapshot:  # a full run: keep a dated copy of the files

@@ -1,5 +1,5 @@
 import time
-from .common import get, post, strip_html, job
+from .common import get, post, strip_html, job, listing_failed
 
 HDR = {"Content-Type": "application/json", "Accept": "application/json"}
 
@@ -10,7 +10,7 @@ def fetch(company, cfg, title_ok, max_pages=30):
         for page in range(1, max_pages + 1):
             body = {"query": q, "filters": cfg.get("filters", {}), "page": page, "locale": "en-us", "sort": "relevance",
                     "format": {"longDate": "MMMM D, YYYY", "mediumDate": "MMM D, YYYY"}}
-            r = post("https://jobs.apple.com/api/v1/search", json=body, headers=HDR)
+            r = post("https://jobs.apple.com/api/v1/search", listing=True, json=body, headers=HDR)
             if r.status_code != 200:
                 break
             res = r.json().get("res", {})
@@ -21,6 +21,8 @@ def fetch(company, cfg, title_ok, max_pages=30):
             if not results or page * 20 >= res.get("totalRecords", 0):
                 break
             time.sleep(0.3)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"apple: stopped at the page cap for {q!r}")
     out = []
     for pid, j in seen.items():
         desc = None

@@ -2,7 +2,7 @@ import json
 import re
 import time
 from urllib.parse import quote
-from .common import get, strip_html, job
+from .common import get, strip_html, job, listing_failed
 
 DS_RE = re.compile(r"AF_initDataCallback\(\{key: 'ds:1'.*?data:(.*?), sideChannel", re.S)
 
@@ -11,15 +11,22 @@ def fetch(company, cfg, title_ok, max_pages=40):
     seen = {}
     for q in cfg.get("queries", ['"product manager"', '"technical program manager"', '"product marketing"', '"product operations"', '"product lead"']):
         for page in range(1, max_pages + 1):
-            r = get(f"https://www.google.com/about/careers/applications/jobs/results?q={quote(q)}&page={page}")
+            r = get(f"https://www.google.com/about/careers/applications/jobs/results?q={quote(q)}&page={page}", listing=True)
             if r.status_code != 200:
                 break
             m = DS_RE.search(r.text)
             if not m:
+                listing_failed(f"google: no ds:1 data in results page for {q!r} page {page}")
                 break
             try:
-                rows = json.loads(m.group(1))[0]
-            except (ValueError, IndexError, TypeError):
+                data = json.loads(m.group(1))
+            except ValueError:
+                listing_failed(f"google: ds:1 data not JSON for {q!r} page {page}")
+                break
+            # a page past the last one carries null or an empty list where the rows go
+            rows = data[0] if isinstance(data, list) and data else None
+            if data is not None and not isinstance(data, list):
+                listing_failed(f"google: ds:1 data not a list for {q!r} page {page}")
                 break
             if not rows:
                 break
@@ -32,6 +39,8 @@ def fetch(company, cfg, title_ok, max_pages=40):
             if len(rows) < 20:
                 break
             time.sleep(0.5)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"google: stopped at the page cap for {q!r}")
     out = []
     for jid, row in seen.items():
         def part(i):

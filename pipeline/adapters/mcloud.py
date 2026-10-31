@@ -1,7 +1,7 @@
 """Symphony Talent m-cloud API (Home Depot): descriptions inline."""
 import time
 from urllib.parse import quote
-from .common import get, strip_html, job, SEARCH_QUERIES
+from .common import get, strip_html, job, listing_failed, SEARCH_QUERIES
 
 
 def fetch(company, cfg, title_ok, max_pages=10):
@@ -9,12 +9,13 @@ def fetch(company, cfg, title_ok, max_pages=10):
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
         for page in range(max_pages):
-            r = get(f"https://{host}{path}?Organization={org}&SearchText={quote(q)}&Limit=50&offset={page*50+1}&fuzzy=false")
+            r = get(f"https://{host}{path}?Organization={org}&SearchText={quote(q)}&Limit=50&offset={page*50+1}&fuzzy=false", listing=True)
             if r.status_code != 200:
                 break
             try:
                 rows = r.json().get("queryResult", [])
             except ValueError:
+                listing_failed(f"mcloud: unreadable JSON for {q!r} offset {page*50+1}")
                 break
             for row in rows:
                 if title_ok(row.get("title", "")):
@@ -22,6 +23,8 @@ def fetch(company, cfg, title_ok, max_pages=10):
             if len(rows) < 50:
                 break
             time.sleep(0.4)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"mcloud: stopped at the page cap for {q!r}")
     out = []
     for key, row in seen.items():
         desc = strip_html(row.get("description", ""))

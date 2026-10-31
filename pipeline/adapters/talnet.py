@@ -3,7 +3,7 @@ import re
 import sys
 import time
 import xml.etree.ElementTree as ET
-from .common import get, strip_html, job
+from .common import get, strip_html, job, listing_failed
 
 ATOM = "{http://www.w3.org/2005/Atom}"
 XHTML = "{http://www.w3.org/1999/xhtml}"
@@ -75,9 +75,19 @@ def fetch(company, cfg, title_ok, max_pages=None):
     host = cfg["host"]
     found = {}
     for board in _boards(cfg):
-        r = get(feed_url(host, board), headers={"Accept": "application/atom+xml, application/xml;q=0.9, */*;q=0.8"})
+        r = get(feed_url(host, board), headers={"Accept": "application/atom+xml, application/xml;q=0.9, */*;q=0.8"}, listing=True)
         r.raise_for_status()
-        root = ET.fromstring(r.content)
+        if challenged(r.text):
+            listing_failed(f"talnet: {host} board {board['path']} feed is behind the site's check")
+            continue
+        try:
+            root = ET.fromstring(r.content)
+        except ET.ParseError:
+            listing_failed(f"talnet: {host} board {board['path']} feed is not XML")
+            continue
+        if root.tag != f"{ATOM}feed":
+            listing_failed(f"talnet: {host} board {board['path']} answer is not an Atom feed")
+            continue
         for e in root.iter(f"{ATOM}entry"):
             p = _props(e)
             title = html.unescape((e.findtext(f"{ATOM}title") or "").strip()) or _text(p.get("Title") or p.get("name"))

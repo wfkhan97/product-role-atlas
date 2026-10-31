@@ -1,7 +1,7 @@
 """Bank of America careers: custom search servlet + JSON-LD job pages."""
 import time
 from urllib.parse import quote_plus
-from .common import get, strip_html, job, SEARCH_QUERIES
+from .common import get, listing_failed, strip_html, job, SEARCH_QUERIES
 from .jsonld import job_posting, location
 
 
@@ -11,12 +11,13 @@ def fetch(company, cfg, title_ok, max_pages=10):
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
         for page in range(max_pages):
-            r = get(f"https://{host}{path}?term={quote_plus(q)}&start={page*20}&rows=20&search=jobsByKeyword", headers={"Accept": "application/json"})
+            r = get(f"https://{host}{path}?term={quote_plus(q)}&start={page*20}&rows=20&search=jobsByKeyword", headers={"Accept": "application/json"}, listing=True)
             if r.status_code != 200:
                 break
             try:
                 rows = r.json().get("jobsList") or []
             except ValueError:
+                listing_failed(f"bofa_servlet: unreadable search page for {q!r} start {page*20}")
                 break
             for row in rows:
                 if title_ok(row.get("postingTitle", "")):
@@ -24,6 +25,8 @@ def fetch(company, cfg, title_ok, max_pages=10):
             if len(rows) < 20:
                 break
             time.sleep(0.4)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"bofa_servlet: stopped at the page cap for {q!r}")
     out = []
     for key, row in seen.items():
         url = f"https://{host}{row.get('jcrURL')}"

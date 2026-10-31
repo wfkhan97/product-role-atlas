@@ -3,7 +3,7 @@ import json
 import re
 import time
 import requests
-from .common import strip_html, job, SEARCH_QUERIES
+from .common import strip_html, job, listing_failed, SEARCH_QUERIES
 from .jsonld import job_posting
 
 LSD_RE = re.compile(r'"LSD",\[\],\{"token":"([^"]+)"')
@@ -28,12 +28,18 @@ def fetch(company, cfg, title_ok, max_pages=30):
                        data={"lsd": lsd, "fb_api_req_friendly_name": "CareersJobSearchResultsDataQuery",
                              "doc_id": cfg.get("doc_id", DEFAULT_DOC_ID), "variables": json.dumps(variables)}, timeout=30)
             if r.status_code != 200:
+                listing_failed(f"meta: HTTP {r.status_code} for {q!r} page {page}")
                 break
             try:
                 data = r.json()
             except ValueError:
+                listing_failed(f"meta: unreadable JSON for {q!r} page {page}")
                 break
-            rows = ((data.get("data") or {}).get("job_search_with_featured_jobs") or {}).get("all_jobs") or []
+            search = (data.get("data") or {}).get("job_search_with_featured_jobs")
+            if not isinstance(search, dict):  # "errors" also comes with good answers (warnings): only a missing result fails
+                listing_failed(f"meta: no search result for {q!r} page {page}")
+                break
+            rows = search.get("all_jobs") or []
             new = 0
             for row in rows:
                 if row["id"] not in seen and title_ok(row.get("title", "")):
@@ -42,6 +48,8 @@ def fetch(company, cfg, title_ok, max_pages=30):
             if not rows or (page > 1 and new == 0):
                 break
             time.sleep(0.5)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"meta: stopped at the page cap for {q!r}")
     out = []
     for jid, row in seen.items():
         url = f"https://www.metacareers.com/jobs/{jid}/"
