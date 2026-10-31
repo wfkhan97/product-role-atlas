@@ -1,0 +1,22 @@
+{
+  "resume": "experienced_with_coursework",
+  "roles": [
+    "strategic_sourcing"
+  ],
+  "note": "No class names sourcing, so this is a noCover case like procurement: the line says so and the list is the closest by score with the field tie-break.",
+  "must_top": {
+    "n": 3,
+    "codes": [
+      "TECH 5200"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "CEE 6800",
+      "ECE 5748",
+      "BANA 5160"
+    ]
+  },
+  "no_cover": true
+}

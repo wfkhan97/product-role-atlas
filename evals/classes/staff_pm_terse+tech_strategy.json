@@ -1,0 +1,30 @@
+{
+  "resume": "staff_pm_terse",
+  "roles": [
+    "tech_strategy"
+  ],
+  "note": "Technology Strategy Manager: Business Models and the PM class lead, as in the study (order swapped). The hardware classes of the default run stay out.",
+  "must_top": {
+    "n": 2,
+    "codes": [
+      "TECH 5200",
+      "NBAY 6570"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "ECE 5765",
+      "ECE 5748",
+      "ORIE 6215"
+    ]
+  },
+  "must_cover": {
+    "business_case": [
+      "NBAY 6570"
+    ],
+    "prioritization": [
+      "TECH 5200"
+    ]
+  }
+}

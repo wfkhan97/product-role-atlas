@@ -1,0 +1,22 @@
+{
+  "resume": "experienced_with_coursework",
+  "roles": [
+    "procurement"
+  ],
+  "note": "No class names procurement, so this is a noCover case: the line says so and the list is the closest by score with the field tie-break. The PM class leads it; the smart-cities class and the capstone stay out.",
+  "must_top": {
+    "n": 3,
+    "codes": [
+      "TECH 5200"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "CEE 6800",
+      "ECE 5748",
+      "BANA 5160"
+    ]
+  },
+  "no_cover": true
+}

@@ -152,10 +152,7 @@ test("mdSections splits a profile on ## headings and mdHtml renders paragraphs, 
   assert.match(C.mdHtml(s.Bio), /&lt;script&gt;/);
 });
 
-test("only addresses in the campus's domains pass the sign-in check (Cornell Tech: cornell.edu)", () => {
-  assert.ok(C.allowedEmail("abc123@cornell.edu", campus)); assert.ok(C.allowedEmail(" ABC@Cornell.EDU ", campus));
-  assert.ok(!C.allowedEmail("abc@cornell.edu.evil.com", campus)); assert.ok(!C.allowedEmail("abc@gmail.com", campus)); assert.ok(!C.allowedEmail("", campus));
-});
+// (v19 B3) The two sign-in tests (allowedEmail, domainWords) are gone with sign-in: the roster is a public file, no campus has domains.
 
 // ---------- the person's gaps (PLAN.md v16, step 3) ----------
 import { realAtlas } from "./_load.mjs";
@@ -192,12 +189,12 @@ test("the card carries the covered line; the chip filter keeps only the cards th
   assert.deepEqual(C.filterCards(cards, { showAll: true, coversGap: true, covered, subject: "ZZZ" }).map(c => c.key), ["ZZZ 9000"], "the chip composes with the other filters");
 });
 
-test("the sort: by code, by relevance band, or by gaps covered (core gaps first, then every gap, then code)", () => {
+test("the sort: by code, by relevance band, or by gaps covered (the share covered, then the score, then code; v19 B3 tuning)", () => {
   const cards = C.collapse(DATA);   // TEST 1010, TEST 1020, TEST 3030, ZZZ 9000
   const info = { "TEST 1010": { band: "low", covered: [GAPS[3]] }, "TEST 1020": { band: "high", covered: [] }, "TEST 3030": { band: "medium", covered: [GAPS[0], GAPS[3]] }, "ZZZ 9000": { band: "high", covered: [GAPS[0]] } };
   assert.deepEqual(C.sortCards(cards, "code", info).map(c => c.key), ["TEST 1010", "TEST 1020", "TEST 3030", "ZZZ 9000"]);
   assert.deepEqual(C.sortCards(cards, "relevance", info).map(c => c.key), ["TEST 1020", "ZZZ 9000", "TEST 3030", "TEST 1010"]);
-  assert.deepEqual(C.sortCards(cards, "gaps", info).map(c => c.key), ["TEST 3030", "ZZZ 9000", "TEST 1010", "TEST 1020"], "3030 and 9000 cover a core gap, 3030 covers more; 1010 covers a common one; 1020 none");
+  assert.deepEqual(C.sortCards(cards, "gaps", info).map(c => c.key), ["TEST 3030", "ZZZ 9000", "TEST 1010", "TEST 1020"], "3030 covers 0.9 of share, 9000 0.6, 1010 0.3, 1020 none");
   assert.deepEqual(C.topCovering(cards, info, 3).map(c => c.key), ["TEST 3030", "ZZZ 9000", "TEST 1010"], "the rail's three: never a course that covers nothing");
   assert.deepEqual(C.topCovering(cards, { "TEST 1010": { covered: [GAPS[1]] } }, 3).map(c => c.key), ["TEST 1010"]);
   assert.notEqual(C.sortCards(cards, "gaps", info), cards, "a sort returns a new list");
@@ -206,12 +203,14 @@ test("the sort: by code, by relevance band, or by gaps covered (core gaps first,
 
 // ---------- campuses as data (PLAN.md v16, step 4) ----------
 test("the campus file is a list; every campus has the keys the screens read, and Cornell Tech is first, unchanged", () => {
-  const KEYS = ["id", "label", "term", "term_label", "pre_enrollment", "roster_updates_until", "start_card", "closed_notice", "rail_closed_line", "privacy_line", "eligibility", "programs", "relevance", "signin_domains", "catalog"];
+  // (v19 B3) signin_domains is gone: the roster is a public file; a campus with a roster names its catalog_file and tags_file
+  const KEYS = ["id", "label", "term", "term_label", "pre_enrollment", "roster_updates_until", "start_card", "closed_notice", "rail_closed_line", "privacy_line", "eligibility", "programs", "relevance", "catalog"];
   assert.ok(Array.isArray(FILE.campuses) && FILE.campuses.length >= 2);
-  for (const c of FILE.campuses) { for (const k of KEYS) assert.ok(k in c, `${c.id} lacks ${k}`); assert.ok(Array.isArray(c.signin_domains)); assert.equal(typeof c.catalog, "boolean"); for (const p of c.programs) assert.ok("group" in p, `${c.id} program ${p.id} has no v15 group`); }
-  assert.equal(FILE.campuses[0].id, "cornell_tech"); assert.deepEqual(FILE.campuses[0].signin_domains, ["cornell.edu"]); assert.equal(FILE.campuses[0].catalog, true);
+  for (const c of FILE.campuses) { for (const k of KEYS) assert.ok(k in c, `${c.id} lacks ${k}`); assert.ok(!("signin_domains" in c), `${c.id} still carries sign-in domains`); assert.equal(typeof c.catalog, "boolean"); if (c.catalog) assert.match(c.catalog_file, /^data\/catalog\/[a-z_]+\.json$/); for (const p of c.programs) assert.ok("group" in p, `${c.id} program ${p.id} has no v15 group`); }
+  assert.equal(FILE.campuses[0].id, "cornell_tech"); assert.equal(FILE.campuses[0].catalog, true);
+  assert.equal(FILE.campuses[0].catalog_file, "data/catalog/cornell_tech.json"); assert.equal(FILE.campuses[0].tags_file, "data/catalog/cornell_tech_tags.json");
   const ie = FILE.campuses.find(c => c.id === "ienyc");
-  assert.equal(ie.label, "IE New York"); assert.equal(ie.term, "SP27"); assert.deepEqual(ie.signin_domains, []); assert.equal(ie.catalog, false);
+  assert.equal(ie.label, "IE New York"); assert.equal(ie.term, "SP27"); assert.equal(ie.catalog, false);
   assert.match(ie.start_card.title, /Spring 2027 classes at IE New York/); assert.match(ie.start_card.tag, /not loaded yet/i);
   // the five programs of IENYC's College Catalog 2026-2027 (v18, step 3; "Data Science & Decision Analytics" was Cornell Tech's name, not IE's)
   assert.deepEqual(ie.programs.map(p => p.id), ["ie_mim", "ie_mif", "ie_bai", "ie_gbs", "ie_mkt"]);
@@ -228,24 +227,21 @@ test("the person's campus: stored first, else the picker program's, else the one
   assert.equal(C.campusFor(list, { programId: "mba" }).id, "cornell_tech");
   assert.equal(C.campusFor(list, { where: "cs" }).id, "cornell_tech", "only Cornell Tech has a CS program");
   assert.equal(C.campusFor(list, { where: "infosci" }).id, "cornell_tech");
-  assert.equal(C.campusFor(list, { where: "business" }), null, "business belongs to both campuses: ask");
-  assert.equal(C.campusFor(list, { where: "analytics" }), null);
-  assert.equal(C.campusFor(list, {}), null);
+  // with both rosters loaded, a shared group or no answer at all asks
+  const both = list.map(c => ({ ...c, catalog: true }));
+  assert.equal(C.campusFor(both, { where: "business" }), null, "business belongs to both campuses: ask");
+  assert.equal(C.campusFor(both, { where: "analytics" }), null);
+  assert.equal(C.campusFor(both, {}), null);
+  // only one campus has its roster loaded (the file as shipped): no question, whatever the group
+  const oneLoaded = list.map(c => ({ ...c, catalog: c.id === "cornell_tech" }));
+  assert.equal(C.campusFor(oneLoaded, { where: "business" }).id, "cornell_tech", "one roster loaded: no question");
+  assert.equal(C.campusFor(oneLoaded, {}).id, "cornell_tech");
+  assert.equal(C.campusFor(oneLoaded, { stored: "ienyc" }).id, "ienyc", "a stored choice still wins");
   assert.equal(C.campusFor([list[0]], {}).id, "cornell_tech", "one campus in the file: no question");
   assert.equal(C.campusFor([], { stored: "x" }), null);
 });
 
-test("sign-in accepts an email whose domain is in the campus's list; a campus with no domains accepts none", () => {
-  const [cornell, ie] = FILE.campuses;
-  assert.equal(C.allowedEmail("netid@cornell.edu", cornell), true);
-  assert.equal(C.allowedEmail(" NetID@Cornell.EDU ", cornell), true);
-  assert.equal(C.allowedEmail("x@tech.cornell.edu", cornell), true, "a subdomain counts");
-  assert.equal(C.allowedEmail("x@notcornell.edu", cornell), false);
-  assert.equal(C.allowedEmail("x@cornell.edu.evil.com", cornell), false);
-  assert.equal(C.allowedEmail("@cornell.edu", cornell), false);
-  assert.equal(C.allowedEmail("x@ie.edu", ie), false, "IE has no sign-in yet");
-  assert.equal(C.allowedEmail("x@cornell.edu", null), false);
-  assert.equal(C.domainWords(cornell), "@cornell.edu");
+test("the neutral home card names the term and every campus", () => {
   assert.equal(C.neutralCardTitle(FILE.campuses), "Spring 2027 classes · Cornell Tech and IE New York");
 });
 
@@ -294,4 +290,120 @@ test("the gaps-by-instructor join: the union of the gaps the instructor's cards 
   assert.deepEqual(gaps.map(g => [g.id, g.codes]), [["budgeting_forecasting", ["TEST 5050"]], ["stakeholder_mgmt", ["TEST 1020"]], ["sql", ["TEST 1020", "TEST 5050"]]], "core first, then by share; SQL once with both codes; Sam Roster's card (communication) is not Pat's");
   assert.deepEqual(C.instructorGaps(mine, {}), []);
   assert.deepEqual(C.instructorGaps([], covered), []);
+});
+
+// ---------- the public files (v19 B3): the picker reads a file per campus, never a database client ----------
+const FIXTURE = { campus: "cornell_tech", term: "SP27", generated: "2026-10-31", rosterDate: "2026-10-30", ...DATA, professors: [{ slug: "pat-example", name: "Pat Example", identity: "confirmed", title: "Professor", affiliation: "Cornell Tech", expertise: ["pricing"], official_profile_url: "https://example.edu/pat", personal_site_url: null, scholar_url: null, linkedin_url: null, profile_md: "# Pat Example\n\n## Networking angle\nAsk about pricing." }] };
+const TAGS = { taxonomy_sha256: "x", taxonomy_product_sha256: "y", rule: "named outright", tags: { "TEST 1010": { found: ["budgeting_forecasting", "communication"], teaches: ["budgeting_forecasting"] }, "TEST 2020": { found: ["sql"], teaches: ["sql"] }, "TEST 1020": { found: ["stakeholder_mgmt"], teaches: [] } } };
+test("files mode: loadCatalog and loadProfessor read the campus's files through deps.load and never touch deps.supabase", async () => {
+  const seen = [];
+  const F = require(path.join(web, "catalog.js"))({ supabase: () => { throw new Error("files mode must never open a client"); }, config: () => ({ CATALOG_SOURCE: "files" }), load: url => { seen.push(url); if (url === "data/sp27_campus.json") return FILE; if (url === "data/catalog/cornell_tech.json") return FIXTURE; if (url === "data/catalog/cornell_tech_tags.json") return TAGS; throw new Error("no such file " + url); } });
+  const data = await F.loadCatalog("cornell_tech");
+  assert.deepEqual(seen.sort(), ["data/catalog/cornell_tech.json", "data/catalog/cornell_tech_tags.json", "data/sp27_campus.json"]);
+  assert.equal(data.classes.length, 5); assert.equal(data.rosterDate, "2026-10-30"); assert.equal(data.professors.length, 1);
+  assert.ok(data.tags["TEST 1010"].found instanceof Set && data.tags["TEST 1010"].teaches.has("budgeting_forecasting"));
+  assert.equal(data.tagsMeta.rule, "named outright");
+  assert.equal(await F.loadCatalog("cornell_tech"), data, "one load per page");
+  assert.equal(await F.loadCatalog(), data, "no campus named: the first with a catalog file");
+  // the card's tags: the union over the cross-listed codes
+  const pair = F.collapse(data).find(c => c.key === "TEST 1020");
+  const t = F.cardTags(pair, data.tags);
+  assert.deepEqual([...t.found].sort(), ["sql", "stakeholder_mgmt"]); assert.deepEqual([...t.teaches], ["sql"]);
+  assert.deepEqual([...F.cardTags(F.collapse(data).find(c => c.key === "ZZZ 9000"), data.tags).found], [], "no row in the tags file: names nothing");
+  const r = await F.loadProfessor("pat-example", "cornell_tech");
+  assert.equal(r.professor.name, "Pat Example");
+  assert.deepEqual(r.classes, [{ code: "TEST 1020", term: "SP27", title: "Title of TEST 1020" }, { code: "TEST 2020", term: "SP27", title: "Title of TEST 2020" }], "the classes the instructor rows name, by code, with titles");
+  assert.equal((await F.loadProfessor("nobody", "cornell_tech")).professor, null);
+  // a campus with no file says so instead of reading anything
+  await assert.rejects(F.loadCatalog("ienyc"), /No catalog file for IE New York/);
+  assert.ok(!("sb" in F) && !("session" in F) && !("onAuth" in F) && !("signInGoogle" in F), "no client, no session, no auth listener");
+});
+
+test("a tags file that fails to load leaves the catalog readable with no tags", async () => {
+  const F = require(path.join(web, "catalog.js"))({ load: url => { if (url === "data/sp27_campus.json") return FILE; if (url === "data/catalog/cornell_tech.json") return FIXTURE; return Promise.reject(new Error("404")); } });
+  const warn = console.error; console.error = () => {};
+  try { const data = await F.loadCatalog("cornell_tech"); assert.equal(data.classes.length, 5); assert.deepEqual(data.tags, {}); assert.equal(data.tagsMeta, null); }
+  finally { console.error = warn; }
+});
+
+// ---------- the tuned matching (v19 B3; data/experiments/scratch/surfaces/mocks/classes/tuning) ----------
+const GENERIC = new Set(["communication", "stakeholder_mgmt"]);
+test("relevanceScore counts a generic row at half weight; without a generic set it reads as before", () => {
+  const rows = [{ id: "budgeting_forecasting", name: "B", tier: "core", w: 0.6 }, { id: "communication", name: "C", tier: "core", w: 0.8 }, { id: "sql", name: "S", tier: "common", w: 0.2 }];
+  // total 0.6 + 0.4 + 0.2 = 1.2; communication alone names 0.4 of it
+  const r = C.relevanceScore(new Set(["communication"]), rows, GENERIC);
+  assert.ok(Math.abs(r.score - 0.4 / 1.2) < 1e-9, String(r.score));
+  assert.ok(Math.abs(C.relevanceScore(new Set(["communication"]), rows).score - 0.8 / 1.6) < 1e-9, "no generic set: full weight");
+  assert.ok(Math.abs(C.relevanceScore(new Set(["budgeting_forecasting"]), rows, GENERIC).score - 0.6 / 1.2) < 1e-9);
+  assert.deepEqual(C.relevanceScore(new Set(["sql", "budgeting_forecasting"]), rows, GENERIC).matched.map(m => m.id), ["budgeting_forecasting", "sql"]);
+});
+
+test("gapsCovered leaves the generic gaps out", () => {
+  const teaches = new Set(["budgeting_forecasting", "sql", "communication", "stakeholder_mgmt"]);
+  assert.deepEqual(C.gapsCovered(teaches, GAPS, GENERIC).map(g => g.id), ["budgeting_forecasting", "sql"]);
+  assert.deepEqual(C.gapsCovered(teaches, GAPS).map(g => g.id), ["communication", "budgeting_forecasting", "stakeholder_mgmt", "sql"], "no generic set: everything taught counts, core first by share");
+  assert.deepEqual(C.gapsCovered(new Set(["communication"]), GAPS, GENERIC), []);
+});
+
+test("sortCards 'gaps' orders by the share covered, then the score, then the field, then code; with nothing covered, by score", () => {
+  const mk = (code, extra) => cls(code, extra);
+  const cards = C.collapse({ classes: [mk("TECH 1"), mk("BANA 2"), mk("CS 3"), mk("LAW 4"), mk("NBAY 5")] });   // BANA 2, CS 3, LAW 4, NBAY 5, TECH 1
+  const g = (id, w, tier = "core") => ({ id, name: id, tier, w });
+  const info = {
+    "TECH 1": { score: 0.2, covered: [g("a", 0.5)] },
+    "BANA 2": { score: 0.9, covered: [g("b", 0.3), g("c", 0.2)] },   // 0.5 too: the score breaks the tie
+    "CS 3": { score: 0.9, covered: [g("b", 0.3), g("c", 0.2)] },     // 0.5 and 0.9 too: the field, then code
+    "LAW 4": { score: 0.1, covered: [g("d", 0.8, "common")] },
+    "NBAY 5": { score: 0.7, covered: [] },
+  };
+  assert.deepEqual(C.sortCards(cards, "gaps", info).map(c => c.key), ["LAW 4", "BANA 2", "CS 3", "TECH 1", "NBAY 5"], "weight first (a common gap of 0.8 outranks a core one of 0.5), then score, then code");
+  assert.deepEqual(C.sortCards(cards, "gaps", info, ["CS"]).map(c => c.key), ["LAW 4", "CS 3", "BANA 2", "TECH 1", "NBAY 5"], "the field tie-break lifts CS 3 over BANA 2");
+  assert.deepEqual(C.topCovering(cards, info, 3).map(c => c.key), ["LAW 4", "BANA 2", "CS 3"]);
+  // relevance: by band, then score, then field, then code
+  const rel = { "TECH 1": { band: "high", score: 0.4 }, "BANA 2": { band: "high", score: 0.5 }, "CS 3": { band: "medium", score: 0.3 }, "LAW 4": { band: "medium", score: 0.3 }, "NBAY 5": { band: "low", score: 0.9 } };
+  assert.deepEqual(C.sortCards(cards, "relevance", rel).map(c => c.key), ["BANA 2", "TECH 1", "CS 3", "LAW 4", "NBAY 5"]);
+  assert.deepEqual(C.sortCards(cards, "relevance", rel, ["LAW"]).map(c => c.key), ["BANA 2", "TECH 1", "LAW 4", "CS 3", "NBAY 5"]);
+  // nothing covered: the gaps sort falls to the score, and the line is said once
+  const none = Object.fromEntries(Object.entries(info).map(([k, v]) => [k, { score: v.score, covered: [] }]));
+  assert.equal(C.noCover(cards, none), true); assert.equal(C.noCover(cards, info), false);
+  assert.deepEqual(C.sortCards(cards, "gaps", none).map(c => c.key), ["BANA 2", "CS 3", "NBAY 5", "TECH 1", "LAW 4"]);
+  assert.deepEqual(C.topCovering(cards, none, 3), [], "the rail shows none");
+  assert.equal(C.NO_COVER_LINE, "No class names your gaps. These are the closest.");
+});
+
+test("inField: a card whose subject is in the list; fieldSubjects reads the campus map for the roles' fields", () => {
+  const [tech, bana] = C.collapse({ classes: [cls("TECH 1"), cls("BANA 2")] }).sort((a, b) => a.key < b.key ? 1 : -1);
+  assert.equal(C.inField(tech, ["TECH", "NBAY"]), true); assert.equal(C.inField(bana, ["TECH", "NBAY"]), false); assert.equal(C.inField(tech, []), false); assert.equal(C.inField(tech, null), false);
+  const fs = campus.field_subjects;
+  assert.equal(Object.keys(fs).length, 11, "one entry per role field of graph_mba.json groups");
+  for (const g of readJson("graph_mba.json").groups) assert.ok(Array.isArray(fs[g.id]) && fs[g.id].length, `field_subjects lacks ${g.id}`);
+  assert.deepEqual(C.fieldSubjects(campus, ["product"]), fs.product);
+  assert.deepEqual(C.fieldSubjects(campus, ["finance", "analytics"]), [...new Set([...fs.finance, ...fs.analytics])]);
+  assert.deepEqual(C.fieldSubjects(campus, ["nowhere"]), []); assert.deepEqual(C.fieldSubjects(null, ["product"]), []);
+  assert.ok(fs.product.includes("TECH") && fs.finance.includes("NBAY") && fs.analytics.includes("BANA") && fs.risk.includes("LAW"));
+});
+
+test("combineRoles: a gap when any role leaves it open, weight summed over the roles that do and divided by the count, tier core when core anywhere; rows the same way", () => {
+  const pm = { roleId: "pm", label: "Product Manager", gaps: [{ id: "a", name: "A", tier: "core", w: 0.8 }, { id: "b", name: "B", tier: "common", w: 0.2 }], rows: [{ id: "a", name: "A", tier: "core", w: 0.8 }, { id: "b", name: "B", tier: "common", w: 0.2 }, { id: "x", name: "X", tier: "core", w: 0.5 }] };
+  const fpa = { roleId: "fpa", label: "FP&A Manager", gaps: [{ id: "b", name: "B", tier: "core", w: 0.4 }, { id: "c", name: "C", tier: "common", w: 0.3 }], rows: [{ id: "b", name: "B", tier: "core", w: 0.4 }, { id: "c", name: "C", tier: "common", w: 0.3 }] };
+  const r = C.combineRoles([pm, fpa]);
+  assert.deepEqual(r.labels, ["Product Manager", "FP&A Manager"]);
+  const by = Object.fromEntries(r.gaps.map(g => [g.id, g]));
+  assert.ok(Math.abs(by.a.w - 0.4) < 1e-9 && by.a.tier === "core" && by.a.roles.join() === "pm");
+  assert.ok(Math.abs(by.b.w - 0.3) < 1e-9 && by.b.tier === "core", "common for PM, core for FP&A: core; (0.2 + 0.4) / 2");
+  assert.ok(Math.abs(by.c.w - 0.15) < 1e-9 && by.c.tier === "common" && by.c.roles.join() === "fpa");
+  assert.deepEqual(r.gaps.map(g => g.id), ["a", "b", "c"], "core first by weight (a 0.4, b 0.3), then common");
+  const rows = Object.fromEntries(r.rows.map(x => [x.id, x]));
+  assert.deepEqual(Object.keys(rows).sort(), ["a", "b", "c", "x"], "the union of the rows");
+  assert.ok(Math.abs(rows.x.w - 0.25) < 1e-9 && rows.x.tier === "core"); assert.ok(Math.abs(rows.b.w - 0.3) < 1e-9 && rows.b.tier === "core");
+  assert.ok(!("roles" in rows.a), "rows carry no role list");
+  // one role: everything reads as today
+  const one = C.combineRoles([pm]);
+  assert.deepEqual(one.gaps.map(g => [g.id, g.w, g.tier]), [["a", 0.8, "core"], ["b", 0.2, "common"]]); assert.deepEqual(one.rows.map(x => [x.id, x.w]), [["a", 0.8], ["x", 0.5], ["b", 0.2]]);
+  // no resume: no fit carries gaps, so gaps is null; the rows still combine
+  const dry = C.combineRoles([{ ...pm, gaps: null }, { ...fpa, gaps: null }]);
+  assert.equal(dry.gaps, null); assert.equal(dry.rows.length, 4);
+  assert.deepEqual(C.combineRoles([]), { gaps: null, rows: [], labels: [] });
+  assert.equal(C.joinLabels(["Product Manager", "FP&A Manager"]), "Product Manager and FP&A Manager");
+  assert.equal(C.joinLabels(["A", "B", "C"]), "A, B and C"); assert.equal(C.joinLabels(["A"]), "A"); assert.equal(C.joinLabels([]), "");
 });

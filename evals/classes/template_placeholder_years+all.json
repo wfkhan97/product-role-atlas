@@ -1,0 +1,27 @@
+{
+  "resume": "template_placeholder_years",
+  "roles": [
+    "product.pm",
+    "corporate_banking",
+    "fpa"
+  ],
+  "note": "All three roles over 57 gaps: the PM class leads on share, as in the study, and Financial Statement Analysis stays in the top 5.",
+  "must_top": {
+    "n": 1,
+    "codes": [
+      "TECH 5200"
+    ]
+  },
+  "must_not_top": {
+    "n": 5,
+    "codes": [
+      "CEE 6800",
+      "ECE 5765"
+    ]
+  },
+  "must_cover": {
+    "financial_reporting": [
+      "BANA 5065"
+    ]
+  }
+}
