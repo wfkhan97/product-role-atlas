@@ -466,3 +466,10 @@ this order:
    card shows (`Jobs.fitOf`: the posting's tagged skills the résumé's skill set holds) against the matcher's evidenced
    skills for that posting's role (`m.match` rows at `evidenced`). A skill the card counts must be one the fit screen
    would show, and the two must never disagree on a core ask.
+
+9. **The apprentice map's layout against a hand-placed example** (PLAN.md v20). `MapModel.treeLayout` and
+   `questLayout` are deterministic; the eval holds them to a hand-placed layout of the example map
+   (`gradbuddy/apprentice/examples/pmm-nyc/map.json`): every trunk node on the trunk, every own node beside its role's
+   stem, no two labels overlapping at 1280 px, every stop on its world's path in mission order. The example lives in
+   the GradBuddy repository, so the eval reads it by path and skips when the folder is absent, as `tests/web/map.test.mjs`
+   does today.
