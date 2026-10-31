@@ -21,6 +21,7 @@ const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
 const src = fs.readFileSync(path.join(root, "web", "app.js"), "utf8");
 const { Stage, Intake } = require(path.join(root, "web", "app.js"));
+const Copy = require(path.join(root, "web", "copy.js"));   // the questions moved to the copy table (v19 B6)
 
 let fails = 0, passes = 0;
 const check = (ok, msg) => { if (ok) passes++; else { fails++; console.log("FAIL " + msg); } };
@@ -54,7 +55,7 @@ check(/\$\{waitHtml\("show"\)\}/.test(src) && /\$\{waitHtml\("build"\)\}\$\{wait
 check(/applyBox\("fit", \{ always: true \}\)/.test(src), "the fit screen draws the intake box, source fit");
 check(/esc\(Intake\.heading\)/.test(src) && !/Join the GradBuddy waitlist/.test(src) && !/esc\(Apply\./.test(src), "the box is drawn from Intake; the waitlist and application wordings are gone");
 // the stage is asked in About you, step 2 (Q[1]), and nowhere else: the door and home never mention it
-check(/key: "stage", title: "Where are you in your search\?"/.test(src), "About you asks the stage as its second question");
+check(Copy.you.questions[1].key === "stage" && Copy.you.questions[1].title === "Where are you in your search?" && /Q = YOU\.questions/.test(src), "About you asks the stage as its second question (Copy.you.questions, read by app.js)");
 const doorHome = src.slice(src.indexOf("async function door()"), src.indexOf("async function skillsScreen()"));   // the door and home sit before the launcher (B5)
 check(doorHome.length > 0 && !/Q\[1\]|Where are you in your search|data-stage|STAGE_SAID/.test(doorHome), "the door and home never ask the stage");
 // the screens read the table, so it cannot drift from what is drawn

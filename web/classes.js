@@ -12,6 +12,7 @@
   const $ = s => document.querySelector(s);
   const CFG = () => window.CONFIG || {};
   const esc = Catalog.esc;
+  const CL = Copy.classes, fill = Copy.fill;   // the screens' strings: web/copy.js
   const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
   // the roles on file: classes.roles, a list; a classes.role string from before the multi-select moves into it once
   const storedRoles = () => { let r = store.get("classes.roles"); if (!Array.isArray(r)) { const one = store.get("classes.role"); r = typeof one === "string" && one ? [one] : []; store.set("classes.roles", r); store.set("classes.role", null); } return r.filter(x => typeof x === "string"); };
@@ -62,34 +63,34 @@
     const { list, cm } = await campusCtx();
     if (cm && cm.start_card) { const sc = cm.start_card; return `<a class="choice" href="#/classes"><div class="t">${esc(sc.title)}</div><div class="d">${esc(sc.detail)}</div><span class="tag">${esc(sc.tag)}</span></a>`; }
     if (!list.length) return "";
-    return `<a class="choice" href="#/classes"><div class="t">${esc(Catalog.neutralCardTitle(list))}</div><div class="d">The roster, who teaches what, and how each class reads against the roles you want.</div><span class="tag">Pick your campus →</span></a>`;
+    return `<a class="choice" href="#/classes"><div class="t">${esc(Catalog.neutralCardTitle(list))}</div><div class="d">${esc(CL.neutralDetail)}</div><span class="tag">${esc(CL.neutralTag)}</span></a>`;
   }
 
   // ---------- 1. the class picker ----------
   async function classes(ctx) {
     const { crumbs, page, showAside } = ctx;
     const token = ++S.token;
-    crumbs([["Classes", null]]); showAside(null);
+    crumbs([[CL.crumb, null]]); showAside(null);
     const { list, cm } = await campusCtx();
     // no campus known and more than one to choose from: ask once, as two cards, and keep the answer in this browser
     if (!cm) {
-      if (!list.length) { page(`<h1>Pick your classes</h1><div class="notice">No campus is configured on this page.</div>`, true); return; }
-      page(`<h1>Pick your classes</h1><p class="lead">Which campus are you at?</p><div class="choices">${list.map(c => `<a class="choice" href="#/classes" data-campus="${esc(c.id)}"><div class="t">${esc(c.label)}</div><div class="d">${esc((c.start_card || {}).detail || "")}</div><span class="tag">${esc(c.catalog ? (c.term_label || "") + " roster →" : "Roster not loaded yet")}</span></a>`).join("")}</div><p class="small muted">Your campus stays in this browser; change it any time from the classes screen.</p>`, true);
+      if (!list.length) { page(`<h1>${esc(CL.heading)}</h1><div class="notice">${esc(CL.noCampus)}</div>`, true); return; }
+      page(`<h1>${esc(CL.heading)}</h1><p class="lead">${esc(CL.whichCampus)}</p><div class="choices">${list.map(c => `<a class="choice" href="#/classes" data-campus="${esc(c.id)}"><div class="t">${esc(c.label)}</div><div class="d">${esc((c.start_card || {}).detail || "")}</div><span class="tag">${esc(c.catalog ? fill(CL.rosterLink, { term: c.term_label || "" }) : CL.rosterNotLoaded)}</span></a>`).join("")}</div><p class="small muted">${esc(CL.campusStays)}</p>`, true);
       document.querySelectorAll("[data-campus]").forEach(a => a.onclick = e => { e.preventDefault(); setCampus(a.dataset.campus); classes(ctx); });
       return;
     }
     const termLabel = cm.term_label || CFG().CATALOG_TERM || "";
-    const change = list.length > 1 ? ` · <button type="button" class="linkish link" id="cls-campus">change campus</button>` : "";
-    const head = `<p class="eyebrow">${esc(termLabel)} · ${esc(cm.label || "")}${change}</p><h1>Pick your classes</h1>`;
+    const change = list.length > 1 ? ` · <button type="button" class="linkish link" id="cls-campus">${esc(CL.changeCampus)}</button>` : "";
+    const head = `<p class="eyebrow">${esc(termLabel)} · ${esc(cm.label || "")}${change}</p><h1>${esc(CL.heading)}</h1>`;
     const privacy = cm.privacy_line ? `<p class="small muted">${esc(cm.privacy_line)}</p>` : "";
     const wireCampus = () => { const b = $("#cls-campus"); if (b) b.onclick = () => { setCampus(null); classes(ctx); }; };
     // a campus with no roster loaded says so and stops
-    if (!cm.catalog || !cm.catalog_file) { page(`${head}<p class="lead">${esc(cm.closed_notice || "The roster is not loaded yet.")}</p>${privacy}`, true); wireCampus(); return; }
+    if (!cm.catalog || !cm.catalog_file) { page(`${head}<p class="lead">${esc(cm.closed_notice || CL.rosterClosed)}</p>${privacy}`, true); wireCampus(); return; }
     let data;
     try { data = await Catalog.loadCatalog(cm); }
-    catch (e) { console.error(e); page(`${head}<div class="notice">The roster could not be read: ${esc(e.message)}.</div>${privacy}`, true); wireCampus(); return; }
+    catch (e) { console.error(e); page(`${head}<div class="notice">${esc(fill(CL.rosterFailed, { message: e.message }))}</div>${privacy}`, true); wireCampus(); return; }
     if (token !== S.token) return;
-    if (!data.classes.length) { page(`${head}<p class="lead">The roster is empty right now. Check back after the next refresh.</p>${privacy}`, true); wireCampus(); return; }
+    if (!data.classes.length) { page(`${head}<p class="lead">${esc(CL.rosterEmpty)}</p>${privacy}`, true); wireCampus(); return; }
     const cards = cardsOf(data);
     const ix = await Atlas.index(); await safe(Atlas.product(), null);
     const { query } = Routes.parseRoute(location.hash);
@@ -125,32 +126,32 @@
       // which field the search matched, for the card's label (a match in the description or the outcomes is not visible on the card)
       const matchedOf = c => S.q ? Catalog.matchField(c, S.q) : null;
       // "Match to roles": the chosen roles as chips a click removes, and a select, grouped by field, that adds one
-      const chips = roles.map(id => `<span class="chip on">${esc(ix.roles[id].label)}<button type="button" class="x" data-drop-role="${esc(id)}" aria-label="Remove ${esc(ix.roles[id].label)}">×</button></span>`).join("");
+      const chips = roles.map(id => `<span class="chip on">${esc(ix.roles[id].label)}<button type="button" class="x" data-drop-role="${esc(id)}" aria-label="${esc(fill(CL.removeRole, { role: ix.roles[id].label }))}">×</button></span>`).join("");
       const roleOpts = ix.groups.map(g => { const rs = g.roles.map(id => ix.roles[id]).filter(r => r && !roles.includes(r.id)); return rs.length ? `<optgroup label="${esc(g.label)}">${rs.map(r => `<option value="${esc(r.id)}">${esc(r.label)}</option>`).join("")}</optgroup>` : ""; }).join("");
-      const rolesCtl = `<div class="chips cls-roles"><span class="lbl">Match to roles</span>${chips}<select id="cls-add" class="cls-select" aria-label="Add a role"><option value="">${roles.length ? "Add a role" : "Pick a role"}</option>${roleOpts}</select></div>`;
-      const instructorCtl = instructors.length ? `<label class="small muted">Instructor <select id="cls-instructor" class="cls-select"><option value="">anyone</option>${instructors.map(i => `<option value="${esc(i.name)}"${S.instructor === i.name ? " selected" : ""}>${esc(i.name)}</option>`).join("")}</select></label>` : "";
-      const aboutLine = who ? `<p class="small">${who.slug ? `<a href="#/professor/${encodeURIComponent(who.slug)}">About ${esc(who.name)} →</a>` : `${esc(who.name)} has no profile on the roster yet.`}</p>` : "";
+      const rolesCtl = `<div class="chips cls-roles"><span class="lbl">${esc(CL.matchRoles)}</span>${chips}<select id="cls-add" class="cls-select" aria-label="${esc(CL.addRoleAria)}"><option value="">${esc(roles.length ? CL.addRole : CL.pickRole)}</option>${roleOpts}</select></div>`;
+      const instructorCtl = instructors.length ? `<label class="small muted">${esc(CL.instructor)} <select id="cls-instructor" class="cls-select"><option value="">${esc(CL.anyone)}</option>${instructors.map(i => `<option value="${esc(i.name)}"${S.instructor === i.name ? " selected" : ""}>${esc(i.name)}</option>`).join("")}</select></label>` : "";
+      const aboutLine = who ? `<p class="small">${who.slug ? `<a href="#/professor/${encodeURIComponent(who.slug)}">${esc(fill(CL.about, { name: who.name }))}</a>` : esc(fill(CL.noProfile, { name: who.name }))}</p>` : "";
       const gapsOf = c => withGaps && !none ? { covered: covered[c.key] || [], total: G.gaps.length } : null;
-      const gapChip = withGaps && !none ? `<button type="button" class="chip${S.coversGap ? " on" : ""}" id="cls-gap">Covers a gap<span class="n">${cards.filter(c => (covered[c.key] || []).length).length}</span></button>` : "";
-      const sortCtl = `<label class="small muted">Sort <select id="cls-sort" class="cls-select"><option value="code"${S.sort === "code" ? " selected" : ""}>Code</option><option value="relevance"${S.sort === "relevance" ? " selected" : ""}>Relevance</option>${withGaps ? `<option value="gaps"${S.sort === "gaps" ? " selected" : ""}>Gaps covered</option>` : ""}</select></label>`;
+      const gapChip = withGaps && !none ? `<button type="button" class="chip${S.coversGap ? " on" : ""}" id="cls-gap">${esc(CL.coversGap)}<span class="n">${cards.filter(c => (covered[c.key] || []).length).length}</span></button>` : "";
+      const sortCtl = `<label class="small muted">${esc(CL.sort)} <select id="cls-sort" class="cls-select"><option value="code"${S.sort === "code" ? " selected" : ""}>${esc(CL.sorts.code)}</option><option value="relevance"${S.sort === "relevance" ? " selected" : ""}>${esc(CL.sorts.relevance)}</option>${withGaps ? `<option value="gaps"${S.sort === "gaps" ? " selected" : ""}>${esc(CL.sorts.gaps)}</option>` : ""}</select></label>`;
       // the résumé row (C1): with none on file, the shell's form under the filters; a read draws the picker again
-      const resumeRow = ctx.hasResume && !ctx.hasResume() && ctx.resumeForm ? `<div class="cls-resume" id="cls-resume"><p class="small">Add your résumé and each card says which of your gaps it covers.</p>${ctx.resumeForm()}<div class="row"><button type="button" class="btn primary" id="cls-read">Read my fit →</button></div></div>` : "";
+      const resumeRow = ctx.hasResume && !ctx.hasResume() && ctx.resumeForm ? `<div class="cls-resume" id="cls-resume"><p class="small">${esc(CL.addResume)}</p>${ctx.resumeForm()}<div class="row"><button type="button" class="btn primary" id="cls-read">${esc(CL.readFit)}</button></div></div>` : "";
       // the application box at the foot (v18, step 1), from app.js, with the first role recorded as the role on screen;
       // over it, when the fit leaves gaps, the one data-built line naming them
       const applyFoot = ctx.applyBox ? `<div class="fit-wait">${withGaps && ctx.applyLine ? `<p class="small">${esc(ctx.applyLine(G.label))}</p>` : ""}${ctx.applyBox("classes", { always: true, role_id: roles[0] || null })}</div>` : "";
-      const gapLine = G ? (G.gaps.length ? `<p class="small">Your fit for ${Catalog.joinLabels(G.roleIds.map(roleLink))} leaves ${G.gaps.length} ${G.gaps.length === 1 ? "gap" : "gaps"}; each card says which it covers, read from the course text by kind (a course can show craft, not how you work).</p>` : `<p class="small muted">Your résumé shows every skill most ${esc(G.label)} postings ask for; nothing to cover.</p>`) : "";
+      const gapLine = G ? (G.gaps.length ? `<p class="small">${fill(esc(CL.gapLine), { roles: Catalog.joinLabels(G.roleIds.map(roleLink)), gaps: esc(G.gaps.length === 1 ? CL.gap : fill(CL.gaps, { n: G.gaps.length })) })}</p>` : `<p class="small muted">${esc(fill(CL.noGaps, { roles: G.label }))}</p>`) : "";
       const noneLine = none ? `<p class="small muted">${esc(Catalog.NO_COVER_LINE)}</p>` : "";
       const html = `${head}
-        <p class="lead">${cm.roster_updates_until ? `Roster as of ${esc(niceDate(data.rosterDate))}; updated weekly until ${esc(cm.roster_updates_until)}.` : `Roster as of ${esc(niceDate(data.rosterDate))}.`} Two columns rate each class: ours reads the roster text against the roles you pick; yours is your own call and stays in this browser.</p>
+        <p class="lead">${esc(cm.roster_updates_until ? fill(CL.rosterUpdated, { date: niceDate(data.rosterDate), until: cm.roster_updates_until }) : fill(CL.rosterAsOf, { date: niceDate(data.rosterDate) }))} ${esc(CL.twoColumns)}</p>
         ${rolesCtl}
         <div class="row cls-filters">
           ${instructorCtl}
-          <input type="search" id="cls-q" placeholder="Code, title or content" aria-label="Search by code, title, description or outcomes" value="${esc(S.q)}">
+          <input type="search" id="cls-q" placeholder="${esc(CL.searchPlaceholder)}" aria-label="${esc(CL.searchAria)}" value="${esc(S.q)}">
           ${sortCtl}
         </div>${resumeRow}${aboutLine}${gapLine}
-        <div class="chips">${gapChip ? gapChip + '<span class="lbl">·</span>' : ""}<span class="lbl">Subject</span><button type="button" class="chip${!S.subject ? " on" : ""}" data-subject="">All</button>${subjectsAll.map(s => `<button type="button" class="chip${S.subject === s ? " on" : ""}" data-subject="${esc(s)}">${esc(s)}</button>`).join("")}</div>
-        <p class="small muted" id="cls-count">${shown.length} ${shown.length === 1 ? "class" : "classes"} shown; cross-listed classes share a card.</p>${noneLine}
-        <div class="cls-list" id="cls-list">${shown.map(c => Catalog.cardHtml(c, { campus: cm, roleId: roles.length ? rolesKey : null, rel: rel[c.key] || null, own: S.own[c.key] || null, selected: S.selected === c.key, whyOpen: S.why.has(c.key), gaps: gapsOf(c), matched: matchedOf(c) })).join("") || `<p class="small muted">No class matches. Clear the search.</p>`}</div>
+        <div class="chips">${gapChip ? gapChip + '<span class="lbl">·</span>' : ""}<span class="lbl">${esc(CL.subject)}</span><button type="button" class="chip${!S.subject ? " on" : ""}" data-subject="">${esc(CL.all)}</button>${subjectsAll.map(s => `<button type="button" class="chip${S.subject === s ? " on" : ""}" data-subject="${esc(s)}">${esc(s)}</button>`).join("")}</div>
+        <p class="small muted" id="cls-count">${esc(shown.length === 1 ? CL.shownOne : fill(CL.shown, { n: shown.length }))}</p>${noneLine}
+        <div class="cls-list" id="cls-list">${shown.map(c => Catalog.cardHtml(c, { campus: cm, roleId: roles.length ? rolesKey : null, rel: rel[c.key] || null, own: S.own[c.key] || null, selected: S.selected === c.key, whyOpen: S.why.has(c.key), gaps: gapsOf(c), matched: matchedOf(c) })).join("") || `<p class="small muted">${esc(CL.noMatch)}</p>`}</div>
         ${applyFoot}
         ${privacy}`;
       page(html); $("#main").firstElementChild.classList.add("wide");
@@ -163,7 +164,7 @@
       if (ctx.wireApply) ctx.wireApply($("#main"), () => { const y = window.scrollY; render(); window.scrollTo(0, y); });
       $("#cls-add").onchange = e => { const id = e.target.value; if (!id) return; setRoles([...S.roles, id]); again(); };
       document.querySelectorAll("[data-drop-role]").forEach(b => b.onclick = () => { setRoles(S.roles.filter(id => id !== b.dataset.dropRole)); again(); });
-      if ($("#cls-resume")) { ctx.wireResume(); $("#cls-read").onclick = async () => { if (await ctx.takeResume()) again(); else $("#file-status").textContent = "Add a file or paste some text first."; }; }
+      if ($("#cls-resume")) { ctx.wireResume(); $("#cls-read").onclick = async () => { if (await ctx.takeResume()) again(); else $("#file-status").textContent = Copy.common.resume.nothing; }; }
       $("#cls-sort").onchange = e => { S.sort = e.target.value; render(); };
       const ic = $("#cls-instructor"); if (ic) ic.onchange = e => { S.instructor = e.target.value || null; render(); };
       const gc = $("#cls-gap"); if (gc) gc.onclick = () => { S.coversGap = !S.coversGap; render(); };
@@ -188,58 +189,59 @@
     const p = card.primary;
     const per = (label, pick) => { const vals = card.classes.map(c => [c.code, (pick(c) || "").trim()]).filter(x => x[1]); if (!vals.length) return ""; const uniq = [...new Set(vals.map(v => v[1]))]; return `<h3>${label}</h3>` + (uniq.length === 1 ? `<p class="small">${esc(uniq[0])}</p>` : vals.map(v => `<p class="small"><span class="muted">${esc(v[0])}</span> ${esc(v[1])}</p>`).join("")); };
     // roster learning outcomes, one per line
-    const outcomes = cd => { const lines = [...new Set(cd.classes.flatMap(c => String(c.outcomes || "").split(/\r?\n/).map(l => l.trim()).filter(Boolean)))]; return lines.length ? `<h3>Outcomes</h3><ul class="plain">${lines.map(l => `<li>${esc(l)}</li>`).join("")}</ul>` : ""; };
-    const secs = card.sections.map(s => `<li><b>${esc([s.component, s.section].filter(Boolean).join(" "))}</b> · ${esc(s.class_nbr)}${s.open_status ? ` · ${esc(s.open_status)}` : ""}${s.instruction_mode ? ` · ${esc(s.instruction_mode)}` : ""}${s.topic ? ` · ${esc(s.topic)}` : ""}${(s.meetings || []).map(m => `<br><span class="muted">${esc([m.pattern, m.time_start && m.time_end ? `${m.time_start}–${m.time_end}` : m.time_start || "", m.facility].filter(Boolean).join(" · ") || "time to be announced")}</span>`).join("")}${(s.notes || []).length ? `<br><span class="muted">${esc(s.notes.join(" "))}</span>` : ""}</li>`).join("");
-    const priors = card.priors.slice().sort((a, b) => a.term.localeCompare(b.term)).map(pr => `<li>Taught ${esc(pr.term)} by ${esc((pr.instructors || []).join(", ") || "an instructor the roster does not name")}</li>`).join("");
+    const outcomes = cd => { const lines = [...new Set(cd.classes.flatMap(c => String(c.outcomes || "").split(/\r?\n/).map(l => l.trim()).filter(Boolean)))]; return lines.length ? `<h3>${esc(CL.outcomes)}</h3><ul class="plain">${lines.map(l => `<li>${esc(l)}</li>`).join("")}</ul>` : ""; };
+    const secs = card.sections.map(s => `<li><b>${esc([s.component, s.section].filter(Boolean).join(" "))}</b> · ${esc(s.class_nbr)}${s.open_status ? ` · ${esc(s.open_status)}` : ""}${s.instruction_mode ? ` · ${esc(s.instruction_mode)}` : ""}${s.topic ? ` · ${esc(s.topic)}` : ""}${(s.meetings || []).map(m => `<br><span class="muted">${esc([m.pattern, m.time_start && m.time_end ? `${m.time_start}–${m.time_end}` : m.time_start || "", m.facility].filter(Boolean).join(" · ") || CL.timeTBA)}</span>`).join("")}${(s.notes || []).length ? `<br><span class="muted">${esc(s.notes.join(" "))}</span>` : ""}</li>`).join("");
+    const priors = card.priors.slice().sort((a, b) => a.term.localeCompare(b.term)).map(pr => `<li>${esc(fill(CL.taughtBy, { term: pr.term, names: (pr.instructors || []).join(", ") || CL.unnamed }))}</li>`).join("");
     const chip = Catalog.gradingChip(p);
-    return `<button type="button" class="close" aria-label="Close">×</button><div class="card">
+    return `<button type="button" class="close" aria-label="${esc(Copy.common.close)}">×</button><div class="card">
       <p class="eyebrow">${esc(card.codes.concat(card.otherCodes || []).join(" / "))}</p><h2>${esc(card.title)}</h2>
-      <p class="facts">${esc(p.credits ? p.credits + " credits" : "credits not listed")}${p.grading_basis ? " · " + esc(p.grading_basis) : ""}${p.career ? " · " + esc(p.career) : ""}</p>
-      ${per("Description", c => c.description)}${outcomes(card)}${per("Prerequisites", c => c.prereq)}
-      ${per("Enrollment limited to", c => c.enrollment_limited_to)}
+      <p class="facts">${esc(p.credits ? fill(CL.credits, { n: p.credits }) : CL.noCredits)}${p.grading_basis ? " · " + esc(p.grading_basis) : ""}${p.career ? " · " + esc(p.career) : ""}</p>
+      ${per(esc(CL.description), c => c.description)}${outcomes(card)}${per(esc(CL.prerequisites), c => c.prereq)}
+      ${per(esc(CL.limitedTo), c => c.enrollment_limited_to)}
       <p class="small"><span class="tag thin">${esc([...new Set(card.classes.map(c => Catalog.eligibilityLabel(c.eligibility_category, cm)))].join(" · "))}</span></p>
-      <h3>Sections</h3>${secs ? `<ul class="plain">${secs}</ul>` : `<p class="small muted">No section on the roster yet.</p>`}
-      <h3>Prior offerings</h3>${priors ? `<ul class="plain">${priors}</ul>` : `<p class="small muted">None on record since SP25.</p>`}
-      <h3>Grading</h3><p class="small"><span class="muted">${esc(chip.text)}</span>${chip.summary ? ` ${esc(chip.summary)}` : ""}${chip.caveat ? ` <span class="muted">(${esc(chip.caveat)})</span>` : ""}</p>
-      ${card.instructors.length ? `<h3>Teaching it</h3><p class="small">${card.instructors.map(i => i.slug ? `<a href="#/professor/${encodeURIComponent(i.slug)}">${esc(i.name)}</a>` : esc(i.name)).join(", ")}</p>` : ""}
-      ${p.roster_url ? `<p><a class="link" href="${esc(p.roster_url)}" target="_blank" rel="noopener">Open on the class roster ↗</a></p>` : ""}
+      <h3>${esc(CL.sections)}</h3>${secs ? `<ul class="plain">${secs}</ul>` : `<p class="small muted">${esc(CL.noSection)}</p>`}
+      <h3>${esc(CL.prior)}</h3>${priors ? `<ul class="plain">${priors}</ul>` : `<p class="small muted">${esc(CL.noPrior)}</p>`}
+      <h3>${esc(CL.grading)}</h3><p class="small"><span class="muted">${esc(chip.text)}</span>${chip.summary ? ` ${esc(chip.summary)}` : ""}${chip.caveat ? ` <span class="muted">(${esc(chip.caveat)})</span>` : ""}</p>
+      ${card.instructors.length ? `<h3>${esc(CL.teaching)}</h3><p class="small">${card.instructors.map(i => i.slug ? `<a href="#/professor/${encodeURIComponent(i.slug)}">${esc(i.name)}</a>` : esc(i.name)).join(", ")}</p>` : ""}
+      ${p.roster_url ? `<p><a class="link" href="${esc(p.roster_url)}" target="_blank" rel="noopener">${esc(CL.openRoster)}</a></p>` : ""}
     </div>`;
   }
 
   // ---------- 2. a professor ----------
-  const IDENTITY = { confirmed: ["identity confirmed", "good"], probable: ["identity probable", "amber"], not_confirmed: ["identity not confirmed", "thin"] };
+  const IDENTITY = { confirmed: [CL.identity.confirmed, "good"], probable: [CL.identity.probable, "amber"], not_confirmed: [CL.identity.not_confirmed, "thin"] };
   async function professor(slug, ctx) {
     const { crumbs, page, showAside } = ctx;
-    crumbs([["Classes", "#/classes"], ["Professor", null]]); showAside(null);
-    if (!slug) { page(`<h1>Professor</h1><p class="lead">No professor named. <a href="#/classes">Back to the classes.</a></p>`, true); return; }
+    const back = `<a href="#/classes">${esc(CL.backClasses)}</a>`;
+    crumbs([[CL.crumb, "#/classes"], [CL.professor, null]]); showAside(null);
+    if (!slug) { page(`<h1>${esc(CL.professor)}</h1><p class="lead">${esc(CL.noProfessor)} ${back}</p>`, true); return; }
     const at = readCampus(await campusCtx());
-    if (!at || !at.catalog_file) { page(`<h1>Professor</h1><p class="lead">${esc((at && at.closed_notice) || "The roster is not loaded here yet.")} <a href="#/classes">Back to the classes.</a></p>`, true); return; }
+    if (!at || !at.catalog_file) { page(`<h1>${esc(CL.professor)}</h1><p class="lead">${esc((at && at.closed_notice) || CL.rosterClosedHere)} ${back}</p>`, true); return; }
     let r;
     try { r = await Catalog.loadProfessor(slug, at); }
-    catch (e) { console.error(e); page(`<h1>Professor</h1><div class="notice">The profile could not be read: ${esc(e.message)}.</div>`, true); return; }
-    if (!r.professor) { page(`<h1>Professor</h1><p class="lead">No profile under that name on the roster. <a href="#/classes">Back to the classes.</a></p>`, true); return; }
+    catch (e) { console.error(e); page(`<h1>${esc(CL.professor)}</h1><div class="notice">${esc(fill(CL.profileFailed, { message: e.message }))}</div>`, true); return; }
+    if (!r.professor) { page(`<h1>${esc(CL.professor)}</h1><p class="lead">${esc(CL.noProfileNamed)} ${back}</p>`, true); return; }
     const P = r.professor;
-    crumbs([["Classes", "#/classes"], [P.name, null]]);
+    crumbs([[CL.crumb, "#/classes"], [P.name, null]]);
     // the person's gaps this instructor's classes cover (v18, step 2): the picker's roles and their fit, the same
     // per-card tags the picker reads, joined over this instructor's cards; public facts stay as they are, and nothing
     // here is a rating or a review
     const gapsBlock = await safe(instructorGapsHtml(P, r.classes, ctx, at), "");
-    const taught = r.classes.length ? `<h2>Teaching in ${esc(at.term_label || CFG().CATALOG_TERM || "SP27")}</h2><div class="list">${r.classes.map(c => `<a class="r" href="#/classes?open=${encodeURIComponent(c.code)}"><span class="t">${esc(c.code)}${c.title ? " · " + esc(c.title) : ""}</span><span class="n">open in the picker →</span></a>`).join("")}</div>` : `<p class="small muted">No class on the roster this term.</p>`;
+    const taught = r.classes.length ? `<h2>${esc(fill(CL.teachingIn, { term: at.term_label || CFG().CATALOG_TERM || "SP27" }))}</h2><div class="list">${r.classes.map(c => `<a class="r" href="#/classes?open=${encodeURIComponent(c.code)}"><span class="t">${esc(c.code)}${c.title ? " · " + esc(c.title) : ""}</span><span class="n">${esc(CL.openInPicker)}</span></a>`).join("")}</div>` : `<p class="small muted">${esc(CL.noClassTerm)}</p>`;
     if (P.identity === "not_confirmed") {
-      page(`<p class="eyebrow">Professor</p><h1>${esc(P.name)}</h1><p class="lead">Identity not confirmed; no profile shown.</p>${taught}${gapsBlock}`, true);
+      page(`<p class="eyebrow">${esc(CL.professor)}</p><h1>${esc(P.name)}</h1><p class="lead">${esc(CL.notConfirmed)}</p>${taught}${gapsBlock}`, true);
       return;
     }
     const [idLabel, idClass] = IDENTITY[P.identity] || IDENTITY.not_confirmed;
     const secs = Catalog.mdSections(P.profile_md || "");
-    const angle = secs["Networking angle"] ? `<h2>Networking angle</h2>${Catalog.mdHtml(secs["Networking angle"])}` : "";
-    const bio = secs["Bio"] ? `<details class="disc" style="margin-top:14px"><summary>More</summary><div class="disc-body">${Catalog.mdHtml(secs["Bio"])}</div></details>` : "";
-    const links = [[P.official_profile_url, "Official profile"], [P.personal_site_url, "Personal site"], [P.scholar_url, "Google Scholar"], [P.linkedin_url, "LinkedIn"]].filter(([u]) => u).map(([u, l]) => `<a class="link" href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join(" · ");
-    page(`<p class="eyebrow">Professor</p><h1>${esc(P.name)}</h1>
-      <p class="small"><span class="tag ${idClass}">${idLabel}</span></p>
-      <p class="lead">${esc([P.title, P.affiliation].filter(Boolean).join(" · ") || "Title and affiliation not on record.")}</p>
+    const angle = secs["Networking angle"] ? `<h2>${esc(CL.angle)}</h2>${Catalog.mdHtml(secs["Networking angle"])}` : "";
+    const bio = secs["Bio"] ? `<details class="disc" style="margin-top:14px"><summary>${esc(CL.more)}</summary><div class="disc-body">${Catalog.mdHtml(secs["Bio"])}</div></details>` : "";
+    const links = [[P.official_profile_url, CL.links.official], [P.personal_site_url, CL.links.site], [P.scholar_url, CL.links.scholar], [P.linkedin_url, CL.links.linkedin]].filter(([u]) => u).map(([u, l]) => `<a class="link" href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join(" · ");
+    page(`<p class="eyebrow">${esc(CL.professor)}</p><h1>${esc(P.name)}</h1>
+      <p class="small"><span class="tag ${idClass}">${esc(idLabel)}</span></p>
+      <p class="lead">${esc([P.title, P.affiliation].filter(Boolean).join(" · ") || CL.noTitle)}</p>
       ${(P.expertise || []).length ? `<div class="tags">${P.expertise.map(x => `<span class="tag">${esc(x)}</span>`).join("")}</div>` : ""}
       ${taught}${gapsBlock}${angle}${links ? `<p class="small" style="margin-top:14px">${links}</p>` : ""}${bio}
-      <p class="small muted" style="margin-top:20px">Public professional information only. There are no ratings or reviews here.</p>`, true);
+      <p class="small muted" style="margin-top:20px">${esc(CL.publicOnly)}</p>`, true);
   }
 
   // "Your gaps" on the professor card: "" when no role is chosen, no fit is on file, or the instructor teaches nothing
@@ -257,17 +259,18 @@
     const gaps = Catalog.instructorGaps(mine, coverage(mine, readAll(mine, data), G.gaps, generic));
     const link = code => `<a href="#/classes?open=${encodeURIComponent(code)}">${esc(code)}</a>`;
     const fitLinks = Catalog.joinLabels(G.roleIds.map(id => `<a href="#/role/${esc(id)}/fit">${esc(ix.roles[id].label)}</a>`));
+    const words = { name: P.name, classes: mine.length === 1 ? CL.classWord : CL.classesWord, roles: G.label };
     const body = gaps.length
-      ? `<p class="small">${esc(P.name)}'s ${mine.length === 1 ? "class" : "classes"} this term cover ${gaps.length} of your ${G.gaps.length} ${G.gaps.length === 1 ? "gap" : "gaps"} for ${esc(G.label)}.</p><ul class="plain">${gaps.map(g => `<li><b>${esc(g.name)}</b> · ${g.codes.map(link).join(", ")}</li>`).join("")}</ul>`
-      : `<p class="small muted">None of ${esc(P.name)}'s ${mine.length === 1 ? "class" : "classes"} this term names one of your ${G.gaps.length} gaps for ${esc(G.label)}.</p>`;
-    return `<h2>Your gaps</h2>${body}<p class="small muted">Read from the course text by kind, as the picker reads it; a course can teach a skill without naming it. Your fit for ${fitLinks}.</p>`;
+      ? `<p class="small">${esc(fill(CL.profCovers, { ...words, n: gaps.length, gaps: `${G.gaps.length} ${G.gaps.length === 1 ? CL.gapWord : CL.gapsWord}` }))}</p><ul class="plain">${gaps.map(g => `<li><b>${esc(g.name)}</b> · ${g.codes.map(link).join(", ")}</li>`).join("")}</ul>`
+      : `<p class="small muted">${esc(fill(CL.profCoversNone, { ...words, n: G.gaps.length }))}</p>`;
+    return `<h2>${esc(CL.yourGaps)}</h2>${body}<p class="small muted">${fill(esc(CL.byKind), { links: fitLinks })}</p>`;
   }
 
   // ---------- 3. #/signin: one line, then home (the roster is open; nothing here needs an account) ----------
   async function signin(ctx) {
     const { crumbs, page, showAside } = ctx;
-    crumbs([["Home", "#/home"]]); showAside(null);
-    page(`<p class="lead">Sign-in is off. Everything here is open. <a href="#/home">Home →</a></p>`, true);
+    crumbs([[Copy.common.home, "#/home"]]); showAside(null);
+    page(`<p class="lead">${esc(CL.signinOff)} <a href="#/home">${esc(CL.homeLink)}</a></p>`, true);
     // the entry is replaced, not pushed, so Back leaves as it came
     setTimeout(() => { if (location.hash.startsWith("#/signin")) location.replace(location.pathname + location.search + "#/home"); }, 1500);
   }
@@ -277,7 +280,7 @@
   // { top: [{ key, codes, title, covered }], byGap: { gapId: [{ key, code }] } } over every card. gaps: [{ id, name, tier, w }].
   async function coverGaps(gaps) {
     const cm = readCampus(await campusCtx()) || {};
-    const closed = { closed: cm.rail_closed_line || "The roster is not loaded here yet." };
+    const closed = { closed: cm.rail_closed_line || CL.rosterClosedHere };
     if (!cm.catalog || !cm.catalog_file) return closed;
     let data; try { data = await Catalog.loadCatalog(cm); } catch (e) { console.error(e); return closed; }
     if (!data.classes.length) return closed;

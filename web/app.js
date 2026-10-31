@@ -5,10 +5,12 @@
    Data comes from atlas.js; the side panel (owner's choice 8B) shows a skill or a posting. */
 // The route: the hash read into the screen to show, its path parts and its query. Pure, no DOM; UMD like atlas.js,
 // so node loads it alone (tests/web/routes.test.mjs): require("web/app.js").parseRoute.
+// Every string a screen owns is web/copy.js (Copy, loaded first; required here in node): the pure tables Intake and
+// Door.COPY below are views over it.
 (function (root, factory) {
-  if (typeof module === "object" && module.exports) module.exports = factory();
-  else { root.Routes = factory(); root.Stage = root.Routes.Stage; root.Intake = root.Routes.Intake; root.Door = root.Routes.Door; }
-})(typeof self !== "undefined" ? self : this, function () {
+  if (typeof module === "object" && module.exports) module.exports = factory(root.Copy || require("./copy.js"));
+  else { root.Routes = factory(root.Copy); root.Stage = root.Routes.Stage; root.Intake = root.Routes.Intake; root.Door = root.Routes.Door; }
+})(typeof self !== "undefined" ? self : this, function (Copy) {
   "use strict";
   const SCREENS = { "": "door", home: "home", jobs: "jobs", skills: "skills", network: "network", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about", classes: "classes", professor: "professor", signin: "signin" };
   // "#/role/pm/fit?x=1" -> { name: "fit", params: { id: "pm" }, query: { x: "1" }, parts: ["role", "pm", "fit"], search: "x=1" }.
@@ -61,18 +63,14 @@
   // verb), an email, Notify me. No free-text field. Pure, so evals/stage.mjs and tests/web/intake.test.mjs can read
   // every string: none says a cohort, a price, a date or "apply", and no sentence runs over 20 words.
   const Intake = {
-    heading: "GradBuddy is coming soon.",
-    line: {
-      skills: "GradBuddy will give you personalized projects. Each one builds a skill you need. Each one is aimed at the roles, industries and companies you want.",
-      network: "GradBuddy will find events near you that fit your role. It will show you who to meet and what to say.",
-      classes: "GradBuddy will turn your classes into proof of the skills you need.",
-    },
-    email: "Email",
-    button: "Notify me",
-    done: "Got it. We will be in touch.",
-    privacy: "We keep your email to tell you when it is ready. Nothing else.",
+    heading: Copy.intake.heading,
+    line: Copy.intake.line,
+    email: Copy.intake.email,
+    button: Copy.intake.button,
+    done: Copy.intake.done,
+    privacy: Copy.intake.privacy,
     // the one data-built line over the picker's box, when a role is chosen and the person's fit leaves gaps
-    gapsLine: label => `These are your gaps for ${label}. The classes below say which they cover.`,
+    gapsLine: label => Copy.fill(Copy.intake.gapsLine, { label }),
     // the surface a click comes from, for the line: the rail's three placeholders and the fit screen's foot are the
     // skills verb; the picker's foot the classes verb; the networking screen its own
     surfaceOf: what => what === "classes" || what === "network" ? what : "skills",
@@ -83,26 +81,11 @@
   };
   // The door (#/) and home (#/home), v19 B2. The door is a welcome screen, not a gate: everyone can skip it, and the
   // email is capture and routing, never a credential (nothing behind it is private, no screen says "sign in"). Pure:
-  // every string on the two screens is here so tests/web/door.test.mjs and the copy pass (B6) read them from one place,
-  // and the four functions touch no DOM and no storage. The screens store the answers (door.email, door.where,
+  // every string on the two screens is in web/copy.js (Copy.door, Copy.home, the bar Copy.common.bar) and COPY is a
+  // view over them with the shape tests/web/door.test.mjs reads; the four functions touch no DOM and no storage. The screens store the answers (door.email, door.where,
   // door.seen) in localStorage; the email never goes in the URL, and nothing is sent anywhere (B7 adds the form).
   const Door = {
-    COPY: {
-      heading: "Welcome to GradBuddy.",
-      intro: ["GradBuddy helps grad students find the right jobs, build the skills those jobs ask for, and meet the right people.", "We have spent the past few weeks on a few of those pieces. They are ready to share."],
-      // {roles} is the role count from the index, rounded down to a multiple of 10 (Door.inside)
-      inside: "Inside: jobs for grad students, over {roles} roles, Spring 2027 classes at Cornell Tech, and who to meet on campus.",
-      email: "Your email", emailPlaceholder: "user@school.edu",
-      where: "What are you studying?", pick: "Pick one",
-      cornell: "Some parts are for Cornell students. A Cornell address opens them.",
-      button: "Continue", skip: "Skip for now",
-      privacy: "We keep your email to send you what we build. Nothing you upload later leaves your browser.",
-      home: "What do you want to do?",
-      more: "More about you",
-      // the grayed Find classes card: the line, then a link to the door in the middle of the second sentence
-      closed: "For Cornell students for now.", closedLink: "Enter a Cornell address", closedAfter: "to open it.",
-      bar: { jobs: "Find jobs", skills: "Explore roles", classes: "Find classes", network: "Networking" },   // the top bar's short labels
-    },
+    COPY: { ...Copy.door, home: Copy.home.heading, more: Copy.home.more, closed: Copy.home.closed, closedLink: Copy.home.closedLink, closedAfter: Copy.home.closedAfter, bar: Copy.common.bar },
     // a Cornell NetID address and nothing else (owner's decision 2, 2026-10-29): two or three letters then one to four
     // digits at cornell.edu, any case, spaces around it ignored. john.smith@cornell.edu, an alumni address and a
     // gmail address are kept like any other email but open nothing.
@@ -121,12 +104,12 @@
     // US postings of both role sets, the employers behind them, the roles in the index); Find classes is closed unless
     // the email opens it
     verbs(email, counts) {
-      const c = counts || {};
+      const c = counts || {}, V = Copy.home.verbs, fill = Copy.fill;
       return [
-        { key: "jobs", href: "#/jobs", title: "Find jobs", line: `Search over ${Door.thousands(c.nOpen || 0)} open jobs in popular fields for grad students, from over ${Door.hundreds(c.nCompanies || 0)} companies.`, open: true },
-        { key: "skills", href: "#/skills", title: "Explore roles & build skills", line: `Explore over ${Door.tens(c.nRoles || 0)} roles and see how your experience and skills match up.`, open: true },
-        { key: "classes", href: "#/classes", title: "Find classes", line: "Pick Spring 2027 classes at Cornell Tech that build the skills your roles ask for.", open: Door.opens(email) },
-        { key: "network", href: "#/network", title: "Networking", line: "Meet the faculty on campus whose classes build what your roles ask for.", open: true },
+        { key: "jobs", href: "#/jobs", title: V.jobs.title, line: fill(V.jobs.line, { jobs: Door.thousands(c.nOpen || 0), companies: Door.hundreds(c.nCompanies || 0) }), open: true },
+        { key: "skills", href: "#/skills", title: V.skills.title, line: fill(V.skills.line, { roles: Door.tens(c.nRoles || 0) }), open: true },
+        { key: "classes", href: "#/classes", title: V.classes.title, line: V.classes.line, open: Door.opens(email) },
+        { key: "network", href: "#/network", title: V.network.title, line: V.network.line, open: true },
       ];
     },
   };
@@ -136,15 +119,16 @@
   "use strict";
   if (typeof document === "undefined") return;   // node loads this file for parseRoute alone
   const $ = s => document.querySelector(s);
+  const fill = Copy.fill, CM = Copy.common, RF = Copy.common.resume;   // the strings: web/copy.js
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const pct = v => Math.round(v * 100) + "%";
   const fmt = n => Number(n).toLocaleString();
   const plural = (n, one, many) => `${fmt(n)} ${n === 1 ? one : many}`;
   const join = xs => xs.length > 1 ? xs.slice(0, -1).join(", ") + " and " + xs[xs.length - 1] : xs[0] || "";
   const cap = t => t.replace(/^./, c => c.toUpperCase()), low = t => t.replace(/^./, c => c.toLowerCase());
-  const inWords = v => v >= 0.9 ? "nearly every posting" : v >= 0.66 ? "about 2 in 3 postings" : v >= 0.45 ? "about half of postings" : v >= 0.3 ? "about 1 in 3 postings" : v >= 0.2 ? "about 1 in 4 postings" : v >= 0.12 ? "about 1 in 7 postings" : "fewer than 1 in 8 postings";
-  const EV_GROUPS = [["early", "Entry and mid-level"], ["senior", "Senior"], ["staff", "Lead / principal"], ["lead", "Director and up"]];
-  const LADDER_KEYS = [["associate", "Entry"], ["mid", "Mid-level"], ["senior", "Senior"], ["lead", "Lead"]];
+  const inWords = v => { const S = Copy.role.shareWords; return v >= 0.9 ? S.nearlyAll : v >= 0.66 ? S.twoThirds : v >= 0.45 ? S.half : v >= 0.3 ? S.third : v >= 0.2 ? S.quarter : v >= 0.12 ? S.seventh : S.few; };
+  const EV_GROUPS = Object.entries(Copy.role.evGroups);
+  const LADDER_KEYS = Object.entries(Copy.role.ladderKeys);
   const STEP_TO_EV = { entry: "early", mid: "early", senior: "senior", lead: "staff" };
   // A skill's build steps are a flat list of strings (product skills) or keyed by industry ladder, each step with its
   // source ({bank: [{kind, text, source_title, url, grounding, ...}]}: MBA skills). Keyed steps are read on the role's
@@ -173,25 +157,25 @@
     if (typeof b === "string") return esc(b);
     const title = b.source_title || b.source || "";
     const src = b.url ? `<a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(title)}</a>` : esc(title);
-    return esc(b.text) + (title ? ` <span class="small muted">Source: ${src}${b.grounding === "input only" ? " (names the input, not the method)" : ""}.</span>` : "");
+    return esc(b.text) + (title ? ` <span class="small muted">${esc(Copy.role.source)}${src}${b.grounding === "input only" ? esc(Copy.role.inputOnly) : ""}.</span>` : "");
   }
 
   // ---------- theme: the device decides unless the person overrides ----------
   const THEMES = ["system", "dark", "light"], GLYPH = { system: "◐", dark: "●", light: "○" };
   let theme = "system"; try { theme = localStorage.getItem("theme") || "system"; } catch { }
-  function applyTheme(t) { theme = THEMES.includes(t) ? t : "system"; if (theme === "system") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = theme; const b = $("#theme"); b.textContent = GLYPH[theme]; b.title = theme === "system" ? "Theme follows your device. Click to change." : `Theme: ${theme}. Click to change.`; }
+  function applyTheme(t) { theme = THEMES.includes(t) ? t : "system"; if (theme === "system") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = theme; const b = $("#theme"); b.textContent = GLYPH[theme]; b.title = theme === "system" ? CM.theme : fill(CM.themeSet, { theme }); }
   applyTheme(theme);
   $("#theme").onclick = () => { applyTheme(THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length]); try { localStorage.setItem("theme", theme); } catch { } };
 
   // ---------- shell helpers ----------
   const main = $("#main"), aside = $("#aside"), shell = $("#shell");
-  function crumbs(items) { $("#crumbs").innerHTML = items.map((it, i) => (i ? '<span class="sep">/</span>' : "") + (it[1] ? `<a href="${esc(it[1])}">${esc(it[0])}</a>` : `<span class="here">${esc(it[0])}</span>`)).join(""); document.title = (items.length ? items[items.length - 1][0] + " · " : "") + "Role atlas · GradBuddy"; }
+  function crumbs(items) { $("#crumbs").innerHTML = items.map((it, i) => (i ? '<span class="sep">/</span>' : "") + (it[1] ? `<a href="${esc(it[1])}">${esc(it[0])}</a>` : `<span class="here">${esc(it[0])}</span>`)).join(""); document.title = (items.length ? items[items.length - 1][0] + " · " : "") + CM.title; }
   // The side column has two modes. Elsewhere it is an overlay that opens on a selection (owner's choice 8B). On a
   // role screen it is the rail (owner's decision 2026-10-24): always there, holding the legend, the person's fit and
   // the things to do with the role; a skill or posting card draws over it with "← Back". Under the breakpoint in
   // style.css the rail collapses to an edge tab and opens as the overlay.
   let railBase = null;   // a function that draws the rail's own content, so a toggle inside it redraws from the current state
-  const railTab = document.createElement("button"); railTab.type = "button"; railTab.className = "rail-tab"; railTab.textContent = "Your fit"; railTab.setAttribute("aria-label", "Open the side panel"); railTab.onclick = () => shell.classList.toggle("rail-open"); shell.appendChild(railTab);
+  const railTab = document.createElement("button"); railTab.type = "button"; railTab.className = "rail-tab"; railTab.textContent = CM.railTab; railTab.setAttribute("aria-label", CM.railOpen); railTab.onclick = () => shell.classList.toggle("rail-open"); shell.appendChild(railTab);
   function showRail(base) { railBase = base; shell.classList.add("with-rail"); aside.classList.add("rail"); }
   function leaveRail() { railBase = null; shell.classList.remove("with-rail", "rail-open"); aside.classList.remove("rail"); }
   function showAside(html) {
@@ -199,7 +183,7 @@
     aside.hidden = false; if (!railBase) shell.classList.add("with-aside"); aside.innerHTML = html; aside.scrollTop = 0;
   }
   function page(html, narrow) { main.innerHTML = `<div class="page${narrow ? " narrow" : ""}">${html}</div>`; window.scrollTo(0, 0); }
-  function fail(e) { console.error(e); page(`<h1>Something did not load</h1><p class="lead">${esc(e.message)}. Reload the page; if it happens again, the data files may be missing.</p>`, true); showAside(null); }
+  function fail(e) { console.error(e); page(`<h1>${esc(CM.failHeading)}</h1><p class="lead">${esc(fill(CM.failLine, { message: e.message }))}</p>`, true); showAside(null); }
 
   // ---------- tooltips (owner's choices X1 and X2, 2026-10-19) ----------
   // One box for the whole app. An ⓘ (`tip(text)`, a button with data-tip) opens it on click and never on hover;
@@ -207,7 +191,7 @@
   // data-measure) explains what it shows and what that means while the pointer is over it.
   const tipBox = document.createElement("div"); tipBox.className = "tipbox"; tipBox.setAttribute("role", "tooltip"); tipBox.hidden = true; document.body.appendChild(tipBox);
   let tipFor = null, tipPinned = false;
-  const tip = text => `<button type="button" class="tip" aria-label="What this means" aria-expanded="false" data-tip="${esc(text)}">i</button>`;
+  const tip = text => `<button type="button" class="tip" aria-label="${esc(CM.tipLabel)}" aria-expanded="false" data-tip="${esc(text)}">i</button>`;
   function showTip(el, text, pinned) {
     if (tipPinned && !pinned) return;   // a clicked ⓘ stays while the pointer wanders over bars
     if (tipFor && tipFor !== el && tipFor.hasAttribute("data-tip")) tipFor.setAttribute("aria-expanded", "false");
@@ -373,8 +357,8 @@
   }
   async function skillsScreen() {
     const C = Launcher.COPY;
-    crumbs([["Home", "#/home"], [C.heading, null]]); showAside(null);
-    page(`<h1>${esc(C.heading)}</h1><p class="lead">Loading the roles…</p>`);
+    crumbs([[CM.home, "#/home"], [C.heading, null]]); showAside(null);
+    page(`<h1>${esc(C.heading)}</h1><p class="lead">${esc(CM.loadingRoles)}</p>`);
     const ix = await Atlas.index(); await Atlas.product().catch(console.error);   // the Product tile carries its roles
     const here = () => Routes.parseRoute(location.hash).name === "skills";
     if (!here()) return;
@@ -395,8 +379,8 @@
     const right = () => {
       if (!state.resume || s.change) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2><p class="small muted">${esc(C.resume.privacy)}</p>${resumeForm()}<p><button type="button" class="btn primary" id="lf-read">${esc(C.resume.read)}</button></p>${you}</section>`;
       const onFile = `<p class="small muted">${esc(state.resume.name)} · ${esc(C.resume.onFile)} · <button type="button" class="linkish link" id="lf-change">${esc(C.resume.change)}</button></p>`;
-      if (!light || light.text !== state.resume.text) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}<p class="small muted">${light && light.failed ? "Could not read it against the roles. Reload the page to try again." : "Reading it against the closest roles…"}</p>${you}</section>`;
-      const top = light.chosen; if (!top) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}<p class="small muted">No role reads close to it yet. Pick a role on the left and open your fit there.</p>${you}</section>`;
+      if (!light || light.text !== state.resume.text) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}<p class="small muted">${esc(light && light.failed ? C.resume.failed : C.resume.reading)}</p>${you}</section>`;
+      const top = light.chosen; if (!top) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}<p class="small muted">${esc(C.resume.noClose)}</p>${you}</section>`;
       const L = Launcher.matchLines(top);
       return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}
         ${L.bandLabel ? `<p><b>${esc(L.bandLabel)}</b> for ${esc(top.label)}.</p>` : ""}
@@ -408,7 +392,7 @@
     const wireLeft = () => main.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { s.field = s.field === b.dataset.field ? null : b.dataset.field; s.q = ""; $("#lf-q").value = ""; drawLeft(); });
     const drawLeft = () => { $("#lf-body").innerHTML = left(); wireLeft(); writeHash(); };
     const wireRight = () => {
-      if ($("#drop")) { wireResumeForm(); $("#lf-read").onclick = async () => { if (await takeResume()) { s.change = false; drawRight(); } else $("#file-status").textContent = "Add a file or paste some text first."; }; }
+      if ($("#drop")) { wireResumeForm(); $("#lf-read").onclick = async () => { if (await takeResume()) { s.change = false; drawRight(); } else $("#file-status").textContent = RF.nothing; }; }
       const ch = $("#lf-change"); if (ch) ch.onclick = () => { s.change = true; drawRight(); };
     };
     const drawRight = () => {
@@ -416,7 +400,7 @@
       if (state.resume && !s.change && (!light || light.text !== state.resume.text)) { const text = state.resume.text; closestFits(ix).then(res => { if (!here() || !state.resume || state.resume.text !== text) return; light = res; drawRight(); }).catch(e => { console.error(e); if (here()) { light = { text, failed: true, chosen: null, rows: [] }; $("#lf-side").innerHTML = right(); wireRight(); } }); }
     };
     page(`<h1>${esc(C.heading)}</h1><p class="lead lf-lead">${esc(Launcher.lead(ix))}</p>
-      <div class="lf"><section class="lf-main" aria-label="Roles"><input type="search" class="lf-q" id="lf-q" value="${esc(s.q)}" placeholder="${esc(C.search)}" aria-label="${esc(C.searchLabel)}" autocomplete="off"><div id="lf-body"></div></section><div class="lf-side" id="lf-side"></div></div>`);
+      <div class="lf"><section class="lf-main" aria-label="${esc(C.rolesAria)}"><input type="search" class="lf-q" id="lf-q" value="${esc(s.q)}" placeholder="${esc(C.search)}" aria-label="${esc(C.searchLabel)}" autocomplete="off"><div id="lf-body"></div></section><div class="lf-side" id="lf-side"></div></div>`);
     main.firstElementChild.classList.add("wide", "lf-page");
     let timer = null;
     $("#lf-q").oninput = e => { clearTimeout(timer); timer = setTimeout(() => { s.q = e.target.value; drawLeft(); }, 150); };
@@ -457,8 +441,8 @@
   }
   async function networkScreen() {
     const C = Network.COPY;
-    crumbs([["Home", "#/home"], ["Networking", null]]); showAside(null);
-    page(`<h1>${esc(C.heading)}</h1><p class="lead">Loading the roles…</p>`);
+    crumbs([[CM.home, "#/home"], [C.crumb, null]]); showAside(null);
+    page(`<h1>${esc(C.heading)}</h1><p class="lead">${esc(CM.loadingRoles)}</p>`);
     const ix = await Atlas.index(); await Atlas.product().catch(console.error);
     const here = () => Routes.parseRoute(location.hash).name === "network";
     if (!here()) return;
@@ -491,14 +475,14 @@
       const target = targets.length ? targets.find(t => t.key === s.key).row : null;
       writeHash();
       const W = Network.who(s.type, K), outs = Network.where(s.type, K, H, s.type === "faculty" ? target : null), S = Network.say(s.type, K, target);
-      const lead = read ? esc(Network.lead(K)) : `These people can help with the skills most ${esc(role.label)} postings ask for. <a href="#/you">Add your résumé</a> to see which you show.`;
+      const lead = read ? esc(Network.lead(K)) : `${esc(fill(C.leadNoResume, { role: role.label }))} <a href="#/you">${esc(C.addResume)}</a> ${esc(C.addResumeAfter)}`;
       const roleSel = `<label class="dlabel nw-role">${esc(C.role)}<select id="nw-role">${groups.map(({ g, roles }) => `<optgroup label="${esc(g.label)}">${roles.map(r => `<option value="${esc(r.id)}"${r.id === role.id ? " selected" : ""}>${esc(r.label)}</option>`).join("")}</optgroup>`).join("")}</select></label>`;
       const tabs = `<div class="tabs nw-tabs" role="tablist">${types.map(t => `<button type="button" role="tab" class="${t.id === s.type ? "on" : ""}" aria-selected="${t.id === s.type}" data-type="${esc(t.id)}">${esc(t.label)}</button>`).join("")}</div><p class="small muted nw-good">${esc(type.good)} <span class="facts">${esc(Network.count(s.type, K))}</span></p>`;
       // who to look for: one line per level, at most five employers, the professors or the skills to split
       const lv = W.levels.length ? `<ul class="plain nw-lv">${W.levels.map(l => `<li><b>${esc(l.label)}</b> · ${l.titles.map(x => `${esc(x.title)} <span class="muted">(${esc(x.company)})</span>`).join(" · ")}</li>`).join("")}</ul>` : "";
-      const emps = W.employers.length ? `<div class="list nw-emps">${W.employers.map(e => `<div class="r"><span class="t">${esc(e.company)}</span><span class="n">${fmt(e.nOpen)} open</span><span class="m">${esc(e.roles.slice(0, 4).join(", "))}</span></div>`).join("")}</div>` : "";
-      const profRow = p => `<a class="r" href="#/professor/${encodeURIComponent(p.slug)}"><span class="t">${esc(p.name)}</span><span class="n">${p.covers.length ? `${p.covers.length} of ${p.nGaps} gaps` : esc(p.codes.slice(0, 2).join(", "))}</span><span class="m">${esc(p.line)}${p.covers.length ? ` · covers ${esc(p.covers.map(g => g.name).join(", "))}` : ""}</span></a>`;
-      const profs = !W.profs ? "" : W.profs.length ? `<div class="list nw-emps">${W.profs.slice(0, 8).map(profRow).join("")}</div>${W.profs.length > 8 ? `<p class="small muted">${fmt(W.profs.length - 8)} more in the prep card's list.</p>` : ""}` : rosterFailed ? `<p class="small muted">The roster did not load. Reload the page to try again.</p>` : "";
+      const emps = W.employers.length ? `<div class="list nw-emps">${W.employers.map(e => `<div class="r"><span class="t">${esc(e.company)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(e.nOpen) }))}</span><span class="m">${esc(e.roles.slice(0, 4).join(", "))}</span></div>`).join("")}</div>` : "";
+      const profRow = p => `<a class="r" href="#/professor/${encodeURIComponent(p.slug)}"><span class="t">${esc(p.name)}</span><span class="n">${p.covers.length ? esc(fill(C.gapsOf, { n: p.covers.length, m: p.nGaps })) : esc(p.codes.slice(0, 2).join(", "))}</span><span class="m">${esc(p.line)}${p.covers.length ? esc(fill(C.covers, { names: p.covers.map(g => g.name).join(", ") })) : ""}</span></a>`;
+      const profs = !W.profs ? "" : W.profs.length ? `<div class="list nw-emps">${W.profs.slice(0, 8).map(profRow).join("")}</div>${W.profs.length > 8 ? `<p class="small muted">${esc(fill(C.moreProfs, { n: fmt(W.profs.length - 8) }))}</p>` : ""}` : rosterFailed ? `<p class="small muted">${esc(C.rosterFailed)}</p>` : "";
       const skills = W.skills ? `<div class="tags">${W.skills.map(x => `<span class="tag amber">${esc(x.name)}</span>`).join("")}</div>` : "";
       const who = `<section class="nw-sec"><h2>${esc(C.who)}</h2><p>${esc(W.lead)}</p>${lv}${W.note ? `<p class="small muted">${esc(W.note)}</p>` : ""}${emps}${profs}${skills}</section>`;
       const where = `<section class="nw-sec"><h2>${esc(C.where)}</h2><p class="small muted">${esc(C.whereNote)}</p>${outs.length ? `<ul class="nw-outs">${outs.map(o => `<li><a href="${esc(o.href)}"${o.external ? ' target="_blank" rel="noopener"' : ""}>${esc(o.label)}${o.external ? " ↗" : ""}</a><span class="small muted">${esc(o.what)}</span></li>`).join("")}</ul>` : `<p class="small muted">${esc(C.noWhere)}</p>`}</section>`;
@@ -515,7 +499,7 @@
       const list = listGet();
       const listHtml = `<section class="widget nw-list"><h2>${esc(C.list)}</h2>${list.length ? list.map((x, i) => `<div class="nw-chat"><span>${esc(Network.typeOf(x.type).label)}${x.label ? " · " + esc(x.label) : ""} <span class="muted">· ${esc((ix.roles[x.role] || {}).label || x.role)}</span></span><button type="button" class="linkish link" data-open="${i}">${esc(C.open)}</button><button type="button" class="linkish link" data-drop="${i}">${esc(C.remove)}</button></div>`).join("") : `<p class="small muted">${esc(C.noChats)}</p>`}<p class="small muted">${esc(C.stays)}</p></section>`;
       page(`<p class="eyebrow">${esc(Network.fill(C.eyebrow, { role: role.label }))}</p><h1>${esc(C.heading)}</h1><p class="lead">${lead}</p>
-        <div class="nw"><div class="nw-main">${roleSel}${tabs}${who}${where}<div class="fit-wait">${applyBox("network", { always: true, role_id: role.id })}</div></div><aside class="nw-side" aria-label="Prep a chat and your list">${prep}${listHtml}</aside></div>`);
+        <div class="nw"><div class="nw-main">${roleSel}${tabs}${who}${where}<div class="fit-wait">${applyBox("network", { always: true, role_id: role.id })}</div></div><aside class="nw-side" aria-label="${esc(C.sideAria)}">${prep}${listHtml}</aside></div>`);
       main.firstElementChild.classList.add("wide", "nw-page");
       // ---- the wiring ----
       wireWait(main, redraw);
@@ -538,25 +522,21 @@
   async function play(slug) {
     const gm = (await games()).find(g => g.slug === slug);
     if (!gm) return home();
-    crumbs([["Home", "#/home"], [gm.title, null]]); showAside(null);
+    crumbs([[CM.home, "#/home"], [gm.title, null]]); showAside(null);
     const G = window.Games[slug];
     if (gm.status === "live" && G && G.mount) { main.innerHTML = ""; window.scrollTo(0, 0); return G.mount(main, { Atlas, game: gm, showAside, crumbs, esc }); }
-    page(`<p class="eyebrow">Coming soon</p><h1>${esc(gm.title)}</h1><p class="lead">${esc(gm.tagline)}.</p>
-      <div class="cover big"><img src="${esc(gm.cover)}" alt="${esc(gm.title)}, an early design" onerror="this.remove()"><span class="ph-t">${esc(gm.title)}</span></div>
-      <div class="row" style="margin-top:16px"><a class="btn" href="#/home">← Home</a><a class="btn quiet" href="#/explore">Explore the roles</a></div>`, true);
+    page(`<p class="eyebrow">${esc(Copy.games.comingSoon)}</p><h1>${esc(gm.title)}</h1><p class="lead">${esc(gm.tagline)}.</p>
+      <div class="cover big"><img src="${esc(gm.cover)}" alt="${esc(fill(Copy.games.earlyDesign, { title: gm.title }))}" onerror="this.remove()"><span class="ph-t">${esc(gm.title)}</span></div>
+      <div class="row" style="margin-top:16px"><a class="btn" href="#/home">${esc(CM.backHome)}</a><a class="btn quiet" href="#/explore">${esc(Copy.games.exploreRoles)}</a></div>`, true);
   }
   // ---------- 2. tell us about you: three questions and an optional resume, then a summary of what we know (Y3) ----------
   // Owner's decisions (2026-10-24): the program options are the ones Cornell Tech and IE New York offer, folded to the
   // five groups the postings can say something about (the beachhead: no law, PhD or undergrad for now, no "working");
   // the second question is the person's stage in the search, which decides what the role page's rail leads with
   // (the earlier "what are you looking for" question, owner's choice Y2, changed nothing on screen; this one does).
-  const Q = [
-    { key: "where", title: "What are you studying?", options: [["business", "Business, management or finance", "MBA, Tech MBA, Master in Management, Master in Finance"], ["analytics", "Analytics or data science", "MSBA, Business Analytics & AI, Data Science & Decision Analytics, ORIE"], ["cs", "Computer science or software", "MEng CS, software engineering"], ["ece", "Electrical, hardware or systems", "MEng ECE, robotics, embedded"], ["infosci", "Information science, design or health/urban tech", "Connective Media, Health Tech, Urban Tech, MS Design Technology"]] },
-    { key: "stage", title: "Where are you in your search?", options: [["looking", "I'm open to roles that fit me", "Show me what I have a shot at"], ["targeting", "I know the role I want", "Show me which of its skills I have and how to fill the gaps"], ["curious", "I just want to explore the jobs and skills data", "No resume needed"]] },
-    { key: "fields", title: "Which fields interest you?", multi: true, hint: "Pick as many as you like, or none." },
-  ];
-  const WHERE = Object.fromEntries(Q[0].options.map(o => [o[0], o[1]])), WHERE_SHORT = { business: "Business", analytics: "Analytics", cs: "CS", ece: "ECE", infosci: "Info science" };
-  const STAGE = Object.fromEntries(Q[1].options.map(o => [o[0], o[1]])), STAGE_SHORT = { looking: "open to roles that fit", targeting: "knows the role", curious: "exploring the data" };
+  const YOU = Copy.you, Q = YOU.questions;   // the questions, in order (web/copy.js): key, title, options as [id, label, examples]
+  const WHERE = Object.fromEntries(Q[0].options.map(o => [o[0], o[1]])), WHERE_SHORT = YOU.whereShort;
+  const STAGE = Object.fromEntries(Q[1].options.map(o => [o[0], o[1]])), STAGE_SHORT = YOU.stageShort;
   // the programs an engineering student is in open the technical area first on a role screen
   const TECHNICAL_PROGRAMS = ["cs", "ece", "infosci"];
   let wiz = null;
@@ -564,7 +544,7 @@
   async function you() {
     const ix = await Atlas.index();
     if (!ix.roles[Atlas.productKey("pm")]) Atlas.product().then(() => { if (wiz && location.hash.startsWith("#/you")) you(); }).catch(() => { });   // the product field's example roles
-    crumbs([["About you", null]]); showAside(null);
+    crumbs([[YOU.crumb, null]]); showAside(null);
     const { query } = Routes.parseRoute(location.hash);
     const editing = query.step != null;
     if (!editing && !wiz && (state.you || state.resume)) return youSummary(ix);
@@ -575,25 +555,25 @@
       const n = Q.length + 1, i = wiz.step;
       const steps = `<div class="steps">${Array.from({ length: n }, (_, k) => `<i class="${k <= i ? "done" : ""}"></i>`).join("")}</div>`;
       const after = wiz.back ? "#/you" : "#/explore";
-      const nav = (nextLabel, nextAction) => `<div class="row between" style="margin-top:16px"><button type="button" class="btn quiet" id="back">← Back</button><span class="row">${i === Q.length ? `<a class="btn" href="${after}" id="skip">Skip for now</a>` : ""}<button type="button" class="btn primary" id="next">${nextLabel}</button></span></div>`;
+      const nav = (nextLabel, nextAction) => `<div class="row between" style="margin-top:16px"><button type="button" class="btn quiet" id="back">${esc(CM.back)}</button><span class="row">${i === Q.length ? `<a class="btn" href="${after}" id="skip">${esc(YOU.skip)}</a>` : ""}<button type="button" class="btn primary" id="next">${esc(nextLabel)}</button></span></div>`;
       if (i < Q.length) {
         const q = Q[i];
         // the fields carry two example roles each (owner's choice Y1), so a name like "Operations & general
         // management" says what is inside; all eleven sit above the fold in two columns
-        const examples = g => { const names = g.roles.map(r => (ix.roles[r] || {}).label).filter(Boolean).slice(0, 2); return names.length ? names.join(" · ") : g.id === "product" ? "Product manager · Product marketing" : ""; };
+        const examples = g => { const names = g.roles.map(r => (ix.roles[r] || {}).label).filter(Boolean).slice(0, 2); return names.length ? names.join(" · ") : g.id === "product" ? YOU.productExamples : ""; };
         const opts = q.multi ? ix.groups.map(g => [g.id, g.label, examples(g)]) : q.options.map(([id, label, ex]) => [id, label, ex || ""]);
         const on = id => q.multi ? wiz.answers.fields.has(id) : wiz.answers[q.key] === id;
-        page(`${steps}<p class="eyebrow">Question ${i + 1} of ${Q.length}</p><h1>${esc(q.title)}</h1>${q.hint ? `<p class="lead">${esc(q.hint)}</p>` : ""}
-          <div class="opts${q.multi ? " two" : ""}">${opts.map(([id, label, ex]) => `<button type="button" class="opt${on(id) ? " on" : ""}" data-opt="${esc(id)}" aria-pressed="${on(id)}">${esc(label)}${ex ? `<small>${esc(ex)}</small>` : ""}</button>`).join("")}</div>${nav("Next →")}`, true);
+        page(`${steps}<p class="eyebrow">${esc(fill(YOU.step, { i: i + 1, n: Q.length }))}</p><h1>${esc(q.title)}</h1>${q.hint ? `<p class="lead">${esc(q.hint)}</p>` : ""}
+          <div class="opts${q.multi ? " two" : ""}">${opts.map(([id, label, ex]) => `<button type="button" class="opt${on(id) ? " on" : ""}" data-opt="${esc(id)}" aria-pressed="${on(id)}">${esc(label)}${ex ? `<small>${esc(ex)}</small>` : ""}</button>`).join("")}</div>${nav(YOU.next)}`, true);
         if (q.multi) main.firstElementChild.classList.add("roomy");   // two columns of cards need more than the narrow column
         main.querySelectorAll("[data-opt]").forEach(b => b.onclick = () => { const id = b.dataset.opt; if (q.multi) { wiz.answers.fields.has(id) ? wiz.answers.fields.delete(id) : wiz.answers.fields.add(id); render(); } else { wiz.answers[q.key] = id; forward(); render(); } });
         $("#next").onclick = () => { if (!q.multi && !wiz.answers[q.key]) return; forward(); render(); };
         $("#back").onclick = () => { if (i === 0) { const b = wiz.back; wiz = null; location.hash = b ? "#/you" : "#/home"; } else { backward(); render(); } };
         return;
       }
-      page(`${steps}<p class="eyebrow">Last step, optional</p><h1>Add your resume</h1>
-        <p class="lead">We read it in your browser to find the roles that fit what you have done. Nothing is uploaded.</p>
-        ${resumeForm()}${nav("Show my roles →")}`, true);
+      page(`${steps}<p class="eyebrow">${esc(YOU.lastStep)}</p><h1>${esc(YOU.addResume)}</h1>
+        <p class="lead">${esc(YOU.resumeLead)}</p>
+        ${resumeForm()}${nav(YOU.showRoles)}`, true);
       wireResumeForm();
       $("#back").onclick = () => { backward(); render(); };
       $("#skip").onclick = () => saveYou();
@@ -610,31 +590,31 @@
     // a row is one link: clicking anywhere on it opens the page (owner's choice 2026-10-24); the label at the right says where
     const row = (t, m, link) => link ? `<a class="r" href="${link[1]}"><span class="t">${t}</span><span class="n">${link[0]}</span><span class="m">${m}</span></a>` : `<div class="r"><span class="t">${t}</span><span class="m">${m}</span></div>`;
     const chosen = (y.fields || []).map(id => (ix.groups.find(g => g.id === id) || {}).label).filter(Boolean);
-    const answers = `<div class="list">${row("What you study", y.where ? esc(WHERE[y.where]) : "Not answered", ["edit", "#/you?step=0"])}${row("Where you are in your search", y.stage ? esc(STAGE[y.stage]) : "Not answered", ["edit", "#/you?step=1"])}${row("Fields you picked", chosen.length ? esc(chosen.join(", ")) : "None yet; your resume decides", ["edit", "#/you?step=2"])}</div>`;
+    const answers = `<div class="list">${row(esc(YOU.study), y.where ? esc(WHERE[y.where]) : esc(YOU.notAnswered), [esc(CM.editLower), "#/you?step=0"])}${row(esc(YOU.stage), y.stage ? esc(STAGE[y.stage]) : esc(YOU.notAnswered), [esc(CM.editLower), "#/you?step=1"])}${row(esc(YOU.fields), chosen.length ? esc(chosen.join(", ")) : esc(YOU.noFields), [esc(CM.editLower), "#/you?step=2"])}</div>`;
     const closest = rg ? Object.entries(rg.scores).filter(([id, v]) => v > 0 && ix.roles[id]).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => `<a href="#/role/${esc(id)}">${esc(ix.roles[id].label)}</a>`) : [];
-    const resume = r ? `<div class="list">${row(esc(r.name), `${fmt(r.words)} words, read in your browser; nothing is uploaded`, ["replace", "#/you?step=3"])}${row("Your closest matches", closest.length ? closest.join(" · ") : "No role yet", null)}</div>` : `<p class="small muted" style="margin-top:8px">No resume yet. <a class="link" href="#/you?step=3">Add one</a> and we point you to the fields it fits.</p>`;
-    const fieldRows = [...fields].map(id => ix.groups.find(g => g.id === id)).filter(Boolean).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)).map(g => row(esc(g.label), esc(why.get(g.id)), ["open →", "#/field/" + g.id]));
+    const resume = r ? `<div class="list">${row(esc(r.name), esc(fill(YOU.resumeLine, { words: fmt(r.words) })), [esc(YOU.replace), "#/you?step=3"])}${row(esc(YOU.closest), closest.length ? closest.join(" · ") : esc(YOU.noRole), null)}</div>` : `<p class="small muted" style="margin-top:8px">${esc(YOU.noResume)} <a class="link" href="#/you?step=3">${esc(YOU.addOne)}</a> ${esc(YOU.addOneAfter)}</p>`;
+    const fieldRows = [...fields].map(id => ix.groups.find(g => g.id === id)).filter(Boolean).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)).map(g => row(esc(g.label), esc(why.get(g.id)), [esc(CM.openArrow), "#/field/" + g.id]));
     // a person who knows the role (stage targeting) gets the role first (v16 step 2): a search over every role's label,
     // and the three roles closest to the resume once one is read
     const lead = Stage.youLead(y.stage);
     const roleOpts = Object.values(ix.roles).map(r => ({ id: r.id, label: r.label, group: (ix.groups.find(g => g.id === r.group) || {}).label || r.group }));
     const dup = new Set(roleOpts.map(r => r.label).filter((l, i, a) => a.indexOf(l) !== i));
     for (const r of roleOpts) r.name = dup.has(r.label) ? `${r.label} · ${r.group}` : r.label;
-    const roleSearch = lead === "role-search" ? `<h2>Open the role you want</h2><div class="role-search"><input type="search" id="role-q" list="role-names" placeholder="Type a role: FP&A, product manager, consultant…" aria-label="Find a role" autocomplete="off"><datalist id="role-names">${roleOpts.map(r => `<option value="${esc(r.name)}">`).join("")}</datalist><button type="button" class="btn primary" id="role-go">Open →</button></div><p class="small muted" id="role-hint">${closest.length ? `Closest to your resume: ${closest.join(" · ")}` : `${roleOpts.length} roles in ${ix.groups.length} fields. Add a resume and the three closest appear here.`}</p>` : "";
+    const roleSearch = lead === "role-search" ? `<h2>${esc(YOU.roleSearch)}</h2><div class="role-search"><input type="search" id="role-q" list="role-names" placeholder="${esc(YOU.rolePlaceholder)}" aria-label="${esc(YOU.roleAria)}" autocomplete="off"><datalist id="role-names">${roleOpts.map(r => `<option value="${esc(r.name)}">`).join("")}</datalist><button type="button" class="btn primary" id="role-go">${esc(YOU.roleGo)}</button></div><p class="small muted" id="role-hint">${closest.length ? fill(esc(YOU.closestHint), { roles: closest.join(" · ") }) : esc(fill(YOU.roleHint, { roles: roleOpts.length, fields: ix.groups.length }))}</p>` : "";
     // what the games recorded, role by role (PLAN.md v12, decision 4)
     const GS = window.GameShell, roles = GS ? Object.entries(GS.record.read().roles) : [];
     let P = null; if (roles.some(([id]) => (ix.roles[id] || {}).set === "product" || id.startsWith("product."))) P = await Atlas.product().catch(() => null);
-    const knowRows = roles.filter(([id]) => ix.roles[id]).map(([id, r]) => { const k = GS.record.summary(GS.record.read(), id, GS.record.asksOf(ix, P, id)); const parts = [k.total ? `${k.known.length} of ${k.total} asks known` : null, k.ladders.length ? `${k.ladders.length} ${k.ladders.length === 1 ? "level ladder" : "level ladders"} sorted` : null, k.postings ? `${k.postings} ${k.postings === 1 ? "posting" : "postings"} read` : null, k.demand ? `${k.demand} demand ${k.demand === 1 ? "pair" : "pairs"} seen` : null].filter(Boolean); return { id, label: ix.roles[id].label, n: k.known.length, line: parts.join(" · ") || "played", updated: r.updated || "" }; }).sort((a, b) => b.n - a.n || a.label.localeCompare(b.label)).map(x => row(esc(x.label), esc(x.line), ["open", "#/role/" + x.id]));
-    page(`<h1>About you</h1><p class="lead">What you told us and what your resume shows. Change any answer; the fields below follow.</p>${roleSearch}
-      <div class="two"><div><h2>Your answers</h2>${answers}</div><div><h2>Your resume</h2>${resume}</div></div>
-      <h2>Fields that fit you, and why</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : '<p class="small muted">Pick a field or add a resume and they appear here.</p>'}
-      ${knowRows.length ? `<h2>What you know, from the games</h2><p class="small muted">What the games recorded in this browser, role by role: the asks you got right, the level ladders you sorted, the postings you read, the demand pairs you saw.</p><div class="list you-know">${knowRows.join("")}</div>` : ""}
-      <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">Explore your fields →</a><button type="button" class="btn quiet" id="start-over">Start over</button></div>`);
+    const knowRows = roles.filter(([id]) => ix.roles[id]).map(([id, r]) => { const k = GS.record.summary(GS.record.read(), id, GS.record.asksOf(ix, P, id)); const parts = [k.total ? fill(YOU.asksKnown, { n: k.known.length, m: k.total }) : null, k.ladders.length ? fill(k.ladders.length === 1 ? YOU.ladderSorted : YOU.laddersSorted, { n: k.ladders.length }) : null, k.postings ? fill(k.postings === 1 ? YOU.postingRead : YOU.postingsRead, { n: k.postings }) : null, k.demand ? fill(k.demand === 1 ? YOU.pairSeen : YOU.pairsSeen, { n: k.demand }) : null].filter(Boolean); return { id, label: ix.roles[id].label, n: k.known.length, line: parts.join(" · ") || YOU.played, updated: r.updated || "" }; }).sort((a, b) => b.n - a.n || a.label.localeCompare(b.label)).map(x => row(esc(x.label), esc(x.line), [esc(CM.openLower), "#/role/" + x.id]));
+    page(`<h1>${esc(YOU.heading)}</h1><p class="lead">${esc(YOU.lead)}</p>${roleSearch}
+      <div class="two"><div><h2>${esc(YOU.answers)}</h2>${answers}</div><div><h2>${esc(YOU.resume)}</h2>${resume}</div></div>
+      <h2>${esc(YOU.fitFields)}</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : `<p class="small muted">${esc(YOU.noFitFields)}</p>`}
+      ${knowRows.length ? `<h2>${esc(YOU.games)}</h2><p class="small muted">${esc(YOU.gamesLead)}</p><div class="list you-know">${knowRows.join("")}</div>` : ""}
+      <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">${esc(YOU.exploreFields)}</a><button type="button" class="btn quiet" id="start-over">${esc(YOU.startOver)}</button></div>`);
     $("#start-over").onclick = () => { state.you = null; state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("you", null); store.set("resume", null); wiz = null; you(); };
     const rq = $("#role-q");
     if (rq) {
       const find = v => { const t = v.trim().toLowerCase(); if (!t) return null; return roleOpts.find(r => r.name.toLowerCase() === t) || roleOpts.find(r => r.label.toLowerCase() === t) || roleOpts.filter(r => r.name.toLowerCase().includes(t)).sort((a, b) => a.name.length - b.name.length)[0] || null; };
-      const go = () => { const r = find(rq.value); if (r) location.hash = "#/role/" + r.id; else $("#role-hint").textContent = "No role by that name. Try a word of it, or pick from the list."; };
+      const go = () => { const r = find(rq.value); if (r) location.hash = "#/role/" + r.id; else $("#role-hint").textContent = YOU.noSuchRole; };
       rq.onchange = () => { if (roleOpts.some(r => r.name === rq.value)) go(); };
       rq.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); go(); } };
       $("#role-go").onclick = go;
@@ -643,22 +623,22 @@
   // one line on Explore that says what we know and why each field is there (owner's choices Y3 A and E3)
   function profileStrip(ix, why) {
     const y = state.you || {}, label = id => (ix.groups.find(g => g.id === id) || {}).label || id;
-    const chosen = [...why].filter(([, w]) => w === "You picked it").map(([id]) => label(id));
-    const fromResume = [...why].filter(([, w]) => w !== "You picked it").map(([id]) => label(id));
-    const parts = [y.where ? esc(WHERE_SHORT[y.where] || WHERE[y.where]) : null, y.stage ? esc(STAGE_SHORT[y.stage] || STAGE[y.stage]) : null, chosen.length ? `<b>${esc(join(chosen))}</b> chosen` : null, fromResume.length ? `<b>${esc(join(fromResume))}</b> from your resume` : state.resume ? "no field from your resume yet" : "no resume yet"].filter(Boolean);
-    return `<div class="strip"><span class="dotg"></span><span>${parts.join(" · ")}</span><a href="#/you">Edit</a></div>`;
+    const chosen = [...why].filter(([, w]) => w === YOU.why.picked).map(([id]) => label(id));
+    const fromResume = [...why].filter(([, w]) => w !== YOU.why.picked).map(([id]) => label(id));
+    const parts = [y.where ? esc(WHERE_SHORT[y.where] || WHERE[y.where]) : null, y.stage ? esc(STAGE_SHORT[y.stage] || STAGE[y.stage]) : null, chosen.length ? `<b>${esc(join(chosen))}</b> ${esc(YOU.strip.chosen)}` : null, fromResume.length ? `<b>${esc(join(fromResume))}</b> ${esc(YOU.strip.fromResume)}` : state.resume ? esc(YOU.strip.noField) : esc(YOU.strip.noResume)].filter(Boolean);
+    return `<div class="strip"><span class="dotg"></span><span>${parts.join(" · ")}</span><a href="#/you">${esc(CM.edit)}</a></div>`;
   }
   // the resume: a drop zone, a paste box, what was read
   let pending = null;   // { text, name, words } read from a file but not yet taken
   function resumeForm() {
     const r = state.resume;
-    return `<div class="drop" id="drop"><p><b>Drop a PDF, DOCX or TXT here</b> or <label class="link" for="file">choose a file</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status">${r ? `Using ${esc(r.name)} (${fmt(r.words)} words read). <button type="button" class="linkish link" id="forget">Forget it</button>` : ""}</p></div>
-      <p class="small muted">Or paste the text of your resume:</p><textarea id="paste" rows="6" aria-label="Resume text" placeholder="Product Management Intern, FinServ Startup (Summer 2026)&#10;- Conducted 15 user interviews…"></textarea>`;
+    return `<div class="drop" id="drop"><p><b>${esc(RF.drop)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status">${r ? `${esc(fill(RF.using, { name: r.name, words: fmt(r.words) }))} <button type="button" class="linkish link" id="forget">${esc(RF.forget)}</button>` : ""}</p></div>
+      <p class="small muted">${esc(RF.pasteLabel)}</p><textarea id="paste" rows="6" aria-label="${esc(RF.pasteAria)}" placeholder="${esc(RF.placeholder).replace(/\n/g, "&#10;")}"></textarea>`;
   }
   function wireResumeForm() {
     const drop = $("#drop"), status = $("#file-status");
     const read = async file => {
-      status.textContent = `Reading ${file.name}…`;
+      status.textContent = fill(RF.reading, { name: file.name });
       try {
         let text;
         if (/\.pdf$/i.test(file.name)) {
@@ -670,19 +650,19 @@
         else text = await file.text();
         const words = text.trim() ? text.trim().split(/\s+/).length : 0;
         pending = { text, name: file.name, words };
-        status.textContent = words < 40 ? `${file.name}: only ${words} words could be read. If this is a scan, paste the text of your resume instead.` : `${file.name}: ${fmt(words)} words read.`;
-      } catch (e) { status.textContent = "Could not read that file: " + e.message; pending = null; }
+        status.textContent = words < 40 ? fill(RF.fewWords, { name: file.name, words }) : fill(RF.read, { name: file.name, words: fmt(words) });
+      } catch (e) { status.textContent = fill(RF.cantRead, { message: e.message }); pending = null; }
     };
     drop.ondragover = e => { e.preventDefault(); drop.classList.add("over"); };
     drop.ondragleave = () => drop.classList.remove("over");
     drop.ondrop = e => { e.preventDefault(); drop.classList.remove("over"); if (e.dataTransfer.files[0]) read(e.dataTransfer.files[0]); };
     $("#file").onchange = e => { if (e.target.files[0]) read(e.target.files[0]); };
-    const forget = $("#forget"); if (forget) forget.onclick = () => { state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("resume", null); status.textContent = "Forgotten."; };
+    const forget = $("#forget"); if (forget) forget.onclick = () => { state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("resume", null); status.textContent = RF.forgotten; };
   }
   // keep what the form holds: a pasted text wins over a dropped file; nothing new keeps what was stored
   async function takeResume() {
     const pasted = ($("#paste") || {}).value || "";
-    const r = pasted.trim().length >= 40 ? { text: pasted, name: "pasted text", words: pasted.trim().split(/\s+/).length } : pending && pending.words >= 40 ? pending : null;
+    const r = pasted.trim().length >= 40 ? { text: pasted, name: RF.pastedName, words: pasted.trim().split(/\s+/).length } : pending && pending.words >= 40 ? pending : null;
     if (!r) return false;
     state.resume = r; store.set("resume", r); pending = null; state.match = null; state.rough = null; state.fit = null;
     track("resume_read");
@@ -694,11 +674,11 @@
   // the resume reads closest to
   async function fitFields() {
     const ix = await Atlas.index(); const why = new Map();
-    for (const id of (state.you || {}).fields || []) if (ix.groups.some(g => g.id === id)) why.set(id, "You picked it");
+    for (const id of (state.you || {}).fields || []) if (ix.groups.some(g => g.id === id)) why.set(id, YOU.why.picked);
     const rg = await rough();
     if (rg) {
-      for (const h of rg.held) if (ix.roles[h] && !why.has(ix.roles[h].group)) why.set(ix.roles[h].group, `You held ${ix.roles[h].label}`);
-      for (const [id] of Object.entries(rg.scores).sort((a, b) => b[1] - a[1]).slice(0, 5)) if (ix.roles[id] && rg.scores[id] > 0 && !why.has(ix.roles[id].group)) why.set(ix.roles[id].group, `Your resume reads close to ${ix.roles[id].label}`);
+      for (const h of rg.held) if (ix.roles[h] && !why.has(ix.roles[h].group)) why.set(ix.roles[h].group, fill(YOU.why.held, { role: ix.roles[h].label }));
+      for (const [id] of Object.entries(rg.scores).sort((a, b) => b[1] - a[1]).slice(0, 5)) if (ix.roles[id] && rg.scores[id] > 0 && !why.has(ix.roles[id].group)) why.set(ix.roles[id].group, fill(YOU.why.close, { role: ix.roles[id].label }));
     }
     return { fields: new Set(why.keys()), why };
   }
@@ -720,18 +700,19 @@
     const fields = ix.groups.map(g => [g.id, Atlas.us(g.label)]);
     return { D, ix, rows, byId, ctx, roleLabel, fieldOf, skillName, fields };
   }).catch(e => { jobsP = null; throw e; });
-  const groupLabel = g => g === "startup" ? "Startup" : g === "mba_employer" ? "MBA employer" : /^fortune(\d+)$/.test(String(g || "")) ? "Fortune " + RegExp.$1 : String(g || "");
+  const JB = Copy.jobs;
+  const groupLabel = g => g === "startup" ? JB.groupStartup : g === "mba_employer" ? JB.groupMBA : /^fortune(\d+)$/.test(String(g || "")) ? fill(JB.groupFortune, { n: RegExp.$1 }) : String(g || "");
   const KIND_ORDER = ["method", "technical", "knowledge", "tool", "practice", "behaviour", "credential"];
-  const jobWho = r => r.intern ? "An internship" : r.entry === "mba" ? "A job for MBA graduates" : r.entry === "pre_mba" ? "A job for new graduates" : null;
+  const jobWho = r => r.intern ? JB.who.intern : r.entry === "mba" ? JB.who.mba : r.entry === "pre_mba" ? JB.who.grads : null;
   const labelIn = (pairs, id) => (pairs.find(([v]) => v === id) || [, id])[1];
   // the role chosen elsewhere, for the role filter when a person arrives with none set: the role screen's (state.R),
   // else the first the class picker keeps in this browser (classes.roles), the same id gapsFor is handed
   const chosenRole = () => state.roleId || (store.get("classes.roles") || [])[0] || null;
   async function jobsScreen() {
-    crumbs([["Home", "#/home"], ["Find jobs", null]]); showAside(null);
-    page(`<h1>Find jobs</h1><p class="lead">Loading postings…</p>`);
+    crumbs([[CM.home, "#/home"], [JB.heading, null]]); showAside(null);
+    page(`<h1>${esc(JB.heading)}</h1><p class="lead">${esc(JB.loading)}</p>`);
     let J;
-    try { J = await jobsData(); } catch (e) { console.error(e); page(`<h1>Find jobs</h1><p class="lead">The postings did not load. Reload the page to try again.</p>`); return; }
+    try { J = await jobsData(); } catch (e) { console.error(e); page(`<h1>${esc(JB.heading)}</h1><p class="lead">${esc(JB.loadFailed)}</p>`); return; }
     const rg = state.resume ? await rough().catch(e => { console.error(e); return null; }) : null;
     if (Routes.parseRoute(location.hash).name !== "jobs") return;   // the person moved on while the file loaded
     const { D, ix, rows, byId, ctx, roleLabel, fieldOf, skillName, fields } = J;
@@ -754,15 +735,15 @@
       if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next);
     };
     const note = have
-      ? `Each posting counts the skills it asks for that your résumé shows. Fit sorts by that count. Change your résumé in <a href="#/you">About you</a>.`
-      : `<a href="#/you">Add your résumé</a> and each posting says how many of its skills you show.`;
-    const sortOptions = () => [...(have ? [["fit", "Fit"]] : []), ["best", "Best match"], ["company", "Company A–Z"]].map(([v, l]) => `<option value="${v}"${s.sort === v ? " selected" : ""}>${l}</option>`).join("");
-    page(`<h1>Find jobs</h1>
-      <p class="lead">Search ${fmt(rows.length)} open US postings at ${fmt(D.companies.length)} companies.</p>
-      <form class="jsearch" id="jsearch" role="search"><input type="search" name="q" value="${esc(s.q)}" placeholder="Search a title, company or skill" aria-label="Search"><input type="search" name="loc" value="${esc(s.loc)}" placeholder="City, state or remote" aria-label="Location"><button type="submit" class="btn primary">Search</button></form>
+      ? `${esc(JB.noteResume)} <a href="#/you">${esc(JB.noteResumeLink)}</a>.`
+      : `<a href="#/you">${esc(JB.noteNoResume)}</a> ${esc(JB.noteNoResumeAfter)}`;
+    const sortOptions = () => [...(have ? ["fit"] : []), "best", "company"].map(v => `<option value="${v}"${s.sort === v ? " selected" : ""}>${esc(JB.sorts[v])}</option>`).join("");
+    page(`<h1>${esc(JB.heading)}</h1>
+      <p class="lead">${esc(fill(JB.lead, { n: fmt(rows.length), m: fmt(D.companies.length) }))}</p>
+      <form class="jsearch" id="jsearch" role="search"><input type="search" name="q" value="${esc(s.q)}" placeholder="${esc(JB.searchPlaceholder)}" aria-label="${esc(JB.searchAria)}"><input type="search" name="loc" value="${esc(s.loc)}" placeholder="${esc(JB.locPlaceholder)}" aria-label="${esc(JB.locAria)}"><button type="submit" class="btn primary">${esc(JB.search)}</button></form>
       <div class="jobs-grid">
         <div class="jrail"><div class="facets" id="jrail"></div><p class="small muted jnote">${note}</p></div>
-        <section class="jmain" aria-label="Postings"><div class="jhead"><p class="jcount" id="jcount"></p><label class="jsort">Sort <select id="jsort" aria-label="Sort">${sortOptions()}</select></label></div><div class="jlist" id="jlist"></div><div class="pager" id="jpager"></div></section>
+        <section class="jmain" aria-label="${esc(JB.postingsAria)}"><div class="jhead"><p class="jcount" id="jcount"></p><label class="jsort">${esc(JB.sort)} <select id="jsort" aria-label="${esc(JB.sort)}">${sortOptions()}</select></label></div><div class="jlist" id="jlist"></div><div class="pager" id="jpager"></div></section>
       </div>`);
     const pageEl = main.querySelector(".page"); pageEl.classList.add("jobs-page");
     const form = $("#jsearch"), railEl = $("#jrail");
@@ -771,7 +752,7 @@
     const tagOf = i => `<span class="tag${have && have.has(D.skill_ids[i]) ? " good" : ""}">${esc(skillName(i))}</span>`;
     const chips = r => {
       const ids = r.skills, N = 6, sorted = have ? [...ids].sort((a, b) => (have.has(D.skill_ids[b]) ? 1 : 0) - (have.has(D.skill_ids[a]) ? 1 : 0)) : ids;
-      return `<div class="tags jtags">${sorted.slice(0, N).map(tagOf).join("")}${ids.length > N ? `<span class="tag thin">+${ids.length - N} more</span>` : ""}</div>`;
+      return `<div class="tags jtags">${sorted.slice(0, N).map(tagOf).join("")}${ids.length > N ? `<span class="tag thin">${esc(fill(JB.moreSkills, { n: ids.length - N }))}</span>` : ""}</div>`;
     };
     let fits = null, dupes = {}, lastSearched = [], moreCompanies = false;
     // a posting that lists many cities keeps its whole location in the panel; the card cuts it at a break
@@ -788,17 +769,17 @@
     };
     const panel = r => {
       const fit = have ? fitOf(r) : null, w = jobWho(r), n = dupes[r.id] || 0;
-      const facts = [roleLabel(r.role), Jobs.levelLabel(r), r.location, r.remote ? "remote" : null, r.sponsorship === "yes" ? "says it sponsors a visa" : null].filter(Boolean);
+      const facts = [roleLabel(r.role), Jobs.levelLabel(r), r.location, r.remote ? JB.remote : null, r.sponsorship === "yes" ? JB.sponsorsVisa : null].filter(Boolean);
       const byKind = {}; for (const i of r.skills) { const sk = ix.skillById[D.skill_ids[i]]; (byKind[sk && KIND_ORDER.includes(sk.kind) ? sk.kind : "other"] ||= []).push(i); }
       const kinds = [...KIND_ORDER, "other"].filter(k => byKind[k]).map(k => `${k === "other" ? "" : `<p class="eyebrow kind">${esc(kindLabel(k))}</p>`}<div class="tags">${byKind[k].map(tagOf).join("")}</div>`).join("");
-      return `<button type="button" class="close" aria-label="Close">×</button><div class="card jdetail">
+      return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card jdetail">
         <p class="eyebrow">${esc(r.company)} · ${esc(groupLabel(r.group))}${r.sector ? " · " + esc(r.sector) : ""}</p><h2>${esc(r.title)}</h2>
         <p class="facts">${facts.map(esc).join(" · ")}</p>
         ${w ? `<p class="small jwho">${esc(w)}.</p>` : ""}
-        ${fit ? `<p class="small">${esc(Jobs.fitLine(fit))}</p>` : `<p class="small muted"><a href="#/you">Add your résumé</a> and this line counts the skills you show.</p>`}
-        <p class="jacts"><a class="btn primary" href="${esc(r.url)}" target="_blank" rel="noopener" data-posting="${esc(r.role)}">Open the posting at ${esc(r.company)} ↗</a></p>
-        <h3>${plural(r.skills.length, "skill this posting asks for", "skills this posting asks for")}</h3>${kinds}
-        ${n ? `<p class="small muted">${n === 1 ? "1 more posting" : `${fmt(n)} more postings`} with this title at ${esc(r.company)}${r.location ? ` in ${esc(r.location)}` : ""}. We show it once.</p>` : ""}
+        ${fit ? `<p class="small">${esc(Jobs.fitLine(fit))}</p>` : `<p class="small muted"><a href="#/you">${esc(JB.addResume)}</a> ${esc(JB.addResumeAfter)}</p>`}
+        <p class="jacts"><a class="btn primary" href="${esc(r.url)}" target="_blank" rel="noopener" data-posting="${esc(r.role)}">${esc(fill(JB.openAt, { company: r.company }))}</a></p>
+        <h3>${esc(r.skills.length === 1 ? JB.skillAsks : fill(JB.skillsAsk, { n: fmt(r.skills.length) }))}</h3>${kinds}
+        ${n ? `<p class="small muted">${esc(n === 1 ? JB.dupeOne : fill(JB.dupes, { n: fmt(n) }))} ${esc(fill(JB.dupeAfter, { company: r.company, where: r.location ? fill(JB.dupeWhere, { location: r.location }) : "" }))}</p>` : ""}
       </div>`;
     };
     const mark = () => pageEl.querySelectorAll(".jcard").forEach(c => c.classList.toggle("on", c.dataset.id === s.open));
@@ -816,7 +797,7 @@
     railEl.addEventListener("toggle", e => { const d = e.target; if (d.dataset && d.dataset.group) opened[d.dataset.group] = d.open; }, true);
     const facetRow = (key, val, label, n, on) => {
       const dead = !on && !n;
-      return `<button type="button" class="frow${on ? " on" : ""}${dead ? " dead" : ""}"${dead ? ' title="No posting matches this with the other filters on" aria-disabled="true"' : ` data-key="${key}" data-val="${esc(String(val))}"`} aria-pressed="${on}">${esc(label)}<span class="n">${fmt(n)}</span></button>`;
+      return `<button type="button" class="frow${on ? " on" : ""}${dead ? " dead" : ""}"${dead ? ` title="${esc(JB.dead)}" aria-disabled="true"` : ` data-key="${key}" data-val="${esc(String(val))}"`} aria-pressed="${on}">${esc(label)}<span class="n">${fmt(n)}</span></button>`;
     };
     const group = (key, label, pairs, counts, extra) => `<details data-group="${key}"${opened[key] ? " open" : ""}><summary>${esc(label)}</summary>${pairs.map(([v, l]) => facetRow(key, v, l, counts[v] || 0, key === "remote" || key === "sponsor" ? !!s[key] : s[key] === v)).join("")}${extra || ""}</details>`;
     const rail = (searched, f) => {
@@ -829,24 +810,24 @@
       const all = Object.entries(cm).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
       const top = all.slice(0, 20); if (s.company && cm[s.company] && !top.some(([n]) => n === s.company)) top.push([s.company, cm[s.company]]);
       const shown = moreCompanies ? all : top;
-      const more = all.length > shown.length ? `<button type="button" class="frow more" data-more-companies="1">more…<span class="n">${fmt(all.length)}</span></button>` : "";
-      const work = `<details data-group="work"${opened.work ? " open" : ""}><summary>Work</summary>${facetRow("remote", true, "Remote", count("remote", [[true]])[true], s.remote)}${facetRow("sponsor", true, "Says it sponsors a visa", count("sponsor", [[true]])[true], s.sponsor)}</details>`;
-      return group("field", "Field", fields, count("field", fields)) + group("role", "Role", roles, count("role", roles)) + group("level", "Level", levels, count("level", levels))
-        + group("entry", "Entry", Jobs.ENTRIES, count("entry", Jobs.ENTRIES)) + group("group", "Employer type", Jobs.EMPLOYERS, count("group", Jobs.EMPLOYERS))
-        + group("company", "Company", shown.map(([n]) => [n, n]), cm, more) + work;
+      const more = all.length > shown.length ? `<button type="button" class="frow more" data-more-companies="1">${esc(JB.more)}<span class="n">${fmt(all.length)}</span></button>` : "";
+      const work = `<details data-group="work"${opened.work ? " open" : ""}><summary>${esc(JB.facets.work)}</summary>${facetRow("remote", true, JB.remoteFacet, count("remote", [[true]])[true], s.remote)}${facetRow("sponsor", true, JB.sponsorFacet, count("sponsor", [[true]])[true], s.sponsor)}</details>`;
+      return group("field", JB.facets.field, fields, count("field", fields)) + group("role", JB.facets.role, roles, count("role", roles)) + group("level", JB.facets.level, levels, count("level", levels))
+        + group("entry", JB.facets.entry, Jobs.ENTRIES, count("entry", Jobs.ENTRIES)) + group("group", JB.facets.group, Jobs.EMPLOYERS, count("group", Jobs.EMPLOYERS))
+        + group("company", JB.facets.company, shown.map(([n]) => [n, n]), cm, more) + work;
     };
     // ---- the empty state: each filter that is on, as a chip an × removes ----
     const activeChips = () => {
       const out = [];
-      if (s.q.trim()) out.push(["q", `“${s.q.trim()}”`]); if (s.loc.trim()) out.push(["loc", `in ${s.loc.trim()}`]);
+      if (s.q.trim()) out.push(["q", fill(JB.quoted, { q: s.q.trim() })]); if (s.loc.trim()) out.push(["loc", fill(JB.inLoc, { loc: s.loc.trim() })]);
       if (s.field) out.push(["field", fieldLabel(s.field)]); if (s.role) out.push(["role", roleLabel(s.role)]);
       if (s.level) out.push(["level", labelIn(levelsOf(), s.level)]); if (s.entry) out.push(["entry", labelIn(Jobs.ENTRIES, s.entry)]);
       if (s.group) out.push(["group", labelIn(Jobs.EMPLOYERS, s.group)]); if (s.company) out.push(["company", s.company]);
-      if (s.remote) out.push(["remote", "Remote"]); if (s.sponsor) out.push(["sponsor", "Says it sponsors a visa"]);
+      if (s.remote) out.push(["remote", JB.remoteFacet]); if (s.sponsor) out.push(["sponsor", JB.sponsorFacet]);
       return out;
     };
     const levelsOf = () => Jobs.LEVEL_WORDS.labels;
-    const emptyState = () => `<div class="jempty"><p><b>No posting matches all of this.</b></p><p class="small muted">Remove one:</p><div class="chips">${activeChips().map(([k, l]) => `<button type="button" class="chip on" data-remove="${k}" aria-label="Remove ${esc(l)}">${esc(l)} <span class="n">×</span></button>`).join("")}</div></div>`;
+    const emptyState = () => `<div class="jempty"><p><b>${esc(JB.empty)}</b></p><p class="small muted">${esc(JB.removeOne)}</p><div class="chips">${activeChips().map(([k, l]) => `<button type="button" class="chip on" data-remove="${k}" aria-label="${esc(fill(JB.remove, { label: l }))}">${esc(l)} <span class="n">×</span></button>`).join("")}</div></div>`;
     // ---- the draw: search, filter, dedupe, sort, page ----
     const draw = () => {
       const f = Jobs.filterOf(s);
@@ -855,9 +836,9 @@
       fits = have ? new Map(d.rows.map(r => [r.id, fitOf(r)])) : null;
       const list = Jobs.sortJobs(d.rows, s.sort, fits), pg = Jobs.pageOf(list, s.page); s.page = pg.page;
       const active = !!(s.q.trim() || s.loc.trim() || Jobs.isFiltered(f));
-      $("#jcount").innerHTML = (pg.total > Jobs.PAGE ? `Showing ${fmt(pg.from)}–${fmt(pg.to)} of ${fmt(pg.total)} postings` : plural(pg.total, "posting", "postings")) + (active ? ` · <button type="button" class="linkish link" data-clear="1">Clear filters</button>` : "");
+      $("#jcount").innerHTML = esc(pg.total > Jobs.PAGE ? fill(JB.showing, { from: fmt(pg.from), to: fmt(pg.to), total: fmt(pg.total) }) : pg.total === 1 ? JB.posting : fill(JB.postings, { n: fmt(pg.total) })) + (active ? ` · <button type="button" class="linkish link" data-clear="1">${esc(JB.clearFilters)}</button>` : "");
       $("#jlist").innerHTML = pg.rows.length ? pg.rows.map(card).join("") : emptyState();
-      $("#jpager").innerHTML = pg.pages > 1 ? `<button type="button" class="btn" data-page="-1"${pg.page === 1 ? " disabled" : ""}>Previous ${Jobs.PAGE}</button><span>Page ${fmt(pg.page)} of ${fmt(pg.pages)}</span><button type="button" class="btn" data-page="1"${pg.page === pg.pages ? " disabled" : ""}>Next ${Jobs.PAGE}</button>` : "";
+      $("#jpager").innerHTML = pg.pages > 1 ? `<button type="button" class="btn" data-page="-1"${pg.page === 1 ? " disabled" : ""}>${esc(fill(JB.previous, { n: Jobs.PAGE }))}</button><span>${esc(fill(JB.pageOf, { p: fmt(pg.page), n: fmt(pg.pages) }))}</span><button type="button" class="btn" data-page="1"${pg.page === pg.pages ? " disabled" : ""}>${esc(fill(JB.next, { n: Jobs.PAGE }))}</button>` : "";
       railEl.innerHTML = rail(searched, f);
       drawPanel(); writeHash();
     };
@@ -892,8 +873,8 @@
   // ---------- 3. explore: fields as circles ----------
   const sizeClass = n => n >= 4000 ? "s4" : n >= 1500 ? "s3" : n >= 600 ? "s2" : "s1";
   async function explore() {
-    const ix = await Atlas.index();
-    crumbs([["Explore", null]]); showAside(null);
+    const ix = await Atlas.index(), EX = Copy.explore;
+    crumbs([[EX.crumb, null]]); showAside(null);
     const focus = new URLSearchParams(location.hash.split("?")[1] || "").get("field");
     if (focus) SkillMap.setMode("map");
     const ff = (state.you || state.resume) ? await fitFields() : null, fit = ff ? ff.fields : null;
@@ -913,27 +894,28 @@
       const nRoles = all.reduce((a, g) => a + g.roles.length, 0);
       const chips = fit ? profileStrip(ix, ff.why) : "";
       const asMap = SkillMap.mode() === "map";
-      const view = `<div class="filters explore-row">${asMap ? '<input class="sm-find" id="sm-find" type="search" placeholder="Find a skill" list="sm-names" aria-label="Find a skill"><datalist id="sm-names"></datalist>' : ""}<div class="seg views" role="group" aria-label="View"><button type="button" class="${asMap ? "" : "on"}" aria-pressed="${!asMap}" id="v-grid" title="Fields">▦</button><button type="button" class="${asMap ? "on" : ""}" aria-pressed="${asMap}" id="v-map" title="Skill map">⊞</button></div></div>`;
+      const view = `<div class="filters explore-row">${asMap ? `<input class="sm-find" id="sm-find" type="search" placeholder="${esc(EX.findSkill)}" list="sm-names" aria-label="${esc(EX.findSkill)}"><datalist id="sm-names"></datalist>` : ""}<div class="seg views" role="group" aria-label="${esc(EX.viewAria)}"><button type="button" class="${asMap ? "" : "on"}" aria-pressed="${!asMap}" id="v-grid" title="${esc(EX.gridView)}">▦</button><button type="button" class="${asMap ? "on" : ""}" aria-pressed="${asMap}" id="v-map" title="${esc(EX.mapView)}">⊞</button></div></div>`;
       const pg = all.find(g => g.set === "product"), mg = all.find(g => g.set === "mba");
-      const dates = tip(`Counts are open postings in the US: business fields refreshed ${mg.generated}${pg.generated ? `, Product scraped ${pg.generated} (${fmt(pg.nWorld)} worldwide)` : ""}.`);
-      const inner = g => `${esc(g.label)}<span class="n">${g.nOpen == null ? "loading…" : fmt(g.nOpen) + " open"}</span>`;
+      const dates = tip(fill(EX.countsTip, { date: mg.generated, product: pg.generated ? fill(EX.countsTipProduct, { date: pg.generated, n: fmt(pg.nWorld) }) : "" }));
+      const nOpen = g => g.nOpen == null ? EX.loading : fill(CM.nOpen, { n: fmt(g.nOpen) });
+      const inner = g => `${esc(g.label)}<span class="n">${esc(nOpen(g))}</span>`;
       // a field card (owner's choice E2): the name, two or three of its roles marked as examples, one number and a
       // bar that compares fields; the ones that fit carry their reason
       const max = Math.max(1, ...all.map(g => g.nOpen || 0));
       const card = g => {
         const names = g.roles.map(r => (ix.roles[r] || {}).label).filter(Boolean), ex = names.slice(0, 3), more = names.length - ex.length, isFit = !!(fit && fit.has(g.id));
-        return `<a class="fcard${isFit ? " you" : ""}" href="#/field/${esc(g.id)}"><span class="t">${esc(g.label)}</span><span class="m">${names.length ? `e.g. ${esc(ex.join(" · "))}${more > 0 ? `, +${more} more ${more === 1 ? "role" : "roles"}` : ""}` : "loading…"}</span><span class="bar" data-measure="${g.nOpen == null ? "Loading" : fmt(g.nOpen)} open postings in ${esc(g.label)} now; the bar compares the fields."><i style="width:${Math.round(100 * (g.nOpen || 0) / max)}%"></i></span><span class="n">${g.nOpen == null ? "loading…" : fmt(g.nOpen) + " open"}${isFit ? ` · <span class="why">${esc(ff.why.get(g.id))}</span>` : ""}</span></a>`;
+        return `<a class="fcard${isFit ? " you" : ""}" href="#/field/${esc(g.id)}"><span class="t">${esc(g.label)}</span><span class="m">${names.length ? `${esc(fill(EX.example, { names: ex.join(" · ") }))}${more > 0 ? esc(fill(more === 1 ? EX.moreRole : EX.moreRoles, { n: more })) : ""}` : esc(EX.loading)}</span><span class="bar" data-measure="${esc(fill(EX.barMeasure, { n: g.nOpen == null ? EX.loading : fmt(g.nOpen), field: g.label }))}"><i style="width:${Math.round(100 * (g.nOpen || 0) / max)}%"></i></span><span class="n">${esc(nOpen(g))}${isFit ? ` · <span class="why">${esc(ff.why.get(g.id))}</span>` : ""}</span></a>`;
       };
       if (asMap) {
         // the fields on the skill map: a field's own skills beside it, the skills every field asks for in the middle
-        const key = overlay ? `<span><i class="sw have"></i> Already on your resume</span><span><i class="sw todo"></i> Gaps these roles require</span><span><i class="sw quiet"></i> Other skills: hover for the name</span>` : `<span><i class="sw top"></i> The 35 skills most postings ask for</span><span><i class="sw quiet"></i> The rest: hover for the name</span>${fit && fit.size ? '<span><i class="sw you"></i> Fields your answers and resume point to</span>' : ""}`;
-        page(`<h1>Explore the roles</h1>
-          <p class="lead">${all.length} fields, ${nRoles || 56} roles. Hover a field to light up the skills that set it apart; click a skill to see who asks for it. ${dates}</p>${chips}${view}
+        const key = overlay ? `<span><i class="sw have"></i> ${esc(EX.key.have)}</span><span><i class="sw todo"></i> ${esc(EX.key.todo)}</span><span><i class="sw quiet"></i> ${esc(EX.key.quiet)}</span>` : `<span><i class="sw top"></i> ${esc(EX.key.top)}</span><span><i class="sw quiet"></i> ${esc(EX.key.rest)}</span>${fit && fit.size ? `<span><i class="sw you"></i> ${esc(EX.key.you)}</span>` : ""}`;
+        page(`<h1>${esc(EX.heading)}</h1>
+          <p class="lead">${esc(fill(EX.counts, { fields: all.length, roles: nRoles || 56 }))} ${esc(EX.mapLead)} ${dates}</p>${chips}${view}
           <div id="sm-plan"></div>
           <div class="sm-stage" id="sm-stage"></div>
-          <p class="key swkey">${key}<button type="button" class="linkish link" id="sm-all">${SkillMap.allShown() ? "Show the fields alone" : "Show all skills"}</button></p>`);
+          <p class="key swkey">${key}<button type="button" class="linkish link" id="sm-all">${esc(SkillMap.allShown() ? EX.fieldsAlone : EX.allSkills)}</button></p>`);
         main.firstElementChild.classList.add("wide");
-        $("#sm-all").onclick = () => { SkillMap.showAll(!SkillMap.allShown()); $("#sm-all").textContent = SkillMap.allShown() ? "Show the fields alone" : "Show all skills"; };
+        $("#sm-all").onclick = () => { SkillMap.showAll(!SkillMap.allShown()); $("#sm-all").textContent = SkillMap.allShown() ? EX.fieldsAlone : EX.allSkills; };
         const SIZE = { s1: 0.66, s2: 0.76, s3: 0.88, s4: 1 };
         SkillMap.stage($("#sm-stage"), { groups: all.map(g => ({ id: g.id, cls: sizeClass(g.nOpen || 0), you: !!(fit && fit.has(g.id)), inner: inner(g) })), sizeOf: g => SIZE[g.cls], fit, onlyFit: false, focus, aside, showAside, overlay });
         // the route planner (PLAN.md v12, SP2-C) lives in skillmap.js; the role in the hash (?role=) is its target
@@ -944,8 +926,8 @@
         $("#v-map").onclick = () => { };
         return;
       }
-      page(`<h1>Explore the roles</h1>
-        <p class="lead">${all.length} fields, ${nRoles || 56} roles. Pick a field.${fit && fit.size ? " The ones that fit you come first." : ""} ${dates}</p>${chips}${view}
+      page(`<h1>${esc(EX.heading)}</h1>
+        <p class="lead">${esc(fill(EX.counts, { fields: all.length, roles: nRoles || 56 }))} ${esc(EX.pickField)}${fit && fit.size ? " " + esc(EX.fitFirst) : ""} ${dates}</p>${chips}${view}
         <div class="fcards">${groups.map(card).join("")}</div>`);
       $("#v-map").onclick = () => { SkillMap.setMode("map"); render(); };
       $("#v-grid").onclick = () => { };
@@ -960,27 +942,28 @@
     const g = ix.groups.find(x => x.id === id);
     if (!g) return explore();
     if (g.set === "product") await Atlas.product();
-    crumbs([["Explore", "#/explore"], [g.label, null]]); showAside(null);
+    const FD = Copy.explore.field;
+    crumbs([[Copy.explore.crumb, "#/explore"], [g.label, null]]); showAside(null);
     const roles = g.roles.map(r => ix.roles[r]).sort((a, b) => b.nOpen - a.nOpen);
     const line = r => {
       const names = (r.definingList.length ? r.definingList : r.asks).slice(0, 2).map(x => (ix.skillById[x.id] || (state.R && state.R.skillById[x.id]) || { name: x.id }).name.replace(/\s*\(.*?\)/g, ""));
-      return (r.definingList.length ? "Stands out for " : "Asks most for ") + join(names);
+      return fill(r.definingList.length ? FD.standsOut : FD.asksMost, { names: join(names) });
     };
-    const when = `Open postings in the US${g.generated ? `, ${g.set === "product" ? "scraped" : "refreshed"} ${esc(g.generated)}` : ""}${g.set === "product" ? `; ${fmt(g.nWorld)} worldwide` : ""}.`;
+    const when = esc(fill(FD.when, { refreshed: g.generated ? fill(g.set === "product" ? FD.scraped : FD.refreshed, { date: g.generated }) : "", world: g.set === "product" ? fill(FD.world, { n: fmt(g.nWorld) }) : "" }));
     const rg = state.resume ? await rough() : null;
-    const mark = r => !rg ? "" : rg.held.includes(r.id) ? ' · <span style="color:var(--primary)">you held this role</span>' : rg.scores[r.id] >= 0.6 ? ' · <span style="color:var(--primary)">your resume reads close to it</span>' : "";
+    const mark = r => !rg ? "" : rg.held.includes(r.id) ? ` · <span style="color:var(--primary)">${esc(FD.held)}</span>` : rg.scores[r.id] >= 0.6 ? ` · <span style="color:var(--primary)">${esc(FD.close)}</span>` : "";
     const anyMark = rg && roles.some(r => mark(r));
     // half and half (owner's decision 2026-10-24): the roles on the left, the field's skills on lanes on the right;
     // hovering a role lights its skills; a dot opens the skill card
-    const closed = g.set === "mba" ? "recent postings, open and closed over the last year" : "open postings";
+    const closed = g.set === "mba" ? FD.recent : FD.open;
     page(`<div class="field-split"><div>
       <h1>${esc(g.label)}</h1>
-      <p class="lead">${plural(roles.length, "role", "roles")} · <span data-measure="${when}">${fmt(roles.reduce((a, r) => a + r.nOpen, 0))} open postings</span>. The biggest first.${anyMark ? " Green: a rough read of your resume; open a role for your band of fit." : ""} <a href="#/explore?field=${esc(g.id)}" data-map>See ${esc(g.label)} on the skill map →</a></p>
-      <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${fmt(r.nOpen)} open</span><span class="m">${r.blurb ? esc(r.blurb) + " " : ""}${esc(productLine(g, r, line))}${mark(r)}</span></a>`).join("")}</div>
-      <p class="small muted" style="margin-top:12px">Hover a role to light its skills on the right. Click a skill for what it means.</p>
+      <p class="lead">${esc(roles.length === 1 ? FD.role : fill(FD.roles, { n: fmt(roles.length) }))} · <span data-measure="${when}">${esc(fill(FD.openPostings, { n: fmt(roles.reduce((a, r) => a + r.nOpen, 0)) }))}</span>. ${esc(FD.biggestFirst)}${anyMark ? " " + esc(FD.green) : ""} <a href="#/explore?field=${esc(g.id)}" data-map>${esc(fill(FD.map, { field: g.label }))}</a></p>
+      <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(r.nOpen) }))}</span><span class="m">${r.blurb ? esc(r.blurb) + " " : ""}${esc(productLine(g, r, line))}${mark(r)}</span></a>`).join("")}</div>
+      <p class="small muted" style="margin-top:12px">${esc(FD.hover)}</p>
       </div><div>
       <div class="chart-stage" id="chart"></div>
-      <p class="small muted chart-x">% of ${esc(g.label)} postings that ask for the skill <span class="mark" data-measure="The share of ${esc(closed)} in ${esc(g.label)} that ask for the skill, averaged over the field's roles.">ⓘ</span>${rg ? ' · <span class="sw have"></span> already on your resume · <span class="sw todo"></span> gaps these roles require' : ""}</p>
+      <p class="small muted chart-x">${esc(fill(FD.axis, { field: g.label }))} <span class="mark" data-measure="${esc(fill(FD.axisMeasure, { postings: closed, field: g.label }))}">ⓘ</span>${rg ? ` · <span class="sw have"></span> ${esc(FD.have)} · <span class="sw todo"></span> ${esc(FD.todo)}` : ""}</p>
       </div></div>`);
     main.firstElementChild.classList.add("wide");
     SkillMap.chart($("#chart"), { field: g.id, label: g.label, roles, shown: rg ? rg.shown : null, aside, showAside });
@@ -988,7 +971,7 @@
   }
   function productLine(g, r, line) {
     if (g.set !== "product") return line(r);
-    return "Asks most for " + join(r.asks.slice(0, 2).map(x => x.id).map(id => (state.R && state.R.skillById[id] ? state.R.skillById[id].name : nameFromProduct(id)).replace(/\s*\(.*?\)/g, "")));
+    return fill(Copy.explore.field.asksMost, { names: join(r.asks.slice(0, 2).map(x => x.id).map(id => (state.R && state.R.skillById[id] ? state.R.skillById[id].name : nameFromProduct(id)).replace(/\s*\(.*?\)/g, ""))) });
   }
   let productNames = null;
   function nameFromProduct(id) { return (productNames && productNames[id]) || id; }
@@ -1006,7 +989,7 @@
     const g = await loadRole(id); const R = state.R;
     const { query } = Routes.parseRoute(location.hash);   // "#/role/fpa?tab=skills": the fit screen's link lands on the painted list
     if (["skills", "postings", "also"].includes(query.tab)) state.tab = query.tab;
-    crumbs([["Explore", "#/explore"], [g.label, "#/field/" + g.id], [R.role.label, null]]);
+    crumbs([[Copy.explore.crumb, "#/explore"], [g.label, "#/field/" + g.id], [R.role.label, null]]);
     state.group = g;
     renderRole();
   }
@@ -1030,9 +1013,9 @@
   // the filters in the drawer show as removable chips beside the Filters button while the drawer is closed
   function activeChips(R) {
     const emp = state.employer === "all" ? [] : [[(R.employerTypes.find(e => e[0] === state.employer) || [])[1] || state.employer, 'data-emp="all"']];
-    const grads = state.grads ? [["Graduates and interns", 'id="grads"']] : [];
-    const extra = [...[...state.sector].map(v => [v, `data-sector="${esc(v)}"`]), ...[...state.company].map(v => [v, `data-company="${esc(v)}"`]), ...[...state.country].map(v => [v, `data-country="${esc(v)}"`]), ...(state.remote ? [["Remote", 'id="remote"']] : [])];
-    return [...emp, ...grads, ...extra].map(([v, attr]) => `<button type="button" class="chip on" ${attr} aria-label="Remove filter ${esc(v)}">${esc(v)} <span aria-hidden="true">×</span></button>`).join("");
+    const grads = state.grads ? [[RL.grads, 'id="grads"']] : [];
+    const extra = [...[...state.sector].map(v => [v, `data-sector="${esc(v)}"`]), ...[...state.company].map(v => [v, `data-company="${esc(v)}"`]), ...[...state.country].map(v => [v, `data-country="${esc(v)}"`]), ...(state.remote ? [[RL.remote, 'id="remote"']] : [])];
+    return [...emp, ...grads, ...extra].map(([v, attr]) => `<button type="button" class="chip on" ${attr} aria-label="${esc(fill(RL.removeFilter, { name: v }))}">${esc(v)} <span aria-hidden="true">×</span></button>`).join("");
   }
   // The filters drawer (owner's choice R2, 2026-10-19): employers, who it is for, industry, employer name, location.
   // The level stays on the page as a segmented control. Every count reflects the other filters (owner's choice 7A).
@@ -1040,55 +1023,56 @@
     const group = (label, inner) => `<div class="fgroup"><span class="lbl">${label}</span><div class="chips" style="margin:4px 0 0">${inner}</div></div>`;
     const chipsOf = (items, set, attr, allLabel) => `${allLabel ? `<button type="button" class="chip${set.size ? "" : " on"}" data-${attr}="__all">${allLabel}</button>` : ""}${items.map(([v, n]) => `<button type="button" class="chip${set.has(v) ? " on" : ""}" data-${attr}="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}`;
     const empCounts = countBy(jobsExcept("employer"), Atlas.employerType), empAll = jobsExcept("employer").length;
-    const emp = `<button type="button" class="chip${state.employer === "all" ? " on" : ""}" data-emp="all">All<span class="n">${fmt(empAll)}</span></button>` + R.employerTypes.map(([id, label]) => `<button type="button" class="chip${state.employer === id ? " on" : ""}" data-emp="${id}">${esc(label)}<span class="n">${fmt(empCounts[id] || 0)}</span></button>`).join("");
-    const grads = R.set === "mba" ? group("Who it is for", `<button type="button" class="chip${state.grads ? " on" : ""}" id="grads">Graduates and interns<span class="n">${fmt(jobsExcept("grads").filter(j => j.entry || j.intern).length)}</span></button>`) : "";
+    const emp = `<button type="button" class="chip${state.employer === "all" ? " on" : ""}" data-emp="all">${esc(CM.all)}<span class="n">${fmt(empAll)}</span></button>` + R.employerTypes.map(([id, label]) => `<button type="button" class="chip${state.employer === id ? " on" : ""}" data-emp="${id}">${esc(label)}<span class="n">${fmt(empCounts[id] || 0)}</span></button>`).join("");
+    const grads = R.set === "mba" ? group(esc(RL.drawer.who), `<button type="button" class="chip${state.grads ? " on" : ""}" id="grads">${esc(RL.grads)}<span class="n">${fmt(jobsExcept("grads").filter(j => j.entry || j.intern).length)}</span></button>`) : "";
     const sec = Object.entries(countBy(jobsExcept("sector"), j => j.sector)).filter(([v]) => v && v !== "Startup (unclassified)").sort((a, b) => b[1] - a[1]).slice(0, 10);
     const cm = countBy(jobsExcept("company"), j => j.company); const q = state.companyQuery.trim().toLowerCase();
     const picked = [...state.company].map(v => [v, cm[v] || 0]);
     const options = q ? Object.entries(cm).filter(([c]) => c.toLowerCase().includes(q) && !state.company.has(c)).sort((a, b) => b[1] - a[1]).slice(0, 12) : [];
     const cn = Object.entries(countBy(jobsExcept("country"), j => j.country)).filter(([v]) => v).sort((a, b) => b[1] - a[1]).slice(0, 8);
     const remoteN = jobsExcept("country").filter(j => j.remote && (state.country.size === 0 || state.country.has(j.country))).length;
-    const remote = `<button type="button" class="chip${state.remote ? " on" : ""}" id="remote">Remote<span class="n">${fmt(remoteN)}</span></button>`;
-    return `<div class="drawer-back" id="drawer-back"></div><div class="drawer" role="dialog" aria-label="Filters" id="drawer">
-      <div class="drawer-h"><h2>Filters</h2><button type="button" class="close" id="drawer-close" aria-label="Close">×</button></div>
-      ${group("Employers", emp)}${grads}
-      ${group("Industry", chipsOf(sec, state.sector, "sector", "All industries"))}
-      ${POSTINGS ? `<div class="fgroup"><span class="lbl">Employer</span><input type="search" id="company-q" placeholder="Employer name" aria-label="Employer name" value="${esc(state.companyQuery)}" autocomplete="off"><div class="chips" style="margin:4px 0 0">${picked.map(([v, n]) => `<button type="button" class="chip on" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${options.map(([v, n]) => `<button type="button" class="chip" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${!picked.length && !q ? '<span class="small muted">Type a name to pick an employer.</span>' : ""}</div></div>` : ""}
-      ${R.country ? group("Location", `<span class="small muted">${esc(R.country)} only.</span>${remote}`) : group("Location", chipsOf(cn, state.country, "country", "Anywhere") + remote)}
-      <div class="row between drawer-f">${activeCount() ? '<button type="button" class="btn quiet" id="clear-extra">Clear all</button>' : "<span></span>"}<button type="button" class="btn primary" id="drawer-done">Done</button></div>
+    const remote = `<button type="button" class="chip${state.remote ? " on" : ""}" id="remote">${esc(RL.remote)}<span class="n">${fmt(remoteN)}</span></button>`;
+    const D = RL.drawer;
+    return `<div class="drawer-back" id="drawer-back"></div><div class="drawer" role="dialog" aria-label="${esc(RL.filters)}" id="drawer">
+      <div class="drawer-h"><h2>${esc(RL.filters)}</h2><button type="button" class="close" id="drawer-close" aria-label="${esc(CM.close)}">×</button></div>
+      ${group(esc(D.employers), emp)}${grads}
+      ${group(esc(D.industry), chipsOf(sec, state.sector, "sector", esc(D.allIndustries)))}
+      ${POSTINGS ? `<div class="fgroup"><span class="lbl">${esc(D.employer)}</span><input type="search" id="company-q" placeholder="${esc(D.employerName)}" aria-label="${esc(D.employerName)}" value="${esc(state.companyQuery)}" autocomplete="off"><div class="chips" style="margin:4px 0 0">${picked.map(([v, n]) => `<button type="button" class="chip on" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${options.map(([v, n]) => `<button type="button" class="chip" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${!picked.length && !q ? `<span class="small muted">${esc(D.typeName)}</span>` : ""}</div></div>` : ""}
+      ${R.country ? group(esc(D.location), `<span class="small muted">${esc(fill(D.countryOnly, { country: R.country }))}</span>${remote}`) : group(esc(D.location), chipsOf(cn, state.country, "country", esc(D.anywhere)) + remote)}
+      <div class="row between drawer-f">${activeCount() ? `<button type="button" class="btn quiet" id="clear-extra">${esc(CM.clearAll)}</button>` : "<span></span>"}<button type="button" class="btn primary" id="drawer-done">${esc(CM.done)}</button></div>
     </div>`;
   }
   // The skills a role asks for, by area (owner's choice R3, 2026-10-19): one panel per skill area, the skills most
   // postings ask for open in it, the rest behind "more"; the panel with the most of those is open at first. "Expand
   // all" opens every panel and every fold, which lays the whole list out ranked; "Collapse all" takes it back.
-  const TIER_LABEL = ["Asked by most postings", "Asked by a quarter to a half of the postings", "Asked by one in ten to one in four postings"];
+  const RL = Copy.role, TIER_LABEL = RL.tiers;
   function skillRow(R, s, n, m) {
     const on = state.selected && state.selected.kind === "skill" && state.selected.id === s.id;
     const paint = m ? (m.matched.has(s.id) ? " have" : m.presumed.has(s.id) ? "" : m.required.has(s.id) ? " gap" : "") : "";
-    const marks = (s.defining ? `<span class="mark" data-measure="◆ sets this role apart: postings of this role ask for it far more often than postings of other roles do.">◆</span>` : "") + (s.grows ? `<span class="mark" data-measure="↗ asked more as you move up: at least 1.5 times as often in leadership postings as in entry-level ones.">↗</span>` : "");
-    const known = state.known && state.known.has(s.id) ? `<span class="known" data-measure="✓ you know this one: you got it right in a game.">✓</span>` : "";
-    const through = s.carriers && s.carriers.length ? `<span class="m">through ${esc(s.carriers.slice(0, 2).map(k => (R.skillById[k] || { name: k }).name).join(", "))}${s.carriersFallback ? " (in this field)" : ""}</span>` : "";
-    return `<button type="button" class="srow${on ? " on" : ""}${paint}" data-skill="${esc(s.id)}"><span class="nm">${esc(s.name)}${marks}${known}${s.area ? `<span class="m">${esc(s.area)}</span>` : through}</span><span class="bar" data-measure="The bar is the share of postings that ask for this skill: ${pct(s.share)} of the ${fmt(n)} postings in this view ask for ${esc(s.name)}."><i style="width:${Math.round(s.share * 100)}%"></i></span></button>`;
+    const marks = (s.defining ? `<span class="mark" data-measure="${esc(RL.defining)}">◆</span>` : "") + (s.grows ? `<span class="mark" data-measure="${esc(RL.grows)}">↗</span>` : "");
+    const known = state.known && state.known.has(s.id) ? `<span class="known" data-measure="${esc(RL.known)}">✓</span>` : "";
+    const through = s.carriers && s.carriers.length ? `<span class="m">${esc(fill(RL.through, { names: s.carriers.slice(0, 2).map(k => (R.skillById[k] || { name: k }).name).join(", ") }))}${s.carriersFallback ? " " + esc(RL.inField) : ""}</span>` : "";
+    return `<button type="button" class="srow${on ? " on" : ""}${paint}" data-skill="${esc(s.id)}"><span class="nm">${esc(s.name)}${marks}${known}${s.area ? `<span class="m">${esc(s.area)}</span>` : through}</span><span class="bar" data-measure="${esc(fill(RL.barMeasure, { share: pct(s.share), n: fmt(n), name: s.name }))}"><i style="width:${Math.round(s.share * 100)}%"></i></span></button>`;
   }
   function areaPanel(R, a, n, m, flat) {
     const core = a.skills.filter(s => s.tier === 0), first = core.length && !flat ? core : a.skills, folded = core.length && !flat ? a.skills.filter(s => s.tier > 0) : [];
     const more = state.areaMore.has(a.cluster);
     const rowsOf = (list, labelled) => { let last = -1, h = ""; for (const s of list) { if (labelled && s.tier !== last) { h += `<span class="tierlab">${TIER_LABEL[s.tier]}</span>`; last = s.tier; } h += skillRow(R, s, n, m); } return h; };
-    const fold = folded.length ? (more ? rowsOf(folded, true) + `<button type="button" class="linkish link more" data-more="${esc(a.cluster)}">Show fewer</button>` : `<button type="button" class="linkish link more" data-more="${esc(a.cluster)}">Show ${folded.length} more, asked by fewer postings</button>`) : "";
-    const n2 = a.behaviours ? `<span class="n">${esc(a.summary)}</span>` : `<span class="n">${plural(a.skills.length, "skill", "skills")}${core.length ? ` · ${core.length} in most postings` : ""}</span>`;
+    const fold = folded.length ? (more ? rowsOf(folded, true) + `<button type="button" class="linkish link more" data-more="${esc(a.cluster)}">${esc(RL.showFewer)}</button>` : `<button type="button" class="linkish link more" data-more="${esc(a.cluster)}">${esc(fill(RL.showMoreFewer, { n: folded.length }))}</button>`) : "";
+    const n2 = a.behaviours ? `<span class="n">${esc(a.summary)}</span>` : `<span class="n">${esc(fill(a.skills.length === 1 ? RL.skill : RL.skills, { n: fmt(a.skills.length) }))}${core.length ? ` · ${esc(fill(RL.inMost, { n: core.length }))}` : ""}</span>`;
     return `<details class="areabox${a.behaviours ? " behaviours" : ""}" data-area="${esc(a.cluster)}"${flat || state.areaOpen.has(a.cluster) ? " open" : ""}><summary><span class="t">${esc(a.label)}</span>${n2}</summary><div class="srows">${rowsOf(first, flat || !core.length)}${fold}</div></details>`;
   }
   // the whole list laid out, painted: the course screen shows what a syllabus covers on it
-  function flatSkills(R, slice, m) { const { areas, stats } = Atlas.areas(R, slice); return areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m, true)).join("")}</div>` : '<p class="notice">No postings match these filters.</p>'; }
+  function flatSkills(R, slice, m) { const { areas, stats } = Atlas.areas(R, slice); return areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m, true)).join("")}</div>` : `<p class="notice">${esc(RL.noMatch)}</p>`; }
   // the game a role's "Practise" opens (PLAN.md v12, entry points): Know the role
   const PRACTISE = "know-the-role";
   // the lead says what the data says: what sets the role apart, what leads the asks, which tools (owner's choice X1)
   function roleLead(areas) {
     const core = areas.flatMap(a => a.skills).filter(s => s.tier === 0).sort((a, b) => b.share - a.share);
-    if (!core.length) return "Few postings match this view; widen the filters to see what the role asks for.";
+    if (!core.length) return RL.fewMatch;
     const def = core.filter(s => s.defining).slice(0, 2), top = core.filter(s => !s.defining && s.kind !== "behaviour" && s.cluster !== "tools" && s.cluster !== "domain").slice(0, 3), tools = core.filter(s => s.cluster === "tools").slice(0, 2);
-    const names = xs => xs.map(s => s.name.replace(/\s*\(.*?\)/g, ""));   // "Office suite (Excel, …)" reads as "Office suite" here
-    const parts = [def.length ? `${join(names(def))} set${def.length === 1 ? "s" : ""} this role apart` : "", top.length ? `${join(names(top))} lead the asks` : "", tools.length ? `${join(names(tools))} ${tools.length === 1 ? "is the tool" : "are the tools"}` : ""].filter(Boolean);
+    const names = xs => join(xs.map(s => s.name.replace(/\s*\(.*?\)/g, "")));   // "Office suite (Excel, …)" reads as "Office suite" here
+    const parts = [def.length ? fill(def.length === 1 ? RL.apartOne : RL.apart, { names: names(def) }) : "", top.length ? fill(RL.leadAsks, { names: names(top) }) : "", tools.length ? fill(tools.length === 1 ? RL.tool : RL.tools, { names: names(tools) }) : ""].filter(Boolean);
     return cap(parts.join("; ")) + ".";
   }
   const allExpanded = areas => areas.every(a => state.areaOpen.has(a.cluster) && (state.areaMore.has(a.cluster) || !a.skills.some(s => s.tier > 0) || !a.skills.some(s => s.tier === 0)));
@@ -1101,7 +1085,8 @@
     const nClosed = R.jobs.length - R.jobs.filter(j => j.open).length;
     const countBy = (jobs, fn) => { const m = {}; for (const j of jobs) { const k = fn(j); if (k != null) m[k] = (m[k] || 0) + 1; } return m; };
     const where = R.country ? ` · ${esc(R.country)}` : "";
-    const facts = R.set === "product" ? `<span data-measure="${fmt(role.nOpen)} open postings in the US; ${fmt(role.nWorld)} worldwide, and the skills below read all of them.">${fmt(role.nOpen)} open postings in the US</span> · ${plural(role.nCompanies, "employer", "employers")}` : `<span data-measure="${fmt(open.length)} open now${nClosed ? `; ${fmt(nClosed)} recently closed postings are counted in the shares too, so the skills reflect a year of hiring, not one week` : ""}.">${fmt(R.jobs.filter(j => j.open).length)} open postings</span> · ${plural(role.nCompanies, "employer", "employers")}${where}`;
+    const employers = esc(fill(role.nCompanies === 1 ? RL.employer : RL.employers, { n: fmt(role.nCompanies) }));
+    const facts = R.set === "product" ? `<span data-measure="${esc(fill(RL.openUSMeasure, { n: fmt(role.nOpen), world: fmt(role.nWorld) }))}">${esc(fill(RL.openUS, { n: fmt(role.nOpen) }))}</span> · ${employers}` : `<span data-measure="${esc(fill(RL.openMeasure, { n: fmt(open.length), closed: nClosed ? fill(RL.closedMeasure, { n: fmt(nClosed) }) : "" }))}">${esc(fill(RL.open, { n: fmt(R.jobs.filter(j => j.open).length) }))}</span> · ${employers}${where}`;
     const lead = roleLead(areas);
     // the Know-your-role record (PLAN.md v12, decision 4): the asks the player got right in a game, as ✓ on the list
     // and as a card beside the action row
@@ -1114,23 +1099,23 @@
     const nEntry = open.filter(j => Atlas.stepOf(j) === "entry").length, nGrads = open.filter(j => j.entry || j.intern).length;
     const glance = `${lead} Entry grade: ${R.stepLabels.entry}, ${fmt(nEntry)} open at that grade${R.set === "mba" && nGrads ? `, ${fmt(nGrads)} for graduates and interns` : ""}.${topEmployers.length ? ` Top employers now: ${join(topEmployers)}.` : ""}`;
     const nAct = activeCount();
-    const seg = `<div class="seg" role="group" aria-label="Level"><button type="button" class="${state.level === "all" ? "on" : ""}" aria-pressed="${state.level === "all"}" data-level="all">All levels</button>${Atlas.STEPS.map(s => `<button type="button" class="${state.level === s ? "on" : ""}" aria-pressed="${state.level === s}" data-level="${s}">${esc(R.stepLabels[s])}</button>`).join("")}</div>`;
+    const seg = `<div class="seg" role="group" aria-label="${esc(RL.levelAria)}"><button type="button" class="${state.level === "all" ? "on" : ""}" aria-pressed="${state.level === "all"}" data-level="all">${esc(RL.allLevels)}</button>${Atlas.STEPS.map(s => `<button type="button" class="${state.level === s ? "on" : ""}" aria-pressed="${state.level === s}" data-level="${s}">${esc(R.stepLabels[s])}</button>`).join("")}</div>`;
     // "Says it sponsors" (PLAN.md v16, step 8): postings that say they sponsor a visa; shown once the data carries the fact
     const hasSponsorship = R.jobs.some(j => j.sponsorship != null);
     const nSponsor = hasSponsorship ? jobsExcept("sponsor").filter(j => j.sponsorship === "yes").length : 0;
-    const sponsorChip = hasSponsorship ? `<button type="button" class="chip${state.sponsor ? " on" : ""}" id="sponsor-chip" aria-pressed="${state.sponsor}" data-measure="Postings that say they sponsor a visa; most postings say nothing either way. ${fmt(nSponsor)} of the ${fmt(jobsExcept("sponsor").length)} in this view say so${R.jobs.some(j => j.sponsorship === "no") ? `; ${fmt(jobsExcept("sponsor").filter(j => j.sponsorship === "no").length)} say they do not` : ""}.">Says it sponsors<span class="n">${fmt(nSponsor)}</span></button>` : "";
-    const filters = `<div class="filters">${seg}${sponsorChip}<button type="button" class="btn filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">Filters${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
+    const sponsorChip = hasSponsorship ? `<button type="button" class="chip${state.sponsor ? " on" : ""}" id="sponsor-chip" aria-pressed="${state.sponsor}" data-measure="${esc(fill(RL.sponsorsMeasure, { n: fmt(nSponsor), m: fmt(jobsExcept("sponsor").length), no: R.jobs.some(j => j.sponsorship === "no") ? fill(RL.sponsorsNo, { n: fmt(jobsExcept("sponsor").filter(j => j.sponsorship === "no").length) }) : "" }))}">${esc(RL.sponsors)}<span class="n">${fmt(nSponsor)}</span></button>` : "";
+    const filters = `<div class="filters">${seg}${sponsorChip}<button type="button" class="btn filters-btn${nAct ? " on" : ""}" id="more-filters" aria-expanded="${state.more}">${esc(RL.filters)}${nAct ? `<span class="n">${nAct}</span>` : ""}</button>${!state.more ? activeChips(R) : ""}</div>${state.more ? drawerHtml(R, countBy) : ""}`;
     const expanded = allExpanded(areas);
-    const listHead = `<div class="listhead"><h2>What the postings ask for ${tip("Skills are grouped by area and ranked by how many of the postings in this view ask for them. Open a skill to see what it means, what it breaks down into and how postings say it.")}</h2><span class="small muted">${plural(stats.n, "posting", "postings")} in this view</span>${areas.length ? `<button type="button" class="linkish link" id="expand-all">${expanded ? "Collapse all" : "Expand all"}</button>` : ""}</div>`;
-    const skillList = areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m)).join("")}</div>` : '<p class="notice">No postings match these filters.</p>';
+    const listHead = `<div class="listhead"><h2>${esc(RL.listHeading)} ${tip(RL.listTip)}</h2><span class="small muted">${esc(stats.n === 1 ? RL.oneInView : fill(RL.inView, { n: fmt(stats.n) }))}</span>${areas.length ? `<button type="button" class="linkish link" id="expand-all">${esc(expanded ? RL.collapseAll : RL.expandAll)}</button>` : ""}</div>`;
+    const skillList = areas.length ? `<div class="areas">${areas.map(a => areaPanel(R, a, stats.n, m)).join("")}</div>` : `<p class="notice">${esc(RL.noMatch)}</p>`;
 
     const creds = R.skills.filter(s => s.cluster === "credentials" && stats.share(s.id) >= 0.1).map(s => ({ s, v: stats.share(s.id) })).sort((a, b) => b.v - a.v).slice(0, 6);
     const doms = R.skills.filter(s => s.cluster === "domain" && stats.share(s.id) >= 0.1).map(s => ({ s, v: stats.share(s.id) })).sort((a, b) => b.v - a.v).slice(0, 6);
-    const credChip = x => `<span class="tag" data-measure="${pct(x.v)} of the ${fmt(stats.n)} postings in this view ask for ${esc(x.s.name)}.">${esc(x.s.name)}</span>`;
+    const credChip = x => `<span class="tag" data-measure="${esc(fill(RL.credMeasure, { share: pct(x.v), n: fmt(stats.n), name: x.s.name }))}">${esc(x.s.name)}</span>`;
     let summary = "";
-    if (creds.length) { const w = inWords(creds[0].v), more = creds.slice(1, 3); summary = `${cap(w)} ${/posting$/.test(w) ? "asks" : "ask"} for ${low(esc(creds[0].s.name))}${more.length ? `; ${join(more.map(x => low(esc(x.s.name))))} also come up` : ""}.`; }
-    if (doms.length) summary += ` Industries named most: ${join(doms.slice(0, 3).map(x => esc(x.s.name)))}. One is enough.`;
-    const also = (creds.length || doms.length) ? `<p class="lead" style="margin-top:14px">${summary}</p>${creds.length ? `<h3>Degrees and credentials</h3><div class="tags">${creds.map(credChip).join("")}</div>` : ""}${doms.length ? `<h3>Industries</h3><div class="tags">${doms.map(credChip).join("")}</div>` : ""}` : "";
+    if (creds.length) { const w = inWords(creds[0].v), more = creds.slice(1, 3); summary = `${fill(esc(/posting$/.test(w) ? RL.credAskOne : RL.credAsk), { words: cap(esc(w)), name: low(esc(creds[0].s.name)) })}${more.length ? fill(esc(RL.credMore), { names: join(more.map(x => low(esc(x.s.name)))) }) : ""}.`; }
+    if (doms.length) summary += " " + fill(esc(RL.industries), { names: join(doms.slice(0, 3).map(x => esc(x.s.name))) });
+    const also = (creds.length || doms.length) ? `<p class="lead" style="margin-top:14px">${summary}</p>${creds.length ? `<h3>${esc(RL.credentials)}</h3><div class="tags">${creds.map(credChip).join("")}</div>` : ""}${doms.length ? `<h3>${esc(RL.industriesHeading)}</h3><div class="tags">${doms.map(credChip).join("")}</div>` : ""}` : "";
     // postings (owner's choice R6): open only, grouped by employer; employers hiring graduates and interns first
     // (MBA set), then the employers with the most postings. One posting stands alone; several fold under the employer.
     const q = state.query.trim().toLowerCase();
@@ -1139,18 +1124,18 @@
     const byEmp = new Map(); for (const j of list) { const e = byEmp.get(j.company) || { company: j.company, jobs: [], rank: 9 }; e.jobs.push(j); e.rank = Math.min(e.rank, rank(j)); byEmp.set(j.company, e); }
     const emps = [...byEmp.values()].sort((a, b) => a.rank - b.rank || b.jobs.length - a.jobs.length || a.company.localeCompare(b.company));
     const shownEmps = emps.slice(0, state.shown);
-    const who = j => j.intern ? " · internship" : j.entry === "mba" ? " · for MBA graduates" : j.entry === "pre_mba" ? " · for new graduates" : "";
+    const who = j => esc(j.intern ? RL.internship : j.entry === "mba" ? RL.forMBA : j.entry === "pre_mba" ? RL.forGrads : "");
     const jobRow = (j, withCompany) => `<button type="button" class="r${state.selected && state.selected.kind === "posting" && state.selected.id === j.id ? " on" : ""}" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${withCompany ? esc(j.company) + (j.location ? " · " : "") : ""}${j.location ? esc(j.location) : ""}${who(j)}</span></button>`;
-    const empBox = e => e.jobs.length === 1 ? jobRow(e.jobs[0], true) : `<details class="empbox" data-emp-open="${esc(e.company)}"${state.empOpen.has(e.company) ? " open" : ""}><summary><span class="t">${esc(e.company)}</span><span class="n">${plural(e.jobs.length, "posting", "postings")}</span><span class="m">${esc(e.jobs[0].title)}${e.jobs[0].location ? " · " + esc(e.jobs[0].location) : ""}${who(e.jobs[0])}${e.jobs.length > 1 ? " · …" : ""}</span></summary><div class="list">${e.jobs.map(j => jobRow(j, false)).join("")}</div></details>`;
-    const postings = `<input type="search" id="q" placeholder="Search by employer or title" aria-label="Search postings" value="${esc(state.query)}" autocomplete="off">
-      <div class="list" id="postings">${shownEmps.map(empBox).join("") || '<p class="small muted" style="padding:10px 0">No open postings match.</p>'}</div>
-      <p class="small muted" style="margin-top:8px">${plural(emps.length, "employer", "employers")}, ${plural(list.length, "open posting", "open postings")}${R.set === "mba" ? "; employers hiring graduates and interns first" : ""}. ${emps.length > shownEmps.length ? `<button type="button" class="linkish link" id="more">Show ${fmt(Math.min(20, emps.length - shownEmps.length))} more employers</button>` : ""}</p>`;
-    const TABS = [["skills", "Skills", null], ...(POSTINGS ? [["postings", "Open postings", open.length]] : []), ...(also ? [["also", "Also asked for", null]] : [])];
+    const empBox = e => e.jobs.length === 1 ? jobRow(e.jobs[0], true) : `<details class="empbox" data-emp-open="${esc(e.company)}"${state.empOpen.has(e.company) ? " open" : ""}><summary><span class="t">${esc(e.company)}</span><span class="n">${esc(fill(e.jobs.length === 1 ? Copy.jobs.posting : Copy.jobs.postings, { n: fmt(e.jobs.length) }))}</span><span class="m">${esc(e.jobs[0].title)}${e.jobs[0].location ? " · " + esc(e.jobs[0].location) : ""}${who(e.jobs[0])}${e.jobs.length > 1 ? " · …" : ""}</span></summary><div class="list">${e.jobs.map(j => jobRow(j, false)).join("")}</div></details>`;
+    const postings = `<input type="search" id="q" placeholder="${esc(RL.searchPostings)}" aria-label="${esc(RL.searchAria)}" value="${esc(state.query)}" autocomplete="off">
+      <div class="list" id="postings">${shownEmps.map(empBox).join("") || `<p class="small muted" style="padding:10px 0">${esc(RL.noOpenMatch)}</p>`}</div>
+      <p class="small muted" style="margin-top:8px">${esc(fill(RL.postingsFoot, { employers: fill(emps.length === 1 ? RL.employer : RL.employers, { n: fmt(emps.length) }), postings: fill(list.length === 1 ? RL.openPosting : RL.openPostings, { n: fmt(list.length) }), grads: R.set === "mba" ? RL.gradsFirst : "" }))} ${emps.length > shownEmps.length ? `<button type="button" class="linkish link" id="more">${esc(fill(RL.showMoreEmployers, { n: fmt(Math.min(20, emps.length - shownEmps.length)) }))}</button>` : ""}</p>`;
+    const TABS = [["skills", RL.tabs.skills, null], ...(POSTINGS ? [["postings", RL.tabs.postings, open.length]] : []), ...(also ? [["also", RL.tabs.also, null]] : [])];
     if (!TABS.some(t => t[0] === state.tab)) state.tab = "skills";
-    const tabs = `<div class="tabs" role="tablist">${TABS.map(([k, l, n]) => `<button type="button" role="tab" class="${state.tab === k ? "on" : ""}" aria-selected="${state.tab === k}" data-tab="${k}">${l}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`).join("")}</div>`;
+    const tabs = `<div class="tabs" role="tablist">${TABS.map(([k, l, n]) => `<button type="button" role="tab" class="${state.tab === k ? "on" : ""}" aria-selected="${state.tab === k}" data-tab="${k}">${esc(l)}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`).join("")}</div>`;
     const body = state.tab === "postings" ? postings : state.tab === "also" ? also : listHead + skillList;
     // the title, one sentence on what the job is (web/data/role_blurbs.json), the facts, the data's lead sentence
-    page(`<h1>${esc(role.label)}</h1><p class="facts">${facts} · entry grade: ${esc(R.stepLabels.entry)}, ${fmt(nEntry)} open</p>
+    page(`<h1>${esc(role.label)}</h1><p class="facts">${facts} · ${esc(fill(RL.entryGrade, { label: R.stepLabels.entry, n: fmt(nEntry) }))}</p>
       <p class="lead">${role.blurb ? esc(role.blurb) + " " : ""}${lead}</p>${know}
       ${filters}${tabs}${body}`);
     main.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { state.tab = b.dataset.tab; keepScroll(renderRole); });
@@ -1160,7 +1145,7 @@
     $("#more-filters").onclick = () => { state.more = !state.more; keepScroll(renderRole); };
     const closeDrawer = () => { state.more = false; keepScroll(renderRole); };
     for (const id of ["#drawer-close", "#drawer-back", "#drawer-done"]) { const el = $(id); if (el) el.onclick = closeDrawer; }
-    main.querySelectorAll("details.areabox").forEach(d => d.ontoggle = () => { d.open ? state.areaOpen.add(d.dataset.area) : state.areaOpen.delete(d.dataset.area); const b = $("#expand-all"); if (b) b.textContent = allExpanded(areas) ? "Collapse all" : "Expand all"; });
+    main.querySelectorAll("details.areabox").forEach(d => d.ontoggle = () => { d.open ? state.areaOpen.add(d.dataset.area) : state.areaOpen.delete(d.dataset.area); const b = $("#expand-all"); if (b) b.textContent = allExpanded(areas) ? RL.collapseAll : RL.expandAll; });
     main.querySelectorAll("[data-more]").forEach(b => b.onclick = () => { toggle(state.areaMore, b.dataset.more); keepScroll(renderRole); });
     main.querySelectorAll("details[data-k]").forEach(d => d.ontoggle = () => { d.open ? state.open.add(d.dataset.k) : state.open.delete(d.dataset.k); });
     const xa = $("#expand-all"); if (xa) xa.onclick = () => { const all = allExpanded(areas); state.areaOpen = new Set(all ? [] : areas.map(a => a.cluster)); state.areaMore = new Set(all ? [] : areas.map(a => a.cluster)); keepScroll(renderRole); };
@@ -1196,7 +1181,7 @@
     const R = state.R, sel = state.selected;
     if (!sel) { showAside(null); return; }   // nothing selected: no panel, or the rail's own content (owner's choice R8, 2026-10-19)
     // over the rail a card gets "← Back" instead of ×
-    const over = html => railBase ? `<button type="button" class="close back" aria-label="Back">← Back</button>` + html.replace('<button type="button" class="close" aria-label="Close">×</button>', "") : html;
+    const over = html => railBase ? `<button type="button" class="close back" aria-label="${esc(Copy.games.back)}">${esc(CM.back)}</button>` + html.replace(`<button type="button" class="close" aria-label="${esc(CM.close)}">×</button>`, "") : html;
     if (sel.kind === "posting") { showAside(over(postingCard(R, R.jobs.find(j => j.id === sel.id)))); wire(); return; }
     const ev = evCache[sel.id];
     showAside(over(skillCard(R, R.skillById[sel.id], sliceOf(), ev))); wire();
@@ -1218,15 +1203,15 @@
   const quoteHtml = q => `<blockquote class="quote">“${esc(q.text.length > 260 ? q.text.slice(0, 257) + "…" : q.text)}”<span class="src">${esc(q.company)} · ${POSTINGS ? `<a href="${esc(q.url)}" target="_blank" rel="noopener">${esc(q.title)}</a>` : esc(q.title)}</span></blockquote>`;
   const evGroup = ev => { const groups = EV_GROUPS.filter(([k]) => (ev[k] || []).length); if (!groups.length) return null; const want = state.evTab || STEP_TO_EV[state.level] || "early"; return groups.some(([k]) => k === want) ? want : groups[0][0]; };
   function firstQuote(ev) {
-    if (!ev) return `<p class="small muted">Loading an example sentence…</p>`;
+    if (!ev) return `<p class="small muted">${esc(RL.loadingQuote)}</p>`;
     const g = evGroup(ev); return g ? quoteHtml(ev[g][0]) : "";
   }
   function evidenceHtml(ev) {
-    if (!ev) return `<p class="small muted">Loading example sentences…</p>`;
+    if (!ev) return `<p class="small muted">${esc(RL.loadingQuotes)}</p>`;
     const groups = EV_GROUPS.filter(([k]) => (ev[k] || []).length);
-    if (!groups.length) return `<p class="small muted">No example sentences for this skill yet.</p>`;
+    if (!groups.length) return `<p class="small muted">${esc(RL.noQuotes)}</p>`;
     const tab = evGroup(ev);
-    return `<div class="evtabs">${groups.map(([k, lab]) => `<button type="button" class="chip${tab === k ? " on" : ""}" data-ev="${k}">${lab}</button>`).join("")}</div>` +
+    return `<div class="evtabs">${groups.map(([k, lab]) => `<button type="button" class="chip${tab === k ? " on" : ""}" data-ev="${k}">${esc(lab)}</button>`).join("")}</div>` +
       ev[tab].slice(0, 3).map(quoteHtml).join("");
   }
   // A skill's ladder is flat ({associate, mid, senior, lead}: product skills) or keyed by industry ladder
@@ -1235,33 +1220,33 @@
   const LADDER_ORDER = ["corporate", "bank", "consulting"];
   function ladderHtml(R, s, here) {
     const L = s.ladder;
-    if (!L) return `<p class="small muted">The level ladder for this skill is not written yet.</p>`;
+    if (!L) return `<p class="small muted">${esc(RL.noLadder)}</p>`;
     const flat = LADDER_KEYS.some(([k]) => typeof L[k] === "string");
     const ind = flat ? null : L[R.role.ladder] ? R.role.ladder : LADDER_ORDER.find(k => L[k]) || Object.keys(L)[0];
     const rungs = flat ? L : L[ind];
     const lv = (ind && R.ladders && R.ladders[ind] && R.ladders[ind].levels) || {};
     const rows = LADDER_KEYS.filter(([k]) => flat || rungs[k]).map(([k, lab]) => `<span class="lv${here === k ? " here" : ""}">${esc(lv[k] || lab)}</span><span>${esc(rungs[k] || "")}</span>`).join("");
     const name = k => (((R.ladders || {})[k] || {}).label || k).toLowerCase();
-    const other = ind && ind !== R.role.ladder ? `<p class="small muted">Shown from the ${esc(name(ind))} ladder; this skill has none yet for ${esc(name(R.role.ladder))}.</p>` : "";
+    const other = ind && ind !== R.role.ladder ? `<p class="small muted">${esc(fill(RL.otherLadder, { other: name(ind), own: name(R.role.ladder) }))}</p>` : "";
     return other + `<div class="ladder">${rows}</div>`;
   }
   // The skill card (owner's choice R7, 2026-10-19): the first fold is the definition, one line of share in words,
   // the three biggest sub-skills and one quote, under 100 words. The rest sits behind four tabs in the same order
   // on every card: In postings · By level · Build it · Related. No tab is open until one is clicked.
-  const CTABS = [["postings", "In postings"], ["ladder", "By level"], ["build", "Build it"], ["related", "Related"]];
+  const CTABS = Object.entries(Copy.role.cardTabs);
   function skillCard(R, s, slice, ev) {
     const st = Atlas.shares(slice), ss = Atlas.subShares(slice, s.id);
     const subsMeta = (s.subskills || (R.subs[s.id] || []).map(x => ({ id: x.id, name: x.name, example: "" }))).map(sub => ({ ...sub, v: ss.share(sub.id) })).sort((a, b) => b.v - a.v);
     const m = state.match && state.match.roleId === R.role.id ? state.match : null;
-    const subRow = (sub, withEx) => `<div class="sub${m ? (m.subs.has(sub.id) ? " have" : m.required.has(s.id) && !m.presumed.has(s.id) ? " miss" : "") : ""}"><span class="nm">${esc(sub.name)}</span><span class="pct" data-measure="${pct(sub.v)} of the postings in this view that ask for ${esc(s.name)} mention this.">${pct(sub.v)}</span>${withEx && sub.example ? `<span class="ex">${esc(sub.example)}</span>` : ""}</div>`;
+    const subRow = (sub, withEx) => `<div class="sub${m ? (m.subs.has(sub.id) ? " have" : m.required.has(s.id) && !m.presumed.has(s.id) ? " miss" : "") : ""}"><span class="nm">${esc(sub.name)}</span><span class="pct" data-measure="${esc(fill(RL.subMeasure, { share: pct(sub.v), skill: s.name }))}">${pct(sub.v)}</span>${withEx && sub.example ? `<span class="ex">${esc(sub.example)}</span>` : ""}</div>`;
     const rest = subsMeta.slice(3);
-    const subs = subsMeta.length ? `<h3>Mostly means</h3><div class="subs">${(state.cardMore ? subsMeta : subsMeta.slice(0, 3)).map(sub => subRow(sub, state.cardMore)).join("")}</div>${rest.length ? `<button type="button" class="linkish link more" id="card-more">${state.cardMore ? "Show fewer" : `Show ${rest.length} more`}</button>` : ""}` : "";
+    const subs = subsMeta.length ? `<h3>${esc(RL.mostlyMeans)}</h3><div class="subs">${(state.cardMore ? subsMeta : subsMeta.slice(0, 3)).map(sub => subRow(sub, state.cardMore)).join("")}</div>${rest.length ? `<button type="button" class="linkish link more" id="card-more">${esc(state.cardMore ? RL.showFewer : fill(RL.showMore, { n: rest.length }))}</button>` : ""}` : "";
     const w = inWords(st.share(s.id));
-    const share = `<p class="small">${cap(w)} in this view ${/posting$/.test(w) ? "asks" : "ask"} for it. ${tip(`${pct(st.share(s.id))} of the ${fmt(st.n)} postings in this view ask for ${s.name}; ${pct(s.share)} of postings across ${R.set === "mba" ? "all MBA roles" : "all product roles"} do.`)}</p>`;
+    const share = `<p class="small">${esc(fill(/posting$/.test(w) ? RL.shareLineOne : RL.shareLine, { words: cap(w) }))} ${tip(fill(RL.shareTip, { share: pct(st.share(s.id)), n: fmt(st.n), skill: s.name, all: pct(s.share), set: R.set === "mba" ? RL.allMBA : RL.allProduct }))}</p>`;
     const here = state.level === "all" ? null : { entry: "associate", mid: "mid", senior: "senior", lead: "lead" }[state.level];
     const ladder = ladderHtml(R, s, here);
     const bs = buildSteps(s, R.role.ladder, true), ladName = k => (((R.ladders || {})[k] || {}).label || k).toLowerCase();
-    const build = bs.steps.length ? (bs.ind && bs.ind !== R.role.ladder ? `<p class="small muted">Shown from the ${esc(ladName(bs.ind))} ladder; this skill has none yet for ${esc(ladName(R.role.ladder))}.</p>` : "") + `<ul class="plain">${bs.steps.map(b => `<li>${stepHtml(b)}</li>`).join("")}</ul>` : `<p class="small muted">${R.role.ladder === "consulting" && s.build && !Array.isArray(s.build) ? "Build steps for consulting roles are on hold until a source is agreed." : "Build steps for this skill are not written yet."}</p>`;
+    const build = bs.steps.length ? (bs.ind && bs.ind !== R.role.ladder ? `<p class="small muted">${esc(fill(RL.otherLadder, { other: ladName(bs.ind), own: ladName(R.role.ladder) }))}</p>` : "") + `<ul class="plain">${bs.steps.map(b => `<li>${stepHtml(b)}</li>`).join("")}</ul>` : `<p class="small muted">${esc(R.role.ladder === "consulting" && s.build && !Array.isArray(s.build) ? RL.consultingHold : RL.noBuild)}</p>`;
     // What the skill means here and how it is shown (PLAN.md v14, decisions 3 and 6): the field entry's reading when the
     // role's field has one, else one sentence from the evidence file; a behaviour or a practice names the carriers the
     // role's postings pick. Every sentence comes from the data through web/evidence_text.js; `signals` left the card.
@@ -1269,23 +1254,23 @@
     const keys = Atlas.fieldKeys(R), hasOverride = !!(s.fields && s.fields[keys[0]]);   // the role's own reading, when its field's does not fit it
     const reads = T.reads(s, keys), kindLabel = ((R.kinds || {})[s.kind] || {}).label || "";
     const cs = s.kind === "behaviour" || s.kind === "practice" ? Atlas.carriers(R, slice, s.id) : null;
-    const carrierTags = cs && cs.ids.length ? `<p class="small" style="margin:8px 0 0">Shown through${cs.fallback ? ` <span class="subtle">(in ${esc(fieldLabel.toLowerCase())})</span>` : ""}: <span class="tags inline">${cs.ids.map(k => `<button type="button" class="tag" data-skill="${esc(k)}">${esc(R.skillById[k].name)}</button>`).join("")}</span></p>` : "";
-    const means = `${reads ? `<p class="small reads"><b>${hasOverride ? `For ${esc(R.role.label)}` : `In ${esc(fieldLabel.toLowerCase())}`}:</b> ${esc(reads)}</p>` : `<p class="small muted">${esc(T.summary(s))}</p>`}${carrierTags}`;
+    const carrierTags = cs && cs.ids.length ? `<p class="small" style="margin:8px 0 0">${esc(RL.shownThrough)}${cs.fallback ? ` <span class="subtle">${esc(fill(RL.inFieldNamed, { field: fieldLabel.toLowerCase() }))}</span>` : ""}: <span class="tags inline">${cs.ids.map(k => `<button type="button" class="tag" data-skill="${esc(k)}">${esc(R.skillById[k].name)}</button>`).join("")}</span></p>` : "";
+    const means = `${reads ? `<p class="small reads"><b>${esc(hasOverride ? fill(RL.forRole, { role: R.role.label }) : fill(RL.inFieldLabel, { field: fieldLabel.toLowerCase() }))}:</b> ${esc(reads)}</p>` : `<p class="small muted">${esc(T.summary(s))}</p>`}${carrierTags}`;
     const lineHere = T.line(s, keys);
-    const showIt = `<p class="small" style="margin:10px 0 0"><b>${esc(T.how(s.kind || "method"))}</b></p>${s.kind !== "behaviour" ? `<p class="small">A line that shows it${lineHere.source === "field" ? (lineHere.role ? ` for ${esc(R.role.label)}` : ` in ${esc(fieldLabel.toLowerCase())}`) : ""}: <em>“${esc(lineHere.text)}”</em></p>` : cs && cs.ids.length ? `<p class="small">A line about ${esc(R.skillById[cs.ids[0]].name)}${cs.ids[1] ? ` or ${esc(R.skillById[cs.ids[1]].name)}` : ""} carries it: <em>“${esc(lineHere.text)}”</em></p>` : ""}`;
+    const showIt = `<p class="small" style="margin:10px 0 0"><b>${esc(T.how(s.kind || "method"))}</b></p>${s.kind !== "behaviour" ? `<p class="small">${esc(fill(RL.lineShows, { where: lineHere.source === "field" ? (lineHere.role ? fill(RL.lineForRole, { role: R.role.label }) : fill(RL.lineInField, { field: fieldLabel.toLowerCase() })) : "" }))} <em>“${esc(lineHere.text)}”</em></p>` : cs && cs.ids.length ? `<p class="small">${esc(fill(RL.lineCarries, { names: R.skillById[cs.ids[0]].name + (cs.ids[1] ? RL.or + R.skillById[cs.ids[1]].name : "") }))} <em>“${esc(lineHere.text)}”</em></p>` : ""}`;
     const withSkill = slice.filter(j => j.open && j.skills.includes(s.id)).slice(0, 6);
-    const postings = withSkill.length ? `<div class="list">${withSkill.map(j => `<button type="button" class="r" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${esc(j.company)}</span></button>`).join("")}</div>` : `<p class="small muted">No open posting in this view asks for it.</p>`;
+    const postings = withSkill.length ? `<div class="list">${withSkill.map(j => `<button type="button" class="r" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${esc(j.company)}</span></button>`).join("")}</div>` : `<p class="small muted">${esc(RL.noOpenAsks)}</p>`;
     const visible = new Set(Atlas.grid(R, slice).rows.flat(2).map(x => x.id));
     const related = R.edges.filter(e => (e.source === s.id || e.target === s.id)).map(e => ({ id: e.source === s.id ? e.target : e.source, w: e.jaccard })).filter(x => visible.has(x.id) && x.id !== s.id).sort((a, b) => b.w - a.w).slice(0, 6);
-    const def = R.role.defining.has(s.id) ? ` · <span class="mark" data-measure="◆ sets this role apart: postings of this role ask for it far more often than postings of other roles do.">defines this role ◆</span>` : "";
+    const def = R.role.defining.has(s.id) ? ` · <span class="mark" data-measure="${esc(RL.defining)}">${esc(RL.definesRole)}</span>` : "";
     const bodies = {
-      postings: `<h3>How postings say it</h3>${evidenceHtml(ev)}${POSTINGS ? `<h3>Postings that ask for it</h3>${postings}` : ""}`,
-      ladder: `<h3>At each level</h3>${ladder}`,
-      build: `<h3>How to show it</h3>${showIt}<h3>How to build it</h3>${build}`,
-      related: `<h3>Often asked for together</h3>${related.length ? `<div class="tags">${related.map(r => `<button type="button" class="tag" data-skill="${esc(r.id)}">${esc(R.skillById[r.id].name)}</button>`).join("")}</div>` : '<p class="small muted">No skill is asked for together with it often enough to name.</p>'}`,
+      postings: `<h3>${esc(RL.howSay)}</h3>${evidenceHtml(ev)}${POSTINGS ? `<h3>${esc(RL.postingsAsk)}</h3>${postings}` : ""}`,
+      ladder: `<h3>${esc(RL.atLevel)}</h3>${ladder}`,
+      build: `<h3>${esc(RL.howShow)}</h3>${showIt}<h3>${esc(RL.howBuild)}</h3>${build}`,
+      related: `<h3>${esc(RL.together)}</h3>${related.length ? `<div class="tags">${related.map(r => `<button type="button" class="tag" data-skill="${esc(r.id)}">${esc(R.skillById[r.id].name)}</button>`).join("")}</div>` : `<p class="small muted">${esc(RL.noRelated)}</p>`}`,
     };
-    const tabs = `<div class="tabs card-tabs" role="tablist">${CTABS.map(([k, l]) => `<button type="button" role="tab" class="${state.cardTab === k ? "on" : ""}" aria-selected="${state.cardTab === k}" data-ctab="${k}">${l}</button>`).join("")}</div>`;
-    return `<button type="button" class="close" aria-label="Close">×</button><div class="card">
+    const tabs = `<div class="tabs card-tabs" role="tablist">${CTABS.map(([k, l]) => `<button type="button" role="tab" class="${state.cardTab === k ? "on" : ""}" aria-selected="${state.cardTab === k}" data-ctab="${k}">${esc(l)}</button>`).join("")}</div>`;
+    return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card">
       <p class="eyebrow">${kindLabel ? esc(kindLabel) + " · " : ""}${esc(R.clusters[s.cluster].label)}${def}</p><h2>${esc(s.name)}</h2>
       ${s.what ? `<p class="what">${esc(s.what)}</p>` : ""}
       ${share}${means}${subs}
@@ -1294,24 +1279,25 @@
     </div>`;
   }
   function postingCard(R, j) {
-    if (!j) return `<button type="button" class="close" aria-label="Close">×</button><p class="empty">That posting is not in this role.</p>`;
+    if (!j) return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><p class="empty">${esc(RL.notInRole)}</p>`;
     const byArea = {}; for (const k of j.skills) { const s = R.skillById[k]; if (s) (byArea[s.cluster] ||= []).push(s); }
     const subNames = (j.sub || []).map(id => { for (const [sid, list] of Object.entries(R.subs)) { const f = list.find(x => x.id === id); if (f) return { sid, name: f.name }; } return null; }).filter(Boolean);
-    const who = j.intern ? "An internship" : j.entry === "mba" ? "A job for MBA graduates" : j.entry === "pre_mba" ? "A job for new graduates" : null;
-    return `<button type="button" class="close" aria-label="Close">×</button><div class="card">
-      <p class="eyebrow">${esc(j.company)}${j.rank ? ` · Fortune #${j.rank}` : ""}</p><h2>${esc(j.title)}</h2>
-      <p class="facts">${esc(levelLabel(R, j))}${j.location ? " · " + esc(j.location) : ""}${j.remote ? " · remote" : ""}${j.yoe ? ` · asks for ${j.yoe}+ years` : ""}${j.industry ? " · " + esc(j.industry) : ""}</p>
-      ${who ? `<p class="small" style="color:var(--primary)">${who}${j.entry_src === "firm" || j.entry_src === "category" ? " at this employer's grade; the posting may also take experienced hires" : ""}.</p>` : ""}
+    const who = j.intern ? RL.who.intern : j.entry === "mba" ? RL.who.mba : j.entry === "pre_mba" ? RL.who.grads : null;
+    const nSkills = j.skills.filter(k => R.skillById[k] && R.skillById[k].cluster !== "credentials").length;
+    return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card">
+      <p class="eyebrow">${esc(j.company)}${j.rank ? ` · ${esc(fill(RL.fortune, { n: j.rank }))}` : ""}</p><h2>${esc(j.title)}</h2>
+      <p class="facts">${esc(levelLabel(R, j))}${j.location ? " · " + esc(j.location) : ""}${j.remote ? esc(RL.remoteFact) : ""}${j.yoe ? esc(fill(RL.yearsAsked, { n: j.yoe })) : ""}${j.industry ? " · " + esc(j.industry) : ""}</p>
+      ${who ? `<p class="small" style="color:var(--primary)">${esc(who)}${j.entry_src === "firm" || j.entry_src === "category" ? esc(RL.whoGrade) : ""}.</p>` : ""}
       ${j.snippet ? `<p class="small muted">${esc(j.snippet)}…</p>` : ""}
-      ${POSTINGS ? `<p><a class="link" href="${esc(j.url)}" target="_blank" rel="noopener">Open the posting ↗</a></p>` : ""}
-      <h3>${plural(j.skills.filter(k => R.skillById[k] && R.skillById[k].cluster !== "credentials").length, "skill asked for", "skills asked for")}</h3>
+      ${POSTINGS ? `<p><a class="link" href="${esc(j.url)}" target="_blank" rel="noopener">${esc(RL.openPostingLink)}</a></p>` : ""}
+      <h3>${esc(fill(nSkills === 1 ? RL.skillAsked : RL.skillsAsked, { n: fmt(nSkills) }))}</h3>
       ${Object.entries(byArea).sort((a, b) => b[1].length - a[1].length).map(([c, ss]) => `<p class="small muted" style="margin:8px 0 2px">${esc(R.clusters[c].label)}</p><div class="tags">${ss.map(s => `<button type="button" class="tag" data-skill="${esc(s.id)}">${esc(s.name)}</button>`).join("")}</div>`).join("")}
-      ${subNames.length ? `<h3>Specific asks in this posting</h3><div class="tags">${subNames.map(x => `<button type="button" class="tag" data-skill="${esc(x.sid)}">${esc(x.name)}</button>`).join("")}</div>` : ""}
+      ${subNames.length ? `<h3>${esc(RL.specificAsks)}</h3><div class="tags">${subNames.map(x => `<button type="button" class="tag" data-skill="${esc(x.sid)}">${esc(x.name)}</button>`).join("")}</div>` : ""}
     </div>`;
   }
 
   // ---------- 5. your fit: read once for the rail and the fit screen ----------
-  const BANDS = [["different", "New to the field"], ["related", "Relevant foundation"], ["in_range", "Qualified for the role"], ["strong", "Strong match"]];
+  const BANDS = Object.entries(CM.bands);
   const bandName = k => (BANDS.find(b => b[0] === k) || [])[1];
   // the view the fit is read on: the role, the level and every other filter
   const fitKey = level => [state.roleId, level, state.employer, state.grads, state.sponsor, [...state.sector].join(), [...state.company].join(), [...state.country].join(), state.remote].join("|");
@@ -1321,7 +1307,7 @@
   async function computeFit(R, level) {
     const role = R.role, slice = sliceOf(level);
     const { M, bands, group } = await Atlas.matcher(R);
-    const extra = [state.grads ? "graduates and interns" : null, state.sponsor ? "says it sponsors" : null, state.employer !== "all" ? (R.employerTypes.find(e => e[0] === state.employer) || [])[1] : null, ...state.sector, ...state.company, ...state.country, state.remote ? "remote" : null].filter(Boolean);
+    const extra = [state.grads ? RL.grads.toLowerCase() : null, state.sponsor ? RL.sponsors.toLowerCase() : null, state.employer !== "all" ? (R.employerTypes.find(e => e[0] === state.employer) || [])[1] : null, ...state.sector, ...state.company, ...state.country, state.remote ? RL.remote.toLowerCase() : null].filter(Boolean);
     const label = `${role.label}${level === "all" ? "" : " · " + R.stepLabels[level]}${extra.length ? " · " + extra.join(", ") : ""}`;
     const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label }, { level: LEVEL_OPT[level], ladder: R.role.ladder });
     const rows = r.rows, by = st => rows.filter(x => x.status === st).sort((a, b) => (a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : b.tier === "core" ? 1 : a.tier === "common" ? -1 : 1));
@@ -1374,8 +1360,8 @@
   // ---------- the rail: the legend, the person and this role, what to do with it ----------
   // one legend everywhere, rows left out when they do not apply (owner's decision 2026-10-24)
   function legendHtml(rows) {
-    const all = { share: ['<i class="b"></i>', "% of postings that ask for the skill"], defining: ["◆", "sets this role apart from other roles"], grows: ["↗", "asked more at senior levels"], have: ['<i class="b g"></i>', "already on your resume"], gap: ['<i class="b a"></i>', "a gap this role requires"], presumed: ["◌", "presumed from a role you held, not shown on your resume"], known: ["✓", "you got it right in a game"], other: ["⟲", "on your resume in other words; postings say it differently"], through: ["⤷", "a way of working, shown through a skill on your resume"] };
-    return `<section class="rs"><h3 class="rh">How to read this</h3><div class="legend">${rows.map(k => `<span class="k">${all[k][0]}</span><span>${all[k][1]}</span>`).join("")}</div></section>`;
+    const L = CM.legend, mark = { share: '<i class="b"></i>', defining: "◆", grows: "↗", have: '<i class="b g"></i>', gap: '<i class="b a"></i>', presumed: "◌", known: "✓", other: "⟲", through: "⤷" };
+    return `<section class="rs"><h3 class="rh">${esc(L.heading)}</h3><div class="legend">${rows.map(k => `<span class="k">${mark[k]}</span><span>${esc(L[k])}</span>`).join("")}</div></section>`;
   }
   // The intake box (v19 B5; one box everywhere since v18 step 1: the rail's three placeholders, the fit screen's foot,
   // the launcher, the networking screen, the class picker's foot), its copy the pure table Intake beside Stage. The
@@ -1393,7 +1379,7 @@
     if (!opts.always && state.wait !== what) return "";
     const done = intakeDone(what), kept = doorKept().email;
     const form = done ? `<p class="small" style="margin:6px 0 0"><b>${esc(Intake.done)}</b></p>` : `<form class="apply-form" data-wait-form="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}><input type="email" required placeholder="${esc(Door.COPY.emailPlaceholder)}" aria-label="${esc(Intake.email)}" autocomplete="email" value="${esc(kept)}"><button type="submit" class="btn primary">${esc(Intake.button)}</button></form>`;
-    return `<div class="wait apply"><b>${esc(Intake.heading)}</b><p class="small">${esc(Intake.line[Intake.surfaceOf(what)])}</p>${form}<p class="small muted" style="margin:6px 0 0">${esc(Intake.privacy)}${opts.always || done ? "" : ' <a href="#/" data-wait-close>Not now</a>'}</p></div>`;
+    return `<div class="wait apply"><b>${esc(Intake.heading)}</b><p class="small">${esc(Intake.line[Intake.surfaceOf(what)])}</p>${form}<p class="small muted" style="margin:6px 0 0">${esc(Intake.privacy)}${opts.always || done ? "" : ` <a href="#/" data-wait-close>${esc(CM.notNow)}</a>`}</p></div>`;
   }
   const waitHtml = what => applyBox(what);
   // the forms inside `el`: on submit the email goes out once (or stays here, for the networking box), the box says so,
@@ -1401,85 +1387,89 @@
   function wireWait(el, redraw) {
     el.querySelectorAll("[data-wait-form]").forEach(f => f.onsubmit = async e => {
       e.preventDefault(); const what = f.dataset.waitForm, input = f.querySelector("input[type=email]"), btn = f.querySelector("button");
-      if (!input.value.trim()) return; btn.disabled = true; btn.textContent = "Sending…";
+      if (!input.value.trim()) return; btn.disabled = true; btn.textContent = CM.sending;
       const ctx = { ...waitCtx(), ...(f.dataset.waitRole ? { role_id: f.dataset.waitRole } : {}) };
       let ok;
       if (window.Capture && Capture.SOURCES.includes(what)) { ok = await Capture.waitlist(input.value, what, ctx); if (ok) store.set("waitlist", { ...joined(), [what]: new Date().toISOString().slice(0, 10) }); }
       else if (what === "network") { store.set("intake.network", input.value.trim()); ok = true; }   // no source in capture.js for this box yet: B7 adds it, and this line then goes through Capture.waitlist
       else ok = false;
       if (ok) redraw();   // the box stays, now saying "Got it"
-      else { btn.disabled = false; btn.textContent = Intake.button; input.setCustomValidity("That did not go through. Check the address and try again."); input.reportValidity(); input.oninput = () => input.setCustomValidity(""); }
+      else { btn.disabled = false; btn.textContent = Intake.button; input.setCustomValidity(CM.sendFailed); input.reportValidity(); input.oninput = () => input.setCustomValidity(""); }
     });
   }
   // the open postings of this view that ask for a skill, as links (decision 8 of the pass: shown to a person with a resume)
   function postingLinks(R, slice, id, n) {
     const open = slice.filter(j => j.open && j.url && j.skills.includes(id)).slice(0, n || 3);
-    return open.length ? `<span class="plinks">Postings asking for it: ${open.map(j => `<a href="${esc(j.url)}" target="_blank" rel="noopener" data-posting="${esc(R.role.id)}" title="${esc(j.title)}">${esc(j.company)} ↗</a>`).join(" · ")}</span>` : "";
+    return open.length ? `<span class="plinks">${esc(RL.rail.postingsAsking)} ${open.map(j => `<a href="${esc(j.url)}" target="_blank" rel="noopener" data-posting="${esc(R.role.id)}" title="${esc(j.title)}">${esc(j.company)} ↗</a>`).join(" · ")}</span>` : "";
   }
   function railHtml(R, g, fit, stats, open) {
     const role = R.role, y = state.you || {}, stage = y.stage;
     const painted = !!fit && state.match && state.match.roleId === role.id;
     const legend = legendHtml(["share", ...(role.definingList.length ? ["defining"] : []), "grows", ...(state.known && state.known.size ? ["known"] : []), ...(painted ? ["have", "gap", ...(fit.presumed.length ? ["presumed"] : []), ...(fit.trans.length ? ["other"] : []), ...(fit.through && fit.through.length ? ["through"] : [])] : [])]);
-    const acts = (extra = "") => `<section class="rs"><h3 class="rh">${fit ? "Then" : "Do something with this"}</h3><div class="acts">${extra}<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}">Practise this role <span>· 2 min</span></a><a href="#/role/${esc(role.id)}/course">Check a course against this role <span>→</span></a><span class="act">Going to a ${esc(g.label.toLowerCase())} event? <span>${EVENTS.map(([k, t]) => `<a href="#/field/${esc(role.group)}/event?${k}">${esc(t.toLowerCase().replace(" or case competition", ""))}</a>`).join(" · ")}</span></span>${window.ClassScreens ? `<a href="#/classes?role=${encodeURIComponent(role.id)}">${esc((window.ClassScreens.termLabel && ClassScreens.termLabel()) || "Spring 2027")} classes that fit this role <span>→</span></a>` : ""}</div></section>`;
-    const drop = `<div class="drop" id="drop"><p><b>Drop a PDF, DOCX or TXT</b> or <label class="link" for="file">choose a file</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status"></p></div><textarea id="paste" rows="3" aria-label="Resume text" placeholder="Or paste the text of your resume"></textarea><p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">Read my fit →</button></p>`;
+    const RR = RL.rail;
+    const acts = (extra = "") => `<section class="rs"><h3 class="rh">${esc(fit ? RR.then : RR.doSomething)}</h3><div class="acts">${extra}<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}">${esc(RR.practice)} <span>${esc(RR.twoMin)}</span></a><a href="#/role/${esc(role.id)}/course">${esc(RR.course)} <span>→</span></a><span class="act">${esc(fill(RR.event, { field: g.label.toLowerCase() }))} <span>${EVENTS.map(([k, t]) => `<a href="#/field/${esc(role.group)}/event?${k}">${esc(t.toLowerCase().replace(" or case competition", ""))}</a>`).join(" · ")}</span></span>${window.ClassScreens ? `<a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(fill(RR.classes, { term: (window.ClassScreens.termLabel && ClassScreens.termLabel()) || "Spring 2027" }))} <span>→</span></a>` : ""}</div></section>`;
+    const drop = `<div class="drop" id="drop"><p><b>${esc(RF.dropShort)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status"></p></div><textarea id="paste" rows="3" aria-label="${esc(RF.pasteAria)}" placeholder="${esc(RF.pasteShort)}"></textarea><p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">${esc(RF.readFit)}</button></p>`;
     if (!state.resume) {
-      if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">How do you fit?</h3><p>Drop your resume and this panel reads it against these postings. Nothing leaves your browser.</p>${drop}<p><a href="#/you">Or answer two questions</a> to start from your program and the fields you like.</p></section>` + acts();
+      if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">${esc(RR.howFit)}</h3><p>${esc(RR.dropLead)}</p>${drop}<p><a href="#/you">${esc(RR.orAnswer)}</a> ${esc(RR.orAnswerAfter)}</p></section>` + acts();
       // answers, no resume: the rail speaks from them (the stage decides what comes first)
       const nEntry = open.filter(j => Atlas.stepOf(j) === "entry"), nIntern = nEntry.filter(j => j.intern).length;
       const countBy = jobs => { const c = {}; for (const j of jobs) c[j.company] = (c[j.company] || 0) + 1; return Object.entries(c).sort((a, b) => b[1] - a[1]).map(([c]) => c); };
       const entryEmps = countBy(nEntry).slice(0, 4), topEmps = countBy(R.jobs.filter(j => j.open)).slice(0, 3).filter(c => !entryEmps.includes(c));
-      const picked = (y.fields || []).includes(role.group) ? `This role is in ${esc(g.label)}, a field you picked. ` : "";
-      const facts = `${picked}You are looking at the entry grade: <b>${fmt(nEntry.length)} open ${nEntry.length === 1 ? "posting" : "postings"}</b>${nIntern ? `, ${nIntern} of them internships` : ""}.${entryEmps.length ? ` Entry-grade employers now: ${esc(join(entryEmps))}.` : ""}${topEmps.length ? ` Across all levels ${esc(join(topEmps))} hire the most.` : ""}`;
-      const ask = stage === "targeting" ? "Add your resume to see the gaps between it and this role." : "Add your resume to see which of these skills you already show and which are gaps.";
-      const strip = `<div class="strip"><span class="dotg"></span><span>${[y.where ? esc(WHERE_SHORT[y.where]) : null, stage ? esc(STAGE_SHORT[stage]) : null, (y.fields || []).length ? `<b>${esc(join((y.fields || []).map(id => ((state.ixGroups || []).find(x => x.id === id) || { label: id }).label)))}</b>` : null].filter(Boolean).join(" · ")}</span><a href="#/you">Edit</a></div>`;
+      const picked = (y.fields || []).includes(role.group) ? esc(fill(RR.picked, { field: g.label })) + " " : "";
+      const facts = `${picked}${esc(RR.entry)} <b>${esc(nEntry.length === 1 ? RR.entryOpenOne : fill(RR.entryOpen, { n: fmt(nEntry.length) }))}</b>${nIntern ? esc(fill(RR.interns, { n: nIntern })) : ""}.${entryEmps.length ? " " + esc(fill(RR.entryEmployers, { names: join(entryEmps) })) : ""}${topEmps.length ? " " + esc(fill(RR.topEmployers, { names: join(topEmps) })) : ""}`;
+      const ask = esc(stage === "targeting" ? RR.askTargeting : RR.askLooking);
+      const strip = `<div class="strip"><span class="dotg"></span><span>${[y.where ? esc(WHERE_SHORT[y.where]) : null, stage ? esc(STAGE_SHORT[stage]) : null, (y.fields || []).length ? `<b>${esc(join((y.fields || []).map(id => ((state.ixGroups || []).find(x => x.id === id) || { label: id }).label)))}</b>` : null].filter(Boolean).join(" · ")}</span><a href="#/you">${esc(CM.edit)}</a></div>`;
       const blocks = { facts: `<p>${facts}</p>`, ask: `<p>${ask}</p>`, drop, "gaps-drop": drop };
       const body = Stage.railBlocks(stage, false).filter(k => blocks[k]).map(k => blocks[k]).join("");
-      return legend + `<section class="rs"><h3 class="rh">For you</h3>${strip}${body}</section>` + acts();
+      return legend + `<section class="rs"><h3 class="rh">${esc(RR.forYou)}</h3>${strip}${body}</section>` + acts();
     }
-    if (!fit) return legend + `<section class="rs"><h3 class="rh">Your fit · ${esc(state.resume.name)}</h3><p class="small muted">Reading your resume against these postings…</p></section>` + acts();
+    if (!fit) return legend + `<section class="rs"><h3 class="rh">${esc(fill(RR.yourFit, { name: state.resume.name }))}</h3><p class="small muted">${esc(RR.reading)}</p></section>` + acts();
     // the resume is read: the band, one sentence, every gap among the skills most postings ask for
     const { band, bandNext, core, coreHave, coreGaps, bands, group } = fit;
-    const scale = band ? `<div class="band">${BANDS.map(([k], i) => `<i class="${k === band ? "on" : i < BANDS.findIndex(b => b[0] === band) ? "past" : ""}"></i>`).join("")}</div><div class="bandl">${BANDS.map(([k, l]) => `<span class="${k === band ? "on" : ""}">${l}</span>`).join("")}</div>` : `<p class="small muted">${esc((bands.no_bands || {})[group] ? "Our sample of resumes for this group of roles is too small to set a band of fit." : "This group of roles has no band of fit yet.")}</p>`;
+    const scale = band ? `<div class="band">${BANDS.map(([k], i) => `<i class="${k === band ? "on" : i < BANDS.findIndex(b => b[0] === band) ? "past" : ""}"></i>`).join("")}</div><div class="bandl">${BANDS.map(([k, l]) => `<span class="${k === band ? "on" : ""}">${l}</span>`).join("")}</div>` : `<p class="small muted">${esc((bands.no_bands || {})[group] ? RR.smallSample : RR.noBands)}</p>`;
     const P = postingFor(role.id), pAsks = P ? new Set([...P.found].filter(k => R.skillById[k] && R.skillById[k].cluster !== "credentials")) : null, pSum = pAsks ? postingSummary(pAsks, fit) : null;
-    const postingLine = pSum ? `<p class="lead-rail posting"><b class="g">${pSum.n}</b> of the ${pSum.m} skills <a href="#/role/${esc(role.id)}/fit">this posting</a> asks for are on your resume.</p>` : "";
-    const line = (core.length ? `<p class="lead-rail">You show <b class="g">${coreHave.length}</b> of the ${core.length} skills most postings ask for${coreGaps.length ? `; <b class="a">${coreGaps.length}</b> ${coreGaps.length === 1 ? "is a gap" : "are gaps"}` : ""}.</p>` : `<p class="small muted">Few postings match this view; widen the filters.</p>`);
-    const slotWhy = x => x.slot === "__domain" ? `Name an industry you have worked in; these postings are in ${fit.r.industries.slice(0, 3).map(d => esc(d.name)).join(", ")}.` : x.slot === "__ai" ? `Show one line of AI work: ${fit.r.ai.map(k => esc(R.skillById[k] ? R.skillById[k].name : k)).join(", ")}.` : "";
+    const postingLine = pSum ? `<p class="lead-rail posting"><b class="g">${pSum.n}</b> ${esc(fill(RR.postingLine, { m: pSum.m }))} <a href="#/role/${esc(role.id)}/fit">${esc(RR.thisPosting)}</a> ${esc(RR.postingLineAfter)}</p>` : "";
+    const line = (core.length ? `<p class="lead-rail">${esc(RR.youShow)} <b class="g">${coreHave.length}</b> ${esc(fill(RR.ofMost, { m: core.length }))}${coreGaps.length ? `; <b class="a">${coreGaps.length}</b> ${esc(coreGaps.length === 1 ? RR.isGap : RR.areGaps)}` : ""}.</p>` : `<p class="small muted">${esc(RR.fewMatch)}</p>`);
+    const slotWhy = x => x.slot === "__domain" ? esc(fill(RR.industry, { names: fit.r.industries.slice(0, 3).map(d => d.name).join(", ") })) : x.slot === "__ai" ? esc(fill(RR.ai, { names: fit.r.ai.map(k => R.skillById[k] ? R.skillById[k].name : k).join(", ") })) : "";
     const gc = gapClassesFor(fit, R, () => showAside(null));
-    const classLinks = id => { const cs = gc && gc.byGap && gc.byGap[id]; return cs && cs.length ? `<span class="plinks">Classes that cover it: ${cs.slice(0, 3).map(c => `<a href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.code)}">${esc(c.code)}</a>`).join(" · ")}</span><br>` : ""; };
-    const gapRow = x => { const openRow = state.gapOpen === x.slot; const gt = gapText(R, x, fit); const ex = slotWhy(x) || (gt ? `${esc(gt.gap)}${x.kind !== "behaviour" ? ` A line that shows it: <em>“${esc(gt.line.text)}”</em>` : ""}` : (x.build && x.build[0] ? stepHtml(x.build[0]) : "Open the skill for how postings say it.")); return `<li class="${openRow ? "open" : ""}"><button type="button" class="t" data-gap="${esc(x.slot)}"><span>${esc(x.slotName)}</span><span class="n">${pct(x.w)}</span></button>${openRow ? `<div class="ex">${ex}${R.skillById[x.id] ? `<br>${classLinks(x.id)}${postingLinks(R, fit.slice, x.id, 3)}` : ""}<br><button type="button" class="linkish link" data-wait="show">Help me show this →</button>${R.skillById[x.id] ? ` · <button type="button" class="linkish link" data-skill="${esc(x.id)}">Open the skill</button>` : ""}</div>` : ""}</li>`; };
+    const classLinks = id => { const cs = gc && gc.byGap && gc.byGap[id]; return cs && cs.length ? `<span class="plinks">${esc(RR.classesCover)} ${cs.slice(0, 3).map(c => `<a href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.code)}">${esc(c.code)}</a>`).join(" · ")}</span><br>` : ""; };
+    const gapRow = x => { const openRow = state.gapOpen === x.slot; const gt = gapText(R, x, fit); const ex = slotWhy(x) || (gt ? `${esc(gt.gap)}${x.kind !== "behaviour" ? ` ${esc(RR.lineShows)} <em>“${esc(gt.line.text)}”</em>` : ""}` : (x.build && x.build[0] ? stepHtml(x.build[0]) : esc(RR.openSkillHow))); return `<li class="${openRow ? "open" : ""}"><button type="button" class="t" data-gap="${esc(x.slot)}"><span>${esc(x.slotName)}</span><span class="n">${pct(x.w)}</span></button>${openRow ? `<div class="ex">${ex}${R.skillById[x.id] ? `<br>${classLinks(x.id)}${postingLinks(R, fit.slice, x.id, 3)}` : ""}<br><button type="button" class="linkish link" data-wait="show">${esc(RR.helpShow)}</button>${R.skillById[x.id] ? ` · <button type="button" class="linkish link" data-skill="${esc(x.id)}">${esc(RR.openSkill)}</button>` : ""}</div>` : ""}</li>`; };
     // the classes that cover the most core gaps (step 3 of the pass): three links into the picker with the course open;
     // when the roster cannot be read here, one line from the campus file and the picker's link
-    const termName = esc((window.ClassScreens && ClassScreens.termLabel()) || "Spring 2027");
-    const classesBlock = !coreGaps.length ? "" : !gc ? `<h3 class="rh" style="margin-top:14px">Classes that cover your gaps</h3><p class="small muted">Reading the ${termName} roster against your gaps…</p>`
-      : gc.closed ? `<h3 class="rh" style="margin-top:14px">Classes that cover your gaps</h3><p class="small muted">${esc(gc.closed)} <a href="#/classes?role=${encodeURIComponent(role.id)}">${termName} classes →</a></p>`
-      : gc.top && gc.top.length ? `<h3 class="rh" style="margin-top:14px">Classes that cover your gaps</h3><ul class="gaps classes">${gc.top.map(c => `<li><a class="t" href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.codes[0])}"><span>${esc(c.codes[0])} · ${esc(c.title)}</span><span class="n">${c.covered.length}</span></a><div class="ex">Covers ${esc(c.covered.map(g => g.name).join(", "))}</div></li>`).join("")}</ul><p class="small muted" style="margin-top:6px"><a href="#/classes?role=${encodeURIComponent(role.id)}">All ${termName} classes, sorted by gaps covered →</a></p>`
-      : gc.failed ? "" : `<h3 class="rh" style="margin-top:14px">Classes that cover your gaps</h3><p class="small muted">No ${termName} class names one of your gaps in its description. <a href="#/classes?role=${encodeURIComponent(role.id)}">See the roster →</a></p>`;
-    const gapsHtml = coreGaps.length ? `<h3 class="rh" style="margin-top:14px">Needs more evidence</h3><ul class="gaps">${coreGaps.map(gapRow).join("")}</ul>${waitHtml("show")}${bandNext && bandNext !== band ? `<p class="small muted" style="margin-top:8px">Evidence ${coreGaps.length === 1 ? "that one" : "the top three"} and your resume reads as “${bandName(bandNext)}”.</p>` : ""}${classesBlock}` : `<p class="small muted" style="margin-top:10px">Nothing important missing: you show every skill most postings ask for.</p>`;
+    const termName = (window.ClassScreens && ClassScreens.termLabel()) || "Spring 2027";
+    const classesHead = `<h3 class="rh" style="margin-top:14px">${esc(RR.classesHeading)}</h3>`;
+    const classesBlock = !coreGaps.length ? "" : !gc ? `${classesHead}<p class="small muted">${esc(fill(RR.readingRoster, { term: termName }))}</p>`
+      : gc.closed ? `${classesHead}<p class="small muted">${esc(gc.closed)} <a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(fill(RR.termClasses, { term: termName }))}</a></p>`
+      : gc.top && gc.top.length ? `${classesHead}<ul class="gaps classes">${gc.top.map(c => `<li><a class="t" href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.codes[0])}"><span>${esc(c.codes[0])} · ${esc(c.title)}</span><span class="n">${c.covered.length}</span></a><div class="ex">${esc(fill(RR.covers, { names: c.covered.map(g => g.name).join(", ") }))}</div></li>`).join("")}</ul><p class="small muted" style="margin-top:6px"><a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(fill(RR.allClasses, { term: termName }))}</a></p>`
+      : gc.failed ? "" : `${classesHead}<p class="small muted">${esc(fill(RR.noClass, { term: termName }))} <a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.seeRoster)}</a></p>`;
+    const gapsHtml = coreGaps.length ? `<h3 class="rh" style="margin-top:14px">${esc(RR.needsEvidence)}</h3><ul class="gaps">${coreGaps.map(gapRow).join("")}</ul>${waitHtml("show")}${bandNext && bandNext !== band ? `<p class="small muted" style="margin-top:8px">${esc(fill(coreGaps.length === 1 ? RR.evidenceOne : RR.evidenceThree, { band: bandName(bandNext) }))}</p>` : ""}${classesBlock}` : `<p class="small muted" style="margin-top:10px">${esc(RR.nothingMissing)}</p>`;
     const n = fit.evid.length + fit.trans.length;
-    const you = `<section class="rs"><h3 class="rh">Your fit · ${esc(state.resume.name)} · <a href="#/you?step=3">change</a></h3>${scale}${postingLine}${line}${gapsHtml}<p style="margin-top:12px"><a href="#/role/${esc(role.id)}/fit">See all ${n} ${n === 1 ? "skill" : "skills"} on your resume, matched to this role →</a></p></section>`;
-    return legend + you + acts(`${coreGaps.length ? `<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(coreGaps.slice(0, 8).map(x => x.id).filter(k => R.skillById[k]).join(","))}">Practise your gaps <span>· 2 min</span></a>` : ""}<a href="#/" data-wait="build">Build these skills <span>· coming soon</span></a><a href="#/" data-wait="ways">Ways to show your skills <span>· coming soon</span></a>${waitHtml("build")}${waitHtml("ways")}`);
+    const you = `<section class="rs"><h3 class="rh">${esc(fill(RR.yourFit, { name: state.resume.name }))} · <a href="#/you?step=3">${esc(CM.change)}</a></h3>${scale}${postingLine}${line}${gapsHtml}<p style="margin-top:12px"><a href="#/role/${esc(role.id)}/fit">${esc(n === 1 ? RR.seeAllOne : fill(RR.seeAll, { n }))}</a></p></section>`;
+    return legend + you + acts(`${coreGaps.length ? `<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(coreGaps.slice(0, 8).map(x => x.id).filter(k => R.skillById[k]).join(","))}">${esc(RR.practiceGaps)} <span>${esc(RR.twoMin)}</span></a>` : ""}<a href="#/" data-wait="build">${esc(RR.build)} <span>${esc(RR.comingSoon)}</span></a><a href="#/" data-wait="ways">${esc(RR.ways)} <span>${esc(RR.comingSoon)}</span></a>${waitHtml("build")}${waitHtml("ways")}`);
   }
   function wireRail() {
-    if ($("#drop")) { wireResumeForm(); const b = $("#rail-read"); if (b) b.onclick = async () => { if (await takeResume()) { state.fit = null; keepScroll(renderRole); } else $("#file-status").textContent = "Add a file or paste some text first."; }; }
+    if ($("#drop")) { wireResumeForm(); const b = $("#rail-read"); if (b) b.onclick = async () => { if (await takeResume()) { state.fit = null; keepScroll(renderRole); } else $("#file-status").textContent = RF.nothing; }; }
     aside.querySelectorAll("[data-gap]").forEach(b => b.onclick = () => { state.gapOpen = state.gapOpen === b.dataset.gap ? null : b.dataset.gap; showAside(null); });
     aside.querySelectorAll("[data-wait]").forEach(b => b.onclick = e => { e.preventDefault(); state.wait = state.wait === b.dataset.wait ? null : b.dataset.wait; showAside(null); });
     aside.querySelectorAll("[data-wait-close]").forEach(b => b.onclick = e => { e.preventDefault(); state.wait = null; showAside(null); });
     wireWait(aside, () => showAside(null));
     aside.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }));
   }
+  // the persona lines are templates (Copy.fit.persona); the bold part is marked after escaping
+  const FT = Copy.fit, bold = s => s.replace(/\[\[/g, "<b>").replace(/\]\]/g, "</b>");
   const PERSONA = {
-    experienced_in_role: (p, field) => `Your resume reads as a <b>${esc(Matcher.LADDER_LABEL[p.level])}</b> ${esc(field)} profile: ${fmtYears(p.pmYears)} in the role, ${fmtYears(p.years)} of work overall.`,
-    pivoter: (p, field) => `Your resume reads as a <b>move into ${esc(field)}</b> from ${p.backgrounds.length ? esc(p.backgrounds.map(b => Matcher.VIA_LABEL[b] || b).join(", ")) : "another field"}: ${fmtYears(p.years)} of work, none yet under this role's title.`,
-    new_to_role: (p, field) => `Your resume reads as <b>early-career, new to ${esc(field)}</b>${p.pmIntern ? " with an internship in the role" : ""}${p.years >= 1 ? `, ${fmtYears(p.years)} of other work` : ""}.`,
+    experienced_in_role: (p, field) => bold(esc(fill(FT.persona.experienced, { level: `[[${Matcher.LADDER_LABEL[p.level]}]]`, field, roleYears: fmtYears(p.pmYears), years: fmtYears(p.years) }))),
+    pivoter: (p, field) => bold(esc(fill(FT.persona.pivoter, { field: `[[${field}]]`, from: p.backgrounds.length ? p.backgrounds.map(b => Matcher.VIA_LABEL[b] || b).join(", ") : FT.persona.anotherField, years: fmtYears(p.years) }))),
+    new_to_role: (p, field) => bold(esc(fill(FT.persona.newToRole, { field: `[[${field}]]`, intern: p.pmIntern ? FT.persona.withIntern : "", other: p.years >= 1 ? fill(FT.persona.otherWork, { years: fmtYears(p.years) }) : "" }))),
   };
-  const fmtYears = y => y < 1 ? "under a year" : `${Math.round(y * 2) / 2} years`;
+  const fmtYears = y => y < 1 ? FT.underYear : fill(FT.years, { n: Math.round(y * 2) / 2 });
   async function fitScreen(id) {
     const g = await loadRole(id); const R = state.R, role = R.role;
-    crumbs([["Explore", "#/explore"], [g.label, "#/field/" + g.id], [role.label, "#/role/" + role.id], ["Your fit", null]]);
+    crumbs([[Copy.explore.crumb, "#/explore"], [g.label, "#/field/" + g.id], [role.label, "#/role/" + role.id], [FT.crumb, null]]);
     if (!state.resume) {
-      page(`<p class="eyebrow">Your fit · ${esc(role.label)}</p><h1>Add your resume</h1><p class="lead">We read it in your browser against what ${esc(role.label)} postings ask for. Nothing is uploaded.</p>${resumeForm()}<div class="row" style="margin-top:12px"><button type="button" class="btn primary" id="go">Read my fit →</button><a class="btn quiet" href="#/role/${esc(role.id)}">← Back to the role</a></div>`, true);
+      page(`<p class="eyebrow">${esc(fill(FT.eyebrow, { role: role.label }))}</p><h1>${esc(FT.addResume)}</h1><p class="lead">${esc(fill(FT.addLead, { role: role.label }))}</p>${resumeForm()}<div class="row" style="margin-top:12px"><button type="button" class="btn primary" id="go">${esc(RF.readFit)}</button><a class="btn quiet" href="#/role/${esc(role.id)}">${esc(FT.backRole)}</a></div>`, true);
       showAside(null); wireResumeForm();
-      $("#go").onclick = async () => { if (await takeResume()) fitScreen(id); else $("#file-status").textContent = "Add a file or paste some text first."; };
+      $("#go").onclick = async () => { if (await takeResume()) fitScreen(id); else $("#file-status").textContent = RF.nothing; };
       return;
     }
     const level = state.fitLevel || state.level;
@@ -1492,53 +1482,54 @@
     const field = g.label.toLowerCase();
     const p = r.profile;
     const gcF = gapClassesFor(f, R, () => { if (location.hash.endsWith("/fit")) keepScroll(() => fitScreen(id)); });
-    const verdict = band ? `<p class="small">${bandName(band)} ${tip("Bands come from how 300 sample resumes of people in and outside the role score. There is no pass mark; a band says how your resume reads next to theirs.")}</p>` : "";
+    const verdict = band ? `<p class="small">${esc(bandName(band))} ${tip(FT.bandsTip)}</p>` : "";
     const st = r.standing;
-    const standing = st ? `<p class="small">You held this role ${st.above ? `above this level (${esc(Matcher.LADDER_LABEL[st.level])}, ${fmtYears(st.years)})` : `at this level for ${fmtYears(st.years)}`}${st.employers.length ? `, and we hold ${esc(st.employers[0])}'s own postings` : ""}. ${st.presumed ? `<b>${st.presumed}</b> ${st.presumed === 1 ? "requirement is" : "requirements are"} presumed from that; your resume does not show ${st.presumed === 1 ? "it" : "them"}.` : ""}</p>` : "";
-    const unread = r.parsed.roles.length === 0 && r.parsed.lines >= 15 ? `<div class="notice"><b>We found no jobs with dates in this text.</b> Roles and years are not counted. Put each job title and its dates on one line, for example "Analyst, Acme, 2021 – 2024".</div>` : "";
-    const placeholder = r.parsed.placeholderDates && r.parsed.roles.some(x => x.placeholder) ? `<div class="notice"><b>Some dates in this text are placeholders ("20XX").</b> We read those jobs, but we cannot count their years.</div>` : "";
+    const standing = st ? `<p class="small">${esc(st.above ? fill(FT.standingAbove, { level: Matcher.LADDER_LABEL[st.level], years: fmtYears(st.years) }) : fill(FT.standingAt, { years: fmtYears(st.years) }))}${st.employers.length ? esc(fill(FT.standingEmployer, { employer: st.employers[0] })) : ""}. ${st.presumed ? bold(esc(st.presumed === 1 ? FT.presumedOne : fill(FT.presumedMany, { n: `[[${st.presumed}]]` }))) : ""}</p>` : "";
+    const unread = r.parsed.roles.length === 0 && r.parsed.lines >= 15 ? `<div class="notice"><b>${esc(FT.noDates)}</b> ${esc(FT.noDatesLine)}</div>` : "";
+    const placeholder = r.parsed.placeholderDates && r.parsed.roles.some(x => x.placeholder) ? `<div class="notice"><b>${esc(FT.placeholders)}</b> ${esc(FT.placeholdersLine)}</div>` : "";
     // the two slots that stand for a group of skills get plain words: which industry, which kind of AI work
-    const slotWhy = x => x.slot === "__domain" ? ` Name an industry you have worked in. These postings are in: ${r.industries.slice(0, 4).map(d => esc(d.name)).join(", ")}. One is enough.` : x.slot === "__ai" ? ` Show one line of AI work: ${r.ai.map(k => esc(R.skillById[k] ? R.skillById[k].name : k)).join(", ")}.` : "";
-    const tag = (x, cls) => R.skillById[x.id] ? `<button type="button" class="tag ${cls}" data-skill="${esc(x.id)}">${esc(x.slotName)}${cls === "amber" ? ' <span class="subtle">(said in other words)</span>' : ""}</button>` : `<span class="tag ${cls}">${esc(x.slotName)}</span>`;
+    const slotWhy = x => x.slot === "__domain" ? " " + esc(fill(FT.industry, { names: r.industries.slice(0, 4).map(d => d.name).join(", ") })) : x.slot === "__ai" ? " " + esc(fill(FT.ai, { names: r.ai.map(k => R.skillById[k] ? R.skillById[k].name : k).join(", ") })) : "";
+    const tag = (x, cls) => R.skillById[x.id] ? `<button type="button" class="tag ${cls}" data-skill="${esc(x.id)}">${esc(x.slotName)}${cls === "amber" ? ` <span class="subtle">${esc(FT.otherWords)}</span>` : ""}</button>` : `<span class="tag ${cls}">${esc(x.slotName)}</span>`;
     const yoeAsk = r.creds.filter(c => c.id.startsWith("yoe_")).sort((a, b) => b.w - a.w)[0];
     const creds = r.creds.filter(c => !c.id.startsWith("yoe_"));
-    if (yoeAsk) creds.unshift({ name: `${yoeAsk.name.replace(" experience", "")} experience asked (you: ${fmtYears(p.years)})`, w: yoeAsk.w, have: yoeAsk.have });
+    if (yoeAsk) creds.unshift({ name: fill(FT.yearsAsked, { years: yoeAsk.name.replace(" experience", ""), you: fmtYears(p.years) }), w: yoeAsk.w, have: yoeAsk.have });
     const credLine = creds.length ? `<p class="small">${creds.map(c => `<span class="${c.have ? "" : "muted"}" style="${c.have ? "color:var(--primary)" : ""}">${c.have ? "✓" : "○"} ${esc(c.name)}</span>`).join(" · ")}</p>` : "";
-    const indLine = r.industries.length ? `<p class="small muted">Industries hiring for this: ${r.industries.slice(0, 8).map(d => `<span style="${d.have ? "color:var(--primary)" : ""}">${d.have ? "✓ " : ""}${esc(d.name)} ${pct(d.w)}</span>`).join(" · ")}. One industry is enough; the others are context, not gaps.</p>` : "";
-    const sayIt = trans.length ? disc("sayit", `Say it in ${esc(field)} words (${trans.length})`, `<ul class="plain">${trans.slice(0, 5).map(x => { const gt = gapText(R, x, f); return `<li><b>${esc(x.slotName)}</b>${x.lines[0] ? `<br>“${esc(x.lines[0].text.slice(0, 160))}”` : ""}${gt && gt.reads ? `<br>In ${esc(field)} this means: ${esc(gt.reads)}` : ""}${gt ? `<br>Postings say it like: <b>${esc(gt.line.text)}</b>` : ""}</li>`; }).join("")}</ul>`) : "";
+    const indLine = r.industries.length ? `<p class="small muted">${esc(FT.industriesHiring)} ${r.industries.slice(0, 8).map(d => `<span style="${d.have ? "color:var(--primary)" : ""}">${d.have ? "✓ " : ""}${esc(d.name)} ${pct(d.w)}</span>`).join(" · ")}. ${esc(FT.oneEnough)}</p>` : "";
+    const sayIt = trans.length ? disc("sayit", esc(fill(FT.sayIt, { field, n: trans.length })), `<ul class="plain">${trans.slice(0, 5).map(x => { const gt = gapText(R, x, f); return `<li><b>${esc(x.slotName)}</b>${x.lines[0] ? `<br>“${esc(x.lines[0].text.slice(0, 160))}”` : ""}${gt && gt.reads ? `<br>${esc(fill(FT.inFieldMeans, { field }))} ${esc(gt.reads)}` : ""}${gt ? `<br>${esc(FT.postingsSayLike)} <b>${esc(gt.line.text)}</b>` : ""}</li>`; }).join("")}</ul>`) : "";
     const thinNamed = evid.filter(x => !x.depth);
-    const thinDisc = thinNamed.length ? disc("thin", `Shown, but without specifics (${thinNamed.length})`, `<p class="small muted">You show these, but not with the specifics or outcomes postings ask about.</p><ul class="plain">${thinNamed.slice(0, 5).map(x => { const gt = gapText(R, x, f); return `<li>${esc(x.name)}${gt ? ` — ${esc(gt.thin)}` : ""}${(R.subs[x.id] || []).filter(s => !r.subs.has(s.id)).length ? ` Mention: ${(R.subs[x.id] || []).filter(s => !r.subs.has(s.id)).slice(0, 3).map(s => esc(s.name)).join(" · ")}` : ""}</li>`; }).join("")}</ul>`) : "";
-    const unmapped = r.unmapped.length ? disc("unmapped", `${r.unmapped.length} lines we could not read as a skill`, `<ul class="plain">${r.unmapped.map(t => `<li class="muted">${esc(t)}</li>`).join("")}</ul>`) : "";
+    const thinDisc = thinNamed.length ? disc("thin", esc(fill(FT.thin, { n: thinNamed.length })), `<p class="small muted">${esc(FT.thinLead)}</p><ul class="plain">${thinNamed.slice(0, 5).map(x => { const gt = gapText(R, x, f); return `<li>${esc(x.name)}${gt ? ` — ${esc(gt.thin)}` : ""}${(R.subs[x.id] || []).filter(s => !r.subs.has(s.id)).length ? ` ${esc(FT.mention)} ${(R.subs[x.id] || []).filter(s => !r.subs.has(s.id)).slice(0, 3).map(s => esc(s.name)).join(" · ")}` : ""}</li>`; }).join("")}</ul>`) : "";
+    const unmapped = r.unmapped.length ? disc("unmapped", esc(fill(FT.unmapped, { n: r.unmapped.length })), `<ul class="plain">${r.unmapped.map(t => `<li class="muted">${esc(t)}</li>`).join("")}</ul>`) : "";
     // two ranked columns (owner's choice F2): what you show and what is still to show, five each at rest, ranked by
     // how many postings ask, the bar for weight; a mark says "said in other words" or "presumed from a role you held"
     const fitRow = x => {
       const k = x.status === "evidenced" ? "have" : x.status === "transferable" ? "have" : x.status === "through" ? "have" : x.status === "presumed" ? "thin" : x.status === "thin" ? "thin" : "gap";
-      const mark = x.status === "through" ? `<span class="mark" data-measure="⤷ shown through ${esc(x.throughName || "")}: a way of working is never a line of its own; the line on your resume about ${esc(x.throughName || "that skill")} shows it.">⤷</span>` : x.status === "transferable" ? `<span class="mark" data-measure="⟲ said in other words: your resume shows this in another field's words. Postings here say it differently; see Details for how.">⟲</span>` : x.status === "presumed" ? `<span class="mark" data-measure="◌ presumed: people who hold the role you held do this, so it earns part credit; your resume does not show it.">◌</span>` : x.status === "thin" ? `<span class="mark" data-measure="○ named, not shown: listed as a word, but no work, project or course line shows it.">○</span>` : "";
-      const pmark = asks && asks.has(x.id) ? `<span class="ptag" data-measure="This posting asks for it: the text you pasted names ${esc(x.slotName)}.">this posting asks for it</span>` : "";
-      const inner = `<span class="nm">${esc(x.slotName)}${mark}${pmark}</span><span class="bar" data-measure="${pct(x.w)} of the postings in this view ask for ${esc(x.slotName)}${x.tier === "core" ? ", most of them" : ""}."><i style="width:${Math.round(x.w * 100)}%"></i></span>`;
+      const measure = x.status === "through" ? fill(FT.marks.through, { name: x.throughName || "that skill" }) : x.status === "transferable" ? FT.marks.transferable : x.status === "presumed" ? FT.marks.presumed : x.status === "thin" ? FT.marks.thin : null;
+      const mark = measure ? `<span class="mark" data-measure="${esc(measure)}">${{ through: "⤷", transferable: "⟲", presumed: "◌", thin: "○" }[x.status]}</span>` : "";
+      const pmark = asks && asks.has(x.id) ? `<span class="ptag" data-measure="${esc(fill(FT.postingAsks, { name: x.slotName }))}">${esc(FT.postingTag)}</span>` : "";
+      const inner = `<span class="nm">${esc(x.slotName)}${mark}${pmark}</span><span class="bar" data-measure="${esc(fill(FT.barMeasure, { share: pct(x.w), name: x.slotName, most: x.tier === "core" ? FT.mostOfThem : "" }))}"><i style="width:${Math.round(x.w * 100)}%"></i></span>`;
       const cs = k === "gap" && gcF && gcF.byGap && gcF.byGap[x.id];
-      const classes = cs && cs.length ? `<span class="plinks">Classes that cover it: ${cs.slice(0, 3).map(c => `<a href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.code)}">${esc(c.code)}</a>`).join(" · ")}</span>` : "";
+      const classes = cs && cs.length ? `<span class="plinks">${esc(FT.classesCover)} ${cs.slice(0, 3).map(c => `<a href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.code)}">${esc(c.code)}</a>`).join(" · ")}</span>` : "";
       const links = [classes, k === "gap" && R.skillById[x.id] ? postingLinks(R, f.slice, x.id, 2) : ""].filter(Boolean).join("<br>");
       return (R.skillById[x.id] ? `<button type="button" class="srow ${k}" data-skill="${esc(x.id)}">${inner}</button>` : `<div class="srow ${k}">${inner}</div>`) + (links ? `<p class="small muted plinks-row">${links}</p>` : "");
     };
-    const col = (key, title, items, empty, foot) => { const more = state.fitMore.has(key), shown = more ? items : items.slice(0, 5); return `<div><h3>${title} <span class="n">${items.length}</span></h3>${items.length ? `<div class="srows">${shown.map(fitRow).join("")}</div>${items.length > 5 ? `<button type="button" class="linkish link more" data-fitmore="${key}">${more ? "Show fewer" : `+${items.length - 5} more`}</button>` : ""}` : `<p class="small muted">${empty}</p>`}${foot || ""}</div>`; };
+    const col = (key, title, items, empty, foot) => { const more = state.fitMore.has(key), shown = more ? items : items.slice(0, 5); return `<div><h3>${esc(title)} <span class="n">${items.length}</span></h3>${items.length ? `<div class="srows">${shown.map(fitRow).join("")}</div>${items.length > 5 ? `<button type="button" class="linkish link more" data-fitmore="${key}">${esc(more ? FT.showFewer : fill(FT.more, { n: items.length - 5 }))}</button>` : ""}` : `<p class="small muted">${esc(empty)}</p>`}${foot || ""}</div>`; };
     const byPosting = (a, b) => (asks ? (asks.has(b.id) - asks.has(a.id)) : 0) || b.w - a.w;
     const showItems = [...evid, ...trans, ...through].sort(byPosting).concat(presumed), stillItems = [...gaps, ...thin].map(x => x).sort(byPosting);
-    const sayLink = trans.length ? `<p class="small" style="margin-top:8px"><button type="button" class="linkish link" id="say-it">Say it in ${esc(field)} words</button></p>` : "";
-    const showTab = `<div class="fitcols">${col("show", "Already on your resume", showItems, "Nothing yet.", sayLink)}${col("gaps", "Needs more evidence", stillItems, "Nothing among the skills most postings ask for.")}</div>`;
-    const detailTab = `${sayIt}${thinDisc}<h3>Credentials and industries</h3>${credLine + indLine || '<p class="small muted">None asked for in this view.</p>'}${unmapped}`;
-    const FTABS = [["show", "Skills", null], ["details", "Details", null]];
-    const fitTabs = `<div class="tabs" role="tablist">${FTABS.map(([k, l, n]) => `<button type="button" role="tab" class="${state.fitTab === k ? "on" : ""}" aria-selected="${state.fitTab === k}" data-ftab="${k}">${l}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`).join("")}</div>`;
+    const sayLink = trans.length ? `<p class="small" style="margin-top:8px"><button type="button" class="linkish link" id="say-it">${esc(fill(FT.sayItButton, { field }))}</button></p>` : "";
+    const showTab = `<div class="fitcols">${col("show", FT.already, showItems, FT.nothingYet, sayLink)}${col("gaps", FT.needsEvidence, stillItems, FT.nothingAmong)}</div>`;
+    const detailTab = `${sayIt}${thinDisc}<h3>${esc(FT.credentials)}</h3>${credLine + indLine || `<p class="small muted">${esc(FT.noneAsked)}</p>`}${unmapped}`;
+    const FTABS = [["show", FT.tabs.show, null], ["details", FT.tabs.details, null]];
+    const fitTabs = `<div class="tabs" role="tablist">${FTABS.map(([k, l, n]) => `<button type="button" role="tab" class="${state.fitTab === k ? "on" : ""}" aria-selected="${state.fitTab === k}" data-ftab="${k}">${esc(l)}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`).join("")}</div>`;
     const fitBody = state.fitTab === "details" ? detailTab : showTab;
-    const ctx = `<div class="row between fit-top"><p class="eyebrow">Your fit · ${esc(role.label)}${extra.length ? " · " + esc(extra.join(", ")) : ""}</p><span class="small muted ctx"><select id="fit-level" aria-label="Level">${["all", ...Atlas.STEPS].map(s => `<option value="${s}"${level === s ? " selected" : ""}>${s === "all" ? "All levels" : esc(R.stepLabels[s])}</option>`).join("")}</select> · ${esc(state.resume.name)} · <a href="#/role/${esc(role.id)}/fit" id="change">change</a></span></div>`;
+    const ctx = `<div class="row between fit-top"><p class="eyebrow">${esc(fill(FT.eyebrow, { role: role.label }))}${extra.length ? " · " + esc(extra.join(", ")) : ""}</p><span class="small muted ctx"><select id="fit-level" aria-label="${esc(RL.levelAria)}">${["all", ...Atlas.STEPS].map(s => `<option value="${s}"${level === s ? " selected" : ""}>${esc(s === "all" ? FT.allLevels : R.stepLabels[s])}</option>`).join("")}</select> · ${esc(state.resume.name)} · <a href="#/role/${esc(role.id)}/fit" id="change">${esc(CM.change)}</a></span></div>`;
     // "Have a posting? Paste it." under the resume: a drop-or-paste box; with one on file, what it asks for and the count
     const pSum = asks ? postingSummary(asks, f) : null;
-    const postingBox = `<div class="posting-box">${P ? `<p class="small"><b>${esc(P.name)}</b>: this posting asks for ${pSum.m} ${pSum.m === 1 ? "skill" : "skills"} of this role; <b>${pSum.n}</b> ${pSum.n === 1 ? "is" : "are"} on your resume. Those come first below, marked. <button type="button" class="linkish link" id="posting-change">Paste another</button> · <button type="button" class="linkish link" id="posting-forget">Forget it</button></p>` : `<details class="disc" id="posting-disc"${state.postingOpen ? " open" : ""}><summary>Have a posting? Paste it.</summary><div class="disc-body"><p class="small muted">We read it in your browser, like a syllabus: the skills it names come first in the lists below, with your resume's status for each. The band stays the role's. Nothing is uploaded.</p>${postingForm()}<div class="row" style="margin:10px 0 4px"><button type="button" class="btn primary" id="go">Read the posting →</button></div></div></details>`}</div>`;
+    const postingBox = `<div class="posting-box">${P ? `<p class="small">${bold(esc(fill(pSum.m === 1 ? FT.postingLineOne : FT.postingLine, { name: `[[${P.name}]]`, m: pSum.m, n: `[[${pSum.n}]]` })))} <button type="button" class="linkish link" id="posting-change">${esc(FT.pasteAnother)}</button> · <button type="button" class="linkish link" id="posting-forget">${esc(FT.forgetPosting)}</button></p>` : `<details class="disc" id="posting-disc"${state.postingOpen ? " open" : ""}><summary>${esc(FT.havePosting)}</summary><div class="disc-body"><p class="small muted">${esc(FT.postingLead)}</p>${postingForm()}<div class="row" style="margin:10px 0 4px"><button type="button" class="btn primary" id="go">${esc(FT.readPosting)}</button></div></div></details>`}</div>`;
     page(`${ctx}${unread}${placeholder}${verdict}
-      <p class="lead">${PERSONA[p.persona](p, field)} You show <b>${coreHave} of ${core.length}</b> skills that most ${esc(role.label)} postings ask for.</p>${standing}${postingBox}
+      <p class="lead">${PERSONA[p.persona](p, field)} ${bold(esc(fill(FT.youShow, { count: `[[${coreHave} of ${core.length}]]`, role: role.label })))}</p>${standing}${postingBox}
       ${fitTabs}${fitBody}
       <div class="fit-wait">${applyBox("fit", { always: true })}</div>
-      <p class="small muted" style="margin-top:20px"><a href="#/role/${esc(role.id)}">← Back to ${esc(role.label)}</a>, with your fit marked on every skill.</p>`);
+      <p class="small muted" style="margin-top:20px"><a href="#/role/${esc(role.id)}">${esc(fill(FT.backTo, { role: role.label }))}</a>${esc(FT.backAfter)}</p>`);
     wireWait(main, () => keepScroll(() => fitScreen(id)));
     main.querySelectorAll("[data-ftab]").forEach(b => b.onclick = () => { state.fitTab = b.dataset.ftab; keepScroll(() => fitScreen(id)); });
     main.querySelectorAll("[data-fitmore]").forEach(b => b.onclick = () => { toggle(state.fitMore, b.dataset.fitmore); keepScroll(() => fitScreen(id)); });
@@ -1564,8 +1555,8 @@
     state.postingOpen = false;
   }
   function postingForm() {
-    return `<div class="drop" id="drop"><p><b>Drop the posting (PDF, DOCX or TXT)</b> or <label class="link" for="file">choose a file</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status"></p></div>
-      <p class="small muted">Or paste the posting's text:</p><textarea id="paste" rows="6" aria-label="Posting text" placeholder="Senior Financial Analyst, FP&amp;A. You will own the monthly forecast, build driver-based models…"></textarea>`;
+    return `<div class="drop" id="drop"><p><b>${esc(FT.dropPosting)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status"></p></div>
+      <p class="small muted">${esc(FT.pastePosting)}</p><textarea id="paste" rows="6" aria-label="${esc(FT.postingAria)}" placeholder="${esc(FT.postingPlaceholder)}"></textarea>`;
   }
   // "N of the M skills this posting asks for are on your resume": M is the posting's skills that are this role's
   // (credentials left out), N those the fit shows (evidenced, in other words, or through a carrier)
@@ -1578,14 +1569,15 @@
   // ---------- 6. check a course: which of the role's skills a syllabus teaches ----------
   async function courseScreen(id) {
     const g = await loadRole(id); const R = state.R, role = R.role;
-    crumbs([["Explore", "#/explore"], [g.label, "#/field/" + g.id], [role.label, "#/role/" + role.id], ["Check a course", null]]);
+    const CO = FT.course;
+    crumbs([[Copy.explore.crumb, "#/explore"], [g.label, "#/field/" + g.id], [role.label, "#/role/" + role.id], [CO.crumb, null]]);
     if (!state.course) { const saved = store.get("course"); if (saved) state.course = { ...saved, found: new Set(saved.found) }; }
     const c = state.course && state.course.roleId === role.id ? state.course : null;
     // what a course can show, by kind (PLAN.md v14, decision 5); a course saved before the split is split here
     const split = c ? (c.teaches ? { teaches: c.teaches, named: c.named } : Atlas.courseSplit(c.found, R.skillById)) : null;
-    const form = `<div class="drop" id="drop"><p><b>Drop a syllabus (PDF, DOCX or TXT)</b> or <label class="link" for="file">choose a file</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status">${c ? `Read: ${esc(c.name)}.` : ""}</p></div>
-      <p class="small muted">Or paste the course description, the list of topics or the week-by-week plan:</p><textarea id="paste" rows="6" aria-label="Course text" placeholder="FIN 620 Corporate Financial Planning. Topics: budgeting cycles, rolling forecasts, variance analysis…">${c ? esc(c.text) : ""}</textarea>
-      <div class="row" style="margin:12px 0 4px"><button type="button" class="btn primary" id="go">Read the course →</button><span class="small muted">Nothing is uploaded.</span></div>`;
+    const form = `<div class="drop" id="drop"><p><b>${esc(CO.drop)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status">${c ? esc(fill(CO.read, { name: c.name })) : ""}</p></div>
+      <p class="small muted">${esc(CO.paste)}</p><textarea id="paste" rows="6" aria-label="${esc(CO.aria)}" placeholder="${esc(CO.placeholder)}">${c ? esc(c.text) : ""}</textarea>
+      <div class="row" style="margin:12px 0 4px"><button type="button" class="btn primary" id="go">${esc(CO.button)}</button><span class="small muted">${esc(CM.noLeave)}</span></div>`;
     let result = "";
     if (c) {
       const slice = sliceOf(); const { rows } = Atlas.grid(R, slice);
@@ -1598,13 +1590,13 @@
       state.paint = { roleId: role.id, matched: new Set(taught.map(x => x.id)), required: new Set(core.filter(showable).map(x => x.id)), presumed: new Set(), subs: new Set(Object.values(c.ev || {}).flatMap(e => [...(e.subs || [])])) };
       const tagOf = x => `<button type="button" class="tag good" data-skill="${esc(x.id)}">${esc(x.name)}${x.defining ? " ◆" : ""} <span class="subtle">${pct(x.share)}</span></button>`;
       const T5 = textOf(R.kinds);
-      const namedHtml = named.length ? `<h2>Named, but a course cannot show these</h2><div class="tags">${named.map(x => `<button type="button" class="tag" data-skill="${esc(x.id)}">${esc(x.name)} <span class="subtle">${pct(x.share)}</span></button>`).join("")}</div><p class="small muted">${esc(T5.how("behaviour"))} A course shows craft; how you work is shown through work, on <a href="#/role/${esc(role.id)}/fit">your fit</a>.</p>` : "";
-      result = taught.length || named.length ? `${taught.length ? `<h2>This course teaches</h2><div class="tags">${taught.map(tagOf).join("")}</div>
-        <p class="small muted">${coreTaught.length} of the ${core.filter(showable).length} skills that most ${esc(role.label)} postings ask for and a course can show.${gapsCovered.length ? ` It covers ${gapsCovered.length === 1 ? "one" : gapsCovered.length} of your gaps: ${gapsCovered.map(x => esc(x.name)).join(", ")}.` : m ? " It covers none of your gaps for this role." : ` <a href="#/role/${esc(role.id)}/fit">Check your fit</a> to see which of your gaps it covers.`} The share is how many postings ask for the skill.</p>` : `<p class="notice">The text names no skill a course can show for this role.</p>`}${namedHtml}
-        ${notTaught.length ? `<h2>It does not cover</h2><div class="tags">${notTaught.map(x => `<button type="button" class="tag bad" data-skill="${esc(x.id)}">${esc(x.name)}${x.defining ? " ◆" : ""}</button>`).join("")}</div><p class="small muted">Craft most postings ask for that the text does not name. A course can teach a skill without naming it the way postings do; open a skill to see how postings say it.</p>` : ""}
-        <h2>On the skills list</h2><p class="small muted">Green: the course names it. Amber: most postings ask for it and the course does not name it. Ways of working are not painted: a course cannot show them.</p>${flatSkills(R, slice, state.paint)}` : `<div class="notice"><b>We found none of this role's skills in that text.</b> ${c.lines < 3 ? "The text is very short; paste the topics or the week-by-week plan." : "Paste the list of topics, or check that the text is a course description."}</div>`;
+      const namedHtml = named.length ? `<h2>${esc(CO.named)}</h2><div class="tags">${named.map(x => `<button type="button" class="tag" data-skill="${esc(x.id)}">${esc(x.name)} <span class="subtle">${pct(x.share)}</span></button>`).join("")}</div><p class="small muted">${esc(T5.how("behaviour"))} ${esc(CO.namedNote)} <a href="#/role/${esc(role.id)}/fit">${esc(CO.yourFit)}</a>.</p>` : "";
+      result = taught.length || named.length ? `${taught.length ? `<h2>${esc(CO.teaches)}</h2><div class="tags">${taught.map(tagOf).join("")}</div>
+        <p class="small muted">${esc(fill(CO.coreLine, { n: coreTaught.length, m: core.filter(showable).length, role: role.label }))}${gapsCovered.length ? " " + esc(fill(gapsCovered.length === 1 ? CO.coversOne : CO.coversMany, { n: gapsCovered.length, names: gapsCovered.map(x => x.name).join(", ") })) : m ? " " + esc(CO.coversNone) : ` <a href="#/role/${esc(role.id)}/fit">${esc(CO.checkFit)}</a> ${esc(CO.checkFitAfter)}`} ${esc(CO.shareNote)}</p>` : `<p class="notice">${esc(CO.noSkill)}</p>`}${namedHtml}
+        ${notTaught.length ? `<h2>${esc(CO.notCover)}</h2><div class="tags">${notTaught.map(x => `<button type="button" class="tag bad" data-skill="${esc(x.id)}">${esc(x.name)}${x.defining ? " ◆" : ""}</button>`).join("")}</div><p class="small muted">${esc(CO.notCoverNote)}</p>` : ""}
+        <h2>${esc(CO.onList)}</h2><p class="small muted">${esc(CO.onListNote)}</p>${flatSkills(R, slice, state.paint)}` : `<div class="notice"><b>${esc(CO.noneFound)}</b> ${esc(c.lines < 3 ? CO.tooShort : CO.checkText)}</div>`;
     }
-    page(`<p class="eyebrow">Check a course · ${esc(role.label)}</p><h1>Check a course</h1><p class="lead">Drop a syllabus or paste the course description. We read it in your browser against the skills ${esc(role.label)} postings ask for.</p>${form}${result}<p class="small muted" style="margin-top:12px"><a href="#/role/${esc(role.id)}">← Back to ${esc(role.label)}</a></p>`);
+    page(`<p class="eyebrow">${esc(fill(CO.eyebrow, { role: role.label }))}</p><h1>${esc(CO.heading)}</h1><p class="lead">${esc(fill(CO.lead, { role: role.label }))}</p>${form}${result}<p class="small muted" style="margin-top:12px"><a href="#/role/${esc(role.id)}">${esc(fill(FT.backTo, { role: role.label }))}</a></p>`);
     wireFileDrop(async text => { const r = await Atlas.readCourse(text.text); track("course_read", { role_id: role.id }); state.course = { roleId: role.id, name: text.name, text: text.text, found: r.found, teaches: r.teaches, named: r.named, ev: r.ev, lines: r.lines }; store.set("course", { roleId: role.id, name: text.name, text: text.text, found: [...r.found], ev: {}, lines: r.lines }); courseScreen(id); });
     main.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }, true));
     renderAside();
@@ -1614,69 +1606,70 @@
     wireResumeForm();
     $("#go").onclick = async () => {
       const pasted = ($("#paste") || {}).value || "";
-      const r = pasted.trim().length >= 20 ? { text: pasted, name: "pasted text" } : pending ? pending : null;
-      if (!r) { $("#file-status").textContent = "Add a file or paste some text first."; return; }
+      const r = pasted.trim().length >= 20 ? { text: pasted, name: RF.pastedName } : pending ? pending : null;
+      if (!r) { $("#file-status").textContent = RF.nothing; return; }
       pending = null; await onText(r);
     };
   }
 
   // ---------- 7. prepare for an event: who is in the room, what to say, what to build ----------
-  const EVENTS = [["networking", "Networking event", "Which roles will be in the room and what to ask them."], ["roundtable", "Employer roundtable", "Which of your experiences to bring up, role by role."], ["hackathon", "Hackathon or case competition", "What to build so it shows a skill these roles ask for."]];
+  const EV = Copy.fit.event, EVENTS = Object.keys(EV.kinds).map(k => [k, EV.kinds[k], EV.kindLines[k]]);
   async function eventScreen(gid) {
     const ix = await Atlas.index(); const g = ix.groups.find(x => x.id === gid);
     const GENERIC = await Atlas.genericSkills();
     if (!g) return explore();
     if (g.set === "product") await Atlas.product();
     const kind = (location.hash.split("?")[1] || "networking").split("&")[0];
-    crumbs([["Explore", "#/explore"], [g.label, "#/field/" + g.id], ["Prepare for an event", null]]); showAside(null);
+    crumbs([[Copy.explore.crumb, "#/explore"], [g.label, "#/field/" + g.id], [EV.crumb, null]]); showAside(null);
     const roles = g.roles.map(r => ix.roles[r]).sort((a, b) => b.nOpen - a.nOpen);
     const nameOf = id => (ix.skillById[id] || (productNames ? { name: productNames[id] } : null) || { name: id }).name;
     // what sets a role apart: its defining skills, else its most asked skills that are not generic to every role
     const marks = r => (r.definingList.length ? r.definingList : r.asks.filter(a => !GENERIC.has(a.id) && ix.skillById[a.id] && !["credentials", "domain"].includes(ix.skillById[a.id].cluster))).slice(0, 2).map(a => a.id);
     const rg = state.resume ? await rough() : null;
     const coreOf = r => r.asks.filter(a => a.share >= Atlas.TIER.core && ix.skillById[a.id] && ix.skillById[a.id].cluster !== "credentials").map(a => a.id);
-    const chips = `<div class="chips">${EVENTS.map(([k, t]) => `<a class="chip${kind === k ? " on" : ""}" href="#/field/${esc(g.id)}/event?${k}">${t}</a>`).join("")}</div>`;
+    const chips = `<div class="chips">${EVENTS.map(([k, t]) => `<a class="chip${kind === k ? " on" : ""}" href="#/field/${esc(g.id)}/event?${k}">${esc(t)}</a>`).join("")}</div>`;
     let body = "";
+    const nOpen = r => esc(fill(CM.nOpen, { n: fmt(r.nOpen) }));
     if (kind === "networking") {
-      body = `<h2>Who will be in the room</h2><p class="small muted">The ${esc(g.label.toLowerCase())} roles by how many postings are open now, with the one or two skills that set each apart. Ask about those.</p>
-        <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${fmt(r.nOpen)} open</span><span class="m">Ask about: ${marks(r).map(id => esc(nameOf(id).toLowerCase())).join(", ") || "what a week looks like"}</span></a>`).join("")}</div>
-        <h2>What to say about yourself</h2>${rg ? sayAboutYou(roles, rg, coreOf, nameOf, GENERIC) : `<p class="small muted"><a href="#/you">Add your resume</a> and we list the three skills you show that most of these roles ask for.</p>`}
-        <h2>Employers hiring for these roles now</h2><div id="employers"><p class="small muted">Loading the postings of this field…</p></div>`;
+      body = `<h2>${esc(EV.inRoom)}</h2><p class="small muted">${esc(fill(EV.inRoomLead, { field: g.label.toLowerCase() }))}</p>
+        <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${nOpen(r)}</span><span class="m">${esc(fill(EV.askAbout, { names: marks(r).map(id => nameOf(id).toLowerCase()).join(", ") || EV.askWeek }))}</span></a>`).join("")}</div>
+        <h2>${esc(EV.sayAbout)}</h2>${rg ? sayAboutYou(roles, rg, coreOf, nameOf, GENERIC) : `<p class="small muted"><a href="#/you">${esc(EV.addResume)}</a> ${esc(EV.addResumeSay)}</p>`}
+        <h2>${esc(EV.employers)}</h2><div id="employers"><p class="small muted">${esc(EV.loadingPostings)}</p></div>`;
     } else if (kind === "roundtable") {
       // owner's choice E5: the resume lines once at the top, then one card per role, the first open
-      body = `${rg ? `<h2>Your lines for the room</h2><div id="yourlines"><p class="small muted">Reading your resume against these roles…</p></div>` : ""}
-        <h2>Role by role</h2><p class="small muted">${rg ? "What to lead with for each role, and what they may ask about that your resume does not show." : `<a href="#/you">Add your resume</a> and we match your lines to each role. Without it, here is what most postings of each role ask for.`}</p>
-        <div id="roundtable">${roles.map((r, i) => rg ? '' : `<details class="empbox"${i === 0 ? " open" : ""}><summary><span class="t">${esc(r.label)}</span><span class="n">${fmt(r.nOpen)} open</span><span class="m">Most postings ask for ${join(coreOf(r).filter(id => !GENERIC.has(id)).slice(0, 3).map(id => esc(nameOf(id))))}</span></summary><div class="box-body"><p class="small muted">Most postings ask for: ${coreOf(r).filter(id => !GENERIC.has(id)).slice(0, 6).map(id => esc(nameOf(id))).join(", ")}. <a href="#/role/${esc(r.id)}">Open the role →</a></p></div></details>`).join("")}${rg ? '<p class="small muted">Reading your resume against these roles…</p>' : ""}</div>`;
+      body = `${rg ? `<h2>${esc(EV.yourLines)}</h2><div id="yourlines"><p class="small muted">${esc(EV.readingRoles)}</p></div>` : ""}
+        <h2>${esc(EV.roleByRole)}</h2><p class="small muted">${rg ? esc(EV.roleByRoleLead) : `<a href="#/you">${esc(EV.addResume)}</a> ${esc(EV.roleByRoleNoResume)}`}</p>
+        <div id="roundtable">${roles.map((r, i) => rg ? '' : `<details class="empbox"${i === 0 ? " open" : ""}><summary><span class="t">${esc(r.label)}</span><span class="n">${nOpen(r)}</span><span class="m">${esc(fill(EV.mostAsk, { names: join(coreOf(r).filter(id => !GENERIC.has(id)).slice(0, 3).map(id => nameOf(id))) }))}</span></summary><div class="box-body"><p class="small muted">${esc(fill(EV.mostAskList, { names: coreOf(r).filter(id => !GENERIC.has(id)).slice(0, 6).map(id => nameOf(id)).join(", ") }))} <a href="#/role/${esc(r.id)}">${esc(EV.openRole)}</a></p></div></details>`).join("")}${rg ? `<p class="small muted">${esc(EV.readingRoles)}</p>` : ""}</div>`;
     } else {
       // what to build: the skills most roles of the field ask for that the resume does not show, with the build step where one is written
       const count = {}; for (const r of roles) for (const id of coreOf(r)) count[id] = (count[id] || 0) + 1;
       const cands = Object.entries(count).filter(([id]) => !GENERIC.has(id) && (!rg || !rg.shown.has(id))).sort((a, b) => b[1] - a[1]).slice(0, 5);
-      body = `<h2>What to build</h2><p class="small muted">${rg ? "Skills most of these roles ask for that your resume does not show yet. A project that shows one is worth a line on your resume." : `Skills most of these roles ask for. <a href="#/you">Add your resume</a> and we leave out the ones you already show.`}</p>
-        <ol class="next">${cands.map(([id, n]) => { const sk = ix.skillById[id] || {}; const steps = roles.filter(r => coreOf(r).includes(id)).map(r => buildSteps(sk, r.ladder).steps).find(x => x.length) || []; return `<li><b>${esc(nameOf(id))}</b><span class="why">Asked by most postings of ${n === 1 ? "one role" : n + " roles"} here.${steps.length ? ` ${stepHtml(practise(steps))}` : " No build step is written for this skill yet; open it on a role screen to see how postings say it."}</span></li>`; }).join("") || "<li>Nothing left: your resume shows what these roles ask for.</li>"}</ol>`;
+      body = `<h2>${esc(EV.build)}</h2><p class="small muted">${rg ? esc(EV.buildLead) : `${esc(EV.buildNoResume)} <a href="#/you">${esc(EV.addResume)}</a> ${esc(EV.buildNoResumeAfter)}`}</p>
+        <ol class="next">${cands.map(([id, n]) => { const sk = ix.skillById[id] || {}; const steps = roles.filter(r => coreOf(r).includes(id)).map(r => buildSteps(sk, r.ladder).steps).find(x => x.length) || []; return `<li><b>${esc(nameOf(id))}</b><span class="why">${esc(n === 1 ? EV.askedByOne : fill(EV.askedByMany, { n }))}${steps.length ? ` ${stepHtml(practise(steps))}` : " " + esc(EV.noStep)}</span></li>`; }).join("") || `<li>${esc(EV.nothingLeft)}</li>`}</ol>`;
     }
-    page(`<h1>Prepare for an event</h1><p class="lead">${esc(g.label)} · which kind of event?</p>${chips}${body}`);
+    page(`<h1>${esc(EV.heading)}</h1><p class="lead">${esc(fill(EV.lead, { field: g.label }))}</p>${chips}${body}`);
     if (kind === "roundtable" && rg) Atlas.fieldMatches(g.id, state.resume.text).then(res => {
       if (!location.hash.startsWith(`#/field/${g.id}/event`)) return;
       const el = $("#roundtable"); if (!el) return;
-      const askName = x => x.slot === "__domain" ? "the industry you know" : x.slot === "__ai" ? "AI in your work" : x.slotName;
+      const askName = x => x.slot === "__domain" ? EV.industryKnown : x.slot === "__ai" ? EV.aiWork : x.slotName;
       const per = roles.map(r => { const rows = res[r.id].rows.filter(x => x.tier !== "diff");
         return { r, have: rows.filter(x => (x.status === "evidenced" || x.status === "transferable") && !GENERIC.has(x.slot)).sort((a, b) => b.w - a.w).slice(0, 3), ask: rows.filter(x => (x.status === "gap" || x.status === "thin") && !GENERIC.has(x.slot)).sort((a, b) => b.w - a.w).slice(0, 2) }; });
       // the lines: each resume line that shows a skill, once, with how many of the roles it fits
       const lines = new Map();
       for (const { have } of per) for (const x of have) if (x.lines[0]) { const t = x.lines[0].text, e = lines.get(t) || { text: t, skills: new Set(), roles: 0, say: null }; e.skills.add(x.name); e.roles++; if (x.status === "transferable") { const s = ix.skillById[x.id]; if (s) e.say = textOf(ix.M.meta.kinds).line(s, [`role:${r.family}`, r.group]).text; } lines.set(t, e); }
       const top = [...lines.values()].sort((a, b) => b.roles - a.roles).slice(0, 3);
-      const yl = $("#yourlines"); if (yl) yl.innerHTML = top.length ? `<ol class="next">${top.map(e => `<li><b>${esc([...e.skills].slice(0, 2).join(", "))}</b>: “${esc(e.text.length > 160 ? e.text.slice(0, 157) + "…" : e.text)}”<span class="why">Fits ${e.roles} of ${roles.length} roles.${e.say ? ` Say it like: <b>${esc(e.say)}</b>` : ""}</span></li>`).join("")}</ol>` : '<p class="small muted">Your resume shows none of the skills most of these roles ask for yet. Open a role and check your fit to see what to evidence.</p>';
+      const yl = $("#yourlines"); if (yl) yl.innerHTML = top.length ? `<ol class="next">${top.map(e => `<li><b>${esc([...e.skills].slice(0, 2).join(", "))}</b>: “${esc(e.text.length > 160 ? e.text.slice(0, 157) + "…" : e.text)}”<span class="why">${esc(fill(EV.fits, { n: e.roles, m: roles.length }))}${e.say ? ` ${esc(EV.sayLike)} <b>${esc(e.say)}</b>` : ""}</span></li>`).join("")}</ol>` : `<p class="small muted">${esc(EV.noLines)}</p>`;
       el.innerHTML = per.map(({ r, have, ask }, i) => {
-        const summary = `${have.length ? "Lead with " + esc(join(have.slice(0, 2).map(x => x.name))) : "Nothing to lead with yet"}${ask.length ? " · they may ask about " + esc(join(ask.map(askName))) : ""}`;
+        const summary = `${esc(have.length ? fill(EV.leadWith, { names: join(have.slice(0, 2).map(x => x.name)) }) : EV.nothingLead)}${ask.length ? esc(fill(EV.mayAsk, { names: join(ask.map(askName)) })) : ""}`;
         const line = x => x.lines[0] ? `<span class="small muted">“${esc(x.lines[0].text.length > 120 ? x.lines[0].text.slice(0, 117) + "…" : x.lines[0].text)}”</span>` : "";
-        return `<details class="empbox"${i === 0 ? " open" : ""}><summary><span class="t">${esc(r.label)}</span><span class="n">${fmt(r.nOpen)} open</span><span class="m">${summary}</span></summary><div class="box-body">${have.length ? `<ul class="plain">${have.map(x => `<li><b>${esc(x.name)}</b> <span class="subtle" data-measure="${pct(x.w)} of ${esc(r.label)} postings ask for it.">${pct(x.w)}</span> ${line(x)}</li>`).join("")}</ul>` : '<p class="small muted">Your resume shows none of the skills most of these postings ask for.</p>'}${ask.length ? `<p class="small muted">They may ask about: ${ask.map(x => esc(askName(x))).join(", ")}.</p>` : ""}<p class="small"><a href="#/role/${esc(r.id)}">Open the role →</a></p></div></details>`; }).join("");
-    }).catch(e => { const el = $("#roundtable"); if (el) el.insertAdjacentHTML("afterbegin", '<p class="notice">Could not read your resume against these roles.</p>'); console.error(e); });
-    if (kind === "networking") Atlas.fieldJobs(g.id).then(jobs => { if (!location.hash.startsWith(`#/field/${g.id}/event`)) return; const by = {}; for (const j of jobs) if (j.open) { const e = by[j.company] ||= { n: 0, roles: new Set() }; e.n++; e.roles.add(j.family); } const top = Object.entries(by).sort((a, b) => b[1].n - a[1].n).slice(0, 12); const el = $("#employers"); if (el) { const draw = all => { el.innerHTML = `<div class="list">${top.slice(0, all ? 12 : 5).map(([c, e]) => `<div class="r"><span class="t">${esc(c)}</span><span class="n">${fmt(e.n)} open</span><span class="m">${[...e.roles].map(f => esc((ix.roles[f] || {}).label || f)).slice(0, 4).join(", ")}</span></div>`).join("")}</div>${top.length > 5 ? `<p class="small" style="margin-top:8px"><button type="button" class="linkish link" id="emp-all">${all ? "Fewer" : `All ${top.length}`}</button></p>` : ""}`; const b = $("#emp-all"); if (b) b.onclick = () => draw(!all); }; draw(false); } }).catch(e => { const el = $("#employers"); if (el) el.innerHTML = `<p class="small muted">Could not load the postings.</p>`; console.error(e); });
+        return `<details class="empbox"${i === 0 ? " open" : ""}><summary><span class="t">${esc(r.label)}</span><span class="n">${nOpen(r)}</span><span class="m">${summary}</span></summary><div class="box-body">${have.length ? `<ul class="plain">${have.map(x => `<li><b>${esc(x.name)}</b> <span class="subtle" data-measure="${esc(fill(EV.roleMeasure, { share: pct(x.w), role: r.label }))}">${pct(x.w)}</span> ${line(x)}</li>`).join("")}</ul>` : `<p class="small muted">${esc(EV.showsNone)}</p>`}${ask.length ? `<p class="small muted">${esc(fill(EV.mayAskList, { names: ask.map(askName).join(", ") }))}</p>` : ""}<p class="small"><a href="#/role/${esc(r.id)}">${esc(EV.openRole)}</a></p></div></details>`; }).join("");
+    }).catch(e => { const el = $("#roundtable"); if (el) el.insertAdjacentHTML("afterbegin", `<p class="notice">${esc(EV.readFailed)}</p>`); console.error(e); });
+    if (kind === "networking") Atlas.fieldJobs(g.id).then(jobs => { if (!location.hash.startsWith(`#/field/${g.id}/event`)) return; const by = {}; for (const j of jobs) if (j.open) { const e = by[j.company] ||= { n: 0, roles: new Set() }; e.n++; e.roles.add(j.family); } const top = Object.entries(by).sort((a, b) => b[1].n - a[1].n).slice(0, 12); const el = $("#employers"); if (el) { const draw = all => { el.innerHTML = `<div class="list">${top.slice(0, all ? 12 : 5).map(([c, e]) => `<div class="r"><span class="t">${esc(c)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(e.n) }))}</span><span class="m">${[...e.roles].map(f => esc((ix.roles[f] || {}).label || f)).slice(0, 4).join(", ")}</span></div>`).join("")}</div>${top.length > 5 ? `<p class="small" style="margin-top:8px"><button type="button" class="linkish link" id="emp-all">${esc(all ? EV.fewer : fill(EV.allN, { n: top.length }))}</button></p>` : ""}`; const b = $("#emp-all"); if (b) b.onclick = () => draw(!all); }; draw(false); } }).catch(e => { const el = $("#employers"); if (el) el.innerHTML = `<p class="small muted">${esc(EV.loadFailed)}</p>`; console.error(e); });
   }
   function sayAboutYou(roles, rg, coreOf, nameOf, GENERIC) {
     const count = {}; for (const r of roles) for (const id of coreOf(r)) if (rg.shown.has(id) && !GENERIC.has(id)) count[id] = (count[id] || 0) + 1;
     const top = Object.entries(count).sort((a, b) => b[1] - a[1]).slice(0, 3);
-    return top.length ? `<p class="small muted">From your resume: the skills you show that most of these roles ask for. Lead with these.</p><div class="tags">${top.map(([id]) => `<span class="tag good">${esc(nameOf(id))}</span>`).join("")}</div>` : `<p class="small muted">Your resume does not yet show a skill that most of these roles ask for. Open a role and check your fit to see what to evidence.</p>`;
+    return top.length ? `<p class="small muted">${esc(EV.fromResume)}</p><div class="tags">${top.map(([id]) => `<span class="tag good">${esc(nameOf(id))}</span>`).join("")}</div>` : `<p class="small muted">${esc(EV.noSkillYet)}</p>`;
   }
 
   // ---------- about the data ----------
@@ -1687,40 +1680,41 @@
   // privacy (the funnel events, the list kept true to web/capture.js EVENTS; the email; nothing uploaded leaves)
   async function about() {
     const [ix, jm] = await Promise.all([Atlas.index(), jobsMeta()]);
-    crumbs([["About GradBuddy", null]]); showAside(null);
+    const AB = Copy.about;
+    crumbs([[AB.crumb, null]]); showAside(null);
     const M = ix.M, o = origins(M.meta.companies), n = homeCounts(ix, jm);
     const top = (cs, k) => cs.slice().sort((a, b) => b.n - a.n).slice(0, k).map(c => `${esc(c.name)} <span class="muted">${fmt(c.n)}</span>`).join(" · ");
-    const fact = (v, l) => `<div class="fact"><b>${v}</b><span>${l}</span></div>`;
-    let nClasses = null, productPart = `<p class="small muted">Loading the product set…</p>`;
+    const fact = (v, l) => `<div class="fact"><b>${v}</b><span>${esc(l)}</span></div>`;
+    let nClasses = null, productPart = `<p class="small muted">${esc(AB.productLoading)}</p>`;
     const term = (window.ClassScreens && ClassScreens.termLabel()) || "Spring 2027";
-    const render = () => page(`<div id="about"><h1>About GradBuddy</h1>
-      <p class="lead">GradBuddy helps grad students find the right jobs, build the skills those jobs ask for, and meet the right people. Four things to do here, all built from live job postings.</p>
-      <h3>Find jobs</h3>
-      <p class="small">One search over every open US posting we hold, for both role sets. With a résumé on file, each posting says how many of its skills you show.</p>
-      <h3>Explore roles &amp; build skills</h3>
-      <p class="small">Every role by field, with the skills most of its postings ask for. Your résumé is read in your browser against them, and the fit says which skills are gaps.</p>
-      <h3>Find classes</h3>
-      <p class="small">The ${esc(term)} roster at Cornell Tech, read against the roles you want. Each class says which of your gaps it covers.</p>
-      <h3>Networking</h3>
-      <p class="small">Who to meet for one role, from the postings: hiring managers, people in the role, recruiters, alumni and classmates. A prep card gives you an opener, three questions and a message to copy.</p>
-      <h3>What we count</h3>
-      <div class="about-facts">${fact(fmt(n.nOpen), "open US postings")}${fact(fmt(n.nCompanies), "employers")}${fact(fmt(n.nRoles), "roles")}${fact(nClasses == null ? "—" : fmt(nClasses), `${esc(term)} classes`)}</div>
-      <p class="small">Every number comes from job postings on employers' own careers pages, refreshed every week; the last refresh was ${niceDate(M.meta.generated)}. The business roles show postings in the United States: ${fmt(o.fortune)} Fortune 500 companies, ${fmt(o.startup)} venture-backed startups, and ${fmt(o.mba)} employers that MBA students target.</p>
-      ${disc("about-top", "Employers with the most postings", `<p>${top(M.meta.companies, 15)}</p>`)}
-      <h3>How we read a posting</h3>
-      <p class="small">Keyword rules read each posting against one list of skills. A share is the fraction of postings in the current view that ask for a skill. One employer counts for at most 5% of a role. A posting the employer takes down is closed: it is no longer listed, and it stays in the shares for a year.</p>
-      <p class="small">Sub-skills, level ladders and build steps are editorial. Every quoted sentence comes from a posting.</p>
-      <h3>Privacy</h3>
-      <p class="small">We count which screens a visit reaches. Those are the door, Explore, a field, a role, a fit and a course read. Also an event page, the classes, a game, a click to a posting, a résumé read and About you finished. Each count carries a random id for that browser session, your program and stage answers, and the role or field on screen. It never carries text, a skill or a file name.</p>
-      <p class="small">An email typed into a door or a box is kept to send you what we build, with the role on screen. Nothing else is kept with it. Nothing you upload leaves your browser: no résumé, syllabus or pasted posting.</p>
-      <h3>Product roles</h3>${productPart}</div>`, true);
+    const render = () => page(`<div id="about"><h1>${esc(AB.heading)}</h1>
+      <p class="lead">${esc(AB.lead)}</p>
+      <h3>${esc(AB.jobs)}</h3>
+      <p class="small">${esc(AB.jobsLine)}</p>
+      <h3>${esc(AB.skills)}</h3>
+      <p class="small">${esc(AB.skillsLine)}</p>
+      <h3>${esc(AB.classes)}</h3>
+      <p class="small">${esc(fill(AB.classesLine, { term }))}</p>
+      <h3>${esc(AB.network)}</h3>
+      <p class="small">${esc(AB.networkLine)}</p>
+      <h3>${esc(AB.count)}</h3>
+      <div class="about-facts">${fact(fmt(n.nOpen), AB.facts.open)}${fact(fmt(n.nCompanies), AB.facts.employers)}${fact(fmt(n.nRoles), AB.facts.roles)}${fact(nClasses == null ? "—" : fmt(nClasses), fill(AB.facts.classes, { term }))}</div>
+      <p class="small">${esc(fill(AB.countLine, { date: niceDate(M.meta.generated), fortune: fmt(o.fortune), startups: fmt(o.startup), mba: fmt(o.mba) }))}</p>
+      ${disc("about-top", esc(AB.topEmployers), `<p>${top(M.meta.companies, 15)}</p>`)}
+      <h3>${esc(AB.howRead)}</h3>
+      <p class="small">${esc(AB.howReadLine)}</p>
+      <p class="small">${esc(AB.editorial)}</p>
+      <h3>${esc(AB.privacy)}</h3>
+      <p class="small">${esc(AB.privacyEvents)}</p>
+      <p class="small">${esc(AB.privacyEmail)}</p>
+      <h3>${esc(AB.product)}</h3>${productPart}</div>`, true);
     render();
-    Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${fmt(G.meta.n_jobs)} open postings worldwide (${fmt(G.jobs.filter(j => j.country === M.meta.country).length)} in the US, the count Explore shows) for ${Object.keys(G.families).filter(f => G.jobs.some(j => j.family === f)).length} product role families at ${fmt(G.meta.n_companies)} companies, refreshed ${niceDate(G.meta.generated)}.</p>${disc("about-top-product", "Companies with the most postings", `<p>${top(G.meta.companies, 15)}</p>`)}`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
+    Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${esc(fill(AB.productLine, { n: fmt(G.meta.n_jobs), us: fmt(G.jobs.filter(j => j.country === M.meta.country).length), families: Object.keys(G.families).filter(f => G.jobs.some(j => j.family === f)).length, companies: fmt(G.meta.n_companies), date: niceDate(G.meta.generated) }))}</p>${disc("about-top-product", esc(AB.topCompanies), `<p>${top(G.meta.companies, 15)}</p>`)}`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
     if (window.Catalog) Catalog.loadCatalog().then(d => { nClasses = d.classes.length; if (location.hash.startsWith("#/about")) render(); }).catch(() => { });
   }
 
   // the footer line: how many postings, and when they were last refreshed
-  Atlas.index().then(ix => { const f = document.getElementById("foot-note"); if (f) f.textContent = `Built from ${fmt(ix.M.meta.n_open)} live job postings, refreshed weekly. Last refresh ${niceDate(ix.M.meta.generated)}.`; }).catch(console.error);
+  Atlas.index().then(ix => { const f = document.getElementById("foot-note"); if (f) f.textContent = fill(CM.foot, { n: fmt(ix.M.meta.n_open), date: niceDate(ix.M.meta.generated) }); }).catch(console.error);
 
   route();
 })();

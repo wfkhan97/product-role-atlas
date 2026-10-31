@@ -1312,6 +1312,22 @@ intake heading in place of the cohort heading, with the reason at its top. `test
 `launcher.test.mjs` and `network.test.mjs` cover the strings and the joins. Left for the editorial pass: the
 "Who to look for" level lines run long for roles with many senior titles.
 
+### B6 — plain copy (`feat/plain-copy`, 2026-10-31)
+
+Built: `web/copy.js`, one pure table of every string a screen owns (913 strings in 14 groups: common, door, home,
+intake, you, explore, role, fit, jobs, skills, network, classes, about, games), loaded first; `Door.COPY`, `Intake`,
+`Launcher.COPY` and `Network.COPY` are views over it, and the screens fill templates with `Copy.fill`. The sentences
+`web/evidence_text.js` builds about a skill and the lines built from the data stay where they were. Each string was
+rewritten to "How to write" as it moved (the door and home copy, the owner's, untouched): passive lines active
+("Nothing is uploaded." → "Nothing leaves your browser.", "Your résumé is read" → "We read your résumé"), "Practise" →
+"Practice", the tier headings active, long notes split, "score" gone from the bands tip. `evals/copy.mjs` reads the
+table and the two data files the screens show (`sp27_campus.json`, `games.json`) and reports every sentence over 20
+words, every passive construction and every stoplist word; for those three the count is zero and
+`tests/web/copy.test.mjs` fails on the first offender. For the editorial data files it reports counts into
+`evals/copy_baseline.md` and does not gate: `graph_mba.json` 65 long, 46 passive, 17 stoplist of 13,148 strings;
+`role_blurbs.json` 2, 5, 0; the evidence quotes 1,886 long (posting text, quoted as it is); the sub-skill files three
+and one stoplist words. That editorial pass is a "Later" line.
+
 ## AI-forward roles in the scrape (2026-10-30)
 
 The ask (2026-10-29): add AI transformation roles to the jobs scrape, and the new AI product roles ("Associate Product
@@ -1390,6 +1406,7 @@ Instruments' "Product Marketing Engineer" noise in `pmm`.
 
 ## Later
 
+- The editorial pass over the data strings (`evals/copy_baseline.md` lists them): role and skill names with abbreviations (PRDs, OKRs, P&L), long blurbs, passive lines.
 - The class matching's next lever (2026-10-31): five known failures in `evals/classes/` share one shape, one small gap carrying a class the role does not need. Try a per-line score or a cap on how much a single small gap counts; a floor on the relevance band sank a right answer and is not it.
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
   closed postings the way the MBA graph does (a `data/` branch).

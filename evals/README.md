@@ -9,6 +9,7 @@ Scratch from a thread (a draft baseline, a one-off report) goes under `data/expe
 node evals/run.mjs               # score every sample, check expectations, print a report
 node evals/run.mjs --baseline    # same, and rewrite baseline.md (commit it with the matcher change)
 node evals/run.mjs --only grad   # one sample
+node evals/copy.mjs              # the strings the screens own against the writing rule (gated; --baseline rewrites copy_baseline.md)
 ```
 
 No install needed; it reads `web/data/taxonomy.json` (the product part of `pipeline/taxonomy.json`, written by `build_graph`), `web/data/subskills.json` and `web/data/graph.json`.
@@ -410,6 +411,28 @@ A case with no file, and a file with no case, both fail.
 
 Rerun after any change to the scoring in `web/catalog.js`, to the tags file, to the thresholds or to
 `evals/resumes/`, and commit `classes_baseline.md`. The matcher evals above cover `evals/resumes/` too: run both.
+
+## The copy eval
+
+The brief's rule for every string a screen owns ("How to write", v19 B6): sentences of at most 20 words, active
+voice, simple words (never utilize, leverage, facilitate, via, in order to), American spelling, no bare codes, and
+never a percentage or a score in what a person reads about a fit (bands and "N of M"). `node evals/copy.mjs` reads
+`web/copy.js` (every string in the table, recursively; functions skipped), `web/data/sp27_campus.json` and
+`web/data/games.json` (every string value) and reports, per file, every sentence over 20 words (split on `.`, `?`,
+`!`; a `{slot}` counts as one word; code spans and URLs are taken out first), every passive construction (a form of
+"be": is, are, was, were, be, been, being, followed within two words by a word ending in "ed" or an irregular past
+participle from the short list in `evals/copy_lib.mjs`) and every stoplist word. For those three files the count must
+be zero: `tests/web/copy.test.mjs` imports the same checker and fails on the first offender, so fix the sentence or
+tighten the rule in `copy_lib.mjs` with a comment, never skip a file. The editorial data files are reported, not
+gated: `web/data/graph_mba.json` (role, field and cluster labels, the kinds, and per skill the name, definition,
+`how_shown` words, ladder, build steps, field readings and sub-skills), `web/data/role_blurbs.json`,
+`web/data/graph_mba/_evidence.json` (quoted posting sentences, a posting's own words) and the published sub-skill files
+`web/data/subskills_mba.json` and `web/data/subskills.json` (the depth files `pipeline/depth/*.json` as `web/` serves
+them; `pipeline.build_graph` writes the rest of the MBA depth into `graph_mba.json`). `--baseline` writes the counts
+and the first 20 offenders per file and rule to [copy_baseline.md](copy_baseline.md), the list the editorial pass
+works from (PLAN.md, "Later"). A false positive of the passive rule on a data-built line ("is based") is fine to list
+there. Rerun after any change to `web/copy.js`, `web/data/sp27_campus.json` or `web/data/games.json`, and commit the
+baseline; the product graph `web/data/graph.json` is not read. In CI through the test.
 
 ## Evals to build
 
