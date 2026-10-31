@@ -54,3 +54,30 @@ def fetch(company, cfg, title_ok, max_pages=40):
         out.append(job(company, row[1], f"https://www.google.com/about/careers/applications/jobs/results/{jid}", desc,
                        location=loc, posted=None, external_id=jid, extra={"org": row[7] if len(row) > 7 else None}))
     return out
+
+
+DS0_RE = re.compile(r"AF_initDataCallback\(\{key: 'ds:0'.*?data:(.*?), sideChannel", re.S)
+DS0_ERR_RE = re.compile(r"AF_initDataCallback\(\{key: 'ds:0'[^{]*?data:\[(\d+),null,.*?\]\]\],errorHasStatus: true", re.S)
+
+
+def still_open(company, cfg, posting):
+    """Read the job's own results page. True: its ds:0 data is this job. False: ds:0 is the error with status 5
+    (NOT_FOUND) and the page says "Job not found. This job may have been taken down." None: anything else."""
+    jid = str(posting.get("external_id") or "")
+    if not jid.isdigit():
+        return None
+    r = get(f"https://www.google.com/about/careers/applications/jobs/results/{jid}")
+    if r.status_code != 200:
+        return None
+    err = DS0_ERR_RE.search(r.text)
+    if err:
+        return False if err.group(1) == "5" and "Job not found" in r.text else None
+    m = DS0_RE.search(r.text)
+    if not m:
+        return None
+    try:
+        data = json.loads(m.group(1))
+    except ValueError:
+        return None
+    row = data[0] if isinstance(data, list) and data and isinstance(data[0], list) else None
+    return True if row and str(row[0]) == jid else None

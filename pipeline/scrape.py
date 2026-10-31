@@ -7,8 +7,11 @@ The file is a backlog, not a snapshot. A company that has a file is skipped unle
 old name) is given. A refresh never drops a posting: one the board still shows gets a new "last_seen", a new one
 is added with "first_seen", and one the board no longer shows gets "closed" (the date we first missed it). A
 closed posting is no longer listed as open, and it still counts in shares and statistics (pipeline/extract.py
-sets how long). If a refresh returns far fewer postings than were open, nothing is closed: the board or a
-search probably failed. A posting is its requisition id (external_id), or its URL on a board that gives none:
+sets how long). A fetch is incomplete when a listing page could not be read or a search ran into its page cap
+(pipeline/adapters/common.py), and also when it returns far fewer postings than were open (the board or a search
+probably failed). An incomplete fetch closes nothing by absence: each open posting that did not come back is asked
+about one by one (the adapter's still_open), and only one the board says is gone is closed; a family without a
+check closes nothing. A posting is its requisition id (external_id), or its URL on a board that gives none:
 the URL alone is not stable (Bank of America puts a per-session token in every job URL; a retitled or moved
 requisition gets a new one). One that comes back takes the board's current title, URL and text.
 The files are not in git: the Supabase backlog is the store. When SUPABASE_DB_URL is set (.env) each file is pushed
@@ -29,7 +32,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pipeline.adapters import ADAPTERS, common
+from pipeline.adapters import ADAPTERS, CHECKS, common
 from pipeline import backlog, log, roles, roles_mba
 
 logger = log.get(__name__)
@@ -91,12 +94,24 @@ def posting_key(j):
     return j.get("external_id") or j.get("url")
 
 
-def merge(old, fetched, entry, today, full=True):
+FEW = 0.3  # under this share of the open postings back from a full fetch, the board or a search failed
+
+
+def few_came_back(old, fetched):
+    """merge's test for a failed board, before the merge: ten or more open postings and under FEW of them back."""
+    back = {posting_key(j) for j in fetched}
+    was_open = {posting_key(j) for j in old.get("jobs", []) if not j.get("closed")}
+    return len(was_open) >= 10 and len(was_open & back) < FEW * len(was_open)
+
+
+def merge(old, fetched, entry, today, full=True, checked=None):
     """Add what a board shows today to a company's backlog. Returns (postings, note when nothing was closed).
 
     old: the company's file as read (None for a new company). fetched: the postings the adapter returned.
     full: every search was run, so a posting that did not come back is closed; with one batch of searches
-    (full False) nothing is closed.
+    (full False) nothing is closed. checked: with full False, posting_key -> what the board said about an open
+    posting that did not come back, asked one by one (check_missing): True keeps it open and seen today, False
+    closes an open one (a closed one keeps its date); a key that is absent or None stays as it was.
     One row per posting_key. A posting that comes back takes the board's current title, URL and text (the row
     seen last is the posting) and keeps its first_seen. Two rows of one requisition in the file (written before
     the key was the id) fold into one the same way: the one seen last wins, the first keeps its place.
@@ -141,14 +156,67 @@ def merge(old, fetched, entry, today, full=True):
     partial = None
     if old and full:
         still = sum(1 for j in open_before if j["last_seen"] == today)
-        if len(open_before) >= 10 and still < 0.3 * len(open_before):
+        if len(open_before) >= 10 and still < FEW * len(open_before):
             # far fewer than were open: the board or a search failed, more likely than seven in ten jobs closing
             partial = f"{still} of {len(open_before)} open postings came back; nothing was closed"
         else:
             for j in open_before:
                 if j["last_seen"] != today:
                     j["closed"] = today
+    elif old and checked:
+        for j in uniq:
+            said = checked.get(posting_key(j))
+            if j["last_seen"] == today or said is None:
+                continue
+            if said:
+                j["last_seen"] = today
+                j.pop("closed", None)  # a posting closed before that the board still shows is open again
+            elif not j.get("closed"):
+                j["closed"] = today
     return uniq, partial
+
+
+CONTROLS = 3  # postings that did come back, asked the same way first: a check that calls one of them gone is not trusted
+
+
+def check_missing(still_open, company, cfg, old, fetched, closed_since=None):
+    """Ask the board about each open posting of `old` that the incomplete fetch did not return, and with
+    closed_since also each posting closed on or after that date that it did not return (--recheck-closed: closures
+    before 2026-10-29 treated a capped search as complete). Returns (checked, note): checked as merge takes it, empty
+    when the controls fail. still_open(company, cfg, posting) answers True (on the board), False (the board says it is
+    gone) or None (cannot tell); an exception counts as None. The controls are postings this fetch returned, so they
+    are open now: a check that calls one of them gone is not trusted."""
+    def ask(j):
+        try:
+            return still_open(company, cfg, j)
+        except Exception as e:  # a check never fails the fetch
+            logger.debug("%s: check of %s failed: %s: %s", company, j.get("url"), type(e).__name__, e)
+            return None
+
+    back = {posting_key(j) for j in fetched}
+    missing, keys = [], set()
+    for j in old.get("jobs", []):
+        k = posting_key(j)
+        asked = not j.get("closed") or (closed_since and j["closed"] >= closed_since)
+        if asked and k not in back and k not in keys:
+            keys.add(k)
+            missing.append(j)
+    if not missing:
+        return {}, "no open posting was missing"
+    controls = [j for j in old.get("jobs", []) if posting_key(j) in back and not j.get("closed")][:CONTROLS]
+    if not controls:  # nothing came back to test the check on (a board that is down answers every check alike)
+        return {}, f"no open posting came back to test the check on; {len(missing)} not checked"
+    for j in controls:
+        if ask(j) is False:
+            return {}, f"the check called a posting that came back gone ({j.get('url')}); {len(missing)} not checked"
+    checked = {}
+    for j in missing:
+        checked[posting_key(j)] = ask(j)
+        time.sleep(0.3)  # one request a posting, at the pace of the adapters' own detail requests
+    said = collections.Counter(checked.values())
+    note = f"{len(missing)} missing postings checked one by one: {said[True]} still open, {said[False]} gone, {said[None]} unknown"
+    reopened = sum(1 for j in missing if j.get("closed") and checked[posting_key(j)])
+    return checked, note + (f" ({reopened} of them closed before and reopened)" if closed_since else "")
 
 
 def main():
@@ -163,6 +231,8 @@ def main():
     ap.add_argument("--roles", choices=sorted(ROLE_SETS), default="product")
     ap.add_argument("--batch", type=int, choices=sorted(roles_mba.BATCH_QUERIES))
     ap.add_argument("--no-db", action="store_true", help="do not push the files to the Supabase backlog")
+    ap.add_argument("--recheck-closed", metavar="DATE", help="on an incomplete fetch, also ask about postings closed on "
+                    "or after DATE and reopen the ones the board still shows (repairs closures made before 2026-10-29)")
     ap.add_argument("--no-snapshot", action="store_true", help="push the files but skip the dated storage snapshot (a job that runs one ATS family at a time snapshots once at the end)")
     args = ap.parse_args()
     db = not args.no_db and backlog.configured()
@@ -224,10 +294,20 @@ def main():
             unread = common.listing_failures()
             key = posting_key
             before = {key(j): bool(j.get("closed")) for j in (old or {}).get("jobs", [])}
-            # a listing page that could not be read makes the fetch incomplete: what did not come back may be open
-            uniq, partial = merge(old, jobs, entry, today, full=batch is None and not unread)
+            # a listing page that could not be read makes the fetch incomplete: what did not come back may be open, so
+            # it is closed only when the board says so for that posting
+            checked, how = None, "nothing was closed"
+            if not unread and old and batch is None and entry["ats"] in CHECKS and few_came_back(old, jobs):
+                # a complete-looking fetch that returned under 30% of the open postings: merge would close nothing
+                # and leave them open with no end, so they are asked one by one as for a capped search
+                unread = [f"{len(jobs)} postings came back of {sum(1 for j in old['jobs'] if not j.get('closed'))} open"]
+            if unread and old and batch is None and entry["ats"] in CHECKS:
+                checked, how = check_missing(CHECKS[entry["ats"]], name, cfg, old, jobs, args.recheck_closed)
+                with lock:
+                    totals["checked"] += len(checked)
+            uniq, partial = merge(old, jobs, entry, today, full=batch is None and not unread, checked=checked)
             if unread and old:
-                partial = f"{len(unread)} listing page(s) not read ({unread[0]}); nothing was closed"
+                partial = f"{len(unread)} listing page(s) not read ({unread[0]}); {how}"
             if unread:
                 with lock:
                     totals["incomplete"] += 1
@@ -266,9 +346,9 @@ def main():
     for s in summary:
         logger.debug("%s %s %s", s[0], s[1], s[2])
     logger.info("scrape done in %s: %d employers fetched (%d failed), postings fetched %d, kept %d (%d open), new %d, reopened %d, closed %d, "
-                "folded %d, incomplete %d; %d requests, %d answered 429, %d answered a 5xx, %d retried after a network error", run_timer,
+                "folded %d, incomplete %d, checked one by one %d; %d requests, %d answered 429, %d answered a 5xx, %d retried after a network error", run_timer,
                 len(todo), len(failed), totals["fetched"], totals["kept"], totals["open"], totals["new"], totals["reopened"], totals["closed"],
-                totals["folded"], totals["incomplete"], common.STATS["requests"], common.STATS["429"], common.STATS["5xx"], common.STATS["retries"])
+                totals["folded"], totals["incomplete"], totals["checked"], common.STATS["requests"], common.STATS["429"], common.STATS["5xx"], common.STATS["retries"])
     if failed:
         logger.error("failed employers: %s", ", ".join(sorted(failed)))
     if db and todo and not args.only and not args.batch and not args.no_snapshot:  # a full run: keep a dated copy of the files

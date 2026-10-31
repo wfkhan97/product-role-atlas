@@ -49,3 +49,23 @@ def fetch(company, cfg, title_ok, max_pages=6):
                        posted=(p or {}).get("datePosted"), external_id=jid))
         time.sleep(0.3)
     return out
+
+
+GONE_RE = re.compile(r"(?i)requested job could not be found|either does not exist or is no longer open")
+
+
+def still_open(company, cfg, posting):
+    """Read the posting's job page as the fetch does (?in_iframe=1). True: it shows the job (iCIMS_JobContent or a
+    JSON-LD JobPosting). False: it answers 404 or 410 (iCIMS answers a closed or unknown job with a 410 page: "the
+    requested job could not be found"), or a 200 page with that message and no job content. None: anything else."""
+    url = (posting.get("url") or "").split("?")[0]
+    if not re.search(r"/jobs/\d+/", url):
+        return None
+    r = get(url + "?in_iframe=1")
+    if r.status_code in (404, 410):
+        return False
+    if r.status_code != 200 or "iCIMS_" not in r.text:
+        return None
+    if CONTENT_RE.search(r.text) or job_posting(r.text):
+        return True
+    return False if GONE_RE.search(r.text) else None

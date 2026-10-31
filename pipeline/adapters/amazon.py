@@ -35,3 +35,20 @@ def fetch(company, cfg, title_ok, max_offset=2000):
                        location=j.get("normalized_location") or j.get("location", ""), posted=j.get("posted_date"),
                        external_id=j.get("id_icims"), extra={"business_category": j.get("business_category"), "team": j.get("team", {}).get("label") if isinstance(j.get("team"), dict) else None}))
     return out
+
+
+def still_open(company, cfg, posting):
+    """True: the job page answers 200 and names the posting's Job ID. False: the job page answers 404 or 410
+    (amazon.jobs serves its 404 page for a job it no longer shows). None: anything else."""
+    jid = posting.get("external_id")
+    if not jid:
+        return None
+    url = posting.get("url") or ""
+    if not url.startswith("https://www.amazon.jobs/"):
+        url = f"https://www.amazon.jobs/en/jobs/{jid}"  # answers with a redirect to the page with its slug
+    r = get(url)
+    if r.status_code in (404, 410):
+        return False
+    if r.status_code == 200 and f"Job ID: {jid}" in r.text:
+        return True
+    return None

@@ -1,3 +1,4 @@
+import re
 import time
 from .common import get, post, strip_html, job, SEARCH_QUERIES, listing_failed
 
@@ -41,3 +42,43 @@ def fetch(company, cfg, title_ok, max_pages=15):
                        extra={"timeType": info.get("timeType"), "remoteType": info.get("remoteType")}))
         time.sleep(0.2)
     return out
+
+
+def detail_open(host, tenant, site, path):
+    """Ask a Workday board's detail API about one job path (/job/...). True: it answers with the posting. False: it
+    answers in its own JSON error shape that the posting is gone: 404 "S21" (not found) or 403 "S22" (the posting
+    exists but is no longer posted; every unposted job checked answers this way). None: anything else: a wrong tenant
+    gives 422; a bare 404 "HTTP_404" also met a job that was still listed, so it is not trusted; a block or a server
+    error gives no Workday error body."""
+    path = re.sub(r"/apply(?:/[^/]*)?/?$|/$", "", path)  # Phenom stores the apply link: .../job/<loc>/<id>/apply
+    r = get(f"https://{host}/wday/cxs/{tenant}/{site}{path}", headers=HDR)
+    try:
+        body = r.json()
+    except ValueError:
+        return None
+    if not isinstance(body, dict):
+        return None
+    if r.status_code == 200:
+        info = body.get("jobPostingInfo")
+        return True if isinstance(info, dict) and info.get("title") and info.get("posted") is not False else None
+    if (r.status_code, body.get("errorCode")) in ((404, "S21"), (403, "S22")):
+        return False
+    return None
+
+
+def still_open(company, cfg, posting):
+    """True: the posting's detail answers with the job. False: Workday says the posting is not found or no longer
+    posted. None: cannot tell (see detail_open), or the URL is not a Workday job URL."""
+    url = posting.get("url") or ""
+    # https://wd1.myworkdaysite.com/recruiting/{tenant}/{site}/job/... names the tenant in the path
+    m = re.match(r"https://([^/]+\.myworkdaysite\.com)/(?:[a-z]{2}-[A-Z]{2}/)?recruiting/([^/]+)/([^/]+)(/job/[^?#]+)", url)
+    if m:
+        return detail_open(m.group(1), m.group(2), m.group(3), m.group(4))
+    # https://{tenant}.wdN.myworkdayjobs.com/{site}/job/...: the tenant is the registry's for its host, else the
+    # first label (a wrong guess gets a 422, which is None)
+    m = re.match(r"https://([^/]+\.myworkdayjobs\.com)/(?:[a-z]{2}-[A-Z]{2}/)?([^/]+)(/job/[^?#]+)", url)
+    if not m:
+        return None
+    host = m.group(1)
+    tenant = cfg.get("tenant") if cfg.get("host") == host and cfg.get("tenant") else host.split(".")[0]
+    return detail_open(host, tenant, m.group(2), m.group(3))

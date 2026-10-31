@@ -40,3 +40,18 @@ def fetch(company, cfg, title_ok, max_pages=10):
                        location=location(p) or row.get("city", ""), posted=p.get("datePosted"), external_id=key))
         time.sleep(0.3)
     return out
+
+
+def still_open(company, cfg, posting):
+    """True: the job page answers 200 with its JSON-LD JobPosting. False: the page redirects to the site's
+    /careers/errors/404.html, which is how this site answers for a requisition it no longer shows, or answers 404/410.
+    None: anything else (a block, a server error, a page without the posting)."""
+    url = posting.get("url") or ""
+    if not url.startswith("https://"):
+        return None
+    r = get(url)
+    if (r.history and "/errors/404" in r.url) or r.status_code in (404, 410):
+        return False
+    if r.status_code == 200 and job_posting(r.text):
+        return True
+    return None

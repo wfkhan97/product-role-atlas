@@ -1,6 +1,7 @@
 """Meta careers: GraphQL search (needs the LSD token from the jobs page) + JSON-LD detail."""
 import json
 import re
+import threading
 import time
 import requests
 from .common import strip_html, job, listing_failed, SEARCH_QUERIES
@@ -10,9 +11,14 @@ LSD_RE = re.compile(r'"LSD",\[\],\{"token":"([^"]+)"')
 DEFAULT_DOC_ID = "27506805582236862"
 
 
-def fetch(company, cfg, title_ok, max_pages=30):
+def _session():
     s = requests.Session()  # curl-like default UA on purpose: a browser UA gets HTTP 400
     s.headers.update({"User-Agent": "curl/8.4.0"})
+    return s
+
+
+def fetch(company, cfg, title_ok, max_pages=30):
+    s = _session()
     r = s.get("https://www.metacareers.com/jobs/", timeout=30)
     m = LSD_RE.search(r.text)
     if not m:
@@ -64,3 +70,28 @@ def fetch(company, cfg, title_ok, max_pages=30):
                        location="; ".join(locs[:3]) if isinstance(locs, list) else "", posted=p.get("datePosted"), external_id=jid))
         time.sleep(0.3)
     return out
+
+
+_check = threading.local()
+
+
+def still_open(company, cfg, posting):
+    """GET the job page the fetch reads (its own session, for the reason in _session). True: it answers 200 with the
+    JSON-LD JobPosting. False: Meta redirects a job it no longer shows to /jobs/position-not-available/ (which answers
+    404), or the job page itself answers 404 or 410. None: anything else (a block, a 5xx, a page without the job)."""
+    jid = posting.get("external_id")
+    if not jid or not str(jid).isdigit():
+        return None
+    if not hasattr(_check, "s"):
+        _check.s = _session()
+    try:
+        r = _check.s.get(f"https://www.metacareers.com/jobs/{jid}/", timeout=30)
+    except requests.RequestException:
+        return None
+    if "/position-not-available" in r.url:
+        return False
+    if r.status_code in (404, 410) and not r.history:
+        return False
+    if r.status_code == 200 and job_posting(r.text):
+        return True
+    return None

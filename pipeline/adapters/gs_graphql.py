@@ -42,3 +42,24 @@ def fetch(company, cfg, title_ok, max_pages=10):
                        external_id=sid, extra={"division": it.get("division"), "corporateTitle": it.get("corporateTitle")}))
         time.sleep(0.2)
     return out
+
+
+def still_open(company, cfg, posting):
+    """Ask the role detail query the fetch uses. True: it answers with this role. None otherwise: a removed role gets
+    the same GraphQL INTERNAL_ERROR ("an exception occurred when making a request to an external service", role null)
+    as an id that never existed, and that answer cannot be told from the gateway failing, so this check never answers
+    False."""
+    sid = str(posting.get("external_id") or "")
+    if not sid or not cfg.get("host") or not cfg.get("detail_query"):
+        return None
+    url = f"https://{cfg['host']}{cfg.get('graphql_path', '/gateway/api/v1/graphql')}"
+    hdr = {"Content-Type": "application/json", "Origin": "https://higher.gs.com", "x-higher-request-id": str(uuid.uuid4())}
+    r = post(url, json={"query": cfg["detail_query"], "variables": {"id": sid}}, headers=hdr)
+    if r.status_code != 200:
+        return None
+    try:
+        d = (r.json().get("data") or {}).get("role") or {}
+    except (ValueError, AttributeError):
+        return None
+    rid = str(d.get("roleId") or "")
+    return True if (rid == sid or rid.startswith(sid + "_")) and d.get("jobTitle") else None
