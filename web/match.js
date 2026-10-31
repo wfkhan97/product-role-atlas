@@ -701,7 +701,9 @@
       for (const [id, e] of Object.entries(ev)) {
         if (e.lines.length === 0 && e.subs.size) { e.strength = 0; e.hintOnly = true; continue; } // sub-skill only: a hint, never credited
         if (DOMAIN.has(id)) { const strong = e.lines.some(l => l.kind === "role" || l.kind === "summary" || l.kind === "employer") || e.nLines.size >= 2; if (!strong) { e.strength = 0; e.capped = true; } }
-        if (!e.direct && e.via.size) e.transfer = true;
+        // in another field's words: every line of work that shows it is a `via` line. A direct word that is only a
+        // mention (a skills list, a degree: "user studies", "Computer Science") does not make those lines the field's own.
+        if (e.via.size && e.lines.some(l => l.via && l.strength >= 2) && !e.lines.some(l => !l.via && l.strength >= 2)) e.transfer = true;
       }
       return ev;
     }
