@@ -1,7 +1,7 @@
 /* Capture: the GradBuddy waitlist and anonymous funnel counts (PLAN.md, "The demand-gen pass", step 1).
    A classic script like match.js, loaded before app.js; node requires it for tests/web/capture.test.mjs with its
    dependencies passed in. Two calls, both fire-and-forget, both no-ops when CONFIG.CAPTURE_ENABLED is false:
-     Capture.event(name, ctx)             one funnel event: { stage, program, role_id, field_id } and a session id
+     Capture.event(name, ctx)             one funnel event: { stage, program, role_id, field_id, surface } and a session id
      Capture.waitlist(email, source, ctx) one application row: the email, where the click was, { role_id, stage, program, fields,
                                           note } (note: the one free-text field, "the role you want, in your words", typed
                                           knowingly into the box, cut at 200 characters; the key is left out when empty)
@@ -17,10 +17,21 @@
   deps = deps || {};
   const cfg = () => { try { return (deps.config && deps.config()) || {}; } catch { return {}; } };
   const enabled = () => { const c = cfg(); return !!(c.CAPTURE_ENABLED && c.SUPABASE_URL && c.SUPABASE_PUBLISHABLE_KEY); };
-  // the closed list of event names (the same check constraints are in pipeline/sql/2026-10-25_capture.sql, extended by
-  // 2026-10-26_cohort.sql: the sixth source, `classes`, is the class picker's foot)
-  const SOURCES = ["show", "build", "ways", "fit", "start", "classes"];
-  const EVENTS = new Set(["start", "start_stage", "you_done", "resume_read", "explore", "field", "role", "fit", "course_read", "event_prep", "classes", "posting_link", "play", ...SOURCES.map(s => "waitlist_" + s)]);
+  // The closed lists of sources and event names: the check constraints in pipeline/sql/2026-10-25_capture.sql, extended
+  // by 2026-10-26_cohort.sql (the sixth source, `classes`, the class picker's foot) and by 2026-10-31_doors.sql (v19 B7:
+  // the native fallback's sources `door` and `intake_<surface>`, the door funnel's events, and the `surface` column).
+  const OLD_SOURCES = ["show", "build", "ways", "fit", "start", "classes"];
+  const SURFACES = ["skills", "classes", "network"];
+  const SOURCES = [...OLD_SOURCES, "door", ...SURFACES.map(s => "intake_" + s)];
+  const EVENTS = new Set(["start", "start_stage", "you_done", "resume_read", "explore", "field", "role", "fit", "course_read", "event_prep", "classes", "posting_link", "play", ...OLD_SOURCES.map(s => "waitlist_" + s),
+    "door", "door_passed", "home_jobs", "home_skills", "home_classes", "home_network", ...SURFACES.map(s => "intake_" + s)]);
+  // the surface a row belongs to (the `surface` column of 2026-10-31_doors.sql); the key leaves the browser only when
+  // it is set, so the rows of before that migration are unchanged
+  const SURFACE_VALUES = new Set(["door", "jobs", "skills", "classes", "network"]);
+  const surfaceOf = v => SURFACE_VALUES.has(v) ? v : null;
+  // the event that follows a waitlist row: waitlist_<source> for the six sources of v18; intake_<surface> for an intake
+  // box (the row and the event share the name); none for the door, whose screen fires door_passed itself
+  const afterEvent = source => source === "door" ? null : source.startsWith("intake_") ? source : "waitlist_" + source;
   const STAGES = new Set(["looking", "targeting", "curious"]);
   const SESSION_KEY = "capture.session";
   let memSession = null;
@@ -49,7 +60,10 @@
   function event(name, ctx) {
     if (!enabled() || !EVENTS.has(name)) return Promise.resolve(false);
     ctx = ctx || {};
-    return post("events", { name, session: session(), stage: stageOf(ctx.stage), program: str(ctx.program), role_id: str(ctx.role_id), field_id: str(ctx.field_id) });
+    const row = { name, session: session(), stage: stageOf(ctx.stage), program: str(ctx.program), role_id: str(ctx.role_id), field_id: str(ctx.field_id) };
+    const surface = surfaceOf(ctx.surface);
+    if (surface) row.surface = surface;
+    return post("events", row);
   }
   // one application row, then the matching event (waitlist_<source>); a second click with the same email and source is
   // not a second row: the unique index on lower(email), source refuses it with a 409, which reads as "applied".
@@ -62,7 +76,10 @@
     const row = { email: e, source, role_id: str(ctx.role_id), stage: stageOf(ctx.stage), program: str(ctx.program), fields };
     const note = ctx.note == null ? "" : String(ctx.note).trim().slice(0, 200);
     if (note) row.note = note;
-    return post("waitlist", row, 409).then(ok => { event("waitlist_" + source, ctx); return ok; });
+    const surface = surfaceOf(ctx.surface);
+    if (surface) row.surface = surface;
+    const after = afterEvent(source);
+    return post("waitlist", row, 409).then(ok => { if (after) event(after, ctx); return ok; });
   }
-  return { event, waitlist, session, EVENTS, SOURCES };
+  return { event, waitlist, session, EVENTS, SOURCES, SURFACES: [...SURFACE_VALUES], afterEvent };
 });

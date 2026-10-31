@@ -11,4 +11,8 @@ window.CONFIG = {
   CATALOG_TERM: "SP27",
   // the waitlist and the funnel counts (web/capture.js): off, nothing leaves the browser at all
   CAPTURE_ENABLED: true,
+  // The two Tally forms (web/doors.js, v19 B7): `door` is the form at #/, `intake` the box at each verb's foot. The
+  // owner fills the two ids (the part after tally.so/r/). Until an id is set the native form renders in its place;
+  // the site never shows a blank box.
+  TALLY: { door: null, intake: null },
 };

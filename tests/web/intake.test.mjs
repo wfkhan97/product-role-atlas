@@ -1,6 +1,7 @@
 // web/app.js Intake: the pure table behind the intake box (v19 B5), the one call to action the rail, the fit screen,
 // the launcher, the networking screen and the class picker end in. Every string is under 20 words a sentence, says
-// no banned word and nothing about a cohort, a price, a date or applying; the sources are capture.js's list.
+// no banned word and nothing about a cohort, a price, a date or applying; the sources are capture.js's list, and the
+// kind of a box (intake_<surface>, v19 B7) is one of them.
 import test from "node:test";
 import assert from "node:assert/strict";
 import path from "path";
@@ -45,7 +46,12 @@ test("no sentence runs over 20 words", () => {
   }
 });
 
-test("SOURCES is capture.js's list, so a click goes out only from a source the database accepts", () => {
+test("SOURCES is capture.js's list, so a click goes out only from a source the database accepts; every box sends as intake_<surface> (B7)", () => {
   assert.deepEqual(Intake.SOURCES, Capture.SOURCES);
-  assert.ok(!Capture.SOURCES.includes("network"), "the networking box has no source yet: B7 adds it");
+  for (const s of ["door", "intake_skills", "intake_classes", "intake_network"]) assert.ok(Intake.SOURCES.includes(s), s);
+  assert.ok(!Capture.SOURCES.includes("network"), "the networking box's source is intake_network, never a bare network");
+  for (const w of ["show", "build", "ways", "fit", "start"]) assert.equal(Intake.kindOf(w), "intake_skills", w);
+  assert.equal(Intake.kindOf("classes"), "intake_classes");
+  assert.equal(Intake.kindOf("network"), "intake_network");
+  for (const w of ["show", "build", "ways", "fit", "classes", "network"]) assert.ok(Intake.SOURCES.includes(Intake.kindOf(w)), `the kind of ${w} is a source`);
 });

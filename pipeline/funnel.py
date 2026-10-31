@@ -2,7 +2,10 @@
 each event, by stage and by program group, and the cohort applications (the waitlist rows) by source. Plain text on
 stdout; nothing is written to the tree. The applications' sentences ("the role you want, in your words", the one
 piece of content the capture holds; pipeline/sql/2026-10-26_cohort.sql) are printed only under --notes, with the
-email to reply to, never in the default output.
+email to reply to, never in the default output. Under those, the door funnel (v19 B7, pipeline/sql/2026-10-31_doors.sql:
+the sessions that saw the door, passed it, clicked each verb on home, took an intake) and the intakes by surface (the
+waitlist rows whose source is `door` or `intake_<surface>`). The `surface` column is read only when it exists
+(information_schema), so the script runs before the owner applies that migration.
 
 usage: python -m pipeline.funnel [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--by stage|program|both|none] [--notes]
        (default: the last 30 days, by both)
@@ -25,6 +28,9 @@ FUNNEL = ["start", "start_stage", "you_done", "resume_read", "explore", "field",
           "classes", "posting_link", "play", "waitlist_start", "waitlist_show", "waitlist_build", "waitlist_ways", "waitlist_fit",
           "waitlist_classes"]
 STAGES = ["looking", "targeting", "curious", "(none)"]
+# the door funnel (web/doors.js NAMES.events), in its order: the door drawn, passed, each verb clicked on home, each intake
+DOOR = ["door", "door_passed", "home_jobs", "home_skills", "home_classes", "home_network", "intake_skills", "intake_classes",
+        "intake_network"]
 
 
 def connect():
@@ -55,6 +61,29 @@ def waitlist(cur, start, end):
     cur.execute("""select source, count(*), count(distinct email_key) from public.waitlist
                    where created_at >= %s and created_at < %s group by source order by source""", (start, end))
     return cur.fetchall()
+
+
+def column_exists(cur, table, column):
+    """True when public.<table> has the column: the `surface` column lands with 2026-10-31_doors.sql, applied by hand."""
+    cur.execute("""select 1 from information_schema.columns
+                   where table_schema = 'public' and table_name = %s and column_name = %s""", (table, column))
+    return cur.fetchone() is not None
+
+
+def intakes(cur, start, end):
+    """(source, surface, rows, distinct emails) for the native fallback's rows: source `door` or `intake_<surface>`.
+    The surface column is read when it exists; before the migration every surface prints as '-'."""
+    col = "coalesce(surface, '-')" if column_exists(cur, "waitlist", "surface") else "'-'"
+    cur.execute(f"""select source, {col}, count(*), count(distinct email_key) from public.waitlist
+                    where (source = 'door' or starts_with(source, 'intake_')) and created_at >= %s and created_at < %s
+                    group by 1, 2 order by 1, 2""", (start, end))
+    return cur.fetchall()
+
+
+def door_funnel(all_sessions):
+    """[(event, sessions, share of the sessions that saw the door)] in the funnel's order, from the session dicts."""
+    saw = [s for s in all_sessions if "door" in s["events"]]
+    return [(name, sum(1 for s in all_sessions if name in s["events"]), saw) for name in DOOR]
 
 
 def notes(cur, start, end):
@@ -92,6 +121,7 @@ def main():
         ss = sessions(cur, start, end)
         wl = waitlist(cur, start, end)
         nt = notes(cur, start, end) if a.notes else []
+        it = intakes(cur, start, end)
     allS = list(ss.values())
     print(f"capture funnel · {start} to {end - datetime.timedelta(days=1)} · {len(allS)} sessions with an event")
     table("all sessions", [("all", allS)], None)
@@ -104,7 +134,15 @@ def main():
     if not wl:
         print("  none in the range")
     for source, n, emails in wl:
-        print(f"  {source:<8}{n:>6}{emails:>8}")
+        print(f"  {source:<16}{n:>6}{emails:>8}")
+    print("\n== door funnel (sessions; the share is of the sessions that saw the door)")
+    for name, n, saw in door_funnel(allS):
+        print(f"  {name:<16}{n:>6}" + (f" ({100 * n / len(saw):3.0f}%)" if saw else f"{'-':>7}"))
+    print("\n== intakes by surface (the native fallback's rows: source, surface, rows, distinct emails)")
+    if not it:
+        print("  none in the range")
+    for source, surface, n, emails in it:
+        print(f"  {source:<16}{surface:<10}{n:>6}{emails:>8}")
     if a.notes:
         print("\n== applications with a sentence (--notes: the one piece of content; for the owner's reply only)")
         if not nt:

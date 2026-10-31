@@ -74,16 +74,20 @@
     // the surface a click comes from, for the line: the rail's three placeholders and the fit screen's foot are the
     // skills verb; the picker's foot the classes verb; the networking screen its own
     surfaceOf: what => what === "classes" || what === "network" ? what : "skills",
-    // where a click can come from (the same list as web/capture.js SOURCES): the rail's three placeholders, the fit
-    // screen's foot, the class picker's foot; "start" was the start screen's box, gone with v19 B2, kept so the list
-    // matches the database check. "network" is not here yet: that box keeps the email in the browser (B7 adds it).
-    SOURCES: ["show", "build", "ways", "fit", "start", "classes"],
+    // the form a box is (v19 B7): `intake_<surface>`, the kind web/doors.js mounts and the source its row carries
+    kindOf: what => "intake_" + Intake.surfaceOf(what),
+    // the sources the database accepts (the same list as web/capture.js SOURCES): the six of v18 (the rail's three
+    // placeholders, the fit screen's foot, the start screen's box, gone with v19 B2, the class picker's foot) and the
+    // four of v19 B7, which every box sends from now: `door` and `intake_<surface>`
+    SOURCES: ["show", "build", "ways", "fit", "start", "classes", "door", "intake_skills", "intake_classes", "intake_network"],
   };
   // The door (#/) and home (#/home), v19 B2. The door is a welcome screen, not a gate: everyone can skip it, and the
   // email is capture and routing, never a credential (nothing behind it is private, no screen says "sign in"). Pure:
   // every string on the two screens is in web/copy.js (Copy.door, Copy.home, the bar Copy.common.bar) and COPY is a
   // view over them with the shape tests/web/door.test.mjs reads; the four functions touch no DOM and no storage. The screens store the answers (door.email, door.where,
-  // door.seen) in localStorage; the email never goes in the URL, and nothing is sent anywhere (B7 adds the form).
+  // door.seen) in localStorage. The form is Tally's when CONFIG.TALLY.door is set (web/doors.js, B7), else the native
+  // one; the native Continue sends the email with the source `door`. Tally's return is the one time the email rides in
+  // the URL (#/home?email=…&where=…): home reads it once and cleans the hash.
   const Door = {
     COPY: { ...Copy.door, home: Copy.home.heading, more: Copy.home.more, closed: Copy.home.closed, closedLink: Copy.home.closedLink, closedAfter: Copy.home.closedAfter, bar: Copy.common.bar },
     // a Cornell NetID address and nothing else (owner's decision 2, 2026-10-29): two or three letters then one to four
@@ -250,17 +254,25 @@
     const on = VERB_OF[name] || null;
     el.innerHTML = Door.verbs(doorKept().email, {}).filter(v => v.open).map(v => `<a class="toplink${on === v.key ? " on" : ""}" href="${esc(v.href)}"${on === v.key ? ' aria-current="page"' : ""}>${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("");
   }
+  // the Tally forms on screen (web/doors.js handles): dropped when the route changes, so no clock or listener outlives
+  // its screen
+  const mounts = new Set();
+  const unmount = all => { for (const h of mounts) if (all || !(h.el && h.el.isConnected)) { h.destroy(); mounts.delete(h); } };
+  // the door's Tally return (#/home?email=…&where=…) passes the door: it is the door's own answer coming back
+  const returned = hash => !!(window.Doors && Routes.parseRoute(hash).name === "home" && (Doors.returnQuery(hash).email || Doors.returnQuery(hash).where));
   function route() {
     const parsed = Routes.parseRoute(location.hash);
+    unmount(true);
     // a deep link bounces to the door once (v19 B2): the hash stays, the door draws over it, and Continue or Skip
     // (Door.next) lands on the hash
-    const name = Door.bounce(location.hash, doorKept().seen) ? "door" : parsed.name, { id, slug } = parsed.params;
+    const name = Door.bounce(location.hash, doorKept().seen || returned(location.hash)) ? "door" : parsed.name, { id, slug } = parsed.params;
     // #/jobs, #/skills and #/network exist so the hrefs never change: #/jobs is Find jobs (B4), #/skills the launcher
     // and #/network Who to meet (B5); #/explore, a field and the event screen stay at their routes
     const go = { door, home, jobs: jobsScreen, skills: skillsScreen, network: networkScreen, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => ClassScreens.signin(shellCtx) }[name];
     SkillMap.leave(); leaveRail(); topBar(name);
-    // the launcher sends the same event Explore sends: it is the screen that picks a role now
-    const ev = { door: ["start"], explore: ["explore"], skills: ["explore"], field: ["field", { field_id: id }], event: ["event_prep", { field_id: id }], role: ["role", { role_id: id }], classes: ["classes"], play: ["play", { role_id: slug }] }[name];
+    // the launcher sends the same event Explore sends: it is the screen that picks a role now; the door sends `door`
+    // (v19 B7; `start` was the start screen's, gone with B2) and `door_passed` itself when Continue or Skip goes through
+    const ev = { door: ["door", { surface: "door" }], explore: ["explore"], skills: ["explore"], field: ["field", { field_id: id }], event: ["event_prep", { field_id: id }], role: ["role", { role_id: id }], classes: ["classes"], play: ["play", { role_id: slug }] }[name];
     if (ev) track(ev[0], ev[1]);
     go().catch(fail);
   }
@@ -283,39 +295,72 @@
     const ok = jm && jm.n_open > 0 && jm.n_companies > 0;
     return { nOpen: ok ? jm.n_open : ix.M.meta.n_open, nCompanies: ok ? jm.n_companies : ix.M.meta.n_companies, nRoles: roleCount(ix) };
   }
-  // The door: what GradBuddy is, what is inside, an email and the program question, Continue, Skip for now. Both
-  // buttons keep what was typed in this browser (door.email, door.where, door.seen) and go where the person was headed
-  // (Door.next); a program answer also fills About you's first question. Nothing is sent anywhere (B7 adds the form).
+  // what the door keeps, in this browser only (door.email, door.where, door.seen); a program answer also fills About
+  // you's first question. The door's two buttons and the Tally return (home) go through here.
+  function keepDoor(email, where) {
+    try { localStorage.setItem("door.email", email); localStorage.setItem("door.where", where); localStorage.setItem("door.seen", "1"); } catch { }
+    if (where && WHERE[where]) { state.you = { fields: [], stage: null, ...(state.you || {}), where }; store.set("you", state.you); wiz = null; }
+  }
+  // the context the door's events and row carry: the session (capture.js adds it), the stage and the program group
+  const doorCtx = where => ({ surface: "door", ...(where ? { program: where } : {}) });
+  // The door: what GradBuddy is, what is inside, then the form: Tally's when CONFIG.TALLY.door is set (web/doors.js
+  // mounts it, with the native form as the fallback after three seconds), else the native one: an email and the program
+  // question, Continue, Skip for now. Both buttons keep what was typed (keepDoor) and go where the person was headed
+  // (Door.next); Continue with an address also sends it with the source `door` (Doors.nativeSubmit), Skip sends
+  // nothing. `door_passed` goes out when either button goes through, or when Tally reports the form submitted.
   async function door() {
     crumbs([]); showAside(null);
     const ix = await Atlas.index(), kept = doorKept();
     const C = Door.COPY;
-    page(`<section class="door">
-        <h1>${esc(C.heading)}</h1>
-        ${C.intro.map(t => `<p class="lead">${esc(t)}</p>`).join("")}
-        <p class="lead">${esc(Door.inside(roleCount(ix)))}</p>
-        <form class="door-form" id="door-form" novalidate="">
+    const nativeForm = () => `<form class="door-form" id="door-form" novalidate="">
           <label class="dlabel">${esc(C.email)}<input type="email" name="email" placeholder="${esc(C.emailPlaceholder)}" autocomplete="email" value="${esc(kept.email)}"></label>
           <label class="dlabel">${esc(C.where)}<select name="where"><option value="">${esc(C.pick)}</option>${Q[0].options.map(([id, label]) => `<option value="${esc(id)}"${kept.where === id ? " selected" : ""}>${esc(label)}</option>`).join("")}</select></label>
           <p class="small muted" style="margin:0">${esc(C.cornell)}</p>
           <p class="door-acts"><button type="submit" class="btn primary">${esc(C.button)}</button><a class="door-skip" href="${esc(Door.next(location.hash))}" id="door-skip">${esc(C.skip)}</a></p>
-        </form>
+        </form>`;
+    const tally = !!(window.Doors && Doors.formIdFor("door"));
+    page(`<section class="door">
+        <h1>${esc(C.heading)}</h1>
+        ${C.intro.map(t => `<p class="lead">${esc(t)}</p>`).join("")}
+        <p class="lead">${esc(Door.inside(roleCount(ix)))}</p>
+        <div class="door-slot" id="door-slot">${tally ? "" : nativeForm()}</div>${tally ? `<p class="small muted door-loading" id="door-loading">${esc(CM.loadingForm)}</p>` : ""}
         <p class="small muted door-privacy">${esc(C.privacy)}</p>
       </section>`, true);
-    const form = $("#door-form");
-    const keep = () => {
-      const email = form.email.value.trim(), where = form.where.value;
-      try { localStorage.setItem("door.email", email); localStorage.setItem("door.where", where); localStorage.setItem("door.seen", "1"); } catch { }
-      if (where && WHERE[where]) { state.you = { fields: [], stage: null, ...(state.you || {}), where }; store.set("you", state.you); wiz = null; }
-    };
     const go = () => { const next = Door.next(location.hash); if (location.hash === next) route(); else location.hash = next; };
-    form.onsubmit = e => { e.preventDefault(); const em = form.email; if (em.value.trim() && !em.checkValidity()) { em.reportValidity(); return; } keep(); go(); };
-    $("#door-skip").onclick = e => { e.preventDefault(); keep(); go(); };
+    const passed = where => track("door_passed", doorCtx(where));
+    const wireNative = () => {
+      const form = $("#door-form"); if (!form) return;
+      form.onsubmit = e => {
+        e.preventDefault(); const em = form.email; if (em.value.trim() && !em.checkValidity()) { em.reportValidity(); return; }
+        const email = em.value.trim(), where = form.where.value;
+        keepDoor(email, where);
+        if (email && window.Doors) Doors.nativeSubmit("door", { email, where, ctx: { stage: (state.you || {}).stage, ...doorCtx(where) } });
+        passed(where); go();
+      };
+      $("#door-skip").onclick = e => { e.preventDefault(); const where = form.where.value; keepDoor(form.email.value.trim(), where); passed(where); go(); };
+    };
+    if (!tally) { wireNative(); return; }
+    const slot = $("#door-slot"), dropLoading = () => { const p = $("#door-loading"); if (p) p.remove(); };
+    const h = Doors.mount(slot, "door", {
+      hidden: { surface: "door", source: "door", email: kept.email },
+      native: nativeForm,
+      onLoaded: dropLoading,
+      onFallback: () => { dropLoading(); wireNative(); },
+      // Tally keeps the answers; the door counts as seen, and the return (#/home?email=…&where=…) fills the rest
+      onSubmitted: () => { try { localStorage.setItem("door.seen", "1"); } catch { } passed(""); },
+    });
+    mounts.add(Object.assign(h, { el: slot }));
   }
   // Home: the four verbs as a 2×2 grid, one data-built line each; Find classes grayed until a Cornell address opens
-  // it. The stage question is not here (v19, decision 8: About you, step 2).
+  // it. The stage question is not here (v19, decision 8: About you, step 2). The door's Tally form comes back here
+  // with its answers in the query (#/home?email=…&where=…): read once, kept as the door keeps them, and the hash
+  // cleaned before anything draws. A card click sends home_<verb> before the screen changes.
   async function home() {
     crumbs([]); showAside(null);
+    if (window.Doors) {
+      const ret = Doors.returnQuery(location.hash);
+      if (ret.email || ret.where) { keepDoor(ret.email, WHERE[ret.where] ? ret.where : ""); history.replaceState(null, "", location.pathname + location.search + Doors.clearQuery(location.hash)); }
+    }
     const [ix, jm] = await Promise.all([Atlas.index(), jobsMeta()]);
     const C = Door.COPY;
     const render = () => {
@@ -323,6 +368,7 @@
         ? `<a class="verb" href="${esc(v.href)}" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span></a>`
         : `<div class="verb closed" aria-disabled="true" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span><span class="gate">${esc(C.closed)} <a href="#/">${esc(C.closedLink)}</a> ${esc(C.closedAfter)}</span></div>`);
       page(`<h1>${esc(C.home)}</h1><div class="verbs">${cards.join("")}</div><p class="home-more"><a href="#/you">${esc(C.more)} →</a></p>`);
+      main.querySelectorAll("a.verb[data-verb]").forEach(a => a.onclick = () => track("home_" + a.dataset.verb, { surface: a.dataset.verb }));
     };
     render();
   }
@@ -1365,36 +1411,57 @@
   }
   // The intake box (v19 B5; one box everywhere since v18 step 1: the rail's three placeholders, the fit screen's foot,
   // the launcher, the networking screen, the class picker's foot), its copy the pure table Intake beside Stage. The
-  // email, where the click was and the role on screen go to the waitlist table through web/capture.js when the source
-  // is in its list, with the stage, the program group and the fields picked; the networking box has no source there
-  // yet, so its email stays in this browser (intake.network) and nothing is sent: B7 adds the source. "Got it" stays
-  // in this browser (the sources sent from are kept in localStorage under `waitlist`, the key from before; never the
-  // email). The atlas promises nothing it does not do itself.
+  // form is Tally's when CONFIG.TALLY.intake is set (web/doors.js mounts it in wireWait, the native form as the
+  // fallback), else the native one. Either way the box is the kind `intake_<surface>` (Intake.kindOf): the native
+  // Notify me sends the email, the surface, the role on screen, the stage, the program group and the fields picked
+  // through Doors.nativeSubmit with that source, and the event of the same name follows; Tally's form carries the
+  // surface, the source, the role and the email as hidden fields, and the screen sends the event when Tally reports
+  // the submit. "Got it" stays in this browser (the boxes sent from are kept in localStorage under `waitlist`, the key
+  // from before; never the email). The atlas promises nothing it does not do itself.
   const joined = () => store.get("waitlist") || {};
-  const intakeDone = what => what === "network" ? !!store.get("intake.network") : !!joined()[what];
+  const intakeDone = what => !!joined()[what];
+  const markDone = what => store.set("waitlist", { ...joined(), [what]: new Date().toISOString().slice(0, 10) });
+  const intakeForm = (what, roleId) => `<form class="apply-form" data-wait-form="${esc(what)}"${roleId ? ` data-wait-role="${esc(roleId)}"` : ""}><input type="email" required placeholder="${esc(Door.COPY.emailPlaceholder)}" aria-label="${esc(Intake.email)}" autocomplete="email" value="${esc(doorKept().email)}"><button type="submit" class="btn primary">${esc(Intake.button)}</button></form>`;
   // opts.always: drawn whether or not state.wait names it (the fit screen, the launcher, the networking screen, the
   // picker); opts.role_id: the role to record instead of the role screen's (the picker's chosen role)
   function applyBox(what, opts) {
     opts = opts || {};
     if (!opts.always && state.wait !== what) return "";
-    const done = intakeDone(what), kept = doorKept().email;
-    const form = done ? `<p class="small" style="margin:6px 0 0"><b>${esc(Intake.done)}</b></p>` : `<form class="apply-form" data-wait-form="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}><input type="email" required placeholder="${esc(Door.COPY.emailPlaceholder)}" aria-label="${esc(Intake.email)}" autocomplete="email" value="${esc(kept)}"><button type="submit" class="btn primary">${esc(Intake.button)}</button></form>`;
+    const done = intakeDone(what), tally = !done && !!(window.Doors && Doors.formIdFor(Intake.kindOf(what)));
+    // with a Tally id the slot waits for wireWait; its line keeps the page still until the form draws
+    const form = done ? `<p class="small" style="margin:6px 0 0"><b>${esc(Intake.done)}</b></p>`
+      : tally ? `<div class="apply-slot" data-wait-slot="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}></div><p class="small muted apply-loading">${esc(CM.loadingForm)}</p>`
+      : intakeForm(what, opts.role_id);
     return `<div class="wait apply"><b>${esc(Intake.heading)}</b><p class="small">${esc(Intake.line[Intake.surfaceOf(what)])}</p>${form}<p class="small muted" style="margin:6px 0 0">${esc(Intake.privacy)}${opts.always || done ? "" : ` <a href="#/" data-wait-close>${esc(CM.notNow)}</a>`}</p></div>`;
   }
   const waitHtml = what => applyBox(what);
-  // the forms inside `el`: on submit the email goes out once (or stays here, for the networking box), the box says so,
-  // and `redraw` draws the screen again
+  // the context an intake box sends: the role on screen (or the box's own), the stage, the program group, the fields
+  const intakeCtx = (what, roleId) => ({ ...waitCtx(), ...(roleId ? { role_id: roleId } : {}), surface: Intake.surfaceOf(what) });
+  // the boxes inside `el`: a native form sends the email once on submit, the box says so, and `redraw` draws the
+  // screen again; a slot gets Tally's form (Doors.mount), the native form in its place after three seconds without a
+  // load, and the same "Got it" when Tally reports the submit
   function wireWait(el, redraw) {
-    el.querySelectorAll("[data-wait-form]").forEach(f => f.onsubmit = async e => {
+    const wireForms = scope => scope.querySelectorAll("[data-wait-form]").forEach(f => f.onsubmit = async e => {
       e.preventDefault(); const what = f.dataset.waitForm, input = f.querySelector("input[type=email]"), btn = f.querySelector("button");
       if (!input.value.trim()) return; btn.disabled = true; btn.textContent = CM.sending;
-      const ctx = { ...waitCtx(), ...(f.dataset.waitRole ? { role_id: f.dataset.waitRole } : {}) };
-      let ok;
-      if (window.Capture && Capture.SOURCES.includes(what)) { ok = await Capture.waitlist(input.value, what, ctx); if (ok) store.set("waitlist", { ...joined(), [what]: new Date().toISOString().slice(0, 10) }); }
-      else if (what === "network") { store.set("intake.network", input.value.trim()); ok = true; }   // no source in capture.js for this box yet: B7 adds it, and this line then goes through Capture.waitlist
-      else ok = false;
-      if (ok) redraw();   // the box stays, now saying "Got it"
+      const ctx = intakeCtx(what, f.dataset.waitRole);
+      const ok = window.Doors ? await Doors.nativeSubmit(Intake.kindOf(what), { email: input.value, role: ctx.role_id, ctx }) : false;
+      if (ok) { markDone(what); redraw(); }   // the box stays, now saying "Got it"
       else { btn.disabled = false; btn.textContent = Intake.button; input.setCustomValidity(CM.sendFailed); input.reportValidity(); input.oninput = () => input.setCustomValidity(""); }
+    });
+    wireForms(el);
+    unmount(false);
+    el.querySelectorAll("[data-wait-slot]").forEach(slot => {
+      const what = slot.dataset.waitSlot, roleId = slot.dataset.waitRole || null, kind = Intake.kindOf(what), ctx = intakeCtx(what, roleId);
+      const dropLoading = () => { const p = slot.nextElementSibling; if (p && p.classList.contains("apply-loading")) p.remove(); };
+      const h = Doors.mount(slot, kind, {
+        hidden: { surface: ctx.surface, source: kind, role: ctx.role_id, email: doorKept().email },
+        native: () => intakeForm(what, roleId),
+        onLoaded: dropLoading,
+        onFallback: () => { dropLoading(); wireForms(slot); },
+        onSubmitted: () => { markDone(what); track(kind, ctx); redraw(); },
+      });
+      mounts.add(Object.assign(h, { el: slot }));
     });
   }
   // the open postings of this view that ask for a skill, as links (decision 8 of the pass: shown to a person with a resume)

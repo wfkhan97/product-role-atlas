@@ -85,6 +85,9 @@
     // the one intake box's send
     sending: "Sending…",
     sendFailed: "That did not go through. Check the address and try again.",
+    // under the door's and a box's Tally form while it loads (web/doors.js, v19 B7); gone once it draws or the native
+    // form takes its place
+    loadingForm: "Loading the form…",
   };
 
   // ---------- the door (#/), v19 B2: the owner's words ----------
