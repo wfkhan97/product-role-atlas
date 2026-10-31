@@ -1013,3 +1013,14 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .nw-chat { display: flex; gap: 10px; align-items: baseline; padding: 4px 0; font-size: var(--text-base); }
 .nw-chat > span:first-child { flex: 1; min-width: 0; } .nw-chat .linkish { color: var(--primary); font-size: var(--text-sm); }
 @media (max-width: 900px) { .nw { grid-template-columns: minmax(0, 1fr); gap: 24px; } .nw-side { position: static; max-height: none; overflow: visible; } }
+/* the apprentice map's entry (the build plan's B2): the slot line on the launcher, the sign-in, the map as plain text */
+.lf-slot { margin: 16px 0 0; font-size: var(--text-sm); color: var(--muted-foreground); } .lf-slot a { color: var(--primary); }
+.si { display: flex; gap: 8px; margin-top: 16px; }
+.si input { flex: 1; min-width: 0; max-width: none; margin: 0; padding: 9px 12px; border: 1px solid var(--input); border-radius: var(--radius-md); background: var(--background); color: var(--foreground); font: inherit; }
+.si-no { margin-top: 12px; color: var(--warning); }
+.si-out .wait { margin-top: 14px; } .si-out .wait p { margin: 4px 0 0; }
+.si-note { margin-top: 18px; } .si-note a { color: var(--primary); }
+.map-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.map-top { margin: 0; white-space: nowrap; font-size: var(--text-sm); } .map-top a { color: var(--primary); }
+.map-world h2 { margin: 24px 0 6px; font-size: var(--text-md); }
+.map-world ul { margin: 0; padding-left: 20px; } .map-world li { margin: 4px 0; }
