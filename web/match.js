@@ -580,13 +580,23 @@
     const gSkill = Object.fromEntries((G.skills || []).map(s => [s.id, s]));
     const CRED = new Set(skills.filter(s => s.cluster === "credentials").map(s => s.id));
     const DOMAIN = new Set(skills.filter(s => s.cluster === "domain").map(s => s.id));
+    // A craft (kind `method`) is shown by the thing it produces: the `artefacts` of its how_shown (pipeline/evidence.json),
+    // as a phrase ("strategy memo", "battlecards", "content calendar"). A line that names one names the skill: a mention
+    // (strength 1, `thin`), never the work itself, and never the field's own words for a `via` line. Only an artefact of two
+    // or more words (or one written with a / or a -): a single word ("report", "community") is too common to name a craft.
+    const artefactRx = id => {
+      const list = (((gSkill[id] || {}).how_shown || {}).artefacts || []).map(a => a.replace(/\s*\(.*?\)/g, "").trim()).filter(a => a && /[\s\/-]/.test(a));
+      if (!list.length) return null;
+      const one = a => a.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/programme/gi, "program(me)?").replace(/[- ]/g, "[- ]");
+      return new RegExp(`\\b(${list.map(one).join("|")})(e?s)?\\b`, "i");
+    };
     const compiled = skills.map(s => {
       const drop = new Set(RESUME_DROP[s.id] || []);
       const base = s.patterns.filter(p => !drop.has(p));
       const extra = (RESUME_PATTERNS[s.id] || []);
       const direct = rx([...base, ...extra.filter(p => typeof p === "string")]);
       const via = extra.filter(p => typeof p === "object").map(p => ({ rx: new RegExp(p.p, "i"), via: p.via }));
-      return { id: s.id, direct, via };
+      return { id: s.id, direct, via, artefact: kindOf(s.id) === "method" ? artefactRx(s.id) : null };
     });
     const subRx = []; for (const [sid, list] of Object.entries(subskills)) for (const sub of list) subRx.push({ id: sub.id, name: sub.name, parent: sid, rx: rx(sub.patterns) });
 
@@ -664,10 +674,10 @@
     let seasoned = false; const SEASONED_YEARS = 3;
     function tag(parsed) {
       seasoned = !parsed.isStudent && parsed.totalYears >= SEASONED_YEARS;
-      const ev = {}; const add = (id, l, i, strength, via) => {
+      const ev = {}; const add = (id, l, i, strength, via, artefact) => {
         const e = ev[id] ||= { strength: 0, lines: [], subs: new Set(), via: new Set(), direct: false, nLines: new Set() };
-        e.lines.push({ i, text: l.text, strength, via: via || null, kind: l.kind, role: l.role });
-        e.nLines.add(i); if (via) e.via.add(via); else e.direct = true;
+        e.lines.push({ i, text: l.text, strength, via: via || null, kind: l.kind, role: l.role, ...(artefact ? { artefact: true } : {}) });
+        e.nLines.add(i); if (artefact) e.artefact = true; else if (via) e.via.add(via); else e.direct = true;
         e.strength = Math.max(e.strength, strength);
       };
       parsed.lines.forEach((l, i) => {
@@ -685,7 +695,7 @@
           const text = EDU_CREDENTIAL.has(c.id) && next && next.kind === l.kind && next.text.length < 60 ? l.text + " " + next.text : named && !structural && !DOMAIN.has(c.id) ? own : l.text; // "Bachelor of Science" / "Finance"
           if (!text) continue;
           if (c.direct && c.direct.test(text)) add(c.id, l, i, structural ? 2 : base);
-          else for (const v of c.via) if (v.rx.test(text)) { add(c.id, l, i, base, v.via); break; }
+          else if (!c.via.some(v => v.rx.test(text) && (add(c.id, l, i, base, v.via), true)) && c.artefact && c.artefact.test(text)) add(c.id, l, i, 1, null, true);
         }
         for (const s of subRx) if (s.rx && s.rx.test(own)) { const e = ev[s.parent] ||= { strength: 0, lines: [], subs: new Set(), via: new Set(), direct: false, nLines: new Set() }; e.subs.add(s.id); e.subLines = e.subLines || []; e.subLines.push({ i, text: l.text, sub: s.name }); }
       });
