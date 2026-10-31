@@ -1,12 +1,13 @@
 /* Role atlas — the screens. Routes (hash): #/ the door (welcome, an email, what you study; everyone can skip) · #/home (the four verbs) ·
-   #/jobs (Find jobs: one search over every open posting, v19 B4) · #/skills, #/network (the verbs; until v19 B5 lands they draw the closest screen that exists: see route()) · #/play/<game> ·
+   #/jobs (Find jobs: one search over every open posting, v19 B4) · #/skills (the launcher: every role by field with the résumé beside it, v19 B5) ·
+   #/network (Who to meet: the people types for one role and a prep card, v19 B5) · #/play/<game> ·
    #/you · #/explore · #/field/<group> · #/role/<role> · #/about · #/classes, #/professor/<slug>, #/signin (classes.js).
    Data comes from atlas.js; the side panel (owner's choice 8B) shows a skill or a posting. */
 // The route: the hash read into the screen to show, its path parts and its query. Pure, no DOM; UMD like atlas.js,
 // so node loads it alone (tests/web/routes.test.mjs): require("web/app.js").parseRoute.
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();
-  else { root.Routes = factory(); root.Stage = root.Routes.Stage; root.Apply = root.Routes.Apply; root.Door = root.Routes.Door; }
+  else { root.Routes = factory(); root.Stage = root.Routes.Stage; root.Intake = root.Routes.Intake; root.Door = root.Routes.Door; }
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
   const SCREENS = { "": "door", home: "home", jobs: "jobs", skills: "skills", network: "network", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about", classes: "classes", professor: "professor", signin: "signin" };
@@ -50,25 +51,34 @@
       if (screen === "you") return this.youLead(stage) === "role-search" ? "role-search" : resume || stage === "curious" ? "fields" : "drop";   // curious: the fields and Explore, no resume asked
       return this.railBlocks(stage, resume).find(k => this.ACTIONS.has(k)) || null;
     },
-    // the first call to action a screen ends in, for a stage: the cohort application box, the same for every stage and
-    // every screen by the owner's decision of 2026-10-26 (v18, step 1); its heading, so the eval can read what it says
-    cta: (stage, screen) => Apply.heading,
+    // the first call to action a screen ends in, for a stage: the intake box, the same for every stage and every
+    // screen (v18 step 1 put one box everywhere; v19 B5 made it the intake); its heading, so the eval can read it
+    cta: (stage, screen) => Intake.heading,
   };
-  // The cohort application box (v18, step 1): the one call to action the start screen, the rail, the fit screen and the
-  // class picker end in, in place of the waitlist. The copy is the owner's, exactly; the price is never here. Pure, so
-  // evals/stage.mjs can check that what every stage sees begins "Cohort 1".
-  const Apply = {
-    heading: "Cohort 1: ship two projects aimed at the role you want",
-    line: "Five Cornell Tech and IE New York students. Six weeks, a session a week, paid. You leave with two or three shipped projects pointed at your target role and the people who should see them. Applications close Nov 14.",
-    noteLabel: "The role you want, in your words",
-    button: "Apply",
-    done: "Applied. Wally replies within two days.",
-    privacy: "Nothing you upload leaves your browser. If you apply we keep your email, the sentence you typed and the role you were looking at, nothing else.",
+  // The intake box (v19 B5, 2026-10-31): the one call to action the rail, the fit screen, the launcher's foot, the
+  // networking screen and the class picker end in. It replaced the cohort application box of v18 step 1 (that program
+  // and its dates are gone from every screen). One heading, one line per surface (what GradBuddy will do for that
+  // verb), an email, Notify me. No free-text field. Pure, so evals/stage.mjs and tests/web/intake.test.mjs can read
+  // every string: none says a cohort, a price, a date or "apply", and no sentence runs over 20 words.
+  const Intake = {
+    heading: "GradBuddy is coming soon.",
+    line: {
+      skills: "GradBuddy will give you personalized projects. Each one builds a skill you need. Each one is aimed at the roles, industries and companies you want.",
+      network: "GradBuddy will find events near you that fit your role. It will show you who to meet and what to say.",
+      classes: "GradBuddy will turn your classes into proof of the skills you need.",
+    },
+    email: "Email",
+    button: "Notify me",
+    done: "Got it. We will be in touch.",
+    privacy: "We keep your email to tell you when it is ready. Nothing else.",
     // the one data-built line over the picker's box, when a role is chosen and the person's fit leaves gaps
-    gapsLine: label => `These are your gaps for ${label}. Cohort 1 closes gaps like these with real projects.`,
+    gapsLine: label => `These are your gaps for ${label}. The classes below say which they cover.`,
+    // the surface a click comes from, for the line: the rail's three placeholders and the fit screen's foot are the
+    // skills verb; the picker's foot the classes verb; the networking screen its own
+    surfaceOf: what => what === "classes" || what === "network" ? what : "skills",
     // where a click can come from (the same list as web/capture.js SOURCES): the rail's three placeholders, the fit
     // screen's foot, the class picker's foot; "start" was the start screen's box, gone with v19 B2, kept so the list
-    // matches the database check
+    // matches the database check. "network" is not here yet: that box keeps the email in the browser (B7 adds it).
     SOURCES: ["show", "build", "ways", "fit", "start", "classes"],
   };
   // The door (#/) and home (#/home), v19 B2. The door is a welcome screen, not a gate: everyone can skip it, and the
@@ -120,7 +130,7 @@
       ];
     },
   };
-  return { parseRoute, Stage, Apply, Door };
+  return { parseRoute, Stage, Intake, Door };
 });
 (function () {
   "use strict";
@@ -242,9 +252,9 @@
   const LEVEL_OPT = { entry: "associate", mid: "mid", senior: "senior", lead: "lead" };
   // what the Spring 2027 screens (classes.js) draw with; gapsFor hands them the person's gaps for a role (step 3 of the
   // demand-gen pass): the fit on screen when it is this role's, else the matcher at the default level, cached per role;
-  // applyBox, applyLine and wireApply draw the application box at the picker's foot (v18, step 1); resumeForm, wireResume,
-  // takeResume and hasResume let the picker hold the shell's resume form when none is on file (v19 B3, C1)
-  const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Apply.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw), resumeForm: () => resumeForm(), wireResume: () => wireResumeForm(), takeResume: () => takeResume(), hasResume: () => !!state.resume };
+  // applyBox, applyLine and wireApply draw the intake box at the picker's foot (v18 step 1, the intake since v19 B5);
+  // resumeForm, wireResume, takeResume and hasResume let the picker hold the shell's resume form when none is on file (v19 B3, C1)
+  const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Intake.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw), resumeForm: () => resumeForm(), wireResume: () => wireResumeForm(), takeResume: () => takeResume(), hasResume: () => !!state.resume };
   // what the door kept, in this browser only: the email, the program group, and that the door was seen once
   const doorKept = () => { try { return { email: localStorage.getItem("door.email") || "", where: localStorage.getItem("door.where") || "", seen: localStorage.getItem("door.seen") === "1" }; } catch { return { email: "", where: "", seen: false }; } };
   // The four verbs in the top bar (v19 B2), drawn on every route: the current one marked, Find classes only when the
@@ -261,12 +271,12 @@
     // a deep link bounces to the door once (v19 B2): the hash stays, the door draws over it, and Continue or Skip
     // (Door.next) lands on the hash
     const name = Door.bounce(location.hash, doorKept().seen) ? "door" : parsed.name, { id, slug } = parsed.params;
-    // #/jobs, #/skills and #/network exist so the hrefs never change; #/jobs is Find jobs (B4); until B5 lands,
-    // #/skills draws Explore (the fields, then a field's roles: the closest thing to "pick a role" today) and
-    // #/network the event screen of the field that fits the person best, else the biggest field
-    const go = { door, home, jobs: jobsScreen, skills: explore, network, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => ClassScreens.signin(shellCtx) }[name];
+    // #/jobs, #/skills and #/network exist so the hrefs never change: #/jobs is Find jobs (B4), #/skills the launcher
+    // and #/network Who to meet (B5); #/explore, a field and the event screen stay at their routes
+    const go = { door, home, jobs: jobsScreen, skills: skillsScreen, network: networkScreen, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => ClassScreens.signin(shellCtx) }[name];
     SkillMap.leave(); leaveRail(); topBar(name);
-    const ev = { door: ["start"], explore: ["explore"], field: ["field", { field_id: id }], event: ["event_prep", { field_id: id }], role: ["role", { role_id: id }], classes: ["classes"], play: ["play", { role_id: slug }] }[name];
+    // the launcher sends the same event Explore sends: it is the screen that picks a role now
+    const ev = { door: ["start"], explore: ["explore"], skills: ["explore"], field: ["field", { field_id: id }], event: ["event_prep", { field_id: id }], role: ["role", { role_id: id }], classes: ["classes"], play: ["play", { role_id: slug }] }[name];
     if (ev) track(ev[0], ev[1]);
     go().catch(fail);
   }
@@ -332,13 +342,195 @@
     };
     render();
   }
-  // #/network until B5: the event screen of the field the person's answers and resume point to, else the biggest field
-  async function network() {
-    const ix = await Atlas.index();
-    const ff = (state.you || state.resume) ? await fitFields() : null;
+  // ---------- 1b. Explore roles & build skills (v19 B5, owner's pick S5): the launcher ----------
+  // Every role by field on the left two thirds (a prefix search over all of them, the field tiles, a field's roles
+  // under the tiles), the résumé on the right third, sticky; one column under 900 px. The pure parts are
+  // web/launcher.js. With a résumé on file the right third reads it against the three roles the rough read puts
+  // closest (Atlas.roughFit) and the role the person chose, each through the matcher as the rail reads it
+  // (matchRole), and says "N of M", never a score. The hash keeps the field open and the query
+  // (#/skills?field=…&q=…), written with replaceState.
+  const matchCache = new Map();   // roleId|résumé text -> one matcher run per role per résumé: { roleId, label, n, m, band, r, R }
+  async function matchRole(id) {
+    const key = id + "|" + state.resume.text;
+    if (matchCache.has(key)) return matchCache.get(key);
+    const R = await Atlas.role(id); const { M, bands, group } = await Atlas.matcher(R);
+    const level = defaultLevel(), slice = level === "all" ? R.jobs : R.jobs.filter(j => Atlas.stepOf(j) === level);
+    const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label: R.role.label }, { level: LEVEL_OPT[level], ladder: R.role.ladder });
+    const c = Launcher.coreOf(r.rows);
+    const out = { roleId: R.role.id, label: R.role.label, n: c.n, m: c.m, band: Matcher.bandOf(r.overall, bands, group) || null, r, R };
+    matchCache.set(key, out); return out;
+  }
+  // a match result's gap rows in the shape gapRows reads (what gapsFor builds for the picker)
+  const rowsOf = r => { const rows = r.rows, by = st => rows.filter(x => x.status === st && x.tier !== "diff"); return { coreGaps: rows.filter(x => x.tier === "core" && (x.status === "gap" || x.status === "thin")).sort((a, b) => b.w - a.w), gaps: by("gap"), thin: by("thin") }; };
+  // the roles the résumé reads closest to (the three the rough read ranks first) and the role the person chose, each
+  // read through the matcher; the chosen role is the role screen's or the picker's, else the closest
+  async function closestFits(ix) {
+    const rg = await rough();
+    const ids = Object.entries(rg.scores).filter(([id, sc]) => sc > 0 && ix.roles[id]).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => id);
+    let chosen = chosenRole(); if (chosen && !ix.roles[chosen]) chosen = Atlas.productKey(chosen); if (!ix.roles[chosen]) chosen = ids[0] || null;
+    const fits = await Promise.all([...new Set([...ids, ...(chosen ? [chosen] : [])])].map(matchRole));
+    return { text: state.resume.text, chosen: fits.find(f => f.roleId === chosen) || fits[0] || null, rows: Launcher.closestRoles(ix, fits.filter(f => ids.includes(f.roleId)), 3) };
+  }
+  async function skillsScreen() {
+    const C = Launcher.COPY;
+    crumbs([["Home", "#/home"], [C.heading, null]]); showAside(null);
+    page(`<h1>${esc(C.heading)}</h1><p class="lead">Loading the roles…</p>`);
+    const ix = await Atlas.index(); await Atlas.product().catch(console.error);   // the Product tile carries its roles
+    const here = () => Routes.parseRoute(location.hash).name === "skills";
+    if (!here()) return;
+    const F = Launcher.fields(ix), q0 = Routes.parseRoute(location.hash).query;
+    const s = { q: q0.q || "", field: F.some(f => f.id === q0.field) ? q0.field : null, change: false };
+    const writeHash = () => { const p = new URLSearchParams(); if (s.q.trim()) p.set("q", s.q.trim()); if (s.field) p.set("field", s.field); const next = "#/skills" + (p.toString() ? "?" + p : ""); if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next); };
+    // ---- the left two thirds: the search, the tiles, a field's roles ----
+    const row = (r, withField) => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(Launcher.fill(C.open, { open: fmt(r.nOpen) }))}</span><span class="m">${withField && r.field ? esc(r.field.label) + " · " : ""}${r.asks.length ? esc(Launcher.fill(C.asks, { asks: r.asks.join(", ") })) : ""}</span></a>`;
+    const tiles = on => `<div class="fcards lf-tiles">${F.map(f => `<button type="button" class="fcard${on === f.id ? " on" : ""}" data-field="${esc(f.id)}" aria-pressed="${on === f.id}"><span class="t">${esc(f.label)}</span><span class="n">${esc(Launcher.fill(C.tile, { roles: f.roles.length, open: fmt(f.nOpen) }))}</span></button>`).join("")}</div>`;
+    const left = () => {
+      if (s.q.trim()) { const hits = Launcher.searchRoles(ix, s.q); return hits.length ? `<p class="lf-lab">${esc(Launcher.hitsLine(hits.length))}</p><div class="list">${hits.map(r => row(r, true)).join("")}</div>` : `<p class="lf-lab">${esc(C.noHit)}</p>${tiles(null)}`; }
+      const f = F.find(x => x.id === s.field);
+      return `<p class="lf-lab">${esc(C.pickField)}</p>${tiles(s.field)}${f ? `<section class="lf-field"><h2>${esc(f.label)}</h2><p class="small muted">${esc(Launcher.fill(C.fieldLine, { roles: f.roles.length, open: fmt(f.nOpen) }))}</p><div class="list">${f.roles.map(r => row(r, false)).join("")}</div></section>` : ""}`;
+    };
+    // ---- the right third: the résumé form, or the light match once it is read ----
+    let light = null;   // closestFits for the résumé on file
+    const you = `<p class="small muted lf-you"><a href="#/you">${esc(C.you)}</a></p>`;
+    const right = () => {
+      if (!state.resume || s.change) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2><p class="small muted">${esc(C.resume.privacy)}</p>${resumeForm()}<p><button type="button" class="btn primary" id="lf-read">${esc(C.resume.read)}</button></p>${you}</section>`;
+      const onFile = `<p class="small muted">${esc(state.resume.name)} · ${esc(C.resume.onFile)} · <button type="button" class="linkish link" id="lf-change">${esc(C.resume.change)}</button></p>`;
+      if (!light || light.text !== state.resume.text) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}<p class="small muted">${light && light.failed ? "Could not read it against the roles. Reload the page to try again." : "Reading it against the closest roles…"}</p>${you}</section>`;
+      const top = light.chosen; if (!top) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}<p class="small muted">No role reads close to it yet. Pick a role on the left and open your fit there.</p>${you}</section>`;
+      const L = Launcher.matchLines(top);
+      return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}
+        ${L.bandLabel ? `<p><b>${esc(L.bandLabel)}</b> for ${esc(top.label)}.</p>` : ""}
+        <p>${esc(L.line)}</p>
+        <p><a class="btn primary" href="#/role/${esc(top.roleId)}/fit">${esc(L.fitLink)}</a></p>
+        ${light.rows.length ? `<h3>${esc(C.resume.closest)}</h3><div class="list">${light.rows.map(x => `<a class="r" href="#/role/${esc(x.id)}/fit"><span class="t">${esc(x.label)}</span><span class="n">${x.n} of ${x.m}</span></a>`).join("")}</div><p class="small muted">${esc(C.resume.ranked)}</p><p class="small muted">${esc(C.resume.opens)}</p>` : ""}
+        ${you}</section>`;
+    };
+    const wireLeft = () => main.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { s.field = s.field === b.dataset.field ? null : b.dataset.field; s.q = ""; $("#lf-q").value = ""; drawLeft(); });
+    const drawLeft = () => { $("#lf-body").innerHTML = left(); wireLeft(); writeHash(); };
+    const wireRight = () => {
+      if ($("#drop")) { wireResumeForm(); $("#lf-read").onclick = async () => { if (await takeResume()) { s.change = false; drawRight(); } else $("#file-status").textContent = "Add a file or paste some text first."; }; }
+      const ch = $("#lf-change"); if (ch) ch.onclick = () => { s.change = true; drawRight(); };
+    };
+    const drawRight = () => {
+      $("#lf-side").innerHTML = right(); wireRight();
+      if (state.resume && !s.change && (!light || light.text !== state.resume.text)) { const text = state.resume.text; closestFits(ix).then(res => { if (!here() || !state.resume || state.resume.text !== text) return; light = res; drawRight(); }).catch(e => { console.error(e); if (here()) { light = { text, failed: true, chosen: null, rows: [] }; $("#lf-side").innerHTML = right(); wireRight(); } }); }
+    };
+    page(`<h1>${esc(C.heading)}</h1><p class="lead lf-lead">${esc(Launcher.lead(ix))}</p>
+      <div class="lf"><section class="lf-main" aria-label="Roles"><input type="search" class="lf-q" id="lf-q" value="${esc(s.q)}" placeholder="${esc(C.search)}" aria-label="${esc(C.searchLabel)}" autocomplete="off"><div id="lf-body"></div></section><div class="lf-side" id="lf-side"></div></div>`);
+    main.firstElementChild.classList.add("wide", "lf-page");
+    let timer = null;
+    $("#lf-q").oninput = e => { clearTimeout(timer); timer = setTimeout(() => { s.q = e.target.value; drawLeft(); }, 150); };
+    drawLeft(); drawRight();
+  }
+
+  // ---------- 1c. Networking (v19 B5, owner's pick N6): who to meet for one role ----------
+  // The pure parts are web/network.js. Left two thirds: the role (every role, grouped by field), the people types as
+  // tabs (five for everyone; "Faculty on campus" sixth when the door's address opens Cornell), who to look for, where
+  // to find them, the intake box. Right third, sticky and scrolling inside itself: the prep card for the type on (the
+  // company or the professor, the opener, three questions, what to listen for, the draft to copy, Add to my list), then
+  // the list of planned chats (localStorage network.list; never sent). The employers are the role's open postings
+  // counted across its field (Atlas.fieldJobs); with a résumé the fit is the matcher's, as the rail reads it
+  // (matchRole). The hash keeps role, type and target (replaceState). No event is sent from here.
+  // Network on campus, for a Cornell email: the professors come from the class picker's public roster
+  // (Catalog.loadCatalog), each with the classes they teach this term and, with a résumé, the gaps of this role those
+  // classes cover, read the way classes.js reads a card (Catalog.cardTags, gapsCovered, instructorGaps).
+  const LIST_KEY = "network.list";
+  const listGet = () => { const l = store.get(LIST_KEY); return Array.isArray(l) ? l : []; };
+  const fieldJobsCache = {};
+  const fieldJobsOf = gid => fieldJobsCache[gid] ||= Atlas.fieldJobs(gid).catch(e => { delete fieldJobsCache[gid]; console.error(e); return []; });
+  let rosterP = null;
+  const roster = () => rosterP ||= Promise.all([Catalog.loadCatalog(), Atlas.genericSkills().catch(() => new Set())]).then(([data, generic]) => { const cards = Catalog.collapse(data); return { data, generic, cards, reads: Object.fromEntries(cards.map(c => [c.key, Catalog.cardTags(c, data.tags)])) }; }).catch(e => { rosterP = null; throw e; });
+  async function campusProfs(gaps) {
+    const { data, generic, cards, reads } = await roster();
+    const covered = gaps ? Object.fromEntries(cards.map(c => [c.key, Catalog.gapsCovered(reads[c.key].teaches, gaps, generic)])) : {};
+    return data.professors.map(p => { const mine = Catalog.instructorCards(cards, { slug: p.slug, name: p.name }); return { slug: p.slug, name: p.name, title: p.title, affiliation: p.affiliation, codes: [...new Set(mine.flatMap(c => c.codes))], gaps: gaps ? Catalog.instructorGaps(mine, covered).map(g => ({ id: g.id, name: g.name })) : [] }; })
+      .filter(p => p.codes.length).sort((a, b) => b.gaps.length - a.gaps.length || a.name.localeCompare(b.name));
+  }
+  // the role to open with: the one chosen elsewhere, else the top role of the field the answers and résumé point to,
+  // else of the biggest field
+  async function defaultRole(ix) {
+    const ff = (state.you || state.resume) ? await fitFields().catch(() => null) : null;
     const first = ff && [...ff.fields][0];
-    const biggest = ix.groups.filter(g => g.nOpen != null).sort((a, b) => b.nOpen - a.nOpen)[0];
-    return eventScreen(first || (biggest && biggest.id));
+    const g = ix.groups.find(x => x.id === first) || ix.groups.filter(x => x.nOpen != null).sort((a, b) => b.nOpen - a.nOpen)[0] || ix.groups[0];
+    const roles = g.roles.map(id => ix.roles[id]).filter(Boolean).sort((a, b) => b.nOpen - a.nOpen);
+    return roles.length ? roles[0].id : Object.keys(ix.roles)[0];
+  }
+  async function networkScreen() {
+    const C = Network.COPY;
+    crumbs([["Home", "#/home"], ["Networking", null]]); showAside(null);
+    page(`<h1>${esc(C.heading)}</h1><p class="lead">Loading the roles…</p>`);
+    const ix = await Atlas.index(); await Atlas.product().catch(console.error);
+    const here = () => Routes.parseRoute(location.hash).name === "network";
+    if (!here()) return;
+    const cornell = Door.opens(doorKept().email), types = Network.types(cornell);
+    const q = Routes.parseRoute(location.hash).query, roleOk = id => !!(id && ix.roles[id]);
+    const s = { role: q.role, type: q.type, key: q.target || null };
+    if (!roleOk(s.role)) { let r = chosenRole(); if (r && !roleOk(r)) r = Atlas.productKey(r); s.role = roleOk(r) ? r : await defaultRole(ix); }
+    if (!types.some(t => t.id === s.type)) s.type = types[0].id;
+    const H = { professor: "#/professor/", classes: "#/classes", skills: "#/skills" };
+    const groups = ix.groups.map(g => ({ g, roles: g.roles.map(id => ix.roles[id]).filter(Boolean).sort((a, b) => b.nOpen - a.nOpen) })).filter(x => x.roles.length);
+    const writeHash = () => { const p = new URLSearchParams({ role: s.role, type: s.type }); if (s.key) p.set("target", s.key); const next = "#/network?" + p; if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next); };
+    let token = 0;
+    // the context for the role on: the role file, the field's postings, the fit, the professors
+    const load = async () => {
+      const t = ++token;
+      const R = await Atlas.role(s.role); const fieldJobs = await fieldJobsOf(R.role.group);
+      const m = state.resume ? await matchRole(s.role).catch(e => { console.error(e); return null; }) : null;
+      let profs = [], rosterFailed = false;
+      if (cornell) { try { profs = await campusProfs(m ? gapRows(rowsOf(m.r), m.R) : null); } catch (e) { console.error(e); rosterFailed = true; } }
+      const rg = state.resume && !m ? await rough().catch(() => null) : null;
+      if (t !== token) return null;
+      return { R, K: Network.ctx(ix, R, m ? m.r : null, { cornell, shown: rg ? rg.shown : null, profs, fieldJobs, core: Atlas.TIER.core }), rosterFailed, read: !!m };
+    };
+    let X = null;
+    const draw = () => {
+      const { R, K, rosterFailed, read } = X, role = R.role, type = Network.typeOf(s.type);
+      const targets = Network.targetsOf(s.type, K);
+      if (targets.length && !targets.some(t => t.key === s.key)) s.key = targets[0].key;
+      if (!targets.length) s.key = null;
+      const target = targets.length ? targets.find(t => t.key === s.key).row : null;
+      writeHash();
+      const W = Network.who(s.type, K), outs = Network.where(s.type, K, H, s.type === "faculty" ? target : null), S = Network.say(s.type, K, target);
+      const lead = read ? esc(Network.lead(K)) : `These people can help with the skills most ${esc(role.label)} postings ask for. <a href="#/you">Add your résumé</a> to see which you show.`;
+      const roleSel = `<label class="dlabel nw-role">${esc(C.role)}<select id="nw-role">${groups.map(({ g, roles }) => `<optgroup label="${esc(g.label)}">${roles.map(r => `<option value="${esc(r.id)}"${r.id === role.id ? " selected" : ""}>${esc(r.label)}</option>`).join("")}</optgroup>`).join("")}</select></label>`;
+      const tabs = `<div class="tabs nw-tabs" role="tablist">${types.map(t => `<button type="button" role="tab" class="${t.id === s.type ? "on" : ""}" aria-selected="${t.id === s.type}" data-type="${esc(t.id)}">${esc(t.label)}</button>`).join("")}</div><p class="small muted nw-good">${esc(type.good)} <span class="facts">${esc(Network.count(s.type, K))}</span></p>`;
+      // who to look for: one line per level, at most five employers, the professors or the skills to split
+      const lv = W.levels.length ? `<ul class="plain nw-lv">${W.levels.map(l => `<li><b>${esc(l.label)}</b> · ${l.titles.map(x => `${esc(x.title)} <span class="muted">(${esc(x.company)})</span>`).join(" · ")}</li>`).join("")}</ul>` : "";
+      const emps = W.employers.length ? `<div class="list nw-emps">${W.employers.map(e => `<div class="r"><span class="t">${esc(e.company)}</span><span class="n">${fmt(e.nOpen)} open</span><span class="m">${esc(e.roles.slice(0, 4).join(", "))}</span></div>`).join("")}</div>` : "";
+      const profRow = p => `<a class="r" href="#/professor/${encodeURIComponent(p.slug)}"><span class="t">${esc(p.name)}</span><span class="n">${p.covers.length ? `${p.covers.length} of ${p.nGaps} gaps` : esc(p.codes.slice(0, 2).join(", "))}</span><span class="m">${esc(p.line)}${p.covers.length ? ` · covers ${esc(p.covers.map(g => g.name).join(", "))}` : ""}</span></a>`;
+      const profs = !W.profs ? "" : W.profs.length ? `<div class="list nw-emps">${W.profs.slice(0, 8).map(profRow).join("")}</div>${W.profs.length > 8 ? `<p class="small muted">${fmt(W.profs.length - 8)} more in the prep card's list.</p>` : ""}` : rosterFailed ? `<p class="small muted">The roster did not load. Reload the page to try again.</p>` : "";
+      const skills = W.skills ? `<div class="tags">${W.skills.map(x => `<span class="tag amber">${esc(x.name)}</span>`).join("")}</div>` : "";
+      const who = `<section class="nw-sec"><h2>${esc(C.who)}</h2><p>${esc(W.lead)}</p>${lv}${W.note ? `<p class="small muted">${esc(W.note)}</p>` : ""}${emps}${profs}${skills}</section>`;
+      const where = `<section class="nw-sec"><h2>${esc(C.where)}</h2><p class="small muted">${esc(C.whereNote)}</p>${outs.length ? `<ul class="nw-outs">${outs.map(o => `<li><a href="${esc(o.href)}"${o.external ? ' target="_blank" rel="noopener"' : ""}>${esc(o.label)}${o.external ? " ↗" : ""}</a><span class="small muted">${esc(o.what)}</span></li>`).join("")}</ul>` : `<p class="small muted">${esc(C.noWhere)}</p>`}</section>`;
+      // the prep card and the list
+      const inList = Network.listHas(listGet(), { role: role.id, type: s.type, key: s.key });
+      const pick = targets.length ? `<label class="dlabel">${esc(s.type === "faculty" ? C.professor : C.company)}<select id="nw-target">${targets.map(t => `<option value="${esc(t.key)}"${t.key === s.key ? " selected" : ""}>${esc(t.label)}</option>`).join("")}</select></label>` : `<p class="small muted">${esc(Network.fill(C.noPick, { role: role.label }))}</p>`;
+      const prep = `<section class="pcard" id="nw-prep"><p class="eyebrow">${esc(C.prep)} · ${esc(role.label)}</p><h2>${esc(type.label)}</h2>${pick}
+        <h3>${esc(C.openWith)}</h3><p class="opener">${esc(S.intro)} ${esc(S.aim)}</p><p class="opener">${esc(S.ask)}</p>
+        <h3>${esc(C.questions)}</h3><ol class="qs">${S.questions.map(x => `<li>${esc(x)}</li>`).join("")}</ol>
+        <h3>${esc(C.listen)}</h3><p class="small">${esc(S.listen)}</p>
+        <h3>${esc(C.message)}</h3><textarea id="nw-draft" rows="8" aria-label="${esc(C.message)}">${esc(Network.draft(S, ""))}</textarea>
+        <p class="acts-row"><button type="button" class="btn primary" id="nw-copy">${esc(C.copy)}</button><span class="small muted" id="nw-copied">${esc(C.edit)}</span></p>
+        <p class="acts-row"><button type="button" class="btn" id="nw-add"${inList ? " disabled" : ""}>${esc(inList ? C.onList : C.add)}</button></p></section>`;
+      const list = listGet();
+      const listHtml = `<section class="widget nw-list"><h2>${esc(C.list)}</h2>${list.length ? list.map((x, i) => `<div class="nw-chat"><span>${esc(Network.typeOf(x.type).label)}${x.label ? " · " + esc(x.label) : ""} <span class="muted">· ${esc((ix.roles[x.role] || {}).label || x.role)}</span></span><button type="button" class="linkish link" data-open="${i}">${esc(C.open)}</button><button type="button" class="linkish link" data-drop="${i}">${esc(C.remove)}</button></div>`).join("") : `<p class="small muted">${esc(C.noChats)}</p>`}<p class="small muted">${esc(C.stays)}</p></section>`;
+      page(`<p class="eyebrow">${esc(Network.fill(C.eyebrow, { role: role.label }))}</p><h1>${esc(C.heading)}</h1><p class="lead">${lead}</p>
+        <div class="nw"><div class="nw-main">${roleSel}${tabs}${who}${where}<div class="fit-wait">${applyBox("network", { always: true, role_id: role.id })}</div></div><aside class="nw-side" aria-label="Prep a chat and your list">${prep}${listHtml}</aside></div>`);
+      main.firstElementChild.classList.add("wide", "nw-page");
+      // ---- the wiring ----
+      wireWait(main, redraw);
+      $("#nw-role").onchange = e => { s.role = e.target.value; s.key = null; reload(); };
+      main.querySelectorAll("[data-type]").forEach(b => b.onclick = () => { s.type = b.dataset.type; s.key = null; redraw(); });
+      const ts = $("#nw-target"); if (ts) ts.onchange = e => { s.key = e.target.value; redraw(); };
+      const ta = $("#nw-draft"), ok = $("#nw-copied");
+      $("#nw-copy").onclick = () => { const done = () => { ok.textContent = C.copied; setTimeout(() => { if (ok.isConnected) ok.textContent = C.edit; }, 2000); }; if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(done, () => { ta.select(); done(); }); else { ta.select(); try { document.execCommand("copy"); } catch { } done(); } };
+      const add = $("#nw-add"); if (add) add.onclick = () => { const t = targets.find(x => x.key === s.key); store.set(LIST_KEY, Network.listAdd(listGet(), { role: role.id, type: s.type, key: s.key, label: t ? t.label.split(" · ")[0] : "" })); redraw(); };
+      main.querySelectorAll("[data-open]").forEach(b => b.onclick = () => { const x = listGet()[+b.dataset.open]; if (!x || !roleOk(x.role)) return; s.role = x.role; s.type = types.some(t => t.id === x.type) ? x.type : types[0].id; s.key = x.key; reload(); });
+      main.querySelectorAll("[data-drop]").forEach(b => b.onclick = () => { const x = listGet()[+b.dataset.drop]; if (x) store.set(LIST_KEY, Network.listRemove(listGet(), x)); redraw(); });
+    };
+    const redraw = () => keepScroll(draw);
+    const reload = () => load().then(r => { if (r && here()) { X = r; redraw(); } }).catch(fail);
+    X = await load(); if (X && here()) draw();
   }
   // a game: its own screen once built; until then, what it will be. A built game is web/games/<slug>.js, loaded
   // by index.html, which registers window.Games[slug] = { mount(el, ctx) } (contract in games/README.md)
@@ -1185,32 +1377,38 @@
     const all = { share: ['<i class="b"></i>', "% of postings that ask for the skill"], defining: ["◆", "sets this role apart from other roles"], grows: ["↗", "asked more at senior levels"], have: ['<i class="b g"></i>', "already on your resume"], gap: ['<i class="b a"></i>', "a gap this role requires"], presumed: ["◌", "presumed from a role you held, not shown on your resume"], known: ["✓", "you got it right in a game"], other: ["⟲", "on your resume in other words; postings say it differently"], through: ["⤷", "a way of working, shown through a skill on your resume"] };
     return `<section class="rs"><h3 class="rh">How to read this</h3><div class="legend">${rows.map(k => `<span class="k">${all[k][0]}</span><span>${all[k][1]}</span>`).join("")}</div></section>`;
   }
-  // The cohort application (v18, step 1): one box everywhere the waitlist was (the rail's three placeholders, the fit
-  // screen's foot, the start screen, the class picker's foot), its copy the pure table Apply beside Stage. The email,
-  // the optional sentence, where the click was and the role on screen go to the waitlist table through web/capture.js,
-  // with the stage, the program group and the fields picked; "Applied" stays in this browser (the sources applied from
-  // are kept in localStorage, never the email or the sentence). The atlas promises nothing it does not do itself.
+  // The intake box (v19 B5; one box everywhere since v18 step 1: the rail's three placeholders, the fit screen's foot,
+  // the launcher, the networking screen, the class picker's foot), its copy the pure table Intake beside Stage. The
+  // email, where the click was and the role on screen go to the waitlist table through web/capture.js when the source
+  // is in its list, with the stage, the program group and the fields picked; the networking box has no source there
+  // yet, so its email stays in this browser (intake.network) and nothing is sent: B7 adds the source. "Got it" stays
+  // in this browser (the sources sent from are kept in localStorage under `waitlist`, the key from before; never the
+  // email). The atlas promises nothing it does not do itself.
   const joined = () => store.get("waitlist") || {};
-  // opts.always: drawn whether or not state.wait names it (the fit screen, the start screen, the picker); opts.role_id:
-  // the role to record instead of the role screen's (the picker's chosen role)
+  const intakeDone = what => what === "network" ? !!store.get("intake.network") : !!joined()[what];
+  // opts.always: drawn whether or not state.wait names it (the fit screen, the launcher, the networking screen, the
+  // picker); opts.role_id: the role to record instead of the role screen's (the picker's chosen role)
   function applyBox(what, opts) {
     opts = opts || {};
     if (!opts.always && state.wait !== what) return "";
-    const done = !!joined()[what];
-    const form = done ? `<p class="small" style="margin:6px 0 0"><b>${esc(Apply.done)}</b></p>` : `<form class="apply-form" data-wait-form="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}><input type="email" required placeholder="you@cornell.edu" aria-label="Your email" autocomplete="email"><input type="text" maxlength="200" placeholder="${esc(Apply.noteLabel)}" aria-label="${esc(Apply.noteLabel)} (optional, 200 characters)" autocomplete="off"><button type="submit" class="btn primary">${esc(Apply.button)}</button></form>`;
-    return `<div class="wait apply"><b>${esc(Apply.heading)}</b><p class="small">${esc(Apply.line)}</p>${form}<p class="small muted" style="margin:6px 0 0">${esc(Apply.privacy)}${opts.always || done ? "" : ' <a href="#/" data-wait-close>Not now</a>'}</p></div>`;
+    const done = intakeDone(what), kept = doorKept().email;
+    const form = done ? `<p class="small" style="margin:6px 0 0"><b>${esc(Intake.done)}</b></p>` : `<form class="apply-form" data-wait-form="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}><input type="email" required placeholder="${esc(Door.COPY.emailPlaceholder)}" aria-label="${esc(Intake.email)}" autocomplete="email" value="${esc(kept)}"><button type="submit" class="btn primary">${esc(Intake.button)}</button></form>`;
+    return `<div class="wait apply"><b>${esc(Intake.heading)}</b><p class="small">${esc(Intake.line[Intake.surfaceOf(what)])}</p>${form}<p class="small muted" style="margin:6px 0 0">${esc(Intake.privacy)}${opts.always || done ? "" : ' <a href="#/" data-wait-close>Not now</a>'}</p></div>`;
   }
   const waitHtml = what => applyBox(what);
-  // the forms inside `el`: on submit the email and the sentence go out once, the box says so, and `redraw` draws the
-  // screen again
+  // the forms inside `el`: on submit the email goes out once (or stays here, for the networking box), the box says so,
+  // and `redraw` draws the screen again
   function wireWait(el, redraw) {
     el.querySelectorAll("[data-wait-form]").forEach(f => f.onsubmit = async e => {
-      e.preventDefault(); const what = f.dataset.waitForm, input = f.querySelector("input[type=email]"), note = f.querySelector("input[type=text]"), btn = f.querySelector("button");
-      if (!input.value.trim()) return; btn.disabled = true; btn.textContent = "Applying…";
-      const ctx = { ...waitCtx(), ...(f.dataset.waitRole ? { role_id: f.dataset.waitRole } : {}), note: note ? note.value : "" };
-      const ok = window.Capture ? await Capture.waitlist(input.value, what, ctx) : false;
-      if (ok) { store.set("waitlist", { ...joined(), [what]: new Date().toISOString().slice(0, 10) }); redraw(); }   // the box stays, now saying "Applied"
-      else { btn.disabled = false; btn.textContent = Apply.button; input.setCustomValidity("That did not go through. Check the address and try again."); input.reportValidity(); input.oninput = () => input.setCustomValidity(""); }
+      e.preventDefault(); const what = f.dataset.waitForm, input = f.querySelector("input[type=email]"), btn = f.querySelector("button");
+      if (!input.value.trim()) return; btn.disabled = true; btn.textContent = "Sending…";
+      const ctx = { ...waitCtx(), ...(f.dataset.waitRole ? { role_id: f.dataset.waitRole } : {}) };
+      let ok;
+      if (window.Capture && Capture.SOURCES.includes(what)) { ok = await Capture.waitlist(input.value, what, ctx); if (ok) store.set("waitlist", { ...joined(), [what]: new Date().toISOString().slice(0, 10) }); }
+      else if (what === "network") { store.set("intake.network", input.value.trim()); ok = true; }   // no source in capture.js for this box yet: B7 adds it, and this line then goes through Capture.waitlist
+      else ok = false;
+      if (ok) redraw();   // the box stays, now saying "Got it"
+      else { btn.disabled = false; btn.textContent = Intake.button; input.setCustomValidity("That did not go through. Check the address and try again."); input.reportValidity(); input.oninput = () => input.setCustomValidity(""); }
     });
   }
   // the open postings of this view that ask for a skill, as links (decision 8 of the pass: shown to a person with a resume)
@@ -1259,7 +1457,7 @@
     const gapsHtml = coreGaps.length ? `<h3 class="rh" style="margin-top:14px">Needs more evidence</h3><ul class="gaps">${coreGaps.map(gapRow).join("")}</ul>${waitHtml("show")}${bandNext && bandNext !== band ? `<p class="small muted" style="margin-top:8px">Evidence ${coreGaps.length === 1 ? "that one" : "the top three"} and your resume reads as “${bandName(bandNext)}”.</p>` : ""}${classesBlock}` : `<p class="small muted" style="margin-top:10px">Nothing important missing: you show every skill most postings ask for.</p>`;
     const n = fit.evid.length + fit.trans.length;
     const you = `<section class="rs"><h3 class="rh">Your fit · ${esc(state.resume.name)} · <a href="#/you?step=3">change</a></h3>${scale}${postingLine}${line}${gapsHtml}<p style="margin-top:12px"><a href="#/role/${esc(role.id)}/fit">See all ${n} ${n === 1 ? "skill" : "skills"} on your resume, matched to this role →</a></p></section>`;
-    return legend + you + acts(`${coreGaps.length ? `<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(coreGaps.slice(0, 8).map(x => x.id).filter(k => R.skillById[k]).join(","))}">Practise your gaps <span>· 2 min</span></a>` : ""}<a href="#/" data-wait="build">Build these skills <span>· Cohort 1</span></a><a href="#/" data-wait="ways">Ways to show your skills <span>· Cohort 1</span></a>${waitHtml("build")}${waitHtml("ways")}`);
+    return legend + you + acts(`${coreGaps.length ? `<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(coreGaps.slice(0, 8).map(x => x.id).filter(k => R.skillById[k]).join(","))}">Practise your gaps <span>· 2 min</span></a>` : ""}<a href="#/" data-wait="build">Build these skills <span>· coming soon</span></a><a href="#/" data-wait="ways">Ways to show your skills <span>· coming soon</span></a>${waitHtml("build")}${waitHtml("ways")}`);
   }
   function wireRail() {
     if ($("#drop")) { wireResumeForm(); const b = $("#rail-read"); if (b) b.onclick = async () => { if (await takeResume()) { state.fit = null; keepScroll(renderRole); } else $("#file-status").textContent = "Add a file or paste some text first."; }; }
@@ -1485,28 +1683,40 @@
   const niceDate = d => { const [y, m, day] = String(d || "").split("-"); const names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; return m && day ? `${Number(day)} ${names[Number(m) - 1]} ${y}` : esc(d); };
   // employers by where they come from: the Fortune 500 list, venture-backed startups, and the employers added for the MBA set
   const origins = cs => { const n = { fortune: 0, startup: 0, mba: 0 }; for (const c of cs) n[c.group === "startup" ? "startup" : c.group === "mba_employer" ? "mba" : "fortune"]++; return n; };
+  // About (v19 B5): what the site is (the four verbs), what it counts (from the data), how it reads a posting, and
+  // privacy (the funnel events, the list kept true to web/capture.js EVENTS; the email; nothing uploaded leaves)
   async function about() {
-    const ix = await Atlas.index();
-    crumbs([["About the data", null]]); showAside(null);
-    const M = ix.M, o = origins(M.meta.companies);
-    const top = (cs, n) => cs.slice().sort((a, b) => b.n - a.n).slice(0, n).map(c => `${esc(c.name)} <span class="muted">${fmt(c.n)}</span>`).join(" · ");
-    const fact = (n, l) => `<div class="fact"><b>${n}</b><span>${l}</span></div>`;
-    let productPart = `<p class="small muted">Loading the product set…</p>`;
-    const render = () => page(`<div id="about"><h1>About the data</h1>
-      <p class="lead">Every number here comes from job postings on employers' own careers pages, refreshed every week. The business roles show postings in the United States.</p>
-      <div class="about-facts">${fact(fmt(M.meta.n_open), "open US postings")}${fact("50", "business roles")}${fact(fmt(M.meta.n_companies), "employers")}${fact(niceDate(M.meta.generated), "last refresh")}</div>
-      <h3>Where the postings come from</h3>
-      <p class="small">${fmt(o.fortune)} Fortune 500 companies, ${fmt(o.startup)} venture-backed startups, and ${fmt(o.mba)} employers that MBA students target: banks, consulting firms, investment funds, real-estate and consumer-goods companies.</p>
+    const [ix, jm] = await Promise.all([Atlas.index(), jobsMeta()]);
+    crumbs([["About GradBuddy", null]]); showAside(null);
+    const M = ix.M, o = origins(M.meta.companies), n = homeCounts(ix, jm);
+    const top = (cs, k) => cs.slice().sort((a, b) => b.n - a.n).slice(0, k).map(c => `${esc(c.name)} <span class="muted">${fmt(c.n)}</span>`).join(" · ");
+    const fact = (v, l) => `<div class="fact"><b>${v}</b><span>${l}</span></div>`;
+    let nClasses = null, productPart = `<p class="small muted">Loading the product set…</p>`;
+    const term = (window.ClassScreens && ClassScreens.termLabel()) || "Spring 2027";
+    const render = () => page(`<div id="about"><h1>About GradBuddy</h1>
+      <p class="lead">GradBuddy helps grad students find the right jobs, build the skills those jobs ask for, and meet the right people. Four things to do here, all built from live job postings.</p>
+      <h3>Find jobs</h3>
+      <p class="small">One search over every open US posting we hold, for both role sets. With a résumé on file, each posting says how many of its skills you show.</p>
+      <h3>Explore roles &amp; build skills</h3>
+      <p class="small">Every role by field, with the skills most of its postings ask for. Your résumé is read in your browser against them, and the fit says which skills are gaps.</p>
+      <h3>Find classes</h3>
+      <p class="small">The ${esc(term)} roster at Cornell Tech, read against the roles you want. Each class says which of your gaps it covers.</p>
+      <h3>Networking</h3>
+      <p class="small">Who to meet for one role, from the postings: hiring managers, people in the role, recruiters, alumni and classmates. A prep card gives you an opener, three questions and a message to copy.</p>
+      <h3>What we count</h3>
+      <div class="about-facts">${fact(fmt(n.nOpen), "open US postings")}${fact(fmt(n.nCompanies), "employers")}${fact(fmt(n.nRoles), "roles")}${fact(nClasses == null ? "—" : fmt(nClasses), `${esc(term)} classes`)}</div>
+      <p class="small">Every number comes from job postings on employers' own careers pages, refreshed every week; the last refresh was ${niceDate(M.meta.generated)}. The business roles show postings in the United States: ${fmt(o.fortune)} Fortune 500 companies, ${fmt(o.startup)} venture-backed startups, and ${fmt(o.mba)} employers that MBA students target.</p>
       ${disc("about-top", "Employers with the most postings", `<p>${top(M.meta.companies, 15)}</p>`)}
       <h3>How we read a posting</h3>
       <p class="small">Keyword rules read each posting against one list of skills. A share is the fraction of postings in the current view that ask for a skill. One employer counts for at most 5% of a role. A posting the employer takes down is closed: it is no longer listed, and it stays in the shares for a year.</p>
-      <h3>What is ours</h3>
       <p class="small">Sub-skills, level ladders and build steps are editorial. Every quoted sentence comes from a posting.</p>
-      <h3>What we count</h3>
-      <p class="small">We count which screens a visit reaches (the start, a field, a role, a fit, a course, the classes, a game) under a random id for that browser session, and the emails that apply for the cohort with the role on screen and, if you apply, the sentence you type. No resume, syllabus, pasted posting, skill list or file name is ever sent.</p>
+      <h3>Privacy</h3>
+      <p class="small">We count which screens a visit reaches. Those are the door, Explore, a field, a role, a fit and a course read. Also an event page, the classes, a game, a click to a posting, a résumé read and About you finished. Each count carries a random id for that browser session, your program and stage answers, and the role or field on screen. It never carries text, a skill or a file name.</p>
+      <p class="small">An email typed into a door or a box is kept to send you what we build, with the role on screen. Nothing else is kept with it. Nothing you upload leaves your browser: no résumé, syllabus or pasted posting.</p>
       <h3>Product roles</h3>${productPart}</div>`, true);
     render();
     Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${fmt(G.meta.n_jobs)} open postings worldwide (${fmt(G.jobs.filter(j => j.country === M.meta.country).length)} in the US, the count Explore shows) for ${Object.keys(G.families).filter(f => G.jobs.some(j => j.family === f)).length} product role families at ${fmt(G.meta.n_companies)} companies, refreshed ${niceDate(G.meta.generated)}.</p>${disc("about-top-product", "Companies with the most postings", `<p>${top(G.meta.companies, 15)}</p>`)}`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
+    if (window.Catalog) Catalog.loadCatalog().then(d => { nClasses = d.classes.length; if (location.hash.startsWith("#/about")) render(); }).catch(() => { });
   }
 
   // the footer line: how many postings, and when they were last refreshed

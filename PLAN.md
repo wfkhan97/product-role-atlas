@@ -1286,6 +1286,32 @@ rebuild moves every baseline), so every row's `first_seen` is null until the own
 for both sets and then `jobs_open`; there is no Newest sort until then, as the spec says. No posting carries pay, so
 the screen says nothing about pay.
 
+### B5 — Explore roles & build skills, and Networking (`feat/skills-network`, 2026-10-31)
+
+Built: `#/skills` is the owner's S5 (round 3): a search over every role of both sets (each typed word a prefix of a
+word in the label, so "prod man" finds Product Manager), the field tiles with their role and open counts (four a row
+from 1280 px, three from 900, two below), a field's roles under the tiles with "Most postings ask for" the three
+skills most of its postings name, each a link to the role page; and the right third of the screen for the résumé,
+sticky: the shell's drop with none on file, else the band line, "N of the M skills most <role> postings ask for are
+on your résumé" for the role chosen, the link to the fit, and the three closest roles as "N of M" (the rough fit's
+top three, then the core count per role through the matcher). The pure parts are `web/launcher.js`. `#/network` is
+the owner's N6 (round 3): a role (the one chosen on the site, else the top role of the field the person's program
+points to), the people types as tabs (a hiring manager, someone in the role now, a recruiter, an alum in the role, a
+classmate; faculty on campus sixth when the door's address is a Cornell NetID, read from the public catalog with the
+gaps each professor's classes cover), the left two thirds "Who to look for" (titles by level from the role's postings,
+the five employers with the most open postings) and "Where to find them" (searches built from the data, each with
+what it opens; the professor cards), the right third sticky with the prep card (the company, the opener, three
+questions, what to listen for, the draft the person edits and copies, "Add to my list") and the list kept in the
+browser. No draft names a school: the opener is "I am a grad student." everywhere (the owner's note on round 2). The
+pure parts are `web/network.js`. The `Apply` table is `Intake`: "GradBuddy is coming soon.", one line per surface,
+the email pre-filled from the door, "Notify me", "Got it. We will be in touch.", the privacy line; no screen says
+cohort, paid, Nov 14 or apply. The rail's three placeholders, the fit screen's foot and the picker's foot open it
+with the sources `capture.js` already accepts; the network box keeps its email in the browser until B7's migration
+adds its source. `#/about` says what the site is and what it counts, with no cohort. `evals/stage.mjs` checks the
+intake heading in place of the cohort heading, with the reason at its top. `tests/web/intake.test.mjs`,
+`launcher.test.mjs` and `network.test.mjs` cover the strings and the joins. Left for the editorial pass: the
+"Who to look for" level lines run long for roles with many senior titles.
+
 ## AI-forward roles in the scrape (2026-10-30)
 
 The ask (2026-10-29): add AI transformation roles to the jobs scrape, and the new AI product roles ("Associate Product
