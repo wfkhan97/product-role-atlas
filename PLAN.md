@@ -1181,6 +1181,11 @@ Phase A (nothing in the tree) built a mock kit, a flow map and clickable mocks p
    Round 2 plans it afresh.
 8. **The stage question** ("Where are you in your search?", v16 step 2) stays in About you, step 2 (the owner's
    pick on 2026-10-29, after the round-2 explanation). Nothing on the door, nothing on the launcher.
+9. **The round-2 and round-3 picks (2026-10-31).** Find jobs: J4, search first with counted facets, on the
+   aggregator audit's search spec. Explore roles & build skills: S5, S4 at screen width (roles two thirds of the
+   screen, the résumé the right third). Networking: N6, the any-school "who to meet" frame with N5's prep card in the
+   right third; no draft names a school. Find classes: the tuned matching with the field tie-break, and its cases as
+   evals. The owner: "we're on the right track".
 
 Phase B, one branch and pull request per step, each on the one before: B1 `chore/hosting` (this section opens with
 it), B2 `feat/door-home`, B3 `data/catalog-public` (the owner tests in a preview before anything after it), B4
@@ -1427,6 +1432,15 @@ Instruments' "Product Marketing Engineer" noise in `pmm`.
 
 ## Later
 
+- The next thread after the four verbs (v19, 2026-10-31): the apprentice maps behind a real sign-in (the one place a
+  session is worth its cost); the IE New York switch (its catalog file and `catalog: true`); an events feed for
+  Networking (the intake promises it); the graphs rebuilt for both sets so `first_seen` fills `jobs_open.json` and
+  Find jobs gains a Newest sort (`build_graph`, then `jobs_open`, on a `data/` branch with the baselines).
+- Owner steps the four verbs left open (2026-10-31): apply `pipeline/sql/2026-10-31_doors.sql` on the catalog
+  project before #125 merges; fill `TALLY.door` and `TALLY.intake` in `web/config.js` with the two form ids (until
+  then the native forms render); create the Vercel project (README, "Hosting").
+- The Supabase URL and key stay in `web/config.js` for `capture.js` alone (v19 B3 removed the client); if capture
+  moves to Tally's own counts, both can go.
 - The editorial pass over the data strings (`evals/copy_baseline.md` lists them): role and skill names with abbreviations (PRDs, OKRs, P&L), long blurbs, passive lines.
 - The class matching's next lever (2026-10-31): five known failures in `evals/classes/` share one shape, one small gap carrying a class the role does not need. Try a per-line score or a cap on how much a single small gap counts; a floor on the relevance band sank a right answer and is not it.
 - An "Open now / Last 12 months" switch on the field page and the role page; first the product graph keeps its
@@ -1435,9 +1449,8 @@ Instruments' "Product Marketing Engineer" noise in `pmm`.
   fallback for the 98 product skills; a reader-judged line per skill is GradBuddy's synthesis, not an atlas fact.
 - `evals/run_depth.py` has 28 failures on `main` since the 2026-10-25 refresh (sub-skill shares outside the 5% to 50%
   band on the new postings): a `pipeline.depth_publish` rerun on a `data/` branch, with the baseline.
-- The application boxes ("Help me show this", "Build these skills", "Ways to show your skills", the fit screen, the
-  start screen, the picker) are the cohort application since v18 step 1 (a waitlist sign-up from v16 step 1 until
-  then); the journeys behind them are GradBuddy's. The price is not on the box: the owner states it in his reply.
+- ~~The application boxes are the cohort application (v18 step 1)~~: since v19 B5 they are the coming-soon intake
+  ("GradBuddy is coming soon.", an email, Notify me); the journeys behind them are GradBuddy's.
 - American spelling in the data: the display-time map (`Atlas.us`, v16 step 5) is on; the regeneration with an
   American rule in `depth_gen` and the taxonomy names (`run_depth.py`, `extraction_baseline_mba.md`) is still a
   `data/` branch.
@@ -1455,11 +1468,8 @@ Instruments' "Product Marketing Engineer" noise in `pmm`.
 - IE New York in the picker (v18, step 3): before `catalog: true` for `ienyc`, `Catalog.loadCatalog` must read
   `classes` filtered on the new `campus` column (one line; the campus id is in the campus file), or both campuses'
   rows show in one picker. Then the owner applies `db/schema_ienyc.sql`, runs the loader and flips the flag.
-- IE New York sign-in: the student email domain is not on any public page (staff are `@ienyc.edu`; the catalog says
-  students get an "IENYC email address" on Microsoft 365); confirm with IT@ienyc.edu or one student, then set
-  `signin_domains`. Until then IE students see "Sign-in for IE New York is not open yet".
-- The price on the cohort application box: never shown (v18); the owner states it in his reply. Revisit only if the
-  owner decides otherwise.
+- ~~IE New York sign-in~~: sign-in is gone (v19 B3); the IE roster opens with its catalog file, no domain needed.
+- ~~The price on the cohort application box~~: the box is gone (v19 B5).
 - Frozen with the fit flow (2026-10-26): the fit screen, the role rail, Explore, About you and the games get no new
   work (v18); these stay listed so the reasoning is not lost, not as work to pick up.
   - The field chart's lanes with a resume read as two skew lines (the share orders both); a better second axis now that

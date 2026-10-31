@@ -9,10 +9,11 @@ browser except what the privacy rule at the end names.
 
 **Stable** (a change is a new version and a PLAN.md section): skill ids, sub-skill ids, role ids, field (group) ids,
 the kinds table and the forms table, the row statuses, the tier names, the band names, the file paths below, the
-function signatures below. **Not stable** (they move with every data refresh and every editorial pass): shares and
-counts, the generated dates, the postings in a role file, the editorial strings (`what`, `reads_as`, `line`, ladders,
-build steps, blurbs), the patterns, the band cut points. Read ids and statuses as keys; read numbers and sentences as
-today's values.
+function signatures below, the column order and the flag bits of a posting row in `jobs_open.json`, the class and
+professor columns of the catalog file. **Not stable** (they move with every data refresh and every editorial pass):
+shares and counts, the generated dates, the postings in a role file, the rows of the open postings file, the roster
+rows, the tag lists, the editorial strings (`what`, `reads_as`, `line`, ladders, build steps, blurbs), the patterns,
+the band cut points. Read ids and statuses as keys; read numbers and sentences as today's values.
 
 ## The MBA index: `web/data/graph_mba.json`
 
@@ -120,14 +121,125 @@ area with the behaviours in one last panel), `Atlas.carriers(R, jobs, skillId)`,
 `Atlas.roughFit(text)` (a resume against every role from the index alone), `Atlas.us(text)` (American spelling on
 screen; `web/data/spelling_us.json`), `Atlas.fieldKeys(R)`. In node: `require("web/atlas.js")({ load, Matcher })`.
 
+## The open postings: `web/data/jobs_open.json`, `jobs_meta.json`
+
+Every open US posting of both role sets in one file, for Find jobs (`#/jobs`; PLAN.md v19, step B4). Written by
+`.venv/bin/python -m pipeline.jobs_open` from the committed graphs after `build_graph`; `run_all.sh` and the refresh
+workflows run it. No network, no model: the same graphs give the same bytes. Only `#/jobs` loads the file (7.4 MB
+raw, 1.8 MB gzipped); home reads `jobs_meta.json`, the counts alone.
+
+**What is in it.** Every product posting is open: `graph.json` drops closed ones. A product posting is in when its
+country is `United States`. An MBA posting is in when its row in `graph_mba/<role id>.json` has `open` true and the
+country of the index's `meta`. At the Oct 25 graphs: 31,965 rows (6,015 product, 25,950 MBA), 1,508 companies, 56
+roles. No pay (no posting carries one), no posting date, no snippet, no sub-skills, no years of experience.
+
+**The shape.** Column-oriented. The tables are lists, and a row indexes into them:
+
+- `companies[]`: `{ name, group, sector, url_prefix }` (`url_prefix` is the longest common prefix of the company's
+  URLs, cut at a `/`; `""` when there is none).
+- `locations[]`, `titles[]`: strings. `roles[]`: the site's role ids (`product.<family>` for the product set);
+  `role_labels` names each one.
+- `skill_ids[]`: the union of both sets' ids, sorted, so a row's skills decode without the graphs.
+- `levels` (`product`, `mba`: the eight level ids of each set), `level_labels` (the same, with words), `flags` (the bit
+  names below), `generated`, `country`.
+- `rows[]`, sorted by set then by number. Each row is, in this order:
+  `[num, companyIdx, roleIdx, titleIdx, levelIdx, locationIdx, flags, skills, url, firstSeen]`. `levelIdx` indexes
+  `levels[<set>]`; `skills` are indexes into `skill_ids`, sorted; `url` is the posting's URL after its company's
+  `url_prefix`; `firstSeen` is a date or null.
+- The flag bits: `1` MBA set (clear for the product set), `2` internship, `4` remote, `8` MBA entry, `16` bachelor's
+  entry (`pre_mba`), `32` says it sponsors a visa, `64` says it does not.
+
+`Jobs.rowsOf(file)` (`web/jobs.js`; `require("web/jobs.js")` in node) expands the file once into row objects:
+`{ id, set, role, title, company, group, sector, level, entry, intern, location, remote, sponsorship, url, skills,
+first_seen }`. The id is `p<num>` for a product posting, where `num` is its index into `graph.json` `jobs`. It is
+`m<num>` for an MBA posting, where `num` is its row id in the role file. So a row joins back to the graphs. `set` is
+`product` or `mba`; `entry` is `mba` · `pre_mba` · null; `sponsorship` is `yes` · `no` · null; `url` is whole again;
+`skills` stay indexes into `file.skill_ids`. `first_seen` is null on every row today: `build_graph` carries it into
+the MBA role rows from v19 on, but the graphs on disk predate that. It fills once `build_graph` runs for both sets and
+`jobs_open` runs after them. There is no "newest" order until then.
+
+`jobs_meta.json`: `{ generated, n_open, n_companies, by_set: { product: { n_open, n_companies }, mba: { … } }, n_roles }`.
+
+**Stable**: the two paths, the key names of both files, the order of a row's ten columns, the flag bits and their
+names, the id forms `p<n>` and `m<n>`, the keys of a `rowsOf` row. **Not stable**: the counts, the order of the tables
+(first-seen order), `generated`, the strings in `titles` and `locations`, and `first_seen`, which turns from null to a
+date at the next rebuild.
+
+## The catalog as public files: `web/data/catalog/cornell_tech.json`, `cornell_tech_tags.json`
+
+The Spring 2027 roster the class picker reads (`#/classes`; PLAN.md v19, step B3). Two static files, committed; no
+database, no session. The campus entry in `sp27_campus.json` names them (`catalog_file`, `tags_file`). A second
+campus is a second pair of files, never a code change.
+
+**`cornell_tech.json`** (about 660 KB): `_note`, `campus`, `term`, `generated`, `rosterDate` (the last rescrape), and
+the tables:
+
+- `classes[]`, one row per class code, with the columns the picker selects (`Catalog.CLASS_COLS`), in this order:
+  `code`, `subject`, `catalog_nbr`, `title`, `career`, `description`, `outcomes`, `prereq`, `credits`,
+  `grading_basis`, `location_scope`, `eligibility_category`, `enrollment_limited_to`, `also_in_ithaca`, `roster_url`,
+  `roster_syllabus_read`, `sp27_instructor_matches_syllabus`, `grading_summary`, `last_scraped`.
+- `crosslists[]`: `{ code, other_code }` (an `other_code` outside the file can occur; the picker drops it).
+- `sections[]`: `class_nbr`, `class_code`, `component`, `section`, `location`, `instruction_mode`, `topic`,
+  `open_status`, `start_dt`, `end_dt`, `session`, `credits`, `notes`. `meetings[]`: `id`, `class_nbr`, `pattern`,
+  `time_start`, `time_end`, `facility`.
+- `instructors[]`: `{ class_code, instructor_name, professor_slug, term }` (`professor_slug` null when the person has no
+  profile). `priors[]`: `{ class_code, term, title, instructors, locations, sections }`, the earlier offerings.
+- `professors[]` (`Catalog.PROF_COLS`): `slug`, `name`, `identity`, `title`, `affiliation`, `expertise`,
+  `official_profile_url`, `personal_site_url`, `scholar_url`, `linkedin_url`, `profile_md`.
+
+**Never in it**: `roster_syllabus_md` (the prior-term syllabus digest, matcher input only) and `research_note_md`. The
+export asserts that neither name appears in the public text, and `tests/web/catalog_files.test.mjs` checks it again.
+The digest lives only in `web/data/local/catalog_full.json`, gitignored, on the machine that ran the export.
+
+**`cornell_tech_tags.json`** (about 40 KB): `_note`, `campus`, `term`, `generated`, `rule`, `taxonomy_sha256`,
+`taxonomy_product_sha256`, and `tags`: per class code, `{ found: [skill ids], teaches: [skill ids] }`. `found` is every
+skill the class text (description, outcomes and the digest) names outright. `teaches` is the subset of a kind a class
+can teach: `method`, `technical`, `knowledge`, `tool`, as `Atlas.readCourse` splits them. So a behaviour or a practice
+the text names is in `found` and never in `teaches`. The strength rule: a skill stays only when the text names it
+(strength 1 or more); a sub-skill hint alone does not count. The two hashes are the sha256 of `web/data/taxonomy_mba.json`
+and `web/data/taxonomy.json` at the time of the tags run. A mismatch with the files on disk means the taxonomy changed
+after that run. The test then fails ("stale tags: rerun node pipeline/catalog_tags.mjs"). A reader should treat the
+tag lists as stale, since an id may have moved or gone.
+
+**Rebuilt by** two commands, in this order, never by hand (CLAUDE.md). `.venv/bin/python -m pipeline.catalog_export
+[path to SP27_cornell_tech]` runs the catalog's own loader in its dry-run mode on the research folder and writes both
+catalog files. Then `node pipeline/catalog_tags.mjs` reads the local copy and writes the tags. The tags also need a
+rerun after any taxonomy change.
+
+**Stable**: the two paths, the table names, the class, section, meeting, instructor, prior and professor columns, class
+codes as keys, `found` and `teaches`, the two hash keys. **Not stable**: the rows (a rescrape), `rosterDate`,
+`generated`, the tag lists (a taxonomy change), the hashes, the text of `profile_md`.
+
 ## The classes: `web/catalog.js`, `web/data/sp27_campus.json`
 
-`sp27_campus.json` is a list under `campuses`; each campus has `id`, `label`, `term`, `term_label`, `programs` (each
-with its v15 group), `relevance` (the thresholds: `high`, `medium`, the share of a role's core and common asks a course
-text names), `signin_domains`, `catalog`. The picker's pure functions (`Catalog.relevanceScore`, `relevanceBand`,
-`gapsCovered`, `sortCards`, `topCovering`, `instructorList`, `matchField`, `instructorGaps`) load in node with
-`require("web/catalog.js")({})`. The roster itself is in
-the `gradbuddy-catalog` Supabase project behind row-level security.
+`sp27_campus.json` is a list under `campuses`; each campus has `id`, `label`, `term`, `term_label`, `pre_enrollment`,
+`programs` (each with its v15 group), `eligibility` (the words per category), `relevance` (the thresholds `high` and
+`medium`: the share of the chosen roles' core and common asks a class names; 0.270 and 0.083 for Cornell Tech),
+`field_subjects` (per field id, the roster subjects whose classes belong to that field: the sorts' tie-break, data not
+code), `catalog` (true once its files exist), `catalog_file` and `tags_file` (the two public files above). There is no
+`signin_domains` any more: the classes path has no sign-in, no Supabase and no row-level security. The picker reads the
+two files and nothing else; `CONFIG.CATALOG_SOURCE` is `"files"`, and the Supabase URL and key in `web/config.js` serve
+`capture.js` alone.
+
+The pure functions load in node with `require("web/catalog.js")({})`:
+
+- `Catalog.relevanceScore(found, rows, generic)` → `{ score, matched }`: the share of the roles' core and common asks
+  (`rows`, `[{ id, name, tier, w }]`) that the tags' `found` names, the generic skills (`Atlas.genericSkills`) at half
+  weight. The screen shows the score as a band, never as a number.
+- `relevanceBand(score, thresholds)` → `low` · `medium` · `high`, by the campus entry's `relevance`.
+- `gapsCovered(teaches, gaps, generic)` → the gap rows the class's `teaches` covers, generic skills left out, core
+  first, then by share.
+- `combineRoles(fits)` → `{ gaps, rows, labels }` for "Match to roles" with several roles: a skill is a gap when any
+  role leaves it open, its weight the sum of those roles' shares over the number of roles, core when core for any;
+  `gaps` is null with no résumé on file.
+- `inField(card, subjects)` and `fieldSubjects(campus, groupIds)`: the field tie-break from `field_subjects`.
+- `sortCards(cards, mode, info, subjects)`: `code` (the roster's order); `relevance` (band, score, field, code); `gaps`
+  (the share of the gaps covered, score, field, code; by score alone when no card covers a gap).
+- `topCovering(cards, info, n, subjects)`: the n classes covering the most gap weight, none that covers nothing.
+- Also `collapse` (cross-lists into one card), `cardTags`, `gradingChip`, `eligibilityLabel`, `matchField`,
+  `instructorList`, `instructorCards`, `instructorGaps`, `meetingLines` and `matcherText`.
+
+The ratings, the roles chosen and the campus stay in the browser.
 
 ## Consumers
 
@@ -151,10 +263,31 @@ inherits the privacy rule below.
 
 ## The privacy rule
 
-What never leaves a browser: the resume, the syllabus, the pasted posting, every skill list, every file name, the
-person's ratings. What leaves it: an email a person types into the cohort application box, with the one sentence they may type
-beside it ("the role you want, in your words", at most 200 characters, the only free text in the capture), the source,
-the role on screen, the stage, the program group and the fields picked (`pipeline/sql/2026-10-25_capture.sql` and
-`2026-10-26_cohort.sql`, `waitlist`); and anonymous funnel events, a name from a closed list of nineteen with a
-per-browser-session random id, the stage, the program group and a role or field id (`events`). A program that reads the atlas inherits the rule: nothing it builds on these
-files may send a person's text anywhere the atlas does not.
+What never leaves a browser: the résumé, the syllabus, the pasted posting, every skill list and skill id, every file
+name, the person's ratings, the roles chosen, the networking list and its drafts. Nothing uploaded leaves the browser.
+No screen asks for a password, and the email is routing, never a credential.
+
+What leaves it, and only this (`web/capture.js`; the tables in `pipeline/sql/2026-10-25_capture.sql`,
+`2026-10-26_cohort.sql` and `2026-10-31_doors.sql`):
+
+- **The door email and the intake email**, one `waitlist` row each: the email, the `source` (where the box was:
+  `door` for the door at `#/`; `intake_skills`, `intake_classes` and `intake_network` for the coming-soon box at a
+  verb's foot; the six sources of before, `show` · `build` · `ways` · `fit` · `start` · `classes`, for the box on the
+  rail, the fit screen and the picker), the `surface` (`door` · `jobs` · `skills` · `classes` · `network`), the role
+  on screen (`role_id`) and, when the screen knows them, the stage and the program group (the door's "What are you
+  studying?" answer rides as the program). The sentence box of v18 ("the role you want, in your words") is on no
+  screen any more; its `note` column stays for the old rows. A second click with the same email and source is not a
+  second row.
+- **Anonymous funnel events**, one `events` row each: a name from the closed list in `capture.js` (the nineteen of
+  before, then `door`, `door_passed`, `home_jobs`, `home_skills`, `home_classes`, `home_network`, `intake_skills`,
+  `intake_classes`, `intake_network`), a random id made once per browser session (`sessionStorage`, never written
+  elsewhere and never joined to an email), the stage, the program group, a role or field id and the surface. An event
+  is a count: it carries no text and no skill id.
+- **The Tally forms** (`web/doors.js`, the ids in `CONFIG.TALLY`): once the owner sets an id, the door and the intake
+  boxes are Tally embeds, and the answer posts to Tally, never through the atlas. The embed carries four hidden fields
+  and nothing more: `surface`, `source`, `role`, `email` (pre-filled from the door). The door's form returns to
+  `#/home?email=…&where=…`, which the screen reads once and removes from the URL. With no id, or when the embed has not
+  loaded in three seconds, the native form sends the same row through `Capture.waitlist`.
+
+Neither path ever sends a résumé, a syllabus, posting text, a skill id or a file name. A program that reads the atlas
+inherits the rule: nothing it builds on these files may send a person's text anywhere the atlas does not.

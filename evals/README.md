@@ -246,7 +246,8 @@ sub-skill shares are measured on the same postings the patterns were drafted fro
 
 ## Game evals
 
-The games on the first-visit screen (`games/`, built in `web/games/`) draw their rounds from the atlas data with
+The games (`games/`, built in `web/games/`; reached from the role pages at `#/play/<slug>` since v19 B2 took the
+start screen away) draw their rounds from the atlas data with
 rules written in their design packages (`games/<slug>/README.md`). Each game keeps its data rules as pure functions
 apart from its screens, so node can run them over every role with no install. Each exits 1 on a rule violation.
 
@@ -457,3 +458,11 @@ this order:
    bands files already record the setting under `scoring.behaviours`; the 48 files on the build machine gave no fall
    (PLAN.md v14, "Decisions settled on the way").
 7. ~~A reader's judgment of the generated lines~~: built as `evals/lines_judged.mjs` (v16 step 6, "Lines judged" above).
+8. **The door funnel.** Door shown → passed → each verb on home, from the `events` rows (`door`, `door_passed`,
+   `home_<verb>`, `intake_<surface>`; v19 B7), once the owner applies `pipeline/sql/2026-10-31_doors.sql`.
+   `pipeline.funnel` prints it. The eval checks that no step's share rises above the step before it. A band for the
+   pass rate comes once a week of sessions exists.
+9. **The jobs fit line against the full matcher.** For the test résumés in `evals/resumes/`, the "N of M" a posting
+   card shows (`Jobs.fitOf`: the posting's tagged skills the résumé's skill set holds) against the matcher's evidenced
+   skills for that posting's role (`m.match` rows at `evidenced`). A skill the card counts must be one the fit screen
+   would show, and the two must never disagree on a core ask.
