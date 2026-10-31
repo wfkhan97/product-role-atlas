@@ -1179,8 +1179,8 @@ Phase A (nothing in the tree) built a mock kit, a flow map and clickable mocks p
    tuned on the test résumés first and the tuned cases become evals (round 2).
 7. **Networking is not event prep.** It is navigating who to meet: hiring managers, people in the role, faculty, alumni.
    Round 2 plans it afresh.
-8. **The stage question** ("Where are you in your search?", v16 step 2) stays in About you, step 2, until the owner
-   picks a place for it.
+8. **The stage question** ("Where are you in your search?", v16 step 2) stays in About you, step 2 (the owner's
+   pick on 2026-10-29, after the round-2 explanation). Nothing on the door, nothing on the launcher.
 
 Phase B, one branch and pull request per step, each on the one before: B1 `chore/hosting` (this section opens with
 it), B2 `feat/door-home`, B3 `data/catalog-public` (the owner tests in a preview before anything after it), B4
@@ -1193,6 +1193,41 @@ Built: README "Hosting" (a Vercel project `gradbuddy-atlas`, root `web`, framewo
 it); `tests/web/assets.test.mjs`, which fails when `web/index.html` names a local script or stylesheet that is not on
 disk, when a path is absolute, when a token import is missing, or when a remote script pins no version. Nothing in
 `web/` changed.
+### B2 — the door and home (`feat/door-home`, 2026-10-29)
+
+Built: the door at `#/` (an empty hash too): "Welcome to GradBuddy.", three short paragraphs on what GradBuddy is,
+that a few pieces are ready to share and what is inside (the role count from the index, rounded down to a multiple
+of 10), then a native form: the email (placeholder `user@school.edu`, not required), "What are you studying?" (the
+five groups of About you's first question), the line that some parts are for Cornell students, Continue and "Skip for
+now". Both buttons keep what was typed in this browser (`door.email`, `door.where`, `door.seen`), a program answer
+fills About you's first question, and the person lands on the deep link they arrived on, else `#/home`. The email
+never goes in the URL and nothing is sent anywhere (B7 adds the Tally form and the events). The pure table `Door`
+beside `Stage` and `Apply` holds every string (`COPY`), the gate (`opens`: a Cornell NetID, two or three letters then
+one to four digits at `cornell.edu`, decision 2), `next`, `bounce` and `verbs`; `tests/web/door.test.mjs` checks them
+and that no string says "sign in", "cohort", "paid" or "apply", uses one of the five banned words, or runs a sentence
+over 20 words. Home at `#/home`: "What do you want to do?" and the four verbs as a 2×2 grid (one column under 640 px),
+each with one line built from the data: Find jobs counts the open US postings of both role sets and the employers
+behind them ("over 25 thousand … from over 1,500 companies", rounded down, the product set added once its file
+arrives), Explore roles & build skills counts the roles, Find classes names Spring 2027 at Cornell Tech and is grayed
+(no link, `aria-disabled`, "For Cornell students for now. Enter a Cornell address to open it.") until the email on
+file opens it, Networking says "faculty on campus" and no more (decision 3). Under the grid, "More about you" to
+`#/you`. The four verbs are the top bar after the brand (Find classes only when the address opens it; the bar says
+"Explore roles" for the second), the current one marked, the brand to home; the breadcrumbs and the theme switch stay.
+A deep link bounces to the door once: any route but the door while `door.seen` is unset draws the door over it, and
+Continue or Skip lands on it. The stage question is nowhere on the door or home: it stays in About you, step 2
+(decision 8). `#/jobs`, `#/skills` and `#/network` exist now so the hrefs never change; until B4 and B5 land, `#/jobs`
+and `#/skills` draw Explore (the fields, then a field's roles: the closest thing to "pick a role" today) and
+`#/network` draws the event screen of the field the person's answers and resume point to, else the biggest field.
+The start screen is gone: its stage cards, the games carousel and its application box; `#/play/<slug>` and the games
+stay reachable from the role pages as before (a game's "Quit" in `gameshell.js` now goes to `#/home`, since `#/` is
+the door). `Stage.startRoute` and the start case of `Stage.firstAction` went with the
+screen, and `evals/stage.mjs` no longer checks a start screen: the reason is at its top, and it keeps every case for
+About you, the rail and the application box on the rail and the fit screen. The door copy's "Inside" sentence is
+the owner's, cut to 19 words. Home's job and company counts come from the MBA index's meta alone: the product set's
+postings sit in a 9 MB file home does not load, and a number that changes once a file arrives reads as broken; B4's
+`jobs_open.json` carries the count of both role sets, and home reads it then. An unknown route now shows home, not the
+first screen.
+
 ## AI-forward roles in the scrape (2026-10-30)
 
 The ask (2026-10-29): add AI transformation roles to the jobs scrape, and the new AI product roles ("Associate Product

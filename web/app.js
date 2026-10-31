@@ -1,39 +1,40 @@
-/* Role atlas — the screens. Routes (hash): #/ start (the games as a grid, then see what jobs ask for) · #/play/<game> · #/you (next step) · #/explore · #/field/<group> · #/role/<role> ·
-   #/about · #/classes, #/professor/<slug>, #/signin (classes.js). Data comes from atlas.js; the side panel (owner's choice 8B) shows a skill or a posting. */
+/* Role atlas — the screens. Routes (hash): #/ the door (welcome, an email, what you study; everyone can skip) · #/home (the four verbs) ·
+   #/jobs, #/skills, #/network (the verbs; until v19 B4 and B5 land they draw the closest screen that exists: see route()) · #/play/<game> ·
+   #/you · #/explore · #/field/<group> · #/role/<role> · #/about · #/classes, #/professor/<slug>, #/signin (classes.js).
+   Data comes from atlas.js; the side panel (owner's choice 8B) shows a skill or a posting. */
 // The route: the hash read into the screen to show, its path parts and its query. Pure, no DOM; UMD like atlas.js,
 // so node loads it alone (tests/web/routes.test.mjs): require("web/app.js").parseRoute.
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();
-  else { root.Routes = factory(); root.Stage = root.Routes.Stage; root.Apply = root.Routes.Apply; }
+  else { root.Routes = factory(); root.Stage = root.Routes.Stage; root.Apply = root.Routes.Apply; root.Door = root.Routes.Door; }
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
-  const SCREENS = { "": "start", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about", classes: "classes", professor: "professor", signin: "signin" };
+  const SCREENS = { "": "door", home: "home", jobs: "jobs", skills: "skills", network: "network", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about", classes: "classes", professor: "professor", signin: "signin" };
   // "#/role/pm/fit?x=1" -> { name: "fit", params: { id: "pm" }, query: { x: "1" }, parts: ["role", "pm", "fit"], search: "x=1" }.
-  // An unknown first part, or a part that cannot be decoded ("%E0"), shows the start screen. `search` is the text
-  // between the first and a second "?", as the screens read it.
+  // An empty hash is the door. An unknown first part, or a part that cannot be decoded ("%E0"), shows home. `search`
+  // is the text between the first and a second "?", as the screens read it.
   function parseRoute(hash) {
     const h = String(hash || "");
     let parts;
     try { parts = h.split("?")[0].replace(/^#\/?/, "").split("/").map(decodeURIComponent); }
-    catch { return { name: "start", params: {}, query: {}, parts: [], search: "" }; }
+    catch { return { name: "home", params: {}, query: {}, parts: [], search: "" }; }
     const [a, b, c] = parts;
     const search = h.split("?")[1] || "";
     const query = Object.fromEntries(new URLSearchParams(search));
-    let name = Object.hasOwn(SCREENS, a || "") ? SCREENS[a || ""] : "start";
+    let name = Object.hasOwn(SCREENS, a || "") ? SCREENS[a || ""] : "home";
     if (name === "field" && c === "event") name = "event";
     if (name === "role" && (c === "fit" || c === "course")) name = c;
     const params = name === "play" || name === "professor" ? { slug: b } : ["field", "event", "role", "fit", "course"].includes(name) ? { id: b } : {};
     return { name, params, query, parts, search };
   }
-  // The stage answer (v15: you.stage) decides what the first screen, About you and the role rail lead with (v16 step 2).
-  // Pure, so evals/stage.mjs can check that for each stage the first action offered is the one the stage asks for:
-  // looking, a resume drop or the fields; targeting, the role search or the gaps; curious, explore or a game.
+  // The stage answer (v15: you.stage) decides what About you and the role rail lead with (v16 step 2). It is asked in
+  // About you, step 2, and nowhere else (v19, decision 8: the start screen that asked it first went with v19 B2; the
+  // door and home never ask it). Pure, so evals/stage.mjs can check that for each stage the first action offered is the
+  // one the stage asks for: looking, a resume drop or the fields; targeting, the role search or the gaps; curious,
+  // explore or a game.
   const STAGES = ["looking", "targeting", "curious"];
   const Stage = {
     STAGES,
-    // where a click on the start screen's stage card goes: the program question (the stage is already answered, so the
-    // wizard skips it), or straight to Explore
-    startRoute: stage => stage === "curious" ? "#/explore" : "#/you?step=0&from=start",
     // what the About you summary leads with
     youLead: stage => stage === "targeting" ? "role-search" : "answers",
     // the rail's blocks in order, for a person with answers (and, when `resume`, a resume read): sentences and actions;
@@ -44,9 +45,8 @@
       : stage === "targeting" ? ["ask", "gaps-drop", "facts", "practise", "course", "event", "classes"]
       : ["facts", "ask", "drop", "practise", "course", "event", "classes"],
     ACTIONS: new Set(["drop", "gaps-drop", "gaps", "fit-link", "practise", "course", "event", "classes", "role-search", "explore", "fields"]),
-    // the first action a screen offers for a stage
+    // the first action a screen offers for a stage: "you" is About you, anything else the rail
     firstAction(stage, screen, resume) {
-      if (screen === "start") return stage === "curious" ? "explore" : "program-question";
       if (screen === "you") return this.youLead(stage) === "role-search" ? "role-search" : resume || stage === "curious" ? "fields" : "drop";   // curious: the fields and Explore, no resume asked
       return this.railBlocks(stage, resume).find(k => this.ACTIONS.has(k)) || null;
     },
@@ -67,10 +67,60 @@
     // the one data-built line over the picker's box, when a role is chosen and the person's fit leaves gaps
     gapsLine: label => `These are your gaps for ${label}. Cohort 1 closes gaps like these with real projects.`,
     // where a click can come from (the same list as web/capture.js SOURCES): the rail's three placeholders, the fit
-    // screen's foot, the start screen, the class picker's foot
+    // screen's foot, the class picker's foot; "start" was the start screen's box, gone with v19 B2, kept so the list
+    // matches the database check
     SOURCES: ["show", "build", "ways", "fit", "start", "classes"],
   };
-  return { parseRoute, Stage, Apply };
+  // The door (#/) and home (#/home), v19 B2. The door is a welcome screen, not a gate: everyone can skip it, and the
+  // email is capture and routing, never a credential (nothing behind it is private, no screen says "sign in"). Pure:
+  // every string on the two screens is here so tests/web/door.test.mjs and the copy pass (B6) read them from one place,
+  // and the four functions touch no DOM and no storage. The screens store the answers (door.email, door.where,
+  // door.seen) in localStorage; the email never goes in the URL, and nothing is sent anywhere (B7 adds the form).
+  const Door = {
+    COPY: {
+      heading: "Welcome to GradBuddy.",
+      intro: ["GradBuddy helps grad students find the right jobs, build the skills those jobs ask for, and meet the right people.", "We have spent the past few weeks on a few of those pieces. They are ready to share."],
+      // {roles} is the role count from the index, rounded down to a multiple of 10 (Door.inside)
+      inside: "Inside: jobs for grad students, over {roles} roles, Spring 2027 classes at Cornell Tech, and who to meet on campus.",
+      email: "Your email", emailPlaceholder: "user@school.edu",
+      where: "What are you studying?", pick: "Pick one",
+      cornell: "Some parts are for Cornell students. A Cornell address opens them.",
+      button: "Continue", skip: "Skip for now",
+      privacy: "We keep your email to send you what we build. Nothing you upload later leaves your browser.",
+      home: "What do you want to do?",
+      more: "More about you",
+      // the grayed Find classes card: the line, then a link to the door in the middle of the second sentence
+      closed: "For Cornell students for now.", closedLink: "Enter a Cornell address", closedAfter: "to open it.",
+      bar: { jobs: "Find jobs", skills: "Explore roles", classes: "Find classes", network: "Networking" },   // the top bar's short labels
+    },
+    // a Cornell NetID address and nothing else (owner's decision 2, 2026-10-29): two or three letters then one to four
+    // digits at cornell.edu, any case, spaces around it ignored. john.smith@cornell.edu, an alumni address and a
+    // gmail address are kept like any other email but open nothing.
+    opens: email => /^[a-z]{2,3}[0-9]{1,4}@cornell\.edu$/i.test(String(email || "").trim()),
+    // the route after the door: the deep link the person arrived on, unless that is the door itself
+    next: target => { const t = String(target || ""); return t && parseRoute(t).name !== "door" ? t : "#/home"; },
+    // a deep link goes to the door first, once: any route but the door while door.seen is not set
+    bounce: (hash, seen) => !seen && parseRoute(hash).name !== "door",
+    // a count in words, rounded down so the sentence stays true until the next refresh: 25,950 -> "25 thousand",
+    // 1,502 -> "1,500", 54 -> "50"
+    thousands: n => n >= 1000 ? `${Math.floor(n / 1000)} thousand` : Door.hundreds(n),
+    hundreds: n => (Math.floor(n / 100) * 100).toLocaleString("en-US"),
+    tens: n => String(Math.floor(n / 10) * 10),
+    inside: nRoles => Door.COPY.inside.replace("{roles}", Door.tens(nRoles)),
+    // the four home cards in order, with the line each one builds from the counts ({ nOpen, nCompanies, nRoles }: open
+    // US postings of both role sets, the employers behind them, the roles in the index); Find classes is closed unless
+    // the email opens it
+    verbs(email, counts) {
+      const c = counts || {};
+      return [
+        { key: "jobs", href: "#/jobs", title: "Find jobs", line: `Search over ${Door.thousands(c.nOpen || 0)} open jobs in popular fields for grad students, from over ${Door.hundreds(c.nCompanies || 0)} companies.`, open: true },
+        { key: "skills", href: "#/skills", title: "Explore roles & build skills", line: `Explore over ${Door.tens(c.nRoles || 0)} roles and see how your experience and skills match up.`, open: true },
+        { key: "classes", href: "#/classes", title: "Find classes", line: "Pick Spring 2027 classes at Cornell Tech that build the skills your roles ask for.", open: Door.opens(email) },
+        { key: "network", href: "#/network", title: "Networking", line: "Meet the faculty on campus whose classes build what your roles ask for.", open: true },
+      ];
+    },
+  };
+  return { parseRoute, Stage, Apply, Door };
 });
 (function () {
   "use strict";
@@ -194,106 +244,111 @@
   // demand-gen pass): the fit on screen when it is this role's, else the matcher at the default level, cached per role;
   // applyBox, applyLine and wireApply draw the cohort application box at the picker's foot (v18, step 1)
   const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Apply.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw) };
+  // what the door kept, in this browser only: the email, the program group, and that the door was seen once
+  const doorKept = () => { try { return { email: localStorage.getItem("door.email") || "", where: localStorage.getItem("door.where") || "", seen: localStorage.getItem("door.seen") === "1" }; } catch { return { email: "", where: "", seen: false }; } };
+  // The four verbs in the top bar (v19 B2), drawn on every route: the current one marked, Find classes only when the
+  // email on file opens it (Door.opens). The brand goes home. A screen the verbs will absorb (Explore, a field, a role,
+  // its fit and course screens) marks Explore roles; an event screen marks Networking; the classes screens Find classes.
+  const VERB_OF = { jobs: "jobs", skills: "skills", explore: "skills", field: "skills", role: "skills", fit: "skills", course: "skills", play: "skills", network: "network", event: "network", classes: "classes", professor: "classes" };
+  function topBar(name) {
+    const el = $("#verbs"); if (!el) return;
+    const on = VERB_OF[name] || null;
+    el.innerHTML = Door.verbs(doorKept().email, {}).filter(v => v.open).map(v => `<a class="toplink${on === v.key ? " on" : ""}" href="${esc(v.href)}"${on === v.key ? ' aria-current="page"' : ""}>${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("");
+  }
   function route() {
-    const { name, params: { id, slug } } = Routes.parseRoute(location.hash);
-    const go = { start, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => ClassScreens.signin(shellCtx) }[name];
-    SkillMap.leave(); leaveRail();
-    const ev = { start: ["start"], explore: ["explore"], field: ["field", { field_id: id }], event: ["event_prep", { field_id: id }], role: ["role", { role_id: id }], classes: ["classes"], play: ["play", { role_id: slug }] }[name];
+    const parsed = Routes.parseRoute(location.hash);
+    // a deep link bounces to the door once (v19 B2): the hash stays, the door draws over it, and Continue or Skip
+    // (Door.next) lands on the hash
+    const name = Door.bounce(location.hash, doorKept().seen) ? "door" : parsed.name, { id, slug } = parsed.params;
+    // #/jobs, #/skills and #/network exist so the hrefs never change; until B4 and B5 land, #/jobs and #/skills draw
+    // Explore (the fields, then a field's roles: the closest thing to "pick a role" today) and #/network the event
+    // screen of the field that fits the person best, else the biggest field
+    const go = { door, home, jobs: explore, skills: explore, network, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => ClassScreens.signin(shellCtx) }[name];
+    SkillMap.leave(); leaveRail(); topBar(name);
+    const ev = { door: ["start"], explore: ["explore"], field: ["field", { field_id: id }], event: ["event_prep", { field_id: id }], role: ["role", { role_id: id }], classes: ["classes"], play: ["play", { role_id: slug }] }[name];
     if (ev) track(ev[0], ev[1]);
     go().catch(fail);
   }
   window.addEventListener("hashchange", route);
 
-  // ---------- 1. first visit ----------
-  // the top: the games as one carousel row of cards (owner's decision 2026-10-25: the grid by group stacked six
-  // cards into a page-long list and pushed "See what jobs ask for" below the fold), in the order of the facts they
-  // teach, each card naming its fact (the list is data: web/data/games.json), one card marked "Start here", each with a
-  // line drawing of its mechanic, a verb line, an outcome line naming the role it opens on, and a meta line (rounds ·
-  // minutes · the player's state); the bottom: what the site does today, see what jobs ask for and how you fit
+  // ---------- 1. the door and home (v19 B2) ----------
+  // the games list, for a game's own screen (web/data/games.json)
   let gamesP = null;
   const games = () => gamesP ||= Atlas.fetchJson("data/games.json").catch(() => []);
-  const GROUPS = [["asks", "What a role asks for"], ["read", "How postings read"], ["senior", "What senior means"], ["jobs", "Where the jobs are"], ["links", "How skills link"]];
-  // the line drawings: one stroke drawing of each game's mechanic, in the text colour
-  const DRAW = {
-    "know-the-role": '<rect x="6" y="6" width="14" height="12" rx="2"/><rect x="25" y="6" width="14" height="12" rx="2" class="f"/><rect x="44" y="6" width="14" height="12" rx="2"/><rect x="6" y="23" width="14" height="12" rx="2" class="f"/><rect x="25" y="23" width="14" height="12" rx="2"/><rect x="44" y="23" width="14" height="12" rx="2" class="f"/>',
-    "guess-the-role": '<path d="M8 10h30M8 20h22M8 30h26"/><circle cx="52" cy="22" r="8"/><path d="M52 18v5M52 26v1"/>',
-    "spot-the-real-ask": '<path d="M8 9h48M8 18h20M8 27h40M8 36h28"/><rect x="30" y="14" width="22" height="8" rx="2" class="f"/>',
-    "climb-the-ladder": '<path d="M14 36V6M50 36V6M14 12h36M14 21h36M14 30h36"/><rect x="20" y="24" width="24" height="5" rx="1" class="f"/>',
-    "wheres-the-demand": '<rect x="10" y="20" width="14" height="16" rx="1" class="f"/><rect x="40" y="10" width="14" height="26" rx="1" class="f"/><path d="M4 36h56"/>',
-    "skill-path": '<circle cx="8" cy="32" r="3" class="f"/><circle cx="24" cy="18" r="3"/><circle cx="40" cy="26" r="3"/><circle cx="56" cy="10" r="4"/><path d="M11 30l10-9M27 20l10 5M43 24l10-11"/>',
-  };
-  const drawing = slug => `<svg class="gdraw" viewBox="0 0 64 42" aria-hidden="true">${DRAW[slug] || '<rect x="8" y="8" width="48" height="26" rx="3"/>'}</svg>`;
-  // the player's state on a card, from the games record (web/gameshell.js): the best in plain words, or "not played"
-  function gameState(slug, roleId) {
-    const g = window.GameShell ? window.GameShell.record.game(slug) : {}, b = g.best;
-    const pr = v => Math.round(v * 100) + "%";
-    if (slug === "know-the-role") { const k = roleId ? window.GameShell.record.knowledge(roleId, []) : null; const r = b && b[roleId]; return k && k.known.length ? `${k.known.length} asks known` : r ? `best ${r.total} of ${r.of}` : null; }
-    if (slug === "climb-the-ladder") return b && typeof b.score === "number" ? `best ${b.score} of 40` : null;
-    if (slug === "guess-the-role") return typeof b === "number" ? `best ${fmt(b)} of 1,500` : null;
-    if (slug === "wheres-the-demand") return typeof b === "number" ? `best ${b} of 10` : null;
-    if (slug === "spot-the-real-ask") return b && typeof b.read === "number" ? `best ${pr(b.read)} read` : null;
-    if (slug === "skill-path") { const rows = Object.values(b || {}), ok = rows.filter(r => r.arrived); return rows.length ? (ok.length ? `arrived ${ok.length} of ${rows.length}` : `${rows.length} ${rows.length === 1 ? "route" : "routes"} tried`) : null; }
-    return g.plays ? `played ${g.plays}` : null;
+  // the role count both screens say: the roles the index shows, the product set's six among them once its file is
+  // loaded; until then the index's own families table (which counts the two product-group families the product set
+  // stands in for) is the floor, so the number never dips while the file loads
+  const roleCount = ix => Math.max(Object.keys(ix.roles).length, Object.keys(ix.M.families || {}).length);
+  // the home counts: the open US postings and the employers of the MBA index, read from its meta, and the roles. The
+  // product set's postings are in a 9 MB file home does not load, and a number that changes after the file arrives
+  // reads as broken; B4's jobs_open.json carries the count of both role sets, and home reads it then. "Over" keeps
+  // the sentence true meanwhile.
+  function homeCounts(ix) {
+    return { nOpen: ix.M.meta.n_open, nCompanies: ix.M.meta.n_companies, nRoles: roleCount(ix) };
   }
-  async function start() {
+  // The door: what GradBuddy is, what is inside, an email and the program question, Continue, Skip for now. Both
+  // buttons keep what was typed in this browser (door.email, door.where, door.seen) and go where the person was headed
+  // (Door.next); a program answer also fills About you's first question. Nothing is sent anywhere (B7 adds the form).
+  async function door() {
     crumbs([]); showAside(null);
-    const [list, ix] = await Promise.all([games(), Atlas.index()]);
-    await Atlas.product().catch(() => { });
-    const classesCard = window.ClassScreens ? await ClassScreens.startCard().catch(() => "") : "";
-    const roleId = window.GameShell ? window.GameShell.pickDefault(ix, state.you, null) : null, role = roleId && ix.roles[roleId] ? ix.roles[roleId] : null;
-    const nRoles = Object.keys(ix.roles).length, nFields = ix.groups.length;
-    const groupLabel = Object.fromEntries(GROUPS);
-    const card = gm => {
-      const live = gm.status === "live", st = live ? gameState(gm.slug, roleId) : null;
-      const meta = [gm.rounds, gm.minutes ? `${gm.minutes} min` : null, live ? (st || "not played") : "coming soon"].filter(Boolean);
-      return `<a class="gcard${gm.start ? " rec" : ""}${live ? "" : " soon"}" href="#/play/${esc(gm.slug)}${role && live ? `?role=${encodeURIComponent(roleId)}` : ""}">${gm.start ? '<span class="tag">Start here</span>' : ""}<span class="gg">${esc(groupLabel[gm.group] || "")}</span>${drawing(gm.slug)}
-        <span class="gt">${esc(gm.title)}</span><span class="gv">${esc(gm.verb || gm.tagline)}</span><span class="go">${esc((gm.outcome || "").replace("{role}", role ? role.label : "your role"))}</span><span class="gm">${meta.map(esc).join(" · ")}</span></a>`;
+    const ix = await Atlas.index(), kept = doorKept();
+    const C = Door.COPY;
+    page(`<section class="door">
+        <h1>${esc(C.heading)}</h1>
+        ${C.intro.map(t => `<p class="lead">${esc(t)}</p>`).join("")}
+        <p class="lead">${esc(Door.inside(roleCount(ix)))}</p>
+        <form class="door-form" id="door-form" novalidate="">
+          <label class="dlabel">${esc(C.email)}<input type="email" name="email" placeholder="${esc(C.emailPlaceholder)}" autocomplete="email" value="${esc(kept.email)}"></label>
+          <label class="dlabel">${esc(C.where)}<select name="where"><option value="">${esc(C.pick)}</option>${Q[0].options.map(([id, label]) => `<option value="${esc(id)}"${kept.where === id ? " selected" : ""}>${esc(label)}</option>`).join("")}</select></label>
+          <p class="small muted" style="margin:0">${esc(C.cornell)}</p>
+          <p class="door-acts"><button type="submit" class="btn primary">${esc(C.button)}</button><a class="door-skip" href="${esc(Door.next(location.hash))}" id="door-skip">${esc(C.skip)}</a></p>
+        </form>
+        <p class="small muted door-privacy">${esc(C.privacy)}</p>
+      </section>`, true);
+    const form = $("#door-form");
+    const keep = () => {
+      const email = form.email.value.trim(), where = form.where.value;
+      try { localStorage.setItem("door.email", email); localStorage.setItem("door.where", where); localStorage.setItem("door.seen", "1"); } catch { }
+      if (where && WHERE[where]) { state.you = { fields: [], stage: null, ...(state.you || {}), where }; store.set("you", state.you); wiz = null; }
     };
-    // one row, in the order of the facts they teach; a game outside the known groups goes last
-    const order = gm => { const i = GROUPS.findIndex(([id]) => id === gm.group); return i < 0 ? GROUPS.length : i; };
-    const ordered = list.slice().sort((a, b) => order(a) - order(b));
-    // the question first (owner's decision 4, 2026-10-25): the three kinds of student as cards with the v15 wording; a
-    // click stores you.stage, fires start_stage and routes by stage (Stage.startRoute). A returning visitor with a stage
-    // on file sees one line instead. Then the cohort application box (v18, step 1), what the site does, the classes card,
-    // and the games under their own heading.
-    const stage = (state.you || {}).stage;
-    const STAGE_SAID = { looking: "open to roles that fit you", targeting: "set on the role you want", curious: "here to explore the jobs and skills data" };
-    const ask = stage && STAGE_SAID[stage] ? `<div class="strip"><span class="dotg"></span><span>You said you're ${esc(STAGE_SAID[stage])}</span><a href="#/you?step=1">change</a></div>`
-      : `<p class="lead">Where are you in your search?</p><div class="choices three stage-cards">${Q[1].options.map(([id, label, sub]) => `<a class="choice" href="${esc(Stage.startRoute(id))}" data-stage="${esc(id)}"><div class="t">${esc(label)}</div><div class="d">${esc(sub)}</div></a>`).join("")}</div>`;
-    page(`<section class="start-ask">
-        <h1>What do the jobs you want actually ask for?</h1>
-        ${ask}
-      </section>
-      <section class="start-apply">${applyBox("start", { always: true })}</section>
-      <section class="start-fit">
-        <h2>See what jobs ask for, and how you fit</h2>
-        <p class="lead">Nothing you upload leaves your browser.</p>
-        <div class="choices">
-          <a class="choice rec" href="#/you"><div class="t">Tell us about you</div><div class="d">Three questions and an optional resume. We pick the roles that fit you and show how you compare.</div><span class="tag">About 2 minutes →</span></a>
-          <a class="choice" href="#/explore"><div class="t">Explore the roles</div><div class="d">Browse by field, open a role, and see what its postings ask for. You can check your fit later.</div><span class="tag">No sign-up →</span></a>
-        </div>${classesCard ? `<div class="choices one">${classesCard}</div>` : ""}
-      </section>
-      <section class="start-games">
-        <h2>Or play your way in</h2>
-        <p class="lead">Short games built on live job postings for ${nRoles} roles in ${nFields} fields. Every round ends in a real role you can open${role ? `; today's cards open on ${esc(role.label)}` : ""}.</p>
-        <div class="gcards carousel" role="list" aria-label="Games">${ordered.map(card).join("")}</div>
-      </section>`);
-    main.firstElementChild.classList.add("wide", "start");
-    wireWait(main, () => keepScroll(start));
-    main.querySelectorAll("[data-stage]").forEach(a => a.onclick = () => { const st = a.dataset.stage; state.you = { where: null, fields: [], ...(state.you || {}), stage: st }; store.set("you", state.you); wiz = null; track("start_stage", { stage: st }); });
+    const go = () => { const next = Door.next(location.hash); if (location.hash === next) route(); else location.hash = next; };
+    form.onsubmit = e => { e.preventDefault(); const em = form.email; if (em.value.trim() && !em.checkValidity()) { em.reportValidity(); return; } keep(); go(); };
+    $("#door-skip").onclick = e => { e.preventDefault(); keep(); go(); };
+  }
+  // Home: the four verbs as a 2×2 grid, one data-built line each; Find classes grayed until a Cornell address opens
+  // it. The stage question is not here (v19, decision 8: About you, step 2).
+  async function home() {
+    crumbs([]); showAside(null);
+    const ix = await Atlas.index();
+    const C = Door.COPY;
+    const render = () => {
+      const cards = Door.verbs(doorKept().email, homeCounts(ix)).map(v => v.open
+        ? `<a class="verb" href="${esc(v.href)}" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span></a>`
+        : `<div class="verb closed" aria-disabled="true" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span><span class="gate">${esc(C.closed)} <a href="#/">${esc(C.closedLink)}</a> ${esc(C.closedAfter)}</span></div>`);
+      page(`<h1>${esc(C.home)}</h1><div class="verbs">${cards.join("")}</div><p class="home-more"><a href="#/you">${esc(C.more)} →</a></p>`);
+    };
+    render();
+  }
+  // #/network until B5: the event screen of the field the person's answers and resume point to, else the biggest field
+  async function network() {
+    const ix = await Atlas.index();
+    const ff = (state.you || state.resume) ? await fitFields() : null;
+    const first = ff && [...ff.fields][0];
+    const biggest = ix.groups.filter(g => g.nOpen != null).sort((a, b) => b.nOpen - a.nOpen)[0];
+    return eventScreen(first || (biggest && biggest.id));
   }
   // a game: its own screen once built; until then, what it will be. A built game is web/games/<slug>.js, loaded
   // by index.html, which registers window.Games[slug] = { mount(el, ctx) } (contract in games/README.md)
   window.Games = window.Games || {};
   async function play(slug) {
     const gm = (await games()).find(g => g.slug === slug);
-    if (!gm) return start();
-    crumbs([["Games", "#/"], [gm.title, null]]); showAside(null);
+    if (!gm) return home();
+    crumbs([["Home", "#/home"], [gm.title, null]]); showAside(null);
     const G = window.Games[slug];
     if (gm.status === "live" && G && G.mount) { main.innerHTML = ""; window.scrollTo(0, 0); return G.mount(main, { Atlas, game: gm, showAside, crumbs, esc }); }
     page(`<p class="eyebrow">Coming soon</p><h1>${esc(gm.title)}</h1><p class="lead">${esc(gm.tagline)}.</p>
       <div class="cover big"><img src="${esc(gm.cover)}" alt="${esc(gm.title)}, an early design" onerror="this.remove()"><span class="ph-t">${esc(gm.title)}</span></div>
-      <div class="row" style="margin-top:16px"><a class="btn" href="#/">← All games</a><a class="btn quiet" href="#/explore">Explore the roles</a></div>`, true);
+      <div class="row" style="margin-top:16px"><a class="btn" href="#/home">← Home</a><a class="btn quiet" href="#/explore">Explore the roles</a></div>`, true);
   }
   // ---------- 2. tell us about you: three questions and an optional resume, then a summary of what we know (Y3) ----------
   // Owner's decisions (2026-10-24): the program options are the ones Cornell Tech and IE New York offer, folded to the
@@ -338,7 +393,7 @@
         if (q.multi) main.firstElementChild.classList.add("roomy");   // two columns of cards need more than the narrow column
         main.querySelectorAll("[data-opt]").forEach(b => b.onclick = () => { const id = b.dataset.opt; if (q.multi) { wiz.answers.fields.has(id) ? wiz.answers.fields.delete(id) : wiz.answers.fields.add(id); render(); } else { wiz.answers[q.key] = id; forward(); render(); } });
         $("#next").onclick = () => { if (!q.multi && !wiz.answers[q.key]) return; forward(); render(); };
-        $("#back").onclick = () => { if (i === 0) { const b = wiz.back; wiz = null; location.hash = b ? "#/you" : "#/"; } else { backward(); render(); } };
+        $("#back").onclick = () => { if (i === 0) { const b = wiz.back; wiz = null; location.hash = b ? "#/you" : "#/home"; } else { backward(); render(); } };
         return;
       }
       page(`${steps}<p class="eyebrow">Last step, optional</p><h1>Add your resume</h1>

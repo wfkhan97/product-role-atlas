@@ -163,7 +163,7 @@
     el.innerHTML = `<div class="page gm${o.cls ? " " + o.cls : ""}"><div class="gm-head">
         <div class="gm-title"><b>${esc(o.game)}</b>${o.role ? `<span class="gm-sep" aria-hidden="true">·</span><span class="gm-role" id="gm-role">${esc(o.role)}</span>` : ""}</div>
         <div class="gm-round" id="gm-round">${pips(o.round, o.rounds, o.marks)}</div>
-        <div class="gm-tools"><span id="gm-info">${o.info ? tip(o.info) : ""}</span><a class="gm-quit" href="${esc(o.quit || "#/")}">Quit ${kbd("Esc")}</a></div>
+        <div class="gm-tools"><span id="gm-info">${o.info ? tip(o.info) : ""}</span><a class="gm-quit" href="${esc(o.quit || "#/home")}">Quit ${kbd("Esc")}</a></div>
       </div><div class="gm-body" id="gm-body"></div><div class="gm-live" aria-live="polite" id="gm-live"></div></div>`;
     const $ = s => el.querySelector(s);
     const body = $("#gm-body"), liveEl = $("#gm-live");
@@ -190,7 +190,7 @@
       if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
       const t = e.target;
       if (t && t.closest && t.closest("input, textarea, select, [contenteditable]")) return;
-      if (e.key === "Escape") { if (tipOpen() || document.getElementById("drawer")) return; e.preventDefault(); if (h.quit) h.quit(e); else location.hash = h.quitHref || "#/"; return; }
+      if (e.key === "Escape") { if (tipOpen() || document.getElementById("drawer")) return; e.preventDefault(); if (h.quit) h.quit(e); else location.hash = h.quitHref || "#/home"; return; }
       if (e.key === "Enter") { if (t && t.closest && t.closest("button, a, summary")) return; if (h.confirm) { e.preventDefault(); h.confirm(e); } return; }
       if (/^[1-4]$/.test(e.key) && !e.repeat) { if (h.choose && h.choose(Number(e.key), e) !== false) e.preventDefault(); return; }
       if (h.other) h.other(e);

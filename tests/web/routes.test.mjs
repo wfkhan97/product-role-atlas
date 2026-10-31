@@ -8,8 +8,16 @@ import { require, web } from "./_load.mjs";
 const { parseRoute } = require(path.join(web, "app.js"));
 const screen = hash => { const r = parseRoute(hash); return [r.name, r.params]; };
 
-test("an empty hash, a bare # and #/ show the start screen", () => {
-  for (const h of ["", "#", "#/", undefined]) assert.deepEqual(screen(h), ["start", {}], JSON.stringify(h));
+test("an empty hash, a bare # and #/ show the door", () => {
+  for (const h of ["", "#", "#/", undefined]) assert.deepEqual(screen(h), ["door", {}], JSON.stringify(h));
+});
+
+test("#/home is home; #/jobs, #/skills and #/network are the verbs (v19 B2), named so their hrefs never change", () => {
+  assert.deepEqual(screen("#/home"), ["home", {}]);
+  assert.deepEqual(screen("#/jobs"), ["jobs", {}]);
+  assert.deepEqual(screen("#/skills"), ["skills", {}]);
+  assert.deepEqual(screen("#/network"), ["network", {}]);
+  assert.deepEqual(screen("#/jobs/extra"), ["jobs", {}], "a second part changes nothing yet");
 });
 
 test("#/you, #/explore and #/about name their screens", () => {
@@ -53,18 +61,18 @@ test("a path part is URI-decoded; a query value is decoded by URLSearchParams", 
   assert.equal(parseRoute("#/know-the-role?role=fp%26a+x").query.role, "fp&a x");
 });
 
-test("an unknown screen shows the start screen", () => {
-  for (const h of ["#/nope", "#/skill/sql", "#nope", "#/PLAY/x"]) assert.equal(parseRoute(h).name, "start", h);
+test("an unknown screen shows home", () => {
+  for (const h of ["#/nope", "#/skill/sql", "#nope", "#/PLAY/x", "#/start"]) assert.equal(parseRoute(h).name, "home", h);
 });
 
-test("a screen name that is also an Object property (constructor, __proto__, toString) shows the start screen", () => {
+test("a screen name that is also an Object property (constructor, __proto__, toString) shows home", () => {
   // before parseRoute, route() looked the first part up in an object literal and called what it found: #/constructor called Object() and threw
-  for (const h of ["#/constructor", "#/__proto__", "#/toString", "#/hasOwnProperty"]) assert.equal(parseRoute(h).name, "start", h);
+  for (const h of ["#/constructor", "#/__proto__", "#/toString", "#/hasOwnProperty"]) assert.equal(parseRoute(h).name, "home", h);
 });
 
-test("a path part that cannot be decoded shows the start screen instead of throwing", () => {
+test("a path part that cannot be decoded shows home instead of throwing", () => {
   // decodeURIComponent throws URIError on "%E0"; route() used to throw in the hashchange handler and leave the screen as it was
-  for (const h of ["#/role/%E0", "#/%", "#/play/x%ZZ?seed=1"]) assert.deepEqual(screen(h), ["start", {}], h);
+  for (const h of ["#/role/%E0", "#/%", "#/play/x%ZZ?seed=1"]) assert.deepEqual(screen(h), ["home", {}], h);
 });
 
 test("every screen parseRoute names has an entry in route()'s dispatch table", () => {
@@ -72,7 +80,7 @@ test("every screen parseRoute names has an entry in route()'s dispatch table", (
   const table = src.match(/const go = \{([^}]*)\}\[name\]/);
   assert.ok(table, "route() dispatches with `const go = { ... }[name]`");
   const keys = new Set(table[1].split(",").map(x => x.trim().split(":")[0].trim()));
-  const names = ["#/", "#/you", "#/explore", "#/about", "#/field/x", "#/field/x/event", "#/role/x", "#/role/x/fit", "#/role/x/course", "#/play/x", "#/classes", "#/professor/x", "#/signin"].map(h => parseRoute(h).name);
+  const names = ["#/", "#/home", "#/jobs", "#/skills", "#/network", "#/you", "#/explore", "#/about", "#/field/x", "#/field/x/event", "#/role/x", "#/role/x/fit", "#/role/x/course", "#/play/x", "#/classes", "#/professor/x", "#/signin"].map(h => parseRoute(h).name);
   for (const n of names) assert.ok(keys.has(n), `no dispatch for ${n}`);
 });
 
