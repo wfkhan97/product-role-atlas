@@ -244,7 +244,8 @@ def main():
             if partial:
                 logger.warning("%s: partial fetch, %s", name, partial)
             if db:
-                logger.info("%s", backlog.push_file_safely(path, args.roles))
+                saved, note = backlog.push_file_safely(path, args.roles)
+                (logger.info if saved else logger.error)("%s", note)
             return (name, entry["ats"], f"{len(uniq)} jobs in {t.seconds:.0f}s" + (f"; PARTIAL: {partial}" if partial else ""))
         except Exception as e:
             logger.error("%s (%s) failed after %s: %s: %s", name, entry["ats"], t, type(e).__name__, e, exc_info=True)

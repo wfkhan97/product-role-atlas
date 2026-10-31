@@ -8,7 +8,7 @@
 # after the runner trial of evals/runner_trial_2026-10-26.md. workflow_dispatch always runs: `ats` picks one family,
 # `only` one or more employers, `trial` the one-employer-per-family trial of evals/runner_trial.json, `dry_run` a
 # fetch that writes nothing. A family a hosted runner cannot reach (bot check, captcha, 403) gets
-# `runner: [self-hosted, macOS]` in the matrix below and nothing else changes (docs/SELF_HOSTED_RUNNER.md).
+# `"runner": ["self-hosted", "macOS"]` on its line of FAMILIES in the gate job and nothing else changes (docs/SELF_HOSTED_RUNNER.md).
 #
 # Secrets (the repository's Actions secrets, never in this file): SUPABASE_DB_URL (the backlog and the runs table),
 # SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY (the backlog snapshot and the logs store). The first job fails with one
@@ -55,6 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       go: ${{ steps.go.outputs.go }}
+      families: ${{ steps.families.outputs.families }}
     steps:
       - name: Every secret the jobs read is set
         env:
@@ -81,44 +82,64 @@ jobs:
           else
             echo "go=true" >> "$GITHUB_OUTPUT"
           fi
+      - name: The families this run scrapes
+        id: families
+        env:
+          ATS: ${{ inputs.ats || 'all' }}
+          # Every family of pipeline/adapters/ that the MBA registry uses; share of the MBA postings on 2026-10-26 in
+          # evals/runner_trial.json. One line per family; a family a hosted runner cannot reach gets
+          # "runner": ["self-hosted", "macOS"]. The list is built here, not in the scrape job's matrix, because a
+          # job-level `if` cannot read `matrix` (GitHub rejects the whole file, and the schedule never fires).
+          FAMILIES: |
+            {"family": "workday", "runner": "ubuntu-latest"}
+            {"family": "greenhouse", "runner": "ubuntu-latest"}
+            {"family": "oracle_hcm", "runner": "ubuntu-latest"}
+            {"family": "amazon", "runner": "ubuntu-latest"}
+            {"family": "ashby", "runner": "ubuntu-latest"}
+            {"family": "successfactors", "runner": "ubuntu-latest"}
+            {"family": "eightfold", "runner": "ubuntu-latest"}
+            {"family": "radancy", "runner": "ubuntu-latest"}
+            {"family": "jibe", "runner": "ubuntu-latest"}
+            {"family": "phenom", "runner": "ubuntu-latest"}
+            {"family": "smartrecruiters", "runner": "ubuntu-latest"}
+            {"family": "google", "runner": "ubuntu-latest"}
+            {"family": "lever", "runner": "ubuntu-latest"}
+            {"family": "apple", "runner": "ubuntu-latest"}
+            {"family": "paradox", "runner": "ubuntu-latest"}
+            {"family": "avature", "runner": "ubuntu-latest"}
+            {"family": "icims", "runner": "ubuntu-latest"}
+            {"family": "mcloud", "runner": "ubuntu-latest"}
+            {"family": "meta", "runner": "ubuntu-latest"}
+            {"family": "bofa_servlet", "runner": "ubuntu-latest"}
+            {"family": "mckinsey", "runner": "ubuntu-latest"}
+            {"family": "kpmg", "runner": "ubuntu-latest"}
+            {"family": "gs_graphql", "runner": "ubuntu-latest"}
+            {"family": "talnet", "runner": "ubuntu-latest"}
+            {"family": "yello", "runner": "ubuntu-latest"}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          rows = [json.loads(line) for line in os.environ["FAMILIES"].splitlines() if line.strip()]
+          ats = os.environ["ATS"]
+          if ats != "all":
+              rows = [r for r in rows if r["family"] == ats]
+              if not rows:
+                  raise SystemExit(f"::error::no family {ats!r} in this workflow")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write("families=" + json.dumps(rows) + "\n")
+          print(", ".join(r["family"] for r in rows))
+          PY
 
   scrape:
     name: scrape ${{ matrix.family }}
     needs: gate
-    if: needs.gate.outputs.go == 'true' && (github.event_name == 'schedule' || inputs.ats == 'all' || inputs.ats == matrix.family)
+    if: needs.gate.outputs.go == 'true'
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 340
     strategy:
       fail-fast: false
-      # Every family of pipeline/adapters/ that the MBA registry uses; share of the MBA postings on 2026-10-26 in
-      # evals/runner_trial.json. A blocked family: runner: [self-hosted, macOS].
       matrix:
-        include:
-          - { family: workday, runner: ubuntu-latest }
-          - { family: greenhouse, runner: ubuntu-latest }
-          - { family: oracle_hcm, runner: ubuntu-latest }
-          - { family: amazon, runner: ubuntu-latest }
-          - { family: ashby, runner: ubuntu-latest }
-          - { family: successfactors, runner: ubuntu-latest }
-          - { family: eightfold, runner: ubuntu-latest }
-          - { family: radancy, runner: ubuntu-latest }
-          - { family: jibe, runner: ubuntu-latest }
-          - { family: phenom, runner: ubuntu-latest }
-          - { family: smartrecruiters, runner: ubuntu-latest }
-          - { family: google, runner: ubuntu-latest }
-          - { family: lever, runner: ubuntu-latest }
-          - { family: apple, runner: ubuntu-latest }
-          - { family: paradox, runner: ubuntu-latest }
-          - { family: avature, runner: ubuntu-latest }
-          - { family: icims, runner: ubuntu-latest }
-          - { family: mcloud, runner: ubuntu-latest }
-          - { family: meta, runner: ubuntu-latest }
-          - { family: bofa_servlet, runner: ubuntu-latest }
-          - { family: mckinsey, runner: ubuntu-latest }
-          - { family: kpmg, runner: ubuntu-latest }
-          - { family: gs_graphql, runner: ubuntu-latest }
-          - { family: talnet, runner: ubuntu-latest }
-          - { family: yello, runner: ubuntu-latest }
+        include: ${{ fromJSON(needs.gate.outputs.families) }}
     env:
       FAMILY: ${{ matrix.family }}
       SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
@@ -137,8 +158,8 @@ jobs:
         run: |
           mkdir -p logs
           echo "PIPELINE_LOG=logs/refresh-mba_$(date -u +%Y-%m-%d)_${FAMILY}.log" >> "$GITHUB_ENV"
-      - name: Pull the MBA backlog
-        run: python -m pipeline.backlog pull --roles mba
+      - name: Pull this family's part of the MBA backlog
+        run: python -m pipeline.backlog pull --roles mba --ats "$FAMILY"
       - name: Scrape ${{ matrix.family }}
         env:
           ONLY: ${{ inputs.only }}
