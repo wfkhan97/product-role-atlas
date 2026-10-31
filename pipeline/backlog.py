@@ -358,6 +358,7 @@ def main():
     ap.add_argument("--only", nargs="*", help="file names without .json")
     ap.add_argument("--ats", help="pull: only the files of the registry's employers on this kind of board (a refresh job "
                                   "scrapes one family and needs only its files)")
+    ap.add_argument("--shard", metavar="K/N", help="pull with --ats: the same part of the family as pipeline.scrape --shard")
     ap.add_argument("--out", help="pull: write here instead of data/raw/<dir>")
     ap.add_argument("--force", action="store_true", help="pull: overwrite local files even when they hold postings the database lacks")
     ap.add_argument("--workers", type=int, default=4)
@@ -368,8 +369,10 @@ def main():
         only = a.only
         if a.ats:
             from pipeline import scrape  # scrape imports this module; the registry and the file names are its own
-            only = sorted({scrape.slug(e["company"]) for e in scrape.load_registry(rs) if e.get("ats") == a.ats}
-                          | set(a.only or []))
+            family = [e for e in scrape.load_registry(rs) if e.get("ats") == a.ats]
+            if a.shard:
+                family = scrape.shard(family, a.shard)
+            only = sorted({scrape.slug(e["company"]) for e in family} | set(a.only or []))
             if not only:  # an empty list would mean every file to pull()
                 sys.exit(f"--ats {a.ats}: no {rs} employer in the registry is on that kind of board")
             print(f"--ats {a.ats}: {len(only)} {rs} employers", flush=True)
