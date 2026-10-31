@@ -21,6 +21,7 @@
     "corp_strategy_analyst",
     "transformation",
     "digital_transformation",
+    "ai_transformation",
     "tech_strategy",
     "chief_of_staff",
     "bizops"
@@ -432,6 +433,22 @@
    "n": 595
   },
   {
+   "id": "ai_transformation",
+   "label": "AI Transformation Manager",
+   "group": "consulting_strategy",
+   "patterns": [
+    "\\b(gen(erative)?\\s*ai|ai|artificial\\s+intelligence)\\s*(&|and|,|/)?\\s*(data\\s+|product\\s+|digital\\s+|process\\s+|content\\s+|sdlc\\s+|work(force)?\\s+|business\\s+|agentic\\s+)?(&\\s+|and\\s+)?(agentic\\s+|process\\s+|digital\\s+|data\\s+)?transformation\\b|\\b(gen(erative)?\\s*ai|ai)\\s+(enablement|adoption|change\\s+management|center\\s+of\\s+excellence|centre\\s+of\\s+excellence|coe)\\b|\\bhead\\s+of\\s+(gen(erative)?\\s*)?ai\\b|\\bchief\\s+ai\\s+officer\\b|\\bai\\s+transformation\\s+office\\b"
+   ],
+   "exclude": [
+    "\\b(engineer\\w*|developer|architect|scientist|research\\w*|labs?|infrastructure|platform\\s+(lead|engineer)|ml\\s+ops|mlops|governance|ethics|safety|policy|security|compliance)\\b"
+   ],
+   "covers": [],
+   "covered_by": [
+    "transformation"
+   ],
+   "n": 0
+  },
+  {
    "id": "digital_transformation",
    "label": "Digital Transformation Manager",
    "group": "consulting_strategy",
@@ -470,7 +487,8 @@
     "\\bdigital\\s+transformation\\b"
    ],
    "covers": [
-    "digital_transformation"
+    "digital_transformation",
+    "ai_transformation"
    ],
    "covered_by": [],
    "n": 249
@@ -970,6 +988,10 @@
  "product": {
   "families": [
    {
+    "id": "product_engineer",
+    "pattern": "\\b(ai|applied\\s+ai|full[- ]stack|software|founding|forward[- ]deployed)?\\s*product\\s+engineer\\b|\\bforward[- ]deployed\\s+(software\\s+|ai\\s+|solutions?\\s+|product\\s+)?engineer\\b"
+   },
+   {
     "id": "tpm",
     "pattern": "\\b(technical|tech)\\s+program\\s+(manager|management|lead|director)\\b|\\bTPM\\b"
    },
@@ -994,11 +1016,15 @@
     "pattern": "\\bproduct\\s+(manage(r|ment)|mgmt|mgt|mgr)\\b|\\bprod(uct)?\\.?\\s+(mgr|mgmt|mgt)\\b|\\bproduct\\s+lead\\b|\\b(head|director|vp|vice\\s+president|svp|evp|chief)\\b(\\s+of)?,?\\s+(global\\s+|technical\\s+|group\\s+|senior\\s+|digital\\s+|platform\\s+|consumer\\s+|enterprise\\s+|ai\\s+)*products?\\b|\\bchief\\s+product\\s+officer\\b|\\bAPM\\b|\\bassociate\\s+product\\b|\\bgroup\\s+product\\b|\\bproduct\\s+director\\b|\\bprincipal\\s+product\\b|\\bproduct\\s+strateg(y|ist)\\b|\\bproduct,?\\s+(senior\\s+)?(manager|director|lead)\\b|\\bproduct\\s+(line\\s+)?manage(r|ment)\\b"
    }
   ],
-  "exclude": "\\b(production|produce|product\\s+(design|designer|support|specialist|engineer|engineering|developer|development\\s+engineer|security|safety|quality|stewardship|compliance|counsel|trainer|photograph|assembler|technician|tester|test|sales|sourcing|supply|planner|planning|merchandis|flow|repair|content|writer|copy|solutions?\\s+engineer|solutions?\\s+architect|consultant|coordinator|administrator|assistant|launch\\s+engineer|cost|regulatory|labeling|information|data\\s+engineer|complaint|surveillance|lifecycle\\s+engineer|realization|integrity|certification|validation|verification|assurance|line\\s+manager|scientist\\s*-\\s*r&d|chemist|formulation))\\b|\\bproduct\\s+manager\\s*-?\\s*(manufactur|plant|retail|store|grocery|bakery|dairy|meat|deli|pharmacy)|\\b(manufacturing|dairy|bakery|chemical|cosmetic|nutrition|food|beverage|agricultur|crop)\\s+product\\b|\\bresearch\\s+and\\s+development\\b.*\\bproduct\\b",
+  "exclude": "\\b(production|produce|product\\s+(design|designer|support|specialist|engineering|developer|development\\s+engineer|applications?\\s+engineer|security|safety|quality|stewardship|compliance|counsel|trainer|photograph|assembler|technician|tester|test|sales|sourcing|supply|planner|planning|merchandis|flow|repair|content|writer|copy|solutions?\\s+engineer|solutions?\\s+architect|consultant|coordinator|administrator|assistant|launch\\s+engineer|cost|regulatory|labeling|information|data\\s+engineer|complaint|surveillance|lifecycle\\s+engineer|realization|integrity|certification|validation|verification|assurance|line\\s+manager|scientist\\s*-\\s*r&d|chemist|formulation))\\b|\\bproduct\\s+manager\\s*-?\\s*(manufactur|plant|retail|store|grocery|bakery|dairy|meat|deli|pharmacy)|\\b(manufacturing|dairy|bakery|chemical|cosmetic|nutrition|food|beverage|agricultur|crop)\\s+product\\b|\\bresearch\\s+and\\s+development\\b.*\\bproduct\\b",
   "keep": "\\b(product\\s+manager|product\\s+management|product\\s+(mgmt|mgt|mgr)|program\\s+manager|product\\s+marketing\\s+manager|product\\s+owner|head\\s+of\\s+product|director,?\\s+product\\s+management|vp,?\\s+product\\s+management|chief\\s+product\\s+officer)\\b",
   "nonproduct": "\\b(people\\s+partner|hr\\b|human\\s+resources|recruit|talent|finance|accounting|legal|counsel|payroll|facilities|real\\s+estate|communications?\\s+(manager|lead|director)|public\\s+relations|events?\\s+(manager|lead)|executive\\s+assistant|administrative|office\\s+manager|workplace)",
   "food": "\\b(dairy|bakery|deli|meat|seafood|produce|grocery|beverage|snack|cosmetic|fragrance|apparel|footwear|private\\s+label|own\\s+brand|store\\s+brand)\\b",
-  "product_manage": "\\bproduct\\s+manage"
+  "product_manage": "\\bproduct\\s+manage",
+  "hardware": "\\b(mechanical|electrical|electronics?|hardware|manufacturing|process|test|quality|applications?|packaging|materials?|semiconductor|wafer|fab|yield|rf|optical|optics|photonics|chemical|civil|structural|field|support|security|safety|reliability|validation|verification|npi|automotive|aerospace|industrial|plastics?|textiles?|apparel|footwear|thermal|analog|asic|fpga|systems?|sustaining|device|component|battery|cell|motor|pump|valve|sensor|silicon|die|cad|tooling|molding|casting|welding)\\b",
+  "hardware_families": [
+   "product_engineer"
+  ]
  },
  "levels": [
   "associate",
@@ -1512,7 +1538,7 @@
    ]
   }
  },
- "generated": "2026-10-25",
+ "generated": "2026-10-30",
  "employers": {
   "Accenture": {
    "category": "Consulting and advisory"

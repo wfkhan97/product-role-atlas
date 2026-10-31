@@ -31,7 +31,7 @@
     }
     return out;
   }
-  function productShares() {   // the product field is the product role set (six families), once it is loaded
+  function productShares() {   // the product field is the product role set (its families with postings), once it is loaded
     const fams = Object.keys(P.G.families), v = {};
     for (const s of P.G.skills) v[s.id] = fams.reduce((a, f) => a + ((s.by_family || {})[f] || 0), 0) / fams.length;
     return v;

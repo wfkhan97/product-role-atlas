@@ -38,6 +38,12 @@ FAMILY_PATTERNS = [
     # "Associate Strategy Manager" is a manager grade, and "Strategic Planning Analyst" is the analyst role
     ("corp_strategy_analyst", r"\bstrategy\s+(senior\s+)?(analyst|associate)\b|\b(analyst|associate),?\s+(corporate\s+|business\s+)?strategy\b(?!\s+(senior\s+)?(manager|lead|leader|director))|\bstrategic\s+planning\s+(senior\s+)?(analyst|associate)\b|\b(analyst|associate),?\s+strategic\s+planning\b"),
     ("strategy_manager", rf"\bstrategy\s+(senior\s+)?{MGR}\b|\b{MGR},?\s+(of\s+)?(corporate\s+|business\s+|global\s+|enterprise\s+)?strategy\b|\b(corporate|business|enterprise)\s+strategy\b|\bstrategic\s+planning\b|\bstrategy\s*(&|and)\s*planning\b"),
+    # AI transformation (2026-10-30): the role that moves a company's work onto AI: adoption, enablement, the AI
+    # office. Read before transformation and digital_transformation, which took "AI Transformation Lead" until then.
+    # "AI Strategy Lead" stays tech_strategy; "AI Program Manager" stays program_manager (the labelled set says so).
+    ("ai_transformation", r"\b(gen(erative)?\s*ai|ai|artificial\s+intelligence)\s*(&|and|,|/)?\s*(data\s+|product\s+|digital\s+|process\s+|content\s+|sdlc\s+|work(force)?\s+|business\s+|agentic\s+)?(&\s+|and\s+)?(agentic\s+|process\s+|digital\s+|data\s+)?transformation\b"
+                           r"|\b(gen(erative)?\s*ai|ai)\s+(enablement|adoption|change\s+management|center\s+of\s+excellence|centre\s+of\s+excellence|coe)\b"
+                           r"|\bhead\s+of\s+(gen(erative)?\s*)?ai\b|\bchief\s+ai\s+officer\b|\bai\s+transformation\s+office\b"),
     ("digital_transformation", r"\bdigital\s+transformation\b"),
     ("opex", r"\boperational\s+excellence\b|\bcontinuous\s+improvement\b|\bbusiness\s+excellence\b|\blean\s+(manager|leader|lead|six)\b|\bsix\s+sigma\b|\bprocess\s+improvement\s+(manager|lead|leader|director)\b"),
     ("transformation", rf"\btransformation\s+(analyst|associate)\b|\btransformation\s+(office|program|senior\s+)?\s*{MGR}\b|\b{MGR},?\s+(of\s+)?(business\s+|enterprise\s+|finance\s+|operations\s+)?transformation\b|\b(business|enterprise)\s+transformation\b|\btransformation\s+office\b"),
@@ -81,6 +87,9 @@ IN_PRODUCT_SCRAPE = {"product_manager": "pm", "product_strategy": "pm", "pmm": "
 EXCLUDE = {
     "treasury": r"\btreasury\s+(management\s+)?(sales|services)\b|\bsales\b|\bproduct\s+owner\b",
     "transformation": r"\bdigital\s+transformation\b",  # role #26, outside the 25
+    # the people who build the models or the platform are engineers; "Head of AI Research" is a lab, not a programme
+    # ("Head of AI Governance" is the governance role; "Head of AI Safety" and "AI Policy" are their own fields)
+    "ai_transformation": r"\b(engineer\w*|developer|architect|scientist|research\w*|labs?|infrastructure|platform\s+(lead|engineer)|ml\s+ops|mlops|governance|ethics|safety|policy|security|compliance)\b",
     "general_manager": r"\b(assistant|asst\.?|associate)\s+general\s+manager\b|\bin[- ]training\b|\b(restaurant|store|hotel|resort|inn|suites|ritz[- ]carlton|shop|kitchen|salon|branch|club|car\s+wash|dealership|cafe|bakery|property)\b",
     "program_manager": r"\b(technical|tech)\s+program\b|\bTPM\b",
     "operations_manager": r"\bproduct\s+(operations|ops)\b|\b(sales|revenue|marketing|trading|fund|investment)\s+operations\s+(analyst|supervisor)\b",
@@ -281,7 +290,7 @@ SEARCH_QUERIES = [
     "program manager", "operations manager", "operational excellence", "continuous improvement", "technology strategy",
 ]
 SEARCH_QUERIES_2 = [
-    "digital transformation", "business analytics", "analytics manager", "business intelligence", "marketing manager",
+    "digital transformation", "AI transformation", "AI enablement", "AI adoption", "business analytics", "analytics manager", "business intelligence", "marketing manager",
     "brand manager", "growth", "sales manager", "business development", "partnerships", "alliances", "customer success",
     "supply chain manager", "procurement", "sourcing", "category manager", "human resources", "HR business partner",
     "people partner", "organizational development", "talent development", "compensation", "total rewards", "benefits",
@@ -325,6 +334,8 @@ FAMILY_LABELS = {
     "compliance": "Compliance Manager", "governance": "Governance Manager",
     "re_acquisitions": "Real Estate Acquisitions Associate", "re_development": "Real Estate Development Manager",
     "re_asset_manager": "Asset Manager", "ldp": "Leadership Development Program Associate",
+    # outside the 50 (2026-10-30): the AI transformation role, until then folded into transformation
+    "ai_transformation": "AI Transformation Manager",
 }
 # scrape batch of each family: the first 25 roles of the list, then the rest
 BATCH = {f: 1 if i < 25 else 2 for i, f in enumerate(FAMILY_LABELS)}
@@ -507,7 +518,7 @@ def entry(title, company=None, category=None, industry=None, fam=None, lvl=None,
 # ---- Groups, and roles that count for another role -------------------------------------------------------------
 # Groups are labels for the interface: every role has its own graph file, so regrouping costs nothing.
 GROUPS = {
-    "consulting_strategy": ("Consulting & strategy", ["management_consultant", "strategy_manager", "corp_strategy_analyst", "transformation", "digital_transformation", "tech_strategy", "chief_of_staff", "bizops"]),
+    "consulting_strategy": ("Consulting & strategy", ["management_consultant", "strategy_manager", "corp_strategy_analyst", "transformation", "digital_transformation", "ai_transformation", "tech_strategy", "chief_of_staff", "bizops"]),
     "finance": ("Finance", ["fpa", "strategic_finance", "treasury", "financial_manager", "corp_dev", "ma_integration"]),
     "banking_investing": ("Banking & investing", ["ib_associate", "commercial_banking_rm", "corporate_banking", "investment_manager", "pe_associate", "vc_associate", "re_acquisitions", "re_development", "re_asset_manager"]),
     "operations": ("Operations & general management", ["general_manager", "program_manager", "operations_manager", "opex", "ldp"]),
@@ -531,7 +542,7 @@ COVERS = {
     "financial_manager": ["fpa"],
     "product_manager": ["product_strategy"],
     "procurement": ["strategic_sourcing"],
-    "transformation": ["digital_transformation"],
+    "transformation": ["digital_transformation", "ai_transformation"],
     "business_analytics": ["business_intelligence"],
 }
 
@@ -590,7 +601,9 @@ def export():
         "corp_dev_named": r"\bcorp(orate)?\.?\s+dev",
         "product": {"families": [{"id": f, "pattern": p} for f, p in roles.FAMILY_PATTERNS], "exclude": roles.EXCLUDE_RE.pattern,
                     "keep": roles.KEEP_RE.pattern, "nonproduct": roles.NONPRODUCT_RE.pattern, "food": roles.FOOD_RE.pattern,
-                    "product_manage": r"\bproduct\s+manage"},
+                    "product_manage": r"\bproduct\s+manage",
+                    # a product_engineer title with a hardware word is not the role (roles.title_ok)
+                    "hardware": roles.HARDWARE_RE.pattern, "hardware_families": ["product_engineer"]},
         "levels": LEVEL_ORDER, "level_labels": LEVEL_LABELS,
         "mba_word": MBA_RE.pattern, "program_grade": PROGRAM_GRADE_RE.pattern,
         "entry": ENTRY,

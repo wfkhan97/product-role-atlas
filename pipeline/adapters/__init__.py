@@ -1,3 +1,5 @@
+import sys
+
 from . import greenhouse, lever, ashby, workday, eightfold, phenom, oracle_hcm, smartrecruiters, amazon, apple, google, gs_graphql, jibe, paradox, radancy, bofa_servlet, mcloud, successfactors, icims, meta, mckinsey, avature, kpmg, talnet, yello
 
 ADAPTERS = {
@@ -27,3 +29,9 @@ ADAPTERS = {
     "talnet": talnet.fetch,
     "yello": yello.fetch,
 }
+
+# ats -> still_open(company, cfg, posting): True on the board, False gone, None cannot tell. pipeline.scrape asks it
+# about each open posting an incomplete fetch did not return; a family without one closes nothing on such a fetch.
+_MODULES = {name: fn.__module__ for name, fn in ADAPTERS.items()}
+CHECKS = {name: getattr(sys.modules[mod], "still_open") for name, mod in _MODULES.items()
+          if hasattr(sys.modules[mod], "still_open")}

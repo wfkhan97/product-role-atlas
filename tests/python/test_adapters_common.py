@@ -99,3 +99,34 @@ def test_retry_warnings_name_the_url_and_never_the_headers(monkeypatch, no_sleep
     assert [r.levelname for r in caplog.records] == ["WARNING", "WARNING"]
     assert "https://board.example/jobs" in caplog.text
     assert "SECRET" not in caplog.text and "Authorization" not in caplog.text
+
+
+def test_a_5xx_is_waited_on_like_a_429(monkeypatch, no_sleep):
+    request, calls = fake_request([503, 502, 200])
+    monkeypatch.setattr(common.SESSION, "request", request)
+    assert common.get("https://board.example/jobs").status_code == 200
+    assert no_sleep == [5, 10] and common.STATS["5xx"] == 2
+
+
+def test_a_listing_page_that_fails_is_recorded_and_a_detail_page_is_not(monkeypatch, no_sleep):
+    common.start_fetch()
+    request, _ = fake_request([404, 500, 500, 500, 200])
+    monkeypatch.setattr(common.SESSION, "request", request)
+    common.get("https://board.example/job/1")                      # a detail page: its 404 decides nothing
+    common.post("https://board.example/search", listing=True)      # three 500s: the page is not read
+    common.get("https://board.example/search?page=2", listing=True)
+    assert common.listing_failures() == ["POST https://board.example/search: HTTP 500"]
+    common.listing_failed("phenom: no jobs key for 'analyst'")
+    assert len(common.listing_failures()) == 2
+    common.start_fetch()
+    assert common.listing_failures() == [], "each employer's fetch starts clean"
+
+
+def test_listing_failures_are_kept_per_thread():
+    import threading
+    common.start_fetch()
+    common.listing_failed("this thread")
+    seen = []
+    t = threading.Thread(target=lambda: (common.start_fetch(), seen.append(common.listing_failures())))
+    t.start(); t.join()
+    assert seen == [[]] and common.listing_failures() == ["this thread"]
