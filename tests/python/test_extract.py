@@ -155,3 +155,25 @@ def test_postings_keeps_the_row_seen_last_when_two_raw_files_hold_one_requisitio
     monkeypatch.setattr(scrape, "load_registry", lambda roles_name="product": [{"company": "Acme", "ats": "successfactors", "group": "fortune250"}])
     rows = list(E.postings("mba"))
     assert [(j["title"], j.get("last_seen")) for _, _, j, _, _ in rows] == [("Sr. Program Manager - Network Switching", "2026-10-18")]
+
+
+def test_a_cached_text_tags_the_same_as_a_fresh_one(tmp_path):
+    """E.TextCache: a posting tagged from its cache entry gives the same row and evidence as one tagged fresh,
+    and a cache file with another fingerprint is not read."""
+    import json as _json
+    cleaned = ("You will own the roadmap and run A/B tests with SQL. Build financial models in Excel and present to the "
+               "board. 5+ years of product management experience required. Stakeholder management across teams.")
+    j = {"title": "Senior Product Manager", "description": cleaned, "url": "https://x/1", "external_id": "1",
+         "location": "New York, NY", "first_seen": "2026-10-01", "last_seen": "2026-10-28"}
+    r = {"group": "g", "industry": "Software"}
+    fresh = E.tag_posting(("mba", "Acme", r, j, "product", cleaned, None))
+    assert fresh[3] is not None and fresh[3]["marks"], "a fresh tag returns its text_tags for the cache"
+    cached = E.tag_posting(("mba", "Acme", r, j, "product", cleaned, _json.loads(_json.dumps(fresh[3]))))
+    assert cached[:3] == fresh[:3] and cached[3] is None
+    c = E.TextCache("mba", path=str(tmp_path / "c.json.gz"))
+    c.entries["k"] = fresh[3]
+    c.save(["k"])
+    assert E.TextCache("mba", path=str(tmp_path / "c.json.gz")).entries == {"k": fresh[3]}
+    c.fingerprint = "another"
+    c.save(["k"])
+    assert E.TextCache("mba", path=str(tmp_path / "c.json.gz")).entries == {}

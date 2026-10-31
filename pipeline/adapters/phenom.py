@@ -1,7 +1,7 @@
 import json
 import re
 import time
-from .common import get, post, strip_html, job, SEARCH_QUERIES
+from .common import get, post, strip_html, job, listing_failed, SEARCH_QUERIES
 
 def _ddo(html):
     """Extract the phApp.ddo JSON object with balanced-brace scanning."""
@@ -79,14 +79,20 @@ def fetch(company, cfg, title_ok, max_pages=25):
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
         for page in range(max_pages):
-            r = post(f"https://{host}{path}", json=_body(q, page * PAGE_SIZE, PAGE_SIZE), headers={"Content-Type": "application/json"})
+            r = post(f"https://{host}{path}", listing=True, json=_body(q, page * PAGE_SIZE, PAGE_SIZE),
+                     headers={"Content-Type": "application/json"})
             if r.status_code != 200:
                 break
             try:
-                rs = r.json().get("refineSearch", {})
-                data = rs.get("data", {})
+                body = r.json()
             except ValueError:
+                listing_failed(f"phenom: search body not JSON for {q!r} page {page}")
                 break
+            if not isinstance(body, dict) or not isinstance(body.get("refineSearch"), dict):
+                listing_failed(f"phenom: no refineSearch in answer for {q!r} page {page}")
+                break
+            rs = body["refineSearch"]
+            data = rs.get("data") or {}
             posts = data.get("jobs", [])
             for p in posts:
                 if title_ok(p.get("title", "")):
@@ -96,6 +102,8 @@ def fetch(company, cfg, title_ok, max_pages=25):
             if not posts or (page + 1) * PAGE_SIZE >= total:
                 break
             time.sleep(0.3)
+        else:  # the page cap ended the search, not the results: what lies past it may be open
+            listing_failed(f"phenom: stopped at the page cap for {q!r}")
     out = []
     for key, p in seen.items():
         desc = p.get("description") or ""
@@ -146,3 +154,36 @@ def fetch(company, cfg, title_ok, max_pages=25):
                        external_id=p.get("jobId") or key, extra={"category": p.get("category")}))
         time.sleep(0.2)
     return out
+
+
+def still_open(company, cfg, posting):
+    """Read the posting's Phenom job page: the stored URL when it is on the Phenom host, else /us/en/job/<jobId> (CVS,
+    Regions, ITW store a Workday apply link; a page in the wrong locale redirects to the right one, asked once). True: the page's
+    jobDetail holds this job. False: the page answers 404 or 410, how Phenom pages answer a job that is gone (BCG,
+    CVS, PMI, United, Synovus, Zimmer). None: anything else, including a record marked "Deleted" on a page that still
+    answers 200 (Newmont keeps those pages; the job is out of the search, but the mark is one board's field)."""
+    host, jid, url = cfg.get("host"), str(posting.get("external_id") or ""), posting.get("url") or ""
+    if not host:
+        return None
+    if not (url.startswith(f"https://{host}/") and "/job/" in url):
+        if not jid:
+            return None
+        url = f"https://{host}/us/en/job/{jid}"
+    r = get(url, allow_redirects=False)
+    if 300 <= r.status_code < 400 and jid:
+        # a page asked in the wrong locale redirects to the right one: to its job page (BCG) or to its home, /global/en
+        # (Labcorp); ask that locale's job page once
+        m = re.match(r"(?:https://[^/]+)?/([a-z]{2,6})/([a-z]{2})(?:/job/[^/?#]+)?/?$", r.headers.get("Location") or "")
+        retry = f"https://{host}/{m.group(1)}/{m.group(2)}/job/{jid}" if m else None
+        if retry and retry != url:
+            r = get(retry, allow_redirects=False)
+    if r.status_code in (404, 410):
+        return False
+    if r.status_code != 200:
+        return None
+    jd = (((_ddo(r.text) or {}).get("jobDetail") or {}).get("data") or {}).get("job") or {}
+    if not jd or (jid and str(jd.get("jobId") or "") != jid):
+        return None
+    if str(jd.get("jobStatusVal") or "").lower() == "deleted":
+        return None
+    return True

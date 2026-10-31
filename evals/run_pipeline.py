@@ -30,7 +30,7 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
-from pipeline import balance, extract, geo, processed, roles_mba, tax  # noqa: E402
+from pipeline import balance, extract, geo, processed, roles, roles_mba, tax  # noqa: E402
 from pipeline.scrape import load_registry  # noqa: E402
 
 ROLES = "mba"
@@ -242,8 +242,17 @@ def integrity():
     check("integrity", not stray, f"skill ids in the processed file that are not in the taxonomy: {sorted(stray)[:8]}")
     check("integrity", all(s["cluster"] in T["clusters"] for s in T["skills"]), "a skill names a cluster that does not exist")
     us = collections.Counter(j["family"] for j in jobs if j["country"] == "United States")
-    empty = [f for f in roles_mba.FAMILY_LABELS if not us[f]]
+    # A posting carries the role the rules gave it at extraction. A role added or redrawn since then shows here as
+    # postings whose stored role differs from the current rules (stale), and as a role with no postings that those
+    # stale postings would fill: that role waits for `pipeline.extract --roles mba`, and is reported, not failed.
+    stale = collections.Counter((j["family"], roles_mba.family(j["title"], j.get("category"), j["company"])) for j in jobs
+                                if roles_mba.family(j["title"], j.get("category"), j["company"]) != j["family"])
+    awaiting = {to for (_, to), n in stale.items() if to and not us[to]}
+    empty = [f for f in roles_mba.FAMILY_LABELS if not us[f] and f not in awaiting]
     check("integrity", not empty, f"roles with no US postings: {empty}")
+    if stale:
+        out(f"  {sum(stale.values())} postings carry a role the current rules would not give (the rules changed after the last extraction): "
+            + ", ".join(f"{a or 'none'} -> {b or 'none'} {n}" for (a, b), n in stale.most_common(6)) + (f"; roles waiting for re-extraction: {sorted(awaiting)}" if awaiting else ""))
     check("integrity", set(us) <= set(roles_mba.FAMILY_LABELS), f"postings carry a role that is not in the role list: {set(us) - set(roles_mba.FAMILY_LABELS)}")
     check("integrity", all(j["level"] in roles_mba.LEVEL_ORDER and j.get("ladder") in roles_mba.LADDERS for j in jobs), "a posting has a level or a ladder outside the lists")
     check("integrity", all(j.get("entry", 0) in roles_mba.ENTRY_VALUES + (None,) and isinstance(j.get("intern"), bool) for j in jobs), "a posting has no entry mark, or one outside the allowed values")
@@ -269,7 +278,9 @@ def graph(jobs):
     check(part, G["jobs"] == [], "the index carries jobs; they belong in the role files")
     check(part, list(G["families"]) == list(roles_mba.FAMILY_LABELS) and G["levels"] == roles_mba.LEVEL_ORDER, "families or levels differ from pipeline/roles_mba.py")
     check(part, set(G["level_labels"]) == set(G["levels"]) and all(set(l["levels"]) <= set(G["levels"]) for l in G["ladders"].values()), "level labels do not cover the levels")
-    check(part, sorted(f for g in G["groups"] for f in g["families"]) == sorted(G["families"]), "the groups do not hold every role exactly once")
+    # a role with no postings (added since the last extraction) is in roles with n 0 and in no group; every other role is in exactly one
+    filled = sorted(f for f in G["families"] if G["roles"][f]["n"])
+    check(part, sorted(f for g in G["groups"] for f in g["families"]) == filled, "the groups do not hold every role with postings exactly once, or hold an empty one")
     sk = set(G["skill_ids"])
     check(part, [s["id"] for s in G["skills"]] == G["skill_ids"] == [s["id"] for s in tax.for_roles(ROLES)["skills"]], "skills differ from the taxonomy")
     us = [j for j in jobs if j["country"] == "United States"]
@@ -285,6 +296,9 @@ def graph(jobs):
         rows = F["jobs"]
         total += len(rows)
         check(part, len(rows) == want_n[f] == G["roles"][f]["n"], f"{f}: {len(rows)} postings in its file, {G['roles'][f]['n']} in the index, {want_n[f]} US postings extracted")
+        if not rows:
+            out(f"  {f}: no postings yet (its file is empty, the index lists it with n 0 and in no group)")
+            continue
         check(part, all(j["family"] == f and j["country"] == "United States" for j in rows), f"{f}: a posting of another role or another country")
         check(part, all(job_keys <= set(j) for j in rows), f"{f}: a posting lacks fields that graph.json postings have: {job_keys - set(rows[0]) if rows else ''}")
         check(part, all(j["level"] in G["levels"] and j["ladder"] in G["ladders"] for j in rows), f"{f}: a level or ladder outside the lists")
@@ -332,8 +346,9 @@ def graph(jobs):
     # the product files this build must leave alone
     P = tax.for_roles("product")
     check(part, read("taxonomy.json") == P, "web/data/taxonomy.json is no longer the product part of the taxonomy")
-    check(part, [s["id"] for s in product["skills"]] == [s["id"] for s in P["skills"]] and set(product["families"]) == {"pm", "tpm", "pmm", "product_ops", "product_analyst", "product_owner"}, "web/data/graph.json changed shape")
-    sizes = sorted((G["roles"][f]["bytes"], f) for f in G["families"])
+    # graph.json holds the product families of its last build: a family added to pipeline/roles.py since shows up at the next
+    check(part, [s["id"] for s in product["skills"]] == [s["id"] for s in P["skills"]] and {"pm", "tpm", "pmm", "product_ops", "product_analyst", "product_owner"} <= set(product["families"]) <= set(roles.FAMILY_LABELS), "web/data/graph.json changed shape")
+    sizes = sorted((G["roles"][f].get("bytes", 0), f) for f in G["families"] if G["roles"][f]["n"])   # an empty role has no size
     out(f"  {total:,} postings in {len(G['families'])} role files ({sum(b for b, _ in sizes) / 1e6:.1f} MB; largest {sizes[-1][1]} {sizes[-1][0] / 1e6:.2f} MB, smallest {sizes[0][1]} {sizes[0][0] / 1e3:.0f} KB);"
         f" index {os.path.getsize(os.path.join(data, f'graph_{ROLES}.json')) / 1e6:.2f} MB; heaviest employer in a role: {worst[0]:.1%} ({worst[1]})")
     out(f"  {totals[(part, 'pass')]} pass, {totals[(part, 'fail')]} fail")
