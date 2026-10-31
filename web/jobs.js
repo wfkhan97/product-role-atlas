@@ -2,12 +2,14 @@
    owner's search_logic.md). No DOM, no data of its own: the rows are web/data/jobs_open.json (written by
    pipeline.jobs_open, column-oriented; rowsOf expands it once), and `ctx` hands in what the rows do not carry (a role's name and field, a skill's name), so
    the same code runs in node: require("web/jobs.js") gives the functions; in the browser they are window.Jobs.
-   A person's fit is never a number on its own: fitLine says "N of the M skills". */
+   A person's fit is never a number on its own: fitLine says "N of the M skills". The words (the level words, the
+   entry marks, the employer types, the fit line) are web/copy.js, Copy.jobs. */
 (function (root, factory) {
-  if (typeof module === "object" && module.exports) module.exports = factory();   // node: require("web/jobs.js")
-  else root.Jobs = factory();
-})(typeof self !== "undefined" ? self : this, function () {
+  if (typeof module === "object" && module.exports) module.exports = factory(root.Copy || require("./copy.js"));   // node: require("web/jobs.js")
+  else root.Jobs = factory(root.Copy);
+})(typeof self !== "undefined" ? self : this, function (Copy) {
   "use strict";
+  const W = Copy.jobs, fill = Copy.fill;
   const PAGE = 50;
   const PRODUCT_NS = "product.";   // web/atlas.js productKey: the product set's roles are product.<family>
 
@@ -35,12 +37,12 @@
   // A senior manager is still a manager; a group manager leads; a VP and a chief officer sit with the directors.
   const FOUR = { associate: "associate", mid: "mid", senior: "mid", staff: "staff", group: "staff", director: "director", vp: "director", cpo: "director" };
   const LEVEL_WORDS = {
-    labels: [["associate", "Analyst or associate"], ["mid", "Manager"], ["staff", "Lead or principal"], ["director", "Director"]],
+    labels: ["associate", "mid", "staff", "director"].map(id => [id, W.levels[id]]),
     product: Object.assign({}, FOUR),
     mba: Object.assign({}, FOUR),
   };
-  const ENTRIES = [["mba", "MBA entry"], ["bachelor", "Bachelor's entry"], ["intern", "Internship"]];
-  const EMPLOYERS = [["fortune500", "Fortune 500"], ["startup", "Startup"], ["mba_employer", "MBA employer"]];
+  const ENTRIES = ["mba", "bachelor", "intern"].map(id => [id, W.entries[id]]);
+  const EMPLOYERS = ["fortune500", "startup", "mba_employer"].map(id => [id, W.employers[id]]);
   const SORTS = ["best", "fit", "company"];
   const levelWord = row => (LEVEL_WORDS[row.set] || {})[row.level] || row.level || "";
   const levelLabel = row => (LEVEL_WORDS.labels.find(([id]) => id === levelWord(row)) || [, row.level])[1] || "";
@@ -131,7 +133,7 @@
     let n = 0; for (const id of ids) if (have.has(id)) n += 1;
     return { n, m: ids.length };
   }
-  const fitLine = fit => `${fit.n} of the ${fit.m} skills this posting asks for are on your résumé.`;
+  const fitLine = fit => fill(W.fitLine, { n: fit.n, m: fit.m });
 
   // ---------- the order ----------
   const cmp = (a, b) => String(a || "").localeCompare(String(b || ""), "en", { sensitivity: "base" });

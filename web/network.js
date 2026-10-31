@@ -5,16 +5,18 @@
    line that says what it opens. No draft names a school: the opener is "I am a grad student." everywhere.
    No DOM, no fetch, no storage: every function takes the index (`ix`), a role (`R` from Atlas.role), a fit or plain
    arrays, and gives structures and plain-text strings the screen draws. Loads as a classic script (window.Network)
-   and in node (require("web/network.js")). Nothing here is a score or a percentage. */
+   and in node (require("web/network.js")). Nothing here is a score or a percentage.
+   The fixed strings are web/copy.js (Copy.network): COPY and TYPES here are views over that table; the sentences
+   say(), who() and count() build from the data stay here. */
 (function (root, factory) {
-  if (typeof module === "object" && module.exports) module.exports = factory();
-  else root.Network = factory();
-})(typeof self !== "undefined" ? self : this, function () {
+  if (typeof module === "object" && module.exports) module.exports = factory(root.Copy || require("./copy.js"));
+  else root.Network = factory(root.Copy);
+})(typeof self !== "undefined" ? self : this, function (Copy) {
   "use strict";
   const enc = encodeURIComponent;
   const fmt = n => Number(n || 0).toLocaleString("en-US");
   const join = xs => xs.length < 2 ? xs.join("") : xs.slice(0, -1).join(", ") + " and " + xs[xs.length - 1];
-  const fill = (s, vars) => String(s).replace(/\{(\w+)\}/g, (m, k) => vars && vars[k] != null ? String(vars[k]) : m);
+  const fill = Copy.fill;
   // "a" or "an" before a name, by its sound ("an FP&A Manager", "a Product Manager", "an HR Manager")
   const an = x => (/^[AEIOU]/i.test(x) || /^[FHLMNRSX](?![a-z])/.test(x) ? "an " : "a ") + x;
   const An = x => an(x).replace(/^a/, "A");
@@ -22,51 +24,15 @@
   const short = name => String(name || "").replace(/\s*\(.*?\)/g, "").trim();
 
   // ---------- the people types ----------
-  // id, label, what each is good for (one line); cornell: true means the type shows only when the door opens Cornell
-  const TYPES = [
-    { id: "hm", label: "A hiring manager", good: "Decides on a hire for the role you want. Ask what they look for." },
-    { id: "inrole", label: "Someone in the role now", good: "Does the job today. Ask what a week looks like." },
-    { id: "recruiter", label: "A recruiter", good: "Runs hiring at a company. Ask how and when they hire." },
-    { id: "alum", label: "An alum in the role", good: "Went from your school to this role. Ask how." },
-    { id: "peer", label: "A classmate", good: "Aims at the same role. Compare notes and split the work." },
-    { id: "faculty", label: "Faculty on campus", good: "Teaches a class this term that covers one of your gaps.", cornell: true },
-  ];
+  // id, label, what each is good for (one line, Copy.network.types); cornell: true means the type shows only when the
+  // door opens Cornell
+  const TYPES = ["hm", "inrole", "recruiter", "alum", "peer", "faculty"].map(id => ({ id, label: Copy.network.types[id].label, good: Copy.network.types[id].good, ...(id === "faculty" ? { cornell: true } : {}) }));
   const types = cornell => TYPES.filter(t => cornell || !t.cornell);
   const typeOf = id => TYPES.find(t => t.id === id) || TYPES[0];
 
-  // the screen's strings; {name} slots are filled with fill()
-  const COPY = {
-    eyebrow: "Networking · {role}",
-    heading: "Who to meet",
-    lead: "You show {n} of the {m} skills most {role} postings ask for. These people can help with the rest.",
-    role: "Role",
-    who: "Who to look for",
-    where: "Where to find them",
-    whereNote: "Each link is a search built from the data. We list no one ourselves.",
-    noWhere: "No place to look in the data for this type.",
-    openWith: "Open with",
-    questions: "Three questions",
-    listen: "Listen for",
-    follow: "Follow up the same day",
-    message: "Your message",
-    prep: "Prep a chat",
-    company: "Company",
-    professor: "Professor",
-    noPick: "No pick needed. This fits any classmate aiming at {role}.",
-    name: "Their name, if you know it",
-    nameHint: "Optional. Stays in this browser.",
-    copy: "Copy the message",
-    edit: "Edit it, then copy.",
-    copied: "Copied.",
-    add: "Add to my list",
-    onList: "On your list",
-    list: "Your list",
-    noChats: "No chats yet. The prep card has \"Add to my list\".",
-    stays: "Stays in this browser.",
-    open: "Open",
-    remove: "Remove",
-    linkedin: "LinkedIn needs an account.",
-  };
+  // the screen's strings (web/copy.js, Copy.network); {name} slots are filled with fill()
+  const COPY = Copy.network;
+  const WHO = COPY.whoLines, WHERE = COPY.whereLines, SAY = COPY.say;
 
   // ---------- the context: one role, the person's fit, the employers, the titles, the professors ----------
   const LEVELS = ["associate", "mid", "senior", "staff", "group", "director", "vp", "cpo"];
@@ -149,10 +115,10 @@
     const R = C.role.label, nE = C.employers.length;
     const rows = levels => levels.map(l => ({ level: l.level, label: l.label, n: l.n, titles: l.titles.slice(0, 3) }));
     if (type === "hm") return { lead: `Titles one or two levels above ${R}, at the companies hiring it now.`, levels: rows(C.senior), employers: C.employers.slice(0, 5), note: C.senior.length ? `${nE} ${nE === 1 ? "employer posts" : "employers post"} ${R} now. The five with the most open postings:` : `No senior ${R} posting is open now. Look one level up: ${nextLevel(C)}.` };
-    if (type === "inrole") return { lead: `The title ${R} itself, at the companies hiring it now.`, levels: rows(C.junior), employers: C.employers.slice(0, 5), note: C.junior.length ? "The five employers with the most open postings:" : `The open ${R} postings are at ${join(C.levels.map(l => l.label))}.` };
+    if (type === "inrole") return { lead: `The title ${R} itself, at the companies hiring it now.`, levels: rows(C.junior), employers: C.employers.slice(0, 5), note: C.junior.length ? WHO.fiveEmployers : `The open ${R} postings are at ${join(C.levels.map(l => l.label))}.` };
     if (type === "recruiter") { const spons = C.postings.filter(p => p.sponsorship === "yes").length; return { lead: `Recruiters for ${R} roles at the companies with the most open postings.`, levels: [], employers: C.employers.slice(0, 5), note: spons ? `${fmt(spons)} of the ${fmt(C.postings.length)} open ${R} postings say they sponsor a visa.` : `The open ${R} postings do not say they sponsor a visa. Ask.` }; }
-    if (type === "faculty") return { lead: C.profs.length ? `The professors whose classes this term cover most of your ${C.fit.gaps.length} ${R} gaps.` : "Faculty show when your email opens them.", levels: [], employers: [], note: C.profs.length ? "Open a professor to see the classes and the official profile." : null, profs: C.profs.map(p => ({ slug: p.slug, name: p.name, line: profLine(p), codes: p.codes, covers: p.covers, nGaps: C.fit.gaps.length })) };
-    if (type === "alum") return { lead: `Alumni of your school with the title ${R}, or one level up.`, levels: rows(C.levels), employers: C.employers.slice(0, 3), note: "Start at the employers hiring the role now:" };
+    if (type === "faculty") return { lead: C.profs.length ? `The professors whose classes this term cover most of your ${C.fit.gaps.length} ${R} gaps.` : WHO.facultyWait, levels: [], employers: [], note: C.profs.length ? WHO.openProfessor : null, profs: C.profs.map(p => ({ slug: p.slug, name: p.name, line: profLine(p), codes: p.codes, covers: p.covers, nGaps: C.fit.gaps.length })) };
+    if (type === "alum") return { lead: `Alumni of your school with the title ${R}, or one level up.`, levels: rows(C.levels), employers: C.employers.slice(0, 3), note: WHO.startEmployers };
     if (type === "peer") return { lead: `Classmates who aim at ${R}. Compare notes on the skills most postings ask for.`, levels: [], employers: [], note: C.build.length ? `Skills most ${R} postings ask for that your résumé does not show yet. Split them:` : `Your résumé shows the skills most ${R} postings ask for. Compare how you show them.`, skills: C.build.map(b => ({ id: b.id, name: b.name })) };
     return { lead: "", levels: [], employers: [], note: null };
   }
@@ -182,21 +148,22 @@
     H = H || {};
     const R = C.role.label, cos = target && target.company ? [target.company] : C.employers.slice(0, 3).map(e => e.company);
     const rows = [];
-    if (type === "hm") cos.forEach(c => rows.push(out(`${c} · ${R} leads`, liPeople(seniorQuery(C, c)), `Opens LinkedIn's people search for senior ${R} titles at ${c}. ${COPY.linkedin}`)));
-    if (type === "inrole") cos.forEach(c => rows.push(out(`${c} · ${R}`, liPeople(`${c} "${R}"`), `Opens LinkedIn's people search for ${R} at ${c}. ${COPY.linkedin}`)));
+    const v = c => ({ role: R, company: c, linkedin: COPY.linkedin });
+    if (type === "hm") cos.forEach(c => rows.push(out(fill(WHERE.leads, v(c)), liPeople(seniorQuery(C, c)), fill(WHERE.hm, v(c)))));
+    if (type === "inrole") cos.forEach(c => rows.push(out(`${c} · ${R}`, liPeople(`${c} "${R}"`), fill(WHERE.inrole, v(c)))));
     if (type === "recruiter") {
-      cos.forEach(c => rows.push(out(`${c} · recruiters`, liPeople(`${c} recruiter "${C.field ? C.field.label.split(" & ")[0] : R}"`), `Opens LinkedIn's people search for recruiters at ${c}. ${COPY.linkedin}`)));
-      C.postings.filter(p => p.url && (!target || p.company === target.company)).slice(0, 3).forEach(p => rows.push(out(`${p.company} · ${p.title}`, p.url, "Opens the posting on the company's site. It names the team; some name the recruiter.")));
-      rows.push(out("Handshake", "https://app.joinhandshake.com/", "Opens Handshake, if your school uses it. An employer's page there lists its recruiters and alumni who worked there."));
+      cos.forEach(c => rows.push(out(fill(WHERE.recruiters, v(c)), liPeople(`${c} recruiter "${C.field ? C.field.label.split(" & ")[0] : R}"`), fill(WHERE.recruiter, v(c)))));
+      C.postings.filter(p => p.url && (!target || p.company === target.company)).slice(0, 3).forEach(p => rows.push(out(`${p.company} · ${p.title}`, p.url, WHERE.posting)));
+      rows.push(out(WHERE.handshake, "https://app.joinhandshake.com/", WHERE.handshakeLine));
     }
     if (type === "alum") {
-      rows.push(out(`${R} · people search`, liPeople(`"${R}"`), `Opens LinkedIn's people search for ${R}. Add your school under School in the filters. ${COPY.linkedin}`));
-      cos.slice(0, 2).forEach(c => rows.push(out(`${c} · ${R}`, liPeople(`${c} "${R}"`), `Opens LinkedIn's people search for ${R} at ${c}. Add your school in the filters. ${COPY.linkedin}`)));
+      rows.push(out(fill(WHERE.peopleSearch, v("")), liPeople(`"${R}"`), fill(WHERE.alum, v(""))));
+      cos.slice(0, 2).forEach(c => rows.push(out(`${c} · ${R}`, liPeople(`${c} "${R}"`), fill(WHERE.alumAt, v(c)))));
     }
-    if (type === "faculty") (target && target.slug ? [target] : C.profs).forEach(p => rows.push(out(`${p.name} →`, profHref(H, p), "The professor card: title, classes this term, which of your gaps they cover.", false)));
+    if (type === "faculty") (target && target.slug ? [target] : C.profs).forEach(p => rows.push(out(`${p.name} →`, profHref(H, p), WHERE.professor, false)));
     if (type === "peer") {
-      if (C.cornell) C.profs.flatMap(p => p.codes).filter((c, i, a) => a.indexOf(c) === i).slice(0, 4).forEach(code => rows.push(out(`${code} →`, classHref(H, code), "The class in the picker. Its students work on your gaps this term.", false)));
-      rows.push(out("Explore roles & build skills →", H.skills || "#/explore", "Read a classmate's résumé against the same role. Nothing leaves the browser.", false));
+      if (C.cornell) C.profs.flatMap(p => p.codes).filter((c, i, a) => a.indexOf(c) === i).slice(0, 4).forEach(code => rows.push(out(`${code} →`, classHref(H, code), WHERE.classInPicker, false)));
+      rows.push(out(WHERE.skills, H.skills || "#/explore", WHERE.skillsLine, false));
     }
     return rows;
   }
@@ -214,12 +181,12 @@
     const marks = C.marks.map(short), gq = C.fit.gaps.map(g => short(g.name)).find(x => x !== m1) || g1, aq = C.asks.map(a => short(a.name)).find(x => !marks.includes(x) && x !== gq) || a1;
     const e = C.employers.find(x => x.company === co);
     const b1 = C.build[0] ? short(C.build[0].name) : g2, b2 = C.build[1] ? short(C.build[1].name) : g3;
-    const intro = "I am a grad student.";
+    const intro = SAY.intro;
     const aim = type === "hm" || type === "recruiter" ? `I am looking at ${R} roles at ${co}.` : `I want to work as ${an(R)}.`;
     const proof = C.say.length ? `My résumé shows ${join(C.say.map(s => short(s.name)))}.` : C.fit.n ? `I show ${C.fit.n} of the ${C.fit.m} skills most ${R} postings ask for.` : `I am building the skills most ${R} postings ask for.`;
     const A = {
       hm: `Could I have 20 minutes to hear what you look for in ${an(R)} hire?`,
-      inrole: "Could I have 20 minutes to hear what a week in your role looks like?",
+      inrole: SAY.inroleAsk,
       recruiter: `Could I have 15 minutes to hear how ${co} hires for ${R} roles?`,
       faculty: `Could I have 15 minutes to ask whether ${code} covers ${pg}?`,
       alum: `Could I have 20 minutes to hear how you got from your school to ${R}?`,
@@ -243,10 +210,10 @@
     const mins = type === "recruiter" || type === "faculty" ? 15 : 20;
     const follow = type === "peer" ? `Thanks for today. I will ${next}. Same time next week?` : `Thank you for the ${mins} minutes today. I will ${next}. Is there one more person I should talk to?`;
     const subject = type === "faculty" ? `A question about ${code}` : type === "peer" ? `${R}: compare notes?` : `${An(R)} question from a grad student`;
-    return { intro, aim, proof, ask: A[type] || A.hm, questions: Q[type] || Q.hm, listen: L[type] || L.default, follow, subject, mins, close: type === "peer" ? "Thanks." : "Thank you." };
+    return { intro, aim, proof, ask: A[type] || A.hm, questions: Q[type] || Q.hm, listen: L[type] || L.default, follow, subject, mins, close: type === "peer" ? SAY.thanks : SAY.thankYou };
   }
   // the message draft, as plain text the person can copy; name: what the person typed, kept in the browser
-  const draft = (S, name) => [`Subject: ${S.subject}`, "", `Hi ${name && String(name).trim() ? String(name).trim() : "there"},`, "", `${S.intro} ${S.aim} ${S.proof}`, "", S.ask, "", S.close || "Thank you."].join("\n");
+  const draft = (S, name) => [fill(SAY.subject, { subject: S.subject }), "", fill(SAY.hi, { name: name && String(name).trim() ? String(name).trim() : SAY.there }), "", `${S.intro} ${S.aim} ${S.proof}`, "", S.ask, "", S.close || SAY.thankYou].join("\n");
   // the targets a type can pick: companies for the employer types, professors for faculty, none for a classmate
   const targetsOf = (type, C) => type === "faculty" ? C.profs.map(p => ({ key: p.slug, label: p.name, row: p })) : type === "peer" ? [] : C.employers.map(e => ({ key: e.company, label: `${e.company} · ${fmt(e.nOpen)} open`, row: { company: e.company } }));
   // the page lead: "You show N of the M skills most <role> postings ask for. These people can help with the rest."

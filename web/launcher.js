@@ -3,44 +3,19 @@
    closest roles for a résumé on file and the light match lines. No DOM, no fetch: every function takes the index
    (`ix` from Atlas.index(), with Atlas.product() loaded when the Product field should carry its roles) or plain
    arrays, and gives structures the screen draws. Loads as a classic script (window.Launcher) and in node
-   (require("web/launcher.js")). Nothing here is a score or a percentage: a match reads "N of M". */
+   (require("web/launcher.js")). Nothing here is a score or a percentage: a match reads "N of M".
+   The strings are web/copy.js (Copy.skills, the bands Copy.common.bands): COPY here is a view over that table. */
 (function (root, factory) {
-  if (typeof module === "object" && module.exports) module.exports = factory();
-  else root.Launcher = factory();
-})(typeof self !== "undefined" ? self : this, function () {
+  if (typeof module === "object" && module.exports) module.exports = factory(root.Copy || require("./copy.js"));
+  else root.Launcher = factory(root.Copy);
+})(typeof self !== "undefined" ? self : this, function (Copy) {
   "use strict";
   const ASKS = 3;   // the skills most of a role's postings ask for, shown on its row
-  const BAND_LABEL = { different: "New to the field", related: "Relevant foundation", in_range: "Qualified for the role", strong: "Strong match" };
+  const BAND_LABEL = Copy.common.bands;
 
-  // the launcher's strings; {name} slots are filled with fill()
-  const COPY = {
-    heading: "Explore roles & build skills",
-    lead: "Pick a role from {roles} in {fields} fields. Add your résumé to see how your skills match up.",
-    search: "Search roles, for example product manager",
-    searchLabel: "Search roles",
-    pickField: "Pick a field, then a role.",
-    hits: "{n} roles match. Pick one to see what its postings ask for.",
-    hit: "1 role matches. Pick one to see what its postings ask for.",
-    noHit: "No role matches. Try fewer letters, or pick a field below.",
-    tile: "{roles} roles · {open} open",
-    fieldLine: "{roles} roles · {open} open postings. Pick one to see what its postings ask for.",
-    asks: "Most postings ask for: {asks}.",
-    open: "{open} open",
-    resume: {
-      heading: "Your résumé",
-      privacy: "We read it in your browser against what each role's postings ask for.",
-      read: "Read my fit →",
-      onFile: "read in your browser",
-      change: "change",
-      band: "{band} for {role}.",
-      fit: "See your fit for {role} →",
-      closest: "Closest roles",
-      ranked: "Ranked by how many of their top skills you show.",
-      opens: "Each opens your fit.",
-    },
-    you: "more about you →",
-  };
-  const fill = (s, vars) => String(s).replace(/\{(\w+)\}/g, (m, k) => vars && vars[k] != null ? String(vars[k]) : m);
+  // the launcher's strings (web/copy.js, Copy.skills); {name} slots are filled with fill()
+  const COPY = Copy.skills;
+  const fill = Copy.fill;
   const fmt = n => Number(n || 0).toLocaleString("en-US");
 
   // ---------- the prefix search ----------
@@ -109,7 +84,7 @@
     return {
       band, bandLabel,
       bandLine: bandLabel ? fill(COPY.resume.band, { band: bandLabel, role: label }) : null,
-      line: `${fit.n} of the ${fit.m} skills most ${label} postings ask for ${fit.n === 1 ? "is" : "are"} on your résumé.`,
+      line: fill(COPY.resume.line, { n: fit.n, m: fit.m, role: label, are: fit.n === 1 ? COPY.resume.is : COPY.resume.are }),
       fitLink: fill(COPY.resume.fit, { role: label }),
     };
   }

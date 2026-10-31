@@ -9,14 +9,16 @@
    Know-your-role record (G4): `record.saveRole` / `record.knowledge`, `knowLine` for the first line of an end screen,
    `knowCard` for the role screen and About you.
    UMD like atlas.js: the record's pure parts (`record.normalize`, `record.noteGame`) load in node for
-   tests/web/gameshell.test.mjs; the DOM parts register window.GameShell. */
+   tests/web/gameshell.test.mjs; the DOM parts register window.GameShell. The shell's strings are web/copy.js,
+   Copy.games. */
 (function (root, factory) {
-  const mod = factory(typeof root.document === "undefined" ? null : root.document);
+  const mod = factory(typeof root.document === "undefined" ? null : root.document, root.Copy || (typeof module === "object" && module.exports ? require("./copy.js") : null));
   if (typeof module === "object" && module.exports) module.exports = mod;
   else root.GameShell = mod;
-})(typeof self !== "undefined" ? self : this, function (document) {
+})(typeof self !== "undefined" ? self : this, function (document, Copy) {
   "use strict";
   const KEY = "games", VERSION = 1;
+  const W = Copy.games, fill = Copy.fill;
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const isObj = v => !!v && typeof v === "object" && !Array.isArray(v);
 
@@ -97,22 +99,22 @@
   function knowLine(before, after, label) {
     if (!after.total) return "";
     const n = after.known.length, was = before ? before.known.length : null;
-    const change = was == null || was === n ? "" : n > was ? ` · up from ${was}` : ` · down from ${was}`;
-    return `You know <b>${n} of the ${after.total}</b> things ${esc(label)} postings ask for${change}.`;
+    const change = was == null || was === n ? "" : n > was ? fill(W.upFrom, { was }) : fill(W.downFrom, { was });
+    return fill(W.knowLine, { n: `<b>${fill(W.knowCount, { n, m: after.total })}</b>`, role: esc(label), change });
   }
 
   // ---------- small pieces of markup ----------
   const kbd = k => `<kbd>${esc(k)}</kbd>`;
-  const tip = text => `<button type="button" class="tip" aria-label="How this game works" aria-expanded="false" data-tip="${esc(text)}">i</button>`;
-  const STORAGE_NOTE = "Your results stay in this browser; nothing is uploaded.";
-  const KEYS_NOTE = "Keys: 1 to 4 choose, Enter confirms, Esc quits.";
+  const tip = text => `<button type="button" class="tip" aria-label="${esc(W.infoLabel)}" aria-expanded="false" data-tip="${esc(text)}">i</button>`;
+  const STORAGE_NOTE = W.storage;
+  const KEYS_NOTE = W.keys;
   // the ⓘ text: the rules, the keys, where the numbers come from, the storage note, in that order
   const info = ({ rules, keys, source }) => [rules, keys === false ? "" : keys || KEYS_NOTE, source, STORAGE_NOTE].filter(Boolean).join(" ");
   // the round pips: done, the current one, the rest; `marks[i]` = "ok" | "miss" paints a finished round
   function pips(i, n, marks) {
     if (!n) return "";
     const cls = k => k < i ? (marks && marks[k] ? marks[k] : "done") : k === i ? "now" : "";
-    return `<span class="gm-pips" role="img" aria-label="Round ${Math.min(i + 1, n)} of ${n}">${Array.from({ length: n }, (_, k) => `<i class="${cls(k)}"></i>`).join("")}</span><span class="gm-pipn">${Math.min(i + 1, n)} of ${n}</span>`;
+    return `<span class="gm-pips" role="img" aria-label="${esc(fill(W.round, { i: Math.min(i + 1, n), n }))}">${Array.from({ length: n }, (_, k) => `<i class="${cls(k)}"></i>`).join("")}</span><span class="gm-pipn">${esc(fill(W.roundShort, { i: Math.min(i + 1, n), n }))}</span>`;
   }
   // the footer row: one primary (a button or a link) and one quiet action, nothing else; `attrs` is extra markup
   function foot({ primary, quiet } = {}) {
@@ -127,7 +129,7 @@
       <p class="gm-measure" id="gm-measure" tabindex="-1">${measure || ""}</p>${rec ? `<p class="gm-record">${rec}</p>` : ""}
       ${takeaway ? `<p class="gm-take">${takeaway}</p>` : ""}${visual ? `<div class="gm-visual">${visual}</div>` : ""}
       ${link ? `<p class="gm-link"><a href="${esc(link.href)}">${esc(link.label)} →</a></p>` : ""}
-      ${why ? `<details class="disc gm-why"><summary>Why</summary><div class="disc-body">${why}</div></details>` : ""}${footHtml || ""}</div>`;
+      ${why ? `<details class="disc gm-why"><summary>${esc(W.why)}</summary><div class="disc-body">${why}</div></details>` : ""}${footHtml || ""}</div>`;
   }
   // a ranked list with the player's calls painted on it (the role's own list, as the role screen draws it):
   // rows = [{ name, share, cls, note }], cls = "you" (right) | "miss" (a call that went wrong) | "" ; the label says what the bar is, once
@@ -153,7 +155,7 @@
     return Object.keys(ix.roles).filter(ok).sort((a, b) => (ix.roles[b].nOpen || 0) - (ix.roles[a].nOpen || 0))[0] || null;
   }
   // the coachmark: one pointer on the first move of a game's first round (Coachmarks pattern), dismissed by any move
-  const coach = text => `<div class="gm-coach" role="note" id="gm-coach">${esc(text)}<button type="button" class="linkish link" id="gm-coach-ok">Got it</button></div>`;
+  const coach = text => `<div class="gm-coach" role="note" id="gm-coach">${esc(text)}<button type="button" class="linkish link" id="gm-coach-ok">${esc(W.gotIt)}</button></div>`;
 
   if (!document) return { record, info, pips, foot, results, ranked, kbd, tip, pickDefault, coach, knowLine, KEYS_NOTE, STORAGE_NOTE };
 
@@ -163,7 +165,7 @@
     el.innerHTML = `<div class="page gm${o.cls ? " " + o.cls : ""}"><div class="gm-head">
         <div class="gm-title"><b>${esc(o.game)}</b>${o.role ? `<span class="gm-sep" aria-hidden="true">·</span><span class="gm-role" id="gm-role">${esc(o.role)}</span>` : ""}</div>
         <div class="gm-round" id="gm-round">${pips(o.round, o.rounds, o.marks)}</div>
-        <div class="gm-tools"><span id="gm-info">${o.info ? tip(o.info) : ""}</span><a class="gm-quit" href="${esc(o.quit || "#/home")}">Quit ${kbd("Esc")}</a></div>
+        <div class="gm-tools"><span id="gm-info">${o.info ? tip(o.info) : ""}</span><a class="gm-quit" href="${esc(o.quit || "#/home")}">${esc(W.quit)} ${kbd("Esc")}</a></div>
       </div><div class="gm-body" id="gm-body"></div><div class="gm-live" aria-live="polite" id="gm-live"></div></div>`;
     const $ = s => el.querySelector(s);
     const body = $("#gm-body"), liveEl = $("#gm-live");
@@ -210,7 +212,7 @@
   function start(F, { title, lead, role, play, change, extra, playLabel }) {
     F.set({ round: null, rounds: 0, role: "" });
     F.body.innerHTML = `<div class="gm-start"><h1>${esc(title)}</h1><p class="lead">${esc(lead)}</p>${extra || ""}
-      ${foot({ primary: { id: "gm-play", label: playLabel || (role ? `Play · ${esc(role)}` : "Play"), key: "Enter" }, quiet: change ? { id: "gm-change", label: typeof change === "string" ? change : "Change role" } : null })}</div>`;
+      ${foot({ primary: { id: "gm-play", label: playLabel || (role ? esc(fill(W.playRole, { role })) : esc(W.play)), key: "Enter" }, quiet: change ? { id: "gm-change", label: typeof change === "string" ? change : esc(W.changeRole) } : null })}</div>`;
     const p = F.body.querySelector("#gm-play"), c = F.body.querySelector("#gm-change");
     p.onclick = play; if (c && typeof change === "function") c.onclick = change;
     p.focus({ preventScroll: true });
@@ -228,13 +230,13 @@
     const draw = () => {
       const cur = groups.find(x => x.g.id === field);
       const card = ({ g, roles }) => { const ex = roles.slice(0, 3).map(r => r.label), more = roles.length - ex.length;
-        return `<button type="button" class="fcard${g.id === field ? " on" : ""}" data-field="${esc(g.id)}" aria-pressed="${g.id === field}"><span class="t">${esc(g.label)}</span><span class="m">e.g. ${esc(ex.join(" · "))}${more > 0 ? `, +${more} more` : ""}</span><span class="bar" data-measure="${fmt(g.nOpen || 0)} open postings in ${esc(g.label)} now; the bar compares the fields."><i style="width:${Math.round(100 * (g.nOpen || 0) / max)}%"></i></span><span class="n">${fmt(g.nOpen || 0)} open</span></button>`; };
-      const row = r => `<button type="button" class="r" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${fmt(r.nOpen || 0)} open</span><span class="m">${esc(o.secondary ? o.secondary(r.id) : "")}</span></button>`;
+        return `<button type="button" class="fcard${g.id === field ? " on" : ""}" data-field="${esc(g.id)}" aria-pressed="${g.id === field}"><span class="t">${esc(g.label)}</span><span class="m">${esc(fill(W.example, { names: ex.join(" · ") }))}${more > 0 ? esc(fill(W.more, { n: more })) : ""}</span><span class="bar" data-measure="${esc(fill(W.barMeasure, { n: fmt(g.nOpen || 0), field: g.label }))}"><i style="width:${Math.round(100 * (g.nOpen || 0) / max)}%"></i></span><span class="n">${esc(fill(W.nOpen, { n: fmt(g.nOpen || 0) }))}</span></button>`; };
+      const row = r => `<button type="button" class="r" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(fill(W.nOpen, { n: fmt(r.nOpen || 0) }))}</span><span class="m">${esc(o.secondary ? o.secondary(r.id) : "")}</span></button>`;
       F.set({ round: null, rounds: 0, role: "" });
-      F.body.innerHTML = `<div class="gm-picker"><h1>${esc(o.title || "Change role")}</h1><p class="lead">${esc(o.lead || "Pick a field, then a role.")}</p>
+      F.body.innerHTML = `<div class="gm-picker"><h1>${esc(o.title || W.changeRole)}</h1><p class="lead">${esc(o.lead || W.pickField)}</p>
         <div class="fcards">${groups.map(card).join("")}</div>
         <h2>${esc(cur.g.label)}</h2><div class="list">${cur.roles.map(row).join("")}</div>
-        ${o.back ? foot({ quiet: { id: "gm-back", label: o.back === true ? "Back" : o.back } }) : ""}</div>`;
+        ${o.back ? foot({ quiet: { id: "gm-back", label: o.back === true ? esc(W.back) : o.back } }) : ""}</div>`;
       F.body.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { field = b.dataset.field; draw(); const c = F.body.querySelector(`[data-field="${CSS.escape(field)}"]`); if (c) c.focus(); });
       F.body.querySelectorAll("[data-role]").forEach(b => b.onclick = () => o.onRole(b.dataset.role, field));
       const bk = F.body.querySelector("#gm-back"); if (bk) bk.onclick = () => o.onBack && o.onBack();
@@ -259,13 +261,13 @@
     const k = summary(storage.read(), o.roleId, o.asks); if (!k.any) return "";
     const names = ids => ids.map(id => esc(o.nameOf(id))).join(", ");
     const missing = k.missing.slice(0, 3);
-    return `<div class="gm-know"><p class="eyebrow">What you know about this role</p>
-      <div class="gm-know-r"><span>Asks you know</span><b>${k.known.length} of ${k.total}</b></div>
-      <div class="gm-know-bar" data-measure="${k.known.length} of the ${k.total} skills at least ${Math.round(ASK_CUT * 100)}% of ${esc(o.label)} postings ask for, got right in a game."><i style="width:${k.total ? Math.round(100 * k.known.length / k.total) : 0}%"></i></div>
-      ${k.ladders.length ? `<div class="gm-know-r"><span>Levels sorted</span><b>${names(k.ladders.slice(0, 3))}${k.ladders.length > 3 ? ` +${k.ladders.length - 3}` : ""}</b></div>` : ""}
-      ${k.postings ? `<div class="gm-know-r"><span>Postings read</span><b>${k.postings}</b></div>` : ""}
-      ${k.demand ? `<div class="gm-know-r"><span>Demand pairs seen</span><b>${k.demand}</b></div>` : ""}
-      ${missing.length && o.practise ? `<p class="gm-know-p"><a href="${esc(o.practise(k.missing))}">Practise what's missing →</a> <span class="muted">${names(missing)}${k.missing.length > 3 ? ", …" : ""}</span></p>` : ""}</div>`;
+    return `<div class="gm-know"><p class="eyebrow">${esc(W.knowHeading)}</p>
+      <div class="gm-know-r"><span>${esc(W.asksKnown)}</span><b>${k.known.length} of ${k.total}</b></div>
+      <div class="gm-know-bar" data-measure="${esc(fill(W.knowMeasure, { n: k.known.length, m: k.total, share: Math.round(ASK_CUT * 100) + "%", role: o.label }))}"><i style="width:${k.total ? Math.round(100 * k.known.length / k.total) : 0}%"></i></div>
+      ${k.ladders.length ? `<div class="gm-know-r"><span>${esc(W.levelsSorted)}</span><b>${names(k.ladders.slice(0, 3))}${k.ladders.length > 3 ? ` +${k.ladders.length - 3}` : ""}</b></div>` : ""}
+      ${k.postings ? `<div class="gm-know-r"><span>${esc(W.postingsRead)}</span><b>${k.postings}</b></div>` : ""}
+      ${k.demand ? `<div class="gm-know-r"><span>${esc(W.demandSeen)}</span><b>${k.demand}</b></div>` : ""}
+      ${missing.length && o.practise ? `<p class="gm-know-p"><a href="${esc(o.practise(k.missing))}">${esc(W.practiceMissing)}</a> <span class="muted">${names(missing)}${k.missing.length > 3 ? ", …" : ""}</span></p>` : ""}</div>`;
   }
 
   return { record, info, pips, foot, results, ranked, kbd, tip, frame, keys, pickDefault, defaultRole, start, picker, coach, coachOnce, knowLine, knowCard, KEYS_NOTE, STORAGE_NOTE };

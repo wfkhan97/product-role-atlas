@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import path from "path";
 import { require, web } from "./_load.mjs";
 
-const { record: R, info, pips, foot, results } = require(path.join(web, "gameshell.js"));
+const { record: R, info, pips, foot, results, STORAGE_NOTE, KEYS_NOTE } = require(path.join(web, "gameshell.js"));
 
 test("normalize: junk, a missing record and foreign shapes all give an empty record of the current version", () => {
   for (const raw of [null, undefined, 7, "x", [], { games: [1, 2] }, { games: { a: 3, b: "x" } }]) assert.deepEqual(R.normalize(raw), { v: R.VERSION, games: {}, roles: {} });
@@ -31,9 +31,11 @@ test("noteGame never changes its input, and gameOf reads an entry or an empty on
 
 test("info joins the rules, the keys (the shared convention unless given), the source and the storage note", () => {
   const t = info({ rules: "Rules.", source: "Source." });
-  assert.ok(t.startsWith("Rules. Keys: 1 to 4 choose, Enter confirms, Esc quits. Source. "));
-  assert.ok(t.endsWith("nothing is uploaded."));
-  assert.equal(info({ rules: "R.", keys: false }), "R. Your results stay in this browser; nothing is uploaded.");
+  assert.ok(t.startsWith(`Rules. ${KEYS_NOTE} Source. `));
+  assert.ok(t.endsWith(STORAGE_NOTE));
+  assert.equal(KEYS_NOTE, "Keys: 1 to 4 choose, Enter confirms, Esc quits.");
+  assert.ok(/stay in this browser/.test(STORAGE_NOTE), "the storage note says the results stay here (the words are web/copy.js, Copy.games.storage)");
+  assert.equal(info({ rules: "R.", keys: false }), `R. ${STORAGE_NOTE}`);
 });
 
 test("pips: done, now, the rest; marks paint finished rounds; no rounds means no pips", () => {
