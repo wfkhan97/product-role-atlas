@@ -1437,8 +1437,8 @@ Instruments' "Product Marketing Engineer" noise in `pmm`.
   Networking (the intake promises it); the graphs rebuilt for both sets so `first_seen` fills `jobs_open.json` and
   Find jobs gains a Newest sort (`build_graph`, then `jobs_open`, on a `data/` branch with the baselines).
 - Owner steps the four verbs left open (2026-10-31): apply `pipeline/sql/2026-10-31_doors.sql` on the catalog
-  project before #125 merges; fill `TALLY.door` and `TALLY.intake` in `web/config.js` with the two form ids (until
-  then the native forms render); create the Vercel project (README, "Hosting").
+  project before #125 merges; create the Vercel project (README, "Hosting"). The two Tally form ids went into
+  `web/config.js` on 2026-10-31 (`chore/four-verbs-close`); the native forms stay as the fallback behind them.
 - The Supabase URL and key stay in `web/config.js` for `capture.js` alone (v19 B3 removed the client); if capture
   moves to Tally's own counts, both can go.
 - The editorial pass over the data strings (`evals/copy_baseline.md` lists them): role and skill names with abbreviations (PRDs, OKRs, P&L), long blurbs, passive lines.

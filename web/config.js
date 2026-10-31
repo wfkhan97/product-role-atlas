@@ -14,5 +14,5 @@ window.CONFIG = {
   // The two Tally forms (web/doors.js, v19 B7): `door` is the form at #/, `intake` the box at each verb's foot. The
   // owner fills the two ids (the part after tally.so/r/). Until an id is set the native form renders in its place;
   // the site never shows a blank box.
-  TALLY: { door: null, intake: null },
+  TALLY: { door: "1WX741", intake: "M1Xzak" },
 };
