@@ -1578,6 +1578,40 @@ GradBuddy" (the map file, what is stable, the privacy rule for maps and feedback
 scripts, the owner's steps, the `web/` bullets); `evals/README.md` "Evals to build" (the layout against a hand-placed
 example); the scratch folder swept.
 
+## Transferable on the MBA roles: the vocabulary reaches the pivoter (`fix/transfer-reach`, 2026-10-31)
+
+The ask: on the eight test résumés `transferable` seemed never to fire against an MBA role. Measured first
+(`measure.mjs` of the map kit, and a per-hit diagnosis): it does fire, on 148 of the 384 résumé × role pairs (eight résumés, the 48 MBA roles),
+from four résumés (course_list, experienced_pm, grad_student_new, pivot_phd_hci); the kit's table adds it to the
+"shows" count, so it never shows as its own column (the v20 note above, "none of the 72 pairs", read that table). Where it does not fire, three reasons, counted over every via hit:
+the skill also has a direct hit (326), the role does not ask for the skill (312), or there is no via vocabulary at all
+for the skill (every MBA-only skill: the 21 skills with via patterns were all product skills). The example pivoter
+(pmm-nyc, sales to product marketing) had no transferable node on any role.
+
+Two changes in `web/match.js`, each measured:
+
+1. A direct hit that is only a mention (strength 1: a skills list, a degree line) no longer masks the via lines of
+   work: a skill is transferable when every line of work that shows it is a via line. Status only, credit unchanged.
+2. Via vocabulary for the MBA asks a pivoter's lines carry: `research` → consumer insights (semi-structured
+   interviews, thematic analysis, focus groups); `sales` → market research (win/loss, objections and lost deals),
+   positioning and messaging (objection sheets, talk tracks, discovery-call guides), customer-facing engagement (trade
+   shows, industry events); `community` → content (a weekly brief, a newsletter, an audience grown to N members). Two
+   new `VIA_LABEL`s. On 40 published sample résumés the new patterns fire on two lines, both fair reads.
+
+The procurement pivoter (experienced_with_coursework) still reads no transferable node: its lines name the MBA skills
+in their own words (vendors, suppliers, quarterly business reviews), which is direct evidence. A transferable row keeps
+full credit, so the example pivoter's Product Marketing Manager score rises from 25% to 55%, "Qualified for the role";
+the bands were not recalibrated (the 304-résumé calibration set is not on this machine), which is the next step before
+the screens show it.
+
+**Measured and not taken: a craft skill named by its artefact** (`feat/craft-artefact-named`, draft). A line that
+names one of a method skill's `how_shown.artefacts` would count as naming the skill (strength 1). On the eight résumés
+and the example no tree node changes: the taxonomy patterns already catch the artefacts these résumés write. On the 40
+published samples the multi-word artefacts name 28 skills the patterns miss, about 16 of them wrongly ("annual plan" as
+a compliance program, "test plans" as controls testing, a dissertation "case study" as customer proof); with single
+words too, 184, and "Community Credit Union" reads as content. The artefact lists tell a student what to name; they
+are not patterns, and a reader of them would need curated patterns per skill first.
+
 ## The first pass on the live site (v21, 2026-11-01)
 
 The owner walked gradbuddy-atlas.vercel.app on 2026-11-01 and sent one list of fixes, screen by screen, with a first
@@ -1666,6 +1700,7 @@ role is chosen. The roster line, the two-columns line and the count line are gon
 with a résumé, and absent when nothing is chosen (roster order then). Subject stays open; Days, Credits, "Who can take
 it" and Professor fold under it, collapsed. The professor card says nothing about identity and lost the ratings
 disclaimer.
+
 ## Refresh pull requests merge themselves when every check passes (2026-11-01)
 
 The owner asked why every scrape needs a merge. The scrape itself never does: each file goes to the Supabase backlog as
@@ -1684,9 +1719,10 @@ approve pull requests" or an `ACTIONS_PAT` secret. CLAUDE.md records the excepti
 
 ## Later
 
-- After v20 (2026-10-31): the matcher candidates from the apprentice-map data note, a thread of their own and
-  eval-gated (the `transferable` status fired on none of the 72 résumé-and-role pairs; a craft skill counted as named
-  when its artifact is on a line); missions that cover a whole class's gaps, not the first role's (the generator's
+- Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach` (2026-10-31; `calibrate.mjs` here
+  finds 48 files and would rewrite the bands from them); decide whether a transferable row should earn less than an
+  evidenced one.
+- After v20 (2026-10-31): missions that cover a whole class's gaps, not the first role's (the generator's
   rule R16, once a map has been run for a real student); the quest map's one-world view (the round-2 Q2) as the view a
   world opens into; the layout eval (`evals/README.md`); the IE New York roster (`IENYC_ENABLED`); an events feed for
   Networking (the intake promises it); the graphs rebuilt for both sets so `first_seen` fills `jobs_open.json` and
