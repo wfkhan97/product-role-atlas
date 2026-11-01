@@ -1449,12 +1449,141 @@ programs, the loader and dataset in the research folder) is untouched; flipping 
 About-you hint in `web/copy.js` still reads "MBA, Tech MBA, Master in Management, Master in Finance": degree names, not
 a campus, and `Copy` is a pure table the copy evals check, so it stays as it is.
 
+## The apprentice map as a skill tree and a quest map (v20, 2026-10-31)
+
+The frame (owner, 2026-10-28 and 2026-10-31, revised on 2026-10-31 after the first design round). **Build skills has
+two tiers.** Everyone gets the free tier: a role, a résumé, the fit, the gaps, the coming-soon door. A person the
+owner has invited gets the full tier: their apprentice map, in the atlas. **The gate is a real sign-in**: Supabase
+Auth with sign-ups off; the owner invites each person from the dashboard; sign-in is a magic link to any invited
+address, no campus rule; it gates the maps and nothing else. **Public facts as files, private artifacts behind
+sign-in**: a map quotes one person's résumé, so it lives in a private bucket under their user id, never in a
+repository; the name on the page is made up. **The atlas renders; GradBuddy generates**: the `/apprentice-map`
+skill in `gradbuddy/` writes `map.json` by hand, per student, offline; the atlas reads it and draws it with its own
+tokens; no model runs in the atlas, no chat, and feedback is captured without a model and read by the owner. **Three
+levels and a reach**: Level 1 "Fundamentals" (I do), Level 2 "Three demos in a day" (we do), Level 3 "One project,
+real users" (you do), then one optional Reach card; levels 4 and 5 of the Shadow Apprentice method are gone (the
+founder arc). **The site promises only what it does**: a person without a map sees the free tier and one line, "Have
+an invite? Sign in."
+
+Phase A (nothing in the tree; `data/experiments/scratch/map/`, swept at the end of the thread) wrote a walkthrough of
+how a map is made with every rule numbered, a flow map, a mock kit built from the real atlas and the real example
+(`gradbuddy/apprentice/examples/pmm-nyc`, a fictional person against a real posting), and clickable mocks per
+group, each checked by a critic that built none. Two rounds.
+
+**Round 1 (2026-10-31).** The owner kept: **K1**, the card as a side panel over the tree; **F1**, three buttons ("I'll
+build this" · "Not this one" · "Change it") and a note, saved beside the map in the private bucket and read by the
+owner with a script; **E1**, Build skills opens the map first for an invited person, the free tier behind one link;
+**P1**, a shipped mission turns its skills to "shows" with a date; and the print page. He rejected every tree (one
+cluster per skill area, columns, rings): too many words, signs and lines; a card tied to several nodes read as
+weird; the legend must be one thin bar at the top. Three changes followed.
+
+1. **One tree per class of roles, not per role.** The class is the one to four roles a person picks that share a
+   field; the map is built on the first role at the first company. The tree's nodes are the class's core skills
+   only (half or more of a role's postings), credentials out: 19 for the marketing class against 38 core-and-common
+   nodes for one role. Behaviors (communication, ownership, execution and the like) are one "How you work" line,
+   never nodes: the atlas credits them only through other work. A node sits on the **trunk** (every role in the
+   class asks for it), a **shared** branch (two or more) or a role's **own** branch (one). Its state is the best
+   across the roles' reads. No lines at rest; the co-asked edges draw only while a node is open, three at most, and
+   never mean "learn this first". The common tier sits behind one link, "More skills these roles sometimes ask for".
+2. **The quests on a quest map, apart from the tree.** Worlds in order (the three levels, then the Reach), missions
+   inside; a world clears after k of its n missions (2 of 6, 2 of 3, 1 of 1 by default, set per map by the
+   generator; the Reach never clears or blocks); "Not this one" takes a mission off the world and off n at the
+   republish. A card no longer hangs off nodes on the picture; it names the skills it builds, and a node's panel
+   lists the missions that build it.
+3. **The read is never a count.** On the eight test résumés across eight roles (`evals/resumes/`), a pivoter shows 2
+   to 8 of about 38 nodes and an experienced product manager 27; the count is honest and crushing. Measured on the
+   way: a quarter of a role's nodes were behaviors no résumé line can unlock on its own; the matcher status
+   `transferable` ("shows in other words") fired on none of the 72 pairs; `presumed` fires only for people who held
+   the role; the band was always kinder and truer. So the screen leads with the band in words, then "What you
+   already bring" (every skill the read found, each under the résumé line that showed it), then "The gaps your
+   quests aim at" (the posting's, at most eight); nothing counts the rest. Two matcher candidates (the transfer
+   vocabulary; a craft skill counted as named when its artifact is on a line) are a thread of their own, eval-gated.
+
+**Round 2 (2026-10-31).** The owner approved **T4**, trunk and branches; **Q1**, the overworld (four worlds on one
+path, numbered stops, "You are here", a flag when a world clears); **D1**, band, what you bring, the gaps. Three
+defaults in the build plan stand unless he says otherwise: the missions cover the first role's gaps (a gap of another
+role in the class with no mission reads "No mission builds it yet"); the k of n defaults above; the student sees their
+own past feedback on a card, and the owner's reply once republished.
+
+The rules, as approved (the walkthrough's numbering). The nodes (R1, revised R22), the archetypes as the role
+screen's areas (R2, folded into R24's places), depth as the senior lean (R3; on the tree only as the "senior roles ask
+more" mark), the co-asked edges (R4, revised R25), the four states from the matcher's statuses (R5: evidenced or
+through → shows; transferable → shows in other words; thin or presumed → must evidence better; gap → must build),
+the line that showed a node (R6), the posting's named skills marked and aimed at first (R7), the three "why" lines
+each quoting its source and checked word for word (R8, R10, R11), the gap sentence from the synthesis (R9), the real
+project in the form the strangest fit gives it (R12), classes from the roster only (R13, R14), one Level 1 card per
+archetype with a core gap and at most six (R15), exactly three demos on the marked gaps (R16), exactly one real project
+with named users as a kind of person (R17), a reach only when the gap sentence names a thing nobody has built and more
+than one term is left (R18), cut never pad (R19), the atlas never writes to a map (R20), only a choice, a note and a
+card id go up (R21), the class tree (R22 to R26), the worlds (R27 to R30), the read on screen (R31).
+
+Phase B, one branch and pull request per step, each on the one before: **B1** in `gradbuddy/` (files written, the
+owner commits), **B2** `feat/map-gate`, **B3** `feat/map-tree`, **B4** `docs/map`. What each built is below.
+
+**Built, B1** (`gradbuddy/apprentice/`, 2026-10-31; the owner commits): `INTAKE.md` takes `roles:` (one to four atlas
+role ids of one field, the first the map's role; a lone `role:` still reads). `ground.mjs` reads every role, writes
+per role the core and common skills and the matcher's read, and the class tree (the union of the roles' core skills,
+credentials out, behaviors apart, `place` trunk · shared · own, the state as the best across the roles, `grows`,
+`posting_names`, the line that showed it), `more`, `posting.names` and the read (`band`, `brings`, `marked_gaps`,
+`how_you_work`) into `grounding.json`. New `assemble.mjs <slug>` copies those deterministic parts into `map.json` as
+version 2 and writes `worlds` from the cards with the k defaults, keeping every hand-written part and any `clear`,
+`shipped`, `changed`, `declined` or `reply` the owner set. `check.mjs`: levels 1, 2, 3 and `"reach"` only; Level 2
+exactly three, Level 3 exactly one, the Reach at most one; `worlds` with `clear` at most the count; `tree` and `read`
+present with every id in the taxonomy; every sentence of a "why" line at most 20 words and no percent sign; a card
+skill off the tree prints a note and does not fail; an optional second argument names a map file, for the tests.
+`SKILL.md` carries the class, the three levels and the reach, and R15 to R19 in its own words; `assemble` runs after
+the cards and before the check. `render.mjs` and `template.html` draw the three levels and the Reach with each
+world's "Ship k of these n" line and the class tree as a list by place (the owner's check view). The example:
+`roles: pmm, marketing_manager, growth_manager, brand_manager`; level 4's Claimkeeper is the Reach, level 5 is gone,
+every "why" line rewritten to sentences of at most 20 words with no percentage and no change to any quote, one source
+title shortened to drop a real person's name; 19 nodes (3 trunk, 6 shared, 10 own), 6 behaviors, 14 more, 11 cards.
+Six broken copies of the map each fail the check with one line; the real one passes with two notes (`data_driven` sits
+off the tree on two cards).
+
+**Built, B2** (`feat/map-gate`, 2026-10-31): `MAPS_ENABLED: true` in `web/config.js`. `web/auth.js`, a classic script
+with no Supabase library: the magic link to an invited address only (`/auth/v1/otp` with `create_user: false`), the
+session read from the link's landing hash (`#/map#access_token=…`, the implicit flow) and kept in `localStorage`, the
+person's own `maps/<uid>/map.json` read with their token, one feedback file per card written the same way with
+upsert; the pure parts (`sessionFromHash`, `feedbackPath`, `feedbackObject`, `refusedMessage`, `MapGate.next`) load
+in node. `#/signin` in the invited mode ("Have an invite? Enter the email it came to.", the sent state, "This email
+has no invite." when GoTrue refuses, a spent link's line); `#/map` with a session reads the map (plain text until B3),
+without one goes to `#/signin`, with a session and no file yet says the map is being written; `#/skills` is E1 (a
+signed-in person with a map goes to the map; `?all=1` is the launcher with "← Back to your map"; no session: the
+launcher plus "Have an invite? Sign in."). The sign-in and the map never bounce to the welcome door. Every string in
+`web/copy.js` (`signin`, `map`). `pipeline/sql/2026-11-03_maps.sql`, written and never applied: the private bucket
+`maps` (JSON only, 2 MB) and three policies on a person's own folder (read; insert and update of
+`<uid>/feedback/<card>.json`; nothing for anon), with the owner's four steps in its header. `pipeline/map_publish.py
+<slug> <email>` finds the invited user by email through the admin API and uploads the student's `map.json`;
+`pipeline/map_feedback.py [<email>]` lists the feedback files; both on `CATALOG_URL` and `CATALOG_SERVICE_ROLE_KEY`
+(`.env.example`; the gradbuddy-catalog project, the one the site points at) and exit 0 without the key. Tests:
+`tests/web/map_gate.test.mjs`, `tests/python/test_map_publish.py` on a fake client.
+
+**Built, B3** (`feat/map-tree`, 2026-10-31): `web/map.js`, the pure parts (`MapModel` in the browser, `require("web/map.js")` in node):
+`classTree`, `treeLayout` (the trunk as a bar, trunk nodes on it, shared nodes on ticks beside it, one stem per role
+with its own nodes on ticks, nothing threaded on a stroke), `coAsked` (three at most, from the index's edges),
+`worlds` (each mission's state from the card's `shipped`, `declined`, `changed` and the person's last answer; `n` with
+declined missions off it; `clear`; cleared; "you are here", the first open or chosen mission; the progress line in
+words), `questLayout`, `questsOf`, `readLines`, `shippedLook`, `dateWords`, `skillInfo`. `#/map` draws the read first
+(D1), one legend bar whose content follows the tab, the quests tab (Q1) and the skill tree tab (T4) with "How you
+work" as one line and "More skills these roles sometimes ask for" as a panel, the node panel with its "asked together
+with" lines drawn only while open, the card in the side panel (K1) with the feedback control (F1: `Auth.writeFeedback`,
+the last answer read back on open, the owner's `reply` from the map), the shipped look (P1) and the print sheet (one
+landscape page, the four worlds as columns, the tree's states as dots). A sent choice shows on the card and its stop;
+the world's counts follow the map file until the owner republishes. Every string in `web/copy.js`. Tokens only, no
+arrowhead, nothing under 13 px on screen, no count of skills anywhere. Tests: `tests/web/map.test.mjs` on a synthetic
+map, and the example map when the GradBuddy folder is on the machine.
+
+**Built, B4** (`docs/map`, 2026-10-31): this section; `docs/GRADBUDDY_CONTRACT.md` "What the atlas reads from
+GradBuddy" (the map file, what is stable, the privacy rule for maps and feedback); README (the bucket, the two
+scripts, the owner's steps, the `web/` bullets); `evals/README.md` "Evals to build" (the layout against a hand-placed
+example); the scratch folder swept.
+
 ## Transferable on the MBA roles: the vocabulary reaches the pivoter (`fix/transfer-reach`, 2026-10-31)
 
 The ask: on the eight test résumés `transferable` seemed never to fire against an MBA role. Measured first
 (`measure.mjs` of the map kit, and a per-hit diagnosis): it does fire, on 148 of the 384 résumé × role pairs (eight résumés, the 48 MBA roles),
 from four résumés (course_list, experienced_pm, grad_student_new, pivot_phd_hci); the kit's table adds it to the
-"shows" count, so it never shows as its own column. Where it does not fire, three reasons, counted over every via hit:
+"shows" count, so it never shows as its own column (the v20 note above, "none of the 72 pairs", read that table). Where it does not fire, three reasons, counted over every via hit:
 the skill also has a direct hit (326), the role does not ask for the skill (312), or there is no via vocabulary at all
 for the skill (every MBA-only skill: the 21 skills with via patterns were all product skills). The example pivoter
 (pmm-nyc, sales to product marketing) had no transferable node on any role.
@@ -1488,10 +1617,14 @@ are not patterns, and a reader of them would need curated patterns per skill fir
 - Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach` (2026-10-31; `calibrate.mjs` here
   finds 48 files and would rewrite the bands from them); decide whether a transferable row should earn less than an
   evidenced one.
-- The next thread after the four verbs (v19, 2026-10-31): the apprentice maps behind a real sign-in (the one place a
-  session is worth its cost); the IE New York switch (its catalog file and `catalog: true`); an events feed for
+- After v20 (2026-10-31): missions that cover a whole class's gaps, not the first role's (the generator's
+  rule R16, once a map has been run for a real student); the quest map's one-world view (the round-2 Q2) as the view a
+  world opens into; the layout eval (`evals/README.md`); the IE New York roster (`IENYC_ENABLED`); an events feed for
   Networking (the intake promises it); the graphs rebuilt for both sets so `first_seen` fills `jobs_open.json` and
   Find jobs gains a Newest sort (`build_graph`, then `jobs_open`, on a `data/` branch with the baselines).
+- Owner steps v20 left open (2026-10-31): commit the B1 files in `gradbuddy/apprentice/`; the four steps in
+  `pipeline/sql/2026-11-03_maps.sql` (sign-ups off, the bucket and policies, the invite, the publish) on the
+  gradbuddy-catalog project; `CATALOG_SERVICE_ROLE_KEY` in `.env`.
 - Owner steps the four verbs left open (2026-10-31): apply `pipeline/sql/2026-10-31_doors.sql` on the catalog
   project before #125 merges; create the Vercel project (README, "Hosting"). The two Tally form ids went into
   `web/config.js` on 2026-10-31 (`chore/four-verbs-close`); the native forms stay as the fallback behind them.

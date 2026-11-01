@@ -80,7 +80,7 @@ test("every screen parseRoute names has an entry in route()'s dispatch table", (
   const table = src.match(/const go = \{([^}]*)\}\[name\]/);
   assert.ok(table, "route() dispatches with `const go = { ... }[name]`");
   const keys = new Set(table[1].split(",").map(x => x.trim().split(":")[0].trim()));
-  const names = ["#/", "#/home", "#/jobs", "#/skills", "#/network", "#/you", "#/explore", "#/about", "#/field/x", "#/field/x/event", "#/role/x", "#/role/x/fit", "#/role/x/course", "#/play/x", "#/classes", "#/professor/x", "#/signin"].map(h => parseRoute(h).name);
+  const names = ["#/", "#/home", "#/jobs", "#/skills", "#/network", "#/you", "#/explore", "#/about", "#/field/x", "#/field/x/event", "#/role/x", "#/role/x/fit", "#/role/x/course", "#/play/x", "#/classes", "#/professor/x", "#/signin", "#/map"].map(h => parseRoute(h).name);
   for (const n of names) assert.ok(keys.has(n), `no dispatch for ${n}`);
 });
 
