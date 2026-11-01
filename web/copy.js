@@ -54,6 +54,11 @@
       using: "Using {name} ({words} words read).",
       forget: "Forget it",
       forgotten: "Forgotten.",
+      // the processing state (owner, 2026-11-01): the drop zone turns into a short list of steps while the file is read,
+      // matched and sent once to the model; nothing else on the screen moves until it is done
+      steps: { file: "Reading your file", match: "Matching it to the postings", infer: "Finding the skills it shows without naming them" },
+      working: "Reading…",
+      wait: "This takes a few seconds. The screen updates on its own.",
       reading: "Reading {name}…",
       fewWords: "{name}: we read only {words} words. If this is a scan, try a text or DOCX export.",
       read: "{name}: {words} words read.",

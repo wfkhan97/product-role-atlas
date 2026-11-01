@@ -328,6 +328,20 @@ button.tag:hover { border-color: var(--input); }
 .opt.on { border-color: var(--primary); background: var(--primary-tint); color: var(--primary); font-weight: var(--weight-medium); }
 .between { justify-content: space-between; }
 .drop { border: 1px dashed var(--input); border-radius: var(--radius-md); padding: 24px 20px; text-align: center; margin: 16px 0 10px; }
+/* the processing state (app.js processing): the zone goes solid, its prompt fades, the steps list shows the one running
+   with a turning ring and the ones done with a check */
+.drop.busy { border-style: solid; border-color: var(--primary); }
+.drop.busy > p:first-child { opacity: 0.35; }
+.drop .proc { text-align: left; margin-top: 10px; }
+.drop .proc ul { list-style: none; margin: 0; padding: 0; }
+.drop .proc li { display: flex; align-items: center; gap: 10px; padding: 4px 0; color: var(--muted-foreground); font-size: var(--text-sm); }
+.drop .proc li.now { color: var(--foreground); }
+.drop .proc li.done { color: var(--primary); }
+.drop .proc .pm { width: 16px; height: 16px; display: inline-grid; place-items: center; flex: none; font-size: 12px; }
+.drop .proc li.now .pm { border: 2px solid var(--primary); border-right-color: transparent; border-radius: 50%; animation: proc-turn 0.9s linear infinite; }
+@keyframes proc-turn { to { transform: rotate(360deg); } }
+.drop .proc p { margin: 8px 0 0; }
+@media (prefers-reduced-motion: reduce) { .drop .proc li.now .pm { animation: none; border-right-color: var(--primary); } }
 .drop.over { border-color: var(--primary); background: var(--primary-tint); }
 .drop b { font-weight: var(--weight-medium); }
 textarea { width: 100%; min-height: 110px; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--input); background: var(--background); color: var(--foreground); font: inherit; font-size: var(--text-sm); }

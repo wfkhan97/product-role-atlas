@@ -1292,6 +1292,7 @@
     const drop = $("#drop"), status = $("#file-status");
     const read = async file => {
       status.textContent = fill(RF.reading, { name: file.name });
+      processing("file");
       try {
         let text;
         if (/\.pdf$/i.test(file.name)) {
@@ -1303,24 +1304,47 @@
         else text = await file.text();
         const words = text.trim() ? text.trim().split(/\s+/).length : 0;
         pending = { text, name: file.name, words };
+        processing(null);
         status.textContent = words < 40 ? fill(RF.fewWords, { name: file.name, words }) : fill(RF.read, { name: file.name, words: fmt(words) });
-      } catch (e) { status.textContent = fill(RF.cantRead, { message: e.message }); pending = null; }
+      } catch (e) { processing(null); status.textContent = fill(RF.cantRead, { message: e.message }); pending = null; }
     };
     drop.ondragover = e => { e.preventDefault(); drop.classList.add("over"); };
     drop.ondragleave = () => drop.classList.remove("over");
-    drop.ondrop = e => { e.preventDefault(); drop.classList.remove("over"); if (e.dataTransfer.files[0]) read(e.dataTransfer.files[0]); };
-    $("#file").onchange = e => { if (e.target.files[0]) read(e.target.files[0]); };
+    drop.ondrop = e => { e.preventDefault(); drop.classList.remove("over"); if (e.dataTransfer.files[0] && !drop.classList.contains("busy")) read(e.dataTransfer.files[0]); };
+    $("#file").onchange = e => { if (e.target.files[0] && !drop.classList.contains("busy")) read(e.target.files[0]); };
     const forget = $("#forget"); if (forget) forget.onclick = () => { state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("resume", null); if (window.Infer) Infer.forget(); Atlas.useInferred(null, []); status.textContent = RF.forgotten; };
   }
   // keep the file the form read (40 words or more); nothing new keeps what was stored
-  async function takeResume() {
+  // The processing state (owner, 2026-11-01: an upload that waits on the model read looked like it had not taken, so
+  // people uploaded again). The drop zone turns into the list of steps with the one running marked, the Read button
+  // reads "Reading…" and is disabled, and the zone takes no second file until the read is done; `step` null restores
+  // the zone. The steps: file (the reader), match (the patterns' read), infer (the model read, up to 20 s).
+  const STEPS = ["file", "match", "infer"];
+  function processing(step) {
+    const drop = $("#drop"); if (!drop) return;
+    const btn = document.querySelector("#rail-read, #lf-read, #go, #cls-read, #next");
+    let box = drop.querySelector(".proc");
+    if (!step) { drop.classList.remove("busy"); if (box) box.remove(); if (btn && btn.dataset.label) { btn.textContent = btn.dataset.label; btn.disabled = false; delete btn.dataset.label; } return; }
+    drop.classList.add("busy");
+    if (!box) { box = document.createElement("div"); box.className = "proc"; box.setAttribute("role", "status"); box.setAttribute("aria-live", "polite"); drop.appendChild(box); }
+    const i = STEPS.indexOf(step);
+    box.innerHTML = `<ul>${STEPS.map((k, j) => `<li class="${j < i ? "done" : j === i ? "now" : ""}"><span class="pm" aria-hidden="true">${j < i ? "✓" : j === i ? "" : "·"}</span>${esc(RF.steps[k])}</li>`).join("")}</ul><p class="small muted">${esc(RF.wait)}</p>`;
+    if (btn && !btn.dataset.label) { btn.dataset.label = btn.textContent; btn.textContent = RF.working; btn.disabled = true; }
+  }
+  let taking = null;   // the read in flight: a second click or drop joins it instead of starting over
+  function takeResume() { return taking || (taking = takeResumeNow().finally(() => { taking = null; })); }
+  async function takeResumeNow() {
     const r = pending && pending.words >= 40 ? pending : null;
     if (!r) return false;
+    processing("match");
     state.resume = r; store.set("resume", r); pending = null; state.match = null; state.rough = null; state.fit = null;
     Atlas.useInferred(r.text, []);
     track("resume_read");
-    await rough();
-    await inferResume();
+    try {
+      await rough();
+      processing("infer");
+      await inferResume();
+    } finally { processing(null); }
     return true;
   }
   // The model read (web/infer.js, 2026-11-01): the skills the resume shows without naming them, after the patterns'
