@@ -25,25 +25,25 @@ require(path.join(web, "skillmap.js"));
 const { logic: L } = require(path.join(web, "games", "skill-path.js"));
 
 const EXPECT = {
-  board: { skills: 239, links: 927, pieces: 1, minLinks: 2 },
+  board: { skills: 240, links: 938, pieces: 1, minLinks: 2 },
   pmArrivals: ["Roadmapping", "Product strategy", "Systems & architecture"],
   marketing: {
-    start: "Marketing campaigns", par: 3, budget: 5, shortGood: 2,
-    route: ["Marketing campaigns", "Consumer products & B2C", "Product discovery & validation", "Roadmapping"],
+    start: "Marketing campaigns", par: 3, budget: 5, shortGood: 1,
+    route: ["Marketing campaigns", "Consumer products & B2C", "Mobile platforms", "Roadmapping"],
     played: [
       ["Advertising & media", ["Advertising & media", "Marketing measurement & attribution", "Creative development & agency management", "Consumer products & B2C"]],
       ["Consumer products & B2C", ["Marketing measurement & attribution", "Digital & performance marketing", "Creative development & agency management", "Consumer products & B2C"]],
-      ["Product discovery & validation", ["Content & social media marketing", "E-commerce, retail & marketplaces", "Product discovery & validation", "Growth, funnels & retention"]],
-      ["Roadmapping", ["Roadmapping ★", "Product strategy ★", "Prioritization & trade-offs", "Customer obsession / user empathy"]],
+      ["Mobile platforms", ["Content & social media marketing", "E-commerce, retail & marketplaces", "Growth, funnels & retention", "Mobile platforms"]],
+      ["Roadmapping", ["Networking & connectivity", "UX & design collaboration", "Telecommunications", "Roadmapping ★"]],
     ],
-    result: { arrived: true, used: 4, hops: 4, good: 2 },
+    result: { arrived: true, used: 4, hops: 4, good: 1 },
   },
   supply: {
-    start: "Vendor, budget & contract management", par: 4, short: 2, good: 3,
-    biggest: ["Risk & dependency management", "Program & project management", "Financial modeling & analysis", "Payments, fintech & banking", "Regulated industries & compliance", "Security & privacy"],
+    start: "Vendor, budget & contract management", par: 4, short: 3, good: 2,
+    biggest: ["Risk & dependency management", "Regulated industries & compliance", "Payments, fintech & banking", "Financial modeling & analysis", "Business cases & ROI", "Statistics & forecasting"],
   },
-  pool: { field: 465, role: 2208 },
-  roles: 54,
+  pool: { field: 478, role: 2311 },
+  roles: 55,
 };
 
 const ix = await Atlas.index();
@@ -83,8 +83,8 @@ check("Marketing -> pm shortest route", mk.short.map(N), EXPECT.marketing.route)
   check("Marketing -> pm: arrived, hops used, good hops", { arrived: res.arrived, used: res.used, hops: res.hops, good: res.good }, EXPECT.marketing.result);
   check("Marketing -> pm: build next with nothing ticked is the route's skill the target asks for most", N(L.buildNext(R, B).id), "Roadmapping");
   L.tick(R, ID("Roadmapping"), true);
-  check("Marketing -> pm: build next once Roadmapping is ticked", L.buildNext(R, B), { id: ID("Product discovery & validation"), why: "not-yet" });
-  L.tick(R, ID("Product discovery & validation"), true);
+  check("Marketing -> pm: build next once Roadmapping is ticked", L.buildNext(R, B), { id: ID("Mobile platforms"), why: "not-yet" });
+  L.tick(R, ID("Mobile platforms"), true);
   check("Marketing -> pm: with both read skills ticked (the rest are domain or not read), build next is the arrival reached", L.buildNext(R, B), { id: ID("Roadmapping"), why: "reached" });
 }
 

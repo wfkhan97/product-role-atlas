@@ -83,35 +83,36 @@ architecture** 50% of Product Manager postings. Shortest route 3 hops; normal bu
 
 | Choice | PM postings | Together | Hops left to arrive after it |
 |---|---|---|---|
-| Advertising & media | 9% | 27% | 2 |
-| Marketing measurement & attribution | not read | 26% | 3 |
-| Creative development & agency management | not read | 20% | 3 |
+| Advertising & media | 9% | 27% | 3 |
+| Marketing measurement & attribution | not read | 26% | 4 |
+| Creative development & agency management | not read | 21% | 4 |
 | Consumer products & B2C | 15% | 13% | 2 |
 
-The player takes Advertising & media (a good hop: it moves one closer) and says Yes.
+The player takes Advertising & media (the strongest link, but not a good hop and no closer) and says Yes.
 
 **Hop 2.** From Advertising & media: Marketing measurement & attribution (not read), Digital & performance marketing
 (not read), Creative development & agency management (not read), **Consumer products & B2C** (15%). Only Consumer
 products & B2C moves closer (2 hops away, where Advertising & media was 3). The player takes it and says Yes. The first
 hop, Advertising & media, is the one the end screen will show as lost: it moved one further from the target.
 
-**Hop 3** ([02-play](mocks/02-play.png), the cover). From Consumer products & B2C: Content & social media marketing
-(not read), E-commerce, retail & marketplaces (20%), **Product discovery & validation** (41%), Growth, funnels &
-retention (20%). The player takes Product discovery & validation, one hop from an arrival skill.
+**Hop 3** ([02-play](mocks/02-play.png), the cover; the mock shows the round of the 2026-10-25 data, through Product
+discovery & validation). From Consumer products & B2C: Content & social media marketing (not read), E-commerce, retail &
+marketplaces (20%), Growth, funnels & retention (20%), **Mobile platforms** (10%). Only Mobile platforms moves closer,
+though few Product Manager postings ask for it. The player takes it, one hop from an arrival skill.
 
 ![](mocks/02-play.png)
 
 **The check** ([03-check](mocks/03-check.png)). The panel shows the skill's definition and its share, and asks "Can
-you already show it?" The player says Not yet. From here 11 linked skills remain; two of them are arrival skills.
+you already show it?" The player says Not yet. From here 5 linked skills remain; one of them is an arrival skill.
 
 ![](mocks/03-check.png)
 
-**Hop 4.** From Product discovery & validation: Roadmapping (74%, arrival), Product strategy (62%, arrival),
-Prioritization & trade-offs (64%), Customer obsession (50%). The player takes Roadmapping and says Not yet. Arrived.
+**Hop 4.** From Mobile platforms: Networking & connectivity (6%), UX & design collaboration (36%), Telecommunications
+(2%), Roadmapping (74%, arrival). The player takes Roadmapping and says Not yet. Arrived.
 
 **End screen** ([04-end](mocks/04-end.png)). 4 hops; the shortest route takes 3 (Marketing campaigns → Consumer
-products & B2C → Product discovery & validation → Roadmapping), so the rank is **Navigator**. You can show 2 of 4 hops.
-Route fit (the mean blue number of your hops) 35%; the shortest route's 43%. Build next: **Roadmapping**, 74%, the
+products & B2C → Mobile platforms → Roadmapping), so the rank is **Navigator**. You can show 2 of 4 hops; 1 of the 4 was
+good. Route fit (the mean blue number of your hops) 27%; the shortest route's 33%. Build next: **Roadmapping**, 74%, the
 skill on the route that Product Manager postings ask for most and that the player cannot show yet, with its three
 build steps from the data. "Open Product Manager" goes to `#/role/product.pm`.
 
@@ -119,11 +120,12 @@ build steps from the data. "Open Product Manager" goes to `#/role/product.pm`.
 
 **A second real round, out of hops** ([05-out-of-hops](mocks/05-out-of-hops.png)). Supply chain & procurement →
 Product Manager. Start skill Vendor, budget & contract management; shortest route 4 hops, budget 6. A player who
-always takes the biggest blue number goes Risk & dependency management (34%) → Program & project management (40%) →
-Financial modeling & analysis (17%) → Payments, fintech & banking (29%) → Regulated industries & compliance (20%) →
-Security & privacy (17%) and stops 2 hops short, 3 of 6 hops good (numbers of the 2026-10-25 refresh). The shortest route goes Productivity & service-level performance
-(not read) → Quality, testing & acceptance (14%) → Prioritization & trade-offs (64%) → Roadmapping (74%). This is the
-lesson of the game in one picture: the biggest number is not always the way there.
+always takes the biggest blue number goes Risk & dependency management (34%) → Regulated industries & compliance (20%) →
+Payments, fintech & banking (29%) → Financial modeling & analysis (17%) → Business cases & ROI (16%) → Statistics &
+forecasting (14%) and stops 3 hops short, 2 of 6 hops good (numbers of the 2026-11-01 refresh). The shortest route goes
+Risk & dependency management (34%) → Quality, testing & acceptance (14%) → Prioritization & trade-offs (64%) →
+Roadmapping (74%): the two part at the second hop, where Regulated industries (20%) outbids Quality, testing &
+acceptance (14%). This is the lesson of the game in one picture: the biggest number is not always the way there.
 
 ![](mocks/05-out-of-hops.png)
 
@@ -205,15 +207,15 @@ All files are read through `web/atlas.js` and `web/skillmap.js`; the game adds n
 | What | File and fields | How |
 |---|---|---|
 | The board: skills and positions | `graph_mba.json` `skills[]` (id, name, cluster, share, what) | Positions are the skill map's own layout (`computeLayout` in `skillmap.js`, the same seed and cache key), so the board is the Explore map. |
-| The links | `graph_mba.json` `edges[]` {source, target, jaccard} | 1269 links. Links touching a `credentials` skill (28 skills, also `yoe_*`) are dropped, as the grid drops them; links touching a generic skill are dropped. That leaves **239 skills and 927 links** in one connected piece; every skill on it has at least 2 links (median 7, most 25). Two skills, Healthcare & life sciences and Adaptability & fast-paced environments, are linked only to generic skills and drop off the board. |
-| Generic skills (not hops) | `Atlas.genericSkills()` | Asked by most postings (share ≥ 0.5 in `defining` or `asks`) of at least half the MBA roles. Today 8: collaboration, communication, cross-functional leadership, execution, influence, ownership, problem solving, stakeholder management. Same set with 47 or 48 MBA roles counted (see pmm below). |
+| The links | `graph_mba.json` `edges[]` {source, target, jaccard} | 1273 links. Links touching a `credentials` skill (28 skills, also `yoe_*`) are dropped, as the grid drops them; links touching a generic skill are dropped. A skill left with fewer than 2 links then drops off, again until none is (`MIN_LINKS`), so the board has no dead end. That leaves **240 skills and 938 links** in one connected piece (median 7 links, most 23). Adaptability & fast-paced environments is linked only to generic skills; Healthcare & life sciences keeps one link (to Problem solving) and drops off as a dead end. |
+| Generic skills (not hops) | `Atlas.genericSkills()` | Asked by most postings (share ≥ 0.5 in `defining` or `asks`) of at least half the MBA roles. Today 8: collaboration, communication, cross-functional leadership, execution, influence, ownership, program & project management, stakeholder management. Measured, so a refresh moves it: problem solving is core for 24 of the 49 MBA roles, just under half (it was generic before the 2026-11-01 refresh, and without `pmm` it would be again). |
 | Fields | `graph_mba.json` `groups[]` (11, with `families`); `Atlas.index().groups` | Field share of a skill = mean share over the field's roles (`fieldShares` in `skillmap.js`); the Product field uses the six product families of `graph.json`, as `productShares` does. |
 | Start skill, from a field | field shares | The skill with the highest `w × min(4, w / mean over the 11 fields)`, with `w ≥ 0.05`, not generic, not `domain`, on the board. This is `topSkills` in `skillmap.js` minus the two exclusions. |
 | Start skill, from a role | role shares | The role's first arrival skill (next row). |
 | Target share (blue) | MBA role: `skills[].by_family[<role>]` in `graph_mba.json` (company-balanced). Product role: `skills[].by_family[<family>]` in `graph.json`. | Exactly the number the role screen shows for the whole role. |
-| Arrival skills | target shares and `Atlas.index().baseline` (mean share over the 50 MBA roles) | The three skills with the highest `share × min(4, share / baseline)`, with share ≥ 0.25, not generic, not `domain`, not credentials, on the board. For Product Manager: Roadmapping, Product strategy, Systems & architecture. Every one of the 53 pickable roles has three. |
+| Arrival skills | target shares and `Atlas.index().baseline` (mean share over the 49 MBA roles) | The three skills with the highest `share × min(4, share / baseline)`, with share ≥ 0.25, not generic, not `domain`, not credentials, on the board. For Product Manager: Roadmapping, Product strategy, Systems & architecture. Every one of the 55 pickable roles has three. |
 | Shortest route | the board | BFS from the three arrival skills (multi-source), so `dist[s]` is hops to arrive from any skill. Par = `dist[start]`. Of the routes with par hops, the one with the highest sum of target shares, then the highest sum of Jaccard; that route is drawn on the end screen. |
-| Choices at a hop | the board, `dist` | Unvisited neighbours of the current skill. First pick: a neighbour with `dist` one less (the one with the highest target share; if none is unvisited, the neighbour with the smallest `dist`). Then fill to 4 with the strongest links (Jaccard). Show them strongest link first, so the one that moves closer is not always in the same place. If no neighbour is unvisited, offer "Step back" (costs a hop). In the simulations at par + 2 this happened in 3 of 3,225 rounds of random play and 3 of biggest-blue-number play, never for the map or perfect players. |
+| Choices at a hop | the board, `dist` | Unvisited neighbours of the current skill. First pick: a neighbour with `dist` one less (the one with the highest target share; if none is unvisited, the neighbour with the smallest `dist`). Then fill to 4 with the strongest links (Jaccard). Show them strongest link first, so the one that moves closer is not always in the same place. If no neighbour is unvisited, offer "Step back" (costs a hop). In the simulations at par + 2 this happened in 4 of 3,452 rounds of biggest-blue-number play, never for the random, map or perfect players. |
 | Build steps | `skills[].build` in `graph_mba.json` | A list of strings for the 98 product skills (73 of them on the board); an object keyed by ladder for 3 MBA skills (Valuation, Client coverage, Credit analysis; key `bank`), shown when the target role's `ladder` matches; otherwise the line the role screen uses: "Build steps for this skill are not written yet." |
 | Posting count in the punchline | MBA: `roles.<id>.n_open`; product: the family's postings in `graph.json` (`Atlas.index().roles[id].nOpen` after `Atlas.product()`) | |
 | Total skills in the punchline | `graph_mba.json` `skills.length` (278) | Read, not hard-coded. |
@@ -230,9 +232,9 @@ of the layout code. The game draws its own SVG on that data and never calls `Ski
   writes the six product families into `ix.roles` as `product.<family>` (the MBA Marketing group has its own `pmm`;
   until 2026-10-18 the product family overwrote it). The game uses `ix.roles` after `await Atlas.product()`, like
   the role screen, so `pmm` is the MBA PMM, `product.pmm` the product PMM, and each id opens its own `#/role/<id>`.
-  54 roles are pickable (48 MBA, 6 product); the atlas says "56 kinds of roles" counting the set definitions.
+  55 roles are pickable (49 MBA, 6 product); the atlas says "56 kinds of roles" counting the set definitions.
 - **"Not read".** Product postings were tagged against the 98 product skills only, so the 180 MBA-only skills have
-  no share for a product role. On a product target, about 167 of the 239 board skills show "not read" instead of 0%. They
+  no share for a product role. On a product target, about 167 of the 240 board skills show "not read" instead of 0%. They
   count as 0 when choosing the shortest of several equal routes, are left out of route fit, and are never "build
   next". A line on the play screen says why. See open question 1.
 - **Small roles.** 5 roles are `small` in the index (Digital Transformation Manager, M&A Integration Manager, Venture
@@ -253,7 +255,7 @@ of the layout code. The game draws its own SVG on that data and never calls `Ski
 - Every action is a button. Keys: `1` to `4` pick a choice, `Y` / `N` answer the check, `B` steps back when offered,
   `Esc` ends the round (asks once), `Enter` on the end screen plays again.
 - Focus moves to the question after a hop and to the first choice after an answer. A polite live region says each
-  step: "Hop 3 of 5: Product discovery & validation. 41% of Product Manager postings ask for it."
+  step: "Hop 3 of 5: Mobile platforms. 10% of Product Manager postings ask for it."
 - The board is `role="img"` with a text alternative ("Your route: … Arrival skills: …"); the choices panel is the full
   interface, so the game is playable without seeing the map.
 - Colour never carries meaning alone: Yes has a ✓, Not yet the words "not yet" and an amber ring; the shortest route

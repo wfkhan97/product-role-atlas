@@ -1578,6 +1578,28 @@ GradBuddy" (the map file, what is stable, the privacy rule for maps and feedback
 scripts, the owner's steps, the `web/` bullets); `evals/README.md` "Evals to build" (the layout against a hand-placed
 example); the scratch folder swept.
 
+## The 2026-11-01 MBA refresh: the skill board drops dead ends (2026-11-01)
+
+The weekly MBA refresh (PR #131) failed CI on two tests. `web/data/jobs_open.json` had not been rebuilt after the graph
+(rerun of `pipeline.jobs_open`, no code). The other was a rule the data had kept by luck: the Skill path board (and the
+skill map's route planner, which builds the same board) leaves out the generic skills, and `Atlas.genericSkills()`
+measures them (core for at least half the MBA roles). With the refresh `ai_transformation` filled (49 MBA roles) and
+problem solving fell to core for 24 of them, just under half, so it stopped being generic. Healthcare & life sciences,
+whose every other link goes to a generic skill, came onto the board with one link: a dead end, where a player can only
+step back, which the real-board test and `evals/skill_path.mjs` forbid.
+
+**Decision: `buildBoard` drops a skill with fewer than `MIN_LINKS` (2) links, again until none is left**, rather than
+fixing the generic list by hand or moving its threshold. The list stays measured (the README's reason for it holds),
+and the board's no-dead-end rule now holds by construction whatever a refresh does to it. On the 2026-10-25 data the
+pruning changes nothing (healthcare had no link then). The inline test boards that state the round's rules on a line
+of skills pass `minLinks` 1 to keep their dead ends. The eval's EXPECT and the game README's worked rounds moved to the
+new data together: Marketing → Product Manager now goes through Mobile platforms (1 good hop of 4), the Supply chain
+biggest-number round stops 3 hops short, the pools are 478 and 2,311, 55 roles are pickable. The README's mocks still
+show the 2026-10-25 round.
+
+Left for the owner on #131: `ai_transformation` (164 postings after the refresh) needs bands in `bands_mba.json` or an
+entry in `no_bands`.
+
 ## Later
 
 - After v20 (2026-10-31): the matcher candidates from the apprentice-map data note, a thread of their own and
