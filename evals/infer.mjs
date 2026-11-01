@@ -9,6 +9,7 @@
 //   node evals/infer.mjs --url https://gradbuddy-atlas.vercel.app/api/infer
 //                                        # ask the deployed route instead of Anthropic (the key lives only on Vercel):
 //                                        # the body the site sends, the same cache; check it first: curl <url> → { ok, key }
+//                                        # a preview deploy behind Vercel Authentication: INFER_COOKIE="_vercel_jwt=…" (from its share link)
 //   node evals/infer.mjs --private       # also evals/resumes/private/* (gitignored, never in the baseline)
 //   node evals/infer.mjs --only grad     # filter samples by substring
 //
@@ -74,7 +75,8 @@ const key = reuse || url ? null : apiKey();
 async function viaRoute(text, found) {
   const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 40000), t0 = Date.now();
   try {
-    const r = await fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, found, set: SET }), signal: ctl.signal });
+    // INFER_COOKIE: a preview deploy behind Vercel Authentication takes the cookie its share link sets (curl -c)
+    const r = await fetch(url, { method: "POST", headers: { "content-type": "application/json", ...(process.env.INFER_COOKIE ? { cookie: process.env.INFER_COOKIE } : {}) }, body: JSON.stringify({ text, found, set: SET }), signal: ctl.signal });
     if (!r.ok) { const e = new Error(`route ${r.status}${r.status === 503 ? " (no key on the host)" : ""}`); e.status = r.status; throw e; }
     const b = await r.json();
     return { model: b.model || null, ms: b.ms != null ? b.ms : Date.now() - t0, raw: { inferred: Array.isArray(b.inferred) ? b.inferred : [] } };
