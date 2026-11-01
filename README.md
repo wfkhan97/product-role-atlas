@@ -51,8 +51,8 @@ cd web && python3 -m http.server 8000   # then open http://localhost:8000
 ## Hosting
 
 The site is the `web/` folder as it is: no build step, every path relative (`data/…`, `tokens/…`), a hash router
-(`#/…`) that needs no rewrites. Any static host serves it. The host is a Vercel project named `gradbuddy-atlas`
-that the owner creates in the Vercel dashboard from this GitHub repository: root directory `web`, framework preset
+(`#/…`) that needs no rewrites. Any static host serves it. The host is the Vercel project `gradbuddy-job-atlas` (https://gradbuddy-job-atlas.vercel.app, created 2026-10-31 on the `wk332` team)
+linked to this GitHub repository: root directory `web`, framework preset
 "Other", build command empty, output directory empty. Production deploys from `main`; every pull request gets a
 preview URL. `node --test tests/web/assets.test.mjs` checks that every local script and stylesheet `web/index.html`
 names exists on disk and that the remote scripts pin a version, so a deploy cannot ship a tag that points at nothing.
