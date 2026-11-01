@@ -86,6 +86,8 @@ test("validate: a known id of the set, not found already, once, with a line the 
     { id: "communication", line: "Set the annual plan with the VP of Engineering and the VP of Sales.", why: "a behaviour" },
     { id: "pricing_packaging", line: "launched   dynamic pricing — margin up 6 points", why: "" },
     { id: "people_management", line: "hired and mentored 2 PMs", why: "  Hiring PMs.  " },
+    { id: "okrs", line: "hired and mentored 2 PMs", why: "Mentoring hints at goal setting, though weakly shown, so skip." },   // a hedged reason: out
+    { id: "ai_tools", line: "Salesforce", why: "placeholder" },   // one word is not a line: out
   ] }, { text: TEXT, found: ["sql"] });
   assert.deepEqual(ok, [ITEM, { id: "people_management", line: "hired and mentored 2 PMs", why: "Hiring PMs." }]);
   const many = API.skillsFor("both").slice(0, 30).map(s => ({ id: s.id, line: ITEM.line, why: "w" }));
@@ -175,4 +177,35 @@ test("Atlas.useInferred binds a list to one text: the rough read and every match
   assert.ok(Object.values(after.scores).some((s, i) => s > Object.values(before.scores)[i]), "a role that asks for PRDs reads closer");
   assert.deepEqual((await A.roughFit(TEXT, { inferred: [] })).shown, before.shown, "an explicit list wins");
   A.useInferred(null, []); assert.deepEqual((await A.roughFit(TEXT)).shown, before.shown);
+});
+
+// ---------- evals/infer_lib.mjs: the full-set eval's pure parts ----------
+const L = await import(path.join(root, "evals", "infer_lib.mjs"));
+test("bandMove: up, down, or null when it holds; no band sits below every band", () => {
+  assert.equal(L.bandMove("related", "in_range"), "up"); assert.equal(L.bandMove("strong", "related"), "down");
+  assert.equal(L.bandMove("related", "related"), null); assert.equal(L.bandMove(null, "different"), "up"); assert.equal(L.bandMove(null, null), null);
+});
+test("audit: credentials, behaviours, unknown ids and lines the text does not hold are caught on the kept items", () => {
+  const skills = { prd: { cluster: "craft", kind: "method" }, bachelors: { cluster: "credentials", kind: "credential" }, communication: { cluster: "leadership", kind: "behaviour" } };
+  const a = L.audit([ITEM, { id: "bachelors", line: ITEM.line }, { id: "communication", line: ITEM.line }, { id: "ghost", line: ITEM.line }, { id: "prd", line: "not in it at all" }], TEXT, skills, API.norm);
+  assert.deepEqual(a, { credentials: ["bachelors"], behaviours: ["communication"], ungrounded: ["prd"], unknown: ["ghost"] });
+  assert.deepEqual(L.audit([ITEM], TEXT, skills, API.norm), { credentials: [], behaviours: [], ungrounded: [], unknown: [] });
+});
+test("summarize: resumes read, mean and max per resume, the most inferred, band moves, the must-be-zero counts, time and cost", () => {
+  const clean = { credentials: [], behaviours: [], ungrounded: [], unknown: [] };
+  const S = L.summarize([
+    { inferred: [{ id: "fintech" }, { id: "prd" }], move: "up", audit: clean, ms: 1000, cost: 0.002 },
+    { inferred: [{ id: "fintech" }], move: "down", audit: { ...clean, ungrounded: ["x"] }, ms: 500, cost: 0.001 },
+    { inferred: [], move: null, audit: clean, ms: 0, cost: 0 },
+  ], 1);
+  assert.equal(S.read, 3); assert.equal(S.mean, 1); assert.equal(S.max, 2);
+  assert.deepEqual(S.top, [["fintech", 2]]); assert.equal(S.up, 1); assert.equal(S.down, 1);
+  assert.equal(S.ungrounded, 1); assert.equal(S.credentials, 0); assert.equal(S.ms, 1500); assert.ok(Math.abs(S.cost - 0.003) < 1e-12);
+  assert.deepEqual(L.summarize([]), { read: 0, mean: 0, max: 0, top: [], up: 0, down: 0, credentials: 0, behaviours: 0, ungrounded: 0, unknown: 0, ms: 0, cost: 0 });
+});
+test("costOf: a usage record at Haiku 5.5 rates, else an estimate from characters", () => {
+  assert.ok(Math.abs(L.costOf({ input_tokens: 1e6, output_tokens: 1e6 }) - 0.6) < 1e-9);
+  assert.ok(Math.abs(L.costOf({ cache_read_input_tokens: 1e6 }) - 0.01) < 1e-9);
+  assert.ok(Math.abs(L.costOf(null, { inChars: 4e6, outChars: 4e6 }) - 0.6) < 1e-9);
+  assert.equal(L.costOf(null, null), 0);
 });
