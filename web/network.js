@@ -268,7 +268,8 @@
       questions = [
         fill(Q.learned, { ...v, skill: sk(g1) }),
         titles.length > 1 ? firstFit(fill(Q.titles, { ...v, title: titles[0], title2: titles[1] }), fill(Q.titleOne, { ...v, title: titles[0] })) : titles.length ? fill(Q.titleOne, { ...v, title: titles[0] }) : low ? fill(Q.levelRole, { ...v, level: low.label }) : fill(Q.startRole, v),
-        lead1 && C.read ? fill(co ? Q.choose : Q.chooseRole, { ...v, lead: lead1.said, skill: sk(emph) }) : fill(co ? Q.chooseNoLead : Q.chooseRoleNoLead, { ...v, skill: sk(emph), skill2: sk(g2) }),
+        lead1 && C.read ? fill(co ? Q.choose : Q.chooseRole, { ...v, lead: lead1.said, skill: sk(emph) })
+          : (w => firstFit(co && fill(Q.chooseNoLead, w), co && fill(Q.chooseNoLeadShort, w), !co && fill(Q.chooseRoleNoLead, w), fill(Q.chooseShort, w)))({ ...v, skill: sk(emph), skill2: sk(g2) }),
       ];
     } else if (type === "faculty") {
       questions = [

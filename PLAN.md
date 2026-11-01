@@ -1717,6 +1717,22 @@ fails, so the failure email means a refresh is waiting. The repository variable 
 off; an MBA trial run never merges. Opening the pull request at all still needs "Allow GitHub Actions to create and
 approve pull requests" or an `ACTIONS_PAT` secret. CLAUDE.md records the exception to "merge only when the user says so".
 
+## The 2026-11-01 product refresh: specs that pinned the postings' order (2026-11-01)
+
+The first product refresh with the AI-forward rules (778 product engineer postings) failed three matcher checks, all
+`must_show_through`. Nothing in the reading changed: on the associate PM postings `prd` and `roadmap` now tie at 43% for
+communication (the alphabetical tie-break picks `prd`) and `discovery` leads `user_research` 41% to 34% for customer
+obsession, and `course_list` and `grad_student_new` show each pair at the same strength, so the pick between them
+follows the postings. **Decision: a `must_show_through` value may be a list, any one of which carries the behaviour**,
+used where the resume shows the carriers equally strongly. Pinning one would draft every refresh that reorders them,
+now that refreshes merge themselves. The cost: `course_list` now shows customer obsession through its statistics
+course ("experiment design", tagged discovery) rather than its user-research course; a tie-break that prefers the
+carrier closer to the behaviour would need a per-behaviour order, left for later.
+
+Merging main into the refresh also tripped the networking screen's 20-word rule: the alum's "which would you build first"
+question had no shorter form, and "Capital One Financial" with two long skill names made 21 words. It now falls back
+through `chooseNoLeadShort` and `chooseShort` (`web/copy.js`) with `firstFit`, as the other questions do.
+
 ## Later
 
 - Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach` (2026-10-31; `calibrate.mjs` here
@@ -1755,6 +1771,8 @@ approve pull requests" or an `ACTIONS_PAT` secret. CLAUDE.md records the excepti
 - `pipeline/log.py`: record the exit code of a stage that ends with `sys.exit(message)` after no ERROR line (v17).
 - The runner trial's results (`evals/runner_trial_2026-10-26.md`, "Results"): the owner dispatches it; then the schedule
   variables, and the self-hosted runner only if a family is blocked.
+- A tie-break between carriers the resume shows equally strongly that prefers the one closer to the behaviour (user
+  research over discovery for customer obsession), instead of the postings' order (2026-11-01 product refresh).
 - More families (design, engineering) and more companies (full Fortune 500). The product engineer and AI transformation
   roles landed on 2026-10-30; once they hold postings: a sample resume with a product engineer line in `evals/resumes/`,
   `calibrate.mjs --roles mba` for `ai_transformation`'s bands, and Texas Instruments' eleven "Product Marketing
