@@ -1612,6 +1612,22 @@ a compliance program, "test plans" as controls testing, a dissertation "case stu
 words too, 184, and "Community Credit Union" reads as content. The artefact lists tell a student what to name; they
 are not patterns, and a reader of them would need curated patterns per skill first.
 
+## Refresh pull requests merge themselves when every check passes (2026-11-01)
+
+The owner asked why every scrape needs a merge. The scrape itself never does: each file goes to the Supabase backlog as
+it is written (new postings added, missing ones closed after the one-by-one check, none deleted). What needs `main` is
+the site: `web/data/` and `data/processed/` are files in git that Vercel serves, rebuilt from the backlog. Until now
+the owner merged that pull request by hand, and a week's numbers sat unpublished whenever nobody did.
+
+**Decision: `refresh-mba.yml` and `refresh-product.yml` merge their own pull request** when `evals/run_pipeline.py` and
+every command `ci.yml` runs pass in the job (a pull request opened with the workflow's own token gets no CI run, so
+the job's checks are the gate; `evals/stage.mjs` and `evals/posting.mjs`, which the job had skipped, now run there
+too). A failing run still opens a draft titled "evals failed: do not merge". The merge is a merge commit pinned to the
+checked head (`--match-head-commit`); if it fails (main moved and conflicts) the job comments on the pull request and
+fails, so the failure email means a refresh is waiting. The repository variable `REFRESH_AUTO_MERGE` = `off` turns it
+off; an MBA trial run never merges. Opening the pull request at all still needs "Allow GitHub Actions to create and
+approve pull requests" or an `ACTIONS_PAT` secret. CLAUDE.md records the exception to "merge only when the user says so".
+
 ## Later
 
 - Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach` (2026-10-31; `calibrate.mjs` here
