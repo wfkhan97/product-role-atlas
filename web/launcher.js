@@ -64,7 +64,7 @@
 
   // ---------- a résumé on file ----------
   // the core of a match result's rows: the skills most postings ask for (tier core), how many the résumé shows
-  const SHOWN = new Set(["evidenced", "transferable", "through"]);
+  const SHOWN = new Set(["evidenced", "transferable", "through", "inferred"]);   // inferred: the model read (web/infer.js)
   function coreOf(rows) {
     const core = (rows || []).filter(x => x.tier === "core");
     const shown = core.filter(x => SHOWN.has(x.status));

@@ -11,7 +11,7 @@
       "start_card": { "title": "Spring 2027 classes at Cornell Tech", "detail": "The roster, who teaches what, and how each class reads against the roles you want.", "tag": "Open now →" },
       "closed_notice": "The Spring 2027 roster has not loaded here yet.",
       "rail_closed_line": "The Spring 2027 roster has not loaded here yet.",
-      "privacy_line": "Your ratings and anything you paste stay in this browser. We send nothing.",
+      "privacy_line": "Your roles and anything you add stay in this browser. We send nothing.",
       "eligibility": { "cornell_tech_students": "Cornell Tech students", "no_enrollment_restriction_listed": "no restriction listed · check with Student Affairs", "jacobs_non_first_year": "Jacobs students past the first year", "cornell_tech_phd": "Cornell Tech PhD students", "msba_nyc": "MSBA students (NYC)", "law_llm_jd": "LLM and JD students", "johnson_cornell_tech_mba": "Johnson Cornell Tech MBA students", "ms_design_technology": "MS Design Technology students", "continuing_from_fall_2026": "students continuing from Fall 2026", "cornell_tech_phd_plus_masters": "PhD students, and master's students with permission", "health_tech": "Health Tech students", "urban_tech": "Urban Tech students", "jacobs_first_year": "Jacobs first-year students", "null": "eligibility not verified" },
       "programs": [
         { "id": "mba", "label": "Johnson Cornell Tech MBA", "categories": ["cornell_tech_students", "johnson_cornell_tech_mba", "no_enrollment_restriction_listed"], "unverified": true, "group": "business" },
@@ -55,7 +55,7 @@
       "start_card": { "title": "Spring 2027 classes at IE New York", "detail": "The 2026–27 College Catalog's courses for your program, read against the role you want. Pick your specialization courses by Dec 17.", "tag": "Roster not loaded yet" },
       "closed_notice": "We are loading the IE New York courses (College Catalog 2026–27). The picker opens here once they land.",
       "rail_closed_line": "The IE New York courses have not loaded here yet.",
-      "privacy_line": "Your program, your ratings and anything you paste stay in this browser.",
+      "privacy_line": "Your program, your roles and anything you add stay in this browser.",
       "eligibility": { "ie_mim": "MS in Management", "ie_mif": "MS in Finance", "ie_bai": "MS in Business Analytics & AI", "ie_gbs": "MS in Global Business & Sustainability", "ie_mkt": "MS in Strategic & Creative Marketing", "ienyc_shared": "shared by several IENYC programs", "null": "eligibility not verified" },
       "programs": [
         { "id": "ie_mim", "label": "MS in Management", "categories": ["ie_mim", "ienyc_shared"], "group": "business", "intakes": ["January", "August"] },

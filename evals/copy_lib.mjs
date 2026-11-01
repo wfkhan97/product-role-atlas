@@ -9,8 +9,19 @@
 //   stoplisted(s)        every word of the stoplist (STOPLIST) in the string
 //   check(s)             { long: [...], passive: [...], stop: [...] } for one string
 //   strings(value)       every string value of a JSON-like value, recursively, with its path ("a.b[2]")
-//   checkAll(entries)    the offenders of a list of { path, text }: [{ path, text, rule, hit }]
+//   checkAll(entries, exempt)  the offenders of a list of { path, text }: [{ path, text, rule, hit }]; `exempt` is one
+//                        file's entry of OWNER_WORDS
 export const MAX_WORDS = 20;
+// The owner's own words: strings the owner wrote and asked to keep verbatim although a sentence runs over MAX_WORDS
+// (the door's intro and inside line, 2026-11-01). Keyed by gated file, then path, with the exact text: the length rule
+// lets a string through only while it is this text, so any edit meets the rule again. Passive and stoplist still apply.
+// tests/web/copy.test.mjs checks that each entry is still the live string, so a stale exception fails too.
+export const OWNER_WORDS = {
+  "web/copy.js": {
+    "door.intro[0]": "GradBuddy helps students with the things they care about most: finding jobs, taking advantage of networking opportunities, making classwork relevant, and more.",
+    "door.inside": "Inside: find jobs for grad students, learn what skills different roles require (and how you stack up), search classes by career relevance, and identify people to network with",
+  },
+};
 export const STOPLIST = ["utilize", "leverage", "facilitate", "in order to", "via"];
 // each stoplist word as a stem, so "utilizes", "leveraging" and "facilitation" count too; "via" is a whole word
 const STOP_RE = { utilize: /\butili[sz]/, leverage: /\bleverag/, facilitate: /\bfacilitat/, "in order to": /\bin\s+order\s+to\b/, via: /\bvia\b/ };
@@ -61,11 +72,12 @@ export function strings(value, path = "", out = []) {
   return out;
 }
 // the offenders of a list of { path, text }, one row per rule hit
-export function checkAll(entries) {
+export function checkAll(entries, exempt) {
   const out = [];
   for (const { path, text } of entries) {
     const c = check(text);
-    for (const hit of c.long) out.push({ path, text, rule: "long", hit: `${wordCount(hit)} words: ${hit}` });
+    const owners = !!exempt && Object.hasOwn(exempt, path) && exempt[path] === text;   // the owner's words: no length rule
+    if (!owners) for (const hit of c.long) out.push({ path, text, rule: "long", hit: `${wordCount(hit)} words: ${hit}` });
     for (const hit of c.passive) out.push({ path, text, rule: "passive", hit });
     for (const hit of c.stop) out.push({ path, text, rule: "stop", hit });
   }

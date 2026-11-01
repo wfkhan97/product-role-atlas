@@ -435,6 +435,32 @@ works from (PLAN.md, "Later"). A false positive of the passive rule on a data-bu
 there. Rerun after any change to `web/copy.js`, `web/data/sp27_campus.json` or `web/data/games.json`, and commit the
 baseline; the product graph `web/data/graph.json` is not read. In CI through the test.
 
+## The model read
+
+`web/api/infer.js` asks a model (Haiku 5.5) for the skills a resume shows without naming them; the matcher credits
+them as `inferred` (0.75, between a mention and a line of work; `web/match.js`, INFERRED). `node evals/infer.mjs`
+runs the same prompt, request and validation over the whole resume set (the rule since 2026-11-01; `--quick` is
+the eight samples alone). For the eight samples it reports, per resume, each inferred skill with
+the line that suggested it, the overall score per target without and with them, and on the first target which
+expectations it gains (a `must_evidence` the patterns miss) or loses (a `must_not_tag` or `real_gaps` skill it tags).
+Then every readable published sample of `evals/resumes/external/` the calibration reads (a single resume with a role
+and 120 words or more; `pm` maps to `product_manager`): the inferred skills, the sample's own MBA role scored and
+banded as the site does it (`Atlas.matcher`, `bands_mba.json`) without → with, band moves flagged; and an aggregate
+(resumes read, inferred per resume, the 20 most inferred, band moves, time and cost, and four counts that must be
+zero: inferred credentials, behaviours, unknown ids, quoted lines not in the text). The baseline header says how
+many of the 495 files were present (`python -m pipeline.store pull evals` fetches them). `--only` filters both sets;
+PDF and DOCX need `npm install` in `evals/`.
+The expectation files stay the spec: a loss is fixed in the prompt or the validation, never in the file. Answers are
+saved under `data/experiments/infer/` (a pipeline cache, never swept), keyed by model, prompt, skill list, text and
+found ids; `--reuse` reruns from them with no network and no key, `--baseline` writes
+[infer_baseline.md](infer_baseline.md), `--private` adds the private samples (never in the baseline). A live run goes
+through the deployed route, where the key lives: `--url https://gradbuddy-atlas.vercel.app/api/infer` sends the body
+the site sends and saves the answer with the route's host (check the deploy first: `curl <url>` answers
+`{ "ok": true, "key": true }`); without `--url` it calls Anthropic with `ANTHROPIC_API_KEY` from the environment or
+`.env`. The baseline says which path produced its answers. Rerun with `--baseline` after any change to the prompt, the
+validation or the merge, and commit the baseline. `node evals/run.mjs --baseline` must not move when no list is
+passed: the patterns' read is the floor.
+
 ## Evals to build
 
 The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a

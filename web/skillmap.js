@@ -100,15 +100,19 @@
 
   // ---------- drawing: the lines and dots as one SVG, the fields as the page's own circles on top ----------
   // names are placed greedily: a box per name, right of the dot, else left of it, never over a field or another name
-  function labeller(blocked, bounds) {
+  // `force` (the field chart, where every dot carries its name): when neither side is free, try a line above and below
+  // on each side, and as a last resort place the name on the side with more room anyway; pos.dy is the shift down
+  function labeller(blocked, bounds, force) {
     const placed = blocked.slice();
     const free = b => (!bounds || (b[0] >= bounds[0] && b[2] <= bounds[2])) && !placed.some(q => !(b[2] < q[0] || b[0] > q[2] || b[3] < q[1] || b[1] > q[3]));
     return (x, y, name, size) => {
       const w = name.length * (size || 11) * 0.56 + 4, h = (size || 11) + 4;
-      const right = [x + 7, y - h / 2, x + 7 + w, y + h / 2], left = [x - 7 - w, y - h / 2, x - 7, y + h / 2];
-      if (free(right)) { placed.push(right); return { x: x + 7, anchor: "start" }; }
-      if (free(left)) { placed.push(left); return { x: x - 7, anchor: "end" }; }
-      return null;
+      const at = (dx, dy, anchor) => ({ x: anchor === "start" ? x + dx : x - dx, dy, anchor, box: anchor === "start" ? [x + dx, y + dy - h / 2, x + dx + w, y + dy + h / 2] : [x - dx - w, y + dy - h / 2, x - dx, y + dy + h / 2] });
+      const tries = [at(7, 0, "start"), at(7, 0, "end"), ...(force ? [at(4, -h, "start"), at(4, h, "start"), at(4, -h, "end"), at(4, h, "end")] : [])];
+      for (const t of tries) if (free(t.box)) { placed.push(t.box); return { x: t.x, dy: t.dy, anchor: t.anchor }; }
+      if (!force) return null;
+      const t = bounds && x + 7 + w > bounds[2] ? tries[1] : tries[0];
+      placed.push(t.box); return { x: t.x, dy: 0, anchor: t.anchor };
     };
   }
   const AREA_MIN = 5;   // an area label needs this many dots to have a centre worth naming
@@ -246,10 +250,12 @@
   function leave() { ui.el = null; ui.selected = null; ui.hover = null; ui.showAside = null; ui.overlay = null; ui.chart = null; ui.route = null; if (data) tip(null); }
 
   // ---------- the field chart: one field's skills on lanes (owner's decisions 2026-10-24) ----------
-  // Across: the share of the field's postings that ask for the skill. Up: lanes in words. Without a resume the lanes
-  // are the kind of skill (the taxonomy's `kind` when the skill carries one; until then: the skills every field asks
-  // for, measured, then the areas about working with people, then the field's craft). With a resume: the gaps the
-  // field's roles require, and what is already on the resume (the rough read's `shown`).
+  // Across: the share of the field's postings that ask for the skill. Up: lanes in words. Which skills: Atlas.fieldChart
+  // (owner's feedback 2026-11-01: the chart had 58 to 79 dots, most unnamed): at most 20, every one named, no
+  // credentials or tools, at most three of the skills every field asks for. Without a resume the lanes are the kind
+  // of skill: the field's craft (methods, technical skills, the industries that define a role), working with people
+  // (kind practice; the people areas for a skill with no kind) and the three asked in every field. With a resume: the
+  // gaps the field's roles require, and what is already on the resume (the rough read's `shown`).
   // chart(el, { field, label, roles: [ix roles], shown: Set|null, aside, showAside })
   const PEOPLE_AREAS = ["leadership", "delivery", "people"];
   async function chart(el, opts) {
@@ -270,18 +276,22 @@
   function selectChart(id) { ui.selected = id && data.byId[id] ? id : null; tip(null); drawChart(); if (ui.showAside) ui.showAside(ui.selected ? card(ui.selected) : null); }
   // a role on the field page lights its skills (the ones a quarter or more of its postings ask for)
   function chartLight(roleId) { if (!ui.chart) return; const r = roleId && ui.chart.roles.find(x => x.id === roleId); ui.chart.lit = r ? new Set([...r.definingList, ...r.asks].filter(a => a.share >= Atlas.TIER.common).map(a => a.id)) : null; drawChart(); }
-  function laneOfSkill(id) {
-    const C = ui.chart, s = data.ix.skillById[id] || {}, nd = data.byId[id];
-    if (C.shown) return C.shown.has(id) ? "have" : "todo";
-    if (s.kind) return s.kind === "behaviour" ? "every" : s.kind === "practice" ? "people" : "craft";
-    return C.generic.has(id) ? "every" : PEOPLE_AREAS.includes(nd.cluster) ? "people" : "craft";
+  // row: one of Atlas.fieldChart's rows; its lane "every" stays, "own" splits into craft and people
+  function laneOfSkill(row) {
+    const C = ui.chart, s = data.ix.skillById[row.id] || {}, nd = data.byId[row.id];
+    if (C.shown) return C.shown.has(row.id) ? "have" : "todo";
+    if (row.lane === "every") return "every";
+    return s.kind ? (s.kind === "practice" ? "people" : "craft") : PEOPLE_AREAS.includes(nd.cluster) ? "people" : "craft";
   }
   function drawChart() {
     const C = ui.chart; if (!C || !data || !document.body.contains(C.el)) return;
     const FS = data.FS[C.field]; const w = C.el.clientWidth, h = C.el.clientHeight; if (!w || !h) return;
-    if (!FS) { C.el.innerHTML = '<p class="small muted" style="padding:16px">Loading this field…</p>'; return; }
-    const items = Object.entries(FS).filter(([id, v]) => v >= 0.1 && data.byId[id] && data.byId[id].cluster !== "credentials").map(([id, v]) => ({ id, name: data.byId[id].name, share: v, lane: laneOfSkill(id) })).sort((a, b) => b.share - a.share);
-    const lanes = C.shown ? [["Gaps these roles require", "todo"], ["Already on your resume", "have"]] : [[`${C.label} craft`, "craft"], ["Working with people", "people"], ["Asked in every field", "every"]];
+    const LN = Copy.explore.field.lanes;
+    if (!FS) { C.el.innerHTML = `<p class="small muted" style="padding:16px">${esc(LN.loading)}</p>`; return; }
+    const rows = Atlas.fieldChart({ shares: Object.fromEntries(Object.entries(FS).filter(([id]) => data.byId[id])), skillById: data.ix.skillById, roles: C.roles, generic: C.generic });
+    const items = rows.map(r => ({ id: r.id, name: data.byId[r.id].name, share: r.share, lane: laneOfSkill(r) }));
+    // a lane with no dot is left out (with a resume that shows every skill, say), so no empty band is drawn
+    const lanes = (C.shown ? [[LN.todo, "todo"], [LN.have, "have"]] : [[Copy.fill(LN.craft, { field: C.label }), "craft"], [LN.people, "people"], [LN.every, "every"]]).filter(([, k]) => items.some(it => it.lane === k));
     const L = 16, R = 16, T = 12, B = 34, cw = w - L - R, ch = h - T - B;
     const X = v => L + v * cw;
     // a lane is as tall as its share of the dots, never under 64px, so a crowded lane gets the room
@@ -292,7 +302,7 @@
     lanes.forEach(([name], i) => { svg += `<rect class="ch-lane${i % 2 ? " alt" : ""}" x="${L}" y="${tops[i].toFixed(1)}" width="${cw}" height="${heights[i].toFixed(1)}"/><text class="sm-area ch-lane-name" x="${L + 8}" y="${(tops[i] + 15).toFixed(1)}">${esc(name.toUpperCase())}</text>`; });
     [0, .25, .5, .75, 1].forEach(v => { svg += `<line class="ch-grid" x1="${X(v)}" x2="${X(v)}" y1="${T}" y2="${T + ch + 4}"/><text class="ch-tick" x="${X(v)}" y="${T + ch + 18}" text-anchor="${v === 1 ? "end" : v === 0 ? "start" : "middle"}">${Math.round(v * 100)}%</text>`; });
     const blocked = lanes.map((_, i) => [L, tops[i], L + 170, tops[i] + 22]);
-    const place = labeller(blocked, [L, T, L + cw, T + ch]);
+    const place = labeller(blocked, [L, T, L + cw, T + ch], true);   // forced: every dot on the chart carries its name
     // inside a lane the height says nothing: dots are spread down it in name order so the lane reads as a scatter,
     // not a staircase, and the names collide less
     const dots = [], names = [];
@@ -302,7 +312,7 @@
       const x = X(it.share), y = tops[li] + 26 + ((k - 1) / Math.max(1, n - 1)) * (heights[li] - 40);
       const state = C.shown ? it.lane : "top", litCls = C.lit ? (C.lit.has(it.id) ? " lit" : " dim") : "", sel = it.id === ui.selected ? " sel" : "";
       dots.push(`<circle class="sm-n ${state}${litCls}${sel}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(3 + 5 * Math.sqrt(it.share)).toFixed(1)}" data-sk="${esc(it.id)}"/>`);
-      const pos = place(x, y, it.name, 11); if (pos) names.push(`<text class="sm-name${C.shown ? " " + it.lane : ""}${litCls}${sel}" x="${pos.x.toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="${pos.anchor}">${esc(it.name)}</text>`);
+      const pos = place(x, y, it.name, 11); if (pos) names.push(`<text class="sm-name${C.shown ? " " + it.lane : ""}${litCls}${sel}" x="${pos.x.toFixed(1)}" y="${(y + 4 + (pos.dy || 0)).toFixed(1)}" text-anchor="${pos.anchor}">${esc(it.name)}</text>`);
     }
     svg += dots.join("") + names.join("") + "</svg>";
     C.el.innerHTML = svg;

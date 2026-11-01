@@ -6,7 +6,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import path from "path";
 import { require, web, readJson } from "./_load.mjs";
-import { strings, checkAll, sentences, wordCount, passives, stoplisted } from "../../evals/copy_lib.mjs";
+import { strings, checkAll, sentences, wordCount, passives, stoplisted, OWNER_WORDS } from "../../evals/copy_lib.mjs";
 
 const Copy = require(path.join(web, "copy.js"));
 
@@ -53,9 +53,22 @@ test("the three gated files have no long sentence, no passive and no stoplist wo
   for (const [name, value] of files) {
     const list = strings(value);
     assert.ok(list.length > 0, `${name} has strings`);
-    const off = checkAll(list);
+    const off = checkAll(list, OWNER_WORDS[name]);
     assert.deepEqual(off.map(o => `${o.path} [${o.rule}] ${o.hit}`), [], `${name}: every string follows the rule`);
   }
+});
+
+test("the owner's own words skip the length rule only while they are the live text, and nothing else does", () => {
+  const live = Object.fromEntries(strings(Copy).map(e => [e.path, e.text]));
+  for (const [p, text] of Object.entries(OWNER_WORDS["web/copy.js"])) {
+    assert.equal(live[p], text, `${p}: the exception names the string web/copy.js holds`);
+    assert.ok(checkAll([{ path: p, text }]).some(o => o.rule === "long"), `${p} runs over the rule, so it needs the exception`);
+  }
+  const ex = OWNER_WORDS["web/copy.js"], p = "door.inside";
+  assert.equal(checkAll([{ path: p, text: ex[p] }], ex).length, 0);
+  assert.equal(checkAll([{ path: p, text: ex[p] + " and more words" }], ex).filter(o => o.rule === "long").length, 1, "an edited text meets the rule again");
+  assert.equal(checkAll([{ path: "door.heading", text: ex[p] }], ex).filter(o => o.rule === "long").length, 1, "the same words at another path meet the rule");
+  assert.deepEqual(Object.keys(OWNER_WORDS), ["web/copy.js"], "only the screen table carries owner's words");
 });
 
 test("no screen string says utilize, leverage, facilitate, via or in order to, and no fit line carries a percentage", () => {

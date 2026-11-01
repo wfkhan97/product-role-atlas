@@ -91,7 +91,7 @@ Checks: 513 pass, 0 fail.
   layouts      : 18/18
   monotonic    : PASS
   evidenced but not covered by expectations (review these): bachelors, masters_mba, healthcare, exec_communication, system_architecture, devops_sdlc, risk_mgmt, prd, product_lifecycle, launch, experimentation_tools
-  transferable: Cross-functional leadership (via research), Executive communication & reviews (via research)
+  transferable: Cross-functional leadership (via research), Technical fluency (via engineering), User research (via research), Surveys & feedback loops (via research), Executive communication & reviews (via research)
   unmapped bullets: 0
 === senior_pm_pdf_layout  (experienced_in_role) → read as experienced_in_role, senior; 9.0 yrs total, 9.0 in product; backgrounds: consulting; 19 skills evidenced
   pm:senior      n=1946  core 79% (15)  common 59% (18)  depth 56%  breadth 14%  overall 72%  band 60%–100% PASS  what-if 74%
@@ -129,7 +129,7 @@ Checks: 513 pass, 0 fail.
   layouts      : 18/18
   monotonic    : PASS
   evidenced but not covered by expectations (review these): supply_chain, pnl, roadmap, stakeholder_mgmt, technical_fluency
-  transferable: none
+  transferable: Technical fluency (via engineering)
   unmapped bullets: 0
 === template_placeholder_years  (new_to_role) → read as new_to_role, associate; 0.0 yrs total, 0.0 in product; backgrounds: consulting, finance; 4 skills evidenced
   pm:__all       n=5790  core 0% (12)  common 5% (21)  depth 50%  breadth 5%  overall 2%  what-if 32%
