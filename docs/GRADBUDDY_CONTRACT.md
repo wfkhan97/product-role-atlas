@@ -261,6 +261,46 @@ The first consumer is the apprentice map generator in `gradbuddy/` (PLAN.md v18;
 A consumer reads ids and statuses as keys and numbers and sentences as today's values ("Stable and not" above), and
 inherits the privacy rule below.
 
+## What the atlas reads from GradBuddy: the apprentice map
+
+The one thing that flows the other way (PLAN.md v20). GradBuddy's generator (`gradbuddy/apprentice/`, the
+`/apprentice-map` skill) writes one `map.json` per student, by hand and offline; the owner publishes it to the
+private bucket `maps` under the person's user id (`pipeline.map_publish`); the atlas reads it with the person's own
+session on `#/map` (`web/auth.js`, `web/map.js`) and draws it. The atlas never writes to it. A map is never in a
+repository: it quotes one person's résumé.
+
+**The file, version 2.** The keys the atlas reads; anything else is the generator's and ignored.
+
+- `version` (2), `published`, `atlas_generated` (dates).
+- `student`: `slug`, `name_on_page` (made up; the only name on a page), `campus`, `program`, `fictional` (the
+  example only).
+- `role_class`: `id`, `label`, `field`, `roles[]` (`id`, `label`, `first`). `role` (`id`, `label`), `company`
+  (`name`, `url`), `posting` (`url`, `title`, `names`: the skill ids the posting names), `gap_sentence`.
+- `tree`: `nodes[]` (`id`, `name`, `area`, `place` trunk · shared · own, `roles`, `state` one of `shows` ·
+  `shows in other words` · `must evidence better` · `must build`, `line` (the résumé line that showed it, or
+  absent), `through`, `grows`, `posting_names`), `behaviours[]` (the same shape), `more[]` (`id`, `name`, `state`).
+- `read`: `band` (the matcher's band id), `band_label` (its words), `brings[]` (`id`, `name`, `state`, `line`),
+  `marked_gaps` (skill ids, at most eight).
+- `worlds[]`: `n` (1, 2, 3 or `"reach"`), `label`, `release`, `who`, `clear` (k), `missions` (card ids).
+- `cards[]`: `id`, `level` (1, 2, 3 or `"reach"`), `track`, `title`, `ship`, `hours`, `window`, `why_role` (`text`,
+  `posting_quote`), `why_company` (`text`, `research_file`, `url`), `why_person` (`text`, `profile_quote`),
+  `atlas_skills` (skill ids), `classes` (roster codes), `users`, `sources[]` (`title`, `url`, `read`), and, set by the
+  owner at a republish, `shipped` (a date), `changed` (a date), `declined` (true), `reply` (`text`, `date`).
+
+The atlas resolves a skill's `what` and what it means in the field, an area's label and a class's title from its
+own index by id; a node carries `name` so an id the taxonomy no longer has still draws.
+
+**Stable**: the key names above, the four states, the three places, the world ids, the card id form (lower-case
+letters, digits and hyphens), the bucket path `maps/<uid>/map.json` and the feedback path
+`maps/<uid>/feedback/<card id>.json`, the feedback object (`card`, `choice` one of `build` · `not` · `change`, `note`
+at most 500 characters, `date`). **Not stable**: every value, the k defaults, the example's cards.
+
+**The privacy rule for maps.** A map quotes one person's résumé and names their target company; only that person
+reads it, with their own session, from their own folder; the owner writes it with the service role. What goes up
+from the atlas is one feedback file per card: the card id, the choice, the note, the date. Never the résumé, a skill
+list or a file. The policies are `pipeline/sql/2026-11-03_maps.sql`; the two scripts need the service-role key of the
+project the site points at and never run without it.
+
 ## The privacy rule
 
 What never leaves a browser: the résumé, the syllabus, the pasted posting, every skill list and skill id, every file
@@ -290,4 +330,6 @@ What leaves it, and only this (`web/capture.js`; the tables in `pipeline/sql/202
   loaded in three seconds, the native form sends the same row through `Capture.waitlist`.
 
 Neither path ever sends a résumé, a syllabus, posting text, a skill id or a file name. A program that reads the atlas
-inherits the rule: nothing it builds on these files may send a person's text anywhere the atlas does not.
+inherits the rule: nothing it builds on these files may send a person's text anywhere the atlas does not. The one
+private thing on the site, the apprentice map, has its own rule above: read by its person alone, written by the owner,
+and only a feedback file goes back.
