@@ -118,8 +118,10 @@ refresh every Sunday at 03:17 New York on GitHub-hosted runners, one scrape job 
 backlog, scrapes its family with `--refresh --ats <family>`, pushes each file to the backlog as it is written and its
 log to the `logs` store), then one job that pulls the backlog back, re-extracts, rebuilds the graph, runs the checks
 CI would run and opens a pull request from `data/mba-<date>` with the changed `data/processed/` and `web/data/`
-files; the owner merges. `refresh-product.yml` does the same for the product set on the first Sunday of the month.
-No job pushes to `main`. The scheduled runs go ahead only when the repository variables `REFRESH_MBA_SCHEDULE` and
+files, which the job merges itself when the pipeline evals and every CI check pass in the job (a failing run opens a
+draft the owner reads; the repository variable `REFRESH_AUTO_MERGE` set to `off` leaves every pull request open).
+`refresh-product.yml` does the same for the product set on the first Sunday of the month. No job pushes to `main`
+except through that merge. The scheduled runs go ahead only when the repository variables `REFRESH_MBA_SCHEDULE` and
 `REFRESH_PRODUCT_SCHEDULE` are `on`, set after the runner trial (`evals/runner_trial_2026-10-26.md`, filled by
 `evals/runner_trial.py` from the logs); a family a hosted runner cannot reach runs on a self-hosted runner on the
 Mac mini (`docs/SELF_HOSTED_RUNNER.md`). Secrets come from the repository's Actions secrets ("Where secrets live").
