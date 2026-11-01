@@ -42,6 +42,7 @@ Rules:
 - Every item rests on one line of the resume. Quote that line in "line" exactly as it is written, at most 200 characters (cut a long line; do not paraphrase).
 - "why" is one plain sentence of at most 20 words: what in the line shows the skill.
 - "sure" is true only when the line clearly shows the skill. Decide before you write the item: an item you would mark false, or whose reason carries a doubt, is left out of the list. Never write an item and then take it back in its reason.
+- Rule 1 reads are sure whenever the company's business is plain from its name, its description or what you know of it: a role at "FinServ Startup", a bank, a card or payments company is sure for payments and fintech; a role selling software to businesses, or serving "enterprise customers", is sure for enterprise SaaS and B2B; a consumer app with millions of users is sure for consumer. Always include these.
 - Name a skill only when the line clearly shows it. When a line could fit many skills, name none. Fewer, surer items beat many. If you would hedge ("weakly shown", "hints at", "skip"), leave the item out instead.
 - Never return a placeholder item; "line" is always a full line of the resume, never a single word.
 - No degrees, credentials, years of experience, or personal traits.
@@ -121,13 +122,13 @@ function checkInput(body) {
 // ---------- providers: parts in, the parsed answer out ----------
 // parts: { system: PROMPT, skills: the skill list, user: the resume message }. Anthropic: the Messages API over plain
 // fetch (no SDK, no dependency), the skill list cached (cache_control) since it is the same for every resume of a set,
-// JSON by structured outputs, effort low (an extraction: thinking stays adaptive and short).
+// JSON by structured outputs, effort medium (an extraction with judgment: low dropped the employer-to-industry reads on the first full-set run).
 function anthropicBody(parts, model = MODEL) {
   return {
     model, max_tokens: LIMITS.maxTokens,
     system: [{ type: "text", text: parts.system }, { type: "text", text: parts.skills, cache_control: { type: "ephemeral" } }],
     messages: [{ role: "user", content: parts.user }],
-    output_config: { effort: "low", format: { type: "json_schema", schema: SCHEMA } },
+    output_config: { effort: "medium", format: { type: "json_schema", schema: SCHEMA } },
   };
 }
 async function callAnthropic(parts, { apiKey, fetchImpl = fetch, signal, model = MODEL } = {}) {
