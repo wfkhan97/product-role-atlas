@@ -88,6 +88,9 @@ test("validate: a known id of the set, not found already, once, with a line the 
     { id: "people_management", line: "hired and mentored 2 PMs", why: "  Hiring PMs.  " },
     { id: "okrs", line: "hired and mentored 2 PMs", why: "Mentoring hints at goal setting, though weakly shown, so skip." },   // a hedged reason: out
     { id: "ai_tools", line: "Salesforce", why: "placeholder" },   // one word is not a line: out
+    { id: "launch", line: "hired and mentored 2 PMs", why: "Mentoring is not a launch; this item should be dropped." },   // a reason that takes the item back: out
+    { id: "ab_testing", line: "hired and mentored 2 PMs", why: "Mentoring is the groundwork for experiments, though no test is described." },   // out
+    { id: "roadmap", line: "hired and mentored 2 PMs", why: "Mentoring PMs shows roadmap ownership.", sure: false },   // the model's own doubt: out
   ] }, { text: TEXT, found: ["sql"] });
   assert.deepEqual(ok, [ITEM, { id: "people_management", line: "hired and mentored 2 PMs", why: "Hiring PMs." }]);
   const many = API.skillsFor("both").slice(0, 30).map(s => ({ id: s.id, line: ITEM.line, why: "w" }));
