@@ -66,23 +66,40 @@ class Bucket:
         self.key = key
         self.bucket = bucket
 
-    def _request(self, method, path, data=None, content_type=None):
-        req = urllib.request.Request(f"{self.base}/object/{self.bucket}/{path}", data=data, method=method)
+    def _request(self, method, path, data=None, content_type=None, url=None):
+        req = urllib.request.Request(url or f"{self.base}/object/{self.bucket}/{path}", data=data, method=method)
         req.add_header("apikey", self.key)
         if not self.key.startswith("sb_secret_"):  # a legacy service_role JWT goes in both headers; the new keys are not JWTs
             req.add_header("Authorization", f"Bearer {self.key}")
         if data is not None:
             req.add_header("Content-Type", content_type or "application/octet-stream")
-            req.add_header("x-upsert", "true")
+            if url is None:
+                req.add_header("x-upsert", "true")
         return urllib.request.urlopen(req, timeout=TIMEOUT)
 
+    def ensure(self):
+        """Create the bucket, private, when the project has none of that name (a new project; push calls this)."""
+        body = json.dumps({"id": self.bucket, "name": self.bucket, "public": False, "file_size_limit": MAX_BYTES})
+        try:
+            with self._request("POST", None, body.encode(), "application/json", url=f"{self.base}/bucket") as r:
+                r.read()
+            print(f"[bucket] created {self.bucket} (private)", flush=True)
+        except urllib.error.HTTPError as e:
+            text = e.read()[:300].decode("utf-8", "replace")
+            if "already exists" not in text.lower() and "Duplicate" not in text:
+                raise RuntimeError(f"create bucket {self.bucket}: HTTP {e.code} {text}") from None
+
     def get(self, path):
-        """The object's bytes, or None when the bucket has no such object."""
+        """The object's bytes, or None when the bucket has no such object. A missing bucket is an error, not an
+        empty store: status would otherwise report "0 files in the store" for a project that was never set up."""
         try:
             with self._request("GET", path) as r:
                 return r.read()
         except urllib.error.HTTPError as e:
             body = e.read()[:300].decode("utf-8", "replace")
+            if "NoSuchBucket" in body or "Bucket not found" in body:
+                raise RuntimeError(f"the project has no {self.bucket} bucket: `python -m pipeline.store push <store>` "
+                                   "creates it") from None
             if e.code in (400, 404) and ("not_found" in body or "not found" in body.lower()):
                 return None
             raise RuntimeError(f"GET {self.bucket}/{path}: HTTP {e.code} {body}") from None
@@ -129,7 +146,7 @@ def local_path(store, rel):
 
 
 def local_files(store):
-    """store path -> absolute path, for every file under the store's roots (hidden files and EXCLUDE_DIRS left out)."""
+    """store path -> absolute path, for every file under the store's roots (hidden files, links and EXCLUDE_DIRS left out)."""
     out = {}
     for prefix, root in STORES[store]:
         base = os.path.join(ROOT, root)
@@ -138,9 +155,9 @@ def local_files(store):
         for dirpath, dirnames, filenames in os.walk(base):
             dirnames[:] = sorted(d for d in dirnames if d not in EXCLUDE_DIRS and not d.startswith("."))
             for name in sorted(filenames):
-                if name.startswith("."):
-                    continue
                 path = os.path.join(dirpath, name)
+                if name.startswith(".") or os.path.islink(path):  # a link points outside the store, or nowhere
+                    continue
                 out[rel_of(prefix, os.path.relpath(path, base).replace(os.sep, "/"))] = path
     return out
 
@@ -179,30 +196,34 @@ def save_manifest(bucket, store, manifest):
 def push(store, bucket, only=None):
     """Upload the files whose hash the manifest lacks. Returns (uploaded, unchanged, left_out)."""
     prefix = only_prefix(store, only)
+    bucket.ensure()
     manifest = load_manifest(bucket, store)
     files = manifest["files"]
     uploaded, unchanged, left_out = 0, 0, 0
     t0 = time.time()
-    for rel, path in local_files(store).items():
-        if not selected(rel, prefix):
-            continue
-        size = os.path.getsize(path)
-        if size > MAX_BYTES:
-            print(f"[big] {rel}: {size / 1e6:.0f} MB, over the {MAX_BYTES >> 20} MB object limit; left out", flush=True)
-            left_out += 1
-            continue
-        h = sha256(path)
-        if files.get(rel, {}).get("sha256") == h:
-            unchanged += 1
-            continue
-        with open(path, "rb") as f:
-            bucket.put(f"{store}/files/{rel}", f.read())
-        files[rel] = {"sha256": h, "bytes": size, "mtime": round(os.path.getmtime(path), 2)}
-        uploaded += 1
-        if uploaded % 50 == 0:
-            print(f"  {uploaded} uploaded, {time.time() - t0:.0f}s", flush=True)
-    if uploaded:
-        save_manifest(bucket, store, manifest)
+    try:
+        for rel, path in local_files(store).items():
+            if not selected(rel, prefix):
+                continue
+            size = os.path.getsize(path)
+            if size > MAX_BYTES:
+                print(f"[big] {rel}: {size / 1e6:.0f} MB, over the {MAX_BYTES >> 20} MB object limit; left out", flush=True)
+                left_out += 1
+                continue
+            h = sha256(path)
+            if files.get(rel, {}).get("sha256") == h:
+                unchanged += 1
+                continue
+            with open(path, "rb") as f:
+                bucket.put(f"{store}/files/{rel}", f.read())
+            files[rel] = {"sha256": h, "bytes": size, "mtime": round(os.path.getmtime(path), 2)}
+            uploaded += 1
+            if uploaded % 50 == 0:
+                save_manifest(bucket, store, manifest)  # a killed run keeps what it uploaded
+                print(f"  {uploaded} uploaded, {time.time() - t0:.0f}s", flush=True)
+    finally:
+        if uploaded:  # also on an error: the files uploaded so far are in the bucket, the manifest says so
+            save_manifest(bucket, store, manifest)
     print(f"[push] {store}: {uploaded} uploaded, {unchanged} unchanged, {left_out} left out; "
           f"{len(files)} files in the store, {time.time() - t0:.0f}s", flush=True)
     return uploaded, unchanged, left_out

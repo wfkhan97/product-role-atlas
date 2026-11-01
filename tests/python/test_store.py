@@ -14,6 +14,9 @@ class FakeBucket:
         self.objects = {}
         self.puts = []
 
+    def ensure(self):
+        pass
+
     def get(self, path):
         return self.objects.get(path)
 
@@ -163,3 +166,29 @@ def test_without_the_key_every_command_says_so_and_exits_zero(monkeypatch, capsy
         store.main()
     assert e.value.code == 0
     assert "SUPABASE_SERVICE_ROLE_KEY is not set" in capsys.readouterr().out
+
+
+def test_push_leaves_links_out_even_a_dead_one(root):
+    write(root, "data/experiments/a.json", "{}")
+    target = write(root, "elsewhere/b.json", "{}")
+    os.symlink(target, root / "data/experiments/b.json")
+    os.symlink(root / "gone", root / "data/experiments/tokens")
+    b = FakeBucket()
+    assert store.push("caches", b) == (1, 0, 0)
+    assert sorted(manifest(b, "caches")) == ["a.json"]
+
+
+def test_a_push_that_fails_still_records_what_it_uploaded(root):
+    write(root, "logs/a.log", "a")
+    write(root, "logs/b.log", "b")
+
+    class FailingBucket(FakeBucket):
+        def put(self, path, data, content_type=None):
+            if path.endswith("b.log"):
+                raise RuntimeError("network")
+            super().put(path, data, content_type)
+
+    b = FailingBucket()
+    with pytest.raises(RuntimeError):
+        store.push("logs", b)
+    assert sorted(manifest(b, "logs")) == ["a.log"]

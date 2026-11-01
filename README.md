@@ -68,7 +68,9 @@ calibration reads, and `evals/resumes/private/`, the real ones), `caches` (`data
 `_trash/`: the model answers of `depth_gen`, `build_steps`, `role_corpus`, `skill_audit` and `decisions_audit`) and
 `logs` (`logs/`, pushed by the scheduled jobs). `push <store>` uploads what changed and never deletes a remote file;
 `pull <store>` writes what differs and never overwrites a local file newer than the store's copy (it prints those);
-`status` counts both sides; `--only PATH` narrows a push or a pull. Without `SUPABASE_SERVICE_ROLE_KEY` every store
+`status` counts both sides; `--only PATH` narrows a push or a pull. `push` creates the bucket (private) in a project
+that has none, and the other commands stop with that message instead of reading a missing bucket as an empty store.
+Links and files over 50 MB stay local (`corpus_mba.jsonl`, about 150 MB, is rebuilt by `role_corpus` from the postings). Without `SUPABASE_SERVICE_ROLE_KEY` every store
 command says so and exits 0, so a checkout without secrets still runs the tests and the evals.
 
 ## Where secrets live
