@@ -46,7 +46,8 @@ store; `pipeline.backlog status` the same for the backlog.
 | the newsletter briefs | Claude scheduled tasks | as set in the Claude app | Claude's cloud | drafts | the Claude app |
 | `sp27-roster-rescrape` (Claude scheduled task) | the Claude app on a Mac | Sundays 09:00, until the first `rescrape-sp27` run has written its `runs` row; after that it keeps only the Claude work (notes for new classes, profiles for new instructors) | a Mac that is awake | the research notes and profiles | the Claude app |
 
-A job never pushes to `main`: every change to tracked files is a pull request the owner merges. A job's secrets are
+A job never pushes to `main` directly: every change to tracked files is a pull request. The refresh jobs merge their
+own `data/` pull request when every check passes (`REFRESH_AUTO_MERGE` = `off` stops that); any other the owner merges. A job's secrets are
 the repository's Actions secrets; a job fails at its first step with one clear line when one is missing.
 
 ## Where secrets live

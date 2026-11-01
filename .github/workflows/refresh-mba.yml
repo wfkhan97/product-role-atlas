@@ -1,7 +1,9 @@
 # The weekly MBA refresh, off the Macs: one scrape job per ATS family on GitHub-hosted runners (the matrix keeps every
 # job well under the six-hour limit; the Supabase backlog is the only state, each file is pushed as it is written),
 # then one job that pulls the backlog back, re-extracts, rebuilds the graph, runs the checks CI would run and opens a
-# pull request from data/mba-<date> with the changed data/processed/ and web/data/ files. No job pushes to main.
+# pull request from data/mba-<date> with the changed data/processed/ and web/data/ files, which it merges itself when
+# the pipeline evals and every CI check pass (a failing run opens a draft for the owner; the repository variable
+# REFRESH_AUTO_MERGE set to "off" leaves every pull request open). No job pushes to main except through that merge.
 #
 # Sunday 03:17 New York is 07:17 UTC (Actions cron is UTC only). The scheduled run only goes ahead when the repository
 # variable REFRESH_MBA_SCHEDULE is "on" (Settings > Secrets and variables > Actions > Variables); the owner sets it
@@ -287,7 +289,7 @@ jobs:
         continue-on-error: true
         run: |
           set -o pipefail
-          { node --test 'tests/web/*.test.mjs' && pytest tests/python && node evals/run.mjs && python evals/run_taxonomy.py && node evals/adaptive.mjs; } 2>&1 | tail -40 | tee summary/checks.txt
+          { node --test 'tests/web/*.test.mjs' && pytest tests/python && node evals/run.mjs && python evals/run_taxonomy.py && node evals/adaptive.mjs && node evals/stage.mjs && node evals/posting.mjs; } 2>&1 | tail -40 | tee summary/checks.txt
       - name: Push the log to the logs store
         if: always()
         run: python -m pipeline.store push logs --only "$PIPELINE_LOG"
@@ -297,6 +299,7 @@ jobs:
           EVALS_OK: ${{ steps.evals.outcome }}
           CHECKS_OK: ${{ steps.checks.outcome }}
           ONLY: ${{ inputs.only }}
+          AUTO_MERGE: ${{ vars.REFRESH_AUTO_MERGE }}
           TRIAL: ${{ inputs.trial }}
         run: |
           git config user.name "refresh-mba (GitHub Actions)"
@@ -311,7 +314,7 @@ jobs:
           lines = [f"MBA refresh of {os.environ['DATE']} by the refresh-mba workflow: [the run]({run_url}). "
                    + ("Trial run (one employer per family). " if os.environ.get("TRIAL") == "true" else "")
                    + (f"Only: {os.environ['ONLY']}. " if os.environ.get("ONLY") else "")
-                   + "Opened by the job; the owner reads the counts and merges. No job pushes to main.", "",
+                   + "Opened by the job, and merged by it when the pipeline evals and every CI check pass (the repository variable REFRESH_AUTO_MERGE set to off turns that off); otherwise a draft for the owner.", "",
                    "| family | employers | fetched | kept | open | new | closed | partial | failed |", "|---|---|---|---|---|---|---|---|---|"]
           for r in rows:
               c = r["counts"]
@@ -330,8 +333,20 @@ jobs:
           git commit -q -m "MBA refresh of $DATE (refresh-mba run ${{ github.run_number }})"
           git push -u origin "$branch"
           # a refresh whose evals or checks failed opens as a draft that says so: never mistaken for a clean one
-          if [ "$EVALS_OK" = success ] && [ "$CHECKS_OK" = success ]; then
-            gh pr create --base main --head "$branch" --title "MBA refresh of $DATE" --body-file summary/body.md
-          else
+          if [ "$EVALS_OK" != success ] || [ "$CHECKS_OK" != success ]; then
             gh pr create --draft --base main --head "$branch" --title "MBA refresh of $DATE (evals failed: do not merge)" --body-file summary/body.md
+            exit 0
           fi
+          url=$(gh pr create --base main --head "$branch" --title "MBA refresh of $DATE" --body-file summary/body.md)
+          echo "$url"
+          # every check passed in this job (a pull request opened with the workflow's own token gets no CI run), so the
+          # job merges it: the site's files reach main without the owner. Off when REFRESH_AUTO_MERGE is "off", or on a trial run.
+          if [ "$AUTO_MERGE" = off ] || [ "$TRIAL" = true ]; then echo "left open for the owner (REFRESH_AUTO_MERGE=off or a trial)"; exit 0; fi
+          # --match-head-commit: merge exactly what was checked. A merge that fails (main moved and conflicts) fails
+          # the step, so the failure email says a refresh is waiting.
+          if ! gh pr merge "$url" --merge --match-head-commit "$(git rev-parse HEAD)"; then
+            gh pr comment "$url" --body "The checks passed but the job could not merge this (see [the run]($RUN_URL)); merge it by hand or rerun the refresh."
+            echo "::error::checks passed but the merge failed: $url"
+            exit 1
+          fi
+          git push origin --delete "$branch" || echo "merged; the branch $branch is left behind"
