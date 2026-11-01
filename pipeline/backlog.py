@@ -62,7 +62,7 @@ def connect(wait=POOL_WAIT):
     ATS family at once, so a refused connection waits for a slot (jittered backoff, up to `wait` seconds) instead of
     failing: a scrape job's files exist only on its runner until they are pushed."""
     load_env()
-    url = os.environ.get("SUPABASE_DB_URL")
+    url = os.environ.get("SUPABASE_DB_URL", "").strip()
     if not url:
         sys.exit("SUPABASE_DB_URL is not set: put the project's session-pooler connection string in .env")
     import random
@@ -284,13 +284,13 @@ def verify(role_set):
 
 def storage():
     load_env()
-    key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+    key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "").strip()   # a secret pasted with a space fails the header check
     if not key:
         return None
     import requests
     s = requests.Session()
     s.headers.update({"Authorization": f"Bearer {key}", "apikey": key})
-    return s, os.environ.get("SUPABASE_URL", DEFAULT_URL).rstrip("/") + "/storage/v1"
+    return s, os.environ.get("SUPABASE_URL", DEFAULT_URL).strip().rstrip("/") + "/storage/v1"
 
 
 def snapshot(role_set, date=None):
