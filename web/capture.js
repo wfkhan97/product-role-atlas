@@ -19,15 +19,16 @@
   const enabled = () => { const c = cfg(); return !!(c.CAPTURE_ENABLED && c.SUPABASE_URL && c.SUPABASE_PUBLISHABLE_KEY); };
   // The closed lists of sources and event names: the check constraints in pipeline/sql/2026-10-25_capture.sql, extended
   // by 2026-10-26_cohort.sql (the sixth source, `classes`, the class picker's foot) and by 2026-10-31_doors.sql (v19 B7:
-  // the native fallback's sources `door` and `intake_<surface>`, the door funnel's events, and the `surface` column).
+  // the native fallback's sources `door` and `intake_<surface>`, the door funnel's events, and the `surface` column)
+  // and by 2026-11-01_positioning.sql (the role rail's "Help me improve my positioning": intake_positioning).
   const OLD_SOURCES = ["show", "build", "ways", "fit", "start", "classes"];
-  const SURFACES = ["skills", "classes", "network"];
+  const SURFACES = ["skills", "classes", "network", "positioning"];
   const SOURCES = [...OLD_SOURCES, "door", ...SURFACES.map(s => "intake_" + s)];
   const EVENTS = new Set(["start", "start_stage", "you_done", "resume_read", "explore", "field", "role", "fit", "course_read", "event_prep", "classes", "posting_link", "play", ...OLD_SOURCES.map(s => "waitlist_" + s),
     "door", "door_passed", "home_jobs", "home_skills", "home_classes", "home_network", ...SURFACES.map(s => "intake_" + s)]);
   // the surface a row belongs to (the `surface` column of 2026-10-31_doors.sql); the key leaves the browser only when
   // it is set, so the rows of before that migration are unchanged
-  const SURFACE_VALUES = new Set(["door", "jobs", "skills", "classes", "network"]);
+  const SURFACE_VALUES = new Set(["door", "jobs", "skills", "classes", "network", "positioning"]);
   const surfaceOf = v => SURFACE_VALUES.has(v) ? v : null;
   // the event that follows a waitlist row: waitlist_<source> for the six sources of v18; intake_<surface> for an intake
   // box (the row and the event share the name); none for the door, whose screen fires door_passed itself

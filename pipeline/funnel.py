@@ -30,7 +30,7 @@ FUNNEL = ["start", "start_stage", "you_done", "resume_read", "explore", "field",
 STAGES = ["looking", "targeting", "curious", "(none)"]
 # the door funnel (web/doors.js NAMES.events), in its order: the door drawn, passed, each verb clicked on home, each intake
 DOOR = ["door", "door_passed", "home_jobs", "home_skills", "home_classes", "home_network", "intake_skills", "intake_classes",
-        "intake_network"]
+        "intake_network", "intake_positioning"]
 
 
 def connect():

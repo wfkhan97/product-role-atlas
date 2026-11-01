@@ -120,8 +120,8 @@ test("an error from fetch, or a response that is not ok, never throws: the promi
 test("the names and the sources the script accepts are the ones the migrations allow (the latest definition wins)", async () => {
   const fs = await import("fs");
   const dir = path.join(web, "..", "pipeline", "sql");
-  const files = fs.readdirSync(dir).filter(f => /^\d{4}-\d{2}-\d{2}_(capture|cohort|doors)\.sql$/.test(f)).sort();
-  assert.deepEqual(files, ["2026-10-25_capture.sql", "2026-10-26_cohort.sql", "2026-10-31_doors.sql"]);
+  const files = fs.readdirSync(dir).filter(f => /^\d{4}-\d{2}-\d{2}_(capture|cohort|doors|positioning)\.sql$/.test(f)).sort();
+  assert.deepEqual(files, ["2026-10-25_capture.sql", "2026-10-26_cohort.sql", "2026-10-31_doors.sql", "2026-11-01_positioning.sql"]);
   const list = (sql, col) => { const m = [...sql.matchAll(new RegExp(col + " in \\(([^)]*)\\)", "g"))]; return m.length ? [...m[m.length - 1][1].matchAll(/'([a-z_]+)'/g)].map(x => x[1]) : null; };
   let names = null, sources = null;
   for (const f of files) { const sql = fs.readFileSync(path.join(dir, f), "utf8"); names = list(sql, "name") || names; sources = list(sql, "source") || sources; }
@@ -130,6 +130,7 @@ test("the names and the sources the script accepts are the ones the migrations a
   assert.deepEqual([...C.SOURCES].sort(), [...sources].sort());
   assert.ok(C.SOURCES.includes("classes") && C.EVENTS.has("waitlist_classes"));
   assert.ok(C.SOURCES.includes("door") && C.SOURCES.includes("intake_network") && C.EVENTS.has("door_passed") && C.EVENTS.has("home_jobs"));
+  assert.ok(C.SOURCES.includes("intake_positioning") && C.EVENTS.has("intake_positioning"), "the positioning box (2026-11-01)");
 });
 
 test("surface leaves the browser only when the screen gives one of the five, on events and on waitlist rows alike", async () => {

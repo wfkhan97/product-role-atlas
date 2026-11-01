@@ -1,7 +1,8 @@
 /* Doors: the door (#/) and the intake boxes as Tally forms, with the native form as the fallback (PLAN.md, "The four
    verbs (v19)", step B7). A classic script like web/catalog.js, loaded after capture.js and before app.js; node
-   requires it for tests/web/doors.test.mjs with its dependencies passed in. The owner fills CONFIG.TALLY with the two
-   form ids. Until an id is set, mount draws the native form at once: the site never shows a blank box. With an id,
+   requires it for tests/web/doors.test.mjs with its dependencies passed in. CONFIG.TALLY holds one light and one dark
+   form per kind (2026-11-01: a Tally theme is per form, and a light form's dark text was illegible on the site's dark
+   mode); mount takes the theme in effect and app.js remounts on a theme change. Until an id is set, mount draws the native form at once: the site never shows a blank box. With an id,
    mount adds Tally's embed script once (at mount time, never in index.html) and draws the iframe. The hidden fields
    ride as query parameters: surface, source, role, email. That is what the native form would send; nothing typed or
    uploaded. When three seconds pass with no Tally message and no height change, the native form takes the iframe's
@@ -20,12 +21,13 @@
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const EMBED = "https://tally.so/embed/", SCRIPT = "https://tally.so/widgets/embed.js", ORIGIN = "https://tally.so";
   const FALLBACK_MS = 3000;
-  // the verbs with an intake box; a kind is `door` or `intake_<surface>`
-  const SURFACES = ["skills", "classes", "network"];
+  // the verbs with an intake box; a kind is `door` or `intake_<surface>`. "positioning" (2026-11-01) is not a verb but
+  // the role rail's "Help me improve my positioning", a box of its own (pipeline/sql/2026-11-01_positioning.sql)
+  const SURFACES = ["skills", "classes", "network", "positioning"];
   const KINDS = ["door", ...SURFACES.map(s => "intake_" + s)];
   // the hidden fields every form carries, in this order; nothing else
   const HIDDEN = ["surface", "source", "role", "email"];
-  // the names capture.js and pipeline/sql/2026-10-31_doors.sql gain with this step
+  // the names capture.js and pipeline/sql/2026-10-31_doors.sql gain with this step (intake_positioning: 2026-11-01_positioning.sql)
   const NAMES = {
     events: ["door", "door_passed", "home_jobs", "home_skills", "home_classes", "home_network", ...SURFACES.map(s => "intake_" + s)],
     sources: ["door", ...SURFACES.map(s => "intake_" + s)],
@@ -36,10 +38,26 @@
   const kindOf = surface => surface === "door" ? "door" : SURFACES.includes(surface) ? "intake_" + surface : null;
   // the event the screen fires when Tally reports a submission (the native path fires it through Capture.waitlist)
   const submittedEvent = kind => kind === "door" ? "door_passed" : isKind(kind) ? kind : null;
-  // the form id from CONFIG.TALLY: `door` for the door, `intake` for every intake box; null until the owner sets it
-  function formIdFor(kind, config) {
-    const t = (config || cfg()).TALLY || {};
-    const id = kind === "door" ? t.door : isKind(kind) ? t.intake : null;
+  // the theme in effect: the page's override (<html data-theme>, set by app.js applyTheme), else the device's
+  // prefers-color-scheme; "light" when neither can be read (node)
+  function themeOf() {
+    try {
+      const doc = deps.document && deps.document(), w = deps.window && deps.window();
+      const t = doc && doc.documentElement && doc.documentElement.dataset && doc.documentElement.dataset.theme;
+      if (t === "dark" || t === "light") return t;
+      return w && typeof w.matchMedia === "function" && w.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    } catch { return "light"; }
+  }
+  // The form id from CONFIG.TALLY for a kind and a theme ("light" | "dark"; the theme in effect when omitted); null
+  // until the owner sets it. The shape: { door: { light, dark }, intake_<surface>: { light, dark }, … }. An intake
+  // kind with no entry takes intake_skills' pair, then the flat `intake` of the first cut ({ door: "id", intake: "id" }),
+  // whose one id serves both themes. A pair without the theme's id gives null: the native form, which follows the
+  // theme, is better than an illegible one.
+  function formIdFor(kind, config, theme) {
+    if (!isKind(kind)) return null;
+    const t = (config || cfg()).TALLY || {}, th = (theme || themeOf()) === "dark" ? "dark" : "light";
+    const entry = (kind === "door" ? [t.door] : [t[kind], t.intake_skills, t.intake]).find(v => v != null);
+    const id = typeof entry === "string" ? entry : entry && typeof entry === "object" ? entry[th] : null;
     return typeof id === "string" && /^[A-Za-z0-9_-]{3,64}$/.test(id) ? id : null;
   }
   // the embed URL: Tally's four display options, then the hidden fields (empty when unknown, so the field exists)
@@ -50,13 +68,14 @@
     for (const k of HIDDEN) q.set(k, values[k] == null ? "" : String(values[k]).trim().slice(0, 320));
     return `${EMBED}${formId}?${q}`;
   }
-  // the iframe markup for one form; "" when the kind is unknown or no id is set (the caller draws the native form)
+  // the iframe markup for one form; "" when the kind is unknown or no id is set (the caller draws the native form).
+  // opts: formId (else CONFIG.TALLY for opts.theme), theme, hidden
   function embedHtml(kind, opts) {
     opts = opts || {};
-    const formId = opts.formId || formIdFor(kind);
+    const formId = opts.formId || formIdFor(kind, null, opts.theme);
     if (!isKind(kind) || !formId) return "";
     const title = kind === "door" ? "Welcome to GradBuddy" : "Notify me";
-    return `<iframe data-tally-src="${esc(embedSrc(kind, formId, opts.hidden))}" loading="lazy" width="100%" height="${kind === "door" ? 360 : 200}" frameborder="0" marginheight="0" marginwidth="0" title="${esc(title)}" data-doors="${esc(kind)}"></iframe>`;
+    return `<iframe data-tally-src="${esc(embedSrc(kind, formId, opts.hidden))}" loading="lazy" width="100%" height="${kind === "door" ? 360 : 200}" frameborder="0" marginheight="0" marginwidth="0" title="${esc(title)}" data-doors="${esc(kind)}"${opts.theme ? ` data-doors-theme="${esc(opts.theme)}"` : ""}></iframe>`;
   }
 
   // ---------- the fallback clock, pure ----------
@@ -118,18 +137,22 @@
     s.onerror = () => doc.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(f => { f.src = f.dataset.tallySrc; });
     (doc.body || doc.head).appendChild(s);
   }
-  // Draws the form into el. opts: formId (else CONFIG.TALLY), hidden { role, email }, native() -> the native form's
+  // Draws the form into el. opts: formId (else CONFIG.TALLY for the theme), theme ("light" | "dark"; the theme in
+  // effect when omitted), hidden { role, email }, native() -> the native form's
   // markup, onFallback(reason) once the native form is in place ("unset": no id; "timeout": three seconds without a
   // load; "error"), onSubmitted(payload) when Tally reports a submission, onLoaded() once, on the first sign of a real
   // form (a Tally message for this form, or the iframe resized: dynamicHeight). The clock starts when the iframe comes
-  // into view (loading="lazy" loads nothing before that). Returns { native, destroy() }.
+  // into view (loading="lazy" loads nothing before that). Returns { native, kind, theme, formId, destroy() }: app.js
+  // compares formId with the other theme's on a theme change and mounts again when they differ.
   function mount(el, kind, opts) {
     opts = opts || {};
     const w = deps.window ? deps.window() : null, doc = deps.document ? deps.document() : null;
     const setT = deps.timer || ((fn, ms) => setTimeout(fn, ms)), clearT = deps.clear || (id => clearTimeout(id));
     let timer = null, onMessage = null, io = null, ro = null;
+    const theme = (opts.theme || themeOf()) === "dark" ? "dark" : "light";
+    const formId = opts.formId || formIdFor(kind, null, theme);
     const handle = {
-      native: false,
+      native: false, kind, theme, formId,
       destroy() {
         if (timer != null) clearT(timer); timer = null;
         if (w && onMessage) w.removeEventListener("message", onMessage); onMessage = null;
@@ -143,11 +166,10 @@
       try { el.innerHTML = opts.native ? opts.native() : ""; } catch { }
       if (opts.onFallback) { try { opts.onFallback(reason); } catch { } }
     };
-    const formId = opts.formId || formIdFor(kind);
     if (!el || !isKind(kind) || !formId) { native("unset"); return handle; }
     if (!w || !doc) { native("error"); return handle; }
     try {
-      el.innerHTML = embedHtml(kind, { formId, hidden: opts.hidden });
+      el.innerHTML = embedHtml(kind, { formId, theme, hidden: opts.hidden });
       const iframe = el.querySelector("iframe[data-tally-src]");
       if (!iframe) throw new Error("no iframe");
       loadScript(w, doc);
@@ -180,6 +202,6 @@
     return handle;
   }
 
-  return { KINDS, SURFACES, HIDDEN, NAMES, FALLBACK_MS, SCRIPT, surfaceOf, sourceOf, kindOf, submittedEvent, formIdFor, embedSrc, embedHtml,
+  return { KINDS, SURFACES, HIDDEN, NAMES, FALLBACK_MS, SCRIPT, surfaceOf, sourceOf, kindOf, submittedEvent, themeOf, formIdFor, embedSrc, embedHtml,
     freshState, loadedCheck, markLoaded, shouldFallback, readMessage, returnQuery, clearQuery, nativeSubmit, mount };
 });
