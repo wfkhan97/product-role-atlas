@@ -45,31 +45,30 @@ test("meeting lines mark DIS and LAB components and leave LEC unmarked", () => {
   assert.deepEqual(C.meetingLines([{ component: "LAB", meetings: [] }]), ["LAB time to be announced"]);
 });
 
-// ---------- the grading chip ----------
-test("grading chip: a roster syllabus read names the term and the instructor match, then the summary", () => {
-  const same = C.gradingChip({ roster_syllabus_read: "SP26 DRAFT", sp27_instructor_matches_syllabus: "same", grading_summary: "Four problem sets and a final project." });
-  assert.equal(same.text, "Prior term · SP26 DRAFT · same instructor");
-  assert.equal(same.summary, "Four problem sets and a final project.");
-  assert.equal(same.caveat, "");
-  const diff = C.gradingChip({ roster_syllabus_read: "FA25", sp27_instructor_matches_syllabus: "different", grading_summary: "Weekly quizzes." });
-  assert.equal(diff.text, "Prior term · FA25 · different instructor");
-  assert.equal(diff.caveat, "structure example, not a prediction");
-  assert.equal(C.gradingChip({ roster_syllabus_read: "SP26", sp27_instructor_matches_syllabus: "partial", grading_summary: "" }).text, "Prior term · SP26 · partial instructor");
-  assert.equal(C.gradingChip({ roster_syllabus_read: "SP26", sp27_instructor_matches_syllabus: "unknown" }).text, "Prior term · SP26 · instructor match unknown");
+// ---------- the grading line (owner feedback 2026-11-01) ----------
+test("gradingText reads each component weight as a percentage and leaves fractions, ranges, decimals and course numbers alone", () => {
+  assert.equal(C.gradingText("Weekly push 15, 3 progress presentations 15, final exhibition 25"), "Weekly push 15%, 3 progress presentations 15%, final exhibition 25%", "the count before a component is no weight");
+  assert.equal(C.gradingText("4 homeworks 5 each, participation 5, midterm 35, final 40"), "4 homeworks 5% each, participation 5%, midterm 35%, final 40%");
+  assert.equal(C.gradingText("Homework 50, quizzes 20; lowest 2 dropped"), "Homework 50%, quizzes 20%; lowest 2 dropped");
+  assert.equal(C.gradingText("Assignments 30 (three at 10), final 40 and quizzes 5."), "Assignments 30% (three at 10%), final 40% and quizzes 5%.");
+  assert.equal(C.gradingText("Midterm 1/2, final 1/2; curve mean 3.35. SP26 uses 40/60 splits"), "Midterm 1/2, final 1/2; curve mean 3.35. SP26 uses 40/60 splits");
+  assert.equal(C.gradingText("Projects 13x4+11, literature review 30 (5290 only; replaced for 7290)"), "Projects 13x4+11, literature review 30% (5290 only; replaced for 7290)");
+  assert.equal(C.gradingText("Plan 10, presentation 40 points."), "Plan 10%, presentation 40 points.");
+  assert.equal(C.gradingText("Homework 60%, final 40%"), "Homework 60%, final 40%", "a weight with % keeps one");
+  assert.equal(C.gradingText("Group work 60, attendance 20, extra credit 30"), "Group work 60%, attendance 20%, extra credit 30%", "parts over 100 keep their numbers");
+  assert.equal(C.gradingText(null), ""); assert.equal(C.gradingText("  "), "");
+  assert.equal(C.gradingText("SP23: Homeworks 72, final 18"), "SP23: Homeworks 72%, final 18%", "a term code is no weight");
 });
 
-test("grading chip: a public summary without a roster read shows as is; nothing at all says so", () => {
-  const pub = C.gradingChip({ roster_syllabus_read: null, sp27_instructor_matches_syllabus: null, grading_summary: "Per the public course page: two exams and a paper." });
-  assert.equal(pub.text, "Per the public course page: two exams and a paper.");
-  assert.equal(pub.summary, ""); assert.equal(pub.caveat, "");
-  assert.deepEqual(C.gradingChip({ roster_syllabus_read: null, grading_summary: null }), { text: "No prior syllabus on the roster.", summary: "", caveat: "" });
-});
-
-test("the chip text reaches the card for each of the three cases", () => {
+test("the card carries no grading line, no prior-term line and no own rating", () => {
   const card = (extra) => C.collapse({ classes: [cls("TEST 1010", extra)] })[0];
-  assert.match(C.cardHtml(card({ roster_syllabus_read: "SP26 DRAFT", sp27_instructor_matches_syllabus: "different", grading_summary: "Weekly quizzes." }), { campus }), /Prior term · SP26 DRAFT · different instructor<\/span> Weekly quizzes\. <span class="muted">\(structure example, not a prediction\)/);
-  assert.match(C.cardHtml(card({ grading_summary: "Two exams." }), { campus }), /Two exams\./);
-  assert.match(C.cardHtml(card({}), { campus }), /No prior syllabus on the roster\./);
+  for (const extra of [{ roster_syllabus_read: "FA26 DRAFT", sp27_instructor_matches_syllabus: "different", grading_summary: "Weekly quizzes 30, final 70." }, { grading_summary: "Two exams 50 each." }, {}]) {
+    for (const o of [{ campus }, { campus, roleId: "fpa", rel: { band: "high", matched: [] } }]) {
+      const html = C.cardHtml(card(extra), o);
+      assert.doesNotMatch(html, /Prior term|DRAFT|different instructor|No prior syllabus|Weekly quizzes|Two exams|cls-grading/);
+      assert.doesNotMatch(html, /data-own|cls-own|Your rating|>You</);
+    }
+  }
 });
 
 // ---------- eligibility ----------
@@ -121,16 +120,17 @@ test("the card shows a band word and never a number", () => {
   assert.match(html, /<span class="tag amber">medium<\/span>/);
   assert.match(html, /Budgeting/); assert.match(html, /a course can teach a skill without naming it/);
   assert.doesNotMatch(html, /\d+%|0\.\d/);
-  assert.match(C.cardHtml(card, { campus }), /pick a role to rate/);
-  assert.match(C.cardHtml(card, { campus, roleId: "fpa", own: "high" }), /data-val="high"[^>]*>high/);
-  assert.match(C.cardHtml(card, { campus, roleId: "fpa", own: "high" }), /class="chip on" data-own="TEST 1010" data-val="high"/);
+  // nothing chosen, nothing to compare against: the card carries no rating column at all
+  const bare = C.cardHtml(card, { campus });
+  assert.doesNotMatch(bare, /cls-rel|GradBuddy|pick a role|reading…|class="tag (thin|amber|good)">(low|medium|high)/);
+  assert.match(C.cardHtml(card, { campus, roleId: "fpa" }), /cls-rel[\s\S]*reading…/, "roles chosen, the band still reading");
 });
 
 // ---------- what never reaches the screen ----------
 test("roster_syllabus_md is matcher input and never appears in the card html; the card text does carry it", () => {
   const secret = "SYLLABUS-DIGEST-NEVER-SHOWN week 3 variance analysis";
   const card = C.collapse({ classes: [cls("TEST 1010", { roster_syllabus_md: "## Roster syllabus\n" + secret, research_note_md: "NOTE-NEVER-SHOWN" })] })[0];
-  for (const o of [{ campus }, { campus, roleId: "fpa", rel: { band: "high", matched: [] }, own: "low", selected: true, whyOpen: true }]) {
+  for (const o of [{ campus }, { campus, roleId: "fpa", rel: { band: "high", matched: [] }, selected: true, whyOpen: true }]) {
     const html = C.cardHtml(card, o);
     assert.doesNotMatch(html, /SYLLABUS-DIGEST-NEVER-SHOWN/);
     assert.doesNotMatch(html, /variance analysis/);
@@ -189,10 +189,10 @@ test("the card carries the covered line; the chip filter keeps only the cards th
   assert.deepEqual(C.filterCards(cards, { showAll: true, coversGap: true, covered, subject: "ZZZ" }).map(c => c.key), ["ZZZ 9000"], "the chip composes with the other filters");
 });
 
-test("the sort: by code, by relevance band, or by gaps covered (the share covered, then the score, then code; v19 B3 tuning)", () => {
+test("the sort: the roster's order, by relevance band, or by gaps covered (the share covered, then the score, then roster order; v19 B3 tuning)", () => {
   const cards = C.collapse(DATA);   // TEST 1010, TEST 1020, TEST 3030, ZZZ 9000
   const info = { "TEST 1010": { band: "low", covered: [GAPS[3]] }, "TEST 1020": { band: "high", covered: [] }, "TEST 3030": { band: "medium", covered: [GAPS[0], GAPS[3]] }, "ZZZ 9000": { band: "high", covered: [GAPS[0]] } };
-  assert.deepEqual(C.sortCards(cards, "code", info).map(c => c.key), ["TEST 1010", "TEST 1020", "TEST 3030", "ZZZ 9000"]);
+  assert.deepEqual(C.sortCards(cards, "roster", info).map(c => c.key), ["TEST 1010", "TEST 1020", "TEST 3030", "ZZZ 9000"]);
   assert.deepEqual(C.sortCards(cards, "relevance", info).map(c => c.key), ["TEST 1020", "ZZZ 9000", "TEST 3030", "TEST 1010"]);
   assert.deepEqual(C.sortCards(cards, "gaps", info).map(c => c.key), ["TEST 3030", "ZZZ 9000", "TEST 1010", "TEST 1020"], "3030 covers 0.9 of share, 9000 0.6, 1010 0.3, 1020 none");
   assert.deepEqual(C.topCovering(cards, info, 3).map(c => c.key), ["TEST 3030", "ZZZ 9000", "TEST 1010"], "the rail's three: never a course that covers nothing");
@@ -419,4 +419,69 @@ test("campuses() lists a campus whose entry names a switch only while that switc
   assert.equal(C.campusFor(only, { stored: "ienyc" }).id, "cornell_tech", "an IE choice kept in a browser falls back to the one campus listed");
   assert.equal(C.campusFor(only, { programId: "ie_mif" }).id, "cornell_tech");
   assert.equal(C.neutralCardTitle(only), "Spring 2027 classes · Cornell Tech");
+});
+
+// ---------- the collapsible facets and the eligibility label (owner feedback 2026-11-01) ----------
+// TEST 1010 meets M (section 3), TEST 1020 (with 2020) meets MW and F, TEST 3030 has no section, ZZZ 9000 meets "" (TBA)
+const FACETS = { ...DATA, classes: DATA.classes.map(c => c.code === "TEST 3030" ? { ...c, credits: "1.5" } : c.code === "ZZZ 9000" ? { ...c, credits: "1-5" } : c.code === "TEST 1010" ? { ...c, credits: "3.0" } : c), meetings: [...DATA.meetings, { id: 3, class_nbr: 3, pattern: "M", time_start: "1:00", time_end: "2:00" }, { id: 4, class_nbr: 9, pattern: "" }], sections: [...DATA.sections, { class_nbr: 9, class_code: "ZZZ 9000", component: "LEC", section: "001" }] };
+
+test("days: one letter per day (R is Thursday, Su or U Sunday); a card matches when any meeting of any section has a chosen day", () => {
+  assert.deepEqual(C.dayCodes("MWF"), ["M", "W", "F"]); assert.deepEqual(C.dayCodes("TR"), ["T", "R"]); assert.deepEqual(C.dayCodes("SSu"), ["S", "U"]); assert.deepEqual(C.dayCodes(""), []); assert.deepEqual(C.dayCodes(null), []);
+  const cards = C.collapse(FACETS);
+  assert.deepEqual(C.dayList(cards), ["M", "W", "F"], "the days some section meets, in week order");
+  assert.deepEqual([...C.cardDays(cards.find(c => c.key === "TEST 1020"))].sort(), ["F", "M", "W"], "the lecture and the discussion together");
+  assert.deepEqual(C.filterCards(cards, { showAll: true, days: ["F"] }).map(c => c.key), ["TEST 1020"], "a discussion section's day counts");
+  assert.deepEqual(C.filterCards(cards, { showAll: true, days: ["M"] }).map(c => c.key), ["TEST 1010", "TEST 1020"]);
+  assert.deepEqual(C.filterCards(cards, { showAll: true, days: ["W", "F"] }).map(c => c.key), ["TEST 1020"], "or within the facet");
+  assert.equal(C.filterCards(cards, { showAll: true, days: [] }).length, 4, "no day chosen: everything");
+  assert.deepEqual(C.filterCards(cards, { showAll: true, days: ["T"] }), [], "a class with no section or no pattern meets on no day");
+});
+
+test("credits: the distinct numbers listed, a range matching every chosen value inside it, no credits matching nothing", () => {
+  const cards = C.collapse(FACETS);
+  assert.deepEqual(C.creditList(cards), ["1.5", "3"], "3.0 reads as 3; the range is no option of its own");
+  assert.deepEqual(C.cardCredits(cards.find(c => c.key === "TEST 1010")), ["3"]);
+  assert.deepEqual(C.filterCards(cards, { showAll: true, credits: ["3"] }).map(c => c.key), ["TEST 1010", "TEST 1020", "ZZZ 9000"], "3.0, 3 and the 1-5 range");
+  assert.deepEqual(C.filterCards(cards, { showAll: true, credits: ["1.5"] }).map(c => c.key), ["TEST 3030", "ZZZ 9000"]);
+  assert.deepEqual(C.filterCards(C.collapse({ classes: [cls("TEST 1", { credits: null })] }), { showAll: true, credits: ["3"] }), []);
+  assert.equal(C.filterCards(cards, { showAll: true, credits: [] }).length, 4);
+});
+
+test("eligibility: one option per category on the roster, no restriction first and unverified last; a card matches when any of its codes carries a chosen one", () => {
+  const cards = C.collapse(DATA);   // 1010 cornell_tech_students, 1020 = no restriction + msba_nyc, 3030 null, 9000 cornell_tech_phd
+  const list = C.eligibilityList(cards, campus, "No restriction");
+  assert.deepEqual(list.map(o => o.value), ["no_enrollment_restriction_listed", "cornell_tech_phd", "cornell_tech_students", "msba_nyc", "null"]);
+  assert.equal(list[0].value, "no_enrollment_restriction_listed"); assert.equal(list[0].label, "No restriction"); assert.equal(list[list.length - 1].value, "null");
+  assert.equal(list.find(o => o.value === "msba_nyc").label, campus.eligibility.msba_nyc, "labels from the campus file");
+  assert.equal(list.find(o => o.value === "null").label, "eligibility not verified");
+  assert.deepEqual(list.slice(1, -1).map(o => o.label), list.slice(1, -1).map(o => o.label).slice().sort((a, b) => a.localeCompare(b)), "the rest by label");
+  assert.equal(C.eligibilityList(cards, campus)[0].label, campus.eligibility.no_enrollment_restriction_listed, "no open label given: the campus words");
+  assert.deepEqual(C.filterCards(cards, { showAll: true, eligibility: ["no_enrollment_restriction_listed"] }).map(c => c.key), ["TEST 1020"]);
+  assert.deepEqual(C.filterCards(cards, { showAll: true, eligibility: ["msba_nyc"] }).map(c => c.key), ["TEST 1020"], "the cross-listed card under its restricted code's group too");
+  assert.deepEqual(C.filterCards(cards, { showAll: true, eligibility: ["cornell_tech_students", "null"] }).map(c => c.key), ["TEST 1010", "TEST 3030"]);
+  assert.equal(C.filterCards(cards, { showAll: true, eligibility: [] }).length, 4);
+});
+
+test("the facets compose with each other and with subject, search and instructor", () => {
+  const cards = C.collapse(FACETS);
+  assert.deepEqual(C.filterCards(cards, { showAll: true, days: ["M"], credits: ["3"] }).map(c => c.key), ["TEST 1010", "TEST 1020"]);
+  assert.deepEqual(C.filterCards(cards, { showAll: true, days: ["M"], eligibility: ["no_enrollment_restriction_listed"] }).map(c => c.key), ["TEST 1020"]);
+  assert.deepEqual(C.filterCards(cards, { showAll: true, days: ["M"], instructor: "Sam Roster" }).map(c => c.key), ["TEST 1010"]);
+  assert.deepEqual(C.filterCards(cards, { showAll: true, credits: ["1.5"], subject: "ZZZ" }).map(c => c.key), ["ZZZ 9000"]);
+  assert.deepEqual(C.filterCards(cards, { showAll: true, days: ["F"], q: "1010" }), []);
+});
+
+test("the eligibility label shows only on a restricted card, on the card and in the line the panel reads", () => {
+  const cards = C.collapse(DATA);
+  const open = cards.find(c => c.key === "TEST 1020"), shut = cards.find(c => c.key === "TEST 1010"), unknown = cards.find(c => c.key === "TEST 3030");
+  assert.equal(C.restricted(open), false, "one code lists no restriction: open"); assert.equal(C.restricted(shut), true); assert.equal(C.restricted(unknown), true, "unverified is not open");
+  assert.equal(C.eligibilityLine(open, campus), ""); assert.equal(C.eligibilityLine(shut, campus), campus.eligibility.cornell_tech_students); assert.equal(C.eligibilityLine(unknown, campus), "", "an unverified restriction is not a restriction the card names (owner, 2026-11-01)");
+  assert.doesNotMatch(C.cardHtml(open, { campus }), /no restriction listed|tag thin/);
+  assert.match(C.cardHtml(shut, { campus }), new RegExp(`<span class="tag thin">${campus.eligibility.cornell_tech_students}</span>`));
+});
+
+test("roster order: subject, then the number read as a number", () => {
+  const cards = C.collapse({ classes: [cls("CS 5304"), cls("BANA 6010"), cls("CS 600"), cls("CS 5110")] });
+  assert.deepEqual(C.sortCards(cards, "roster").map(c => c.key), ["BANA 6010", "CS 600", "CS 5110", "CS 5304"]);
+  assert.deepEqual(C.sortCards(cards, undefined).map(c => c.key), ["BANA 6010", "CS 600", "CS 5110", "CS 5304"], "any other mode is the roster's order");
 });

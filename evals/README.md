@@ -435,6 +435,24 @@ works from (PLAN.md, "Later"). A false positive of the passive rule on a data-bu
 there. Rerun after any change to `web/copy.js`, `web/data/sp27_campus.json` or `web/data/games.json`, and commit the
 baseline; the product graph `web/data/graph.json` is not read. In CI through the test.
 
+## The model read
+
+`web/api/infer.js` asks a model (Haiku 5.5) for the skills a resume shows without naming them; the matcher credits
+them as `inferred` (0.75, between a mention and a line of work; `web/match.js`, INFERRED). `node evals/infer.mjs`
+runs the same prompt, request and validation over the samples above and reports, per resume, each inferred skill with
+the line that suggested it, the overall score per target without and with them, and on the first target which
+expectations it gains (a `must_evidence` the patterns miss) or loses (a `must_not_tag` or `real_gaps` skill it tags).
+The expectation files stay the spec: a loss is fixed in the prompt or the validation, never in the file. Answers are
+saved under `data/experiments/infer/` (a pipeline cache, never swept), keyed by model, prompt, skill list, text and
+found ids; `--reuse` reruns from them with no network and no key, `--baseline` writes
+[infer_baseline.md](infer_baseline.md), `--private` adds the private samples (never in the baseline). A live run goes
+through the deployed route, where the key lives: `--url https://gradbuddy-atlas.vercel.app/api/infer` sends the body
+the site sends and saves the answer with the route's host (check the deploy first: `curl <url>` answers
+`{ "ok": true, "key": true }`); without `--url` it calls Anthropic with `ANTHROPIC_API_KEY` from the environment or
+`.env`. The baseline says which path produced its answers. Rerun with `--baseline` after any change to the prompt, the
+validation or the merge, and commit the baseline. `node evals/run.mjs --baseline` must not move when no list is
+passed: the patterns' read is the floor.
+
 ## Evals to build
 
 The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a

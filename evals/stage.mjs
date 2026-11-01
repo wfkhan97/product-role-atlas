@@ -10,8 +10,12 @@
 // with per stage, and the box on the rail and the fit screen, are checked as before.
 // Why the intake heading: v19 B5 (2026-10-31) replaced the cohort application box with the intake box ("GradBuddy is
 // coming soon."), so no screen names a cohort, a price or a date any more. The pure table is Intake (it replaced
-// Apply); the checks below read its heading, button and done line, and the rail's three placeholders and the fit
+// Apply); the checks below read its heading, button and done line, and the rail's placeholders and the fit
 // screen's foot still draw the box from it.
+// Why the rail leads with the drop for every stage: the owner's feedback of 2026-11-01 took the entry-grade facts, the
+// "Add your resume" sentences, the practice link and "Do something with this" off the rail. What is left before a
+// resume is the drop and one link, "Find classes relevant for this role"; the gap rows' two placeholders are
+// "Help me build this skill" (source show) and "Help me improve my positioning" (source positioning).
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -29,8 +33,8 @@ const check = (ok, msg) => { if (ok) passes++; else { fails++; console.log("FAIL
 // what each stage asks for, per screen: the set of first actions that answer it
 const WANT = {
   looking: { you: ["drop", "fields"], rail: ["drop"], railResume: ["gaps"] },
-  targeting: { you: ["role-search"], rail: ["gaps-drop", "gaps"], railResume: ["gaps"] },
-  curious: { you: ["answers", "explore", "fields"], rail: ["practise", "explore"], railResume: ["gaps"] },
+  targeting: { you: ["role-search"], rail: ["drop", "gaps"], railResume: ["gaps"] },
+  curious: { you: ["answers", "explore", "fields"], rail: ["drop", "explore"], railResume: ["gaps"] },
 };
 check(JSON.stringify(Stage.STAGES) === JSON.stringify(Object.keys(WANT)), "the three stages are looking, targeting, curious");
 check(Stage.startRoute === undefined, "no start route: the start screen is gone (v19 B2) and the stage is asked in About you");
@@ -41,8 +45,8 @@ for (const stage of Stage.STAGES) {
   check(w.you.includes(you) && w.you.includes(youR), `${stage}: About you leads with ${you} / ${youR}, wanted ${w.you.join(" or ")}`);
   check(w.rail.includes(rail), `${stage}: the rail with answers and no resume leads with ${rail}, wanted ${w.rail.join(" or ")}`);
   check(w.railResume.includes(railR), `${stage}: the rail with a resume leads with ${railR}, wanted ${w.railResume.join(" or ")}`);
-  // every rail block is either a sentence or a known action, and the rail's standing links are there in both states
-  for (const resume of [false, true]) { const blocks = Stage.railBlocks(stage, resume); check(blocks.includes("practise") && blocks.includes("course") && blocks.includes("classes"), `${stage}: the rail keeps its standing links (resume ${resume})`); check(new Set(blocks).size === blocks.length, `${stage}: no rail block twice (resume ${resume})`); }
+  // every rail block is either a sentence or a known action, and the rail's one closing link is there in both states
+  for (const resume of [false, true]) { const blocks = Stage.railBlocks(stage, resume); check(blocks[blocks.length - 1] === "classes" && !blocks.some(b => ["practise", "course", "event", "facts", "ask"].includes(b)), `${stage}: the rail ends in the classes link alone (resume ${resume})`); check(new Set(blocks).size === blocks.length, `${stage}: no rail block twice (resume ${resume})`); }
   console.log(`${stage.padEnd(10)} About you leads with ${you.padEnd(12)} rail leads with ${rail.padEnd(10)} with a resume ${railR}`);
 }
 // the first call to action on the rail and the fit screen is the intake box, for every stage (one box everywhere
@@ -51,7 +55,7 @@ for (const stage of Stage.STAGES) {
 for (const stage of Stage.STAGES) for (const screen of ["rail", "fit"]) check(Stage.cta(stage, screen) === "GradBuddy is coming soon.", `${stage}: the first call to action on the ${screen} is the intake box (got "${Stage.cta(stage, screen)}")`);
 check(Intake && Intake.heading === "GradBuddy is coming soon." && Intake.button === "Notify me" && /^Got it\./.test(Intake.done), "the intake box's copy is the owner's: heading, button, done line");
 check(!/[Cc]ohort|\bpaid\b|Nov 14|\bApply\b/.test(JSON.stringify([Intake.heading, Intake.line, Intake.button, Intake.done, Intake.privacy, Intake.gapsLine("x")])), "no intake string names a cohort, a price, a date or applying");
-check(/\$\{waitHtml\("show"\)\}/.test(src) && /\$\{waitHtml\("build"\)\}\$\{waitHtml\("ways"\)\}/.test(src), "the rail draws the intake box at its three placeholders, sources show, build, ways");
+check(/\$\{waitHtml\("show"\)\}\$\{waitHtml\("positioning"\)\}/.test(src) && !/waitHtml\("(build|ways)"\)/.test(src), "the rail draws the intake box at the gap rows' two placeholders, sources show and positioning");
 check(/applyBox\("fit", \{ always: true \}\)/.test(src), "the fit screen draws the intake box, source fit");
 check(/esc\(Intake\.heading\)/.test(src) && !/Join the GradBuddy waitlist/.test(src) && !/esc\(Apply\./.test(src), "the box is drawn from Intake; the waitlist and application wordings are gone");
 // the stage is asked in About you, step 2 (Q[1]), and nowhere else: the door and home never mention it

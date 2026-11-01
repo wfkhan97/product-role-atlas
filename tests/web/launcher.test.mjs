@@ -74,7 +74,7 @@ test("the lead names the roles and the fields; the hits line is singular for one
   assert.equal(L.lead(IX), "Pick a role from 4 in 3 fields. Add your résumé to see how your skills match up.");
   assert.equal(L.hitsLine(1), "1 role matches. Pick one to see what its postings ask for.");
   assert.equal(L.hitsLine(3), "3 roles match. Pick one to see what its postings ask for.");
-  assert.equal(L.COPY.heading, "Explore roles & build skills");
+  assert.equal(L.COPY.heading, "Explore careers");
 });
 
 // ---------- a résumé on file ----------

@@ -232,6 +232,16 @@
     return { ...Matcher.pickCarriers(s, jobs, fieldKeys(R), isCarrier), kind: s.kind || null };
   }
 
+  // ---------- the model read's skills for the resume in hand (web/infer.js, 2026-11-01) ----------
+  // The one place the browser binds an inferred list to a resume: useInferred(text, list) after the read lands (or
+  // from the stored resume). Every matcher Atlas hands out, the rough read and the roundtable then pass it as
+  // `opts.inferred` for that exact text and for no other, so no screen threads it through by hand. Never called (node,
+  // the evals, the map's grounding), every read is the patterns' alone.
+  let inferredFor = { text: null, list: [] };
+  function useInferred(text, list) { inferredFor = { text: text || null, list: Array.isArray(list) ? list : [] }; }
+  const inferredOf = text => text && text === inferredFor.text ? inferredFor.list : [];
+  const withInferred = M => ({ ...M, match: (text, target, opts = {}) => M.match(text, target, opts.inferred ? opts : { ...opts, inferred: inferredOf(text) }) });
+
   // ---------- the matcher (web/match.js, untouched) for one role, built the way the bands were calibrated ----------
   const matchers = {};
   async function matcher(R) {
@@ -239,11 +249,11 @@
     const ix = await index();
     if (R.set === "product") {
       const [P, TAX, bands] = await Promise.all([product(), fetchJson("data/taxonomy.json"), fetchJson("data/bands.json")]);
-      const M = Matcher.createMatcher({ taxonomy: TAX, subskills: P.SUBS, graph: P.G, distinct: (bands.scoring || {}).distinct || undefined, behaviours: (bands.scoring || {}).behaviours || "show" });
+      const M = withInferred(Matcher.createMatcher({ taxonomy: TAX, subskills: P.SUBS, graph: P.G, distinct: (bands.scoring || {}).distinct || undefined, behaviours: (bands.scoring || {}).behaviours || "show" }));
       return matchers[R.role.id] = { M, bands, group: R.role.group, familyJobs: R.jobs };
     }
     const [TAX, ROLES, bands] = await Promise.all([fetchJson("data/taxonomy_mba.json"), fetchJson("data/roles_mba.json"), fetchJson("data/bands_mba.json")]);
-    const M = Matcher.createMatcher({ taxonomy: TAX, subskills: ix.SUBS, graph: { ...ix.M, jobs: R.jobs }, roles: ROLES, distinct: { ...((bands.scoring || {}).distinct || {}), baseline: ix.baseline }, behaviours: (bands.scoring || {}).behaviours || "show" });
+    const M = withInferred(Matcher.createMatcher({ taxonomy: TAX, subskills: ix.SUBS, graph: { ...ix.M, jobs: R.jobs }, roles: ROLES, distinct: { ...((bands.scoring || {}).distinct || {}), baseline: ix.baseline }, behaviours: (bands.scoring || {}).behaviours || "show" }));
     return matchers[R.role.id] = { M, bands, group: (bands.group_of || {})[R.role.id] || R.role.group, familyJobs: R.jobs };
   }
 
@@ -251,22 +261,24 @@
   // Returns { held: [role ids the person held], scores: { role id: share of the role's main asks the resume shows } }.
   // It ranks fields and roles; the band of fit comes from the full matcher on the role screen.
   let roughM = null;
-  async function roughFit(text) {
+  // opts.inferred overrides the list useInferred bound to this text (pass [] for the patterns' read alone)
+  async function roughFit(text, opts = {}) {
     const ix = await index();
     if (!roughM) { const [TAX, ROLES] = await Promise.all([fetchJson("data/taxonomy_mba.json"), fetchJson("data/roles_mba.json")]); roughM = Matcher.createMatcher({ taxonomy: TAX, subskills: ix.SUBS, graph: { ...ix.M, jobs: [] }, roles: ROLES }); }
-    const parsed = roughM.readRoles(roughM.parseResume(text)); const ev = roughM.tag(parsed);
-    const shown = new Set(Object.entries(ev).filter(([, e]) => e.strength >= 2).map(([id]) => id));
+    const parsed = roughM.readRoles(roughM.parseResume(text)); const ev = roughM.infer(roughM.tag(parsed), opts.inferred || inferredOf(text));
+    const shown = new Set(Object.entries(ev).filter(([, e]) => roughM.shownBy(e)).map(([id]) => id));
     const held = [...new Set(parsed.roles.map(r => r.roleFamily).filter(Boolean))];
     // the shape of the full score, from the index alone: core asks count twice, common asks once, each weighed by
-    // its share and by how distinctive it is for the role; a mention earns half credit, a line of work full credit
-    const CREDIT = [0, 0.5, 1, 1], D = { floor: 0.2, full: 2 };
+    // its share and by how distinctive it is for the role; a mention earns half credit, a line of work full credit,
+    // an inferred skill three quarters (Matcher.creditOf, the score's rule)
+    const D = { floor: 0.2, full: 2 };
     const lift = (id, w) => { const a = ix.baseline[id]; if (!a) return 1; return Math.max(D.floor, Math.min(1, D.floor + (1 - D.floor) * (w / a - 1) / (D.full - 1))); };
     const score = asks => {
       let num = 0, den = 0;
       for (const a of asks) {
         const s = ix.skillById[a.id]; if (!s || s.cluster === "credentials" || s.cluster === "domain" || a.share < TIER.common) continue;
         const tier = a.share >= TIER.core ? 2 : 1, weight = tier * a.share * lift(a.id, a.share);
-        num += weight * CREDIT[Math.min(3, (ev[a.id] || {}).strength || 0)]; den += weight;
+        num += weight * Matcher.creditOf(ev[a.id]); den += weight;
       }
       return den ? num / den : 0;
     };
@@ -310,10 +322,37 @@
     const n = Object.values(ix.roles).filter(r => r.set === "mba").length;
     return new Set(Object.entries(count).filter(([, c]) => c >= n / 2).map(([id]) => id));
   }
+  // ---------- which skills a field page's chart shows (owner's feedback 2026-11-01: too many dots, many unnamed) ----------
+  // Pure: fieldChart({ shares, skillById, roles, generic }) gives at most CHART.cap rows { id, share, lane, defining },
+  // highest share first, few enough that the chart names every one. shares is the field's mean share per skill over
+  // its roles (skillmap.js fieldShares), roles the field's index roles (definingList), generic Atlas.genericSkills().
+  // The rule: (1) out go credentials and tools (kind, else cluster), and sub-skills are never in (shares are per
+  // skill); (2) the skills asked in every field (the generic ones and the behaviours) keep at most CHART.every, the
+  // highest field share, in their own lane ("every"); (3) the field's own lane ("own") takes every skill that defines
+  // one of its roles, then the highest field share at TIER.some or more, industries and rule sets (kind knowledge)
+  // only when they define a role, until CHART.cap rows in all.
+  const CHART = { cap: 20, every: 3 };
+  const OUT_KINDS = new Set(["credential", "tool"]);
+  function fieldChart({ shares, skillById, roles, generic, cap = CHART.cap, every = CHART.every }) {
+    const kindOf = s => s.kind || (s.cluster === "credentials" ? "credential" : s.cluster === "tools" ? "tool" : null);
+    const defining = new Set((roles || []).flatMap(r => (r.definingList || []).map(a => a.id)));
+    const gen = generic || new Set();
+    const pool = Object.entries(shares || {}).map(([id, share]) => ({ id, share: share || 0, s: skillById[id] }))
+      .filter(x => x.s && x.share > 0 && !OUT_KINDS.has(kindOf(x.s)) && x.s.cluster !== "credentials" && x.s.cluster !== "tools")
+      .sort((a, b) => b.share - a.share || a.id.localeCompare(b.id));
+    const isEvery = x => gen.has(x.id) || kindOf(x.s) === "behaviour";
+    const lane = pool.filter(x => isEvery(x) && x.share >= TIER.some).slice(0, every);
+    const own = pool.filter(x => !isEvery(x));
+    const must = own.filter(x => defining.has(x.id));
+    const rest = own.filter(x => !defining.has(x.id) && x.share >= TIER.some && kindOf(x.s) !== "knowledge");
+    const mine = [...must, ...rest].slice(0, Math.max(0, cap - lane.length));
+    const row = l => x => ({ id: x.id, share: x.share, lane: l, defining: defining.has(x.id) });
+    return [...lane.map(row("every")), ...mine.map(row("own"))].sort((a, b) => b.share - a.share || a.id.localeCompare(b.id));
+  }
   // the full matcher on every role of a field, for the roundtable: { role id: match result }
   async function fieldMatches(groupId, text) {
     const ix = await index(); const g = ix.groups.find(x => x.id === groupId); const out = {};
-    for (const id of g.roles) { const R = await role(id); const { M } = await matcher(R); out[id] = M.match(text, { jobs: R.jobs, familyJobs: R.jobs, label: R.role.label }, { ladder: R.role.ladder }); }
+    for (const id of g.roles) { const R = await role(id); const { M } = await matcher(R); out[id] = M.match(text, { jobs: R.jobs, familyJobs: R.jobs, label: R.role.label }, { ladder: R.role.ladder }); }   // M passes the inferred list (withInferred)
     return out;
   }
   // every posting of a field: the role files of its roles (for the employers hiring now)
@@ -325,5 +364,5 @@
     return files.flatMap(f => decode(ix.M, f.jobs));
   }
 
-  return { index, product, productKey, role, shares, subShares, grid, areas, carriers, AREA_ORDER, BEHAVIOURS_PANEL, stepOf, employerType, matcher, roughFit, readCourse, readPosting, courseSplit, COURSE_KINDS, fieldJobs, fieldMatches, genericSkills, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson, us, useSpelling, fieldKeys };
+  return { index, product, productKey, role, shares, subShares, grid, areas, carriers, AREA_ORDER, BEHAVIOURS_PANEL, stepOf, employerType, matcher, roughFit, useInferred, readCourse, readPosting, courseSplit, COURSE_KINDS, fieldJobs, fieldMatches, genericSkills, fieldChart, CHART, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson, us, useSpelling, fieldKeys };
 });

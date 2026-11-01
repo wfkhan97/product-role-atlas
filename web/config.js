@@ -21,10 +21,32 @@ window.CONFIG = {
   // Tech. Flip it when the IE courses are loaded (PLAN.md, Later).
   IENYC_ENABLED: false,
   CATALOG_TERM: "SP27",
-  // the waitlist and the funnel counts (web/capture.js): off, nothing leaves the browser at all
+  // the waitlist and the funnel counts (web/capture.js): off, no funnel row or event leaves the browser
   CAPTURE_ENABLED: true,
-  // The two Tally forms (web/doors.js, v19 B7): `door` is the form at #/, `intake` the box at each verb's foot. The
-  // owner fills the two ids (the part after tally.so/r/). Until an id is set the native form renders in its place;
-  // the site never shows a blank box.
-  TALLY: { door: "1WX741", intake: "M1Xzak" },
+  // The model read of a resume (web/infer.js, web/api/infer.js; 2026-11-01): on, the resume text goes once per upload
+  // to the site's /api/infer route, which asks a model for the skills it shows without naming them and stores nothing.
+  // Off, or with no ANTHROPIC_API_KEY on the host (a 503), the resume never leaves the browser and the patterns read alone.
+  INFER_ENABLED: true,
+  // The Tally forms (web/doors.js, v19 B7; per kind and per theme since 2026-11-01): `door` is the form at #/, each
+  // `intake_<surface>` the box of that surface, with its own line. A Tally theme is a per-form setting, so every kind
+  // has a LIGHT and a DARK copy; the site embeds the one matching its theme and swaps when the theme changes (app.js).
+  // An id is the part after tally.so/r/. A kind left out takes intake_skills' pair; an id left null draws the native
+  // form, so the site never shows a blank box. The copies share the structure: hidden fields surface, source, variant
+  // (door) or surface, source, role, variant, email (intakes); the email question (you@school.edu); the privacy line;
+  // the owner's notification email; the intakes' thank-you page; the door's redirect to
+  // #/home?email=@Email&where=@What are you studying? ("What are you studying?" optional). A change to one copy goes to
+  // its twin.
+  //   kind                 light    dark     the form's line
+  //   door                 1WX741   6DLRak   the door: email and "What are you studying?"
+  //   intake_skills        M1Xzak   1WXMqp   Copy.intake.line.skills (the rail, the fit screen, the launcher)
+  //   intake_positioning   J1qL5o   gbaLKO   Copy.intake.line.positioning (the role rail's gap rows)
+  //   intake_classes       yXMxVg   8NqG75   Copy.intake.line.classes (the class picker's foot)
+  //   intake_network       0VdLNy   zEjZPR   Copy.intake.line.network (the networking screen)
+  TALLY: {
+    door: { light: "1WX741", dark: "6DLRak" },
+    intake_skills: { light: "M1Xzak", dark: "1WXMqp" },
+    intake_positioning: { light: "J1qL5o", dark: "gbaLKO" },
+    intake_classes: { light: "yXMxVg", dark: "8NqG75" },
+    intake_network: { light: "0VdLNy", dark: "zEjZPR" },
+  },
 };
