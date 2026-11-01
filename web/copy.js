@@ -695,6 +695,49 @@
     neutralTag: "Pick your campus →",
   };
 
+  // ---------- the sign-in for the apprentice maps (#/signin with CONFIG.MAPS_ENABLED; web/auth.js) ----------
+  // A magic link to an invited address only. The maps are the one private thing on the site; nothing else asks for it.
+  const signin = {
+    crumb: "Sign in",
+    heading: "Sign in",
+    lead: "Have an invite? Enter the email it came to.",
+    email: "Email",
+    emailPlaceholder: "The email on the invite",
+    button: "Send me a link",
+    sending: "Sending…",
+    sent: "Check your email for the link. It works once.",
+    sentTo: "Sent to {email}.",
+    refused: "This email has no invite.",
+    failed: "The link did not go out. Check your connection and try again.",
+    invalid: "Enter the email address on your invite.",
+    expired: "That link no longer works. Send yourself a new one.",
+    note: "The link opens your map. Nothing else here needs a sign-in.",
+    explore: "Explore roles without one →",
+  };
+
+  // ---------- the apprentice map (#/map) and its lines on the launcher (#/skills) ----------
+  // B2 draws the map as plain text: the title, the role at the company, the band, the worlds and their missions.
+  const map = {
+    crumb: "Your map",
+    heading: "Your map",
+    title: "{name}'s map",
+    roleAt: "{role} at {company}.",
+    band: "{band} for {role}.",
+    world: "World {n} · {label}",
+    level: "Level {n}",
+    reach: "The Reach",
+    noMissions: "No missions yet.",
+    loading: "Loading your map…",
+    failed: "Your map did not load. Reload the page to try again.",
+    waiting: "We are writing your map. It opens here when it is ready.",
+    only: "Only you can open it.",
+    signOut: "Sign out",
+    others: "Explore other roles →",
+    back: "← Back to your map",
+    invite: "Have an invite?",
+    inviteLink: "Sign in.",
+  };
+
   // ---------- About (#/about) ----------
   const about = {
     crumb: "About GradBuddy",
@@ -751,5 +794,5 @@
     knowLine: "You know {n} things {role} postings ask for{change}.", knowCount: "{n} of the {m}", upFrom: " · up from {was}", downFrom: " · down from {was}",
   };
 
-  return { fill, common, door, home, intake, you, explore, role, fit, jobs, skills, network, classes, about, games };
+  return { fill, common, door, home, intake, you, explore, role, fit, jobs, skills, network, classes, signin, map, about, games };
 });

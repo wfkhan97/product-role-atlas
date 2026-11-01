@@ -1,7 +1,9 @@
 /* Role atlas — the screens. Routes (hash): #/ the door (welcome, an email, what you study; everyone can skip) · #/home (the four verbs) ·
    #/jobs (Find jobs: one search over every open posting, v19 B4) · #/skills (the launcher: every role by field with the résumé beside it, v19 B5) ·
    #/network (Who to meet: the people types for one role and a prep card, v19 B5) · #/play/<game> ·
-   #/you · #/explore · #/field/<group> · #/role/<role> · #/about · #/classes, #/professor/<slug>, #/signin (classes.js).
+   #/you · #/explore · #/field/<group> · #/role/<role> · #/about · #/classes, #/professor/<slug> (classes.js) ·
+   #/signin (the magic link for an invited address when CONFIG.MAPS_ENABLED, else classes.js's one line) · #/map (the
+   apprentice map, read from the private bucket with the person's session; web/auth.js).
    Data comes from atlas.js; the side panel (owner's choice 8B) shows a skill or a posting. */
 // The route: the hash read into the screen to show, its path parts and its query. Pure, no DOM; UMD like atlas.js,
 // so node loads it alone (tests/web/routes.test.mjs): require("web/app.js").parseRoute.
@@ -12,7 +14,7 @@
   else { root.Routes = factory(root.Copy); root.Stage = root.Routes.Stage; root.Intake = root.Routes.Intake; root.Door = root.Routes.Door; }
 })(typeof self !== "undefined" ? self : this, function (Copy) {
   "use strict";
-  const SCREENS = { "": "door", home: "home", jobs: "jobs", skills: "skills", network: "network", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about", classes: "classes", professor: "professor", signin: "signin" };
+  const SCREENS = { "": "door", home: "home", jobs: "jobs", skills: "skills", network: "network", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about", classes: "classes", professor: "professor", signin: "signin", map: "map" };
   // "#/role/pm/fit?x=1" -> { name: "fit", params: { id: "pm" }, query: { x: "1" }, parts: ["role", "pm", "fit"], search: "x=1" }.
   // An empty hash is the door. An unknown first part, or a part that cannot be decoded ("%E0"), shows home. `search`
   // is the text between the first and a second "?", as the screens read it.
@@ -248,7 +250,7 @@
   // The four verbs in the top bar (v19 B2), drawn on every route: the current one marked, Find classes only when the
   // email on file opens it (Door.opens). The brand goes home. A screen the verbs will absorb (Explore, a field, a role,
   // its fit and course screens) marks Explore roles; an event screen marks Networking; the classes screens Find classes.
-  const VERB_OF = { jobs: "jobs", skills: "skills", explore: "skills", field: "skills", role: "skills", fit: "skills", course: "skills", play: "skills", network: "network", event: "network", classes: "classes", professor: "classes" };
+  const VERB_OF = { jobs: "jobs", skills: "skills", map: "skills", explore: "skills", field: "skills", role: "skills", fit: "skills", course: "skills", play: "skills", network: "network", event: "network", classes: "classes", professor: "classes" };
   function topBar(name) {
     const el = $("#verbs"); if (!el) return;
     const on = VERB_OF[name] || null;
@@ -260,15 +262,23 @@
   const unmount = all => { for (const h of mounts) if (all || !(h.el && h.el.isConnected)) { h.destroy(); mounts.delete(h); } };
   // the door's Tally return (#/home?email=…&where=…) passes the door: it is the door's own answer coming back
   const returned = hash => !!(window.Doors && Routes.parseRoute(hash).name === "home" && (Doors.returnQuery(hash).email || Doors.returnQuery(hash).where));
+  // the apprentice maps (CONFIG.MAPS_ENABLED, web/auth.js): the one private thing on the site
+  const mapsOn = () => !!((window.CONFIG || {}).MAPS_ENABLED && window.Auth);
+  const toHash = h => location.replace(location.pathname + location.search + h);   // replaced, not pushed: Back leaves as it came
   function route() {
+    // a magic link lands with its tokens in the hash (#access_token=…, or #/map#access_token=…): web/auth.js keeps the
+    // session and the hash becomes #/map before anything parses it; a spent or expired link lands on the sign-in
+    const landed = window.Auth && mapsOn() ? Auth.takeHash(location.hash) : null;
+    if (landed) history.replaceState(null, "", location.pathname + location.search + (landed === "session" ? "#/map" : "#/signin?expired=1"));
     const parsed = Routes.parseRoute(location.hash);
     unmount(true);
     // a deep link bounces to the door once (v19 B2): the hash stays, the door draws over it, and Continue or Skip
-    // (Door.next) lands on the hash
-    const name = Door.bounce(location.hash, doorKept().seen || returned(location.hash)) ? "door" : parsed.name, { id, slug } = parsed.params;
+    // (Door.next) lands on the hash. The sign-in and the map never bounce: an invited person comes from the email.
+    const invited = mapsOn() && (parsed.name === "signin" || parsed.name === "map");
+    const name = !invited && Door.bounce(location.hash, doorKept().seen || returned(location.hash)) ? "door" : parsed.name, { id, slug } = parsed.params;
     // #/jobs, #/skills and #/network exist so the hrefs never change: #/jobs is Find jobs (B4), #/skills the launcher
     // and #/network Who to meet (B5); #/explore, a field and the event screen stay at their routes
-    const go = { door, home, jobs: jobsScreen, skills: skillsScreen, network: networkScreen, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => ClassScreens.signin(shellCtx) }[name];
+    const go = { door, home, jobs: jobsScreen, skills: skillsScreen, network: networkScreen, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => mapsOn() ? signinScreen() : ClassScreens.signin(shellCtx), map: mapScreen }[name];
     SkillMap.leave(); leaveRail(); topBar(name);
     // the launcher sends the same event Explore sends: it is the screen that picks a role now; the door sends `door`
     // (v19 B7; `start` was the start screen's, gone with B2) and `door_passed` itself when Continue or Skip goes through
@@ -405,12 +415,21 @@
     const C = Launcher.COPY;
     crumbs([[CM.home, "#/home"], [C.heading, null]]); showAside(null);
     page(`<h1>${esc(C.heading)}</h1><p class="lead">${esc(CM.loadingRoles)}</p>`);
-    const ix = await Atlas.index(); await Atlas.product().catch(console.error);   // the Product tile carries its roles
     const here = () => Routes.parseRoute(location.hash).name === "skills";
+    // E1 (the build plan's B2): a signed-in person with a map opens it first; #/skills?all=1 is the launcher behind
+    // it, with the way back in the slot above the field tiles. No session: one line to the sign-in. A session and no
+    // map file yet: the waiting line. MAPS_ENABLED off: the launcher as it was.
+    const all = Routes.parseRoute(location.hash).query.all === "1";
+    const gate = mapsOn() ? (await mapGate()).gate : "launcher";
+    if (!here()) return;
+    if (gate === "map" && !all) { toHash("#/map"); return; }
+    const MC = Copy.map;
+    const slot = { map: `<p class="lf-slot"><a href="#/map">${esc(MC.back)}</a></p>`, signin: `<p class="lf-slot">${esc(MC.invite)} <a href="#/signin">${esc(MC.inviteLink)}</a></p>`, waiting: `<p class="lf-slot">${esc(MC.waiting)}</p>` }[gate] || "";
+    const ix = await Atlas.index(); await Atlas.product().catch(console.error);   // the Product tile carries its roles
     if (!here()) return;
     const F = Launcher.fields(ix), q0 = Routes.parseRoute(location.hash).query;
     const s = { q: q0.q || "", field: F.some(f => f.id === q0.field) ? q0.field : null, change: false };
-    const writeHash = () => { const p = new URLSearchParams(); if (s.q.trim()) p.set("q", s.q.trim()); if (s.field) p.set("field", s.field); const next = "#/skills" + (p.toString() ? "?" + p : ""); if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next); };
+    const writeHash = () => { const p = new URLSearchParams(); if (all) p.set("all", "1"); if (s.q.trim()) p.set("q", s.q.trim()); if (s.field) p.set("field", s.field); const next = "#/skills" + (p.toString() ? "?" + p : ""); if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next); };
     // ---- the left two thirds: the search, the tiles, a field's roles ----
     const row = (r, withField) => `<a class="r" href="#/role/${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(Launcher.fill(C.open, { open: fmt(r.nOpen) }))}</span><span class="m">${withField && r.field ? esc(r.field.label) + " · " : ""}${r.asks.length ? esc(Launcher.fill(C.asks, { asks: r.asks.join(", ") })) : ""}</span></a>`;
     const tiles = on => `<div class="fcards lf-tiles">${F.map(f => `<button type="button" class="fcard${on === f.id ? " on" : ""}" data-field="${esc(f.id)}" aria-pressed="${on === f.id}"><span class="t">${esc(f.label)}</span><span class="n">${esc(Launcher.fill(C.tile, { roles: f.roles.length, open: fmt(f.nOpen) }))}</span></button>`).join("")}</div>`;
@@ -446,11 +465,80 @@
       if (state.resume && !s.change && (!light || light.text !== state.resume.text)) { const text = state.resume.text; closestFits(ix).then(res => { if (!here() || !state.resume || state.resume.text !== text) return; light = res; drawRight(); }).catch(e => { console.error(e); if (here()) { light = { text, failed: true, chosen: null, rows: [] }; $("#lf-side").innerHTML = right(); wireRight(); } }); }
     };
     page(`<h1>${esc(C.heading)}</h1><p class="lead lf-lead">${esc(Launcher.lead(ix))}</p>
-      <div class="lf"><section class="lf-main" aria-label="${esc(C.rolesAria)}"><input type="search" class="lf-q" id="lf-q" value="${esc(s.q)}" placeholder="${esc(C.search)}" aria-label="${esc(C.searchLabel)}" autocomplete="off"><div id="lf-body"></div></section><div class="lf-side" id="lf-side"></div></div>`);
+      <div class="lf"><section class="lf-main" aria-label="${esc(C.rolesAria)}"><input type="search" class="lf-q" id="lf-q" value="${esc(s.q)}" placeholder="${esc(C.search)}" aria-label="${esc(C.searchLabel)}" autocomplete="off">${slot}<div id="lf-body"></div></section><div class="lf-side" id="lf-side"></div></div>`);
     main.firstElementChild.classList.add("wide", "lf-page");
     let timer = null;
     $("#lf-q").oninput = e => { clearTimeout(timer); timer = setTimeout(() => { s.q = e.target.value; drawLeft(); }, 150); };
     drawLeft(); drawRight();
+  }
+
+  // ---------- 1b'. The apprentice map: the sign-in and #/map (the build plan's B2; web/auth.js) ----------
+  // The map is read once per page and per person; a missing file is not kept, so the next visit reads again.
+  let mapHeld = null;   // { uid, map }
+  // where the person stands: MapGate's answer ("signin", "map", "waiting"), or "failed" when the read failed
+  async function mapGate() {
+    const session = await Auth.session();
+    if (!session) return { gate: MapGate.next({ enabled: true, session: null }), map: null };
+    let map = mapHeld && mapHeld.uid === session.uid ? mapHeld.map : null;
+    if (!map) {
+      try { map = await Auth.readMap(session); if (map) mapHeld = { uid: session.uid, map }; }
+      catch (e) { console.error(e); return { gate: "failed", map: null }; }
+    }
+    return { gate: MapGate.next({ enabled: true, session, hasMap: !!map }), map };
+  }
+  // #/signin, invited mode: an email, Send me a link, then the sent state, the refused line or the plain failure. A
+  // session already on file goes to the map. GoTrue sends the link to an existing user only (web/auth.js).
+  async function signinScreen() {
+    const S = Copy.signin;
+    crumbs([[CM.home, "#/home"], [S.crumb, null]]); showAside(null);
+    if (Auth.stored()) { toHash("#/map"); return; }
+    const expired = Routes.parseRoute(location.hash).query.expired === "1";
+    page(`<h1>${esc(S.heading)}</h1><p class="lead">${esc(S.lead)}</p>${expired ? `<p class="si-no">${esc(S.expired)}</p>` : ""}
+      <form class="si" id="si" novalidate><input type="email" id="si-email" required autocomplete="email" placeholder="${esc(S.emailPlaceholder)}" aria-label="${esc(S.email)}"><button class="btn primary" type="submit" id="si-send">${esc(S.button)}</button></form>
+      <div class="si-out" id="si-out" aria-live="polite"></div>
+      <p class="small muted si-note">${esc(S.note)} <a href="#/skills">${esc(S.explore)}</a></p>`, true);
+    const out = $("#si-out"), send = $("#si-send");
+    $("#si").onsubmit = async e => {
+      e.preventDefault();
+      const email = $("#si-email").value.trim();
+      send.disabled = true; out.innerHTML = `<p class="small muted">${esc(S.sending)}</p>`;
+      const r = await Auth.sendLink(email);
+      send.disabled = false;
+      if (Routes.parseRoute(location.hash).name !== "signin") return;
+      out.innerHTML = r.ok ? `<div class="wait"><b>${esc(S.sent)}</b><p class="small muted">${esc(fill(S.sentTo, { email }))}</p></div>` : `<p class="si-no">${esc(r.message || S.failed)}</p>`;
+    };
+  }
+  // the map as plain text until B3's web/map.js draws it: the title, the role at the company, the band in words, the
+  // worlds with their missions (the levels, for a map file without worlds)
+  function mapText(m, others, out) {
+    const MC = Copy.map, st = m.student || {}, role = (m.role || {}).label || "", company = (m.company || {}).name || "", rd = m.read || {};
+    const band = rd.band_label || CM.bands[rd.band] || "";
+    const cards = m.cards || [], byId = Object.fromEntries(cards.map(c => [c.id, c]));
+    const head = n => n === "reach" ? MC.reach : fill(MC.level, { n });
+    const groups = Array.isArray(m.worlds) && m.worlds.length
+      ? m.worlds.map(w => ({ head: w.n === "reach" ? w.label || MC.reach : fill(MC.world, { n: w.n, label: w.label || "" }), cards: (w.missions || []).map(id => byId[id]).filter(Boolean) }))
+      : [...new Set(cards.map(c => c.level))].map(l => ({ head: head(l), cards: cards.filter(c => c.level === l) }));
+    return `<div class="map-head"><h1>${esc(st.name_on_page ? fill(MC.title, { name: st.name_on_page }) : MC.heading)}</h1><p class="map-top">${others}</p></div>
+      ${role ? `<p class="lead">${esc(company ? fill(MC.roleAt, { role, company }) : role + ".")}</p>` : ""}
+      ${band && role ? `<p class="map-band">${fill(esc(MC.band), { band: `<b>${esc(band)}</b>`, role: esc(role) })}</p>` : ""}
+      ${groups.map(g => `<section class="map-world"><h2>${esc(g.head)}</h2>${g.cards.length ? `<ul>${g.cards.map(c => `<li>${esc(c.title)}</li>`).join("")}</ul>` : `<p class="small muted">${esc(MC.noMissions)}</p>`}</section>`).join("")}
+      <p class="small muted">${esc(MC.only)} ${out}</p>`;
+  }
+  // #/map: with a session and a map, the map; with a session and no map file, the waiting line and the launcher link;
+  // without a session, the sign-in; with MAPS_ENABLED off, the launcher
+  async function mapScreen() {
+    const MC = Copy.map;
+    crumbs([[CM.home, "#/home"], [MC.crumb, null]]); showAside(null);
+    if (!mapsOn()) { toHash("#/skills"); return; }
+    page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(MC.loading)}</p>`, true);
+    const g = await mapGate();
+    if (Routes.parseRoute(location.hash).name !== "map") return;
+    if (g.gate === "signin") { toHash("#/signin"); return; }
+    const others = `<a href="#/skills?all=1">${esc(MC.others)}</a>`, out = `<button type="button" class="linkish link" id="map-out">${esc(MC.signOut)}</button>`;
+    if (g.gate === "map") page(mapText(g.map, others, out), true);
+    else page(`<h1>${esc(MC.heading)}</h1><p class="lead">${esc(g.gate === "failed" ? MC.failed : MC.waiting)}</p><p>${others}</p><p class="small muted">${out}</p>`, true);
+    main.firstElementChild.classList.add("roomy");
+    $("#map-out").onclick = async () => { mapHeld = null; await Auth.signOut(); location.hash = "#/skills"; };
   }
 
   // ---------- 1c. Networking (v19 B5, owner's pick N6): who to meet for one role ----------
