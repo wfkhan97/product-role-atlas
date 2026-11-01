@@ -141,7 +141,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 316
+   "n": 340
   },
   {
    "id": "ib_associate",
@@ -155,7 +155,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 786
+   "n": 859
   },
   {
    "id": "ma_integration",
@@ -167,7 +167,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 49
+   "n": 56
   },
   {
    "id": "corp_dev",
@@ -181,7 +181,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 256
+   "n": 279
   },
   {
    "id": "strategic_finance",
@@ -195,7 +195,7 @@
     "fpa"
    ],
    "covered_by": [],
-   "n": 201
+   "n": 205
   },
   {
    "id": "fpa",
@@ -210,7 +210,7 @@
     "strategic_finance",
     "financial_manager"
    ],
-   "n": 572
+   "n": 625
   },
   {
    "id": "treasury",
@@ -224,7 +224,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 145
+   "n": 165
   },
   {
    "id": "commercial_banking_rm",
@@ -236,7 +236,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 762
+   "n": 830
   },
   {
    "id": "corporate_banking",
@@ -250,7 +250,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 124
+   "n": 133
   },
   {
    "id": "re_acquisitions",
@@ -264,7 +264,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 28
+   "n": 29
   },
   {
    "id": "re_development",
@@ -278,7 +278,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 42
+   "n": 44
   },
   {
    "id": "re_asset_manager",
@@ -290,7 +290,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 72
+   "n": 79
   },
   {
    "id": "pe_associate",
@@ -304,7 +304,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 234
+   "n": 241
   },
   {
    "id": "vc_associate",
@@ -318,7 +318,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 22
+   "n": 23
   },
   {
    "id": "investment_manager",
@@ -332,7 +332,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 349
+   "n": 385
   },
   {
    "id": "chief_of_staff",
@@ -344,7 +344,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 140
+   "n": 154
   },
   {
    "id": "tech_strategy",
@@ -358,7 +358,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 141
+   "n": 152
   },
   {
    "id": "product_strategy",
@@ -388,7 +388,7 @@
    ],
    "covered_by": [],
    "product_gate": "pm",
-   "n": 3645
+   "n": 3644
   },
   {
    "id": "bizops",
@@ -400,7 +400,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 811
+   "n": 895
   },
   {
    "id": "corp_strategy_analyst",
@@ -414,7 +414,7 @@
    "covered_by": [
     "strategy_manager"
    ],
-   "n": 112
+   "n": 128
   },
   {
    "id": "strategy_manager",
@@ -430,7 +430,7 @@
     "corp_strategy_analyst"
    ],
    "covered_by": [],
-   "n": 595
+   "n": 664
   },
   {
    "id": "ai_transformation",
@@ -446,7 +446,7 @@
    "covered_by": [
     "transformation"
    ],
-   "n": 0
+   "n": 164
   },
   {
    "id": "digital_transformation",
@@ -460,7 +460,7 @@
    "covered_by": [
     "transformation"
    ],
-   "n": 60
+   "n": 70
   },
   {
    "id": "opex",
@@ -474,7 +474,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 168
+   "n": 188
   },
   {
    "id": "transformation",
@@ -491,7 +491,7 @@
     "ai_transformation"
    ],
    "covered_by": [],
-   "n": 249
+   "n": 266
   },
   {
    "id": "management_consultant",
@@ -505,7 +505,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1845
+   "n": 2097
   },
   {
    "id": "financial_manager",
@@ -521,7 +521,7 @@
     "fpa"
    ],
    "covered_by": [],
-   "n": 1727
+   "n": 1921
   },
   {
    "id": "general_manager",
@@ -535,7 +535,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 244
+   "n": 269
   },
   {
    "id": "program_manager",
@@ -549,7 +549,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 3039
+   "n": 3388
   },
   {
    "id": "pmm",
@@ -574,7 +574,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 273
+   "n": 305
   },
   {
    "id": "growth_manager",
@@ -588,7 +588,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 322
+   "n": 352
   },
   {
    "id": "customer_success",
@@ -602,7 +602,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 726
+   "n": 789
   },
   {
    "id": "partnerships",
@@ -614,7 +614,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 456
+   "n": 510
   },
   {
    "id": "bizdev",
@@ -628,7 +628,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1198
+   "n": 1330
   },
   {
    "id": "business_analytics",
@@ -644,7 +644,7 @@
     "business_intelligence"
    ],
    "covered_by": [],
-   "n": 310
+   "n": 359
   },
   {
    "id": "business_intelligence",
@@ -660,7 +660,7 @@
    "covered_by": [
     "business_analytics"
    ],
-   "n": 108
+   "n": 122
   },
   {
    "id": "strategic_sourcing",
@@ -676,7 +676,7 @@
    "covered_by": [
     "procurement"
    ],
-   "n": 432
+   "n": 475
   },
   {
    "id": "category_manager",
@@ -688,7 +688,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 300
+   "n": 329
   },
   {
    "id": "procurement",
@@ -702,7 +702,7 @@
     "strategic_sourcing"
    ],
    "covered_by": [],
-   "n": 551
+   "n": 640
   },
   {
    "id": "supply_chain",
@@ -716,7 +716,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 752
+   "n": 850
   },
   {
    "id": "comp_benefits",
@@ -730,7 +730,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 387
+   "n": 435
   },
   {
    "id": "org_dev",
@@ -744,7 +744,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 176
+   "n": 193
   },
   {
    "id": "hr_manager",
@@ -758,7 +758,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1440
+   "n": 1604
   },
   {
    "id": "enterprise_risk",
@@ -772,7 +772,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 641
+   "n": 716
   },
   {
    "id": "compliance",
@@ -784,7 +784,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 572
+   "n": 636
   },
   {
    "id": "governance",
@@ -798,7 +798,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 224
+   "n": 251
   },
   {
    "id": "sales_manager",
@@ -812,7 +812,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 1887
+   "n": 2084
   },
   {
    "id": "marketing_manager",
@@ -824,7 +824,7 @@
    "exclude": [],
    "covers": [],
    "covered_by": [],
-   "n": 1153
+   "n": 1263
   },
   {
    "id": "operations_manager",
@@ -838,7 +838,7 @@
    ],
    "covers": [],
    "covered_by": [],
-   "n": 3147
+   "n": 3632
   }
  ],
  "covers_status": "confirmed",
@@ -1538,7 +1538,7 @@
    ]
   }
  },
- "generated": "2026-10-30",
+ "generated": "2026-11-01",
  "employers": {
   "Accenture": {
    "category": "Consulting and advisory"
@@ -1694,6 +1694,10 @@
   "Trinity Life Sciences": {
    "category": "Strategy consulting"
   },
+  "Truist Financial": {
+   "category": "Commercial and corporate banking",
+   "industry": "Commercial Banks"
+  },
   "U.S. Bancorp": {
    "category": "Commercial and corporate banking",
    "industry": "Commercial Banks"
@@ -1711,6 +1715,9 @@
   "Bank of New York (BNY)": {
    "category": "Asset management",
    "industry": "Commercial Banks"
+  },
+  "Barclays": {
+   "category": "Investment banking"
   },
   "BMO": {
    "category": "Investment banking"
@@ -1796,10 +1803,6 @@
   "TD": {
    "category": "Investment banking"
   },
-  "Truist Financial": {
-   "category": "Commercial and corporate banking",
-   "industry": "Commercial Banks"
-  },
   "Vanguard": {
    "category": "Asset management"
   },
@@ -1813,9 +1816,6 @@
    "category": "Investment banking",
    "industry": "Commercial Banks"
   },
-  "Barclays": {
-   "category": "Investment banking"
-  },
   "Bridgewater Associates": {
    "category": "Asset management"
   },
@@ -1826,6 +1826,9 @@
   "Dodge & Cox": {
    "category": "Asset management"
   },
+  "Huntington Bancshares": {
+   "category": "Commercial and corporate banking"
+  },
   "Intercontinental Exchange": {
    "industry": "Securities"
   },
@@ -1834,6 +1837,9 @@
   },
   "Nomura": {
    "category": "Investment banking"
+  },
+  "PGIM": {
+   "category": "Asset management"
   },
   "AllianceBernstein": {
    "category": "Asset management"
@@ -1856,9 +1862,6 @@
   },
   "Golub Capital": {
    "category": "Private equity"
-  },
-  "Huntington Bancshares": {
-   "category": "Commercial and corporate banking"
   },
   "Levi Strauss": {
    "category": "Consumer goods"
@@ -1896,6 +1899,9 @@
   },
   "Cambridge Associates": {
    "category": "Asset management"
+  },
+  "Danone": {
+   "category": "Consumer goods"
   },
   "e.l.f. Beauty": {
    "category": "Consumer goods"
@@ -1950,6 +1956,9 @@
   "Simon Property Group": {
    "category": "Real estate"
   },
+  "Sixth Street": {
+   "category": "Private equity"
+  },
   "SMBC": {
    "category": "Investment banking"
   },
@@ -1972,14 +1981,17 @@
   "Hamilton Lane": {
    "category": "Private equity"
   },
+  "HSBC": {
+   "category": "Investment banking"
+  },
   "MFS Investment Management": {
    "category": "Asset management"
   },
   "Point72": {
    "category": "Asset management"
   },
-  "Sixth Street": {
-   "category": "Private equity"
+  "Rockefeller Group": {
+   "category": "Real estate"
   },
   "StepStone Group": {
    "category": "Private equity"
@@ -2006,9 +2018,6 @@
   "City National Bank": {
    "category": "Commercial and corporate banking"
   },
-  "Danone": {
-   "category": "Consumer goods"
-  },
   "Federal Realty": {
    "category": "Real estate"
   },
@@ -2023,6 +2032,9 @@
   },
   "Millennium": {
    "category": "Asset management"
+  },
+  "PJT Partners": {
+   "category": "Investment banking"
   },
   "Popular": {
    "category": "Commercial and corporate banking"
@@ -2051,9 +2063,6 @@
   "Guggenheim Securities": {
    "category": "Investment banking"
   },
-  "HSBC": {
-   "category": "Investment banking"
-  },
   "Leerink Partners": {
    "category": "Investment banking"
   },
@@ -2070,9 +2079,6 @@
    "category": "Investment banking"
   },
   "Piper Sandler": {
-   "category": "Investment banking"
-  },
-  "PJT Partners": {
    "category": "Investment banking"
   },
   "Rothschild & Co": {
@@ -2114,9 +2120,6 @@
   },
   "Neuberger Berman": {
    "category": "Private equity"
-  },
-  "PGIM": {
-   "category": "Asset management"
   },
   "Wellington Management": {
    "category": "Asset management"
@@ -2173,6 +2176,10 @@
   "Y Combinator": {
    "category": "Venture capital"
   },
+  "Constellation Brands": {
+   "category": "Consumer goods",
+   "industry": "Beverages"
+  },
   "Hines": {
    "category": "Real estate"
   },
@@ -2207,12 +2214,14 @@
   "LEGO Group": {
    "category": "Consumer goods"
   },
+  "Lululemon": {
+   "category": "Consumer goods"
+  },
+  "Schroders": {
+   "category": "Asset management"
+  },
   "Related Companies": {
    "category": "Real estate"
-  },
-  "Constellation Brands": {
-   "category": "Consumer goods",
-   "industry": "Beverages"
   },
   "Equity Residential": {
    "category": "Real estate"
