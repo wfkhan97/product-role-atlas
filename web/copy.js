@@ -263,7 +263,7 @@
     noMatch: "No postings match these filters.",
     tiers: ["Most postings ask for these", "A quarter to a half of postings ask for these", "One in ten to one in four postings ask for these"],
     showFewer: "Show fewer", showMoreFewer: "Show {n} more that fewer postings ask for",
-    skill: "{n} skill", skills: "{n} skills", inMost: "{n} in most postings",
+    skill: "{n} skill", skills: "{n} skills",
     defining: "◆ sets this role apart: this role's postings ask for it far more often than other roles' postings do.",
     grows: "↗ asked more higher up: leadership postings ask for it at least 1.5 times as often as entry-level ones.",
     known: "✓ you know this one: you got it right in a game.",
@@ -554,7 +554,6 @@
       fit: "See your fit for {role} →",
       closest: "Closest roles",
       ranked: "Ranked by how many of their top skills you show.",
-      opens: "Each opens your fit.",
       failed: "Could not read it against the roles. Reload the page to try again.",
       reading: "Reading it against the closest roles…",
       noClose: "No role reads close to it yet. Pick a role on the left and open your fit there.",
@@ -574,7 +573,6 @@
     who: "Who to look for",
     moreJobs: "See more companies in Find jobs →",
     where: "Where to find them",
-    whereNote: "Each link is a search built from the data. We list no one ourselves.",
     noWhere: "No place to look in the data for this type.",
     prep: "Prep a chat",
     company: "Company",
@@ -584,7 +582,6 @@
     openLabel: "{company} · {n} open",
     coversHint: "covers {n} of your gaps",
     noTitle: "Title not on the roster",
-    linkedin: "LinkedIn needs an account.",
     sideAria: "Prep a chat",
     gapsOf: "{n} of {m} gaps", covers: " · covers {names}",
     teachesOf: "teaches {n} of {m} asks", teachesNames: " · teaches {names}",   // with no résumé: the role's core asks its classes teach
@@ -598,36 +595,22 @@
       alum: { label: "An alum in the role" },
       faculty: { label: "Faculty on campus" },
     },
-    // the line under "Who to look for", per type
+    // "Who to look for" has no lead (owner's feedback 2026-11-01: the list speaks for itself); this line stands in for
+    // the hiring manager's titles when no senior posting is open
     whoLines: {
-      hm: "Titles one or two levels above {role}, at the companies hiring it now.",
       hmNone: "No senior {role} posting is open now. Look one level up: {next}.",
-      inrole: "The title {role} itself, at the companies hiring it now.",
-      recruiter: "Recruiters for {role} roles at the companies with the most open postings.",
-      alum: "Cornell alumni with the title {role}, or one level up.",
-      faculty: "The professors whose classes this term cover your {role} gaps, the most first.",
-      facultyNoResume: "The professors whose classes this term teach what {role} postings ask for, the most first.",
-      facultyWait: "Faculty show when your email opens them.",
     },
-    // where to find them: what each link opens
+    // where to find them: the link labels only (owner's feedback 2026-11-01: a link is a link, no line on what it opens)
     whereLines: {
-      hm: "Opens LinkedIn's people search for senior {role} titles at {company}. {linkedin}",
-      inrole: "Opens LinkedIn's people search for {role} at {company}. {linkedin}",
-      recruiter: "Opens LinkedIn's people search for recruiters at {company}. {linkedin}",
-      posting: "Opens the posting on the company's site. It names the team; some name the recruiter.",
       handshake: "Handshake",
-      handshakeLine: "Opens Handshake, if your school uses it. An employer's page there lists its recruiters and alumni who worked there.",
-      alum: "Opens LinkedIn's people search for {role}, filtered to Cornell alumni. {linkedin}",
-      alumAt: "Opens LinkedIn's people search for {role} at {company}, filtered to Cornell alumni. {linkedin}",
-      professor: "The professor card: title, classes this term, which of your gaps they cover.",
       leads: "{company} · {role} leads", recruiters: "{company} · recruiters",
       alumni: "{role} · Cornell alumni", alumniAt: "{company} · {role} · Cornell alumni",
     },
-    // the prep card's suggested approach: talking points to paste into Claude or keep as notes. The slots come from
+    // the prep card's suggested approach: talking points to paste into an AI helper or keep as notes. The slots come from
     // the data (network.js say()): {skill} is a craft skill, never a behaviour, a generic skill or a credential.
     approach: {
       heading: "Suggested approach",
-      note: "Talking points to paste into Claude or keep as notes.",
+      note: "Talking points to paste into your AI helper or keep as notes.",
       leadWith: "Lead with", ask: "The ask", questions: "Three questions",
       copy: "Copy", copied: "Copied.", copyFailed: "Select the text and copy it.",
       addResume: "Add your résumé", addResumeAfter: "to name the skills you show.",

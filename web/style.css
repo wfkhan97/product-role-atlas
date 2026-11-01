@@ -17,7 +17,7 @@ h2 { font-size: var(--text-lg); margin: 28px 0 10px; }
 h3 { font-size: var(--text-base); margin: 16px 0 6px; }
 p { margin: 0 0 8px; }
 a { text-decoration: none; }
-.lead { font-size: var(--text-md); color: var(--muted-foreground); line-height: var(--leading-relaxed); }
+.lead { font-size: var(--text-md); color: var(--muted-foreground); line-height: var(--leading-relaxed); max-width: 72ch; }   /* a reading measure on every page, however wide */
 .facts, .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: var(--text-sm); color: var(--muted-foreground); }
 .small { font-size: var(--text-sm); } .muted { color: var(--muted-foreground); } .subtle { color: var(--subtle-foreground); }
 .eyebrow { font-family: var(--font-mono); font-size: var(--text-sm); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--subtle-foreground); margin-bottom: 4px; }
@@ -47,6 +47,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .main > .page { max-width: var(--page-max); }
 .main > .page.narrow { max-width: 560px; margin: 0 auto; padding-top: 40px; }
 .main > .page.narrow.roomy { max-width: 760px; padding-top: 28px; }
+/* the role page fills its column up to the rail: a capped page left a gap between the content and the rail (owner's
+   feedback 2026-11-01, "use all possible space"); the lead keeps its reading measure */
+.shell.with-rail .main > .page { max-width: none; }
 /* the side panel slides in over the right edge once something is selected and the list keeps its width (owner's
    choice R8, 2026-10-19); on a narrow window the page gives way, and the full-width map makes room for it */
 .aside { position: fixed; top: var(--topbar-height); right: 0; bottom: 0; width: var(--aside-width); z-index: 8; border-left: 1px solid var(--border); background: var(--card); padding: 24px 24px 40px; overflow-y: auto; box-shadow: -8px 0 30px rgba(0, 0, 0, 0.08); }
@@ -183,7 +186,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .legend { display: grid; grid-template-columns: 40px 1fr; gap: 5px 10px; align-items: center; font-size: var(--text-sm); color: var(--muted-foreground); }
 .legend .k { font-family: var(--font-mono); color: var(--heading-foreground); white-space: nowrap; }
 .legend .b { display: inline-block; width: 26px; height: 3px; background: var(--secondary); vertical-align: middle; border-radius: 2px; }
-.legend .b.g { background: var(--primary); } .legend .b.a { background: var(--warning); }
+/* on the resume and a gap: the skill map's dots (.sw.have, .sw.todo), in the legend and before a row's name */
+.legend .k .sw, .srow .nm .sw { vertical-align: middle; position: relative; top: -1px; }
+.srow .nm .sw { margin-right: 7px; }
+/* on the role and fit screens a gap is amber (the row's name, its bar, the rail's count), so the gap dot is amber there
+   too; the map keeps its blue */
+.legend .k .sw.todo, .srow .nm .sw.todo { background: var(--warning); }
 .fit-top { align-items: baseline; } .fit-top .eyebrow { margin: 0; }
 .ctx select { font: inherit; font-size: var(--text-sm); color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 2px 6px; }
 .lead .tip { vertical-align: 1px; }
@@ -218,7 +226,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 input[type="search"] { width: 100%; max-width: 360px; padding: 8px 10px; border-radius: var(--radius-sm); border: 1px solid var(--input); background: var(--background); color: var(--foreground); font: inherit; font-size: var(--text-sm); margin: 8px 0; }
 
 /* ---------- tabs: the lower layers of the role and fit screens share one area (Module Tabs; owner's choices R1, R6, F1) ---------- */
-.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin: 18px 0 4px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 2px; border-bottom: 1px solid var(--border); margin: 18px 0 4px; }   /* wraps, never scrolls */
 .tabs button { border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: transparent; color: var(--muted-foreground); padding: 8px 12px; font-size: var(--text-base); }
 .tabs button:hover { color: var(--foreground); }
 .tabs button.on { color: var(--heading-foreground); border-bottom-color: var(--primary); font-weight: var(--weight-medium); }
@@ -292,6 +300,7 @@ button.tag:hover { border-color: var(--input); }
 .about-facts .fact span { font-size: var(--text-sm); color: var(--muted-foreground); }
 @media (max-width: 640px) { .about-facts { grid-template-columns: 1fr 1fr; } }
 #about details.disc { margin: 4px 0 0; }
+#about > p { max-width: 72ch; }   /* About is reading: the page keeps 880 px for the fact cards, the paragraphs a measure */
 #about h3 { font-size: var(--text-sm); color: var(--subtle-foreground); text-transform: uppercase; letter-spacing: var(--tracking-label); font-family: var(--font-mono); margin: 18px 0 6px; }
 
 /* ---------- tell us about you: steps, options, the drop zone ---------- */
@@ -856,6 +865,9 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .door-skip { color: var(--muted-foreground); text-decoration: underline; text-underline-offset: 3px; } .door-skip:hover { color: var(--foreground); }
 .door-privacy { margin-top: 18px; }
 .verbs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+/* home: the four verbs on one row from 1280 px, in a page up to 1440 px (it was the 880 px column, two by two) */
+.main > .page.home-page { max-width: 1440px; }
+@media (min-width: 1280px) { .home-page .verbs { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .verb { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; background: var(--card); color: inherit; display: block; }
 a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .verb .t { font-size: var(--text-lg); font-weight: var(--weight-medium); color: var(--heading-foreground); margin-bottom: 6px; display: block; }
@@ -877,7 +889,10 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .cls-filters input[type="search"] { margin: 0; max-width: 240px; }
 .cls-select, .cls-email { font: inherit; font-size: var(--text-sm); color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 8px; max-width: 280px; }
 .cls-email { min-width: 260px; }
-.cls-list { border-top: 1px solid var(--border); margin-top: 6px; }
+/* the cards in as many columns of at least 540 px as the page holds (one under 1200 px or so; owner's feedback
+   2026-11-01: a single column of short cards left most of a wide page empty) */
+.cls-list { border-top: 1px solid var(--border); margin-top: 6px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 540px), 1fr)); column-gap: 36px; align-content: start; }
+.cls-list > p { grid-column: 1 / -1; }
 .cls-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 20px; padding: 14px 0; border-bottom: 1px solid var(--border); align-items: start; }
 .cls-card.on { background: var(--primary-tint); box-shadow: 0 0 0 10px var(--primary-tint); }
 .cls-card .cls-open { font: inherit; display: block; width: 100%; }
@@ -906,8 +921,10 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .cls-resume .drop { padding: 14px; margin: 8px 0; } .cls-resume textarea { min-height: 70px; } .cls-resume .row { margin-top: 8px; }
 
 /* ---------- Find jobs (v19 B4): the search bar, the facet rail, the cards, the pager and the panel ---------- */
-.main > .page.jobs-page { max-width: 1040px; }
-.shell.with-aside .main > .page.jobs-page { max-width: min(1040px, calc(100vw - var(--aside-width) - 72px)); }
+/* the full main width (it was 1040 px), the results in columns of at least 440 px; with the panel open the page makes
+   room for it, as a wide page does */
+.main > .page.jobs-page { max-width: none; }
+.shell.with-aside .main > .page.jobs-page { max-width: none; padding-right: var(--aside-width); }
 .jsearch { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr) auto; gap: 10px; margin-top: 14px; }
 .jsearch input { font: inherit; font-size: var(--text-md); color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 12px; margin: 0; max-width: none; width: 100%; box-sizing: border-box; }
 .jobs-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 28px; margin-top: 16px; align-items: start; }
@@ -931,7 +948,8 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .jhead .jcount { margin: 0; font-size: var(--text-sm); color: var(--muted-foreground); }
 .jsort { display: inline-flex; gap: 8px; align-items: center; font-size: var(--text-sm); color: var(--muted-foreground); white-space: nowrap; }
 .jsort select { font: inherit; font-size: var(--text-sm); color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 8px; margin: 0; max-width: none; }
-.jlist { display: grid; gap: 12px; margin-top: 12px; }
+.jlist { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); gap: 12px; margin-top: 12px; align-items: start; }
+.jlist > .jempty { grid-column: 1 / -1; }
 .jcard { border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); padding: 14px 16px; cursor: pointer; }
 .jcard:hover { border-color: var(--input); } .jcard.on { border-color: var(--primary); }
 .jcard .jtop { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
@@ -960,7 +978,7 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 /* ---------- B5 launcher ---------- */
 /* Explore roles & build skills (owner's pick S5): the roles two thirds of the page, the résumé the right third, sticky;
    four field tiles per row from 1280 px, three from 900, two below; one column under 900 px. Tokens only. */
-.main > .page.lf-page { max-width: 1200px; }
+.main > .page.lf-page { max-width: none; }   /* the full main width (it was 1200 px); five tiles a row from 1680 px */
 .lf-lead { max-width: 720px; }
 .lf { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 36px; margin-top: 20px; align-items: start; }
 .lf-main { min-width: 0; }
@@ -981,29 +999,32 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .lf .list { margin-top: 6px; } .lf .list .r { padding: 13px 0; }
 @media (min-width: 900px) { .lf .fcards.lf-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1280px) { .lf .fcards.lf-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1680px) { .lf .fcards.lf-tiles { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 @media (max-width: 900px) { .lf { grid-template-columns: minmax(0, 1fr); gap: 28px; } .lf-side { position: static; } }
 
 /* ---------- B5 networking ---------- */
 /* Who to meet (owner's pick N6): the guide two thirds of the page, the prep card and the list the right third, sticky
    and scrolling inside itself when taller than the screen; one column under 900 px. Tokens only. */
-.main > .page.nw-page { max-width: 1200px; }
+.main > .page.nw-page { max-width: none; }   /* the full main width (owner's feedback 2026-11-01: no dead space at the right) */
 /* the role and the type tabs span the page, so the five tabs sit on one line; below them who to look for (left) and
    the prep card (right, the wider column, sticky) */
 .nw { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 32px; margin-top: 4px; align-items: start; }
 .nw-main { min-width: 0; }
 .nw-side { position: sticky; top: calc(var(--topbar-height) + 16px); max-height: calc(100vh - var(--topbar-height) - 32px); overflow-y: auto; overscroll-behavior: contain; display: grid; gap: 14px; align-content: start; }
 .nw-role { margin-top: 14px; max-width: 420px; } .nw-role .pick { width: 100%; }
-/* one line of tabs; when the viewport is too narrow for it the strip scrolls sideways rather than wrapping, so no
-   tab (Faculty, the last) ever sits alone on a second row */
-.nw-head .tabs.nw-tabs { margin-top: 14px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; }
-.nw-head .tabs.nw-tabs button { white-space: nowrap; flex: 0 0 auto; }
+/* the tabs on one line from about 780 px of main width (the five labels, tight padding); below that they wrap, and the
+   strip never scrolls sideways (owner's feedback 2026-11-01) */
+.nw-head .tabs.nw-tabs { margin-top: 14px; flex-wrap: wrap; row-gap: 0; }
+.nw-head .tabs.nw-tabs button { white-space: nowrap; flex: 0 0 auto; padding: 8px 10px; }
 .nw-more { margin: 6px 0 0; } .nw-more a { color: var(--primary); }
 .nw-you { max-width: 760px; margin-top: 12px; }   /* the About you gate (AtlasUI.youInline draws into it) */
 .nw-sec { margin-top: 20px; } .nw-sec h2 { margin: 0 0 6px; } .nw-sec p { margin-bottom: 6px; }
 .nw ul.plain.nw-lv { margin-top: 2px; } .nw ul.plain.nw-lv li { margin-bottom: 2px; }
 .nw .list.nw-emps .r { padding: 6px 0; } .nw .list.nw-emps .r .t { font-size: var(--text-base); }
+.nw .list.nw-emps a.r .t { color: var(--primary); }   /* a professor's name: the link to the card */
+.pcard .nw-prof { margin: 8px 0 0; } .pcard .nw-prof a { color: var(--primary); }
 .nw-outs { list-style: none; margin: 4px 0 0; padding: 0; }
-.nw-outs li { display: grid; gap: 1px; padding: 6px 0; border-top: 1px solid var(--border); }
+.nw-outs li { padding: 6px 0; border-top: 1px solid var(--border); }
 .nw-outs li a { color: var(--primary); }
 .nw .fit-wait { margin-top: 24px; }
 .pcard { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: 12px 16px 14px; }
