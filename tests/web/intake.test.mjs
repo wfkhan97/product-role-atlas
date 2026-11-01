@@ -20,7 +20,7 @@ const all = () => [...strings({ heading: Intake.heading, line: Intake.line, emai
 
 test("the table holds every string the box draws, with one line per surface", () => {
   for (const k of ["heading", "email", "button", "done", "privacy"]) assert.ok(Intake[k] && typeof Intake[k] === "string", k);
-  assert.deepEqual(Object.keys(Intake.line), ["skills", "network", "classes"]);
+  assert.deepEqual(Object.keys(Intake.line), ["skills", "network", "classes", "positioning"]);
   assert.equal(Intake.heading, "GradBuddy is coming soon.");
   assert.equal(Intake.button, "Notify me");
   assert.ok(/^Got it\./.test(Intake.done));
@@ -28,10 +28,11 @@ test("the table holds every string the box draws, with one line per surface", ()
   assert.equal(Stage.cta("looking", "rail"), Intake.heading, "the rail's call to action is the intake box");
 });
 
-test("the surface of a source: the rail's placeholders and the fit screen are skills; classes and network their own", () => {
+test("the surface of a source: the rail's placeholders and the fit screen are skills; classes, network and positioning their own", () => {
   for (const w of ["show", "build", "ways", "fit", "start"]) assert.equal(Intake.surfaceOf(w), "skills", w);
   assert.equal(Intake.surfaceOf("classes"), "classes");
   assert.equal(Intake.surfaceOf("network"), "network");
+  assert.equal(Intake.surfaceOf("positioning"), "positioning", "the gap rows' Help me improve my positioning (2026-11-01)");
 });
 
 test("no string says cohort, paid, apply, sign in or a date, and none uses utilize, leverage, facilitate, via or in order to", () => {
@@ -48,10 +49,11 @@ test("no sentence runs over 20 words", () => {
 
 test("SOURCES is capture.js's list, so a click goes out only from a source the database accepts; every box sends as intake_<surface> (B7)", () => {
   assert.deepEqual(Intake.SOURCES, Capture.SOURCES);
-  for (const s of ["door", "intake_skills", "intake_classes", "intake_network"]) assert.ok(Intake.SOURCES.includes(s), s);
+  for (const s of ["door", "intake_skills", "intake_classes", "intake_network", "intake_positioning"]) assert.ok(Intake.SOURCES.includes(s), s);
   assert.ok(!Capture.SOURCES.includes("network"), "the networking box's source is intake_network, never a bare network");
   for (const w of ["show", "build", "ways", "fit", "start"]) assert.equal(Intake.kindOf(w), "intake_skills", w);
   assert.equal(Intake.kindOf("classes"), "intake_classes");
   assert.equal(Intake.kindOf("network"), "intake_network");
-  for (const w of ["show", "build", "ways", "fit", "classes", "network"]) assert.ok(Intake.SOURCES.includes(Intake.kindOf(w)), `the kind of ${w} is a source`);
+  assert.equal(Intake.kindOf("positioning"), "intake_positioning");
+  for (const w of ["show", "build", "ways", "fit", "classes", "network", "positioning"]) assert.ok(Intake.SOURCES.includes(Intake.kindOf(w)), `the kind of ${w} is a source`);
 });

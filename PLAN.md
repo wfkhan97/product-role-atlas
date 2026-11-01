@@ -1612,6 +1612,95 @@ a compliance program, "test plans" as controls testing, a dissertation "case stu
 words too, 184, and "Community Credit Union" reads as content. The artefact lists tell a student what to name; they
 are not patterns, and a reader of them would need curated patterns per skill first.
 
+## The first pass on the live site (v21, 2026-11-01)
+
+The owner walked gradbuddy-atlas.vercel.app on 2026-11-01 and sent one list of fixes, screen by screen, with a first
+and primary ask: the matcher finds only the skills a résumé names, so his own product-manager résumé never shows
+"PRDs & requirements writing", "Enterprise SaaS & B2B" (Dealpath) or "Payments, fintech & banking" (American
+Express). Everything landed in one branch, `claude/vercel-feedback-fixes-dba6e9`, built by six agents on one checkout,
+each on its own screen, and verified in the browser pane by the lead. Two decisions the owner took up front: the
+résumé text leaves the browser once, to a model, and the copy says so (he had promised the opposite everywhere); and
+Tally's theme is a per-form setting, so every form exists twice, light and dark.
+
+**The model read** (`web/api/infer.js`, `web/infer.js`, `web/match.js`). After the regex read, the site sends the résumé
+text and the ids it already credited to `/api/infer`, a Vercel function at the project's root (`web/`, so `web/api/`;
+`web/vercel.json` bundles the three data files it reads). The function asks `claude-haiku-5-5` (the Messages API over
+plain fetch, structured JSON, the skill list prompt-cached, the provider swappable through `INFER_PROVIDER`) for the
+skills the résumé shows without naming them, each with the line that shows it; it validates every id against the
+taxonomy, never offers credentials or behaviours, drops what the regex found, caps the list at 12 and drops any quoted
+line that is not in the text. The text is never stored or logged; without `ANTHROPIC_API_KEY` the route answers 503
+and the site reads the patterns alone. The browser caches the answer under a hash of the text, so one upload is one
+call; "Forget" and "Start over" clear it. In the matcher an inferred skill is the status `inferred` at credit 0.75:
+above a mention (0.5), because the model read the line as work; below a line of work (1), so naming the skill still
+helps. It counts as shown everywhere a line of work does (covered, extras, the industry slot, the rough read) but
+never credits a behaviour through a carrier and never beats a line the résumé has. `Atlas.useInferred` wraps every
+matcher the screens get, so the fit, the rail, the launcher, Find jobs, the classes' gaps and Networking all read it
+without threading it through. The eval, `evals/infer.mjs`, runs the read over the sample résumés with saved answers
+under `data/experiments/infer/` (`--reuse` needs no key or network; `--url` goes through a deployed route, since the
+key lives only on Vercel) and writes `evals/infer_baseline.md`; `evals/run.mjs --baseline` is unchanged with no list.
+Cost is about $0.002 per résumé cold and $0.001 warm. The read is tested on the whole résumé set, never the eight
+samples alone (CLAUDE.md): `evals/infer.mjs` reads the eight and then every published external sample
+(`evals/resumes/external/`, the calibration's set, pulled from the `atlas-store` bucket), scores each against its own
+role and writes an aggregate. The first full-set runs went through the pull request's preview deploys on 2026-11-01
+(`--url` with `INFER_COOKIE` from the deploy's share link, since previews sit behind Vercel Authentication), on the
+40 of 495 files this machine held. The first run showed the model writing items and taking them back in the reason
+("Not a real signal; omitted", "this item should be dropped"); the route now requires a `sure` flag on every item and
+drops a hedged reason or a one-word line, and a stricter prompt then dropped the employer-to-industry reads the owner
+asked for first, so the prompt names those as sure by rule and the call runs at effort medium. The run that stands, once the store was pulled (301 of the 495 sources were ever fetched; the rest never
+were): 304 résumés read (the eight plus 296 published, 29 files skipped as packet parts without a role or not a
+single résumé), 14 inferred on the eight (FinServ Startup → fintech, Stripe → fintech and enterprise SaaS, 5M users →
+consumer), none of the eight's expectations lost or gained, 3.4 inferred per published résumé on average (the most:
+enterprise SaaS 30, process improvement 27, consumer 24, healthcare 23, fintech 22: the employer-to-industry reads
+the owner asked for), 32 band moves up and none down (each résumé scored against the role it was written for, so up
+is the right direction; the largest, investment manager 48% → 75%, are the regex under-reading a résumé of the role),
+zero credentials, behaviours, unknown ids or unquoted lines, about $0.36 for the set. The run went five résumés at a
+time through the preview route (the eval is sequential; a driver script called it per file with `--only <file>`).
+Left open: a rate-limit rule on `/api/infer` and a spend cap on the key.
+
+**The door and the forms.** The door's words are the owner's, verbatim, held past the 20-word rule by an exception
+in `evals/copy_lib.mjs` that lasts only while the string is his. Ten Tally forms (`web/config.js` lists them): the door
+and four intake kinds (skills, positioning, classes, network), each light and dark; the site embeds the one matching
+the theme in effect and remounts on a toggle or an OS change (`Doors.themeOf`, `remountForms`). "What are you
+studying?" is optional on the door and its answer, which Tally returns as the label, lands in About you as the id
+(`whereId`), marked `whereFrom: "door"` so a program the person chose in About you is never overwritten. Each intake
+form carries its own line, so the box under Networking no longer promises "personalized projects". A new surface,
+`positioning`, backs "Help me improve my positioning →" on the role rail; `pipeline/sql/2026-11-01_positioning.sql`
+adds it to the capture tables and the owner applies it by hand.
+
+**Home.** Under the four verbs, About you inline: the three questions and the résumé drop until any is answered, then
+a one-line summary with Edit. "Explore roles & build skills" is "Explore careers" everywhere. Every count comes from
+the Find jobs file (`openCounts`), so home, About and the search agree; the footer is the "About the data" link alone.
+The résumé paste box is gone from every screen: people upload a file.
+
+**Explore careers.** On the launcher a field's roles take the tiles' place, with "← Back to fields". The bar that
+compared the fields' counts is gone. A field's chart shows at most 20 named dots, by one rule (`Atlas.fieldChart`):
+credentials and tools out (Office suite with them), at most three of the skills every field asks for in their own
+lane, then every defining skill of the field's roles and the highest field shares at 10% or more; sub-skills were
+never on it. A role's header is "N open postings · N employers". The rail lost the entry-grade paragraph, "Do
+something with this" and "Then"; one link remains, "Find classes relevant for this role →". The gap rows offer "Help
+me build this skill →" and "Help me improve my positioning →". "Clear all" became "Reset filters" and resets every
+filter, the level included, through one pure table (`RoleFilters`): the old handler cleared three of the eight.
+
+**Networking.** With no About you answer, no résumé and no role, the screen opens with the questions. Role and
+Company are searchable drop-downs (`web/pick.js`, the one component every screen uses for a choice from a long list).
+"A classmate" is gone, so are the type descriptions, the counts, the lead line, the list feature, "Listen for", "Open
+with" and the message draft. Employers sort by the role's own open postings (Amazon's 507 Product Manager postings,
+not its 965 across the field), professors by gaps covered with a résumé and by the role's asks they teach without one,
+and "See more companies in Find jobs →" opens the search with the role and field set. The prep card is the company,
+"Where to find them", then "Suggested approach": what to lead with, the ask, three questions, and Copy. A question
+never names a behaviour, a generic skill or a credential; it draws on the role's defining skills (the top craft asks
+where a role defines none), the person's craft gaps, the company's own postings by title, count and level, and a
+posting sentence when one fits in 20 words. The alumni searches carry LinkedIn's school filter for the three Cornell
+ids the owner tested, so nobody adds their school by hand.
+
+**Find classes.** Prior offerings are gone; Grading shows only when the roster has it, each part as a percentage;
+"Enrollment limited to" and the eligibility tag show only for a known restriction (an unverified one says nothing).
+The cards lost the grading chip, the prior-term line and the "You" rating; the GradBuddy band shows only when a
+role is chosen. The roster line, the two-columns line and the count line are gone. Sort is Relevance, or Gaps covered
+with a résumé, and absent when nothing is chosen (roster order then). Subject stays open; Days, Credits, "Who can take
+it" and Professor fold under it, collapsed. The professor card says nothing about identity and lost the ratings
+disclaimer.
+
 ## Refresh pull requests merge themselves when every check passes (2026-11-01)
 
 The owner asked why every scrape needs a merge. The scrape itself never does: each file goes to the Supabase backlog as
@@ -1659,7 +1748,7 @@ approve pull requests" or an `ACTIONS_PAT` secret. CLAUDE.md records the excepti
 - American spelling in the data: the display-time map (`Atlas.us`, v16 step 5) is on; the regeneration with an
   American rule in `depth_gen` and the taxonomy names (`run_depth.py`, `extraction_baseline_mba.md`) is still a
   `data/` branch.
-- LLM-based extraction (Claude) for higher-recall skill tagging and requirement vs nice-to-have split.
+- LLM-based extraction (Claude) for the postings: higher-recall skill tagging and the requirement vs nice-to-have split. The résumé side landed on 2026-11-01 (v21, the model read); the first live `evals/infer.mjs --url` baseline, a rate-limit rule on `/api/infer` and a spend cap on the key are open.
 - History of postings over time (the backlog's dated snapshots are the raw material).
 - One Supabase project for both repositories: move the backlog, `atlas-store` and `runs` into gradbuddy-catalog, or the
   catalog the other way, and drop the second `SUPABASE_DB_URL` secret (v17 found two projects where the brief assumed one).

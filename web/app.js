@@ -11,7 +11,7 @@
 // Door.COPY below are views over it.
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory(root.Copy || require("./copy.js"));
-  else { root.Routes = factory(root.Copy); root.Stage = root.Routes.Stage; root.Intake = root.Routes.Intake; root.Door = root.Routes.Door; }
+  else { root.Routes = factory(root.Copy); root.Stage = root.Routes.Stage; root.Intake = root.Routes.Intake; root.Door = root.Routes.Door; root.You = root.Routes.You; }
 })(typeof self !== "undefined" ? self : this, function (Copy) {
   "use strict";
   const SCREENS = { "": "door", home: "home", jobs: "jobs", skills: "skills", network: "network", you: "you", explore: "explore", field: "field", role: "role", play: "play", about: "about", classes: "classes", professor: "professor", signin: "signin", map: "map" };
@@ -36,20 +36,19 @@
   // About you, step 2, and nowhere else (v19, decision 8: the start screen that asked it first went with v19 B2; the
   // door and home never ask it). Pure, so evals/stage.mjs can check that for each stage the first action offered is the
   // one the stage asks for: looking, a resume drop or the fields; targeting, the role search or the gaps; curious,
-  // explore or a game.
+  // explore or a game. On the rail the stage no longer changes the order (owner, 2026-11-01): the entry-grade facts,
+  // the "Add your resume" sentences and the standing links (practice, a course, events) went, so every stage gets the
+  // drop, then the one link to the class picker.
   const STAGES = ["looking", "targeting", "curious"];
   const Stage = {
     STAGES,
     // what the About you summary leads with
     youLead: stage => stage === "targeting" ? "role-search" : "answers",
     // the rail's blocks in order, for a person with answers (and, when `resume`, a resume read): sentences and actions;
-    // ACTIONS says which keys are something to do. "drop" is the resume drop zone; "gaps-drop" the same drop offered to
-    // see the gaps; "gaps" the gap rows; "practise" a game; the rest the rail's standing links
-    railBlocks: (stage, resume) => resume ? ["band", "line", "gaps", "fit-link", "practise", "course", "event", "classes"]
-      : stage === "curious" ? ["facts", "practise", "course", "event", "classes"]
-      : stage === "targeting" ? ["ask", "gaps-drop", "facts", "practise", "course", "event", "classes"]
-      : ["facts", "ask", "drop", "practise", "course", "event", "classes"],
-    ACTIONS: new Set(["drop", "gaps-drop", "gaps", "fit-link", "practise", "course", "event", "classes", "role-search", "explore", "fields"]),
+    // ACTIONS says which keys are something to do. "drop" is the resume drop zone; "gaps" the gap rows; "classes" the
+    // rail's one closing link, "Find classes relevant for this role"
+    railBlocks: (stage, resume) => resume ? ["band", "line", "gaps", "fit-link", "classes"] : ["drop", "classes"],
+    ACTIONS: new Set(["drop", "gaps", "fit-link", "classes", "role-search", "explore", "fields"]),
     // the first action a screen offers for a stage: "you" is About you, anything else the rail
     firstAction(stage, screen, resume) {
       if (screen === "you") return this.youLead(stage) === "role-search" ? "role-search" : resume || stage === "curious" ? "fields" : "drop";   // curious: the fields and Explore, no resume asked
@@ -73,15 +72,17 @@
     privacy: Copy.intake.privacy,
     // the one data-built line over the picker's box, when a role is chosen and the person's fit leaves gaps
     gapsLine: label => Copy.fill(Copy.intake.gapsLine, { label }),
-    // the surface a click comes from, for the line: the rail's three placeholders and the fit screen's foot are the
-    // skills verb; the picker's foot the classes verb; the networking screen its own
-    surfaceOf: what => what === "classes" || what === "network" ? what : "skills",
+    // the surface a click comes from, for the line: the gap rows' "Help me build this skill" and the fit screen's foot
+    // are the skills verb; the gap rows' "Help me improve my positioning" its own (2026-11-01); the picker's foot the
+    // classes verb; the networking screen its own
+    surfaceOf: what => what === "classes" || what === "network" || what === "positioning" ? what : "skills",
     // the form a box is (v19 B7): `intake_<surface>`, the kind web/doors.js mounts and the source its row carries
     kindOf: what => "intake_" + Intake.surfaceOf(what),
     // the sources the database accepts (the same list as web/capture.js SOURCES): the six of v18 (the rail's three
     // placeholders, the fit screen's foot, the start screen's box, gone with v19 B2, the class picker's foot) and the
-    // four of v19 B7, which every box sends from now: `door` and `intake_<surface>`
-    SOURCES: ["show", "build", "ways", "fit", "start", "classes", "door", "intake_skills", "intake_classes", "intake_network"],
+    // four of v19 B7, which every box sends from now: `door` and `intake_<surface>`; `intake_positioning` since
+    // 2026-11-01 (pipeline/sql/2026-11-01_positioning.sql)
+    SOURCES: ["show", "build", "ways", "fit", "start", "classes", "door", "intake_skills", "intake_classes", "intake_network", "intake_positioning"],
   };
   // The door (#/) and home (#/home), v19 B2. The door is a welcome screen, not a gate: everyone can skip it, and the
   // email is capture and routing, never a credential (nothing behind it is private, no screen says "sign in"). Pure:
@@ -91,7 +92,7 @@
   // one; the native Continue sends the email with the source `door`. Tally's return is the one time the email rides in
   // the URL (#/home?email=…&where=…): home reads it once and cleans the hash.
   const Door = {
-    COPY: { ...Copy.door, home: Copy.home.heading, more: Copy.home.more, closed: Copy.home.closed, closedLink: Copy.home.closedLink, closedAfter: Copy.home.closedAfter, bar: Copy.common.bar },
+    COPY: { ...Copy.door, home: Copy.home.heading, closed: Copy.home.closed, closedLink: Copy.home.closedLink, closedAfter: Copy.home.closedAfter, bar: Copy.common.bar },
     // a Cornell NetID address and nothing else (owner's decision 2, 2026-10-29): two or three letters then one to four
     // digits at cornell.edu, any case, spaces around it ignored. john.smith@cornell.edu, an alumni address and a
     // gmail address are kept like any other email but open nothing.
@@ -105,7 +106,6 @@
     thousands: n => n >= 1000 ? `${Math.floor(n / 1000)} thousand` : Door.hundreds(n),
     hundreds: n => (Math.floor(n / 100) * 100).toLocaleString("en-US"),
     tens: n => String(Math.floor(n / 10) * 10),
-    inside: nRoles => Door.COPY.inside.replace("{roles}", Door.tens(nRoles)),
     // the four home cards in order, with the line each one builds from the counts ({ nOpen, nCompanies, nRoles }: open
     // US postings of both role sets, the employers behind them, the roles in the index); Find classes is closed unless
     // the email opens it
@@ -119,13 +119,41 @@
       ];
     },
   };
-  return { parseRoute, Stage, Intake, Door };
+  // The role page's filters (the level control, the Says-it-sponsors chip and the drawer: employer type, graduates and
+  // interns, industry, employer, location, remote): their defaults in one place, so a new role and "Reset filters" set
+  // the same values. Before 2026-11-01 the drawer's "Clear all" cleared the industry, employer and location sets alone
+  // while it showed for any filter on, so with only an employer type, graduates or sponsors on it did nothing. reset()
+  // writes fresh values (new Sets) onto the state it is given; tests/web/role_filters.test.mjs checks every filter.
+  const RoleFilters = {
+    defaults: level => ({ level, employer: "all", grads: false, sponsor: false, sector: new Set(), company: new Set(), country: new Set(), remote: false, companyQuery: "" }),
+    reset: (state, level) => Object.assign(state, RoleFilters.defaults(level)),
+    // every filter but the level that is on: what the Filters button counts
+    active: st => (st.employer === "all" ? 0 : 1) + (st.grads ? 1 : 0) + (st.sponsor ? 1 : 0) + st.sector.size + st.company.size + st.country.size + (st.remote ? 1 : 0),
+    // the drawer offers the reset when anything is off its default, the level included
+    changed: (st, level) => RoleFilters.active(st) > 0 || st.level !== level,
+  };
+  // About you's answers as home, Networking and the door read them (owner's feedback 2026-11-01): the pure rules behind
+  // youAnswered, youInline and keepDoor below. `y` is state.you ({ where, stage, fields, whereFrom }), `resume` the
+  // résumé on file or null. A program the door filled in (whereFrom "door") pre-fills About you's first question, so
+  // home's inline questions skip it, but it does not count as having answered About you: the screens still ask the rest.
+  const You = {
+    // a program answered in About you, a stage, a field or a résumé on file
+    answered: (y, resume) => { const v = y || {}; return !!((v.where && v.whereFrom !== "door") || v.stage || (v.fields || []).length || resume); },
+    // the step to open on: the first of the questions (their keys, in order) not answered yet, else the résumé step
+    // (index = keys.length); a door-filled program counts as answered here, so the program question is skipped
+    firstStep: (y, keys) => { const v = y || {}; const i = keys.findIndex(k => k === "fields" ? !(v.fields || []).length : !v[k]); return i < 0 ? keys.length : i; },
+    // the door's program answer folded into About you: it lands only when About you has no program of its own (none,
+    // or one the door filled earlier). The new answers object, or null when nothing changes.
+    fromDoor: (y, where) => { const v = y || {}; if (!where || (v.where && v.whereFrom !== "door") || v.where === where) return null; return { fields: [], stage: null, ...v, where, whereFrom: "door" }; },
+  };
+  return { parseRoute, Stage, Intake, Door, RoleFilters, You };
 });
 (function () {
   "use strict";
   if (typeof document === "undefined") return;   // node loads this file for parseRoute alone
   const $ = s => document.querySelector(s);
   const fill = Copy.fill, CM = Copy.common, RF = Copy.common.resume;   // the strings: web/copy.js
+  const RoleFilters = Routes.RoleFilters;   // the role page's filter defaults (pure, above)
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const pct = v => Math.round(v * 100) + "%";
   const fmt = n => Number(n).toLocaleString();
@@ -171,7 +199,7 @@
   let theme = "system"; try { theme = localStorage.getItem("theme") || "system"; } catch { }
   function applyTheme(t) { theme = THEMES.includes(t) ? t : "system"; if (theme === "system") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = theme; const b = $("#theme"); b.textContent = GLYPH[theme]; b.title = theme === "system" ? CM.theme : fill(CM.themeSet, { theme }); }
   applyTheme(theme);
-  $("#theme").onclick = () => { applyTheme(THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length]); try { localStorage.setItem("theme", theme); } catch { } };
+  $("#theme").onclick = () => { applyTheme(THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length]); try { localStorage.setItem("theme", theme); } catch { } remountForms(); };
 
   // ---------- shell helpers ----------
   const main = $("#main"), aside = $("#aside"), shell = $("#shell");
@@ -230,9 +258,11 @@
   // level for now: no postings tab, no link out to a posting, no list of postings on a skill card, no filter by
   // employer name. Flip this to bring them back.
   const POSTINGS = false;
-  // what the person told us and the resume they dropped stay in this browser only (nothing is uploaded)
+  // what the person told us and the resume they dropped stay in this browser; the resume text alone leaves it, once
+  // per upload, for the model read (inferResume below, web/infer.js), and the route stores nothing
   const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }, set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch { } } };
   state.you = store.get("you"); state.resume = store.get("resume");
+  if (state.resume) Atlas.useInferred(state.resume.text, state.resume.inferred || []);
   // Funnel counts (web/capture.js): an event name, the session id, the stage and the program group, a role or field id.
   // Never text, a skill id or a file name. Everything is a no-op when CONFIG.CAPTURE_ENABLED is off.
   const track = (name, ctx) => { if (window.Capture) Capture.event(name, { stage: (state.you || {}).stage, program: (state.you || {}).where, ...(ctx || {}) }); };
@@ -249,7 +279,7 @@
   const doorKept = () => { try { return { email: localStorage.getItem("door.email") || "", where: localStorage.getItem("door.where") || "", seen: localStorage.getItem("door.seen") === "1" }; } catch { return { email: "", where: "", seen: false }; } };
   // The four verbs in the top bar (v19 B2), drawn on every route: the current one marked, Find classes only when the
   // email on file opens it (Door.opens). The brand goes home. A screen the verbs will absorb (Explore, a field, a role,
-  // its fit and course screens) marks Explore roles; an event screen marks Networking; the classes screens Find classes.
+  // its fit and course screens) marks Explore careers; an event screen marks Networking; the classes screens Find classes.
   const VERB_OF = { jobs: "jobs", skills: "skills", map: "skills", explore: "skills", field: "skills", role: "skills", fit: "skills", course: "skills", play: "skills", network: "network", event: "network", classes: "classes", professor: "classes" };
   function topBar(name) {
     const el = $("#verbs"); if (!el) return;
@@ -260,6 +290,26 @@
   // its screen
   const mounts = new Set();
   const unmount = all => { for (const h of mounts) if (all || !(h.el && h.el.isConnected)) { h.destroy(); mounts.delete(h); } };
+  // The theme the Tally forms take (2026-11-01): the page's override, else the device's (Doors.themeOf). CONFIG.TALLY
+  // holds a light and a dark form per kind, since a Tally theme is per form; mountForm mounts the one for the theme in
+  // effect and keeps its options, and a theme change (the toggle, or the device's while the toggle says system) mounts
+  // every form on screen again when the new theme has another form. A box that fell back to the native form stays:
+  // the native form follows the theme by CSS.
+  const formTheme = () => window.Doors ? Doors.themeOf() : "light";
+  function mountForm(slot, kind, opts) {
+    const h = Doors.mount(slot, kind, { ...opts, theme: formTheme() });
+    mounts.add(Object.assign(h, { el: slot, opts }));
+    return h;
+  }
+  function remountForms() {
+    if (!window.Doors) return;
+    const t = formTheme();
+    for (const h of [...mounts]) {
+      if (h.native || !h.opts || !(h.el && h.el.isConnected) || h.theme === t || Doors.formIdFor(h.kind, null, t) === h.formId) continue;
+      h.destroy(); mounts.delete(h); mountForm(h.el, h.kind, h.opts);
+    }
+  }
+  try { const mq = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)"); if (mq) { if (mq.addEventListener) mq.addEventListener("change", remountForms); else if (mq.addListener) mq.addListener(remountForms); } } catch { }
   // the door's Tally return (#/home?email=…&where=…) passes the door: it is the door's own answer coming back
   const returned = hash => !!(window.Doors && Routes.parseRoute(hash).name === "home" && (Doors.returnQuery(hash).email || Doors.returnQuery(hash).where));
   // the apprentice maps (CONFIG.MAPS_ENABLED, web/auth.js): the one private thing on the site
@@ -296,20 +346,24 @@
   // loaded; until then the index's own families table (which counts the two product-group families the product set
   // stands in for) is the floor, so the number never dips while the file loads
   const roleCount = ix => Math.max(Object.keys(ix.roles).length, Object.keys(ix.M.families || {}).length);
-  // the home counts: the open US postings of both role sets and the employers behind them, from data/jobs_meta.json
-  // (the counts pipeline.jobs_open writes beside the Find jobs file, 224 bytes; B4), else the MBA index's own meta
-  // when that file is missing; and the roles. "Over" keeps the sentence true between refreshes.
+  // The one count of open postings every screen says (owner's feedback 2026-11-01: home said "over 31 thousand" while
+  // the footer said 25,950, the MBA set alone): the open US postings of both role sets that Find jobs searches, and
+  // the employers behind them. data/jobs_meta.json carries the two numbers beside the Find jobs file (224 bytes, B4;
+  // pipeline.jobs_open asserts n_open is the row count of jobs_open.json and tests/web/jobs.test.mjs checks it), so
+  // home, #/about and the Find jobs lead (rows.length, D.companies.length) agree. When the meta file is missing the
+  // Find jobs file itself is counted, never another index's number. Home says it in words, rounded down ("over").
   let jobsMetaP = null;
   const jobsMeta = () => jobsMetaP ||= Atlas.fetchJson("data/jobs_meta.json").catch(() => null);
-  function homeCounts(ix, jm) {
-    const ok = jm && jm.n_open > 0 && jm.n_companies > 0;
-    return { nOpen: ok ? jm.n_open : ix.M.meta.n_open, nCompanies: ok ? jm.n_companies : ix.M.meta.n_companies, nRoles: roleCount(ix) };
-  }
+  const openCounts = () => jobsMeta().then(jm => jm && jm.n_open > 0 && jm.n_companies > 0 ? { nOpen: jm.n_open, nCompanies: jm.n_companies }
+    : jobsData().then(J => ({ nOpen: J.rows.length, nCompanies: J.D.companies.length })).catch(() => ({ nOpen: 0, nCompanies: 0 })));
+  const homeCounts = (ix, n) => ({ nOpen: n.nOpen, nCompanies: n.nCompanies, nRoles: roleCount(ix) });
   // what the door keeps, in this browser only (door.email, door.where, door.seen); a program answer also fills About
-  // you's first question. The door's two buttons and the Tally return (home) go through here.
+  // you's first question when About you has no program of its own (You.fromDoor: marked whereFrom "door", so home's
+  // inline questions skip it and still ask the rest). The door's two buttons and the Tally return (home) go through here.
   function keepDoor(email, where) {
     try { localStorage.setItem("door.email", email); localStorage.setItem("door.where", where); localStorage.setItem("door.seen", "1"); } catch { }
-    if (where && WHERE[where]) { state.you = { fields: [], stage: null, ...(state.you || {}), where }; store.set("you", state.you); wiz = null; }
+    const next = WHERE[where] ? Routes.You.fromDoor(state.you, where) : null;
+    if (next) { state.you = next; store.set("you", next); wiz = null; }
   }
   // the context the door's events and row carry: the session (capture.js adds it), the stage and the program group
   const doorCtx = where => ({ surface: "door", ...(where ? { program: where } : {}) });
@@ -320,7 +374,7 @@
   // nothing. `door_passed` goes out when either button goes through, or when Tally reports the form submitted.
   async function door() {
     crumbs([]); showAside(null);
-    const ix = await Atlas.index(), kept = doorKept();
+    const kept = doorKept();
     const C = Door.COPY;
     const nativeForm = () => `<form class="door-form" id="door-form" novalidate="">
           <label class="dlabel">${esc(C.email)}<input type="email" name="email" placeholder="${esc(C.emailPlaceholder)}" autocomplete="email" value="${esc(kept.email)}"></label>
@@ -328,13 +382,13 @@
           <p class="small muted" style="margin:0">${esc(C.cornell)}</p>
           <p class="door-acts"><button type="submit" class="btn primary">${esc(C.button)}</button><a class="door-skip" href="${esc(Door.next(location.hash))}" id="door-skip">${esc(C.skip)}</a></p>
         </form>`;
-    const tally = !!(window.Doors && Doors.formIdFor("door"));
+    const tally = !!(window.Doors && Doors.formIdFor("door", null, formTheme()));
     page(`<section class="door">
         <h1>${esc(C.heading)}</h1>
         ${C.intro.map(t => `<p class="lead">${esc(t)}</p>`).join("")}
-        <p class="lead">${esc(Door.inside(roleCount(ix)))}</p>
+        <p class="lead">${esc(C.inside)}</p>
         <div class="door-slot" id="door-slot">${tally ? "" : nativeForm()}</div>${tally ? `<p class="small muted door-loading" id="door-loading">${esc(CM.loadingForm)}</p>` : ""}
-        <p class="small muted door-privacy">${esc(C.privacy)}</p>
+        ${tally ? "" : `<p class="small muted door-privacy">${esc(C.privacy)}</p>`}
       </section>`, true);
     const go = () => { const next = Door.next(location.hash); if (location.hash === next) route(); else location.hash = next; };
     const passed = where => track("door_passed", doorCtx(where));
@@ -351,7 +405,7 @@
     };
     if (!tally) { wireNative(); return; }
     const slot = $("#door-slot"), dropLoading = () => { const p = $("#door-loading"); if (p) p.remove(); };
-    const h = Doors.mount(slot, "door", {
+    mountForm(slot, "door", {
       hidden: { surface: "door", source: "door", email: kept.email },
       native: nativeForm,
       onLoaded: dropLoading,
@@ -359,30 +413,39 @@
       // Tally keeps the answers; the door counts as seen, and the return (#/home?email=…&where=…) fills the rest
       onSubmitted: () => { try { localStorage.setItem("door.seen", "1"); } catch { } passed(""); },
     });
-    mounts.add(Object.assign(h, { el: slot }));
   }
   // Home: the four verbs as a 2×2 grid, one data-built line each; Find classes grayed until a Cornell address opens
-  // it. The stage question is not here (v19, decision 8: About you, step 2). The door's Tally form comes back here
-  // with its answers in the query (#/home?email=…&where=…): read once, kept as the door keeps them, and the hash
-  // cleaned before anything draws. A card click sends home_<verb> before the screen changes.
+  // it. Under them, About you (owner's feedback 2026-11-01): the three questions and the résumé drop inline
+  // (youInline) until any is answered, then the one-line summary with Edit to #/you (youLine). The door's Tally form
+  // comes back here with its answers in the query (#/home?email=…&where=…): read once, kept as the door keeps them,
+  // and the hash cleaned before anything draws. A card click sends home_<verb> before the screen changes.
   async function home() {
     crumbs([]); showAside(null);
     if (window.Doors) {
       const ret = Doors.returnQuery(location.hash);
-      if (ret.email || ret.where) { keepDoor(ret.email, WHERE[ret.where] ? ret.where : ""); history.replaceState(null, "", location.pathname + location.search + Doors.clearQuery(location.hash)); }
+      // Tally returns the option's label, not its id: map it back (whereId) before keeping it
+      if (ret.email || ret.where) { keepDoor(ret.email, whereId(ret.where)); history.replaceState(null, "", location.pathname + location.search + Doors.clearQuery(location.hash)); }
     }
-    const [ix, jm] = await Promise.all([Atlas.index(), jobsMeta()]);
+    const [ix, n] = await Promise.all([Atlas.index(), openCounts()]);
     const C = Door.COPY;
+    let doneHere = false;   // finished or skipped the inline questions on this visit: the summary, even with nothing answered
+    const drawYou = () => {
+      const body = $("#home-you-body"); if (!body) return;
+      if (doneHere || youAnswered()) body.innerHTML = youLine(ix);
+      else youInline(body, { onDone: () => { doneHere = true; drawYou(); } }).catch(console.error);
+    };
     const render = () => {
-      const cards = Door.verbs(doorKept().email, homeCounts(ix, jm)).map(v => v.open
+      const cards = Door.verbs(doorKept().email, homeCounts(ix, n)).map(v => v.open
         ? `<a class="verb" href="${esc(v.href)}" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span></a>`
         : `<div class="verb closed" aria-disabled="true" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span><span class="gate">${esc(C.closed)} <a href="#/">${esc(C.closedLink)}</a> ${esc(C.closedAfter)}</span></div>`);
-      page(`<h1>${esc(C.home)}</h1><div class="verbs">${cards.join("")}</div><p class="home-more"><a href="#/you">${esc(C.more)} →</a></p>`);
+      page(`<h1>${esc(C.home)}</h1><div class="verbs">${cards.join("")}</div>
+        <section class="home-you" aria-labelledby="home-you-h"><h2 id="home-you-h">${esc(YOU.inline.heading)}</h2><div id="home-you-body"></div></section>`);
       main.querySelectorAll("a.verb[data-verb]").forEach(a => a.onclick = () => track("home_" + a.dataset.verb, { surface: a.dataset.verb }));
+      drawYou();
     };
     render();
   }
-  // ---------- 1b. Explore roles & build skills (v19 B5, owner's pick S5): the launcher ----------
+  // ---------- 1b. Explore careers (v19 B5, owner's pick S5; "Explore roles & build skills" until 2026-11-01): the launcher ----------
   // Every role by field on the left two thirds (a prefix search over all of them, the field tiles, a field's roles
   // under the tiles), the résumé on the right third, sticky; one column under 900 px. The pure parts are
   // web/launcher.js. With a résumé on file the right third reads it against the three roles the rough read puts
@@ -435,8 +498,10 @@
     const tiles = on => `<div class="fcards lf-tiles">${F.map(f => `<button type="button" class="fcard${on === f.id ? " on" : ""}" data-field="${esc(f.id)}" aria-pressed="${on === f.id}"><span class="t">${esc(f.label)}</span><span class="n">${esc(Launcher.fill(C.tile, { roles: f.roles.length, open: fmt(f.nOpen) }))}</span></button>`).join("")}</div>`;
     const left = () => {
       if (s.q.trim()) { const hits = Launcher.searchRoles(ix, s.q); return hits.length ? `<p class="lf-lab">${esc(Launcher.hitsLine(hits.length))}</p><div class="list">${hits.map(r => row(r, true)).join("")}</div>` : `<p class="lf-lab">${esc(C.noHit)}</p>${tiles(null)}`; }
+      // a picked field's roles take the tiles' place (owner, 2026-11-01), with the way back to the tiles above them
       const f = F.find(x => x.id === s.field);
-      return `<p class="lf-lab">${esc(C.pickField)}</p>${tiles(s.field)}${f ? `<section class="lf-field"><h2>${esc(f.label)}</h2><p class="small muted">${esc(Launcher.fill(C.fieldLine, { roles: f.roles.length, open: fmt(f.nOpen) }))}</p><div class="list">${f.roles.map(r => row(r, false)).join("")}</div></section>` : ""}`;
+      if (f) return `<p class="lf-lab"><button type="button" class="linkish link lf-back" id="lf-back">${esc(C.backToFields)}</button></p><section class="lf-field"><h2>${esc(f.label)}</h2><p class="small muted">${esc(Launcher.fill(C.fieldLine, { roles: f.roles.length, open: fmt(f.nOpen) }))}</p><div class="list">${f.roles.map(r => row(r, false)).join("")}</div></section>`;
+      return `<p class="lf-lab">${esc(C.pickField)}</p>${tiles(null)}`;
     };
     // ---- the right third: the résumé form, or the light match once it is read ----
     let light = null;   // closestFits for the résumé on file
@@ -447,14 +512,18 @@
       if (!light || light.text !== state.resume.text) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}<p class="small muted">${esc(light && light.failed ? C.resume.failed : C.resume.reading)}</p>${you}</section>`;
       const top = light.chosen; if (!top) return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}<p class="small muted">${esc(C.resume.noClose)}</p>${you}</section>`;
       const L = Launcher.matchLines(top);
+      const inf = top.r ? Launcher.coreOf(top.r.rows).shown.filter(x => x.status === "inferred").length : 0;   // the model read's part (web/infer.js)
       return `<section class="lf-step"><h2>${esc(C.resume.heading)}</h2>${onFile}
         ${L.bandLabel ? `<p><b>${esc(L.bandLabel)}</b> for ${esc(top.label)}.</p>` : ""}
-        <p>${esc(L.line)}</p>
+        <p>${esc(L.line)}</p>${inf ? `<p class="small muted">◈ ${esc(fill(C.resume.inferred, { n: inf }))}</p>` : ""}
         <p><a class="btn primary" href="#/role/${esc(top.roleId)}/fit">${esc(L.fitLink)}</a></p>
         ${light.rows.length ? `<h3>${esc(C.resume.closest)}</h3><div class="list">${light.rows.map(x => `<a class="r" href="#/role/${esc(x.id)}/fit"><span class="t">${esc(x.label)}</span><span class="n">${x.n} of ${x.m}</span></a>`).join("")}</div><p class="small muted">${esc(C.resume.ranked)}</p><p class="small muted">${esc(C.resume.opens)}</p>` : ""}
         ${you}</section>`;
     };
-    const wireLeft = () => main.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { s.field = s.field === b.dataset.field ? null : b.dataset.field; s.q = ""; $("#lf-q").value = ""; drawLeft(); });
+    const wireLeft = () => {
+      main.querySelectorAll("[data-field]").forEach(b => b.onclick = () => { s.field = b.dataset.field; s.q = ""; $("#lf-q").value = ""; drawLeft(); });
+      const back = $("#lf-back"); if (back) back.onclick = () => { s.field = null; drawLeft(); };
+    };
     const drawLeft = () => { $("#lf-body").innerHTML = left(); wireLeft(); writeHash(); };
     const wireRight = () => {
       if ($("#drop")) { wireResumeForm(); $("#lf-read").onclick = async () => { if (await takeResume()) { s.change = false; drawRight(); } else $("#file-status").textContent = RF.nothing; }; }
@@ -895,19 +964,23 @@
     </section>`;
   }
 
-  // ---------- 1c. Networking (v19 B5, owner's pick N6): who to meet for one role ----------
-  // The pure parts are web/network.js. Left two thirds: the role (every role, grouped by field), the people types as
-  // tabs (five for everyone; "Faculty on campus" sixth when the door's address opens Cornell), who to look for, where
-  // to find them, the intake box. Right third, sticky and scrolling inside itself: the prep card for the type on (the
-  // company or the professor, the opener, three questions, what to listen for, the draft to copy, Add to my list), then
-  // the list of planned chats (localStorage network.list; never sent). The employers are the role's open postings
-  // counted across its field (Atlas.fieldJobs); with a résumé the fit is the matcher's, as the rail reads it
-  // (matchRole). The hash keeps role, type and target (replaceState). No event is sent from here.
+  // ---------- 1c. Networking (v19 B5, owner's pick N6; reshaped by the owner's feedback of 2026-11-01) ----------
+  // The pure parts are web/network.js. With nothing to go on (no About you answer, no résumé, no role chosen on the
+  // site or in the link) the screen starts with the About you questions, drawn in place by the shell's
+  // AtlasUI.youInline, then opens on the role the answers point to (defaultRole); a person who skips them all gets the
+  // default role, never the questions twice. Then: the role (a searchable Pick over every role) and the people types
+  // as tabs on one line across the page (four for everyone; "Faculty on campus" fifth when the door's address opens
+  // Cornell). Left: who to look for (titles by level, the five employers with the most open postings of the role and
+  // a link to Find jobs with the role set, or the professors, the most gaps covered first) and the intake box. Right,
+  // wider and sticky: the prep card for the type on: the company or the professor (a Pick), where to find them (the
+  // searches, narrowed to that company), and the suggested approach (what to lead with, the ask, three questions
+  // specific to the person, the role and the company) with a Copy button for the plain text. The employers are the
+  // role's own open postings; with a résumé the fit is the matcher's, as the rail reads it (matchRole). The hash keeps
+  // role, type and target (replaceState). No event is sent from here, and nothing is stored but what #/you stores.
   // Network on campus, for a Cornell email: the professors come from the class picker's public roster
   // (Catalog.loadCatalog), each with the classes they teach this term and, with a résumé, the gaps of this role those
-  // classes cover, read the way classes.js reads a card (Catalog.cardTags, gapsCovered, instructorGaps).
-  const LIST_KEY = "network.list";
-  const listGet = () => { const l = store.get(LIST_KEY); return Array.isArray(l) ? l : []; };
+  // classes cover, read the way classes.js reads a card (Catalog.cardTags, gapsCovered, instructorGaps); with none,
+  // the role's core asks they teach (Network.askRows), so the list sorts by that instead of by name.
   const fieldJobsCache = {};
   const fieldJobsOf = gid => fieldJobsCache[gid] ||= Atlas.fieldJobs(gid).catch(e => { delete fieldJobsCache[gid]; console.error(e); return []; });
   let rosterP = null;
@@ -927,78 +1000,96 @@
     const roles = g.roles.map(id => ix.roles[id]).filter(Boolean).sort((a, b) => b.nOpen - a.nOpen);
     return roles.length ? roles[0].id : Object.keys(ix.roles)[0];
   }
+  // whether any About you question has an answer: the shell's AtlasUI.youAnswered when it is there, else the same
+  // read of state.you (where, stage or a field)
+  const youAnsweredHere = () => window.AtlasUI && typeof AtlasUI.youAnswered === "function" ? !!AtlasUI.youAnswered() : (y => !!(y.where || y.stage || (y.fields || []).length))(state.you || {});
+  let nwGateDone = false;   // the questions were drawn once this visit: a person who skips them all is not asked again
+  // the evidence sentences of some skills ({ id: groups }), for the hiring manager's posting question; a skill whose
+  // sentences fail to load has none (the product set carries its own; the MBA set reads one cached file)
+  const evidenceOf = (R, ids) => Promise.all(ids.map(id => R.evidence(id).then(e => [id, e || {}], () => [id, {}]))).then(Object.fromEntries);
   async function networkScreen() {
-    const C = Network.COPY;
+    const C = Network.COPY, AP = C.approach;
     crumbs([[CM.home, "#/home"], [C.crumb, null]]); showAside(null);
     page(`<h1>${esc(C.heading)}</h1><p class="lead">${esc(CM.loadingRoles)}</p>`);
     const ix = await Atlas.index(); await Atlas.product().catch(console.error);
     const here = () => Routes.parseRoute(location.hash).name === "network";
     if (!here()) return;
-    const cornell = Door.opens(doorKept().email), types = Network.types(cornell);
     const q = Routes.parseRoute(location.hash).query, roleOk = id => !!(id && ix.roles[id]);
+    let chosen = chosenRole(); if (chosen && !roleOk(chosen)) chosen = Atlas.productKey(chosen);
+    // the gate: nothing to go on, so the About you questions come first, right here; when they are done, this screen
+    // again, for the role the answers point to
+    if (!nwGateDone && !roleOk(q.role) && !roleOk(chosen) && !state.resume && !youAnsweredHere() && window.AtlasUI && typeof AtlasUI.youInline === "function") {
+      nwGateDone = true;
+      page(`<p class="eyebrow">${esc(C.crumb)}</p><h1>${esc(C.heading)}</h1><p class="lead">${esc(C.gateLead)}</p><div id="nw-you" class="nw-you"></div>`);
+      AtlasUI.youInline($("#nw-you"), { onDone: () => { if (here()) networkScreen(); } });
+      return;
+    }
+    const cornell = Door.opens(doorKept().email), types = Network.types(cornell);
     const s = { role: q.role, type: q.type, key: q.target || null };
-    if (!roleOk(s.role)) { let r = chosenRole(); if (r && !roleOk(r)) r = Atlas.productKey(r); s.role = roleOk(r) ? r : await defaultRole(ix); }
+    if (!roleOk(s.role)) s.role = roleOk(chosen) ? chosen : await defaultRole(ix);
     if (!types.some(t => t.id === s.type)) s.type = types[0].id;
-    const H = { professor: "#/professor/", classes: "#/classes", skills: "#/skills" };
-    const groups = ix.groups.map(g => ({ g, roles: g.roles.map(id => ix.roles[id]).filter(Boolean).sort((a, b) => b.nOpen - a.nOpen) })).filter(x => x.roles.length);
+    const H = { professor: "#/professor/" };
+    // the Role choices: every role, field by field, the biggest roles first; the field is the hint the search reads too
+    const roleOptions = ix.groups.flatMap(g => g.roles.map(id => ix.roles[id]).filter(Boolean).sort((a, b) => b.nOpen - a.nOpen).map(r => ({ value: r.id, label: r.label, hint: g.label })));
     const writeHash = () => { const p = new URLSearchParams({ role: s.role, type: s.type }); if (s.key) p.set("target", s.key); const next = "#/network?" + p; if (location.hash !== next) history.replaceState(null, "", location.pathname + location.search + next); };
     let token = 0;
-    // the context for the role on: the role file, the field's postings, the fit, the professors
+    // the context for the role on: the role file, the field's postings, the fit, the professors, the skills generic
+    // to the role set (no question names one) and the evidence sentences of the skills the questions may name
     const load = async () => {
       const t = ++token;
       const R = await Atlas.role(s.role); const fieldJobs = await fieldJobsOf(R.role.group);
       const m = state.resume ? await matchRole(s.role).catch(e => { console.error(e); return null; }) : null;
       let profs = [], rosterFailed = false;
-      if (cornell) { try { profs = await campusProfs(m ? gapRows(rowsOf(m.r), m.R) : null); } catch (e) { console.error(e); rosterFailed = true; } }
+      if (cornell) { try { profs = await campusProfs(m ? gapRows(rowsOf(m.r), m.R) : Network.askRows(ix, R, Atlas.TIER.core)); } catch (e) { console.error(e); rosterFailed = true; } }
       const rg = state.resume && !m ? await rough().catch(() => null) : null;
+      const generic = await Atlas.genericSkills().catch(() => new Set());
+      const o = { cornell, shown: rg ? rg.shown : null, profs, fieldJobs, core: Atlas.TIER.core, generic };
+      const K0 = Network.ctx(ix, R, m ? m.r : null, o);
+      const evidence = await evidenceOf(R, [...new Set([...K0.craftGaps.slice(0, 6), ...K0.craft.slice(0, 10)].map(x => x.id))]);
       if (t !== token) return null;
-      return { R, K: Network.ctx(ix, R, m ? m.r : null, { cornell, shown: rg ? rg.shown : null, profs, fieldJobs, core: Atlas.TIER.core }), rosterFailed, read: !!m };
+      return { R, K: Network.ctx(ix, R, m ? m.r : null, { ...o, evidence }), rosterFailed };
     };
-    let X = null;
+    let X = null, picks = [];
     const draw = () => {
-      const { R, K, rosterFailed, read } = X, role = R.role, type = Network.typeOf(s.type);
+      picks.forEach(p => p.destroy()); picks = [];   // a Pick listens on the document; the old ones go with the old page
+      const { R, K, rosterFailed } = X, role = R.role, type = Network.typeOf(s.type);
       const targets = Network.targetsOf(s.type, K);
       if (targets.length && !targets.some(t => t.key === s.key)) s.key = targets[0].key;
       if (!targets.length) s.key = null;
       const target = targets.length ? targets.find(t => t.key === s.key).row : null;
       writeHash();
-      const W = Network.who(s.type, K), outs = Network.where(s.type, K, H, s.type === "faculty" ? target : null), S = Network.say(s.type, K, target);
-      const lead = read ? esc(Network.lead(K)) : `${esc(fill(C.leadNoResume, { role: role.label }))} <a href="#/you">${esc(C.addResume)}</a> ${esc(C.addResumeAfter)}`;
-      const roleSel = `<label class="dlabel nw-role">${esc(C.role)}<select id="nw-role">${groups.map(({ g, roles }) => `<optgroup label="${esc(g.label)}">${roles.map(r => `<option value="${esc(r.id)}"${r.id === role.id ? " selected" : ""}>${esc(r.label)}</option>`).join("")}</optgroup>`).join("")}</select></label>`;
-      const tabs = `<div class="tabs nw-tabs" role="tablist">${types.map(t => `<button type="button" role="tab" class="${t.id === s.type ? "on" : ""}" aria-selected="${t.id === s.type}" data-type="${esc(t.id)}">${esc(t.label)}</button>`).join("")}</div><p class="small muted nw-good">${esc(type.good)} <span class="facts">${esc(Network.count(s.type, K))}</span></p>`;
-      // who to look for: one line per level, at most five employers, the professors or the skills to split
+      const W = Network.who(s.type, K), outs = Network.where(s.type, K, H, target), S = Network.say(s.type, K, target);
+      const tabs = `<div class="tabs nw-tabs" role="tablist">${types.map(t => `<button type="button" role="tab" class="${t.id === s.type ? "on" : ""}" aria-selected="${t.id === s.type}" data-type="${esc(t.id)}">${esc(t.label)}</button>`).join("")}</div>`;
+      // who to look for: one line per level, the five employers with the most open postings of the role and the way
+      // to the rest in Find jobs, or the professors
       const lv = W.levels.length ? `<ul class="plain nw-lv">${W.levels.map(l => `<li><b>${esc(l.label)}</b> · ${l.titles.map(x => `${esc(x.title)} <span class="muted">(${esc(x.company)})</span>`).join(" · ")}</li>`).join("")}</ul>` : "";
-      const emps = W.employers.length ? `<div class="list nw-emps">${W.employers.map(e => `<div class="r"><span class="t">${esc(e.company)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(e.nOpen) }))}</span><span class="m">${esc(e.roles.slice(0, 4).join(", "))}</span></div>`).join("")}</div>` : "";
-      const profRow = p => `<a class="r" href="#/professor/${encodeURIComponent(p.slug)}"><span class="t">${esc(p.name)}</span><span class="n">${p.covers.length ? esc(fill(C.gapsOf, { n: p.covers.length, m: p.nGaps })) : esc(p.codes.slice(0, 2).join(", "))}</span><span class="m">${esc(p.line)}${p.covers.length ? esc(fill(C.covers, { names: p.covers.map(g => g.name).join(", ") })) : ""}</span></a>`;
+      const emps = W.employers.length ? `<div class="list nw-emps">${W.employers.map(e => `<div class="r"><span class="t">${esc(e.company)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(e.nOpen) }))}</span><span class="m">${esc(e.roles.slice(0, 4).join(", "))}</span></div>`).join("")}</div><p class="nw-more"><a href="${esc(Network.jobsHref(K))}">${esc(C.moreJobs)}</a></p>` : "";
+      // with a résumé, the gaps a professor's classes cover; without one, the role's core asks they teach
+      const profRow = p => { const xs = p.read ? p.covers : p.asks, n = xs.length ? esc(fill(p.read ? C.gapsOf : C.teachesOf, { n: xs.length, m: p.read ? p.nGaps : p.nAsks })) : esc(p.codes.slice(0, 2).join(", ")); return `<a class="r" href="#/professor/${encodeURIComponent(p.slug)}"><span class="t">${esc(p.name)}</span><span class="n">${n}</span><span class="m">${esc(p.line)}${xs.length ? esc(fill(p.read ? C.covers : C.teachesNames, { names: xs.map(g => g.name).join(", ") })) : ""}</span></a>`; };
       const profs = !W.profs ? "" : W.profs.length ? `<div class="list nw-emps">${W.profs.slice(0, 8).map(profRow).join("")}</div>${W.profs.length > 8 ? `<p class="small muted">${esc(fill(C.moreProfs, { n: fmt(W.profs.length - 8) }))}</p>` : ""}` : rosterFailed ? `<p class="small muted">${esc(C.rosterFailed)}</p>` : "";
-      const skills = W.skills ? `<div class="tags">${W.skills.map(x => `<span class="tag amber">${esc(x.name)}</span>`).join("")}</div>` : "";
-      const who = `<section class="nw-sec"><h2>${esc(C.who)}</h2><p>${esc(W.lead)}</p>${lv}${W.note ? `<p class="small muted">${esc(W.note)}</p>` : ""}${emps}${profs}${skills}</section>`;
-      const where = `<section class="nw-sec"><h2>${esc(C.where)}</h2><p class="small muted">${esc(C.whereNote)}</p>${outs.length ? `<ul class="nw-outs">${outs.map(o => `<li><a href="${esc(o.href)}"${o.external ? ' target="_blank" rel="noopener"' : ""}>${esc(o.label)}${o.external ? " ↗" : ""}</a><span class="small muted">${esc(o.what)}</span></li>`).join("")}</ul>` : `<p class="small muted">${esc(C.noWhere)}</p>`}</section>`;
-      // the prep card and the list
-      const inList = Network.listHas(listGet(), { role: role.id, type: s.type, key: s.key });
-      const pick = targets.length ? `<label class="dlabel">${esc(s.type === "faculty" ? C.professor : C.company)}<select id="nw-target">${targets.map(t => `<option value="${esc(t.key)}"${t.key === s.key ? " selected" : ""}>${esc(t.label)}</option>`).join("")}</select></label>` : `<p class="small muted">${esc(Network.fill(C.noPick, { role: role.label }))}</p>`;
-      const prep = `<section class="pcard" id="nw-prep"><p class="eyebrow">${esc(C.prep)} · ${esc(role.label)}</p><h2>${esc(type.label)}</h2>${pick}
-        <h3>${esc(C.openWith)}</h3><p class="opener">${esc(S.intro)} ${esc(S.aim)}</p><p class="opener">${esc(S.ask)}</p>
-        <h3>${esc(C.questions)}</h3><ol class="qs">${S.questions.map(x => `<li>${esc(x)}</li>`).join("")}</ol>
-        <h3>${esc(C.listen)}</h3><p class="small">${esc(S.listen)}</p>
-        <h3>${esc(C.message)}</h3><textarea id="nw-draft" rows="8" aria-label="${esc(C.message)}">${esc(Network.draft(S, ""))}</textarea>
-        <p class="acts-row"><button type="button" class="btn primary" id="nw-copy">${esc(C.copy)}</button><span class="small muted" id="nw-copied">${esc(C.edit)}</span></p>
-        <p class="acts-row"><button type="button" class="btn" id="nw-add"${inList ? " disabled" : ""}>${esc(inList ? C.onList : C.add)}</button></p></section>`;
-      const list = listGet();
-      const listHtml = `<section class="widget nw-list"><h2>${esc(C.list)}</h2>${list.length ? list.map((x, i) => `<div class="nw-chat"><span>${esc(Network.typeOf(x.type).label)}${x.label ? " · " + esc(x.label) : ""} <span class="muted">· ${esc((ix.roles[x.role] || {}).label || x.role)}</span></span><button type="button" class="linkish link" data-open="${i}">${esc(C.open)}</button><button type="button" class="linkish link" data-drop="${i}">${esc(C.remove)}</button></div>`).join("") : `<p class="small muted">${esc(C.noChats)}</p>`}<p class="small muted">${esc(C.stays)}</p></section>`;
-      page(`<p class="eyebrow">${esc(Network.fill(C.eyebrow, { role: role.label }))}</p><h1>${esc(C.heading)}</h1><p class="lead">${lead}</p>
-        <div class="nw"><div class="nw-main">${roleSel}${tabs}${who}${where}<div class="fit-wait">${applyBox("network", { always: true, role_id: role.id })}</div></div><aside class="nw-side" aria-label="${esc(C.sideAria)}">${prep}${listHtml}</aside></div>`);
+      const who = `<section class="nw-sec"><h2>${esc(C.who)}</h2><p>${esc(W.lead)}</p>${lv}${emps}${profs}</section>`;
+      // the prep card: the company or the professor, where to find them, the suggested approach and its Copy button
+      const pickHtml = targets.length ? `<div class="dlabel nw-target"><span>${esc(s.type === "faculty" ? C.professor : C.company)}</span><div id="nw-target"></div></div>` : "";
+      const where = `<h3>${esc(C.where)}</h3><p class="small muted">${esc(C.whereNote)}</p>${outs.length ? `<ul class="nw-outs">${outs.map(o => `<li><a href="${esc(o.href)}"${o.external ? ' target="_blank" rel="noopener"' : ""}>${esc(o.label)}${o.external ? " ↗" : ""}</a><span class="small muted">${esc(o.what)}</span></li>`).join("")}</ul>` : `<p class="small muted">${esc(C.noWhere)}</p>`}`;
+      const addResume = state.resume ? "" : ` <a href="#/you">${esc(AP.addResume)}</a> ${esc(AP.addResumeAfter)}`;
+      const approach = `<h3>${esc(AP.heading)}</h3><p class="small muted">${esc(AP.note)}</p>
+        <div class="nw-ap"><p class="nw-k">${esc(AP.leadWith)}</p><p>${esc(S.leadWith)}${addResume}</p><p class="nw-k">${esc(AP.ask)}</p><p>${esc(S.ask)}</p><p class="nw-k">${esc(AP.questions)}</p><ol class="qs">${S.questions.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div>
+        <p class="acts-row"><button type="button" class="btn primary" id="nw-copy">${esc(AP.copy)}</button><span class="small muted" id="nw-copied" aria-live="polite"></span></p>`;
+      const prep = `<section class="pcard" id="nw-prep"><p class="eyebrow">${esc(C.prep)} · ${esc(role.label)}</p><h2>${esc(type.label)}</h2>${pickHtml}${where}${approach}</section>`;
+      page(`<p class="eyebrow">${esc(Network.fill(C.eyebrow, { role: role.label }))}</p><h1>${esc(C.heading)}</h1>
+        <div class="nw-head"><div class="dlabel nw-role"><span>${esc(C.role)}</span><div id="nw-role"></div></div>${tabs}</div>
+        <div class="nw"><div class="nw-main">${who}<div class="fit-wait">${applyBox("network", { always: true, role_id: role.id })}</div></div><aside class="nw-side" aria-label="${esc(C.sideAria)}">${prep}</aside></div>`);
       main.firstElementChild.classList.add("wide", "nw-page");
       // ---- the wiring ----
       wireWait(main, redraw);
-      $("#nw-role").onchange = e => { s.role = e.target.value; s.key = null; reload(); };
+      picks.push(Pick.mount($("#nw-role"), { options: roleOptions, value: role.id, placeholder: C.rolePlaceholder, label: C.role, onChange: v => { if (roleOk(v)) { s.role = v; s.key = null; reload(); } } }));
+      if (targets.length) picks.push(Pick.mount($("#nw-target"), { options: targets.map(t => ({ value: t.key, label: t.label, hint: t.hint })), value: s.key, placeholder: s.type === "faculty" ? C.professorPlaceholder : C.companyPlaceholder, label: s.type === "faculty" ? C.professor : C.company, onChange: v => { if (v) { s.key = v; redraw(); } } }));
       main.querySelectorAll("[data-type]").forEach(b => b.onclick = () => { s.type = b.dataset.type; s.key = null; redraw(); });
-      const ts = $("#nw-target"); if (ts) ts.onchange = e => { s.key = e.target.value; redraw(); };
-      const ta = $("#nw-draft"), ok = $("#nw-copied");
-      $("#nw-copy").onclick = () => { const done = () => { ok.textContent = C.copied; setTimeout(() => { if (ok.isConnected) ok.textContent = C.edit; }, 2000); }; if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(done, () => { ta.select(); done(); }); else { ta.select(); try { document.execCommand("copy"); } catch { } done(); } };
-      const add = $("#nw-add"); if (add) add.onclick = () => { const t = targets.find(x => x.key === s.key); store.set(LIST_KEY, Network.listAdd(listGet(), { role: role.id, type: s.type, key: s.key, label: t ? t.label.split(" · ")[0] : "" })); redraw(); };
-      main.querySelectorAll("[data-open]").forEach(b => b.onclick = () => { const x = listGet()[+b.dataset.open]; if (!x || !roleOk(x.role)) return; s.role = x.role; s.type = types.some(t => t.id === x.type) ? x.type : types[0].id; s.key = x.key; reload(); });
-      main.querySelectorAll("[data-drop]").forEach(b => b.onclick = () => { const x = listGet()[+b.dataset.drop]; if (x) store.set(LIST_KEY, Network.listRemove(listGet(), x)); redraw(); });
+      // Copy: the plain text of the approach (a head line, lead with, the ask, the questions), for Claude or notes
+      const ok = $("#nw-copied");
+      const said = m => { ok.textContent = m; setTimeout(() => { if (ok.isConnected) ok.textContent = ""; }, 2000); };
+      const byHand = () => { const ta = document.createElement("textarea"); ta.value = S.pasteText; ta.setAttribute("readonly", ""); ta.style.cssText = "position:fixed;opacity:0"; document.body.appendChild(ta); ta.select(); let done = false; try { done = document.execCommand("copy"); } catch { } ta.remove(); said(done ? AP.copied : AP.copyFailed); };
+      $("#nw-copy").onclick = () => { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(S.pasteText).then(() => said(AP.copied), byHand); else byHand(); };
     };
     const redraw = () => keepScroll(draw);
     const reload = () => load().then(r => { if (r && here()) { X = r; redraw(); } }).catch(fail);
@@ -1024,10 +1115,82 @@
   // (the earlier "what are you looking for" question, owner's choice Y2, changed nothing on screen; this one does).
   const YOU = Copy.you, Q = YOU.questions;   // the questions, in order (web/copy.js): key, title, options as [id, label, examples]
   const WHERE = Object.fromEntries(Q[0].options.map(o => [o[0], o[1]])), WHERE_SHORT = YOU.whereShort;
+  // a program id from an id or a label (the door's Tally form returns the label); "" when neither
+  const whereId = v => { const t = String(v || "").trim(); if (WHERE[t]) return t; const hit = Q[0].options.find(o => o[1].toLowerCase() === t.toLowerCase()); return hit ? hit[0] : ""; };
   const STAGE = Object.fromEntries(Q[1].options.map(o => [o[0], o[1]])), STAGE_SHORT = YOU.stageShort;
   // the programs an engineering student is in open the technical area first on a role screen
   const TECHNICAL_PROGRAMS = ["cs", "ece", "infosci"];
   let wiz = null;
+  // a door answer kept before About you read it (a visit from before 2026-11-01, or a door left by a reload) lands now,
+  // under the same rule as keepDoor
+  { const w = doorKept().where, next = WHERE[w] ? Routes.You.fromDoor(state.you, w) : null; if (next) { state.you = next; store.set("you", next); } }
+  // a question's options as [id, label, examples]; the fields carry two example roles each (owner's choice Y1), so a
+  // name like "Operations & general management" says what is inside
+  function questionOpts(ix, q) {
+    const examples = g => { const names = g.roles.map(r => (ix.roles[r] || {}).label).filter(Boolean).slice(0, 2); return names.length ? names.join(" · ") : g.id === "product" ? YOU.productExamples : ""; };
+    return q.multi ? ix.groups.map(g => [g.id, g.label, examples(g)]) : q.options.map(([id, label, ex]) => [id, label, ex || ""]);
+  }
+  // About you answered: a program (not one the door filled in alone), a stage, a field, or a résumé on file (You.answered)
+  const youAnswered = () => Routes.You.answered(state.you, state.resume);
+  // About you in one line, for a screen that shows it beside its own content (home): what you study, your stage, your
+  // fields, the résumé on file or not, and Edit to #/you
+  function youLine(ix) {
+    const y = state.you || {}, YI = YOU.inline;
+    const fields = (y.fields || []).map(id => (ix.groups.find(g => g.id === id) || {}).label).filter(Boolean);
+    const parts = [y.where ? esc(WHERE_SHORT[y.where] || WHERE[y.where]) : esc(YI.noWhere), y.stage ? esc(STAGE_SHORT[y.stage] || STAGE[y.stage]) : esc(YI.noStage),
+      fields.length ? `<b>${esc(join(fields))}</b>` : esc(YI.noFields), state.resume ? esc(fill(YI.resumeOn, { name: state.resume.name })) : esc(YI.noResume)];
+    return `<div class="strip" aria-label="${esc(YI.summaryAria)}"><span class="dotg"></span><span>${parts.join(" · ")}</span><a href="#/you">${esc(CM.edit)}</a></div>`;
+  }
+  // About you drawn inside `el` (owner's feedback 2026-11-01; home, and Networking through window.AtlasUI): the three
+  // questions of #/you (Copy.you.questions: where, stage, fields), then the optional résumé drop, one step at a time,
+  // saved to the same state.you and localStorage "you" as #/you after every answer, so leaving halfway keeps what was
+  // answered. It opens on the first question not answered yet (You.firstStep: the door's program answer skips the first);
+  // Back reaches the earlier ones. "Skip for now" on every step keeps what was answered and ends; Done on the résumé step
+  // reads a dropped file first. Either way the door's mark on the program goes (the person has seen it), you_done goes
+  // out as #/you sends it, and opts.onDone() runs. The résumé step is the shell's form (ids #drop, #file, #file-status),
+  // so a page holds one of these, or one résumé form, at a time. Returns a promise (the index loads first).
+  function youInline(el, opts) {
+    const o = opts || {}, YI = YOU.inline;
+    return Atlas.index().then(ix => {
+      if (!el || !el.isConnected) return;
+      const y0 = state.you || {};
+      const a = { where: y0.where || null, stage: y0.stage || null, fields: new Set(y0.fields || []) };
+      let i = Routes.You.firstStep(y0, Q.map(q => q.key)), seen = false;   // seen: the person picked a program here, or ended
+      const save = () => { state.you = { ...(state.you || {}), where: a.where || null, stage: a.stage || null, fields: [...a.fields] }; if (seen) delete state.you.whereFrom; store.set("you", state.you); wiz = null; };
+      const finish = async read => {
+        if (read && pending && pending.words < 40) return;   // a file with too few words: its line stays on screen
+        if (read) await takeResume();
+        seen = true; save(); track("you_done");
+        if (o.onDone) o.onDone();
+      };
+      const draw = () => {
+        if (!el.isConnected) return;
+        const q = Q[i], last = i === Q.length;
+        const steps = `<div class="steps">${Array.from({ length: Q.length + 1 }, (_, k) => `<i class="${k <= i ? "done" : ""}"></i>`).join("")}</div>`;
+        const nav = `<div class="row between yi-nav"><span>${i > 0 ? `<button type="button" class="btn quiet" data-yi="back">${esc(CM.back)}</button>` : ""}</span><span class="row"><button type="button" class="btn" data-yi="skip">${esc(YI.skip)}</button><button type="button" class="btn primary" data-yi="next">${esc(last ? YI.done : YOU.next)}</button></span></div>`;
+        if (!last) {
+          const on = id => q.multi ? a.fields.has(id) : a[q.key] === id;
+          el.innerHTML = `<p class="small muted">${esc(YI.lead)}</p>${steps}<p class="eyebrow">${esc(fill(YOU.step, { i: i + 1, n: Q.length }))}</p><h3>${esc(q.title)}</h3>${q.hint ? `<p class="small muted">${esc(q.hint)}</p>` : ""}
+            <div class="opts${q.multi ? " two" : ""}">${questionOpts(ix, q).map(([id, label, ex]) => `<button type="button" class="opt${on(id) ? " on" : ""}" data-opt="${esc(id)}" aria-pressed="${on(id)}">${esc(label)}${ex ? `<small>${esc(ex)}</small>` : ""}</button>`).join("")}</div>${nav}`;
+          el.querySelectorAll("[data-opt]").forEach(b => b.onclick = () => {
+            const id = b.dataset.opt;
+            if (q.multi) { a.fields.has(id) ? a.fields.delete(id) : a.fields.add(id); save(); draw(); return; }
+            a[q.key] = id; if (q.key === "where") seen = true; save(); i++; draw();
+          });
+        } else {
+          el.innerHTML = `<p class="small muted">${esc(YI.lead)}</p>${steps}<p class="eyebrow">${esc(YOU.lastStep)}</p><h3>${esc(YOU.addResume)}</h3><p class="small muted">${esc(YOU.resumeLead)}</p>${resumeForm()}${nav}`;
+          wireResumeForm();
+        }
+        const btn = k => el.querySelector(`[data-yi="${k}"]`);
+        if (btn("back")) btn("back").onclick = () => { i--; draw(); };
+        btn("skip").onclick = () => finish(false);
+        btn("next").onclick = () => { if (last) { finish(true); return; } if (!q.multi && !a[q.key]) return; i++; draw(); };
+      };
+      draw();
+    });
+  }
+  // the About you pieces other screens draw with (Networking, agent E's #/network): plain functions on one object
+  window.AtlasUI = Object.assign(window.AtlasUI || {}, { youInline, youAnswered, youLine });
   // "#/you" is the summary once anything is known; "#/you?step=N" opens the wizard at one question to change it
   async function you() {
     const ix = await Atlas.index();
@@ -1046,10 +1209,8 @@
       const nav = (nextLabel, nextAction) => `<div class="row between" style="margin-top:16px"><button type="button" class="btn quiet" id="back">${esc(CM.back)}</button><span class="row">${i === Q.length ? `<a class="btn" href="${after}" id="skip">${esc(YOU.skip)}</a>` : ""}<button type="button" class="btn primary" id="next">${esc(nextLabel)}</button></span></div>`;
       if (i < Q.length) {
         const q = Q[i];
-        // the fields carry two example roles each (owner's choice Y1), so a name like "Operations & general
-        // management" says what is inside; all eleven sit above the fold in two columns
-        const examples = g => { const names = g.roles.map(r => (ix.roles[r] || {}).label).filter(Boolean).slice(0, 2); return names.length ? names.join(" · ") : g.id === "product" ? YOU.productExamples : ""; };
-        const opts = q.multi ? ix.groups.map(g => [g.id, g.label, examples(g)]) : q.options.map(([id, label, ex]) => [id, label, ex || ""]);
+        // the options with their examples (questionOpts); all eleven fields sit above the fold in two columns
+        const opts = questionOpts(ix, q);
         const on = id => q.multi ? wiz.answers.fields.has(id) : wiz.answers[q.key] === id;
         page(`${steps}<p class="eyebrow">${esc(fill(YOU.step, { i: i + 1, n: Q.length }))}</p><h1>${esc(q.title)}</h1>${q.hint ? `<p class="lead">${esc(q.hint)}</p>` : ""}
           <div class="opts${q.multi ? " two" : ""}">${opts.map(([id, label, ex]) => `<button type="button" class="opt${on(id) ? " on" : ""}" data-opt="${esc(id)}" aria-pressed="${on(id)}">${esc(label)}${ex ? `<small>${esc(ex)}</small>` : ""}</button>`).join("")}</div>${nav(YOU.next)}`, true);
@@ -1098,7 +1259,7 @@
       <h2>${esc(YOU.fitFields)}</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : `<p class="small muted">${esc(YOU.noFitFields)}</p>`}
       ${knowRows.length ? `<h2>${esc(YOU.games)}</h2><p class="small muted">${esc(YOU.gamesLead)}</p><div class="list you-know">${knowRows.join("")}</div>` : ""}
       <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">${esc(YOU.exploreFields)}</a><button type="button" class="btn quiet" id="start-over">${esc(YOU.startOver)}</button></div>`);
-    $("#start-over").onclick = () => { state.you = null; state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("you", null); store.set("resume", null); wiz = null; you(); };
+    $("#start-over").onclick = () => { state.you = null; state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("you", null); store.set("resume", null); if (window.Infer) Infer.forget(); Atlas.useInferred(null, []); wiz = null; you(); };
     const rq = $("#role-q");
     if (rq) {
       const find = v => { const t = v.trim().toLowerCase(); if (!t) return null; return roleOpts.find(r => r.name.toLowerCase() === t) || roleOpts.find(r => r.label.toLowerCase() === t) || roleOpts.filter(r => r.name.toLowerCase().includes(t)).sort((a, b) => a.name.length - b.name.length)[0] || null; };
@@ -1116,12 +1277,13 @@
     const parts = [y.where ? esc(WHERE_SHORT[y.where] || WHERE[y.where]) : null, y.stage ? esc(STAGE_SHORT[y.stage] || STAGE[y.stage]) : null, chosen.length ? `<b>${esc(join(chosen))}</b> ${esc(YOU.strip.chosen)}` : null, fromResume.length ? `<b>${esc(join(fromResume))}</b> ${esc(YOU.strip.fromResume)}` : state.resume ? esc(YOU.strip.noField) : esc(YOU.strip.noResume)].filter(Boolean);
     return `<div class="strip"><span class="dotg"></span><span>${parts.join(" · ")}</span><a href="#/you">${esc(CM.edit)}</a></div>`;
   }
-  // the resume: a drop zone, a paste box, what was read
+  // the resume: a drop zone and what was read. A file only: the paste box went on 2026-11-01 (owner's feedback) from
+  // every screen that draws this form (About you, home's inline questions, the fit screen, #/skills, the class picker)
+  // and from the rail's own drop; the posting and course forms keep theirs (wireFileDrop)
   let pending = null;   // { text, name, words } read from a file but not yet taken
   function resumeForm() {
     const r = state.resume;
-    return `<div class="drop" id="drop"><p><b>${esc(RF.drop)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status">${r ? `${esc(fill(RF.using, { name: r.name, words: fmt(r.words) }))} <button type="button" class="linkish link" id="forget">${esc(RF.forget)}</button>` : ""}</p></div>
-      <p class="small muted">${esc(RF.pasteLabel)}</p><textarea id="paste" rows="6" aria-label="${esc(RF.pasteAria)}" placeholder="${esc(RF.placeholder).replace(/\n/g, "&#10;")}"></textarea>`;
+    return `<div class="drop" id="drop"><p><b>${esc(RF.drop)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status">${r ? `${esc(fill(RF.using, { name: r.name, words: fmt(r.words) }))} <button type="button" class="linkish link" id="forget">${esc(RF.forget)}</button>` : ""}</p></div>`;
   }
   function wireResumeForm() {
     const drop = $("#drop"), status = $("#file-status");
@@ -1145,18 +1307,37 @@
     drop.ondragleave = () => drop.classList.remove("over");
     drop.ondrop = e => { e.preventDefault(); drop.classList.remove("over"); if (e.dataTransfer.files[0]) read(e.dataTransfer.files[0]); };
     $("#file").onchange = e => { if (e.target.files[0]) read(e.target.files[0]); };
-    const forget = $("#forget"); if (forget) forget.onclick = () => { state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("resume", null); status.textContent = RF.forgotten; };
+    const forget = $("#forget"); if (forget) forget.onclick = () => { state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("resume", null); if (window.Infer) Infer.forget(); Atlas.useInferred(null, []); status.textContent = RF.forgotten; };
   }
-  // keep what the form holds: a pasted text wins over a dropped file; nothing new keeps what was stored
+  // keep the file the form read (40 words or more); nothing new keeps what was stored
   async function takeResume() {
-    const pasted = ($("#paste") || {}).value || "";
-    const r = pasted.trim().length >= 40 ? { text: pasted, name: RF.pastedName, words: pasted.trim().split(/\s+/).length } : pending && pending.words >= 40 ? pending : null;
+    const r = pending && pending.words >= 40 ? pending : null;
     if (!r) return false;
     state.resume = r; store.set("resume", r); pending = null; state.match = null; state.rough = null; state.fit = null;
+    Atlas.useInferred(r.text, []);
     track("resume_read");
+    await rough();
+    await inferResume();
+    return true;
+  }
+  // The model read (web/infer.js, 2026-11-01): the skills the resume shows without naming them, after the patterns'
+  // read (its `shown` tells the route what is already credited). Saved on the stored resume as `inferred` and bound to
+  // its text for every matcher Atlas hands out (Atlas.useInferred), so the fit, the rail, the launcher, Find jobs, the
+  // classes and Who to meet all read it. Awaited by takeResume (the "reading" state covers it; Infer gives up after
+  // 20 s); [] when it is off, has no route or fails. Returns true when the read changed what the screens show.
+  async function inferResume() {
+    const r = state.resume; if (!r || !window.Infer) return false;
+    const rg = await rough().catch(() => null); if (!rg || state.resume !== r) return false;
+    const list = await Infer.read(r.text, [...rg.shown], "both");
+    if (state.resume !== r) return false;
+    r.inferred = list; store.set("resume", r); Atlas.useInferred(r.text, list);
+    if (!list.length) return false;
+    state.rough = null; state.match = null; state.fit = null; matchCache.clear(); for (const k of Object.keys(gapsCache)) delete gapsCache[k];
     await rough();
     return true;
   }
+  // a resume stored before the model read (no `inferred` yet) is read once, in the background, and the screen redrawn
+  if (state.resume && !Array.isArray(state.resume.inferred)) setTimeout(() => inferResume().then(changed => { if (changed) route(); }).catch(() => { }), 0);
   async function rough() { if (state.resume && !state.rough) state.rough = await Atlas.roughFit(state.resume.text); return state.rough; }
   // the fields that fit, each with its reason: the ones chosen, then those of the roles held and of the five roles
   // the resume reads closest to
@@ -1281,7 +1462,11 @@
     };
     const openPosting = id => { s.open = id; mark(); drawPanel(); writeHash(); };
     // ---- the rail: each facet with the count it would leave on; one that would leave none is plain ----
-    const opened = { field: true, role: true, level: true, entry: true, group: false, company: false, work: true };
+    // which facets are open: Field always, so a person starts by picking a field (owner's feedback 2026-11-01); any
+    // other facet opens only when it holds a value (the arrival's role, a link's filters). A person's own open and close
+    // are kept until "Clear filters", which sets these defaults again; picking a field opens Role, the next step.
+    const openedFor = () => ({ field: true, role: !!s.role, level: !!s.level, entry: !!s.entry, group: !!s.group, company: !!s.company, work: !!(s.remote || s.sponsor) });
+    const opened = openedFor();
     railEl.addEventListener("toggle", e => { const d = e.target; if (d.dataset && d.dataset.group) opened[d.dataset.group] = d.open; }, true);
     const facetRow = (key, val, label, n, on) => {
       const dead = !on && !n;
@@ -1334,7 +1519,7 @@
     const change = () => { s.page = 1; draw(); };
     const toggleFacet = (key, val) => {
       if (key === "remote" || key === "sponsor") s[key] = !s[key];
-      else if (key === "field") { s.field = s.field === val ? "" : val; if (s.role && s.field && fieldOf(s.role) !== s.field) s.role = ""; }
+      else if (key === "field") { s.field = s.field === val ? "" : val; if (s.role && s.field && fieldOf(s.role) !== s.field) s.role = ""; if (s.field) opened.role = true; }
       else if (key === "role") { s.role = s.role === val ? "" : val; if (s.role) s.field = fieldOf(s.role); }
       else s[key] = s[key] === val ? "" : val;
       change();
@@ -1347,7 +1532,7 @@
     $("#jsort").onchange = e => { s.sort = e.target.value; change(); };
     pageEl.addEventListener("click", e => {
       const t = e.target;
-      if (t.closest("[data-clear]")) { const b = Jobs.blankState(); for (const k of Jobs.KEYS) if (k !== "sort" && k !== "open") s[k] = b[k]; syncInputs(); draw(); return; }
+      if (t.closest("[data-clear]")) { const b = Jobs.blankState(); for (const k of Jobs.KEYS) if (k !== "sort" && k !== "open") s[k] = b[k]; Object.assign(opened, openedFor()); moreCompanies = false; syncInputs(); draw(); return; }
       const rm = t.closest("[data-remove]"); if (rm) { s[rm.dataset.remove] = Jobs.blankState()[rm.dataset.remove]; syncInputs(); change(); return; }
       if (t.closest("[data-more-companies]")) { moreCompanies = true; opened.company = true; railEl.innerHTML = rail(lastSearched, Jobs.filterOf(s)); return; }
       const fb = t.closest("[data-key]"); if (fb) { toggleFacet(fb.dataset.key, fb.dataset.val); return; }
@@ -1387,12 +1572,11 @@
       const dates = tip(fill(EX.countsTip, { date: mg.generated, product: pg.generated ? fill(EX.countsTipProduct, { date: pg.generated, n: fmt(pg.nWorld) }) : "" }));
       const nOpen = g => g.nOpen == null ? EX.loading : fill(CM.nOpen, { n: fmt(g.nOpen) });
       const inner = g => `${esc(g.label)}<span class="n">${esc(nOpen(g))}</span>`;
-      // a field card (owner's choice E2): the name, two or three of its roles marked as examples, one number and a
-      // bar that compares fields; the ones that fit carry their reason
-      const max = Math.max(1, ...all.map(g => g.nOpen || 0));
+      // a field card (owner's choice E2): the name, two or three of its roles marked as examples, one number; the ones
+      // that fit carry their reason. The bar that compared the fields' counts went on 2026-11-01 (owner: it added nothing)
       const card = g => {
         const names = g.roles.map(r => (ix.roles[r] || {}).label).filter(Boolean), ex = names.slice(0, 3), more = names.length - ex.length, isFit = !!(fit && fit.has(g.id));
-        return `<a class="fcard${isFit ? " you" : ""}" href="#/field/${esc(g.id)}"><span class="t">${esc(g.label)}</span><span class="m">${names.length ? `${esc(fill(EX.example, { names: ex.join(" · ") }))}${more > 0 ? esc(fill(more === 1 ? EX.moreRole : EX.moreRoles, { n: more })) : ""}` : esc(EX.loading)}</span><span class="bar" data-measure="${esc(fill(EX.barMeasure, { n: g.nOpen == null ? EX.loading : fmt(g.nOpen), field: g.label }))}"><i style="width:${Math.round(100 * (g.nOpen || 0) / max)}%"></i></span><span class="n">${esc(nOpen(g))}${isFit ? ` · <span class="why">${esc(ff.why.get(g.id))}</span>` : ""}</span></a>`;
+        return `<a class="fcard${isFit ? " you" : ""}" href="#/field/${esc(g.id)}"><span class="t">${esc(g.label)}</span><span class="m">${names.length ? `${esc(fill(EX.example, { names: ex.join(" · ") }))}${more > 0 ? esc(fill(more === 1 ? EX.moreRole : EX.moreRoles, { n: more })) : ""}` : esc(EX.loading)}</span><span class="n">${esc(nOpen(g))}${isFit ? ` · <span class="why">${esc(ff.why.get(g.id))}</span>` : ""}</span></a>`;
       };
       if (asMap) {
         // the fields on the skill map: a field's own skills beside it, the skills every field asks for in the middle
@@ -1468,7 +1652,7 @@
   // ---------- 4. a role: the skill grid, the side panel, the postings ----------
   async function loadRole(id) {
     if (!state.ixGroups) state.ixGroups = (await Atlas.index()).groups;
-    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; state.level = defaultLevel(); state.employer = "all"; state.selected = null; state.query = ""; state.shown = PAGE; state.evTab = null; state.match = null; state.sector = new Set(); state.company = new Set(); state.country = new Set(); state.remote = false; state.more = false; state.companyQuery = ""; state.grads = false; state.areaOpen = null; state.areaMore = new Set(); state.tab = "skills"; state.empOpen = new Set(); state.fit = null; state.gapOpen = null; state.wait = null; state.gapClasses = null; state.sponsor = false; state.postingOpen = false; }
+    if (state.roleId !== id) { state.R = await Atlas.role(id); state.roleId = id; RoleFilters.reset(state, defaultLevel()); state.selected = null; state.query = ""; state.shown = PAGE; state.evTab = null; state.match = null; state.more = false; state.areaOpen = null; state.areaMore = new Set(); state.tab = "skills"; state.empOpen = new Set(); state.fit = null; state.gapOpen = null; state.wait = null; state.gapClasses = null; state.postingOpen = false; }
     const ix = await Atlas.index(); return ix.groups.find(x => x.id === state.R.role.group);
   }
   // a student looks at the entry grade first; everyone else at every level
@@ -1493,9 +1677,8 @@
   };
   const jobsExcept = (dim, level) => state.R.jobs.filter(j => Object.entries(DIMS).every(([k, fn]) => k === dim || (k === "level" && level != null ? (level === "all" || Atlas.stepOf(j) === level) : fn(j))));
   const sliceOf = level => jobsExcept(null, level);
-  const extraCount = () => state.sector.size + state.company.size + state.country.size + (state.remote ? 1 : 0);
-  // every filter but the level: what the Filters button counts and the drawer holds
-  const activeCount = () => (state.employer === "all" ? 0 : 1) + (state.grads ? 1 : 0) + (state.sponsor ? 1 : 0) + extraCount();
+  // every filter but the level: what the Filters button counts and the drawer holds (RoleFilters, beside the routes)
+  const activeCount = () => RoleFilters.active(state);
   const toggle = (set, v) => { set.has(v) ? set.delete(v) : set.add(v); state.shown = PAGE; };
   const keepScroll = fn => { const y = window.scrollY; fn(); window.scrollTo(0, y); };
   // the filters in the drawer show as removable chips beside the Filters button while the drawer is closed
@@ -1527,7 +1710,7 @@
       ${group(esc(D.industry), chipsOf(sec, state.sector, "sector", esc(D.allIndustries)))}
       ${POSTINGS ? `<div class="fgroup"><span class="lbl">${esc(D.employer)}</span><input type="search" id="company-q" placeholder="${esc(D.employerName)}" aria-label="${esc(D.employerName)}" value="${esc(state.companyQuery)}" autocomplete="off"><div class="chips" style="margin:4px 0 0">${picked.map(([v, n]) => `<button type="button" class="chip on" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${options.map(([v, n]) => `<button type="button" class="chip" data-company="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}${!picked.length && !q ? `<span class="small muted">${esc(D.typeName)}</span>` : ""}</div></div>` : ""}
       ${R.country ? group(esc(D.location), `<span class="small muted">${esc(fill(D.countryOnly, { country: R.country }))}</span>${remote}`) : group(esc(D.location), chipsOf(cn, state.country, "country", esc(D.anywhere)) + remote)}
-      <div class="row between drawer-f">${activeCount() ? `<button type="button" class="btn quiet" id="clear-extra">${esc(CM.clearAll)}</button>` : "<span></span>"}<button type="button" class="btn primary" id="drawer-done">${esc(CM.done)}</button></div>
+      <div class="row between drawer-f">${RoleFilters.changed(state, defaultLevel()) ? `<button type="button" class="btn quiet" id="reset-filters">${esc(CM.resetFilters)}</button>` : "<span></span>"}<button type="button" class="btn primary" id="drawer-done">${esc(CM.done)}</button></div>
     </div>`;
   }
   // The skills a role asks for, by area (owner's choice R3, 2026-10-19): one panel per skill area, the skills most
@@ -1572,9 +1755,8 @@
     const open = slice.filter(j => j.open);
     const nClosed = R.jobs.length - R.jobs.filter(j => j.open).length;
     const countBy = (jobs, fn) => { const m = {}; for (const j of jobs) { const k = fn(j); if (k != null) m[k] = (m[k] || 0) + 1; } return m; };
-    const where = R.country ? ` · ${esc(R.country)}` : "";
     const employers = esc(fill(role.nCompanies === 1 ? RL.employer : RL.employers, { n: fmt(role.nCompanies) }));
-    const facts = R.set === "product" ? `<span data-measure="${esc(fill(RL.openUSMeasure, { n: fmt(role.nOpen), world: fmt(role.nWorld) }))}">${esc(fill(RL.openUS, { n: fmt(role.nOpen) }))}</span> · ${employers}` : `<span data-measure="${esc(fill(RL.openMeasure, { n: fmt(open.length), closed: nClosed ? fill(RL.closedMeasure, { n: fmt(nClosed) }) : "" }))}">${esc(fill(RL.open, { n: fmt(R.jobs.filter(j => j.open).length) }))}</span> · ${employers}${where}`;
+    const facts = R.set === "product" ? `<span data-measure="${esc(fill(RL.openUSMeasure, { n: fmt(role.nOpen), world: fmt(role.nWorld) }))}">${esc(fill(RL.openUS, { n: fmt(role.nOpen) }))}</span> · ${employers}` : `<span data-measure="${esc(fill(RL.openMeasure, { n: fmt(open.length), closed: nClosed ? fill(RL.closedMeasure, { n: fmt(nClosed) }) : "" }))}">${esc(fill(RL.open, { n: fmt(R.jobs.filter(j => j.open).length) }))}</span> · ${employers}`;
     const lead = roleLead(areas);
     // the Know-your-role record (PLAN.md v12, decision 4): the asks the player got right in a game, as ✓ on the list
     // and as a card beside the action row
@@ -1583,9 +1765,6 @@
     const know = GS ? GS.knowCard({ roleId: role.id, label: role.label, asks, nameOf: id => (R.skillById[id] || { name: id }).name, practise: ids => `#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(ids.slice(0, 8).join(","))}` }) : "";
     // the fit paints the list whenever one is read for this view (no toggle: owner's decision 2026-10-24)
     const fit = fitFor(), m = fit ? state.match : null;
-    const topEmployers = Object.entries(countBy(open, j => j.company)).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([c]) => c);
-    const nEntry = open.filter(j => Atlas.stepOf(j) === "entry").length, nGrads = open.filter(j => j.entry || j.intern).length;
-    const glance = `${lead} Entry grade: ${R.stepLabels.entry}, ${fmt(nEntry)} open at that grade${R.set === "mba" && nGrads ? `, ${fmt(nGrads)} for graduates and interns` : ""}.${topEmployers.length ? ` Top employers now: ${join(topEmployers)}.` : ""}`;
     const nAct = activeCount();
     const seg = `<div class="seg" role="group" aria-label="${esc(RL.levelAria)}"><button type="button" class="${state.level === "all" ? "on" : ""}" aria-pressed="${state.level === "all"}" data-level="all">${esc(RL.allLevels)}</button>${Atlas.STEPS.map(s => `<button type="button" class="${state.level === s ? "on" : ""}" aria-pressed="${state.level === s}" data-level="${s}">${esc(R.stepLabels[s])}</button>`).join("")}</div>`;
     // "Says it sponsors" (PLAN.md v16, step 8): postings that say they sponsor a visa; shown once the data carries the fact
@@ -1622,8 +1801,9 @@
     if (!TABS.some(t => t[0] === state.tab)) state.tab = "skills";
     const tabs = `<div class="tabs" role="tablist">${TABS.map(([k, l, n]) => `<button type="button" role="tab" class="${state.tab === k ? "on" : ""}" aria-selected="${state.tab === k}" data-tab="${k}">${esc(l)}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`).join("")}</div>`;
     const body = state.tab === "postings" ? postings : state.tab === "also" ? also : listHead + skillList;
-    // the title, one sentence on what the job is (web/data/role_blurbs.json), the facts, the data's lead sentence
-    page(`<h1>${esc(role.label)}</h1><p class="facts">${facts} · ${esc(fill(RL.entryGrade, { label: R.stepLabels.entry, n: fmt(nEntry) }))}</p>
+    // the title, one sentence on what the job is (web/data/role_blurbs.json), the facts (open postings and employers
+    // alone since 2026-11-01: the country and the entry grade went), the data's lead sentence
+    page(`<h1>${esc(role.label)}</h1><p class="facts">${facts}</p>
       <p class="lead">${role.blurb ? esc(role.blurb) + " " : ""}${lead}</p>${know}
       ${filters}${tabs}${body}`);
     main.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { state.tab = b.dataset.tab; keepScroll(renderRole); });
@@ -1643,13 +1823,13 @@
     main.querySelectorAll("[data-country]").forEach(b => b.onclick = () => { b.dataset.country === "__all" ? state.country.clear() : toggle(state.country, b.dataset.country); keepScroll(renderRole); });
     main.querySelectorAll("[data-company]").forEach(b => b.onclick = () => { toggle(state.company, b.dataset.company); state.companyQuery = ""; keepScroll(renderRole); });
     const rem = $("#remote"); if (rem) rem.onclick = () => { state.remote = !state.remote; keepScroll(renderRole); };
-    const clr = $("#clear-extra"); if (clr) clr.onclick = () => { state.sector.clear(); state.company.clear(); state.country.clear(); state.remote = false; state.companyQuery = ""; keepScroll(renderRole); };
+    const rst = $("#reset-filters"); if (rst) rst.onclick = () => { RoleFilters.reset(state, defaultLevel()); state.shown = PAGE; keepScroll(renderRole); };
     const cq = $("#company-q"); if (cq) cq.oninput = () => { state.companyQuery = cq.value; keepScroll(renderRole); const el = $("#company-q"); el.focus(); el.setSelectionRange(el.value.length, el.value.length); };
     main.querySelectorAll("[data-skill]").forEach(b => b.onclick = () => select({ kind: "skill", id: b.dataset.skill }));
     main.querySelectorAll("[data-job]").forEach(b => b.onclick = () => select({ kind: "posting", id: Number(b.dataset.job) }));
     const qi = $("#q"); if (qi) qi.oninput = () => { state.query = qi.value; state.shown = PAGE; const y = window.scrollY; renderRole(); window.scrollTo(0, y); $("#q").focus(); $("#q").setSelectionRange(qi.value.length, qi.value.length); };
     const more = $("#more"); if (more) more.onclick = () => { state.shown += 20; const y = window.scrollY; renderRole(); window.scrollTo(0, y); };
-    showRail(() => railHtml(R, state.group, fitFor(), stats, open));
+    showRail(() => railHtml(R, fitFor()));
     renderAside();
     if (state.resume && !fit) ensureFit();
   }
@@ -1800,13 +1980,14 @@
     const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label }, { level: LEVEL_OPT[level], ladder: R.role.ladder });
     const rows = r.rows, by = st => rows.filter(x => x.status === st).sort((a, b) => (a.tier === b.tier ? b.w - a.w : a.tier === "core" ? -1 : b.tier === "core" ? 1 : a.tier === "common" ? -1 : 1));
     // `through`: a behaviour shown through a carrier skill the resume evidences (PLAN.md v14, decision 1)
-    const evid = by("evidenced"), trans = by("transferable"), through = by("through"), thin = by("thin"), presumed = by("presumed"), gaps = by("gap").filter(x => x.tier !== "diff");
+    // `inferred`: a skill the model read found in a line that does not name it (web/infer.js); shown, part credit
+    const evid = by("evidenced"), trans = by("transferable"), through = by("through"), inferred = by("inferred"), thin = by("thin"), presumed = by("presumed"), gaps = by("gap").filter(x => x.tier !== "diff");
     const required = new Set(); for (const x of rows) { if (x.tier === "diff") continue; if (x.slot === "__ai") r.ai.forEach(k => required.add(k)); else if (x.slot !== "__domain") required.add(x.id); }
-    state.match = { roleId: role.id, matched: new Set([...evid, ...trans, ...through].map(x => x.id).filter(k => R.skillById[k])), required, presumed: new Set(presumed.map(x => x.id)), subs: r.subs };
+    state.match = { roleId: role.id, matched: new Set([...evid, ...trans, ...through, ...inferred].map(x => x.id).filter(k => R.skillById[k])), required, presumed: new Set(presumed.map(x => x.id)), subs: r.subs };
     const band = Matcher.bandOf(r.overall, bands, group), bandNext = Matcher.bandOf(r.whatIf, bands, group);
-    const core = rows.filter(x => x.tier === "core"), coreHave = core.filter(x => x.status === "evidenced" || x.status === "transferable" || x.status === "through");
+    const core = rows.filter(x => x.tier === "core"), coreHave = core.filter(x => x.status === "evidenced" || x.status === "transferable" || x.status === "through" || x.status === "inferred");
     const coreGaps = core.filter(x => x.status === "gap" || x.status === "thin").sort((a, b) => b.w - a.w);
-    return { key: fitKey(level), resume: state.resume.text, roleId: role.id, level, r, slice, bands, group, band, bandNext, evid, trans, through, thin, presumed, gaps, core, coreHave, coreGaps, extra, label };
+    return { key: fitKey(level), resume: state.resume.text, roleId: role.id, level, r, slice, bands, group, band, bandNext, evid, trans, through, inferred, thin, presumed, gaps, core, coreHave, coreGaps, extra, label };
   }
   // the gap rows of a fit as the class picker and the rail's "Classes that cover your gaps" read them: core and common
   // asks the resume does not show (status gap or thin), the industry and AI slots left out
@@ -1848,13 +2029,13 @@
   // ---------- the rail: the legend, the person and this role, what to do with it ----------
   // one legend everywhere, rows left out when they do not apply (owner's decision 2026-10-24)
   function legendHtml(rows) {
-    const L = CM.legend, mark = { share: '<i class="b"></i>', defining: "◆", grows: "↗", have: '<i class="b g"></i>', gap: '<i class="b a"></i>', presumed: "◌", known: "✓", other: "⟲", through: "⤷" };
+    const L = CM.legend, mark = { share: '<i class="b"></i>', defining: "◆", grows: "↗", have: '<i class="b g"></i>', gap: '<i class="b a"></i>', presumed: "◌", known: "✓", other: "⟲", through: "⤷", inferred: "◈" };
     return `<section class="rs"><h3 class="rh">${esc(L.heading)}</h3><div class="legend">${rows.map(k => `<span class="k">${mark[k]}</span><span>${esc(L[k])}</span>`).join("")}</div></section>`;
   }
   // The intake box (v19 B5; one box everywhere since v18 step 1: the rail's three placeholders, the fit screen's foot,
   // the launcher, the networking screen, the class picker's foot), its copy the pure table Intake beside Stage. The
-  // form is Tally's when CONFIG.TALLY.intake is set (web/doors.js mounts it in wireWait, the native form as the
-  // fallback), else the native one. Either way the box is the kind `intake_<surface>` (Intake.kindOf): the native
+  // form is Tally's when CONFIG.TALLY has the box's kind (its own line; a light and a dark copy, mountForm picks;
+  // web/doors.js mounts it in wireWait, the native form as the fallback), else the native one. Either way the box is the kind `intake_<surface>` (Intake.kindOf): the native
   // Notify me sends the email, the surface, the role on screen, the stage, the program group and the fields picked
   // through Doors.nativeSubmit with that source, and the event of the same name follows; Tally's form carries the
   // surface, the source, the role and the email as hidden fields, and the screen sends the event when Tally reports
@@ -1869,7 +2050,7 @@
   function applyBox(what, opts) {
     opts = opts || {};
     if (!opts.always && state.wait !== what) return "";
-    const done = intakeDone(what), tally = !done && !!(window.Doors && Doors.formIdFor(Intake.kindOf(what)));
+    const done = intakeDone(what), tally = !done && !!(window.Doors && Doors.formIdFor(Intake.kindOf(what), null, formTheme()));
     // with a Tally id the slot waits for wireWait; its line keeps the page still until the form draws
     const form = done ? `<p class="small" style="margin:6px 0 0"><b>${esc(Intake.done)}</b></p>`
       : tally ? `<div class="apply-slot" data-wait-slot="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}></div><p class="small muted apply-loading">${esc(CM.loadingForm)}</p>`
@@ -1896,14 +2077,13 @@
     el.querySelectorAll("[data-wait-slot]").forEach(slot => {
       const what = slot.dataset.waitSlot, roleId = slot.dataset.waitRole || null, kind = Intake.kindOf(what), ctx = intakeCtx(what, roleId);
       const dropLoading = () => { const p = slot.nextElementSibling; if (p && p.classList.contains("apply-loading")) p.remove(); };
-      const h = Doors.mount(slot, kind, {
+      mountForm(slot, kind, {
         hidden: { surface: ctx.surface, source: kind, role: ctx.role_id, email: doorKept().email },
         native: () => intakeForm(what, roleId),
         onLoaded: dropLoading,
         onFallback: () => { dropLoading(); wireForms(slot); },
         onSubmitted: () => { markDone(what); track(kind, ctx); redraw(); },
       });
-      mounts.add(Object.assign(h, { el: slot }));
     });
   }
   // the open postings of this view that ask for a skill, as links (decision 8 of the pass: shown to a person with a resume)
@@ -1911,38 +2091,38 @@
     const open = slice.filter(j => j.open && j.url && j.skills.includes(id)).slice(0, n || 3);
     return open.length ? `<span class="plinks">${esc(RL.rail.postingsAsking)} ${open.map(j => `<a href="${esc(j.url)}" target="_blank" rel="noopener" data-posting="${esc(R.role.id)}" title="${esc(j.title)}">${esc(j.company)} ↗</a>`).join(" · ")}</span>` : "";
   }
-  function railHtml(R, g, fit, stats, open) {
+  function railHtml(R, fit) {
     const role = R.role, y = state.you || {}, stage = y.stage;
     const painted = !!fit && state.match && state.match.roleId === role.id;
-    const legend = legendHtml(["share", ...(role.definingList.length ? ["defining"] : []), "grows", ...(state.known && state.known.size ? ["known"] : []), ...(painted ? ["have", "gap", ...(fit.presumed.length ? ["presumed"] : []), ...(fit.trans.length ? ["other"] : []), ...(fit.through && fit.through.length ? ["through"] : [])] : [])]);
+    const legend = legendHtml(["share", ...(role.definingList.length ? ["defining"] : []), "grows", ...(state.known && state.known.size ? ["known"] : []), ...(painted ? ["have", "gap", ...(fit.presumed.length ? ["presumed"] : []), ...(fit.trans.length ? ["other"] : []), ...(fit.through && fit.through.length ? ["through"] : []), ...(fit.inferred && fit.inferred.length ? ["inferred"] : [])] : [])]);
     const RR = RL.rail;
-    const acts = (extra = "") => `<section class="rs"><h3 class="rh">${esc(fit ? RR.then : RR.doSomething)}</h3><div class="acts">${extra}<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}">${esc(RR.practice)} <span>${esc(RR.twoMin)}</span></a><a href="#/role/${esc(role.id)}/course">${esc(RR.course)} <span>→</span></a><span class="act">${esc(fill(RR.event, { field: g.label.toLowerCase() }))} <span>${EVENTS.map(([k, t]) => `<a href="#/field/${esc(role.group)}/event?${k}">${esc(t.toLowerCase().replace(" or case competition", ""))}</a>`).join(" · ")}</span></span>${window.ClassScreens ? `<a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(fill(RR.classes, { term: (window.ClassScreens.termLabel && ClassScreens.termLabel()) || "Spring 2027" }))} <span>→</span></a>` : ""}</div></section>`;
-    const drop = `<div class="drop" id="drop"><p><b>${esc(RF.dropShort)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status"></p></div><textarea id="paste" rows="3" aria-label="${esc(RF.pasteAria)}" placeholder="${esc(RF.pasteShort)}"></textarea><p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">${esc(RF.readFit)}</button></p>`;
+    // the rail ends in one link into the class picker with this role chosen (classes.js reads ?role= and adds it to
+    // the roles on file); it replaced "Do something with this" and "Then" (practice, a course, events) on 2026-11-01
+    const cta = window.ClassScreens ? `<section class="rs"><div class="acts"><a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.findClasses)}</a></div></section>` : "";
+    const drop = `<div class="drop" id="drop"><p><b>${esc(RF.dropShort)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status"></p></div><p style="margin-top:8px"><button type="button" class="btn primary" id="rail-read">${esc(RF.readFit)}</button></p>`;
     if (!state.resume) {
-      if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">${esc(RR.howFit)}</h3><p>${esc(RR.dropLead)}</p>${drop}<p><a href="#/you">${esc(RR.orAnswer)}</a> ${esc(RR.orAnswerAfter)}</p></section>` + acts();
-      // answers, no resume: the rail speaks from them (the stage decides what comes first)
-      const nEntry = open.filter(j => Atlas.stepOf(j) === "entry"), nIntern = nEntry.filter(j => j.intern).length;
-      const countBy = jobs => { const c = {}; for (const j of jobs) c[j.company] = (c[j.company] || 0) + 1; return Object.entries(c).sort((a, b) => b[1] - a[1]).map(([c]) => c); };
-      const entryEmps = countBy(nEntry).slice(0, 4), topEmps = countBy(R.jobs.filter(j => j.open)).slice(0, 3).filter(c => !entryEmps.includes(c));
-      const picked = (y.fields || []).includes(role.group) ? esc(fill(RR.picked, { field: g.label })) + " " : "";
-      const facts = `${picked}${esc(RR.entry)} <b>${esc(nEntry.length === 1 ? RR.entryOpenOne : fill(RR.entryOpen, { n: fmt(nEntry.length) }))}</b>${nIntern ? esc(fill(RR.interns, { n: nIntern })) : ""}.${entryEmps.length ? " " + esc(fill(RR.entryEmployers, { names: join(entryEmps) })) : ""}${topEmps.length ? " " + esc(fill(RR.topEmployers, { names: join(topEmps) })) : ""}`;
-      const ask = esc(stage === "targeting" ? RR.askTargeting : RR.askLooking);
+      if (!y.where && !y.stage) return legend + `<section class="rs"><h3 class="rh">${esc(RR.howFit)}</h3><p>${esc(RR.dropLead)}</p>${drop}<p><a href="#/you">${esc(RR.orAnswer)}</a> ${esc(RR.orAnswerAfter)}</p></section>` + cta;
+      // answers, no resume: the answers as a strip, then the drop (the entry-grade facts and the "Add your resume"
+      // sentences went on 2026-11-01)
       const strip = `<div class="strip"><span class="dotg"></span><span>${[y.where ? esc(WHERE_SHORT[y.where]) : null, stage ? esc(STAGE_SHORT[stage]) : null, (y.fields || []).length ? `<b>${esc(join((y.fields || []).map(id => ((state.ixGroups || []).find(x => x.id === id) || { label: id }).label)))}</b>` : null].filter(Boolean).join(" · ")}</span><a href="#/you">${esc(CM.edit)}</a></div>`;
-      const blocks = { facts: `<p>${facts}</p>`, ask: `<p>${ask}</p>`, drop, "gaps-drop": drop };
+      const blocks = { drop };
       const body = Stage.railBlocks(stage, false).filter(k => blocks[k]).map(k => blocks[k]).join("");
-      return legend + `<section class="rs"><h3 class="rh">${esc(RR.forYou)}</h3>${strip}${body}</section>` + acts();
+      return legend + `<section class="rs"><h3 class="rh">${esc(RR.forYou)}</h3>${strip}${body}</section>` + cta;
     }
-    if (!fit) return legend + `<section class="rs"><h3 class="rh">${esc(fill(RR.yourFit, { name: state.resume.name }))}</h3><p class="small muted">${esc(RR.reading)}</p></section>` + acts();
+    if (!fit) return legend + `<section class="rs"><h3 class="rh">${esc(fill(RR.yourFit, { name: state.resume.name }))}</h3><p class="small muted">${esc(RR.reading)}</p></section>` + cta;
     // the resume is read: the band, one sentence, every gap among the skills most postings ask for
     const { band, bandNext, core, coreHave, coreGaps, bands, group } = fit;
     const scale = band ? `<div class="band">${BANDS.map(([k], i) => `<i class="${k === band ? "on" : i < BANDS.findIndex(b => b[0] === band) ? "past" : ""}"></i>`).join("")}</div><div class="bandl">${BANDS.map(([k, l]) => `<span class="${k === band ? "on" : ""}">${l}</span>`).join("")}</div>` : `<p class="small muted">${esc((bands.no_bands || {})[group] ? RR.smallSample : RR.noBands)}</p>`;
     const P = postingFor(role.id), pAsks = P ? new Set([...P.found].filter(k => R.skillById[k] && R.skillById[k].cluster !== "credentials")) : null, pSum = pAsks ? postingSummary(pAsks, fit) : null;
     const postingLine = pSum ? `<p class="lead-rail posting"><b class="g">${pSum.n}</b> ${esc(fill(RR.postingLine, { m: pSum.m }))} <a href="#/role/${esc(role.id)}/fit">${esc(RR.thisPosting)}</a> ${esc(RR.postingLineAfter)}</p>` : "";
     const line = (core.length ? `<p class="lead-rail">${esc(RR.youShow)} <b class="g">${coreHave.length}</b> ${esc(fill(RR.ofMost, { m: core.length }))}${coreGaps.length ? `; <b class="a">${coreGaps.length}</b> ${esc(coreGaps.length === 1 ? RR.isGap : RR.areGaps)}` : ""}.</p>` : `<p class="small muted">${esc(RR.fewMatch)}</p>`);
+    // the model read's part of that count (web/infer.js), marked as the legend marks it; the lines are on the fit screen
+    const coreInf = coreHave.filter(x => x.status === "inferred").length;
+    const infLine = coreInf ? `<p class="small muted">◈ ${esc(fill(RR.inferredLine, { n: coreInf }))} <a href="#/role/${esc(role.id)}/fit">${esc(RR.inferredSee)}</a></p>` : "";
     const slotWhy = x => x.slot === "__domain" ? esc(fill(RR.industry, { names: fit.r.industries.slice(0, 3).map(d => d.name).join(", ") })) : x.slot === "__ai" ? esc(fill(RR.ai, { names: fit.r.ai.map(k => R.skillById[k] ? R.skillById[k].name : k).join(", ") })) : "";
     const gc = gapClassesFor(fit, R, () => showAside(null));
     const classLinks = id => { const cs = gc && gc.byGap && gc.byGap[id]; return cs && cs.length ? `<span class="plinks">${esc(RR.classesCover)} ${cs.slice(0, 3).map(c => `<a href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.code)}">${esc(c.code)}</a>`).join(" · ")}</span><br>` : ""; };
-    const gapRow = x => { const openRow = state.gapOpen === x.slot; const gt = gapText(R, x, fit); const ex = slotWhy(x) || (gt ? `${esc(gt.gap)}${x.kind !== "behaviour" ? ` ${esc(RR.lineShows)} <em>“${esc(gt.line.text)}”</em>` : ""}` : (x.build && x.build[0] ? stepHtml(x.build[0]) : esc(RR.openSkillHow))); return `<li class="${openRow ? "open" : ""}"><button type="button" class="t" data-gap="${esc(x.slot)}"><span>${esc(x.slotName)}</span><span class="n">${pct(x.w)}</span></button>${openRow ? `<div class="ex">${ex}${R.skillById[x.id] ? `<br>${classLinks(x.id)}${postingLinks(R, fit.slice, x.id, 3)}` : ""}<br><button type="button" class="linkish link" data-wait="show">${esc(RR.helpShow)}</button>${R.skillById[x.id] ? ` · <button type="button" class="linkish link" data-skill="${esc(x.id)}">${esc(RR.openSkill)}</button>` : ""}</div>` : ""}</li>`; };
+    const gapRow = x => { const openRow = state.gapOpen === x.slot; const gt = gapText(R, x, fit); const ex = slotWhy(x) || (gt ? `${esc(gt.gap)}${x.kind !== "behaviour" ? ` ${esc(RR.lineShows)} <em>“${esc(gt.line.text)}”</em>` : ""}` : (x.build && x.build[0] ? stepHtml(x.build[0]) : esc(RR.openSkillHow))); return `<li class="${openRow ? "open" : ""}"><button type="button" class="t" data-gap="${esc(x.slot)}"><span>${esc(x.slotName)}</span><span class="n">${pct(x.w)}</span></button>${openRow ? `<div class="ex">${ex}${R.skillById[x.id] ? `<br>${classLinks(x.id)}${postingLinks(R, fit.slice, x.id, 3)}` : ""}<br><button type="button" class="linkish link" data-wait="show">${esc(RR.helpBuild)}</button> · <button type="button" class="linkish link" data-wait="positioning">${esc(RR.helpPosition)}</button>${R.skillById[x.id] ? ` · <button type="button" class="linkish link" data-skill="${esc(x.id)}">${esc(RR.openSkill)}</button>` : ""}</div>` : ""}</li>`; };
     // the classes that cover the most core gaps (step 3 of the pass): three links into the picker with the course open;
     // when the roster cannot be read here, one line from the campus file and the picker's link
     const termName = (window.ClassScreens && ClassScreens.termLabel()) || "Spring 2027";
@@ -1951,10 +2131,10 @@
       : gc.closed ? `${classesHead}<p class="small muted">${esc(gc.closed)} <a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(fill(RR.termClasses, { term: termName }))}</a></p>`
       : gc.top && gc.top.length ? `${classesHead}<ul class="gaps classes">${gc.top.map(c => `<li><a class="t" href="#/classes?role=${encodeURIComponent(role.id)}&open=${encodeURIComponent(c.codes[0])}"><span>${esc(c.codes[0])} · ${esc(c.title)}</span><span class="n">${c.covered.length}</span></a><div class="ex">${esc(fill(RR.covers, { names: c.covered.map(g => g.name).join(", ") }))}</div></li>`).join("")}</ul><p class="small muted" style="margin-top:6px"><a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(fill(RR.allClasses, { term: termName }))}</a></p>`
       : gc.failed ? "" : `${classesHead}<p class="small muted">${esc(fill(RR.noClass, { term: termName }))} <a href="#/classes?role=${encodeURIComponent(role.id)}">${esc(RR.seeRoster)}</a></p>`;
-    const gapsHtml = coreGaps.length ? `<h3 class="rh" style="margin-top:14px">${esc(RR.needsEvidence)}</h3><ul class="gaps">${coreGaps.map(gapRow).join("")}</ul>${waitHtml("show")}${bandNext && bandNext !== band ? `<p class="small muted" style="margin-top:8px">${esc(fill(coreGaps.length === 1 ? RR.evidenceOne : RR.evidenceThree, { band: bandName(bandNext) }))}</p>` : ""}${classesBlock}` : `<p class="small muted" style="margin-top:10px">${esc(RR.nothingMissing)}</p>`;
-    const n = fit.evid.length + fit.trans.length;
-    const you = `<section class="rs"><h3 class="rh">${esc(fill(RR.yourFit, { name: state.resume.name }))} · <a href="#/you?step=3">${esc(CM.change)}</a></h3>${scale}${postingLine}${line}${gapsHtml}<p style="margin-top:12px"><a href="#/role/${esc(role.id)}/fit">${esc(n === 1 ? RR.seeAllOne : fill(RR.seeAll, { n }))}</a></p></section>`;
-    return legend + you + acts(`${coreGaps.length ? `<a href="#/play/${PRACTISE}?role=${encodeURIComponent(role.id)}&skills=${encodeURIComponent(coreGaps.slice(0, 8).map(x => x.id).filter(k => R.skillById[k]).join(","))}">${esc(RR.practiceGaps)} <span>${esc(RR.twoMin)}</span></a>` : ""}<a href="#/" data-wait="build">${esc(RR.build)} <span>${esc(RR.comingSoon)}</span></a><a href="#/" data-wait="ways">${esc(RR.ways)} <span>${esc(RR.comingSoon)}</span></a>${waitHtml("build")}${waitHtml("ways")}`);
+    const gapsHtml = coreGaps.length ? `<h3 class="rh" style="margin-top:14px">${esc(RR.needsEvidence)}</h3><ul class="gaps">${coreGaps.map(gapRow).join("")}</ul>${waitHtml("show")}${waitHtml("positioning")}${bandNext && bandNext !== band ? `<p class="small muted" style="margin-top:8px">${esc(fill(coreGaps.length === 1 ? RR.evidenceOne : RR.evidenceThree, { band: bandName(bandNext) }))}</p>` : ""}${classesBlock}` : `<p class="small muted" style="margin-top:10px">${esc(RR.nothingMissing)}</p>`;
+    const n = fit.evid.length + fit.trans.length + (fit.inferred || []).length;
+    const you = `<section class="rs"><h3 class="rh">${esc(fill(RR.yourFit, { name: state.resume.name }))} · <a href="#/you?step=3">${esc(CM.change)}</a></h3>${scale}${postingLine}${line}${infLine}${gapsHtml}<p style="margin-top:12px"><a href="#/role/${esc(role.id)}/fit">${esc(n === 1 ? RR.seeAllOne : fill(RR.seeAll, { n }))}</a></p></section>`;
+    return legend + you + cta;
   }
   function wireRail() {
     if ($("#drop")) { wireResumeForm(); const b = $("#rail-read"); if (b) b.onclick = async () => { if (await takeResume()) { state.fit = null; keepScroll(renderRole); } else $("#file-status").textContent = RF.nothing; }; }
@@ -1987,7 +2167,7 @@
     // a pasted posting on file for this role (PLAN.md v16, step 9): the skills it names come first, marked; the band
     // stays the role's (one document, a band calibrated on the role)
     const P = postingFor(role.id), asks = P ? new Set([...P.found].filter(k => R.skillById[k] && R.skillById[k].cluster !== "credentials")) : null;
-    const { r, band, evid, trans, thin, presumed, gaps, core, extra } = f, through = f.through || [], coreHave = f.coreHave.length;
+    const { r, band, evid, trans, thin, presumed, gaps, core, extra } = f, through = f.through || [], inferred = f.inferred || [], coreHave = f.coreHave.length;
     const field = g.label.toLowerCase();
     const p = r.profile;
     const gcF = gapClassesFor(f, R, () => { if (location.hash.endsWith("/fit")) keepScroll(() => fitScreen(id)); });
@@ -2003,17 +2183,22 @@
     const creds = r.creds.filter(c => !c.id.startsWith("yoe_"));
     if (yoeAsk) creds.unshift({ name: fill(FT.yearsAsked, { years: yoeAsk.name.replace(" experience", ""), you: fmtYears(p.years) }), w: yoeAsk.w, have: yoeAsk.have });
     const credLine = creds.length ? `<p class="small">${creds.map(c => `<span class="${c.have ? "" : "muted"}" style="${c.have ? "color:var(--primary)" : ""}">${c.have ? "✓" : "○"} ${esc(c.name)}</span>`).join(" · ")}</p>` : "";
-    const indLine = r.industries.length ? `<p class="small muted">${esc(FT.industriesHiring)} ${r.industries.slice(0, 8).map(d => `<span style="${d.have ? "color:var(--primary)" : ""}">${d.have ? "✓ " : ""}${esc(d.name)} ${pct(d.w)}</span>`).join(" · ")}. ${esc(FT.oneEnough)}</p>` : "";
+    const indLine = r.industries.length ? `<p class="small muted">${esc(FT.industriesHiring)} ${r.industries.slice(0, 8).map(d => `<span style="${d.have ? "color:var(--primary)" : ""}">${d.have ? (d.inferred ? "◈ " : "✓ ") : ""}${esc(d.name)} ${pct(d.w)}</span>`).join(" · ")}. ${esc(FT.oneEnough)}</p>` : "";
     const sayIt = trans.length ? disc("sayit", esc(fill(FT.sayIt, { field, n: trans.length })), `<ul class="plain">${trans.slice(0, 5).map(x => { const gt = gapText(R, x, f); return `<li><b>${esc(x.slotName)}</b>${x.lines[0] ? `<br>“${esc(x.lines[0].text.slice(0, 160))}”` : ""}${gt && gt.reads ? `<br>${esc(fill(FT.inFieldMeans, { field }))} ${esc(gt.reads)}` : ""}${gt ? `<br>${esc(FT.postingsSayLike)} <b>${esc(gt.line.text)}</b>` : ""}</li>`; }).join("")}</ul>`) : "";
     const thinNamed = evid.filter(x => !x.depth);
     const thinDisc = thinNamed.length ? disc("thin", esc(fill(FT.thin, { n: thinNamed.length })), `<p class="small muted">${esc(FT.thinLead)}</p><ul class="plain">${thinNamed.slice(0, 5).map(x => { const gt = gapText(R, x, f); return `<li>${esc(x.name)}${gt ? ` — ${esc(gt.thin)}` : ""}${(R.subs[x.id] || []).filter(s => !r.subs.has(s.id)).length ? ` ${esc(FT.mention)} ${(R.subs[x.id] || []).filter(s => !r.subs.has(s.id)).slice(0, 3).map(s => esc(s.name)).join(" · ")}` : ""}</li>`; }).join("")}</ul>`) : "";
+    // the model read's skills, each with the line that suggested it and why (the legend's promise: the line is below);
+    // an industry it inferred is listed too, as the industry slot reads it
+    const infInd = r.industries.filter(d => d.inferred);
+    const infItems = [...inferred.map(x => ({ name: x.slotName === x.name ? x.name : `${x.slotName}: ${x.name}`, ...(x.inferred || {}) })), ...infInd.filter(d => !inferred.some(x => x.id === d.id)).map(d => ({ name: `${FT.inferredIndustry}: ${d.name}`, ...d.inferred }))];
+    const infDisc = infItems.length ? disc("inferred", esc(fill(FT.inferred, { n: infItems.length })), `<p class="small muted">${esc(FT.inferredLead)}</p><ul class="plain">${infItems.map(x => `<li><span class="mark">◈</span> <b>${esc(x.name)}</b>${x.line ? `<br>“${esc(x.line.slice(0, 200))}”` : ""}${x.why ? `<br><span class="muted">${esc(x.why)}</span>` : ""}</li>`).join("")}</ul>`) : "";
     const unmapped = r.unmapped.length ? disc("unmapped", esc(fill(FT.unmapped, { n: r.unmapped.length })), `<ul class="plain">${r.unmapped.map(t => `<li class="muted">${esc(t)}</li>`).join("")}</ul>`) : "";
     // two ranked columns (owner's choice F2): what you show and what is still to show, five each at rest, ranked by
     // how many postings ask, the bar for weight; a mark says "said in other words" or "presumed from a role you held"
     const fitRow = x => {
-      const k = x.status === "evidenced" ? "have" : x.status === "transferable" ? "have" : x.status === "through" ? "have" : x.status === "presumed" ? "thin" : x.status === "thin" ? "thin" : "gap";
-      const measure = x.status === "through" ? fill(FT.marks.through, { name: x.throughName || "that skill" }) : x.status === "transferable" ? FT.marks.transferable : x.status === "presumed" ? FT.marks.presumed : x.status === "thin" ? FT.marks.thin : null;
-      const mark = measure ? `<span class="mark" data-measure="${esc(measure)}">${{ through: "⤷", transferable: "⟲", presumed: "◌", thin: "○" }[x.status]}</span>` : "";
+      const k = x.status === "evidenced" ? "have" : x.status === "transferable" ? "have" : x.status === "through" ? "have" : x.status === "inferred" ? "have" : x.status === "presumed" ? "thin" : x.status === "thin" ? "thin" : "gap";
+      const measure = x.status === "through" ? fill(FT.marks.through, { name: x.throughName || "that skill" }) : x.status === "transferable" ? FT.marks.transferable : x.status === "inferred" ? fill(FT.marks.inferred, { line: ((x.inferred || {}).line || "").slice(0, 160) }) : x.status === "presumed" ? FT.marks.presumed : x.status === "thin" ? FT.marks.thin : null;
+      const mark = measure ? `<span class="mark" data-measure="${esc(measure)}">${{ through: "⤷", transferable: "⟲", inferred: "◈", presumed: "◌", thin: "○" }[x.status]}</span>` : "";
       const pmark = asks && asks.has(x.id) ? `<span class="ptag" data-measure="${esc(fill(FT.postingAsks, { name: x.slotName }))}">${esc(FT.postingTag)}</span>` : "";
       const inner = `<span class="nm">${esc(x.slotName)}${mark}${pmark}</span><span class="bar" data-measure="${esc(fill(FT.barMeasure, { share: pct(x.w), name: x.slotName, most: x.tier === "core" ? FT.mostOfThem : "" }))}"><i style="width:${Math.round(x.w * 100)}%"></i></span>`;
       const cs = k === "gap" && gcF && gcF.byGap && gcF.byGap[x.id];
@@ -2023,10 +2208,10 @@
     };
     const col = (key, title, items, empty, foot) => { const more = state.fitMore.has(key), shown = more ? items : items.slice(0, 5); return `<div><h3>${esc(title)} <span class="n">${items.length}</span></h3>${items.length ? `<div class="srows">${shown.map(fitRow).join("")}</div>${items.length > 5 ? `<button type="button" class="linkish link more" data-fitmore="${key}">${esc(more ? FT.showFewer : fill(FT.more, { n: items.length - 5 }))}</button>` : ""}` : `<p class="small muted">${esc(empty)}</p>`}${foot || ""}</div>`; };
     const byPosting = (a, b) => (asks ? (asks.has(b.id) - asks.has(a.id)) : 0) || b.w - a.w;
-    const showItems = [...evid, ...trans, ...through].sort(byPosting).concat(presumed), stillItems = [...gaps, ...thin].map(x => x).sort(byPosting);
+    const showItems = [...evid, ...trans, ...through, ...inferred].sort(byPosting).concat(presumed), stillItems = [...gaps, ...thin].map(x => x).sort(byPosting);
     const sayLink = trans.length ? `<p class="small" style="margin-top:8px"><button type="button" class="linkish link" id="say-it">${esc(fill(FT.sayItButton, { field }))}</button></p>` : "";
     const showTab = `<div class="fitcols">${col("show", FT.already, showItems, FT.nothingYet, sayLink)}${col("gaps", FT.needsEvidence, stillItems, FT.nothingAmong)}</div>`;
-    const detailTab = `${sayIt}${thinDisc}<h3>${esc(FT.credentials)}</h3>${credLine + indLine || `<p class="small muted">${esc(FT.noneAsked)}</p>`}${unmapped}`;
+    const detailTab = `${infDisc}${sayIt}${thinDisc}<h3>${esc(FT.credentials)}</h3>${credLine + indLine || `<p class="small muted">${esc(FT.noneAsked)}</p>`}${unmapped}`;
     const FTABS = [["show", FT.tabs.show, null], ["details", FT.tabs.details, null]];
     const fitTabs = `<div class="tabs" role="tablist">${FTABS.map(([k, l, n]) => `<button type="button" role="tab" class="${state.fitTab === k ? "on" : ""}" aria-selected="${state.fitTab === k}" data-ftab="${k}">${esc(l)}${n != null ? `<span class="n">${fmt(n)}</span>` : ""}</button>`).join("")}</div>`;
     const fitBody = state.fitTab === "details" ? detailTab : showTab;
@@ -2116,7 +2301,7 @@
     $("#go").onclick = async () => {
       const pasted = ($("#paste") || {}).value || "";
       const r = pasted.trim().length >= 20 ? { text: pasted, name: RF.pastedName } : pending ? pending : null;
-      if (!r) { $("#file-status").textContent = RF.nothing; return; }
+      if (!r) { $("#file-status").textContent = RF.nothingText; return; }
       pending = null; await onText(r);
     };
   }
@@ -2186,12 +2371,12 @@
   // employers by where they come from: the Fortune 500 list, venture-backed startups, and the employers added for the MBA set
   const origins = cs => { const n = { fortune: 0, startup: 0, mba: 0 }; for (const c of cs) n[c.group === "startup" ? "startup" : c.group === "mba_employer" ? "mba" : "fortune"]++; return n; };
   // About (v19 B5): what the site is (the four verbs), what it counts (from the data), how it reads a posting, and
-  // privacy (the funnel events, the list kept true to web/capture.js EVENTS; the email; nothing uploaded leaves)
+  // privacy (the funnel events, the list kept true to web/capture.js EVENTS; the email; the resume text once to the model read, web/infer.js)
   async function about() {
-    const [ix, jm] = await Promise.all([Atlas.index(), jobsMeta()]);
+    const [ix, counts] = await Promise.all([Atlas.index(), openCounts()]);
     const AB = Copy.about;
     crumbs([[AB.crumb, null]]); showAside(null);
-    const M = ix.M, o = origins(M.meta.companies), n = homeCounts(ix, jm);
+    const M = ix.M, o = origins(M.meta.companies), n = homeCounts(ix, counts);   // the same open count as home and Find jobs
     const top = (cs, k) => cs.slice().sort((a, b) => b.n - a.n).slice(0, k).map(c => `${esc(c.name)} <span class="muted">${fmt(c.n)}</span>`).join(" · ");
     const fact = (v, l) => `<div class="fact"><b>${v}</b><span>${esc(l)}</span></div>`;
     let nClasses = null, productPart = `<p class="small muted">${esc(AB.productLoading)}</p>`;
@@ -2222,8 +2407,8 @@
     if (window.Catalog) Catalog.loadCatalog().then(d => { nClasses = d.classes.length; if (location.hash.startsWith("#/about")) render(); }).catch(() => { });
   }
 
-  // the footer line: how many postings, and when they were last refreshed
-  Atlas.index().then(ix => { const f = document.getElementById("foot-note"); if (f) f.textContent = fill(CM.foot, { n: fmt(ix.M.meta.n_open), date: niceDate(ix.M.meta.generated) }); }).catch(console.error);
+  // the footer is the "About the data" link alone (owner's feedback 2026-11-01): the count and the refresh date it
+  // carried live on #/about, from the same number as home and Find jobs
 
   route();
 })();
