@@ -1604,13 +1604,20 @@ matcher the screens get, so the fit, the rail, the launcher, Find jobs, the clas
 without threading it through. The eval, `evals/infer.mjs`, runs the read over the sample résumés with saved answers
 under `data/experiments/infer/` (`--reuse` needs no key or network; `--url` goes through a deployed route, since the
 key lives only on Vercel) and writes `evals/infer_baseline.md`; `evals/run.mjs --baseline` is unchanged with no list.
-Cost is about $0.002 per résumé cold and $0.001 warm. The first live baseline ran through the pull request's preview
-deploy on 2026-11-01 (`--url` with `INFER_COOKIE` from the deploy's share link, since previews sit behind Vercel
-Authentication): 20 skills inferred over the eight sample résumés, each with its line; no must_evidence lost, none
-gained (the patterns already find what the expectation files ask), and two `real_gaps` now covered at part credit,
-for the owner to judge: `prioritization` for the new grad student ("scope the MVP" with two engineers) and
-`stakeholder_mgmt` for the PhD pivoter ("coordinated timelines with clinicians and IRB"). The expectation files stay
-as they are until he says so. Left open: a rate-limit rule on `/api/infer` and a spend cap on the key.
+Cost is about $0.002 per résumé cold and $0.001 warm. The read is tested on the whole résumé set, never the eight
+samples alone (CLAUDE.md): `evals/infer.mjs` reads the eight and then every published external sample
+(`evals/resumes/external/`, the calibration's set, pulled from the `atlas-store` bucket), scores each against its own
+role and writes an aggregate. The first full-set runs went through the pull request's preview deploys on 2026-11-01
+(`--url` with `INFER_COOKIE` from the deploy's share link, since previews sit behind Vercel Authentication), on the
+40 of 495 files this machine held. The first run showed the model writing items and taking them back in the reason
+("Not a real signal; omitted", "this item should be dropped"); the route now requires a `sure` flag on every item and
+drops a hedged reason or a one-word line, and a stricter prompt then dropped the employer-to-industry reads the owner
+asked for first, so the prompt names those as sure by rule and the call runs at effort medium. The run that stands:
+48 résumés read (the eight plus 40 published, 24 of them packet parts without a role or not a single résumé), 14
+inferred on the eight (FinServ Startup → fintech, Stripe → fintech and enterprise SaaS, 5M users → consumer), none of
+the eight's expectations lost or gained, 3.5 inferred per published résumé on average, four band moves up and none
+down, zero credentials, behaviours, unknown ids or unquoted lines. Left open: the same run on all 495 files once the
+store is pulled on a machine with the key; a rate-limit rule on `/api/infer` and a spend cap on the key.
 
 **The door and the forms.** The door's words are the owner's, verbatim, held past the 20-word rule by an exception
 in `evals/copy_lib.mjs` that lasts only while the string is his. Ten Tally forms (`web/config.js` lists them): the door
