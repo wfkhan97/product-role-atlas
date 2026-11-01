@@ -1612,12 +1612,16 @@ role and writes an aggregate. The first full-set runs went through the pull requ
 40 of 495 files this machine held. The first run showed the model writing items and taking them back in the reason
 ("Not a real signal; omitted", "this item should be dropped"); the route now requires a `sure` flag on every item and
 drops a hedged reason or a one-word line, and a stricter prompt then dropped the employer-to-industry reads the owner
-asked for first, so the prompt names those as sure by rule and the call runs at effort medium. The run that stands:
-48 résumés read (the eight plus 40 published, 24 of them packet parts without a role or not a single résumé), 14
-inferred on the eight (FinServ Startup → fintech, Stripe → fintech and enterprise SaaS, 5M users → consumer), none of
-the eight's expectations lost or gained, 3.5 inferred per published résumé on average, four band moves up and none
-down, zero credentials, behaviours, unknown ids or unquoted lines. Left open: the same run on all 495 files once the
-store is pulled on a machine with the key; a rate-limit rule on `/api/infer` and a spend cap on the key.
+asked for first, so the prompt names those as sure by rule and the call runs at effort medium. The run that stands, once the store was pulled (301 of the 495 sources were ever fetched; the rest never
+were): 304 résumés read (the eight plus 296 published, 29 files skipped as packet parts without a role or not a
+single résumé), 14 inferred on the eight (FinServ Startup → fintech, Stripe → fintech and enterprise SaaS, 5M users →
+consumer), none of the eight's expectations lost or gained, 3.4 inferred per published résumé on average (the most:
+enterprise SaaS 30, process improvement 27, consumer 24, healthcare 23, fintech 22: the employer-to-industry reads
+the owner asked for), 32 band moves up and none down (each résumé scored against the role it was written for, so up
+is the right direction; the largest, investment manager 48% → 75%, are the regex under-reading a résumé of the role),
+zero credentials, behaviours, unknown ids or unquoted lines, about $0.36 for the set. The run went five résumés at a
+time through the preview route (the eval is sequential; a driver script called it per file with `--only <file>`).
+Left open: a rate-limit rule on `/api/infer` and a spend cap on the key.
 
 **The door and the forms.** The door's words are the owner's, verbatim, held past the 20-word rule by an exception
 in `evals/copy_lib.mjs` that lasts only while the string is his. Ten Tally forms (`web/config.js` lists them): the door
