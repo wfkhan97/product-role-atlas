@@ -1,8 +1,9 @@
 /* Networking: the pure parts of "Who to meet" (owner's pick N6, 2026-10-31). The people a grad student meets for one
    role, and what the site builds for each from the data it has: the role's asks, the fit's gaps and shown skills, the
    postings' titles and levels, the employers hiring the role, and the campus roster when the door's email opens it.
-   The site names no person outside that roster. Every "where" is a search the person runs, built from data, with a
-   line that says what it opens. No talking point names a school but the alum's ask ("your school").
+   The site names no person outside that roster. Every "where" is a search the person runs, built from data, and its
+   label says what it searches (no line on what a link opens: owner's feedback 2026-11-01). No talking point names a
+   school but the alum's ask ("your school").
    The prep card's "Suggested approach" (owner's feedback, 2026-11-01) is what say() builds: what to lead with (the
    skills the résumé shows that most of the role's postings ask for), the ask with its minutes, and three questions
    specific to this person, this role and this company. A question never names a behaviour (collaboration,
@@ -144,49 +145,48 @@
 
   // ---------- who to look for ----------
   // { lead, levels: [{ level, label, n, titles: [{ title, company }] }], employers: the five with the most open
-  // postings of the role, profs (faculty only: the most gaps covered first, then by name) }
+  // postings of the role, profs (faculty only: the most gaps covered first, then by name) }. The list has no lead
+  // (owner's feedback 2026-11-01); `lead` is the one line that stands in for the hiring manager's titles when no senior
+  // posting is open, else ""
   function who(type, C) {
     const v = { role: C.role.label }, top = C.employers.slice(0, 5);
     const rows = levels => levels.map(l => ({ level: l.level, label: l.label, n: l.n, titles: l.titles.slice(0, 3) }));
-    if (type === "hm") return { lead: C.senior.length ? fill(WHO.hm, v) : fill(WHO.hmNone, { ...v, next: nextLevel(C) }), levels: rows(C.senior), employers: top };
-    if (type === "inrole") return { lead: fill(WHO.inrole, v), levels: rows(C.junior), employers: top };
-    if (type === "recruiter") return { lead: fill(WHO.recruiter, v), levels: [], employers: top };
-    if (type === "alum") return { lead: fill(WHO.alum, v), levels: rows(C.levels), employers: top };
-    if (type === "faculty") return { lead: C.profs.length ? fill(C.read ? WHO.faculty : WHO.facultyNoResume, v) : WHO.facultyWait, levels: [], employers: [], profs: C.profs.map(p => ({ slug: p.slug, name: p.name, line: profLine(p), codes: p.codes, covers: p.covers, nGaps: C.fit.gaps.length, asks: p.asks, nAsks: C.asks.length, read: C.read })) };
+    if (type === "hm") return { lead: C.senior.length ? "" : fill(WHO.hmNone, { ...v, next: nextLevel(C) }), levels: rows(C.senior), employers: top };
+    if (type === "inrole") return { lead: "", levels: rows(C.junior), employers: top };
+    if (type === "recruiter") return { lead: "", levels: [], employers: top };
+    if (type === "alum") return { lead: "", levels: rows(C.levels), employers: top };
+    if (type === "faculty") return { lead: "", levels: [], employers: [], profs: C.profs.map(p => ({ slug: p.slug, name: p.name, line: profLine(p), codes: p.codes, covers: p.covers, nGaps: C.fit.gaps.length, asks: p.asks, nAsks: C.asks.length, read: C.read })) };
     return { lead: "", levels: [], employers: [] };
   }
   // Find jobs with the role and its field already set ("See more companies"), in the order jobs.js stateQuery writes
   // them so the jobs screen keeps the link as it is
   const jobsHref = C => "#/jobs?" + new URLSearchParams(C.role.group ? { field: C.role.group, role: C.role.id } : { role: C.role.id });
 
-  // ---------- where to find them: searches built from data, each with what it opens ----------
+  // ---------- where to find them: searches built from data, the label alone (no line on what a link opens) ----------
   const liPeople = q => `https://www.linkedin.com/search/results/people/?keywords=${enc(q)}`;
   // the alum search: the same people search filtered to the Cornell schools (the owner's tested URL, 2026-11-01)
   const liAlumni = q => `${liPeople(q)}&origin=FACETED_SEARCH&schoolFilter=${enc(JSON.stringify(CORNELL_SCHOOLS))}`;
   // the level words of the two nearest senior levels with open postings, as LinkedIn keywords ("Lead" OR "principal")
   const levelWords = C => [...new Set(C.senior.slice(0, 2).flatMap(l => l.label.split(" / ")))].slice(0, 4);
   const seniorQuery = (C, company) => { const w = levelWords(C); return `${company} ${w.length ? "(" + w.map(x => `"${x}"`).join(" OR ") + ") " : ""}"${C.role.label}"`; };
-  const out = (label, href, what, external) => ({ label, href, what, external: external !== false });
-  const profHref = (H, p) => typeof H.professor === "function" ? H.professor(p) : `${H.professor || "#/professor/"}${enc(p.slug)}`;
-  // H: { professor } the screen's own link; target: { company } narrows the employer types to that company, a
-  // professor row narrows faculty to that professor; with none, the three employers with the most open postings
-  function where(type, C, H, target) {
-    H = H || {};
+  const out = (label, href) => ({ label, href });
+  // target: { company } narrows the employer types to that company; with none, the three employers with the most open
+  // postings. Faculty have no "where" (owner's feedback 2026-11-01): the professor card is the link, on the name.
+  function where(type, C, target) {
     const R = C.role.label, one = !!(target && target.company), cos = one ? [target.company] : C.employers.slice(0, 3).map(e => e.company);
     const rows = [];
-    const v = c => ({ role: R, company: c, linkedin: COPY.linkedin });
-    if (type === "hm") cos.forEach(c => rows.push(out(fill(WHERE.leads, v(c)), liPeople(seniorQuery(C, c)), fill(WHERE.hm, v(c)))));
-    if (type === "inrole") cos.forEach(c => rows.push(out(`${c} · ${R}`, liPeople(`${c} "${R}"`), fill(WHERE.inrole, v(c)))));
+    const v = c => ({ role: R, company: c });
+    if (type === "hm") cos.forEach(c => rows.push(out(fill(WHERE.leads, v(c)), liPeople(seniorQuery(C, c)))));
+    if (type === "inrole") cos.forEach(c => rows.push(out(`${c} · ${R}`, liPeople(`${c} "${R}"`))));
     if (type === "recruiter") {
-      cos.forEach(c => rows.push(out(fill(WHERE.recruiters, v(c)), liPeople(`${c} recruiter "${C.field ? C.field.label.split(" & ")[0] : R}"`), fill(WHERE.recruiter, v(c)))));
-      C.postings.filter(p => p.url && (!one || p.company === target.company)).slice(0, 3).forEach(p => rows.push(out(`${p.company} · ${p.title}`, p.url, WHERE.posting)));
-      rows.push(out(WHERE.handshake, "https://app.joinhandshake.com/", WHERE.handshakeLine));
+      cos.forEach(c => rows.push(out(fill(WHERE.recruiters, v(c)), liPeople(`${c} recruiter "${C.field ? C.field.label.split(" & ")[0] : R}"`))));
+      C.postings.filter(p => p.url && (!one || p.company === target.company)).slice(0, 3).forEach(p => rows.push(out(`${p.company} · ${p.title}`, p.url)));
+      rows.push(out(WHERE.handshake, "https://app.joinhandshake.com/"));
     }
     if (type === "alum") {
-      rows.push(out(fill(WHERE.alumni, v("")), liAlumni(`"${R}"`), fill(WHERE.alum, v(""))));
-      cos.slice(0, one ? 1 : 2).forEach(c => rows.push(out(fill(WHERE.alumniAt, v(c)), liAlumni(`${c} "${R}"`), fill(WHERE.alumAt, v(c)))));
+      rows.push(out(fill(WHERE.alumni, v("")), liAlumni(`"${R}"`)));
+      cos.slice(0, one ? 1 : 2).forEach(c => rows.push(out(fill(WHERE.alumniAt, v(c)), liAlumni(`${c} "${R}"`))));
     }
-    if (type === "faculty") (target && target.slug ? [target] : C.profs).forEach(p => rows.push(out(`${p.name} →`, profHref(H, p), WHERE.professor, false)));
     return rows;
   }
 
@@ -295,7 +295,7 @@
     const A = AP.asks;
     const ask = type === "hm" ? fill(co ? A.hmAt : A.hm, v) : type === "recruiter" ? fill(co ? A.recruiter : A.recruiterNoCo, v) : type === "faculty" ? fill(A.faculty, { ...v, skill: sk(g1) }) : type === "alum" ? fill(A.alum, v) : fill(A.inrole, v);
     const mins = type === "recruiter" || type === "faculty" ? 15 : 20;
-    // the plain text the Copy button gives: a head line, then the three parts, for Claude or the person's notes
+    // the plain text the Copy button gives: a head line, then the three parts, for an AI helper or the person's notes
     const head = [typeOf(type).label, type === "faculty" ? prof && prof.name : co, R].filter(Boolean).join(" · ");
     const pasteText = [head, "", `${AP.leadWith}: ${leadWith}`, "", `${AP.ask}: ${ask}`, "", `${AP.questions}:`, ...questions.map((q, i) => `${i + 1}. ${q}`)].join("\n");
     return { leadWith, leadSkills: names, ask, questions, mins, pasteText };

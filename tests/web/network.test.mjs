@@ -27,7 +27,6 @@ const R = {
 };
 const FIT = { rows: [{ id: "a", slotName: "Forecasting", tier: "core", status: "evidenced", w: 0.9 }, { id: "b", slotName: "Budgeting & planning", tier: "core", status: "gap", w: 0.7 }, { id: "c", slotName: "Stakeholder management", tier: "core", status: "through", w: 0.6 }, { id: "d", slotName: "Modeling (Excel, Anaplan)", tier: "core", status: "thin", w: 0.55 }, { id: "e", slotName: "Variance analysis", tier: "common", status: "gap", w: 0.3 }, { id: "col", slotName: "Collaboration & teamwork", tier: "core", status: "gap", w: 0.75 }] };
 const PROFS = [{ slug: "sam-roster", name: "Sam Roster", title: "unknown", codes: ["TEST 3030"], gaps: [] }, { slug: "pat-example", name: "Pat Example", title: "Professor", codes: ["TEST 1010", "TEST 2020"], gaps: [{ id: "b", name: "Budgeting & planning" }, { id: "zz", name: "Other" }] }];
-const H = { professor: "#/professor/" };
 const O = extra => ({ generic: GENERIC, ...(extra || {}) });
 const sentences = s => String(s).split(/[.?!]\s+|[.?!]$/).map(x => x.trim()).filter(Boolean);
 const wordsOf = s => s.split(/\s+/).filter(Boolean).length;
@@ -95,10 +94,10 @@ test("ctx counts each employer's open postings of this role (most first); the fi
 });
 
 // ---------- who, the Find jobs link, the targets ----------
-test("who gives the lead, the titles by level and the five employers; no note; faculty sorted by gaps covered", () => {
+test("who gives the titles by level and the five employers, with no lead (owner's feedback 2026-11-01) and no note; faculty sorted by gaps covered", () => {
   const C = N.ctx(IX, R, FIT, O({ cornell: true, profs: PROFS }));
   const hm = N.who("hm", C);
-  assert.equal(hm.lead, "Titles one or two levels above FP&A Manager, at the companies hiring it now.");
+  for (const t of N.types(true)) assert.equal(N.who(t.id, C).lead, "", `${t.id}: the list speaks for itself`);
   assert.deepEqual(hm.levels.map(l => l.label), ["Lead / principal", "Director"]);
   assert.equal(hm.employers.length, 3); assert.ok(!("note" in hm));
   assert.deepEqual(N.who("inrole", C).levels.map(l => l.level), ["associate", "mid", "senior"]);
@@ -107,7 +106,7 @@ test("who gives the lead, the titles by level and the five employers; no note; f
   assert.deepEqual(f.profs.map(p => p.name), ["Pat Example", "Sam Roster"]);
   assert.equal(f.profs[1].line, "Title not on the roster", "unknown is not a fact");
   const noSenior = N.ctx(IX, { ...R, jobs: R.jobs.filter(j => j.level === "mid") }, FIT, O());
-  assert.equal(N.who("hm", noSenior).lead, "No senior FP&A Manager posting is open now. Look one level up: Senior manager.");
+  assert.equal(N.who("hm", noSenior).lead, "No senior FP&A Manager posting is open now. Look one level up: Senior manager.", "the one line left: it stands in for an empty list");
 });
 
 test("jobsHref opens Find jobs with the field and the role set, in the order jobs.js writes them", () => {
@@ -150,27 +149,26 @@ test("the alum search is LinkedIn's people search filtered to the three Cornell 
   assert.deepEqual(N.CORNELL_SCHOOLS, ["3554137", "3523", "3323650"]);
   assert.equal(N.liAlumni('"Product Manager"'), "https://www.linkedin.com/search/results/people/?keywords=%22Product%20Manager%22&origin=FACETED_SEARCH&schoolFilter=%5B%223554137%22%2C%223523%22%2C%223323650%22%5D");
   const C = N.ctx(IX, R, FIT, O());
-  const alum = N.where("alum", C, H);
+  const alum = N.where("alum", C);
   assert.equal(alum[0].href, N.liAlumni('"FP&A Manager"'));
   assert.equal(alum[1].href, N.liAlumni('Acme "FP&A Manager"'), "the company-narrowed variant keeps the school filter");
-  assert.ok(alum.every(r => !/Add your school/.test(r.what)), "no instructions to add the school by hand");
-  const one = N.where("alum", C, H, { company: "Globex" });
+  const one = N.where("alum", C, { company: "Globex" });
   assert.deepEqual(one.map(r => r.href), [N.liAlumni('"FP&A Manager"'), N.liAlumni('Globex "FP&A Manager"')]);
 });
 
-test("where builds LinkedIn searches with the query encoded, narrowed to the company picked, each with what it opens", () => {
+test("where builds LinkedIn searches with the query encoded, narrowed to the company picked: a label and a link, no line on what it opens", () => {
   const C = N.ctx(IX, R, FIT, O({ cornell: true, profs: PROFS }));
-  const hm = N.where("hm", C, H);
+  const hm = N.where("hm", C);
   assert.equal(hm.length, 3, "one per top employer with no company picked");
   assert.equal(hm[0].href, "https://www.linkedin.com/search/results/people/?keywords=" + encodeURIComponent('Acme ("Lead" OR "principal" OR "Director") "FP&A Manager"'));
-  assert.ok(hm[0].what.endsWith("LinkedIn needs an account."));
-  assert.equal(N.where("hm", C, H, { company: "Globex" }).length, 1, "a company narrows to it");
-  const rec = N.where("recruiter", C, H, { company: "Acme" });
+  assert.equal(N.where("hm", C, { company: "Globex" }).length, 1, "a company narrows to it");
+  const rec = N.where("recruiter", C, { company: "Acme" });
   assert.ok(rec.some(r => r.label === "Handshake"));
   assert.ok(rec.filter(r => r.href.startsWith("https://example.com/")).every(r => r.label.startsWith("Acme")), "the postings of the company picked");
-  assert.deepEqual(N.where("faculty", C, H).map(r => [r.href, r.external]), [["#/professor/pat-example", false], ["#/professor/sam-roster", false]]);
-  assert.equal(N.where("faculty", C, { professor: p => "/p/" + p.slug }, PROFS[1])[0].href, "/p/pat-example", "H.professor may be a function");
-  for (const t of N.types(true)) for (const r of N.where(t.id, C, H)) { assert.ok(r.label && r.href && r.what, `${t.id}: a label, a link and what it opens`); if (r.href.includes("linkedin.com")) assert.ok(r.what.includes("LinkedIn needs an account."), `${t.id}: the account line`); }
+  assert.deepEqual(N.where("faculty", C), [], "faculty have no where: the professor's name links to the card");
+  for (const t of N.types(true)) for (const r of N.where(t.id, C)) assert.deepEqual(Object.keys(r).sort(), ["href", "label"], `${t.id}: a label and a link, nothing more`);
+  for (const k of ["whereNote", "linkedin"]) assert.ok(!(k in N.COPY), `${k} is gone`);
+  for (const k of ["hm", "inrole", "recruiter", "posting", "handshakeLine", "alum", "alumAt", "professor"]) assert.ok(!(k in N.COPY.whereLines), `whereLines.${k} is gone`);
 });
 
 // ---------- the company, the approach ----------
@@ -251,8 +249,9 @@ test("on the real Product Manager, with the sample PM résumé and with none: th
     assert.ok(C.employers.length > 5 && C.employers[0].nOpen >= C.employers[1].nOpen, "employers by open postings");
     if (f) assert.ok(C.lead.length >= 2, "the PM résumé gives two or three skills to lead with");
     for (const t of N.types(true)) {
-      assert.ok(N.who(t.id, C).lead, `${t.id}: who`);
-      for (const r of N.where(t.id, C, H)) assert.ok(r.href && r.what, `${t.id}: where`);
+      const W = N.who(t.id, C);
+      assert.ok(W.levels.length || W.employers.length || (W.profs || []).length, `${t.id}: who`);
+      for (const r of N.where(t.id, C)) assert.ok(r.href && r.label, `${t.id}: where`);
       for (const target of t.id === "faculty" ? [null, PROFS[1]] : [null, ...C.employers.slice(0, 4).map(e => ({ company: e.company }))]) {
         const S = N.say(t.id, C, target);
         assertRules(S, t.id, `${t.id} ${target ? target.company || target.slug : ""}`);

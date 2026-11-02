@@ -1700,6 +1700,24 @@ role is chosen. The roster line, the two-columns line and the count line are gon
 with a résumé, and absent when nothing is chosen (roster order then). Subject stays open; Days, Credits, "Who can take
 it" and Professor fold under it, collapsed. The professor card says nothing about identity and lost the ratings
 disclaimer.
+**The second pass (`fix/live-site-pass-2`, 2026-11-01).** The owner's follow-up after #136 merged: too much dead
+space and a sideways scroll on Networking's type tabs; explainer lines under links; the role page's areas open on
+arrival. Widths: Networking, the launcher, the role page beside its rail and Find jobs lost their caps (880 to 1200px)
+and use the main width; Find jobs' results run in columns of at least 440px, the class cards in columns of at least
+540px, home's four verbs in one row from 1280px; leads and About paragraphs stay at 72ch. Tab strips wrap, never
+scroll. Gone everywhere: "Each link is a search built from the data. We list no one ourselves.", every "Opens …"
+line under a link, the professor-card explainer, the per-type lead under "Who to look for" (only the "no senior
+posting open" fallback stays, since it replaces an empty list), the Faculty type's "Where to find them" (the
+professor's name links to the card instead), and the launcher's "Each opens your fit." The note reads "paste into
+your AI helper". The role page's skill areas all start collapsed and the area rows read "7 skills" without the "N in
+most postings" part; on Find jobs only Field opens on its own and an active-filter chip row shows what is set. The
+legend's "already on your resume" and "a gap this role requires" are the skill map's dots, before each row's name
+too; the gap dot is amber on the role and fit screens, where a gap row is amber, and blue on the map. The résumé
+upload has a processing state (`processing` in app.js): the drop zone turns solid and lists the three steps (reading
+the file, matching it to the postings, the model read) with the running one marked and the done ones checked, the
+Read button reads "Reading…" and is disabled, a second drop or click joins the read in flight instead of starting
+over, and the screen redraws when it ends. Before, the click on Read showed nothing for up to 20 seconds while the
+model read ran, so people uploaded again.
 
 ## Refresh pull requests merge themselves when every check passes (2026-11-01)
 
