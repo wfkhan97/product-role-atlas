@@ -1,5 +1,5 @@
 {
- "about": "Bands of fit for the MBA role set, written by node evals/calibrate.mjs --roles mba (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above the 'related' line of the role's group it is a related background; below that, a different field so far. A group under 'no_bands' gets no band: show no verdict for its roles. web/match.js reads this with Matcher.bandOf(score, bands, group). The cut points hold only for scores made with createMatcher({ ..., distinct: scoring.distinct, behaviours: scoring.behaviours }). behaviours 'show': a behaviour is a row with weight 0, credited through its carriers for display only, so the cut points are unchanged.",
+ "about": "Bands of fit for the MBA role set, written by node evals/calibrate.mjs --roles mba (do not edit by hand). A score at or above 'strong' reads like people in the role; at or above 'in_range' it is in range for the role; at or above the 'related' line of the role's group it is a related background; below that, a different field so far. A group under 'no_bands' gets no band: show no verdict for its roles. web/match.js reads this with Matcher.bandOf(score, bands, group). The cut points hold only for scores made with createMatcher({ ..., distinct: scoring.distinct, behaviours: scoring.behaviours }) (behaviours 'show': a behaviour is a row with weight 0, credited through its carriers for display only).",
  "scoring": {
   "distinct": {
    "floor": 0.2,
@@ -7,21 +7,21 @@
   },
   "behaviours": "show"
  },
- "generated": "2026-10-14",
+ "generated": "2026-11-02",
  "resumes": 304,
- "in_range": 0.55,
- "strong": 0.74,
+ "in_range": 0.54,
+ "strong": 0.73,
  "related": {
-  "consulting_strategy": 0.31,
-  "finance": 0.29,
-  "banking_investing": 0.22,
+  "consulting_strategy": 0.3,
+  "finance": 0.3,
+  "banking_investing": 0.23,
   "operations": 0.39,
-  "product": 0.26,
+  "product": 0.25,
   "marketing": 0.23,
   "sales": 0.21,
   "supply_chain": 0.28,
-  "people": 0.24,
-  "analytics": 0.33
+  "people": 0.22,
+  "analytics": 0.28
  },
  "no_bands": {
   "risk": "held back by the owner until the group has more samples of people who hold the role (most are law-school resumes of students and career changers)"
@@ -76,6 +76,7 @@
   "re_acquisitions": "banking_investing",
   "re_development": "banking_investing",
   "re_asset_manager": "banking_investing",
-  "ldp": "operations"
+  "ldp": "operations",
+  "ai_transformation": "consulting_strategy"
  }
 }

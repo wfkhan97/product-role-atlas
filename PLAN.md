@@ -1753,8 +1753,13 @@ new data together: Marketing → Product Manager now goes through Mobile platfor
 biggest-number round stops 3 hops short, the pools are 478 and 2,311, 55 roles are pickable. The README's mocks still
 show the 2026-10-25 round.
 
-Left for the owner on #131: `ai_transformation` (164 postings after the refresh) needs bands in `bands_mba.json` or an
-entry in `no_bands`.
+`ai_transformation` (164 postings after the refresh) had no group in `bands_mba.json`. `calibrate.mjs --roles mba` reran on
+2026-11-02 on the 333 published samples (301 files from the store, 37 cut from packets) and puts it in Consulting &
+strategy. The cut points moved a point or two: in range from 54% (was 55%), like the role from 73% (74%); every group
+but risk keeps its bands. The first run read only the 70 text files (the worktree had no `npm install` in `evals/`, so
+PDF and DOCX samples failed silently) and left seven groups without bands; `calibrate.mjs` should refuse to write when
+samples fail to read, and now does (it stops with the count of unread files). The merged product refresh (#138) adds product engineer as a seventh product family: 56
+pickable roles in the skill path game, its pool 485 from a field and 2,396 from a role.
 
 ## The 2026-11-01 product refresh: specs that pinned the postings' order (2026-11-01)
 

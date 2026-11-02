@@ -75,7 +75,11 @@ const jobs = Object.fromEntries(fams.map(f => [f, G.jobs.filter(j => j.family ==
 const SENIORITY = { early: ["associate"], mid: ["mid", "senior"], senior: ["senior", "lead"] };
 
 const files = [];
-for (const smp of await externalSamples()) {
+const samples = await externalSamples();
+// a sample that cannot be read would silently drop out of the bands (PDF and DOCX need npm install in evals/)
+const unread = samples.filter(x => x.error);
+if (unread.length) { console.error(`${unread.length} of ${samples.length} samples could not be read (first: ${unread[0].file}: ${unread[0].error}); run npm install in evals/ and try again. Nothing written.`); process.exit(1); }
+for (const smp of samples) {
   const { id, text } = smp; if (!smp.role || !text || (smp.spec && smp.spec.kind !== "single")) continue;
   if (text.trim().split(/\s+/).length < 120) continue;
   const sc = {}, held = {}, level = {}; const own = S.own(smp.role);

@@ -42,8 +42,8 @@ const EXPECT = {
     start: "Vendor, budget & contract management", par: 4, short: 3, good: 2,
     biggest: ["Risk & dependency management", "Regulated industries & compliance", "Payments, fintech & banking", "Financial modeling & analysis", "Business cases & ROI", "Statistics & forecasting"],
   },
-  pool: { field: 478, role: 2311 },
-  roles: 55,
+  pool: { field: 485, role: 2396 },
+  roles: 56,
 };
 
 const ix = await Atlas.index();
