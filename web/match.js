@@ -59,8 +59,14 @@
   // the line in the resume's own words still helps. Only when no line of work credits the skill already; never a
   // credential (degrees, years, licences are read from structure) nor a behaviour (naming one earns nothing).
   const INFERRED = 0.75;
+  // A skill shown only by lines in another field's words (`via` patterns: status `transferable`, with a suggested
+  // rewrite) earns 0.75, as an inferred one does: the work is there, but the resume does not say it the way the role's
+  // postings do, so the rewrite the row suggests still helps. Measured on the 304-resume calibration set (2026-11-02):
+  // against full credit and 0.5 the rank statistics do not move beyond the fourth decimal, 0.75 is level or higher on
+  // all four (PLAN.md, "The bands recalibrated on the full set").
+  const TRANSFER = 0.75;
   // the credit a skill's evidence earns, the inferred credit included (the score's rule, for the rough read too)
-  const creditOf = e => !e ? 0 : Math.max(CREDIT[Math.min(3, e.strength || 0)], e.strength < 2 && e.inferred ? INFERRED : 0);
+  const creditOf = e => !e ? 0 : e.strength >= 2 && e.transfer ? TRANSFER : Math.max(CREDIT[Math.min(3, e.strength || 0)], e.strength < 2 && e.inferred ? INFERRED : 0);
   // A person who held the target role was qualified to hold it. A requirement their resume does not show is then
   // presumed, not a gap, for less credit than a line of evidence earns (so adding the line always helps).
   // Credit by how sure the presumption is: what most postings at the level they held ask for (core) counts more
@@ -917,7 +923,7 @@
         const pc = strength < 2 ? presumedCredit(opts.standing, id, tier) : 0;
         // inferred (INFERRED) beats a presumption of equal credit: it rests on the person's own line
         const inf = strength < 2 && e && e.inferred ? INFERRED : 0;
-        const credit = Math.max(CREDIT[strength], pc, inf);
+        const credit = strength >= 2 && e.transfer ? TRANSFER : Math.max(CREDIT[strength], pc, inf);
         const status = strength >= 2 ? (e.transfer ? "transferable" : "evidenced") : inf && inf >= pc ? "inferred" : pc ? "presumed" : strength === 1 ? "thin" : "gap";
         const depth = e ? (e.subs.size > 0 || strength === 3) : false;
         const sorted = e ? e.lines.sort((a, b) => b.strength - a.strength) : [];
@@ -968,5 +974,5 @@
     return score >= bands.strong ? "strong" : score >= bands.in_range ? "in_range" : score >= low ? "related" : "different";
   }
 
-  return { createMatcher, bandOf, parseResume, pickCarriers, RESUME_PATTERNS, RESUME_DROP, SOFT, CARRIER_MIN, CARRIER_MAX, CARRIER_KINDS, AI_GROUP, TIER, CREDIT, INFERRED, creditOf, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
+  return { createMatcher, bandOf, parseResume, pickCarriers, RESUME_PATTERNS, RESUME_DROP, SOFT, CARRIER_MIN, CARRIER_MAX, CARRIER_KINDS, AI_GROUP, TIER, CREDIT, INFERRED, TRANSFER, creditOf, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
 });

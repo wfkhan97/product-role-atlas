@@ -1751,11 +1751,33 @@ Merging main into the refresh also tripped the networking screen's 20-word rule:
 question had no shorter form, and "Capital One Financial" with two long skill names made 21 words. It now falls back
 through `chooseNoLeadShort` and `chooseShort` (`web/copy.js`) with `firstFit`, as the other questions do.
 
+## The bands recalibrated on the full set; a transferable row earns 0.75 (`data/bands-recal`, 2026-11-02)
+
+Both bands files were rerun with `evals/calibrate.mjs` on the full calibration set, the 301 files `pipeline.store pull
+evals` brought from `atlas-store` (304 samples, since packets hold several; 281 written for an MBA role, 51 for a
+product role), the first full-set run since 2026-10-14. The rank statistics hold: MBA same-role above other-field 89%
+and above adjacent-role 77%, as on 2026-10-14 (0.8870 and 0.7709); product 95% and 89% (0.9499 and 0.8862; 95% and
+88% before). No group loses its bands: Risk & compliance stays the only group without (the owner's hold). What moved:
+MBA in range 0.55 to 0.54, like the role 0.74 to 0.73, and five bottom lines (consulting 0.31 to 0.29, product 0.26 to
+0.25, marketing 0.23 to 0.22, people 0.24 to 0.23, analytics 0.33 to 0.28); product related 0.33 to 0.32, in range 0.51
+to 0.49, strong 0.69. `group_of` now lists `ai_transformation` (consulting & strategy), which is what the MBA refresh
+(#131) failed on. #133 itself barely touches the set (45 of 15,504 MBA résumé × role scores, from 8 files; 6 of 1,824
+product), because published samples are written in their own role's words. **Decision: a `transferable` row earns 0.75
+(`TRANSFER` in `web/match.js`, in the score and in `creditOf`), not full credit.** Measured at 1, 0.75 and 0.5 (770
+MBA scores from 41 files change, 134 product from 33): MBA same-role above other-field 0.8869, 0.8870, 0.8870, above
+adjacent 0.7709, 0.7709, 0.7708; product 0.9498, 0.9499, 0.9497 and 0.8862, 0.8862, 0.8857. The set cannot tell the
+settings apart beyond the fourth decimal; 0.75 is level or higher on all four, 0.5 lowers the adjacent statistic in
+both sets, and 0.75 is the model read's rule for the same case (the work is there, the words are not the role's, so the
+rewrite the row suggests still helps). The cost is the pivoter: the pmm-nyc example's Product Marketing Manager score
+goes from 55% ("in range") to 48% ("related background"); business developer 73% to 68%, still in range. The eight
+test résumés stay inside every `score_band` (`run.mjs` 513 pass); one fit band moves, staff_pm_terse against associate
+PM, 69% to 68%, under the unchanged 0.69 strong line. Not run: `BEHAVIOURS=score` on the full set (`evals/README.md`,
+"Evals to build" item 6), still open.
+
 ## Later
 
-- Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach` (2026-10-31; `calibrate.mjs` here
-  finds 48 files and would rewrite the bands from them); decide whether a transferable row should earn less than an
-  evidenced one.
+- ~~Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach`; decide whether a transferable
+  row should earn less than an evidenced one~~: done 2026-11-02 (`data/bands-recal`), 0.75.
 - After v20 (2026-10-31): missions that cover a whole class's gaps, not the first role's (the generator's
   rule R16, once a map has been run for a real student); the quest map's one-world view (the round-2 Q2) as the view a
   world opens into; the layout eval (`evals/README.md`); the IE New York roster (`IENYC_ENABLED`); an events feed for
