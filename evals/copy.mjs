@@ -15,7 +15,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
-import { strings, checkAll, MAX_WORDS, STOPLIST } from "./copy_lib.mjs";
+import { strings, checkAll, MAX_WORDS, STOPLIST, OWNER_WORDS } from "./copy_lib.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url)), root = path.join(here, "..");
 const require = createRequire(import.meta.url);
@@ -50,10 +50,10 @@ export const REPORTED = [
   { file: "web/data/subskills.json", read: () => subStrings(J("web/data/subskills.json")) },
 ];
 
-// one file's result: the strings counted, the offenders by rule
+// one file's result: the strings counted, the offenders by rule; the owner's own words (OWNER_WORDS) skip the length rule
 export function checkFile(entry) {
   const list = strings(entry.read());
-  const offenders = checkAll(list);
+  const offenders = checkAll(list, OWNER_WORDS[entry.file]);
   const by = { long: offenders.filter(o => o.rule === "long"), passive: offenders.filter(o => o.rule === "passive"), stop: offenders.filter(o => o.rule === "stop") };
   return { file: entry.file, strings: list.length, offenders, by };
 }

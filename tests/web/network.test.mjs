@@ -1,242 +1,269 @@
-// web/network.js: the pure parts of Who to meet (owner's pick N6), on a synthetic role and on the real Product Manager.
-// The types, the context, who and where, what to say (never naming a school), the draft and the list helpers.
+// web/network.js: the pure parts of Who to meet (owner's pick N6, reshaped by the owner's feedback of 2026-11-01), on a
+// synthetic role and on the real Product Manager. The types, the context, who and where (the Cornell alumni search),
+// the suggested approach (never a school but the alum's ask; never a behaviour, a generic skill or a credential in a
+// question) and the Pick targets.
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "fs";
 import path from "path";
-import { require, web, realAtlas } from "./_load.mjs";
+import { require, web, root, realAtlas } from "./_load.mjs";
 
 const N = require(path.join(web, "network.js"));
 
-// a small index and role in the shape Atlas gives: one field, three employers, postings at four levels
-const sk = (id, name, cluster) => [id, { id, name, cluster: cluster || "craft" }];
+// a small index and role in the shape Atlas gives: one field, three employers, postings at five levels; a behaviour
+// (Collaboration), a generic practice (Stakeholder management) and a credential among the asks
+const sk = (id, name, kind, cluster, subskills) => [id, { id, name, kind, cluster: cluster || "craft", ...(subskills ? { subskills } : {}) }];
 const IX = {
   M: { level_labels: { associate: "Analyst / associate", mid: "Manager", senior: "Senior manager", staff: "Lead / principal", director: "Director" } },
-  skillById: Object.fromEntries([sk("a", "Forecasting"), sk("b", "Budgeting & planning"), sk("c", "Stakeholder management"), sk("d", "Modeling (Excel, Anaplan)"), sk("e", "Variance analysis"), sk("mba", "MBA", "credentials")]),
+  skillById: Object.fromEntries([sk("a", "Forecasting", "method"), sk("b", "Budgeting & planning", "method", null, [{ id: "b1", name: "Annual operating plan" }, { id: "b2", name: "Rolling forecasts" }]), sk("c", "Stakeholder management", "practice"), sk("d", "Modeling (Excel, Anaplan)", "tool"), sk("e", "Variance analysis", "method"), sk("col", "Collaboration & teamwork", "behaviour", "leadership"), sk("mba", "MBA", "credential", "credentials")]),
   groups: [{ id: "finance", label: "Finance & accounting", roles: ["fpa"] }],
-  roles: { fpa: { id: "fpa", label: "FP&A Manager", group: "finance", nOpen: 5, definingList: [{ id: "a", share: 0.9 }], asks: [{ id: "mba", share: 0.8 }, { id: "b", share: 0.7 }, { id: "c", share: 0.6 }, { id: "d", share: 0.55 }, { id: "e", share: 0.3 }] } },
+  roles: { fpa: { id: "fpa", label: "FP&A Manager", group: "finance", nOpen: 5, definingList: [{ id: "a", share: 0.9 }], asks: [{ id: "mba", share: 0.8 }, { id: "col", share: 0.75 }, { id: "b", share: 0.7 }, { id: "c", share: 0.6 }, { id: "d", share: 0.55 }, { id: "e", share: 0.3 }] } },
 };
-const job = (id, company, title, level, extra) => ({ id, company, title, level, ladder: "corporate", family: "fpa", open: true, url: `https://example.com/${id}`, skills: [], ...extra });
+const GENERIC = new Set(["c"]);
+const job = (id, company, title, level, extra) => ({ id, company, title, level, ladder: "corporate", family: "fpa", open: true, url: `https://example.com/${id}`, skills: [], sub: [], ...extra });
 const R = {
   role: IX.roles.fpa, set: "mba", levelLabels: IX.M.level_labels, ladders: { corporate: { levels: IX.M.level_labels } },
-  jobs: [job(1, "Acme", "FP&A Manager", "mid"), job(2, "Acme", "Director, FP&A", "director", { sponsorship: "yes" }), job(3, "Globex", "Senior FP&A Manager", "senior"), job(4, "Globex", "Lead FP&A Analyst", "staff"), job(5, "Initech", "FP&A Analyst", "associate"), job(6, "Initech", "Old posting", "mid", { open: false })],
+  jobs: [job(1, "Acme", "FP&A Manager", "mid", { skills: ["b", "e", "col"], sub: ["b2"] }), job(2, "Acme", "Director, FP&A", "director", { sponsorship: "yes", skills: ["b", "e"] }), job(3, "Globex", "Senior FP&A Manager", "senior", { skills: ["a"] }), job(4, "Globex", "Lead FP&A Analyst", "staff"), job(5, "Initech", "FP&A Analyst", "associate"), job(6, "Initech", "Old posting", "mid", { open: false })],
 };
-const FIT = { rows: [{ id: "a", slotName: "Forecasting", tier: "core", status: "evidenced", w: 0.9 }, { id: "b", slotName: "Budgeting & planning", tier: "core", status: "gap", w: 0.7 }, { id: "c", slotName: "Stakeholder management", tier: "core", status: "through", w: 0.6 }, { id: "d", slotName: "Modeling (Excel, Anaplan)", tier: "core", status: "thin", w: 0.55 }, { id: "e", slotName: "Variance analysis", tier: "common", status: "gap", w: 0.3 }] };
-const PROFS = [{ slug: "pat-example", name: "Pat Example", title: "Professor", codes: ["TEST 1010", "TEST 2020"], gaps: [{ id: "b", name: "Budgeting & planning" }, { id: "zz", name: "Other" }] }, { slug: "sam-roster", name: "Sam Roster", title: "unknown", codes: ["TEST 3030"], gaps: [] }];
-const H = { professor: "#/professor/", classes: "#/classes", skills: "#/explore" };
+const FIT = { rows: [{ id: "a", slotName: "Forecasting", tier: "core", status: "evidenced", w: 0.9 }, { id: "b", slotName: "Budgeting & planning", tier: "core", status: "gap", w: 0.7 }, { id: "c", slotName: "Stakeholder management", tier: "core", status: "through", w: 0.6 }, { id: "d", slotName: "Modeling (Excel, Anaplan)", tier: "core", status: "thin", w: 0.55 }, { id: "e", slotName: "Variance analysis", tier: "common", status: "gap", w: 0.3 }, { id: "col", slotName: "Collaboration & teamwork", tier: "core", status: "gap", w: 0.75 }] };
+const PROFS = [{ slug: "sam-roster", name: "Sam Roster", title: "unknown", codes: ["TEST 3030"], gaps: [] }, { slug: "pat-example", name: "Pat Example", title: "Professor", codes: ["TEST 1010", "TEST 2020"], gaps: [{ id: "b", name: "Budgeting & planning" }, { id: "zz", name: "Other" }] }];
+const O = extra => ({ generic: GENERIC, ...(extra || {}) });
 const sentences = s => String(s).split(/[.?!]\s+|[.?!]$/).map(x => x.trim()).filter(Boolean);
 const wordsOf = s => s.split(/\s+/).filter(Boolean).length;
+// the names a question must never hold: every behaviour, credential and generic skill, as written and as a sentence says it
+const banned = (ix, generic) => Object.values(ix.skillById).filter(s => s.kind === "behaviour" || s.kind === "credential" || s.cluster === "credentials" || generic.has(s.id)).map(s => N.short(s.name).toLowerCase()).filter(n => n.length >= 3);
+const reOf = n => new RegExp(`(^|[^a-z])${n.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&")}($|[^a-z])`, "i");
+const assertNoBanned = (qs, names, where) => { for (const q of qs) for (const n of names) assert.ok(!reOf(n).test(q), `${where}: "${q}" names "${n}"`); };
+const assertRules = (S, type, where) => {
+  const all = [S.leadWith, S.ask, ...S.questions];
+  for (const s of all) {
+    assert.ok(!/cornell|campus/i.test(s), `${where}: "${s}" names the campus`);
+    assert.ok(!/school/i.test(s.replace(/your school/g, "")), `${where}: "${s}" names a school`);
+    assert.ok(!/%|\bscore\b/i.test(s), `${where}: "${s}" is a score or a percentage`);
+    for (const sentence of sentences(s)) assert.ok(wordsOf(sentence) <= 20, `${where}: "${sentence}" is over 20 words`);
+  }
+  if (type !== "alum") assert.ok(!all.some(s => /school/i.test(s)), `${where}: only the alum's ask says "your school"`);
+};
 
 // ---------- the types ----------
-test("five types for any school, six with a Cornell address; faculty is the one that needs it", () => {
-  assert.deepEqual(N.types(false).map(t => t.id), ["hm", "inrole", "recruiter", "alum", "peer"]);
-  assert.deepEqual(N.types(true).map(t => t.id), ["hm", "inrole", "recruiter", "alum", "peer", "faculty"]);
+test("four types for any school, five with a Cornell address; faculty is the one that needs it; no classmate", () => {
+  assert.deepEqual(N.types(false).map(t => t.id), ["hm", "inrole", "recruiter", "alum"]);
+  assert.deepEqual(N.types(true).map(t => t.id), ["hm", "inrole", "recruiter", "alum", "faculty"]);
   assert.equal(N.typeOf("faculty").cornell, true);
-  assert.equal(N.typeOf("nope").id, "hm", "an unknown id falls back to the first type");
-  for (const t of N.TYPES) assert.ok(t.good && t.label, `${t.id} has a label and a line`);
+  assert.equal(N.typeOf("peer").id, "hm", "the classmate type is gone: its id falls back to the first type");
+  for (const t of N.TYPES) assert.ok(t.label && !("good" in t), `${t.id} has a label and no description line`);
 });
 
 // ---------- the context ----------
-test("ctx reads the fit's core rows: N of M, the gaps by share, the skills to lead with", () => {
-  const C = N.ctx(IX, R, FIT);
-  assert.equal(C.fit.n, 2); assert.equal(C.fit.m, 4);
-  assert.deepEqual(C.fit.gaps.map(g => g.id), ["b", "d"]);
-  assert.deepEqual(C.say.map(s => s.id), ["a"], "lead with what the résumé shows directly");
-  assert.deepEqual(C.marks, ["Forecasting"], "the defining skill is the mark");
+test("ctx reads the fit's core rows; leads with craft skills only; the craft asks and gaps leave out behaviours, generic skills and credentials", () => {
+  const C = N.ctx(IX, R, FIT, O());
+  assert.equal(C.fit.n, 2); assert.equal(C.fit.m, 5);
+  assert.deepEqual(C.fit.gaps.map(g => g.id), ["col", "b", "d"]);
+  assert.deepEqual(C.lead.map(s => s.id), ["a"], "Stakeholder management is shown but generic: not a lead");
+  assert.equal(C.lead[0].said, "forecasting", "a method reads lower case mid-sentence");
+  assert.deepEqual(C.craft.map(a => a.id), ["a", "b", "d", "e"], "defining first; no behaviour, generic skill or credential");
+  assert.equal(C.craft.find(a => a.id === "d").said, "Modeling", "a tool keeps its capital; the brackets go");
+  assert.deepEqual(C.craftGaps.map(g => g.id), ["b", "d"]);
+  assert.equal(C.read, true);
+  assert.ok(C.shownAll.includes("a") && C.shownAll.includes("c"));
   assert.equal(C.field.label, "Finance & accounting");
   assert.equal(C.postings.length, 5, "open postings only");
   assert.deepEqual(C.employers.map(e => [e.company, e.nOpen]), [["Acme", 2], ["Globex", 2], ["Initech", 1]]);
-  assert.deepEqual(C.employers[0].roles, ["FP&A Manager"]);
   assert.deepEqual(C.levels.map(l => l.level), ["associate", "mid", "senior", "staff", "director"], "in ladder order");
-  assert.equal(C.levels[1].label, "Manager");
   assert.deepEqual(C.senior.map(l => l.level), ["staff", "director"]);
-  assert.deepEqual(C.junior.map(l => l.level), ["associate", "mid", "senior"]);
   assert.deepEqual(C.profs, [], "no profs without cornell");
-  assert.equal(C.cornell, false);
 });
 
-test("ctx without a fit reads the role's asks against the skills shown; without those, every ask is a gap", () => {
-  const C = N.ctx(IX, R, null, { shown: new Set(["c"]) });
-  assert.equal(C.fit.m, 4, "the asks at the core share, the credential skipped");
-  assert.equal(C.fit.n, 1);
-  assert.deepEqual(C.say.map(s => s.id), ["c"]);
-  const C0 = N.ctx(IX, R, null);
-  assert.equal(C0.fit.n, 0); assert.equal(C0.fit.gaps.length, 4); assert.deepEqual(C0.say, []);
+test("ctx without a fit reads the role's asks against the skills shown; without those, nothing is read", () => {
+  const C = N.ctx(IX, R, null, O({ shown: new Set(["b"]) }));
+  assert.equal(C.fit.m, 5, "the asks at the core share, the credential skipped");
+  assert.equal(C.fit.n, 1); assert.deepEqual(C.lead.map(s => s.id), ["b"]); assert.equal(C.read, true);
+  const C0 = N.ctx(IX, R, null, O());
+  assert.equal(C0.fit.n, 0); assert.deepEqual(C0.lead, []); assert.equal(C0.read, false);
 });
 
-test("ctx with cornell carries the roster rows with the gaps of this role they cover; with the field's postings the employers count across it", () => {
-  const C = N.ctx(IX, R, FIT, { cornell: true, profs: PROFS });
-  assert.equal(C.profs.length, 2);
-  assert.deepEqual(C.profs[0].covers.map(g => g.id), ["b"]);
-  assert.deepEqual(C.profs[1].covers, []);
+test("ctx counts each employer's open postings of this role (most first); the field's postings add the other roles it posts; profs sort by gaps covered", () => {
   const field = [...R.jobs, job(7, "Acme", "Treasury Manager", "mid", { family: "treasury" }), job(8, "Nobody", "FP&A Manager", "mid")];
-  const C2 = N.ctx(IX, R, FIT, { fieldJobs: field });
-  assert.deepEqual(C2.employers[0], { company: "Acme", nOpen: 3, roles: ["FP&A Manager"] }, "the field's open count; a role the index lacks reads as this role");
+  const C2 = N.ctx({ ...IX, roles: { ...IX.roles, treasury: { id: "treasury", label: "Treasurer" } } }, R, FIT, O({ fieldJobs: field }));
+  assert.deepEqual(C2.employers[0], { company: "Acme", nOpen: 2, roles: ["FP&A Manager", "Treasurer"] }, "the role's own count; the field adds roles");
   assert.ok(!C2.employers.some(e => e.company === "Nobody"), "only employers that post this role");
+  const C = N.ctx(IX, R, FIT, O({ cornell: true, profs: PROFS }));
+  assert.deepEqual(C.profs.map(p => p.slug), ["pat-example", "sam-roster"], "the most gaps covered first");
+  assert.deepEqual(C.profs[0].covers.map(g => g.id), ["b"]);
+  assert.deepEqual(C.profs[0].teach.map(g => g.said), ["budgeting & planning"]);
 });
 
-// ---------- who, count ----------
-test("who gives the lead, the titles by level, the employers and a note per type", () => {
-  const C = N.ctx(IX, R, FIT, { cornell: true, profs: PROFS });
+// ---------- who, the Find jobs link, the targets ----------
+test("who gives the titles by level and the five employers, with no lead (owner's feedback 2026-11-01) and no note; faculty sorted by gaps covered", () => {
+  const C = N.ctx(IX, R, FIT, O({ cornell: true, profs: PROFS }));
   const hm = N.who("hm", C);
+  for (const t of N.types(true)) assert.equal(N.who(t.id, C).lead, "", `${t.id}: the list speaks for itself`);
   assert.deepEqual(hm.levels.map(l => l.label), ["Lead / principal", "Director"]);
-  assert.deepEqual(hm.levels[0].titles, [{ title: "Lead FP&A Analyst", company: "Globex" }]);
-  assert.equal(hm.employers.length, 3);
-  assert.match(hm.note, /^3 employers post FP&A Manager now/);
+  assert.equal(hm.employers.length, 3); assert.ok(!("note" in hm));
   assert.deepEqual(N.who("inrole", C).levels.map(l => l.level), ["associate", "mid", "senior"]);
-  assert.equal(N.who("recruiter", C).note, "1 of the 5 open FP&A Manager postings say they sponsor a visa.");
-  assert.equal(N.who("alum", C).employers.length, 3);
-  assert.deepEqual(N.who("peer", C).skills.map(s => s.id), ["b", "d"]);
+  for (const t of N.types(true)) assert.ok(!("note" in N.who(t.id, C)), `${t.id}: no note`);
   const f = N.who("faculty", C);
-  assert.equal(f.profs.length, 2); assert.equal(f.profs[1].line, "Title not on the roster", "unknown is not a fact");
-  const noSenior = N.ctx(IX, { ...R, jobs: R.jobs.filter(j => j.level === "mid") }, FIT);
-  assert.equal(N.who("hm", noSenior).note, "No senior FP&A Manager posting is open now. Look one level up: Senior manager.");
-  assert.equal(N.who("recruiter", noSenior).note, "The open FP&A Manager postings do not say they sponsor a visa. Ask.");
+  assert.deepEqual(f.profs.map(p => p.name), ["Pat Example", "Sam Roster"]);
+  assert.equal(f.profs[1].line, "Title not on the roster", "unknown is not a fact");
+  const noSenior = N.ctx(IX, { ...R, jobs: R.jobs.filter(j => j.level === "mid") }, FIT, O());
+  assert.equal(N.who("hm", noSenior).lead, "No senior FP&A Manager posting is open now. Look one level up: Senior manager.", "the one line left: it stands in for an empty list");
 });
 
-test("count is one line of what the data holds for a type", () => {
-  const C = N.ctx(IX, R, FIT, { cornell: true, profs: PROFS });
-  assert.equal(N.count("hm", C), "2 senior titles · 3 employers");
-  assert.equal(N.count("inrole", C), "3 titles · 3 employers");
-  assert.equal(N.count("recruiter", C), "3 employers · 5 open postings");
-  assert.equal(N.count("faculty", C), "2 professors · 1 cover a gap");
-  assert.equal(N.count("alum", C), "3 employers hiring the role");
-  assert.equal(N.count("peer", C), "2 skills to split");
+test("jobsHref opens Find jobs with the field and the role set, in the order jobs.js writes them", () => {
+  const J = require(path.join(web, "jobs.js"));
+  const C = N.ctx(IX, R, FIT, O());
+  assert.equal(N.jobsHref(C), "#/jobs?field=finance&role=fpa");
+  const s = J.parseState(N.jobsHref(C));
+  assert.equal(s.role, "fpa"); assert.equal(s.field, "finance");
+  assert.equal("#/jobs?" + J.stateQuery(s), N.jobsHref(C), "the jobs screen keeps the link as it is");
+});
+
+test("targetsOf: the employers by open postings ('Acme · 2 open') for the employer types, the professors for faculty", () => {
+  const C = N.ctx(IX, R, FIT, O({ cornell: true, profs: PROFS }));
+  assert.deepEqual(N.targetsOf("hm", C).map(t => t.key), ["Acme", "Globex", "Initech"]);
+  assert.equal(N.targetsOf("recruiter", C)[0].label, "Acme · 2 open");
+  assert.deepEqual(N.targetsOf("hm", C)[0].row, { company: "Acme" });
+  const f = N.targetsOf("faculty", C);
+  assert.deepEqual(f.map(t => t.key), ["pat-example", "sam-roster"]);
+  assert.equal(f[0].hint, "covers 1 of your gaps"); assert.equal(f[1].hint, "TEST 3030");
+});
+
+test("with no résumé, the professors sort by the role's core asks their classes teach, then name, and say so", () => {
+  assert.deepEqual(N.askRows(IX, R, 0.5).map(a => [a.id, a.tier]), [["a", "core"], ["col", "core"], ["b", "core"], ["c", "core"], ["d", "core"]], "the core asks, the credential left out");
+  // the roster read against the asks: Zed teaches two asks, Pat one, Sam none
+  const rows = [{ slug: "sam", name: "Sam Roster", codes: ["T 3"], gaps: [] }, { slug: "pat", name: "Pat Example", codes: ["T 1"], gaps: [{ id: "b", name: "Budgeting & planning" }] }, { slug: "zed", name: "Zed Last", codes: ["T 2"], gaps: [{ id: "a", name: "Forecasting" }, { id: "d", name: "Modeling" }] }];
+  const C = N.ctx(IX, R, null, O({ cornell: true, profs: rows }));
+  assert.equal(C.read, false);
+  assert.deepEqual(C.profs.map(p => [p.slug, p.asks.length]), [["zed", 2], ["pat", 1], ["sam", 0]], "most asks taught first, not by name");
+  const f = N.who("faculty", C).profs;
+  assert.deepEqual([f[0].asks.length, f[0].nAsks, f[0].read], [2, 5, false]);
+  assert.equal(N.fill(N.COPY.teachesOf, { n: 2, m: 5 }), "teaches 2 of 5 asks");
+  assert.equal(N.targetsOf("faculty", C)[0].hint, "teaches 2 of 5 asks");
+  // with a résumé the gaps sort stays
+  const Cr = N.ctx(IX, R, FIT, O({ cornell: true, profs: rows }));
+  assert.deepEqual(Cr.profs.map(p => [p.slug, p.covers.length]), [["pat", 1], ["zed", 1], ["sam", 0]], "gaps covered (Forecasting is shown, so Zed covers one), then name");
 });
 
 // ---------- where ----------
-test("where builds LinkedIn searches with the query encoded, each with what it opens and the account line", () => {
-  const C = N.ctx(IX, R, FIT, { cornell: true, profs: PROFS });
-  const hm = N.where("hm", C, H);
-  assert.equal(hm.length, 3, "one per top employer");
+test("the alum search is LinkedIn's people search filtered to the three Cornell schools, as the owner tested it", () => {
+  assert.deepEqual(N.CORNELL_SCHOOLS, ["3554137", "3523", "3323650"]);
+  assert.equal(N.liAlumni('"Product Manager"'), "https://www.linkedin.com/search/results/people/?keywords=%22Product%20Manager%22&origin=FACETED_SEARCH&schoolFilter=%5B%223554137%22%2C%223523%22%2C%223323650%22%5D");
+  const C = N.ctx(IX, R, FIT, O());
+  const alum = N.where("alum", C);
+  assert.equal(alum[0].href, N.liAlumni('"FP&A Manager"'));
+  assert.equal(alum[1].href, N.liAlumni('Acme "FP&A Manager"'), "the company-narrowed variant keeps the school filter");
+  const one = N.where("alum", C, { company: "Globex" });
+  assert.deepEqual(one.map(r => r.href), [N.liAlumni('"FP&A Manager"'), N.liAlumni('Globex "FP&A Manager"')]);
+});
+
+test("where builds LinkedIn searches with the query encoded, narrowed to the company picked: a label and a link, no line on what it opens", () => {
+  const C = N.ctx(IX, R, FIT, O({ cornell: true, profs: PROFS }));
+  const hm = N.where("hm", C);
+  assert.equal(hm.length, 3, "one per top employer with no company picked");
   assert.equal(hm[0].href, "https://www.linkedin.com/search/results/people/?keywords=" + encodeURIComponent('Acme ("Lead" OR "principal" OR "Director") "FP&A Manager"'));
-  assert.ok(!hm[0].href.includes('"') && !hm[0].href.includes("&A"), "the query is encoded");
-  assert.ok(hm[0].what.endsWith("LinkedIn needs an account."));
-  assert.equal(hm[0].external, true);
-  assert.equal(N.where("hm", C, H, { company: "Globex" }).length, 1, "a target narrows to one company");
-  const rec = N.where("recruiter", C, H);
+  assert.equal(N.where("hm", C, { company: "Globex" }).length, 1, "a company narrows to it");
+  const rec = N.where("recruiter", C, { company: "Acme" });
   assert.ok(rec.some(r => r.label === "Handshake"));
-  assert.ok(rec.filter(r => r.href.startsWith("https://example.com/")).length <= 3, "at most three postings");
-  const alum = N.where("alum", C, H);
-  assert.ok(alum[0].what.includes("Add your school under School in the filters."));
-  const fac = N.where("faculty", C, H);
-  assert.deepEqual(fac.map(r => [r.href, r.external]), [["#/professor/pat-example", false], ["#/professor/sam-roster", false]]);
-  assert.equal(N.where("faculty", C, { professor: p => "/p/" + p.slug }, PROFS[0])[0].href, "/p/pat-example", "H.professor may be a function");
-  const peer = N.where("peer", C, H);
-  assert.ok(peer.some(r => r.href === "#/explore"));
-  assert.ok(peer.some(r => r.href === "#/classes?open=" + encodeURIComponent("TEST 1010")), "the classes of the roster with a Cornell address");
-  assert.ok(!N.where("peer", N.ctx(IX, R, FIT), H).some(r => r.href.startsWith("#/classes")), "no class links without it");
-  for (const t of N.types(true)) for (const r of N.where(t.id, C, H)) { assert.ok(r.label && r.href && r.what, `${t.id}: a label, a link and what it opens`); if (r.href.includes("linkedin.com")) assert.ok(r.what.includes("LinkedIn needs an account."), `${t.id}: the account line`); }
+  assert.ok(rec.filter(r => r.href.startsWith("https://example.com/")).every(r => r.label.startsWith("Acme")), "the postings of the company picked");
+  assert.deepEqual(N.where("faculty", C), [], "faculty have no where: the professor's name links to the card");
+  for (const t of N.types(true)) for (const r of N.where(t.id, C)) assert.deepEqual(Object.keys(r).sort(), ["href", "label"], `${t.id}: a label and a link, nothing more`);
+  for (const k of ["whereNote", "linkedin"]) assert.ok(!(k in N.COPY), `${k} is gone`);
+  for (const k of ["hm", "inrole", "recruiter", "posting", "handshakeLine", "alum", "alumAt", "professor"]) assert.ok(!(k in N.COPY.whereLines), `whereLines.${k} is gone`);
 });
 
-// ---------- say ----------
-test("say never names a school; the opener is a grad student; every sentence is at most 20 words", () => {
-  const C = N.ctx(IX, R, FIT, { cornell: true, profs: PROFS });
-  const targets = [null, { company: "Globex" }];
-  for (const t of N.types(true)) for (const target of t.id === "faculty" ? [null, PROFS[0]] : targets) {
-    const S = N.say(t.id, C, target);
-    assert.equal(S.intro, "I am a grad student.");
-    assert.equal(S.questions.length, 3, `${t.id}: three questions`);
-    for (const k of ["aim", "proof", "ask", "listen", "follow", "subject", "close"]) assert.ok(typeof S[k] === "string" && S[k].length, `${t.id}: ${k}`);
-    assert.ok([15, 20].includes(S.mins));
-    const all = [S.intro, S.aim, S.proof, S.ask, ...S.questions, S.listen, S.follow, S.subject, S.close];
-    for (const s of all) {
-      assert.ok(!/cornell|campus/i.test(s), `${t.id}: "${s}" names the campus`);
-      assert.ok(!/school/i.test(s.replace(/your school/g, "")), `${t.id}: "${s}" names a school`);
-      assert.ok(!/%/.test(s), `${t.id}: "${s}" is a percentage`);
-      for (const sentence of sentences(s)) assert.ok(wordsOf(sentence) <= 20, `${t.id}: "${sentence}" is over 20 words`);
-    }
-    if (t.id !== "alum") assert.ok(!all.some(s => /school/i.test(s)), `${t.id}: only the alum line says "your school"`);
-  }
-  assert.equal(N.say("hm", C, { company: "Globex" }).aim, "I am looking at FP&A Manager roles at Globex.");
-  assert.equal(N.say("inrole", C, null).aim, "I want to work as an FP&A Manager.");
-  assert.equal(N.say("hm", C, null).proof, "My résumé shows Forecasting.");
-  assert.equal(N.say("hm", C, null).subject, "An FP&A Manager question from a grad student");
-  assert.equal(N.say("faculty", C, PROFS[0]).ask, "Could I have 15 minutes to ask whether TEST 1010 covers Budgeting & planning?");
-  assert.equal(N.say("peer", C, null).listen, "Listen for what they show that you do not: Budgeting & planning and Modeling.", "the bracketed examples are dropped");
+// ---------- the company, the approach ----------
+test("companyOf reads what a company's postings stress against the role at large, and the person's gaps they name", () => {
+  const C = N.ctx(IX, R, FIT, O());
+  const P = N.companyOf(C, "Acme");
+  assert.equal(P.n, 2);
+  assert.deepEqual(P.stress.map(a => a.id), ["e", "b"], "Variance analysis: 2 of 2 against 0.3 of the role");
+  assert.deepEqual(P.gaps.map(g => g.id), ["b"]);
+  assert.deepEqual(P.levels.map(l => [l.level, l.n]), [["mid", 1], ["director", 1]]);
+  assert.equal(N.companyOf(C, null).n, 0);
+});
+
+test("say: lead with, the ask, three specific questions; the words come from the data", () => {
+  const C = N.ctx(IX, R, FIT, O({ cornell: true, profs: PROFS }));
+  const hm = N.say("hm", C, { company: "Acme" });
+  assert.equal(hm.leadWith, "Your résumé shows forecasting. Most FP&A Manager postings ask for it.");
+  assert.equal(hm.ask, "Could I have 20 minutes to hear what Acme looks for in an FP&A Manager hire?");
+  assert.equal(hm.questions[0], "Your FP&A Manager posting asks for budgeting & planning, rolling forecasts in particular. How does that show up in a first year?", "the company's posting, its sub-skill");
+  assert.match(hm.questions[1], /^My résumé shows forecasting; your FP&A Manager postings stress variance analysis\./);
+  assert.match(hm.questions[2], /^I am still building Modeling\. Which of your 2 open FP&A Manager roles/);
+  const rec = N.say("recruiter", C, { company: "Acme" });
+  assert.equal(rec.questions[0], "Acme has 2 open FP&A Manager postings. Which teams take new grads first?");
+  assert.equal(rec.questions[1], "Of those, one sits at the Manager level. What gets a résumé past your first screen there?");
+  const inr = N.say("inrole", C, { company: "Acme" });
+  assert.match(inr.questions[1], /^My résumé does not show budgeting & planning yet\. How did you build it before you joined Acme\?$/);
+  const fac = N.say("faculty", C, PROFS[1]);
+  assert.equal(fac.ask, "Could I have 15 minutes to ask whether TEST 1010 covers budgeting & planning?");
+  assert.match(fac.questions[0], /^FP&A Manager postings ask for budgeting & planning, rolling forecasts in particular\. How much of that does TEST 1010 cover\?$/);
   assert.equal(N.say("alum", C, null).ask, "Could I have 20 minutes to hear how you got from your school to FP&A Manager?");
-  const C0 = N.ctx(IX, R, null);
-  assert.equal(N.say("hm", C0, null).proof, "I am building the skills most FP&A Manager postings ask for.", "no skills shown: no empty list");
-  const full = N.ctx(IX, R, { rows: FIT.rows.map(r => ({ ...r, status: "evidenced" })) });
-  assert.equal(N.say("hm", full, null).listen, "Listen for what they wish they had known in their first year.", "no gaps: nothing to listen for from the résumé");
+  // a short sentence of the company's posting, when the evidence holds one
+  const ev = { b: { early: [{ text: "Own the annual budget cycle with the business units.", company: "Acme", title: "FP&A Manager", url: "u" }] } };
+  assert.equal(N.say("hm", N.ctx(IX, R, FIT, O({ evidence: ev })), { company: "Acme" }).questions[0], "Your FP&A Manager posting says “own the annual budget cycle with the business units”. What does that look like in a first year?");
+  // no résumé: nothing is claimed about it
+  const C0 = N.ctx(IX, R, null, O());
+  const S0 = N.say("inrole", C0, { company: "Acme" });
+  assert.equal(N.say("hm", C0, null).leadWith, "Lead with the work you have done closest to forecasting and budgeting & planning.");
+  assert.ok(!S0.questions.some(q => /résumé/.test(q)), "no résumé, no sentence about it");
 });
 
-test("every sentence of every COPY string and type line is at most 20 words; none is a score or a percentage", () => {
-  const strings = Object.values(N.COPY).concat(N.TYPES.flatMap(t => [t.label, t.good]));
-  for (const s of strings) { for (const sentence of sentences(s)) assert.ok(wordsOf(sentence) <= 20, `"${sentence}" is over 20 words`); assert.ok(!/%|\bscore\b/i.test(s), `"${s}"`); }
-  const C = N.ctx(IX, R, FIT);
-  assert.equal(N.lead(C), "You show 2 of the 4 skills most FP&A Manager postings ask for. These people can help with the rest.");
+test("say holds the rules for every type and target: 20 words, no school but the alum's ask, no behaviour, generic skill or credential", () => {
+  const C = N.ctx(IX, R, FIT, O({ cornell: true, profs: PROFS }));
+  const names = banned(IX, GENERIC);
+  assert.ok(names.includes("collaboration & teamwork") && names.includes("stakeholder management") && names.includes("mba"));
+  for (const C1 of [C, N.ctx(IX, R, null, O({ cornell: true, profs: PROFS }))]) for (const t of N.types(true)) for (const target of t.id === "faculty" ? [null, PROFS[1], PROFS[0]] : [null, { company: "Globex" }, { company: "Initech" }]) {
+    const S = N.say(t.id, C1, target);
+    assert.equal(S.questions.length, 3, `${t.id}: three questions`);
+    assert.ok([15, 20].includes(S.mins));
+    assertRules(S, t.id, t.id);
+    assertNoBanned(S.questions, names, t.id);
+    assert.ok(S.pasteText.includes(S.ask) && S.questions.every(q => S.pasteText.includes(q)) && S.pasteText.includes(S.leadWith), `${t.id}: the paste text holds it all`);
+    assert.ok(S.pasteText.startsWith(N.typeOf(t.id).label + " · "));
+  }
+});
+
+test("every sentence of every COPY string is at most 20 words; none is a score or a percentage", () => {
+  const flat = o => Object.values(o).flatMap(v => v && typeof v === "object" ? flat(v) : [v]).filter(v => typeof v === "string");
+  for (const s of flat(N.COPY)) { for (const sentence of sentences(s)) assert.ok(wordsOf(sentence) <= 20, `"${sentence}" is over 20 words`); assert.ok(!/%|\bscore\b/i.test(s), `"${s}"`); }
   assert.equal(N.COPY.heading, "Who to meet");
-});
-
-// ---------- the draft, the targets, the list ----------
-test("draft starts with the subject and greets by name when given, else 'there'", () => {
-  const S = N.say("hm", N.ctx(IX, R, FIT), { company: "Acme" });
-  const d = N.draft(S, "Sam");
-  assert.ok(d.startsWith("Subject: An FP&A Manager question from a grad student\n"));
-  assert.ok(d.includes("\nHi Sam,\n"));
-  assert.ok(d.includes(`${S.intro} ${S.aim} ${S.proof}`));
-  assert.ok(d.endsWith("\nThank you."));
-  assert.ok(N.draft(S, "").includes("\nHi there,\n"));
-  assert.ok(N.draft(S, "  ").includes("\nHi there,\n"));
-  assert.ok(!/cornell|campus|school/i.test(d));
-});
-
-test("targetsOf: companies for the employer types, professors for faculty, none for a classmate", () => {
-  const C = N.ctx(IX, R, FIT, { cornell: true, profs: PROFS });
-  assert.deepEqual(N.targetsOf("hm", C).map(t => t.key), ["Acme", "Globex", "Initech"]);
-  assert.equal(N.targetsOf("hm", C)[0].label, "Acme · 2 open");
-  assert.deepEqual(N.targetsOf("hm", C)[0].row, { company: "Acme" });
-  assert.deepEqual(N.targetsOf("faculty", C).map(t => t.key), ["pat-example", "sam-roster"]);
-  assert.deepEqual(N.targetsOf("peer", C), []);
-});
-
-test("the list helpers are pure over arrays and tell chats apart by role, type and key", () => {
-  const a = { role: "fpa", type: "hm", key: "Acme", label: "Acme" }, b = { role: "fpa", type: "hm", key: null };
-  let list = [];
-  list = N.listAdd(list, a);
-  assert.deepEqual(list, [a]);
-  assert.equal(N.listHas(list, a), true);
-  assert.equal(N.listHas(list, b), false, "no key is another chat");
-  assert.equal(N.listHas(list, { role: "fpa", type: "hm", key: "Acme" }), true, "the label is not part of the identity");
-  const same = N.listAdd(list, { ...a, label: "x" });
-  assert.equal(same.length, 1, "adding the same chat twice keeps one");
-  assert.notEqual(same, list, "a new array");
-  list = N.listAdd(list, b);
-  assert.deepEqual(list.map(x => x.key), ["Acme", null]);
-  assert.equal(list[1].label, "", "a missing label is empty");
-  list = N.listRemove(list, a);
-  assert.deepEqual(list, [{ role: "fpa", type: "hm", key: null, label: "" }]);
-  assert.deepEqual(N.listRemove(list, a), list, "removing what is not there changes nothing");
-  assert.deepEqual(N.listAdd(null, a), [a]);
+  for (const k of ["lead", "leadNoResume", "openWith", "listen", "follow", "message", "add", "onList", "list"]) assert.ok(!(k in N.COPY), `${k} is gone`);
 });
 
 // ---------- the real data ----------
-test("on the real Product Manager: the context, every type's say and draft hold the rules", async () => {
+test("on the real Product Manager, with the sample PM résumé and with none: the context, every type's approach holds the rules", async () => {
   const Atlas = realAtlas();
-  const ix = await Atlas.index();
+  const ix = await Atlas.index(); await Atlas.product();
   const R = await Atlas.role("product.pm");
-  for (const fit of [null, { rows: [] }]) {
-    const C = N.ctx(ix, R, fit, { cornell: true, profs: PROFS });
-    assert.equal(C.role.label, "Product Manager");
-    assert.equal(C.field.id, "product");
+  const generic = await Atlas.genericSkills();
+  const { M } = await Atlas.matcher(R);
+  const text = fs.readFileSync(path.join(root, "evals", "resumes", "experienced_pm.txt"), "utf8");
+  const fit = M.match(text, { jobs: R.jobs, familyJobs: R.jobs, label: R.role.label }, { ladder: R.role.ladder });
+  const names = banned(ix, generic);
+  assert.ok(names.includes("written & verbal communication") && names.includes("cross-functional leadership"), "the generic and behaviour names the owner saw are banned");
+  assert.throws(() => assertNoBanned(["How much of your week goes to Cross-functional leadership?"], names, "the owner's example"), "the check catches the owner's example");
+  for (const f of [fit, null]) {
+    const C = N.ctx(ix, R, f, { cornell: true, profs: PROFS, generic, core: Atlas.TIER.core });
+    assert.equal(C.role.label, "Product Manager"); assert.equal(C.field.id, "product");
     assert.ok(C.employers.length > 5 && C.employers[0].nOpen >= C.employers[1].nOpen, "employers by open postings");
-    assert.ok(C.levels.length >= 4 && C.senior.length && C.junior.length);
-    assert.ok(C.levels.every(l => l.label && l.label !== l.level), "level labels, not keys");
-    if (!fit) assert.ok(C.fit.m >= 5 && C.fit.n === 0, "no fit: the asks are the gaps");
+    if (f) assert.ok(C.lead.length >= 2, "the PM résumé gives two or three skills to lead with");
     for (const t of N.types(true)) {
-      const w = N.who(t.id, C); assert.ok(w.lead, `${t.id}: who`);
-      assert.ok(N.count(t.id, C), `${t.id}: count`);
-      for (const r of N.where(t.id, C, H)) assert.ok(r.href && r.what, `${t.id}: where`);
-      for (const target of t.id === "faculty" ? [null, PROFS[0]] : [null, { company: C.employers[1].company }]) {
+      const W = N.who(t.id, C);
+      assert.ok(W.levels.length || W.employers.length || (W.profs || []).length, `${t.id}: who`);
+      for (const r of N.where(t.id, C)) assert.ok(r.href && r.label, `${t.id}: where`);
+      for (const target of t.id === "faculty" ? [null, PROFS[1]] : [null, ...C.employers.slice(0, 4).map(e => ({ company: e.company }))]) {
         const S = N.say(t.id, C, target);
-        const all = [S.intro, S.aim, S.proof, S.ask, ...S.questions, S.listen, S.follow, S.subject, S.close];
-        for (const s of all) {
-          assert.ok(!/cornell|campus/i.test(s) && !/school/i.test(s.replace(/your school/g, "")), `${t.id}: "${s}" names a school`);
-          assert.ok(!/%/.test(s), `${t.id}: "${s}"`);
-          for (const sentence of sentences(s)) assert.ok(wordsOf(sentence) <= 20, `${t.id}: "${sentence}" is over 20 words`);
-        }
-        assert.ok(N.draft(S, "Sam").startsWith("Subject: "));
+        assertRules(S, t.id, `${t.id} ${target ? target.company || target.slug : ""}`);
+        assertNoBanned(S.questions, names, `${t.id} ${target ? target.company || target.slug : ""}`);
+        assert.equal(new Set(S.questions).size, 3, `${t.id}: three different questions`);
       }
     }
+  }
+  // an MBA role too (its own generic skills, ladders and defining skills), with no résumé
+  const RM = await Atlas.role("strategy_manager"), CM = N.ctx(ix, RM, null, { generic, core: Atlas.TIER.core });
+  for (const t of N.types(false)) for (const target of [null, ...CM.employers.slice(0, 3).map(e => ({ company: e.company }))]) {
+    const S = N.say(t.id, CM, target);
+    assertRules(S, t.id, `MBA ${t.id}`); assertNoBanned(S.questions, names, `MBA ${t.id}`);
   }
 });

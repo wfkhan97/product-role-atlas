@@ -226,11 +226,10 @@
     const fmt = n => Number(n).toLocaleString("en-US");
     const groups = ix.groups.map(g => ({ g, roles: (g.roles || []).filter(ok).map(id => ix.roles[id]).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)) })).filter(x => x.roles.length);
     let field = o.field && groups.some(x => x.g.id === o.field) ? o.field : groups[0].g.id;
-    const max = Math.max(1, ...groups.map(x => x.g.nOpen || 0));
     const draw = () => {
       const cur = groups.find(x => x.g.id === field);
       const card = ({ g, roles }) => { const ex = roles.slice(0, 3).map(r => r.label), more = roles.length - ex.length;
-        return `<button type="button" class="fcard${g.id === field ? " on" : ""}" data-field="${esc(g.id)}" aria-pressed="${g.id === field}"><span class="t">${esc(g.label)}</span><span class="m">${esc(fill(W.example, { names: ex.join(" · ") }))}${more > 0 ? esc(fill(W.more, { n: more })) : ""}</span><span class="bar" data-measure="${esc(fill(W.barMeasure, { n: fmt(g.nOpen || 0), field: g.label }))}"><i style="width:${Math.round(100 * (g.nOpen || 0) / max)}%"></i></span><span class="n">${esc(fill(W.nOpen, { n: fmt(g.nOpen || 0) }))}</span></button>`; };
+        return `<button type="button" class="fcard${g.id === field ? " on" : ""}" data-field="${esc(g.id)}" aria-pressed="${g.id === field}"><span class="t">${esc(g.label)}</span><span class="m">${esc(fill(W.example, { names: ex.join(" · ") }))}${more > 0 ? esc(fill(W.more, { n: more })) : ""}</span><span class="n">${esc(fill(W.nOpen, { n: fmt(g.nOpen || 0) }))}</span></button>`; };
       const row = r => `<button type="button" class="r" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(fill(W.nOpen, { n: fmt(r.nOpen || 0) }))}</span><span class="m">${esc(o.secondary ? o.secondary(r.id) : "")}</span></button>`;
       F.set({ round: null, rounds: 0, role: "" });
       F.body.innerHTML = `<div class="gm-picker"><h1>${esc(o.title || W.changeRole)}</h1><p class="lead">${esc(o.lead || W.pickField)}</p>

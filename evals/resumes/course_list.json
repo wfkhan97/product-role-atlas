@@ -1,6 +1,6 @@
 {
   "persona": "new_to_role",
-  "notes": "The paste-a-course-list path, no work history at all. Should read as foundations, not as a failed job match.",
+  "notes": "The paste-a-course-list path, no work history at all. Should read as foundations, not as a failed job match. Show-through lists from 2026-11-01: the resume shows roadmap and PRD, user research and discovery, equally strongly, and the pick between them follows how often each comes with the behaviour in the postings, which the 2026-11-01 product refresh reordered (prd and roadmap tie at 43% for communication; discovery now leads user research 41% to 34% for customer obsession); the spec is that one of them carries it, not which one the postings rank first.",
   "targets": [
     "pm:associate"
   ],
@@ -41,7 +41,7 @@
     "metrics_kpis"
   ],
   "must_show_through": {
-    "communication": "roadmap",
-    "customer_obsession": "user_research"
+    "communication": ["roadmap", "prd"],
+    "customer_obsession": ["user_research", "discovery"]
   }
 }

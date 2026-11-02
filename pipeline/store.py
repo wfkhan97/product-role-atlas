@@ -98,10 +98,10 @@ class Bucket:
 def storage():
     """The bucket, or None when SUPABASE_SERVICE_ROLE_KEY is not set."""
     load_env()
-    key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+    key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "").strip()   # as backlog.storage: a pasted space breaks the headers
     if not key:
         return None
-    return Bucket(os.environ.get("SUPABASE_URL", backlog.DEFAULT_URL), key)
+    return Bucket(os.environ.get("SUPABASE_URL", backlog.DEFAULT_URL).strip(), key)
 
 
 # --- files and manifests -------------------------------------------------------------------------------------

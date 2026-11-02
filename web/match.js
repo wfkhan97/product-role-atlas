@@ -4,6 +4,8 @@
 
    Pipeline: parseResume(text) -> lines with section / role context
              tag(parsed)        -> per-skill evidence {strength, lines, subs, via}
+             infer(ev, list)    -> the skills a model read infers (match's opts.inferred, web/infer.js): status
+                                   `inferred`, credit INFERRED; no list, no change
              requirements(...)  -> core / common / differentiator tiers, one industry slot, one AI slot; a behaviour
                                    (kind) is a row credited through its carriers, picked on the role's postings
              readRoles(...)     -> the role family of each job title, from data (the product families are built in)
@@ -50,6 +52,15 @@
   const AI_GROUP = ["ai_ml", "genai_llm", "ai_tools"];
   const TIER = { core: 0.5, common: 0.25, diff: 0.1 };
   const CREDIT = [0, 0.5, 1, 1]; // by evidence strength: none / mentioned / done / done with an outcome
+  // A skill a model read infers from the resume (api/infer.js, 2026-11-01): the resume shows it without naming it
+  // (Dealpath on a job line shows enterprise SaaS; "wrote specs for engineers" shows PRDs). Status `inferred`, credit
+  // 0.75: more than a mention (0.5), since the model read the line as work, not a word, and quotes it; less than a
+  // line of work the patterns read (1), since a reader's inference is weaker than the resume saying it, and so adding
+  // the line in the resume's own words still helps. Only when no line of work credits the skill already; never a
+  // credential (degrees, years, licences are read from structure) nor a behaviour (naming one earns nothing).
+  const INFERRED = 0.75;
+  // the credit a skill's evidence earns, the inferred credit included (the score's rule, for the rough read too)
+  const creditOf = e => !e ? 0 : Math.max(CREDIT[Math.min(3, e.strength || 0)], e.strength < 2 && e.inferred ? INFERRED : 0);
   // A person who held the target role was qualified to hold it. A requirement their resume does not show is then
   // presumed, not a gap, for less credit than a line of evidence earns (so adding the line always helps).
   // Credit by how sure the presumption is: what most postings at the level they held ask for (core) counts more
@@ -138,15 +149,15 @@
     product_lifecycle: ["end[- ]to[- ]end", "(led|oversaw|managed|drove|owned|spearheaded|directed|pioneered) (the )?(end-to-end |full )?(development|delivery|design|build|rollout|creation)( and (launch|delivery|release|rollout))? of (an? |the |new |[\\w'’-]+ ){0,6}(features?|products?|platforms?|apps?|applications?|tools?|modules?|services?|chatbots?|models?)\\b", "(developed|built|delivered|shipped|released) (an? |the )?(new |first )?([\\w'’-]+ ){0,5}(features?|products?|platforms?|apps?|applications?|tools?|chatbots?)\\b", "shipped \\d+\\+? (features|products|releases)", "from (idea|concept|discovery|zero|0) to (launch|ship|scale|one|1)", "(owned|drove|led) .{0,40}(from|through) (discovery|concept|launch)", "0[- ]to[- ]1|zero[- ]to[- ]one", "full (product )?lifecycle"],
     launch: ["launch(ed|es|ing)?\\b", "released?\\b", "shipped\\b", "go[- ]live", "rolled? out", { p: "deployed .{0,30}(to|with) \\d+ (users|participants|customers)", via: "research" }, { p: "shipped (behind|under) (a )?feature flag", via: "engineering" }],
     gtm: ["go[- ]to[- ]market", "\\bGTM\\b", "launch (plan|strategy|messaging|campaign)", { p: "(campaign|channel) (strategy|planning|launch)", via: "marketing" }, { p: "market entry", via: "consulting" }],
-    positioning_messaging: ["positioning", "messaging", "value prop(osition)?", { p: "brand (voice|guidelines|campaign|strategy)|copywriting|content strategy", via: "marketing" }],
+    positioning_messaging: ["positioning", "messaging", "value prop(osition)?", { p: "brand (voice|guidelines|campaign|strategy)|copywriting|content strategy", via: "marketing" }, { p: "objection[- ]?(handling|sheets?|guides?|scripts?)|talk tracks?|discovery[- ]call (guides?|scripts?)|(sales|elevator) pitch(es)?\\b", via: "sales" }],
     pricing_packaging: ["pricing", "packaging", "(pricing|plan) tiers?", "monetization", { p: "unit economics|willingness[- ]to[- ]pay|price (elasticity|sensitivity)", via: "finance" }],
-    market_research: ["market (research|analysis|sizing|landscape|entry|opportunity|trends)", "competit(ive|or)s? (analys[ie]s|landscape|research|benchmark|intelligence|positioning)?", "\\bTAM\\b|\\bSAM\\b|\\bSOM\\b", "industry (analysis|trends|research)"],
+    market_research: ["market (research|analysis|sizing|landscape|entry|opportunity|trends)", "competit(ive|or)s? (analys[ie]s|landscape|research|benchmark|intelligence|positioning)?", "\\bTAM\\b|\\bSAM\\b|\\bSOM\\b", "industry (analysis|trends|research)", { p: "win[/ -]loss|(objections|asks|feedback)[^.]{0,30}\\blost deals\\b|lost[- ]deal (reviews?|analys[ie]s|notes?)", via: "sales" }],
     business_case: ["business case", "(built|wrote|made) .{0,20}(the )?case for", "recommendation(s)? .{0,30}(to|for) (leadership|executives|clients|founders|the board|a panel)", "\\bROI\\b", { p: "(strategic|client) recommendations?|final (deck|report|presentation)", via: "consulting" }, { p: "pitch(ed)? .{0,30}(panel|judges|investors)", via: "founder" }],
     financial_analysis: ["financial (model|analysis|projections|forecast)", "unit economics", "\\bP&L\\b", "budget(s|ing|ed)?\\b", "forecast(s|ing|ed)?", "\\bLTV\\b|\\bCAC\\b|payback"],
     growth_loops: ["(signup|sign-up|onboarding|activation|checkout) funnel", "funnel", "(conversion|activation|retention|engagement) (rate|lift|improvement)?", "(increas|improv|lift|grew|boost)\\w* .{0,30}(conversion|activation|retention|engagement|adoption|sign-?ups|MAU|DAU)", "growth (loop|experiment|strategy)", "\\b(MAU|DAU|WAU)\\b", { p: "(acquisition|email|lifecycle) (campaign|marketing)|open rates?|click-?through", via: "marketing" }],
     customer_success: ["onboarding", "customer success", "retention", "churn", "\\bCSMs?\\b", "customer (support|service) (team|tickets)"],
     partnerships: ["(strategic|channel|technology|distribution|co-?marketing|reseller|ecosystem|commercial|corporate) (partnerships?|alliances)", "partnership (agreements?|deals?|programs?|pipeline|revenue|strategy)", "(signed|closed|negotiated|secured|sourced|launched|formed|established|managed) [^.]{0,40}partnerships?\\b", "(partner|channel) (program|ecosystem)", "integration partners?", { p: "(agency|vendor|academic|industry) partners", via: "marketing" }],
-    customer_facing_exec: ["customer[- ]facing", "(met|meeting|meetings) with customers", "customer (advisory|council|visits)", "(sales|customer) (calls|demos)", "demo(ed|s)? .{0,20}(to|for) (customers|prospects)"],
+    customer_facing_exec: ["customer[- ]facing", "(met|meeting|meetings) with customers", "customer (advisory|council|visits)", "(sales|customer) (calls|demos)", "demo(ed|s)? .{0,20}(to|for) (customers|prospects)", { p: "trade[- ]shows?|industry (events|expos?)|(pitched|presented|demonstrated) [^.]{0,30}(to|for) (prospects|buyers|prospective (customers|clients))", via: "sales" }],
     cross_functional_alias: [],
     agile_scrum: ["Scrum ?Master|\\bSAFe\\b", "\\bagile\\b", "\\bscrum\\b", "sprints?\\b", "stand-?ups?", "kanban", "retrospectives?|retros\\b", "backlog (grooming|refinement)", "story points"],
     program_mgmt: ["(deliver|complet|led|manag)\\w* [^.]{0,60}(projects?|implementations?|migrations?|rollouts?|programs?) [^.]{0,40}(on time|ahead of schedule|within budget|under budget|days ahead)", "(led|managed|oversaw) (the )?[^.]{0,30}(migration|implementations?|rollout|integration project|consolidation project)", "program management", "project management", "(project|program) plans?", "timelines?", "milestones?", "work-?streams?", "(coordinated|managed) .{0,30}(timeline|schedule|delivery|dependencies)", "\\bPMP\\b", "critical path", "\\bRAID\\b"],
@@ -192,6 +203,8 @@
     startup_experience: ["start-?ups?\\b", "founded|co-?founder|founder", "early[- ]stage|seed[- ]stage|series [a-c]\\b", "\\bYC\\b|y ?combinator"],
     big_tech_experience: ["big tech", "\\bFAANG\\b|\\bMAANG\\b", "\\b(Google|Meta|Facebook|Amazon|Apple|Microsoft|Netflix|Nvidia|Uber|Airbnb|Stripe|Salesforce|Oracle|Adobe|LinkedIn)\\b"],
     // skills of the MBA role set, in the words resumes use
+    consumer_insights: [{ p: "semi-?structured interviews|thematic analysis|focus groups?|mixed[- ]methods (stud(y|ies)|research)|ethnograph|diary stud(y|ies)", via: "research" }],
+    content_social: [{ p: "(weekly|monthly|daily) (brief|newsletter|digest|column)|newsletters?\\b|(grew|built) [^.]{0,40}to [\\d,.]+k? (members|subscribers|followers|readers)\\b", via: "community" }],
     market_data_terminals: ["\\bBloomberg\\b|\\bEikon\\b|\\bFactSet\\b|Capital IQ|\\bCapIQ\\b|\\bPitchBook\\b"],
     due_diligence: ["\\bdiligence\\b"],
     performance_improvement: ["(reduc|cut|lower|sav)\\w* [^.]{0,40}(operating |operational |production |office |overhead |annual )?(costs?|expenses|expenditures?|waste)\\b", "cost[- ]sav(ing|ings)\\b", "\\d+% reduction in [^.]{0,30}(costs?|expenses|waste|cycle time|lead time)?", "(increas|improv)\\w* [^.]{0,30}(operational |operating )?efficienc(y|ies) by \\d", "reduc\\w+ (wait|cycle|lead|turnaround|processing) times?", "operational improvements"],
@@ -221,7 +234,7 @@
   // read from a line of schooling only
   const EDU_CREDENTIAL = new Set(["finance_degree", "law_degree"]);
   const STRUCTURAL = new Set(["pm_experience", "startup_experience", "big_tech_experience", "consulting_banking", "bachelors", "masters_mba", "phd", "cs_engineering_degree", "security_clearance", "domain_expertise", "yoe_2", "yoe_3", "yoe_5", "yoe_8", "yoe_10"]);
-  const VIA_LABEL = { research: "academic research", consulting: "consulting / analyst work", engineering: "engineering", marketing: "marketing", finance: "finance / operations", founder: "founder / venture work", coursework: "coursework" };
+  const VIA_LABEL = { research: "academic research", consulting: "consulting / analyst work", engineering: "engineering", marketing: "marketing", finance: "finance / operations", founder: "founder / venture work", coursework: "coursework", sales: "sales / business development", community: "community building and editorial work" };
 
   const OUTCOME = /\d+ ?%|\$\s?\d|\b\d+(\.\d+)?\s?(x|k|m|b|mm)\b|\b\d{2,}\+?\s?(users|customers|participants|clients|engineers|people|accounts|students|enterprise|interviews|studies|features|releases|papers)\b|\b(increas|reduc|improv|grew|lift|boost|cut|saved|doubled|tripled|drove|accelerat|won|adopted|published)\w*\b/i;
   const DATE = /((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}\s*(–|-|—|to|through)\s*(((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+|\d{1,2}[\/.])?(19|20)\d{2}|present|current|now|today)|\b(summer|fall|autumn|spring|winter)\s+(19|20)\d{2}\b(\s*(–|-|—|to)\s*(present|current|now|today|((summer|fall|autumn|spring|winter)\s+)?(19|20)\d{2})\b)?|\((19|20)\d{2}\)|\b(19|20)\d{2}\s*[-–]\s*(19|20)\d{2}\b|\b\d{1,2}\/\s?\d{2}\s*(–|-|—|to|through)\s*(\d{1,2}\/\s?\d{2}\b|present|current|now|today)|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+['’]\d{2}\s*(–|-|—|to|through)\s*((jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+['’]\d{2}|present|current|now|today)/i;
@@ -701,10 +714,31 @@
       for (const [id, e] of Object.entries(ev)) {
         if (e.lines.length === 0 && e.subs.size) { e.strength = 0; e.hintOnly = true; continue; } // sub-skill only: a hint, never credited
         if (DOMAIN.has(id)) { const strong = e.lines.some(l => l.kind === "role" || l.kind === "summary" || l.kind === "employer") || e.nLines.size >= 2; if (!strong) { e.strength = 0; e.capped = true; } }
-        if (!e.direct && e.via.size) e.transfer = true;
+        // in another field's words: every line of work that shows it is a `via` line. A direct word that is only a
+        // mention (a skills list, a degree: "user studies", "Computer Science") does not make those lines the field's own.
+        if (e.via.size && e.lines.some(l => l.via && l.strength >= 2) && !e.lines.some(l => !l.via && l.strength >= 2)) e.transfer = true;
       }
       return ev;
     }
+
+    // The model read's skills (web/infer.js: [{ id, line, why }]) merged into the evidence tag() built, in place: each
+    // becomes `inferred` (see INFERRED) with its line, kind "inferred", i -2 (no parsed line: the model quotes it).
+    // A skill a line of work already credits keeps its evidence; an unknown id, a credential or a behaviour is
+    // skipped. With no list the evidence is untouched, so the evals and the map's grounding read what they read.
+    function infer(ev, inferred) {
+      for (const x of inferred || []) {
+        const id = x && x.id; if (!byId[id] || CRED.has(id) || BEHAVIOUR.has(id)) continue;
+        const e = ev[id] ||= { strength: 0, lines: [], subs: new Set(), via: new Set(), direct: false, nLines: new Set() };
+        if (e.strength >= 2 || e.inferred) continue;
+        e.inferred = { line: String(x.line || ""), why: String(x.why || "") };
+        e.lines.push({ i: -2, text: e.inferred.line, strength: 0, via: null, kind: "inferred", role: -1, why: e.inferred.why });
+      }
+      return ev;
+    }
+    // shown: a line of work, or inferred (what the classes, the jobs and the map count as on the resume)
+    const shownBy = e => !!e && (e.strength >= 2 || !!e.inferred);
+    // an inferred skill ranks between a mention and a line of work when the AI or industry slot picks its best member
+    const rankOf = e => e.strength >= 2 ? e.strength : e.inferred ? 1.5 : e.strength;
 
     // How distinctive an ask is for a role. Postings of almost every role say "stakeholders" and "prioritize":
     // such an ask tells roles apart no better than chance, and a resume that does not show it is not a weaker
@@ -850,8 +884,8 @@
     function nameOf(id) { if (id === "__ai") return "AI literacy"; if (id === "__domain") return "Industry fit"; return (byId[id] || {}).name || id; }
 
     function evidenceFor(ev, id, req) {
-      if (id === "__ai") { let best = null; for (const k of req.ai.ids) if (ev[k] && (!best || ev[k].strength > best.strength)) best = { ...ev[k], id: k }; return best; }
-      if (id === "__domain") { let best = null; for (const k of req.domains.keys()) if (ev[k] && (!best || ev[k].strength > best.strength)) best = { ...ev[k], id: k }; return best; }
+      if (id === "__ai") { let best = null; for (const k of req.ai.ids) if (ev[k] && (!best || rankOf(ev[k]) > rankOf(best))) best = { ...ev[k], id: k }; return best; }
+      if (id === "__domain") { let best = null; for (const k of req.domains.keys()) if (ev[k] && (!best || rankOf(ev[k]) > rankOf(best))) best = { ...ev[k], id: k }; return best; }
       return ev[id] ? { ...ev[id], id } : null;
     }
 
@@ -881,10 +915,14 @@
         }
         const strength = e ? e.strength : 0;
         const pc = strength < 2 ? presumedCredit(opts.standing, id, tier) : 0;
-        const credit = Math.max(CREDIT[strength], pc);
-        const status = strength >= 2 ? (e.transfer ? "transferable" : "evidenced") : pc ? "presumed" : strength === 1 ? "thin" : "gap";
+        // inferred (INFERRED) beats a presumption of equal credit: it rests on the person's own line
+        const inf = strength < 2 && e && e.inferred ? INFERRED : 0;
+        const credit = Math.max(CREDIT[strength], pc, inf);
+        const status = strength >= 2 ? (e.transfer ? "transferable" : "evidenced") : inf && inf >= pc ? "inferred" : pc ? "presumed" : strength === 1 ? "thin" : "gap";
         const depth = e ? (e.subs.size > 0 || strength === 3) : false;
-        rows.push({ id: e && e.id !== id ? e.id : id, slot: id, name: nameOf(e && e.id !== id ? e.id : id), slotName: nameOf(id), kind: kindOf(id), tier, w, strength, credit, status, depth, subs: e ? [...e.subs] : [], via: e ? [...e.via] : [], lines: e ? e.lines.sort((a, b) => b.strength - a.strength).slice(0, 2) : [], hintLines: e && e.subLines ? e.subLines.slice(0, 2) : [], ladder: ladderFor(e && e.id !== id ? e.id : id, targetLevel, opts.ladder), signals: signalsFor(e && e.id !== id ? e.id : id), build: buildFor(e && e.id !== id ? e.id : id, opts.ladder) });
+        const sorted = e ? e.lines.sort((a, b) => b.strength - a.strength) : [];
+        rows.push({ id: e && e.id !== id ? e.id : id, slot: id, name: nameOf(e && e.id !== id ? e.id : id), slotName: nameOf(id), kind: kindOf(id), tier, w, strength, credit, status, depth, subs: e ? [...e.subs] : [], via: e ? [...e.via] : [], inferred: status === "inferred" ? e.inferred : null,
+          lines: status === "inferred" ? [...sorted.filter(l => l.kind === "inferred"), ...sorted.filter(l => l.kind !== "inferred")].slice(0, 2) : sorted.slice(0, 2), hintLines: e && e.subLines ? e.subLines.slice(0, 2) : [], ladder: ladderFor(e && e.id !== id ? e.id : id, targetLevel, opts.ladder), signals: signalsFor(e && e.id !== id ? e.id : id), build: buildFor(e && e.id !== id ? e.id : id, opts.ladder) });
         const weight = w * lift(id, w); rows[rows.length - 1].weight = weight; // w is the share of postings (shown to the user); weight is what the score counts
         tierSum[tier][0] += weight * credit; tierSum[tier][1] += weight;
       }
@@ -899,24 +937,25 @@
       const top3 = gaps.slice(0, 3); const bonus = top3.reduce((a, r) => a + (r.tier === "core" ? 2 : 1) * r.weight, 0);
       const whatIf = (2 * tierSum.core[0] + tierSum.common[0] + bonus) / ((2 * tierSum.core[1] + tierSum.common[1]) || 1);
       const creds = [...req.creds].map(([id, w]) => ({ id, name: nameOf(id), w, have: !!(ev[id] && ev[id].strength >= 2), detail: ev[id] && ev[id].lines[0] ? ((ev[id].lines.find(l => l.i === -1) || ev[id].lines.slice().sort((a, b) => a.text.length - b.text.length)[0]).text.slice(0, 80)) : null }));
-      const industries = [...req.domains].sort((a, b) => b[1] - a[1]).map(([id, w]) => ({ id, name: nameOf(id), w, have: !!(ev[id] && ev[id].strength >= 2), hint: !!(ev[id] && (ev[id].capped || ev[id].strength === 1)) }));
+      const industries = [...req.domains].sort((a, b) => b[1] - a[1]).map(([id, w]) => ({ id, name: nameOf(id), w, have: shownBy(ev[id]), hint: !!(ev[id] && (ev[id].capped || ev[id].strength === 1)), ...(ev[id] && ev[id].strength < 2 && ev[id].inferred ? { inferred: ev[id].inferred } : {}) }));
       return { overall, core, common, breadth, depth, rows, gaps, whatIf, whatIfSkills: top3.map(r => r.slotName), creds, industries, soft: req.soft.map(id => ({ id, name: nameOf(id), have: rows.some(r => r.id === id && r.status === "through") })), behaviours, targetLevel };
     }
 
     function match(text, target, opts = {}) {
-      const parsed = readRoles(parseResume(text)); const ev = tag(parsed); const req = requirements(target);
+      // opts.inferred: the model read's skills for this resume (web/infer.js), merged after the patterns; none, none
+      const parsed = readRoles(parseResume(text)); const ev = infer(tag(parsed), opts.inferred); const req = requirements(target);
       const profile = profileOf(parsed, target.job ? target.job.family : (target.jobs[0] || {}).family);
       const st = standing(parsed, profile, target, opts.level || profile.level);
       const res = score(ev, req, profile, { ...opts, standing: st });
       res.standing = st ? { family: st.family, level: st.level, years: st.years, above: st.above, employers: st.employers, presumed: res.rows.filter(r => r.status === "presumed").length } : null;
       const unmapped = parsed.lines.filter((l, i) => l.kind === "bullet" && l.text.length > 30 && !Object.values(ev).some(e => e.nLines.has(i) || (e.subLines || []).some(s => s.i === i))).map(l => l.text).slice(0, 8);
-      const extras = Object.entries(ev).filter(([id, e]) => e.strength >= 2 && !CRED.has(id) && !BEHAVIOUR.has(id) && !res.rows.some(r => r.id === id)).map(([id]) => ({ id, name: nameOf(id) }));
-      const covered = new Set(Object.entries(ev).filter(([id, e]) => e.strength >= 2 && !BEHAVIOUR.has(id) && !id.startsWith("yoe_")).map(([id]) => id));
+      const extras = Object.entries(ev).filter(([id, e]) => shownBy(e) && !CRED.has(id) && !BEHAVIOUR.has(id) && !res.rows.some(r => r.id === id)).map(([id]) => ({ id, name: nameOf(id) }));
+      const covered = new Set(Object.entries(ev).filter(([id, e]) => shownBy(e) && !BEHAVIOUR.has(id) && !id.startsWith("yoe_")).map(([id]) => id));
       const subs = new Set(); for (const e of Object.values(ev)) if (e.strength >= 2) for (const s of e.subs) subs.add(s);
       return { ...res, profile, parsed: { roles: parsed.roles, degrees: [...parsed.degrees], lines: parsed.lines.length, hasSections: parsed.hasSections, placeholderDates: parsed.placeholderDates }, unmapped, extras, covered, subs, evidence: ev, ai: req.ai.ids, req: { n: req.n, label: req.label, core: [...req.tiers.core.keys()], common: [...req.tiers.common.keys()], diff: [...req.tiers.diff.keys()] } };
     }
 
-    return { match, parseResume, readRoles, roleFamilyOf, roleOf, tag, tagPosting, cleanPosting, requirements, profileOf, score, nameOf, carriersFor, isBehaviour, groupOf, behaviours, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
+    return { match, parseResume, readRoles, roleFamilyOf, roleOf, tag, infer, shownBy, tagPosting, cleanPosting, requirements, profileOf, score, nameOf, carriersFor, isBehaviour, groupOf, behaviours, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
   }
 
   // The band of fit a score falls in, from the cut points that evals/calibrate.mjs derives (bands.strong and
@@ -929,5 +968,5 @@
     return score >= bands.strong ? "strong" : score >= bands.in_range ? "in_range" : score >= low ? "related" : "different";
   }
 
-  return { createMatcher, bandOf, parseResume, pickCarriers, RESUME_PATTERNS, RESUME_DROP, SOFT, CARRIER_MIN, CARRIER_MAX, CARRIER_KINDS, AI_GROUP, TIER, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
+  return { createMatcher, bandOf, parseResume, pickCarriers, RESUME_PATTERNS, RESUME_DROP, SOFT, CARRIER_MIN, CARRIER_MAX, CARRIER_KINDS, AI_GROUP, TIER, CREDIT, INFERRED, creditOf, LADDER_LABEL, VIA_LABEL, LEVEL_TO_LADDER };
 });

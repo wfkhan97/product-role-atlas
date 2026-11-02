@@ -1,7 +1,7 @@
 /* The Spring 2027 catalog: the reads from the public files, and the pure functions behind the class cards (cross-list
-   collapsing, the grading chip, the eligibility filter, the relevance band, the gaps a class covers, the sorts, a
-   minimal markdown reader). Pure parts take no DOM and load in node (tests/web/classes.test.mjs):
-   require("web/catalog.js")({ load }) gives the functions. What never leaves the browser: the student's own ratings,
+   collapsing, the grading line, the facets (subject, days, credits, eligibility, instructor), the relevance band, the
+   gaps a class covers, the sorts, a minimal markdown reader). Pure parts take no DOM and load in node
+   (tests/web/classes.test.mjs): require("web/catalog.js")({ load }) gives the functions. What never leaves the browser:
    the roles chosen, the campus. What never reaches the screen: a prior-term syllabus digest (it never enters the public
    file) and research_note_md (never read). Campuses are data (data/sp27_campus.json, `campuses`): a new campus is a new
    entry with its own catalog_file and tags_file, never a code change. Nothing here opens a network client: the files
@@ -123,17 +123,24 @@
   }
 
   // ---------- what a card says ----------
-  // the prior-term grading chip, three cases: a roster syllabus was read; a public breakdown without one; neither
-  function gradingChip(cls) {
-    const read = cls.roster_syllabus_read, m = cls.sp27_instructor_matches_syllabus, sum = (cls.grading_summary || "").trim();
-    if (read) {
-      const who = m === "same" || m === "partial" || m === "different" ? `${m} instructor` : "instructor match unknown";
-      return { text: `Prior term · ${read} · ${who}`, summary: sum, caveat: m === "different" ? "structure example, not a prediction" : "" };
-    }
-    if (sum) return { text: sum, summary: "", caveat: "" };
-    return { text: "No prior syllabus on the roster.", summary: "", caveat: "" };
-  }
+  // The grading line (owner feedback 2026-11-01): the row's grading_summary with each component weight read as a
+  // percentage ("Weekly push 15, final 25" -> "Weekly push 15%, final 25%"); "" when the row has none, and then the
+  // panel shows no Grading heading at all. A weight is a whole number of at most 100 that ends a component: before a
+  // comma, a semicolon, a closing bracket, a full stop, " each", " and", " (" or the end. Left as given: fractions and
+  // splits (1/2, 40/60), ranges and sums (1-4, 13x4+11), decimals (a curve mean of 3.35), course numbers (7290),
+  // numbers with a unit ("40 points") and any number already carrying %. Parts that do not sum to 100 keep their
+  // numbers: the line reads the source, it never rescales it.
+  const WEIGHT = /(?<![\w.%\/+-])(\d{1,3})(?![\d\/%-]|\.\d)(?=\s+each\b|\s*(?:[,;)]|\.(?:\s|$)|$|\s+\(| and\b))/g;
+  const gradingText = summary => String(summary || "").trim().replace(WEIGHT, (m, n) => Number(n) <= 100 ? `${n}%` : n);
   const eligibilityLabel = (cat, campusData) => ((campusData && campusData.eligibility) || {})[cat == null ? "null" : cat] || (cat == null ? "eligibility not verified" : String(cat).replace(/_/g, " "));
+  // A card is open to anyone when any of its codes lists no restriction (a cross-listed class one code leaves open can
+  // be taken under that code); then the card and the panel show no eligibility label. A null category is unknown; the
+  // card says nothing about it either (owner, 2026-11-01: no restriction listed means no label), and only the
+  // eligibility filter still groups it as "not verified".
+  const NO_RESTRICTION = "no_enrollment_restriction_listed";
+  const restricted = card => !(card.classes || []).some(c => c.eligibility_category === NO_RESTRICTION);
+  // the labels of a restricted card's known restrictions, one each ("" for an open or unverified card)
+  const eligibilityLine = (card, campusData) => restricted(card) ? [...new Set(card.classes.filter(c => c.eligibility_category != null).map(c => eligibilityLabel(c.eligibility_category, campusData)))].join(" · ") : "";
   // the eligibility filter: classes a program may enroll in, plus the ones with no restriction listed; no program, everything
   function openTo(card, program) {
     if (!program) return true;
@@ -161,12 +168,43 @@
   // the cards an instructor teaches: by slug when both sides have one, else by name, case-insensitively
   const teaches = (card, who) => (card.instructors || []).some(i => (who.slug && i.slug) ? i.slug === who.slug : String(i.name || "").trim().toLowerCase() === String(who.name || "").trim().toLowerCase());
   const instructorCards = (cards, who) => !who || !(who.slug || who.name) ? (cards || []).slice() : (cards || []).filter(c => teaches(c, who));
-  function filterCards(cards, { program = null, showAll = false, subject = null, q = "", coversGap = false, covered = null, instructor = null } = {}) {
+  // The collapsible facets (owner feedback 2026-11-01). Each takes a list of chosen values and an empty list keeps
+  // everything; within a facet a card matches when it has any chosen value (or), and the facets compose (and).
+  // Days: the roster's meeting patterns spell the days in one letter each (M T W R F S, U or Su for Sunday; R is
+  // Thursday). A card meets on a day when any meeting of any of its sections has that letter; a meeting with no
+  // pattern (time to be announced) meets on no day, so a day filter hides it.
+  const DAYS = ["M", "T", "W", "R", "F", "S", "U"];
+  const dayCodes = pattern => { const p = String(pattern || "").replace(/Su/g, "U"); return DAYS.filter(d => p.includes(d)); };
+  const cardDays = card => new Set((card.sections || []).flatMap(s => (s.meetings || []).flatMap(m => dayCodes(m.pattern))));
+  const dayList = cards => { const on = new Set((cards || []).flatMap(c => [...cardDays(c)])); return DAYS.filter(d => on.has(d)); };
+  const meetsOn = (card, days) => !(days || []).length || (d => days.some(x => d.has(x)))(cardDays(card));
+  // Credits: the distinct values of the codes' `credits`, read as numbers ("3.0" is "3"); a range ("1-5") is no option
+  // of its own but matches every chosen value inside it; a class with no credits listed matches no credits filter.
+  const creditNorm = v => { const s = String(v ?? "").trim(); if (!s) return null; const n = Number(s); return Number.isFinite(n) ? String(n) : s; };
+  const creditRange = s => { const m = /^(\d+(?:\.\d+)?)\s*[-–]\s*(\d+(?:\.\d+)?)$/.exec(s || ""); return m ? [Number(m[1]), Number(m[2])] : null; };
+  const cardCredits = card => [...new Set((card.classes || []).map(c => creditNorm(c.credits)).filter(Boolean))];
+  const creditList = cards => [...new Set((cards || []).flatMap(cardCredits))].filter(s => Number.isFinite(Number(s))).sort((a, b) => Number(a) - Number(b));
+  const hasCredits = (card, chosen) => !(chosen || []).length || cardCredits(card).some(v => { if (chosen.includes(v)) return true; const r = creditRange(v); return !!r && chosen.some(x => Number(x) >= r[0] && Number(x) <= r[1]); });
+  // Eligibility, who can take the class: one option per eligibility_category on the roster (null as "null", the
+  // campus file's "not verified"), labelled from the campus file; the no-restriction category takes openLabel when
+  // given. A card matches a chosen category when any of its codes carries it, so an open cross-listed class shows
+  // under "no restriction" and under its restricted code's group. Open first, unverified last, the rest by label.
+  const eligKey = cat => cat == null ? "null" : String(cat);
+  function eligibilityList(cards, campusData, openLabel) {
+    const n = {};
+    for (const c of cards || []) for (const k of new Set((c.classes || []).map(x => eligKey(x.eligibility_category)))) n[k] = (n[k] || 0) + 1;
+    const rank = k => k === NO_RESTRICTION ? 0 : k === "null" ? 2 : 1;
+    return Object.keys(n).map(k => ({ value: k, label: k === NO_RESTRICTION && openLabel ? openLabel : eligibilityLabel(k === "null" ? null : k, campusData), n: n[k] }))
+      .sort((a, b) => rank(a.value) - rank(b.value) || a.label.localeCompare(b.label));
+  }
+  const eligibleFor = (card, chosen) => !(chosen || []).length || (card.classes || []).some(c => chosen.includes(eligKey(c.eligibility_category)));
+  function filterCards(cards, { program = null, showAll = false, subject = null, q = "", coversGap = false, covered = null, instructor = null, days = [], credits = [], eligibility = [] } = {}) {
     const needle = String(q || "").trim().toLowerCase();
     return cards.filter(c => (showAll || openTo(c, program))
       && (!coversGap || ((covered || {})[c.key] || []).length)
       && (!subject || c.subjects.includes(subject))
       && (!instructor || teaches(c, typeof instructor === "string" ? { name: instructor } : instructor))
+      && meetsOn(c, days) && hasCredits(c, credits) && eligibleFor(c, eligibility)
       && (!needle || !!matchField(c, needle)));
   }
   // meeting lines: "MW 10:10–11:25 · Bloomberg 061" per section, DIS/LAB marked
@@ -247,14 +285,16 @@
   const inField = (card, subjects) => { const s = new Set(subjects || []); return (card.subjects || []).some(x => s.has(x)); };
   // the subjects of a list of field ids, from the campus entry's field_subjects map
   const fieldSubjects = (campus, groupIds) => [...new Set((groupIds || []).flatMap(g => ((campus && campus.field_subjects) || {})[g] || []))];
-  // sorts: code (the roster's order); relevance (the band, then the score, then the field, then code); gaps (the sum of
-  // the shares of the gaps covered, then the score, then the field, then code; with no card covering anything, by
-  // score, then the field, then code). info[key] = { band, score, covered } as the screen holds them; subjects: the
-  // field tie-break's list (inField), optional
+  // sorts: relevance (the band, then the score, then the field, then roster order); gaps (the sum of the shares of the
+  // gaps covered, then the score, then the field, then roster order; with no card covering anything, by score, then the
+  // field, then roster order); any other mode is the roster's order, subject then number read as a number (the screen
+  // offers no Code sort: with nothing to compare against it shows the roster as it stands). info[key] = { band, score,
+  // covered } as the screen holds them; subjects: the field tie-break's list (inField), optional
   const BAND_RANK = { high: 0, medium: 1, low: 2 };
+  const rosterOrder = (a, b) => { const p = a.primary || {}, q = b.primary || {}; return String(p.subject || "").localeCompare(String(q.subject || "")) || String(p.catalog_nbr || "").localeCompare(String(q.catalog_nbr || ""), undefined, { numeric: true }) || a.key.localeCompare(b.key); };
   function sortCards(cards, mode, info, subjects) {
     const inf = k => (info && info[k]) || {};
-    const byCode = (a, b) => a.key.localeCompare(b.key);
+    const byCode = rosterOrder;
     const field = subjects && subjects.length ? (a, b) => (inField(b, subjects) ? 1 : 0) - (inField(a, subjects) ? 1 : 0) : () => 0;
     const score = c => Number(inf(c.key).score) || 0;
     const w = c => (inf(c.key).covered || []).reduce((a, g) => a + (g.w || 0), 0);
@@ -278,32 +318,30 @@
   const RELS = { low: "thin", medium: "amber", high: "good" };
   const bandTag = (b, extra) => `<span class="tag ${RELS[b] || "thin"}${extra ? " " + extra : ""}">${esc(b)}</span>`;
   // o.matched (v18, step 2): the field the search matched (matchField); a match in the description or the outcomes,
-  // which the card does not show, gets a small label so the person knows why the card is here
+  // which the card does not show, gets a small label so the person knows why the card is here.
+  // (owner feedback 2026-11-01) The card carries no grading line, no prior-term line and no rating of the person's own;
+  // the eligibility label shows only on a restricted card (restricted); the product's band column shows only when
+  // there is something to compare against (o.roleId: one or more roles chosen), so with nothing chosen a card is the
+  // roster's facts alone.
   function cardHtml(card, o) {
     o = o || {};
     const cm = o.campus || {};
     const codes = card.codes.concat(card.otherCodes || []).join(" / ");
     const who = card.instructors.length ? card.instructors.map(i => i.slug ? `<a href="#/professor/${encodeURIComponent(i.slug)}" data-prof>${esc(i.name)}</a>` : esc(i.name)).join(", ") : "Instructor to be announced";
-    const elig = [...new Set(card.classes.map(c => eligibilityLabel(c.eligibility_category, cm)))].join(" · ");
-    const chip = gradingChip(card.primary);
-    const grading = `<p class="small cls-grading"><span class="muted">${esc(chip.text)}</span>${chip.summary ? ` ${esc(chip.summary)}` : ""}${chip.caveat ? ` <span class="muted">(${esc(chip.caveat)})</span>` : ""}</p>`;
+    const elig = eligibilityLine(card, cm);
     const rel = o.rel;   // { band, matched: [{name, tier}] } | "pending" | null
-    const product = !o.roleId ? `<span class="small muted">pick a role to rate</span>` : rel === "pending" || !rel ? `<span class="small muted">reading…</span>` : bandTag(rel.band) +
+    const product = !o.roleId ? "" : rel === "pending" || !rel ? `<span class="small muted">reading…</span>` : bandTag(rel.band) +
       (rel.matched.length ? `<details class="disc small cls-why" data-why="${esc(card.key)}"${o.whyOpen ? " open" : ""}><summary>Why</summary><div class="disc-body"><div class="tags">${rel.matched.map(m => `<span class="tag${m.tier === "core" ? " good" : ""}">${esc(m.name)}</span>`).join("")}</div><p class="small muted">Read from the roster text; a course can teach a skill without naming it.</p></div></details>` : `<p class="small muted">None of the role's main asks named.</p>`);
     // the person's gaps this course covers (o.gaps: { covered: [{ name, tier }], total }), read by kind
     const gaps = o.gaps && o.gaps.total ? `<p class="small cls-gaps${o.gaps.covered.length ? "" : " muted"}">${esc(coverLine(o.gaps.covered, o.gaps.total))}</p>` : "";
-    const own = o.own || null;
-    const ownCtl = `<div class="chips cls-own" role="group" aria-label="Your rating">${BANDS.map(b => `<button type="button" class="chip${own === b ? " on" : ""}" data-own="${esc(card.key)}" data-val="${b}">${b}</button>`).join("")}</div>`;
     return `<article class="cls-card${o.selected ? " on" : ""}" data-card="${esc(card.key)}">
       <div class="cls-main">
         <button type="button" class="cls-open linkish" data-open="${esc(card.key)}"><span class="cls-codes">${esc(codes)}</span> <span class="cls-title">${esc(card.title)}</span></button>${o.matched === "description" || o.matched === "outcomes" ? ` <span class="tag thin cls-match">in ${esc(o.matched)}</span>` : ""}
         <p class="facts">${esc(card.credits ? card.credits + " credits" : "credits not listed")}${meetingLines(card.sections).map(l => " · " + esc(l)).join("")}</p>
         <p class="small">${who}</p>
-        <p class="small"><span class="tag thin">${esc(elig)}</span></p>
-        ${grading}
+        ${elig ? `<p class="small"><span class="tag thin">${esc(elig)}</span></p>` : ""}
       </div>
-      <div class="cls-rel"><p class="eyebrow">GradBuddy</p><p class="small muted">from the course description</p>${product}${gaps}</div>
-      <div class="cls-rel"><p class="eyebrow">You</p>${ownCtl}</div>
+      ${o.roleId ? `<div class="cls-rel"><p class="eyebrow">GradBuddy</p><p class="small muted">from the course description</p>${product}${gaps}</div>` : ""}
     </article>`;
   }
 
@@ -335,5 +373,5 @@
     return blocks.join("");
   }
 
-  return { esc, BANDS, CLASS_COLS, PROF_COLS, loadCatalog, loadProfessor, campuses, campusFor, neutralCardTitle, collapse, cardTags, gradingChip, eligibilityLabel, openTo, filterCards, matchField, instructorList, instructorCards, instructorGaps, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, combineRoles, joinLabels, gapsCovered, coverLine, NO_COVER_LINE, noCover, inField, fieldSubjects, sortCards, topCovering, cardHtml, mdSections, mdHtml };
+  return { esc, BANDS, CLASS_COLS, PROF_COLS, loadCatalog, loadProfessor, campuses, campusFor, neutralCardTitle, collapse, cardTags, gradingText, eligibilityLabel, restricted, eligibilityLine, openTo, filterCards, matchField, instructorList, DAYS, dayCodes, cardDays, dayList, meetsOn, cardCredits, creditList, hasCredits, eligibilityList, eligibleFor, rosterOrder, instructorCards, instructorGaps, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, combineRoles, joinLabels, gapsCovered, coverLine, NO_COVER_LINE, noCover, inField, fieldSubjects, sortCards, topCovering, cardHtml, mdSections, mdHtml };
 });

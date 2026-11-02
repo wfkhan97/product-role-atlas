@@ -30,12 +30,12 @@
     openLower: "open",
     openArrow: "open →",
     done: "Done",
-    clearAll: "Clear all",
+    resetFilters: "Reset filters",   // the role page's filters drawer: every filter back to its default
     all: "All",
     notNow: "Not now",
     loading: "Loading…",
     loadingRoles: "Loading the roles…",
-    bar: { jobs: "Find jobs", skills: "Explore roles", classes: "Find classes", network: "Networking" },   // the top bar's short labels
+    bar: { jobs: "Find jobs", skills: "Explore careers", classes: "Find classes", network: "Networking" },   // the top bar's short labels
     theme: "Theme follows your device. Click to change.",
     themeSet: "Theme: {theme}. Click to change.",
     railTab: "Your fit",
@@ -43,10 +43,9 @@
     tipLabel: "What this means",
     failHeading: "Something did not load",
     failLine: "{message}. Reload the page. If it happens again, the data files may be missing.",
-    foot: "Built from {n} live job postings, refreshed weekly. Last refresh {date}.",
     noLeave: "Nothing leaves your browser.",
     nOpen: "{n} open",
-    // the résumé form: a drop zone, a paste box, what the reader found
+    // the résumé form: a drop zone and what the reader found (no paste box since 2026-11-01, owner's feedback: a file only)
     resume: {
       drop: "Drop a PDF, DOCX or TXT here",
       dropShort: "Drop a PDF, DOCX or TXT",
@@ -55,17 +54,20 @@
       using: "Using {name} ({words} words read).",
       forget: "Forget it",
       forgotten: "Forgotten.",
-      pasteLabel: "Or paste the text of your resume:",
-      pasteShort: "Or paste the text of your resume",
-      pasteAria: "Resume text",
-      placeholder: "Product Management Intern, FinServ Startup (Summer 2026)\n- Conducted 15 user interviews…",
+      // the processing state (owner, 2026-11-01): the drop zone turns into a short list of steps while the file is read,
+      // matched and sent once to the model; nothing else on the screen moves until it is done
+      steps: { file: "Reading your file", match: "Matching it to the postings", infer: "Finding the skills it shows without naming them" },
+      working: "Reading…",
+      wait: "This takes a few seconds. The screen updates on its own.",
       reading: "Reading {name}…",
-      fewWords: "{name}: we read only {words} words. If this is a scan, paste the text of your resume instead.",
+      fewWords: "{name}: we read only {words} words. If this is a scan, try a text or DOCX export.",
       read: "{name}: {words} words read.",
       cantRead: "Could not read that file: {message}",
-      nothing: "Add a file or paste some text first.",
+      nothing: "Add a file first.",
+      // the posting and course forms, which keep their paste box (wireFileDrop)
+      nothingText: "Add a file or paste some text first.",
       readFit: "Read my fit →",
-      pastedName: "pasted text",
+      pastedName: "pasted text",   // a pasted posting or course text
     },
     // the bands of fit, in order; never a score
     bands: { different: "New to the field", related: "Relevant foundation", in_range: "Qualified for the role", strong: "Strong match" },
@@ -81,6 +83,7 @@
       known: "you got it right in a game",
       other: "on your resume in other words; postings say it differently",
       through: "a way of working, shown through a skill on your resume",
+      inferred: "inferred from your experience; the line that suggested it is below",
     },
     // the one intake box's send
     sending: "Sending…",
@@ -93,28 +96,28 @@
   // ---------- the door (#/), v19 B2: the owner's words ----------
   const door = {
     heading: "Welcome to GradBuddy.",
-    intro: ["GradBuddy helps grad students find the right jobs, build the skills those jobs ask for, and meet the right people.", "We have spent the past few weeks on a few of those pieces. They are ready to share."],
-    // {roles} is the role count from the index, rounded down to a multiple of 10 (Door.inside)
-    inside: "Inside: jobs for grad students, over {roles} roles, Spring 2027 classes at Cornell Tech, and who to meet on campus.",
+    // intro[0] and inside are the owner's words verbatim (2026-11-01), over the 20-word rule: evals/copy_lib.mjs
+    // OWNER_WORDS lets exactly these texts through; any edit to them meets the rule again
+    intro: ["GradBuddy helps students with the things they care about most: finding jobs, taking advantage of networking opportunities, making classwork relevant, and more.", "We spent the past few weeks on a few of those pieces & we want to share."],
+    inside: "Inside: find jobs for grad students, learn what skills different roles require (and how you stack up), search classes by career relevance, and identify people to network with",
     email: "Your email", emailPlaceholder: "user@school.edu",
     where: "What are you studying?", pick: "Pick one",
     cornell: "Some parts are for Cornell students. A Cornell address opens them.",
     button: "Continue", skip: "Skip for now",
-    privacy: "We keep your email to send you what we build. Nothing you upload later leaves your browser.",
+    privacy: "We keep your email to send you what we build. Your résumé text goes once to our AI reader; we do not store it.",
   };
 
   // ---------- home (#/home): the four verbs, one data-built line each ----------
   const home = {
     heading: "What do you want to do?",
-    more: "More about you",
     // the grayed Find classes card: the line, then a link to the door in the middle of the second sentence
     closed: "For Cornell students for now.", closedLink: "Enter a Cornell address", closedAfter: "to open it.",
     // {jobs}, {companies} and {roles} are counts in words, rounded down (Door.thousands, hundreds, tens)
     verbs: {
       jobs: { title: "Find jobs", line: "Search over {jobs} open jobs in popular fields for grad students, from over {companies} companies." },
-      skills: { title: "Explore roles & build skills", line: "Explore over {roles} roles and see how your experience and skills match up." },
-      classes: { title: "Find classes", line: "Pick Spring 2027 classes at Cornell Tech that build the skills your roles ask for." },
-      network: { title: "Networking", line: "Meet the faculty on campus whose classes build what your roles ask for." },
+      skills: { title: "Explore careers", line: "Explore over {roles} roles and see how your experience and skills match up." },
+      classes: { title: "Find classes", line: "Pick Spring 2027 classes that are relevant to the job you want" },
+      network: { title: "Networking", line: "Identify alumni, faculty, and peers to connect with" },
     },
   };
 
@@ -125,6 +128,8 @@
       skills: "GradBuddy will give you personalized projects. Each one builds a skill you need. Each one aims at the roles, industries and companies you want.",
       network: "GradBuddy will find events near you that fit your role. It will show you who to meet and what to say.",
       classes: "GradBuddy will turn your classes into proof of the skills you need.",
+      // the role rail's "Help me improve my positioning" (2026-11-01)
+      positioning: "GradBuddy will read your résumé against the roles you want and tell you what to change. It will show you how to say what you have done so it lands.",
     },
     email: "Email",
     button: "Notify me",
@@ -151,7 +156,7 @@
     next: "Next →",
     lastStep: "Last step, optional",
     addResume: "Add your resume",
-    resumeLead: "We read it in your browser to find the roles that fit what you have done. Nothing leaves your browser.",
+    resumeLead: "We read it in your browser to find the roles that fit what you have done. Its text also goes once to our AI reader; we do not store it.",
     showRoles: "Show my roles →",
     skip: "Skip for now",
     // the summary
@@ -163,7 +168,7 @@
     notAnswered: "Not answered",
     noFields: "None yet; your resume decides",
     resume: "Your resume",
-    resumeLine: "{words} words, read in your browser; nothing leaves it",
+    resumeLine: "{words} words, read in your browser and once by our AI reader",
     replace: "replace",
     closest: "Your closest matches",
     noRole: "No role yet",
@@ -186,6 +191,16 @@
     why: { picked: "You picked it", held: "You held {role}", close: "Your resume reads close to {role}" },
     // the profile strip on Explore
     strip: { chosen: "chosen", fromResume: "from your resume", noField: "no field from your resume yet", noResume: "no resume yet" },
+    // About you drawn inside another screen (app.js youInline: home, Networking) and its one-line summary once answered
+    inline: {
+      heading: "About you",
+      lead: "Three quick questions and an optional résumé. The screens use your answers to pick what comes first.",
+      done: "Done",
+      skip: "Skip for now",
+      summaryAria: "What you told us",
+      noWhere: "program not answered", noStage: "stage not answered", noFields: "no fields picked",
+      resumeOn: "{name} on file", noResume: "no résumé on file",
+    },
   };
 
   // ---------- Explore (#/explore) and a field (#/field/<id>) ----------
@@ -203,7 +218,6 @@
     key: { have: "Already on your resume", todo: "Gaps these roles require", quiet: "Other skills: hover for the name", top: "The 35 skills most postings ask for", rest: "The rest: hover for the name", you: "Fields your answers and resume point to" },
     fieldsAlone: "Show the fields alone", allSkills: "Show all skills",
     example: "e.g. {names}", moreRole: ", +{n} more role", moreRoles: ", +{n} more roles",
-    barMeasure: "{n} open postings in {field} now; the bar compares the fields.",
     loading: "loading…",
     // a field
     field: {
@@ -220,6 +234,8 @@
       held: "you held this role", close: "your resume reads close to it",
       standsOut: "Stands out for {names}", asksMost: "Asks most for {names}",
       when: "Open postings in the US{refreshed}{world}.", refreshed: ", refreshed {date}", scraped: ", scraped {date}", world: "; {n} worldwide",
+      // the chart's lanes (web/skillmap.js chart(); which skills: Atlas.fieldChart)
+      lanes: { craft: "{field} craft", people: "Working with people", every: "Asked in every field", todo: "Gaps these roles require", have: "Already on your resume", loading: "Loading this field…" },
     },
   };
 
@@ -232,7 +248,6 @@
     openMeasure: "{n} open now{closed}.",
     closedMeasure: "; the shares also count {n} postings that closed this year. The skills reflect a year of hiring, not one week",
     employer: "{n} employer", employers: "{n} employers",
-    entryGrade: "entry grade: {label}, {n} open",
     // the lead sentence the data builds
     fewMatch: "Few postings match this view; widen the filters to see what the role asks for.",
     apartOne: "{names} sets this role apart", apart: "{names} set this role apart", leadAsks: "{names} lead the asks", tool: "{names} is the tool", tools: "{names} are the tools",
@@ -253,7 +268,7 @@
     noMatch: "No postings match these filters.",
     tiers: ["Most postings ask for these", "A quarter to a half of postings ask for these", "One in ten to one in four postings ask for these"],
     showFewer: "Show fewer", showMoreFewer: "Show {n} more that fewer postings ask for",
-    skill: "{n} skill", skills: "{n} skills", inMost: "{n} in most postings",
+    skill: "{n} skill", skills: "{n} skills",
     defining: "◆ sets this role apart: this role's postings ask for it far more often than other roles' postings do.",
     grows: "↗ asked more higher up: leadership postings ask for it at least 1.5 times as often as entry-level ones.",
     known: "✓ you know this one: you got it right in a game.",
@@ -308,19 +323,11 @@
     specificAsks: "Specific asks in this posting",
     // the rail
     rail: {
-      then: "Then", doSomething: "Do something with this",
-      practice: "Practice this role", twoMin: "· 2 min",
-      course: "Check a course against this role",
-      event: "Going to a {field} event?",
-      classes: "{term} classes that fit this role",
+      findClasses: "Find classes relevant for this role →",   // the rail's one closing link (2026-11-01)
       howFit: "How do you fit?",
-      dropLead: "Drop your resume and this panel reads it against these postings. Nothing leaves your browser.",
+      inferredLine: "{n} of them inferred from your experience, from lines that do not name them.", inferredSee: "See the lines",
+      dropLead: "Drop your resume and this panel reads it against these postings. Its text goes once to our AI reader, and we do not store it. Nothing else leaves your browser.",
       orAnswer: "Or answer two questions", orAnswerAfter: "to start from your program and the fields you like.",
-      picked: "This role is in {field}, a field you picked.",
-      entry: "You are looking at the entry grade:", entryOpen: "{n} open postings", entryOpenOne: "1 open posting", interns: ", {n} of them internships",
-      entryEmployers: "Entry-grade employers now: {names}.", topEmployers: "Across all levels {names} hire the most.",
-      askTargeting: "Add your resume to see the gaps between it and this role.",
-      askLooking: "Add your resume to see which of these skills you already show and which are gaps.",
       forYou: "For you",
       yourFit: "Your fit · {name}",
       reading: "Reading your resume against these postings…",
@@ -334,7 +341,7 @@
       classesCover: "Classes that cover it:",
       lineShows: "A line that shows it:",
       openSkillHow: "Open the skill for how postings say it.",
-      helpShow: "Help me show this →", openSkill: "Open the skill",
+      helpBuild: "Help me build this skill →", helpPosition: "Help me improve my positioning →", openSkill: "Open the skill",
       classesHeading: "Classes that cover your gaps",
       readingRoster: "Reading the {term} roster against your gaps…",
       termClasses: "{term} classes →",
@@ -345,8 +352,6 @@
       evidenceOne: "Evidence that one and your resume reads as “{band}”.", evidenceThree: "Evidence the top three and your resume reads as “{band}”.",
       nothingMissing: "Nothing important missing: you show every skill most postings ask for.",
       seeAll: "See all {n} skills on your resume, matched to this role →", seeAllOne: "See all 1 skill on your resume, matched to this role →",
-      practiceGaps: "Practice your gaps",
-      build: "Build these skills", ways: "Ways to show your skills", comingSoon: "· coming soon",
       postingsAsking: "Postings asking for it:",
     },
   };
@@ -356,7 +361,7 @@
     crumb: "Your fit",
     eyebrow: "Your fit · {role}",
     addResume: "Add your resume",
-    addLead: "We read it in your browser against what {role} postings ask for. Nothing leaves your browser.",
+    addLead: "We read it in your browser against what {role} postings ask for. Its text goes once to our AI reader, and we do not store it. Nothing else leaves your browser.",
     backRole: "← Back to the role",
     backTo: "← Back to {role}", backAfter: ", with your fit marked on every skill.",
     // how the résumé reads, by persona
@@ -390,7 +395,12 @@
       transferable: "⟲ said in other words: your resume shows this in another field's words. Postings here say it differently; see Details for how.",
       presumed: "◌ presumed: people who hold the role you held do this, so it earns part credit. Your resume does not show it.",
       thin: "○ named, not shown: listed as a word, but no work, project or course line shows it.",
+      inferred: "◈ inferred from your experience: your resume shows it without naming it. The line that suggested it: “{line}”",
     },
+    // the model read (web/infer.js): the skills the resume shows without naming them, on the Details tab
+    inferred: "Inferred from your experience ({n})",
+    inferredLead: "Our AI reader found these in your lines, though your resume never names them. Each earns part credit. Name it in your own words for full credit.",
+    inferredIndustry: "Industry",
     postingAsks: "This posting asks for it: the text you pasted names {name}.", postingTag: "this posting asks for it",
     barMeasure: "{share} of the postings in this view ask for {name}{most}.", mostOfThem: ", most of them",
     classesCover: "Classes that cover it:",
@@ -521,9 +531,9 @@
     previous: "Previous {n}", pageOf: "Page {p} of {n}", next: "Next {n}",
   };
 
-  // ---------- Explore roles & build skills (#/skills), the launcher, v19 B5 ----------
+  // ---------- Explore careers (#/skills), the launcher, v19 B5 (named "Explore roles & build skills" until 2026-11-01) ----------
   const skills = {
-    heading: "Explore roles & build skills",
+    heading: "Explore careers",
     lead: "Pick a role from {roles} in {fields} fields. Add your résumé to see how your skills match up.",
     search: "Search roles, for example product manager",
     searchLabel: "Search roles",
@@ -533,21 +543,22 @@
     noHit: "No role matches. Try fewer letters, or pick a field below.",
     tile: "{roles} roles · {open} open",
     fieldLine: "{roles} roles · {open} open postings. Pick one to see what its postings ask for.",
+    backToFields: "← Back to fields",
     asks: "Most postings ask for: {asks}.",
     open: "{open} open",
     rolesAria: "Roles",
     resume: {
       heading: "Your résumé",
-      privacy: "We read it in your browser against what each role's postings ask for.",
+      privacy: "We read it in your browser against what each role's postings ask for. Its text goes once to our AI reader, and we do not store it.",
       read: "Read my fit →",
-      onFile: "read in your browser",
+      onFile: "read in your browser and once by our AI reader",
+      inferred: "{n} of them inferred from your experience; your fit shows the lines that suggested them.",
       change: "change",
       band: "{band} for {role}.",
       line: "{n} of the {m} skills most {role} postings ask for {are} on your résumé.", is: "is", are: "are",
       fit: "See your fit for {role} →",
       closest: "Closest roles",
       ranked: "Ranked by how many of their top skills you show.",
-      opens: "Each opens your fit.",
       failed: "Could not read it against the roles. Reload the page to try again.",
       reading: "Reading it against the closest roles…",
       noClose: "No role reads close to it yet. Pick a role on the left and open your fit there.",
@@ -560,77 +571,125 @@
     crumb: "Networking",
     eyebrow: "Networking · {role}",
     heading: "Who to meet",
-    lead: "You show {n} of the {m} skills most {role} postings ask for. These people can help with the rest.",
-    leadNoResume: "These people can help with the skills most {role} postings ask for.", addResume: "Add your résumé", addResumeAfter: "to see which you show.",
+    // the gate: with no answers, no résumé and no role, the About you questions come first, on this screen
+    gateLead: "Answer a few questions first. They pick the role to plan your chats for.",
     role: "Role",
+    rolePlaceholder: "Type a role",
     who: "Who to look for",
+    moreJobs: "See more companies in Find jobs →",
     where: "Where to find them",
-    whereNote: "Each link is a search built from the data. We list no one ourselves.",
     noWhere: "No place to look in the data for this type.",
-    openWith: "Open with",
-    questions: "Three questions",
-    listen: "Listen for",
-    follow: "Follow up the same day",
-    message: "Your message",
     prep: "Prep a chat",
     company: "Company",
+    companyPlaceholder: "Type a company",
     professor: "Professor",
-    noPick: "No pick needed. This fits any classmate aiming at {role}.",
-    name: "Their name, if you know it",
-    nameHint: "Optional. Stays in this browser.",
-    copy: "Copy the message",
-    edit: "Edit it, then copy.",
-    copied: "Copied.",
-    add: "Add to my list",
-    onList: "On your list",
-    list: "Your list",
-    noChats: "No chats yet. The prep card has \"Add to my list\".",
-    stays: "Stays in this browser.",
-    open: "Open",
-    remove: "Remove",
-    linkedin: "LinkedIn needs an account.",
-    sideAria: "Prep a chat and your list",
+    professorPlaceholder: "Type a name",
+    openLabel: "{company} · {n} open",
+    coversHint: "covers {n} of your gaps",
+    noTitle: "Title not on the roster",
+    sideAria: "Prep a chat",
     gapsOf: "{n} of {m} gaps", covers: " · covers {names}",
-    moreProfs: "{n} more in the prep card's list.",
+    teachesOf: "teaches {n} of {m} asks", teachesNames: " · teaches {names}",   // with no résumé: the role's core asks its classes teach
+    moreProfs: "{n} more in the Professor list of the prep card.",
     rosterFailed: "The roster did not load. Reload the page to try again.",
-    // the people types: the label and what each is good for; faculty show only when the door opens Cornell
+    // the people types; faculty show only when the door opens Cornell
     types: {
-      hm: { label: "A hiring manager", good: "Decides on a hire for the role you want. Ask what they look for." },
-      inrole: { label: "Someone in the role now", good: "Does the job today. Ask what a week looks like." },
-      recruiter: { label: "A recruiter", good: "Runs hiring at a company. Ask how and when they hire." },
-      alum: { label: "An alum in the role", good: "Went from your school to this role. Ask how." },
-      peer: { label: "A classmate", good: "Aims at the same role. Compare notes and split the work." },
-      faculty: { label: "Faculty on campus", good: "Teaches a class this term that covers one of your gaps." },
+      hm: { label: "A hiring manager" },
+      inrole: { label: "Someone in the role now" },
+      recruiter: { label: "A recruiter" },
+      alum: { label: "An alum in the role" },
+      faculty: { label: "Faculty on campus" },
     },
-    // the fixed lines of "who to look for" (the data-built ones stay in network.js)
+    // "Who to look for" has no lead (owner's feedback 2026-11-01: the list speaks for itself); this line stands in for
+    // the hiring manager's titles when no senior posting is open
     whoLines: {
-      facultyWait: "Faculty show when your email opens them.",
-      openProfessor: "Open a professor to see the classes and the official profile.",
-      fiveEmployers: "The five employers with the most open postings:",
-      startEmployers: "Start at the employers hiring the role now:",
+      hmNone: "No senior {role} posting is open now. Look one level up: {next}.",
     },
-    // where to find them: what each link opens
+    // where to find them: the link labels only (owner's feedback 2026-11-01: a link is a link, no line on what it opens)
     whereLines: {
-      hm: "Opens LinkedIn's people search for senior {role} titles at {company}. {linkedin}",
-      inrole: "Opens LinkedIn's people search for {role} at {company}. {linkedin}",
-      recruiter: "Opens LinkedIn's people search for recruiters at {company}. {linkedin}",
-      posting: "Opens the posting on the company's site. It names the team; some name the recruiter.",
       handshake: "Handshake",
-      handshakeLine: "Opens Handshake, if your school uses it. An employer's page there lists its recruiters and alumni who worked there.",
-      alum: "Opens LinkedIn's people search for {role}. Add your school under School in the filters. {linkedin}",
-      alumAt: "Opens LinkedIn's people search for {role} at {company}. Add your school in the filters. {linkedin}",
-      professor: "The professor card: title, classes this term, which of your gaps they cover.",
-      classInPicker: "The class in the picker. Its students work on your gaps this term.",
-      skills: "Explore roles & build skills →",
-      skillsLine: "Read a classmate's résumé against the same role. Nothing leaves the browser.",
-      leads: "{company} · {role} leads", recruiters: "{company} · recruiters", peopleSearch: "{role} · people search",
+      leads: "{company} · {role} leads", recruiters: "{company} · recruiters",
+      alumni: "{role} · Cornell alumni", alumniAt: "{company} · {role} · Cornell alumni",
     },
-    // the fixed parts of the message: the opener, the one ask with no slot, the closes
-    say: {
-      intro: "I am a grad student.",
-      inroleAsk: "Could I have 20 minutes to hear what a week in your role looks like?",
-      thankYou: "Thank you.", thanks: "Thanks.",
-      there: "there", hi: "Hi {name},", subject: "Subject: {subject}",
+    // the prep card's suggested approach: talking points to paste into an AI helper or keep as notes. The slots come from
+    // the data (network.js say()): {skill} is a craft skill, never a behaviour, a generic skill or a credential.
+    approach: {
+      heading: "Suggested approach",
+      note: "Talking points to paste into your AI helper or keep as notes.",
+      leadWith: "Lead with", ask: "The ask", questions: "Three questions",
+      copy: "Copy", copied: "Copied.", copyFailed: "Select the text and copy it.",
+      addResume: "Add your résumé", addResumeAfter: "to name the skills you show.",
+      theClass: "the class", theSkills: "the skills most postings ask for",
+      shows: "Your résumé shows {skills}. Most {role} postings ask for them.",
+      showsOne: "Your résumé shows {skills}. Most {role} postings ask for it.",
+      atCompany: "{company} asks for {skill} in {k} of its {n} {role} postings.",
+      showsNone: "Your résumé does not show the top {role} asks yet. Lead with the work closest to {skill}.",
+      noResume: "Lead with the work you have done closest to {skills}.",
+      sub: ", {sub} in particular",
+      asks: {
+        hm: "Could I have 20 minutes to hear what you look for in {aRole} hire?",
+        hmAt: "Could I have 20 minutes to hear what {company} looks for in {aRole} hire?",
+        inrole: "Could I have 20 minutes to hear what a week in your role looks like?",
+        recruiter: "Could I have 15 minutes to hear how {company} hires for {role} roles?",
+        recruiterNoCo: "Could I have 15 minutes to hear how your team hires for {role} roles?",
+        alum: "Could I have 20 minutes to hear how you got from your school to {role}?",
+        faculty: "Could I have 15 minutes to ask whether {code} covers {skill}?",
+      },
+      // three question shapes per type; network.js picks the first whose data is there and fits in 20 words
+      q: {
+        hm: {
+          quote: "Your {title} posting says “{quote}”. What does that look like in a first year?",
+          posting: "Your {title} posting asks for {skill}{sub}. How does that show up in a first year?",
+          role: "Most {role} postings ask for {skill}. How does that show up in a first year on your team?",
+          bridge: "My résumé shows {lead}; your {role} postings stress {skill}. What does strong work in {skill} look like on your team?",
+          stress: "Your {role} postings stress {skill}. What does strong work in {skill} look like on your team?",
+          stressRole: "Many {role} postings ask for {skill}. What does strong work in {skill} look like on your team?",
+          learn: "I am still building {skill}. Which of your {n} open {role} roles would let me learn it on the job?",
+          learnRole: "I am still building {skill}. Where would a new {role} on your team learn it?",
+          teach: "Which of your {n} open {role} roles would teach {skill} on the job?",
+        },
+        inrole: {
+          stress: "{company}'s {role} postings ask for {skill} more than most. What did that look like in your first year?",
+          asks: "{company}'s {role} postings ask for {skill}. What did that look like in your first year?",
+          askRole: "Most {role} postings ask for {skill}. What does that look like in your week?",
+          gap: "My résumé does not show {skill} yet. How did you build it before you joined {company}?",
+          gapRole: "My résumé does not show {skill} yet. How did you build it before your first {role} job?",
+          built: "How did you build {skill} before you joined {company}?",
+          builtRole: "How did you build {skill} before your first {role} job?",
+          sub: "Your team's postings name {sub} under {skill}. How does your team do it day to day?",
+          title: "{company} posts {title} roles now. What would someone in that seat work on first?",
+          week: "Where does {skill} come up in your week, and who asks for it?",
+        },
+        recruiter: {
+          count: "{company} has {n} open {role} postings. Which teams take new grads first?",
+          countRole: "Which teams take new grads first for {role} roles?",
+          level: "Of those, {k} sit at the {level} level. What gets a résumé past your first screen there?",
+          levelOne: "Of those, one sits at the {level} level. What gets a résumé past your first screen there?",
+          levelAll: "They all sit at the {level} level. What gets a résumé past your first screen there?",
+          levelRole: "At which level do new grads join for {role} roles?",
+          screen: "Your postings ask for {skill}. How do you screen for it when a new grad has not held the title?",
+          screenRole: "Most {role} postings ask for {skill}. How do you screen for it in a new grad?",
+        },
+        alum: {
+          learned: "Which class or project helped you most with {skill} on the way to {role}?",
+          titles: "{company} posts {title} and {title2} now. Which would you aim at first, and why?",
+          titleOne: "{company} posts {title} now. Would you start there, or one level below?",
+          levelRole: "Most open {role} postings sit at the {level} level. Is that where you started?",
+          startRole: "Which {role} title did you start in, and would you start there again?",
+          choose: "My résumé shows {lead} but not {skill} yet. Which would you build first to get hired at {company}?",
+          chooseRole: "My résumé shows {lead} but not {skill} yet. Which would you build first to get hired as {aRole}?",
+          chooseNoLead: "Which would you build first to get hired at {company}: {skill} or {skill2}?",
+          chooseRoleNoLead: "Which would you build first to get hired as {aRole}: {skill} or {skill2}?",
+          // the shorter asks when long skill or company names take a question over 20 words
+          chooseNoLeadShort: "Which would {company} want first: {skill} or {skill2}?",
+          chooseShort: "Which would you build first: {skill} or {skill2}?",
+        },
+        faculty: {
+          covers: "{role} postings ask for {skill}{sub}. How much of that does {code} cover?",
+          project: "Which project in {code} could show {skill} to {aRole} hiring manager?",
+          other: "Does {code} touch {skill} too, or which class this term does?",
+        },
+      },
     },
   };
 
@@ -647,30 +706,29 @@
     rosterFailed: "We could not read the roster: {message}.",
     rosterEmpty: "The roster is empty right now. Check back after the next refresh.",
     matchRoles: "Match to roles", addRole: "Add a role", pickRole: "Pick a role", addRoleAria: "Add a role", removeRole: "Remove {role}",
-    instructor: "Instructor", anyone: "anyone",
+    // the collapsible facets under the subject row (owner feedback 2026-11-01); a closed facet names how many it holds
+    facets: { days: "Days", credits: "Credits", eligibility: "Who can take it", professor: "Professor" },
+    facetOn: "{label} · {n}",
+    days: { M: "Mon", T: "Tue", W: "Wed", R: "Thu", F: "Fri", S: "Sat", U: "Sun" },
+    noRestriction: "No restriction", anyProfessor: "Any professor",
     about: "About {name} →", noProfile: "{name} has no profile on the roster yet.",
     coversGap: "Covers a gap",
-    sort: "Sort", sorts: { code: "Code", relevance: "Relevance", gaps: "Gaps covered" },
+    sort: "Sort", sorts: { relevance: "Relevance", gaps: "Gaps covered" },
     addResume: "Add your résumé and each card says which of your gaps it covers.",
     readFit: "Read my fit →",
     gapLine: "Your fit for {roles} leaves {gaps}. Each card says which it covers, read from the course text by kind. A course can show craft, not how you work.",
     gap: "1 gap", gaps: "{n} gaps",
     noGaps: "Your résumé shows every skill most {roles} postings ask for; nothing to cover.",
-    rosterAsOf: "Roster as of {date}.", rosterUpdated: "Roster as of {date}; updated weekly until {until}.",
-    twoColumns: "Two columns rate each class. Ours reads the roster text against the roles you pick. Yours is your own call and stays in this browser.",
     searchPlaceholder: "Code, title or content", searchAria: "Search by code, title, description or outcomes",
     subject: "Subject", all: "All",
-    shown: "{n} classes shown; cross-listed classes share a card.", shownOne: "1 class shown; cross-listed classes share a card.",
     noMatch: "No class matches. Clear the search.",
     // the detail panel
     description: "Description", outcomes: "Outcomes", prerequisites: "Prerequisites", limitedTo: "Enrollment limited to",
     sections: "Sections", noSection: "No section on the roster yet.",
-    prior: "Prior offerings", noPrior: "None on record since SP25.",
     grading: "Grading", teaching: "Teaching it",
     openRoster: "Open on the class roster ↗",
     credits: "{n} credits", noCredits: "credits not listed",
     timeTBA: "time not set yet",
-    taughtBy: "Taught {term} by {names}", unnamed: "an instructor the roster does not name",
     // the professor card
     professor: "Professor",
     noProfessor: "No professor named.", backClasses: "Back to the classes.",
@@ -678,12 +736,9 @@
     profileFailed: "We could not read the profile: {message}.",
     noProfileNamed: "No profile under that name on the roster.",
     teachingIn: "Teaching in {term}", openInPicker: "open in the picker →", noClassTerm: "No class on the roster this term.",
-    notConfirmed: "Identity not confirmed; no profile shown.",
-    identity: { confirmed: "identity confirmed", probable: "identity probable", not_confirmed: "identity not confirmed" },
     noTitle: "Title and affiliation not on record.",
     angle: "Networking angle", more: "More",
     links: { official: "Official profile", site: "Personal site", scholar: "Google Scholar", linkedin: "LinkedIn" },
-    publicOnly: "Public professional information only. There are no ratings or reviews here.",
     yourGaps: "Your gaps",
     profCovers: "{name}'s {classes} this term cover {n} of your {gaps} for {roles}.", profCoversNone: "None of {name}'s {classes} this term names one of your {n} gaps for {roles}.",
     classWord: "class", classesWord: "classes", gapWord: "gap", gapsWord: "gaps",
@@ -712,7 +767,7 @@
     invalid: "Enter the email address on your invite.",
     expired: "That link no longer works. Send yourself a new one.",
     note: "The link opens your map. Nothing else here needs a sign-in.",
-    explore: "Explore roles without one →",
+    explore: "Explore careers without one →",
   };
 
   // ---------- the apprentice map (#/map) and its lines on the launcher (#/skills) ----------
@@ -869,12 +924,12 @@
     lead: "GradBuddy helps grad students find the right jobs, build the skills those jobs ask for, and meet the right people. Four things to do here, all built from live job postings.",
     jobs: "Find jobs",
     jobsLine: "One search over every open US posting we hold, for both role sets. With a résumé on file, each posting says how many of its skills you show.",
-    skills: "Explore roles & build skills",
-    skillsLine: "Every role by field, with the skills most of its postings ask for. We read your résumé in your browser against them, and the fit says which skills are gaps.",
+    skills: "Explore careers",
+    skillsLine: "Every role by field, with the skills most of its postings ask for. We read your résumé against them, in your browser and once with our AI reader. The fit says which skills are gaps.",
     classes: "Find classes",
     classesLine: "The {term} roster at Cornell Tech, read against the roles you want. Each class says which of your gaps it covers.",
     network: "Networking",
-    networkLine: "Who to meet for one role, from the postings: hiring managers, people in the role, recruiters, alumni and classmates. A prep card gives you an opener, three questions and a message to copy.",
+    networkLine: "Who to meet for one role, from the postings: hiring managers, people in the role, recruiters and alumni. A prep card says where to find them and what to ask.",
     count: "What we count",
     facts: { open: "open US postings", employers: "employers", roles: "roles", classes: "{term} classes" },
     countLine: "Every number comes from job postings on employers' own careers pages, refreshed every week; the last refresh was {date}. The business roles show US postings: {fortune} Fortune 500 companies, {startups} venture-backed startups, and {mba} employers that MBA students target.",
@@ -884,7 +939,7 @@
     editorial: "Sub-skills, level ladders and build steps are editorial. Every quoted sentence comes from a posting.",
     privacy: "Privacy",
     privacyEvents: "We count which screens a visit reaches. Those are the door, Explore, a field, a role, a fit and a course read. Also an event page, the classes, a game, a click to a posting, a résumé read and About you finished. Each count carries a random session id, your program and stage answers, and the role or field on screen. It never carries text, a skill or a file name.",
-    privacyEmail: "We keep an email you type into the door or a box, to send you what we build. We keep the role on screen with it, nothing else. Nothing you upload leaves your browser: no résumé, syllabus or pasted posting.",
+    privacyEmail: "We keep an email you type into the door or a box, to send you what we build. We keep the role on screen with it, nothing else. Your résumé text goes once to our AI reader, a Claude model from Anthropic. It finds the skills your résumé shows without naming them. We do not store the text, and no syllabus or pasted posting leaves your browser.",
     product: "Product roles",
     productLoading: "Loading the product set…",
     productLine: "{n} open postings worldwide, {us} in the US (the count Explore shows). {families} product role families at {companies} companies, refreshed {date}.",
@@ -908,7 +963,6 @@
     pickField: "Pick a field, then a role.",
     back: "Back",
     example: "e.g. {names}", more: ", +{n} more",
-    barMeasure: "{n} open postings in {field} now; the bar compares the fields.",
     nOpen: "{n} open",
     knowHeading: "What you know about this role",
     asksKnown: "Asks you know",

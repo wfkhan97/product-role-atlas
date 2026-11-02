@@ -11,6 +11,13 @@
   means running `node evals/run.mjs --baseline` and committing the updated `evals/baseline.md`; a taxonomy
   change also means re-extracting (`.venv/bin/python -m pipeline.extract && .venv/bin/python -m pipeline.build_graph`)
   and regenerating `evals/extraction_baseline.md` with the reuse mode described in `evals/README.md`.
+- Touching the model read (`web/api/infer.js`: the prompt, the model, the validation; `web/infer.js`; the `inferred`
+  status or its credit in `web/match.js`) means running it over the WHOLE résumé set, never the eight samples alone:
+  `.venv/bin/python -m pipeline.store pull evals` first (the external set lives in the `atlas-store` bucket; a
+  checkout without the key holds only what was copied by hand), then `node evals/infer.mjs --baseline --url
+  <deploy>/api/infer` (a preview deploy needs `INFER_COOKIE` from its share link; `--reuse` reruns from the saved
+  answers without a call), and committing `evals/infer_baseline.md`. The baseline's header says how many of the
+  external files were present; a run on a partial set is a draft, say so in the commit.
   Expectation files in `evals/resumes/*.json` are the spec; change them only with a reason in the commit.
 - Every skill in `pipeline/taxonomy.json` has a `kind` (`pipeline/tax.py`, `KINDS`), an entry in
   `pipeline/evidence.json` and, when four or more fields ask for it, an entry per asking field in

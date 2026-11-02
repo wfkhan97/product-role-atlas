@@ -1,6 +1,6 @@
 {
   "persona": "new_to_role",
-  "notes": "MBA student with one PM internship, three years in marketing, a capstone and a hackathon. The core grad-student case. Band lowered from 0.45 on 2026-10-25: data-driven decision making became a behaviour (PLAN.md v13), so the resume's own analysis line no longer scores it; the row now reads as shown through a carrier. Two points, measured, not a reading change.",
+  "notes": "MBA student with one PM internship, three years in marketing, a capstone and a hackathon. The core grad-student case. Band lowered from 0.45 on 2026-10-25: data-driven decision making became a behaviour (PLAN.md v13), so the resume's own analysis line no longer scores it; the row now reads as shown through a carrier. Two points, measured, not a reading change. Show-through lists from 2026-11-01: the resume shows roadmap and PRD equally strongly, and the pick between them follows how often each comes with the behaviour in the postings, which the 2026-11-01 product refresh reordered (prd and roadmap tie at 43% for communication); the spec is that one of them carries it, not which one the postings rank first.",
   "targets": [
     "pm:associate",
     "pm:mid",
@@ -55,7 +55,7 @@
     "program_mgmt"
   ],
   "must_show_through": {
-    "communication": "roadmap",
+    "communication": ["roadmap", "prd"],
     "collaboration": "ux_design_collab",
     "execution": "prd",
     "data_driven": "*"

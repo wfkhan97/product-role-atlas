@@ -100,10 +100,10 @@ for (const sample of samples) {
   const fp = check("must_not_tag ", spec.must_not_tag, false);
   const gapsWrong = check("real_gaps    ", spec.real_gaps, false);
   // behaviours are shown through carriers (PLAN.md v14): { behaviour: carrier } says which skill of the resume must
-  // carry it on the first target; the carrier may be any of the row's carriers when the value is "*"
+  // carry it on the first target; the carrier may be any of the row's carriers when the value is "*", any of a list when it is one
   if (spec.must_show_through) {
     const bad = [];
-    for (const [b, c] of Object.entries(spec.must_show_through)) { const row = r.rows.find(x => x.slot === b); if (!row || row.status !== "through" || (c !== "*" && row.through !== c)) bad.push(`${b} (${row ? row.status + (row.through ? " via " + row.through : "") : "no row"})`); }
+    for (const [b, c] of Object.entries(spec.must_show_through)) { const row = r.rows.find(x => x.slot === b); if (!row || row.status !== "through" || (c !== "*" && ![].concat(c).includes(row.through))) bad.push(`${b} (${row ? row.status + (row.through ? " via " + row.through : "") : "no row"})`); }
     pass += Object.keys(spec.must_show_through).length - bad.length; fail += bad.length;
     out(`  show_through : ${Object.keys(spec.must_show_through).length - bad.length}/${Object.keys(spec.must_show_through).length}${bad.length ? "  WRONG: " + bad.join(", ") : ""}`);
   }

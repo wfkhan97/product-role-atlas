@@ -6,7 +6,7 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 | file | strings | long | passive | stoplist |
 |---|---:|---:|---:|---:|
-| web/copy.js (gated) | 947 | 0 | 0 | 0 |
+| web/copy.js (gated) | 1091 | 0 | 0 | 0 |
 | web/data/sp27_campus.json (gated) | 176 | 0 | 0 | 0 |
 | web/data/games.json (gated) | 54 | 0 | 0 | 0 |
 | web/data/graph_mba.json | 13148 | 65 | 46 | 17 |
@@ -19,7 +19,7 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 ### web/copy.js (gated)
 
-947 strings · 0 long · 0 passive · 0 stoplist
+1091 strings · 0 long · 0 passive · 0 stoplist
 
 ### web/data/sp27_campus.json (gated)
 
