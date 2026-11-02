@@ -94,7 +94,7 @@ it holds the expectations:
 | `must_evidence` | skills a human reader says are clearly shown. Each one not tagged is a miss. |
 | `must_not_tag` | skills that are not on the page. Each one tagged is a false positive. The hard constraint: false positives cost user trust faster than misses. |
 | `real_gaps` | skills genuinely absent that the result should surface as gaps. Tagged means a false positive. |
-| `must_show_through` | `{ behaviour: carrier }`: on the first target, the behaviour's row must read `through` that carrier (`"*"`: any carrier). A behaviour is never evidenced by its own words (PLAN.md v14, decision 1). |
+| `must_show_through` | `{ behaviour: carrier }`: on the first target, the behaviour's row must read `through` that carrier (`"*"`: any carrier; a list: any one of them, for carriers the resume shows equally strongly, where the pick between them follows how often each comes with the behaviour in the postings, which a refresh can reorder). A behaviour is never evidenced by its own words (PLAN.md v14, decision 1). |
 
 The runner also lists skills it tagged that no expectation covers, so each sample's expectations can be
 completed over time. Expectations are the spec. When a check fails because the expectation was wrong,

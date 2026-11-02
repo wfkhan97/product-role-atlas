@@ -680,6 +680,9 @@
           chooseRole: "My résumé shows {lead} but not {skill} yet. Which would you build first to get hired as {aRole}?",
           chooseNoLead: "Which would you build first to get hired at {company}: {skill} or {skill2}?",
           chooseRoleNoLead: "Which would you build first to get hired as {aRole}: {skill} or {skill2}?",
+          // the shorter asks when long skill or company names take a question over 20 words
+          chooseNoLeadShort: "Which would {company} want first: {skill} or {skill2}?",
+          chooseShort: "Which would you build first: {skill} or {skill2}?",
         },
         faculty: {
           covers: "{role} postings ask for {skill}{sub}. How much of that does {code} cover?",
