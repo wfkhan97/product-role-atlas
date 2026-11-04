@@ -1,0 +1,1366 @@
+{
+ "version": 2,
+ "published": "2026-11-04",
+ "atlas_generated": "2026-10-30",
+ "student": {
+  "slug": "pmm-nyc",
+  "name_on_page": "Priya Natarajan",
+  "campus": "Cornell Tech",
+  "program": "Johnson Cornell Tech MBA",
+  "fictional": true
+ },
+ "role_class": {
+  "id": "marketing",
+  "label": "Marketing roles",
+  "field": "marketing",
+  "roles": [
+   {
+    "id": "pmm",
+    "label": "Product Marketing Manager",
+    "first": true
+   },
+   {
+    "id": "marketing_manager",
+    "label": "Marketing Manager",
+    "first": false
+   },
+   {
+    "id": "growth_manager",
+    "label": "Growth Manager",
+    "first": false
+   },
+   {
+    "id": "brand_manager",
+    "label": "Brand Manager",
+    "first": false
+   }
+  ]
+ },
+ "role": {
+  "id": "pmm",
+  "label": "Product Marketing Manager",
+  "postings_n": 609
+ },
+ "company": {
+  "name": "Agentio",
+  "url": "https://www.agentio.com/"
+ },
+ "posting": {
+  "url": "https://jobs.ashbyhq.com/agentio/7517960a-ccce-4ac5-9ad6-b5cef478e274",
+  "title": "Product Marketing Manager, Narrative",
+  "names": [
+   "product_sense",
+   "pricing_packaging",
+   "gtm",
+   "positioning_messaging",
+   "sales_enablement",
+   "personas_jtbd",
+   "financial_analysis",
+   "apis",
+   "ai_ml",
+   "ecommerce_retail",
+   "ads_media",
+   "communication",
+   "exec_communication",
+   "ownership",
+   "customer_facing_exec",
+   "process_improvement",
+   "jira",
+   "yoe_5",
+   "phd",
+   "cs_engineering_degree",
+   "startup_experience",
+   "exec_decks",
+   "valuation",
+   "campaign_management",
+   "creative_agency",
+   "customer_health",
+   "ad_platforms"
+  ]
+ },
+ "gap_sentence": "Agentio is betting that creator ads can be bought and measured like Meta or Google ads, and no one outside the company has yet shown that its numbers hold; the job is to tell that story in words a performance marketer trusts before the proof is public.",
+ "tree": {
+  "nodes": [
+   {
+    "id": "cross_functional",
+    "name": "Cross-functional leadership",
+    "area": "leadership",
+    "area_label": "Leadership & communication",
+    "place": "trunk",
+    "roles": [
+     "pmm",
+     "marketing_manager",
+     "growth_manager",
+     "brand_manager"
+    ],
+    "state": "must build",
+    "grows": true,
+    "posting_names": false,
+    "share": {
+     "pmm": 0.758,
+     "marketing_manager": 0.755,
+     "growth_manager": 0.68,
+     "brand_manager": 0.784
+    }
+   },
+   {
+    "id": "gtm",
+    "name": "Go-to-market strategy",
+    "area": "gtm",
+    "area_label": "Go-to-market & business",
+    "place": "trunk",
+    "roles": [
+     "pmm",
+     "marketing_manager",
+     "growth_manager",
+     "brand_manager"
+    ],
+    "state": "must build",
+    "grows": true,
+    "posting_names": true,
+    "share": {
+     "pmm": 0.872,
+     "marketing_manager": 0.657,
+     "growth_manager": 0.519,
+     "brand_manager": 0.564
+    }
+   },
+   {
+    "id": "stakeholder_mgmt",
+    "name": "Stakeholder management",
+    "area": "leadership",
+    "area_label": "Leadership & communication",
+    "place": "trunk",
+    "roles": [
+     "pmm",
+     "marketing_manager",
+     "growth_manager",
+     "brand_manager"
+    ],
+    "state": "must build",
+    "grows": true,
+    "posting_names": false,
+    "share": {
+     "pmm": 0.586,
+     "marketing_manager": 0.654,
+     "growth_manager": 0.609,
+     "brand_manager": 0.612
+    }
+   },
+   {
+    "id": "ai_ml",
+    "name": "AI / machine learning",
+    "area": "technical",
+    "area_label": "Technical fluency",
+    "place": "shared",
+    "roles": [
+     "pmm",
+     "marketing_manager",
+     "growth_manager"
+    ],
+    "state": "must evidence better",
+    "line": "Spring 2027 plan: TECH 5240 Branding for Products, NBAY 6090 Digital Marketing, TECH 5111 Don't Sell Sand in the Desert, TECH 5280 Building AI Products",
+    "grows": true,
+    "posting_names": true,
+    "share": {
+     "pmm": 0.74,
+     "marketing_manager": 0.502,
+     "growth_manager": 0.711
+    }
+   },
+   {
+    "id": "positioning_messaging",
+    "name": "Positioning & messaging",
+    "area": "gtm",
+    "area_label": "Go-to-market & business",
+    "place": "shared",
+    "roles": [
+     "pmm",
+     "marketing_manager",
+     "brand_manager"
+    ],
+    "state": "shows in other words",
+    "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change",
+    "grows": true,
+    "posting_names": true,
+    "share": {
+     "pmm": 0.949,
+     "marketing_manager": 0.595,
+     "brand_manager": 0.608
+    }
+   },
+   {
+    "id": "enterprise_saas",
+    "name": "Enterprise SaaS & B2B",
+    "area": "domain",
+    "area_label": "Domain knowledge",
+    "place": "shared",
+    "roles": [
+     "pmm",
+     "growth_manager"
+    ],
+    "state": "must build",
+    "grows": true,
+    "posting_names": false,
+    "share": {
+     "pmm": 0.532,
+     "growth_manager": 0.519
+    }
+   },
+   {
+    "id": "growth_loops",
+    "name": "Growth, funnels & retention",
+    "area": "gtm",
+    "area_label": "Go-to-market & business",
+    "place": "shared",
+    "roles": [
+     "marketing_manager",
+     "growth_manager"
+    ],
+    "state": "must build",
+    "grows": true,
+    "posting_names": false,
+    "share": {
+     "marketing_manager": 0.553,
+     "growth_manager": 0.776
+    }
+   },
+   {
+    "id": "campaign_management",
+    "name": "Marketing campaigns",
+    "area": "marketing",
+    "area_label": "Marketing & brand",
+    "place": "shared",
+    "roles": [
+     "marketing_manager",
+     "brand_manager"
+    ],
+    "state": "must build",
+    "grows": false,
+    "posting_names": true,
+    "share": {
+     "marketing_manager": 0.689,
+     "brand_manager": 0.509
+    }
+   },
+   {
+    "id": "program_mgmt",
+    "name": "Program & project management",
+    "area": "delivery",
+    "area_label": "Delivery & process",
+    "place": "shared",
+    "roles": [
+     "marketing_manager",
+     "brand_manager"
+    ],
+    "state": "must build",
+    "grows": false,
+    "posting_names": false,
+    "share": {
+     "marketing_manager": 0.527,
+     "brand_manager": 0.564
+    }
+   },
+   {
+    "id": "ab_testing",
+    "name": "A/B testing & experimentation",
+    "area": "analytics",
+    "area_label": "Data & experimentation",
+    "place": "own",
+    "roles": [
+     "growth_manager"
+    ],
+    "state": "must build",
+    "grows": false,
+    "posting_names": false,
+    "share": {
+     "growth_manager": 0.506
+    }
+   },
+   {
+    "id": "ads_media",
+    "name": "Advertising & media",
+    "area": "domain",
+    "area_label": "Domain knowledge",
+    "place": "own",
+    "roles": [
+     "marketing_manager"
+    ],
+    "state": "must build",
+    "grows": false,
+    "posting_names": true,
+    "share": {
+     "marketing_manager": 0.505
+    }
+   },
+   {
+    "id": "brand_strategy",
+    "name": "Brand strategy & equity",
+    "area": "marketing",
+    "area_label": "Marketing & brand",
+    "place": "own",
+    "roles": [
+     "brand_manager"
+    ],
+    "state": "must build",
+    "grows": false,
+    "posting_names": false,
+    "share": {
+     "brand_manager": 0.795
+    }
+   },
+   {
+    "id": "creative_agency",
+    "name": "Creative development & agency management",
+    "area": "marketing",
+    "area_label": "Marketing & brand",
+    "place": "own",
+    "roles": [
+     "brand_manager"
+    ],
+    "state": "must build",
+    "grows": true,
+    "posting_names": true,
+    "share": {
+     "brand_manager": 0.52
+    }
+   },
+   {
+    "id": "customer_facing_exec",
+    "name": "Customer & executive-facing engagement",
+    "area": "leadership",
+    "area_label": "Leadership & communication",
+    "place": "own",
+    "roles": [
+     "pmm"
+    ],
+    "state": "shows in other words",
+    "line": "Pitched the suite at two logistics trade shows in Mumbai and Dubai, presenting to rooms of 40 to 80 forwarders",
+    "grows": false,
+    "posting_names": true,
+    "share": {
+     "pmm": 0.534
+    }
+   },
+   {
+    "id": "financial_analysis",
+    "name": "Financial modeling & analysis",
+    "area": "analytics",
+    "area_label": "Data & experimentation",
+    "place": "own",
+    "roles": [
+     "marketing_manager"
+    ],
+    "state": "must evidence better",
+    "line": "Partner enablement, pipeline management, discovery calls, objection handling, pricing sheets, newsletter writing, community management (WhatsApp), trade-show presenting, HubSpot CRM, Excel, Canva, Hindi, Marathi, English",
+    "grows": false,
+    "posting_names": true,
+    "share": {
+     "marketing_manager": 0.546
+    }
+   },
+   {
+    "id": "market_research",
+    "name": "Market & competitive analysis",
+    "area": "gtm",
+    "area_label": "Go-to-market & business",
+    "place": "own",
+    "roles": [
+     "pmm"
+    ],
+    "state": "shows in other words",
+    "line": "Ran 200+ discovery calls with forwarders and brought what they said back to the product team as a weekly note on asks, objections and lost deals",
+    "grows": false,
+    "posting_names": false,
+    "share": {
+     "pmm": 0.643
+    }
+   },
+   {
+    "id": "metrics_kpis",
+    "name": "Metrics & KPIs",
+    "area": "analytics",
+    "area_label": "Data & experimentation",
+    "place": "own",
+    "roles": [
+     "growth_manager"
+    ],
+    "state": "must build",
+    "grows": false,
+    "posting_names": false,
+    "share": {
+     "growth_manager": 0.522
+    }
+   },
+   {
+    "id": "launch",
+    "name": "Product launches",
+    "area": "craft",
+    "area_label": "Product craft",
+    "place": "own",
+    "roles": [
+     "pmm"
+    ],
+    "state": "must evidence better",
+    "line": "Business development lead with three years at a B2B logistics-software reseller in Mumbai: quota-carrying, built the partner program from zero to eleven partners, and ran a 4,000-member WhatsApp community for small freight forwarders, writing its weekly brief for two years. MBA candidate at Johnson Cornell Tech, class of 2027, moving toward product marketing. Has never shipped a product or written a launch.",
+    "grows": false,
+    "posting_names": false,
+    "share": {
+     "pmm": 0.608
+    }
+   },
+   {
+    "id": "sales_enablement",
+    "name": "Sales enablement & field partnership",
+    "area": "gtm",
+    "area_label": "Go-to-market & business",
+    "place": "own",
+    "roles": [
+     "pmm"
+    ],
+    "state": "shows",
+    "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change",
+    "grows": false,
+    "posting_names": true,
+    "share": {
+     "pmm": 0.691
+    }
+   }
+  ],
+  "behaviours": [
+   {
+    "id": "communication",
+    "name": "Written & verbal communication",
+    "area": "leadership",
+    "area_label": "Leadership & communication",
+    "place": "trunk",
+    "roles": [
+     "pmm",
+     "marketing_manager",
+     "growth_manager",
+     "brand_manager"
+    ],
+    "state": "shows",
+    "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change",
+    "through": "Positioning & messaging",
+    "grows": false,
+    "posting_names": true,
+    "share": {
+     "pmm": 0.952,
+     "marketing_manager": 0.861,
+     "growth_manager": 0.727,
+     "brand_manager": 0.835
+    }
+   },
+   {
+    "id": "collaboration",
+    "name": "Collaboration & teamwork",
+    "area": "leadership",
+    "area_label": "Leadership & communication",
+    "place": "trunk",
+    "roles": [
+     "pmm",
+     "marketing_manager",
+     "growth_manager",
+     "brand_manager"
+    ],
+    "state": "shows",
+    "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change",
+    "through": "Sales enablement & field partnership",
+    "grows": false,
+    "posting_names": false,
+    "share": {
+     "pmm": 0.632,
+     "marketing_manager": 0.774,
+     "growth_manager": 0.593,
+     "brand_manager": 0.817
+    }
+   },
+   {
+    "id": "adaptability",
+    "name": "Adaptability & fast-paced environments",
+    "area": "leadership",
+    "area_label": "Leadership & communication",
+    "place": "shared",
+    "roles": [
+     "pmm",
+     "growth_manager"
+    ],
+    "state": "shows",
+    "line": "Grew the group to 4,000 members by invitation and referral, with weekly moderation and a posting code",
+    "through": "Content & social media marketing",
+    "grows": false,
+    "posting_names": false,
+    "share": {
+     "pmm": 0.581,
+     "growth_manager": 0.559
+    }
+   },
+   {
+    "id": "ownership",
+    "name": "Ownership & bias for action",
+    "area": "leadership",
+    "area_label": "Leadership & communication",
+    "place": "trunk",
+    "roles": [
+     "pmm",
+     "marketing_manager",
+     "growth_manager",
+     "brand_manager"
+    ],
+    "state": "must build",
+    "grows": true,
+    "posting_names": true,
+    "share": {
+     "pmm": 0.774,
+     "marketing_manager": 0.761,
+     "growth_manager": 0.851,
+     "brand_manager": 0.747
+    }
+   },
+   {
+    "id": "execution",
+    "name": "Execution & delivery",
+    "area": "delivery",
+    "area_label": "Delivery & process",
+    "place": "trunk",
+    "roles": [
+     "pmm",
+     "marketing_manager",
+     "growth_manager",
+     "brand_manager"
+    ],
+    "state": "must build",
+    "grows": true,
+    "posting_names": false,
+    "share": {
+     "pmm": 0.641,
+     "marketing_manager": 0.797,
+     "growth_manager": 0.711,
+     "brand_manager": 0.832
+    }
+   },
+   {
+    "id": "influence",
+    "name": "Influence without authority",
+    "area": "leadership",
+    "area_label": "Leadership & communication",
+    "place": "trunk",
+    "roles": [
+     "pmm",
+     "marketing_manager",
+     "growth_manager",
+     "brand_manager"
+    ],
+    "state": "shows",
+    "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change",
+    "through": "Positioning & messaging",
+    "grows": true,
+    "posting_names": false,
+    "share": {
+     "pmm": 0.533,
+     "marketing_manager": 0.566,
+     "growth_manager": 0.54,
+     "brand_manager": 0.619
+    }
+   }
+  ],
+  "more": [
+   {
+    "id": "content_social",
+    "name": "Content & social media marketing",
+    "state": "shows in other words"
+   },
+   {
+    "id": "ai_tools",
+    "name": "AI tooling in daily work",
+    "state": "must build"
+   },
+   {
+    "id": "technical_fluency",
+    "name": "Technical fluency",
+    "state": "must build"
+   },
+   {
+    "id": "product_strategy",
+    "name": "Product strategy",
+    "state": "must build"
+   },
+   {
+    "id": "roadmap",
+    "name": "Roadmapping",
+    "state": "must build"
+   },
+   {
+    "id": "personas_jtbd",
+    "name": "Personas & segmentation",
+    "state": "must build"
+   },
+   {
+    "id": "genai_llm",
+    "name": "Generative AI / LLMs & agents",
+    "state": "must build"
+   },
+   {
+    "id": "customer_proof",
+    "name": "Customer stories & advocacy",
+    "state": "must build"
+   },
+   {
+    "id": "process_improvement",
+    "name": "Process design & operational rigor",
+    "state": "must build"
+   },
+   {
+    "id": "prioritization",
+    "name": "Prioritization & trade-offs",
+    "state": "must build"
+   },
+   {
+    "id": "exec_communication",
+    "name": "Executive communication & reviews",
+    "state": "must build"
+   },
+   {
+    "id": "partnerships",
+    "name": "Partnerships & ecosystem",
+    "state": "shows"
+   },
+   {
+    "id": "cloud",
+    "name": "Cloud platforms",
+    "state": "must build"
+   },
+   {
+    "id": "pricing_packaging",
+    "name": "Pricing & packaging",
+    "state": "shows"
+   }
+  ]
+ },
+ "read": {
+  "band": "related",
+  "band_label": "Relevant foundation",
+  "brings": [
+   {
+    "id": "market_research",
+    "name": "Market & competitive analysis",
+    "state": "shows in other words",
+    "line": "Ran 200+ discovery calls with forwarders and brought what they said back to the product team as a weekly note on asks, objections and lost deals"
+   },
+   {
+    "id": "positioning_messaging",
+    "name": "Positioning & messaging",
+    "state": "shows in other words",
+    "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+   },
+   {
+    "id": "sales_enablement",
+    "name": "Sales enablement & field partnership",
+    "state": "shows",
+    "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+   },
+   {
+    "id": "influence",
+    "name": "Influence without authority",
+    "state": "shows",
+    "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+   },
+   {
+    "id": "communication",
+    "name": "Written & verbal communication",
+    "state": "shows",
+    "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+   },
+   {
+    "id": "adaptability",
+    "name": "Adaptability & fast-paced environments",
+    "state": "shows",
+    "line": "Grew the group to 4,000 members by invitation and referral, with weekly moderation and a posting code"
+   },
+   {
+    "id": "collaboration",
+    "name": "Collaboration & teamwork",
+    "state": "shows",
+    "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+   },
+   {
+    "id": "customer_facing_exec",
+    "name": "Customer & executive-facing engagement",
+    "state": "shows in other words",
+    "line": "Pitched the suite at two logistics trade shows in Mumbai and Dubai, presenting to rooms of 40 to 80 forwarders"
+   },
+   {
+    "id": "customer_obsession",
+    "name": "Customer obsession / user empathy",
+    "state": "shows",
+    "line": "Pitched the suite at two logistics trade shows in Mumbai and Dubai, presenting to rooms of 40 to 80 forwarders"
+   },
+   {
+    "id": "product_sense",
+    "name": "Product sense & judgment",
+    "state": "shows",
+    "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+   },
+   {
+    "id": "problem_solving",
+    "name": "Structured problem solving",
+    "state": "shows",
+    "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+   },
+   {
+    "id": "pricing_packaging",
+    "name": "Pricing & packaging",
+    "state": "shows",
+    "line": "Built the partner program from zero to eleven partners: recruited customs brokers and regional IT resellers, wrote the partner one-pager, the pricing sheet and the onboarding deck, and ran the monthly partner call"
+   },
+   {
+    "id": "partnerships",
+    "name": "Partnerships & ecosystem",
+    "state": "shows",
+    "line": "Built the partner program from zero to eleven partners: recruited customs brokers and regional IT resellers, wrote the partner one-pager, the pricing sheet and the onboarding deck, and ran the monthly partner call"
+   },
+   {
+    "id": "content_social",
+    "name": "Content & social media marketing",
+    "state": "shows in other words",
+    "line": "Grew the group to 4,000 members by invitation and referral, with weekly moderation and a posting code"
+   }
+  ],
+  "marked_gaps": [
+   "gtm",
+   "ai_ml",
+   "campaign_management",
+   "ads_media",
+   "creative_agency",
+   "financial_analysis"
+  ],
+  "how_you_work": {
+   "shows": [
+    "communication",
+    "collaboration",
+    "adaptability",
+    "influence"
+   ],
+   "rest": [
+    "ownership",
+    "execution"
+   ]
+  }
+ },
+ "tracks": [
+  {
+   "id": "gtm",
+   "label": "Go-to-market & business",
+   "atlas_area": "gtm"
+  },
+  {
+   "id": "leadership",
+   "label": "Leadership & communication",
+   "atlas_area": "leadership"
+  },
+  {
+   "id": "domain",
+   "label": "Domain knowledge",
+   "atlas_area": "domain"
+  },
+  {
+   "id": "technical",
+   "label": "Technical fluency",
+   "atlas_area": "technical"
+  },
+  {
+   "id": "craft",
+   "label": "Product craft",
+   "atlas_area": "craft"
+  },
+  {
+   "id": "behaviours",
+   "label": "How you work",
+   "atlas_area": "behaviours"
+  }
+ ],
+ "worlds": [
+  {
+   "n": 1,
+   "label": "Fundamentals",
+   "release": "I do",
+   "who": "You read and write a page. A few hours each.",
+   "clear": 2,
+   "missions": [
+    "l1-gtm",
+    "l1-leadership",
+    "l1-domain",
+    "l1-technical",
+    "l1-craft",
+    "l1-behaviours"
+   ]
+  },
+  {
+   "n": 2,
+   "label": "Three demos in a day",
+   "release": "we do",
+   "who": "You build with help beside you. One day each.",
+   "clear": 2,
+   "missions": [
+    "l2-onepager",
+    "l2-battlecard",
+    "l2-howitworks"
+   ]
+  },
+  {
+   "n": 3,
+   "label": "One project, real users",
+   "release": "you do",
+   "who": "You build for real users. Four to eight weeks.",
+   "clear": 1,
+   "missions": [
+    "l3-brief"
+   ]
+  },
+  {
+   "n": "reach",
+   "label": "Reach",
+   "release": "you do",
+   "who": "A product-sized project with no deadline. It never blocks a world.",
+   "clear": 0,
+   "optional": true,
+   "missions": [
+    "l4-library"
+   ]
+  }
+ ],
+ "cards": [
+  {
+   "id": "l1-gtm",
+   "level": 1,
+   "track": "gtm",
+   "title": "Positioning, read off Agentio's own pages",
+   "ship": "A one-page positioning read of Agentio in the atlas's terms: to whom (performance marketers at DTC and enterprise brands), against what alternative (Meta and Google ads, agencies, YouTube's own Creator Partnerships), and why better (automated sourcing to measurement, a closed and verified marketplace), with the sentence from each public page that carries the claim.",
+   "hours": 3,
+   "window": "an evening",
+   "why_role": {
+    "text": "Nearly every PMM posting asks for positioning and messaging, and it sets the role apart. This posting makes the whole company story the job.",
+    "posting_quote": "The overarching Agentio story: what we offer, how it works, why customers love it"
+   },
+   "why_company": {
+    "text": "Agentio positions itself against Meta and Google ads and against agencies. It explains the closed marketplace in its own words. So the read starts from those pages, not from a generic PMM template.",
+    "research_file": "product_and_launches.md",
+    "url": "https://www.agentio.com/blog/why-agentio-is-built-as-a-closed-creator-marketplace"
+   },
+   "why_person": {
+    "text": "Positioning is a gap on the profile: the atlas reads it as must build. But the one-pager and pricing sheet she wrote for partners are positioning in another field's words.",
+    "profile_quote": "wrote the partner one-pager, the pricing sheet and the onboarding deck"
+   },
+   "atlas_skills": [
+    "positioning_messaging",
+    "gtm",
+    "market_research"
+   ],
+   "classes": [
+    "TECH 5240",
+    "TECH 5111"
+   ],
+   "sources": [
+    {
+     "title": "Why Agentio Is Built as a Closed Creator Marketplace",
+     "url": "https://www.agentio.com/blog/why-agentio-is-built-as-a-closed-creator-marketplace",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Agentio home",
+     "url": "https://agentio.com",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "YouTube Creator Partnerships at NewFronts 2026",
+     "url": "https://blog.youtube/news-and-events/youtube-creator-partnerships-newfronts-2026/",
+     "read": "2026-10-26"
+    }
+   ]
+  },
+  {
+   "id": "l1-leadership",
+   "level": 1,
+   "track": "leadership",
+   "title": "Who hands you the brief, and who you hand the deck to",
+   "ship": "A map of the Narrative PMM's working relationships at a 35-to-50-person company: the sibling PMM who owns launches and data, the VP Marketing, sales and CS with their weekly collateral requests, and the growth, brand and events hires being made alongside, with what each one needs from the storyteller and when.",
+   "hours": 2,
+   "window": "an evening",
+   "why_role": {
+    "text": "Most postings ask for cross-functional leadership and stakeholder management. This posting describes the role as a hand-off between a brief-writer and a storyteller.",
+    "posting_quote": "You work alongside a Product Marketing Manager who runs launches and owns the data. They hand you a brief with the key points, stats and must-mentions. You decide how to say them."
+   },
+   "why_company": {
+    "text": "Six marketing roles are open at once, and the Product Marketing Lead is the first of its kind. So Agentio is building the team the Narrative PMM joins around them. The sibling postings say what each neighbor will expect.",
+    "research_file": "role_and_team.md",
+    "url": "https://jobs.ashbyhq.com/agentio/dd1be239-503f-47a8-a7a9-b25854f27371"
+   },
+   "why_person": {
+    "text": "She has run a monthly call for eleven partners and fed what the field said back to product every week. What is new is doing it from marketing rather than sales.",
+    "profile_quote": "brought what they said back to the product team as a weekly note on asks, objections and lost deals"
+   },
+   "atlas_skills": [
+    "cross_functional",
+    "stakeholder_mgmt",
+    "customer_facing_exec"
+   ],
+   "classes": [],
+   "sources": [
+    {
+     "title": "Product Marketing Lead @ Agentio",
+     "url": "https://jobs.ashbyhq.com/agentio/dd1be239-503f-47a8-a7a9-b25854f27371",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Agentio Ashby job board API",
+     "url": "https://api.ashbyhq.com/posting-api/job-board/agentio",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Agentio: $40 Million Series B (Pulse 2.0)",
+     "url": "https://pulse2.com/agentio-series-b/",
+     "read": "2026-10-26"
+    }
+   ]
+  },
+  {
+   "id": "l1-domain",
+   "level": 1,
+   "track": "domain",
+   "title": "How Agentio sells when there is no pricing page",
+   "ship": "A short explainer of the commercial model a brand buys into: demo request, a closed marketplace with creators admitted on audience data, CPMs set by bidding and auto-priced on expected first-30-day views amortized over 90 days, performance-paid Meta ads with no test fee, the 20% fee on brand spend stated at launch, and what is simply not public.",
+   "hours": 2,
+   "window": "an evening",
+   "why_role": {
+    "text": "Most PMM postings ask for enterprise SaaS and B2B. The posting wants a pitch that changes by SKU and brand type. That means knowing how the product sells.",
+    "posting_quote": "The modular pitch by SKU and brand type"
+   },
+   "why_company": {
+    "text": "Agentio publishes no price list, SKUs or tiers. Its blog explains the bidding and amortization model. The demo form asks for monthly Meta spend bands. So the pitch has to carry the pricing logic the site does not.",
+    "research_file": "product_and_launches.md",
+    "url": "https://www.agentio.com/blog/what-to-look-for-in-a-creator-marketing-platform-in-2026"
+   },
+   "why_person": {
+    "text": "She sold B2B software through partners on a quota and wrote the pricing sheet. The selling motion is familiar, even though the product is not.",
+    "profile_quote": "Carried an annual new-business quota for a freight-forwarding software suite sold to small and mid-sized forwarders"
+   },
+   "atlas_skills": [
+    "enterprise_saas",
+    "pricing_packaging",
+    "gtm"
+   ],
+   "classes": [
+    "TECH 5111"
+   ],
+   "sources": [
+    {
+     "title": "What to Look for in a Creator Marketing Platform in 2026",
+     "url": "https://www.agentio.com/blog/what-to-look-for-in-a-creator-marketing-platform-in-2026",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Agentio Built A Platform For YouTube Creators To Sell Ad Slots (MediaPost, 2023)",
+     "url": "https://www.mediapost.com/publications/article/390707/agentio-built-a-platform-for-youtube-creators-to-s.html",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Agentio Brings Automated Creator Advertising to Facebook and Instagram (PR Newswire)",
+     "url": "https://www.prnewswire.com/news-releases/agentio-brings-automated-creator-advertising-to-facebook-and-instagram-302823870.html",
+     "read": "2026-10-26"
+    }
+   ]
+  },
+  {
+   "id": "l1-technical",
+   "level": 1,
+   "track": "technical",
+   "title": "Enough AI to write a claim you can defend",
+   "ship": "A plain-language account of what Agentio's models do (match creators to goals, price on expected views, review drafts against brief and brand-safety rules, pick winners on Meta) and of which claims are company-reported, with one sentence per claim on what evidence would settle it; built from Agentio's own definition of AI-native and the Contrary Research memo.",
+   "hours": 4,
+   "window": "a weekend morning",
+   "why_role": {
+    "text": "Most PMM postings ask for AI and machine learning. The atlas reads it as named, not shown, on the profile. The posting's company story is an AI-native story.",
+    "posting_quote": "Our AI-Native platform enables real-time content understanding at scale, simultaneous reasoning across hundreds of thousands of pieces of content, and intelligent allocation of multi-million dollar budgets."
+   },
+   "why_company": {
+    "text": "Agentio defines AI-native as intelligence underneath the product that learns from every deal. The public evidence is a review agent and time-to-first-bid under a day. No one has ever benchmarked the models' accuracy. So the storyteller has to know where the line is.",
+    "research_file": "values_and_bets.md",
+    "url": "https://www.agentio.com/blog/what-ai-native-actually-means-in-influencer-marketing-and-why-it-matters"
+   },
+   "why_person": {
+    "text": "Nothing on the profile shows AI fluency beyond a planned class. This card brings the class's reading forward to the company's own product.",
+    "profile_quote": "TECH 5280 Building AI Products"
+   },
+   "atlas_skills": [
+    "ai_ml",
+    "genai_llm",
+    "technical_fluency"
+   ],
+   "classes": [
+    "TECH 5280"
+   ],
+   "sources": [
+    {
+     "title": "What AI-Native Actually Means in Creator Marketing",
+     "url": "https://www.agentio.com/blog/what-ai-native-actually-means-in-influencer-marketing-and-why-it-matters",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Agentio (Contrary Research memo, Sept 2026)",
+     "url": "https://research.contrary.com/company/agentio",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Agentio secures $40 million from Forerunner (TechCrunch)",
+     "url": "https://techcrunch.com/2025/11/18/agentio-secures-40-million-from-forerunner-as-it-scales-its-creator-marketplace-beyond-youtube/",
+     "read": "2026-10-26"
+    }
+   ]
+  },
+  {
+   "id": "l1-craft",
+   "level": 1,
+   "track": "craft",
+   "title": "Two Agentio launches, read as launch briefs",
+   "ship": "The Meta Partnership Ads general availability (July 2026) and the Fairing integration (October 2026) each reduced to the brief the sibling PMM would have handed over: the key points, the stats, the must-mentions, the persona it speaks to, and what the enablement library had to change within the week.",
+   "hours": 3,
+   "window": "an evening",
+   "why_role": {
+    "text": "Most PMM postings ask for product launches, and the atlas reads them as named, not shown, on the profile. The posting ties every asset to a launch brief and a one-week clock.",
+    "posting_quote": "each updated within a week of a launch brief"
+   },
+   "why_company": {
+    "text": "The two launches in the window are public with their stats. The stats are higher ROAS in the Meta beta and net-new orders through Fairing. So a student can rebuild both briefs from the press release and the blog post without inventing a number.",
+    "research_file": "product_and_launches.md",
+    "url": "https://www.agentio.com/blog/unlocking-creator-roas-introducing-fairing-x-agentio-native-integration"
+   },
+   "why_person": {
+    "text": "She has never written a launch. She has kept sales material current after every change, and that is the second half of this role.",
+    "profile_quote": "kept both current after every pricing or packaging change"
+   },
+   "atlas_skills": [
+    "launch",
+    "prioritization",
+    "sales_enablement"
+   ],
+   "classes": [
+    "TECH 5200"
+   ],
+   "sources": [
+    {
+     "title": "Unlocking Creator ROAS: Fairing x Agentio Native Integration",
+     "url": "https://www.agentio.com/blog/unlocking-creator-roas-introducing-fairing-x-agentio-native-integration",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Agentio Brings Automated Creator Advertising to Facebook and Instagram (PR Newswire)",
+     "url": "https://www.prnewswire.com/news-releases/agentio-brings-automated-creator-advertising-to-facebook-and-instagram-302823870.html",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Meta Automated Everything, Except Creative",
+     "url": "https://www.agentio.com/blog/meta-automated-everything-except-creative",
+     "read": "2026-10-26"
+    }
+   ]
+  },
+  {
+   "id": "l1-behaviours",
+   "level": 1,
+   "track": "behaviours",
+   "title": "Conservative but confident: how Agentio writes a claim",
+   "ship": "A style read of Agentio's own writing: how the blog states a number (the sample, the window, the comparison), where the press releases say company-reported, and which phrases leadership repeats (dollars follow attention; performance-grade pipes); with the rule the Product Marketing Lead posting sets for claims and five of Agentio's sentences rewritten to meet it.",
+   "hours": 2,
+   "window": "an evening",
+   "why_role": {
+    "text": "Written and verbal communication is the role's most-asked skill. The atlas reads it as named, not shown, on the profile. The posting puts the sentence itself at the center of the job.",
+    "posting_quote": "If a customer has an aha moment reading our pitch, you wrote the sentence."
+   },
+   "why_company": {
+    "text": "The Product Marketing Lead posting asks for conservative-but-confident claims that sophisticated audiences trust. The Brand Communications posting names the reputational stakes of inaccurate claims in ad-tech and AI. So the house style is a rule Agentio states, not a taste.",
+    "research_file": "role_and_team.md",
+    "url": "https://jobs.ashbyhq.com/agentio/07130e40-4ce1-4553-bb58-ff8fec187041"
+   },
+   "why_person": {
+    "text": "She wrote 104 weekly issues to practitioners who would call out a wrong rate. The discipline of a checkable claim is hers; the ad-tech vocabulary is not.",
+    "profile_quote": "Wrote the weekly brief for two years (104 issues)"
+   },
+   "atlas_skills": [
+    "communication",
+    "ownership",
+    "data_driven"
+   ],
+   "classes": [],
+   "sources": [
+    {
+     "title": "Brand Communications & Events Lead @ Agentio",
+     "url": "https://jobs.ashbyhq.com/agentio/07130e40-4ce1-4553-bb58-ff8fec187041",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "One Week Later: YouTube's New View Count Has a 60% Engaged View Rate",
+     "url": "https://www.agentio.com/blog/youtube-new-view-count-60-engaged-view-rate",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "The CPG Guys podcast, the Agentio episode",
+     "url": "https://www.cpgguys.com/agentio/",
+     "read": "2026-10-26"
+    }
+   ]
+  },
+  {
+   "id": "l2-onepager",
+   "level": 2,
+   "track": "gtm",
+   "title": "The aha one-pager for a Shopify brand, from the Fairing launch",
+   "ship": "A two-page PDF a sales rep could send a DTC performance marketer tomorrow: the Fairing integration explained as the orders your pixel never sees, value-prop language for two personas (the performance buyer and the brand lead), the stats as must-mentions with their sources, and the brief it was written from on page two so the hand-off model is visible.",
+   "hours": 8,
+   "window": "a day",
+   "why_role": {
+    "text": "The posting names the one-pager as an artifact and the aha layer as its test. A forwardable one-pager is the most direct proof of the role's core craft.",
+    "posting_quote": "The aha layer: value prop language per persona, modular story blocks, emotional copy"
+   },
+   "why_company": {
+    "text": "The Fairing integration is Agentio's newest launch, on October 7, 2026. Its post carries the stats and the persona. The Shopify app listing says who the buyer is. No rep's one-pager for it exists in public yet.",
+    "research_file": "build_surfaces.md",
+    "url": "https://www.agentio.com/blog/unlocking-creator-roas-introducing-fairing-x-agentio-native-integration"
+   },
+   "why_person": {
+    "text": "The partner one-pager and the onboarding deck are the closest thing on her profile to this artifact. This is the same document for a product she has not sold.",
+    "profile_quote": "wrote the partner one-pager, the pricing sheet and the onboarding deck"
+   },
+   "atlas_skills": [
+    "positioning_messaging",
+    "sales_enablement",
+    "personas_jtbd",
+    "customer_proof"
+   ],
+   "classes": [
+    "NBAY 6090",
+    "TECH 5240"
+   ],
+   "sources": [
+    {
+     "title": "Unlocking Creator ROAS: Fairing x Agentio Native Integration",
+     "url": "https://www.agentio.com/blog/unlocking-creator-roas-introducing-fairing-x-agentio-native-integration",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Agentio on the Shopify App Store",
+     "url": "https://apps.shopify.com/agentio",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "A Guide to Measuring YouTube Creator Advertising",
+     "url": "https://www.agentio.com/blog/measurement-guide",
+     "read": "2026-10-26"
+    }
+   ]
+  },
+  {
+   "id": "l2-battlecard",
+   "level": 2,
+   "track": "domain",
+   "title": "A battlecard: Agentio against YouTube's own marketplace and the one rival with public prices",
+   "ship": "A one-page battlecard from public material only: Agentio versus YouTube Creator Partnerships (3M+ creators, inside Google Ads) and versus Collabstr (free tier, 10% hiring fee, published creator rates), with the objection each raises, the answer in Agentio's own words, the claims that stay conservative, and an empty win/loss column with the question that fills it.",
+   "hours": 8,
+   "window": "a day",
+   "why_role": {
+    "text": "The posting names battlecards twice. Most PMM postings ask for market and competitive analysis, and the atlas reads it as a gap on the profile.",
+    "posting_quote": "Win/loss language folded back into battlecards"
+   },
+   "why_company": {
+    "text": "Press names CreatorIQ, Grin and Captiv8 as rivals, but their pricing is private. YouTube's Creator Partnerships and Collabstr are the two alternatives a brand can read about in public. So they are the two a student can card honestly.",
+    "research_file": "build_surfaces.md",
+    "url": "https://collabstr.com/pricing"
+   },
+   "why_person": {
+    "text": "The objection sheet she wrote for a sales team is a battlecard by another name. The new part is a competitor she has never met across a table.",
+    "profile_quote": "Wrote the discovery-call guide and the objection sheet the sales team used"
+   },
+   "atlas_skills": [
+    "market_research",
+    "sales_enablement",
+    "enterprise_saas",
+    "positioning_messaging"
+   ],
+   "classes": [
+    "TECH 5111"
+   ],
+   "sources": [
+    {
+     "title": "Collabstr pricing",
+     "url": "https://collabstr.com/pricing",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "YouTube Creator Partnerships at NewFronts 2026",
+     "url": "https://blog.youtube/news-and-events/youtube-creator-partnerships-newfronts-2026/",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Yespress: Agentio profile and competitors",
+     "url": "https://yespress.io/agentio",
+     "read": "2026-10-26"
+    }
+   ]
+  },
+  {
+   "id": "l2-howitworks",
+   "level": 2,
+   "track": "technical",
+   "title": "How it works, in 300 words a CMO forwards",
+   "ship": "A website-style product page section and a launch-email draft that explain the AI-native platform (matching, pricing on expected views, the review agent, Meta Creative Intelligence) in plain words, every number carrying its source and its window, with a one-paragraph note on what the page deliberately does not claim.",
+   "hours": 8,
+   "window": "a day",
+   "why_role": {
+    "text": "Customer-facing framing for emails, posts and product pages is on the posting's list. The atlas reads AI fluency as the profile's thinnest core skill. A forwardable explainer proves both at once.",
+    "posting_quote": "Customer-facing framing for launch emails, LinkedIn posts and website product pages"
+   },
+   "why_company": {
+    "text": "Agentio's AI claims are the company's bet and the part the press treats with most caution. Its January post defines AI-native, and the July release describes Creative Intelligence. So a student can build a plain-language page from the company's own words.",
+    "research_file": "values_and_bets.md",
+    "url": "https://www.prnewswire.com/news-releases/agentio-brings-automated-creator-advertising-to-facebook-and-instagram-302823870.html"
+   },
+   "why_person": {
+    "text": "She explained freight software to forwarders who did not care how it worked until it cost them. The audience changes; the skill of making a system plain does not.",
+    "profile_quote": "Pitched the suite at two logistics trade shows in Mumbai and Dubai, presenting to rooms of 40 to 80 forwarders"
+   },
+   "atlas_skills": [
+    "ai_ml",
+    "communication",
+    "launch",
+    "technical_fluency"
+   ],
+   "classes": [
+    "TECH 5280"
+   ],
+   "sources": [
+    {
+     "title": "Agentio Brings Automated Creator Advertising to Facebook and Instagram (PR Newswire)",
+     "url": "https://www.prnewswire.com/news-releases/agentio-brings-automated-creator-advertising-to-facebook-and-instagram-302823870.html",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "What AI-Native Actually Means in Creator Marketing",
+     "url": "https://www.agentio.com/blog/what-ai-native-actually-means-in-influencer-marketing-and-why-it-matters",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Agentio (Contrary Research memo, Sept 2026)",
+     "url": "https://research.contrary.com/company/agentio",
+     "read": "2026-10-26"
+    }
+   ]
+  },
+  {
+   "id": "l3-brief",
+   "level": 3,
+   "track": "gtm",
+   "title": "A six-week brief for DTC marketers on buying creator ads like a performance channel",
+   "ship": "Six weekly issues, published on a public page with an email list, each turning one public measurement fact into something a performance marketer can use (engaged views and the 67% overpay, 90-day amortization, post-purchase surveys, the 1.5x to 3x pixel multiplier, Meta creative fatigue at 36 days, the IAB measurement landscape), with Agentio's and competitors' public material as the sources; the sixth issue is a reader survey and a changelog of what readers corrected.",
+   "hours": 60,
+   "window": "6 weeks, at 10 hours a week",
+   "why_role": {
+    "text": "Measurement guidance is on the posting's list of what the role owns. A brief that readers correct is the fastest way to learn which claims sophisticated audiences trust.",
+    "posting_quote": "measurement guidance and onboarding playbook"
+   },
+   "why_company": {
+    "text": "Measurement is the bet nobody outside Agentio has verified. Agentio's own measurement guide, engaged-view post and Fairing launch are the richest public material it has. None of it speaks to the buyer's side yet.",
+    "research_file": "build_surfaces.md",
+    "url": "https://www.agentio.com/blog/measurement-guide"
+   },
+   "why_person": {
+    "text": "She has run exactly this before, for two years, to 4,000 practitioners, and kept it independent. The audience is new; the form is hers.",
+    "profile_quote": "Grew the group to 4,000 members by invitation and referral, with weekly moderation and a posting code"
+   },
+   "atlas_skills": [
+    "positioning_messaging",
+    "market_research",
+    "content_social",
+    "communication",
+    "data_driven"
+   ],
+   "classes": [
+    "NBAY 6090",
+    "TECH 5110"
+   ],
+   "users": "Performance and growth marketers at Shopify-sized DTC brands, found where they already talk shop: the Shopify community forum's marketing boards, the r/ecommerce and r/PPC communities, the Cornell Tech MBA cohort's own ecommerce operators, and the fellowship showcase; the target is thirty readers who reply at least once.",
+   "sources": [
+    {
+     "title": "A Guide to Measuring YouTube Creator Advertising",
+     "url": "https://www.agentio.com/blog/measurement-guide",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "One Week Later: YouTube's New View Count Has a 60% Engaged View Rate",
+     "url": "https://www.agentio.com/blog/youtube-new-view-count-60-engaged-view-rate",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "IAB: As-Is Measurement Landscape in the Creator Economy",
+     "url": "https://www.iab.com/guidelines/creator-economy-as-is-measurement-landscape/",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "A Playbook to Unlock an Infinite Creative Engine",
+     "url": "https://www.agentio.com/blog/infinite-creative-engine",
+     "read": "2026-10-26"
+    }
+   ]
+  },
+  {
+   "id": "l4-library",
+   "level": "reach",
+   "track": "technical",
+   "title": "Claimkeeper: an enablement library where every number knows its source",
+   "ship": "A small product for seed-to-Series-B marketing teams: every claim in a deck, one-pager or battlecard is linked to the launch brief and the public source it came from; when a source changes (a pricing page, a case study, a platform policy), the assets that carry the claim are flagged stale and the owner gets the rewrite queue; built with an LLM that checks each claim against its source, and shipped first to three startups' PMMs.",
+   "hours": 400,
+   "window": "12 months, part-time through the MBA",
+   "why_role": {
+    "text": "The posting makes the enablement system itself a deliverable the role owns, with a one-week freshness rule. A tool that keeps that rule turns the role's second half into a product.",
+    "posting_quote": "The enablement system itself: one asset library, every asset current whenever product, pricing or packaging changes"
+   },
+   "why_company": {
+    "text": "Agentio's claims change with every launch and every platform policy change. YouTube's August 2026 view-count change forced an engaged-view restatement within a week. The company treats an inaccurate claim as a reputational risk. The problem is theirs before it is anyone's.",
+    "research_file": "role_and_team.md",
+    "url": "https://www.agentio.com/blog/youtube-new-view-count-60-engaged-view-rate"
+   },
+   "why_person": {
+    "text": "Keeping sales material current after every pricing change was her job for three years, by hand. She knows the failure mode the product removes.",
+    "profile_quote": "kept both current after every pricing or packaging change"
+   },
+   "atlas_skills": [
+    "genai_llm",
+    "technical_fluency",
+    "sales_enablement",
+    "product_strategy",
+    "launch"
+   ],
+   "classes": [
+    "TECH 5280",
+    "TECH 5910"
+   ],
+   "users": "Product marketers and founders at marketing-led startups between seed and Series B, met through the Cornell Tech startup studio, the fellowship's founder network and the Shopify partner community; the first three design partners are chosen for having a sales deck older than their pricing.",
+   "sources": [
+    {
+     "title": "One Week Later: YouTube's New View Count Has a 60% Engaged View Rate",
+     "url": "https://www.agentio.com/blog/youtube-new-view-count-60-engaged-view-rate",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Product Marketing Lead @ Agentio",
+     "url": "https://jobs.ashbyhq.com/agentio/dd1be239-503f-47a8-a7a9-b25854f27371",
+     "read": "2026-10-26"
+    },
+    {
+     "title": "Brand Communications & Events Lead @ Agentio",
+     "url": "https://jobs.ashbyhq.com/agentio/07130e40-4ce1-4553-bb58-ff8fec187041",
+     "read": "2026-10-26"
+    }
+   ]
+  }
+ ]
+}
