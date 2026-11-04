@@ -1774,10 +1774,71 @@ test résumés stay inside every `score_band` (`run.mjs` 513 pass); one fit band
 PM, 69% to 68%, under the unchanged 0.69 strong line. Not run: `BEHAVIOURS=score` on the full set (`evals/README.md`,
 "Evals to build" item 6), still open.
 
+## The campus gate: the door's email reads as a campus flag (`feat/campus-gate`, 2026-11-04)
+
+The owner's asks of 2026-11-04: any `@cornell.edu` address opens what a NetID address opened (v19 B2, decision 2, the
+NetID shape, is retired); a visitor whose address is not a school's does not see Find classes at all (no card, no
+top-bar link, no route, nothing grayed) and sees neither "An alum in the role" nor "Faculty on campus" on Networking;
+an IE New York address reads the IE roster and IE's LinkedIn school filter. Decisions:
+
+1. **The flag table is data.** `CAMPUS_DOMAINS` in `web/config.js`: `{ cornell: ["cornell.edu"], ienyc: [] }`; a new
+   campus (Johnson Ithaca next) is a new flag id there. `Door.campus(email, domains)` in `web/app.js` is pure: the flag
+   whose list holds the address's whole domain, any case, spaces around it ignored; `wk332@alumni.cornell.edu`, a gmail
+   address, an address with two "@" or none is no campus. In the browser the table defaults to the config's.
+2. **A flag opens a roster through the campus entry.** Each entry of `web/data/sp27_campus.json` carries `flag`
+   (`cornell_tech` is `cornell`, `ienyc` is `ienyc`). `Door.rosterOf(flag, campuses)` is the listed campus of that flag
+   with `catalog: true`, over `Catalog.campuses()`, which honors `enabled_by`. `Door.opens(email, domains, campuses)`
+   keeps its name and now means "the address belongs to a campus with a loaded roster". Today: cornell opens Cornell
+   Tech; ienyc opens nothing until the IE files exist, `catalog` turns true and `IENYC_ENABLED` flips.
+3. **Closed means absent.** The top bar and home draw only the open verbs, so a visitor with no roster sees three cards
+   (`.verbs.n3`: one row of three from 1280 px, else two by two wrapping); `Door.reach(name, open)` sends `#/classes` and
+   `#/professor/<slug>` home in `route()`. The grayed card and its strings (`home.closed`, `closedLink`, `closedAfter`)
+   are gone. `route()` waits once for the campus list before its first draw, so every screen reads the gate
+   synchronously (`campusGate()` in the shell: `{ flag, open, campus }`). `Catalog.campusFor` prefers the flag's campus
+   with a roster over a stored choice, and the picker hides "Change campus" for a flagged visitor.
+4. **Networking by flag.** `Network.types(flag, roster)`: hiring manager, someone in the role and recruiter for
+   everyone; the alum for any flag; faculty when the flag's roster is loaded. The alumni search's school filter is per
+   flag, `SCHOOLS` in `web/network.js` (`cornell`: the owner's three ids of 2026-11-01; `ienyc`: empty until the owner
+   gives IE's id); an empty list builds the plain people search with no `schoolFilter`. The link labels say
+   "{school} alumni" from `Copy.network.schools` ("Cornell", "IE"). No draft names a school but the alum's ask, as
+   before. The faculty tab reads the flag's campus entry (`campusProfs(campus, gaps)`, one roster read per campus
+   through `Catalog.loadCatalog`), so IE's professors come from its own `catalog_file` and `tags_file` once they exist.
+5. **The door's line names no campus.** "Some parts are for students. A school address opens them." (`door.school`,
+   was `door.cornell`). The owner's door paragraphs are unchanged.
+
+The owner's two values (2026-11-04): the IE domains are `student.ie.edu` and `ie.edu` (`CAMPUS_DOMAINS.ienyc`), and the
+IE school filter is the four school pages of the people search he sent, 740718, 5141380, 2816303 and 2816341
+(`SCHOOLS.ienyc`). An IE address today sees three verbs, the alum tab with IE's filter, and no Find classes or faculty:
+the IE roster is not on the site. What is missing for it: `web/data/catalog/ienyc.json` and `ienyc_tags.json` (the
+research folder `SP27_ienyc/` holds `sp27_ienyc_classes.json`, but `pipeline.catalog_export` is written for the Cornell
+Tech loader alone and needs an IE branch or a second script), `catalog: true` with the two file names on the `ienyc`
+entry, and `IENYC_ENABLED` on. Nothing in this change needs to move when they land.
+
+Verified in the browser pane on the local server (2026-11-04): a gmail address draws three cards, three top-bar links
+and three people types, and `#/classes` rewrites to `#/home`; `john.smith@cornell.edu` draws four, opens the Cornell
+Tech picker, the Cornell alumni filter and the faculty roster; `someone@student.ie.edu` draws three, the alum tab with
+IE's four ids and "IE alumni" labels, and no Find classes.
+
+Tests: `tests/web/door.test.mjs` (the table, `Door.campus`, `Door.opens` over any @cornell.edu, the IE cases with and
+without a roster, `campusFor`'s flag, three open verbs), `tests/web/network.test.mjs` (types per flag, the school filter
+per flag, the empty-id case, the IE labels), `tests/web/routes.test.mjs` (the closed routes). `evals/copy_baseline.md`
+rewritten (string counts only; zero offenders).
+
 ## Later
 
 - ~~Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach`; decide whether a transferable
   row should earn less than an evidenced one~~: done 2026-11-02 (`data/bands-recal`), 0.75.
+- The map self-serve (proposed 2026-11-04, not built; the owner says yes first): a résumé plus a role on the site
+  produce a map the way the model read infers skills. The deterministic half is already here (`ground`, `assemble`,
+  `check` run in node on the atlas's files); the judgment half is the cards (R15 to R19) and the company research. The
+  proposal: a Vercel function `api/map` behind the magic-link session takes the résumé text, the role class and one
+  company; `ground` runs in the function; the model (Haiku 5.5 for the cards, a Sonnet-class model for the four research
+  reads over the company's public pages) writes `cards`, `gap_sentence` and `who_sees_it` under the skill's rules, with
+  every quote checked word for word by `check` before the map is written to `maps/<uid>/map.json` with the service
+  role; a map that fails the check is not written and the screen says so. Cost per map, at today's prices: about $0.10
+  to $0.40 (research pages in, 11 cards out, two passes), plus the per-request limit already on `/api/infer`. Behind a
+  flag, `CONFIG.MAP_SELF_SERVE`, off by default, so the owner's hand-run maps stay the product until the first ten
+  self-serve maps have been read by him; the atlas still runs no model for anyone who has not signed in.
 - After v20 (2026-10-31): missions that cover a whole class's gaps, not the first role's (the generator's
   rule R16, once a map has been run for a real student); the quest map's one-world view (the round-2 Q2) as the view a
   world opens into; the layout eval (`evals/README.md`); the IE New York roster (`IENYC_ENABLED`); an events feed for

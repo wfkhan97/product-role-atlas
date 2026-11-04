@@ -20,6 +20,18 @@ window.CONFIG = {
   // only (the chooser on #/classes, the start card, campusFor); an IE choice kept in a browser falls back to Cornell
   // Tech. Flip it when the IE courses are loaded (PLAN.md, Later).
   IENYC_ENABLED: false,
+  // The campus flags (2026-11-04): the door's email read by its domain (Door.campus in app.js). A flag id holds the
+  // email domains that are that school's, matched whole and in any case: "cornell.edu" takes wk332@cornell.edu and
+  // john.smith@cornell.edu, never wk332@alumni.cornell.edu. A flag links to a roster through the `flag` of a campus
+  // entry in data/sp27_campus.json: Find classes and the Faculty tab open only for a flag with a listed campus whose
+  // roster is loaded (catalog: true), and the alumni searches carry the flag's school filter (web/network.js SCHOOLS).
+  // An address with no flag sees the three verbs and the three non-school people types.
+  // ienyc: the student address and the staff and alumni address (owner, 2026-11-04). Johnson Ithaca is next: a new
+  // flag id here, its campus entry and its school filter.
+  CAMPUS_DOMAINS: {
+    cornell: ["cornell.edu"],
+    ienyc: ["student.ie.edu", "ie.edu"],
+  },
   CATALOG_TERM: "SP27",
   // the waitlist and the funnel counts (web/capture.js): off, no funnel row or event leaves the browser
   CAPTURE_ENABLED: true,
