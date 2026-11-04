@@ -1734,6 +1734,42 @@ checked head (`--match-head-commit`); if it fails (main moved and conflicts) the
 fails, so the failure email means a refresh is waiting. The repository variable `REFRESH_AUTO_MERGE` = `off` turns it
 off; an MBA trial run never merges. Opening the pull request at all still needs "Allow GitHub Actions to create and
 approve pull requests" or an `ACTIONS_PAT` secret. CLAUDE.md records the exception to "merge only when the user says so".
+## The 2026-11-01 MBA refresh: the skill board drops dead ends (2026-11-01)
+
+The weekly MBA refresh (PR #131) failed CI on two tests. `web/data/jobs_open.json` had not been rebuilt after the graph
+(rerun of `pipeline.jobs_open`, no code). The other was a rule the data had kept by luck: the Skill path board (and the
+skill map's route planner, which builds the same board) leaves out the generic skills, and `Atlas.genericSkills()`
+measures them (core for at least half the MBA roles). With the refresh `ai_transformation` filled (49 MBA roles) and
+problem solving fell to core for 24 of them, just under half, so it stopped being generic. Healthcare & life sciences,
+whose every other link goes to a generic skill, came onto the board with one link: a dead end, where a player can only
+step back, which the real-board test and `evals/skill_path.mjs` forbid.
+
+**Decision: `buildBoard` drops a skill with fewer than `MIN_LINKS` (2) links, again until none is left**, rather than
+fixing the generic list by hand or moving its threshold. The list stays measured (the README's reason for it holds),
+and the board's no-dead-end rule now holds by construction whatever a refresh does to it. On the 2026-10-25 data the
+pruning changes nothing (healthcare had no link then). The inline test boards that state the round's rules on a line
+of skills pass `minLinks` 1 to keep their dead ends. The eval's EXPECT and the game README's worked rounds moved to the
+new data together: Marketing → Product Manager now goes through Mobile platforms (1 good hop of 4), the Supply chain
+biggest-number round stops 3 hops short, the pools are 478 and 2,311, 55 roles are pickable. The README's mocks still
+show the 2026-10-25 round.
+
+`ai_transformation` (164 postings after the refresh) had no group in `bands_mba.json`. `calibrate.mjs --roles mba` reran on
+2026-11-02 on the 333 published samples (301 files from the store, 37 cut from packets) and puts it in Consulting &
+strategy. The cut points moved a point or two: in range from 54% (was 55%), like the role from 73% (74%); every group
+but risk keeps its bands. The first run read only the 70 text files (the worktree had no `npm install` in `evals/`, so
+PDF and DOCX samples failed silently) and left seven groups without bands; `calibrate.mjs` should refuse to write when
+samples fail to read, and now does (it stops with the count of unread files). The merged product refresh (#138) adds product engineer as a seventh product family: 56
+pickable roles in the skill path game, its pool 485 from a field and 2,396 from a role.
+
+With `ai_transformation` in Consulting & strategy, three field carriers fell just under the 15% co-occurrence floor of
+`evals/run_taxonomy.py`. As the rule says, the carriers changed, not the threshold: go-to-market for consulting is shown
+by strategic planning (24%) instead of strategy development (15%), positioning for consulting by executive communication
+(58%) instead of client engagement (15%), and partnerships for finance by stakeholder management (81%) instead of
+investor relations (14%). Only `graph_mba.json` changes; the product graph has no field entry for these skills.
+
+On 2026-11-04 CI failed before any check: `ubuntu-latest` became Ubuntu 26.04, which has no Python 3.9 build for
+`actions/setup-python`. `ci.yml` and both refresh workflows now ask for 3.12, the version the Macs' `.venv` runs
+(every check passes on it), so the scheduled refreshes do not stop on the same error.
 
 ## The 2026-11-01 product refresh: specs that pinned the postings' order (2026-11-01)
 

@@ -160,7 +160,7 @@ jobs:
           fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.9"
+          python-version: "3.12"
       - name: Install Python packages
         run: pip install -r requirements.txt
       - name: Name the log
@@ -245,7 +245,7 @@ jobs:
           token: ${{ secrets.ACTIONS_PAT || github.token }}
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.9"
+          python-version: "3.12"
       - uses: actions/setup-node@v4
         with:
           node-version: 22

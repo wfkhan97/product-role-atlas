@@ -32,7 +32,7 @@ mkdir -p ~/actions-runner && cd ~/actions-runner
    The service runs as the logged-in user (launchd user agent). The Mac mini must stay on; it may sleep only if
    "Wake for network access" is on and a job can wake it, so set Energy > Prevent automatic sleeping to on. Check
    on GitHub: Settings > Actions > Runners shows `mac-mini` as Idle.
-4. Python 3.9 or newer and git on the Mac (`python3 --version`); `actions/setup-python` on a self-hosted macOS runner
+4. Python 3.12 or newer and git on the Mac (`python3 --version`); `actions/setup-python` on a self-hosted macOS runner
    downloads its own Python into the runner's tool cache the first time and reuses it after. Node 22 is only needed
    by the build job, which stays on `ubuntu-latest`.
 
