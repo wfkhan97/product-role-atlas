@@ -1767,6 +1767,10 @@ by strategic planning (24%) instead of strategy development (15%), positioning f
 (58%) instead of client engagement (15%), and partnerships for finance by stakeholder management (81%) instead of
 investor relations (14%). Only `graph_mba.json` changes; the product graph has no field entry for these skills.
 
+On 2026-11-04 CI failed before any check: `ubuntu-latest` became Ubuntu 26.04, which has no Python 3.9 build for
+`actions/setup-python`. `ci.yml` and both refresh workflows now ask for 3.12, the version the Macs' `.venv` runs
+(every check passes on it), so the scheduled refreshes do not stop on the same error.
+
 ## The 2026-11-01 product refresh: specs that pinned the postings' order (2026-11-01)
 
 The first product refresh with the AI-forward rules (778 product engineer postings) failed three matcher checks, all
