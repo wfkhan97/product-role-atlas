@@ -1761,6 +1761,12 @@ PDF and DOCX samples failed silently) and left seven groups without bands; `cali
 samples fail to read, and now does (it stops with the count of unread files). The merged product refresh (#138) adds product engineer as a seventh product family: 56
 pickable roles in the skill path game, its pool 485 from a field and 2,396 from a role.
 
+With `ai_transformation` in Consulting & strategy, three field carriers fell just under the 15% co-occurrence floor of
+`evals/run_taxonomy.py`. As the rule says, the carriers changed, not the threshold: go-to-market for consulting is shown
+by strategic planning (24%) instead of strategy development (15%), positioning for consulting by executive communication
+(58%) instead of client engagement (15%), and partnerships for finance by stakeholder management (81%) instead of
+investor relations (14%). Only `graph_mba.json` changes; the product graph has no field entry for these skills.
+
 ## The 2026-11-01 product refresh: specs that pinned the postings' order (2026-11-01)
 
 The first product refresh with the AI-forward rules (778 product engineer postings) failed three matcher checks, all
