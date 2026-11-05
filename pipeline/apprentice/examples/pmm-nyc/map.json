@@ -1,6 +1,6 @@
 {
  "version": 2,
- "published": "2026-11-04",
+ "published": "2026-11-05",
  "atlas_generated": "2026-10-30",
  "student": {
   "slug": "pmm-nyc",
@@ -784,10 +784,11 @@
   {
    "n": 1,
    "label": "Fundamentals",
-   "release": "I do",
-   "who": "You read and write a page. A few hours each.",
+   "who": "Guided first: two lines of your own, then a page each. A few hours apiece.",
    "clear": 2,
    "missions": [
+    "s1-positioning_messaging",
+    "s1-customer_facing_exec",
     "l1-gtm",
     "l1-leadership",
     "l1-domain",
@@ -799,7 +800,6 @@
   {
    "n": 2,
    "label": "Three demos in a day",
-   "release": "we do",
    "who": "You build with help beside you. One day each.",
    "clear": 2,
    "missions": [
@@ -811,8 +811,7 @@
   {
    "n": 3,
    "label": "One project, real users",
-   "release": "you do",
-   "who": "You build for real users. Four to eight weeks.",
+   "who": "You build on your own, for real users. Four to eight weeks.",
    "clear": 1,
    "missions": [
     "l3-brief"
@@ -821,7 +820,6 @@
   {
    "n": "reach",
    "label": "Reach",
-   "release": "you do",
    "who": "A product-sized project with no deadline. It never blocks a world.",
    "clear": 0,
    "optional": true,
@@ -831,6 +829,123 @@
   }
  ],
  "cards": [
+  {
+   "id": "s1-positioning_messaging",
+   "kind": "story",
+   "level": 1,
+   "track": "gtm",
+   "title": "Positioning & messaging, said so it shows",
+   "ship": "One line of your résumé, rewritten so the atlas reads positioning & messaging as shown. Paste it on the card: the read runs in your browser, with the reader that read your résumé.",
+   "hours": 1,
+   "window": "one sitting",
+   "skill": "positioning_messaging",
+   "state": "shows in other words",
+   "line": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change",
+   "what": "Deciding how the product is described: to whom, against what alternative, and why it is better, in words customers repeat.",
+   "reads_as": "The core craft: positioning statements, messaging hierarchies and the words of the brand.",
+   "shown_by": {
+    "artefacts": [
+     "positioning statement",
+     "messaging hierarchy",
+     "value proposition",
+     "narrative"
+    ],
+    "verbs": [
+     "positioned",
+     "wrote the messaging for",
+     "repositioned",
+     "named"
+    ],
+    "measures": [
+     "conversion or win-rate change",
+     "launches messaged"
+    ],
+    "counterparts": [
+     "marketing",
+     "sales",
+     "design"
+    ]
+   },
+   "prompt": "I am rewriting one line of my résumé for a Product Marketing Manager role. The skill the line should show is \"Positioning & messaging\": Deciding how the product is described: to whom, against what alternative, and why it is better, in words customers repeat.\nIn Marketing, it means: The core craft: positioning statements, messaging hierarchies and the words of the brand.\nThe line today reads: \"Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change\". An automatic reader marks it \"shown in another field's words\".\nA line that shows it names the thing produced (positioning statement, messaging hierarchy or value proposition); starts with a verb like positioned, wrote the messaging for or repositioned; says who it was with (marketing, sales or design); gives a measure (conversion or win-rate change or launches messaged).\nAsk me three questions about what I actually did, one at a time. Then draft three versions of the line, each under 30 words, in the past tense. Never invent a number or a name: write [ ] where I must fill one in.",
+   "why_role": {
+    "text": "Nearly every posting for Product Marketing Manager asks for positioning & messaging. This posting names it.",
+    "posting_quote": null
+   },
+   "why_person": {
+    "text": "Your line shows it in another field's words. Said in this field's words, it shows.",
+    "profile_quote": "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+   },
+   "atlas_skills": [
+    "positioning_messaging"
+   ],
+   "classes": [],
+   "sources": [
+    {
+     "title": "Positioning & messaging in the job atlas, Product Marketing Manager",
+     "url": "#/role/pmm",
+     "read": "2026-10-30"
+    }
+   ]
+  },
+  {
+   "id": "s1-customer_facing_exec",
+   "kind": "story",
+   "level": 1,
+   "track": "leadership",
+   "title": "Customer & executive-facing engagement, said so it shows",
+   "ship": "One line of your résumé, rewritten so the atlas reads customer & executive-facing engagement as shown. Paste it on the card: the read runs in your browser, with the reader that read your résumé.",
+   "hours": 1,
+   "window": "one sitting",
+   "skill": "customer_facing_exec",
+   "state": "shows in other words",
+   "line": "Pitched the suite at two logistics trade shows in Mumbai and Dubai, presenting to rooms of 40 to 80 forwarders",
+   "what": "Representing the product to the outside world: customer executives, advisory boards, conferences, analysts, and press.",
+   "reads_as": null,
+   "shown_by": {
+    "artefacts": [
+     "customer meetings",
+     "executive briefings",
+     "advisory board",
+     "conference talk"
+    ],
+    "verbs": [
+     "met",
+     "presented to",
+     "ran the briefing",
+     "demoed"
+    ],
+    "measures": [
+     "customers met",
+     "deals supported",
+     "audience size"
+    ],
+    "counterparts": [
+     "customers",
+     "prospects",
+     "customer executives"
+    ]
+   },
+   "prompt": "I am rewriting one line of my résumé for a Product Marketing Manager role. The skill the line should show is \"Customer & executive-facing engagement\": Representing the product to the outside world: customer executives, advisory boards, conferences, analysts, and press.\nThe line today reads: \"Pitched the suite at two logistics trade shows in Mumbai and Dubai, presenting to rooms of 40 to 80 forwarders\". An automatic reader marks it \"shown in another field's words\".\nA line that shows it names the thing produced (customer meetings, executive briefings or advisory board); starts with a verb like met, presented to or ran the briefing; says who it was with (customers, prospects or customer executives); gives a measure (customers met, deals supported or audience size).\nAsk me three questions about what I actually did, one at a time. Then draft three versions of the line, each under 30 words, in the past tense. Never invent a number or a name: write [ ] where I must fill one in.",
+   "why_role": {
+    "text": "About half of the postings for Product Marketing Manager ask for customer & executive-facing engagement. This posting names it.",
+    "posting_quote": null
+   },
+   "why_person": {
+    "text": "Your line shows it in another field's words. Said in this field's words, it shows.",
+    "profile_quote": "Pitched the suite at two logistics trade shows in Mumbai and Dubai, presenting to rooms of 40 to 80 forwarders"
+   },
+   "atlas_skills": [
+    "customer_facing_exec"
+   ],
+   "classes": [],
+   "sources": [
+    {
+     "title": "Customer & executive-facing engagement in the job atlas, Product Marketing Manager",
+     "url": "#/role/pmm",
+     "read": "2026-10-30"
+    }
+   ]
+  },
   {
    "id": "l1-gtm",
    "level": 1,

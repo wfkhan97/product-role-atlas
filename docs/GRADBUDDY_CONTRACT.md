@@ -288,11 +288,18 @@ folder from it, once, and never overwrites a folder here. Nothing in the atlas w
   absent), `through`, `grows`, `posting_names`), `behaviours[]` (the same shape), `more[]` (`id`, `name`, `state`).
 - `read`: `band` (the matcher's band id), `band_label` (its words), `brings[]` (`id`, `name`, `state`, `line`),
   `marked_gaps` (skill ids, at most eight).
-- `worlds[]`: `n` (1, 2, 3 or `"reach"`), `label`, `release`, `who`, `clear` (k), `missions` (card ids).
+- `worlds[]`: `n` (1, 2, 3 or `"reach"`), `label`, `who`, `clear` (k), `missions` (card ids). A `release` label in an
+  older file is ignored (2026-11-05).
 - `cards[]`: `id`, `level` (1, 2, 3 or `"reach"`), `track`, `title`, `ship`, `hours`, `window`, `why_role` (`text`,
   `posting_quote`), `why_company` (`text`, `research_file`, `url`), `why_person` (`text`, `profile_quote`),
   `atlas_skills` (skill ids), `classes` (roster codes), `users`, `sources[]` (`title`, `url`, `read`), and, set by the
   owner at a republish, `shipped` (a date), `changed` (a date), `declined` (true), `reply` (`text`, `date`).
+- a **story card** (`kind: "story"`, World 1, at most two, written by the generator): the keys above without
+  `why_company`, `posting_quote`, `classes` and `users`, plus `skill` (one id on the tree), `state` (`must evidence
+  better` or `shows in other words`), `line` (the résumé line as it stands), `what`, `reads_as`, `shown_by`
+  (`artefacts`, `verbs`, `measures`, `counterparts`: lists of words) and `prompt` (the practice prompt, plain text).
+  The atlas draws the line, the slots and the prompt, and reads a new line the person types with the matcher of the
+  map's role, in the browser; nothing of it goes up but the F1 feedback.
 
 The atlas resolves a skill's `what` and what it means in the field, an area's label and a class's title from its
 own index by id; a node carries `name` so an id the taxonomy no longer has still draws.

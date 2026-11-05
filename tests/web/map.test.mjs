@@ -40,9 +40,9 @@ function synth() {
       { id: "o2", name: "O2", state: "shows in other words", line: "Built a deck." },
     ], marked_gaps: ["t1", "s1", "o1", "zz"] },
     worlds: [
-      { n: 1, label: "Fundamentals", release: "I do", who: "A page.", clear: 2, missions: ["c-ship", "c-open"] },
-      { n: 2, label: "Demos", release: "we do", who: "A day.", clear: 2, missions: ["c-decl"] },
-      { n: 3, label: "One project", release: "you do", who: "Weeks.", clear: 1, missions: ["c-reply"] },
+      { n: 1, label: "Fundamentals", who: "A page.", clear: 2, missions: ["c-ship", "c-open"] },
+      { n: 2, label: "Demos", who: "A day.", clear: 2, missions: ["c-decl"] },
+      { n: 3, label: "One project", who: "Weeks.", clear: 1, missions: ["c-reply"] },
     ],
     cards: [
       card("c-ship", 1, ["o1", "t1"], { shipped: "2026-11-14" }),
@@ -197,7 +197,7 @@ test("worlds: the person's own answer marks a mission; the counts follow the fil
 
 test("questLayout: the worlds left to right, one stop per mission, a flag per world but the Reach, no arrow", () => {
   const map = synth();
-  map.worlds.push({ n: "reach", label: "Reach", release: "you do", who: "No deadline.", clear: 0, optional: true, missions: ["c-r"] });
+  map.worlds.push({ n: "reach", label: "Reach", who: "No deadline.", clear: 0, optional: true, missions: ["c-r"] });
   map.cards.push(card("c-r", "reach", ["o1"]));
   const W = M.worlds(map), L = M.questLayout(W);
   assert.deepEqual(M.questLayout(W), L, "deterministic");
@@ -272,7 +272,9 @@ test("the example map: version 2, 19 nodes, three on the trunk, every mission a 
   const W = M.worlds(map);
   for (const w of W.worlds) for (const m of w.missions) assert.ok(ids.has(m.id), `${m.id} is a card`);
   for (const w of map.worlds) for (const id of w.missions) assert.ok(ids.has(id), `${id} is a card`);
-  assert.equal(W.worlds[0].clearLine, "Ship 2 of these 6 to clear this world.");
+  assert.equal(W.worlds[0].clearLine, "Ship 2 of these 8 to clear this world.", "two story cards and six build cards");
+  assert.deepEqual(W.worlds[0].missions.slice(0, 2).map(m => m.kind), ["story", "story"], "World 1 opens with the story cards");
+  assert.ok(M.storyOf(W.worlds[0].missions[0].card).prompt.includes("[ ]"));
   assert.ok(W.here);
   const L = M.treeLayout(t, 816);
   assert.equal(L.nodes.length, 19);
@@ -281,4 +283,22 @@ test("the example map: version 2, 19 nodes, three on the trunk, every mission a 
   const R = M.readLines(map, {});
   assert.ok(R.gaps.length > 0 && R.gaps.length <= 8);
   assert.ok(R.headline.includes(map.read.band_label));
+});
+
+// ---------- the story cards ----------
+test("storyOf reads a story card's parts and null for a build card; lineState maps the matcher's status; a mission carries its kind", () => {
+  const map = synth();
+  const story = { id: "s1-s1", kind: "story", level: 1, track: "gtm", title: "S1, said so it shows", ship: "One line.", hours: 1, window: "an hour", skill: "s1", state: "must evidence better", line: "Wrote a page.", what: "W.", reads_as: "R.", shown_by: { artefacts: ["plan"], verbs: [], measures: ["users"], counterparts: ["sales"] }, prompt: "P [ ]", why_role: { text: "R." }, why_person: { text: "P.", profile_quote: "Wrote a page." }, atlas_skills: ["s1"], classes: [], sources: [] };
+  map.cards.unshift(story); map.worlds[0].missions.unshift("s1-s1");
+  const s = M.storyOf(story);
+  assert.deepEqual(s.slots.map(x => [x.key, x.items]), [["artefacts", ["plan"]], ["counterparts", ["sales"]], ["measures", ["users"]]], "an empty slot is left out, the order fixed");
+  assert.equal(s.skill, "s1"); assert.equal(s.state, "must evidence better"); assert.equal(s.reads_as, "R."); assert.equal(s.prompt, "P [ ]");
+  assert.equal(M.storyOf(map.cards[1]), null, "a build card has no story");
+  assert.equal(M.storyOf({ kind: "story", atlas_skills: ["o1"], state: "nope" }).skill, "o1", "the skill from atlas_skills when the card names none");
+  assert.deepEqual(["evidenced", "through", "transferable", "thin", "presumed", "gap", "zz"].map(M.lineState), ["shows", "shows", "shows in other words", "must evidence better", "must evidence better", "must build", "must build"]);
+  const W = M.worlds(map);
+  assert.deepEqual(W.worlds[0].missions.map(m => [m.id, m.kind]), [["s1-s1", "story"], ["c-ship", "build"], ["c-open", "build"]]);
+  assert.equal(W.worlds[0].n, 3, "a story card counts toward the world like any mission");
+  assert.ok(!("release" in W.worlds[0]), "no release label");
+  assert.equal(W.here, "s1-s1", "you are here: the first open mission, the story card");
 });

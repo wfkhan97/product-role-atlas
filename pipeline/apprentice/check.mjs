@@ -7,6 +7,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { studentDir, read, readIntake, norm, readJson, rosterTitles, atlasWeb, rel, die } from "./_lib.mjs";
+import { STORY_STATES, STORY_MAX } from "./assemble.mjs";
 
 // The check of one map file against one student folder: { fails, notes } as the lines the script prints, without
 // their "FAIL " and "note " prefixes. A file that is missing or not JSON is one failure.
@@ -87,13 +88,37 @@ export function checkMap(slug, dir, mapFile = path.join(dir, "map.json")) {
   const cards = Array.isArray(map.cards) ? map.cards : [];
   const ids = new Set();
   const perLevel = { 1: [], 2: [], 3: [], reach: [] };
+  const stories = cards.filter(c => c && c.kind === "story");
+  if (stories.length > STORY_MAX) fail("level 1", `${stories.length} story cards; ${STORY_MAX} at most`);
   for (const c of cards) {
     const w = `card ${c.id || "(no id)"}`;
     if (!c.id) fail(w, "missing id"); else if (ids.has(c.id)) fail(w, "duplicate id"); else ids.add(c.id);
-    if (![1, 2, 3, "reach"].includes(c.level)) fail(w, `level ${JSON.stringify(c.level)} is not 1, 2, 3 or "reach"`); else perLevel[c.level].push(c);
+    if (![1, 2, 3, "reach"].includes(c.level)) fail(w, `level ${JSON.stringify(c.level)} is not 1, 2, 3 or "reach"`); else if (c.kind !== "story") perLevel[c.level].push(c);
     if (!trackIds.has(c.track)) fail(w, `track "${c.track}" is not in tracks`);
     for (const k of ["title", "ship", "window"]) if (!c[k]) fail(w, `missing "${k}"`);
     if (!(Number(c.hours) > 0)) fail(w, "hours must be a number above zero");
+    // a story card (assemble.mjs writes it): one skill the résumé half shows, its line as it stands, the prompt
+    if (c.kind === "story") {
+      if (c.level !== 1) fail(w, "a story card sits in World 1");
+      if (!c.skill || !skillIds.has(c.skill)) fail(w, `story skill "${c.skill}" is not in the ${setName} taxonomy`);
+      else if (map.tree && !onTree.has(c.skill)) fail(w, `story skill "${c.skill}" is not a node on the tree`);
+      if (!STORY_STATES.includes(c.state)) fail(w, `story state "${c.state}" is not one of ${STORY_STATES.join(", ")}`);
+      if (!c.line) fail(w, "a story card carries the line as it stands");
+      else if (!profile.includes(norm(c.line))) fail(w, `the story line is not in profile.md: "${String(c.line).slice(0, 60)}"`);
+      if (!c.prompt || (c.line && !c.prompt.includes(c.line))) fail(w, "the story prompt is missing or does not quote the line");
+      if (!c.why_role || !c.why_role.text) fail(w, "missing why_role.text");
+      if (!c.why_person || !c.why_person.text) fail(w, "missing why_person.text");
+      if (!c.why_person || c.why_person.profile_quote !== c.line) fail(w, "why_person.profile_quote is the story line");
+      if (!Array.isArray(c.atlas_skills) || c.atlas_skills[0] !== c.skill) fail(w, "atlas_skills names the story skill");
+      for (const k of ["why_role", "why_person"]) {
+        const text = (c[k] || {}).text || "";
+        for (const s of sentences(text)) { const n = wordCount(s); if (n > MAX_WORDS) fail(w, `${k} has a sentence of ${n} words; ${MAX_WORDS} at most: "${s.slice(0, 50)}…"`); }
+        if (/%|\bper ?cent\b/i.test(text)) fail(w, `${k} carries a percentage; say it in words`);
+      }
+      if (!Array.isArray(c.sources) || !c.sources.length) fail(w, "no source");
+      else for (const s of c.sources) { if (!s.url || !s.title) fail(w, "a source needs title and url"); if (!s.read) fail(w, `source "${s.title || s.url}" has no read date`); }
+      continue;
+    }
     // the three relevance lines, each pointing at its evidence
     if (!c.why_role || !c.why_role.text) fail(w, "missing why_role.text");
     if (!c.why_role || !c.why_role.posting_quote) fail(w, "missing why_role.posting_quote");
@@ -142,12 +167,12 @@ export function checkMap(slug, dir, mapFile = path.join(dir, "map.json")) {
     const n = missions.filter(id => byId[id] && !byId[id].declined).length;
     if (!Number.isInteger(x.clear) || x.clear < 0) fail(w, "clear must be a whole number, zero or more");
     else if (x.clear > n) fail(w, `clear is ${x.clear}, above its ${n} mission${n === 1 ? "" : "s"}`);
-    if (!x.label || !x.release) fail(w, "missing label or release");
+    if (!x.label) fail(w, "missing label");
   }
 
   const cards_ = Array.isArray(map.cards) ? map.cards : [];
   const count = lv => cards_.filter(c => String(c.level) === lv).length;
-  const summary = `${cards_.length} cards (L1 ${count("1")}, L2 ${count("2")}, L3 ${count("3")}, Reach ${count("reach")}), ${((map.tree || {}).nodes || []).length} tree nodes`;
+  const summary = `${cards_.length} cards (${stories.length} story, L1 ${count("1") - stories.length}, L2 ${count("2")}, L3 ${count("3")}, Reach ${count("reach")}), ${((map.tree || {}).nodes || []).length} tree nodes`;
   return { fails, notes, summary };
 }
 

@@ -1266,6 +1266,16 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .qcard ul.src { margin: 0; padding-left: 18px; font-size: var(--text-sm); } .qcard ul.src li { margin: 2px 0; }
 .qcard ul.src a { color: var(--primary); } .qcard ul.src .rd { color: var(--subtle-foreground); }
 .qcard .users { font-size: var(--text-base); line-height: var(--leading-relaxed); margin: 0; }
+/* a story card: the line as it stands, the slots, the live read of a new line, the practice prompt */
+.qcard .why ul.slots { margin: 0; padding-left: 18px; font-size: var(--text-base); line-height: var(--leading-relaxed); }
+.qcard .why ul.slots b { font-weight: var(--weight-medium); }
+.qcard .try textarea { display: block; width: 100%; box-sizing: border-box; min-height: 76px; margin: 8px 0 6px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); color: var(--foreground); font: inherit; font-size: var(--text-base); line-height: var(--leading-relaxed); resize: vertical; }
+.qcard .try textarea:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+.qcard .story-read { margin: 0; min-height: 1.4em; font-size: var(--text-base); line-height: var(--leading-relaxed); display: flex; align-items: flex-start; gap: 6px; }
+.qcard .story-read .sdot { margin-top: 7px; flex: none; }
+.qcard .why pre.prompt { white-space: pre-wrap; font: inherit; font-size: var(--text-sm); line-height: var(--leading-relaxed); margin: 6px 0 8px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--muted); color: var(--foreground); }
+.qcard .why .copied { margin-left: 8px; font-size: var(--text-sm); color: var(--muted-foreground); }
+.ow-path .stop.story .disc { stroke-dasharray: 3 3; }
 .fb { border-top: 1px solid var(--border); margin-top: 14px; padding-top: 14px; }
 .fb h3 { margin: 0 0 8px; font-size: var(--text-md); }
 .fb .row { display: flex; flex-wrap: wrap; gap: 6px; }
