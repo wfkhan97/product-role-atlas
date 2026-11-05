@@ -265,7 +265,10 @@
   if (state.resume) Atlas.useInferred(state.resume.text, state.resume.inferred || []);
   // Funnel counts (web/capture.js): an event name, the session id, the stage and the program group, a role or field id.
   // Never text, a skill id or a file name. Everything is a no-op when CONFIG.CAPTURE_ENABLED is off.
-  const track = (name, ctx) => { if (window.Capture) Capture.event(name, { stage: (state.you || {}).stage, program: (state.you || {}).where, ...(ctx || {}) }); };
+  const track = (name, ctx) => { if (window.Capture) { Capture.event(name, { stage: (state.you || {}).stage, program: (state.you || {}).where, ...(ctx || {}) }); if (ACTIONS.has(name)) Capture.action(); } };
+  // the meaningful actions the feedback prompt counts (web/capture.js Capture.action): a thing opened or read, never a screen drawn
+  const ACTIONS = new Set(["role", "fit", "course_read", "event_prep", "classes", "play", "posting_link", "resume_read", "you_done", "home_jobs", "home_skills", "home_classes", "home_network"]);
+  if (window.Capture) Capture.watch();   // the heartbeat: visible, active time per screen
   const waitCtx = () => ({ role_id: state.roleId, stage: (state.you || {}).stage, program: (state.you || {}).where, fields: (state.you || {}).fields || [] });
   // a posting link (decision 8 of the pass: visible on the fit screen and the rail's gap rows for a person with a resume)
   document.addEventListener("click", e => { const a = e.target.closest("[data-posting]"); if (a) track("posting_link", { role_id: a.dataset.posting }); });
@@ -330,10 +333,12 @@
     // and #/network Who to meet (B5); #/explore, a field and the event screen stay at their routes
     const go = { door, home, jobs: jobsScreen, skills: skillsScreen, network: networkScreen, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => mapsOn() ? signinScreen() : ClassScreens.signin(shellCtx), map: mapScreen }[name];
     SkillMap.leave(); leaveRail(); topBar(name);
-    // the launcher sends the same event Explore sends: it is the screen that picks a role now; the door sends `door`
-    // (v19 B7; `start` was the start screen's, gone with B2) and `door_passed` itself when Continue or Skip goes through
-    const ev = { door: ["door", { surface: "door" }], explore: ["explore"], skills: ["explore"], field: ["field", { field_id: id }], event: ["event_prep", { field_id: id }], role: ["role", { role_id: id }], classes: ["classes"], play: ["play", { role_id: slug }] }[name];
-    if (ev) track(ev[0], ev[1]);
+    // every route is a screen event (2026-11-05, web/capture.js SCREENS; the drop-off report counts them): the launcher
+    // sends the same event Explore sends, since it is the screen that picks a role; the door sends `door` (v19 B7) and
+    // `door_passed` itself when Continue or Skip goes through; the rest carry the id on screen
+    const ctx = { door: { surface: "door" }, field: { field_id: id }, event: { field_id: id }, role: { role_id: id }, play: { role_id: slug } }[name] || {};
+    const ev = window.Capture ? Capture.screen(name) : null;
+    if (ev) track(ev, ctx);
     go().catch(fail);
   }
   window.addEventListener("hashchange", route);
@@ -2086,6 +2091,7 @@
     opts = opts || {};
     if (!opts.always && state.wait !== what) return "";
     const done = intakeDone(what), tally = !done && !!(window.Doors && Doors.formIdFor(Intake.kindOf(what), null, formTheme()));
+    if (!done && window.Capture) Capture.cta(Intake.kindOf(what), "shown", intakeCtx(what, opts.role_id));   // its "done" is the intake_<surface> event
     // with a Tally id the slot waits for wireWait; its line keeps the page still until the form draws
     const form = done ? `<p class="small" style="margin:6px 0 0"><b>${esc(Intake.done)}</b></p>`
       : tally ? `<div class="apply-slot" data-wait-slot="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}></div><p class="small muted apply-loading">${esc(CM.loadingForm)}</p>`
