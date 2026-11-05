@@ -105,6 +105,43 @@ test("sendLink posts /auth/v1/otp with create_user false and the redirect; refus
   assert.equal(none.calls.length, 0, "a malformed address sends nothing");
 });
 
+// ---------- the code flow (the visitor journey, step 2, 2026-11-05) ----------
+test("sendCode posts /auth/v1/otp with create_user true and no redirect; sign-ups off or a rate limit read as the refused copy, the rest as the plain failure", async () => {
+  const S = Copy.signin;
+  const ok = makeAuth(async () => reply(200, {}));
+  assert.deepEqual(await ok.A.sendCode(" Student@Example.com "), { ok: true });
+  assert.equal(ok.calls[0].url, "https://x.supabase.co/auth/v1/otp", "no redirect_to: the code is typed on the page");
+  assert.deepEqual(ok.calls[0].body, { email: "Student@Example.com", create_user: true });
+  assert.equal(ok.calls[0].init.headers.apikey, "pk");
+  assert.deepEqual(await makeAuth(async () => reply(422, { code: 422, msg: "Signups not allowed for otp" })).A.sendCode("a@b.co"), { ok: false, message: S.codeRefused });
+  assert.deepEqual(await makeAuth(async () => reply(429, { error_code: "over_email_send_rate_limit" })).A.sendCode("a@b.co"), { ok: false, message: S.codeRefused });
+  assert.deepEqual(await makeAuth(async () => reply(500, "boom")).A.sendCode("a@b.co"), { ok: false, message: S.failed });
+  assert.deepEqual(await makeAuth(async () => { throw new Error("offline"); }).A.sendCode("a@b.co"), { ok: false, message: S.failed });
+  const bad = makeAuth(async () => reply(200, {}));
+  assert.deepEqual(await bad.A.sendCode("not an email"), { ok: false, message: S.invalid });
+  assert.equal(bad.calls.length, 0);
+});
+
+test("verifyCode posts /auth/v1/verify with type email and keeps the session; a wrong code reads as its line and keeps nothing", async () => {
+  const S = Copy.signin;
+  const good = makeAuth(async () => reply(200, { access_token: TOKEN, refresh_token: "r9", expires_in: 3600, expires_at: NOW / 1000 + 3600, user: { id: UID, email: "student@example.com" } }));
+  const r = await good.A.verifyCode("student@example.com", " 123 456 ");
+  assert.equal(r.ok, true);
+  assert.equal(good.calls[0].url, "https://x.supabase.co/auth/v1/verify");
+  assert.deepEqual(good.calls[0].body, { type: "email", email: "student@example.com", token: "123456" });
+  assert.deepEqual(r.session, { access_token: TOKEN, refresh_token: "r9", expires_at: NOW / 1000 + 3600, uid: UID, email: "student@example.com" });
+  assert.deepEqual(good.A.stored(), r.session, "kept under maps.session, the shape the map reads");
+  const wrong = makeAuth(async () => reply(403, { error_code: "otp_expired", msg: "Token has expired or is invalid" }));
+  assert.deepEqual(await wrong.A.verifyCode("student@example.com", "000000"), { ok: false, message: S.codeWrong });
+  assert.equal(wrong.A.stored(), null);
+  const short = makeAuth(async () => reply(200, {}));
+  assert.deepEqual(await short.A.verifyCode("student@example.com", "12"), { ok: false, message: S.codeWrong }, "six digits or nothing is sent");
+  assert.equal(short.calls.length, 0);
+  assert.deepEqual(await makeAuth(async () => reply(500, "boom")).A.verifyCode("a@b.co", "123456"), { ok: false, message: S.failed });
+  const noUid = makeAuth(async () => reply(200, { access_token: "not.a.jwt", refresh_token: "r" }));
+  assert.deepEqual(await noUid.A.verifyCode("a@b.co", "123456"), { ok: false, message: S.failed });
+});
+
 test("session(): kept as is far from expiry; refreshed within five minutes; a refused refresh forgets it", async () => {
   const fresh = { access_token: TOKEN, refresh_token: "r1", expires_at: NOW / 1000 + 3600, uid: UID, email: "student@example.com" };
   const storage = memStorage(); storage.setItem("maps.session", JSON.stringify(fresh));

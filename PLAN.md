@@ -2066,8 +2066,29 @@ PRs (#141, #142, #143) land first, since identity builds on the map's sign-in an
   Off, `capture.js` behaves exactly as before (the old names, the old keys).
 - `funnel.py` prints the four journey tables after the funnel of before, reading each column only once it exists.
 
-Not in this step: the sign-in (step 2), the tables (step 3), the function (step 4), the hearts (step 5), the
-feedback box (step 6). Each gets its own section when built.
+**Step 2, built (`feat/journey-signin`, stacked on step 1): the sign-in.** Decisions:
+
+- **A code, not a link.** `Auth.sendCode(email)` posts GoTrue's email OTP with `create_user: true`;
+  `Auth.verifyCode(email, code)` posts `/auth/v1/verify` with type `email` and keeps the session under the same key and
+  shape the map reads (`maps.session`), so the map's screens need no change. The invited map users keep their link.
+- **The first personal act is the résumé read.** With accounts on and no session, the drop zone draws the sign-in's
+  door ("Sign in to read your résumé"), and a Read button goes to `#/signin?next=<the hash>`; the sign-in returns to
+  that hash (a hash of this site only, never the sign-in itself). Explore, a role, a field, Networking and the
+  classes stay open with no sign-in, as decision 1 says.
+- **The verified address becomes the door's**: `door.email` is set at verify and `doorKept` prefers the session's
+  email, so the campus rule reads a verified address. The top bar shows the address and Sign out when a session
+  exists, Sign in otherwise (not on the door or the sign-in).
+- **The door is its own form** with accounts on (Tally's door form retires; the four intake boxes keep theirs):
+  the native fallback of v19 B7, one waitlist row per address and source, so the Tally duplicates end with it.
+- **Everything behind `CONFIG.ACCOUNTS_ENABLED`, off** until the owner has set up the catalog project: a custom
+  SMTP sender (Project Settings → Authentication → SMTP; Supabase's own sends a few an hour), sign-ups on
+  (Authentication → Sign In / Providers → Email → Allow new users), the Magic Link email template carrying
+  `{{ .Token }}` (Authentication → Email Templates; GoTrue sends that template for a code too, and without the
+  token the mail holds only a link), and the rate limits (Authentication → Rate Limits; emails per hour). The
+  events `cta_shown` · `cta_click` · `cta_done` for `signin` measure the flow once step 1's flag is on.
+
+Not in this step: the tables (step 3), the function (step 4), the hearts (step 5), the feedback box (step 6). Each
+gets its own section when built. A deletion path and the privacy copy change with step 3, when something is saved.
 
 ## A third role set: engineering, design and legal (`feat/tech-role-set`, 2026-11-05)
 
