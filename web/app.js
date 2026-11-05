@@ -91,12 +91,32 @@
   // door.seen) in localStorage. The form is Tally's when CONFIG.TALLY.door is set (web/doors.js, B7), else the native
   // one; the native Continue sends the email with the source `door`. Tally's return is the one time the email rides in
   // the URL (#/home?email=…&where=…): home reads it once and cleans the hash.
+  // The campus flags (2026-11-04): the door's email read by its domain against web/config.js CAMPUS_DOMAINS
+  // ({ flag: [domains] }), and the flag linked to a roster by the `flag` of a campus entry (data/sp27_campus.json).
+  // `domains` defaults to the config's table in the browser and to none in node; `campuses` is Catalog.campuses()'s
+  // list, which honors `enabled_by`, so a switched-off campus opens nothing.
+  const domainTable = domains => domains || (typeof self !== "undefined" && self.CONFIG && self.CONFIG.CAMPUS_DOMAINS) || {};
+  // the screens a flag with no roster does not reach: they go home (not grayed, not shown)
+  const ROSTER_SCREENS = new Set(["classes", "professor"]);
   const Door = {
-    COPY: { ...Copy.door, home: Copy.home.heading, closed: Copy.home.closed, closedLink: Copy.home.closedLink, closedAfter: Copy.home.closedAfter, bar: Copy.common.bar },
-    // a Cornell NetID address and nothing else (owner's decision 2, 2026-10-29): two or three letters then one to four
-    // digits at cornell.edu, any case, spaces around it ignored. john.smith@cornell.edu, an alumni address and a
-    // gmail address are kept like any other email but open nothing.
-    opens: email => /^[a-z]{2,3}[0-9]{1,4}@cornell\.edu$/i.test(String(email || "").trim()),
+    COPY: { ...Copy.door, home: Copy.home.heading, bar: Copy.common.bar },
+    // the flag whose domain list holds the address's domain, else null: the whole domain after the last "@", any case,
+    // spaces around the address ignored (wk332@cornell.edu and john.smith@cornell.edu are cornell;
+    // wk332@alumni.cornell.edu, a gmail address and anything without an "@" are no campus)
+    campus(email, domains) {
+      const e = String(email || "").trim().toLowerCase(), at = e.lastIndexOf("@");
+      if (at < 1 || at === e.length - 1 || e.indexOf("@") !== at || /\s/.test(e)) return null;
+      const d = e.slice(at + 1);
+      for (const [flag, list] of Object.entries(domainTable(domains))) if ((list || []).some(x => String(x || "").trim().toLowerCase() === d)) return flag;
+      return null;
+    },
+    // the listed campus with a loaded roster (catalog: true) for a flag, else null
+    rosterOf: (flag, campuses) => (flag && (campuses || []).find(c => c.flag === flag && c.catalog)) || null,
+    // the address belongs to a campus with a loaded roster: Find classes, its routes and the Faculty tab open
+    // (owner, 2026-11-04: any @cornell.edu address, no longer a NetID alone)
+    opens: (email, domains, campuses) => !!Door.rosterOf(Door.campus(email, domains), campuses),
+    // the screen a route draws for a visitor: #/classes and #/professor/<slug> go home when the address opens no roster
+    reach: (name, open) => ROSTER_SCREENS.has(name) && !open ? "home" : name,
     // the route after the door: the deep link the person arrived on, unless that is the door itself
     next: target => { const t = String(target || ""); return t && parseRoute(t).name !== "door" ? t : "#/home"; },
     // a deep link goes to the door first, once: any route but the door while door.seen is not set
@@ -107,14 +127,14 @@
     hundreds: n => (Math.floor(n / 100) * 100).toLocaleString("en-US"),
     tens: n => String(Math.floor(n / 10) * 10),
     // the four home cards in order, with the line each one builds from the counts ({ nOpen, nCompanies, nRoles }: open
-    // US postings of both role sets, the employers behind them, the roles in the index); Find classes is closed unless
-    // the email opens it
-    verbs(email, counts) {
+    // US postings of both role sets, the employers behind them, the roles in the index); Find classes is open only when
+    // the email opens a roster (Door.opens), and the screens draw the open cards alone (2026-11-04: no grayed card)
+    verbs(email, counts, domains, campuses) {
       const c = counts || {}, V = Copy.home.verbs, fill = Copy.fill;
       return [
         { key: "jobs", href: "#/jobs", title: V.jobs.title, line: fill(V.jobs.line, { jobs: Door.thousands(c.nOpen || 0), companies: Door.hundreds(c.nCompanies || 0) }), open: true },
         { key: "skills", href: "#/skills", title: V.skills.title, line: fill(V.skills.line, { roles: Door.tens(c.nRoles || 0) }), open: true },
-        { key: "classes", href: "#/classes", title: V.classes.title, line: V.classes.line, open: Door.opens(email) },
+        { key: "classes", href: "#/classes", title: V.classes.title, line: V.classes.line, open: Door.opens(email, domains, campuses) },
         { key: "network", href: "#/network", title: V.network.title, line: V.network.line, open: true },
       ];
     },
@@ -274,17 +294,24 @@
   // demand-gen pass): the fit on screen when it is this role's, else the matcher at the default level, cached per role;
   // applyBox, applyLine and wireApply draw the intake box at the picker's foot (v18 step 1, the intake since v19 B5);
   // resumeForm, wireResume, takeResume and hasResume let the picker hold the shell's resume form when none is on file (v19 B3, C1)
-  const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Intake.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw), resumeForm: () => resumeForm(), wireResume: () => wireResumeForm(), takeResume: () => takeResume(), hasResume: () => !!state.resume };
+  const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Intake.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw), resumeForm: () => resumeForm(), wireResume: () => wireResumeForm(), takeResume: () => takeResume(), hasResume: () => !!state.resume, flag: () => campusGate().flag };
   // what the door kept, in this browser only: the email, the program group, and that the door was seen once
   const doorKept = () => { try { return { email: localStorage.getItem("door.email") || "", where: localStorage.getItem("door.where") || "", seen: localStorage.getItem("door.seen") === "1" }; } catch { return { email: "", where: "", seen: false }; } };
+  // The campus gate (2026-11-04): the door's email read for its flag (Door.campus, web/config.js CAMPUS_DOMAINS) and
+  // whether that flag has a listed campus with a loaded roster (Door.opens over Catalog.campuses(), which honors
+  // `enabled_by`). The campus list loads once before the first route draws (route() waits for it), so the top bar,
+  // home, the routes and Networking read it synchronously. { flag, open, campus: the roster's campus entry or null }
+  let CAMPUSES = null;
+  const campusesP = Promise.resolve(window.Catalog ? Catalog.campuses() : []).catch(e => { console.error(e); return []; }).then(l => (CAMPUSES = l || []));
+  const campusGate = () => { const email = doorKept().email, flag = Door.campus(email), campus = Door.rosterOf(flag, CAMPUSES || []); return { flag, open: !!campus, campus }; };
   // The four verbs in the top bar (v19 B2), drawn on every route: the current one marked, Find classes only when the
-  // email on file opens it (Door.opens). The brand goes home. A screen the verbs will absorb (Explore, a field, a role,
+  // email on file opens a roster (Door.opens); for any other visitor it is not there at all. The brand goes home. A screen the verbs will absorb (Explore, a field, a role,
   // its fit and course screens) marks Explore careers; an event screen marks Networking; the classes screens Find classes.
   const VERB_OF = { jobs: "jobs", skills: "skills", map: "skills", explore: "skills", field: "skills", role: "skills", fit: "skills", course: "skills", play: "skills", network: "network", event: "network", classes: "classes", professor: "classes" };
   function topBar(name) {
     const el = $("#verbs"); if (!el) return;
     const on = VERB_OF[name] || null;
-    el.innerHTML = Door.verbs(doorKept().email, {}).filter(v => v.open).map(v => `<a class="toplink${on === v.key ? " on" : ""}" href="${esc(v.href)}"${on === v.key ? ' aria-current="page"' : ""}>${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("");
+    el.innerHTML = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open).map(v => `<a class="toplink${on === v.key ? " on" : ""}" href="${esc(v.href)}"${on === v.key ? ' aria-current="page"' : ""}>${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("");
   }
   // the Tally forms on screen (web/doors.js handles): dropped when the route changes, so no clock or listener outlives
   // its screen
@@ -316,6 +343,7 @@
   const mapsOn = () => !!((window.CONFIG || {}).MAPS_ENABLED && window.Auth);
   const toHash = h => location.replace(location.pathname + location.search + h);   // replaced, not pushed: Back leaves as it came
   function route() {
+    if (!CAMPUSES) { campusesP.then(route); return; }   // the campus gate reads the campus list: once, before the first draw
     // a magic link lands with its tokens in the hash (#access_token=…, or #/map#access_token=…): web/auth.js keeps the
     // session and the hash becomes #/map before anything parses it; a spent or expired link lands on the sign-in
     const landed = window.Auth && mapsOn() ? Auth.takeHash(location.hash) : null;
@@ -325,7 +353,11 @@
     // a deep link bounces to the door once (v19 B2): the hash stays, the door draws over it, and Continue or Skip
     // (Door.next) lands on the hash. The sign-in and the map never bounce: an invited person comes from the email.
     const invited = mapsOn() && (parsed.name === "signin" || parsed.name === "map");
-    const name = !invited && Door.bounce(location.hash, doorKept().seen || returned(location.hash)) ? "door" : parsed.name, { id, slug } = parsed.params;
+    // #/classes and #/professor/<slug> are home for a visitor whose address opens no roster (Door.reach, 2026-11-04):
+    // the URL is rewritten too, so the address bar never says a screen the person cannot reach
+    const name0 = !invited && Door.bounce(location.hash, doorKept().seen || returned(location.hash)) ? "door" : parsed.name;
+    const name = Door.reach(name0, campusGate().open), { id, slug } = parsed.params;
+    if (name !== name0) { toHash("#/home"); return; }
     // #/jobs, #/skills and #/network exist so the hrefs never change: #/jobs is Find jobs (B4), #/skills the launcher
     // and #/network Who to meet (B5); #/explore, a field and the event screen stay at their routes
     const go = { door, home, jobs: jobsScreen, skills: skillsScreen, network: networkScreen, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => mapsOn() ? signinScreen() : ClassScreens.signin(shellCtx), map: mapScreen }[name];
@@ -379,7 +411,7 @@
     const nativeForm = () => `<form class="door-form" id="door-form" novalidate="">
           <label class="dlabel">${esc(C.email)}<input type="email" name="email" placeholder="${esc(C.emailPlaceholder)}" autocomplete="email" value="${esc(kept.email)}"></label>
           <label class="dlabel">${esc(C.where)}<select name="where"><option value="">${esc(C.pick)}</option>${Q[0].options.map(([id, label]) => `<option value="${esc(id)}"${kept.where === id ? " selected" : ""}>${esc(label)}</option>`).join("")}</select></label>
-          <p class="small muted" style="margin:0">${esc(C.cornell)}</p>
+          <p class="small muted" style="margin:0">${esc(C.school)}</p>
           <p class="door-acts"><button type="submit" class="btn primary">${esc(C.button)}</button><a class="door-skip" href="${esc(Door.next(location.hash))}" id="door-skip">${esc(C.skip)}</a></p>
         </form>`;
     const tally = !!(window.Doors && Doors.formIdFor("door", null, formTheme()));
@@ -414,8 +446,8 @@
       onSubmitted: () => { try { localStorage.setItem("door.seen", "1"); } catch { } passed(""); },
     });
   }
-  // Home: the four verbs as a 2×2 grid, one data-built line each; Find classes grayed until a Cornell address opens
-  // it. Under them, About you (owner's feedback 2026-11-01): the three questions and the résumé drop inline
+  // Home: the verbs as a grid, one data-built line each: four for an address that opens a roster, else three (Find
+  // classes is not drawn at all, 2026-11-04; the grid's n3 class lays three in one row from 1280 px). Under them, About you (owner's feedback 2026-11-01): the three questions and the résumé drop inline
   // (youInline) until any is answered, then the one-line summary with Edit to #/you (youLine). The door's Tally form
   // comes back here with its answers in the query (#/home?email=…&where=…): read once, kept as the door keeps them,
   // and the hash cleaned before anything draws. A card click sends home_<verb> before the screen changes.
@@ -435,10 +467,9 @@
       else youInline(body, { onDone: () => { doneHere = true; drawYou(); } }).catch(console.error);
     };
     const render = () => {
-      const cards = Door.verbs(doorKept().email, homeCounts(ix, n)).map(v => v.open
-        ? `<a class="verb" href="${esc(v.href)}" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span></a>`
-        : `<div class="verb closed" aria-disabled="true" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span><span class="gate">${esc(C.closed)} <a href="#/">${esc(C.closedLink)}</a> ${esc(C.closedAfter)}</span></div>`);
-      page(`<h1>${esc(C.home)}</h1><div class="verbs">${cards.join("")}</div>
+      const cards = Door.verbs(doorKept().email, homeCounts(ix, n), null, CAMPUSES || []).filter(v => v.open)
+        .map(v => `<a class="verb" href="${esc(v.href)}" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span></a>`);
+      page(`<h1>${esc(C.home)}</h1><div class="verbs n${cards.length}">${cards.join("")}</div>
         <section class="home-you" aria-labelledby="home-you-h"><h2 id="home-you-h">${esc(YOU.inline.heading)}</h2><div id="home-you-body"></div></section>`);
       main.firstElementChild.classList.add("home-page");
       main.querySelectorAll("a.verb[data-verb]").forEach(a => a.onclick = () => track("home_" + a.dataset.verb, { surface: a.dataset.verb }));
@@ -1017,8 +1048,8 @@
   // site or in the link) the screen starts with the About you questions, drawn in place by the shell's
   // AtlasUI.youInline, then opens on the role the answers point to (defaultRole); a person who skips them all gets the
   // default role, never the questions twice. Then: the role (a searchable Pick over every role) and the people types
-  // as tabs across the full width of the page (four for everyone; "Faculty on campus" fifth when the door's address
-  // opens Cornell), wrapping below the width they need, never scrolling. Left: who to look for, with no lead (titles
+  // as tabs across the full width of the page (three for everyone; "An alum in the role" fourth for an address with a
+  // campus flag; "Faculty on campus" fifth when that flag's roster is loaded, 2026-11-04), wrapping below the width they need, never scrolling. Left: who to look for, with no lead (titles
   // by level, the five employers with the most open postings of the role and a link to Find jobs with the role set, or
   // the professors, the most gaps covered first, each row a link to the professor card) and the intake box. Right,
   // wider and sticky: the prep card for the type on: the company or the professor (a Pick), where to find them (the
@@ -1027,16 +1058,18 @@
   // company) with a Copy button for the plain text. The employers are the
   // role's own open postings; with a résumé the fit is the matcher's, as the rail reads it (matchRole). The hash keeps
   // role, type and target (replaceState). No event is sent from here, and nothing is stored but what #/you stores.
-  // Network on campus, for a Cornell email: the professors come from the class picker's public roster
+  // Network on campus, for an address whose flag opens a roster: the professors come from that campus's public roster
   // (Catalog.loadCatalog), each with the classes they teach this term and, with a résumé, the gaps of this role those
   // classes cover, read the way classes.js reads a card (Catalog.cardTags, gapsCovered, instructorGaps); with none,
   // the role's core asks they teach (Network.askRows), so the list sorts by that instead of by name.
   const fieldJobsCache = {};
   const fieldJobsOf = gid => fieldJobsCache[gid] ||= Atlas.fieldJobs(gid).catch(e => { delete fieldJobsCache[gid]; console.error(e); return []; });
-  let rosterP = null;
-  const roster = () => rosterP ||= Promise.all([Catalog.loadCatalog(), Atlas.genericSkills().catch(() => new Set())]).then(([data, generic]) => { const cards = Catalog.collapse(data); return { data, generic, cards, reads: Object.fromEntries(cards.map(c => [c.key, Catalog.cardTags(c, data.tags)])) }; }).catch(e => { rosterP = null; throw e; });
-  async function campusProfs(gaps) {
-    const { data, generic, cards, reads } = await roster();
+  // one read per campus entry (the flag's roster: Cornell Tech for cornell, IE New York for ienyc once its switch is on
+  // and its files exist), through the class picker's own Catalog.loadCatalog
+  const rosterP = {};
+  const roster = cm => rosterP[cm.id] ||= Promise.all([Catalog.loadCatalog(cm), Atlas.genericSkills().catch(() => new Set())]).then(([data, generic]) => { const cards = Catalog.collapse(data); return { data, generic, cards, reads: Object.fromEntries(cards.map(c => [c.key, Catalog.cardTags(c, data.tags)])) }; }).catch(e => { delete rosterP[cm.id]; throw e; });
+  async function campusProfs(cm, gaps) {
+    const { data, generic, cards, reads } = await roster(cm);
     const covered = gaps ? Object.fromEntries(cards.map(c => [c.key, Catalog.gapsCovered(reads[c.key].teaches, gaps, generic)])) : {};
     return data.professors.map(p => { const mine = Catalog.instructorCards(cards, { slug: p.slug, name: p.name }); return { slug: p.slug, name: p.name, title: p.title, affiliation: p.affiliation, codes: [...new Set(mine.flatMap(c => c.codes))], gaps: gaps ? Catalog.instructorGaps(mine, covered).map(g => ({ id: g.id, name: g.name })) : [] }; })
       .filter(p => p.codes.length).sort((a, b) => b.gaps.length - a.gaps.length || a.name.localeCompare(b.name));
@@ -1074,7 +1107,9 @@
       AtlasUI.youInline($("#nw-you"), { onDone: () => { if (here()) networkScreen(); } });
       return;
     }
-    const cornell = Door.opens(doorKept().email), types = Network.types(cornell);
+    // the campus gate: the alum type for any campus flag, Faculty on campus for a flag with a loaded roster; the
+    // alumni searches carry the flag's school filter (Network.SCHOOLS)
+    const gate = campusGate(), types = Network.types(gate.flag, gate.open);
     const s = { role: q.role, type: q.type, key: q.target || null };
     if (!roleOk(s.role)) s.role = roleOk(chosen) ? chosen : await defaultRole(ix);
     if (!types.some(t => t.id === s.type)) s.type = types[0].id;
@@ -1089,10 +1124,10 @@
       const R = await Atlas.role(s.role); const fieldJobs = await fieldJobsOf(R.role.group);
       const m = state.resume ? await matchRole(s.role).catch(e => { console.error(e); return null; }) : null;
       let profs = [], rosterFailed = false;
-      if (cornell) { try { profs = await campusProfs(m ? gapRows(rowsOf(m.r), m.R) : Network.askRows(ix, R, Atlas.TIER.core)); } catch (e) { console.error(e); rosterFailed = true; } }
+      if (gate.open) { try { profs = await campusProfs(gate.campus, m ? gapRows(rowsOf(m.r), m.R) : Network.askRows(ix, R, Atlas.TIER.core)); } catch (e) { console.error(e); rosterFailed = true; } }
       const rg = state.resume && !m ? await rough().catch(() => null) : null;
       const generic = await Atlas.genericSkills().catch(() => new Set());
-      const o = { cornell, shown: rg ? rg.shown : null, profs, fieldJobs, core: Atlas.TIER.core, generic };
+      const o = { flag: gate.flag, roster: gate.open, shown: rg ? rg.shown : null, profs, fieldJobs, core: Atlas.TIER.core, generic };
       const K0 = Network.ctx(ix, R, m ? m.r : null, o);
       const evidence = await evidenceOf(R, [...new Set([...K0.craftGaps.slice(0, 6), ...K0.craft.slice(0, 10)].map(x => x.id))]);
       if (t !== token) return null;

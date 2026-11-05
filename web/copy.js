@@ -102,7 +102,8 @@
     inside: "Inside: find jobs for grad students, learn what skills different roles require (and how you stack up), search classes by career relevance, and identify people to network with",
     email: "Your email", emailPlaceholder: "user@school.edu",
     where: "What are you studying?", pick: "Pick one",
-    cornell: "Some parts are for Cornell students. A Cornell address opens them.",
+    // under the email (2026-11-04): a school address with a loaded roster opens Find classes and Faculty on campus
+    school: "Some parts are for students. A school address opens them.",
     button: "Continue", skip: "Skip for now",
     privacy: "We keep your email to send you what we build. Your résumé text goes once to our AI reader; we do not store it.",
   };
@@ -110,8 +111,6 @@
   // ---------- home (#/home): the four verbs, one data-built line each ----------
   const home = {
     heading: "What do you want to do?",
-    // the grayed Find classes card: the line, then a link to the door in the middle of the second sentence
-    closed: "For Cornell students for now.", closedLink: "Enter a Cornell address", closedAfter: "to open it.",
     // {jobs}, {companies} and {roles} are counts in words, rounded down (Door.thousands, hundreds, tens)
     verbs: {
       jobs: { title: "Find jobs", line: "Search over {jobs} open jobs in popular fields for grad students, from over {companies} companies." },
@@ -592,7 +591,9 @@
     teachesOf: "teaches {n} of {m} asks", teachesNames: " · teaches {names}",   // with no résumé: the role's core asks its classes teach
     moreProfs: "{n} more in the Professor list of the prep card.",
     rosterFailed: "The roster did not load. Reload the page to try again.",
-    // the people types; faculty show only when the door opens Cornell
+    // the school's name in the alumni links, by the door's campus flag (app.js Door.campus)
+    schools: { cornell: "Cornell", ienyc: "IE" },
+    // the people types; the alum shows for an address with a campus flag, faculty only when that flag's roster is loaded
     types: {
       hm: { label: "A hiring manager" },
       inrole: { label: "Someone in the role now" },
@@ -609,7 +610,8 @@
     whereLines: {
       handshake: "Handshake",
       leads: "{company} · {role} leads", recruiters: "{company} · recruiters",
-      alumni: "{role} · Cornell alumni", alumniAt: "{company} · {role} · Cornell alumni",
+      alumni: "{role} · {school} alumni", alumniAt: "{company} · {role} · {school} alumni",
+      alumniAny: "{role} · alumni", alumniAtAny: "{company} · {role} · alumni",   // a flag with no school name
     },
     // the prep card's suggested approach: talking points to paste into an AI helper or keep as notes. The slots come from
     // the data (network.js say()): {skill} is a craft skill, never a behaviour, a generic skill or a credential.

@@ -6,12 +6,12 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 | file | strings | long | passive | stoplist |
 |---|---:|---:|---:|---:|
-| web/copy.js (gated) | 1127 | 0 | 0 | 0 |
-| web/data/sp27_campus.json (gated) | 176 | 0 | 0 | 0 |
+| web/copy.js (gated) | 1129 | 0 | 0 | 0 |
+| web/data/sp27_campus.json (gated) | 182 | 0 | 0 | 0 |
 | web/data/games.json (gated) | 54 | 0 | 0 | 0 |
-| web/data/graph_mba.json | 13148 | 65 | 46 | 17 |
-| web/data/role_blurbs.json | 59 | 2 | 5 | 0 |
-| web/data/graph_mba/_evidence.json | 4350 | 1886 | 135 | 149 |
+| web/data/graph_mba.json | 13160 | 65 | 46 | 17 |
+| web/data/role_blurbs.json | 72 | 2 | 5 | 0 |
+| web/data/graph_mba/_evidence.json | 4351 | 1862 | 135 | 142 |
 | web/data/subskills_mba.json | 1590 | 0 | 0 | 3 |
 | web/data/subskills.json | 325 | 0 | 0 | 1 |
 
@@ -19,11 +19,11 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 ### web/copy.js (gated)
 
-1127 strings · 0 long · 0 passive · 0 stoplist
+1129 strings · 0 long · 0 passive · 0 stoplist
 
 ### web/data/sp27_campus.json (gated)
 
-176 strings · 0 long · 0 passive · 0 stoplist
+182 strings · 0 long · 0 passive · 0 stoplist
 
 ### web/data/games.json (gated)
 
@@ -33,7 +33,7 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 ### web/data/graph_mba.json
 
-13148 strings · 65 long · 46 passive · 17 stoplist
+13160 strings · 65 long · 46 passive · 17 stoplist
 
 **sentences over 20 words** (65, first 20)
 
@@ -103,7 +103,7 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 ### web/data/role_blurbs.json
 
-59 strings · 2 long · 5 passive · 0 stoplist
+72 strings · 2 long · 5 passive · 0 stoplist
 
 **sentences over 20 words** (2)
 
@@ -120,9 +120,9 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 
 ### web/data/graph_mba/_evidence.json
 
-4350 strings · 1886 long · 135 passive · 149 stoplist
+4351 strings · 1862 long · 135 passive · 142 stoplist
 
-**sentences over 20 words** (1886, first 20)
+**sentences over 20 words** (1862, first 20)
 
 - `roadmap.staff[0]`: 38 words: Act as a key contributor to the roadmap for all categories of Qualcomm Snapdragon chipsets: - Participate in synchronizing the Technology IP roadmaps…
 - `roadmap.staff[1]`: 21 words: Product Strategy and Roadmap: Own the product vision, strategy, and multi-year roadmap for autonomous delivery, from R&D through deployment at scale
@@ -135,61 +135,61 @@ are reported for the editorial pass (PLAN.md, "Later"). A quoted posting sentenc
 - `roadmap.early[0]`: 26 words: Business Case Analyses, Business Needs, Business Outcomes, Business Processes, Collaboration, Cross-Functional Teamwork, Product Discovery, Product M…
 - `roadmap.early[2]`: 22 words: Developing technology roadmaps in conjunction with product lines within the company, and executing IRAD, CRAD, and programs in support of those roadm…
 - `roadmap.early[3]`: 26 words: Ability to lead the charge to create a roadmap to progress from the current state to the new future state, and drive execution against that roadmap
-- `product_strategy.early[1]`: 21 words: Are equally comfortable with strategic thinking and technical execution-you want to define the strategy and build the system that delivers it
-- `product_strategy.early[3]`: 23 words: Strategic Vision : Proven track record of managing product portfolios in complex technical domains with clear vision and strategy to maximize portfol…
+- `product_strategy.early[2]`: 21 words: Are equally comfortable with strategic thinking and technical execution-you want to define the strategy and build the system that delivers it
 - `product_strategy.senior[0]`: 21 words: 6+ years of management consulting experience in corporate strategy, business unit strategy, strategic planning, growth strategy, commercial strategy,…
 - `product_strategy.senior[1]`: 21 words: Communicate and gain support for product vision and strategy and drive organizational alignment to drive execution of product strategies and roadmaps
 - `product_strategy.senior[3]`: 22 words: Product Strategy & Roadmap: Own the end-to-end product strategy, vision, and 12-18 month roadmap for Muon Space’s Information Systems and internal to…
 - `product_strategy.staff[0]`: 21 words: Experience developing business strategy, portfolio strategy, pricing strategy, product strategy, or growth strategies within technology, devices, har…
 - `product_strategy.lead[1]`: 28 words: The Strategic Planning Senior Director is a senior leadership role responsible for driving enterprise strategic planning and ensuring alignment of st…
-- `product_strategy.lead[3]`: 21 words: 10+ years in pricing strategy, commercial operations, revenue strategy, or product-led growth strategy, with at least five years managing a team
-- `product_vision.lead[2]`: 25 words: Set the Strategic Vision: Define and communicate a multi-year product vision and strategy for the Member Journey neighborhood, ensuring alignment wit…
+- `product_strategy.lead[2]`: 22 words: Provide strategic direction for PGS AI governance and quality tools, including AIRIF and AIQAS, and their alignment with the PGS platform strategy
+- `product_vision.senior[1]`: 27 words: Inspire the team with the product vision, generate buy-in for the product vision with leadership and partner teams, and work cross-functionally to br…
+- `product_vision.senior[2]`: 25 words: Strategy & Vision - Define the multi‑year product vision and strategy for Microsoft AI Experience Index Pipelines, related Success metrics, Feedback …
 
 **passive constructions** (135, first 20)
 
-- `prd.senior[3]`: be used — "Develop detailed, crisp user stories with acceptance criteria based on customer needs and business requirements that can be used to create …"
 - `feature_definition.senior[2]`: is fast paced — "Our work is fast paced and dynamic, driving engagement across product architecture, feature definition and program execution across multipl…"
-- `gtm.early[2]`: is sequenced — "Act as GTM's primary interface to Product S&O and Research on launch planning, ensuring commercial readiness is sequenced with product / mo…"
 - `customer_success.early[2]`: is composed — "The Customer Success organization is composed of four teams: pre-sales, customer success management, account management and support."
 - `partnerships.early[2]`: be a trusted — "This candidate will be a trusted advisor for our OEM and ISV partnerships and will be focusing on driving a successful GTM business strateg…"
 - `partnerships.early[2]`: be measured — "This candidate will be a trusted advisor for our OEM and ISV partnerships and will be focusing on driving a successful GTM business strateg…"
-- `pnl.early[3]`: be measured — "Drive revenue through partners — you'll be measured by ARR contribution: net-new logos sourced through partners and accelerated deals via S…"
 - `pnl.senior[3]`: are met — "PM will be responsible for profit and loss (P&L) accountability, driving financial performance on assigned projects and ensuring business t…"
 - `python_r.early[3]`: are also required — "Air Bag diagnostic knowledge and replacement after vehicles have been in a collision, R/I dash and motors, and R/R front suspension parts a…"
 - `technical_fluency.senior[2]`: is highly valued — "An MBA or a mandatory computer science degree (though a technical background is highly valued, we care about what you can build, not your c…"
 - `technical_fluency.staff[0]`: is also valued — "Bachelor’s or Master’s degree in Computer Science, Engineering, or a related technical discipline; an MBA, advanced technical degree, or eq…"
 - `technical_fluency.early[2]`: is often required — "Project management skills, rather than technical skills, are key, but a strong technical background is often required to manage competing i…"
 - `cloud.staff[0]`: is tied — "Familiarity with cloud/platform environments such as OCI, AWS, Azure, or Google Cloud (IaaS/PaaS/SaaS), especially where supply planning is…"
-- `cloud.early[2]`: is tied — "Familiarity with cloud/platform environments such as OCI, AWS, Azure, or Google Cloud (IaaS/PaaS/SaaS), especially where supply planning is…"
+- `cloud.early[3]`: is tied — "Familiarity with cloud/platform environments such as OCI, AWS, Azure, or Google Cloud (IaaS/PaaS/SaaS), especially where supply planning is…"
 - `automotive_autonomy.senior[0]`: be kept — "Experience in environments where physical asset state and software state must be kept reconciled, in autonomous vehicles, automotive, EV, r…"
-- `telecom.staff[3]`: be obtained — "If you will be working at home occasionally or permanently, the internet connection must be obtained through a cable broadband or fiber opt…"
 - `telecom.lead[2]`: be obtained — "If you will be working at home occasionally or permanently, the internet connection must be obtained through a cable broadband or fiber opt…"
 - `cross_functional.senior[1]`: are managed — "Lead Cross-Functional Teams: Guide and collaborate with cross-functional teams (Engineering, Design, Product Marketing, Platform Risk, Comp…"
 - `influence.staff[0]`: are skilled — "You are skilled at influencing without authority, building trust with Product, Policy, Legal, Investigations, and regional partners to driv…"
+- `exec_communication.staff[1]`: are realized — "QBR Cadence & Account Growth: Lead structured Quarterly Business Reviews (QBRs) and executive steering committees to ensure joint milestone…"
 - `people_management.senior[0]`: are met — "This role involves managing and leading a team of Operations and Area Managers, coaching and mentoring them to ensure performance objective…"
+- `ownership.senior[0]`: is overlooked — "Accountability and Ownership: Strong sense of ownership and the drive to master your craft, take initiative, and ensure no detail is overlo…"
+- `ownership.senior[1]`: are driven — "Entrepreneurial and Self-Motivated: You are driven and proactive, taking ownership of your role and responsibilities."
+- `ownership.senior[2]`: being a self-motivated — "Experience establishing clear accountability and ownership for project deliverables across other teams while taking accountability for indi…"
 
-**stoplist words (utilize, leverage, facilitate, in order to, via)** (149, first 20)
+**stoplist words (utilize, leverage, facilitate, in order to, via)** (142, first 20)
 
 - `product_strategy.staff[2]`: leverage — "Drive Strategy and Innovation: Leverage market trends, customer insights, and competitive analysis to define the strategy and deliver the b…"
 - `prioritization.early[0]`: via — "Drive impact via ruthless prioritization by clearly defining problems, solution options forward, clarity on both business & technical trade…"
 - `prioritization.staff[1]`: utilize — "Ambiguity to Execution: A demonstrated ability to lead ambiguous product spaces from zero to strategy, through execution, utilizing data an…"
 - `feature_definition.senior[1]`: leverage — "Warehouse MVP: Deliver a WMS MVP focused on highest-leverage workflows: receiving, putaway, replenishment, pick/pack, ship confirmation, cy…"
 - `problem_solving.senior[1]`: utilize — "Proven business analytical skills (ability to utilize critical thinking and analytical skills to identify issues and trends, develop soluti…"
-- `pnl.early[3]`: via — "Drive revenue through partners — you'll be measured by ARR contribution: net-new logos sourced through partners and accelerated deals via S…"
 - `user_research.lead[1]`: leverage — "Lead customer research and insight programs, leveraging quantitative and qualitative methodologies to identify unmet customer needs, emergi…"
-- `personas_jtbd.early[2]`: leverage — "Segmentation & Personalization: Leverage audience insights to build sophisticated segments, ensuring highly relevant content for diverse ri…"
+- `discovery.early[1]`: facilitate — "Facilitate discovery sessions, stakeholder interviews, and process reviews to understand operating needs, pain points, controls, and desire…"
+- `personas_jtbd.early[3]`: leverage — "Segmentation & Personalization: Leverage audience insights to build sophisticated segments, ensuring highly relevant content for diverse ri…"
 - `surveys_feedback.staff[2]`: leverage — "Leverage AI to draft PRDs, map user flows, validate product launch readiness, synthesize research and customer feedback, produce competitiv…"
+- `surveys_feedback.staff[3]`: utilize — "Familiarity with customer success metrics and operational KPIs such as Net Promoter Score (NPS), Average Handle Time (AHT), First Contact R…"
 - `metrics_kpis.senior[3]`: utilize — "Designing and developing reports and dashboards to measure performance metrics of clients, utilizing Salesforce Reports and Dashboards and …"
-- `metrics_kpis.lead[1]`: leverage — "KPIs and dashboards: Develop and refine KPIs, scorecards, dashboards, and analytical frameworks that highlight trends, track operating leve…"
-- `metrics_kpis.lead[3]`: leverage — "Optimize the effectiveness of marketing expenditures by leveraging key performance indicators (KPIs) to measure success and guide resource …"
+- `metrics_kpis.lead[2]`: leverage — "KPIs and dashboards: Develop and refine KPIs, scorecards, dashboards, and analytical frameworks that highlight trends, track operating leve…"
 - `data_driven.early[3]`: leverage — "Data Analytics & Business Intelligence: Leverage data analytics and visualization tools to analyze datasets, identify spend trends, and gen…"
 - `data_driven.senior[1]`: utilize — "Utilizes critical thinking and data analytics mindset to provide management with data driven results and recommendations and promote focus …"
 - `ab_testing.lead[1]`: via — "6+ years measuring commercial effectiveness via promotional response analysis, closed-loop measurement, A/B testing, or quasi-experimental …"
-- `sql.senior[3]`: utilize — "Researching and tracking user reported issues with software systems, identifying root causes and resolutions, and implementing fixes, utili…"
 - `sql.lead[2]`: in order to — "Experience with SQL, ETL/data pipelines, excel, and BI Tools (Looker or equivalent in order to properly query data sets for data cleanlines…"
-- `python_r.senior[2]`: utilize — "Leverage object-oriented programming (OOP) principles, utilizing C++, Python and R programming languages to implement high performance mode…"
-- `python_r.senior[2]`: leverage — "Leverage object-oriented programming (OOP) principles, utilizing C++, Python and R programming languages to implement high performance mode…"
-- `data_modeling.lead[1]`: utilize — "Enterprise data architecture utilizing Snowflake, Databricks, data lakes, data warehouses, master data management, metadata management, AI …"
+- `python_r.senior[3]`: utilize — "Leverage object-oriented programming (OOP) principles, utilizing C++, Python and R programming languages to implement high performance mode…"
+- `python_r.senior[3]`: leverage — "Leverage object-oriented programming (OOP) principles, utilizing C++, Python and R programming languages to implement high performance mode…"
+- `data_modeling.lead[2]`: utilize — "Enterprise data architecture utilizing Snowflake, Databricks, data lakes, data warehouses, master data management, metadata management, AI …"
+- `statistics.early[0]`: utilize — "Monitor and Review historical usage trends, research demand drivers, utilize forecast data ad statistical forecast models, analyze auto gen…"
 
 ### web/data/subskills_mba.json
 
