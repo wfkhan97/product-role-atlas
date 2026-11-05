@@ -3,6 +3,7 @@
     .venv/bin/python evals/run_pipeline.py               # report; exit 1 when a check fails
     .venv/bin/python evals/run_pipeline.py --baseline    # also rewrite evals/pipeline_baseline_mba.md
     .venv/bin/python evals/run_pipeline.py --only titles # one part: backlog, titles, entry, countries, golden, sponsorship, integrity, graph, js, matcher
+    .venv/bin/python evals/run_pipeline.py --roles tech  # the tech role set (engineering, design, legal): titles, levels, entry marks, js so far
 
 Labels are the spec. They were written by reading titles, locations and postings before the code was run on
 them. A row with "sure": false is one a reader could label either way: it is reported, not counted. A row with
@@ -18,6 +19,10 @@ remove the mark).
 5. graph      web/data/graph_mba*: US only, counts add up, shares are company-balanced, ids resolve, product files untouched
 6. js         web/data/roles_mba.json read by evals/roles_mba.mjs gives the same role and level as pipeline/roles_mba.py
 7. matcher    web/match.js reads every role's graph unchanged (node evals/graph_mba.mjs)
+
+--roles tech runs the parts the tech set has so far (PLAN.md, "A third role set"): titles, levels and entry marks against
+evals/titles_tech.json, and js (web/data/roles_tech.json read by evals/roles_tech.mjs). Its baseline is
+evals/pipeline_baseline_tech.md. The other parts come with the set's scrape and graph build.
 """
 import argparse
 import collections
@@ -30,7 +35,7 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
-from pipeline import balance, extract, geo, processed, roles, roles_mba, tax  # noqa: E402
+from pipeline import balance, extract, geo, processed, roles, roles_mba, roles_tech, tax  # noqa: E402
 from pipeline.scrape import load_registry  # noqa: E402
 
 ROLES = "mba"
@@ -385,6 +390,78 @@ def js(jobs):
     out(f"  {len(rows):,} titles (role, level, ladder, entry mark): {len(rows) - bad:,} read the same, {bad} differ")
 
 
+def tech_titles():
+    """The tech set's titles: role, then level and ladder where the role is right, then the entry mark and internship."""
+    rows = load("titles_tech.json")["rows"]
+    fam = lambda r: roles_tech.family(r["title"], r["company"])
+    show = lambda r: f"{r['title']!r} at {r['company']}"
+    out(f"\n== titles: role ({len(rows)} titles, {sum(1 for r in rows if r['role'] is None)} of them must get no role; by role: "
+        f"{dict(sorted(collections.Counter(r['role'] or 'none' for r in rows).items()))})")
+    unsure, _ = labelled("titles", rows, fam, "role", show, "known_miss_role")
+    out(f"  {totals[('titles', 'pass')]} pass, {totals[('titles', 'fail')]} fail; {sum(1 for r in rows if not r.get('sure', True))} unsure rows not counted ({unsure} of them differ from their label)")
+    lv = [r for r in rows if r["role"] and r.get("level") and fam(r) == r["role"]]
+    got = lambda r: (roles_tech.level(r["title"], r["company"], r.get("industry"), r["role"]), roles_tech.ladder(r["title"], r["company"], r.get("industry"), r["role"]))
+    for r in lv:
+        r["_lv"] = (r["level"], r["ladder"])
+    out(f"\n== levels ({len(lv)} titles with a role and a level; by ladder: {dict(collections.Counter(r['ladder'] for r in lv))})")
+    unsure, known = labelled("levels", lv, got, "_lv", show, "known_miss_level")
+    out(f"  {totals[('levels', 'pass')]} pass, {totals[('levels', 'fail')]} fail; {known} known misses; {sum(1 for r in lv if not r.get('sure', True))} unsure rows not counted ({unsure} differ)")
+    en = [r for r in rows if r["role"] and fam(r) == r["role"]]
+    for r in en:
+        r["_en"] = (r["entry"], r["intern"])
+    got = lambda r: roles_tech.entry(r["title"], r["company"], r.get("industry"), r["role"])[:2]
+    out(f"\n== entry marks ({len(en)} titles with the right role; {sum(1 for r in en if r['entry'])} marked grad, {sum(1 for r in en if r['intern'])} internships)")
+    unsure, known = labelled("entry", en, got, "_en", show, "known_miss_entry")
+    out(f"  {totals[('entry', 'pass')]} pass, {totals[('entry', 'fail')]} fail; {known} known misses")
+    for r in rows:
+        r.pop("_lv", None), r.pop("_en", None)
+
+
+def tech_js():
+    out("\n== JavaScript reader of roles_tech.json against pipeline/roles_tech.py")
+    with open(os.path.join(ROOT, "web", "data", "roles_tech.json")) as f:
+        check("js", json.load(f) == json.loads(json.dumps(roles_tech.export())), "web/data/roles_tech.json is stale: run .venv/bin/python -m pipeline.roles_tech")
+    rows = [{"title": r["title"], "company": r["company"], "industry": r.get("industry")} for r in load("titles_tech.json")["rows"]]
+    try:
+        res = subprocess.run(["node", os.path.join(HERE, "roles_tech.mjs")], input=json.dumps(rows), capture_output=True, text=True, check=True)
+    except (OSError, subprocess.CalledProcessError) as e:
+        check("js", False, f"node evals/roles_tech.mjs did not run: {getattr(e, 'stderr', e)}")
+        return
+    bad = 0
+    for r, got in zip(rows, json.loads(res.stdout)):
+        f = roles_tech.family(r["title"], r["company"])
+        want = (f, roles_tech.level(r["title"], r["company"], r["industry"], f), roles_tech.ladder(r["title"], r["company"], r["industry"], f),
+                *roles_tech.entry(r["title"], r["company"], r["industry"], f))
+        if tuple(got) != want:
+            bad += 1
+            if bad <= 5:
+                out(f"  differs: {r['title']!r} at {r['company']}: python {want}, javascript {tuple(got)}")
+    check("js", bad == 0, f"{bad} of {len(rows)} titles read differently")
+    out(f"  {len(rows):,} titles (role, level, ladder, entry mark): {len(rows) - bad:,} read the same, {bad} differ")
+
+
+def main_tech(args):
+    want = lambda p: not args.only or args.only == p
+    if want("titles"):
+        tech_titles()
+    if want("js"):
+        tech_js()
+    p = sum(v for (_, k), v in totals.items() if k == "pass")
+    f = sum(v for (_, k), v in totals.items() if k == "fail")
+    out(f"\nTOTAL: {p} pass, {f} fail")
+    if args.baseline:
+        if args.only or f:
+            sys.exit("the baseline is written from a full run with no failures")
+        md = ["# Pipeline eval baseline: the tech role set", "",
+              f"Generated by `.venv/bin/python evals/run_pipeline.py --roles tech --baseline` on {time.strftime('%Y-%m-%d')}. Do not edit by hand.", "",
+              "The parts the set has so far: titles, levels, entry marks and the JavaScript reader. Integrity, graph, golden and matcher come with the scrape and the graph build (PLAN.md, \"A third role set\").", "",
+              "```", *[l.lstrip("\n") for l in lines], "```"]
+        with open(os.path.join(HERE, "pipeline_baseline_tech.md"), "w") as fh:
+            fh.write("\n".join(md) + "\n")
+        print("wrote evals/pipeline_baseline_tech.md")
+    sys.exit(1 if f else 0)
+
+
 def matcher():
     out("\n== web/match.js reads the graph unchanged")
     try:
@@ -401,7 +478,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--baseline", action="store_true")
     ap.add_argument("--only")
+    ap.add_argument("--roles", choices=["mba", "tech"], default="mba")
     args = ap.parse_args()
+    if args.roles == "tech":
+        main_tech(args)
     want = lambda p: not args.only or args.only == p
     per = None
     if want("titles"):
