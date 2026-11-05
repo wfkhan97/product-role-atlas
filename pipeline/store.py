@@ -276,7 +276,7 @@ def status(store, bucket):
 
 
 def bootstrap(bucket):
-    """What a fresh machine runs: the backlog for both role sets, then the resumes and the caches."""
+    """What a fresh machine runs: the backlog for every role set, then the resumes and the caches."""
     if backlog.configured():
         for rs in backlog.ROLE_DIRS:
             backlog.pull(rs)

@@ -299,7 +299,7 @@
     showMore: "Show {n} more",
     shareLine: "{words} in this view ask for it.", shareLineOne: "{words} in this view asks for it.",
     shareTip: "{share} of the {n} postings in this view ask for {skill}; {all} of postings across {set} do.",
-    allMBA: "all MBA roles", allProduct: "all product roles",
+    allMBA: "all MBA roles", allProduct: "all product roles", allTech: "all engineering, design and legal roles",
     consultingHold: "Build steps for consulting roles wait for an agreed source.",
     noBuild: "No build steps for this skill yet.",
     shownThrough: "Shown through", inFieldNamed: "(in {field})",

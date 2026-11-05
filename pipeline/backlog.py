@@ -1,12 +1,12 @@
 """The raw postings backlog in Supabase: push the files up, pull them back, verify the round trip.
 
-usage: python -m pipeline.backlog push   [--roles product|mba|all] [--only SLUG ...] [--workers N] [--no-snapshot]
+usage: python -m pipeline.backlog push   [--roles product|mba|tech|all] [--only SLUG ...] [--workers N] [--no-snapshot]
        python -m pipeline.backlog pull   [--roles ...] [--only SLUG ...] [--out DIR] [--force]
        python -m pipeline.backlog verify [--roles ...]
        python -m pipeline.backlog snapshot [--roles ...]
        python -m pipeline.backlog status [--roles ...]
 
-data/raw/jobs/ and data/raw/jobs_mba/ are not in git: together they pass 350 MB and a refresh rewrites every
+data/raw/jobs/, data/raw/jobs_mba/ and data/raw/jobs_tech/ are not in git: together they pass 350 MB and a refresh rewrites every
 file. The database of the GradBuddy Supabase project is the store. One `backlog_files` row per employer file
 (its top-level keys except "jobs", in file order), one `postings` row per posting: typed columns for queries,
 the posting itself in `doc` (json, key order kept) with its description in its own compressed column. `pull`
@@ -38,7 +38,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline.env import load_env
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ROLE_DIRS = {"product": "jobs", "mba": "jobs_mba"}
+ROLE_DIRS = {"product": "jobs", "mba": "jobs_mba", "tech": "jobs_tech"}
 DEFAULT_URL = "https://joanndudsiqrfoemwogm.supabase.co"
 BUCKET = "backlog"
 KEEP_SNAPSHOTS = 4
@@ -354,7 +354,7 @@ def status(role_set):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("command", choices=["push", "pull", "verify", "snapshot", "status"])
-    ap.add_argument("--roles", choices=["product", "mba", "all"], default="all")
+    ap.add_argument("--roles", choices=["product", "mba", "tech", "all"], default="all")
     ap.add_argument("--only", nargs="*", help="file names without .json")
     ap.add_argument("--ats", help="pull: only the files of the registry's employers on this kind of board (a refresh job "
                                   "scrapes one family and needs only its files)")

@@ -3,7 +3,7 @@
 // fixed in the same change is a `todo` test with the finding.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { Matcher } from "./_load.mjs";
+import { Matcher, root, readJson } from "./_load.mjs";
 
 const { parseResume, createMatcher, bandOf } = Matcher;
 const rolesOf = text => parseResume(text).roles;
@@ -294,4 +294,19 @@ test("pickCarriers takes a list of keys and reads the role's override before the
   const field = Matcher.pickCarriers(skill, jobs, ["role:treasury", "finance"], isCarrier);
   assert.deepEqual(field.field, ["financial_reporting", "business_case"], "no override for this role: the field's list");
   assert.deepEqual(Matcher.pickCarriers(skill, jobs, "finance", isCarrier).field, ["financial_reporting", "business_case"], "a bare key still works");
+});
+
+// The tech role set's title rules, read by the matcher from web/data/roles_tech.json, give the same role as the
+// reference reader (evals/roles_tech.mjs) on every labelled title, and its own level only where the title names a grade.
+test("the matcher reads tech titles as evals/roles_tech.mjs does", async () => {
+  const fs = await import("fs"), path = await import("path");
+  const { createRoles } = await import(path.join(root, "evals", "roles_tech.mjs"));
+  const rules = readJson("roles_tech.json"), ref = createRoles(rules);
+  const M = Matcher.createMatcher({ taxonomy: readJson("taxonomy_tech.json"), subskills: {}, graph: { jobs: [], skills: [] }, roles: rules });
+  const rows = JSON.parse(fs.readFileSync(path.join(root, "evals", "titles_tech.json"), "utf8")).rows;
+  const bad = rows.filter(r => M.roleOf(r.title).family !== (ref.family(r.title) || (/\b(attorney|lawyer|solicitor|law clerk)\b/i.test(r.title) ? "counsel" : null)));
+  assert.deepEqual(bad.map(r => r.title), []);
+  assert.equal(M.roleOf("Software Engineer II").level, "mid");
+  assert.equal(M.roleOf("Product Designer").level, null, "no grade named, no level read");
+  assert.equal(M.roleOf("Associate, Technology Transactions").family, "counsel", "private practice reads as counsel on a resume");
 });

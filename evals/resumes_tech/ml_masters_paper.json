@@ -1,0 +1,36 @@
+{
+ "targets": [
+  "ml_engineer:associate"
+ ],
+ "expected_level": "associate",
+ "score_band": {
+  "ml_engineer:associate": [
+   0.55,
+   0.9
+  ]
+ },
+ "must_evidence": [
+  "model_training",
+  "ml_evaluation",
+  "inference_optimization",
+  "dl_frameworks",
+  "llm_frameworks",
+  "research_publications",
+  "genai_llm",
+  "ai_ml",
+  "python_r",
+  "masters_mba"
+ ],
+ "must_not_tag": [
+  "frontend_web",
+  "commercial_contracts",
+  "interaction_design",
+  "detection_response",
+  "law_degree",
+  "visual_design",
+  "security_certs"
+ ],
+ "real_gaps": [
+  "mlops_serving"
+ ]
+}
