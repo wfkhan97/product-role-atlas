@@ -60,13 +60,15 @@ yet; read more before writing cards. On a card, a source title names a show or a
 You write these parts of `map.json` and nothing else: `student`, `company`, `posting.url` and `posting.title`,
 `gap_sentence`, `tracks` (from `grounding.json`, in its order, four to six) and `cards`. The levels:
 
-- **Level 1, Fundamentals (I do).** One card per track that holds a core skill the person must build or evidence
+- **Level 1, Fundamentals.** One card per track that holds a core skill the person must build or evidence
   better. Skip a track whose core skills all show, and skip "Other areas". Six cards at most, a few hours each, built
-  from the role's core skills in that area and the company's own pages, product and values.
-- **Level 2, Three demos in a day (we do).** Exactly three. Each takes one day and ends in an artifact a team member
+  from the role's core skills in that area and the company's own pages, product and values. You write no story card:
+  `assemble.mjs` writes up to two (`kind: "story"`, ids `s1-<skill>`) from the grounding, one line of the résumé each,
+  and puts them first in World 1. If one reads wrong, the owner declines it in `map.json`; never edit its text.
+- **Level 2, Three demos in a day.** Exactly three. Each takes one day and ends in an artifact a team member
   at the company could forward tomorrow. Each builds at least two marked gaps. Put the three on three different tracks
   when the gaps allow.
-- **Level 3, One project, real users (you do).** Exactly one, four to eight weeks. It builds the highest-share gap the
+- **Level 3, One project, real users.** Exactly one, four to eight weeks. It builds the highest-share gap the
   demos did not close, in the form the strangest fit gives it. Name its users as a kind of person and a place to find
   them, never a named individual.
 - **The Reach (optional, at most one, `"level": "reach"`).** A product-sized project with no deadline. Write it only

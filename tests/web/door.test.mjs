@@ -1,4 +1,5 @@
-// web/app.js Door: the pure table behind the door (#/) and home (#/home), v19 B2. The Cornell gate, the route after
+// web/app.js Door: the pure table behind the door (#/) and home (#/home), v19 B2. The campus flags and the roster gate
+// (2026-11-04: any @cornell.edu address; IE New York by its domain once its roster loads), the route after
 // the door, the bounce of a deep link, the four cards with their data-built lines, and the copy's rules: no "sign in",
 // "cohort", "paid" or "apply", none of the five banned words, and no sentence over 20 words.
 import test from "node:test";
@@ -8,11 +9,55 @@ import { require, web } from "./_load.mjs";
 import { OWNER_WORDS } from "../../evals/copy_lib.mjs";
 
 const { Door, You, parseRoute } = require(path.join(web, "app.js"));
+const Catalog = require(path.join(web, "catalog.js"))({});
+// the flag table as web/config.js holds it (CAMPUS_DOMAINS), with a stand-in IE domain, and the campus list as
+// Catalog.campuses() gives it: Cornell Tech's roster loaded, IE New York listed (its switch on) with none
+const DOMAINS = { cornell: ["cornell.edu"], ienyc: ["ie-test.edu"] };
+const CAMPUSES = [{ id: "cornell_tech", flag: "cornell", catalog: true }, { id: "ienyc", flag: "ienyc", catalog: false }];
+const IE_LOADED = [CAMPUSES[0], { ...CAMPUSES[1], catalog: true }];
 const Doors = require(path.join(web, "doors.js"))({ config: () => ({ TALLY: { door: "wDoor1", intake: null } }) });
 
-test("Door.opens: a Cornell NetID address and nothing else", () => {
-  for (const e of ["wk332@cornell.edu", "ub47@cornell.edu", "khg9@cornell.edu", "WK332@Cornell.EDU", "  ab1@cornell.edu  ", "abc1234@cornell.edu"]) assert.equal(Door.opens(e), true, e);
-  for (const e of ["john.smith@cornell.edu", "wk332@alumni.cornell.edu", "wk332@gmail.com", "", null, undefined, "w332@cornell.edu", "abcd12@cornell.edu", "wk12345@cornell.edu", "wk@cornell.edu", "wk332@cornell.edu.evil.com", "wk332@cornell.edu x", "wk-332@cornell.edu"]) assert.equal(Door.opens(e), false, JSON.stringify(e));
+test("the flag table: config.js holds cornell and ienyc, cornell.edu under cornell; every sp27 campus names a flag of it", async () => {
+  const vm = await import("node:vm"), fs = await import("node:fs");
+  const box = { window: {} }; vm.runInNewContext(fs.readFileSync(path.join(web, "config.js"), "utf8"), box);
+  const T = box.window.CONFIG.CAMPUS_DOMAINS;
+  assert.deepEqual(Object.keys(T), ["cornell", "ienyc"]);
+  assert.deepEqual([...T.cornell], ["cornell.edu"]);
+  assert.deepEqual([...T.ienyc], ["student.ie.edu", "ie.edu"], "the IE student and staff domains (owner, 2026-11-04)");
+  assert.equal(Door.campus("someone@student.ie.edu", T), "ienyc");
+  assert.equal(Door.campus("someone@IE.edu", T), "ienyc");
+  const file = JSON.parse(fs.readFileSync(path.join(web, "data", "sp27_campus.json"), "utf8"));
+  assert.deepEqual(file.campuses.map(c => [c.id, c.flag]), [["cornell_tech", "cornell"], ["ienyc", "ienyc"]]);
+  for (const c of file.campuses) assert.ok(Object.hasOwn(T, c.flag), `${c.id}: its flag is in the table`);
+  assert.equal(Door.campus("ab1@ie-test.edu", { ...T, ienyc: [] }), null, "the empty IE list: no address is ienyc");
+});
+
+test("Door.campus: the flag whose list holds the whole domain, any case, spaces around ignored; else null", () => {
+  for (const e of ["wk332@cornell.edu", "john.smith@cornell.edu", "WK332@Cornell.EDU", "  ab1@cornell.edu  ", "wk-332@cornell.edu", "abcd12345@cornell.edu"]) assert.equal(Door.campus(e, DOMAINS), "cornell", e);
+  assert.equal(Door.campus("someone@IE-test.edu", DOMAINS), "ienyc");
+  for (const e of ["wk332@alumni.cornell.edu", "wk332@gmail.com", "", null, undefined, "cornell.edu", "@cornell.edu", "wk332@", "wk332@cornell.edu.evil.com", "wk332@cornell.edu x", "a@b@cornell.edu", "wk332@notcornell.edu"]) assert.equal(Door.campus(e, DOMAINS), null, JSON.stringify(e));
+  assert.equal(Door.campus("wk332@cornell.edu"), null, "in node there is no config table: no campus");
+  assert.equal(Door.campus("wk332@cornell.edu", {}), null);
+});
+
+test("Door.opens: any @cornell.edu address opens while Cornell Tech's roster is loaded; alumni, gmail and an IE address with no roster do not", () => {
+  for (const e of ["wk332@cornell.edu", "john.smith@cornell.edu", "ub47@cornell.edu", "WK332@Cornell.EDU"]) assert.equal(Door.opens(e, DOMAINS, CAMPUSES), true, e);
+  for (const e of ["wk332@alumni.cornell.edu", "wk332@gmail.com", "", null, "ab1@ie-test.edu"]) assert.equal(Door.opens(e, DOMAINS, CAMPUSES), false, JSON.stringify(e));
+  assert.equal(Door.opens("ab1@ie-test.edu", DOMAINS, IE_LOADED), true, "the IE roster loaded and its switch on: an IE address opens");
+  assert.equal(Door.opens("wk332@cornell.edu", DOMAINS, []), false, "no campus listed: nothing opens");
+  assert.equal(Door.opens("wk332@cornell.edu", DOMAINS, [{ id: "cornell_tech", flag: "cornell", catalog: false }]), false, "a listed campus with no roster opens nothing");
+  assert.equal(Door.rosterOf("cornell", CAMPUSES).id, "cornell_tech");
+  assert.equal(Door.rosterOf("ienyc", CAMPUSES), null);
+  assert.equal(Door.rosterOf(null, CAMPUSES), null);
+});
+
+test("Catalog.campusFor prefers the flag's campus with a roster, over a stored choice", () => {
+  const list = [{ id: "cornell_tech", flag: "cornell", catalog: true, programs: [] }, { id: "ienyc", flag: "ienyc", catalog: true, programs: [] }];
+  assert.equal(Catalog.campusFor(list, { flag: "ienyc", stored: "cornell_tech" }).id, "ienyc");
+  assert.equal(Catalog.campusFor(list, { flag: "cornell", stored: "ienyc" }).id, "cornell_tech");
+  const ieClosed = [list[0], { ...list[1], catalog: false }];
+  assert.equal(Catalog.campusFor(ieClosed, { flag: "ienyc", stored: "ienyc" }).id, "ienyc", "no roster for the flag: the rules before it apply");
+  assert.equal(Catalog.campusFor(list, { flag: null, stored: "ienyc" }).id, "ienyc");
 });
 
 test("Door.next: the deep link the person arrived on, unless it is the door itself", () => {
@@ -26,15 +71,20 @@ test("Door.bounce: any route but the door goes to the door first while door.seen
   for (const h of ["#/", "#", ""]) assert.equal(Door.bounce(h, false), false, JSON.stringify(h));
 });
 
-test("Door.verbs: four cards in order, Find classes closed for a non-NetID address and open for one", () => {
+test("Door.verbs: four cards in order, Find classes open only for an address whose campus has a roster", () => {
   const counts = { nOpen: 25950, nCompanies: 1502, nRoles: 54 };
-  const closed = Door.verbs("wk332@gmail.com", counts), open = Door.verbs("wk332@cornell.edu", counts), none = Door.verbs("", counts);
+  const closed = Door.verbs("wk332@gmail.com", counts, DOMAINS, CAMPUSES), open = Door.verbs("john.smith@cornell.edu", counts, DOMAINS, CAMPUSES), none = Door.verbs("", counts, DOMAINS, CAMPUSES);
   assert.deepEqual(closed.map(v => v.title), ["Find jobs", "Explore careers", "Find classes", "Networking"]);
   assert.deepEqual(closed.map(v => v.href), ["#/jobs", "#/skills", "#/classes", "#/network"]);
   assert.deepEqual(closed.map(v => v.open), [true, true, false, true]);
   assert.deepEqual(none.map(v => v.open), [true, true, false, true]);
   assert.deepEqual(open.map(v => v.open), [true, true, true, true]);
   for (const v of closed) assert.ok(v.line && v.key, v.title);
+  assert.deepEqual(Door.verbs("wk332@alumni.cornell.edu", counts, DOMAINS, CAMPUSES).map(v => v.open), [true, true, false, true]);
+  assert.deepEqual(Door.verbs("ab1@ie-test.edu", counts, DOMAINS, CAMPUSES).map(v => v.open), [true, true, false, true], "IE's roster not loaded: no Find classes");
+  assert.deepEqual(Door.verbs("ab1@ie-test.edu", counts, DOMAINS, IE_LOADED).map(v => v.open), [true, true, true, true]);
+  // the screens draw the open cards alone: three for a visitor whose address opens nothing, never a grayed fourth
+  assert.deepEqual(closed.filter(v => v.open).map(v => v.key), ["jobs", "skills", "network"]);
 });
 
 test("the lines carry the counts in words, rounded down: over 25 thousand, over 1,500, over 50", () => {
@@ -74,7 +124,9 @@ test("no sentence runs over 20 words, but for the owner's own words", () => {
 
 test("the copy holds every string the two screens draw", () => {
   const C = Door.COPY;
-  for (const k of ["heading", "intro", "inside", "email", "emailPlaceholder", "where", "pick", "cornell", "button", "skip", "privacy", "home", "closed", "closedLink", "closedAfter", "bar"]) assert.ok(C[k] != null && C[k] !== "", k);
+  for (const k of ["heading", "intro", "inside", "email", "emailPlaceholder", "where", "pick", "school", "button", "skip", "privacy", "home", "bar"]) assert.ok(C[k] != null && C[k] !== "", k);
+  for (const k of ["cornell", "closed", "closedLink", "closedAfter"]) assert.ok(!(k in C), `${k} is gone: no grayed card, no Cornell-only door line`);
+  assert.ok(!/cornell|\bIE\b/i.test(C.school), "the door's school line names no campus");
   assert.ok(!/\{\w+\}/.test(C.inside), "the inside line has no slot left to fill");
   assert.equal(C.emailPlaceholder, "user@school.edu");
   assert.equal(C.skip, "Skip for now");
@@ -97,7 +149,7 @@ test("the Tally return: #/home?email=…&where=… is home, reads once as the do
   assert.equal(Doors.clearQuery("#/role/pm/fit?x=1"), "#/role/pm/fit?x=1");
   assert.equal(Door.next("#/home?email=x%40y.edu"), "#/home?email=x%40y.edu", "the door never rewrites a return");
   // the return passes the door: a Cornell address in it opens Find classes on the first draw
-  assert.equal(Door.opens(Doors.returnQuery("#/home?email=ab12%40cornell.edu").email), true);
+  assert.equal(Door.opens(Doors.returnQuery("#/home?email=ab12%40cornell.edu").email, DOMAINS, CAMPUSES), true);
 });
 
 test("You: About you answered, the step it opens on, and the door's program answer folded in", () => {
