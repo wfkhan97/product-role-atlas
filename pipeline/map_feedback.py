@@ -4,7 +4,7 @@ usage: python -m pipeline.map_feedback [<email>]
 
 For every user of the gradbuddy-catalog project (or the one with this email, any case), the files under
 `maps/<user id>/feedback/` in the private `maps` bucket: one per card, the latest answer, each with its date, choice
-(build, not, change) and note. The owner acts on them by editing the student's map.json and publishing again
+(build, not, change) and note. The owner acts on them by editing the student's map.json (data/apprentice/students/<slug>/) and publishing again
 (pipeline/map_publish.py); nothing here writes.
 
 .env: the same two keys as pipeline/map_publish.py (CATALOG_SERVICE_ROLE_KEY, CATALOG_URL). Without the key it says
