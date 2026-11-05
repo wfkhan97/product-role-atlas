@@ -6,7 +6,7 @@
 //   node evals/rough_fit.mjs --all        # every published sample (slow)
 //   node evals/rough_fit.mjs --baseline   # also rewrite evals/rough_fit.md
 //
-// For each resume: the Spearman correlation between the rough score and the full score over the 50 roles, whether
+// For each resume: the Spearman correlation between the rough score and the full score over the MBA roles with postings, whether
 // the full matcher's top role is in the rough top 5, and whether its group is in the rough top 3 fields. A published
 // sample's own role (from its file name) is checked the same way. The check: the median correlation stays at or above
 // the floor in FLOOR, and the full matcher's top role is in the rough top 5 for at least FLOOR.top5 of the resumes.
@@ -30,7 +30,10 @@ const G = loadGraph(), ROLES = J("web/data/roles_mba.json"), BANDS = J("web/data
 const ix = await Atlas.index();
 const M = Matcher.createMatcher({ taxonomy: J("web/data/taxonomy_mba.json"), subskills: J("web/data/subskills_mba.json"), graph: G, roles: ROLES, distinct: { ...BANDS.scoring.distinct, baseline: ix.baseline } });
 const byFam = {}; for (const j of G.jobs) (byFam[j.family] ||= []).push(j);
-const MBA = Object.keys(G.families);
+// only the roles with postings: a role added to the index before the refresh that gives it postings (PR #144's
+// thirteen) has no jobs to score against, so the full matcher has nothing to read (graph_mba.mjs skips them too)
+const MBA = Object.keys(G.families).filter(r => byFam[r] && byFam[r].length);
+const EMPTY = Object.keys(G.families).filter(r => !MBA.includes(r));
 
 // samples: the in-repo ones (any role set; scored against the MBA roles all the same) and the published ones by role
 const samples = [];
@@ -67,8 +70,8 @@ const share = (xs, fn) => { const v = xs.filter(x => fn(x) !== null); return v.l
 const withRole = rows.filter(r => r.role);
 const summary = { n: rows.length, medianRho: med(rows.map(r => r.rho)), top5: share(rows, r => r.inTop5), fieldTop3: share(rows, r => r.fieldTop3), ownTop5: share(withRole, r => r.ownInTop5), ownFieldTop3: share(withRole, r => r.ownFieldTop3), nRole: withRole.length };
 const pctf = v => v == null ? "–" : Math.round(v * 100) + "%";
-const lines = [`# Rough fit vs the full matcher`, ``, `Written by \`node evals/rough_fit.mjs --baseline\` on ${new Date().toISOString().slice(0, 10)}. ${rows.length} resumes (${withRole.length} published samples with a role in the file name).`, ``,
-  `| measure | value |`, `|---|---|`, `| median Spearman, rough vs full over the 50 roles | ${summary.medianRho.toFixed(2)} |`, `| full matcher's top role in the rough top 5 | ${pctf(summary.top5)} |`, `| full matcher's top role's field in the rough top 3 fields | ${pctf(summary.fieldTop3)} |`, `| the sample's own role in the rough top 5 | ${pctf(summary.ownTop5)} |`, `| the sample's own field in the rough top 3 fields | ${pctf(summary.ownFieldTop3)} |`, ``,
+const lines = [`# Rough fit vs the full matcher`, ``, `Written by \`node evals/rough_fit.mjs --baseline\` on ${new Date().toISOString().slice(0, 10)}. ${rows.length} resumes (${withRole.length} published samples with a role in the file name), scored over the ${MBA.length} MBA roles with postings${EMPTY.length ? ` (${EMPTY.length} without postings yet are left out: ${EMPTY.join(", ")})` : ""}.`, ``,
+  `| measure | value |`, `|---|---|`, `| median Spearman, rough vs full over the ${MBA.length} roles | ${summary.medianRho.toFixed(2)} |`, `| full matcher's top role in the rough top 5 | ${pctf(summary.top5)} |`, `| full matcher's top role's field in the rough top 3 fields | ${pctf(summary.fieldTop3)} |`, `| the sample's own role in the rough top 5 | ${pctf(summary.ownTop5)} |`, `| the sample's own field in the rough top 3 fields | ${pctf(summary.ownFieldTop3)} |`, ``,
   `| resume | own role | rho | full top role | in rough top 5 | field in top 3 | roles held |`, `|---|---|---|---|---|---|---|`,
   ...rows.map(r => `| ${r.name} | ${r.role || ""} | ${r.rho.toFixed(2)} | ${r.fullTop} | ${r.inTop5 ? "yes" : "no"} | ${r.fieldTop3 ? "yes" : "no"} | ${r.held} |`)];
 const report = lines.join("\n") + "\n";
