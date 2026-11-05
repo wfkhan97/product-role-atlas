@@ -2,8 +2,9 @@
 # refresh-product.yml for the scrape: one job per ATS family of the product registry, each pulling its part of the
 # tech backlog, scraping with the set's sampling rules (US only, at most 30 open postings per employer and role, three
 # pages a query on search boards; pipeline/scrape.py) and pushing to the Supabase backlog as it goes.
-# There is no build job yet: extraction and the graph of the set come with its taxonomy (PR 3 of the plan), and this
-# workflow then gains the build, checks and pull-request job refresh-product has.
+# Then one build job, as refresh-product has: pull the tech backlog, extract, build the graph and the set's baselines, run
+# the checks, open a pull request from data/tech-<date> and merge it when every check passes (REFRESH_AUTO_MERGE=off
+# leaves it open). The set is not shown in the interface until CONFIG.TECH_ENABLED, so its files can land on main first.
 #
 # count_only (dispatch): list the boards with the set's rules and upload the counts per employer and role as an
 # artifact, with no detail fetches and nothing written to the backlog (Greenhouse, Lever, Ashby and Workday). Run it
@@ -34,7 +35,8 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 env:
   PIPELINE_JOB: refresh-tech
@@ -196,3 +198,103 @@ jobs:
         run: pip install -r requirements.txt
       - name: Snapshot
         run: python -m pipeline.backlog snapshot --roles tech
+
+  build:
+    name: extract, build, checks, pull request
+    needs: [gate, scrape]
+    if: ${{ !cancelled() && needs.gate.outputs.go == 'true' && inputs.count_only != true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      GH_TOKEN: ${{ secrets.ACTIONS_PAT || github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.ACTIONS_PAT || github.token }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Python packages
+        run: pip install -r requirements.txt -r requirements-dev.txt
+      - name: Name the log
+        run: |
+          mkdir -p logs summary
+          echo "PIPELINE_LOG=logs/refresh-tech_$(date -u +%Y-%m-%d)_build.log" >> "$GITHUB_ENV"
+          echo "DATE=$(date -u +%Y-%m-%d)" >> "$GITHUB_ENV"
+      - name: Merge the registry
+        run: python -m pipeline.merge_registry
+      - name: Pull the tech backlog
+        run: python -m pipeline.backlog pull --roles tech
+      - name: The text cache of the last extract
+        run: python -m pipeline.store pull caches --only data/experiments/extract_cache_tech.json.gz || echo "no cache yet; tagging every text"
+      - name: Extract
+        run: python -m pipeline.extract --roles tech
+      - name: Keep the text cache for the next run
+        run: python -m pipeline.store push caches --only data/experiments/extract_cache_tech.json.gz
+      - name: Build the graph and the extraction baseline
+        run: |
+          python -m pipeline.build_graph --roles tech
+          python -m pipeline.experiments.role_coverage --roles tech
+      - name: Pipeline and taxonomy evals of the set
+        id: evals
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          { python evals/run_pipeline.py --roles tech && python evals/run_taxonomy.py; } 2>&1 | tee summary/evals.txt
+      - name: The checks CI runs
+        id: checks
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          { node --test 'tests/web/*.test.mjs' && pytest tests/python && node evals/run.mjs && python evals/run_pipeline.py; } 2>&1 | tail -40 | tee summary/checks.txt
+      - name: Push the log to the logs store
+        if: always()
+        run: python -m pipeline.store push logs --only "$PIPELINE_LOG"
+      - name: Pull request from data/tech-<date>
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          EVALS_OK: ${{ steps.evals.outcome }}
+          CHECKS_OK: ${{ steps.checks.outcome }}
+          AUTO_MERGE: ${{ vars.REFRESH_AUTO_MERGE }}
+        run: |
+          git config user.name "refresh-tech (GitHub Actions)"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          paths="data/processed/jobs_tech.json data/processed/jobs_tech.json.gz data/processed/company_stage_tech.json data/processed/evidence_tech.json web/data/graph_tech.json web/data/graph_tech web/data/taxonomy_tech.json web/data/subskills_tech.json web/data/roles_tech.json evals/extraction_baseline_tech.md"
+          existing=""
+          for p in $paths; do [ -e "$p" ] && existing="$existing $p"; done
+          if [ -z "$(git status --porcelain -- $existing)" ]; then echo "nothing changed; no pull request"; exit 0; fi
+          branch="data/tech-$DATE"
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then branch="$branch-run${{ github.run_number }}"; fi
+          {
+            echo "Tech role set refresh of $DATE by the refresh-tech workflow: [the run]($RUN_URL). Opened by the job, and merged by it when the set's evals and every CI check pass (REFRESH_AUTO_MERGE=off leaves it open); otherwise a draft for the owner. The set is not shown until CONFIG.TECH_ENABLED."
+            echo
+            echo "Evals: $EVALS_OK. CI's checks in the job: $CHECKS_OK."
+            for name in evals.txt checks.txt; do
+              [ -f "summary/$name" ] || continue
+              echo; echo "<details><summary>$name</summary>"; echo; echo '```'; tail -25 "summary/$name"; echo '```'; echo; echo "</details>"
+            done
+          } > summary/body.md
+          git checkout -b "$branch"
+          git add $existing
+          git commit -q -m "Tech role set refresh of $DATE (refresh-tech run ${{ github.run_number }})"
+          git push -u origin "$branch"
+          if [ "$EVALS_OK" != success ] || [ "$CHECKS_OK" != success ]; then
+            gh pr create --draft --base main --head "$branch" --title "Tech refresh of $DATE (evals failed: do not merge)" --body-file summary/body.md
+            exit 0
+          fi
+          url=$(gh pr create --base main --head "$branch" --title "Tech refresh of $DATE" --body-file summary/body.md)
+          echo "$url"
+          if [ "$AUTO_MERGE" = off ]; then echo "left open for the owner (REFRESH_AUTO_MERGE=off)"; exit 0; fi
+          if ! gh pr merge "$url" --merge --match-head-commit "$(git rev-parse HEAD)"; then
+            gh pr comment "$url" --body "The checks passed but the job could not merge this (see [the run]($RUN_URL)); merge it by hand or rerun the refresh."
+            echo "::error::checks passed but the merge failed: $url"
+            exit 1
+          fi
+          git push origin --delete "$branch" || echo "merged; the branch $branch is left behind"

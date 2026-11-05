@@ -177,3 +177,16 @@ def test_a_cached_text_tags_the_same_as_a_fresh_one(tmp_path):
     c.fingerprint = "another"
     c.save(["k"])
     assert E.TextCache("mba", path=str(tmp_path / "c.json.gz")).entries == {}
+
+
+def test_the_text_cache_survives_a_change_made_for_another_role_set(tmp_path, monkeypatch):
+    """The fingerprint reads the role set's own part of the taxonomy: a skill added for the tech set, or a tech wording of a
+    shared skill, leaves the MBA cache valid; a skill the MBA set reads does not."""
+    path = str(tmp_path / "c.json.gz")
+    before = E.TextCache("mba", path=path).fingerprint
+    tech_only = {"id": "zz_tech", "name": "x", "cluster": "engineering", "kind": "technical", "patterns": ["zzz"], "only": ["tech"]}
+    worded = [dict(s, patterns_for={**s.get("patterns_for", {}), "tech": ["zzz"]}) if s["id"] == "sql" else s for s in E.TAX["skills"]]
+    monkeypatch.setattr(E, "TAX", {**E.TAX, "skills": worded + [tech_only]})
+    assert E.TextCache("mba", path=path).fingerprint == before
+    monkeypatch.setattr(E, "TAX", {**E.TAX, "skills": worded + [dict(tech_only, only=["mba"])]})
+    assert E.TextCache("mba", path=path).fingerprint != before

@@ -214,8 +214,8 @@ def main():
 # One index and one file per role. {**index, "jobs": the jobs of the role files you loaded} has the shape of
 # graph.json, so web/match.js reads it as it is. The index holds what a comparison of roles needs (shares per
 # role, what defines each role, levels); a role file holds that role's postings.
-ROLE_MODULES = {"mba": "pipeline.roles_mba"}
-COUNTRY = {"mba": "United States"}  # the one country a role set shows
+ROLE_MODULES = {"mba": "pipeline.roles_mba", "tech": "pipeline.roles_tech"}
+COUNTRY = {"mba": "United States", "tech": "United States"}  # the one country a role set shows
 R4 = lambda x: round(x, 4)
 
 
@@ -239,12 +239,23 @@ ENTRY_META = {
 }
 
 
+# The tech set marks one audience, new graduates ("grad"; pipeline/roles_tech.py, entry()); its words for the interface.
+ENTRY_META_TECH = {
+    "fields": "On each posting: entry is \"grad\" or null; intern is true for an internship or a co-op; entry_src is the evidence: \"title\" or \"text\" "
+              "(the posting says it is for students or new graduates) or \"firm\" (the title is the grade that employer hires graduates at). "
+              "null means an experienced-hire job or no evidence.",
+    "counts": ENTRY_META["counts"],
+    "labels": {"grad": "A job for new graduates", "grad_intern": "An internship for students"},
+    "source_labels": ENTRY_META["source_labels"],
+}
+
+
 def entry_key(j):
     return (j["entry"] + ("_intern" if j.get("intern") else "")) if j.get("entry") else None
 
 
-def entry_counts(js):
-    out = {k: {"n": 0, "posted": 0} for k in ENTRY_KEYS}
+def entry_counts(js, keys=ENTRY_KEYS):
+    out = {k: {"n": 0, "posted": 0} for k in keys}
     for j in js:
         k = entry_key(j)
         if k:
@@ -260,6 +271,7 @@ def build_roleset(roleset):
     t = log.Timer()
     R = importlib.import_module(ROLE_MODULES[roleset])
     T = tax.for_roles(roleset)
+    ekeys = tuple(k for v in R.ENTRY_VALUES for k in (v, v + "_intern"))
     depth = {}
     for p in glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")):
         if not p.endswith("_roles.json"):
@@ -429,7 +441,7 @@ def build_roleset(roleset):
             "by_ladder": {l: {"n": c, "by_level": {x: y for x in levels if (y := sum(1 for j in js if j["ladder"] == l and j["level"] == x))}} for l, c in lad.most_common()},
             "ladder": lad.most_common(1)[0][0],
             # where a new graduate enters this role: postings marked for MBA and for pre-MBA graduates, per ladder
-            "entry": {l: entry_counts([j for j in js if j["ladder"] == l]) for l, _ in lad.most_common()},
+            "entry": {l: entry_counts([j for j in js if j["ladder"] == l], ekeys) for l, _ in lad.most_common()},
             "covers": R.COVERS.get(f, []), "covered_by": covered_by.get(f, []),
             # visa sponsorship as the postings state it (PLAN.md v16, step 8): says yes, says no, says nothing
             "sponsorship": sponsorship.counts(js),
@@ -445,13 +457,13 @@ def build_roleset(roleset):
                  "seniority_range": [R4(min(sen_raw)), R4(max(sen_raw))],
                  "shares": {"balanced": True, "cap": balance.CAP, "small": balance.SMALL, "defining_share": balance.DEFINING_SHARE, "defining_lift": balance.DEFINING_LIFT,
                             "note": "Every share is company-balanced: a posting carries weight w, so that one employer counts for at most cap of a role."},
-                 "entry": ENTRY_META,
+                 "entry": ENTRY_META_TECH if roleset == "tech" else ENTRY_META,
                  "kinds": tax.KINDS, "forms": tax.FORMS,
                  "files": files, "evidence": f"graph_{roleset}/_evidence.json"},
         "sectors": sectors,
         "funds": [{"id": f["id"], "name": f["name"], "type": f["type"], "parent": f.get("parent")} for f in funds.values()],
         "clusters": T["clusters"], "families": dict(R.FAMILY_LABELS), "levels": levels, "level_labels": R.LEVEL_LABELS,
-        "ladders": {k: {**v, "n": sum(1 for j in jobs if j["ladder"] == k), "entry": entry_counts([j for j in jobs if j["ladder"] == k])} for k, v in R.LADDERS.items()},
+        "ladders": {k: {**v, "n": sum(1 for j in jobs if j["ladder"] == k), "entry": entry_counts([j for j in jobs if j["ladder"] == k], ekeys)} for k, v in R.LADDERS.items()},
         # a role with no postings yet (a family added since the last extraction) is in roles with n 0 and in no group:
         # the interface reads the groups, and an empty role has nothing to show
         # a group whose roles are all empty is left out until one has postings

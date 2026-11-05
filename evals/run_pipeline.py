@@ -425,7 +425,11 @@ def tech_titles():
 def tech_js():
     out("\n== JavaScript reader of roles_tech.json against pipeline/roles_tech.py")
     with open(os.path.join(ROOT, "web", "data", "roles_tech.json")) as f:
-        check("js", json.load(f) == json.loads(json.dumps(roles_tech.export())), "web/data/roles_tech.json is stale: run .venv/bin/python -m pipeline.roles_tech")
+        built = json.load(f)
+    built.pop("generated", None), built.pop("employers", None)
+    for fam in built.get("families", []):
+        fam.pop("n", None)
+    check("js", built == json.loads(json.dumps(roles_tech.export())), "web/data/roles_tech.json is stale: run pipeline.build_graph --roles tech (or python -m pipeline.roles_tech)")
     rows = [{"title": r["title"], "company": r["company"], "industry": r.get("industry")} for r in load("titles_tech.json")["rows"]]
     try:
         res = subprocess.run(["node", os.path.join(HERE, "roles_tech.mjs")], input=json.dumps(rows), capture_output=True, text=True, check=True)
