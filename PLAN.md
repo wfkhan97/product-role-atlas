@@ -1940,6 +1940,79 @@ PRs (#141, #142, #143) land first, since identity builds on the map's sign-in an
 Not in this step: the tables (step 3), the function (step 4), the hearts (step 5), the feedback box (step 6). Each
 gets its own section when built. A deletion path and the privacy copy change with step 3, when something is saved.
 
+## A third role set: engineering, design and legal (`feat/tech-role-set`, 2026-11-05)
+
+The ask (2026-11-05, from the role-coverage audit of 2026-11-04): most Cornell Tech technical graduates (MEng CS and ECE,
+Connective Media, Health Tech, Urban Tech, Design Technology) and its LLM graduates take jobs neither set holds. The
+audit's census of 56,708 titles on 1,143 Greenhouse, Lever and Ashby boards found software 7,590 postings, ML/AI 1,556,
+security/GRC 1,178, legal/policy 806, design/UX 526, data engineering 293. The 13 business roles the same audit named
+go into the MBA set in another thread; Product Engineer and AI Transformation Manager were already live. The owner
+approved the plan below on 2026-11-05. It lands in five pull requests; this section grows with each.
+
+**Measured before deciding.** Workday search is loose: on 24 of the 218 Workday boards, "product designer" returned
+1,659 hits at Republic Services and 1,202 at Wells Fargo, almost none design jobs; the adapter reads 15 pages a query
+and fetches every matching title's details, so engineering searches would flood. The backlog database (GradBuddy
+project, Pro plan, 8 GB) held 454 MB, `postings` 429 MB for 78,147 rows: about 5.5 KB a posting. Storage is not the
+limit; run time and balance are.
+
+**Decisions (the approved plan).**
+
+1. **Set `tech`, seven roles in five fields, US only.** `software_engineer` (Software engineering); `ml_engineer`,
+   `data_engineer` (Data & AI engineering); `security_engineer` (Security, with GRC and AI-governance *engineers*);
+   `product_designer`, `ux_researcher` (Design & research); `counsel` (Legal: in-house counsel). Engineering, design and
+   research managers are the leadership levels of their role, not roles of their own. Law-firm associates are out of
+   scope (no law firm is on the registry).
+2. **Each set reads every title on its own; the borders are rules and labels.** The product set keeps Product Engineer,
+   Forward Deployed Engineer and its variants, and every product title that names no engineering, design, research or
+   legal job (`product_gate`: "Technical Program Manager, Security" stays a TPM, "Product Security Engineer" is ours).
+   The MBA set keeps data scientists and analysts, solutions, sales and support engineers, market research, public
+   policy, and the GRC, compliance and AI-governance managers (its `governance` rule already drops "engineer"); a GRC
+   analyst is ours only when the title says security, cyber or IT. Order inside the set: counsel, UX research, design,
+   security, ML, data, then software, so "Software Engineer, Machine Learning" is an ML engineer and "Software Engineer,
+   Security" a security engineer. The note in the shared session folder lists the borders for the MBA-roles thread.
+3. **Three ladders on the one scale.** `engineering` (engineers, designers, researchers): associate = intern, new grad,
+   I, junior; mid = II or no grade; senior = Senior, III, IV; staff = Staff, Lead, V; group = Principal, Distinguished
+   and the managers of engineers, designers or researchers; director; vp = VP, Head of; cpo = CTO, CISO. A numbered
+   grade counts only after the job word ("Engineer II", "SDE 3"); a range is read at its lower end ("Senior / Staff");
+   "Member of Technical Staff" is a job name, not the Staff grade. `legal`: Counsel is mid, Senior Counsel senior,
+   Assistant GC staff, Associate GC director, Deputy GC vp, General Counsel cpo. `bank`: at a bank, or wherever a bank
+   grade is set off beside a working title ("Site Reliability Engineer - Vice President", "Associate, Software
+   Engineering"), Vice President is senior, AVP and Associate mid, Analyst associate.
+4. **The entry mark is `grad` or none, with `intern`** (`pipeline/entry_tech.json`): the title names students or new
+   graduates (new grad, university graduate, early career, a graduation year, residency, apprenticeship, analyst
+   programme, law clerk), or, on an associate-level title, a line of the text does. A firm row (the grade an employer
+   hires graduates at) enters only with its source; there are none yet.
+5. **One taxonomy, extended** (PR 3): about 60 skills marked `only: ["tech"]` (languages, systems, data and ML methods,
+   security, design craft, contract law), ten MBA skills widened to `["mba", "tech"]` (security frameworks, AI
+   governance, law degree...). The product and MBA extractions cannot change; a rerun proves the diff is zero.
+6. **The scrape is capped** (PR 2): US only, decided at the listing; at most 30 open postings per employer and role,
+   held postings first, nothing ever deleted (`sampled` records what was not kept); 3 pages per query on search
+   boards, with exact-title queries (`SEARCH_QUERIES`); a count-only run in Actions before any store run. Estimate
+   about 20,000 postings, 110 MB, 20 minutes for the Workday family.
+7. **Shown behind `CONFIG.TECH_ENABLED`** (PR 5) only once every product eval has its counterpart (PR 4: golden
+   postings, entry labels, integrity and graph parts, hand-written and published sample résumés with bands, the model
+   read on the whole set, the taxonomy fields, the class picker, the games).
+
+**PR 1 (this branch): the title rules.** `pipeline/roles_tech.py` (roles, borders, ladders, entry mark, `export()`),
+`pipeline/entry_tech.json`, `web/data/roles_tech.json` (written by `python -m pipeline.roles_tech` until the tech graph
+build exists) and its reference reader `evals/roles_tech.mjs`; `evals/titles_tech.json`, 748 titles labelled by two
+model readers that saw a written spec and never the rules: 480 drawn by keyword and at random (seed 11) from a fresh
+census of the 1,098 Greenhouse, Lever and Ashby boards (54,658 titles), 236 written to probe the borders, banks and
+ladders, 32 entry titles; 76 are `sure: false`. `evals/run_pipeline.py --roles tech` checks role, level and ladder,
+entry mark and the JavaScript reader (`pipeline_baseline_tech.md`; CI runs it). The first run failed 25 of 1,386
+checks; the rules were fixed (no label was changed) and all pass. On the whole census the rules then gave software
+8,237, ML 1,994, security 1,052, design 635, data 519, counsel 494, UX research 24 (all countries); a read of 25 random
+hits per role took out the false positives it found (legal engineers, research operations at AI labs and in the field,
+quantitative researchers, chiefs of staff to a CTO, an electromechanical "Staff Engineer").
+
+**The checklist for adding a role** (`evals/README.md`, "Adding a role", landed the same day in #144) applies to every role of this set, with the tech files in place of the MBA ones. PR 1 is its part A, except the résumé-title twin (`evals/resume_titles.json`), the role blurbs and the campus subjects of the new fields, which come with the interface (PR 5) because nothing shows the set before then. PR 2 is part B. PR 3 is part C: the ~60 skills listed above are a first guess, and the taxonomy takes the ones that `role_terms` and `skill_probe` find in the set's own postings. PR 4 is part D.
+
+**What this does not show.** The rules were fixed on the labels that now measure them, and the out-of-sample read was
+one reader's: a fresh labelled sample is the honest rate (as `evals/README.md`, "Evals to build", item 4, says for the
+MBA set). No Workday or Fortune titles are in the labels yet beyond the written probes; the count-only run in PR 2 is
+their first test. UX research is thin (24 census titles, 11 labelled): if the scrape keeps it under the size a role
+needs, it folds into `product_designer` as a specialisation rather than stand alone.
+
 ## Later
 
 - The skills pass ("Adding a role", part C) for the 15 roles added after the first 50: `ai_transformation`,
@@ -1985,7 +2058,7 @@ gets its own section when built. A deletion path and the privacy copy change wit
   variables, and the self-hosted runner only if a family is blocked.
 - A tie-break between carriers the resume shows equally strongly that prefers the one closer to the behaviour (user
   research over discovery for customer obsession), instead of the postings' order (2026-11-01 product refresh).
-- More families (design, engineering) and more companies (full Fortune 500). The product engineer and AI transformation
+- More families: engineering, design and legal are the tech role set (2026-11-05, above; PRs 2 to 5 to come). Law firms on the registry for the LLM graduates' other half. More companies (full Fortune 500). The product engineer and AI transformation
   roles landed on 2026-10-30; once they hold postings: a sample resume with a product engineer line in `evals/resumes/`,
   `calibrate.mjs --roles mba` for `ai_transformation`'s bands, and Texas Instruments' eleven "Product Marketing
   Engineer" postings (semiconductor marketing, kept as `pmm` because software firms post technical PMMs under the title).
