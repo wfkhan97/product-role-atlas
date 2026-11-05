@@ -7,20 +7,20 @@
   },
   "behaviours": "show"
  },
- "generated": "2026-11-02",
+ "generated": "2026-11-04",
  "resumes": 304,
  "in_range": 0.54,
  "strong": 0.73,
  "related": {
-  "consulting_strategy": 0.29,
-  "finance": 0.29,
-  "banking_investing": 0.22,
+  "consulting_strategy": 0.3,
+  "finance": 0.3,
+  "banking_investing": 0.23,
   "operations": 0.39,
   "product": 0.25,
-  "marketing": 0.22,
+  "marketing": 0.23,
   "sales": 0.21,
   "supply_chain": 0.28,
-  "people": 0.23,
+  "people": 0.22,
   "analytics": 0.28
  },
  "no_bands": {

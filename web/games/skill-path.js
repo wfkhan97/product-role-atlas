@@ -27,6 +27,7 @@
   const MARGIN = 2;                   // the hop budget: the shortest route plus two (SP1: no difficulty is asked)
   const GOOD = 0.25;                  // a hop is good when at least this share of the target's postings ask for it (SP4)
   const POOL = { min: 2, max: 6 };    // a random pairing: a shortest route of 2 to 6 hops
+  const MIN_LINKS = 2;                // a skill on the board has at least this many links: no dead end
   const ARRIVE = { n: 3, minShare: 0.25, maxLift: 4 };
   const START = { minShare: 0.05, maxLift: 4 };
   const CHOICES = 4, EPS = 1e-9;
@@ -35,8 +36,11 @@
   const byId = list => Object.fromEntries(list.map(s => [s.id, s]));
 
   // The board: the MBA index's skills and links, without credentials (and yoe_*) and without the generic skills.
-  // A skill left with no link drops off. adj[id] = [[neighbour, jaccard]], strongest link first.
-  function buildBoard(M, generic) {
+  // A skill left with fewer than minLinks links drops off, again until none is left: with the default 2 the board has
+  // no dead end, where a player can only step back. The generic skills are measured (Atlas.genericSkills), so a refresh
+  // can free a skill whose other links all went to generic ones (healthcare, 2026-11-01). adj[id] = [[neighbour,
+  // jaccard]], strongest link first.
+  function buildBoard(M, generic, minLinks = MIN_LINKS) {
     const skill = byId(M.skills), gen = new Set(generic || []);
     const keep = id => skill[id] && !isCred(skill[id]) && !gen.has(id);
     const adj = {}, seen = new Set(); let links = 0;
@@ -45,6 +49,11 @@
       const k = e.source < e.target ? e.source + "|" + e.target : e.target + "|" + e.source;
       if (seen.has(k)) continue; seen.add(k);
       (adj[e.source] ||= []).push([e.target, e.jaccard]); (adj[e.target] ||= []).push([e.source, e.jaccard]); links++;
+    }
+    for (let q = Object.keys(adj).filter(id => adj[id].length < minLinks); q.length;) {
+      const id = q.pop(); if (!adj[id]) continue;
+      for (const [nb] of adj[id]) { adj[nb] = adj[nb].filter(([x]) => x !== id); links--; if (adj[nb].length < minLinks) q.push(nb); }
+      delete adj[id];
     }
     for (const k in adj) adj[k].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
     const ids = M.skills.map(s => s.id).filter(id => adj[id]);
@@ -241,7 +250,7 @@
     return p;
   }
 
-  const logic = { MARGIN, GOOD, POOL, CHOICES, buildBoard, pieces, shareFn, arrivalSkills, fieldStart, distances, shortestRoute, choices, setup, refusal, budgetFor, isGood, newRound, options: optionsOn, hop, stepBack, stop, tick, routeSkills, routeFit, fitOf, result, buildNext, compare, pickable, allPairings, pool, randomPairing, rng, isDomain };
+  const logic = { MARGIN, GOOD, POOL, CHOICES, MIN_LINKS, buildBoard, pieces, shareFn, arrivalSkills, fieldStart, distances, shortestRoute, choices, setup, refusal, budgetFor, isGood, newRound, options: optionsOn, hop, stepBack, stop, tick, routeSkills, routeFit, fitOf, result, buildNext, compare, pickable, allPairings, pool, randomPairing, rng, isDomain };
 
   // =====================================================================================================
   // tools: what the end screen and the route planner share (browser only)
