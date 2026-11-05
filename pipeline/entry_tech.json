@@ -1,0 +1,18 @@
+{
+ "about": "The entry mark of the tech role set (pipeline/roles_tech.py, entry()): who enters at a posting. 'grad' marks a posting written for students or new graduates (bachelor's, master's or PhD; Cornell Tech's MEng and MS students are new graduates in this sense); no mark means an experienced hire or no evidence. A firm row gives the title at which an employer hires its graduates, and enters this file only with its source (as in entry_mba.json); there are none yet.",
+ "values": ["grad"],
+ "sources": ["firm", "title", "text"],
+ "firms": [],
+ "title": {
+  "note": "Words in a title. 'not_for_them' stops every rule (a job about students is not a job for them). 'intern' sets intern and marks the posting grad: an internship is for students. 'grad' names new graduates outright.",
+  "intern": "\\bintern(ship)?s?\\b|\\bco-?op\\b|\\bsummer\\s+(analyst|associate|engineer|intern|fellow)s?\\b|\\bwerkstudent\\w*|\\bpraktik\\w*",
+  "not_for_them": "\\brecruit(er|ers|ing|ment)\\b|\\b(university|campus)\\s+(relations|programs?|recruiting)\\b|\\bearly\\s+careers?\\s+(manager|lead|partner|specialist|program\\s+manager|coordinator)\\b",
+  "grad": "\\bnew\\s+grad(uate)?s?\\b|\\buniversity\\s+(grad(uate)?|hire)s?\\b|\\b(recent|college)\\s+grad(uate)?s?\\b|\\bearly[- ]career\\b|\\bentry[- ]level\\b|\\bcampus\\b|\\bgraduate\\s+(program|engineer|developer|designer|scheme|rotation\\w*)\\b|\\b20(2[6-9])\\s+(start|grad\\w*)\\b|\\bclass\\s+of\\s+20(2[6-9])\\b|\\b(bs|ms|meng|phd|bachelor'?s|master'?s)\\s*(/\\s*(ms|phd|master'?s))?\\s+(new\\s+)?grad(uate)?s?\\b|\\bapprentice(ship)?\\b|\\b(\\w+\\s+)?residency\\b|\\b(engineering|software|design|ai|ml|research)\\s+resident\\b|\\bfellowship\\b|\\b(legal|law)\\s+fellow\\b|\\blaw\\s+clerk\\b|\\b(technology\\s+)?analyst\\s+program(me)?\\b"
+ },
+ "text": {
+  "note": "Read only on the levels listed, where the title gives no audience: a line that says the posting is for students or new graduates marks it grad.",
+  "levels": ["associate"],
+  "student": "\\b(currently\\s+)?(pursuing|enrolled\\s+in|completing|working\\s+towards?)\\s+(an?\\s+|your\\s+|the\\s+)?((bachelor'?s?|master'?s?|ph\\.?d\\.?|graduate|undergraduate|BS|MS|MEng|B\\.S\\.|M\\.S\\.|computer\\s+science|engineering|[a-z]+)\\W+){0,4}?(degree|program|studies)\\b|\\bgraduat(e|es|ing|ion)\\b[^.\\n]{0,60}\\b20(2[6-9])\\b|\\b(recent|new)\\s+grad(uate)?s?\\b|\\b0\\s*[-–]\\s*[12]\\s+years?\\b",
+  "not_student": "\\b(not|no\\s+longer)\\s+(open|eligible)\\s+to\\s+(students|new\\s+grad\\w*)\\b"
+ }
+}
