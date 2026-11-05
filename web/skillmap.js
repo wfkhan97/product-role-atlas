@@ -190,6 +190,7 @@
     const nd = data.byId[id]; if (!nd) return "";
     const s = data.ix.skillById[id] || {}, ix = data.ix, rows = [];
     for (const [rid, r] of Object.entries(ix.roles)) {
+      if (r.set === "tech") continue;   // the skill map is the product and MBA sets' until its evals cover the tech set
       const share = r.set === "product" ? (P ? ((P.skillById[id] || {}).by_family || {})[r.family] || 0 : 0) : (s.by_family || {})[r.family] || 0;
       if (share > 0) rows.push({ id: rid, label: r.label, group: r.group, share });
     }

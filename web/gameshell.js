@@ -142,7 +142,7 @@
   // the profile's first field's largest role (store "you", fields[]), else Product Manager. Pure: ix is Atlas.index()
   // with the product set loaded; roles = the ids a game can play (a Set or a predicate), or null for any.
   function pickDefault(ix, you, roleParam, roles) {
-    const ok = id => !!ix.roles[id] && (!roles || (typeof roles === "function" ? roles(id) : roles.has(id)));
+    const ok = id => !!ix.roles[id] && ix.roles[id].set !== "tech" && (!roles || (typeof roles === "function" ? roles(id) : roles.has(id)));
     if (roleParam && ok(roleParam)) return roleParam;
     if (roleParam && ok("product." + roleParam)) return "product." + roleParam;
     const fields = you && Array.isArray(you.fields) ? you.fields : [];
@@ -222,7 +222,7 @@
   // line. picker(F, { Atlas, roles, field, secondary, onRole, back, title }) draws into the frame's body.
   async function picker(F, o) {
     const Atlas = o.Atlas, ix = await Atlas.index(); await Atlas.product().catch(() => { });
-    const ok = id => !!ix.roles[id] && (!o.roles || (typeof o.roles === "function" ? o.roles(id) : o.roles.has(id)));
+    const ok = id => !!ix.roles[id] && ix.roles[id].set !== "tech" && (!o.roles || (typeof o.roles === "function" ? o.roles(id) : o.roles.has(id)));
     const fmt = n => Number(n).toLocaleString("en-US");
     const groups = ix.groups.map(g => ({ g, roles: (g.roles || []).filter(ok).map(id => ix.roles[id]).sort((a, b) => (b.nOpen || 0) - (a.nOpen || 0)) })).filter(x => x.roles.length);
     let field = o.field && groups.some(x => x.g.id === o.field) ? o.field : groups[0].g.id;

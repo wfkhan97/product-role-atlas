@@ -3,6 +3,7 @@
     .venv/bin/python evals/run_pipeline.py               # report; exit 1 when a check fails
     .venv/bin/python evals/run_pipeline.py --baseline    # also rewrite evals/pipeline_baseline_mba.md
     .venv/bin/python evals/run_pipeline.py --only titles # one part: backlog, titles, entry, countries, golden, sponsorship, integrity, graph, js, matcher
+    .venv/bin/python evals/run_pipeline.py --roles tech  # the tech role set (engineering, design, legal): titles, levels, entry marks, js so far
 
 Labels are the spec. They were written by reading titles, locations and postings before the code was run on
 them. A row with "sure": false is one a reader could label either way: it is reported, not counted. A row with
@@ -18,6 +19,10 @@ remove the mark).
 5. graph      web/data/graph_mba*: US only, counts add up, shares are company-balanced, ids resolve, product files untouched
 6. js         web/data/roles_mba.json read by evals/roles_mba.mjs gives the same role and level as pipeline/roles_mba.py
 7. matcher    web/match.js reads every role's graph unchanged (node evals/graph_mba.mjs)
+
+--roles tech runs the parts the tech set has so far (PLAN.md, "A third role set"): titles, levels and entry marks against
+evals/titles_tech.json, and js (web/data/roles_tech.json read by evals/roles_tech.mjs). Its baseline is
+evals/pipeline_baseline_tech.md. The other parts come with the set's scrape and graph build.
 """
 import argparse
 import collections
@@ -30,11 +35,23 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
-from pipeline import balance, extract, geo, processed, roles, roles_mba, tax  # noqa: E402
+from pipeline import balance, extract, geo, processed, roles, roles_mba, roles_tech, tax  # noqa: E402
 from pipeline.scrape import load_registry  # noqa: E402
 
 ROLES = "mba"
+RS = roles_mba   # the role set's module; main_tech switches both to the tech set
 lines, totals = [], collections.Counter()
+
+
+def fam_of(j):
+    """The role the current rules give a posting (the two sets' rules take different arguments)."""
+    if RS is roles_tech:
+        return roles_tech.family(j["title"], j.get("company"))
+    return roles_mba.family(j["title"], j.get("category"), j["company"])
+
+
+def entry_keys():
+    return tuple(k for v in RS.ENTRY_VALUES for k in (v, v + "_intern"))
 
 
 def out(s=""):
@@ -135,7 +152,7 @@ def countries():
 
 
 def golden():
-    d = load("golden_mba.json")
+    d = load(f"golden_{ROLES}.json")
     rows, floors = d["rows"], d["floors"]
     skills = extract.skills_for(ROLES)
     known = {sid for sid, _ in skills}
@@ -245,23 +262,22 @@ def integrity():
     # A posting carries the role the rules gave it at extraction. A role added or redrawn since then shows here as
     # postings whose stored role differs from the current rules (stale), and as a role with no postings that those
     # stale postings would fill: that role waits for `pipeline.extract --roles mba`, and is reported, not failed.
-    stale = collections.Counter((j["family"], roles_mba.family(j["title"], j.get("category"), j["company"])) for j in jobs
-                                if roles_mba.family(j["title"], j.get("category"), j["company"]) != j["family"])
+    stale = collections.Counter((j["family"], fam_of(j)) for j in jobs if fam_of(j) != j["family"])
     awaiting = {to for (_, to), n in stale.items() if to and not us[to]}
     # a role that joined the rules after the last scrape has had no search of its own yet: it waits for a scrape
     last_scrape = max((j.get("last_seen") or "") for j in jobs)
-    unscraped = {f for f, day in roles_mba.ADDED.items() if not us[f] and f not in awaiting and day > last_scrape}
-    empty = [f for f in roles_mba.FAMILY_LABELS if not us[f] and f not in awaiting and f not in unscraped]
+    unscraped = {f for f, day in getattr(RS, "ADDED", {}).items() if not us[f] and f not in awaiting and day > last_scrape}
+    empty = [f for f in RS.FAMILY_LABELS if not us[f] and f not in awaiting and f not in unscraped]
     check("integrity", not empty, f"roles with no US postings: {empty}")
     if unscraped:
-        out(f"  roles added after the last scrape ({last_scrape}), waiting for pipeline.scrape --roles mba: {sorted(unscraped)}")
+        out(f"  roles added after the last scrape ({last_scrape}), waiting for pipeline.scrape --roles {ROLES}: {sorted(unscraped)}")
     if stale:
         out(f"  {sum(stale.values())} postings carry a role the current rules would not give (the rules changed after the last extraction): "
             + ", ".join(f"{a or 'none'} -> {b or 'none'} {n}" for (a, b), n in stale.most_common(6)) + (f"; roles waiting for re-extraction: {sorted(awaiting)}" if awaiting else ""))
-    check("integrity", set(us) <= set(roles_mba.FAMILY_LABELS), f"postings carry a role that is not in the role list: {set(us) - set(roles_mba.FAMILY_LABELS)}")
-    check("integrity", all(j["level"] in roles_mba.LEVEL_ORDER and j.get("ladder") in roles_mba.LADDERS for j in jobs), "a posting has a level or a ladder outside the lists")
-    check("integrity", all(j.get("entry", 0) in roles_mba.ENTRY_VALUES + (None,) and isinstance(j.get("intern"), bool) for j in jobs), "a posting has no entry mark, or one outside the allowed values")
-    check("integrity", all((j["entry_src"] in roles_mba.ENTRY_SOURCES) == (j["entry"] is not None) for j in jobs), "a posting has an entry mark without its source, or a source without a mark")
+    check("integrity", set(us) <= set(RS.FAMILY_LABELS), f"postings carry a role that is not in the role list: {set(us) - set(RS.FAMILY_LABELS)}")
+    check("integrity", all(j["level"] in RS.LEVEL_ORDER and j.get("ladder") in RS.LADDERS for j in jobs), "a posting has a level or a ladder outside the lists")
+    check("integrity", all(j.get("entry", 0) in RS.ENTRY_VALUES + (None,) and isinstance(j.get("intern"), bool) for j in jobs), "a posting has no entry mark, or one outside the allowed values")
+    check("integrity", all((j["entry_src"] in RS.ENTRY_SOURCES) == (j["entry"] is not None) for j in jobs), "a posting has an entry mark without its source, or a source without a mark")
     check("integrity", all(isinstance(j.get("open"), bool) and j.get("first_seen") and j.get("last_seen") for j in jobs), "a posting lacks open, first_seen or last_seen")
     check("integrity", all(j["open"] or j["last_seen"] >= (__import__("datetime").date.today() - __import__("datetime").timedelta(days=extract.KEEP_CLOSED_DAYS)).isoformat() for j in jobs), "a closed posting older than the limit is still counted")
     none = sum(1 for j in jobs if j["country"] is None)
@@ -281,7 +297,7 @@ def graph(jobs):
     product = read("graph.json")
     check(part, set(product) <= set(G), f"the index lacks keys of graph.json: {set(product) - set(G)}")
     check(part, G["jobs"] == [], "the index carries jobs; they belong in the role files")
-    check(part, list(G["families"]) == list(roles_mba.FAMILY_LABELS) and G["levels"] == roles_mba.LEVEL_ORDER, "families or levels differ from pipeline/roles_mba.py")
+    check(part, list(G["families"]) == list(RS.FAMILY_LABELS) and G["levels"] == RS.LEVEL_ORDER, f"families or levels differ from pipeline/roles_{ROLES}.py")
     check(part, set(G["level_labels"]) == set(G["levels"]) and all(set(l["levels"]) <= set(G["levels"]) for l in G["ladders"].values()), "level labels do not cover the levels")
     # a role with no postings (added since the last extraction) is in roles with n 0 and in no group; every other role is in exactly one
     filled = sorted(f for f in G["families"] if G["roles"][f]["n"])
@@ -292,7 +308,7 @@ def graph(jobs):
     want_n = collections.Counter(j["family"] for j in us)
     seen_ids, total, worst = set(), 0, (0, None)
     ekey = lambda j: (j["entry"] + ("_intern" if j["intern"] else "")) if j["entry"] else None
-    ecount = lambda js: {k: {"n": sum(1 for j in js if ekey(j) == k), "posted": sum(1 for j in js if ekey(j) == k and j["entry_src"] in ("title", "text"))} for k in ("mba", "mba_intern", "pre_mba", "pre_mba_intern")}
+    ecount = lambda js: {k: {"n": sum(1 for j in js if ekey(j) == k), "posted": sum(1 for j in js if ekey(j) == k and j["entry_src"] in ("title", "text"))} for k in entry_keys()}
     by_id = {(j["company"], j["url"]): j for j in us}
     marked = collections.Counter()
     job_keys = set(product["jobs"][0])
@@ -307,7 +323,7 @@ def graph(jobs):
         check(part, all(j["family"] == f and j["country"] == "United States" for j in rows), f"{f}: a posting of another role or another country")
         check(part, all(job_keys <= set(j) for j in rows), f"{f}: a posting lacks fields that graph.json postings have: {job_keys - set(rows[0]) if rows else ''}")
         check(part, all(j["level"] in G["levels"] and j["ladder"] in G["ladders"] for j in rows), f"{f}: a level or ladder outside the lists")
-        check(part, all(j.get("entry", 0) in roles_mba.ENTRY_VALUES + (None,) and isinstance(j.get("intern"), bool) and (j.get("entry_src") in roles_mba.ENTRY_SOURCES) == (j["entry"] is not None) for j in rows), f"{f}: an entry mark is missing or outside the allowed values")
+        check(part, all(j.get("entry", 0) in RS.ENTRY_VALUES + (None,) and isinstance(j.get("intern"), bool) and (j.get("entry_src") in RS.ENTRY_SOURCES) == (j["entry"] is not None) for j in rows), f"{f}: an entry mark is missing or outside the allowed values")
         check(part, all((j["entry"], j["intern"], j["entry_src"]) == tuple(by_id[(j["company"], j["url"])][k] for k in ("entry", "intern", "entry_src")) for j in rows), f"{f}: an entry mark differs from the processed file")
         check(part, G["roles"][f].get("entry") == {l: ecount([j for j in rows if j["ladder"] == l]) for l in G["roles"][f]["by_ladder"]}, f"{f}: the entry counts in the index do not add up to the file")
         marked.update((j["ladder"], ekey(j)) for j in rows if j["entry"])
@@ -338,7 +354,7 @@ def graph(jobs):
         check(part, R["bytes"] == os.path.getsize(os.path.join(data, R["file"])), f"{f}: file size in the index is stale")
     check(part, total == G["meta"]["n_jobs"] == len(us) and seen_ids == set(range(total)), f"postings: {total} in files, {G['meta']['n_jobs']} in the index, {len(us)} extracted")
     check(part, all(G["ladders"][l].get("entry") == ecount([j for j in us if j["ladder"] == l]) for l in G["ladders"]), "the entry counts per ladder in the index do not add up to the postings")
-    check(part, set(G["meta"].get("entry", {}).get("labels", {})) == {"mba", "mba_intern", "pre_mba", "pre_mba_intern"}, "the index lacks the labels of the entry mark")
+    check(part, set(G["meta"].get("entry", {}).get("labels", {})) == set(entry_keys()), "the index lacks the labels of the entry mark")
     out("  entry marks (n, of which the posting says so): " + "; ".join(f"{l}: " + ", ".join(f"{k} {v['n']} ({v['posted']})" for k, v in G["ladders"][l]["entry"].items()) for l in G["ladders"]))
     check(part, os.path.getsize(os.path.join(data, f"graph_{ROLES}.json")) < 2.5e6, "the index is above 2.5 MB; it is loaded on every visit")
     ev = read(G["meta"]["evidence"])
@@ -390,10 +406,128 @@ def js(jobs):
     out(f"  {len(rows):,} titles (role, level, ladder, entry mark): {len(rows) - bad:,} read the same, {bad} differ")
 
 
+def tech_titles():
+    """The tech set's titles: role, then level and ladder where the role is right, then the entry mark and internship."""
+    rows = load("titles_tech.json")["rows"]
+    fam = lambda r: roles_tech.family(r["title"], r["company"])
+    show = lambda r: f"{r['title']!r} at {r['company']}"
+    out(f"\n== titles: role ({len(rows)} titles, {sum(1 for r in rows if r['role'] is None)} of them must get no role; by role: "
+        f"{dict(sorted(collections.Counter(r['role'] or 'none' for r in rows).items()))})")
+    unsure, _ = labelled("titles", rows, fam, "role", show, "known_miss_role")
+    out(f"  {totals[('titles', 'pass')]} pass, {totals[('titles', 'fail')]} fail; {sum(1 for r in rows if not r.get('sure', True))} unsure rows not counted ({unsure} of them differ from their label)")
+    lv = [r for r in rows if r["role"] and r.get("level") and fam(r) == r["role"]]
+    got = lambda r: (roles_tech.level(r["title"], r["company"], r.get("industry"), r["role"]), roles_tech.ladder(r["title"], r["company"], r.get("industry"), r["role"]))
+    for r in lv:
+        r["_lv"] = (r["level"], r["ladder"])
+    out(f"\n== levels ({len(lv)} titles with a role and a level; by ladder: {dict(collections.Counter(r['ladder'] for r in lv))})")
+    unsure, known = labelled("levels", lv, got, "_lv", show, "known_miss_level")
+    out(f"  {totals[('levels', 'pass')]} pass, {totals[('levels', 'fail')]} fail; {known} known misses; {sum(1 for r in lv if not r.get('sure', True))} unsure rows not counted ({unsure} differ)")
+    en = [r for r in rows if r["role"] and fam(r) == r["role"]]
+    for r in en:
+        r["_en"] = (r["entry"], r["intern"])
+    got = lambda r: roles_tech.entry(r["title"], r["company"], r.get("industry"), r["role"])[:2]
+    out(f"\n== entry marks ({len(en)} titles with the right role; {sum(1 for r in en if r['entry'])} marked grad, {sum(1 for r in en if r['intern'])} internships)")
+    unsure, known = labelled("entry", en, got, "_en", show, "known_miss_entry")
+    out(f"  {totals[('entry', 'pass')]} pass, {totals[('entry', 'fail')]} fail; {known} known misses")
+    for r in rows:
+        r.pop("_lv", None), r.pop("_en", None)
+
+
+def tech_entry():
+    """The tech set's entry mark on labelled postings (evals/entry_tech.json), read with their text as extraction reads it."""
+    rows = load("entry_tech.json")["rows"]
+    out(f"\n== entry mark on postings ({len(rows)}: {sum(1 for r in rows if r['entry'])} grad, {sum(1 for r in rows if r['entry'] and r['intern'])} of them internships, "
+        f"{sum(1 for r in rows if r.get('description'))} read with their text)")
+    src = collections.Counter()
+
+    def got(r):
+        text, _ = entry_text(r)
+        e, intern, sname = roles_tech.entry(r["title"], r["company"], r.get("industry"), text=text)
+        if r.get("sure", True) and not r.get("known_miss"):
+            src[(sname or "none", (e, bool(e and intern)) == r["want"])] += 1
+        return (e, bool(e and intern))  # intern is compared only where there is a mark
+    for r in rows:
+        r["want"] = (r["entry"], bool(r["entry"] and r["intern"]))
+    check("entry_postings", all(r["entry"] in roles_tech.ENTRY_VALUES + (None,) and isinstance(r["intern"], bool) for r in rows), "a label is outside the allowed values")
+    unsure, known = labelled("entry_postings", rows, got, "want", lambda r: f"{r['title']!r} at {r['company']}")
+    out(f"  {totals[('entry_postings', 'pass')]} pass, {totals[('entry_postings', 'fail')]} fail; {known} known misses; {sum(1 for r in rows if not r.get('sure', True))} unsure rows not counted ({unsure} of them differ from their label)")
+    out("  sure rows by the evidence the rule used (right / all): " + ", ".join(f"{k} {src[(k, True)]}/{src[(k, True)] + src[(k, False)]}" for k in ("firm", "title", "text", "none")))
+    for r in rows:
+        r.pop("want", None)
+
+
+def tech_js():
+    out("\n== JavaScript reader of roles_tech.json against pipeline/roles_tech.py")
+    with open(os.path.join(ROOT, "web", "data", "roles_tech.json")) as f:
+        built = json.load(f)
+    built.pop("generated", None), built.pop("employers", None)
+    for fam in built.get("families", []):
+        fam.pop("n", None)
+    check("js", built == json.loads(json.dumps(roles_tech.export())), "web/data/roles_tech.json is stale: run pipeline.build_graph --roles tech (or python -m pipeline.roles_tech)")
+    with open(os.path.join(ROOT, "web", "data", "taxonomy_tech.json")) as f:
+        check("js", json.load(f) == json.loads(json.dumps(tax.for_roles("tech"))), "web/data/taxonomy_tech.json is stale: run python -m pipeline.roles_tech")
+    rows = [{"title": r["title"], "company": r["company"], "industry": r.get("industry")} for r in load("titles_tech.json")["rows"]]
+    try:
+        res = subprocess.run(["node", os.path.join(HERE, "roles_tech.mjs")], input=json.dumps(rows), capture_output=True, text=True, check=True)
+    except (OSError, subprocess.CalledProcessError) as e:
+        check("js", False, f"node evals/roles_tech.mjs did not run: {getattr(e, 'stderr', e)}")
+        return
+    bad = 0
+    for r, got in zip(rows, json.loads(res.stdout)):
+        f = roles_tech.family(r["title"], r["company"])
+        want = (f, roles_tech.level(r["title"], r["company"], r["industry"], f), roles_tech.ladder(r["title"], r["company"], r["industry"], f),
+                *roles_tech.entry(r["title"], r["company"], r["industry"], f))
+        if tuple(got) != want:
+            bad += 1
+            if bad <= 5:
+                out(f"  differs: {r['title']!r} at {r['company']}: python {want}, javascript {tuple(got)}")
+    check("js", bad == 0, f"{bad} of {len(rows)} titles read differently")
+    out(f"  {len(rows):,} titles (role, level, ladder, entry mark): {len(rows) - bad:,} read the same, {bad} differ")
+
+
+def main_tech(args):
+    global ROLES, RS
+    ROLES, RS = "tech", roles_tech
+    want = lambda p: not args.only or args.only == p
+    if want("titles"):
+        tech_titles()
+    if want("entry"):
+        tech_entry()
+    if want("golden"):
+        golden()
+    # the parts that read the set's processed and graph files: written by refresh-tech (or a local extract and build)
+    have = os.path.exists(processed.path("tech")) and os.path.exists(os.path.join(ROOT, "web", "data", "graph_tech.json"))
+    if not have and any(want(p) for p in ("integrity", "graph", "matcher")):
+        out("\n== integrity, graph, matcher: no data/processed/jobs_tech.json or web/data/graph_tech.json in this checkout; "
+            "they run where the set's data is (refresh-tech, or a local extract and build)")
+    elif have:
+        jobs = integrity() if any(want(p) for p in ("integrity", "graph")) else None
+        if want("graph"):
+            graph(jobs)
+        if want("matcher"):
+            matcher()
+    if want("js"):
+        tech_js()
+    p = sum(v for (_, k), v in totals.items() if k == "pass")
+    f = sum(v for (_, k), v in totals.items() if k == "fail")
+    out(f"\nTOTAL: {p} pass, {f} fail")
+    if args.baseline:
+        if args.only or f:
+            sys.exit("the baseline is written from a full run with no failures")
+        md = ["# Pipeline eval baseline: the tech role set", "",
+              f"Generated by `.venv/bin/python evals/run_pipeline.py --roles tech --baseline` on {time.strftime('%Y-%m-%d')}. Do not edit by hand.", "",
+              "The parts the set has so far: titles, levels, entry marks and the JavaScript reader. Integrity, graph, golden and matcher come with the scrape and the graph build (PLAN.md, \"A third role set\").", "",
+              "```", *[l.lstrip("\n") for l in lines], "```"]
+        with open(os.path.join(HERE, "pipeline_baseline_tech.md"), "w") as fh:
+            fh.write("\n".join(md) + "\n")
+        print("wrote evals/pipeline_baseline_tech.md")
+    sys.exit(1 if f else 0)
+
+
 def matcher():
     out("\n== web/match.js reads the graph unchanged")
     try:
-        res = subprocess.run(["node", os.path.join(HERE, "graph_mba.mjs")], capture_output=True, text=True)
+        res = subprocess.run(["node", os.path.join(HERE, "graph_mba.mjs"), ROLES], capture_output=True, text=True)
     except OSError as e:
         check("matcher", False, f"node did not run: {e}")
         return
@@ -406,7 +540,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--baseline", action="store_true")
     ap.add_argument("--only")
+    ap.add_argument("--roles", choices=["mba", "tech"], default="mba")
     args = ap.parse_args()
+    if args.roles == "tech":
+        main_tech(args)
     want = lambda p: not args.only or args.only == p
     per = None
     if want("titles"):

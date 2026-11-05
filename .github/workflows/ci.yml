@@ -35,6 +35,10 @@ jobs:
         run: node evals/run.mjs
       - name: Pipeline evals
         run: python evals/run_pipeline.py
+      - name: Pipeline evals, tech role set
+        run: python evals/run_pipeline.py --roles tech
+      - name: Matcher evals, tech role set
+        run: node evals/run_tech.mjs
       - name: Taxonomy evals
         run: python evals/run_taxonomy.py
       - name: Adaptive evals

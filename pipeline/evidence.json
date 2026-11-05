@@ -6681,5 +6681,920 @@
   "measures": [],
   "verbs": [],
   "shown_by": []
+ },
+ "frontend_web": {
+  "form": "built",
+  "artefacts": [
+   "web app",
+   "React components",
+   "frontend performance work"
+  ],
+  "counterparts": [
+   "design",
+   "product",
+   "backend engineers"
+  ],
+  "measures": [
+   "page load or Core Web Vitals",
+   "users served",
+   "components shipped"
+  ],
+  "verbs": [
+   "built",
+   "shipped",
+   "rewrote",
+   "cut load time"
+  ],
+  "shown_by": []
+ },
+ "backend_services": {
+  "form": "built",
+  "artefacts": [
+   "service",
+   "API backend",
+   "event pipeline"
+  ],
+  "counterparts": [
+   "frontend engineers",
+   "SRE",
+   "product"
+  ],
+  "measures": [
+   "requests per second",
+   "latency",
+   "uptime"
+  ],
+  "verbs": [
+   "built",
+   "designed",
+   "scaled",
+   "migrated"
+  ],
+  "shown_by": []
+ },
+ "databases": {
+  "form": "built",
+  "artefacts": [
+   "schema",
+   "migration",
+   "query or index tuning",
+   "cache layer"
+  ],
+  "counterparts": [
+   "backend engineers",
+   "data engineers"
+  ],
+  "measures": [
+   "query latency",
+   "rows or data size",
+   "cost"
+  ],
+  "verbs": [
+   "designed",
+   "migrated",
+   "tuned",
+   "sharded"
+  ],
+  "shown_by": []
+ },
+ "algorithms_ds": {
+  "form": "built",
+  "artefacts": [
+   "algorithm",
+   "data structure",
+   "competitive programming result"
+  ],
+  "counterparts": [
+   "engineers"
+  ],
+  "measures": [
+   "speedup",
+   "complexity cut",
+   "ranking or score"
+  ],
+  "verbs": [
+   "implemented",
+   "optimized",
+   "solved"
+  ],
+  "shown_by": []
+ },
+ "performance_concurrency": {
+  "form": "built",
+  "artefacts": [
+   "profiling result",
+   "concurrent service",
+   "performance fix"
+  ],
+  "counterparts": [
+   "engineers",
+   "SRE"
+  ],
+  "measures": [
+   "latency",
+   "throughput",
+   "memory or CPU saved"
+  ],
+  "verbs": [
+   "profiled",
+   "optimized",
+   "parallelized"
+  ],
+  "shown_by": []
+ },
+ "linux_systems": {
+  "form": "built",
+  "artefacts": [
+   "kernel or OS work",
+   "systems tool",
+   "shell automation"
+  ],
+  "counterparts": [
+   "infrastructure",
+   "SRE"
+  ],
+  "measures": [
+   "machines or hosts",
+   "time saved"
+  ],
+  "verbs": [
+   "built",
+   "debugged",
+   "automated"
+  ],
+  "shown_by": []
+ },
+ "code_quality": {
+  "form": "artefact",
+  "artefacts": [
+   "code review practice",
+   "refactor",
+   "style guide or lint rules"
+  ],
+  "counterparts": [
+   "engineers on the team"
+  ],
+  "measures": [
+   "reviews done",
+   "defects or debt cut",
+   "build time"
+  ],
+  "verbs": [
+   "reviewed",
+   "refactored",
+   "set standards for"
+  ],
+  "shown_by": []
+ },
+ "streaming": {
+  "form": "built",
+  "artefacts": [
+   "Kafka or Kinesis pipeline",
+   "CDC feed",
+   "real-time job"
+  ],
+  "counterparts": [
+   "data engineers",
+   "analytics",
+   "backend"
+  ],
+  "measures": [
+   "events per second",
+   "latency",
+   "freshness"
+  ],
+  "verbs": [
+   "built",
+   "streamed",
+   "migrated to real time"
+  ],
+  "shown_by": []
+ },
+ "model_training": {
+  "form": "built",
+  "artefacts": [
+   "trained model",
+   "fine-tuned model",
+   "training pipeline"
+  ],
+  "counterparts": [
+   "research",
+   "data",
+   "product"
+  ],
+  "measures": [
+   "model metric moved",
+   "GPUs or compute used",
+   "training time"
+  ],
+  "verbs": [
+   "trained",
+   "fine-tuned",
+   "pretrained",
+   "distilled"
+  ],
+  "shown_by": []
+ },
+ "ml_evaluation": {
+  "form": "artefact",
+  "artefacts": [
+   "eval suite",
+   "benchmark",
+   "offline evaluation harness"
+  ],
+  "counterparts": [
+   "research",
+   "product",
+   "applied ML"
+  ],
+  "measures": [
+   "eval cases",
+   "metric correlation",
+   "regressions caught"
+  ],
+  "verbs": [
+   "built",
+   "evaluated",
+   "benchmarked"
+  ],
+  "shown_by": []
+ },
+ "mlops_serving": {
+  "form": "built",
+  "artefacts": [
+   "model serving stack",
+   "ML pipeline",
+   "feature store"
+  ],
+  "counterparts": [
+   "ML engineers",
+   "platform",
+   "data"
+  ],
+  "measures": [
+   "models served",
+   "latency",
+   "deploy time"
+  ],
+  "verbs": [
+   "deployed",
+   "served",
+   "productionized"
+  ],
+  "shown_by": []
+ },
+ "inference_optimization": {
+  "form": "built",
+  "artefacts": [
+   "inference server",
+   "quantized model",
+   "CUDA kernel"
+  ],
+  "counterparts": [
+   "ML engineers",
+   "infrastructure"
+  ],
+  "measures": [
+   "latency",
+   "throughput",
+   "GPU cost"
+  ],
+  "verbs": [
+   "optimized",
+   "quantized",
+   "served"
+  ],
+  "shown_by": []
+ },
+ "threat_modeling": {
+  "form": "artefact",
+  "artefacts": [
+   "threat model",
+   "security design review"
+  ],
+  "counterparts": [
+   "engineering",
+   "product",
+   "security"
+  ],
+  "measures": [
+   "systems reviewed",
+   "risks found and fixed"
+  ],
+  "verbs": [
+   "threat-modeled",
+   "reviewed",
+   "hardened"
+  ],
+  "shown_by": []
+ },
+ "appsec": {
+  "form": "built",
+  "artefacts": [
+   "secure code review",
+   "SAST/DAST rollout",
+   "bug bounty program"
+  ],
+  "counterparts": [
+   "engineering",
+   "product security"
+  ],
+  "measures": [
+   "vulnerabilities found or fixed",
+   "coverage",
+   "time to fix"
+  ],
+  "verbs": [
+   "reviewed",
+   "found",
+   "fixed",
+   "rolled out"
+  ],
+  "shown_by": []
+ },
+ "detection_response": {
+  "form": "built",
+  "artefacts": [
+   "detection rule",
+   "SIEM pipeline",
+   "incident response runbook"
+  ],
+  "counterparts": [
+   "SOC",
+   "engineering",
+   "legal"
+  ],
+  "measures": [
+   "detections shipped",
+   "incidents handled",
+   "time to detect"
+  ],
+  "verbs": [
+   "detected",
+   "responded to",
+   "hunted",
+   "built detections for"
+  ],
+  "shown_by": []
+ },
+ "offensive_security": {
+  "form": "artefact",
+  "artefacts": [
+   "penetration test report",
+   "red team exercise",
+   "exploit"
+  ],
+  "counterparts": [
+   "engineering",
+   "security"
+  ],
+  "measures": [
+   "findings",
+   "critical issues",
+   "systems tested"
+  ],
+  "verbs": [
+   "tested",
+   "exploited",
+   "red-teamed"
+  ],
+  "shown_by": []
+ },
+ "vuln_mgmt": {
+  "form": "built",
+  "artefacts": [
+   "vulnerability management program",
+   "scanning pipeline",
+   "remediation tracker"
+  ],
+  "counterparts": [
+   "engineering",
+   "IT",
+   "compliance"
+  ],
+  "measures": [
+   "vulnerabilities closed",
+   "time to remediate",
+   "coverage"
+  ],
+  "verbs": [
+   "triaged",
+   "remediated",
+   "tracked"
+  ],
+  "shown_by": []
+ },
+ "cryptography": {
+  "form": "built",
+  "artefacts": [
+   "encryption design",
+   "key management system",
+   "PKI"
+  ],
+  "counterparts": [
+   "security",
+   "infrastructure"
+  ],
+  "measures": [
+   "data encrypted",
+   "keys managed"
+  ],
+  "verbs": [
+   "designed",
+   "implemented",
+   "rotated"
+  ],
+  "shown_by": []
+ },
+ "interaction_design": {
+  "form": "artefact",
+  "artefacts": [
+   "user flow",
+   "wireframes",
+   "end-to-end product design"
+  ],
+  "counterparts": [
+   "product",
+   "engineering",
+   "research"
+  ],
+  "measures": [
+   "task success",
+   "conversion",
+   "users reached"
+  ],
+  "verbs": [
+   "designed",
+   "shipped",
+   "redesigned"
+  ],
+  "shown_by": []
+ },
+ "visual_design": {
+  "form": "artefact",
+  "artefacts": [
+   "visual design",
+   "UI polish",
+   "visual language"
+  ],
+  "counterparts": [
+   "design",
+   "brand",
+   "engineering"
+  ],
+  "measures": [
+   "screens shipped",
+   "satisfaction or brand metrics"
+  ],
+  "verbs": [
+   "designed",
+   "polished",
+   "defined"
+  ],
+  "shown_by": []
+ },
+ "prototyping": {
+  "form": "artefact",
+  "artefacts": [
+   "prototype",
+   "clickable prototype",
+   "prototype in code"
+  ],
+  "counterparts": [
+   "product",
+   "engineering",
+   "users"
+  ],
+  "measures": [
+   "prototypes tested",
+   "decisions made",
+   "time to validate"
+  ],
+  "verbs": [
+   "prototyped",
+   "tested",
+   "validated"
+  ],
+  "shown_by": []
+ },
+ "design_systems": {
+  "form": "artefact",
+  "artefacts": [
+   "design system",
+   "component library",
+   "design tokens"
+  ],
+  "counterparts": [
+   "designers",
+   "frontend engineers"
+  ],
+  "measures": [
+   "components",
+   "teams adopting",
+   "consistency or speed"
+  ],
+  "verbs": [
+   "built",
+   "maintained",
+   "scaled"
+  ],
+  "shown_by": []
+ },
+ "accessibility": {
+  "form": "context",
+  "artefacts": [
+   "WCAG audit",
+   "accessible component",
+   "screen reader support"
+  ],
+  "counterparts": [
+   "design",
+   "engineering",
+   "legal"
+  ],
+  "measures": [
+   "issues fixed",
+   "conformance level"
+  ],
+  "verbs": [
+   "made accessible",
+   "audited",
+   "fixed"
+  ],
+  "shown_by": []
+ },
+ "design_critique": {
+  "form": "scope",
+  "artefacts": [
+   "design critique",
+   "design rationale write-up"
+  ],
+  "counterparts": [
+   "designers",
+   "product",
+   "leadership"
+  ],
+  "measures": [
+   "critiques run",
+   "designers mentored"
+  ],
+  "verbs": [
+   "led critiques for",
+   "presented",
+   "mentored"
+  ],
+  "shown_by": []
+ },
+ "commercial_contracts": {
+  "form": "artefact",
+  "artefacts": [
+   "customer agreement",
+   "vendor contract",
+   "NDA or DPA template",
+   "negotiation playbook"
+  ],
+  "counterparts": [
+   "sales",
+   "procurement",
+   "counterparties"
+  ],
+  "measures": [
+   "contracts negotiated",
+   "deal value",
+   "cycle time"
+  ],
+  "verbs": [
+   "drafted",
+   "negotiated",
+   "closed"
+  ],
+  "shown_by": []
+ },
+ "product_counseling": {
+  "form": "scope",
+  "artefacts": [
+   "product legal review",
+   "launch guidance",
+   "risk memo"
+  ],
+  "counterparts": [
+   "product",
+   "engineering",
+   "design"
+  ],
+  "measures": [
+   "launches advised",
+   "features reviewed"
+  ],
+  "verbs": [
+   "advised",
+   "counseled",
+   "cleared"
+  ],
+  "shown_by": []
+ },
+ "privacy_law": {
+  "form": "context",
+  "artefacts": [
+   "GDPR or CCPA program",
+   "DPIA",
+   "privacy notice"
+  ],
+  "counterparts": [
+   "privacy",
+   "security",
+   "product"
+  ],
+  "measures": [
+   "regulators or regions covered",
+   "assessments done"
+  ],
+  "verbs": [
+   "advised on",
+   "complied with",
+   "drafted"
+  ],
+  "shown_by": []
+ },
+ "ip_law": {
+  "form": "context",
+  "artefacts": [
+   "patent filings",
+   "trademark portfolio",
+   "open source policy"
+  ],
+  "counterparts": [
+   "engineering",
+   "outside counsel"
+  ],
+  "measures": [
+   "filings",
+   "marks or patents managed"
+  ],
+  "verbs": [
+   "filed",
+   "protected",
+   "advised on"
+  ],
+  "shown_by": []
+ },
+ "corporate_law": {
+  "form": "context",
+  "artefacts": [
+   "financing",
+   "board materials",
+   "entity work",
+   "M&A"
+  ],
+  "counterparts": [
+   "finance",
+   "the board",
+   "investors"
+  ],
+  "measures": [
+   "deal value",
+   "entities managed"
+  ],
+  "verbs": [
+   "closed",
+   "advised on",
+   "managed"
+  ],
+  "shown_by": []
+ },
+ "litigation_disputes": {
+  "form": "scope",
+  "artefacts": [
+   "dispute",
+   "litigation",
+   "regulatory inquiry"
+  ],
+  "counterparts": [
+   "outside counsel",
+   "executives"
+  ],
+  "measures": [
+   "matters managed",
+   "exposure reduced"
+  ],
+  "verbs": [
+   "managed",
+   "resolved",
+   "defended"
+  ],
+  "shown_by": []
+ },
+ "outside_counsel": {
+  "form": "scope",
+  "artefacts": [
+   "outside counsel budget",
+   "firm panel"
+  ],
+  "counterparts": [
+   "law firms",
+   "finance"
+  ],
+  "measures": [
+   "legal spend",
+   "firms managed"
+  ],
+  "verbs": [
+   "managed",
+   "cut spend on",
+   "directed"
+  ],
+  "shown_by": []
+ },
+ "java_jvm": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "javascript_typescript": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "golang": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "c_cpp": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "rust": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "ruby_rails": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "csharp_dotnet": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "infra_as_code": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "observability_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "data_orchestration": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "lakehouse": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "dl_frameworks": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "llm_frameworks": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
+ },
+ "research_publications": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "security_certs": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "design_portfolio": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [],
+  "shown_by": []
+ },
+ "clm_tools": {
+  "form": "named",
+  "artefacts": [],
+  "counterparts": [],
+  "measures": [],
+  "verbs": [
+   "built in",
+   "wrote",
+   "used"
+  ],
+  "shown_by": []
  }
 }

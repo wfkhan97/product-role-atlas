@@ -494,7 +494,52 @@
   // first family whose patterns match and whose excludes do not; at a firm whose business is the role (a bank,
   // a fund, a consulting firm) the employer's rule, which knows bare grades; then the level from the ladder of
   // that kind of employer. A plain list of { id, label, patterns, exclude, covers } is read by the first step alone.
+  // The tech role set's rules (web/data/roles_tech.json, pipeline/roles_tech.py) read a title their own way: words that
+  // are never the job, the product set's titles left to it, customer-facing and hardware engineering left out, and a
+  // ladder chosen from the title (legal for counsel, a bank grade, else engineering). evals/roles_tech.mjs is the
+  // reference reader; tests/web/match.test.mjs pins this copy against it.
+  function compileTechRoles(R) {
+    const fl = R.flags || "i", re = p => new RegExp(p, fl), any = l => l && l.length ? re(l.map(p => "(?:" + p + ")").join("|")) : null;
+    const fams = R.families.map(f => ({ id: f.id, label: f.label, rx: any(f.patterns), ex: any(f.exclude), engineering: f.engineering, covers: f.covers || [] }));
+    const P = R.product, pFams = P.families.map(f => ({ id: f.id, rx: re(f.pattern) }));
+    const pRx = { exclude: re(P.exclude), keep: re(P.keep), nonproduct: re(P.nonproduct), food: re(P.food), manage: re(P.product_manage), hardware: re(P.hardware) };
+    const pHardware = new Set(P.hardware_families || []);
+    const productFamily = t => (pFams.find(f => f.rx.test(t)) || {}).id || null;
+    const productOk = t => !!productFamily(t) && !(pHardware.has(productFamily(t)) && pRx.hardware.test(t)) && !pRx.food.test(t) && !(pRx.exclude.test(t) && !pRx.keep.test(t)) && !(pRx.nonproduct.test(t) && !pRx.manage.test(t));
+    const notTheJob = re(R.not_the_job), customer = re(R.customer_facing), hardware = re(R.hardware), software = re(R.software_word), engWord = re(R.eng_word);
+    const banks = new Set(R.banks || []), bankIndustries = new Set(R.bank_industries || []), mts = new RegExp(R.mts, "gi"), setoff = re(R.bank_setoff), setoffNot = re(R.bank_setoff_not);
+    const ladders = Object.fromEntries(Object.entries(R.ladders).map(([k, l]) => [k, l.grades.map(g => ({ level: g.level, rx: re(g.pattern) }))]));
+    function family(title) {
+      const t = title || "";
+      if (notTheJob.test(t) || (productOk(t) && (productFamily(t) === "product_engineer" || !engWord.test(t)))) return null;
+      for (const f of fams) {
+        if (!f.rx || !f.rx.test(t) || (f.ex && f.ex.test(t))) continue;
+        if (f.engineering && (customer.test(t) || (hardware.test(t) && !software.test(t)))) continue;
+        return f.id;
+      }
+      return null;
+    }
+    function ladderOf(title, who = {}, fam) {
+      const t = title || "";
+      if ((fam === undefined ? family(t) : fam) === "counsel") return "legal";
+      if ((bankIndustries.has(who.industry) || banks.has((who.company || "").toLowerCase())) && ladders.bank.some(g => g.rx.test(t))) return "bank";
+      if (setoff.test(t) && !setoffNot.test(t)) return "bank";
+      return "engineering";
+    }
+    // On a resume a level comes from a grade the title names; a title with none says nothing (a posting defaults to mid)
+    function level(title, who, fam) {
+      const which = ladderOf(title, who, fam), t = (title || "").replace(mts, "MTS");
+      const hit = ladders[which].find(g => g.rx.test(t)); return hit ? hit.level : null;
+    }
+    // On a resume only: a lawyer in private practice writes "Associate, Technology Transactions" or "Attorney"; that is
+    // the practice an in-house counsel role asks for (postings of law firms are not in the set, so this is not a posting rule)
+    const PRACTICE = /\b(attorney|lawyer|solicitor|law clerk)\b|\bassociate\b.*\b(technology transactions|transactions|corporate|litigation|m&a|capital markets|privacy|intellectual property|employment|regulatory)\b/i;
+    const resumeFamily = t => PRACTICE.test(t || "") ? "counsel" : null;
+    return { fams, general: t => family(t), family: t => family(t), resumeFamily, ladderOf, level, known: [], full: false };
+  }
+
   function compileRoles(roles) {
+    if (roles && roles.not_the_job) return compileTechRoles(roles);
     const R = Array.isArray(roles) ? { families: roles } : roles || { families: [] };
     const fl = R.flags || "i", re = p => new RegExp(p, fl), opt = p => p ? re(p) : null, any = l => l && l.length ? re(l.map(p => "(?:" + p + ")").join("|")) : null;
     const fams = (R.families || []).map(f => ({ id: f.id, label: f.label, rx: any(f.patterns), ex: any(f.exclude), covers: f.covers || [], gate: f.product_gate }));
@@ -572,8 +617,9 @@
       let family = RR.family(t, who);
       // a bare grade whose employer line names the role itself ("Associate | Harlow Reed Investment Banking")
       if (!family && BARE_RANK.test(t) && line) family = RR.general(line.replace(DATE, " "), t);
+      if (!family && RR.resumeFamily) family = RR.resumeFamily(t);
       if (!family) family = (RESUME_TITLE.find(([, re]) => re.test(t)) || [null])[0];
-      const which = RR.full ? RR.ladder(who, family) : "corporate";
+      const which = RR.ladderOf ? RR.ladderOf(t, who, family) : RR.full ? RR.ladder(who, family) : "corporate";
       return { family, who, ladder: which, level: family && which !== "corporate" ? LEVEL_GROUP[RR.level(t, who, family)] || null : null };
     }
     const roleFamilyOf = (title, line) => roleOf(title, line).family;
@@ -612,8 +658,9 @@
     const DEGREE_IDS = new Set(["bachelors", "masters_mba", "phd", "cs_engineering_degree"]);
     const TOOLISH = new Set([...skills.filter(s => s.cluster === "tools").map(s => s.id), "sql", "python_r", "figma", "jira"]);
     function lineStrength(l, id) {
+      // a certificate, a licence or a publication is held wherever it is listed, under Awards or Publications too
+      if (CRED.has(id) && !STRUCTURAL.has(id)) return 2;
       if (l.kind === "other") return 1; // interests, awards, languages: a word there is a mention
-      if (CRED.has(id) && !STRUCTURAL.has(id)) return 2; // a certificate or a licence is held wherever it is listed
       // A course is something done, not just a word: for a student it is evidence. For a person with years of
       // work who is not studying now, a course or an item of a list is a mention; the work lines carry the evidence.
       if (l.kind === "course") return seasoned ? 1 : 2;
@@ -950,7 +997,8 @@
     function match(text, target, opts = {}) {
       // opts.inferred: the model read's skills for this resume (web/infer.js), merged after the patterns; none, none
       const parsed = readRoles(parseResume(text)); const ev = infer(tag(parsed), opts.inferred); const req = requirements(target);
-      const profile = profileOf(parsed, target.job ? target.job.family : (target.jobs[0] || {}).family);
+      // target.family names the role when there are no postings to read it from (a set whose graph is not loaded)
+      const profile = profileOf(parsed, target.family || (target.job ? target.job.family : (target.jobs[0] || {}).family));
       const st = standing(parsed, profile, target, opts.level || profile.level);
       const res = score(ev, req, profile, { ...opts, standing: st });
       res.standing = st ? { family: st.family, level: st.level, years: st.years, above: st.above, employers: st.employers, presumed: res.rows.filter(r => r.status === "presumed").length } : null;

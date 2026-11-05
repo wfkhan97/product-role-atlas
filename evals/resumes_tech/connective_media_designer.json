@@ -1,0 +1,37 @@
+{
+ "targets": [
+  "product_designer:associate"
+ ],
+ "expected_level": "associate",
+ "score_band": {
+  "product_designer:associate": [
+   0.55,
+   0.9
+  ]
+ },
+ "must_evidence": [
+  "interaction_design",
+  "visual_design",
+  "prototyping",
+  "design_systems",
+  "accessibility",
+  "design_critique",
+  "user_research",
+  "figma",
+  "design_portfolio",
+  "masters_mba"
+ ],
+ "must_not_tag": [
+  "backend_services",
+  "golang",
+  "model_training",
+  "commercial_contracts",
+  "detection_response",
+  "law_degree",
+  "c_cpp"
+ ],
+ "real_gaps": [
+  "frontend_web",
+  "javascript_typescript"
+ ]
+}

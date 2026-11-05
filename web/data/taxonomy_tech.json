@@ -1,0 +1,2895 @@
+{
+ "clusters": {
+  "craft": {
+   "label": "Product craft",
+   "color": "#6C8EF5"
+  },
+  "discovery": {
+   "label": "Discovery & research",
+   "color": "#5BC8AF"
+  },
+  "analytics": {
+   "label": "Data & experimentation",
+   "color": "#F5A65B"
+  },
+  "technical": {
+   "label": "Technical fluency",
+   "color": "#B57BEE"
+  },
+  "gtm": {
+   "label": "Go-to-market & business",
+   "color": "#F06C9B"
+  },
+  "leadership": {
+   "label": "Leadership & communication",
+   "color": "#F2D15B"
+  },
+  "delivery": {
+   "label": "Delivery & process",
+   "color": "#59B9F0"
+  },
+  "domain": {
+   "label": "Domain knowledge",
+   "color": "#8FD36A"
+  },
+  "tools": {
+   "label": "Tools",
+   "color": "#9AA5B8"
+  },
+  "credentials": {
+   "label": "Credentials & experience",
+   "color": "#D98C6A"
+  },
+  "people": {
+   "label": "People & organization",
+   "color": "#9B7FD1"
+  },
+  "risk": {
+   "label": "Risk, compliance & governance",
+   "color": "#B56B6B"
+  },
+  "engineering": {
+   "label": "Software engineering",
+   "color": "#4F7CAC"
+  },
+  "data_ml": {
+   "label": "Data & ML engineering",
+   "color": "#8E6CC8"
+  },
+  "security": {
+   "label": "Security engineering",
+   "color": "#C0564B"
+  },
+  "design": {
+   "label": "Design craft",
+   "color": "#D9822B"
+  },
+  "legal": {
+   "label": "Legal practice",
+   "color": "#6B7F5B"
+  }
+ },
+ "skills": [
+  {
+   "id": "roadmap",
+   "name": "Roadmapping",
+   "cluster": "craft",
+   "kind": "method",
+   "patterns": [
+    "roadmap"
+   ]
+  },
+  {
+   "id": "product_strategy",
+   "name": "Product strategy",
+   "cluster": "craft",
+   "kind": "method",
+   "patterns": [
+    "product strateg",
+    "strategic (direction|vision|plan)",
+    "long[- ]term (vision|strategy)",
+    "(commercial|platform|portfolio|growth|go-to-market|product[- ]line|pricing|monetization) strategy",
+    "(own|set|define|drive|shape|build|lead)(s|ing)? (the |a |its |your |our )?(product |commercial |platform |overall |business )?strategy",
+    "strategic (mindset|thinking|direction|bets|priorities|roadmap|planning)",
+    "vision and strategy",
+    "strategy (and|&) (roadmap|vision|execution|direction)"
+   ]
+  },
+  {
+   "id": "product_vision",
+   "name": "Product vision",
+   "cluster": "craft",
+   "kind": "method",
+   "patterns": [
+    "product vision",
+    "\\bvision\\b.{0,30}\\bproduct\\b",
+    "set(ting)? (the|a) vision",
+    "compelling vision",
+    "(own|set|define|drive|articulate|build|craft|establish|shape)(s|ing)? (the |a |your |our )?(product |platform |long[- ]term |multi[- ]year )?vision",
+    "vision,? (strategy|roadmap)",
+    "vision (and|&) (strategy|roadmap|direction)",
+    "(strategic|long[- ]term|multi[- ]year|\\d[- ]year) vision"
+   ]
+  },
+  {
+   "id": "prioritization",
+   "name": "Prioritization & trade-offs",
+   "cluster": "craft",
+   "kind": "method",
+   "patterns": [
+    "prioriti[sz]",
+    "trade-?offs?",
+    "ruthless",
+    "sequenc(e|ing) (work|features|initiatives)"
+   ]
+  },
+  {
+   "id": "prd",
+   "name": "PRDs & requirements writing",
+   "cluster": "craft",
+   "kind": "method",
+   "patterns": [
+    "\\bPRDs?\\b",
+    "product requirements? doc",
+    "requirements? (document|definition|gathering|writing)",
+    "functional spec",
+    "write (clear|crisp|detailed) (specs|requirements)",
+    "user stories",
+    "acceptance criteria",
+    "\\bspecs?\\b",
+    "product (requirements|specifications?|specs)",
+    "(define|develop|write|document|gather|author|own)(s|ing)? .{0,30}requirements",
+    "(technical|business|integration|data|functional) requirements"
+   ]
+  },
+  {
+   "id": "product_lifecycle",
+   "name": "End-to-end product lifecycle",
+   "cluster": "craft",
+   "kind": "method",
+   "patterns": [
+    "product (development )?life-?cycle",
+    "end[- ]to[- ]end (ownership|product|delivery|experience|process)",
+    "from (concept|ideation|idea|inception|discovery) to (launch|delivery|ship|release|scale)",
+    "0[- ]to[- ]1",
+    "zero[- ]to[- ]one",
+    "0 ?→ ?1",
+    "conception to launch",
+    "through (launch|delivery)"
+   ]
+  },
+  {
+   "id": "launch",
+   "name": "Product launches",
+   "cluster": "craft",
+   "kind": "method",
+   "patterns": [
+    "product launch",
+    "launch(ed|ing)? (new )?(products|features|programs|capabilities|services)",
+    "shipp(ed|ing) (products|features|software|code)",
+    "ship (products|features|software|great|high)",
+    "\\bship\\b (fast|quickly|often|early)",
+    "go[- ]live",
+    "general availability",
+    "\\bGA\\b",
+    "release(s|d)? (to|new|features)",
+    "launch (readiness|plan|strategy|checklist)",
+    "(concept|conception|ideation|discovery|idea|definition|inception) (to|through|until) launch",
+    "(post|pre)[- ]launch",
+    "launch (readiness|plans?|strategy|execution|planning)",
+    "successful launch(es)?",
+    "launching (and|new|products|features|capabilities)"
+   ]
+  },
+  {
+   "id": "feature_definition",
+   "name": "Feature definition & scoping",
+   "cluster": "craft",
+   "kind": "method",
+   "patterns": [
+    "defin(e|ing) (features|scope|requirements)",
+    "scop(e|ing) (features|work|projects)",
+    "feature (definition|set)",
+    "\\bMVP\\b",
+    "minimum viable"
+   ]
+  },
+  {
+   "id": "customer_obsession",
+   "name": "Customer obsession / user empathy",
+   "cluster": "craft",
+   "kind": "behaviour",
+   "patterns": [
+    "customer[- ]obsess",
+    "customer[- ]centric",
+    "user[- ]centric",
+    "customer[- ]first",
+    "user[- ]first",
+    "customer[- ]focus",
+    "\\bempathy\\b",
+    "voice of (the )?customer",
+    "customer needs",
+    "user needs",
+    "advocate for (the )?(user|customer)",
+    "customer (delight|love|experience)",
+    "delight(ing)? (users|customers)"
+   ]
+  },
+  {
+   "id": "product_sense",
+   "name": "Product sense & judgment",
+   "cluster": "craft",
+   "kind": "behaviour",
+   "patterns": [
+    "product sense",
+    "product (intuition|taste|judg[e]?ment|instinct)",
+    "strong (product )?judg[e]?ment",
+    "high[- ]quality (product )?decisions",
+    "craft"
+   ]
+  },
+  {
+   "id": "ux_design_collab",
+   "name": "UX & design collaboration",
+   "cluster": "craft",
+   "kind": "practice",
+   "patterns": [
+    "\\bpartner(s|ing)? (closely )?with (product )?design(ers)?\\b",
+    "\\bdesign(ers)? partners\\b",
+    "\\bwork(ing)? closely with design(ers)?\\b",
+    "\\bproduct(,| and) design(,| and) (and )?engineering\\b",
+    "\\bdesigners?(,| and) (product managers?|engineers)\\b"
+   ]
+  },
+  {
+   "id": "problem_solving",
+   "name": "Structured problem solving",
+   "cluster": "craft",
+   "kind": "behaviour",
+   "patterns": [
+    "problem[- ]solv",
+    "first[- ]principles",
+    "structured (thinking|approach|problem)",
+    "analytical (thinking|mindset|rigor|approach|skills|ability)",
+    "critical thinking",
+    "break(ing)? down (complex )?problems",
+    "complex problems",
+    "root[- ]cause",
+    "systems thinking",
+    "intellectual(ly)? (curious|curiosity|horsepower)"
+   ]
+  },
+  {
+   "id": "okrs",
+   "name": "OKRs & goal setting",
+   "cluster": "craft",
+   "kind": "method",
+   "patterns": [
+    "\\bOKRs?\\b",
+    "objectives and key results",
+    "goal[- ]setting",
+    "set(ting)? (goals|targets)",
+    "north[- ]star"
+   ]
+  },
+  {
+   "id": "pricing_packaging",
+   "name": "Pricing & packaging",
+   "cluster": "gtm",
+   "kind": "method",
+   "patterns": [
+    "pricing",
+    "packaging",
+    "monetiz",
+    "revenue model",
+    "unit economics"
+   ]
+  },
+  {
+   "id": "gtm",
+   "name": "Go-to-market strategy",
+   "cluster": "gtm",
+   "kind": "method",
+   "patterns": [
+    "go[- ]to[- ]market",
+    "\\bGTM\\b",
+    "launch plan",
+    "market(ing)? strateg",
+    "commerciali[sz]ation",
+    "\\bcommercial (strategy|launch|motion|teams?) (and|&) (marketing|sales)\\b"
+   ]
+  },
+  {
+   "id": "market_research",
+   "name": "Market & competitive analysis",
+   "cluster": "gtm",
+   "kind": "method",
+   "patterns": [
+    "market (research|analysis|sizing|trends|landscape|opportunit)",
+    "competitive (analysis|landscape|intelligence|research|positioning)",
+    "competitor",
+    "industry trends",
+    "\\bTAM\\b",
+    "market dynamics"
+   ]
+  },
+  {
+   "id": "positioning_messaging",
+   "name": "Positioning & messaging",
+   "cluster": "gtm",
+   "kind": "method",
+   "patterns": [
+    "positioning",
+    "messaging",
+    "value proposition",
+    "narrative",
+    "storytelling"
+   ]
+  },
+  {
+   "id": "sales_enablement",
+   "name": "Sales enablement & field partnership",
+   "cluster": "gtm",
+   "kind": "practice",
+   "patterns": [
+    "sales (enablement|team|partner|org)",
+    "enable(ment)? (the )?(sales|field)",
+    "field (team|sales)",
+    "partner with sales",
+    "collateral",
+    "battle ?cards",
+    "pitch deck"
+   ]
+  },
+  {
+   "id": "customer_success",
+   "name": "Customer success & support partnership",
+   "cluster": "gtm",
+   "kind": "practice",
+   "patterns": [
+    "customer success",
+    "customer support",
+    "support team",
+    "account management",
+    "customer escalations?"
+   ]
+  },
+  {
+   "id": "partnerships",
+   "name": "Partnerships & ecosystem",
+   "cluster": "gtm",
+   "kind": "practice",
+   "patterns": [
+    "partnerships\\b|(?<!in )(?<!in close )(?<!close )(?<!business )partnership\\b(?! with\\b)",
+    "partner ecosystem",
+    "third[- ]party (partners|integrations|developers|ecosystem|providers)",
+    "\\bISVs?\\b",
+    "\\bOEMs?\\b",
+    "channel partners",
+    "integrations? partner",
+    "alliances"
+   ]
+  },
+  {
+   "id": "business_case",
+   "name": "Business cases & ROI",
+   "cluster": "gtm",
+   "kind": "method",
+   "patterns": [
+    "business case",
+    "\\bROI\\b",
+    "return on investment",
+    "cost[- ]benefit",
+    "financial (model|analysis|impact)",
+    "investment (case|thesis)",
+    "\\bNPV\\b"
+   ]
+  },
+  {
+   "id": "pnl",
+   "name": "P&L / revenue ownership",
+   "cluster": "gtm",
+   "kind": "method",
+   "patterns": [
+    "\\bP&L\\b",
+    "profit and loss",
+    "revenue (growth|target|goals|ownership|responsibility)",
+    "drive revenue",
+    "\\bARR\\b",
+    "bookings",
+    "gross margin",
+    "own(ing)? (the )?(business|revenue)"
+   ]
+  },
+  {
+   "id": "growth_loops",
+   "name": "Growth, funnels & retention",
+   "cluster": "gtm",
+   "kind": "method",
+   "patterns": [
+    "growth (strategy|loop|lever|initiative|team|product)",
+    "\\bfunnel\\b",
+    "conversion",
+    "(?<!employee )(?<!talent )(?<!staff )(?<!associate )(?<!records )(?<!record )(?<!data )(?<!document )retention\\b(?! (of|and development of) (employees|talent|staff|associates|records))(?! (policy|policies|schedule|bonus))",
+    "churn",
+    "activation",
+    "(user|customer) acquisition",
+    "engagement metrics",
+    "\\bLTV\\b",
+    "\\bCAC\\b",
+    "viral"
+   ]
+  },
+  {
+   "id": "customer_interviews",
+   "name": "Customer interviews",
+   "cluster": "discovery",
+   "kind": "method",
+   "patterns": [
+    "customer interview",
+    "user interview",
+    "interview(ing)? (customers|users)",
+    "talk(ing)? to (customers|users)",
+    "customer conversations",
+    "customer (visits|calls)"
+   ]
+  },
+  {
+   "id": "user_research",
+   "name": "User research",
+   "cluster": "discovery",
+   "kind": "method",
+   "patterns": [
+    "user research",
+    "customer research",
+    "\\bUXR\\b",
+    "usability (test|stud)",
+    "qualitative (research|insight|feedback)",
+    "research (findings|insights)",
+    "ethnograph",
+    "field research",
+    "diary stud",
+    "qualitative and quantitative research",
+    "(conduct|run|lead|own)(s|ing)? (user|customer|stakeholder|market),? .{0,30}research",
+    "unmet (user|customer) needs",
+    "research (to|that) (identify|uncover|understand|inform|validate)"
+   ]
+  },
+  {
+   "id": "discovery",
+   "name": "Product discovery & validation",
+   "cluster": "discovery",
+   "kind": "method",
+   "patterns": [
+    "product discovery",
+    "\\bdiscovery\\b",
+    "validat(e|ing|ion) (ideas|hypotheses|assumptions|solutions|product)",
+    "hypothes[ie]s",
+    "customer (problems|pain)",
+    "pain ?points",
+    "opportunity (assessment|sizing|identification)",
+    "unmet needs",
+    "jobs[- ]to[- ]be[- ]done",
+    "\\bJTBD\\b"
+   ]
+  },
+  {
+   "id": "personas_jtbd",
+   "name": "Personas & segmentation",
+   "cluster": "discovery",
+   "kind": "method",
+   "patterns": [
+    "\\bpersonas?\\b",
+    "segment(ation|s)",
+    "target (users|customers|audience|segment)",
+    "ideal customer profile",
+    "\\bICP\\b"
+   ]
+  },
+  {
+   "id": "surveys_feedback",
+   "name": "Surveys & feedback loops",
+   "cluster": "discovery",
+   "kind": "method",
+   "patterns": [
+    "(?<!salary )(?<!compensation )(?<!pay )(?<!market )survey",
+    "\\bNPS\\b",
+    "net promoter",
+    "feedback loop",
+    "customer feedback",
+    "user feedback",
+    "synthesi[sz](e|ing) (feedback|insights|research)",
+    "beta (program|customers|testing)",
+    "early access"
+   ]
+  },
+  {
+   "id": "metrics_kpis",
+   "name": "Metrics & KPIs",
+   "cluster": "analytics",
+   "kind": "method",
+   "patterns": [
+    "\\bKPIs?\\b",
+    "key performance",
+    "success metrics",
+    "define (and track )?metrics",
+    "metrics[- ]driven",
+    "measur(e|ing) (success|impact|outcomes)",
+    "track(ing)? (metrics|performance)",
+    "dashboards?",
+    "\\bmetrics\\b"
+   ]
+  },
+  {
+   "id": "data_driven",
+   "name": "Data-driven decision making",
+   "cluster": "analytics",
+   "kind": "behaviour",
+   "patterns": [
+    "data[- ]driven",
+    "data[- ]informed",
+    "data (analysis|analytics|insights)",
+    "analy[sz]e data",
+    "quantitative",
+    "leverag(e|ing) data",
+    "evidence[- ]based",
+    "insights? from data",
+    "analytical skills"
+   ]
+  },
+  {
+   "id": "ab_testing",
+   "name": "A/B testing & experimentation",
+   "cluster": "analytics",
+   "kind": "method",
+   "patterns": [
+    "a/b test",
+    "\\bab test",
+    "experiment",
+    "split test",
+    "multivariate",
+    "test[- ]and[- ]learn",
+    "hypothesis[- ]driven",
+    "controlled (trials|experiments)",
+    "statistical significance"
+   ]
+  },
+  {
+   "id": "sql",
+   "name": "SQL",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "\\bSQL\\b",
+    "query(ing)? data",
+    "write queries"
+   ]
+  },
+  {
+   "id": "python_r",
+   "name": "Python / R / scripting",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "\\bpython\\b",
+    "\\bR\\b(?= |,|/)",
+    "scripting",
+    "jupyter",
+    "pandas",
+    "notebooks?"
+   ]
+  },
+  {
+   "id": "data_modeling",
+   "name": "Data modeling & pipelines",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "data (model|pipeline|warehouse|lake|platform|infrastructure|architecture|engineering)",
+    "\\bETL\\b",
+    "\\bELT\\b",
+    "data governance",
+    "data quality",
+    "schema",
+    "spark",
+    "snowflake",
+    "databricks",
+    "bigquery",
+    "redshift"
+   ]
+  },
+  {
+   "id": "statistics",
+   "name": "Statistics & forecasting",
+   "cluster": "analytics",
+   "kind": "method",
+   "patterns": [
+    "statistic(s|al)\\b",
+    "(?<!budget and )(?<!budget & )(?<!plan and )(?<!budget )(?<!budgets and )(?<!budgeting and )(?<!budgeting, )(?<!budgeting & )(?<!financial )(?<!revenue )(?<!sales )(?<!cash )(?<!expense )(?<!cost )(?<!headcount )(?<!quarterly )(?<!annual )(?<!rolling )forecast(?!s? (vs\\.?|versus|to actuals?|and budget|accuracy and budget))",
+    "regression",
+    "predictive",
+    "causal",
+    "econometric",
+    "probabilit",
+    "statistical modeling|predictive model(s|ing)?"
+   ]
+  },
+  {
+   "id": "financial_analysis",
+   "name": "Financial modeling & analysis",
+   "cluster": "analytics",
+   "kind": "method",
+   "patterns": [
+    "financial model",
+    "financial analysis",
+    "budget",
+    "cost (analysis|model|optimization)",
+    "spreadsheet",
+    "\\bexcel\\b",
+    "forecasting revenue"
+   ]
+  },
+  {
+   "id": "technical_fluency",
+   "name": "Technical fluency",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "technical (background|depth|acumen|fluency|understanding|knowledge|aptitude|proficiency|expertise|skills|foundation)",
+    "technically (fluent|savvy|proficient|strong)",
+    "understand(ing)? (of )?(the )?(technical|technology|engineering) (concepts|tradeoffs|trade-offs|constraints|details|architecture)",
+    "deep technical",
+    "strong technical",
+    "engineering (background|degree)",
+    "computer science",
+    "\\bCS\\b degree",
+    "technical (degree|discipline)",
+    "hands-on technical"
+   ]
+  },
+  {
+   "id": "apis",
+   "name": "APIs & integrations",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "\\bAPIs?\\b",
+    "(?<!merger )(?<!acquisition )(?<!acquisitions )(?<!m&a )(?<!post-merger )(?<!post-close )(?<!post-deal )(?<!business )(?<!company )(?<!process )(?<!marketing )(?<!brand )(?<!touchpoint )(?<!cultural )(?<!organizational )(?<!operational )integrations\\b(?!,? (and|or|&|/) ?(separations?|divestitures?|carve[- ]outs?|spin[- ]offs?))",
+    "\\b(systems?|data|datalake|data lake|apis?|sdks?|platforms?|software|applications?|apps?|products?|technical|tech|ai|llm|agents?|models?|erp|crm|ehr|emr|cloud|saas|partner|third[- ]party|3rd[- ]party|vendor|tools?|hardware|devices?|sensors?|payments?|billing|accounting|identity|security|telemetry|source|sso|workflow|seamless|native|custom|backend|back-end|front-end|iot|mcp|ecosystem|network|web|mobile|e-?commerce|computer vision|cmdb|ado|salesforce|workday|sap|oracle|netsuite|hubspot|snowflake|aws|azure|gcp|stripe|slack|github|jira|servicenow)[- ]integration\\b",
+    "integration (with|into|between|across|to|of) (\\w+ ){0,3}(systems?|platforms?|apis?|sdks?|tools?|tooling|software|applications?|apps?|services|products?|data|data sources?|databases?|stacks?|infrastructure|environments?|ecosystems?|pipelines?|back[- ]?ends?|front[- ]?ends?|workflows?|technolog(y|ies)|models?|ai|llms?|agents?|erp|crm|ehr|emr|salesforce|workday|sap|oracle|netsuite|hubspot|snowflake|aws|azure|gcp|stripe|slack|github|jira|servicenow|third[- ]part(y|ies)|3rd[- ]part(y|ies)|vendors?|partners?|devices?|hardware|sensors?)\\b",
+    "integration (points?|layers?|patterns?|testing|tests?|partners?|engineers?|engineering|architecture|requirements|capabilities|platform|framework|middleware|apis?|specs?|specifications|sdk|endpoints?|connectors?|workflows?|tooling|use cases|concepts|standards|options|decisions|considerations|developers?|logic|code|scripts?|pipelines?|jobs?|flows?|mapping|schemas?)\\b",
+    "integrat(e|es|ed|ing) (seamlessly |directly |natively |easily |deeply |tightly )?(with|into) (\\w+ ){0,3}(systems?|platforms?|apis?|sdks?|tools?|tooling|software|applications?|apps?|databases?|stacks?|infrastructure|pipelines?|back[- ]?ends?|front[- ]?ends?|erp|crm|ehr|emr|salesforce|workday|sap|oracle|netsuite|hubspot|snowflake|aws|azure|gcp|stripe|slack|github|jira|servicenow|third[- ]part(y|ies)|3rd[- ]part(y|ies)|vendors?|devices?|hardware)\\b",
+    "integrat(e|es|ing) (?!(generative |gen)?ai\\b)(\\w+ ){0,2}(apis?|sdks?|data sources?|data feeds?|third[- ]party|3rd[- ]party|systems|platforms|tools|software|applications)\\b",
+    "\\biPaaS\\b",
+    "middleware",
+    "\\bSDKs?\\b",
+    "webhooks?",
+    "\\bREST(ful)?\\b",
+    "graphql",
+    "developer (platform|experience|tools|products|ecosystem)",
+    "\\bgRPC\\b",
+    "\\bOpenAPI\\b"
+   ]
+  },
+  {
+   "id": "system_architecture",
+   "name": "Systems & architecture",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "\\bsystem design\\b",
+    "\\bdistributed systems\\b",
+    "\\bscalab(le|ility) (systems|architecture|platforms?|infrastructure|services)\\b",
+    "\\bmicroservices\\b",
+    "\\bhigh[- ]availability\\b",
+    "\\bfault[- ]toleran",
+    "\\b(technical|software|system|systems|platform) architecture\\b",
+    "\\barchitect(ing|ed)? (and build|systems|scalable|solutions)\\b",
+    "\\barchitectural decisions\\b",
+    "\\btechnical design\\b",
+    "\\bdesign docs?\\b"
+   ]
+  },
+  {
+   "id": "cloud",
+   "name": "Cloud platforms",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "\\bcloud\\b",
+    "\\bAWS\\b",
+    "\\bAzure\\b",
+    "\\bGCP\\b",
+    "google cloud",
+    "kubernetes",
+    "\\bk8s\\b",
+    "docker",
+    "containers?\\b",
+    "serverless",
+    "hybrid cloud",
+    "multi-?cloud",
+    "\\bEC2\\b",
+    "\\bS3\\b",
+    "\\bIaaS\\b",
+    "\\bPaaS\\b"
+   ]
+  },
+  {
+   "id": "ai_ml",
+   "name": "AI / machine learning",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "\\bmachine learning\\b",
+    "\\bML\\b(?! ?ops)",
+    "\\bdeep learning\\b",
+    "\\bneural (networks?|nets?)\\b",
+    "\\bmodels?\\b.{0,20}\\b(train|inference)",
+    "\\brecommend(ation|er) (systems?|engines?)\\b",
+    "\\bcomputer vision\\b",
+    "\\bNLP\\b",
+    "\\bnatural language processing\\b",
+    "\\branking\\b(?= (models|systems|algorithms))",
+    "\\bAI/ML\\b"
+   ]
+  },
+  {
+   "id": "genai_llm",
+   "name": "Generative AI / LLMs & agents",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "\\bLLMs?\\b",
+    "large language model",
+    "generative ai",
+    "\\bgenai\\b",
+    "\\bgen ai\\b",
+    "foundation model",
+    "prompt",
+    "\\bRAG\\b",
+    "retrieval[- ]augmented",
+    "copilot",
+    "agentic",
+    "ai agents?",
+    "\\b(ai|llm|autonomous|intelligent|conversational|coding|virtual|voice|multi|generative|agentic|chat|gpt|software|custom|digital|research|workflow|browser|developer|excel|email|data|analytics|marketing|insight[- ]generating|specialized|domain[- ]specific|task[- ]specific|purpose[- ]built|background|embedded|personal|enterprise)[- ]?agents?\\b",
+    "\\bagents? (frameworks?|orchestration|workflows?|harness(es)?|runtimes?|personas?|architectures?|protocols?|sdks?|builders?|studio|reasoning|memory|tool[- ]use|evals?|evaluations?|behaviou?rs?|capabilit(y|ies)|infrastructure|telemetry|interactions)\\b",
+    "\\bagent[- ](based|native|first|powered|driven|ready|mediated) (systems?|interfaces?|workflows?|products?|experiences?|features?|ux|applications?|apps?|tools?|solutions?|automation|operations)\\b",
+    "\\b(build|building|built|ship|shipping|shipped|deploy|deploying|deployed|orchestrat(e|es|ed|ing)) (\\w+ ){0,2}agents?\\b",
+    "\\b(humans?|people|users?|developers?|copilots?|assistants?|models?|llms?|apps?|applications|tools|automations|workflows|prototypes|inference|bots|chatbots|teams) (and|or|&|,|and/or) (\\w+ )?agents\\b",
+    "\\bagents (and|or|&|,) (humans?|people|copilots?|assistants?|workflows?|models?|llms?|automations?|tools|mcps?|sandboxes|apps|bots|chatbots|prompts|skills)\\b",
+    "model context protocol",
+    "\\bMCP (servers?|integrations?|tools?|clients?)\\b",
+    "openai",
+    "anthropic",
+    "\\bgpt\\b",
+    "\\bclaude\\b",
+    "gemini",
+    "fine[- ]tun",
+    "evals?\\b",
+    "multimodal",
+    "transformer"
+   ]
+  },
+  {
+   "id": "mobile",
+   "name": "Mobile platforms",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "\\bmobile\\b",
+    "\\biOS\\b",
+    "\\bandroid\\b",
+    "app store",
+    "play store",
+    "native app"
+   ]
+  },
+  {
+   "id": "security_privacy",
+   "name": "Security & privacy",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "cyber ?security",
+    "(application|cloud|product|platform|network|data|information|enterprise) security",
+    "security (product|platform|features|requirements|team|posture|controls|engineering|operations|tooling|review)",
+    "privacy (by design|requirements|controls|compliance|regulations?|engineering|features)|data privacy|user privacy",
+    "\\bIAM\\b",
+    "identity (and access|management|platform|verification|provider)",
+    "authentication",
+    "authentication and authori[sz]ation|\\bauthZ\\b|access control",
+    "encryption",
+    "zero trust",
+    "threat (model|detection|intelligence)",
+    "vulnerabilit",
+    "\\bSOC ?2\\b",
+    "\\bGDPR\\b",
+    "\\bCCPA\\b",
+    "trust and safety",
+    "fraud (prevention|detection|risk|models?)",
+    "\\bSIEM\\b",
+    "\\bSSO\\b",
+    "\\bMFA\\b"
+   ]
+  },
+  {
+   "id": "devops_sdlc",
+   "name": "SDLC, DevOps & CI/CD",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "\\bSDLC\\b",
+    "software development life",
+    "\\bCI/CD\\b",
+    "devops",
+    "deployment (pipelines?|process|automation|strategy|frequency)|continuous (integration|delivery|deployment)",
+    "release (management|process|pipeline)",
+    "observability",
+    "(production|system|application|performance|service) monitoring|monitoring and alerting",
+    "incident (management|response|reviews?)",
+    "on-?call",
+    "\\bSRE\\b",
+    "site reliability"
+   ]
+  },
+  {
+   "id": "hardware",
+   "name": "Hardware, devices & embedded",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "hardware",
+    "firmware",
+    "embedded (systems|software|firmware|devices|linux|products)",
+    "silicon (design|teams?|products|vendors|roadmap)",
+    "\\bchips?\\b",
+    "\\bGPUs?\\b",
+    "\\bSoC\\b",
+    "semiconductor",
+    "sensors?\\b",
+    "(connected|wearable|edge|IoT|smart|medical) devices?",
+    "device (management|platform|firmware|software|ecosystem)",
+    "\\bIoT\\b",
+    "robotic",
+    "electrical engineering",
+    "manufactur(ing|e) (process|partners|readiness)",
+    "\\bEVT\\b",
+    "\\bDVT\\b",
+    "\\bPVT\\b",
+    "bill of materials",
+    "\\bBOM\\b"
+   ]
+  },
+  {
+   "id": "networking",
+   "name": "Networking & connectivity",
+   "cluster": "technical",
+   "kind": "technical",
+   "patterns": [
+    "network (infrastructure|protocols|equipment|engineering|security|operations|products|services|hardware)|networking (products|hardware|stack|protocols|equipment)|\\bSD-?WAN\\b|wi-?fi",
+    "\\b5G\\b",
+    "\\bLTE\\b",
+    "wireless",
+    "telecom",
+    "connectivity",
+    "\\bCDN\\b",
+    "\\bDNS\\b",
+    "\\bVPN\\b",
+    "\\bSD-?WAN\\b",
+    "edge computing"
+   ]
+  },
+  {
+   "id": "automotive_autonomy",
+   "name": "Automotive, autonomy & robotics",
+   "cluster": "domain",
+   "kind": "knowledge",
+   "patterns": [
+    "self[- ]driving",
+    "\\bADAS\\b",
+    "\\bEVs?\\b",
+    "electric vehicle",
+    "drone",
+    "aerospace",
+    "\\bDoD\\b",
+    "autonomous (vehicles?|driving|systems|machines|robots?|trucks|mobility|navigation)",
+    "automotive (industry|OEMs?|customers|software|platforms?|products?|sector|suppliers)",
+    "(electric|autonomous|connected|commercial) vehicles?",
+    "vehicle (software|platforms?|data|fleets?|telematics)",
+    "defen[cs]e (industry|customers|contracts|tech|sector|programs|applications)|\\bDoD\\b",
+    "robotics"
+   ]
+  },
+  {
+   "id": "fintech",
+   "name": "Payments, fintech & banking",
+   "cluster": "domain",
+   "kind": "knowledge",
+   "patterns": [
+    "payments?\\b",
+    "fintech",
+    "banking",
+    "lending",
+    "credit (card|risk|decisioning|product|bureau)",
+    "\\bloans?\\b",
+    "mortgage",
+    "\\bKYC\\b",
+    "\\bAML\\b",
+    "treasury",
+    "financial services",
+    "wealth management",
+    "brokerage",
+    "trading (platform|systems|desk)",
+    "capital markets",
+    "\\bcrypto",
+    "blockchain",
+    "stablecoin",
+    "\\bweb3\\b",
+    "\\bDeFi\\b",
+    "insurance (product|carrier|claims|underwriting|industry|policies)",
+    "underwriting",
+    "claims (processing|adjudication|management)",
+    "card (issuing|network|products)",
+    "money movement",
+    "\\bACH\\b",
+    "\\bwires?\\b transfer",
+    "open banking"
+   ]
+  },
+  {
+   "id": "healthcare",
+   "name": "Healthcare & life sciences",
+   "cluster": "domain",
+   "kind": "knowledge",
+   "patterns": [
+    "health ?care",
+    "clinical",
+    "patient",
+    "\\bpayers?\\b",
+    "\\bEHR\\b",
+    "\\bEMR\\b",
+    "medicare",
+    "medicaid",
+    "pharmac(y|eutical|ies)",
+    "biotech",
+    "\\bFDA\\b",
+    "medical (device|record|billing|coding|affairs|technology|product)",
+    "care (management|delivery|coordination|navigation)",
+    "health (plan|system|insurance|outcomes|tech|data|equity|record)",
+    "\\bHEDIS\\b",
+    "\\bCMS\\b (regulation|compliance|star)",
+    "member (experience|engagement|journey)",
+    "provider (network|data|experience)",
+    "life sciences",
+    "therapeutic",
+    "\\bHIPAA\\b"
+   ]
+  },
+  {
+   "id": "ecommerce_retail",
+   "name": "E-commerce, retail & marketplaces",
+   "cluster": "domain",
+   "kind": "knowledge",
+   "patterns": [
+    "e-?commerce",
+    "retail",
+    "marketplace",
+    "\\bcheckout\\b",
+    "\\bcart\\b",
+    "product catalog|catalog management",
+    "merchandis",
+    "shopper",
+    "\\bsellers?\\b",
+    "omni-?channel",
+    "store (experience|operations)",
+    "grocery",
+    "order management"
+   ]
+  },
+  {
+   "id": "supply_chain",
+   "name": "Supply chain, logistics & operations",
+   "cluster": "domain",
+   "kind": "knowledge",
+   "patterns": [
+    "supply chain",
+    "logistics",
+    "fulfil+ment",
+    "warehouse",
+    "inventory",
+    "transportation (logistics|networks?|management|industry)",
+    "last[- ]mile",
+    "delivery (network|operations)",
+    "procurement",
+    "freight",
+    "shipping (logistics|carriers|rates|labels|operations|costs)|shipments?\\b",
+    "\\bWMS\\b",
+    "\\bTMS\\b"
+   ]
+  },
+  {
+   "id": "ads_media",
+   "name": "Advertising & media",
+   "cluster": "domain",
+   "kind": "knowledge",
+   "patterns": [
+    "advertis",
+    "\\bads\\b",
+    "ad tech",
+    "\\bDSP\\b",
+    "\\bSSP\\b",
+    "programmatic",
+    "(ad|marketing|media) campaigns?",
+    "media (buying|planning|platform|company|industry|measurement)",
+    "streaming (services?|platforms?|video|media)",
+    "video (platform|streaming|product|ads|content|player)",
+    "content (platform|creators|monetization|recommendation)",
+    "publishers?\\b",
+    "audience (targeting|segmentation|measurement|insights)",
+    "attribution",
+    "brand (safety|lift)"
+   ]
+  },
+  {
+   "id": "enterprise_saas",
+   "name": "Enterprise SaaS & B2B",
+   "cluster": "domain",
+   "kind": "knowledge",
+   "patterns": [
+    "\\bB2B\\b",
+    "enterprise (software|customers|SaaS|product|sales|grade|scale)",
+    "\\bSaaS\\b",
+    "multi-?tenant",
+    "admin(istration)? (console|experience)",
+    "\\bIT\\b (admins|teams|buyers)",
+    "\\bCRM\\b",
+    "\\bHCM\\b",
+    "workflow automation"
+   ]
+  },
+  {
+   "id": "consumer",
+   "name": "Consumer products & B2C",
+   "cluster": "domain",
+   "kind": "knowledge",
+   "patterns": [
+    "\\bB2C\\b",
+    "consumer (product|app|experience|facing|internet|tech|brand|hardware)",
+    "mass[- ]market",
+    "social (app|network|media|product|platform)",
+    "\\bgaming\\b",
+    "gaming|video games?|game (studios?|developers?|design)",
+    "entertainment",
+    "creator (economy|tools|platforms?|monetization)",
+    "shoppers?\\b",
+    "\\bmembers?\\b (experience|engagement)"
+   ]
+  },
+  {
+   "id": "energy_industrial",
+   "name": "Energy, industrial & manufacturing",
+   "cluster": "domain",
+   "kind": "knowledge",
+   "patterns": [
+    "energy (industry|sector|markets?|systems|storage|grid|management|utilities|companies|transition|products)|renewable energy|oil (and|&) gas|utilities (industry|sector|customers)",
+    "oil and gas",
+    "refin(ery|ing)",
+    "\\bgrid\\b",
+    "renewable",
+    "industrial",
+    "manufacturing",
+    "\\bplant\\b",
+    "\\bfield operations\\b",
+    "\\bEHS\\b",
+    "climate",
+    "carbon"
+   ]
+  },
+  {
+   "id": "telecom",
+   "name": "Telecommunications",
+   "cluster": "domain",
+   "kind": "knowledge",
+   "patterns": [
+    "telecom",
+    "wireless carrier",
+    "broadband",
+    "fiber",
+    "\\bISP\\b",
+    "subscriber"
+   ]
+  },
+  {
+   "id": "developer_tools",
+   "name": "Developer tools & infrastructure products",
+   "cluster": "domain",
+   "kind": "knowledge",
+   "patterns": [
+    "developer (tools|experience|platform|productivity|ecosystem)",
+    "\\bdevtools?\\b",
+    "open[- ]source",
+    "\\bCLI\\b",
+    "\\bIDE\\b",
+    "infrastructure (product|platform)",
+    "data infrastructure"
+   ]
+  },
+  {
+   "id": "public_sector",
+   "name": "Regulated industries & compliance",
+   "cluster": "domain",
+   "kind": "knowledge",
+   "patterns": [
+    "public[- ]sector",
+    "government (agencies|customers|contracts|clients|entities|programs|services|partners)",
+    "(federal|state|local) (agencies|government|customers|contracts|programs)",
+    "\\bFedRAMP\\b|\\bSOX\\b|\\bHIPAA\\b|\\bGDPR\\b|\\bPCI[- ]DSS\\b",
+    "regulatory (requirements|compliance|environment|landscape|bodies|approvals?|frameworks|constraints|changes|affairs)",
+    "(highly |heavily )?regulated (industry|industries|environment|markets?|space|sectors?)",
+    "compliance (requirements|teams?|programs?|frameworks|obligations|standards|controls|risk|features|workflows)",
+    "(legal|risk) and compliance",
+    "compliance and (legal|risk|security)",
+    "audit (requirements|readiness|trails?|controls)",
+    "policy (requirements|compliance|enforcement|engine)"
+   ]
+  },
+  {
+   "id": "cross_functional",
+   "name": "Cross-functional leadership",
+   "cluster": "leadership",
+   "kind": "practice",
+   "patterns": [
+    "cross[- ]functional",
+    "cross[- ]team",
+    "\\bXFN\\b",
+    "partner(ing)? (closely )?with (engineering|design|data|marketing|sales|legal|finance|operations)",
+    "work(ing)? (closely )?with (engineering|engineers|designers|data scientists)",
+    "engineering, design",
+    "align(ment|ing)? (across|with) (teams|stakeholders)",
+    "matrix"
+   ]
+  },
+  {
+   "id": "stakeholder_mgmt",
+   "name": "Stakeholder management",
+   "cluster": "leadership",
+   "kind": "practice",
+   "patterns": [
+    "stakeholder",
+    "manag(e|ing) (up|expectations)",
+    "senior leadership",
+    "executive(s| team| leadership| stakeholders| audiences)",
+    "\\bC-?suite\\b",
+    "\\bC-?level\\b",
+    "\\bVPs?\\b",
+    "leadership team",
+    "buy[- ]in"
+   ]
+  },
+  {
+   "id": "influence",
+   "name": "Influence without authority",
+   "cluster": "leadership",
+   "kind": "behaviour",
+   "patterns": [
+    "influenc",
+    "without (direct )?authority",
+    "persua",
+    "consensus",
+    "drive alignment",
+    "negotiat",
+    "build(ing)? (trust|relationships|consensus)",
+    "diplomatic"
+   ]
+  },
+  {
+   "id": "communication",
+   "name": "Written & verbal communication",
+   "cluster": "leadership",
+   "kind": "behaviour",
+   "patterns": [
+    "communicat",
+    "written and verbal",
+    "verbal and written",
+    "presentation skills",
+    "present(ing)? to",
+    "public speaking",
+    "articulate",
+    "\\bconcise\\b",
+    "writing skills",
+    "written (skills|documents|narratives|proposals)",
+    "\\bmemos?\\b",
+    "\\bnarratives?\\b",
+    "six[- ]pager",
+    "\\bPR/FAQ",
+    "working backwards",
+    "crisp"
+   ]
+  },
+  {
+   "id": "exec_communication",
+   "name": "Executive communication & reviews",
+   "cluster": "leadership",
+   "kind": "practice",
+   "patterns": [
+    "executive (communication|presentation|presence|review|summar|update|audience|briefing)",
+    "board (meeting|presentation|level|of directors)",
+    "present(ing)? to (senior |executive )?(leadership|executives|the board|C-?suite)",
+    "leadership reviews",
+    "\\bQBRs?\\b",
+    "business reviews",
+    "executive (stakeholders|leadership|committee|team|sponsors)",
+    "(present|report|communicat|partner)\\w* .{0,40}(to|with) (senior |executive |company |the )?(leadership|executives|board|C-?suite|exco|founders)",
+    "executive[- ]level communication",
+    "leadership (reviews|updates|alignment)"
+   ]
+  },
+  {
+   "id": "people_management",
+   "name": "People management & coaching",
+   "cluster": "leadership",
+   "kind": "practice",
+   "patterns": [
+    "manag(e|ing) (a team|teams|PMs|product managers|people|direct reports)",
+    "people manage",
+    "direct reports",
+    "hir(e|ing) (and|,|&) (manag|develop|coach|lead|grow|retain)",
+    "hir(e|ing),? (coach|mentor|develop|onboard)",
+    "hiring (and|&) (developing|managing|growing)",
+    "recruit(ing)? (and|&|,) (develop|manag|retain|coach|hir)",
+    "recruit(ing)? (top |world[- ]class )?(talent|PMs|product managers)",
+    "(mentor|coach)(ing|es)? (junior|other|the|a |PMs|product managers|team|and)",
+    "build(ing)? (and lead(ing)? )?(a |high[- ]performing |world[- ]class |strong )?team",
+    "grow(ing)? (the|a|your) team",
+    "develop(ing)? talent",
+    "performance (management|reviews)",
+    "lead(ing)? a team",
+    "head ?count",
+    "career (development|growth) of",
+    "manager of (product )?managers",
+    "player[- ]coach",
+    "team lead(er)?\\b",
+    "lead(ing)? (and|&) (manag|develop|grow|coach)"
+   ]
+  },
+  {
+   "id": "ownership",
+   "name": "Ownership & bias for action",
+   "cluster": "leadership",
+   "kind": "behaviour",
+   "patterns": [
+    "ownership",
+    "\\bown (the|a|an|our|your|and|end-to-end|product|roadmap|strategy|outcomes|results|delivery|key|critical|all)\\b",
+    "bias for action",
+    "self[- ]starter",
+    "self[- ]directed",
+    "self[- ]motivated",
+    "entrepreneurial(?![- ](environment|culture|team|company|companies|firm|organi[sz]ation\\w*|ecosystem|ventures?|finance|clients?|communit\\w*|founders?|network|activit\\w*|journey|business\\w*|growth|setting|atmosphere|workplace|roots|history|legacy|dna|opportunit\\w*|path|endeavou?rs?|pursuits?|management|studies|programs?|stage|lifecycle|landscape|world|success|families|owners))",
+    "scrappy",
+    "get things done",
+    "\\bGSD\\b",
+    "hustle",
+    "proactive",
+    "accountab",
+    "take(s)? initiative",
+    "sense of urgency",
+    "hands[- ]on"
+   ]
+  },
+  {
+   "id": "adaptability",
+   "name": "Adaptability & fast-paced environments",
+   "cluster": "leadership",
+   "kind": "behaviour",
+   "patterns": [
+    "fast[- ]paced",
+    "fast[- ]moving",
+    "rapidly (changing|evolving|growing)",
+    "dynamic environment",
+    "start-?up (environment|experience|mentality|mindset|pace)",
+    "thrive in",
+    "comfortable (with|in) (ambiguity|change|uncertainty|a fast)",
+    "adapt(able|ability|ive)\\b",
+    "resilien",
+    "wear(ing)? (many|multiple) hats",
+    "high[- ]growth",
+    "hyper-?growth",
+    "scale-?up",
+    "navigate ambiguity",
+    "ambiguous"
+   ]
+  },
+  {
+   "id": "collaboration",
+   "name": "Collaboration & teamwork",
+   "cluster": "leadership",
+   "kind": "behaviour",
+   "patterns": [
+    "collaborat",
+    "team ?player",
+    "teamwork",
+    "interpersonal",
+    "relationship[- ]build",
+    "partner(ship)? mindset",
+    "work(ing)? effectively with",
+    "low ego",
+    "humble",
+    "humility",
+    "\\bempath"
+   ]
+  },
+  {
+   "id": "customer_facing_exec",
+   "name": "Customer & executive-facing engagement",
+   "cluster": "leadership",
+   "kind": "practice",
+   "patterns": [
+    "customer[- ]facing",
+    "meet(ing)? with customers",
+    "customer (meetings|advisory|councils?|executives)",
+    "\\bCAB\\b",
+    "evangeli[sz]",
+    "thought leader",
+    "speak(ing)? at",
+    "conference",
+    "keynote",
+    "webinar",
+    "public[- ]facing",
+    "represent (the )?(company|product)"
+   ]
+  },
+  {
+   "id": "agile_scrum",
+   "name": "Agile / Scrum",
+   "cluster": "delivery",
+   "kind": "method",
+   "patterns": [
+    "\\bagile\\b",
+    "\\bscrum\\b",
+    "sprint",
+    "kanban",
+    "scaled agile|\\bSAFe\\b (framework|certif|agilist)",
+    "ceremonies",
+    "stand-?ups?",
+    "retrospective",
+    "iterative (development|approach)",
+    "backlog",
+    "groom",
+    "backlog refinement",
+    "story points",
+    "(team|sprint|delivery) velocity",
+    "epics?\\b"
+   ]
+  },
+  {
+   "id": "program_mgmt",
+   "name": "Program & project management",
+   "cluster": "delivery",
+   "kind": "practice",
+   "patterns": [
+    "program management",
+    "project management",
+    "\\bPMP\\b",
+    "project plans?",
+    "work[- ]?streams?",
+    "milestones?",
+    "timelines?",
+    "(?<!work )(?<!shift )(?<!flexible )(?<!rotating )(?<!weekend )(?<!hybrid )schedules?\\b(?! flexib)",
+    "on[- ]time",
+    "on[- ]budget",
+    "deliverables",
+    "critical path",
+    "\\bgantt\\b",
+    "project tracking",
+    "status (report|update)s?",
+    "\\bRAID\\b",
+    "program (plan|office|governance|roadmap)",
+    "\\bPMO\\b"
+   ]
+  },
+  {
+   "id": "risk_mgmt",
+   "name": "Risk & dependency management",
+   "cluster": "delivery",
+   "kind": "practice",
+   "patterns": [
+    "risk (management|mitigation|assessment|identification|register|analysis)",
+    "mitigat",
+    "dependenc(y|ies)",
+    "blockers?\\b",
+    "unblock",
+    "escalat",
+    "contingency",
+    "issue (tracking|resolution)",
+    "manag(e|ing) risks?",
+    "identify(ing)? risks?"
+   ]
+  },
+  {
+   "id": "execution",
+   "name": "Execution & delivery",
+   "cluster": "delivery",
+   "kind": "behaviour",
+   "patterns": [
+    "execution",
+    "execut(e|ing) (on|against)",
+    "deliver(y|ing)? (results|outcomes|value|on time|high[- ]quality|against)",
+    "drive(s)? (results|delivery|execution|outcomes)",
+    "track record of (delivering|shipping|launching|building)",
+    "get(ting)? (things|products|stuff) (done|shipped|out)",
+    "operational excellence",
+    "attention to detail",
+    "detail[- ]oriented",
+    "results[- ]oriented",
+    "results[- ]driven",
+    "outcome[- ]driven",
+    "high[- ]quality (delivery|output|work)",
+    "on[- ]time delivery"
+   ]
+  },
+  {
+   "id": "process_improvement",
+   "name": "Process design & operational rigor",
+   "cluster": "delivery",
+   "kind": "method",
+   "patterns": [
+    "process (improvement|design|optimization|definition|documentation|standardi[sz]ation|excellence|re-?engineering)",
+    "operating (model|cadence|rhythm|mechanisms)",
+    "\\bmechanisms\\b",
+    "\\bSOPs?\\b",
+    "standard operating",
+    "continuous improvement",
+    "\\blean\\b",
+    "six sigma",
+    "\\bkaizen\\b",
+    "streamlin",
+    "operational (efficiency|rigor|excellence)",
+    "scal(e|ing) (processes|operations|the team|our|the business)",
+    "playbooks?\\b",
+    "\\brituals\\b",
+    "automat(e|ing) (manual|repetitive|internal)"
+   ]
+  },
+  {
+   "id": "quality_testing",
+   "name": "Quality, testing & acceptance",
+   "cluster": "delivery",
+   "kind": "method",
+   "patterns": [
+    "\\bunit tests?\\b",
+    "\\bautomated test(s|ing)\\b",
+    "\\btest automation\\b",
+    "\\bintegration tests?\\b",
+    "\\bend[- ]to[- ]end tests?\\b",
+    "\\bTDD\\b",
+    "\\btest[- ]driven\\b",
+    "\\btest coverage\\b",
+    "\\bjest\\b",
+    "\\bpytest\\b",
+    "\\bcypress\\b",
+    "\\bplaywright\\b",
+    "\\bselenium\\b",
+    "\\bQA\\b",
+    "\\bquality assurance\\b"
+   ]
+  },
+  {
+   "id": "vendor_mgmt",
+   "name": "Vendor, budget & contract management",
+   "cluster": "delivery",
+   "kind": "practice",
+   "patterns": [
+    "vendor (management|selection|relationships?|contracts?|evaluation|negotiations?|partners)|vendors and partners|third[- ]party vendors?",
+    "supplier",
+    "contract (negotiations?|management|renewals?|terms)|vendor contracts?",
+    "\\bRFPs?\\b",
+    "\\bSOWs?\\b",
+    "procurement (process|teams?)",
+    "\\bSLAs?\\b",
+    "budget (management|ownership|planning)",
+    "third[- ]party (vendors|providers)",
+    "outsourc"
+   ]
+  },
+  {
+   "id": "jira",
+   "name": "Jira / Confluence / Asana / Linear",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bjira\\b",
+    "confluence",
+    "\\basana\\b",
+    "\\blinear\\b(?! (regression|algebra|model))",
+    "\\btrello\\b",
+    "monday\\.com",
+    "\\bazure devops\\b",
+    "\\bADO\\b",
+    "productboard",
+    "\\baha!?\\b",
+    "smartsheet",
+    "\\bclickup\\b",
+    "\\bnotion\\b"
+   ]
+  },
+  {
+   "id": "figma",
+   "name": "Figma / design tools",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bfigma\\b",
+    "\\bsketch\\b(?! out)",
+    "\\badobe (xd|creative (suite|cloud)|illustrator|photoshop|after effects)\\b",
+    "\\billustrator\\b",
+    "\\bphotoshop\\b",
+    "\\bafter effects\\b",
+    "\\bframer\\b",
+    "\\bprotopie\\b",
+    "\\bmiro\\b"
+   ]
+  },
+  {
+   "id": "analytics_tools",
+   "name": "Analytics tools (Amplitude, Mixpanel, GA, Looker, Tableau)",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "amplitude",
+    "mixpanel",
+    "google analytics",
+    "\\bGA4?\\b",
+    "\\blooker\\b",
+    "tableau",
+    "power ?bi",
+    "\\bmode\\b analytics",
+    "metabase",
+    "heap\\b",
+    "pendo",
+    "fullstory",
+    "hotjar",
+    "\\bdbt\\b",
+    "quicksight",
+    "\\bsuperset\\b",
+    "\\bhex\\b",
+    "(?<!six[ -])(?<!6[ -])(?<!lean )\\bsigma\\b(?! (black|green|yellow) belt)"
+   ]
+  },
+  {
+   "id": "experimentation_tools",
+   "name": "Experimentation & feature-flag tools",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "optimizely",
+    "launchdarkly",
+    "statsig",
+    "split\\.io",
+    "\\bVWO\\b",
+    "feature flags?",
+    "feature toggles?",
+    "eppo"
+   ]
+  },
+  {
+   "id": "office_tools",
+   "name": "Office suite (Excel, PowerPoint, Google Workspace)",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bexcel\\b",
+    "powerpoint",
+    "google (sheets|slides|docs|workspace)",
+    "\\bms office\\b",
+    "microsoft office",
+    "\\bword\\b,",
+    "keynote",
+    "\\bsheets\\b",
+    "\\bslides\\b"
+   ]
+  },
+  {
+   "id": "crm_tools",
+   "name": "CRM & GTM tools (Salesforce, HubSpot, Gong)",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "(with|using|in|of) Salesforce|Salesforce (CRM|admin|platform|experience)",
+    "hubspot",
+    "\\bgong\\b",
+    "marketo",
+    "zendesk",
+    "intercom",
+    "gainsight",
+    "outreach\\b",
+    "\\bSFDC\\b",
+    "\\bCRM\\b"
+   ]
+  },
+  {
+   "id": "ai_tools",
+   "name": "AI tooling in daily work",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bAI tools?\\b",
+    "AI-?powered (tools|workflow|development)",
+    "use(s|d)? AI to",
+    "leverag(e|ing) AI",
+    "chatgpt",
+    "\\bcursor\\b",
+    "claude code",
+    "vibe[- ]cod",
+    "prototyp(e|ing) with AI",
+    "AI (fluency|literacy)",
+    "generative tools",
+    "AI[- ]assisted",
+    "AI[- ]enabled (workflow|productivity)",
+    "github copilot"
+   ]
+  },
+  {
+   "id": "yoe_2",
+   "name": "2+ years experience",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "\\b(2|two|1-2|1 ?- ?3|2-3|2 ?- ?4|2\\+?)\\+? ?(years|yrs)"
+   ]
+  },
+  {
+   "id": "yoe_3",
+   "name": "3+ years experience",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "\\b(3|three|3-5|3 ?- ?6|3\\+?)\\+? ?(years|yrs)"
+   ]
+  },
+  {
+   "id": "yoe_5",
+   "name": "5+ years experience",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "\\b(5|five|4|four|5-7|5 ?- ?8|4-6|5\\+?|6|six|4\\+?)\\+? ?(years|yrs)"
+   ]
+  },
+  {
+   "id": "yoe_8",
+   "name": "8+ years experience",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "\\b(7|seven|8|eight|7\\+?|8\\+?|8-10|7-10|9|nine)\\+? ?(years|yrs)"
+   ]
+  },
+  {
+   "id": "yoe_10",
+   "name": "10+ years experience",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "\\b(10|ten|12|twelve|15|fifteen|10\\+?|12\\+?|15\\+?|10-15)\\+? ?(years|yrs)"
+   ]
+  },
+  {
+   "id": "pm_experience",
+   "name": "Prior product management experience",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "experience (in|as a|with) (a )?(technical )?product manage",
+    "product management experience",
+    "years? (of )?(experience )?(in )?product management",
+    "as a product manager",
+    "proven (track record|experience) (as|in) product",
+    "shipping (software )?products",
+    "\\bPM experience\\b"
+   ]
+  },
+  {
+   "id": "bachelors",
+   "name": "Bachelor's degree",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "bachelor",
+    "\\bBA/BS\\b",
+    "\\bBS/BA\\b",
+    "\\bB\\.?S\\.?\\b",
+    "\\bB\\.?A\\.?\\b",
+    "undergraduate degree",
+    "undergraduate (or|and|/) (post[- ]?)?graduate degree",
+    "4[- ]year degree",
+    "university degree",
+    "college degree",
+    "(?<!master's )(?<!masters )(?<!mba )(?<!graduate )(?<!advanced )(?<!ph\\.d\\. )(?<!phd )(?<!doctoral )(?<!m\\.s\\. )(?<!ms )(?<!ma )degree in (computer science|engineering|business|economics|math)"
+   ]
+  },
+  {
+   "id": "masters_mba",
+   "name": "Master's / MBA",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "\\bMBA\\b",
+    "master'?s",
+    "\\bM\\.?S\\.?\\b(?![- ]?(office|excel|access|project\\b|word|powerpoint|teams|dynamics|visio|power|sql|outlook|sharepoint|suite|365|azure|windows|exchange|onenote|publisher|crm|d365|server|planner|copilot|forms|edge|defender|intune|fabric|graph|lync|skype|one ?drive|stack))",
+    "(?<!under)graduate degree",
+    "advanced degree",
+    "\\bMEng\\b",
+    "\\bMPH\\b"
+   ]
+  },
+  {
+   "id": "phd",
+   "name": "PhD / research background",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "\\bPh\\.?D\\b",
+    "doctorate",
+    "research (scientist|background|publications)",
+    "published"
+   ]
+  },
+  {
+   "id": "cs_engineering_degree",
+   "name": "CS / engineering degree or background",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "computer science",
+    "\\bCS\\b",
+    "engineering degree",
+    "degree in (engineering|computer|electrical|software)",
+    "technical degree",
+    "\\bSTEM\\b",
+    "software engineer(ing)? (background|experience)",
+    "former (engineer|developer)",
+    "coding experience",
+    "wrote code",
+    "\\bprogramming\\b"
+   ]
+  },
+  {
+   "id": "startup_experience",
+   "name": "Startup / scale-up experience",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "start-?up (experience|environment|background)",
+    "early[- ]stage",
+    "seed[- ]stage",
+    "series [a-c]",
+    "founded",
+    "founder",
+    "scaled? (a )?(company|product|business) from",
+    "high[- ]growth (company|environment|startup)",
+    "scale-?up"
+   ]
+  },
+  {
+   "id": "big_tech_experience",
+   "name": "Large-scale / big-tech experience",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "large[- ]scale (systems|products|platforms|organizations|programs)",
+    "global scale",
+    "\\bFAANG\\b",
+    "fortune (50|100|500)",
+    "enterprise[- ]scale",
+    "(millions|billions) of (users|customers|people|transactions|requests|devices)",
+    "hyperscal",
+    "planet[- ]scale",
+    "internet[- ]scale"
+   ]
+  },
+  {
+   "id": "consulting_banking",
+   "name": "Consulting / banking / finance background",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "consulting",
+    "\\bMBB\\b",
+    "mckinsey",
+    "\\bbain\\b",
+    "\\bBCG\\b",
+    "investment bank",
+    "private equity",
+    "venture capital",
+    "strategy (background|experience|role)",
+    "corporate strategy",
+    "\\bbizops\\b",
+    "business operations"
+   ]
+  },
+  {
+   "id": "security_clearance",
+   "name": "Security clearance / citizenship",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "clearance",
+    "\\bITAR\\b",
+    "\\bU\\.?S\\.? (citizen|person)",
+    "top secret",
+    "\\bTS/SCI\\b",
+    "export control"
+   ]
+  },
+  {
+   "id": "domain_expertise",
+   "name": "Deep domain expertise required",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "domain (expertise|knowledge|experience|expert)",
+    "subject[- ]matter expert",
+    "\\bSME\\b",
+    "industry (expertise|experience|knowledge|background)",
+    "deep (understanding|knowledge|expertise) of the"
+   ]
+  },
+  {
+   "id": "hr_compliance",
+   "name": "Employment law & HR compliance",
+   "cluster": "people",
+   "kind": "knowledge",
+   "patterns": [
+    "(?<!pursuant to federal )employment (law|laws|legislation|regulations|litigation|counsel|compliance)",
+    "(labor|labour) (law|laws|legislation|regulations|compliance|code)",
+    "wage (and|&) hour",
+    "\\bFLSA\\b(?!:| ?status| classification:| code| exempt| ?-| non)",
+    "\\bFMLA\\b(?! poster)",
+    "\\bEEOC?\\b (compliance|regulations|reporting|laws|requirements|charges|claims|reports?)|\\bEEO-1\\b",
+    "\\bOFCCP\\b",
+    "Title VII",
+    "\\bNLRA\\b|\\bNLRB\\b",
+    "(HR|human resources|personnel) (polic(y|ies)|compliance|regulations|laws|audits?|procedures)",
+    "employee handbooks?",
+    "(federal,? state,? (and|&|or) local|federal (and|&|or) state|state (and|&|or) federal|applicable|local|relevant) (employment |labor |labour |HR )(laws|regulations|legislation|requirements)",
+    "I-9",
+    "(unemployment|EEOC) (claims|charges|hearings)"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "third_party_risk",
+   "name": "Third-party & vendor risk",
+   "cluster": "risk",
+   "kind": "method",
+   "patterns": [
+    "third[- ]party risk|vendor risk|\\bTPRM\\b|outsourcing risk|supplier risk (management|assessments?|program)",
+    "(vendor|third[- ]party) (due diligence|oversight|risk|security (reviews?|assessments?))|(vendor|third[- ]party) (risk )?assessments?",
+    "security questionnaires?|vendor questionnaires?|(customer|client) security (questionnaires|audits)"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "regulatory_change",
+   "name": "Regulatory analysis & change management",
+   "cluster": "risk",
+   "kind": "method",
+   "patterns": [
+    "regulatory (change|developments|guidance|expectations|updates|interpretation|analysis|horizon|obligations)s?",
+    "(monitor|track|interpret|analy[sz]|research)\\w* (and \\w+ )?(new |emerging |proposed |changes (in|to) |applicable |evolving |relevant |the impact of |\\w+ )?(laws|regulations|regulatory|legislation|rules|statutes)\\b",
+    "(new|changing|evolving|proposed|emerging) (laws|regulations|legislation|rules|regulatory)|changes (in|to) (laws|regulations|legislation|regulatory)",
+    "translate\\w* (complex )?(regulatory|legal) (requirements|obligations|guidance)"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "policy_management",
+   "name": "Policy development & management",
+   "cluster": "risk",
+   "kind": "method",
+   "patterns": [
+    "policy (management|development|governance|frameworks?|lifecycle|library|exceptions?|drafting|writing)",
+    "\\b(develop|draft|writ|maintain|updat|creat|author|design|revis)\\w*[^.;:\\n]{0,40}(?<!public )(?<!development )(?<!development, )\\bpolic(y|ies)\\b",
+    "(policies|procedures|standards) (are|remain) (current|up[- ]to[- ]date|aligned)"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "security_frameworks",
+   "name": "Security compliance frameworks (SOC 2, ISO 27001, NIST)",
+   "cluster": "risk",
+   "kind": "knowledge",
+   "patterns": [
+    "\\bSOC ?[12]\\b|\\bSOC (Type|reports?)|ISO[ /]?(IEC )?27001|ISO ?2700\\d|\\bNIST\\b(?![- ]traceab)|PCI[- ]DSS|\\bPCI\\b|\\bHITRUST\\b|FedRAMP|\\bCMMC\\b|\\bCSA STAR\\b|\\bCIS (controls|benchmarks)|\\bSSAE ?1[68]\\b|ISO ?42001",
+    "control mapping|continuous controls? monitoring|trust center|evidence (collection|gathering|requests)|audit evidence|compliance (automation|as code)|security (attestations?|frameworks)|common controls? framework"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "data_governance",
+   "name": "Data governance & stewardship",
+   "cluster": "risk",
+   "kind": "method",
+   "patterns": [
+    "data (governance|stewardship|stewards?|lineage|catalogu?e?s?|classification|retention|ownership|owners|quality (rules|standards|controls|monitoring|issues|management|framework|metrics)|management (framework|standards|policies|office|strategy))",
+    "\\bmetadata\\b|business glossary|data dictionar(y|ies)|master data|\\bMDM\\b|\\bDAMA\\b|\\bDCAM\\b|\\bCDMP\\b|\\bBCBS ?239\\b|\\bcollibra\\b|\\balation\\b|microsoft purview|\\binformatica\\b"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "ai_governance",
+   "name": "AI governance & responsible AI",
+   "cluster": "risk",
+   "kind": "method",
+   "patterns": [
+    "\\bAI governance|responsible (AI|use of AI)|\\bAI (risks?|ethics|compliance|regulations?|controls|assurance|oversight|guardrails|risk management)\\b|AI polic(y|ies) (and|development|frameworks?|standards)",
+    "EU AI Act|ISO ?42001|NIST AI|AI RMF|algorithmic (bias|fairness|accountability|impact)|model (fairness|bias|explainability)|AI (use[- ]case|model) (reviews?|inventory|intake|approvals?)"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "it_risk",
+   "name": "Technology & cyber risk",
+   "cluster": "risk",
+   "kind": "method",
+   "patterns": [
+    "\\bIT (risks?|governance|controls?|audits?|general controls|compliance)\\b|\\bITGCs?\\b|technology risks?|tech risk|cyber ?(security)? risks?|information (security )?risks?|\\bCOBIT\\b|technology (controls|governance|compliance|audit)",
+    "(security|cyber|information security|infosec|cybersecurity) (governance|GRC|compliance|risk (management|assessments?)|assurance|audits?)|\\bGRC\\b|governance,? risk,? (and|&) compliance|risk exceptions?|risk acceptances?"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "board_governance",
+   "name": "Board & committee governance",
+   "cluster": "risk",
+   "kind": "practice",
+   "patterns": [
+    "board (and|&|or|/) (board )?committees?|(?<!steering )\\b(board|committee) (reporting|materials|charters?|papers|minutes|packages|books|secretariat|calendar|agendas?|resolutions)|board of directors (meetings|materials|reporting)",
+    "(risk|audit|governance|compliance|disclosure|nominating|compensation) committees?\\b",
+    "corporate (secretary|secretarial|governance)|\\bentity management|subsidiary (governance|management)|meeting minutes|proxy statements?|governance (matters|documents|best practices)"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "dashboards_dataviz",
+   "name": "Dashboards & data visualisation",
+   "cluster": "analytics",
+   "kind": "method",
+   "patterns": [
+    "dashboards?\\b|dashboarding",
+    "data visuali[sz]ations?|visuali[sz]ations?\\b|visuali[sz]e data|visual analytics"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "grc_tools",
+   "name": "GRC platforms (Archer, ServiceNow GRC, OneTrust, Vanta)",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bRSA Archer\\b|\\bArcher\\b (GRC|IRM|platform|tool)|\\bArcher\\b(?=,? (process ?unity|servicenow|onetrust|metricstream|or other))|experience (with|in|using) Archer\\b|servicenow (GRC|IRM)|\\bonetrust\\b|\\bmetricstream\\b|\\blogicgate\\b|\\bauditboard\\b|\\bworkiva\\b|\\bvanta\\b(?=,? ?(or |and |/)? ?(drata|secureframe|similar|equivalent))|(drata|secureframe)[ ,/]+(or |and )?vanta\\b|\\(vanta\\b|(like|as) vanta\\b|\\bdrata\\b|\\bsecureframe\\b|\\bhyperproof\\b|\\bprocessunity\\b|\\briskonnect\\b|\\bnavex\\b|\\bSAI360\\b|\\bopenpages\\b|\\bLogicManager\\b|\\btrustarc\\b|\\bbigid\\b",
+    "\\bGRC (platforms?|tools?|tooling|systems?|solutions?|software|technology|technologies|automation|applications?)"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "bi_dev_tools",
+   "name": "BI development tools (DAX, Power Query, SSRS, Qlik)",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bDAX\\b|power ?query|power ?pivot|\\bM language\\b|semantic (models?|layers?)|microsoft fabric|\\bLookML\\b|tableau (prep|server administration|extracts?)",
+    "qlik\\w*|microstrategy|cognos|\\bSSRS\\b|\\bSSIS\\b|\\bSSAS\\b|business ?objects|\\bOBIEE\\b|thoughtspot|\\bdomo\\b|sisense|spotfire|oracle analytics|sap analytics cloud|\\bSAP BW\\b"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "law_degree",
+   "name": "JD / law degree",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "\\bJ\\.?D\\.?\\b(?! ?(edwards|power|sports|vance|\\.com))|juris doctor|law degree|degree in law|\\bLL\\.[MB]\\b|\\bLLB\\b|\\bLLM (degree|in)\\b|(licensed|practicing|admitted) (attorney|to practice)|bar (admission|membership|license)|member of the .{0,30}\\bbar\\b|state bar|law firm experience|experience at a (top |major |leading )?law firm|paralegal certificate"
+   ],
+   "only": [
+    "mba",
+    "tech"
+   ]
+  },
+  {
+   "id": "java_jvm",
+   "name": "Java / JVM languages",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bjava\\b(?!script)",
+    "\\bkotlin\\b",
+    "\\bscala\\b",
+    "\\bJVM\\b",
+    "\\bspring boot\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "javascript_typescript",
+   "name": "JavaScript / TypeScript",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\btypescript\\b",
+    "\\bjavascript\\b",
+    "\\bnode\\.?js\\b",
+    "\\bES6\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "golang",
+   "name": "Go",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bgolang\\b",
+    "\\bgo (programming|language|services|microservices|backend)\\b",
+    "\\b(written|built|code|coding|services) in go\\b",
+    "\\b(python|java|rust|c\\+\\+|typescript|kotlin|scala|ruby|node\\.?js)(,| or| and|/) ?go\\b",
+    "\\bgo(,| or| and|/) ?(python|java|rust|c\\+\\+|typescript|kotlin|scala|ruby)\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "c_cpp",
+   "name": "C / C++",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bC\\+\\+",
+    "\\bC/C\\+\\+",
+    "\\bC (programming|language)\\b",
+    "\\bembedded C\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "rust",
+   "name": "Rust",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\brust\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "ruby_rails",
+   "name": "Ruby / Rails",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bruby\\b",
+    "\\brails\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "csharp_dotnet",
+   "name": "C# / .NET",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bC#",
+    "\\.NET\\b",
+    "\\bASP\\.NET\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "frontend_web",
+   "name": "Frontend web development",
+   "cluster": "engineering",
+   "kind": "technical",
+   "patterns": [
+    "\\breact\\b(?! native)",
+    "\\bnext\\.?js\\b",
+    "\\bvue(\\.?js)?\\b",
+    "\\bangular\\b",
+    "\\bCSS\\b",
+    "\\bHTML5?\\b",
+    "\\bfront[- ]?end (development|engineering|frameworks?|architecture|performance|code)\\b",
+    "\\bweb (applications?|performance|platform|frontend)\\b",
+    "\\bbrowser\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "backend_services",
+   "name": "Backend services",
+   "cluster": "engineering",
+   "kind": "technical",
+   "patterns": [
+    "\\bback[- ]?end (services|systems|development|engineering|infrastructure|code)\\b",
+    "\\bserver[- ]side\\b",
+    "\\bgRPC\\b",
+    "\\bREST(ful)? (APIs?|services)\\b",
+    "\\bdjango\\b",
+    "\\bfastapi\\b",
+    "\\bflask\\b",
+    "\\bspring\\b",
+    "\\bexpress(\\.js)?\\b",
+    "\\bevent[- ]driven\\b",
+    "\\bmessage queues?\\b",
+    "\\bRabbitMQ\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "databases",
+   "name": "Databases",
+   "cluster": "engineering",
+   "kind": "technical",
+   "patterns": [
+    "\\bpostgres(ql)?\\b",
+    "\\bmysql\\b",
+    "\\bredis\\b",
+    "\\bdynamodb\\b",
+    "\\bcassandra\\b",
+    "\\bmongodb\\b",
+    "\\b(relational|NoSQL|distributed|transactional) databases?\\b",
+    "\\bdatabase (design|internals|performance|systems|schemas?|migrations?)\\b",
+    "\\bquery optimi[sz]ation\\b",
+    "\\bindexing\\b",
+    "\\bcaching\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "algorithms_ds",
+   "name": "Algorithms and data structures",
+   "cluster": "engineering",
+   "kind": "technical",
+   "patterns": [
+    "\\balgorithms?\\b(?!ic)",
+    "\\bdata structures\\b",
+    "\\bcomputer science fundamentals\\b",
+    "\\b(time|space) complexity\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "performance_concurrency",
+   "name": "Performance and concurrency",
+   "cluster": "engineering",
+   "kind": "technical",
+   "patterns": [
+    "\\bconcurren(cy|t)\\b",
+    "\\bmulti-?thread",
+    "\\bperformance (optimi[sz]ation|tuning|profiling|engineering)\\b",
+    "\\bprofiling\\b",
+    "\\blow[- ]latency\\b",
+    "\\bmemory management\\b",
+    "\\basynchronous (programming|systems|i/o|processing|code)\\b",
+    "\\bparallel(ism| computing| programming)\\b",
+    "\\bprofil(ed|ing)\\b(?! (data|information|pages?))",
+    "\\b(p9[059]|tail) latency\\b",
+    "\\b(cut|reduc\\w*|lower\\w*|improv\\w*) (the )?(p9[059] |tail |api |query |request |worst[- ]case )?latency\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "linux_systems",
+   "name": "Linux and systems programming",
+   "cluster": "engineering",
+   "kind": "technical",
+   "patterns": [
+    "\\blinux\\b",
+    "\\bunix\\b",
+    "\\boperating systems?\\b",
+    "\\bkernel\\b",
+    "\\bsystems programming\\b",
+    "\\bbash\\b",
+    "\\bshell scripting\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "code_quality",
+   "name": "Code review and code quality",
+   "cluster": "engineering",
+   "kind": "method",
+   "patterns": [
+    "\\bcode reviews?\\b",
+    "\\bcode quality\\b",
+    "\\bmaintainab(le|ility)\\b",
+    "\\bclean code\\b",
+    "\\btechnical debt\\b",
+    "\\brefactor(ing)?\\b",
+    "\\breadable (and )?(maintainable )?code\\b",
+    "\\bengineering (best practices|standards)\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "infra_as_code",
+   "name": "Infrastructure as code",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bterraform\\b",
+    "\\binfrastructure[- ]as[- ]code\\b",
+    "\\bIaC\\b",
+    "\\bpulumi\\b",
+    "\\bcloudformation\\b",
+    "\\bansible\\b",
+    "\\bhelm\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "observability_tools",
+   "name": "Observability tools",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bdatadog\\b",
+    "\\bprometheus\\b",
+    "\\bgrafana\\b",
+    "\\bsplunk\\b",
+    "\\bnew relic\\b",
+    "\\bopentelemetry\\b",
+    "\\bsentry\\b",
+    "\\bhoneycomb\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "data_orchestration",
+   "name": "Workflow orchestration (Airflow, Dagster)",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bairflow\\b",
+    "\\bdagster\\b",
+    "\\bprefect\\b",
+    "\\bluigi\\b",
+    "\\b(workflow|pipeline|data) orchestration\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "streaming",
+   "name": "Streaming data",
+   "cluster": "data_ml",
+   "kind": "technical",
+   "patterns": [
+    "\\bkafka\\b",
+    "\\bkinesis\\b",
+    "\\bflink\\b",
+    "\\bpub/?sub\\b",
+    "\\b(event|data) streaming\\b",
+    "\\bstreaming (data|pipelines?|technologies|systems)\\b",
+    "\\breal[- ]time (data|pipelines?|streaming)\\b",
+    "\\bbatch and streaming\\b",
+    "\\bCDC\\b",
+    "\\bchange data capture\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "lakehouse",
+   "name": "Lakehouse and table formats",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\biceberg\\b",
+    "\\bdelta lake\\b",
+    "\\bparquet\\b",
+    "\\bhudi\\b",
+    "\\blakehouse\\b",
+    "\\bopen table formats?\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "dl_frameworks",
+   "name": "Deep learning frameworks",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bpytorch\\b",
+    "\\btensorflow\\b",
+    "\\bjax\\b",
+    "\\bkeras\\b",
+    "\\bhugging ?face\\b",
+    "\\btransformers library\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "model_training",
+   "name": "Model training and fine-tuning",
+   "cluster": "data_ml",
+   "kind": "method",
+   "patterns": [
+    "\\b(model|distributed|large[- ]scale) training\\b",
+    "\\btrain(ing)? (models|large|neural|deep|ml)\\b",
+    "\\bfine[- ]tun(e|ing)\\b",
+    "\\bpost[- ]training\\b",
+    "\\bpre[- ]?training\\b",
+    "\\bRLHF\\b",
+    "\\breinforcement learning\\b",
+    "\\btraining (pipelines?|runs|data|infrastructure|and evaluation)\\b",
+    "\\bdistillation\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "ml_evaluation",
+   "name": "Model evaluation (evals)",
+   "cluster": "data_ml",
+   "kind": "method",
+   "patterns": [
+    "\\bevals?\\b(?!uat)",
+    "\\bmodel evaluation\\b",
+    "\\bevaluation (frameworks?|harness(es)?|pipelines?|metrics|datasets?|suites?)\\b",
+    "\\bbenchmark(s|ing)\\b",
+    "\\boffline evaluation\\b",
+    "\\bmodel (quality|performance|behavior)\\b",
+    "\\bLLM[- ]as[- ]a[- ]judge\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "mlops_serving",
+   "name": "MLOps and model serving",
+   "cluster": "data_ml",
+   "kind": "technical",
+   "patterns": [
+    "\\bMLOps\\b",
+    "\\bmodel (serving|deployment|registry|monitoring)\\b",
+    "\\bfeature stores?\\b",
+    "\\bML (pipelines?|infrastructure|platforms?|systems)\\b",
+    "\\bmlflow\\b",
+    "\\bkubeflow\\b",
+    "\\bsagemaker\\b",
+    "\\bvertex ai\\b",
+    "\\bproductioni[sz](e|ing) (ml|models)\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "inference_optimization",
+   "name": "Inference and GPU optimization",
+   "cluster": "data_ml",
+   "kind": "technical",
+   "patterns": [
+    "\\binference (optimi[sz]ation|performance|engines?|serving|latency|infrastructure|systems)\\b",
+    "\\bquantization\\b",
+    "\\bCUDA\\b",
+    "\\btensorrt\\b",
+    "\\bvllm\\b",
+    "\\btriton\\b",
+    "\\bGPU (kernels?|programming|optimi[sz]ation|clusters?|utili[sz]ation)\\b",
+    "\\bkernels?\\b(?= (development|optimi))"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "llm_frameworks",
+   "name": "LLM frameworks and vector stores",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\blangchain\\b",
+    "\\blanggraph\\b",
+    "\\bllamaindex\\b",
+    "\\bvector (databases?|stores?|search)\\b",
+    "\\bpinecone\\b",
+    "\\bweaviate\\b",
+    "\\bpgvector\\b",
+    "\\bembeddings?\\b",
+    "\\bDSPy\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "research_publications",
+   "name": "Research publications",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "\\bNeurIPS\\b",
+    "\\bICML\\b",
+    "\\bICLR\\b",
+    "\\bCVPR\\b",
+    "\\bACL\\b(?! ?(injur|tear))",
+    "\\bEMNLP\\b",
+    "\\b(first[- ]author|peer[- ]reviewed) (papers?|publications?)\\b",
+    "\\bpublications? (at|in) (top|leading|major)\\b",
+    "\\btrack record of (publications|publishing)\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "threat_modeling",
+   "name": "Threat modeling",
+   "cluster": "security",
+   "kind": "method",
+   "patterns": [
+    "\\bthreat model(s|ing|ling)?\\b",
+    "\\bsecure (design|architecture) reviews?\\b",
+    "\\bsecurity (design|architecture) reviews?\\b",
+    "\\battack surface\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "appsec",
+   "name": "Application security",
+   "cluster": "security",
+   "kind": "method",
+   "patterns": [
+    "\\bOWASP\\b",
+    "\\bsecure (coding|code review|SDLC|development)\\b",
+    "\\b(SAST|DAST|SCA)\\b",
+    "\\bbug bounty\\b",
+    "\\bsecurity code reviews?\\b",
+    "\\bsoftware supply chain security\\b",
+    "\\bvulnerability (research|disclosure)\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "detection_response",
+   "name": "Detection and incident response",
+   "cluster": "security",
+   "kind": "method",
+   "patterns": [
+    "\\bdetection (engineering|and response|rules|logic|coverage|content)\\b",
+    "\\bthreat hunting\\b",
+    "\\bSIEM\\b",
+    "\\bSOAR\\b",
+    "\\bEDR\\b",
+    "\\bXDR\\b",
+    "\\bsecurity (incidents?|operations|events|monitoring)\\b",
+    "\\b(digital )?forensics\\b",
+    "\\bDFIR\\b",
+    "\\bMITRE ATT&CK\\b",
+    "\\bTTPs\\b",
+    "\\bthreat intelligence\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "offensive_security",
+   "name": "Penetration testing and red teaming",
+   "cluster": "security",
+   "kind": "method",
+   "patterns": [
+    "\\bpenetration test(s|ing)?\\b",
+    "\\bpen ?test(s|ing)?\\b",
+    "\\bred team(s|ing)?\\b",
+    "\\boffensive security\\b",
+    "\\bexploit(s|ation| development)\\b",
+    "\\badversary emulation\\b",
+    "\\bethical hacking\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "vuln_mgmt",
+   "name": "Vulnerability management",
+   "cluster": "security",
+   "kind": "method",
+   "patterns": [
+    "\\bvulnerability (management|scanning|remediation|assessments?)\\b",
+    "\\bCVEs?\\b",
+    "\\bpatch(ing)? management\\b",
+    "\\bremediation tracking\\b",
+    "\\b(vulnerabilities|findings) (triage|remediation)\\b",
+    "\\bvulnerability scans?\\b",
+    "\\bremediation of [^.\\n]{0,20}(findings|vulnerabilities)\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "cryptography",
+   "name": "Cryptography",
+   "cluster": "security",
+   "kind": "technical",
+   "patterns": [
+    "\\bcryptograph(y|ic)\\b",
+    "\\bencryption\\b",
+    "\\bPKI\\b",
+    "\\bkey management\\b",
+    "\\bHSMs?\\b",
+    "\\bTLS\\b",
+    "\\bcertificates? management\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "security_certs",
+   "name": "Security certifications",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "\\bCISSP\\b",
+    "\\bOSCP\\b",
+    "\\bOSCE\\b",
+    "\\bGIAC\\b",
+    "\\bGCIH\\b",
+    "\\bGPEN\\b",
+    "\\bCISM\\b",
+    "\\bCEH\\b",
+    "\\bSecurity\\+",
+    "\\bCCSP\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "interaction_design",
+   "name": "Interaction design",
+   "cluster": "design",
+   "kind": "method",
+   "patterns": [
+    "\\binteraction (design|patterns|models)\\b",
+    "\\buser flows?\\b",
+    "\\binformation architecture\\b",
+    "\\bwireframes?\\b",
+    "\\bjourney maps?\\b",
+    "\\bend[- ]to[- ]end (product )?design\\b",
+    "\\bUX design\\b",
+    "\\buser experience design\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "visual_design",
+   "name": "Visual design",
+   "cluster": "design",
+   "kind": "method",
+   "patterns": [
+    "\\bvisual (design|craft|language|polish|systems?)\\b",
+    "\\btypography\\b",
+    "\\biconography\\b",
+    "\\blayout\\b",
+    "\\bcolor theory\\b",
+    "\\bpixel[- ]perfect\\b",
+    "\\b(high|exceptional) craft\\b",
+    "\\bcraft bar\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "prototyping",
+   "name": "Prototyping",
+   "cluster": "design",
+   "kind": "method",
+   "patterns": [
+    "\\bprototyp(e|es|ing)\\b",
+    "\\bframer\\b",
+    "\\bprotopie\\b",
+    "\\bprototype in code\\b",
+    "\\bhigh[- ]fidelity\\b",
+    "\\bclickable\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "design_systems",
+   "name": "Design systems",
+   "cluster": "design",
+   "kind": "method",
+   "patterns": [
+    "\\bdesign systems?\\b",
+    "\\bcomponent librar(y|ies)\\b",
+    "\\bdesign tokens?\\b",
+    "\\bpattern librar(y|ies)\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "accessibility",
+   "name": "Accessibility",
+   "cluster": "design",
+   "kind": "knowledge",
+   "patterns": [
+    "\\baccessib(le|ility)\\b(?! to)",
+    "\\bWCAG\\b",
+    "\\ba11y\\b",
+    "\\binclusive design\\b",
+    "\\bscreen readers?\\b",
+    "\\bADA complian"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "design_critique",
+   "name": "Design critique and rationale",
+   "cluster": "design",
+   "kind": "practice",
+   "patterns": [
+    "\\bcritiques?\\b",
+    "\\bdesign critiques?\\b",
+    "\\bdesign rationale\\b",
+    "\\barticulate (your |the )?design (decisions|rationale|thinking)\\b",
+    "\\bpresent(ing)? (your |design )?(work|designs)\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "design_portfolio",
+   "name": "Design portfolio",
+   "cluster": "credentials",
+   "kind": "credential",
+   "patterns": [
+    "\\bportfolio (link|url|website|site|demonstrat\\w*|showcas\\w*|that (demonstrates|shows|showcases|highlights)|of (design|your|product) work|with case studies)\\b",
+    "\\b(include|submit|share|attach|send) (a |your )?(link to (a |your )?)?portfolio\\b",
+    "\\bdesign portfolio\\b",
+    "\\bportfolio (and|or|&) (resume|cv)\\b",
+    "\\b(resume|cv) (and|or|&) portfolio\\b",
+    "\\bportfolio\\s*:",
+    "\\bportfolio\\b(?=[^\\n]{0,40}(https?://|\\.design\\b|behance|dribbble))"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "commercial_contracts",
+   "name": "Commercial contracts",
+   "cluster": "legal",
+   "kind": "method",
+   "patterns": [
+    "\\b(draft|review|negotiat)\\w*,? (and |or )?(draft\\w*,? |review\\w*,? |negotiat\\w* )?(and |or )?(a (wide )?(range|variety) of )?(commercial |complex |technology |customer |vendor |SaaS |licensing )*(agreements|contracts)\\b",
+    "\\b(commercial|customer|vendor|SaaS|licensing|technology|services|partnership|reseller|enterprise) agreements\\b",
+    "\\bNDAs?\\b",
+    "\\bMSAs?\\b",
+    "\\bDPAs?\\b",
+    "\\btechnology transactions\\b",
+    "\\bcontract (templates|playbooks|negotiations)\\b",
+    "\\bnegotiation playbooks?\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "product_counseling",
+   "name": "Product counseling",
+   "cluster": "legal",
+   "kind": "method",
+   "patterns": [
+    "\\bproduct counsel(ing)?\\b",
+    "\\b(advise|counsel|partner with) (the )?(product|engineering|design)( and (engineering|product|design))? teams?\\b",
+    "\\blegal (review|guidance) (of|on|for) (new )?(products?|features|launches)\\b",
+    "\\bproduct (launches|development) (from a legal|legal)\\b",
+    "\\b(advis|counsel)\\w* [^.\\n]{0,40}\\bon (new )?product (launches|launch|features|development|decisions)\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "privacy_law",
+   "name": "Privacy and data protection law",
+   "cluster": "legal",
+   "kind": "knowledge",
+   "patterns": [
+    "\\bGDPR\\b",
+    "\\bCCPA\\b",
+    "\\bCPRA\\b",
+    "\\bHIPAA\\b",
+    "\\bCOPPA\\b",
+    "\\bprivacy (law|laws|regulations?|counsel|program)\\b",
+    "\\bdata protection (law|laws|regulations?|officer|impact assessments?)\\b",
+    "\\bDPIAs?\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "ip_law",
+   "name": "Intellectual property",
+   "cluster": "legal",
+   "kind": "knowledge",
+   "patterns": [
+    "\\bintellectual property\\b",
+    "\\bpatents?\\b(?! pending)",
+    "\\btrademarks?\\b",
+    "\\bcopyrights?\\b",
+    "\\bopen[- ]source licens(e|es|ing)\\b",
+    "\\btrade secrets?\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "corporate_law",
+   "name": "Corporate and securities law",
+   "cluster": "legal",
+   "kind": "knowledge",
+   "patterns": [
+    "\\bsecurities (law|laws|regulations|filings|compliance)\\b",
+    "\\bSEC (reporting|filings|rules)\\b",
+    "\\b(equity|venture|debt) financings?\\b",
+    "\\bfinancings\\b",
+    "\\bcorporate governance\\b",
+    "\\bentity management\\b",
+    "\\bcorporate secretar(y|ial)\\b",
+    "\\bequity (plans|compensation|administration)\\b",
+    "\\bM&A\\b",
+    "\\bmergers and acquisitions\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "litigation_disputes",
+   "name": "Litigation and disputes",
+   "cluster": "legal",
+   "kind": "method",
+   "patterns": [
+    "\\blitigation\\b",
+    "\\bdisputes?\\b",
+    "\\binternal investigations\\b",
+    "\\bsubpoenas?\\b",
+    "\\bdiscovery\\b(?= (requests|process|obligations))",
+    "\\barbitration\\b",
+    "\\bregulatory (inquiries|investigations)\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "outside_counsel",
+   "name": "Managing outside counsel",
+   "cluster": "legal",
+   "kind": "practice",
+   "patterns": [
+    "\\boutside counsel\\b",
+    "\\bexternal counsel\\b",
+    "\\boutside law firms?\\b",
+    "\\blegal spend\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  },
+  {
+   "id": "clm_tools",
+   "name": "Contract management tools",
+   "cluster": "tools",
+   "kind": "tool",
+   "patterns": [
+    "\\bironclad\\b",
+    "\\bcontract lifecycle management\\b",
+    "\\bCLM\\b",
+    "\\bjuro\\b",
+    "\\bdocusign clm\\b",
+    "\\bspotdraft\\b"
+   ],
+   "only": [
+    "tech"
+   ]
+  }
+ ]
+}

@@ -289,3 +289,46 @@ test("readPosting reads a posting the way readCourse reads a syllabus and adds t
   assert.ok(!loose.found.has("personas_jtbd"), "a bare 'segments' is a resume-mode extra, not the taxonomy's pattern");
   assert.ok(!loose.found.has("public_sector") && !loose.found.has("hr_compliance"), "the EEO line is boilerplate and is cut: " + [...loose.found].join(","));
 });
+
+// ---------- the tech role set behind CONFIG.TECH_ENABLED (PLAN.md, "A third role set") ----------
+const TECH = {
+  "data/graph_tech.json": {
+    meta: { country: "United States", generated: "2026-11-05", evidence: "graph_tech/_evidence.json" }, families: { software_engineer: "Software Engineer" },
+    groups: [{ id: "software", label: "Software engineering", families: ["software_engineer"] }],
+    roles: { software_engineer: { label: "Software Engineer", n_open: 5, n: 6, n_companies: 3, ladder: "engineering", defining: [], asks: [{ id: "golang", share: 0.4 }], credentials: [], small: false, file: "graph_tech/software_engineer.json" } },
+    skills: [{ id: "golang", name: "Go", cluster: "tools", by_family: { software_engineer: 0.4 } }], clusters: {},
+    ladders: { engineering: { levels: { associate: "New grad / I", mid: "II", senior: "Senior" } } }, level_labels: {}, edges: [], skill_ids: ["golang"], sub_ids: [],
+  },
+  "graph_tech/software_engineer.json": { jobs: [{ id: 0, company: "X", title: "Software Engineer", family: "software_engineer", level: "mid", skills: [0], sub: [] }] },
+  "data/graph_tech/software_engineer.json": { jobs: [{ id: 0, company: "X", title: "Software Engineer", family: "software_engineer", level: "mid", skills: [0], sub: [] }] },
+};
+
+test("with TECH_ENABLED off, the tech index is never fetched and no tech field appears", async () => {
+  const { load, calls } = loader({ ...INDEX, ...TECH });
+  const A = atlasFactory({ load, Matcher, config: () => ({ TECH_ENABLED: false }) });
+  const ix = await A.index();
+  assert.equal(calls["data/graph_tech.json"], undefined);
+  assert.ok(!ix.groups.some(g => g.set === "tech"));
+  assert.equal(ix.T, null);
+});
+
+test("with TECH_ENABLED on, the tech fields join the list and a tech role opens with its own postings and skills", async () => {
+  const { load } = loader({ ...INDEX, ...TECH });
+  const A = atlasFactory({ load, Matcher, config: () => ({ TECH_ENABLED: true }) });
+  const ix = await A.index();
+  const g = ix.groups.find(x => x.set === "tech");
+  assert.deepEqual([g.id, g.roles, g.nOpen], ["software", ["tech.software_engineer"], 5]);
+  assert.equal(ix.roles["tech.software_engineer"].set, "tech");
+  assert.ok(!A.shownEverywhere(ix.roles["tech.software_engineer"]) && A.shownEverywhere(ix.roles.fpa), "the skill map and the games keep to product and MBA roles");
+  const R = await A.role("tech.software_engineer");
+  assert.equal(R.set, "tech");
+  assert.deepEqual(R.jobs[0].skills, ["golang"], "the role file is decoded with the tech index's skill ids");
+  assert.equal((await A.role("software_engineer")).role.id, "tech.software_engineer", "a bare id finds the tech role");
+});
+
+test("with TECH_ENABLED on and no tech index yet, the site loads as before", async () => {
+  const { load } = loader({ ...INDEX });
+  const A = atlasFactory({ load, Matcher, config: () => ({ TECH_ENABLED: true }) });
+  const ix = await A.index();
+  assert.ok(!ix.groups.some(g => g.set === "tech") && ix.roles.fpa);
+});
