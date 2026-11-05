@@ -1,0 +1,22 @@
+Wei Zhang
+New York, NY
+
+EDUCATION
+Cornell Tech — M.S. Computer Science (machine learning), May 2027
+Tsinghua University — B.E. Computer Science, 2025
+
+PUBLICATIONS
+Efficient evaluation of retrieval-augmented generation, NeurIPS 2026 workshop (first author)
+
+EXPERIENCE
+Machine Learning Engineering Intern, AI startup — San Francisco, CA                  Jun 2026 – Aug 2026
+- Fine-tuned a 7B language model with LoRA on 40k support conversations in PyTorch; win rate over the base model 68%
+- Built an evaluation harness with 1,500 test cases and an LLM-as-a-judge rubric; caught 3 regressions before release
+- Served the model with vLLM on GPUs; quantization cut inference cost 45%
+
+Research Assistant, Cornell Tech NLP lab                                            Sep 2025 – present
+- Trained retrieval models on 10M documents with distributed training on 8 GPUs
+- Built a RAG pipeline with embeddings and a vector database; recall@10 rose from 0.61 to 0.78
+
+SKILLS
+Python, PyTorch, JAX, Hugging Face; LLM fine-tuning, evaluation, RAG; CUDA; SQL; Docker

@@ -6,8 +6,15 @@ HDR = {"Accept": "application/json", "Content-Type": "application/json"}
 
 
 def fetch(company, cfg, title_ok, max_pages=15):
+    """A sampling role set (pipeline.scrape, the tech set) passes in cfg: max_pages (pages read per query),
+    per_role (at most that many listing hits kept per value of title_ok, which then returns the role), keep_location
+    (a test on the listing's location: a posting outside the set's country is never fetched) and count_only (return
+    the listing hits without fetching a detail page)."""
     host, tenant, site = cfg["host"], cfg["tenant"], cfg["site"]
     base = f"https://{host}/wday/cxs/{tenant}/{site}"
+    max_pages = cfg.get("max_pages", max_pages)
+    per_role, keep_location = cfg.get("per_role"), cfg.get("keep_location")
+    taken = {}
     seen = {}
     for q in cfg.get("queries", SEARCH_QUERIES):
         total = 0
@@ -20,8 +27,14 @@ def fetch(company, cfg, title_ok, max_pages=15):
             posts = data.get("jobPostings", [])
             for p in posts:
                 path = p.get("externalPath")
-                if path and title_ok(p.get("title", "")):
-                    seen[path] = p
+                role = title_ok(p.get("title", "")) if path and path not in seen else None
+                if not role or (keep_location and not keep_location(p.get("locationsText", ""))):
+                    continue
+                if per_role:
+                    if taken.get(role, 0) >= per_role:
+                        continue
+                    taken[role] = taken.get(role, 0) + 1
+                seen[path] = p
             # the API gives the total on the first page only (0 on later pages); reading it per page stopped every
             # search after 40 postings
             total = data.get("total") or total
@@ -29,7 +42,10 @@ def fetch(company, cfg, title_ok, max_pages=15):
                 break
             time.sleep(0.3)
         else:  # the page cap ended the search, not the results: what lies past it may be open
-            listing_failed(f"workday: stopped at the page cap for {q!r}")
+            listing_failed(f"workday: stopped at the page cap for {q!r}", sampled="max_pages" in cfg)
+    if cfg.get("count_only"):
+        return [job(company, p.get("title", ""), f"https://{host}/{site}{path}", "", location=p.get("locationsText", ""),
+                    external_id=(p.get("bulletFields") or [None])[0]) for path, p in seen.items()]
     out = []
     for path, p in seen.items():
         r = get(f"{base}{path}", headers=HDR)

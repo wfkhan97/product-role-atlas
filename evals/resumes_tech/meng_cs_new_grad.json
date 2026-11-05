@@ -1,0 +1,50 @@
+{
+ "targets": [
+  "software_engineer:associate",
+  "ml_engineer:associate"
+ ],
+ "expected_level": "associate",
+ "score_band": {
+  "software_engineer:associate": [
+   0.55,
+   0.9
+  ],
+  "ml_engineer:associate": [
+   0.2,
+   0.6
+  ]
+ },
+ "must_evidence": [
+  "golang",
+  "javascript_typescript",
+  "java_jvm",
+  "backend_services",
+  "frontend_web",
+  "databases",
+  "quality_testing",
+  "performance_concurrency",
+  "apis",
+  "cloud",
+  "devops_sdlc",
+  "system_architecture",
+  "python_r",
+  "sql",
+  "masters_mba",
+  "bachelors"
+ ],
+ "must_not_tag": [
+  "model_training",
+  "dl_frameworks",
+  "threat_modeling",
+  "commercial_contracts",
+  "interaction_design",
+  "law_degree",
+  "security_certs",
+  "people_management"
+ ],
+ "real_gaps": [
+  "model_training",
+  "ml_evaluation",
+  "dl_frameworks"
+ ]
+}

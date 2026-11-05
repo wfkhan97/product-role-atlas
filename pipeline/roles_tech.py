@@ -99,14 +99,16 @@ EXCLUDE = {
                         r"architectural|architecture|civil|electrical|hardware|pcb|circuit|asic|chip|layout|physical|rf|analog|structural|piping|hvac|mep|"
                         r"kitchen|floral|textile|jewelry|footwear|apparel|print|production|set|costume|curriculum|presentation|cad|mold|tool(ing)?|"
                         r"verification|brand|marketing|communications?|creative|illustrat\w*|motion|video|social|merchandis\w*|retail|store|"
-                        r"exhibit|event|signage|environmental|construction|engineer\w*|technician|drafter|draftsperson|garment|knit|trim|color|deal)\b",
+                        r"exhibit|event|signage|environmental|construction|engineer\w*|technician|drafter|draftsperson|garment|knit|trim|color|deal|"
+                        r"technical\s+designer|gear|(wo)?men'?s|kids|girls|boys)\b",
     "security_engineer": r"\b(physical|guard|officer|loss\s+prevention|protective|protection\s+agent|executive\s+protection|facilit\w*|patrol|armed|"
                          r"trust\s*(&|and)\s*safety\s+(analyst|specialist|associate|operations)|content\s+moderat\w*|fraud|aml|kyc|financial\s+crime|"
-                         r"product\s+manag\w*|product\s+marketing|program\s+manag\w*|data\s+scien\w*|security\s+clearance|national\s+security|programs?\s+development|supply\s+chain\s+security\s+manager)\b",
-    "ml_engineer": r"\bai\s+(developer\s+tools|gateway)\b|\bdata\s+scien\w*|\b(analyst|analytics)\b|\bai\s+(transformation|enablement|adoption|strateg\w*)\b|\bsoftware\s+engineer\s+in\s+test\b",
-    "data_engineer": r"\bdata\s+(center|centre|entry)\b|\bdatacenter\b|\bdata\s+scien\w*|\banalyst\b",
+                         r"product\s+manag\w*|product\s+marketing|program\s+manag\w*|data\s+scien\w*|security\s+clearance|national\s+security|programs?\s+development|supply\s+chain\s+security\s+manager|project\s+manag\w*|"
+                         r"site\s+security|(corporate|global|regional)\s+security\s+(\w+\s+)?(manager|specialist|director|lead|analyst)|regional\s+security)\b",
+    "ml_engineer": r"\bai\s+(developer\s+tools|gateway)\b|\bnetwork\s+(site\s+reliability\s+)?engineer\b|\bdata\s+scien\w*|\b(analyst|analytics)\b|\bai\s+(transformation|enablement|adoption|strateg\w*)\b|\bsoftware\s+engineer\s+in\s+test\b",
+    "data_engineer": r"\bdata\s+(center|centre|entry|handling|exploitation)\b|\bdatacenter\b|\bdata\s+scien\w*|\banalyst\b",
     "software_engineer": r"\b(qa|quality\s+assurance)\s+(engineer|analyst|tester)\b(?!.*automation)|\bmanual\s+(qa|test\w*)\b|\bnetwork\s+engineer\b|"
-                         r"\bsystems\s+engineer\b|\bapplications?\s+engineer\b|\bchief\s+of\s+staff\b|\boffice\s+of\s+the\b|\bengineering\s+(operations|ops|program|excellence)\b|\bbusiness\s+developer\b|\breal\s+estate\b|\bpower\s+platform\b|"
+                         r"\bsystems\s+engineer(ing)?\b|\bapplications?\s+engineer\b|\bchief\s+of\s+staff\b|\boffice\s+of\s+the\b|\bengineering\s+(operations|ops|program|excellence)\b|\bbusiness\s+developer\b|\breal\s+estate\b|\bpower\s+platform\b|"
                          r"\b(it|desktop|end\s+user)\s+(support|engineer|technician)\b|\bcontent\s+developer\b|\bcourse\s+developer\b|\b(land|project|property|community|economic|"
                          r"product|market|business|fund|donor|leadership|organizational|talent)\s+developer\b",
 }
@@ -196,8 +198,9 @@ ENGINEERING_GRADES = [
               r"\bmanager,?\s+(of\s+)?(\w+\s+){0,2}(engineering|design|research|security|data\s+engineering)\b|\bmanager\b"),
     ("staff", r"\b(staff|lead|tech\s+lead|tl)\b|" + JOB + r"\s*[-,]?\s*(v|5)\b"),
     ("senior", r"\b(senior|sr\.?|experienced)\b|" + JOB + r"\s*[-,]?\s*(iii|iv|3|4)\b|\b(l5|e5|ic4|ic5)\b"),
-    ("associate", JOB + r"\s*[-,]?\s*(i|1)\b(?!\s*[-/]\s*(ii|2))|\b(l3|e3|ic1|ic2)\b"),
-    ("mid", JOB + r"\s*[-,]?\s*(ii|2)\b|\b(l4|e4|ic3)\b"),
+    # a grade at the very end of the title is the grade, wherever the job word sits ("Software Development Engineer in Test I")
+    ("associate", JOB + r"\s*[-,]?\s*(i|1)\b(?!\s*[-/]\s*(ii|2))|\b(l3|e3|ic1|ic2)\b|\s(i|1)\s*$"),
+    ("mid", JOB + r"\s*[-,]?\s*(ii|2)\b|\b(l4|e4|ic3)\b|\s(ii|2)\s*$"),
 ]
 # Legal titles: Counsel is the working grade; the general counsel's office climbs by assistant, associate and deputy.
 LEGAL_GRADES = [
@@ -233,6 +236,7 @@ LADDERS = {
         "associate": "Analyst", "mid": "Associate / AVP", "senior": "Vice President", "staff": "Executive Director / SVP",
         "director": "Managing Director"}},
 }
+LEVEL_LABELS = LADDERS["engineering"]["levels"]
 BANK_INDUSTRIES = roles_mba.BANK_INDUSTRIES
 BANKS = {c.lower() for c in roles_mba.BANKS}
 
@@ -340,7 +344,8 @@ def export():
         "flags": "i",
         "groups": [{"id": g, "label": label, "families": fs} for g, (label, fs) in GROUPS.items()],
         "families": [{"id": f, "label": FAMILY_LABELS[f], "group": GROUP_OF[f], "patterns": [p], "exclude": [EXCLUDE[f]] if f in EXCLUDE else [],
-                      "engineering": f in ENGINEERING, "covers": COVERS.get(f, [])} for f, p in FAMILY_PATTERNS],
+                      "engineering": f in ENGINEERING, "covers": COVERS.get(f, []),
+                      "covered_by": sorted(g for g, fs in COVERS.items() if f in fs)} for f, p in FAMILY_PATTERNS],
         "not_the_job": NOT_THE_JOB, "customer_facing": CUSTOMER_FACING, "hardware": HARDWARE, "software_word": r"\b(software|firmware|embedded)\b",
         "eng_word": ENG_WORD_RE.pattern, "mts": MTS_RE.pattern, "bank_setoff": BANK_SETOFF_RE.pattern, "bank_setoff_not": r"\b(head|director|manager)\b",
         "product": {"families": [{"id": f, "pattern": p} for f, p in roles.FAMILY_PATTERNS], "exclude": roles.EXCLUDE_RE.pattern,
@@ -356,12 +361,31 @@ def export():
 
 
 def write_export(path=os.path.join(os.path.dirname(HERE), "web", "data", "roles_tech.json")):
-    """web/data/roles_tech.json, the rules the browser reads. The graph build of the tech set will call this; until it
-    exists, `python -m pipeline.roles_tech` writes the file."""
+    """web/data/roles_tech.json, the rules alone. `pipeline.build_graph --roles tech` writes the same file with the counts and
+    employers it knows added; this writes it where no graph build has run."""
     with open(path, "w") as f:
         f.write(json.dumps(export(), indent=1, ensure_ascii=False) + "\n")
     return path
 
 
+def write_taxonomy(data=os.path.join(os.path.dirname(HERE), "web", "data")):
+    """web/data/taxonomy_tech.json and subskills_tech.json: the set's part of the taxonomy and its sub-skills, which depend on
+    pipeline/taxonomy.json and pipeline/depth/ alone (the graph build writes the same two files). Committed, so the
+    matcher evals of the set (evals/run_tech.mjs) run in a checkout that holds no tech postings."""
+    import glob
+    from pipeline import tax
+    T = tax.for_roles("tech")
+    tax.dump(T, os.path.join(data, "taxonomy_tech.json"))
+    known, depth = {s["id"] for s in T["skills"]}, {}
+    for p in glob.glob(os.path.join(HERE, "depth", "*.json")):
+        if not p.endswith("_roles.json"):
+            depth.update(json.load(open(p)))
+    subs = {sid: [{"id": x["id"], "name": x["name"], "patterns": x["patterns"]} for x in d.get("subskills", [])] for sid, d in depth.items() if sid in known}
+    with open(os.path.join(data, "subskills_tech.json"), "w") as f:
+        json.dump(subs, f)
+
+
 if __name__ == "__main__":
     print("wrote", os.path.relpath(write_export()))
+    write_taxonomy()
+    print("wrote web/data/taxonomy_tech.json, web/data/subskills_tech.json")

@@ -1,0 +1,36 @@
+{
+ "targets": [
+  "software_engineer:associate"
+ ],
+ "expected_level": "associate",
+ "score_band": {
+  "software_engineer:associate": [
+   0.35,
+   0.8
+  ]
+ },
+ "must_evidence": [
+  "c_cpp",
+  "hardware",
+  "linux_systems",
+  "performance_concurrency",
+  "python_r",
+  "quality_testing",
+  "masters_mba",
+  "bachelors"
+ ],
+ "must_not_tag": [
+  "frontend_web",
+  "javascript_typescript",
+  "model_training",
+  "interaction_design",
+  "commercial_contracts",
+  "detection_response",
+  "law_degree"
+ ],
+ "real_gaps": [
+  "frontend_web",
+  "cloud",
+  "databases"
+ ]
+}
