@@ -40,6 +40,14 @@ window.CONFIG = {
   CATALOG_TERM: "SP27",
   // the waitlist and the funnel counts (web/capture.js): off, no funnel row or event leaves the browser
   CAPTURE_ENABLED: true,
+  // the visitor journey's logging (PLAN.md, "The visitor journey", step 1): the visitor id, the screen on every event,
+  // the heartbeat and the cta rows. Off until the owner applies pipeline/sql/2026-11-05_journey.sql.
+  JOURNEY_ENABLED: false,
+  // the visitor journey's sign-in (step 2): email plus a six-digit code for anyone, at the first personal act (the
+  // résumé read), the address and Sign out in the top bar, the door's own form instead of Tally's. Off until the
+  // owner has, in the gradbuddy-catalog project: a custom SMTP sender, sign-ups on, the magic-link email template
+  // carrying {{ .Token }} (PLAN.md, "The visitor journey", step 2).
+  ACCOUNTS_ENABLED: false,
   // The model read of a resume (web/infer.js, web/api/infer.js; 2026-11-01): on, the resume text goes once per upload
   // to the site's /api/infer route, which asks a model for the skills it shows without naming them and stores nothing.
   // Off, or with no ANTHROPIC_API_KEY on the host (a 503), the resume never leaves the browser and the patterns read alone.

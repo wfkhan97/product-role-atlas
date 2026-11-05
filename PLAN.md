@@ -2007,6 +2007,89 @@ for among existing skills, never what the taxonomy lacks. So the steps are now a
 **Checks.** `pytest tests/python`; `node --test 'tests/web/*.test.mjs'`; `node evals/run.mjs`;
 `evals/run_pipeline.py --baseline`. Not run here: `pipeline.scrape` and `pipeline.extract` (the refresh does both).
 
+## The visitor journey: accounts, saved state, logging (plan of record, `feat/journey-logging`, 2026-11-05)
+
+**The ask** (the owner, 2026-11-05). Once the apprentice map is self-serve, nothing on the site is personal without an
+account: the roles a person likes, the read of their résumé and its gaps, their quests. Replace the Tally door with a
+sign-in that needs no password, save state per person, and before any of it, log comprehensively enough to judge the
+calls to action. The owner's answers to the lead's questions, which fix the design:
+
+1. **Anonymous browsing stays.** Explore, the fit read and Networking open to anyone. Sign-in appears at the first
+   personal act (a heart, an upload to save, "get your tree") and gates only what follows from it.
+2. **Email plus a six-digit code**, not a link: Outlook's scanner consumed the owner's own magic link within a minute
+   (2026-11-04). GoTrue's email OTP, verified on the page (`web/auth.js` gains `verifyCode`). The invited map users of
+   today keep working.
+3. **The saved read keeps the lines.** Per person, per résumé (a SHA-256 of the normalized text, computed in the
+   browser) and per role: the skill ids with their state and the résumé line that showed each, the gaps, the date; the
+   model read's inferred ids too, so a return visit costs nothing. The résumé text itself is never stored. A new
+   résumé is a new hash; the latest marks the current read. The About page's "we do not store it" changes to "we keep
+   your read and the lines, never the file", with a deletion path (by hand through Supabase first) and a consent line
+   for EU students.
+4. **One heart.** On the card and on the open role, the same list; the open role also gets a clear Save. On first
+   sign-in the browser's About-you answers, read and hearts move into the account, so signing in loses nothing.
+5. **Logs stay in Supabase** (`events`, the catalog project), read by `pipeline.funnel`: drop-off by screen and day,
+   each call to action shown, clicked and done, returns (two or more distinct days per browser or per person),
+   visible time by screen. The Supabase SQL editor answers the rest. No dashboard product.
+6. **Feedback needs no sign-in**: a persistent Feedback link in the top bar and the footer, a native box (screen
+   prefilled, text at most 500 characters, email optional and prefilled when signed in) into a `feedback` table with
+   anonymous insert. The prompt fires once per browser after twelve meaningful actions or six minutes of visible time,
+   whichever first; never on the door, the sign-in or within a minute of signing in; dismissed or sent counts as asked;
+   it may ask again after thirty days only when new actions happened; a second prompt at the first tree opened.
+7. **Tally keeps the four intake boxes** (the secondary doors); the door's form retires with the sign-in.
+8. **The sequence**: logging, identity, state, the self-serve tree tier, the calls to action, feedback. The tree tier
+   is ground plus assemble with no model: the tree, the read and the story cards for any signed-in person, written to
+   their `maps` folder by a capped function; the build cards stay by hand or by invite.
+
+**Outside the code**: a custom SMTP sender on a domain the owner controls (Supabase's mailer sends a few an hour),
+before sign-ups open; the migrations, one per table change, applied by the owner; the Anthropic cap; the three open
+PRs (#141, #142, #143) land first, since identity builds on the map's sign-in and the campus flag.
+
+**Step 1, built here: logging.** Decisions:
+
+- **Every route is a screen event.** `Capture.screen(name)` in `route()` names the event (the launcher still sends
+  `explore`, an event `event_prep`; the other routes get their own name) and every event after carries the `screen`
+  column, so drop-off reads per screen without a name per screen. The event list stays closed in `capture.js`
+  (`EVENTS`, tested); the table keeps only the shape of a name (`2026-11-05_journey.sql`), so later steps add names
+  without a migration each. A name of at most forty lowercase characters cannot carry a sentence.
+- **A visitor id** (`capture.visitor`, localStorage, one random id per browser) joins visits, which the per-session id
+  by design never did; the About page says so now. The signed-in person's id rides along once the browser holds a
+  session; the anonymous insert policy stays, so the column is a claim and the funnel joins visitors first.
+- **Calls to action** are three events with a `cta` id: `cta_shown`, `cta_click`, `cta_done`. The door drawn and
+  `door_passed`, and an intake box's own event, already are a shown and a done, so `funnel.py` aliases them and the
+  box sends only `cta_shown` when it draws. The hearts, Save, "get your tree" of later steps call `Capture.cta`.
+- **A heartbeat** every thirty seconds of visible, active time (an input within the last minute), capped at a minute,
+  with the screen: a tab left open counts nothing. `Capture.tick(now, visible, lastActive)` is the pure step.
+- **Actions are counted in the browser** (`journey.actions`, localStorage; a role, a fit, a class, a quest or a prep
+  opened) and never sent: the feedback prompt of step 6 reads the count.
+- **Everything waits behind `CONFIG.JOURNEY_ENABLED`**, off until the owner applies the migration: PostgREST refuses a
+  row whole when it carries a column the table lacks, so shipping the columns first would silence every event.
+  Off, `capture.js` behaves exactly as before (the old names, the old keys).
+- `funnel.py` prints the four journey tables after the funnel of before, reading each column only once it exists.
+
+**Step 2, built (`feat/journey-signin`, stacked on step 1): the sign-in.** Decisions:
+
+- **A code, not a link.** `Auth.sendCode(email)` posts GoTrue's email OTP with `create_user: true`;
+  `Auth.verifyCode(email, code)` posts `/auth/v1/verify` with type `email` and keeps the session under the same key and
+  shape the map reads (`maps.session`), so the map's screens need no change. The invited map users keep their link.
+- **The first personal act is the résumé read.** With accounts on and no session, the drop zone draws the sign-in's
+  door ("Sign in to read your résumé"), and a Read button goes to `#/signin?next=<the hash>`; the sign-in returns to
+  that hash (a hash of this site only, never the sign-in itself). Explore, a role, a field, Networking and the
+  classes stay open with no sign-in, as decision 1 says.
+- **The verified address becomes the door's**: `door.email` is set at verify and `doorKept` prefers the session's
+  email, so the campus rule reads a verified address. The top bar shows the address and Sign out when a session
+  exists, Sign in otherwise (not on the door or the sign-in).
+- **The door is its own form** with accounts on (Tally's door form retires; the four intake boxes keep theirs):
+  the native fallback of v19 B7, one waitlist row per address and source, so the Tally duplicates end with it.
+- **Everything behind `CONFIG.ACCOUNTS_ENABLED`, off** until the owner has set up the catalog project: a custom
+  SMTP sender (Project Settings → Authentication → SMTP; Supabase's own sends a few an hour), sign-ups on
+  (Authentication → Sign In / Providers → Email → Allow new users), the Magic Link email template carrying
+  `{{ .Token }}` (Authentication → Email Templates; GoTrue sends that template for a code too, and without the
+  token the mail holds only a link), and the rate limits (Authentication → Rate Limits; emails per hour). The
+  events `cta_shown` · `cta_click` · `cta_done` for `signin` measure the flow once step 1's flag is on.
+
+Not in this step: the tables (step 3), the function (step 4), the hearts (step 5), the feedback box (step 6). Each
+gets its own section when built. A deletion path and the privacy copy change with step 3, when something is saved.
+
 ## A third role set: engineering, design and legal (`feat/tech-role-set`, 2026-11-05)
 
 The ask (2026-11-05, from the role-coverage audit of 2026-11-04): most Cornell Tech technical graduates (MEng CS and ECE,

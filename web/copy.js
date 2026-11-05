@@ -770,6 +770,28 @@
     expired: "That link no longer works. Send yourself a new one.",
     note: "The link opens your map. Nothing else here needs a sign-in.",
     explore: "Explore careers without one →",
+    // the code flow (the visitor journey, step 2, 2026-11-05): anyone, email plus a six-digit code, no password
+    codeLead: "Enter your email. We send a six-digit code; no password.",
+    codeEmailPlaceholder: "you@school.edu",
+    codeButton: "Send me a code",
+    codeSent: "We sent a code to {email}. It works once.",
+    code: "The code",
+    codePlaceholder: "6 digits",
+    verify: "Sign in",
+    verifying: "Checking…",
+    codeWrong: "That code did not work. Check it, or send a new one.",
+    codeRefused: "We could not send a code to that address right now. Try again in a minute.",
+    another: "Send another code",
+    changeEmail: "Another email",
+    codeNote: "The code signs you in on this browser. Your résumé stays here; your read and your lists save to your account.",
+    done: "Signed in as {email}.",
+    signedIn: "Signed in",
+    signIn: "Sign in",
+    signOut: "Sign out",
+    // the first personal act: the résumé read asks for a sign-in (web/app.js resumeForm)
+    gateHeading: "Sign in to read your résumé",
+    gateLine: "A six-digit code goes to your email. No password.",
+    gateButton: "Sign in →",
   };
 
   // ---------- the apprentice map (#/map) and its lines on the launcher (#/skills) ----------
@@ -970,7 +992,7 @@
     howReadLine: "Keyword rules read each posting against one list of skills. A share is the fraction of postings in the current view that ask for a skill. One employer counts for at most 5% of a role. A posting the employer takes down counts as closed. It leaves the list and stays in the shares for a year.",
     editorial: "Sub-skills, level ladders and build steps are editorial. Every quoted sentence comes from a posting.",
     privacy: "Privacy",
-    privacyEvents: "We count which screens a visit reaches. Those are the door, Explore, a field, a role, a fit and a course read. Also an event page, the classes, a game, a click to a posting, a résumé read and About you finished. Each count carries a random session id, your program and stage answers, and the role or field on screen. It never carries text, a skill or a file name.",
+    privacyEvents: "We count which screens a visit reaches and how long each stays open while you use it. Each count carries a random id for the visit and one for this browser. So a return visit reads as one. It also carries your program and stage answers and the role or field on screen. With a sign-in it carries your account id. It never carries text, a skill or a file name.",
     privacyEmail: "We keep an email you type into the door or a box, to send you what we build. We keep the role on screen with it, nothing else. Your résumé text goes once to our AI reader, a Claude model from Anthropic. It finds the skills your résumé shows without naming them. We do not store the text, and no syllabus or pasted posting leaves your browser.",
     product: "Product roles",
     productLoading: "Loading the product set…",

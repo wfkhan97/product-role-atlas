@@ -285,7 +285,10 @@
   if (state.resume) Atlas.useInferred(state.resume.text, state.resume.inferred || []);
   // Funnel counts (web/capture.js): an event name, the session id, the stage and the program group, a role or field id.
   // Never text, a skill id or a file name. Everything is a no-op when CONFIG.CAPTURE_ENABLED is off.
-  const track = (name, ctx) => { if (window.Capture) Capture.event(name, { stage: (state.you || {}).stage, program: (state.you || {}).where, ...(ctx || {}) }); };
+  const track = (name, ctx) => { if (window.Capture) { Capture.event(name, { stage: (state.you || {}).stage, program: (state.you || {}).where, ...(ctx || {}) }); if (ACTIONS.has(name)) Capture.action(); } };
+  // the meaningful actions the feedback prompt counts (web/capture.js Capture.action): a thing opened or read, never a screen drawn
+  const ACTIONS = new Set(["role", "fit", "course_read", "event_prep", "classes", "play", "posting_link", "resume_read", "you_done", "home_jobs", "home_skills", "home_classes", "home_network"]);
+  if (window.Capture) Capture.watch();   // the heartbeat: visible, active time per screen
   const waitCtx = () => ({ role_id: state.roleId, stage: (state.you || {}).stage, program: (state.you || {}).where, fields: (state.you || {}).fields || [] });
   // a posting link (decision 8 of the pass: visible on the fit screen and the rail's gap rows for a person with a resume)
   document.addEventListener("click", e => { const a = e.target.closest("[data-posting]"); if (a) track("posting_link", { role_id: a.dataset.posting }); });
@@ -296,7 +299,8 @@
   // resumeForm, wireResume, takeResume and hasResume let the picker hold the shell's resume form when none is on file (v19 B3, C1)
   const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Intake.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw), resumeForm: () => resumeForm(), wireResume: () => wireResumeForm(), takeResume: () => takeResume(), hasResume: () => !!state.resume, flag: () => campusGate().flag };
   // what the door kept, in this browser only: the email, the program group, and that the door was seen once
-  const doorKept = () => { try { return { email: localStorage.getItem("door.email") || "", where: localStorage.getItem("door.where") || "", seen: localStorage.getItem("door.seen") === "1" }; } catch { return { email: "", where: "", seen: false }; } };
+  // the door's answers; with a session (the code sign-in, 2026-11-05) the verified address wins over the typed one
+  const doorKept = () => { try { const s = accountsOn() ? Auth.stored() : null; return { email: (s && s.email) || localStorage.getItem("door.email") || "", where: localStorage.getItem("door.where") || "", seen: localStorage.getItem("door.seen") === "1" }; } catch { return { email: "", where: "", seen: false }; } };
   // The campus gate (2026-11-04): the door's email read for its flag (Door.campus, web/config.js CAMPUS_DOMAINS) and
   // whether that flag has a listed campus with a loaded roster (Door.opens over Catalog.campuses(), which honors
   // `enabled_by`). The campus list loads once before the first route draws (route() waits for it), so the top bar,
@@ -311,8 +315,18 @@
   function topBar(name) {
     const el = $("#verbs"); if (!el) return;
     const on = VERB_OF[name] || null;
-    el.innerHTML = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open).map(v => `<a class="toplink${on === v.key ? " on" : ""}" href="${esc(v.href)}"${on === v.key ? ' aria-current="page"' : ""}>${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("");
+    el.innerHTML = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open).map(v => `<a class="toplink${on === v.key ? " on" : ""}" href="${esc(v.href)}"${on === v.key ? ' aria-current="page"' : ""}>${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + whoHtml(name);
+    const out = el.querySelector("[data-signout]"); if (out) out.onclick = () => signOutNow();
   }
+  // the signed-in address and Sign out at the bar's end, or Sign in; nothing when accounts are off (the map's own
+  // sign-in stays on its screens)
+  function whoHtml(name) {
+    if (!accountsOn()) return "";
+    const S = Copy.signin, s = Auth.stored();
+    if (s) return `<span class="who" title="${esc(s.email || "")}">${esc(s.email || S.signedIn)}<button type="button" class="linkish link" data-signout>${esc(S.signOut)}</button></span>`;
+    return name === "signin" || name === "door" ? "" : `<span class="who"><a class="toplink" href="#/signin?next=${encodeURIComponent(location.hash || "#/home")}">${esc(S.signIn)}</a></span>`;
+  }
+  async function signOutNow() { mapHeld = null; mapUi = null; await Auth.signOut(); if (Routes.parseRoute(location.hash).name === "map") location.hash = "#/skills"; else route(); }
   // the Tally forms on screen (web/doors.js handles): dropped when the route changes, so no clock or listener outlives
   // its screen
   const mounts = new Set();
@@ -341,6 +355,12 @@
   const returned = hash => !!(window.Doors && Routes.parseRoute(hash).name === "home" && (Doors.returnQuery(hash).email || Doors.returnQuery(hash).where));
   // the apprentice maps (CONFIG.MAPS_ENABLED, web/auth.js): the one private thing on the site
   const mapsOn = () => !!((window.CONFIG || {}).MAPS_ENABLED && window.Auth);
+  // the visitor journey's sign-in for everyone (step 2, 2026-11-05): email plus a six-digit code, asked at the first
+  // personal act (the résumé read), the door's own form instead of Tally's
+  const accountsOn = () => !!((window.CONFIG || {}).ACCOUNTS_ENABLED && window.Auth);
+  // where the sign-in returns to: a hash of this site, never the sign-in itself
+  const nextHash = q => { const n = String(q || ""); return /^#\/(?!signin)[a-z][a-z0-9_/?=&.%-]*$/i.test(n) ? n : "#/home"; };
+  const signinHref = () => `#/signin?next=${encodeURIComponent(location.hash || "#/home")}`;
   const toHash = h => location.replace(location.pathname + location.search + h);   // replaced, not pushed: Back leaves as it came
   function route() {
     if (!CAMPUSES) { campusesP.then(route); return; }   // the campus gate reads the campus list: once, before the first draw
@@ -362,10 +382,12 @@
     // and #/network Who to meet (B5); #/explore, a field and the event screen stay at their routes
     const go = { door, home, jobs: jobsScreen, skills: skillsScreen, network: networkScreen, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => mapsOn() ? signinScreen() : ClassScreens.signin(shellCtx), map: mapScreen }[name];
     SkillMap.leave(); leaveRail(); topBar(name);
-    // the launcher sends the same event Explore sends: it is the screen that picks a role now; the door sends `door`
-    // (v19 B7; `start` was the start screen's, gone with B2) and `door_passed` itself when Continue or Skip goes through
-    const ev = { door: ["door", { surface: "door" }], explore: ["explore"], skills: ["explore"], field: ["field", { field_id: id }], event: ["event_prep", { field_id: id }], role: ["role", { role_id: id }], classes: ["classes"], play: ["play", { role_id: slug }] }[name];
-    if (ev) track(ev[0], ev[1]);
+    // every route is a screen event (2026-11-05, web/capture.js SCREENS; the drop-off report counts them): the launcher
+    // sends the same event Explore sends, since it is the screen that picks a role; the door sends `door` (v19 B7) and
+    // `door_passed` itself when Continue or Skip goes through; the rest carry the id on screen
+    const ctx = { door: { surface: "door" }, field: { field_id: id }, event: { field_id: id }, role: { role_id: id }, play: { role_id: slug } }[name] || {};
+    const ev = window.Capture ? Capture.screen(name) : null;
+    if (ev) track(ev, ctx);
     go().catch(fail);
   }
   window.addEventListener("hashchange", route);
@@ -414,7 +436,7 @@
           <p class="small muted" style="margin:0">${esc(C.school)}</p>
           <p class="door-acts"><button type="submit" class="btn primary">${esc(C.button)}</button><a class="door-skip" href="${esc(Door.next(location.hash))}" id="door-skip">${esc(C.skip)}</a></p>
         </form>`;
-    const tally = !!(window.Doors && Doors.formIdFor("door", null, formTheme()));
+    const tally = !accountsOn() && !!(window.Doors && Doors.formIdFor("door", null, formTheme()));   // with accounts, the door is its own form
     page(`<section class="door">
         <h1>${esc(C.heading)}</h1>
         ${C.intro.map(t => `<p class="lead">${esc(t)}</p>`).join("")}
@@ -592,6 +614,7 @@
   async function signinScreen() {
     const S = Copy.signin;
     crumbs([[CM.home, "#/home"], [S.crumb, null]]); showAside(null);
+    if (accountsOn()) { codeSignin(); return; }
     if (Auth.stored()) { toHash("#/map"); return; }
     const expired = Routes.parseRoute(location.hash).query.expired === "1";
     page(`<h1>${esc(S.heading)}</h1><p class="lead">${esc(S.lead)}</p>${expired ? `<p class="si-no">${esc(S.expired)}</p>` : ""}
@@ -608,6 +631,51 @@
       if (Routes.parseRoute(location.hash).name !== "signin") return;
       out.innerHTML = r.ok ? `<div class="wait"><b>${esc(S.sent)}</b><p class="small muted">${esc(fill(S.sentTo, { email }))}</p></div>` : `<p class="si-no">${esc(r.message || S.failed)}</p>`;
     };
+  }
+  // the code flow (step 2): the email, then the six-digit code, then back to where the person came from (?next=);
+  // a session on file goes there at once. The verified address is kept as the door's, so the campus rule reads it.
+  function codeSignin() {
+    const S = Copy.signin, next = nextHash(Routes.parseRoute(location.hash).query.next);
+    if (Auth.stored()) { toHash(next); return; }
+    if (window.Capture) Capture.cta("signin", "shown");
+    let email = doorKept().email || "";
+    const draw = (step, msg) => {
+      page(`<h1>${esc(S.heading)}</h1><p class="lead">${esc(S.codeLead)}</p>${msg ? `<p class="si-no">${esc(msg)}</p>` : ""}
+        ${step === "email" ? `<form class="si" id="si" novalidate><input type="email" id="si-email" required autocomplete="email" placeholder="${esc(S.codeEmailPlaceholder)}" aria-label="${esc(S.email)}" value="${esc(email)}"><button class="btn primary" type="submit" id="si-send">${esc(S.codeButton)}</button></form>`
+          : `<div class="wait"><b>${esc(fill(S.codeSent, { email }))}</b></div>
+             <form class="si" id="si" novalidate><input type="text" id="si-code" class="si-code" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="${esc(S.codePlaceholder)}" aria-label="${esc(S.code)}"><button class="btn primary" type="submit" id="si-send">${esc(S.verify)}</button></form>
+             <p class="si-again"><button type="button" class="linkish link" id="si-again">${esc(S.another)}</button><button type="button" class="linkish link" id="si-change">${esc(S.changeEmail)}</button></p>`}
+        <div class="si-out" id="si-out" aria-live="polite"></div>
+        <p class="small muted si-note">${esc(S.codeNote)} <a href="#/skills">${esc(S.explore)}</a></p>`, true);
+      const here = () => Routes.parseRoute(location.hash).name === "signin";
+      const send = $("#si-send"), out = $("#si-out");
+      if (step === "email") {
+        $("#si").onsubmit = async e => {
+          e.preventDefault(); email = $("#si-email").value.trim();
+          send.disabled = true; out.innerHTML = `<p class="small muted">${esc(S.sending)}</p>`;
+          const r = await Auth.sendCode(email);
+          if (!here()) return;
+          if (r.ok) { if (window.Capture) Capture.cta("signin", "click"); draw("code"); } else draw("email", r.message || S.failed);
+        };
+        setTimeout(() => { const i = $("#si-email"); if (i) i.focus(); }, 0);
+      } else {
+        $("#si").onsubmit = async e => {
+          e.preventDefault(); const code = $("#si-code").value;
+          send.disabled = true; out.innerHTML = `<p class="small muted">${esc(S.verifying)}</p>`;
+          const r = await Auth.verifyCode(email, code);
+          if (!here()) return;
+          if (!r.ok) { draw("code", r.message || S.codeWrong); return; }
+          try { localStorage.setItem("door.email", r.session.email || email); localStorage.setItem("door.seen", "1"); } catch { }
+          if (window.Capture) Capture.cta("signin", "done");
+          out.innerHTML = `<p class="small">${esc(fill(S.done, { email: r.session.email || email }))}</p>`;
+          toHash(next); if (location.hash === next) route();
+        };
+        $("#si-again").onclick = async () => { const r = await Auth.sendCode(email); if (here()) draw("code", r.ok ? null : (r.message || S.failed)); };
+        $("#si-change").onclick = () => draw("email");
+        setTimeout(() => { const i = $("#si-code"); if (i) i.focus(); }, 0);
+      }
+    };
+    draw("email");
   }
   // #/map: with a session and a map, the map (B3, below); with a session and no map file, the waiting line and the
   // launcher link; without a session, the sign-in; with MAPS_ENABLED off, the launcher
@@ -1368,10 +1436,13 @@
   let pending = null;   // { text, name, words } read from a file but not yet taken
   function resumeForm() {
     const r = state.resume;
+    // the first personal act (step 2): with accounts on and no session, the drop zone is the sign-in's door
+    if (accountsOn() && !Auth.stored() && !r) { const S = Copy.signin; return `<div class="si-gate" id="drop-gate"><b>${esc(S.gateHeading)}</b><p class="small muted">${esc(S.gateLine)}</p><a class="btn primary" href="${esc(signinHref())}">${esc(S.gateButton)}</a></div>`; }
     return `<div class="drop" id="drop"><p><b>${esc(RF.drop)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status">${r ? `${esc(fill(RF.using, { name: r.name, words: fmt(r.words) }))} <button type="button" class="linkish link" id="forget">${esc(RF.forget)}</button>` : ""}</p></div>`;
   }
   function wireResumeForm() {
     const drop = $("#drop"), status = $("#file-status");
+    if (!drop) return;   // the sign-in's door stands in its place
     const read = async file => {
       status.textContent = fill(RF.reading, { name: file.name });
       processing("file");
@@ -1414,7 +1485,10 @@
     if (btn && !btn.dataset.label) { btn.dataset.label = btn.textContent; btn.textContent = RF.working; btn.disabled = true; }
   }
   let taking = null;   // the read in flight: a second click or drop joins it instead of starting over
-  function takeResume() { return taking || (taking = takeResumeNow().finally(() => { taking = null; })); }
+  function takeResume() {
+    if (accountsOn() && !Auth.stored() && !state.resume) { toHash(signinHref()); return Promise.resolve(false); }   // the read waits for the sign-in
+    return taking || (taking = takeResumeNow().finally(() => { taking = null; }));
+  }
   async function takeResumeNow() {
     const r = pending && pending.words >= 40 ? pending : null;
     if (!r) return false;
@@ -2172,6 +2246,7 @@
     opts = opts || {};
     if (!opts.always && state.wait !== what) return "";
     const done = intakeDone(what), tally = !done && !!(window.Doors && Doors.formIdFor(Intake.kindOf(what), null, formTheme()));
+    if (!done && window.Capture) Capture.cta(Intake.kindOf(what), "shown", intakeCtx(what, opts.role_id));   // its "done" is the intake_<surface> event
     // with a Tally id the slot waits for wireWait; its line keeps the page still until the form draws
     const form = done ? `<p class="small" style="margin:6px 0 0"><b>${esc(Intake.done)}</b></p>`
       : tally ? `<div class="apply-slot" data-wait-slot="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}></div><p class="small muted apply-loading">${esc(CM.loadingForm)}</p>`

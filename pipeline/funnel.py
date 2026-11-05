@@ -7,6 +7,11 @@ the sessions that saw the door, passed it, clicked each verb on home, took an in
 waitlist rows whose source is `door` or `intake_<surface>`). The `surface` column is read only when it exists
 (information_schema), so the script runs before the owner applies that migration.
 
+Then the journey reports (2026-11-05_journey.sql, read only once its columns exist): drop-off, the sessions that reached
+each screen by day; the calls to action, each one shown, clicked and done; returns, the visitors and signed-in people
+seen on two or more days, with the days between. The pure parts (dropoff, ctas, returns) take plain rows and are tested
+in tests/python/test_funnel.py without a database.
+
 usage: python -m pipeline.funnel [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--by stage|program|both|none] [--notes]
        (default: the last 30 days, by both)
 
@@ -31,6 +36,14 @@ STAGES = ["looking", "targeting", "curious", "(none)"]
 # the door funnel (web/doors.js NAMES.events), in its order: the door drawn, passed, each verb clicked on home, each intake
 DOOR = ["door", "door_passed", "home_jobs", "home_skills", "home_classes", "home_network", "intake_skills", "intake_classes",
         "intake_network", "intake_positioning"]
+# the screens of the journey (web/capture.js SCREENS, as their events are named), in the order a visit walks them
+SCREENS = ["door", "home", "jobs", "explore", "field", "role", "fit", "classes", "course", "professor", "network", "event_prep",
+           "you", "play", "about", "signin", "map"]
+# the events that are a call to action's step without a cta_* name: the door drawn is its "shown", door_passed and an
+# intake's own event are its "done" (web/capture.js sends cta_shown for an intake box when it draws)
+CTA_ALIAS = {"door": ("door", "shown"), "door_passed": ("door", "done"), "intake_skills": ("intake_skills", "done"),
+             "intake_classes": ("intake_classes", "done"), "intake_network": ("intake_network", "done"),
+             "intake_positioning": ("intake_positioning", "done")}
 
 
 def connect():
@@ -93,6 +106,85 @@ def notes(cur, start, end):
     return cur.fetchall()
 
 
+def journey_rows(cur, start, end):
+    """The rows the journey reports read: (created_at, session, visitor, user_id, name, screen, cta, ms). Each new column
+    is read only when it exists (2026-11-05_journey.sql, applied by hand); before it, the column is null on every row."""
+    cols = ["session", "name"]
+    extra = {c: column_exists(cur, "events", c) for c in ("visitor", "user_id", "screen", "cta", "ms")}
+    sel = ", ".join([f"{c}::text" if c == "user_id" else c for c in extra if extra[c]])
+    cur.execute(f"""select created_at, session, name{', ' + sel if sel else ''} from public.events
+                    where created_at >= %s and created_at < %s order by created_at""", (start, end))
+    out = []
+    for r in cur.fetchall():
+        row = {"created_at": r[0], "session": r[1], "name": r[2]}
+        i = 3
+        for c in extra:
+            row[c] = r[i] if extra[c] else None
+            if extra[c]:
+                i += 1
+        out.append(row)
+    return out
+
+
+def dropoff(rows):
+    """[(day, sessions, {screen: sessions that reached it})] by day, from rows with a `screen` or a screen-named event.
+    A session reaches a screen when any of its events that day carries it as `screen`, or is named for it."""
+    days = {}
+    for r in rows:
+        day = r["created_at"].date() if hasattr(r["created_at"], "date") else r["created_at"]
+        d = days.setdefault(day, {"sessions": set(), "reached": {}})
+        d["sessions"].add(r["session"])
+        screen = r.get("screen") or (r["name"] if r["name"] in SCREENS else None)
+        if screen:
+            d["reached"].setdefault(screen, set()).add(r["session"])
+    return [(day, len(d["sessions"]), {k: len(v) for k, v in d["reached"].items()}) for day, d in sorted(days.items())]
+
+
+def ctas(rows):
+    """[(cta, shown, clicked, done)] by sessions, from cta_* events and the aliases; sorted by shown, then name."""
+    steps = {}
+    for r in rows:
+        if r["name"] in ("cta_shown", "cta_click", "cta_done") and r.get("cta"):
+            key, step = r["cta"], r["name"][len("cta_"):]
+        elif r["name"] in CTA_ALIAS:
+            key, step = CTA_ALIAS[r["name"]]
+        else:
+            continue
+        steps.setdefault(key, {"shown": set(), "click": set(), "done": set()})[step].add(r["session"])
+    out = [(k, len(v["shown"]), len(v["click"]), len(v["done"])) for k, v in steps.items()]
+    return sorted(out, key=lambda t: (-t[1], t[0]))
+
+
+def returns(rows):
+    """{"visitors": n, "returning": n, "people": n, "people_returning": n, "gaps": [days between consecutive visits]} where a
+    visit is one distinct day of a visitor (the browser id) or a signed-in person; a row without either counts nowhere."""
+    by = {"visitor": {}, "user_id": {}}
+    for r in rows:
+        day = r["created_at"].date() if hasattr(r["created_at"], "date") else r["created_at"]
+        for k in by:
+            if r.get(k):
+                by[k].setdefault(r[k], set()).add(day)
+    def gaps(d):
+        out = []
+        for days in d.values():
+            s = sorted(days)
+            out.extend((b - a).days for a, b in zip(s, s[1:]))
+        return out
+    v, u = by["visitor"], by["user_id"]
+    return {"visitors": len(v), "returning": sum(1 for d in v.values() if len(d) >= 2),
+            "people": len(u), "people_returning": sum(1 for d in u.values() if len(d) >= 2), "gaps": sorted(gaps(v) + gaps(u))}
+
+
+def time_on(rows):
+    """{screen: total visible seconds} from the heartbeats (ms), and the sessions that sent any."""
+    out, sessions = {}, set()
+    for r in rows:
+        if r["name"] == "heartbeat" and r.get("ms"):
+            out[r.get("screen") or "(none)"] = out.get(r.get("screen") or "(none)", 0) + r["ms"] / 1000
+            sessions.add(r["session"])
+    return {k: round(v) for k, v in sorted(out.items(), key=lambda t: -t[1])}, len(sessions)
+
+
 def table(title, groups, by):
     """groups: [(label, [session dicts])]. One column per group: sessions, then the share that reached each event."""
     print(f"\n== {title}")
@@ -122,6 +214,7 @@ def main():
         wl = waitlist(cur, start, end)
         nt = notes(cur, start, end) if a.notes else []
         it = intakes(cur, start, end)
+        jr = journey_rows(cur, start, end)
     allS = list(ss.values())
     print(f"capture funnel · {start} to {end - datetime.timedelta(days=1)} · {len(allS)} sessions with an event")
     table("all sessions", [("all", allS)], None)
@@ -143,6 +236,24 @@ def main():
         print("  none in the range")
     for source, surface, n, emails in it:
         print(f"  {source:<16}{surface:<10}{n:>6}{emails:>8}")
+    print("\n== drop-off by day (sessions, then the sessions that reached each screen; the journey columns from 2026-11-05)")
+    for day, n, reached in dropoff(jr):
+        line = "  ".join(f"{sc} {reached[sc]}" for sc in SCREENS if sc in reached)
+        print(f"  {day}  {n:>5}  {line}")
+    print("\n== calls to action (sessions that saw, clicked, went through)")
+    ct = ctas(jr)
+    if not ct:
+        print("  none in the range")
+    for key, shown, click, done in ct:
+        print(f"  {key:<20}{shown:>6}{click:>8}{done:>6}" + (f"  ({100 * done / shown:3.0f}%)" if shown else ""))
+    rt = returns(jr)
+    print("\n== returns (a visit is one day of a browser or a signed-in person)")
+    print(f"  visitors {rt['visitors']}, returning {rt['returning']}; signed in {rt['people']}, returning {rt['people_returning']}"
+          + (f"; median days between visits {rt['gaps'][len(rt['gaps']) // 2]}" if rt["gaps"] else ""))
+    secs, beating = time_on(jr)
+    print("\n== visible time by screen (seconds, from the heartbeats; sessions that sent one: %d)" % beating)
+    for sc, v in secs.items():
+        print(f"  {sc:<16}{v:>8}")
     if a.notes:
         print("\n== applications with a sentence (--notes: the one piece of content; for the owner's reply only)")
         if not nt:
