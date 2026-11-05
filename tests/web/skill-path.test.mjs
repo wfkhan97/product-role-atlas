@@ -7,7 +7,8 @@ import { require, web, realAtlas } from "./_load.mjs";
 
 const { logic: L } = require(path.join(web, "games", "skill-path.js"));
 
-// a line of skills a - b - c - d with a branch b - e, plus what buildBoard must leave out
+// a line of skills a - b - c - d with a branch b - e, plus what buildBoard must leave out; built with minLinks 1 so
+// its dead ends (a, d, e) stay and the rules can be stated on a small board
 const M = {
   skills: ["a", "b", "c", "d", "e", "gen", "cred", "yoe_3", "lone"].map(id => ({ id, name: id.toUpperCase(), cluster: id === "cred" ? "credentials" : "craft" })),
   edges: [
@@ -17,7 +18,7 @@ const M = {
     { source: "a", target: "gen", jaccard: 0.9 }, { source: "a", target: "cred", jaccard: 0.9 }, { source: "a", target: "yoe_3", jaccard: 0.9 },
   ],
 };
-const B = L.buildBoard(M, ["gen"]);
+const B = L.buildBoard(M, ["gen"], 1);
 
 test("buildBoard leaves out credentials, years of experience, generic skills, self-links and repeated links", () => {
   assert.deepEqual(B.ids, ["a", "b", "c", "d", "e"]);
@@ -28,6 +29,16 @@ test("buildBoard leaves out credentials, years of experience, generic skills, se
 
 test("buildBoard drops a skill left with no link", () => {
   assert.ok(!B.has.has("lone"));
+});
+
+test("buildBoard by default drops a dead end, then the skill it leaves with one link, until every skill has two", () => {
+  // a triangle p - q - r with a tail r - s - t: t goes, then s; the triangle stays
+  const T = L.buildBoard({ skills: ["p", "q", "r", "s", "t"].map(id => ({ id, cluster: "craft" })), edges: [["p", "q"], ["q", "r"], ["r", "p"], ["r", "s"], ["s", "t"]].map(([source, target]) => ({ source, target, jaccard: 0.5 })) }, []);
+  assert.equal(L.MIN_LINKS, 2);
+  assert.deepEqual(T.ids, ["p", "q", "r"]);
+  assert.equal(T.links, 3);
+  assert.deepEqual(T.adj.r.map(([id]) => id).sort(), ["p", "q"]);
+  assert.deepEqual(L.buildBoard(M, ["gen"]).ids, [], "the line board is all dead ends: nothing is left");
 });
 
 test("buildBoard lists a skill's links strongest first", () => {
