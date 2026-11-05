@@ -1586,7 +1586,8 @@ from four résumés (course_list, experienced_pm, grad_student_new, pivot_phd_hc
 "shows" count, so it never shows as its own column (the v20 note above, "none of the 72 pairs", read that table). Where it does not fire, three reasons, counted over every via hit:
 the skill also has a direct hit (326), the role does not ask for the skill (312), or there is no via vocabulary at all
 for the skill (every MBA-only skill: the 21 skills with via patterns were all product skills). The example pivoter
-(pmm-nyc, sales to product marketing) had no transferable node on any role.
+(pmm-nyc, sales to product marketing) had no transferable node on any role (it has three since this change: measured
+when the example was reassembled on 2026-11-04).
 
 Two changes in `web/match.js`, each measured:
 
@@ -1809,6 +1810,57 @@ goes from 55% ("in range") to 48% ("related background"); business developer 73%
 test résumés stay inside every `score_band` (`run.mjs` 513 pass); one fit band moves, staff_pm_terse against associate
 PM, 69% to 68%, under the unchanged 0.69 strong line. Not run: `BEHAVIOURS=score` on the full set (`evals/README.md`,
 "Evals to build" item 6), still open.
+
+## The apprentice generator moves into the atlas (`feat/apprentice-in-atlas`, 2026-11-04)
+
+The ask: make and publish a map from this repository alone. Until today the generator lived in GradBuddy
+(`gradbuddy/apprentice/`), read the atlas by file path, and the owner had two repositories to keep in step. Decisions
+(the lead, 2026-11-04, under the owner's brief "everything apprentice lives in the job atlas"):
+
+1. **The generator is `pipeline/apprentice/`**, the same files (`_lib.mjs`, `new.mjs`, `ground.mjs`, `assemble.mjs`,
+   `check.mjs`, `render.mjs`, `template.html`, `INTAKE.md`, `README.md`, `config.json`). Every script runs from the
+   repo root. The atlas root is found from the scripts' own path, so `atlasPath` is gone. `config.json` keeps the
+   roster (`catalogPath`, `rosterFile`, `campusId`, `term`) and adds `gradbuddyPath`, the import source; each is
+   looked for beside the repository, then under the home folder, as `pipeline/catalog_export.py` does.
+2. **The example moves in**: `pipeline/apprentice/examples/pmm-nyc/`, every file with `research/`. It is a fictional
+   person against a real posting, so it is committed.
+3. **Real students are never in git**: `data/apprentice/students/<slug>/`, gitignored. `new.mjs <slug>` makes one from
+   the intake; `new.mjs <slug> --import` copies one from GradBuddy's `apprentice/students/` and refuses to overwrite.
+   A slug resolves to the students' folder first, then the examples.
+4. **The skill moves to `.claude/skills/apprentice-map/SKILL.md`**, its procedure unchanged, every path updated.
+5. **`pipeline.map_publish` reads the map from this repository** (students, then examples); the GradBuddy fallback is
+   gone. `map_feedback` shares its client and needed only its docstring.
+6. **The tests run everywhere.** `tests/web/map.test.mjs` reads the tracked example, with no skip.
+   `tests/web/apprentice.test.mjs` covers the intake reader, assemble's pure part and the check: the example passes
+   with its two notes, and six broken copies each fail with one line (a fourth Level 2 card, a quote not in
+   `posting.md`, a 21-word why sentence, a percent sign, a marked gap off the tree, version 1). `check.mjs` and
+   `assemble.mjs` export `checkMap` and `assembleMap` and still run as scripts, so no test spawns one. Without the
+   research roster (CI), the check and the page read class codes and titles from `web/data/catalog/cornell_tech.json`.
+7. **`docs/GRADBUDDY_CONTRACT.md`**: "Consumers" and the map section say where the generator is now. GradBuddy's
+   folder is a read-only source of intake material for students taken in before the move. The schema, the states,
+   the bucket paths and the privacy rule stand.
+
+`grounding.json` records the atlas as `"path": "."` and the roster by its configured path, so no machine or worktree
+path leaks into a file.
+
+**The run** on `main` after #140 (recalibrated bands, `TRANSFER = 0.75`), with `ground`, `assemble`, `check`, `render`:
+
+- **wk332** (imported; pmm, growth_manager, marketing_manager at Harvey): Relevant foundation; 14 brings, 6 marked
+  gaps; 17 nodes (4 trunk, 3 shared, 10 own), 6 behaviors, 14 more; cards 4, 3, 1 and a Reach. No node changed state:
+  the map was assembled on 2026-11-01, after #133, and the recalibration moves scores, not states.
+- **pmm-nyc** (pmm, marketing_manager, growth_manager, brand_manager at Agentio): Relevant foundation, as before;
+  brings 8 → 14, marked gaps 8 → 6; 19 nodes (3 trunk, 6 shared, 10 own), 6 behaviors, 14 more; cards 6, 3, 1 and a
+  Reach. Six states moved, all from #133, which the example's map of 2026-10-31 predated: positioning and messaging
+  (shared), customer-facing engagement and market research (own) from "must build" to "shows in other words";
+  communication ("must evidence better") and adaptability ("must build") to "shows"; content in "more" to "shows in
+  other words". The v20 note that the example pivoter had no transferable node no longer holds: it has three.
+- `check` passes on both: pmm-nyc with its two notes (`data_driven` off the tree on two cards), wk332 with two (the
+  leadership and technical tracks have no Level 1 card). An `assemble` over a copy of wk332 with `shipped`,
+  `changed`, `declined`, `reply` and a hand-set `clear` kept every one. Nothing was published.
+
+Left open: GradBuddy's `apprentice/` folder and its skill still exist there (read-only for us); retiring them, or a
+pointer README there, is the owner's call in that repository. The "Later" line "commit the B1 files in
+`gradbuddy/apprentice/`" is moot now that the files live here.
 
 ## Thirteen business roles, and a checklist for adding a role (`feat/mba-roles-13`, 2026-11-05)
 
@@ -2160,7 +2212,9 @@ tech roles; a fresh labelled sample of titles; sponsorship rows from tech postin
   world opens into; the layout eval (`evals/README.md`); the IE New York roster (`IENYC_ENABLED`); an events feed for
   Networking (the intake promises it); the graphs rebuilt for both sets so `first_seen` fills `jobs_open.json` and
   Find jobs gains a Newest sort (`build_graph`, then `jobs_open`, on a `data/` branch with the baselines).
-- Owner steps v20 left open (2026-10-31): commit the B1 files in `gradbuddy/apprentice/`; the four steps in
+- Owner steps v20 left open (2026-10-31): ~~commit the B1 files in `gradbuddy/apprentice/`~~ (the generator moved into
+  the atlas on 2026-11-04; GradBuddy's `apprentice/` folder and `/apprentice-map` skill are superseded by `pipeline/apprentice/`,
+  and the owner decides whether to retire them or leave a pointer there); the four steps in
   `pipeline/sql/2026-11-03_maps.sql` (sign-ups off, the bucket and policies, the invite, the publish) on the
   gradbuddy-catalog project; `CATALOG_SERVICE_ROLE_KEY` in `.env`.
 - Owner steps the four verbs left open (2026-10-31): apply `pipeline/sql/2026-10-31_doors.sql` on the catalog
