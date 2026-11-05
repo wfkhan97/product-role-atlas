@@ -269,6 +269,35 @@
   // the meaningful actions the feedback prompt counts (web/capture.js Capture.action): a thing opened or read, never a screen drawn
   const ACTIONS = new Set(["role", "fit", "course_read", "event_prep", "classes", "play", "posting_link", "resume_read", "you_done", "home_jobs", "home_skills", "home_classes", "home_network"]);
   if (window.Capture) Capture.watch();   // the heartbeat: visible, active time per screen
+  // The saved state (the visitor journey, step 3, 2026-11-05; web/state.js): with accounts on and a session, the
+  // About-you answers, the hearts and each read go up to the person's own rows; at sign-in and at every page load
+  // the server's copy fills what this browser lacks and the browser's answers go up. Nothing here runs otherwise.
+  const stateOn = () => accountsOn() && !!window.State && !!Auth.stored();
+  const hearts = () => { const h = store.get("hearts"); return Array.isArray(h) ? h : []; };
+  const keepHearts = list => store.set("hearts", [...new Set(list)]);
+  const hashOf = r => r.hash ? Promise.resolve(r.hash) : State.hash(r.text).then(h => { if (h && state.resume === r) { r.hash = h; store.set("resume", r); } return h; });
+  const syncProfile = () => { if (!stateOn()) return; State.saveProfile(Auth.stored(), state.you, { resume_hash: (state.resume || {}).hash || null }); };
+  async function saveReadFor(m, r) {
+    if (!stateOn() || !m || !m.r || !r) return;
+    try {
+      const h = await hashOf(r); if (!h || state.resume !== r) return;
+      const { skills, gaps } = State.readRows(m.r);
+      await State.saveRead(Auth.stored(), { resume_hash: h, role_id: m.roleId, band: m.band, skills, gaps, inferred: r.inferred || [] });
+      syncProfile();
+    } catch (e) { console.error(e); }
+  }
+  async function restoreState(s) {
+    if (!accountsOn() || !window.State || !s) return;
+    try {
+      const remote = await State.load(s);
+      const m = State.merge({ you: state.you, hearts: hearts() }, remote || {});
+      if (m.you && !(state.you && (state.you.where || state.you.stage || (state.you.fields || []).length))) { state.you = m.you; store.set("you", m.you); }
+      keepHearts(m.hearts);
+      if (m.up.you) State.saveProfile(s, m.up.you, { resume_hash: (state.resume || {}).hash || null });
+      for (const id of m.up.hearts) State.heart(s, id, true);
+    } catch (e) { console.error(e); }
+  }
+  let restoredOnce = false;   // the page load's restore runs from route(), once every definition below exists
   const waitCtx = () => ({ role_id: state.roleId, stage: (state.you || {}).stage, program: (state.you || {}).where, fields: (state.you || {}).fields || [] });
   // a posting link (decision 8 of the pass: visible on the fit screen and the rail's gap rows for a person with a resume)
   document.addEventListener("click", e => { const a = e.target.closest("[data-posting]"); if (a) track("posting_link", { role_id: a.dataset.posting }); });
@@ -341,6 +370,7 @@
     const landed = window.Auth && mapsOn() ? Auth.takeHash(location.hash) : null;
     if (landed) history.replaceState(null, "", location.pathname + location.search + (landed === "session" ? "#/map" : "#/signin?expired=1"));
     const parsed = Routes.parseRoute(location.hash);
+    if (!restoredOnce) { restoredOnce = true; if (stateOn()) restoreState(Auth.stored()); }   // step 3: the server's copy, once per page
     unmount(true);
     // a deep link bounces to the door once (v19 B2): the hash stays, the door draws over it, and Continue or Skip
     // (Door.next) lands on the hash. The sign-in and the map never bounce: an invited person comes from the email.
@@ -484,7 +514,9 @@
     const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label: R.role.label }, { level: LEVEL_OPT[level], ladder: R.role.ladder });
     const c = Launcher.coreOf(r.rows);
     const out = { roleId: R.role.id, label: R.role.label, n: c.n, m: c.m, band: Matcher.bandOf(r.overall, bands, group) || null, r, R };
-    matchCache.set(key, out); return out;
+    matchCache.set(key, out);
+    saveReadFor(out, state.resume);   // the read goes up once per résumé and role (step 3); nothing waits on it
+    return out;
   }
   // a match result's gap rows in the shape gapRows reads (what gapsFor builds for the picker)
   const rowsOf = r => { const rows = r.rows, by = st => rows.filter(x => x.status === st && x.tier !== "diff"); return { coreGaps: rows.filter(x => x.tier === "core" && (x.status === "gap" || x.status === "thin")).sort((a, b) => b.w - a.w), gaps: by("gap"), thin: by("thin") }; };
@@ -636,6 +668,7 @@
           if (!r.ok) { draw("code", r.message || S.codeWrong); return; }
           try { localStorage.setItem("door.email", r.session.email || email); localStorage.setItem("door.seen", "1"); } catch { }
           if (window.Capture) Capture.cta("signin", "done");
+          await restoreState(r.session);   // the server's copy fills this browser; this browser's answers go up
           out.innerHTML = `<p class="small">${esc(fill(S.done, { email: r.session.email || email }))}</p>`;
           toHash(next); if (location.hash === next) route();
         };
@@ -1227,7 +1260,7 @@
       const y0 = state.you || {};
       const a = { where: y0.where || null, stage: y0.stage || null, fields: new Set(y0.fields || []) };
       let i = Routes.You.firstStep(y0, Q.map(q => q.key)), seen = false;   // seen: the person picked a program here, or ended
-      const save = () => { state.you = { ...(state.you || {}), where: a.where || null, stage: a.stage || null, fields: [...a.fields] }; if (seen) delete state.you.whereFrom; store.set("you", state.you); wiz = null; };
+      const save = () => { state.you = { ...(state.you || {}), where: a.where || null, stage: a.stage || null, fields: [...a.fields] }; if (seen) delete state.you.whereFrom; store.set("you", state.you); wiz = null; syncProfile(); };
       const finish = async read => {
         if (read && pending && pending.words < 40) return;   // a file with too few words: its line stays on screen
         if (read) await takeResume();
@@ -1299,7 +1332,7 @@
       $("#skip").onclick = () => saveYou();
       $("#next").onclick = async () => { await takeResume(); saveYou(); location.hash = after; if (location.hash === after) you(); };
     };
-    const saveYou = () => { state.you = { where: wiz.answers.where || null, stage: wiz.answers.stage || null, fields: [...wiz.answers.fields] }; store.set("you", state.you); wiz = null; track("you_done"); };
+    const saveYou = () => { state.you = { where: wiz.answers.where || null, stage: wiz.answers.stage || null, fields: [...wiz.answers.fields] }; store.set("you", state.you); wiz = null; track("you_done"); syncProfile(); };
     render();
   }
   // What the system knows (owner's choice Y3, B and A): the answers with an edit link each, what the resume gave,
@@ -1329,7 +1362,10 @@
       <div class="two"><div><h2>${esc(YOU.answers)}</h2>${answers}</div><div><h2>${esc(YOU.resume)}</h2>${resume}</div></div>
       <h2>${esc(YOU.fitFields)}</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : `<p class="small muted">${esc(YOU.noFitFields)}</p>`}
       ${knowRows.length ? `<h2>${esc(YOU.games)}</h2><p class="small muted">${esc(YOU.gamesLead)}</p><div class="list you-know">${knowRows.join("")}</div>` : ""}
+      ${stateOn() ? `<section class="you-saved"><p class="small muted">${esc(YOU.savedLine)}</p><p><button type="button" class="linkish link" id="you-forget">${esc(YOU.forget)}</button> <span class="small muted">${esc(YOU.forgetLine)}</span></p><p class="small" id="you-forget-out" aria-live="polite"></p></section>` : ""}
       <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">${esc(YOU.exploreFields)}</a><button type="button" class="btn quiet" id="start-over">${esc(YOU.startOver)}</button></div>`);
+    // the forget button (step 3): the person's rows in the three tables go; this browser keeps its own copy
+    const fg = $("#you-forget"); if (fg) fg.onclick = async () => { const out = $("#you-forget-out"); fg.disabled = true; out.textContent = YOU.forgetting; const done = await State.forget(Auth.stored()); out.textContent = done ? YOU.forgotten : YOU.forgetFailed; fg.disabled = !done; if (done) keepHearts([]); };
     $("#start-over").onclick = () => { state.you = null; state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("you", null); store.set("resume", null); if (window.Infer) Infer.forget(); Atlas.useInferred(null, []); wiz = null; you(); };
     const rq = $("#role-q");
     if (rq) {
@@ -2514,7 +2550,7 @@
       <p class="small">${esc(AB.editorial)}</p>
       <h3>${esc(AB.privacy)}</h3>
       <p class="small">${esc(AB.privacyEvents)}</p>
-      <p class="small">${esc(AB.privacyEmail)}</p>
+      <p class="small">${esc(AB.privacyEmail)}</p>${accountsOn() ? `<p class="small">${esc(AB.privacySaved)}</p>` : ""}
       <h3>${esc(AB.product)}</h3>${productPart}</div>`, true);
     render();
     Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${esc(fill(AB.productLine, { n: fmt(G.meta.n_jobs), us: fmt(G.jobs.filter(j => j.country === M.meta.country).length), families: Object.keys(G.families).filter(f => G.jobs.some(j => j.family === f)).length, companies: fmt(G.meta.n_companies), date: niceDate(G.meta.generated) }))}</p>${disc("about-top-product", esc(AB.topCompanies), `<p>${top(G.meta.companies, 15)}</p>`)}`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);

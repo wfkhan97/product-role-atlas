@@ -1989,8 +1989,33 @@ PRs (#141, #142, #143) land first, since identity builds on the map's sign-in an
   token the mail holds only a link), and the rate limits (Authentication → Rate Limits; emails per hour). The
   events `cta_shown` · `cta_click` · `cta_done` for `signin` measure the flow once step 1's flag is on.
 
-Not in this step: the tables (step 3), the function (step 4), the hearts (step 5), the feedback box (step 6). Each
-gets its own section when built. A deletion path and the privacy copy change with step 3, when something is saved.
+**Step 3, built (`feat/journey-state`, stacked on step 2): the saved state.** Decisions:
+
+- **Three tables, the person's own rows** (`pipeline/sql/2026-11-05_state.sql`, applied 2026-11-05 on the owner's
+  blanket permission): `profiles` (the About-you answers as the browser keeps them, the campus flag, the hash of the
+  résumé on file), `hearts` (one list of role ids: the card's heart and the open role's are the same), `reads` (one
+  row per résumé hash per role: the band, the core and common skills with their state and the one line that showed
+  each, the gaps, the model read's inferred ids). Row-level security for every verb on `user_id = auth.uid()`,
+  nothing for anon, the service role for the owner's scripts. Tables, not storage objects, so the owner can ask
+  "which roles do people heart" in SQL.
+- **The résumé's id is its hash.** `State.hash` is a SHA-256 of the whitespace-normalized text, computed in the
+  browser (WebCrypto) and kept on the stored résumé; a new file is a new hash and its reads are new rows; the latest
+  hash on the profile marks the current one. The text never leaves the browser but for the model read, as before.
+- **A read goes up when it happens.** `matchRole` (the one matcher run per role per résumé) hands its result to
+  `saveReadFor`, which upserts `reads` and refreshes the profile's hash; nothing waits on it, a failure is retried at
+  the next read. `State.readRows` is the pure part: the core and common rows as the map's four states, one line per
+  skill cut at 300 characters, the gaps as the core rows named but not shown or missing.
+- **The answers sync on every change** (`syncProfile` in both places About you saves) and **carry in at sign-in**:
+  `restoreState` loads the three tables, `State.merge` lets the browser's answers win when set and takes the server's
+  otherwise, unions the hearts, and sends up what the server lacks. The same runs at every page load with a session,
+  so a second browser gets the answers back. Hearts have their store and their sync now; their control is step 5.
+- **Forgetting is a button on About you** (`Forget what you saved`): the person's rows in the three tables go; this
+  browser keeps its own copy; `auth.users` stays until the owner deletes it. The About page's privacy section gains
+  the sentence on what a sign-in keeps, drawn only with accounts on.
+- **Nothing runs with accounts off**: every call sits behind `stateOn()` (accounts on, `state.js` loaded, a session).
+
+Not in this step: the function (step 4), the hearts' control and the other calls to action (step 5), the feedback
+box (step 6). The campus flag goes on the profile once #142 and this branch share a tree.
 
 ## A third role set: engineering, design and legal (`feat/tech-role-set`, 2026-11-05)
 
