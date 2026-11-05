@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-04",
+ "generated": "2026-11-05",
  "atlas": {
   "path": ".",
   "generated": "2026-10-30",
@@ -359,7 +359,32 @@
    "what": "Writing and speaking so that busy people understand, remember, and act: clear, short, structured, and matched to the audience.",
    "reads_as": "Positioning, messaging and campaign briefs: the words the market and the sales team repeat.",
    "line": "Wrote the positioning and messaging hierarchy for a relaunch across 4 channels; message pull-through in sales decks rose to 80%.",
-   "how_shown": "through"
+   "how_shown": "through",
+   "shown_by": {
+    "artefacts": [
+     "memo",
+     "deck",
+     "PRD",
+     "pitch book"
+    ],
+    "verbs": [
+     "wrote",
+     "presented",
+     "briefed",
+     "published"
+    ],
+    "measures": [
+     "readers or audience size",
+     "decisions the document carried",
+     "money or approval it secured"
+    ],
+    "counterparts": [
+     "executives",
+     "clients",
+     "the team",
+     "customers"
+    ]
+   }
   },
   {
    "id": "positioning_messaging",
@@ -375,7 +400,30 @@
    "what": "Deciding how the product is described: to whom, against what alternative, and why it is better, in words customers repeat.",
    "reads_as": "The core craft: positioning statements, messaging hierarchies and the words of the brand.",
    "line": "Repositioned the brand for a new segment with a messaging hierarchy adopted across 10 campaigns; aided awareness up 12 points.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "positioning statement",
+     "messaging hierarchy",
+     "value proposition",
+     "narrative"
+    ],
+    "verbs": [
+     "positioned",
+     "wrote the messaging for",
+     "repositioned",
+     "named"
+    ],
+    "measures": [
+     "conversion or win-rate change",
+     "launches messaged"
+    ],
+    "counterparts": [
+     "marketing",
+     "sales",
+     "design"
+    ]
+   }
   },
   {
    "id": "gtm",
@@ -391,7 +439,30 @@
    "what": "Planning how a product reaches customers: channel, positioning, launch, enablement, and what success looks like commercially.",
    "reads_as": "The core: segment, message, channel and launch plan for every product and campaign.",
    "line": "Owned go-to-market for 6 launches in 2 years; the biggest delivered $10M of first-year pipeline.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "go-to-market plan",
+     "launch strategy",
+     "channel plan",
+     "segment strategy"
+    ],
+    "verbs": [
+     "planned",
+     "led",
+     "launched",
+     "took to market"
+    ],
+    "measures": [
+     "pipeline or revenue from the launch",
+     "time to first customers"
+    ],
+    "counterparts": [
+     "marketing",
+     "sales",
+     "partners"
+    ]
+   }
   },
   {
    "id": "cross_functional",
@@ -407,7 +478,32 @@
    "what": "Leading a team you don't manage: engineering, design, data, marketing, sales, legal, all pulling toward one outcome.",
    "reads_as": "Working with product, sales and agencies so a launch or campaign is one coordinated effort.",
    "line": "Led the go-to-market for a product launch across product, sales and 2 agencies; 50 pieces of collateral shipped on one plan.",
-   "how_shown": "scope"
+   "how_shown": "scope",
+   "shown_by": {
+    "artefacts": [
+     "cross-functional project",
+     "launch across teams",
+     "decision log",
+     "RACI"
+    ],
+    "verbs": [
+     "led",
+     "coordinated",
+     "aligned",
+     "brought together"
+    ],
+    "measures": [
+     "teams or functions involved",
+     "people coordinated",
+     "what shipped together"
+    ],
+    "counterparts": [
+     "engineering",
+     "design",
+     "marketing",
+     "sales"
+    ]
+   }
   },
   {
    "id": "sales_enablement",
@@ -423,7 +519,30 @@
    "what": "Giving sales and customer-facing teams what they need to sell and support the product: training, materials, and a feedback channel back.",
    "reads_as": null,
    "line": "Ran enablement for 120 AEs on the new platform; 85% certified within a month.",
-   "how_shown": "scope"
+   "how_shown": "scope",
+   "shown_by": {
+    "artefacts": [
+     "sales playbook",
+     "battlecards",
+     "demo script",
+     "training sessions"
+    ],
+    "verbs": [
+     "enabled",
+     "trained",
+     "equipped",
+     "partnered with sales"
+    ],
+    "measures": [
+     "reps trained",
+     "win rate or deal cycle change"
+    ],
+    "counterparts": [
+     "sales",
+     "solutions engineers",
+     "customer success"
+    ]
+   }
   },
   {
    "id": "market_research",
@@ -439,7 +558,30 @@
    "what": "Understanding the market you are in: size, trends, competitors, and where the openings are.",
    "reads_as": "Market, competitor and customer research behind segmentation and positioning.",
    "line": "Led segmentation research with 2,000 respondents; 3 target segments defined and used in the annual plan.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "market sizing (TAM/SAM)",
+     "competitive analysis",
+     "industry landscape",
+     "win/loss analysis"
+    ],
+    "verbs": [
+     "sized",
+     "analyzed",
+     "benchmarked",
+     "mapped"
+    ],
+    "measures": [
+     "market size estimated",
+     "decisions the analysis changed"
+    ],
+    "counterparts": [
+     "leadership",
+     "strategy",
+     "marketing"
+    ]
+   }
   },
   {
    "id": "collaboration",
@@ -455,7 +597,29 @@
    "what": "Being good to work with: generous with credit, open to being wrong, and reliable to the people around you.",
    "reads_as": "Working with sales, product, agencies and creative so one campaign carries one message.",
    "line": "Ran a launch campaign with product, sales and 2 agencies; 12 assets shipped on one calendar and sales adopted all of them.",
-   "how_shown": "through"
+   "how_shown": "through",
+   "shown_by": {
+    "artefacts": [
+     "joint work with another team",
+     "feedback loop between teams",
+     "shared goals"
+    ],
+    "verbs": [
+     "partnered",
+     "co-owned",
+     "built with",
+     "worked across"
+    ],
+    "measures": [
+     "teams worked with",
+     "a result both teams credit"
+    ],
+    "counterparts": [
+     "peers",
+     "partner teams",
+     "clients"
+    ]
+   }
   },
   {
    "id": "launch",
@@ -471,7 +635,32 @@
    "what": "Getting a product out the door: readiness, staged rollout, enablement, announcement, and the follow-through once real users hit it.",
    "reads_as": null,
    "line": "Launched the new onboarding to 100% in 3 weeks with no P1 incidents via a staged rollout.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "launch plan",
+     "release notes",
+     "launch readiness checklist",
+     "rollout plan"
+    ],
+    "verbs": [
+     "launched",
+     "shipped",
+     "rolled out",
+     "released"
+    ],
+    "measures": [
+     "users reached at launch",
+     "adoption in the first weeks",
+     "incidents at rollout"
+    ],
+    "counterparts": [
+     "marketing",
+     "sales",
+     "support",
+     "engineering"
+    ]
+   }
   },
   {
    "id": "stakeholder_mgmt",
@@ -487,7 +676,32 @@
    "what": "Keeping the people who can block or accelerate your work informed, heard, and on side: executives, partner teams, customers.",
    "reads_as": "Aligning sales, product and leadership behind one message and one launch plan.",
    "line": "Aligned sales leadership and 3 product teams on the launch messaging in 2 reviews; launch shipped on the planned date.",
-   "how_shown": "scope"
+   "how_shown": "scope",
+   "shown_by": {
+    "artefacts": [
+     "stakeholder map",
+     "steering committee",
+     "status updates",
+     "executive update"
+    ],
+    "verbs": [
+     "managed",
+     "aligned",
+     "briefed",
+     "brought on side"
+    ],
+    "measures": [
+     "stakeholders managed",
+     "escalations avoided",
+     "decisions landed"
+    ],
+    "counterparts": [
+     "executives",
+     "partner teams",
+     "clients",
+     "the board"
+    ]
+   }
   },
   {
    "id": "adaptability",
@@ -503,7 +717,29 @@
    "what": "Working well when the plan changes: ambiguity, pace, pivots, and growth that outruns process.",
    "reads_as": "Fast-moving channels and campaigns: learning and switching tactics as results come in.",
    "line": "Shifted 40% of paid budget across channels mid-quarter on weekly results; hit the pipeline target at 15% lower CAC.",
-   "how_shown": "through"
+   "how_shown": "through",
+   "shown_by": {
+    "artefacts": [
+     "a pivot",
+     "a new market, product or role taken on",
+     "a fast ramp"
+    ],
+    "verbs": [
+     "pivoted",
+     "ramped",
+     "took on",
+     "re-planned"
+    ],
+    "measures": [
+     "time to ramp",
+     "scope taken on",
+     "changes absorbed"
+    ],
+    "counterparts": [
+     "founders",
+     "a new team"
+    ]
+   }
   },
   {
    "id": "customer_facing_exec",
@@ -519,7 +755,31 @@
    "what": "Representing the product to the outside world: customer executives, advisory boards, conferences, analysts, and press.",
    "reads_as": null,
    "line": "Ran the 20-member customer advisory board for three years.",
-   "how_shown": "scope"
+   "how_shown": "scope",
+   "shown_by": {
+    "artefacts": [
+     "customer meetings",
+     "executive briefings",
+     "advisory board",
+     "conference talk"
+    ],
+    "verbs": [
+     "met",
+     "presented to",
+     "ran the briefing",
+     "demoed"
+    ],
+    "measures": [
+     "customers met",
+     "deals supported",
+     "audience size"
+    ],
+    "counterparts": [
+     "customers",
+     "prospects",
+     "customer executives"
+    ]
+   }
   },
   {
    "id": "ownership",
@@ -535,7 +795,28 @@
    "what": "Treating outcomes as yours: driving work to done, taking responsibility when it goes wrong, and not waiting to be told.",
    "reads_as": "Owning a campaign or channel budget and the pipeline or revenue it must return.",
    "line": "Owned a $2M paid budget and its pipeline target; delivered 115% of pipeline at 20% lower CAC.",
-   "how_shown": "through"
+   "how_shown": "through",
+   "shown_by": {
+    "artefacts": [
+     "an outcome owned end to end",
+     "a stalled project turned around",
+     "a number owned"
+    ],
+    "verbs": [
+     "owned",
+     "took over",
+     "turned around",
+     "delivered"
+    ],
+    "measures": [
+     "the number owned and how it moved",
+     "time to deliver"
+    ],
+    "counterparts": [
+     "leadership",
+     "the team"
+    ]
+   }
   },
   {
    "id": "ai_ml",
@@ -551,7 +832,30 @@
    "what": "Understanding how machine learning products work: data, models, evaluation, and the product decisions that differ from deterministic software.",
    "reads_as": "Personalization, targeting and content models that lift campaign performance.",
    "line": "Launched ML-driven audience targeting across paid channels; conversion up 15% at the same spend.",
-   "how_shown": "built"
+   "how_shown": "built",
+   "shown_by": {
+    "artefacts": [
+     "ML model",
+     "recommendation or ranking system",
+     "prediction",
+     "model evaluation"
+    ],
+    "verbs": [
+     "built",
+     "trained",
+     "shipped",
+     "evaluated"
+    ],
+    "measures": [
+     "model accuracy or lift",
+     "predictions served",
+     "business metric moved"
+    ],
+    "counterparts": [
+     "data science",
+     "ML engineering"
+    ]
+   }
   },
   {
    "id": "execution",
@@ -567,7 +871,29 @@
    "what": "Getting things done reliably and well: driving to outcomes, holding quality, and keeping the details from slipping.",
    "reads_as": "Launching campaigns on the calendar and delivering the pipeline or revenue they promised.",
    "line": "Launched 8 campaigns on schedule in a year and delivered 110% of the pipeline target.",
-   "how_shown": "through"
+   "how_shown": "through",
+   "shown_by": {
+    "artefacts": [
+     "delivered project",
+     "shipped product",
+     "hit target"
+    ],
+    "verbs": [
+     "delivered",
+     "shipped",
+     "hit",
+     "completed"
+    ],
+    "measures": [
+     "delivered on time",
+     "target hit",
+     "volume delivered"
+    ],
+    "counterparts": [
+     "the team",
+     "leadership"
+    ]
+   }
   },
   {
    "id": "influence",
@@ -583,7 +909,32 @@
    "what": "Getting people to change course without being able to tell them to: evidence, framing, relationships, and timing.",
    "reads_as": "Getting sales, product and leadership to carry one positioning and fund the plan.",
    "line": "Secured a 30% budget increase for demand generation with a pipeline model; sales leadership co-sponsored the plan.",
-   "how_shown": "through"
+   "how_shown": "through",
+   "shown_by": {
+    "artefacts": [
+     "recommendation that was adopted",
+     "negotiation",
+     "coalition",
+     "evidence-based argument"
+    ],
+    "verbs": [
+     "persuaded",
+     "negotiated",
+     "won support for",
+     "changed the decision"
+    ],
+    "measures": [
+     "decisions changed",
+     "money saved or won in negotiation",
+     "teams that adopted the proposal"
+    ],
+    "counterparts": [
+     "leadership",
+     "peers in other functions",
+     "clients",
+     "suppliers"
+    ]
+   }
   },
   {
    "id": "enterprise_saas",
@@ -599,7 +950,29 @@
    "what": "Selling software to companies: admin, security, procurement, multi-tenant platforms, and long sales cycles.",
    "reads_as": null,
    "line": "Shipped the enterprise tier (SSO, SCIM, audit logs); unlocked 12 six-figure deals.",
-   "how_shown": "context"
+   "how_shown": "context",
+   "shown_by": {
+    "artefacts": [
+     "B2B product",
+     "enterprise feature (SSO, admin, permissions)",
+     "customer deployments"
+    ],
+    "verbs": [
+     "sold into",
+     "shipped for",
+     "deployed at"
+    ],
+    "measures": [
+     "ARR",
+     "enterprise accounts",
+     "seats"
+    ],
+    "counterparts": [
+     "enterprise customers",
+     "sales",
+     "customer success"
+    ]
+   }
   },
   {
    "id": "content_social",
@@ -615,7 +988,31 @@
    "what": "Planning and producing content (blogs, video, social posts) that draws and engages an audience.",
    "reads_as": null,
    "line": "Grew the content calendar with creators, agencies; followers or engagement.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "content calendar",
+     "social program",
+     "thought-leadership pieces",
+     "community"
+    ],
+    "verbs": [
+     "grew",
+     "published",
+     "ran",
+     "built the program"
+    ],
+    "measures": [
+     "followers or engagement",
+     "pieces published",
+     "traffic or leads from content"
+    ],
+    "counterparts": [
+     "creators",
+     "agencies",
+     "design"
+    ]
+   }
   },
   {
    "id": "growth_loops",
@@ -631,7 +1028,32 @@
    "what": "Growing usage systematically: acquisition, activation, retention, referral, and the loops that compound.",
    "reads_as": null,
    "line": "Owned activation; day-7 retention rose from 31% to 44% via onboarding redesign.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "funnel analysis",
+     "growth experiments",
+     "onboarding flow",
+     "retention plan"
+    ],
+    "verbs": [
+     "grew",
+     "lifted",
+     "ran experiments on",
+     "optimized"
+    ],
+    "measures": [
+     "conversion",
+     "activation",
+     "retention",
+     "MAU or DAU"
+    ],
+    "counterparts": [
+     "marketing",
+     "data",
+     "engineering"
+    ]
+   }
   },
   {
    "id": "customer_obsession",
@@ -647,7 +1069,28 @@
    "what": "Making decisions from the customer's point of view, backed by direct contact with them, rather than from internal convenience.",
    "reads_as": null,
    "line": "Ran 80 customer interviews in a year; three roadmap items came directly from them.",
-   "how_shown": "through"
+   "how_shown": "through",
+   "shown_by": {
+    "artefacts": [
+     "customer interview notes",
+     "voice-of-customer digest"
+    ],
+    "verbs": [
+     "interviewed",
+     "shadowed",
+     "visited",
+     "brought the customer into"
+    ],
+    "measures": [
+     "customers spoken to",
+     "roadmap items from customer input"
+    ],
+    "counterparts": [
+     "customers",
+     "users",
+     "support"
+    ]
+   }
   },
   {
    "id": "campaign_management",
@@ -663,7 +1106,32 @@
    "what": "Planning, launching and optimizing marketing campaigns across channels.",
    "reads_as": null,
    "line": "Ran the integrated campaign with agencies, creative; budget.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "integrated campaign",
+     "campaign brief",
+     "media plan",
+     "campaign readout"
+    ],
+    "verbs": [
+     "ran",
+     "launched",
+     "planned",
+     "delivered"
+    ],
+    "measures": [
+     "budget",
+     "reach or leads",
+     "ROI or lift"
+    ],
+    "counterparts": [
+     "agencies",
+     "creative",
+     "media",
+     "sales"
+    ]
+   }
   },
   {
    "id": "program_mgmt",
@@ -679,7 +1147,33 @@
    "what": "Coordinating large, multi-team efforts: plans, milestones, dependencies, status, and getting the whole thing to land.",
    "reads_as": "Running campaigns and launches on a calendar with agencies, creative and sales.",
    "line": "Ran the launch program across 6 workstreams and 2 agencies; 40 deliverables shipped on the launch date.",
-   "how_shown": "scope"
+   "how_shown": "scope",
+   "shown_by": {
+    "artefacts": [
+     "program plan",
+     "milestones",
+     "RAID log",
+     "status report"
+    ],
+    "verbs": [
+     "ran",
+     "delivered",
+     "planned",
+     "tracked"
+    ],
+    "measures": [
+     "budget",
+     "people or teams",
+     "delivered on time or early",
+     "milestones hit"
+    ],
+    "counterparts": [
+     "workstream leads",
+     "engineering",
+     "vendors",
+     "sponsors"
+    ]
+   }
   },
   {
    "id": "metrics_kpis",
@@ -695,7 +1189,30 @@
    "what": "Choosing the few numbers that tell you whether the product is working, instrumenting them, and watching them with discipline.",
    "reads_as": "Funnel and campaign metrics: reach, conversion, pipeline and ROI by channel.",
    "line": "Built the funnel dashboard from impression to closed-won for 8 channels; used in every weekly marketing review.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "KPI definitions",
+     "dashboard",
+     "metric tree",
+     "tracking plan"
+    ],
+    "verbs": [
+     "defined",
+     "tracked",
+     "instrumented",
+     "moved"
+    ],
+    "measures": [
+     "the metric and how far it moved",
+     "metrics defined"
+    ],
+    "counterparts": [
+     "data",
+     "engineering",
+     "leadership"
+    ]
+   }
   },
   {
    "id": "problem_solving",
@@ -711,7 +1228,29 @@
    "what": "Breaking an ambiguous situation into parts, finding the real cause, and choosing an approach when the answer isn't obvious.",
    "reads_as": "Diagnosing why a funnel, campaign or message underperforms and what to change.",
    "line": "Diagnosed a 20% drop in paid conversion to a landing-page change within 2 days and recovered it the same week.",
-   "how_shown": "through"
+   "how_shown": "through",
+   "shown_by": {
+    "artefacts": [
+     "root-cause analysis",
+     "problem statement",
+     "hypothesis tree",
+     "decision memo"
+    ],
+    "verbs": [
+     "diagnosed",
+     "structured",
+     "broke down",
+     "decided"
+    ],
+    "measures": [
+     "time to diagnosis",
+     "the number that moved once fixed"
+    ],
+    "counterparts": [
+     "the team",
+     "leadership"
+    ]
+   }
   },
   {
    "id": "ai_tools",
@@ -727,7 +1266,17 @@
    "what": "Using AI tools in daily product work: prototyping, analysis, writing, and research, faster than before.",
    "reads_as": null,
    "line": "Prototyped 6 feature concepts with AI tools in Q1; 2 shipped after user tests.",
-   "how_shown": "named"
+   "how_shown": "named",
+   "shown_by": {
+    "artefacts": [],
+    "verbs": [
+     "used",
+     "built in",
+     "ran in"
+    ],
+    "measures": [],
+    "counterparts": []
+   }
   },
   {
    "id": "data_driven",
@@ -743,7 +1292,30 @@
    "what": "Using data to make and defend decisions: pulling it, questioning it, and knowing when it is wrong or insufficient.",
    "reads_as": "Measuring every channel and campaign and moving the budget on the results.",
    "line": "Built the attribution model for 6 channels and reallocated 25% of a $4M budget; CAC fell 18%.",
-   "how_shown": "through"
+   "how_shown": "through",
+   "shown_by": {
+    "artefacts": [
+     "analysis",
+     "dashboard",
+     "experiment readout",
+     "model"
+    ],
+    "verbs": [
+     "analyzed",
+     "measured",
+     "decided on the data",
+     "quantified"
+    ],
+    "measures": [
+     "the number that decided it",
+     "decisions made on the analysis"
+    ],
+    "counterparts": [
+     "data",
+     "analysts",
+     "leadership"
+    ]
+   }
   },
   {
    "id": "technical_fluency",
@@ -759,7 +1331,29 @@
    "what": "Understanding how software is built well enough to make good trade-offs with engineers, without needing to write the code yourself.",
    "reads_as": null,
    "line": "Led the build-vs-buy decision for the search service with engineering.",
-   "how_shown": "built"
+   "how_shown": "built",
+   "shown_by": {
+    "artefacts": [
+     "technical design discussions",
+     "architecture trade-offs",
+     "technical specs"
+    ],
+    "verbs": [
+     "partnered with engineering on",
+     "weighed",
+     "decided",
+     "debugged"
+    ],
+    "measures": [
+     "engineers partnered with",
+     "technical decisions owned"
+    ],
+    "counterparts": [
+     "engineers",
+     "architects",
+     "data scientists"
+    ]
+   }
   },
   {
    "id": "product_strategy",
@@ -775,7 +1369,30 @@
    "what": "Choosing where to play and how to win: which customers, which problems, which bets, and what you will deliberately not do.",
    "reads_as": null,
    "line": "Authored the 2025 platform strategy adopted by three product teams.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "product strategy",
+     "strategy memo",
+     "strategic plan",
+     "investment thesis"
+    ],
+    "verbs": [
+     "set",
+     "defined",
+     "shaped",
+     "wrote"
+    ],
+    "measures": [
+     "revenue or users the strategy reached",
+     "bets funded"
+    ],
+    "counterparts": [
+     "leadership",
+     "founders",
+     "the board"
+    ]
+   }
   },
   {
    "id": "roadmap",
@@ -791,7 +1408,29 @@
    "what": "Turning strategy into a sequenced, time-boxed plan of what the team will build, and keeping it honest as reality changes.",
    "reads_as": null,
    "line": "Owned the H2 roadmap for checkout; shipped 4 of 5 committed initiatives.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "roadmap",
+     "quarterly plan",
+     "now/next/later plan"
+    ],
+    "verbs": [
+     "owned",
+     "built",
+     "sequenced",
+     "re-planned"
+    ],
+    "measures": [
+     "initiatives shipped against plan",
+     "quarters planned"
+    ],
+    "counterparts": [
+     "engineering",
+     "design",
+     "leadership"
+    ]
+   }
   },
   {
    "id": "personas_jtbd",
@@ -807,7 +1446,28 @@
    "what": "Describing who you are building for in a way that is specific enough to change decisions: segments, personas, and the jobs they hire the product for.",
    "reads_as": null,
    "line": "Redefined the ICP to mid-market ops teams; win rate in that segment rose 30%.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "personas",
+     "segmentation",
+     "jobs-to-be-done map"
+    ],
+    "verbs": [
+     "defined",
+     "segmented",
+     "mapped"
+    ],
+    "measures": [
+     "segments defined",
+     "features targeted by segment"
+    ],
+    "counterparts": [
+     "marketing",
+     "design",
+     "research"
+    ]
+   }
   },
   {
    "id": "genai_llm",
@@ -823,7 +1483,31 @@
    "what": "Building products on large language models and agents: prompting, retrieval, evaluation, cost, safety, and the new UX patterns they need.",
    "reads_as": null,
    "line": "Shipped the AI assistant to 50k users; built the eval harness that gates every prompt change.",
-   "how_shown": "built"
+   "how_shown": "built",
+   "shown_by": {
+    "artefacts": [
+     "LLM feature",
+     "prompt",
+     "RAG pipeline",
+     "agent"
+    ],
+    "verbs": [
+     "shipped",
+     "prompted",
+     "evaluated",
+     "built on"
+    ],
+    "measures": [
+     "users of the feature",
+     "quality or cost of the model",
+     "evals passed"
+    ],
+    "counterparts": [
+     "ML engineering",
+     "data science",
+     "design"
+    ]
+   }
   },
   {
    "id": "customer_proof",
@@ -839,7 +1523,31 @@
    "what": "Turning customer wins into case studies, references and advocacy that help sell.",
    "reads_as": null,
    "line": "Published the case study with customers, sales; case studies published.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "case study",
+     "customer story",
+     "reference program",
+     "testimonials"
+    ],
+    "verbs": [
+     "published",
+     "built the program",
+     "secured",
+     "wrote"
+    ],
+    "measures": [
+     "case studies published",
+     "references",
+     "deals influenced"
+    ],
+    "counterparts": [
+     "customers",
+     "sales",
+     "customer success"
+    ]
+   }
   },
   {
    "id": "product_sense",
@@ -855,7 +1563,28 @@
    "what": "Judgment about what makes a product good: spotting the right problem, the elegant solution, and the detail that will annoy users.",
    "reads_as": null,
    "line": "Redesigned the checkout flow from 6 steps to 3; conversion up 18%.",
-   "how_shown": "through"
+   "how_shown": "through",
+   "shown_by": {
+    "artefacts": [
+     "redesign",
+     "teardown",
+     "simplified flow"
+    ],
+    "verbs": [
+     "redesigned",
+     "simplified",
+     "spotted",
+     "cut"
+    ],
+    "measures": [
+     "conversion or completion change",
+     "steps removed"
+    ],
+    "counterparts": [
+     "design",
+     "users"
+    ]
+   }
   },
   {
    "id": "process_improvement",
@@ -871,7 +1600,31 @@
    "what": "Designing how work gets done so it scales: operating cadence, mechanisms, playbooks, and removing waste.",
    "reads_as": "Building the playbooks and marketing-ops processes that make campaigns repeatable.",
    "line": "Built the campaign launch playbook and automation templates; time to launch a campaign fell from 4 weeks to 10 days.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "process redesign",
+     "SOP",
+     "workflow automation",
+     "lean or Six Sigma project"
+    ],
+    "verbs": [
+     "redesigned",
+     "streamlined",
+     "automated",
+     "standardized"
+    ],
+    "measures": [
+     "cycle time",
+     "hours saved",
+     "errors or cost cut"
+    ],
+    "counterparts": [
+     "operations",
+     "the team",
+     "IT"
+    ]
+   }
   },
   {
    "id": "prioritization",
@@ -887,7 +1640,29 @@
    "what": "Deciding what to do first, what to defer, and what to kill, with a rationale others can check, under constraints you don't control.",
    "reads_as": "Choosing channels, campaigns and segments for a fixed budget.",
    "line": "Prioritized 3 of 8 proposed campaigns for a $2M budget on expected pipeline; delivered 120% of target.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "prioritized backlog",
+     "scoring model (RICE, ICE)",
+     "cut list"
+    ],
+    "verbs": [
+     "prioritized",
+     "cut",
+     "deferred",
+     "sequenced"
+    ],
+    "measures": [
+     "scope cut",
+     "features deferred",
+     "cycle time"
+    ],
+    "counterparts": [
+     "engineering",
+     "stakeholders"
+    ]
+   }
   },
   {
    "id": "exec_communication",
@@ -903,7 +1678,32 @@
    "what": "Communicating with executives and boards: the brief, the business review, and the ask, in the little time they have.",
    "reads_as": "Marketing reviews with leadership: results, the plan and the budget ask.",
    "line": "Presented the quarterly marketing review to the executive team 8 times; secured a 25% budget increase on the results.",
-   "how_shown": "scope"
+   "how_shown": "scope",
+   "shown_by": {
+    "artefacts": [
+     "executive update",
+     "business review (QBR/MBR)",
+     "board paper",
+     "executive briefing"
+    ],
+    "verbs": [
+     "presented to",
+     "ran the review",
+     "briefed",
+     "reported to"
+    ],
+    "measures": [
+     "executives briefed",
+     "reviews run",
+     "decisions taken in the review"
+    ],
+    "counterparts": [
+     "C-suite",
+     "VPs",
+     "the board",
+     "investors"
+    ]
+   }
   },
   {
    "id": "partnerships",
@@ -919,7 +1719,30 @@
    "what": "Building and managing relationships with other companies: integrations, platforms, resellers, and the ecosystem around the product.",
    "reads_as": "Co-marketing and agency partnerships that extend reach.",
    "line": "Ran co-marketing with 8 partners in a year; partner campaigns delivered 30% of event pipeline.",
-   "how_shown": "scope"
+   "how_shown": "scope",
+   "shown_by": {
+    "artefacts": [
+     "partnership agreement",
+     "partner program",
+     "integration partnership",
+     "co-marketing deal"
+    ],
+    "verbs": [
+     "signed",
+     "negotiated",
+     "launched",
+     "managed"
+    ],
+    "measures": [
+     "partners signed",
+     "revenue or users through partners"
+    ],
+    "counterparts": [
+     "partners",
+     "legal",
+     "business development"
+    ]
+   }
   },
   {
    "id": "cloud",
@@ -935,7 +1758,30 @@
    "what": "Working knowledge of cloud platforms: core services, cost, and how infrastructure choices shape the product.",
    "reads_as": null,
    "line": "AWS Certified Cloud Practitioner; owned the migration PRD to managed Kubernetes.",
-   "how_shown": "built"
+   "how_shown": "built",
+   "shown_by": {
+    "artefacts": [
+     "cloud migration",
+     "cloud platform work (AWS, GCP, Azure)",
+     "infrastructure plan"
+    ],
+    "verbs": [
+     "migrated",
+     "ran on",
+     "built on",
+     "cut cloud cost"
+    ],
+    "measures": [
+     "workloads migrated",
+     "cloud cost",
+     "uptime"
+    ],
+    "counterparts": [
+     "engineering",
+     "infrastructure",
+     "security"
+    ]
+   }
   },
   {
    "id": "pricing_packaging",
@@ -951,7 +1797,30 @@
    "what": "Deciding what to charge, how to bundle features into tiers, and how the model shapes who buys and how they use the product.",
    "reads_as": null,
    "line": "Led the move from per-seat to usage-based pricing; net revenue retention rose to 118%.",
-   "how_shown": "artifact"
+   "how_shown": "artifact",
+   "shown_by": {
+    "artefacts": [
+     "pricing model",
+     "packaging tiers",
+     "price test",
+     "monetization plan"
+    ],
+    "verbs": [
+     "priced",
+     "repackaged",
+     "tested",
+     "launched a tier"
+    ],
+    "measures": [
+     "revenue or ARPU change",
+     "conversion by tier"
+    ],
+    "counterparts": [
+     "finance",
+     "sales",
+     "marketing"
+    ]
+   }
   }
  ],
  "person": {
@@ -984,6 +1853,9 @@
     "lines": [
      "Business development lead with three years at a B2B logistics-software reseller in Mumbai: quota-carrying, built the partner program from zero to eleven partners, and ran a 4,000-member WhatsApp community for small freight forwarders, writing its weekly brief for two years. MBA candidate at Johnson Cornell Tech, class of 2027, moving toward product marketing. Has never shipped a product or written a launch.",
      "The partner program (zero to eleven partners, with its one-pager, pricing sheet and onboarding deck) and the weekly brief (104 issues to 4,000 forwarders). Never a product, never a launch, never a pitch deck for a product I did not sell myself."
+    ],
+    "work_lines": [
+     "Business development lead with three years at a B2B logistics-software reseller in Mumbai: quota-carrying, built the partner program from zero to eleven partners, and ran a 4,000-member WhatsApp community for small freight forwarders, writing its weekly brief for two years. MBA candidate at Johnson Cornell Tech, class of 2027, moving toward product marketing. Has never shipped a product or written a launch."
     ]
    },
    {
@@ -995,7 +1867,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "market_research",
@@ -1007,6 +1880,9 @@
     "state": "shows in other words",
     "through": null,
     "lines": [
+     "Ran 200+ discovery calls with forwarders and brought what they said back to the product team as a weekly note on asks, objections and lost deals"
+    ],
+    "work_lines": [
      "Ran 200+ discovery calls with forwarders and brought what they said back to the product team as a weekly note on asks, objections and lost deals"
     ]
    },
@@ -1022,6 +1898,9 @@
     "lines": [
      "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change",
      "Partner enablement, pipeline management, discovery calls, objection handling, pricing sheets, newsletter writing, community management (WhatsApp), trade-show presenting, HubSpot CRM, Excel, Canva, Hindi, Marathi, English"
+    ],
+    "work_lines": [
+     "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
     ]
    },
    {
@@ -1036,6 +1915,9 @@
     "lines": [
      "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change",
      "The partner program (zero to eleven partners, with its one-pager, pricing sheet and onboarding deck) and the weekly brief (104 issues to 4,000 forwarders). Never a product, never a launch, never a pitch deck for a product I did not sell myself."
+    ],
+    "work_lines": [
+     "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
     ]
    },
    {
@@ -1047,7 +1929,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "stakeholder_mgmt",
@@ -1058,7 +1941,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "influence",
@@ -1070,6 +1954,9 @@
     "state": "shows",
     "through": "Positioning & messaging",
     "lines": [
+     "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+    ],
+    "work_lines": [
      "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
     ]
    },
@@ -1084,6 +1971,9 @@
     "through": "Positioning & messaging",
     "lines": [
      "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+    ],
+    "work_lines": [
+     "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
     ]
    },
    {
@@ -1095,7 +1985,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "adaptability",
@@ -1107,6 +1998,9 @@
     "state": "shows",
     "through": "Content & social media marketing",
     "lines": [
+     "Grew the group to 4,000 members by invitation and referral, with weekly moderation and a posting code"
+    ],
+    "work_lines": [
      "Grew the group to 4,000 members by invitation and referral, with weekly moderation and a posting code"
     ]
    },
@@ -1120,6 +2014,9 @@
     "state": "shows",
     "through": "Sales enablement & field partnership",
     "lines": [
+     "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+    ],
+    "work_lines": [
      "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
     ]
    },
@@ -1135,6 +2032,9 @@
     "lines": [
      "Pitched the suite at two logistics trade shows in Mumbai and Dubai, presenting to rooms of 40 to 80 forwarders",
      "Partner enablement, pipeline management, discovery calls, objection handling, pricing sheets, newsletter writing, community management (WhatsApp), trade-show presenting, HubSpot CRM, Excel, Canva, Hindi, Marathi, English"
+    ],
+    "work_lines": [
+     "Pitched the suite at two logistics trade shows in Mumbai and Dubai, presenting to rooms of 40 to 80 forwarders"
     ]
    },
    {
@@ -1146,7 +2046,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "ai_ml",
@@ -1159,7 +2060,8 @@
     "through": null,
     "lines": [
      "Spring 2027 plan: TECH 5240 Branding for Products, NBAY 6090 Digital Marketing, TECH 5111 Don't Sell Sand in the Desert, TECH 5280 Building AI Products"
-    ]
+    ],
+    "work_lines": []
    },
    {
     "id": "roadmap",
@@ -1170,7 +2072,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "product_strategy",
@@ -1181,7 +2084,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "prioritization",
@@ -1192,7 +2096,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "customer_obsession",
@@ -1204,6 +2109,9 @@
     "state": "shows",
     "through": "Customer & executive-facing engagement",
     "lines": [
+     "Pitched the suite at two logistics trade shows in Mumbai and Dubai, presenting to rooms of 40 to 80 forwarders"
+    ],
+    "work_lines": [
      "Pitched the suite at two logistics trade shows in Mumbai and Dubai, presenting to rooms of 40 to 80 forwarders"
     ]
    },
@@ -1218,6 +2126,9 @@
     "through": "Product discovery & validation",
     "lines": [
      "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+    ],
+    "work_lines": [
+     "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
     ]
    },
    {
@@ -1231,6 +2142,9 @@
     "through": "Product discovery & validation",
     "lines": [
      "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+    ],
+    "work_lines": [
+     "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
     ]
    },
    {
@@ -1243,6 +2157,10 @@
     "state": "shows",
     "through": null,
     "lines": [
+     "Built the partner program from zero to eleven partners: recruited customs brokers and regional IT resellers, wrote the partner one-pager, the pricing sheet and the onboarding deck, and ran the monthly partner call",
+     "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
+    ],
+    "work_lines": [
      "Built the partner program from zero to eleven partners: recruited customs brokers and regional IT resellers, wrote the partner one-pager, the pricing sheet and the onboarding deck, and ran the monthly partner call",
      "Wrote the discovery-call guide and the objection sheet the sales team used; kept both current after every pricing or packaging change"
     ]
@@ -1259,6 +2177,10 @@
     "lines": [
      "Built the partner program from zero to eleven partners: recruited customs brokers and regional IT resellers, wrote the partner one-pager, the pricing sheet and the onboarding deck, and ran the monthly partner call",
      "Business development lead with three years at a B2B logistics-software reseller in Mumbai: quota-carrying, built the partner program from zero to eleven partners, and ran a 4,000-member WhatsApp community for small freight forwarders, writing its weekly brief for two years. MBA candidate at Johnson Cornell Tech, class of 2027, moving toward product marketing. Has never shipped a product or written a launch."
+    ],
+    "work_lines": [
+     "Built the partner program from zero to eleven partners: recruited customs brokers and regional IT resellers, wrote the partner one-pager, the pricing sheet and the onboarding deck, and ran the monthly partner call",
+     "Business development lead with three years at a B2B logistics-software reseller in Mumbai: quota-carrying, built the partner program from zero to eleven partners, and ran a 4,000-member WhatsApp community for small freight forwarders, writing its weekly brief for two years. MBA candidate at Johnson Cornell Tech, class of 2027, moving toward product marketing. Has never shipped a product or written a launch."
     ]
    },
    {
@@ -1270,7 +2192,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "personas_jtbd",
@@ -1281,7 +2204,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "metrics_kpis",
@@ -1292,7 +2216,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "data_driven",
@@ -1303,7 +2228,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "technical_fluency",
@@ -1314,7 +2240,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "cloud",
@@ -1325,7 +2252,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "exec_communication",
@@ -1336,7 +2264,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "program_mgmt",
@@ -1347,7 +2276,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "process_improvement",
@@ -1358,7 +2288,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "campaign_management",
@@ -1369,7 +2300,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    },
    {
     "id": "content_social",
@@ -1383,6 +2315,10 @@
     "lines": [
      "Grew the group to 4,000 members by invitation and referral, with weekly moderation and a posting code",
      "Wrote the weekly brief for two years (104 issues): freight rates, customs changes, software tips and one member story an issue, in plain English and Hindi"
+    ],
+    "work_lines": [
+     "Grew the group to 4,000 members by invitation and referral, with weekly moderation and a posting code",
+     "Wrote the weekly brief for two years (104 issues): freight rates, customs changes, software tips and one member story an issue, in plain English and Hindi"
     ]
    },
    {
@@ -1394,7 +2330,8 @@
     "atlas_words": "a gap this role requires",
     "state": "must build",
     "through": null,
-    "lines": []
+    "lines": [],
+    "work_lines": []
    }
   ],
   "states": {

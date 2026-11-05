@@ -57,6 +57,7 @@
   .why div { background: var(--wash); border-radius: 6px; padding: 10px 12px; font-size: 14px; }
   .why h3 { margin: 0 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--mute); }
   .why q, .why .ev { display: block; margin-top: 6px; color: var(--mute); font-size: 13px; }
+  .why pre.prompt { white-space: pre-wrap; font: inherit; font-size: 13px; margin: 0; padding: 8px 10px; border: 1px solid var(--line, #ddd); border-radius: 6px; background: #fafafa; }
   .chips { margin: 6px 0; }
   .chip { display: inline-block; border: 1px solid var(--line); border-radius: 10px; padding: 1px 8px; font-size: 12px; margin: 0 4px 4px 0; background: var(--card); }
   dl { margin: 8px 0; display: grid; grid-template-columns: 110px 1fr; gap: 4px 10px; font-size: 14px; }
@@ -117,7 +118,7 @@
   var skillName = function (id) { return (D.skill_labels || {})[id] || id; };
   var classLine = function (code) { var t = (D.class_titles || {})[code]; return t ? code + " · " + t : code; };
   // the worlds are the levels in order: 1, 2, 3, then the Reach when the map has one
-  var levels = D.worlds.map(function (w) { return { n: String(w.n), label: w.label, release: w.release, who: w.who, clear: w.clear, missions: w.missions || [], reach: w.n === "reach" }; });
+  var levels = D.worlds.map(function (w) { return { n: String(w.n), label: w.label, who: w.who, clear: w.clear, missions: w.missions || [], reach: w.n === "reach" }; });
   var levelName = function (l) { return l.reach ? l.label : "Level " + l.n + " · " + l.label; };
   var tracks = D.tracks;
   var cards = D.cards;
@@ -150,7 +151,7 @@
   };
   grid.style.gridTemplateColumns = "150px repeat(" + levels.length + ", minmax(150px, 1fr))";
   var html = "<div class=\"trk\" role=\"columnheader\"></div>";
-  levels.forEach(function (l) { html += "<div class=\"lvl\" role=\"columnheader\"><b>" + esc(levelName(l)) + "</b><span class=\"rel\">" + esc(l.release) + "</span><span class=\"clear\">" + esc(clearLine(l)) + "</span></div>"; });
+  levels.forEach(function (l) { html += "<div class=\"lvl\" role=\"columnheader\"><b>" + esc(levelName(l)) + "</b><span class=\"rel\">" + esc(l.who) + "</span><span class=\"clear\">" + esc(clearLine(l)) + "</span></div>"; });
   tracks.forEach(function (t) {
     html += "<div class=\"trk\" role=\"rowheader\">" + esc(t.label) + "<small>" + esc(t.atlas_area) + "</small></div>";
     levels.forEach(function (l) {
@@ -172,13 +173,24 @@
     var lvl = levels.filter(function (l) { return l.n === String(c.level); })[0] || {};
     var trk = tracks.filter(function (t) { return t.id === c.track; })[0] || {};
     var h = "<button type=\"button\" class=\"btn close\" id=\"closeBtn\">Close</button>";
-    h += "<div class=\"eyebrow\">" + esc(levelName(lvl)) + " · " + esc(lvl.release) + " · " + esc(trk.label) + esc(statusOf(c)) + "</div>";
+    h += "<div class=\"eyebrow\">" + esc(levelName(lvl)) + (c.kind === "story" ? " · story card" : "") + " · " + esc(trk.label) + esc(statusOf(c)) + "</div>";
     h += "<h2>" + esc(c.title) + "</h2>";
     h += "<p class=\"ship\"><b>Ships:</b> " + esc(c.ship) + "</p>";
     h += "<div class=\"why\">";
-    h += "<div><h3>Why the role</h3>" + esc(c.why_role.text) + "<q>“" + esc(c.why_role.posting_quote) + "” — the posting</q></div>";
-    h += "<div><h3>Why " + esc(D.company.name) + "</h3>" + esc(c.why_company.text) + "<span class=\"ev\">Research: " + esc(c.why_company.research_file) + " · <a href=\"" + esc(c.why_company.url) + "\">source</a></span></div>";
-    h += "<div><h3>Why " + esc(D.student.name_on_page.split(" ")[0]) + "</h3>" + esc(c.why_person.text) + "<q>“" + esc(c.why_person.profile_quote) + "” — the profile</q></div>";
+    if (c.kind === "story") {
+      // a story card (assemble.mjs): the line as it stands, what the skill means here, the slots, the practice prompt
+      var sb = c.shown_by || {};
+      h += "<div><h3>The line today</h3><q>“" + esc(c.line) + "”</q><span class=\"ev\">" + esc(c.state) + "</span></div>";
+      if (c.reads_as || c.what) h += "<div><h3>What it means here</h3>" + esc(c.reads_as || c.what) + "</div>";
+      h += "<div><h3>A line that shows it</h3>" + ["artefacts", "verbs", "counterparts", "measures"].filter(function (k) { return (sb[k] || []).length; }).map(function (k) { return k + ": " + esc(sb[k].join(", ")); }).join("<br>") + "</div>";
+      h += "<div><h3>Why the role</h3>" + esc(c.why_role.text) + "</div>";
+      h += "<div><h3>Why " + esc(D.student.name_on_page.split(" ")[0]) + "</h3>" + esc(c.why_person.text) + "</div>";
+      h += "<div><h3>The practice prompt</h3><pre class=\"prompt\">" + esc(c.prompt) + "</pre></div>";
+    } else {
+      h += "<div><h3>Why the role</h3>" + esc(c.why_role.text) + "<q>“" + esc(c.why_role.posting_quote) + "” — the posting</q></div>";
+      h += "<div><h3>Why " + esc(D.company.name) + "</h3>" + esc(c.why_company.text) + "<span class=\"ev\">Research: " + esc(c.why_company.research_file) + " · <a href=\"" + esc(c.why_company.url) + "\">source</a></span></div>";
+      h += "<div><h3>Why " + esc(D.student.name_on_page.split(" ")[0]) + "</h3>" + esc(c.why_person.text) + "<q>“" + esc(c.why_person.profile_quote) + "” — the profile</q></div>";
+    }
     h += "</div><dl>";
     h += "<dt>Window</dt><dd>" + esc(c.window) + (c.hours ? " · about " + esc(c.hours) + " hours" : "") + "</dd>";
     h += "<dt>Skills</dt><dd class=\"chips\">" + (c.atlas_skills || []).map(function (s) { return "<span class=\"chip\">" + esc(skillName(s)) + "</span>"; }).join("") + "</dd>";
@@ -232,7 +244,7 @@
   // ---------- the one-page summary for print: the levels as columns, every card with what it ships ----------
   var p = "";
   levels.forEach(function (l) {
-    p += "<section><h2>" + esc(levelName(l)) + "</h2><div class=\"rel\">" + esc(l.release) + " · " + esc(clearLine(l)) + "</div>";
+    p += "<section><h2>" + esc(levelName(l)) + "</h2><div class=\"rel\">" + esc(clearLine(l)) + "</div>";
     cards.filter(function (c) { return String(c.level) === l.n; }).forEach(function (c) {
       var trk = tracks.filter(function (t) { return t.id === c.track; })[0] || {};
       p += "<article><b>" + esc(c.title) + "</b><i>" + esc(trk.label) + " · " + esc(c.window) + "</i><p>" + esc(c.ship) + "</p></article>";

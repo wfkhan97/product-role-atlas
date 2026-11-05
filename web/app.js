@@ -643,6 +643,7 @@
   const stCls = s => ({ "shows": "st-shows", "shows in other words": "st-other", "must evidence better": "st-half", "must build": "st-build" })[s] || "st-build";
   const lookCls = n => n.shipped ? "st-built" : stCls(n.state);
   const lookWords = n => n.shipped ? n.shipped.label : Copy.map.states[n.state] || n.state;
+  const hoursWords = h => Number(h) === 1 ? Copy.map.card.hourOne : fill(Copy.map.card.hoursValue, { hours: h });
   const sdot = n => `<span class="sdot ${lookCls(n)}" aria-hidden="true"></span>`;
   const msMark = (st, extra) => `<span class="mk ms-${st}${extra ? " " + extra : ""}" aria-hidden="true"></span>`;
   const diamond = `<svg class="mk-p" width="9" height="9" viewBox="0 0 8 8" aria-hidden="true"><path d="M4 0 8 4 4 8 0 4Z"/></svg>`;
@@ -722,7 +723,7 @@
       const c = L.columns[i];
       const pips = w.optional || !w.clear ? "" : `<span class="pips" aria-hidden="true">${Array.from({ length: w.clear }, (_, k) => `<span class="pip${k < w.shipped ? " on" : ""}"></span>`).join("")}</span>`;
       h += `<div class="cl${w.cleared ? " cleared" : ""}${w.optional ? " optional" : ""}" style="left:${c.x}px;width:${c.width}px">
-        <div class="ch"><div class="eyebrow">${esc((w.optional ? MC.optional : w.head) + (w.release ? " · " + w.release : ""))}</div><b>${esc(w.label)}</b><p class="who">${esc(w.who)}</p></div>
+        <div class="ch"><div class="eyebrow">${esc(w.optional ? MC.optional : w.head)}</div><b>${esc(w.label)}</b><p class="who">${esc(w.who)}</p></div>
         <div class="cf"><p class="clr">${esc(w.clearLine)}</p>${w.optional ? `<p class="prog">${esc(w.progress)}</p>` : `<p class="prog">${w.cleared ? `<span class="cleared-tag">${esc(w.progress)}</span>` : pips + esc(w.progress)}</p>`}</div></div>`;
     });
     h += `</div></div><div class="ow-cap" id="ow-cap" aria-live="polite"></div><p class="ow-note">${esc(MC.stopHint)}</p>`;
@@ -742,12 +743,12 @@
       const hit = id && MapModel.missionOf(W, id);
       if (!hit) { el.innerHTML = `<span class="st">${esc(MC.allClear)}</span>`; return; }
       const { world: w, mission: m } = hit, lead = hover && hover !== W.here ? `${w.head} · ${m.i}` : MC.here;
-      el.innerHTML = `<span class="k">${esc(lead)}</span><button type="button" class="ow-title" data-card="${esc(m.id)}">${esc(m.card.title)}</button><span class="st">${esc(MC.missionStates[m.state])} · ${esc(m.card.window || "")} · ${esc(fill(MC.card.hoursValue, { hours: m.card.hours }))}</span><button type="button" class="ow-open" data-card="${esc(m.id)}">${esc(MC.openIt)}</button>`;
+      el.innerHTML = `<span class="k">${esc(lead)}</span><button type="button" class="ow-title" data-card="${esc(m.id)}">${esc(m.card.title)}</button><span class="st">${esc(MC.missionStates[m.state])} · ${esc(m.card.window || "")} · ${esc(hoursWords(m.card.hours))}</span><button type="button" class="ow-open" data-card="${esc(m.id)}">${esc(MC.openIt)}</button>`;
       el.querySelectorAll("[data-card]").forEach(b => b.onclick = () => openCard(b.dataset.card));
     };
     for (const s of L.stops) {
       const m = MapModel.missionOf(W, s.id).mission;
-      const g = svgEl("g", { class: `stop ms-${m.state}${sel === m.id ? " sel" : ""}`, tabindex: "0", role: "button", "data-card": m.id, "aria-label": `${m.card.title}. ${MC.missionStates[m.state]}.` }, svg);
+      const g = svgEl("g", { class: `stop ms-${m.state}${m.kind === "story" ? " story" : ""}${sel === m.id ? " sel" : ""}`, tabindex: "0", role: "button", "data-card": m.id, "aria-label": `${m.card.title}. ${MC.missionStates[m.state]}.` }, svg);
       svgEl("title", {}, g, `${m.card.title} · ${MC.missionStates[m.state]}`);
       svgEl("circle", { class: "halo", cx: s.x, cy: s.y, r: s.r + 5 }, g);
       svgEl("circle", { class: "base", cx: s.x, cy: s.y, r: s.r }, g);
@@ -757,7 +758,7 @@
       if (m.state === "changed") svgEl("circle", { class: "corner", cx: s.x + s.r * 0.72, cy: s.y - s.r * 0.72, r: 5.5 }, g);
       if (m.state === "declined") svgEl("line", { class: "cross", x1: s.x - s.r - 3, y1: s.y + s.r + 3, x2: s.x + s.r + 3, y2: s.y - s.r - 3 }, g);
       // the person's own answer, sent from this page or read back: a small mark under the stop until the republish
-      if (m.sent) { const k = svgEl("circle", { class: "sent", cx: s.x, cy: s.y + s.r + 10, r: 3.5 }, g); svgEl("title", {}, k, fill(MC.sentMark, { choice: MC.feedback.choices[m.sent.choice] || m.sent.choice })); }
+      if (m.sent) { const k = svgEl("circle", { class: "sent", cx: s.x, cy: s.y + s.r + 10, r: 3.5 }, g); svgEl("title", {}, k, fill(MC.sentMark, { choice: (m.kind === "story" ? MC.feedback.storyChoices : MC.feedback.choices)[m.sent.choice] || m.sent.choice })); }
       g.addEventListener("click", () => openCard(m.id));
       g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openCard(m.id); } });
       g.addEventListener("mouseenter", () => { hover = m.id; cap(); });
@@ -895,30 +896,47 @@
     const stateLine = m.state === "shipped" ? fill(K.state.shipped, { date: MapModel.dateWords(c.shipped) })
       : m.state === "declined" ? (c.declined ? K.state.declined : K.state.declinedSent)
       : m.state === "changed" ? (c.changed ? fill(K.state.changed, { date: MapModel.dateWords(c.changed) }) : K.state.changedSent)
+      : m.state === "open" && c.kind === "story" ? K.state.openStory
       : K.state[m.state];
-    const head = w ? (w.optional ? `${MC.reachHead} · ${MC.optional}` : `${fill(MC.world, { n: w.num, label: w.label })}${w.release ? " · " + w.release : ""}`) : "";
+    const story = MapModel.storyOf(c), S = K.story;
+    const head = w ? (w.optional ? `${MC.reachHead} · ${MC.optional}` : fill(MC.world, { n: w.num, label: w.label })) + (story ? ` · ${S.eyebrow}` : "") : (story ? S.eyebrow : "");
     const skills = (c.atlas_skills || []).map(id => MapModel.skillInfo(map, mapUi.M, id));
     const back = fromNode ? fill(K.backTo, { name: MapModel.skillInfo(map, mapUi.M, fromNode).name }) : K.back;
-    panel(`<button type="button" class="backlink" data-back>${esc(back)}</button>
-      <div class="q-mstate ms-${m.state}">${msMark(m.state)}<span>${esc(stateLine)}</span></div>
-      <div class="qcard" data-card="${esc(c.id)}">
-        ${head ? `<div class="eyebrow">${esc(head)}</div>` : ""}${w && w.who ? `<p class="who">${esc(w.who)}</p>` : ""}
-        <h2>${esc(c.title)}</h2>
-        <dl><dt>${esc(K.window)}</dt><dd>${esc(c.window || "")}</dd><dt>${esc(K.hours)}</dt><dd>${esc(fill(K.hoursValue, { hours: c.hours }))}</dd></dl>
-        <h3>${esc(K.ships)}</h3><p class="ship">${esc(c.ship || "")}</p>
+    const chips = `<h3>${esc(K.skills)}</h3><div class="chipset">${skills.map(s => `<button type="button" class="chip" data-node="${esc(s.id)}" title="${esc(lookWords(s))}">${sdot(s)}${esc(s.name)}</button>`).join("")}</div>`;
+    // a story card: the line as it stands, what the skill means here, the slots, a box that reads a new line live,
+    // the practice prompt with Copy, the two why lines; a build card: the three why lines, the classes, the sources
+    const field = ((map.role_class || {}).label || "").replace(/ roles$/, "");
+    const body = story ? `
+        <section class="why"><h3>${esc(S.lineToday)}</h3><q>“${esc(story.line)}”</q><p class="from">${esc(fill(S.todayState, { state: (MC.states[story.state] || story.state).toLowerCase() }))}</p></section>
+        ${story.reads_as || story.what ? `<section class="why"><h3>${esc(field ? fill(S.means, { field }) : S.meansPlain)}</h3><p>${esc(story.reads_as || story.what)}</p></section>` : ""}
+        ${story.slots.length ? `<section class="why"><h3>${esc(S.shows)}</h3><ul class="slots">${story.slots.map(x => `<li><b>${esc(S.slots[x.key] || x.key)}</b> ${esc(x.items.join(", "))}</li>`).join("")}</ul></section>` : ""}
+        <section class="why try"><h3>${esc(S.tryIt)}</h3><p class="small muted">${esc(S.tryHint)}</p><textarea id="story-line" maxlength="400" aria-label="${esc(S.tryAria)}" placeholder="${esc(S.tryPlaceholder)}"></textarea><p class="story-read" id="story-read" aria-live="polite"></p></section>
+        ${story.prompt ? `<section class="why"><h3>${esc(S.practice)}</h3><p class="small muted">${esc(S.practiceHint)}</p><pre class="prompt" id="story-prompt">${esc(story.prompt)}</pre><p><button type="button" class="btn" id="story-copy">${esc(S.copy)}</button><span class="copied" id="story-copied"></span></p></section>` : ""}
+        ${c.why_role ? `<section class="why"><h3>${esc(K.whyRole)}</h3><p>${esc(c.why_role.text)}</p></section>` : ""}
+        ${c.why_person ? `<section class="why"><h3>${esc(K.whyYou)}</h3><p>${esc(c.why_person.text)}</p></section>` : ""}
+        ${chips}
+        <p class="from"><a href="#/role/${esc((map.role || {}).id || "")}">${esc(fill(S.fromAtlas, { role: (map.role || {}).label || "" }))}</a></p>` : `
         ${c.why_role ? `<section class="why"><h3>${esc(K.whyRole)}</h3><p>${esc(c.why_role.text)}</p>${c.why_role.posting_quote ? `<q>“${esc(c.why_role.posting_quote)}”</q>` : ""}<p class="from">${esc(K.fromPosting)} <a href="${esc(safeUrl(posting.url))}" target="_blank" rel="noopener">${esc(posting.title || "")}</a>${company ? ", " + esc(company) : ""}</p></section>` : ""}
         ${c.why_company ? `<section class="why"><h3>${esc(K.whyCompany)}</h3><p>${esc(c.why_company.text)}</p><p class="from">${esc(fill(K.fromResearch, { topic: researchWords(c.why_company.research_file) }))}${c.why_company.url ? ` · <a href="${esc(safeUrl(c.why_company.url))}" target="_blank" rel="noopener">${esc(hostOf(c.why_company.url))}</a>` : ""}</p></section>` : ""}
         ${c.why_person ? `<section class="why"><h3>${esc(K.whyYou)}</h3><p>${esc(c.why_person.text)}</p>${c.why_person.profile_quote ? `<q>“${esc(c.why_person.profile_quote)}”</q>` : ""}<p class="from">${esc(K.fromProfile)}</p></section>` : ""}
-        <h3>${esc(K.skills)}</h3><div class="chipset">${skills.map(s => `<button type="button" class="chip" data-node="${esc(s.id)}" title="${esc(lookWords(s))}">${sdot(s)}${esc(s.name)}</button>`).join("")}</div>
+        ${chips}
         <h3>${esc(K.classes)}</h3><div id="map-classes">${classList(c)}</div>
         ${c.users ? `<h3>${esc(K.users)}</h3><p class="users">${esc(c.users)}</p>` : ""}
-        <h3>${esc(K.sources)}</h3><ul class="src">${(c.sources || []).map(s => `<li><a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.read ? ` <span class="rd">· ${esc(fill(K.read, { date: MapModel.dateWords(s.read) }))}</span>` : ""}</li>`).join("")}</ul>
+        <h3>${esc(K.sources)}</h3><ul class="src">${(c.sources || []).map(s => `<li><a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.read ? ` <span class="rd">· ${esc(fill(K.read, { date: MapModel.dateWords(s.read) }))}</span>` : ""}</li>`).join("")}</ul>`;
+    panel(`<button type="button" class="backlink" data-back>${esc(back)}</button>
+      <div class="q-mstate ms-${m.state}">${msMark(m.state)}<span>${esc(stateLine)}</span></div>
+      <div class="qcard${story ? " story" : ""}" data-card="${esc(c.id)}">
+        ${head ? `<div class="eyebrow">${esc(head)}</div>` : ""}${w && w.who ? `<p class="who">${esc(w.who)}</p>` : ""}
+        <h2>${esc(c.title)}</h2>
+        <dl><dt>${esc(K.window)}</dt><dd>${esc(c.window || "")}</dd><dt>${esc(K.hours)}</dt><dd>${esc(hoursWords(c.hours))}</dd></dl>
+        <h3>${esc(K.ships)}</h3><p class="ship">${esc(c.ship || "")}</p>${body}
         <div class="fb" id="map-fb"></div>
       </div>`, { kind: "card", id: c.id, from: fromNode || null });
     aside.querySelector("[data-back]").onclick = () => fromNode ? openNode(fromNode) : closePanel();
     aside.querySelectorAll(".qcard [data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node));
+    if (story) storyControls(c, story);
     // the class titles from the class roster (Catalog), once per page; the codes stand until they load
-    if ((c.classes || []).length && window.Catalog && !mapUi.catalog) {
+    if (!story && (c.classes || []).length && window.Catalog && !mapUi.catalog) {
       mapUi.catalog = Catalog.loadCatalog().then(d => Object.fromEntries(d.classes.map(k => [k.code, k.title || ""]))).catch(e => { console.error(e); return {}; });
     }
     if (mapUi.catalog) mapUi.catalog.then(t => { mapUi.titles = t; const el = $("#map-classes"); if (el && mapUi.panel && mapUi.panel.id === c.id) el.innerHTML = classList(c); });
@@ -933,6 +951,34 @@
         .then(() => { if (!mapUi || !mapUi.panel || mapUi.panel.id !== c.id) return; if (mapUi.mine[c.id]) openCard(c.id, fromNode); else drawFeedback(c.id, { choice: null, note: "" }); });
     }
   }
+  // The story card's two controls. The box reads the new line with the matcher of the map's role, the way the fit
+  // page read the résumé (Atlas.matcher), on its own: the row's status for the card's skill becomes one of the four
+  // states (MapModel.lineState). Nothing is stored and nothing is sent; the person tells the owner with F1 below.
+  // Copy puts the practice prompt on the clipboard (a selection when the clipboard is closed to the page).
+  const storyMatcher = async () => { const R = await Atlas.role(mapUi.map.role.id); const { M } = await Atlas.matcher(R); return { R, M }; };
+  function storyControls(c, story) {
+    const S = Copy.map.card.story, box = $("#story-line"), out = $("#story-read");
+    let timer = null, seq = 0;
+    const show = (state, text) => { if (!out) return; out.innerHTML = state ? `<span class="sdot ${stCls(state)}" aria-hidden="true"></span><span>${esc(text)}</span>` : `<span>${esc(text)}</span>`; };
+    const readLine = async text => {
+      const my = ++seq;
+      if (!text.trim()) { show(null, ""); return; }
+      show(null, S.reading);
+      try {
+        const { R, M } = await storyMatcher();
+        const r = M.match(text, { jobs: R.jobs, familyJobs: R.jobs, label: R.role.label }, { ladder: R.role.ladder });
+        const row = (r.rows || []).find(x => x.id === story.skill);
+        const state = MapModel.lineState(row ? row.status : "gap");
+        if (my === seq && mapUi && mapUi.panel && mapUi.panel.id === c.id) show(state, S.result[state] || "");
+      } catch (e) { console.error(e); if (my === seq) show(null, ""); }
+    };
+    if (box) box.oninput = () => { clearTimeout(timer); timer = setTimeout(() => readLine(box.value), 450); };
+    const copy = $("#story-copy"), pre = $("#story-prompt"), said = $("#story-copied");
+    if (copy && pre) copy.onclick = async () => {
+      try { await navigator.clipboard.writeText(pre.textContent); if (said) said.textContent = S.copied; }
+      catch { const range = document.createRange(); range.selectNodeContents(pre); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); }
+    };
+  }
   function classList(c) {
     const K = Copy.map.card, codes = c.classes || [], t = mapUi.titles || {};
     if (!codes.length) return `<p class="none small muted">${esc(K.noClass)}</p>`;
@@ -943,13 +989,14 @@
   function drawFeedback(cardId, draft, err) {
     const box = $("#map-fb"); if (!box) return;
     const MC = Copy.map, F = MC.feedback, c = MapModel.cardsById(mapUi.map)[cardId], mine = mapUi.mine[cardId], editing = draft.editing;
+    const choices = c.kind === "story" ? F.storyChoices : F.choices;   // "I'll rewrite it" on a story card
     let h = `<h3>${esc(F.heading)}</h3>`;
     if (c.shipped) h += `<div class="sent"><b>${esc(MC.missionStates.shipped)}</b> <span class="when">· ${esc(MapModel.dateWords(c.shipped))}</span><p class="small ok">${esc(F.shipped)}</p></div>`;
     else if (mine && !editing) {
-      h += `<div class="sent"><b>${esc(fill(F.sentChoice, { choice: F.choices[mine.choice] || mine.choice }))}</b> <span class="when">· ${esc(MapModel.dateWords(mine.date))}</span>${mine.note ? `<p>${esc(mine.note)}</p>` : `<p class="muted">${esc(F.noNote)}</p>`}<p class="small ok">${esc(F.sent)}</p></div>`;
+      h += `<div class="sent"><b>${esc(fill(F.sentChoice, { choice: choices[mine.choice] || mine.choice }))}</b> <span class="when">· ${esc(MapModel.dateWords(mine.date))}</span>${mine.note ? `<p>${esc(mine.note)}</p>` : `<p class="muted">${esc(F.noNote)}</p>`}<p class="small ok">${esc(F.sent)}</p></div>`;
       h += `<div class="again"><button type="button" class="linkish link" data-again>${esc(F.again)}</button></div>`;
     } else {
-      h += `<div class="row">${Object.entries(F.choices).map(([k, v]) => `<button class="btn choice${draft.choice === k ? " on" : ""}" type="button" data-choice="${k}" aria-pressed="${draft.choice === k}">${esc(v)}</button>`).join("")}</div>
+      h += `<div class="row">${Object.entries(choices).map(([k, v]) => `<button class="btn choice${draft.choice === k ? " on" : ""}" type="button" data-choice="${k}" aria-pressed="${draft.choice === k}">${esc(v)}</button>`).join("")}</div>
         <textarea id="map-note" maxlength="500" aria-label="${esc(F.noteAria)}" placeholder="${esc(F.note)}">${esc(draft.note)}</textarea>
         <div class="send"><button class="btn primary" type="button" data-send${draft.choice && !draft.busy ? "" : " disabled"}>${esc(draft.busy ? F.sending : F.send)}</button><span class="small muted">${esc(F.saved)}</span></div>
         ${err ? `<p class="small fb-err">${esc(F.failed)}</p>` : ""}`;
@@ -984,8 +1031,8 @@
   function printSheet() {
     const MC = Copy.map, P = MC.printPage, map = mapUi.map, st = map.student || {}, role = (map.role || {}).label || "", company = (map.company || {}).name || "";
     const R = MapModel.readLines(map, mapUi.M), W = mapWorlds(), T = mapUi.tree;
-    const cols = W.worlds.map(w => `<section><h2>${esc(w.optional ? MC.reachHead : fill(MC.world, { n: w.num, label: w.label }))}${w.release ? ` <span>· ${esc(w.release)}</span>` : ""}</h2><p class="who">${esc(w.clearLine)}</p>
-      ${w.missions.map(m => `<div class="pr-card ms-${m.state}"><span class="t">${esc(m.card.title)}</span><span class="m">${esc([trackLabel(m.card.track), m.card.window, fill(MC.card.hoursValue, { hours: m.card.hours }), m.state === "open" ? "" : MC.missionStates[m.state]].filter(Boolean).join(" · "))}</span><span class="ship">${esc(m.card.ship || "")}</span></div>`).join("")}</section>`).join("");
+    const cols = W.worlds.map(w => `<section><h2>${esc(w.optional ? MC.reachHead : fill(MC.world, { n: w.num, label: w.label }))}</h2><p class="who">${esc(w.clearLine)}</p>
+      ${w.missions.map(m => `<div class="pr-card ms-${m.state}"><span class="t">${esc(m.card.title)}</span><span class="m">${esc([trackLabel(m.card.track), m.card.window, hoursWords(m.card.hours), m.state === "open" ? "" : MC.missionStates[m.state]].filter(Boolean).join(" · "))}</span><span class="ship">${esc(m.card.ship || "")}</span></div>`).join("")}</section>`).join("");
     const dots = (label, nodes) => nodes.length ? `<div class="pr-grp"><h3>${esc(label)}</h3>${nodes.map(n => `<span class="pr-node">${sdot(n)}${esc(n.name)}</span>`).join("")}</div>` : "";
     const tree = dots(P.trunk, T.trunk) + dots(P.shared, T.shared) + T.branches.map(b => dots(b.role.label, b.own)).join("") + dots(MC.how, T.behaviours);
     return `<section class="map-print light" aria-hidden="true">

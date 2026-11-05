@@ -1912,6 +1912,54 @@ Left open: GradBuddy's `apprentice/` folder and its skill still exist there (rea
 pointer README there, is the owner's call in that repository. The "Later" line "commit the B1 files in
 `gradbuddy/apprentice/`" is moot now that the files live here.
 
+## World 1 opens with story cards: one résumé line, said so it shows (`feat/story-cards`, 2026-11-05)
+
+The owner's reading of World 1 (2026-11-05): the first missions should be guided and about the person's own story,
+not a page to write. Half of a résumé's core skills are half shown: named but not evidenced, or shown in another
+field's words. A line rewritten so the atlas reads the skill as shown is the smallest possible win, it is practice for
+every later card, and a model can coach it if the prompt is right. Decisions (the lead, on the owner's pick "Story
+cards first"; stacked on `feat/apprentice-in-atlas`, since the generator lives there):
+
+1. **The generator writes them, the skill never does.** `assemble.mjs` adds up to two cards (`kind: "story"`, ids
+   `s1-<skill>`) from the grounding alone: a skill of the first role's read in `must evidence better` or `shows in
+   other words`, on the tree, with a work line; the posting's skills first, then the larger share. Deterministic, so
+   a re-assemble writes the same two; the owner's `shipped`, `changed`, `declined` and `reply` survive by id, and a
+   card the grounding no longer picks goes. A bad pick is declined, never edited. The check holds the rules
+   (`pipeline/apprentice/README.md`).
+2. **A work line, never a list.** `ground.mjs` keeps, per read row, `work_lines`: bullets, the summary and the
+   profile's prose of six words or more. A course plan or a skills list reads as "named, not shown" too, and the first
+   draft picked one; a story card on it would ask the person to rewrite a course list. `shown_by` (the slots of
+   `pipeline/evidence.json`: artefacts, verbs, measures, counterparts) rides on every skill of the grounding.
+3. **Nothing invented.** The card's text is the grounding's words: the line as it stands, `reads_as` (else `what`),
+   the slots, the share in words ("About two in three postings … ask for"; never a percentage), and a prompt that
+   quotes the line, names the slots, asks three questions and drafts three lines under 30 words with `[ ]` where a
+   number goes. The owner's "practice with an LLM with a provided prompt" is that prompt, copied with one button into
+   any model; the atlas calls none.
+4. **The read is live and local.** The card has a box; a pasted line goes to the matcher of the map's role
+   (`Atlas.matcher`, the one that read the résumé) on its own, and the row's status for the card's skill reads as one
+   of the four states (`MapModel.lineState`). Nothing is stored or sent; the person tells the owner with F1 ("I'll
+   rewrite it"). The owner marks the card shipped once the line is on the résumé. A line read alone can read lower
+   than the same line in a whole résumé (no role context), so the card says "read on its own".
+5. **The release labels go, the framing stays.** "I do / we do / you do" leaves the worlds (`release` is no longer
+   written; an old file's is ignored), the check, the pages, the print sheet and the docs; each world's `who` line
+   carries the framing in words ("Guided first: two lines of your own, then a page each"). World 1 clears at 2 of its
+   n missions as before; the story cards count like any mission, so two rewritten lines clear it.
+6. **More about you.** `INTAKE.md` gets a ninth section (side projects, talks, application essays); `ground.mjs` puts it
+   into `profile.md` under "More about you", so the read and the story lines see it. Uploads to a private
+   `maps/<uid>/context/` folder need a storage policy, so a migration: deferred to Later, not applied by a thread.
+7. **The whitelist is the invite.** A map opens for an invited address only (magic link, `create_user: false`); no
+   new flag.
+
+Built: `pipeline/apprentice/assemble.mjs` (`storyCards`, `storyPrompt`, `WORLDS` without `release`), `ground.mjs`
+(`work_lines`, `shown_by`, section 9), `check.mjs` (the story rules, the release rule dropped, story cards apart from
+the one-to-six), `template.html` (the story card in the check view), `INTAKE.md`, `README.md`; `web/map.js`
+(`storyOf`, `lineState`, missions carry `kind`), `web/app.js` (the story card in the panel, `storyControls`, the
+story choices in F1, the release labels out, "1 hour"), `web/copy.js` (`map.card.story`, `feedback.storyChoices`),
+`web/style.css`; the example reground and reassembled (two story cards: positioning & messaging, customer-facing
+engagement, both named by the posting); wk332 rebuilt locally (one: product launches). Tests:
+`tests/web/apprentice.test.mjs` (the picks, the hand edits, the prompt, three more broken copies),
+`tests/web/map.test.mjs`. The contract and the skill updated.
+
 ## Thirteen business roles, and a checklist for adding a role (`feat/mba-roles-13`, 2026-11-05)
 
 **Why.** The role-coverage audit of 2026-11-04 set the outcomes Cornell Tech and IE publish against a census of 56,708
@@ -2186,6 +2234,10 @@ tech roles; a fresh labelled sample of titles; sponsorship rows from tech postin
   set's files on `main`, and the owner says so.
 
 ## Later
+
+- After the story cards (2026-11-05): uploads of more context (side projects, essays) to `maps/<uid>/context/`, one
+  storage policy for the person's own folder, read by `ground.mjs` into `profile.md`; the Tally door's duplicate
+  submissions (a webhook into `waitlist`, one notification per new address; the owner's question of 2026-11-05).
 
 - The skills pass ("Adding a role", part C) for the 15 roles added after the first 50: `ai_transformation`,
   `product_engineer` and the 13 business roles of 2026-11-05, once `refresh-mba` has given the 13 postings. Then

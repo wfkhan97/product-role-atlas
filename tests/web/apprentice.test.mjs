@@ -12,7 +12,7 @@ import { root } from "./_load.mjs";
 
 const lib = await import(path.join(root, "pipeline/apprentice/_lib.mjs"));
 const { checkMap } = await import(path.join(root, "pipeline/apprentice/check.mjs"));
-const { assembleMap } = await import(path.join(root, "pipeline/apprentice/assemble.mjs"));
+const { assembleMap, storyCards, storyPrompt, STORY_MAX } = await import(path.join(root, "pipeline/apprentice/assemble.mjs"));
 
 const EXAMPLE = path.join(root, "pipeline/apprentice/examples/pmm-nyc");
 const example = () => JSON.parse(fs.readFileSync(path.join(EXAMPLE, "map.json"), "utf8"));
@@ -60,25 +60,70 @@ test("assembleMap keeps the owner's hand edits and a hand-set clear; a declined 
   l1[3].reply = { text: "Shorter now.", date: "2026-11-03" };
   written.worlds.find(w => w.n === 2).clear = 3;   // by hand: neither the default 2 nor the default capped at the count
   written.levels = [];                              // version 1's key goes
-  const { map } = assembleMap(written, grounding, "2026-11-04");
-  assert.deepEqual(map.cards, written.cards, "every card, with its hand edits, as written");
+  const { map, stories } = assembleMap(written, grounding, "2026-11-04");
+  const build = cs => cs.filter(c => c.kind !== "story");
+  assert.deepEqual(build(map.cards), build(written.cards), "every build card, with its hand edits, as written");
   assert.equal(map.version, 2);
   assert.equal(map.published, "2026-11-04");
   assert.equal(map.levels, undefined);
   assert.deepEqual(map.tree, grounding.tree, "the tree comes from the grounding");
   const w = Object.fromEntries(map.worlds.map(x => [String(x.n), x]));
   assert.equal(w["1"].clear, 2, "the default");
-  assert.equal(w["1"].missions.length, l1.length, "a declined mission stays listed; the check takes it off n");
+  assert.equal(w["1"].missions.length, build(l1).length + stories, "a declined mission stays listed; the check takes it off n");
+  assert.ok(!map.worlds.some(x => "release" in x), "the worlds carry no release label (2026-11-05)");
   assert.equal(w["2"].clear, 3, "the owner's clear stays");
   assert.equal(w.reach.clear, 0);
   const noReach = assembleMap({ ...written, cards: written.cards.filter(c => c.level !== "reach") }, grounding).map;
   assert.ok(!noReach.worlds.some(x => x.n === "reach"), "the Reach exists only with its card");
 });
 
+// ---------- the story cards ----------
+test("storyCards: two at most, from work lines of half-shown skills on the tree, the posting's first; hand edits by id survive", () => {
+  const written = example();
+  const grounding = JSON.parse(fs.readFileSync(path.join(EXAMPLE, "grounding.json"), "utf8"));
+  const cards = storyCards(written, grounding, []);
+  assert.deepEqual(cards.map(c => c.id), ["s1-positioning_messaging", "s1-customer_facing_exec"], "the posting names both; the larger share first");
+  assert.ok(cards.length <= STORY_MAX);
+  for (const c of cards) {
+    assert.equal(c.kind, "story"); assert.equal(c.level, 1);
+    assert.ok(["must evidence better", "shows in other words"].includes(c.state));
+    const row = grounding.person.read.find(r => r.id === c.skill);
+    assert.equal(c.line, row.work_lines[0], "the line is the first work line the read found");
+    assert.ok(c.prompt.includes(c.line) && c.prompt.includes("[ ]"), "the prompt quotes the line and leaves the numbers blank");
+    assert.deepEqual(c.atlas_skills, [c.skill]);
+    assert.equal(c.why_person.profile_quote, c.line);
+    assert.ok(!/%/.test(c.why_role.text + c.why_person.text));
+    assert.ok(written.tracks.some(t => t.id === c.track), "the track is one of the map's");
+  }
+  // the hand edits on a story card the owner kept survive a re-assemble; a story card no pick names goes
+  const kept = storyCards(written, grounding, [{ ...cards[0], shipped: "2026-11-05", reply: { text: "Good.", date: "2026-11-05" } }, { id: "s1-stale", kind: "story", level: 1, declined: true }]);
+  assert.equal(kept[0].shipped, "2026-11-05"); assert.deepEqual(kept[0].reply, { text: "Good.", date: "2026-11-05" });
+  assert.ok(!kept.some(c => c.id === "s1-stale"));
+  // the map's story cards sit first in World 1; a stale story card in the written map is replaced
+  const { map } = assembleMap({ ...written, cards: [{ id: "s1-stale", kind: "story", level: 1 }, ...written.cards] }, grounding);
+  assert.deepEqual(map.worlds[0].missions.slice(0, 2), ["s1-positioning_messaging", "s1-customer_facing_exec"]);
+  assert.ok(!map.cards.some(c => c.id === "s1-stale"));
+  // a grounding with no work line for a half-shown skill (a course list, a skills list) yields no card for it
+  const g2 = JSON.parse(JSON.stringify(grounding));
+  for (const r of g2.person.read) if (r.id === "positioning_messaging") r.work_lines = [];
+  assert.ok(!storyCards(written, g2, []).some(c => c.skill === "positioning_messaging"));
+});
+
+test("storyPrompt names the slots it has and never a number", () => {
+  const p = storyPrompt({ skill: "Product launches", role: "Product Marketing Manager", field: "Marketing", state: "must evidence better", line: "Helped launch things.", what: "Getting a product out.", reads_as: null, shown_by: { artefacts: ["launch plan"], verbs: ["launched", "shipped"], measures: [], counterparts: ["sales"] } });
+  assert.match(p, /names the thing produced \(launch plan\)/);
+  assert.match(p, /a verb like launched or shipped/);
+  assert.match(p, /who it was with \(sales\)/);
+  assert.ok(!/gives a measure/.test(p), "an empty slot is left out");
+  assert.match(p, /"named, not shown"/);
+  assert.ok(!/\d/.test(p.replace(/30 words|three/g, "")), "no number but the length rule");
+});
+
 // ---------- the check ----------
 test("the example passes the check, with its two notes (data_driven sits off the class tree on two cards)", () => {
-  const { fails, notes } = checkMap("pmm-nyc", EXAMPLE);
+  const { fails, notes, summary } = checkMap("pmm-nyc", EXAMPLE);
   assert.deepEqual(fails, []);
+  assert.match(summary, /^13 cards \(2 story, L1 6, L2 3, L3 1, Reach 1\)/, "the story cards count apart from the six build cards");
   assert.deepEqual(notes, [
     'card l1-behaviours: "data_driven" sits off the tree, outside "How you work" and outside "more"',
     'card l3-brief: "data_driven" sits off the tree, outside "How you work" and outside "more"',
@@ -102,6 +147,9 @@ const CASES = {
   "a percent sign": [map => { card(map, 3).why_company.text = "Most postings ask for it, 60% of them."; }, /why_company carries a percentage/],
   "a marked gap off the tree": [map => { map.read.marked_gaps = [...map.read.marked_gaps.slice(0, 7), map.tree.more[0].id]; }, /^read: marked gap ".+" is not a node on the tree$/],
   "a bad version": [map => { map.version = 1; }, /^map: version is 1; run assemble\.mjs/],
+  "a story line not in profile.md": [map => { const c = map.cards.find(c => c.kind === "story"); c.line = "A line nobody wrote."; c.prompt = c.prompt + " A line nobody wrote."; c.why_person.profile_quote = c.line; }, /the story line is not in profile\.md/],
+  "a story card in World 2": [map => { const c = map.cards.find(c => c.kind === "story"); c.level = 2; map.worlds[0].missions = map.worlds[0].missions.filter(id => id !== c.id); map.worlds[1].missions.unshift(c.id); }, /a story card sits in World 1/],
+  "a third story card": [map => { const c = { ...map.cards.find(c => c.kind === "story"), id: "s1-third" }; map.cards.push(c); map.worlds[0].missions.push(c.id); }, /^level 1: 3 story cards; 2 at most$/],
 };
 for (const [name, [edit, line]] of Object.entries(CASES)) {
   test(`the check fails a broken copy with one line: ${name}`, () => {
