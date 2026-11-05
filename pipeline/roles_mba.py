@@ -16,6 +16,11 @@ MGR = r"(manager|lead|leader|director|head|vp|vice\s+president|principal)"
 # Order matters (first match wins): narrow functions before the broad manager titles.
 FAMILY_PATTERNS = [
     ("ldp", r"\bleadership\s+development\s+(program|associate|intern\w*|analyst|rotation\w*)|\b[A-Z]{0,2}LDP\b|\brotational\s+(leadership\s+|development\s+|management\s+)?(program|associate|analyst)\b|\bmanagement\s+(development|trainee|associate)\s+program\b|\bgeneral\s+management\s+(development\s+)?program\b"),
+    # The 13 business roles of the role-coverage audit (2026-11-05; PLAN.md "Thirteen business roles"). Sales titles name the
+    # market after a comma ("Account Executive, Financial Services - Investment Banking"), so these two read before the
+    # functions the market could name. The technical account manager is the post-sales engineer, so it reads first.
+    ("solutions_engineer", r"\b(solutions?|sales|pre-?sales|value|customer)\s+engineer(ing)?\b|\bsolutions?\s+consult(ant|ing)\b|\bpre-?sales\b|\btechnical\s+account\s+manager\b"),
+    ("account_executive", r"\baccount\s+(executive|manager|director|management)\b|\bsales\s+development\s+(representative|rep|associate|specialist|executive)\b|\bbusiness\s+development\s+(representative|rep)\b|\b(SDR|BDR)\b|\bsales\s+(representative|rep|executive)\b|\binside\s+sales\b"),
     ("ib_associate", r"\binvestment\s+bank(ing|er)\b|\binvestment\s*(&|and)\s*corporate\s+banking\b"),
     ("ma_integration", r"\b(m\s*&\s*a|mergers?|acquisitions?|post[- ]merger)\b.*\bintegration\b|\bintegration\b.*\b(m\s*&\s*a|mergers?|acquisitions?)\b|\bintegration\s+management\s+office\b"),
     ("corp_dev", r"\bcorporate\s+development\b|\bcorp\.?\s+dev\b|\bmergers\s*(&|and)\s*acquisitions\b|\bm\s*&\s*a\b"),
@@ -31,9 +36,16 @@ FAMILY_PATTERNS = [
     ("vc_associate", r"\bventure\s+capital\b|\bventures?\s+(associate|analyst|principal|investor|partner)\b|\b(associate|analyst|principal|investor),?\s+ventures\b"),
     ("investment_manager", r"\binvestment\s+(manager|management\s+(associate|analyst)|officer|analyst|associate|director|strategist)\b|\b(equity|equities|fixed\s+income|credit|multi[- ]asset|investment)\s+portfolio\s+manager\b|\bportfolio\s+manager\b.*\b(equit|fixed\s+income|invest|asset\s+management|wealth)"),
     ("chief_of_staff", r"\bchief\s+of\s+staff\b"),
+    ("data_scientist", r"\b(data|decision)\s+scien(ce|tist)"),  # no closing \b: a mojibake letter after it is a word character in Python, not in JavaScript
+    # "Sustainability Strategy Manager", "Climate Program Manager": the subject is the role, so before strategy and programmes
+    ("sustainability", r"\bsustainab(ility|le)\b|\bESG\b|\bclimate\s+(strategy|program(me)?|risk|action|impact|solutions|lead|manager|analyst|associate|director)\b|\bdecarboni[sz]ation\b|\bnet[- ]zero\b|\b(social|environmental)\s+impact\b|\bcorporate\s+(social\s+)?responsibility\b|\bCSR\b|\benergy\s+transition\b"),
     ("tech_strategy", r"\b(technology|tech|it|ai)\s+strateg(y|ist)\b"),
     ("product_strategy", r"\bproduct\s+strateg(y|ist)\b"),
     ("product_manager", r"\bproduct\s+(manage(r|ment)|mgmt|mgr)\b|\bproduct\s+lead\b|\bhead\s+of\s+product\b"),
+    ("recruiter", r"\brecruit(er|ers|ing|ment)\b|\btalent\s+acquisition\b|\btalent\s+sourc(er|ing)\b|\bsourcer\b"),
+    # "Fraud Manager - Business Operations", "Fraud Strategy Analyst", "Credit Risk Manager": before bizops, strategy and risk
+    ("fraud_risk", r"\bfraud\b|\bfinancial\s+crimes?\b|\bfin\s*crime\b|\banti[- ]money\s+laundering\b|\bAML\b|\bKYC\b|\bsanctions\b|\bcredit\s+risk\b|\btransaction\s+monitoring\b"),
+    ("implementation", r"\bimplementations?\s+(senior\s+)?(manager|consultant|specialist|lead|leader|director|analyst|associate|engineer|project\s+manager|product\s+specialist)\b|\b{MGR},?\s+(of\s+)?(implementation|onboarding)\b|\b(customer|client|partner)\s+(onboarding|implementation)\b|\bonboarding\s+(manager|specialist|lead|consultant|associate|director)\b|\b(customer|client)\s+experience\s+(senior\s+)?(manager|lead|director|strategist|analyst)\b|\b{MGR},?\s+(of\s+)?(customer|client)\s+experience\b|\bCX\s+(manager|lead|director|strategist|analyst)\b|\bhead\s+of\s+CX\b".replace("{MGR}", MGR)),
     ("bizops", r"\bbusiness\s+operations\b|\bbiz\s*ops\b|\bstrategy\s*(&|and)\s*operations\b|\bstrategy\s*(&|and)\s*ops\b"),
     # "Associate Strategy Manager" is a manager grade, and "Strategic Planning Analyst" is the analyst role
     ("corp_strategy_analyst", r"\bstrategy\s+(senior\s+)?(analyst|associate)\b|\b(analyst|associate),?\s+(corporate\s+|business\s+)?strategy\b(?!\s+(senior\s+)?(manager|lead|leader|director))|\bstrategic\s+planning\s+(senior\s+)?(analyst|associate)\b|\b(analyst|associate),?\s+strategic\s+planning\b"),
@@ -60,10 +72,13 @@ FAMILY_PATTERNS = [
     ("bizdev", r"\bbusiness\s+development\b|\bbiz\s*dev\b"),
     ("business_analytics", rf"\banalytics\s+(senior\s+)?{MGR}\b|\b{MGR},?\s+(of\s+)?(business\s+|data\s+|commercial\s+|marketing\s+|customer\s+|advanced\s+)?analytics\b|\bbusiness\s+analytics\b"),
     ("business_intelligence", r"\bbusiness\s+intelligence\b|\bBI\s+(manager|lead|director|analyst)\b"),
+    ("data_analyst", r"\bdata\s+((and|&)\s+)?((analytics|insights|reporting)\s+)?analyst\b|\bbusiness\s+analyst\b|\banalytics\s+(analyst|associate|specialist)\b"),
     ("strategic_sourcing", r"\b(strategic|global|indirect|direct)\s+sourcing\b|\bsourcing\s+(senior\s+)?(manager|director|lead|analyst|associate|specialist)\b"),
     ("category_manager", r"\bcategory\s+analyst\b|\bcategory\s+(senior\s+)?(manage(r|ment)|director|lead)\b"),
     ("procurement", rf"\bprocurement\s+(senior\s+)?(analyst|associate|specialist)\b|\b(analyst|associate|specialist),?\s+procurement\b|\bprocurement\b.*\b{MGR}\b|\b{MGR}\b.*\bprocurement\b|\bpurchasing\s+(manager|director)\b"),
     ("supply_chain", rf"\bsupply\s+chain\s+(senior\s+)?(analyst|associate|specialist)\b|\b(analyst|associate|specialist),?\s+supply\s+chain\b|\bsupply\s+chain\b.*\b{MGR}\b|\b{MGR}\b.*\bsupply\s+chain\b"),
+    # after the functions: "Supply Chain Project Manager" is supply chain, "Project Manager, Procurement" procurement
+    ("project_manager", r"\bproject\s+(senior\s+)?(manager|management|lead|leader|coordinator|director|analyst|associate|specialist)\b|\bPMO\b|\bproject\s+management\s+office\b"),
     ("comp_benefits", r"\bcompensation\b|\btotal\s+rewards\b|\bbenefits\s+(senior\s+)?(manager|director|analyst|lead|partner)\b"),
     ("org_dev", r"\borgani[sz]ation(al)?\s+(development|effectiveness|design)\b|\b(talent|leadership)\s+development\b|\blearning\s*(&|and)\s*(organi[sz]ation(al)?\s+)?development\b|\bchange\s+management\s+(manager|lead|director)\b"),
     ("hr_manager", rf"\b(hr|human\s+resources?)\s+(senior\s+)?(analyst|associate|specialist)\b|\b(hr|human\s+resources?|people)\s+(senior\s+)?(manager|director|business\s+partner|generalist|lead|operations)\b|\b{MGR},?\s+(of\s+)?(hr|human\s+resources|people)\b|\bHRBP\b|\bpeople\s+partner\b"),
@@ -71,7 +86,14 @@ FAMILY_PATTERNS = [
     ("compliance", rf"\bcompliance\s+(senior\s+)?(manager|director|officer|lead|analyst|associate|specialist)\b|\b{MGR},?\s+(of\s+)?(regulatory\s+|corporate\s+)?compliance\b"),
     ("governance", rf"\bgovernance\s+(senior\s+)?(manager|director|lead|officer|analyst|associate)\b|\b{MGR},?\s+(of\s+)?(corporate\s+|data\s+|it\s+|ai\s+)?governance\b|\bcorporate\s+governance\b|\bGRC\b"),
     ("sales_manager", rf"\bsales\s+(senior\s+)?(manager|director|leader)\b|\b{MGR},?\s+(of\s+)?sales\b"),
+    # "Digital Marketing Manager" was marketing_manager until 2026-11-05; lifecycle and content marketing stay there
+    ("demand_gen", rf"\bdemand\s+gen(eration)?\b|\bperformance\s+marketing\b|\bpaid\s+(media|search|social|acquisition|marketing)\b|\b(SEO|SEM|AEO|PPC)\b|\bsearch\s+engine\s+(optimi[sz]ation|marketing)\b|\bdigital\s+marketing\s+(senior\s+)?(manager|specialist|lead|director|analyst|associate|coordinator|strategist)\b|\b{MGR},?\s+(of\s+)?(digital|performance)\s+marketing\b|\bemail\s+marketing\b|\b(user|customer)\s+acquisition\s+(manager|lead|director|specialist)\b"),
+    ("market_research", r"\bmarket(ing)?\s+research\w*\b|\b(consumer|customer|marketing|market|commercial|shopper|audience|brand)\s+insights?\b|\binsights\s+(senior\s+)?(manager|analyst|lead|director|strategist|associate|specialist)\b|\bhead\s+of\s+insights\b|\b(competitive|market)\s+intelligence\b"),
     ("marketing_manager", rf"\bmarketing\s+(associate|analyst|specialist)\b|\bmarketing\s+(senior\s+)?(manager|director|lead)\b|\b{MGR},?\s+(of\s+)?marketing\b"),
+    # after marketing: "Content Marketing Manager" stays marketing_manager, "Marketing Communications Manager" is this
+    ("communications", rf"\bcommunications?\s+(senior\s+)?(manager|director|lead|specialist|associate|coordinator|strategist|partner|officer|analyst|executive|advisor|intern)\b|\b{MGR},?\s+(of\s+)?(\w+\s+){{0,2}}communications\b|\b(corporate|internal|external|strategic|executive|employee|marketing|brand|product|crisis)\s+communications\b|\bpublic\s+relations\b|\bPR\s+(manager|director|lead|specialist|associate|coordinator|executive)\b|\bmedia\s+relations\b|\bpress\s+(officer|secretary)\b|\bsocial\s+media\s+(manager|marketer|specialist|coordinator|strategist|lead|director|associate|content\s+creator)\b|\bcontent\s+(manager|strategist|writer|editor|lead|director|creator)\b|\b(copy|managing)\s+editor\b|\bcopywriter\b|\beditorial\s+(manager|director|lead|associate)\b"),
+    # after communications: "Communications Manager, Policy" is communications
+    ("public_policy", rf"\bpublic\s+(policy|affairs)\b|\bgovernment(al)?\s+(affairs|relations)\b|\bpolicy\s+(\w+\s+)?(senior\s+)?(manager|director|lead|analyst|advisor|adviser|associate|specialist|officer|strategist|advocacy)\b|\bpolicy,?\s+(senior\s+)?(manager|director|lead)\b|\b{MGR},?\s+(of\s+)?(\w+\s+){{0,2}}policy\b|\blegislative\s+(affairs|analyst|director|manager)\b"),
     ("operations_manager", r"\boperations\s+(analyst|supervisor)\b|\boperations\s+(senior\s+)?(manager|director|lead)\b|\b(manager|director|head|vp|vice\s+president),?\s+(of\s+)?operations\b|\bops\s+manager\b"),
 ]
 FAMILY_RE = [(f, re.compile(p, re.I)) for f, p in FAMILY_PATTERNS]
@@ -90,6 +112,19 @@ EXCLUDE = {
     # the people who build the models or the platform are engineers; "Head of AI Research" is a lab, not a programme
     # ("Head of AI Governance" is the governance role; "Head of AI Safety" and "AI Policy" are their own fields)
     "ai_transformation": r"\b(engineer\w*|developer|architect|scientist|research\w*|labs?|infrastructure|platform\s+(lead|engineer)|ml\s+ops|mlops|governance|ethics|safety|policy|security|compliance)\b",
+    "solutions_engineer": r"\barchitect\w*\b|\bmanagement\s+consult\w*",
+    "account_executive": r"\b(store|retail|cashier|(customer|client)\s+success|payable|receivable|operations|ops)\b|\b(sales\s+(manager|leader|director)|(manager|leader|director|head|vp),?\s+(of\s+)?(inside\s+)?sales)\b",
+    "data_scientist": r"\b(engineer\w*|applied\s+scientist|research\s+scientist|product\s+(manag\w*|mgr\.?))",
+    "sustainability": r"\b(engineer\w*|software|developer|scientist|technician|designer|chemist|business\s+development|sales|account|compliance|procurement|supply\s+chain|sourcing|commodity|hr\s+business\s+partner|product\s+(manag\w*|mgr)|financial\s+analyst|finance\s+manager|manager,\s+finance)\b",
+    "recruiter": r"\b(patient|participant|clinical|study|engineer\w*|military|army|sellers?|vendors?|mentor|campus\s+recruit\w*|university\s+talent\s+acquisition)\b|\bmba\s+recruitment\b",
+    "fraud_risk": r"\b(engineer\w*|developer|scientist|compliance|account\s+executive|product\s+manager|sales|learning|training)\b",
+    "implementation": r"\b(software|engineering\s+manager|supplier|vendor|logistics|supply\s+chain|design\w*|research\w*|employee|new\s+hire|people|talent|representative|agent)\b",
+    "data_analyst": r"\b(systems|research|quantitative|quant|engineer\w*)\b",
+    "project_manager": r"\b(construction|site|field|electrical|mechanical|civil|install\w*|facilit\w*|workplace|capital\s+projects?|engineering|architect\w*|interior|solar|wind|substation|transmission|power|grid|interconnection|infrastructure|utilit(y|ies)|commissioning|mep|hvac|plumbing|roofing|manufacturing|machine|tool|hardware|npi|veterinary|data\s+cent(er|re)|plant)\b",
+    "demand_gen": r"\b(engineer\w*|developer)\b",
+    "market_research": r"\b(engineer\w*|software|developer|ux|user\s+research\w*|design\w*)\b",
+    "communications": r"\b(engineer\w*|systems|rf|network|radio|unified|satellite|technician|investor|design\w*|video|film)\b",
+    "public_policy": r"\b(insurance|underwrit\w*|claims|servicing|services|accounting|credit|payments?|hr|benefits|compensation|travel|expense|counsel|attorney|lawyer|engineer\w*|(information|cyber|it|data)\s+security)\b",
     "general_manager": r"\b(assistant|asst\.?|associate)\s+general\s+manager\b|\bin[- ]training\b|\b(restaurant|store|hotel|resort|inn|suites|ritz[- ]carlton|shop|kitchen|salon|branch|club|car\s+wash|dealership|cafe|bakery|property)\b",
     "program_manager": r"\b(technical|tech)\s+program\b|\bTPM\b",
     "operations_manager": r"\bproduct\s+(operations|ops)\b|\b(sales|revenue|marketing|trading|fund|investment)\s+operations\s+(analyst|supervisor)\b",
@@ -296,6 +331,12 @@ SEARCH_QUERIES_2 = [
     "people partner", "organizational development", "talent development", "compensation", "total rewards", "benefits",
     "enterprise risk", "risk manager", "compliance manager", "governance", "real estate", "asset manager",
     "leadership development program", "rotational program", "MBA",
+    # the 13 business roles of 2026-11-05
+    "account executive", "account manager", "sales development representative", "solutions engineer", "sales engineer",
+    "data scientist", "data analyst", "business analyst", "project manager", "recruiter", "talent acquisition",
+    "implementation manager", "customer experience", "communications manager", "public relations", "demand generation",
+    "digital marketing", "market research", "consumer insights", "sustainability", "ESG", "public policy",
+    "government affairs", "fraud", "credit risk", "AML",
 ]
 # batch 3: campus titles and the analyst grades that are a manager role's entry level
 SEARCH_QUERIES_3 = [
@@ -336,7 +377,21 @@ FAMILY_LABELS = {
     "re_asset_manager": "Asset Manager", "ldp": "Leadership Development Program Associate",
     # outside the 50 (2026-10-30): the AI transformation role, until then folded into transformation
     "ai_transformation": "AI Transformation Manager",
+    # outside the 50 (2026-11-05): the business roles Cornell Tech and IE graduates take that the 50 left out
+    "account_executive": "Account Executive or SDR", "solutions_engineer": "Solutions Engineer",
+    "data_scientist": "Data Scientist", "data_analyst": "Data or Business Analyst", "project_manager": "Project Manager",
+    "recruiter": "Recruiter", "implementation": "Implementation and Customer Experience Manager",
+    "communications": "Communications Manager", "demand_gen": "Demand Generation Manager",
+    "market_research": "Market Research and Insights Manager", "sustainability": "Sustainability and ESG Manager",
+    "public_policy": "Public Policy Manager", "fraud_risk": "Fraud and Credit Risk Analyst",
 }
+# The day a role joined the rules, for roles added after the first 50. A role with no postings that joined after the
+# last scrape waits for one (evals/run_pipeline.py reports it); still empty after a scrape, it fails.
+ADDED = {"ai_transformation": "2026-10-30",
+         **{f: "2026-11-05" for f in ("account_executive", "solutions_engineer", "data_scientist", "data_analyst", "project_manager",
+                                      "recruiter", "implementation", "communications", "demand_gen", "market_research",
+                                      "sustainability", "public_policy", "fraud_risk")}}
+assert set(ADDED) <= set(FAMILY_LABELS)
 # scrape batch of each family: the first 25 roles of the list, then the rest
 BATCH = {f: 1 if i < 25 else 2 for i, f in enumerate(FAMILY_LABELS)}
 # Roles people come to from another job: they have no analyst or associate grade of their own. An entry-level
@@ -384,7 +439,7 @@ CORPORATE_GRADES = [
     ("staff", r"\b(staff|principal|lead|distinguished|fellow)\b"),
     ("mid", r"\b(senior|sr\.?)\s+(\S+\s+){0,3}(analyst|associate|specialist|coordinator)\b(?!.*\b(manager|mgr)\b)|\b(analyst|associate|specialist),?\s+(senior|sr\.?)\b"),
     ("senior", r"\b(senior|sr\.?|experienced|ii|iii|iv)\b"),
-    ("associate", r"^(?!.*\b(manager|mgr)\b).*\b(analyst|associate|assistant|specialist|supervisor|junior|jr\.?|entry|graduate|rotational|coordinator|early\s+career|new\s+grad)\b|\bI$"),
+    ("associate", r"^(?!.*\b(manager|mgr)\b).*\b(analyst|associate|assistant|specialist|supervisor|junior|jr\.?|entry|graduate|rotational|coordinator|early\s+career|new\s+grad|representative|SDR|BDR)\b|\bI$"),
 ]
 CONSULTING_RE = [(l, re.compile(p, re.I)) for l, p in CONSULTING_GRADES]
 BANK_RE = [(l, re.compile(p, re.I)) for l, p in BANK_GRADES]
@@ -521,14 +576,16 @@ GROUPS = {
     "consulting_strategy": ("Consulting & strategy", ["management_consultant", "strategy_manager", "corp_strategy_analyst", "transformation", "digital_transformation", "ai_transformation", "tech_strategy", "chief_of_staff", "bizops"]),
     "finance": ("Finance", ["fpa", "strategic_finance", "treasury", "financial_manager", "corp_dev", "ma_integration"]),
     "banking_investing": ("Banking & investing", ["ib_associate", "commercial_banking_rm", "corporate_banking", "investment_manager", "pe_associate", "vc_associate", "re_acquisitions", "re_development", "re_asset_manager"]),
-    "operations": ("Operations & general management", ["general_manager", "program_manager", "operations_manager", "opex", "ldp"]),
+    "operations": ("Operations & general management", ["general_manager", "program_manager", "project_manager", "operations_manager", "opex", "ldp"]),
     "product": ("Product", ["product_manager", "product_strategy"]),
-    "marketing": ("Marketing", ["marketing_manager", "brand_manager", "pmm", "growth_manager"]),
-    "sales": ("Sales & partnerships", ["sales_manager", "bizdev", "partnerships", "customer_success"]),
+    "marketing": ("Marketing", ["marketing_manager", "brand_manager", "pmm", "growth_manager", "demand_gen", "market_research", "communications"]),
+    "sales": ("Sales & partnerships", ["sales_manager", "account_executive", "solutions_engineer", "bizdev", "partnerships", "customer_success", "implementation"]),
     "supply_chain": ("Supply chain & procurement", ["supply_chain", "procurement", "strategic_sourcing", "category_manager"]),
-    "people": ("People", ["hr_manager", "org_dev", "comp_benefits"]),
-    "risk": ("Risk & compliance", ["enterprise_risk", "compliance", "governance"]),
-    "analytics": ("Analytics", ["business_analytics", "business_intelligence"]),
+    "people": ("People", ["hr_manager", "recruiter", "org_dev", "comp_benefits"]),
+    "risk": ("Risk & compliance", ["enterprise_risk", "fraud_risk", "compliance", "governance"]),
+    "analytics": ("Analytics", ["business_analytics", "business_intelligence", "data_scientist", "data_analyst"]),
+    # 2026-11-05: a group of its own, so it has no fit band until it has sample resumes
+    "impact": ("Sustainability & policy", ["sustainability", "public_policy"]),
 }
 GROUP_OF = {f: g for g, (_, fs) in GROUPS.items() for f in fs}
 assert set(GROUP_OF) == set(FAMILY_LABELS), set(FAMILY_LABELS) ^ set(GROUP_OF)

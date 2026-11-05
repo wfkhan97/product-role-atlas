@@ -95,3 +95,58 @@ def test_ai_engineers_strategists_and_consultants_are_not_the_ai_transformation_
     assert R.family("AI Strategy Lead", "Consulting and advisory", "IBM") == "tech_strategy", "the labelled set keeps AI strategy with technology strategy"
     assert R.family("AI Transformation & Strategy Consultant", "Consulting and advisory", "Accenture") == "management_consultant", "at a consulting firm a consultant is the consultant role"
     assert R.title_ok("AI Transformation Lead", None, batch=2) and not R.title_ok("AI Transformation Lead", None, batch=1), "outside the first 25 roles: batch 2"
+
+
+# ---------- the 13 business roles of the role-coverage audit (2026-11-05) ----------
+def test_sales_titles_read_as_the_seller_whatever_market_follows():
+    assert read("Account Executive, Financial Services -  Investment Banking", None, "AlphaSense") == ("account_executive", "mid", "corporate")
+    assert read("Sales Development Representative", None, "Talkdesk") == ("account_executive", "associate", "corporate"), "an SDR is the entry grade"
+    assert R.family("Mid Market Account Manager - Supply Chain and Logistics", None, "Kpler") == "account_executive"
+    assert R.family("Technical Account Manager", None, "Acme") == "solutions_engineer", "the post-sales engineer"
+    assert R.family("Customer Success Account Manager", None, "Acme") == "customer_success"
+    assert R.family("Business Development Associate", None, "Thermo Fisher Scientific") == "bizdev"
+    assert R.family("Manager, Sales Development Enterprise UK", None, "Airwallex") == "sales_manager"
+    assert R.family("Solutions Architect, Enterprise", None, "Nebius") is None, "architects are not the role"
+
+
+def test_data_and_project_titles_and_the_functions_that_win_over_them():
+    assert R.family("Data Scientist, Cloud Distribution & Growth", None, "OpenAI") == "data_scientist"
+    assert R.family("Applied Scientist", None, "Acme") is None
+    assert R.family("Business Analyst", None, "PayJoy") == "data_analyst"
+    assert R.family("Business Analyst", "Strategy consulting", "McKinsey & Company") == "management_consultant", "a strategy house's grade"
+    assert R.family("Business Operations & Data Analyst", None, "Digital Asset") == "bizops"
+    assert R.family("Project Manager", None, "Alpaca") == "project_manager"
+    assert R.family("Supply Chain Project Manager", None, "Anduril Industries") == "supply_chain", "the function named wins"
+    assert R.family("Construction Project Manager", None, "Acme") is None
+
+
+def test_people_marketing_and_policy_roles():
+    assert R.family("Investment Banking Recruiter", "Investment banking", "Lazard") == "recruiter"
+    assert R.family("Participant Recruitment Partner/Sourcer", None, "Prolific") is None
+    assert R.family("Digital Marketing Manager", None, "Pattern") == "demand_gen"
+    assert R.family("Lifecycle Marketing Manager", None, "ClassPass") == "marketing_manager"
+    assert R.family("Content Marketing Manager", None, "Range") == "marketing_manager"
+    assert R.family("Marketing Communications Manager", None, "Acme") == "communications"
+    assert R.family("Senior Communications Manager, Policy, Safety & Reputation", None, "Zoox") == "communications"
+    assert R.family("Analyst, Investor Communications", "Private equity", "Golub Capital") is None
+    assert R.family("Director of Government Affairs", None, "Applied Intuition") == "public_policy"
+    assert R.family("Climate Program Manager", None, "Stripe") == "sustainability"
+    assert R.family("Senior Manager, Marketing Research & Intelligence", None, "Coreweave") == "market_research"
+    assert R.GROUP_OF["sustainability"] == R.GROUP_OF["public_policy"] == "impact"
+
+
+def test_fraud_and_credit_risk_and_what_stays_compliance():
+    assert R.family("Fraud Manager III- Business Operations", "Investment banking", "JPMorgan Chase") == "fraud_risk"
+    assert R.family("Credit Risk Analyst", None, "Capital One Financial") == "fraud_risk"
+    assert R.family("Fraud Strategy Analyst", None, "Acme") == "fraud_risk"
+    assert R.family("AML/CTF Compliance Officer", None, "Satispay") == "compliance"
+    assert R.family("Data Scientist - Fraud", None, "Plaid") == "data_scientist"
+    assert R.title_ok("Fraud Strategist", None, batch=2) and not R.title_ok("Fraud Strategist", None, batch=1)
+
+
+def test_implementation_and_customer_experience_and_their_edges():
+    assert R.family("Implementation Consultant", None, "Black Duck") == "implementation"
+    assert R.family("Manager, Client Onboarding and Implementation", None, "Vetcove") == "implementation"
+    assert R.family("Customer Experience Representative, Trump Accounts", None, "Robinhood") is None, "a support desk"
+    assert R.family("Employee Onboarding Specialist", None, "Acme") is None, "HR onboarding"
+    assert R.family("Assistant Vice President, Statutory Implementation & Reporting", None, "Acme") is None
