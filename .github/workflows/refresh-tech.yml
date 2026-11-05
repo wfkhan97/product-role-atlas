@@ -247,7 +247,7 @@ jobs:
         continue-on-error: true
         run: |
           set -o pipefail
-          { python evals/run_pipeline.py --roles tech && python evals/run_taxonomy.py; } 2>&1 | tee summary/evals.txt
+          { python evals/run_pipeline.py --roles tech && node evals/run_tech.mjs && python evals/run_taxonomy.py; } 2>&1 | tee summary/evals.txt
       - name: The checks CI runs
         id: checks
         continue-on-error: true

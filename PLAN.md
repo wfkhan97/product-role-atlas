@@ -2017,6 +2017,41 @@ join with the first `refresh-tech` run.
 - **Not done (checklist C10, C11):** the model audit of the new skills (`skill_audit --roles tech`, needs a model
   key) and their definitions and depth (`pipeline.depth_gen`); both are under Later.
 
+**PR 4 (`feat/tech-evals`): the eval counterparts that need no published résumés.** Labels first, from postings of the
+local corpus drawn by seed 13 before any rule was run on them, by model readers that saw a written spec and never the
+code or the patterns:
+
+- **Golden postings** (`evals/golden_tech.json`): two US postings per role, 225 must and 144 must-not skills, the text
+  kept in the file. The tagger finds 87.6% of the must skills and tags 26.4% of the must-not ones; the floors are set
+  there (0.87, 0.27). The MBA set's ceiling is 16%: most of the tech set's wrong tags are shared product skills (launch,
+  partnerships, growth loops, go-to-market, pricing) that fire on what a company says about itself. A tech wording for
+  them is Later; the patterns were not tuned against the labels that measure them.
+- **Entry marks on postings** (`evals/entry_tech.json`): 130 postings, 53 marked `grad` (39 internships), read with
+  their text. The first run missed one ("Software Development Engineer in Test I": a grade at the end of the title
+  is now read wherever the job word sits); 128 of 128 sure rows pass.
+- **The pipeline parts, per set.** `run_pipeline.py --roles tech` now runs entry, golden, integrity, graph and
+  matcher beside titles and js; integrity, graph and matcher read the set's processed and graph files and wait where a
+  checkout has none (CI, until the first `refresh-tech` lands; the refresh's build job runs them). On the local data:
+  1,729 checks pass. `evals/graph_mba.mjs` takes the set (`node evals/graph_mba.mjs tech`); `roles_tech.export()`
+  gained `covered_by`, which the graph part reads.
+- **Matcher samples** (`evals/resumes_tech/`, `node evals/run_tech.mjs`, `evals/baseline_tech.md`): seven hand-written
+  résumés, one per role and a pivot (a Cornell Tech MEng CS new grad, an ECE embedded MEng, a Connective Media designer,
+  an ML master's with a workshop paper, an IT administrator turned SOC analyst, an LLM graduate from a law firm, a data
+  analyst turned analytics engineer), each with targets, a judgment band, must-evidence, must-not-tag and real gaps,
+  written before the runner read them. The skill checks need only `web/data/taxonomy_tech.json`, now committed with
+  `subskills_tech.json` (`python -m pipeline.roles_tech` writes both from the taxonomy; the js part fails when they are
+  stale), so they run in CI; the scores wait for the graph. The first run found four patterns too narrow on résumé
+  language (profiling and latency, a portfolio link, counselling on product launches, vulnerability scans), fixed. Three
+  matcher limits are marked as known misses with their reason: the level read counts years in product, so every tech
+  career reads as associate; a paper under a Publications heading is read as a mention; the LLM sample's counsel score
+  (46%) sits under its band because of the first. All three belong to PR 5, where the matcher learns the set.
+
+**Still owed before the set is shown** (PR 5 and after): bands from published résumés (`calibrate.mjs --roles tech`,
+ten or more samples per field in `external_sources.json`); the model read over the whole résumé set once the tech
+skills reach `/api/infer`'s list; the class picker's counterpart (Cornell Tech's technical courses tagged with
+`catalog_tags.mjs` reading `taxonomy_tech.json`, and labelled cases in `evals/classes/`); the games' evals over the
+tech roles; a fresh labelled sample of titles; sponsorship rows from tech postings.
+
 ## Later
 
 - The skills pass ("Adding a role", part C) for the 15 roles added after the first 50: `ai_transformation`,
@@ -2062,7 +2097,7 @@ join with the first `refresh-tech` run.
   variables, and the self-hosted runner only if a family is blocked.
 - A tie-break between carriers the resume shows equally strongly that prefers the one closer to the behaviour (user
   research over discovery for customer obsession), instead of the postings' order (2026-11-01 product refresh).
-- More families: engineering, design and legal are the tech role set (2026-11-05, above; PRs 4 and 5 to come). Its checklist items C10 and C11: `skill_audit --roles tech` (a model judges about 200 postings for the 48 new skills) and the new skills' definitions and depth (`pipeline.depth_gen`). Law firms on the registry for the LLM graduates' other half. More companies (full Fortune 500). The product engineer and AI transformation
+- More families: engineering, design and legal are the tech role set (2026-11-05, above; PR 5 and the evals listed under PR 4 to come). A tech wording for the shared product skills that fire on company blurbs in tech postings (launch, partnerships, growth loops, go-to-market, pricing): the golden ceiling is 27% against the MBA set's 16%. Its checklist items C10 and C11: `skill_audit --roles tech` (a model judges about 200 postings for the 48 new skills) and the new skills' definitions and depth (`pipeline.depth_gen`). Law firms on the registry for the LLM graduates' other half. More companies (full Fortune 500). The product engineer and AI transformation
   roles landed on 2026-10-30; once they hold postings: a sample resume with a product engineer line in `evals/resumes/`,
   `calibrate.mjs --roles mba` for `ai_transformation`'s bands, and Texas Instruments' eleven "Product Marketing
   Engineer" postings (semiconductor marketing, kept as `pmm` because software firms post technical PMMs under the title).
