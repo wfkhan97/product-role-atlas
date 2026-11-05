@@ -1,5 +1,5 @@
 {
- "_about": "Job titles as resumes write them, with the role family each must be read as (null: none of the 50). The resume-side twin of the posting title eval. Titles come from the kinds of title seen in the published samples; employers on the job lines are invented. 'known_gap' marks a case the title rules cannot read yet: it is reported and not counted as a failure, and it stops being a gap the day it passes. An entry may carry 'level' (associate, mid, senior or lead): the level a bank or consulting grade must be read as. Checked by node evals/run.mjs with the role families of web/data/roles_mba.json.",
+ "_about": "Job titles as resumes write them, with the role family each must be read as (null: none of the MBA roles). The resume-side twin of the posting title eval. Titles come from the kinds of title seen in the published samples; employers on the job lines are invented. 'known_gap' marks a case the title rules cannot read yet: it is reported and not counted as a failure, and it stops being a gap the day it passes. An entry may carry 'level' (associate, mid, senior or lead): the level a bank or consulting grade must be read as. Checked by node evals/run.mjs with the role families of web/data/roles_mba.json.",
  "titles": [
   {
    "title": "FP&A Manager",
@@ -147,8 +147,7 @@
   },
   {
    "title": "Associate Strategy Manager",
-   "family": "strategy_manager",
-   "known_gap": "The analyst rule matches 'Associate Strategy' before the manager rule is tried."
+   "family": "strategy_manager"
   },
   {
    "title": "Director of Corporate Strategy",
@@ -308,7 +307,8 @@
   },
   {
    "title": "Digital Marketing Manager",
-   "family": "marketing_manager"
+   "family": "demand_gen",
+   "note": "a role since 2026-11-05 (the 13 business roles of the role-coverage audit)"
   },
   {
    "title": "Associate Marketing Manager",
@@ -505,11 +505,13 @@
   },
   {
    "title": "Project Manager",
-   "family": null
+   "family": "project_manager",
+   "note": "a role since 2026-11-05 (the 13 business roles of the role-coverage audit)"
   },
   {
    "title": "IT Project Manager",
-   "family": null
+   "family": "project_manager",
+   "note": "a role since 2026-11-05 (the 13 business roles of the role-coverage audit)"
   },
   {
    "title": "Operations Coordinator",
@@ -530,7 +532,8 @@
   },
   {
    "title": "Business Analyst",
-   "family": null
+   "family": "data_analyst",
+   "note": "a role since 2026-11-05 (the 13 business roles of the role-coverage audit)"
   },
   {
    "title": "Marketing Coordinator",
@@ -547,7 +550,8 @@
   },
   {
    "title": "Business Development Representative",
-   "family": null
+   "family": "account_executive",
+   "note": "a role since 2026-11-05 (the 13 business roles of the role-coverage audit)"
   },
   {
    "title": "Customer Support Specialist",
@@ -564,7 +568,8 @@
   },
   {
    "title": "Recruiter",
-   "family": null
+   "family": "recruiter",
+   "note": "a role since 2026-11-05 (the 13 business roles of the role-coverage audit)"
   },
   {
    "title": "Barista",
@@ -632,8 +637,7 @@
   },
   {
    "title": "Strategic Planning Analyst",
-   "family": "corp_strategy_analyst",
-   "known_gap": "'Strategic planning' goes to the strategy manager family before the analyst rule is tried."
+   "family": "corp_strategy_analyst"
   },
   {
    "title": "Growth Marketer",
@@ -675,7 +679,8 @@
    "title": "Business Analyst",
    "line": "Business Analyst | McKinsey & Company | 2018 - 2020",
    "family": "management_consultant",
-   "level": "associate"
+   "level": "associate",
+   "note": "at a strategy house the Business Analyst grade is the consultant role, as in the posting labels (2026-11-05: a bare Business Analyst elsewhere is the analyst role)"
   },
   {
    "title": "Engagement Manager",
@@ -714,7 +719,8 @@
   {
    "title": "Recruiter",
    "line": "Recruiter | Northgate Ventures | 2020 - 2023",
-   "family": null
+   "family": "recruiter",
+   "note": "a role since 2026-11-05 (the 13 business roles of the role-coverage audit)"
   },
   {
    "title": "Bank Teller",

@@ -454,7 +454,9 @@ def build_roleset(roleset):
         "ladders": {k: {**v, "n": sum(1 for j in jobs if j["ladder"] == k), "entry": entry_counts([j for j in jobs if j["ladder"] == k])} for k, v in R.LADDERS.items()},
         # a role with no postings yet (a family added since the last extraction) is in roles with n 0 and in no group:
         # the interface reads the groups, and an empty role has nothing to show
-        "groups": [{"id": g, "label": label, "families": [f for f in fs if by_role.get(f)]} for g, (label, fs) in R.GROUPS.items()],
+        # a group whose roles are all empty is left out until one has postings
+        "groups": [{"id": g, "label": label, "families": [f for f in fs if by_role.get(f)]} for g, (label, fs) in R.GROUPS.items()
+                   if any(by_role.get(f) for f in fs)],
         "roles": roles_out, "skills": nodes, "edges": edge_list, "jobs": [],
     }
     with open(os.path.join(out_dir, f"graph_{roleset}.json"), "w") as fh:

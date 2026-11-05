@@ -57,5 +57,18 @@
   "product.product_ops": "Runs the processes, tools and data that make a product team work.",
   "product.product_analyst": "Measures how a product is used and tells the team what to change.",
   "product.product_owner": "Keeps the backlog and the sprint: writes the stories, sets priorities, accepts the work.",
-  "product.product_engineer": "Builds the feature end to end, spec to shipped code, with AI coding tools; owns what it does to the numbers."
+  "product.product_engineer": "Builds the feature end to end, spec to shipped code, with AI coding tools; owns what it does to the numbers.",
+  "account_executive": "Finds and wins new customers: prospects, runs the sales cycle, closes deals against quota.",
+  "solutions_engineer": "Shows customers how the product solves their problem: demos, technical answers, proofs of concept.",
+  "data_scientist": "Answers business questions with data: builds models, runs experiments, explains the results.",
+  "data_analyst": "Turns raw data into reports and answers that teams use to decide what to do.",
+  "project_manager": "Runs projects to a plan: scope, schedule, budget, risks, and the people doing the work.",
+  "recruiter": "Fills open roles: finds candidates, runs interviews, closes offers with hiring managers.",
+  "implementation": "Gets new customers live: onboarding, setup, training, the first months after purchase.",
+  "communications": "Tells the company's story to press, public and staff: announcements, media, social, content.",
+  "demand_gen": "Fills the sales pipeline: runs paid, search and email programs, measures what they bring.",
+  "market_research": "Finds out what customers and markets want: surveys, interviews, data, and what follows.",
+  "sustainability": "Sets and tracks the company's environmental and social goals: emissions, reporting, programs.",
+  "public_policy": "Represents the company to governments: tracks laws, makes the case, works with officials.",
+  "fraud_risk": "Spots and stops fraud and bad credit: reviews cases, sets rules and limits, watches losses."
 }
