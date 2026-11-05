@@ -108,14 +108,16 @@ def main():
     jobs, by_role, by_group, fam2grp = load_jobs()
     role_share = {f: {sid: wshare(js, sid) for sid in kind} for f, js in by_role.items()}
     # a field's share of a skill: the mean over its roles, as the index's by_family reads
-    field_share = {g: {sid: statistics.mean(role_share[f][sid] for f in fs if f in role_share) for sid in kind} for g, (_, fs) in roles_mba.GROUPS.items()}
+    # a field whose roles have no postings yet (a group added before its first scrape) has no shares to read
+    field_share = {g: {sid: statistics.mean(role_share[f][sid] for f in fs if f in role_share) for sid in kind} for g, (_, fs) in roles_mba.GROUPS.items()
+                   if any(f in role_share for f in fs)}
 
     out()
     out("## Coverage")
     out(f"A field asks for a skill when the mean share over its roles is at least {ASKS:.0%}; a skill asked for by {MIN_FIELDS} fields or more gets an entry per asking field.")
     rows = []
     for sid in kind:
-        asking = [g for g in groups if field_share[g][sid] >= ASKS]
+        asking = [g for g in field_share if field_share[g][sid] >= ASKS]
         if kind[sid] in ("tool", "credential"):
             check("coverage", sid not in fields, f"{sid} is a {kind[sid]} and has field entries")
             continue
