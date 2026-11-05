@@ -1,12 +1,12 @@
 // web/map.js, the apprentice map's pure parts (the build plan's B3): the class tree, the T4 layout, "asked together
 // with", the worlds with their k of n, the Q1 layout, the quests of a skill, the D1 read, the shipped look and the date
-// in words, on a small synthetic map built here; then, when GradBuddy's example map is on this machine (CI has no
-// GradBuddy folder), that it parses as version 2 with 19 nodes and three on the trunk and every mission is a card.
+// in words, on a small synthetic map built here; then the tracked example (pipeline/apprentice/examples/pmm-nyc/): it
+// parses as version 2 with 19 nodes and three on the trunk, and every mission is a card.
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "fs";
 import path from "path";
-import { require, web } from "./_load.mjs";
+import { require, root, web } from "./_load.mjs";
 
 const M = require(path.join(web, "map.js"));
 const Copy = require(path.join(web, "copy.js"));
@@ -257,9 +257,9 @@ test("skillInfo: a skill from the tree, the more list, what you bring or the ind
   assert.equal(M.skillInfo(map, index, "nope").name, "nope");
 });
 
-// ---------- the real example, when GradBuddy is on this machine ----------
-const EXAMPLE = path.join(process.env.HOME || "", "GradBuddy Project", "gradbuddy", "apprentice", "examples", "pmm-nyc", "map.json");
-test("the example map: version 2, 19 nodes, three on the trunk, every mission a card", { skip: !fs.existsSync(EXAMPLE) && "the GradBuddy example is not on this machine" }, () => {
+// ---------- the tracked example ----------
+const EXAMPLE = path.join(root, "pipeline", "apprentice", "examples", "pmm-nyc", "map.json");
+test("the example map: version 2, 19 nodes, three on the trunk, every mission a card", () => {
   const map = JSON.parse(fs.readFileSync(EXAMPLE, "utf8"));
   assert.equal(map.version, 2);
   const t = M.classTree(map);

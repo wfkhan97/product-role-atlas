@@ -54,3 +54,6 @@ counterpart of node's `todo`: it fails the suite the day the finding is fixed wi
 - Browser scripts are loaded in node the way the evals load them: `match.js`, `atlas.js`, `app.js` (`parseRoute`) and
   the games export themselves when `module` exists; `skillmap.js` needs the stub `window` in `tests/web/skillmap.test.mjs`.
   `tests/web/_load.mjs` holds the paths and a node `Atlas` over `web/data/`.
+- The apprentice generator (`pipeline/apprentice/*.mjs`) is ES modules run as scripts; `check.mjs` and `assemble.mjs`
+  also export `checkMap` and `assembleMap`, which `tests/web/apprentice.test.mjs` imports, so no test spawns a script.
+  The test checks the tracked example and six broken copies of it, written to a temporary folder.

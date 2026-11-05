@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+  /* Light mode only. No external fonts or scripts; everything on this page is inline. */
+  :root { --ink: #1c1c1a; --mute: #6b6b66; --line: #d9d7d0; --paper: #fbfaf7; --card: #ffffff; --wash: #f1efe8; --accent: #1f4e79; --accent-wash: #e7eef6; --open: #2a6f3e; }
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  a { color: var(--accent); }
+  header, main, footer { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
+  header { padding-top: 28px; }
+  h1 { font-size: 26px; margin: 0 0 4px; font-weight: 650; letter-spacing: -0.01em; }
+  .sub { color: var(--mute); margin: 0 0 12px; }
+  .gap { font-size: 17px; margin: 10px 0 8px; padding: 12px 14px; background: var(--wash); border-left: 3px solid var(--accent); }
+  .note { color: var(--mute); font-size: 13px; margin: 0 0 14px; }
+  .bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 10px 0 18px; color: var(--mute); font-size: 13px; }
+  button { font: inherit; cursor: pointer; }
+  .btn { border: 1px solid var(--line); background: var(--card); border-radius: 6px; padding: 5px 11px; color: var(--ink); }
+  .btn:hover { background: var(--wash); }
+  /* the grid: the worlds across (levels 1, 2, 3 and the Reach), tracks down; the column count is set by the script */
+  .grid { display: grid; grid-template-columns: 150px repeat(4, minmax(150px, 1fr)); gap: 6px; }
+  .lvl { padding: 8px 10px; background: var(--wash); border-radius: 6px; font-size: 13px; }
+  .lvl b { display: block; font-size: 14px; }
+  .lvl .rel { display: inline-block; margin-top: 3px; padding: 1px 7px; border-radius: 10px; font-size: 12px; background: var(--card); border: 1px solid var(--line); }
+  .lvl .clear { display: block; margin-top: 4px; color: var(--mute); font-size: 12px; }
+  .trk { padding: 8px 10px 8px 0; font-size: 13px; font-weight: 600; align-self: start; }
+  .trk small { display: block; font-weight: 400; color: var(--mute); }
+  .cell { display: flex; flex-direction: column; gap: 6px; min-height: 48px; border-top: 1px solid var(--line); padding-top: 6px; }
+  .card { text-align: left; width: 100%; border: 1px solid var(--line); background: var(--card); border-radius: 6px; padding: 8px 10px; color: var(--ink); }
+  .card:hover { border-color: var(--accent); }
+  .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .card.open { border-color: var(--open); background: var(--accent-wash); }
+  .card b { display: block; font-weight: 600; font-size: 14px; }
+  .card span { color: var(--mute); font-size: 12px; }
+  .card.declined { opacity: 0.55; }
+  /* the class tree as a plain list by place: the owner's check view, not the atlas's drawing */
+  #tree { margin: 26px 0 10px; }
+  #tree h2 { font-size: 18px; margin: 0 0 4px; }
+  #tree h3 { font-size: 14px; margin: 14px 0 4px; }
+  #tree ul { margin: 0; padding-left: 18px; font-size: 14px; }
+  #tree li { margin: 2px 0; }
+  #tree .st { color: var(--mute); }
+  #tree .mark { display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 8px; font-size: 11px; background: var(--accent-wash); color: var(--accent); }
+  #tree p { margin: 4px 0; font-size: 14px; }
+  /* the open card */
+  #detail { margin: 20px 0 30px; border: 1px solid var(--line); background: var(--card); border-radius: 8px; padding: 16px 18px; }
+  #detail[hidden] { display: none; }
+  #detail .eyebrow { color: var(--mute); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  #detail h2 { margin: 2px 0 8px; font-size: 20px; }
+  #detail .close { float: right; }
+  .ship { font-size: 16px; margin: 0 0 12px; }
+  .why { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 10px 0 14px; }
+  .why div { background: var(--wash); border-radius: 6px; padding: 10px 12px; font-size: 14px; }
+  .why h3 { margin: 0 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--mute); }
+  .why q, .why .ev { display: block; margin-top: 6px; color: var(--mute); font-size: 13px; }
+  .chips { margin: 6px 0; }
+  .chip { display: inline-block; border: 1px solid var(--line); border-radius: 10px; padding: 1px 8px; font-size: 12px; margin: 0 4px 4px 0; background: var(--card); }
+  dl { margin: 8px 0; display: grid; grid-template-columns: 110px 1fr; gap: 4px 10px; font-size: 14px; }
+  dt { color: var(--mute); }
+  dd { margin: 0; }
+  ul.src { margin: 4px 0 0; padding-left: 18px; font-size: 13px; }
+  footer { color: var(--mute); font-size: 13px; padding: 14px 16px 30px; border-top: 1px solid var(--line); margin-top: 20px; }
+  /* the one-page summary: shown only in print */
+  #print { display: none; }
+  @media (max-width: 900px) { .grid { overflow-x: auto; } .why { grid-template-columns: 1fr; } }
+  @media print {
+    @page { size: landscape; margin: 10mm; }
+    body { background: #fff; font-size: 10px; }
+    header { padding-top: 0; }
+    header .bar, .grid, #detail, #tree, .note { display: none !important; }
+    h1 { font-size: 16px; margin: 0; }
+    .sub { margin: 0 0 4px; font-size: 9px; }
+    .gap { font-size: 10px; margin: 4px 0 6px; padding: 5px 8px; }
+    /* one floated column per world (a grid cannot split across pages; floats can), one card per block */
+    #print { display: block; overflow: hidden; }
+    #print section { float: left; width: 24.2%; margin-right: 1%; border-top: 2px solid #333; padding-top: 3px; }
+    #print section:last-child { margin-right: 0; }
+    #print h2 { font-size: 10px; margin: 0; }
+    #print .rel { color: #555; font-size: 8px; margin-bottom: 2px; }
+    #print article { margin: 3px 0 4px; break-inside: avoid; }
+    #print b { display: block; font-size: 8.5px; line-height: 1.2; }
+    #print i { color: #555; font-style: normal; display: block; font-size: 7.5px; }
+    #print p { margin: 1px 0 0; font-size: 7.5px; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    footer { border: 0; padding: 6px 0 0; font-size: 8px; clear: both; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="name"></h1>
+  <p class="sub" id="sub"></p>
+  <p class="gap" id="gapline"></p>
+  <p class="note" id="names"></p>
+  <div class="bar">
+    <button class="btn" id="printBtn" type="button">Print</button>
+    <span>Click a card, or move with the arrow keys; Enter opens, Escape closes. One card open at a time.</span>
+  </div>
+</header>
+<main>
+  <div class="grid" id="grid" role="grid" aria-label="The apprentice map: levels across, tracks down"></div>
+  <section id="detail" hidden aria-live="polite"></section>
+  <section id="tree" aria-label="The class tree"></section>
+  <div id="print"></div>
+</main>
+<footer id="foot"></footer>
+<script id="map-data" type="application/json">__MAP_JSON__</script>
+<script>
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("map-data").textContent);
+  var esc = function (s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); };
+  var el = function (id) { return document.getElementById(id); };
+  var skillName = function (id) { return (D.skill_labels || {})[id] || id; };
+  var classLine = function (code) { var t = (D.class_titles || {})[code]; return t ? code + " · " + t : code; };
+  // the worlds are the levels in order: 1, 2, 3, then the Reach when the map has one
+  var levels = D.worlds.map(function (w) { return { n: String(w.n), label: w.label, release: w.release, who: w.who, clear: w.clear, missions: w.missions || [], reach: w.n === "reach" }; });
+  var levelName = function (l) { return l.reach ? l.label : "Level " + l.n + " · " + l.label; };
+  var tracks = D.tracks;
+  var cards = D.cards;
+  var byId = {}; cards.forEach(function (c) { byId[c.id] = c; });
+  var openId = null;
+
+  // ---------- header and footer ----------
+  el("name").textContent = D.student.name_on_page;
+  el("sub").innerHTML = esc(D.role.label) + " at <a href=\"" + esc(D.company.url) + "\">" + esc(D.company.name) + "</a>" +
+    (D.posting && D.posting.url ? " · <a href=\"" + esc(D.posting.url) + "\">" + esc(D.posting.title || "the posting") + "</a>" : "") +
+    (D.student.program ? " · " + esc(D.student.program) + ", " + esc(D.student.campus) : "");
+  el("gapline").textContent = D.gap_sentence;
+  el("names").textContent = "This page uses a made-up name, never the student's own." + (D.student.fictional ? " In this example the person is fictional as well; the company, the posting and every source are real." : "");
+  el("foot").textContent = "Grounded in " + D.role.postings_n + " postings for " + D.role.label + " · product-role-atlas" + (D.atlas_generated ? " (postings as of " + D.atlas_generated + ")" : "") + " · " + D.rendered;
+  document.title = D.student.name_on_page + " · " + D.role.label + " at " + D.company.name;
+
+  // ---------- the grid ----------
+  var grid = el("grid");
+  // what the owner set at a republish, from the student's feedback
+  var statusOf = function (c) { return c.shipped ? " · shipped " + c.shipped : c.declined ? " · declined" : c.changed ? " · changed " + c.changed : ""; };
+  var cell = {};   // cell[track][level] = [cards]
+  tracks.forEach(function (t) { cell[t.id] = {}; levels.forEach(function (l) { cell[t.id][l.n] = []; }); });
+  cards.forEach(function (c) { if (cell[c.track] && cell[c.track][String(c.level)]) cell[c.track][String(c.level)].push(c); });
+  // a world clears after k of its n missions; a declined mission leaves n; the Reach never clears or blocks
+  var clearLine = function (l) {
+    if (l.reach) return "Optional. It never blocks a world.";
+    var n = l.missions.filter(function (id) { return byId[id] && !byId[id].declined; }).length;
+    if (n === 1 && l.clear === 1) return "Ship this one to clear.";
+    return "Ship " + l.clear + " of these " + n + " to clear.";
+  };
+  grid.style.gridTemplateColumns = "150px repeat(" + levels.length + ", minmax(150px, 1fr))";
+  var html = "<div class=\"trk\" role=\"columnheader\"></div>";
+  levels.forEach(function (l) { html += "<div class=\"lvl\" role=\"columnheader\"><b>" + esc(levelName(l)) + "</b><span class=\"rel\">" + esc(l.release) + "</span><span class=\"clear\">" + esc(clearLine(l)) + "</span></div>"; });
+  tracks.forEach(function (t) {
+    html += "<div class=\"trk\" role=\"rowheader\">" + esc(t.label) + "<small>" + esc(t.atlas_area) + "</small></div>";
+    levels.forEach(function (l) {
+      html += "<div class=\"cell\" role=\"gridcell\">";
+      cell[t.id][l.n].forEach(function (c) { html += "<button type=\"button\" class=\"card" + (c.declined ? " declined" : "") + "\" data-id=\"" + esc(c.id) + "\" data-level=\"" + esc(l.n) + "\" data-track=\"" + esc(t.id) + "\" aria-expanded=\"false\"><b>" + esc(c.title) + "</b><span>" + esc(c.window) + (c.hours ? " · " + esc(c.hours) + " h" : "") + esc(statusOf(c)) + "</span></button>"; });
+      html += "</div>";
+    });
+  });
+  grid.innerHTML = html;
+  var buttons = Array.prototype.slice.call(grid.querySelectorAll(".card"));
+  buttons.forEach(function (b, i) { b.tabIndex = i === 0 ? 0 : -1; b.addEventListener("click", function () { toggle(b.dataset.id); }); });
+
+  // ---------- the open card ----------
+  function toggle(id) { if (openId === id) close(); else open(id); }
+  function open(id) {
+    var c = byId[id]; if (!c) return;
+    openId = id;
+    buttons.forEach(function (b) { var on = b.dataset.id === id; b.classList.toggle("open", on); b.setAttribute("aria-expanded", on ? "true" : "false"); });
+    var lvl = levels.filter(function (l) { return l.n === String(c.level); })[0] || {};
+    var trk = tracks.filter(function (t) { return t.id === c.track; })[0] || {};
+    var h = "<button type=\"button\" class=\"btn close\" id=\"closeBtn\">Close</button>";
+    h += "<div class=\"eyebrow\">" + esc(levelName(lvl)) + " · " + esc(lvl.release) + " · " + esc(trk.label) + esc(statusOf(c)) + "</div>";
+    h += "<h2>" + esc(c.title) + "</h2>";
+    h += "<p class=\"ship\"><b>Ships:</b> " + esc(c.ship) + "</p>";
+    h += "<div class=\"why\">";
+    h += "<div><h3>Why the role</h3>" + esc(c.why_role.text) + "<q>“" + esc(c.why_role.posting_quote) + "” — the posting</q></div>";
+    h += "<div><h3>Why " + esc(D.company.name) + "</h3>" + esc(c.why_company.text) + "<span class=\"ev\">Research: " + esc(c.why_company.research_file) + " · <a href=\"" + esc(c.why_company.url) + "\">source</a></span></div>";
+    h += "<div><h3>Why " + esc(D.student.name_on_page.split(" ")[0]) + "</h3>" + esc(c.why_person.text) + "<q>“" + esc(c.why_person.profile_quote) + "” — the profile</q></div>";
+    h += "</div><dl>";
+    h += "<dt>Window</dt><dd>" + esc(c.window) + (c.hours ? " · about " + esc(c.hours) + " hours" : "") + "</dd>";
+    h += "<dt>Skills</dt><dd class=\"chips\">" + (c.atlas_skills || []).map(function (s) { return "<span class=\"chip\">" + esc(skillName(s)) + "</span>"; }).join("") + "</dd>";
+    if (c.classes && c.classes.length) h += "<dt>Classes</dt><dd>" + c.classes.map(function (k) { return esc(classLine(k)); }).join("<br>") + "</dd>";
+    if (c.users) h += "<dt>Users</dt><dd>" + esc(c.users) + "</dd>";
+    if (c.reply && c.reply.text) h += "<dt>Reply</dt><dd>" + esc(c.reply.text) + (c.reply.date ? " (" + esc(c.reply.date) + ")" : "") + "</dd>";
+    h += "<dt>Sources</dt><dd><ul class=\"src\">" + (c.sources || []).map(function (s) { return "<li><a href=\"" + esc(s.url) + "\">" + esc(s.title) + "</a>" + (s.read ? " <span class=\"ev\" style=\"display:inline\">(read " + esc(s.read) + ")</span>" : "") + "</li>"; }).join("") + "</ul></dd>";
+    h += "</dl>";
+    var d = el("detail"); d.innerHTML = h; d.hidden = false;
+    el("closeBtn").addEventListener("click", function () { close(true); });
+  }
+  function close(refocus) {
+    var was = openId; openId = null;
+    buttons.forEach(function (b) { b.classList.remove("open"); b.setAttribute("aria-expanded", "false"); });
+    var d = el("detail"); d.hidden = true; d.innerHTML = "";
+    if (refocus && was) { var b = grid.querySelector(".card[data-id=\"" + was + "\"]"); if (b) b.focus(); }
+  }
+
+  // ---------- the keyboard: arrows move between cards, Enter opens, Escape closes ----------
+  var levelIdx = function (n) { return levels.findIndex(function (l) { return l.n === n; }); };
+  var trackIdx = function (id) { return tracks.findIndex(function (t) { return t.id === id; }); };
+  function firstIn(t, l) { return (cell[tracks[t].id] || {})[levels[l].n] || []; }
+  function move(from, dx, dy) {
+    var t = trackIdx(from.dataset.track), l = levelIdx(from.dataset.level);
+    var list = firstIn(t, l), k = list.findIndex(function (c) { return c.id === from.dataset.id; });
+    if (dy && !dx) {   // up and down: next card in the same column, by track order; within a cell first
+      if (dy > 0 && k < list.length - 1) return list[k + 1];
+      if (dy < 0 && k > 0) return list[k - 1];
+      for (var tt = t + dy; tt >= 0 && tt < tracks.length; tt += dy) { var cs = firstIn(tt, l); if (cs.length) return dy > 0 ? cs[0] : cs[cs.length - 1]; }
+      return null;
+    }
+    for (var ll = l + dx; ll >= 0 && ll < levels.length; ll += dx) {   // left and right: the same track first, else any card at that level
+      var same = firstIn(t, ll); if (same.length) return same[0];
+      for (var t2 = 0; t2 < tracks.length; t2++) { var any = firstIn(t2, ll); if (any.length) return any[0]; }
+    }
+    return null;
+  }
+  function focusCard(c) { var b = grid.querySelector(".card[data-id=\"" + c.id + "\"]"); if (!b) return; buttons.forEach(function (x) { x.tabIndex = -1; }); b.tabIndex = 0; b.focus(); }
+  grid.addEventListener("keydown", function (e) {
+    var b = e.target.closest ? e.target.closest(".card") : null; if (!b) return;
+    var next = null;
+    if (e.key === "ArrowRight") next = move(b, 1, 0); else if (e.key === "ArrowLeft") next = move(b, -1, 0);
+    else if (e.key === "ArrowDown") next = move(b, 0, 1); else if (e.key === "ArrowUp") next = move(b, 0, -1);
+    else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(b.dataset.id); return; }
+    else return;
+    e.preventDefault(); if (next) focusCard(next);
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && openId) close(true); });
+  el("printBtn").addEventListener("click", function () { window.print(); });
+
+  // ---------- the one-page summary for print: the levels as columns, every card with what it ships ----------
+  var p = "";
+  levels.forEach(function (l) {
+    p += "<section><h2>" + esc(levelName(l)) + "</h2><div class=\"rel\">" + esc(l.release) + " · " + esc(clearLine(l)) + "</div>";
+    cards.filter(function (c) { return String(c.level) === l.n; }).forEach(function (c) {
+      var trk = tracks.filter(function (t) { return t.id === c.track; })[0] || {};
+      p += "<article><b>" + esc(c.title) + "</b><i>" + esc(trk.label) + " · " + esc(c.window) + "</i><p>" + esc(c.ship) + "</p></article>";
+    });
+    p += "</section>";
+  });
+  el("print").innerHTML = p;
+
+  // ---------- the class tree and the read, as plain lists: the owner's check view, not the atlas's drawing ----------
+  var T = D.tree || { nodes: [], behaviours: [], more: [] }, RD = D.read || {};
+  var roles = ((D.role_class || {}).roles) || [];
+  var roleLabel = function (id) { var r = roles.filter(function (x) { return x.id === id; })[0]; return r ? r.label : id; };
+  var STATE = { "shows": "Shows", "shows in other words": "Shows in other words", "must evidence better": "Must evidence better", "must build": "Must build" };
+  var nameOf = function (id) { var all = T.nodes.concat(T.behaviours, T.more); var n = all.filter(function (x) { return x.id === id; })[0]; return n ? n.name : skillName(id); };
+  var item = function (n, withRoles) {
+    return "<li>" + esc(n.name) + " <span class=\"st\">· " + esc(STATE[n.state] || n.state) + "</span>" +
+      (n.posting_names ? "<span class=\"mark\">The posting names it</span>" : "") + (n.grows ? "<span class=\"mark\">Asked more at senior levels</span>" : "") +
+      (withRoles ? " <span class=\"st\">(" + esc(n.roles.map(roleLabel).join(", ")) + ")</span>" : "") + "</li>";
+  };
+  var list = function (ns, withRoles) { return ns.length ? "<ul>" + ns.map(function (n) { return item(n, withRoles); }).join("") + "</ul>" : "<p class=\"st\">None.</p>"; };
+  var t = "<h2>The class tree · " + esc((D.role_class || {}).label || "") + "</h2>";
+  t += "<p class=\"st\">This list lets you check the map. The atlas draws the tree itself.</p>";
+  t += "<p><b>" + esc(RD.band_label || "") + "</b> for " + esc(D.role.label) + ".</p>";
+  t += "<p>What you already bring: " + esc((RD.brings || []).map(function (b) { return b.name; }).join(", ") || "nothing yet") + ".</p>";
+  t += "<p>The gaps the quests aim at: " + esc((RD.marked_gaps || []).map(nameOf).join(", ") || "none") + ".</p>";
+  t += "<h3>Trunk: every role asks for these</h3>" + list(T.nodes.filter(function (n) { return n.place === "trunk"; }), false);
+  t += "<h3>Shared: two or more roles ask for these</h3>" + list(T.nodes.filter(function (n) { return n.place === "shared"; }), true);
+  roles.forEach(function (r) {
+    var own = T.nodes.filter(function (n) { return n.place === "own" && n.roles[0] === r.id; });
+    if (own.length) t += "<h3>Own: only " + esc(r.label) + " asks for these</h3>" + list(own, false);
+  });
+  t += "<h3>How you work</h3>" + list(T.behaviours, false);
+  t += "<h3>More skills these roles sometimes ask for</h3><p>" + esc(T.more.map(function (n) { return n.name + " (" + (STATE[n.state] || n.state).toLowerCase() + ")"; }).join(", ") || "None.") + "</p>";
+  el("tree").innerHTML = t;
+})();
+</script>
+</body>
+</html>

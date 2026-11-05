@@ -24,3 +24,6 @@ data/raw/jobs_tech/
 
 # the catalog with the prior-term syllabus digest (pipeline.catalog_export); this machine only, never the public file
 web/data/local/
+
+# real students' apprentice map folders (pipeline/apprentice/new.mjs); a map quotes one person's résumé, never in git
+data/apprentice/
