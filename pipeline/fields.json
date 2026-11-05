@@ -1494,6 +1494,15 @@
     "outside_counsel"
    ],
    "line": "Set service levels with 6 business teams; legal met the 3-day target on 92% of requests."
+  },
+  "software": {
+   "reads_as": "Keeping product, other teams and leaders informed on what engineering can ship, when, and at what cost.",
+   "shown_by": [
+    "system_architecture",
+    "apis",
+    "devops_sdlc"
+   ],
+   "line": "Agreed an API contract with 4 consuming teams before building; the migration landed with zero breaking changes."
   }
  },
  "influence": {
@@ -1626,6 +1635,42 @@
     "business_case"
    ],
    "line": "Recommended walking away from a $120M target on diligence findings; the board agreed and the capital went to a $90M deal that hit plan."
+  },
+  "data_ai": {
+   "reads_as": "Moving product and engineering decisions with evidence from models and evals, not authority.",
+   "shown_by": [
+    "ai_ml",
+    "ml_evaluation",
+    "data_modeling"
+   ],
+   "line": "Used offline evals on 2,000 cases to persuade product to drop a launch blocker; the model shipped 3 weeks earlier."
+  },
+  "security": {
+   "reads_as": "Getting teams that do not report to you to fix risks and adopt secure practices.",
+   "shown_by": [
+    "detection_response",
+    "threat_modeling",
+    "security_frameworks"
+   ],
+   "line": "Persuaded 6 engineering teams to adopt a secure-by-default library; critical findings in their code fell 60%."
+  },
+  "design": {
+   "reads_as": "Bringing product, engineering and leadership round to a design direction with prototypes and evidence.",
+   "shown_by": [
+    "prototyping",
+    "interaction_design",
+    "design_systems"
+   ],
+   "line": "Won a contested navigation redesign with 2 prototype tests; 3 product teams adopted it in one quarter."
+  },
+  "legal": {
+   "reads_as": "Steering business decisions toward lower legal risk when legal advises rather than decides.",
+   "shown_by": [
+    "commercial_contracts",
+    "risk_mgmt",
+    "outside_counsel"
+   ],
+   "line": "Convinced sales leadership to adopt a standard liability cap; 80% of new deals closed on it without escalation."
   }
  },
  "communication": {
@@ -2710,6 +2755,42 @@
     "financial_analysis"
    ],
    "line": "Managed 5 diligence workstreams and a 12-week timeline to signing on a $250M deal; 40 integration actions handed over on day one."
+  },
+  "software": {
+   "reads_as": "Running multi-team engineering work: plans, milestones, dependencies and launches across services.",
+   "shown_by": [
+    "system_architecture",
+    "devops_sdlc",
+    "apis"
+   ],
+   "line": "Ran a 5-team platform migration of 40 services on a 6-month plan; finished 2 weeks early with no outage."
+  },
+  "security": {
+   "reads_as": "Running security programs across the company: audits, remediation drives, tool rollouts.",
+   "shown_by": [
+    "security_frameworks",
+    "vuln_mgmt",
+    "detection_response"
+   ],
+   "line": "Ran the ISO 27001 program across 9 teams; certified in 7 months with 2 minor findings."
+  },
+  "design": {
+   "reads_as": "Running design work across teams: timelines, reviews and handoffs to engineering for a launch.",
+   "shown_by": [
+    "interaction_design",
+    "prototyping",
+    "visual_design"
+   ],
+   "line": "Coordinated design for a 3-product launch across 5 designers; all 60 screens were ready 2 weeks before code freeze."
+  },
+  "legal": {
+   "reads_as": "Running legal workstreams: contract migrations, compliance programs, outside-counsel matters.",
+   "shown_by": [
+    "outside_counsel",
+    "commercial_contracts",
+    "regulatory_change"
+   ],
+   "line": "Led a 1,200-contract repapering for a new privacy law across 3 firms; finished on time under budget by 15%."
   }
  },
  "risk_mgmt": {

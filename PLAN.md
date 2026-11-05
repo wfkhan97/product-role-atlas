@@ -2341,6 +2341,16 @@ tech roles; a fresh labelled sample of titles; sponsorship rows from tech postin
 - **Off on `main`.** The switch stays off until the evals PR 4 lists as owed exist, the first `refresh-tech` has put the
   set's files on `main`, and the owner says so.
 
+**The first refresh (2026-11-05).** `refresh-tech` ran count-only in Actions (11,542 postings would be kept, within 0.3% of
+the local count; Workday 12 minutes), then for real (every family; Apple's board took 40 minutes, Workday 22). It found
+13,831 US postings at 1,118 employers: software 7,103, ML/AI 2,348, security 1,576, counsel 1,026, data 879, design
+849, UX research 50 (33 employers). The set's pipeline evals (1,729), the résumé samples (147) and CI's checks passed;
+the taxonomy eval failed coverage, because with the Fortune boards three more skills reach four tech fields: influence
+(data, security, design, legal), program management (software, security, design, legal) and stakeholder management
+(software). Nine field entries were added, grounded on the refresh's postings (`fix/tech-refresh-fields`). The
+dated snapshot ran as a job of its own, which has no `data/raw/jobs_tech/`; it now runs in the build job after the pull,
+as `refresh-product` does. The run's data PR (#156) opened as a draft.
+
 ## Later
 
 - After the story cards (2026-11-05): uploads of more context (side projects, essays) to `maps/<uid>/context/`, one
