@@ -1860,8 +1860,61 @@ without a roster, `campusFor`'s flag, three open verbs), `tests/web/network.test
 per flag, the empty-id case, the IE labels), `tests/web/routes.test.mjs` (the closed routes). `evals/copy_baseline.md`
 rewritten (string counts only; zero offenders).
 
+## Thirteen business roles, and a checklist for adding a role (`feat/mba-roles-13`, 2026-11-05)
+
+**Why.** The role-coverage audit of 2026-11-04 set the outcomes Cornell Tech and IE publish against a census of 56,708
+titles on 1,143 Greenhouse, Lever and Ashby boards: 81% of the titles matched no role. Thirteen of the gaps are business
+roles those graduates take (IE sales roles 9-31% by programme, Cornell Tech MBA analytics 17%, IE HR programmes 65-82% HR).
+The rest (software, ML, data and security engineering, design, legal) need a role set of their own and are proposed apart.
+
+**The roles.** `account_executive` (account executive, account manager, SDR and BDR), `solutions_engineer` (solutions,
+sales, value and customer engineers, presales, technical account managers; architects excluded, as the labelled set
+already said), `data_scientist`, `data_analyst` (data analyst, business analyst), `project_manager`, `recruiter`,
+`implementation` (implementation, onboarding, customer experience), `communications` (PR, internal and corporate
+communications, social media, content), `demand_gen` (demand generation, performance, paid, SEO, digital marketing),
+`market_research` (market research, consumer and marketing insights, competitive intelligence), `sustainability`,
+`public_policy`, `fraud_risk` (fraud, AML, KYC, financial crime, credit risk). Placed in the existing groups except
+sustainability and public policy, which make a twelfth, Sustainability & policy (`impact`), with no fit band until it
+has sample resumes. All batch 2; 26 searches added.
+
+**Order decisions.** A sales title names its market after a comma ("Account Executive, Financial Services - Investment
+Banking"), so the two sales roles read before everything but `ldp`. The subject wins over the vehicle: "Climate Program
+Manager" is sustainability, "Fraud Manager - Business Operations" fraud, "Fraud Strategy Analyst" fraud. The function
+wins over the project: "Supply Chain Project Manager" stays supply chain, as the procurement row said. Lifecycle and
+content marketing stay `marketing_manager` (the labelled rows said so); "Digital Marketing Manager" moves to
+`demand_gen`. Compliance named outright stays compliance ("AML Compliance Officer"). A bare "Business Analyst" at a Big
+Four firm is now the analyst role (relabelled); at a strategy house it stays the consulting grade. An SDR or a sales
+representative is the corporate entry grade (`representative` joins the associate grade words).
+
+**Labels first.** Set `business-roles-2026-11-05` in `evals/titles_mba.json`, 113 rows from census titles and written
+edges, labelled before the patterns; 20 older null rows took a new role (marked `relabelled`, reason in the note), and
+two level misses are marked known with the reason. Eight resume titles relabelled the same way. On the census the rules
+read 17,879 titles as a role, up from 9,283.
+
+**A role with no postings, again.** The backlog keeps only titles that matched a role, so the 13 start empty.
+`roles_mba.ADDED` records the day each later role joined; `run_pipeline.py` reports a role added after the last scrape
+as waiting for one, and fails it if it is still empty after. `build_graph` leaves out a group with no postings.
+
+**The audit of the roles added since the first 50.** The first 50 MBA roles got their skills on 2026-10-11 from their
+own postings (`role_terms`, `skill_probe`, four drafting passes, then definitions, depth and credentials). Nothing made
+that a step for later roles: `ai_transformation` and `product_engineer` were added with title rules alone. Neither had a
+`role_terms` pass or new skills; `ai_transformation` has no credentials entry in `pipeline/depth/mba_roles.json`, no
+depth evidence from its postings, no sample resumes, resume titles or game passages; `product_engineer` has no sample
+resume and no coverage row (`role_coverage` reads the MBA set only). `role_coverage` itself reports what a role asks
+for among existing skills, never what the taxonomy lacks. So the steps are now a checklist, "Adding a role" in
+`evals/README.md`, and CLAUDE.md requires it: a role is added when its skills are, not when its titles are.
+
+**Checks.** `pytest tests/python`; `node --test 'tests/web/*.test.mjs'`; `node evals/run.mjs`;
+`evals/run_pipeline.py --baseline`. Not run here: `pipeline.scrape` and `pipeline.extract` (the refresh does both).
+
 ## Later
 
+- The skills pass ("Adding a role", part C) for the 15 roles added after the first 50: `ai_transformation`,
+  `product_engineer` and the 13 business roles of 2026-11-05, once `refresh-mba` has given the 13 postings. Then
+  part D: sample resumes and bands for the `impact` group, game passages, `mba_roles.json` credentials.
+- `role_coverage` reports only existing skills; a column of a role's top `role_terms` phrases that no skill pattern
+  matches would make the taxonomy gap visible on every refresh. Also `COVERS` for the new roles (business analytics
+  over data analyst?), unconfirmed.
 - ~~Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach`; decide whether a transferable
   row should earn less than an evidenced one~~: done 2026-11-02 (`data/bands-recal`), 0.75.
 - The map self-serve (proposed 2026-11-04, not built; the owner says yes first): a résumé plus a role on the site

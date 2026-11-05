@@ -60,6 +60,7 @@
    "families": [
     "general_manager",
     "program_manager",
+    "project_manager",
     "operations_manager",
     "opex",
     "ldp"
@@ -80,7 +81,10 @@
     "marketing_manager",
     "brand_manager",
     "pmm",
-    "growth_manager"
+    "growth_manager",
+    "demand_gen",
+    "market_research",
+    "communications"
    ]
   },
   {
@@ -88,9 +92,12 @@
    "label": "Sales & partnerships",
    "families": [
     "sales_manager",
+    "account_executive",
+    "solutions_engineer",
     "bizdev",
     "partnerships",
-    "customer_success"
+    "customer_success",
+    "implementation"
    ]
   },
   {
@@ -108,6 +115,7 @@
    "label": "People",
    "families": [
     "hr_manager",
+    "recruiter",
     "org_dev",
     "comp_benefits"
    ]
@@ -117,6 +125,7 @@
    "label": "Risk & compliance",
    "families": [
     "enterprise_risk",
+    "fraud_risk",
     "compliance",
     "governance"
    ]
@@ -126,7 +135,17 @@
    "label": "Analytics",
    "families": [
     "business_analytics",
-    "business_intelligence"
+    "business_intelligence",
+    "data_scientist",
+    "data_analyst"
+   ]
+  },
+  {
+   "id": "impact",
+   "label": "Sustainability & policy",
+   "families": [
+    "sustainability",
+    "public_policy"
    ]
   }
  ],
@@ -142,6 +161,34 @@
    "covers": [],
    "covered_by": [],
    "n": 340
+  },
+  {
+   "id": "solutions_engineer",
+   "label": "Solutions Engineer",
+   "group": "sales",
+   "patterns": [
+    "\\b(solutions?|sales|pre-?sales|value|customer)\\s+engineer(ing)?\\b|\\bsolutions?\\s+consult(ant|ing)\\b|\\bpre-?sales\\b|\\btechnical\\s+account\\s+manager\\b"
+   ],
+   "exclude": [
+    "\\barchitect\\w*\\b|\\bmanagement\\s+consult\\w*"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
+  },
+  {
+   "id": "account_executive",
+   "label": "Account Executive or SDR",
+   "group": "sales",
+   "patterns": [
+    "\\baccount\\s+(executive|manager|director|management)\\b|\\bsales\\s+development\\s+(representative|rep|associate|specialist|executive)\\b|\\bbusiness\\s+development\\s+(representative|rep)\\b|\\b(SDR|BDR)\\b|\\bsales\\s+(representative|rep|executive)\\b|\\binside\\s+sales\\b"
+   ],
+   "exclude": [
+    "\\b(store|retail|cashier|(customer|client)\\s+success|payable|receivable|operations|ops)\\b|\\b(sales\\s+(manager|leader|director)|(manager|leader|director|head|vp),?\\s+(of\\s+)?(inside\\s+)?sales)\\b"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
   },
   {
    "id": "ib_associate",
@@ -347,6 +394,34 @@
    "n": 154
   },
   {
+   "id": "data_scientist",
+   "label": "Data Scientist",
+   "group": "analytics",
+   "patterns": [
+    "\\b(data|decision)\\s+scien(ce|tist)"
+   ],
+   "exclude": [
+    "\\b(engineer\\w*|applied\\s+scientist|research\\s+scientist|product\\s+(manag\\w*|mgr\\.?))"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
+  },
+  {
+   "id": "sustainability",
+   "label": "Sustainability and ESG Manager",
+   "group": "impact",
+   "patterns": [
+    "\\bsustainab(ility|le)\\b|\\bESG\\b|\\bclimate\\s+(strategy|program(me)?|risk|action|impact|solutions|lead|manager|analyst|associate|director)\\b|\\bdecarboni[sz]ation\\b|\\bnet[- ]zero\\b|\\b(social|environmental)\\s+impact\\b|\\bcorporate\\s+(social\\s+)?responsibility\\b|\\bCSR\\b|\\benergy\\s+transition\\b"
+   ],
+   "exclude": [
+    "\\b(engineer\\w*|software|developer|scientist|technician|designer|chemist|business\\s+development|sales|account|compliance|procurement|supply\\s+chain|sourcing|commodity|hr\\s+business\\s+partner|product\\s+(manag\\w*|mgr)|financial\\s+analyst|finance\\s+manager|manager,\\s+finance)\\b"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
+  },
+  {
    "id": "tech_strategy",
    "label": "Technology Strategy Manager",
    "group": "consulting_strategy",
@@ -389,6 +464,48 @@
    "covered_by": [],
    "product_gate": "pm",
    "n": 3644
+  },
+  {
+   "id": "recruiter",
+   "label": "Recruiter",
+   "group": "people",
+   "patterns": [
+    "\\brecruit(er|ers|ing|ment)\\b|\\btalent\\s+acquisition\\b|\\btalent\\s+sourc(er|ing)\\b|\\bsourcer\\b"
+   ],
+   "exclude": [
+    "\\b(patient|participant|clinical|study|engineer\\w*|military|army|sellers?|vendors?|mentor|campus\\s+recruit\\w*|university\\s+talent\\s+acquisition)\\b|\\bmba\\s+recruitment\\b"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
+  },
+  {
+   "id": "fraud_risk",
+   "label": "Fraud and Credit Risk Analyst",
+   "group": "risk",
+   "patterns": [
+    "\\bfraud\\b|\\bfinancial\\s+crimes?\\b|\\bfin\\s*crime\\b|\\banti[- ]money\\s+laundering\\b|\\bAML\\b|\\bKYC\\b|\\bsanctions\\b|\\bcredit\\s+risk\\b|\\btransaction\\s+monitoring\\b"
+   ],
+   "exclude": [
+    "\\b(engineer\\w*|developer|scientist|compliance|account\\s+executive|product\\s+manager|sales|learning|training)\\b"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
+  },
+  {
+   "id": "implementation",
+   "label": "Implementation and Customer Experience Manager",
+   "group": "sales",
+   "patterns": [
+    "\\bimplementations?\\s+(senior\\s+)?(manager|consultant|specialist|lead|leader|director|analyst|associate|engineer|project\\s+manager|product\\s+specialist)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(implementation|onboarding)\\b|\\b(customer|client|partner)\\s+(onboarding|implementation)\\b|\\bonboarding\\s+(manager|specialist|lead|consultant|associate|director)\\b|\\b(customer|client)\\s+experience\\s+(senior\\s+)?(manager|lead|director|strategist|analyst)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(customer|client)\\s+experience\\b|\\bCX\\s+(manager|lead|director|strategist|analyst)\\b|\\bhead\\s+of\\s+CX\\b"
+   ],
+   "exclude": [
+    "\\b(software|engineering\\s+manager|supplier|vendor|logistics|supply\\s+chain|design\\w*|research\\w*|employee|new\\s+hire|people|talent|representative|agent)\\b"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
   },
   {
    "id": "bizops",
@@ -663,6 +780,20 @@
    "n": 122
   },
   {
+   "id": "data_analyst",
+   "label": "Data or Business Analyst",
+   "group": "analytics",
+   "patterns": [
+    "\\bdata\\s+((and|&)\\s+)?((analytics|insights|reporting)\\s+)?analyst\\b|\\bbusiness\\s+analyst\\b|\\banalytics\\s+(analyst|associate|specialist)\\b"
+   ],
+   "exclude": [
+    "\\b(systems|research|quantitative|quant|engineer\\w*)\\b"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
+  },
+  {
    "id": "strategic_sourcing",
    "label": "Strategic Sourcing Manager",
    "group": "supply_chain",
@@ -717,6 +848,20 @@
    "covers": [],
    "covered_by": [],
    "n": 850
+  },
+  {
+   "id": "project_manager",
+   "label": "Project Manager",
+   "group": "operations",
+   "patterns": [
+    "\\bproject\\s+(senior\\s+)?(manager|management|lead|leader|coordinator|director|analyst|associate|specialist)\\b|\\bPMO\\b|\\bproject\\s+management\\s+office\\b"
+   ],
+   "exclude": [
+    "\\b(construction|site|field|electrical|mechanical|civil|install\\w*|facilit\\w*|workplace|capital\\s+projects?|engineering|architect\\w*|interior|solar|wind|substation|transmission|power|grid|interconnection|infrastructure|utilit(y|ies)|commissioning|mep|hvac|plumbing|roofing|manufacturing|machine|tool|hardware|npi|veterinary|data\\s+cent(er|re)|plant)\\b"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
   },
   {
    "id": "comp_benefits",
@@ -815,6 +960,34 @@
    "n": 2084
   },
   {
+   "id": "demand_gen",
+   "label": "Demand Generation Manager",
+   "group": "marketing",
+   "patterns": [
+    "\\bdemand\\s+gen(eration)?\\b|\\bperformance\\s+marketing\\b|\\bpaid\\s+(media|search|social|acquisition|marketing)\\b|\\b(SEO|SEM|AEO|PPC)\\b|\\bsearch\\s+engine\\s+(optimi[sz]ation|marketing)\\b|\\bdigital\\s+marketing\\s+(senior\\s+)?(manager|specialist|lead|director|analyst|associate|coordinator|strategist)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(digital|performance)\\s+marketing\\b|\\bemail\\s+marketing\\b|\\b(user|customer)\\s+acquisition\\s+(manager|lead|director|specialist)\\b"
+   ],
+   "exclude": [
+    "\\b(engineer\\w*|developer)\\b"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
+  },
+  {
+   "id": "market_research",
+   "label": "Market Research and Insights Manager",
+   "group": "marketing",
+   "patterns": [
+    "\\bmarket(ing)?\\s+research\\w*\\b|\\b(consumer|customer|marketing|market|commercial|shopper|audience|brand)\\s+insights?\\b|\\binsights\\s+(senior\\s+)?(manager|analyst|lead|director|strategist|associate|specialist)\\b|\\bhead\\s+of\\s+insights\\b|\\b(competitive|market)\\s+intelligence\\b"
+   ],
+   "exclude": [
+    "\\b(engineer\\w*|software|developer|ux|user\\s+research\\w*|design\\w*)\\b"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
+  },
+  {
    "id": "marketing_manager",
    "label": "Marketing Manager",
    "group": "marketing",
@@ -825,6 +998,34 @@
    "covers": [],
    "covered_by": [],
    "n": 1263
+  },
+  {
+   "id": "communications",
+   "label": "Communications Manager",
+   "group": "marketing",
+   "patterns": [
+    "\\bcommunications?\\s+(senior\\s+)?(manager|director|lead|specialist|associate|coordinator|strategist|partner|officer|analyst|executive|advisor|intern)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(\\w+\\s+){0,2}communications\\b|\\b(corporate|internal|external|strategic|executive|employee|marketing|brand|product|crisis)\\s+communications\\b|\\bpublic\\s+relations\\b|\\bPR\\s+(manager|director|lead|specialist|associate|coordinator|executive)\\b|\\bmedia\\s+relations\\b|\\bpress\\s+(officer|secretary)\\b|\\bsocial\\s+media\\s+(manager|marketer|specialist|coordinator|strategist|lead|director|associate|content\\s+creator)\\b|\\bcontent\\s+(manager|strategist|writer|editor|lead|director|creator)\\b|\\b(copy|managing)\\s+editor\\b|\\bcopywriter\\b|\\beditorial\\s+(manager|director|lead|associate)\\b"
+   ],
+   "exclude": [
+    "\\b(engineer\\w*|systems|rf|network|radio|unified|satellite|technician|investor|design\\w*|video|film)\\b"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
+  },
+  {
+   "id": "public_policy",
+   "label": "Public Policy Manager",
+   "group": "impact",
+   "patterns": [
+    "\\bpublic\\s+(policy|affairs)\\b|\\bgovernment(al)?\\s+(affairs|relations)\\b|\\bpolicy\\s+(\\w+\\s+)?(senior\\s+)?(manager|director|lead|analyst|advisor|adviser|associate|specialist|officer|strategist|advocacy)\\b|\\bpolicy,?\\s+(senior\\s+)?(manager|director|lead)\\b|\\b(manager|lead|leader|director|head|vp|vice\\s+president|principal),?\\s+(of\\s+)?(\\w+\\s+){0,2}policy\\b|\\blegislative\\s+(affairs|analyst|director|manager)\\b"
+   ],
+   "exclude": [
+    "\\b(insurance|underwrit\\w*|claims|servicing|services|accounting|credit|payments?|hr|benefits|compensation|travel|expense|counsel|attorney|lawyer|engineer\\w*|(information|cyber|it|data)\\s+security)\\b"
+   ],
+   "covers": [],
+   "covered_by": [],
+   "n": 0
   },
   {
    "id": "operations_manager",
@@ -1533,12 +1734,12 @@
     },
     {
      "level": "associate",
-     "pattern": "^(?!.*\\b(manager|mgr)\\b).*\\b(analyst|associate|assistant|specialist|supervisor|junior|jr\\.?|entry|graduate|rotational|coordinator|early\\s+career|new\\s+grad)\\b|\\bI$"
+     "pattern": "^(?!.*\\b(manager|mgr)\\b).*\\b(analyst|associate|assistant|specialist|supervisor|junior|jr\\.?|entry|graduate|rotational|coordinator|early\\s+career|new\\s+grad|representative|SDR|BDR)\\b|\\bI$"
     }
    ]
   }
  },
- "generated": "2026-11-01",
+ "generated": "2026-11-05",
  "employers": {
   "Accenture": {
    "category": "Consulting and advisory"

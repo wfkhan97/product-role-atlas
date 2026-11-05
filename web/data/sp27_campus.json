@@ -42,7 +42,7 @@
         "supply_chain": ["ORIE", "NBAY"],
         "people": ["NBAY", "NBA"],
         "risk": ["LAW", "NBAY"],
-        "analytics": ["BANA", "ORIE", "CS", "INFO"]
+        "analytics": ["BANA", "ORIE", "CS", "INFO"], "impact": ["TECH", "LAW", "CRP", "NBAY"]
       }
     },
     {
