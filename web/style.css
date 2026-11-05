@@ -1060,6 +1060,12 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .si-no { margin-top: 12px; color: var(--warning); }
 .si-out .wait { margin-top: 14px; } .si-out .wait p { margin: 4px 0 0; }
 .si-note { margin-top: 18px; } .si-note a { color: var(--primary); }
+.si input.si-code { flex: 0 0 140px; font-family: var(--font-mono); font-size: var(--text-lg); letter-spacing: 0.2em; text-align: center; }
+.si-again { margin-top: 10px; font-size: var(--text-sm); } .si-again button { margin-right: 12px; }
+.si-gate { padding: 14px 16px; border: 1px dashed var(--border); border-radius: var(--radius-md); }
+.si-gate b { display: block; margin-bottom: 4px; } .si-gate p { margin: 0 0 10px; }
+#verbs .who { margin-left: auto; color: var(--muted-foreground); font-size: var(--text-sm); white-space: nowrap; }
+#verbs .who button { margin-left: 8px; }
 .map-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
 .map-top { margin: 0; white-space: nowrap; font-size: var(--text-sm); display: flex; align-items: center; gap: 16px; } .map-top a { color: var(--primary); }
 

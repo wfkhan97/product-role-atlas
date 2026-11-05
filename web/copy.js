@@ -768,6 +768,28 @@
     expired: "That link no longer works. Send yourself a new one.",
     note: "The link opens your map. Nothing else here needs a sign-in.",
     explore: "Explore careers without one →",
+    // the code flow (the visitor journey, step 2, 2026-11-05): anyone, email plus a six-digit code, no password
+    codeLead: "Enter your email. We send a six-digit code; no password.",
+    codeEmailPlaceholder: "you@school.edu",
+    codeButton: "Send me a code",
+    codeSent: "We sent a code to {email}. It works once.",
+    code: "The code",
+    codePlaceholder: "6 digits",
+    verify: "Sign in",
+    verifying: "Checking…",
+    codeWrong: "That code did not work. Check it, or send a new one.",
+    codeRefused: "We could not send a code to that address right now. Try again in a minute.",
+    another: "Send another code",
+    changeEmail: "Another email",
+    codeNote: "The code signs you in on this browser. Your résumé stays here; your read and your lists save to your account.",
+    done: "Signed in as {email}.",
+    signedIn: "Signed in",
+    signIn: "Sign in",
+    signOut: "Sign out",
+    // the first personal act: the résumé read asks for a sign-in (web/app.js resumeForm)
+    gateHeading: "Sign in to read your résumé",
+    gateLine: "A six-digit code goes to your email. No password.",
+    gateButton: "Sign in →",
   };
 
   // ---------- the apprentice map (#/map) and its lines on the launcher (#/skills) ----------

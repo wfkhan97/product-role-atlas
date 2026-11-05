@@ -6,6 +6,11 @@
      Auth.sendLink(email)                     a magic link to an invited address only ({ create_user: false }); resolves
                                               { ok: true } or { ok: false, message } (the refused copy or the plain
                                               failure copy), never rejects
+     Auth.sendCode(email)                     the visitor journey's sign-in (step 2, 2026-11-05): a six-digit code by
+                                              email to any address ({ create_user: true }; GoTrue's email OTP, the
+                                              template carrying {{ .Token }}); the same answers as sendLink
+     Auth.verifyCode(email, code)             the code typed on the page (/auth/v1/verify, type "email"): keeps the
+                                              session and resolves { ok: true, session }, or { ok: false, message }
      Auth.takeHash(hash)                      the link's landing (#access_token=…, the implicit flow, also after #/map):
                                               stores the session and says "session"; an expired or used link says
                                               "error"; anything else null. route() calls it before it parses the hash
@@ -93,6 +98,15 @@
     try { text = typeof errorBody === "string" ? errorBody : JSON.stringify(errorBody || ""); } catch { }
     return /signups not allowed|user not found/i.test(text) ? S.refused : S.failed;
   }
+  // what #/signin says when GoTrue refuses a code: sign-ups off reads as the refused copy for codes; a wrong or
+  // expired code as its own line; anything else as the plain failure
+  function codeMessage(errorBody, verifying) {
+    const S = copy().signin || {};
+    let text = "";
+    try { text = typeof errorBody === "string" ? errorBody : JSON.stringify(errorBody || ""); } catch { }
+    if (verifying) return /invalid|expired|not found|otp/i.test(text) ? S.codeWrong : S.failed;
+    return /signups not allowed|not allowed|rate limit|over_email_send_rate_limit/i.test(text) ? S.codeRefused : S.failed;
+  }
   // E1: where Build skills and #/map lead. Off: the launcher as before. No session: the sign-in. A session and a map:
   // the map. A session and no map file yet: the waiting line.
   const MapGate = {
@@ -133,6 +147,34 @@
       const r = await deps.fetch(`${base()}/auth/v1/otp${q}`, { method: "POST", headers: headers(null, { "Content-Type": "application/json" }), body: JSON.stringify({ email: e, create_user: false }) });
       if (r && r.ok) return { ok: true };
       return { ok: false, message: refusedMessage(r ? await bodyOf(r) : "") };
+    } catch { return { ok: false, message: S.failed }; }
+  }
+  const CODE_RE = /^\d{6}$/;
+  // the code flow (2026-11-05): a six-digit code to any address, then the code typed on the page becomes the session
+  async function sendCode(email) {
+    const S = copy().signin || {};
+    const e = String(email || "").trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e) || e.length > 320) return { ok: false, message: S.invalid };
+    try {
+      const r = await deps.fetch(`${base()}/auth/v1/otp`, { method: "POST", headers: headers(null, { "Content-Type": "application/json" }), body: JSON.stringify({ email: e, create_user: true }) });
+      if (r && r.ok) return { ok: true };
+      return { ok: false, message: codeMessage(r ? await bodyOf(r) : "", false) };
+    } catch { return { ok: false, message: S.failed }; }
+  }
+  async function verifyCode(email, code) {
+    const S = copy().signin || {};
+    const e = String(email || "").trim(), c = String(code || "").replace(/\s+/g, "");
+    if (!CODE_RE.test(c)) return { ok: false, message: S.codeWrong };
+    try {
+      const r = await deps.fetch(`${base()}/auth/v1/verify`, { method: "POST", headers: headers(null, { "Content-Type": "application/json" }), body: JSON.stringify({ type: "email", email: e, token: c }) });
+      const b = r ? await bodyOf(r) : "";
+      if (!r || !r.ok || !b || !b.access_token) return { ok: false, message: codeMessage(b, true) };
+      const jwt = jwtPayload(b.access_token);
+      const uid = (b.user && b.user.id) || jwt.sub;
+      if (!uid) return { ok: false, message: S.failed };
+      const session = { access_token: b.access_token, refresh_token: b.refresh_token || "", expires_at: Number(b.expires_at) || Math.floor(now() / 1000) + (Number(b.expires_in) || 3600), uid, email: (b.user && b.user.email) || jwt.email || e };
+      keep(session);
+      return { ok: true, session };
     } catch { return { ok: false, message: S.failed }; }
   }
   // the session on file, refreshed when it ends within five minutes; a refused refresh forgets it, a network failure
@@ -177,6 +219,6 @@
     try { await deps.fetch(`${base()}/auth/v1/logout`, { method: "POST", headers: headers(s.access_token) }); } catch { }
   }
 
-  return { KEY, BUCKET, CHOICES, NOTE_MAX, sessionFromHash, errorFromHash, redirectTo, feedbackPath, feedbackObject, refusedMessage, MapGate,
-    takeHash, stored, session, sendLink, readMap, readFeedback, writeFeedback, signOut };
+  return { KEY, BUCKET, CHOICES, NOTE_MAX, sessionFromHash, errorFromHash, redirectTo, feedbackPath, feedbackObject, refusedMessage, codeMessage, MapGate,
+    takeHash, stored, session, sendLink, sendCode, verifyCode, readMap, readFeedback, writeFeedback, signOut };
 });
