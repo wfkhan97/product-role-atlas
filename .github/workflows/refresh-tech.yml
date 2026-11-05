@@ -1,0 +1,198 @@
+# The monthly refresh of the tech role set (engineering, design, legal; PLAN.md "A third role set"). The same shape as
+# refresh-product.yml for the scrape: one job per ATS family of the product registry, each pulling its part of the
+# tech backlog, scraping with the set's sampling rules (US only, at most 30 open postings per employer and role, three
+# pages a query on search boards; pipeline/scrape.py) and pushing to the Supabase backlog as it goes.
+# There is no build job yet: extraction and the graph of the set come with its taxonomy (PR 3 of the plan), and this
+# workflow then gains the build, checks and pull-request job refresh-product has.
+#
+# count_only (dispatch): list the boards with the set's rules and upload the counts per employer and role as an
+# artifact, with no detail fetches and nothing written to the backlog (Greenhouse, Lever, Ashby and Workday). Run it
+# before the first real scrape.
+#
+# Second Sunday of the month, 06:17 New York (10:17 UTC), a week after refresh-product: the cron fires every Sunday and
+# the gate lets the run go only on day 8 to 14 with the repository variable REFRESH_TECH_SCHEDULE set to "on".
+name: refresh-tech
+
+on:
+  schedule:
+    - cron: "17 10 * * 0"
+  workflow_dispatch:
+    inputs:
+      ats:
+        description: "one ATS family, or all"
+        default: all
+      only:
+        description: "employer names, comma-separated (empty: every employer of the family)"
+        default: ""
+      count_only:
+        description: "count what the rules would keep; fetch no details, write nothing"
+        type: boolean
+        default: true
+
+concurrency:
+  group: refresh-tech
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  PIPELINE_JOB: refresh-tech
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  gate:
+    name: secrets and schedule
+    runs-on: ubuntu-latest
+    outputs:
+      go: ${{ steps.go.outputs.go }}
+      families: ${{ steps.families.outputs.families }}
+    steps:
+      - name: Every secret the jobs read is set
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          missing=""
+          for k in SUPABASE_DB_URL SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY; do [ -n "${!k}" ] || missing="$missing $k"; done
+          if [ -n "$missing" ]; then
+            echo "::error::missing Actions secret(s):$missing. Add them under Settings > Secrets and variables > Actions (docs/OWNER_CHECKLIST_2026-10.md)."
+            exit 1
+          fi
+          echo "the three secrets are set"
+      - name: Second Sunday of the month with the schedule on, or a dispatch
+        id: go
+        env:
+          EVENT: ${{ github.event_name }}
+          SCHEDULE: ${{ vars.REFRESH_TECH_SCHEDULE }}
+        run: |
+          day=$(date -u +%-d)
+          if [ "$EVENT" = "schedule" ] && { [ "$SCHEDULE" != "on" ] || [ "$day" -lt 8 ] || [ "$day" -gt 14 ]; }; then
+            echo "scheduled run skipped: not the second Sunday, or REFRESH_TECH_SCHEDULE is not 'on'"
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: The families this run scrapes
+        id: families
+        env:
+          ATS: ${{ inputs.ats || 'all' }}
+          COUNT_ONLY: ${{ inputs.count_only }}
+          # Every family data/registry.json uses. A count-only run lists the four families it can count without
+          # detail fetches. The list is built here, not in the scrape job's matrix (a job-level `if` cannot read
+          # `matrix`; GitHub rejects the whole file).
+          FAMILIES: |
+            {"family": "workday", "runner": "ubuntu-latest"}
+            {"family": "greenhouse", "runner": "ubuntu-latest"}
+            {"family": "ashby", "runner": "ubuntu-latest"}
+            {"family": "lever", "runner": "ubuntu-latest"}
+            {"family": "amazon", "runner": "ubuntu-latest"}
+            {"family": "oracle_hcm", "runner": "ubuntu-latest"}
+            {"family": "eightfold", "runner": "ubuntu-latest"}
+            {"family": "google", "runner": "ubuntu-latest"}
+            {"family": "radancy", "runner": "ubuntu-latest"}
+            {"family": "successfactors", "runner": "ubuntu-latest"}
+            {"family": "apple", "runner": "ubuntu-latest"}
+            {"family": "jibe", "runner": "ubuntu-latest"}
+            {"family": "meta", "runner": "ubuntu-latest"}
+            {"family": "smartrecruiters", "runner": "ubuntu-latest"}
+            {"family": "phenom", "runner": "ubuntu-latest"}
+            {"family": "mcloud", "runner": "ubuntu-latest"}
+            {"family": "icims", "runner": "ubuntu-latest"}
+            {"family": "bofa_servlet", "runner": "ubuntu-latest"}
+            {"family": "paradox", "runner": "ubuntu-latest"}
+            {"family": "gs_graphql", "runner": "ubuntu-latest"}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          rows = [json.loads(line) for line in os.environ["FAMILIES"].splitlines() if line.strip()]
+          if os.environ.get("COUNT_ONLY") == "true":
+              rows = [r for r in rows if r["family"] in ("workday", "greenhouse", "ashby", "lever")]
+          ats = os.environ["ATS"]
+          if ats != "all":
+              rows = [r for r in rows if r["family"] == ats]
+              if not rows:
+                  raise SystemExit(f"::error::no family {ats!r} in this run")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write("families=" + json.dumps(rows) + "\n")
+          print(", ".join(r["family"] for r in rows))
+          PY
+
+  scrape:
+    name: scrape ${{ matrix.family }}
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.gate.outputs.families) }}
+    env:
+      FAMILY: ${{ matrix.family }}
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      COUNT_ONLY: ${{ inputs.count_only }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python packages
+        run: pip install -r requirements.txt
+      - name: Name the log
+        run: |
+          mkdir -p logs summary
+          echo "PIPELINE_LOG=logs/refresh-tech_$(date -u +%Y-%m-%d)_${FAMILY}.log" >> "$GITHUB_ENV"
+      - name: Merge the registry (from tracked files)
+        run: python -m pipeline.merge_registry
+      - name: Pull this family's part of the tech backlog
+        if: env.COUNT_ONLY != 'true'
+        run: python -m pipeline.backlog pull --roles tech --ats "$FAMILY"
+      - name: Scrape ${{ matrix.family }}
+        env:
+          ONLY: ${{ inputs.only }}
+        run: |
+          args=(--roles tech --refresh --ats "$FAMILY" --no-snapshot)
+          if [ -n "$ONLY" ]; then
+            args+=(--only)
+            IFS=',' read -ra names <<< "$ONLY"
+            for n in "${names[@]}"; do args+=("$(echo "$n" | sed 's/^ *//; s/ *$//')"); done
+          fi
+          [ "$COUNT_ONLY" = "true" ] && args+=(--count-only "summary/count_${FAMILY}.json")
+          python -m pipeline.scrape "${args[@]}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tech-${{ matrix.family }}
+          path: summary/
+          retention-days: 30
+      - name: Push the log to the logs store
+        if: always()
+        run: python -m pipeline.store push logs --only "$PIPELINE_LOG"
+
+  snapshot:
+    name: dated snapshot of the tech backlog
+    needs: [gate, scrape]
+    if: ${{ !cancelled() && needs.gate.outputs.go == 'true' && inputs.count_only != true && (github.event_name == 'schedule' || (inputs.ats == 'all' && inputs.only == '')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python packages
+        run: pip install -r requirements.txt
+      - name: Snapshot
+        run: python -m pipeline.backlog snapshot --roles tech

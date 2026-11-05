@@ -99,14 +99,16 @@ EXCLUDE = {
                         r"architectural|architecture|civil|electrical|hardware|pcb|circuit|asic|chip|layout|physical|rf|analog|structural|piping|hvac|mep|"
                         r"kitchen|floral|textile|jewelry|footwear|apparel|print|production|set|costume|curriculum|presentation|cad|mold|tool(ing)?|"
                         r"verification|brand|marketing|communications?|creative|illustrat\w*|motion|video|social|merchandis\w*|retail|store|"
-                        r"exhibit|event|signage|environmental|construction|engineer\w*|technician|drafter|draftsperson|garment|knit|trim|color|deal)\b",
+                        r"exhibit|event|signage|environmental|construction|engineer\w*|technician|drafter|draftsperson|garment|knit|trim|color|deal|"
+                        r"technical\s+designer|gear|(wo)?men'?s|kids|girls|boys)\b",
     "security_engineer": r"\b(physical|guard|officer|loss\s+prevention|protective|protection\s+agent|executive\s+protection|facilit\w*|patrol|armed|"
                          r"trust\s*(&|and)\s*safety\s+(analyst|specialist|associate|operations)|content\s+moderat\w*|fraud|aml|kyc|financial\s+crime|"
-                         r"product\s+manag\w*|product\s+marketing|program\s+manag\w*|data\s+scien\w*|security\s+clearance|national\s+security|programs?\s+development|supply\s+chain\s+security\s+manager)\b",
-    "ml_engineer": r"\bai\s+(developer\s+tools|gateway)\b|\bdata\s+scien\w*|\b(analyst|analytics)\b|\bai\s+(transformation|enablement|adoption|strateg\w*)\b|\bsoftware\s+engineer\s+in\s+test\b",
-    "data_engineer": r"\bdata\s+(center|centre|entry)\b|\bdatacenter\b|\bdata\s+scien\w*|\banalyst\b",
+                         r"product\s+manag\w*|product\s+marketing|program\s+manag\w*|data\s+scien\w*|security\s+clearance|national\s+security|programs?\s+development|supply\s+chain\s+security\s+manager|project\s+manag\w*|"
+                         r"site\s+security|(corporate|global|regional)\s+security\s+(\w+\s+)?(manager|specialist|director|lead|analyst)|regional\s+security)\b",
+    "ml_engineer": r"\bai\s+(developer\s+tools|gateway)\b|\bnetwork\s+(site\s+reliability\s+)?engineer\b|\bdata\s+scien\w*|\b(analyst|analytics)\b|\bai\s+(transformation|enablement|adoption|strateg\w*)\b|\bsoftware\s+engineer\s+in\s+test\b",
+    "data_engineer": r"\bdata\s+(center|centre|entry|handling|exploitation)\b|\bdatacenter\b|\bdata\s+scien\w*|\banalyst\b",
     "software_engineer": r"\b(qa|quality\s+assurance)\s+(engineer|analyst|tester)\b(?!.*automation)|\bmanual\s+(qa|test\w*)\b|\bnetwork\s+engineer\b|"
-                         r"\bsystems\s+engineer\b|\bapplications?\s+engineer\b|\bchief\s+of\s+staff\b|\boffice\s+of\s+the\b|\bengineering\s+(operations|ops|program|excellence)\b|\bbusiness\s+developer\b|\breal\s+estate\b|\bpower\s+platform\b|"
+                         r"\bsystems\s+engineer(ing)?\b|\bapplications?\s+engineer\b|\bchief\s+of\s+staff\b|\boffice\s+of\s+the\b|\bengineering\s+(operations|ops|program|excellence)\b|\bbusiness\s+developer\b|\breal\s+estate\b|\bpower\s+platform\b|"
                          r"\b(it|desktop|end\s+user)\s+(support|engineer|technician)\b|\bcontent\s+developer\b|\bcourse\s+developer\b|\b(land|project|property|community|economic|"
                          r"product|market|business|fund|donor|leadership|organizational|talent)\s+developer\b",
 }

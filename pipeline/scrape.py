@@ -1,7 +1,7 @@
 """Scrape product-related postings for every company in the registry.
 
-usage: python -m pipeline.scrape [--only COMPANY ...] [--refresh] [--roles product|mba] [--batch N]
-Raw results are kept per company in data/raw/jobs/<slug>.json (data/raw/jobs_mba/ for --roles mba).
+usage: python -m pipeline.scrape [--only COMPANY ...] [--refresh] [--roles product|mba|tech] [--batch N] [--count-only FILE]
+Raw results are kept per company in data/raw/jobs/<slug>.json (data/raw/jobs_mba/ for --roles mba, jobs_tech/ for tech).
 
 The file is a backlog, not a snapshot. A company that has a file is skipped unless --refresh (or --force, the
 old name) is given. A refresh never drops a posting: one the board still shows gets a new "last_seen", a new one
@@ -19,6 +19,13 @@ as it is written and a full run ends with a storage snapshot (pipeline/backlog.p
 alone, --no-snapshot to push the files without the dated copy). Run pipeline.backlog pull before a scrape on a checkout whose files are behind the database.
 The MBA roles were scraped in batches; --batch N fetches only that batch's roles for companies already
 cached without it and adds them to the company's file (companies with no file get every role).
+
+The tech set (engineering, design, legal; PLAN.md "A third role set") samples instead of keeping every posting: its
+roles are posted by the thousand. A posting outside the United States is dropped (on Workday before its detail is
+fetched); at most CAP_PER_ROLE open postings per employer and role are kept, the ones the backlog holds first, then the
+newest, and the file records under "sampled" how many were seen and not kept; search boards read three pages a query.
+Nothing is ever deleted. --count-only FILE lists the boards with these rules and writes the counts to FILE, with no
+detail fetch on Workday and nothing written to the backlog (Greenhouse, Lever, Ashby and Workday only).
 """
 import argparse
 import collections
@@ -33,7 +40,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from pipeline.adapters import ADAPTERS, CHECKS, common
-from pipeline import backlog, log, roles, roles_mba
+from pipeline import backlog, geo, log, roles, roles_mba, roles_tech
 
 logger = log.get(__name__)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,7 +48,39 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROLE_SETS = {
     "product": (roles.title_ok, "jobs"),
     "mba": (roles_mba.title_ok, "jobs_mba"),
+    "tech": (roles_tech.title_ok, "jobs_tech"),
 }
+# Sampling role sets: at most this many open postings per employer and role (pipeline/balance.py already holds an
+# employer to 5% of a role's weight, so a 31st posting at one employer adds rows, not information).
+CAP_PER_ROLE = {"tech": 30}
+PAGES = {"tech": 3}           # pages a search board reads per query
+COUNTED = ("greenhouse", "lever", "ashby", "workday")  # the boards --count-only can list without detail fetches
+
+
+def in_country(location, country="United States"):
+    """False only for a posting the location places in another country; no location, or one that cannot be read, is
+    kept (extraction reads it again with the posting's text and URL)."""
+    c = geo.country(location)[0]
+    return c in (None, geo.OTHER, country)
+
+
+def cap_new(old, fetched, family_of, cap):
+    """The fetched postings a sampling set keeps: every one the backlog already holds, then new ones, newest first,
+    while the role has fewer than `cap` open postings at the employer. Returns (kept, {role: seen and not kept})."""
+    held = {posting_key(j): j for j in (old or {}).get("jobs", [])}
+    open_n = collections.Counter(family_of(j["title"]) for j in held.values() if not j.get("closed"))
+    kept, sampled = [], collections.Counter()
+    new = []
+    for j in fetched:
+        (kept if posting_key(j) in held else new).append(j)
+    for j in sorted(new, key=lambda j: str(j.get("posted") or ""), reverse=True):
+        role = family_of(j["title"])
+        if open_n[role] < cap:
+            open_n[role] += 1
+            kept.append(j)
+        else:
+            sampled[role] += 1
+    return kept, dict(sampled)
 
 
 def slug(name):
@@ -238,6 +277,8 @@ def main():
     ap.add_argument("--rank-from", type=int)
     ap.add_argument("--rank-to", type=int)
     ap.add_argument("--roles", choices=sorted(ROLE_SETS), default="product")
+    ap.add_argument("--count-only", metavar="FILE", help="list the boards with the set's rules and write the counts to FILE; "
+                    "no detail fetches on Workday, nothing written (Greenhouse, Lever, Ashby, Workday)")
     ap.add_argument("--batch", type=int, choices=sorted(roles_mba.BATCH_QUERIES))
     ap.add_argument("--no-db", action="store_true", help="do not push the files to the Supabase backlog")
     ap.add_argument("--shard", metavar="K/N", help="the Kth of N equal parts of the selected employers, in registry order "
@@ -246,13 +287,15 @@ def main():
                     "or after DATE and reopen the ones the board still shows (repairs closures made before 2026-10-29)")
     ap.add_argument("--no-snapshot", action="store_true", help="push the files but skip the dated storage snapshot (a job that runs one ATS family at a time snapshots once at the end)")
     args = ap.parse_args()
-    db = not args.no_db and backlog.configured()
+    count = {} if args.count_only else None
+    db = not args.no_db and backlog.configured() and count is None
     if not db:
         logger.info("SUPABASE_DB_URL not set or --no-db: the files stay local only")
     all_batches = sorted(roles_mba.BATCH_QUERIES)
     title_ok, cache = ROLE_SETS[args.roles]
     RAW = os.path.join(ROOT, "data", "raw", cache)
-    os.makedirs(RAW, exist_ok=True)
+    if count is None:
+        os.makedirs(RAW, exist_ok=True)
     reg = load_registry(args.roles)
     summary = []
     todo = []
@@ -274,7 +317,7 @@ def main():
             continue
         if args.rank_to and (entry.get("rank") is None or entry["rank"] > args.rank_to):
             continue
-        if entry.get("ats") in (None, "unsupported") or entry["ats"] not in ADAPTERS:
+        if entry.get("ats") in (None, "unsupported") or entry["ats"] not in ADAPTERS or (count is not None and entry["ats"] not in COUNTED):
             summary.append((name, entry.get("ats"), "skipped"))
             continue
         path = os.path.join(RAW, slug(name) + ".json")
@@ -283,7 +326,7 @@ def main():
             with open(path) as f:
                 old = json.load(f)
             # files from before the batches existed hold batch 1 only
-            if not args.force and not (args.batch and args.batch not in old.get("batches", [1])):
+            if count is None and not args.force and not (args.batch and args.batch not in old.get("batches", [1])):
                 summary.append((name, entry["ats"], f"cached {len(old.get('jobs', []))}"))
                 continue
         todo.append((entry, path, old))
@@ -306,8 +349,25 @@ def main():
                 # a board shared with a parent company is narrowed by its own search text (keep_queries)
                 cfg = cfg if cfg.get("keep_queries") else dict(cfg, queries=roles_mba.queries(cat, batch))
                 ok = lambda t: roles_mba.title_ok(t, cat, batch)
+            cap = CAP_PER_ROLE.get(args.roles)
+            if cap:  # a sampling set: its own searches, a few pages, a budget per role, nothing fetched abroad
+                ok = roles_tech.family   # returns the role: the Workday adapter keeps a budget per role
+                if not cfg.get("keep_queries"):
+                    cfg = dict(cfg, queries=roles_tech.SEARCH_QUERIES)
+                cfg = dict(cfg, max_pages=PAGES[args.roles], per_role=cap + 10, keep_location=in_country, count_only=count is not None)
             common.start_fetch()
             jobs = ADAPTERS[entry["ats"]](name, cfg, ok)
+            sampled = None
+            if cap:
+                jobs = [j for j in jobs if in_country(j.get("location"))]
+                seen = collections.Counter(roles_tech.family(j["title"]) for j in jobs)
+                jobs, sampled = cap_new(old, jobs, roles_tech.family, cap)
+                if count is not None:
+                    with lock:
+                        count[name] = {"ats": entry["ats"], "group": entry.get("group"), "seen": dict(seen),
+                                       "kept": dict(collections.Counter(roles_tech.family(j["title"]) for j in jobs)),
+                                       "page_cap": len(common.listing_failures())}
+                    return (name, entry["ats"], f"counted {sum(seen.values())} seen, {len(jobs)} kept")
             unread = common.listing_failures()
             key = posting_key
             before = {key(j): bool(j.get("closed")) for j in (old or {}).get("jobs", [])}
@@ -331,6 +391,8 @@ def main():
             blob = {"company": name, "scraped_at": time.strftime("%Y-%m-%dT%H:%M:%S"), "jobs": uniq}
             if partial:
                 blob["partial"] = partial
+            if sampled:
+                blob["sampled"] = sampled  # role -> postings seen today and not kept (the cap)
             if args.roles == "mba":
                 blob["batches"] = sorted(set(old.get("batches", [1])) | {batch}) if old and batch else all_batches
             # the file is the backlog: write beside it and swap, so a failure cannot leave it empty
@@ -368,6 +430,14 @@ def main():
                 totals["folded"], totals["incomplete"], totals["checked"], common.STATS["requests"], common.STATS["429"], common.STATS["5xx"], common.STATS["retries"])
     if failed:
         logger.error("failed employers: %s", ", ".join(sorted(failed)))
+    if count is not None:
+        roles_seen, roles_kept = collections.Counter(), collections.Counter()
+        for c in count.values():
+            roles_seen.update(c["seen"]), roles_kept.update(c["kept"])
+        with open(args.count_only, "w") as f:
+            json.dump({"roles": args.roles, "date": time.strftime("%Y-%m-%d"), "cap": CAP_PER_ROLE.get(args.roles),
+                       "seen": dict(roles_seen), "kept": dict(roles_kept), "employers": count}, f, indent=1)
+        logger.info("count-only: %d employers counted; seen %s; kept %s; written to %s", len(count), dict(roles_seen), dict(roles_kept), args.count_only)
     if db and todo and not args.only and not args.batch and not args.no_snapshot:  # a full run: keep a dated copy of the files
         try:
             backlog.snapshot(args.roles)

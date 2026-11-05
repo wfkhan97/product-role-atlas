@@ -85,3 +85,18 @@ def test_export_is_plain_data_the_browser_can_compile():
     for p in pats:
         assert "(?i" not in p and "(?P<" not in p, p   # JavaScript cannot read inline flags or named groups this way
         re.compile(p)
+
+
+@pytest.mark.parametrize("title, role", [
+    # Workday titles at Fortune employers (PR 2's count-only probe of 30 boards, 2026-11-05): the false positives it found
+    ("Systems Engineering Manager (Metrology Product Development)", None), ("Senior IT Project Manager Cybersecurity", None),
+    ("Corporate Security Senior Manager - Americas", None), ("Regional Security Specialist, Global Security", None),
+    ("Designer - Women's Tek Gear", None), ("Associate Technical Designer", None),
+    ("Commercial Crew Command and Data Handling Engineer, Senior Level", None),
+    # ... and what they must not take with them
+    ("Security Engineer, Corporate Security", "security_engineer"), ("Senior Systems Software Engineer (C++)", "software_engineer"),
+    ("Engineering Team Lead, Site Reliability Engineering (Digital Banking)", "software_engineer"),
+    ("Senior Counsel, Legal - Labor & Employment (Attorney)", "counsel"), ("Business Intelligence Engineer", "data_engineer"),
+])
+def test_workday_titles(title, role):
+    assert R.family(title) == role
