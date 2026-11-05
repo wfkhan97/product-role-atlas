@@ -28,11 +28,13 @@
   // switch is on, so the chooser, the start card, the neutral card title and campusFor all follow one line of data.
   const switchOn = name => { try { return !!(deps.config && deps.config()[name]); } catch { return false; } };
   const campuses = async () => { const f = await campusFile(); const list = !f ? [] : Array.isArray(f.campuses) ? f.campuses : [f]; return list.filter(c => !c.enabled_by || switchOn(c.enabled_by)); };
-  // The person's campus from what we know, pure: the one stored (classes.campus), else the campus of the picker program
-  // chosen, else the one campus whose programs include the v15 program group answered (you.where); null when the group
-  // belongs to two campuses, which the picker then asks once.
-  function campusFor(list, { stored = null, programId = null, where = null } = {}) {
+  // The person's campus from what we know, pure: the campus of the door's flag (Door.campus: the listed campus whose
+  // `flag` it is and whose roster is loaded, 2026-11-04), else the one stored (classes.campus), else the campus of the
+  // picker program chosen, else the one campus whose programs include the v15 program group answered (you.where); null
+  // when the group belongs to two campuses, which the picker then asks once.
+  function campusFor(list, { flag = null, stored = null, programId = null, where = null } = {}) {
     list = list || [];
+    if (flag) { const c = list.find(x => x.flag === flag && x.catalog); if (c) return c; }
     if (stored) { const c = list.find(x => x.id === stored); if (c) return c; }
     if (programId) { const c = list.find(x => (x.programs || []).some(p => p.id === programId)); if (c) return c; }
     if (where) { const cs = list.filter(x => (x.programs || []).some(p => p.group === where)); if (cs.length === 1) return cs[0]; }

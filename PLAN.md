@@ -1811,6 +1811,56 @@ test résumés stay inside every `score_band` (`run.mjs` 513 pass); one fit band
 PM, 69% to 68%, under the unchanged 0.69 strong line. Not run: `BEHAVIOURS=score` on the full set (`evals/README.md`,
 "Evals to build" item 6), still open.
 
+## The campus gate: the door's email reads as a campus flag (`feat/campus-gate`, 2026-11-04)
+
+The owner's asks of 2026-11-04: any `@cornell.edu` address opens what a NetID address opened (v19 B2, decision 2, the
+NetID shape, is retired); a visitor whose address is not a school's does not see Find classes at all (no card, no
+top-bar link, no route, nothing grayed) and sees neither "An alum in the role" nor "Faculty on campus" on Networking;
+an IE New York address reads the IE roster and IE's LinkedIn school filter. Decisions:
+
+1. **The flag table is data.** `CAMPUS_DOMAINS` in `web/config.js`: `{ cornell: ["cornell.edu"], ienyc: [] }`; a new
+   campus (Johnson Ithaca next) is a new flag id there. `Door.campus(email, domains)` in `web/app.js` is pure: the flag
+   whose list holds the address's whole domain, any case, spaces around it ignored; `wk332@alumni.cornell.edu`, a gmail
+   address, an address with two "@" or none is no campus. In the browser the table defaults to the config's.
+2. **A flag opens a roster through the campus entry.** Each entry of `web/data/sp27_campus.json` carries `flag`
+   (`cornell_tech` is `cornell`, `ienyc` is `ienyc`). `Door.rosterOf(flag, campuses)` is the listed campus of that flag
+   with `catalog: true`, over `Catalog.campuses()`, which honors `enabled_by`. `Door.opens(email, domains, campuses)`
+   keeps its name and now means "the address belongs to a campus with a loaded roster". Today: cornell opens Cornell
+   Tech; ienyc opens nothing until the IE files exist, `catalog` turns true and `IENYC_ENABLED` flips.
+3. **Closed means absent.** The top bar and home draw only the open verbs, so a visitor with no roster sees three cards
+   (`.verbs.n3`: one row of three from 1280 px, else two by two wrapping); `Door.reach(name, open)` sends `#/classes` and
+   `#/professor/<slug>` home in `route()`. The grayed card and its strings (`home.closed`, `closedLink`, `closedAfter`)
+   are gone. `route()` waits once for the campus list before its first draw, so every screen reads the gate
+   synchronously (`campusGate()` in the shell: `{ flag, open, campus }`). `Catalog.campusFor` prefers the flag's campus
+   with a roster over a stored choice, and the picker hides "Change campus" for a flagged visitor.
+4. **Networking by flag.** `Network.types(flag, roster)`: hiring manager, someone in the role and recruiter for
+   everyone; the alum for any flag; faculty when the flag's roster is loaded. The alumni search's school filter is per
+   flag, `SCHOOLS` in `web/network.js` (`cornell`: the owner's three ids of 2026-11-01; `ienyc`: empty until the owner
+   gives IE's id); an empty list builds the plain people search with no `schoolFilter`. The link labels say
+   "{school} alumni" from `Copy.network.schools` ("Cornell", "IE"). No draft names a school but the alum's ask, as
+   before. The faculty tab reads the flag's campus entry (`campusProfs(campus, gaps)`, one roster read per campus
+   through `Catalog.loadCatalog`), so IE's professors come from its own `catalog_file` and `tags_file` once they exist.
+5. **The door's line names no campus.** "Some parts are for students. A school address opens them." (`door.school`,
+   was `door.cornell`). The owner's door paragraphs are unchanged.
+
+The owner's two values (2026-11-04): the IE domains are `student.ie.edu` and `ie.edu` (`CAMPUS_DOMAINS.ienyc`), and the
+IE school filter is the four school pages of the people search he sent, 740718, 5141380, 2816303 and 2816341
+(`SCHOOLS.ienyc`). An IE address today sees three verbs, the alum tab with IE's filter, and no Find classes or faculty:
+the IE roster is not on the site. What is missing for it: `web/data/catalog/ienyc.json` and `ienyc_tags.json` (the
+research folder `SP27_ienyc/` holds `sp27_ienyc_classes.json`, but `pipeline.catalog_export` is written for the Cornell
+Tech loader alone and needs an IE branch or a second script), `catalog: true` with the two file names on the `ienyc`
+entry, and `IENYC_ENABLED` on. Nothing in this change needs to move when they land.
+
+Verified in the browser pane on the local server (2026-11-04): a gmail address draws three cards, three top-bar links
+and three people types, and `#/classes` rewrites to `#/home`; `john.smith@cornell.edu` draws four, opens the Cornell
+Tech picker, the Cornell alumni filter and the faculty roster; `someone@student.ie.edu` draws three, the alum tab with
+IE's four ids and "IE alumni" labels, and no Find classes.
+
+Tests: `tests/web/door.test.mjs` (the table, `Door.campus`, `Door.opens` over any @cornell.edu, the IE cases with and
+without a roster, `campusFor`'s flag, three open verbs), `tests/web/network.test.mjs` (types per flag, the school filter
+per flag, the empty-id case, the IE labels), `tests/web/routes.test.mjs` (the closed routes). `evals/copy_baseline.md`
+rewritten (string counts only; zero offenders).
+
 ## The apprentice generator moves into the atlas (`feat/apprentice-in-atlas`, 2026-11-04)
 
 The ask: make and publish a map from this repository alone. Until today the generator lived in GradBuddy
@@ -1861,6 +1911,54 @@ path leaks into a file.
 Left open: GradBuddy's `apprentice/` folder and its skill still exist there (read-only for us); retiring them, or a
 pointer README there, is the owner's call in that repository. The "Later" line "commit the B1 files in
 `gradbuddy/apprentice/`" is moot now that the files live here.
+
+## World 1 opens with story cards: one résumé line, said so it shows (`feat/story-cards`, 2026-11-05)
+
+The owner's reading of World 1 (2026-11-05): the first missions should be guided and about the person's own story,
+not a page to write. Half of a résumé's core skills are half shown: named but not evidenced, or shown in another
+field's words. A line rewritten so the atlas reads the skill as shown is the smallest possible win, it is practice for
+every later card, and a model can coach it if the prompt is right. Decisions (the lead, on the owner's pick "Story
+cards first"; stacked on `feat/apprentice-in-atlas`, since the generator lives there):
+
+1. **The generator writes them, the skill never does.** `assemble.mjs` adds up to two cards (`kind: "story"`, ids
+   `s1-<skill>`) from the grounding alone: a skill of the first role's read in `must evidence better` or `shows in
+   other words`, on the tree, with a work line; the posting's skills first, then the larger share. Deterministic, so
+   a re-assemble writes the same two; the owner's `shipped`, `changed`, `declined` and `reply` survive by id, and a
+   card the grounding no longer picks goes. A bad pick is declined, never edited. The check holds the rules
+   (`pipeline/apprentice/README.md`).
+2. **A work line, never a list.** `ground.mjs` keeps, per read row, `work_lines`: bullets, the summary and the
+   profile's prose of six words or more. A course plan or a skills list reads as "named, not shown" too, and the first
+   draft picked one; a story card on it would ask the person to rewrite a course list. `shown_by` (the slots of
+   `pipeline/evidence.json`: artefacts, verbs, measures, counterparts) rides on every skill of the grounding.
+3. **Nothing invented.** The card's text is the grounding's words: the line as it stands, `reads_as` (else `what`),
+   the slots, the share in words ("About two in three postings … ask for"; never a percentage), and a prompt that
+   quotes the line, names the slots, asks three questions and drafts three lines under 30 words with `[ ]` where a
+   number goes. The owner's "practice with an LLM with a provided prompt" is that prompt, copied with one button into
+   any model; the atlas calls none.
+4. **The read is live and local.** The card has a box; a pasted line goes to the matcher of the map's role
+   (`Atlas.matcher`, the one that read the résumé) on its own, and the row's status for the card's skill reads as one
+   of the four states (`MapModel.lineState`). Nothing is stored or sent; the person tells the owner with F1 ("I'll
+   rewrite it"). The owner marks the card shipped once the line is on the résumé. A line read alone can read lower
+   than the same line in a whole résumé (no role context), so the card says "read on its own".
+5. **The release labels go, the framing stays.** "I do / we do / you do" leaves the worlds (`release` is no longer
+   written; an old file's is ignored), the check, the pages, the print sheet and the docs; each world's `who` line
+   carries the framing in words ("Guided first: two lines of your own, then a page each"). World 1 clears at 2 of its
+   n missions as before; the story cards count like any mission, so two rewritten lines clear it.
+6. **More about you.** `INTAKE.md` gets a ninth section (side projects, talks, application essays); `ground.mjs` puts it
+   into `profile.md` under "More about you", so the read and the story lines see it. Uploads to a private
+   `maps/<uid>/context/` folder need a storage policy, so a migration: deferred to Later, not applied by a thread.
+7. **The whitelist is the invite.** A map opens for an invited address only (magic link, `create_user: false`); no
+   new flag.
+
+Built: `pipeline/apprentice/assemble.mjs` (`storyCards`, `storyPrompt`, `WORLDS` without `release`), `ground.mjs`
+(`work_lines`, `shown_by`, section 9), `check.mjs` (the story rules, the release rule dropped, story cards apart from
+the one-to-six), `template.html` (the story card in the check view), `INTAKE.md`, `README.md`; `web/map.js`
+(`storyOf`, `lineState`, missions carry `kind`), `web/app.js` (the story card in the panel, `storyControls`, the
+story choices in F1, the release labels out, "1 hour"), `web/copy.js` (`map.card.story`, `feedback.storyChoices`),
+`web/style.css`; the example reground and reassembled (two story cards: positioning & messaging, customer-facing
+engagement, both named by the posting); wk332 rebuilt locally (one: product launches). Tests:
+`tests/web/apprentice.test.mjs` (the picks, the hand edits, the prompt, three more broken copies),
+`tests/web/map.test.mjs`. The contract and the skill updated.
 
 ## Thirteen business roles, and a checklist for adding a role (`feat/mba-roles-13`, 2026-11-05)
 
@@ -2199,6 +2297,10 @@ tech roles; a fresh labelled sample of titles; sponsorship rows from tech postin
 
 ## Later
 
+- After the story cards (2026-11-05): uploads of more context (side projects, essays) to `maps/<uid>/context/`, one
+  storage policy for the person's own folder, read by `ground.mjs` into `profile.md`; the Tally door's duplicate
+  submissions (a webhook into `waitlist`, one notification per new address; the owner's question of 2026-11-05).
+
 - The skills pass ("Adding a role", part C) for the 15 roles added after the first 50: `ai_transformation`,
   `product_engineer` and the 13 business roles of 2026-11-05, once `refresh-mba` has given the 13 postings. Then
   part D: sample resumes and bands for the `impact` group, game passages, `mba_roles.json` credentials.
@@ -2207,6 +2309,17 @@ tech roles; a fresh labelled sample of titles; sponsorship rows from tech postin
   over data analyst?), unconfirmed.
 - ~~Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach`; decide whether a transferable
   row should earn less than an evidenced one~~: done 2026-11-02 (`data/bands-recal`), 0.75.
+- The map self-serve (proposed 2026-11-04, not built; the owner says yes first): a résumé plus a role on the site
+  produce a map the way the model read infers skills. The deterministic half is already here (`ground`, `assemble`,
+  `check` run in node on the atlas's files); the judgment half is the cards (R15 to R19) and the company research. The
+  proposal: a Vercel function `api/map` behind the magic-link session takes the résumé text, the role class and one
+  company; `ground` runs in the function; the model (Haiku 5.5 for the cards, a Sonnet-class model for the four research
+  reads over the company's public pages) writes `cards`, `gap_sentence` and `who_sees_it` under the skill's rules, with
+  every quote checked word for word by `check` before the map is written to `maps/<uid>/map.json` with the service
+  role; a map that fails the check is not written and the screen says so. Cost per map, at today's prices: about $0.10
+  to $0.40 (research pages in, 11 cards out, two passes), plus the per-request limit already on `/api/infer`. Behind a
+  flag, `CONFIG.MAP_SELF_SERVE`, off by default, so the owner's hand-run maps stay the product until the first ten
+  self-serve maps have been read by him; the atlas still runs no model for anyone who has not signed in.
 - After v20 (2026-10-31): missions that cover a whole class's gaps, not the first role's (the generator's
   rule R16, once a map has been run for a real student); the quest map's one-world view (the round-2 Q2) as the view a
   world opens into; the layout eval (`evals/README.md`); the IE New York roster (`IENYC_ENABLED`); an events feed for

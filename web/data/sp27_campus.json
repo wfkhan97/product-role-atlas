@@ -1,8 +1,9 @@
 {
-  "_note": "Every campus-specific string the class picker and the rail show lives here, never in code. `campuses` is a list: a new campus is a new entry, never a code change. Per campus: id, label, term and term_label, pre_enrollment and roster_updates_until (null when unknown). Then start_card (the home card), closed_notice (the picker with no roster), rail_closed_line (the rail with no roster) and privacy_line. Then eligibility (category id to words) and programs. Each program has its categories and its v15 program group: business, analytics, cs, ece, infosci, or null. The programs stay for the eligibility labels and the IE entry; the picker no longer asks the program. Then relevance (the band thresholds) and catalog (true once the campus has a roster). Then catalog_file, tags_file and field_subjects (see the Cornell Tech entry). The two files are the roster and the skills each class names; pipeline.catalog_export and pipeline/catalog_tags.mjs write them. A program row marked unverified is a first pass the owner has not confirmed. `node evals/copy.mjs` checks every string in this file against the writing rule.",
+  "_note": "Every campus-specific string the class picker and the rail show lives here, never in code. `campuses` is a list: a new campus is a new entry, never a code change. Each entry's flag names the door's campus flag (web/config.js CAMPUS_DOMAINS) whose email opens its roster. Per campus: id, label, term and term_label, pre_enrollment and roster_updates_until (null when unknown). Then start_card (the home card), closed_notice (the picker with no roster), rail_closed_line (the rail with no roster) and privacy_line. Then eligibility (category id to words) and programs. Each program has its categories and its v15 program group: business, analytics, cs, ece, infosci, or null. The programs stay for the eligibility labels and the IE entry; the picker no longer asks the program. Then relevance (the band thresholds) and catalog (true once the campus has a roster). Then catalog_file, tags_file and field_subjects (see the Cornell Tech entry). The two files are the roster and the skills each class names; pipeline.catalog_export and pipeline/catalog_tags.mjs write them. A program row marked unverified is a first pass the owner has not confirmed. `node evals/copy.mjs` checks every string in this file against the writing rule.",
   "campuses": [
     {
       "id": "cornell_tech",
+      "flag": "cornell",
       "label": "Cornell Tech",
       "term": "SP27",
       "term_label": "Spring 2027",
@@ -46,6 +47,7 @@
     },
     {
       "id": "ienyc",
+      "flag": "ienyc",
       "label": "IE New York",
       "enabled_by": "IENYC_ENABLED",
       "term": "SP27",
