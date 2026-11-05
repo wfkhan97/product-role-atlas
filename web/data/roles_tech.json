@@ -60,7 +60,8 @@
    ],
    "engineering": false,
    "covers": [],
-   "covered_by": []
+   "covered_by": [],
+   "n": 1026
   },
   {
    "id": "ux_researcher",
@@ -74,7 +75,8 @@
    ],
    "engineering": false,
    "covers": [],
-   "covered_by": []
+   "covered_by": [],
+   "n": 50
   },
   {
    "id": "product_designer",
@@ -88,7 +90,8 @@
    ],
    "engineering": false,
    "covers": [],
-   "covered_by": []
+   "covered_by": [],
+   "n": 849
   },
   {
    "id": "security_engineer",
@@ -102,7 +105,8 @@
    ],
    "engineering": true,
    "covers": [],
-   "covered_by": []
+   "covered_by": [],
+   "n": 1576
   },
   {
    "id": "ml_engineer",
@@ -116,7 +120,8 @@
    ],
    "engineering": true,
    "covers": [],
-   "covered_by": []
+   "covered_by": [],
+   "n": 2348
   },
   {
    "id": "data_engineer",
@@ -130,7 +135,8 @@
    ],
    "engineering": true,
    "covers": [],
-   "covered_by": []
+   "covered_by": [],
+   "n": 879
   },
   {
    "id": "software_engineer",
@@ -144,7 +150,8 @@
    ],
    "engineering": true,
    "covers": [],
-   "covered_by": []
+   "covered_by": [],
+   "n": 7103
   }
  ],
  "not_the_job": "\\brecruit\\w*|\\bsourc(er|ers|ing)\\b|\\btalent\\b|\\binstructor\\b|\\bteacher\\b|\\btutor\\b|\\bprofessor\\b|\\blecturer\\b|\\bcurriculum\\b|\\bbootcamp\\b|\\bcoach\\b|\\btechnical\\s+writer\\b|\\bwriter\\b|\\beditor\\b|\\bdo\\s+not\\s+apply\\b|\\btest\\s+req",
@@ -435,5 +442,95 @@
   "UX designer",
   "UX researcher",
   "counsel"
- ]
+ ],
+ "generated": "2026-11-05",
+ "employers": {
+  "Bank of America": {
+   "industry": "Commercial Banks"
+  },
+  "Bank of New York (BNY)": {
+   "industry": "Commercial Banks"
+  },
+  "BlackRock": {
+   "industry": "Securities"
+  },
+  "Capital One Financial": {
+   "industry": "Commercial Banks"
+  },
+  "Charles Schwab": {
+   "industry": "Securities"
+  },
+  "Citigroup": {
+   "industry": "Commercial Banks"
+  },
+  "Fifth Third Bancorp": {
+   "industry": "Commercial Banks"
+  },
+  "First Citizens BancShares": {
+   "industry": "Commercial Banks"
+  },
+  "Franklin Resources": {
+   "industry": "Securities"
+  },
+  "Goldman Sachs Group": {
+   "industry": "Commercial Banks"
+  },
+  "Intercontinental Exchange": {
+   "industry": "Securities"
+  },
+  "Jefferies Financial Group": {
+   "industry": "Securities"
+  },
+  "JPMorgan Chase": {
+   "industry": "Commercial Banks"
+  },
+  "KeyCorp": {
+   "industry": "Commercial Banks"
+  },
+  "KKR": {
+   "industry": "Securities"
+  },
+  "LPL Financial Holdings": {
+   "industry": "Securities"
+  },
+  "M&T Bank": {
+   "industry": "Commercial Banks"
+  },
+  "Morgan Stanley": {
+   "industry": "Commercial Banks"
+  },
+  "Nasdaq": {
+   "industry": "Securities"
+  },
+  "Northern Trust": {
+   "industry": "Commercial Banks"
+  },
+  "PNC Financial Services Group": {
+   "industry": "Commercial Banks"
+  },
+  "Raymond James Financial": {
+   "industry": "Securities"
+  },
+  "Regions Financial": {
+   "industry": "Commercial Banks"
+  },
+  "State Street": {
+   "industry": "Commercial Banks"
+  },
+  "Truist Financial": {
+   "industry": "Commercial Banks"
+  },
+  "U.S. Bancorp": {
+   "industry": "Commercial Banks"
+  },
+  "Wells Fargo": {
+   "industry": "Commercial Banks"
+  },
+  "Citizens Financial Group": {
+   "industry": "Commercial Banks"
+  },
+  "Jones Financial (Edward Jones)": {
+   "industry": "Securities"
+  }
+ }
 }
