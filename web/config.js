@@ -41,8 +41,8 @@ window.CONFIG = {
   // the waitlist and the funnel counts (web/capture.js): off, no funnel row or event leaves the browser
   CAPTURE_ENABLED: true,
   // the visitor journey's logging (PLAN.md, "The visitor journey", step 1): the visitor id, the screen on every event,
-  // the heartbeat and the cta rows. Off until the owner applies pipeline/sql/2026-11-05_journey.sql.
-  JOURNEY_ENABLED: false,
+  // the heartbeat and the cta rows. On since 2026-11-05, when pipeline/sql/2026-11-05_journey.sql was applied.
+  JOURNEY_ENABLED: true,
   // the visitor journey's sign-in (step 2): email plus a six-digit code for anyone, at the first personal act (the
   // résumé read), the address and Sign out in the top bar, the door's own form instead of Tally's. Off until the
   // owner has, in the gradbuddy-catalog project: a custom SMTP sender, sign-ups on, the magic-link email template
