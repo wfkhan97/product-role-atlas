@@ -2052,6 +2052,37 @@ skills reach `/api/infer`'s list; the class picker's counterpart (Cornell Tech's
 `catalog_tags.mjs` reading `taxonomy_tech.json`, and labelled cases in `evals/classes/`); the games' evals over the
 tech roles; a fresh labelled sample of titles; sponsorship rows from tech postings.
 
+**PR 5 (`feat/tech-interface`): the matcher reads the set, and the interface carries it behind `CONFIG.TECH_ENABLED`
+(off).**
+
+- **The matcher reads tech titles.** `web/match.js` reads `roles_tech.json` itself (`compileTechRoles`: the words that
+  are never the job, the product set's titles left to it, customer-facing and hardware engineering out, the ladder from
+  the title), so a résumé's jobs are tech roles and the years and level in the target role come from them, as the MBA
+  roles' do. `tests/web/match.test.mjs` holds it to `evals/roles_tech.mjs` on all 748 labelled titles. On a résumé a
+  level comes only from a grade the title names, and a lawyer in private practice ("Associate, Technology
+  Transactions", "Attorney") reads as counsel, a résumé-only rule (law firms post nothing in the set). A target may name
+  its role (`target.family`) when no postings are loaded. A credential (a certificate, a licence, a publication) is now
+  held wherever it is listed, under an Awards or Publications heading too; `evals/run.mjs --baseline` does not move.
+- **The three known misses of PR 4 are gone**: the level read now passes on all seven samples, and the publication is
+  read. One expectation changed, with its reason in the sample's note: the LLM graduate (22 months at a firm) reads as
+  associate, under the matcher's two years for mid, and a junior lawyer against mid-level counsel postings scores in the
+  40s, so its band starts at 35%.
+- **`web/atlas.js`.** With `TECH_ENABLED` (read through `config()`, as `Catalog` reads its switches), `index()` also
+  loads `graph_tech.json`; its five fields join the field list with `set: "tech"` and its roles are `tech.<id>`. A
+  missing file leaves the site as it was. `role()` reads a tech role from its own index (skills, ladders, evidence);
+  `matcher()` builds it with `taxonomy_tech`, `roles_tech` and `bands_tech.json` when it exists (no file, no verdict);
+  `roughFit` reads the tech roles with a second reader on the set's own taxonomy and rules; distinctiveness for tech
+  roles is measured against the MBA and tech roles together (`baselineTech`).
+- **The interface.** The field page of a tech field lists its roles; its chart and the skill-map link wait, because the
+  skill map is built on the MBA skills and has no tech eval yet. The skill map, Skill Path, Know the role and Climb the
+  ladder keep to the product and MBA roles (`Atlas.shownEverywhere`). The role page, the postings, the grads chip
+  (`grad` reads as the MBA set's new-graduate mark), the share tip ("all engineering, design and legal roles") and the
+  fit screen work for tech roles. Checked in a local preview with the switch on and the local graph: five tech fields on
+  Explore, the field and role pages, and the fit screen for Software Engineer with the MEng sample (8 of 8 core asks, no
+  verdict).
+- **Off on `main`.** The switch stays off until the evals PR 4 lists as owed exist, the first `refresh-tech` has put the
+  set's files on `main`, and the owner says so.
+
 ## Later
 
 - The skills pass ("Adding a role", part C) for the 15 roles added after the first 50: `ai_transformation`,

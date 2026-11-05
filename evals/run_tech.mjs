@@ -23,7 +23,8 @@ const TAX = read("taxonomy_tech.json"), SUBS = read("subskills_tech.json");
 const hasGraph = fs.existsSync(path.join(root, "web/data/graph_tech.json"));
 let G = { jobs: [], skills: [] };
 if (hasGraph) { const { loadGraph } = await import("./graph_mba.mjs"); G = loadGraph(null, { set: "tech" }); }
-const M = createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G });
+// the set's title rules, so a resume's jobs are read as tech roles (years in the role, the level they reached)
+const M = createMatcher({ taxonomy: TAX, subskills: SUBS, graph: G, roles: read("roles_tech.json") });
 const LEVEL_OF = { associate: "associate", mid: "mid", senior: "senior", staff: "lead", group: "lead", director: "lead", vp: "lead", cpo: "lead" };
 
 const args = process.argv.slice(2);
@@ -35,13 +36,14 @@ const out = s => { lines.push(s); console.log(s); };
 const pct = x => x == null ? "–" : Math.round(x * 100) + "%";
 const target = spec => {
   const [fam, lv] = spec.split(":");
-  return { jobs: G.jobs.filter(j => j.family === fam && (lv === "__all" || j.level === lv)), label: spec, level: lv === "__all" ? null : lv };
+  return { jobs: G.jobs.filter(j => j.family === fam && (lv === "__all" || j.level === lv)), family: fam, label: spec, level: lv === "__all" ? null : lv };
 };
 
 for (const name of names) {
   const text = fs.readFileSync(path.join(dir, name + ".txt"), "utf8");
   const spec = JSON.parse(fs.readFileSync(path.join(dir, name + ".json")));
-  const shown = M.match(text, { jobs: [], label: "tech" });
+  // what the resume shows, read against the first target's role (its years in that role give the level)
+  const shown = M.match(text, { jobs: [], family: spec.targets[0].split(":")[0], label: "tech" });
   out(`\n=== ${name} → ${shown.covered.size} skills evidenced; read at ${shown.profile.level}, ${shown.profile.years.toFixed(1)} yrs`);
   for (const t of spec.targets) {
     const tg = target(t);
