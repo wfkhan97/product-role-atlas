@@ -1930,6 +1930,42 @@ MBA set). No Workday or Fortune titles are in the labels yet beyond the written 
 their first test. UX research is thin (24 census titles, 11 labelled): if the scrape keeps it under the size a role
 needs, it folds into `product_designer` as a specialisation rather than stand alone.
 
+**PR 2 (`feat/tech-scrape`): the capped scrape.** `pipeline.scrape --roles tech` keeps `data/raw/jobs_tech/` and the
+`tech` rows of the backlog (`backlog.ROLE_DIRS`, no migration: `role_set` is free text in the key). The rules:
+
+- **US only, at the listing.** `scrape.in_country` drops a posting only when its location names another country
+  (no location, "Remote" or "3 Locations" stay; extraction reads them again with the text). On Workday the test runs on
+  the listing's location, so a foreign posting's detail page is never fetched.
+- **A cap per employer and role** (`CAP_PER_ROLE["tech"] = 30`, `cap_new`): every posting the backlog already holds is
+  kept and refreshed as before; a new one is admitted, newest first, while the role has fewer than 30 open postings at
+  the employer. The file records `sampled` (role → seen today and not kept). Nothing is deleted; a posting left out
+  today can be admitted when a slot frees, with its `first_seen` the day it was admitted.
+- **Search boards sample.** The set's twelve exact-title searches (`roles_tech.SEARCH_QUERIES`), three pages a query,
+  and on Workday a budget of 40 listing hits per role (the title rule returns the role). The deliberate page limit makes
+  the fetch incomplete, as a capped search always did, so nothing is closed by absence and the held postings that did
+  not come back are asked one by one (at most 30 per role per employer); it is logged at INFO, not as a warning.
+- **`--count-only FILE`** lists Greenhouse, Lever, Ashby and Workday boards with these rules (no detail page fetched,
+  nothing written, no backlog) and writes per employer and role what was seen and what would be kept.
+- **`refresh-tech.yml`**: one scrape job per ATS family, on the second Sunday with `REFRESH_TECH_SCHEDULE` on, or by
+  dispatch, whose default is `count_only` (the counts as an artifact). No build job until PR 3 gives the set a taxonomy;
+  a dated snapshot when a full run ends. A dispatch needs the workflow on `main`, so the first Actions run follows the merge.
+
+**The count-only run, here, on 2026-11-05** (no store involved, 11 minutes, 5,534 requests, 1,312 employers counted,
+3 boards failed): the rules would keep **11,579 US postings, about 62 MB at the backlog's 5.5 KB a posting**: software
+6,362 (912 employers), ML/AI 1,923 (519), security 1,263 (427), counsel 740 (312), data 643 (310), design 620 (330), UX
+research 28 (27). Greenhouse 3,527, Ashby 3,717, Lever 381, Workday 3,954 from 217 boards. The cap binds for software at
+53 employers and hardly elsewhere (security 5, ML 7, data 2, counsel 1). The search families not counted (SuccessFactors,
+Oracle, Eightfold, Phenom and the single-employer boards, about 270 employers) should add a few thousand: the first
+real scrape is about 15,000 postings and 85 MB, well inside the plan's estimate. **UX research has 28 postings at 27
+employers:** too few for a role page; it will fold into `product_designer` as a specialisation unless the search
+families change that (decided in PR 3, when the set has postings to read).
+
+**Workday titles, read.** The labels hold no Workday titles, so a count-only listing of 30 random Workday boards was
+read by hand: 464 titles kept, most right (Fortune software, AI, data, security and legal titles). It found eight false
+positives, now excluded and pinned in `tests/python/test_roles_tech.py`: IT project managers for cybersecurity,
+corporate and regional physical security, a "Systems Engineering Manager" in metrology, apparel designers at a
+retailer ("Designer - Women's Tek Gear", "Associate Technical Designer"), aerospace data-handling engineers.
+
 ## Later
 
 - The skills pass ("Adding a role", part C) for the 15 roles added after the first 50: `ai_transformation`,

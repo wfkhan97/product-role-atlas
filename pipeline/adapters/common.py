@@ -31,13 +31,15 @@ def listing_failures():
     return list(getattr(_fetch, "failed", []))
 
 
-def listing_failed(what):
+def listing_failed(what, sampled=False):
     """Record a listing page that could not be read: an adapter calls this where a page that should list jobs gives a
-    body it cannot parse; a non-2xx answer to a request made with listing=True is recorded by the request itself."""
+    body it cannot parse; a non-2xx answer to a request made with listing=True is recorded by the request itself.
+    sampled=True: the page was left unread on purpose (a sampling role set's page limit). The fetch is incomplete all
+    the same, so nothing is closed by absence, but it is logged at INFO: it is the plan, not a failure."""
     if not hasattr(_fetch, "failed"):
         _fetch.failed = []
     _fetch.failed.append(str(what)[:200])
-    logger.warning("listing page not read: %s", str(what)[:200])
+    (logger.info if sampled else logger.warning)("listing page not read: %s", str(what)[:200])
 
 # Queries used by search-based ATSes (Workday, Eightfold, ...). Title filtering happens later.
 SEARCH_QUERIES = [
