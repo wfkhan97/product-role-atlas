@@ -970,7 +970,7 @@
     howReadLine: "Keyword rules read each posting against one list of skills. A share is the fraction of postings in the current view that ask for a skill. One employer counts for at most 5% of a role. A posting the employer takes down counts as closed. It leaves the list and stays in the shares for a year.",
     editorial: "Sub-skills, level ladders and build steps are editorial. Every quoted sentence comes from a posting.",
     privacy: "Privacy",
-    privacyEvents: "We count which screens a visit reaches. Those are the door, Explore, a field, a role, a fit and a course read. Also an event page, the classes, a game, a click to a posting, a résumé read and About you finished. Each count carries a random session id, your program and stage answers, and the role or field on screen. It never carries text, a skill or a file name.",
+    privacyEvents: "We count which screens a visit reaches and how long each stays open while you use it. Each count carries a random id for the visit and one for this browser. So a return visit reads as one. It also carries your program and stage answers and the role or field on screen. With a sign-in it carries your account id. It never carries text, a skill or a file name.",
     privacyEmail: "We keep an email you type into the door or a box, to send you what we build. We keep the role on screen with it, nothing else. Your résumé text goes once to our AI reader, a Claude model from Anthropic. It finds the skills your résumé shows without naming them. We do not store the text, and no syllabus or pasted posting leaves your browser.",
     product: "Product roles",
     productLoading: "Loading the product set…",
