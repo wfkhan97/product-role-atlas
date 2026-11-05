@@ -19,10 +19,10 @@ import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, ROOT)
-from pipeline import processed, roles_mba, tax
+from pipeline import processed, roles_mba, roles_tech, tax
 from pipeline.balance import CAP, SMALL, DEFINING_SHARE, DEFINING_LIFT, defining as defining_skills, role_shares
 
-LABELS = {"mba": roles_mba.FAMILY_LABELS}
+LABELS = {"mba": roles_mba.FAMILY_LABELS, "tech": roles_tech.FAMILY_LABELS}
 FLOOR = 0.03  # a skill no role asks for in at least this share of postings is a candidate to drop
 
 

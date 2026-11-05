@@ -1,0 +1,35 @@
+{
+ "targets": [
+  "data_engineer:mid"
+ ],
+ "expected_level": "mid",
+ "score_band": {
+  "data_engineer:mid": [
+   0.5,
+   0.9
+  ]
+ },
+ "must_evidence": [
+  "data_orchestration",
+  "streaming",
+  "data_modeling",
+  "sql",
+  "python_r",
+  "dashboards_dataviz",
+  "analytics_tools",
+  "bachelors"
+ ],
+ "must_not_tag": [
+  "frontend_web",
+  "model_training",
+  "interaction_design",
+  "commercial_contracts",
+  "detection_response",
+  "law_degree",
+  "c_cpp"
+ ],
+ "real_gaps": [
+  "lakehouse",
+  "cloud"
+ ]
+}

@@ -172,7 +172,7 @@
     F.body.innerHTML = `<p class="lead">Loading the ladders…</p>`;
     const [ix, P, generic] = await Promise.all([Atlas.index(), Atlas.product(), Atlas.genericSkills()]);
     const M = ix.M, G = P.G;
-    const D = { gById: P.skillById, mById: ix.skillById, roles: ix.roles, groups: M.groups.map(g => ix.groups.find(x => x.id === g.id)).filter(Boolean), generic };
+    const D = { gById: P.skillById, mById: ix.skillById, roles: Object.fromEntries(Object.entries(ix.roles).filter(([, r]) => r.set !== "tech")), groups: M.groups.map(g => ix.groups.find(x => x.id === g.id)).filter(Boolean), generic };
     const pool = buildPool(G, M);
     if (isDev() && !printed) {
       printed = true; const c = pool.counts, ok = Object.keys(README_COUNTS).every(k => c[k] === README_COUNTS[k]);

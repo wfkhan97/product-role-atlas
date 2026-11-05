@@ -1,6 +1,6 @@
 """Tag every scraped posting with taxonomy skills, family, level, specialisations, years of experience.
 
-usage: python -m pipeline.extract [--roles product|mba]  ->  data/processed/jobs.json (jobs_mba.json for mba)
+usage: python -m pipeline.extract [--roles product|mba|tech]  ->  data/processed/jobs.json (jobs_mba.json, jobs_tech.json)
 """
 import glob
 import hashlib
@@ -10,7 +10,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pipeline import log, roles, roles_mba, sponsorship
+from pipeline import log, roles, roles_mba, roles_tech, sponsorship
 from pipeline.roles import specializations
 
 logger = log.get(__name__)
@@ -52,6 +52,14 @@ ROLE_SETS = {
             "ladder": lambda title, company, j: roles_mba.ladder(title, company, j.get("category"), j.get("industry"), j.get("family")),
             # who enters at the posting (roles_mba.entry): read from the title, the employer and the cleaned text
             "entry": lambda title, company, j, lvl, text, yoe: roles_mba.entry(title, company, j.get("category"), j.get("industry"), j.get("family"), lvl, text, yoe)},
+    # engineering, design and legal (PLAN.md "A third role set"): a sampled backlog of its own, US only like the MBA set
+    "tech": {"raw": ["jobs_tech"], "suffix": "_tech", "evidence_country": "United States", "split_long": True, "backlog": True,
+             "geo": lambda j, title: _geo().country(j.get("location", ""), title, j.get("url"), j.get("ats")),
+             "family": lambda title, j: roles_tech.family(title, j.get("company")),
+             "level": lambda title, company, j: roles_tech.level(title, company, j.get("industry"), j.get("family")),
+             "ladder": lambda title, company, j: roles_tech.ladder(title, company, j.get("industry"), j.get("family")),
+             "entry": lambda title, company, j, lvl, text, yoe: roles_tech.entry(title, company, j.get("industry"), j.get("family"), lvl, text),
+             "specs": roles_tech.specializations},
 }
 
 
@@ -324,14 +332,18 @@ def text_tags(roleset, title, cleaned):
 class TextCache:
     """text_tags results kept between runs in data/experiments/ (the caches store: pipeline.store push caches), keyed
     by a hash of the role set, the title and the cleaned text. The file carries a fingerprint of everything text_tags
-    reads (this module, pipeline/tax.py, the taxonomy and the depth files with the sub-skills); a different fingerprint
+    reads (this module, pipeline/tax.py, the role set's part of the taxonomy and the depth files with the sub-skills); a different fingerprint
     starts it empty, so a stale entry is never used. A weekly refresh changes a few thousand texts of ~60,000, so a
     hosted runner (two cores) tags in minutes what takes hours without it."""
 
     def __init__(self, roleset, path=None):
         self.path = path or os.path.join(ROOT, "data", "experiments", f"extract_cache_{roleset}.json.gz")
         h = hashlib.sha256(roleset.encode())
-        files = [__file__, tax.__file__, tax.PATH] + sorted(glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")))
+        # the role set's own view of the taxonomy, not the whole file: a skill added for another set, or another set's
+        # wording of a shared skill, does not throw away this set's cache ("only" names the sets, not the patterns)
+        view = [{k: v for k, v in sk.items() if k != "only"} for sk in tax.for_roles(roleset, TAX)["skills"]]
+        h.update(json.dumps(view, sort_keys=True).encode())
+        files = [__file__, tax.__file__] + sorted(glob.glob(os.path.join(ROOT, "pipeline", "depth", "*.json")))
         for f in files:
             h.update(os.path.basename(f).encode())
             with open(f, "rb") as fh:
@@ -389,7 +401,7 @@ def tag_posting(item):
         "title": title,
         "family": fam,
         "level": lvl,
-        "specs": specializations(title),
+        "specs": cfg.get("specs", specializations)(title),
         "location": location,
         "country": country,
         "remote": remote,

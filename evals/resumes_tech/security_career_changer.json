@@ -1,0 +1,35 @@
+{
+ "targets": [
+  "security_engineer:mid"
+ ],
+ "expected_level": "mid",
+ "score_band": {
+  "security_engineer:mid": [
+   0.45,
+   0.85
+  ]
+ },
+ "must_evidence": [
+  "detection_response",
+  "vuln_mgmt",
+  "security_certs",
+  "security_privacy",
+  "python_r",
+  "linux_systems",
+  "bachelors"
+ ],
+ "must_not_tag": [
+  "frontend_web",
+  "model_training",
+  "interaction_design",
+  "commercial_contracts",
+  "law_degree",
+  "dl_frameworks",
+  "offensive_security"
+ ],
+ "real_gaps": [
+  "threat_modeling",
+  "appsec",
+  "offensive_security"
+ ]
+}

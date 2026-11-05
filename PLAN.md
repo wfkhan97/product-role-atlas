@@ -2013,6 +2013,159 @@ MBA set). No Workday or Fortune titles are in the labels yet beyond the written 
 their first test. UX research is thin (24 census titles, 11 labelled): if the scrape keeps it under the size a role
 needs, it folds into `product_designer` as a specialisation rather than stand alone.
 
+**PR 2 (`feat/tech-scrape`): the capped scrape.** `pipeline.scrape --roles tech` keeps `data/raw/jobs_tech/` and the
+`tech` rows of the backlog (`backlog.ROLE_DIRS`, no migration: `role_set` is free text in the key). The rules:
+
+- **US only, at the listing.** `scrape.in_country` drops a posting only when its location names another country
+  (no location, "Remote" or "3 Locations" stay; extraction reads them again with the text). On Workday the test runs on
+  the listing's location, so a foreign posting's detail page is never fetched.
+- **A cap per employer and role** (`CAP_PER_ROLE["tech"] = 30`, `cap_new`): every posting the backlog already holds is
+  kept and refreshed as before; a new one is admitted, newest first, while the role has fewer than 30 open postings at
+  the employer. The file records `sampled` (role → seen today and not kept). Nothing is deleted; a posting left out
+  today can be admitted when a slot frees, with its `first_seen` the day it was admitted.
+- **Search boards sample.** The set's twelve exact-title searches (`roles_tech.SEARCH_QUERIES`), three pages a query,
+  and on Workday a budget of 40 listing hits per role (the title rule returns the role). The deliberate page limit makes
+  the fetch incomplete, as a capped search always did, so nothing is closed by absence and the held postings that did
+  not come back are asked one by one (at most 30 per role per employer); it is logged at INFO, not as a warning.
+- **`--count-only FILE`** lists Greenhouse, Lever, Ashby and Workday boards with these rules (no detail page fetched,
+  nothing written, no backlog) and writes per employer and role what was seen and what would be kept.
+- **`refresh-tech.yml`**: one scrape job per ATS family, on the second Sunday with `REFRESH_TECH_SCHEDULE` on, or by
+  dispatch, whose default is `count_only` (the counts as an artifact). No build job until PR 3 gives the set a taxonomy;
+  a dated snapshot when a full run ends. A dispatch needs the workflow on `main`, so the first Actions run follows the merge.
+
+**The count-only run, here, on 2026-11-05** (no store involved, 11 minutes, 5,534 requests, 1,312 employers counted,
+3 boards failed): the rules would keep **11,579 US postings, about 62 MB at the backlog's 5.5 KB a posting**: software
+6,362 (912 employers), ML/AI 1,923 (519), security 1,263 (427), counsel 740 (312), data 643 (310), design 620 (330), UX
+research 28 (27). Greenhouse 3,527, Ashby 3,717, Lever 381, Workday 3,954 from 217 boards. The cap binds for software at
+53 employers and hardly elsewhere (security 5, ML 7, data 2, counsel 1). The search families not counted (SuccessFactors,
+Oracle, Eightfold, Phenom and the single-employer boards, about 270 employers) should add a few thousand: the first
+real scrape is about 15,000 postings and 85 MB, well inside the plan's estimate. **UX research has 28 postings at 27
+employers:** too few for a role page; it will fold into `product_designer` as a specialisation unless the search
+families change that (decided in PR 3, when the set has postings to read).
+
+**Workday titles, read.** The labels hold no Workday titles, so a count-only listing of 30 random Workday boards was
+read by hand: 464 titles kept, most right (Fortune software, AI, data, security and legal titles). It found eight false
+positives, now excluded and pinned in `tests/python/test_roles_tech.py`: IT project managers for cybersecurity,
+corporate and regional physical security, a "Systems Engineering Manager" in metrology, apparel designers at a
+retailer ("Designer - Women's Tek Gear", "Associate Technical Designer"), aerospace data-handling engineers.
+
+**PR 3 (`feat/tech-taxonomy`): the set's skills, extraction and graph.** Part C of the checklist, on a corpus the
+set's own rules collected: `pipeline.scrape --roles tech --no-db` over the Greenhouse, Ashby and Lever boards on this
+Mac (7,618 postings from 1,095 employers, 6,796 in the US; nothing pushed to the backlog, which holds no tech rows
+yet; `data/raw/jobs_tech/` is now ignored like the other raw folders). Fortune boards (Workday and the search families)
+join with the first `refresh-tech` run.
+
+- **Phrases first.** `role_terms --roles tech` per role, read against the shared skills' shares: the shared technical
+  skills are too broad for engineering postings ("AI" alone tagged 82% of them, `system_architecture` 87%, because
+  every posting says "architecture" and "infrastructure"), and nothing named a language, a design craft or a contract.
+- **48 skills `only: ["tech"]`**, probed with `skill_probe` until each role's share and matched sentences read right:
+  seven language families (Java/JVM, JavaScript/TypeScript, Go, C/C++, Rust, Ruby, C#), frontend, backend services,
+  databases, algorithms, performance and concurrency, Linux and systems, code quality, infrastructure as code,
+  observability tools; orchestration, streaming, lakehouse formats, deep learning frameworks, model training, model
+  evaluation, MLOps and serving, inference and GPU optimisation, LLM frameworks, research publications; threat
+  modelling, application security, detection and response, offensive security, vulnerability management,
+  cryptography, security certifications; interaction design, visual design, prototyping, design systems,
+  accessibility, design critique, design portfolio; commercial contracts, product counselling, privacy law,
+  intellectual property, corporate law, litigation, outside counsel, contract management tools. Five clusters
+  (Software engineering, Data & ML engineering, Security engineering, Design craft, Legal practice). A skill the taxonomy
+  had got a wording, not a twin: CI/CD and observability stay `devops_sdlc`, Kubernetes `cloud`, RAG and agents
+  `genai_llm`, firmware `hardware`.
+- **Six shared skills worded for the set** (`patterns_for: {"tech": ...}`): `system_architecture` (system design,
+  distributed systems, technical design: 41% instead of 87%), `ai_ml` (no bare "AI": ML engineers 77%, the rest 11
+  to 35%), `ux_design_collab` (an engineer's partnership with design), `quality_testing` (automated tests),
+  `figma` (Adobe, Framer, ProtoPie) and `gtm` (no bare "commercial", which tagged 74% of counsel postings).
+- **13 MBA skills widened to `["mba", "tech"]`**: security frameworks, AI governance, data governance, IT risk,
+  third-party risk, GRC tools, law degree, regulatory change, policy management, board governance, employment law
+  (`hr_compliance`), dashboards and BI development tools.
+- **The other sets do not move.** `tax.for_roles("product")` and `("mba")` give the same 98 and 278 skills with the
+  same patterns as before (checked against `HEAD`, and pinned by `tests/python/test_taxonomy.py`), so their extraction
+  cannot change and is not rerun here. The extract text cache now fingerprints a set's own view of the taxonomy, not the
+  whole file, so the next tech change leaves the MBA and product caches valid; this PR changes `pipeline/extract.py`
+  itself, so the first MBA and product refreshes after it retag every text once (the MBA build has 180 minutes).
+- **Evidence and field entries.** An evidence entry per new skill; 57 field entries for the five fields, on the twelve
+  skills four of them ask for (the behaviours, prioritisation, cross-functional work, stakeholder management, process
+  improvement, GenAI, security and privacy), each carrier taken from the skill's co-occurring skills in the field's
+  postings. `evals/run_taxonomy.py` now reads the tech set's fields beside the MBA ones (coverage counted per set) and
+  `graph_tech.json`; without `data/processed/jobs_tech.json` it reports the tech fields as waiting and checks their
+  entries for shape only. All five parts pass on the local corpus: coverage 456, grounding 1,251, published 1,247.
+- **Extraction and graph.** `pipeline.extract --roles tech` and `pipeline.build_graph --roles tech` (US only, the
+  `grad` entry mark counted per ladder) build: 6,796 postings, 762 employers, 159 skills, a 0.7 MB index and 7.3 MB of
+  role files. `evals/extraction_baseline_tech.md` (`role_coverage --roles tech`) is committed from this local corpus;
+  the processed file and the web files are not: they come from the store, so `refresh-tech.yml` now has the build job
+  that writes them and opens a `data/tech-<date>` pull request, merged by the job when the set's evals and CI pass.
+- **What the first numbers say.** Software 3,867 postings at 654 employers, ML/AI 1,232 (363), security 621 (265),
+  design 414 (240), counsel 353 (184), data 294 (187), UX research 15 (15). UX research stays a small role (`*` in the
+  baseline) until the Fortune boards are in; folding it into `product_designer` is decided on the first refresh's
+  numbers. Behaviours top every role's list; the set's own skills sit at 4 to 6 per posting (median).
+- **Not done (checklist C10, C11):** the model audit of the new skills (`skill_audit --roles tech`, needs a model
+  key) and their definitions and depth (`pipeline.depth_gen`); both are under Later.
+
+**PR 4 (`feat/tech-evals`): the eval counterparts that need no published résumés.** Labels first, from postings of the
+local corpus drawn by seed 13 before any rule was run on them, by model readers that saw a written spec and never the
+code or the patterns:
+
+- **Golden postings** (`evals/golden_tech.json`): two US postings per role, 225 must and 144 must-not skills, the text
+  kept in the file. The tagger finds 87.6% of the must skills and tags 26.4% of the must-not ones; the floors are set
+  there (0.87, 0.27). The MBA set's ceiling is 16%: most of the tech set's wrong tags are shared product skills (launch,
+  partnerships, growth loops, go-to-market, pricing) that fire on what a company says about itself. A tech wording for
+  them is Later; the patterns were not tuned against the labels that measure them.
+- **Entry marks on postings** (`evals/entry_tech.json`): 130 postings, 53 marked `grad` (39 internships), read with
+  their text. The first run missed one ("Software Development Engineer in Test I": a grade at the end of the title
+  is now read wherever the job word sits); 128 of 128 sure rows pass.
+- **The pipeline parts, per set.** `run_pipeline.py --roles tech` now runs entry, golden, integrity, graph and
+  matcher beside titles and js; integrity, graph and matcher read the set's processed and graph files and wait where a
+  checkout has none (CI, until the first `refresh-tech` lands; the refresh's build job runs them). On the local data:
+  1,729 checks pass. `evals/graph_mba.mjs` takes the set (`node evals/graph_mba.mjs tech`); `roles_tech.export()`
+  gained `covered_by`, which the graph part reads.
+- **Matcher samples** (`evals/resumes_tech/`, `node evals/run_tech.mjs`, `evals/baseline_tech.md`): seven hand-written
+  résumés, one per role and a pivot (a Cornell Tech MEng CS new grad, an ECE embedded MEng, a Connective Media designer,
+  an ML master's with a workshop paper, an IT administrator turned SOC analyst, an LLM graduate from a law firm, a data
+  analyst turned analytics engineer), each with targets, a judgment band, must-evidence, must-not-tag and real gaps,
+  written before the runner read them. The skill checks need only `web/data/taxonomy_tech.json`, now committed with
+  `subskills_tech.json` (`python -m pipeline.roles_tech` writes both from the taxonomy; the js part fails when they are
+  stale), so they run in CI; the scores wait for the graph. The first run found four patterns too narrow on résumé
+  language (profiling and latency, a portfolio link, counselling on product launches, vulnerability scans), fixed. Three
+  matcher limits are marked as known misses with their reason: the level read counts years in product, so every tech
+  career reads as associate; a paper under a Publications heading is read as a mention; the LLM sample's counsel score
+  (46%) sits under its band because of the first. All three belong to PR 5, where the matcher learns the set.
+
+**Still owed before the set is shown** (PR 5 and after): bands from published résumés (`calibrate.mjs --roles tech`,
+ten or more samples per field in `external_sources.json`); the model read over the whole résumé set once the tech
+skills reach `/api/infer`'s list; the class picker's counterpart (Cornell Tech's technical courses tagged with
+`catalog_tags.mjs` reading `taxonomy_tech.json`, and labelled cases in `evals/classes/`); the games' evals over the
+tech roles; a fresh labelled sample of titles; sponsorship rows from tech postings.
+
+**PR 5 (`feat/tech-interface`): the matcher reads the set, and the interface carries it behind `CONFIG.TECH_ENABLED`
+(off).**
+
+- **The matcher reads tech titles.** `web/match.js` reads `roles_tech.json` itself (`compileTechRoles`: the words that
+  are never the job, the product set's titles left to it, customer-facing and hardware engineering out, the ladder from
+  the title), so a résumé's jobs are tech roles and the years and level in the target role come from them, as the MBA
+  roles' do. `tests/web/match.test.mjs` holds it to `evals/roles_tech.mjs` on all 748 labelled titles. On a résumé a
+  level comes only from a grade the title names, and a lawyer in private practice ("Associate, Technology
+  Transactions", "Attorney") reads as counsel, a résumé-only rule (law firms post nothing in the set). A target may name
+  its role (`target.family`) when no postings are loaded. A credential (a certificate, a licence, a publication) is now
+  held wherever it is listed, under an Awards or Publications heading too; `evals/run.mjs --baseline` does not move.
+- **The three known misses of PR 4 are gone**: the level read now passes on all seven samples, and the publication is
+  read. One expectation changed, with its reason in the sample's note: the LLM graduate (22 months at a firm) reads as
+  associate, under the matcher's two years for mid, and a junior lawyer against mid-level counsel postings scores in the
+  40s, so its band starts at 35%.
+- **`web/atlas.js`.** With `TECH_ENABLED` (read through `config()`, as `Catalog` reads its switches), `index()` also
+  loads `graph_tech.json`; its five fields join the field list with `set: "tech"` and its roles are `tech.<id>`. A
+  missing file leaves the site as it was. `role()` reads a tech role from its own index (skills, ladders, evidence);
+  `matcher()` builds it with `taxonomy_tech`, `roles_tech` and `bands_tech.json` when it exists (no file, no verdict);
+  `roughFit` reads the tech roles with a second reader on the set's own taxonomy and rules; distinctiveness for tech
+  roles is measured against the MBA and tech roles together (`baselineTech`).
+- **The interface.** The field page of a tech field lists its roles; its chart and the skill-map link wait, because the
+  skill map is built on the MBA skills and has no tech eval yet. The skill map, Skill Path, Know the role and Climb the
+  ladder keep to the product and MBA roles (`Atlas.shownEverywhere`). The role page, the postings, the grads chip
+  (`grad` reads as the MBA set's new-graduate mark), the share tip ("all engineering, design and legal roles") and the
+  fit screen work for tech roles. Checked in a local preview with the switch on and the local graph: five tech fields on
+  Explore, the field and role pages, and the fit screen for Software Engineer with the MEng sample (8 of 8 core asks, no
+  verdict).
+- **Off on `main`.** The switch stays off until the evals PR 4 lists as owed exist, the first `refresh-tech` has put the
+  set's files on `main`, and the owner says so.
+
 ## Later
 
 - The skills pass ("Adding a role", part C) for the 15 roles added after the first 50: `ai_transformation`,
@@ -2058,7 +2211,7 @@ needs, it folds into `product_designer` as a specialisation rather than stand al
   variables, and the self-hosted runner only if a family is blocked.
 - A tie-break between carriers the resume shows equally strongly that prefers the one closer to the behaviour (user
   research over discovery for customer obsession), instead of the postings' order (2026-11-01 product refresh).
-- More families: engineering, design and legal are the tech role set (2026-11-05, above; PRs 2 to 5 to come). Law firms on the registry for the LLM graduates' other half. More companies (full Fortune 500). The product engineer and AI transformation
+- More families: engineering, design and legal are the tech role set (2026-11-05, above; PR 5 and the evals listed under PR 4 to come). A tech wording for the shared product skills that fire on company blurbs in tech postings (launch, partnerships, growth loops, go-to-market, pricing): the golden ceiling is 27% against the MBA set's 16%. Its checklist items C10 and C11: `skill_audit --roles tech` (a model judges about 200 postings for the 48 new skills) and the new skills' definitions and depth (`pipeline.depth_gen`). Law firms on the registry for the LLM graduates' other half. More companies (full Fortune 500). The product engineer and AI transformation
   roles landed on 2026-10-30; once they hold postings: a sample resume with a product engineer line in `evals/resumes/`,
   `calibrate.mjs --roles mba` for `ai_transformation`'s bands, and Texas Instruments' eleven "Product Marketing
   Engineer" postings (semiconductor marketing, kept as `pmm` because software firms post technical PMMs under the title).

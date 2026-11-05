@@ -24,7 +24,10 @@ carriers   Each skill a behaviour's or a practice's evidence names as showing it
            communication in banking), so the check is the maximum over fields, not the pooled share.
 
 The fields and the shares come from data/processed/jobs_mba.json.gz, the same file the graph is built from, so the eval
-moves with a data refresh; the baseline records the numbers of the day.
+moves with a data refresh; the baseline records the numbers of the day. The tech set (PLAN.md, "A third role set") has
+fields of its own (pipeline/roles_tech.py GROUPS), read from data/processed/jobs_tech.json the same way and counted
+apart: coverage asks for entries when four of the tech fields ask for a skill. Until a checkout holds that file (the
+tech refresh writes it) its fields are reported as waiting, and their entries are checked for shape only.
 """
 import argparse
 import collections
@@ -37,7 +40,7 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
-from pipeline import balance, processed, roles_mba, tax  # noqa: E402
+from pipeline import balance, processed, roles_mba, roles_tech, tax  # noqa: E402
 
 ASKS = 0.25        # a field asks for a skill when the mean share over its roles reaches this
 MIN_FIELDS = 4     # a skill asked for by this many fields gets field entries
@@ -58,10 +61,17 @@ def check(part, ok, msg):
         out(f"  FAIL {msg}")
 
 
-def load_jobs():
-    """US postings of the MBA set with company-balanced weights, grouped by field."""
-    fam2grp = {f: g for g, (_, fs) in roles_mba.GROUPS.items() for f in fs}
-    jobs = [j for j in processed.load("mba") if j["country"] == "United States" and j["family"] in fam2grp]
+SETS = {"mba": roles_mba, "tech": roles_tech}   # role sets with fields of their own
+
+
+def has_jobs(roleset):
+    return os.path.exists(processed.path(roleset))
+
+
+def load_jobs(roleset="mba"):
+    """US postings of a role set with company-balanced weights, grouped by field."""
+    fam2grp = {f: g for g, (_, fs) in SETS[roleset].GROUPS.items() for f in fs}
+    jobs = [j for j in processed.load(roleset) if j["country"] == "United States" and j["family"] in fam2grp]
     by_role = collections.defaultdict(list)
     for j in jobs:
         by_role[j["family"]].append(j)
@@ -89,14 +99,14 @@ def main():
     name = {s["id"]: s["name"] for s in T["skills"]}
     evidence = tax.load_evidence()
     fields = tax.load_fields()
-    groups = list(roles_mba.GROUPS)
+    groups = [g for R in SETS.values() for g in R.GROUPS]
     out(f"# Taxonomy baseline ({time.strftime('%Y-%m-%d')})")
     out()
     out("Kinds, evidence and field entries of `pipeline/taxonomy.json`, `pipeline/evidence.json` and `pipeline/fields.json`, "
         "checked against the US postings of the MBA set (`evals/run_taxonomy.py`).")
     out()
     out("## Shape")
-    problems = tax.validate(tax=T, evidence=evidence, fields=fields, groups=set(groups), roles=set(roles_mba.FAMILY_LABELS))
+    problems = tax.validate(tax=T, evidence=evidence, fields=fields, groups=set(groups), roles={f for R in SETS.values() for f in R.FAMILY_LABELS})
     check("shape", not problems, f"{len(problems)} problems")
     for p in problems:
         out(f"  - {p}")
@@ -105,34 +115,45 @@ def main():
     out(f"  evidence entries: {len(evidence)}; with carriers: {sum(1 for e in evidence.values() if e['shown_by'])}")
     out(f"  field entries: {sum(1 for v in fields.values() for k in v if not k.startswith(tax.ROLE_KEY))} on {len(fields)} skills; role overrides: {sum(1 for v in fields.values() for k in v if k.startswith(tax.ROLE_KEY))}")
 
-    jobs, by_role, by_group, fam2grp = load_jobs()
+    # each set's postings, roles and fields; group and role ids do not repeat across sets (tests/python/test_roles_tech.py)
+    jobs_of, by_role, by_group, set_of_group = {}, {}, {}, {}
+    for rs, R in SETS.items():
+        if not has_jobs(rs):
+            out(f"  {rs}: no data/processed/{processed.name(rs)} in this checkout; its fields wait for the set's refresh: {sorted(R.GROUPS)}")
+            continue
+        js, br, bg, _ = load_jobs(rs)
+        jobs_of[rs] = js
+        by_role.update(br)
+        by_group.update(bg)
+        set_of_group.update({g: rs for g in R.GROUPS})
     role_share = {f: {sid: wshare(js, sid) for sid in kind} for f, js in by_role.items()}
     # a field's share of a skill: the mean over its roles, as the index's by_family reads
     # a field whose roles have no postings yet (a group added before its first scrape) has no shares to read
-    field_share = {g: {sid: statistics.mean(role_share[f][sid] for f in fs if f in role_share) for sid in kind} for g, (_, fs) in roles_mba.GROUPS.items()
-                   if any(f in role_share for f in fs)}
+    field_share = {g: {sid: statistics.mean(role_share[f][sid] for f in fs if f in role_share) for sid in kind}
+                   for rs, R in SETS.items() if rs in jobs_of for g, (_, fs) in R.GROUPS.items() if any(f in role_share for f in fs)}
+    set_of_role = {f: rs for rs, R in SETS.items() for f in R.FAMILY_LABELS}
 
     out()
     out("## Coverage")
-    out(f"A field asks for a skill when the mean share over its roles is at least {ASKS:.0%}; a skill asked for by {MIN_FIELDS} fields or more gets an entry per asking field.")
+    out(f"A field asks for a skill when the mean share over its roles is at least {ASKS:.0%}; a skill asked for by {MIN_FIELDS} fields or more of one role set gets an entry per asking field.")
     rows = []
-    for sid in kind:
-        asking = [g for g in field_share if field_share[g][sid] >= ASKS]
+    for sid, rs in ((sid, rs) for sid in kind for rs in jobs_of):
+        asking = [g for g in field_share if set_of_group[g] == rs and field_share[g][sid] >= ASKS]
         if kind[sid] in ("tool", "credential"):
             check("coverage", sid not in fields, f"{sid} is a {kind[sid]} and has field entries")
             continue
-        has = {g for g in fields.get(sid, {}) if not g.startswith(tax.ROLE_KEY)}
+        has = {g for g in fields.get(sid, {}) if not g.startswith(tax.ROLE_KEY) and set_of_group.get(g) == rs}
         if len(asking) >= MIN_FIELDS:
             missing = [g for g in asking if g not in has]
             check("coverage", not missing, f"{sid}: asked for by {len(asking)} fields, no entry for {missing}")
-            rows.append((sid, asking, sorted(has)))
+            rows.append((sid, asking, sorted(has), rs))
         for g in has:
             check("coverage", field_share[g][sid] >= TOO_LOW, f"{sid}.{g}: entry written for a field that asks for it in {field_share[g][sid]:.0%} of postings")
     out()
-    out("| skill | kind | fields asking | entries |")
-    out("|---|---|---|---|")
-    for sid, asking, has in sorted(rows, key=lambda r: (-len(r[1]), r[0])):
-        out(f"| {name[sid]} | {kind[sid]} | {len(asking)} | {len(has)} |")
+    out("| skill | kind | role set | fields asking | entries |")
+    out("|---|---|---|---|---|")
+    for sid, asking, has, rs in sorted(rows, key=lambda r: (r[3], -len(r[1]), r[0])):
+        out(f"| {name[sid]} | {kind[sid]} | {rs} | {len(asking)} | {len(has)} |")
 
     out()
     out("## Grounding")
@@ -142,17 +163,20 @@ def main():
     out("|---|---|---|---|---|")
     base_with = {}
     for sid, per in fields.items():
-        base = [j for j in jobs if sid in j["skills"]]
         for g, entry in per.items():
+            rs = set_of_role.get(g[len(tax.ROLE_KEY):]) if g.startswith(tax.ROLE_KEY) else set_of_group.get(g)
+            if rs not in jobs_of:
+                continue   # a field of a set whose postings this checkout does not hold: shape only (above)
+            base = [j for j in jobs_of[rs] if sid in j["skills"]]
             pool = by_role[g[len(tax.ROLE_KEY):]] if g.startswith(tax.ROLE_KEY) else by_group[g]
             withT = [j for j in pool if sid in j["skills"]]
             co = {c: wshare(withT, c) for c in entry["shown_by"]}
             for c, v in co.items():
                 check("grounding", v >= CO_SHARE, f"{sid}.{g}: carrier {c} co-occurs in {v:.0%} of the field's postings that ask for {sid}")
             # the postings' own view: share × log-lift against the skill's postings everywhere
-            if sid not in base_with:
-                base_with[sid] = {c: wshare(base, c) for c in kind}
-            top = sorted(((wshare(withT, c) * math.log((wshare(withT, c) + 0.02) / (base_with[sid][c] + 0.02)), c) for c in kind
+            if (sid, rs) not in base_with:
+                base_with[(sid, rs)] = {c: wshare(base, c) for c in kind}
+            top = sorted(((wshare(withT, c) * math.log((wshare(withT, c) + 0.02) / (base_with[(sid, rs)][c] + 0.02)), c) for c in kind
                           if c != sid and kind[c] in tax.CARRIER_KINDS and wshare(withT, c) >= 0.3), reverse=True)[:5]
             asks = role_share[g[len(tax.ROLE_KEY):]][sid] if g.startswith(tax.ROLE_KEY) else field_share[g][sid]
             out(f"| {name[sid]} | {g} | {asks:.0%} | " + ", ".join(f"{name[c]} {v:.0%}" for c, v in co.items()) + " | " + ", ".join(name[c] for _, c in top) + " |")
@@ -175,8 +199,11 @@ def main():
     out("## Published")
     out("The indexes the interface reads carry the kinds, the evidence and the field entries of the source files.")
     import json as _json
-    for fn, which in (("graph.json", "product"), ("graph_mba.json", "mba")):
+    for fn, which in (("graph.json", "product"), ("graph_mba.json", "mba"), ("graph_tech.json", "tech")):
         path = os.path.join(ROOT, "web", "data", fn)
+        if which == "tech" and not os.path.exists(path):
+            out(f"- {fn}: not built in this checkout (the tech refresh writes it)")
+            continue
         G = _json.load(open(path))
         check("published", G["meta"].get("kinds") == tax.KINDS and G["meta"].get("forms") == tax.FORMS, f"{fn}: meta.kinds or meta.forms is not the current table")
         bad_kind = [s["id"] for s in G["skills"] if s.get("kind") != kind.get(s["id"])]
@@ -185,14 +212,16 @@ def main():
         check("published", not bad_ev, f"{fn}: how_shown differs from evidence.json on {bad_ev[:5]}")
         for s in G["skills"]:
             want = fields.get(s["id"], {})
-            want = {g: e for g, e in want.items() if g == "product"} if which == "product" else want
+            want = ({g: e for g, e in want.items() if g == "product"} if which == "product" else
+                    {g: e for g, e in want.items() if set_of_group.get(g, set_of_role.get(g[len(tax.ROLE_KEY):]) if g.startswith(tax.ROLE_KEY) else None) == which or
+                     (which == "mba" and g in roles_mba.GROUPS) or (which == "mba" and g.startswith(tax.ROLE_KEY) and g[len(tax.ROLE_KEY):] in roles_mba.FAMILY_LABELS)})
             have = s.get("fields") or {}
             check("published", set(have) == set(want), f"{fn}: {s['id']} fields {sorted(have)} vs source {sorted(want)}")
             for g, e in want.items():
                 h = have.get(g) or {}
                 check("published", all(h.get(k) == v for k, v in e.items()), f"{fn}: {s['id']}.{g} text differs from fields.json")
                 check("published", isinstance(h.get("with"), list) and isinstance(h.get("subs"), list) and "n" in h, f"{fn}: {s['id']}.{g} lacks the postings' side")
-        tpath = os.path.join(ROOT, "web", "data", "taxonomy.json" if which == "product" else "taxonomy_mba.json")
+        tpath = os.path.join(ROOT, "web", "data", "taxonomy.json" if which == "product" else f"taxonomy_{which}.json")
         TW = _json.load(open(tpath))
         check("published", all(s.get("kind") == kind.get(s["id"]) for s in TW["skills"]), f"{os.path.basename(tpath)}: a skill lacks its kind")
         out(f"- {fn}: {len(G['skills'])} skills with kind and how_shown; {sum(1 for s in G['skills'] if s.get('fields'))} with field entries; {os.path.basename(tpath)} carries the kind")

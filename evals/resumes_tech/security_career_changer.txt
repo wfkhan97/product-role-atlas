@@ -1,0 +1,22 @@
+Alex Romero
+Jersey City, NJ
+
+CERTIFICATIONS
+CompTIA Security+ (2024); GIAC Certified Incident Handler (GCIH, 2025)
+
+EXPERIENCE
+SOC Analyst, Regional bank — Jersey City, NJ                                        Mar 2024 – present
+- Triage 60 alerts a day in Splunk SIEM and CrowdStrike EDR; escalated 14 confirmed incidents in 2025
+- Wrote 25 detection rules mapped to MITRE ATT&CK; false positives fell 30%
+- Led incident response for a phishing campaign that hit 200 mailboxes; contained in 4 hours
+- Ran monthly vulnerability scans and tracked remediation of 300 findings with IT owners
+
+IT Systems Administrator, Hospital network — Newark, NJ                             Jun 2020 – Feb 2024
+- Managed Active Directory and identity and access for 3,000 users; rolled out multi-factor authentication
+- Patched 600 Windows and Linux servers monthly; automated patch reports with PowerShell and Python
+
+EDUCATION
+Rutgers University — B.S. Information Technology, 2020
+
+SKILLS
+Splunk, CrowdStrike, Python, PowerShell, Linux, Active Directory, AWS basics
