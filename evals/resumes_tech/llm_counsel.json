@@ -1,0 +1,35 @@
+{
+ "targets": [
+  "counsel:mid"
+ ],
+ "expected_level": "associate",
+ "score_band": {
+  "counsel:mid": [
+   0.35,
+   0.8
+  ]
+ },
+ "must_evidence": [
+  "commercial_contracts",
+  "privacy_law",
+  "ip_law",
+  "corporate_law",
+  "law_degree",
+  "product_counseling",
+  "clm_tools"
+ ],
+ "must_not_tag": [
+  "golang",
+  "backend_services",
+  "model_training",
+  "interaction_design",
+  "detection_response",
+  "frontend_web",
+  "security_certs"
+ ],
+ "real_gaps": [
+  "litigation_disputes",
+  "outside_counsel"
+ ],
+ "note": "expected_level was mid (2026-11-05, written before the matcher read tech roles); 22 months at a law firm is under the two years the matcher's read asks for mid, and a junior lawyer against mid-level counsel postings scores in the 40s, so the band starts at 35%. Both changed in PR 5 when the matcher learned the set's titles."
+}

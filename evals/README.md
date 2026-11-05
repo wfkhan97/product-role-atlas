@@ -137,6 +137,14 @@ points. Add a variant when a real resume shows a layout that is not there yet.
 
 The runner requires `web/match.js` directly, so it always runs the code the app runs.
 
+## The tech role set's samples
+
+`node evals/run_tech.mjs` runs `evals/resumes_tech/` (a `.txt` and its `.json` per sample, the fields of the table
+above plus `known_miss`: `{skill id, "level" or target: reason}`, a wrong answer accepted for now that fails when it starts
+to pass) through `web/match.js` with `web/data/taxonomy_tech.json`. What a résumé shows is checked everywhere; a score
+needs the set's graph and waits where it is absent. `--baseline` writes `baseline_tech.md`. The bands are judgment calls
+until `calibrate.mjs` gives the set bands.
+
 ## Extraction baselines
 
 The matcher evals above check how a resume is read. These check how postings are tagged.
@@ -167,6 +175,10 @@ The matcher evals above check how a resume is read. These check how postings are
 
 A shared skill serves both role sets, so a change to one of its patterns means both sets of steps.
 
+- [extraction_baseline_tech.md](extraction_baseline_tech.md): the tech role set, the same report (`role_coverage --roles tech`
+  after `pipeline.extract --roles tech`). A skill's tech wording (`patterns_for: {"tech": ...}`) and a tech-only skill move
+  this file alone; `tests/python/test_taxonomy.py` pins that the product and MBA sets never read them.
+
 ## Pipeline evals for the MBA role set
 
 The evals above check a resume and the tags of a posting. These check the data layer under them: which role and
@@ -185,6 +197,8 @@ No API key is needed. The `js` and `matcher` parts need `node`.
 |---|---|---|
 | backlog | – | What a refresh does to a company's postings (`pipeline.scrape.merge`): it adds new ones, closes missing ones, reopens returning ones, drops none, and closes nothing when most postings fail to come back. A posting is its requisition id (its URL on a board that gives none): a requisition under a new URL is the same row and takes the current URL and title; two rows of one requisition fold into the one seen last. |
 | titles | `titles_mba.json` | 810 titles with the role each must get, or none. 470 come from the scraped postings, 159 were written to probe the edges ("Executive Assistant, Investment Banking", "Talent Sourcing Manager"), 156 cover campus titles, sector bankers and entry-level grades (set `entry-2026-10-13`), 17 the AI transformation role and its edges (set `ai-transformation-2026-10-30`: engineers, research labs, AI governance and AI strategy are not it). |
+| golden, entry, integrity, graph, matcher (tech) | `golden_tech.json`, `entry_tech.json` | `run_pipeline.py --roles tech`: 14 golden postings (two per role) with must and must-not skills, floors 0.87 and 0.27; 130 postings with their entry mark, read with their text. Integrity, graph and matcher read `data/processed/jobs_tech.json` and `web/data/graph_tech*` and report that they wait where those are absent (CI until the first tech refresh). The js part also checks that `web/data/taxonomy_tech.json` is the set's part of the taxonomy (`python -m pipeline.roles_tech`). |
+| titles (tech) | `titles_tech.json` | `run_pipeline.py --roles tech`: 748 titles with the role, level, ladder and entry mark each must get in the tech role set (PLAN.md, "A third role set"), labelled by two readers who saw a written spec and never the rules: 480 drawn from a census of the Greenhouse, Lever and Ashby boards, 236 written at the borders with the product and MBA sets, hardware, banks and the ladders, 32 entry titles. The same run checks `web/data/roles_tech.json` against `export()` and `evals/roles_tech.mjs` against `pipeline/roles_tech.py`. Baseline: `pipeline_baseline_tech.md`. The other parts come with the set's scrape and graph build. |
 | levels | same file | The level each title must get on its ladder: corporate, bank or consulting. A bank Vice President is `senior`. |
 | entry | `entry_mba.json` | 231 postings with the entry mark each must get: `mba`, `pre_mba` or none, and internship or not. 210 are real US postings drawn by seed from 20 strata; 21 are titles written to probe the firm table. 32 are read with their posting text. The part also checks that every row of the firm table has a source. |
 | countries | `countries.json` | 280 location strings with the country each must get. A wrong country hides a US posting or shows a foreign one. |
@@ -291,6 +305,8 @@ The stratified taxonomy (`PLAN.md`, "A stratified taxonomy") adds a `kind` to ev
 | grounding | Each carrier a field entry names is asked for together with the skill in at least 15% of the field's US postings that ask for the skill, company-balanced; a role override is checked the same way on the role's own postings. The baseline prints, beside each entry's carriers, the five carriers the postings rank highest (share times log-lift), so a reader can see where the hand and the data differ. |
 | carriers | Each carrier a behaviour's or a practice's evidence names is asked for with it in at least 10% of some field's postings that ask for it. A carrier is field-specific (pitch books carry communication in banking), so this is the maximum over fields. |
 | published | `web/data/graph.json`, `graph_mba.json` and `taxonomy*.json` carry what the source files say: every skill node has the taxonomy's kind and its evidence entry under `how_shown`, the field entries appear as `fields` with the postings' side (`n`, `with`, `subs`) beside the text, and `meta.kinds` is the current table. A build older than the files fails here. |
+
+**The tech set.** Its five fields (`pipeline/roles_tech.py`, `GROUPS`) are read from `data/processed/jobs_tech.json` beside the MBA fields and counted apart: a skill four tech fields ask for needs an entry per asking tech field. A checkout without that file (CI, until the first `refresh-tech` lands) reports the tech fields as waiting and checks their entries for shape only; `refresh-tech.yml` runs the full eval on the fresh data.
 
 **What these evals do not show.** The carriers are checked against postings, which say what employers ask for together,
 not what a resume reader accepts as evidence. The readings and resume lines are editorial; no reader has judged them.

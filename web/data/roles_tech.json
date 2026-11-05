@@ -1,0 +1,439 @@
+{
+ "about": "Title rules of the tech role set (engineering, design, legal), written by pipeline/roles_tech.py (do not edit by hand). Patterns are JavaScript regular expressions; use the 'i' flag. How to read a title: see 'how'.",
+ "how": [
+  "1. No role when the title matches 'not_the_job', or when the product set holds it: product.title_ok(title) and (product.family(title) is 'product_engineer' or the title does not match 'eng_word').",
+  "2. The role is the first entry of 'families' whose 'patterns' match and whose 'exclude' does not; an entry with 'engineering' true is also skipped when the title matches 'customer_facing', or matches 'hardware' and not 'software_word'.",
+  "3. Ladder: 'legal' for counsel; 'bank' when the employer is in 'banks' or its industry in 'bank_industries' and a bank grade matches, or when the title matches 'bank_setoff' and not 'bank_setoff_not'; else 'engineering'.",
+  "4. Level: the first grade of the ladder whose pattern matches; none: 'mid'.",
+  "5. Entry mark: no mark when the title matches entry.title.not_for_them; the employer's row in entry.firms; 'grad' when the title matches entry.title.intern or entry.title.grad; on a level in entry.text.levels, 'grad' when the text matches entry.text.student and not entry.text.not_student."
+ ],
+ "flags": "i",
+ "groups": [
+  {
+   "id": "software",
+   "label": "Software engineering",
+   "families": [
+    "software_engineer"
+   ]
+  },
+  {
+   "id": "data_ai",
+   "label": "Data & AI engineering",
+   "families": [
+    "ml_engineer",
+    "data_engineer"
+   ]
+  },
+  {
+   "id": "security",
+   "label": "Security",
+   "families": [
+    "security_engineer"
+   ]
+  },
+  {
+   "id": "design",
+   "label": "Design & research",
+   "families": [
+    "product_designer",
+    "ux_researcher"
+   ]
+  },
+  {
+   "id": "legal",
+   "label": "Legal",
+   "families": [
+    "counsel"
+   ]
+  }
+ ],
+ "families": [
+  {
+   "id": "counsel",
+   "label": "In-house Counsel",
+   "group": "legal",
+   "patterns": [
+    "\\bcounsel\\b|\\battorney\\b|\\blawyer\\b|\\bhead\\s+of\\s+legal\\b|\\b(director|senior\\s+director|vp|vice\\s+president|svp|lead),?\\s+(of\\s+)?legal\\b|\\blegal\\s+(director|lead)\\b|\\bchief\\s+legal\\s+officer\\b|\\bCLO\\b|\\blegal\\s+(intern\\w*|fellow\\w*)\\b|\\blaw\\s+clerk\\b"
+   ],
+   "exclude": [
+    "\\bparalegal\\b|\\blegal\\s+(assistant|secretary|operations|ops|analyst|specialist|coordinator|administrator)\\b|\\bcounsel(l)?or\\b|\\bpatent\\s+(agent|engineer)\\b|\\blegal\\s+engineer\\w*|\\bclaims?\\s+adjuster\\b|\\bimmigration\\s+(specialist|coordinator)\\b"
+   ],
+   "engineering": false,
+   "covers": [],
+   "covered_by": []
+  },
+  {
+   "id": "ux_researcher",
+   "label": "UX Researcher",
+   "group": "design",
+   "patterns": [
+    "\\b(ux|user|design|product|experience|qualitative|mixed[- ]methods?|quantitative\\s+(ux|user))\\s+(experience\\s+)?research(er|ers)?\\b|\\b(ux|user|design)\\s+research\\s+(operations|ops)\\b|\\bresearch\\s*ops\\b|\\bresearch\\s+operations\\b|\\b(head|director|manager|lead),?\\s+(of\\s+)?(ux|user|design)\\s+research\\b"
+   ],
+   "exclude": [
+    "\\bgeneral\\s+manager\\b|\\b(scientist|engineer\\w*|market|marketing|clinical|shift|supervisor|field|reinforcement|code|data|annotation|labeling|consumer\\s+insights|equity|investment|credit|policy|operations\\s+(analyst|associate)|assistant|associate\\s+director\\s+of\\s+research|biolog\\w*|chemis\\w*|lab)\\b"
+   ],
+   "engineering": false,
+   "covers": [],
+   "covered_by": []
+  },
+  {
+   "id": "product_designer",
+   "label": "Product / UX Designer",
+   "group": "design",
+   "patterns": [
+    "\\b(product|ux|ui|ux\\s*/\\s*ui|ui\\s*/\\s*ux|ux\\s*-\\s*ui|interaction|experience|user\\s+experience|user\\s+interface|visual|digital|web|mobile|app|content|service|conversation(al)?|ai|systems?|platform|growth|design\\s+systems)\\s+designer\\b|\\bdesigner\\b|\\bdesign\\s+technologist\\b|\\bdesign\\s+systems?\\s+(lead|manager)\\b|\\b(product|ux|ui|interaction|experience)\\s+design\\s+(intern\\w*|co-?op)\\b|\\bdesign\\s+(manager|director|lead)\\b|\\b(product|ux|experience)\\s+design\\s+(manager|director|lead)\\b|\\b(head|director|vp|vice\\s+president|svp),?\\s+(of\\s+)?(product\\s+|ux\\s+|user\\s+experience\\s+|experience\\s+)?design\\b|\\bchief\\s+design\\s+officer\\b"
+   ],
+   "exclude": [
+    "\\b(graphic|interior|fashion|industrial|mechanical|packaging|instructional|learning|landscape|lighting|sound|audio|game|level|narrative|architectural|architecture|civil|electrical|hardware|pcb|circuit|asic|chip|layout|physical|rf|analog|structural|piping|hvac|mep|kitchen|floral|textile|jewelry|footwear|apparel|print|production|set|costume|curriculum|presentation|cad|mold|tool(ing)?|verification|brand|marketing|communications?|creative|illustrat\\w*|motion|video|social|merchandis\\w*|retail|store|exhibit|event|signage|environmental|construction|engineer\\w*|technician|drafter|draftsperson|garment|knit|trim|color|deal|technical\\s+designer|gear|(wo)?men'?s|kids|girls|boys)\\b"
+   ],
+   "engineering": false,
+   "covers": [],
+   "covered_by": []
+  },
+  {
+   "id": "security_engineer",
+   "label": "Security Engineer",
+   "group": "security",
+   "patterns": [
+    "\\b(security|cyber\\s*security|cyber|infosec|information\\s+security|appsec|application\\s+security|product\\s+security|cloud\\s+security|network\\s+security|infrastructure\\s+security|offensive\\s+security|defensive\\s+security|detection|threat|incident\\s+response|vulnerability|identity\\s*(and|&)\\s*access|iam|privacy|soc|dfir|malware|red\\s+team|blue\\s+team|purple\\s+team)\\s+(\\w+\\s+){0,2}(engineer\\w*|analyst|architect|researcher|specialist|consultant|tester|hunter|responder|operator|developer|manager|lead|director)\\b|\\b(penetration|pen)\\s+tester\\b|\\bpentester\\b|\\bred\\s+team(er)?\\b|\\bethical\\s+hacker\\b|\\b(grc|governance,?\\s+risk\\s*(and|&)\\s*compliance)\\s+engineer\\w*\\b|(?=.*\\b(security|cyber|it)\\b).*\\b(grc|governance,?\\s+risk\\s*(and|&)\\s*compliance)\\s+(analyst|specialist|lead)\\b|\\bsecurity\\s+(grc|compliance|risk|assurance|governance)\\s+(\\w+\\s+)?(analyst|engineer|specialist|manager|lead)\\b|\\bai\\s+(governance|safety|assurance|security|red\\s+team(ing)?|risk)\\s+(engineer\\w*|analyst|specialist)\\b|\\b(engineer\\w*|analyst|architect|researcher|developer),?\\s+(\\w+\\s+){0,2}(security|cybersecurity|appsec|detection(\\s+and\\s+response)?|threat\\s+(intelligence|detection)|incident\\s+response|privacy|trust\\s*(and|&)\\s*safety\\s+engineering)\\b|\\b(head|director|vp|vice\\s+president|manager|senior\\s+manager),?\\s+(of\\s+)?(information\\s+|cyber\\s*|product\\s+|application\\s+|cloud\\s+|infrastructure\\s+|enterprise\\s+|corporate\\s+|offensive\\s+)?security\\b|\\bsecurity\\s+(engineering|operations)\\s+(manager|lead|director)\\b|\\bCISO\\b|\\bchief\\s+(information\\s+)?security\\s+officer\\b"
+   ],
+   "exclude": [
+    "\\b(physical|guard|officer|loss\\s+prevention|protective|protection\\s+agent|executive\\s+protection|facilit\\w*|patrol|armed|trust\\s*(&|and)\\s*safety\\s+(analyst|specialist|associate|operations)|content\\s+moderat\\w*|fraud|aml|kyc|financial\\s+crime|product\\s+manag\\w*|product\\s+marketing|program\\s+manag\\w*|data\\s+scien\\w*|security\\s+clearance|national\\s+security|programs?\\s+development|supply\\s+chain\\s+security\\s+manager|project\\s+manag\\w*|site\\s+security|(corporate|global|regional)\\s+security\\s+(\\w+\\s+)?(manager|specialist|director|lead|analyst)|regional\\s+security)\\b"
+   ],
+   "engineering": true,
+   "covers": [],
+   "covered_by": []
+  },
+  {
+   "id": "ml_engineer",
+   "label": "ML / AI Engineer",
+   "group": "data_ai",
+   "patterns": [
+    "\\b(machine\\s+learning|ml|ai|a\\.i\\.|artificial\\s+intelligence|applied\\s+ai|llm|llms|gen\\s*ai|generative\\s+ai|deep\\s+learning|computer\\s+vision|nlp|natural\\s+language|perception|ml\\s*ops|mlops|ai\\s*/\\s*ml|ml\\s*/\\s*ai|ai\\s*&\\s*ml|ml\\s+infrastructure|inference|model\\s+training|evals?|recommend(ation|er)s?\\s+systems?|ranking|search\\s+relevance|speech|robot\\s+learning|reinforcement\\s+learning)\\b(\\s+\\w+){0,4}?\\s+(engineer\\w*|developer|scientist|architect|researcher|(team|tech)\\s+lead)\\b|(?<!data\\s)\\b(engineer\\w*|developer|scientist|architect|researcher)\\b(\\s*[,\\-–(/]?\\s*\\w+){0,3}?\\s*[,\\-–(/]\\s*(\\w+\\s+){0,2}(machine\\s+learning|ml|ai|applied\\s+ai|llms?|gen\\s*ai|generative\\s+ai|deep\\s+learning|computer\\s+vision|nlp|perception|inference|model\\s+training|mlops|reinforcement\\s+learning|robot\\s+learning)\\b(?!\\s+(gateway|developer|dev|tools|security|governance))|\\bresearch\\s+engineer\\b|\\bapplied\\s+(research\\s+)?scientist\\b|\\bmachine\\s+learning\\s+scientist\\b|\\bmlops\\b|\\bprompt\\s+engineer\\b|\\b(ai|ml|machine\\s+learning)\\s+residen(t|cy)\\b|\\b(machine\\s+learning|ml|ai)\\s+(research\\s+)?intern\\w*"
+   ],
+   "exclude": [
+    "\\bai\\s+(developer\\s+tools|gateway)\\b|\\bnetwork\\s+(site\\s+reliability\\s+)?engineer\\b|\\bdata\\s+scien\\w*|\\b(analyst|analytics)\\b|\\bai\\s+(transformation|enablement|adoption|strateg\\w*)\\b|\\bsoftware\\s+engineer\\s+in\\s+test\\b"
+   ],
+   "engineering": true,
+   "covers": [],
+   "covered_by": []
+  },
+  {
+   "id": "data_engineer",
+   "label": "Data Engineer",
+   "group": "data_ai",
+   "patterns": [
+    "\\b(data|big\\s+data|etl|elt|data\\s+platform|data\\s+infrastructure|data\\s+warehouse|data\\s+pipeline|data\\s+integration|analytics|bi|business\\s+intelligence|data\\s+&\\s+analytics|data\\s+and\\s+analytics)\\s+(\\w+\\s+){0,1}(engineer|engineering|developer|architect)\\b|\\b(engineer|developer|architect)\\b\\s*[,\\-–(]\\s*(\\w+\\s+){0,2}(data\\s+(platform|infrastructure|pipelines?|warehouse|engineering)|big\\s+data|etl)\\b|\\b(head|director|vp|vice\\s+president|manager),?\\s+(of\\s+)?data\\s+engineering\\b"
+   ],
+   "exclude": [
+    "\\bdata\\s+(center|centre|entry|handling|exploitation)\\b|\\bdatacenter\\b|\\bdata\\s+scien\\w*|\\banalyst\\b"
+   ],
+   "engineering": true,
+   "covers": [],
+   "covered_by": []
+  },
+  {
+   "id": "software_engineer",
+   "label": "Software Engineer",
+   "group": "software",
+   "patterns": [
+    "\\b(software|sw|back[- ]?end|front[- ]?end|full[- ]?stack|web|mobile|ios|android|platform|infrastructure|infra|cloud|devops|dev\\s*ops|site\\s+reliability|production|embedded(\\s+software)?|firmware|application|game(play)?|graphics|engine|kernel|compiler|distributed\\s+systems|systems\\s+software|database|storage|test\\s+automation|qa\\s+automation|build|drivers?|release|developer\\s+productivity|developer\\s+experience|tools|tooling|ui|frontend\\s+platform|api|integrations?|blockchain|smart\\s+contracts?|protocol|devsecops|cloud\\s+infrastructure|network\\s+software|simulation|robotics\\s+software|autonomy|ai\\s+platform)\\s+(\\w+\\s+){0,1}(engineer\\w*|developer)\\b|\\b(sde|swe|sdet|sre)\\b|\\bsoftware\\s+(development\\s+)?engineer|\\bsoftware\\s+developer\\b|\\bmember\\s+of\\s+(the\\s+)?technical\\s+staff\\b|\\bMTS\\b|\\bengineering\\s+manager\\b|\\b(engineering|software)\\s+residen(t|cy)\\b|\\b(manager|director|senior\\s+director|head|vp|vice\\s+president|svp),?\\s+(of\\s+)?(software\\s+|platform\\s+|infrastructure\\s+|product\\s+|backend\\s+|frontend\\s+|mobile\\s+|web\\s+)?engineering\\b|\\bCTO\\b|\\bchief\\s+technology\\s+officer\\b|\\b(java|python|\\.net|c#|react|react\\s+native|node(\\.js)?|golang|go|ruby|rails|php|c\\+\\+|rust|scala|kotlin|swift|typescript|javascript|salesforce|unity|unreal)\\s+(\\w+\\s+){0,1}(engineer|developer)\\b|\\bprogrammer\\b|\\bfounding\\s+engineer\\b|^\\W*((senior|sr\\.?|staff|principal|lead|junior|jr\\.?|distinguished|founding)\\s*/?\\s*)*(engineer|developer)(\\s+(i|ii|iii|iv|v|\\d))?\\s*([,\\-–(:|]|$)"
+   ],
+   "exclude": [
+    "\\b(qa|quality\\s+assurance)\\s+(engineer|analyst|tester)\\b(?!.*automation)|\\bmanual\\s+(qa|test\\w*)\\b|\\bnetwork\\s+engineer\\b|\\bsystems\\s+engineer(ing)?\\b|\\bapplications?\\s+engineer\\b|\\bchief\\s+of\\s+staff\\b|\\boffice\\s+of\\s+the\\b|\\bengineering\\s+(operations|ops|program|excellence)\\b|\\bbusiness\\s+developer\\b|\\breal\\s+estate\\b|\\bpower\\s+platform\\b|\\b(it|desktop|end\\s+user)\\s+(support|engineer|technician)\\b|\\bcontent\\s+developer\\b|\\bcourse\\s+developer\\b|\\b(land|project|property|community|economic|product|market|business|fund|donor|leadership|organizational|talent)\\s+developer\\b"
+   ],
+   "engineering": true,
+   "covers": [],
+   "covered_by": []
+  }
+ ],
+ "not_the_job": "\\brecruit\\w*|\\bsourc(er|ers|ing)\\b|\\btalent\\b|\\binstructor\\b|\\bteacher\\b|\\btutor\\b|\\bprofessor\\b|\\blecturer\\b|\\bcurriculum\\b|\\bbootcamp\\b|\\bcoach\\b|\\btechnical\\s+writer\\b|\\bwriter\\b|\\beditor\\b|\\bdo\\s+not\\s+apply\\b|\\btest\\s+req",
+ "customer_facing": "\\b(sales|pre-?sales|solutions?|customer|support|field|implementation|onboarding|professional\\s+services|partner|technical\\s+account|account|success|deployment\\s+strategist)\\s+(\\w+\\s+){0,1}(engineer\\w*|architect|developer|consultant|specialist|manager)\\b|\\baccount\\s+(executive|manager)\\b|\\bforward[- ]deployed\\b|\\bdeployed\\s+engineer\\b|\\bdeveloper\\s+(advocate|relations|evangelist|marketing|experience\\s+advocate)\\b|\\bdevrel\\b|\\btechnical\\s+support\\b|\\bhelp\\s*desk\\b|\\bservice\\s+desk\\b|\\bdesktop\\s+support\\b",
+ "hardware": "\\b(mechanical|electrical|electronics?|civil|structural|chemical|process|manufacturing|industrial|hvac|piping|mep|rf|analog|mixed[- ]signal|asic|fpga|rtl|silicon|chip|soc\\s+design|physical\\s+design|pcb|layout|circuit|power\\s+electronics|optical|photonics|materials?|packaging|thermal|electromechanical|mechatronics?|motors?|battery|aerospace|propulsion|avionics|automotive\\s+hardware|plc|controls|instrumentation|substation|transmission|construction|project\\s+engineer|field\\s+service|maintenance|(?<!site\\s)reliability\\s+engineer|quality\\s+engineer|test\\s+engineer|validation\\s+engineer|verification\\s+engineer|hardware|design\\s+verification|dft|product\\s+design\\s+engineer|npi|production\\s+(supervisor|technician|planner|operator)|facilities|biomedical|clinical|environmental|geotechnical|surveyor|drafter)\\b",
+ "software_word": "\\b(software|firmware|embedded)\\b",
+ "eng_word": "\\b(engineer\\w*|developer|designer|researcher|counsel|attorney|scientist|architect|programmer)\\b",
+ "mts": "\\bmember\\s+of\\s+(the\\s+)?technical\\s+staff\\b|\\bMTS\\b",
+ "bank_setoff": "^\\W*(vice\\s+president|vp|avp|assistant\\s+vice\\s+president|executive\\s+director|associate)\\s*[,\\-–]|[,\\-–]\\s*(vice\\s+president|vp|avp|assistant\\s+vice\\s+president|executive\\s+director|associate|analyst)\\W*$",
+ "bank_setoff_not": "\\b(head|director|manager)\\b",
+ "product": {
+  "families": [
+   {
+    "id": "product_engineer",
+    "pattern": "\\b(ai|applied\\s+ai|full[- ]stack|software|founding|forward[- ]deployed)?\\s*product\\s+engineer\\b|\\bforward[- ]deployed\\s+(software\\s+|ai\\s+|solutions?\\s+|product\\s+)?engineer\\b"
+   },
+   {
+    "id": "tpm",
+    "pattern": "\\b(technical|tech)\\s+program\\s+(manager|management|lead|director)\\b|\\bTPM\\b"
+   },
+   {
+    "id": "pmm",
+    "pattern": "\\bproduct\\s+marketing\\b"
+   },
+   {
+    "id": "product_ops",
+    "pattern": "\\bproduct\\s+(operations|ops)\\b"
+   },
+   {
+    "id": "product_analyst",
+    "pattern": "\\bproduct\\s+(data\\s+)?(analyst|analytics|scientist|science)\\b|\\banalyst,?\\s+product\\b"
+   },
+   {
+    "id": "product_owner",
+    "pattern": "\\bproduct\\s+owner\\b"
+   },
+   {
+    "id": "pm",
+    "pattern": "\\bproduct\\s+(manage(r|ment)|mgmt|mgt|mgr)\\b|\\bprod(uct)?\\.?\\s+(mgr|mgmt|mgt)\\b|\\bproduct\\s+lead\\b|\\b(head|director|vp|vice\\s+president|svp|evp|chief)\\b(\\s+of)?,?\\s+(global\\s+|technical\\s+|group\\s+|senior\\s+|digital\\s+|platform\\s+|consumer\\s+|enterprise\\s+|ai\\s+)*products?\\b|\\bchief\\s+product\\s+officer\\b|\\bAPM\\b|\\bassociate\\s+product\\b|\\bgroup\\s+product\\b|\\bproduct\\s+director\\b|\\bprincipal\\s+product\\b|\\bproduct\\s+strateg(y|ist)\\b|\\bproduct,?\\s+(senior\\s+)?(manager|director|lead)\\b|\\bproduct\\s+(line\\s+)?manage(r|ment)\\b"
+   }
+  ],
+  "exclude": "\\b(production|produce|product\\s+(design|designer|support|specialist|engineering|developer|development\\s+engineer|applications?\\s+engineer|security|safety|quality|stewardship|compliance|counsel|trainer|photograph|assembler|technician|tester|test|sales|sourcing|supply|planner|planning|merchandis|flow|repair|content|writer|copy|solutions?\\s+engineer|solutions?\\s+architect|consultant|coordinator|administrator|assistant|launch\\s+engineer|cost|regulatory|labeling|information|data\\s+engineer|complaint|surveillance|lifecycle\\s+engineer|realization|integrity|certification|validation|verification|assurance|line\\s+manager|scientist\\s*-\\s*r&d|chemist|formulation))\\b|\\bproduct\\s+manager\\s*-?\\s*(manufactur|plant|retail|store|grocery|bakery|dairy|meat|deli|pharmacy)|\\b(manufacturing|dairy|bakery|chemical|cosmetic|nutrition|food|beverage|agricultur|crop)\\s+product\\b|\\bresearch\\s+and\\s+development\\b.*\\bproduct\\b",
+  "keep": "\\b(product\\s+manager|product\\s+management|product\\s+(mgmt|mgt|mgr)|program\\s+manager|product\\s+marketing\\s+manager|product\\s+owner|head\\s+of\\s+product|director,?\\s+product\\s+management|vp,?\\s+product\\s+management|chief\\s+product\\s+officer)\\b",
+  "nonproduct": "\\b(people\\s+partner|hr\\b|human\\s+resources|recruit|talent|finance|accounting|legal|counsel|payroll|facilities|real\\s+estate|communications?\\s+(manager|lead|director)|public\\s+relations|events?\\s+(manager|lead)|executive\\s+assistant|administrative|office\\s+manager|workplace)",
+  "food": "\\b(dairy|bakery|deli|meat|seafood|produce|grocery|beverage|snack|cosmetic|fragrance|apparel|footwear|private\\s+label|own\\s+brand|store\\s+brand)\\b",
+  "product_manage": "\\bproduct\\s+manage",
+  "hardware": "\\b(mechanical|electrical|electronics?|hardware|manufacturing|process|test|quality|applications?|packaging|materials?|semiconductor|wafer|fab|yield|rf|optical|optics|photonics|chemical|civil|structural|field|support|security|safety|reliability|validation|verification|npi|automotive|aerospace|industrial|plastics?|textiles?|apparel|footwear|thermal|analog|asic|fpga|systems?|sustaining|device|component|battery|cell|motor|pump|valve|sensor|silicon|die|cad|tooling|molding|casting|welding)\\b",
+  "hardware_families": [
+   "product_engineer"
+  ]
+ },
+ "levels": [
+  "associate",
+  "mid",
+  "senior",
+  "staff",
+  "group",
+  "director",
+  "vp",
+  "cpo"
+ ],
+ "banks": [
+  "bank of america",
+  "citigroup",
+  "goldman sachs group",
+  "jpmorgan chase",
+  "morgan stanley",
+  "stonex group",
+  "wells fargo"
+ ],
+ "bank_industries": [
+  "Commercial Banks",
+  "Securities"
+ ],
+ "ladders": {
+  "engineering": {
+   "label": "Engineering, design and research",
+   "levels": {
+    "associate": "New grad / I",
+    "mid": "II",
+    "senior": "Senior",
+    "staff": "Staff / Lead",
+    "group": "Principal / Manager",
+    "director": "Director",
+    "vp": "VP / Head of",
+    "cpo": "Chief officer (CTO, CISO)"
+   },
+   "grades": [
+    {
+     "level": "cpo",
+     "pattern": "\\b(chief\\s+(technology|information\\s+security|security|design|technical|ai|data)\\s+officer|cto|ciso)\\b"
+    },
+    {
+     "level": "associate",
+     "pattern": "\\bintern(ship)?s?\\b|\\bco-?op\\b|\\bnew\\s+grad(uate)?s?\\b|\\buniversity\\s+(grad(uate)?|hire)s?\\b|\\bearly[- ]career\\b|\\bentry[- ]level\\b|\\bgraduate\\s+(program|engineer|developer|designer|scheme)\\b|\\bapprentice(ship)?\\b|\\bresiden(t|cy)\\b|\\bjunior\\b|\\bjr\\.?\\b|\\bassociate\\s+(software|engineer|developer|designer|product\\s+designer|ux|data|security|ml|machine|researcher|ai|platform|site)\\b|\\b20(2[6-9])\\s+(start|grad\\w*)\\b"
+    },
+    {
+     "level": "senior",
+     "pattern": "\\b(senior|sr\\.?)\\s*/\\s*(staff|principal|lead)\\b"
+    },
+    {
+     "level": "mid",
+     "pattern": "(engineer|developer|designer|researcher|analyst|scientist|architect|sde|swe|sdet|sre|counsel|attorney|programmer|technologist|tester)\\s*(ii|2)\\s*[-/]\\s*(iii|3)\\b"
+    },
+    {
+     "level": "vp",
+     "pattern": "\\b(vp|vice\\s+president|svp|evp|head\\s+of|managing\\s+director)\\b|\\bhead,"
+    },
+    {
+     "level": "director",
+     "pattern": "\\b(director|senior\\s+director|sr\\.?\\s+director)\\b(?!\\s+of\\s+(first|1st))"
+    },
+    {
+     "level": "group",
+     "pattern": "\\bassociate\\s+director\\b|\\b(principal|distinguished|fellow)\\b|\\b(engineering|design|research|security|data|ml|software|development|product\\s+design|ux)\\s+(engineering\\s+)?manager\\b|\\bmanager,?\\s+(of\\s+)?(\\w+\\s+){0,2}(engineering|design|research|security|data\\s+engineering)\\b|\\bmanager\\b"
+    },
+    {
+     "level": "staff",
+     "pattern": "\\b(staff|lead|tech\\s+lead|tl)\\b|(engineer|developer|designer|researcher|analyst|scientist|architect|sde|swe|sdet|sre|counsel|attorney|programmer|technologist|tester)\\s*[-,]?\\s*(v|5)\\b"
+    },
+    {
+     "level": "senior",
+     "pattern": "\\b(senior|sr\\.?|experienced)\\b|(engineer|developer|designer|researcher|analyst|scientist|architect|sde|swe|sdet|sre|counsel|attorney|programmer|technologist|tester)\\s*[-,]?\\s*(iii|iv|3|4)\\b|\\b(l5|e5|ic4|ic5)\\b"
+    },
+    {
+     "level": "associate",
+     "pattern": "(engineer|developer|designer|researcher|analyst|scientist|architect|sde|swe|sdet|sre|counsel|attorney|programmer|technologist|tester)\\s*[-,]?\\s*(i|1)\\b(?!\\s*[-/]\\s*(ii|2))|\\b(l3|e3|ic1|ic2)\\b|\\s(i|1)\\s*$"
+    },
+    {
+     "level": "mid",
+     "pattern": "(engineer|developer|designer|researcher|analyst|scientist|architect|sde|swe|sdet|sre|counsel|attorney|programmer|technologist|tester)\\s*[-,]?\\s*(ii|2)\\b|\\b(l4|e4|ic3)\\b|\\s(ii|2)\\s*$"
+    }
+   ]
+  },
+  "legal": {
+   "label": "Legal",
+   "levels": {
+    "associate": "Associate counsel",
+    "mid": "Counsel",
+    "senior": "Senior counsel",
+    "staff": "Lead counsel / Assistant GC",
+    "director": "Director / Associate GC",
+    "vp": "Deputy GC / Head of legal",
+    "cpo": "General counsel"
+   },
+   "grades": [
+    {
+     "level": "associate",
+     "pattern": "\\bintern(ship)?s?\\b|\\blaw\\s+clerk\\b|\\bfellow(ship)?\\b|\\bjunior\\b|\\bassociate\\s+(counsel|attorney)\\b|\\b(counsel|attorney)\\s*[-,]?\\s*(i|1)\\b"
+    },
+    {
+     "level": "vp",
+     "pattern": "\\bdeputy\\s+general\\s+counsel\\b|\\bhead\\s+of\\s+legal\\b|\\b(vp|vice\\s+president|svp|evp),?\\s+(\\w+\\s+)?(legal|counsel)\\b|\\bhead\\s+of\\b"
+    },
+    {
+     "level": "director",
+     "pattern": "\\bassociate\\s+general\\s+counsel\\b|\\bAGC\\b|\\b(director|senior\\s+director)\\b"
+    },
+    {
+     "level": "staff",
+     "pattern": "\\bassistant\\s+general\\s+counsel\\b|\\b(lead|managing|principal|staff)\\s+(\\w+\\s+)?(counsel|attorney)\\b|\\bsenior\\s+managing\\s+counsel\\b"
+    },
+    {
+     "level": "cpo",
+     "pattern": "\\bgeneral\\s+counsel\\b|\\bchief\\s+legal\\s+officer\\b|\\bCLO\\b"
+    },
+    {
+     "level": "senior",
+     "pattern": "\\b(senior|sr\\.?)\\b|\\b(counsel|attorney)\\s*[-,]?\\s*(ii|iii|2|3)\\b"
+    }
+   ]
+  },
+  "bank": {
+   "label": "Banks",
+   "levels": {
+    "associate": "Analyst",
+    "mid": "Associate / AVP",
+    "senior": "Vice President",
+    "staff": "Executive Director / SVP",
+    "director": "Managing Director"
+   },
+   "grades": [
+    {
+     "level": "associate",
+     "pattern": "\\bintern(ship)?s?\\b|\\bsummer\\s+(analyst|associate)\\b"
+    },
+    {
+     "level": "director",
+     "pattern": "\\bmanaging\\s+director\\b"
+    },
+    {
+     "level": "staff",
+     "pattern": "\\bexecutive\\s+director\\b|\\b(senior\\s+vice\\s+president|SVP)\\b"
+    },
+    {
+     "level": "mid",
+     "pattern": "\\b(assistant|associate)\\s+vice\\s+president\\b|\\bAVP\\b"
+    },
+    {
+     "level": "senior",
+     "pattern": "\\bvice\\s+president\\b|\\bVP\\b"
+    },
+    {
+     "level": "mid",
+     "pattern": "^\\W*associate\\s*[,\\-–]|[,\\-–]\\s*associate\\W*$"
+    },
+    {
+     "level": "associate",
+     "pattern": "^\\W*analyst\\s*[,\\-–]|[,\\-–]\\s*analyst\\W*$|\\b(technology\\s+)?analyst\\s+program(me)?\\b"
+    }
+   ]
+  }
+ },
+ "specializations": [
+  {
+   "id": "frontend",
+   "pattern": "\\bfront[- ]?end\\b|\\bui\\s+engineer\\b|\\bweb\\b|\\breact\\b"
+  },
+  {
+   "id": "backend",
+   "pattern": "\\bback[- ]?end\\b|\\bapi\\b|\\bservices?\\b|\\bdistributed\\b"
+  },
+  {
+   "id": "fullstack",
+   "pattern": "\\bfull[- ]?stack\\b"
+  },
+  {
+   "id": "mobile",
+   "pattern": "\\bmobile\\b|\\bios\\b|\\bandroid\\b|\\breact\\s+native\\b"
+  },
+  {
+   "id": "infrastructure",
+   "pattern": "\\binfra(structure)?\\b|\\bplatform\\b|\\bcloud\\b|\\bdevops\\b|\\bsite\\s+reliability\\b|\\bsre\\b|\\bproduction\\s+engineer\\b|\\bkubernetes\\b"
+  },
+  {
+   "id": "embedded",
+   "pattern": "\\bembedded\\b|\\bfirmware\\b|\\brobotics\\b|\\bautonomy\\b"
+  },
+  {
+   "id": "test",
+   "pattern": "\\bsdet\\b|\\btest\\s+automation\\b|\\bqa\\s+automation\\b|\\bin\\s+test\\b"
+  },
+  {
+   "id": "llm",
+   "pattern": "\\bllms?\\b|\\bgen\\s*ai\\b|\\bgenerative\\b|\\bagents?\\b|\\bagentic\\b|\\bapplied\\s+ai\\b"
+  },
+  {
+   "id": "research",
+   "pattern": "\\bresearch\\b|\\bscientist\\b"
+  }
+ ],
+ "entry": {
+  "about": "The entry mark of the tech role set (pipeline/roles_tech.py, entry()): who enters at a posting. 'grad' marks a posting written for students or new graduates (bachelor's, master's or PhD; Cornell Tech's MEng and MS students are new graduates in this sense); no mark means an experienced hire or no evidence. A firm row gives the title at which an employer hires its graduates, and enters this file only with its source (as in entry_mba.json); there are none yet.",
+  "values": [
+   "grad"
+  ],
+  "sources": [
+   "firm",
+   "title",
+   "text"
+  ],
+  "firms": [],
+  "title": {
+   "note": "Words in a title. 'not_for_them' stops every rule (a job about students is not a job for them). 'intern' sets intern and marks the posting grad: an internship is for students. 'grad' names new graduates outright.",
+   "intern": "\\bintern(ship)?s?\\b|\\bco-?op\\b|\\bsummer\\s+(analyst|associate|engineer|intern|fellow)s?\\b|\\bwerkstudent\\w*|\\bpraktik\\w*",
+   "not_for_them": "\\brecruit(er|ers|ing|ment)\\b|\\b(university|campus)\\s+(relations|programs?|recruiting)\\b|\\bearly\\s+careers?\\s+(manager|lead|partner|specialist|program\\s+manager|coordinator)\\b",
+   "grad": "\\bnew\\s+grad(uate)?s?\\b|\\buniversity\\s+(grad(uate)?|hire)s?\\b|\\b(recent|college)\\s+grad(uate)?s?\\b|\\bearly[- ]career\\b|\\bentry[- ]level\\b|\\bcampus\\b|\\bgraduate\\s+(program|engineer|developer|designer|scheme|rotation\\w*)\\b|\\b20(2[6-9])\\s+(start|grad\\w*)\\b|\\bclass\\s+of\\s+20(2[6-9])\\b|\\b(bs|ms|meng|phd|bachelor'?s|master'?s)\\s*(/\\s*(ms|phd|master'?s))?\\s+(new\\s+)?grad(uate)?s?\\b|\\bapprentice(ship)?\\b|\\b(\\w+\\s+)?residency\\b|\\b(engineering|software|design|ai|ml|research)\\s+resident\\b|\\bfellowship\\b|\\b(legal|law)\\s+fellow\\b|\\blaw\\s+clerk\\b|\\b(technology\\s+)?analyst\\s+program(me)?\\b"
+  },
+  "text": {
+   "note": "Read only on the levels listed, where the title gives no audience: a line that says the posting is for students or new graduates marks it grad.",
+   "levels": [
+    "associate"
+   ],
+   "student": "\\b(currently\\s+)?(pursuing|enrolled\\s+in|completing|working\\s+towards?)\\s+(an?\\s+|your\\s+|the\\s+)?((bachelor'?s?|master'?s?|ph\\.?d\\.?|graduate|undergraduate|BS|MS|MEng|B\\.S\\.|M\\.S\\.|computer\\s+science|engineering|[a-z]+)\\W+){0,4}?(degree|program|studies)\\b|\\bgraduat(e|es|ing|ion)\\b[^.\\n]{0,60}\\b20(2[6-9])\\b|\\b(recent|new)\\s+grad(uate)?s?\\b|\\b0\\s*[-–]\\s*[12]\\s+years?\\b",
+   "not_student": "\\b(not|no\\s+longer)\\s+(open|eligible)\\s+to\\s+(students|new\\s+grad\\w*)\\b"
+  }
+ },
+ "search_queries": [
+  "software engineer",
+  "software developer",
+  "machine learning engineer",
+  "AI engineer",
+  "data engineer",
+  "analytics engineer",
+  "security engineer",
+  "security analyst",
+  "product designer",
+  "UX designer",
+  "UX researcher",
+  "counsel"
+ ]
+}

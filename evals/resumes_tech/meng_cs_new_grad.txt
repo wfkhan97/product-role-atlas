@@ -1,0 +1,24 @@
+Jordan Lee
+New York, NY
+
+EDUCATION
+Cornell Tech, Cornell University — Master of Engineering in Computer Science, May 2027
+University of Maryland — B.S. Computer Science, May 2026
+
+EXPERIENCE
+Software Engineering Intern, Fintech startup (Series B) — New York, NY            Jun 2026 – Aug 2026
+- Built a payments reconciliation service in Go with gRPC and PostgreSQL that matched 2M transactions a day
+- Added unit and integration tests that raised coverage of the ledger module from 48% to 85%
+- Cut p95 latency of the balance API from 420 ms to 90 ms by adding a Redis cache and query indexes
+- Took part in code reviews and on-call shadowing; wrote the runbook for the reconciliation job
+
+Software Engineering Intern, E-commerce company — Washington, DC                    Jun 2025 – Aug 2025
+- Shipped a React and TypeScript checkout page used by 300k monthly visitors; A/B test lifted completion 4%
+- Wrote REST API endpoints in Node.js for order history and deployed them through GitHub Actions to AWS
+
+PROJECTS
+Distributed key-value store (Cornell Tech systems course) — Raft consensus in Go, 5-node cluster on Docker and Kubernetes
+Campus events app — React Native app with a Python FastAPI backend; 1,200 student users
+
+SKILLS
+Go, Python, TypeScript, Java, SQL; React, Node.js, FastAPI; PostgreSQL, Redis; Docker, Kubernetes, AWS; Git

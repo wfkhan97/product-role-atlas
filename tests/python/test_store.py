@@ -143,7 +143,7 @@ def test_bootstrap_pulls_the_backlog_first_then_evals_then_caches(root, monkeypa
     monkeypatch.setattr(store.backlog, "pull", lambda rs, *a, **k: calls.append(("backlog", rs)))
     monkeypatch.setattr(store, "pull", lambda s, bucket, only=None: calls.append(("store", s)))
     store.bootstrap(FakeBucket())
-    assert calls == [("backlog", "product"), ("backlog", "mba"), ("store", "evals"), ("store", "caches")]
+    assert calls == [("backlog", "product"), ("backlog", "mba"), ("backlog", "tech"), ("store", "evals"), ("store", "caches")]
 
 
 def test_bootstrap_without_the_database_still_pulls_the_stores(root, monkeypatch, capsys):

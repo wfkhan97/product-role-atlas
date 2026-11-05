@@ -89,6 +89,51 @@
     "cross_functional"
    ],
    "line": "Sequenced 14 integration workstreams into a 100-day plan; the 3 synergy workstreams worth $12M landed first."
+  },
+  "software": {
+   "reads_as": "Choosing what to build, fix or pay down next: features against reliability work and technical debt.",
+   "shown_by": [
+    "system_architecture",
+    "code_quality",
+    "devops_sdlc"
+   ],
+   "line": "Ranked 30 reliability and debt items against the roadmap; shipped the top 8 in a quarter and cut pages by 40%."
+  },
+  "data_ai": {
+   "reads_as": "Choosing which model, dataset or eval to work on next, by what moves the product metric.",
+   "shown_by": [
+    "ai_ml",
+    "ml_evaluation",
+    "model_training"
+   ],
+   "line": "Picked 3 of 12 model experiments by expected lift; the first raised offline recall 6 points and shipped in 5 weeks."
+  },
+  "security": {
+   "reads_as": "Ranking risks and findings by exploitability and impact, so the team fixes what matters first.",
+   "shown_by": [
+    "vuln_mgmt",
+    "threat_modeling",
+    "detection_response"
+   ],
+   "line": "Triaged 400 findings by exploitability into a top-20 list; closed all 20 critical issues within 30 days."
+  },
+  "design": {
+   "reads_as": "Choosing which flows and problems get design time, and how much polish each deserves.",
+   "shown_by": [
+    "interaction_design",
+    "prototyping",
+    "design_systems"
+   ],
+   "line": "Cut a 14-screen redesign to the 4 flows behind 70% of support tickets; shipped them in one release."
+  },
+  "legal": {
+   "reads_as": "Triaging legal requests by risk and business value with a small team and a long queue.",
+   "shown_by": [
+    "commercial_contracts",
+    "outside_counsel",
+    "risk_mgmt"
+   ],
+   "line": "Set up intake and a risk tier for 600 contract requests a year; cut median turnaround from 9 days to 3."
   }
  },
  "problem_solving": {
@@ -231,6 +276,51 @@
     "process_improvement"
    ],
    "line": "Traced a $6M cash forecast miss to 2 collection accounts in a week; the fix held forecast error under 3% for the year."
+  },
+  "software": {
+   "reads_as": "Debugging and designing through hard technical problems: production failures, scale limits, unclear requirements.",
+   "shown_by": [
+    "system_architecture",
+    "backend_services",
+    "devops_sdlc"
+   ],
+   "line": "Traced a p99 latency spike to a lock in the cache layer; the fix cut p99 from 900 ms to 120 ms."
+  },
+  "data_ai": {
+   "reads_as": "Turning a vague product question into a model, a dataset and an eval that answer it.",
+   "shown_by": [
+    "ai_ml",
+    "model_training",
+    "ml_evaluation"
+   ],
+   "line": "Found label noise behind a stalled classifier; cleaning 8% of the data raised precision from 0.71 to 0.83."
+  },
+  "security": {
+   "reads_as": "Working out how an attack happened or could happen, from logs, code and systems.",
+   "shown_by": [
+    "detection_response",
+    "threat_modeling",
+    "offensive_security"
+   ],
+   "line": "Reconstructed a credential-stuffing attack from 3 log sources in 6 hours and closed the 2 gaps it used."
+  },
+  "design": {
+   "reads_as": "Framing a messy user problem and finding a design that solves it within technical limits.",
+   "shown_by": [
+    "interaction_design",
+    "prototyping",
+    "user_research"
+   ],
+   "line": "Reframed a failing onboarding as a setup problem; a 3-step prototype raised completion from 41% to 68%."
+  },
+  "legal": {
+   "reads_as": "Finding a workable legal path for the business when the law or the deal does not fit neatly.",
+   "shown_by": [
+    "commercial_contracts",
+    "risk_mgmt",
+    "outside_counsel"
+   ],
+   "line": "Restructured a stalled data-sharing deal around 2 contract terms; it closed in 3 weeks at full value."
   }
  },
  "gtm": {
@@ -1191,6 +1281,51 @@
     "due_diligence"
    ],
    "line": "Led a 20-person deal team across 5 functions on a $250M acquisition; signed in 10 weeks and handed over to integration."
+  },
+  "software": {
+   "reads_as": "Building with product, design and other engineering teams toward one shipped result.",
+   "shown_by": [
+    "system_architecture",
+    "apis",
+    "devops_sdlc"
+   ],
+   "line": "Coordinated 4 teams on a shared API migration; moved 30 clients over in 6 weeks with no outage."
+  },
+  "data_ai": {
+   "reads_as": "Taking models from research to product with engineers, product managers and data teams.",
+   "shown_by": [
+    "ai_ml",
+    "mlops_serving",
+    "ml_evaluation"
+   ],
+   "line": "Shipped a ranking model with product and 2 engineering teams; it raised click-through 9% across 3 surfaces."
+  },
+  "security": {
+   "reads_as": "Getting engineering, IT and legal to fix security issues they do not own.",
+   "shown_by": [
+    "detection_response",
+    "appsec",
+    "security_frameworks"
+   ],
+   "line": "Ran remediation with 8 engineering teams; closed 95% of high findings before the audit deadline."
+  },
+  "design": {
+   "reads_as": "Working through product and engineering from the problem to the shipped interface.",
+   "shown_by": [
+    "interaction_design",
+    "design_systems",
+    "prototyping"
+   ],
+   "line": "Partnered with 2 PMs and 6 engineers on checkout; the redesign shipped in 8 weeks and lifted conversion 7%."
+  },
+  "legal": {
+   "reads_as": "Advising sales, product, finance and people teams on matters that cross their lines.",
+   "shown_by": [
+    "commercial_contracts",
+    "risk_mgmt",
+    "outside_counsel"
+   ],
+   "line": "Supported sales, product and finance on 40 enterprise deals a quarter with a 2-day legal turnaround."
   }
  },
  "stakeholder_mgmt": {
@@ -1323,6 +1458,42 @@
     "exec_communication"
    ],
    "line": "Managed the CEO, 3 business sponsors and the target's founders through a 6-month $200M deal; 0 surprises at the board."
+  },
+  "data_ai": {
+   "reads_as": "Setting expectations on what a model can do, when, and how good it will be.",
+   "shown_by": [
+    "ai_ml",
+    "ml_evaluation",
+    "data_modeling"
+   ],
+   "line": "Agreed quality bars with 3 product leads before launch; the model met all 3 and no launch slipped."
+  },
+  "security": {
+   "reads_as": "Keeping leaders and teams aligned on risk: what is accepted, fixed, or escalated.",
+   "shown_by": [
+    "detection_response",
+    "security_frameworks",
+    "risk_mgmt"
+   ],
+   "line": "Reported security risk monthly to the CTO and 5 directors; got 3 risk exceptions closed in a quarter."
+  },
+  "design": {
+   "reads_as": "Bringing product, engineering and leadership along on design direction and trade-offs.",
+   "shown_by": [
+    "interaction_design",
+    "prototyping",
+    "design_systems"
+   ],
+   "line": "Aligned 4 product leads on one navigation model with 2 prototype reviews; it shipped across 3 products."
+  },
+  "legal": {
+   "reads_as": "Managing what the business, executives and counterparties expect from legal, and when.",
+   "shown_by": [
+    "commercial_contracts",
+    "risk_mgmt",
+    "outside_counsel"
+   ],
+   "line": "Set service levels with 6 business teams; legal met the 3-day target on 92% of requests."
   }
  },
  "influence": {
@@ -1597,6 +1768,51 @@
     "risk_mgmt"
    ],
    "line": "Wrote 25 credit memos a year for a $200M portfolio; 23 approved as submitted, and every renewal explained to the client in person."
+  },
+  "software": {
+   "reads_as": "Clear design docs, code reviews and incident write-ups that other engineers can act on.",
+   "shown_by": [
+    "system_architecture",
+    "code_quality",
+    "devops_sdlc"
+   ],
+   "line": "Wrote the design doc for a new event bus; 5 teams reviewed it in a week and adopted it unchanged."
+  },
+  "data_ai": {
+   "reads_as": "Explaining models, results and their limits to people who will build on them or decide with them.",
+   "shown_by": [
+    "ai_ml",
+    "ml_evaluation",
+    "model_training"
+   ],
+   "line": "Presented eval results to the product council; the 2-page write-up decided which of 3 models shipped."
+  },
+  "security": {
+   "reads_as": "Explaining risk and incidents plainly to engineers, executives and sometimes customers.",
+   "shown_by": [
+    "detection_response",
+    "threat_modeling",
+    "security_frameworks"
+   ],
+   "line": "Wrote the customer-facing report for a security incident in 48 hours; churn held flat that quarter."
+  },
+  "design": {
+   "reads_as": "Presenting and defending design work: rationale, trade-offs and the story behind a flow.",
+   "shown_by": [
+    "interaction_design",
+    "prototyping",
+    "visual_design"
+   ],
+   "line": "Presented the new onboarding to 40 people at the product review; it was approved in one session."
+  },
+  "legal": {
+   "reads_as": "Turning legal analysis into short, practical advice for people who are not lawyers.",
+   "shown_by": [
+    "commercial_contracts",
+    "risk_mgmt",
+    "outside_counsel"
+   ],
+   "line": "Rewrote 6 contract playbooks into one-page guides; sales closed 30% more deals without legal review."
   }
  },
  "exec_communication": {
@@ -1943,6 +2159,51 @@
     "key_account_mgmt"
    ],
    "line": "Owned a $150M portfolio of 40 business clients; grew it 12% in a year with 0 charge-offs and 1 watch-list credit worked out."
+  },
+  "software": {
+   "reads_as": "Owning a system or feature end to end: design, build, launch, on-call and what comes after.",
+   "shown_by": [
+    "system_architecture",
+    "backend_services",
+    "devops_sdlc"
+   ],
+   "line": "Owned the billing service end to end, including on-call; uptime rose from 99.5% to 99.95% in 2 quarters."
+  },
+  "data_ai": {
+   "reads_as": "Owning a model in production from data to monitoring, not handing it off after training.",
+   "shown_by": [
+    "model_training",
+    "mlops_serving",
+    "ml_evaluation"
+   ],
+   "line": "Owned the fraud model from data to alerts; it caught $2M more fraud a year at the same false-positive rate."
+  },
+  "security": {
+   "reads_as": "Owning a security area or incident through to the fix, not just the finding.",
+   "shown_by": [
+    "detection_response",
+    "vuln_mgmt",
+    "threat_modeling"
+   ],
+   "line": "Owned detection for cloud infrastructure; built 60 rules and cut mean time to detect from 3 days to 4 hours."
+  },
+  "design": {
+   "reads_as": "Owning a product area's design from first sketch to shipped quality and its results.",
+   "shown_by": [
+    "interaction_design",
+    "design_systems",
+    "visual_design"
+   ],
+   "line": "Owned design for the mobile app's 3 core flows; app store rating rose from 3.9 to 4.6 in a year."
+  },
+  "legal": {
+   "reads_as": "Owning a legal area for the company: commercial, privacy or employment, with no one above to defer to.",
+   "shown_by": [
+    "commercial_contracts",
+    "outside_counsel",
+    "risk_mgmt"
+   ],
+   "line": "Built the commercial legal function as its first hire; handled 500 contracts a year with 1 outside firm."
   }
  },
  "adaptability": {
@@ -2085,6 +2346,51 @@
     "risk_mgmt"
    ],
    "line": "Re-forecast 13-week cash 4 times in a downturn and re-hedged $80M of FX exposure; every payroll and debt payment made on time."
+  },
+  "software": {
+   "reads_as": "Picking up new stacks, codebases and problems fast as the product and company change.",
+   "shown_by": [
+    "system_architecture",
+    "backend_services",
+    "code_quality"
+   ],
+   "line": "Moved from frontend to a Go backend team; shipped 3 production services within the first 2 months."
+  },
+  "data_ai": {
+   "reads_as": "Keeping up with a field that changes every few months: new models, methods and tools.",
+   "shown_by": [
+    "ai_ml",
+    "model_training",
+    "ml_evaluation"
+   ],
+   "line": "Switched our pipeline from a custom model to a hosted LLM in 3 weeks when evals showed a 20% gain."
+  },
+  "security": {
+   "reads_as": "Responding to new threats, tools and systems faster than attackers can use them.",
+   "shown_by": [
+    "detection_response",
+    "threat_modeling",
+    "security_frameworks"
+   ],
+   "line": "Built coverage for 2 new cloud platforms in 6 weeks after an acquisition, with zero incidents."
+  },
+  "design": {
+   "reads_as": "Changing direction when research, data or the business changes, without losing the craft.",
+   "shown_by": [
+    "interaction_design",
+    "prototyping",
+    "visual_design"
+   ],
+   "line": "Re-scoped a redesign mid-project after 8 user tests; the new direction shipped on the original date."
+  },
+  "legal": {
+   "reads_as": "Covering new areas of law as the company grows: new products, markets and regulations.",
+   "shown_by": [
+    "commercial_contracts",
+    "risk_mgmt",
+    "outside_counsel"
+   ],
+   "line": "Took on privacy and employment work beyond commercial law as the company grew from 80 to 400 people."
   }
  },
  "collaboration": {
@@ -2227,6 +2533,51 @@
     "risk_mgmt"
    ],
    "line": "Partnered with credit, treasury and wealth partners on 30 clients; cross-sold 18 treasury and 6 wealth relationships in a year."
+  },
+  "software": {
+   "reads_as": "Working well inside an engineering team: pairing, code review, shared ownership of a codebase.",
+   "shown_by": [
+    "code_quality",
+    "system_architecture",
+    "devops_sdlc"
+   ],
+   "line": "Reviewed 300 pull requests a year and paired weekly with 2 junior engineers, both promoted within 18 months."
+  },
+  "data_ai": {
+   "reads_as": "Working with researchers, engineers and data owners on one model or system.",
+   "shown_by": [
+    "ai_ml",
+    "model_training",
+    "mlops_serving"
+   ],
+   "line": "Co-built a training pipeline with 3 researchers and the data team; training time fell from 5 days to 1."
+  },
+  "security": {
+   "reads_as": "Working with engineering as a partner who helps fix issues, not only reports them.",
+   "shown_by": [
+    "appsec",
+    "threat_modeling",
+    "detection_response"
+   ],
+   "line": "Embedded with 2 product teams for a quarter; their new code had 70% fewer security findings."
+  },
+  "design": {
+   "reads_as": "Designing with others: designers, researchers, PMs and engineers in one shared process.",
+   "shown_by": [
+    "design_systems",
+    "interaction_design",
+    "prototyping"
+   ],
+   "line": "Ran weekly working sessions with 5 engineers on the design system; 40 components shipped in 2 quarters."
+  },
+  "legal": {
+   "reads_as": "Working with colleagues in legal and across the business toward deals and decisions.",
+   "shown_by": [
+    "commercial_contracts",
+    "outside_counsel",
+    "risk_mgmt"
+   ],
+   "line": "Worked with sales and finance on a 3-year enterprise deal worth $4M; it closed 2 weeks ahead of plan."
   }
  },
  "program_mgmt": {
@@ -2623,6 +2974,51 @@
     "key_account_mgmt"
    ],
    "line": "Closed 22 commercial loans worth $90M in a year; every one funded within 45 days of the term sheet with all conditions met."
+  },
+  "software": {
+   "reads_as": "Shipping working software on time: scoping, sequencing and finishing what was started.",
+   "shown_by": [
+    "system_architecture",
+    "devops_sdlc",
+    "code_quality"
+   ],
+   "line": "Delivered a payments migration of 14 services on the planned date with zero customer-facing errors."
+  },
+  "data_ai": {
+   "reads_as": "Getting models from experiment to production on a schedule, with the evals to prove it works.",
+   "shown_by": [
+    "mlops_serving",
+    "ml_evaluation",
+    "model_training"
+   ],
+   "line": "Took a recommendation model from notebook to production in 7 weeks; it served 2M users a day."
+  },
+  "security": {
+   "reads_as": "Delivering security programs and fixes to a deadline: audits, rollouts, incident follow-ups.",
+   "shown_by": [
+    "security_frameworks",
+    "vuln_mgmt",
+    "detection_response"
+   ],
+   "line": "Led SOC 2 Type II readiness in 5 months; passed the audit with no exceptions."
+  },
+  "design": {
+   "reads_as": "Delivering finished, buildable design on the team's schedule, through to launch.",
+   "shown_by": [
+    "design_systems",
+    "interaction_design",
+    "prototyping"
+   ],
+   "line": "Delivered specs for 25 screens across 3 releases; engineering built all of them with no design-caused delays."
+  },
+  "legal": {
+   "reads_as": "Closing deals and matters on the business's timeline without dropping the risk work.",
+   "shown_by": [
+    "commercial_contracts",
+    "outside_counsel",
+    "risk_mgmt"
+   ],
+   "line": "Closed 150 commercial agreements in a year, 95% within the 5-day target."
   }
  },
  "process_improvement": {
@@ -2745,6 +3141,127 @@
     "integration_planning"
    ],
    "line": "Built the screening criteria and diligence checklist used on 30 targets; first look to a committee decision fell from 10 weeks to 6."
+  },
+  "software": {
+   "reads_as": "Making engineering faster and safer: CI/CD, tooling, testing and fewer manual steps.",
+   "shown_by": [
+    "devops_sdlc",
+    "code_quality",
+    "system_architecture"
+   ],
+   "line": "Cut CI time from 40 to 12 minutes and automated releases; deploys went from weekly to 20 a day."
+  },
+  "data_ai": {
+   "reads_as": "Making the model workflow repeatable: pipelines, eval automation, less manual work per experiment.",
+   "shown_by": [
+    "mlops_serving",
+    "ml_evaluation",
+    "data_modeling"
+   ],
+   "line": "Automated the eval and retraining loop; time per experiment fell from 3 days to 4 hours."
+  },
+  "security": {
+   "reads_as": "Automating security work: detections, triage and compliance evidence, so it scales with the company.",
+   "shown_by": [
+    "detection_response",
+    "security_frameworks",
+    "vuln_mgmt"
+   ],
+   "line": "Automated triage for 70% of alerts with SOAR playbooks; analyst time per alert fell from 20 to 5 minutes."
+  },
+  "legal": {
+   "reads_as": "Scaling legal work with templates, playbooks, intake and tools instead of more headcount.",
+   "shown_by": [
+    "commercial_contracts",
+    "risk_mgmt",
+    "vendor_mgmt"
+   ],
+   "line": "Built 8 contract templates and a self-serve NDA flow; legal touched 60% fewer low-risk agreements."
+  }
+ },
+ "genai_llm": {
+  "software": {
+   "reads_as": "Building product features and services on top of LLMs: APIs, agents, retrieval, guardrails.",
+   "shown_by": [
+    "system_architecture",
+    "backend_services",
+    "apis"
+   ],
+   "line": "Built an LLM-backed support agent behind our API; it resolved 35% of tickets with no handoff in its first month."
+  },
+  "data_ai": {
+   "reads_as": "Training, adapting and evaluating language models and the systems around them.",
+   "shown_by": [
+    "model_training",
+    "ml_evaluation",
+    "mlops_serving"
+   ],
+   "line": "Fine-tuned an 8B model on 50k domain examples; it beat the base model on 4 of 5 evals at a third of the cost."
+  },
+  "security": {
+   "reads_as": "Securing LLM systems and using them in security work: prompt injection, model abuse, AI-assisted detection.",
+   "shown_by": [
+    "threat_modeling",
+    "appsec",
+    "detection_response"
+   ],
+   "line": "Threat-modeled 3 LLM features for prompt injection; fixes blocked all 40 attack cases in the red-team suite."
+  },
+  "design": {
+   "reads_as": "Designing interfaces for AI features: prompts, uncertainty, recovery from wrong answers.",
+   "shown_by": [
+    "interaction_design",
+    "prototyping",
+    "design_systems"
+   ],
+   "line": "Designed the AI assistant's answer and correction flow; prototype tests cut abandoned sessions by 25%."
+  },
+  "legal": {
+   "reads_as": "Advising on AI products and contracts: model terms, training data rights, AI regulation.",
+   "shown_by": [
+    "commercial_contracts",
+    "ai_governance",
+    "risk_mgmt"
+   ],
+   "line": "Wrote the AI terms for 120 enterprise contracts and a model-use policy adopted across 4 product teams."
+  }
+ },
+ "security_privacy": {
+  "software": {
+   "reads_as": "Building software that is secure and private by design: auth, data handling, secure defaults.",
+   "shown_by": [
+    "system_architecture",
+    "backend_services",
+    "devops_sdlc"
+   ],
+   "line": "Moved 12 services to short-lived credentials and encrypted PII at rest; passed the SOC 2 audit with no findings."
+  },
+  "data_ai": {
+   "reads_as": "Keeping training data, models and pipelines safe and compliant: access, PII, data protection.",
+   "shown_by": [
+    "data_modeling",
+    "mlops_serving",
+    "ai_ml"
+   ],
+   "line": "Built PII scrubbing into the training pipeline for 2 TB of logs; zero sensitive records reached the model."
+  },
+  "security": {
+   "reads_as": "The security discipline itself: protecting systems, data and people across the company.",
+   "shown_by": [
+    "detection_response",
+    "threat_modeling",
+    "security_frameworks"
+   ],
+   "line": "Led the security program for a 300-person company; cut critical vulnerabilities open by 80% in a year."
+  },
+  "legal": {
+   "reads_as": "The privacy and security law behind the product: data protection terms, breach duties, regulators.",
+   "shown_by": [
+    "commercial_contracts",
+    "risk_mgmt",
+    "outside_counsel"
+   ],
+   "line": "Negotiated data protection terms in 90 customer contracts and led the response to 2 regulator inquiries."
   }
  }
 }

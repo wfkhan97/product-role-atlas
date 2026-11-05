@@ -1,0 +1,18 @@
+Chris Diaz
+New York, NY
+
+EXPERIENCE
+Analytics Engineer, Consumer subscription company — New York, NY                   Jan 2024 – present
+- Built 120 dbt models on Snowflake that replaced 40 hand-run SQL reports; finance closes 2 days faster
+- Orchestrated nightly pipelines with Airflow and added data quality tests that catch 95% of late or broken loads
+- Moved event data from batch to streaming with Kafka; dashboards now refresh every 5 minutes
+
+Data Analyst, Same company                                                         Jun 2021 – Dec 2023
+- Wrote SQL and Python analyses of churn for the growth team; a pricing change cut churn 8%
+- Built Looker dashboards used by 150 employees
+
+EDUCATION
+Baruch College — B.B.A. Statistics, 2021
+
+SKILLS
+SQL, Python, dbt, Airflow, Snowflake, Kafka, Looker, Git
