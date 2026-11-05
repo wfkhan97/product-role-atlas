@@ -1966,6 +1966,57 @@ positives, now excluded and pinned in `tests/python/test_roles_tech.py`: IT proj
 corporate and regional physical security, a "Systems Engineering Manager" in metrology, apparel designers at a
 retailer ("Designer - Women's Tek Gear", "Associate Technical Designer"), aerospace data-handling engineers.
 
+**PR 3 (`feat/tech-taxonomy`): the set's skills, extraction and graph.** Part C of the checklist, on a corpus the
+set's own rules collected: `pipeline.scrape --roles tech --no-db` over the Greenhouse, Ashby and Lever boards on this
+Mac (7,618 postings from 1,095 employers, 6,796 in the US; nothing pushed to the backlog, which holds no tech rows
+yet; `data/raw/jobs_tech/` is now ignored like the other raw folders). Fortune boards (Workday and the search families)
+join with the first `refresh-tech` run.
+
+- **Phrases first.** `role_terms --roles tech` per role, read against the shared skills' shares: the shared technical
+  skills are too broad for engineering postings ("AI" alone tagged 82% of them, `system_architecture` 87%, because
+  every posting says "architecture" and "infrastructure"), and nothing named a language, a design craft or a contract.
+- **48 skills `only: ["tech"]`**, probed with `skill_probe` until each role's share and matched sentences read right:
+  seven language families (Java/JVM, JavaScript/TypeScript, Go, C/C++, Rust, Ruby, C#), frontend, backend services,
+  databases, algorithms, performance and concurrency, Linux and systems, code quality, infrastructure as code,
+  observability tools; orchestration, streaming, lakehouse formats, deep learning frameworks, model training, model
+  evaluation, MLOps and serving, inference and GPU optimisation, LLM frameworks, research publications; threat
+  modelling, application security, detection and response, offensive security, vulnerability management,
+  cryptography, security certifications; interaction design, visual design, prototyping, design systems,
+  accessibility, design critique, design portfolio; commercial contracts, product counselling, privacy law,
+  intellectual property, corporate law, litigation, outside counsel, contract management tools. Five clusters
+  (Software engineering, Data & ML engineering, Security engineering, Design craft, Legal practice). A skill the taxonomy
+  had got a wording, not a twin: CI/CD and observability stay `devops_sdlc`, Kubernetes `cloud`, RAG and agents
+  `genai_llm`, firmware `hardware`.
+- **Six shared skills worded for the set** (`patterns_for: {"tech": ...}`): `system_architecture` (system design,
+  distributed systems, technical design: 41% instead of 87%), `ai_ml` (no bare "AI": ML engineers 77%, the rest 11
+  to 35%), `ux_design_collab` (an engineer's partnership with design), `quality_testing` (automated tests),
+  `figma` (Adobe, Framer, ProtoPie) and `gtm` (no bare "commercial", which tagged 74% of counsel postings).
+- **13 MBA skills widened to `["mba", "tech"]`**: security frameworks, AI governance, data governance, IT risk,
+  third-party risk, GRC tools, law degree, regulatory change, policy management, board governance, employment law
+  (`hr_compliance`), dashboards and BI development tools.
+- **The other sets do not move.** `tax.for_roles("product")` and `("mba")` give the same 98 and 278 skills with the
+  same patterns as before (checked against `HEAD`, and pinned by `tests/python/test_taxonomy.py`), so their extraction
+  cannot change and is not rerun here. The extract text cache now fingerprints a set's own view of the taxonomy, not the
+  whole file, so the next tech change leaves the MBA and product caches valid; this PR changes `pipeline/extract.py`
+  itself, so the first MBA and product refreshes after it retag every text once (the MBA build has 180 minutes).
+- **Evidence and field entries.** An evidence entry per new skill; 57 field entries for the five fields, on the twelve
+  skills four of them ask for (the behaviours, prioritisation, cross-functional work, stakeholder management, process
+  improvement, GenAI, security and privacy), each carrier taken from the skill's co-occurring skills in the field's
+  postings. `evals/run_taxonomy.py` now reads the tech set's fields beside the MBA ones (coverage counted per set) and
+  `graph_tech.json`; without `data/processed/jobs_tech.json` it reports the tech fields as waiting and checks their
+  entries for shape only. All five parts pass on the local corpus: coverage 456, grounding 1,251, published 1,247.
+- **Extraction and graph.** `pipeline.extract --roles tech` and `pipeline.build_graph --roles tech` (US only, the
+  `grad` entry mark counted per ladder) build: 6,796 postings, 762 employers, 159 skills, a 0.7 MB index and 7.3 MB of
+  role files. `evals/extraction_baseline_tech.md` (`role_coverage --roles tech`) is committed from this local corpus;
+  the processed file and the web files are not: they come from the store, so `refresh-tech.yml` now has the build job
+  that writes them and opens a `data/tech-<date>` pull request, merged by the job when the set's evals and CI pass.
+- **What the first numbers say.** Software 3,867 postings at 654 employers, ML/AI 1,232 (363), security 621 (265),
+  design 414 (240), counsel 353 (184), data 294 (187), UX research 15 (15). UX research stays a small role (`*` in the
+  baseline) until the Fortune boards are in; folding it into `product_designer` is decided on the first refresh's
+  numbers. Behaviours top every role's list; the set's own skills sit at 4 to 6 per posting (median).
+- **Not done (checklist C10, C11):** the model audit of the new skills (`skill_audit --roles tech`, needs a model
+  key) and their definitions and depth (`pipeline.depth_gen`); both are under Later.
+
 ## Later
 
 - The skills pass ("Adding a role", part C) for the 15 roles added after the first 50: `ai_transformation`,
@@ -2011,7 +2062,7 @@ retailer ("Designer - Women's Tek Gear", "Associate Technical Designer"), aerosp
   variables, and the self-hosted runner only if a family is blocked.
 - A tie-break between carriers the resume shows equally strongly that prefers the one closer to the behaviour (user
   research over discovery for customer obsession), instead of the postings' order (2026-11-01 product refresh).
-- More families: engineering, design and legal are the tech role set (2026-11-05, above; PRs 2 to 5 to come). Law firms on the registry for the LLM graduates' other half. More companies (full Fortune 500). The product engineer and AI transformation
+- More families: engineering, design and legal are the tech role set (2026-11-05, above; PRs 4 and 5 to come). Its checklist items C10 and C11: `skill_audit --roles tech` (a model judges about 200 postings for the 48 new skills) and the new skills' definitions and depth (`pipeline.depth_gen`). Law firms on the registry for the LLM graduates' other half. More companies (full Fortune 500). The product engineer and AI transformation
   roles landed on 2026-10-30; once they hold postings: a sample resume with a product engineer line in `evals/resumes/`,
   `calibrate.mjs --roles mba` for `ai_transformation`'s bands, and Texas Instruments' eleven "Product Marketing
   Engineer" postings (semiconductor marketing, kept as `pmm` because software firms post technical PMMs under the title).

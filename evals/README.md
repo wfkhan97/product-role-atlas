@@ -167,6 +167,10 @@ The matcher evals above check how a resume is read. These check how postings are
 
 A shared skill serves both role sets, so a change to one of its patterns means both sets of steps.
 
+- [extraction_baseline_tech.md](extraction_baseline_tech.md): the tech role set, the same report (`role_coverage --roles tech`
+  after `pipeline.extract --roles tech`). A skill's tech wording (`patterns_for: {"tech": ...}`) and a tech-only skill move
+  this file alone; `tests/python/test_taxonomy.py` pins that the product and MBA sets never read them.
+
 ## Pipeline evals for the MBA role set
 
 The evals above check a resume and the tags of a posting. These check the data layer under them: which role and
@@ -292,6 +296,8 @@ The stratified taxonomy (`PLAN.md`, "A stratified taxonomy") adds a `kind` to ev
 | grounding | Each carrier a field entry names is asked for together with the skill in at least 15% of the field's US postings that ask for the skill, company-balanced; a role override is checked the same way on the role's own postings. The baseline prints, beside each entry's carriers, the five carriers the postings rank highest (share times log-lift), so a reader can see where the hand and the data differ. |
 | carriers | Each carrier a behaviour's or a practice's evidence names is asked for with it in at least 10% of some field's postings that ask for it. A carrier is field-specific (pitch books carry communication in banking), so this is the maximum over fields. |
 | published | `web/data/graph.json`, `graph_mba.json` and `taxonomy*.json` carry what the source files say: every skill node has the taxonomy's kind and its evidence entry under `how_shown`, the field entries appear as `fields` with the postings' side (`n`, `with`, `subs`) beside the text, and `meta.kinds` is the current table. A build older than the files fails here. |
+
+**The tech set.** Its five fields (`pipeline/roles_tech.py`, `GROUPS`) are read from `data/processed/jobs_tech.json` beside the MBA fields and counted apart: a skill four tech fields ask for needs an entry per asking tech field. A checkout without that file (CI, until the first `refresh-tech` lands) reports the tech fields as waiting and checks their entries for shape only; `refresh-tech.yml` runs the full eval on the fresh data.
 
 **What these evals do not show.** The carriers are checked against postings, which say what employers ask for together,
 not what a resume reader accepts as evidence. The readings and resume lines are editorial; no reader has judged them.

@@ -235,6 +235,7 @@ LADDERS = {
         "associate": "Analyst", "mid": "Associate / AVP", "senior": "Vice President", "staff": "Executive Director / SVP",
         "director": "Managing Director"}},
 }
+LEVEL_LABELS = LADDERS["engineering"]["levels"]
 BANK_INDUSTRIES = roles_mba.BANK_INDUSTRIES
 BANKS = {c.lower() for c in roles_mba.BANKS}
 
@@ -358,8 +359,8 @@ def export():
 
 
 def write_export(path=os.path.join(os.path.dirname(HERE), "web", "data", "roles_tech.json")):
-    """web/data/roles_tech.json, the rules the browser reads. The graph build of the tech set will call this; until it
-    exists, `python -m pipeline.roles_tech` writes the file."""
+    """web/data/roles_tech.json, the rules alone. `pipeline.build_graph --roles tech` writes the same file with the counts and
+    employers it knows added; this writes it where no graph build has run."""
     with open(path, "w") as f:
         f.write(json.dumps(export(), indent=1, ensure_ascii=False) + "\n")
     return path

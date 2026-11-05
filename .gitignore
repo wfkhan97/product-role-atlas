@@ -20,6 +20,7 @@ evals/resumes/external/
 # the raw postings backlog lives in the Supabase project (pipeline/backlog.py pull); history before 2026-10-19 still holds the files
 data/raw/jobs/
 data/raw/jobs_mba/
+data/raw/jobs_tech/
 
 # the catalog with the prior-term syllabus digest (pipeline.catalog_export); this machine only, never the public file
 web/data/local/

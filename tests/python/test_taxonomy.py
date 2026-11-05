@@ -2,12 +2,14 @@
 skill has a kind, every skill says how a resume shows it, and the field entries name real fields and real carriers."""
 import pytest
 
-from pipeline import roles_mba, tax
+from pipeline import roles_mba, roles_tech, tax
 
 T = tax.load()
 E = tax.load_evidence()
 F = tax.load_fields()
 GROUPS = {"consulting_strategy", "finance", "banking_investing", "operations", "product", "marketing", "sales", "supply_chain", "people", "risk", "analytics"}
+# the tech set's fields (PLAN.md, "A third role set"): field entries may name them too
+GROUPS |= set(roles_tech.GROUPS)
 
 
 def test_every_skill_has_a_known_kind():
@@ -83,3 +85,19 @@ def test_the_stratification_files_do_not_shadow_the_depth_entries():
     assert os.path.dirname(tax.FIELDS_PATH) == os.path.dirname(tax.PATH)
     blank = [sid for sid, d in build_graph.DEPTH.items() if not d.get("what")]
     assert blank == [], blank
+
+
+def test_the_tech_set_never_reaches_the_product_or_mba_extraction():
+    """A tech-only skill and a skill's tech wording ("patterns_for": {"tech": ...}) stay out of the other sets: a change
+    made for the tech set cannot move a product or MBA tag (the zero-diff the plan relies on instead of re-extracting)."""
+    for rs in ("product", "mba"):
+        view = tax.for_roles(rs, T)["skills"]
+        assert not [s["id"] for s in view if s.get("only") == ["tech"]]
+        by_id = {s["id"]: s for s in T["skills"]}
+        for s in view:   # each set reads its own wording, or the skill's own patterns; never the tech wording
+            src = by_id[s["id"]]
+            assert s["patterns"] == src.get("patterns_for", {}).get(rs, src["patterns"]), (rs, s["id"])
+
+
+def test_field_ids_do_not_repeat_across_role_sets():
+    assert not set(roles_tech.GROUPS) & set(roles_mba.GROUPS)
