@@ -2,6 +2,7 @@
 in any case, the upload path, the listing of feedback per user, and that neither script runs without the key. No
 network."""
 import json
+import os
 
 import pytest
 
@@ -52,10 +53,10 @@ def no_key(monkeypatch):
 
 @pytest.fixture
 def apprentice(tmp_path):
-    d = tmp_path / "apprentice"
-    (d / "examples" / "pmm-nyc").mkdir(parents=True)
-    (d / "examples" / "pmm-nyc" / "map.json").write_text(json.dumps({"version": 2, "student": {"slug": "pmm-nyc"}}))
-    return d
+    """A repository root in miniature: the example's map, and no student folder yet."""
+    (tmp_path / "pipeline" / "apprentice" / "examples" / "pmm-nyc").mkdir(parents=True)
+    (tmp_path / "pipeline" / "apprentice" / "examples" / "pmm-nyc" / "map.json").write_text(json.dumps({"version": 2, "student": {"slug": "pmm-nyc"}}))
+    return [str(p) for p in map_publish.apprentice_dirs(str(tmp_path))]
 
 
 def many_users(n, extra):
@@ -70,19 +71,25 @@ def test_find_user_pages_through_and_matches_any_case():
     assert map_publish.find_user(FakeClient(many_users(3, [])), "nobody@example.com") is None
 
 
-def test_map_path_prefers_students_then_examples(apprentice):
-    assert map_publish.map_path("pmm-nyc", [str(apprentice)]).endswith("examples/pmm-nyc/map.json")
-    (apprentice / "students" / "pmm-nyc").mkdir(parents=True)
-    (apprentice / "students" / "pmm-nyc" / "map.json").write_text("{}")
-    assert map_publish.map_path("pmm-nyc", [str(apprentice)]).endswith("students/pmm-nyc/map.json")
-    assert map_publish.map_path("nobody", [str(apprentice)]) is None
+def test_map_path_prefers_the_students_folder_then_the_examples(apprentice, tmp_path):
+    assert map_publish.map_path("pmm-nyc", apprentice).endswith("pipeline/apprentice/examples/pmm-nyc/map.json")
+    (tmp_path / "data" / "apprentice" / "students" / "pmm-nyc").mkdir(parents=True)
+    (tmp_path / "data" / "apprentice" / "students" / "pmm-nyc" / "map.json").write_text("{}")
+    assert map_publish.map_path("pmm-nyc", apprentice).endswith("data/apprentice/students/pmm-nyc/map.json")
+    assert map_publish.map_path("nobody", apprentice) is None
     with pytest.raises(ValueError):
-        map_publish.map_path("../etc", [str(apprentice)])
+        map_publish.map_path("../etc", apprentice)
+
+
+def test_the_default_folders_are_in_this_repository():
+    dirs = [os.path.relpath(d, map_publish.ROOT) for d in map_publish.apprentice_dirs()]
+    assert dirs == [os.path.join("data", "apprentice", "students"), os.path.join("pipeline", "apprentice", "examples")]
+    assert map_publish.map_path("pmm-nyc").endswith(os.path.join("pmm-nyc", "map.json")), "the tracked example is always there"
 
 
 def test_publish_uploads_to_the_users_folder(apprentice, capsys):
     c = FakeClient([{"id": UID_B, "email": "other@example.com"}, {"id": UID_A, "email": "student@example.com"}])
-    out = map_publish.publish("pmm-nyc", "STUDENT@example.com", c, [str(apprentice)])
+    out = map_publish.publish("pmm-nyc", "STUDENT@example.com", c, apprentice)
     assert out == (f"maps/{UID_A}/map.json", UID_A)
     assert c.uploads == [(f"{UID_A}/map.json", "application/json")]
     assert json.loads(c.objects[f"{UID_A}/map.json"])["version"] == 2
@@ -92,14 +99,14 @@ def test_publish_uploads_to_the_users_folder(apprentice, capsys):
 
 def test_publish_refuses_an_unknown_email_and_a_missing_map(apprentice, capsys):
     c = FakeClient([{"id": UID_A, "email": "student@example.com"}])
-    assert map_publish.publish("pmm-nyc", "stranger@example.com", c, [str(apprentice)]) is None
-    assert map_publish.publish("no-such", "student@example.com", c, [str(apprentice)]) is None
+    assert map_publish.publish("pmm-nyc", "stranger@example.com", c, apprentice) is None
+    assert map_publish.publish("no-such", "student@example.com", c, apprentice) is None
     assert c.uploads == []
     assert "invite them first" in capsys.readouterr().out
 
 
 def test_main_publishes_with_the_key(key, apprentice, monkeypatch):
-    monkeypatch.setattr(map_publish, "apprentice_dirs", lambda root=None: [str(apprentice)])
+    monkeypatch.setattr(map_publish, "apprentice_dirs", lambda root=None: apprentice)
     c = FakeClient([{"id": UID_A, "email": "student@example.com"}])
     assert map_publish.main(["pmm-nyc", "student@example.com"], client=c) == 0
     assert c.uploads == [(f"{UID_A}/map.json", "application/json")]
