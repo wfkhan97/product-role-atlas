@@ -1,4 +1,4 @@
-# Grounding for pmm-nyc · Product Marketing Manager · 2026-11-04
+# Grounding for pmm-nyc · Product Marketing Manager · 2026-11-05
 
 Read from the job atlas, this repository's `web/data/` (postings as of 2026-10-30, United States). Nothing here came from a model.
 

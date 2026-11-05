@@ -34,9 +34,10 @@ the raw method does not have:
    model's memory. Level 1 is built from the role's skills; the tracks are the role's skill areas.
 2. **Coursework as raw material.** The student's current and Spring classes are inputs; cards say which class a project
    grows out of or which class covers a fundamental.
-3. **Gradual release.** Levels are labelled by who does the work: Level 1 "I do" (the agent explains), Level 2 "we
-   do" (the student builds with the agent beside them), Level 3 and the Reach "you do" (real users; the agent
-   recedes). This is the product's pedagogy, and it shows on the page.
+3. **Guided first, then on your own.** World 1 opens with two story cards that walk the student through one line of
+   their own résumé each, with a live read and a practice prompt; the build cards follow; World 2 is built with help
+   beside them; World 3 and the Reach are theirs, for real users. The old "I do / we do / you do" labels are gone from
+   the page (2026-11-05); the framing stays in each world's `who` line.
 
 This is deliberately thin: no rail, no accounts, no server, no model call in any script. The deterministic parts are
 scripts; the judgment is the skill, run in Claude Code.
@@ -75,7 +76,7 @@ writes "no roster" for the classes, and `check` and `render` read the codes and 
 
 | File | Written by | What it is |
 |---|---|---|
-| `intake.md` | the owner, with the student | the answers to `INTAKE.md`: a yaml block of short answers the scripts read (`roles:`, campus, program, companies, posting URL and title, course codes, hours, the clock, the name on the page) and eight prose sections |
+| `intake.md` | the owner, with the student | the answers to `INTAKE.md`: a yaml block of short answers the scripts read (`roles:`, campus, program, companies, posting URL and title, course codes, hours, the clock, the name on the page) and nine prose sections (the ninth, "More about you": side projects, talks, application essays; it goes into `profile.md` for the read) |
 | `posting.md`, `profile.md` | the owner, or `ground.mjs` from the intake when left empty | the posting as published, with its URL and title; the résumé or LinkedIn text plus what the student has built and the strangest fit. `check.mjs` looks for every card's quotes in these two files |
 | `grounding.json`, `grounding.md` | `ground.mjs` | what the atlas knows (below) |
 | `research/*.md` | the skill's four subagents, then its synthesis | company research, one file per theme, each with a Sources list (URL, date read); `synthesis.md` answers "what is this company betting on that nobody has shown working yet?" |
@@ -102,7 +103,10 @@ re-implemented and nothing calls a model.
 - **The person's read:** the atlas matcher on `profile.md`, the way the fit page runs it on a résumé; the band (New to
   the field, Relevant foundation, Qualified for the role, Strong match; never a score) and each core and common skill
   in the atlas's four states: *shows* (evidenced, or shown through a way of working), *shows in other words*
-  (transferable), *must evidence better* (named, not shown; presumed from a role held), *must build* (a gap).
+  (transferable), *must evidence better* (named, not shown; presumed from a role held), *must build* (a gap). Each
+  row keeps the lines that showed it and, apart, its `work_lines`: bullets, the summary and the profile's prose of six
+  words or more (never a course, a degree, a skills list, a title or a heading). The skills carry `shown_by`, the slots
+  of `pipeline/evidence.json` (artefacts, verbs, measures, counterparts). The story cards read both.
 - **The posting**, read as the pipeline reads one: which skills it names (`posting.names`).
 - **The classes:** every class in the Spring 2027 Cornell Tech roster (`config.json`, `catalogPath`) that the atlas
   course reader says covers one of the person's gap skills: code, title, instructors, eligibility, the gaps covered
@@ -121,8 +125,8 @@ re-implemented and nothing calls a model.
 ## The map: `map.json`, version 2
 
 The atlas reads this file (`docs/GRADBUDDY_CONTRACT.md`, "The apprentice map"). The skill writes
-`student`, `company`, `posting.url` and `posting.title`, `gap_sentence`, `tracks` and `cards`. `assemble.mjs` writes
-the rest and keeps every part the skill or the owner wrote.
+`student`, `company`, `posting.url` and `posting.title`, `gap_sentence`, `tracks` and the build `cards`. `assemble.mjs`
+writes the rest, the story cards included, and keeps every part the skill or the owner wrote.
 
 ```
 { "version": 2, "published": "2026-11-03", "atlas_generated": "2026-10-30",           // assemble
@@ -138,25 +142,42 @@ the rest and keeps every part the skill or the owner wrote.
   "read": { "band", "band_label", "brings": [ { "id", "name", "state", "line" } ], "marked_gaps": [ids],
             "how_you_work": { "shows": [ids], "rest": [ids] } },                        // assemble
   "tracks": [ { "id", "label", "atlas_area" } ],                                        // skill
-  "worlds": [ { "n": 1|2|3|"reach", "label", "release", "who", "clear": k, "optional"?, "missions": [card ids] } ],  // assemble
+  "worlds": [ { "n": 1|2|3|"reach", "label", "who", "clear": k, "optional"?, "missions": [card ids] } ],  // assemble
   "cards": [ { "id", "level": 1|2|3|"reach", "track", "title", "ship", "hours", "window",
                "why_role": { "text", "posting_quote" }, "why_company": { "text", "research_file", "url" },
                "why_person": { "text", "profile_quote" }, "atlas_skills": [ids], "classes": [codes], "users"?,
                "sources": [ { "title", "url", "read" } ],
-               "shipped"?: date, "changed"?: date, "declined"?: true, "reply"?: { "text", "date" } } ] }   // skill; the last four by the owner
+               "shipped"?: date, "changed"?: date, "declined"?: true, "reply"?: { "text", "date" } },   // skill; the last four by the owner
+             { "id": "s1-<skill>", "kind": "story", "level": 1, "track", "title", "ship", "hours": 1, "window",
+               "skill", "state", "line", "what", "reads_as", "shown_by": { "artefacts", "verbs", "measures", "counterparts" },
+               "prompt", "why_role": { "text" }, "why_person": { "text", "profile_quote" }, "atlas_skills": [skill],
+               "classes": [], "sources": [ ... ], "shipped"? ... } ] }                                    // assemble; the owner's four keys survive
 ```
 
 The worlds are the levels in order. A world clears after k of its n missions: World 1 at 2, World 2 at 2, World 3 at
 1; the Reach is optional and never clears or blocks. `assemble.mjs` writes these defaults, never above the count; a
 `clear` the owner set by hand stays. A declined card leaves its world's n.
 
+**The story cards** (2026-11-05). World 1 opens with up to two cards `assemble.mjs` writes from the grounding, never
+the skill: each takes one skill the first role's read half shows (`must evidence better`: named, not shown; `shows in
+other words`: shown in another field's words) that sits on the tree and has a work line, the posting's skills first,
+then the larger share. The card carries the line as it stands, what the skill means in this field (`reads_as`, else
+`what`), the slots a line that shows it fills (`shown_by`), two why lines with the share in words and a `prompt` the
+person pastes into any model: it quotes the line, names the slots, asks three questions and drafts three lines under 30
+words, and writes `[ ]` where a number goes. Nothing in it is invented. The atlas draws the card with a box that reads
+a new line live, with the matcher of the map's role, and Copy for the prompt (`web/app.js`, `storyControls`). The
+owner's `shipped`, `changed`, `declined` and `reply` on a story card survive a re-assemble by id; a story card the
+grounding no longer picks goes. The owner marks one shipped once the line is on the résumé.
+
 ## The rules `check.mjs` holds
 
 It prints one line per failure and exits 1 on any; a note does not fail. It fails on:
 
 - a map that is not version 2, or that misses `role_class`, `tree`, `read` or `worlds`;
-- a card level other than 1, 2, 3 or `"reach"`; Level 1 with other than one to six cards; Level 2 with other than
-  three; Level 3 with other than one; more than one Reach card;
+- a card level other than 1, 2, 3 or `"reach"`; Level 1 with other than one to six build cards; Level 2 with other
+  than three; Level 3 with other than one; more than one Reach card; more than two story cards, or one outside World
+  1, with a skill off the tree, a state other than the two half-shown ones, a line not in `profile.md`, a prompt that
+  does not quote the line, or a `why_person.profile_quote` other than the line;
 - a world list other than 1, 2, 3 (and the Reach when it has a card); a mission that is not a card of that level; a
   `clear` above the world's missions;
 - a tree, read or posting id that is not in the role set's taxonomy; more than eight marked gaps, or one off the tree;
@@ -177,10 +198,10 @@ and research. It exists for checking a draft by hand, never for a real map. The 
 One self-contained HTML file, light mode only, no external fonts or scripts: the owner's check view, not the atlas's
 drawing. The header carries the name on the page, the role, the company, the posting, the gap sentence, and the line
 that the name is made up (and, on the example, that the person is fictional). The grid has the worlds across (Level 1,
-2, 3 and the Reach), each with its release label and its "Ship k of these n to clear" line, and the tracks down. A card
+2, 3 and the Reach), each with its `who` line and its "Ship k of these n to clear" line, and the tracks down. A card
 shows its title and window closed; open, it shows what ships, the three why lines with their evidence, the skills
 (atlas labels, resolved at render time), the classes (roster titles, resolved at render time), the users and the
-sources as links. One card is open at a time; the arrow keys move, Enter opens, Escape closes. Under the grid, the
+sources as links; a story card shows the line today, what the skill means here, the slots and the practice prompt. One card is open at a time; the arrow keys move, Enter opens, Escape closes. Under the grid, the
 class tree is a plain list by place (trunk, shared, each role's own branch, How you work, more) with each skill's state,
 after the read. "Print" lays the worlds out as a one-page summary. The footer reads "Grounded in <postings_n> postings
 for <role label> · product-role-atlas · <date>".
