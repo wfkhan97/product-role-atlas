@@ -1,12 +1,14 @@
-/* Atlas data layer: the two role sets (product, mba) behind one interface. Pure data, no DOM.
+/* Atlas data layer: the role sets (product, mba, and tech behind CONFIG.TECH_ENABLED) behind one interface. Pure data, no DOM.
    Files: data/graph_mba.json (index) + data/graph_mba/<role>.json (one role's postings, on demand) + _evidence.json;
-   data/graph.json (the product set, one file); data/subskills*.json; data/bands*.json. */
+   data/graph.json (the product set, one file); data/graph_tech.json + graph_tech/<role>.json (engineering, design,
+   legal: PLAN.md, "A third role set"); data/subskills*.json; data/bands*.json. */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory;   // node: require("web/atlas.js")({ load, Matcher })
-  else root.Atlas = factory({ load: url => fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); }), Matcher: root.Matcher });
+  else root.Atlas = factory({ load: url => fetch(url).then(r => { if (!r.ok) throw new Error(`${url}: ${r.status}`); return r.json(); }), Matcher: root.Matcher, config: () => root.CONFIG || {} });
 })(typeof self !== "undefined" ? self : this, function (deps) {
   "use strict";
   const { load, Matcher } = deps;
+  const config = deps.config || (() => ({}));
   // One load per file. A load that fails leaves the cache, so the next call tries again (a network blip must not
   // need a page reload); the same holds for index() and product(), which are built from these files.
   const cache = {};
@@ -27,6 +29,11 @@
   // (the product set's family and the MBA Product Marketing Manager), and the two are different roles
   const PRODUCT_NS = "product.";
   const productKey = f => PRODUCT_NS + f;
+  // the tech set's roles are namespaced the same way ("tech.software_engineer"); its fields keep their own ids
+  const TECH_NS = "tech.";
+  const techKey = f => TECH_NS + f;
+  // surfaces whose evals do not cover the tech set yet (the skill map, the games) read the product and MBA roles only
+  const shownEverywhere = r => !!r && r.set !== "tech";
 
   // ---------- American spelling on screen (PLAN.md v16, step 5): a display-time map, the word list is data ----------
   // data/spelling_us.json: whole words, stems with their suffix families, and the words each rule keeps. Applied by
@@ -85,7 +92,9 @@
   let indexP = null;
   function index() {
     // one sentence per role on what the job is (web/data/role_blurbs.json), optional: an index without it still loads
-    return indexP ||= retrying(() => Promise.all([fetchJson("data/graph_mba.json"), fetchJson("data/subskills_mba.json"), fetchJson("data/role_blurbs.json").catch(() => ({})), spellingP()]).then(([M, SUBS, BLURBS]) => {
+    // the tech set, when CONFIG.TECH_ENABLED: its index, or nothing (a missing file never breaks the page)
+    const techP = config().TECH_ENABLED ? Promise.all([fetchJson("data/graph_tech.json"), fetchJson("data/subskills_tech.json").catch(() => ({}))]).catch(() => [null, null]) : Promise.resolve([null, null]);
+    return indexP ||= retrying(() => Promise.all([fetchJson("data/graph_mba.json"), fetchJson("data/subskills_mba.json"), fetchJson("data/role_blurbs.json").catch(() => ({})), spellingP(), techP]).then(([M, SUBS, BLURBS, , [T, TSUBS]]) => {
       if (!M.us) { M.us = true; for (const s of M.skills) americanize(s); for (const c of Object.values(M.clusters || {})) if (c && c.label) c.label = us(c.label); for (const list of Object.values(SUBS)) for (const x of list) { if (x.name) x.name = us(x.name); if (x.example) x.example = us(x.example); } }
       const roles = {}, groups = [];
       for (const g of M.groups) {
@@ -97,11 +106,29 @@
         }
       }
       groups.push({ ...PRODUCT_GROUP, roles: [], nOpen: null, country: M.meta.country, generated: null });
+      if (T) {
+        if (!T.us) { T.us = true; for (const s of T.skills) americanize(s); for (const c of Object.values(T.clusters || {})) if (c && c.label) c.label = us(c.label); }
+        for (const g of T.groups) {
+          groups.push({ id: g.id, label: g.label, set: "tech", roles: g.families.map(techKey), nOpen: g.families.reduce((a, f) => a + T.roles[f].n_open, 0), country: T.meta.country, generated: T.meta.generated });
+          for (const f of g.families) {
+            const r = T.roles[f];
+            roles[techKey(f)] = { id: techKey(f), family: f, set: "tech", group: g.id, label: r.label, blurb: BLURBS[techKey(f)] || "", nOpen: r.n_open, n: r.n, nCompanies: r.n_companies, ladder: r.ladder, defining: new Set(r.defining.map(d => d.id)), definingList: r.defining, asks: r.asks, credentials: r.credentials, small: r.small, file: r.file, entry: r.entry, sponsorship: r.sponsorship || null };
+          }
+        }
+      }
       // the mean share of each skill over the MBA roles with postings: what "distinctive" is measured against, in both
       // sets (a role added since the last extraction has none yet and is not counted)
       const fams = Object.keys(M.families).filter(f => M.roles[f] && M.roles[f].n), baseline = {};
       for (const s of M.skills) baseline[s.id] = fams.reduce((a, f) => a + ((s.by_family || {})[f] || 0), 0) / fams.length;
-      return { M, SUBS, BLURBS, roles, groups, baseline, skillById: Object.fromEntries(M.skills.map(s => [s.id, s])) };
+      // the tech set's distinctiveness is measured against the MBA and tech roles together: against business roles
+      // alone, "python" would define all seven engineering roles
+      let baselineTech = null;
+      if (T) {
+        const tf = Object.keys(T.families).filter(f => T.roles[f] && T.roles[f].n), mShare = Object.fromEntries(M.skills.map(s => [s.id, s.by_family || {}]));
+        baselineTech = {};
+        for (const s of T.skills) baselineTech[s.id] = (fams.reduce((a, f) => a + ((mShare[s.id] || {})[f] || 0), 0) + tf.reduce((a, f) => a + ((s.by_family || {})[f] || 0), 0)) / ((fams.length + tf.length) || 1);
+      }
+      return { M, SUBS, BLURBS, roles, groups, baseline, T, TSUBS: TSUBS || {}, baselineTech, skillById: Object.fromEntries(M.skills.map(s => [s.id, s])), techSkillById: T ? Object.fromEntries(T.skills.map(s => [s.id, s])) : {} };
     }), () => { indexP = null; });
   }
 
@@ -140,14 +167,18 @@
   // ---------- one role: its postings, skills, sub-skills, evidence ----------
   async function role(id) {
     const ix = await index();
-    if (!ix.roles[id]) await product();
+    if (!ix.roles[id] && !ix.roles[techKey(id)]) await product();
     // an old link to a product family by its bare id (#/role/tpm); a bare id the MBA set also has (pmm) is the MBA role
-    const r = ix.roles[id] || ix.roles[productKey(id)];
+    const r = ix.roles[id] || ix.roles[productKey(id)] || ix.roles[techKey(id)];
     if (!r) throw new Error("unknown role " + id);
     if (r.set === "product") {
       const P = await product();
       const G = P.G;
       return { role: r, set: "product", jobs: r.jobs, skills: G.skills, skillById: P.skillById, clusters: G.clusters, subs: P.SUBS, edges: G.edges, levelLabels: G.level_labels, stepLabels: { entry: "Entry", mid: "Product Manager", senior: "Senior", lead: "Lead and up" }, evidence: async sid => (P.skillById[sid] || {}).evidence || {}, employerTypes: EMPLOYER_TYPES.slice(0, 2), country: null, kinds: G.meta.kinds || ix.M.meta.kinds || {} };
+    }
+    if (r.set === "tech") {
+      const T = ix.T, jobs = decode(T, (await fetchJson("data/" + r.file)).jobs), lv = T.ladders[r.ladder].levels;
+      return { role: r, set: "tech", jobs, skills: T.skills, skillById: ix.techSkillById, clusters: T.clusters, subs: ix.TSUBS, edges: T.edges, levelLabels: T.level_labels, stepLabels: { entry: lv.associate || "Entry", mid: lv.mid || "Mid", senior: lv.senior || "Senior", lead: "Lead and up" }, evidence: async sid => ((await fetchJson("data/" + T.meta.evidence))[sid]) || {}, employerTypes: EMPLOYER_TYPES.slice(0, 2), country: T.meta.country, ladders: T.ladders, kinds: T.meta.kinds || {} };
     }
     const file = await fetchJson("data/" + r.file);
     const jobs = decode(ix.M, file.jobs);
@@ -252,6 +283,12 @@
       const M = withInferred(Matcher.createMatcher({ taxonomy: TAX, subskills: P.SUBS, graph: P.G, distinct: (bands.scoring || {}).distinct || undefined, behaviours: (bands.scoring || {}).behaviours || "show" }));
       return matchers[R.role.id] = { M, bands, group: R.role.group, familyJobs: R.jobs };
     }
+    if (R.set === "tech") {
+      // no bands until calibrate.mjs gives the set some: the fit screen then shows no verdict, as for a group without bands
+      const [TAX, ROLES, bands] = await Promise.all([fetchJson("data/taxonomy_tech.json"), fetchJson("data/roles_tech.json"), fetchJson("data/bands_tech.json").catch(() => ({}))]);
+      const M = withInferred(Matcher.createMatcher({ taxonomy: TAX, subskills: ix.TSUBS, graph: { ...ix.T, jobs: R.jobs }, roles: ROLES, distinct: { ...((bands.scoring || {}).distinct || {}), baseline: ix.baselineTech }, behaviours: (bands.scoring || {}).behaviours || "show" }));
+      return matchers[R.role.id] = { M, bands, group: (bands.group_of || {})[R.role.family] || R.role.group, familyJobs: R.jobs };
+    }
     const [TAX, ROLES, bands] = await Promise.all([fetchJson("data/taxonomy_mba.json"), fetchJson("data/roles_mba.json"), fetchJson("data/bands_mba.json")]);
     const M = withInferred(Matcher.createMatcher({ taxonomy: TAX, subskills: ix.SUBS, graph: { ...ix.M, jobs: R.jobs }, roles: ROLES, distinct: { ...((bands.scoring || {}).distinct || {}), baseline: ix.baseline }, behaviours: (bands.scoring || {}).behaviours || "show" }));
     return matchers[R.role.id] = { M, bands, group: (bands.group_of || {})[R.role.id] || R.role.group, familyJobs: R.jobs };
@@ -260,7 +297,7 @@
   // ---------- a rough read of a resume against every role, from the index alone (no role files) ----------
   // Returns { held: [role ids the person held], scores: { role id: share of the role's main asks the resume shows } }.
   // It ranks fields and roles; the band of fit comes from the full matcher on the role screen.
-  let roughM = null;
+  let roughM = null, roughT = null;
   // opts.inferred overrides the list useInferred bound to this text (pass [] for the patterns' read alone)
   async function roughFit(text, opts = {}) {
     const ix = await index();
@@ -268,22 +305,29 @@
     const parsed = roughM.readRoles(roughM.parseResume(text)); const ev = roughM.infer(roughM.tag(parsed), opts.inferred || inferredOf(text));
     const shown = new Set(Object.entries(ev).filter(([, e]) => roughM.shownBy(e)).map(([id]) => id));
     const held = [...new Set(parsed.roles.map(r => r.roleFamily).filter(Boolean))];
+    // the tech roles are read with the set's own taxonomy and title rules (its skills and wordings are not in the MBA one)
+    let evT = null;
+    if (ix.T) {
+      if (!roughT) { const [TT, RT] = await Promise.all([fetchJson("data/taxonomy_tech.json"), fetchJson("data/roles_tech.json")]); roughT = Matcher.createMatcher({ taxonomy: TT, subskills: ix.TSUBS, graph: { ...ix.T, jobs: [] }, roles: RT }); }
+      const pT = roughT.readRoles(roughT.parseResume(text)); evT = roughT.infer(roughT.tag(pT), []);
+      for (const f of new Set(pT.roles.filter(r => !r.isIntern).map(r => r.roleFamily).filter(Boolean))) held.push(techKey(f));
+    }
     // the shape of the full score, from the index alone: core asks count twice, common asks once, each weighed by
     // its share and by how distinctive it is for the role; a mention earns half credit, a line of work full credit,
     // an inferred skill three quarters (Matcher.creditOf, the score's rule)
     const D = { floor: 0.2, full: 2 };
-    const lift = (id, w) => { const a = ix.baseline[id]; if (!a) return 1; return Math.max(D.floor, Math.min(1, D.floor + (1 - D.floor) * (w / a - 1) / (D.full - 1))); };
-    const score = asks => {
+    const score = (asks, byId = ix.skillById, E = ev, base = ix.baseline) => {
       let num = 0, den = 0;
       for (const a of asks) {
-        const s = ix.skillById[a.id]; if (!s || s.cluster === "credentials" || s.cluster === "domain" || a.share < TIER.common) continue;
-        const tier = a.share >= TIER.core ? 2 : 1, weight = tier * a.share * lift(a.id, a.share);
-        num += weight * Matcher.creditOf(ev[a.id]); den += weight;
+        const s = byId[a.id]; if (!s || s.cluster === "credentials" || s.cluster === "domain" || a.share < TIER.common) continue;
+        const b = base[a.id], l = b ? Math.max(D.floor, Math.min(1, D.floor + (1 - D.floor) * (a.share / b - 1) / (D.full - 1))) : 1;
+        const tier = a.share >= TIER.core ? 2 : 1, weight = tier * a.share * l;
+        num += weight * Matcher.creditOf(E[a.id]); den += weight;
       }
       return den ? num / den : 0;
     };
     const scores = {};
-    for (const [id, r] of Object.entries(ix.roles)) scores[id] = score(r.set === "mba" ? [...r.definingList, ...r.asks] : r.asks);
+    for (const [id, r] of Object.entries(ix.roles)) scores[id] = r.set === "tech" ? score([...r.definingList, ...r.asks], ix.techSkillById, evT || {}, ix.baselineTech || {}) : score(r.set === "mba" ? [...r.definingList, ...r.asks] : r.asks);
     // the dated roles and the degrees, for the About you summary (title, first and last year, whether an internship)
     const roles = parsed.roles.filter(r => r.title).map(r => ({ title: r.title, start: r.span ? Math.floor(r.span[0]) : null, end: r.span ? Math.round(r.span[1]) : null, years: r.years || 0, intern: !!r.isIntern, family: r.roleFamily || null }));
     return { held, scores, shown, ev, years: parsed.totalYears, isStudent: parsed.isStudent, roles, degrees: [...(parsed.degrees || [])], lines: parsed.lines.length };
@@ -361,8 +405,8 @@
     if (!g) return [];
     if (g.set === "product") { const P = await product(); return P.G.jobs; }
     const files = await Promise.all(g.roles.map(r => fetchJson("data/" + ix.roles[r].file)));
-    return files.flatMap(f => decode(ix.M, f.jobs));
+    return files.flatMap(f => decode(g.set === "tech" ? ix.T : ix.M, f.jobs));
   }
 
-  return { index, product, productKey, role, shares, subShares, grid, areas, carriers, AREA_ORDER, BEHAVIOURS_PANEL, stepOf, employerType, matcher, roughFit, useInferred, readCourse, readPosting, courseSplit, COURSE_KINDS, fieldJobs, fieldMatches, genericSkills, fieldChart, CHART, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson, us, useSpelling, fieldKeys };
+  return { index, product, productKey, techKey, shownEverywhere, role, shares, subShares, grid, areas, carriers, AREA_ORDER, BEHAVIOURS_PANEL, stepOf, employerType, matcher, roughFit, useInferred, readCourse, readPosting, courseSplit, COURSE_KINDS, fieldJobs, fieldMatches, genericSkills, fieldChart, CHART, STEPS, EMPLOYER_TYPES, TIER, GROW, fetchJson, us, useSpelling, fieldKeys };
 });

@@ -1399,7 +1399,7 @@
   const JB = Copy.jobs;
   const groupLabel = g => g === "startup" ? JB.groupStartup : g === "mba_employer" ? JB.groupMBA : /^fortune(\d+)$/.test(String(g || "")) ? fill(JB.groupFortune, { n: RegExp.$1 }) : String(g || "");
   const KIND_ORDER = ["method", "technical", "knowledge", "tool", "practice", "behaviour", "credential"];
-  const jobWho = r => r.intern ? JB.who.intern : r.entry === "mba" ? JB.who.mba : r.entry === "pre_mba" ? JB.who.grads : null;
+  const jobWho = r => r.intern ? JB.who.intern : r.entry === "mba" ? JB.who.mba : (r.entry === "pre_mba" || r.entry === "grad") ? JB.who.grads : null;
   const labelIn = (pairs, id) => (pairs.find(([v]) => v === id) || [, id])[1];
   // the role chosen elsewhere, for the role filter when a person arrives with none set: the role screen's (state.R),
   // else the first the class picker keeps in this browser (classes.roles), the same id gapsFor is handed
@@ -1650,7 +1650,8 @@
     crumbs([[Copy.explore.crumb, "#/explore"], [g.label, null]]); showAside(null);
     const roles = g.roles.map(r => ix.roles[r]).sort((a, b) => b.nOpen - a.nOpen);
     const line = r => {
-      const names = (r.definingList.length ? r.definingList : r.asks).slice(0, 2).map(x => (ix.skillById[x.id] || (state.R && state.R.skillById[x.id]) || { name: x.id }).name.replace(/\s*\(.*?\)/g, ""));
+      const byId = r.set === "tech" ? ix.techSkillById : ix.skillById;   // the tech set's skills are in its own index
+      const names = (r.definingList.length ? r.definingList : r.asks).slice(0, 2).map(x => (byId[x.id] || (state.R && state.R.skillById[x.id]) || { name: x.id }).name.replace(/\s*\(.*?\)/g, ""));
       return fill(r.definingList.length ? FD.standsOut : FD.asksMost, { names: join(names) });
     };
     const when = esc(fill(FD.when, { refreshed: g.generated ? fill(g.set === "product" ? FD.scraped : FD.refreshed, { date: g.generated }) : "", world: g.set === "product" ? fill(FD.world, { n: fmt(g.nWorld) }) : "" }));
@@ -1659,17 +1660,20 @@
     const anyMark = rg && roles.some(r => mark(r));
     // half and half (owner's decision 2026-10-24): the roles on the left, the field's skills on lanes on the right;
     // hovering a role lights its skills; a dot opens the skill card
-    const closed = g.set === "mba" ? FD.recent : FD.open;
+    const closed = g.set !== "product" ? FD.recent : FD.open;
+    // the chart and the skill map are the product and MBA sets' until their evals cover the tech set: a tech field lists its roles
+    const charted = g.set !== "tech";
     page(`<div class="field-split"><div>
       <h1>${esc(g.label)}</h1>
-      <p class="lead">${esc(roles.length === 1 ? FD.role : fill(FD.roles, { n: fmt(roles.length) }))} · <span data-measure="${when}">${esc(fill(FD.openPostings, { n: fmt(roles.reduce((a, r) => a + r.nOpen, 0)) }))}</span>. ${esc(FD.biggestFirst)}${anyMark ? " " + esc(FD.green) : ""} <a href="#/explore?field=${esc(g.id)}" data-map>${esc(fill(FD.map, { field: g.label }))}</a></p>
+      <p class="lead">${esc(roles.length === 1 ? FD.role : fill(FD.roles, { n: fmt(roles.length) }))} · <span data-measure="${when}">${esc(fill(FD.openPostings, { n: fmt(roles.reduce((a, r) => a + r.nOpen, 0)) }))}</span>. ${esc(FD.biggestFirst)}${anyMark ? " " + esc(FD.green) : ""}${charted ? ` <a href="#/explore?field=${esc(g.id)}" data-map>${esc(fill(FD.map, { field: g.label }))}</a>` : ""}</p>
       <div class="list">${roles.map(r => `<a class="r" href="#/role/${esc(r.id)}" data-role="${esc(r.id)}"><span class="t">${esc(r.label)}</span><span class="n">${esc(fill(CM.nOpen, { n: fmt(r.nOpen) }))}</span><span class="m">${r.blurb ? esc(r.blurb) + " " : ""}${esc(productLine(g, r, line))}${mark(r)}</span></a>`).join("")}</div>
-      <p class="small muted" style="margin-top:12px">${esc(FD.hover)}</p>
-      </div><div>
+      ${charted ? `<p class="small muted" style="margin-top:12px">${esc(FD.hover)}</p>` : ""}
+      </div><div${charted ? "" : " hidden"}>
       <div class="chart-stage" id="chart"></div>
       <p class="small muted chart-x">${esc(fill(FD.axis, { field: g.label }))} <span class="mark" data-measure="${esc(fill(FD.axisMeasure, { postings: closed, field: g.label }))}">ⓘ</span>${rg ? ` · <span class="sw have"></span> ${esc(FD.have)} · <span class="sw todo"></span> ${esc(FD.todo)}` : ""}</p>
       </div></div>`);
     main.firstElementChild.classList.add("wide");
+    if (!charted) return;
     SkillMap.chart($("#chart"), { field: g.id, label: g.label, roles, shown: rg ? rg.shown : null, aside, showAside });
     main.querySelectorAll("[data-role]").forEach(a => { a.onmouseenter = () => SkillMap.chartLight(a.dataset.role); a.onmouseleave = () => SkillMap.chartLight(null); });
   }
@@ -1727,7 +1731,7 @@
     const chipsOf = (items, set, attr, allLabel) => `${allLabel ? `<button type="button" class="chip${set.size ? "" : " on"}" data-${attr}="__all">${allLabel}</button>` : ""}${items.map(([v, n]) => `<button type="button" class="chip${set.has(v) ? " on" : ""}" data-${attr}="${esc(v)}">${esc(v)}<span class="n">${fmt(n)}</span></button>`).join("")}`;
     const empCounts = countBy(jobsExcept("employer"), Atlas.employerType), empAll = jobsExcept("employer").length;
     const emp = `<button type="button" class="chip${state.employer === "all" ? " on" : ""}" data-emp="all">${esc(CM.all)}<span class="n">${fmt(empAll)}</span></button>` + R.employerTypes.map(([id, label]) => `<button type="button" class="chip${state.employer === id ? " on" : ""}" data-emp="${id}">${esc(label)}<span class="n">${fmt(empCounts[id] || 0)}</span></button>`).join("");
-    const grads = R.set === "mba" ? group(esc(RL.drawer.who), `<button type="button" class="chip${state.grads ? " on" : ""}" id="grads">${esc(RL.grads)}<span class="n">${fmt(jobsExcept("grads").filter(j => j.entry || j.intern).length)}</span></button>`) : "";
+    const grads = R.set !== "product" ? group(esc(RL.drawer.who), `<button type="button" class="chip${state.grads ? " on" : ""}" id="grads">${esc(RL.grads)}<span class="n">${fmt(jobsExcept("grads").filter(j => j.entry || j.intern).length)}</span></button>`) : "";
     const sec = Object.entries(countBy(jobsExcept("sector"), j => j.sector)).filter(([v]) => v && v !== "Startup (unclassified)").sort((a, b) => b[1] - a[1]).slice(0, 10);
     const cm = countBy(jobsExcept("company"), j => j.company); const q = state.companyQuery.trim().toLowerCase();
     const picked = [...state.company].map(v => [v, cm[v] || 0]);
@@ -1821,12 +1825,12 @@
     // postings (owner's choice R6): open only, grouped by employer; employers hiring graduates and interns first
     // (MBA set), then the employers with the most postings. One posting stands alone; several fold under the employer.
     const q = state.query.trim().toLowerCase();
-    const rank = j => j.entry === "mba" ? 0 : j.intern ? 1 : j.entry === "pre_mba" ? 2 : 3;
+    const rank = j => j.entry === "mba" ? 0 : j.intern ? 1 : (j.entry === "pre_mba" || j.entry === "grad") ? 2 : 3;
     const list = open.filter(j => !q || (j.company + " " + j.title + " " + (j.location || "")).toLowerCase().includes(q)).sort((a, b) => rank(a) - rank(b) || a.title.localeCompare(b.title));
     const byEmp = new Map(); for (const j of list) { const e = byEmp.get(j.company) || { company: j.company, jobs: [], rank: 9 }; e.jobs.push(j); e.rank = Math.min(e.rank, rank(j)); byEmp.set(j.company, e); }
     const emps = [...byEmp.values()].sort((a, b) => a.rank - b.rank || b.jobs.length - a.jobs.length || a.company.localeCompare(b.company));
     const shownEmps = emps.slice(0, state.shown);
-    const who = j => esc(j.intern ? RL.internship : j.entry === "mba" ? RL.forMBA : j.entry === "pre_mba" ? RL.forGrads : "");
+    const who = j => esc(j.intern ? RL.internship : j.entry === "mba" ? RL.forMBA : (j.entry === "pre_mba" || j.entry === "grad") ? RL.forGrads : "");
     const jobRow = (j, withCompany) => `<button type="button" class="r${state.selected && state.selected.kind === "posting" && state.selected.id === j.id ? " on" : ""}" data-job="${j.id}"><span class="t">${esc(j.title)}</span><span class="n">${esc(levelLabel(R, j))}</span><span class="m">${withCompany ? esc(j.company) + (j.location ? " · " : "") : ""}${j.location ? esc(j.location) : ""}${who(j)}</span></button>`;
     const empBox = e => e.jobs.length === 1 ? jobRow(e.jobs[0], true) : `<details class="empbox" data-emp-open="${esc(e.company)}"${state.empOpen.has(e.company) ? " open" : ""}><summary><span class="t">${esc(e.company)}</span><span class="n">${esc(fill(e.jobs.length === 1 ? Copy.jobs.posting : Copy.jobs.postings, { n: fmt(e.jobs.length) }))}</span><span class="m">${esc(e.jobs[0].title)}${e.jobs[0].location ? " · " + esc(e.jobs[0].location) : ""}${who(e.jobs[0])}${e.jobs.length > 1 ? " · …" : ""}</span></summary><div class="list">${e.jobs.map(j => jobRow(j, false)).join("")}</div></details>`;
     const postings = `<input type="search" id="q" placeholder="${esc(RL.searchPostings)}" aria-label="${esc(RL.searchAria)}" value="${esc(state.query)}" autocomplete="off">
@@ -1945,7 +1949,7 @@
     const rest = subsMeta.slice(3);
     const subs = subsMeta.length ? `<h3>${esc(RL.mostlyMeans)}</h3><div class="subs">${(state.cardMore ? subsMeta : subsMeta.slice(0, 3)).map(sub => subRow(sub, state.cardMore)).join("")}</div>${rest.length ? `<button type="button" class="linkish link more" id="card-more">${esc(state.cardMore ? RL.showFewer : fill(RL.showMore, { n: rest.length }))}</button>` : ""}` : "";
     const w = inWords(st.share(s.id));
-    const share = `<p class="small">${esc(fill(/posting$/.test(w) ? RL.shareLineOne : RL.shareLine, { words: cap(w) }))} ${tip(fill(RL.shareTip, { share: pct(st.share(s.id)), n: fmt(st.n), skill: s.name, all: pct(s.share), set: R.set === "mba" ? RL.allMBA : RL.allProduct }))}</p>`;
+    const share = `<p class="small">${esc(fill(/posting$/.test(w) ? RL.shareLineOne : RL.shareLine, { words: cap(w) }))} ${tip(fill(RL.shareTip, { share: pct(st.share(s.id)), n: fmt(st.n), skill: s.name, all: pct(s.share), set: R.set === "mba" ? RL.allMBA : R.set === "tech" ? RL.allTech : RL.allProduct }))}</p>`;
     const here = state.level === "all" ? null : { entry: "associate", mid: "mid", senior: "senior", lead: "lead" }[state.level];
     const ladder = ladderHtml(R, s, here);
     const bs = buildSteps(s, R.role.ladder, true), ladName = k => (((R.ladders || {})[k] || {}).label || k).toLowerCase();
@@ -1985,7 +1989,7 @@
     if (!j) return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><p class="empty">${esc(RL.notInRole)}</p>`;
     const byArea = {}; for (const k of j.skills) { const s = R.skillById[k]; if (s) (byArea[s.cluster] ||= []).push(s); }
     const subNames = (j.sub || []).map(id => { for (const [sid, list] of Object.entries(R.subs)) { const f = list.find(x => x.id === id); if (f) return { sid, name: f.name }; } return null; }).filter(Boolean);
-    const who = j.intern ? RL.who.intern : j.entry === "mba" ? RL.who.mba : j.entry === "pre_mba" ? RL.who.grads : null;
+    const who = j.intern ? RL.who.intern : j.entry === "mba" ? RL.who.mba : (j.entry === "pre_mba" || j.entry === "grad") ? RL.who.grads : null;
     const nSkills = j.skills.filter(k => R.skillById[k] && R.skillById[k].cluster !== "credentials").length;
     return `<button type="button" class="close" aria-label="${esc(CM.close)}">×</button><div class="card">
       <p class="eyebrow">${esc(j.company)}${j.rank ? ` · ${esc(fill(RL.fortune, { n: j.rank }))}` : ""}</p><h2>${esc(j.title)}</h2>

@@ -31,8 +31,5 @@
  "real_gaps": [
   "lakehouse",
   "cloud"
- ],
- "known_miss": {
-  "level": "The matcher reads a level from years in product (profile.pmYears); a tech career reads as associate until the matcher reads years in the set's roles (PR 5)."
- }
+ ]
 }

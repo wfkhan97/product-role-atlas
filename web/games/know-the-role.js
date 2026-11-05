@@ -44,6 +44,7 @@
     const mbaElsewhere = (sid, self) => Object.entries((ix.skillById[sid] || {}).by_family || {}).filter(([f]) => f !== self && ix.roles[f] && ix.roles[f].set === "mba" && !ix.roles[f].small);
     const out = {};
     for (const r of Object.values(ix.roles)) {
+      if (r.set === "tech") continue;   // the games deal the product and MBA roles until their evals cover the tech set
       if (r.set === "product" && !G) continue;
       const skills = (r.set === "mba" ? M.skills : G.skills).filter(s => !skip(s));
       const share = s => (s.by_family || {})[r.family] || 0;

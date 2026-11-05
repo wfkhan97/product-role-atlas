@@ -32,8 +32,5 @@
  ],
  "real_gaps": [
   "mlops_serving"
- ],
- "known_miss": {
-  "research_publications": "The paper sits under a Publications heading, which the matcher reads as an 'other' line (a mention) before it checks for a credential; the matcher's line strength is generalised for the set in PR 5."
- }
+ ]
 }
