@@ -1,22 +1,21 @@
 # Extraction audit: the MBA role set, regex against model judgment
 
-Produced by `pipeline/experiments/skill_audit.py` on 2026-10-25. For each skill, a sample of postings the patterns tagged (accepted = the model agrees the posting asks for it) and a sample from the skill's three most common roles that the patterns did not tag (missed = the model says the posting asks for it). Model answers at probability 0.5 or more count as yes. The samples are small, so read each row as a flag, not a measurement. After a taxonomy change rerun with `--reuse` to recompute the regex side without new model calls.
+Produced by `pipeline/experiments/skill_audit.py` on 2026-11-01. For each skill, a sample of postings the patterns tagged (accepted = the model agrees the posting asks for it) and a sample from the skill's three most common roles that the patterns did not tag (missed = the model says the posting asks for it). Model answers at probability 0.5 or more count as yes. The samples are small, so read each row as a flag, not a measurement. After a taxonomy change rerun with `--reuse` to recompute the regex side without new model calls.
 
-Across 180 skills: the model accepts 1,351 of 1,668 tagged samples (81%) and finds the skill in 560 of 1,837 untagged samples from the same roles (30%).
+Across 180 skills: the model accepts 1,345 of 1,645 tagged samples (82%) and finds the skill in 565 of 1,857 untagged samples from the same roles (30%).
 
 | skill | cluster | tagged: accepted | untagged: missed |
 |---|---|---|---|
-| HRIS (Workday, SuccessFactors, ADP) | tools | 3/8 (38%) | 2/11 |
-| Property types (multifamily, industrial, office, retail) | real_estate | 3/8 (38%) | 2/11 |
 | BI development tools (DAX, Power Query, SSRS, Qlik) | tools | 4/10 (40%) | 0/10 |
-| Development, entitlements & construction | real_estate | 4/10 (40%) | 1/9 |
-| Transformation programme leadership | strategy | 4/10 (40%) | 7/10 |
-| HR operations, onboarding & payroll | people | 5/12 (42%) | 2/8 |
-| Leasing & tenant relations | real_estate | 4/9 (44%) | 2/10 |
+| Leasing & tenant relations | real_estate | 3/7 (43%) | 3/12 |
+| Property types (multifamily, industrial, office, retail) | real_estate | 3/7 (43%) | 2/12 |
+| HR operations, onboarding & payroll | people | 5/11 (45%) | 2/9 |
 | Board & committee governance | risk | 3/6 (50%) | 0/13 |
-| Procurement platforms (Ariba, Coupa) | tools | 5/10 (50%) | 0/9 |
-| Credit analysis & underwriting | deals | 5/9 (56%) | 4/9 |
-| Audit & SOX | risk | 5/9 (56%) | 3/10 |
+| Credit analysis & underwriting | deals | 2/4 (50%) | 7/14 |
+| HRIS (Workday, SuccessFactors, ADP) | tools | 2/4 (50%) | 3/15 |
+| Development, entitlements & construction | real_estate | 4/8 (50%) | 1/11 |
+| Transformation programme leadership | strategy | 3/6 (50%) | 8/14 |
+| Procurement platforms (Ariba, Coupa) | tools | 5/9 (56%) | 0/10 |
 | Risk, audit & compliance certifications (CISA, CRISC, CIA, FRM, CAMS, CRCM, CIPP) | credentials | 5/9 (56%) | 0/10 |
 | Banking relationships & product cross-sell | deals | 4/7 (57%) | 1/10 |
 | Investor relations & fundraising | finance | 4/7 (57%) | 1/13 |
@@ -61,6 +60,7 @@ Across 180 skills: the model accepts 1,351 of 1,668 tagged samples (81%) and fin
 | SEO, website & conversion optimisation | marketing | 7/10 (70%) | 0/10 |
 | Talent acquisition & recruiting | people | 7/10 (70%) | 3/10 |
 | Consumer-finance regulations (UDAAP, fair lending) | risk | 5/7 (71%) | 0/13 |
+| Audit & SOX | risk | 5/7 (71%) | 3/12 |
 | ERP & finance systems (SAP, Oracle, NetSuite, Anaplan, Hyperion) | tools | 8/11 (73%) | 2/9 |
 | Valuation (DCF, comps, LBO) | deals | 8/11 (73%) | 2/8 |
 | Accounting: close, GAAP & controls | finance | 6/8 (75%) | 2/12 |
@@ -79,7 +79,6 @@ Across 180 skills: the model accepts 1,351 of 1,668 tagged samples (81%) and fin
 | Capital markets & financing transactions | deals | 8/10 (80%) | 3/9 |
 | Controls design & testing | risk | 8/10 (80%) | 2/9 |
 | Demand generation & ABM | marketing | 8/10 (80%) | 1/10 |
-| Employee relations & investigations | people | 8/10 (80%) | 2/10 |
 | Employee engagement & culture | people | 8/10 (80%) | 7/10 |
 | Executive & equity compensation | people | 8/10 (80%) | 0/10 |
 | Finance, accounting or economics degree | credentials | 8/10 (80%) | 0/10 |
@@ -88,7 +87,7 @@ Across 180 skills: the model accepts 1,351 of 1,668 tagged samples (81%) and fin
 | Investment research & asset classes | deals | 8/10 (80%) | 7/10 |
 | Logistics & transportation | operations | 8/10 (80%) | 3/10 |
 | Pitch books & deal marketing materials | deals | 8/10 (80%) | 4/8 |
-| Proposals, RFP responses & capture | sales | 8/10 (80%) | 2/10 |
+| Proposals, RFP responses & capture | sales | 8/10 (80%) | 2/9 |
 | Real estate underwriting, pro formas & market comps | real_estate | 4/5 (80%) | 2/12 |
 | RFx & competitive bidding | operations | 8/10 (80%) | 3/10 |
 | Workplace safety & EHS | operations | 8/10 (80%) | 2/10 |
@@ -107,8 +106,9 @@ Across 180 skills: the model accepts 1,351 of 1,668 tagged samples (81%) and fin
 | Compliance programme management | risk | 6/7 (86%) | 4/12 |
 | Due diligence | deals | 6/7 (86%) | 4/13 |
 | Performance improvement & cost reduction | strategy | 13/15 (87%) | 4/5 |
-| Deal structuring & negotiation | deals | 7/8 (88%) | 6/8 |
+| Deal structuring & negotiation | deals | 7/8 (88%) | 5/7 |
 | Regulatory analysis & change management | risk | 7/8 (88%) | 6/10 |
+| Employee relations & investigations | people | 8/9 (89%) | 2/10 |
 | Technology & cyber risk | risk | 8/9 (89%) | 1/10 |
 | Scenario & sensitivity modelling | finance | 8/9 (89%) | 5/10 |
 | Marketing campaigns | marketing | 9/10 (90%) | 5/9 |

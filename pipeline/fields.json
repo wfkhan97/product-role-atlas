@@ -237,7 +237,7 @@
   "consulting_strategy": {
    "reads_as": "Market-entry and commercial strategy for clients: where to play and how to win.",
    "shown_by": [
-    "strategy_development",
+    "strategic_planning",
     "market_research",
     "synthesis_recommendations",
     "business_case"
@@ -374,7 +374,7 @@
     "exec_decks",
     "synthesis_recommendations",
     "strategy_development",
-    "client_engagement"
+    "exec_communication"
    ],
    "line": "Reframed a cost programme as a growth-funding story for the client's board; approved with a 20% larger budget."
   },
@@ -423,7 +423,7 @@
   "finance": {
    "reads_as": "Banking, investor and strategic partner relationships and their deal terms.",
    "shown_by": [
-    "investor_relations",
+    "stakeholder_mgmt",
     "business_case",
     "capital_allocation",
     "finance_partnering"
