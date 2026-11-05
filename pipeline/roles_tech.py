@@ -198,8 +198,9 @@ ENGINEERING_GRADES = [
               r"\bmanager,?\s+(of\s+)?(\w+\s+){0,2}(engineering|design|research|security|data\s+engineering)\b|\bmanager\b"),
     ("staff", r"\b(staff|lead|tech\s+lead|tl)\b|" + JOB + r"\s*[-,]?\s*(v|5)\b"),
     ("senior", r"\b(senior|sr\.?|experienced)\b|" + JOB + r"\s*[-,]?\s*(iii|iv|3|4)\b|\b(l5|e5|ic4|ic5)\b"),
-    ("associate", JOB + r"\s*[-,]?\s*(i|1)\b(?!\s*[-/]\s*(ii|2))|\b(l3|e3|ic1|ic2)\b"),
-    ("mid", JOB + r"\s*[-,]?\s*(ii|2)\b|\b(l4|e4|ic3)\b"),
+    # a grade at the very end of the title is the grade, wherever the job word sits ("Software Development Engineer in Test I")
+    ("associate", JOB + r"\s*[-,]?\s*(i|1)\b(?!\s*[-/]\s*(ii|2))|\b(l3|e3|ic1|ic2)\b|\s(i|1)\s*$"),
+    ("mid", JOB + r"\s*[-,]?\s*(ii|2)\b|\b(l4|e4|ic3)\b|\s(ii|2)\s*$"),
 ]
 # Legal titles: Counsel is the working grade; the general counsel's office climbs by assistant, associate and deputy.
 LEGAL_GRADES = [
@@ -343,7 +344,8 @@ def export():
         "flags": "i",
         "groups": [{"id": g, "label": label, "families": fs} for g, (label, fs) in GROUPS.items()],
         "families": [{"id": f, "label": FAMILY_LABELS[f], "group": GROUP_OF[f], "patterns": [p], "exclude": [EXCLUDE[f]] if f in EXCLUDE else [],
-                      "engineering": f in ENGINEERING, "covers": COVERS.get(f, [])} for f, p in FAMILY_PATTERNS],
+                      "engineering": f in ENGINEERING, "covers": COVERS.get(f, []),
+                      "covered_by": sorted(g for g, fs in COVERS.items() if f in fs)} for f, p in FAMILY_PATTERNS],
         "not_the_job": NOT_THE_JOB, "customer_facing": CUSTOMER_FACING, "hardware": HARDWARE, "software_word": r"\b(software|firmware|embedded)\b",
         "eng_word": ENG_WORD_RE.pattern, "mts": MTS_RE.pattern, "bank_setoff": BANK_SETOFF_RE.pattern, "bank_setoff_not": r"\b(head|director|manager)\b",
         "product": {"families": [{"id": f, "pattern": p} for f, p in roles.FAMILY_PATTERNS], "exclude": roles.EXCLUDE_RE.pattern,
@@ -366,5 +368,24 @@ def write_export(path=os.path.join(os.path.dirname(HERE), "web", "data", "roles_
     return path
 
 
+def write_taxonomy(data=os.path.join(os.path.dirname(HERE), "web", "data")):
+    """web/data/taxonomy_tech.json and subskills_tech.json: the set's part of the taxonomy and its sub-skills, which depend on
+    pipeline/taxonomy.json and pipeline/depth/ alone (the graph build writes the same two files). Committed, so the
+    matcher evals of the set (evals/run_tech.mjs) run in a checkout that holds no tech postings."""
+    import glob
+    from pipeline import tax
+    T = tax.for_roles("tech")
+    tax.dump(T, os.path.join(data, "taxonomy_tech.json"))
+    known, depth = {s["id"] for s in T["skills"]}, {}
+    for p in glob.glob(os.path.join(HERE, "depth", "*.json")):
+        if not p.endswith("_roles.json"):
+            depth.update(json.load(open(p)))
+    subs = {sid: [{"id": x["id"], "name": x["name"], "patterns": x["patterns"]} for x in d.get("subskills", [])] for sid, d in depth.items() if sid in known}
+    with open(os.path.join(data, "subskills_tech.json"), "w") as f:
+        json.dump(subs, f)
+
+
 if __name__ == "__main__":
     print("wrote", os.path.relpath(write_export()))
+    write_taxonomy()
+    print("wrote web/data/taxonomy_tech.json, web/data/subskills_tech.json")

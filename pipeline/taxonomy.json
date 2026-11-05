@@ -5383,7 +5383,10 @@
     "\\blow[- ]latency\\b",
     "\\bmemory management\\b",
     "\\basynchronous (programming|systems|i/o|processing|code)\\b",
-    "\\bparallel(ism| computing| programming)\\b"
+    "\\bparallel(ism| computing| programming)\\b",
+    "\\bprofil(ed|ing)\\b(?! (data|information|pages?))",
+    "\\b(p9[059]|tail) latency\\b",
+    "\\b(cut|reduc\\w*|lower\\w*|improv\\w*) (the )?(p9[059] |tail |api |query |request |worst[- ]case )?latency\\b"
    ],
    "only": [
     "tech"
@@ -5735,7 +5738,9 @@
     "\\bCVEs?\\b",
     "\\bpatch(ing)? management\\b",
     "\\bremediation tracking\\b",
-    "\\b(vulnerabilities|findings) (triage|remediation)\\b"
+    "\\b(vulnerabilities|findings) (triage|remediation)\\b",
+    "\\bvulnerability scans?\\b",
+    "\\bremediation of [^.\\n]{0,20}(findings|vulnerabilities)\\b"
    ],
    "only": [
     "tech"
@@ -5893,7 +5898,9 @@
     "\\b(include|submit|share|attach|send) (a |your )?(link to (a |your )?)?portfolio\\b",
     "\\bdesign portfolio\\b",
     "\\bportfolio (and|or|&) (resume|cv)\\b",
-    "\\b(resume|cv) (and|or|&) portfolio\\b"
+    "\\b(resume|cv) (and|or|&) portfolio\\b",
+    "\\bportfolio\\s*:",
+    "\\bportfolio\\b(?=[^\\n]{0,40}(https?://|\\.design\\b|behance|dribbble))"
    ],
    "only": [
     "tech"
@@ -5927,7 +5934,8 @@
     "\\bproduct counsel(ing)?\\b",
     "\\b(advise|counsel|partner with) (the )?(product|engineering|design)( and (engineering|product|design))? teams?\\b",
     "\\blegal (review|guidance) (of|on|for) (new )?(products?|features|launches)\\b",
-    "\\bproduct (launches|development) (from a legal|legal)\\b"
+    "\\bproduct (launches|development) (from a legal|legal)\\b",
+    "\\b(advis|counsel)\\w* [^.\\n]{0,40}\\bon (new )?product (launches|launch|features|development|decisions)\\b"
    ],
    "only": [
     "tech"

@@ -1,0 +1,23 @@
+Sam Okafor
+New York, NY — portfolio: samokafor.design
+
+EDUCATION
+Cornell Tech — M.S. Information Science, Connective Media, May 2027
+Rhode Island School of Design — B.F.A. Graphic Design, 2024
+
+EXPERIENCE
+Product Design Intern, Health tech startup — New York, NY                            Jun 2026 – Aug 2026
+- Redesigned the appointment booking flow end to end: user flows, wireframes and high-fidelity prototypes in Figma
+- Ran 12 usability tests with patients; the shipped design cut booking drop-off from 38% to 21%
+- Added 30 components to the design system with documented states and accessibility notes (WCAG AA)
+- Presented design rationale in weekly critiques with the head of design and two product managers
+
+Visual Designer, Brand studio — Providence, RI                                      Jul 2024 – Jul 2025
+- Designed typography, layout and visual identity systems for 8 clients
+- Built interactive prototypes in Framer for two client websites
+
+PROJECTS
+Voice assistant for older adults (Connective Media studio) — interviews with 15 users, journey maps, prototype tested in two rounds
+
+SKILLS
+Figma, Framer, Adobe Creative Suite; interaction design, visual design, prototyping, usability testing, design systems

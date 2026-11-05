@@ -39,7 +39,8 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt   # requests,
 .venv/bin/python -m pipeline.build_graph --roles mba  # the MBA graph -> web/data/graph_mba.json + web/data/graph_mba/<role>.json
 .venv/bin/python evals/run_pipeline.py            # evals for titles, levels, countries, golden postings and the graph files
 .venv/bin/python -m pipeline.roles_tech         # the tech role set's title rules as data -> web/data/roles_tech.json
-.venv/bin/python evals/run_pipeline.py --roles tech  # the tech set so far: labelled titles, levels, entry marks, the JavaScript reader
+.venv/bin/python evals/run_pipeline.py --roles tech  # the tech set: titles, levels, entry marks, golden postings, js; integrity, graph and matcher where its data is
+node evals/run_tech.mjs                               # the tech set's résumé samples (evals/resumes_tech/) through the matcher
 .venv/bin/python evals/run_depth.py               # content evals for the published skill depth (style, specificity, evidence, build steps)
 .venv/bin/python -m pipeline.funnel --from 2026-10-31 --to 2026-11-07   # the capture funnel: sessions, the share reaching each screen, cohort applications by source (CAPTURE_DB_URL in .env); --notes adds each applicant's sentence
 node evals/lines_judged.mjs --dry-run             # a model reader judges 50 generated fit-page lines (OPENROUTER_API_KEY in .env for the live run); report in evals/lines_judged.md

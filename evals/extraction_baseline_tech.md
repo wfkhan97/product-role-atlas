@@ -6,7 +6,7 @@ Produced by `pipeline/experiments/role_coverage.py` on 2026-11-05 from `data/pro
 
 | # | role | postings | employers | skills per posting (median) | role-set skills per posting (median) | defines the role | most asked beyond that |
 |---|---|---|---|---|---|---|---|
-| 1 | Software Engineer | 3,867 | 654 | 22 | 4 | – | Ownership & bias for action 82%, Collaboration & teamwork 70%, APIs & integrations 66%, Written & verbal communication 59%, Cloud platforms 59%, Adaptability & fast-paced environments 56%, SDLC, DevOps & CI/CD 56%, CS / engineering degree or background 54%, Systems & architecture 53%, Generative AI / LLMs & agents 48%, Cross-functional leadership 46%, Python / R / scripting 45% |
+| 1 | Software Engineer | 3,867 | 654 | 22 | 5 | – | Ownership & bias for action 82%, Collaboration & teamwork 70%, APIs & integrations 66%, Written & verbal communication 59%, Cloud platforms 59%, Adaptability & fast-paced environments 56%, SDLC, DevOps & CI/CD 56%, CS / engineering degree or background 54%, Systems & architecture 53%, Generative AI / LLMs & agents 48%, Cross-functional leadership 46%, Python / R / scripting 45% |
 | 2 | ML / AI Engineer | 1,232 | 363 | 23 | 5 | – | Generative AI / LLMs & agents 86%, Ownership & bias for action 80%, AI / machine learning 77%, Collaboration & teamwork 67%, Python / R / scripting 66%, CS / engineering degree or background 58%, Written & verbal communication 53%, Adaptability & fast-paced environments 53%, Technical fluency 51%, Model evaluation (evals) 49%, APIs & integrations 49%, Cloud platforms 45% |
 | 3 | Data Engineer | 294 | 187 | 25 | 5 | Data modeling & pipelines 99% | Ownership & bias for action 88%, Python / R / scripting 72%, SQL 71%, Cloud platforms 68%, Collaboration & teamwork 63%, Written & verbal communication 60%, Analytics tools (Amplitude, Mixpanel, GA, Looker, Tableau) 57%, Cross-functional leadership 55%, Generative AI / LLMs & agents 54%, SDLC, DevOps & CI/CD 54%, Adaptability & fast-paced environments 54%, Supply chain, logistics & operations 53% |
 | 4 | Security Engineer | 621 | 265 | 25 | 6 | Security & privacy 98% | Ownership & bias for action 86%, Cloud platforms 78%, SDLC, DevOps & CI/CD 71%, Written & verbal communication 70%, Collaboration & teamwork 64%, Python / R / scripting 58%, Generative AI / LLMs & agents 57%, Adaptability & fast-paced environments 57%, Detection and incident response 54%, Risk & dependency management 53%, Cross-functional leadership 52%, Hardware, devices & embedded 50% |
@@ -135,7 +135,7 @@ Produced by `pipeline/experiments/role_coverage.py` on 2026-11-05 from `data/pro
 | Backend services | engineering | 26.5% | Software Engineer 37%, Data Engineer 20%, ML / AI Engineer 20%, Security Engineer 10% |
 | Databases | engineering | 21.0% | Data Engineer 30%, Software Engineer 29%, ML / AI Engineer 15%, Security Engineer 4% |
 | Algorithms and data structures | engineering | 10.9% | ML / AI Engineer 22%, Software Engineer 11%, Data Engineer 8%, Security Engineer 2% |
-| Performance and concurrency | engineering | 18.6% | ML / AI Engineer 22%, Software Engineer 22%, Data Engineer 21%, Security Engineer 7% |
+| Performance and concurrency | engineering | 19.0% | ML / AI Engineer 23%, Software Engineer 23%, Data Engineer 22%, Security Engineer 7% |
 | Linux and systems programming | engineering | 17.5% | Security Engineer 23%, Software Engineer 21%, ML / AI Engineer 15%, Data Engineer 6% |
 | Code review and code quality | engineering | 31.5% | Software Engineer 42%, Data Engineer 38%, ML / AI Engineer 22%, Security Engineer 21% |
 | Infrastructure as code | tools | 16.9% | Security Engineer 30%, Data Engineer 25%, Software Engineer 20%, ML / AI Engineer 8% |
@@ -154,7 +154,7 @@ Produced by `pipeline/experiments/role_coverage.py` on 2026-11-05 from `data/pro
 | Application security | security | 4.3% | Security Engineer 33%, Software Engineer 2%, ML / AI Engineer 1% |
 | Detection and incident response | security | 7.0% | Security Engineer 54%, Software Engineer 3%, Product / UX Designer 2%, ML / AI Engineer 2% |
 | Penetration testing and red teaming | security | 4.2% | Security Engineer 33%, Data Engineer 2%, ML / AI Engineer 2%, Software Engineer 1% |
-| Vulnerability management | security | 4.0% | Security Engineer 31%, Software Engineer 2%, ML / AI Engineer 0%, Product / UX Designer 0% |
+| Vulnerability management | security | 4.2% | Security Engineer 32%, Software Engineer 2%, ML / AI Engineer 0%, Product / UX Designer 0% |
 | Cryptography | security | 5.0% | Security Engineer 23%, Software Engineer 5%, ML / AI Engineer 1%, Data Engineer 1% |
 | Security certifications | credentials | 2.4% | Security Engineer 22%, Software Engineer 1%, In-house Counsel 0%, ML / AI Engineer 0% |
 | Interaction design | design | 4.8% | Product / UX Designer 58%, UX Researcher 13%, Software Engineer 2%, ML / AI Engineer 1% |
@@ -163,9 +163,9 @@ Produced by `pipeline/experiments/role_coverage.py` on 2026-11-05 from `data/pro
 | Design systems | design | 7.0% | Product / UX Designer 62%, UX Researcher 13%, Software Engineer 5%, ML / AI Engineer 2% |
 | Accessibility | design | 8.0% | Product / UX Designer 22%, Software Engineer 9%, Data Engineer 7%, UX Researcher 7% |
 | Design critique and rationale | design | 2.3% | Product / UX Designer 27%, UX Researcher 13%, ML / AI Engineer 1%, Security Engineer 1% |
-| Design portfolio | credentials | 2.5% | Product / UX Designer 39%, UX Researcher 7%, Software Engineer 0%, ML / AI Engineer 0% |
+| Design portfolio | credentials | 2.8% | Product / UX Designer 40%, UX Researcher 7%, Data Engineer 1%, In-house Counsel 1% |
 | Commercial contracts | legal | 3.3% | In-house Counsel 60%, Security Engineer 1%, Product / UX Designer 0%, Software Engineer 0% |
-| Product counseling | legal | 2.4% | In-house Counsel 18%, Security Engineer 5%, Software Engineer 1%, ML / AI Engineer 1% |
+| Product counseling | legal | 2.5% | In-house Counsel 18%, Security Engineer 5%, Software Engineer 1%, ML / AI Engineer 1% |
 | Privacy and data protection law | legal | 8.2% | In-house Counsel 24%, Security Engineer 16%, Data Engineer 13%, ML / AI Engineer 7% |
 | Intellectual property | legal | 4.1% | In-house Counsel 27%, Security Engineer 6%, ML / AI Engineer 4%, Data Engineer 4% |
 | Corporate and securities law | legal | 2.3% | In-house Counsel 26%, Software Engineer 1%, Product / UX Designer 1%, Security Engineer 1% |

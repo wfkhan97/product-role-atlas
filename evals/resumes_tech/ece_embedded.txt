@@ -1,0 +1,23 @@
+Priya Raman
+Brooklyn, NY
+
+EDUCATION
+Cornell Tech — Master of Engineering, Electrical and Computer Engineering, Dec 2026
+Georgia Institute of Technology — B.S. Computer Engineering, 2025
+
+EXPERIENCE
+Embedded Software Intern, Medical device company — Boston, MA                       May 2026 – Aug 2026
+- Wrote firmware in C for an infusion pump controller on an ARM Cortex-M4 running FreeRTOS
+- Profiled interrupt handling and cut worst-case latency from 12 ms to 3 ms
+- Built a hardware-in-the-loop test rig in Python that ran 400 regression tests each night
+
+Firmware Engineering Intern, Consumer electronics startup — Atlanta, GA             May 2025 – Aug 2025
+- Wrote Linux kernel drivers in C for an I2C sensor array; shipped in 5,000 units
+- Debugged power management issues with an oscilloscope and logic analyzer, extending battery life 18%
+
+PROJECTS
+Autonomous rover — C++ on an embedded Linux board, sensor fusion and motor control, team of 4
+FPGA image filter — Verilog on a Xilinx board, 30 frames per second
+
+SKILLS
+C, C++, Python, Verilog; FreeRTOS, embedded Linux, device drivers; Git; oscilloscopes, logic analyzers

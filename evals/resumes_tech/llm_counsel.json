@@ -1,0 +1,38 @@
+{
+ "targets": [
+  "counsel:mid"
+ ],
+ "expected_level": "mid",
+ "score_band": {
+  "counsel:mid": [
+   0.5,
+   0.9
+  ]
+ },
+ "must_evidence": [
+  "commercial_contracts",
+  "privacy_law",
+  "ip_law",
+  "corporate_law",
+  "law_degree",
+  "product_counseling",
+  "clm_tools"
+ ],
+ "must_not_tag": [
+  "golang",
+  "backend_services",
+  "model_training",
+  "interaction_design",
+  "detection_response",
+  "frontend_web",
+  "security_certs"
+ ],
+ "real_gaps": [
+  "litigation_disputes",
+  "outside_counsel"
+ ],
+ "known_miss": {
+  "level": "The matcher reads a level from years in product (profile.pmYears); a tech career reads as associate until the matcher reads years in the set's roles (PR 5).",
+  "counsel:mid": "46% on the local corpus: the resume reads at associate (the level known miss), so no credit is presumed for two years of practice; recheck when the matcher reads tech years (PR 5)."
+ }
+}
