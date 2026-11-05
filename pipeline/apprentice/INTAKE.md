@@ -63,3 +63,7 @@ name_on_page:         # a made-up name; never the student's own (check.mjs refus
 ## 8. The name on the page
 
 ### The page replaces your name with a made-up one. Which?
+
+## 9. More about you
+
+### Anything else that shows how you work: a side project, a talk, an essay you wrote for a program application, a thing you run. Paste it or describe it, and say what it was for and when. (The map's story cards and the read use it; the page never shows it.)

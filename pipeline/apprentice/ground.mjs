@@ -22,7 +22,7 @@ if (new Set(roleList).size !== roleList.length) die("intake.md: `roles:` names a
 // posting.md and profile.md: split out of the intake when the student left them empty
 const postingFile = path.join(dir, "posting.md"), profileFile = path.join(dir, "profile.md");
 if (isBlank(read(postingFile))) fs.writeFileSync(postingFile, `# Posting\n\n${ans.posting_title || ""}\n${ans.posting_url || ""}\n\n${prose(intake.sections["2"])}\n`);
-if (isBlank(read(profileFile))) fs.writeFileSync(profileFile, `# Profile\n\n${prose(intake.sections["3"])}\n\n## What I have built\n\n${prose(intake.sections["4"])}\n\n## The strangest fit\n\n${prose(intake.sections["6"])}\n`);
+if (isBlank(read(profileFile))) fs.writeFileSync(profileFile, `# Profile\n\n${prose(intake.sections["3"])}\n\n## What I have built\n\n${prose(intake.sections["4"])}\n\n## The strangest fit\n\n${prose(intake.sections["6"])}\n${prose(intake.sections["9"]) ? `\n## More about you\n\n${prose(intake.sections["9"])}\n` : ""}`);
 const posting = read(postingFile), profile = read(profileFile);
 
 const { A, Matcher, Catalog, EvidenceText } = atlas();
@@ -47,11 +47,14 @@ const role = {
 // ---------- the skills: core (asked by most postings) and common (by many), with what each means in this field ----------
 const grid = A.grid(R, R.jobs);
 const kindLabel = k => ((R.kinds || {})[k] || {}).label || k;
+const shownBy = h => Object.fromEntries(["artefacts", "verbs", "measures", "counterparts"].map(k => [k, Array.isArray((h || {})[k]) ? (h || {})[k].slice(0, 4) : []]));
 const skillRow = (s, tier) => {
   const sk = R.skillById[s.id] || {};
   return { id: s.id, label: s.name, kind: s.kind, kind_label: kindLabel(s.kind), tier, share: s.share, grows: s.grows || false, defining: s.defining,
     area: s.cluster, area_label: ((R.clusters || {})[s.cluster] || {}).label || s.cluster,
-    what: sk.what || T.summary(sk) || null, reads_as: T.reads(sk, keys), line: T.line(sk, keys).text, how_shown: (sk.how_shown || {}).form || null };
+    what: sk.what || T.summary(sk) || null, reads_as: T.reads(sk, keys), line: T.line(sk, keys).text, how_shown: (sk.how_shown || {}).form || null,
+    // the slots a line that shows it fills (pipeline/evidence.json); the story cards name them (assemble.mjs)
+    shown_by: shownBy(sk.how_shown) };
 };
 // the grid's right column is the atlas's "asked more at senior levels" mark
 const tierOf = row => [...row[0].map(s => ({ ...s, grows: false })), ...row[1].map(s => ({ ...s, grows: true }))].filter(s => s.kind !== "credential");
@@ -74,9 +77,13 @@ const BAND_LABEL = { different: "New to the field", related: "Relevant foundatio
 // (transferable) · named, not shown or presumed from a role held (thin, presumed) · a gap (gap)
 const STATE = { evidenced: "shows", through: "shows", transferable: "shows in other words", thin: "must evidence better", presumed: "must evidence better", gap: "must build" };
 const WORDS = { evidenced: "evidenced: a line of work shows it", through: "shown through a way of working on the résumé", transferable: "said in other words: shown in another field's words", thin: "named, not shown", presumed: "presumed from a role held, not shown", gap: "a gap this role requires" };
+// a line of work: a bullet, the summary or the profile's prose (never a course, a degree, a skills list, a title or
+// a heading), at least six words, not shouted. The story cards (assemble.mjs) rewrite one of these.
+const WORK_KINDS = new Set(["bullet", "summary", "other"]);
+const isWorkLine = l => WORK_KINDS.has(l.kind) && l.text.split(/\s+/).length >= 6 && l.text.replace(/[^A-Za-z]/g, "").length > 0 && l.text !== l.text.toUpperCase();
 const readRows = fit.rows.filter(r => skillById[r.id] && (r.tier === "core" || r.tier === "common")).map(r => ({
   id: r.id, label: skillById[r.id].label, tier: r.tier, share: skillById[r.id].share, status: r.status, atlas_words: WORDS[r.status] || r.status, state: STATE[r.status] || "must build",
-  through: r.throughName || null, lines: (r.lines || []).slice(0, 3).map(l => l.text),
+  through: r.throughName || null, lines: (r.lines || []).slice(0, 3).map(l => l.text), work_lines: (r.lines || []).filter(isWorkLine).slice(0, 3).map(l => l.text),
 }));
 const states = {};
 for (const r of readRows) (states[r.state] ||= []).push(r.id);

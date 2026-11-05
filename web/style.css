@@ -879,17 +879,14 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .door-skip { color: var(--muted-foreground); text-decoration: underline; text-underline-offset: 3px; } .door-skip:hover { color: var(--foreground); }
 .door-privacy { margin-top: 18px; }
 .verbs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
-/* home: the four verbs on one row from 1280 px, in a page up to 1440 px (it was the 880 px column, two by two) */
+/* home: the verbs on one row from 1280 px, in a page up to 1440 px (it was the 880 px column, two by two): four for an
+   address that opens a roster, three (n3, no Find classes) for any other (2026-11-04); under 1280 px they wrap by two */
 .main > .page.home-page { max-width: 1440px; }
-@media (min-width: 1280px) { .home-page .verbs { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1280px) { .home-page .verbs { grid-template-columns: repeat(4, minmax(0, 1fr)); } .home-page .verbs.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .verb { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; background: var(--card); color: inherit; display: block; }
 a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .verb .t { font-size: var(--text-lg); font-weight: var(--weight-medium); color: var(--heading-foreground); margin-bottom: 6px; display: block; }
 .verb .d { color: var(--muted-foreground); display: block; }
-/* Find classes before a Cornell address: no link, muted, a dashed edge, and the line that says how to open it */
-.verb.closed { background: transparent; border-style: dashed; cursor: default; }
-.verb.closed .t, .verb.closed .d { color: var(--subtle-foreground); }
-.verb .gate { display: block; margin-top: 10px; font-size: var(--text-sm); color: var(--muted-foreground); } .verb .gate a { color: var(--primary); }
 /* About you on home (app.js youInline, 2026-11-01): the questions inline under the cards, or the one-line summary */
 .home-you { margin-top: 32px; max-width: 760px; } .home-you h2 { margin: 0 0 4px; } .home-you h3 { margin: 4px 0 0; }
 .home-you .steps { margin: 12px 0 14px; } .home-you .yi-nav { margin-top: 12px; } .home-you .strip { margin-top: 8px; }
@@ -1272,6 +1269,16 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .qcard ul.src { margin: 0; padding-left: 18px; font-size: var(--text-sm); } .qcard ul.src li { margin: 2px 0; }
 .qcard ul.src a { color: var(--primary); } .qcard ul.src .rd { color: var(--subtle-foreground); }
 .qcard .users { font-size: var(--text-base); line-height: var(--leading-relaxed); margin: 0; }
+/* a story card: the line as it stands, the slots, the live read of a new line, the practice prompt */
+.qcard .why ul.slots { margin: 0; padding-left: 18px; font-size: var(--text-base); line-height: var(--leading-relaxed); }
+.qcard .why ul.slots b { font-weight: var(--weight-medium); }
+.qcard .try textarea { display: block; width: 100%; box-sizing: border-box; min-height: 76px; margin: 8px 0 6px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); color: var(--foreground); font: inherit; font-size: var(--text-base); line-height: var(--leading-relaxed); resize: vertical; }
+.qcard .try textarea:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+.qcard .story-read { margin: 0; min-height: 1.4em; font-size: var(--text-base); line-height: var(--leading-relaxed); display: flex; align-items: flex-start; gap: 6px; }
+.qcard .story-read .sdot { margin-top: 7px; flex: none; }
+.qcard .why pre.prompt { white-space: pre-wrap; font: inherit; font-size: var(--text-sm); line-height: var(--leading-relaxed); margin: 6px 0 8px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--muted); color: var(--foreground); }
+.qcard .why .copied { margin-left: 8px; font-size: var(--text-sm); color: var(--muted-foreground); }
+.ow-path .stop.story .disc { stroke-dasharray: 3 3; }
 .fb { border-top: 1px solid var(--border); margin-top: 14px; padding-top: 14px; }
 .fb h3 { margin: 0 0 8px; font-size: var(--text-md); }
 .fb .row { display: flex; flex-wrap: wrap; gap: 6px; }

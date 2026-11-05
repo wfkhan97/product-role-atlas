@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 import { require, web } from "./_load.mjs";
 
-const { parseRoute } = require(path.join(web, "app.js"));
+const { parseRoute, Door } = require(path.join(web, "app.js"));
 const screen = hash => { const r = parseRoute(hash); return [r.name, r.params]; };
 
 test("an empty hash, a bare # and #/ show the door", () => {
@@ -89,6 +89,17 @@ test("#/classes, #/professor/<slug> and #/signin name the Spring 2027 screens", 
   assert.deepEqual(parseRoute("#/classes?open=TEST%201010").query, { open: "TEST 1010" });
   assert.deepEqual(screen("#/professor/jane-doe"), ["professor", { slug: "jane-doe" }]);
   assert.deepEqual(screen("#/signin"), ["signin", {}]);
+});
+
+test("the closed routes: #/classes and #/professor/<slug> are home for a visitor whose address opens no roster (2026-11-04)", () => {
+  for (const h of ["#/classes", "#/classes?open=TEST%201010", "#/professor/jane-doe"]) {
+    assert.equal(Door.reach(parseRoute(h).name, false), "home", h);
+    assert.equal(Door.reach(parseRoute(h).name, true), parseRoute(h).name, h);
+  }
+  for (const h of ["#/", "#/home", "#/jobs", "#/skills", "#/network", "#/you", "#/role/x", "#/signin", "#/map"]) assert.equal(Door.reach(parseRoute(h).name, false), parseRoute(h).name, `${h} is open to everyone`);
+  // route() draws what Door.reach gives, after the door's bounce
+  const src = fs.readFileSync(path.join(web, "app.js"), "utf8");
+  assert.match(src, /const name = Door\.reach\(/, "route() passes the screen through Door.reach");
 });
 
 test("a query on a screen's hash comes through: the wizard's step and the role screen's tab", () => {
