@@ -462,6 +462,53 @@ the site sends and saves the answer with the route's host (check the deploy firs
 validation or the merge, and commit the baseline. `node evals/run.mjs --baseline` must not move when no list is
 passed: the patterns' read is the floor.
 
+## Adding a role (the checklist)
+
+Every role, in either role set, goes through the same steps as the first 50 MBA roles did on 2026-10-11 (NOTES.md,
+"Taxonomy for the MBA role set"): its postings are scraped, the skills that set them apart are found in their own
+words and written into the taxonomy, and those skills are put in context (definitions, depth, field readings,
+credentials). Title rules alone give a role postings, not skills. A role counts as added when every box below is
+ticked; until then PLAN.md carries it under Later with the boxes left.
+
+**A. Rules (one pull request, before any scrape)**
+
+1. Title rules and exclusions in `pipeline/roles_mba.py` (or `pipeline/roles.py`), its label, group and the day it
+   joined (`ADDED`), and searches for the search-based job boards (`SEARCH_QUERIES_2`).
+2. Labelled titles in `evals/titles_mba.json`, written from real titles before the patterns, with the edges the
+   patterns must not take; older null rows the role now takes get relabelled with the reason. The resume-side twin,
+   `evals/resume_titles.json`, the same way.
+3. Pin tests in `tests/python/test_roles_mba.py`; a one-sentence `web/data/role_blurbs.json` entry.
+4. A new group also needs its campus subjects (`field_subjects` in `web/data/sp27_campus.json`).
+5. `build_graph --roles mba`, `evals/run_pipeline.py --baseline`, `node evals/run.mjs`, both test suites.
+   The role shows as waiting for a scrape (no postings yet, `ADDED` after the last scrape).
+
+**B. Postings (the refresh)**
+
+6. `refresh-mba` (or `refresh-product`) scrapes with the new searches and re-extracts. Afterwards the role has US
+   postings in `evals/extraction_baseline_mba.md`; an empty role now fails `run_pipeline.py`.
+
+**C. Skills (one pull request per batch of roles, after the refresh)**
+
+7. Corpus and phrases: `pipeline.experiments.role_corpus --roles mba`, then
+   `pipeline.experiments.role_terms --roles mba --role <id> --n 80`. Read the top phrases against the role's
+   defining skills in `extraction_baseline_mba.md`: a phrase no skill covers is a draft skill.
+8. Draft skills in a JSON file in the scratch folder; `pipeline.experiments.skill_probe --skills draft.json --roles mba`
+   until the shares and matched sentences read right. A skill already in the taxonomy gets a pattern, not a twin.
+9. Into `pipeline/taxonomy.json`, each with its `kind`, a `pipeline/evidence.json` entry and, when four or more fields
+   ask for it, `pipeline/fields.json` entries (carriers that co-occur, CLAUDE.md); `pytest tests/python/test_taxonomy.py`,
+   `evals/run_taxonomy.py --baseline`.
+10. Re-extract both role sets when a shared skill changed (CLAUDE.md), `role_coverage --roles mba` for
+    `extraction_baseline_mba.md`, `skill_audit --roles mba` for the new skills (`extraction_audit_mba.md`).
+11. Context: a definition per new skill and the depth through `pipeline.depth_gen` and `pipeline.depth_publish`
+    (`evals/run_depth.py --baseline`); the role's credentials (`pipeline.build_steps`, `pipeline/depth/mba_roles.json`).
+12. A new group: its field readings in `pipeline/fields.json` once it has postings to ground them.
+
+**D. Fit (when samples exist)**
+
+13. Sample resumes for the role's group in `evals/external_sources.json`; `evals/calibrate.mjs --roles mba` for its band.
+    A group with fewer than 10 samples shows no verdict.
+14. Game passages (`pipeline/game_passages.py`) for the games that deal roles.
+
 ## Evals to build
 
 The product roles have matcher evals and an extraction baseline. The MBA role set has an extraction baseline, a

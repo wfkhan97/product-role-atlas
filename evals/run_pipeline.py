@@ -253,8 +253,13 @@ def integrity():
     stale = collections.Counter((j["family"], roles_mba.family(j["title"], j.get("category"), j["company"])) for j in jobs
                                 if roles_mba.family(j["title"], j.get("category"), j["company"]) != j["family"])
     awaiting = {to for (_, to), n in stale.items() if to and not us[to]}
-    empty = [f for f in roles_mba.FAMILY_LABELS if not us[f] and f not in awaiting]
+    # a role that joined the rules after the last scrape has had no search of its own yet: it waits for a scrape
+    last_scrape = max((j.get("last_seen") or "") for j in jobs)
+    unscraped = {f for f, day in roles_mba.ADDED.items() if not us[f] and f not in awaiting and day > last_scrape}
+    empty = [f for f in roles_mba.FAMILY_LABELS if not us[f] and f not in awaiting and f not in unscraped]
     check("integrity", not empty, f"roles with no US postings: {empty}")
+    if unscraped:
+        out(f"  roles added after the last scrape ({last_scrape}), waiting for pipeline.scrape --roles mba: {sorted(unscraped)}")
     if stale:
         out(f"  {sum(stale.values())} postings carry a role the current rules would not give (the rules changed after the last extraction): "
             + ", ".join(f"{a or 'none'} -> {b or 'none'} {n}" for (a, b), n in stale.most_common(6)) + (f"; roles waiting for re-extraction: {sorted(awaiting)}" if awaiting else ""))

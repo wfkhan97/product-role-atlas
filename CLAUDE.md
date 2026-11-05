@@ -49,6 +49,10 @@
   `pipeline.backlog pull` before `extract` or a scrape. Never delete rows from
   `backlog_files` or `postings`, run `verify` after a change to push or pull, and never run a scrape with a
   `data/raw/jobs*/` that is behind the database (`pull` first).
+- A new role, in either role set, follows "Adding a role (the checklist)" in `evals/README.md`: rules and labels first,
+  then the refresh that gives it postings, then its own skills drafted from those postings (`role_terms`, `skill_probe`)
+  and put in context (taxonomy, evidence, fields, depth, credentials). Title rules alone are not a role added; a role
+  with boxes left stays under "Later" in PLAN.md until they are ticked.
 - Every eval that exists for the product roles gets its counterpart for a new role set before that role set is
   shown in the interface. New kinds of evals are listed in `evals/README.md` under "Evals to build".
 - Two kinds of writing, kept apart. **Lasting documentation** is what a future session needs to understand the
