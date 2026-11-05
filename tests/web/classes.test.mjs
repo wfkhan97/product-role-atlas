@@ -375,7 +375,7 @@ test("inField: a card whose subject is in the list; fieldSubjects reads the camp
   const [tech, bana] = C.collapse({ classes: [cls("TECH 1"), cls("BANA 2")] }).sort((a, b) => a.key < b.key ? 1 : -1);
   assert.equal(C.inField(tech, ["TECH", "NBAY"]), true); assert.equal(C.inField(bana, ["TECH", "NBAY"]), false); assert.equal(C.inField(tech, []), false); assert.equal(C.inField(tech, null), false);
   const fs = campus.field_subjects;
-  assert.equal(Object.keys(fs).length, 11, "one entry per role field of graph_mba.json groups");
+  assert.deepEqual(Object.keys(fs).sort(), readJson("roles_mba.json").groups.map(g => g.id).sort(), "one entry per field of the MBA role set, shown or not yet");
   for (const g of readJson("graph_mba.json").groups) assert.ok(Array.isArray(fs[g.id]) && fs[g.id].length, `field_subjects lacks ${g.id}`);
   assert.deepEqual(C.fieldSubjects(campus, ["product"]), fs.product);
   assert.deepEqual(C.fieldSubjects(campus, ["finance", "analytics"]), [...new Set([...fs.finance, ...fs.analytics])]);
