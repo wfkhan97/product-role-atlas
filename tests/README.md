@@ -88,7 +88,7 @@ build did not go through. `npm run test:ui` starts the server itself, or uses on
 | `smoke.spec.mjs` | Every state reaches home (a fresh visitor: the door), with no unexpected console error; the two health lines. |
 | `door.spec.mjs` | The door's chrome passes the door as Skip does; the Tally door's own Skip; Find classes in the top bar right after the return; the step count. |
 | `classes.spec.mjs` | Find classes and the campus gate: the rail's classes link, the line on home after a bounce, the lead and the dates, a résumé read with no role, focus across redraws, the detail panel, the gap names, the role list, the band tag's contrast, a professor from the Faculty tab. |
-| `phone.spec.mjs` | At 390×844 only: no route scrolls sideways; the rail and the Filters drawer inside the screen; the prep card and the first posting within one screen; the top bar in two rows; the skill map's labels; the game board. |
+| `phone.spec.mjs` | At 390×844 only: no route scrolls sideways; the rail and the Filters drawer inside the screen; the prep card and the first posting within one screen; the top bar in two rows; the skill map's labels; the game board; About you's summary fits. |
 | `keyboard.spec.mjs` | Real key presses: "choose a file" on every drop zone, the posting panel's focus and Esc, the launcher's tiles, Networking's tabs, the feedback sheet's Tab; axe's link, name and contrast rules in both themes. |
 | `resume.spec.mjs` | "Add your résumé" on Find jobs and Networking comes back to the same address; the question counts; the AI reader's line; Start over asks first. |
 | `fit.spec.mjs` | The course screen's level and count; class links only for a campus address; the rail's count against the fit screen's; the links to the course screen and the game; the intake boxes; one count per thing across screens. |
@@ -110,7 +110,8 @@ API, so no funnel row, waitlist row or feedback row leaves the machine. Reads, s
 (Tally, cdnjs) go through. `axe(page, name)` runs the WCAG 2.1 A and AA rules and returns the violations; it never
 fails a test. The count goes in the test's annotations.
 
-No `.session.json` has been captured yet, so the signed-in tests skip. The one try (2026-11-06) ended in `otp_expired`:
+No `.session.json` has been captured yet, so the signed-in tests skip. Today the web tests count 478 and the UI
+specs 300 passed, 64 skipped. The one try (2026-11-06) ended in `otp_expired`:
 Outlook's Safe Links opened the magic link first, and the code shares the link's token.
 
 `serve.mjs` reads the shell's environment and `.env`. Where either holds `CATALOG_SERVICE_ROLE_KEY`, a signed-in tree

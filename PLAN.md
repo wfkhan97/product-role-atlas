@@ -2557,7 +2557,8 @@ blocking, 54 cosmetic.
 
 **The nine clusters** (one pull request each, stacked; merge in this order: #172, #177, #178, #179, #180, #181, #183,
 #182, #184, #185, then the guide's pull request and this one). All 5 broken and all 16 blocking findings are fixed,
-with 47 of the cosmetic ones and 12 more that the fixers and the checks found on the way.
+with 49 of the 54 cosmetic ones and 12 more that the fixers and the checks found on the way. Of the other five
+cosmetic findings, the guide alone explains four, and one is Tally's (the dark door's purple Submit), deferred.
 1. The door (#177, `fix/door`): the door's top bar and footer About did nothing; the Tally door had no Skip; the
    native door's student line was wrong; the top bar lacked Find classes after the Tally return; "Question 2 of 3"
    sat over four bars.
@@ -2608,18 +2609,26 @@ No matcher, taxonomy, model-read or pipeline file changed, so no eval chain was 
   Networking); nothing else open; the screen unseen, or its version raised. The seen-state is `guide.seen` in
   localStorage; a screen counts as seen at its first tip. The feedback prompt waits while a tip is due or open.
 - Phone: at 640 px and under, a bottom sheet (at most 45% of the height) and a ring on the target, no dim layer.
-- Accessibility: the card is a non-modal dialog. Focus moves into it, Tab stays among its buttons, Esc skips, and
-  focus goes back where it was. The page is never inert, so a screen reader can leave the card.
+- Accessibility: the card is a non-modal dialog. Focus moves into it, Tab stays among its buttons, Esc skips. The spec
+  had every end give focus back; as built, Done, a skip and a vanished target give it back, while a click on the
+  target (it goes through to the page) and a route change do not. The page is never inert, so a screen reader can leave the card.
 - Instrumentation: no migration. The tips send `cta` rows: `guide_<screen>` shown, click, done; `guide_skip` done;
   `guide_relaunch` click (kept, so the funnel tells a replay from a first visit). `pipeline/funnel.py` prints shown,
   completed and skipped per screen.
 - Versioning: one version per screen (all 1). Raising one shows that screen's tips once more to everyone.
-- Two behaviours the build added to the design: on a phone the page gets room below its end, so a late target can
-  scroll above the sheet; the count ("Tip 2 of 3") counts only the targets in the page now.
-- One copy change: the field screen's heart tip names "All fields", since the cluster 6 rename.
-- The six "explain" findings it resolves: the class cards' band and the label "from the course description"; the
-  subject codes (BANA, NBAY); the gap count that changes with the program answer; the role page's closed areas; the
-  fit screen's two counts; the Explore view buttons named only by a glyph.
+- Two behaviours the build added to the design: `.guide-room`, 50vh of padding below the page while the phone
+  sheet is open, so a target near the page end can scroll above the sheet; and Esc caught in the capture phase, so
+  the app's own Esc handler does not also fire.
+- Two phone fallbacks in the step table: the home relaunch tip and the About feedback tip point at the footer's link
+  when the top bar's link sits past the phone's edge.
+- Four copy changes from the plan: the field screen's heart tip says "All fields" (the cluster 6 rename); the home
+  relaunch tip says "on a screen with tips"; the Networking types tip says "a recruiter or a hiring manager" (a
+  gmail visitor has no alum tab); the role rail tip says "in the fit box" (the desktop rail is headed "How do you
+  fit?", the phone tab "Your fit").
+- The six "explain" findings it resolves. The guide alone explains four: the class cards' band and the label "from
+  the course description"; the subject codes (BANA, NBAY); the gap count that changes with the program answer; the
+  role page's closed areas. Two also got an interface change: the fit screen's two counts (a line under the lead)
+  and the Explore view buttons named only by a glyph (an aria-label).
 
 **Deferred** (each is a line under Later, below). The Tally-owned items: the dark Submit colour, the contrast inside
 the iframe, the redirect to production; they are the owner's form settings. The data strings (a role blurb's passive,
@@ -2633,8 +2642,8 @@ email from a session, the top bar with Sign out). The owner's relayed code and m
 link's token, so the scanner spent both. The risk for `ACCOUNTS_ENABLED`: Cornell mail is Outlook, so the code email
 template must carry `{{ .Token }}` and no link, or no student can sign in.
 
-**The tests at the top of the stack.** `npm test`: 477 web tests, 476 pass and 1 skip (it was there before).
-`npm run test:ui`: 358 tests, 295 pass and 63 skip (a viewport's own cases and the signed-in ones), none fail.
+**The tests at the top of the stack.** `npm test`: 478 web tests, 477 pass and 1 skip (it was there before).
+`npm run test:ui`: 364 tests, 300 pass and 64 skip (a viewport's own cases and the signed-in ones), none fail.
 `tests/python/test_funnel.py` passes. The evals are unchanged (`run.mjs` 515; `run_classes.mjs` 197 pass, 11 fail,
 3 known).
 
@@ -2737,6 +2746,10 @@ done). One line per item; the section that explains it is named where it helps.
 - Guide steps for the screens the guide leaves out: the course screen and the games (their links landed with the
   usability fixes), the professor and the event screen, and the map once a real sign-in lets its targets be checked.
   The sign-in gets none: its own copy now says what a tip would.
+- The role picker (`web/pick.js`) opens its list on focus, and the open list has three axe violations
+  (`aria-input-field-name`, `scrollable-region-focusable`, `aria-required-attr`). It also ends every guide run on
+  Find classes with the list open.
+- `guide.seen` accepts a digit string as a version (`"1"` for 1); read only whole numbers.
 - The Tally door's duplicate submissions end with the native door form under `ACCOUNTS_ENABLED`; until then they stay.
 
 **The pipeline**
