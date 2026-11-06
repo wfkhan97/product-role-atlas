@@ -1,11 +1,11 @@
 {
  "generated": "2026-11-06",
- "n_open": 32482,
- "n_companies": 1511,
+ "n_open": 32550,
+ "n_companies": 1513,
  "by_set": {
   "product": {
-   "n_open": 6445,
-   "n_companies": 989
+   "n_open": 6513,
+   "n_companies": 988
   },
   "mba": {
    "n_open": 26037,

@@ -1,0 +1,26 @@
+{
+ "resume": "ml_masters_paper",
+ "roles": [
+  "tech.ml_engineer"
+ ],
+ "note": "An ML master's student who fine-tunes and serves models: language modeling and ML systems are the role's core; land use law, branding and negotiation are not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "CS 5744",
+   "CS 6787"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "REAL 5590",
+   "CRP 4590",
+   "TECH 5240",
+   "NBAY 6820"
+  ]
+ },
+ "known_failures": {
+  "must_top CS 6787": "Tagged only AI/ML and hardware; this résumé's gaps are cloud, APIs and pipelines, which the agentic systems and data science courses name."
+ }
+}

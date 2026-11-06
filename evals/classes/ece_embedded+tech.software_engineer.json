@@ -1,0 +1,24 @@
+{
+ "resume": "ece_embedded",
+ "roles": [
+  "tech.software_engineer"
+ ],
+ "note": "An embedded engineer with C firmware and Linux drivers: advanced operating systems is the software course closest to the work; branding, real estate law and digital marketing are not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "CS 6412"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "TECH 5240",
+   "REAL 5590",
+   "NBAY 6090"
+  ]
+ },
+ "known_failures": {
+  "must_top CS 6412": "The gaps sort: agentic systems and crisis management name the cloud, API and DevOps gaps; the operating systems course is tagged with systems skills this résumé already shows."
+ }
+}

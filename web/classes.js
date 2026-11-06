@@ -27,9 +27,10 @@
   const rowsP = {};    // roleId -> Promise of the role's core and common rows
   let genericP = null; // the skills generic to the role set (Atlas.genericSkills), read once per page
   const genericSet = () => genericP ||= Atlas.genericSkills().catch(e => { genericP = null; throw e; });
-  // what a card names, from the tags file: the union over its codes, { found: Set, teaches: Set }; no reading in the browser
-  const readCard = (card, data) => Catalog.cardTags(card, data.tags);
-  const readAll = (cards, data) => Object.fromEntries(cards.map(c => [c.key, readCard(c, data)]));
+  // what a card names, from the tags file: the union over its codes, { found: Set, teaches: Set }; no reading in the
+  // browser. With a tech role chosen, the tech reading joins the MBA one (Catalog.tagsFor).
+  const readCard = (card, data, withTech) => Catalog.cardTags(card, Catalog.tagsFor(data, withTech));
+  const readAll = (cards, data, withTech) => Object.fromEntries(cards.map(c => [c.key, readCard(c, data, withTech)]));
   // which of the person's gaps each card covers: { cardKey: [gap rows] }, by kind (a named behaviour is not covered), the generic skills left out
   const coverage = (cards, readsByKey, gaps, generic) => Object.fromEntries(cards.map(c => [c.key, Catalog.gapsCovered((readsByKey[c.key] || {}).teaches, gaps, generic)]));
   let cardsCache = null, dataCache = null;
@@ -123,7 +124,7 @@
     // gaps: the cards say which of them each course covers, "Covers a gap" filters, and "Gaps covered" sorts
     const { roles, rows, G, generic, subjects } = await roleCtx(ctx, ix, cm);
     if (token !== S.token) return;
-    const readsByKey = readAll(cards, data);
+    const readsByKey = readAll(cards, data, roles.some(id => ix.roles[id].set === "tech"));
     const withGaps = !!(G && G.gaps.length);
     const covered = withGaps ? coverage(cards, readsByKey, G.gaps, generic) : {};
     if (!withGaps) S.coversGap = false;

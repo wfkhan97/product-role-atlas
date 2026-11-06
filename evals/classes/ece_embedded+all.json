@@ -1,0 +1,24 @@
+{
+ "resume": "ece_embedded",
+ "roles": [
+  "tech.software_engineer",
+  "tech.security_engineer"
+ ],
+ "note": "Software and security together: operating systems serves both; real estate law and branding serve neither.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "CS 6412"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "REAL 5590",
+   "TECH 5240"
+  ]
+ },
+ "known_failures": {
+  "must_top CS 6412": "The same: courses naming cloud, APIs, DevOps and security outrank operating systems."
+ }
+}

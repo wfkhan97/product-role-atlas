@@ -1,0 +1,21 @@
+{
+ "resume": "security_career_changer",
+ "roles": [
+  "tech.security_engineer",
+  "tech.software_engineer"
+ ],
+ "note": "Security and software together: the cybersecurity course leads; real estate law and 3D interaction design do not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "NBAY 5725"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "REAL 5590",
+   "DESIGN 5358"
+  ]
+ }
+}

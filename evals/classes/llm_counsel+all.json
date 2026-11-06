@@ -1,0 +1,21 @@
+{
+ "resume": "llm_counsel",
+ "roles": [
+  "tech.counsel",
+  "compliance"
+ ],
+ "note": "Counsel and compliance together, a tech role with an MBA one: privacy and cybersecurity law serves both.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "LAW 6273"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "CS 6820",
+   "DESIGN 5358"
+  ]
+ }
+}

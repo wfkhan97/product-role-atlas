@@ -53,8 +53,9 @@
   // ---------- the reads: one load per file, kept until the page reloads ----------
   // The campus entry names its files: catalog_file ({ campus, term, generated, rosterDate, classes, crosslists, sections,
   // meetings, instructors, priors, professors }) and tags_file ({ tags: { code: { found: [ids], teaches: [ids] } } }, the
-  // skills each class names outright, read once by pipeline/catalog_tags.mjs). loadCatalog returns the catalog with
-  // `tags` as Sets per code; a tags file that fails to load leaves `tags` empty and the picker rates nothing.
+  // skills each class names outright, read once by pipeline/catalog_tags.mjs; `tags_tech` the same read with the tech
+  // set's taxonomy). loadCatalog returns the catalog with `tags` and `tagsTech` as Sets per code; a tags file that fails
+  // to load leaves both empty and the picker rates nothing.
   const catalogP = {};
   // the campus to read: the entry given (or its id), else the first campus with a catalog file
   async function campusOf(campus) {
@@ -69,7 +70,7 @@
     const pick = k => Array.isArray(f[k]) ? f[k] : [];
     return { campus: f.campus || cm.id, term: f.term || cm.term || null, generated: f.generated || null, rosterDate: f.rosterDate || null,
       classes: pick("classes"), crosslists: pick("crosslists"), sections: pick("sections"), meetings: pick("meetings"), instructors: pick("instructors"), priors: pick("priors"), professors: pick("professors"),
-      tags: toSets(t && t.tags), tagsMeta: t ? { taxonomy_sha256: t.taxonomy_sha256 || null, taxonomy_product_sha256: t.taxonomy_product_sha256 || null, rule: t.rule || null } : null };
+      tags: toSets(t && t.tags), tagsTech: toSets(t && t.tags_tech), tagsMeta: t ? { taxonomy_sha256: t.taxonomy_sha256 || null, taxonomy_product_sha256: t.taxonomy_product_sha256 || null, taxonomy_tech_sha256: t.taxonomy_tech_sha256 || null, rule: t.rule || null } : null };
   })().catch(e => { delete catalogP[cm.id]; throw e; });
   async function loadCatalog(campus) {
     const cm = await campusOf(campus);
@@ -118,6 +119,20 @@
       return { key, codes, otherCodes: other, classes: list, primary, title: primary.title, credits: primary.credits, sections: secs, instructors: ins, priors: pri, subjects: [...new Set(list.map(c => c.subject))] };
     });
     return cards.sort((a, b) => a.key.localeCompare(b.key));
+  }
+  // The tags a read goes by: the MBA reading alone, or, when a tech role is among the roles (withTech), the MBA and the
+  // tech readings joined per code (the rows of a tech role ask for the tech set's own skills, which only its reading
+  // names; a shared skill either reading names counts). Built once per catalog read.
+  const techJoined = new WeakMap();
+  function tagsFor(data, withTech) {
+    if (!withTech || !data) return (data && data.tags) || {};
+    if (techJoined.has(data)) return techJoined.get(data);
+    const out = {};
+    for (const src of [data.tags || {}, data.tagsTech || {}]) for (const [code, t] of Object.entries(src)) {
+      const o = out[code] ||= { found: new Set(), teaches: new Set() };
+      for (const id of t.found || []) o.found.add(id); for (const id of t.teaches || []) o.teaches.add(id);
+    }
+    techJoined.set(data, out); return out;
   }
   // the tags of a card: the union over its codes of what the tags file holds, as Sets ({ found, teaches }); a card
   // with no row in the file names nothing
@@ -407,5 +422,5 @@
     return blocks.join("");
   }
 
-  return { esc, BANDS, CLASS_COLS, PROF_COLS, loadCatalog, loadProfessor, campuses, campusFor, neutralCardTitle, collapse, cardTags, gradingText, eligibilityLabel, restricted, eligibilityLine, openTo, filterCards, matchField, instructorList, DAYS, dayCodes, cardDays, dayList, meetsOn, cardCredits, creditList, hasCredits, eligibilityList, eligibleFor, rosterOrder, instructorCards, instructorGaps, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, combineRoles, joinLabels, gapsCovered, coverLine, NO_COVER_LINE, namesLine, creditsLine, datesLine, activeFilters, noCover, inField, fieldSubjects, sortCards, topCovering, cardHtml, mdSections, mdHtml };
+  return { esc, BANDS, CLASS_COLS, PROF_COLS, loadCatalog, loadProfessor, campuses, campusFor, neutralCardTitle, collapse, tagsFor, cardTags, gradingText, eligibilityLabel, restricted, eligibilityLine, openTo, filterCards, matchField, instructorList, DAYS, dayCodes, cardDays, dayList, meetsOn, cardCredits, creditList, hasCredits, eligibilityList, eligibleFor, rosterOrder, instructorCards, instructorGaps, meetingLines, matcherText, cardText, relevanceScore, relevanceBand, rowsOf, combineRoles, joinLabels, gapsCovered, coverLine, NO_COVER_LINE, namesLine, creditsLine, datesLine, activeFilters, noCover, inField, fieldSubjects, sortCards, topCovering, cardHtml, mdSections, mdHtml };
 });

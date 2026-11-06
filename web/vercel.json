@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/infer.js": {
-      "includeFiles": "data/{taxonomy.json,taxonomy_mba.json,graph_mba.json}",
+      "includeFiles": "data/{taxonomy.json,taxonomy_mba.json,graph_mba.json,taxonomy_tech.json,graph_tech.json}",
       "maxDuration": 30
     },
     "api/tree.js": {

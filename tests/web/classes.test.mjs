@@ -310,6 +310,12 @@ test("files mode: loadCatalog and loadProfessor read the campus's files through 
   const t = F.cardTags(pair, data.tags);
   assert.deepEqual([...t.found].sort(), ["sql", "stakeholder_mgmt"]); assert.deepEqual([...t.teaches], ["sql"]);
   assert.deepEqual([...F.cardTags(F.collapse(data).find(c => c.key === "ZZZ 9000"), data.tags).found], [], "no row in the tags file: names nothing");
+  // a tech role joins the tech reading to the MBA one; without one, the MBA reading alone, as before
+  data.tagsTech = { "TEST 1020": { found: new Set(["golang", "sql"]), teaches: new Set(["golang"]) } };
+  assert.equal(F.tagsFor(data, false), data.tags);
+  const j = F.cardTags(pair, F.tagsFor(data, true));
+  assert.deepEqual([...j.found].sort(), ["golang", "sql", "stakeholder_mgmt"]); assert.deepEqual([...j.teaches].sort(), ["golang", "sql"]);
+  assert.equal(F.tagsFor(data, true), F.tagsFor(data, true), "joined once per catalog read");
   const r = await F.loadProfessor("pat-example", "cornell_tech");
   assert.equal(r.professor.name, "Pat Example");
   assert.deepEqual(r.classes, [{ code: "TEST 1020", term: "SP27", title: "Title of TEST 1020" }, { code: "TEST 2020", term: "SP27", title: "Title of TEST 2020" }], "the classes the instructor rows name, by code, with titles");

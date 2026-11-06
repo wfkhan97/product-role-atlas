@@ -15,7 +15,8 @@ import { createRequire } from "module";
 const here = path.dirname(fileURLToPath(import.meta.url)), web = path.join(here, "..", "web");
 const require = createRequire(import.meta.url);
 const Matcher = require(path.join(web, "match.js"));
-const Atlas = require(path.join(web, "atlas.js"))({ load: f => JSON.parse(fs.readFileSync(path.join(web, f))), Matcher });
+// the tech index on, so the tech roles are dealt too (the site deals them once CONFIG.TECH_ENABLED is on)
+const Atlas = require(path.join(web, "atlas.js"))({ load: f => JSON.parse(fs.readFileSync(path.join(web, f))), Matcher, config: () => ({ TECH_ENABLED: true }) });
 const { logic: L } = require(path.join(web, "games", "know-the-role.js"));
 
 const ix = await Atlas.index(), P = await Atlas.product(), generic = await Atlas.genericSkills();

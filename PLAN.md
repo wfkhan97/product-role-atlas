@@ -2517,6 +2517,79 @@ management. The legal skills (contracts, litigation, IP, privacy) sit among the 
 scores lower against counsel than an MBA compliance résumé (same-role median 13%, other field 19%). The fix belongs to
 the taxonomy, not to the bands.
 
+## The model read for the tech set (`feat/tech-infer`, 2026-11-06)
+
+**What changed.**
+- `/api/infer` offers a fourth set, `"all"`: the MBA list plus the 45 skills only the tech set has. They are offered by
+  name only, because tech skills have no definitions yet.
+- The site sends `"all"` only with `CONFIG.TECH_ENABLED` on. Its `found` then includes what the tech patterns found
+  (`Atlas.roughFit`'s new `shownT`).
+- The tech rough reader now applies the model's answer, as the MBA reader already did; before, the tech roles' rough
+  scores ignored it.
+- The `"both"` request stays byte-identical, so the site with the switch off asks exactly what it asked before.
+
+**The runs.** Both settings ran over the whole résumé set through this branch's preview route (the 8 samples plus 376
+published résumés, 344 files present). Answers were not in the store's caches, so every résumé was asked again, about
+$0.45 a run.
+- **`"both"`** (`infer_baseline.md`): 3.2 skills inferred per résumé; 40 bands up, none down. All four must-be-zero
+  counts are zero (credentials, behaviours, unknown ids, quotes not in the text).
+- **`"all"`** (`infer_baseline_tech.md`): 3.3 per résumé; 45 bands up, none down; the four counts are zero.
+  - On the 72 tech samples scored on their own tech role: 196 skills inferred, 56 of them tech-only (litigation,
+    databases, contracts, privacy law, visual design, backend services lead).
+  - Median score 38% → 41%, three bands up.
+- **One expectation lost in the `"both"` run.** `pivot_phd_hci` got `stakeholder_mgmt` from "coordinated timelines with
+  clinicians and IRB", and it is one of that sample's `real_gaps`. The request is unchanged, and the same résumé was not
+  tagged in the 2026-11-01 baseline or in the `"all"` run, so this is the model's variance. It is left as measured,
+  not tuned away.
+
+## The class picker for the tech set (`feat/tech-classes`, 2026-11-06)
+
+**The tags.** `pipeline/catalog_tags.mjs` reads each class twice: with the MBA taxonomy, as before (`tags`), and with
+the tech set's (`tags_tech`). It records the tech taxonomy's hash, so `tests/web/catalog_files.test.mjs` fails when the
+tags go stale; that test also checks a sample of the tech reading against a live read. Of 127 classes, 114 carry a tech
+tag and 66 a skill only the tech set has (algorithms, backend services, prototyping and model training lead).
+
+**The picker.** With a tech role among the chosen roles, a card's tags are the two readings joined (`Catalog.tagsFor`,
+in `web/classes.js` and the network screen's professors). With none, the MBA reading alone, as before.
+
+**The catalog.** `pipeline.catalog_export` was rerun to build the local file. The research folder's roster is from
+2026-11-01, so the public file gains two classes (INFO 5315 Conversation Engineering, LAW 6492 IPOs for Technology
+Companies). The MBA reading changed for four classes: those two, plus INFO 5305 and NBAY 5180, whose text changed.
+
+**The eval.** `evals/run_classes.mjs` gains 21 cases: the seven tech samples, each against its own tech role, one
+neighbour and both together. The lawyer's neighbour is the MBA compliance role, so one case mixes the sets. The
+expectations were written from the catalog before the picker ran on them.
+- 0 failures, 16 known failures, each with its reason. They share two shapes:
+  - The gaps sort lets a class that names one small gap outrank the role's core course (AI Law and Policy above
+    Advanced Operating Systems for a CS student, whose gaps include hardware and security).
+  - Broad syllabus tags (Advanced ML Systems is tagged only AI/ML and hardware).
+- Some misses read acceptably: ML Hardware and Systems leads the ML cases in place of Advanced ML Systems.
+
+**Not this change.** The MBA and product cases have 11 failures and 2 known failures that now pass, on `main` as
+well. The data refreshes since the 2026-10-31 baseline moved them, and the class eval is not in CI. The baseline
+committed here records them as they are.
+
+## The games for the tech set (`feat/tech-games`, 2026-11-06)
+
+**Know the role deals the tech roles.** It is the game a role page's "Practise" link opens, and it works from posting
+shares alone. A tech role's pool uses the same rules over the tech index's skills.
+- A decoy's other role is another tech role, or an MBA role that prizes a skill the two sets share.
+- The lift is measured against the tech set's baseline (`ix.baselineTech`), as the site's matcher does.
+- The shell offers a tech role only to a game that says it deals the set (`defaultRole(..., { tech: true })`,
+  `picker({ tech: true })`), so the other games never open on one.
+- `evals/game_know_the_role.mjs` runs with the tech index on: 63 roles, all playable, every rule holds.
+- On the tech roles: 14 to 22 real asks a role, 28 to 39 decoys; a first board's decoys come from business roles
+  (vendor management, partnerships, positioning).
+
+**The other five stay with the product and MBA roles,** each for a reason in the data or the design:
+- **Climb the ladder** sorts a skill's statements by level, from the depth files. The tech skills have none (checklist
+  C10 and C11 in "Adding a role").
+- **Skill path** plays on the skill map, which does not cover the tech set.
+- **Spot the real ask** reads passages that `pipeline/game_passages.py` cuts from postings; none are cut from tech
+  postings yet.
+- **Guess the role** and **Where's the demand** deal across the fields of one role set (five rounds, one field each).
+  The owner decided on 2026-11-06 that both stay business-only: no tech edition.
+
 ## The usability audit of 2026-11-06: the harness, nine fix clusters, the site guide (`chore/ui-harness` … `feat/site-guide`, 2026-11-06)
 
 **The ask.** Cornell Tech's pre-enrollment runs Nov 10–12, and many students meet GradBuddy there first. The owner
@@ -2683,9 +2756,14 @@ done). One line per item; the section that explains it is named where it helps.
 - Bands for data and AI, design and legal: ten or more samples each (résumé-site samples downloaded by hand, more
   school guides), and counsel's asks fixed in the taxonomy first (legal practice, not compliance), then
   `calibrate.mjs --roles tech`; the product and MBA bands rerun with the 64 new files as "other field".
-- Before the set is shown: `/api/infer` reads the tech set; `catalog_tags.mjs` reads `taxonomy_tech.json`; class
-  cases and game evals over tech roles; a fresh labelled sample of titles; tech rows in `evals/sponsorship.json`; the
+- Before the set is shown: a fresh labelled sample of titles; tech rows in `evals/sponsorship.json`; the
   résumé-title twin, role blurbs and campus subjects for the five fields.
+- The class picker for tech roles ("The class picker for the tech set"): 16 known failures in the tech cases, all the
+  gaps sort's shape (a class naming one small gap outranks the role's core course) or broad syllabus tags (Analysis of
+  Algorithms read as A/B testing); the same lever as the MBA cases' known failures.
+- The model read (`/api/infer`, set `"all"`, "The model read for the tech set"): `pivot_phd_hci`'s `real_gaps`
+  `stakeholder_mgmt` was tagged in 1 of 3 runs of the same request (tighten the prompt only if it repeats); push
+  `data/experiments/infer/` to the caches store so `--reuse` works on another checkout.
 - Its checklist items C10 and C11: `skill_audit --roles tech`, then definitions and depth for the 48 tech-only skills.
 - A tech wording for the shared product skills that fire on company blurbs (launch, partnerships, growth loops,
   pricing; the golden ceiling is 27% against the MBA set's 16%). Whether `ux_researcher` folds into

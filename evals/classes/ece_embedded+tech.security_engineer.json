@@ -1,0 +1,20 @@
+{
+ "resume": "ece_embedded",
+ "roles": [
+  "tech.security_engineer"
+ ],
+ "note": "An embedded engineer considering security: the cybersecurity and adversarial thinking course is the way in; real estate law and branding are not.",
+ "must_top": {
+  "n": 10,
+  "codes": [
+   "NBAY 5725"
+  ]
+ },
+ "must_not_top": {
+  "n": 10,
+  "codes": [
+   "REAL 5590",
+   "TECH 5240"
+  ]
+ }
+}
