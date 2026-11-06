@@ -103,14 +103,19 @@ test("door (fresh): one tip on the Skip, Done ends it", async ({ visitor }, info
 });
 
 for (const [label, email] of [["general", GENERAL_EMAIL], ["campus", CAMPUS_EMAIL]]) {
-  test(`home (${label}): the verbs, About you, then the relaunch link where the top bar shows it`, async ({ visitor }, info) => {
+  test(`home (${label}): the verbs, About you's questions, then the relaunch link (the footer's on a phone)`, async ({ visitor }, info) => {
     const page = await visit(visitor, { email });
-    const steps = await walk(page, info, "home", C(false), { min: 2 });
-    expect(steps.slice(0, 2).map(s => s.id)).toEqual(["verbs", "you"]);
-    if (!isPhone(info)) expect(steps.map(s => s.id)).toContain("relaunch");
+    const steps = await walk(page, info, "home", C(false), { min: 3 });
+    expect(steps.map(s => s.id)).toEqual(["verbs", "you", "relaunch"]);
+    expect(steps[2].sel).toBe(isPhone(info) ? "#foot-guide" : "#verbs [data-guide]");
   });
 }
 
+test("home (general, every question answered): no About you tip on the summary box", async ({ visitor }, info) => {
+  const page = await visit(visitor, { storage: { you: JSON.stringify({ where: "business", stage: "looking", fields: ["marketing"] }) } });
+  const steps = await walk(page, info, "home", C(false), { min: 2, absent: ["you"] });
+  expect(steps.map(s => s.id)).toEqual(["verbs", "relaunch"]);
+});
 test("classes (campus, no role): the role box, the résumé, the subjects; no band without a role", async ({ visitor }, info) => {
   const page = await visit(visitor, { email: CAMPUS_EMAIL, hash: "#/classes" });
   const steps = await walk(page, info, "classes", C(false), { min: 3, absent: ["band", "gaps"] });
@@ -197,11 +202,15 @@ test("you (general, a résumé: the summary): the answers and the résumé link;
   const steps = await walk(page, info, "you", C(true), { min: 2, absent: ["opts", "steps"] });
   expect(steps.map(s => s.id)).toEqual(["answers", "resume"]);
 });
-test("about (general): the counts, the employers, then Feedback where the top bar shows it", async ({ visitor }, info) => {
-  const page = await visit(visitor, { hash: "#/about" });
-  const steps = await walk(page, info, "about", C(false), { min: 2 });
-  expect(steps.slice(0, 2).map(s => s.id)).toEqual(["facts", "employers"]);
-});
+for (const [label, email] of [["general", GENERAL_EMAIL], ["campus", CAMPUS_EMAIL]]) {
+  test(`about (${label}): the counts, the employers, then Feedback (the footer's when the top bar's is past the edge)`, async ({ visitor }, info) => {
+    const page = await visit(visitor, { email, hash: "#/about" });
+    const steps = await walk(page, info, "about", C(false), { min: 3 });
+    expect(steps.map(s => s.id)).toEqual(["facts", "employers", "feedback"]);
+    expect(["#verbs [data-feedback]", "#foot-feedback"]).toContain(steps[2].sel);
+    if (!isPhone(info)) expect(steps[2].sel).toBe("#verbs [data-feedback]");
+  });
+}
 
 // ---------- the controls ----------
 test("Back goes to the previous tip and hides on the first", async ({ visitor }, info) => {

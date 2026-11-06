@@ -81,6 +81,13 @@ test("KEY is guide.seen and PHONE_MAX is the style sheet's phone breakpoint", ()
   assert.match(css, /@media \(max-width: 640px\)/);
 });
 
+test("the top bar's links have the footer's as a second target, for a phone where the bar's are past the edge", () => {
+  const t = (s, id) => G.STEPS.find(r => r.screen === s && r.id === id).target;
+  assert.deepEqual(t("home", "relaunch"), ["#verbs [data-guide]", "#foot-guide"]);
+  assert.deepEqual(t("about", "feedback"), ["#verbs [data-feedback]", "#foot-feedback"]);
+  assert.deepEqual(t("home", "you"), ["#main section.home-you:has(.opts)"], "About you's questions only, never its summary");
+});
+
 test("the door step tries the site-drawn Skip under the Tally slot first, then the native form's", () => {
   assert.deepEqual(G.STEPS.find(r => r.screen === "door").target, ["#door-tally-skip", "#door-skip"]);
 });

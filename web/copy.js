@@ -1210,7 +1210,7 @@
       home: {
         verbs: { title: "Pick where to start", body: "Each card opens one part of GradBuddy. The counts come from the latest open job postings." },
         you: { title: "Tell us about you", body: "Three short questions help each screen sort fields and pick a level. You can skip them." },
-        relaunch: { title: "Tips come back here", body: "Press Show me around on any screen to see its tips again." },
+        relaunch: { title: "Tips come back here", body: "Press Show me around on a screen with tips to see them again." },
       },
       classes: {
         role: { title: "Start with a role", body: "Pick a role here. Each class then shows how well it fits that role." },
@@ -1234,7 +1234,7 @@
       role: {
         level: { title: "Pick your level", body: "Each level shows what its postings ask for. Entry covers postings for new graduates." },
         areas: { title: "Skills sit in groups", body: "Each row is a group of skills. Open a row to see them, or press Expand all." },
-        rail: { title: "See your fit", body: "Add your résumé under Your fit and press Read my fit. You then see which top skills you show." },
+        rail: { title: "See your fit", body: "Add your résumé in the fit box, then press Read my fit. You then see which top skills you show." },
         railFit: { title: "Your fit at a glance", body: "This line counts the top skills your résumé shows. The See all link opens every skill in two lists." },
       },
       fit: {
@@ -1255,7 +1255,7 @@
       },
       network: {
         role: { title: "Pick the role", body: "Choose the role you want to ask about. The advice on this page follows it." },
-        types: { title: "Pick who to meet", body: "Each tab is one kind of person, like a recruiter or an alum. The advice changes with your pick." },
+        types: { title: "Pick who to meet", body: "Each tab is one kind of person, like a recruiter or a hiring manager. The advice changes with your pick." },
         prep: { title: "Your prep card", body: "This card says where to find them and what to ask. It uses the role and the person you picked." },
         copy: { title: "Copy the approach", body: "Copy puts the ask and the questions on your clipboard. Paste them into a note or a message." },
       },

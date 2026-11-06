@@ -47,8 +47,8 @@
   const STEPS = [
     { screen: "door", id: "skip", target: ["#door-tally-skip", "#door-skip"] },
     { screen: "home", id: "verbs", target: ["#main .verbs"] },
-    { screen: "home", id: "you", target: ["#main section.home-you"] },
-    { screen: "home", id: "relaunch", target: ["#verbs [data-guide]"] },
+    { screen: "home", id: "you", target: ["#main section.home-you:has(.opts)"] },   // the questions only, never the summary
+    { screen: "home", id: "relaunch", target: ["#verbs [data-guide]", "#foot-guide"] },   // a phone: the top bar's link is past the edge
     { screen: "classes", id: "role", target: [".cls-roles"] },
     { screen: "classes", id: "band", target: [".cls-card .cls-rel"] },
     { screen: "classes", id: "resume", target: ["#cls-resume"], when: noResume },
@@ -86,7 +86,7 @@
     { screen: "you", id: "resume", target: ["#main a[href=\"#/you?step=3\"]"] },
     { screen: "about", id: "facts", target: [".about-facts"] },
     { screen: "about", id: "employers", target: ["details[data-k=\"about-top\"]"] },
-    { screen: "about", id: "feedback", target: ["#verbs [data-feedback]"], when: c => !!((c && c.config) || {}).FEEDBACK_ENABLED },
+    { screen: "about", id: "feedback", target: ["#verbs [data-feedback]", "#foot-feedback"], when: c => !!((c && c.config) || {}).FEEDBACK_ENABLED },
   ];
   const known = s => typeof s === "string" && Object.hasOwn(SCREENS, s);
 
