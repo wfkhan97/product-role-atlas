@@ -95,11 +95,13 @@ async function walk(page, info, screen, ctxState, { min = 1, absent = [] } = {})
 const C = (resume, extra = {}) => ({ resume, config: { FEEDBACK_ENABLED: true, GUIDE_ENABLED: true }, ...extra });
 
 // ---------- every screen of the table, in the states it names ----------
-test("door (fresh): one tip on the Skip, Done ends it", async ({ visitor }, info) => {
+test("door (fresh): no tip, no guide row, no seen-state (the door's own copy is the guide there)", async ({ visitor }) => {
   const page = await visit(visitor, { email: null, hash: "#/" });
-  const steps = await walk(page, info, "door", C(false), { min: 1 });
-  expect(steps.map(s => s.id)).toEqual(["skip"]);
-  expect(["#door-tally-skip", "#door-skip"]).toContain(steps[0].sel);
+  await page.locator("#main section.door").waitFor();
+  await page.waitForTimeout(1500);
+  await expect(page.locator(".guide-card, .guide-sheet, .guide-hole, .guide-ring")).toHaveCount(0);
+  expect(await page.evaluate(() => localStorage.getItem("guide.seen"))).toBeNull();
+  expect(ctaRows(page)).toEqual([]);
 });
 
 for (const [label, email] of [["general", GENERAL_EMAIL], ["campus", CAMPUS_EMAIL]]) {

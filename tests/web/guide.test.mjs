@@ -20,7 +20,7 @@ const all = () => true;
 const ids = list => list.map(s => s.id);
 
 // ---------- the constants ----------
-test("STEPS: every row's screen is in SCREENS, ids are unique per screen, two to four rows per screen, the door one", () => {
+test("STEPS: every row's screen is in SCREENS, ids are unique per screen, two to four rows per screen, none for the door", () => {
   const per = {};
   for (const r of G.STEPS) {
     assert.ok(Object.hasOwn(G.SCREENS, r.screen), r.screen);
@@ -29,17 +29,16 @@ test("STEPS: every row's screen is in SCREENS, ids are unique per screen, two to
   }
   for (const [s, list] of Object.entries(per)) {
     assert.equal(new Set(list).size, list.length, `${s}: ids unique`);
-    if (s === "door") assert.equal(list.length, 1, "the door: at most one step");
-    else assert.ok(list.length >= 2 && list.length <= 5, `${s}: ${list.length} rows`);
+    assert.ok(list.length >= 2 && list.length <= 5, `${s}: ${list.length} rows`);
   }
   assert.deepEqual(Object.keys(per).sort(), Object.keys(G.SCREENS).sort(), "every screen has rows");
+  assert.ok(!per.door && !G.SCREENS.door, "the door has no step: its own copy is the guide there");
 });
 
-test("one run shows two to four steps per screen (rows that exclude each other count once), the door one", () => {
+test("one run shows two to four steps per screen (rows that exclude each other count once)", () => {
   for (const s of Object.keys(G.SCREENS)) {
     const most = Math.max(G.stepsFor(s, { resume: false, config: ON }, all).length, G.stepsFor(s, { resume: true, config: ON }, all).length);
-    if (s === "door") assert.equal(most, 1);
-    else assert.ok(most >= 2 && most <= 4, `${s}: at most ${most}`);
+    assert.ok(most >= 2 && most <= 4, `${s}: at most ${most}`);
   }
 });
 
@@ -88,14 +87,10 @@ test("the top bar's links have the footer's as a second target, for a phone wher
   assert.deepEqual(t("home", "you"), ["#main section.home-you:has(.opts)"], "About you's questions only, never its summary");
 });
 
-test("the door step tries the site-drawn Skip under the Tally slot first, then the native form's", () => {
-  assert.deepEqual(G.STEPS.find(r => r.screen === "door").target, ["#door-tally-skip", "#door-skip"]);
-});
-
 // ---------- has ----------
 test("has: true for a screen with rows, false for the screens without and for nonsense", () => {
-  for (const s of ["home", "fit", "door"]) assert.equal(G.has(s), true, s);
-  for (const s of ["signin", "map", "play", "nope", "", undefined]) assert.equal(G.has(s), false, String(s));
+  for (const s of ["home", "fit"]) assert.equal(G.has(s), true, s);
+  for (const s of ["door", "signin", "map", "play", "nope", "", undefined]) assert.equal(G.has(s), false, String(s));
 });
 
 // ---------- stepsFor ----------

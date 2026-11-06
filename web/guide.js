@@ -1,5 +1,5 @@
 /* Guide: the tips per screen (the usability pass of 2026-11-06, the guide plan). On a visitor's first visit to a screen,
-   two to four spotlight steps on that screen's controls (the door: one); "Show me around" in the top bar and the footer
+   two to four spotlight steps on that screen's controls (the door: none, its own copy is the guide there); "Show me around" in the top bar and the footer
    replays the current screen's steps. Not a linear tour. A classic script like feedback.js, loaded after it and before
    app.js; node requires it for tests/web/guide.test.mjs with its dependencies passed in. Nothing draws while
    CONFIG.GUIDE_ENABLED is off: Guide.after returns false and app.js draws no relaunch link.
@@ -39,13 +39,12 @@
   // target: selectors tried in order, the first present one wins. when: the state the step needs (ctx: campus, resume,
   // signedIn, config); a row without one needs only its target. ready: the screen counts as drawn once this is present.
   const SCREENS = {
-    door: { version: 1 }, home: { version: 1 }, classes: { version: 1 }, jobs: { version: 1 }, skills: { version: 1 },
+    home: { version: 1 }, classes: { version: 1 }, jobs: { version: 1 }, skills: { version: 1 },
     role: { version: 1 }, fit: { version: 1, ready: ".fitcols" }, explore: { version: 1 }, field: { version: 1 },
     network: { version: 1, ready: "#nw-prep" }, you: { version: 1 }, about: { version: 1 },
   };
   const resume = c => !!(c && c.resume), noResume = c => !(c && c.resume);
   const STEPS = [
-    { screen: "door", id: "skip", target: ["#door-tally-skip", "#door-skip"] },
     { screen: "home", id: "verbs", target: ["#main .verbs"] },
     { screen: "home", id: "you", target: ["#main section.home-you:has(.opts)"] },   // the questions only, never the summary
     { screen: "home", id: "relaunch", target: ["#verbs [data-guide]", "#foot-guide"] },   // a phone: the top bar's link is past the edge
