@@ -2,9 +2,8 @@
 
 usage: python -m pipeline.map_publish <slug> <email>
 
-Reads the student's map.json by path from the GradBuddy folder beside the repository (or under the home folder, for a
-worktree): `GradBuddy Project/gradbuddy/apprentice/students/<slug>/map.json`, else `examples/<slug>/map.json`. Finds
-the invited user by email among the gradbuddy-catalog project's users (/auth/v1/admin/users, paged, any case), then
+Reads the student's map.json from this repository: `data/apprentice/students/<slug>/map.json` (gitignored, written by
+pipeline/apprentice/), else the tracked example's `pipeline/apprentice/examples/<slug>/map.json`. Finds the invited user by email among the gradbuddy-catalog project's users (/auth/v1/admin/users, paged, any case), then
 uploads the file to `maps/<user id>/map.json` with upsert and prints the path and the user id. The owner invites the
 student first (pipeline/sql/2026-11-03_maps.sql, the four steps); this script never creates a user.
 
@@ -22,7 +21,6 @@ from pipeline.env import load_env
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BUCKET = "maps"
-APPRENTICE = ("GradBuddy Project", "gradbuddy", "apprentice")
 SLUG_RE = re.compile(r"^[a-z0-9-]+$")
 PER_PAGE = 200
 TIMEOUT = 60
@@ -36,21 +34,20 @@ def config_url(root=None):
 
 
 def apprentice_dirs(root=None):
-    """The apprentice folder beside the repository, then under the home folder (a worktree sits deeper)."""
+    """Where a map lives, in order: the real students (data/apprentice/students/), then the tracked examples."""
     root = root or ROOT
-    return [os.path.join(root, "..", *APPRENTICE), os.path.join(os.path.expanduser("~"), *APPRENTICE)]
+    return [os.path.join(root, "data", "apprentice", "students"), os.path.join(root, "pipeline", "apprentice", "examples")]
 
 
 def map_path(slug, dirs=None):
-    """The student's map.json: students/<slug>/ in the first apprentice folder that has it, else examples/<slug>/."""
+    """The student's map.json: <slug>/map.json in the first of the folders that has it."""
     if not SLUG_RE.match(slug or ""):
         raise ValueError(f"not a slug: {slug!r} (lower-case letters, digits and hyphens)")
     dirs = dirs if dirs is not None else apprentice_dirs()
-    for kind in ("students", "examples"):
-        for d in dirs:
-            p = os.path.join(d, kind, slug, "map.json")
-            if os.path.isfile(p):
-                return os.path.normpath(p)
+    for d in dirs:
+        p = os.path.join(d, slug, "map.json")
+        if os.path.isfile(p):
+            return os.path.normpath(p)
     return None
 
 
@@ -124,7 +121,7 @@ def publish(slug, email, client, dirs=None):
     """Upload the student's map.json to maps/<uid>/map.json. Returns (object path, user id), or None with a message."""
     path = map_path(slug, dirs)
     if not path:
-        print(f"[map_publish] no map.json for {slug} under students/ or examples/ in {', '.join(dirs if dirs is not None else apprentice_dirs())}")
+        print(f"[map_publish] no map.json for {slug} in {', '.join(os.path.relpath(d, ROOT) for d in (dirs if dirs is not None else apprentice_dirs()))}")
         return None
     with open(path, "rb") as f:
         data = f.read()

@@ -1,6 +1,7 @@
 /* Networking: the pure parts of "Who to meet" (owner's pick N6, 2026-10-31). The people a grad student meets for one
    role, and what the site builds for each from the data it has: the role's asks, the fit's gaps and shown skills, the
-   postings' titles and levels, the employers hiring the role, and the campus roster when the door's email opens it.
+   postings' titles and levels, the employers hiring the role, and the campus roster when the door's email opens it
+   (its campus flag, app.js Door.campus, has a listed campus with a loaded roster).
    The site names no person outside that roster. Every "where" is a search the person runs, built from data, and its
    label says what it searches (no line on what a link opens: owner's feedback 2026-11-01). No talking point names a
    school but the alum's ask ("your school").
@@ -37,19 +38,27 @@
   const uniq = xs => xs.filter((x, i, a) => a.indexOf(x) === i);
 
   // ---------- the people types ----------
-  // id and label (Copy.network.types); cornell: true means the type shows only when the door opens Cornell
-  const TYPES = ["hm", "inrole", "recruiter", "alum", "faculty"].map(id => ({ id, label: Copy.network.types[id].label, ...(id === "faculty" ? { cornell: true } : {}) }));
-  const types = cornell => TYPES.filter(t => cornell || !t.cornell);
+  // id and label (Copy.network.types). campus: true shows the type only for an address with a campus flag (the alum);
+  // roster: true only when that flag has a listed campus with a loaded roster (faculty). types(flag, roster): flag is
+  // the door's campus flag or null, roster whether its roster is loaded (2026-11-04)
+  const TYPES = ["hm", "inrole", "recruiter", "alum", "faculty"].map(id => ({ id, label: Copy.network.types[id].label, ...(id === "alum" ? { campus: true } : id === "faculty" ? { campus: true, roster: true } : {}) }));
+  const types = (flag, roster) => TYPES.filter(t => (!t.campus || !!flag) && (!t.roster || !!roster));
   const typeOf = id => TYPES.find(t => t.id === id) || TYPES[0];
 
   // the screen's strings (web/copy.js, Copy.network); {name} slots are filled with fill()
   const COPY = Copy.network;
   const WHO = COPY.whoLines, WHERE = COPY.whereLines, AP = COPY.approach;
 
-  // LinkedIn's ids for the three Cornell school pages (Cornell University, Cornell Tech and the Johnson school), as the
-  // owner tested them on 2026-11-01. The alum search filters LinkedIn's people search to them with
-  // origin=FACETED_SEARCH&schoolFilter=["…","…","…"], so the person need not add the school by hand.
-  const CORNELL_SCHOOLS = ["3554137", "3523", "3323650"];
+  // LinkedIn's school page ids per campus flag (app.js Door.campus; web/config.js CAMPUS_DOMAINS). The alum search
+  // filters LinkedIn's people search to them with origin=FACETED_SEARCH&schoolFilter=["…",…], so the person need not
+  // add the school by hand. cornell: Cornell University, Cornell Tech and the Johnson school, as the owner tested them
+  // on 2026-11-01; ienyc: the four IE school pages from the search the owner sent on 2026-11-04. A flag with an empty
+  // list (or none here) gets the plain people search, no school filter.
+  const SCHOOLS = {
+    cornell: ["3554137", "3523", "3323650"],
+    ienyc: ["740718", "5141380", "2816303", "2816341"],
+  };
+  const CORNELL_SCHOOLS = SCHOOLS.cornell;
 
   // ---------- the context: one role, the person's fit, the employers, the titles, the professors ----------
   const LEVELS = ["associate", "mid", "senior", "staff", "group", "director", "vp", "cpo"];
@@ -64,7 +73,8 @@
   // the level label of a posting, as the role page shows it (its ladder's word, else the set's)
   const levelLabel = (ix, R, j) => { const lad = R.ladders && R.ladders[j.ladder]; return (lad && lad.levels[j.level]) || (R.levelLabels || {})[j.level] || ((ix.M || {}).level_labels || {})[j.level] || j.level; };
   const lv = l => { const i = LEVELS.indexOf(l); return i < 0 ? LEVELS.length : i; };
-  // o: { cornell, shown: Set of skill ids (a rough read, when no fit), profs: campus roster rows, fieldJobs: the
+  // o: { flag: the door's campus flag or null (the alumni searches' school), roster: whether its roster is loaded (the
+  // professors are read only then), shown: Set of skill ids (a rough read, when no fit), profs: campus roster rows, fieldJobs: the
   // field's postings (Atlas.fieldJobs) for the other roles each employer posts, core: the core share (0.5),
   // generic: Set of the skill ids generic to the role set (Atlas.genericSkills), evidence: { skill id: the evidence
   // groups R.evidence(id) gives } for the skills the screen loaded }
@@ -114,7 +124,7 @@
     // résumé, the most asks taught first without one, then by name
     const gapIds = new Set(F.gaps.map(g => g.id)), askIds = new Set(asks.map(a => a.id));
     const read0 = !!F.real || o.shown != null;
-    const profs = (o.cornell ? o.profs || [] : []).map(p => { const covers = (p.gaps || []).filter(g => gapIds.has(g.id)); return { ...p, codes: p.codes || [], gaps: p.gaps || [], covers, asks: (p.gaps || []).filter(g => askIds.has(g.id)), teach: covers.filter(g => ok(g.id)).map(g => ({ ...g, said: said(g.id) })) }; })
+    const profs = (o.roster ? o.profs || [] : []).map(p => { const covers = (p.gaps || []).filter(g => gapIds.has(g.id)); return { ...p, codes: p.codes || [], gaps: p.gaps || [], covers, asks: (p.gaps || []).filter(g => askIds.has(g.id)), teach: covers.filter(g => ok(g.id)).map(g => ({ ...g, said: said(g.id) })) }; })
       .sort((a, b) => (read0 ? b.covers.length - a.covers.length : b.asks.length - a.asks.length) || String(a.name).localeCompare(String(b.name)));
     // the word for each level on this role's ladder, for "one level up"
     const levelLabels = Object.fromEntries(LEVELS.map(l => [l, levelLabel(ix, R, { level: l, ladder: role.ladder })]));
@@ -124,7 +134,7 @@
     const read = read0;
     // every skill the résumé shows, at any tier: a question never says "I am still building" one of them
     const shownAll = fit && fit.rows ? fit.rows.filter(x => SHOWN.has(x.status)).map(x => x.id) : F.shown.map(s => s.id);
-    return { role, field, asks, fit: F, read, shownAll, lead, craft, craftGaps, employers, levels, senior, junior, postings, profs, levelLabels, subs, evidence: o.evidence || {}, cornell: !!o.cornell, level: j => levelLabel(ix, R, j) };
+    return { role, field, asks, fit: F, read, shownAll, lead, craft, craftGaps, employers, levels, senior, junior, postings, profs, levelLabels, subs, evidence: o.evidence || {}, flag: o.flag || null, roster: !!o.roster, level: j => levelLabel(ix, R, j) };
   }
   // the role's core asks as the gap rows the class picker reads (Catalog.gapsCovered: id, name, tier, w), so the
   // screen can read the roster against the role when there is no résumé to give gaps
@@ -164,8 +174,12 @@
 
   // ---------- where to find them: searches built from data, the label alone (no line on what a link opens) ----------
   const liPeople = q => `https://www.linkedin.com/search/results/people/?keywords=${enc(q)}`;
-  // the alum search: the same people search filtered to the Cornell schools (the owner's tested URL, 2026-11-01)
-  const liAlumni = q => `${liPeople(q)}&origin=FACETED_SEARCH&schoolFilter=${enc(JSON.stringify(CORNELL_SCHOOLS))}`;
+  // the alum search: the same people search filtered to the flag's schools (the owner's tested URL for Cornell,
+  // 2026-11-01); a flag with no school id yet gets the plain people search
+  const schoolsOf = flag => (flag && SCHOOLS[flag]) || [];
+  const liAlumni = (q, flag) => { const ids = schoolsOf(flag); return ids.length ? `${liPeople(q)}&origin=FACETED_SEARCH&schoolFilter=${enc(JSON.stringify(ids))}` : liPeople(q); };
+  // the school's name in a link label ("Cornell alumni", "IE alumni"); "" with no flag, and the label reads "alumni"
+  const schoolOf = flag => (flag && (COPY.schools || {})[flag]) || "";
   // the level words of the two nearest senior levels with open postings, as LinkedIn keywords ("Lead" OR "principal")
   const levelWords = C => [...new Set(C.senior.slice(0, 2).flatMap(l => l.label.split(" / ")))].slice(0, 4);
   const seniorQuery = (C, company) => { const w = levelWords(C); return `${company} ${w.length ? "(" + w.map(x => `"${x}"`).join(" OR ") + ") " : ""}"${C.role.label}"`; };
@@ -184,8 +198,9 @@
       rows.push(out(WHERE.handshake, "https://app.joinhandshake.com/"));
     }
     if (type === "alum") {
-      rows.push(out(fill(WHERE.alumni, v("")), liAlumni(`"${R}"`)));
-      cos.slice(0, one ? 1 : 2).forEach(c => rows.push(out(fill(WHERE.alumniAt, v(c)), liAlumni(`${c} "${R}"`))));
+      const school = schoolOf(C.flag), a = school ? WHERE.alumni : WHERE.alumniAny, at = school ? WHERE.alumniAt : WHERE.alumniAtAny;
+      rows.push(out(fill(a, { ...v(""), school }), liAlumni(`"${R}"`, C.flag)));
+      cos.slice(0, one ? 1 : 2).forEach(c => rows.push(out(fill(at, { ...v(c), school }), liAlumni(`${c} "${R}"`, C.flag))));
     }
     return rows;
   }
@@ -307,5 +322,5 @@
     ? C.profs.map(p => ({ key: p.slug, label: p.name, hint: C.read ? (p.covers.length ? fill(COPY.coversHint, { n: p.covers.length }) : p.codes.slice(0, 2).join(", ")) : p.asks.length ? fill(COPY.teachesOf, { n: p.asks.length, m: C.asks.length }) : p.codes.slice(0, 2).join(", "), row: p }))
     : C.employers.map(e => ({ key: e.company, label: fill(COPY.openLabel, { company: e.company, n: fmt(e.nOpen) }), row: { company: e.company } }));
 
-  return { TYPES, COPY, CORNELL_SCHOOLS, types, typeOf, ctx, askRows, who, where, say, approach: say, companyOf, targetsOf, jobsHref, askable, liPeople, liAlumni, fill, an, join, short };
+  return { TYPES, COPY, SCHOOLS, CORNELL_SCHOOLS, schoolsOf, schoolOf, types, typeOf, ctx, askRows, who, where, say, approach: say, companyOf, targetsOf, jobsHref, askable, liPeople, liAlumni, fill, an, join, short };
 });

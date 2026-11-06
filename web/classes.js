@@ -19,7 +19,7 @@
   store.set("classes.own", null);   // the own ratings of a browser from before 2026-11-01: nothing reads them now
   // the screen's state: the facets hold lists of chosen values (days, credits, eligibility categories) and `open` the
   // facets the person has unfolded (all folded at first); sort is "relevance" or "gaps", and only counts with a role chosen
-  const S = { campus: store.get("classes.campus"), roles: storedRoles(), subject: null, q: "", selected: null, why: new Set(), token: 0, coversGap: false, sort: "relevance", instructor: null, days: [], credits: [], elig: [], open: new Set() };
+  const S = { flag: null, campus: store.get("classes.campus"), roles: storedRoles(), subject: null, q: "", selected: null, why: new Set(), token: 0, coversGap: false, sort: "relevance", instructor: null, days: [], credits: [], elig: [], open: new Set() };
   // the searchable drop-downs (web/pick.js) of the last draw, across calls of classes(); each holds a document
   // listener, so every draw drops the last draw's first
   let picks = [];
@@ -40,7 +40,7 @@
   async function campusCtx() {
     const list = await safe(Catalog.campuses(), []);
     const you = store.get("you") || {};
-    const cm = Catalog.campusFor(list, { stored: S.campus, where: you.where });
+    const cm = Catalog.campusFor(list, { flag: S.flag, stored: S.campus, where: you.where });
     if (cm) lastCampus = cm;
     return { list, cm };
   }
@@ -74,6 +74,7 @@
   // ---------- 1. the class picker ----------
   async function classes(ctx) {
     const { crumbs, page, showAside } = ctx;
+    S.flag = ctx.flag ? ctx.flag() : null;   // the door's campus flag (app.js): its campus comes first
     const token = ++S.token;
     crumbs([[CL.crumb, null]]); showAside(null);
     const { list, cm } = await campusCtx();
@@ -85,7 +86,8 @@
       return;
     }
     const termLabel = cm.term_label || CFG().CATALOG_TERM || "";
-    const change = list.length > 1 ? ` · <button type="button" class="linkish link" id="cls-campus">${esc(CL.changeCampus)}</button>` : "";
+    // the door's flag settles the campus (Catalog.campusFor), so a flagged visitor has nothing to change
+    const change = list.length > 1 && !(S.flag && cm.flag === S.flag) ? ` · <button type="button" class="linkish link" id="cls-campus">${esc(CL.changeCampus)}</button>` : "";
     const head = `<p class="eyebrow">${esc(termLabel)} · ${esc(cm.label || "")}${change}</p><h1>${esc(CL.heading)}</h1>`;
     const privacy = cm.privacy_line ? `<p class="small muted">${esc(cm.privacy_line)}</p>` : "";
     const wireCampus = () => { const b = $("#cls-campus"); if (b) b.onclick = () => { setCampus(null); classes(ctx); }; };
@@ -239,6 +241,7 @@
   // ---------- 2. a professor ----------
   async function professor(slug, ctx) {
     const { crumbs, page, showAside } = ctx;
+    S.flag = ctx.flag ? ctx.flag() : null;
     const back = `<a href="#/classes">${esc(CL.backClasses)}</a>`;
     crumbs([[CL.crumb, "#/classes"], [CL.professor, null]]); showAside(null);
     if (!slug) { page(`<h1>${esc(CL.professor)}</h1><p class="lead">${esc(CL.noProfessor)} ${back}</p>`, true); return; }

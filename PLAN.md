@@ -1586,7 +1586,8 @@ from four résumés (course_list, experienced_pm, grad_student_new, pivot_phd_hc
 "shows" count, so it never shows as its own column (the v20 note above, "none of the 72 pairs", read that table). Where it does not fire, three reasons, counted over every via hit:
 the skill also has a direct hit (326), the role does not ask for the skill (312), or there is no via vocabulary at all
 for the skill (every MBA-only skill: the 21 skills with via patterns were all product skills). The example pivoter
-(pmm-nyc, sales to product marketing) had no transferable node on any role.
+(pmm-nyc, sales to product marketing) had no transferable node on any role (it has three since this change: measured
+when the example was reassembled on 2026-11-04).
 
 Two changes in `web/match.js`, each measured:
 
@@ -1810,6 +1811,155 @@ test résumés stay inside every `score_band` (`run.mjs` 513 pass); one fit band
 PM, 69% to 68%, under the unchanged 0.69 strong line. Not run: `BEHAVIOURS=score` on the full set (`evals/README.md`,
 "Evals to build" item 6), still open.
 
+## The campus gate: the door's email reads as a campus flag (`feat/campus-gate`, 2026-11-04)
+
+The owner's asks of 2026-11-04: any `@cornell.edu` address opens what a NetID address opened (v19 B2, decision 2, the
+NetID shape, is retired); a visitor whose address is not a school's does not see Find classes at all (no card, no
+top-bar link, no route, nothing grayed) and sees neither "An alum in the role" nor "Faculty on campus" on Networking;
+an IE New York address reads the IE roster and IE's LinkedIn school filter. Decisions:
+
+1. **The flag table is data.** `CAMPUS_DOMAINS` in `web/config.js`: `{ cornell: ["cornell.edu"], ienyc: [] }`; a new
+   campus (Johnson Ithaca next) is a new flag id there. `Door.campus(email, domains)` in `web/app.js` is pure: the flag
+   whose list holds the address's whole domain, any case, spaces around it ignored; `wk332@alumni.cornell.edu`, a gmail
+   address, an address with two "@" or none is no campus. In the browser the table defaults to the config's.
+2. **A flag opens a roster through the campus entry.** Each entry of `web/data/sp27_campus.json` carries `flag`
+   (`cornell_tech` is `cornell`, `ienyc` is `ienyc`). `Door.rosterOf(flag, campuses)` is the listed campus of that flag
+   with `catalog: true`, over `Catalog.campuses()`, which honors `enabled_by`. `Door.opens(email, domains, campuses)`
+   keeps its name and now means "the address belongs to a campus with a loaded roster". Today: cornell opens Cornell
+   Tech; ienyc opens nothing until the IE files exist, `catalog` turns true and `IENYC_ENABLED` flips.
+3. **Closed means absent.** The top bar and home draw only the open verbs, so a visitor with no roster sees three cards
+   (`.verbs.n3`: one row of three from 1280 px, else two by two wrapping); `Door.reach(name, open)` sends `#/classes` and
+   `#/professor/<slug>` home in `route()`. The grayed card and its strings (`home.closed`, `closedLink`, `closedAfter`)
+   are gone. `route()` waits once for the campus list before its first draw, so every screen reads the gate
+   synchronously (`campusGate()` in the shell: `{ flag, open, campus }`). `Catalog.campusFor` prefers the flag's campus
+   with a roster over a stored choice, and the picker hides "Change campus" for a flagged visitor.
+4. **Networking by flag.** `Network.types(flag, roster)`: hiring manager, someone in the role and recruiter for
+   everyone; the alum for any flag; faculty when the flag's roster is loaded. The alumni search's school filter is per
+   flag, `SCHOOLS` in `web/network.js` (`cornell`: the owner's three ids of 2026-11-01; `ienyc`: empty until the owner
+   gives IE's id); an empty list builds the plain people search with no `schoolFilter`. The link labels say
+   "{school} alumni" from `Copy.network.schools` ("Cornell", "IE"). No draft names a school but the alum's ask, as
+   before. The faculty tab reads the flag's campus entry (`campusProfs(campus, gaps)`, one roster read per campus
+   through `Catalog.loadCatalog`), so IE's professors come from its own `catalog_file` and `tags_file` once they exist.
+5. **The door's line names no campus.** "Some parts are for students. A school address opens them." (`door.school`,
+   was `door.cornell`). The owner's door paragraphs are unchanged.
+
+The owner's two values (2026-11-04): the IE domains are `student.ie.edu` and `ie.edu` (`CAMPUS_DOMAINS.ienyc`), and the
+IE school filter is the four school pages of the people search he sent, 740718, 5141380, 2816303 and 2816341
+(`SCHOOLS.ienyc`). An IE address today sees three verbs, the alum tab with IE's filter, and no Find classes or faculty:
+the IE roster is not on the site. What is missing for it: `web/data/catalog/ienyc.json` and `ienyc_tags.json` (the
+research folder `SP27_ienyc/` holds `sp27_ienyc_classes.json`, but `pipeline.catalog_export` is written for the Cornell
+Tech loader alone and needs an IE branch or a second script), `catalog: true` with the two file names on the `ienyc`
+entry, and `IENYC_ENABLED` on. Nothing in this change needs to move when they land.
+
+Verified in the browser pane on the local server (2026-11-04): a gmail address draws three cards, three top-bar links
+and three people types, and `#/classes` rewrites to `#/home`; `john.smith@cornell.edu` draws four, opens the Cornell
+Tech picker, the Cornell alumni filter and the faculty roster; `someone@student.ie.edu` draws three, the alum tab with
+IE's four ids and "IE alumni" labels, and no Find classes.
+
+Tests: `tests/web/door.test.mjs` (the table, `Door.campus`, `Door.opens` over any @cornell.edu, the IE cases with and
+without a roster, `campusFor`'s flag, three open verbs), `tests/web/network.test.mjs` (types per flag, the school filter
+per flag, the empty-id case, the IE labels), `tests/web/routes.test.mjs` (the closed routes). `evals/copy_baseline.md`
+rewritten (string counts only; zero offenders).
+
+## The apprentice generator moves into the atlas (`feat/apprentice-in-atlas`, 2026-11-04)
+
+The ask: make and publish a map from this repository alone. Until today the generator lived in GradBuddy
+(`gradbuddy/apprentice/`), read the atlas by file path, and the owner had two repositories to keep in step. Decisions
+(the lead, 2026-11-04, under the owner's brief "everything apprentice lives in the job atlas"):
+
+1. **The generator is `pipeline/apprentice/`**, the same files (`_lib.mjs`, `new.mjs`, `ground.mjs`, `assemble.mjs`,
+   `check.mjs`, `render.mjs`, `template.html`, `INTAKE.md`, `README.md`, `config.json`). Every script runs from the
+   repo root. The atlas root is found from the scripts' own path, so `atlasPath` is gone. `config.json` keeps the
+   roster (`catalogPath`, `rosterFile`, `campusId`, `term`) and adds `gradbuddyPath`, the import source; each is
+   looked for beside the repository, then under the home folder, as `pipeline/catalog_export.py` does.
+2. **The example moves in**: `pipeline/apprentice/examples/pmm-nyc/`, every file with `research/`. It is a fictional
+   person against a real posting, so it is committed.
+3. **Real students are never in git**: `data/apprentice/students/<slug>/`, gitignored. `new.mjs <slug>` makes one from
+   the intake; `new.mjs <slug> --import` copies one from GradBuddy's `apprentice/students/` and refuses to overwrite.
+   A slug resolves to the students' folder first, then the examples.
+4. **The skill moves to `.claude/skills/apprentice-map/SKILL.md`**, its procedure unchanged, every path updated.
+5. **`pipeline.map_publish` reads the map from this repository** (students, then examples); the GradBuddy fallback is
+   gone. `map_feedback` shares its client and needed only its docstring.
+6. **The tests run everywhere.** `tests/web/map.test.mjs` reads the tracked example, with no skip.
+   `tests/web/apprentice.test.mjs` covers the intake reader, assemble's pure part and the check: the example passes
+   with its two notes, and six broken copies each fail with one line (a fourth Level 2 card, a quote not in
+   `posting.md`, a 21-word why sentence, a percent sign, a marked gap off the tree, version 1). `check.mjs` and
+   `assemble.mjs` export `checkMap` and `assembleMap` and still run as scripts, so no test spawns one. Without the
+   research roster (CI), the check and the page read class codes and titles from `web/data/catalog/cornell_tech.json`.
+7. **`docs/GRADBUDDY_CONTRACT.md`**: "Consumers" and the map section say where the generator is now. GradBuddy's
+   folder is a read-only source of intake material for students taken in before the move. The schema, the states,
+   the bucket paths and the privacy rule stand.
+
+`grounding.json` records the atlas as `"path": "."` and the roster by its configured path, so no machine or worktree
+path leaks into a file.
+
+**The run** on `main` after #140 (recalibrated bands, `TRANSFER = 0.75`), with `ground`, `assemble`, `check`, `render`:
+
+- **wk332** (imported; pmm, growth_manager, marketing_manager at Harvey): Relevant foundation; 14 brings, 6 marked
+  gaps; 17 nodes (4 trunk, 3 shared, 10 own), 6 behaviors, 14 more; cards 4, 3, 1 and a Reach. No node changed state:
+  the map was assembled on 2026-11-01, after #133, and the recalibration moves scores, not states.
+- **pmm-nyc** (pmm, marketing_manager, growth_manager, brand_manager at Agentio): Relevant foundation, as before;
+  brings 8 → 14, marked gaps 8 → 6; 19 nodes (3 trunk, 6 shared, 10 own), 6 behaviors, 14 more; cards 6, 3, 1 and a
+  Reach. Six states moved, all from #133, which the example's map of 2026-10-31 predated: positioning and messaging
+  (shared), customer-facing engagement and market research (own) from "must build" to "shows in other words";
+  communication ("must evidence better") and adaptability ("must build") to "shows"; content in "more" to "shows in
+  other words". The v20 note that the example pivoter had no transferable node no longer holds: it has three.
+- `check` passes on both: pmm-nyc with its two notes (`data_driven` off the tree on two cards), wk332 with two (the
+  leadership and technical tracks have no Level 1 card). An `assemble` over a copy of wk332 with `shipped`,
+  `changed`, `declined`, `reply` and a hand-set `clear` kept every one. Nothing was published.
+
+Left open: GradBuddy's `apprentice/` folder and its skill still exist there (read-only for us); retiring them, or a
+pointer README there, is the owner's call in that repository. The "Later" line "commit the B1 files in
+`gradbuddy/apprentice/`" is moot now that the files live here.
+
+## World 1 opens with story cards: one résumé line, said so it shows (`feat/story-cards`, 2026-11-05)
+
+The owner's reading of World 1 (2026-11-05): the first missions should be guided and about the person's own story,
+not a page to write. Half of a résumé's core skills are half shown: named but not evidenced, or shown in another
+field's words. A line rewritten so the atlas reads the skill as shown is the smallest possible win, it is practice for
+every later card, and a model can coach it if the prompt is right. Decisions (the lead, on the owner's pick "Story
+cards first"; stacked on `feat/apprentice-in-atlas`, since the generator lives there):
+
+1. **The generator writes them, the skill never does.** `assemble.mjs` adds up to two cards (`kind: "story"`, ids
+   `s1-<skill>`) from the grounding alone: a skill of the first role's read in `must evidence better` or `shows in
+   other words`, on the tree, with a work line; the posting's skills first, then the larger share. Deterministic, so
+   a re-assemble writes the same two; the owner's `shipped`, `changed`, `declined` and `reply` survive by id, and a
+   card the grounding no longer picks goes. A bad pick is declined, never edited. The check holds the rules
+   (`pipeline/apprentice/README.md`).
+2. **A work line, never a list.** `ground.mjs` keeps, per read row, `work_lines`: bullets, the summary and the
+   profile's prose of six words or more. A course plan or a skills list reads as "named, not shown" too, and the first
+   draft picked one; a story card on it would ask the person to rewrite a course list. `shown_by` (the slots of
+   `pipeline/evidence.json`: artefacts, verbs, measures, counterparts) rides on every skill of the grounding.
+3. **Nothing invented.** The card's text is the grounding's words: the line as it stands, `reads_as` (else `what`),
+   the slots, the share in words ("About two in three postings … ask for"; never a percentage), and a prompt that
+   quotes the line, names the slots, asks three questions and drafts three lines under 30 words with `[ ]` where a
+   number goes. The owner's "practice with an LLM with a provided prompt" is that prompt, copied with one button into
+   any model; the atlas calls none.
+4. **The read is live and local.** The card has a box; a pasted line goes to the matcher of the map's role
+   (`Atlas.matcher`, the one that read the résumé) on its own, and the row's status for the card's skill reads as one
+   of the four states (`MapModel.lineState`). Nothing is stored or sent; the person tells the owner with F1 ("I'll
+   rewrite it"). The owner marks the card shipped once the line is on the résumé. A line read alone can read lower
+   than the same line in a whole résumé (no role context), so the card says "read on its own".
+5. **The release labels go, the framing stays.** "I do / we do / you do" leaves the worlds (`release` is no longer
+   written; an old file's is ignored), the check, the pages, the print sheet and the docs; each world's `who` line
+   carries the framing in words ("Guided first: two lines of your own, then a page each"). World 1 clears at 2 of its
+   n missions as before; the story cards count like any mission, so two rewritten lines clear it.
+6. **More about you.** `INTAKE.md` gets a ninth section (side projects, talks, application essays); `ground.mjs` puts it
+   into `profile.md` under "More about you", so the read and the story lines see it. Uploads to a private
+   `maps/<uid>/context/` folder need a storage policy, so a migration: deferred to Later, not applied by a thread.
+7. **The whitelist is the invite.** A map opens for an invited address only (magic link, `create_user: false`); no
+   new flag.
+
+Built: `pipeline/apprentice/assemble.mjs` (`storyCards`, `storyPrompt`, `WORLDS` without `release`), `ground.mjs`
+(`work_lines`, `shown_by`, section 9), `check.mjs` (the story rules, the release rule dropped, story cards apart from
+the one-to-six), `template.html` (the story card in the check view), `INTAKE.md`, `README.md`; `web/map.js`
+(`storyOf`, `lineState`, missions carry `kind`), `web/app.js` (the story card in the panel, `storyControls`, the
+story choices in F1, the release labels out, "1 hour"), `web/copy.js` (`map.card.story`, `feedback.storyChoices`),
+`web/style.css`; the example reground and reassembled (two story cards: positioning & messaging, customer-facing
+engagement, both named by the posting); wk332 rebuilt locally (one: product launches). Tests:
+`tests/web/apprentice.test.mjs` (the picks, the hand edits, the prompt, three more broken copies),
+`tests/web/map.test.mjs`. The contract and the skill updated.
+
 ## Thirteen business roles, and a checklist for adding a role (`feat/mba-roles-13`, 2026-11-05)
 
 **Why.** The role-coverage audit of 2026-11-04 set the outcomes Cornell Tech and IE publish against a census of 56,708
@@ -1856,6 +2006,114 @@ for among existing skills, never what the taxonomy lacks. So the steps are now a
 
 **Checks.** `pytest tests/python`; `node --test 'tests/web/*.test.mjs'`; `node evals/run.mjs`;
 `evals/run_pipeline.py --baseline`. Not run here: `pipeline.scrape` and `pipeline.extract` (the refresh does both).
+
+## The visitor journey: accounts, saved state, logging (plan of record, `feat/journey-logging`, 2026-11-05)
+
+**The ask** (the owner, 2026-11-05). Once the apprentice map is self-serve, nothing on the site is personal without an
+account: the roles a person likes, the read of their résumé and its gaps, their quests. Replace the Tally door with a
+sign-in that needs no password, save state per person, and before any of it, log comprehensively enough to judge the
+calls to action. The owner's answers to the lead's questions, which fix the design:
+
+1. **Anonymous browsing stays.** Explore, the fit read and Networking open to anyone. Sign-in appears at the first
+   personal act (a heart, an upload to save, "get your tree") and gates only what follows from it.
+2. **Email plus a six-digit code**, not a link: Outlook's scanner consumed the owner's own magic link within a minute
+   (2026-11-04). GoTrue's email OTP, verified on the page (`web/auth.js` gains `verifyCode`). The invited map users of
+   today keep working.
+3. **The saved read keeps the lines.** Per person, per résumé (a SHA-256 of the normalized text, computed in the
+   browser) and per role: the skill ids with their state and the résumé line that showed each, the gaps, the date; the
+   model read's inferred ids too, so a return visit costs nothing. The résumé text itself is never stored. A new
+   résumé is a new hash; the latest marks the current read. The About page's "we do not store it" changes to "we keep
+   your read and the lines, never the file", with a deletion path (by hand through Supabase first) and a consent line
+   for EU students.
+4. **One heart.** On the card and on the open role, the same list; the open role also gets a clear Save. On first
+   sign-in the browser's About-you answers, read and hearts move into the account, so signing in loses nothing.
+5. **Logs stay in Supabase** (`events`, the catalog project), read by `pipeline.funnel`: drop-off by screen and day,
+   each call to action shown, clicked and done, returns (two or more distinct days per browser or per person),
+   visible time by screen. The Supabase SQL editor answers the rest. No dashboard product.
+6. **Feedback needs no sign-in**: a persistent Feedback link in the top bar and the footer, a native box (screen
+   prefilled, text at most 500 characters, email optional and prefilled when signed in) into a `feedback` table with
+   anonymous insert. The prompt fires once per browser after twelve meaningful actions or six minutes of visible time,
+   whichever first; never on the door, the sign-in or within a minute of signing in; dismissed or sent counts as asked;
+   it may ask again after thirty days only when new actions happened; a second prompt at the first tree opened.
+7. **Tally keeps the four intake boxes** (the secondary doors); the door's form retires with the sign-in.
+8. **The sequence**: logging, identity, state, the self-serve tree tier, the calls to action, feedback. The tree tier
+   is ground plus assemble with no model: the tree, the read and the story cards for any signed-in person, written to
+   their `maps` folder by a capped function; the build cards stay by hand or by invite.
+
+**Outside the code**: a custom SMTP sender on a domain the owner controls (Supabase's mailer sends a few an hour),
+before sign-ups open; the migrations, one per table change, applied by the owner; the Anthropic cap; the three open
+PRs (#141, #142, #143) land first, since identity builds on the map's sign-in and the campus flag.
+
+**Step 1, built here: logging.** Decisions:
+
+- **Every route is a screen event.** `Capture.screen(name)` in `route()` names the event (the launcher still sends
+  `explore`, an event `event_prep`; the other routes get their own name) and every event after carries the `screen`
+  column, so drop-off reads per screen without a name per screen. The event list stays closed in `capture.js`
+  (`EVENTS`, tested); the table keeps only the shape of a name (`2026-11-05_journey.sql`), so later steps add names
+  without a migration each. A name of at most forty lowercase characters cannot carry a sentence.
+- **A visitor id** (`capture.visitor`, localStorage, one random id per browser) joins visits, which the per-session id
+  by design never did; the About page says so now. The signed-in person's id rides along once the browser holds a
+  session; the anonymous insert policy stays, so the column is a claim and the funnel joins visitors first.
+- **Calls to action** are three events with a `cta` id: `cta_shown`, `cta_click`, `cta_done`. The door drawn and
+  `door_passed`, and an intake box's own event, already are a shown and a done, so `funnel.py` aliases them and the
+  box sends only `cta_shown` when it draws. The hearts, Save, "get your tree" of later steps call `Capture.cta`.
+- **A heartbeat** every thirty seconds of visible, active time (an input within the last minute), capped at a minute,
+  with the screen: a tab left open counts nothing. `Capture.tick(now, visible, lastActive)` is the pure step.
+- **Actions are counted in the browser** (`journey.actions`, localStorage; a role, a fit, a class, a quest or a prep
+  opened) and never sent: the feedback prompt of step 6 reads the count.
+- **Everything waits behind `CONFIG.JOURNEY_ENABLED`**, off until the owner applies the migration: PostgREST refuses a
+  row whole when it carries a column the table lacks, so shipping the columns first would silence every event.
+  Off, `capture.js` behaves exactly as before (the old names, the old keys).
+- `funnel.py` prints the four journey tables after the funnel of before, reading each column only once it exists.
+
+**Step 2, built (`feat/journey-signin`, stacked on step 1): the sign-in.** Decisions:
+
+- **A code, not a link.** `Auth.sendCode(email)` posts GoTrue's email OTP with `create_user: true`;
+  `Auth.verifyCode(email, code)` posts `/auth/v1/verify` with type `email` and keeps the session under the same key and
+  shape the map reads (`maps.session`), so the map's screens need no change. The invited map users keep their link.
+- **The first personal act is the résumé read.** With accounts on and no session, the drop zone draws the sign-in's
+  door ("Sign in to read your résumé"), and a Read button goes to `#/signin?next=<the hash>`; the sign-in returns to
+  that hash (a hash of this site only, never the sign-in itself). Explore, a role, a field, Networking and the
+  classes stay open with no sign-in, as decision 1 says.
+- **The verified address becomes the door's**: `door.email` is set at verify and `doorKept` prefers the session's
+  email, so the campus rule reads a verified address. The top bar shows the address and Sign out when a session
+  exists, Sign in otherwise (not on the door or the sign-in).
+- **The door is its own form** with accounts on (Tally's door form retires; the four intake boxes keep theirs):
+  the native fallback of v19 B7, one waitlist row per address and source, so the Tally duplicates end with it.
+- **Everything behind `CONFIG.ACCOUNTS_ENABLED`, off** until the owner has set up the catalog project: a custom
+  SMTP sender (Project Settings → Authentication → SMTP; Supabase's own sends a few an hour), sign-ups on
+  (Authentication → Sign In / Providers → Email → Allow new users), the Magic Link email template carrying
+  `{{ .Token }}` (Authentication → Email Templates; GoTrue sends that template for a code too, and without the
+  token the mail holds only a link), and the rate limits (Authentication → Rate Limits; emails per hour). The
+  events `cta_shown` · `cta_click` · `cta_done` for `signin` measure the flow once step 1's flag is on.
+
+**Step 3, built (`feat/journey-state`, stacked on step 2): the saved state.** Decisions:
+
+- **Three tables, the person's own rows** (`pipeline/sql/2026-11-05_state.sql`, applied 2026-11-05 on the owner's
+  blanket permission): `profiles` (the About-you answers as the browser keeps them, the campus flag, the hash of the
+  résumé on file), `hearts` (one list of role ids: the card's heart and the open role's are the same), `reads` (one
+  row per résumé hash per role: the band, the core and common skills with their state and the one line that showed
+  each, the gaps, the model read's inferred ids). Row-level security for every verb on `user_id = auth.uid()`,
+  nothing for anon, the service role for the owner's scripts. Tables, not storage objects, so the owner can ask
+  "which roles do people heart" in SQL.
+- **The résumé's id is its hash.** `State.hash` is a SHA-256 of the whitespace-normalized text, computed in the
+  browser (WebCrypto) and kept on the stored résumé; a new file is a new hash and its reads are new rows; the latest
+  hash on the profile marks the current one. The text never leaves the browser but for the model read, as before.
+- **A read goes up when it happens.** `matchRole` (the one matcher run per role per résumé) hands its result to
+  `saveReadFor`, which upserts `reads` and refreshes the profile's hash; nothing waits on it, a failure is retried at
+  the next read. `State.readRows` is the pure part: the core and common rows as the map's four states, one line per
+  skill cut at 300 characters, the gaps as the core rows named but not shown or missing.
+- **The answers sync on every change** (`syncProfile` in both places About you saves) and **carry in at sign-in**:
+  `restoreState` loads the three tables, `State.merge` lets the browser's answers win when set and takes the server's
+  otherwise, unions the hearts, and sends up what the server lacks. The same runs at every page load with a session,
+  so a second browser gets the answers back. Hearts have their store and their sync now; their control is step 5.
+- **Forgetting is a button on About you** (`Forget what you saved`): the person's rows in the three tables go; this
+  browser keeps its own copy; `auth.users` stays until the owner deletes it. The About page's privacy section gains
+  the sentence on what a sign-in keeps, drawn only with accounts on.
+- **Nothing runs with accounts off**: every call sits behind `stateOn()` (accounts on, `state.js` loaded, a session).
+
+Not in this step: the function (step 4), the hearts' control and the other calls to action (step 5), the feedback
+box (step 6). The campus flag goes on the profile once #142 and this branch share a tree.
 
 ## A third role set: engineering, design and legal (`feat/tech-role-set`, 2026-11-05)
 
@@ -2083,6 +2341,16 @@ tech roles; a fresh labelled sample of titles; sponsorship rows from tech postin
 - **Off on `main`.** The switch stays off until the evals PR 4 lists as owed exist, the first `refresh-tech` has put the
   set's files on `main`, and the owner says so.
 
+**The first refresh (2026-11-05).** `refresh-tech` ran count-only in Actions (11,542 postings would be kept, within 0.3% of
+the local count; Workday 12 minutes), then for real (every family; Apple's board took 40 minutes, Workday 22). It found
+13,831 US postings at 1,118 employers: software 7,103, ML/AI 2,348, security 1,576, counsel 1,026, data 879, design
+849, UX research 50 (33 employers). The set's pipeline evals (1,729), the résumé samples (147) and CI's checks passed;
+the taxonomy eval failed coverage, because with the Fortune boards three more skills reach four tech fields: influence
+(data, security, design, legal), program management (software, security, design, legal) and stakeholder management
+(software). Nine field entries were added, grounded on the refresh's postings (`fix/tech-refresh-fields`). The
+dated snapshot ran as a job of its own, which has no `data/raw/jobs_tech/`; it now runs in the build job after the pull,
+as `refresh-product` does. The run's data PR (#156) opened as a draft.
+
 ## `rough_fit` skips the roles with no postings yet (`fix/rough-fit-empty-roles`, 2026-11-05)
 
 - **What broke it.** The thirteen business roles of 2026-11-05 (`feat/mba-roles-13`) went into `graph_mba.json`'s
@@ -2101,6 +2369,10 @@ tech roles; a fresh labelled sample of titles; sponsorship rows from tech postin
 
 ## Later
 
+- After the story cards (2026-11-05): uploads of more context (side projects, essays) to `maps/<uid>/context/`, one
+  storage policy for the person's own folder, read by `ground.mjs` into `profile.md`; the Tally door's duplicate
+  submissions (a webhook into `waitlist`, one notification per new address; the owner's question of 2026-11-05).
+
 - The skills pass ("Adding a role", part C) for the 15 roles added after the first 50: `ai_transformation`,
   `product_engineer` and the 13 business roles of 2026-11-05, once `refresh-mba` has given the 13 postings. Then
   part D: sample resumes and bands for the `impact` group, game passages, `mba_roles.json` credentials.
@@ -2111,12 +2383,25 @@ tech roles; a fresh labelled sample of titles; sponsorship rows from tech postin
   over data analyst?), unconfirmed.
 - ~~Recalibrate both bands files on the full 304-résumé set after `fix/transfer-reach`; decide whether a transferable
   row should earn less than an evidenced one~~: done 2026-11-02 (`data/bands-recal`), 0.75.
+- The map self-serve (proposed 2026-11-04, not built; the owner says yes first): a résumé plus a role on the site
+  produce a map the way the model read infers skills. The deterministic half is already here (`ground`, `assemble`,
+  `check` run in node on the atlas's files); the judgment half is the cards (R15 to R19) and the company research. The
+  proposal: a Vercel function `api/map` behind the magic-link session takes the résumé text, the role class and one
+  company; `ground` runs in the function; the model (Haiku 5.5 for the cards, a Sonnet-class model for the four research
+  reads over the company's public pages) writes `cards`, `gap_sentence` and `who_sees_it` under the skill's rules, with
+  every quote checked word for word by `check` before the map is written to `maps/<uid>/map.json` with the service
+  role; a map that fails the check is not written and the screen says so. Cost per map, at today's prices: about $0.10
+  to $0.40 (research pages in, 11 cards out, two passes), plus the per-request limit already on `/api/infer`. Behind a
+  flag, `CONFIG.MAP_SELF_SERVE`, off by default, so the owner's hand-run maps stay the product until the first ten
+  self-serve maps have been read by him; the atlas still runs no model for anyone who has not signed in.
 - After v20 (2026-10-31): missions that cover a whole class's gaps, not the first role's (the generator's
   rule R16, once a map has been run for a real student); the quest map's one-world view (the round-2 Q2) as the view a
   world opens into; the layout eval (`evals/README.md`); the IE New York roster (`IENYC_ENABLED`); an events feed for
   Networking (the intake promises it); the graphs rebuilt for both sets so `first_seen` fills `jobs_open.json` and
   Find jobs gains a Newest sort (`build_graph`, then `jobs_open`, on a `data/` branch with the baselines).
-- Owner steps v20 left open (2026-10-31): commit the B1 files in `gradbuddy/apprentice/`; the four steps in
+- Owner steps v20 left open (2026-10-31): ~~commit the B1 files in `gradbuddy/apprentice/`~~ (the generator moved into
+  the atlas on 2026-11-04; GradBuddy's `apprentice/` folder and `/apprentice-map` skill are superseded by `pipeline/apprentice/`,
+  and the owner decides whether to retire them or leave a pointer there); the four steps in
   `pipeline/sql/2026-11-03_maps.sql` (sign-ups off, the bucket and policies, the invite, the publish) on the
   gradbuddy-catalog project; `CATALOG_SERVICE_ROLE_KEY` in `.env`.
 - Owner steps the four verbs left open (2026-10-31): apply `pipeline/sql/2026-10-31_doors.sql` on the catalog

@@ -243,9 +243,10 @@ The ratings, the roles chosen and the campus stay in the browser.
 
 ## Consumers
 
-The first consumer is the apprentice map generator in `gradbuddy/` (PLAN.md v18; its brief is
-`../GradBuddy Project/discovery&research/handoffs/2026-10-26_apprentice_map_generator_brief.md`): an atlas-grounded
-"shadow apprentice map", a five-level project ladder for one student and one role. It reads these files by path:
+The first consumer was GradBuddy's apprentice map generator (PLAN.md v18; its brief is
+`../GradBuddy Project/discovery&research/handoffs/2026-10-26_apprentice_map_generator_brief.md`). Since 2026-11-04
+the generator lives in the atlas, at `pipeline/apprentice/`, and reads these files from its own repository. They are
+the files any outside reader of the role sets needs:
 
 - `web/data/roles_mba.json`: the 50 roles with their labels, groups, title rules and ladders, to name the role and
   its grades.
@@ -258,16 +259,22 @@ The first consumer is the apprentice map generator in `gradbuddy/` (PLAN.md v18;
 - `web/data/sp27_campus.json`: the campuses, their programs and pre-enrollment dates, so a ladder can point at the
   term's classes.
 
-A consumer reads ids and statuses as keys and numbers and sentences as today's values ("Stable and not" above), and
-inherits the privacy rule below.
+The generator also loads `web/atlas.js`, `web/match.js`, `web/catalog.js` and `web/evidence_text.js` in node, the way
+the tests do. A consumer reads ids and statuses as keys and numbers and sentences as today's values ("Stable and not"
+above), and inherits the privacy rule below.
 
-## What the atlas reads from GradBuddy: the apprentice map
+## The apprentice map: what the generator writes and the atlas reads
 
-The one thing that flows the other way (PLAN.md v20). GradBuddy's generator (`gradbuddy/apprentice/`, the
-`/apprentice-map` skill) writes one `map.json` per student, by hand and offline; the owner publishes it to the
-private bucket `maps` under the person's user id (`pipeline.map_publish`); the atlas reads it with the person's own
-session on `#/map` (`web/auth.js`, `web/map.js`) and draws it. The atlas never writes to it. A map is never in a
-repository: it quotes one person's résumé.
+The private part of the site (PLAN.md v20). The generator (`pipeline/apprentice/`, the `/apprentice-map` skill in
+`.claude/skills/`) writes one `map.json` per student, by hand and offline, into `data/apprentice/students/<slug>/`,
+which is gitignored. The owner publishes it to the private bucket `maps` under the person's user id
+(`pipeline.map_publish`). The atlas reads it with the person's own session on `#/map` (`web/auth.js`, `web/map.js`)
+and draws it. The site never writes to it. A map is never in a repository: it quotes one person's résumé. The one
+tracked map is the example, `pipeline/apprentice/examples/pmm-nyc/`, a fictional person against a real posting.
+
+**What GradBuddy still holds.** `../GradBuddy Project/gradbuddy/apprentice/students/` is the read-only source of the
+intake material of students taken in before the move. `node pipeline/apprentice/new.mjs <slug> --import` copies one
+folder from it, once, and never overwrites a folder here. Nothing in the atlas writes to GradBuddy.
 
 **The file, version 2.** The keys the atlas reads; anything else is the generator's and ignored.
 
@@ -281,11 +288,18 @@ repository: it quotes one person's résumé.
   absent), `through`, `grows`, `posting_names`), `behaviours[]` (the same shape), `more[]` (`id`, `name`, `state`).
 - `read`: `band` (the matcher's band id), `band_label` (its words), `brings[]` (`id`, `name`, `state`, `line`),
   `marked_gaps` (skill ids, at most eight).
-- `worlds[]`: `n` (1, 2, 3 or `"reach"`), `label`, `release`, `who`, `clear` (k), `missions` (card ids).
+- `worlds[]`: `n` (1, 2, 3 or `"reach"`), `label`, `who`, `clear` (k), `missions` (card ids). A `release` label in an
+  older file is ignored (2026-11-05).
 - `cards[]`: `id`, `level` (1, 2, 3 or `"reach"`), `track`, `title`, `ship`, `hours`, `window`, `why_role` (`text`,
   `posting_quote`), `why_company` (`text`, `research_file`, `url`), `why_person` (`text`, `profile_quote`),
   `atlas_skills` (skill ids), `classes` (roster codes), `users`, `sources[]` (`title`, `url`, `read`), and, set by the
   owner at a republish, `shipped` (a date), `changed` (a date), `declined` (true), `reply` (`text`, `date`).
+- a **story card** (`kind: "story"`, World 1, at most two, written by the generator): the keys above without
+  `why_company`, `posting_quote`, `classes` and `users`, plus `skill` (one id on the tree), `state` (`must evidence
+  better` or `shows in other words`), `line` (the résumé line as it stands), `what`, `reads_as`, `shown_by`
+  (`artefacts`, `verbs`, `measures`, `counterparts`: lists of words) and `prompt` (the practice prompt, plain text).
+  The atlas draws the line, the slots and the prompt, and reads a new line the person types with the matcher of the
+  map's role, in the browser; nothing of it goes up but the F1 feedback.
 
 The atlas resolves a skill's `what` and what it means in the field, an area's label and a class's title from its
 own index by id; a node carries `name` so an id the taxonomy no longer has still draws.

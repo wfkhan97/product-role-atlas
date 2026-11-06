@@ -12,6 +12,9 @@
      questsOf(map, id)            the cards whose atlas_skills name the skill, in world order
      readLines(map, index)        D1: the band headline, what you bring with its lines, the marked gaps with the mission
                                   that builds each (R31)
+     storyOf(card)                a story card's parts (the skill, its state, the line as it stands, what it means here,
+                                  the slots a line that shows it fills, the practice prompt), or null for a build card
+     lineState(status)            the matcher's status of one line read on its own, as one of the four states
      shippedLook(node, map)       the fifth look for a node a shipped mission built, with the date in words (R30)
      dateWords("2026-11-14")      "November 14, 2026"
    The map is read, never written: the owner's republish sets shipped, changed, declined and reply. The person's own
@@ -46,7 +49,7 @@
   function worldList(map) {
     if (list(map.worlds).length) return map.worlds;
     const levels = [...new Set(list(map.cards).map(c => c.level))];
-    return levels.map(l => ({ n: l, label: l === "reach" ? C().reachHead : "", release: "", who: "", clear: l === "reach" ? 0 : 1, optional: l === "reach", missions: list(map.cards).filter(c => c.level === l).map(c => c.id) }));
+    return levels.map(l => ({ n: l, label: l === "reach" ? C().reachHead : "", who: "", clear: l === "reach" ? 0 : 1, optional: l === "reach", missions: list(map.cards).filter(c => c.level === l).map(c => c.id) }));
   }
   const missionOrder = map => worldList(map).flatMap(w => list(w.missions));
   function worldOfCard(map, cardId) { return worldList(map).find(w => list(w.missions).includes(cardId)) || null; }
@@ -182,12 +185,12 @@
       const optional = !!w.optional || w.n === "reach";
       const missions = list(w.missions).filter(id => cards[id]).map((id, i) => {
         const card = cards[id], sent = own[id] && own[id].choice ? own[id] : null;
-        return { id, i: i + 1, card, state: missionState(card, sent), sent };
+        return { id, i: i + 1, card, kind: card.kind === "story" ? "story" : "build", state: missionState(card, sent), sent };
       });
       const live = missions.filter(m => !m.card.declined);
       const n = live.length, shipped = live.filter(m => m.card.shipped).length;
       const clear = optional ? 0 : Math.min(Math.max(0, Number(w.clear) || 0), n);
-      const world = { num: w.n, label: w.label || "", release: w.release || "", who: w.who || "", optional, missions, n, clear, shipped, cleared: !optional && n > 0 && shipped >= clear };
+      const world = { num: w.n, label: w.label || "", who: w.who || "", optional, missions, n, clear, shipped, cleared: !optional && n > 0 && shipped >= clear };
       world.head = optional ? C().reachHead : fill(C().worldHead, { n: w.n });
       world.clearLine = clearLine(world);
       world.progress = progressLine(world);
@@ -301,6 +304,24 @@
     return { band, role, headline: band && role ? fill(M.band, { band, role }) : band, brings, groups, gaps };
   }
 
+  // ---------- the story cards (World 1): one line of the résumé, rewritten so the skill shows ----------
+  // The generator writes them (pipeline/apprentice/assemble.mjs); the screen draws the line as it stands, the slots
+  // and the prompt, and reads a new line live with the matcher. The matcher's status of a line read on its own maps
+  // to the four states the way the generator maps a résumé's (ground.mjs, STATE).
+  const SLOT_KEYS = ["artefacts", "verbs", "counterparts", "measures"];
+  const LINE_STATE = { evidenced: "shows", through: "shows", transferable: "shows in other words", thin: "must evidence better", presumed: "must evidence better", gap: "must build" };
+  const lineState = status => LINE_STATE[status] || "must build";
+  function storyOf(card) {
+    if (!card || card.kind !== "story") return null;
+    const h = card.shown_by || {};
+    return {
+      skill: card.skill || (list(card.atlas_skills)[0] || null), state: STATES.includes(card.state) ? card.state : "must evidence better",
+      line: card.line || "", what: card.what || null, reads_as: card.reads_as || null,
+      slots: SLOT_KEYS.map(k => ({ key: k, items: list(h[k]).map(String) })).filter(s => s.items.length),
+      prompt: card.prompt || "",
+    };
+  }
+
   // ---------- P1: the fifth look (R30) ----------
   // a node a shipped mission built reads "shows, shipped <date>": the earliest shipped card that names it
   function shippedLook(node, map) {
@@ -311,5 +332,5 @@
     return { state: "shows", look: "shipped", date: c.shipped, words: dateWords(c.shipped), card: c.id, title: c.title || "", label: fill(C().shippedState, { date: dateWords(c.shipped) }) };
   }
 
-  return { STATES, RANK, MISSION_STATES, CHOICE_STATE, rankOf, dateWords, numWord, classTree, treeLayout, coAsked, worlds, missionOf, missionState, questLayout, questsOf, readLines, shippedLook, skillInfo, fieldKeys, worldOfCard, worldList, cardsById };
+  return { STATES, RANK, MISSION_STATES, CHOICE_STATE, rankOf, dateWords, numWord, classTree, treeLayout, coAsked, worlds, missionOf, missionState, questLayout, questsOf, readLines, shippedLook, skillInfo, fieldKeys, worldOfCard, worldList, cardsById, storyOf, lineState, SLOT_KEYS };
 });

@@ -91,12 +91,32 @@
   // door.seen) in localStorage. The form is Tally's when CONFIG.TALLY.door is set (web/doors.js, B7), else the native
   // one; the native Continue sends the email with the source `door`. Tally's return is the one time the email rides in
   // the URL (#/home?email=…&where=…): home reads it once and cleans the hash.
+  // The campus flags (2026-11-04): the door's email read by its domain against web/config.js CAMPUS_DOMAINS
+  // ({ flag: [domains] }), and the flag linked to a roster by the `flag` of a campus entry (data/sp27_campus.json).
+  // `domains` defaults to the config's table in the browser and to none in node; `campuses` is Catalog.campuses()'s
+  // list, which honors `enabled_by`, so a switched-off campus opens nothing.
+  const domainTable = domains => domains || (typeof self !== "undefined" && self.CONFIG && self.CONFIG.CAMPUS_DOMAINS) || {};
+  // the screens a flag with no roster does not reach: they go home (not grayed, not shown)
+  const ROSTER_SCREENS = new Set(["classes", "professor"]);
   const Door = {
-    COPY: { ...Copy.door, home: Copy.home.heading, closed: Copy.home.closed, closedLink: Copy.home.closedLink, closedAfter: Copy.home.closedAfter, bar: Copy.common.bar },
-    // a Cornell NetID address and nothing else (owner's decision 2, 2026-10-29): two or three letters then one to four
-    // digits at cornell.edu, any case, spaces around it ignored. john.smith@cornell.edu, an alumni address and a
-    // gmail address are kept like any other email but open nothing.
-    opens: email => /^[a-z]{2,3}[0-9]{1,4}@cornell\.edu$/i.test(String(email || "").trim()),
+    COPY: { ...Copy.door, home: Copy.home.heading, bar: Copy.common.bar },
+    // the flag whose domain list holds the address's domain, else null: the whole domain after the last "@", any case,
+    // spaces around the address ignored (wk332@cornell.edu and john.smith@cornell.edu are cornell;
+    // wk332@alumni.cornell.edu, a gmail address and anything without an "@" are no campus)
+    campus(email, domains) {
+      const e = String(email || "").trim().toLowerCase(), at = e.lastIndexOf("@");
+      if (at < 1 || at === e.length - 1 || e.indexOf("@") !== at || /\s/.test(e)) return null;
+      const d = e.slice(at + 1);
+      for (const [flag, list] of Object.entries(domainTable(domains))) if ((list || []).some(x => String(x || "").trim().toLowerCase() === d)) return flag;
+      return null;
+    },
+    // the listed campus with a loaded roster (catalog: true) for a flag, else null
+    rosterOf: (flag, campuses) => (flag && (campuses || []).find(c => c.flag === flag && c.catalog)) || null,
+    // the address belongs to a campus with a loaded roster: Find classes, its routes and the Faculty tab open
+    // (owner, 2026-11-04: any @cornell.edu address, no longer a NetID alone)
+    opens: (email, domains, campuses) => !!Door.rosterOf(Door.campus(email, domains), campuses),
+    // the screen a route draws for a visitor: #/classes and #/professor/<slug> go home when the address opens no roster
+    reach: (name, open) => ROSTER_SCREENS.has(name) && !open ? "home" : name,
     // the route after the door: the deep link the person arrived on, unless that is the door itself
     next: target => { const t = String(target || ""); return t && parseRoute(t).name !== "door" ? t : "#/home"; },
     // a deep link goes to the door first, once: any route but the door while door.seen is not set
@@ -107,14 +127,14 @@
     hundreds: n => (Math.floor(n / 100) * 100).toLocaleString("en-US"),
     tens: n => String(Math.floor(n / 10) * 10),
     // the four home cards in order, with the line each one builds from the counts ({ nOpen, nCompanies, nRoles }: open
-    // US postings of both role sets, the employers behind them, the roles in the index); Find classes is closed unless
-    // the email opens it
-    verbs(email, counts) {
+    // US postings of both role sets, the employers behind them, the roles in the index); Find classes is open only when
+    // the email opens a roster (Door.opens), and the screens draw the open cards alone (2026-11-04: no grayed card)
+    verbs(email, counts, domains, campuses) {
       const c = counts || {}, V = Copy.home.verbs, fill = Copy.fill;
       return [
         { key: "jobs", href: "#/jobs", title: V.jobs.title, line: fill(V.jobs.line, { jobs: Door.thousands(c.nOpen || 0), companies: Door.hundreds(c.nCompanies || 0) }), open: true },
         { key: "skills", href: "#/skills", title: V.skills.title, line: fill(V.skills.line, { roles: Door.tens(c.nRoles || 0) }), open: true },
-        { key: "classes", href: "#/classes", title: V.classes.title, line: V.classes.line, open: Door.opens(email) },
+        { key: "classes", href: "#/classes", title: V.classes.title, line: V.classes.line, open: Door.opens(email, domains, campuses) },
         { key: "network", href: "#/network", title: V.network.title, line: V.network.line, open: true },
       ];
     },
@@ -265,7 +285,39 @@
   if (state.resume) Atlas.useInferred(state.resume.text, state.resume.inferred || []);
   // Funnel counts (web/capture.js): an event name, the session id, the stage and the program group, a role or field id.
   // Never text, a skill id or a file name. Everything is a no-op when CONFIG.CAPTURE_ENABLED is off.
-  const track = (name, ctx) => { if (window.Capture) Capture.event(name, { stage: (state.you || {}).stage, program: (state.you || {}).where, ...(ctx || {}) }); };
+  const track = (name, ctx) => { if (window.Capture) { Capture.event(name, { stage: (state.you || {}).stage, program: (state.you || {}).where, ...(ctx || {}) }); if (ACTIONS.has(name)) Capture.action(); } };
+  // the meaningful actions the feedback prompt counts (web/capture.js Capture.action): a thing opened or read, never a screen drawn
+  const ACTIONS = new Set(["role", "fit", "course_read", "event_prep", "classes", "play", "posting_link", "resume_read", "you_done", "home_jobs", "home_skills", "home_classes", "home_network"]);
+  if (window.Capture) Capture.watch();   // the heartbeat: visible, active time per screen
+  // The saved state (the visitor journey, step 3, 2026-11-05; web/state.js): with accounts on and a session, the
+  // About-you answers, the hearts and each read go up to the person's own rows; at sign-in and at every page load
+  // the server's copy fills what this browser lacks and the browser's answers go up. Nothing here runs otherwise.
+  const stateOn = () => accountsOn() && !!window.State && !!Auth.stored();
+  const hearts = () => { const h = store.get("hearts"); return Array.isArray(h) ? h : []; };
+  const keepHearts = list => store.set("hearts", [...new Set(list)]);
+  const hashOf = r => r.hash ? Promise.resolve(r.hash) : State.hash(r.text).then(h => { if (h && state.resume === r) { r.hash = h; store.set("resume", r); } return h; });
+  const syncProfile = () => { if (!stateOn()) return; State.saveProfile(Auth.stored(), state.you, { resume_hash: (state.resume || {}).hash || null }); };
+  async function saveReadFor(m, r) {
+    if (!stateOn() || !m || !m.r || !r) return;
+    try {
+      const h = await hashOf(r); if (!h || state.resume !== r) return;
+      const { skills, gaps } = State.readRows(m.r);
+      await State.saveRead(Auth.stored(), { resume_hash: h, role_id: m.roleId, band: m.band, skills, gaps, inferred: r.inferred || [] });
+      syncProfile();
+    } catch (e) { console.error(e); }
+  }
+  async function restoreState(s) {
+    if (!accountsOn() || !window.State || !s) return;
+    try {
+      const remote = await State.load(s);
+      const m = State.merge({ you: state.you, hearts: hearts() }, remote || {});
+      if (m.you && !(state.you && (state.you.where || state.you.stage || (state.you.fields || []).length))) { state.you = m.you; store.set("you", m.you); }
+      keepHearts(m.hearts);
+      if (m.up.you) State.saveProfile(s, m.up.you, { resume_hash: (state.resume || {}).hash || null });
+      for (const id of m.up.hearts) State.heart(s, id, true);
+    } catch (e) { console.error(e); }
+  }
+  let restoredOnce = false;   // the page load's restore runs from route(), once every definition below exists
   const waitCtx = () => ({ role_id: state.roleId, stage: (state.you || {}).stage, program: (state.you || {}).where, fields: (state.you || {}).fields || [] });
   // a posting link (decision 8 of the pass: visible on the fit screen and the rail's gap rows for a person with a resume)
   document.addEventListener("click", e => { const a = e.target.closest("[data-posting]"); if (a) track("posting_link", { role_id: a.dataset.posting }); });
@@ -274,18 +326,36 @@
   // demand-gen pass): the fit on screen when it is this role's, else the matcher at the default level, cached per role;
   // applyBox, applyLine and wireApply draw the intake box at the picker's foot (v18 step 1, the intake since v19 B5);
   // resumeForm, wireResume, takeResume and hasResume let the picker hold the shell's resume form when none is on file (v19 B3, C1)
-  const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Intake.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw), resumeForm: () => resumeForm(), wireResume: () => wireResumeForm(), takeResume: () => takeResume(), hasResume: () => !!state.resume };
+  const shellCtx = { crumbs, page, showAside, gapsFor: roleId => gapsFor(roleId), applyBox: (what, opts) => applyBox(what, opts), applyLine: label => Intake.gapsLine(label), wireApply: (el, redraw) => wireWait(el, redraw), resumeForm: () => resumeForm(), wireResume: () => wireResumeForm(), takeResume: () => takeResume(), hasResume: () => !!state.resume, flag: () => campusGate().flag };
   // what the door kept, in this browser only: the email, the program group, and that the door was seen once
-  const doorKept = () => { try { return { email: localStorage.getItem("door.email") || "", where: localStorage.getItem("door.where") || "", seen: localStorage.getItem("door.seen") === "1" }; } catch { return { email: "", where: "", seen: false }; } };
+  // the door's answers; with a session (the code sign-in, 2026-11-05) the verified address wins over the typed one
+  const doorKept = () => { try { const s = accountsOn() ? Auth.stored() : null; return { email: (s && s.email) || localStorage.getItem("door.email") || "", where: localStorage.getItem("door.where") || "", seen: localStorage.getItem("door.seen") === "1" }; } catch { return { email: "", where: "", seen: false }; } };
+  // The campus gate (2026-11-04): the door's email read for its flag (Door.campus, web/config.js CAMPUS_DOMAINS) and
+  // whether that flag has a listed campus with a loaded roster (Door.opens over Catalog.campuses(), which honors
+  // `enabled_by`). The campus list loads once before the first route draws (route() waits for it), so the top bar,
+  // home, the routes and Networking read it synchronously. { flag, open, campus: the roster's campus entry or null }
+  let CAMPUSES = null;
+  const campusesP = Promise.resolve(window.Catalog ? Catalog.campuses() : []).catch(e => { console.error(e); return []; }).then(l => (CAMPUSES = l || []));
+  const campusGate = () => { const email = doorKept().email, flag = Door.campus(email), campus = Door.rosterOf(flag, CAMPUSES || []); return { flag, open: !!campus, campus }; };
   // The four verbs in the top bar (v19 B2), drawn on every route: the current one marked, Find classes only when the
-  // email on file opens it (Door.opens). The brand goes home. A screen the verbs will absorb (Explore, a field, a role,
+  // email on file opens a roster (Door.opens); for any other visitor it is not there at all. The brand goes home. A screen the verbs will absorb (Explore, a field, a role,
   // its fit and course screens) marks Explore careers; an event screen marks Networking; the classes screens Find classes.
   const VERB_OF = { jobs: "jobs", skills: "skills", map: "skills", explore: "skills", field: "skills", role: "skills", fit: "skills", course: "skills", play: "skills", network: "network", event: "network", classes: "classes", professor: "classes" };
   function topBar(name) {
     const el = $("#verbs"); if (!el) return;
     const on = VERB_OF[name] || null;
-    el.innerHTML = Door.verbs(doorKept().email, {}).filter(v => v.open).map(v => `<a class="toplink${on === v.key ? " on" : ""}" href="${esc(v.href)}"${on === v.key ? ' aria-current="page"' : ""}>${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("");
+    el.innerHTML = Door.verbs(doorKept().email, {}, null, CAMPUSES || []).filter(v => v.open).map(v => `<a class="toplink${on === v.key ? " on" : ""}" href="${esc(v.href)}"${on === v.key ? ' aria-current="page"' : ""}>${esc(Door.COPY.bar[v.key] || v.title)}</a>`).join("") + whoHtml(name);
+    const out = el.querySelector("[data-signout]"); if (out) out.onclick = () => signOutNow();
   }
+  // the signed-in address and Sign out at the bar's end, or Sign in; nothing when accounts are off (the map's own
+  // sign-in stays on its screens)
+  function whoHtml(name) {
+    if (!accountsOn()) return "";
+    const S = Copy.signin, s = Auth.stored();
+    if (s) return `<span class="who" title="${esc(s.email || "")}">${esc(s.email || S.signedIn)}<button type="button" class="linkish link" data-signout>${esc(S.signOut)}</button></span>`;
+    return name === "signin" || name === "door" ? "" : `<span class="who"><a class="toplink" href="#/signin?next=${encodeURIComponent(location.hash || "#/home")}">${esc(S.signIn)}</a></span>`;
+  }
+  async function signOutNow() { mapHeld = null; mapUi = null; await Auth.signOut(); if (Routes.parseRoute(location.hash).name === "map") location.hash = "#/skills"; else route(); }
   // the Tally forms on screen (web/doors.js handles): dropped when the route changes, so no clock or listener outlives
   // its screen
   const mounts = new Set();
@@ -314,26 +384,40 @@
   const returned = hash => !!(window.Doors && Routes.parseRoute(hash).name === "home" && (Doors.returnQuery(hash).email || Doors.returnQuery(hash).where));
   // the apprentice maps (CONFIG.MAPS_ENABLED, web/auth.js): the one private thing on the site
   const mapsOn = () => !!((window.CONFIG || {}).MAPS_ENABLED && window.Auth);
+  // the visitor journey's sign-in for everyone (step 2, 2026-11-05): email plus a six-digit code, asked at the first
+  // personal act (the résumé read), the door's own form instead of Tally's
+  const accountsOn = () => !!((window.CONFIG || {}).ACCOUNTS_ENABLED && window.Auth);
+  // where the sign-in returns to: a hash of this site, never the sign-in itself
+  const nextHash = q => { const n = String(q || ""); return /^#\/(?!signin)[a-z][a-z0-9_/?=&.%-]*$/i.test(n) ? n : "#/home"; };
+  const signinHref = () => `#/signin?next=${encodeURIComponent(location.hash || "#/home")}`;
   const toHash = h => location.replace(location.pathname + location.search + h);   // replaced, not pushed: Back leaves as it came
   function route() {
+    if (!CAMPUSES) { campusesP.then(route); return; }   // the campus gate reads the campus list: once, before the first draw
     // a magic link lands with its tokens in the hash (#access_token=…, or #/map#access_token=…): web/auth.js keeps the
     // session and the hash becomes #/map before anything parses it; a spent or expired link lands on the sign-in
     const landed = window.Auth && mapsOn() ? Auth.takeHash(location.hash) : null;
     if (landed) history.replaceState(null, "", location.pathname + location.search + (landed === "session" ? "#/map" : "#/signin?expired=1"));
     const parsed = Routes.parseRoute(location.hash);
+    if (!restoredOnce) { restoredOnce = true; if (stateOn()) restoreState(Auth.stored()); }   // step 3: the server's copy, once per page
     unmount(true);
     // a deep link bounces to the door once (v19 B2): the hash stays, the door draws over it, and Continue or Skip
     // (Door.next) lands on the hash. The sign-in and the map never bounce: an invited person comes from the email.
     const invited = mapsOn() && (parsed.name === "signin" || parsed.name === "map");
-    const name = !invited && Door.bounce(location.hash, doorKept().seen || returned(location.hash)) ? "door" : parsed.name, { id, slug } = parsed.params;
+    // #/classes and #/professor/<slug> are home for a visitor whose address opens no roster (Door.reach, 2026-11-04):
+    // the URL is rewritten too, so the address bar never says a screen the person cannot reach
+    const name0 = !invited && Door.bounce(location.hash, doorKept().seen || returned(location.hash)) ? "door" : parsed.name;
+    const name = Door.reach(name0, campusGate().open), { id, slug } = parsed.params;
+    if (name !== name0) { toHash("#/home"); return; }
     // #/jobs, #/skills and #/network exist so the hrefs never change: #/jobs is Find jobs (B4), #/skills the launcher
     // and #/network Who to meet (B5); #/explore, a field and the event screen stay at their routes
     const go = { door, home, jobs: jobsScreen, skills: skillsScreen, network: networkScreen, you, explore, field: () => field(id), event: () => eventScreen(id), role: () => roleScreen(id), fit: () => fitScreen(id), course: () => courseScreen(id), play: () => play(slug), about, classes: () => ClassScreens.classes(shellCtx), professor: () => ClassScreens.professor(slug, shellCtx), signin: () => mapsOn() ? signinScreen() : ClassScreens.signin(shellCtx), map: mapScreen }[name];
     SkillMap.leave(); leaveRail(); topBar(name);
-    // the launcher sends the same event Explore sends: it is the screen that picks a role now; the door sends `door`
-    // (v19 B7; `start` was the start screen's, gone with B2) and `door_passed` itself when Continue or Skip goes through
-    const ev = { door: ["door", { surface: "door" }], explore: ["explore"], skills: ["explore"], field: ["field", { field_id: id }], event: ["event_prep", { field_id: id }], role: ["role", { role_id: id }], classes: ["classes"], play: ["play", { role_id: slug }] }[name];
-    if (ev) track(ev[0], ev[1]);
+    // every route is a screen event (2026-11-05, web/capture.js SCREENS; the drop-off report counts them): the launcher
+    // sends the same event Explore sends, since it is the screen that picks a role; the door sends `door` (v19 B7) and
+    // `door_passed` itself when Continue or Skip goes through; the rest carry the id on screen
+    const ctx = { door: { surface: "door" }, field: { field_id: id }, event: { field_id: id }, role: { role_id: id }, play: { role_id: slug } }[name] || {};
+    const ev = window.Capture ? Capture.screen(name) : null;
+    if (ev) track(ev, ctx);
     go().catch(fail);
   }
   window.addEventListener("hashchange", route);
@@ -379,10 +463,10 @@
     const nativeForm = () => `<form class="door-form" id="door-form" novalidate="">
           <label class="dlabel">${esc(C.email)}<input type="email" name="email" placeholder="${esc(C.emailPlaceholder)}" autocomplete="email" value="${esc(kept.email)}"></label>
           <label class="dlabel">${esc(C.where)}<select name="where"><option value="">${esc(C.pick)}</option>${Q[0].options.map(([id, label]) => `<option value="${esc(id)}"${kept.where === id ? " selected" : ""}>${esc(label)}</option>`).join("")}</select></label>
-          <p class="small muted" style="margin:0">${esc(C.cornell)}</p>
+          <p class="small muted" style="margin:0">${esc(C.school)}</p>
           <p class="door-acts"><button type="submit" class="btn primary">${esc(C.button)}</button><a class="door-skip" href="${esc(Door.next(location.hash))}" id="door-skip">${esc(C.skip)}</a></p>
         </form>`;
-    const tally = !!(window.Doors && Doors.formIdFor("door", null, formTheme()));
+    const tally = !accountsOn() && !!(window.Doors && Doors.formIdFor("door", null, formTheme()));   // with accounts, the door is its own form
     page(`<section class="door">
         <h1>${esc(C.heading)}</h1>
         ${C.intro.map(t => `<p class="lead">${esc(t)}</p>`).join("")}
@@ -414,8 +498,8 @@
       onSubmitted: () => { try { localStorage.setItem("door.seen", "1"); } catch { } passed(""); },
     });
   }
-  // Home: the four verbs as a 2×2 grid, one data-built line each; Find classes grayed until a Cornell address opens
-  // it. Under them, About you (owner's feedback 2026-11-01): the three questions and the résumé drop inline
+  // Home: the verbs as a grid, one data-built line each: four for an address that opens a roster, else three (Find
+  // classes is not drawn at all, 2026-11-04; the grid's n3 class lays three in one row from 1280 px). Under them, About you (owner's feedback 2026-11-01): the three questions and the résumé drop inline
   // (youInline) until any is answered, then the one-line summary with Edit to #/you (youLine). The door's Tally form
   // comes back here with its answers in the query (#/home?email=…&where=…): read once, kept as the door keeps them,
   // and the hash cleaned before anything draws. A card click sends home_<verb> before the screen changes.
@@ -435,10 +519,9 @@
       else youInline(body, { onDone: () => { doneHere = true; drawYou(); } }).catch(console.error);
     };
     const render = () => {
-      const cards = Door.verbs(doorKept().email, homeCounts(ix, n)).map(v => v.open
-        ? `<a class="verb" href="${esc(v.href)}" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span></a>`
-        : `<div class="verb closed" aria-disabled="true" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span><span class="gate">${esc(C.closed)} <a href="#/">${esc(C.closedLink)}</a> ${esc(C.closedAfter)}</span></div>`);
-      page(`<h1>${esc(C.home)}</h1><div class="verbs">${cards.join("")}</div>
+      const cards = Door.verbs(doorKept().email, homeCounts(ix, n), null, CAMPUSES || []).filter(v => v.open)
+        .map(v => `<a class="verb" href="${esc(v.href)}" data-verb="${esc(v.key)}"><span class="t">${esc(v.title)}</span><span class="d">${esc(v.line)}</span></a>`);
+      page(`<h1>${esc(C.home)}</h1><div class="verbs n${cards.length}">${cards.join("")}</div>
         <section class="home-you" aria-labelledby="home-you-h"><h2 id="home-you-h">${esc(YOU.inline.heading)}</h2><div id="home-you-body"></div></section>`);
       main.firstElementChild.classList.add("home-page");
       main.querySelectorAll("a.verb[data-verb]").forEach(a => a.onclick = () => track("home_" + a.dataset.verb, { surface: a.dataset.verb }));
@@ -462,7 +545,9 @@
     const r = M.match(state.resume.text, { jobs: slice, familyJobs: R.jobs, label: R.role.label }, { level: LEVEL_OPT[level], ladder: R.role.ladder });
     const c = Launcher.coreOf(r.rows);
     const out = { roleId: R.role.id, label: R.role.label, n: c.n, m: c.m, band: Matcher.bandOf(r.overall, bands, group) || null, r, R };
-    matchCache.set(key, out); return out;
+    matchCache.set(key, out);
+    saveReadFor(out, state.resume);   // the read goes up once per résumé and role (step 3); nothing waits on it
+    return out;
   }
   // a match result's gap rows in the shape gapRows reads (what gapsFor builds for the picker)
   const rowsOf = r => { const rows = r.rows, by = st => rows.filter(x => x.status === st && x.tier !== "diff"); return { coreGaps: rows.filter(x => x.tier === "core" && (x.status === "gap" || x.status === "thin")).sort((a, b) => b.w - a.w), gaps: by("gap"), thin: by("thin") }; };
@@ -561,6 +646,7 @@
   async function signinScreen() {
     const S = Copy.signin;
     crumbs([[CM.home, "#/home"], [S.crumb, null]]); showAside(null);
+    if (accountsOn()) { codeSignin(); return; }
     if (Auth.stored()) { toHash("#/map"); return; }
     const expired = Routes.parseRoute(location.hash).query.expired === "1";
     page(`<h1>${esc(S.heading)}</h1><p class="lead">${esc(S.lead)}</p>${expired ? `<p class="si-no">${esc(S.expired)}</p>` : ""}
@@ -577,6 +663,52 @@
       if (Routes.parseRoute(location.hash).name !== "signin") return;
       out.innerHTML = r.ok ? `<div class="wait"><b>${esc(S.sent)}</b><p class="small muted">${esc(fill(S.sentTo, { email }))}</p></div>` : `<p class="si-no">${esc(r.message || S.failed)}</p>`;
     };
+  }
+  // the code flow (step 2): the email, then the six-digit code, then back to where the person came from (?next=);
+  // a session on file goes there at once. The verified address is kept as the door's, so the campus rule reads it.
+  function codeSignin() {
+    const S = Copy.signin, next = nextHash(Routes.parseRoute(location.hash).query.next);
+    if (Auth.stored()) { toHash(next); return; }
+    if (window.Capture) Capture.cta("signin", "shown");
+    let email = doorKept().email || "";
+    const draw = (step, msg) => {
+      page(`<h1>${esc(S.heading)}</h1><p class="lead">${esc(S.codeLead)}</p>${msg ? `<p class="si-no">${esc(msg)}</p>` : ""}
+        ${step === "email" ? `<form class="si" id="si" novalidate><input type="email" id="si-email" required autocomplete="email" placeholder="${esc(S.codeEmailPlaceholder)}" aria-label="${esc(S.email)}" value="${esc(email)}"><button class="btn primary" type="submit" id="si-send">${esc(S.codeButton)}</button></form>`
+          : `<div class="wait"><b>${esc(fill(S.codeSent, { email }))}</b></div>
+             <form class="si" id="si" novalidate><input type="text" id="si-code" class="si-code" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="${esc(S.codePlaceholder)}" aria-label="${esc(S.code)}"><button class="btn primary" type="submit" id="si-send">${esc(S.verify)}</button></form>
+             <p class="si-again"><button type="button" class="linkish link" id="si-again">${esc(S.another)}</button><button type="button" class="linkish link" id="si-change">${esc(S.changeEmail)}</button></p>`}
+        <div class="si-out" id="si-out" aria-live="polite"></div>
+        <p class="small muted si-note">${esc(S.codeNote)} <a href="#/skills">${esc(S.explore)}</a></p>`, true);
+      const here = () => Routes.parseRoute(location.hash).name === "signin";
+      const send = $("#si-send"), out = $("#si-out");
+      if (step === "email") {
+        $("#si").onsubmit = async e => {
+          e.preventDefault(); email = $("#si-email").value.trim();
+          send.disabled = true; out.innerHTML = `<p class="small muted">${esc(S.sending)}</p>`;
+          const r = await Auth.sendCode(email);
+          if (!here()) return;
+          if (r.ok) { if (window.Capture) Capture.cta("signin", "click"); draw("code"); } else draw("email", r.message || S.failed);
+        };
+        setTimeout(() => { const i = $("#si-email"); if (i) i.focus(); }, 0);
+      } else {
+        $("#si").onsubmit = async e => {
+          e.preventDefault(); const code = $("#si-code").value;
+          send.disabled = true; out.innerHTML = `<p class="small muted">${esc(S.verifying)}</p>`;
+          const r = await Auth.verifyCode(email, code);
+          if (!here()) return;
+          if (!r.ok) { draw("code", r.message || S.codeWrong); return; }
+          try { localStorage.setItem("door.email", r.session.email || email); localStorage.setItem("door.seen", "1"); } catch { }
+          if (window.Capture) Capture.cta("signin", "done");
+          await restoreState(r.session);   // the server's copy fills this browser; this browser's answers go up
+          out.innerHTML = `<p class="small">${esc(fill(S.done, { email: r.session.email || email }))}</p>`;
+          toHash(next); if (location.hash === next) route();
+        };
+        $("#si-again").onclick = async () => { const r = await Auth.sendCode(email); if (here()) draw("code", r.ok ? null : (r.message || S.failed)); };
+        $("#si-change").onclick = () => draw("email");
+        setTimeout(() => { const i = $("#si-code"); if (i) i.focus(); }, 0);
+      }
+    };
+    draw("email");
   }
   // #/map: with a session and a map, the map (B3, below); with a session and no map file, the waiting line and the
   // launcher link; without a session, the sign-in; with MAPS_ENABLED off, the launcher
@@ -612,6 +744,7 @@
   const stCls = s => ({ "shows": "st-shows", "shows in other words": "st-other", "must evidence better": "st-half", "must build": "st-build" })[s] || "st-build";
   const lookCls = n => n.shipped ? "st-built" : stCls(n.state);
   const lookWords = n => n.shipped ? n.shipped.label : Copy.map.states[n.state] || n.state;
+  const hoursWords = h => Number(h) === 1 ? Copy.map.card.hourOne : fill(Copy.map.card.hoursValue, { hours: h });
   const sdot = n => `<span class="sdot ${lookCls(n)}" aria-hidden="true"></span>`;
   const msMark = (st, extra) => `<span class="mk ms-${st}${extra ? " " + extra : ""}" aria-hidden="true"></span>`;
   const diamond = `<svg class="mk-p" width="9" height="9" viewBox="0 0 8 8" aria-hidden="true"><path d="M4 0 8 4 4 8 0 4Z"/></svg>`;
@@ -691,7 +824,7 @@
       const c = L.columns[i];
       const pips = w.optional || !w.clear ? "" : `<span class="pips" aria-hidden="true">${Array.from({ length: w.clear }, (_, k) => `<span class="pip${k < w.shipped ? " on" : ""}"></span>`).join("")}</span>`;
       h += `<div class="cl${w.cleared ? " cleared" : ""}${w.optional ? " optional" : ""}" style="left:${c.x}px;width:${c.width}px">
-        <div class="ch"><div class="eyebrow">${esc((w.optional ? MC.optional : w.head) + (w.release ? " · " + w.release : ""))}</div><b>${esc(w.label)}</b><p class="who">${esc(w.who)}</p></div>
+        <div class="ch"><div class="eyebrow">${esc(w.optional ? MC.optional : w.head)}</div><b>${esc(w.label)}</b><p class="who">${esc(w.who)}</p></div>
         <div class="cf"><p class="clr">${esc(w.clearLine)}</p>${w.optional ? `<p class="prog">${esc(w.progress)}</p>` : `<p class="prog">${w.cleared ? `<span class="cleared-tag">${esc(w.progress)}</span>` : pips + esc(w.progress)}</p>`}</div></div>`;
     });
     h += `</div></div><div class="ow-cap" id="ow-cap" aria-live="polite"></div><p class="ow-note">${esc(MC.stopHint)}</p>`;
@@ -711,12 +844,12 @@
       const hit = id && MapModel.missionOf(W, id);
       if (!hit) { el.innerHTML = `<span class="st">${esc(MC.allClear)}</span>`; return; }
       const { world: w, mission: m } = hit, lead = hover && hover !== W.here ? `${w.head} · ${m.i}` : MC.here;
-      el.innerHTML = `<span class="k">${esc(lead)}</span><button type="button" class="ow-title" data-card="${esc(m.id)}">${esc(m.card.title)}</button><span class="st">${esc(MC.missionStates[m.state])} · ${esc(m.card.window || "")} · ${esc(fill(MC.card.hoursValue, { hours: m.card.hours }))}</span><button type="button" class="ow-open" data-card="${esc(m.id)}">${esc(MC.openIt)}</button>`;
+      el.innerHTML = `<span class="k">${esc(lead)}</span><button type="button" class="ow-title" data-card="${esc(m.id)}">${esc(m.card.title)}</button><span class="st">${esc(MC.missionStates[m.state])} · ${esc(m.card.window || "")} · ${esc(hoursWords(m.card.hours))}</span><button type="button" class="ow-open" data-card="${esc(m.id)}">${esc(MC.openIt)}</button>`;
       el.querySelectorAll("[data-card]").forEach(b => b.onclick = () => openCard(b.dataset.card));
     };
     for (const s of L.stops) {
       const m = MapModel.missionOf(W, s.id).mission;
-      const g = svgEl("g", { class: `stop ms-${m.state}${sel === m.id ? " sel" : ""}`, tabindex: "0", role: "button", "data-card": m.id, "aria-label": `${m.card.title}. ${MC.missionStates[m.state]}.` }, svg);
+      const g = svgEl("g", { class: `stop ms-${m.state}${m.kind === "story" ? " story" : ""}${sel === m.id ? " sel" : ""}`, tabindex: "0", role: "button", "data-card": m.id, "aria-label": `${m.card.title}. ${MC.missionStates[m.state]}.` }, svg);
       svgEl("title", {}, g, `${m.card.title} · ${MC.missionStates[m.state]}`);
       svgEl("circle", { class: "halo", cx: s.x, cy: s.y, r: s.r + 5 }, g);
       svgEl("circle", { class: "base", cx: s.x, cy: s.y, r: s.r }, g);
@@ -726,7 +859,7 @@
       if (m.state === "changed") svgEl("circle", { class: "corner", cx: s.x + s.r * 0.72, cy: s.y - s.r * 0.72, r: 5.5 }, g);
       if (m.state === "declined") svgEl("line", { class: "cross", x1: s.x - s.r - 3, y1: s.y + s.r + 3, x2: s.x + s.r + 3, y2: s.y - s.r - 3 }, g);
       // the person's own answer, sent from this page or read back: a small mark under the stop until the republish
-      if (m.sent) { const k = svgEl("circle", { class: "sent", cx: s.x, cy: s.y + s.r + 10, r: 3.5 }, g); svgEl("title", {}, k, fill(MC.sentMark, { choice: MC.feedback.choices[m.sent.choice] || m.sent.choice })); }
+      if (m.sent) { const k = svgEl("circle", { class: "sent", cx: s.x, cy: s.y + s.r + 10, r: 3.5 }, g); svgEl("title", {}, k, fill(MC.sentMark, { choice: (m.kind === "story" ? MC.feedback.storyChoices : MC.feedback.choices)[m.sent.choice] || m.sent.choice })); }
       g.addEventListener("click", () => openCard(m.id));
       g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openCard(m.id); } });
       g.addEventListener("mouseenter", () => { hover = m.id; cap(); });
@@ -864,30 +997,47 @@
     const stateLine = m.state === "shipped" ? fill(K.state.shipped, { date: MapModel.dateWords(c.shipped) })
       : m.state === "declined" ? (c.declined ? K.state.declined : K.state.declinedSent)
       : m.state === "changed" ? (c.changed ? fill(K.state.changed, { date: MapModel.dateWords(c.changed) }) : K.state.changedSent)
+      : m.state === "open" && c.kind === "story" ? K.state.openStory
       : K.state[m.state];
-    const head = w ? (w.optional ? `${MC.reachHead} · ${MC.optional}` : `${fill(MC.world, { n: w.num, label: w.label })}${w.release ? " · " + w.release : ""}`) : "";
+    const story = MapModel.storyOf(c), S = K.story;
+    const head = w ? (w.optional ? `${MC.reachHead} · ${MC.optional}` : fill(MC.world, { n: w.num, label: w.label })) + (story ? ` · ${S.eyebrow}` : "") : (story ? S.eyebrow : "");
     const skills = (c.atlas_skills || []).map(id => MapModel.skillInfo(map, mapUi.M, id));
     const back = fromNode ? fill(K.backTo, { name: MapModel.skillInfo(map, mapUi.M, fromNode).name }) : K.back;
-    panel(`<button type="button" class="backlink" data-back>${esc(back)}</button>
-      <div class="q-mstate ms-${m.state}">${msMark(m.state)}<span>${esc(stateLine)}</span></div>
-      <div class="qcard" data-card="${esc(c.id)}">
-        ${head ? `<div class="eyebrow">${esc(head)}</div>` : ""}${w && w.who ? `<p class="who">${esc(w.who)}</p>` : ""}
-        <h2>${esc(c.title)}</h2>
-        <dl><dt>${esc(K.window)}</dt><dd>${esc(c.window || "")}</dd><dt>${esc(K.hours)}</dt><dd>${esc(fill(K.hoursValue, { hours: c.hours }))}</dd></dl>
-        <h3>${esc(K.ships)}</h3><p class="ship">${esc(c.ship || "")}</p>
+    const chips = `<h3>${esc(K.skills)}</h3><div class="chipset">${skills.map(s => `<button type="button" class="chip" data-node="${esc(s.id)}" title="${esc(lookWords(s))}">${sdot(s)}${esc(s.name)}</button>`).join("")}</div>`;
+    // a story card: the line as it stands, what the skill means here, the slots, a box that reads a new line live,
+    // the practice prompt with Copy, the two why lines; a build card: the three why lines, the classes, the sources
+    const field = ((map.role_class || {}).label || "").replace(/ roles$/, "");
+    const body = story ? `
+        <section class="why"><h3>${esc(S.lineToday)}</h3><q>“${esc(story.line)}”</q><p class="from">${esc(fill(S.todayState, { state: (MC.states[story.state] || story.state).toLowerCase() }))}</p></section>
+        ${story.reads_as || story.what ? `<section class="why"><h3>${esc(field ? fill(S.means, { field }) : S.meansPlain)}</h3><p>${esc(story.reads_as || story.what)}</p></section>` : ""}
+        ${story.slots.length ? `<section class="why"><h3>${esc(S.shows)}</h3><ul class="slots">${story.slots.map(x => `<li><b>${esc(S.slots[x.key] || x.key)}</b> ${esc(x.items.join(", "))}</li>`).join("")}</ul></section>` : ""}
+        <section class="why try"><h3>${esc(S.tryIt)}</h3><p class="small muted">${esc(S.tryHint)}</p><textarea id="story-line" maxlength="400" aria-label="${esc(S.tryAria)}" placeholder="${esc(S.tryPlaceholder)}"></textarea><p class="story-read" id="story-read" aria-live="polite"></p></section>
+        ${story.prompt ? `<section class="why"><h3>${esc(S.practice)}</h3><p class="small muted">${esc(S.practiceHint)}</p><pre class="prompt" id="story-prompt">${esc(story.prompt)}</pre><p><button type="button" class="btn" id="story-copy">${esc(S.copy)}</button><span class="copied" id="story-copied"></span></p></section>` : ""}
+        ${c.why_role ? `<section class="why"><h3>${esc(K.whyRole)}</h3><p>${esc(c.why_role.text)}</p></section>` : ""}
+        ${c.why_person ? `<section class="why"><h3>${esc(K.whyYou)}</h3><p>${esc(c.why_person.text)}</p></section>` : ""}
+        ${chips}
+        <p class="from"><a href="#/role/${esc((map.role || {}).id || "")}">${esc(fill(S.fromAtlas, { role: (map.role || {}).label || "" }))}</a></p>` : `
         ${c.why_role ? `<section class="why"><h3>${esc(K.whyRole)}</h3><p>${esc(c.why_role.text)}</p>${c.why_role.posting_quote ? `<q>“${esc(c.why_role.posting_quote)}”</q>` : ""}<p class="from">${esc(K.fromPosting)} <a href="${esc(safeUrl(posting.url))}" target="_blank" rel="noopener">${esc(posting.title || "")}</a>${company ? ", " + esc(company) : ""}</p></section>` : ""}
         ${c.why_company ? `<section class="why"><h3>${esc(K.whyCompany)}</h3><p>${esc(c.why_company.text)}</p><p class="from">${esc(fill(K.fromResearch, { topic: researchWords(c.why_company.research_file) }))}${c.why_company.url ? ` · <a href="${esc(safeUrl(c.why_company.url))}" target="_blank" rel="noopener">${esc(hostOf(c.why_company.url))}</a>` : ""}</p></section>` : ""}
         ${c.why_person ? `<section class="why"><h3>${esc(K.whyYou)}</h3><p>${esc(c.why_person.text)}</p>${c.why_person.profile_quote ? `<q>“${esc(c.why_person.profile_quote)}”</q>` : ""}<p class="from">${esc(K.fromProfile)}</p></section>` : ""}
-        <h3>${esc(K.skills)}</h3><div class="chipset">${skills.map(s => `<button type="button" class="chip" data-node="${esc(s.id)}" title="${esc(lookWords(s))}">${sdot(s)}${esc(s.name)}</button>`).join("")}</div>
+        ${chips}
         <h3>${esc(K.classes)}</h3><div id="map-classes">${classList(c)}</div>
         ${c.users ? `<h3>${esc(K.users)}</h3><p class="users">${esc(c.users)}</p>` : ""}
-        <h3>${esc(K.sources)}</h3><ul class="src">${(c.sources || []).map(s => `<li><a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.read ? ` <span class="rd">· ${esc(fill(K.read, { date: MapModel.dateWords(s.read) }))}</span>` : ""}</li>`).join("")}</ul>
+        <h3>${esc(K.sources)}</h3><ul class="src">${(c.sources || []).map(s => `<li><a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener">${esc(s.title)}</a>${s.read ? ` <span class="rd">· ${esc(fill(K.read, { date: MapModel.dateWords(s.read) }))}</span>` : ""}</li>`).join("")}</ul>`;
+    panel(`<button type="button" class="backlink" data-back>${esc(back)}</button>
+      <div class="q-mstate ms-${m.state}">${msMark(m.state)}<span>${esc(stateLine)}</span></div>
+      <div class="qcard${story ? " story" : ""}" data-card="${esc(c.id)}">
+        ${head ? `<div class="eyebrow">${esc(head)}</div>` : ""}${w && w.who ? `<p class="who">${esc(w.who)}</p>` : ""}
+        <h2>${esc(c.title)}</h2>
+        <dl><dt>${esc(K.window)}</dt><dd>${esc(c.window || "")}</dd><dt>${esc(K.hours)}</dt><dd>${esc(hoursWords(c.hours))}</dd></dl>
+        <h3>${esc(K.ships)}</h3><p class="ship">${esc(c.ship || "")}</p>${body}
         <div class="fb" id="map-fb"></div>
       </div>`, { kind: "card", id: c.id, from: fromNode || null });
     aside.querySelector("[data-back]").onclick = () => fromNode ? openNode(fromNode) : closePanel();
     aside.querySelectorAll(".qcard [data-node]").forEach(b => b.onclick = () => openNode(b.dataset.node));
+    if (story) storyControls(c, story);
     // the class titles from the class roster (Catalog), once per page; the codes stand until they load
-    if ((c.classes || []).length && window.Catalog && !mapUi.catalog) {
+    if (!story && (c.classes || []).length && window.Catalog && !mapUi.catalog) {
       mapUi.catalog = Catalog.loadCatalog().then(d => Object.fromEntries(d.classes.map(k => [k.code, k.title || ""]))).catch(e => { console.error(e); return {}; });
     }
     if (mapUi.catalog) mapUi.catalog.then(t => { mapUi.titles = t; const el = $("#map-classes"); if (el && mapUi.panel && mapUi.panel.id === c.id) el.innerHTML = classList(c); });
@@ -902,6 +1052,34 @@
         .then(() => { if (!mapUi || !mapUi.panel || mapUi.panel.id !== c.id) return; if (mapUi.mine[c.id]) openCard(c.id, fromNode); else drawFeedback(c.id, { choice: null, note: "" }); });
     }
   }
+  // The story card's two controls. The box reads the new line with the matcher of the map's role, the way the fit
+  // page read the résumé (Atlas.matcher), on its own: the row's status for the card's skill becomes one of the four
+  // states (MapModel.lineState). Nothing is stored and nothing is sent; the person tells the owner with F1 below.
+  // Copy puts the practice prompt on the clipboard (a selection when the clipboard is closed to the page).
+  const storyMatcher = async () => { const R = await Atlas.role(mapUi.map.role.id); const { M } = await Atlas.matcher(R); return { R, M }; };
+  function storyControls(c, story) {
+    const S = Copy.map.card.story, box = $("#story-line"), out = $("#story-read");
+    let timer = null, seq = 0;
+    const show = (state, text) => { if (!out) return; out.innerHTML = state ? `<span class="sdot ${stCls(state)}" aria-hidden="true"></span><span>${esc(text)}</span>` : `<span>${esc(text)}</span>`; };
+    const readLine = async text => {
+      const my = ++seq;
+      if (!text.trim()) { show(null, ""); return; }
+      show(null, S.reading);
+      try {
+        const { R, M } = await storyMatcher();
+        const r = M.match(text, { jobs: R.jobs, familyJobs: R.jobs, label: R.role.label }, { ladder: R.role.ladder });
+        const row = (r.rows || []).find(x => x.id === story.skill);
+        const state = MapModel.lineState(row ? row.status : "gap");
+        if (my === seq && mapUi && mapUi.panel && mapUi.panel.id === c.id) show(state, S.result[state] || "");
+      } catch (e) { console.error(e); if (my === seq) show(null, ""); }
+    };
+    if (box) box.oninput = () => { clearTimeout(timer); timer = setTimeout(() => readLine(box.value), 450); };
+    const copy = $("#story-copy"), pre = $("#story-prompt"), said = $("#story-copied");
+    if (copy && pre) copy.onclick = async () => {
+      try { await navigator.clipboard.writeText(pre.textContent); if (said) said.textContent = S.copied; }
+      catch { const range = document.createRange(); range.selectNodeContents(pre); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); }
+    };
+  }
   function classList(c) {
     const K = Copy.map.card, codes = c.classes || [], t = mapUi.titles || {};
     if (!codes.length) return `<p class="none small muted">${esc(K.noClass)}</p>`;
@@ -912,13 +1090,14 @@
   function drawFeedback(cardId, draft, err) {
     const box = $("#map-fb"); if (!box) return;
     const MC = Copy.map, F = MC.feedback, c = MapModel.cardsById(mapUi.map)[cardId], mine = mapUi.mine[cardId], editing = draft.editing;
+    const choices = c.kind === "story" ? F.storyChoices : F.choices;   // "I'll rewrite it" on a story card
     let h = `<h3>${esc(F.heading)}</h3>`;
     if (c.shipped) h += `<div class="sent"><b>${esc(MC.missionStates.shipped)}</b> <span class="when">· ${esc(MapModel.dateWords(c.shipped))}</span><p class="small ok">${esc(F.shipped)}</p></div>`;
     else if (mine && !editing) {
-      h += `<div class="sent"><b>${esc(fill(F.sentChoice, { choice: F.choices[mine.choice] || mine.choice }))}</b> <span class="when">· ${esc(MapModel.dateWords(mine.date))}</span>${mine.note ? `<p>${esc(mine.note)}</p>` : `<p class="muted">${esc(F.noNote)}</p>`}<p class="small ok">${esc(F.sent)}</p></div>`;
+      h += `<div class="sent"><b>${esc(fill(F.sentChoice, { choice: choices[mine.choice] || mine.choice }))}</b> <span class="when">· ${esc(MapModel.dateWords(mine.date))}</span>${mine.note ? `<p>${esc(mine.note)}</p>` : `<p class="muted">${esc(F.noNote)}</p>`}<p class="small ok">${esc(F.sent)}</p></div>`;
       h += `<div class="again"><button type="button" class="linkish link" data-again>${esc(F.again)}</button></div>`;
     } else {
-      h += `<div class="row">${Object.entries(F.choices).map(([k, v]) => `<button class="btn choice${draft.choice === k ? " on" : ""}" type="button" data-choice="${k}" aria-pressed="${draft.choice === k}">${esc(v)}</button>`).join("")}</div>
+      h += `<div class="row">${Object.entries(choices).map(([k, v]) => `<button class="btn choice${draft.choice === k ? " on" : ""}" type="button" data-choice="${k}" aria-pressed="${draft.choice === k}">${esc(v)}</button>`).join("")}</div>
         <textarea id="map-note" maxlength="500" aria-label="${esc(F.noteAria)}" placeholder="${esc(F.note)}">${esc(draft.note)}</textarea>
         <div class="send"><button class="btn primary" type="button" data-send${draft.choice && !draft.busy ? "" : " disabled"}>${esc(draft.busy ? F.sending : F.send)}</button><span class="small muted">${esc(F.saved)}</span></div>
         ${err ? `<p class="small fb-err">${esc(F.failed)}</p>` : ""}`;
@@ -953,8 +1132,8 @@
   function printSheet() {
     const MC = Copy.map, P = MC.printPage, map = mapUi.map, st = map.student || {}, role = (map.role || {}).label || "", company = (map.company || {}).name || "";
     const R = MapModel.readLines(map, mapUi.M), W = mapWorlds(), T = mapUi.tree;
-    const cols = W.worlds.map(w => `<section><h2>${esc(w.optional ? MC.reachHead : fill(MC.world, { n: w.num, label: w.label }))}${w.release ? ` <span>· ${esc(w.release)}</span>` : ""}</h2><p class="who">${esc(w.clearLine)}</p>
-      ${w.missions.map(m => `<div class="pr-card ms-${m.state}"><span class="t">${esc(m.card.title)}</span><span class="m">${esc([trackLabel(m.card.track), m.card.window, fill(MC.card.hoursValue, { hours: m.card.hours }), m.state === "open" ? "" : MC.missionStates[m.state]].filter(Boolean).join(" · "))}</span><span class="ship">${esc(m.card.ship || "")}</span></div>`).join("")}</section>`).join("");
+    const cols = W.worlds.map(w => `<section><h2>${esc(w.optional ? MC.reachHead : fill(MC.world, { n: w.num, label: w.label }))}</h2><p class="who">${esc(w.clearLine)}</p>
+      ${w.missions.map(m => `<div class="pr-card ms-${m.state}"><span class="t">${esc(m.card.title)}</span><span class="m">${esc([trackLabel(m.card.track), m.card.window, hoursWords(m.card.hours), m.state === "open" ? "" : MC.missionStates[m.state]].filter(Boolean).join(" · "))}</span><span class="ship">${esc(m.card.ship || "")}</span></div>`).join("")}</section>`).join("");
     const dots = (label, nodes) => nodes.length ? `<div class="pr-grp"><h3>${esc(label)}</h3>${nodes.map(n => `<span class="pr-node">${sdot(n)}${esc(n.name)}</span>`).join("")}</div>` : "";
     const tree = dots(P.trunk, T.trunk) + dots(P.shared, T.shared) + T.branches.map(b => dots(b.role.label, b.own)).join("") + dots(MC.how, T.behaviours);
     return `<section class="map-print light" aria-hidden="true">
@@ -970,8 +1149,8 @@
   // site or in the link) the screen starts with the About you questions, drawn in place by the shell's
   // AtlasUI.youInline, then opens on the role the answers point to (defaultRole); a person who skips them all gets the
   // default role, never the questions twice. Then: the role (a searchable Pick over every role) and the people types
-  // as tabs across the full width of the page (four for everyone; "Faculty on campus" fifth when the door's address
-  // opens Cornell), wrapping below the width they need, never scrolling. Left: who to look for, with no lead (titles
+  // as tabs across the full width of the page (three for everyone; "An alum in the role" fourth for an address with a
+  // campus flag; "Faculty on campus" fifth when that flag's roster is loaded, 2026-11-04), wrapping below the width they need, never scrolling. Left: who to look for, with no lead (titles
   // by level, the five employers with the most open postings of the role and a link to Find jobs with the role set, or
   // the professors, the most gaps covered first, each row a link to the professor card) and the intake box. Right,
   // wider and sticky: the prep card for the type on: the company or the professor (a Pick), where to find them (the
@@ -980,16 +1159,18 @@
   // company) with a Copy button for the plain text. The employers are the
   // role's own open postings; with a résumé the fit is the matcher's, as the rail reads it (matchRole). The hash keeps
   // role, type and target (replaceState). No event is sent from here, and nothing is stored but what #/you stores.
-  // Network on campus, for a Cornell email: the professors come from the class picker's public roster
+  // Network on campus, for an address whose flag opens a roster: the professors come from that campus's public roster
   // (Catalog.loadCatalog), each with the classes they teach this term and, with a résumé, the gaps of this role those
   // classes cover, read the way classes.js reads a card (Catalog.cardTags, gapsCovered, instructorGaps); with none,
   // the role's core asks they teach (Network.askRows), so the list sorts by that instead of by name.
   const fieldJobsCache = {};
   const fieldJobsOf = gid => fieldJobsCache[gid] ||= Atlas.fieldJobs(gid).catch(e => { delete fieldJobsCache[gid]; console.error(e); return []; });
-  let rosterP = null;
-  const roster = () => rosterP ||= Promise.all([Catalog.loadCatalog(), Atlas.genericSkills().catch(() => new Set())]).then(([data, generic]) => { const cards = Catalog.collapse(data); return { data, generic, cards, reads: Object.fromEntries(cards.map(c => [c.key, Catalog.cardTags(c, data.tags)])) }; }).catch(e => { rosterP = null; throw e; });
-  async function campusProfs(gaps) {
-    const { data, generic, cards, reads } = await roster();
+  // one read per campus entry (the flag's roster: Cornell Tech for cornell, IE New York for ienyc once its switch is on
+  // and its files exist), through the class picker's own Catalog.loadCatalog
+  const rosterP = {};
+  const roster = cm => rosterP[cm.id] ||= Promise.all([Catalog.loadCatalog(cm), Atlas.genericSkills().catch(() => new Set())]).then(([data, generic]) => { const cards = Catalog.collapse(data); return { data, generic, cards, reads: Object.fromEntries(cards.map(c => [c.key, Catalog.cardTags(c, data.tags)])) }; }).catch(e => { delete rosterP[cm.id]; throw e; });
+  async function campusProfs(cm, gaps) {
+    const { data, generic, cards, reads } = await roster(cm);
     const covered = gaps ? Object.fromEntries(cards.map(c => [c.key, Catalog.gapsCovered(reads[c.key].teaches, gaps, generic)])) : {};
     return data.professors.map(p => { const mine = Catalog.instructorCards(cards, { slug: p.slug, name: p.name }); return { slug: p.slug, name: p.name, title: p.title, affiliation: p.affiliation, codes: [...new Set(mine.flatMap(c => c.codes))], gaps: gaps ? Catalog.instructorGaps(mine, covered).map(g => ({ id: g.id, name: g.name })) : [] }; })
       .filter(p => p.codes.length).sort((a, b) => b.gaps.length - a.gaps.length || a.name.localeCompare(b.name));
@@ -1027,7 +1208,9 @@
       AtlasUI.youInline($("#nw-you"), { onDone: () => { if (here()) networkScreen(); } });
       return;
     }
-    const cornell = Door.opens(doorKept().email), types = Network.types(cornell);
+    // the campus gate: the alum type for any campus flag, Faculty on campus for a flag with a loaded roster; the
+    // alumni searches carry the flag's school filter (Network.SCHOOLS)
+    const gate = campusGate(), types = Network.types(gate.flag, gate.open);
     const s = { role: q.role, type: q.type, key: q.target || null };
     if (!roleOk(s.role)) s.role = roleOk(chosen) ? chosen : await defaultRole(ix);
     if (!types.some(t => t.id === s.type)) s.type = types[0].id;
@@ -1042,10 +1225,10 @@
       const R = await Atlas.role(s.role); const fieldJobs = await fieldJobsOf(R.role.group);
       const m = state.resume ? await matchRole(s.role).catch(e => { console.error(e); return null; }) : null;
       let profs = [], rosterFailed = false;
-      if (cornell) { try { profs = await campusProfs(m ? gapRows(rowsOf(m.r), m.R) : Network.askRows(ix, R, Atlas.TIER.core)); } catch (e) { console.error(e); rosterFailed = true; } }
+      if (gate.open) { try { profs = await campusProfs(gate.campus, m ? gapRows(rowsOf(m.r), m.R) : Network.askRows(ix, R, Atlas.TIER.core)); } catch (e) { console.error(e); rosterFailed = true; } }
       const rg = state.resume && !m ? await rough().catch(() => null) : null;
       const generic = await Atlas.genericSkills().catch(() => new Set());
-      const o = { cornell, shown: rg ? rg.shown : null, profs, fieldJobs, core: Atlas.TIER.core, generic };
+      const o = { flag: gate.flag, roster: gate.open, shown: rg ? rg.shown : null, profs, fieldJobs, core: Atlas.TIER.core, generic };
       const K0 = Network.ctx(ix, R, m ? m.r : null, o);
       const evidence = await evidenceOf(R, [...new Set([...K0.craftGaps.slice(0, 6), ...K0.craft.slice(0, 10)].map(x => x.id))]);
       if (t !== token) return null;
@@ -1159,7 +1342,7 @@
       const y0 = state.you || {};
       const a = { where: y0.where || null, stage: y0.stage || null, fields: new Set(y0.fields || []) };
       let i = Routes.You.firstStep(y0, Q.map(q => q.key)), seen = false;   // seen: the person picked a program here, or ended
-      const save = () => { state.you = { ...(state.you || {}), where: a.where || null, stage: a.stage || null, fields: [...a.fields] }; if (seen) delete state.you.whereFrom; store.set("you", state.you); wiz = null; };
+      const save = () => { state.you = { ...(state.you || {}), where: a.where || null, stage: a.stage || null, fields: [...a.fields] }; if (seen) delete state.you.whereFrom; store.set("you", state.you); wiz = null; syncProfile(); };
       const finish = async read => {
         if (read && pending && pending.words < 40) return;   // a file with too few words: its line stays on screen
         if (read) await takeResume();
@@ -1231,7 +1414,7 @@
       $("#skip").onclick = () => saveYou();
       $("#next").onclick = async () => { await takeResume(); saveYou(); location.hash = after; if (location.hash === after) you(); };
     };
-    const saveYou = () => { state.you = { where: wiz.answers.where || null, stage: wiz.answers.stage || null, fields: [...wiz.answers.fields] }; store.set("you", state.you); wiz = null; track("you_done"); };
+    const saveYou = () => { state.you = { where: wiz.answers.where || null, stage: wiz.answers.stage || null, fields: [...wiz.answers.fields] }; store.set("you", state.you); wiz = null; track("you_done"); syncProfile(); };
     render();
   }
   // What the system knows (owner's choice Y3, B and A): the answers with an edit link each, what the resume gave,
@@ -1261,7 +1444,10 @@
       <div class="two"><div><h2>${esc(YOU.answers)}</h2>${answers}</div><div><h2>${esc(YOU.resume)}</h2>${resume}</div></div>
       <h2>${esc(YOU.fitFields)}</h2>${fieldRows.length ? `<div class="list">${fieldRows.join("")}</div>` : `<p class="small muted">${esc(YOU.noFitFields)}</p>`}
       ${knowRows.length ? `<h2>${esc(YOU.games)}</h2><p class="small muted">${esc(YOU.gamesLead)}</p><div class="list you-know">${knowRows.join("")}</div>` : ""}
+      ${stateOn() ? `<section class="you-saved"><p class="small muted">${esc(YOU.savedLine)}</p><p><button type="button" class="linkish link" id="you-forget">${esc(YOU.forget)}</button> <span class="small muted">${esc(YOU.forgetLine)}</span></p><p class="small" id="you-forget-out" aria-live="polite"></p></section>` : ""}
       <div class="row" style="margin-top:20px"><a class="btn primary" href="#/explore">${esc(YOU.exploreFields)}</a><button type="button" class="btn quiet" id="start-over">${esc(YOU.startOver)}</button></div>`);
+    // the forget button (step 3): the person's rows in the three tables go; this browser keeps its own copy
+    const fg = $("#you-forget"); if (fg) fg.onclick = async () => { const out = $("#you-forget-out"); fg.disabled = true; out.textContent = YOU.forgetting; const done = await State.forget(Auth.stored()); out.textContent = done ? YOU.forgotten : YOU.forgetFailed; fg.disabled = !done; if (done) keepHearts([]); };
     $("#start-over").onclick = () => { state.you = null; state.resume = null; state.rough = null; state.match = null; state.fit = null; store.set("you", null); store.set("resume", null); if (window.Infer) Infer.forget(); Atlas.useInferred(null, []); wiz = null; you(); };
     const rq = $("#role-q");
     if (rq) {
@@ -1286,10 +1472,13 @@
   let pending = null;   // { text, name, words } read from a file but not yet taken
   function resumeForm() {
     const r = state.resume;
+    // the first personal act (step 2): with accounts on and no session, the drop zone is the sign-in's door
+    if (accountsOn() && !Auth.stored() && !r) { const S = Copy.signin; return `<div class="si-gate" id="drop-gate"><b>${esc(S.gateHeading)}</b><p class="small muted">${esc(S.gateLine)}</p><a class="btn primary" href="${esc(signinHref())}">${esc(S.gateButton)}</a></div>`; }
     return `<div class="drop" id="drop"><p><b>${esc(RF.drop)}</b> ${esc(RF.or)} <label class="link" for="file">${esc(RF.choose)}</label></p><input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden><p class="small muted" id="file-status">${r ? `${esc(fill(RF.using, { name: r.name, words: fmt(r.words) }))} <button type="button" class="linkish link" id="forget">${esc(RF.forget)}</button>` : ""}</p></div>`;
   }
   function wireResumeForm() {
     const drop = $("#drop"), status = $("#file-status");
+    if (!drop) return;   // the sign-in's door stands in its place
     const read = async file => {
       status.textContent = fill(RF.reading, { name: file.name });
       processing("file");
@@ -1332,7 +1521,10 @@
     if (btn && !btn.dataset.label) { btn.dataset.label = btn.textContent; btn.textContent = RF.working; btn.disabled = true; }
   }
   let taking = null;   // the read in flight: a second click or drop joins it instead of starting over
-  function takeResume() { return taking || (taking = takeResumeNow().finally(() => { taking = null; })); }
+  function takeResume() {
+    if (accountsOn() && !Auth.stored() && !state.resume) { toHash(signinHref()); return Promise.resolve(false); }   // the read waits for the sign-in
+    return taking || (taking = takeResumeNow().finally(() => { taking = null; }));
+  }
   async function takeResumeNow() {
     const r = pending && pending.words >= 40 ? pending : null;
     if (!r) return false;
@@ -2090,6 +2282,7 @@
     opts = opts || {};
     if (!opts.always && state.wait !== what) return "";
     const done = intakeDone(what), tally = !done && !!(window.Doors && Doors.formIdFor(Intake.kindOf(what), null, formTheme()));
+    if (!done && window.Capture) Capture.cta(Intake.kindOf(what), "shown", intakeCtx(what, opts.role_id));   // its "done" is the intake_<surface> event
     // with a Tally id the slot waits for wireWait; its line keeps the page still until the form draws
     const form = done ? `<p class="small" style="margin:6px 0 0"><b>${esc(Intake.done)}</b></p>`
       : tally ? `<div class="apply-slot" data-wait-slot="${esc(what)}"${opts.role_id ? ` data-wait-role="${esc(opts.role_id)}"` : ""}></div><p class="small muted apply-loading">${esc(CM.loadingForm)}</p>`
@@ -2439,7 +2632,7 @@
       <p class="small">${esc(AB.editorial)}</p>
       <h3>${esc(AB.privacy)}</h3>
       <p class="small">${esc(AB.privacyEvents)}</p>
-      <p class="small">${esc(AB.privacyEmail)}</p>
+      <p class="small">${esc(AB.privacyEmail)}</p>${accountsOn() ? `<p class="small">${esc(AB.privacySaved)}</p>` : ""}
       <h3>${esc(AB.product)}</h3>${productPart}</div>`, true);
     render();
     Atlas.product().then(P => { const G = P.G; productPart = `<p class="small">${esc(fill(AB.productLine, { n: fmt(G.meta.n_jobs), us: fmt(G.jobs.filter(j => j.country === M.meta.country).length), families: Object.keys(G.families).filter(f => G.jobs.some(j => j.family === f)).length, companies: fmt(G.meta.n_companies), date: niceDate(G.meta.generated) }))}</p>${disc("about-top-product", esc(AB.topCompanies), `<p>${top(G.meta.companies, 15)}</p>`)}`; if (location.hash.startsWith("#/about")) render(); }).catch(console.error);
