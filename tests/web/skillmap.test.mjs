@@ -51,3 +51,18 @@ test("the layout is the same on every load (it is seeded, so the map does not mo
   const again = (await fresh()).SM;
   for (const nd of SM.nodes) assert.deepEqual([again.byId[nd.id].x, again.byId[nd.id].y], [nd.x, nd.y], nd.id);
 });
+
+// thinNames (usability pass 2026-11-06, the phone's map drew field names over each other): boxes in order of
+// importance; a label stays when it lies inside the stage, crosses no circle but its own and no label kept before it
+test("thinNames keeps the first of two labels that cross and every label that crosses none", () => {
+  const T = window.SkillMap.thinNames;
+  assert.deepEqual(T([[0, 0, 10, 10], [5, 5, 15, 15], [20, 0, 30, 10]]), [true, false, true]);
+  assert.deepEqual(T([[0, 0, 10, 10], [10, 0, 20, 10]]), [true, true], "boxes that only touch do not cross");
+  assert.deepEqual(T([null, [0, 0, 10, 10]]), [false, true], "a label with no box is not kept");
+});
+test("thinNames drops a label past the stage's edge or over another field's circle, never for its own circle", () => {
+  const T = window.SkillMap.thinNames;
+  assert.deepEqual(T([[-5, 0, 10, 10], [0, 0, 10, 10]], { bounds: [0, 0, 100, 100] }), [false, true]);
+  const circles = [[0, 0, 20, 20], [30, 0, 50, 20]];
+  assert.deepEqual(T([[-2, 5, 22, 15], [18, 5, 40, 15]], { blocked: circles, own: [0, 1] }), [true, false], "the first runs past its own circle only; the second runs into the first circle");
+});

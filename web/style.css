@@ -28,8 +28,15 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .top { height: var(--topbar-height); flex: none; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid var(--border); background: var(--card); font-size: var(--text-sm); color: var(--subtle-foreground); }
 .verbs-nav { display: flex; align-items: center; gap: 16px; white-space: nowrap; }
 .toplink.on { color: var(--heading-foreground); font-weight: var(--weight-medium); }
-/* a phone: the bar wraps, the crumbs take their own line */
-@media (max-width: 640px) { .top { height: auto; min-height: var(--topbar-height); flex-wrap: wrap; padding: 8px 16px; row-gap: 4px; } .crumbs { order: 3; flex-basis: 100%; } .top-actions { margin-left: auto; flex-wrap: wrap; gap: 8px 12px; } .verbs-nav { flex-wrap: wrap; white-space: normal; gap: 6px 12px; } }
+/* a phone: two rows (usability pass 2026-11-06; it was four). The brand and the crumbs share the first; the verbs,
+   Feedback and Sign in take the second as one strip that scrolls sideways (no verb is hidden), the theme button at
+   its end. header.top: the skill map's key has an i.sw.top */
+@media (max-width: 640px) {
+  header.top { height: auto; min-height: var(--topbar-height); flex-wrap: wrap; padding: var(--space-2) var(--space-4); gap: var(--space-1) var(--space-3); }
+  .top-actions { order: 3; flex: 0 0 100%; min-width: 0; gap: var(--space-3); }
+  .verbs-nav { flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; gap: var(--space-3); padding: var(--space-1) 0; }
+  .verbs-nav::-webkit-scrollbar { display: none; }
+}
 .brand { display: flex; align-items: center; gap: 10px; color: inherit; }
 .brand .mark { width: 22px; height: 22px; border-radius: 6px; background: var(--primary); }
 .brand .wordmark { font-weight: var(--weight-semibold); color: var(--heading-foreground); letter-spacing: var(--tracking-tight); font-size: var(--text-base); }
@@ -207,7 +214,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bubble.you { border-color: var(--primary); background: var(--primary-tint); }
 
 /* the fields as cards (owner's choice E2): one size, sorted by open postings, example roles, one number, a bar */
-.fcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+.fcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
 .fcard { display: grid; gap: 4px; align-content: start; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px 12px; background: var(--card); color: inherit; }
 .fcard:hover { border-color: var(--input); }
 .fcard.you { border-color: var(--primary); }
@@ -401,6 +408,7 @@ ol.next .why { color: var(--muted-foreground); font-size: var(--text-sm); displa
 .chart-x { margin-top: 8px; flex-wrap: wrap; } .chart-x .mark { cursor: help; }
 @media (max-width: 1180px) { .field-split { grid-template-columns: 1fr; } .chart-stage { height: 520px; } }
 .sm-field { position: absolute; z-index: 1; padding: 8px; }
+.sm-stage .sm-field.unnamed { font-size: 0; }   /* a name that would cross another (thinNames, web/skillmap.js): the circle stays, its aria-label keeps the name */
 .sm-field.lit { border-color: var(--secondary); }
 .sm-field.you.lit { border-color: var(--primary); }
 .sm-field.dim { opacity: 0.45; }
@@ -1385,3 +1393,34 @@ a.verb:hover { border-color: var(--primary); text-decoration: none; }
 .pick-list li.picked { font-weight: 600; }
 .pick-list li.pick-none { color: var(--muted-foreground); cursor: default; }
 .pick-hint { color: var(--muted-foreground); font-size: 0.85em; margin-left: 0.3rem; }
+
+/* ---------- a phone (640 px and under): the usability pass of 2026-11-06, cluster "phone layout". Tokens only ---------- */
+/* what a screen is for comes first in one column: the prep card before Who to look for, the postings before the
+   filters, the résumé box before the field tiles (visual order; the markup keeps its order) */
+@media (max-width: 900px) {
+  .nw-side { order: -1; }
+  .jobs-grid .jmain { order: -1; }
+  .lf-side { order: -1; }
+}
+@media (max-width: 640px) {
+  /* the role page: the "How you work" row's summary wraps under its name (it was one line, 1,147 px wide) */
+  .areabox > summary { flex-wrap: wrap; }
+  .areabox > summary .t { min-width: 0; }
+  .areabox > summary .n { white-space: normal; min-width: 0; flex-basis: 100%; padding-left: var(--space-6); }
+  .fcards { grid-template-columns: minmax(0, 1fr); }
+  /* the side panel (a posting, a skill card) and the Filters drawer: the full width of the screen, over the top bar */
+  .aside, .drawer { top: 0; left: 0; width: 100%; }
+  .shell.with-aside .main > .page { max-width: none; }
+  .shell.with-aside .main > .page.wide, .shell.with-aside .main > .page.jobs-page { padding-right: 0; }
+  /* the role rail leaves a strip at the left for the tab that closes it */
+  .shell.with-rail .aside.rail { top: 0; left: var(--space-10); width: auto; }
+  .shell.with-rail.rail-open .rail-tab { right: calc(100% - var(--space-10)); white-space: nowrap; }
+  /* the skill map: the field names in the small size without their counts, and draw() keeps only the names that fit */
+  .sm-field.bubble { font-size: var(--text-sm); padding: 0; line-height: var(--leading-tight); }
+  .sm-field .n { display: none; }
+  /* the game: two tiles a row, words wrap whole, the header wraps under the game's name */
+  .ktr-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ktr-tile { overflow-wrap: normal; word-break: normal; hyphens: manual; }
+  .gm-head { flex-wrap: wrap; row-gap: var(--space-2); }
+  .gm-title { flex-basis: 100%; }
+}
