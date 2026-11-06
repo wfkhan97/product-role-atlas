@@ -322,6 +322,9 @@ button.tag:hover { border-color: var(--input); }
 .steps i.done { background: var(--primary); }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
 .two h2 { margin-top: 20px; }
+/* About you's summary on a phone (2026-11-06): one column, and a long file name wraps instead of widening the page */
+.two > * { min-width: 0; } .list .r .t { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 640px) { .two { grid-template-columns: minmax(0, 1fr); gap: 0; } }
 .list .r a.n { color: var(--primary); font-family: var(--font-sans); }
 /* the profile strip on Explore: what we know, and why each field is there */
 .strip { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 8px 12px; background: var(--card); font-size: var(--text-sm); color: var(--muted-foreground); margin: 14px 0 0; }
