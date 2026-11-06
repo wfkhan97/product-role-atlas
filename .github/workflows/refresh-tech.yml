@@ -59,7 +59,7 @@ jobs:
           missing=""
           for k in SUPABASE_DB_URL SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY; do [ -n "${!k}" ] || missing="$missing $k"; done
           if [ -n "$missing" ]; then
-            echo "::error::missing Actions secret(s):$missing. Add them under Settings > Secrets and variables > Actions (docs/OWNER_CHECKLIST_2026-10.md)."
+            echo "::error::missing Actions secret(s):$missing. Add them under Settings > Secrets and variables > Actions (README.md, "Data and secrets")."
             exit 1
           fi
           echo "the three secrets are set"

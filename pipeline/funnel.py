@@ -83,6 +83,29 @@ def column_exists(cur, table, column):
     return cur.fetchone() is not None
 
 
+def table_exists(cur, table):
+    """True when public.<table> exists: `feedback` lands with 2026-11-05_feedback.sql, applied by hand."""
+    cur.execute("select 1 from information_schema.tables where table_schema = 'public' and table_name = %s", (table,))
+    return cur.fetchone() is not None
+
+
+def feedback_rows(cur, start, end):
+    """The feedback box's rows as (created_at, screen, prompted, has_email): the counts, never the text, which the
+    owner reads in the SQL editor (the visitor journey, step 6, 2026-11-05_feedback.sql)."""
+    cur.execute("""select created_at, screen, prompted, email is not null from public.feedback
+                   where created_at >= %s and created_at < %s order by created_at""", (start, end))
+    return [{"created_at": c, "screen": sc, "prompted": p, "has_email": e} for c, sc, p, e in cur.fetchall()]
+
+
+def feedback_counts(rows):
+    """{rows, prompted, with_email, by_screen: [(screen, n)] most first} from the feedback rows; pure."""
+    by = {}
+    for r in rows:
+        by[r.get("screen") or "(none)"] = by.get(r.get("screen") or "(none)", 0) + 1
+    return {"rows": len(rows), "prompted": sum(1 for r in rows if r.get("prompted")), "with_email": sum(1 for r in rows if r.get("has_email")),
+            "by_screen": sorted(by.items(), key=lambda kv: (-kv[1], kv[0]))}
+
+
 def intakes(cur, start, end):
     """(source, surface, rows, distinct emails) for the native fallback's rows: source `door` or `intake_<surface>`.
     The surface column is read when it exists; before the migration every surface prints as '-'."""
@@ -215,6 +238,7 @@ def main():
         nt = notes(cur, start, end) if a.notes else []
         it = intakes(cur, start, end)
         jr = journey_rows(cur, start, end)
+        fr = feedback_rows(cur, start, end) if table_exists(cur, "feedback") else None
     allS = list(ss.values())
     print(f"capture funnel · {start} to {end - datetime.timedelta(days=1)} · {len(allS)} sessions with an event")
     table("all sessions", [("all", allS)], None)
@@ -254,6 +278,11 @@ def main():
     print("\n== visible time by screen (seconds, from the heartbeats; sessions that sent one: %d)" % beating)
     for sc, v in secs.items():
         print(f"  {sc:<16}{v:>8}")
+    if fr is not None:
+        fb = feedback_counts(fr)
+        print("\n== feedback (rows from the box; prompted; with an email) — the sentences are in the SQL editor")
+        print(f"  {fb['rows']} rows, {fb['prompted']} prompted, {fb['with_email']} with an email"
+              + ("; by screen " + ", ".join(f"{sc} {n}" for sc, n in fb["by_screen"]) if fb["by_screen"] else ""))
     if a.notes:
         print("\n== applications with a sentence (--notes: the one piece of content; for the owner's reply only)")
         if not nt:

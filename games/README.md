@@ -1,7 +1,8 @@
 # Games
 
-Short games built on the atlas's data, shown as one carousel row of cards on the first-visit screen (`#/`), in the
-order of the facts they teach, each card naming its fact, one marked "Start here". Each folder is a design package for one game, written to be built in its own thread:
+Short games built on the atlas's data, reached from the role pages: a role screen's "Practise" link and the fit
+screen's "Practise your gaps" open a round at `#/play/<slug>` on that role. Each folder is a design package for one
+game:
 
 Mockups and notes made while building a game are scratch (`data/experiments/scratch/<topic>/`, swept by `./sweep_scratch.sh`); the design package in the game's folder and `web/data/games.json` are what lasts.
 
@@ -11,27 +12,26 @@ Mockups and notes made while building a game are scratch (`data/experiments/scra
 - `mocks/` — high-fidelity screens (HTML on the atlas's tokens, with a PNG of each) and `cover.png`, the image on
   its carousel card (copied to `web/img/games/<slug>.png`).
 
-Like the inspiration (infisical.com/403, a game about Infisical's own problem), each game is about the atlas's
-problem: nobody can read thousands of postings to learn what a role asks for, and every round ends in a real role.
-Five games since v12 (PLAN.md, "The games, second pass"); a route planner on Explore (`web/skillmap.js`) is the tool
-beside them.
+Each game is about the atlas's problem: nobody can read thousands of postings to learn what a role asks for, and
+every round ends in a real role. Six games are live (PLAN.md, "The games, second pass"); a route planner on Explore
+(`web/skillmap.js`) is the tool beside them.
 
 | Game | Folder | One line |
 |---|---|---|
-| Know the role | [`know-the-role/`](know-the-role/) | Pick a role's real asks from twelve skills, call eight over or under half; built in v12 from the three below |
-| Skill path | [`skill-path/`](skill-path/) | Hop between linked skills from your field to a new role, four cards at a time; a card game with the map at the end since v12, plus the route planner on Explore |
-| Guess the role | [`guess-the-role/`](guess-the-role/) | Name the role from three of a real posting's skills, giveaway last; five rounds since v12 |
+| Know the role | [`know-the-role/`](know-the-role/) | Pick a role's real asks from twelve skills, call eight over or under half |
+| Skill path | [`skill-path/`](skill-path/) | Hop between linked skills from your field to a new role, four cards at a time, the map at the end |
+| Guess the role | [`guess-the-role/`](guess-the-role/) | Name the role from three of a real posting's skills, giveaway last; five rounds |
 | Climb the ladder | [`climb-the-ladder/`](climb-the-ladder/) | Sort a skill's statements onto Entry, Mid, Senior, Lead |
-| Where's the demand | [`wheres-the-demand/`](wheres-the-demand/) | Put five fields, then five roles, in order of open postings; rank the fields since v12 |
-| Spot the real ask | [`spot-the-real-ask/`](spot-the-real-ask/) | A posting one line at a time: real ask or filler; line by line since v12 |
+| Where's the demand | [`wheres-the-demand/`](wheres-the-demand/) | Put five fields, then five roles, in order of open postings |
+| Spot the real ask | [`spot-the-real-ask/`](spot-the-real-ask/) | A posting one line at a time: real ask or filler |
 
-Retired in v12 (2026-10-20), merged into Know the role; their packages stay as history: Build the hire
+Retired and merged into Know the role; their packages stay as history: Build the hire
 ([`build-the-hire/`](build-the-hire/)), What does it ask for ([`what-it-asks/`](what-it-asks/)), Higher or lower
 ([`higher-or-lower/`](higher-or-lower/)).
 
 ## How a game plugs into the site
 
-- Route: `#/play/<slug>`, handled by `play()` in `web/app.js`. Until a game is built it shows a "Coming soon" page.
+- Route: `#/play/<slug>`, handled by `play()` in `web/app.js`.
 - Code: `web/games/<slug>.js`, a plain script added to `web/index.html` after `app.js` and `gameshell.js`. It registers itself:
 
   ```js
@@ -77,15 +77,9 @@ Retired in v12 (2026-10-20), merged into Know the role; their packages stay as h
   9 of the 15 things PM postings ask for · up from 6"); `GameShell.knowCard(...)` is the card the role screen and
   About you show, with "Practise what's missing". A reveal is one takeaway in words, one visual, one link, and the
   evidence behind "Why" (`results`).
-- Card: an entry in `web/data/games.json`: `slug`, `title`, `tagline`, `cover` (the "Coming soon" page's image),
-  `status` (`"live"` once the game ships; the card is otherwise dimmed and says "coming soon"), and the grid's fields
-  (PLAN.md v12, decision 7): `group` (the fact the game teaches: `asks`, `read`, `senior`, `jobs`, `links`), `verb`
-  (what you do), `outcome` (what you learn; `{role}` is the role the card opens on, the hub's default role), `rounds`,
-  `minutes`, and `start: true` on the one card marked "Start here". The card's line drawing is `DRAW[slug]` in
-  `web/app.js`; its meta line ends with the player's state from the games record (`gameState` in `web/app.js`).
-- Entry points: the hub's cards open on the player's default role (`?role=`); the role screen's quiet "Practise"
-  link opens a round on that role; the fit page's "Practise your gaps" opens a round with `&skills=<ids>`, the gap
-  skills a game can put first. Both links point at `PRACTISE` in `web/app.js`.
+- Card: an entry in `web/data/games.json`: `slug`, `title`, `tagline`, `cover`, `status` (`"live"` once the game
+  ships), `group` (the fact the game teaches: `asks`, `read`, `senior`, `jobs`, `links`), `verb`, `outcome` (`{role}`
+  is the role the round opens on), `rounds`, `minutes`.
+- Entry points: the role screen's "Practise" link opens a round on that role (`?role=`); the fit page's "Practise your
+  gaps" opens one with `&skills=<ids>`, the gap skills a game can put first. Both point at `PRACTISE` in `web/app.js`.
 - Nothing a player does leaves the browser; the record lives in `localStorage` only.
-
-Atlas daily (a Wordle-style daily role) was considered and dropped by the owner (2026-10-18).

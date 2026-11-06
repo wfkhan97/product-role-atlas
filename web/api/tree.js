@@ -13,7 +13,8 @@
                401 no_session · 400 text_required | text_too_short | roles_required | too_many_roles | dup_role |
                unknown_role | mixed_fields · 413 · 409 map_by_hand (the owner wrote this person's map; it stays) ·
                503 not_configured (no service key) · 502 upstream (GoTrue or Storage failed)
-     GET       { ok: true, key: <whether CATALOG_SERVICE_ROLE_KEY is set> }
+     GET       { ok: true, key: <whether CATALOG_SERVICE_ROLE_KEY is set>, storage: <whether that key opens the bucket;
+               null without a key> }   (a probe, so production can say the key works before anyone signs in)
 
    Who the person is: GoTrue says (GET /auth/v1/user with the token), never the request body. The résumé text is read
    once, grounded and dropped: the map keeps the lines the read found, as the saved read does (step 3), never the file.
@@ -40,6 +41,10 @@ function siteConfig(file = path.join(WEB, "config.js")) {
   return { url: val("SUPABASE_URL").replace(/\/$/, ""), key: val("SUPABASE_PUBLISHABLE_KEY") };
 }
 const serviceKey = () => process.env.CATALOG_SERVICE_ROLE_KEY || "";
+// The service key's headers (2026-11-06): a new-style secret key (sb_secret_…) is no JWT, so it goes in `apikey` alone
+// and the Authorization header stays empty (Supabase, "Migrating to publishable and secret API keys"); the legacy
+// service_role JWT goes in both, as before.
+const serviceHeaders = key => /^sb_/.test(key) ? { apikey: key } : { apikey: key, authorization: `Bearer ${key}` };
 
 // the atlas over the bundled files, once per process
 let atlas = null;
@@ -73,15 +78,21 @@ async function userOf(token, { fetchImpl = fetch, cfg = siteConfig(), signal } =
   return u && typeof u.id === "string" && /^[0-9a-f-]{36}$/i.test(u.id) ? { uid: u.id, email: u.email || null } : null;
 }
 async function readMap(uid, { fetchImpl = fetch, cfg = siteConfig(), key = serviceKey(), signal } = {}) {
-  const r = await fetchImpl(`${cfg.url}/storage/v1/object/${BUCKET}/${uid}/map.json`, { headers: { apikey: key, authorization: `Bearer ${key}` }, signal });
+  const r = await fetchImpl(`${cfg.url}/storage/v1/object/${BUCKET}/${uid}/map.json`, { headers: serviceHeaders(key), signal });
   if (r.status === 404 || r.status === 400) return null;   // Storage says 400 "Object not found" on some versions, 404 on others
   if (!r.ok) throw Object.assign(new Error(`storage ${r.status}`), { status: r.status });
   try { return await r.json(); } catch { return null; }
 }
+// the probe behind GET: does the key open the bucket? (its record, not an object; nothing is read or written)
+async function probeStorage({ fetchImpl = fetch, cfg = siteConfig(), key = serviceKey(), signal } = {}) {
+  if (!key) return null;
+  try { const r = await fetchImpl(`${cfg.url}/storage/v1/bucket/${BUCKET}`, { headers: serviceHeaders(key), signal }); return r.ok; }
+  catch { return false; }
+}
 async function writeMap(uid, map, { fetchImpl = fetch, cfg = siteConfig(), key = serviceKey(), signal } = {}) {
   const r = await fetchImpl(`${cfg.url}/storage/v1/object/${BUCKET}/${uid}/map.json`, {
     method: "POST", signal,
-    headers: { apikey: key, authorization: `Bearer ${key}`, "content-type": "application/json", "x-upsert": "true" },
+    headers: { ...serviceHeaders(key), "content-type": "application/json", "x-upsert": "true" },
     body: JSON.stringify(map),
   });
   if (!r.ok) throw Object.assign(new Error(`storage ${r.status}`), { status: r.status });
@@ -98,7 +109,7 @@ const summary = (map, stories) => ({ ok: true, role: { id: map.role.id, label: m
 
 async function handler(req, res, deps = {}) {
   const fetchImpl = deps.fetchImpl || fetch, cfg = deps.cfg || siteConfig(), key = deps.key != null ? deps.key : serviceKey();
-  if (req.method === "GET") return send(res, 200, { ok: true, key: !!key });
+  if (req.method === "GET") { const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 4000); try { return send(res, 200, { ok: true, key: !!key, storage: await probeStorage({ fetchImpl, cfg, key, signal: ctl.signal }) }); } finally { clearTimeout(t); } }
   if (req.method !== "POST") { res.setHeader("allow", "GET, POST"); return send(res, 405, { error: "method_not_allowed" }); }
   if (!sameOrigin(req)) return send(res, 403, { error: "cross_origin" });
   if (+((req.headers || {})["content-length"] || 0) > LIMITS.body) return send(res, 413, { error: "body_too_large" });
@@ -125,4 +136,4 @@ async function handler(req, res, deps = {}) {
 }
 
 module.exports = handler;
-Object.assign(module.exports, { LIMITS, siteConfig, checkInput, bearer, userOf, readMap, writeMap, buildMap, summary, handler });
+Object.assign(module.exports, { LIMITS, siteConfig, serviceHeaders, checkInput, bearer, userOf, readMap, probeStorage, writeMap, buildMap, summary, handler });
